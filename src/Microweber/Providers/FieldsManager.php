@@ -504,6 +504,7 @@ class FieldsManager
 
                 } else {
                     $default_values['value'] = false;
+                    $default_values['value_plain'] = false;
                 }
 
                 $fields[$k] = $default_values;
@@ -729,6 +730,10 @@ class FieldsManager
         $this->app->database_manager->delete_by_id($custom_field_table, $id);
         $this->app->database_manager->delete_by_id($custom_field_table_values, $id, 'custom_field_id');
         $this->app->cache_manager->delete('custom_fields');
+
+		if(mw()->modules->is_installed('shop/offers')){
+			$this->app->database_manager->delete_by_id('offers', $id, 'price_id');
+		}
 
         return $id;
     }

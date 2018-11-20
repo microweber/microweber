@@ -187,11 +187,7 @@ class Shop
                 'created_at' => 'dateTime',
                 'created_by' => 'integer',
                 'edited_by' => 'integer',
-            ],
-
-
-
-
+            ]
         ];
     }
 }

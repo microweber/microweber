@@ -25,29 +25,83 @@ if (isset($params['content-id'])) {
 ?>
 
 <br class="mw-add-to-cart-spacer"/>
-<module type="custom_fields" data-content-id="<?php print intval($for_id); ?>" data-skip-type="price" id="cart_fields_<?php print $params['id'] ?>"/>
+<module type="custom_fields" data-content-id="<?php print intval($for_id); ?>" data-skip-type="price"
+        id="cart_fields_<?php print $params['id'] ?>"/>
 <?php if (is_array($data)): ?>
     <div class="price">
         <?php $i = 1;
+
         foreach ($data as $key => $v): ?>
-            <div class="mw-price-item"> <span class="mw-price pull-left">
-  <?php if (is_string($key) and trim(strtolower($key)) == 'price'): ?>
-      <?php _e($key); ?>
-  <?php else: ?>
-      <?php print $key; ?>
-  <?php endif; ?>: <?php print currency_format($v); ?></span>
+            <div class="mw-price-item">
+
+
+		  <?php
+
+          $keyslug_class = str_slug(strtolower($key));
+
+
+
+          if (isset($price_offers[$key]) && isset($price_offers[$key]['offer_price'])) {
+             // $key = $price_offers[$key]['offer_price'];
+
+              ?>
+          <?php } else { ?>
+              <?php if (is_string($key) and trim(strtolower($key)) == 'price'): ?>
+
+                  <span class="mw-price-item-key mw-price-item-key-<?php print ($keyslug_class); ?>">
+                    <?php _e($key); ?>
+                </span>
+              <?php else: ?>
+                  <span class="mw-price-item-key mw-price-item-key-<?php print ($keyslug_class); ?>">
+                    <?php print $key; ?>
+                </span>
+              <?php endif; ?>:
+        <?php } ?>
+
+
+
+
+                <span class="mw-price-item-value"><?php print currency_format($v) ; ?></span>
+
+
+
+
+
+
+
                 <?php if (!isset($in_stock) or $in_stock == false) : ?>
                     <button class="btn btn-default pull-right" type="button" disabled="disabled"
-                            onclick="Alert('<?php print addslashes(_e("This item is out of stock and cannot be ordered", true)); ?>');"><i
-                                class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></i>
+                            onclick="Alert('<?php print addslashes(_e("This item is out of stock and cannot be ordered", true)); ?>');">
+                        <i class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></i>
                         <?php _e("Out of stock"); ?>
                     </button>
                 <?php else: ?>
-                    <button class="btn btn-default pull-right" type="button" onclick="mw.cart.add('.mw-add-to-cart-<?php print $params['id'] ?>','<?php print $v ?>', '<?php print $title; ?>');"><i
-                                class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></i>
+
+                    <?php if ($price_offers && isset($price_offers[$key])): ?>
+
+                        <module type="shop/offers" data-offer-id="<?php print intval($price_offers[$key]['id']); ?>"/>
+
+                        <button class="btn btn-default  " type="button"
+                                onclick="mw.cart.add('.mw-add-to-cart-<?php print $params['id'] ?>','<?php print $v ?>', '<?php print $title; ?>');">
+                            <i class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></i>
+                            <?php _e($button_text !== false ? $button_text : "Add to cart"); ?>
+                        </button>
+                    <?php else: ?>
+
+
+                    <button class="btn btn-default pull-right" type="button"
+                            onclick="mw.cart.add('.mw-add-to-cart-<?php print $params['id'] ?>','<?php print $v ?>', '<?php print $title; ?>');">
+                        <i class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></i>
                         <?php _e($button_text !== false ? $button_text : "Add to cart"); ?>
                     </button>
+
+
+
+                <?php endif; ?>
+
                     <?php $i++; endif; ?>
+
+
             </div>
             <?php if ($i > 1) : ?>
                 <br/>

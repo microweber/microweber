@@ -12,7 +12,6 @@
 
 </script>
 
-<script>mw.require('https://fonts.googleapis.com/icon?family=Material+Icons&.css', 'material_icons');</script>
 <script>mw.moduleCSS("<?php print modules_url(); ?>shop/cart_add/styles.css"); </script>
 
 <?php
@@ -67,6 +66,78 @@ if (isset($content_data['qty']) and $content_data['qty'] != 'nolimit' and intval
 
     $in_stock = false;
 }
+
+$data = false;
+if (isset($for_id) !== false and isset($for) !== false) {
+    $data = mw()->cart_manager->get_prices_for_product($for_id, $for);
+    /* if ($for == 'content' and intval($for_id) == 0) {
+         $for_id = 0;
+     }
+     $data = get_custom_fields("field_type=price&for={$for}&for_id=" . $for_id . "");
+
+
+
+
+
+     $event_params = array();
+     $event_params['for'] = $for;
+     $event_params['for_id'] = $for_id;
+     $event_params['data'] = $data;
+
+     $override = $this->app->event_manager->trigger('mw.shop.cart.get_prices_for_product', $event_params);
+     if (is_array($override)) {
+         foreach ($override as $resp) {
+             if (is_array($resp) and !empty($resp)) {
+                 $data = array_merge($data, $resp);
+             }
+         }
+     }*/
+
+}
+
+$custom_prices = false;
+
+
+$event_params = array();
+$event_params['for'] = $for;
+$event_params['for_id'] = $for_id;
+$event_params['data'] = $data;
+
+$custom_prices_from_modules = $this->app->event_manager->trigger('mw.shop.cart_add.custom_prices_render', $event_params);
+if (is_array($custom_prices_from_modules)) {
+    $custom_prices = array();
+    foreach ($custom_prices_from_modules as $resp) {
+        if (is_array($resp) and !empty($resp)) {
+            $custom_prices = array_merge($custom_prices, $resp);
+        }
+    }
+}
+
+
+$price_offers = false;
+
+// check for offer prices
+if (mw()->modules->is_installed('shop/offers') and function_exists('offers_get_by_product_id')) {
+    $price_offers = offers_get_by_product_id($for_id);
+}
+
+
+$prices_includes_taxes = false;
+// TODO: move to taxmanager function
+$ex_tax = '';
+$taxes_enabled = get_option('enable_taxes', 'shop');
+//if ($taxes_enabled) {
+//    $defined_taxes = mw()->tax_manager->get();
+//    if (!empty($defined_taxes)) {
+//        if (count($defined_taxes) == 1) {
+//
+//            $ex_tax =  $defined_taxes[0]['tax_name'];
+//        } else {
+//            $ex_tax = 'ex tax';
+//        }
+//    }
+//}
+
 
 ?>
 <?php if (isset($for_id) !== false and isset($for) !== false): ?>

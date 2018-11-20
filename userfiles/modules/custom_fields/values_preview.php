@@ -14,20 +14,22 @@ if(isset($params['field-id'])){
         });
 
  </script>
- 
- 
- 
-<?php if(isset($field['type']) and ( $field['type'] == 'select' or $field['type'] == 'dropdown' or $field['type'] == 'checkbox' or $field['type'] == 'radio')): ?>
-<?php if(isset($field['values']) and is_array($field['values'])): ?>
-<?php $vals =  $field['values']; ?>
-<?php elseif(isset($field['value'])): ?>
-<?php $vals =  $field['value']; ?>
-<?php else: ?>
-<?php $vals = ''; ?>
-<?php endif; ?>
-<?php if(is_string($vals)) {
-		$vals = array($vals);
-	   	} ?>
+
+
+
+<?php
+	if(isset($field['type']) and ( $field['type'] == 'select' or $field['type'] == 'dropdown' or $field['type'] == 'checkbox' or $field['type'] == 'radio')):
+		if(isset($field['values']) and is_array($field['values'])):
+			$vals =  $field['values'];
+		elseif(isset($field['value'])):
+			$vals =  $field['value'];
+		else:
+			$vals = '';
+		endif;
+		if(is_string($vals)) {
+			$vals = array($vals);
+	   	}
+?>
 
 <span class="custom-fields-values-holder">
 <?php $i=0; foreach($vals as $val): ?>
@@ -40,13 +42,15 @@ if(isset($params['field-id'])){
 <?php elseif(isset($field['type']) and (( $field['type'] == 'address') or $field['type'] == 'upload')): ?>
 <div  style="width:100%; display:block; min-height:20px;" onclick="mw.admin.custom_fields.edit_custom_field_item('#mw-custom-fields-list-settings-<?php print $field['id']; ?>',<?php print $field['id']; ?>);"><?php print $field['values_plain']; ?></div>
  
-<?php else: ?>
+
 <?php
+	else:
 		$vals = '';
-		if($field['values_plain'] != ''): ?>
-<?php $vals = $field['values_plain'];?>
-<?php elseif(is_string($field['value'])): ?>
-<?php $vals = $field['value'];?>
-<?php endif; ?>
+		if($field['values_plain'] != ''):
+			$vals = $field['values_plain'];
+		elseif(is_string($field['value'])):
+			$vals = $field['value'];
+		endif;
+?>
 <span class="custom-fields-values-holder"><span class="mw-admin-custom-field-value-edit-inline-holder"><span class="mw-admin-custom-field-value-edit-inline" data-id="<?php print $field['id']; ?>"><?php print $vals; ?></span></span></span>
 <?php endif; ?>

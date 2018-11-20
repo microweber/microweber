@@ -1,24 +1,22 @@
 <?php $path = mw_includes_url() . "toolbar/editor_tools/rte_image_editor/"; ?>
 
 <script type="text/javascript">
-     parent.mw.require("external_callbacks.js");
-     mw.require("events.js");
-     mw.require("forms.js");
-     mw.require("files.js");
-     mw.require("tools.js");
-     mw.require("url.js");
+    parent.mw.require("external_callbacks.js");
+    mw.require("events.js");
+    mw.require("forms.js");
+    mw.require("files.js");
+    mw.require("tools.js");
+    mw.require("url.js");
 </script>
 
 <?php
 
-if(array_key_exists('types', $_GET)){
-    $types =  explode(',', $_GET['types']);
-	 
-}
-else{
-   $types = array('files','images','videos');
-}
+if (array_key_exists('types', $_GET)) {
+    $types = explode(',', $_GET['types']);
 
+} else {
+    $types = array('files', 'images', 'videos');
+}
 
 
 ?>
@@ -28,19 +26,19 @@ else{
 
     hash = hash !== '' ? hash : 'insert_html';
 
-    UpdateImage = function(url){
-      if(parent.mw.image.currentResizing[0].nodeName == 'IMG'){
-        parent.mw.image.currentResizing.attr("src", url);
-        parent.mw.image.currentResizing.css('height', 'auto');
-      }
-      else{
-        parent.mw.image.currentResizing.css("backgroundImage", 'url('+mw.files.safeFilename(url)+')');
-        top.mw.wysiwyg.bgQuotesFix(parent.mw.image.currentResizing[0])
-      }
+    UpdateImage = function (url) {
+        if (parent.mw.image.currentResizing[0].nodeName == 'IMG') {
+            parent.mw.image.currentResizing.attr("src", url);
+            parent.mw.image.currentResizing.css('height', 'auto');
+        }
+        else {
+            parent.mw.image.currentResizing.css("backgroundImage", 'url(' + mw.files.safeFilename(url) + ')');
+            top.mw.wysiwyg.bgQuotesFix(parent.mw.image.currentResizing[0])
+        }
 
     }
 
-    afterMediaIsInserted = function(url, todo, eventType) { /* what to do after image is uploaded (depending on the hash in the url)    */
+    afterMediaIsInserted = function (url, todo, eventType) { /* what to do after image is uploaded (depending on the hash in the url)    */
 
         if (typeof todo == 'undefined') {
             var todo = false;
@@ -56,7 +54,7 @@ else{
             return false;
         }
 
-        if(hash=='fileWindow'){
+        if (hash == 'fileWindow') {
             $('body').trigger('change', [url]);
             return false;
         }
@@ -107,21 +105,20 @@ else{
     };
 
 
-
     GlobalEmbed = false;
 
 
-    $(document).ready(function() {
+    $(document).ready(function () {
 
         /*
          mw.$(".body.browser-liveedit .mw-browser-list-file").click(function(){
 
-        });  */
+         });  */
 
 
-        mw.on.hashParam('select-file', function() {
+        mw.on.hashParam('select-file', function () {
 
-            if(hash=='fileWindow'){
+            if (hash == 'fileWindow') {
                 $('body').trigger('change', [this]);
                 return false;
             }
@@ -144,7 +141,7 @@ else{
                 parent[hash](GlobalEmbed)
             }
 
-             parent.mw.trigger('imageSrcChanged', [parent.mw.image.currentResizing[0], this])
+            parent.mw.trigger('imageSrcChanged', [parent.mw.image.currentResizing[0], this])
 
             parent.mw.tools.modal.remove('mw_rte_image');
 
@@ -156,13 +153,12 @@ else{
         ProgressInfo = Progress.find('.mw-ui-progress-info');
         ProgressPercent = Progress.find('.mw-ui-progress-percent');
         ProgressDoneHTML = '<span class="ico iDone" style="top:-6px;"></span>&nbsp;<?php _e("Done! All files have been uploaded"); ?>.';
-        ProgressErrorHTML = function(filename) {
+        ProgressErrorHTML = function (filename) {
             return '<span class="ico iRemove" style="top:-6px;"></span>&nbsp;<?php _e("Error"); ?>! "' + filename + '" - <?php _e("Invalid filetype"); ?>.';
         }
 
 
-
-        mw.$(".mw-upload-filetypes li").each(function() {
+        mw.$(".mw-upload-filetypes li").each(function () {
             var li = $(this);
             var _li = this;
             var filetypes = li.dataset('type');
@@ -172,7 +168,7 @@ else{
             });
             frame.width = li.width();
             frame.height = li.height();
-            $(frame).bind("progress", function(frame, file) {
+            $(frame).bind("progress", function (frame, file) {
 
                 Progress.show();
 
@@ -186,14 +182,11 @@ else{
 
 
             });
-            $(frame).bind("FileUploaded", function(frame, item) {
+            $(frame).bind("FileUploaded", function (frame, item) {
                 li.parent().find("li").removeClass('disabled');
 
 
-
-
                 if (filetypes == 'images') {
-
 
 
                     afterMediaIsInserted(item.src, '', "FileUploaded");
@@ -209,7 +202,7 @@ else{
                 }
             });
 
-            $(frame).bind("done", function(frame, item) {
+            $(frame).bind("done", function (frame, item) {
                 Progress.hide();
                 //ProgressBar.width('0%');
                 ProgressPercent.html('');
@@ -219,25 +212,25 @@ else{
             });
 
 
-            $(frame).bind("error", function(frame, file) {
+            $(frame).bind("error", function (frame, file) {
                 //ProgressBar.width('0%');
                 ProgressPercent.html('');
                 ProgressInfo.html(ProgressErrorHTML(file.name));
                 li.parent().find("li").removeClass('disabled');
             });
 
-            $(frame).bind("FilesAdded", function(frame, files_array, runtime) {
+            $(frame).bind("FilesAdded", function (frame, files_array, runtime) {
                 if (runtime == 'html4') {
                     ProgressInfo.html('<?php _e("Uploading"); ?> - "' + files_array[0].name + '" ...');
                 }
             });
             li.append(frame);
-            li.hover(function() {
+            li.hover(function () {
                 if (!li.hasClass('disabled')) {
                     li.parent().find("li").not(this).addClass('hovered');
                 }
 
-            }, function() {
+            }, function () {
                 if (!li.hasClass('disabled')) {
                     li.parent().find("li").removeClass('hovered');
                 }
@@ -245,21 +238,18 @@ else{
         });
 
 
-
-
         var urlSearcher = mw.$("#media_search_field");
         var submit = mw.$('#btn_insert');
         var status = mw.$("#image_status");
 
 
-
-        urlSearcher.bind('keyup paste', function(e) {
+        urlSearcher.bind('keyup paste', function (e) {
             GlobalEmbed = false;
             if (e.type == 'keyup') {
-                mw.on.stopWriting(urlSearcher[0], function() {
+                mw.on.stopWriting(urlSearcher[0], function () {
                     var val = urlSearcher.val();
                     var type = mw.url.type(val);
-                    if(status[0]){
+                    if (status[0]) {
                         status[0].className = type;
                         if (type != 'image') {
                             status.empty();
@@ -271,9 +261,9 @@ else{
                     GlobalEmbed = mw.embed.generate(type, val);
                 });
             } else {
-                setTimeout(function() {
+                setTimeout(function () {
                     var val = urlSearcher.val();
-                    if(hash=='fileWindow'){
+                    if (hash == 'fileWindow') {
                         $('body').trigger('change', [val]);
                         return false;
                     }
@@ -298,11 +288,11 @@ else{
         });
 
 
-        submit.click(function() {
+        submit.click(function () {
 
 
             var val = urlSearcher.val();
-            if(hash=='fileWindow'){
+            if (hash == 'fileWindow') {
                 $('body').trigger('change', [val]);
                 return false;
             }
@@ -327,9 +317,8 @@ else{
         });
 
 
-
-        SetFileBrowserHeight = function() {
-            var height = mw.$('#tabfilebrowser').height() + 135;
+        SetFileBrowserHeight = function () {
+            var height = mw.$('#tabfilebrowser').height() + 500;
             var wh = $(parent.window).height() - 100;
             if (height > wh) {
                 var height = wh;
@@ -343,15 +332,15 @@ else{
         MediaTabs = mw.tabs({
             nav: '#image_tabs .mw-ui-btn-nav a',
             tabs: '.tab',
-            onclick: function(tab) {
+            onclick: function (tab) {
                 if (this.id == 'browseTab') {
 
                     if (!window.fileBrowserLoaded) {
                         window.fileBrowserLoaded = true;
-                        mw.load_module('files/admin', '#file_module_live_edit_adm', function() {
-                            setTimeout(function() {
+                        mw.load_module('files/admin', '#file_module_live_edit_adm', function () {
+                            setTimeout(function () {
                                 SetFileBrowserHeight();
-                                setTimeout(function() {
+                                setTimeout(function () {
                                     SetFileBrowserHeight();
                                 }, 222)
                             }, 222)
@@ -368,12 +357,12 @@ else{
             }
         })
 
-    }); /* end document ready  */
-
+    });
+    /* end document ready  */
 
 
     mw.embed = {
-        generate: function(type, url) {
+        generate: function (type, url) {
             switch (type) {
                 case 'link':
                     return mw.embed.link(url);
@@ -391,21 +380,21 @@ else{
                     return false;
             }
         },
-        link: function(url, text) {
+        link: function (url, text) {
             if (!!text) {
                 return '<a href="' + url + '" title="' + text + '">' + text + '</a>';
             } else {
                 return '<a href="' + url + '">' + url + '</a>';
             }
         },
-        image: function(url, text) {
+        image: function (url, text) {
             if (!!text) {
                 return '<img class="element" src="' + url + '"  alt="' + text + '" title="' + text + '" />';
             } else {
                 return '<img class="element" src="' + url + '"  alt=""  />';
             }
         },
-        youtube: function(url) {
+        youtube: function (url) {
             if (url.contains('youtu.be')) {
                 var id = url.split('/').pop();
                 if (id == '') {
@@ -417,7 +406,7 @@ else{
                 return '<div class="element mw-embed-iframe" style="height:315px;width:560px;"><iframe width="560" height="315" src="https://www.youtube.com/embed/' + id + '?v=1&wmode=transparent" frameborder="0" allowfullscreen></iframe></div>';
             }
         },
-        vimeo: function(url) {
+        vimeo: function (url) {
             var id = url.split('/').pop();
             if (id == '') {
                 var id = id.pop();
@@ -431,149 +420,156 @@ else{
 
 <style type="text/css">
 
-.mw-ui-box-content{
-  height: 138px;
-}
+    .mw-ui-box-content {
+        height: 138px;
+    }
 
-.mw-upload-filetypes{
-  list-style: none;
-  overflow: hidden;
-  position: relative;
-  z-index: 1;
-  text-align: center;
-}
+    .mw-upload-filetypes {
+        list-style: none;
+        overflow: hidden;
+        position: relative;
+        z-index: 1;
+        text-align: center;
+    }
 
-.mw-upload-filetypes li{
-  margin: 0 3px;
-  font-size:11px;
-  display: inline-block;
-  position: relative;
-  cursor: default;
-  min-width: 100px;
-  text-align: center;
-  overflow: hidden;
-  transition: opacity 0.12s;
-  -moz-transition: opacity 0.12s;
-  -webkit-transition: opacity 0.12s;
-  -o-transition: opacity 0.12s;
-}
+    .mw-upload-filetypes li {
+        margin: 0 3px;
+        font-size: 11px;
+        display: inline-block;
+        position: relative;
+        cursor: default;
+        min-width: 100px;
+        text-align: center;
+        overflow: hidden;
+        transition: opacity 0.12s;
+        -moz-transition: opacity 0.12s;
+        -webkit-transition: opacity 0.12s;
+        -o-transition: opacity 0.12s;
+    }
 
-.mw-upload-filetypes li:hover .mw-ui-btn{
-    background-color:#262626 ;
-    color: white;
-    border-color:#262626;
-}
+    .mw-upload-filetypes li:hover .mw-ui-btn {
+        background-color: #262626;
+        color: white;
+        border-color: #262626;
+    }
 
-.mw-upload-filetypes li.disabled, .mw-upload-filetypes li.hovered{ opacity:0.4; }
+    .mw-upload-filetypes li.disabled, .mw-upload-filetypes li.hovered {
+        opacity: 0.4;
+    }
 
+    .mw-upload-filetypes .mw-upload-frame {
+        color: #333333;
+    }
 
-.mw-upload-filetypes .mw-upload-frame{
-  color: #333333;
-}
+    .mw-upload-filetypes [class*='mw-icon-'] {
+        font-size: 40px;
+    }
 
-.mw-upload-filetypes [class*='mw-icon-']{
-  font-size: 40px;
-}
+    .mw-upload-filetypes li span {
+        display: block;
+        white-space: nowrap;
+        margin-top: 12px;
+    }
 
+    .mw-upload-filetypes li iframe {
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: 0;
+    }
 
-.mw-upload-filetypes li span{
-  display: block;
-  white-space: nowrap;
-  margin-top: 12px;
-}
+    .mw-upload-filetypes li.disabled iframe, .mw-upload-filetypes li.hovered iframe {
+        left: -9999px;
+    }
 
-.mw-upload-filetypes li iframe{
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  left: 0;
-}
-.mw-upload-filetypes li.disabled iframe, .mw-upload-filetypes li.hovered iframe{ left:-9999px; }
-.mw_tabs_layout_simple .mw_simple_tabs_nav{
-  padding-top: 0;
-}
-.tab{
-  display: none;
-}
-#media_search_field{
-  float: left;
-  width: 275px;
-  margin-right: 15px;
-}
+    .mw_tabs_layout_simple .mw_simple_tabs_nav {
+        padding-top: 0;
+    }
+
+    .tab {
+        display: none;
+    }
+
+    #media_search_field {
+        float: left;
+        width: 275px;
+        margin-right: 15px;
+    }
 
 
 </style>
 <div class="module-live-edit-settings">
-<div id="image_tabs">
+    <div id="image_tabs">
 
 
+        <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
+            <a href="javascript:;" class="mw-ui-btn active"><?php _e("My Computer"); ?></a>
+            <a href="javascript:;" class="mw-ui-btn"><?php _e("URL"); ?></a>
+            <?php if (is_admin()): ?>
+                <a href="javascript:;" class="mw-ui-btn" id="browseTab"><?php _e("Uploaded"); ?></a>
+            <?php endif; ?>
+        </div>
 
-      <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
-      <a href="javascript:;" class="mw-ui-btn active"><?php _e("My Computer"); ?></a>
-      <a href="javascript:;" class="mw-ui-btn"><?php _e("URL"); ?></a>
-  	<?php if(is_admin()): ?>
-      <a href="javascript:;" class="mw-ui-btn" id="browseTab"><?php _e("Uploaded"); ?></a>
-  	<?php endif; ?>
+
+        <div class="mw-ui-box mw-ui-box-content">
+            <div class="tab" id="drag_files_here" style="display: block">
+                <div class="text-center" style="padding: 10px 0;">
+                    <ul class="mw-upload-filetypes" id="">
+                        <?php if (in_array('images', $types)) { ?>
+                            <li class="mw-upload-filetype-image" data-type="images">
+                                <div class="mw-icon-image"></div>
+                                <span class="mw-ui-btn mw-ui-btn mw-ui-btn-small"><?php _e("Upload Image"); ?></span>
+                            </li>
+                        <?php }
+                        if (in_array('videos', $types)) { ?>
+                            <li class="mw-upload-filetype-video" data-type="videos">
+                                <div class="mw-icon-video"></div>
+                                <span class="mw-ui-btn mw-ui-btn mw-ui-btn-small"><?php _e("Upload Video"); ?></span></li>
+                        <?php }
+                        if (in_array('files', $types)) { ?>
+                            <li class="mw-upload-filetype-file" data-type="files">
+                                <div class="mw-icon-file"></div>
+                                <span class="mw-ui-btn mw-ui-btn mw-ui-btn-small"><?php _e("Upload File"); ?></span>
+                            </li>
+                        <?php } ?>
+                    </ul>
+
+                    <div class="drag_files_label" style="display: none;"><?php _e("Drag your files here"); ?></div>
+                </div>
+            </div>
+            <div class="tab" id="get_image_from_url">
+
+
+                <div id="media-search-holder" style="margin: 35px 0;">
+                    <div class="mw-ui-row-nodrop">
+                        <div class="mw-ui-col">
+                            <div class="mw-ui-col-container">
+                                <input type="text" id="media_search_field" placeholder="<?php _e("URL"); ?>" class="mw-ui-field" name="get_image_by_url" onfocus="event.preventDefault()"/>
+                            </div>
+                        </div>
+                        <div class="mw-ui-col">
+                            <div class="mw-ui-col-container">
+                                <button type="button" class="mw-ui-btn" id="btn_insert"><?php _e("Insert"); ?></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="tab" id="tabfilebrowser">
+                <div id="file_module_live_edit_adm"></div>
+                <?php event_trigger('live_edit_toolbar_image_search'); ?>
+
+            </div>
+        </div>
+
     </div>
 
 
-
-<div class="mw-ui-box mw-ui-box-content">
-    <div class="tab" id="drag_files_here" style="display: block">
-    <div class="text-center" style="padding: 10px 0;">
-
-
-        <ul class="mw-upload-filetypes" id="">
-            <?php  if(in_array('images', $types)){  ?>
-            <li class="mw-upload-filetype-image" data-type="images">
-                <div class="mw-icon-image"></div>
-                <span class="mw-ui-btn mw-ui-btn mw-ui-btn-small"><?php _e("Upload Image"); ?></span>
-            </li>
-            <?php }  if(in_array('videos', $types)){  ?>
-            <li class="mw-upload-filetype-video" data-type="videos">
-                <div class="mw-icon-video"></div>
-                <span class="mw-ui-btn mw-ui-btn mw-ui-btn-small"><?php _e("Upload Video"); ?></span></li>
-            <?php } if(in_array('files', $types)){  ?>
-            <li class="mw-upload-filetype-file" data-type="files">
-                <div class="mw-icon-file"></div>
-                <span class="mw-ui-btn mw-ui-btn mw-ui-btn-small"><?php _e("Upload File"); ?></span>
-            </li>
-            <?php } ?>
-
-        </ul>
-
-
-
-      <div class="drag_files_label" style="display: none;"><?php _e("Drag your files here"); ?></div>
+    <div class="mw-ui-progress" id="mw-upload-progress" style="display: none">
+        <div class="mw-ui-progress-bar" style="width: 0%;"></div>
+        <div class="mw-ui-progress-info"></div>
+        <span class="mw-ui-progress-percent"></span>
     </div>
-  </div>
-  <div class="tab" id="get_image_from_url">
-
-
-    <div id="media-search-holder" style="margin-top: 35px;">
-        <input type="text" id="media_search_field" placeholder="<?php _e("URL"); ?>" class="mw-ui-field" name="get_image_by_url" onfocus="event.preventDefault()" />
-
-        <button type="button" class="mw-ui-btn" id="btn_insert"><?php _e("Insert"); ?></button>
-
-
-    </div>
-
-  </div>
-  <div class="tab" id="tabfilebrowser">
-<div id="file_module_live_edit_adm"></div>
-    <?php  event_trigger('live_edit_toolbar_image_search'); ?>
-
-  </div></div>
-
-</div>
-
-
-
-
-<div class="mw-ui-progress" id="mw-upload-progress" style="display: none" >
-    <div class="mw-ui-progress-bar" style="width: 0%;"></div>
-    <div class="mw-ui-progress-info"></div>
-    <span class="mw-ui-progress-percent"></span>
-</div>
 
 </div>

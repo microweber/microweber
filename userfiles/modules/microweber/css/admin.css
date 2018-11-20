@@ -4764,9 +4764,6 @@ body.is_admin .mw-admin-container {
     float: left;
 }
 
-.btn-create-custom-field-value .mw-icon-plus {
-    float: left;
-}
 
 .table-responsive {
     overflow-x: auto;
@@ -7404,7 +7401,7 @@ select.silver-field {
 
 .mw-live-edit-module-manage-and-list-top {
     padding: 10px 10px;
-    text-align: center;
+    text-align: right;
     box-sizing: border-box;
 }
 

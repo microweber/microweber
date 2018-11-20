@@ -66,7 +66,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             position: absolute;
             right: 0;
             top: 0;
-            width: 100px;
             border-left-width: 1px;
             border-left-style: solid;
         }
@@ -74,6 +73,10 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         .testimonial-client-image {
             max-width: 100px;
             max-height: 100px;
+        }
+
+        .mw-ui-btn-nav-tabs .mw-ui-btn:nth-child(2) {
+            display: none;
         }
 
     </style>
@@ -143,6 +146,10 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 </div>
             </div>
             <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+                <div class="mw-ui-field-holder">
+                    <a class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification mw-ui-btn-rounded" href="javascript:;" onclick="add_new_testimonial()" id="add-testimonial"><i class="fas fa-plus-circle"></i> &nbsp;<?php _e('Add new'); ?></a>
+                </div>
+
                 <module type="testimonials/list" id="list-testimonials"/>
             </div>
         </div>
