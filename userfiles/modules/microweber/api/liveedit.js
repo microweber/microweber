@@ -1176,7 +1176,7 @@ mw.drag = {
             mw.dropable.removeClass("mw_dropable_onleaveedit");
 
         });
-        mw.on("xmoduleOver", function(a, element) {
+        mw.on("moduleOver", function(a, element) {
             mw.$('#mw_handle_module_up, #mw_handle_module_down').hide();
 
             if(element && element.getAttribute('data-type') === 'layouts'){
