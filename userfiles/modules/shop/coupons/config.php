@@ -9,8 +9,6 @@
  * @copyright  2018 Microweber
  */
 
-use \Illuminate\Database\Schema\Blueprint;
-use \Illuminate\Support\Facades\Schema;
 
 $config = array();
 $config['name'] = "Coupons";
