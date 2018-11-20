@@ -895,7 +895,6 @@ class Modules
             $module_namei = str_ireplace('/admin', '', $module_namei);
         }
         $uninstall_lock = $this->get('one=1&ui=any&module=' . $module_namei);
-
         if (empty($uninstall_lock) or (isset($uninstall_lock['installed']) and $uninstall_lock['installed'] != '' and intval($uninstall_lock['installed']) != 1)) {
             return false;
         } else {

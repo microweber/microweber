@@ -423,7 +423,6 @@ class Parser
 //                                }
 
 
-
 //                            if ($coming_from_parent == true) {
 //                                $attrs['parent-module'] = $coming_from_parent;
 //                            }
@@ -572,8 +571,8 @@ class Parser
 //                                         $skip= 0;
 
 
-                                        if ( isset($this->_existing_module_ids[$mod_id])) {
-                                    //    if ( !$skip) {
+                                        if (isset($this->_existing_module_ids[$mod_id])) {
+                                            //    if ( !$skip) {
                                             ++$it_loop;
                                             $inc_mod_num = 0;
 
@@ -594,7 +593,7 @@ class Parser
                                                 }
 
                                             } else {
-                                               // $inc_mod_num = 1;
+                                                // $inc_mod_num = 1;
                                                 //    $inc_mod_num = $it_loop;
 
                                             }
@@ -608,12 +607,12 @@ class Parser
                                                 $mod_id = $mod_id . '--' . $inc_mod_num;
                                             }
                                             // $mod_id = $mod_id . '--' . ++$this->_current_parser_module_of_type[$module_name];
-                                          //  if (isset($this->_existing_module_ids[$mod_id])) {
-                                            if(!isset($this->_existing_module_ids_grouped[$coming_from_parent_id])){
+                                            //  if (isset($this->_existing_module_ids[$mod_id])) {
+                                            if (!isset($this->_existing_module_ids_grouped[$coming_from_parent_id])) {
                                                 $this->_existing_module_ids_grouped[$coming_from_parent_id] = array();
                                             }
                                             if (isset($this->_existing_module_ids[$mod_id])) {
-                                           // if (isset($this->_existing_module_ids_grouped[$coming_from_parent_id][$mod_id])) {
+                                                // if (isset($this->_existing_module_ids_grouped[$coming_from_parent_id][$mod_id])) {
 
 
                                                 $mod_id_probe = false;
@@ -630,8 +629,8 @@ class Parser
                                                 if ($mod_id_probe and !isset($this->_existing_module_ids_grouped[$coming_from_parent_id][$mod_id])) {
                                                     $mod_id = $mod_id_probe;
                                                 } else {
-                                                  //  $mod_id = $mod_id . '--' .$it_loop;
-                                                  //  $mod_id = $mod_id . '-' . $last_content_id;
+                                                    //  $mod_id = $mod_id . '--' .$it_loop;
+                                                    //  $mod_id = $mod_id . '-' . $last_content_id;
 
                                                     if ($mod_id_probe and !isset($this->_existing_module_ids_grouped[$coming_from_parent_id][$mod_id])) {
                                                         $mod_id = $mod_id_probe;
@@ -645,8 +644,8 @@ class Parser
 
                                             }
                                         } else {
-                                            if(!$it_loop and $coming_from_parent_id){
-                                              //  $mod_id = $mod_id . '-1asdds';
+                                            if (!$it_loop and $coming_from_parent_id) {
+                                                //  $mod_id = $mod_id . '-1asdds';
                                             }
                                         }
                                         $this->_existing_module_ids[$mod_id] = $mod_id;
@@ -844,7 +843,6 @@ class Parser
 //                                        }
 //                                    }
 //
-
 
 
                                     $script_pattern = "/<style[^>]*>(.*)<\/style>/Uis";
@@ -2044,7 +2042,33 @@ class Parser
                 $template = false;
             }
 
-            $uninstall_lock = $this->app->modules->get('single=1&ui=any&module=' . $module_name_dir);
+
+//            if($module_name == '.'){
+//                return;
+//            }
+
+
+            $uninstall_lock = $this->app->modules->get('single=1&ui=any&module=' . $module_name);
+
+//            $is_installed = $this->app->modules->is_installed($module_name);
+//
+//            if(!$is_installed){
+//                d($module_name);
+//                return '';
+//            }
+
+
+            $modules_dir_default = modules_path() . $module_name;
+            $modules_dir_default = normalize_path($modules_dir_default, true);
+
+            if (is_dir($modules_dir_default) and is_file($modules_dir_default . 'config.php')) {
+                $is_installed = $this->app->modules->is_installed($module_name);
+                if (!$is_installed) {
+                    return '';
+
+                }
+            }
+
 
             if (isset($uninstall_lock['installed']) and $uninstall_lock['installed'] != '' and intval($uninstall_lock['installed']) != 1) {
                 return '';
