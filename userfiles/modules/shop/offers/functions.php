@@ -262,3 +262,10 @@ event_bind('mw.shop.cart.get_prices_for_product', function ($params) {
 event_bind('mw.admin.custom_fields.price_settings', function ($data) {
     print load_module('shop/offers/price_settings', $data);
 });
+
+
+
+
+event_bind('mw.admin.shop.settings', function ($data) {
+    print '<module type="shop/offers" view="admin_block" />';
+});

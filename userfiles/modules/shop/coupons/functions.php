@@ -8,7 +8,7 @@
  * @author     Bozhidar Slaveykov <selfworksbg@gmail.com>
  * @copyright  2018 Microweber
  */
-include 'src/CouponClass.php';
+include __DIR__.DS.'src/CouponClass.php';
 
 api_expose('coupon_apply');
 function coupon_apply($params = array())
@@ -25,7 +25,7 @@ function coupon_apply($params = array())
         return $json;
     }
 
-    $customer_ip = $_SERVER['SERVER_ADDR'];
+    $customer_ip = user_ip();
 
     $checkout = new Microweber\Providers\Shop\CheckoutManager();
     $getCart = $checkout->app->shop_manager->get_cart(array(
@@ -268,3 +268,12 @@ function coupons_delete_session()
     mw()->user_manager->session_del('discount_value');
     mw()->user_manager->session_del('discount_type');
 }
+
+
+
+
+
+
+event_bind('mw.admin.shop.settings', function ($data) {
+    print '<module type="shop/coupons" view="admin_block" />';
+});
