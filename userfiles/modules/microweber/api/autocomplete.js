@@ -5,8 +5,9 @@ mw.autoComplete = function(options){
         if(!options.data && !options.ajaxConfig) return;
         var defaults = {
             size:'normal',
-            multiple:false
-        }
+            multiple:false,
+            map: { title:'title', value:'id' }
+        };
         this.options = $.extend({}, defaults, options);
         this.options.element = $(this.options.element)[0];
         if(!this.options.element){
@@ -17,9 +18,8 @@ mw.autoComplete = function(options){
         this.searchTime = null;
         this.searchTimeout = this.options.data ? 0 : 500;
         this.results = [];
-        this.options.map = this.options.map || {title:'title', value:'id'};
         this.map = this.options.map;
-        this.selected = this.options.selected || []
+        this.selected = this.options.selected || [];
     }
 
     this.createValueHolder = function(){
@@ -106,7 +106,11 @@ mw.autoComplete = function(options){
         var item = this.selected[0];
         this.inputField.value = this.dataTitle(item);
         this.valueHolder.innerHTML = '';
-        this.valueHolder.appendChild(this.dataImage(item));
+        var img = this.dataImage(item);
+        if(img){
+            this.valueHolder.appendChild(img);
+        }
+
     }
 
     this.rendSelected = function(){
@@ -127,6 +131,7 @@ mw.autoComplete = function(options){
     }
 
     this.dataValue = function(data){
+        if(!data) return;
         if(typeof data === 'string'){
             return data;
         }
@@ -135,6 +140,7 @@ mw.autoComplete = function(options){
         }
     }
     this.dataImage = function(data){
+        if(!data) return;
         if(data.image){
             var img = document.createElement('span');
             img.className = 'mw-autocomplete-img';
@@ -143,13 +149,14 @@ mw.autoComplete = function(options){
         }
     }
     this.dataTitle = function(data){
+        if(!data) return;
         if(typeof data === 'string'){
             return data;
         }
         else{
-            return data[this.map.title]
+            return data[this.map.title];
         }
-    }
+    };
 
     this.searchRemote = function(val){
         var config = mw.tools.cloneObject(this.options.ajaxConfig);

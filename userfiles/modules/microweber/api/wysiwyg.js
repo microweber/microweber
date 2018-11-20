@@ -2540,6 +2540,7 @@ mw.wysiwyg.dropdowns = function () {
                     setTimeout(function(){
                         mw.iconSelector.uiHTML();
                         mw.iconSelector.settingsUI();
+                        mw.sidebarSettingsTabs.set(2)
                     },10)
 
                 }

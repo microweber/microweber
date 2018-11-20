@@ -279,8 +279,8 @@ $(document).ready(function() {
                 }
             }
             else if(target.nodeName == 'TD' || mw.tools.hasParentsWithTag(target, 'td')){
-                var target = target.nodeName == 'TD' ? target : mw.tools.firstParentWithTag(target, 'td');
-                var nexttd = target.nextElementSibling;
+                target = target.nodeName == 'TD' ? target : mw.tools.firstParentWithTag(target, 'td');
+                nexttd = target.nextElementSibling;
                 if(!!nexttd){
                     mw.wysiwyg.cursorToElement(nexttd, 'start')
                 }
@@ -551,8 +551,6 @@ mw.liveNodeSettings = {
         setTimeout(function () {
             scope._working = false;
         }, 78);
-
-        console.log(type)
 
         if(this[type]){
             mw.sidebarSettingsTabs.set(2);
@@ -1038,7 +1036,7 @@ mw.drag = {
 
                     var bg;
                     if(event.target && event.target.style){
-                      bg = !!event.target.style && !!event.target.style.backgroundImage;
+                      bg = event.target.style && event.target.style.backgroundImage && !mw.tools.hasClass(event.target, 'edit');
                     }
 
                     if (!mw.image.isResizing && mw.image_resizer) {
@@ -1052,7 +1050,7 @@ mw.drag = {
                                 mw.image.resize.resizerSet(event.target, false);
                             }
                         }
-                        else if (!!bg && mw.tools.hasParentsWithClass(event.target, 'edit') && mw.drag.columns.resizing === false) {
+                        else if (bg && mw.tools.hasParentsWithClass(event.target, 'edit') && mw.drag.columns.resizing === false) {
                             if (mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(event.target, ['edit','module'])) {
                                 if(mw.image_resizer) {
                                     mw.image_resizer._show();
@@ -1148,14 +1146,13 @@ mw.drag = {
         });
 
         mw.on("ElementOver", function(a, element) {
-
+            mw.$(".mw_edit_delete, .mw_edit_delete_element, .mw-sorthandle-moveit, .column_separator_title").show();
             if (!mw.ea.canDrop(element)) {
-                mw.$(".mw_edit_delete, .mw_edit_delete_element, .mw-sorthandle-moveit, .column_separator_title").show();
+                mw.$(".mw_edit_delete, .mw_edit_delete_element, .mw-sorthandle-moveit, .column_separator_title").hide();
                 return false;
-            } else {
-                mw.$(".mw_edit_delete, .mw_edit_delete_element, .mw-sorthandle-moveit, .column_separator_title").show();
             }
             var el = $(element);
+
             /*if (element.textContent.length < 2 && element.nodeName !== 'IMG') {
                 return false;
             }*/
@@ -1179,7 +1176,7 @@ mw.drag = {
             mw.dropable.removeClass("mw_dropable_onleaveedit");
 
         });
-        mw.on("moduleOver", function(a, element) {
+        mw.on("xmoduleOver", function(a, element) {
             mw.$('#mw_handle_module_up, #mw_handle_module_down').hide();
 
             if(element && element.getAttribute('data-type') === 'layouts'){
@@ -1195,13 +1192,13 @@ mw.drag = {
               }
 
             }
-            var order = mw.tools.parentsOrder(element, ['edit', 'module']);
+            var order = mw.tools.parentsAndCurrentOrder(element, ['edit', 'module']);
             if (
               !mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(element, ['allow-drop', 'nodrop'])
-             && (order.edit === -1 || order.edit > order.module)) {
-                mw.$(".mw_edit_delete, .mw_edit_delete_element, #mw_handle_module .mw-sorthandle-moveit, .column_separator_title").hide();
-            } else {
-                mw.$(".mw_edit_delete, .mw_edit_delete_element, #mw_handle_module .mw-sorthandle-moveit, .column_separator_title").show();
+             && (order.edit === -1 || (order.edit > order.module && order.module>-1))) {
+               //   mw.$(".mw_edit_delete, #mw_handle_module .mw-sorthandle-moveit, .column_separator_title").hide();
+            } else {return false;
+                mw.$(".mw_edit_delete, #mw_handle_module .mw-sorthandle-moveit, .column_separator_title").show();
 
                 if (order.edit === -1 || (order.module > -1 && order.edit > order.module)) {
                     mw.$("#mw_handle_module .mw-sorthandle-moveit").hide();
@@ -1750,25 +1747,18 @@ mw.drag = {
                     }
 
                     if (fonttarget && !mw.tools.hasAnyOfClasses(target, ['element','module'])) {
-                        console.log('b')
                         if ((fonttarget.tagName == 'I' || fonttarget.tagName == 'SPAN') && mw.tools.hasParentsWithClass(fonttarget, 'edit') && !mw.tools.hasParentsWithClass(fonttarget, 'dropdown')) {
-                            console.log('c')
                             if (!mw.tools.hasParentsWithClass(fonttarget, 'module')) {
-                                console.log('d')
                                 mw.trigger("IconElementClick", fonttarget);
                                 mw.trigger("ComponentClick", [fonttarget, 'icon']);
                             }
                             else {
-                                console.log('e')
                                 if (mw.wysiwyg.editInsideModule(fonttarget)) {
-                                    console.log('f')
                                     mw.trigger("IconElementClick", fonttarget);
                                     mw.trigger("ComponentClick", [fonttarget, 'icon']);
                                 }
                             }
                         }
-
-
                     }
 
                     if ($(target).hasClass("mw_item")) {
@@ -3000,8 +2990,8 @@ $(document).ready(function() {
           var isSafeMode = mw.tools.firstParentOrCurrentWithAnyOfClasses(focusedNode, ['safe-mode']) ;
           var isPlainText = mw.tools.firstParentOrCurrentWithAnyOfClasses(focusedNode, ['plain-text']) ;
           document.body.classList[( displayEditor ? 'add' : 'remove' )]('mw-active-element-iseditable');
-          document.body.classList[( isSafeMode ? 'add' : 'remove' )]('mw-active-element-is-in-safe-mode')
-          document.body.classList[( isPlainText ? 'add' : 'remove' )]('mw-active-element-is-plain-text')
+          document.body.classList[( isSafeMode ? 'add' : 'remove' )]('mw-active-element-is-in-safe-mode');
+          document.body.classList[( isPlainText ? 'add' : 'remove' )]('mw-active-element-is-plain-text');
         }
 
     }, 300);

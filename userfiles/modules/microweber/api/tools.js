@@ -2040,6 +2040,28 @@ mw.tools = {
         });
         return obj;
     },
+    parentsAndCurrentOrder: function (node, arr) {
+        var only_first = [],
+            scopeCount = 0,
+            obj = {},
+            l = arr.length,
+            i = 0;
+        for (; i < l; i++) {
+            obj[arr[i]] = mw.tools.hasClass(node, arr[i]) ? scopeCount : -1;
+        }
+        mw.tools.foreachParents(node, function (loop, count) {
+            scopeCount++;
+            var cls = this.className;
+            var i = 0;
+            for (; i < l; i++) {
+                if (mw.tools.hasClass(cls, arr[i]) && only_first.indexOf(arr[i]) == -1) {
+                    obj[arr[i]] = scopeCount;
+                    only_first.push(arr[i]);
+                }
+            }
+        });
+        return obj;
+    },
     firstParentWithClass: function (el, cls) {
         _has = false;
         mw.tools.foreachParents(el, function (loop) {
