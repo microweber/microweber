@@ -101,6 +101,22 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
             });
         });
     }
+
+    function checkAllowSocialsLogin() {
+        var allowSocialsLoginSelect = $('select[name="allow_socials_login"]');
+        if (allowSocialsLoginSelect.find('option:selected').val() == 'y') {
+            $('.js-show-socials-registration').show();
+        } else {
+            $('.js-show-socials-registration').hide();
+        }
+    }
+
+    $(document).ready(function () {
+        checkAllowSocialsLogin();
+        $('select[name="allow_socials_login"]').on('change', function () {
+            checkAllowSocialsLogin();
+        })
+    })
 </script>
 
 <style type="text/css">
@@ -139,8 +155,8 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
         padding-top: 20px;
     }
 
-    .user-sign-setting-nav-item{
-        margin-bottom:5px;
+    .user-sign-setting-nav-item {
+        margin-bottom: 5px;
     }
 </style>
 
@@ -172,188 +188,190 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
             </select>
         </div>
 
-        <div class="mw-ui-field-holder">
-            <label class="mw-ui-label"><?php _e("Allow Social Login with"); ?></label>
-        </div>
-
-        <ul class="social-providers-list mw-ui-btn-nav">
-            <li class="mw-ui-btn mw-ui-btn-big active"><span class="mw-icon-facebook login-tab-group active"></span></li>
-            <li class="mw-ui-btn mw-ui-btn-big"><span class="mw-icon-googleplus login-tab-group"></span></li>
-            <li class="mw-ui-btn mw-ui-btn-big"><span class="mw-icon-social-github login-tab-group"></span></li>
-            <li class="mw-ui-btn mw-ui-btn-big"><span class="mw-icon-twitter login-tab-group"></span></li>
-            <li class="mw-ui-btn mw-ui-btn-big"><span class="mw-icon-social-linkedin login-tab-group"></span></li>
-            <li class="mw-ui-btn mw-ui-btn-big"><span class="mw-icon-mw login-tab-group"></span></li>
-        </ul>
-
-        <div class="mw-ui-box mw-ui-box-content group-logins" style="display: block">
-            <label class="mw-ui-check">
-                <input type="checkbox" value="y" <?php if ($enable_user_fb_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_fb_registration" class="mw_option_field" option-group="users">
-                <span></span> <span><?php _e('Facebook login enabled?'); ?></span>
-            </label>
-
-            <hr>
-
-            <ol class="ol">
-                <li>
-                    <?php _e("Api access"); ?>
-                    <a class="mw-ui-link" target="_blank" href="https://developers.facebook.com/apps">https://developers.facebook.com/apps</a>
-                </li>
-                <li>
-                    <?php _e("In"); ?>
-                    <em><?php _e("Website with Facebook Login"); ?></em>
-                    <?php _e("please enter"); ?>
-                    <em><?php print site_url(); ?></em>
-                </li>
-                <li>
-                    <?php _e("If asked for callback url - use"); ?>
-                    <em><?php print api_link('social_login_process?provider=facebook') ?></em>
-                </li>
-            </ol>
-
+        <div class="js-show-socials-registration">
             <div class="mw-ui-field-holder">
-                <label class="mw-ui-label"><?php _e("App ID/API Key"); ?></label>
-                <input name="fb_app_id" class="mw_option_field mw-ui-field mw-title-field " type="text" option-group="users" value="<?php print get_option('fb_app_id', 'users'); ?>"/>
-                <label class="mw-ui-label"><?php _e("App Secret"); ?></label>
-                <input name="fb_app_secret" class="mw_option_field mw-ui-field mw-title-field" type="text" option-group="users" value="<?php print get_option('fb_app_secret', 'users'); ?>"/>
+                <label class="mw-ui-label"><?php _e("Allow Social Login with"); ?></label>
             </div>
-        </div>
 
-        <div class="mw-ui-box mw-ui-box-content group-logins">
-            <label class="mw-ui-check">
-                <input type="checkbox" value="y" <?php if ($enable_user_google_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_google_registration" class="mw_option_field" option-group="users">
-                <span></span> <span><?php _e('Google login enabled?'); ?></span>
-            </label>
+            <ul class="social-providers-list mw-ui-btn-nav">
+                <li class="mw-ui-btn mw-ui-btn-big active"><span class="mw-icon-facebook login-tab-group active"></span></li>
+                <li class="mw-ui-btn mw-ui-btn-big"><span class="mw-icon-googleplus login-tab-group"></span></li>
+                <li class="mw-ui-btn mw-ui-btn-big"><span class="mw-icon-social-github login-tab-group"></span></li>
+                <li class="mw-ui-btn mw-ui-btn-big"><span class="mw-icon-twitter login-tab-group"></span></li>
+                <li class="mw-ui-btn mw-ui-btn-big"><span class="mw-icon-social-linkedin login-tab-group"></span></li>
+                <li class="mw-ui-btn mw-ui-btn-big"><span class="mw-icon-mw login-tab-group"></span></li>
+            </ul>
 
-            <hr>
+            <div class="mw-ui-box mw-ui-box-content group-logins" style="display: block">
+                <label class="mw-ui-check">
+                    <input type="checkbox" value="y" <?php if ($enable_user_fb_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_fb_registration" class="mw_option_field" option-group="users">
+                    <span></span> <span><?php _e('Facebook login enabled?'); ?></span>
+                </label>
 
-            <ol class="ol">
-                <li>
-                    <?php _e("Set your"); ?>
-                    <em><?php _e("Api access"); ?></em> <a class="mw-ui-link" target="_blank" href="https://code.google.com/apis/console/">https://code.google.com/apis/console/</a>
-                </li>
-                <li>
-                    <?php _e("In redirect URI  please enter"); ?>
-                    <em><?php print api_link('social_login_process?provider=google') ?></em>
-                </li>
-            </ol>
+                <hr>
 
-            <div class="mw-ui-field-holder">
+                <ol class="ol">
+                    <li>
+                        <?php _e("Api access"); ?>
+                        <a class="mw-ui-link" target="_blank" href="https://developers.facebook.com/apps">https://developers.facebook.com/apps</a>
+                    </li>
+                    <li>
+                        <?php _e("In"); ?>
+                        <em><?php _e("Website with Facebook Login"); ?></em>
+                        <?php _e("please enter"); ?>
+                        <em><?php print site_url(); ?></em>
+                    </li>
+                    <li>
+                        <?php _e("If asked for callback url - use"); ?>
+                        <em><?php print api_link('social_login_process?provider=facebook') ?></em>
+                    </li>
+                </ol>
+
+                <div class="mw-ui-field-holder">
+                    <label class="mw-ui-label"><?php _e("App ID/API Key"); ?></label>
+                    <input name="fb_app_id" class="mw_option_field mw-ui-field mw-title-field " type="text" option-group="users" value="<?php print get_option('fb_app_id', 'users'); ?>"/>
+                    <label class="mw-ui-label"><?php _e("App Secret"); ?></label>
+                    <input name="fb_app_secret" class="mw_option_field mw-ui-field mw-title-field" type="text" option-group="users" value="<?php print get_option('fb_app_secret', 'users'); ?>"/>
+                </div>
+            </div>
+
+            <div class="mw-ui-box mw-ui-box-content group-logins">
+                <label class="mw-ui-check">
+                    <input type="checkbox" value="y" <?php if ($enable_user_google_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_google_registration" class="mw_option_field" option-group="users">
+                    <span></span> <span><?php _e('Google login enabled?'); ?></span>
+                </label>
+
+                <hr>
+
+                <ol class="ol">
+                    <li>
+                        <?php _e("Set your"); ?>
+                        <em><?php _e("Api access"); ?></em> <a class="mw-ui-link" target="_blank" href="https://code.google.com/apis/console/">https://code.google.com/apis/console/</a>
+                    </li>
+                    <li>
+                        <?php _e("In redirect URI  please enter"); ?>
+                        <em><?php print api_link('social_login_process?provider=google') ?></em>
+                    </li>
+                </ol>
+
+                <div class="mw-ui-field-holder">
+                    <label class="mw-ui-label"><?php _e("Client ID"); ?></label>
+                    <input name="google_app_id" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('google_app_id', 'users'); ?>"/>
+                    <label class="mw-ui-label"><?php _e("Client secret"); ?></label>
+                    <input name="google_app_secret" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('google_app_secret', 'users'); ?>"/>
+                </div>
+            </div>
+
+            <div class="mw-ui-box mw-ui-box-content group-logins">
+                <label class="mw-ui-check">
+                    <input type="checkbox" value="y" <?php if ($enable_user_github_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_github_registration" class="mw_option_field" option-group="users">
+                    <span></span> <span><?php _e('Github login enabled?'); ?></span>
+                </label>
+
+                <hr>
+
+                <ol class="ol">
+                    <li>
+                        <?php _e("Register your application"); ?>
+                        <a class="mw-ui-link" target="_blank" href="https://github.com/settings/applications/new">https://github.com/settings/applications/new</a>
+                    </li>
+                    <li>
+                        <?php _e("In"); ?>
+                        <em><?php _e("Main URL"); ?></em>
+                        <?php _e("enter"); ?>
+                        <em><?php print site_url() ?></em>
+                    </li>
+                    <li>
+                        <?php _e("In"); ?>
+                        <em><?php _e("Callback URL"); ?></em>
+                        <?php _e("enter"); ?>
+                        <em><?php print api_link('social_login_process?provider=github') ?></em>
+                    </li>
+                </ol>
+
                 <label class="mw-ui-label"><?php _e("Client ID"); ?></label>
-                <input name="google_app_id" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('google_app_id', 'users'); ?>"/>
+                <input name="github_app_id" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('github_app_id', 'users'); ?>"/>
                 <label class="mw-ui-label"><?php _e("Client secret"); ?></label>
-                <input name="google_app_secret" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('google_app_secret', 'users'); ?>"/>
+                <input name="github_app_secret" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('github_app_secret', 'users'); ?>"/>
             </div>
-        </div>
 
-        <div class="mw-ui-box mw-ui-box-content group-logins">
-            <label class="mw-ui-check">
-                <input type="checkbox" value="y" <?php if ($enable_user_github_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_github_registration" class="mw_option_field" option-group="users">
-                <span></span> <span><?php _e('Github login enabled?'); ?></span>
-            </label>
+            <div class="mw-ui-box mw-ui-box-content group-logins">
+                <label class="mw-ui-check">
+                    <input type="checkbox" value="y" <?php if ($enable_user_twitter_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_twitter_registration" class="mw_option_field" option-group="users">
+                    <span></span> <span><?php _e('Twitter login enabled?'); ?></span>
+                </label>
 
-            <hr>
+                <hr>
 
-            <ol class="ol">
-                <li>
-                    <?php _e("Register your application"); ?>
-                    <a class="mw-ui-link" target="_blank" href="https://github.com/settings/applications/new">https://github.com/settings/applications/new</a>
-                </li>
-                <li>
-                    <?php _e("In"); ?>
-                    <em><?php _e("Main URL"); ?></em>
-                    <?php _e("enter"); ?>
-                    <em><?php print site_url() ?></em>
-                </li>
-                <li>
-                    <?php _e("In"); ?>
-                    <em><?php _e("Callback URL"); ?></em>
-                    <?php _e("enter"); ?>
-                    <em><?php print api_link('social_login_process?provider=github') ?></em>
-                </li>
-            </ol>
+                <ol class="ol">
+                    <li>
+                        <?php _e("Register your application"); ?>
+                        <a class="mw-ui-link" target="_blank" href="https://dev.twitter.com/apps">https://dev.twitter.com/apps</a>
+                    </li>
+                    <li>
+                        <?php _e("In"); ?>
+                        <em><?php _e("Website"); ?></em>
+                        <?php _e("enter"); ?>
+                        <em><?php print site_url(); ?></em>
+                    </li>
+                    <li>
+                        <?php _e("In"); ?>
+                        <em><?php _e("Callback URL"); ?></em>
+                        <?php _e("enter"); ?>
+                        <em><?php print api_link('social_login_process?provider=twitter') ?></em>
+                    </li>
+                </ol>
+                <label class="mw-ui-label"><?php _e("Consumer key"); ?></label>
+                <input name="twitter_app_id" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('twitter_app_id', 'users'); ?>"/>
+                <label class="mw-ui-label"><?php _e("Consumer secret"); ?></label>
+                <input name="twitter_app_secret" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('twitter_app_secret', 'users'); ?>"/>
+            </div>
 
-            <label class="mw-ui-label"><?php _e("Client ID"); ?></label>
-            <input name="github_app_id" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('github_app_id', 'users'); ?>"/>
-            <label class="mw-ui-label"><?php _e("Client secret"); ?></label>
-            <input name="github_app_secret" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('github_app_secret', 'users'); ?>"/>
-        </div>
+            <div class="mw-ui-box mw-ui-box-content group-logins">
+                <label class="mw-ui-check">
+                    <input type="checkbox" value="y" <?php if ($enable_user_linkedin_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_linkedin_registration" class="mw_option_field" option-group="users">
+                    <span></span> <span><?php _e('Linked-in login enabled?'); ?></span>
+                </label>
 
-        <div class="mw-ui-box mw-ui-box-content group-logins">
-            <label class="mw-ui-check">
-                <input type="checkbox" value="y" <?php if ($enable_user_twitter_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_twitter_registration" class="mw_option_field" option-group="users">
-                <span></span> <span><?php _e('Twitter login enabled?'); ?></span>
-            </label>
+                <hr>
 
-            <hr>
+                <ol class="ol">
+                    <li>
+                        <?php _e("Register your application"); ?>
+                        <a class="mw-ui-link" target="_blank" href="https://www.linkedin.com/secure/developer">https://www.linkedin.com/secure/developer</a>
+                    </li>
+                    <li>
+                        <?php _e("In"); ?>
+                        <em><?php _e("Website"); ?></em>
+                        <?php _e("enter"); ?>
+                        <em><?php print site_url(); ?></em></li>
+                    <li>
+                        <?php _e("In"); ?>
+                        <em><?php _e("Callback URL"); ?></em>
+                        <?php _e("enter"); ?>
+                        <em><?php print api_link('social_login_process?provider=linkedin') ?></em>
+                    </li>
+                </ol>
 
-            <ol class="ol">
-                <li>
-                    <?php _e("Register your application"); ?>
-                    <a class="mw-ui-link" target="_blank" href="https://dev.twitter.com/apps">https://dev.twitter.com/apps</a>
-                </li>
-                <li>
-                    <?php _e("In"); ?>
-                    <em><?php _e("Website"); ?></em>
-                    <?php _e("enter"); ?>
-                    <em><?php print site_url(); ?></em>
-                </li>
-                <li>
-                    <?php _e("In"); ?>
-                    <em><?php _e("Callback URL"); ?></em>
-                    <?php _e("enter"); ?>
-                    <em><?php print api_link('social_login_process?provider=twitter') ?></em>
-                </li>
-            </ol>
-            <label class="mw-ui-label"><?php _e("Consumer key"); ?></label>
-            <input name="twitter_app_id" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('twitter_app_id', 'users'); ?>"/>
-            <label class="mw-ui-label"><?php _e("Consumer secret"); ?></label>
-            <input name="twitter_app_secret" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('twitter_app_secret', 'users'); ?>"/>
-        </div>
+                <label class="mw-ui-label"><?php _e("Client ID"); ?></label>
+                <input name="linkedin_app_id" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('linkedin_app_id', 'users'); ?>"/>
+                <label class="mw-ui-label"><?php _e("Client Secret"); ?></label>
+                <input name="linkedin_app_secret" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('linkedin_app_secret', 'users'); ?>"/>
+            </div>
 
-        <div class="mw-ui-box mw-ui-box-content group-logins">
-            <label class="mw-ui-check">
-                <input type="checkbox" value="y" <?php if ($enable_user_linkedin_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_linkedin_registration" class="mw_option_field" option-group="users">
-                <span></span> <span><?php _e('Linked-in login enabled?'); ?></span>
-            </label>
+            <div class="mw-ui-box mw-ui-box-content group-logins">
+                <label class="mw-ui-check">
+                    <input type="checkbox" value="y" <?php if ($enable_user_microweber_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_microweber_registration" class="mw_option_field" option-group="users">
+                    <span></span> <span><?php _e('Microweber login enabled?'); ?></span>
+                </label>
 
-            <hr>
+                <hr>
 
-            <ol class="ol">
-                <li>
-                    <?php _e("Register your application"); ?>
-                    <a class="mw-ui-link" target="_blank" href="https://www.linkedin.com/secure/developer">https://www.linkedin.com/secure/developer</a>
-                </li>
-                <li>
-                    <?php _e("In"); ?>
-                    <em><?php _e("Website"); ?></em>
-                    <?php _e("enter"); ?>
-                    <em><?php print site_url(); ?></em></li>
-                <li>
-                    <?php _e("In"); ?>
-                    <em><?php _e("Callback URL"); ?></em>
-                    <?php _e("enter"); ?>
-                    <em><?php print api_link('social_login_process?provider=linkedin') ?></em>
-                </li>
-            </ol>
-
-            <label class="mw-ui-label"><?php _e("Client ID"); ?></label>
-            <input name="linkedin_app_id" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('linkedin_app_id', 'users'); ?>"/>
-            <label class="mw-ui-label"><?php _e("Client Secret"); ?></label>
-            <input name="linkedin_app_secret" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('linkedin_app_secret', 'users'); ?>"/>
-        </div>
-
-        <div class="mw-ui-box mw-ui-box-content group-logins">
-            <label class="mw-ui-check">
-                <input type="checkbox" value="y" <?php if ($enable_user_microweber_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_microweber_registration" class="mw_option_field" option-group="users">
-                <span></span> <span><?php _e('Microweber login enabled?'); ?></span>
-            </label>
-
-            <hr>
-
-            <label class="mw-ui-label"><?php _e("Client ID"); ?></label>
-            <input name="microweber_app_id" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('microweber_app_id', 'users'); ?>"/>
-            <label class="mw-ui-label"><?php _e("Client secret"); ?></label>
-            <input name="microweber_app_secret" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('microweber_app_secret', 'users'); ?>"/>
+                <label class="mw-ui-label"><?php _e("Client ID"); ?></label>
+                <input name="microweber_app_id" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('microweber_app_id', 'users'); ?>"/>
+                <label class="mw-ui-label"><?php _e("Client secret"); ?></label>
+                <input name="microweber_app_secret" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('microweber_app_secret', 'users'); ?>"/>
+            </div>
         </div>
 
         <hr>
