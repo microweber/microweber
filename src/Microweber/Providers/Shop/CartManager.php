@@ -66,6 +66,21 @@ class CartManager extends Crud
     {
         $sum = $this->sum();
 
+        // Coupon code discount
+        $discount_value = $this->get_discount_value();
+        $discount_type = $this->get_discount_type();
+
+        if ($discount_type == 'precentage') {
+            // Discount with precentage
+            $sum = $sum - ($sum * ($discount_value / 100));
+        } else if ($discount_type == 'fixed_amount') {
+            // Discount with amount
+            $sum = $sum - $discount_value;
+        }
+
+
+
+
         $shipping = floatval($this->app->user_manager->session_get('shipping_cost'));
         $total = $sum + $shipping;
 
@@ -76,17 +91,7 @@ class CartManager extends Crud
             }
         }
 
-        // Coupon code discount
-        $discount_value = $this->get_discount_value();
-        $discount_type = $this->get_discount_type();
 
-        if ($discount_type == 'precentage') {
-            // Discount with precentage
-            $total = $total - ($total * ($discount_value / 100));
-        } else if ($discount_type == 'fixed_amount') {
-            // Discount with amount
-            $total = $total - $discount_value;
-        }
 
         return $total;
     }
