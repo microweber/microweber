@@ -37,7 +37,7 @@ $json = ($settings ? $settings : '');
     }
 
     th {
-        height = 10;
+        height: 10px;
         border: 1px solid #cacaca;
         background: rgb(231, 235, 245);
         padding: 4px;
@@ -46,13 +46,13 @@ $json = ($settings ? $settings : '');
     td {
         border: 1px solid #cacaca;
         text-align: left;
-        height = 10px;
+        height: 10px;
         padding: 4px;
     }
 
     tr:nth-child(even) {
         background-color: #fafafa;
-        height = 10;
+        height: 10px;
     }
 
     .tab {
@@ -96,7 +96,7 @@ $json = ($settings ? $settings : '');
         for (i = 0; i < tbl.rows.length; i++) {
             var ncols = tbl.rows[i].cells.length;
             if (i == 0) {
-                var cellRef = 'h' + (ncols + 1);
+                var cellRef = 'mw-table-h' + (ncols + 1);
                 var text = 'Header ' + (ncols + 1);
                 createHeaderCell(tbl.rows[i], text, 'th ' + cellRef);
             } else {
@@ -203,7 +203,7 @@ $json = ($settings ? $settings : '');
             var c = 0;
             for (var key in rowHash) {
                 c++;
-                var thClass = "th h" + c;
+                var thClass = "th mw-table-h" + c;
                 if ($.inArray(key, columnSet) == -1) {
                     columnSet.push(key);
                     headerTr$.append($('<th/>').html(key).addClass(thClass).attr('contenteditable', 'true'));
