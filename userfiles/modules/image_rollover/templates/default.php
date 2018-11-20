@@ -1,5 +1,18 @@
 <?php
 
+/*
+
+type: layout
+
+name: Default
+
+description: Default
+
+*/
+?>
+
+<?php
+
 $size = ($size == 'auto' ? '' : ' max-width:' . $size . 'px');
 
 $style = ($size == '' ? '' : ' style="' . $size . '"');

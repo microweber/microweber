@@ -1125,7 +1125,7 @@ mw.drag = {
             if (mw.tools.hasClass(event.target.className, 'mw-open-module-settings')) {
 
                 if(!mw.settings.live_edit_open_module_settings_in_sidebar){
-                    mw.drag.module_settings()
+                    mw.drag.module_settings(mw.tools.firstParentOrCurrentWithAnyOfClasses(event.target, ['module']))
                 } else {
 
             
@@ -1176,7 +1176,7 @@ mw.drag = {
             mw.dropable.removeClass("mw_dropable_onleaveedit");
 
         });
-        mw.on("xmoduleOver", function(a, element) {
+        mw.on("moduleOver", function(a, element) {
             mw.$('#mw_handle_module_up, #mw_handle_module_down').hide();
 
             if(element && element.getAttribute('data-type') === 'layouts'){
