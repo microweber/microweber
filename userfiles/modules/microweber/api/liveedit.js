@@ -1125,7 +1125,7 @@ mw.drag = {
             if (mw.tools.hasClass(event.target.className, 'mw-open-module-settings')) {
 
                 if(!mw.settings.live_edit_open_module_settings_in_sidebar){
-                    mw.drag.module_settings()
+                    mw.drag.module_settings(mw.tools.firstParentOrCurrentWithAnyOfClasses(event.target, ['module']))
                 } else {
 
             
