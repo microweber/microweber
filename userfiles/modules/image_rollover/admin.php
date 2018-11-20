@@ -23,18 +23,19 @@
     }
 
     .the-image-holder {
-        width: 200px;
+        width: 100%;
     }
 
     .the-image, .the-image-rollover {
         margin-right: 12px;
-        max-width: 170px;
+        max-width: 100%;
         max-height: 110px;
         background-color: #eee;
+        margin: 0 auto;
     }
 
     .the-image[src=''], .the-image-rollover[src=''] {
-        width: 133px;
+        width: 100%;
         height: 100px;
     }
 
@@ -51,156 +52,21 @@
 
 <?php // image params can be set when module used in menu
 if (isset($params['menu_rollover'])) {
-	$default_image = isset($params['default_image'])? $params['default_image']:'';
-	$rollover_image = isset($params['rollover_image'])? $params['rollover_image']:'';
-	$size = isset($params['size'])? $params['size']:'';
+    $default_image = isset($params['default_image']) ? $params['default_image'] : '';
+    $rollover_image = isset($params['rollover_image']) ? $params['rollover_image'] : '';
+    $size = isset($params['size']) ? $params['size'] : '';
 } else {
-	$default_image = get_option('default_image', $params['id']);
-	$rollover_image = get_option('rollover_image', $params['id']);
-	$text = get_option('text', $params['id']);
-	$size = get_option('size', $params['id']);
+    $default_image = get_option('default_image', $params['id']);
+    $rollover_image = get_option('rollover_image', $params['id']);
+    $text = get_option('text', $params['id']);
+    $size = get_option('size', $params['id']);
 }
 if ($size == false or $size == '') {
     $size = 60;
 }
 ?>
 
-<div class="module-live-edit-settings" id="module-image-rollover-settings">
-
-    <div class="mw-ui-field-holder">
-
-        <div class="mw-ui-box mw-ui-box-content">
-            <div class="mw-ui-row-nodrop image-row">
-
-                <div class="mw-ui-col">
-
-                    <h3>Default image</h3>
-                    <img src="<?php print $default_image; ?>" class="pull-left the-image"
-                         alt="" <?php if ($default_image != '' and $default_image != false) { ?><?php } else { ?> style="display:block;" <?php } ?> />
-                    <br>
-                    <div style="padding-top: 15px; clear: both"></div>
-                    <span class="mw-ui-btn" id="upload-image"><span
-                                class="mw-icon-upload"></span><?php _e('Upload Image'); ?></span><br/>
-                    <?php _e('or'); ?> <a href="javascript:mw_admin_image_rollover_upload_browse_existing()" class="mw-ui-link mw-ui-btn-small"><?php _e('browse uploaded'); ?></a>
-
-                </div>
-
-                <div class="mw-ui-col">
-
-                    <h3>Rollover image</h3>
-                    <img src="<?php print $rollover_image; ?>" class="pull-left the-image-rollover"
-                         alt="" <?php if ($rollover_image != '' and $rollover_image != false) { ?><?php } else { ?> style="display:block;" <?php } ?> />
-                    <br>
-                    <div style="padding-top: 15px; clear: both"></div>
-                    <span class="mw-ui-btn" id="upload-image-rollover"><span
-                                class="mw-icon-upload"></span><?php _e('Upload Image'); ?></span><br/>
-                    <?php _e('or'); ?> <a href="javascript:mw_admin_image_rollover_upload_browse_existing(true)" class="mw-ui-link mw-ui-btn-small"><?php _e('browse uploaded'); ?></a>
-
-                </div>
-			</div>
-
-			<div class="mw-ui-row-nodrop image-row">
-
-                <div class="mw-ui-col">
-
-                    <hr/>
-
-                    <label class="mw-ui-label" style="padding-top: 10px;"><span><?php _e('Image size'); ?></span> - <b id="imagesizeval"></b></label>
-                    <div id="sizeslider" class="mw-slider"></div>
-                    <br>
-                    <label class="mw-ui-check"><input type="checkbox" checked="" id="size_auto"
-                                                      value="pending"><span></span><span><?php _e('Auto'); ?></span></label>
-
-				<?php if (!isset($params['menu_rollover'])) { ?>
-
-					<div class="mw-ui-col-container" style="padding-top: 20px;">
-
-						<div class="mw-ui-field-holder" style="padding-bottom: 20px;">
-							<label class="mw-ui-label">Title:</label>
-							<input type="text"
-								  class="mw-ui-field mw-ui-filed-big mw_option_field w100"
-								  placeholder="<?php _e('Enter title'); ?>"
-								  value="<?php print $text; ?>"
-								  name="text"
-								  id="text"/>
-						</div>
-
-						<div class="mw-ui-field-holder" style="padding-bottom: 20px;">
-							<label class="mw-ui-label">Links to:</label>
-							<input type="text"
-								  class="mw-ui-field mw-ui-filed-big mw_option_field w100"
-								  placeholder="<?php _e('Enter URL'); ?>"
-								  value="<?php print $text; ?>"
-								  name="href-url"
-								  id="href-url"/>
-						</div>
-
-						<module type="admin/modules/templates" simple=true/>
-					</div>
-
-				<?php } ?>
-
-                </div>
-
-             </div>
-
-                <input type="hidden" class="mw_option_field" name="size" id="size" value="<?php print $size;?>"/>
-                <script>
-                    $(function () {
-                        $("#sizeslider").slider({
-                            change: function (event, ui) {
-                                $('#size').val(ui.value).trigger('change');
-                                $("#size_auto").attr("checked", false);
-                            },
-                            slide: function (event, ui) {
-                                $("#imagesizeval").html(ui.value + "px");
-                            },
-                            min: 30,
-                            max: 320,
-                            value:<?php if ($size != 'auto') {
-                            print $size;
-                        } else {
-                            print 60;
-                        } ?>
-                        });
-
-                        if ("<?php print $size; ?>" == 'auto') {
-                            $("#imagesizeval").html('auto');
-                            $("#size_auto").attr("checked", true);
-                        }
-                        else {
-                            $("#imagesizeval").html("<?php print $size; ?>px");
-                            $("#size_auto").attr("checked", false);
-                        }
-
-
-                        $("#size_auto").bind('change', function () {
-                            if (this.checked === true) {
-                                setAuto()
-                            }
-                            else {
-                                var val1 = $('#sizeslider').slider("option", "value");
-                                $('#size').val(val1).trigger('change');
-                                $("#imagesizeval").html(val1 + 'px');
-                            }
-                        });
-
-                        setAuto = function () {
-                            $('#size').val('auto').trigger('change');
-                            $("#imagesizeval").html('auto');
-                        };
-                    });
-                </script>
-
-        </div>
-    </div>
-    <input type="hidden" class="mw_option_field" name="default_image" id="default_image" value="<?php print $default_image;?>"/>
-    <input type="hidden" class="mw_option_field" name="rollover_image" id="rollover_image" value="<?php print $rollover_image;?>"/>
-</div>
-
-
 <script>
-
     $(document).ready(function () {
         UP = mw.uploader({
             element: mwd.getElementById('upload-image'),
@@ -246,10 +112,10 @@ if ($size == false or $size == '') {
                 this.iframe.contentWindow.mw.on.hashParam('select-file', function () {
                     mw_admin_image_rollover_upload_browse_existing_modal.hide();
                     mw.notification.success('<?php _e('Image selected') ?>');
-                    if(rollover) {
-                    	setNewImageRollover(this);
+                    if (rollover) {
+                        setNewImageRollover(this);
                     } else {
-                    	setNewImage(this);
+                        setNewImage(this);
                     }
                 })
                 this.iframe.contentWindow.document.body.style.padding = '15px';
@@ -258,4 +124,142 @@ if ($size == false or $size == '') {
         })
 
     }
+
+    $(function () {
+        $("#sizeslider").slider({
+            change: function (event, ui) {
+                $('#size').val(ui.value).trigger('change');
+                $("#size_auto").attr("checked", false);
+            },
+            slide: function (event, ui) {
+                $("#imagesizeval").html(ui.value + "px");
+            },
+            min: 30,
+            max: 320,
+            value:<?php if ($size != 'auto') {
+            print $size;
+        } else {
+            print 60;
+        } ?>
+        });
+
+        if ("<?php print $size; ?>" == 'auto') {
+            $("#imagesizeval").html('auto');
+            $("#size_auto").attr("checked", true);
+        }
+        else {
+            $("#imagesizeval").html("<?php print $size; ?>px");
+            $("#size_auto").attr("checked", false);
+        }
+
+
+        $("#size_auto").bind('change', function () {
+            if (this.checked === true) {
+                setAuto()
+            }
+            else {
+                var val1 = $('#sizeslider').slider("option", "value");
+                $('#size').val(val1).trigger('change');
+                $("#imagesizeval").html(val1 + 'px');
+            }
+        });
+
+        setAuto = function () {
+            $('#size').val('auto').trigger('change');
+            $("#imagesizeval").html('auto');
+        };
+    });
 </script>
+
+
+<div class="mw-modules-tabs">
+    <div class="mw-accordion-item">
+        <div class="mw-ui-box-header mw-accordion-title">
+            <div class="header-holder">
+                <i class="mw-icon-gear"></i> <?php print _e('Settings'); ?>
+            </div>
+        </div>
+        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+            <!-- Settings Content -->
+            <div class="module-live-edit-settings  module-image-rollover-settings" id="module-image-rollover-settings">
+                <div class="mw-ui-row-nodrop image-row">
+                    <div class="mw-ui-col">
+                        <div class="mw-ui-col-container center">
+                            <h3>Default image</h3>
+                            <img src="<?php print $default_image; ?>" class="the-image" alt="" <?php if ($default_image != '' and $default_image != false) { ?><?php } else { ?> style="display:block;" <?php } ?> />
+                            <br>
+                            <div style="padding-top: 15px; clear: both"></div>
+                            <span class="mw-ui-btn mw-ui-btn-info mw-full-width" id="upload-image"><span class="mw-icon-upload"></span> &nbsp;<?php _e('Upload Image'); ?></span>
+                            <div class="center m-t-10">
+                                <?php _e('or'); ?><br/>
+                                <a href="javascript:mw_admin_image_rollover_upload_browse_existing()" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small m-t-10"><?php _e('browse uploaded'); ?></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mw-ui-col">
+                        <div class="mw-ui-col-container center">
+                            <h3>Rollover image</h3>
+                            <img src="<?php print $rollover_image; ?>" class="the-image-rollover" alt="" <?php if ($rollover_image != '' and $rollover_image != false) { ?><?php } else { ?> style="display:block;" <?php } ?> />
+                            <br>
+                            <div style="padding-top: 15px; clear: both"></div>
+                            <span class="mw-ui-btn mw-ui-btn-info mw-full-width" id="upload-image-rollover"><span class="mw-icon-upload"></span> &nbsp;<?php _e('Upload Image'); ?></span>
+                            <div class="center m-t-10">
+                                <?php _e('or'); ?><br/>
+                                <a href="javascript:mw_admin_image_rollover_upload_browse_existing(true)" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small m-t-10"><?php _e('browse uploaded'); ?></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mw-ui-row-nodrop image-row">
+                    <div class="mw-ui-col">
+                        <hr/>
+
+                        <label class="mw-ui-label" style="padding-top: 10px;"><span><?php _e('Image size'); ?></span> - <b id="imagesizeval"></b></label>
+                        <div id="sizeslider" class="mw-slider"></div>
+
+                        <br>
+
+                        <label class="mw-ui-check">
+                            <input type="checkbox" checked="" id="size_auto" value="pending">
+                            <span></span><span><?php _e('Auto'); ?></span>
+                        </label>
+
+                        <?php if (!isset($params['menu_rollover'])) { ?>
+                            <div class="mw-ui-col-container" style="padding-top: 20px;">
+                                <div class="mw-ui-field-holder" style="padding-bottom: 20px;">
+                                    <label class="mw-ui-label">Title:</label>
+                                    <input type="text" class="mw-ui-field mw-ui-filed-big mw_option_field w100" placeholder="<?php _e('Enter title'); ?>" value="<?php print $text; ?>" name="text" id="text"/>
+                                </div>
+
+                                <div class="mw-ui-field-holder" style="padding-bottom: 20px;">
+                                    <label class="mw-ui-label">Links to:</label>
+                                    <input type="text" class="mw-ui-field mw-ui-filed-big mw_option_field w100" placeholder="<?php _e('Enter URL'); ?>" value="<?php print $text; ?>" name="href-url" id="href-url"/>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </div>
+
+                <input type="hidden" class="mw_option_field" name="size" id="size" value="<?php print $size; ?>"/>
+                <input type="hidden" class="mw_option_field" name="default_image" id="default_image" value="<?php print $default_image; ?>"/>
+                <input type="hidden" class="mw_option_field" name="rollover_image" id="rollover_image" value="<?php print $rollover_image; ?>"/>
+            </div>
+            <!-- Settings Content - End -->
+        </div>
+    </div>
+
+    <?php if (!isset($params['menu_rollover'])) { ?>
+        <div class="mw-accordion-item">
+            <div class="mw-ui-box-header mw-accordion-title">
+                <div class="header-holder">
+                    <i class="mw-icon-beaker"></i> <?php print _e('Templates'); ?>
+                </div>
+            </div>
+            <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+                <module type="admin/modules/templates"/>
+            </div>
+        </div>
+    <?php } ?>
+</div>
