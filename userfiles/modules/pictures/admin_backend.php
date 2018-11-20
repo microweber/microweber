@@ -27,7 +27,7 @@
 
 
 $init_image_options = array();
-$default_image_options = 'Tags, Author, Source';
+$default_image_options = 'Tags, Author, Source, Link';
 $image_options = isset($params['image-options']) ? $params['image-options'] : isset($params['data-image-options']) ? $params['data-image-options'] : $default_image_options;
 
 
