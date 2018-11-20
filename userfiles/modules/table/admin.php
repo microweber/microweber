@@ -257,16 +257,6 @@ $json = ($settings ? $settings : '');
 </script>
 
 
-
-
-
-
-
-
-
-
-
-
 <div class="mw-modules-tabs">
     <div class="mw-accordion-item">
         <div class="mw-ui-box-header mw-accordion-title">
@@ -295,16 +285,61 @@ $json = ($settings ? $settings : '');
                     </table>
                 </div>
 
-                <input class="mw-ui-btn" type="button" value="Add Row" onclick="appendRow()"/>
-                <input class="mw-ui-btn" type="button" value="Add Column" onclick="appendColumn()"/>
-                <input class="mw-ui-btn" type="button" value="Delete Last Row" onclick="deleteRow('last')"/>
-                <input class="mw-ui-btn" type="button" value="Delete Last Column" onclick="deleteColumn('last')"/>
-                <input class="mw-ui-btn" type="button" value="Delete All Rows" onclick="deleteRow('all')"/>
-                <input class="mw-ui-btn" type="button" value="Delete All Columns" onclick="deleteColumn('all')"/>
-                <input class="mw-ui-btn" type="button" value="Delete All" onclick="deleteRow('all'); deleteColumn('all')"/>
-                <br>
-                <button class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right" id="saveData">Save</button>
+                <div class="mw-ui-row-nodrop">
+                    <div class="mw-ui-col">
+                        <div class="mw-ui-col-container">
+                            <button class="mw-ui-btn mw-ui-btn-notification mw-ui-btn-small m-b-10 mw-full-width" type="button" onclick="appendColumn()">
+                                <i class="mw-icon-plus"></i> Add Column
+                            </button>
 
+                            <button class="mw-ui-btn mw-ui-btn-notification mw-ui-btn-small m-b-10 mw-full-width" type="button" onclick="appendRow()">
+                                <i class="mw-icon-plus"></i> Add Row
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mw-ui-col">
+                        <div class="mw-ui-col-container">
+                            <button class="mw-ui-btn mw-ui-btn-important mw-ui-btn-outline mw-ui-btn-small m-b-10 mw-full-width" type="button" onclick="deleteColumn('last')">
+                                <i class=""></i> Delete Last Column
+                            </button>
+
+                            <button class="mw-ui-btn mw-ui-btn-important mw-ui-btn-outline mw-ui-btn-small m-b-10 mw-full-width" type="button" onclick="deleteRow('last')">
+                                <i class=""></i> Delete Last Row
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mw-ui-col">
+                        <div class="mw-ui-col-container">
+                            <button class="mw-ui-link mw-color-important mw-ui-btn-small m-b-10 mw-full-width" type="button" onclick="deleteColumn('all')">
+                                <i class=""></i> Delete All Columns
+                            </button>
+
+                            <button class="mw-ui-link mw-color-important mw-ui-btn-small m-b-10 mw-full-width" type="button" onclick="deleteRow('all')">
+                                <i class=""></i> Delete All Rows
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <hr/>
+
+                <div class="mw-ui-row-nodrop">
+                    <div class="mw-ui-col">
+                        <div class="mw-ui-col-container">
+                            <button class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-important" type="button" onclick="deleteRow('all'); deleteColumn('all')">
+                                <i class="mw-icon-app-trash"></i> &nbsp;Delete all Columns & Rows
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mw-ui-col">
+                        <div class="mw-ui-col-container">
+                            <button class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification pull-right" id="saveData">Save</button>
+                        </div>
+                    </div>
+                </div>
 
             </div>
             <!-- Settings Content - End -->
