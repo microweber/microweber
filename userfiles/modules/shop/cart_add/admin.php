@@ -40,7 +40,7 @@ if (isset($params['rel_type']) and trim(strtolower(($params['rel_type']))) == 'p
             </div>
             <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
                 <!-- Settings Content -->
-                <div class="module-live-edit-settings module-parallax-settings">
+                <div class="module-live-edit-settings module-cart-add-settings">
                     <module type="custom_fields/admin" data-content-id="<?php print intval($for_id); ?>"/>
                 </div>
                 <!-- Settings Content - End -->
