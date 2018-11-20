@@ -4,13 +4,11 @@
 
 type: layout
 
-name: Add to cart default
+name: Default
 
-description: Add to cart default
+description: Default
 
 */
-
-
 ?>
 <?php
 
@@ -25,8 +23,7 @@ if (isset($params['content-id'])) {
 ?>
 
 <br class="mw-add-to-cart-spacer"/>
-<module type="custom_fields" data-content-id="<?php print intval($for_id); ?>" data-skip-type="price"
-        id="cart_fields_<?php print $params['id'] ?>"/>
+<module type="custom_fields" data-content-id="<?php print intval($for_id); ?>" data-skip-type="price" id="cart_fields_<?php print $params['id'] ?>"/>
 <?php if (is_array($data)): ?>
     <div class="price">
         <?php $i = 1;
