@@ -279,3 +279,21 @@ function coupons_delete_session()
 event_bind('mw.admin.shop.settings', function ($data) {
     print '<module type="shop/coupons" view="admin_block" />';
 });
+
+
+event_bind('mw.shop.cart.init', function ($params) {
+    //register_component($type,$params)
+
+    $cart_price_summary['discount'] = array(
+        'label' => _e("Discount", true),
+        'value' => '-' . cart_get_discount_text()
+    );
+
+
+    mw()->app->ui->register_component('price_summary','');
+});
+
+
+
+
+

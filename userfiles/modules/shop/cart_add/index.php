@@ -128,6 +128,8 @@ if (is_array($custom_prices_from_modules)) {
 }*/
 
 
+$custom_prices = mw()->shop_manager->get_product_custom_prices($for_id, true);
+//dd(' cart_add $custom_prices',$custom_prices,$prices_data);
 $price_offers = false;
 
 // check for offer prices

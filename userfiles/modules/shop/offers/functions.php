@@ -124,9 +124,14 @@ function offers_get_products()
 
 
 //api_expose('offers_get_price');
-function offers_get_price($product_id, $price_id)
+function offers_get_price($product_id = false, $price_id)
 {
-    $offer = DB::table('offers')->select('*')->where('product_id', '=', $product_id)->where('price_id', '=', $price_id)->first();
+    $offer = DB::table('offers')->select('*');
+    if ($product_id) {
+        $offer = $offer->where('product_id', '=', $product_id);
+    }
+    $offer = $offer->where('price_id', '=', $price_id);
+    $offer = $offer->first();
     if ($offer) {
         if (!($offer->expires_at) || $offer->expires_at == '0000-00-00 00:00:00' || (strtotime($offer->expires_at) > strtotime("now"))) {
             return $offer;
@@ -256,32 +261,57 @@ function offer_delete($params)
 }
 
 
-event_bind('mw.shop.cart.get_custom_prices_for_product', function ($params) {
+event_bind('mw.shop.get_product_custom_prices', function ($custom_field_items) {
 
 
-    if (isset($params['prices'])) {
-        if (isset($params['for_id'])) {
-            $prod_id = $params['for_id'];
-            foreach ($params['prices'] as $price_key => $price) {
-                $prices_on_offer = offers_get_price($prod_id, $price['id']);
-                if ($prices_on_offer) {
-                    $prices_on_offer = (array)$prices_on_offer;
 
-                    if ($prices_on_offer and isset($prices_on_offer['offer_price'])) {
-                        $cust_price = $price;
-                        $cust_price['custom_value'] = $prices_on_offer['offer_price'];
-                        $cust_price['value'] = $prices_on_offer['offer_price'];
-                        $cust_price['value_plain'] = $prices_on_offer['offer_price'];
-                        $cust_price['original_value'] = $price['value'];
-                        $cust_price['custom_value_module'] = 'shop/offers';
-                        $cust_price['custom_value_data'] = $prices_on_offer;
-                        $params['prices'][$price_key] = $cust_price;
-                    }
+    if ($custom_field_items) {
+
+
+        foreach ($custom_field_items as $key => $price) {
+            $price_on_offer = offers_get_price(false, $price['id']);
+            if ($price_on_offer) {
+                $price_on_offer = (array)$price_on_offer;
+
+                if ($price_on_offer and isset($price_on_offer['offer_price'])) {
+                    $cust_price = $price;
+                    $cust_price['custom_value'] = $price_on_offer['offer_price'];
+                    $cust_price['value'] = $price_on_offer['offer_price'];
+                    $cust_price['value_plain'] = $price_on_offer['offer_price'];
+                    $cust_price['original_value'] = $price['value'];
+                    $cust_price['custom_value_module'] = 'shop/offers';
+                    $cust_price['custom_value_data'] = $price_on_offer;
+                    $custom_field_items[$key] = $cust_price;
                 }
             }
-            //
         }
+        return $custom_field_items;
     }
+
+
+//    if (isset($params['prices'])) {
+//        if (isset($params['for_id'])) {
+//            $prod_id = $params['for_id'];
+//            foreach ($params['prices'] as $price_key => $price) {
+//                $price_on_offer = offers_get_price($prod_id, $price['id']);
+//                if ($price_on_offer) {
+//                    $price_on_offer = (array)$price_on_offer;
+//
+//                    if ($price_on_offer and isset($price_on_offer['offer_price'])) {
+//                        $cust_price = $price;
+//                        $cust_price['custom_value'] = $price_on_offer['offer_price'];
+//                        $cust_price['value'] = $price_on_offer['offer_price'];
+//                        $cust_price['value_plain'] = $price_on_offer['offer_price'];
+//                        $cust_price['original_value'] = $price['value'];
+//                        $cust_price['custom_value_module'] = 'shop/offers';
+//                        $cust_price['custom_value_data'] = $price_on_offer;
+//                        $params['prices'][$price_key] = $cust_price;
+//                    }
+//                }
+//            }
+//            //
+//        }
+//    }
 
     return $params;
 
