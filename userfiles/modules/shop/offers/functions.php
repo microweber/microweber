@@ -1,9 +1,6 @@
 <?php
 
 
-
-
-
 api_expose_admin('offer_save');
 function offer_save($offerData = array())
 {
@@ -21,7 +18,7 @@ function offer_save($offerData = array())
         if (strstr($offerData['product_id'], '|')) {
             $id_parts = explode('|', $offerData['product_id']);
             $offerData['product_id'] = $id_parts[0];
-           // $offerData['price_key'] = $id_parts[1];
+            // $offerData['price_key'] = $id_parts[1];
         }
     }
     if (isset($offerData['offer_price'])) {
@@ -129,9 +126,13 @@ function offers_get_products()
 //api_expose('offers_get_price');
 function offers_get_price($product_id, $price_id)
 {
-
     $offer = DB::table('offers')->select('*')->where('product_id', '=', $product_id)->where('price_id', '=', $price_id)->first();
-    return $offer;
+    if ($offer) {
+        if (!($offer->expires_at) || $offer->expires_at == '0000-00-00 00:00:00' || (strtotime($offer->expires_at) > strtotime("now"))) {
+            return $offer;
+
+        }
+    }
 }
 
 api_expose('offers_get_by_product_id');
@@ -255,15 +256,40 @@ function offer_delete($params)
 }
 
 
-event_bind('mw.shop.cart.get_prices_for_product', function ($params) {
+event_bind('mw.shop.cart.get_custom_prices_for_product', function ($params) {
+
+
+    if (isset($params['prices'])) {
+        if (isset($params['for_id'])) {
+            $prod_id = $params['for_id'];
+            foreach ($params['prices'] as $price_key => $price) {
+                $prices_on_offer = offers_get_price($prod_id, $price['id']);
+                if ($prices_on_offer) {
+                    $prices_on_offer = (array)$prices_on_offer;
+
+                    if ($prices_on_offer and isset($prices_on_offer['offer_price'])) {
+                        $cust_price = $price;
+                        $cust_price['custom_value'] = $prices_on_offer['offer_price'];
+                        $cust_price['value'] = $prices_on_offer['offer_price'];
+                        $cust_price['value_plain'] = $prices_on_offer['offer_price'];
+                        $cust_price['original_value'] = $price['value'];
+                        $cust_price['custom_value_module'] = 'shop/offers';
+                        $cust_price['custom_value_data'] = $prices_on_offer;
+                        $params['prices'][$price_key] = $cust_price;
+                    }
+                }
+            }
+            //
+        }
+    }
+
+    return $params;
 
 
 });
 event_bind('mw.admin.custom_fields.price_settings', function ($data) {
     print load_module('shop/offers/price_settings', $data);
 });
-
-
 
 
 event_bind('mw.admin.shop.settings', function ($data) {

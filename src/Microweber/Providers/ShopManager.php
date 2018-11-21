@@ -194,6 +194,13 @@ class ShopManager
     }
 
 
+
+
+    public function get_product_custom_prices($content_id = false, $return_full_custom_fields_array = false)
+    {
+    //@todo finish this
+    }
+
     public function get_product_prices($content_id = false, $return_full_custom_fields_array = false)
     {
         if (!$content_id) {
@@ -210,6 +217,10 @@ class ShopManager
         }
 
         $prices = get_custom_fields($cf_params);
+
+
+
+
         if ($prices and is_array($prices) and !empty($prices)) {
             return $prices;
         }

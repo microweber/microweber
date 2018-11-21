@@ -69,7 +69,21 @@ if (isset($content_data['qty']) and $content_data['qty'] != 'nolimit' and intval
 
 $data = false;
 if (isset($for_id) !== false and isset($for) !== false) {
-    $data = mw()->cart_manager->get_prices_for_product($for_id, $for);
+    $prices_data = mw()->shop_manager->get_product_prices($for_id, true);
+    if ($prices_data) {
+        $data = array();
+        foreach ($prices_data as $price_data) {
+            if (isset($price_data['name'])) {
+                $data[ $price_data['name']] = $price_data['value'];
+            }
+        }
+        //$data2 = get_custom_fields("field_type=price&for={$for}&for_id=" . $for_id . "");
+      // dd($prices_data,$data,$data2);
+    }
+
+
+//    $data = get_custom_fields("field_type=price&for={$for}&for_id=" . $for_id . "");
+//    dd($data);
     /* if ($for == 'content' and intval($for_id) == 0) {
          $for_id = 0;
      }
@@ -94,8 +108,8 @@ if (isset($for_id) !== false and isset($for) !== false) {
      }*/
 
 }
-
-$custom_prices = false;
+//d($data);
+/*$custom_prices = false;
 
 
 $event_params = array();
@@ -103,7 +117,7 @@ $event_params['for'] = $for;
 $event_params['for_id'] = $for_id;
 $event_params['data'] = $data;
 
-$custom_prices_from_modules = $this->app->event_manager->trigger('mw.shop.cart_add.custom_prices_render', $event_params);
+$custom_prices_from_modules = $this->app->event_manager->trigger('mw.shop.cart_add.custom_prices', $event_params);
 if (is_array($custom_prices_from_modules)) {
     $custom_prices = array();
     foreach ($custom_prices_from_modules as $resp) {
@@ -111,7 +125,7 @@ if (is_array($custom_prices_from_modules)) {
             $custom_prices = array_merge($custom_prices, $resp);
         }
     }
-}
+}*/
 
 
 $price_offers = false;

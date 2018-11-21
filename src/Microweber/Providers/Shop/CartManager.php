@@ -79,8 +79,6 @@ class CartManager extends Crud
         }
 
 
-
-
         $shipping = floatval($this->app->user_manager->session_get('shipping_cost'));
         $total = $sum + $shipping;
 
@@ -92,11 +90,10 @@ class CartManager extends Crud
         }
 
 
-
         return $total;
     }
 
-    public function get_prices_for_product($product_id, $for = 'content')
+    /*public function get_prices_for_product($product_id, $for = 'content')
     {
         $for_id = $product_id;
 
@@ -104,26 +101,33 @@ class CartManager extends Crud
         $cf_params['for'] = $for;
         $cf_params['for_id'] = $for_id;
         $cf_params['field_type'] = 'price';
+        $cf_params['return_full'] = true;
 
-        $prices =  $this->app->fields_manager->get($cf_params);
+        $prices = $this->app->fields_manager->get($cf_params);
 
         $event_params = array();
         $event_params['for'] = $for;
         $event_params['for_id'] = $for_id;
-        $event_params['data'] = $prices;
+        $event_params['prices'] = $prices;
 
-        $override = $this->app->event_manager->trigger('mw.shop.cart.get_prices_for_product', $event_params);
+        $override = $this->app->event_manager->trigger('mw.shop.cart.get_custom_prices_for_product', $event_params);
         if (is_array($override)) {
             foreach ($override as $resp) {
                 if (is_array($resp) and !empty($resp)) {
-                    $prices = array_merge($prices, $resp);
+                    if (isset($resp['prices']) and !empty($resp['prices'])) {
+
+                        foreach ($prices as $price_key => $price_item) {
+                            foreach ($resp['prices'] as $override_price) {
+                                $prices[$price_key] = array_merge($prices[$price_key], $override_price);
+                            }
+                        }
+                    }
                 }
             }
         }
 
-
         return $prices;
-    }
+    }*/
 
     public function get_tax()
     {
