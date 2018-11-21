@@ -134,6 +134,7 @@ function offers_get_price($product_id = false, $price_id)
     $offer = $offer->first();
     if ($offer) {
         if (!($offer->expires_at) || $offer->expires_at == '0000-00-00 00:00:00' || (strtotime($offer->expires_at) > strtotime("now"))) {
+
             return $offer;
 
         }
@@ -261,13 +262,9 @@ function offer_delete($params)
 }
 
 
-event_bind('mw.shop.get_product_custom_prices', function ($custom_field_items) {
-
-
+event_bind('mw.shop.get_product_prices', function ($custom_field_items) {
 
     if ($custom_field_items) {
-
-
         foreach ($custom_field_items as $key => $price) {
             $price_on_offer = offers_get_price(false, $price['id']);
             if ($price_on_offer) {
@@ -275,9 +272,17 @@ event_bind('mw.shop.get_product_custom_prices', function ($custom_field_items) {
 
                 if ($price_on_offer and isset($price_on_offer['offer_price'])) {
                     $cust_price = $price;
-                    $cust_price['custom_value'] = $price_on_offer['offer_price'];
-                    $cust_price['value'] = $price_on_offer['offer_price'];
-                    $cust_price['value_plain'] = $price_on_offer['offer_price'];
+                    $new_price_value = $price_on_offer['offer_price'];
+
+                    if ($new_price_value) {
+                        $is_round = is_numeric($new_price_value) && intval($new_price_value) == $new_price_value;
+                        if ($is_round and $new_price_value > 0) {
+                            $new_price_value = intval($new_price_value);
+                        }
+                    }
+                    $cust_price['custom_value'] = $new_price_value;
+                    $cust_price['value'] = $new_price_value;
+                    $cust_price['value_plain'] = $new_price_value;
                     $cust_price['original_value'] = $price['value'];
                     $cust_price['custom_value_module'] = 'shop/offers';
                     $cust_price['custom_value_data'] = $price_on_offer;
@@ -287,34 +292,6 @@ event_bind('mw.shop.get_product_custom_prices', function ($custom_field_items) {
         }
         return $custom_field_items;
     }
-
-
-//    if (isset($params['prices'])) {
-//        if (isset($params['for_id'])) {
-//            $prod_id = $params['for_id'];
-//            foreach ($params['prices'] as $price_key => $price) {
-//                $price_on_offer = offers_get_price($prod_id, $price['id']);
-//                if ($price_on_offer) {
-//                    $price_on_offer = (array)$price_on_offer;
-//
-//                    if ($price_on_offer and isset($price_on_offer['offer_price'])) {
-//                        $cust_price = $price;
-//                        $cust_price['custom_value'] = $price_on_offer['offer_price'];
-//                        $cust_price['value'] = $price_on_offer['offer_price'];
-//                        $cust_price['value_plain'] = $price_on_offer['offer_price'];
-//                        $cust_price['original_value'] = $price['value'];
-//                        $cust_price['custom_value_module'] = 'shop/offers';
-//                        $cust_price['custom_value_data'] = $price_on_offer;
-//                        $params['prices'][$price_key] = $cust_price;
-//                    }
-//                }
-//            }
-//            //
-//        }
-//    }
-
-    return $params;
-
 
 });
 event_bind('mw.admin.custom_fields.price_settings', function ($data) {

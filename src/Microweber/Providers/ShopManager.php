@@ -194,9 +194,13 @@ class ShopManager
     }
 
 
-    public function get_product_custom_prices($product_id = false, $return_full_custom_fields_array = false)
+    public function get_product_prices($product_id = false, $return_full_custom_fields_array = false)
     {
-        //@todo finish this
+
+        if (!$product_id) {
+            $product_id = CONTENT_ID;
+        }
+
         $for = 'content';
 
         $for_id = $product_id;
@@ -209,7 +213,7 @@ class ShopManager
 
         $prices = $this->app->fields_manager->get($cf_params);
         $custom_field_items = $prices;
-        $override = $this->app->event_manager->trigger('mw.shop.get_product_custom_prices', $custom_field_items);
+        $override = $this->app->event_manager->trigger('mw.shop.get_product_prices', $custom_field_items);
         if (is_array($override)) {
             foreach ($override as $resp) {
                 if (is_array($resp) and !empty($resp)) {
@@ -232,29 +236,6 @@ class ShopManager
                 }
             }
             return $return;
-        }
-    }
-
-    public function get_product_prices($content_id = false, $return_full_custom_fields_array = false)
-    {
-        if (!$content_id) {
-            $content_id = CONTENT_ID;
-        }
-
-        $cf_params = array();
-        $cf_params['field_type'] = 'price';
-        $cf_params['for'] = 'content';
-        $cf_params['for_id'] = $content_id;
-
-        if ($return_full_custom_fields_array) {
-            $cf_params['return_full'] = true;
-        }
-
-        $prices = get_custom_fields($cf_params);
-
-
-        if ($prices and is_array($prices) and !empty($prices)) {
-            return $prices;
         }
     }
 

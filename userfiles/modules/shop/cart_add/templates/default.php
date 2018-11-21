@@ -38,11 +38,11 @@ if (isset($params['content-id'])) {
 
 
 
-          if (isset($price_offers[$key]) && isset($price_offers[$key]['offer_price'])) {
+
              // $key = $price_offers[$key]['offer_price'];
 
               ?>
-          <?php } else { ?>
+
               <?php if (is_string($key) and trim(strtolower($key)) == 'price'): ?>
 
                   <span class="mw-price-item-key mw-price-item-key-<?php print ($keyslug_class); ?>">
@@ -53,7 +53,6 @@ if (isset($params['content-id'])) {
                     <?php print $key; ?>
                 </span>
               <?php endif; ?>:
-        <?php } ?>
 
 
 
@@ -74,16 +73,6 @@ if (isset($params['content-id'])) {
                     </button>
                 <?php else: ?>
 
-                    <?php if ($price_offers && isset($price_offers[$key])): ?>
-
-                        <module type="shop/offers" data-offer-id="<?php print intval($price_offers[$key]['id']); ?>"/>
-
-                        <button class="btn btn-default  " type="button"
-                                onclick="mw.cart.add('.mw-add-to-cart-<?php print $params['id'] ?>','<?php print $v ?>', '<?php print $title; ?>');">
-                            <i class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></i>
-                            <?php _e($button_text !== false ? $button_text : "Add to cart"); ?>
-                        </button>
-                    <?php else: ?>
 
 
                     <button class="btn btn-default pull-right" type="button"
@@ -94,7 +83,7 @@ if (isset($params['content-id'])) {
 
 
 
-                <?php endif; ?>
+
 
                     <?php $i++; endif; ?>
 
