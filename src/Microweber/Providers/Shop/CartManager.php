@@ -456,8 +456,14 @@ class CartManager extends Crud
         $content_custom_fields = array();
         $content_custom_fields = $this->app->fields_manager->get($for, $for_id, 1);
 
-        if (mw()->modules->is_installed('shop/offers')) {
-            $price_offers = offers_get_by_product_id($for_id);
+        $product_prices = array();
+        if($for  == 'content'){
+            $prices_data = mw()->shop_manager->get_product_prices($for_id, true);
+            foreach ($prices_data as $price_data) {
+                if (isset($price_data['name'])) {
+                    $product_prices[ $price_data['name']] = $price_data['value'];
+                }
+            }
         }
 
         if ($content_custom_fields == false) {
@@ -468,8 +474,8 @@ class CartManager extends Crud
         } elseif (is_array($content_custom_fields)) {
             foreach ($content_custom_fields as $cf) {
                 if (isset($cf['type']) and $cf['type'] == 'price') {
-                    if (isset($price_offers[$cf['name']])) {
-                        $prices[$cf['name']] = $price_offers[$cf['name']]['offer_price'];
+                    if (isset($product_prices[$cf['name']])) {
+                        $prices[$cf['name']] = $product_prices[$cf['name']];
                     } else {
                         $prices[$cf['name']] = $cf['value'];
                     }
@@ -498,8 +504,8 @@ class CartManager extends Crud
                         }
                     } elseif (isset($cf['type']) and $cf['type'] == 'price') {
                         if ($cf['value'] != '') {
-                            if (isset($price_offers[$cf['name']])) {
-                                $prices[$cf['name']] = $price_offers[$cf['name']]['offer_price'];
+                            if (isset($product_prices[$cf['name']])) {
+                                $prices[$cf['name']] = $product_prices[$cf['name']];
                             } else {
                                 $prices[$cf['name']] = $cf['value'];
                             }
@@ -517,7 +523,7 @@ class CartManager extends Crud
                                 $found = true;
                                 $found_price = $price;
                             }
-                        } elseif ($price == $item) {
+                        } elseif (isset($item) and $price == $item) {
                             $found = true;
                             if ($found_price == false) {
                                 $found_price = $item;

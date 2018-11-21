@@ -431,7 +431,7 @@ class ShopManager
         } else {
             if ($amount) {
                 $is_round = is_numeric($amount) && intval($amount) == $amount;
-                if ($is_round and $amount > 0) {
+                if ($is_round) {
                     $amount = intval($amount);
                 } else {
                     $use_number_format = true;
