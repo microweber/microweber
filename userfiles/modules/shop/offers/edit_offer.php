@@ -49,13 +49,24 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
 
     mw.lib.require('datetimepicker');
 
-    $( document ).ready(function() {
-        $('[name="expires_at"]').datetimepicker({
+
+    editOferrSetExpirationDate = function(){
+        $('[name="expires_at"]','.js-edit-offer-form').datetimepicker({
             defaultDate: new Date(today.getTime() + (24 * 60 * 60 * 1000)),
             format: '<?php print $date_format;?>',
             zIndex: 1105
         });
+    }
+
+
+
+    $( document ).ready(function() {
+        editOferrSetExpirationDate();
     });
+
+
+
+
 
 
 
@@ -181,9 +192,22 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
             <div class="mw-ui-col-container">
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label">Expiry date</label>
+
                     <?php // TODO: expires_at not saving in correct format ?>
-                    <input type="text" name="expires_at" class="mw-ui-field js-validation js-validation-expiry-date"
-                           autocomplete="off" value="<?php print date_system_format($data['expires_at']); ?>"/>
+
+                    <div class="js-exp-date-holder">
+                        <input type="text" name="expires_at" class="mw-ui-field disabled-js-validation disabled-js-validation-expiry-date"
+                               autocomplete="off" value="<?php print ($data['expires_at']); ?>"/>
+
+
+                    </div>
+
+
+
+
+
+
+
                     <div class="js-field-message"></div>
                 </div>
             </div>
