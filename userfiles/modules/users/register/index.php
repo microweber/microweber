@@ -51,6 +51,25 @@
     $captcha_disabled = get_option('captcha_disabled', 'users') == 'y';
 
 
+    # Login Providers
+    $facebook = get_option('enable_user_fb_registration', 'users') == 'y';
+    $twitter = get_option('enable_user_twitter_registration', 'users') == 'y';
+    $google = get_option('enable_user_google_registration', 'users') == 'y';
+    $windows = get_option('enable_user_windows_live_registration', 'users') == 'y';
+    $github = get_option('enable_user_github_registration', 'users') == 'y';
+    if ($facebook or $twitter or $google or $windows or $github) {
+        $have_social_login = true;
+    } else {
+        $have_social_login = false;
+    }
+
+
+    $allow_socials_login = get_option('allow_socials_login', 'users');
+    if ($allow_socials_login == 'n') {
+        $have_social_login = false;
+    }
+
+
     $module_template = get_option('data-template', $params['id']);
     if ($module_template == false and isset($params['template'])) {
         $module_template = $params['template'];

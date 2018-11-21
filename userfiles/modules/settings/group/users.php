@@ -111,12 +111,59 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
         }
     }
 
+    function checkAllowSocialsLoginEnabled() {
+        var allowSocialsLoginFB = $('input[name="enable_user_fb_registration"]');
+        var allowSocialsLoginGoogle = $('input[name="enable_user_google_registration"]');
+        var allowSocialsLoginGH = $('input[name="enable_user_github_registration"]');
+        var allowSocialsLoginTwitter = $('input[name="enable_user_twitter_registration"]');
+        var allowSocialsLoginLN = $('input[name="enable_user_linkedin_registration"]');
+        var allowSocialsLoginMW = $('input[name="enable_user_microweber_registration"]');
+
+        if (allowSocialsLoginFB.is(':checked')) {
+            $('.js-check-fb').show();
+        } else {
+            $('.js-check-fb').hide();
+        }
+        if (allowSocialsLoginGoogle.is(':checked')) {
+            $('.js-check-google').show();
+        } else {
+            $('.js-check-google').hide();
+        }
+        if (allowSocialsLoginGH.is(':checked')) {
+            $('.js-check-gh').show();
+        } else {
+            $('.js-check-gh').hide();
+        }
+        if (allowSocialsLoginTwitter.is(':checked')) {
+            $('.js-check-twitter').show();
+        } else {
+            $('.js-check-twitter').hide();
+        }
+        if (allowSocialsLoginLN.is(':checked')) {
+            $('.js-check-ln').show();
+        } else {
+            $('.js-check-ln').hide();
+        }
+        if (allowSocialsLoginMW.is(':checked')) {
+            $('.js-check-mw').show();
+        } else {
+            $('.js-check-mw').hide();
+        }
+    }
+
     $(document).ready(function () {
+        checkAllowSocialsLoginEnabled();
+        $("input[name^='enable_user_']").on('change', function () {
+            checkAllowSocialsLoginEnabled();
+        });
+
         checkAllowSocialsLogin();
         $('select[name="allow_socials_login"]').on('change', function () {
             checkAllowSocialsLogin();
-        })
+        });
     })
+
+
 </script>
 
 <style type="text/css">
@@ -158,6 +205,14 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
     .user-sign-setting-nav-item {
         margin-bottom: 5px;
     }
+
+    .js-checkmark {
+        position: absolute;
+        font-size: 10px;
+        top: -13px;
+        display: none;
+        right: 4px;
+    }
 </style>
 
 <div class="mw-ui-row admin-section-bar">
@@ -194,12 +249,30 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
             </div>
 
             <ul class="social-providers-list mw-ui-btn-nav">
-                <li class="mw-ui-btn mw-ui-btn-big active"><span class="mw-icon-facebook login-tab-group active"></span></li>
-                <li class="mw-ui-btn mw-ui-btn-big"><span class="mw-icon-googleplus login-tab-group"></span></li>
-                <li class="mw-ui-btn mw-ui-btn-big"><span class="mw-icon-social-github login-tab-group"></span></li>
-                <li class="mw-ui-btn mw-ui-btn-big"><span class="mw-icon-twitter login-tab-group"></span></li>
-                <li class="mw-ui-btn mw-ui-btn-big"><span class="mw-icon-social-linkedin login-tab-group"></span></li>
-                <li class="mw-ui-btn mw-ui-btn-big"><span class="mw-icon-mw login-tab-group"></span></li>
+                <li class="mw-ui-btn mw-ui-btn-big active">
+                    <span class="js-checkmark js-check-fb"><i class="mw-icon-check"></i></span>
+                    <span class="mw-icon-facebook login-tab-group active"></span>
+                </li>
+                <li class="mw-ui-btn mw-ui-btn-big">
+                    <span class="js-checkmark js-check-google"><i class="mw-icon-check"></i></span>
+                    <span class="mw-icon-googleplus login-tab-group"></span>
+                </li>
+                <li class="mw-ui-btn mw-ui-btn-big">
+                    <span class="js-checkmark js-check-gh"><i class="mw-icon-check"></i></span>
+                    <span class="mw-icon-social-github login-tab-group"></span>
+                </li>
+                <li class="mw-ui-btn mw-ui-btn-big">
+                    <span class="js-checkmark js-check-twitter"><i class="mw-icon-check"></i></span>
+                    <span class="mw-icon-twitter login-tab-group"></span>
+                </li>
+                <li class="mw-ui-btn mw-ui-btn-big">
+                    <span class="js-checkmark js-check-ln"><i class="mw-icon-check"></i></span>
+                    <span class="mw-icon-social-linkedin login-tab-group"></span>
+                </li>
+                <li class="mw-ui-btn mw-ui-btn-big">
+                    <span class="js-checkmark js-check-mw"><i class="mw-icon-check"></i></span>
+                    <span class="mw-icon-mw login-tab-group"></span>
+                </li>
             </ul>
 
             <div class="mw-ui-box mw-ui-box-content group-logins" style="display: block">
@@ -227,11 +300,11 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
                     </li>
                 </ol>
 
-                <div class="mw-ui-field-holder">
+                <div class="mw-ui-field-holder" style="max-width: 400px;">
                     <label class="mw-ui-label"><?php _e("App ID/API Key"); ?></label>
-                    <input name="fb_app_id" class="mw_option_field mw-ui-field mw-title-field " type="text" option-group="users" value="<?php print get_option('fb_app_id', 'users'); ?>"/>
+                    <input name="fb_app_id" class="mw_option_field mw-ui-field mw-title-field w100" type="text" option-group="users" value="<?php print get_option('fb_app_id', 'users'); ?>"/>
                     <label class="mw-ui-label"><?php _e("App Secret"); ?></label>
-                    <input name="fb_app_secret" class="mw_option_field mw-ui-field mw-title-field" type="text" option-group="users" value="<?php print get_option('fb_app_secret', 'users'); ?>"/>
+                    <input name="fb_app_secret" class="mw_option_field mw-ui-field mw-title-field w100" type="text" option-group="users" value="<?php print get_option('fb_app_secret', 'users'); ?>"/>
                 </div>
             </div>
 
@@ -254,11 +327,11 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
                     </li>
                 </ol>
 
-                <div class="mw-ui-field-holder">
+                <div class="mw-ui-field-holder" style="max-width: 400px;">
                     <label class="mw-ui-label"><?php _e("Client ID"); ?></label>
-                    <input name="google_app_id" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('google_app_id', 'users'); ?>"/>
+                    <input name="google_app_id" class="mw_option_field mw-ui-field mw-title-field w100" style="" type="text" option-group="users" value="<?php print get_option('google_app_id', 'users'); ?>"/>
                     <label class="mw-ui-label"><?php _e("Client secret"); ?></label>
-                    <input name="google_app_secret" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('google_app_secret', 'users'); ?>"/>
+                    <input name="google_app_secret" class="mw_option_field mw-ui-field mw-title-field w100" style="" type="text" option-group="users" value="<?php print get_option('google_app_secret', 'users'); ?>"/>
                 </div>
             </div>
 
@@ -289,10 +362,12 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
                     </li>
                 </ol>
 
-                <label class="mw-ui-label"><?php _e("Client ID"); ?></label>
-                <input name="github_app_id" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('github_app_id', 'users'); ?>"/>
-                <label class="mw-ui-label"><?php _e("Client secret"); ?></label>
-                <input name="github_app_secret" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('github_app_secret', 'users'); ?>"/>
+                <div class="mw-ui-field-holder" style="max-width: 400px;">
+                    <label class="mw-ui-label"><?php _e("Client ID"); ?></label>
+                    <input name="github_app_id" class="mw_option_field mw-ui-field mw-title-field w100" style="" type="text" option-group="users" value="<?php print get_option('github_app_id', 'users'); ?>"/>
+                    <label class="mw-ui-label"><?php _e("Client secret"); ?></label>
+                    <input name="github_app_secret" class="mw_option_field mw-ui-field mw-title-field w100" style="" type="text" option-group="users" value="<?php print get_option('github_app_secret', 'users'); ?>"/>
+                </div>
             </div>
 
             <div class="mw-ui-box mw-ui-box-content group-logins">
@@ -321,10 +396,13 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
                         <em><?php print api_link('social_login_process?provider=twitter') ?></em>
                     </li>
                 </ol>
-                <label class="mw-ui-label"><?php _e("Consumer key"); ?></label>
-                <input name="twitter_app_id" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('twitter_app_id', 'users'); ?>"/>
-                <label class="mw-ui-label"><?php _e("Consumer secret"); ?></label>
-                <input name="twitter_app_secret" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('twitter_app_secret', 'users'); ?>"/>
+
+                <div class="mw-ui-field-holder" style="max-width: 400px;">
+                    <label class="mw-ui-label"><?php _e("Consumer key"); ?></label>
+                    <input name="twitter_app_id" class="mw_option_field mw-ui-field mw-title-field w100" style="" type="text" option-group="users" value="<?php print get_option('twitter_app_id', 'users'); ?>"/>
+                    <label class="mw-ui-label"><?php _e("Consumer secret"); ?></label>
+                    <input name="twitter_app_secret" class="mw_option_field mw-ui-field mw-title-field w100" style="" type="text" option-group="users" value="<?php print get_option('twitter_app_secret', 'users'); ?>"/>
+                </div>
             </div>
 
             <div class="mw-ui-box mw-ui-box-content group-logins">
@@ -353,10 +431,12 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
                     </li>
                 </ol>
 
-                <label class="mw-ui-label"><?php _e("Client ID"); ?></label>
-                <input name="linkedin_app_id" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('linkedin_app_id', 'users'); ?>"/>
-                <label class="mw-ui-label"><?php _e("Client Secret"); ?></label>
-                <input name="linkedin_app_secret" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('linkedin_app_secret', 'users'); ?>"/>
+                <div class="mw-ui-field-holder" style="max-width: 400px;">
+                    <label class="mw-ui-label"><?php _e("Client ID"); ?></label>
+                    <input name="linkedin_app_id" class="mw_option_field mw-ui-field mw-title-field w100" style="" type="text" option-group="users" value="<?php print get_option('linkedin_app_id', 'users'); ?>"/>
+                    <label class="mw-ui-label"><?php _e("Client Secret"); ?></label>
+                    <input name="linkedin_app_secret" class="mw_option_field mw-ui-field mw-title-field w100" style="" type="text" option-group="users" value="<?php print get_option('linkedin_app_secret', 'users'); ?>"/>
+                </div>
             </div>
 
             <div class="mw-ui-box mw-ui-box-content group-logins">
@@ -367,10 +447,18 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
 
                 <hr>
 
-                <label class="mw-ui-label"><?php _e("Client ID"); ?></label>
-                <input name="microweber_app_id" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('microweber_app_id', 'users'); ?>"/>
-                <label class="mw-ui-label"><?php _e("Client secret"); ?></label>
-                <input name="microweber_app_secret" class="mw_option_field mw-ui-field mw-title-field" style="" type="text" option-group="users" value="<?php print get_option('microweber_app_secret', 'users'); ?>"/>
+                <ol class="ol">
+                    <li>
+                        <?php _e("Please enter your credentials for Microweber Login Server"); ?>
+                    </li>
+                </ol>
+
+                <div class="mw-ui-field-holder" style="max-width: 400px;">
+                    <label class="mw-ui-label"><?php _e("Client ID"); ?></label>
+                    <input name="microweber_app_id" class="mw_option_field mw-ui-field mw-title-field w100" style="" type="text" option-group="users" value="<?php print get_option('microweber_app_id', 'users'); ?>"/>
+                    <label class="mw-ui-label"><?php _e("Client secret"); ?></label>
+                    <input name="microweber_app_secret" class="mw_option_field mw-ui-field mw-title-field w100" style="" type="text" option-group="users" value="<?php print get_option('microweber_app_secret', 'users'); ?>"/>
+                </div>
             </div>
         </div>
 
@@ -394,11 +482,13 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
                 })
             })
         </script>
+        <ul class="mw-ui-btn-nav mw-ui-btn-nav-fluid">
+            <li><a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item"><?php _e("Register e-mail"); ?></a></li>
+            <li><a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item"><?php _e('Social links'); ?></a></li>
+            <li><a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item"><?php _e("Privacy settings"); ?></a></li>
+            <li><a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item"><?php _e("Other"); ?></a></li>
+        </ul>
 
-        <a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item"><?php _e("Register email settings"); ?></a>
-        <a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item"><?php _e('Social links'); ?></a>
-        <a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item"><?php _e("Other"); ?></a>
-        <a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item"><?php _e("Privacy settings"); ?></a>
         <div id="mw-user-fields-form-set" class="mw-user-fields-form-item" style="display:none;padding-top: 20px;">
             <div class="mw-ui-box mw-ui-box-content">
                 <script type="text/javascript">
@@ -432,11 +522,11 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
                     </label>
                 </div>
 
-                <div class="mw-ui-field-holder">
+                <div class="mw-ui-field-holder" style="max-width: 400px;">
                     <label class="mw-ui-label">
                         <?php _e("Email subject"); ?>
                     </label>
-                    <input name="register_email_subject" class="mw-ui-field mw_option_field" id="order_email_subject" placeholder="<?php _e("Thank you for your registration"); ?>!" data-option-group="users" value="<?php print get_option('register_email_subject', 'users') ?>" type="text"/>
+                    <input name="register_email_subject" class="mw-ui-field mw_option_field w100" id="order_email_subject" placeholder="<?php _e("Thank you for your registration"); ?>!" data-option-group="users" value="<?php print get_option('register_email_subject', 'users') ?>" type="text"/>
                 </div>
 
                 <div class="mw-ui-field-holder">
@@ -505,9 +595,9 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
                     </label>
                 </div>
 
-                <div class="mw-ui-field-holder">
+                <div class="mw-ui-field-holder" style="max-width: 400px;">
                     <label class="mw-ui-label"><?php _e("Email subject"); ?></label>
-                    <input name="forgot_pass_email_subject" class="mw-ui-field mw_option_field" id="order_email_subject" placeholder="<?php _e("Password reset"); ?>!" data-option-group="orders" value="<?php print get_option('forgot_pass_email_subject', 'users') ?>" type="text"/>
+                    <input name="forgot_pass_email_subject" class="mw-ui-field mw_option_field w100" id="order_email_subject" placeholder="<?php _e("Password reset"); ?>!" data-option-group="orders" value="<?php print get_option('forgot_pass_email_subject', 'users') ?>" type="text"/>
                 </div>
 
                 <div class="mw-ui-field-holder">
@@ -541,6 +631,49 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
             </div>
         </div>
 
+        <div id="mw-profile-privacy-settings" class="mw-user-fields-form-item" style="display:none;padding-top: 20px;">
+            <div class="mw-ui-box mw-ui-box-content">
+                <h2><?php _e("User privacy settings"); ?></h2>
+
+                <h4><?php _e("Users must agree to Terms and Conditions"); ?></h4>
+
+                <label class="mw-ui-check" style="margin-right: 15px;">
+                    <input name="require_terms" class="mw_option_field" data-option-group="users" value="0" type="radio" <?php if (get_option('require_terms', 'users') != 1): ?> checked="checked" <?php endif; ?> >
+                    <span></span><span><?php _e("No"); ?></span>
+                </label>
+
+                <label class="mw-ui-check">
+                    <input name="require_terms" class="mw_option_field" data-option-group="users" value="1" type="radio" <?php if (get_option('require_terms', 'users') == 1): ?> checked="checked" <?php endif; ?> >
+                    <span></span><span><?php _e("Yes"); ?></span>
+                </label>
+
+                <div class="mw-ui-field-holder">
+                    <label class="mw-ui-label"><?php _e("Terms and conditions Text"); ?></label>
+                    <?php
+                    $terms_label = get_option('terms_label', 'users');
+                    $terms_label_cleared = str_replace('&nbsp;', '', $terms_label);
+                    $terms_label_cleared = strip_tags($terms_label_cleared);
+                    $terms_label_cleared = mb_trim($terms_label_cleared);
+
+                    if ($terms_label_cleared == '') {
+                        $terms_label = 'I agree with <a href="' . site_url() . 'terms" target="_blank">terms and conditions</a>';
+                    }
+                    ?>
+                    <textarea class="mw-ui-field mw_option_field" data-option-group="users" id="terms_label" name="terms_label"><?php print $terms_label; ?></textarea>
+                    <script>
+                        $(document).ready(function () {
+                            myEditor = mw.editor({element: '#terms_label'});
+                        });
+                    </script>
+                </div>
+                <hr>
+
+                <?php event_trigger('website.privacy_settings') ?>
+                <hr>
+            </div>
+        </div>
+
+
         <div id="mw-admin-user-tabs-other-settings" class="mw-user-fields-form-item" style="display:none;padding-top: 20px;">
             <div class="mw-ui-box mw-ui-box-content">
                 <?php $captcha_disabled = get_option('captcha_disabled', 'users'); ?>
@@ -568,12 +701,14 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
                     </label>
 
                     <br/>
+                    <br/>
 
                     <label class="mw-ui-check">
                         <input type="checkbox" value="y" <?php if ($form_show_last_name == 'y'): ?> checked <?php endif; ?> name="form_show_last_name" class="mw_option_field" option-group="users">
                         <span></span> <span><?php _e("Show last name field?"); ?></span>
                     </label>
 
+                    <br/>
                     <br/>
 
                     <label class="mw-ui-check">
@@ -630,46 +765,5 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
             </div>
         </div>
 
-        <div id="mw-profile-privacy-settings" class="mw-user-fields-form-item" style="display:none;padding-top: 20px;">
-            <div class="mw-ui-box mw-ui-box-content">
-                <h2><?php _e("User privacy settings"); ?></h2>
-
-                <h4><?php _e("Users must agree to Terms and Conditions"); ?></h4>
-
-                <label class="mw-ui-check" style="margin-right: 15px;">
-                    <input name="require_terms" class="mw_option_field" data-option-group="users" value="0" type="radio" <?php if (get_option('require_terms', 'users') != 1): ?> checked="checked" <?php endif; ?> >
-                    <span></span><span><?php _e("No"); ?></span>
-                </label>
-
-                <label class="mw-ui-check">
-                    <input name="require_terms" class="mw_option_field" data-option-group="users" value="1" type="radio" <?php if (get_option('require_terms', 'users') == 1): ?> checked="checked" <?php endif; ?> >
-                    <span></span><span><?php _e("Yes"); ?></span>
-                </label>
-
-                <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label"><?php _e("Terms and conditions Text"); ?></label>
-                    <?php
-                    $terms_label = get_option('terms_label', 'users');
-                    $terms_label_cleared = str_replace('&nbsp;', '', $terms_label);
-                    $terms_label_cleared = strip_tags($terms_label_cleared);
-                    $terms_label_cleared = mb_trim($terms_label_cleared);
-
-                    if ($terms_label_cleared == '') {
-                        $terms_label = 'I agree with <a href="' . site_url() . 'terms" target="_blank">terms and conditions</a>';
-                    }
-                    ?>
-                    <textarea class="mw-ui-field mw_option_field" data-option-group="users" id="terms_label" name="terms_label"><?php print $terms_label; ?></textarea>
-                    <script>
-                        $(document).ready(function () {
-                            myEditor = mw.editor({element: '#terms_label'});
-                        });
-                    </script>
-                </div>
-                <hr>
-
-                <?php event_trigger('website.privacy_settings') ?>
-                <hr>
-            </div>
-        </div>
     </div>
 </div>
