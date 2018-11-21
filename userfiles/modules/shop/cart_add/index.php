@@ -70,7 +70,7 @@ if (isset($content_data['qty']) and $content_data['qty'] != 'nolimit' and intval
 $data = false;
 if (isset($for_id) !== false and isset($for) !== false) {
     $prices_data = mw()->shop_manager->get_product_prices($for_id, true);
-   // dd($prices_data);
+ //  dd($prices_data);
     if ($prices_data) {
         $data = array();
         foreach ($prices_data as $price_data) {

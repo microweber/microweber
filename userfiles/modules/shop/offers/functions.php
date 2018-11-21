@@ -274,12 +274,7 @@ event_bind('mw.shop.get_product_prices', function ($custom_field_items) {
                     $cust_price = $price;
                     $new_price_value = $price_on_offer['offer_price'];
 
-                    if ($new_price_value) {
-                        $is_round = is_numeric($new_price_value) && intval($new_price_value) == $new_price_value;
-                        if ($is_round and $new_price_value > 0) {
-                            $new_price_value = intval($new_price_value);
-                        }
-                    }
+
                     $cust_price['custom_value'] = $new_price_value;
                     $cust_price['value'] = $new_price_value;
                     $cust_price['value_plain'] = $new_price_value;

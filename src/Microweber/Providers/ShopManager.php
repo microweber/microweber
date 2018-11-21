@@ -421,33 +421,54 @@ class ShopManager
         if ($sym == '') {
             $sym = $curr;
         }
-
+        $currency_symbol_decimal = get_option('currency_symbol_decimal', 'payments');
         $cur_pos = $this->app->option_manager->get('currency_symbol_position', 'payments');
+
+        $use_number_format = false;
+
+        if ($currency_symbol_decimal == 'aways') {
+            $use_number_format = true;
+        } else {
+            if ($amount) {
+                $is_round = is_numeric($amount) && intval($amount) == $amount;
+                if ($is_round and $amount > 0) {
+                    $amount = intval($amount);
+                } else {
+                    $use_number_format = true;
+                }
+            }
+        }
+
+
+        $decimals = 0;
+        if($use_number_format){
+            $decimals = 2;
+        }
 
         switch ($cur_pos) {
             case 'before':
-                $ret = $sym . ' ' . number_format($amount, 2, '.', ',');
+                $ret = $sym . ' ' . number_format($amount, $decimals, '.', ',');
                 break;
             case 'after':
-                $ret = number_format($amount, 2, '.', ' ') . ' ' . $sym;
+                $ret = number_format($amount, $decimals, '.', ' ') . ' ' . $sym;
 
                 break;
             case 'default':
             default:
                 switch ($curr) {
                     case 'EUR':
-                        $ret = '&euro; ' . number_format($amount, 2, ',', ' ');
+                        $ret = '&euro; ' . number_format($amount, $decimals, ',', ' ');
                         break;
                     case 'BGN':
                     case 'RUB':
-                        $ret = number_format($amount, 2, '.', ' ') . ' ' . $sym;
+                        $ret = number_format($amount, $decimals, '.', ' ') . ' ' . $sym;
                         break;
                     case 'US':
                     case 'USD':
-                        $ret = '&#36; ' . number_format($amount, 2, '.', ',');
+                        $ret = '&#36; ' . number_format($amount, $decimals, '.', ',');
                         break;
                     default:
-                        $ret = $sym . ' ' . number_format($amount, 2, '.', ',');
+                        $ret = $sym . ' ' . number_format($amount, $decimals, '.', ',');
                         break;
                 }
                 break;
