@@ -135,7 +135,7 @@ function offers_get_price($product_id = false, $price_id)
     if ($offer) {
         if (!($offer->expires_at) || $offer->expires_at == '0000-00-00 00:00:00' || (strtotime($offer->expires_at) > strtotime("now"))) {
 
-            return $offer;
+            return (array) $offer;
 
         }
     }

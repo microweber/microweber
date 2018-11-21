@@ -910,6 +910,10 @@ class FieldsManager
 
             $layout = $l->__toString();
 
+            if($settings and defined('MW_API_HTML_OUTPUT')){
+                $layout = $this->app->parser->process($layout, $options = false);
+            }
+
             return $layout;
         }
     }

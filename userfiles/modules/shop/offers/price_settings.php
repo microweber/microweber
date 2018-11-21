@@ -1,7 +1,7 @@
 <?php
 only_admin_access();
 
-if (!isset($params['price-id']) or !isset($params['product-id'])) {
+if (!isset($params['price-id']) or !isset($params['price-id']) or !isset($params['id'])) {
     return;
 }
 
@@ -46,6 +46,10 @@ $offers_enabled = (mw()->modules->is_installed('shop/offers') ? true : false);
                         mw.notification.error(data.error_message);
                     }
                     $input.data('offer-id', data.offer_id);
+
+
+                    mw.reload_module_parent('custom_fields')
+
                 }
             });
         }
@@ -62,7 +66,9 @@ $offers_enabled = (mw()->modules->is_installed('shop/offers') ? true : false);
                         if (typeof(reload_offer_after_save) != 'undefined') {
                             reload_offer_after_save();
                         }
-                        // mw.reload_module('#')
+                       mw.reload_module('#<?php print $params['id'] ?>')
+                       mw.reload_module_parent('custom_fields')
+
                     }
                 });
             }
@@ -75,9 +81,12 @@ $offers_enabled = (mw()->modules->is_installed('shop/offers') ? true : false);
     $is_offer_set = false;
     $offer = offers_get_price($product_id,$price_id);
 
-    if (isset($offer->id) && isset($offer->offer_price)) {
+    if (isset($offer['id']) && isset($offer['offer_price'])) {
         $is_offer_set = true;
     }
+
+
+
     ?>
     <div class="mw-ui-field-holder offer-checkbox" style="display:<?php print ($is_offer_set ? 'none' : 'block'); ?>;">
         <label class="mw-ui-inline-label">
@@ -91,10 +100,18 @@ $offers_enabled = (mw()->modules->is_installed('shop/offers') ? true : false);
         <input type="text"
                class="mw-ui-field"
                name="offer"
-               value="<?php print ($is_offer_set ? floatval($offer->offer_price) : ''); ?>"
+               value="<?php print ($is_offer_set ? floatval($offer['offer_price']) : ''); ?>"
                data-product-id="<?php print $product_id; ?>"
                data-price-id="<?php print $price_id; ?>"
-               data-offer-id="<?php print ($is_offer_set ? $offer->id : ''); ?>"
+               data-offer-id="<?php print ($is_offer_set ? $offer['id'] : ''); ?>"
                onblur="saveOffer(this)"/>
+
+
+
+
+        <?php if ($is_offer_set): ?>
+            <a href="#" onclick="deleteOffer('<?php print $offer['id']; ?>')">x</a>
+        <?php endif; ?>
+
     </div>
 <?php } ?>
