@@ -29,7 +29,7 @@ function offer_save($offerData = array())
         $errorMessage .= 'offer price must be a number.<br />';
     }
 
-    if (isset($offerData['expires_at']) and trim($offerData['expires_at']) !='') {
+    if (isset($offerData['expires_at']) and trim($offerData['expires_at']) != '') {
         $date_db_format = get_date_db_format($offerData['expires_at']);
         $offerData['expires_at'] = date('Y-m-d H:i:s', strtotime($date_db_format));
     }
@@ -135,7 +135,7 @@ function offers_get_price($product_id = false, $price_id)
     if ($offer) {
         if (!($offer->expires_at) || $offer->expires_at == '0000-00-00 00:00:00' || (strtotime($offer->expires_at) > strtotime("now"))) {
 
-            return (array) $offer;
+            return (array)$offer;
 
         }
     }
@@ -290,11 +290,9 @@ event_bind('mw.shop.get_product_prices', function ($custom_field_items) {
 
 });
 event_bind('mw.admin.custom_fields.price_settings', function ($data) {
-
-    if(isset($data['id']) and isset($data['rel_id'])){
-    print '<module type="shop/offers/price_settings" price-id="'.$data['id'].'"  product-id="'.$data['rel_id'].'" />';
+    if (isset($data['id']) and isset($data['rel_id']) and isset($data['rel_type']) and $data['rel_type'] == 'content') {
+        print '<module type="shop/offers/price_settings" price-id="' . $data['id'] . '"  product-id="' . $data['rel_id'] . '" />';
     }
-    //print load_module('shop/offers/price_settings', $data);
 });
 
 
