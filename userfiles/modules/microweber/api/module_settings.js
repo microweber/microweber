@@ -62,6 +62,7 @@ mw.moduleSettings = function(options){
             pos = this.items.length;
         }
         var _new = mw.tools.cloneObject(this.value[0]);
+        console.log(_new)
         this.value.splice(pos, 0, _new);
         this.createItem(_new, this.value.length-1);
     };
@@ -86,7 +87,7 @@ mw.moduleSettings = function(options){
         this.headerAnalize(i, header);
         this.items.push(item);
         item.options.element._prop = item;
-        item.setValue(curr);
+        item.setValue(JSON.parse(JSON.stringify(curr)));
         $(item).on('change', function(){
             $.each(item.getValue(), function(a, b){
                 scope.value[i][a] = b;
@@ -106,6 +107,7 @@ mw.moduleSettings = function(options){
     };
 
     this.refactorDomPosition = function(){
+        console.log(1, scope.items, scope.value)
         scope.items = [];
         scope.value = [];
         $(".mw-module-settings-box-index", this.options.element).each(function (i) {
@@ -115,6 +117,7 @@ mw.moduleSettings = function(options){
             scope.items.push(this._prop);
             scope.value.push(this._prop.getValue());
         });
+        console.log(2, scope.items, scope.value)
         $(scope).trigger('change', [scope.value]);
     };
 
@@ -125,8 +128,8 @@ mw.moduleSettings = function(options){
         if(this.options.sortable && $.fn.sortable){
             var conf = {
                 update: function (event, ui) {
-                    scope.refactorDomPosition();
-                    scope.autoSave();
+                        scope.refactorDomPosition();
+                        scope.autoSave();
                 },
                 handle:this.options.header ? '.mw-ui-box-header' : undefined
             };

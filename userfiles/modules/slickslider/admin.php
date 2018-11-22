@@ -56,7 +56,7 @@ $count = 0;
         var data = <?php print json_encode($json); ?>;
         $.each(data, function(key){
             if(typeof data[key].images === 'string') {
-                data[key].images = data[keynotification ].images.split(',');
+                data[key].images = data[key].images.split(',');
             }
         });
 

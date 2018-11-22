@@ -51,6 +51,7 @@ mw.options = {
         });
     },
     save: function (el, callback) {
+        console.log(99,el)
 
 
         var el = $(el), og,og1 , refresh_modules11;
@@ -359,21 +360,23 @@ mw.options.form = function ($selector, callback, beforepost) {
         mw.$("input, select, textarea", root)
             .not('.mw-options-form-binded-custom')
             .each(function () {
-                this._optionSaved = true;
+                //this._optionSaved = true;
                 var item = $(this);
                 if (item.hasClass('mw_option_field')) {
                     item.addClass('mw-options-form-binded');
                     item.on('change input paste', function (e) {
-                        var token = this.name + this.value;
-                        if(mw.options._optionSaved !== token){
-                            mw.options._optionSaved = token;
-                            mw.options.___slowDownEvent(this, function () {
+                        var isCheckLike = this.type === 'checkbox' || this.type === 'radio';
+                        var token =  isCheckLike ? this.name : this.name + $(this).val();
+                        //if(mw.options._optionSaved !== token){
+                            //mw.options._optionSaved = token;
+                            mw.options.___slowDownEvent(token, this, function () {
                                 if (typeof root._optionsEvents.beforepost === 'function') {
                                     root._optionsEvents.beforepost.call(this);
                                 }
+                               // mw.options._optionSaved = ''+mw.random();
                                 mw.options.save(this, root._optionsEvents.callback);
                             });
-                        }
+                        //}
                     });
                 }
             });
@@ -382,12 +385,17 @@ mw.options.form = function ($selector, callback, beforepost) {
     root._optionsEvents = $.extend({}, root._optionsEvents, {callback:callback, beforepost:beforepost});
 };
 
-mw.options.___slowDownEventTimeOut = null;
-mw.options.___slowDownEvent = function (el, call) {
-    clearTimeout(mw.options.___slowDownEventTimeOut);
-    mw.options.___slowDownEventTimeOut = setTimeout(function () {
+
+mw.options.___slowDownEvents = {};
+mw.options.___slowDownEvent = function (token, el, call) {
+    console.log(token)
+    if(typeof mw.options.___slowDownEvents[token] === 'undefined'){
+        mw.options.___slowDownEvents[token] = null;
+    }
+    clearTimeout(mw.options.___slowDownEvents[token]);
+    mw.options.___slowDownEvents[token] = setTimeout(function () {
         call.call(el);
-    }, 100);
+    }, 700);
 };
 
 

@@ -6,3 +6,19 @@
 <?php include_once($config['path_to_module'].'admin_live_edit.php'); ?>
 <?php endif; ?>
 
+<script>
+
+    $(document).ready(function () {
+
+
+        mw.options.form('#<?php print $params['id']; ?>', function () {
+            if (mw.notification) {
+                mw.notification.success('<?php _e('Settings are saved') ?>');
+            }
+        });
+
+
+    });
+
+</script>
+

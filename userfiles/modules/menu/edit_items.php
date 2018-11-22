@@ -222,7 +222,7 @@ if( $id != 0){
     </div>
 </div>
 
-<?php if( $id != 0){ ?>
+<?php if( false && $id != 0){ ?>
 
     <div class="mw-ui-box   ">
 

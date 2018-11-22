@@ -190,9 +190,11 @@ if (array_key_exists('types', $_GET)) {
 
 
                     afterMediaIsInserted(item.src, '', "FileUploaded");
-                } else if (filetypes == 'videos') {
+                }
+                else if (filetypes == 'videos' || filetypes == 'media') {
                     afterMediaIsInserted(item.src, 'video', "FileUploaded");
-                } else if (filetypes == 'files') {
+                }
+                else if (filetypes == 'files') {
                     if (item.src.contains("base64")) {
                         afterMediaIsInserted(item.src, '', "FileUploaded");
                     } else {
@@ -521,10 +523,10 @@ if (array_key_exists('types', $_GET)) {
                                 <span class="mw-ui-btn mw-ui-btn mw-ui-btn-small"><?php _e("Upload Image"); ?></span>
                             </li>
                         <?php }
-                        if (in_array('videos', $types)) { ?>
-                            <li class="mw-upload-filetype-video" data-type="videos">
+                        if (in_array('videos', $types) or in_array('media', $types)) { ?>
+                            <li class="mw-upload-filetype-video" data-type="media">
                                 <div class="mw-icon-video"></div>
-                                <span class="mw-ui-btn mw-ui-btn mw-ui-btn-small"><?php _e("Upload Video"); ?></span></li>
+                                <span class="mw-ui-btn mw-ui-btn mw-ui-btn-small"><?php _e("Upload Media"); ?></span></li>
                         <?php }
                         if (in_array('files', $types)) { ?>
                             <li class="mw-upload-filetype-file" data-type="files">

@@ -338,9 +338,11 @@
             }
         });
 
-        $(document).ready(function () {
+
+
+        $(window).on('load', function () {
             mw.options.form('#settings-container', function () {
-                if (mw.notification != undefined) {
+                if (mw.notification) {
                     mw.notification.success('<?php _e('Settings are saved') ?>');
                 }
             });
@@ -383,7 +385,7 @@
             }
         }
 
-        // mw.options.form('#settings-container');
+
     });
 </script>
 

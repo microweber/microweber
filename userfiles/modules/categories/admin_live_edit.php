@@ -92,9 +92,6 @@ if (isset($params['for-content-id'])) {
 <div class="mw-modules-tabs">
 
 
-
-
-
     <div class="mw-accordion-item">
         <div class="mw-ui-box-header mw-accordion-title">
             <div class="header-holder">

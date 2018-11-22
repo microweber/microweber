@@ -2372,7 +2372,11 @@ mw.drag = {
                     $(this).removeClass('module-over');
                 });
                 $('[class]', helper.item).each(function(){
-                    if(!this.className.trim()){
+                    var cls = this.getAttribute("class");
+                    if(typeof cls === 'string'){
+                        cls = cls.trim();
+                    }
+                    if(!cls){
                         this.removeAttribute("class");
                     }
                 });

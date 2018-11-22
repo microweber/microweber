@@ -45,7 +45,9 @@ if ($prior != '2' or $prior == false) {
 }
 
 if($show_video_settings_btn) {
-	$code = "<div class='video-module-default-view mw-open-module-settings'><img src='" . $config['url_to_module'] . "video.svg' style='width: 65px; height: 65px;'/></div>";
+    if(in_live_edit()){
+        $code = "<div class='video-module-default-view mw-open-module-settings'><img src='" . $config['url_to_module'] . "video.svg' style='width: 65px; height: 65px;'/></div>";
+    }
 } else {
 	if($use_thumbnail) {
 		$unique_id = str_replace('-','',$params['id']);

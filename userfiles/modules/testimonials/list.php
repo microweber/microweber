@@ -112,5 +112,5 @@
     </div>
 <?php else: ?>
     <h2 class="text-center"><?php _e('You have no testimonials'); ?></h2>
-    <div class="text-center"><a href="javascript:;" onclick="window.TTABS.set(1)" class="mw-ui-btn"><?php _e('Create new'); ?></a></div>
+    <div class="text-center"><a href="javascript:;" onclick="add_new_testimonial()" class="mw-ui-btn"><?php _e('Create new'); ?></a></div>
 <?php endif; ?>

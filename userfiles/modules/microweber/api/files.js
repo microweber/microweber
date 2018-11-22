@@ -33,6 +33,9 @@ mw.files = {
             case 'audio':
                 return 'mp3,wav,ogg,mp4,flac';
                 break;
+            case 'media':
+                return (mw.files.filetypes('video') + ',' + mw.files.filetypes('audio'));
+                break;
             case 'all':
                 return '*';
                 break;

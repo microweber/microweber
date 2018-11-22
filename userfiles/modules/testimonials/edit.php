@@ -20,16 +20,17 @@
         });
     });
 
-    testimonialPicture = mw.uploader({
-        filetypes: "images",
-        element: "#client_img",
-        multiple: false
+
+    $("#client_img").on("click", function(){
+        mw.fileWindow({
+            types:'images',
+            change:function(url){
+                url = url.toString();
+                mw.$("#client_picture").val(url).trigger('change');
+            }
+        });
     });
 
-
-    $(testimonialPicture).bind("FileUploaded", function (a, b) {
-        mw.$("#client_picture").val(b.src).trigger('change');
-    });
 </script>
 
 <script>mw.lib.require('font_awesome5')</script>

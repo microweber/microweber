@@ -105,7 +105,7 @@
     }
 
 
-    $(window).load(function () {
+    $(window).on("load", function () {
 
 
         mw.$("#mw-admin-text-editor").bind('mousedown', function (e) {
@@ -138,6 +138,10 @@
         SetHeight();
         mw.linkTip.init(Editable);
 
+        $("#editor-area").css({
+            maxHeight: innerHeight - $("#mw-admin-text-editor").outerHeight()
+        })
+
     });
 
 </script>
@@ -159,7 +163,8 @@
         padding: 10px;
         overflow-y: scroll;
         border: 1px solid #eee;
-        height: 100%;
+        height: -webkit-calc(100% - 40px);
+        height: calc(100% - 40px);
         clear: both;
         min-height: 100px;
     }
@@ -168,7 +173,7 @@
         border: 1px solid #eee;
         border-bottom: none;
         clear: both;
-        height: 38px;
+        min-height: 38px;
     }
 
     #mw-admin-text-editor {
