@@ -268,6 +268,7 @@ mw.wysiwyg = {
                 len = all.length;
             for (; i < len; i++) {
                 all[i].contentEditable = false;
+                //mw.wysiwyg.setNodeContentEditable(all[i],false);
             }
         }
         else {
@@ -286,6 +287,15 @@ mw.wysiwyg = {
             }
         });
     },
+
+    setNodeContentEditable: function (node ,enable_or_disable) {
+        if(enable_or_disable){
+            el.contentEditable = true;
+        } else {
+            el.contentEditable = false;
+        }
+    },
+
     prepareContentEditable: function () {
         mw.on("EditMouseDown", function (e, el, target, originalEvent) {
             mw.wysiwyg.removeEditable();
@@ -297,24 +307,28 @@ mw.wysiwyg = {
 
                 var orderValid = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(originalEvent.target, ['edit', 'module']);
 
-                el.contentEditable = orderValid;
+                //el.contentEditable = orderValid;
+                 mw.wysiwyg.setNodeContentEditable(el,orderValid)
             }
             else {   // IE browser
                 mw.wysiwyg.removeEditable();
                 var cls = target.className;
                 if (!mw.tools.hasClass(cls, 'empty-element') && !mw.tools.hasClass(cls, 'ui-resizable-handle')) {
                     if (mw.tools.hasParentsWithClass(el, 'module')) {
-                        target.contentEditable = true;
+                        //target.contentEditable = true;
+                        mw.wysiwyg.setNodeContentEditable(target,true);
                     }
                     else {
                         if (!mw.tools.hasParentsWithClass(target, "module")) {
                             if (mw.isDragItem(target)) {
-                                target.contentEditable = true;
+                                //target.contentEditable = true;
+                                mw.wysiwyg.setNodeContentEditable(target,true);
                             }
                             else {
                                 mw.tools.foreachParents(target, function (loop) {
                                     if (mw.isDragItem(this)) {
-                                        this.contentEditable = true;
+                                        //this.contentEditable = true;
+                                        mw.wysiwyg.setNodeContentEditable(target,true);
                                         mw.tools.loop[loop] = false;
                                     }
                                 });
@@ -341,7 +355,8 @@ mw.wysiwyg = {
                   firstBlock = mw.tools.firstMatchesOnNodeOrParent(firstBlock, cls);
                 }
                 mw.$('[contenteditable]').not(firstBlock).removeAttr('contenteditable')
-                firstBlock.contentEditable = true;
+                //firstBlock.contentEditable = true;
+                mw.wysiwyg.setNodeContentEditable(firstBlock,true);
               }
               else{
                   mw.$('[contenteditable]').removeAttr('contenteditable')
@@ -1956,8 +1971,9 @@ mw.wysiwyg = {
             if(mw.wysiwyg.isSafeMode()){
                 var tag =  command == 'code_text' ? 'code':command;
                 mw.wysiwyg.select_element(el);
-                console.log(command, el)
-                el.parentNode.contentEditable = true
+                //console.log(command, el)
+                //el.parentNode.contentEditable = true
+                mw.wysiwyg.setNodeContentEditable(el.parentNode,true);
                 mw.wysiwyg.execCommand("insertHTML", false, "<"+command+">" + el.innerHTML + "</"+command+">");
             }
             else{
