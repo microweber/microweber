@@ -187,6 +187,12 @@ api_expose_admin('content/reorder', function ($data) {
 api_expose_admin('content/reset_edit', function ($data) {
     return mw()->content_manager->helpers->reset_edit_field($data);
 });
+
+
+api_expose_admin('content/reset_modules_settings', function ($data) {
+    return mw()->content_manager->helpers->reset_modules_settings($data);
+});
+
 api_expose_admin('content/bulk_assign', function ($data) {
     return mw()->content_manager->helpers->bulk_assign($data);
 });
