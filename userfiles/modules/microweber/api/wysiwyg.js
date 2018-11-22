@@ -288,10 +288,25 @@ mw.wysiwyg = {
         });
     },
 
+    handleCopyEvent: function (event) {
+        if(event && event.clipboardData && event.clipboardData.target){
+          //  event.clipboardData.target.setAttribute('__mw_dirty', true);
+        }
+     },
+
+
+
     setNodeContentEditable: function (el ,enable_or_disable) {
+        if(!el){
+            return;
+        }
         if(enable_or_disable){
             el.contentEditable = true;
-            el.setAttribute('data-gramm', 'false')
+            el.setAttribute('data-gramm', 'false');
+            el.oncopy = function(ev){
+                mw.wysiwyg.handleCopyEvent(ev)
+            };
+
         } else {
             el.contentEditable = false;
         }
