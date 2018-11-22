@@ -552,8 +552,8 @@ mw.wysiwyg = {
     isLocalPaste:function(clipboard){
       var html =  clipboard.getData('text/html');
       var parser = mw.tools.parseHtml(html).body;
-      console.log(this._lastCopy)
-      return this._lastCopy.innerHTML.contains(html) ||  parser.querySelector('.module,.element,.edit') !== null;
+
+      return (this._lastCopy && this._lastCopy.innerHTML && this._lastCopy.innerHTML.contains(html)) ||  parser.querySelector('.module,.element,.edit') !== null;
     },
     paste: function (e) {
 
