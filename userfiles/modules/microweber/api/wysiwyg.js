@@ -289,13 +289,14 @@ mw.wysiwyg = {
     },
     _lastCopy:null,
     handleCopyEvent: function (event) {
-        var current = mw.wysiwyg.validateCommonAncestorContainer(event.target);
-        if(!mw.ea.helpers.isBlockLevel(current)){
-            while(!mw.ea.helpers.isBlockLevel(current)){
-                current = current.parentNode;
-            }
-        }
-        this._lastCopy = current;
+        //var current = mw.wysiwyg.validateCommonAncestorContainer(event.target);
+        //if(!mw.ea.helpers.isBlockLevel(current)){
+        //    while(!mw.ea.helpers.isBlockLevel(current)){
+        //        current = current.parentNode;
+        //    }
+        //}
+        //this._lastCopy = current;
+        this._lastCopy = event.target;
     },
     setNodeContentEditable: function (el ,enable_or_disable) {
         if(!el){
