@@ -43,6 +43,7 @@ node_modules/
 /config/database.php
 /userfiles/mw_content.json
 /userfiles/templates/utouch
+/userfiles/templates/microweber_org
 /cloudsigma
 /q-theme
 /active

@@ -76,11 +76,11 @@ $linkedin_url = get_option('linkedin_url', $option_group);
 
             <tr>
                 <td>
-                    <label class="mw-ui-check"><input type="checkbox" class="mw_option_field" option-group="<?php print $option_group; ?>" name="facebook_enabled" value="y" <?php if ($facebook_enabled) print 'checked="checked"'; ?>><span></span></label>
+                    <label class="mw-ui-check"><input type="checkbox" class="mw_option_field" option-group="<?php print $option_group; ?>" name="facebook_enabled" id="facebook_enabled" value="y" <?php if ($facebook_enabled) print 'checked="checked"'; ?>><span></span></label>
                 </td>
                 <td><i class="fab fa-facebook mw-socials-facebook-color"></i></td>
                 <td>
-                    <label class="mw-ui-inline-label">facebook.com/</label>
+                    <label class="mw-ui-inline-label" for="facebook_enabled">facebook.com/</label>
                 </td>
                 <td>
                     <div class="mw-ui-field-holder">
@@ -91,13 +91,13 @@ $linkedin_url = get_option('linkedin_url', $option_group);
 
             <tr>
                 <td>
-                    <label class="mw-ui-check"><input type="checkbox" class="mw_option_field" name="twitter_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($twitter_enabled) print 'checked="checked"'; ?>><span></span></label>
+                    <label class="mw-ui-check"><input type="checkbox" class="mw_option_field" name="twitter_enabled" id="twitter_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($twitter_enabled) print 'checked="checked"'; ?>><span></span></label>
                 </td>
 
                 <td><i class="fab fa-twitter mw-socials-twitter-color"></i></td>
 
                 <td>
-                    <label class="mw-ui-inline-label">twitter.com/</label>
+                    <label class="mw-ui-inline-label" for="twitter_enabled">twitter.com/</label>
                 </td>
                 <td>
                     <div class="mw-ui-field-holder">
@@ -109,14 +109,14 @@ $linkedin_url = get_option('linkedin_url', $option_group);
             <tr>
                 <td>
                     <label class="mw-ui-check">
-                        <input type="checkbox" class="mw_option_field" name="pinterest_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($pinterest_enabled) print 'checked="checked"'; ?>><span></span>
+                        <input type="checkbox" class="mw_option_field" name="pinterest_enabled" id="pinterest_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($pinterest_enabled) print 'checked="checked"'; ?>><span></span>
                     </label>
                 </td>
 
                 <td><i class="fab fa-pinterest mw-socials-pinterest-color"></i></td>
 
                 <td>
-                    <label class="mw-ui-inline-label">pinterest.com/</label>
+                    <label class="mw-ui-inline-label" for="pinterest_enabled">pinterest.com/</label>
                 </td>
                 <td>
                     <div class="mw-ui-field-holder">
@@ -128,14 +128,14 @@ $linkedin_url = get_option('linkedin_url', $option_group);
             <tr>
                 <td>
                     <label class="mw-ui-check">
-                        <input type="checkbox" class="mw_option_field" name="youtube_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($youtube_enabled) print 'checked="checked"'; ?>><span></span>
+                        <input type="checkbox" class="mw_option_field" name="youtube_enabled" id="youtube_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($youtube_enabled) print 'checked="checked"'; ?>><span></span>
                     </label>
                 </td>
 
                 <td><i class="fab fa-youtube mw-socials-youtube-color"></i></td>
 
                 <td>
-                    <label class="mw-ui-inline-label">youtube.com/</label>
+                    <label class="mw-ui-inline-label" for="youtube_enabled">youtube.com/</label>
                 </td>
                 <td>
                     <div class="mw-ui-field-holder">
@@ -147,14 +147,14 @@ $linkedin_url = get_option('linkedin_url', $option_group);
             <tr>
                 <td>
                     <label class="mw-ui-check">
-                        <input type="checkbox" class="mw_option_field" name="linkedin_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($linkedin_enabled) print 'checked="checked"'; ?>><span></span>
+                        <input type="checkbox" class="mw_option_field" name="linkedin_enabled" id="linkedin_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($linkedin_enabled) print 'checked="checked"'; ?>><span></span>
                     </label>
                 </td>
 
                 <td><i class="fab fa-linkedin  mw-socials-linkedin-color"></i></td>
 
                 <td>
-                    <label class="mw-ui-inline-label">linkedin.com/</label>
+                    <label class="mw-ui-inline-label" for="linkedin_enabled">linkedin.com/</label>
                 </td>
                 <td>
                     <div class="mw-ui-field-holder">
@@ -166,14 +166,14 @@ $linkedin_url = get_option('linkedin_url', $option_group);
             <tr>
                 <td>
                     <label class="mw-ui-check">
-                        <input type="checkbox" class="mw_option_field" name="instagram_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($instagram_enabled) print 'checked="checked"'; ?>><span></span>
+                        <input type="checkbox" class="mw_option_field" name="instagram_enabled" id="instagram_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($instagram_enabled) print 'checked="checked"'; ?>><span></span>
                     </label>
                 </td>
 
                 <td><i class="fab fa-instagram  mw-socials-instagram-color"></i></td>
 
                 <td>
-                    <label class="mw-ui-inline-label">instagram.com/</label>
+                    <label class="mw-ui-inline-label" for="instagram_enabled">instagram.com/</label>
                 </td>
                 <td>
                     <div class="mw-ui-field-holder">
@@ -185,13 +185,13 @@ $linkedin_url = get_option('linkedin_url', $option_group);
             <tr>
                 <td>
                     <label class="mw-ui-check">
-                        <input type="checkbox" class="mw_option_field" name="rss_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($rss_enabled) print 'checked="checked"'; ?>><span></span>
+                        <input type="checkbox" class="mw_option_field" name="rss_enabled" id="rss_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($rss_enabled) print 'checked="checked"'; ?>><span></span>
                     </label>
                 </td>
 
                 <td><span class="mw-icon-social-rss"></span></td>
 
-                <td><label class="mw-ui-inline-label">RSS</label></td>
+                <td><label class="mw-ui-inline-label" for="rss_enabled">RSS</label></td>
                 <td></td>
             </tr>
         </table>
