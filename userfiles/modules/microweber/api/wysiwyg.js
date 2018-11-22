@@ -287,15 +287,16 @@ mw.wysiwyg = {
             }
         });
     },
-
+    _lastCopy:null,
     handleCopyEvent: function (event) {
-        if(event && event.clipboardData && event.clipboardData.target){
-          //  event.clipboardData.target.setAttribute('__mw_dirty', true);
+        var current = mw.wysiwyg.validateCommonAncestorContainer(event.target);
+        if(!mw.ea.helpers.isBlockLevel(current)){
+            while(!mw.ea.helpers.isBlockLevel(current)){
+                current = current.parentNode;
+            }
         }
-     },
-
-
-
+        this._lastCopy = current;
+    },
     setNodeContentEditable: function (el ,enable_or_disable) {
         if(!el){
             return;
@@ -550,9 +551,12 @@ mw.wysiwyg = {
     isLocalPaste:function(clipboard){
       var html =  clipboard.getData('text/html');
       var parser = mw.tools.parseHtml(html).body;
-      return parser.querySelector('.module,.element,.edit') !== null;
+      console.log(this._lastCopy)
+      return this._lastCopy.innerHTML.contains(html) ||  parser.querySelector('.module,.element,.edit') !== null;
     },
     paste: function (e) {
+
+
 
         if(!!e.originalEvent){
           var clipboard = e.originalEvent.clipboardData || mww.clipboardData;
@@ -630,7 +634,7 @@ mw.wysiwyg = {
                   }
 
                   html = mw.wysiwyg.pasteManager(html);
-                  console.log(html)
+
                   mw.wysiwyg.insert_html(html);
                   if(e.target.querySelector){
                       $(e.target.querySelectorAll('[style*="outline"]')).css({

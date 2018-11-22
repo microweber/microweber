@@ -3729,7 +3729,7 @@ body {
 .mw-cloneable-control {
     position: absolute;
     z-index: 1101;
-    margin: -15px 0;
+    margin: 15px 0;
     background: #2b2b2b;
     border-radius: 30px;
     padding: 2px;
