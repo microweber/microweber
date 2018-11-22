@@ -58,8 +58,45 @@
     </div>
 </div>
 
+
+<script>
+    function handle_reset_content_btn_click() {
+
+
+        var also_modules = $('#also_reset_modules').is(':checked');
+
+
+
+        var txt = "Are you sure you want to reset the content?";
+        if(also_modules){
+            var txt = "Are you sure you want to reset the content and modules?";
+
+        }
+        var r = confirm(txt);
+        if (r == true) {
+             mw.html_editor.reset_content(also_modules)
+
+
+
+        } else {
+
+        }
+
+
+
+
+    }
+</script>
+
+
+
 <div id="save-toolbar">
-    <button onclick="mw.html_editor.reset_content();"
+
+    <label for="also_reset_modules">    <input type="checkbox" id="also_reset_modules" name="also_reset_modules" value="1">
+           Also reset modules?</label>
+
+
+    <button onclick="handle_reset_content_btn_click();"
             class="mw-ui-btn mw-ui-btn-invert"><?php _e('Reset content'); ?></button>
 </div>
 

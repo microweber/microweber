@@ -1,9 +1,6 @@
 <?php
 
 
-
-
-
 api_expose_admin('offer_save');
 function offer_save($offerData = array())
 {
@@ -21,7 +18,7 @@ function offer_save($offerData = array())
         if (strstr($offerData['product_id'], '|')) {
             $id_parts = explode('|', $offerData['product_id']);
             $offerData['product_id'] = $id_parts[0];
-           // $offerData['price_key'] = $id_parts[1];
+            // $offerData['price_key'] = $id_parts[1];
         }
     }
     if (isset($offerData['offer_price'])) {
@@ -32,7 +29,7 @@ function offer_save($offerData = array())
         $errorMessage .= 'offer price must be a number.<br />';
     }
 
-    if (isset($offerData['expires_at'])) {
+    if (isset($offerData['expires_at']) and trim($offerData['expires_at']) != '') {
         $date_db_format = get_date_db_format($offerData['expires_at']);
         $offerData['expires_at'] = date('Y-m-d H:i:s', strtotime($date_db_format));
     }
@@ -127,11 +124,21 @@ function offers_get_products()
 
 
 //api_expose('offers_get_price');
-function offers_get_price($product_id, $price_id)
+function offers_get_price($product_id = false, $price_id)
 {
+    $offer = DB::table('offers')->select('*');
+    if ($product_id) {
+        $offer = $offer->where('product_id', '=', $product_id);
+    }
+    $offer = $offer->where('price_id', '=', $price_id);
+    $offer = $offer->first();
+    if ($offer) {
+        if (!($offer->expires_at) || $offer->expires_at == '0000-00-00 00:00:00' || (strtotime($offer->expires_at) > strtotime("now"))) {
 
-    $offer = DB::table('offers')->select('*')->where('product_id', '=', $product_id)->where('price_id', '=', $price_id)->first();
-    return $offer;
+            return (array)$offer;
+
+        }
+    }
 }
 
 api_expose('offers_get_by_product_id');
@@ -255,10 +262,40 @@ function offer_delete($params)
 }
 
 
-event_bind('mw.shop.cart.get_prices_for_product', function ($params) {
+event_bind('mw.shop.get_product_prices', function ($custom_field_items) {
 
+    if ($custom_field_items) {
+        foreach ($custom_field_items as $key => $price) {
+            $price_on_offer = offers_get_price($price['rel_id'], $price['id']);
+            if ($price_on_offer) {
+                $price_on_offer = (array)$price_on_offer;
+
+                if ($price_on_offer and isset($price_on_offer['offer_price'])) {
+                    $cust_price = $price;
+                    $new_price_value = $price_on_offer['offer_price'];
+
+
+                    $cust_price['custom_value'] = $new_price_value;
+                    $cust_price['value'] = $new_price_value;
+                    $cust_price['value_plain'] = $new_price_value;
+                    $cust_price['original_value'] = $price['value'];
+                    $cust_price['custom_value_module'] = 'shop/offers';
+                    $cust_price['custom_value_data'] = $price_on_offer;
+                    $custom_field_items[$key] = $cust_price;
+                }
+            }
+        }
+        return $custom_field_items;
+    }
 
 });
 event_bind('mw.admin.custom_fields.price_settings', function ($data) {
-    print load_module('shop/offers/price_settings', $data);
+    if (isset($data['id']) and isset($data['rel_id']) and isset($data['rel_type']) and $data['rel_type'] == 'content') {
+        print '<module type="shop/offers/price_settings" price-id="' . $data['id'] . '"  product-id="' . $data['rel_id'] . '" />';
+    }
+});
+
+
+event_bind('mw.admin.shop.settings', function ($data) {
+    print '<module type="shop/offers" view="admin_block" />';
 });

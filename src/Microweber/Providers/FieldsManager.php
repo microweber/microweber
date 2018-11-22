@@ -589,7 +589,7 @@ class FieldsManager
             if ($data['rel_type'] == 'content' or $data['rel_type'] == 'page' or $data['rel_type'] == 'post') {
                 $data['rel_type'] = 'content';
             }
-            $data['rel_type'] = $data['rel_type'];
+         //   $data['rel_type'] = $data['rel_type'];
         }
 
         if (isset($params['content_id'])) {
@@ -909,6 +909,10 @@ class FieldsManager
             $l->assign('data', $data);
 
             $layout = $l->__toString();
+
+            if($settings and defined('MW_API_HTML_OUTPUT')){
+                $layout = $this->app->parser->process($layout, $options = false);
+            }
 
             return $layout;
         }

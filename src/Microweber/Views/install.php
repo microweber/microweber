@@ -112,9 +112,9 @@
 
                                 setTimeout(function () {
 
-                                    window.location.href = "<?php print admin_url(); ?>";
+                                    window.location.href = "<?php print admin_url(); ?>?install_done=1";
 
-                                }, 2000);
+                                }, 3000);
 
 
                                 //location.reload();

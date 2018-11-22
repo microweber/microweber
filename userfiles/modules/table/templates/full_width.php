@@ -74,7 +74,7 @@ $(document).ready(function () {
   <table id="<?php print $params['id'];?>" align="left" cellspacing="0" celpadding="0">
 	<thead>
 		<tr>
-			<th class="th h1" classname="th h1"></th>
+			<th class="th mw-table-h1" classname="th mw-table-h1"></th>
 		</tr>
 	</thead>
 	<tbody>

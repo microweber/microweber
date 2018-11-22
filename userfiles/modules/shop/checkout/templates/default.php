@@ -75,6 +75,10 @@ description: Default cart template
                         id="complete_order_button" <?php if ($terms): ?> disabled="disabled"   <?php endif; ?>>
                     <?php _e("Complete order"); ?>
                 </button>
+
+
+
+
                 <?php if (is_array($shop_page)): ?>
                     <a href="<?php print page_link($shop_page[0]['id']); ?>" class="btn btn-default pull-left"
                        type="button">
@@ -82,15 +86,18 @@ description: Default cart template
                     </a>
                 <?php endif; ?>
 
+
+                <?php if(is_module('shop/coupons')): ?>
+
+                  &nbsp;  <a class="btn btn-default" onclick="mw.tools.open_module_modal('shop/coupons');" href="javascript:;" >Discounts </a>
+
+                <?php endif; ?>
+
                 <div class="clear"></div>
 
 
 
-                <?php if(is_module('shop/coupons')): ?>
 
-                    <a href="javascript:mw.tools.open_module_modal('shop/coupons')">Discounts </a>
-
-                <?php endif; ?>
             </div>
         </form>
         <div class="mw-checkout-responce"></div>

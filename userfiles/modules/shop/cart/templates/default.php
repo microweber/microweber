@@ -41,7 +41,7 @@ description: Default cart template
   </table>
 
 
-  <?php  
+  <?php
   if(!isset($params['checkout-link-enabled'])){
 	  $checkout_link_enanbled =  get_option('data-checkout-link-enabled', $params['id']);
   } else {
@@ -50,16 +50,13 @@ description: Default cart template
    ?>
   <?php if($checkout_link_enanbled != 'n') :?>
   <?php $checkout_page =get_option('data-checkout-page', $params['id']); ?>
-  <?php if($checkout_page != false and strtolower($checkout_page) != 'default' and intval($checkout_page) > 0){
-	   
-	   $checkout_page_link = content_link($checkout_page).'/view:checkout';
-   } else {
-	   $checkout_page_link = site_url('checkout');
-	   
-   }
-   
-   ?>
+
+      <?php if($checkout_page_link) :?>
+
   <a class="btn btn-default pull-right" href="<?php print $checkout_page_link; ?>"><?php _e("Checkout"); ?></a>
+
+
+      <?php endif ; ?>
   <?php endif ; ?>
   <?php else : ?>
        <h4 class="alert"><?php _e("Your cart is empty"); ?>.</h4>

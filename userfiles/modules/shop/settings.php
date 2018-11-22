@@ -42,6 +42,15 @@
         </div>
     </div>
 
+
+
+    <?php event_trigger('mw.admin.shop.settings', $params); ?>
+
+
+
+<?php
+/*
+
     <div id="offers-accordion" class="mw-ui-box mw-ui-box-silver-blue m-t-20">
         <div class="mw-ui-box-header" onclick="mw.accordion('#offers-accordion');">
             <div class="header-holder">
@@ -54,7 +63,9 @@
         </div>
     </div>
 
-    <div id="coupons-accordion" class="mw-ui-box mw-ui-box-silver-blue m-t-20">
+
+
+<div id="coupons-accordion" class="mw-ui-box mw-ui-box-silver-blue m-t-20">
         <div class="mw-ui-box-header" onclick="mw.accordion('#coupons-accordion');">
             <div class="header-holder">
                 <i class="mai-percent"></i><?php _e("Coupons"); ?>
@@ -65,6 +76,12 @@
             <module type="shop/coupons" view="admin"/>
         </div>
     </div>
+
+*/
+
+?>
+
+
 
     <div id="emails-accordion" class="mw-ui-box mw-ui-box-silver-blue m-t-20">
         <div class="mw-ui-box-header" onclick="mw.accordion('#emails-accordion');">

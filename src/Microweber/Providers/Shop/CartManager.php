@@ -66,6 +66,19 @@ class CartManager extends Crud
     {
         $sum = $this->sum();
 
+        // Coupon code discount
+        $discount_value = $this->get_discount_value();
+        $discount_type = $this->get_discount_type();
+
+        if ($discount_type == 'precentage') {
+            // Discount with precentage
+            $sum = $sum - ($sum * ($discount_value / 100));
+        } else if ($discount_type == 'fixed_amount') {
+            // Discount with amount
+            $sum = $sum - $discount_value;
+        }
+
+
         $shipping = floatval($this->app->user_manager->session_get('shipping_cost'));
         $total = $sum + $shipping;
 
@@ -76,49 +89,11 @@ class CartManager extends Crud
             }
         }
 
-        // Coupon code discount
-        $discount_value = $this->get_discount_value();
-        $discount_type = $this->get_discount_type();
-
-        if ($discount_type == 'precentage') {
-            // Discount with precentage
-            $total = $total - ($total * ($discount_value / 100));
-        } else if ($discount_type == 'fixed_amount') {
-            // Discount with amount
-            $total = $total - $discount_value;
-        }
 
         return $total;
     }
 
-    public function get_prices_for_product($product_id, $for = 'content')
-    {
-        $for_id = $product_id;
 
-        $cf_params = array();
-        $cf_params['for'] = $for;
-        $cf_params['for_id'] = $for_id;
-        $cf_params['field_type'] = 'price';
-
-        $prices =  $this->app->fields_manager->get($cf_params);
-
-        $event_params = array();
-        $event_params['for'] = $for;
-        $event_params['for_id'] = $for_id;
-        $event_params['data'] = $prices;
-
-        $override = $this->app->event_manager->trigger('mw.shop.cart.get_prices_for_product', $event_params);
-        if (is_array($override)) {
-            foreach ($override as $resp) {
-                if (is_array($resp) and !empty($resp)) {
-                    $prices = array_merge($prices, $resp);
-                }
-            }
-        }
-
-
-        return $prices;
-    }
 
     public function get_tax()
     {
@@ -481,8 +456,14 @@ class CartManager extends Crud
         $content_custom_fields = array();
         $content_custom_fields = $this->app->fields_manager->get($for, $for_id, 1);
 
-        if (mw()->modules->is_installed('shop/offers')) {
-            $price_offers = offers_get_by_product_id($for_id);
+        $product_prices = array();
+        if($for  == 'content'){
+            $prices_data = mw()->shop_manager->get_product_prices($for_id, true);
+            foreach ($prices_data as $price_data) {
+                if (isset($price_data['name'])) {
+                    $product_prices[ $price_data['name']] = $price_data['value'];
+                }
+            }
         }
 
         if ($content_custom_fields == false) {
@@ -493,8 +474,8 @@ class CartManager extends Crud
         } elseif (is_array($content_custom_fields)) {
             foreach ($content_custom_fields as $cf) {
                 if (isset($cf['type']) and $cf['type'] == 'price') {
-                    if (isset($price_offers[$cf['name']])) {
-                        $prices[$cf['name']] = $price_offers[$cf['name']]['offer_price'];
+                    if (isset($product_prices[$cf['name']])) {
+                        $prices[$cf['name']] = $product_prices[$cf['name']];
                     } else {
                         $prices[$cf['name']] = $cf['value'];
                     }
@@ -523,8 +504,8 @@ class CartManager extends Crud
                         }
                     } elseif (isset($cf['type']) and $cf['type'] == 'price') {
                         if ($cf['value'] != '') {
-                            if (isset($price_offers[$cf['name']])) {
-                                $prices[$cf['name']] = $price_offers[$cf['name']]['offer_price'];
+                            if (isset($product_prices[$cf['name']])) {
+                                $prices[$cf['name']] = $product_prices[$cf['name']];
                             } else {
                                 $prices[$cf['name']] = $cf['value'];
                             }
@@ -542,7 +523,7 @@ class CartManager extends Crud
                                 $found = true;
                                 $found_price = $price;
                             }
-                        } elseif ($price == $item) {
+                        } elseif (isset($item) and $price == $item) {
                             $found = true;
                             if ($found_price == false) {
                                 $found_price = $item;

@@ -2,7 +2,6 @@
 
 $cur = get_option('currency', 'payments');
 $curencies = mw()->shop_manager->currency_get();
-$cur_pos = get_option('currency_symbol_position', 'payments');
 
 
 ?>
@@ -42,17 +41,37 @@ $cur_pos = get_option('currency_symbol_position', 'payments');
                     <?php endif; ?>
                 </div>
             </div>
+
+            <?php $currency_symbol_decimal = get_option('currency_symbol_decimal', 'payments');  ?>
+
+            <?php $cur_pos = get_option('currency_symbol_position', 'payments');    ?>
             <div class="mw-ui-col">
                 <div class="mw-ui-col-container">
+                    <div class="mw-ui-field-holder">
                     <label class="mw-ui-label bold p-b-10"><?php _e("Symbol position"); ?></label>
 
                     <select name="currency_symbol_position" class="mw-ui-field mw_option_field w100 silver-field" data-option-group="payments" data-reload="mw_curr_rend">
-                        <option value="default"><?php _e('Default'); ?></option>
-                        <option value="before"><?php _e('Before number'); ?></option>
-                        <option value="after"><?php _e('After number'); ?></option>
+                        <option <?php if (!$cur_pos): ?> selected="selected" <?php endif; ?> value=""><?php _e('Default'); ?></option>
+                        <option <?php if ($cur_pos == 'before'): ?> selected="selected" <?php endif; ?> value="before"><?php _e('Before number'); ?></option>
+                        <option <?php if ($cur_pos == 'after'): ?> selected="selected" <?php endif; ?> value="after"><?php _e('After number'); ?></option>
                     </select>
+                    </div>
+                    <div class="mw-ui-field-holder">
+                    <label class="mw-ui-label bold p-b-10"><?php _e("Show Decimals"); ?></label>
+
+                    <select name="currency_symbol_decimal" class="mw-ui-field mw_option_field w100 silver-field" data-option-group="payments" data-reload="mw_curr_rend">
+                        <option <?php if (!$currency_symbol_decimal): ?> selected="selected" <?php endif; ?> value=""><?php _e('Default'); ?></option>
+                        <option <?php if ($currency_symbol_decimal == 'aways'): ?> selected="selected" <?php endif; ?> value="aways"><?php _e('Aways'); ?></option>
+                    </select>
+
+                    </div>
+
+
                 </div>
             </div>
+
+
+
 
             <div class="mw-ui-col">
                 <div class="p-10">
