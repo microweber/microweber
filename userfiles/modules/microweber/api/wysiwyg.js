@@ -288,9 +288,10 @@ mw.wysiwyg = {
         });
     },
 
-    setNodeContentEditable: function (node ,enable_or_disable) {
+    setNodeContentEditable: function (el ,enable_or_disable) {
         if(enable_or_disable){
             el.contentEditable = true;
+            el.setAttribute('data-gramm', 'false')
         } else {
             el.contentEditable = false;
         }
