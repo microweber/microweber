@@ -7,6 +7,10 @@ if(isset($params["live_edit"]) and $params["live_edit"] ){
 }
 ?>
 
+<?php if (isset($params['backend'])): ?>
+    <module type="admin/modules/info"/>
+<?php endif; ?>
+
 <div class="module-live-edit-settings">
 
     <script>

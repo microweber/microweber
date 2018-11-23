@@ -13,12 +13,9 @@
         text-align: left;
     }
 </style>
-
-<div class="mw-ui-row admin-section-bar">
-    <div class="mw-ui-col">
-        <h2><?php _e("Backups"); ?></h2>
-    </div>
-</div>
+<?php if (isset($params['backend'])): ?>
+    <module type="admin/modules/info"/>
+<?php endif; ?>
 
 <div id="mw-admin-content" class="admin-side-content">
     <div class="mw_edit_page_default" id="mw_edit_page_left">

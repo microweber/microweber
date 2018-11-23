@@ -55,6 +55,10 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         mw.lib.require('font_awesome5');
     </script>
 
+<?php if (isset($params['backend'])): ?>
+    <module type="admin/modules/info"/>
+<?php endif; ?>
+
 <?php if ($from_live_edit) : ?>
     <div class="mw-modules-tabs">
         <div class="mw-accordion-item">
