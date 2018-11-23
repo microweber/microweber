@@ -88,7 +88,7 @@ class Captcha
         $tcol1z11 = rand(0, 150);
 
         $bgcolor = imagecolorallocate($image, 255, 255, 255);
-        $gray = imagecolorallocate($image, 240, 240, 240);
+        $gray = imagecolorallocate($image, 230, 230, 230);
 
         // $black = imagecolorallocate($image, $tcol1z, $ttcol1z1, $tcol1z11);
         $black = imagecolorallocate($image, 0, 0, 0);
@@ -129,6 +129,7 @@ class Captcha
 
                     $y21 = mt_rand(5, 20);
                     $this->captcha_vector($image, $x - mt_rand(0, 10), mt_rand(0, 10), mt_rand(0, 180), 200, $bgcolor);
+                     //  imagesetpixel($image, $i, $j, $color2);
                     //  imagesetpixel($image, $i, $j, $color2);
                 }
 
@@ -203,7 +204,7 @@ class Captcha
 
         if (function_exists('imagestring')) {
             $this->captcha_vector($image, $x / 3, $y21 / 3, $col1z11, 200, $gray);
-            imagestring($image, 0, $y21, 2, $text, $gray);
+            //imagestring($image, 0, $y21, 2, $text, $gray);
         }
 
 
