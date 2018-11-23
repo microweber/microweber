@@ -18,7 +18,7 @@
             <p class="disabled-and-enabled-label mw-color-important"><?php print _e('List of disabled countries'); ?></p>
         <?php endif; ?>
 
-        <div class="mw-shipping-items shipping_to_country_holder" id="shipping_to_country_holder<?php if ($active_or_disabled == 'active'): ?>_active<?php endif; ?>">
+        <div class="mw-shipping-items shipping_to_country_holder table-responsive" id="shipping_to_country_holder<?php if ($active_or_disabled == 'active'): ?>_active<?php endif; ?>">
             <table class="table-style-3 mw-ui-table layout-auto">
                 <thead>
                 <tr>
@@ -50,7 +50,7 @@
                             ?>
                         </td>
 
-                        <td class="center">
+                        <td class="action-buttons center">
                             <a class="mw-ui-btn mw-ui-btn-info mw-ui-btn-medium" href="javascript:mw_admin_edit_country_item_popup('<?php print $item['id'] ?>')"><?php _e("Edit"); ?></a>
                             &nbsp;
                             <a href="javascript:;" onclick="mw.shipping_country.delete_country('<?php print $item['id']; ?>');" class="mw-ui-btn mw-ui-btn-important mw-ui-btn-outline mw-ui-btn-medium"><?php _e("Delete"); ?></a>
