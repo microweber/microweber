@@ -51,7 +51,6 @@ mw.options = {
         });
     },
     save: function (el, callback) {
-        console.log(99,el)
 
 
         var el = $(el), og,og1 , refresh_modules11;
@@ -388,7 +387,6 @@ mw.options.form = function ($selector, callback, beforepost) {
 
 mw.options.___slowDownEvents = {};
 mw.options.___slowDownEvent = function (token, el, call) {
-    console.log(token)
     if(typeof mw.options.___slowDownEvents[token] === 'undefined'){
         mw.options.___slowDownEvents[token] = null;
     }

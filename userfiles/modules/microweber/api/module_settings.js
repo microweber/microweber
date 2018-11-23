@@ -57,14 +57,11 @@ mw.moduleSettings = function(options){
         return holder;
     };
 
-    this.addNew = function(pos){
-        if(typeof pos === 'undefined'){
-            pos = this.items.length;
-        }
-        var _new = mw.tools.cloneObject(this.value[0]);
-        console.log(_new)
+    this.addNew = function(){
+        pos = this.value.length;
+        var _new = mw.tools.cloneObject(JSON.parse(JSON.stringify(this.value[0])));
         this.value.splice(pos, 0, _new);
-        this.createItem(_new, this.value.length-1);
+        this.createItem(_new, pos);
     };
     this.remove = function(pos){
         if(typeof pos === 'undefined') return;
@@ -87,10 +84,12 @@ mw.moduleSettings = function(options){
         this.headerAnalize(i, header);
         this.items.push(item);
         item.options.element._prop = item;
-        item.setValue(JSON.parse(JSON.stringify(curr)));
+        item.setValue(curr);
         $(item).on('change', function(){
             $.each(item.getValue(), function(a, b){
-                scope.value[i][a] = b;
+                // todo: faster approach
+                var index = $(box).parent().children().index(box);
+                scope.value[index][a] = b;
             });
             $(scope).trigger('change', [scope.value/*, scope.value[i]*/]);
         });
@@ -107,17 +106,15 @@ mw.moduleSettings = function(options){
     };
 
     this.refactorDomPosition = function(){
-        console.log(1, scope.items, scope.value)
         scope.items = [];
         scope.value = [];
         $(".mw-module-settings-box-index", this.options.element).each(function (i) {
             $(this).text(i+1);
         });
-        $('.mw-module-settings-box-content', this.options.element).each(function(){
+        $('.mw-module-settings-box-content', this.options.element).each(function(i){
             scope.items.push(this._prop);
             scope.value.push(this._prop.getValue());
         });
-        console.log(2, scope.items, scope.value)
         $(scope).trigger('change', [scope.value]);
     };
 
@@ -128,8 +125,10 @@ mw.moduleSettings = function(options){
         if(this.options.sortable && $.fn.sortable){
             var conf = {
                 update: function (event, ui) {
+                    setTimeout(function(){
                         scope.refactorDomPosition();
                         scope.autoSave();
+                    }, 10)
                 },
                 handle:this.options.header ? '.mw-ui-box-header' : undefined
             };
