@@ -170,7 +170,7 @@
 
 /* New */
 
-@media screen and (max-width: 1365px) {
+@media screen and (max-width: 1399px) {
     .main-bar-column {
         width: 0;
     }
@@ -223,14 +223,14 @@
     }
 }
 
-@media screen and (min-width: 992px) and (max-width: 1365px) {
+@media screen and (min-width: 992px) and (max-width: 1399px) {
     .admin-content-column {
         max-width: 1100px;
         padding-left: 230px;
     }
 
     .tree-column-mobile-active .fixed-side-column {
-        width: 210px;
+        width: 300px;
         left: 230px;
         /*position: absolute;*/
     }
