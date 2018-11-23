@@ -206,7 +206,7 @@
 
 @media screen and (min-width: 992px) and (max-width: 1199px ) {
     .fade-window .window-holder .top-bar .center-side {
-
+        display: none;
     }
 }
 
