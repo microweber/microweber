@@ -204,6 +204,11 @@
     font-size: 20px;
 }
 
+/*@media screen and (min-width: 1366px) and (max-width: 1400px ){
+    .fade-window .window-holder .top-bar .btn-fullscreen{
+        width: 130px;
+    }
+}*/
 .fade-window .window-holder .top-bar .btn-back {
     background: #e8f6ff;
     width: 140px;
