@@ -373,6 +373,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    background: #fff;
 }
 
 .fade-window .window-holder #content-title-field-buttons ul li .btn-save {
@@ -677,6 +678,14 @@
     .fade-window .window-holder #content-title-field-buttons ul li a span,
     .fade-window .window-holder #content-title-field-buttons ul li button span {
         /*display: none;*/
+    }
+}
+
+@media screen and (max-width: 1600px) {
+    .fade-window .window-holder #content-title-field-buttons ul li .mw-live-edit-top-bar-button span,
+    .fade-window .window-holder #content-title-field-buttons ul li .btn-save span{
+        display: none;
+
     }
 }
 
