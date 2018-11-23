@@ -50,15 +50,6 @@ class Captcha
         $font = dirname(__FILE__) . DS . 'catcha_fonts' . DS . 'font' . $roit1 . '.ttf';
         $font = normalize_path($font, 0);
 
-        if (function_exists('imagettftext')) {
-            $text1 = mt_rand(100, 4500);
-        } else {
-            $text1 = mt_rand(100, 999);
-        }
-        $text2 = mt_rand(2, 9);
-        $roit = mt_rand(1, 5);
-        $text = "$text1";
-        $answ = $text1;
 
         $x = 100;
         $y = 80;
@@ -69,6 +60,26 @@ class Captcha
         if (isset($params['h'])) {
             $y = intval($params['h']);
         }
+
+
+        if (function_exists('imagettftext')) {
+            $text1 = mt_rand(100, 4500);
+        } else {
+            $text1 = mt_rand(100, 999);
+        }
+        $text2 = mt_rand(2, 9);
+        $roit = mt_rand(1, 5);
+        $text = "$text1";
+        $answ = $text1;
+
+
+        $captcha_sid = 'captcha';
+        if (isset($params['id'])) {
+            $captcha_sid = 'captcha_' . $params['id'];
+        } elseif (isset($_GET['id'])) {
+            $captcha_sid = 'captcha_' . $_GET['id'];
+        }
+
 
         $image = @imagecreate($x, $y) or die('Unable to render a CAPTCHA picture!');
 
@@ -81,12 +92,7 @@ class Captcha
 
         // $black = imagecolorallocate($image, $tcol1z, $ttcol1z1, $tcol1z11);
         $black = imagecolorallocate($image, 0, 0, 0);
-        $captcha_sid = 'captcha';
-        if (isset($params['id'])) {
-            $captcha_sid = 'captcha_' . $params['id'];
-        } elseif (isset($_GET['id'])) {
-            $captcha_sid = 'captcha_' . $_GET['id'];
-        }
+
 
         $old = mw()->user_manager->session_get('captcha');
         if ($old != false) {
@@ -117,7 +123,7 @@ class Captcha
         // imagefill($image, 0, 0, $color1);
         for ($i = 0; $i < $x; ++$i) {
             for ($j = 0; $j < $y; ++$j) {
-                if (mt_rand(0, 20) < 10) {
+                if (mt_rand(0, 15) < 10) {
 
                     //$coords = array(mt_rand(0, 10), mt_rand(0, 10), mt_rand(0, 10), mt_rand(0, 10), 5, 6);
 
@@ -125,15 +131,31 @@ class Captcha
                     $this->captcha_vector($image, $x - mt_rand(0, 10), mt_rand(0, 10), mt_rand(0, 180), 200, $bgcolor);
                     //  imagesetpixel($image, $i, $j, $color2);
                 }
+
             }
         }
 
-        $x1 = mt_rand(0, 5);
-        $y1 = mt_rand(20, 22);
 
-        $tsize = rand(13, 15);
+        $tsize = $y / 3;
 
-        $pad = 2;  // extra char spacing for text
+
+        $digit = '';
+        for ($rand_bg_digit = 15; $rand_bg_digit <= $x; $rand_bg_digit += 20) {
+            $digit .= ($num = rand(0, 9));
+            imagechar($image, rand(3, 5), $rand_bg_digit, rand(2, 14), $num, $gray);
+        }
+        $x1 = mt_rand($x / 5, $x / 2);
+        $x1 = ($x / 2) - $x1;
+
+        if ($text > 3) {
+            $x1 = ($x / 9);
+            $x1 = $x1 - 10;
+        }
+
+
+        $y1 = mt_rand(1, $y / 20);
+        $y1 = ($y / 2) + $y1;
+
 
         if (function_exists('imagettftext')) {
             imagettftext($image, $tsize, $roit, $x1, $y1, $black, $font, $text);
@@ -142,7 +164,7 @@ class Captcha
                 $font = mw_includes_path() . DS . 'admin' . DS . 'catcha_fonts' . DS . 'font' . $roit1 . '.gdf';
                 $font = normalize_path($font, 0);
                 $font = imageloadfont($font);
-                imagestring($image, $font, 0, 0, $text, $black);
+                imagestring($image, $font, $x1, $y1, $text, $black);
             } else {
             }
         }
@@ -193,6 +215,7 @@ class Captcha
         imagedestroy($image);
 
         $stuff = ob_get_clean();
+         
 
         return response($stuff)
             ->header('Content-Type', 'image/png')
