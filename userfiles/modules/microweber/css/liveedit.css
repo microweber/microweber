@@ -4282,3 +4282,5 @@ body.dragStart .allow-drop {
     background-color: rgba(36, 134, 216, 1);
     color: #fff;
 }
+
+.tooltip-icon-picker{ width: 425px; }

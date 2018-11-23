@@ -189,16 +189,16 @@ mw.iconSelector = mw.iconSelector || {
             ;
             if(!mw.iconSelectorGUI){
 
-                /*mw.iconSelectorGUI = mw.tooltip({
+                mw.iconSelectorGUI = mw.tooltip({
                     content: mw.iconSelector._string,
                     element: refresh ? mwd.createElement('div') : mw.iconSelector._activeElement,
                     position: 'bottom-center',
-                });*/
+                });
 
-                mw.$("#js-live-edit-icon-settings-holder").empty().append(mw.iconSelector._string)
+                /*mw.$("#js-live-edit-icon-settings-holder").empty().append(mw.iconSelector._string)
 
                 mw.iconSelectorGUI = mw.$("#js-live-edit-icon-settings-holder");
-
+*/
 
                 if(refresh){
                     $(".tooltip-icon-picker .mw-tooltip-content").html(mw.iconSelector._string)
@@ -245,12 +245,6 @@ mw.iconSelector = mw.iconSelector || {
             mw.iconSelector.mindIconsInit();
         }
 
-        if (mw.iconSelector.iconFontClasses.length == 0 ) {
-            // if no icon sets, disable the icon editor
-            return;
-        }
-
-
 
 
         if (!mw.iconSelector._string || refresh) {
@@ -259,16 +253,19 @@ mw.iconSelector = mw.iconSelector || {
 
         }
         else {
-          if(mw.iconSelector._activeElement !== null && !refresh){
+
+            if(mw.iconSelector._activeElement !== null){
+
 
             $(mw.iconSelectorGUI).show();
             $('.mw-icons-selector', mw.iconSelectorGUI).show();
 
 
-            //mw.tools.tooltip.setPosition(mw.iconSelectorGUI, mw.iconSelector._activeElement, 'bottom-center');
+            mw.tools.tooltip.setPosition(mw.iconSelectorGUI, mw.iconSelector._activeElement, 'bottom-center');
           }
-          else{
-            $(mw.iconSelectorGUI).hide();
+          else{            console.log(34)
+
+                $(mw.iconSelectorGUI).hide();
           }
 
         }

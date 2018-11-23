@@ -391,7 +391,14 @@ $(document).ready(function() {
 
     mw.on("ComponentClick", function(e, node, type){
 
+        if(type === 'icon'){
+            mw.iconSelector._activeElement = node;
+            mw.iconSelector.uiHTML();
+            mw.iconSelector.settingsUI();
+            console.log(444)
+            return;
 
+        }
         if(mw.settings.live_edit_open_module_settings_in_sidebar) {
 
 
@@ -410,6 +417,8 @@ $(document).ready(function() {
             if (node.nodeName === 'IMG') {
                 uitype = 'image';
             }
+
+
 
 
             if (mw.liveEditSettings.active) {
