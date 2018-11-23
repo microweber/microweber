@@ -62,7 +62,7 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
             <?php if ($data['content_type'] == 'page') : ?>
                 <div class="mw-admin-edit-page-primary-settings parent-selector ">
                     <div class="mw-ui-field-holder">
-                        <label class="mw-ui-label"><?php _e("Select parent"); ?></label>
+                        <label class="mw-ui-label"><?php _e("Select parent page"); ?></label>
                         <div class="quick-parent-selector">
                             <module type="content/views/selector" no-parent-title="<?php _e('No parent page'); ?>" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>" remove_ids="<?php print $data['id']; ?>"
                                     recommended-id="<?php print $recommended_parent; ?>"/>
@@ -78,8 +78,19 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
             <?php if ($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
                 <div class="mw-admin-edit-page-primary-settings content-category-selector">
                     <div class="mw-ui-field-holder" style="padding-top: 0">
+
+
+                        <script>
+                            handlenClickCategoriesTags = function(ev){
+                                if(ev && $(ev.target).hasClass('post-category-tags')){
+                                    $('.mw-ui-category-selector').toggle();
+
+                                }
+                            }
+                        </script>
+
                         <div class="mw-ui-field mw-tag-selector mw-ui-field-dropdown mw-ui-field-full" id="mw-post-added-<?php print $rand; ?>">
-                            <div class="post-category-tags" onclick="$('.mw-ui-category-selector').toggle()"></div>
+                            <div class="post-category-tags" onclick="handlenClickCategoriesTags(event)"></div>
 
                             <span onclick="$('.mw-ui-category-selector').toggle()" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded pull-right add-to-cats">
                                 <i class="mai-plus"></i> Add to categories

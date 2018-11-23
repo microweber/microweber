@@ -364,7 +364,7 @@ $pages_count = intval($pages);
                 <?php
 
 
-                if (isset($post_params['category-id'])) {
+              /*  if (isset($post_params['category-id'])) {
                     $url = "#action=new:product&amp;category_id=" . $post_params['category-id'];
                 } elseif (isset($post_params['category'])) {
                     $url = "#action=new:product&amp;category_id=" . $post_params['category'];
@@ -372,7 +372,8 @@ $pages_count = intval($pages);
                     $url = "#action=new:product&amp;parent_page=" . $post_params['parent'];
                 } else {
                     $url = "#action=new:product";
-                }
+                }*/
+                $url = "#action=new:product";
 
                 ?>
                 <a href="<?php print$url; ?>" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline m-t-20 m-b-20"><i class="mai-product"></i> <span><?php _e("Add New Product"); ?></span></a>
@@ -391,16 +392,18 @@ $pages_count = intval($pages);
                 <span class="mw-no-posts-foot-label"><?php _e("No Posts Here"); ?></span>
 
                 <?php
-                if (isset($post_params['category-id'])) {
-                    $url = "#action=new:post&amp;category_id=" . $post_params['category-id'];
+//                if (isset($post_params['category-id'])) {
+//                    $url = "#action=new:post&amp;category_id=" . $post_params['category-id'];
+//
+//                } elseif (isset($post_params['category'])) {
+//                    $url = "#action=new:post&amp;category_id=" . $post_params['category'];
+//
+//                } else if (isset($post_params['parent'])) {
+//                    $url = "#action=new:post&amp;parent_page=" . $post_params['parent'];
+//
+//                }
 
-                } elseif (isset($post_params['category'])) {
-                    $url = "#action=new:post&amp;category_id=" . $post_params['category'];
-
-                } else if (isset($post_params['parent'])) {
-                    $url = "#action=new:post&amp;parent_page=" . $post_params['parent'];
-
-                }
+                 $url = "#action=new:post"
                 ?>
 
                 <?php if (isset($url)): ?>
