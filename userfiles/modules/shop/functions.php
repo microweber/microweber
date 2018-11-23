@@ -89,4 +89,12 @@ event_bind('recover_shopping_cart', function ($params = false) {
     return mw()->cart_manager->recover_cart($params);
 });
 
- 
+
+
+
+event_bind('mw.admin.dashboard.content.2', function ($params = false) {
+    print '<div type="shop/orders/dashboard_recent_orders" class="mw-lazy-load-module" id="site_stats_dashboard_recent_orders"></div>';
+
+    // print '  <module type="site_stats/admin" id="site_stats_admin" />';
+
+});

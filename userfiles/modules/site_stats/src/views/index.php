@@ -35,7 +35,7 @@ if (isset($params['period'])) {
 
 <module type="site_stats/dashboard_graph"/>
 
-<module type="site_stats/dashboard_recent_orders"/>
+
 
 
 
