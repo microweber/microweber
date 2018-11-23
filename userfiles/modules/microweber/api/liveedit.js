@@ -1197,7 +1197,7 @@ mw.drag = {
               !mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(element, ['allow-drop', 'nodrop'])
              && (order.edit === -1 || (order.edit > order.module && order.module>-1))) {
                //   mw.$(".mw_edit_delete, #mw_handle_module .mw-sorthandle-moveit, .column_separator_title").hide();
-            } else {return false;
+            } else {
                 mw.$(".mw_edit_delete, #mw_handle_module .mw-sorthandle-moveit, .column_separator_title").show();
 
                 if (order.edit === -1 || (order.module > -1 && order.edit > order.module)) {
