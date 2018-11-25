@@ -86,9 +86,12 @@ mw.moduleSettings = function(options){
         item.options.element._prop = item;
         item.setValue(curr);
         $(item).on('change', function(){
+            console.log(1, item.getValue())
             $.each(item.getValue(), function(a, b){
                 // todo: faster approach
-                var index = $(box).parent().children().index(box);
+                var index = $(box).parent().children('.mw-module-settings-box').index(box);
+                console.log(2, item.getValue())
+                console.log(3, index, scope.value)
                 scope.value[index][a] = b;
             });
             $(scope).trigger('change', [scope.value/*, scope.value[i]*/]);
