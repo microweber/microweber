@@ -148,7 +148,14 @@ if ($for_id != false) {
                     after_upld(this, 'done', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
                     mw.notification.success('<?php _e('The image is added to the gallery') ?>');
 
+                    mw_admin_puctires_upload_browse_existing_modal.remove();
+
                 })
+
+
+
+
+
             },
             height: 400
         })
