@@ -226,6 +226,7 @@ mw.options = {
                 if (window.parent.mw) {
 
                     if (self !== top) {
+
                         setTimeout(function () {
 
                             var mod_element = window.parent.document.getElementById(refresh_modules11);
@@ -270,11 +271,11 @@ mw.options = {
                 }
 
 
-                if (reaload_in_parent != undefined && reaload_in_parent !== null) {
-                    //     window.parent.mw.reload_module("#"+refresh_modules11);
-
-                    return false;
-                }
+                // if (reaload_in_parent != undefined && reaload_in_parent !== null) {
+                //     //     window.parent.mw.reload_module("#"+refresh_modules11);
+                //
+                //     return false;
+                // }
 
 
                 if (also_reload != undefined) {
