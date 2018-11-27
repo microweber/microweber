@@ -242,7 +242,7 @@ mw.options = {
                         if (!!mw.admin) {
                             setTimeout(function () {
                                 window.parent.mw.reload_module("#" + which_module_to_reload);
-                                //   mw.options.___rebindAllFormsAfterReload();
+                                   mw.options.___rebindAllFormsAfterReload();
                             }, 777);
                         }
                         else {
@@ -250,7 +250,7 @@ mw.options = {
                                 window.parent.mweditor.contentWindow.mw.reload_module("#" + which_module_to_reload, function () {
                                     setTimeout(function () {
                                         window.parent.mw.exec("mw.admin.editor.set", window.parent.mweditor);
-                                        //  mw.options.___rebindAllFormsAfterReload();
+                                         mw.options.___rebindAllFormsAfterReload();
                                     }, 777);
                                 });
                             }
@@ -258,7 +258,7 @@ mw.options = {
                                 window.parent.mw.reload_module("#" + which_module_to_reload, function () {
                                     setTimeout(function () {
                                         window.parent.mw.exec("mw.admin.editor.set", window.parent.mweditor);
-                                        // mw.options.___rebindAllFormsAfterReload();
+                                        mw.options.___rebindAllFormsAfterReload();
                                     }, 777);
                                 });
                             }
@@ -283,20 +283,20 @@ mw.options = {
 
                             window.mw.reload_module(also_reload, function (reloaded_el) {
 
-                                mw.options.form(reloaded_el, callback);
-                                //mw.options.___rebindAllFormsAfterReload();
+                              //  mw.options.form(reloaded_el, callback);
+                                mw.options.___rebindAllFormsAfterReload();
                             });
                             window.mw.reload_module('#' + also_reload, function (reloaded_el) {
 
-                                mw.options.form(reloaded_el, callback);
-                                //mw.options.___rebindAllFormsAfterReload();
+                                //mw.options.form(reloaded_el, callback);
+                                mw.options.___rebindAllFormsAfterReload();
                             });
                         }
                     }
 
                 }
 
-                if (reaload_in_parent !== true && for_m_id != undefined && for_m_id != '') {
+     /*           if (reaload_in_parent !== true && for_m_id != undefined && for_m_id != '') {
                     for_m_id = for_m_id.toString()
                     if (window.mw != undefined) {
 
@@ -311,7 +311,10 @@ mw.options = {
                         // 			});
                         //        }
                     }
-                } else if (reaload_in_parent !== true && which_module_to_reload != undefined && which_module_to_reload != '') {
+                } else*/
+
+
+                if (reaload_in_parent !== true && which_module_to_reload != undefined && which_module_to_reload != '') {
                     which_module_to_reload = which_module_to_reload.toString()
 
 
@@ -319,6 +322,7 @@ mw.options = {
 
                         mw.reload_module_parent(which_module_to_reload);
                         mw.reload_module_parent("#" + which_module_to_reload);
+
 
                     }
 
@@ -328,8 +332,8 @@ mw.options = {
 
                 typeof callback === 'function' ? callback.call(data) : '';
                 setTimeout(function () {
-                    mw.options.___rebindAllFormsAfterReload();
-                }, 777);
+                   mw.options.___rebindAllFormsAfterReload();
+                }, 111);
                 //
                 //
                 //d(refresh_modules11);
@@ -381,7 +385,7 @@ mw.options.form = function ($selector, callback, beforepost) {
                             // END OF REBIND
 
 
-                            var isCheckLike = this.type === 'checkbox' || this.type === 'radio' || this.type === 'hidden';
+                            var isCheckLike = this.type === 'checkbox' || this.type === 'radio';
                             var token = isCheckLike ? this.name : this.name + $(this).val();
                             //if(mw.options._optionSaved !== token){
                             //mw.options._optionSaved = token;
@@ -445,6 +449,7 @@ mw.options.___rebindAllFormsAfterReload = function () {
                     var has_non_binded = false;
                     mw.$("input, select, textarea", root)
                         .not('.mw-options-form-binded-custom')
+                        .not('.mw-options-form-binded')
                         .each(function () {
                             var item = $(this);
                             if (item.hasClass('mw_option_field')) {
