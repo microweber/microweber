@@ -372,17 +372,7 @@ mw.options.form = function ($selector, callback, beforepost) {
                         item.addClass('mw-options-form-binded');
                         item.on('change input paste', function (e) {
 
-                            // REBIND
 
-                            var rebind = {}
-                            if (typeof root._optionsEvents.beforepost === 'function') {
-                                rebind.beforepost = root._optionsEvents.beforepost;
-                            }
-                            rebind.callback = root._optionsEvents.callback
-                            rebind.binded_selector = $selector;
-                            var rebindtemp = mw.tools.cloneObject(rebind);
-                            mw.options._bindedRootFormsRegistry.push(rebindtemp);
-                            // END OF REBIND
 
 
                             var isCheckLike = this.type === 'checkbox' || this.type === 'radio';
@@ -405,6 +395,20 @@ mw.options.form = function ($selector, callback, beforepost) {
     }
     root._optionsEvents = root._optionsEvents || {};
     root._optionsEvents = $.extend({}, root._optionsEvents, {callback: callback, beforepost: beforepost});
+
+
+    // REBIND
+
+    var rebind = {}
+    if (typeof root._optionsEvents.beforepost === 'function') {
+        rebind.beforepost = root._optionsEvents.beforepost;
+    }
+    rebind.callback = root._optionsEvents.callback
+    rebind.binded_selector = $selector;
+    var rebindtemp = mw.tools.cloneObject(rebind);
+    //fix here chek if in array
+    mw.options._bindedRootFormsRegistry.push(rebindtemp);
+    // END OF REBIND
 
 
 };
@@ -455,6 +459,7 @@ mw.options.___rebindAllFormsAfterReload = function () {
                             if (item.hasClass('mw_option_field')) {
                                 if (!item._optionsEventsBinded) {
                                     has_non_binded = true;
+                                    item.attr('autocomplete','off');
                                 }
                             }
                         });
