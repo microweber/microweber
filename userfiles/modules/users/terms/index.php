@@ -14,12 +14,9 @@ if ($terms_label_cleared == '') {
             <div class="custom-control custom-checkbox">
                 <h5><?php _e('You must agree to terms and conditions to continue'); ?></h5>
                 <label class="mw-ui-check">
-                    <input type="checkbox" name="terms" class="i_agree_with_terms_input" value="1" autocomplete="off"/> &nbsp;
-                    <span><?php print $terms_label; ?></span>
+                    <input type="checkbox" name="terms" class="i_agree_with_terms_input" value="1" autocomplete="off"/> <span></span><span><?php print $terms_label; ?></span>
                 </label>
             </div>
         </div>
-
-
     </div>
 </div>
