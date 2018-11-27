@@ -4835,7 +4835,7 @@ mw.image = {
                 url: "rte_link_editor#image_link",
                 title: "Add/Edit Link",
                 name: "mw_rte_link",
-                width: 340,
+                width: 600,
                 height: 535
             });
         }
@@ -5686,11 +5686,11 @@ mw.tabAccordion = function(options, accordion){
         this.buttons.push(btn)
         var size = (this.options.tabsSize ? ' mw-ui-btn-' +  this.options.tabsSize : '');
         var color = (this.options.tabsColor ? ' mw-ui-btn-' +  this.options.tabsColor : '');
-        var active = (index === 0 ? ' active-info' :'');
+        var active = (index === 0 ? (' '+this.options.activeClass) :'');
         btn.className = 'mw-ui-btn' + size + color + active;
         btn.innerHTML = content;
         btn.onclick = function(){
-            scope.buttons.removeClass('active').eq(index).addClass('active');
+            scope.buttons.removeClass(scope.options.activeClass).eq(index).addClass(scope.options.activeClass);
             scope.accordion.set(index);
         }
         return btn;
