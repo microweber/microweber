@@ -690,6 +690,13 @@ mw.tools = {
             if (onopen) {
                 onopen.call(window, modal_return)
             }
+            var max = 0;
+            $(".mw_modal").each(function () {
+                var z = parseInt($(this).css('zIndex'), 10);
+                if(!isNaN(z)){
+                    max = z>max?z:max;
+                }
+            }).css('zIndex', max);
             return modal_return;
         },
 
@@ -5655,6 +5662,7 @@ mw.tabAccordion = function(options, accordion){
     this.options = options;
 
     this.options.breakPoint = this.options.breakPoint || 800;
+    this.options.activeClass = this.options.activeClass || 'active-info';
 
 
     this.buildAccordion = function(){
