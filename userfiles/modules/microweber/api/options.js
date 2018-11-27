@@ -193,24 +193,27 @@ mw.options = {
             url: mw.settings.site_url + "api/save_option",
             data: o_data,
             success: function (data) {
+
+                var which_module_to_reload = null;
+
                 if (typeof(refresh_modules11) == 'undefined') {
-                    refresh_modules11 = og1;
-
-
+                    which_module_to_reload = og1;
                 }
                 if (refresh_modules12) {
-                    refresh_modules11 = refresh_modules12;
+                    which_module_to_reload = refresh_modules12;
                 }
                 if (typeof(liveEditSettings) != 'undefined' && liveEditSettings) {
                     if (og_parent) {
-                        refresh_modules11 = og_parent;
+                        which_module_to_reload = og_parent;
                     }
                 }
+
+d(which_module_to_reload);
 
                 if (mw.admin) {
                     if (top.mweditor && top.mweditor.contentWindow) {
                         setTimeout(function () {
-                            top.mweditor.contentWindow.mw.reload_module("#" + refresh_modules11)
+                            top.mweditor.contentWindow.mw.reload_module("#" + which_module_to_reload)
                         }, 777);
                     }
                 }
@@ -220,7 +223,7 @@ mw.options = {
 
                         setTimeout(function () {
 
-                            var mod_element = window.parent.document.getElementById(refresh_modules11);
+                            var mod_element = window.parent.document.getElementById(which_module_to_reload);
                             if (mod_element) {
                                 // var module_parent_edit_field = window.parent.mw.tools.firstParentWithClass(mod_element, 'edit')
                                 var module_parent_edit_field = window.parent.mw.tools.firstMatchesOnNodeOrParent(mod_element, ['.edit[rel=inherit]'])
@@ -231,7 +234,7 @@ mw.options = {
                                 }
                             }
 
-                            mw.reload_module_parent("#" + refresh_modules11);
+                            mw.reload_module_parent("#" + which_module_to_reload);
                         }, 777);
                     }
 
@@ -239,19 +242,19 @@ mw.options = {
 
                         if (!!mw.admin) {
                             setTimeout(function () {
-                                window.parent.mw.reload_module("#" + refresh_modules11);
+                                window.parent.mw.reload_module("#" + which_module_to_reload);
                             }, 777);
                         }
                         else {
                             if (window.parent.mweditor != undefined) {
-                                window.parent.mweditor.contentWindow.mw.reload_module("#" + refresh_modules11, function () {
+                                window.parent.mweditor.contentWindow.mw.reload_module("#" + which_module_to_reload, function () {
                                     setTimeout(function () {
                                         window.parent.mw.exec("mw.admin.editor.set", window.parent.mweditor);
                                     }, 777);
                                 });
                             }
                             if (window.parent.mw != undefined) {
-                                window.parent.mw.reload_module("#" + refresh_modules11, function () {
+                                window.parent.mw.reload_module("#" + which_module_to_reload, function () {
                                     setTimeout(function () {
                                         window.parent.mw.exec("mw.admin.editor.set", window.parent.mweditor);
                                     }, 777);
@@ -304,56 +307,43 @@ mw.options = {
                         // 			});
                         //        }
                     }
-                } else if (reaload_in_parent !== true && refresh_modules11 != undefined && refresh_modules11 != '') {
-                    refresh_modules11 = refresh_modules11.toString()
+                } else if (reaload_in_parent !== true && which_module_to_reload != undefined && which_module_to_reload != '') {
+                    which_module_to_reload = which_module_to_reload.toString()
 
-                    //    alert(refresh_modules11);
 
-                    // window.mw.reload_module(refresh_modules11, function (reloaded_el) {
-                    //     mw.options.form(refresh_modules11, callback);
-                    //     mw.options.form('#'+refresh_modules11, callback);
-                    // });
 
 
                     if (window.mw.reload_module !== undefined) {
 
-                        mw.reload_module_parent(refresh_modules11);
-                        mw.reload_module_parent("#" + refresh_modules11);
+                        mw.reload_module_parent(which_module_to_reload);
+                        mw.reload_module_parent("#" + which_module_to_reload);
 
                     }
 
-                    //  mw.log(refresh_modules11);
-
-
-                    //if (window.mw != undefined) {
-                    //
-                    //
-                    //    if (reaload_in_parent !== true) {
-                    //
-                    //        if (refresh_modules11 == refresh_modules12) {
-                    //            mw.reload_module(refresh_modules11);
-                    //        }
-                    //
-                    //
-                    //        if (window.mw.reload_module !== undefined) {
-                    //
-                    //            mw.reload_module_parent(refresh_modules11);
-                    //            mw.reload_module_parent("#" + refresh_modules11);
-                    //
-                    //        }
-                    //
-                    //    }
-                    //
-                    //}
-
 
                 }
+                d(mw.options._bindedRootFormsRegistry);
+
+                mw.options._bindedRootFormsRegistry.forEach(function (binded_selectror, binded_events) {
+                    d(binded_selectror)
+                    d(binded_events)
+                })
+                //  mw.options.form(reloaded_el, callback);
+
 
                 typeof callback === 'function' ? callback.call(data) : '';
 
 
 
 
+
+
+
+
+                //
+                //
+                //d(refresh_modules11);
+                //d(mw.options._bindedRootFormsRegistry);
             }
         })
     }
@@ -361,13 +351,12 @@ mw.options = {
 
 mw.options._optionSaved = null;
 
-//mw.options._bindedFormsRegistry = [];
+mw.options._bindedRootFormsRegistry = [];
 
 mw.options.form = function ($selector, callback, beforepost) {
     var $root = mw.$($selector);
     var root = $root[0];
     if (!root) return;
-
 
 
     if (!root._optionsEvents) {
@@ -379,16 +368,21 @@ mw.options.form = function ($selector, callback, beforepost) {
                 if (item.hasClass('mw_option_field')) {
                     item.addClass('mw-options-form-binded');
                     item.on('change input paste', function (e) {
-                        var isCheckLike = this.type === 'checkbox' || this.type === 'radio'|| this.type === 'hidden';
+
+                        var isCheckLike = this.type === 'checkbox' || this.type === 'radio' || this.type === 'hidden';
                         var token = isCheckLike ? this.name : this.name + $(this).val();
                         //if(mw.options._optionSaved !== token){
                         //mw.options._optionSaved = token;
                         mw.options.___slowDownEvent(token, this, function () {
+                            var rebind = {};
                             if (typeof root._optionsEvents.beforepost === 'function') {
+                                rebind.beforepost = root._optionsEvents.beforepost;
                                 root._optionsEvents.beforepost.call(this);
 
                             }
-
+                            rebind.callback = root._optionsEvents.callback;
+                            var rebindtemp = mw.tools.cloneObject(rebind);
+                            mw.options._bindedRootFormsRegistry[$selector] =  rebindtemp;
 
                             // mw.options._optionSaved = ''+mw.random();
                             mw.options.save(this, root._optionsEvents.callback);
@@ -400,6 +394,12 @@ mw.options.form = function ($selector, callback, beforepost) {
     }
     root._optionsEvents = root._optionsEvents || {};
     root._optionsEvents = $.extend({}, root._optionsEvents, {callback: callback, beforepost: beforepost});
+    //var temp = $.extend({}, root._optionsEvents, {callback: callback, beforepost: beforepost});
+    //var temp2 = mw.tools.cloneObject(temp);
+    // mw.tools.copyEvents(temp,temp2);
+    //mw.options._bindedRootFormsRegistry[$selector] = temp2;
+
+
 };
 
 
