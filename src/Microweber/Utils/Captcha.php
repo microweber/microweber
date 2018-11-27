@@ -216,7 +216,7 @@ class Captcha
         imagedestroy($image);
 
         $stuff = ob_get_clean();
-         
+
 
         return response($stuff)
             ->header('Content-Type', 'image/png')

@@ -67,7 +67,6 @@ mw.controlBox = function(options){
 
 
     this.toggle = function(){
-        this.active = !this.active;
         this[this.active?'hide':'show']();
     };
     this.init();

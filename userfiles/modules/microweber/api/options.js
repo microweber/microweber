@@ -53,20 +53,16 @@ mw.options = {
     save: function (el, callback) {
 
 
-        var el = $(el), og,og1 , refresh_modules11;
+        var el = $(el), og, og1, refresh_modules11;
 
         if (!el) {
             return;
         }
 
 
-
-
         var opt_id = el.attr('data-id');
 
-        og1= og = el.attr('option-group') || el.attr('option_group') || el.attr('data-option-group');
-
-
+        og1 = og = el.attr('option-group') || el.attr('option_group') || el.attr('data-option-group');
 
 
         if (og1 == null || (typeof(og1) === 'undefined') || og1 == '') {
@@ -74,13 +70,13 @@ mw.options = {
         }
         var og_parent = null
         var og_test = mw.tools.firstParentWithClass(el[0], 'module');
-        if(og_test){
+        if (og_test) {
             og_parent = og_test.id;
         }
-       // refresh_modules11 = og1 = og = og_test.id;
+        // refresh_modules11 = og1 = og = og_test.id;
 
 
-         var refresh_modules12 = el.attr('data-reload') || el.attr('data-refresh') ;
+        var refresh_modules12 = el.attr('data-reload') || el.attr('data-refresh');
 
         var also_reload = el.attr('data-reload') || el.attr('data-also-reload');
 
@@ -91,7 +87,7 @@ mw.options = {
             var for_m_id = modal.attr('data-settings-for-module');
 
         }
-        if (refresh_modules11 == undefined ) {
+        if (refresh_modules11 == undefined) {
             var refresh_modules11 = el.attr('data-refresh');
 
         }
@@ -122,9 +118,6 @@ mw.options = {
         // }
 
 
-
-
-
         var val;
         if (el[0].type === 'checkbox') {
             val = '',
@@ -148,9 +141,7 @@ mw.options = {
         }
         if (typeof(og) == 'undefined' && og_parent) {
             og = og_parent;
-         }
-
-
+        }
 
 
         var o_data = {
@@ -226,6 +217,7 @@ mw.options = {
                 if (window.parent.mw) {
 
                     if (self !== top) {
+
                         setTimeout(function () {
 
                             var mod_element = window.parent.document.getElementById(refresh_modules11);
@@ -244,6 +236,7 @@ mw.options = {
                     }
 
                     if (window.parent.mw.reload_module != undefined) {
+
                         if (!!mw.admin) {
                             setTimeout(function () {
                                 window.parent.mw.reload_module("#" + refresh_modules11);
@@ -270,11 +263,11 @@ mw.options = {
                 }
 
 
-                if (reaload_in_parent != undefined && reaload_in_parent !== null) {
-                    //     window.parent.mw.reload_module("#"+refresh_modules11);
-
-                    return false;
-                }
+                // if (reaload_in_parent != undefined && reaload_in_parent !== null) {
+                //     //     window.parent.mw.reload_module("#"+refresh_modules11);
+                //
+                //     return false;
+                // }
 
 
                 if (also_reload != undefined) {
@@ -296,7 +289,6 @@ mw.options = {
 
                 }
 
-
                 if (reaload_in_parent !== true && for_m_id != undefined && for_m_id != '') {
                     for_m_id = for_m_id.toString()
                     if (window.mw != undefined) {
@@ -304,18 +296,33 @@ mw.options = {
 
 
 
-                        //if (window.mw.reload_module !== undefined) {
-//	
-//									window.mw.reload_module('#'+for_m_id, function(reloaded_el){
-//
-//										mw.options.form(reloaded_el, callback);
-//									});
-//                                }
+                        // if (window.mw.reload_module !== undefined) {
+                        //
+                        // 			window.mw.reload_module('#'+for_m_id, function(reloaded_el){
+                        //
+                        // 				mw.options.form(reloaded_el, callback);
+                        // 			});
+                        //        }
                     }
                 } else if (reaload_in_parent !== true && refresh_modules11 != undefined && refresh_modules11 != '') {
                     refresh_modules11 = refresh_modules11.toString()
 
-                  //  mw.log(refresh_modules11);
+                    //    alert(refresh_modules11);
+
+                    // window.mw.reload_module(refresh_modules11, function (reloaded_el) {
+                    //     mw.options.form(refresh_modules11, callback);
+                    //     mw.options.form('#'+refresh_modules11, callback);
+                    // });
+
+
+                    if (window.mw.reload_module !== undefined) {
+
+                        mw.reload_module_parent(refresh_modules11);
+                        mw.reload_module_parent("#" + refresh_modules11);
+
+                    }
+
+                    //  mw.log(refresh_modules11);
 
 
                     //if (window.mw != undefined) {
@@ -351,11 +358,23 @@ mw.options = {
 
 mw.options._optionSaved = null;
 
+//mw.options._bindedFormsRegistry = [];
+
 mw.options.form = function ($selector, callback, beforepost) {
     var $root = mw.$($selector);
     var root = $root[0];
-    if(!root) return;
-    if(!root._optionsEvents){
+    if (!root) return;
+
+
+    // if (!jQuery.inArray($selector, mw.options._bindedFormsRegistry)) {
+    //     mw.options._bindedFormsRegistry[$selector] = [];
+    // }
+    //
+    //
+    // d( mw.options._bindedFormsRegistry);
+    // d( $selector);
+
+    if (!root._optionsEvents) {
         mw.$("input, select, textarea", root)
             .not('.mw-options-form-binded-custom')
             .each(function () {
@@ -365,29 +384,34 @@ mw.options.form = function ($selector, callback, beforepost) {
                     item.addClass('mw-options-form-binded');
                     item.on('change input paste', function (e) {
                         var isCheckLike = this.type === 'checkbox' || this.type === 'radio';
-                        var token =  isCheckLike ? this.name : this.name + $(this).val();
+                        var token = isCheckLike ? this.name : this.name + $(this).val();
                         //if(mw.options._optionSaved !== token){
-                            //mw.options._optionSaved = token;
-                            mw.options.___slowDownEvent(token, this, function () {
-                                if (typeof root._optionsEvents.beforepost === 'function') {
-                                    root._optionsEvents.beforepost.call(this);
-                                }
-                               // mw.options._optionSaved = ''+mw.random();
-                                mw.options.save(this, root._optionsEvents.callback);
-                            });
+                        //mw.options._optionSaved = token;
+                        mw.options.___slowDownEvent(token, this, function () {
+                            if (typeof root._optionsEvents.beforepost === 'function') {
+                                root._optionsEvents.beforepost.call(this);
+                               // this._mw_option_binded_beforepost_callback = root._optionsEvents.beforepost
+
+                            }
+                           // this._mw_option_binded_callback = root._optionsEvents.callback
+
+
+                            // mw.options._optionSaved = ''+mw.random();
+                            mw.options.save(this, root._optionsEvents.callback);
+                        });
                         //}
                     });
                 }
             });
     }
     root._optionsEvents = root._optionsEvents || {};
-    root._optionsEvents = $.extend({}, root._optionsEvents, {callback:callback, beforepost:beforepost});
+    root._optionsEvents = $.extend({}, root._optionsEvents, {callback: callback, beforepost: beforepost});
 };
 
 
 mw.options.___slowDownEvents = {};
 mw.options.___slowDownEvent = function (token, el, call) {
-    if(typeof mw.options.___slowDownEvents[token] === 'undefined'){
+    if (typeof mw.options.___slowDownEvents[token] === 'undefined') {
         mw.options.___slowDownEvents[token] = null;
     }
     clearTimeout(mw.options.___slowDownEvents[token]);

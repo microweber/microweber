@@ -3284,7 +3284,13 @@ body.grabbing, body.grabbing * {
 }
 
 #mw_uploader_loading {
-    margin-top: 12px;
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    left: 50%;
+    opacity: 1;
+    transform: translateX(-50%);
+    margin: 0;
 }
 
 /************************************
@@ -7441,12 +7447,7 @@ select.silver-field {
     width: 100%;
 }
 
-.mw-admin-menu-sidebar-logout-desktop {
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-    display: block;
-}
+
 
 .mw-admin-menu-sidebar-logout-desktop a {
     border-bottom: 0 !important;

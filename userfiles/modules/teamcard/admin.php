@@ -68,14 +68,13 @@ if (isset($json) == false or count($json) == 0) {
             $(item.querySelectorAll('input')).val('');
             $(item.querySelectorAll('textarea')).val('');
             $(item.querySelectorAll('.mw-uploader')).remove();
+            $(item.querySelectorAll('img')).attr('src', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mN8/h8AAtMB6KonQukAAAAASUVORK5CYII=');
             last.before(item);
             teamcards.init(item);
         },
 
         remove: function (element) {
-            var txt;
-            var r = confirm("<?php _e('Are you sure?'); ?>");
-            if (r == true) {
+            if (confirm("<?php _e('Are you sure?'); ?>")) {
                 $(element).remove();
                 teamcards.save();
             }

@@ -249,7 +249,7 @@ if (isset($_COOKIE['mw_exp'])) {
         mw.on('liveEditSettingsReady', function () {
             mw.drag.init();
             $('[data-id="mw-toolbar-show-sidebar-btn"]').click(function () {
-                mw.tools.show_live_edit_sidebar();
+                mw.liveEditSettings.toggle();
             });
 
             if (mw.cookie.get('show-sidebar-layouts') == 1) {
@@ -272,12 +272,19 @@ if (isset($_COOKIE['mw_exp'])) {
                 closeButton: true
             });
 
-            $(mw.liveEditSettings).on('ControlBoxShow', function () {
+
+            $(mw.liveEditSettings)
+            .on('ControlBoxShow', function () {
                 $(document.body).addClass('has-opened-sidebar');
+                    $('a[data-id="mw-toolbar-show-sidebar-btn"]').addClass('opened');
+                    mw.cookie.set("show-sidebar-layouts", '1');
+
             })
-                .on('ControlBoxHide', function () {
-                    $(document.body).removeClass('has-opened-sidebar');
-                });
+            .on('ControlBoxHide', function () {
+                $(document.body).removeClass('has-opened-sidebar');
+                $('a[data-id="mw-toolbar-show-sidebar-btn"]').removeClass('opened');
+                mw.cookie.set("show-sidebar-layouts", '0');
+            });
 
             mw.tools.loading(mw.liveEditSettings.box);
 

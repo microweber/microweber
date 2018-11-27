@@ -8,7 +8,6 @@ $modules_by_categories = array();
 $mod_obj_str = 'modules';
 
 
-
 $show_grouped_by_cats = false;
 
 
@@ -80,48 +79,63 @@ if (isset($is_elements) and $is_elements == true) {
         $modules = array_merge($modules, $modules_from_template);
     }
 
+    $is_shop_disabled = get_option('shop_disabled', 'website') == "y";
 
     if ($modules) {
-        foreach ($modules as $module) {
+        foreach ($modules as $mkey=> $module) {
             if (!isset($module['categories']) or !($module['categories'])) {
                 $module['categories'] = 'other';
             }
             if (isset($module['categories']) and ($module['categories'])) {
                 $mod_cats = explode(',', $module['categories']);
+
                 if ($mod_cats) {
-                    foreach ($mod_cats as $mod_cat) {
-                        $mod_cat = trim($mod_cat);
-                        if (!isset($modules_by_categories[$mod_cat])) {
-                            $modules_by_categories[$mod_cat] = array();
+                    $skip_m = false;
+                    if ($is_shop_disabled and in_array('online shop', $mod_cats)) {
+                        $skip_m = true;
+                    }
+
+                    if (!$skip_m) {
+                        foreach ($mod_cats as $mod_cat) {
+                            $mod_cat = trim($mod_cat);
+                            if (!isset($modules_by_categories[$mod_cat])) {
+                                $modules_by_categories[$mod_cat] = array();
+                            }
+                            $modules_by_categories[$mod_cat][] = $module;
                         }
-                        $modules_by_categories[$mod_cat][] = $module;
+
+                    } else {
+                        unset($modules[$mkey]);
                     }
                 }
             }
         }
     }
 
-    if (($modules and !$modules_by_categories) or ( $modules and !$show_grouped_by_cats)) {
-        $modules_by_categories = array('Modules' => $modules);
-    }
+
 
     if ($modules_by_categories and is_arr($modules_by_categories) and count($modules_by_categories) > 1) {
         $sort_first = array();
 
-        $first_keys = array('recommended','media','content','navigation');
+        $first_keys = array('recommended', 'media', 'content', 'navigation');
         foreach ($first_keys as $first_key) {
             if (isset($modules_by_categories[$first_key])) {
                 $sort_first[$first_key] = $modules_by_categories[$first_key];
                 unset($modules_by_categories[$first_key]);
             }
         }
-
-        $modules_by_categories_new = array_merge($sort_first,$modules_by_categories);
+        $modules_by_categories_new = array_merge($sort_first, $modules_by_categories);
         $modules_by_categories = $modules_by_categories_new;
+    }
+
+
+    if (($modules and !$modules_by_categories) or ($modules and !$show_grouped_by_cats)) {
+        $modules_by_categories = array('Modules' => $modules);
     }
 
 }
 
+ 
 if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset($modules) and is_array($modules)) {
     $recommended = json_decode($_COOKIE['recommend'], true);
 
@@ -194,7 +208,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 <ul class="modules-list list-<?php print $mod_obj_str ?>" ocr="off">
     <?php
-    $def_icon = modules_path() . 'default.png';
+    $def_icon = modules_path() . 'default.jpg';
     $def_icon = mw()->url_manager->link_to_file($def_icon);
 
 
@@ -281,7 +295,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
                 <li class=" " unselectable="on" style="width: 100%; position: relative; float: left; padding: 0px">
                     <hr>
-                    <h4 onclick="$('.module-cat-toggle-<?php print($mod_cat); ?>').toggle()"><?php print ucwords(_e($mod_cat,true)); ?> </h4>
+                    <h4 onclick="$('.module-cat-toggle-<?php print($mod_cat); ?>').toggle()"><?php print ucwords(_e($mod_cat, true)); ?> </h4>
                     <hr>
                 </li>
 

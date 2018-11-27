@@ -84,7 +84,6 @@
                            aria-hidden="true" style="display: none;"></a>
 
 
-
                     </div>
 
                     <p class="mw-search-no-results"
@@ -95,47 +94,88 @@
                 </div>
             </div>
 
-            <?php
 
-            /*    <div class="mw-ui-box-content tabitem mw-normalize-css  mw-live-edit-sidebar-iframe-holder"
+
+
+           <div class="mw-ui-box-content tabitem mw-normalize-css  mw-live-edit-sidebar-iframe-holder"
                      style="display: none;">
                     <?php if (file_exists(TEMPLATE_DIR . 'template_settings.php')) { ?>
                         <iframe class="mw-live-edit-sidebar-settings-iframe"
-                                data-src="<?php print api_url() ?>module?id=settings/template&live_edit=true&module_settings=true&type=settings/template&autosize=false"></iframe>
+                                data-src="<?php print api_url() ?>module?id=template_settings&live_edit=true&module_settings=true&type=settings/template&autosize=false"></iframe>
                     <?php } ?>
+                </div>
+
+
+
+
+
+            <?php
+            /* <div class="mw-ui-box-content tabitem mw-normalize-css  mw-live-edit-sidebar-iframe-holder">
+                <?php if (file_exists(ACTIVE_TEMPLATE_DIR . 'template_settings.php')) { ?>
+
+                    <a class="mw-ui-btn" href="javascript:load_template_settings_iframe();">Template settings</a>
+
+
+                    <?php d(ACTIVE_TEMPLATE_DIR . 'template_settings.php') ?>
+
+                    <script>
+                        function load_template_settings_iframe() {
+
+                        var html =  '  <iframe class="mw-live-edit-sidebar-settings-iframe" data-src="<?php print api_url() ?>module?id=settings/template&live_edit=true&module_settings=true&type=settings/template&autosize=false"></iframe>'
+
+                            $('.mw-live-edit-sidebar-iframe-holder').html(html);
+
+                        }
+
+                    </script>
+
+                <?php } ?>
+            </div>
+*/
+
+            ?>
+
+
+
+
+
+            <?php
+
+            /*<div class="mw-ui-box-content tabitem module-settings-holder" id="mw-sidebar-quick-edit-items">
+
+                    <div id="js-live-edit-side-wysiwyg-editor-holder" class="mw-defaults mw-live-edit-component-options" <?php print lang_attributes(); ?>>
+
+                        <div class="mw-defaults mw_editor">
+
+
+                            <div class="mw-ui-row">
+                                <?php include mw_includes_path() . 'toolbar' . DS . 'wysiwyg_sidebar.php'; ?>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="js-live-edit-image-settings-holder" class="mw-defaults mw-live-edit-component-options">
+
+                    </div>
+                    <div id="js-live-edit-module-settings-holder" class="mw-defaults mw-live-edit-component-options">
+                        <div id="js-live-edit-module-settings-items"></div>
+                    </div>
+
+                    <div id="js-live-edit-icon-settings-holder" class="mw-defaults mw-live-edit-component-options mw-ui-box mw-ui-box-content">
+                        icon
+                    </div>
+
+
                 </div>*/
 
             ?>
-            <div class="mw-ui-box-content tabitem module-settings-holder" id="mw-sidebar-quick-edit-items">
-
-                <div id="js-live-edit-side-wysiwyg-editor-holder" class="mw-defaults mw-live-edit-component-options" <?php print lang_attributes(); ?>>
-
-                    <div class="mw-defaults mw_editor">
 
 
-                        <div class="mw-ui-row">
-                            <?php include mw_includes_path() . 'toolbar' . DS . 'wysiwyg_sidebar.php'; ?>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div id="js-live-edit-image-settings-holder" class="mw-defaults mw-live-edit-component-options">
-
-                </div>
-                <div id="js-live-edit-module-settings-holder" class="mw-defaults mw-live-edit-component-options">
-                    <div id="js-live-edit-module-settings-items"></div>
-                </div>
-
-                <div id="js-live-edit-icon-settings-holder" class="mw-defaults mw-live-edit-component-options mw-ui-box mw-ui-box-content">
-                    icon
-                </div>
-
-
-            </div>
-            <div class="mw-ui-box-content tabitem css-editor-holder">
+            <div class="mw-ui-box-content tabitem css-editor-holder" style="display: none">
                 <h3 class="mw-live-edit-tab-title"><?php echo("UI Editor"); ?></h3>
-                <div id="mw-css-editor_____TEMP_REMOVE"></div>
+
+                <div id="mw-css-editor__TEMP_REMOVE"></div>
             </div>
         </div>
     </div>
@@ -229,101 +269,98 @@
             mw.wysiwyg.dropdowns();
 
 
-            /*
+          /*  CSSEditorSchema = [
+                {
+                    interface: 'quatro',
+                    label: ['Margin top', 'Margin right', 'Margin bottom', 'Margin left'],
+                    id: 'margin'
+                },
+                {
+                    interface: 'quatro',
+                    label: ['Padding top', 'Padding right', 'Padding bottom', 'Padding left'],
+                    id: 'padding'
+                },
+                {
+                    interface: 'size',
+                    label: 'Font size',
+                    id: 'fontSize'
+                },
+                {
+                    interface: 'color',
+                    label: 'Font color',
+                    id: 'color'
+                },
+                {
+                    interface: 'color',
+                    label: 'Background color',
+                    id: 'backgroundColor'
+                },
+                {
+                    interface: 'select',
+                    label: 'Font weight',
+                    id: 'fontWeight',
+                    options: ['inherit', 'normal', 'bold', 'bolder', 'lighter', 100, 200, 300, 400, 500, 600, 700, 800, 900]
+                },
+                {
+                    interface: 'select',
+                    label: 'Font style',
+                    id: 'fontStyle',
+                    options: ['italic', 'normal']
+                },
+                {
+                    interface: 'select',
+                    label: 'Text transform',
+                    id: 'textTransform',
+                    options: ['none', 'uppercase', 'lowercase', 'capitalize']
+                },
+                {
+                    interface: 'block',
+                    content: 'Border radius'
+                },
+                {
+                    interface: 'quatro',
+                    id: 'borderRadius',
+                    label: ['Top Left', 'Top Right', 'Bottom Left', 'Bottom Right']
+                },
+                {
+                    interface: 'file',
+                    id: 'backgroundImage',
+                    label: 'Background Image',
+                    types: 'images'
+                }
+            ];
 
-             CSSEditorSchema = [
-             {
-             interface:'quatro',
-             label:['Margin top', 'Margin right', 'Margin bottom', 'Margin left'],
-             id:'margin'
-             },
-             {
-             interface:'quatro',
-             label:['Padding top', 'Padding right', 'Padding bottom', 'Padding left'],
-             id:'padding'
-             },
-             {
-             interface:'size',
-             label:'Font size',
-             id:'fontSize'
-             },
-             {
-             interface:'color',
-             label:'Font color',
-             id:'color'
-             },
-             {
-             interface:'color',
-             label:'Background color',
-             id:'backgroundColor'
-             },
-             {
-             interface:'select',
-             label:'Font weight',
-             id:'fontWeight',
-             options:['inherit', 'normal', 'bold', 'bolder', 'lighter', 100,200,300,400,500,600,700,800,900]
-             },
-             {
-             interface:'select',
-             label:'Font style',
-             id:'fontStyle',
-             options:['italic', 'normal']
-             },
-             {
-             interface:'select',
-             label:'Text transform',
-             id:'textTransform',
-             options:['none', 'uppercase', 'lowercase', 'capitalize']
-             },
-             {
-             interface:'block',
-             content:'Border radius'
-             },
-             {
-             interface:'quatro',
-             id:'borderRadius',
-             label:['Top Left', 'Top Right', 'Bottom Left', 'Bottom Right']
-             },
-             {
-             interface:'file',
-             id:'backgroundImage',
-             label:'Background Image',
-             types:'images'
-             }
-             ];
+            mw.elementCSSEditor = new mw.propEditor.schema({
+                schema: CSSEditorSchema,
+                element: '#mw-css-editor'
+            });
 
-             mw.elementCSSEditor = new mw.propEditor.schema({
-             schema: CSSEditorSchema,
-             element:'#mw-css-editor'
-             });
+            $(mw.elementCSSEditor).on('change', function (event, property, value) {
+                mw.$(mw.elementCSSEditor.currentElement).css(property, value);
+            });
 
-             $(mw.elementCSSEditor).on('change', function(event, property, value){
-             mw.$(mw.elementCSSEditor.currentElement).css(property, value);
-             });
+            mw.on("ElementClick", function (event, el) {
+                mw.elementCSSEditor.currentElement = el;
 
-             mw.on("ElementClick", function(event, el){
-             mw.elementCSSEditor.currentElement = el;
+                var css = getComputedStyle(el);
+                var val = {
+                    margin: (css.marginTop + ' ' + css.marginRight + ' ' + css.marginBottom + ' ' + css.marginLeft),
+                    padding: (css.paddingTop + ' ' + css.paddingRight + ' ' + css.paddingBottom + ' ' + css.paddingLeft),
+                    fontSize: css.fontSize,
+                    fontWeight: css.fontWeight,
+                    fontStyle: css.fontStyle,
+                    textTransform: css.textTransform,
+                    color: mw.color.rgbToHex(css.color),
+                    backgroundColor: mw.color.rgbToHex(css.backgroundColor),
+                    backgroundImage: css.backgroundImage,
+                    borderRadius: (css.borderTopLeftRadius + ' ' + css.borderTopRightRadius + ' ' + css.borderBottomLeftRadius + ' ' + css.borderBottomRightRadius),
+                };
+                mw.elementCSSEditor.setValue(val);
+            });
 
-             var css = getComputedStyle(el);
-             var val = {
-             margin:(css.marginTop + ' ' + css.marginRight + ' ' + css.marginBottom + ' ' + css.marginLeft),
-             padding:(css.paddingTop + ' ' + css.paddingRight + ' ' + css.paddingBottom + ' ' + css.paddingLeft),
-             fontSize:css.fontSize,
-             fontWeight:css.fontWeight,
-             fontStyle:css.fontStyle,
-             textTransform:css.textTransform,
-             color:mw.color.rgbToHex(css.color),
-             backgroundColor:mw.color.rgbToHex(css.backgroundColor),
-             backgroundImage:css.backgroundImage,
-             borderRadius:(css.borderTopLeftRadius + ' ' + css.borderTopRightRadius + ' ' + css.borderBottomLeftRadius + ' ' + css.borderBottomRightRadius),
-             };
-             mw.elementCSSEditor.setValue(val);
-             });
-
-             */
+*/
 
         });
-
 
         var setScrollBoxes = function () {
             var root = document.querySelector('#modules-and-layouts-sidebar');

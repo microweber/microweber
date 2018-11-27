@@ -690,6 +690,13 @@ mw.tools = {
             if (onopen) {
                 onopen.call(window, modal_return)
             }
+            var max = 0;
+            $(".mw_modal").each(function () {
+                var z = parseInt($(this).css('zIndex'), 10);
+                if(!isNaN(z)){
+                    max = z>max?z:max;
+                }
+            }).css('zIndex', max);
             return modal_return;
         },
 
@@ -3323,21 +3330,6 @@ mw.tools = {
         }
     },
 
-
-    show_live_edit_sidebar: function () {
-        if (mw.liveEditSettings.active) {
-
-            $('a[data-id="mw-toolbar-show-sidebar-btn"]').removeClass('opened');
-            mw.cookie.set("show-sidebar-layouts", '0');
-            mw.liveEditSettings.hide();
-        } else {
-            mw.liveEditSettings.show();
-            $('a[data-id="mw-toolbar-show-sidebar-btn"]').addClass('opened');
-            mw.cookie.set("show-sidebar-layouts", '1');
-        }
-    },
-
-
     module_settings: function (a, view, liveedit) {
 
 
@@ -4843,7 +4835,7 @@ mw.image = {
                 url: "rte_link_editor#image_link",
                 title: "Add/Edit Link",
                 name: "mw_rte_link",
-                width: 340,
+                width: 600,
                 height: 535
             });
         }
@@ -5670,6 +5662,7 @@ mw.tabAccordion = function(options, accordion){
     this.options = options;
 
     this.options.breakPoint = this.options.breakPoint || 800;
+    this.options.activeClass = this.options.activeClass || 'active-info';
 
 
     this.buildAccordion = function(){
@@ -5693,11 +5686,11 @@ mw.tabAccordion = function(options, accordion){
         this.buttons.push(btn)
         var size = (this.options.tabsSize ? ' mw-ui-btn-' +  this.options.tabsSize : '');
         var color = (this.options.tabsColor ? ' mw-ui-btn-' +  this.options.tabsColor : '');
-        var active = (index === 0 ? ' active' :'');
+        var active = (index === 0 ? (' '+this.options.activeClass) :'');
         btn.className = 'mw-ui-btn' + size + color + active;
         btn.innerHTML = content;
         btn.onclick = function(){
-            scope.buttons.removeClass('active').eq(index).addClass('active');
+            scope.buttons.removeClass(scope.options.activeClass).eq(index).addClass(scope.options.activeClass);
             scope.accordion.set(index);
         }
         return btn;

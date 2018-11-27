@@ -107,61 +107,67 @@ $json = ($settings ? $settings : '');
     }
 
     function deleteRow(row='') {
-        var tbl = document.getElementById('htmltable');
+        var tbl = document.querySelector('#htmltable tbody');
 
-        if (row == 'last') {
-            lastRow = tbl.rows.length - 1;
-            tbl.deleteRow(lastRow);
-        } else if (row == 'all') {
-            lastRow = tbl.rows.length - 1;
-            // delete rows including header with index greater then 0
-            for (i = lastRow; i >= 0; i--) {
-                tbl.deleteRow(i);
+        if(tbl.querySelectorAll('tr').length <=1) return;
+        (top.mw || window.mw).confirm('Are you sure', function() {
+            if (row == 'last') {
+                lastRow = tbl.rows.length - 1;
+                tbl.deleteRow(lastRow);
+            } else if (row == 'all') {
+                lastRow = tbl.rows.length - 1;
+                // delete rows including header with index greater then 0
+                for (i = lastRow; i >= 0; i--) {
+                    tbl.deleteRow(i);
+                }
+            } else if (row == 'allbutone') {
+                lastRow = tbl.rows.length - 1;
+                // delete rows except header
+                for (i = lastRow; i > 0; i--) {
+                    tbl.deleteRow(i);
+                }
+            } else if (row != '') {
+                tbl.deleteRow(row);
+            } else {
+                alert('row not set in function deleteRow');
             }
-        } else if (row == 'allbutone') {
-            lastRow = tbl.rows.length - 1;
-            // delete rows except header
-            for (i = lastRow; i > 0; i--) {
-                tbl.deleteRow(i);
-            }
-        } else if (row != '') {
-            tbl.deleteRow(row);
-        } else {
-            alert('row not set in function deleteRow');
-        }
+        });
     }
 
     function deleteColumn(col='') {
         var tbl = document.getElementById('htmltable');
 
-        if (col == 'last') {
-            lastCol = tbl.rows[0].cells.length - 1;
-            for (i = 0; i < tbl.rows.length; i++) {
-                tbl.rows[i].deleteCell(lastCol);
-            }
-        } else if (col == 'all') {
-            lastCol = tbl.rows[0].cells.length - 1;
-            // delete cells with index greater than or equal to 0 (for each row)
-            for (i = 0; i < tbl.rows.length; i++) {
-                for (j = lastCol; j >= 0; j--) {
-                    tbl.rows[i].deleteCell(j);
+        if(tbl.querySelectorAll('th').length <= 1) return;
+        (top.mw || window.mw).confirm('Are you sure', function(){
+            if (col == 'last') {
+                lastCol = tbl.rows[0].cells.length - 1;
+                for (i = 0; i < tbl.rows.length; i++) {
+                    tbl.rows[i].deleteCell(lastCol);
                 }
-            }
-        } else if (col == 'allbutone') {
-            lastCol = tbl.rows[0].cells.length - 1;
-            // delete cells with index greater then 0 (for each row)
-            for (i = 0; i < tbl.rows.length; i++) {
-                for (j = lastCol; j > 0; j--) {
-                    tbl.rows[i].deleteCell(j);
+            } else if (col == 'all') {
+                lastCol = tbl.rows[0].cells.length - 1;
+                // delete cells with index greater than or equal to 0 (for each row)
+                for (i = 0; i < tbl.rows.length; i++) {
+                    for (j = lastCol; j >= 0; j--) {
+                        tbl.rows[i].deleteCell(j);
+                    }
                 }
+            } else if (col == 'allbutone') {
+                lastCol = tbl.rows[0].cells.length - 1;
+                // delete cells with index greater then 0 (for each row)
+                for (i = 0; i < tbl.rows.length; i++) {
+                    for (j = lastCol; j > 0; j--) {
+                        tbl.rows[i].deleteCell(j);
+                    }
+                }
+            } else if (col != '') {
+                for (i = 0; i < tbl.rows.length; i++) {
+                    tbl.rows[i].deleteCell(col);
+                }
+            } else {
+                alert('col not set in function deleteColumn');
             }
-        } else if (col != '') {
-            for (i = 0; i < tbl.rows.length; i++) {
-                tbl.rows[i].deleteCell(col);
-            }
-        } else {
-            alert('col not set in function deleteColumn');
-        }
+        });
     }
 
     // ---- build table functions ----
@@ -182,7 +188,9 @@ $json = ($settings ? $settings : '');
                 if (cellValue == null) {
                     cellValue = "";
                 }
-                row$.append($('<td/>').html(cellValue).addClass(tdClass).attr('contenteditable', 'true'));
+                var td = $('<td/>').html(cellValue).addClass(tdClass).attr('contenteditable', 'true');
+
+                row$.append(td);
             }
             tbody.append(row$);
         }
@@ -216,6 +224,23 @@ $json = ($settings ? $settings : '');
 
     // ---- button click functions -----
 
+
+    handlePaste = function(){
+        $("#htmltable th, #htmltable td").on('paste', function(e){
+            if(e.originalEvent){
+                var clipboard = e.originalEvent.clipboardData || mww.clipboardData;
+            }
+            else{
+                var clipboard = e.clipboardData || mww.clipboardData;
+            }
+            var text = clipboard.getData('text');
+            mw.wysiwyg.insert_html(text);
+            e.preventDefault()
+
+        });
+    };
+
+
     $(document).ready(function () {
 
         <?php if(!empty($json)) { ?>
@@ -223,7 +248,8 @@ $json = ($settings ? $settings : '');
             var json = <?php print $json;?>;
             var jdata = json.tabledata;
             var tableId = "htmltable";
-            deleteRow('all');
+            $("#htmltable tbody").empty()
+            $("#htmltable thead").empty()
             buildTable(tableId, jdata)
         } catch (e) {
             // No data found so default table will load
@@ -236,6 +262,7 @@ $json = ($settings ? $settings : '');
             //TODO: save data to settings and add general and styles keys
             var tableCss = []; // place holder
             var $headers = $("th");
+            var $cells;
             var $rows = $("tbody tr").each(function (index) {
                 $cells = $(this).find("td");
                 myRows[index] = {};
@@ -300,11 +327,15 @@ $json = ($settings ? $settings : '');
 
                     <div class="mw-ui-col">
                         <div class="mw-ui-col-container">
-                            <button class="mw-ui-btn mw-ui-btn-important mw-ui-btn-outline mw-ui-btn-small m-b-10 mw-full-width" type="button" onclick="deleteColumn('last')">
+                            <button
+                                    class="mw-ui-btn mw-ui-btn-important mw-ui-btn-outline mw-ui-btn-small m-b-10 mw-full-width"
+                                    type="button" onclick="deleteColumn('last')">
                                 <i class=""></i> Delete Last Column
                             </button>
 
-                            <button class="mw-ui-btn mw-ui-btn-important mw-ui-btn-outline mw-ui-btn-small m-b-10 mw-full-width" type="button" onclick="deleteRow('last')">
+                            <button
+                                    class="mw-ui-btn mw-ui-btn-important mw-ui-btn-outline mw-ui-btn-small m-b-10 mw-full-width"
+                                    type="button" onclick="deleteRow('last')">
                                 <i class=""></i> Delete Last Row
                             </button>
                         </div>
@@ -328,9 +359,7 @@ $json = ($settings ? $settings : '');
                 <div class="mw-ui-row-nodrop">
                     <div class="mw-ui-col">
                         <div class="mw-ui-col-container">
-                            <button class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-important" type="button" onclick="deleteRow('all'); deleteColumn('all')">
-                                <i class="mw-icon-app-trash"></i> &nbsp;Delete all Columns & Rows
-                            </button>
+
                         </div>
                     </div>
 
