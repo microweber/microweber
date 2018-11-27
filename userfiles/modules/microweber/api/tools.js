@@ -3323,21 +3323,6 @@ mw.tools = {
         }
     },
 
-
-    show_live_edit_sidebar: function () {
-        if (mw.liveEditSettings.active) {
-
-            $('a[data-id="mw-toolbar-show-sidebar-btn"]').removeClass('opened');
-            mw.cookie.set("show-sidebar-layouts", '0');
-            mw.liveEditSettings.hide();
-        } else {
-            mw.liveEditSettings.show();
-            $('a[data-id="mw-toolbar-show-sidebar-btn"]').addClass('opened');
-            mw.cookie.set("show-sidebar-layouts", '1');
-        }
-    },
-
-
     module_settings: function (a, view, liveedit) {
 
 
@@ -5693,7 +5678,7 @@ mw.tabAccordion = function(options, accordion){
         this.buttons.push(btn)
         var size = (this.options.tabsSize ? ' mw-ui-btn-' +  this.options.tabsSize : '');
         var color = (this.options.tabsColor ? ' mw-ui-btn-' +  this.options.tabsColor : '');
-        var active = (index === 0 ? ' active' :'');
+        var active = (index === 0 ? ' active-info' :'');
         btn.className = 'mw-ui-btn' + size + color + active;
         btn.innerHTML = content;
         btn.onclick = function(){
