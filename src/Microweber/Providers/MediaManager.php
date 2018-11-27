@@ -752,6 +752,11 @@ class MediaManager
                         if (function_exists('finfo_file')) {
                             //use Image library
                             //  $image = Image::make($src)->resize($width, $height)->save($cache_path);
+                            @ini_set('memory_limit', '2560M');
+
+
+
+
                             if (intval($height) == 0) {
                                 $height = null;
                             }

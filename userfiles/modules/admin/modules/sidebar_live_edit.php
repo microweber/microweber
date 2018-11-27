@@ -106,33 +106,42 @@
                 </div>*/
 
             ?>
-            <div class="mw-ui-box-content tabitem module-settings-holder" id="mw-sidebar-quick-edit-items">
-
-                <div id="js-live-edit-side-wysiwyg-editor-holder" class="mw-defaults mw-live-edit-component-options" <?php print lang_attributes(); ?>>
-
-                    <div class="mw-defaults mw_editor">
 
 
-                        <div class="mw-ui-row">
-                            <?php include mw_includes_path() . 'toolbar' . DS . 'wysiwyg_sidebar.php'; ?>
 
+            <?php
+
+            /*<div class="mw-ui-box-content tabitem module-settings-holder" id="mw-sidebar-quick-edit-items">
+
+                    <div id="js-live-edit-side-wysiwyg-editor-holder" class="mw-defaults mw-live-edit-component-options" <?php print lang_attributes(); ?>>
+
+                        <div class="mw-defaults mw_editor">
+
+
+                            <div class="mw-ui-row">
+                                <?php include mw_includes_path() . 'toolbar' . DS . 'wysiwyg_sidebar.php'; ?>
+
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div id="js-live-edit-image-settings-holder" class="mw-defaults mw-live-edit-component-options">
+                    <div id="js-live-edit-image-settings-holder" class="mw-defaults mw-live-edit-component-options">
 
-                </div>
-                <div id="js-live-edit-module-settings-holder" class="mw-defaults mw-live-edit-component-options">
-                    <div id="js-live-edit-module-settings-items"></div>
-                </div>
+                    </div>
+                    <div id="js-live-edit-module-settings-holder" class="mw-defaults mw-live-edit-component-options">
+                        <div id="js-live-edit-module-settings-items"></div>
+                    </div>
 
-                <div id="js-live-edit-icon-settings-holder" class="mw-defaults mw-live-edit-component-options mw-ui-box mw-ui-box-content">
-                    icon
-                </div>
+                    <div id="js-live-edit-icon-settings-holder" class="mw-defaults mw-live-edit-component-options mw-ui-box mw-ui-box-content">
+                        icon
+                    </div>
 
 
-            </div>
+                </div>*/
+
+            ?>
+
+
             <div class="mw-ui-box-content tabitem css-editor-holder">
                 <h3 class="mw-live-edit-tab-title"><?php echo("UI Editor"); ?></h3>
                 <div id="mw-css-editor_____TEMP_REMOVE"></div>
