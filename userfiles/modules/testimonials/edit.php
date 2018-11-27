@@ -21,15 +21,18 @@
     });
 
 
-    $("#client_img").on("click", function(){
-        mw.fileWindow({
-            types:'images',
-            change:function(url){
-                url = url.toString();
-                mw.$("#client_picture").val(url).trigger('change');
-            }
+    $(window).on('load', function () {
+        $("#client_img").on("click", function(){
+
+            mw.fileWindow({
+                types:'images',
+                change:function(url){
+                    url = url.toString();
+                    mw.$("#client_picture").val(url).trigger('change');
+                }
+            });
         });
-    });
+    })
 
 </script>
 
