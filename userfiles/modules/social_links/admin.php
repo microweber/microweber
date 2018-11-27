@@ -147,6 +147,25 @@ $linkedin_url = get_option('linkedin_url', $option_group);
             <tr>
                 <td>
                     <label class="mw-ui-check">
+                        <input type="checkbox" class="mw_option_field" name="googleplus_enabled" id="googleplus_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($googleplus_enabled) print 'checked="checked"'; ?>><span></span>
+                    </label>
+                </td>
+
+                <td><i class="fab fa-youtube mw-socials-youtube-color"></i></td>
+
+                <td>
+                    <label class="mw-ui-inline-label" for="googleplus_enabled">plus.google.com/</label>
+                </td>
+                <td>
+                    <div class="mw-ui-field-holder">
+                        <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field mw-ui-field mw-ui-field-medium" name="googleplus_url" value="<?php print $googleplus_url; ?>"/>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label class="mw-ui-check">
                         <input type="checkbox" class="mw_option_field" name="linkedin_enabled" id="linkedin_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($linkedin_enabled) print 'checked="checked"'; ?>><span></span>
                     </label>
                 </td>

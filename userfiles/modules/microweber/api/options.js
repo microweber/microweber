@@ -316,6 +316,15 @@ mw.options = {
                 } else if (reaload_in_parent !== true && refresh_modules11 != undefined && refresh_modules11 != '') {
                     refresh_modules11 = refresh_modules11.toString()
 
+
+                    // window.mw.reload_module(refresh_modules11, function (reloaded_el) {
+                    //
+                    //     mw.options.form(reloaded_el, callback);
+                    // });
+
+
+
+
                   //  mw.log(refresh_modules11);
 
 
