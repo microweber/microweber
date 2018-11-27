@@ -245,6 +245,7 @@ mw.options = {
                     }
 
                     if (window.parent.mw.reload_module != undefined) {
+
                         if (!!mw.admin) {
                             setTimeout(function () {
                                 window.parent.mw.reload_module("#" + refresh_modules11);
@@ -297,7 +298,6 @@ mw.options = {
 
                 }
 
-
                 if (reaload_in_parent !== true && for_m_id != undefined && for_m_id != '') {
                     for_m_id = for_m_id.toString()
                     if (window.mw != undefined) {
@@ -305,25 +305,31 @@ mw.options = {
 
 
 
-                        //if (window.mw.reload_module !== undefined) {
-//	
-//									window.mw.reload_module('#'+for_m_id, function(reloaded_el){
-//
-//										mw.options.form(reloaded_el, callback);
-//									});
-//                                }
+                        // if (window.mw.reload_module !== undefined) {
+                        //
+						// 			window.mw.reload_module('#'+for_m_id, function(reloaded_el){
+                        //
+						// 				mw.options.form(reloaded_el, callback);
+						// 			});
+                        //        }
                     }
                 } else if (reaload_in_parent !== true && refresh_modules11 != undefined && refresh_modules11 != '') {
                     refresh_modules11 = refresh_modules11.toString()
 
+                //    alert(refresh_modules11);
 
                     // window.mw.reload_module(refresh_modules11, function (reloaded_el) {
-                    //
-                    //     mw.options.form(reloaded_el, callback);
+                    //     mw.options.form(refresh_modules11, callback);
+                    //     mw.options.form('#'+refresh_modules11, callback);
                     // });
 
 
+                           if (window.mw.reload_module !== undefined) {
 
+                               mw.reload_module_parent(refresh_modules11);
+                               mw.reload_module_parent("#" + refresh_modules11);
+
+                           }
 
                   //  mw.log(refresh_modules11);
 
@@ -384,6 +390,7 @@ mw.options.form = function ($selector, callback, beforepost) {
                                 }
                                // mw.options._optionSaved = ''+mw.random();
                                 mw.options.save(this, root._optionsEvents.callback);
+
                             });
                         //}
                     });

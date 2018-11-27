@@ -102,11 +102,24 @@ if ($json != false) {
 
 <script>
 
+
+
+
+
+
+
+
+
+
+
+
+
     mw.tpl = {
         save: function () {
             var u = "<?php print $save_url; ?>", obj = {}, m = mwd.getElementById('mw-template-settings');
             mw.$(".tpl-field", m).each(function () {
                 var name = this.name;
+                obj.id = "template_settings";
                 obj.module = "settings/template";
                 obj.save_template_settings = true;
                 obj.active_site_template = "<?php print $active_template_dir; ?>";
