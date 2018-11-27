@@ -107,7 +107,9 @@ $json = ($settings ? $settings : '');
     }
 
     function deleteRow(row='') {
-        var tbl = document.getElementById('htmltable');
+        var tbl = document.querySelector('#htmltable tbody');
+
+        if(tbl.querySelectorAll('tr').length <=1) return;
 
         if (row == 'last') {
             lastRow = tbl.rows.length - 1;
@@ -133,6 +135,8 @@ $json = ($settings ? $settings : '');
 
     function deleteColumn(col='') {
         var tbl = document.getElementById('htmltable');
+
+        if(tbl.querySelectorAll('th').length <= 1) return
 
         if (col == 'last') {
             lastCol = tbl.rows[0].cells.length - 1;
@@ -182,7 +186,9 @@ $json = ($settings ? $settings : '');
                 if (cellValue == null) {
                     cellValue = "";
                 }
-                row$.append($('<td/>').html(cellValue).addClass(tdClass).attr('contenteditable', 'true'));
+                var td = $('<td/>').html(cellValue).addClass(tdClass).attr('contenteditable', 'true');
+
+                row$.append(td);
             }
             tbody.append(row$);
         }
@@ -216,6 +222,23 @@ $json = ($settings ? $settings : '');
 
     // ---- button click functions -----
 
+
+    handlePaste = function(){
+        $("#htmltable th, #htmltable td").on('paste', function(e){
+            if(e.originalEvent){
+                var clipboard = e.originalEvent.clipboardData || mww.clipboardData;
+            }
+            else{
+                var clipboard = e.clipboardData || mww.clipboardData;
+            }
+            var text = clipboard.getData('text');
+            mw.wysiwyg.insert_html(text);
+            e.preventDefault()
+
+        });
+    };
+
+
     $(document).ready(function () {
 
         <?php if(!empty($json)) { ?>
@@ -223,7 +246,8 @@ $json = ($settings ? $settings : '');
             var json = <?php print $json;?>;
             var jdata = json.tabledata;
             var tableId = "htmltable";
-            deleteRow('all');
+            $("#htmltable tbody").empty()
+            $("#htmltable thead").empty()
             buildTable(tableId, jdata)
         } catch (e) {
             // No data found so default table will load
@@ -236,6 +260,7 @@ $json = ($settings ? $settings : '');
             //TODO: save data to settings and add general and styles keys
             var tableCss = []; // place holder
             var $headers = $("th");
+            var $cells;
             var $rows = $("tbody tr").each(function (index) {
                 $cells = $(this).find("td");
                 myRows[index] = {};
@@ -328,9 +353,7 @@ $json = ($settings ? $settings : '');
                 <div class="mw-ui-row-nodrop">
                     <div class="mw-ui-col">
                         <div class="mw-ui-col-container">
-                            <button class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-important" type="button" onclick="deleteRow('all'); deleteColumn('all')">
-                                <i class="mw-icon-app-trash"></i> &nbsp;Delete all Columns & Rows
-                            </button>
+
                         </div>
                     </div>
 

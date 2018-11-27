@@ -82,7 +82,7 @@ if (isset($data['options']) and is_array($data['options']) and !empty($data['opt
                     $kv = ucwords($k);
                 }
                 ?>
-                <div class="control-group">
+                <div class="control-group form-group">
                     <label class="mw-ui-label mw-ui-label-address-custom-field">
                         <small>
                             <?php _e($kv); ?>

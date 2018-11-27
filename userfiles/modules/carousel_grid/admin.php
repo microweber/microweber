@@ -12,13 +12,16 @@ if (!$items_number) {
     $items_number = 10;
 }
 ?>
-
-
 <script>
     $(mwd).ready(function () {
         $('[data-type="pictures/admin"]').on('change', function () {
              mw.reload_module_parent('#<?php print $params['id']; ?>')
-        })
+        });
+        mw.on.moduleReload('pa<?php print $params['id']; ?>', function () {
+            $('[data-type="pictures/admin"]').on('change', function () {
+                mw.reload_module_parent('#<?php print $params['id']; ?>')
+            });
+        });
     });
 </script>
 
@@ -31,11 +34,12 @@ if (!$items_number) {
             </div>
         </div>
         <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-            <!-- Settings Content -->
-            <div class="module-live-edit-settings module-carousel-grid-settings">
-                <module type="pictures/admin" rel_id="<?php print $params['id']; ?>" id="pa<?php print $params['id']; ?>"/>
+            <div class="module-live-edit-settings module-carousel-grid-settings" style="padding: 0">
+                <module
+                        type="pictures/admin"
+                        rel_id="<?php print $params['id']; ?>"
+                        id="pa<?php print $params['id']; ?>" />
             </div>
-            <!-- Settings Content - End -->
         </div>
     </div>
 
