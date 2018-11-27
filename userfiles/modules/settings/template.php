@@ -5,9 +5,12 @@ if (!is_admin()) {
 $save_url = site_url('module?type=settings___template');
 $save_url = api_url('current_template_save_custom_css');
 
-$tpl_settings_for_theme = THIS_TEMPLATE_DIR . 'template_settings.php';
+$tpl_settings_for_theme = TEMPLATE_DIR . 'template_settings.php';
 
-
+d(THIS_TEMPLATE_DIR);
+d(ACTIVE_TEMPLATE_DIR);
+d(TEMPLATE_DIR);
+d(CONTENT_ID);
 if (!is_file($tpl_settings_for_theme)) {
     return;
 }

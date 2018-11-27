@@ -34,6 +34,18 @@ class ModuleController extends Controller
 
     public function index()
     {
+        // DEPRICATED
+        // DEPRICATED
+        // DEPRICATED
+        // DEPRICATED
+        // DEPRICATED
+        // DEPRICATED
+        // DEPRICATED
+        // DEPRICATED
+        // DEPRICATED
+        // DEPRICATED
+
+
         $is_installed = mw_is_installed();
         if (!$is_installed) {
             App::abort(403, 'Unauthorized action. Microweber MUST be installed to use modules.');

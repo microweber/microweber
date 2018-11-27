@@ -351,6 +351,9 @@ mw.options = {
 
                 typeof callback === 'function' ? callback.call(data) : '';
 
+
+
+
             }
         })
     }
@@ -366,13 +369,6 @@ mw.options.form = function ($selector, callback, beforepost) {
     if (!root) return;
 
 
-    // if (!jQuery.inArray($selector, mw.options._bindedFormsRegistry)) {
-    //     mw.options._bindedFormsRegistry[$selector] = [];
-    // }
-    //
-    //
-    // d( mw.options._bindedFormsRegistry);
-    // d( $selector);
 
     if (!root._optionsEvents) {
         mw.$("input, select, textarea", root)
@@ -383,17 +379,15 @@ mw.options.form = function ($selector, callback, beforepost) {
                 if (item.hasClass('mw_option_field')) {
                     item.addClass('mw-options-form-binded');
                     item.on('change input paste', function (e) {
-                        var isCheckLike = this.type === 'checkbox' || this.type === 'radio';
+                        var isCheckLike = this.type === 'checkbox' || this.type === 'radio'|| this.type === 'hidden';
                         var token = isCheckLike ? this.name : this.name + $(this).val();
                         //if(mw.options._optionSaved !== token){
                         //mw.options._optionSaved = token;
                         mw.options.___slowDownEvent(token, this, function () {
                             if (typeof root._optionsEvents.beforepost === 'function') {
                                 root._optionsEvents.beforepost.call(this);
-                               // this._mw_option_binded_beforepost_callback = root._optionsEvents.beforepost
 
                             }
-                           // this._mw_option_binded_callback = root._optionsEvents.callback
 
 
                             // mw.options._optionSaved = ''+mw.random();
