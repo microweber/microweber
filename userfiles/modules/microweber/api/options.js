@@ -208,7 +208,6 @@ mw.options = {
                     }
                 }
 
-d(which_module_to_reload);
 
                 if (mw.admin) {
                     if (top.mweditor && top.mweditor.contentWindow) {
@@ -243,6 +242,7 @@ d(which_module_to_reload);
                         if (!!mw.admin) {
                             setTimeout(function () {
                                 window.parent.mw.reload_module("#" + which_module_to_reload);
+                                //   mw.options.___rebindAllFormsAfterReload();
                             }, 777);
                         }
                         else {
@@ -250,6 +250,7 @@ d(which_module_to_reload);
                                 window.parent.mweditor.contentWindow.mw.reload_module("#" + which_module_to_reload, function () {
                                     setTimeout(function () {
                                         window.parent.mw.exec("mw.admin.editor.set", window.parent.mweditor);
+                                        //  mw.options.___rebindAllFormsAfterReload();
                                     }, 777);
                                 });
                             }
@@ -257,6 +258,7 @@ d(which_module_to_reload);
                                 window.parent.mw.reload_module("#" + which_module_to_reload, function () {
                                     setTimeout(function () {
                                         window.parent.mw.exec("mw.admin.editor.set", window.parent.mweditor);
+                                        // mw.options.___rebindAllFormsAfterReload();
                                     }, 777);
                                 });
                             }
@@ -282,10 +284,12 @@ d(which_module_to_reload);
                             window.mw.reload_module(also_reload, function (reloaded_el) {
 
                                 mw.options.form(reloaded_el, callback);
+                                //mw.options.___rebindAllFormsAfterReload();
                             });
                             window.mw.reload_module('#' + also_reload, function (reloaded_el) {
 
                                 mw.options.form(reloaded_el, callback);
+                                //mw.options.___rebindAllFormsAfterReload();
                             });
                         }
                     }
@@ -311,8 +315,6 @@ d(which_module_to_reload);
                     which_module_to_reload = which_module_to_reload.toString()
 
 
-
-
                     if (window.mw.reload_module !== undefined) {
 
                         mw.reload_module_parent(which_module_to_reload);
@@ -322,24 +324,12 @@ d(which_module_to_reload);
 
 
                 }
-                d(mw.options._bindedRootFormsRegistry);
-
-                mw.options._bindedRootFormsRegistry.forEach(function (binded_selectror, binded_events) {
-                    d(binded_selectror)
-                    d(binded_events)
-                })
-                //  mw.options.form(reloaded_el, callback);
 
 
                 typeof callback === 'function' ? callback.call(data) : '';
-
-
-
-
-
-
-
-
+                setTimeout(function () {
+                    mw.options.___rebindAllFormsAfterReload();
+                }, 777);
                 //
                 //
                 //d(refresh_modules11);
@@ -364,40 +354,53 @@ mw.options.form = function ($selector, callback, beforepost) {
             .not('.mw-options-form-binded-custom')
             .each(function () {
                 //this._optionSaved = true;
-                var item = $(this);
-                if (item.hasClass('mw_option_field')) {
-                    item.addClass('mw-options-form-binded');
-                    item.on('change input paste', function (e) {
 
-                        var isCheckLike = this.type === 'checkbox' || this.type === 'radio' || this.type === 'hidden';
-                        var token = isCheckLike ? this.name : this.name + $(this).val();
-                        //if(mw.options._optionSaved !== token){
-                        //mw.options._optionSaved = token;
-                        mw.options.___slowDownEvent(token, this, function () {
-                            var rebind = {};
+                var item = $(this);
+                if (!item._optionsEventsBinded) {
+                    if (item.hasClass('mw_option_field')) {
+                        item._optionsEventsBinded = true;
+
+
+                        if (root._optionsEventsClearBidings) {
+                            item.off('change input paste');
+                        }
+
+                        item.addClass('mw-options-form-binded');
+                        item.on('change input paste', function (e) {
+
+                            // REBIND
+
+                            var rebind = {}
                             if (typeof root._optionsEvents.beforepost === 'function') {
                                 rebind.beforepost = root._optionsEvents.beforepost;
-                                root._optionsEvents.beforepost.call(this);
-
                             }
-                            rebind.callback = root._optionsEvents.callback;
+                            rebind.callback = root._optionsEvents.callback
+                            rebind.binded_selector = $selector;
                             var rebindtemp = mw.tools.cloneObject(rebind);
-                            mw.options._bindedRootFormsRegistry[$selector] =  rebindtemp;
+                            mw.options._bindedRootFormsRegistry.push(rebindtemp);
+                            // END OF REBIND
 
-                            // mw.options._optionSaved = ''+mw.random();
-                            mw.options.save(this, root._optionsEvents.callback);
+
+                            var isCheckLike = this.type === 'checkbox' || this.type === 'radio' || this.type === 'hidden';
+                            var token = isCheckLike ? this.name : this.name + $(this).val();
+                            //if(mw.options._optionSaved !== token){
+                            //mw.options._optionSaved = token;
+                            mw.options.___slowDownEvent(token, this, function () {
+                                if (typeof root._optionsEvents.beforepost === 'function') {
+                                    root._optionsEvents.beforepost.call(this);
+
+                                }
+                                // mw.options._optionSaved = ''+mw.random();
+                                mw.options.save(this, root._optionsEvents.callback);
+                            });
+                            //}
                         });
-                        //}
-                    });
+                    }
                 }
             });
     }
     root._optionsEvents = root._optionsEvents || {};
     root._optionsEvents = $.extend({}, root._optionsEvents, {callback: callback, beforepost: beforepost});
-    //var temp = $.extend({}, root._optionsEvents, {callback: callback, beforepost: beforepost});
-    //var temp2 = mw.tools.cloneObject(temp);
-    // mw.tools.copyEvents(temp,temp2);
-    //mw.options._bindedRootFormsRegistry[$selector] = temp2;
 
 
 };
@@ -414,7 +417,62 @@ mw.options.___slowDownEvent = function (token, el, call) {
     }, 700);
 };
 
+mw.options.___rebindAllFormsAfterReload = function () {
+
+    var token = '___rebindAllFormsAfterReload';
 
 
+    mw.options.___slowDownEvent(token, this, function () {
 
 
+        for (var i = 0, l = mw.options._bindedRootFormsRegistry.length; i < l; i++) {
+            var binded_root = mw.options._bindedRootFormsRegistry[i];
+            if (binded_root.binded_selector) {
+
+                var $root = mw.$(binded_root.binded_selector);
+                var root = $root[0];
+                if (root) {
+
+                    var rebind_beforepost = null;
+                    var rebind_callback = null;
+                    if (typeof binded_root.beforepost === 'function') {
+                        var rebind_beforepost = binded_root.beforepost;
+                    }
+
+                    if (typeof binded_root.callback === 'function') {
+                        var rebind_callback = binded_root.callback;
+                    }
+                    var has_non_binded = false;
+                    mw.$("input, select, textarea", root)
+                        .not('.mw-options-form-binded-custom')
+                        .each(function () {
+                            var item = $(this);
+                            if (item.hasClass('mw_option_field')) {
+                                if (!item._optionsEventsBinded) {
+                                    has_non_binded = true;
+                                }
+                            }
+                        });
+
+                    if (root._optionsEvents && has_non_binded && rebind_callback) {
+                        root._optionsEvents = null;
+                        root._optionsEventsClearBidings = true;
+                        mw.options.form(binded_root.binded_selector, rebind_callback, rebind_beforepost);
+                    }
+                }
+
+
+            }
+        }
+    });
+}
+//
+// mw.options.___locateModuleNodesToBeRealoaded = function (selectror,window_scope) {
+//
+//    var module = module.replace(/##/g, '#');
+//    var m = mw.$(".module[data-type='" + module + "']");
+//    if (m.length === 0) {
+//        try { var m = $(module); }  catch(e) {};
+//    }
+//
+//}
