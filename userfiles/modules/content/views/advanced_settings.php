@@ -373,6 +373,28 @@ if (isset($data['created_by']) and $data['created_by']) {
                         <div class="mw-ui-col">
                             <div class="mw-ui-field-holder">
                                 <label class="mw-ui-label"><?php _e("Author"); ?></label>
+                                <div id="select-post-author"></div>
+
+                                <script>mw.require('autocomplete.js')</script>
+                                <script>
+
+                                 $(document).ready(function () {
+                                    mw.autoComplete({
+                                        element:"#select-post-author",
+                                        ajaxConfig: {
+                                            method: 'get',
+                                            url: mw.settings.api_url + 'users/search_authors?kw=${val}'
+                                        },
+                                        map : {
+                                            value: 'id',
+                                            title: 'display_name',
+                                            image: 'picture'
+                                        }
+                                    })
+                                 })
+
+
+                                </script>
 
                                 <select name="created_by" class="mw-ui-field">
                                     <?php foreach ($all_users as $author) : ?>

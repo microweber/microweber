@@ -163,18 +163,18 @@ mw.autoComplete = function(options){
 
         if(config.data){
             if(typeof config.data === 'string'){
-                config.data = config.data.replace('${val}',val)
+                config.data = config.data.replace('${val}',val);
             }
             else{
-               $.each(config.data, function(key,val){
-                    if(val.indexOf('${val}')!==-1){
-                        config.data[key] = val.replace('${val}',val)
+               $.each(config.data, function(key,value){
+                    if(value.indexOf('${val}') !==-1 ){
+                        config.data[key] = value.replace('${val}',value);
                     }
-               })
+               });
             }
         }
         if(config.url){
-            config.url.replace('${val}',val)
+            config.url = config.url.replace('${val}',val);
         }
         var xhr = $.ajax(config);
         xhr.done(function(data){
@@ -184,7 +184,7 @@ mw.autoComplete = function(options){
             else{
                scope.data = data;
             }
-            scope.results = scope.data
+            scope.results = scope.data;
 
         })
         .always(function(){

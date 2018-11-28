@@ -74,6 +74,7 @@ if (isset($json) == false or count($json) == 0) {
             $(item.querySelectorAll('input')).val('');
             $(item.querySelectorAll('textarea')).val('');
             $(item.querySelectorAll('.mw-uploader')).remove();
+            $(item.querySelectorAll('.mw-iframe-editor')).remove();
             last.before(item);
             faqs.init(item);
         },

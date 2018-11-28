@@ -148,6 +148,9 @@ body.state-element .mw-row .element {
     -o-transition: color 0 ease-in !important;
     transition: none !important;
 }
+.mw-live-edit .module{
+    min-height: 20px;
+}
 
 img[align='center'],
 img[align='middle'] {

@@ -32,6 +32,20 @@
                 }
             });
         });
+
+        mw.on.moduleReload("edit-testimonials", function(){
+
+            $("#client_img").on("click", function(){
+
+                mw.fileWindow({
+                    types:'images',
+                    change:function(url){
+                        url = url.toString();
+                        mw.$("#client_picture").val(url).trigger('change');
+                    }
+                });
+            });
+        });
     })
 
 </script>
