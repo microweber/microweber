@@ -217,7 +217,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
     public function reset_modules_settings($modules_ids)
     {
-        if(isset($modules_ids['modules_ids'])){
+        if (isset($modules_ids['modules_ids'])) {
             $modules_ids = $modules_ids['modules_ids'];
         }
         //data.
@@ -235,6 +235,25 @@ class ContentManagerHelpers extends ContentManagerCrud
 
     public function reset_edit_field($data)
     {
+        if ($data) {
+            foreach ($data as $item) {
+                if (isset($item['rel']) and ($item['rel'])) {
+                    if (isset($item['field']) and ($item['field'])) {
+
+                        $del = \DB::table($this->tables['content_fields'])
+                            ->where('rel_type', '=', $item['rel'])
+                            ->where('field', '=', $item['field']);
+
+
+                        $del = $del->delete();
+
+                    }
+                }
+            }
+        }
+        $this->app->cache_manager->delete('content');
+        $this->app->cache_manager->delete('content_fields');
+        return;
         if (isset($data['id'])) {
             $cont = get_content_by_id($data['id']);
             if (isset($cont['id']) and $cont['id'] != 0) {
