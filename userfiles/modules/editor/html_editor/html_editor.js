@@ -328,6 +328,25 @@ mw.html_editor.reset_content = function (also_reset_modules) {
             var html = 'Untitled content';
         }
 
+
+        var childs_arr = {};
+
+        $(el).find('.edit').each(function (i) {
+            var some_child = {};
+            some_child.rel = $(this).attr('rel');
+            some_child.field = $(this).attr('field');
+            childs_arr[i] = some_child;
+        });
+
+
+ 
+
+        //if (childs_arr.length) {
+
+            $.post(mw.settings.api_url + "content/reset_edit", childs_arr);
+
+       //}
+
         $(el).html(html);
 
         if ($(el).hasClass('edit')) {
