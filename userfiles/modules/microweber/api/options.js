@@ -242,7 +242,7 @@ mw.options = {
                         if (!!mw.admin) {
                             setTimeout(function () {
                                 window.parent.mw.reload_module("#" + which_module_to_reload);
-                                   mw.options.___rebindAllFormsAfterReload();
+                                mw.options.___rebindAllFormsAfterReload();
                             }, 777);
                         }
                         else {
@@ -250,7 +250,7 @@ mw.options = {
                                 window.parent.mweditor.contentWindow.mw.reload_module("#" + which_module_to_reload, function () {
                                     setTimeout(function () {
                                         window.parent.mw.exec("mw.admin.editor.set", window.parent.mweditor);
-                                         mw.options.___rebindAllFormsAfterReload();
+                                        mw.options.___rebindAllFormsAfterReload();
                                     }, 777);
                                 });
                             }
@@ -283,7 +283,7 @@ mw.options = {
 
                             window.mw.reload_module(also_reload, function (reloaded_el) {
 
-                              //  mw.options.form(reloaded_el, callback);
+                                //  mw.options.form(reloaded_el, callback);
                                 mw.options.___rebindAllFormsAfterReload();
                             });
                             window.mw.reload_module('#' + also_reload, function (reloaded_el) {
@@ -296,22 +296,22 @@ mw.options = {
 
                 }
 
-     /*           if (reaload_in_parent !== true && for_m_id != undefined && for_m_id != '') {
-                    for_m_id = for_m_id.toString()
-                    if (window.mw != undefined) {
+                /*           if (reaload_in_parent !== true && for_m_id != undefined && for_m_id != '') {
+                               for_m_id = for_m_id.toString()
+                               if (window.mw != undefined) {
 
 
 
 
-                        // if (window.mw.reload_module !== undefined) {
-                        //
-                        // 			window.mw.reload_module('#'+for_m_id, function(reloaded_el){
-                        //
-                        // 				mw.options.form(reloaded_el, callback);
-                        // 			});
-                        //        }
-                    }
-                } else*/
+                                   // if (window.mw.reload_module !== undefined) {
+                                   //
+                                   // 			window.mw.reload_module('#'+for_m_id, function(reloaded_el){
+                                   //
+                                   // 				mw.options.form(reloaded_el, callback);
+                                   // 			});
+                                   //        }
+                               }
+                           } else*/
 
 
                 if (reaload_in_parent !== true && which_module_to_reload != undefined && which_module_to_reload != '') {
@@ -332,7 +332,7 @@ mw.options = {
 
                 typeof callback === 'function' ? callback.call(data) : '';
                 setTimeout(function () {
-                   mw.options.___rebindAllFormsAfterReload();
+                    mw.options.___rebindAllFormsAfterReload();
                 }, 111);
                 //
                 //
@@ -373,8 +373,6 @@ mw.options.form = function ($selector, callback, beforepost) {
                         item.on('change input paste', function (e) {
 
 
-
-
                             var isCheckLike = this.type === 'checkbox' || this.type === 'radio';
                             var token = isCheckLike ? this.name : this.name + $(this).val();
                             //if(mw.options._optionSaved !== token){
@@ -407,7 +405,16 @@ mw.options.form = function ($selector, callback, beforepost) {
     rebind.binded_selector = $selector;
     var rebindtemp = mw.tools.cloneObject(rebind);
     //fix here chek if in array
-    mw.options._bindedRootFormsRegistry.push(rebindtemp);
+
+
+    var is_in = mw.options._bindedRootFormsRegistry.filter(function (a) {
+        return a.binded_selector == $selector
+    })
+
+    if (!is_in.length) {
+        mw.options._bindedRootFormsRegistry.push(rebindtemp);
+    }
+
     // END OF REBIND
 
 
@@ -459,7 +466,7 @@ mw.options.___rebindAllFormsAfterReload = function () {
                             if (item.hasClass('mw_option_field')) {
                                 if (!item._optionsEventsBinded) {
                                     has_non_binded = true;
-                                    item.attr('autocomplete','off');
+                                    item.attr('autocomplete', 'off');
                                 }
                             }
                         });
@@ -468,6 +475,11 @@ mw.options.___rebindAllFormsAfterReload = function () {
                         root._optionsEvents = null;
                         root._optionsEventsClearBidings = true;
                         mw.options.form(binded_root.binded_selector, rebind_callback, rebind_beforepost);
+
+                        // mw.options._bindedRootFormsRegistry =  mw.options._bindedRootFormsRegistry.filter(function (a) {
+                        //     return a.binded_selector != binded_root.binded_selector
+                        // })
+
                     }
                 }
 
