@@ -91,31 +91,7 @@ version: 0.9
                 <hr/>
                 <?php $shop_page = get_content('is_shop=0'); ?>
 
-                    <?php if ($terms): ?>
-                        <script>
-                            $(document).ready(function () {
-                                $('#i_agree_with_terms_row').click(function () {
-                                    var el = $('#i_agree_with_terms');
-                                    if (el.is(':checked')) {
-                                        $('#complete_order_button').removeAttr('disabled');
-                                    } else {
-                                        $('#complete_order_button').attr('disabled', 'disabled');
-
-                                    }
-                                });
-                            });
-                        </script>
-
-                        <div class="mw-ui-row" id="i_agree_with_terms_row">
-                            <label class="mw-ui-check">
-                                <input type="checkbox" name="terms" id="i_agree_with_terms" value="1" autocomplete="off"/>
-                                <span class="edit" field="i_agree_with_terms_text" rel="shop_checkout">
-                                    <?php _e('I agree with the'); ?>
-                                    <a href="<?php print site_url('terms-and-conditions') ?>" target="_blank"><?php _e('Terms and Conditions'); ?></a>
-                                </span>
-                            </label>
-                        </div>
-                    <?php endif; ?>
+                <module type="shop/checkout/terms" />
 
                 <button class="btn btn-warning pull-right mw-checkout-btn"
                         onclick="mw.cart.checkout('#checkout_form_<?php print $params['id'] ?>');"
