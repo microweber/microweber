@@ -11,9 +11,11 @@ description: Default
 */
 ?>
 
-<link rel="stylesheet" type="text/css" href="<?php print $config['url_to_module'] ?>css/default.css"/>
 
-<div class="faq-holder default">
+<link rel="stylesheet" type="text/css" href="<?php print $config['url_to_module'] ?>css/default.css"/>
+<script>mw.require("<?php print $config['url_to_module'] ?>js/default.js", true); </script>
+
+<div class="faq-holder styled">
     <div class="row">
         <div class="col-xs-12 edit" rel="module-<?php print $params['id']; ?>" field="title-content">
             <h3>Here’s a few answers to our most common questions</h3>
@@ -26,9 +28,21 @@ description: Default
         foreach ($data as $slide) {
             $count++;
             ?>
-            <div class="col-xs-12 col-sm-6">
-                <h4><?php print $slide['question']; ?></h4>
-                <div><p><?php print $slide['answer']; ?></p></div>
+
+            <?php if ($count == 1) {
+                $status = '';
+            } else {
+                $status = 'closed';
+            }
+            ?>
+            <div class="col-xs-12 item <?php print $status; ?>">
+                <div class="decorate">
+                    <span class="quest-icon"></span>
+                </div>
+                <div class="content">
+                    <h4><?php print $slide['question']; ?></h4>
+                    <div><p><?php print $slide['answer']; ?></p></div>
+                </div>
             </div>
 
         <?php } ?>

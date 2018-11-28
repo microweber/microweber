@@ -66,14 +66,15 @@ if (isset($json) == false or count($json) == 0) {
 
 
         create: function () {
-            var last = $('.faq-setting-item:last');
+            var last = $('.faq-setting-item:first');
             var html = last.html();
             var item = mwd.createElement('div');
             item.className = last.attr("class");
             item.innerHTML = html;
             $(item.querySelectorAll('input')).val('');
+            $(item.querySelectorAll('textarea')).val('');
             $(item.querySelectorAll('.mw-uploader')).remove();
-            last.after(item);
+            last.before(item);
             faqs.init(item);
         },
 
@@ -163,7 +164,7 @@ if (isset($json) == false or count($json) == 0) {
                             <?php foreach ($json as $slide): ?>
                                 <?php $count++; ?>
                                 <div class="mw-ui-box  faq-setting-item" id="faq-setting-item-<?php print $count; ?>">
-                                    <div class="mw-ui-box-header"><a class="pull-right remove-question tip" data-tipposition="left-center" href="javascript:faqs.remove('#faq-setting-item-<?php print $count; ?>');" title="Remove"><i class="mw-icon-close"></i></a></div>
+                                    <div class="mw-ui-box-header"><span class="mw-icon-drag ui-sortable-handle"></span> <a class="pull-right remove-question tip" data-tipposition="left-center" href="javascript:faqs.remove('#faq-setting-item-<?php print $count; ?>');" title="Remove"><i class="mw-icon-close"></i></a></div>
                                     <div class="mw-ui-box-content">
                                         <div class="mw-ui-field-holder">
                                             <label class="mw-ui-label"><?php _e('Question'); ?></label>
