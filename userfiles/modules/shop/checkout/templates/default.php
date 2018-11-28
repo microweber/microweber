@@ -26,47 +26,14 @@ description: Default cart template
             <?php endif; ?>
 
 
-            <?php include (__DIR__.'/partials/shipping-and-payment.php'); ?>
+            <?php include(__DIR__ . '/partials/shipping-and-payment.php'); ?>
 
             <div class="alert hide"></div>
             <div class="mw-cart-action-holder">
                 <hr/>
 
-                <?php $terms = get_option('shop_require_terms', 'website') == 1;?>
-
-                <?php if ($terms): ?>
-                    <script>
-
-                        $(document).ready(function () {
-
-                            $('#i_agree_with_terms_row').click(function () {
-                                var el = $('#i_agree_with_terms');
-                                if (el.is(':checked')) {
-                                    $('#complete_order_button').removeAttr('disabled');
-                                } else {
-                                    $('#complete_order_button').attr('disabled', 'disabled');
-
-                                }
-                            });
-
-                        });
-
-                    </script>
-
-                    <div class="mw-ui-row" id="i_agree_with_terms_row">
-                        <label class="mw-ui-check">
-                            <input type="checkbox" name="terms" id="i_agree_with_terms" value="1" autocomplete="off"/>
-                            <span class="edit" field="i_agree_with_terms_text" rel="shop_checkout">
-      <?php _e('I agree with the'); ?>
-                                <a href="<?php print site_url('terms-and-conditions') ?>" target="_blank">
-      <?php _e('Terms and Conditions'); ?>
-      </a>
-
-      </span>
-                        </label>
-                    </div>
-                    <br>
-                <?php endif; ?>
+                <module type="shop/checkout/terms"/>
+                <br/>
 
                 <?php $shop_page = get_content('is_shop=1'); ?>
                 <button class="btn btn-warning pull-right mw-checkout-btn"
@@ -77,8 +44,6 @@ description: Default cart template
                 </button>
 
 
-
-
                 <?php if (is_array($shop_page)): ?>
                     <a href="<?php print page_link($shop_page[0]['id']); ?>" class="btn btn-default pull-left"
                        type="button">
@@ -87,15 +52,13 @@ description: Default cart template
                 <?php endif; ?>
 
 
-                <?php if(is_module('shop/coupons')): ?>
+                <?php if (is_module('shop/coupons')): ?>
 
-                  &nbsp;  <a class="btn btn-default" onclick="mw.tools.open_module_modal('shop/coupons');" href="javascript:;" >Discounts </a>
+                    &nbsp;  <a class="btn btn-default" onclick="mw.tools.open_module_modal('shop/coupons');" href="javascript:;">Discounts </a>
 
                 <?php endif; ?>
 
                 <div class="clear"></div>
-
-
 
 
             </div>
