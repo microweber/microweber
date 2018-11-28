@@ -184,10 +184,10 @@ $(document).ready(function() {
           var $el = $(el);
           if(!!parentModule && ( $el.offset().top - $(parentModule).offset().top) < 10 ){
             el.__disableModuleTrigger = parentModule;
-            $el.addClass('inaccessibleModule')
+            $el.addClass('inaccessibleModule');
           }
           else{
-            $el.removeClass('inaccessibleModule')
+            $el.removeClass('inaccessibleModule');
           }
 
         }
@@ -3010,8 +3010,13 @@ $(document).ready(function() {
     }, 300);
 
     mw.on('ElementOver moduleOver', function(e, target){
-      mw.$(".element-over,.module-over").not(e.target).removeClass('element-over module-over')
-      mw.tools.addClass(target, e.type=='onElementOver' ? 'element-over':'module-over')
+      mw.$(".element-over,.module-over").not(e.target).removeClass('element-over module-over');
+        if(e.type === 'onElementOver'){
+            mw.tools.addClass(mw.tools.firstParentOrCurrentWithAnyOfClasses(target, ['element']), 'element-over')
+        } else if(e.type === 'moduleOver'){
+            mw.tools.addClass(mw.tools.firstParentOrCurrentWithAnyOfClasses(target, ['module']), 'module-over')
+        }
+
     });
     /*$(window).on('onElementLeave onModuleLeave', function(e, target){
       mw.tools.removeClass(target, e.type=='onElementLeave' ? 'element-over':'module-over')

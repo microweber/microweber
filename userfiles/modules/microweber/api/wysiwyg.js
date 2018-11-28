@@ -1749,8 +1749,8 @@ mw.wysiwyg = {
             url: "rte_link_editor",
             title: "Edit link",
             name: "mw_rte_link",
-            template: 'basic',
-            width: 500,
+            //template: 'basic',
+            width: 600,
             height: 300
         });
         mw.$('iframe', modal.main).on('change', function (a, b, c, e) {

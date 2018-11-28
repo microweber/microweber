@@ -26,14 +26,18 @@ mw.options = {
         if (typeof o !== 'object') {
             return false;
         }
-        if ((!o.group && !o.option_group) || (!o.key && !o.option_key) || (typeof o.value === 'undefined' && typeof o.option_value === 'undefined')) {
+        var group = o.group || o.option_group,
+            key = o.key ||o.option_key,
+            value = typeof o.value !== 'undefined' ? o.value : o.option_value;
+
+        if (!group || !key || (typeof value === 'undefined')) {
             return false;
         }
         var data = {
-            option_group: o.group || o.option_group,
-            option_key: o.key || o.option_key,
-            option_value: typeof o.value !== 'undefined' ? o.value : o.option_value
-        }
+            option_group: group,
+            option_key: key,
+            option_value: value
+        };
         return $.ajax({
             type: "POST",
             url: mw.settings.site_url + "api/save_option",

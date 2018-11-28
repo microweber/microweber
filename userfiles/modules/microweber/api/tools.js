@@ -769,7 +769,8 @@ mw.tools = {
             return modal;
         },
         frame: function (obj) {
-            var obj = $.extend({}, mw.tools.modal.settings, obj);
+            obj = $.extend({}, mw.tools.modal.settings, obj);
+
             var frame = "<iframe name='frame-" + obj.name + "' id='frame-" + obj.name + "' style='overflow-x:hidden;overflow-y:auto;' class='mw-modal-frame' src='" + mw.external_tool(obj.url) + "'  frameBorder='0' allowfullscreen></iframe>";
             obj.html = frame;
             var modal = mw.tools.modal.init(obj);
