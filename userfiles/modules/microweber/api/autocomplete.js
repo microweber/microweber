@@ -185,11 +185,11 @@ mw.autoComplete = function(options){
                scope.data = data;
             }
             scope.results = scope.data;
-
+            scope.rendResults();
         })
         .always(function(){
             scope.searching = false;
-        })
+        });
     }
 
     this.searchLocal = function(val){
@@ -198,13 +198,13 @@ mw.autoComplete = function(options){
         var toSearch;
         $.each(this.data, function(){
            if(typeof this === 'string'){
-                toSearch = this.toLowerCase()
+                toSearch = this.toLowerCase();
            }
            else{
-               toSearch = this[scope.map.title].toLowerCase()
+               toSearch = this[scope.map.title].toLowerCase();
            }
            if(toSearch.indexOf(val) !== -1){
-            scope.results.push(this)
+            scope.results.push(this);
            }
         });
        this.rendResults();

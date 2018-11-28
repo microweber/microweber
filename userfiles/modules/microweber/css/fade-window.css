@@ -590,25 +590,14 @@
 .fade-window .window-holder .advanced-settins-tab input,
 .fade-window .window-holder .advanced-settins-tab textarea,
 .fade-window .window-holder select {
-    background: #f8f8f8;
     width: 100%;
-    color: #323232;
-    border-color: #c2c2c2;
 }
 
 .fade-window .window-holder .advanced-settins-tab textarea {
     min-height: 70px;
 }
 
-/*.fade-window .window-holder .advanced-settins-tab input:hover,*/
-/*.fade-window .window-holder .advanced-settins-tab textarea:hover,*/
-.fade-window .window-holder .advanced-settins-tab input:focus,
-.fade-window .window-holder .advanced-settins-tab textarea:focus {
-    background: #fff;
-    border-color: #82c4ed;
-    -webkit-box-shadow: 0 0 10px #82c4ed;
-    box-shadow: 0 0 10px #82c4ed;
-}
+
 
 .fade-window .window-holder .advanced-settins-tab .bootstrap-tagsinput input,
 .fade-window .window-holder .advanced-settins-tab .bootstrap-tagsinput input:focus {

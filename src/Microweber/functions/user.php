@@ -308,6 +308,38 @@ api_expose('users/register_email_send', function ($params = false) {
 });
 
 
+api_expose('users/search_authors', function ($params = false) {
+
+    $return = array();
+
+    $kw = false;
+    if (isset($params['kw'])) {
+        $kw = $params['kw'];
+    }
+
+
+    $all_users_search = array();
+    $all_users_search['nolimit'] = 1;
+    $all_users_search['fields'] = 'id,username,first_name,last_name,email,is_admin';
+    if ($kw) {
+        $all_users_search['keyword'] = $kw;
+        $all_users_search['search_in_fields'] = 'id,username,first_name,last_name,email';
+    }
+
+    $all_users = get_users($all_users_search);
+    if ($all_users) {
+        foreach ($all_users as $user) {
+            if (isset($user['id'])) {
+                $user['display_name'] = user_name($user['id']);
+                $user['picture'] = user_picture($user['id']);
+                $return[] = $user;
+            }
+        }
+    }
+    return $return;
+});
+
+
 api_expose('users/verify_email_link', function ($params) {
     if (isset($params['key'])) {
 

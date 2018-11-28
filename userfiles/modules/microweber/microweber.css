@@ -756,3 +756,8 @@ span.mw-powered-by {
 .mw-modal-confirm-actions .mw-ui-btn{
     min-width: 100px;
 }
+
+
+.gateway-selector li{
+    list-style-type: none;
+}

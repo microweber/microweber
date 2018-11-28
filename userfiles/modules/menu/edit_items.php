@@ -64,16 +64,7 @@ if( $id != 0){
 
             mw.menu_item_after_save();
         });
-
-        /*  	mw.form.post(selector, '<?php print api_link('content/menu_item_save'); ?>', function(){
-
-         if(mw.notification != undefined){
-         mw.notification.success('Menu changes are saved');
-         }
-
-         mw.menu_item_after_save();
-         });*/
-    }
+    };
 
     mw.menu_item_after_save = function(){
         mw.reload_module_parent('menu')
@@ -89,7 +80,7 @@ if( $id != 0){
             }
         }
 
-    }
+    };
     mw.menu_item_delete = function($item_id){
         mw.tools.confirm(mw.msg.del, function(){
             $.get("<?php print api_link('content/menu_item_delete'); ?>/?id="+$item_id, function(){
@@ -98,14 +89,13 @@ if( $id != 0){
 
             });
         });
-    }
+    };
 
 
     mw.menu_items_set_edit = function($item_id, node){
         if(typeof node === 'object'){
             var li = mw.tools.firstParentWithTag(node, 'li');
             var id = $(li).dataset('item-id');
-
 
             var master = mw.tools.firstParentWithClass(node, 'mw-modules-admin');
 
@@ -138,7 +128,7 @@ if( $id != 0){
             mw.tools.loading(the_li[0], false);
         });
         $('#ed_menu_holder').hide();
-    }
+    };
 
     mw.menu_items_sort_<?php print $rand; ?> = function(){
         if(!mw.$("#mw_admin_menu_items_sort_<?php print $rand; ?>").hasClass("ui-sortable")){
@@ -182,12 +172,10 @@ if( $id != 0){
                 placeholder: "custom-field-main-table-placeholder"
             });
         }
-    }
+    };
 
     $(document).ready(function(){
         mw.menu_items_sort_<?php print $rand; ?>();
-
-
     });
 </script>
 
@@ -215,25 +203,21 @@ if( $id != 0){
         $(document).ready(function(){
             $(".add-custom-link-parent-id").val('<?php print $id ?>');
             $("#add-custom-link-parent-id").val('<?php print $id ?>');
+            $(".selected-box:gt(0)").remove();
         });
     </script>
     <div>
         <module id="ed_menu_holder" data-type="menu/edit_item" item-id="0" menu-id="<?php print $id ?>" />
     </div>
 </div>
-
-<?php if( false && $id != 0){ ?>
-
-    <div class="mw-ui-box   ">
-
+<?php if( $id != 0){ ?>
+    <div class="mw-ui-box selected-box  ">
         <div class="mw-ui-box-content">
-
-            You have selected <em><?php print strtoupper(str_replace('_', ' ', $menu_title)); ?></em>
-            <a href="javascript:mw.menu_delete('<?php print $id; ?>');" class="pull-right tip"
-               data-tip="Delete"><i class="mw-icon-app-trash-outline"></i></a>
-
-
+            You have selected
+            <em><?php print strtoupper(str_replace('_', ' ', $menu_title)); ?></em>
+            <a href="javascript: mw.menu_delete('<?php print $id; ?>');" class="pull-right tip" data-tip="Delete">
+                <i class="mw-icon-app-trash-outline"></i>
+            </a>
         </div>
     </div>
 <?php } ?>
-

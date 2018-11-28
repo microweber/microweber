@@ -342,7 +342,8 @@ if ($menu_data) {
 
                 <label class="mw-ui-label"><?php _e("Select page you want to add to your menu"); ?>:</label>
 
-                <a href="javascript:requestLink();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-rounded"><span><?php _e("Add Page to Menu"); ?></span></a>
+                <a href="javascript:requestLink();"
+                   class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-rounded"><span><?php _e("Add Page to Menu"); ?></span></a>
                 <a href="javascript:requestCustomLink();"
                    class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded pull-right"><span><?php _e("Add Custom Link"); ?></span></a>
 

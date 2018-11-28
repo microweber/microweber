@@ -376,10 +376,19 @@ if (isset($data['created_by']) and $data['created_by']) {
                                 <div id="select-post-author"></div>
 
                                 <script>mw.require('autocomplete.js')</script>
+
+                                <?php
+
+                                $user = get_user($post_author_id);
+
+
+                                ?>
                                 <script>
 
+
+
                                  $(document).ready(function () {
-                                    mw.autoComplete({
+                                    var created_by_field = new mw.autoComplete({
                                         element:"#select-post-author",
                                         ajaxConfig: {
                                             method: 'get',
@@ -389,18 +398,26 @@ if (isset($data['created_by']) and $data['created_by']) {
                                             value: 'id',
                                             title: 'display_name',
                                             image: 'picture'
-                                        }
+                                        },
+                                        selected:[
+                                            {
+                                                id: <?php print $post_author_id ?>,
+                                                display_name: '<?php print user_name($post_author_id) ?>'
+                                            }
+                                        ]
+                                    });
+                                    $(created_by_field).on("change", function(e, val){
+                                        console.log(val, val.id)
+                                        $("#created_by").val(val[0].id).trigger('change')
                                     })
-                                 })
+                                 });
 
 
                                 </script>
 
-                                <select name="created_by" class="mw-ui-field">
-                                    <?php foreach ($all_users as $author) : ?>
-                                        <option <?php if ($post_author_id == $author['id']) : ?>  selected   <?php endif; ?> value="<?php print ($author['id']) ?>"><?php print user_name($author['id']) ?></option>
-                                    <?php endforeach; ?>
-                                </select>
+                                <input type="text" name="created_by" id="created_by">
+
+
                             </div>
                         </div>
                     </div>

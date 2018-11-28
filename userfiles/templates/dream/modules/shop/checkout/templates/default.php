@@ -109,32 +109,7 @@ description: Checkout
                                 </div>
                             <?php endif; ?>
 
-                            <?php if ($tems): ?>
-                                <script>
-                                    $(document).ready(function () {
-                                        $('#i_agree_with_terms_row').click(function () {
-                                            var el = $('#i_agree_with_terms');
-                                            if (el.is(':checked')) {
-                                                $('#complete_order_button').removeAttr('disabled');
-                                            } else {
-                                                $('#complete_order_button').attr('disabled', 'disabled');
-
-                                            }
-                                        });
-                                    });
-                                </script>
-
-                                <div class="row" style="margin-top: 20px;margin-bottom: 20px;">
-                                    <div class="col-xs-12" id="i_agree_with_terms_row">
-                                        <label class="mw-ui-check">
-                                            <input type="checkbox" name="terms" id="i_agree_with_terms" value="1" autocomplete="off"/>
-                                            <span><?php _e('I agree with'); ?>
-                                                <a href="<?php print site_url('terms') ?>" target="_blank"><?php _e('terms and conditions'); ?></a>
-                                            </span>
-                                        </label>
-                                    </div>
-                                </div>
-                            <?php endif; ?>
+                            <module type="shop/checkout/terms" />
                         </div>
 
                         <div class="col-lg-4 col-sm-4">

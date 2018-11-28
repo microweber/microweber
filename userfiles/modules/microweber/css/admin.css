@@ -7480,3 +7480,7 @@ select.silver-field {
     }
 }
 
+#select-post-author .mw-ui-field{
+    width: 100%;
+}
+
