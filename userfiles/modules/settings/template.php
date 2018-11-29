@@ -89,7 +89,7 @@ if ($json != false) {
 ?>
 
 
-<div class="mw-template-settings" id="mw-template-settings-holder">
+<div class="mw-template-settings-wrapper" id="mw-template-settings-holder">
     <div id="mw-template-settings">
         <?php include($tpl_settings_for_theme); ?>
 
@@ -103,7 +103,12 @@ if ($json != false) {
 <script>
 
 
+    $( document ).ready(function() {
 
+
+
+
+    });
 
 
 
@@ -119,7 +124,7 @@ if ($json != false) {
             var u = "<?php print $save_url; ?>", obj = {}, m = mwd.getElementById('mw-template-settings');
             mw.$(".tpl-field", m).each(function () {
                 var name = this.name;
-                obj.id = "template_settings";
+                obj.id = "template-settings";
                 obj.module = "settings/template";
                 obj.save_template_settings = true;
                 obj.active_site_template = "<?php print $active_template_dir; ?>";
@@ -134,6 +139,7 @@ if ($json != false) {
                     var css = parent.mw.$("#mw-template-settings")[0];
 
                     mw.reload_module('content/views/layout_selector_custom_css');
+                    mw.reload_module_parent('template_settings');
 
                     if ((css === undefined || css === null) && (msg.url !== undefined)) {
                         var l = parent.mwd.createElement('link');
