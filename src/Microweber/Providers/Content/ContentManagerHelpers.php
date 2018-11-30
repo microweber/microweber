@@ -326,7 +326,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                     if (isset($data['categories'])) {
                         $to_save['categories'] = $data['categories'];
                     }
-                    $this->save_content($to_save);
+                    $this->app->content_manager->save_content($to_save);
                 }
             }
         }
