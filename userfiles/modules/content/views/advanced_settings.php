@@ -386,28 +386,27 @@ if (isset($data['created_by']) and $data['created_by']) {
                                 <script>
 
 
-
                                  $(document).ready(function () {
                                     var created_by_field = new mw.autoComplete({
                                         element:"#select-post-author",
                                         ajaxConfig: {
                                             method: 'get',
-                                            url: mw.settings.api_url + 'users/search_authors?kw=${val}'
+                                            url: mw.settings.api_url + 'users/search_authors?kw=${val}',
+                                            cache: true
                                         },
                                         map : {
                                             value: 'id',
                                             title: 'display_name',
                                             image: 'picture'
-                                        },
+                                        }/*,
                                         selected:[
                                             {
                                                 id: <?php print $post_author_id ?>,
                                                 display_name: '<?php print user_name($post_author_id) ?>'
                                             }
-                                        ]
+                                        ]*/
                                     });
                                     $(created_by_field).on("change", function(e, val){
-                                        console.log(val, val.id)
                                         $("#created_by").val(val[0].id).trigger('change')
                                     })
                                  });
@@ -415,7 +414,7 @@ if (isset($data['created_by']) and $data['created_by']) {
 
                                 </script>
 
-                                <input type="text" name="created_by" id="created_by">
+                                <input type="hidden" name="created_by" id="created_by" value="<?php print $post_author_id ?>">
 
 
                             </div>

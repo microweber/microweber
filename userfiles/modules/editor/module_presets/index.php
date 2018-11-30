@@ -285,7 +285,6 @@
         <script>
             $(document).ready(function () {
                 $("#module-modal-preset-linked-icon").removeClass('is-linked').hide();
-
             });
         </script>
     <?php endif; ?>
@@ -296,11 +295,14 @@
     <?php if (($fffound) == false): ?>
         <div class="module-presets-add-new-holder">
             <input type="hidden" name="module" value="<?php print $module_name ?>">
-            <input type="text" name="name" value="" class="mw-ui-field mw-ui-field-medium" xonfocus="setVisible(event);"
-                   xonblur="setVisible(event);">
+            <div class="mw-ui-btn-nav">
+                <input type="preset-field" name="name" value="" placeholder="<?php _e('Title'); ?>"  class="mw-ui-field mw-ui-field-medium">
+                <span  js-mod-id="<?php print  $module_id ?>"
+                       class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification module-presets-action-btn">Save</span>
+            </div>
+
             <input type="hidden" name="module_id" value="<?php print $module_id ?>">
-            <span type="button" js-mod-id="<?php print  $module_id ?>" value="Save"
-                   class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification module-presets-action-btn">Save</span>
+
         </div>
     <?php endif; ?>
     <?php else : ?>

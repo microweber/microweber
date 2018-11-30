@@ -369,11 +369,9 @@
 
 .fade-window .window-holder #content-title-field-buttons ul li .btn-posts-state {
     min-width: 142px;
-
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    background: #fff;
 }
 
 .fade-window .window-holder #content-title-field-buttons ul li .btn-save {

@@ -1,4 +1,26 @@
 mw.components = {
+    'color-picker': function(el){
+        var nav = document.createElement('div');
+        nav.className = 'mw-ui-btn-nav';
+        var view = document.createElement('div');
+        view.className = 'mw-ui-btn';
+        view.innerHTML = '<span class="mw-ui-btn-img"></span>';
+        nav.appendChild(view);
+        var inputEl;
+        if(el.nodeName === 'INPUT'){
+            inputEl = el;
+            $(el).addClass('mw-ui-field').after(nav);
+            nav.appendChild(el);
+            $('.mw-ui-btn-img', view).css("background-color", el.value);
+        }
+        mw.colorPicker({
+            element:inputEl,
+            position:'bottom-center',
+            onchange:function(color){
+                $('.mw-ui-btn-img', view).css("background-color", color);
+            }
+        });
+    },
     'file-uploader':function(el){
         var options = this._options(el);
         var defaults = {
