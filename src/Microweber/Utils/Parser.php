@@ -132,6 +132,8 @@ class Parser
                     $layout = str_replace($value, $v1, $layout);
                     if (!isset($this->_replaced_input_tags[$v1])) {
                         $this->_replaced_input_tags[$v1] = $value;
+                        $mw_replaced_textarea_tag[$v1] = $value;
+
                     }
                 }
             }

@@ -52,7 +52,7 @@ class Captcha
 
 
         $x = 100;
-        $y = 80;
+        $y = 62;
 
         if (isset($params['w'])) {
             $x = intval($params['w']);
@@ -129,7 +129,7 @@ class Captcha
 
                     $y21 = mt_rand(5, 20);
                     $this->captcha_vector($image, $x - mt_rand(0, 10), mt_rand(0, 10), mt_rand(0, 180), 200, $bgcolor);
-                     //  imagesetpixel($image, $i, $j, $color2);
+                    //  imagesetpixel($image, $i, $j, $color2);
                     //  imagesetpixel($image, $i, $j, $color2);
                 }
 
@@ -159,13 +159,45 @@ class Captcha
 
 
         if (function_exists('imagettftext')) {
-            imagettftext($image, $tsize, $roit, $x1, $y1, $black, $font, $text);
+
+
+            $font_size = 16;
+
+            // Get image Width and Height
+            $image_width = imagesx($image);
+            $image_height = imagesy($image);
+
+// Get Bounding Box Size
+            $text_box = imagettfbbox($tsize,$roit,$font,$text);
+
+// Get your Text Width and Height
+            $text_width = $text_box[2]-$text_box[0];
+            $text_height = $text_box[7]-$text_box[1];
+
+// Calculate coordinates of the text
+            $xa = ($image_width/2) - ($text_width/2);
+            $ya = ($image_height/2) - ($text_height/2);
+
+// Add some shadow to the text
+            //imagettftext($im, $font_size, 0, $x, $y+1, $grey, $font, $text);
+
+// Add the text
+             imagettftext($image, $font_size, 0, $xa, $ya, $black, $font, $text);
+
+
+
+
+
+            //imagettftext($image, $tsize, $roit, $x1, $y1, $black, $font, $text);
         } else {
             if (function_exists('imagestring')) {
                 $font = mw_includes_path() . DS . 'admin' . DS . 'catcha_fonts' . DS . 'font' . $roit1 . '.gdf';
                 $font = normalize_path($font, 0);
                 $font = imageloadfont($font);
-                imagestring($image, $font, $x1, $y1, $text, $black);
+               // imagestring($image, $font, $x1, $y1, $text, $black);
+                $image = $this->imagestringcentered($image, $font, $y1, $text, $black);
+
+
             } else {
             }
         }
@@ -225,6 +257,19 @@ class Captcha
             ->header('Cache-Control', 'max-age=60, must-revalidate');
 
 
+    }
+
+    private function imagestringcentered($img, $font, $cy, $text, $color)
+    {
+        while (strlen($text) * imagefontwidth($font) > imagesx($img)) {
+            if ($font > 1) {
+                $font--;
+            } else {
+                break;
+            }
+        }
+        imagestring($img, $font, imagesx($img) / 2 - strlen($text) * imagefontwidth($font) / 2, $cy, $text, $color);
+        return $img;
     }
 
     private function captcha_vector($palette, $startx, $starty, $angle, $length, $colour)
