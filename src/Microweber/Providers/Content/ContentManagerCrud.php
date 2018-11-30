@@ -387,7 +387,7 @@ class ContentManagerCrud extends Crud
         if (isset($data['title'])) {
             $data['title'] = strip_tags($data['title']);
 
-            $data['title'] = htmlspecialchars($data['title'], ENT_QUOTES, 'UTF-8');
+            //$data['title'] = htmlspecialchars($data['title'], ENT_QUOTES, 'UTF-8');
 
             $data_to_save['title'] = $data['title'];
         }
