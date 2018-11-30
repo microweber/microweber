@@ -172,7 +172,6 @@ class ContentManagerCrud extends Crud
         }
 
 
-
         if (isset($params['keyword']) and !isset($params['search_in_fields'])) {
             $params['search_in_fields'] = array('title', 'content_body', 'content', 'description', 'content_meta_keywords', 'content_meta_title', 'url');
         }
@@ -183,10 +182,13 @@ class ContentManagerCrud extends Crud
             }
         }
 
+        $extra_data = false;
+        if (isset($params['get_extra_data'])) {
+            $extra_data = true;
+        }
+
 
         $get = parent::get($params);
-
-
 
 
         if (isset($params['count']) or isset($params['single']) or isset($params['one']) or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
@@ -202,6 +204,9 @@ class ContentManagerCrud extends Crud
             foreach ($get as $item) {
                 if (isset($item['url'])) {
                     $item['url'] = $this->app->url_manager->site($item['url']);
+                }
+                if($extra_data){
+                    $item['picture'] = get_picture($item['id']);
                 }
 
                 $data2[] = $item;
@@ -266,8 +271,8 @@ class ContentManagerCrud extends Crud
             return self::$precached_links[$link_hash];
         }
 
-        if($url == ''){
-            $content=$this->app->content_manager->homepage();
+        if ($url == '') {
+            $content = $this->app->content_manager->homepage();
         } else {
             $get = array();
             $get['url'] = $url;
@@ -395,7 +400,7 @@ class ContentManagerCrud extends Crud
             $theurl = $q;
         } else {
             $thetitle = date("Ymdhis");
-            if(isset( $data['title']) and $data['title']){
+            if (isset($data['title']) and $data['title']) {
                 $thetitle = $data['title'];
             }
 

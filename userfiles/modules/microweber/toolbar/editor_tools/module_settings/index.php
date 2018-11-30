@@ -212,7 +212,7 @@
 
         $(window).load(function () {
             // add dropdown
-            if (typeof thismodal != 'undefined' && typeof thismodal.main[0] != 'undefined') {
+            if (typeof thismodal != 'undefined' && typeof thismodal.main != 'undefined' && typeof thismodal.main[0] != 'undefined') {
                 module_settings_opener_titlebar_holder = thismodal.main[0];
             } else {
                 if (window.parent.mw.$('.js-module-titlebar-<?php print $params['id'] ?>').length > 0) {
