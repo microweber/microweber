@@ -834,7 +834,7 @@ class DefaultController extends Controller
         $module_info = $this->app->url_manager->param('module_info', true);
 
 
-        if ($module_info && @$request_data['module']) {
+        if ($module_info and isset($request_data['module'])) {
             $request_data['module'] = str_replace('..', '', $request_data['module']);
             $try_config_file = modules_path() . '' . $request_data['module'] . '_config.php';
             $try_config_file = normalize_path($try_config_file, false);
