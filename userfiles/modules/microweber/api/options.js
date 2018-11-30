@@ -27,7 +27,7 @@ mw.options = {
             return false;
         }
         var group = o.group || o.option_group,
-            key = o.key ||o.option_key,
+            key = o.key || o.option_key,
             value = typeof o.value !== 'undefined' ? o.value : o.option_value;
 
         if (!group || !key || (typeof value === 'undefined')) {
@@ -57,7 +57,8 @@ mw.options = {
     save: function (el, callback) {
 
 
-        var el = $(el), og, og1, refresh_modules11;
+        var el = $(el);
+        var og, og1, refresh_modules11;
 
         if (!el) {
             return;
@@ -200,23 +201,34 @@ mw.options = {
 
                 var which_module_to_reload = null;
 
+
+
+
                 if (typeof(refresh_modules11) == 'undefined') {
                     which_module_to_reload = og1;
-                }
-                if (refresh_modules12) {
+                } else if (refresh_modules12) {
                     which_module_to_reload = refresh_modules12;
                 }
-                if (typeof(liveEditSettings) != 'undefined' && liveEditSettings) {
+
+                if ((typeof(liveEditSettings) != 'undefined' && liveEditSettings) || window.top.liveEditSettings) {
                     if (og_parent) {
                         which_module_to_reload = og_parent;
                     }
                 }
 
 
+                // alert('refresh_modules11     '+refresh_modules11);
+                // alert('which_module_to_reload     '+which_module_to_reload);
+                // alert('og1      '+og1);
+
+
+
+
                 if (mw.admin) {
                     if (top.mweditor && top.mweditor.contentWindow) {
                         setTimeout(function () {
-                            top.mweditor.contentWindow.mw.reload_module("#" + which_module_to_reload)
+                            top.mweditor.contentWindow.mw.reload_module("#" + which_module_to_reload);
+
                         }, 777);
                     }
                 }
@@ -238,6 +250,12 @@ mw.options = {
                             }
 
                             mw.reload_module_parent("#" + which_module_to_reload);
+                            if(which_module_to_reload != og1){
+                                mw.reload_module_parent("#" + og1);
+                            }
+
+
+
                         }, 777);
                     }
 
@@ -377,11 +395,13 @@ mw.options.form = function ($selector, callback, beforepost) {
                         item.on('change input paste', function (e) {
 
 
-                            var isCheckLike = this.type === 'checkbox' || this.type === 'radio';
+                          //  var isCheckLike = this.type === 'checkbox' || this.type === 'radio';
+                            var isCheckLike = true;
                             var token = isCheckLike ? this.name : this.name + $(this).val();
                             //if(mw.options._optionSaved !== token){
                             //mw.options._optionSaved = token;
                             mw.options.___slowDownEvent(token, this, function () {
+
                                 if (typeof root._optionsEvents.beforepost === 'function') {
                                     root._optionsEvents.beforepost.call(this);
 

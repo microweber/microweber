@@ -17,6 +17,7 @@ $data = $products;
 //d($products );
 
 ?>
+<script>mw.require('autocomplete.js')</script>
 
 <script>
     mw_admin_custom_checkout_callback = function () {
@@ -28,11 +29,51 @@ $data = $products;
         mw.notification.success("Order completed", 5000);
     }
 </script>
-<script>
-    $(document).ready(function () {
 
+
+
+
+
+<script>
+
+
+
+    $(document).ready(function () {
+        var created_by_field = new mw.autoComplete({
+            element:"#select-post-author",
+            ajaxConfig: {
+                method: 'get',
+                url: mw.settings.api_url + 'get_content_admin?get_extra_data=1&content_type=product&kw=${val}'
+            },
+            map : {
+                value: 'id',
+                title: 'title',
+                image: 'picture'
+            },
+            /*selected:[
+                {
+                    id: 0,
+                    display_name: '0'
+                }
+            ]*/
+        });
+        $(created_by_field).on("change", function(e, val){
+
+            $("#created_by").val(val[0].id).trigger('change')
+        })
     });
+
+
 </script>
+<div id="select-post-author"></div>
+
+<input type="text" name="created_by" id="created_by">
+
+
+
+
+
+
 
 <script>
 

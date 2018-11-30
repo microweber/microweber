@@ -113,10 +113,10 @@ if (isset($_COOKIE['mw_exp'])) {
 
         $(window).bind('load', function () {
             <?php if(file_exists(TEMPLATE_DIR . 'template_settings.php')){ ?>
-            var show_settings = mw.cookie.get('remove_template_settings') != 'true';
-            if (show_settings) {
-                mw.tools.template_settings(true);
-            }
+            // var show_settings = mw.cookie.get('remove_template_settings') != 'true';
+            // if (show_settings) {
+            //      // mw.tools.template_settings(true);
+            // }
             <?php  } ?>
 
             $(window).bind('saveStart', function () {

@@ -100,8 +100,13 @@
            <div class="mw-ui-box-content tabitem mw-normalize-css  mw-live-edit-sidebar-iframe-holder"
                      style="display: none;">
                     <?php if (file_exists(TEMPLATE_DIR . 'template_settings.php')) { ?>
-                        <iframe class="mw-live-edit-sidebar-settings-iframe"
-                                data-src="<?php print api_url() ?>module?id=template_settings&live_edit=true&module_settings=true&type=settings/template&autosize=false&content_id=<?php print CONTENT_ID ?>"></iframe>
+
+                        <a class="mw-ui-btn" href="javascript:mw.tools.toggle_template_settings();">Open template settings</a>
+
+<!--
+ <iframe class="mw-live-edit-sidebar-settings-iframe"   data-src="<?php print api_url() ?>module?id=template_settings_admin&live_edit=true&module_settings=true&type=settings/template&autosize=false&content_id=<?php print CONTENT_ID ?>"></iframe>
+-->
+
                     <?php } ?>
                 </div>
 
