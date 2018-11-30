@@ -158,3 +158,13 @@
     </div>
 
 </div>
+
+
+<div class="ui_section">
+    <h2></h2>
+    <br>
+
+    <input class="mw-color-picker">
+
+
+</div>

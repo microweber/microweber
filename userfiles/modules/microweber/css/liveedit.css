@@ -4066,24 +4066,9 @@ body.dragStart .allow-drop {
 
 }
 
-.module-presets-add-new-holder .mw-ui-btn {
-    float: right;
-    line-height: 12px !important;
-    height: 25px;
-    min-height: 0px;
-}
 
-.module-presets-add-new-holder input[type='text'] {
-    float: left;
-    width: 110px;
-    border-radius: 0;
-    box-shadow: none;
-    height: 25px;
-    -webkit-appearance: initial;
-    border: 1px solid #ccc;
-    min-height: 21px;
-    padding: 0px 6px;
-    font-size: 14px;
+.module-presets-add-new-holder input[type='preset-field'] {
+    width: 100px;
 }
 
 .module-presets-add-new-holder input.module-presets-name-field {

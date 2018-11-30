@@ -106,16 +106,23 @@ $json = ($settings ? $settings : '');
         }
     }
 
-    function deleteRow(row='') {
+    function deleteRow(row) {
+        row = row || '';
+
+        var i;
         var tbl = document.querySelector('#htmltable tbody');
 
         if(tbl.querySelectorAll('tr').length <=1) return;
         (top.mw || window.mw).confirm('Are you sure', function() {
+            if(row.nodeType === 1){
+                $(row).remove();
+                return;
+            }
             if (row == 'last') {
                 lastRow = tbl.rows.length - 1;
                 tbl.deleteRow(lastRow);
             } else if (row == 'all') {
-                lastRow = tbl.rows.length - 1;
+                lastRow = tbl.rows.length - 2;
                 // delete rows including header with index greater then 0
                 for (i = lastRow; i >= 0; i--) {
                     tbl.deleteRow(i);
@@ -134,11 +141,16 @@ $json = ($settings ? $settings : '');
         });
     }
 
-    function deleteColumn(col='') {
+    function deleteColumn(col) {
+        col = col || '';
         var tbl = document.getElementById('htmltable');
 
         if(tbl.querySelectorAll('th').length <= 1) return;
         (top.mw || window.mw).confirm('Are you sure', function(){
+            if(col.nodeType === 1){
+                $(row).remove();
+                return;
+            }
             if (col == 'last') {
                 lastCol = tbl.rows[0].cells.length - 1;
                 for (i = 0; i < tbl.rows.length; i++) {

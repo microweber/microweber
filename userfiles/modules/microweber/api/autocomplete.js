@@ -46,7 +46,7 @@ mw.autoComplete = function(options){
         if(this.options.placeholder){
             this.inputField.placeholder = this.options.placeholder;
         }
-        $(this.inputField).on('input', function(){
+        $(this.inputField).on('input focus', function(){
             scope.search(this.value);
         });
         return this.inputField;
@@ -104,7 +104,7 @@ mw.autoComplete = function(options){
 
     this.rendSingle = function(){
         var item = this.selected[0];
-        this.inputField.value = this.dataTitle(item);
+        this.inputField.value = item ? this.dataTitle(item) : '';
         this.valueHolder.innerHTML = '';
         var img = this.dataImage(item);
         if(img){
