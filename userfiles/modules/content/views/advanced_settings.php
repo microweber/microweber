@@ -398,13 +398,13 @@ if (isset($data['created_by']) and $data['created_by']) {
                                             value: 'id',
                                             title: 'display_name',
                                             image: 'picture'
-                                        }/*,
+                                        },
                                         selected:[
                                             {
                                                 id: <?php print $post_author_id ?>,
                                                 display_name: '<?php print user_name($post_author_id) ?>'
                                             }
-                                        ]*/
+                                        ]
                                     });
                                     $(created_by_field).on("change", function(e, val){
                                         $("#created_by").val(val[0].id).trigger('change')

@@ -496,7 +496,7 @@ mw.lib.require('nestedsortable');
             return nlist;
         };
 
-        this.getParent = function(item){
+        this.getParent = function(item, isTemp){
             if(!item.parent_id) return this.list;
             var findul = this.list.querySelector('ul[data-type="'+item.parent_type+'"][data-id="'+item.parent_id+'"]');
             var findli = this.list.querySelector('li[data-type="'+item.parent_type+'"][data-id="'+item.parent_id+'"]');
@@ -511,11 +511,39 @@ mw.lib.require('nestedsortable');
                 return false;
             }
             else{
+                if(!isTemp){
+                    this.createTemp(item);
+                }
+            }
+            /*else{
                 var nlistwrap = this.createItem(item);
                 var nlist = this.createList(item);
                 nlistwrap.appendChild(nlist);
                 this.list.appendChild(nlistwrap);
                 return false;
+            }*/
+        };
+
+        this.createTemp = function (item) {
+            this._temp = this._temp || [];
+            this._temp.push(item);
+        };
+        this.initTemp = function(){
+            var found = [];
+            this._temp.forEach(function(item, i){
+                var list = scope.getParent(item, true);
+                if(list){
+                    list.appendChild(scope.createItem(item));
+                }
+                if(typeof list !== 'undefined'){
+                    found.push(i)
+                }
+            });
+            found.forEach(function (f) {
+                scope._temp.splice(f, 1)
+            });
+            if(this._temp.length){
+                this.initTemp();
             }
         };
 

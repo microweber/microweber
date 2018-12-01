@@ -4025,15 +4025,6 @@ body.dragStart .allow-drop {
     visibility: visible;
 }
 
-.module-presets-name-field {
-    width: 145px;
-    height: 25px;
-    border: 1px solid #eee;
-    border-left: none;
-    border-radius: 0 2px 2px 0;
-    float: left;
-    padding: 0 10px;
-}
 
 .mw-module-presets-content {
 

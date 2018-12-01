@@ -20,25 +20,25 @@ mw.autoComplete = function(options){
         this.results = [];
         this.map = this.options.map;
         this.selected = this.options.selected || [];
-    }
+    };
 
     this.createValueHolder = function(){
         this.valueHolder = document.createElement('div');
         this.valueHolder.className = 'mw-autocomplete-value';
         return this.valueHolder;
-    }
+    };
     this.createListHolder = function(){
         this.listHolder = document.createElement('ul');
         this.listHolder.className = 'mw-ui-box mw-ui-navigation mw-autocomplete-list';
         this.listHolder.style.display = 'none';
         return this.listHolder;
-    }
+    };
 
     this.createWrapper = function(){
         this.wrapper = document.createElement('div');
         this.wrapper.className = 'mw-ui-field mw-autocomplete mw-autocomplete-multiple-' + this.options.multiple;
         return this.wrapper;
-    }
+    };
 
     this.createField = function(){
         this.inputField = document.createElement('input');
@@ -46,24 +46,25 @@ mw.autoComplete = function(options){
         if(this.options.placeholder){
             this.inputField.placeholder = this.options.placeholder;
         }
-        $(this.inputField).on('input focus', function(){
-            scope.search(this.value);
+        $(this.inputField).on('input focus', function(e){
+            var val = e.type === 'focus' ? '' : this.value;
+            scope.search(val);
         });
         return this.inputField;
-    }
+    };
 
     this.buildUI = function(){
-        this.createWrapper()
-        this.wrapper.appendChild(this.createValueHolder())
-        this.wrapper.appendChild(this.createField())
-        this.wrapper.appendChild(this.createListHolder())
-        this.element.appendChild(this.wrapper)
-    }
+        this.createWrapper();
+        this.wrapper.appendChild(this.createValueHolder());
+        this.wrapper.appendChild(this.createField());
+        this.wrapper.appendChild(this.createListHolder());
+        this.element.appendChild(this.wrapper);
+    };
 
     this.createListItem = function(data){
         var li = document.createElement('li');
         li.value = this.dataValue(data);
-        var img = this.dataImage(data)
+        var img = this.dataImage(data);
 
         $(li)
         .append( '<a href="javascript:;">'+this.dataTitle(data)+'</a>' )
@@ -71,10 +72,10 @@ mw.autoComplete = function(options){
             scope.select(data);
         });
         if(img){
-            $('a',li).prepend(img)
+            $('a',li).prepend(img);
         }
         return li;
-    }
+    };
 
     this.uniqueValue = function(){
         var uniqueIds = [], final = [];
@@ -86,11 +87,11 @@ mw.autoComplete = function(options){
             }
         });
         this.selected = final;
-    }
+    };
 
     this.select = function(item){
         if(this.options.multiple){
-            this.selected.push(item)
+            this.selected.push(item);
         }
         else{
             this.selected = [item];
@@ -100,7 +101,7 @@ mw.autoComplete = function(options){
             this.listHolder.style.display = 'none';
         }
         $(this).trigger('change', [this.selected]);
-    }
+    };
 
     this.rendSingle = function(){
         var item = this.selected[0];
@@ -111,24 +112,24 @@ mw.autoComplete = function(options){
             this.valueHolder.appendChild(img);
         }
 
-    }
+    };
 
     this.rendSelected = function(){
         if(this.options.multiple){
             this.uniqueValue();
-            this.chips.setData(this.selected)
+            this.chips.setData(this.selected);
         }
         else{
             this.rendSingle();
         }
-    }
+    };
 
     this.rendResults = function(){
         $(this.listHolder).empty().show();
         $.each(this.results, function(){
             scope.listHolder.appendChild(scope.createListItem(this));
-        })
-    }
+        });
+    };
 
     this.dataValue = function(data){
         if(!data) return;
@@ -136,9 +137,9 @@ mw.autoComplete = function(options){
             return data;
         }
         else{
-            return data[this.map.value]
+            return data[this.map.value];
         }
-    }
+    };
     this.dataImage = function(data){
         if(!data) return;
         if(data.image){
@@ -147,7 +148,7 @@ mw.autoComplete = function(options){
             img.style.backgroundImage = 'url(' + data.image + ')';
             return img;
         }
-    }
+    };
     this.dataTitle = function(data){
         if(!data) return;
         if(typeof data === 'string'){
@@ -190,7 +191,7 @@ mw.autoComplete = function(options){
         .always(function(){
             scope.searching = false;
         });
-    }
+    };
 
     this.searchLocal = function(val){
 
@@ -209,7 +210,7 @@ mw.autoComplete = function(options){
         });
        this.rendResults();
        scope.searching = false;
-    }
+    };
 
     this.search = function(val){
         if(scope.searching) return;
@@ -217,16 +218,16 @@ mw.autoComplete = function(options){
         val = val.trim().toLowerCase();
 
         if(this.options.data){
-            this.searchLocal(val)
+            this.searchLocal(val);
         }
         else{
             clearTimeout(this.searchTime);
             setTimeout(function(){
                 scope.searching = true;
                 scope.searchRemote(val);
-            }, this.searchTimeout)
+            }, this.searchTimeout);
         }
-    }
+    };
 
     this.init = function(){
         this.prepare(options);
@@ -235,21 +236,21 @@ mw.autoComplete = function(options){
             this.chips = new mw.chips({
                 element:this.valueHolder,
                 data:[]
-            })
+            });
         }
         this.rendSelected();
         this.handleEvents();
-    }
+    };
 
     this.handleEvents = function(){
         $(document.body).on('click', function(e){
             if(!mw.tools.hasParentsWithClass(e.target, 'mw-autocomplete')){
                 scope.listHolder.style.display = 'none';
             }
-        })
-    }
+        });
+    };
 
 
     this.init();
 
-}
+};

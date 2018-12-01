@@ -236,7 +236,7 @@
 
                                     <input type="hidden" name="module" value="<?php print  $item['module'] ?>">
 
-                                    <input type="text" class="module-presets-name-field " name="name" value="<?php print  $item['name'] ?>">
+                                    <input class="mw-ui-field module-presets-name-field " name="name" value="<?php print  $item['name'] ?>">
 
                                     <textarea name="module_attrs"
                                               style="display: none"><?php print  $item['module_attrs'] ?></textarea>

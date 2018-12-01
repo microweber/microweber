@@ -1,9 +1,37 @@
+
+
 <div class="mw-ui mw-ui-box-content" id="doc-box">
     <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
         <a class="mw-ui-btn mw-ui-btn-big active" href="#css">CSS Components</a>
         <a class="mw-ui-btn mw-ui-btn-big" href="#js">JavaScript Components</a>
     </div>
     <div class="mw-ui-box mw-ui-box-content">
+        <ul class="mw-ui-box mw-ui-navigation mw-ui-navigation-horizontal" id="nav1">
+
+        </ul>
+        <script>
+
+            $(document).ready(function(){
+                $('.ui_section').hide()
+                $(".ui_section").each(function(){
+                    var a = $("<a/>");
+                    var html = $(this).children("h2").text();
+                    var id = html.toLowerCase().replace(/\s/g, '-');
+                    a.html(html);
+                    a.attr('href', '#'+id);
+                    a.on('click', function(){
+                        $('.ui_section').hide()
+                        $($(this).attr('href')).show()
+                        return false;
+                    });
+                    this.id = id;
+
+                    $("#nav1").append(a)
+                    a.wrap('<li>')
+                });
+            })
+
+        </script>
         <style>
 
         .ui_section{
@@ -46,7 +74,7 @@
         mw.tabs({
             nav:$("#doc-box>.mw-ui-btn-nav>a"),
             tabs:$("#doc-box>.mw-ui-box")
-        }).set(1)
+        }).set(0)
 
         var settings = new mw.moduleSettings({
             element:'#test',
