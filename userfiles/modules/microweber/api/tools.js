@@ -2182,7 +2182,7 @@ mw.tools = {
             + '<tr>'
             + '<td class="mw-modal-confirm-actions text-center">'
             +'<span class="mw-ui-btn" onclick="mw.tools.modal.remove(\'mw_confirm_modal\');"><b>' + mw.msg.cancel + '</b></span> &nbsp; '
-            +'<span class="mw-ui-btn mw-ui-btn-info mw_confirm_modal_ok"><b>' + mw.msg.ok + '</b></span></td>'
+            +'<button class="mw-ui-btn mw-ui-btn-info mw_confirm_modal_ok"><b>' + mw.msg.ok + '</b></button></td>'
             + '</tr>'
             + '</table>';
         if (mw.$("#mw_confirm_modal").length === 0) {
@@ -2200,11 +2200,23 @@ mw.tools = {
             var modal = mw.$("#mw_confirm_modal")[0].modal;
         }
 
-        $('.mw_confirm_modal_ok', modal.main).off('click').on('click', function(){
+        var ok = $('.mw_confirm_modal_ok', modal.main)
 
-            callback.call(window);
-            modal.remove()
+        ok.off('click');
+        ok.off('keyup');
+        ok.on('keyup', function(e){
+            if(e.keyCode === 13 || e.keyCode === 32){
+                callback.call(window);
+                modal.remove();
+            }
         });
+        ok.on('click', function(){
+            callback.call(window);
+            modal.remove();
+        });
+        setTimeout(function(){
+            $("button.mw_confirm_modal_ok", modal.main).focus();
+        }, 120)
         return modal;
     },
     _confirm: function (question, callback) {
@@ -3720,7 +3732,7 @@ mw.tools.matches('init');
 Alert = mw.tools.alert;
 mw.wait('jQuery', function () {
     jQuery.fn.getDropdownValue = function () {
-        return this.dataset("value");
+        return this.dataset("value") || $('.active', this).attr('value');
     };
     jQuery.fn.setDropdownValue = function (val, triggerChange, isCustom, customValueToDisplay) {
 //var _t1;

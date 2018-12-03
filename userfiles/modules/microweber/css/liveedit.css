@@ -1982,9 +1982,8 @@ div.mw_drag_started, li.module-item.ui-draggable-dragging {
 }
 
 .mw-col-container:empty {
-    height: 100%;
+    min-height: 100px;
     width: 100%;
-    position: absolute;
 
 }
 

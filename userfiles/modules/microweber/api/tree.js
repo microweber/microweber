@@ -312,7 +312,7 @@ mw.lib.require('nestedsortable');
             else if(this.options.multiPageSelect || element._data.type !== 'page'){
                 itype = 'checkbox';
             }
-            var label = document.createElement('x-label');
+            var label = document.createElement('tree-label');
             var input = document.createElement('input');
             var span = document.createElement('span');
             input.type = itype;
@@ -515,20 +515,15 @@ mw.lib.require('nestedsortable');
                     this.createTemp(item);
                 }
             }
-            /*else{
-                var nlistwrap = this.createItem(item);
-                var nlist = this.createList(item);
-                nlistwrap.appendChild(nlist);
-                this.list.appendChild(nlistwrap);
-                return false;
-            }*/
         };
 
         this.createTemp = function (item) {
             this._temp = this._temp || [];
             this._temp.push(item);
         };
+        this._initTempTryCount = 0;
         this.initTemp = function(){
+            this._initTempTryCount++;
             var found = [];
             this._temp.forEach(function(item, i){
                 var list = scope.getParent(item, true);
@@ -542,7 +537,7 @@ mw.lib.require('nestedsortable');
             found.forEach(function (f) {
                 scope._temp.splice(f, 1)
             });
-            if(this._temp.length){
+            if(this._temp.length && this._initTempTryCount < 100){
                 this.initTemp();
             }
         };

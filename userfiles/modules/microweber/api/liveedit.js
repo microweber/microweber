@@ -757,6 +757,7 @@ mw.drag = {
                 mw.$('#' + $el_id).children(".mw-col").width($eq_w1 + '%');
             }
         }
+        mw.wysiwyg.nceui();
     },
     replace:function(el, dir, callback){
       var prev = el[dir]();

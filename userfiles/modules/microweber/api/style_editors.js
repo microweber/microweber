@@ -370,16 +370,22 @@ $(document).ready(function(){
     .on('input', function(){
       $(".element-current").css('height', this.value)
     });
-  mw.$("#mw_ts_margin")
-    .on('input', function(){
-      console.log($(this).dataset('type'))
-      $(".element-current").css($(this).dataset('type'), this.value + 'px')
-    });
+    mw.$("#mw_ts_margin")
+        .on('input', function(){
+            var type = $(this).dataset('type');
+            console.log(type)
+            if(type){
+                $(".element-current").css(type, this.value + 'px')
+            }
+        });
 
     mw.$("#mw_ts_padding")
-    .on('input', function(){
-      $(".element-current").css($(this).dataset('type'), this.value + 'px')
-    });
+        .on('input', function(){
+            var type = $(this).dataset('type');
+            if(type) {
+                $(".element-current").css(type, this.value + 'px');
+            }
+        });
 
 
 

@@ -1,7 +1,7 @@
 mw.components = {
     'color-picker': function(el){
         var nav = document.createElement('div');
-        nav.className = 'mw-ui-btn-nav';
+        nav.className = 'mw-ui-btn-nav mw-color-picker-holder';
         var view = document.createElement('div');
         view.className = 'mw-ui-btn';
         view.innerHTML = '<span class="mw-ui-btn-img"></span>';
