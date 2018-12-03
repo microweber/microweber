@@ -40,7 +40,7 @@ if (!empty($template_config)) {
 
 
 $post_author_id = user_id();
-$all_users = get_users('nolimit=1');
+$all_users = true;
 
 
 if (isset($data['created_by']) and $data['created_by']) {

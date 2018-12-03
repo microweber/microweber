@@ -319,7 +319,7 @@ api_expose('users/search_authors', function ($params = false) {
 
 
     $all_users_search = array();
-    $all_users_search['nolimit'] = 1;
+    $all_users_search['limit'] = 100;
     $all_users_search['fields'] = 'id,username,first_name,last_name,email,is_admin';
     if ($kw) {
         $all_users_search['keyword'] = $kw;
