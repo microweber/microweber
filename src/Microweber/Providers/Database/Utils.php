@@ -118,8 +118,7 @@ class Utils
                                 $fluent->nullable();
                             }
                         } else {
-                            if($name == '$id') continue;
-
+                            if ($name == '$id') continue;
 
 
                             try {
@@ -129,20 +128,19 @@ class Utils
                                 }
 
                                 $type = DB::getSchemaBuilder()->getColumnType($table_name, $name);
-                                if(!is_string($meta) && isset($meta['type'])) {
+                                if (!is_string($meta) && isset($meta['type'])) {
                                     $meta = $meta['type'];
                                 }
-                                if($engine == 'pgsql' && $meta == 'char') {
+                                if ($engine == 'pgsql' && $meta == 'char') {
                                     $meta = 'string';
                                 }
-                                if(is_string($meta) && $type != $meta) {
+                                if (is_string($meta) && $type != $meta) {
                                     Schema::table($table_name, function ($table) use ($meta, $name) {
                                         $table->{$meta}($name)->change();
                                     });
                                 }
 
                             } catch (\Exception $e) {
-
 
 
                             }
@@ -239,18 +237,28 @@ class Utils
         if ($only_cms_tables and $tables) {
             $cms_tables = array();
             $local_prefix = $this->get_prefix();
+
+
             foreach ($tables as $k => $v) {
-                if ($local_prefix) {
-                    $starts_with = starts_with($local_prefix, $v);
+
+                if ($local_prefix ) {
+                 //   $starts_with = starts_with($local_prefix, $v);
+                    $starts_with = substr($v, 0, strlen($local_prefix)) === $local_prefix;
+
                     if ($starts_with) {
-                        $v = str_replace_first($local_prefix, '', $v);
-                        $cms_tables[] = $v;
+                      //  $v = str_replace_first($local_prefix, '', $v);
+                        $cms_tables[$k] = $v;
+                    } else {
+                        //  $cms_tables[$k] = $v;
                     }
                 } else {
-                    $cms_tables[] = $v;
+
+                $cms_tables[$k] = $v;
+
                 }
 
             }
+
             return $cms_tables;
         }
 

@@ -758,12 +758,16 @@ class Backup
         if ($tables == '*') {
             $tables = array();
 
-            $result = mw()->database_manager->get_tables_list();
+            $result = mw()->database_manager->get_tables_list(true);
             if (!empty($result)) {
                 foreach ($result as $item) {
                     $tables[] = $item;
                 }
             }
+
+
+
+
         } else {
             if (is_array($tables)) {
                 $tables = explode(',', $tables);
@@ -775,6 +779,7 @@ class Backup
 
         // Cycle through each provided table
         foreach ($tables as $table) {
+            d($table);
             $is_cms_table = false;
 
             if (get_table_prefix() == '') {
@@ -802,6 +807,8 @@ class Backup
                 $ddl = mw()->database_manager->get_table_ddl($table);
                 $ddl = str_ireplace('CREATE TABLE ', 'CREATE TABLE IF NOT EXISTS ', $ddl);
 
+                //dd($ddl);
+
                 $create_table_without_prefix = str_ireplace(get_table_prefix(), $this->prefix_placeholder, $ddl);
 
                 $return = "\n\n" . $create_table_without_prefix . $this->file_q_sep . "\n\n\n";
@@ -811,6 +818,8 @@ class Backup
                 if (!empty($result)) {
                     $table_accos = str_replace(get_table_prefix(), '', $table);
                     $columns = $this->app->database_manager->get_fields($table_accos);
+                 //   d(get_table_prefix());
+
                     foreach ($result as $row) {
                         $row = array_values($row);
                         $columns = array_values($columns);
