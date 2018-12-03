@@ -1,4 +1,8 @@
 <?php
+
+namespace Microweber\Utils\lib\PHPImageMagician;
+
+
 /* This file is released under the GPL, any version you like
 *
 *	PHP PSD reader class, v1.3

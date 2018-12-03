@@ -749,68 +749,78 @@ class MediaManager
                 } else {
                     if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'gif' || $ext == 'png' || $ext == 'bmp') {
 
-                        if (function_exists('finfo_file')) {
-                            //use Image library
-                            //  $image = Image::make($src)->resize($width, $height)->save($cache_path);
-                            @ini_set('memory_limit', '5660M');
-                            @ini_set('max_execution_time', 180);
+                        if (!$height) {
+                            $height = $width;
+                        }
+                        $tn = new \Microweber\Utils\Thumbnailer($src);
+                        $thumbOptions = array('height' => $height, 'width' => $width);
+                        if ($crop) {
+                            $thumbOptions['crop'] = $crop;
+                        }
+                        $tn->createThumb($thumbOptions, $cache_path);
+
+                        unset($tn);
 
 
-
-
-
-//                          $image = new \Microweber\Utils\lib\ImageResize($src);
+//                        if (function_exists('finfo_file')) {
+//                            //use Image library
+//                            //  $image = Image::make($src)->resize($width, $height)->save($cache_path);
 //
-//                            if ($crop) {
-//                                $image->crop($width, $height, true, \Microweber\Utils\lib\ImageResize::CROPCENTER);
-//                            } else {
-//                                $image->dest_w = $width;
-//                                $image->dest_h = $height;
 //
-//                                $image->resizeToBestFit($width, $height);
-//
+//                            if (intval($height) == 0) {
+//                                //    $height = null;
+//                            }
+//                            if ($width == $height) {
+//                                // $height = null;
 //                            }
 //
 //
-//                            $image->save($cache_path);
+//                            $magicianObj_mode = 3;
+//                            $magicianObj = new \Microweber\Utils\lib\PHPImageMagician\imageLib($src);
+//                            if ($crop) {
+//                                $magicianObj_mode = 4;
+//                            }
+//                            $magicianObj->resizeImage($width, $height, $magicianObj_mode);
 //
-                          // OLD INTERVENTION IMAGE LIB WILL BE REMOVED AS ITS NOT WORKING ON BIG IMAGES
-
-                            if (intval($height) == 0) {
-                                $height = null;
-                            }
-                            if ($width == $height) {
-                                $height = null;
-                            }
-
-
-                            if ($crop) {
-                                $image = Image::make($src)->fit($width, $height);
-
-                            } else {
-                                $image = Image::make($src)->resize($width, $height, function ($constraint) {
-                                    $constraint->aspectRatio();
-                                });
-                            }
-
-                            $image = $image->save($cache_path);
-
-                            // END OF OLD INTERVENTION IMAGE LIB
-
-
-                            unset($image);
-                        } else {
-                            // use fallback
-
-                            if (!$height) {
-                                $height = $width;
-                            }
-                            $tn = new \Microweber\Utils\Thumbnailer($src);
-                            $thumbOptions = array('maxLength' => $height, 'width' => $width);
-                            $tn->createThumb($thumbOptions, $cache_path);
-
-                            unset($tn);
-                        }
+//                            $magicianObj->saveImage($cache_path, 100);
+//
+//                            // OLD INTERVENTION IMAGE LIB WILL BE REMOVED AS ITS NOT WORKING ON BIG IMAGES also deppends on finfo_file
+//
+////                            if (intval($height) == 0) {
+////                                $height = null;
+////                            }
+////                            if ($width == $height) {
+////                                $height = null;
+////                            }
+////
+////
+////                            if ($crop) {
+////                                $image = Image::make($src)->fit($width, $height);
+////
+////                            } else {
+////                                $image = Image::make($src)->resize($width, $height, function ($constraint) {
+////                                    $constraint->aspectRatio();
+////                                });
+////                            }
+////
+////                            $image = $image->save($cache_path);
+//
+//                            // END OF OLD INTERVENTION IMAGE LIB
+//
+//
+//                            //   unset($image);
+//                        } else {
+//                            // use fallback
+//
+////                            if (!$height) {
+////                                $height = $width;
+////                            }
+////                            $tn = new \Microweber\Utils\Thumbnailer($src);
+////                            $thumbOptions = array('maxLength' => $height, 'width' => $width);
+////                            $tn->createThumb($thumbOptions, $cache_path);
+////
+////                            unset($tn);
+//                        }
 
 
                     } else {
