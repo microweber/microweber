@@ -7,11 +7,18 @@ mw.admin_backup = {
 	 //  data = mw.$(selector+' input').serialize();
 
 	 mw.notification.success("Backup started...");
+
+     mw.tools.loading(selector, true)
+
+
+
 	 $.post(mw.settings.api_url+'Microweber/Utils/Backup/create', false ,
 	 	function(msg) {
 	 		mw.reload_module('admin/backup/manage');
 	 		mw.notification.msg(msg);
-	 	});
+            mw.tools.loading(selector, false)
+
+        });
 
 	},
 	

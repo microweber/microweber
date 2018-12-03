@@ -61,6 +61,15 @@ class Backup
         if (!defined('MW_NO_SESSION')) {
             define('MW_NO_SESSION', 1);
         }
+
+
+
+        $api = new \Microweber\Utils\Backup();
+        $api->exec_restore($params);
+        return;
+
+
+
         $url = site_url();
         // header("Location: " . $url);
         // redirect the url to the 'busy importing' page
@@ -262,8 +271,12 @@ class Backup
     public function exec_restore($params = false)
     {
         ignore_user_abort(true);
+        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'memory_limit')) {
+            ini_set('memory_limit', '2512M');
+            ini_set("max_execution_time", "-1");
+        }
 
-        ini_set('memory_limit', '512M');
+
 
         if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
             set_time_limit(0);
@@ -779,8 +792,7 @@ class Backup
 
         // Cycle through each provided table
         foreach ($tables as $table) {
-            d($table);
-            $is_cms_table = false;
+             $is_cms_table = false;
 
             if (get_table_prefix() == '') {
                 $is_cms_table = 1;

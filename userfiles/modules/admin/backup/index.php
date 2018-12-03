@@ -17,16 +17,17 @@
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
+
 <div id="mw-admin-content" class="admin-side-content">
     <div class="mw_edit_page_default" id="mw_edit_page_left">
 
 
         <div class="mw-ui-btn-nav pull-left">
 
-            <a href="javascript:mw.admin_backup.create('.mw_edit_page_right')" class="mw-ui-btn mw-ui-btn-warn">
+            <a href="javascript:;" onclick="mw.admin_backup.create('.mw_edit_page_right'); " class="mw-ui-btn mw-ui-btn-warn">
                 <i class="mw-icon-file"></i>&nbsp; <span><?php _e("Database Backup"); ?></span>
             </a>
-            <a href="javascript:mw.admin_backup.create_full('.mw_edit_page_right')" class="mw-ui-btn mw-ui-btn-notification">
+            <a href="javascript:;" onclick="mw.admin_backup.create_full('.mw_edit_page_right')" class="mw-ui-btn mw-ui-btn-notification">
                 <i class="mw-icon-refresh"></i>&nbsp; <span><?php _e("Create Full Backup"); ?></span>
             </a>
 
