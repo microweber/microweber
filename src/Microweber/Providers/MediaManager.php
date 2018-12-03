@@ -752,23 +752,29 @@ class MediaManager
                         if (function_exists('finfo_file')) {
                             //use Image library
                             //  $image = Image::make($src)->resize($width, $height)->save($cache_path);
-                            @ini_set('memory_limit', '2560M');
+                            @ini_set('memory_limit', '5660M');
+                            @ini_set('max_execution_time', 180);
 
 
-                            $image = new \Microweber\Utils\lib\ImageResize($src);
-
-                            if ($crop) {
-                                $image->crop($width, $height, true, \Microweber\Utils\lib\ImageResize::CROPCENTER);
-                            } else {
-                                $image->resizeToBestFit($width, $height);
-
-                            }
 
 
-                            $image->save($cache_path);
 
-
-                            /*// OLD INTERVENTION IMAGE LIB WILL BE REMOVED AS ITS NOT WORKING ON BIG IMAGES
+//                          $image = new \Microweber\Utils\lib\ImageResize($src);
+//
+//                            if ($crop) {
+//                                $image->crop($width, $height, true, \Microweber\Utils\lib\ImageResize::CROPCENTER);
+//                            } else {
+//                                $image->dest_w = $width;
+//                                $image->dest_h = $height;
+//
+//                                $image->resizeToBestFit($width, $height);
+//
+//                            }
+//
+//
+//                            $image->save($cache_path);
+//
+                          // OLD INTERVENTION IMAGE LIB WILL BE REMOVED AS ITS NOT WORKING ON BIG IMAGES
 
                             if (intval($height) == 0) {
                                 $height = null;
@@ -789,7 +795,7 @@ class MediaManager
 
                             $image = $image->save($cache_path);
 
-                            // END OF OLD INTERVENTION IMAGE LIB*/
+                            // END OF OLD INTERVENTION IMAGE LIB
 
 
                             unset($image);

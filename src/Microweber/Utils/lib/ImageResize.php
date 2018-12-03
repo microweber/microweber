@@ -70,8 +70,8 @@ class ImageResize
     protected $source_x;
     protected $source_y;
 
-    protected $dest_w;
-    protected $dest_h;
+    public $dest_w;
+    public $dest_h;
 
     protected $source_w;
     protected $source_h;
@@ -529,14 +529,17 @@ class ImageResize
             return $this;
         }
 
+
         $ratio  = $this->getSourceHeight() / $this->getSourceWidth();
         $width = $max_width;
         $height = $width * $ratio;
 
-        if ($height > $max_height) {
+//dd($max_height);
+        if ($max_height > 1 and $height > $max_height) {
             $height = $max_height;
             $width = $height / $ratio;
         }
+
 
         return $this->resize($width, $height, $allow_enlarge);
     }
@@ -581,8 +584,7 @@ class ImageResize
         $this->source_x = 0;
         $this->source_y = 0;
 
-        $this->dest_w = $width;
-        $this->dest_h = $height;
+
 
         $this->source_w = $this->getSourceWidth();
         $this->source_h = $this->getSourceHeight();
@@ -614,6 +616,9 @@ class ImageResize
                 $height = $this->getSourceHeight();
             }
         }
+
+
+
 
         $ratio_source = $this->getSourceWidth() / $this->getSourceHeight();
         $ratio_dest = $width / $height;

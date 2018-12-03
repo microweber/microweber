@@ -63,11 +63,9 @@ class Backup
         }
 
 
-
         $api = new \Microweber\Utils\Backup();
         $api->exec_restore($params);
         return;
-
 
 
         $url = site_url();
@@ -254,6 +252,8 @@ class Backup
             die();
         }
 
+
+
         ob_start();
         $api = new \Microweber\Utils\Backup();
         $this->app->cache_manager->clear();
@@ -275,7 +275,6 @@ class Backup
             ini_set('memory_limit', '2512M');
             ini_set("max_execution_time", "-1");
         }
-
 
 
         if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
@@ -343,6 +342,10 @@ class Backup
                 break;
 
             case 'sql' :
+                $sql_file = $filename;
+                break;
+
+            case 'json' :
                 $sql_file = $filename;
                 break;
 
@@ -743,7 +746,8 @@ class Backup
             $engine = mw()->database_manager->get_sql_engine();
             $mwv = MW_VERSION;
             $mwv = str_replace('.', '', $mwv);
-            $filename_to_return = 'database_' . date('YMdHis') . '_' . uniqid() . '_' . $mwv . '_' . $engine . '.sql';
+            //$filename_to_return = 'database_' . date('YMdHis') . '_' . uniqid() . '_' . $mwv . '_' . $engine . '.sql';
+            $filename_to_return = 'database_' . date('YMdHis') . '_' . uniqid() . '_' . $mwv . '_' . $engine . '.json';
         } else {
             $filename_to_return = $filename;
         }
@@ -762,6 +766,32 @@ class Backup
             file_put_contents($hta, 'Deny from all');
         }
 
+
+        $this->log_action(false);
+        $back_log_action = 'Saving to file ' . basename($filess);
+        $this->export_to_json_file($tables = 'all', $db_get_params = false, $json_file_export_path = $filess);
+
+
+        $this->log_action($back_log_action);
+        $end = microtime_float();
+        $end = round($end - $start, 3);
+        $this->log_action(false);
+
+        return array('success' => "Backup was created for $end sec! $filename_to_return", 'filename' => $filename_to_return, 'runtime' => $end, 'url' => dir2url($filess));
+
+
+
+
+
+
+        /* OLD BACKUP BELOW */
+        /* DEPRECATED */
+        /* DEPRECATED */
+        /* DEPRECATED */
+        /* DEPRECATED */
+        /* DEPRECATED */
+        /* DEPRECATED */
+
         $head = '/* Microweber database backup exported on: ' . date('l jS \of F Y h:i:s A') . " */ \n";
         $head .= '/* get_table_prefix(): ' . get_table_prefix() . " */ \n\n\n";
         file_put_contents($sql_bak_file, $head);
@@ -779,8 +809,6 @@ class Backup
             }
 
 
-
-
         } else {
             if (is_array($tables)) {
                 $tables = explode(',', $tables);
@@ -792,7 +820,7 @@ class Backup
 
         // Cycle through each provided table
         foreach ($tables as $table) {
-             $is_cms_table = false;
+            $is_cms_table = false;
 
             if (get_table_prefix() == '') {
                 $is_cms_table = 1;
@@ -809,7 +837,7 @@ class Backup
                 $qs = 'SELECT * FROM ' . $table;
                 $result = mw()->database_manager->query($qs, $cache_id = false, $cache_group = false, $only_query = false);
                 $num_fields = 0;
-                if(isset($result[0]) and is_array($result[0])){
+                if (isset($result[0]) and is_array($result[0])) {
                     $num_fields = count($result[0]);
                 }
 
@@ -830,7 +858,7 @@ class Backup
                 if (!empty($result)) {
                     $table_accos = str_replace(get_table_prefix(), '', $table);
                     $columns = $this->app->database_manager->get_fields($table_accos);
-                 //   d(get_table_prefix());
+                    //   d(get_table_prefix());
 
                     foreach ($result as $row) {
                         $row = array_values($row);
@@ -918,7 +946,7 @@ class Backup
         );
 
 
-        ini_set('memory_limit', '512M');
+        ini_set('memory_limit', '1512M');
         set_time_limit(0);
 
         $export_location = $this->get_bakup_location();
@@ -1190,7 +1218,7 @@ class Backup
 
         $here = $this->get_bakup_location();
 
-        $files = glob("$here{*.sql,*.zip}", GLOB_BRACE);
+        $files = glob("$here{*.sql,*.zip,*.json}", GLOB_BRACE);
         if (is_array($files)) {
             usort($files, function ($a, $b) {
                 return filemtime($a) < filemtime($b);
@@ -1199,7 +1227,7 @@ class Backup
         $backups = array();
         if (!empty($files)) {
             foreach ($files as $file) {
-                if (strpos($file, '.sql', 1) or strpos($file, '.zip', 1)) {
+                if (stripos($file, '.sql', 1) or stripos($file, '.zip', 1) or stripos($file, '.json', 1)) {
                     $mtime = filemtime($file);
                     $date = date('F d Y', $mtime);
                     $time = date('H:i:s', $mtime);
