@@ -95,92 +95,67 @@
             </div>
 
 
+            <div class="mw-ui-box-content tabitem mw-normalize-css  mw-live-edit-sidebar-iframe-holder"
+                 style="display: none;">
 
 
-           <div class="mw-ui-box-content tabitem mw-normalize-css  mw-live-edit-sidebar-iframe-holder"
-                     style="display: none;">
-
-
-
-
-
-
-               <div class="mw-accordion" data-options="openFirst: false">
-
-
-                   <?php if (file_exists(TEMPLATE_DIR . 'template_settings.php')) { ?>
-                   <script>
-                       mw.___load_template_settings_iframe_in_sidebar_accordeon = function () {
-                           var html = ' <iframe id="mw-live-edit-sidebar-settings-iframe-holder-template-settings-frame" style="height:500px" class="mw-live-edit-sidebar-settings-iframe"   src="<?php print api_url() ?>module?id=template_settings_admin&live_edit=true&module_settings=true&type=settings/template&autosize=false&content_id=<?php print CONTENT_ID ?>"></iframe>'
-                           if($("#mw-live-edit-sidebar-settings-iframe-holder-template-settings-frame").length == 0) {
-                               $('#mw-live-edit-sidebar-settings-iframe-holder-template-settings').html(html);
-                           }
-
-                       }
-                   </script>
-                   <div class="mw-accordion-item ">
-                       <div class="mw-ui-box-header mw-accordion-title " onclick="mw.___load_template_settings_iframe_in_sidebar_accordeon()">
-                           <div class="header-holder">
-                               <i class="mai-setting2"></i> Template settings
-                           </div>
-                       </div>
-                       <div class="mw-accordion-content mw-ui-box mw-ui-box-content "  style="display: none;">
-                           <div id="mw-live-edit-sidebar-settings-iframe-holder-template-settings"></div>
-                       </div>
-                   </div>
-
-
-                   <?php } ?>
-
-
-                   <div class="mw-accordion-item">
-                       <div class="mw-ui-box-header mw-accordion-title">
-                           <div class="header-holder">
-                               <i class="mai-setting2"></i> Another Example2
-                           </div>
-                       </div>
-                       <div class="mw-accordion-content mw-ui-box mw-ui-box-content" style="display: none;">
-                           <div class="mw-ui-box-content tabitem css-editor-holder" style="display: none">
-                               <h3 class="mw-live-edit-tab-title"><?php echo("UI Editor"); ?></h3>
-
-                               <div id="mw-css-editor__TEMP_REMOVE"></div>
-                           </div>
-                       </div>
-                   </div>
-               </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                <div class="mw-accordion" data-options="openFirst: false">
 
 
                     <?php if (file_exists(TEMPLATE_DIR . 'template_settings.php')) { ?>
+                        <script>
+                            mw.___load_template_settings_iframe_in_sidebar_accordeon = function () {
+                                var html = ' <iframe id="mw-live-edit-sidebar-settings-iframe-holder-template-settings-frame" style="height:500px" class="mw-live-edit-sidebar-settings-iframe"   src="<?php print api_url() ?>module?id=template_settings_admin&live_edit=true&module_settings=true&type=settings/template&autosize=false&content_id=<?php print CONTENT_ID ?>"></iframe>'
+                                if ($("#mw-live-edit-sidebar-settings-iframe-holder-template-settings-frame").length == 0) {
+                                    $('#mw-live-edit-sidebar-settings-iframe-holder-template-settings').html(html);
+                                }
 
-                        <a class="mw-ui-btn" href="javascript:mw.tools.toggle_template_settings();">Open template settings</a>
+                            }
+                        </script>
+                        <div class="mw-accordion-item ">
+                            <div class="mw-ui-box-header mw-accordion-title "
+                                 onclick="mw.___load_template_settings_iframe_in_sidebar_accordeon()">
+                                <div class="header-holder">
+                                    <i class="mai-setting2"></i> Template settings
+                                </div>
+                            </div>
+                            <div class="mw-accordion-content mw-ui-box mw-ui-box-content " style="display: none;">
+                                <div id="mw-live-edit-sidebar-settings-iframe-holder-template-settings"></div>
+                            </div>
+                        </div>
 
-<!--
- <iframe class="mw-live-edit-sidebar-settings-iframe"   data-src="<?php print api_url() ?>module?id=template_settings_admin&live_edit=true&module_settings=true&type=settings/template&autosize=false&content_id=<?php print CONTENT_ID ?>"></iframe>
--->
 
                     <?php } ?>
+
+
+                    <div class="mw-accordion-item">
+                        <div class="mw-ui-box-header mw-accordion-title">
+                            <div class="header-holder">
+                                <i class="mai-setting2"></i> CSS Editor
+                            </div>
+                        </div>
+                        <div class="mw-accordion-content mw-ui-box mw-ui-box-content" style="display: none;">
+                            <div class="mw-ui-box-content tabitem css-editor-holder" style="display: none">
+                                <h3 class="mw-live-edit-tab-title"><?php echo("UI Editor"); ?></h3>
+
+                                <div id="mw-css-editor"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
 
+                <?php if (file_exists(TEMPLATE_DIR . 'template_settings.php')) { ?>
 
+                    <a class="mw-ui-btn" href="javascript:mw.tools.toggle_template_settings();">Open template
+                        settings</a>
+
+                    <!--
+ <iframe class="mw-live-edit-sidebar-settings-iframe"   data-src="<?php print api_url() ?>module?id=template_settings_admin&live_edit=true&module_settings=true&type=settings/template&autosize=false&content_id=<?php print CONTENT_ID ?>"></iframe>
+-->
+
+                <?php } ?>
+            </div>
 
 
             <?php
@@ -343,7 +318,46 @@
             mw.wysiwyg.dropdowns();
 
 
-          /*  CSSEditorSchema = [
+        });
+
+        var setScrollBoxes = function () {
+            var root = document.querySelector('#modules-and-layouts-sidebar');
+            if (root !== null) {
+                var el = root.querySelectorAll('.mw-scroll-box');
+                for (var i = 0; i < el.length; i++) {
+                    var h = (innerHeight - 50 - ($(el[i]).offset().top - $("#live_edit_side_holder").offset().top));
+                    el[i].style.height = h + 'px'
+                }
+            }
+        }
+
+        mw.on('liveEditSettingsReady', function () {
+            setScrollBoxes()
+            setTimeout(function () {
+                mw.drag.toolbar_modules();
+                $("#mw-sidebar-layouts-list").removeClass("module")
+                $("#mw-sidebar-modules-list").removeClass("module")
+
+            }, 333)
+
+        });
+
+        $(window).on('resize orientationchange', function () {
+            setScrollBoxes()
+        });
+
+
+    </script>
+
+
+  <?php
+  /*  <script>
+
+
+        $(document).ready(function () {
+
+
+            CSSEditorSchema = [
                 {
                     interface: 'quatro',
                     label: ['Margin top', 'Margin right', 'Margin bottom', 'Margin left'],
@@ -414,6 +428,9 @@
             });
 
             mw.on("ElementClick", function (event, el) {
+
+
+
                 mw.elementCSSEditor.currentElement = el;
 
                 var css = getComputedStyle(el);
@@ -432,36 +449,11 @@
                 mw.elementCSSEditor.setValue(val);
             });
 
-*/
 
         });
 
-        var setScrollBoxes = function () {
-            var root = document.querySelector('#modules-and-layouts-sidebar');
-            if (root !== null) {
-                var el = root.querySelectorAll('.mw-scroll-box');
-                for (var i = 0; i < el.length; i++) {
-                    var h = (innerHeight - 50 - ($(el[i]).offset().top - $("#live_edit_side_holder").offset().top));
-                    el[i].style.height = h + 'px'
-                }
-            }
-        }
 
-        mw.on('liveEditSettingsReady', function () {
-            setScrollBoxes()
-            setTimeout(function () {
-                mw.drag.toolbar_modules();
-                $("#mw-sidebar-layouts-list").removeClass("module")
-                $("#mw-sidebar-modules-list").removeClass("module")
+    </script>*/
 
-            }, 333)
-
-        });
-
-        $(window).on('resize orientationchange', function () {
-            setScrollBoxes()
-        });
-
-
-    </script>
+  ?>
 </div>

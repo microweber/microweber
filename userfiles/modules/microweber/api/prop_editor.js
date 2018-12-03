@@ -102,6 +102,9 @@ mw.propEditor = {
             }
         };
         this.setValue = function(val){
+            if(!val){
+                return;
+            }
             for(var i in val){
                 var rend = this.getRendById(i);
                 if(!!rend){

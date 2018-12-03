@@ -38,14 +38,16 @@ jQuery.ajax = $.ajax = function(url, options){
         settings._success = settings.success;
         delete settings.success;
         settings.success = function (data, status, xhr) {
-            if (data.form_data_required) {
-                mw.extradataForm(settings, data);
-            }
-            else {
-                if (typeof this._success === 'function') {
-                    var scope = this;
-                    scope._success.call(scope, data, status, xhr);
+            if(data){
+                if (data.form_data_required) {
+                    mw.extradataForm(settings, data);
+                }
+                else {
+                    if (typeof this._success === 'function') {
+                        var scope = this;
+                        scope._success.call(scope, data, status, xhr);
 
+                    }
                 }
             }
         };
