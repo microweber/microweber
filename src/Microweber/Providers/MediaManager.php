@@ -755,7 +755,20 @@ class MediaManager
                             @ini_set('memory_limit', '2560M');
 
 
+                            $image = new \Microweber\Utils\lib\ImageResize($src);
 
+                            if ($crop) {
+                                $image->crop($width, $height, true, \Microweber\Utils\lib\ImageResize::CROPCENTER);
+                            } else {
+                                $image->resizeToBestFit($width, $height);
+
+                            }
+
+
+                            $image->save($cache_path);
+
+
+                            /*// OLD INTERVENTION IMAGE LIB WILL BE REMOVED AS ITS NOT WORKING ON BIG IMAGES
 
                             if (intval($height) == 0) {
                                 $height = null;
@@ -775,6 +788,9 @@ class MediaManager
                             }
 
                             $image = $image->save($cache_path);
+
+                            // END OF OLD INTERVENTION IMAGE LIB*/
+
 
                             unset($image);
                         } else {
