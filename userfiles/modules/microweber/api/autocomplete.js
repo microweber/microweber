@@ -142,6 +142,9 @@ mw.autoComplete = function(options){
     };
     this.dataImage = function(data){
         if(!data) return;
+        if(data.picture){
+            data.image = data.picture;
+        }
         if(data.image){
             var img = document.createElement('span');
             img.className = 'mw-autocomplete-img';

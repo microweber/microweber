@@ -128,7 +128,10 @@
                     <?php } ?>
 
 
-                    <div class="mw-accordion-item">
+
+                    <?php
+
+                    /* <div class="mw-accordion-item">
                         <div class="mw-ui-box-header mw-accordion-title">
                             <div class="header-holder">
                                 <i class="mai-setting2"></i> CSS Editor
@@ -141,11 +144,16 @@
                                 <div id="mw-css-editor"></div>
                             </div>
                         </div>
-                    </div>
+                    </div>*/
+
+                    ?>
+
                 </div>
 
 
-                <?php if (file_exists(TEMPLATE_DIR . 'template_settings.php')) { ?>
+              <?php
+
+              /*  <?php if (file_exists(TEMPLATE_DIR . 'template_settings.php')) { ?>
 
                     <a class="mw-ui-btn" href="javascript:mw.tools.toggle_template_settings();">Open template
                         settings</a>
@@ -155,7 +163,10 @@
 -->
 
                 <?php } ?>
-            </div>
+            </div>*/
+
+
+              ?>
 
 
             <?php

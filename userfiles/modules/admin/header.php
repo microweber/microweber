@@ -453,6 +453,16 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                         print $order_notif_html;
                                     }; ?></span> <strong><?php _e("Shop"); ?></strong></a>
                             <ul>
+
+
+
+                                <li <?php if ($action == 'products'): ?> class="active" <?php endif; ?>>
+                                    <a href="<?php print admin_url(); ?>view:shop/action:products">
+                                        <span class="mai-product"></span>
+                                        <?php _e("Products"); ?>
+                                    </a>
+                                </li>
+
                                 <li <?php if ($action == 'orders'): ?> class="active" <?php endif; ?>>
                                     <a href="<?php print admin_url(); ?>view:shop/action:orders">
                                         <span class="mai-shop"></span>
@@ -463,12 +473,19 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                     </span>
                                     </a>
                                 </li>
+
+
+
+
                                 <li <?php if ($action == 'clients'): ?> class="active" <?php endif; ?>>
                                     <a href="<?php print admin_url(); ?>view:shop/action:clients">
                                         <span class="mai-user"></span>
                                         <?php _e("Clients"); ?>
                                     </a>
                                 </li>
+
+
+
 
 
                                 <li <?php if ($action == 'options'): ?> class="active" <?php endif; ?>>
