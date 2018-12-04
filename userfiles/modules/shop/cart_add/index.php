@@ -27,6 +27,15 @@ if (isset($params['rel_type']) and trim(strtolower(($params['rel_type']))) == 'p
     $for = 'content';
 }
 
+if (isset($params['content_id'])) {
+    $params['content-id'] = $params['content_id'];
+    $for = 'content';
+}
+if (isset($params['product_id'])) {
+    $params['content-id'] = $params['product_id'];
+    $for = 'content';
+}
+
 $module_template = get_option('data-template', $params['id']);
 if ($module_template == false and isset($params['template'])) {
     $module_template = $params['template'];

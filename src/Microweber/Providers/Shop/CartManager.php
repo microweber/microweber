@@ -94,7 +94,6 @@ class CartManager extends Crud
     }
 
 
-
     public function get_tax()
     {
         $sum = $this->sum();
@@ -279,8 +278,12 @@ class CartManager extends Crud
         if ($check_cart != false and is_array($check_cart)) {
             $table = $this->table;
             $this->app->database_manager->delete_by_id($table, $id = $cart['id'], $field_name = 'id');
+            return array('success' => 'Item removed from cart');
         } else {
+            return array('error' => 'Item not removed from cart');
+
         }
+
     }
 
     public function update_item_qty($data)
@@ -457,11 +460,11 @@ class CartManager extends Crud
         $content_custom_fields = $this->app->fields_manager->get($for, $for_id, 1);
 
         $product_prices = array();
-        if($for  == 'content'){
+        if ($for == 'content') {
             $prices_data = mw()->shop_manager->get_product_prices($for_id, true);
             foreach ($prices_data as $price_data) {
                 if (isset($price_data['name'])) {
-                    $product_prices[ $price_data['name']] = $price_data['value'];
+                    $product_prices[$price_data['name']] = $price_data['value'];
                 }
             }
         }

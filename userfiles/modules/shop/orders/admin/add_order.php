@@ -40,7 +40,8 @@ $data = $products;
 
     $(document).ready(function () {
         var created_by_field = new mw.autoComplete({
-            element:"#select-post-author",
+            element:"#mw-admin-search-for-products",
+            placeholder:"Search products",
             ajaxConfig: {
                 method: 'get',
                 url: mw.settings.api_url + 'get_content_admin?get_extra_data=1&content_type=product&kw=${val}'
@@ -59,15 +60,32 @@ $data = $products;
         });
         $(created_by_field).on("change", function(e, val){
 
-            $("#created_by").val(val[0].id).trigger('change')
+
+
+
+            mw_admin_add_product_to_cart_open_modal(val[0].id);
+
+
+
+
+
+
+
+
         })
     });
 
 
-</script>
-<div id="select-post-author"></div>
 
-<input type="text" name="created_by" id="created_by">
+
+
+</script>
+
+
+
+
+
+
 
 
 
@@ -77,7 +95,22 @@ $data = $products;
 
 <script>
 
+    $( document ).ready(function() {
+        mw.on('mw.cart.add', function () {
+            if(typeof addCartModal != 'undefined'){
+                addCartModal.modal.remove()
+            }
+        });
+    });
 
+
+
+    function mw_admin_add_product_to_cart_open_modal(product_id = false) {
+        var data = {};
+        data.content_id = product_id;
+        data.template = 'mw_default';
+        addCartModal = mw.tools.open_module_modal('shop/cart_add', data, {overlay: true, skin: 'simple', title: 'Add to cart'})
+    }
 
 
 
@@ -125,6 +158,9 @@ $data = $products;
 
 </script>
 
+
+
+
 <div class="demobox" id="mw-add-order">
     <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
         <a href="javascript:;" class="mw-ui-btn active">Add to cart</a>
@@ -135,31 +171,72 @@ $data = $products;
     <div class="mw-ui-box">
         <!-- Add to cart -->
         <div class="mw-ui-box-content">
-            <div id="mw_admin_custom_order_item_add_form" class="m-b-10">
-                <h2>Add custom item</h2>
 
-                <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label">Product name</label>
-                    <input type="text" name="title" class="mw-ui-field element-block" required="required">
-                    <input type="hidden" name="for" value="custom_item">
-                    <input type="hidden" name="for_id" value="1">
+
+
+
+
+
+
+
+
+
+<h2>Search for product or <a href="javascript:;" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small" onclick="$('.mw_admin_custom_order_item_add_form_toggle').toggle()">Add custom item</a></h2>
+
+
+
+
+
+
+
+
+
+
+
+            <div id="mw-admin-search-for-products" class="mw_admin_custom_order_item_add_form_toggle"></div>
+
+
+
+
+
+
+
+            <div class="mw_admin_custom_order_item_add_form_toggle" style="display: none" >
+                <div id="mw_admin_custom_order_item_add_form" class="m-b-10">
+                    <h2>Add custom item</h2>
+
+                    <div class="mw-ui-field-holder">
+                        <label class="mw-ui-label">Product name</label>
+                        <input type="text" name="title" class="mw-ui-field element-block" required="required">
+                        <input type="hidden" name="for" value="custom_item">
+                        <input type="hidden" name="for_id" value="1">
+                    </div>
+
+                    <div class="mw-ui-field-holder">
+                        <label class="mw-ui-label">Price</label>
+                        <input type="text" name="price" class="mw-ui-field element-block" required="required"
+                               placeholder="Example: 10"/>
+                    </div>
+
+                    <div class="right">
+                        <button class="mw-ui-btn mw-ui-btn-info"
+                                onclick="mw_admin_custom_order_item_add('#mw_admin_custom_order_item_add_form')"><i
+                                    class="mai-plus"></i> add
+                        </button>
+                    </div>
                 </div>
 
-                <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label">Price</label>
-                    <input type="text" name="price" class="mw-ui-field element-block" required="required"
-                           placeholder="Example: 10"/>
-                </div>
 
-                <div class="right">
-                    <button class="mw-ui-btn mw-ui-btn-info"
-                            onclick="mw_admin_custom_order_item_add('#mw_admin_custom_order_item_add_form')"><i
-                                class="mai-plus"></i> add
-                    </button>
-                </div>
             </div>
 
-            <hr>
+
+
+
+
+
+            <?php
+
+            /*     <hr>
 
                 <h2>Add existing product</h2>
 
@@ -203,12 +280,18 @@ $data = $products;
                 </div>
             <?php else: ?>
             No products found
-            <?php endif; ?>
+            <?php endif; ?>*/
+
+
+
+            ?>
+
+
 
         </div>
 
         <!-- My cart's content -->
-        <div class="mw-ui-box-content" style="display: none;">
+        <div class="mw-ui-box-content" style="display: block;">
             <module type="shop/cart" data-checkout-link-enabled="n" template="mw_default"/>
         </div>
 

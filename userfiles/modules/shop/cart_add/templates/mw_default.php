@@ -1,5 +1,5 @@
 <?php
-
+$product = false;
 if (isset($params['content-id'])) {
     $product = get_content_by_id($params["content-id"]);
     $title = $product['title'];
@@ -10,6 +10,29 @@ if (isset($params['content-id'])) {
 
 ?>
 
+
+
+
+
+<?php
+$title= false;
+if ($product and isset($product['title'])) {
+    $title= $product['title'];
+}
+
+$picture= false;
+if ($product and isset($product['id'])) {
+    $picture= get_picture($product['id']);
+}
+?>
+
+
+<div>
+<h1><?php print $title ?></h1>
+
+
+<img src="<?php print $picture ?>">
+</div>
 <br class="mw-add-to-cart-spacer"/>
 <module type="custom_fields" data-content-id="<?php print intval($for_id); ?>" data-skip-type="price" id="cart_fields_<?php print $params['id'] ?>"/>
 <?php if (is_array($data)): ?>

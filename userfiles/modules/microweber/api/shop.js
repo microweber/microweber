@@ -95,9 +95,10 @@ mw.cart = {
                 mw.$('.mw-cart-item-' + $id).fadeOut(function () {
                     $(this).remove();
                     if (parent.find(".mw-cart-item").length == 0) {
-                        mw.reload_module("shop/cart");
+
                     }
                 });
+                mw.reload_module("shop/cart");
                 mw.trigger('mw.cart.remove', [data]);
             });
     },
