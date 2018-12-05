@@ -232,23 +232,25 @@ mw.askusertostay = false;
     }
   }
 
-  mw.getScripts = function (array, callback) {
-    if(array.length === 0){
-        callback.call();
-    }
-    else{
-        var curr = array.shift();
-        if (!~mw.required.indexOf(curr)) {
-            mw.required.push(curr);
-            $.getScript(curr, function () {
-                mw.getScripts(array, callback)
-            });
-        }
-        else{
-            mw.getScripts(array, callback)
-        }
-    }
+
+
+mw.getScripts = function (array, callback) {
+  if(typeof array === 'string'){
+      array = array.split(',')
   }
+  var all = array.length, ready = 0;
+  $.each(array, function(){
+      var scr = $('<script>');
+      $(scr).on('load', function(){
+        ready++;
+        if(all === ready) {
+            callback.call()
+        }
+      });
+      scr[0].src = this;
+      document.body.appendChild(scr[0]);
+  });
+};
 
   mw.moduleCSS = mw.module_css = function(url){
     if (!~mw.required.indexOf(url)) {

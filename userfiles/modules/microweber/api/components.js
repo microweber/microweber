@@ -24,9 +24,10 @@ mw.components = {
             }
         });
         $(view).on("click", function(){
-            console.log(picker)
-            picker.toggle();
-        })
+            setTimeout(function(){
+                picker.toggle();
+            }, 10);
+        });
     },
     'file-uploader':function(el){
         var options = this._options(el);

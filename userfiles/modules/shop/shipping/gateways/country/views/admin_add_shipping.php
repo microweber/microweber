@@ -17,6 +17,7 @@
     $(document).ready(function () {
         mw.$(".shipping_to_country_holder").sortable({
             items: '.shipping-country-holder',
+            //helper:"clone",
             axis: 'y',
             cancel: ".country-id-0",
             handle: '.shipping-handle-field',

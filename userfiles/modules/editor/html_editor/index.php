@@ -63,16 +63,16 @@
     $(document).ready(function () {
         mw.tools.loading(document.body, true);
         mw.getScripts([
-            '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.js',
-            '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/css/css.min.js',
-            '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/xml/xml.js',
-            '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/javascript/javascript.js',
-            '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/css/css.js',
-            '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/vbscript/vbscript.js',
-            '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/htmlmixed/htmlmixed.min.js',
-            '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/php/php.min.js',
-            '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/display/autorefresh.js',
-            '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/selection/selection-pointer.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/css/css.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/xml/xml.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/javascript/javascript.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/css/css.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/vbscript/vbscript.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/htmlmixed/htmlmixed.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/php/php.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/display/autorefresh.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/selection/selection-pointer.js',
             'https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify.min.js',
             'https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify-css.min.js',
             'https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify-html.min.js'

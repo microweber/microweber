@@ -5220,7 +5220,7 @@ mw._colorPickerDefaults = {
 mw._colorPicker = function (options) {
     if (!mw.tools.colorPickerColors) {
         mw.tools.colorPickerColors = [];
-        mw.$("body *").each(function () {
+        top.mw.$("body *").each(function () {
             var css = parent.getComputedStyle(this, null);
             if (css !== null) {
                 if (mw.tools.colorPickerColors.indexOf(css.color) === -1) {
@@ -5286,9 +5286,7 @@ mw._colorPicker = function (options) {
 
         var tip = mw.tooltip(settings), $tip = $(tip).hide();
         this.tip = tip;
-        $(this.tip).on('click mousedown touchstart touchend mouseup', function (e) {
-            //event.preventDefault();
-        });
+
         mw.$('.mw-tooltip-content', tip).empty()
 
         var frame = AColorPicker.createPicker({
