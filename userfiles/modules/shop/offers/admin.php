@@ -33,7 +33,7 @@ if(isset($params["live_edit"]) and $params["live_edit"] ){
 
 				<div>
 					<a class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-ui-btn-outline js-add-new-offer"
-						href="#"><span> <span class="mai-plus"></span> Add new offer </span></a>
+						href="javascript:;"><span> <span class="mai-plus"></span> Add new offer </span></a>
 				</div>
 
 				<hr>

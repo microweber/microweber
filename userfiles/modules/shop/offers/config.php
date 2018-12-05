@@ -15,7 +15,7 @@ $config['name'] = "Offers";
 $config['author'] = "Nick Woolley";
 
 $config['ui'] = false;
-$config['ui_admin'] = true;
+$config['ui_admin'] = false;
 
 $config['categories'] = "online shop";
 $config['version'] = 1.0;

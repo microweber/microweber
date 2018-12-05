@@ -462,9 +462,11 @@ class CartManager extends Crud
         $product_prices = array();
         if ($for == 'content') {
             $prices_data = mw()->shop_manager->get_product_prices($for_id, true);
-            foreach ($prices_data as $price_data) {
-                if (isset($price_data['name'])) {
-                    $product_prices[$price_data['name']] = $price_data['value'];
+            if ($prices_data) {
+                foreach ($prices_data as $price_data) {
+                    if (isset($price_data['name'])) {
+                        $product_prices[$price_data['name']] = $price_data['value'];
+                    }
                 }
             }
         }

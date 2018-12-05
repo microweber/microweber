@@ -2,6 +2,19 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.1.2] - 2018-12-06
+- Major update 
+- Many overall system improvements
+- Drag and drop is stable now
+- Introduction of new CSS framework for styling 
+- New JavaScript components added
+- New modules data management mechanism by JSON schema   
+- Added "Coupon Code" module
+- Added "Offers (Price Discount)" module
+- A lot of bug fixes
+- [and many more changes....](https://github.com/microweber/microweber/compare/1.1.1...1.1.2 "")
+
+
 
 ## [1.1.1] - 2018-08-05
 - Added: presets for modules 
