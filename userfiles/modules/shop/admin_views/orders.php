@@ -45,12 +45,21 @@ $(document).ready(function(){
 function mw_delete_shop_order(pid, iscart, e){
     if(e)e.preventDefault();
      var iscart = iscart || false;
-     mw.tools.confirm("<?php _e("Are you sure you want to delete this order"); ?>?", function(){
+
+
+    var r = confirm("<?php _e("Are you sure you want to delete this order"); ?>?");
+    if (r == true) {
+
         $.post("<?php print api_url('delete_order') ?>", { id: pid,is_cart:iscart}, function(data) {
             mw.reload_module('shop/orders');
             mw.reload_module('shop/orders/admin');
         });
-     });
+
+        return true;
+
+    }
+
+
 }
 </script>
 <?php  mw()->notifications_manager->mark_as_read('shop');  ?>

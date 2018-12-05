@@ -20,8 +20,10 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
 ?>
 <script>
     function del_this_order_and_return($ord) {
-        mw_delete_shop_order($ord, false);
-        window.location.href = '<?php print admin_url(); ?>view:shop/action:orders'
+       var delconf =  mw_delete_shop_order($ord, false);
+      if(delconf){
+       window.location.href = '<?php print admin_url(); ?>view:shop/action:orders'
+      }
     }
 
    //
