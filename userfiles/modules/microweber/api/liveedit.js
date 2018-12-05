@@ -1239,7 +1239,7 @@ mw.drag = {
                 }
             }
 
-            var marginTop =  -15;
+            var marginTop =  -30;
             var topPos = o.top;
 
             if(topPos<minTop){
@@ -1248,7 +1248,7 @@ mw.drag = {
             var ws = $(window).scrollTop();
             if(topPos<(ws+minTop)){
                 topPos=(ws+minTop)
-                var marginTop =  17;
+                var marginTop =  -15;
                 if(el[0].offsetHeight <100){
                     topPos=o.top+el[0].offsetHeight;
                     marginTop =  0;

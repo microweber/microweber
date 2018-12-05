@@ -384,8 +384,7 @@
     font-family: Microweber;
     margin-left: 10px;
     right: 0;
-    position: absolute;
-    right: 7px;
+    position: relative;
 }
 
 .fade-window .window-holder #content-title-field-buttons ul li .btn-settings {

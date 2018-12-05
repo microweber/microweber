@@ -13,13 +13,20 @@ mw.components = {
             nav.appendChild(el);
             $('.mw-ui-btn-img', view).css("background-color", el.value);
         }
-        mw.colorPicker({
+
+        inputEl._time = null;
+        var picker = mw.colorPicker({
             element:inputEl,
             position:'bottom-center',
             onchange:function(color){
                 $('.mw-ui-btn-img', view).css("background-color", color);
+                $(inputEl).trigger('change');
             }
         });
+        $(view).on("click", function(){
+            console.log(picker)
+            picker.toggle();
+        })
     },
     'file-uploader':function(el){
         var options = this._options(el);

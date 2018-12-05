@@ -4,13 +4,72 @@
 
 <script type="text/javascript">
     mw.require('options.js');
-    mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.css');
+   // mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.css');
 </script>
 
 
-<link rel="stylesheet" href="https://codemirror.net/lib/codemirror.css">
+
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.css">
 
 <link rel="stylesheet" href="https://codemirror.net/theme/material.css">
+
+
+
+
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.js"></script>
+
+
+
+
+<!--
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/htmlmixed/htmlmixed.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/css/css.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/xml/xml.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/javascript/javascript.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/css/css.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/vbscript/vbscript.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/php/php.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/display/autorefresh.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/selection/selection-pointer.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/fold/xml-fold.js"></script>
+-->
+
+
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/fold/foldgutter.css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/fold/foldcode.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/fold/foldgutter.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/fold/brace-fold.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/fold/xml-fold.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/fold/indent-fold.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/fold/markdown-fold.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/fold/comment-fold.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/javascript/javascript.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/xml/xml.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/css/css.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/htmlmixed/htmlmixed.js"></script>
+
+
+
+
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify-css.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify-html.min.js"></script>
+
+
+
+
 <style>
     .CodeMirror, #select_edit_field_wrap { height: 100%; }
     html,body{
@@ -59,10 +118,59 @@
 
 <script type="text/javascript">
     mw.require('<?php print modules_url()?>editor/selector.css');
+</script>
+
+
+<script type="text/javascript">
     $time_out_handle = 0;
     $(document).ready(function () {
+
+
+
+
+
+
         mw.tools.loading(document.body, true);
-        mw.getScripts([
+
+
+
+
+        html_code_area_editor = CodeMirror.fromTextArea(document.getElementById("custom_html_code_mirror"), {
+            lineNumbers: true,
+            lineWrapping: true,
+
+            indentWithTabs: true,
+            mode: "text/html",
+        //    mode : "htmlmixed",
+            htmlMode: true,
+
+            matchBrackets: true,
+            extraKeys: {"Ctrl-Space": "autocomplete", "Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
+            xxxxmode: {
+                name: "htmlmixed",
+                scriptTypes: [{matches: /\/x-handlebars-template|\/x-mustache/i,
+                    mode: null},
+                    {matches: /(text|application)\/(x-)?vb(a|script)/i,
+                        mode: "vbscript"}]
+            },
+            foldGutter: true,
+            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+        });
+
+         html_code_area_editor.setOption("theme", 'material');
+        html_code_area_editor.setSize("100%", "100%");
+        html_code_area_editor.on("change", function (cm, change) {
+            var custom_html_code_mirror = document.getElementById("custom_html_code_mirror")
+            custom_html_code_mirror.value = cm.getValue();
+            window.clearTimeout($time_out_handle);
+            $time_out_handle = window.setTimeout(function () {
+                $(custom_html_code_mirror).change();
+            }, 2000);
+        });
+        mw.tools.loading(false);
+
+
+        /*mw.getScripts([
             '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.js',
             '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/css/css.min.js',
             '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/xml/xml.js',
@@ -73,39 +181,15 @@
             '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/php/php.min.js',
             '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/display/autorefresh.js',
             '//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/selection/selection-pointer.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify-css.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify-html.min.js'
+            '//cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify.min.js',
+            '//cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify-css.min.js',
+            '//cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify-html.min.js'
             ], function(){
-                html_code_area_editor = CodeMirror.fromTextArea(document.getElementById("custom_html_code_mirror"), {
-                    lineNumbers: true,
-                    lineWrapping: true,
 
-                    indentWithTabs: true,
-                    matchBrackets: true,
-                    extraKeys: {"Ctrl-Space": "autocomplete", "Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
-                    mode: {
-                        name: "htmlmixed",
-                        scriptTypes: [{matches: /\/x-handlebars-template|\/x-mustache/i,
-                            mode: null},
-                            {matches: /(text|application)\/(x-)?vb(a|script)/i,
-                                mode: "vbscript"}]
-                    },
-                    foldGutter: true,
-                    gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
-                });
-                html_code_area_editor.setOption("theme", 'material');
-                html_code_area_editor.setSize("100%", "100%");
-                html_code_area_editor.on("change", function (cm, change) {
-                    var custom_html_code_mirror = document.getElementById("custom_html_code_mirror")
-                    custom_html_code_mirror.value = cm.getValue();
-                    window.clearTimeout($time_out_handle);
-                    $time_out_handle = window.setTimeout(function () {
-                        $(custom_html_code_mirror).change();
-                    }, 2000);
-                });
-                mw.tools.loading(false);
-          });
+
+
+
+          });*/
     })
 
 
@@ -160,6 +244,22 @@
 </script>
 
 <div class="mw-ui-row">
+<div class="mw-ui-btn-nav pull-right" id="save">
+
+    <span onclick="format_code();" class="mw-ui-btn" ><?php _e('Format code'); ?></span>
+    <span onclick="mw.html_editor.apply();" class="mw-ui-btn mw-ui-btn-invert" ><?php _e('Update'); ?></span>
+
+<?php
+
+/*    <span onclick="mw.html_editor.apply_and_save();" class="mw-ui-btn mw-ui-btn-invert"><?php _e('Update'); ?> <?php _e('and'); ?> <?php _e('save'); ?></span>
+*/
+
+?>
+</div>
+</div>
+<hr>
+
+<div class="mw-ui-row">
   <div class="mw-ui-col" style="width: 200px;">
     <div class="mw-ui-col-container">
       <div class="mw-ui-box">
@@ -180,11 +280,3 @@
 
 
 
-
-
-<div class="mw-ui-btn-nav pull-right" id="save">
-
-  <span onclick="format_code();" class="mw-ui-btn" ><?php _e('Format code'); ?></span>
-  <span onclick="mw.html_editor.apply();" class="mw-ui-btn" ><?php _e('Update'); ?></span>
-  <span onclick="mw.html_editor.apply_and_save();" class="mw-ui-btn mw-ui-btn-invert"><?php _e('Update'); ?> <?php _e('and'); ?> <?php _e('save'); ?></span>
-</div>

@@ -963,7 +963,14 @@ mw.tools = {
             }
         },
         next: function (modal) {
-            var modal = modal || mw.$("#mw_gallery")[0].modal;
+
+            var modal2_test = mw.$("#mw_gallery")[0];
+            var modal2 = false;
+            if(typeof(modal2_test) != 'undefined' && typeof(modal2_test.modal) != 'undefined'){
+                modal2 = modal2_test.modal;
+            }
+
+            var modal = modal || modal2;
             var galeryContainer = mw.$('.mwf-gallery-container', modal.container);
             var arr = modal.gallery.array, curr = modal.gallery.curr;
             var next = typeof arr[curr + 1] !== 'undefined' ? curr + 1 : 0;
@@ -988,7 +995,15 @@ mw.tools = {
             }, modal);
         },
         prev: function (modal) {
-            var modal = modal || mw.$("#mw_gallery")[0].modal;
+
+
+            var modal2_test = mw.$("#mw_gallery")[0];
+            var modal2 = false;
+            if(typeof(modal2_test) != 'undefined' && typeof(modal2_test.modal) != 'undefined'){
+                modal2 = modal2_test.modal;
+            }
+
+            var modal = modal || modal2;
             var galeryContainer = mw.$('.mwf-gallery-container', modal.container);
             var arr = modal.gallery.array, curr = modal.gallery.curr;
             var prev = typeof arr[curr - 1] !== 'undefined' ? curr - 1 : arr.length - 1;
@@ -5298,13 +5313,13 @@ mw._colorPicker = function (options) {
         }
 
         if ($el[0].nodeName == 'INPUT') {
-            $el.bind('focus', function (e) {
+            $el.on('focus', function (e) {
                 $(tip).show();
                 mw.tools.tooltip.setPosition(tip, $el[0], settings.position)
             });
         }
         else {
-            $el.bind('click', function (e) {
+            $el.on('click', function (e) {
                 $(tip).toggle();
                 mw.tools.tooltip.setPosition(tip, $el[0], settings.position)
             });
@@ -5329,6 +5344,16 @@ mw._colorPicker = function (options) {
         this.hide = function () {
             $(this.tip).hide()
         };
+        this.toggle = function(){
+            var tip = $(this.tip);
+            if(tip.is(':visible')){
+                this.hide()
+            }
+            else {
+                $el.focus();
+                this.show()
+            }
+        }
     }
 
 }

@@ -196,6 +196,10 @@ if (isset($params['live_edit'])) {
                                 <?php if (intval($data['id']) != 0): ?>
                                     <script>
                                         mw.quick_cat_edit_create = function (id) {
+
+                                            mw.url.windowHashParam('action', 'new:category');
+                                            return false;
+
                                             if (!!id) {
                                                 var modalTitle = '<?php _e('Edit category'); ?>';
                                             } else {

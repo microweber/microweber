@@ -1,6 +1,6 @@
 <div class="mw-cart mw-cart-big mw-cart-<?php print $params['id'] ?> <?php print  $template_css_prefix; ?>">
     <div class="mw-cart-title mw-cart-<?php print $params['id'] ?>">
-        <h4 class="edit" rel="<?php print $params['id'] ?>" field="cart_title">
+        <h4 class="edit m-b-10" rel="<?php print $params['id'] ?>" field="cart_title">
             <?php _e('My cart'); ?>
         </h4>
     </div>
@@ -57,48 +57,45 @@
         }
 
         if (is_array($shipping_options)) :?>
-            <div>
-                <h3>
-                    <?php _e("Order summary"); ?>
-                </h3>
+            <div class="m-t-20 pull-right" style="max-width: 500px;">
+                <h3 class="p-10"><?php _e("Order summary"); ?></h3>
                 <table cellspacing="0" cellpadding="0" class="table table-bordered table-striped mw-cart-table mw-cart-table-medium checkout-total-table" width="100%">
                     <tbody>
                     <tr <?php if (!$show_shipping_stuff) : ?> style="display:none" <?php endif; ?>>
-                        <td></td>
-                        <td class="cell-shipping-country"><label><?php _e("Shipping to"); ?>:</label></td>
-                        <td class="cell-shipping-country"><module type="shop/shipping" view="select"/></td>
+                        <td class="cell-shipping-country p-10"><div class="bold"><?php _e("Shipping to"); ?>:</div></td>
+                        <td class="cell-shipping-country p-10">
+                            <module type="shop/shipping" view="select"/>
+                        </td>
                     </tr>
 
                     <tr>
-                        <td></td>
-                        <td><label><?php _e("Shipping price"); ?>:</label></td>
-                        <td class="cell-shipping-price">
-                            <div class="mw-big-cart-shipping-price" style="display:inline-block"><module type="shop/shipping" view="cost"/></div>
+                        <td class="p-10"><div class="bold"><?php _e("Shipping price"); ?>:</div></td>
+                        <td class="cell-shipping-price p-10">
+                            <div class="mw-big-cart-shipping-price" style="display:inline-block">
+                                <module type="shop/shipping" view="cost"/>
+                            </div>
                         </td>
                     </tr>
 
                     <?php if (function_exists('cart_get_tax') and get_option('enable_taxes', 'shop') == 1) { ?>
                         <tr>
-                            <td></td>
-                            <td><label><?php _e("Tax"); ?>:</label></td>
-                            <td class="cell-shipping-price"><?php print currency_format(cart_get_tax()); ?></td>
+                            <td class="p-10"><div class="bold"><?php _e("Tax"); ?>:</div></td>
+                            <td class="cell-shipping-price p-10"><?php print currency_format(cart_get_tax()); ?></td>
                         </tr>
                     <?php } ?>
-                    
-                     <?php if (function_exists('cart_get_discount') && cart_get_discount() > 0) { ?>
+
+                    <?php if (function_exists('cart_get_discount') && cart_get_discount() > 0) { ?>
                         <tr>
-                            <td></td>
-                            <td><label><?php _e("Discount"); ?>:</label></td>
-                            <td class="cell-shipping-price">
-                             - <?php print cart_get_discount_text(); ?>
+                            <td class="p-10"><div class="bold"><?php _e("Discount"); ?>:</div></td>
+                            <td class="cell-shipping-price p-10">
+                                - <?php print cart_get_discount_text(); ?>
                             </td>
                         </tr>
                     <?php } ?>
 
                     <tr>
-                        <td></td>
-                        <td><label><?php _e("Total Price"); ?>:</label></td>
-                        <td class="cell-shipping-total">
+                        <td class="p-10"><div class="bold"><?php _e("Total Price"); ?>:</div></td>
+                        <td class="cell-shipping-total p-10">
                             <?php $print_total = cart_total(); ?>
                             <span class="total_cost"><?php print currency_format($print_total); ?></span>
                         </td>
@@ -128,8 +125,8 @@
             </a>
         <?php endif; ?>
     <?php else : ?>
-        <h4 class="alert alert-warning">
+        <p class="alert alert-warning p-40 center">
             <?php _e("Your cart is empty."); ?>
-        </h4>
+        </p>
     <?php endif; ?>
 </div>

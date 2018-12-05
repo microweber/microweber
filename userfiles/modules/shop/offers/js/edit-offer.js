@@ -29,7 +29,7 @@ $(document).ready(function () {
 							if (typeof(data.error_message) !== "undefined") {
 								// mw.notification.error(data.error_message);
 								$(".js-validation-messages").html(errorMessage(data.error_message));
-								scrollTopModal();
+								//scrollTopModal();
 							}
 							if (typeof(data.success_edit) !== "undefined") {
 								mw.notification.success(TEXT_SUCCESS_SAVE);
@@ -43,7 +43,7 @@ $(document).ready(function () {
 			} else {
 				// mw.notification.error(TEXT_FILL_ALL_FIELDS);
 				$(".js-validation-messages").html(errorMessage(TEXT_FILL_ALL_FIELDS));
-				scrollTopModal();
+				//scrollTopModal();
 			}
 
 			e.preventDefault()

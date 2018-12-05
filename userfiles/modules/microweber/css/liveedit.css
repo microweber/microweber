@@ -557,6 +557,17 @@ li.module-item.ui-draggable-dragging .mw_module_image {
     border-radius: 2px;
     height: auto;
 }
+#mw_handle_row:after, #mw_handle_module:after {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+    height: 10px;
+    display: block;
+    content: ' ';
+    background-color: transparent;
+}
 
 #mw_handle_row {
     width: auto !important;
@@ -3696,16 +3707,26 @@ body {
 .mw-cloneable-control {
     position: absolute;
     z-index: 1101;
-    margin: 15px 0;
+    margin: 0;
     background: #2b2b2b;
     border-radius: 30px;
     padding: 2px;
 }
+.mw-cloneable-control:after {
+    position: absolute;
+    display: block;
+    content: ' ';
+    z-index: 0;
+    top:-10px;
+    left: -10px;
+    border-radius: 30px;
+    width: -webkit-calc(100% + 20px);
+    width: calc(100% + 20px);
+    height: -webkit-calc(100% + 20px);
+    height: calc(100% + 20px);
+}
 
 .mw-cloneable-control-item {
-    /*width: 20px;*/
-    /*height: 20px;*/
-    /*line-height: 20px;*/
     line-height: 16px;
     width: 16px;
     height: 16px;
@@ -3720,6 +3741,8 @@ body {
     margin: 0 2px;
     /*opacity: 0.8;*/
     font-size: 13px;
+    z-index: 1;
+    position: relative;
 }
 
 .mw-cloneable-control-item.mw-cloneable-control-minus {

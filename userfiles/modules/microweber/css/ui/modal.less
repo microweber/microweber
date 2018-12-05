@@ -211,52 +211,54 @@ transition: width 0.3s, height 0.3s, left 0.3s, top 0.3s;
 }
 
 /* Primary Skin */
-.mw_modal_primary .mw-modal-close {
-  cursor: pointer;
-  display: block;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  font-size: 11px;
-  position: absolute;
-  right: 15px;
-  text-indent: 0;
-  top: 2px;
-  width: 20px;
-  height: 20px;
-  text-align: center;
-  color: #bababa;
-  line-height: 21px;
-  margin-top: 9px;
-}
+.mw_modal_primary{
+  .mw-modal-close {
+    cursor: pointer;
+    display: flex;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 11px;
+    position: absolute;
+    right: 0;
+    text-indent: 0;
+    top: 0;
+    width: 40px;
+    height: 100%;
+    text-align: center;
+    color: #bababa;
+    &:hover,
+    &:focus {
+      color: #bababa;
+    }
+    &:active {
+      box-shadow: inset 0 0 4px #CCCCCC;
+    }
+  }
+  .mw_modal_icon {
+    cursor: pointer;
+    display: block;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 24px;
+    position: absolute;
+    left: 15px;
+    text-indent: 0;
+    top: 0px;
+    width: 28px;
+    height: 24px;
+    text-align: center;
+    color: #bababa;
+    line-height: 21px;
+    margin-top: 7px;
+  }
 
-.mw_modal_primary .mw_modal_icon {
-  cursor: pointer;
-  display: block;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  font-size: 24px;
-  position: absolute;
-  left: 15px;
-  text-indent: 0;
-  top: 0px;
-  width: 28px;
-  height: 24px;
-  text-align: center;
-  color: #bababa;
-  line-height: 21px;
-  margin-top: 7px;
-}
 
-.mw_modal_primary .mw-ui-box-content {
-  border: 0 !important;
-  padding: 0 !important;
-}
-
-.mw_modal_primary .mw-modal-close:hover,
-.mw_modal_primary .mw-modal-close:focus {
-  color: #bababa;
+   .mw-ui-box-content {
+    border: 0 !important;
+    //padding: 0 !important;
+  }
 }
 
 .mw_modal_primary .mw-modal-close:after,
@@ -267,9 +269,7 @@ transition: width 0.3s, height 0.3s, left 0.3s, top 0.3s;
   font-size: 15px;
 }
 
-.mw_modal_primary .mw-modal-close:active {
-  box-shadow: inset 0 0 4px #CCCCCC;
-}
+
 
 .mw_modal_primary .mw_modal_title {
   color: #fff;
