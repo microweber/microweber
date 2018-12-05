@@ -311,6 +311,8 @@ class MediaManager
             $ids_to_delete[] = intval($data['id']);
         } elseif (isset($data['ids']) and is_array($data['ids'])) {
             $ids_to_delete = $data['ids'];
+        }elseif (isset($data['ids']) and !is_array($data['ids'])) {
+            $ids_to_delete = explode(',', $data['ids']);
         }
         if ($ids_to_delete) {
             foreach ($ids_to_delete as $delete) {

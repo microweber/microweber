@@ -18,6 +18,12 @@
 
     }
 
+    .image-settings.remove-image {
+        left: 20px;
+        /*color: red;*/
+
+    }
+
     .admin-thumb-item:hover .image-settings {
         opacity: 1;
     }
@@ -153,9 +159,6 @@ if ($for_id != false) {
                 })
 
 
-
-
-
             },
             height: 400
         })
@@ -170,14 +173,10 @@ if (!isset($data["thumbnail"])) {
 
 
 <input name="thumbnail" type="hidden" value="<?php print ($data['thumbnail']) ?>"/>
-
-<a href="javascript:mw_admin_puctires_upload_browse_existing()"
-   class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-ui-btn-outline btn-rounded pull-right"> <?php _e('Browse uploaded'); ?></a>
-
-<label class="mw-ui-label"><?php _e("Add new images"); ?> <?php _e('or'); ?>
-    <a href="javascript:mw_admin_puctires_upload_browse_existing()"
-       class="mw-ui-link mw-ui-btn-small"> <?php _e('browse uploaded'); ?></a>
-</label>
+<div style="margin-top: -20px;text-align: right; margin-bottom: 15px;">
+    <a href="javascript:mw_admin_puctires_upload_browse_existing()" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-ui-btn-outline btn-rounded"> <?php _e('Browse uploaded'); ?></a>
+    <div class="clearfix"></div>
+</div>
 
 <div class="select_actions_holder">
     <div class="select_actions">
@@ -201,7 +200,7 @@ if (!isset($data["thumbnail"])) {
 </div>
 
 
-<div class="admin-thumbs-holder left" id="admin-thumbs-holder-sort-<?php print $rand; ?>">
+<div class="admin-thumbs-holder left  m-t-20" id="admin-thumbs-holder-sort-<?php print $rand; ?>">
 
     <div class="relative post-thumb-uploader" id="backend_image_uploader">
         <small id="backend_image_uploader_label"><?php _e("Upload"); ?></small>
@@ -220,6 +219,7 @@ if (!isset($data["thumbnail"])) {
                 <div class="featured-image"><?php print _e('featured image'); ?></div>
                 <?php //endif; ?>
                 <span class="mw-icon-gear image-settings tip" data-tip="Image Settings" onclick="imageConfigDialog(<?php print $item['id'] ?>)"></span>
+                <span class="mw-icon-close image-settings remove-image tip" data-tip="Delete Image" onclick="mw.module_pictures.del('<?php print $item['id'] ?>');"></span>
                 <label class="mw-ui-check">
                     <input type="checkbox" onchange="doselect()" data-url="<?php print $item['filename']; ?>"
                            value="<?php print $item['id'] ?>"><span></span>
@@ -230,15 +230,14 @@ if (!isset($data["thumbnail"])) {
                         <div class="mw-ui-field-holder">
                             <label class="mw-ui-label"><?php _e("Image Description"); ?></label>
                             <input class="mw-ui-field w100" autocomplete="off" value="<?php if ($item['title'] !== '') {
-                                        print $item['title'];
-                                    } else {
-                                        print $default_title;
-                                    } ?>"
-                                    onkeyup="mw.on.stopWriting(this, function(){mw.module_pictures.save_title('<?php print $item['id'] ?>', this.value);});"
-                                    onfocus="$(this.parentNode).addClass('active');"
-                                    onblur="$(this.parentNode).removeClass('active');"
-                                    name="media-description-<?php print $tn; ?>"
-                            />
+                                print $item['title'];
+                            } else {
+                                print $default_title;
+                            } ?>"
+                                   onkeyup="mw.on.stopWriting(this, function(){mw.module_pictures.save_title('<?php print $item['id'] ?>', this.value);});"
+                                   onfocus="$(this.parentNode).addClass('active');"
+                                   onblur="$(this.parentNode).removeClass('active');"
+                                   name="media-description-<?php print $tn; ?>"/>
 
                         </div>
 
@@ -247,7 +246,7 @@ if (!isset($data["thumbnail"])) {
                                 <?php
                                 $curr = isset($item['image_options']) ? $item['image_options'] : array();
                                 foreach ($init_image_options as $name) {
-                                    $ok  = url_title(strtolower($name));
+                                    $ok = url_title(strtolower($name));
                                     ?>
                                     <div class="mw-ui-field-holder">
                                         <label class="mw-ui-label"><?php print $name ?></label>
@@ -257,19 +256,12 @@ if (!isset($data["thumbnail"])) {
 
                                 <hr>
 
-                                <span class="mw-ui-btn pull-left"
-                                      onclick="imageConfigDialogInstance.remove()">Cancel</span>
-                                <span class="mw-ui-btn mw-ui-btn-notification pull-right"
-                                      onclick="saveOptions(<?php print $item['id'] ?>);imageConfigDialogInstance.remove()">Update</span>
+                                <span class="mw-ui-btn pull-left" onclick="imageConfigDialogInstance.remove()">Cancel</span>
+                                <span class="mw-ui-btn mw-ui-btn-notification pull-right" onclick="saveOptions(<?php print $item['id'] ?>);imageConfigDialogInstance.remove()">Update</span>
 
                             </div>
                         </div>
                     </div>
-
-
-                    <a title="<?php _e("Delete"); ?>" class="mw-icon-close" href="javascript:;"
-                       onclick="mw.module_pictures.del('<?php print $item['id'] ?>');"></a>
-
                 </div>
             </div>
         <?php endforeach; ?>
@@ -384,23 +376,21 @@ if (!isset($data["thumbnail"])) {
             $(uploader).bind("FileUploaded done", function (e, a) {
 
 
-
-                if(typeof(a.ask_user_to_enable_auto_resizing) != 'undefined'){
+                if (typeof(a.ask_user_to_enable_auto_resizing) != 'undefined') {
 
                     mw.module_pictures.open_image_upload_settings_modal();
 
                 }
-                if(typeof(a.image_was_auto_resized_msg) != 'undefined'){
+                if (typeof(a.image_was_auto_resized_msg) != 'undefined') {
 
 
-                    window.top.mw.notification.warning(a.image_was_auto_resized_msg,5200);
-            }
+                    window.top.mw.notification.warning(a.image_was_auto_resized_msg, 5200);
+                }
 
 
                 setTimeout(function () {
                     after_upld(a.src, e.type, '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
                 }, 1300);
-
 
 
             });
