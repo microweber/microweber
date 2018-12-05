@@ -212,14 +212,14 @@ input.mw-ui-btn {
   font-size: 1.385rem;
   height: @largeHeight;
   padding: 0 1.538rem;
-  line-height: @largeHeight;
+  line-height: ~"-webkit-calc(" @largeHeight ~" - 2px)";
+  line-height: ~"calc(" @largeHeight ~" - 2px)";
 }
 
 .mw-ui-btn-medium {
   font-size: 1rem;
   height: @mediumHeight;
   padding: 0px 1rem;
-  line-height: @mediumHeight;
   line-height: ~"-webkit-calc(" @mediumHeight ~" - 2px)";
   line-height: ~"calc(" @mediumHeight ~" - 2px)";
 }
