@@ -5313,13 +5313,13 @@ mw._colorPicker = function (options) {
         }
 
         if ($el[0].nodeName == 'INPUT') {
-            $el.bind('focus', function (e) {
+            $el.on('focus', function (e) {
                 $(tip).show();
                 mw.tools.tooltip.setPosition(tip, $el[0], settings.position)
             });
         }
         else {
-            $el.bind('click', function (e) {
+            $el.on('click', function (e) {
                 $(tip).toggle();
                 mw.tools.tooltip.setPosition(tip, $el[0], settings.position)
             });
@@ -5344,6 +5344,16 @@ mw._colorPicker = function (options) {
         this.hide = function () {
             $(this.tip).hide()
         };
+        this.toggle = function(){
+            var tip = $(this.tip);
+            if(tip.is(':visible')){
+                this.hide()
+            }
+            else {
+                $el.focus();
+                this.show()
+            }
+        }
     }
 
 }

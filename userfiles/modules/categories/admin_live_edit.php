@@ -112,7 +112,7 @@ if (isset($params['for-content-id'])) {
                                 title="<?php _e("None"); ?>"><?php _e("None"); ?></option>
                         <?php
                         $pt_opts = array();
-                        $pt_opts['link'] = "{empty}{title}";
+                        $pt_opts['link'] = "{title}";
                         $pt_opts['list_tag'] = " ";
                         $pt_opts['list_item_tag'] = "option";
                         $pt_opts['active_ids'] = $posts_parent_page;
@@ -133,7 +133,7 @@ if (isset($params['for-content-id'])) {
                             <option value='' <?php if ((0 == intval($category_id))): ?>   selected="selected"  <?php endif; ?>><?php _e("Select a category"); ?></option>
                             <?php
                             $pt_opts = array();
-                            $pt_opts['link'] = "{empty}{title}";
+                            $pt_opts['link'] = "{title}";
                             $pt_opts['list_tag'] = " ";
                             $pt_opts['list_item_tag'] = "option";
                             $pt_opts['active_ids'] = $category_id;
