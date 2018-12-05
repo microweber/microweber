@@ -59,6 +59,7 @@ class Admin
             $data = array(
                 'content_id' => $params['content_id']
             );
+
         }
 
 
@@ -67,6 +68,7 @@ class Admin
             $data['search_in_fields'] = 'comment_name,comment_body,comment_email,comment_website,from_url,comment_subject';
         }
 
+        $data['order_by'] = 'created_at desc';
 
         $comments = $postComments = get_comments($data);
         if (isset($params['content_id'])) {
@@ -173,8 +175,10 @@ class Admin
 
         $comments_data['group_by'] = 'rel_id,rel_type';
         $comments_data['order_by'] = 'updated_at desc';
+        $comments_data['order_by'] = 'created_at desc';
 
         $data = get_comments($comments_data);
+        //dd($data);
         $comments_data['page_count'] = true;
 
         $page_count = get_comments($comments_data);

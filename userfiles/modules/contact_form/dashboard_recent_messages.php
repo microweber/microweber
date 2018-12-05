@@ -55,7 +55,7 @@ if ($last_messages == null) {
                             </div>
 
                             <div class="product-name">
-                                <?php if ($message['custom_fields']): ?>
+                                <?php if (isset($message['custom_fields']) and $message['custom_fields']): ?>
                                     <?php foreach ($message['custom_fields'] as $key => $field): ?>
                                         <?php if ($key == 'name'): ?>
                                             <?php print $field; ?>
@@ -76,7 +76,7 @@ if ($last_messages == null) {
                         <div class="message-data-more mw-accordion-content">
                             <hr/>
                             <p class="title"><?php print _e('Fields'); ?></p>
-                            <?php if ($message['custom_fields'] and !empty($message['custom_fields'])): ?>
+                            <?php if (isset($message['custom_fields']) and  $message['custom_fields'] and !empty($message['custom_fields'])): ?>
                                 <?php $fields_ch = array_chunk($message['custom_fields'], 3, true) ?>
                                 <?php foreach ($fields_ch as $key_c => $fields): ?>
                                     <?php $service_keys = array('For Id', 'For', 'Module Name'); ?>
