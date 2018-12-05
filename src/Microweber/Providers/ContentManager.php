@@ -1077,6 +1077,7 @@ class ContentManager
                             $to_print = str_replace('{title}', $item['title'], $to_print);
                             $to_print = str_replace('{nest_level}', 'depth-' . $nest_level, $to_print);
                             $to_print = str_replace('{content_link_class}', $content_link_class, $to_print);
+                            $to_print = str_replace('{empty}', '', $to_print);
 
                             if (strstr($to_print, '{link}')) {
                                 $to_print = str_replace('{link}', page_link($item['id']), $to_print);
@@ -1110,6 +1111,8 @@ class ContentManager
                                         $to_print = str_ireplace('{active_class}', $the_active_class, $to_print);
                                         $to_pr_2 = str_ireplace('{active_class}', $the_active_class, $to_pr_2);
                                         $to_pr_2 = str_ireplace('{active_code_tag}', $active_code_tag, $to_pr_2);
+                                        $to_pr_2 = str_replace('{empty}', '', $to_pr_2);
+
                                     }
                                 }
                             } elseif (isset($active_ids) and !is_array($active_ids)) {
@@ -1119,6 +1122,8 @@ class ContentManager
                                     $to_print = str_ireplace('{active_class}', $the_active_class, $to_print);
                                     $to_pr_2 = str_ireplace('{active_class}', $the_active_class, $to_pr_2);
                                     $to_pr_2 = str_ireplace('{active_code_tag}', $active_code_tag, $to_pr_2);
+                                    $to_pr_2 = str_replace('{empty}', '', $to_pr_2);
+
                                 }
                             }
 
@@ -1127,9 +1132,15 @@ class ContentManager
                             $to_pr_2 = str_ireplace('{active_class}', '', $to_pr_2);
                             $to_pr_2 = str_ireplace('{active_code_tag}', '', $to_pr_2);
                             $to_pr_2 = str_ireplace('{content_link_class}', '', $to_pr_2);
+                            $to_pr_2 = str_replace('{empty}', '', $to_pr_2);
 
                             $to_print = str_replace('{exteded_classes}', '', $to_print);
                             $to_print = str_replace('{content_link_class}', '', $to_print);
+
+                            $to_print = str_replace('{empty}', '', $to_print);
+
+
+
 
                             if ($item['id'] == $item['parent']) {
                                 $remove_ids[] = intval($item['id']);
