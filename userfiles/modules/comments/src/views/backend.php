@@ -20,6 +20,8 @@ mw.on.hashParam("search", function(){
 mw.on.hashParam("content_id", function(){
         mw.$("a.comments-group").removeClass("active");
         mw.$("a[href*='content_id="+this+"']").addClass("active");
+
+
 		if(this == 'settings'){
 			mw.$('.comments-settings').show();
 			mw.$('.comments-items').hide();
@@ -37,9 +39,14 @@ mw.on.hashParam("content_id", function(){
 		$('#mw_comments_admin_dashboard').hide();
 		$('#mw_admin_posts_with_comments').show();
     	$('#mw_admin_posts_with_comments').attr('content_id',this);
+    	 selected_content_comment_id = this;
 		 mw.reload_module('#mw_admin_posts_with_comments', function(){
 		 mw.adminComments.toggleMaster(mwd.querySelector('.comment-info-holder'));
-    });
+             //  mw.$("#comment-item-inner-"+selected_comment_id).addClass("active");
+              mw.$(".comment-holder-comment-rel-id-"+selected_content_comment_id).addClass("active");
+           //  mw.$("#comment-n-"+selected_comment_id).addClass("active");
+
+         });
     } else {
     	mw.$('#mw_admin_posts_with_comments').removeAttr('content_id');
 		mw.$('#mw_admin_posts_with_comments').removeAttr('rel_id');

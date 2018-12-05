@@ -85,7 +85,7 @@
                 <div class="tab" style="display: block">
                     <?php
                     $get_comments_params['count'] = '1';
-                    $get_comments_params['is_new'] = 1;
+                   // $get_comments_params['is_new'] = 1;
                     ?>
                     <?php $new = get_comments($get_comments_params); ?>
                     <?php if ($new > 0) { ?>
@@ -95,19 +95,23 @@
                                 &nbsp;<span class="comments_number"><?php print $new; ?></span></h2>
                         <?php } else { ?>
                             <h2 class="relative">
-                                <?php _e("You have"); ?>
-                                <?php print $new; ?>
-                                <?php _e("new comments"); ?>
+
+
+                                <?php _e("Comments"); ?>:
                                 &nbsp;<span class="comments_number"><?php print $new; ?></span></h2>
                         <?php } ?>
                         <a href="<?php print admin_url('view:comments'); ?>/#content_id=<?php print  $get_comments_params['rel_id']; ?>"
                            target="_top" class="mw-ui-btn mw-ui-btn-green right">
-                            <?php _e("See new"); ?>
+                            <?php _e("See all"); ?>
                         </a>
                     <?php } else { ?>
                         <?php
                         unset($get_comments_params['is_moderated']);
-                        $old = get_comments($get_comments_params); ?>
+                        $old = get_comments($get_comments_params);
+
+
+
+                        ?>
                         <h2 class="relative inline-block pull-left">
                             <?php _e("You don't have new comments"); ?>
                         </h2>
