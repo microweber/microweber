@@ -345,7 +345,6 @@ class imageLib
             $is_crop = true;
         }
 
-
         $this->setMemoryLimit($newWidth, $newHeight, $is_crop);
 
         // *** Get optimal width and height - based on $option
@@ -3328,9 +3327,9 @@ class imageLib
         // from here https://alvarotrigo.com/blog/allocate-memory-on-the-fly-PHP-image-resizing/
 
         set_time_limit(60);
-        $size = 256;
-        $maxMemoryUsage = 1024;
-        $multipiler = 4;
+        $size = 512;
+        $maxMemoryUsage = 2048;
+        $multipiler = 10;
 
         if ($is_crop) {
             $size = $maxMemoryUsage;
