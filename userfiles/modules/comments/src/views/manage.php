@@ -44,7 +44,7 @@
             <?php foreach ($data as $item) { ?>
 
 
-                <div class="comment-holder" id="comment-n-<?php print $item['id'] ?>" onclick="commentToggle(event, '<?php print $item['id'] ?>');">
+                <div class="comment-holder comment-holder-comment-n-<?php print $item['id'] ?> comment-holder-comment-rel-id-<?php print $item['rel_id'] ?>" id="comment-n-<?php print $item['id'] ?>" onclick="commentToggle(event, '<?php print $item['id'] ?>');">
 
 
                     <?php if (isset($item['rel_type']) and $item['rel_type'] == 'content'): ?>

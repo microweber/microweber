@@ -7,7 +7,11 @@ if (!isset($data['id'])) {
 if (!isset($data['input_class'])) {
     $data['input_class'] = '';
 }
-
+if (!isset($data['no-label'])) {
+    $show_label = false;
+} else {
+    $show_label = true;
+}
 
 $is_required = (isset($data['options']) == true and is_array($data['options']) and in_array('required', $data['options']) == true);
 $skips = array();
@@ -21,9 +25,9 @@ if ($data['values'] == false or !is_array($data['values']) or !is_array($data['v
     $data['values'] = $default_data;
 }
 
-if (!isset($data['input_class']) and isset($params['input-class'])) {
+if (isset($params['input-class'])) {
     $data['input_class'] = $params['input-class'];
-} elseif (!isset($data['input_class']) and isset($params['input_class'])) {
+} elseif (isset($params['input_class'])) {
     $data['input_class'] = $params['input_class'];
 } else {
     $data['input_class'] = 'form-control';
@@ -58,11 +62,11 @@ if (isset($data['options']) and is_array($data['options']) and !empty($data['opt
 ?>
 <?php if (is_array($data['values'])) : ?>
 
-    <div class="mw-ui-field-holder">
+    <div>
         <?php if (isset($data['name']) == true and $data['name'] != ''): ?>
-            <label class="mw-ui-label mw-address-label">
-                <?php _e($data['name']) ?>
-            </label>
+            <?php if ($show_label): ?>
+                <label class="mw-ui-label mw-address-label"><?php _e($data['name']) ?></label>
+            <?php endif; ?>
         <?php elseif (isset($data['name']) == true and $data['name'] != ''): ?>
         <?php else : ?>
         <?php endif; ?>
@@ -82,41 +86,28 @@ if (isset($data['options']) and is_array($data['options']) and !empty($data['opt
                     $kv = ucwords($k);
                 }
                 ?>
-                <div class="control-group form-group">
-                    <label class="mw-ui-label mw-ui-label-address-custom-field">
-                        <small>
-                            <?php _e($kv); ?>
-                        </small>
-                    </label>
-
+                <div class="mw-ui-field-holder control-group form-group">
+                    <label class="mw-ui-label mw-ui-label-address-custom-field"><?php _e($kv); ?></label>
 
                     <?php if ($k == 'country')  : ?>
                         <?php $countries_all = mw()->forms_manager->countries_list(); ?>
                         <?php if ($countries_all) { ?>
 
-                            <select name="<?php print $data['name'] ?>[country]"
-                                    class="mw-ui-field field-full form-control">
-
+                            <select name="<?php print $data['name'] ?>[country]" class="mw-ui-field field-full form-control">
                                 <option value=""><?php _e('Choose country') ?></option>
                                 <?php foreach ($countries_all as $country): ?>
                                     <option value="<?php print $country ?>"><?php print $country ?></option>
                                 <?php endforeach; ?>
                             </select>
-
-
                         <?php } else { ?>
 
-                            <input type="text" class="mw-ui-field field-full form-control"
-                                   name="<?php print $data['name'] ?>[<?php print ($k); ?>]" <?php if ($is_required) { ?> required <?php } ?>
-                                   data-custom-field-id="<?php print $data["id"]; ?>"/>
-
-
+                            <input type="text" class="<?php print $data['input_class']; ?>" name="<?php print $data['name'] ?>[<?php print ($k); ?>]" <?php if ($is_required) { ?> required <?php } ?> data-custom-field-id="<?php print $data["id"]; ?>"/>
                         <?php } ?>
 
 
                     <?php else: ?>
 
-                        <input type="text" class="mw-ui-field field-full form-control"
+                        <input type="text" class="<?php print $data['input_class']; ?>"
                                name="<?php print $data['name'] ?>[<?php print ($k); ?>]" <?php if ($is_required) { ?> required <?php } ?>
                                data-custom-field-id="<?php print $data["id"]; ?>"/>
 

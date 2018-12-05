@@ -963,7 +963,14 @@ mw.tools = {
             }
         },
         next: function (modal) {
-            var modal = modal || mw.$("#mw_gallery")[0].modal;
+
+            var modal2_test = mw.$("#mw_gallery")[0];
+            var modal2 = false;
+            if(typeof(modal2_test) != 'undefined' && typeof(modal2_test.modal) != 'undefined'){
+                modal2 = modal2_test.modal;
+            }
+
+            var modal = modal || modal2;
             var galeryContainer = mw.$('.mwf-gallery-container', modal.container);
             var arr = modal.gallery.array, curr = modal.gallery.curr;
             var next = typeof arr[curr + 1] !== 'undefined' ? curr + 1 : 0;
@@ -988,7 +995,15 @@ mw.tools = {
             }, modal);
         },
         prev: function (modal) {
-            var modal = modal || mw.$("#mw_gallery")[0].modal;
+
+
+            var modal2_test = mw.$("#mw_gallery")[0];
+            var modal2 = false;
+            if(typeof(modal2_test) != 'undefined' && typeof(modal2_test.modal) != 'undefined'){
+                modal2 = modal2_test.modal;
+            }
+
+            var modal = modal || modal2;
             var galeryContainer = mw.$('.mwf-gallery-container', modal.container);
             var arr = modal.gallery.array, curr = modal.gallery.curr;
             var prev = typeof arr[curr - 1] !== 'undefined' ? curr - 1 : arr.length - 1;

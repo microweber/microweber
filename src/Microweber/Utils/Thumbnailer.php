@@ -41,13 +41,15 @@ class Thumbnailer
 //            $crop_y = $specifications['crop_y'];
 //        }
 
-        if (isset($specifications['crop'])) {
+        if (isset($specifications['crop']) and $specifications['crop']) {
             $crop = $specifications['crop'];
         }
 
 
         $width = intval($width);
         $height = intval($height);
+
+
 
 
         $magicianObj_mode = 3;
