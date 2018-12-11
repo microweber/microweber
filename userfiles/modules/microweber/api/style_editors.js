@@ -450,7 +450,7 @@ if($(".ts_action:isVisible").length==0){
 $(mwd.body).on("click", function(e){
   if(!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['mw-defaults', 'mw_modal'])){
 
-    if(mw.$(".ts_action:isVisible").length==0){
+    if(mw.$(".ts_action:isVisible").length!==0){
 
       mw.current_element = e.target;
       mw.$("#items_handle").css({
