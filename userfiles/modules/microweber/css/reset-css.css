@@ -106,7 +106,7 @@
  * 2. Remove gaps in links underline in iOS 8+ and Safari 8+.
  */
 
-.mw-normalize-css a {
+.mw-normalize-css a:not([class]) {
     background-color: transparent; /* 1 */
     -webkit-text-decoration-skip: objects; /* 2 */
 }

@@ -531,6 +531,8 @@
 .fade-window .window-holder .mw-tag-selector {
     border: 0;
     background: none;
+    position: relative;
+    z-index: 100;
 }
 
 /*.fade-window .window-holder .mw-tag-selector .mw-ui-btn {
@@ -544,8 +546,8 @@
 }*/
 
 .fade-window .window-holder .mw-tag-selector .post-category-tags {
-    float: left;
-    width: calc(100% - 185px);
+    display: inline-block;
+    max-width: calc(100% - 185px);
 }
 
 .fade-window .window-holder .mw-tag-selector .post-category-tags .mw-ui-btn .mw-icon-close {

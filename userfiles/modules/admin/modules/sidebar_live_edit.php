@@ -119,7 +119,7 @@
                                     <i class="mai-setting2"></i> Template settings
                                 </div>
                             </div>
-                            <div class="mw-accordion-content mw-ui-box mw-ui-box-content " style="display: none;">
+                            <div class="mw-accordion-content mw-ui-box mw-ui-box-content ">
                                 <div id="mw-live-edit-sidebar-settings-iframe-holder-template-settings"></div>
                             </div>
                         </div>
@@ -128,25 +128,27 @@
                     <?php } ?>
 
 
-
-                    <?php
-
-                    /* <div class="mw-accordion-item">
+                     <div class="mw-accordion-item">
                         <div class="mw-ui-box-header mw-accordion-title">
                             <div class="header-holder">
                                 <i class="mai-setting2"></i> CSS Editor
                             </div>
                         </div>
-                        <div class="mw-accordion-content mw-ui-box mw-ui-box-content" style="display: none;">
-                            <div class="mw-ui-box-content tabitem css-editor-holder" style="display: none">
+                        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+                            <div class="mw-ui-box-content css-editor-holder">
                                 <h3 class="mw-live-edit-tab-title"><?php echo("UI Editor"); ?></h3>
 
+
+
+                                <div id="mw-css-editor-selected"></div>
                                 <div id="mw-css-editor"></div>
+                                <ul class="mw-ui-btn-nav mw-ui-btn-nav-fluid">
+                                    <li><a href="javascript:;" class="mw-ui-btn">Cancel</a></li>
+                                    <li><a onclick="_saveCSS()" class="mw-ui-btn mw-ui-btn-info">Save</a></li>
+                                </ul>
                             </div>
                         </div>
-                    </div>*/
-
-                    ?>
+                    </div>
 
                 </div>
 
@@ -232,11 +234,7 @@
             ?>
 
 
-            <div class="mw-ui-box-content tabitem css-editor-holder" style="display: none">
-                <h3 class="mw-live-edit-tab-title"><?php echo("UI Editor"); ?></h3>
 
-                <div id="mw-css-editor__TEMP_REMOVE"></div>
-            </div>
         </div>
     </div>
 
@@ -244,6 +242,7 @@
 
         mw.require('prop_editor.js');
         mw.require('color.js');
+        mw.require('libs/html2canvas/html2canvas.min.js');
 
         function mwSidebarSearchClear(what) {
             $('[data-id="mw-sidebar-search-input-for-modules-and-layouts"]').val('');
@@ -343,11 +342,10 @@
         }
 
         mw.on('liveEditSettingsReady', function () {
-            setScrollBoxes()
+            setScrollBoxes();
             setTimeout(function () {
                 mw.drag.toolbar_modules();
-                $("#mw-sidebar-layouts-list").removeClass("module")
-                $("#mw-sidebar-modules-list").removeClass("module")
+                $("#mw-sidebar-layouts-list, #mw-sidebar-modules-list").removeClass("module");
 
             }, 333)
 
@@ -361,8 +359,7 @@
     </script>
 
 
-  <?php
-  /*  <script>
+  <script>
 
 
         $(document).ready(function () {
@@ -385,14 +382,20 @@
                     id: 'fontSize'
                 },
                 {
-                    interface: 'color',
-                    label: 'Font color',
-                    id: 'color'
-                },
-                {
-                    interface: 'color',
-                    label: 'Background color',
-                    id: 'backgroundColor'
+                    interface: 'block',
+                    class: 'mw-css-editor',
+                    content: [
+                        {
+                            interface: 'color',
+                            label: 'Font color',
+                            id: 'color'
+                        },
+                        {
+                            interface: 'color',
+                            label: 'Background color',
+                            id: 'backgroundColor'
+                        }
+                    ]
                 },
                 {
                     interface: 'select',
@@ -427,6 +430,7 @@
                     label: 'Background Image',
                     types: 'images'
                 }
+
             ];
 
             mw.elementCSSEditor = new mw.propEditor.schema({
@@ -434,21 +438,108 @@
                 element: '#mw-css-editor'
             });
 
+            /*_saveCSS = function(){
+                var css = _temp2css();
+                //get_option('css', 'live_edit');
+                var data = {
+                    option_key: 'css',
+                    option_group: 'live_edit',
+                    option_value: css
+                };
+                $.ajax({
+                    type: "POST",
+                    url: mw.settings.site_url + "api/save_option",
+                    data: data
+                });
+            };
+
+            _temp2css = function(){
+                var final = [], n,i;
+                for(  n in mw.liveEditDynamicTemp ){
+                    var item = mw.liveEditDynamicTemp[n];
+                    var curr = n + '{' ;
+                    for( i in item ){
+                        var prop = i.replace(/[A-Z]/g, function(a) {return '-' + a.toLowerCase()});
+                        curr += prop + ':' + item[i] + ';';
+                    }
+                    curr += '}';
+                    final.push(curr);
+                }
+                return final.join('\n\r');
+            };
+            var _initTemp = function(){
+                //var styleTag = document.getElementById('mw-dynamic-css');
+                var styleTag = document.getElementById('mw-template-settings').sheet;
+                $.each(styleTag.rules, function(){
+                    mw.liveEditDynamicTemp[this.selectorText] = {};
+                    var arr = this.cssText.split('{')[1].trim('}')[0].split(';');
+                    for( var i=0; i<arr.length; i++){
+                        var prop = arr[i].split(':');
+                        mw.liveEditDynamicTemp[this.selectorText][prop[0]] = prop[1];
+                    }
+                });
+            };
+            var _saveToTemp = function(property, value){
+                var id = mw.elementCSSEditor.currentElement.id;
+                mw.liveEditDynamicTemp['#'+id] = mw.liveEditDynamicTemp['#'+id] || {};
+                mw.liveEditDynamicTemp['#'+id][property] = value;
+            };*/
+            var _prepareCSSValue = function(property, value){
+                if(property === 'backgroundImage'){
+                    return 'url(' + value + ')';
+                }
+                return value;
+            };
             $(mw.elementCSSEditor).on('change', function (event, property, value) {
-                mw.$(mw.elementCSSEditor.currentElement).css(property, value);
+                if($.isArray(value)){
+                    value = value[0];
+                }
+                var val = _prepareCSSValue(property, value);
+                mw.$(mw.elementCSSEditor.currentElement)
+                    .css(property, val).attr('staticdesign', true);
+                //_saveToTemp(property, val)
             });
 
-            mw.on("ElementClick", function (event, el) {
+            //mw.on("ElementClick", function (event, el) {
+            $(document.body).on("click", function (event) {
+
+                var el = event.target;
+                if(mw.tools.hasParentsWithClass(el, 'mw-control-box')){
+                    return;
+                }
+                mw.elementCSSEditor.currentElement = null;
+
+                $("#mw-css-editor-selected").css('backgroundImage', 'none')
+
+                if(el.id){
+                    mw.elementCSSEditor.currentElement = el;
+                }
+                else{
+                    mw.tools.foreachParents(el, function(loop){
+                        if(this.id){
+                            mw.elementCSSEditor.currentElement = this;
+                            mw.tools.stopLoop(loop);
+                        }
+                    });
+                }
+                if(!mw.elementCSSEditor.currentElement){
+                    return;
+                }
 
 
 
-                mw.elementCSSEditor.currentElement = el;
+                html2canvas(mw.elementCSSEditor.currentElement).then(function(canvas) {
+                    $("#mw-css-editor-selected").css('background-image', 'url(' + canvas.toDataURL() + ')');
+                });
+
+
 
                 var css = getComputedStyle(el);
                 var val = {
                     margin: (css.marginTop + ' ' + css.marginRight + ' ' + css.marginBottom + ' ' + css.marginLeft),
                     padding: (css.paddingTop + ' ' + css.paddingRight + ' ' + css.paddingBottom + ' ' + css.paddingLeft),
                     fontSize: css.fontSize,
+                    letterSpacing: css.letterSpacing,
                     fontWeight: css.fontWeight,
                     fontStyle: css.fontStyle,
                     textTransform: css.textTransform,
@@ -460,11 +551,29 @@
                 mw.elementCSSEditor.setValue(val);
             });
 
+            //_initTemp();
+
 
         });
 
 
-    </script>*/
+    </script>
 
-  ?>
+
+        <script>
+
+
+
+            mw.liveEditDynamicTemp = {};
+
+        </script>
+
+        <style type="text/css" id="mw-dynamic-css">
+
+
+
+        </style>
+
+
+
 </div>

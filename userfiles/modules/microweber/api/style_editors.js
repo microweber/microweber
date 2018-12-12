@@ -149,10 +149,10 @@ $.fn.canvasCTRL = function(options){
         }
       }
       event.preventDefault();
-    }
-  }
+    };
+  };
   return $(canvas);
-}
+};
 
 
 width_slider_onstart = function(){
@@ -160,7 +160,7 @@ width_slider_onstart = function(){
  	if(el != null){
     el.checked=false;
   }
-}
+};
 
 
 validateJSON4StaticElements = function(obj){
@@ -176,33 +176,37 @@ validateJSON4StaticElements = function(obj){
       }
   }
   return obj;
-}
+};
 
 generateJSON4StaticElements = function(){
   var all = mwd.querySelectorAll("[staticdesign]"), l=all.length,i=0,obj={};
+  var css;
   if(l>0){
     for( ; i<l; i++){
         var el = all[i];
-        var css = el.getAttribute("style");
+        css = el.getAttribute("style");
         if(!css) continue;
         var selector = mw.tools.generateSelectorForNode(el);
 
 
-    if(selector != undefined && (selector =='body' || selector =='BODY')){
-      if(css != undefined){
-        var css = css.replace("padding-top","mw-pad-top");
+    if(selector !== undefined && (selector =='body' || selector =='BODY')){
+      if(css !== undefined){
+        css = css.replace("padding-top","mw-pad-top");
       }
     }
-        if(el!==null){
+        if(el !== null) {
           obj[selector] = {
              selector:selector,
              css:css
-          }
+          };
+          $("#mw-dynamic-css").append(selector+ '{' + css + '}\r\n');
+          $(el).removeAttr('style')
+          $(el).removeAttr('staticdesign')
         }
     }
   }
   return validateJSON4StaticElements(obj);
-}
+};
 
 saveStaticElementsStyles = function(callback, error){
     var obj = generateJSON4StaticElements();
@@ -373,7 +377,6 @@ $(document).ready(function(){
     mw.$("#mw_ts_margin")
         .on('input', function(){
             var type = $(this).dataset('type');
-            console.log(type)
             if(type){
                 $(".element-current").css(type, this.value + 'px')
             }

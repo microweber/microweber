@@ -114,8 +114,11 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
                                                 tagsHolder: '.post-category-tags',
                                                 treeHolder: '#quick-parent-selector-tree',
                                                 color: 'info',
-                                                outline: true
+                                                outline: true,
+                                                saveState:false
                                             });
+
+
 
                                             $(categorySelector.tree).on('ready', function () {
 
@@ -134,6 +137,64 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
                                                         categorySelector.tree.select(this, 'category')
                                                     });
                                                 }
+
+
+                                                var atcmplt = $("<input type='text' class='mw-ui-invisible-field'>");
+
+                                                $(".post-category-tags").after(atcmplt);
+
+                                                atcmplt.on('input', function(){
+                                                    var val = this.value.toLowerCase().trim();
+                                                    if(!val){
+                                                        categorySelector.tree.showAll();
+                                                    }
+                                                    else{
+                                                        categorySelector.tree.options.data.forEach(function(item){
+
+                                                            if(item.title.toLowerCase().indexOf(val) === -1){
+                                                                categorySelector.tree.hide(item);
+                                                            }
+                                                            else{
+                                                                categorySelector.tree.show(item);
+                                                            }
+                                                        });
+                                                    }
+                                                })
+
+
+                                                /*
+
+                                                var atcmplt = $("<div style='display: inline-block;'></div>");
+
+                                                $(".post-category-tags").after(atcmplt);
+
+                                                var atData = [];
+
+                                                $.each(tdata, function () {
+                                                    var item = Object.assign({}, this);
+
+                                                    item.id =  item.id;
+                                                    atData.push(item)
+                                                });
+
+
+                                                categorySelector.autoComplete = new mw.autoComplete({
+                                                    data: atData,
+                                                    element:atcmplt
+                                                });
+
+                                                $(categorySelector.autoComplete).on('change', function(e, val){
+
+                                                    categorySelector.tree.select(val);
+                                                    $(".mw-tree-selector").show();
+
+                                                    var el = categorySelector.tree.list.querySelector('[data-id="'+val.id+'"][data-type="'+val.type+'"]');
+                                                    mw.tools.highlight(el);
+                                                    if(el){
+                                                        el.scrollIntoView();
+                                                    }
+
+                                                });*/
 
                                             });
 

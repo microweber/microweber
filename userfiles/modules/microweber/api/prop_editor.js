@@ -2,6 +2,10 @@ mw.propEditor = {
     addInterface:function(name, func){
         this.interfaces[name] = this.interfaces[name] || func;
     },
+    getRootElement: function(node){
+        if(node.nodeName !== 'IFRAME') return node;
+        return $(node).contents().find('body')[0];
+    },
     helpers:{
         wrapper:function(){
             var el = document.createElement('div');
@@ -66,6 +70,7 @@ mw.propEditor = {
         }
     },
     rend:function(element, rend){
+        element = mw.propEditor.getRootElement(element);
         for(var i=0;i<rend.length;i++){
             element.appendChild(rend[i].node);
         }
@@ -84,22 +89,26 @@ mw.propEditor = {
                     }
                 }
             }
-            this.options.element.innerHTML = '';
-            mw.propEditor.rend(this.options.element, this._rend)
+
+            this.rootHolder.innerHTML = '';
+            mw.propEditor.rend(this.rootHolder, this._rend)
         };
         this.updateSchema = function(schema){
+            var final = [];
             for(var i =0; i<schema.length;i++){
                 var item = schema[i];
                 if(typeof this._valSchema[item.id] === 'undefined'){
                     this.options.schema.push(item);
                     var create = new mw.propEditor.interfaces[item.interface](this, item)
                     this._rend.push(create);
+                    final.push(create);
                     if(item.id){
                         this._valSchema[item.id] = this._valSchema[item.id] || ''
                     }
-                    this.options.element.appendChild(create.node);
+                    this.rootHolder.appendChild(create.node);
                 }
             }
+            return final;
         };
         this.setValue = function(val){
             if(!val){
@@ -108,7 +117,7 @@ mw.propEditor = {
             for(var i in val){
                 var rend = this.getRendById(i);
                 if(!!rend){
-                    rend.setValue(val[i])
+                    rend.setValue(val[i]);
                 }
             }
         };
@@ -124,8 +133,8 @@ mw.propEditor = {
         };
         this.options = options;
         this.options.element = typeof this.options.element === 'string' ? document.querySelector(options.element) : this.options.element;
-
-        this.setSchema(this.options.schema)
+        this.rootHolder = mw.propEditor.getRootElement(this.options.element);
+        this.setSchema(this.options.schema);
 
     },
     interfaces:{
@@ -156,6 +165,9 @@ mw.propEditor = {
                     var all = holder.querySelectorAll('input'), i = 0;
                     for( ; i<all.length; i++){
                         all[i].value = parseInt(arr[i], 10);
+                        if(typeof arr[i] === 'undefined'){
+                            arr[i] = '';
+                        }
                         var unit = arr[i].replace(/[0-9]/g, '');
                         all[i].dataset.unit = unit;
                     }
@@ -172,8 +184,23 @@ mw.propEditor = {
         },
         block:function(proto, config){
             var el = document.createElement('div');
-            el.innerHTML = config.content;
-            this.node = el
+            if(typeof config.content === 'string') {
+                el.innerHTML = config.content;
+            } else {
+                var newItems = proto.updateSchema(config.content);
+                (function (newItems, el) {
+                    setTimeout(function(){
+                        for(var i=0; i<newItems.length; i++){
+                            el.appendChild(newItems[i].node);
+                            $(el).append(newItems[i].node);
+                        }
+                    });
+                })(newItems, el);
+            }
+            if(config.class){
+                el.className = config.class;
+            }
+            this.node = el;
         },
         size:function(proto, config){
             var field = mw.propEditor.helpers.field('', 'number');
@@ -388,9 +415,15 @@ mw.propEditor = {
                 value = value || [''];
                 proto._valSchema[config.id] = value;
                 $('.upload-button-prop', holder).remove();
-                $.each(value, function (index) {
-                    el.appendChild(createButton(this, index, proto));
-                });
+                if(typeof value === 'string'){
+                    el.appendChild(createButton(value, 0, proto));
+                }
+                else{
+                    $.each(value, function (index) {
+                        el.appendChild(createButton(this, index, proto));
+                    });
+                }
+
                 this.manageAddImageButton();
             };
             this.id = config.id;

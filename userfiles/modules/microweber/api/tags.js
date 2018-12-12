@@ -51,7 +51,8 @@ mw.tags = mw.chips = function(options){
         else{
             return data[this.map.value]
         }
-    }
+    };
+
     this.dataImage = function(data){
         if(data[this.map.image]){
             var img = document.createElement('span');
@@ -59,7 +60,8 @@ mw.tags = mw.chips = function(options){
             img.style.backgroundImage = 'url('+data.image+')';
             return img;
         }
-    }
+    };
+
     this.dataTitle = function(data){
         if(typeof data === 'string'){
             return data;
@@ -67,7 +69,8 @@ mw.tags = mw.chips = function(options){
         else{
             return data[this.map.title]
         }
-    }
+    };
+
     this.dataIcon = function(data){
         if(typeof data === 'string'){
             return;
@@ -75,12 +78,11 @@ mw.tags = mw.chips = function(options){
         else{
             return data[this.map.icon]
         }
-    }
-
+    };
 
 
      this.createImage = function (config) {
-         var img = this.dataImage(config)
+         var img = this.dataImage(config);
         if(img){
             return img;
         }
@@ -176,7 +178,11 @@ mw.tags = mw.chips = function(options){
             tag_holder.appendChild(tag_close);
             return tag_holder;
         };
-        this.rend();
+
+     this.init = function () {
+         this.rend();
+     };
+    this.init();
 };
 
 mw.treeTags = mw.treeChips = function(options){

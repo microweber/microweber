@@ -7,7 +7,7 @@
     array (
       'driver' => 'sqlite',
       'database' => storage_path().DIRECTORY_SEPARATOR.'localhost.sqlite',
-      'prefix' => 'localhost_',
+      'prefix' => 'localhost_new_',
       'host' => 'localhost',
       'username' => 'root',
       'password' => '',

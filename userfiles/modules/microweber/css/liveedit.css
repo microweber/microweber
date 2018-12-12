@@ -3914,6 +3914,7 @@ body.dragStart .allow-drop {
 .prop-ui-field-quatro .prop-ui-field-holder {
     float: left;
     width: 48%;
+    clear: none;
 }
 
 .prop-ui-field-quatro .prop-ui-field-holder:nth-child(even) {
@@ -4250,3 +4251,12 @@ body.dragStart .allow-drop {
 }
 
 .tooltip-icon-picker{ width: 425px; }
+
+#mw-css-editor-selected{
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 90px;
+    border: 1px solid #dadada;
+    background-color: #dcd7d763;
+}
