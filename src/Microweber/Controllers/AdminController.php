@@ -191,7 +191,7 @@ class AdminController extends Controller
 
         if (200 == $response->getStatusCode()) {
             $body = (string) $response->getBody();
-            $body = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $key, $body, MCRYPT_MODE_ECB);
+           // $body = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $key, $body, MCRYPT_MODE_ECB);
             $body = trim($body);
             $body = (array) json_decode($body);
 

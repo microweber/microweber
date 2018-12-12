@@ -14,6 +14,7 @@
 namespace Microweber\Providers;
 
 use Illuminate\Support\Facades\Cache;
+use Microweber\App\Providers\Illuminate\Support\Facades\Paginator;
 
 class LayoutsManager
 {
@@ -65,7 +66,7 @@ class LayoutsManager
         if (!isset($options['path'])) {
             if (isset($options['site_template']) and (strtolower($options['site_template']) != 'default') and (trim($options['site_template']) != '')) {
                 $tmpl = trim($options['site_template']);
-                $check_dir = templates_path().''.$tmpl;
+                $check_dir = templates_path() . '' . $tmpl;
 
                 if (is_dir($check_dir)) {
                     $the_active_site_template = $tmpl;
@@ -75,7 +76,7 @@ class LayoutsManager
             } elseif (isset($options['site_template']) and (strtolower($options['site_template']) == 'mw_default')) {
                 $options['site_template'] = 'default';
                 $tmpl = trim($options['site_template']);
-                $check_dir = templates_path().''.$tmpl;
+                $check_dir = templates_path() . '' . $tmpl;
                 if (is_dir($check_dir)) {
                     $the_active_site_template = $tmpl;
                 } else {
@@ -88,13 +89,13 @@ class LayoutsManager
                 $the_active_site_template = 'default';
             }
 
-            $path = normalize_path(templates_path().$the_active_site_template);
+            $path = normalize_path(templates_path() . $the_active_site_template);
         } else {
             $path = $options['path'];
         }
         if (isset($the_active_site_template) and trim($the_active_site_template) != 'default') {
             if (defined('DEFAULT_TEMPLATE_DIR') and (!isset($path) or $path == false or (!strstr($path, DEFAULT_TEMPLATE_DIR)))) {
-                $use_default_layouts = $path.'use_default_layouts.php';
+                $use_default_layouts = $path . 'use_default_layouts.php';
                 if (is_file($use_default_layouts)) {
                     $path = DEFAULT_TEMPLATE_DIR;
                 }
@@ -109,10 +110,10 @@ class LayoutsManager
             $args = func_get_args();
             $function_cache_id = '';
             foreach ($args as $k => $v) {
-                $function_cache_id = $function_cache_id.serialize($k).serialize($v);
+                $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
             }
 
-            $cache_id = $function_cache_id = __FUNCTION__.crc32($path.$function_cache_id);
+            $cache_id = $function_cache_id = __FUNCTION__ . crc32($path . $function_cache_id);
 
             $cache_group = 'templates';
 
@@ -126,13 +127,13 @@ class LayoutsManager
         $glob_patern = '*.php';
         $template_dirs = array();
         if (isset($options['get_dynamic_layouts'])) {
-           // $possible_dir = TEMPLATE_DIR.'modules'.DS.'layout'.DS;
-            $possible_dir = TEMPLATE_DIR.'modules'.DS.'layout'.DS;
+            // $possible_dir = TEMPLATE_DIR.'modules'.DS.'layout'.DS;
+            $possible_dir = TEMPLATE_DIR . 'modules' . DS . 'layout' . DS;
             $possible_dir2 = TEMPLATE_DIR;
 
             if (is_dir($possible_dir)) {
                 $template_dirs[] = $possible_dir2;
-                $dir2 = rglob($possible_dir.'*.php', 0);
+                $dir2 = rglob($possible_dir . '*.php', 0);
                 if (!empty($dir2)) {
                     foreach ($dir2 as $dir_glob) {
                         $dir[] = $dir_glob;
@@ -144,7 +145,7 @@ class LayoutsManager
 
         if (!isset($options['get_dynamic_layouts'])) {
             if (!isset($options['filename'])) {
-                 $dir = rglob($glob_patern, 0, $path);
+                $dir = rglob($glob_patern, 0, $path);
             } else {
                 $dir = array();
                 $dir[] = $options['filename'];
@@ -159,11 +160,11 @@ class LayoutsManager
                 $skip = false;
                 if (!isset($options['get_dynamic_layouts'])) {
                     if (!isset($options['for_modules'])) {
-                        if (strstr($filename, 'modules'.DS)) {
+                        if (strstr($filename, 'modules' . DS)) {
                             $skip = true;
                         }
                     } else {
-                        if (!strstr($filename, 'modules'.DS)) {
+                        if (!strstr($filename, 'modules' . DS)) {
                             $skip = true;
                         }
                     }
@@ -173,7 +174,7 @@ class LayoutsManager
                     $fin = file_get_contents($filename);
                     $fin = preg_replace('/\r\n?/', "\n", $fin);
 
-                    $here_dir = dirname($filename).DS;
+                    $here_dir = dirname($filename) . DS;
                     $to_return_temp = array();
                     if (preg_match('/type:.+/', $fin, $regs)) {
                         $result = $regs[0];
@@ -245,7 +246,7 @@ class LayoutsManager
                                 $result = str_ireplace('icon:', '', $result);
                                 $to_return_temp['icon'] = trim($result);
 
-                                $possible = $here_dir.$to_return_temp['icon'];
+                                $possible = $here_dir . $to_return_temp['icon'];
                                 if (is_file($possible)) {
                                     $to_return_temp['icon'] = $this->app->url_manager->link_to_file($possible);
                                 } else {
@@ -257,7 +258,7 @@ class LayoutsManager
                                 $result = $regs[0];
                                 $result = str_ireplace('image:', '', $result);
                                 $to_return_temp['image'] = trim($result);
-                                $possible = $here_dir.$to_return_temp['image'];
+                                $possible = $here_dir . $to_return_temp['image'];
 
                                 if (is_file($possible)) {
                                     $to_return_temp['image'] = $this->app->url_manager->link_to_file($possible);
@@ -286,7 +287,7 @@ class LayoutsManager
 
                             $layout_file = str_replace($path, '', $filename);
                             if (isset($options['get_dynamic_layouts'])) {
-                             //   dd($template_dirs);
+                                //   dd($template_dirs);
                                 $layout_file = str_replace($possible_dir2, '', $layout_file);
 
                             }
@@ -322,9 +323,9 @@ class LayoutsManager
                 $pos = 9999;
                 foreach ($configs as $item) {
                     if (isset($item['position'])) {
-                        $sorted_by_pos_items[ $item['position'] ][] = $item;
+                        $sorted_by_pos_items[$item['position']][] = $item;
                     } else {
-                        $sorted_by_pos[ $pos ] = $item;
+                        $sorted_by_pos[$pos] = $item;
                     }
                     ++$pos;
                 }
@@ -356,10 +357,10 @@ class LayoutsManager
         $args = func_get_args();
         $function_cache_id = '';
         foreach ($args as $k => $v) {
-            $function_cache_id = $function_cache_id.serialize($k).serialize($v);
+            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
 
-        $cache_id = __FUNCTION__.crc32($function_cache_id);
+        $cache_id = __FUNCTION__ . crc32($function_cache_id);
         //get cache from memory
         $mem = mw_var($cache_id);
         if ($mem != false) {
@@ -377,7 +378,7 @@ class LayoutsManager
         }
 
         $page_url_segment_1 = $this->app->url_manager->segment(0);
-        $td = templates_path().$page_url_segment_1;
+        $td = templates_path() . $page_url_segment_1;
         $td_base = $td;
 
         $page_url_segment_2 = $this->app->url_manager->segment(1);
@@ -396,7 +397,7 @@ class LayoutsManager
             $page_url_segment_str = $page_url_segment_3[0];
         }
         //$page_url_segment_str = implode('/', $page_url_segment_3);
-        $fn = $this->app->url_manager->site($page_url_segment_str.'/'.$fn);
+        $fn = $this->app->url_manager->site($page_url_segment_str . '/' . $fn);
         //d($page_url_segment_3);
 
         //set cache in memory
@@ -411,7 +412,7 @@ class LayoutsManager
             return false;
         }
         if (isset($data_to_save['is_element']) and $data_to_save['is_element'] == true) {
-            exit(__FILE__.__LINE__.d($data_to_save));
+            exit(__FILE__ . __LINE__ . d($data_to_save));
         }
 
         $table = 'elements';
@@ -426,7 +427,7 @@ class LayoutsManager
             if (!isset($s['id']) and isset($s['module'])) {
                 $s['module'] = $data_to_save['module'];
                 if (!isset($s['module_id'])) {
-                    $save = $this->get('limit=1&module='.$s['module']);
+                    $save = $this->get('limit=1&module=' . $s['module']);
                     if ($save != false and isset($save[0]) and is_array($save[0])) {
                         $s['id'] = $save[0]['id'];
                         $save = $this->app->database_manager->save($table, $s);
@@ -440,8 +441,8 @@ class LayoutsManager
         }
 
         if ($save != false) {
-            $this->app->cache_manager->delete('elements'.DIRECTORY_SEPARATOR.'');
-            $this->app->cache_manager->delete('elements'.DIRECTORY_SEPARATOR.'global');
+            $this->app->cache_manager->delete('elements' . DIRECTORY_SEPARATOR . '');
+            $this->app->cache_manager->delete('elements' . DIRECTORY_SEPARATOR . 'global');
         }
 
         return $save;
@@ -479,10 +480,10 @@ class LayoutsManager
         if (is_admin() == false) {
             return false;
         } else {
-            $table = get_table_prefix().'elements';
+            $table = get_table_prefix() . 'elements';
 
-            $db_categories = get_table_prefix().'categories';
-            $db_categories_items = get_table_prefix().'categories_items';
+            $db_categories = get_table_prefix() . 'categories';
+            $db_categories_items = get_table_prefix() . 'categories_items';
 
             $q = "DELETE FROM $table ";
             //   d($q);
@@ -495,10 +496,10 @@ class LayoutsManager
             $q = "DELETE FROM $db_categories_items WHERE rel_type='elements' ";
             // d($q);
             $this->app->database_manager->q($q);
-            $this->app->cache_manager->delete('categories'.DIRECTORY_SEPARATOR.'');
-            $this->app->cache_manager->delete('categories_items'.DIRECTORY_SEPARATOR.'');
+            $this->app->cache_manager->delete('categories' . DIRECTORY_SEPARATOR . '');
+            $this->app->cache_manager->delete('categories_items' . DIRECTORY_SEPARATOR . '');
 
-            $this->app->cache_manager->delete('elements'.DIRECTORY_SEPARATOR.'');
+            $this->app->cache_manager->delete('elements' . DIRECTORY_SEPARATOR . '');
         }
     }
 
@@ -535,12 +536,12 @@ class LayoutsManager
                 }
             } else {
                 $tf = $this->template_check_for_custom_css($template);
-                $tf2 = $tf.'.bak';
+                $tf2 = $tf . '.bak';
 
                 $option = array();
                 $option['option_value'] = '';
                 $option['option_key'] = 'template_settings';
-                $option['option_group'] = 'template_'.$template;
+                $option['option_group'] = 'template_' . $template;
 
                 $o = save_option($option);
 
@@ -564,13 +565,13 @@ class LayoutsManager
         $final_file_blocks = array();
 
         if ($template != false) {
-            $template_folder = userfiles_path().'css'.DS.$template.DS;
+            $template_folder = userfiles_path() . 'css' . DS . $template . DS;
 
-            $live_edit_css = $template_folder.'live_edit.css';
+            $live_edit_css = $template_folder . 'live_edit.css';
 
             // $live_edit_css = $template_folder . 'live_edit.css';
             if ($check_for_backup == true) {
-                $live_edit_css = $live_edit_css.'.bak';
+                $live_edit_css = $live_edit_css . '.bak';
             }
             $fcont = '';
             if (is_file($live_edit_css)) {
@@ -668,20 +669,20 @@ class LayoutsManager
                     $option = array();
                     $option['option_value'] = $json;
                     $option['option_key'] = 'template_settings';
-                    $option['option_group'] = 'template_'.$template;
+                    $option['option_group'] = 'template_' . $template;
                     save_option($option);
                 }
 
-                $template_folder = templates_path().$template.DS;
-                $template_url = templates_url().$template.'/';
+                $template_folder = templates_path() . $template . DS;
+                $template_url = templates_url() . $template . '/';
                 $this_template_url = THIS_TEMPLATE_URL;
 
-                $template_folder = userfiles_path().'css'.DS.$template.DS;
+                $template_folder = userfiles_path() . 'css' . DS . $template . DS;
                 if (!is_dir($template_folder)) {
                     mkdir_recursive($template_folder);
                 }
 
-                $live_edit_css = $template_folder.'live_edit.css';
+                $live_edit_css = $template_folder . 'live_edit.css';
                 $fcont = '';
                 if (is_file($live_edit_css)) {
                     $fcont = file_get_contents($live_edit_css);
@@ -702,26 +703,36 @@ class LayoutsManager
                         $sort_params2[] = $item;
                     }
                 }
+
+
                 $params = array_merge($sort_params, $sort_params2);
+
 
                 foreach ($params as $item) {
                     $curr = '';
+
+                    if (isset($item['css']) and isset($item['selector']) and !isset($item['property'])) {
+                        //  $item['property'] =  $item['css'];
+                    }
+
+
                     if (!isset($item['css']) and isset($item['property']) and isset($item['value'])) {
                         if ($item['value'] == 'reset') {
                             $item['css'] = 'reset';
                         } else {
+
                             if (isset($item['selector']) and trim($item['selector']) == '@import' and isset($item['value'])) {
                                 $props = explode(',', $item['property']);
 
                                 foreach ($props as $prop) {
-                                    $curr .= $prop.' '.$item['value'].';';
+                                    $curr .= $prop . ' ' . $item['value'] . ';';
                                 }
                             } else {
                                 $props = explode(',', $item['property']);
                                 $curr = '';
                                 foreach ($props as $prop) {
                                     if (isset($item['value']) and trim($item['value']) != '') {
-                                        $curr .= $prop.':'.$item['value'].';';
+                                        $curr .= $prop . ':' . $item['value'] . ';';
                                     }
                                 }
                             }
@@ -729,7 +740,31 @@ class LayoutsManager
                                 $item['css'] = $curr;
                             }
                         }
-                    }
+                    } else {
+                        $props = explode(';', $item['css']);
+                        $curr = '';
+                        $css_props = array();
+                        foreach ($props as $prop) {
+
+                            $prop_key = substr($prop, 0, strpos($prop, ':'));
+                            $prop_val = substr($prop, strpos($prop, ':') + 1, 9999);
+                            $prop_key = trim($prop_key);
+                            $prop_val = trim($prop_val);
+                            if ($prop_key and $prop_val) {
+                                $css_props[$prop_key] = $prop_val;
+                            }
+
+                        }
+                        $curr = '';
+                        if ($css_props) {
+                            foreach ($css_props as $prop_k => $prop_v) {
+                                $curr .= $prop_k . ':' . $prop_v . '; ';
+                            }
+                        }
+                        if ($curr != '') {
+                            $item['css'] = $curr;
+                        }
+                     }
 
                     if (isset($item['selector']) and trim($item['selector']) != '' and isset($item['css'])) {
                         $item['selector'] = str_ireplace('.element-current', '', $item['selector']);
@@ -767,9 +802,9 @@ class LayoutsManager
                             if (trim($item['css']) != 'reset' and trim($item['css']) != 'reset;') {
                                 $css_cont_new .= $delim;
                                 if (isset($sel) and trim($sel) == '@import') {
-                                    $css_cont_new .= $sel.' '.$item['css'].' ';
+                                    $css_cont_new .= $sel . ' ' . $item['css'] . ' ';
                                 } else {
-                                    $css_cont_new .= $sel.' { '.$item['css'].' }';
+                                    $css_cont_new .= $sel . ' { ' . $item['css'] . ' }';
                                 }
                                 $css_cont_new .= $delim;
                             }
