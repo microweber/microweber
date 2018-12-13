@@ -75,6 +75,7 @@ $mod_suffix = md5($params['id']);
             },
             editable: false,
             droppable: false,
+            firstDay: 1,
 
             eventMouseover: function (event, element) {
                 // div causes jquery to display in non-live edit
