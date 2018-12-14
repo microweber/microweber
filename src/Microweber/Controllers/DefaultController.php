@@ -1883,7 +1883,7 @@ class DefaultController extends Controller
                 $content['active_site_template'] = $the_active_site_template;
             }
 
-            if ($is_editmode == true) {
+           // if ($is_editmode == true) {
                 if (isset($content['active_site_template']) and trim($content['active_site_template']) != '' and $content['active_site_template'] != 'default') {
                     if (!defined('CONTENT_TEMPLATE')) {
                         define('CONTENT_TEMPLATE', $content['active_site_template']);
@@ -1920,7 +1920,7 @@ class DefaultController extends Controller
                     $liv_ed_css = '<link rel="stylesheet" href="' . $liv_ed_css . '" id="mw-custom-user-css" type="text/css" />';
                     $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
                 }
-            }
+        //    }
 
             $website_head_tags = $this->app->option_manager->get('website_head', 'website');
             $rep_count = 1;
