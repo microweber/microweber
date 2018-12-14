@@ -43,8 +43,13 @@ if ($params['period']) {
             mw_stats_period_switch_main($period);
         } else {
             $('#' + $module_id).attr('period', $period);
+            mw.tools.loading("#stats_nav", true);
             $(".dashboard_stats").fadeOut(function () {
-                mw.reload_module('#' + $module_id);
+                mw.reload_module('#' + $module_id, function(){
+                    setTimeout(function () {
+                        mw.tools.loading("#stats_nav", false);
+                    }, 110)
+                });
             })
 
         }

@@ -142,10 +142,7 @@
 
                                 <div id="mw-css-editor-selected"></div>
                                 <div id="mw-css-editor"></div>
-                                <ul class="mw-ui-btn-nav mw-ui-btn-nav-fluid">
-                                    <li><a href="javascript:;" class="mw-ui-btn">Cancel</a></li>
-                                    <li><a onclick="_saveCSS()" class="mw-ui-btn mw-ui-btn-info">Save</a></li>
-                                </ul>
+
                             </div>
                         </div>
                     </div>
@@ -622,12 +619,12 @@
 
                 $("#mw-css-editor-selected").css('backgroundImage', 'none')
 
-                if(el.id){
+                if(el.id && !mw.tools.hasAnyOfClassesOnNodeOrParent(el, ['mw-defaults'])){
                     mw.elementCSSEditor.currentElement = el;
                 }
                 else{
                     mw.tools.foreachParents(el, function(loop){
-                        if(this.id){
+                        if(this.id && !mw.tools.hasAnyOfClassesOnNodeOrParent(this, ['mw-defaults'])){
                             mw.elementCSSEditor.currentElement = this;
                             mw.tools.stopLoop(loop);
                         }
