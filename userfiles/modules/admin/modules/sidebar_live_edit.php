@@ -554,7 +554,7 @@
                         {title: 'Middle Right', value: '100% 50%'},
                         {title: 'Bottom Left', value: '0 100%'},
                         {title: 'Bottom Center', value: '50% 100%'},
-                        {title: 'Bottom Right', value: '100% 100%'},
+                        {title: 'Bottom Right', value: '100% 100%'}
 
                     ]
                 },
@@ -569,14 +569,14 @@
                     options: ['border-box', 'padding-box', 'content-box']
                 },
                 */
-                {
+                /*{
                     interface: 'block',
                     content: 'Element Shadow',
                 },
                 {
                     interface: 'shadow',
                     id: 'boxShadow'
-                }
+                }*/
 
             ];
 
@@ -601,7 +601,6 @@
                         '-webkit-background-clip':val
                     };
                 }
-                console.log(css)
                 mw.$(mw.elementCSSEditor.currentElement).css(css);
             };
             $(mw.elementCSSEditor).on('change', function (event, property, value) {
@@ -647,6 +646,10 @@
 
 
                 var css = getComputedStyle(el);
+                var bgimg = css.backgroundImage;
+                if(bgimg.indexOf('url(') !== -1){
+                    bgimg = bgimg.split('(')[1].split(')')[0]
+                }
                 var val = {
                     margin: (css.marginTop + ' ' + css.marginRight + ' ' + css.marginBottom + ' ' + css.marginLeft),
                     padding: (css.paddingTop + ' ' + css.paddingRight + ' ' + css.paddingBottom + ' ' + css.paddingLeft),
@@ -659,7 +662,7 @@
                     backgroundClip: css.backgroundClip,
                     color: mw.color.rgbToHex(css.color),
                     backgroundColor: mw.color.rgbToHex(css.backgroundColor),
-                    backgroundImage: css.backgroundImage,
+                    backgroundImage: bgimg,
                     backgroundRepeat: css.backgroundRepeat,
                     backgroundSize: css.backgroundSize,
                     backgroundPosition: css.backgroundPosition,

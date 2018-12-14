@@ -272,9 +272,7 @@ mw.lib.require('nestedsortable');
                 });
                 return;
             }
-            console.log(1,li)
             li = this.get(li, type);
-            console.log(2, li)
             if(!li) return;
             li.classList.add('mw-tree-item-hidden');
         };

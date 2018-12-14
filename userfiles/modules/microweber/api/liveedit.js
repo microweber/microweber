@@ -395,7 +395,6 @@ $(document).ready(function() {
             mw.iconSelector._activeElement = node;
             mw.iconSelector.uiHTML();
             mw.iconSelector.settingsUI();
-            console.log(444)
             return;
 
         }

@@ -28,7 +28,6 @@ mw.cart = {
 
         $.post(mw.settings.api_url + 'update_cart', data,
             function (data) {
-                console.log(data)
                 mw.reload_module('shop/cart');
                 if (typeof c === 'function') {
                     c.call(data);

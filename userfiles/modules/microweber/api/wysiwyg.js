@@ -999,7 +999,6 @@ mw.wysiwyg = {
 
                     var isList = mw.tools.firstMatchesOnNodeOrParent(event.target, ['li', 'ul', 'ol'])
                     if(!isList){
-                        console.log(12)
                       event.preventDefault();
                       if(event.shiftKey){
                         mw.wysiwyg.insert_html('<br>');
@@ -1992,7 +1991,6 @@ mw.wysiwyg = {
             if(mw.wysiwyg.isSafeMode()){
                 var tag =  command == 'code_text' ? 'code':command;
                 mw.wysiwyg.select_element(el);
-                //console.log(command, el)
                 //el.parentNode.contentEditable = true
                 mw.wysiwyg.setNodeContentEditable(el.parentNode,true);
                 mw.wysiwyg.execCommand("insertHTML", false, "<"+command+">" + el.innerHTML + "</"+command+">");
@@ -2481,7 +2479,6 @@ mw.wysiwyg = {
             $.post(mw.settings.api_url + "media/upload", obj, function (data) {
                 var data = $.parseJSON(data);
                 node.style.backgroundImage = 'url(\'' + data.src + '\')';
-                console.log(99, node)
 
                 if (typeof callback === 'function') {
                     callback.call(node);

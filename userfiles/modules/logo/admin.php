@@ -233,8 +233,6 @@ if (isset($params['data-alt-logo'])) {
                     showLogoType();
                 }, 78)
             });
-
-            console.log(1122)
         });
 
 

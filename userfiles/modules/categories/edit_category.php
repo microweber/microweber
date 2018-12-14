@@ -444,7 +444,6 @@ if (isset($params['live_edit'])) {
 
                                         $('.edit-category-choose-subtype-dd').on('change', function () {
                                             var val = $(this).getDropdownValue();
-                                            console.log(val)
                                             $('[name="category_subtype"]', '#admin_edit_category_form').val(val)
 
                                             $('#admin_edit_category_subtype_settings').attr('category_subtype', val);

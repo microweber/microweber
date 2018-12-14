@@ -300,7 +300,6 @@ mw.propEditor = {
             this.setValue = function(value){
                 var parse = this.parseShadow(value);
                 $.each(parse, function (key, val) {
-                    console.log(key, val, scope.fields)
                     scope.fields[key].value = this;
                 });
                 proto._valSchema[config.id] = value;

@@ -1,8 +1,5 @@
 mw.module_pictures = {
     after_upload: function (data) {
-
-
-        console.log(data)
         $.post(mw.settings.api_url + 'save_media', data,
             function (data) {
 
@@ -105,7 +102,6 @@ mw.module_pictures = {
                 $.post(mw.settings.api_url + 'reorder_media', serial,
                     function (data) {
                         mw.module_pictures.after_change();
-                        console.log(el.parents('[data-type="pictures/admin"]'))
                         el.parents('[data-type="pictures/admin"]').trigger('change')
                     });
 
