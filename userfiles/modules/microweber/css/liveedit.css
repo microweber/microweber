@@ -22,8 +22,8 @@ body.mw-live-edit .mw-control-box-left {
 }
 
 
+#mw-text-editor a.mw-ui-btn-medium,
 #mw-text-editor .mw-ui-btn-medium,
-
 .mw-active-item .mw_edit_settings{
     height: 34px;
     line-height: 34px;
@@ -658,6 +658,8 @@ a.mw-make-cols {
 
 .module-active-layouts .mw-element-name-handle{
     font-size: 0;
+    top: -4px;
+    position: relative;
 }
 
 .mw_edit_settings [class*="mw-icon-"] {
@@ -4291,6 +4293,7 @@ body.dragStart .allow-drop {
     height: 90px;
     border: 1px solid #dadada;
     background-color: #dcd7d763;
+    display: none;
 }
 
 .mw-css-editor-group > *+*{
