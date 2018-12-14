@@ -11,7 +11,7 @@ if (!defined('T')) {
 }
 
 if (!defined('MW_VERSION')) {
-  define('MW_VERSION', '1.1.2');
+  define('MW_VERSION', '1.1.2.1');
 }
 
 

@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.1.2.1] - 2018-12-14
+- Maintenance release 
+- Some fixes on the live edit 
+- Custom CSS editor now saves properly
+- Added compatibility with Gramarly and Naptha browser plugins
+- [see all changes....](https://github.com/microweber/microweber/compare/1.1.2...1.1.3 "")
+
+
 ## [1.1.2] - 2018-12-06
 - Major update 
 - Many overall system improvements
@@ -12,7 +20,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added "Coupon Code" module
 - Added "Offers (Price Discount)" module
 - A lot of bug fixes
-- [and many more changes....](https://github.com/microweber/microweber/compare/1.1.1...1.1.2 "")
+- [see all changes....](https://github.com/microweber/microweber/compare/1.1.1...1.1.2 "")
 
 
 
@@ -22,7 +30,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added: events calendar module
 - Fix: bugs in the live edit
 - Fix: some bugs in the modules parser  
-- [and many more changes....](https://github.com/microweber/microweber/compare/1.0.11...1.1.1 "")
+- [see all changes....](https://github.com/microweber/microweber/compare/1.0.11...1.1.1 "")
 
  
 
@@ -36,7 +44,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix: Huge Live Edit impovements
 - Fix: Parser bugs
 - Changed: to MIT license 
-- [and many more changes....](https://github.com/microweber/microweber/compare/1.0.8...1.0.10 "")
+- [see all changes....](https://github.com/microweber/microweber/compare/1.0.8...1.0.10 "")
  
 
 ## [1.0.8] - 2017-04-26
@@ -97,7 +105,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix: menu module bugs
 - Fix: UI fixes
 - Fix of:  #380, #395, #388, #378, #377, #373, #372, #369, #368, #362, #360, #357, #353, #352, #346, #340, #334, #298, #277, #225
-- [and many more changes....](https://github.com/microweber/microweber/compare/1.0.7...1.0.8 "")
+- [see all changes....](https://github.com/microweber/microweber/compare/1.0.7...1.0.8 "")
 
 
 
