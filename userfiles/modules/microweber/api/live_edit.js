@@ -1,20 +1,30 @@
-mw.live_edit = mw.live_edit || {}
+mw.live_edit = mw.live_edit || {};
 
-mw.live_edit.registry = mw.live_edit.registry || {}
+mw.live_edit.registry = mw.live_edit.registry || {};
 
 
 mw.live_edit.showHandle = function (element) {
     var el = $(element);
     var title = el.dataset("mw-title");
     var id = el.attr("id");
-    var module_type = el.dataset("type") || el.attr("type");
+    var module_type = (el.dataset("type") || el.attr("type")).trim();
 
     var mod_icon = mw.live_edit.getModuleIcon(module_type);
 
-    title = mod_icon + (title ? title : mw.msg.settings);
+    if (module_type === 'layouts') {
+        title = mod_icon;
+    }
+    else{
+        title = mod_icon + (title ? title : mw.msg.settings);
+    }
 
 
+    if(!mw.handle_module){
+        return;
+    }
 
+    mw.tools.classNamespaceDelete(mw.handle_module, 'module-active-');
+    mw.tools.addClass(mw.handle_module, 'module-active-' + module_type.replace(/\//g, '-'));
 
     mw.$(".mw-element-name-handle", mw.handle_module).html(title);
 

@@ -638,6 +638,10 @@ a.mw-make-cols {
     z-index: 2;
 }
 
+.module-active-layouts .mw-element-name-handle{
+    font-size: 0;
+}
+
 .mw_edit_settings [class*="mw-icon-"] {
     font-size: 19px;
 }
@@ -4285,3 +4289,5 @@ body.dragStart .allow-drop {
     display: flex;
     justify-content: space-between;
 }
+
+
