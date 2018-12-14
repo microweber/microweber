@@ -21,6 +21,24 @@ body.mw-live-edit .mw-control-box-left {
     top: 55px;
 }
 
+
+#mw-text-editor .mw-ui-btn-medium,
+
+.mw-active-item .mw_edit_settings{
+    height: 34px;
+    line-height: 34px;
+    font-size: 13px;
+}
+
+#live_edit_toolbar,
+#mw_handle_module,
+.mw_editor,
+#mw-text-editor .mw-ui-btn,
+#mw-text-editor {
+    font-size: 13px;
+}
+
+
 .mw-drag-current-top.modules-layouts, .mw-drag-current-bottom.modules-layouts {
     transition: all .9s !important;
 }
