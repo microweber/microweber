@@ -367,53 +367,139 @@
 
             CSSEditorSchema = [
                 {
-                    interface: 'quatro',
-                    label: ['Margin top', 'Margin right', 'Margin bottom', 'Margin left'],
-                    id: 'margin'
-                },
-                {
-                    interface: 'quatro',
-                    label: ['Padding top', 'Padding right', 'Padding bottom', 'Padding left'],
-                    id: 'padding'
-                },
-                {
-                    interface: 'size',
-                    label: 'Font size',
-                    id: 'fontSize'
+                    interface: 'block',
+                    class: '',
+                    content: 'Size'
                 },
                 {
                     interface: 'block',
-                    class: 'mw-css-editor',
+                    class: 'mw-css-editor-group',
                     content: [
                         {
-                            interface: 'color',
-                            label: 'Font color',
-                            id: 'color'
+                            interface: 'size',
+                            label: 'Width',
+                            id: 'width'
                         },
                         {
-                            interface: 'color',
-                            label: 'Background color',
-                            id: 'backgroundColor'
+                            interface: 'size',
+                            label: 'Height',
+                            id: 'height'
                         }
                     ]
                 },
                 {
-                    interface: 'select',
-                    label: 'Font weight',
-                    id: 'fontWeight',
-                    options: ['inherit', 'normal', 'bold', 'bolder', 'lighter', 100, 200, 300, 400, 500, 600, 700, 800, 900]
+                    interface: 'block',
+                    class: 'mw-css-editor-group',
+                    content: [
+                        {
+                            interface: 'size',
+                            label: 'Min width',
+                            id: 'minWidth'
+                        },
+                        {
+                            interface: 'size',
+                            label: 'Max width',
+                            id: 'maxWidth'
+                        }
+                    ]
                 },
                 {
-                    interface: 'select',
-                    label: 'Font style',
-                    id: 'fontStyle',
-                    options: ['italic', 'normal']
+                    interface: 'block',
+                    class: 'mw-css-editor-group',
+                    content: [
+                        {
+                            interface: 'size',
+                            label: 'Min height',
+                            id: 'minHeight'
+                        },
+                        {
+                            interface: 'size',
+                            label: 'Max height',
+                            id: 'maxHeight'
+                        }
+                    ]
                 },
                 {
-                    interface: 'select',
-                    label: 'Text transform',
-                    id: 'textTransform',
-                    options: ['none', 'uppercase', 'lowercase', 'capitalize']
+                    interface: 'block',
+                    class: '',
+                    content: 'Margin'
+                },
+                {
+                    interface: 'quatro',
+                    label: [' top', 'right', 'bottom', 'left'],
+                    id: 'margin'
+                },
+                {
+                    interface: 'block',
+                    class: '',
+                    content: 'Padding'
+                },
+                {
+                    interface: 'quatro',
+                    label: ['top', 'right', 'bottom', 'left'],
+                    id: 'padding'
+                },
+
+                {
+                    interface: 'block',
+                    class: '',
+                    content: '<hr>Font'
+                },
+                {
+                    interface: 'block',
+                    class: 'mw-css-editor-group',
+                    content: [
+                        {
+                            interface: 'size',
+                            label: 'Size',
+                            id: 'fontSize'
+                        },
+                        {
+                            interface: 'select',
+                            label: 'Weight',
+                            id: 'fontWeight',
+                            options: ['inherit', 'normal', 'bold', 'bolder', 'lighter', 100, 200, 300, 400, 500, 600, 700, 800, 900]
+                        }
+
+                    ]
+                },
+                {
+                    interface: 'block',
+                    class: 'mw-css-editor-group',
+                    content: [
+                        {
+                            interface: 'select',
+                            label: 'Style',
+                            id: 'fontStyle',
+                            options: ['italic', 'normal']
+                        },
+                        {
+                            interface: 'color',
+                            label: 'Color',
+                            id: 'color'
+                        }
+
+                    ]
+                },
+                {
+                    interface: 'block',
+                    class: 'mw-css-editor-group',
+                    content: [
+                        {
+                            interface: 'select',
+                            label: 'Text transform',
+                            id: 'textTransform',
+                            options: ['none', 'uppercase', 'lowercase', 'capitalize']
+                        },
+                        {
+                            interface: 'size',
+                            label: 'Line Height',
+                            id: 'lineHeight'
+                        }
+                    ]
+                },
+                {
+                    interface: 'hr'
                 },
                 {
                     interface: 'block',
@@ -425,10 +511,71 @@
                     label: ['Top Left', 'Top Right', 'Bottom Left', 'Bottom Right']
                 },
                 {
+                    interface: 'hr'
+                },
+                {
+                    interface:'block',
+                    content:'Background'
+                },
+                {
+                    interface: 'color',
+                    label: 'Color',
+                    id: 'backgroundColor'
+                },
+                {
                     interface: 'file',
                     id: 'backgroundImage',
-                    label: 'Background Image',
+                    label: 'Image',
                     types: 'images'
+                },
+                {
+                    interface: 'select',
+                    id: 'backgroundRepeat',
+                    label: 'Repeat',
+                    options: ['no-repeat', 'repeat-x', 'repeat-y', 'repeat']
+                },
+                {
+                    interface: 'select',
+                    id: 'backgroundSize',
+                    label: 'Size',
+                    options: ['auto', 'cover', {title: 'fit', value: 'contain'}, {title: 'scale', value: '100% 100%'}]
+                },
+                {
+                    interface: 'select',
+                    id: 'backgroundPosition',
+                    label: 'Position',
+                    options: [
+                        'center',
+                        {title: 'Top Left', value: '0 0'},
+                        {title: 'Top Center', value: '50% 0'},
+                        {title: 'Top Right', value: '100% 0'},
+                        {title: 'Middle Left', value: '0 50%'},
+                        {title: 'Middle Right', value: '100% 50%'},
+                        {title: 'Middle Right', value: '100% 50%'},
+                        {title: 'Bottom Left', value: '0 100%'},
+                        {title: 'Bottom Center', value: '50% 100%'},
+                        {title: 'Bottom Right', value: '100% 100%'},
+
+                    ]
+                },
+                {
+                    interface: 'hr'
+                },
+
+                /*{
+                    interface: 'select',
+                    id: 'backgroundClip',
+                    label: 'Clip',
+                    options: ['border-box', 'padding-box', 'content-box']
+                },
+                */
+                {
+                    interface: 'block',
+                    content: 'Element Shadow',
+                },
+                {
+                    interface: 'shadow',
+                    id: 'boxShadow'
                 }
 
             ];
@@ -438,69 +585,34 @@
                 element: '#mw-css-editor'
             });
 
-            /*_saveCSS = function(){
-                var css = _temp2css();
-                //get_option('css', 'live_edit');
-                var data = {
-                    option_key: 'css',
-                    option_group: 'live_edit',
-                    option_value: css
-                };
-                $.ajax({
-                    type: "POST",
-                    url: mw.settings.site_url + "api/save_option",
-                    data: data
-                });
-            };
-
-            _temp2css = function(){
-                var final = [], n,i;
-                for(  n in mw.liveEditDynamicTemp ){
-                    var item = mw.liveEditDynamicTemp[n];
-                    var curr = n + '{' ;
-                    for( i in item ){
-                        var prop = i.replace(/[A-Z]/g, function(a) {return '-' + a.toLowerCase()});
-                        curr += prop + ':' + item[i] + ';';
-                    }
-                    curr += '}';
-                    final.push(curr);
-                }
-                return final.join('\n\r');
-            };
-            var _initTemp = function(){
-                //var styleTag = document.getElementById('mw-dynamic-css');
-                var styleTag = document.getElementById('mw-template-settings').sheet;
-                $.each(styleTag.rules, function(){
-                    mw.liveEditDynamicTemp[this.selectorText] = {};
-                    var arr = this.cssText.split('{')[1].trim('}')[0].split(';');
-                    for( var i=0; i<arr.length; i++){
-                        var prop = arr[i].split(':');
-                        mw.liveEditDynamicTemp[this.selectorText][prop[0]] = prop[1];
-                    }
-                });
-            };
-            var _saveToTemp = function(property, value){
-                var id = mw.elementCSSEditor.currentElement.id;
-                mw.liveEditDynamicTemp['#'+id] = mw.liveEditDynamicTemp['#'+id] || {};
-                mw.liveEditDynamicTemp['#'+id][property] = value;
-            };*/
             var _prepareCSSValue = function(property, value){
                 if(property === 'backgroundImage'){
                     return 'url(' + value + ')';
                 }
                 return value;
             };
+            var _setElementStyle = function(p, value){
+                var val = _prepareCSSValue(p, value);
+                var css = {};
+                css[p] = val;
+                if(p === 'backgroundClip') {
+                    css = {
+                        'background-clip':val,
+                        '-webkit-background-clip':val
+                    };
+                }
+                console.log(css)
+                mw.$(mw.elementCSSEditor.currentElement).css(css);
+            };
             $(mw.elementCSSEditor).on('change', function (event, property, value) {
                 if($.isArray(value)){
                     value = value[0];
                 }
-                var val = _prepareCSSValue(property, value);
-                mw.$(mw.elementCSSEditor.currentElement)
-                    .css(property, val).attr('staticdesign', true);
-                //_saveToTemp(property, val)
+                _setElementStyle(property, value);
+                mw.$(mw.elementCSSEditor.currentElement).attr('staticdesign', true);
             });
 
-            //mw.on("ElementClick", function (event, el) {
+
             $(document.body).on("click", function (event) {
 
                 var el = event.target;
@@ -538,20 +650,32 @@
                 var val = {
                     margin: (css.marginTop + ' ' + css.marginRight + ' ' + css.marginBottom + ' ' + css.marginLeft),
                     padding: (css.paddingTop + ' ' + css.paddingRight + ' ' + css.paddingBottom + ' ' + css.paddingLeft),
-                    fontSize: css.fontSize,
+                    fontSize: el.style.fontSize || css.fontSize,
                     letterSpacing: css.letterSpacing,
                     fontWeight: css.fontWeight,
                     fontStyle: css.fontStyle,
+                    lineHeight: css.lineHeight,
                     textTransform: css.textTransform,
+                    backgroundClip: css.backgroundClip,
                     color: mw.color.rgbToHex(css.color),
                     backgroundColor: mw.color.rgbToHex(css.backgroundColor),
                     backgroundImage: css.backgroundImage,
+                    backgroundRepeat: css.backgroundRepeat,
+                    backgroundSize: css.backgroundSize,
+                    backgroundPosition: css.backgroundPosition,
+                    width: css.width,
+                    minWidth: css.minWidth,
+                    maxWidth: css.maxWidth,
+                    minHeight: css.minHeight,
+                    maxHeight: css.maxHeight,
+                    height: css.height,
+                    boxShadow: css.boxShadow,
                     borderRadius: (css.borderTopLeftRadius + ' ' + css.borderTopRightRadius + ' ' + css.borderBottomLeftRadius + ' ' + css.borderBottomRightRadius),
                 };
                 mw.elementCSSEditor.setValue(val);
             });
 
-            //_initTemp();
+
 
 
         });

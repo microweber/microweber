@@ -182,6 +182,37 @@
                 <input type="text" class="mw-ui-field" placeholder="Search..." />
                 <a href="javascript:;" class="mw-ui-btn mw-ui-btn-outline"><span class="mw-icon-gear"></span></a>
             </div>
+            <br>
+            <h3>Dropdown</h3>
+            <div class="mw-ui-btn-nav">
+                <a href="javascript:;" class="mw-ui-btn mw-ui-btn-outline"><span class="mw-icon-magnify"></span></a>
+                <input type="text" class="mw-ui-field" placeholder="Search..." />
+                <div class="mw-dropdown mw-dropdown-default">
+                    <span class="mw-dropdown-value mw-ui-btn mw-dropdown-val">Choose</span>
+                    <div class="mw-dropdown-content">
+                        <ul>
+                            <li value="1">Option 1</li>
+                            <li value="2">Option 2 !!!</li>
+                            <li value="3">Option 3</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="mw-ui-btn-nav">
+                <div class="mw-dropdown mw-dropdown-default">
+                    <span class="mw-dropdown-value mw-ui-btn mw-dropdown-val">Choose</span>
+                    <div class="mw-dropdown-content">
+                        <ul>
+                            <li value="1">Option 1</li>
+                            <li value="2">Option 2 !!!</li>
+                            <li value="3">Option 3</li>
+                        </ul>
+                    </div>
+                </div>
+                <input type="text" class="mw-ui-field" placeholder="Search..." />
+            </div>
         </div>
     </div>
     <h2>Link</h2>

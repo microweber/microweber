@@ -331,16 +331,18 @@ input.mw-ui-btn {
   height: 0;
 }
 
-.mw-ui-btn-nav li {
+.mw-ui-btn-nav > li {
   list-style: none;
   float: left;
 }
 
-.mw-ui-btn-vertical-nav li {
+.mw-ui-btn-vertical-nav > li {
   float: none;
   list-style: none;
 }
 
+.mw-ui-btn-nav > .mw-dropdown,
+.mw-ui-btn-nav > .mw-dropdown .mw-ui-btn,
 .mw-ui-btn-nav > .mw-ui-btn,
 .mw-ui-btn-nav > .mw-ui-field,
 .mw-ui-btn-nav > li > .mw-ui-btn {
@@ -349,6 +351,7 @@ input.mw-ui-btn {
   border-radius: 0px;
 }
 
+.mw-ui-btn-nav > .mw-dropdown:first-child .mw-ui-btn,
 .mw-ui-btn-nav > .mw-ui-btn:first-child,
 .mw-ui-btn-nav > .mw-ui-field:first-child,
 .mw-ui-btn-nav > li:first-child > .mw-ui-btn {
@@ -357,6 +360,7 @@ input.mw-ui-btn {
   border-bottom-left-radius: @radius;
 }
 
+.mw-ui-btn-nav > .mw-dropdown:last-child .mw-ui-btn,
 .mw-ui-btn-nav > .mw-ui-btn:last-child,
 .mw-ui-btn-nav > .mw-ui-field:last-child,
 .mw-ui-btn-nav > li:last-child > .mw-ui-btn {

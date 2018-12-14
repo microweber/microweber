@@ -3946,6 +3946,19 @@ body.dragStart .allow-drop {
     width: 100%;
 }
 
+.prop-ui-field-holder-size input.prop-ui-field{
+    max-width: -webkit-calc(100% - 70px);
+    max-width: calc(100% - 70px);
+}
+
+.mw-css-editor-group .prop-ui-field-unit,
+.prop-ui-field-unit{
+    max-width: 70px;
+    background: #f3f3f3;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
 .mw-module-presets-opener {
     float: right;
     display: block;
@@ -4259,4 +4272,19 @@ body.dragStart .allow-drop {
     height: 90px;
     border: 1px solid #dadada;
     background-color: #dcd7d763;
+}
+
+.mw-css-editor-group > *+*{
+    margin-left:5px;
+}
+.mw-css-editor-group .prop-ui-field-holder{
+    width: 100%;
+    flex:1 1 auto;
+}
+.mw-css-editor-group .mw-ui-field{
+    width: 100%;
+}
+.mw-css-editor-group{
+    display: flex;
+    justify-content: space-between;
 }

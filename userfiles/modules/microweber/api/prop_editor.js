@@ -12,9 +12,14 @@ mw.propEditor = {
             el.className = 'mw-ui-field-holder prop-ui-field-holder';
             return el;
         },
-        quatroWrapper:function(){
+        buttonNav:function(){
             var el = document.createElement('div');
-            el.className = 'prop-ui-field-quatro';
+            el.className = 'mw-ui-btn-nav prop-ui-field-holder';
+            return el;
+        },
+        quatroWrapper:function(cls){
+            var el = document.createElement('div');
+            el.className = cls || 'prop-ui-field-quatro';
             return el;
         },
         label:function(content){
@@ -39,10 +44,16 @@ mw.propEditor = {
                         option.value = '';
                         el.appendChild(option);
                     for(var i=0;i<options.length;i++){
-                        var option = document.createElement('option');
-                        option.innerHTML = options[i];
-                        option.value = options[i];
-                        el.appendChild(option);
+                        var opt = document.createElement('option');
+                        if(typeof options[i] === 'string' || typeof options[i] === 'number'){
+                            opt.innerHTML = options[i];
+                            opt.value = options[i];
+                        }
+                        else{
+                            opt.innerHTML = options[i].title;
+                            opt.value = options[i].value;
+                        }
+                        el.appendChild(opt);
                     }
                 }
             }
@@ -140,7 +151,7 @@ mw.propEditor = {
     interfaces:{
         quatro:function(proto, config){
             //"2px 4px 8px 122px"
-            var holder = mw.propEditor.helpers.quatroWrapper();
+            var holder = mw.propEditor.helpers.quatroWrapper('mw-css-editor-group');
 
             for(var i = 0; i<4; i++){
                 var item = mw.propEditor.helpers.fieldPack(config.label[i], 'number');
@@ -154,28 +165,24 @@ mw.propEditor = {
                     }
                     proto._valSchema[config.id] = final.trim();
                      $(proto).trigger('change', [config.id, final.trim()]);
-                }
-            }
-
-
-                this.node = holder;
-                this.setValue = function(value){
-                    value = value.trim();
-                    var arr = value.split(' ');
-                    var all = holder.querySelectorAll('input'), i = 0;
-                    for( ; i<all.length; i++){
-                        all[i].value = parseInt(arr[i], 10);
-                        if(typeof arr[i] === 'undefined'){
-                            arr[i] = '';
-                        }
-                        var unit = arr[i].replace(/[0-9]/g, '');
-                        all[i].dataset.unit = unit;
-                    }
-                    proto._valSchema[config.id] = value;
                 };
-
-                this.id = config.id
-
+            }
+            this.node = holder;
+            this.setValue = function(value){
+                value = value.trim();
+                var arr = value.split(' ');
+                var all = holder.querySelectorAll('input'), i = 0;
+                for( ; i<all.length; i++){
+                    all[i].value = parseInt(arr[i], 10);
+                    if(typeof arr[i] === 'undefined'){
+                        arr[i] = '';
+                    }
+                    var unit = arr[i].replace(/[0-9]/g, '');
+                    all[i].dataset.unit = unit;
+                }
+                proto._valSchema[config.id] = value;
+            };
+            this.id = config.id;
         },
         hr:function(proto, config){
             var el = document.createElement('hr');
@@ -205,22 +212,40 @@ mw.propEditor = {
         size:function(proto, config){
             var field = mw.propEditor.helpers.field('', 'number');
             var holder = mw.propEditor.helpers.wrapper();
+            var buttonNav = mw.propEditor.helpers.buttonNav();
             var label = mw.propEditor.helpers.label(config.label);
+
+            var unitSelector = mw.propEditor.helpers.field('', 'select', [
+                'px', '%', 'rem', 'em', 'vh', 'vw', 'ex', 'cm', 'mm', 'in', 'pt', 'pc', 'ch'
+            ]);
+            $(holder).addClass('prop-ui-field-holder-size');
+            $(unitSelector)
+                .val('px')
+                .addClass('prop-ui-field-unit')
+                .on('change', function(){
+                field.dataset.unit = $(this).val();
+                $(proto).trigger('change', [config.id, field.value + field.dataset.unit]);
+            });
+
             holder.appendChild(label);
-            holder.appendChild(field);
+            buttonNav.appendChild(field);
+            buttonNav.appendChild(unitSelector);
+            holder.appendChild(buttonNav);
+
             field.oninput = function(){
                 proto._valSchema[config.id] = this.value + this.dataset.unit;
                 $(proto).trigger('change', [config.id, this.value + this.dataset.unit]);
             };
 
-            this.node = holder
+            this.node = holder;
             this.setValue = function(value){
                 field.value = parseInt(value, 10);
                 proto._valSchema[config.id] = value;
-                var unit = value.replace(/[0-9]/g, '');
+                var unit = value.replace(/[0-9]/g, '').replace(/\./g, '');
                 field.dataset.unit = unit;
+                $(unitSelector).val(unit);
             };
-            this.id=config.id
+            this.id=config.id;
 
         },
         text:function(proto, config){
@@ -232,11 +257,77 @@ mw.propEditor = {
             field.oninput = function(){
                 proto._valSchema[config.id] = this.value;
                 $(proto).trigger('change', [config.id, this.value]);
-            }
+            };
             this.node = holder;
             this.setValue = function(value){
                 field.value = value;
-                proto._valSchema[config.id] = value
+                proto._valSchema[config.id] = value;
+            };
+            this.id = config.id;
+        },
+        shadow: function(proto, config){
+            var scope = this;
+            this.fields = {
+                position : mw.propEditor.helpers.field('', 'select', [{title:'Outside', value: ''}, {title:'Inside', value: 'inset'}]),
+                x : mw.propEditor.helpers.field('', 'text'),
+                y : mw.propEditor.helpers.field('', 'text'),
+                blur : mw.propEditor.helpers.field('', 'text'),
+                spread : mw.propEditor.helpers.field('', 'text'),
+                color : mw.propEditor.helpers.field('', 'text')
+            };
+
+
+            var holder = mw.propEditor.helpers.wrapper();
+            var label = mw.propEditor.helpers.label(config.label);
+
+            holder.appendChild(label);
+            holder.appendChild(this.fields.position);
+            holder.appendChild(this.fields.x);
+            holder.appendChild(this.fields.y);
+            holder.appendChild(this.fields.color);
+            holder.appendChild(this.fields.blur);
+            holder.appendChild(this.fields.spread);
+
+            $(this.fields).each(function () {
+                $(this).on('input change', function(){
+                    proto._valSchema[config.id] = this.value;
+                    $(proto).trigger('change', [config.id, this.value]);
+                });
+            });
+
+
+            this.node = holder;
+            this.setValue = function(value){
+                var parse = this.parseShadow(value);
+                $.each(parse, function (key, val) {
+                    console.log(key, val, scope.fields)
+                    scope.fields[key].value = this;
+                });
+                proto._valSchema[config.id] = value;
+            };
+            this.parseShadow = function(shadow){
+                var inset = false;
+                if(shadow.indexOf('inset') !== -1){
+                    inset = true;
+                }
+                var arr = shadow.replace('inset', '').trim().replace(/\s{2,}/g, ' ').split(' ');
+                var sh = {
+                    position: inset ? 'in' : 'out',
+                    x:0,
+                    y: 0,
+                    blur: 0,
+                    spread: 0,
+                    color: 'transparent'
+                };
+                if(!arr[2]){
+                    return sh;
+                }
+                sh.x = arr[0];
+                sh.y = arr[1];
+                sh.blur = (!isNaN(parseInt(arr[2], 10))?arr[2]:'0px');
+                sh.spread = (!isNaN(parseInt(arr[3], 10))?arr[3]:'0px');
+                sh.color = isNaN(parseInt(arr[arr.length-1])) ? arr[arr.length-1] : 'transparent';
+                return sh;
             };
             this.id = config.id;
         },
@@ -249,13 +340,13 @@ mw.propEditor = {
             field.oninput = function(){
                 proto._valSchema[config.id] = this.value;
                 $(proto).trigger('change', [config.id, this.value]);
-            }
+            };
             this.node = holder;
             this.setValue=function(value){
                 field.value = parseInt(value, 10);
-                proto._valSchema[config.id] = value
-            },
-            this.id=config.id;
+                proto._valSchema[config.id] = value;
+            };
+            this.id = config.id;
         },
         color:function(proto, config){
             var field = mw.propEditor.helpers.field('', 'color');
@@ -291,7 +382,7 @@ mw.propEditor = {
             field.onchange = function(){
                 proto._valSchema[config.id] = this.value;
                 $(proto).trigger('change', [config.id, this.value]);
-            }
+            };
             this.node = holder;
             this.setValue = function(value){
                 field.value = value;
@@ -386,7 +477,6 @@ mw.propEditor = {
             el.className = 'mw-ui-box-content';
             el.appendChild(btn);
             holder.appendChild(el);
-
 
             this.addImageButton();
             this.manageAddImageButton();
