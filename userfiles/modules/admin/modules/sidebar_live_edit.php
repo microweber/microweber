@@ -128,7 +128,7 @@
                     <?php } ?>
 
 
-                     <div class="mw-accordion-item">
+                     <div class="mw-accordion-item" style="display: none;">
                         <div class="mw-ui-box-header mw-accordion-title">
                             <div class="header-holder">
                                 <i class="mai-setting2"></i> CSS Editor
@@ -136,12 +136,9 @@
                         </div>
                         <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
                             <div class="mw-ui-box-content css-editor-holder">
-                                <h3 class="mw-live-edit-tab-title"><?php echo("UI Editor"); ?></h3>
-
-
 
                                 <div id="mw-css-editor-selected"></div>
-                                <div id="mw-css-editor"></div>
+                               <?php /* <iframe src="<?php print site_url('editor_tools'); ?>" id="mw-css-editor"></iframe> */ ?>
 
                             </div>
                         </div>
@@ -577,39 +574,54 @@
 
             ];
 
-            mw.elementCSSEditor = new mw.propEditor.schema({
-                schema: CSSEditorSchema,
-                element: '#mw-css-editor'
+            $("#mw-css-editor").css({
+                position:'absolute',
+                top:0,
+                left:0,
+                width:'100%',
+                height:1460
+            });
+            
+            $("#mw-css-editor").on('load', function(){
+                this.contentWindow.mw.require('liveedit.css')
+                this.contentWindow.mw.$('body').css('background', '#fff');
+                mw.elementCSSEditor = new mw.propEditor.schema({
+                    schema: CSSEditorSchema,
+                    element: '#mw-css-editor'
+                });
+
+                var _prepareCSSValue = function(property, value){
+                    if(property === 'backgroundImage'){
+                        return 'url(' + value + ')';
+                    }
+                    return value;
+                };
+                var _setElementStyle = function(p, value){
+                    var val = _prepareCSSValue(p, value);
+                    var css = {};
+                    css[p] = val;
+                    if(p === 'backgroundClip') {
+                        css = {
+                            'background-clip':val,
+                            '-webkit-background-clip':val
+                        };
+                    }
+                    mw.$(mw.elementCSSEditor.currentElement).css(css);
+                };
+                $(mw.elementCSSEditor).on('change', function (event, property, value) {
+                    if($.isArray(value)){
+                        value = value[0];
+                    }
+                    _setElementStyle(property, value);
+                    mw.$(mw.elementCSSEditor.currentElement).attr('staticdesign', true);
+                });
+
             });
 
-            var _prepareCSSValue = function(property, value){
-                if(property === 'backgroundImage'){
-                    return 'url(' + value + ')';
-                }
-                return value;
-            };
-            var _setElementStyle = function(p, value){
-                var val = _prepareCSSValue(p, value);
-                var css = {};
-                css[p] = val;
-                if(p === 'backgroundClip') {
-                    css = {
-                        'background-clip':val,
-                        '-webkit-background-clip':val
-                    };
-                }
-                mw.$(mw.elementCSSEditor.currentElement).css(css);
-            };
-            $(mw.elementCSSEditor).on('change', function (event, property, value) {
-                if($.isArray(value)){
-                    value = value[0];
-                }
-                _setElementStyle(property, value);
-                mw.$(mw.elementCSSEditor.currentElement).attr('staticdesign', true);
-            });
 
 
-            $(document.body).on("click", function (event) {
+
+            $(document.body).on("data-click", function (event) {
 
                 var el = event.target;
                 if(mw.tools.hasParentsWithClass(el, 'mw-control-box')){
