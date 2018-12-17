@@ -2148,6 +2148,9 @@ mw.wysiwyg = {
             if (mw.tools.hasAnyOfClasses(el, icon_classes)) {
                 return true;
             }
+            else if(el.className.indexOf('mw-micon-') !== -1){
+                return true;
+            }
             else {
                 return mw.tools.firstParentOrCurrentWithAnyOfClasses(el.parentNode, icon_classes);
             }
