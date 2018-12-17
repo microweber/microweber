@@ -361,6 +361,11 @@ return $new_version_notifications;
         $work = $params;
         $this->app->cache_manager->save($work, $c_id, $cache_group);
 
+
+        return array('message' => 'Preparing');
+
+
+
 //        $cache_content = $this->app->cache_manager->get($c_id, $cache_group);
 //        if (($cache_content) != false) {
 //            $work = $cache_content;
