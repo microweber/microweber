@@ -263,7 +263,7 @@ mw.iconSelector = mw.iconSelector || {
 
             mw.tools.tooltip.setPosition(mw.iconSelectorGUI, mw.iconSelector._activeElement, 'bottom-center');
           }
-          else{            console.log(34)
+          else{
 
                 $(mw.iconSelectorGUI).hide();
           }

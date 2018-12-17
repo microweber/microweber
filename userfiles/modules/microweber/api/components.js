@@ -72,7 +72,7 @@ mw.components = {
                 accordion.root.css('maxHeight', max);
                 var content_max = max - (accordion.titles.length * accordion.titles.eq(0).outerHeight());
                 accordion.contents.css('maxHeight', content_max);
-            }
+            };
             accordion._setHeight();
             $(window).on('load resize', function(){
                 accordion._setHeight();

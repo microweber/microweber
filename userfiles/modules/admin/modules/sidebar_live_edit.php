@@ -99,7 +99,7 @@
                  style="display: none;">
 
 
-                <div class="mw-accordion" data-options="openFirst: false">
+                <div class="mw-accordion mw-accordion-window-height" data-options="openFirst: false">
 
 
                     <?php if (file_exists(TEMPLATE_DIR . 'template_settings.php')) { ?>
@@ -128,17 +128,17 @@
                     <?php } ?>
 
 
-                     <div class="mw-accordion-item" style="display: none;">
+                     <div class="mw-accordion-item">
                         <div class="mw-ui-box-header mw-accordion-title">
                             <div class="header-holder">
                                 <i class="mai-setting2"></i> CSS Editor
                             </div>
                         </div>
                         <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-                            <div class="mw-ui-box-content css-editor-holder">
+                            <div class="mw-ui-box-content  css-editor-holder">
 
                                 <div id="mw-css-editor-selected"></div>
-                               <?php /* <iframe src="<?php print site_url('editor_tools'); ?>" id="mw-css-editor"></iframe> */ ?>
+                                <iframe src="<?php print site_url('editor_tools'); ?>" id="mw-css-editor"></iframe>
 
                             </div>
                         </div>
@@ -554,7 +554,7 @@
                 },
                 {
                     interface: 'hr'
-                }
+                },
 
                 /*{
                     interface: 'select',
@@ -563,14 +563,14 @@
                     options: ['border-box', 'padding-box', 'content-box']
                 },
                 */
-                /*{
+                {
                     interface: 'block',
                     content: 'Element Shadow',
                 },
                 {
                     interface: 'shadow',
                     id: 'boxShadow'
-                }*/
+                }
 
             ];
 
@@ -621,7 +621,7 @@
 
 
 
-            $(document.body).on("data-click", function (event) {
+            $(document.body).on("click", function (event) {
 
                 var el = event.target;
                 if(mw.tools.hasParentsWithClass(el, 'mw-control-box')){

@@ -60,8 +60,8 @@ $curencies = mw()->shop_manager->currency_get();
                     <label class="mw-ui-label bold p-b-10"><?php _e("Show Decimals"); ?></label>
 
                     <select name="currency_symbol_decimal" class="mw-ui-field mw_option_field w100 silver-field" data-option-group="payments" data-reload="mw_curr_rend">
-                        <option <?php if (!$currency_symbol_decimal): ?> selected="selected" <?php endif; ?> value=""><?php _e('Default'); ?></option>
-                        <option <?php if ($currency_symbol_decimal == 'aways'): ?> selected="selected" <?php endif; ?> value="aways"><?php _e('Aways'); ?></option>
+                        <option <?php if (!$currency_symbol_decimal): ?> selected="selected" <?php endif; ?> value=""><?php _e('Aways'); ?></option>
+                        <option <?php if ($currency_symbol_decimal == 'when_needed'): ?> selected="selected" <?php endif; ?> value="when_needed"><?php _e('When needed'); ?></option>
                     </select>
 
                     </div>
