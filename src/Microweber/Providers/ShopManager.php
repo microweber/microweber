@@ -426,9 +426,8 @@ class ShopManager
 
         $use_number_format = false;
 
-        if ($currency_symbol_decimal == 'aways') {
-            $use_number_format = true;
-        } else {
+
+        if ($currency_symbol_decimal == 'when_needed') {
             if ($amount) {
                 $is_round = is_numeric($amount) && intval($amount) == $amount;
                 if ($is_round) {
@@ -437,6 +436,9 @@ class ShopManager
                     $use_number_format = true;
                 }
             }
+        } else {
+            $use_number_format = true;
+
         }
 
 
