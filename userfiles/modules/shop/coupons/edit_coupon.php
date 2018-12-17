@@ -52,7 +52,7 @@ var TEXT_FILL_ALL_FIELDS = "<?php _e('Please fill all fields correct.');?>";
      	<div class="mw-ui-field-holder">
         <label class="mw-ui-label">Discount Type</label>
         <select name="discount_type" class="mw-ui-field js-discount-type">
-        	<option value="precentage">Precentage</option>
+        	<option value="percentage">Percentage</option>
         	<option value="fixed_amount">Fixed Amount</option>
          </select>
     </div>

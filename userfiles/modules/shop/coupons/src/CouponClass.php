@@ -58,7 +58,7 @@ class CouponClass
 		
 		if (! empty($coupon) && $total_amount >= $coupon['total_amount']) {
 			
-			if ($coupon['discount_type'] == 'precentage') {
+			if ($coupon['discount_type'] == 'percentage' or $coupon['discount_type'] == 'precentage') {
 				
 				// Discount with precentage
 				$newPrice = $total_amount - ($total_amount * ($coupon['discount_value'] / 100));
@@ -76,7 +76,7 @@ class CouponClass
 
 	public static function calculate_total_price($total_amount, $discount_value, $discount_type)
 	{
-		if ($discount_type == 'precentage') {
+		if ($discount_type == 'percentage' or $discount_type == 'precentage') {
 			
 			// Discount with precentage
 			$newPrice = $total_amount - ($total_amount * ($discount_value / 100));
