@@ -24,7 +24,7 @@ description: Default with horizontal scrolling
 }
 
 .modtable th{
-	height=10;
+    min-height:10px;
 	border:1px solid #cacaca;
 	background: rgb(231, 235, 245);
 	padding:4px;
@@ -33,13 +33,13 @@ description: Default with horizontal scrolling
 .modtable td {
 	border:1px solid #cacaca;
 	text-align:left;
-	height=10px;
+    min-height:10px;
 	padding:4px;
 }
 
 .modtable tr:nth-child(even) {
   background-color: #fafafa;
-  height=10;
+    min-height:10px;
 }
 </style>
 
