@@ -18,7 +18,8 @@ description: Checkout
     <?php else: ?>
         <div class="clear"></div>
         <?php if ($payment_success == false): ?>
-            <form class="mw-checkout-form" id="checkout_form_<?php print $params['id'] ?>" method="post" action="<?php print api_link('checkout') ?>">
+            <form class="mw-checkout-form" id="checkout_form_<?php print $params['id'] ?>" method="post"
+                  action="<?php print api_link('checkout') ?>">
                 <div class="alert hide"></div>
 
 
@@ -26,7 +27,8 @@ description: Checkout
                 <div <?php if ($step != 1): ?>style="display: none;"<?php endif; ?>>
                     <?php if ($cart_show_enanbled != 'n'): ?>
                         <div class="mw-cart-data-holder">
-                            <module type="shop/cart" template="skin-1" id="cart_checkout_<?php print $params['id'] ?>" data-checkout-link-enabled="n"/>
+                            <module type="shop/cart" template="skin-1" id="cart_checkout_<?php print $params['id'] ?>"
+                                    data-checkout-link-enabled="n"/>
 
                             <div class="row">
                                 <div class="col-xs-12">
@@ -36,21 +38,28 @@ description: Checkout
                                                 <span class="h5"><?php _e("Shipping to"); ?>:</span>
                                                 <span><module type="shop/shipping" view="select"/></span>
                                             </li>
+
+
                                             <li>
                                                 <span class="h5"><?php _e("Shipping price"); ?>:</span>
                                                 <span><module type="shop/shipping" view="cost"/></span>
                                             </li>
-                                            <?php if (function_exists('cart_get_tax') and get_option('enable_taxes', 'shop') == 1) : ?>
-                                                <li>
-                                                    <span class="h5"><?php _e("TAX"); ?></span>
-                                                    <span><?php print currency_format(cart_get_tax()); ?></span>
-                                                    <hr>
-                                                </li>
-                                            <?php endif; ?>
-                                            <li>
-                                                <span class="h5"><?php _e("TOTAL"); ?>:</span>
-                                                <span><?php print currency_format(cart_sum()); ?></span>
-                                            </li>
+
+
+                                            <?php if ($cart_totals) { ?>
+                                                <?php foreach ($cart_totals as $cart_total_key => $cart_total_item) { ?>
+                                                    <?php if ($cart_total_key != 'shipping') { ?>
+
+                                                        <li>
+                                                            <span class="h5"><?php print  $cart_total_item['label'] ?>:</span>
+                                                            <span><?php print  $cart_total_item['amount'] ?></span>
+
+                                                        </li>
+                                                    <?php } ?>
+                                                <?php } ?>
+                                            <?php } ?>
+
+
                                         </ul>
                                     </div>
                                 </div>
@@ -109,7 +118,7 @@ description: Checkout
                                 </div>
                             <?php endif; ?>
 
-                            <module type="shop/checkout/terms" />
+                            <module type="shop/checkout/terms"/>
                         </div>
 
                         <div class="col-lg-4 col-sm-4">
@@ -126,7 +135,9 @@ description: Checkout
                                 <?php _e("Go back to cart"); ?>
                             </a>
 
-                            <button class="btn pull-right" onclick="mw.cart.checkout('#checkout_form_<?php print $params['id'] ?>');" type="button"
+                            <button class="btn pull-right"
+                                    onclick="mw.cart.checkout('#checkout_form_<?php print $params['id'] ?>');"
+                                    type="button"
                                     id="complete_order_button" <?php if ($tems): ?> disabled="disabled"   <?php endif; ?>>
                                 <?php _e("Complete order"); ?>
                             </button>

@@ -130,41 +130,35 @@ description: Full width cart template
                             </div>
                         </td>
                     </tr>
-            <?php if ($cart_price_summary != 'n') : ?>
-                    <?php foreach ($cart_price_summary as $cart_price_summary_item) : ?>
-                    <tr>
-                        <td></td>
-                        <td><label>
-                                <?php print $cart_price_summary_item['label']; ?>
-                                :</label></td>
-                        <td class="cell-shipping-price"><?php print $cart_price_summary_item['value']; ?></td>
-                    </tr>
-
-
-                    <?php endforeach; ?>
-
-            <?php endif; ?>
 
 
 
 
 
+                    <?php if ($cart_totals) { ?>
+                        <?php foreach ($cart_totals as $cart_total_key => $cart_total_item) { ?>
+                            <?php if ($cart_total_key != 'shipping') { ?>
+                                <tr>
+                                    <td></td>
+                                    <td><label>
+                                            <?php print $cart_total_item['label']; ?>
+                                            :</label></td>
+                                    <td class="cell-shipping-price cell-cart-price-total-<?php print $cart_total_key; ?>"><?php print $cart_total_item['amount']; ?></td>
+                                </tr>
+                            <?php } ?>
+                        <?php } ?>
+                    <?php } ?>
 
 
-                    <tr>
-                        <td></td>
-                        <td><label>
-                                <?php _e("Total Price"); ?>
-                                :</label></td>
-                        <td class="cell-shipping-total">
-                            <?php
-                            $print_total = cart_total();
 
-                            ?>
-                            <span class="total_cost"><?php print currency_format($print_total); ?></span>
 
-                        </td>
-                    </tr>
+
+
+
+
+
+
+
                     </tbody>
                 </table>
             </div>

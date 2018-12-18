@@ -23,8 +23,7 @@ $applied_code = '';
                 <?php if(isset($applied_coupon_data['coupon_code'])): ?>
                 <div class="coupon_code_apply_wrapper" >
 
-
-                <p>You are using coupon code <i><?php print $applied_coupon_data['coupon_code']  ?></i> <a href="javascript:$('.coupon_code_apply_wrapper').toggle(); void(0);">(change)</a> </p>
+                <p>You are using coupon code <i title="<?php print $applied_coupon_data['coupon_code']  ?>"><?php print $applied_coupon_data['coupon_name']  ?></i> <a href="javascript:$('.coupon_code_apply_wrapper').toggle(); void(0);">(change)</a> </p>
                 </div>
                <?php endif; ?>
 

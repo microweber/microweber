@@ -28,6 +28,26 @@ $shop_page = get_content('is_shop=1');
 
 $requires_registration = get_option('shop_require_registration', 'website') == '1';
 
+
+
+
+
+$checkout_price_formation = array();
+
+
+
+$cart_totals = mw()->cart_manager->totals();
+
+
+
+
+
+
+
+
+
+
+
 $template = get_option('data-template', $params['id']);
 $template_file = false;
 $module_template = false;

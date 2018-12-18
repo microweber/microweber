@@ -32,8 +32,8 @@ function coupon_apply($params = array())
         'session_id' => $checkout->app->user_manager->session_id()
     ));
 
-    $coupon['total_amount'] = intval($coupon['total_amount']);
-    $cartTotal = intval(cart_total());
+    $coupon['total_amount'] = floatval($coupon['total_amount']);
+    $cartTotal = floatval(cart_total());
 
     // Check rules
     if ($coupon['uses_per_customer'] > 0) {
