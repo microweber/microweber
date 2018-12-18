@@ -4311,4 +4311,21 @@ body.dragStart .allow-drop {
     justify-content: space-between;
 }
 
+#mw-css-editor{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+}
+
+.mw-prop-editor-root{
+    position: relative;
+}
+
+.mw-prop-editor-root.disabled{
+    opacity: .5;
+    pointer-events: none;
+}
+
 

@@ -253,7 +253,7 @@
 
                     <div class="mw-ui-field-holder" id="customweburl_text_field_holder" style="display:none">
                         <label class="mw-ui-label"><?php _e("Link text"); ?></label>
-                        <input type="text" class="mw-ui-field w100" id="customweburl_text" placeholder="Link text"/>
+                        <textarea type="text" class="mw-ui-field w100" id="customweburl_text" placeholder="Link text"></textarea>
                     </div>
                     <div class="mw-ui-field-holder">
                         <label class="mw-ui-label"><?php _e("URL"); ?></label>

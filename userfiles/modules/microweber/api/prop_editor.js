@@ -100,9 +100,8 @@ mw.propEditor = {
                     }
                 }
             }
-
-            this.rootHolder.innerHTML = '';
-            mw.propEditor.rend(this.rootHolder, this._rend)
+            $(this.rootHolder).html(' ').addClass('mw-prop-editor-root')
+            mw.propEditor.rend(this.rootHolder, this._rend);
         };
         this.updateSchema = function(schema){
             var final = [];
@@ -135,10 +134,18 @@ mw.propEditor = {
         this.getValue = function(){
             return this._valSchema;
         };
-        this.getRendById = function(id){
-            for(var i in this._rend){
-                if(this._rend[i].id === id){
-                    return this._rend[i]
+        this.disable = function(){
+            this.disabled = true;
+            $(this.rootHolder).addClass('disabled');
+        };
+        this.enable = function(){
+            this.disabled = false;
+            $(this.rootHolder).removeClass('disabled');
+        };
+        this.getRendById = function(id) {
+            for(var i in this._rend) {
+                if(this._rend[i].id === id) {
+                    return this._rend[i];
                 }
             }
         };
@@ -146,6 +153,10 @@ mw.propEditor = {
         this.options.element = typeof this.options.element === 'string' ? document.querySelector(options.element) : this.options.element;
         this.rootHolder = mw.propEditor.getRootElement(this.options.element);
         this.setSchema(this.options.schema);
+
+        setTimeout(function () {
+            mw.trigger('ComponentsLaunch');
+        }, 2278)
 
     },
     interfaces:{
@@ -269,18 +280,48 @@ mw.propEditor = {
             var scope = this;
             this.fields = {
                 position : mw.propEditor.helpers.field('', 'select', [{title:'Outside', value: ''}, {title:'Inside', value: 'inset'}]),
-                x : mw.propEditor.helpers.field('', 'text'),
-                y : mw.propEditor.helpers.field('', 'text'),
-                blur : mw.propEditor.helpers.field('', 'text'),
-                spread : mw.propEditor.helpers.field('', 'text'),
+                x : mw.propEditor.helpers.field('', 'number'),
+                y : mw.propEditor.helpers.field('', 'number'),
+                blur : mw.propEditor.helpers.field('', 'number'),
+                spread : mw.propEditor.helpers.field('', 'number'),
                 color : mw.propEditor.helpers.field('', 'text')
             };
 
+            this.fields.position.placeholder = 'Position';
+            this.fields.x.placeholder = 'Horizontal offset';
+            this.fields.y.placeholder = 'Vertical offset';
+            this.fields.blur.placeholder = 'Blur';
+            this.fields.spread.placeholder = 'Spread';
+            this.fields.color.placeholder = 'Color';
+            $(this.fields.color).addClass('mw-color-picker');
+
+            this.$fields = $();
+
+            $.each(this.fields, function(){
+                scope.$fields.push(this);
+            });
+
+            $(this.$fields).on('input', function(){
+                var val = $(scope.fields.position).val()
+                    + ' ' + scope.fields.x.value + 'px'
+                    + ' ' + scope.fields.y.value + 'px'
+                    + ' ' + scope.fields.blur.value + 'px'
+                    + ' ' + scope.fields.spread.value + 'px'
+                    + ' ' + scope.fields.color.value;
+                proto._valSchema[config.id] = val;
+                $(proto).trigger('change', [config.id, val]);
+            });
+
+
 
             var holder = mw.propEditor.helpers.wrapper();
-            var label = mw.propEditor.helpers.label(config.label);
 
-            holder.appendChild(label);
+            var label = mw.propEditor.helpers.label(config.label ? config.label : '');
+            if(config.label){
+                holder.appendChild(label);
+
+            }
+
             holder.appendChild(this.fields.position);
             holder.appendChild(this.fields.x);
             holder.appendChild(this.fields.y);

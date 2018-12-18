@@ -99,7 +99,7 @@
                  style="display: none;">
 
 
-                <div class="mw-accordion" data-options="openFirst: false">
+                <div class="mw-accordion mw-accordion-window-height" data-options="openFirst: false">
 
 
                     <?php if (file_exists(TEMPLATE_DIR . 'template_settings.php')) { ?>
@@ -128,19 +128,19 @@
                     <?php } ?>
 
 
-                     <div class="mw-accordion-item" style="display: none;">
+                     <div class="mw-accordion-item">
                         <div class="mw-ui-box-header mw-accordion-title">
                             <div class="header-holder">
                                 <i class="mai-setting2"></i> CSS Editor
                             </div>
                         </div>
                         <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-                            <div class="mw-ui-box-content css-editor-holder">
 
-                                <div id="mw-css-editor-selected"></div>
-                               <?php /* <iframe src="<?php print site_url('editor_tools'); ?>" id="mw-css-editor"></iframe> */ ?>
 
-                            </div>
+
+                                <iframe src="<?php print site_url('editor_tools'); ?>" id="mw-css-editor" frameborder="0"></iframe>
+
+
                         </div>
                     </div>
 
@@ -554,7 +554,7 @@
                 },
                 {
                     interface: 'hr'
-                }
+                },
 
                 /*{
                     interface: 'select',
@@ -563,32 +563,32 @@
                     options: ['border-box', 'padding-box', 'content-box']
                 },
                 */
-                /*{
+                {
                     interface: 'block',
                     content: 'Element Shadow',
                 },
                 {
                     interface: 'shadow',
                     id: 'boxShadow'
-                }*/
+                }
 
             ];
 
-            $("#mw-css-editor").css({
-                position:'absolute',
-                top:0,
-                left:0,
-                width:'100%',
-                height:1460
-            });
-            
+
+
             $("#mw-css-editor").on('load', function(){
-                this.contentWindow.mw.require('liveedit.css')
-                this.contentWindow.mw.$('body').css('background', '#fff');
+                this.contentWindow.mw.require('liveedit.css');
+
+                this.contentWindow.mw.$('body').css({
+                    padding:'20px',
+                    background: '#fff'
+                });
                 mw.elementCSSEditor = new mw.propEditor.schema({
                     schema: CSSEditorSchema,
                     element: '#mw-css-editor'
                 });
+
+                this.contentWindow.mw.trigger('ComponentsLaunch');
 
                 var _prepareCSSValue = function(property, value){
                     if(property === 'backgroundImage'){
@@ -621,70 +621,73 @@
 
 
 
-            $(document.body).on("data-click", function (event) {
+            $(document.body).on("click", function (event) {
+                if(mw.elementCSSEditor){
+                    var el = event.target;
+                    if(mw.tools.hasParentsWithClass(el, 'mw-control-box')){
+                        return;
+                    }
+                    mw.elementCSSEditor.currentElement = null;
 
-                var el = event.target;
-                if(mw.tools.hasParentsWithClass(el, 'mw-control-box')){
-                    return;
+                    $("#mw-css-editor-selected").css('backgroundImage', 'none')
+
+                    if(el.id && !mw.tools.hasAnyOfClassesOnNodeOrParent(el, ['mw-defaults'])){
+                        mw.elementCSSEditor.currentElement = el;
+                    }
+                    else{
+                        mw.tools.foreachParents(el, function(loop){
+                            if(this.id && !mw.tools.hasAnyOfClassesOnNodeOrParent(this, ['mw-defaults'])){
+                                mw.elementCSSEditor.currentElement = this;
+                                mw.tools.stopLoop(loop);
+                            }
+                        });
+                    }
+                    if(!mw.elementCSSEditor.currentElement){
+                        mw.elementCSSEditor.disable();
+                        return;
+                    }
+                    mw.elementCSSEditor.enable();
+
+
+                    /*html2canvas(mw.elementCSSEditor.currentElement).then(function(canvas) {
+                        $("#mw-css-editor-selected").css('background-image', 'url(' + canvas.toDataURL() + ')');
+                    });*/
+
+
+
+                    var css = getComputedStyle(el);
+                    var bgimg = css.backgroundImage;
+                    if(bgimg.indexOf('url(') !== -1){
+                        bgimg = bgimg.split('(')[1].split(')')[0]
+                    }
+                    var val = {
+                        margin: (css.marginTop + ' ' + css.marginRight + ' ' + css.marginBottom + ' ' + css.marginLeft),
+                        padding: (css.paddingTop + ' ' + css.paddingRight + ' ' + css.paddingBottom + ' ' + css.paddingLeft),
+                        fontSize: el.style.fontSize || css.fontSize,
+                        letterSpacing: css.letterSpacing,
+                        fontWeight: css.fontWeight,
+                        fontStyle: css.fontStyle,
+                        lineHeight: css.lineHeight,
+                        textTransform: css.textTransform,
+                        backgroundClip: css.backgroundClip,
+                        color: mw.color.rgbToHex(css.color),
+                        backgroundColor: mw.color.rgbToHex(css.backgroundColor),
+                        backgroundImage: bgimg,
+                        backgroundRepeat: css.backgroundRepeat,
+                        backgroundSize: css.backgroundSize,
+                        backgroundPosition: css.backgroundPosition,
+                        width: css.width,
+                        minWidth: css.minWidth,
+                        maxWidth: css.maxWidth,
+                        minHeight: css.minHeight,
+                        maxHeight: css.maxHeight,
+                        height: css.height,
+                        boxShadow: css.boxShadow,
+                        borderRadius: (css.borderTopLeftRadius + ' ' + css.borderTopRightRadius + ' ' + css.borderBottomLeftRadius + ' ' + css.borderBottomRightRadius),
+                    };
+                    mw.elementCSSEditor.setValue(val);
                 }
-                mw.elementCSSEditor.currentElement = null;
 
-                $("#mw-css-editor-selected").css('backgroundImage', 'none')
-
-                if(el.id && !mw.tools.hasAnyOfClassesOnNodeOrParent(el, ['mw-defaults'])){
-                    mw.elementCSSEditor.currentElement = el;
-                }
-                else{
-                    mw.tools.foreachParents(el, function(loop){
-                        if(this.id && !mw.tools.hasAnyOfClassesOnNodeOrParent(this, ['mw-defaults'])){
-                            mw.elementCSSEditor.currentElement = this;
-                            mw.tools.stopLoop(loop);
-                        }
-                    });
-                }
-                if(!mw.elementCSSEditor.currentElement){
-                    return;
-                }
-
-
-
-                /*html2canvas(mw.elementCSSEditor.currentElement).then(function(canvas) {
-                    $("#mw-css-editor-selected").css('background-image', 'url(' + canvas.toDataURL() + ')');
-                });*/
-
-
-
-                var css = getComputedStyle(el);
-                var bgimg = css.backgroundImage;
-                if(bgimg.indexOf('url(') !== -1){
-                    bgimg = bgimg.split('(')[1].split(')')[0]
-                }
-                var val = {
-                    margin: (css.marginTop + ' ' + css.marginRight + ' ' + css.marginBottom + ' ' + css.marginLeft),
-                    padding: (css.paddingTop + ' ' + css.paddingRight + ' ' + css.paddingBottom + ' ' + css.paddingLeft),
-                    fontSize: el.style.fontSize || css.fontSize,
-                    letterSpacing: css.letterSpacing,
-                    fontWeight: css.fontWeight,
-                    fontStyle: css.fontStyle,
-                    lineHeight: css.lineHeight,
-                    textTransform: css.textTransform,
-                    backgroundClip: css.backgroundClip,
-                    color: mw.color.rgbToHex(css.color),
-                    backgroundColor: mw.color.rgbToHex(css.backgroundColor),
-                    backgroundImage: bgimg,
-                    backgroundRepeat: css.backgroundRepeat,
-                    backgroundSize: css.backgroundSize,
-                    backgroundPosition: css.backgroundPosition,
-                    width: css.width,
-                    minWidth: css.minWidth,
-                    maxWidth: css.maxWidth,
-                    minHeight: css.minHeight,
-                    maxHeight: css.maxHeight,
-                    height: css.height,
-                    boxShadow: css.boxShadow,
-                    borderRadius: (css.borderTopLeftRadius + ' ' + css.borderTopRightRadius + ' ' + css.borderBottomLeftRadius + ' ' + css.borderBottomRightRadius),
-                };
-                mw.elementCSSEditor.setValue(val);
             });
 
 

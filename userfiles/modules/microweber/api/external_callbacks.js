@@ -10,40 +10,36 @@ mw.iframecallbacks = {
             }
         }
         if (!contains && !!url) {
-            url = url.indexOf("http") === 0 ? url : (location.protocol + "//" + url);
+            //url = url.indexOf("http") === 0 ? url : (location.protocol + "//" + url);
         }
         var target = target || '_self';
 
         var link_inner_text = false
-        if(typeof(link_content) != 'undefined' && typeof(link_content) != 'null' && link_content != ''){
+        if(link_content){
             link_inner_text = link_content;
         }
 
 
-        //if(typeof(mw.iframecallbacks.insert_link_selected_node) == null){
-        //
-        //}
-
-        //mw.wysiwyg.restore_selection();
-
         var range = window.getSelection().getRangeAt(0);
+        var jqAction = url?'attr':'removeAttr';
 
 
         mw.wysiwyg.change(range.startContainer);
 
         if (!!mw.current_element && mw.current_element.nodeName === 'IMG') {
             if (mw.current_element.parentNode.nodeName !== 'A') {
-                $(mw.current_element).wrap("<a href='" + url + "' target='" + target + "'></a>");
+                $(mw.current_element).wrap("<a "+(url?"href='" + url + "'":'')+ target='" + target + "'></a>");
             }
             else {
-                mw.current_element.parentNode.href = url;
+                $(mw.current_element.parentNode)[jqAction]('href', url);
+
                 mw.current_element.parentNode.target = target;
             }
         }
 
 
         if (range.commonAncestorContainer.nodeName === 'A') {
-            $(range.commonAncestorContainer).attr("href", url).attr("target", target);
+            $(range.commonAncestorContainer)[jqAction]("href", url).attr("target", target);
             if(link_inner_text){
                 $(range.commonAncestorContainer).html(link_inner_text);
             }
@@ -58,7 +54,7 @@ mw.iframecallbacks = {
 
             if (!!mw.current_element && mw.current_element.nodeName !== 'A') {
                 if (mw.tools.hasChildrenWithTag(mw.current_element, 'a')) {
-                    $(mw.tools.firstChildWithTag(mw.current_element, 'a')).attr("href", url).attr("target", target);
+                    $(mw.tools.firstChildWithTag(mw.current_element, 'a'))[jqAction]("href", url).attr("target", target);
                     if(link_inner_text){
                         $(mw.tools.firstChildWithTag(mw.current_element, 'a')).html(link_inner_text);
                     }
@@ -73,14 +69,14 @@ mw.iframecallbacks = {
             }
 
             if (mw.tools.hasParentsWithTag(start, 'a')) {
-                $(mw.tools.firstParentWithTag(start, 'a')).attr("href", url).attr("target", target);
+                $(mw.tools.firstParentWithTag(start, 'a'))[jqAction]("href", url).attr("target", target);
                 if(link_inner_text){
                     $(mw.tools.firstParentWithTag(start, 'a')).html(link_inner_text);
                 }
                 return false;
             }
             if (mw.tools.hasChildrenWithTag(start, 'a')) {
-                $(mw.tools.firstChildWithTag(start, 'a')).attr("href", url).attr("target", target);
+                $(mw.tools.firstChildWithTag(start, 'a'))[jqAction]("href", url).attr("target", target);
                 if(link_inner_text){
                     $(mw.tools.firstChildWithTag(start, 'a')).html(link_inner_text);
                 }
@@ -92,7 +88,7 @@ mw.iframecallbacks = {
 
         var link = mw.wysiwyg.findTagAcrossSelection('a');
         if (!!link) {
-            $(link).attr("href", url);
+            $(link)[jqAction]("href", url);
             $(link).attr("target", target);
             if(link_inner_text){
                 $(link).html(link_inner_text);
@@ -113,12 +109,8 @@ mw.iframecallbacks = {
                 }
             }
             else {
-                if(link_inner_text){
-                    var html = " <a href='" + url + "' target='" + target + "'>" + link_inner_text + "</a> ";
-                } else {
-                    var html = " <a href='" + url + "' target='" + target + "'>" + url + "</a> ";
 
-                }
+                var html = " <a "+ (url?href='" + url + "':'') +" target='" + target + "'>" + (link_inner_text?link_inner_text:url) + "</a> ";
                 mw.wysiwyg.insert_html(html);
             }
         }

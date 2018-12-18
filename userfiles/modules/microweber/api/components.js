@@ -68,11 +68,11 @@ mw.components = {
         var accordion = new mw.uiAccordion(settings);
         if($(el).hasClass('mw-accordion-window-height')){
             accordion._setHeight = function(){
-                var max =  $(window).height();
-                accordion.root.css('maxHeight', max);
+                var max =  $(window).height() - accordion.root.offset().top;
+                accordion.root.css('height', max);
                 var content_max = max - (accordion.titles.length * accordion.titles.eq(0).outerHeight());
-                accordion.contents.css('maxHeight', content_max);
-            }
+                accordion.contents.css('height', content_max);
+            };
             accordion._setHeight();
             $(window).on('load resize', function(){
                 accordion._setHeight();
@@ -214,6 +214,10 @@ $(document).ready(function () {
 });
 
 $(window).on('load', function () {
+    mw.components._init();
+});
+
+mw.on('ComponentsLaunch', function () {
     mw.components._init();
 });
 
