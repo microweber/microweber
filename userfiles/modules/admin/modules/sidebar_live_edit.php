@@ -575,7 +575,7 @@
             ];
 
 
-            
+
             $("#mw-css-editor").on('load', function(){
                 this.contentWindow.mw.require('liveedit.css');
 

@@ -7,21 +7,21 @@
     array (
       'driver' => 'sqlite',
       'database' => storage_path().DIRECTORY_SEPARATOR.'localhost.sqlite',
-      'prefix' => 'localhost_new_',
+      'prefix' => 'localhost_',
       'host' => 'localhost',
-      'username' => 'root',
+      'username' => 'forge',
       'password' => '',
     ),
     'mysql' => 
     array (
       'driver' => 'mysql',
       'host' => 'localhost',
-      'database' => 'mw1',
-      'username' => 'root',
+      'database' => 'forge',
+      'username' => 'forge',
       'password' => '',
       'charset' => 'utf8',
       'collation' => 'utf8_unicode_ci',
-      'prefix' => 'localhost_',
+      'prefix' => '',
       'strict' => false,
     ),
     'pgsql' => 
