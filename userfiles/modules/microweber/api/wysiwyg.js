@@ -1770,7 +1770,7 @@ mw.wysiwyg = {
                     if(node[0] && node[0].target == '_blank'){
                         $(this).contents().find("#url_target")[0].checked = true;
                     }
-                    var link_text_value = node.text();
+                    var link_text_value = node.html();
                     link_text_value = $.trim(link_text_value);
                     if (link_text_value != '') {
                         $(this).contents().find("#customweburl_text").val(link_text_value);
@@ -2146,9 +2146,6 @@ mw.wysiwyg = {
         var icon_classes = mw.wysiwyg.fontIconFamilies;
         if (el.tagName == 'I' || el.tagName == 'SPAN') {
             if (mw.tools.hasAnyOfClasses(el, icon_classes)) {
-                return true;
-            }
-            else if(el.className.indexOf('mw-micon-') !== -1){
                 return true;
             }
             else {
@@ -2803,7 +2800,7 @@ mw.linkTip = {
                 var href_target = '_blank';
             }
 
-            var content = '<a href="' + node.href + '" target="' + href_target + '"  edit-id="' + link_id + '" class="mw-link-tip-link">' + node.href + '</a><span>-</span><a edit-href="' + node.href + '" edit-id="' + link_id + '" href="javascript:;" class="mw-link-tip-edit">Edit</a>';
+            var content = '<a href="' + node.getAttribute('href') + '" target="' + href_target + '"  edit-id="' + link_id + '" class="mw-link-tip-link">' + node.getAttribute('href') + '</a><span>-</span><a edit-href="' + node.getAttribute('href') + '" edit-id="' + link_id + '" href="javascript:;" class="mw-link-tip-edit">Edit</a>';
             mw.linkTip._tip = mw.tooltip({content: content, position: 'bottom-center', skin: 'dark', element: node});
             $(mw.linkTip._tip).addClass('mw-link-tip');
             mw.$('.mw-link-tip-edit, .mw-link-tip-link-edit').click(function () {
@@ -2824,9 +2821,9 @@ mw.linkTip = {
             });
         }
         else {
-            mw.$('.mw-link-tip-link', mw.linkTip._tip).attr('href', node.href).html(node.href);
+            mw.$('.mw-link-tip-link', mw.linkTip._tip).attr('href', node.getAttribute('href')).html(node.getAttribute('href'));
             mw.$('.mw-link-tip-link', mw.linkTip._tip).attr('edit-id', link_id);
-            mw.$('.mw-link-tip-edit', mw.linkTip._tip).attr('edit-href', node.href);
+            mw.$('.mw-link-tip-edit', mw.linkTip._tip).attr('edit-href', node.getAttribute('href'));
             mw.$('.mw-link-tip-edit', mw.linkTip._tip).attr('edit-id', link_id);
             mw.tools.tooltip.setPosition(mw.linkTip._tip, node, 'bottom-center');
             mw.$('.mw-link-tip').show();
