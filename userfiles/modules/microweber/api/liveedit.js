@@ -20,8 +20,13 @@ mw.mouseDownOnEditor = false;
 mw.mouseDownStarted = false;
 mw.SmallEditorIsDragging = false;
 
-mw.states = {}
+mw.states = {};
 mw.live_edit_module_settings_array = [];
+
+mw.noEditModules = [
+    '[type="template_settings"]'
+];
+
 
 
 
@@ -1186,6 +1191,7 @@ mw.drag = {
 
         });
         mw.on("moduleOver", function(a, element) {
+
             mw.$('#mw_handle_module_up, #mw_handle_module_down').hide();
 
             if(element && element.getAttribute('data-type') === 'layouts'){
@@ -2979,9 +2985,12 @@ $(document).ready(function() {
       mw.$(".edit.background-image-holder, .edit .background-image-holder, .edit[style*='background-image'], .edit [style*='background-image']").each(function(){
         var po = mw.tools.parentsOrder(this, ['edit', 'module']);
         if(po.module === -1 || (po.edit<po.module && po.edit != -1)){
-          mw.tools.addClass(this, 'element')
+          mw.tools.addClass(this, 'element');
+            this.style.backgroundImage = this.style.backgroundImage || 'none';
         }
       });
+
+      mw.$('.module' + mw.noEditModules.join(',.module')).removeClass('module');
 
 
         mw.$(".edit").each(function(){

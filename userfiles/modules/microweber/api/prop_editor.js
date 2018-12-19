@@ -278,6 +278,7 @@ mw.propEditor = {
         },
         shadow: function(proto, config){
             var scope = this;
+
             this.fields = {
                 position : mw.propEditor.helpers.field('', 'select', [{title:'Outside', value: ''}, {title:'Inside', value: 'inset'}]),
                 x : mw.propEditor.helpers.field('', 'number'),
@@ -294,6 +295,22 @@ mw.propEditor = {
             this.fields.spread.placeholder = 'Spread';
             this.fields.color.placeholder = 'Color';
             $(this.fields.color).addClass('mw-color-picker');
+
+            var labelPosition = mw.propEditor.helpers.label('Position offset');
+            var labelX = mw.propEditor.helpers.label('Horizontal offset');
+            var labelY = mw.propEditor.helpers.label('Vertical offset');
+            var labelBlur = mw.propEditor.helpers.label('Blur');
+            var labelSpread = mw.propEditor.helpers.label('Spread');
+            var labelColor = mw.propEditor.helpers.label('Color');
+
+            var wrapPosition = mw.propEditor.helpers.wrapper();
+            var wrapX = mw.propEditor.helpers.wrapper();
+            var wrapY = mw.propEditor.helpers.wrapper();
+            var wrapBlur = mw.propEditor.helpers.wrapper();
+            var wrapSpread = mw.propEditor.helpers.wrapper();
+            var wrapColor = mw.propEditor.helpers.wrapper();
+
+
 
             this.$fields = $();
 
@@ -319,15 +336,40 @@ mw.propEditor = {
             var label = mw.propEditor.helpers.label(config.label ? config.label : '');
             if(config.label){
                 holder.appendChild(label);
-
             }
+            var row1 = mw.propEditor.helpers.wrapper();
+            var row2 = mw.propEditor.helpers.wrapper();
+            row1.className = 'mw-css-editor-group';
+            row2.className = 'mw-css-editor-group';
 
-            holder.appendChild(this.fields.position);
-            holder.appendChild(this.fields.x);
-            holder.appendChild(this.fields.y);
-            holder.appendChild(this.fields.color);
-            holder.appendChild(this.fields.blur);
-            holder.appendChild(this.fields.spread);
+
+            wrapPosition.appendChild(labelPosition);
+            wrapPosition.appendChild(this.fields.position);
+            row1.appendChild(wrapPosition);
+
+            wrapX.appendChild(labelX);
+            wrapX.appendChild(this.fields.x);
+            row1.appendChild(wrapX);
+
+
+            wrapY.appendChild(labelY);
+            wrapY.appendChild(this.fields.y);
+            row1.appendChild(wrapY);
+
+            wrapColor.appendChild(labelColor);
+            wrapColor.appendChild(this.fields.color);
+            row2.appendChild(wrapColor);
+
+            wrapBlur.appendChild(labelBlur);
+            wrapBlur.appendChild(this.fields.blur);
+            row2.appendChild(wrapBlur);
+
+            wrapSpread.appendChild(labelSpread);
+            wrapSpread.appendChild(this.fields.spread);
+            row2.appendChild(wrapSpread);
+
+            holder.appendChild(row1);
+            holder.appendChild(row2);
 
             $(this.fields).each(function () {
                 $(this).on('input change', function(){
