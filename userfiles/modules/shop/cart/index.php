@@ -36,24 +36,42 @@ if ($checkout_link_enanbled != 'n') {
 }
 
 
-$taxes_enabled = get_option('enable_taxes', 'shop') == 1;
+$cart_price_summary = true;
 
 
-$cart_price_summary = array();
-if (function_exists('cart_get_tax') and $taxes_enabled) {
-    $cart_price_summary['tax'] = array(
-        'label' => _e("Tax", true),
-        'value' => currency_format(cart_get_tax())
-    );
-}
 
 
-if (function_exists('cart_get_discount_text') && cart_get_discount() > 0) {
-    $cart_price_summary['discount'] = array(
-        'label' => _e("Discount", true),
-        'value' => '-' . cart_get_discount_text()
-    );
-}
+//$taxes_enabled = get_option('enable_taxes', 'shop') == 1;
+//
+//
+//$cart_price_summary = array();
+//if (function_exists('cart_get_tax') and $taxes_enabled) {
+//    $cart_price_summary['tax'] = array(
+//        'label' => _e("Tax", true),
+//        'value' => currency_format(cart_get_tax())
+//    );
+//}
+//
+//
+//if (function_exists('cart_get_discount_text') && cart_get_discount() > 0) {
+//    $cart_price_summary['discount'] = array(
+//        'label' => _e("Discount", true),
+//        'value' => '-' . cart_get_discount_text()
+//    );
+//}
+
+
+
+
+
+$cart_totals = mw()->cart_manager->totals();
+
+
+
+
+
+
+
 
 
 $template = get_option('data-template', $params['id']);

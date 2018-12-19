@@ -126,25 +126,21 @@ description: Full width cart template
                                 </div>
                             </div>
 
-                            <?php if (function_exists('cart_get_tax') and get_option('enable_taxes', 'shop') == 1) : ?>
-                                <div class="row">
-                                    <div class="col-xs-6"><?php _e("Tax"); ?>:</div>
-                                    <div class="col-xs-6 right">
-                                        <?php print currency_format(cart_get_tax()); ?>
-                                    </div>
-                                </div>
-                            <?php endif; ?>
+                            <?php if ($cart_totals) { ?>
+                                <?php foreach ($cart_totals as $cart_total_key => $cart_total_item) { ?>
+                                    <?php if ($cart_total_key != 'shipping') { ?>
+                                        <div class="row">
+                                            <div class="col-xs-6"><?php print $cart_total_item['label']; ?>:</div>
+                                            <div class="col-xs-6 right">
+                                                <?php print $cart_total_item['amount']; ?>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+                                <?php } ?>
+                            <?php } ?>
 
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <hr/>
-                                </div>
 
-                                <div class="col-xs-6 total-lable"><?php _e("Total Price"); ?>:</div>
-                                <div class="col-xs-6 right total-price">
-                                    <?php print currency_format($print_total); ?>
-                                </div>
-                            </div>
+
                         <?php endif; ?>
                     </div>
                 </div>

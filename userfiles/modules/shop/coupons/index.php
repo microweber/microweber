@@ -46,6 +46,7 @@ if (is_file($template_file) != false) {
                             $('.js-coupon-code-messages').html('<div class="js-green-text">' + data.success_message + '</div>');
                         }
                         mw.reload_module('shop/checkout');
+                        mw.reload_module('shop/payments');
 
                     }
 

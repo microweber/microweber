@@ -62,24 +62,35 @@ class CartManager extends Crud
         return $amount;
     }
 
-    public function total()
+    public function totals($return = 'all')
     {
-        $sum = $this->sum();
+        $all_totals = array('subtotal', 'shipping', 'tax', 'discount', 'total');
+
+
+        $tax = $shipping = $discount_sum = 0;
+
+        $shipping_sess = $this->app->user_manager->session_get('shipping_cost');
+        if ($shipping_sess) {
+            $shipping = floatval($shipping_sess);
+        }
 
         // Coupon code discount
         $discount_value = $this->get_discount_value();
         $discount_type = $this->get_discount_type();
 
+        $sum = $subtotal = $this->sum();
+
         if ($discount_type == 'precentage' or $discount_type == 'percentage') {
             // Discount with precentage
-            $sum = $sum - ($sum * ($discount_value / 100));
+            $discount_sum = ($sum * ($discount_value / 100));
+            $sum = $sum - $discount_sum;
         } else if ($discount_type == 'fixed_amount') {
             // Discount with amount
+            $discount_sum = $discount_value;
             $sum = $sum - $discount_value;
         }
 
 
-        $shipping = floatval($this->app->user_manager->session_get('shipping_cost'));
         $total = $sum + $shipping;
 
         if (get_option('enable_taxes', 'shop') == 1) {
@@ -90,7 +101,108 @@ class CartManager extends Crud
         }
 
 
-        return $total;
+        $totals = array();
+        foreach ($all_totals as $total_key) {
+            switch ($total_key) {
+                case 'subtotal':
+                    $totals[$total_key] = array(
+                        'label' => _e("Subtotal", true),
+                        'value' => $subtotal,
+                        'amount' => currency_format($subtotal)
+                    );
+                    break;
+                case 'tax':
+                    if ($tax) {
+                        $totals[$total_key] = array(
+                            'label' => _e("Tax", true),
+                            'value' => $tax,
+                            'amount' => currency_format($tax)
+                        );
+                    }
+                    break;
+
+
+                case 'discount':
+                    if ($discount_sum and $discount_sum > 0) {
+                    $totals[$total_key] = array(
+                        'label' => _e("Discount", true),
+                        'value' => $discount_sum,
+                        'amount' => currency_format($discount_sum)
+                    );
+                   }
+                    break;
+
+                case 'shipping':
+                    if ($shipping and $shipping > 0) {
+                        $totals[$total_key] = array(
+                            'label' => _e("Shipping", true),
+                            'value' => $shipping,
+                            'amount' => currency_format($shipping)
+                        );
+                    }
+                    break;
+
+                case 'total':
+
+                    $totals[$total_key] = array(
+                        'label' => _e("Total", true),
+                        'value' => $total,
+                        'amount' => currency_format($total)
+                    );
+
+
+                    break;
+            }
+
+
+        }
+
+        if (isset($return) and $return != 'all') {
+            if (isset($totals[$return])) {
+                return $totals[$return];
+            }
+        } else {
+            return $totals;
+        }
+
+    }
+
+    public function total()
+    {
+        $total = $this->totals('total');
+
+        if (isset($total['value'])) {
+            return $total['value'];
+        }
+
+//
+//        $sum = $this->sum();
+//
+//        // Coupon code discount
+//        $discount_value = $this->get_discount_value();
+//        $discount_type = $this->get_discount_type();
+//
+//        if ($discount_type == 'precentage' or $discount_type == 'percentage') {
+//            // Discount with precentage
+//            $sum = $sum - ($sum * ($discount_value / 100));
+//        } else if ($discount_type == 'fixed_amount') {
+//            // Discount with amount
+//            $sum = $sum - $discount_value;
+//        }
+//
+//
+//        $shipping = floatval($this->app->user_manager->session_get('shipping_cost'));
+//        $total = $sum + $shipping;
+//
+//        if (get_option('enable_taxes', 'shop') == 1) {
+//            if ($total > 0) {
+//                $tax = $this->app->tax_manager->calculate($sum);
+//                $total = $total + $tax;
+//            }
+//        }
+//
+//
+//        return $total;
     }
 
 
