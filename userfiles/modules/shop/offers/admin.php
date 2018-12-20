@@ -14,7 +14,6 @@ if(isset($params["live_edit"]) and $params["live_edit"] ){
 <div class="module-live-edit-settings">
 
     <script>
-        mw.require('ui.css');
         mw.lib.require('jqueryui');
         mw.require("<?php print $config['url_to_module'];?>css/main.css");
     </script>
