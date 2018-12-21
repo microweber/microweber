@@ -16,8 +16,8 @@ if(!isset($ratings)){
 ?>
 
 <script type="text/javascript">
-    mw.require('lib.js');
-    mw.require('rating.js');
+    mw.moduleJS('<?php print module_url(); ?>lib.js');
+    mw.moduleJS('<?php print module_url(); ?>rating.js');
 
     $(document).ready(function () {
     $("#stars<?php print $params['id'] ?>").starrr()
