@@ -25,17 +25,17 @@ position: 5
                 <div class="mw-col" style="width: 50%;">
                     <div class="mw-col-container">
                         <div class="well contacts-info">
-                            <h3 class="border-title">Address</h3>
+                            <h3 class="border-title"><?php print _lang('Address', 'templates/liteness'); ?></h3>
                             <div class="contacts-icons allow-drop">
                                 <p>
-                                    <span class="symbol">&#xe041;</span>Sofia 1700, Bulgaria, My place #10 str. , bl. B, fl. 3
+                                    <span class="symbol">&#xe041;</span><?php print _lang('Sofia 1700, Bulgaria, My place #10 str. , bl. B, fl. 3', 'templates/liteness'); ?>
                                 </p>
                                 <p>
                                     <span class="glyphicon glyphicon-phone"></span>+1 234-567-890
                                 </p>
                             </div>
 
-                            <h3 class="border-title">Follow Us</h3>
+                            <h3 class="border-title"><?php print _lang('Follow Us', 'templates/liteness'); ?></h3>
                             <div class="contacts-icons allow-drop">
                                 <p>
                                     <span class="symbol">&#xe027;</span>
