@@ -77,6 +77,9 @@
     </script>
     <?php
 
+    $input = mw()->format->clean_xss(\Input::all());
+
+
     $login_captcha_enabled = get_option('login_captcha_enabled', 'users') == 'y';
 
     # Login Providers

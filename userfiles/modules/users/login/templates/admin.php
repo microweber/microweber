@@ -111,11 +111,10 @@ $current_lang = current_lang();
 
             <form autocomplete="on" method="post" id="user_login_<?php print $params['id'] ?>" action="<?php print api_link('user_login') ?>">
                 <div class="mw-ui-field-holder">
-                    <input class="mw-ui-field mw-ui-field-big silver-field" autofocus="" tabindex="1" required name="username" type="text" placeholder="<?php _e("Username or Email"); ?>" <?php if (isset($_REQUEST['username']) != false): ?> value="<?php print $_REQUEST['username'] ?>"  <?php endif;
-                    ?> />
+                    <input class="mw-ui-field mw-ui-field-big silver-field" autofocus="" tabindex="1" required name="username" type="text" placeholder="<?php _e("Username or Email"); ?>" <?php if (isset($input['username']) != false): ?> value="<?php print $input['username'] ?>"  <?php endif;  ?> />
                 </div>
                 <div class="mw-ui-field-holder">
-                    <input class="mw-ui-field mw-ui-field-big silver-field" name="password" tabindex="2" required type="password" <?php if (isset($_REQUEST['password']) != false): ?> value="<?php print $_REQUEST['password'] ?>"  <?php endif; ?> placeholder="<?php _e("Password"); ?>"/>
+                    <input class="mw-ui-field mw-ui-field-big silver-field" name="password" tabindex="2" required type="password" <?php if (isset($input['password']) != false): ?> value="<?php print $input['password'] ?>"  <?php endif; ?> placeholder="<?php _e("Password"); ?>"/>
                 </div>
 
 

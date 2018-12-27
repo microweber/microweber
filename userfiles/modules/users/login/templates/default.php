@@ -31,10 +31,10 @@ description: Login default
         <div id="user_login_holder_<?php print $params['id'] ?>">
             <form method="post" id="user_login_<?php print $params['id'] ?>" class="clearfix" action="#">
                 <div class="control-group form-group">
-                    <input class="large-field form-control" name="username" type="text" placeholder="<?php _e("Email or username"); ?>"/>
+                    <input class="large-field form-control" name="username" <?php if (isset($input['username']) != false): ?> value="<?php print $input['username'] ?>"  <?php endif;  ?> type="text" placeholder="<?php _e("Email or username"); ?>"/>
                 </div>
                 <div class="control-group form-group">
-                    <input class="large-field form-control" name="password" type="password" placeholder="<?php _e("Password"); ?>"/>
+                    <input class="large-field form-control" name="password" <?php if (isset($input['password']) != false): ?> value="<?php print $input['password'] ?>"  <?php endif;  ?> type="password" placeholder="<?php _e("Password"); ?>"/>
                 </div>
                 <?php if (isset($login_captcha_enabled) and $login_captcha_enabled): ?>
                     <module type="captcha" />
