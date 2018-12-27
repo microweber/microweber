@@ -359,6 +359,15 @@ class CheckoutManager
                 $place_order['item_name'] = 'Order id:' . ' ' . $place_order['id'];
             }
 
+
+            // Discount details save
+            $place_order['promo_code'] = $coupon_code;
+            $place_order['coupon_id'] = $coupon_id;
+            $place_order['discount_type'] = $discount_type;
+            $place_order['discount_value'] = $discount_value;
+
+
+
             if ($mw_process_payment == true) {
                 $shop_dir = module_dir('shop');
                 $shop_dir = $shop_dir . DS . 'payments' . DS . 'gateways' . DS;
@@ -384,11 +393,7 @@ class CheckoutManager
                     $place_order['success'] = 'Your order has been placed successfully!';
                 }
                 
-                // Discount details save
-                $place_order['promo_code'] = $coupon_code;
-                $place_order['coupon_id'] = $coupon_id;
-                $place_order['discount_type'] = $discount_type;
-                $place_order['discount_value'] = $discount_value;
+
                 
                 $place_order['order_status'] = 'new';
                 

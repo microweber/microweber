@@ -73,7 +73,7 @@ function coupon_apply($params = array())
 
         mw()->user_manager->session_set('applied_coupon_data', $coupon);
 
-        $json['success_message'] = 'The coupon code applied success.';
+        $json['success_message'] = _e('Coupon code applied.', true);
         $json['success_apply'] = true;
     } else {
 

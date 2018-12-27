@@ -461,6 +461,9 @@ class ShopManager
                     case 'EUR':
                         $ret = '&euro; ' . number_format($amount, $decimals, ',', ' ');
                         break;
+                    case 'GBP':
+                        $ret = '&pound; ' . number_format($amount, $decimals, '.', ' ');
+                    break;
                     case 'BGN':
                     case 'RUB':
                         $ret = number_format($amount, $decimals, '.', ' ') . ' ' . $sym;
