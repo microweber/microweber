@@ -11,6 +11,8 @@
         $template = $params['template'];
     }
 
+    $layout_height_auto = false;
+
     $template_file = false;
     if ($template != false and strtolower($template) != 'none') {
         $template_file = module_templates($config['module'], $template);
