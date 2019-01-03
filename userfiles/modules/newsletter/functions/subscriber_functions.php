@@ -236,5 +236,6 @@ function newsletter_set_cookie_for_subscribed_user()
     $hash = user_ip();
     $hash = md5($hash);
 
-    setcookie('mw-newsletter_is_subscribed', $hash, 45000);
+
+    setcookie('mw-newsletter_is_subscribed', $hash, time() + 45000,'/');
 }
