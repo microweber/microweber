@@ -1,5 +1,9 @@
 <?php
 
+if ($params['id'] == 'edit_template_iframe') {
+	include 'edit_template_iframe.php';
+	return;
+}
 
 $module_template = get_option('data-template', $params['id']);
 if ($module_template == false and isset($params['template'])) {

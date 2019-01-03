@@ -1,23 +1,18 @@
 <?php only_admin_access(); ?>
 <script>
-    function edit_campaign(form) {
-        var data = mw.serializeFields(form);
-        $.ajax({
-            url: mw.settings.api_url + 'newsletter_save_campaign',
-            type: 'POST',
-            data: data,
-            success: function (result) {
-                mw.notification.success('Campaign saved');
-                $('#add-campaign-form').hide();
-                $('#add-campaign-form')[0].reset();
 
-                //reload the modules
-                mw.reload_module('newsletter/campaigns_list')
-                mw.reload_module_parent('newsletter');
-            }
-        });
-        return false;
+	function start_campaign(id = false) {
+		var data = {};
+        data.id = id;
+    	start_campaign_modal = mw.tools.open_module_modal('newsletter/start_campaign', data, {overlay: true, skin: 'simple'});
+	}
+
+    function edit_campaign(id = false) {
+    	var data = {};
+        data.id = id;
+    	edit_campaign_modal = mw.tools.open_module_modal('newsletter/edit_campaign', data, {overlay: true, skin: 'simple'});
     }
+    
     function delete_campaign(id) {
         var ask = confirm("Are you sure you want to delete this campaign?");
         if (ask == true) {
@@ -28,6 +23,7 @@
                 type: 'POST',
                 data: data,
                 success: function (result) {
+                    
                     mw.notification.success('Campaign deleted');
 
                     //reload the modules
@@ -42,19 +38,12 @@
     }
 </script>
 
-<a class="mw-ui-btn mw-ui-btn-icon" href="javascript:;" onclick="$('#add-campaign-form').show()"> <span
-            class="mw-icon-plus"><?php _e('Add new campaign'); ?></span> </a>
-<form id="add-campaign-form" onSubmit="edit_campaign(this); return false;" style="display:none">
-    <div class="mw-ui-field-holder">
-        <label class="mw-ui-label"><?php _e('campaign Name'); ?></label>
-        <input name="name" type="text" class="mw-ui-field"/>
-    </div>
-    <div class="mw-ui-field-holder">
-        <label class="mw-ui-label"><?php _e('campaign Email'); ?></label>
-        <input name="email" type="text" class="mw-ui-field"/>
-    </div>
-    <button type="submit" class="mw-ui-btn"><?php _e('Save'); ?></button>
-</form>
+<button class="mw-ui-btn mw-ui-btn-icon" onclick="edit_campaign(false);"> 
+<span class="mw-icon-plus"></span> <?php _e('Add new campaign'); ?>
+</button>
+
 <div class="mw-clear"></div>
-<br/>
-<module type="newsletter/campaigns_list"/>
+
+<br />
+
+<module type="newsletter/campaigns_list" />

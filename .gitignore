@@ -1,4 +1,6 @@
 config/*
+config/database.php
+config/microweber.php
 vendor/*
 userfiles/language/
 userfiles/css/
@@ -6,6 +8,7 @@ userfiles/media/*
 userfiles/export/*
 userfiles/import/*
 userfiles/cache/*
+userfiles/mw_content.json
 storage/cache/*
 old_mw/
 phpinfo.php
