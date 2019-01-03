@@ -2492,9 +2492,13 @@ $srsc_str
 
     private function _str_replace_first($search, $replace, $subject)
     {
-        if ($search == false || $replace === false) {
+        if ($search == false || $replace == false) {
             return $subject;
         }
+        if(!is_string($search)){
+            return $subject;
+        }
+
         $pos = strpos($subject, $search);
         if ($pos !== false) {
             $subject = substr_replace($subject, $replace, $pos, strlen($search));
