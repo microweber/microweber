@@ -382,9 +382,9 @@
     top: -9999px;
     visibility: hidden;
     z-index: 1003;
-    width: 250px;
-    height: 68px;
-    border: 1px solid #DCDCDC;
+    /*width: 250px;
+    height: 68px;*/
+    box-shadow: 0 11px 15px -7px rgba(0,0,0,.2), 0 24px 38px 3px rgba(0,0,0,.14), 0 9px 46px 8px rgba(0,0,0,.12);
     background: #F5F5F5;
     border-radius: 1px;
     margin-left: 12px;
@@ -414,12 +414,18 @@
 
 .mw_small_editor_bottom,
 .mw_small_editor_top {
-    padding: 3px;
+    padding: 12px;
+}
+.mw_small_editor_top{
+    padding-bottom: 6px;
 }
 
-.mw_small_editor_top {
-    border-bottom: 1px solid #DCDCDC;
+.mw_small_editor_bottom{
+    padding-top: 6px;
 }
+
+
+
 
 .mw-dropdown-type-wysiwyg {
     height: 25px;

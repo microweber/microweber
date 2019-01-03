@@ -4328,4 +4328,22 @@ body.dragStart .allow-drop {
     pointer-events: none;
 }
 
+.mw-CSS-Editor-group{
+    display: none;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-top: none;
+}
+
+.mw-CSS-Editor-group-title{
+    display: block;
+    cursor: pointer;
+    background: #fafafa;
+    overflow: hidden;
+    padding: 10px;
+    border-bottom: 1px solid #e5e5e5;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
 

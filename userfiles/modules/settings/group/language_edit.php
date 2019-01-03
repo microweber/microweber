@@ -74,10 +74,6 @@
         text-align: center;
     }
 
-    .send-your-lang a {
-        width: 175px;
-        margin: auto
-    }
 
     .mw-ui-table .mw-ui-field {
         background-color: transparent;

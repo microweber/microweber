@@ -68,7 +68,7 @@ mw.components = {
         var accordion = new mw.uiAccordion(settings);
         if($(el).hasClass('mw-accordion-window-height')){
             accordion._setHeight = function(){
-                var max =  $(window).height() - accordion.root.offset().top;
+                var max =  $(window).height() - (accordion.root.offset().top - $(window).scrollTop());
                 accordion.root.css('height', max);
                 var content_max = max - (accordion.titles.length * accordion.titles.eq(0).outerHeight());
                 accordion.contents.css('height', content_max);

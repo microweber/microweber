@@ -156,7 +156,7 @@ mw.propEditor = {
 
         setTimeout(function () {
             mw.trigger('ComponentsLaunch');
-        }, 2278)
+        }, 278)
 
     },
     interfaces:{
@@ -296,7 +296,7 @@ mw.propEditor = {
             this.fields.color.placeholder = 'Color';
             $(this.fields.color).addClass('mw-color-picker');
 
-            var labelPosition = mw.propEditor.helpers.label('Position offset');
+            var labelPosition = mw.propEditor.helpers.label('Position');
             var labelX = mw.propEditor.helpers.label('Horizontal offset');
             var labelY = mw.propEditor.helpers.label('Vertical offset');
             var labelBlur = mw.propEditor.helpers.label('Blur');
