@@ -811,8 +811,8 @@ class Parser
                                                 $v1 = '<tag-textarea>mw_replace_back_this_textarea_inner_loop_' . $v1 . '</tag-textarea>';
                                                 $mod_content = str_replace($value, $v1, $mod_content);
                                                 if (!isset($this->_replaced_input_tags[$v1])) {
-                                                    $this->_replaced_input_tags[$v1] = $value;
-                                                    $mw_replaced_textarea_tag[$v1] = $value;
+                                                  $this->_replaced_input_tags[$v1] = $value;
+                                                 //   $mw_replaced_textarea_tag[$v1] = $value;
                                                 }
                                             }
                                         }
@@ -863,7 +863,7 @@ class Parser
                                                 $layout = str_replace($value, $v1, $layout);
                                                 if (!isset($this->_replaced_input_tags[$v1])) {
                                                     $this->_replaced_input_tags[$v1] = $value;
-                                                    $mw_replaced_textarea_tag[$v1] = $value;
+                                                   // $mw_replaced_textarea_tag[$v1] = $value;
                                                 }
                                             }
                                         }
