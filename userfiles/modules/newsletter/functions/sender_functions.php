@@ -1,4 +1,3 @@
-
 <?php
 /* 
  * EMAIL SENDER FUNCTIONS
