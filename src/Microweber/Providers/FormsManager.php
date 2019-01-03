@@ -239,7 +239,7 @@ class FormsManager
                 );
 
 
-             } else {
+            } else {
 //                if ($for_id != false) {
 //                    $validate_captcha = mw()->captcha->validate($params['captcha'], $for_id);
 //                    if (!$validate_captcha) {
@@ -423,7 +423,7 @@ class FormsManager
                 }
 
                 $email_from = false;
-                if (isset($cf_to_save) and !empty($cf_to_save)) {
+                if (!$email_from and isset($cf_to_save) and !empty($cf_to_save)) {
                     foreach ($cf_to_save as $value) {
                         if (is_array($value) and isset($value['value'])) {
                             $to = $value['value'];
@@ -436,7 +436,18 @@ class FormsManager
                             $email_from = $to;
                         }
                     }
-                } else {
+                }
+                if(!$email_from){
+                    if(isset($params['email']) and (filter_var($params['email'], FILTER_VALIDATE_EMAIL))){
+                        $email_from = $params['email'];
+                    }
+                }
+                $from_name = $email_from;
+                if(isset($params['name']) and $params['name']){
+                    $from_name = $params['name'];
+                }
+                if(isset($params['from_name']) and $params['from_name']){
+                    $from_name = $params['from_name'];
                 }
 
                 if (!empty($user_mails)) {
@@ -448,9 +459,11 @@ class FormsManager
                             $msg = $notif['content'];
                             $subj = $notif['description'];
                             $from = $email_from;
+ 
 
-                            $sender->send($value, $subj, $msg, $from, false, false, false, false, $email_from);
+                            $sender->send($value, $subj, $msg, $from, false, false, $email_from, $from_name, $email_from);
                         } else {
+
                             $msg = $mail_autoresp;
                             $subj = $email_autorespond_subject ?: 'Thank you!';
                             $from = false;
@@ -464,9 +477,9 @@ class FormsManager
         }
 
 
-        return array('success' =>_( 'Your message has been sent' ));
+        return array('success' => _('Your message has been sent'));
 
-      //  return $save;
+        //  return $save;
     }
 
     public function get_lists($params)
@@ -483,7 +496,7 @@ class FormsManager
         static $data = array();
 
         if (empty($data)) {
-            $countries_file_userfiles = normalize_path(userfiles_path().'country.csv', false);
+            $countries_file_userfiles = normalize_path(userfiles_path() . 'country.csv', false);
             $countries_file = normalize_path(MW_PATH . 'Utils/lib/country.csv', false);
 
             if (is_file($countries_file_userfiles)) {
