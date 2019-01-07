@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * SMTP Provider
+ * @author Bozhidar Slaveykov (selfworksbg@gmail.com)
+ * @namespace Newsletter\Providers
+ * @package SMTPProvider
+ */
+
 namespace Newsletter\Providers;
 
 class SMTPProvider extends \Newsletter\Providers\DefaultProvider {
