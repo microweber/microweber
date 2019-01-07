@@ -1,5 +1,7 @@
 <?php
 
+namespace Newsletter\Providers;
+
 class DefaultProvider {
 	
 	// Message settings

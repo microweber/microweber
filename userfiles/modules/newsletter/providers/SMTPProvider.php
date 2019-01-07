@@ -1,7 +1,8 @@
 <?php
-include 'DefaultProvider.php';
 
-class SMTPProvider extends DefaultProvider {
+namespace Newsletter\Providers;
+
+class SMTPProvider extends \Newsletter\Providers\DefaultProvider {
 
 	// SMTP Settings
 	protected $smtpHost;
@@ -68,15 +69,15 @@ class SMTPProvider extends DefaultProvider {
 	public function send() {
 		
 		// Create the Transport
-		$transport = (new Swift_SmtpTransport($this->getSmtpHost(), $this->getSmtpPort()))
+		$transport = (new \Swift_SmtpTransport($this->getSmtpHost(), $this->getSmtpPort()))
 		->setUsername($this->getSmtpUsername())
 		->setPassword($this->getSmtpPassword());
 		
 		// Create the Mailer using your created Transport
-		$mailer = new Swift_Mailer($transport);
+		$mailer = new \Swift_Mailer($transport);
 		
 		// Create a message
-		$message = (new Swift_Message($this->getSubject()))
+		$message = (new \Swift_Message($this->getSubject()))
 		->setFrom([$this->getFromEmail() => $this->getFromName()])
 		->setTo([$this->getToEmail(), $this->getFromReplyEmail() => $this->getFromName()])
 		->setBody($this->getBody());

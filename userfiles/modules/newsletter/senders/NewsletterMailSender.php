@@ -71,7 +71,7 @@ class NewsletterMailSender {
 				
 				case "smtp":
 					
-					$smtpProvider = new SMTPProvider();
+					$smtpProvider = new \Newsletter\Providers\SMTPProvider();
 					
 					$smtpProvider->setSubject($this->campaign['subject']);
 					$smtpProvider->setBody($this->_getParsedTemplate());
@@ -88,7 +88,7 @@ class NewsletterMailSender {
 					$smtpProvider->setSmtpUsername($this->sender['smtp_username']);
 					$smtpProvider->setSmtpPassword($this->sender['smtp_password']);
 					
-					$smtpProvider->send();
+					$result = $smtpProvider->send();
 					
 					break;
 				
