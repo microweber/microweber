@@ -46,6 +46,8 @@ class Captcha
 
     public function render($params = array())
     {
+        sleep(1);
+
         $roit1 = rand(1, 6);
         $font = dirname(__FILE__) . DS . 'catcha_fonts' . DS . 'font' . $roit1 . '.ttf';
         $font = normalize_path($font, 0);
@@ -100,20 +102,30 @@ class Captcha
             if (!is_array($old_array)) {
                 $old_array = array();
             }
-            $old_array = array_unique($old_array);
 
-            array_unshift($old_array, $old);
-            array_slice($old_array, 20);
-            mw()->user_manager->session_set('captcha_recent', $old_array);
+            $old_array[] =$old;
+            // array_unshift($old_array, $old);
+         //   array_slice($old_array, 20);
+           // mw()->user_manager->session_set('captcha_recent', $old_array);
         }
         if (!isset($old_array) or !is_array($old_array)) {
             $old_array = array();
         }
-        $old_array[$captcha_sid] = $answ;
+        if($captcha_sid != 'captcha'){
+            $old_array[$captcha_sid] = $answ;
+        } else {
+            $old_array[] = $answ;
+        }
+        if($old_array){
+              $old_array = array_unique($old_array);
+            if(count($old_array)> 20){
+                $old_array=  array_slice($old_array, 0,20);
+            }
+        }
         mw()->user_manager->session_set('captcha_recent', $old_array);
 
         //dd($old_array);
-        //  $sess = mw()->user_manager->session_set($captcha_sid, $answ);
+          $sess = mw()->user_manager->session_set($captcha_sid, $answ);
 
         $col1z = rand(200, 242);
         $col1z1 = rand(150, 242);
@@ -239,7 +251,6 @@ class Captcha
             //imagestring($image, 0, $y21, 2, $text, $gray);
         }
 
-
         ob_start();
         imagepng($image);
         imagecolordeallocate($image, $bgcolor);
@@ -249,7 +260,7 @@ class Captcha
 
         $stuff = ob_get_clean();
 
-
+//sleep(1);
         return response($stuff)
             ->header('Content-Type', 'image/png')
             ->header('Pragma', 'no-cache')
