@@ -23,22 +23,10 @@ class NewsletterMailSender {
 	public function sendMail() {
 		
 		try {
-			// Create the Transport
-			$transport = (new Swift_SmtpTransport($this->sender['smtp_host'], $this->sender['smtp_port']))
-			->setUsername($this->sender['smtp_username'])
-			->setPassword($this->sender['smtp_password']);
 			
-			// Create the Mailer using your created Transport
-			$mailer = new Swift_Mailer($transport);
 			
-			// Create a message
-			$message = (new Swift_Message($this->campaign['subject']))
-			->setFrom([$this->sender['from_email'] => $this->campaign['name']])
-			->setTo([$this->subscriber['email'], $this->sender['reply_email'] => $this->subscriber['name']])
-			->setBody($this->_getParsedTemplate());
-			
-			// Send the message
-			$result = $mailer->send($message);
+			var_dump($this->sender);
+			die();
 			
 		} catch (Exception $e) {
 			$result = $e->getMessage();
