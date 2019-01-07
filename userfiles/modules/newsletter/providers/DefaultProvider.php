@@ -184,5 +184,8 @@ class DefaultProvider {
 		$this->toName = $toName;
 	}
 
+	public function send() {
+		throw new \Exception('We don\'t support this mail provider.');
+	}
 	
 }

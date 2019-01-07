@@ -10,7 +10,4 @@ namespace Newsletter\Providers;
 
 class MandrillProvider extends \Newsletter\Providers\DefaultProvider {
 	
-	public function send() {
-		throw new \Exception('We don\'t support this mail provider.');
-	}
 }
