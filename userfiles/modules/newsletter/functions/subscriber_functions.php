@@ -141,12 +141,16 @@ function newsletter_save_subscriber($data)
 
     if (!isset($data['subscribed_for'])) {
         // Default list
-
+		
     } else {
-        newsletter_delete_subscriber_lists($data['id']);
-        foreach ($data['subscribed_for'] as $list_id) {
-            newsletter_save_subscriber_list($data['id'], $list_id);
-        }
+    	if (isset($data['id'])) {
+    		
+    		newsletter_delete_subscriber_lists($data['id']);
+    		
+	        foreach ($data['subscribed_for'] as $list_id) {
+	            newsletter_save_subscriber_list($data['id'], $list_id);
+	        }
+    	}
     }
 
     $save_id = db_save($table, $data);

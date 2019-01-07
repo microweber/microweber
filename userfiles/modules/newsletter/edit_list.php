@@ -147,11 +147,15 @@ $senders = newsletter_get_senders($senders_params);
 		<label class="mw-ui-label"><?php _e('Success Email Sender'); ?></label> 
 		</td>
 		<td>
+		<?php if (!empty($senders)): ?>
 		<select name="success_sender_account_id" class="mw-ui-field mw-ui-field-full-width">
 		<?php foreach($senders as $sender) : ?>
 		<option <?php if($list['success_sender_account_id'] == $sender['id']):?>selected="selected"<?php endif;?> value="<?php echo $sender['id']; ?>"><?php echo $sender['name']; ?></option>
 		<?php endforeach; ?>
 		</select>
+		<?php else: ?>
+		<b style="color:#b93636;">First you need to add senders.</b>
+		<?php endif; ?>
 		<div class="js-field-message"></div>
 		</td>
 		</tr>
@@ -175,11 +179,15 @@ $senders = newsletter_get_senders($senders_params);
 		<label class="mw-ui-label"><?php _e('Unsubscription Email Sender'); ?></label> 
 		</td>
 		<td>
+		<?php if (!empty($senders)): ?>
 		<select name="unsubscription_sender_account_id" class="mw-ui-field mw-ui-field-full-width">
 		<?php foreach($senders as $sender) : ?>
 		<option <?php if($list['unsubscription_sender_account_id'] == $sender['id']):?>selected="selected"<?php endif;?> value="<?php echo $sender['id']; ?>"><?php echo $sender['name']; ?></option>
 		<?php endforeach; ?>
 		</select>
+		<?php else: ?>
+		<b style="color:#b93636;">First you need to add senders.</b>
+		<?php endif; ?>
 		<div class="js-field-message"></div>
 			</td>
 		</tr>
@@ -203,11 +211,15 @@ $senders = newsletter_get_senders($senders_params);
 		<label class="mw-ui-label"><?php _e('Confirmation Email Sender'); ?></label> 
 		</td>
 		<td>
+		<?php if (!empty($senders)): ?>
 		<select name="confirmation_sender_account_id" class="mw-ui-field mw-ui-field-full-width">
 		<?php foreach($senders as $sender) : ?>
 		<option <?php if($list['confirmation_sender_account_id'] == $sender['id']):?>selected="selected"<?php endif;?> value="<?php echo $sender['id']; ?>"><?php echo $sender['name']; ?></option>
 		<?php endforeach; ?>
 		</select>
+		<?php else: ?>
+		<b style="color:#b93636;">First you need to add senders.</b>
+		<?php endif; ?>
 		<div class="js-field-message"></div>
 		</td>
 		</tr>
