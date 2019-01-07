@@ -4,6 +4,7 @@ class DefaultProvider {
 	
 	// Message settings
 	protected $subject;
+	protected $body;
 	
 	// Sender settings
 	protected $fromName;
@@ -13,46 +14,12 @@ class DefaultProvider {
 	// Reciver settings
 	protected $toEmail;
 	protected $toName;
+	
 	/**
 	 * @return mixed
 	 */
-	public function getSubject() {
+	protected function getSubject() {
 		return $this->subject;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getFromName() {
-		return $this->fromName;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getFromEmail() {
-		return $this->fromEmail;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getFromReplyEmail() {
-		return $this->fromReplyEmail;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getToEmail() {
-		return $this->toEmail;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getToName() {
-		return $this->toName;
 	}
 
 	/**
@@ -63,10 +30,39 @@ class DefaultProvider {
 	}
 
 	/**
+	 * @return mixed
+	 */
+	protected function getBody() {
+		return $this->body;
+	}
+	
+	/**
+	 * @param mixed $body
+	 */
+	public function setBody($body) {
+		$this->body = $body;
+	}
+	
+	
+	/**
+	 * @return mixed
+	 */
+	protected function getFromName() {
+		return $this->fromName;
+	}
+
+	/**
 	 * @param mixed $fromName
 	 */
 	public function setFromName($fromName) {
 		$this->fromName = $fromName;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	protected function getFromEmail() {
+		return $this->fromEmail;
 	}
 
 	/**
@@ -77,10 +73,24 @@ class DefaultProvider {
 	}
 
 	/**
+	 * @return mixed
+	 */
+	protected function getFromReplyEmail() {
+		return $this->fromReplyEmail;
+	}
+
+	/**
 	 * @param mixed $fromReplyEmail
 	 */
 	public function setFromReplyEmail($fromReplyEmail) {
 		$this->fromReplyEmail = $fromReplyEmail;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	protected function getToEmail() {
+		return $this->toEmail;
 	}
 
 	/**
@@ -91,10 +101,18 @@ class DefaultProvider {
 	}
 
 	/**
+	 * @return mixed
+	 */
+	protected function getToName() {
+		return $this->toName;
+	}
+
+	/**
 	 * @param mixed $toName
 	 */
 	public function setToName($toName) {
 		$this->toName = $toName;
 	}
 
+	
 }

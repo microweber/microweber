@@ -1,5 +1,5 @@
 <?php only_admin_access(); ?>
-<?php include 'providers/NewsletterMailSender.php'; ?>
+<?php include 'senders/NewsletterMailSender.php'; ?>
 <?php 
 if (isset($params['id'])) {
     $campaign = newsletter_get_campaign($params['id']);
@@ -15,7 +15,7 @@ if (empty($sender)) {
 
 //var_dump($subscribers);
 //var_dump($template);
-var_dump($sender);
+//var_dump($sender);
 //var_dump($list);
 ?>
 

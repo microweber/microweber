@@ -12,29 +12,8 @@ class SMTPProvider extends DefaultProvider {
 	/**
 	 * @return mixed
 	 */
-	public function getSmtpHost() {
+	private function getSmtpHost() {
 		return $this->smtpHost;
-	}
-
-	/**
-	 * @return number
-	 */
-	public function getSmtpPort() {
-		return $this->smtpPort;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getSmtpUsername() {
-		return $this->smtpUsername;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getSmtpPassword() {
-		return $this->smtpPassword;
 	}
 
 	/**
@@ -45,6 +24,13 @@ class SMTPProvider extends DefaultProvider {
 	}
 
 	/**
+	 * @return number
+	 */
+	private function getSmtpPort() {
+		return $this->smtpPort;
+	}
+
+	/**
 	 * @param number $smtpPort
 	 */
 	public function setSmtpPort($smtpPort) {
@@ -52,10 +38,24 @@ class SMTPProvider extends DefaultProvider {
 	}
 
 	/**
+	 * @return mixed
+	 */
+	private function getSmtpUsername() {
+		return $this->smtpUsername;
+	}
+
+	/**
 	 * @param mixed $smtpUsername
 	 */
 	public function setSmtpUsername($smtpUsername) {
 		$this->smtpUsername = $smtpUsername;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	private function getSmtpPassword() {
+		return $this->smtpPassword;
 	}
 
 	/**
@@ -68,18 +68,18 @@ class SMTPProvider extends DefaultProvider {
 	public function send() {
 		
 		// Create the Transport
-		$transport = (new Swift_SmtpTransport($this->sender['smtp_host'], $this->sender['smtp_port']))
-		->setUsername($this->sender['smtp_username'])
-		->setPassword($this->sender['smtp_password']);
+		$transport = (new Swift_SmtpTransport($this->getSmtpHost(), $this->getSmtpPort()))
+		->setUsername($this->getSmtpUsername())
+		->setPassword($this->getSmtpPassword());
 		
 		// Create the Mailer using your created Transport
 		$mailer = new Swift_Mailer($transport);
 		
 		// Create a message
-		$message = (new Swift_Message($this->campaign['subject']))
-		->setFrom([$this->sender['from_email'] => $this->campaign['name']])
-		->setTo([$this->subscriber['email'], $this->sender['reply_email'] => $this->subscriber['name']])
-		->setBody($this->_getParsedTemplate());
+		$message = (new Swift_Message($this->getSubject()))
+		->setFrom([$this->getFromEmail() => $this->getFromName()])
+		->setTo([$this->getToEmail(), $this->getFromReplyEmail() => $this->getFromName()])
+		->setBody($this->getBody());
 		
 		// Send the message
 		return $mailer->send($message);
