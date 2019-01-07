@@ -18,7 +18,9 @@ if(typeof  processContactForm !== 'object'){
     			var data2 = this;
     			if(typeof data2.error === 'string'){
                     mw.response(mw.$(selector), data2);
-    		    }
+    		    } else if(typeof data2.redirect === 'string'){
+                     window.location.href = data2.redirect;
+                }
                 else {
                     processContactForm.done(form, msgselector);
                 }

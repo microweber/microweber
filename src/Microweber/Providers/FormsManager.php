@@ -182,6 +182,9 @@ class FormsManager
         }
 
 
+        $email_redirect_after_submit = $this->app->option_manager->get('email_redirect_after_submit', $for_id);
+
+
         $user_id_or_email = false;
         if (is_logged()) {
             $user_id_or_email = user_id();
@@ -196,10 +199,12 @@ class FormsManager
         }
 
 
+
+
         $terms_accepted = false;
-
-
         $user_require_terms = $this->app->option_manager->get('require_terms', $for_id);
+
+
         if (!$user_require_terms) {
             $user_require_terms = $this->app->option_manager->get('require_terms', $default_mod_id);
         }
@@ -249,7 +254,7 @@ class FormsManager
 //                    $validate_captcha = mw()->captcha->validate($params['captcha']);
 //                }
 
-                $validate_captcha = $this->app->captcha->validate($params['captcha']);
+                $validate_captcha = $this->app->captcha->validate($params['captcha'],$for_id);
                 if (!$validate_captcha) {
 
                     return array(
@@ -453,7 +458,7 @@ class FormsManager
                 if (!empty($user_mails)) {
                     array_unique($user_mails);
                     $sender = new \Microweber\Utils\MailSender();
-
+                    $sender->silent_exceptions = true;
                     foreach ($user_mails as $value) {
                         if ($value == $email_to || $value == $email_bcc) {
                             $msg = $notif['content'];
@@ -477,9 +482,15 @@ class FormsManager
         }
 
 
-        return array('success' => _('Your message has been sent'));
 
-        //  return $save;
+
+        $success = array();
+        $success['success'] = _e('Your message has been sent',true);
+        if($email_redirect_after_submit){
+            $success['redirect'] =$email_redirect_after_submit;
+        }
+        return $success;
+
     }
 
     public function get_lists($params)
