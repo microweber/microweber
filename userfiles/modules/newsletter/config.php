@@ -61,7 +61,7 @@ $config['tables'] = array (
 		'mailgun_domain' => 'text',
 		'mailgun_secret' => 'text',
 			
-		// Mandil settings
+		// Mandrill settings
 		'mandrill_secret' => 'text',
 			
 		// Sparkpost settings

@@ -133,7 +133,8 @@ if (isset($params['id'])) {
 		<option value="php_mail">PHP Mail</option>
 		<option value="smtp">SMTP Server</option>
 		<option value="mailchimp">Mailchimp</option>
-		<option value="mailgun">Mailgum</option>
+		<option value="mailgun">Mailgun</option>
+		<option value="mandrill">Mandrill</option>
 		<option value="amazon_ses">Amazon SES</option>
 		<option value="sparkpost">Sparkpost</option>
 		</select>
@@ -159,6 +160,9 @@ if (isset($params['id'])) {
 					case "mailgun":
 						$(".js-sender-mailgun").show();
 						break;
+					case "mandrill":
+						$(".js-sender-mandrill").show();
+						break;
 					case "amazon_ses":
 						$(".js-sender-amazon-ses").show();
 						break;
@@ -181,19 +185,66 @@ if (isset($params['id'])) {
 		
 	
 	<div class="js-sender-wrapper js-sender-mailchimp" style="display:none;">
-		mailchimp
+		<div class="mw-ui-field-holder">
+		   <label class="mw-ui-label">
+		   Secret
+		   </label>
+		   <input name="mailchimp_secret" class="mw_option_field mw-ui-field mw-options-form-binded mw-ui-field-full-width" type="text" value="<?php echo $sender['mailchimp_secret']; ?>">
+		</div>
+	</div>
+	
+	<div class="js-sender-wrapper js-sender-mandrill" style="display:none;">
+		<div class="mw-ui-field-holder">
+		   <label class="mw-ui-label">
+		   Secret
+		   </label>
+		   <input name="mandrill_secret" class="mw_option_field mw-ui-field mw-options-form-binded mw-ui-field-full-width" type="text" value="<?php echo $sender['mandrill_secret']; ?>">
+		</div>
 	</div>
 	
 	<div class="js-sender-wrapper js-sender-mailgun" style="display:none;">
-		mailgun
+		<div class="mw-ui-field-holder">
+		   <label class="mw-ui-label">
+		   Domain
+		   </label>
+		   <input name="mailgun_domain" class="mw_option_field mw-ui-field mw-options-form-binded mw-ui-field-full-width" type="text" value="<?php echo $sender['mailgun_domain']; ?>">
+		</div>
+		<div class="mw-ui-field-holder">
+		   <label class="mw-ui-label">
+		   Secret
+		   </label>
+		   <input name="mailgun_secret" class="mw_option_field mw-ui-field mw-options-form-binded mw-ui-field-full-width" type="text" value="<?php echo $sender['mailgun_secret']; ?>">
+		</div>
 	</div>
 	
 	<div class="js-sender-wrapper js-sender-amazon-ses" style="display:none;">
-		amazon_ses
+		<div class="mw-ui-field-holder">
+		   <label class="mw-ui-label">
+		   Key
+		   </label>
+		   <input name="amazon_ses_key" class="mw_option_field mw-ui-field mw-options-form-binded mw-ui-field-full-width" type="text" value="<?php echo $sender['amazon_ses_key']; ?>">
+		</div>
+		<div class="mw-ui-field-holder">
+		   <label class="mw-ui-label">
+		   Secret
+		   </label>
+		   <input name="amazon_ses_secret" class="mw_option_field mw-ui-field mw-options-form-binded mw-ui-field-full-width" type="text" value="<?php echo $sender['amazon_ses_secret']; ?>">
+		</div>
+		<div class="mw-ui-field-holder">
+		   <label class="mw-ui-label">
+		   Region
+		   </label>
+		   <input name="amazon_ses_region" class="mw_option_field mw-ui-field mw-options-form-binded mw-ui-field-full-width" type="text" value="<?php echo $sender['amazon_ses_region']; ?>">
+		</div>
 	</div>
 	
 	<div class="js-sender-wrapper js-sender-sparkpost" style="display:none;">
-		sparkpost
+		<div class="mw-ui-field-holder">
+		   <label class="mw-ui-label">
+		   Secret
+		   </label>
+		   <input name="sparkpost_secret" class="mw_option_field mw-ui-field mw-options-form-binded mw-ui-field-full-width" type="text" value="<?php echo $sender['sparkpost_secret']; ?>">
+		</div>
 	</div>
 	
 	<div class="js-sender-wrapper js-sender-php-mail" style="display:none;">
