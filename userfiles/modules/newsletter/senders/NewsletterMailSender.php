@@ -1,4 +1,11 @@
 <?php
+/**
+ * Newsletter Mail Sender
+ * @author Bozhidar Slaveykov (selfworksbg@gmail.com)
+ * @namespace Newsletter\Senders
+ * @package NewsletterMailSender
+ */
+namespace Newsletter\Senders;
 
 class NewsletterMailSender {
 	
@@ -93,11 +100,11 @@ class NewsletterMailSender {
 					break;
 				
 				default:
-					throw new Exception('We don\'t support this mail provider.');
+					throw new \Exception('We don\'t support this mail provider.');
 					break;
 			}
 			
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			$result = $e->getMessage();
 		}
 		

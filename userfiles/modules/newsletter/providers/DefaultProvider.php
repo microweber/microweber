@@ -1,4 +1,10 @@
 <?php
+/**
+ * Default Provider
+ * @author Bozhidar Slaveykov (selfworksbg@gmail.com)
+ * @namespace Newsletter\Providers
+ * @package DefaultProvider
+ */
 
 namespace Newsletter\Providers;
 

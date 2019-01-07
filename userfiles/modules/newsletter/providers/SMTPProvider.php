@@ -1,5 +1,4 @@
 <?php
-
 /**
  * SMTP Provider
  * @author Bozhidar Slaveykov (selfworksbg@gmail.com)
