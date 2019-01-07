@@ -159,7 +159,7 @@ class Parser
                     $layout = str_replace($value, $v1, $layout);
                     if (!isset($this->_replaced_input_tags[$v1])) {
                         $this->_replaced_input_tags[$v1] = $value;
-                        $mw_replaced_textarea_tag[$v1] = $value;
+                        $mw_replaced_codes_tag[$v1] = $value;
                     }
                 }
             }
@@ -2605,6 +2605,7 @@ $srsc_str
                     $mod_content = str_replace($value, $v1, $mod_content);
                     if (!isset($this->_replaced_input_tags[$v1])) {
                         $this->_replaced_input_tags[$v1] = $value;
+                        $mw_replaced_codes_tag[$v1] = $value;
                      }
                 }
             }
