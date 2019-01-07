@@ -124,7 +124,7 @@ class Parser
         $layout = str_replace('<?', '&lt;?', $layout);
 
 
-        $script_pattern = "/<textarea[^>]*>(.*)<\/textarea>/Uis";
+    /*    $script_pattern = "/<textarea[^>]*>(.*)<\/textarea>/Uis";
         preg_match_all($script_pattern, $layout, $mw_script_matches);
 
         if (!empty($mw_script_matches)) {
@@ -140,7 +140,13 @@ class Parser
                     }
                 }
             }
-        }
+        }*/
+
+        $layout = $this->_replace_tags_with_placeholders($layout);
+
+
+
+
 
 
         $script_pattern = "/<select[^>]*>(.*)<\/select>/Uis";
@@ -930,14 +936,14 @@ class Parser
 
         //  if (!$coming_from_parent) {
 
-        if (!empty($mw_replaced_textarea_tag)) {
+     /*   if (!empty($mw_replaced_textarea_tag)) {
             foreach ($mw_replaced_textarea_tag as $key => $value) {
                 if ($value != '') {
                     $layout = str_replace($key, $value, $layout);
                 }
                 unset($mw_replaced_textarea_tag[$key]);
             }
-        }
+        }*/
 
 
         // if (!$coming_from_parent_id) {
@@ -949,7 +955,7 @@ class Parser
                     // $layout = str_replace($key, $value, $layout);
                     //  $this->_replaced_input_tags_inner_loops[$key] = 1;
                 }
-                unset($this->_replaced_input_tags_inner_loops[$key]);
+            //    unset($this->_replaced_input_tags_inner_loops[$key]);
             }
         }
 
@@ -2543,6 +2549,11 @@ $srsc_str
     {
 
         global $mw_parser_replace_inc;
+        global $mw_replaced_codes_tag;
+        global $mw_replaced_edit_fields_vals;
+        global $other_html_tag_replace_inc;
+        global $mw_replaced_codes_tag;
+        global $mw_replaced_textarea_tag;
 
         $script_pattern = "/<code[^>]*>(.*)<\/code>/Uis";
         preg_match_all($script_pattern, $mod_content, $mw_script_matches);
@@ -2577,6 +2588,7 @@ $srsc_str
 
                     if (!isset($this->_replaced_input_tags_inner_loops[$v1])) {
                         $this->_replaced_input_tags_inner_loops[$v1] = $value;
+                    //    $mw_replaced_textarea_tag[$v1] = $value;
                     }
                 }
             }
