@@ -10,5 +10,4 @@ namespace Newsletter\Providers;
 
 class MailchimpProvider extends \Newsletter\Providers\DefaultProvider {
 	
-	
 }

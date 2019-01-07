@@ -8,7 +8,8 @@
 
 namespace Newsletter\Providers;
 
+use Illuminate\Mail\Mailer;
+
 class PHPMailProvider extends \Newsletter\Providers\DefaultProvider {
-	
 	
 }
