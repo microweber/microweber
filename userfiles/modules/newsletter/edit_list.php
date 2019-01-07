@@ -211,7 +211,7 @@ $senders = newsletter_get_senders($senders_params);
 		<label class="mw-ui-label"><?php _e('Confirmation Email Sender'); ?></label> 
 		</td>
 		<td>
-		<?php if (!empty($senders)): ?>
+		<?php if (!empty($senders)): ?>  
 		<select name="confirmation_sender_account_id" class="mw-ui-field mw-ui-field-full-width">
 		<?php foreach($senders as $sender) : ?>
 		<option <?php if($list['confirmation_sender_account_id'] == $sender['id']):?>selected="selected"<?php endif;?> value="<?php echo $sender['id']; ?>"><?php echo $sender['name']; ?></option>
