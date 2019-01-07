@@ -1,3 +1,4 @@
+
 <?php only_admin_access(); ?>
 
 <?php 
@@ -33,11 +34,10 @@ echo $template['text'];
 <br />
 <br />
 <?php
-include 'senders/NewsletterMailSender.php';
 
 foreach($subscribers as $subscriber) {
 	
-	$newsletterMailSender = new NewsletterMailSender();
+	$newsletterMailSender = new \Newsletter\Senders\NewsletterMailSender();
 	$newsletterMailSender->setCampaign($campaign);
 	$newsletterMailSender->setSubscriber($subscriber);
 	$newsletterMailSender->setSender($sender);

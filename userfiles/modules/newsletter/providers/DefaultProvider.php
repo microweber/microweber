@@ -10,6 +10,12 @@ namespace Newsletter\Providers;
 
 class DefaultProvider {
 	
+	// Provider settings
+	protected $domain;
+	protected $secret;
+	protected $key;
+	protected $region;
+	
 	// Message settings
 	protected $subject;
 	protected $body;
@@ -23,6 +29,62 @@ class DefaultProvider {
 	protected $toEmail;
 	protected $toName;
 	
+	/**
+	 * @return mixed
+	 */
+	protected function getDomain() {
+		return $this->domain;
+	}
+
+	/**
+	 * @param mixed $domain
+	 */
+	public function setDomain($domain) {
+		$this->domain = $domain;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	protected function getSecret() {
+		return $this->secret;
+	}
+
+	/**
+	 * @param mixed $secret
+	 */
+	public function setSecret($secret) {
+		$this->secret = $secret;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	protected function getKey() {
+		return $this->key;
+	}
+
+	/**
+	 * @param mixed $key
+	 */
+	public function setKey($key) {
+		$this->key = $key;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	protected function getRegion() {
+		return $this->region;
+	}
+
+	/**
+	 * @param mixed $region
+	 */
+	public function setRegion($region) {
+		$this->region = $region;
+	}
+
 	/**
 	 * @return mixed
 	 */

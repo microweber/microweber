@@ -5,7 +5,16 @@
  * @namespace Newsletter\Senders
  * @package NewsletterMailSender
  */
+
 namespace Newsletter\Senders;
+
+use Newsletter\Providers\SMTPProvider;
+use Newsletter\Providers\PHPMailProvider;
+use Newsletter\Providers\MailchimpProvider;
+use Newsletter\Providers\MailgunProvider;
+use Newsletter\Providers\AmazonSesProvider;
+use Newsletter\Providers\SparkpostProvider;
+use Newsletter\Providers\MandrillProvider;
 
 class NewsletterMailSender {
 	
@@ -78,31 +87,62 @@ class NewsletterMailSender {
 				
 				case "smtp":
 					
-					$smtpProvider = new \Newsletter\Providers\SMTPProvider();
+					$mailProvider = new SMTPProvider();
+					$mailProvider->setSmtpHost($this->sender['smtp_host']);
+					$mailProvider->setSmtpPort($this->sender['smtp_port']);
+					$mailProvider->setSmtpUsername($this->sender['smtp_username']);
+					$mailProvider->setSmtpPassword($this->sender['smtp_password']);
 					
-					$smtpProvider->setSubject($this->campaign['subject']);
-					$smtpProvider->setBody($this->_getParsedTemplate());
+					break;
+			
+				case "php_mail":
+					$mailProvider = new PHPMailProvider();
+					break;
 					
-					$smtpProvider->setFromEmail($this->sender['from_email']);
-					$smtpProvider->setFromName($this->campaign['name']);
-					$smtpProvider->setFromReplyEmail($this->sender['reply_email']);
+				case "mailchimp":
+					$mailProvider = new MailchimpProvider();
+					$mailProvider->setSecret($this->sender['mailchimp_secret']);
+					break;
 					
-					$smtpProvider->setToEmail($this->subscriber['email']);
-					$smtpProvider->setToName($this->subscriber['name']);
+				case "mailgun":
+					$mailProvider = new MailgunProvider();
+					$mailProvider->setDomain($this->sender['mailgun_domain']);
+					$mailProvider->setSecret($this->sender['mailgun_secret']);
+					break;
 					
-					$smtpProvider->setSmtpHost($this->sender['smtp_host']);
-					$smtpProvider->setSmtpPort($this->sender['smtp_port']);
-					$smtpProvider->setSmtpUsername($this->sender['smtp_username']);
-					$smtpProvider->setSmtpPassword($this->sender['smtp_password']);
+				case "mandrill":
+					$mailProvider = new MandrillProvider();
+					$mailProvider->setSecret($this->sender['mandrill_secret']);
+					break;
 					
-					$result = $smtpProvider->send();
+				case "amazon_ses":
+					$mailProvider = new AmazonSesProvider();
+					$mailProvider->setKey($this->sender['amazon_ses_key']);
+					$mailProvider->setSecret($this->sender['amazon_ses_secret']);
+					$mailProvider->setRegion($this->sender['amazon_ses_region']);
+					break;
 					
+				case "sparkpost":
+					$mailProvider = new SparkpostProvider();
+					$mailProvider->setSecret($this->sender['sparkpost_secret']);
 					break;
 				
 				default:
 					throw new \Exception('We don\'t support this mail provider.');
 					break;
 			}
+			
+			$mailProvider->setSubject($this->campaign['subject']);
+			$mailProvider->setBody($this->_getParsedTemplate());
+			
+			$mailProvider->setFromEmail($this->sender['from_email']);
+			$mailProvider->setFromName($this->campaign['name']);
+			$mailProvider->setFromReplyEmail($this->sender['reply_email']);
+			
+			$mailProvider->setToEmail($this->subscriber['email']);
+			$mailProvider->setToName($this->subscriber['name']);
+			
+			$result = $mailProvider->send();
 			
 		} catch (\Exception $e) {
 			$result = $e->getMessage();
