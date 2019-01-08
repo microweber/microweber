@@ -12,7 +12,7 @@ function newsletter_subscribe($params)
 
     $mod_id = 'newsletter';
 
-    if(isset($params['mod_id'])){
+    if (isset($params['mod_id'])) {
         $mod_id = $params['mod_id'];
     }
 
@@ -46,7 +46,7 @@ function newsletter_subscribe($params)
 
     $needs_terms = get_option('require_terms', $mod_id) == 'y';
     $enable_captcha = get_option('enable_captcha', $mod_id) == 'y';
-    $redir = get_option('newsletter_redirect_after_submit', $mod_id);
+    $redir = newsletter_get_redirect_link_after_subscribe($mod_id);
 
 
     if ($needs_terms) {
@@ -122,6 +122,15 @@ function newsletter_subscribe($params)
 
 
     return $resp;
+}
+
+function newsletter_get_redirect_link_after_subscribe($mod_id = false)
+{
+    if (!$mod_id) {
+        $mod_id = 'newsletter';
+    }
+    $redir = get_option('newsletter_redirect_after_submit', $mod_id);
+    return $redir;
 }
 
 function newsletter_get_subscribers($params)
