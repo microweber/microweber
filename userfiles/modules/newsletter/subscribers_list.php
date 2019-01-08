@@ -7,7 +7,7 @@ $subscribers = newsletter_get_subscribers($subscribers_params);
 ?>
 <?php if ($subscribers): ?>
     <div class="table-responsive">
-        <table width="100%" border="0" class="mw-ui-table" style="table-layout:fixed">
+        <table width="100%" border="0" class="mw-ui-table">
             <thead>
             <tr>
                 <th><?php _e('Name'); ?></th>

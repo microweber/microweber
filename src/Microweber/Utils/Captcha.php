@@ -260,10 +260,14 @@ class Captcha
 
         $stuff = ob_get_clean();
 
-//sleep(1);
+
+
+
+
         return response($stuff)
             ->header('Content-Type', 'image/png')
             ->header('Pragma', 'no-cache')
+            ->header('X-Robots-Tag', 'noindex, nofollow, noarchive, nosnippet')
             ->header('Cache-Control', 'no-store, no-cache, must-revalidate')
             ->header('Cache-Control', 'max-age=60, must-revalidate');
 

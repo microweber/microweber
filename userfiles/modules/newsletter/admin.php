@@ -53,9 +53,9 @@ if ((url_param('mod_action') != false)) {
 				<module type="newsletter/sender_accounts" />
 			</div>
 			<div style="display: none;" class="mw-ui-box-content">
-				<module type="newsletter/privacy_settings" />
+				<module type="newsletter/privacy_settings" for_module_id="<?php print $params['id'] ?>" />
 				<hr />
-				<module type="newsletter/settings" />
+				<module type="newsletter/settings" for_module_id="<?php print $params['id'] ?>" />
 			</div>
 		</div>
 	</div>

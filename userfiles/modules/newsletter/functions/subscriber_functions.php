@@ -9,6 +9,14 @@ function newsletter_unsubscribe($params)
 api_expose('newsletter_subscribe');
 function newsletter_subscribe($params)
 {
+
+    $mod_id = 'newsletter';
+
+    if(isset($params['mod_id'])){
+        $mod_id = $params['mod_id'];
+    }
+
+
     $adm = mw()->user_manager->is_admin();
     if (defined('MW_API_CALL')) {
         $validate_token = mw()->user_manager->csrf_validate($params);
@@ -36,8 +44,10 @@ function newsletter_subscribe($params)
         );
     }
 
-    $needs_terms = get_option('require_terms', 'newsletter') == 'y';
-    $enable_captcha = get_option('enable_captcha', 'newsletter') == 'y';
+    $needs_terms = get_option('require_terms', $mod_id) == 'y';
+    $enable_captcha = get_option('enable_captcha', $mod_id) == 'y';
+    $redir = get_option('newsletter_redirect_after_submit', $mod_id);
+
 
     if ($needs_terms) {
         $user_id_or_email = mw()->user_manager->id();
@@ -91,6 +101,7 @@ function newsletter_subscribe($params)
     }
     newsletter_set_cookie_for_subscribed_user();
 
+
     $confirmation_code = str_random(30);
 
     newsletter_save_subscriber([
@@ -99,12 +110,18 @@ function newsletter_subscribe($params)
         'list_id' => Input::get('list_id'),
         'confirmation_code' => $confirmation_code
     ]);
-
     $msg = 'Thanks for your subscription!';
 
-    return array(
+    $resp = array(
         'success' => $msg
     );
+
+    if ($redir) {
+        $resp['redirect'] = $redir;
+    }
+
+
+    return $resp;
 }
 
 function newsletter_get_subscribers($params)
@@ -141,16 +158,16 @@ function newsletter_save_subscriber($data)
 
     if (!isset($data['subscribed_for'])) {
         // Default list
-		
+
     } else {
-    	if (isset($data['id'])) {
-    		
-    		newsletter_delete_subscriber_lists($data['id']);
-    		
-	        foreach ($data['subscribed_for'] as $list_id) {
-	            newsletter_save_subscriber_list($data['id'], $list_id);
-	        }
-    	}
+        if (isset($data['id'])) {
+
+            newsletter_delete_subscriber_lists($data['id']);
+
+            foreach ($data['subscribed_for'] as $list_id) {
+                newsletter_save_subscriber_list($data['id'], $list_id);
+            }
+        }
     }
 
     $save_id = db_save($table, $data);
@@ -241,5 +258,5 @@ function newsletter_set_cookie_for_subscribed_user()
     $hash = md5($hash);
 
 
-    setcookie('mw-newsletter_is_subscribed', $hash, time() + 45000,'/');
+    setcookie('mw-newsletter_is_subscribed', $hash, time() + 45000, '/');
 }

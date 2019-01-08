@@ -33,6 +33,10 @@ if (isset($template_file) and is_file($template_file) != false) {
 
         mw.newsletters_is_saving = false;
 
+        if(mw.$('form#newsletters-form-<?php print $params['id'] ?>').length){
+            mw.$('form#newsletters-form-<?php print $params['id'] ?>').append('<input type="hidden" name="mod_id" value="<?php print $params['id'] ?>" />');
+        }
+
         mw.$('form#newsletters-form-<?php print $params['id'] ?>').submit(function () {
 
             if (mw.newsletters_is_saving == true) {
@@ -45,10 +49,12 @@ if (isset($template_file) and is_file($template_file) != false) {
                     mw.newsletters_is_saving = false;
                     var resp = this;
 
-
                     mw.response(mw.$('form#newsletters-form-<?php print $params['id'] ?>'), resp);
                     if (typeof(resp.success) != 'undefined') {
                         mw.$('form#newsletters-form-<?php print $params['id'] ?> .hide-on-success').hide();
+                    }
+                    if (typeof(resp.redirect) != 'undefined') {
+                       window.location.href = resp.redirect;
                     }
 
 
