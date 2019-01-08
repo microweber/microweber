@@ -143,11 +143,15 @@ $senders = newsletter_get_senders($senders_params);
 		<label class="mw-ui-label"><?php _e('Campaign Email Sender'); ?></label> 
 		</td>
 		<td>
+		<?php if (!empty($senders)): ?>
 		<select name="sender_account_id" class="mw-ui-field mw-ui-field-full-width">
 		<?php foreach($senders as $sender) : ?>
 		<option value="<?php echo $sender['id']; ?>"><?php echo $sender['name']; ?></option>
 		<?php endforeach; ?>
 		</select>
+		<?php else: ?>
+		<b style="color:#b93636;">First you need to add senders.</b>
+		<?php endif; ?>
 		<div class="js-field-message"></div>
 		</td>
 		</tr>

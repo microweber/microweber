@@ -1,5 +1,6 @@
+
 <?php only_admin_access(); ?>
-<?php include 'providers/NewsletterMailSender.php'; ?>
+
 <?php 
 if (isset($params['id'])) {
     $campaign = newsletter_get_campaign($params['id']);
@@ -15,7 +16,7 @@ if (empty($sender)) {
 
 //var_dump($subscribers);
 //var_dump($template);
-var_dump($sender);
+//var_dump($sender);
 //var_dump($list);
 ?>
 
@@ -33,13 +34,16 @@ echo $template['text'];
 <br />
 <br />
 <?php
+
 foreach($subscribers as $subscriber) {
-	$newsletterMailSender = new NewsletterMailSender();
+	
+	$newsletterMailSender = new \Newsletter\Senders\NewsletterMailSender();
 	$newsletterMailSender->setCampaign($campaign);
 	$newsletterMailSender->setSubscriber($subscriber);
 	$newsletterMailSender->setSender($sender);
 	$newsletterMailSender->setTemplate($template);
-	echo $newsletterMailSender->sendMail();
+	
+	print_r($newsletterMailSender->sendMail());
 	
 }
 ?>

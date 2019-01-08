@@ -129,45 +129,194 @@ if (isset($params['id'])) {
 	
 	<div class="mw-ui-field-holder">
 		<label class="mw-ui-label"><?php _e('Send email function'); ?></label> 
-		<select class="mw-ui-field mw-ui-field-full-width" name="account_type">
+		<select class="mw-ui-field mw-ui-field-full-width js-select-account-type" name="account_type">
 		<option value="php_mail">PHP Mail</option>
 		<option value="smtp">SMTP Server</option>
 		<option value="mailchimp">Mailchimp</option>
-		<option value="mailgun">Mailgum</option>
+		<option value="mailgun">Mailgun</option>
+		<option value="mandrill">Mandrill</option>
 		<option value="amazon_ses">Amazon SES</option>
 		<option value="sparkpost">Sparkpost</option>
 		</select>
 	</div>
 	
-	
+	<script>
+		$(document).ready(function () {
+			
+			$(document).on("click", ".js-sender-test-method", function() {
+				$(".js-sender-test-email-wrapper").toggle();
+			});
+			
+			$(".js-sender-php-mail").show();
+			
+			$(document).on("change", ".js-select-account-type", function() {
+				
+				$(".js-sender-wrapper").hide();
+				
+				switch ($(this).val()) {
+					case "mailchimp":
+						$(".js-sender-mailchimp").show();
+						break;
+					case "mailgun":
+						$(".js-sender-mailgun").show();
+						break;
+					case "mandrill":
+						$(".js-sender-mandrill").show();
+						break;
+					case "amazon_ses":
+						$(".js-sender-amazon-ses").show();
+						break;
+					case "sparkpost":
+						$(".js-sender-sparkpost").show();
+						break;
+					case "php_mail":
+						$(".js-sender-php-mail").show();
+						break;
+					case "smtp":
+						$(".js-sender-smtp").show();
+						break;
+					default:
+				}
+				
+			});
 		
-	<div class="js-sender-account-type">
-	<div class="mw-ui-field-holder">
-	   <label class="mw-ui-label">Smtp Username	
-	   <br>
-	   <small>example: user@email.com</small></label>
-	   <input name="smtp_username" class="mw_option_field mw-ui-field mw-options-form-binded mw-ui-field-full-width" type="text" value="<?php echo $sender['smtp_username']; ?>">
+		});
+	</script>
+		
+	
+	<div class="js-sender-wrapper js-sender-mailchimp" style="display:none;">
+		<div class="mw-ui-field-holder">
+		   <label class="mw-ui-label">
+		   Secret
+		   </label>
+		   <input name="mailchimp_secret" class="mw_option_field mw-ui-field mw-options-form-binded mw-ui-field-full-width" type="text" value="<?php echo $sender['mailchimp_secret']; ?>">
+		</div>
 	</div>
-	<div class="mw-ui-field-holder">
-	   <label class="mw-ui-label">Smtp Password</label>
-	   <input name="smtp_password" class="mw_option_field mw-ui-field mw-options-form-binded mw-ui-field-full-width" type="text" value="<?php echo $sender['smtp_password']; ?>">
+	
+	<div class="js-sender-wrapper js-sender-mandrill" style="display:none;">
+		<div class="mw-ui-field-holder">
+		   <label class="mw-ui-label">
+		   Secret
+		   </label>
+		   <input name="mandrill_secret" class="mw_option_field mw-ui-field mw-options-form-binded mw-ui-field-full-width" type="text" value="<?php echo $sender['mandrill_secret']; ?>">
+		</div>
 	</div>
-	<div class="mw-ui-field-holder">
-	   <label class="mw-ui-label">
-	   Smtp Email Host <br>
-	   <small>example: smtp.gmail.com</small>
-	   </label>
-	   <input name="smtp_host" class="mw_option_field mw-ui-field mw-options-form-binded mw-ui-field-full-width" type="text" value="<?php echo $sender['smtp_host']; ?>">
+	
+	<div class="js-sender-wrapper js-sender-mailgun" style="display:none;">
+		<div class="mw-ui-field-holder">
+		   <label class="mw-ui-label">
+		   Domain
+		   </label>
+		   <input name="mailgun_domain" class="mw_option_field mw-ui-field mw-options-form-binded mw-ui-field-full-width" type="text" value="<?php echo $sender['mailgun_domain']; ?>">
+		</div>
+		<div class="mw-ui-field-holder">
+		   <label class="mw-ui-label">
+		   Secret
+		   </label>
+		   <input name="mailgun_secret" class="mw_option_field mw-ui-field mw-options-form-binded mw-ui-field-full-width" type="text" value="<?php echo $sender['mailgun_secret']; ?>">
+		</div>
 	</div>
-	<div class="mw-ui-field-holder">
-	   <label class="mw-ui-label">
-	   Smtp Email Port<br>
-	   <small>example: 587 or 995, 465, 110, 25</small>
-	   </label>
-	   <input name="smtp_port" class="mw_option_field mw-ui-field mw-options-form-binded mw-ui-field-full-width" type="text" value="<?php echo $sender['smtp_port']; ?>">
+	
+	<div class="js-sender-wrapper js-sender-amazon-ses" style="display:none;">
+		<div class="mw-ui-field-holder">
+		   <label class="mw-ui-label">
+		   Key
+		   </label>
+		   <input name="amazon_ses_key" class="mw_option_field mw-ui-field mw-options-form-binded mw-ui-field-full-width" type="text" value="<?php echo $sender['amazon_ses_key']; ?>">
+		</div>
+		<div class="mw-ui-field-holder">
+		   <label class="mw-ui-label">
+		   Secret
+		   </label>
+		   <input name="amazon_ses_secret" class="mw_option_field mw-ui-field mw-options-form-binded mw-ui-field-full-width" type="text" value="<?php echo $sender['amazon_ses_secret']; ?>">
+		</div>
+		<div class="mw-ui-field-holder">
+		   <label class="mw-ui-label">
+		   Region
+		   </label>
+		   <input name="amazon_ses_region" class="mw_option_field mw-ui-field mw-options-form-binded mw-ui-field-full-width" type="text" value="<?php echo $sender['amazon_ses_region']; ?>">
+		</div>
 	</div>
+	
+	<div class="js-sender-wrapper js-sender-sparkpost" style="display:none;">
+		<div class="mw-ui-field-holder">
+		   <label class="mw-ui-label">
+		   Secret
+		   </label>
+		   <input name="sparkpost_secret" class="mw_option_field mw-ui-field mw-options-form-binded mw-ui-field-full-width" type="text" value="<?php echo $sender['sparkpost_secret']; ?>">
+		</div>
 	</div>
+	
+	<div class="js-sender-wrapper js-sender-php-mail" style="display:none;">
+		<!-- settings for php mail -->
+	</div>
+		
+		
+	<div class="js-sender-wrapper js-sender-smtp" style="display:none;">
+		<div class="mw-ui-field-holder">
+		   <label class="mw-ui-label">
+		   Smtp Username
+		   </label>
+		   <input name="smtp_username" class="mw_option_field mw-ui-field mw-options-form-binded mw-ui-field-full-width" type="text" value="<?php echo $sender['smtp_username']; ?>">
+		</div>
+		<div class="mw-ui-field-holder">
+		   <label class="mw-ui-label">
+		   Smtp Password
+		   </label>
+		   <input name="smtp_password" class="mw_option_field mw-ui-field mw-options-form-binded mw-ui-field-full-width" type="text" value="<?php echo $sender['smtp_password']; ?>">
+		</div>
+		<div class="mw-ui-field-holder">
+		   <label class="mw-ui-label">
+		   Smtp Email Host
+		   </label>
+		   <input name="smtp_host" class="mw_option_field mw-ui-field mw-options-form-binded mw-ui-field-full-width" type="text" value="<?php echo $sender['smtp_host']; ?>">
+		</div>
+		<div class="mw-ui-field-holder">
+		   <label class="mw-ui-label">
+		   Smtp Email Port
+		   </label>
+		   <input name="smtp_port" class="mw_option_field mw-ui-field mw-options-form-binded mw-ui-field-full-width" type="text" value="<?php echo $sender['smtp_port']; ?>">
+		</div>
+	</div>
+	
+	<script>
+		$(document).ready(function () {
+			$(document).on("click", ".js-sender-send-test-email", function() {
 
+				
+				
+			});
+		});
+	</script>
+	
+	<table class="mw-ui-box mw-ui-box-content js-sender-test-email-wrapper" style="display:none;background: whitesmoke  none repeat scroll 0% 0%;" width=" 100%" border="0">
+		<tbody>
+		<tr>
+			<td>
+			<label class="mw-ui-label">
+				Send test email to							
+			</label>
+			<input name="test_email_to" class="mw_option_field mw-ui-field mw-options-form-binded mw-ui-field-full-width" type="text" option-group="email" value="">
+			<br />
+			<label class="mw-ui-label">
+				Test mail subject							
+			</label>
+			<input name="test_email_subject" class="mw_option_field mw-ui-field mw-options-form-binded mw-ui-field-full-width" type="text" option-group="email" value="">
+			<br /><br />
+			<span class="mw-ui-btn mw-ui-btn-green js-sender-send-test-email">
+				Send test email							
+			</span>
+			</td>
+			<td>
+			<pre class="js-email-send-test-output">
+				
+			</pre>
+			</td>
+		</tr>
+	</tbody>
+	</table>
+	<br />
+	<button type="button" class="mw-ui-btn js-sender-test-method"><?php _e('Test Method'); ?></button>	
 	
 	<button type="submit" class="mw-ui-btn"><?php _e('Save'); ?></button>
 	<?php if(isset($sender['id'])): ?>
