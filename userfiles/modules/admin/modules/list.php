@@ -114,26 +114,31 @@ if (isset($is_elements) and $is_elements == true) {
 
 
 
-    if ($modules_by_categories and is_arr($modules_by_categories) and count($modules_by_categories) > 1) {
-        $sort_first = array();
 
-        $first_keys = array('recommended', 'media', 'content', 'navigation');
-        foreach ($first_keys as $first_key) {
-            if (isset($modules_by_categories[$first_key])) {
-                $sort_first[$first_key] = $modules_by_categories[$first_key];
-                unset($modules_by_categories[$first_key]);
-            }
-        }
-        $modules_by_categories_new = array_merge($sort_first, $modules_by_categories);
-        $modules_by_categories = $modules_by_categories_new;
-    }
-
-
-    if (($modules and !$modules_by_categories) or ($modules and !$show_grouped_by_cats)) {
-        $modules_by_categories = array('Modules' => $modules);
-    }
 
 }
+
+
+if ($modules_by_categories and is_arr($modules_by_categories) and count($modules_by_categories) > 1) {
+    $sort_first = array();
+
+    $first_keys = array('recommended', 'media', 'content', 'navigation');
+    foreach ($first_keys as $first_key) {
+        if (isset($modules_by_categories[$first_key])) {
+            $sort_first[$first_key] = $modules_by_categories[$first_key];
+            unset($modules_by_categories[$first_key]);
+        }
+    }
+    $modules_by_categories_new = array_merge($sort_first, $modules_by_categories);
+    $modules_by_categories = $modules_by_categories_new;
+}
+
+
+if (($modules and !$modules_by_categories) or ($modules and !$show_grouped_by_cats)) {
+    $modules_by_categories = array('Modules' => $modules);
+}
+
+
 
  
 if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset($modules) and is_array($modules)) {
@@ -212,9 +217,13 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
     $def_icon = mw()->url_manager->link_to_file($def_icon);
 
 
+
     ?>
     <?php if (isset($dynamic_layouts) and is_array($dynamic_layouts)): ?>
-        <?php $i = 0; ?>
+        <?php
+
+
+        $i = 0; ?>
         <?php foreach ($dynamic_layouts as $dynamic_layout): ?>
             <?php if (isset($dynamic_layout['template_dir']) and isset($dynamic_layout['layout_file'])): ?>
                 <li data-module-name="layout"
@@ -254,7 +263,11 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
     <?php if (isset($module_layouts_skins) and is_array($module_layouts_skins)): ?>
         <?php $i = 0; ?>
 
-        <?php foreach ($module_layouts_skins as $dynamic_layout): ?>
+        <?php
+
+
+
+        foreach ($module_layouts_skins as $dynamic_layout): ?>
             <?php if (isset($dynamic_layout['layout_file'])): ?>
                 <li data-module-name="layouts" ondrop="true" template="<?php print $dynamic_layout['layout_file'] ?>"
                     data-filter="<?php print $dynamic_layout['name'] ?>" class="module-item"
