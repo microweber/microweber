@@ -1,8 +1,9 @@
 mw.require('wysiwyg.js');
 
+
 mw.require('control_box.js');
 mw.require('element_analyzer.js');
-
+mw.require('liveedit_elements.js');
 mw.require('live_edit.js');
 mw.isDrag = false;
 mw.resizable_row_width = false;
@@ -13,6 +14,7 @@ mw.have_new_items = false;
 
 mw.dragCurrent = null;
 mw.currentDragMouseOver = null;
+mw.liveEditSelectMode = 'element';
 
 mw.modulesClickInsert = true;
 
@@ -29,142 +31,12 @@ mw.noEditModules = [
 
 
 
-
-/**
- * Makes Droppable area
- *
- * @return Dom Element
- */
-mw.dropables = {
-    prepare: function() {
-        var dropable = document.createElement('div');
-        dropable.className = 'mw_dropable';
-        dropable.innerHTML = '<span class="mw_dropable_arr"></span>';
-        document.body.appendChild(dropable);
-        mw.dropable = $(dropable);
-        mw.dropable.on("mouseenter", function() {
-            $(this).hide();
-        });
-
-    },
-
-
-
-    findNearest:function(event,selectors){
-
-    var selectors = (selectors || mw.drag.section_selectors).slice(0);
-
-
-    for(var i = 0 ; i<selectors.length ; i++){
-        selectors[i] = '.edit ' + selectors[i].trim()
-    }
-
-
-    selectors = selectors.join(',');
-
-
-      //return $( event.target ).closest( '.edit section' )
-      var coords = { y:99999999 },
-          y = event.pageY,
-          all = document.querySelectorAll(selectors),
-          i = 0,
-          final = {
-            element:null,
-            position:null
-          };
-      for( ; i< all.length; i++){
-        var ord = mw.tools.parentsOrder(all[i], ['edit', 'module']);
-        if(ord.edit === -1 || ((ord.module !== -1 && ord.edit !== -1 ) && ord.module < ord.edit)){
-          continue;
-        }
-        if(!mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(all[i], ['allow-drop', 'nodrop'])){
-          continue;
-
-        }
-        var el = $(all[i]), offtop = el.offset().top;
-        var v1 = offtop - y;
-        var v2 = y - (offtop + el[0].offsetHeight);
-        var v = v1 > 0 ? v1 : v2;
-        if(coords.y > v){
-
-          final.element = all[i];
-        }
-        if(coords.y > v && v1 > 0){
-          final.position = 'top';
-        }
-        else if(coords.y > v && v2 > 0){
-          final.position = 'bottom';
-        }
-        if(coords.y > v){
-
-          coords.y = v
-        }
-
-      }
-      return final;
-    },
-    display: function(el) {
-
-        var el = $(el);
-        var offset = el.offset();
-        var width = el.outerWidth();
-        var height = el.outerHeight();
-        if (mw.drop_regions.global_drop_is_in_region) {
-
-        } else {
-            mw.dropable.css({
-                top: offset.top + height,
-                left: offset.left,
-                width: width
-            });
-        }
-    },
-    set: function(pos, offset, height, width) {
-        if (pos === 'top') {
-            mw.top_half = true;
-            mw.dropable.css({
-                top: offset.top - 2,
-                left: offset.left,
-                width: width,
-                height: ''
-            });
-            mw.dropable.data("position", "top");
-            mw.dropable.addClass("mw_dropable_arr_up");
-        } else if (pos === 'bottom') {
-            mw.top_half = false;
-            mw.dropable.css({
-                top: offset.top + height + 2,
-                left: offset.left,
-                width: width,
-                height: ''
-            });
-            mw.dropable.data("position", "bottom");
-            mw.dropable.removeClass("mw_dropable_arr_up");
-            mw.dropable.removeClass("mw_dropable_arr_rigt");
-        } else if (pos === 'left') {
-            mw.dropable.data("position", 'left');
-            mw.dropable.css({
-                top: offset.top,
-                height: height,
-                width: '',
-                left: offset.left
-            });
-        } else if (pos === 'right') {
-            mw.dropable.data("position", 'right');
-            mw.dropable.addClass("mw_dropable_arr_rigt");
-            mw.dropable.css({
-                top: offset.top,
-                left: offset.left + width,
-                height: height,
-                width: ''
-            });
-        }
-    }
-}
 mw.inaccessibleModules = document.createElement('div');
 mw.inaccessibleModules.className = 'mw-ui-btn-nav mwInaccessibleModulesMenu';
 
 $(document).ready(function() {
+
+    $("#live-edit-dropdown-actions-content a").off('click');
 
     $(document).on('mousedown touchstart', function(e){
       if(!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['mw-defaults', 'edit', 'element'])){
@@ -174,7 +46,7 @@ $(document).ready(function() {
 
     mw.$("span.edit:not('.nodrop')").each(function(){
       mw.tools.setTag(this, 'div');
-    })
+    });
     document.body.appendChild(mw.inaccessibleModules);
 
     mw.$("#toolbar-template-settings").click(function() {
@@ -183,7 +55,7 @@ $(document).ready(function() {
 
     mw.on('LayoutOver moduleOver', function(e, el){
 
-        if(e.type == 'moduleOver'){
+        if(e.type === 'moduleOver'){
 
           var parentModule = mw.tools.lastParentWithClass(el, 'module');
           var $el = $(el);
@@ -194,7 +66,6 @@ $(document).ready(function() {
           else{
             $el.removeClass('inaccessibleModule');
           }
-
         }
 
         mw.inaccessibleModules.innerHTML = '';
@@ -206,7 +77,7 @@ $(document).ready(function() {
               var el = this;
               span.onclick = function(){
                   mw.tools.module_settings(el);
-              }
+              };
               mw.inaccessibleModules.appendChild(span);
         });
         if(modules.length > 0){
@@ -454,11 +325,13 @@ $(document).ready(function() {
 
     mw.on("ElementClick", function(e, el, c) {
 
-        $(".element-current").not(el).removeClass('element-current')
-        $(el).addClass('element-current');
+        $(".element-current").not(el).removeClass('element-current');
+        if (mw.liveEditSelectMode === 'element') {
+            $(el).addClass('element-current');
 
-        if(mw.drag.target.canBeEditable(el)){
-            $(el).attr('contenteditable', true);
+            if(mw.drag.target.canBeEditable(el)){
+                $(el).attr('contenteditable', true);
+            }
         }
 
 
@@ -550,102 +423,6 @@ $(document).ready(function() {
     });
 
 });
-
-
-
-var nodeSettingsPause = false;
-
-mw.liveNodeSettings = {
-    _working: false,
-    set: function (type, el) {
-        if (this._working) return;
-        this._working = true;
-        var scope = this;
-        setTimeout(function () {
-            scope._working = false;
-        }, 78);
-
-        if(this[type]){
-            mw.sidebarSettingsTabs.set(2);
-            return this[type](el);
-        }
-
-
-    },
-
-
-    element: function (el) {
-        if (!this.__is_sidebar_opened()) {
-            return;
-        }
-        $('.mw-live-edit-component-options')
-            .hide()
-            .filter('#js-live-edit-side-wysiwyg-editor-holder')
-            .show();
-    },
-    none: function (el) {
-        if (!this.__is_sidebar_opened()) {
-            return;
-        }
-        $('.mw-live-edit-component-options')
-            .hide()
-    },
-    module: function (el) {
-        if (this.__is_sidebar_opened()) {
-            // $('.mw-live-edit-component-options')
-            //     .hide()
-            //     .filter('#js-live-edit-module-settings-holder')
-            //     .show();
-        }
-        mw.live_edit.showSettings(undefined, {mode:"sidebar", liveedit:true})
-      //   mw.drag.module_settings();
-
-
-    },
-    image: function (el) {
-        if (!this.__is_sidebar_opened()) {
-            return;
-        }
-
-        mw.$("#mw-live-edit-sidebar-image-frame")
-            .contents()
-            .find("#mwimagecurrent")
-            .attr("src", el.src)
-        $('.mw-live-edit-component-options')
-            .hide()
-            .filter('#js-live-edit-image-settings-holder')
-            .show()
-    },
-    initImage: function () {
-        var url = mw.external_tool('imageeditor');
-        $("#js-live-edit-image-settings-holder").append('<iframe src="' + url + '" frameborder="0" id="mw-live-edit-sidebar-image-frame"></iframe>');
-    },
-    icon: function () {
-        mw.iconSelector.settingsUI(true);
-        $('.mw-live-edit-component-options')
-            .hide()
-            .filter('#js-live-edit-icon-settings-holder')
-            .show();
-
-    },
-
-    __is_sidebar_opened: function () {
-
-        if (mw.liveEditSettings  &&  mw.liveEditSettings.active) {
-            return true;
-        }
-    }
-
-
-}
-
-
-$(document).ready(function(){
-    mw.on('liveEditSettingsReady', function(){
-        mw.liveNodeSettings.initImage();
-    });
-
-})
 
 
 hasAbilityToDropElementsInside = function(target) {
@@ -898,40 +675,8 @@ mw.drag = {
         $(mwd.body).on('mousemove', function(event) {
             var that = this;
             mw.dragSTOPCheck = false;
-         //   mw.tools.removeClass(this, 'isTyping');
-
 
            mw.tools.removeClass(this, 'isTyping');
-
-            // delete
-            //var has_selection = false;
-            //if(window.getSelection()){
-            //    var has_selection = window.getSelection().rangeCount;
-            //    if(has_selection === 1){
-            //        mw.tools.removeClass(this, 'isTyping');
-            //    } else {
-            //        mw.tools.addClass(this, 'isTyping');
-            //    }
-            //} else {
-            //    mw.tools.removeClass(this, 'isTyping');
-            //}
-            //
-            //var has_sel_timeout = 10;
-            //if(has_selection && has_selection > 1){
-            //    var has_sel_timeout = 3000;
-            //}
-            //
-            //
-            //window.clearTimeout(mwd.body.editor_typing_isTyping_clear_timer);
-            //mwd.body.editor_typing_isTyping_clear_timer = setTimeout(function(that){
-            //        mw.tools.removeClass(this, 'isTyping');
-            //        mwd.body.editor_typing_startTime = null;
-            //        mwd.body.editor_typing_seconds = null;
-            //
-            //}, has_sel_timeout);
-
-
-
 
 
             if (!mw.settings.resize_started) {
@@ -948,145 +693,10 @@ mw.drag = {
                 var mouseover_editable_region_inside_a_module = false;
 
                 if (!mw.isDrag) {
-                    if ( mw.emouse.x % 2 === 0 && mw.drag.columns.resizing === false ) {
-
-                        var cloneable = mw.tools.firstParentOrCurrentWithAnyOfClasses(mw.mm_target, ['cloneable', 'mw-cloneable-control']);
-
-                        if(!!cloneable){
-                          if(mw.tools.hasClass(cloneable, 'mw-cloneable-control')){
-                            mw.trigger("CloneableOver", mw.drag._onCloneableControl.__target);
-                          }
-                          else if(mw.tools.hasParentsWithClass(cloneable, 'mw-cloneable-control')){
-                            mw.trigger("CloneableOver", mw.drag._onCloneableControl.__target);
-                          }
-                          else{
-                            mw.trigger("CloneableOver", cloneable);
-                          }
-
-                        }
-                        else{
-                          if(mw.drag._onCloneableControl && mw.mm_target !== mw.drag._onCloneableControl){
-                            $(mw.drag._onCloneableControl).hide()
-                          }
-                        }
-
-                        if(mw.tools.hasClass(mw.mm_target, 'mw-layout-root')){
-                            mw.trigger("LayoutOver", mw.mm_target);
-                        }
-                        else if(mw.tools.hasParentsWithClass(mw.mm_target, 'mw-layout-root')){
-                            mw.trigger("LayoutOver", mw.tools.lastParentWithClass(mw.mm_target, 'mw-layout-root'));
-                        }
-                        if (mw.$mm_target.hasClass("element") && !mw.$mm_target.hasClass("module")
-                            && (!mw.tools.hasParentsWithClass(mw.mm_target, 'module') ||(mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(mw.mm_target, ['edit', 'module']))
-                                && (mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(mw.mm_target, ['allow-drop', 'nodrop']) || !mw.tools.hasParentsWithClass(mw.mm_target, 'nodrop')))) {
-                            mw.trigger("ElementOver", mw.mm_target);
-                        } else if (mw.$mm_target.parents(".element").length > 0 && !mw.tools.hasParentsWithClass(mw.mm_target, 'module')) {
-                            mw.trigger("ElementOver", mw.mm_target);
-                            //mw.trigger("ElementOver", mw.$mm_target.parents(".element:first")[0]);
-                        } else if (mw.mm_target.id != 'mw_handle_element' && mw.$mm_target.parents("#mw_handle_element").length == 0) {
-                            mw.trigger("ElementLeave", mw.mm_target);
-                        }
-                        if (mw.$mm_target.hasClass("module") && !mw.$mm_target.hasClass("no-settings")) {
-                          if(!mw.mm_target.__disableModuleTrigger){
-                            mw.trigger("moduleOver", mw.mm_target);
-                          }
-                          else{
-                             mw.trigger("moduleOver", mw.mm_target.__disableModuleTrigger);
-                          }
-
-
-                        } else if (mw.tools.hasParentsWithClass(mw.mm_target, 'module')) {
-                            var _parentmodule = mw.tools.firstParentWithClass(mw.mm_target, 'module');
-                            if (!mw.tools.hasClass(_parentmodule, "no-settings") && !_parentmodule.__disableModuleTrigger) {
-                                mw.trigger("moduleOver", _parentmodule);
-                            }
-                            else{
-                             mw.trigger("moduleOver", _parentmodule.__disableModuleTrigger);
-                          }
-
-                        } else if (mw.mm_target.id != 'mw_handle_module' && mw.$mm_target.parents("#mw_handle_module").length == 0) {
-                            mw.trigger("ModuleLeave", mw.mm_target);
-                        }
-                        if (mw.mm_target === mw.image_resizer) {
-                            mw.trigger("ElementOver", mw.image.currentResizing[0]);
-                        }
-
-                        if (mw.drag.columns.resizing === false && mw.tools.hasParentsWithClass(mw.mm_target, 'edit') && (!mw.tools.hasParentsWithClass(mw.mm_target, 'module') ||
-                                mw.tools.hasParentsWithClass(mw.mm_target, 'allow-drop'))) {
-
-                            //trigger on row
-                            if (mw.$mm_target.hasClass("mw-row")) {
-                                mw.trigger("RowOver", mw.mm_target);
-                            } else if (mw.tools.hasParentsWithClass(mw.mm_target, 'mw-row')) {
-                                mw.trigger("RowOver", mw.tools.firstParentWithClass(mw.mm_target, 'mw-row'));
-                            } else if (mw.mm_target.id != 'mw_handle_row' && mw.$mm_target.parents("#mw_handle_row").length == 0) {
-                                mw.trigger("RowLeave", mw.mm_target);
-                            }
-
-                            //onColumn
-
-                            if (mw.drag.columns.resizing === false && mw.tools.hasClass(mw.mm_target, 'mw-col')) {
-                                mw.drag.columnout = false;
-                                mw.trigger("ColumnOver", mw.mm_target);
-                            } else if (mw.drag.columns.resizing === false && mw.tools.hasParentsWithClass(mw.mm_target, 'mw-col')) {
-                                mw.drag.columnout = false;
-                                mw.trigger("ColumnOver", mw.tools.firstParentWithClass(mw.mm_target, 'mw-col'));
-                            } else {
-                                if (!mw.drag.columnout && !mw.tools.hasClass(mw.mm_target, 'mw-columns-resizer')) {
-                                    mw.drag.columnout = true;
-                                    mw.trigger("ColumnOut", mw.mm_target)
-                                }
-
-                            }
-                        }
-                        if (mw.$mm_target.parents(".edit,.mw_master_handle").length == 0) {
-                            if (!mw.$mm_target.hasClass(".edit") && !mw.$mm_target.hasClass("mw_master_handle")) {
-                                //mw.trigger("AllLeave", mw.mm_target);
-                            }
-                        }
-
+                    if (mw.liveEditSelectMode === 'element') {
+                        mw.liveEditHandlers()
                     }
-                    mw.image._dragTxt(event);
-
-                    var bg;
-                    if(event.target && event.target.style){
-                      bg = event.target.style && event.target.style.backgroundImage && !mw.tools.hasClass(event.target, 'edit');
-                    }
-
-                    if (!mw.image.isResizing && mw.image_resizer) {
-                        if (event.target.nodeName === 'IMG' && (mw.tools.hasClass(event.target, 'element') || mw.tools.hasClass(event.target, 'safe-element') || mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(event.target, ['edit','module'])) && mw.drag.columns.resizing === false) {
-                            mw.image_resizer._show();
-                            mw.image.resize.resizerSet(event.target, false);
-                        }
-                        else if (!!bg && mw.tools.hasClass(event.target, 'element') && mw.drag.columns.resizing === false) {
-                            if(mw.image_resizer){
-                                mw.image_resizer._show();
-                                mw.image.resize.resizerSet(event.target, false);
-                            }
-                        }
-                        else if (bg && mw.tools.hasParentsWithClass(event.target, 'edit') && mw.drag.columns.resizing === false) {
-                            if (mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(event.target, ['edit','module'])) {
-                                if(mw.image_resizer) {
-                                    mw.image_resizer._show();
-                                    mw.image.resize.resizerSet(event.target, false);
-                                }
-                            }
-                        }
-                        else if(mw.tools.hasClass(mw.mm_target, 'mw-image-holder-content')||mw.tools.hasParentsWithClass(mw.mm_target, 'mw-image-holder-content')){
-                            mw.image_resizer._show();
-                            mw.image.resize.resizerSet(mw.tools.firstParentWithClass(mw.mm_target, 'mw-image-holder').querySelector('img'), false);
-
-                        }
-                        else {
-                            if (!event.target.mwImageResizerComponent) {
-                                if(mw.image_resizer){
-                                    mw.image_resizer._hide();
-                                }
-                            }
-                        }
-                    }
-                }
-                else {
+                } else {
                     mw.ea.data.currentGrabbed = mw.dragCurrent;
                     if((mw.emouse.x+mw.emouse.y)%2===0){
                         mw.ea.interactionAnalizer(event);
@@ -2753,65 +2363,6 @@ mw.history = {
         }
     }
 }
-__createRow = function(hovered, mw_drag_current, pos) {
-    var hovered = $(hovered);
-    var row = mwd.createElement('div');
-    row.className = 'mw-row';
-    row.id = "element_" + mw.random();
-    row.innerHTML = "<div class='mw-col temp_column' style='width:50%'><div class='mw-col-container'></div></div><div class='mw-col' style='width:50%'><div class='mw-col-container'></div></div>";
-    hovered.before(row);
-    hovered.addClass("element");
-
-    if (pos == 'left') {
-        $(row).find(".mw-col-container").eq(0).append(mw_drag_current);
-        $(row).find(".mw-col").eq(0).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-' + mw.random() + '"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
-        $(row).find(".mw-col-container").eq(1).append(hovered);
-        $(row).find(".mw-col").eq(1).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-' + mw.random() + '"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
-
-    } else if (pos == 'right') {
-        $(row).find(".mw-col-container").eq(0).append(hovered);
-        $(row).find(".mw-col").eq(0).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-' + mw.random() + '"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
-        $(row).find(".mw-col-container").eq(1).append(mw_drag_current);
-        $(row).find(".mw-col").eq(1).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-' + mw.random() + '"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
-    }
-    setTimeout(function() {
-        mw.drag.fix_placeholders(true);
-    }, 200);
-}
-dropInside = function(el) {
-    if (el.tagName == 'IMG') {
-        return false;
-    }
-    if (!hasAbilityToDropElementsInside(el)) {
-        return false;
-    }
-
-    var css = mw.CSSParser(el).get;
-    var bg = css.background();
-    var padding = css.padding(true);
-    var radius = css.radius(true);
-    var shadow = css.shadow(true);
-    var border = css.border(true);
-
-    if ((bg.color != 'transparent' && bg.color != 'rgba(0, 0, 0, 0)') || bg.image != 'none') {
-        return true;
-    }
-    if (padding.top > 0 || padding.right > 0 || padding.bottom > 0 || padding.left > 0) {
-        return true;
-    }
-    if (radius.tl > 0 || radius.tr > 0 || radius.br > 0 || radius.bl > 0) {
-        return true;
-    }
-    if (shadow.color != 'none') {
-        return true;
-    }
-
-    if (border.top.width > 0 || border.right.width > 0 || border.bottom.width > 0 || border.left.width > 0) {
-        return true;
-    }
-
-    return false;
-}
 /* Toolbar */
 mw.tools.addClass(mwd.body, 'mw-live-edit')
 mw.designTool = {
@@ -2845,7 +2396,7 @@ mw.designTool = {
         root.css('top', 100);
       }
     }
-}
+};
 $(window).on("load", function() {
     setTimeout(function(){
     mw.$(".mw-dropdown_type_navigation a").each(function() {
@@ -2905,7 +2456,7 @@ $(window).on("load", function() {
       $(this).next().slideToggle(function(){
         mw.designTool.setSize()
       })
-    })
+    });
 
 
     mw.$(".toolbar_bnav").hover(function() {
@@ -3283,7 +2834,6 @@ $(window).on("load", function() {
                     }
 
                 }, 33);
-
             }
         } else {
             if (!mw.tools.hasParentsWithClass(e.target, 'mw_small_editor')) {
@@ -3311,7 +2861,6 @@ $(window).on("load", function() {
     mw.smallEditorOff = 150;
 
     $(window).on("mousemove", function(e) {
-        var isCollapsed = window.get
         if (!!mw.smallEditor && !mw.isDrag && !mw.smallEditorCanceled && !mw.smallEditor.hasClass("editor_hover")) {
             var off = mw.smallEditor.offset();
             if (typeof off !== 'undefined') {
@@ -3320,21 +2869,17 @@ $(window).on("load", function() {
                         mw.smallEditor.css("visibility", "hidden");
                         mw.smallEditorCanceled = true;
                     }
-                } else {
-                    //mw.smallEditor.css("visibility", "visible");
                 }
             }
         }
     });
     $(window).on("scroll", function(e) {
         if (typeof(mw.smallEditor) != "undefined") {
-
             mw.smallEditor.css("visibility", "hidden");
             mw.smallEditorCanceled = true;
         }
     });
     mw.$("#live_edit_toolbar,#mw_small_editor").on("mousedown", function(e) {
-
        $(".wysiwyg_external").empty()
         if (e.target.nodeName != 'INPUT' && e.target.nodeName != 'SELECT' && e.target.nodeName != 'OPTION' && e.target.nodeName != 'CHECKBOX') {
             e.preventDefault();
@@ -3345,7 +2890,6 @@ $(window).on("load", function() {
                 mw.smallEditorCanceled = true;
             }
         }
-
     });
     mw.setLiveEditor();
     /*  /WYSIWYG */
@@ -3364,7 +2908,7 @@ mw.preview = function() {
     var url = mw.url.set_param('preview', true, url);
     window.open(url, '_blank');
     window.focus();
-}
+};
 
 mw.iphonePreview = function() {
     var url = mw.url.removeHash(window.location.href);
@@ -3376,7 +2920,7 @@ mw.iphonePreview = function() {
         template: 'modal-iphone'
     });
     mw.tools.modal.overlay();
-}
+};
 mw.quick = {
     w: '80%',
     h: '90%',
@@ -3489,19 +3033,20 @@ mw.quick = {
         modal.overlay.style.backgroundColor = "white";
     }
 }
-mw.beforeleave_html = "" +
-    "<div class='mw-before-leave-container'>" +
-    "<p>Leave page by choosing an option</p>" +
-    "<span class='mw-ui-btn mw-ui-btn-important'>" + mw.msg.before_leave + "</span>" +
-    "<span class='mw-ui-btn mw-ui-btn-notification' >" + mw.msg.save_and_continue + "</span>" +
-    "<span class='mw-ui-btn' onclick='mw.tools.modal.remove(\"modal_beforeleave\")'>" + mw.msg.cancel + "</span>" +
-    "</div>";
+
 
 mw.beforeleave = function(url) {
+    var beforeleave_html = "" +
+        "<div class='mw-before-leave-container'>" +
+        "<p>Leave page by choosing an option</p>" +
+        "<span class='mw-ui-btn mw-ui-btn-important'>" + mw.msg.before_leave + "</span>" +
+        "<span class='mw-ui-btn mw-ui-btn-notification' >" + mw.msg.save_and_continue + "</span>" +
+        "<span class='mw-ui-btn' onclick='mw.tools.modal.remove(\"modal_beforeleave\")'>" + mw.msg.cancel + "</span>" +
+        "</div>";
     if (mw.askusertostay && mw.$(".edit.orig_changed").length > 0) {
         if (mwd.getElementById('modal_beforeleave') === null) {
             var modal = mw.tools.modal.init({
-                html: mw.beforeleave_html,
+                html: beforeleave_html,
                 name: 'modal_beforeleave',
                 width: 470,
                 height: 230,
