@@ -431,7 +431,7 @@
                         {
                             interface: 'block',
                             class: '',
-                            content: 'XXMargin'
+                            content: 'Margin'
                         },
                         {
                             interface: 'quatro',
@@ -645,12 +645,10 @@
                     mw.$(mw.elementCSSEditor.currentElement).attr('staticdesign', true);
                 });
 
-
-
                 this.contentWindow.mw.$(".mw-CSS-Editor-group-title").on("click", function(){
 
-                        $(this).next().stop().slideToggle();
-                    })
+                    $(this).next().stop().slideToggle();
+                })
 
 
             });
@@ -684,13 +682,6 @@
                         return;
                     }
                     mw.elementCSSEditor.enable();
-
-
-                    /*html2canvas(mw.elementCSSEditor.currentElement).then(function(canvas) {
-                        $("#mw-css-editor-selected").css('background-image', 'url(' + canvas.toDataURL() + ')');
-                    });*/
-
-
 
                     var css = getComputedStyle(el);
                     var bgimg = css.backgroundImage;

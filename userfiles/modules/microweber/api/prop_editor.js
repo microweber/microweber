@@ -209,7 +209,7 @@ mw.propEditor = {
                 (function (newItems, el) {
                     setTimeout(function(){
                         for(var i=0; i<newItems.length; i++){
-                            el.appendChild(newItems[i].node);
+                            //el.appendChild(newItems[i].node);
                             $(el).append(newItems[i].node);
                         }
                     });
@@ -232,10 +232,15 @@ mw.propEditor = {
             $(holder).addClass('prop-ui-field-holder-size');
             $(unitSelector)
                 .val('px')
-                .addClass('prop-ui-field-unit')
-                .on('change', function(){
-                field.dataset.unit = $(this).val();
+                .addClass('prop-ui-field-unit');
+            unitSelector.onchange = function(){
+                field.dataset.unit = $(this).val() || 'px';
+                console.log(field.dataset.unit);
                 $(proto).trigger('change', [config.id, field.value + field.dataset.unit]);
+            };
+
+            $(unitSelector).on('change', function(){
+
             });
 
             holder.appendChild(label);
@@ -244,6 +249,7 @@ mw.propEditor = {
             holder.appendChild(buttonNav);
 
             field.oninput = function(){
+                console.log(field.dataset.unit);
                 proto._valSchema[config.id] = this.value + this.dataset.unit;
                 $(proto).trigger('change', [config.id, this.value + this.dataset.unit]);
             };

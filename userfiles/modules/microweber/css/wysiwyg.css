@@ -384,7 +384,7 @@
     z-index: 1003;
     /*width: 250px;
     height: 68px;*/
-    box-shadow: 0 11px 15px -7px rgba(0,0,0,.2), 0 24px 38px 3px rgba(0,0,0,.14), 0 9px 46px 8px rgba(0,0,0,.12);
+    box-shadow: 0 2px 22px rgba(0,0,0,.2);
     background: #F5F5F5;
     border-radius: 1px;
     margin-left: 12px;
@@ -664,7 +664,7 @@
     left: -22px;
     width: 150px;
     border: 1px solid #D2D2D2;
-    top: 12px;
+    top: -1px;
 }
 
 #mw_history_files a {
