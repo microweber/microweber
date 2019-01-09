@@ -32,7 +32,7 @@ description: Default comments template
                                 onclick="mw.tools.refresh_image(this);"
                                 class="mw-captcha-img"
                                 id="captcha-<?php print $form_id; ?>"
-                                src="<?php print api_link('captcha') ?>?w=100&h=60&uid=<?php print uniqid($form_id) ?>&rand=<?php rand(1,10000) ?>"  /></a>
+                                src="<?php print api_link('captcha') ?>?w=100&h=60&uid=<?php print uniqid($form_id) ?>&rand=<?php print rand(1,10000) ?>&id=<?php print $params['id'] ?> ?>"  /></a>
                     </div>
                     <div class="col-xs-6">
                         <input name="captcha" type="text" required class="mw-captcha-input form-control" placeholder="<?php _e("Security code"); ?>"/>

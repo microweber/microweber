@@ -11,6 +11,7 @@ $mw_replaced_codes_tag = array();
 $mw_replaced_textarea_tag = array();
 
 $mw_parser_nest_counter_level = 0;
+$mw_parser_replace_inc = 0;
 $mod_tag_replace_inc = 0;
 $other_html_tag_replace_inc = 0;
 
@@ -33,6 +34,7 @@ class Parser
     private $_replaced_modules = array();
     private $_replaced_codes = array();
     private $_replaced_input_tags = array();
+    private $_replaced_input_tags_inner_loops = array();
     private $_existing_module_ids = array();
     private $_existing_module_ids_grouped = array();
     private $_current_parser_rel = false;
@@ -118,16 +120,17 @@ class Parser
             return $mw_replaced_edit_fields_vals[$parser_mem_crc];
         }
 
-
+        global $mw_parser_replace_inc;
         $layout = str_replace('<?', '&lt;?', $layout);
 
 
-        $script_pattern = "/<textarea[^>]*>(.*)<\/textarea>/Uis";
+    /*    $script_pattern = "/<textarea[^>]*>(.*)<\/textarea>/Uis";
         preg_match_all($script_pattern, $layout, $mw_script_matches);
+
         if (!empty($mw_script_matches)) {
             foreach ($mw_script_matches [0] as $key => $value) {
                 if ($value != '') {
-                    $v1 = crc32($value);
+                    $v1 = crc32($value) . $mw_parser_replace_inc++;
                     $v1 = '<tag-textarea>mw_replace_back_this_textarea_' . $v1 . '</tag-textarea>';
                     $layout = str_replace($value, $v1, $layout);
                     if (!isset($this->_replaced_input_tags[$v1])) {
@@ -137,7 +140,14 @@ class Parser
                     }
                 }
             }
-        }
+        }*/
+
+        $layout = $this->_replace_tags_with_placeholders($layout);
+
+
+
+
+
 
         $script_pattern = "/<select[^>]*>(.*)<\/select>/Uis";
         preg_match_all($script_pattern, $layout, $mw_script_matches);
@@ -149,7 +159,7 @@ class Parser
                     $layout = str_replace($value, $v1, $layout);
                     if (!isset($this->_replaced_input_tags[$v1])) {
                         $this->_replaced_input_tags[$v1] = $value;
-                        $mw_replaced_textarea_tag[$v1] = $value;
+                        $mw_replaced_codes_tag[$v1] = $value;
                     }
                 }
             }
@@ -162,7 +172,7 @@ class Parser
             foreach ($mw_script_matches [0] as $key => $value) {
                 if ($value != '') {
                     $v1 = crc32($value);
-                    $v1 = '<custom-replaced-tag>mw_replace_back_this_select_' . $v1 . '</custom-replaced-tag>';
+                    $v1 = '<custom-replaced-tag>mw_replace_back_this_style_' . $v1 . '</custom-replaced-tag>';
                     $layout = str_replace($value, $v1, $layout);
                     if (!isset($this->_replaced_input_tags[$v1])) {
                         $this->_replaced_input_tags[$v1] = $value;
@@ -586,12 +596,7 @@ class Parser
                                             if (isset($this->_current_parser_module_of_type[$par_id_mod_count])) {
                                                 if (isset($this->_current_parser_module_of_type[$par_id_mod_count][$module_name])) {
                                                     $inc_mod_num = $this->_current_parser_module_of_type[$par_id_mod_count][$module_name];
-//                                                                                                d('<hr>');
-//                                            d('aaaaaaaaaaaaaaaa==================');
-//                                            d($par_id_mod_count);
-//                                            d($module_name);
-//                                            d($inc_mod_num);
-//                                            d('aaaaaaaaaaaaaaaaa==================');
+//
                                                 }
 
                                             } else {
@@ -778,90 +783,11 @@ class Parser
                                     unset($local_mw_replaced_modules[$parse_key][$key]);
 
 
-                                    $script_pattern = "/<code[^>]*>(.*)<\/code>/Uis";
-                                    preg_match_all($script_pattern, $mod_content, $mw_script_matches);
-
-                                    if (!empty($mw_script_matches)) {
-                                        foreach ($mw_script_matches [0] as $key => $value) {
-                                            if ($value != '') {
-                                                $v1 = crc32($value);
-                                                $v1 = '<tag>mw_replace_back_this_code_mod_inner_' . $v1 . '</tag>';
-                                                $mod_content = str_replace($value, $v1, $mod_content);
-                                                if (!isset($replaced_scripts[$v1])) {
-                                                    $mw_replaced_codes_tag[$v1] = $value;
-                                                }
-                                            }
-                                        }
-                                    }
 
 
-                                    $script_pattern = "/<textarea[^>]*>(.*)<\/textarea>/Uis";
-                                    preg_match_all($script_pattern, $mod_content, $mw_script_matches);
-
-                                    if (!empty($mw_script_matches)) {
-                                        foreach ($mw_script_matches [0] as $key => $value) {
-                                            if ($value != '') {
-                                                $v1 = crc32($value);
-                                                $v1 = '<tag-textarea>mw_replace_back_this_textarea_inner_' . $v1 . '</tag-textarea>';
-                                                $mod_content = str_replace($value, $v1, $mod_content);
-                                                if (!isset($this->_replaced_input_tags[$v1])) {
-                                                    $this->_replaced_input_tags[$v1] = $value;
-                                                    $mw_replaced_textarea_tag[$v1] = $value;
-                                                }
-                                            }
-                                        }
-                                    }
-
-//
-//                                    $script_pattern = "/<option[^>]*>(.*)<\/option>/Uis";
-//                                    preg_match_all($script_pattern, $layout, $mw_script_matches);
-//                                    if (!empty($mw_script_matches)) {
-//                                        foreach ($mw_script_matches [0] as $key => $value) {
-//                                            if ($value != '') {
-//                                                $v1 = crc32($value);
-//                                                $v1 = '<tag-option>mw_replace_back_this_option_' . $v1 . '</tag-option>';
-//                                                $layout = str_replace($value, $v1, $layout);
-//                                                if (!isset($this->_replaced_input_tags[$v1])) {
-//                                                    $this->_replaced_input_tags[$v1] = $value;
-//                                                      $mw_replaced_textarea_tag[$v1] = $value;
-//                                                }
-//                                            }
-//                                        }
-//                                    }
-
-//                                    $script_pattern = "/<select[^>]*>(.*)<\/select>/Uis";
-//                                    preg_match_all($script_pattern, $layout, $mw_script_matches);
-//                                    if (!empty($mw_script_matches)) {
-//                                        foreach ($mw_script_matches [0] as $key => $value) {
-//                                            if ($value != '') {
-//                                                $v1 = crc32($value);
-//                                                $v1 = '<custom-replaced-tag-select>mw_replace_back_this_select_' . $v1 . '</custom-replaced-tag-select>';
-//                                                $layout = str_replace($value, $v1, $layout);
-//                                                if (!isset($this->_replaced_input_tags[$v1])) {
-//                                                     $this->_replaced_input_tags[$v1] = $value;
-//                                                    $mw_replaced_textarea_tag[$v1] = $value;
-//                                                }
-//                                            }
-//                                        }
-//                                    }
-//
 
 
-                                    $script_pattern = "/<style[^>]*>(.*)<\/style>/Uis";
-                                    preg_match_all($script_pattern, $layout, $mw_script_matches);
-                                    if (!empty($mw_script_matches)) {
-                                        foreach ($mw_script_matches [0] as $key => $value) {
-                                            if ($value != '') {
-                                                $v1 = crc32($value);
-                                                $v1 = '<custom-replaced-tag>mw_replace_back_this_select_' . $v1 . '</custom-replaced-tag>';
-                                                $layout = str_replace($value, $v1, $layout);
-                                                if (!isset($this->_replaced_input_tags[$v1])) {
-                                                    $this->_replaced_input_tags[$v1] = $value;
-                                                    $mw_replaced_textarea_tag[$v1] = $value;
-                                                }
-                                            }
-                                        }
-                                    }
+                                    $mod_content = $this->_replace_tags_with_placeholders($mod_content);
 
                                     $proceed_with_parse = $this->_do_we_have_more_for_parse($mod_content);
 
@@ -994,28 +920,60 @@ class Parser
             }
         }
         //}
-        if (!$coming_from_parent) {
-            if (!empty($this->_replaced_input_tags)) {
-                foreach ($this->_replaced_input_tags as $key => $value) {
-                    if ($value != '') {
-                        $layout = str_replace($key, $value, $layout);
-                    }
-                    unset($this->_replaced_input_tags[$key]);
-                }
-            }
 
+
+        // if (!$coming_from_parent) {
+        if (!empty($this->_replaced_input_tags)) {
+            foreach ($this->_replaced_input_tags as $key => $value) {
+                if ($value != '') {
+                    $layout = str_replace($key, $value, $layout);
+                }
+                unset($this->_replaced_input_tags[$key]);
+            }
         }
 
-        if (!empty($mw_replaced_textarea_tag)) {
+        // }
+
+        //  if (!$coming_from_parent) {
+
+     /*   if (!empty($mw_replaced_textarea_tag)) {
             foreach ($mw_replaced_textarea_tag as $key => $value) {
                 if ($value != '') {
                     $layout = str_replace($key, $value, $layout);
                 }
+                unset($mw_replaced_textarea_tag[$key]);
+            }
+        }*/
+
+
+        // if (!$coming_from_parent_id) {
+        if (!empty($this->_replaced_input_tags_inner_loops)) {
+            foreach ($this->_replaced_input_tags_inner_loops as $key => $value) {
+                if ($value != '') {
+                    $layout = $this->_str_replace_first($key, $value, $layout);
+
+                    // $layout = str_replace($key, $value, $layout);
+                    //  $this->_replaced_input_tags_inner_loops[$key] = 1;
+                }
+            //    unset($this->_replaced_input_tags_inner_loops[$key]);
             }
         }
 
-        if (!$coming_from_parent) {
+        //  }
 
+
+        // }
+
+        //  if ($coming_from_parent) {
+//            if (!empty($mw_replaced_textarea_tag)) {
+//                foreach ($mw_replaced_textarea_tag as $key => $value) {
+//                    if ($value != '') {
+//                        $layout = str_replace($key, $value, $layout);
+//                    }
+//                }
+//            }
+        // }
+        if (!$coming_from_parent) {
             $layout = $this->replace_url_placeholders($layout);
         }
 
@@ -2486,9 +2444,13 @@ $srsc_str
 
     private function _str_replace_first($search, $replace, $subject)
     {
-        if ($search == false || $replace === false) {
+        if ($search == false || $replace == false) {
             return $subject;
         }
+        if (!is_string($search)) {
+            return $subject;
+        }
+
         $pos = strpos($subject, $search);
         if ($pos !== false) {
             $subject = substr_replace($subject, $replace, $pos, strlen($search));
@@ -2580,6 +2542,77 @@ $srsc_str
         if ($attrs) {
             return $attrs;
         }
+    }
+
+
+    private function _replace_tags_with_placeholders($mod_content)
+    {
+
+        global $mw_parser_replace_inc;
+        global $mw_replaced_codes_tag;
+        global $mw_replaced_edit_fields_vals;
+        global $other_html_tag_replace_inc;
+        global $mw_replaced_codes_tag;
+        global $mw_replaced_textarea_tag;
+
+        $script_pattern = "/<code[^>]*>(.*)<\/code>/Uis";
+        preg_match_all($script_pattern, $mod_content, $mw_script_matches);
+
+        if (!empty($mw_script_matches)) {
+            foreach ($mw_script_matches [0] as $key => $value) {
+                if ($value != '') {
+                    $v1 = crc32($value);
+                    $v1 = '<tag>mw_replace_back_this_code_mod_inner_' . $v1 . '</tag>';
+                    $mod_content = str_replace($value, $v1, $mod_content);
+                    if (!isset($replaced_scripts[$v1])) {
+                        $mw_replaced_codes_tag[$v1] = $value;
+                    }
+                }
+            }
+        }
+
+
+
+        $script_pattern = "/<textarea[^>]*>(.*)<\/textarea>/Uis";
+        preg_match_all($script_pattern, $mod_content, $mw_script_matches);
+
+        if (!empty($mw_script_matches)) {
+            foreach ($mw_script_matches [0] as $key => $value) {
+                if ($value != '') {
+                    //   $v1 = crc32($value);
+                    $v1 = crc32($value) . '-' . $mw_parser_replace_inc++ . '-';
+
+                    $v1 = '<tag-textarea>mw_replace_back_this_textarea_inner_loop11_' . $v1 . '</tag-textarea>';
+
+                    $mod_content = $this->_str_replace_first($value, $v1, $mod_content);
+
+                    if (!isset($this->_replaced_input_tags_inner_loops[$v1])) {
+                        $this->_replaced_input_tags_inner_loops[$v1] = $value;
+                    //    $mw_replaced_textarea_tag[$v1] = $value;
+                    }
+                }
+            }
+        }
+
+
+        $script_pattern = "/<style[^>]*>(.*)<\/style>/Uis";
+        preg_match_all($script_pattern, $mod_content, $mw_script_matches);
+        if (!empty($mw_script_matches)) {
+            foreach ($mw_script_matches [0] as $key => $value) {
+                if ($value != '') {
+                    $v1 = crc32($value);
+                    $v1 = '<custom-replaced-tag>mw_replace_back_this_style_inner_' . $v1 . '</custom-replaced-tag>';
+                    $mod_content = str_replace($value, $v1, $mod_content);
+                    if (!isset($this->_replaced_input_tags[$v1])) {
+                        $this->_replaced_input_tags[$v1] = $value;
+                        $mw_replaced_codes_tag[$v1] = $value;
+                     }
+                }
+            }
+        }
+
+
+        return $mod_content;
     }
 
 

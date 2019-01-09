@@ -279,6 +279,11 @@ function isarr($var)
     }
 }
 
+function array_search_multidimensional($array, $column, $key)
+{
+    return (array_search($key, array_column($array, $column)));
+}
+
 function is_ajax()
 {
     return mw()->url_manager->is_ajax();

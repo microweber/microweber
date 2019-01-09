@@ -393,7 +393,10 @@ mw.getScripts = function (array, callback) {
   }
 
   mw.loadModuleData = function(name, update_element, callback, attributes){
+
+
     var attributes = attributes || {};
+
     if(typeof update_element == 'function'){
       var callback = update_element;
     }
@@ -404,9 +407,12 @@ mw.getScripts = function (array, callback) {
       params: attributes
     }, false, true)
     .done(function(data){
-        setTimeout(function(){
+
+            setTimeout(function(){
             callback.call(this, data);
-        }, 50)
+                $(document).off('focusin.modal');
+            }, 50)
+
     });
   }
   mw.getModule = function(name, params, callback){
