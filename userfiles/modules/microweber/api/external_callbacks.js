@@ -28,7 +28,13 @@ mw.iframecallbacks = {
 
         if (!!mw.current_element && mw.current_element.nodeName === 'IMG') {
             if (mw.current_element.parentNode.nodeName !== 'A') {
-                $(mw.current_element).wrap("<a "+(url?"href='" + url + "'":'')+ target='" + target + "'></a>");
+                var a = mwd.createElement('a');
+                if(url){
+                    a.href = url;
+                }
+                a.target = target;
+
+                $(mw.current_element).wrap(a);
             }
             else {
                 $(mw.current_element.parentNode)[jqAction]('href', url);

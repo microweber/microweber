@@ -364,7 +364,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                     <li <?php if (!isset($params['clean'])) { ?> id="<?php print $module_id; ?>" <?php } ?>
                             data-module-name="<?php print $module_item['module'] ?>"
 
-                        <?php if ($mod_obj_str == 'elements'): ?> style="display: none" <?php endif; ?>
+                        <?php if ($mod_obj_str == 'elements'): ?> style="" <?php endif; ?>
                             data-filter="<?php print $module_item['name'] ?>"
                             ondrop="true"
                             data-category="<?php isset($module_item['categories']) ? print addslashes($module_item['categories']) : ''; ?>"

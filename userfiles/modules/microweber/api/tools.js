@@ -4297,6 +4297,26 @@ document.isHidden = function () {
         return !document.hasFocus();
     }
 }
+
+
+
+mw._crossWindowEvents = false;
+mw.crossWindowEvent = function(ename, data){
+    data = data || mw.random();
+    var rootName =  'mwCrossWindowEvent_';
+    if (!mw._crossWindowEvents) {
+        mw._crossWindowEvents = true;
+        mww.addEventListener('storage', function (e) {
+            if ( e.key.indexOf(rootName) !== -1 ) {
+                var item = localStorage.getItem(rootName + ename);
+                mw.trigger(ename, [JSON.parse(item)]);
+            }
+        });
+    }
+    localStorage.setItem( rootName + ename, JSON.stringify(data));
+}
+
+
 mw.storage = {
     init: function () {
         if (window.location.href.indexOf('data:') === 0 || !('localStorage' in mww) || /* IE Security configurations */ typeof mww['localStorage'] === 'undefined') return false;
@@ -5754,3 +5774,4 @@ mw.tabAccordion = function(options, accordion){
 
     this.init();
 }
+
