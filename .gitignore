@@ -1,6 +1,4 @@
 config/*
-config/database.php
-config/microweber.php
 vendor/*
 userfiles/language/
 userfiles/css/
@@ -8,7 +6,6 @@ userfiles/media/*
 userfiles/export/*
 userfiles/import/*
 userfiles/cache/*
-userfiles/mw_content.json
 storage/cache/*
 old_mw/
 phpinfo.php
@@ -47,6 +44,7 @@ node_modules/
 /userfiles/mw_content.json
 /userfiles/templates/utouch
 /userfiles/templates/microweber_org
+/userfiles/templates/microweber_com
 /cloudsigma
 /q-theme
 /active
