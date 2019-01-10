@@ -253,7 +253,6 @@ class Backup
         }
 
 
-
         ob_start();
         $api = new \Microweber\Utils\Backup();
         $this->app->cache_manager->clear();
@@ -328,10 +327,10 @@ class Backup
 
 
                 $temp_dir_restore = $target_dir;
-                $sql_restore = $target_dir . 'mw_sql_restore.sql';
-                if (is_file($sql_restore)) {
-                    $sql_file = $sql_restore;
-                }
+//                $sql_restore = $target_dir . 'mw_sql_restore.sql';
+//                if (is_file($sql_restore)) {
+//                    $sql_file = $sql_restore;
+//                }
 
                 $json_restore = $target_dir . 'mw_content.json';
                 if (is_file($json_restore)) {
@@ -341,12 +340,12 @@ class Backup
 
                 break;
 
-            case 'sql' :
-                $sql_file = $filename;
-                break;
+//            case 'sql' :
+//                $sql_file = $filename;
+//                break;
 
             case 'json' :
-                $sql_file = $filename;
+                $json_file = $filename;
                 break;
 
             default :
@@ -355,7 +354,7 @@ class Backup
         }
 
         if ($ext_error == true) {
-            return array('error' => 'Invalid file extension. The restore file must be .sql or .zip');
+            return array('error' => 'Invalid file extension. The restore file must be .sql, .json or .zip');
             die();
         }
 
@@ -780,10 +779,6 @@ class Backup
         return array('success' => "Backup was created for $end sec! $filename_to_return", 'filename' => $filename_to_return, 'runtime' => $end, 'url' => dir2url($filess));
 
 
-
-
-
-
         /* OLD BACKUP BELOW */
         /* DEPRECATED */
         /* DEPRECATED */
@@ -942,7 +937,8 @@ class Backup
 
 
         $skip_tables = array(
-            "modules", "elements", "users", "log", "notifications", "content_revisions_history", 'content_fields_drafts', "stats_users_online", "system_licenses", "users_oauth", "sessions"
+            "modules", "elements", "users", "log", "notifications", "content_revisions_history", 'content_fields_drafts', "stats_users_online", "system_licenses", "users_oauth",
+            "sessions", "jobs", "failed_jobs"
         );
 
 
@@ -1098,13 +1094,13 @@ class Backup
         }
 
         $backup_actions = array();
-        $backup_actions[] = 'make_db_backup';
+        //  $backup_actions[] = 'make_db_backup';
         $backup_actions[] = 'make_json_backup';
 
         $userfiles_folder = userfiles_path();
         $media_folder = media_base_path();
 
-        $all_images = $this->app->media_manager->get_all('limit=100000');
+        $all_images = $this->app->media_manager->get_all('nolimit=1');
 
         if (!empty($all_images)) {
             foreach ($all_images as $image) {
@@ -1116,6 +1112,17 @@ class Backup
                 }
             }
         }
+
+        $media_up_path = media_uploads_path();
+        $media_up_path = normalize_path($media_up_path, 1);
+
+        if (is_dir($media_up_path)) {
+            $more_folders = \rglob($media_up_path . '*', GLOB_NOSORT);
+            if (!empty($more_folders)) {
+                $backup_actions = array_merge($more_folders, $backup_actions);
+            }
+         }
+
 
         $host = (parse_url(site_url()));
 
@@ -1156,6 +1163,9 @@ class Backup
                 $backup_actions = array_merge($text_files, $backup_actions);
             }
         }
+
+
+
 
         $cache_id = 'backup_queue';
         $cache_id_loc = 'backup_progress';
@@ -1263,7 +1273,7 @@ class Backup
         $filename = str_replace('..', '', $filename);
 
         $ext = get_file_extension(strtolower($filename));
-        if ($ext != 'zip' and $ext != 'sql') {
+        if ($ext != 'zip' and $ext != 'sql' and $ext != 'json') {
             return array('error' => "You are now allowed to delete {$ext} files.");
         }
         if (is_file($filename)) {
