@@ -15,6 +15,7 @@ phpinfo.php
 /stats2
 dwsync.xml
 /userfiles/backup
+config/database.php
 /storage
 /storage/.gitignore
 /storage/.htaccess
