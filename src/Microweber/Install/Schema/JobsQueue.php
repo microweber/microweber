@@ -17,7 +17,7 @@ class JobsQueue extends Migration
 
 
         if (DbSchema::hasTable('jobs')) {
-            if (!DbSchema::hasColumn('jobs', 'mw_processes')) {
+            if (!DbSchema::hasColumn('jobs', 'mw_processed')) {
                 DbSchema::dropIfExists('jobs');
                 DbSchema::dropIfExists('failed_jobs');
             }
@@ -32,12 +32,16 @@ class JobsQueue extends Migration
                 'reserved_at' => 'integer',
                 'available_at' => 'integer',
                 'created_at' => 'integer',
-                'mw_processes' => 'integer',
+                'updated_at' => 'dateTime',
+                'mw_processed' => 'integer',
+                'job_hash' => 'text',
             ], 'failed_jobs' => [
                 'connection' => 'text',
                 'queue' => 'longText',
                 'payload' => 'longText',
                 'created_at' => 'dateTime',
+                'job_hash' => 'text',
+
             ],
         ];
     }

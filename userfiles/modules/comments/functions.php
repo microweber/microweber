@@ -44,8 +44,42 @@ api_expose('post_comment');
 function post_comment($data)
 {
 
+
+
+
+
+//    $emailJob = (new \Microweber\Comments\Jobs\JobSendNotificationOnComment())->delay(\Carbon::now()->addSeconds(3));
+//    dispatch($emailJob);
+
+    //   \Microweber\Comments\Jobs\JobSendNotificationOnComment::dispatch(123)->onQueue('processing');
+
+
+    // $queue = new \Microweber\Comments\Jobs\JobSendNotificationOnComment();
+
+    // $queue->dispatch(123)->delay(1);
+
+
     $comments = new \Microweber\Comments\Models\Comments();
-    return $comments->save($data);
+    $comment_id = $comments->save($data);
+
+
+
+
+    $comment = (new Microweber\Comments\Models\Comment())->where('id', '=', $comment_id)->first();
+
+
+    // $emailJob = (new  \Microweber\Comments\Jobs\SendEmailJob($comment))->delay(\Carbon::now()->addSeconds(300))->onQueue('processing');
+    $emailJob = (new  \Microweber\Comments\Jobs\SendEmailJob($comment))->onQueue('processing');
+
+
+    \Queue::later(5, $emailJob);
+
+
+
+
+
+
+    return $comment_id;
 
 
 }

@@ -149,7 +149,7 @@ api_expose_admin('content/get_admin_js_tree_json', function ($data) {
                                 $item = array();
                                 $item['id'] = $cat_sub['id'];
                                 $item['type'] = 'category';
-                                 $item['parent_id'] = intval($cat['id']);
+                                $item['parent_id'] = intval($cat['id']);
 
                                 $item['parent_type'] = 'category';
                                 $item['title'] = $cat_sub['title'];
@@ -277,6 +277,85 @@ api_expose('media/delete_media_file');
 
 api_expose('queue_dispatch', function () {
     mw()->event_manager->trigger('mw.queue.dispatch');
+
+    $all_queue = Jobs::whereNull('mw_processed')->get();
+
+    if ($all_queue) {
+        foreach ($all_queue as $queue_item) {
+            $payload = $queue_item->payload;
+            if($payload){
+                $payload =  @json_decode($payload,true);
+                $command = @unserialize($payload['data']['command']);
+              //  $queue_item->mw_processed=1;
+               // $queue_item->save();
+           //     $queue_item->delete();
+
+
+                if(is_object($command)){
+
+                    $app = app();
+                //    $command = (clone $command);
+                    $app->make('queue');
+
+             //    $app->register(get_class($command));
+               //  $app->bind('Illuminate\Contracts\Queue\Job',get_class($command));
+
+                  //  $command::dispatch($command);
+                  //  dd($command);
+                    $dispatcher = $app->make('Illuminate\Contracts\Bus\Dispatcher');
+                    $h = $app->make('Illuminate\Queue\CallQueuedHandler');
+
+                   // $job = app('Illuminate\Contracts\Queue\Job');
+
+                //    $handler = new \Illuminate\Queue\CallQueuedHandler($dispatcher);
+
+                    $dispatcher->dispatchNow($command );
+
+
+
+
+
+             //   $handler->call($command,$payload['data']);
+
+                    dd($payload,$command);
+                //  $dis =  dispatch($command);
+//dd($dis );
+                }
+
+            }
+        }
+    }
+   // dd($all_queue);
+    // php artisan queue:work
+
+
+    // $queue = new Illuminate\Queue\QueueManager(app());
+    //  $queue->pushRaw();
+
+    //  dd($queue);
+
+//
+//    foreach (Stores::all() as $store) {
+//        ParseFeedJob::dispatch($store);
+//    }
+//
+//
+//    Queue::before(function (JobProcessing $event) {
+//        // $event->connectionName
+//        // $event->job
+//        // $event->job->payload()
+//    });
+//
+//    Queue::after(function (JobProcessed $event) {
+//        // $event->connectionName
+//        //    print  $event->job;
+//        // $event->job->payload()
+//    });
+//    Queue::looping(function () {
+//
+//
+//    });
+
 });
 api_expose('queue_dispatch1', function () {
 
@@ -284,7 +363,7 @@ api_expose('queue_dispatch1', function () {
 
     $job = Queue::push('\Microweber\Utils\Import', ['export' => '']);
     //dispatch($job)->onQueue('high');
-    dd($job);
+    //dd($job);
 
     // \Illuminate\Queue\Worker;
 
