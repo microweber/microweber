@@ -39,6 +39,8 @@ function newsletter_subscribe($params)
 
     $validator = Validator::make($input, $rules, $messages);
     if ($validator->fails()) {
+        newsletter_set_cookie_for_subscribed_user();
+
         return array(
             'error' => $validator->messages()
         );
