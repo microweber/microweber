@@ -6,7 +6,7 @@ include_once(__DIR__ . DS . 'scwCookie/scwCookie.class.php');
 api_expose('scwCookie_ajax');
 function scwCookie_ajax()
 {
-    if (isset($_POST['action']) && isset($_POST['id']) && strstr($_POST['id'], 'cookie-notice')) {
+    if (isset($_POST['action']) && isset($_POST['id'])) {
 
         $id = $_POST['id'];
 
@@ -30,15 +30,15 @@ function scwCookie_ajax()
                 // Set cookie
                 ScwCookie\ScwCookie::setCookie('scwCookieHidden', 'true', 52, 'weeks');
 
-                header('Content-Type: application/json');
-                die(json_encode(['success' => true]));
+//                header('Content-Type: application/json');
+                return ['success' => true];
                 break;
 
             case 'hide':
                 // Set cookie
                 ScwCookie\ScwCookie::setCookie('scwCookieHidden', 'true', 52, 'weeks');
-                header('Content-Type: application/json');
-                die(json_encode(['success' => true]));
+//                header('Content-Type: application/json');
+                return ['success' => true];
                 break;
 
             case 'toggle':
@@ -68,8 +68,8 @@ function scwCookie_ajax()
                 $choices = $scwCookie->encrypt($choices);
                 $scwCookie->setCookie('scwCookie', $choices, 52, 'weeks');
 
-                header('Content-Type: application/json');
-                die(json_encode($return));
+//                header('Content-Type: application/json');
+                return ($return);
                 break;
 
             case 'load':
@@ -85,8 +85,8 @@ function scwCookie_ajax()
                     $return['removeCookies'] = $removeCookies;
                 }
 
-                header('Content-Type: application/json');
-                die(json_encode($return));
+//                header('Content-Type: application/json');
+                return ($return);
                 break;
 
             default:

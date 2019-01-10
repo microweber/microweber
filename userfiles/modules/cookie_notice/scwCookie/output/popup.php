@@ -3,6 +3,7 @@ $scw_cookie_style = '';
 if (!empty($this->config['backgroundColor'])) {
     $scw_cookie_style = ' style="background:' . $this->config['backgroundColor'] . '"';
 }
+
 ?>
 <link href="<?php print modules_url(); ?>/cookie_notice/scwCookie/output/assets/scwCookie.min.css" rel="stylesheet" type="text/css"/>
 <div class="scw-cookie<?php print ($this->decisionMade ? ' scw-cookie-out' : ''); ?>"<?php print $scw_cookie_style; ?>>
