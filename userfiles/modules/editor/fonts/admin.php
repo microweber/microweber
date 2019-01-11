@@ -4,12 +4,22 @@
 </script>
 <script type="text/javascript">
     $(document).ready(function () {
-        mw.options.form('#<?php print $params['id'] ?>', function () {
+
+
+
+
+
+        mw.options.form('#enabled_custom_fonts_settings_holder', function () {
+
+
+
+
             if (mw.notification != undefined) {
                 mw.notification.success('<?php _e('Fonts updated'); ?>');
             }
-			
-			
+
+
+
 			if(typeof(window.parent.mw.wysiwyg) != 'undefined'){
 				 
 				var selected = [];
@@ -27,9 +37,18 @@
 					custom_fonts_stylesheet.href = custom_fonts_stylesheet_restyled;
 
 				}
+
+
+                mw.reload_module_parent('editor/fonts' , function () {
+                  //
+                    window.parent.mw.wysiwyg.initFontSelectorBox();
+                })
 				
 			}
-		
+
+
+            alert(1)
+
         });
 		
 		
@@ -39,29 +58,7 @@
 
 		});
 		
-	/*	
-	
-		var testObject = [];
-		$('#<?php print $params['id'] ?> .enabled_custom_fonts_table input').each(function() {
-		testObject.push($(this).val());
-		});
-				
-				
-	 
-		
-		var i = 0;
-		for (var propertyName in testObject) {
-			setTimeout(function(propertyName) {
- 				
-				mw_fonts_preview_load_stylesheet(testObject[propertyName]);
 
-				
-				
-			}.bind(this, propertyName), i++ * 1000);
-		}
-		
-		*/
- 
 		 	
 		 	
         
@@ -85,16 +82,28 @@ mw_fonts_preview_load_stylesheet = function(family){
 }
 	
 </script>
+
+
+
+
+
+
+
+
+
+
+
 <?php $fonts= json_decode(file_get_contents(__DIR__.DS.'fonts.json'), true); ?>
 <?php if(isset($fonts['items'])): ?>
-<?php $enabled_custom_fonts = get_option("enabled_custom_fonts", "template"); 
+<?php $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
+
 
 $enabled_custom_fonts_array = array();
 
 if(is_string($enabled_custom_fonts)){
 	$enabled_custom_fonts_array = explode(',',$enabled_custom_fonts);
 }
- 
+
 
 ?>
 <div class="async-css">
@@ -150,6 +159,38 @@ function load_font_css_async(t){
    });
 
 </script>
+
+
+
+
+<script>
+
+    $(document).ready(function () {
+
+
+
+        $('input[type="checkbox"]',  '#<?php print $params['id'] ?>').change(function(event) {
+            var checked_fonts_arr = [];
+            $('input[type="checkbox"]:checked',  '#<?php print $params['id'] ?>').each(function () {
+                checked_fonts_arr.push($(this).val());
+            });
+
+
+
+            var s = checked_fonts_arr;
+            if(s.length > 0){
+                s =   s.join(',')
+            } else {
+                s ='';
+            }
+            $('#enabled_custom_fonts_arr_impode').val(s).trigger('change');
+
+        });
+
+
+    });
+
+</script>
 <style>
 
     #search{
@@ -159,6 +200,9 @@ function load_font_css_async(t){
     }
 
 </style>
+<div id="enabled_custom_fonts_settings_holder">
+<input autocomplete="off"  type="text" name="enabled_custom_fonts" class="mw_option_field" option-group="template"  id="enabled_custom_fonts_arr_impode" value="<?php print $enabled_custom_fonts ?>" />
+</div>
 <div class="module-live-edit-settings enabled_custom_fonts_table">
   <table width="100%" cellspacing="0" cellpadding="0" class="mw-ui-table">
     <thead>
@@ -181,7 +225,7 @@ function load_font_css_async(t){
           onmouseenter="mw_fonts_preview_load_stylesheet('<?php print $font['family']; ?>')">
         <td width="30">
             <label class="mw-ui-check">
-                <input id="custom-font-select-<?php print $i;?>" type="checkbox" name="enabled_custom_fonts" <?php if(in_array($font['family'], $enabled_custom_fonts_array)): ?> checked <?php endif; ?> class="mw_option_field" option-group="template" value="<?php print $font['family']; ?>" />
+                <input id="custom-font-select-<?php print $i;?>" type="checkbox" name="REMOVE_____enabled_custom_fonts" <?php if(in_array($font['family'], $enabled_custom_fonts_array)): ?> checked <?php endif; ?> class="REMOVE___mw_option_field" option-group="REMOVE___template" value="<?php print $font['family']; ?>" />
                 <span></span>
             </label>
         </td>

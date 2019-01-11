@@ -7,6 +7,7 @@ return include(__DIR__.DS.'admin.php');
 
     $( document ).ready(function() {
       mw.dropdown();
+      $('#<?php print $params['id'] ?>').removeClass( "module" )
     });
 </script>
 <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_font_family"  title="<?php _e("Font"); ?>" data-value="Arial" style="width: 100%;">
