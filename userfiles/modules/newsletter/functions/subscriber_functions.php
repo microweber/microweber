@@ -28,6 +28,12 @@ function newsletter_subscribe($params)
             }
         }
     }
+
+    $redir = newsletter_get_redirect_link_after_subscribe($mod_id);
+
+
+
+
     $rules = [
         'email' => 'required|email|unique:newsletter_subscribers'
     ];
@@ -40,15 +46,16 @@ function newsletter_subscribe($params)
     $validator = Validator::make($input, $rules, $messages);
     if ($validator->fails()) {
         newsletter_set_cookie_for_subscribed_user();
-
-        return array(
-            'error' => $validator->messages()
-        );
+        $resp = array();
+        $resp['error'] =  $validator->messages();
+        if ($redir) {
+            $resp['redirect'] = $redir;
+        }
+        return $resp;
     }
 
     $needs_terms = get_option('require_terms', $mod_id) == 'y';
     $enable_captcha = get_option('enable_captcha', $mod_id) == 'y';
-    $redir = newsletter_get_redirect_link_after_subscribe($mod_id);
 
 
     if ($needs_terms) {
