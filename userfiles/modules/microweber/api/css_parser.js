@@ -3,7 +3,8 @@
 
 
 mw.CSSParser = function(el){
-    if(el === null ) return false;
+    if(!el) return false;
+    if(!el.nodeName) return false;
     if(typeof el !== 'object') return false;
     if(el.nodeName === undefined || el.nodeName === '#text' || el === null) return false;
     var css = window.getComputedStyle(el, null);

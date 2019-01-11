@@ -288,5 +288,45 @@ body.bup.dragStart.state-element {
   }
 }
 
+  .mw-selector{
+   width:1px;
+   height: 1px;
+   position: absolute;
+   z-index: 100;
+   background: #0899E6;
+   pointer-events: none;
+   top: -20px;
+   left: -20px;
+   z-index: 1;
+
+}
+
+
+.mw-selector-bottom:after,
+.mw-selector-bottom:before,
+.mw-selector-top:after,
+.mw-selector-top:before{
+    display: block;
+    content: '';
+    width: 5px;
+    height: 5px;
+    background: #0899E6;
+    position: absolute;
+}
+
+.mw-interactor:after,
+.mw-interactor:before,
+.mw-interactor{
+   background: #C4D6E8;
+   z-index: 0;
+   transition: all .1s;
+}
+
+.mw-selector-top:before{top:-2px;left:-2px;}
+.mw-selector-top:after{top:-2px;right:-2px;}
+
+.mw-selector-bottom:before{bottom:-2px;left:-2px;}
+.mw-selector-bottom:after{bottom:-2px;right:-2px;}
+
 
 

@@ -172,8 +172,8 @@ $(document).ready(function(){
 
 $(".edit").attr("contenteditable", true);
 $(".module").attr("contenteditable", false);
-$(mwd.body).on('keydown keyup keypress mouseup mousedown click paste selectstart', function(e){
-  ScaleFrame()
+$(mwd.body).on('keydown keypress paste input', function(e){
+  ScaleFrame();
   var el= $(e.target);
   if(mw.tools.hasClass(e.target.className, 'module') || mw.tools.hasParentsWithClass(e.target, 'module')){
     e.preventDefault();

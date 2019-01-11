@@ -110,8 +110,8 @@ hashParamEventInit:function(){
 DOMChangePause:false,
 DOMChangeTime:1500,
 DOMChange:function(element, callback, attr, a){
-    var attr = attr || false;
-    var a = a || false;
+    attr = attr || false;
+    a = a || false;
 
     var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
 

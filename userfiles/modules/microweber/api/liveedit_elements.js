@@ -237,6 +237,17 @@ mw.dropables = {
     var bg;
     if(event.target && event.target.style){
       bg = event.target.style && event.target.style.backgroundImage && !mw.tools.hasClass(event.target, 'edit');
+      if(!bg){
+          var _c = 0, bgp = event.target;
+          while (_c<3 || !bg){
+              bgp = bgp.parentNode;
+              if(!bgp) {
+                  break;
+              }
+              _c++;
+              bg = bgp.style && bgp.style.backgroundImage && !mw.tools.hasClass(bgp, 'edit');
+          }
+      }
     }
 
     if (!mw.image.isResizing && mw.image_resizer) {

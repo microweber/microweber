@@ -135,10 +135,35 @@
                             </div>
                         </div>
                         <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+                            <script>
+                                mw.require('selector.js')
+                            </script>
+                            <script>
+                                $(document).ready(function(){
+                                    mw.cssEditorSelector = new mw.Selector({
+                                        root: document.body
+                                    });
+
+                                    mw.cssEditorSelector.active = false;
+                                    $("#css-editor-picker").on("click", function(){
+                                        mw.cssEditorSelector.active = !mw.cssEditorSelector.active;
+                                        mw.liveEditSelectMode = mw.cssEditorSelector.active ? 'element' : 'css';
+                                        mw.drag.plus.locked = mw.cssEditorSelector.active ? true : false;
+                                        $(this).addClass('active')
+                                    })
 
 
 
-                                <iframe src="<?php print site_url('editor_tools'); ?>" id="mw-css-editor" frameborder="0"></iframe>
+
+                                })
+                            </script>
+                            <div id="css-editor-selected-view">
+
+                            </div>
+
+                            <span class="mw-ui-btn mw-ui-btn-medium" id="css-editor-picker">Pick Element</span>
+
+                            <iframe src="<?php print site_url('editor_tools'); ?>" id="mw-css-editor" frameborder="0"></iframe>
 
 
                         </div>
@@ -643,6 +668,7 @@
                     }
                     _setElementStyle(property, value);
                     mw.$(mw.elementCSSEditor.currentElement).attr('staticdesign', true);
+                    mw.cssEditorSelector.positionSelected()
                 });
 
                 this.contentWindow.mw.$(".mw-CSS-Editor-group-title").on("click", function(){
@@ -654,11 +680,19 @@
             });
 
 
+            mw.cssSelectorTree = new mw.tree({
+                element: '#css-editor-selected-view'
+            });
 
 
-            $(document.body).on("click", function (event) {
+            $(mw.cssEditorSelector).on('select', function(){
+
+
+
+                mw.cssEditorSelector.active = false;
+                mw.liveEditSelectMode = 'element';
                 if(mw.elementCSSEditor){
-                    var el = event.target;
+                    var el = mw.cssEditorSelector.selected[0];
                     if(mw.tools.hasParentsWithClass(el, 'mw-control-box')){
                         return;
                     }
@@ -682,6 +716,50 @@
                         return;
                     }
                     mw.elementCSSEditor.enable();
+
+
+                    /*var brdcrmb_curr = document.createElement('span');
+                    brdcrmb_curr.innerHTML = mw.elementCSSEditor.currentElement.nodeName
+                        + (mw.elementCSSEditor.currentElement.className?'.'+mw.elementCSSEditor.currentElement.className.split(' ').join('.'):'')
+                        + (mw.elementCSSEditor.currentElement.id?'#'+mw.elementCSSEditor.currentElement.id:'');
+                    var brdcrmb = [brdcrmb_curr];
+                    mw.tools.foreachParents(mw.elementCSSEditor.currentElement, function(){
+
+                        var curr = document.createElement('span');
+                        curr.innerHTML = this.nodeName
+                            + (this.className?'.'+this.className.split(' ').join('.'):'')
+                            + (this.id?'#'+this.id:'');
+                        brdcrmb.push(curr)
+
+                    });
+                    brdcrmb.reverse();
+
+                    $("#css-editor-selected-view").append(brdcrmb);*/
+
+                    var c = mw.elementCSSEditor.currentElement;
+                    var cname = c.nodeName + (c.className?'.'+c.className.split(' ').join('.'):'')+ (c.id?'#'+c.id:'');
+                    var parentcname = c.parentNode.nodeName + (c.parentNode.className?'.'+.parentNode.className.split(' ').join('.'):'')+ (c.id?'#'+c.id:'');
+                    var treedata = [{
+                        id: cname,
+                        title: cname,
+                        parent_id: 0
+                        parent_type: "page"
+                        subtype: "home"
+                        type: "page"
+                    }];
+
+
+                    mw.cssSelectorTree.setData(treedata);
+
+
+                    /*
+                    *   id: 1
+                        parent_id: 0
+                        parent_type: "page"
+                        subtype: "home"
+                        title: "Home"
+                        type: "page"
+                    * */
 
                     var css = getComputedStyle(el);
                     var bgimg = css.backgroundImage;
