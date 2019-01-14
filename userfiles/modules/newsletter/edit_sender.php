@@ -287,7 +287,7 @@ if (isset($params['id'])) {
 				  $.ajax({
 		            url: mw.settings.api_url + 'newsletter_test_sender',
 		            type: 'POST',
-		            data: {id:<?php print $sender['id']; ?>, sender_account_type:$('.js-select-account-type'), sender_email_to: $('.js-sender-test-email-to').val() },
+		            data: {id:<?php print $sender['id']; ?>, sender_account_type:$('.js-select-account-type').val(), sender_email_to: $('.js-sender-test-email-to').val() },
 		            success: function (result) {
 		            	$('.js-email-send-test-output').html(result);
 		            },
