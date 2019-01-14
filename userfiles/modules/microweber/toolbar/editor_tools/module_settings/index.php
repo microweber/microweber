@@ -340,7 +340,16 @@
 
 
 
+
+
+
+
+
+
+
         $(window).on('load', function () {
+
+        // $(document).ready(function() {
             mw.options.form('#settings-container', function () {
                 if (mw.notification) {
                     mw.notification.success('<?php _e('Settings are saved') ?>');
@@ -399,6 +408,23 @@
         });
     }
 </script>
-
+<script type="text/javascript">
+ //$(window).on('load', function () {
+ //       setTimeout(function(){
+ //
+ //           mw.options.form('#settings-container', function () {
+ //               if (mw.notification) {
+ //                   mw.notification.success('<?php //_e('Settings are saved') ?>//');
+ //               }
+ //           });
+ //
+ //
+ //       }, 1000);
+ //
+ //
+ //
+ //
+ //   })
+</script>
 </body>
 </html>

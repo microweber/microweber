@@ -1,24 +1,18 @@
 <?php only_admin_access(); ?>
 <script type="text/javascript">
-    mw.require('options.js');
+     mw.require('options.js');
 </script>
 <script type="text/javascript">
     $(document).ready(function () {
 
 
 
-        console.log($("#enabled_custom_fonts_settings_holder"))
-
-        setTimeout(function(){
             mw.options.form('#enabled_custom_fonts_settings_holder', function () {
-
-
 
 
                 if (mw.notification != undefined) {
                     mw.notification.success('<?php _e('Fonts updated'); ?>');
                 }
-
 
 
                 if(typeof(window.parent.mw.wysiwyg) != 'undefined'){
@@ -28,9 +22,7 @@
                         selected.push($(this).val());
                     });
 
-                    window.parent.mw.wysiwyg.fontFamiliesExtended = [];
-                    window.parent.mw.wysiwyg.initExtendedFontFamilies(selected);
-                    window.parent.mw.wysiwyg.initFontSelectorBox();
+
 
                     var custom_fonts_stylesheet = window.parent.document.getElementById("mw-custom-user-css");
                     if(custom_fonts_stylesheet != null){
@@ -40,18 +32,22 @@
                     }
 
 
-                    mw.reload_module_parent('editor/fonts' , function () {
-                        //
+                    setTimeout(function(){
+
+                        window.parent.mw.wysiwyg.fontFamiliesExtended = [];
+                        window.parent.mw.wysiwyg.initExtendedFontFamilies(selected);
                         window.parent.mw.wysiwyg.initFontSelectorBox();
-                    })
+
+                    }, 10)
+
 
                 }
 
 
-                alert(1)
+
 
             });
-        }, 10)
+
 		
 		
 		$('#<?php print $params['id'] ?> .enabled_custom_fonts_table input:checked').each(function() {
@@ -106,8 +102,7 @@ if(is_string($enabled_custom_fonts)){
 	$enabled_custom_fonts_array = explode(',',$enabled_custom_fonts);
 }
 
-
-?>
+ ?>
 <div class="async-css">
 <?php foreach($fonts['items'] as $font): ?>
 <link family="<?php print ($font['family']); ?>"  />
@@ -186,6 +181,7 @@ function load_font_css_async(t){
                 s ='';
             }
             $('#enabled_custom_fonts_arr_impode').val(s).trigger('change');
+        //    window.parent.mw.wysiwyg.initExtendedFontFamilies(s)
 
         });
 
@@ -203,7 +199,7 @@ function load_font_css_async(t){
 
 </style>
 <div id="enabled_custom_fonts_settings_holder">
-<input autocomplete="off"  type="text" name="enabled_custom_fonts" class="mw_option_field" option-group="template"  id="enabled_custom_fonts_arr_impode" value="<?php print $enabled_custom_fonts ?>" />
+<input autocomplete="off"  type="hidden" name="enabled_custom_fonts" class="mw_option_field" option-group="template"  id="enabled_custom_fonts_arr_impode" value="<?php print $enabled_custom_fonts ?>" />
 </div>
 <div class="module-live-edit-settings enabled_custom_fonts_table">
   <table width="100%" cellspacing="0" cellpadding="0" class="mw-ui-table">

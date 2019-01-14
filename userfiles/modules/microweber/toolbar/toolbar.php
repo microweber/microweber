@@ -247,6 +247,10 @@ if (isset($_COOKIE['mw_exp'])) {
 
 
         mw.on('liveEditSettingsReady', function () {
+
+       //     $('a','#live_edit_toolbar_holder').off('click')
+
+
             mw.drag.init();
             $('[data-id="mw-toolbar-show-sidebar-btn"]').click(function () {
                 mw.liveEditSettings.toggle();
