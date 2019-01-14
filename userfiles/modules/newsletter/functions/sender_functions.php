@@ -36,11 +36,11 @@ function newsletter_delete_sender($params) {
 }
 
 api_expose('newsletter_test_sender');
-function newsletter_test_sender($params) {
-	if (isset($params['id'])) {
-		$id = $params['id'];
+function newsletter_test_sender($sender) {
+	if (isset($sender['id'])) {
+		$id = $sender['id'];
 		
-		if (empty($params['sender_email_to'])) {
+		if (empty($sender['to_email'])) {
 			echo '<b>Please, fill send email to.</b>';
 			return;
 		}
@@ -52,10 +52,7 @@ function newsletter_test_sender($params) {
 		$template = array();
 		$subscriber = array();
 		$subscriber['name'] = 'Subscriber name';
-		$subscriber['email'] = $params['sender_email_to'];
-		
-		$sender = newsletter_get_sender(array("id"=>$params['id']));
-		$sender['account_type'] = $params['sender_account_type'];
+		$subscriber['email'] = $sender['to_email'];
 		
 		$newsletterMailSender = new \Newsletter\Senders\NewsletterMailSender();
 		$newsletterMailSender->setCampaign($campaign);

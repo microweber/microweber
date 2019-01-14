@@ -8,6 +8,16 @@
 
 namespace Newsletter\Providers;
 
+use Config;
+
 class MailchimpProvider extends \Newsletter\Providers\DefaultProvider {
 	
+	public function send() {
+		
+		Config::set('mail.driver', 'mailchimp');
+		Config::set('services.mailchimp.secret', $this->getSecret());
+		
+		var_dump(Config::get('services'));
+		die();
+	}
 }

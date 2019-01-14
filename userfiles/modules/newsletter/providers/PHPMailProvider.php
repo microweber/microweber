@@ -20,12 +20,9 @@ class PHPMailProvider extends \Newsletter\Providers\DefaultProvider {
 		$sender->transport = 'php';
 		
 		$status = $sender->exec_send(
-				$this->toEmail, 
-				$this->subject,
-				$this->body,
-				$this->fromEmail, 
-				$this->fromName,
-				$this->fromReplyEmail
+			$this->toEmail, $this->subject,
+			$this->body,
+			$this->fromEmail, $this->fromName, $this->fromReplyEmail
 		);
 		
 		if ($status) {

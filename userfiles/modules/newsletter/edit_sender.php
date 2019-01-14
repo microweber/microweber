@@ -287,7 +287,7 @@ if (isset($params['id'])) {
 				  $.ajax({
 		            url: mw.settings.api_url + 'newsletter_test_sender',
 		            type: 'POST',
-		            data: {id:<?php print $sender['id']; ?>, sender_account_type:$('.js-select-account-type').val(), sender_email_to: $('.js-sender-test-email-to').val() },
+		            data: $('.js-edit-sender-form').serialize(),
 		            success: function (result) {
 		            	$('.js-email-send-test-output').html(result);
 		            },
@@ -306,7 +306,7 @@ if (isset($params['id'])) {
 			<label class="mw-ui-label">
 				Send test email to							
 			</label>
-			<input class="mw_option_field mw-ui-field mw-options-form-binded mw-ui-field-full-width js-sender-test-email-to" type="text" option-group="email">
+			<input name="to_email" class="mw_option_field mw-ui-field mw-options-form-binded mw-ui-field-full-width js-sender-test-email-to" type="text" option-group="email">
 			<br /><br />
 			<span class="mw-ui-btn mw-ui-btn-green js-sender-send-test-email">
 				Send test email							
