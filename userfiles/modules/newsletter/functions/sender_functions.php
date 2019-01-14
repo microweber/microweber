@@ -55,6 +55,7 @@ function newsletter_test_sender($params) {
 		$subscriber['email'] = $params['sender_email_to'];
 		
 		$sender = newsletter_get_sender(array("id"=>$params['id']));
+		$sender['account_type'] = $params['sender_account_type'];
 		
 		$newsletterMailSender = new \Newsletter\Senders\NewsletterMailSender();
 		$newsletterMailSender->setCampaign($campaign);
