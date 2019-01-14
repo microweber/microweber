@@ -154,7 +154,7 @@ class NewsletterMailSender {
 	
 	private function _getParsedTemplate() {
 		
-		$template = str_replace('{first_name}', $this->subscriber['name'], $this->getTemplate());
+		$template = str_replace('{first_name}', $this->subscriber['name'], $this->getTemplate()['text']);
 		$template = str_replace('{last_name}', $this->subscriber['name'], $template);
 		$template = str_replace('{email}', $this->subscriber['email'], $template);
 		$template = str_replace('{site_url}', "SITE-URL.COM", $template);

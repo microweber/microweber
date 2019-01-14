@@ -50,6 +50,8 @@ function newsletter_test_sender($newSender) {
 		$campaign['name'] = 'Campaing name';
 		
 		$template = array();
+		$template['text'] = 'This is an example newsletter test email.';
+		
 		$subscriber = array();
 		$subscriber['name'] = 'Subscriber name';
 		$subscriber['email'] = $newSender['to_email'];
