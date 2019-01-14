@@ -144,11 +144,15 @@ class NewsletterMailSender {
 			
 			$result = $mailProvider->send();
 			
+			$success = true;
+			
 		} catch (\Exception $e) {
 			$result = $e->getMessage();
+			
+			$success = false;
 		}
 		
-		return $result;
+		return array("success"=>$success, "message"=>$result);
 		
 	}
 	
