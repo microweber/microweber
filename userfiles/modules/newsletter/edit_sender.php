@@ -143,10 +143,6 @@ if (isset($params['id'])) {
 	<script>
 		$(document).ready(function () {
 			
-			$(document).on("click", ".js-sender-test-method", function() {
-				$(".js-sender-test-email-wrapper").toggle();
-			});
-			
 			$(".js-sender-php-mail").show();
 			
 			$(document).on("change", ".js-select-account-type", function() {
@@ -281,7 +277,13 @@ if (isset($params['id'])) {
 	
 	<script>
 		$(document).ready(function () {
+			
+			$(document).on("click", ".js-sender-test-method", function() {
+				$(".js-sender-test-email-wrapper").toggle();
+			});
+			
 			$(document).on("click", ".js-sender-send-test-email", function() {
+				$(".js-email-send-test-output").html("Sending...");
 				  $.ajax({
 		            url: mw.settings.api_url + 'newsletter_test_sender',
 		            type: 'POST',

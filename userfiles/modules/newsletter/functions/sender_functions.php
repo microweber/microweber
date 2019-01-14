@@ -46,8 +46,14 @@ function newsletter_test_sender($params) {
 		}
 		
 		$campaign = array();
+		$campaign['subject'] = 'Campaing subject';
+		$campaign['name'] = 'Campaing name';
+		
 		$template = array();
 		$subscriber = array();
+		$subscriber['name'] = 'Subscriber name';
+		$subscriber['email'] = $params['sender_email_to'];
+		
 		$sender = newsletter_get_sender(array("id"=>$params['id']));
 		
 		$newsletterMailSender = new \Newsletter\Senders\NewsletterMailSender();
@@ -56,7 +62,7 @@ function newsletter_test_sender($params) {
 		$newsletterMailSender->setSender($sender);
 		$newsletterMailSender->setTemplate($template);
 		
-		return print_r($newsletterMailSender->sendMail());
+		return $newsletterMailSender->sendMail();
 		
 	}
 }
