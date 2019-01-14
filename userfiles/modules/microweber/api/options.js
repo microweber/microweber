@@ -421,18 +421,18 @@ mw.options.form = function ($selector, callback, beforepost) {
 
     // REBIND
 
-    var rebind = {}
+    var rebind = {};
     if (typeof root._optionsEvents.beforepost === 'function') {
         rebind.beforepost = root._optionsEvents.beforepost;
     }
-    rebind.callback = root._optionsEvents.callback
+    rebind.callback = root._optionsEvents.callback;
     rebind.binded_selector = $selector;
     var rebindtemp = mw.tools.cloneObject(rebind);
     //fix here chek if in array
 
 
     var is_in = mw.options._bindedRootFormsRegistry.filter(function (a) {
-        return a.binded_selector == $selector
+        return a.binded_selector === $selector;
     })
 
     if (!is_in.length) {

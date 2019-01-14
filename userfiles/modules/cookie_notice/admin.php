@@ -360,15 +360,15 @@ code:			'123456'
 
     <script>
 
-        settings = {
+        cookies_settings = {
             init: function (item) {
                 $(item.querySelectorAll('input[type="text"]')).bind('keyup', function () {
                     mw.on.stopWriting(this, function () {
-                        settings.save();
+                        cookies_settings.save();
                     });
                 });
                 $(item.querySelectorAll('input[type="radio"]')).bind('change', function () {
-                    settings.save();
+                    cookies_settings.save();
                     if ($(this).hasClass('enable')) {
                         var display = 'none';
                         if (this.value == 'true') {
@@ -415,7 +415,7 @@ code:			'123456'
                 return data;
             },
             save: function () {
-                mw.$('#settingsfield').val(JSON.stringify(settings.collect())).trigger('change');
+                mw.$('#settingsfield').val(JSON.stringify(cookies_settings.collect())).trigger('change');
             },
         }
 
@@ -425,7 +425,7 @@ code:			'123456'
                 if (!!all[i].prepared) continue;
                 var item = all[i];
                 item.prepared = true;
-                settings.init(item);
+                cookies_settings.init(item);
             }
 
             bg = mw.colorPicker({
@@ -433,7 +433,7 @@ code:			'123456'
                 position: 'bottom-left',
                 onchange: function (color) {
                     $("#bg-color").val(color).css('background', color);
-                    settings.save();
+                    cookies_settings.save();
                 }
             });
         });
