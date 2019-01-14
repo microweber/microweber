@@ -9,7 +9,6 @@
 namespace Newsletter\Providers;
 
 use Config;
-use Illuminate\Support\Facades\Mail;
 
 class SparkpostProvider extends \Newsletter\Providers\DefaultProvider {
 	

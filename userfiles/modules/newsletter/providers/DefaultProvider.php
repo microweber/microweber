@@ -8,6 +8,8 @@
 
 namespace Newsletter\Providers;
 
+use Illuminate\Support\Facades\Mail;
+
 class DefaultProvider {
 	
 	// Provider settings
@@ -190,7 +192,7 @@ class DefaultProvider {
 	
 	protected function sendToEmail() {
 		
-		Mail::raw('Text to e-mail', function ($message) {
+		Mail::raw($this->getBody(), function ($message) {
 			$message->from($this->getFromEmail(), $this->getFromName());
 			$message->to($this->getToEmail(), $this->getToName());
 			$message->replyTo($this->getFromReplyEmail());
