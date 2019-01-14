@@ -17,9 +17,10 @@ class MandrillProvider extends \Newsletter\Providers\DefaultProvider {
 		Config::set('mail.driver', 'mandrill');
 		Config::set('services.mandrill.secret', $this->getSecret());
 		
+		$this->sendToEmail();
 		
-		var_dump(Config::get('services'));
-		die();
+		//var_dump(Config::get('services'));
+		//die();
 	}
 	
 }

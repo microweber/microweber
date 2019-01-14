@@ -17,7 +17,9 @@ class MailchimpProvider extends \Newsletter\Providers\DefaultProvider {
 		Config::set('mail.driver', 'mailchimp');
 		Config::set('services.mailchimp.secret', $this->getSecret());
 		
-		var_dump(Config::get('services'));
-		die();
+		$this->sendToEmail();
+		
+		//var_dump(Config::get('services'));
+		//die();
 	}
 }

@@ -18,8 +18,10 @@ class MailgunProvider extends \Newsletter\Providers\DefaultProvider {
 		Config::set('services.mailgun.secret', $this->getSecret());
 		Config::set('services.mailgun.domain', $this->getDomain());
 		
-		var_dump(Config::get('services'));
-		die();
+		$this->sendToEmail();
+		
+		//var_dump(Config::get('services'));
+		//die();
 	}
 	
 }

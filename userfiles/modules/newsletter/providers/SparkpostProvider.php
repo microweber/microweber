@@ -9,6 +9,7 @@
 namespace Newsletter\Providers;
 
 use Config;
+use Illuminate\Support\Facades\Mail;
 
 class SparkpostProvider extends \Newsletter\Providers\DefaultProvider {
 	
@@ -17,8 +18,9 @@ class SparkpostProvider extends \Newsletter\Providers\DefaultProvider {
 		Config::set('mail.driver', 'sparkpost');
 		Config::set('services.sparkpost.secret', $this->getSecret());
 		
+		$this->sendToEmail();
 		
-		var_dump(Config::get('services'));
-		die();
+		//var_dump(Config::get('services'));
+		//die();
 	}
 }

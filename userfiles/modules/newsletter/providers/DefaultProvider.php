@@ -188,4 +188,14 @@ class DefaultProvider {
 		throw new \Exception('We don\'t support this mail provider.');
 	}
 	
+	protected function sendToEmail() {
+		
+		Mail::raw('Text to e-mail', function ($message) {
+			$message->from($this->getFromEmail(), $this->getFromName());
+			$message->to($this->getToEmail(), $this->getToName());
+			$message->replyTo($this->getFromReplyEmail());
+			$message->subject($this->getSubject());
+		});
+		
+	}
 }
