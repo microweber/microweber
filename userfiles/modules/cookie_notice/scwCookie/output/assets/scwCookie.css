@@ -10,7 +10,7 @@ body.scw-cookie-in {
     transition: all .3s ease;
 }
 
-.icon {
+.scw-cookie .icon {
     background-image: url(icons.png);
     background-repeat: no-repeat;
     background-size: auto 100%;
@@ -18,9 +18,9 @@ body.scw-cookie-in {
     width: 25px;
     display: inline-block;
 }
-.icon.icon-cookie   { background-position: 0 0;     }
-.icon.icon-policy   { background-position: -25px 0; }
-.icon.icon-settings { background-position: -50px 0; }
+.scw-cookie  .icon.icon-cookie   { background-position: 0 0;     }
+.scw-cookie  .icon.icon-policy   { background-position: -25px 0; }
+.scw-cookie  .icon.icon-settings { background-position: -50px 0; }
 
 .scw-cookie-panel-toggle {
     background: inherit;
