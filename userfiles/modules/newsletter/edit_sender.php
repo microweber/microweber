@@ -282,9 +282,17 @@ if (isset($params['id'])) {
 	<script>
 		$(document).ready(function () {
 			$(document).on("click", ".js-sender-send-test-email", function() {
-
-				
-				
+				  $.ajax({
+		            url: mw.settings.api_url + 'newsletter_test_sender',
+		            type: 'POST',
+		            data: {id:<?php print $sender['id']; ?>, sender_email_to: $('.js-sender-test-email-to').val() },
+		            success: function (result) {
+		            	$('.js-email-send-test-output').html(result);
+		            },
+					error: function(e) {
+						$('.js-email-send-test-output').html('Error processing your request: ' + e.responseText);
+					}
+		        });
 			});
 		});
 	</script>
@@ -296,21 +304,17 @@ if (isset($params['id'])) {
 			<label class="mw-ui-label">
 				Send test email to							
 			</label>
-			<input name="test_email_to" class="mw_option_field mw-ui-field mw-options-form-binded mw-ui-field-full-width" type="text" option-group="email" value="">
-			<br />
-			<label class="mw-ui-label">
-				Test mail subject							
-			</label>
-			<input name="test_email_subject" class="mw_option_field mw-ui-field mw-options-form-binded mw-ui-field-full-width" type="text" option-group="email" value="">
+			<input class="mw_option_field mw-ui-field mw-options-form-binded mw-ui-field-full-width js-sender-test-email-to" type="text" option-group="email">
 			<br /><br />
 			<span class="mw-ui-btn mw-ui-btn-green js-sender-send-test-email">
 				Send test email							
 			</span>
 			</td>
+		</tr>
+		<tr>
 			<td>
-			<pre class="js-email-send-test-output">
-				
-			</pre>
+			<hr />
+			<pre class="js-email-send-test-output"></pre>
 			</td>
 		</tr>
 	</tbody>

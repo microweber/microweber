@@ -34,3 +34,29 @@ function newsletter_delete_sender($params) {
 		return db_delete($table, $id);
 	}
 }
+
+api_expose('newsletter_test_sender');
+function newsletter_test_sender($params) {
+	if (isset($params['id'])) {
+		$id = $params['id'];
+		
+		if (empty($params['sender_email_to'])) {
+			echo '<b>Please, fill send email to.</b>';
+			return;
+		}
+		
+		$campaign = array();
+		$template = array();
+		$subscriber = array();
+		$sender = newsletter_get_sender(array("id"=>$params['id']));
+		
+		$newsletterMailSender = new \Newsletter\Senders\NewsletterMailSender();
+		$newsletterMailSender->setCampaign($campaign);
+		$newsletterMailSender->setSubscriber($subscriber);
+		$newsletterMailSender->setSender($sender);
+		$newsletterMailSender->setTemplate($template);
+		
+		return print_r($newsletterMailSender->sendMail());
+		
+	}
+}
