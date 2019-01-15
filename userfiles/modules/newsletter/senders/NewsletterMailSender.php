@@ -19,7 +19,7 @@ use Newsletter\Providers\MandrillProvider;
 class NewsletterMailSender {
 	
 	public $campaign;
-	public $template;
+	public $template = 'This is the test email.';
 	public $sender;
 	public $subscriber;
 	
@@ -144,17 +144,21 @@ class NewsletterMailSender {
 			
 			$result = $mailProvider->send();
 			
+			$success = true;
+			
 		} catch (\Exception $e) {
 			$result = $e->getMessage();
+			
+			$success = false;
 		}
 		
-		return $result;
+		return array("success"=>$success, "message"=>$result);
 		
 	}
 	
 	private function _getParsedTemplate() {
 		
-		$template = str_replace('{first_name}', $this->subscriber['name'], $this->template);
+		$template = str_replace('{first_name}', $this->subscriber['name'], $this->getTemplate()['text']);
 		$template = str_replace('{last_name}', $this->subscriber['name'], $template);
 		$template = str_replace('{email}', $this->subscriber['email'], $template);
 		$template = str_replace('{site_url}', "SITE-URL.COM", $template);

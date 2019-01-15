@@ -56,3 +56,15 @@ function newsletter_send_campaign($params) {
    
     
 }
+
+api_expose('newsletter_finish_campaign');
+function newsletter_finish_campaign($campaign_id) {
+	
+	$save = array();
+	$save['id'] = $campaign_id;
+	$save['is_done'] = 1;
+	
+	$table = 'newsletter_campaigns';
+
+	return db_save($table, $save);
+}
