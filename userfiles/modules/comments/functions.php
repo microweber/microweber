@@ -64,15 +64,15 @@ function post_comment($data)
 
 
 
-
-    $comment = (new Microweber\Comments\Models\Comment())->where('id', '=', $comment_id)->first();
-
-
-    // $emailJob = (new  \Microweber\Comments\Jobs\SendEmailJob($comment))->delay(\Carbon::now()->addSeconds(300))->onQueue('processing');
-    $emailJob = (new  \Microweber\Comments\Jobs\SendEmailJob($comment))->onQueue('processing');
-
-
-    \Queue::later(5, $emailJob);
+//
+//    $comment = (new Microweber\Comments\Models\Comment())->where('id', '=', $comment_id)->first();
+//
+//
+//    // $emailJob = (new  \Microweber\Comments\Jobs\SendEmailJob($comment))->delay(\Carbon::now()->addSeconds(300))->onQueue('processing');
+//    $emailJob = (new  \Microweber\Comments\Jobs\SendEmailJob($comment))->onQueue('processing');
+//
+//
+//    \Queue::later(5, $emailJob);
 
 
 

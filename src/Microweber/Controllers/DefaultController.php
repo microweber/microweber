@@ -1987,46 +1987,16 @@ class DefaultController extends Controller
                     }
                 }
             } else {
-                $optimize_asset_loading = get_option('optimize_asset_loading', 'website');
-                if ($optimize_asset_loading == 'y') {
-                    $l = $this->app->parser->optimize_asset_loading_order($l);
 
-                }
-            }
+                $l = $this->app->template->optimize_page_loading($l);
+
+             }
 
 
-//
-//            $replaces = array(
-//                '{TEMPLATE_URL}',
-//                '{THIS_TEMPLATE_URL}',
-//                '{DEFAULT_TEMPLATE_URL}',
-//                '%7BTEMPLATE_URL%7D',
-//                '%7BTHIS_TEMPLATE_URL%7D',
-//                '%7BDEFAULT_TEMPLATE_URL%7D',
-//            );
-//
-//
-//            $replaces_vals = array(
-//                TEMPLATE_URL,
-//                THIS_TEMPLATE_URL,
-//                DEFAULT_TEMPLATE_URL,
-//                TEMPLATE_URL,
-//                THIS_TEMPLATE_URL,
-//                DEFAULT_TEMPLATE_URL
-//            );
-//
-//            $l = str_replace($replaces, $replaces_vals, $l);
-
-            $l = $this->app->parser->replace_url_placeholders($l);
 
 
-//            $l = str_replace('{TEMPLATE_URL}', TEMPLATE_URL, $l);
-//            $l = str_replace('{THIS_TEMPLATE_URL}', THIS_TEMPLATE_URL, $l);
-//            $l = str_replace('{DEFAULT_TEMPLATE_URL}', DEFAULT_TEMPLATE_URL, $l);
-//
-//            $l = str_replace('%7BTEMPLATE_URL%7D', TEMPLATE_URL, $l);
-//            $l = str_replace('%7BTHIS_TEMPLATE_URL%7D', THIS_TEMPLATE_URL, $l);
-//            $l = str_replace('%7BDEFAULT_TEMPLATE_URL%7D', DEFAULT_TEMPLATE_URL, $l);
+
+
 
 
             if ($page != false and empty($this->page)) {
@@ -2089,7 +2059,6 @@ class DefaultController extends Controller
             return $response;
 
 
-            return $l;
         } else {
             echo 'Error! Page is not found? Please login in the admin and make a page.';
 

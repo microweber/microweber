@@ -243,6 +243,66 @@ class Template
         return $output;
     }
 
+
+    public function optimize_page_loading($layout)
+    {
+        $optimize_asset_loading = get_option('optimize_asset_loading', 'website');
+        if ($optimize_asset_loading == 'y') {
+            $layout = $this->app->parser->optimize_asset_loading_order($layout);
+
+        }
+
+
+        $static_files_delivery_method = get_option('static_files_delivery_method', 'website');
+        $static_files_delivery_domain = get_option('static_files_delivery_method_domain', 'website');
+
+        if ($static_files_delivery_method and $static_files_delivery_domain) {
+
+
+            $should_replace = false;
+
+            //check if site is fqdn
+            $site_host = parse_url(site_url());
+
+            if (isset($site_host['host']) and mw()->format->is_fqdn($site_host['host'])) {
+                $should_replace = true;
+                $site_host = $site_host['host'];
+            }
+            if ($should_replace) {
+                if ($static_files_delivery_domain and mw()->format->is_fqdn($static_files_delivery_domain)) {
+                    $should_replace = true;
+                } else {
+                    $should_replace = false;
+                }
+            }
+            if ($should_replace) {
+                $static_files_delivery_domain = trim($static_files_delivery_domain);
+
+                $replaces = array();
+                if ($static_files_delivery_method == 'content_proxy') {
+                    $replaces[userfiles_url() . 'cache'] = 'https://' . $static_files_delivery_domain . '/' . userfiles_url() . 'cache';
+                    $replaces[media_base_url()] = 'https://' . $static_files_delivery_domain . '/' . media_base_url();
+                    $replaces[template_url() ] = 'https://' . $static_files_delivery_domain . '/' . template_url();
+                    $replaces[modules_url() ] = 'https://' . $static_files_delivery_domain . '/' . modules_url();
+                 } else if ($static_files_delivery_method == 'cdn_domain') {
+                    $replaces[userfiles_url() . 'cache'] = str_replace($site_host,$static_files_delivery_domain,userfiles_url() . 'cache');
+                    $replaces[media_base_url()] = str_replace($site_host,$static_files_delivery_domain,media_base_url());
+                    $replaces[template_url()] = str_replace($site_host,$static_files_delivery_domain,template_url());
+                    $replaces[modules_url()] = str_replace($site_host,$static_files_delivery_domain,modules_url());
+
+
+                }
+                if($replaces){
+                    $layout = str_replace(array_keys($replaces), array_values($replaces), $layout);
+                }
+            }
+
+        }
+
+
+        return $layout;
+    }
+
     public function get_custom_css_url()
     {
         $url = api_nosession_url('template/print_custom_css');
