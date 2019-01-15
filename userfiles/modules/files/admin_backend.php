@@ -84,8 +84,13 @@ body.browser-liveedit h2{
 }
 
 body.browser-liveedit #files_ctrl_holder{
-  display: none;
 }
+
+body.browser-liveedit #files_ctrl_holder_select_all_holder{
+    display: none;
+
+}
+
 
 body.browser-liveedit .mw-ui-box-content{
   height: auto;
@@ -275,7 +280,8 @@ createPopHTML = function(img, type){
         + "<div class='file-preview-holder'>"
         + "<img src='" + img +"' />"
         + "<div class='mw-ui-row'><div class='mw-ui-col' style='width:80%'><input type='text' class='mw-ui-field' value='"+img+"' onfocus='this.select()' readonly></div><div class='mw-ui-col'>"
-        + "<span class='mw-ui-btn' onclick='deleteItem(\""+img+"\", false, true)'><?php _e("Delete"); ?></span></div></div>"
+     //   + "<span class='mw-ui-btn' onclick='deleteItem(\""+img+"\", false, true)'><?php _e("Delete"); ?></span></div></div>"
+        + "<span class='mw-ui-btn' onclick='mw.tools.copy(\""+img+"\")'><?php _e("Copy"); ?></span></div></div>"
         + "</div>";
   }
   else if(type == 'media'){
@@ -283,7 +289,8 @@ createPopHTML = function(img, type){
         + "<div class='file-preview-holder'>"
         + '<video autoplay="true" class="w100" src="'+img+'" controls></video>'
         + "<div class='mw-ui-row'><div class='mw-ui-col' style='width:80%'><input type='text' class='mw-ui-field' value='"+img+"' onfocus='this.select()' readonly></div><div class='mw-ui-col'>"
-        + "<span class='mw-ui-btn' onclick='deleteItem(\""+img+"\", false, true)'><?php _e("Delete"); ?></span></div></div>"
+    //    + "<span class='mw-ui-btn' onclick='deleteItem(\""+img+"\", false, true)'><?php _e("Delete"); ?></span></div></div>"
+        + "<span class='mw-ui-btn' onclick='mw.tools.copy(\""+img+"\")'><?php _e("Copy"); ?></span></div></div>"
         + "</div>";
   }
 

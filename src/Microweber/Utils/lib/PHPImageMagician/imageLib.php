@@ -214,6 +214,10 @@ class imageLib
         # Notes:
         #
     {
+
+        @ini_set('memory_limit', '1256M');
+
+
         if (!$this->testGDInstalled()) {
             if ($this->debug) {
                 die('The GD Library is not installed.');

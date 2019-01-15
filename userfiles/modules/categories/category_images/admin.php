@@ -1,6 +1,7 @@
 <?php
 $selected_category = get_option('fromcategory', $params['id']);
 $show_category_header = get_option('show_category_header', $params['id']);
+$my_tree_id = ''
 ?>
 
 <style type="text/css" scoped="scoped">
@@ -21,6 +22,91 @@ $show_category_header = get_option('show_category_header', $params['id']);
     }
 </style>
 
+
+
+
+
+<script type="text/javascript">
+
+    mw.require('tree.js')
+
+</script>
+
+
+<style>
+    .module-categories-image-settings .level-1:not(.has-children):not(.type-category){
+        display: none;
+    }
+</style>
+
+
+
+
+
+<script type="text/javascript">
+    var selectedData = [];
+
+    <?php if($selected_category){ ?>
+    selectedData.push({
+        id: <?php print $selected_category; ?>,
+        type: 'category'
+    })
+
+    <?php } ?>
+
+
+    $( document ).ready(function() {
+
+        $.get("<?php print api_url('content/get_admin_js_tree_json'); ?>", function(data){
+
+            data.unshift({
+                id: 0,
+                type: 'category',
+                title: 'None',
+                "parent_id":0,
+                "parent_type":"category"
+            });
+
+
+            var categoryParentSelector =    new mw.tree({
+                element:"#category-parent-selector",
+                selectable: true,
+                selectedData: selectedData,
+                singleSelect: true,
+                data: data
+            })
+
+            $(categoryParentSelector).on("selectionChange", function (e, selected) {
+                var parent = selected[0];
+                $('#parentcat').val(parent.id).change();
+            })
+        });
+
+
+    });
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div class="mw-modules-tabs">
     <div class="mw-accordion-item">
         <div class="mw-ui-box-header mw-accordion-title">
@@ -29,36 +115,20 @@ $show_category_header = get_option('show_category_header', $params['id']);
             </div>
         </div>
         <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-            <!-- Settings Content -->
+
             <div class="module-live-edit-settings module-categories-image-settings">
                 <input type="hidden" name="settings" id="settingsfield" value="" class="mw_option_field"/>
 
-                <div calss="mw-ui-field-holder">
-                    <?php $trees = get_categories('limit=1000&parent_id=0&rel=content'); ?>
-                    <label class="mw-ui-label"><?php _e('Select parent category'); ?></label>
-                    <select name="fromcategory" class="mw_option_field mw-ui-field mw-full-width" id="parentcat">
-                        <option <?php if ((0 == intval($selected_category))): ?>  selected="selected"  <?php endif; ?>><?php _e("None"); ?></option>
-                        <option <?php if (('current' == $selected_category)): ?>  selected="selected"  <?php endif; ?> value="current"><?php _e("Current"); ?></option>
-                        <?php
-                        if ($trees != false and is_array($trees) and !empty($trees)) {
-                            foreach ($trees as $cat) {
-                                $cat_params = $params;
-                                $pt_opts = array();
-                                $pt_opts['link'] = "{title}";
-                                $pt_opts['list_tag'] = " ";
-                                $pt_opts['list_item_tag'] = "option";
-                                $pt_opts['parent'] = $cat['id'];
-                                $pt_opts['include_first'] = 1;
-                                $pt_opts['active_ids'] = $selected_category;
-                                $pt_opts['active_code_tag'] = '   selected="selected"  ';
-                                category_tree($pt_opts);
-                            }
-                        }
-                        ?>
-                    </select>
-                </div>
+
+                <input type="hidden" name="fromcategory" id="parentcat" value="<?php print $selected_category; ?>" class="mw_option_field"/>
+
+                <label class="mw-ui-label"><?php _e('Select parent category'); ?></label>
+
+
+                <div id="category-parent-selector"></div>
+
+
             </div>
-            <!-- Settings Content - End -->
         </div>
     </div>
 </div>
