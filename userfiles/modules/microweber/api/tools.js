@@ -116,6 +116,15 @@ if (!window.escape) {
     };
 }
 mw.tools = {
+    copy : function (value) {
+        var tempInput = document.createElement("input");
+        tempInput.style = "position: absolute; left: -1000px; top: -1000px";
+        tempInput.value = value;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+    },
     cloneObject: function (object) {
         if (window.Object && window.Object.assign) {
             return Object.assign({}, object);
