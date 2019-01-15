@@ -116,7 +116,7 @@ if (!window.escape) {
     };
 }
 mw.tools = {
-    copy : function (value) {
+    copy: function (value) {
         var tempInput = document.createElement("input");
         tempInput.style = "position: absolute; left: -1000px; top: -1000px";
         tempInput.value = value;
@@ -1441,8 +1441,6 @@ mw.tools = {
         if (node === null || node === undefined) return false;
         node.checked = node.checked ? false : true;
         return node.checked;
-    },
-    copy: function (what) {
     },
     classNamespaceDelete: function (el_obj, namespace, parent, namespacePosition, exception) {
         if (el_obj.element && el_obj.namespace) {
