@@ -84,8 +84,13 @@ body.browser-liveedit h2{
 }
 
 body.browser-liveedit #files_ctrl_holder{
-  display: none;
 }
+
+body.browser-liveedit #files_ctrl_holder_select_all_holder{
+    display: none;
+
+}
+
 
 body.browser-liveedit .mw-ui-box-content{
   height: auto;
