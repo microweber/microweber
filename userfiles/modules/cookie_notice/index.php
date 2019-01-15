@@ -41,9 +41,14 @@ if ($settings == false) {
     $json = json_decode($settings, true);
 }
 
+
+
 if (!isset($json['cookies_policy']) OR $json['cookies_policy'] != 'y') {
     return;
 }
+
+
+
 require_once('scwCookie/scwCookie.class.php');
 $scwCookie = new ScwCookie\ScwCookie($json, $params['id']);
 

@@ -25,6 +25,7 @@ Subject: <?php print ($campaign['subject']); ?> <br />
 From name: <?php print ($campaign['from_name']); ?> <br />
 List id: <?php print ($campaign['list_id']); ?> <br />
 
+<!--
 <br />
 Message:
 <br />
@@ -33,8 +34,12 @@ echo $template['text'];
 ?>
 <br />
 <br />
+-->
+<br />
+<hr />
+Sending to subscribers... <br /><br />
+<b>
 <?php
-
 foreach($subscribers as $subscriber) {
 	
 	$newsletterMailSender = new \Newsletter\Senders\NewsletterMailSender();
@@ -43,7 +48,21 @@ foreach($subscribers as $subscriber) {
 	$newsletterMailSender->setSender($sender);
 	$newsletterMailSender->setTemplate($template);
 	
-	print_r($newsletterMailSender->sendMail());
+	$sendMailResponse = $newsletterMailSender->sendMail();
 	
+	echo 'Subscriber: ' . $subscriber['name'] . ' (' . $subscriber['email'] . ') <br />';
+	
+	if ($sendMailResponse['success']) {
+		
+		echo '<font style="color:green;">' . $sendMailResponse['message'] . '</font>';
+		
+		newsletter_finish_campaign($campaign['id']);
+		
+	} else {
+		echo '<font style="color:red;">' . $sendMailResponse['message'] . '</font>';
+	}
+	
+	echo '<br />';	
 }
 ?>
+</b>

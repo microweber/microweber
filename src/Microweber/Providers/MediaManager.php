@@ -1105,7 +1105,7 @@ class MediaManager
             $fn_new_folder_path = $_REQUEST['name'];
             $fn_new_folder_path = urldecode($fn_new_folder_path);
             $fn_new_folder_path = str_replace('..', '', $fn_new_folder_path);
-            $fn_new_folder_path_new = $fn_path . DS . $fn_new_folder_path;
+            $fn_new_folder_path_new = $target_path . DS . $fn_new_folder_path;
             $fn_path = normalize_path($fn_new_folder_path_new, false);
             if (!is_dir($fn_path)) {
                 mkdir_recursive($fn_path);

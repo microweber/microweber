@@ -347,7 +347,7 @@ if (array_key_exists('types', $_GET)) {
                                 }, 222)
                             }, 222)
 
-                        });
+                        }, {'filetype':'images'});
                     } else {
                         SetFileBrowserHeight()
                     }

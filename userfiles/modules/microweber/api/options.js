@@ -149,6 +149,9 @@ mw.options = {
         }
 
 
+      //  alert(og);
+
+        
         var o_data = {
             option_key: el.attr('name'),
             option_group: og,
@@ -202,8 +205,6 @@ mw.options = {
                 var which_module_to_reload = null;
 
 
-
-
                 if (typeof(refresh_modules11) == 'undefined') {
                     which_module_to_reload = og1;
                 } else if (refresh_modules12) {
@@ -211,17 +212,15 @@ mw.options = {
                 }
 
                 if ((typeof(liveEditSettings) != 'undefined' && liveEditSettings) || window.top.liveEditSettings) {
-                    if (og_parent) {
+                    if (!og1 && og_parent ) {
                         which_module_to_reload = og_parent;
                     }
                 }
 
 
-                // alert('refresh_modules11     '+refresh_modules11);
-                // alert('which_module_to_reload     '+which_module_to_reload);
+                //  alert('refresh_modules11     '+refresh_modules11);
+                //  alert('which_module_to_reload     '+which_module_to_reload);
                 // alert('og1      '+og1);
-
-
 
 
                 if (mw.admin) {
@@ -250,10 +249,9 @@ mw.options = {
                             }
 
                             mw.reload_module_parent("#" + which_module_to_reload);
-                            if(which_module_to_reload != og1){
+                            if (which_module_to_reload != og1) {
                                 mw.reload_module_parent("#" + og1);
                             }
-
 
 
                         }, 777);
@@ -370,9 +368,19 @@ mw.options._optionSaved = null;
 mw.options._bindedRootFormsRegistry = [];
 
 mw.options.form = function ($selector, callback, beforepost) {
-    var $root = mw.$($selector);
+
+
+
+    //setTimeout(function () {
+
+
+    var numOfbindigs = 0;
+
+    var $root = $($selector);
     var root = $root[0];
     if (!root) return;
+
+   //
 
 
     if (!root._optionsEvents) {
@@ -382,9 +390,14 @@ mw.options.form = function ($selector, callback, beforepost) {
                 //this._optionSaved = true;
 
                 var item = $(this);
-                if (!item._optionsEventsBinded) {
+
+
+                if (item && item[0] && !item[0]._optionsEventsBinded) {
                     if (item.hasClass('mw_option_field')) {
-                        item._optionsEventsBinded = true;
+                        numOfbindigs++;
+
+
+                        item[0]._optionsEventsBinded = true;
 
 
                         if (root._optionsEventsClearBidings) {
@@ -395,7 +408,7 @@ mw.options.form = function ($selector, callback, beforepost) {
                         item.on('change input paste', function (e) {
 
 
-                          //  var isCheckLike = this.type === 'checkbox' || this.type === 'radio';
+                            //  var isCheckLike = this.type === 'checkbox' || this.type === 'radio';
                             var isCheckLike = true;
                             var token = isCheckLike ? this.name : this.name + $(this).val();
                             //if(mw.options._optionSaved !== token){
@@ -415,31 +428,40 @@ mw.options.form = function ($selector, callback, beforepost) {
                 }
             });
     }
-    root._optionsEvents = root._optionsEvents || {};
-    root._optionsEvents = $.extend({}, root._optionsEvents, {callback: callback, beforepost: beforepost});
+
+
+  //  alert($selector +'   --   ' +numOfbindigs);
 
 
     // REBIND
+    if (numOfbindigs > 0) {
+        root._optionsEvents = root._optionsEvents || {};
+        root._optionsEvents = $.extend({}, root._optionsEvents, {callback: callback, beforepost: beforepost});
 
-    var rebind = {};
-    if (typeof root._optionsEvents.beforepost === 'function') {
-        rebind.beforepost = root._optionsEvents.beforepost;
+
+
+        var rebind = {};
+        if (typeof root._optionsEvents.beforepost === 'function') {
+            rebind.beforepost = root._optionsEvents.beforepost;
+        }
+        rebind.callback = root._optionsEvents.callback;
+        rebind.binded_selector = $selector;
+        var rebindtemp = mw.tools.cloneObject(rebind);
+        //fix here chek if in array
+
+
+        var is_in = mw.options._bindedRootFormsRegistry.filter(function (a) {
+            return a.binded_selector === $selector;
+        })
+
+        if (!is_in.length) {
+            mw.options._bindedRootFormsRegistry.push(rebindtemp);
+        }
     }
-    rebind.callback = root._optionsEvents.callback;
-    rebind.binded_selector = $selector;
-    var rebindtemp = mw.tools.cloneObject(rebind);
-    //fix here chek if in array
-
-
-    var is_in = mw.options._bindedRootFormsRegistry.filter(function (a) {
-        return a.binded_selector === $selector;
-    })
-
-    if (!is_in.length) {
-        mw.options._bindedRootFormsRegistry.push(rebindtemp);
-    }
-
     // END OF REBIND
+
+
+    //}, 10,$selector, callback, beforepost);
 
 
 };
@@ -488,7 +510,7 @@ mw.options.___rebindAllFormsAfterReload = function () {
                         .each(function () {
                             var item = $(this);
                             if (item.hasClass('mw_option_field')) {
-                                if (!item._optionsEventsBinded) {
+                                if (!item[0]._optionsEventsBinded) {
                                     has_non_binded = true;
                                     item.attr('autocomplete', 'off');
                                 }

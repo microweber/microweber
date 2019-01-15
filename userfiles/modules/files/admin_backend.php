@@ -2,9 +2,30 @@
   <?php if(isset($params['backend'])): ?>
   <module type="admin/modules/info" />
   <?php endif; ?>
+
+
+
+
+
   <?php
  if(is_admin() == false) {return; }
- //$rand = uniqid(); ?>
+ //$rand = uniqid();
+
+  $exts = false;
+
+  $filetype = false;
+
+  if(isset($params['filetype']) and $params['filetype'] == 'images'){
+      $exts = 'jpg,jpeg,png,gif,bmp,svg';
+
+  }
+
+
+
+
+
+
+  ?>
   <script type="text/javascript">
 
     if(self !== parent){
@@ -152,6 +173,13 @@ body .mw-file-browser.mw-file-browser-basic .browser-ctrl-bar
 
 
 </style>
+
+
+
+
+
+
+
   <script  type="text/javascript">
 
 
@@ -202,7 +230,7 @@ _mw_admin_files_manage = function(param, value, callback){
        $(mwd.body).removeClass("loading");
        $(".mw-ui-searchfield").removeClass("loading");
        if(typeof callback === 'function'){callback.call()}
-    });
+    }, {'extensions':'<?php print $exts ?>'});
 
 }
 

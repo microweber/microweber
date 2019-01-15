@@ -60,10 +60,16 @@ if (isset($params_get_files['directory']) and !is_dir($params_get_files['directo
 }
 //  $params['keyword']
 
+if (isset($params['extensions']) and $params['extensions']) {
+    $params_get_files['extensions'] = $params['extensions'];
+}
 
 $data = mw('Microweber\Utils\Files')->get($params_get_files);
 
 $path_nav = explode(DS, $path);
+
+
+
 
 ?>
 <script>
@@ -79,6 +85,12 @@ $path_nav = explode(DS, $path);
                                      class="mw-ui-btn mw-ui-btn-small pull-right mw-ui-btn-invert">
             <?php _e("Back"); ?>
         </a> <span class="mw-browser-uploader-path">
+
+
+              <a href="#path=" style="color: #212121;"><span
+                          class="<?php print $config['module_class']; ?> path-item"><?php _e('Main') ?></span></a>&raquo;
+
+
     <?php if (is_array($path_nav)): ?>
         <?php
 

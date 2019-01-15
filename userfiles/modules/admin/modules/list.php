@@ -9,7 +9,11 @@ $mod_obj_str = 'modules';
 
 
 $show_grouped_by_cats = false;
+$hide_dynamic_layouts = false;
 
+if(isset($params['hide-dynamic']) and $params['hide-dynamic']){
+    $hide_dynamic_layouts = true;
+}
 
 if (isset($is_elements) and $is_elements == true) {
     $mod_obj_str = 'elements';
@@ -36,8 +40,14 @@ if (isset($is_elements) and $is_elements == true) {
     $dynamic_layouts = false;
     $module_layouts_skins = false;
     $dynamic_layouts = mw()->layouts_manager->get_all('no_cache=1&get_dynamic_layouts=1');
-
     $module_layouts_skins = mw()->modules->templates('layouts');
+
+    if($hide_dynamic_layouts){
+        $dynamic_layouts =  false;
+        $module_layouts_skins =  false;
+
+    }
+
     // $module_layouts_skins_def = mw()->modules->templates('layouts',false, false, 'module_dir');
     //$module_layouts_skins_def = mw()->modules->templates('layouts',false, false, 'dream');
 //var_dump($module_layouts_skins_def);
@@ -317,7 +327,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 
             <?php if ($mod_obj_str == 'elements'): ?>
-                <li>
+                <li unselectable="on"  >
                     <hr>
                     <h4 onclick="$('.default-layouts').toggle()"><?php _e('Default static layouts'); ?> </h4>
                     <hr>

@@ -8,8 +8,28 @@
 
 namespace Newsletter\Providers;
 
-use Illuminate\Mail\Mailer;
+use Microweber\App\Providers\Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Config;
+use Microweber\Utils\MailSender;
 
 class PHPMailProvider extends \Newsletter\Providers\DefaultProvider {
+	
+	public function send() {
+		
+		$sender = new MailSender();
+		$sender->transport = 'php';
+		
+		$status = $sender->exec_send(
+			$this->toEmail, $this->subject,
+			$this->body,
+			$this->fromEmail, $this->fromName, $this->fromReplyEmail
+		);
+		
+		if ($status) {
+			return 'Email is sent successfuly.';
+		} else {
+			return 'Email is not sent';
+		}
+	}
 	
 }
