@@ -43,7 +43,8 @@ mw.lib.require('nestedsortable');
                 append:false,
                 prepend:false,
                 selectable:false,
-                filter:false
+                filter:false,
+                cantSelectTypes: []
             };
 
             var options = $.extend({}, defaults, config);
@@ -162,7 +163,7 @@ mw.lib.require('nestedsortable');
                 return;
             }
             li = this.get(li, type);
-            if(li){
+            if(li && this.options.cantSelectTypes.indexOf(li.dataset.type) === -1){
                 li.classList.add(this.options.selectedClass);
                 var input = $(li.children).filter('.mw-tree-item-content').find('input')[0];
                 if(input) input.checked = true;
@@ -218,6 +219,7 @@ mw.lib.require('nestedsortable');
             li = this.get(li, type);
             if(!li) return;
             var input = $(li.children).filter('.mw-tree-item-content').find('input')[0];
+            if(!input) return false;
             return input.checked === true;
         };
         this.toggleSelect = function(li, type){
@@ -338,6 +340,9 @@ mw.lib.require('nestedsortable');
         };
 
         this.checkBox = function(element){
+            if(this.options.cantSelectTypes.indexOf(element.dataset.type) !== -1){
+                return document.createTextNode('');
+            }
             var itype = 'radio';
             if(this.options.singleSelect){
 
@@ -352,8 +357,11 @@ mw.lib.require('nestedsortable');
             input._data = element._data;
             input.value = element._data.id;
             input.name = this.list.id;
-            label.className = 'mw-ui-check'
-            label.appendChild(input)
+            label.className = 'mw-ui-check';
+
+            label.appendChild(input);
+
+
             label.appendChild(span);
 
             /*input.onchange = function(){

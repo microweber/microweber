@@ -188,8 +188,9 @@
      var tree1 = new mw.tree({
          element:'#tree_demo',
          data: tree_demo_data,
-         selectable:false,
-         singleSelect:true
+         selectable:true,
+         singleSelect:true,
+         cantSelectTypes: ['page']
      });
 
      console.log(tree1)
