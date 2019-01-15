@@ -694,7 +694,7 @@ mw.drag = {
 
                 if (!mw.isDrag) {
                     if (mw.liveEditSelectMode === 'element') {
-                        mw.liveEditHandlers()
+                        mw.liveEditHandlers(event)
                     }
                 } else {
                     mw.ea.data.currentGrabbed = mw.dragCurrent;
@@ -1115,7 +1115,10 @@ mw.drag = {
                 stop: function() {
                     $(mwd.body).removeClass("dragStart");
                 }
-            });
+            })
+                .on("mousedown", function(e){
+                    mw.liveEditSelectMode = 'none';
+                });
             mw.on.mouseDownAndUp($handle_module[0].querySelector('.mw-sorthandle-moveit'), function(time, mouseUpEvent){
               if(time < 1000 && !mw.tools.hasAnyOfClassesOnNodeOrParent(mouseUpEvent.target, ['mw_handle_module_arrow'])){
 
@@ -1228,7 +1231,7 @@ mw.drag = {
     },
 
     toolbar_modules: function(selector) {
-        var items = selector || ".modules-list li";
+        var items = selector || ".modules-list li[data-module-name]";
         mw.$(items).draggable({
             revert: true,
             /*cursorAt: {
@@ -1293,6 +1296,9 @@ mw.drag = {
                     i = 0;
                 for (; i < len; i++) {
                     sliders[i].isDrag = false;
+                }
+                if(event.type === 'mouseup' && mw.liveEditSelectMode === 'none'){
+                    mw.liveEditSelectMode = 'element';
                 }
                 if (!mw.isDrag) {
 

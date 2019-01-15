@@ -132,9 +132,9 @@ mw.dropables = {
 }
 
 
- mw.liveEditHandlers = function(){
+ mw.liveEditHandlers = function(event){
 
-    if ( mw.emouse.x % 2 === 0 && mw.drag.columns.resizing === false ) {
+    if ( mw.emouse.x % 1 === 0 && mw.drag.columns.resizing === false ) {
 
         var cloneable = mw.tools.firstParentOrCurrentWithAnyOfClasses(mw.mm_target, ['cloneable', 'mw-cloneable-control']);
 
@@ -234,45 +234,42 @@ mw.dropables = {
     }
     mw.image._dragTxt(event);
 
-    var bg;
-    if(event.target && event.target.style){
+    var bg, bgTarget, bgCanChange;
+    if(event.target){
       bg = event.target.style && event.target.style.backgroundImage && !mw.tools.hasClass(event.target, 'edit');
+      bgTarget = event.target;
       if(!bg){
           var _c = 0, bgp = event.target;
-          while (_c<3 || !bg){
+          while (!bg || bgp === mwd.body){
               bgp = bgp.parentNode;
               if(!bgp) {
                   break;
               }
               _c++;
               bg = bgp.style && bgp.style.backgroundImage && !mw.tools.hasClass(bgp, 'edit');
+              bgTarget = bgp;
           }
       }
     }
 
+    if(bg){
+        bgCanChange = mw.drag.columns.resizing === false
+        && (mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(bgTarget, ['edit','module']) || mw.tools.hasClass(event.target, 'element'));
+    }
+
     if (!mw.image.isResizing && mw.image_resizer) {
-        if (event.target.nodeName === 'IMG' && (mw.tools.hasClass(event.target, 'element') || mw.tools.hasClass(event.target, 'safe-element') || mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(event.target, ['edit','module'])) && mw.drag.columns.resizing === false) {
+        if (event.target.nodeName === 'IMG' && (mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(event.target, ['edit','module'])) && mw.drag.columns.resizing === false) {
             mw.image_resizer._show();
             mw.image.resize.resizerSet(event.target, false);
         }
-        else if (!!bg && mw.tools.hasClass(event.target, 'element') && mw.drag.columns.resizing === false) {
-            if(mw.image_resizer){
-                mw.image_resizer._show();
-                mw.image.resize.resizerSet(event.target, false);
-            }
+        else if (bg && bgCanChange) {
+            mw.image_resizer._show();
+            mw.image.resize.resizerSet(bgTarget, false);
         }
-        else if (bg && mw.tools.hasParentsWithClass(event.target, 'edit') && mw.drag.columns.resizing === false) {
-            if (mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(event.target, ['edit','module'])) {
-                if(mw.image_resizer) {
-                    mw.image_resizer._show();
-                    mw.image.resize.resizerSet(event.target, false);
-                }
-            }
-        }
+
         else if(mw.tools.hasClass(mw.mm_target, 'mw-image-holder-content')||mw.tools.hasParentsWithClass(mw.mm_target, 'mw-image-holder-content')){
             mw.image_resizer._show();
             mw.image.resize.resizerSet(mw.tools.firstParentWithClass(mw.mm_target, 'mw-image-holder').querySelector('img'), false);
-
         }
         else {
             if (!event.target.mwImageResizerComponent) {
@@ -282,7 +279,6 @@ mw.dropables = {
             }
         }
     }
-
 }
 
 
