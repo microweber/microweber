@@ -145,6 +145,13 @@ class Files
             $directory = $params['directory'];
         }
 
+
+        $filter_extensions = false;
+
+        if (isset($params['extensions']) and is_string($params['extensions'])) {
+            $filter_extensions = explode(',',$params['extensions']);
+        }
+
         $restrict_path = false;
 
         if (isset($params['restrict_path']) and is_string($params['restrict_path'])) {
@@ -200,9 +207,29 @@ class Files
                     $file = $directory . DS . $file;
                 }
                 if (is_file($file)) {
+
+                    $skip = false;
                     $df = normalize_path($file, false);
-                    if (!in_array($df, $arrayItems_f)) {
-                        $arrayItems_f[] = $df;
+                    $file_ext = get_file_extension($df);
+
+
+
+                    if($filter_extensions and !empty($filter_extensions)){
+                         $skip = true;
+                         foreach ($filter_extensions as $filter_extension){
+                            if($filter_extension == $file_ext){
+                                $skip = false;
+                            }
+                         }
+//                        if(array_search($file_ext,$filter_extensions)){
+//                           // $skip = false;
+//                        }
+                    }
+
+                    if( $skip == false){
+                        if (!in_array($df, $arrayItems_f)) {
+                            $arrayItems_f[] = $df;
+                        }
                     }
                 } else {
                     $df = normalize_path($file, 1);

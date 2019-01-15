@@ -448,7 +448,7 @@ class Modules
             $params['module'] = str_replace('/admin', '', $params['module']);
         }
         if (isset($params['keyword'])) {
-            $params['search_in_fields'] = array('name', 'module', 'description', 'author', 'website', 'version', 'help' );
+            $params['search_in_fields'] = array('name', 'module', 'description', 'author', 'website', 'version', 'help');
         }
 
         if (!isset($params['ui'])) {
@@ -764,15 +764,15 @@ class Modules
                 if ($template_name == 'mw_default.php' and is_file($tf)) {
                     return $tf;
                 } else if ($template_name == 'mw_default.php' and is_file($tf_mw_default)) {
-                    return  normalize_path($tf_mw_default,false);
+                    return normalize_path($tf_mw_default, false);
                 } else if (strstr($tf_from_other_theme, 'modules') and is_file($tf_from_other_theme)) {
-                    return normalize_path($tf_from_other_theme,false);
+                    return normalize_path($tf_from_other_theme, false);
                 } elseif (is_file($tf_theme)) {
-                    return normalize_path($tf_theme,false);
+                    return normalize_path($tf_theme, false);
                 } elseif (is_file($tf)) {
-                    return normalize_path($tf,false);
+                    return normalize_path($tf, false);
                 } elseif (strtolower($template_name_orig) != 'default' and is_file($tf_other_module)) {
-                    return normalize_path($tf_other_module,false);
+                    return normalize_path($tf_other_module, false);
                 } else {
                     return false;
                 }
@@ -783,6 +783,7 @@ class Modules
     public function url($module_name = false)
     {
         if ($module_name == false) {
+
             $mod_data = $this->app->parser->current_module;
             if (isset($mod_data['url_to_module'])) {
                 return $mod_data['url_to_module'];
