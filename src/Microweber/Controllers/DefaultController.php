@@ -1993,9 +1993,7 @@ class DefaultController extends Controller
              }
 
 
-
-
-
+            $l = $this->app->parser->replace_url_placeholders($l);
 
 
 
