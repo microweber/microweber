@@ -482,7 +482,7 @@ $limit =  $this->default_limit;
             if ($allow_scripts == false) {
                  $evil = ['(?<!\w)on\w*',   'xmlns', 'formaction',   'xlink:href', 'FSCommand', 'seekSegmentTime'];
 
-                $criteria =  $this->app->format->clean_xss($criteria, true,$evil);
+                $criteria =  $this->app->format->clean_xss($criteria, true,$evil, 'removeEvilAttributes');
 
 
                 $criteria = $this->clean_input($criteria);

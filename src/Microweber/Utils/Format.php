@@ -460,7 +460,7 @@ class Format
         return $string ? implode(', ', $string) . ' ago' : 'just now';
     }
 
-    public function clean_xss($var, $do_not_strip_tags = false,$evil=null)
+    public function clean_xss($var, $do_not_strip_tags = false,$evil=null,$method='process')
     {
         static $sec;
 
@@ -470,7 +470,7 @@ class Format
 
         if (is_array($var)) {
             foreach ($var as $key => $val) {
-                $output[$key] = $this->clean_xss($val, $do_not_strip_tags,$evil);
+                $output[$key] = $this->clean_xss($val, $do_not_strip_tags,$evil,$method);
             }
         } else {
             $var = $sec->clean($var);

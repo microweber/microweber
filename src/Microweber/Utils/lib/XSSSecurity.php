@@ -57,7 +57,7 @@ class XSSSecurity
      *
      * @return string
      */
-    public function clean($str)
+    public function clean($str,$method='process')
     {
         if (is_array($str)) {
             while (list($key) = each($str)) {
@@ -70,7 +70,7 @@ class XSSSecurity
         $i = 0;
         do {
             ++$i;
-            $processed = $this->process($str);
+            $processed = $this->$method($str);
         } while ($i < 3 && $processed !== $str);
 
         return $processed;
@@ -262,7 +262,7 @@ class XSSSecurity
      *
      * @return string
      */
-    protected function removeEvilAttributes($str)
+    public function removeEvilAttributes($str)
     {
         do {
             $count = $tempCount = 0;
