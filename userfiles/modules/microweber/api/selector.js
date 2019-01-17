@@ -142,6 +142,8 @@ mw.Selector = function(options) {
     this.setItem = function(e, item, select, extend){
         var target = e.target?e.target:e;
         target = mw.tools.firstMatchesOnNodeOrParent(target, ['[id]']);
+        var validateTarget = !mw.tools.firstMatchesOnNodeOrParent(target, ['.mw-control-box', '.mw-defaults']);
+        if(!target || validateTarget) return;
         if($(target).hasClass('mw-select-skip')){
             return this.setItem(target.parentNode, item, select, extend);
         }
@@ -195,14 +197,14 @@ mw.Selector = function(options) {
         this.buildSelector();
         this.buildInteractor();
         var scope = this;
-        $(this.root).on("click touchend", function(e){
-            console.log(e)
+        $(this.root).on("click", function(e){
             if(scope.active){
                 scope.select(e);
             }
         });
 
         $(this.root).on( "mousemove", function(e){
+            console.log('~', scope.active)
             if(scope.active){
                 scope.setItem(e, scope.interactors)
             }

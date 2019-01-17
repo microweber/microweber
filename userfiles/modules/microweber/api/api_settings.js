@@ -227,12 +227,16 @@ mw.settings.libs = {
     ],
     nestedSortable: [
         'jquery.mjs.nestedSortable.js'
-    ]
-    ,
+    ],
     acolorpicker: [
         'acolorpicker.js'
+    ],
+    material_icons:[
+        function () {
+            mw.require('//fonts.googleapis.com/icon?family=Material+Icons&ex=.css', 'material_icons')
+        }
     ]
-}
+};
 
 mw.lib = {
     _required: [],
@@ -240,7 +244,6 @@ mw.lib = {
         if (mw.lib._required.indexOf(name) !== -1) {
             return false;
         }
-        ;
         mw.lib._required.push(name);
         if (typeof mw.settings.libs[name] === 'undefined') return false;
         if (mw.settings.libs[name].constructor !== [].constructor) return false;
@@ -260,7 +263,7 @@ mw.lib = {
             }
             return false;
         }
-        ;
+
         if (typeof mw.settings.libs[name] === 'undefined') return false;
         if (mw.settings.libs[name].constructor !== [].constructor) return false;
         mw.lib._required.push(name);

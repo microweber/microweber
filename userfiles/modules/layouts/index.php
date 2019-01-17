@@ -1,7 +1,7 @@
 <script>
     mw.lib.require('bootstrap3ns');
 </script>
-<script>mw.require('https://fonts.googleapis.com/icon?family=Material+Icons&.css', 'material_icons');</script>
+<script>mw.lib.require('material_icons');</script>
 <script>mw.moduleCSS("<?php print modules_url(); ?>layouts/styles.css"); </script>
 
 <div class="bootstrap3ns">

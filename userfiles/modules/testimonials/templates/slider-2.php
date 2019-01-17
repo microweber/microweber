@@ -14,7 +14,7 @@ description: Testimonials displayed in Slider
 
 <script>
     mw.lib.require('bootstrap3ns');
-    mw.require('https://fonts.googleapis.com/icon?family=Material+Icons&.css', 'material_icons');
+    mw.lib.require('material_icons');
 </script>
 
 

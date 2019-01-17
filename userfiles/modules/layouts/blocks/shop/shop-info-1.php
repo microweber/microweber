@@ -4,7 +4,7 @@ $next = next_content();
 $prev = prev_content();
 ?>
 
-<script>mw.require('https://fonts.googleapis.com/icon?family=Material+Icons&.css', 'material_icons');</script>
+<script>mw.lib.require('material_icons');</script>
 <script>mw.moduleCSS("<?php print modules_url(); ?>layouts/blocks/styles.css"); </script>
 
 <div class="product-info-layout-1">

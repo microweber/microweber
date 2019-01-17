@@ -1,4 +1,4 @@
-<script>mw.require('https://fonts.googleapis.com/icon?family=Material+Icons&.css', 'material_icons');</script>
+<script>mw.lib.require('material_icons');</script>
 <script>mw.moduleCSS("<?php print modules_url(); ?>categories/styles.css"); </script>
 
 <?php

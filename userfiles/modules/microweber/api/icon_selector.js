@@ -455,7 +455,7 @@ mw.iconSelector = mw.iconSelector || {
     },
     getMaterialIconsPopup:function(callback){
 
-      mw.require('https://fonts.googleapis.com/icon?family=Material+Icons&.css')
+      mw.lib.require('material_icons')
       var html = '';
       if(!mw.materialIcons){
           $.getScript(mw.settings.modules_url + 'microweber/api/material.icons.js', function(data){
@@ -473,7 +473,7 @@ mw.iconSelector = mw.iconSelector || {
         }
     },
     getMaterialIconsDropdown:function(callback){
-      mw.require('https://fonts.googleapis.com/icon?family=Material+Icons&.css')
+      mw.lib.require('material_icons')
       var html = '';
       if(!mw.materialIcons){
           $.getScript(mw.settings.modules_url + 'microweber/api/material.icons.js', function(data){

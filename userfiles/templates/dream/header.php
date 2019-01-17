@@ -19,7 +19,7 @@
     <script>
         mw.require("fonts.js");
         mw.lib.require('bootstrap3');
-        mw.require('https://fonts.googleapis.com/icon?family=Material+Icons&.css', 'material_icons');
+        mw.lib.require('material_icons');
     </script>
     <script>
         mw.templateFont = mw.templateFont || new mw.font();

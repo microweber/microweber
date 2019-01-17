@@ -148,7 +148,8 @@
                                         mw.cssEditorSelector.active = !mw.cssEditorSelector.active;
                                         mw.liveEditSelectMode = mw.cssEditorSelector.active ? 'element' : 'css';
                                         mw.drag.plus.locked = mw.cssEditorSelector.active ? true : false;
-                                        $(this).addClass('active')
+                                        $(this).toggleClass('active');
+                                        $('.mw-selector').toggle();
                                     })
 
 
@@ -679,13 +680,13 @@
 
 
             mw.cssSelectorTree = new mw.tree({
-                element: '#css-editor-selected-view'
+                element: '#css-editor-selected-view',
             });
 
 
             $(mw.cssEditorSelector).on('select', function(){
 
-
+console.log(444)
 
                 mw.cssEditorSelector.active = false;
                 mw.liveEditSelectMode = 'element';
