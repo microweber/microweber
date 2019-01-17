@@ -2539,11 +2539,21 @@ $(document).ready(function() {
 
     setInterval(function(){
 
-        var mwlastmouse_x = mw.emouse.x;
-        var mwlastmouse_y = mw.emouse.y;
+
+        var mwlastmouse_x = 1;
+        var mwlastmouse_y = 1;
+        var mwlastmouse_itenrval_can_process = false;
+        if(typeof( mw.emouse) != 'undefined' && typeof( mw.emouse.x) != 'undefined'){
+            var mwlastmouse_x = mw.emouse.x;
+            var mwlastmouse_itenrval_can_process = true;
+        }
+        if(typeof( mw.emouse) != 'undefined' && typeof( mw.emouse.y) != 'undefined'){
+            var mwlastmouse_itenrval_can_process = true;
+            var mwlastmouse_y = mw.emouse.y;
+        }
 
 
-      if(mwlastmouse_x+mwlastmouse_y !=  mw.emouse.x+mw.emouse.y){
+      if(mwlastmouse_itenrval_can_process && mwlastmouse_x+mwlastmouse_y !=  mw.emouse.x+mw.emouse.y){
 
           mw.$(".edit.background-image-holder, .edit .background-image-holder, .edit[style*='background-image'], .edit [style*='background-image']").each(function(){
             var po = mw.tools.parentsOrder(this, ['edit', 'module']);
