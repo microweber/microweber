@@ -667,6 +667,8 @@ class CategoryManager
 //dd($data);
         }
 
+        //$data = mw()->format->clean_xss($data);
+
          // \Log::info(print_r($data, true));
         $id = $save = $this->app->database_manager->extended_save($table, $data);
 

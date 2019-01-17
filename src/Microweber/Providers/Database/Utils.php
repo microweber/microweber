@@ -511,7 +511,7 @@ class Utils
     public function clean_input($input)
     {
 
-         $input = $this->app->format->clean_xss($input, true);
+//         $input = $this->app->format->clean_xss($input, true);
 
         if (is_array($input)) {
             $output = array();
