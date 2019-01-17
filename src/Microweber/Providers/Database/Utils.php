@@ -241,19 +241,19 @@ class Utils
 
             foreach ($tables as $k => $v) {
 
-                if ($local_prefix ) {
-                 //   $starts_with = starts_with($local_prefix, $v);
+                if ($local_prefix) {
+                    //   $starts_with = starts_with($local_prefix, $v);
                     $starts_with = substr($v, 0, strlen($local_prefix)) === $local_prefix;
 
                     if ($starts_with) {
-                      //  $v = str_replace_first($local_prefix, '', $v);
+                        //  $v = str_replace_first($local_prefix, '', $v);
                         $cms_tables[$k] = $v;
                     } else {
                         //  $cms_tables[$k] = $v;
                     }
                 } else {
 
-                $cms_tables[$k] = $v;
+                    $cms_tables[$k] = $v;
 
                 }
 
@@ -511,8 +511,7 @@ class Utils
     public function clean_input($input)
     {
 
-        // return $this->app->format->clean_xss($input,true);
-
+        $input = $this->app->format->clean_xss($input, true);
 
         if (is_array($input)) {
             $output = array();
