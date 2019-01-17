@@ -400,7 +400,7 @@ function calendar_get_events_api($params = [])
 
                     if ($event->recurrence_repeat_type == "week") {
                         if (!empty($recurrenceRepeatOn)) {
-                            $eventRecurrences = generate_recurrence_repeat($event, $recurrenceRepeatOn, $timeZone, $year, $month);
+                        	$eventRecurrences = get_generated_recurrence_repeat($event, $recurrenceRepeatOn, $timeZone, $year, $month);
                             foreach ($eventRecurrences as $eventRecurrence) {
                                 $eventReady['start'] = $eventRecurrence['start'];
                                 $eventReady['end'] = $eventRecurrence['end'];
@@ -447,6 +447,24 @@ function calendar_get_events_api($params = [])
             return print lnotif(_e('Click here to edit Calendar', true));
         }
     }
+}
+
+function get_generated_recurrence_repeat($event, $recurrenceRepeatOn, $timeZone, $year, $month) {
+	
+	$previousYear = date('Y', strtotime("-1 month", strtotime($year . '-' . $month)));
+	$previousMonth = date('m', strtotime("-1 month", strtotime($year . '-' . $month)));
+	$previousMonthEvents = generate_recurrence_repeat($event, $recurrenceRepeatOn, $timeZone, $previousYear, $previousMonth);
+	
+	$nextYear = date('Y', strtotime("+1 month", strtotime($year . '-' . $month)));
+	$nextMonth = date('m', strtotime("+1 month", strtotime($year . '-' . $month)));
+	$nextMonthEvents = generate_recurrence_repeat($event, $recurrenceRepeatOn, $timeZone, $nextYear, $nextMonth);
+	
+	$currentMonthEvents = generate_recurrence_repeat($event, $recurrenceRepeatOn, $timeZone, $year, $month);
+	
+	$mergedEvents = array_merge($previousMonthEvents, $nextMonthEvents);
+	
+	
+	return array_merge($currentMonthEvents, $mergedEvents);
 }
 
 function generate_recurrence_repeat($event, $recurrenceRepeatOn, $timeZone, $year, $month)
