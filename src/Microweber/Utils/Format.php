@@ -460,17 +460,17 @@ class Format
         return $string ? implode(', ', $string) . ' ago' : 'just now';
     }
 
-    public function clean_xss($var, $do_not_strip_tags = false)
+    public function clean_xss($var, $do_not_strip_tags = false,$evil=null)
     {
         static $sec;
 
         if ($sec == false) {
-            $sec = new \Microweber\Utils\lib\XSSSecurity();
+            $sec = new \Microweber\Utils\lib\XSSSecurity($evil);
         }
 
         if (is_array($var)) {
             foreach ($var as $key => $val) {
-                $output[$key] = $this->clean_xss($val, $do_not_strip_tags);
+                $output[$key] = $this->clean_xss($val, $do_not_strip_tags,$evil);
             }
         } else {
             $var = $sec->clean($var);
