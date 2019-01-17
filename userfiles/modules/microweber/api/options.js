@@ -59,8 +59,7 @@ mw.options = {
 
         var el = $(el);
         var og, og1, refresh_modules11;
-
-        if (!el) {
+         if (!el) {
             return;
         }
 
@@ -77,6 +76,10 @@ mw.options = {
         var og_test = mw.tools.firstParentWithClass(el[0], 'module');
         if (og_test) {
             og_parent = og_test.id;
+
+            og_parent = $(og_test).attr('for-module-id') || og_test.id;
+
+
         }
         // refresh_modules11 = og1 = og = og_test.id;
 
@@ -97,7 +100,7 @@ mw.options = {
 
         }
 
-        var a = ['data-module-id', 'data-settings-for-module', 'data-refresh', 'option-group', 'data-option-group'],
+        var a = ['data-module-id', 'data-settings-for-module',  'option-group', 'data-option-group','data-refresh'],
             i = 0, l = a.length;
 
 
@@ -144,12 +147,12 @@ mw.options = {
         else {
             val = el.val();
         }
-        if (typeof(og) == 'undefined' && og_parent) {
+        if (typeof(og) == 'undefined' && typeof(og) == 'undefined' && og_parent) {
             og = og_parent;
         }
 
 
-      //  alert(og);
+       //  alert(og + '       ' +og1);
 
         
         var o_data = {

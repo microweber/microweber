@@ -306,6 +306,7 @@ if ($screenshots) {
 
 
         <module type="admin/modules/templates_settings" id="mw-module-skin-settings-module"
+                for-module-id="<?php print $params['parent-module-id'] ?>"
                 parent-module-id="<?php print $params['parent-module-id'] ?>"
                 parent-module="<?php print $params['parent-module'] ?>" parent-template="<?php print $cur_template ?>"/>
         <?php if (!isset($params['simple'])) { ?>
