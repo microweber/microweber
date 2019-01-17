@@ -460,17 +460,17 @@ class Format
         return $string ? implode(', ', $string) . ' ago' : 'just now';
     }
 
-    public function clean_xss($var, $do_not_strip_tags = false)
+    public function clean_xss($var, $do_not_strip_tags = false,$evil=null)
     {
         static $sec;
 
         if ($sec == false) {
-            $sec = new \Microweber\Utils\lib\XSSSecurity();
+            $sec = new \Microweber\Utils\lib\XSSSecurity($evil);
         }
 
         if (is_array($var)) {
             foreach ($var as $key => $val) {
-                $output[$key] = $this->clean_xss($val, $do_not_strip_tags);
+                $output[$key] = $this->clean_xss($val, $do_not_strip_tags,$evil);
             }
         } else {
             $var = $sec->clean($var);
@@ -552,8 +552,8 @@ class Format
             $var = str_ireplace('</script>', '', $var);
             $var = str_replace('<?', '&lt;?', $var);
             $var = str_replace('?>', '?&gt;', $var);
-            $var = str_ireplace('<module', '&lt;module', $var);
-            $var = str_ireplace('<Microweber', '&lt;Microweber', $var);
+       //     $var = str_ireplace('<module', '&lt;module', $var);
+         //   $var = str_ireplace('<Microweber', '&lt;Microweber', $var);
             $var = str_ireplace("\0075\0072\\", '', $var);
             if ($do_not_strip_tags == false) {
                 $var = strip_tags(trim($var));
