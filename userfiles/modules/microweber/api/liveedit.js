@@ -2539,40 +2539,46 @@ $(document).ready(function() {
 
     setInterval(function(){
 
-      mw.$(".edit.background-image-holder, .edit .background-image-holder, .edit[style*='background-image'], .edit [style*='background-image']").each(function(){
-        var po = mw.tools.parentsOrder(this, ['edit', 'module']);
-        if(po.module === -1 || (po.edit<po.module && po.edit != -1)){
-          mw.tools.addClass(this, 'element');
-            this.style.backgroundImage = this.style.backgroundImage || 'none';
-        }
-      });
-
-      mw.$('.module' + mw.noEditModules.join(',.module')).removeClass('module');
+        var mwlastmouse_x = mw.emouse.x;
+        var mwlastmouse_y = mw.emouse.y;
 
 
-        mw.$(".edit").each(function(){
-            var all = mw.ea.helpers.getElementsLike(":not(.element)", this), i = 0;
-            for( ; i<all.length; i++){
-                if(mw.ea.canDrop(all[i])){
-                    mw.tools.addClass(all[i], 'element')
-                }
+      if(mwlastmouse_x+mwlastmouse_y !=  mw.emouse.x+mw.emouse.y){
+
+          mw.$(".edit.background-image-holder, .edit .background-image-holder, .edit[style*='background-image'], .edit [style*='background-image']").each(function(){
+            var po = mw.tools.parentsOrder(this, ['edit', 'module']);
+            if(po.module === -1 || (po.edit<po.module && po.edit != -1)){
+              mw.tools.addClass(this, 'element');
+                this.style.backgroundImage = this.style.backgroundImage || 'none';
             }
-        });
+          });
 
-        if(document.body.classList){
-          var displayEditor = mw.wysiwyg.isSelectionEditable();
-          if(!displayEditor){
-              var editor = document.querySelector('.mw_editor');
-              if(editor && editor.contains(document.activeElement)) displayEditor = true;
-          }
-          var focusedNode = mw.wysiwyg.validateCommonAncestorContainer(getSelection().focusNode);
-          var isSafeMode = mw.tools.firstParentOrCurrentWithAnyOfClasses(focusedNode, ['safe-mode']) ;
-          var isPlainText = mw.tools.firstParentOrCurrentWithAnyOfClasses(focusedNode, ['plain-text']) ;
-          document.body.classList[( displayEditor ? 'add' : 'remove' )]('mw-active-element-iseditable');
-          document.body.classList[( isSafeMode ? 'add' : 'remove' )]('mw-active-element-is-in-safe-mode');
-          document.body.classList[( isPlainText ? 'add' : 'remove' )]('mw-active-element-is-plain-text');
-        }
+          mw.$('.module' + mw.noEditModules.join(',.module')).removeClass('module');
 
+
+            mw.$(".edit").each(function(){
+                var all = mw.ea.helpers.getElementsLike(":not(.element)", this), i = 0;
+                for( ; i<all.length; i++){
+                    if(mw.ea.canDrop(all[i])){
+                        mw.tools.addClass(all[i], 'element')
+                    }
+                }
+            });
+
+            if(document.body.classList){
+              var displayEditor = mw.wysiwyg.isSelectionEditable();
+              if(!displayEditor){
+                  var editor = document.querySelector('.mw_editor');
+                  if(editor && editor.contains(document.activeElement)) displayEditor = true;
+              }
+              var focusedNode = mw.wysiwyg.validateCommonAncestorContainer(getSelection().focusNode);
+              var isSafeMode = mw.tools.firstParentOrCurrentWithAnyOfClasses(focusedNode, ['safe-mode']) ;
+              var isPlainText = mw.tools.firstParentOrCurrentWithAnyOfClasses(focusedNode, ['plain-text']) ;
+              document.body.classList[( displayEditor ? 'add' : 'remove' )]('mw-active-element-iseditable');
+              document.body.classList[( isSafeMode ? 'add' : 'remove' )]('mw-active-element-is-in-safe-mode');
+              document.body.classList[( isPlainText ? 'add' : 'remove' )]('mw-active-element-is-plain-text');
+            }
+      }
     }, 300);
 
     mw.on('ElementOver moduleOver', function(e, target){
