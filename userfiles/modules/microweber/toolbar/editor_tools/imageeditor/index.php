@@ -1,6 +1,8 @@
 <div id="image_settings_modal_holder">
+
     <link rel="stylesheet" href="<?php print(mw_includes_url()); ?>toolbar/editor_tools/imageeditor/cropper.min.css" type="text/css"/>
     <script src="<?php print(mw_includes_url()); ?>toolbar/editor_tools/imageeditor/cropper.min.js"></script>
+    <script src="<?php print(mw_includes_url()); ?>toolbar/editor_tools/imageeditor/jquery-cropper.min.js"></script>
 
     <style scoped="scoped">
 
@@ -9,6 +11,7 @@
             text-align: center;
             max-width: 100%;
             max-height: 300px;
+            direction: ltr !important;
         }
 
         #mwimagecurrentoverlay{
@@ -19,6 +22,8 @@
             width: 100%;
             height: 100%;
             background-color:rgba(0, 0, 0, 0.2);
+            pointer-events: none;
+            opacity: 0;
         }
 
         #the-image-holder img {
@@ -274,9 +279,7 @@
         mw.$('#editmenu').hide();
         cropImage = $('#mwimagecurrent');
         cropImage.cropper({
-            dragCrop: false,
-            autoCrop: true,
-            done: function (data) {
+            crop: function (data) {
               mw.$('.cropper-dragger', cropImage[0].parentNode).bind('dblclick', function () {
                   DoCrop();
               });

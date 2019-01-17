@@ -2145,8 +2145,11 @@ mw.wysiwyg = {
         }
     },
     firstElementThatHasFontIconClass: function (el) {
-        var icon_classes = mw.wysiwyg.fontIconFamilies;
-        var p = mw.tools.firstParentOrCurrentWithAnyOfClasses(el, icon_classes);
+        var icon_classes = mw.wysiwyg.fontIconFamilies.map(function (value) {
+            return '.'+value
+        });
+        icon_classes.push('[class*="mw-micon-"]');
+        var p = mw.tools.firstMatchesOnNodeOrParent(el, icon_classes);
         if (p && (p.tagName == 'I' || p.tagName == 'SPAN')) {
             return p;
         }

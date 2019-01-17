@@ -3734,19 +3734,7 @@ body {
     padding: 2px;
     margin-top: -16px;
 }
-.mw-cloneable-control:after {
-    position: absolute;
-    display: block;
-    content: ' ';
-    z-index: 0;
-    top:-10px;
-    left: -10px;
-    border-radius: 30px;
-    width: -webkit-calc(100% + 20px);
-    width: calc(100% + 20px);
-    height: -webkit-calc(100% + 20px);
-    height: calc(100% + 20px);
-}
+
 
 .mw-cloneable-control-item {
     line-height: 16px;

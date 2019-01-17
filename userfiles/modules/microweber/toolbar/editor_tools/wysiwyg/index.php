@@ -323,6 +323,7 @@ img{
 
 
     <script>
+        mw.lib.require('material_icons')
         mw.require('liveedit.js')
         mw.require('columns.js')
         mw.require('plus.js')
