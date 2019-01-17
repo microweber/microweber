@@ -136,7 +136,9 @@ mw.tools = {
     constructions: function () {
         $(".mw-image-holder").each(function () {
             var img = this.querySelector('img');
-            $(this).css('backgroundImage', 'url(' + img.src + ')')
+            if(img && img.src){
+                $(this).css('backgroundImage', 'url(' + img.src + ')')
+            }
         })
     },
     isRtl: function (el) {
