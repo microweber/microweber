@@ -59,6 +59,11 @@ $my_tree_id = ''
 
         $.get("<?php print api_url('content/get_admin_js_tree_json'); ?>", function(data){
 
+            if(!Array.isArray(data)){
+                var data = [];
+            }
+
+
             data.unshift({
                 id: 0,
                 type: 'category',

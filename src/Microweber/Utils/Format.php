@@ -479,8 +479,8 @@ class Format
 
             $var = str_replace('<?', '&lt;?', $var);
             $var = str_replace('?>', '?&gt;', $var);
-            $var = str_ireplace('<module', '&lt;module', $var);
-            $var = str_ireplace('<Microweber', '&lt;Microweber', $var);
+          /*  $var = str_ireplace('<module', '&lt;module', $var);
+            $var = str_ireplace('<Microweber', '&lt;Microweber', $var);*/
 
             $var = str_ireplace('javascript:', '', $var);
             $var = str_ireplace('vbscript:', '', $var);
