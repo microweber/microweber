@@ -374,9 +374,9 @@ class Parser
 
 
 //                            if (isset($this->mw_replaced_modules_values[$replace_key])) {
-//
-//                                continue;
-//                            }
+////
+////                                continue;
+////                            }
 
                             $attrs = array();
                             if (preg_match_all($attribute_pattern, $value, $attrs1, PREG_SET_ORDER)) {
@@ -1628,7 +1628,6 @@ class Parser
             }
         }
 
-
         return $layout;
     }
 
@@ -2480,6 +2479,7 @@ $srsc_str
         } else {
             preg_match_all('/<module.*[^>]*>/', $mod_content, $modinner);
             if (!empty($modinner) and isset($modinner[0][0])) {
+
                 $proceed_with_parse = true;
             }
 

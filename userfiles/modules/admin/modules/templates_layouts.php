@@ -107,7 +107,8 @@ if ($screenshots) {
 
                 if (inner_mod_type) {
                     var inner_mod_type_admin = inner_mod_type + '/admin'
-                    mod_in_mods_html_btn += '<a class="mw-ui-btn mw-ui-btn-info" style="margin: 0 5px 5px 0;" href=\'javascript:window.parent.mw.tools.open_global_module_settings_modal("' + inner_mod_type_admin + '","' + inner_mod_id + '")\'>' + inner_mod_title + '</a>';
+                 //   mod_in_mods_html_btn += '<a class="mw-ui-btn mw-ui-btn-info" style="margin: 0 5px 5px 0;" href=\'javascript:window.parent.mw.tools.open_global_module_settings_modal("' + inner_mod_type_admin + '","' + inner_mod_id + '")\'>' + inner_mod_title + '</a>';
+                    mod_in_mods_html_btn += '<a class="mw-ui-btn mw-ui-btn-info" style="margin: 0 5px 5px 0;" onclick=\'window.parent.mw.tools.open_global_module_settings_modal("' + inner_mod_type_admin + '","' + inner_mod_id + '")\'>' + inner_mod_title + '</a>';
                 }
             });
         }
