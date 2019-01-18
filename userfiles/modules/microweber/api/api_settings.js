@@ -233,7 +233,7 @@ mw.settings.libs = {
     ],
     material_icons:[
         function () {
-            mw.require('//fonts.googleapis.com/icon?family=Material+Icons&ex=.css', 'material_icons')
+            mw.require(mw.settings.libs_url + 'material_icons' + '/material_icons.css');
         }
     ]
 };

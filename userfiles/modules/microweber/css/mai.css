@@ -1,3 +1,5 @@
+@import "../api/libs/material_icons/material_icons.css";
+
 @font-face {
     font-family: 'admin';
     src: url('fonts/admin/admin.eot');
