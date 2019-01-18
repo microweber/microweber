@@ -19,6 +19,46 @@ mw.dropables = {
 
 
 
+    userInteractionClasses:function(){
+        var bgHolders = mwd.querySelectorAll(".edit.background-image-holder, .edit .background-image-holder, .edit[style*='background-image'], .edit [style*='background-image']");
+        var noEditModules = mwd.querySelectorAll('.module' + mw.noEditModules.join(',.module'));
+        var edits = mwd.querySelectorAll('.edit');
+        var i = 0, i1 = 0, i2 = 0;
+        for ( ; i<bgHolders.length; i++ ) {
+            var curr = bgHolders[i];
+            var po = mw.tools.parentsOrder(curr, ['edit', 'module']);
+            if(po.module === -1 || (po.edit<po.module && po.edit != -1)){
+                mw.tools.addClass(curr, 'element');
+                curr.style.backgroundImage = curr.style.backgroundImage || 'none';
+            }
+        }
+        for ( ; i1<noEditModules.length; i1++ ) {
+            mw.tools.removeClass(noEditModules[i], 'module')
+        }
+        for ( ; i2<edits.length; i2++ ) {
+            var all = mw.ea.helpers.getElementsLike(":not(.element)", edits[i2]), i2a = 0;
+            for( ; i2a<all.length; i2a++){
+                if(mw.ea.canDrop(all[i2a])){
+                    mw.tools.addClass(all[i2a], 'element')
+                }
+            }
+        }
+
+
+        if(document.body.classList){
+            var displayEditor = mw.wysiwyg.isSelectionEditable();
+            if(!displayEditor){
+                var editor = document.querySelector('.mw_editor');
+                if(editor && editor.contains(document.activeElement)) displayEditor = true;
+            }
+            var focusedNode = mw.wysiwyg.validateCommonAncestorContainer(getSelection().focusNode);
+            var isSafeMode = mw.tools.firstParentOrCurrentWithAnyOfClasses(focusedNode, ['safe-mode']) ;
+            var isPlainText = mw.tools.firstParentOrCurrentWithAnyOfClasses(focusedNode, ['plain-text']) ;
+            document.body.classList[( displayEditor ? 'add' : 'remove' )]('mw-active-element-iseditable');
+            document.body.classList[( isSafeMode ? 'add' : 'remove' )]('mw-active-element-is-in-safe-mode');
+            document.body.classList[( isPlainText ? 'add' : 'remove' )]('mw-active-element-is-plain-text');
+        }
+    },
     findNearest:function(event,selectors){
 
     var selectors = (selectors || mw.drag.section_selectors).slice(0);

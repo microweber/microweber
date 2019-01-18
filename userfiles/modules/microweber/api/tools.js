@@ -1,3 +1,13 @@
+mw.requestAnimationFrame = ( function() {
+    return window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function( callback, element ) {
+            window.setTimeout( callback, 1000 / 60 );
+        };
+} )();
+
 mw.require("files.js");
 mw.require("css_parser.js");
 mw.require("components.js");
@@ -1706,9 +1716,7 @@ mw.tools = {
         return !mw.tools.hasAnyOfClassesOnNodeOrParent(node, [arr[1]]) || mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node, arr)
     },
     parentsOrCurrentOrderMatchOrOnlyFirst: function (node, arr) {
-        var curr = node,
-            has1 = false,
-            has2 = false;
+        var curr = node;
         while (curr !== document.body) {
             var h1 = mw.tools.hasClass(curr, arr[0]);
             var h2 = mw.tools.hasClass(curr, arr[1]);
@@ -1726,6 +1734,26 @@ mw.tools = {
             curr = curr.parentNode;
         }
         return false;
+    },
+    parentsOrCurrentOrderMatchOrOnlyFirstOrNone: function (node, arr) {
+        var curr = node;
+        while (curr !== document.body) {
+            var h1 = mw.tools.hasClass(curr, arr[0]);
+            var h2 = mw.tools.hasClass(curr, arr[1]);
+            if (h1 && h2) {
+                return false;
+            }
+            else {
+                if (h1) {
+                    return true;
+                }
+                else if (h2) {
+                    return false;
+                }
+            }
+            curr = curr.parentNode;
+        }
+        return true;
     },
     parentsOrCurrentOrderMatch: function (node, arr) {
         var curr = node,
@@ -1845,7 +1873,12 @@ mw.tools = {
             return;
         }
         if (typeof el === 'object') {
-            if (!mw.tools.hasClass(el.className, cls)) el.className += (' ' + cls);
+            if(el.classList){
+                el.classList.add(cls);
+            }
+            else{
+                if (!mw.tools.hasClass(el.className, cls)) el.className += (' ' + cls);
+            }
         }
         if (typeof el === 'string') {
             if (!mw.tools.hasClass(el, cls)) el += (' ' + cls);
@@ -1868,7 +1901,7 @@ mw.tools = {
         if (cls == ' ') {
             return false;
         }
-        if (typeof(cls) == 'object') {
+        if (typeof(cls) === 'object') {
             var arr = cls;
         } else {
             var arr = cls.split(" ");
@@ -1880,7 +1913,13 @@ mw.tools = {
             }
             return;
         }
-        if (mw.tools.hasClass(el.className, cls)) el.className = (el.className + ' ').replace(cls + ' ', '').replace(/\s{2,}/g, ' ');
+        if(el.classList){
+            el.classList.remove(cls);
+        }
+        else{
+            if (mw.tools.hasClass(el.className, cls)) el.className = (el.className + ' ').replace(cls + ' ', '').replace(/\s{2,}/g, ' ').trim();
+        }
+
     },
     isEventOnElement: function (event, node) {
         if (event.target === node) {

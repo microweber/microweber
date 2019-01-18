@@ -6,23 +6,21 @@ mw.on = function(eventName, callback){
     return $(mw._on._eventsRegister).on(eventName, callback);
 };
 mw.trigger = function(eventName, paramsArray){
-    var es = JSON.parse(mw.storage.get('es') || '{}');
-    es[eventName] = true;
-    mw.storage.set('es', JSON.stringify(es));
     return $([mww, mw._on._eventsRegister]).trigger(eventName, paramsArray);
 };
 
 mw._on = {
   _eventsRegister:{},
   mouseDownAndUp:function(el, callback){
-    var $el = mw.$(el), el = $el[0];
+    var $el = mw.$(el);
+    el = $el[0];
     $el.on('mousedown touchstart', function(){
       this.__downTime = new Date().getTime();
       (function(el){
         setTimeout(function(){
-          el.__downTime = -1
-        }, 777)
-      })(this)
+          el.__downTime = -1;
+        }, 777);
+      })(this);
     });
     $el.on('mouseup touchend', function(e){
       if(!!callback){
@@ -115,7 +113,7 @@ DOMChange:function(element, callback, attr, a){
 
     var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
 
-    if(typeof MutationObserver == 'function'){
+    if(typeof MutationObserver === 'function'){
         var observer = new MutationObserver(function(mutations) {
           mutations.forEach(function(mutation){
             if( !mw.on.DOMChangePause ) {
@@ -126,58 +124,60 @@ DOMChange:function(element, callback, attr, a){
         });
         var config = { attributes: attr, childList: true, characterData: true };
         observer.observe(element, config);
-    }
-    element.addEventListener("DOMCharacterDataModified", function(e){
-        if( !mw.on.DOMChangePause ) {
-            if(!a){
-              callback.call(this);
-            }
-            else{
-              clearInterval(element._int);
-              element._int = setTimeout(function(){
-                callback.call(element);
-              }, mw.on.DOMChangeTime);
-            }
-
-        }
-    }, false);
-    element.addEventListener("DOMNodeInserted", function(e){
-
-        if(/*mw.tools.hasClass(e.target, 'element') || */mw.tools.hasClass(e.target, 'module') || mw.tools.hasParentsWithClass(e.target, 'module')){
-          return false;
-        }
-        if( !mw.on.DOMChangePause ) {
-          if(!a){
-              callback.call(this);
-            }
-            else{
-              clearInterval(element._int);
-              element._int = setTimeout(function(){
-                    callback.call(element);
-              }, mw.on.DOMChangeTime);
-            }
-        }
-    }, false);
-
-    if(attr){
-      element.addEventListener("DOMAttrModified", function(e){
-
-          var attr = e.attrName;
-          if(attr != "contenteditable"){
-             if( !mw.on.DOMChangePause ) {
+    } else {
+        element.addEventListener("DOMCharacterDataModified", function(e){
+            if( !mw.on.DOMChangePause ) {
                 if(!a){
-                  callback.call(this);
+                    callback.call(this);
                 }
                 else{
-                  clearInterval(element._int);
-                  element._int = setTimeout(function(){
-                    callback.call(element);
-                  }, mw.on.DOMChangeTime);
+                    clearInterval(element._int);
+                    element._int = setTimeout(function(){
+                        callback.call(element);
+                    }, mw.on.DOMChangeTime);
                 }
-             }
-          }
-      }, false);
+
+            }
+        }, false);
+        element.addEventListener("DOMNodeInserted", function(e){
+
+            if(/*mw.tools.hasClass(e.target, 'element') || */mw.tools.hasClass(e.target, 'module') || mw.tools.hasParentsWithClass(e.target, 'module')){
+                return false;
+            }
+            if( !mw.on.DOMChangePause ) {
+                if(!a){
+                    callback.call(this);
+                }
+                else{
+                    clearInterval(element._int);
+                    element._int = setTimeout(function(){
+                        callback.call(element);
+                    }, mw.on.DOMChangeTime);
+                }
+            }
+        }, false);
+
+        if(attr){
+            element.addEventListener("DOMAttrModified", function(e){
+
+                var attr = e.attrName;
+                if(attr != "contenteditable"){
+                    if( !mw.on.DOMChangePause ) {
+                        if(!a){
+                            callback.call(this);
+                        }
+                        else{
+                            clearInterval(element._int);
+                            element._int = setTimeout(function(){
+                                callback.call(element);
+                            }, mw.on.DOMChangeTime);
+                        }
+                    }
+                }
+            }, false);
+        }
     }
+
  },
  stopWriting:function(el, c){
     if(el === null || typeof el === 'undefined'){ return false; }
@@ -253,8 +253,19 @@ DOMChange:function(element, callback, attr, a){
           }
        }
     }
+  },
+  userIteractionInitRegister: new Date().getTime(),
+  userIteractionInit: function(){
+      var max = 78;
+      $(mwd).on('mousemove touchstart click keydown resize ajaxStop', function(){
+          var time = new Date().getTime();
+          if((time - mw._on.userIteractionInitRegister) > max){
+              mw._on.userIteractionInitRegister = time;
+              mw.trigger('UserInteraction');
+          }
+      });
   }
-}
+};
 
 for(var x in mw._on) mw.on[x] = mw._on[x];
 
@@ -270,6 +281,9 @@ mw.prevHash = function(){
 
 
 $(window).bind("hashchange load", function(event){
+    if(event.type === 'load'){
+        mw._on.userIteractionInit();
+    }
 
 mw.on.hashParamEventInit();
 

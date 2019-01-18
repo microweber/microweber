@@ -815,14 +815,19 @@ mw.drag = {
                     mw.$('#mw_handle_module_down').show();
                   }
               }
-
             }
-            var order = mw.tools.parentsAndCurrentOrder(element, ['edit', 'module']);
+            var order;
+            if(mw.tools.hasClass(element, 'module')){
+                order = mw.tools.parentsOrder(element, ['edit', 'module']);
+            }
+            else {
+                order = mw.tools.parentsAndCurrentOrder(element, ['edit', 'module']);
+            }
             if (
-              !mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(element, ['allow-drop', 'nodrop'])
+              !mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(element, ['allow-drop', 'nodrop'])
              && (order.edit === -1 || (order.edit > order.module && order.module>-1))) {
-               //   mw.$(".mw_edit_delete, #mw_handle_module .mw-sorthandle-moveit, .column_separator_title").hide();
-            } else {
+
+             } else {
                 mw.$(".mw_edit_delete, #mw_handle_module .mw-sorthandle-moveit, .column_separator_title").show();
 
                 if (order.edit === -1 || (order.module > -1 && order.edit > order.module)) {
@@ -835,8 +840,6 @@ mw.drag = {
             }
 
             var el = $(element);
-            //var title = el.dataset("filter");
-
             mw.drag.make_module_settings_handle(el);
 
             $(mw.handle_module).find(".mw_edit_delete").dataset("delete", element.id);
@@ -2537,61 +2540,14 @@ $(document).ready(function() {
     });
 
 
-    setInterval(function(){
-        // main loop
-
-
-        var mwlastmouse_itenrval_can_process = false;
-        if(typeof( mw.emouse) != 'undefined' && typeof( mw.emouse.x) != 'undefined'){
-            mw.emouse.x_last = mw.emouse.x;
-
-            if(typeof( mw.emouse) != 'undefined' && typeof( mw.emouse.y) != 'undefined'){
-                mw.emouse.y_last = mw.emouse.y;
-                var mwlastmouse_itenrval_can_process = true;
-
-            }
-
-        }
+    mw.on('UserInteraction', function(){
+        mw.dropables.userInteractionClasses();
+    });
 
 
 
-      //if(mwlastmouse_itenrval_can_process && mw.emouse.x_last +mw.emouse.y_last !=  mw.emouse.x+mw.emouse.y){
-
-          mw.$(".edit.background-image-holder, .edit .background-image-holder, .edit[style*='background-image'], .edit [style*='background-image']").each(function(){
-            var po = mw.tools.parentsOrder(this, ['edit', 'module']);
-            if(po.module === -1 || (po.edit<po.module && po.edit != -1)){
-              mw.tools.addClass(this, 'element');
-                this.style.backgroundImage = this.style.backgroundImage || 'none';
-            }
-          });
-
-          mw.$('.module' + mw.noEditModules.join(',.module')).removeClass('module');
 
 
-            mw.$(".edit").each(function(){
-                var all = mw.ea.helpers.getElementsLike(":not(.element)", this), i = 0;
-                for( ; i<all.length; i++){
-                    if(mw.ea.canDrop(all[i])){
-                        mw.tools.addClass(all[i], 'element')
-                    }
-                }
-            });
-
-            if(document.body.classList){
-              var displayEditor = mw.wysiwyg.isSelectionEditable();
-              if(!displayEditor){
-                  var editor = document.querySelector('.mw_editor');
-                  if(editor && editor.contains(document.activeElement)) displayEditor = true;
-              }
-              var focusedNode = mw.wysiwyg.validateCommonAncestorContainer(getSelection().focusNode);
-              var isSafeMode = mw.tools.firstParentOrCurrentWithAnyOfClasses(focusedNode, ['safe-mode']) ;
-              var isPlainText = mw.tools.firstParentOrCurrentWithAnyOfClasses(focusedNode, ['plain-text']) ;
-              document.body.classList[( displayEditor ? 'add' : 'remove' )]('mw-active-element-iseditable');
-              document.body.classList[( isSafeMode ? 'add' : 'remove' )]('mw-active-element-is-in-safe-mode');
-              document.body.classList[( isPlainText ? 'add' : 'remove' )]('mw-active-element-is-plain-text');
-            }
-    //  }
-    }, 300);
 
     mw.on('ElementOver moduleOver', function(e, target){
       mw.$(".element-over,.module-over").not(e.target).removeClass('element-over module-over');

@@ -204,7 +204,6 @@ mw.Selector = function(options) {
         });
 
         $(this.root).on( "mousemove", function(e){
-            console.log('~', scope.active)
             if(scope.active){
                 scope.setItem(e, scope.interactors)
             }
