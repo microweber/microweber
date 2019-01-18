@@ -3815,12 +3815,12 @@ body.isTyping .mw-cloneable-control-item {
 }
 
 .wysiwyg-cell-undo-redo .mw_editor_btn {
-    margin-top: 12px;
+    margin-top: 14px;
 }
 
 .wysiwyg-cell-undo-redo {
     padding-left: 10px;
-    height: 40px;
+    height: 54px;
 }
 
 .wysiwyg-undo-redo .mw_editor_btn.mw_editor_undo,
@@ -3845,7 +3845,7 @@ body.isTyping .mw-cloneable-control-item {
     color: #6f6f6f;
     font-size: 11px;
     line-height: 1px;
-    margin-top: 5px;
+    margin-top: 3px;
 }
 
 #history_panel_toggle:hover {
