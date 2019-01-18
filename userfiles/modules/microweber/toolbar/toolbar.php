@@ -41,20 +41,13 @@ if (isset($_COOKIE['mw_exp'])) {
         <?php } ?>
 
     </script>
-    <script type="text/javascript">
-        //if(mw.cookie.get("helpinfoliveedit") != 'false'){
-        //     mw.require("helpinfo.js", true);
-        //     mw.require("<?php print mw_includes_url(); ?>css/helpinfo.css", true);
-        //}
-    </script>
 
     <?php if (config('app.debug')) { ?>
 
         <script type="text/javascript">
             window.__onerror_alert_shown = false;
             window.onerror = function (msg, url, lineNo, columnNo, error) {
-
-                if (!window.__onerror_alert_shown) {
+                if (!msg.contains('ResizeObserver') && !window.__onerror_alert_shown) {
                     var string = msg.toLowerCase();
                     var substring = "script error";
                     if (string.indexOf(substring) > -1) {
