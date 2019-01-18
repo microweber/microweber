@@ -2555,7 +2555,7 @@ $(document).ready(function() {
 
 
 
-      if(mwlastmouse_itenrval_can_process && mw.emouse.x_last +mw.emouse.y_last !=  mw.emouse.x+mw.emouse.y){
+      //if(mwlastmouse_itenrval_can_process && mw.emouse.x_last +mw.emouse.y_last !=  mw.emouse.x+mw.emouse.y){
 
           mw.$(".edit.background-image-holder, .edit .background-image-holder, .edit[style*='background-image'], .edit [style*='background-image']").each(function(){
             var po = mw.tools.parentsOrder(this, ['edit', 'module']);
@@ -2590,7 +2590,7 @@ $(document).ready(function() {
               document.body.classList[( isSafeMode ? 'add' : 'remove' )]('mw-active-element-is-in-safe-mode');
               document.body.classList[( isPlainText ? 'add' : 'remove' )]('mw-active-element-is-plain-text');
             }
-      }
+    //  }
     }, 300);
 
     mw.on('ElementOver moduleOver', function(e, target){
