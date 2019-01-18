@@ -2241,6 +2241,8 @@ body.dragStart .empty-element {
     position: relative;
     background-image: url("../img/editor.png");
     background-repeat: no-repeat;
+    padding-top: 9px;
+    background-origin: content-box;
 }
 
 #liveedit_wysiwyg_main_prev:hover, #liveedit_wysiwyg_main_next:hover,
@@ -2317,7 +2319,7 @@ body.dragStart .empty-element {
 }
 
 .tst-logo .mw-icon-dropdown {
-    top: 0px;
+    top: 2px;
     color: #333333;
     font-style: normal;
     font-weight: 400;
@@ -2451,11 +2453,10 @@ body.design_hover .element-current {
 
 .mw-single-arrow-dropdown {
     display: inline-block;
-    height: 32px;
-    padding-left: 10px;
-    margin: 7px 0 0;
-    background: url(../img/mw_dlm.png) no-repeat;
+    margin: 0 0 0;
+    background: url(../img/mw_dlm.png) repeat-y;
     cursor: pointer;
+    padding: 10px 0 8px 10px;
 }
 
 .mw-single-arrow-dropdown > * {
@@ -2632,14 +2633,14 @@ body.design_hover .element-current {
 #mw-toolbar-right {
     float: right;
     background: #F5F5F5;
-    padding: 5px 10px 0px 0;
+    padding: 0px 10px 0px 0;
     position: relative;
     z-index: 1;
 }
 
 .mw-toolbar-right-content {
     float: right;
-    padding: 3px 0 3px 0;
+    padding: 10px 0 10px 0;
 }
 
 #toolbar-dropdown-actions {
@@ -3811,16 +3812,16 @@ body.isTyping .mw-cloneable-control-item {
     position: relative;
     z-index: 2;
     background: #F5F5F5;
-    height: 53px;
+    /*height: 53px;*/
 }
 
 .wysiwyg-cell-undo-redo .mw_editor_btn {
-    margin-top: 12px;
+    margin-top: 14px;
 }
 
 .wysiwyg-cell-undo-redo {
     padding-left: 10px;
-    height: 40px;
+    height: 54px;
 }
 
 .wysiwyg-undo-redo .mw_editor_btn.mw_editor_undo,
@@ -3845,7 +3846,6 @@ body.isTyping .mw-cloneable-control-item {
     color: #6f6f6f;
     font-size: 11px;
     line-height: 1px;
-    margin-top: 5px;
 }
 
 #history_panel_toggle:hover {
