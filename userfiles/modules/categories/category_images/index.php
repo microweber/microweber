@@ -1,6 +1,9 @@
 <?php
 
 $parent = get_option('fromcategory', $params['id']);
+$selected_page = get_option('frompage', $params['id']);
+
+
 $show_category_header = get_option('show_category_header', $params['id']);
 
 if ($parent == 'current') {
@@ -17,7 +20,11 @@ if (!$parent) {
 if (!isset($parent) or $parent == '') {
     $parent = 0;
 }
+
 $cats = get_categories('no_limit=true&order_by=position asc&rel_id=[not_null]&parent_id=' . intval($parent));
+if($selected_page){
+    $cats = get_categories('no_limit=true&order_by=position asc&rel_id='.intval($selected_page));
+}
 
 if (!empty($cats)) {
     foreach ($cats as $k => $cat) {
@@ -41,6 +48,16 @@ if (!empty($cats)) {
 
     }
 }
+
+
+
+
+
+
+if(!$cats){
+    print lnotif('Categories not found');
+}
+
 $data = $cats;
 $module_template = get_option('data-template', $params['id']);
 

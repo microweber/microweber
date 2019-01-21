@@ -1,5 +1,6 @@
 <?php
 $selected_category = get_option('fromcategory', $params['id']);
+$selected_page = get_option('frompage', $params['id']);
 $show_category_header = get_option('show_category_header', $params['id']);
 $my_tree_id = ''
 ?>
@@ -83,7 +84,19 @@ $my_tree_id = ''
 
             $(categoryParentSelector).on("selectionChange", function (e, selected) {
                 var parent = selected[0];
-                $('#parentcat').val(parent.id).change();
+
+                if(parent.type){
+                    if(parent.type == 'page'){
+                        $('#parentpage').val(parent.id).change();
+                        $('#parentcat').val('').change();
+                    }
+                    if(parent.type == 'category'){
+                        $('#parentcat').val(parent.id).change();
+                        $('#parentpage').val('').change();
+                    }
+
+                }
+
             })
         });
 
@@ -126,6 +139,7 @@ $my_tree_id = ''
 
 
                 <input type="hidden" name="fromcategory" id="parentcat" value="<?php print $selected_category; ?>" class="mw_option_field"/>
+                <input type="hidden" name="frompage" id="parentpage" value="<?php print $selected_page; ?>" class="mw_option_field"/>
 
                 <label class="mw-ui-label"><?php _e('Select parent category'); ?></label>
 
