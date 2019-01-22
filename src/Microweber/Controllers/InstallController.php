@@ -268,6 +268,8 @@ class InstallController extends Controller
                 mw()->user_manager->make_logged($admin_user_id);
             }
 
+            event_trigger('mw.install.complete', $input);
+
             return 'done';
         }
 
