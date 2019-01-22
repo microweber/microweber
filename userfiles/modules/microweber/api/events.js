@@ -256,7 +256,7 @@ DOMChange:function(element, callback, attr, a){
   },
   userIteractionInitRegister: new Date().getTime(),
   userIteractionInit: function(){
-      var max = 78;
+      var max = 378;
       $(mwd).on('mousemove touchstart click keydown resize ajaxStop', function(){
           var time = new Date().getTime();
           if((time - mw._on.userIteractionInitRegister) > max){
