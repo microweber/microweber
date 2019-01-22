@@ -12,6 +12,7 @@ description: Default
 ?>
 
 <?php
+
 if ($prior != '2' or $prior == false) {
     if ($code != '') {
         $code = trim($code);
@@ -36,6 +37,7 @@ if ($prior != '2' or $prior == false) {
         } else {
             $autoplay = 'autoplay';
         }
+
         $code = '<div class="mwembed "><video controls width="' . $w . '" height="' . $h . '" ' . $autoplay . ' src="' . $upload . '" poster="'. $thumb .'"></video></div>';
     } else {
         $show_video_settings_btn = true;
@@ -56,5 +58,7 @@ if($show_video_settings_btn) {
 		$code = $css . $script . '<div class="video-player"><img onclick="javascript:replaceImg' . $unique_id . '(this);" src="' . $thumb . '"></div>';
 	}
 }
+
+
 print $code;
 ?>

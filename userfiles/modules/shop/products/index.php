@@ -1,4 +1,3 @@
-<script> mw.lib.require('material_icons')</script>
 <script>mw.moduleCSS("<?php print modules_url(); ?>shop/products/styles.css"); </script>
 
 <div class="<?php print $config['module_class']; ?>">
@@ -18,5 +17,9 @@
     $dir_name = normalize_path(modules_path());
     $posts_mod = $dir_name . 'posts' . DS . 'index.php';
     include($posts_mod);
+
+
+
+
     ?>
 </div>

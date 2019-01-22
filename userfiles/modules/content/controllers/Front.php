@@ -521,7 +521,6 @@ class Front
         }
 
 
-
         if (isset($params['strict_categories']) and $params['strict_categories'] != false) {
             $post_params['strict_categories'] = $params['strict_categories'];
         }
@@ -621,7 +620,15 @@ class Front
                 }
 
                 if (isset($post_params['content_type']) and $post_params['content_type'] == 'product') {
-                    $price_fields = get_custom_fields("field_type=price&for=content&for_id=" . $item['id']);
+                    $item['price'] = false;
+                    $item['original_price'] = false;
+
+
+                    //     $price_fields = get_custom_fields("field_type=price&for=content&for_id=" . $item['id']);
+                    $price_fields = mw()->shop_manager->get_product_prices($item['id'], false);
+                    $price_fields_data = mw()->shop_manager->get_product_prices($item['id'], true);
+                    $item['prices_data'] = $price_fields_data;
+
                     if (is_array($price_fields) and !empty($price_fields)) {
                         $prices = array();
 
@@ -638,14 +645,27 @@ class Front
                     }
                 } else {
                     $item['prices'] = false;
+                    $item['prices_data'] = false;
+                    $item['original_price'] = false;
+
                 }
                 if (isset($item['prices']) and is_array($item['prices']) and !empty($item['prices'])) {
                     $vals2 = array_values($item['prices']);
                     $val1 = reset($vals2);
                     $item['price'] = $val1;
+                    $item['original_price'] = false;
+
+                    if (isset($item['prices_data']) and is_array($item['prices_data']) and !empty($item['prices_data'])) {
+                        $vals3 = array_values($item['prices_data']);
+                        $val1 = reset($vals3);
+                        if (isset($val1['original_value'])) {
+                            $item['original_price'] = $val1['original_value'];
+                        }
+                    }
 
                 } else {
                     $item['price'] = false;
+                    $item['original_price'] = false;
 
                 }
 
