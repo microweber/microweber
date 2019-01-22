@@ -126,7 +126,7 @@
                     <?php } ?>
 
 
-                    <div class="mw-accordion-item">
+                    <div class="mw-accordion-item" style="display: none;">
                         <div class="mw-ui-box-header mw-accordion-title">
                             <div class="header-holder">
                                 <i class="mai-setting2"></i> CSS Editor
@@ -455,7 +455,7 @@
                             {
                                 interface: 'block',
                                 class: '',
-                                content: 'XXMargin'
+                                content: 'Margin'
                             },
                             {
                                 interface: 'quatro',
