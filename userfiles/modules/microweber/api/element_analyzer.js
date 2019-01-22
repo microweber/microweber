@@ -445,7 +445,7 @@ mw.ElementAnalyzer = function(options){
             this._fragment.style.position = 'absolute';
             this._fragment.style.width = '1px';
             this._fragment.style.height = '1px';
-            document.body.appendChild(this._fragment)
+            document.body.appendChild(this._fragment);
         }
         return this._fragment;
     }
@@ -467,7 +467,7 @@ mw.ElementAnalyzer = function(options){
         var islayOutInLayout = this._layoutInLayout(node);
         if(islayOutInLayout.result){
             var res =  this.validateInteractionTarget(/*node === islayOutInLayout.target ? islayOutInLayout.target.parentNode : */islayOutInLayout.target);
-            return  res
+            return  res;
         }
         return this.validateInteractionTarget(node.parentNode);
     }

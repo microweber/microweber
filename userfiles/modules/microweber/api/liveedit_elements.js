@@ -114,7 +114,7 @@ mw.dropables = {
     },
     display: function(el) {
 
-        var el = $(el);
+        el = $(el);
         var offset = el.offset();
         var width = el.outerWidth();
         var height = el.outerHeight();
@@ -174,7 +174,7 @@ mw.dropables = {
 
  mw.liveEditHandlers = function(event){
 
-    if ( mw.emouse.x % 1 === 0 && mw.drag.columns.resizing === false ) {
+    if ( mw.emouse.x % 2 === 0 && mw.drag.columns.resizing === false ) {
 
         var cloneable = mw.tools.firstParentOrCurrentWithAnyOfClasses(mw.mm_target, ['cloneable', 'mw-cloneable-control']);
 
@@ -272,6 +272,7 @@ mw.dropables = {
         }
 
     }
+
     mw.image._dragTxt(event);
 
     var bg, bgTarget, bgCanChange;
@@ -298,6 +299,7 @@ mw.dropables = {
     }
 
     if (!mw.image.isResizing && mw.image_resizer) {
+
         if (event.target.nodeName === 'IMG' && (mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(event.target, ['edit','module'])) && mw.drag.columns.resizing === false) {
             mw.image_resizer._show();
             mw.image.resize.resizerSet(event.target, false);

@@ -101,11 +101,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         var opts = {};
         opts.width = '800';
-        opts.height = '600';
+        opts.height = '90vh';
 
         opts.liveedit = true;
         opts.iframe = true;
         opts.mode = 'modal';
+        opts.autosize = 'false';
 
         var additional_params = {};
 

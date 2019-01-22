@@ -70,6 +70,7 @@
 
     <?php
     $autoSize = true;
+    var_dump(isset($_GET['autosize']));
     if (isset($_GET['autosize'])) {
         $autoSize = $_GET['autosize'];
     }
@@ -105,7 +106,7 @@
         };
         addIcon();
 
-        autoSize = <?php print $autoSize; ?>;
+        autoSize = <?php  print $autoSize; ?>;
         settingsType = '<?php print $type; ?>';
 
         window.onbeforeunload = function () {

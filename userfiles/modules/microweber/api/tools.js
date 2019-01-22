@@ -1861,13 +1861,14 @@ mw.tools = {
         if (el === null) {
             return false;
         }
-        if (cls == ' ') {
-            return false;
+        if(typeof cls === 'string'){
+            cls = cls.trim();
         }
+        if(!cls) return;
         var arr = cls.split(" ");
-        var l = arr.length, i = 0;
-        if (l > 1) {
-            for (; i < l; i++) {
+        var i = 0;
+        if (arr.length>1) {
+            for (; i < arr.length; i++) {
                 mw.tools.addClass(el, arr[i]);
             }
             return;
@@ -1885,6 +1886,10 @@ mw.tools = {
         }
     },
     removeClass: function (el, cls) {
+        if(typeof cls === 'string'){
+            cls = cls.trim();
+        }
+        if(!cls) return;
         if (el === null) {
             return false;
         }
@@ -1898,22 +1903,22 @@ mw.tools = {
             }
             return;
         }
-        if (cls == ' ') {
-            return false;
-        }
         if (typeof(cls) === 'object') {
             var arr = cls;
         } else {
             var arr = cls.split(" ");
         }
-        var l = arr.length, i = 0;
-        if (l > 1) {
-            for (; i < l; i++) {
+        var i = 0;
+        if (arr.length>1) {
+            for (; i < arr.length; i++) {
                 mw.tools.removeClass(el, arr[i]);
             }
             return;
         }
-        if(el.classList){
+        else if(!arr.length){
+            return;
+        }
+        if(el.classList && cls){
             el.classList.remove(cls);
         }
         else{
@@ -3478,7 +3483,8 @@ mw.tools = {
         params.id =module_id;
         params.live_edit =true;
         params.module_settings =true;
-        params.type =module_type;
+        params.type = module_type;
+        params.autosize = false;
 
         var params_url = $.extend({},params,additional_params);
 
@@ -3490,7 +3496,7 @@ mw.tools = {
         var defaultOpts = {
             url: src,
             // width: 500,
-            //height: $(window).height() - (2.5 * mw.tools.TemplateSettingsModalDefaults.top),
+            height: '90vh',
             name: 'mw-module-settings-editor-front',
             title: 'Settings',
             template: 'default',
@@ -4887,7 +4893,10 @@ mw.image = {
             $(mw.image_resizer).resizable("option", "alsoResize", el);
             $(mw.image_resizer).resizable("option", "aspectRatio", width / height);
             mw.image.currentResizing = el;
-            el[0].contentEditable = true;
+            if(!el[0].contentEditable){
+                el[0].contentEditable = true;
+            }
+
             if (selectImage) {
                 if (el[0].parentNode.tagName !== 'A') {
                     mw.wysiwyg.select_element(el[0]);
