@@ -149,7 +149,7 @@ mw.ElementAnalyzer = function(options){
 
     this._canDrop = function(node){
         node = node || this.data.target;
-        return !mw.tools.hasParentsWithClass(node, this.cls.noDrop) || mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node, [this.cls.allowDrop, this.cls.noDrop]);
+        return (!mw.tools.hasClass(node, this.cls.noDrop) && !mw.tools.hasParentsWithClass(node, this.cls.noDrop)) || mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node, [this.cls.allowDrop, this.cls.noDrop]);
     };
 
     this._layoutInLayout = function(){
@@ -427,13 +427,6 @@ mw.ElementAnalyzer = function(options){
         });
         if (mw.have_new_items == true) {
             need_re_init = true;
-        }
-        if (need_re_init == true) {
-            if (!mw.isDrag) {
-                if (typeof callback === 'function') {
-                    callback.call(this);
-                }
-            }
         }
         mw.have_new_items = false;
     }
