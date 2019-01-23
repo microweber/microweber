@@ -2550,12 +2550,12 @@ $(document).ready(function() {
         var over_target_el = null
         if(e.type === 'onElementOver'){
             var over_target_el = mw.tools.firstParentOrCurrentWithAnyOfClasses(target, ['element'])
-            if(over_target_el && !mw.tools.hasClass('element-over')){
+            if(over_target_el && !mw.tools.hasClass('element-over',over_target_el)){
                 mw.tools.addClass(over_target_el, 'element-over')
             }
          } else if(e.type === 'moduleOver'){
             var over_target_el = mw.tools.firstParentOrCurrentWithAnyOfClasses(target, ['module'])
-            if(over_target_el && !mw.tools.hasClass('module-over')){
+            if(over_target_el && !mw.tools.hasClass('module-over',over_target_el)){
                 mw.tools.addClass(over_target_el, 'module-over')
             }
         }
