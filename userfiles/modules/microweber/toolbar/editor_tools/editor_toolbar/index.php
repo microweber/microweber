@@ -22,7 +22,7 @@
         clearTimeout(SetValueTimeout);
         SetValueTimeout = setTimeout(function () {
             if (mw.is.ie) {
-                mw.$('[contenteditable] [contenteditable]').removeAttr('contenteditable');
+                mw.$('[contenteditable]').each(function(){mw.wysiwyg.contentEditable(this, false)});
                 mw.wysiwyg.nceui();
             }
 

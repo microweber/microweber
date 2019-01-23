@@ -330,7 +330,7 @@ $(document).ready(function() {
             $(el).addClass('element-current');
 
             if(mw.drag.target.canBeEditable(el)){
-                $(el).attr('contenteditable', true);
+                mw.wysiwyg.contentEditable(el, true)
             }
         }
 
@@ -340,7 +340,7 @@ $(document).ready(function() {
         });
     });
     mw.on("PlainTextClick", function(e, el) {
-        $(el).attr('contenteditable', true);
+        mw.wysiwyg.contentEditable(el, true)
         mw.$('.module').each(function(){
             mw.wysiwyg.contentEditable(this, false)
         });

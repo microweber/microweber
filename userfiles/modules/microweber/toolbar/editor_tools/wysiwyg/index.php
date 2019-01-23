@@ -102,7 +102,8 @@ PrepareEditor = function(){
           HOLD = setTimeout(function(){
                 var html = el.html();
                 edmwdoc.body.innerHTML = html;
-                $('[contenteditable]', edmwdoc.body).removeAttr('contenteditable');
+                //$('[contenteditable]', edmwdoc.body).removeAttr('contenteditable');
+                mw.$('[contenteditable]', edmwdoc.body).each(function(){mw.wysiwyg.contentEditable(this, false)});
                 var html = edmwdoc.body.innerHTML;
                 parent.mw.$("iframe#"+window.name).trigger("change", html);
           }, 600);
@@ -170,8 +171,9 @@ $(document).ready(function(){
 
 
 
-$(".edit").attr("contenteditable", true);
-$(".module").attr("contenteditable", false);
+$(".edit").each(function(){ mw.wysiwyg.contentEditable(this, true) });
+
+$(".module").each(function(){ mw.wysiwyg.contentEditable(this, false) });
 $(mwd.body).on('keydown keypress paste input', function(e){
   ScaleFrame();
   var el= $(e.target);
@@ -352,9 +354,8 @@ img{
     $(document).ready(function(){
 		
 		
-		/*autofocus="autofocus" contenteditable="true"*/
-		$('#the_admin_editor').find('.edit').attr('contenteditable',true);
 
+        $("#the_admin_editor .edit").each(function(){ mw.wysiwyg.contentEditable(this, true) });
 		
         $(mwd).on('mousedown', function(e){
             if(!e.target.isContentEditable){
