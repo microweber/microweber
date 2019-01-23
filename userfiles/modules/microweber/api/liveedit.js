@@ -336,13 +336,13 @@ $(document).ready(function() {
 
 
         mw.$('.module').each(function(){
-            this.contentEditable = false;
+            mw.wysiwyg.contentEditable(this, false)
         });
     });
     mw.on("PlainTextClick", function(e, el) {
         $(el).attr('contenteditable', true);
         mw.$('.module').each(function(){
-            this.contentEditable = false;
+            mw.wysiwyg.contentEditable(this, false)
         });
 
     });

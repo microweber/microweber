@@ -195,9 +195,9 @@ mw.wysiwyg = {
     init_editables: function (module) {
         if (window['mwAdmin']) {
             if (typeof module !== 'undefined') {
-                module.contentEditable = false;
+                mw.wysiwyg.contentEditable(module, false);
                 $(module.querySelectorAll(".edit")).each(function () {
-                    this.contentEditable = true;
+                    mw.wysiwyg.contentEditable(this, true)
                     mw.on.DOMChange(this, function () {
                         mw.wysiwyg.change(this);
                     });
@@ -206,7 +206,7 @@ mw.wysiwyg = {
             else {
                 var editables = mwd.querySelectorAll('[contenteditable]'), l = editables.length, x = 0;
                 for (; x < l; x++) {
-                    editables[x].contentEditable = 'inherit';
+                    mw.wysiwyg.contentEditable(editables[x], 'inherit');
                 }
                 mw.$(".edit").each(function () {
                     mw.on.DOMChange(this, function () {
@@ -232,7 +232,7 @@ mw.wysiwyg = {
                     })
                 });
                 mw.$(".empty-element, .ui-resizable-handle").each(function () {
-                    this.contentEditable = false;
+                    mw.wysiwyg.contentEditable(this, false);
                 });
                 mw.on.moduleReload(function () {
                     mw.wysiwyg.nceui();
@@ -267,8 +267,7 @@ mw.wysiwyg = {
                 all = mwd.getElementsByClassName('edit'),
                 len = all.length;
             for (; i < len; i++) {
-                all[i].contentEditable = false;
-                //mw.wysiwyg.setNodeContentEditable(all[i],false);
+                mw.wysiwyg.contentEditable(all[i],false);
             }
         }
         else {
@@ -283,34 +282,38 @@ mw.wysiwyg = {
         mw.tools.foreachParents(target, function (loop) {
             arr.push(this.className);
             if ($(this).hasClass("module")) {
-                mw.tools.stopLoop(loop)
+                mw.tools.stopLoop(loop);
             }
         });
     },
     _lastCopy: null,
     handleCopyEvent: function (event) {
-        //var current = mw.wysiwyg.validateCommonAncestorContainer(event.target);
-        //if(!mw.ea.helpers.isBlockLevel(current)){
-        //    while(!mw.ea.helpers.isBlockLevel(current)){
-        //        current = current.parentNode;
-        //    }
-        //}
-        //this._lastCopy = current;
         this._lastCopy = event.target;
     },
-    setNodeContentEditable: function (el, enable_or_disable) {
+    contentEditable: function (el, state) {
         if (!el) {
             return;
         }
-        if (enable_or_disable) {
-            el.contentEditable = true;
+        if(el.nodeType !== 1){
+            el = mw.wysiwyg.validateCommonAncestorContainer(el);
+            if (!el) {
+                return;
+            }
+        }
+        if(typeof state === 'undefined'){
+            return el.contentEditable;
+        }
+        if (state) {
             el.setAttribute('data-gramm', 'false');
-            el.oncopy = function (ev) {
-                mw.wysiwyg.handleCopyEvent(ev)
-            };
-
-        } else {
-            el.contentEditable = false;
+            if (!el._handleCopy) {
+                el._handleCopy = true;
+                $(el).on('copy', function(){
+                    mw.wysiwyg.handleCopyEvent(ev);
+                });
+            }
+        }
+        if(el.contentEditable !== state) { // chrome setter needs a check
+            el.contentEditable = state;
         }
     },
 
@@ -322,31 +325,25 @@ mw.wysiwyg = {
             if (!mw.tools.hasAnyOfClassesOnNodeOrParent(target, ['safe-mode'])) {
                 _el.attr("contentEditable", "true").find('[contenteditable="false"]').not('.module').removeAttr('contenteditable');
                 if (!mw.is.ie) { //Non IE browser
-
                     var orderValid = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(originalEvent.target, ['edit', 'module']);
-
-                    //el.contentEditable = orderValid;
-                    mw.wysiwyg.setNodeContentEditable(el, orderValid)
+                    mw.wysiwyg.contentEditable(el, orderValid)
                 }
                 else {   // IE browser
                     mw.wysiwyg.removeEditable();
                     var cls = target.className;
                     if (!mw.tools.hasClass(cls, 'empty-element') && !mw.tools.hasClass(cls, 'ui-resizable-handle')) {
                         if (mw.tools.hasParentsWithClass(el, 'module')) {
-                            //target.contentEditable = true;
-                            mw.wysiwyg.setNodeContentEditable(target, true);
+                            mw.wysiwyg.contentEditable(target, true);
                         }
                         else {
                             if (!mw.tools.hasParentsWithClass(target, "module")) {
                                 if (mw.isDragItem(target)) {
-                                    //target.contentEditable = true;
-                                    mw.wysiwyg.setNodeContentEditable(target, true);
+                                    mw.wysiwyg.contentEditable(target, true);
                                 }
                                 else {
                                     mw.tools.foreachParents(target, function (loop) {
                                         if (mw.isDragItem(this)) {
-                                            //this.contentEditable = true;
-                                            mw.wysiwyg.setNodeContentEditable(target, true);
+                                            mw.wysiwyg.contentEditable(target, true);
                                             mw.tools.loop[loop] = false;
                                         }
                                     });
@@ -373,8 +370,7 @@ mw.wysiwyg = {
                         firstBlock = mw.tools.firstMatchesOnNodeOrParent(firstBlock, cls);
                     }
                     mw.$('[contenteditable]').not(firstBlock).removeAttr('contenteditable')
-                    //firstBlock.contentEditable = true;
-                    mw.wysiwyg.setNodeContentEditable(firstBlock, true);
+                    mw.wysiwyg.contentEditable(firstBlock, true);
                 }
                 else {
                     mw.$('[contenteditable]').removeAttr('contenteditable')
@@ -1887,7 +1883,7 @@ mw.wysiwyg = {
         }
         if (isembed) {
             var el = mwd.getElementById(id);
-            el.parentNode.contentEditable = false;
+            mw.wysiwyg.contentEditable(el.parentNode, false);
             $(el).replaceWith(frame);
         }
         mw.wysiwyg.change(mw.wysiwyg.validateCommonAncestorContainer(window.getSelection().getRangeAt(0).commonAncestorContainer));
@@ -1980,7 +1976,7 @@ mw.wysiwyg = {
                     var tag = command == 'code_text' ? 'code' : command;
                     mw.wysiwyg.select_element(el);
                     //el.parentNode.contentEditable = true
-                    mw.wysiwyg.setNodeContentEditable(el.parentNode, true);
+                    mw.wysiwyg.contentEditable(el.parentNode, true);
                     mw.wysiwyg.execCommand("insertHTML", false, "<" + command + ">" + el.innerHTML + "</" + command + ">");
                 }
                 else {
@@ -2180,7 +2176,7 @@ mw.wysiwyg = {
             var b = $(this).contents().find(".edit");
             var b = $(this).contents().find("[field='content']")[0];
             if (typeof b != 'undefined' && b !== null) {
-                b.contentEditable = true;
+                mw.wysiwyg.contentEditable(b, true)
                 $(b).on("blur keyup", function () {
                     textarea.value = $(this).html();
                 });

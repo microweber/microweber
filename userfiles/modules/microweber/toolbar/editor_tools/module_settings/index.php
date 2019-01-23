@@ -70,7 +70,6 @@
 
     <?php
     $autoSize = true;
-    var_dump(isset($_GET['autosize']));
     if (isset($_GET['autosize'])) {
         $autoSize = $_GET['autosize'];
     }

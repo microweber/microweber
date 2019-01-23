@@ -4,7 +4,7 @@ mw.drag.columns = {
     resizing: false,
     prepare: function () {
         mw.drag.columns.resizer = mwd.createElement('div');
-        mw.drag.columns.resizer.contenteditable = 'false';
+        mw.wysiwyg.contentEditable(mw.drag.columns.resizer, false);
         mw.drag.columns.resizer.className = 'unselectable mw-columns-resizer';
         mw.drag.columns.resizer.pos = 0;
         $(mw.drag.columns.resizer).on('mousedown', function () {

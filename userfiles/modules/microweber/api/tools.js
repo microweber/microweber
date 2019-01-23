@@ -524,7 +524,7 @@ mw.tools = {
             o.content = "";
         }
         var m = mwd.createElement('div'), c = mwd.createElement('div');
-        m.contentEditable = false;
+        mw.wysiwyg.contentEditable(m, false);
         m.className = 'mw-inline-modal ' + tpl;
         c.className = 'mw-inline-modal-container';
         c.innerHTML = '<span class="mw-inline-modal-container-close" onclick="$(mw.tools.firstParentWithClass(this, \'mw-inline-modal\')).remove();"></span>';
@@ -2914,7 +2914,7 @@ mw.tools = {
         $(frame).load(function () {
             frame.contentWindow.thisframe = frame;
             var cont = $(frame).contents().find("#mw-iframe-editor-area");
-            cont[0].contentEditable = true;
+            mw.wysiwyg.contentEditable(cont[0], true);
             if (!k) {
                 if (area[0].tagName === 'TEXTAREA') {
                     cont.html(area[0].value);
@@ -4625,7 +4625,7 @@ mw.inline = {
         if (mw.$("#" + id).length === 0) {
             var bar = mwd.createElement('div');
             bar.id = id;
-            bar.contentEditable = false;
+            mw.wysiwyg.contentEditable(bar, false);
             bar.className = 'mw-defaults mw-inline-bar';
             mwd.body.appendChild(bar);
             return bar;
@@ -4894,7 +4894,7 @@ mw.image = {
             $(mw.image_resizer).resizable("option", "aspectRatio", width / height);
             mw.image.currentResizing = el;
             if(!el[0].contentEditable){
-                el[0].contentEditable = true;
+                mw.wysiwyg.contentEditable(el[0], true);
             }
 
             if (selectImage) {
