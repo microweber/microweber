@@ -68,13 +68,15 @@
     }
 </script>
 
-<button class="mw-ui-btn mw-ui-btn-icon" onclick="list_templates();"> 
-	<?php _e('List of templates'); ?>
-</button>
+<a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-rounded" onclick="list_templates();" style="">
+    <i class="mw-icon-navicon-round"></i> &nbsp;
+    <span><?php _e('List of templates'); ?></span>
+</a>
 
-<button class="mw-ui-btn mw-ui-btn-icon" onclick="edit_template();"> 
-	<span class="mw-icon-plus"></span> <?php _e('Add new template'); ?>
-</button>
+<a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification mw-ui-btn-rounded" onclick="edit_template();" style="">
+    <i class="fas fa-plus-circle"></i> &nbsp;
+    <span><?php _e('Add new template'); ?></span>
+</a>
 
 <br />
 <br />

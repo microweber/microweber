@@ -1,13 +1,12 @@
-
 <?php only_admin_access(); ?>
 <script>
 
     function edit_sender(id = false) {
-    	var data = {};
+        var data = {};
         data.id = id;
-    	edit_campaign_modal = mw.tools.open_module_modal('newsletter/edit_sender', data, {overlay: true, skin: 'simple'});
+        edit_campaign_modal = mw.tools.open_module_modal('newsletter/edit_sender', data, {overlay: true, skin: 'simple'});
     }
-    
+
     function delete_sender(id) {
         var ask = confirm("Are you sure you want to delete this campaign?");
         if (ask == true) {
@@ -18,7 +17,7 @@
                 type: 'POST',
                 data: data,
                 success: function (result) {
-                    
+
                     mw.notification.success('Sender deleted');
 
                     //reload the modules
@@ -33,12 +32,13 @@
     }
 </script>
 
-<button class="mw-ui-btn mw-ui-btn-icon" onclick="edit_sender(false);"> 
-<span class="mw-icon-plus"></span> <?php _e('Add new sender'); ?>
-</button>
+<a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification mw-ui-btn-rounded" onclick="edit_sender(false);" style="">
+    <i class="fas fa-plus-circle"></i> &nbsp;
+    <span><?php _e('Add new sender'); ?></span>
+</a>
 
 <div class="mw-clear"></div>
 
-<br />
+<br/>
 
-<module type="newsletter/sender_accounts_list" />
+<module type="newsletter/sender_accounts_list"/>
