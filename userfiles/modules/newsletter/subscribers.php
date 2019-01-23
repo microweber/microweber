@@ -30,9 +30,10 @@
     }
 </script>
 
-<button class="mw-ui-btn mw-ui-btn-icon" onclick="edit_subscriber();"> 
-	<span class="mw-icon-plus"></span> <?php _e('Add new subscriber'); ?>
-</button>
+<a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification mw-ui-btn-rounded" onclick="edit_subscriber();" style="">
+    <i class="fas fa-plus-circle"></i> &nbsp;
+    <span><?php _e('Add new subscriber'); ?></span>
+</a>
 
 <br />
 <br />

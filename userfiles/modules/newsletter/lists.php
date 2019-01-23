@@ -31,9 +31,10 @@
     }
 </script>
 
-<button class="mw-ui-btn mw-ui-btn-icon" onclick="edit_list();"> 
-	<span class="mw-icon-plus"></span> <?php _e('Add new list'); ?>
-</button>
+<a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification mw-ui-btn-rounded" onclick="edit_list();" style="">
+    <i class="fas fa-plus-circle"></i> &nbsp;
+    <span><?php _e('Add new list'); ?></span>
+</a>
 
 <br />
 <br />

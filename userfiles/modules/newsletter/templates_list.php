@@ -19,18 +19,18 @@ $templates = newsletter_get_templates($templates_params);
             <?php foreach ($templates as $template): ?>
                 <tr>
                     <td>
-                    <?php print $template['title']; ?>
+                        <?php print $template['title']; ?>
                     </td>
                     <td><?php print $template['created_at']; ?></td>
                     <td>
                         <button class="mw-ui-btn" onclick="edit_template('<?php print $template['id']; ?>')"><?php _e('Edit'); ?></button>
                         <a class="mw-ui-btn mw-ui-btn-icon" href="javascript:;" onclick="delete_template('<?php print $template['id']; ?>')"> <span class="mw-icon-bin"></span> </a>
-                   </td>
+                    </td>
                 </tr>
             <?php endforeach; ?>
             </tbody>
         </table>
     </div>
-    <?php else: ?>
+<?php else: ?>
     <b>No templates found.</b>
 <?php endif; ?>
