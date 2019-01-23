@@ -320,10 +320,11 @@ mw.wysiwyg = {
     prepareContentEditable: function () {
         mw.on("EditMouseDown", function (e, el, target, originalEvent) {
             mw.wysiwyg.removeEditable();
-            mw.$(".edit").attr("contentEditable", "false");
+          //  mw.$(".edit").attr("contentEditable", "false");
+            mw.$(".edit[contenteditable='true']").attr("contenteditable", "false");
             var _el = $(el);
             if (!mw.tools.hasAnyOfClassesOnNodeOrParent(target, ['safe-mode'])) {
-                _el.attr("contentEditable", "true").find('[contenteditable="false"]').not('.module').removeAttr('contenteditable');
+                //_el.attr("contentEditable", "true").find('[contenteditable="false"]').not('.module').removeAttr('contenteditable');
                 if (!mw.is.ie) { //Non IE browser
                     var orderValid = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(originalEvent.target, ['edit', 'module']);
                     mw.wysiwyg.contentEditable(el, orderValid)
@@ -369,11 +370,11 @@ mw.wysiwyg = {
                         cls = cls.concat(blocks);
                         firstBlock = mw.tools.firstMatchesOnNodeOrParent(firstBlock, cls);
                     }
-                    mw.$('[contenteditable]').not(firstBlock).removeAttr('contenteditable')
+                 //   mw.$('[contenteditable]').not(firstBlock).removeAttr('contenteditable')
                     mw.wysiwyg.contentEditable(firstBlock, true);
                 }
                 else {
-                    mw.$('[contenteditable]').removeAttr('contenteditable')
+                //    mw.$('[contenteditable]').removeAttr('contenteditable')
                 }
 
             }
