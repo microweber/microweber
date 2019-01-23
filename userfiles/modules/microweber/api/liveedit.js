@@ -2546,18 +2546,39 @@ $(document).ready(function() {
 
 
 
-
-
-
     mw.on('ElementOver moduleOver', function(e, target){
-      mw.$(".element-over,.module-over").not(e.target).removeClass('element-over module-over');
+        var over_target_el = null
         if(e.type === 'onElementOver'){
-            mw.tools.addClass(mw.tools.firstParentOrCurrentWithAnyOfClasses(target, ['element']), 'element-over')
-        } else if(e.type === 'moduleOver'){
-            mw.tools.addClass(mw.tools.firstParentOrCurrentWithAnyOfClasses(target, ['module']), 'module-over')
+            var over_target_el = mw.tools.firstParentOrCurrentWithAnyOfClasses(target, ['element'])
+            if(over_target_el && !mw.tools.hasClass('element-over')){
+                mw.tools.addClass(over_target_el, 'element-over')
+            }
+         } else if(e.type === 'moduleOver'){
+            var over_target_el = mw.tools.firstParentOrCurrentWithAnyOfClasses(target, ['module'])
+            if(over_target_el && !mw.tools.hasClass('module-over')){
+                mw.tools.addClass(over_target_el, 'module-over')
+            }
         }
-
+        if(over_target_el){
+            mw.$(".element-over,.module-over").not(over_target_el).removeClass('element-over module-over');
+        }
     });
+
+
+    //mw.on('ElementOver moduleOver', function(e, target){
+    //  mw.$(".element-over,.module-over").not(e.target).removeClass('element-over module-over');
+    //    if(e.type === 'onElementOver'){
+    //        mw.tools.addClass(mw.tools.firstParentOrCurrentWithAnyOfClasses(target, ['element']), 'element-over')
+    //    } else if(e.type === 'moduleOver'){
+    //        mw.tools.addClass(mw.tools.firstParentOrCurrentWithAnyOfClasses(target, ['module']), 'module-over')
+    //    }
+    //
+    //});
+
+
+
+
+
     /*$(window).on('onElementLeave onModuleLeave', function(e, target){
       mw.tools.removeClass(target, e.type=='onElementLeave' ? 'element-over':'module-over')
     })*/
