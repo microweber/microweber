@@ -120,12 +120,17 @@ if (!window.escape) {
                 continue;
             }
             hex = s.charCodeAt(i).toString(16);
-            out += '%' + ( hex.length % 2 != 0 ? '0' : '' ) + hex;
+            out += '%' + ( hex.length % 2 !== 0 ? '0' : '' ) + hex;
         }
         return out;
     };
 }
 mw.tools = {
+    distance: function(x1, y1, x2, y2) {
+        var a = x1 - x2;
+        var b = y1 - y2;
+        return Math.floor(Math.sqrt( a*a + b*b ));
+    },
     copy: function (value) {
         var tempInput = document.createElement("input");
         tempInput.style = "position: absolute; left: -1000px; top: -1000px";
@@ -1858,13 +1863,19 @@ mw.tools = {
         return has;
     },
     addClass: function (el, cls) {
-        if (el === null) {
+        if (!cls || !el) {
             return false;
+        }
+        if (el.fn) {
+            el = el[0];
+            if(!el){
+                return;
+            }
         }
         if(typeof cls === 'string'){
             cls = cls.trim();
         }
-        if(!cls) return;
+        if(!el) return;
         var arr = cls.split(" ");
         var i = 0;
         if (arr.length>1) {
@@ -1889,9 +1900,15 @@ mw.tools = {
         if(typeof cls === 'string'){
             cls = cls.trim();
         }
-        if(!cls) return;
+        if(!cls || !el) return;
         if (el === null) {
             return false;
+        }
+        if (el.fn) {
+            el = el[0];
+            if(!el){
+                return;
+            }
         }
         if (typeof el === 'undefined') {
             return false;
@@ -2139,43 +2156,51 @@ mw.tools = {
         return obj;
     },
     firstParentWithClass: function (el, cls) {
-        _has = false;
-        mw.tools.foreachParents(el, function (loop) {
-            if (mw.tools.hasClass(this.className, cls)) {
-                _has = this;
-                mw.tools.stopLoop(loop);
+        if(!el) return false;
+        var curr = el.parentNode;
+        while ( curr !== mwd.body ) {
+            if( curr.classList.contains(cls)) {
+                return curr;
             }
-        });
-        return _has;
+            curr = curr.parentNode;
+        }
+        return false;
+    },
+    firstParentOrCurrentWithClass: function (el, cls) {
+        if(!el) return false;
+        var curr = el;
+        while ( curr !== mwd.body ) {
+            if( curr.classList.contains(cls)) {
+                return curr;
+            }
+            curr = curr.parentNode;
+        }
+        return false;
     },
     firstParentOrCurrentWithAllClasses: function (node, arr) {
-        if (mw.tools.hasAllClasses(node, arr)) {
-            return node;
-        }
-        var has = false;
-        mw.tools.foreachParents(node, function (loop) {
-            if (mw.tools.hasAllClasses(this, arr)) {
-                has = this;
-                mw.tools.stopLoop(loop);
+        if(!node) return false;
+        var curr = node;
+        while ( curr !== mwd.body ) {
+            if( mw.tools.hasAllClasses(curr, arr)) {
+                return curr;
             }
-        });
-        return has;
+            curr = curr.parentNode;
+        }
+        return false;
     },
     firstParentOrCurrentWithAnyOfClasses: function (node, arr) {
-        if (mw.tools.hasAnyOfClasses(node, arr)) {
-            return node;
-        }
-        var has = false;
-        mw.tools.foreachParents(node, function (loop) {
-            if (mw.tools.hasAnyOfClasses(this, arr)) {
-                has = this;
-                mw.tools.stopLoop(loop);
+        if(!node) return false;
+        var curr = node;
+        while ( curr !== mwd.body ) {
+            if( mw.tools.hasAnyOfClasses(curr, arr)) {
+                return curr;
             }
-        });
-        return has;
+            curr = curr.parentNode;
+        }
+        return false;
     },
     lastParentWithClass: function (el, cls) {
-        _has = false;
+        var _has = false;
         mw.tools.foreachParents(el, function (loop) {
             if (mw.tools.hasClass(this.className, cls)) {
                 _has = this;
@@ -2184,15 +2209,15 @@ mw.tools = {
         return _has;
     },
     firstParentWithTag: function (el, tag) {
-        var tag = typeof tag !== 'string' ? tag : [tag];
-        _has = false;
-        mw.tools.foreachParents(el, function (loop) {
-            if (tag.indexOf(this.nodeName.toLowerCase()) !== -1) {
-                _has = this;
-                mw.tools.stopLoop(loop);
+        tag = typeof tag !== 'string' ? tag : [tag];
+        var curr = el.parentNode;
+        while ( curr !== mwd.body ) {
+            if( tag.indexOf(curr.nodeName.toLowerCase()) !== -1) {
+                return curr;
             }
-        });
-        return _has;
+            curr = curr.parentNode;
+        }
+        return false;
     },
     toggle: function (who, toggler, callback) {
         var who = mw.$(who);
@@ -2409,7 +2434,7 @@ mw.tools = {
         }
     },
     search: function (string, selector, callback) {
-        var string = string.toLowerCase();
+        string = string.toLowerCase();
         if (typeof selector === 'object') {
             var items = selector;
         }
@@ -4835,7 +4860,9 @@ mw.image = {
                 };
 
                 $(resizer).on("click", function (e) {
-                    mw.wysiwyg.select_element(mw.image.currentResizing[0])
+                    if (mw.image.currentResizing[0].nodeName === 'IMG') {
+                        mw.wysiwyg.select_element(mw.image.currentResizing[0])
+                    }
                 });
                 $(resizer).on("dblclick", function (e) {
                     mw.wysiwyg.media('#editimage');

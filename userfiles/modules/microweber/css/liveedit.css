@@ -2758,6 +2758,11 @@ div[id*='SSDIVEL'] {
     left: -9999px;
     top: -9999px;
     pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -webkit-touch-callout: none;
+    -moz-user-select: none;
 }
 
 .mw_image_resizer * {
@@ -3726,6 +3731,7 @@ body {
     }
 }
 
+
 .mw-cloneable-control {
     position: absolute;
     z-index: 1101;
@@ -3734,6 +3740,10 @@ body {
     border-radius: 30px;
     padding: 2px;
     margin-top: -16px;
+}
+
+.mw-module-near-cloneable.mw-cloneable-control {
+    margin-top: 0;
 }
 
 

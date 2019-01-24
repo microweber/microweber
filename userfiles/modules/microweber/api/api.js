@@ -1,3 +1,13 @@
+if(!Object.assign) {
+     Object.assign =  function assign(target, source) {
+        var result = {}
+        for (var i in target) result[i] = target[i]
+        for (var i in source) result[i] = source[i]
+        return result
+      }
+}
+
+
 if (typeof jQuery == 'undefined') {
 
 <?php

@@ -672,14 +672,21 @@ mw.drag = {
         }
         mw.$("#live_edit_toolbar_holder .module").removeClass("module");
 
+        mw.handlerMouse = {
+            x: 0,
+            y: 0
+        };
+
         $(mwd.body).on('mousemove', function(event) {
             var that = this;
             mw.dragSTOPCheck = false;
 
-           mw.tools.removeClass(this, 'isTyping');
+
 
 
             if (!mw.settings.resize_started) {
+
+
 
 
                 mw.emouse = {
@@ -694,16 +701,20 @@ mw.drag = {
 
                 if (!mw.isDrag) {
                     if (mw.liveEditSelectMode === 'element') {
-                        mw.liveEditHandlers(event)
+                        if(mw.tools.distance(mw.handlerMouse.x, mw.handlerMouse.y, mw.emouse.x, mw.emouse.y) > 20) {
+                            mw.tools.removeClass(this, 'isTyping');
+                            mw.handlerMouse = Object.assign({}, mw.emouse);
+                            mw.liveEditHandlers(event)
+                        }
                     }
                 } else {
                     mw.ea.data.currentGrabbed = mw.dragCurrent;
                     if((mw.emouse.x+mw.emouse.y)%2===0){
+                        mw.tools.removeClass(this, 'isTyping');
                         mw.ea.interactionAnalizer(event);
                         $(".currentDragMouseOver").removeClass("currentDragMouseOver");
                         $(mw.currentDragMouseOver).addClass("currentDragMouseOver");
                     }
-
                 }
 
 

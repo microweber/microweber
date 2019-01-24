@@ -59,7 +59,12 @@ mw.propEditor = {
             }
             else{
                 var el = document.createElement('input');
-                el.type = type
+                try { // IE11 throws error on html5 types
+                    el.type = type;
+                } catch (err) {
+                    el.type = 'text';
+                }
+
             }
 
             el.className = 'mw-ui-field prop-ui-field';

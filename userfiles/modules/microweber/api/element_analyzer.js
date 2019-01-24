@@ -39,14 +39,14 @@ mw.AfterDrop = function(){
         var scope = this;
         setTimeout(function(){
 
-            mw.$(".mw-drag-current-bottom, .mw-drag-current-top").removeClass('mw-drag-current-bottom mw-drag-current-top')
-            mw.$(".currentDragMouseOver").removeClass('currentDragMouseOver')
+            mw.$(".mw-drag-current-bottom, .mw-drag-current-top").removeClass('mw-drag-current-bottom mw-drag-current-top');
+            mw.$(".currentDragMouseOver").removeClass('currentDragMouseOver');
 
             mw.$(".mw_drag_current").each(function(){
                 $(this).removeClass('mw_drag_current').css({
                     visibility:'visible',
                     opacity:''
-                })
+                });
             });
             mw.$(".currentDragMouseOver").removeClass('currentDragMouseOver')
             mw.$(".mw-empty").not(':empty').removeClass('mw-empty');

@@ -196,6 +196,8 @@ mw.dropables = {
           }
         }
 
+        var targetLayout = mw.tools.firstParentWithClass()
+
         if(mw.tools.hasClass(mw.mm_target, 'mw-layout-root')){
             mw.trigger("LayoutOver", mw.mm_target);
         }
