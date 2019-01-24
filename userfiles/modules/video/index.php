@@ -48,8 +48,10 @@ if ($h == '') {
 if ($autoplay == '') {
     $autoplay = '0';
 }
+if($upload and !$code){
+    $prior = 2;
+}
  
-
 
 
 $module_template = get_option('data-template', $params['id']);
@@ -65,4 +67,9 @@ if ($module_template != false) {
 }
 if (is_file($template_file)) {
     include($template_file);
+}
+
+
+if(!$upload and !$code){
+    print  lnotif('Click to edit video');
 }
