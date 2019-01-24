@@ -61,7 +61,7 @@ class XSSSecurity
     {
         if (is_array($str)) {
             while (list($key) = each($str)) {
-                $str[$key] = $this->clean($str[$key]);
+                $str[$key] = $this->$method($str[$key]);
             }
 
             return $str;

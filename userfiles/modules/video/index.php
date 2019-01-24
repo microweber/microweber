@@ -51,7 +51,7 @@ if ($autoplay == '') {
 if($upload and !$code){
     $prior = 2;
 }
- 
+
 
 
 $module_template = get_option('data-template', $params['id']);
