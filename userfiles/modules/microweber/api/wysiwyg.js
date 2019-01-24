@@ -1254,7 +1254,9 @@ mw.wysiwyg = {
                 mw.wysiwyg.change(e.target);
             }
 
-            mw.wysiwyg.check_selection(e.target);
+            if(e && e.target) {
+                mw.wysiwyg.check_selection(e.target);
+            }
 
         });
     },

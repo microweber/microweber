@@ -434,7 +434,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                     title="<?php isset($module_item['description']) ? print addslashes($module_item['description']) : ''; ?>"
                     class="module_draggable"
                     data-module-name-enc="<?php print $module_item['module_clean'] ?>|<?php print $module_item['name_clean'] ?>_<?php print date("YmdHis") ?>"
-                    src="<?php print $module_item['icon']; ?>"/>
+                    data-src="<?php print $module_item['icon']; ?>"/>
         </span>
     </span>
                         <?php endif; ?>
