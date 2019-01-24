@@ -43,11 +43,18 @@ function newsletter_subscribe($params)
         'unique' => 'This email is already subscribed!'
     );
 
+
+    $list_id = Input::get('list_id');
+    if (!$list_id) {
+        $list_id = get_option('list_id', $mod_id);
+    }
+
+
     $validator = Validator::make($input, $rules, $messages);
     if ($validator->fails()) {
         newsletter_set_cookie_for_subscribed_user();
         $resp = array();
-        $resp['error'] =  $validator->messages();
+        $resp['error'] = $validator->messages();
         if ($redir) {
             $resp['redirect'] = $redir;
         }
@@ -116,7 +123,7 @@ function newsletter_subscribe($params)
     newsletter_save_subscriber([
         'email' => Input::get('email'),
         'name' => Input::get('name'),
-        'list_id' => Input::get('list_id'),
+        'list_id' => $list_id,
         'confirmation_code' => $confirmation_code
     ]);
     $msg = 'Thanks for your subscription!';
