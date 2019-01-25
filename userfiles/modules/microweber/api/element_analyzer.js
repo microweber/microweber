@@ -91,7 +91,7 @@ mw.ElementAnalyzer = function(options){
         currentGrabbed:null,
         target:null,
         dropablePosition:null
-    }
+    };
 
     this.dataReset = function(){
         this.data = {
@@ -100,7 +100,7 @@ mw.ElementAnalyzer = function(options){
             target:null,
             dropablePosition:null
         }
-    }
+    };
 
     this.options = options || {};
     this.defaults = {
@@ -123,7 +123,7 @@ mw.ElementAnalyzer = function(options){
     this.prepare = function(){
         this.cls = this.settings.classes;
         this.initCSS();
-    }
+    };
     
     this.initCSS = function(){
         var css = 'body.dragStart .'+this.cls.noDrop+'{'
@@ -136,7 +136,7 @@ mw.ElementAnalyzer = function(options){
         var style = mwd.createElement('style');
         mwd.getElementsByTagName('head')[0].appendChild(style);
         style.innerHTML = css;
-    }
+    };
 
 
     this._isEditLike = function(node){
@@ -146,14 +146,13 @@ mw.ElementAnalyzer = function(options){
         var edit = mw.tools.firstParentOrCurrentWithAnyOfClasses(node, this.cls.edit);
         return (case1 || case2) && !mw.tools.hasClass(edit, this.cls.noDrop);
     };
-
     this._canDrop = function(node){
         node = node || this.data.target;
-        return (!mw.tools.hasClass(node, this.cls.noDrop) && !mw.tools.hasParentsWithClass(node, this.cls.noDrop)) || mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node, [this.cls.allowDrop, this.cls.noDrop]);
+        return mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(node, [this.cls.allowDrop, this.cls.noDrop]);
     };
 
     this._layoutInLayout = function(){
-        if(!this.data.currentGrabbed){
+        if(!this.data.currentGrabbed || !mwd.body.contains(this.data.currentGrabbed)){
             return false;
         }
         var currentGrabbedIsLayout = (this.data.currentGrabbed.getAttribute('data-module-name') === 'layouts' || mw.dragCurrent.getAttribute('data-type') === 'layouts');

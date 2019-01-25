@@ -1653,7 +1653,7 @@ mw.wysiwyg = {
     },
     started_checking: false,
     check_selection: function (target) {
-        var target = target || false;
+        target = target || false;
         if (!mw.wysiwyg.started_checking) {
             mw.wysiwyg.started_checking = true;
 

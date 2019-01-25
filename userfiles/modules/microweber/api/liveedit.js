@@ -860,7 +860,7 @@ mw.drag = {
             var prev_has_float_left = el.prev();
 
             var lebar =  document.querySelector("#live_edit_toolbar")
-            var minTop = lebar?lebar.offsetHeight:0;
+            var minTop = lebar ? lebar.offsetHeight : 0;
             if(mw.templateTopFixed){
                 var ex = document.querySelector(mw.templateTopFixed);
                 if(ex && !ex.contains(el[0])){

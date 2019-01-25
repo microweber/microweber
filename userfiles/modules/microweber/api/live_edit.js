@@ -9,7 +9,7 @@ mw.live_edit.showHandle = function (element) {
     var id = el.attr("id");
     var module_type = (el.dataset("type") || el.attr("type")).trim();
     var cln = el[0].querySelector('.cloneable');
-    if(cln){
+    if(cln || mw.tools.hasClass(el[0], 'cloneable')){
         if(($(cln).offset().top - el.offset().top) < 20){
             mw.tools.addClass(mw.drag._onCloneableControl, 'mw-module-near-cloneable');
         } else {

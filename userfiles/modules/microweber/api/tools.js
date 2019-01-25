@@ -1979,64 +1979,51 @@ mw.tools = {
         return false;
     },
     hasParentsWithClass: function (el, cls) {
-        var has = false;
-        mw.tools.foreachParents(el, function (loop) {
-            if (mw.tools.hasClass(this.className, cls)) {
+        if(!el) return;
+        var curr = el.parentNode;
+        while (curr && curr !== mwd.body) {
+            if (mw.tools.hasClass(curr, cls)) {
+                return true;
+            }
+            curr = curr.parentNode;
+        }
+        return false;
+    },
+
+    hasChildrenWithTag: function (el, tag) {
+        var tag = tag.toLowerCase();
+        var has= false;
+        mw.tools.foreachChildren(el, function (loop) {
+            if (this.nodeName.toLowerCase() === tag) {
                 has = true;
                 mw.tools.stopLoop(loop);
             }
         });
         return has;
     },
-    hasParentsWithAttr: function (el, cls) {
-        var d = {};
-        d.toreturn = false;
-        mw.tools.foreachParents(el, function (loop) {
-            if (cls in this) {
-                d.toreturn = true;
-                mw.tools.stopLoop(loop);
-            } else if (this.hasOwnProperty(cls)) {
-                d.toreturn = true;
-                mw.tools.stopLoop(loop);
-            }
-        });
-        return d.toreturn;
-    },
-    hasChildrenWithTag: function (el, tag) {
-        var tag = tag.toLowerCase();
-        var d = {};
-        d.toreturn = false;
-        mw.tools.foreachChildren(el, function (loop) {
-            if (this.nodeName.toLowerCase() === tag) {
-                d.toreturn = true;
-                mw.tools.stopLoop(loop);
-            }
-        });
-        return d.toreturn;
-    },
     hasParentsWithTag: function (el, tag) {
-        var tag = tag.toLowerCase();
-        var d = {};
-        d.toreturn = false;
-        mw.tools.foreachParents(el, function (loop) {
-            if (this.nodeName.toLowerCase() === tag) {
-                d.toreturn = true;
-                mw.tools.stopLoop(loop);
+        if(!el || !tag) return;
+        tag = tag.toLowerCase();
+        var curr = el.parentNode;
+        while (curr && curr !== mwd.body) {
+            if (curr.nodeName.toLowerCase() === tag) {
+                return true;
             }
-        });
-        return d.toreturn;
+            curr = curr.parentNode;
+        }
+        return false;
     },
     hasHeadingParent: function (el) {
-        var d = {};
-        d.toreturn = false;
+        if(!el) return;
         var h = /^(h[1-6])$/i;
-        mw.tools.foreachParents(el, function (loop, i) {
-            if (h.test(this.nodeName.toLowerCase())) {
-                d.toreturn = true;
-                mw.tools.stopLoop(loop);
+        var curr = el.parentNode;
+        while (curr && curr !== mwd.body) {
+            if (h.test(curr.nodeName.toLowerCase())) {
+                return true;
             }
-        });
-        return d.toreturn;
+            curr = curr.parentNode;
+        }
+        return false;
     },
     loop: {/* Global index for MW loops */},
     stopLoop: function (loop) {
@@ -2191,7 +2178,8 @@ mw.tools = {
     firstParentOrCurrentWithAnyOfClasses: function (node, arr) {
         if(!node) return false;
         var curr = node;
-        while ( curr !== mwd.body ) {
+        while ( curr && curr !== mwd.body ) {
+            if(!curr) return false;
             if( mw.tools.hasAnyOfClasses(curr, arr)) {
                 return curr;
             }
@@ -2200,18 +2188,22 @@ mw.tools = {
         return false;
     },
     lastParentWithClass: function (el, cls) {
+        if(!el) return;
         var _has = false;
-        mw.tools.foreachParents(el, function (loop) {
-            if (mw.tools.hasClass(this.className, cls)) {
-                _has = this;
+        var curr = el.parentNode;
+        while (curr && curr !== mwd.body ) {
+            if (mw.tools.hasClass(curr, cls)) {
+                _has = curr;
             }
-        });
+            curr = curr.parentNode;
+        }
         return _has;
     },
     firstParentWithTag: function (el, tag) {
+        if(!el) return;
         tag = typeof tag !== 'string' ? tag : [tag];
         var curr = el.parentNode;
-        while ( curr !== mwd.body ) {
+        while (curr && curr !== mwd.body ) {
             if( tag.indexOf(curr.nodeName.toLowerCase()) !== -1) {
                 return curr;
             }

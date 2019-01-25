@@ -27,19 +27,23 @@ mw.dropables = {
         for ( ; i<bgHolders.length; i++ ) {
             var curr = bgHolders[i];
             var po = mw.tools.parentsOrder(curr, ['edit', 'module']);
-            if(po.module === -1 || (po.edit<po.module && po.edit != -1)){
-                mw.tools.addClass(curr, 'element');
+            if(po.module === -1 || (po.edit<po.module && po.edit !== -1)){
+                if(!mw.tools.hasClass(curr, 'module')){
+                    mw.tools.addClass(curr, 'element');
+                }
                 curr.style.backgroundImage = curr.style.backgroundImage || 'none';
             }
         }
         for ( ; i1<noEditModules.length; i1++ ) {
-            mw.tools.removeClass(noEditModules[i], 'module')
+            mw.tools.removeClass(noEditModules[i], 'module');
         }
         for ( ; i2<edits.length; i2++ ) {
             var all = mw.ea.helpers.getElementsLike(":not(.element)", edits[i2]), i2a = 0;
             for( ; i2a<all.length; i2a++){
-                if(mw.ea.canDrop(all[i2a])){
-                    mw.tools.addClass(all[i2a], 'element')
+                if(!mw.tools.hasClass(all[i2a], 'module')){
+                    if(mw.ea.canDrop(all[i2a])){
+                        mw.tools.addClass(all[i2a], 'element');
+                    }
                 }
             }
         }
