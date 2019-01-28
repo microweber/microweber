@@ -12,8 +12,8 @@
   ],
   "repositories": [
     {
-      "type": "vcs",
-      "url": "https://github.com/peter-mw/laravel-tagging"
+      "type": "composer",
+      "url": "https://packages.microweberapi.com/"
     }
   ],
   "require": {
@@ -39,7 +39,6 @@
     "giggsey/libphonenumber-for-php": "^7.6",
     "laravelcollective/html": "*",
     "ezyang/htmlpurifier": "^4.8",
-    "rtconner/laravel-tagging": "dev-laravel-5",
     "jeremeamia/superclosure": "*",
     "arcanedev/seo-helper": "1.2",
     "intervention/image": "^2.3",
@@ -49,7 +48,9 @@
     "dompdf/dompdf": "0.8.2",
     "nikic/php-parser": "3.1.5",
     "doctrine/dbal": "2.5.3",
-    "selfworks/recurr": "dev-master",
+    "microweber-deps/recurr": "dev-master",
+    "microweber-deps/laravel-tagging": "dev-laravel-5",
+
     "oyejorge/less.php": "dev-master",
     "aws/aws-sdk-php": "^3.0@dev"
   },

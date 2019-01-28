@@ -1127,7 +1127,12 @@ return $new_version_notifications;
             }
         }
     }
+    public function composer_search_packages($keyword=false)
+    {
+        $runner = new \Microweber\Utils\ComposerUpdate();
 
+        return $runner->search_packages($keyword);
+    }
 
     public function composer_merge($composer_patch_path)
     {

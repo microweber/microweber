@@ -5,13 +5,25 @@ namespace Microweber\Utils;
 use Composer\Console\Application;
 use Composer\Command\UpdateCommand;
 use Composer\Command\InstallCommand;
+use Composer\Command\SearchCommand;
 use Composer\Config;
 use Symfony\Component\Console\Input\ArrayInput;
 use Composer\Factory;
 use Composer\IO\ConsoleIO;
+use Composer\IO\BufferIO;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Output\StreamOutput;
+use Composer\Installer;
+use Composer\Package\CompletePackageInterface;
+use Composer\Package\Link;
+use Composer\Package\PackageInterface;
+use Composer\Repository\CompositeRepository;
+use Composer\Repository\PlatformRepository;
+use Composer\Repository\RepositoryInterface;
+use  Microweber\Utils\Adapters\Packages\ComposerPackagesSearchCommand;
+
 
 class ComposerUpdate
 {
@@ -20,10 +32,10 @@ class ComposerUpdate
     public function __construct($composer_path = false)
     {
         if ($composer_path == false) {
-            $composer_path = normalize_path(base_path().'/', false);
+            $composer_path = normalize_path(base_path() . '/', false);
         }
         $this->composer_home = $composer_path;
-        putenv('COMPOSER_HOME='.$composer_path);
+        putenv('COMPOSER_HOME=' . $composer_path);
     }
 
     public function run($config_params = array())
@@ -96,9 +108,30 @@ class ComposerUpdate
         return $out;
     }
 
+    public function search_packages($keyword = '')
+    {
+        $keyword = strip_tags($keyword);
+        $keyword = trim($keyword);
+
+        $conf = $this->composer_home . '/composer.json';
+        // $io = new BufferIO($input, $output, null);
+
+        $io = new BufferIO('', 1, null);
+
+        $composer = Factory::create($io);
+
+        $packages = new ComposerPackagesSearchCommand();
+        $packages->setConfigPathname($conf);
+        $packages->setComposer($composer);
+        $return = $packages->handle($keyword);
+        return $return;
+
+    }
+
+
     public function get_require()
     {
-        $conf = $this->composer_home.'/composer.json';
+        $conf = $this->composer_home . '/composer.json';
 
         $conf_items = array();
         if (is_file($conf)) {
@@ -114,7 +147,7 @@ class ComposerUpdate
 
     public function save_require($required)
     {
-        $conf = $this->composer_home.'/composer.json';
+        $conf = $this->composer_home . '/composer.json';
 
         $conf_items = array();
         if (is_file($conf)) {
@@ -136,7 +169,7 @@ class ComposerUpdate
 
     public function merge($with_file)
     {
-        $conf = $this->composer_home.'/composer.json';
+        $conf = $this->composer_home . '/composer.json';
 
         $conf_items = array();
         if (is_file($conf)) {
@@ -169,4 +202,6 @@ class ComposerUpdate
 
         return $conf_items;
     }
+
+
 }
