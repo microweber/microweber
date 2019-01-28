@@ -248,6 +248,18 @@ if (isset($_COOKIE['mw_exp'])) {
             $('[data-id="mw-toolbar-show-sidebar-btn"]').click(function () {
                 mw.liveEditSettings.toggle();
             });
+            var params = mw.url.getUrlParams(location.href);
+
+            if(typeof mw.cookie.get('show-sidebar-layouts') === 'undefined'){
+
+
+                if(params.sidebar == 1){
+                    mw.liveEditSettings.show();
+                }
+                else if(!params.sidebar){
+                    mw.liveEditSettings.hide();
+                }
+            }
 
             if (mw.cookie.get('show-sidebar-layouts') == 1) {
                 mw.liveEditSettings.show();
