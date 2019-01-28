@@ -94,7 +94,18 @@
     }
 </script>
 <?php $required_packages = mw()->update->composer_get_required(); ?>
- 
+<?php $other_packages = mw()->update->composer_get_required(); ?>
+
+
+<?php
+
+//$search_packages = mw()->update->composer_search_packages();
+
+//d($search_packages);
+?>
+
+
+
 <pre id="remote_patch_log"></pre>
 <table width="100%" cellspacing="0" cellpadding="0" class="mw-ui-table">
   <thead>
