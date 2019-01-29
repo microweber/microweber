@@ -1812,55 +1812,43 @@ mw.tools = {
         return true;
     },
     matchesAnyOnNodeOrParent: function (node, arr) {
-        arr.forEach(function (selector) {
-            if (mw.tools.matches(node, selector)) {
-                return true;
-            }
-        });
-        var has = false;
-        mw.tools.foreachParents(node, function (loop) {
+        var curr = node;
+        while (curr && curr !== document.body) {
             var i = 0;
-            for (; i < arr.length; i++) {
-                if (mw.tools.matches(this, arr[i])) {
-                    has = true;
-                    mw.tools.stopLoop(loop);
-                    return has;
+            for ( ; i < arr.length; i++ ) {
+                if (mw.tools.matches(curr, arr[i])) {
+                    return true;
                 }
             }
-        });
-        return has;
+            curr = curr.parentNode;
+        }
+        return false;
     },
     firstMatchesOnNodeOrParent: function (node, arr) {
-        var i = 0;
-        for (; i < arr.length; i++) {
-            if (mw.tools.matches(node, arr[i])) {
-                return node;
-            }
-        }
-        var has = false;
-        mw.tools.foreachParents(node, function (loop) {
-            var el = this;
-            arr.forEach(function (selector) {
-                if (mw.tools.matches(el, selector)) {
-                    has = el;
-                    mw.tools.stopLoop(loop)
+        var curr = node;
+        while (curr && curr !== document.body) {
+            var i = 0;
+            for ( ; i < arr.length; i++ ) {
+                if (mw.tools.matches(curr, arr[i])) {
+                    return curr;
                 }
-            });
-        });
-        return has;
+            }
+            curr = curr.parentNode;
+        }
+        return false;
     },
     hasAnyOfClassesOnNodeOrParent: function (node, arr) {
-        if (mw.tools.hasAnyOfClasses(node, arr)) {
-            return true;
-        }
-        var has = false;
-        mw.tools.foreachParents(node, function (loop) {
-            if (mw.tools.hasAnyOfClasses(this, arr)) {
-                has = true;
-                mw.tools.stopLoop(loop);
+        var curr = node;
+        while (curr && curr !== document.body) {
+            var i = 0;
+            for ( ; i < arr.length; i++ ) {
+                if (mw.tools.hasAnyOfClasses(curr, arr[i])) {
+                    return true;
+                }
             }
-        });
-        return has;
+            curr = curr.parentNode;
+        }
+        return false;
     },
     addClass: function (el, cls) {
         if (!cls || !el) {
@@ -2104,42 +2092,48 @@ mw.tools = {
     },
     parentsOrder: function (node, arr) {
         var only_first = [];
-        var obj = {}, l = arr.length, i = 0;
+        var obj = {}, l = arr.length, i = 0, count = -1;
         for (; i < l; i++) {
             obj[arr[i]] = -1;
         }
-        mw.tools.foreachParents(node, function (loop, count) {
-            var cls = this.className;
-            var i = 0;
+        if(!node) return obj;
+
+        var curr = node.parentNode;
+        while (curr && curr !== mwd.body) {
+            count++;
+            var cls = curr.className;
+            i = 0;
             for (; i < l; i++) {
-                if (mw.tools.hasClass(cls, arr[i]) && only_first.indexOf(arr[i]) == -1) {
+                if (mw.tools.hasClass(cls, arr[i]) && only_first.indexOf(arr[i]) === -1) {
                     obj[arr[i]] = count;
                     only_first.push(arr[i]);
                 }
             }
-        });
+            curr = curr.parentNode;
+        }
         return obj;
     },
     parentsAndCurrentOrder: function (node, arr) {
-        var only_first = [],
-            scopeCount = 0,
-            obj = {},
-            l = arr.length,
-            i = 0;
+        var only_first = [];
+        var obj = {}, l = arr.length, i = 0, count = -1;
         for (; i < l; i++) {
-            obj[arr[i]] = mw.tools.hasClass(node, arr[i]) ? scopeCount : -1;
+            obj[arr[i]] = -1;
         }
-        mw.tools.foreachParents(node, function (loop, count) {
-            scopeCount++;
-            var cls = this.className;
-            var i = 0;
+        if(!node) return obj;
+
+        var curr = node;
+        while (curr && curr !== mwd.body) {
+            count++;
+            var cls = curr.className;
+            i = 0;
             for (; i < l; i++) {
-                if (mw.tools.hasClass(cls, arr[i]) && only_first.indexOf(arr[i]) == -1) {
-                    obj[arr[i]] = scopeCount;
+                if (mw.tools.hasClass(cls, arr[i]) && only_first.indexOf(arr[i]) === -1) {
+                    obj[arr[i]] = count;
                     only_first.push(arr[i]);
                 }
             }
-        });
+            curr = curr.parentNode;
+        }
         return obj;
     },
     firstParentWithClass: function (el, cls) {

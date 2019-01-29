@@ -5,13 +5,25 @@ namespace Microweber\Utils;
 use Composer\Console\Application;
 use Composer\Command\UpdateCommand;
 use Composer\Command\InstallCommand;
+use Composer\Command\SearchCommand;
 use Composer\Config;
 use Symfony\Component\Console\Input\ArrayInput;
 use Composer\Factory;
 use Composer\IO\ConsoleIO;
+use Composer\IO\BufferIO;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Output\StreamOutput;
+use Composer\Installer;
+use Composer\Package\CompletePackageInterface;
+use Composer\Package\Link;
+use Composer\Package\PackageInterface;
+use Composer\Repository\CompositeRepository;
+use Composer\Repository\PlatformRepository;
+use Composer\Repository\RepositoryInterface;
+use  Microweber\Utils\Adapters\Packages\ComposerPackagesSearchCommand;
+
 
 class ComposerUpdate
 {
@@ -20,10 +32,10 @@ class ComposerUpdate
     public function __construct($composer_path = false)
     {
         if ($composer_path == false) {
-            $composer_path = normalize_path(base_path().'/', false);
+            $composer_path = normalize_path(base_path() . '/', false);
         }
         $this->composer_home = $composer_path;
-        putenv('COMPOSER_HOME='.$composer_path);
+        putenv('COMPOSER_HOME=' . $composer_path);
     }
 
     public function run($config_params = array())
@@ -96,9 +108,86 @@ class ComposerUpdate
         return $out;
     }
 
+    public function search_packages($keyword = '')
+    {
+        $keyword = strip_tags($keyword);
+        $keyword = trim($keyword);
+
+        $conf = $this->composer_home . '/composer.json';
+        // $io = new BufferIO($input, $output, null);
+
+        $io = new BufferIO('', 1, null);
+
+        $composer = Factory::create($io);
+
+        $packages = new ComposerPackagesSearchCommand();
+        $packages->setConfigPathname($conf);
+        $packages->setComposer($composer);
+        $return = $packages->handle($keyword);
+        return $return;
+
+    }
+
+    public function install_package_by_name($params)
+    {
+        if (!isset($params['require_name']) or !$params['require_name']) {
+            return;
+        }
+        $version = 'latest';
+        if (isset($params['version']) and $params['version']) {
+            $version = trim($params['version']);
+        }
+
+        $params = parse_params($params);
+
+        $conf = $this->composer_home . '/composer.json';
+        // $io = new BufferIO($input, $output, null);
+        $keyword = $params['require_name'];
+        $keyword = strip_tags($keyword);
+        $keyword = trim($keyword);
+
+        $io = new BufferIO('', 1, null);
+
+        $composer = Factory::create($io);
+
+        $packages = new ComposerPackagesSearchCommand();
+        $packages->setConfigPathname($conf);
+        $packages->setComposer($composer);
+        $return = $packages->handle($keyword);
+
+        if (!$return) {
+            return;
+        }
+
+        if (isset($return[$keyword])) {
+            $version_data = false;
+            $package_data = $return[$keyword];
+            if ($version == 'latest' and isset($package_data['latest_version']) and $package_data['latest_version']) {
+                $version_data = $package_data['latest_version'];
+            } elseif (isset($package_data['versions']) and isset($package_data['versions'][$keyword])) {
+                $version_data = $package_data['versions'][$keyword];
+            }
+            if (!$version_data) {
+                return;
+            }
+
+            if (!isset($version_data['dist']) or !isset($version_data['dist'][0])) {
+                return array('error' => 'Error resolving Composer dependencies. No download source found for '. $keyword);
+
+            }
+            dd($version_data, $package_data);
+
+        }
+
+
+        //      return $return;
+
+    }
+
+
     public function get_require()
     {
-        $conf = $this->composer_home.'/composer.json';
+        $conf = $this->composer_home . '/composer.json';
 
         $conf_items = array();
         if (is_file($conf)) {
@@ -114,7 +203,7 @@ class ComposerUpdate
 
     public function save_require($required)
     {
-        $conf = $this->composer_home.'/composer.json';
+        $conf = $this->composer_home . '/composer.json';
 
         $conf_items = array();
         if (is_file($conf)) {
@@ -136,7 +225,7 @@ class ComposerUpdate
 
     public function merge($with_file)
     {
-        $conf = $this->composer_home.'/composer.json';
+        $conf = $this->composer_home . '/composer.json';
 
         $conf_items = array();
         if (is_file($conf)) {
@@ -169,4 +258,6 @@ class ComposerUpdate
 
         return $conf_items;
     }
+
+
 }

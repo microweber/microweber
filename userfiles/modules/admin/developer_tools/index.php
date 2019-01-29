@@ -35,10 +35,10 @@
     </a>
     <?php endif; ?>
 
-
-    <!--  <a class="mw-ui-btn" href="javascript:mw.load_module('admin/modules/packages','#mw-advanced-settings-dev-tools-output')">
-        <?php /*_e("Packages"); */ ?>
-    </a>-->
+    <br /><br />
+   <a class="mw-ui-btn" href="javascript:mw.load_module('admin/modules/packages','#mw-advanced-settings-dev-tools-output')">
+        <?php  _e("Packages");  ?>
+    </a>
     <div class="mw-clear" style="padding-bottom:10px;"></div>
     <div id="mw-advanced-settings-dev-tools-output"></div>
 </div>
