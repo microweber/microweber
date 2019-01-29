@@ -676,6 +676,15 @@ function mw_composer_run_update($params)
     return $update_api->composer_run($params);
 }
 
+
+api_expose_admin('mw_composer_install_package_by_name');
+function mw_composer_install_package_by_name($params)
+{
+    $update_api = mw('update');
+
+    return $update_api->composer_install_package_by_name($params);
+}
+
 api_expose_admin('mw_composer_replace_vendor_from_cache');
 function mw_composer_replace_vendor_from_cache($params)
 {

@@ -128,6 +128,62 @@ class ComposerUpdate
 
     }
 
+    public function install_package_by_name($params)
+    {
+        if (!isset($params['require_name']) or !$params['require_name']) {
+            return;
+        }
+        $version = 'latest';
+        if (isset($params['version']) and $params['version']) {
+            $version = trim($params['version']);
+        }
+
+        $params = parse_params($params);
+
+        $conf = $this->composer_home . '/composer.json';
+        // $io = new BufferIO($input, $output, null);
+        $keyword = $params['require_name'];
+        $keyword = strip_tags($keyword);
+        $keyword = trim($keyword);
+
+        $io = new BufferIO('', 1, null);
+
+        $composer = Factory::create($io);
+
+        $packages = new ComposerPackagesSearchCommand();
+        $packages->setConfigPathname($conf);
+        $packages->setComposer($composer);
+        $return = $packages->handle($keyword);
+
+        if (!$return) {
+            return;
+        }
+
+        if (isset($return[$keyword])) {
+            $version_data = false;
+            $package_data = $return[$keyword];
+            if ($version == 'latest' and isset($package_data['latest_version']) and $package_data['latest_version']) {
+                $version_data = $package_data['latest_version'];
+            } elseif (isset($package_data['versions']) and isset($package_data['versions'][$keyword])) {
+                $version_data = $package_data['versions'][$keyword];
+            }
+            if (!$version_data) {
+                return;
+            }
+
+            if (!isset($version_data['dist']) or !isset($version_data['dist'][0])) {
+                return array('error' => 'Error resolving Composer dependencies. No download source found for '. $keyword);
+
+            }
+            dd($version_data, $package_data);
+
+        }
+
+
+        //      return $return;
+
+    }
+
 
     public function get_require()
     {

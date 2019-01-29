@@ -1134,6 +1134,18 @@ return $new_version_notifications;
         return $runner->search_packages($keyword);
     }
 
+
+    public function composer_install_package_by_name($params)
+    {
+        $runner = new \Microweber\Utils\ComposerUpdate();
+
+
+        $log_file = userfiles_path() . $this->log_filename;
+
+
+        return $runner->install_package_by_name($params);
+    }
+
     public function composer_merge($composer_patch_path)
     {
         $this->_log_msg('Merging composer files');
