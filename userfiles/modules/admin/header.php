@@ -455,7 +455,6 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                             <ul>
 
 
-
                                 <li <?php if ($action == 'products'): ?> class="active" <?php endif; ?>>
                                     <a href="<?php print admin_url(); ?>view:shop/action:products">
                                         <span class="mai-product"></span>
@@ -475,17 +474,12 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                 </li>
 
 
-
-
                                 <li <?php if ($action == 'clients'): ?> class="active" <?php endif; ?>>
                                     <a href="<?php print admin_url(); ?>view:shop/action:clients">
                                         <span class="mai-user"></span>
                                         <?php _e("Clients"); ?>
                                     </a>
                                 </li>
-
-
-
 
 
                                 <li <?php if ($action == 'options'): ?> class="active" <?php endif; ?>>
@@ -565,7 +559,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                     <span class="mai-website"></span><strong><?php _e("Website"); ?></strong>
                                 </a>
                             </li>
-                            <li><a  class="item-template" href="<?php print admin_url(); ?>view:settings#option_group=template">
+                            <li><a class="item-template" href="<?php print admin_url(); ?>view:settings#option_group=template">
                                     <span class="mai-templates"></span><strong><?php _e("Template"); ?></strong>
                                 </a>
                             </li>
