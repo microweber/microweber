@@ -1,5 +1,7 @@
 <?php
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 require_once(__DIR__ . '/src/CalendarManager.php');
 require_once(__DIR__ . '/src/CalendarDatesHelper.php');
 
@@ -368,6 +370,54 @@ function calendar_get_events_api($params = [])
                     $eventReady['start'] = $startDate;
                     $eventReady['end'] = $endDate;
                     $events[] = $eventReady;
+                }
+                
+                
+                if ($event->recurrence_type == "monthly_on_the_day_number") {
+                    
+                    $currentMonth = $year . '-' . $month . '-01 ';
+                    $nextMonth = date('m', strtotime("+1 month", strtotime($year . '-' . $month)));
+                    $nextMonth = $year . '-' . $nextMonth . '-01 ';
+                    
+                    $previousMonth = date('m', strtotime("-1 month", strtotime($year . '-' . $month)));
+                    $previousMonth = $year . '-' . $previousMonth . '-01 ';
+                    
+                    $datesOfTheCurrentMonth = $dates_helper->getDatesOfMonth($timeZone, $currentMonth);
+                    $datesOfTheNextMonth = $dates_helper->getDatesOfMonth($timeZone, $nextMonth);
+                    $datesOfThePreviousMonth = $dates_helper->getDatesOfMonth($timeZone, $previousMonth);
+                    
+                    
+                    $datesOfTheMonthCombine = new ArrayCollection(
+                        array_merge($datesOfTheNextMonth->toArray(), $datesOfThePreviousMonth->toArray())
+                    );
+                    
+                    $datesOfTheMonthAll = new ArrayCollection(
+                        array_merge($datesOfTheCurrentMonth->toArray(), $datesOfTheMonthCombine->toArray())
+                    );
+                    
+                    foreach ($datesOfTheMonthAll as $dateOfTheMonth) {
+                        
+                        $startDateReady = $dateOfTheMonth->getStart()->format('Y-m-d');
+                        if (date("Y-m-d", strtotime($startDate)) > $startDateReady) {
+                            continue;
+                        }
+                        
+                        $dayNumber = date('d', strtotime($event->start_date));
+                        if ($dayNumber !== $dateOfTheMonth->getStart()->format('d')) {
+                            continue;
+                        }
+                        
+                        if ($event->all_day == 1) {
+                            $eventReady['start'] = $startDateReady;
+                            $eventReady['end'] = $startDateReady;
+                        } else {
+                            $eventReady['start'] = $startDateReady . " " . $startTime;
+                            $eventReady['end'] = $startDateReady . " " . $endTime;
+                        }
+                        
+                        $events[] = $eventReady;
+                    }
+                    
                 }
 
                 if ($event->recurrence_type == "daily") {
