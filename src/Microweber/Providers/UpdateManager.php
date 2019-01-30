@@ -71,7 +71,7 @@ class UpdateManager
         $data['mw_update_check_site'] = $this->app->url_manager->site();
         $data['update_channel'] = \Config::get('microweber.update_channel');
         $data['last_update'] = \Config::get('microweber.updated_at');
-        
+
         $t = site_templates();
         $data['templates'] = $t;
         $t = $this->app->modules->get('ui=any&no_limit=true');
@@ -136,22 +136,20 @@ class UpdateManager
         return $data;
     }
 
-    public function get_updates_notifications($params=false)
+    public function get_updates_notifications($params = false)
     {
         if (is_string($params)) {
             $params = parse_params($params);
         }
-        if(!is_array($params)){
+        if (!is_array($params)) {
             $params = array();
         }
         $params['rel_type'] = 'update_check';
         $params['rel_id'] = 'updates';
 
         $new_version_notifications = mw()->notifications_manager->get($params);
-return $new_version_notifications;
+        return $new_version_notifications;
     }
-
-
 
 
     public function marketplace_link($params = false)
@@ -365,7 +363,6 @@ return $new_version_notifications;
         return array('message' => 'Preparing');
 
 
-
 //        $cache_content = $this->app->cache_manager->get($c_id, $cache_group);
 //        if (($cache_content) != false) {
 //            $work = $cache_content;
@@ -502,7 +499,7 @@ return $new_version_notifications;
     public function check($skip_cache = false)
     {
         $update_channel = Config::get('microweber.update_channel');
-        if('disabled' == $update_channel) {
+        if ('disabled' == $update_channel) {
             return;
         }
 
@@ -586,7 +583,7 @@ return $new_version_notifications;
             $notif['rel_id'] = 'updates';
             $notif['title'] = 'New updates are available';
             $notif['description'] = "There are $count new updates are available";
-            $notif['notification_data'] =  @json_encode($result);
+            $notif['notification_data'] = @json_encode($result);
 
 
             $this->app->notifications_manager->save($notif);
@@ -634,11 +631,11 @@ return $new_version_notifications;
             $dl_file = $dir_c . $fname;
             if (!$on_step or $on_step == 1) {
 
-               if (!is_file($dl_file)) {
+                if (!is_file($dl_file)) {
                     $this->_log_msg('Downloading core update');
 
                     $get = $this->app->url_manager->download($value, $post_params = false, $save_to_file = $dl_file);
-                 }
+                }
             }
             if (!$on_step or $on_step > 1) {
 
@@ -731,9 +728,6 @@ return $new_version_notifications;
             }
 
 
-
-
-
             if ($download_link != false and $expected > 0) {
                 $text = $download_link;
                 $regex = '/\b((?:[\w\d]+\:\/\/)?(?:[\w\-\d]+\.)+[\w\-\d]+(?:\/[\w\-\d]+)*(?:\/|\.[\w\-\d]+)?(?:\?[\w\-\d]+\=[\w\-\d]+\&?)?(?:\#[\w\-\d]*)?)\b/';
@@ -759,9 +753,6 @@ return $new_version_notifications;
                 }
             }
         }
-
-
-
 
 
         if ($download_target != false and is_file($download_target)) {
@@ -1127,11 +1118,31 @@ return $new_version_notifications;
             }
         }
     }
-    public function composer_search_packages($keyword=false)
-    {
-        $runner = new \Microweber\Utils\ComposerUpdate();
 
-        return $runner->search_packages($keyword);
+    public function composer_search_packages($params = false)
+    {
+        $params = parse_params($params);
+        $cache_id = false;
+        if (isset($params['cache']) and $params['cache']) {
+            $cache_id = 'composer_search_packages';
+        }
+
+        if ($cache_id) {
+            $results = cache_get($cache_id, 'composer',60);
+            if ($results) {
+                return $results;
+            }
+        }
+
+        $keyword = '';
+        $runner = new \Microweber\Utils\ComposerUpdate();
+        $results = $runner->search_packages($keyword);
+        if($results){
+            cache_save($results,$cache_id, 'composer',60);
+
+        }
+
+        return $results;
     }
 
 
