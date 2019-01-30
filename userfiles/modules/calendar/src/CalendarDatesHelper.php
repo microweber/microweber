@@ -82,4 +82,32 @@ class CalendarDatesHelper
 
         return $dayName;
     }
+    
+    
+    
+    /**
+     * Returns the number of week in a month for the specified date.
+     *
+     * @param string $date
+     * @return int
+     */
+    function getWeekOfMonth($date) {
+        // estract date parts
+        list($y, $m, $d) = explode('-', date('Y-m-d', strtotime($date)));
+        
+        // current week, min 1
+        $w = 1;
+        
+        // for each day since the start of the month
+        for ($i = 1; $i <= $d; ++$i) {
+            // if that day was a sunday and is not the first day of month
+            if ($i > 1 && date('w', strtotime("$y-$m-$i")) == 0) {
+                // increment current week
+                ++$w;
+            }
+        }
+        
+        // now return
+        return $w;
+    }
 }
