@@ -16,6 +16,16 @@ $search_packages = mw()->update->composer_search_packages('cache=true');
             <span class="top-form-submit" onclick="mw.url.windowHashParam('search',$(this).prev().val())"><span class="mw-icon-search"></span></span>
         </div>
     </div>
+
+    <div class="pull-right m-r-10" style="margin-top:1px;">
+        <select class="mw-ui-field">
+            <option selected="selected" value="-1">Select some</option>
+            <option value="1">Mr</option>
+            <option value="2">Mrs</option>
+            <option value="3">Miss</option>
+            <option value="4">Ms</option>
+        </select>
+    </div>
 </div>
 
 
@@ -45,10 +55,10 @@ $search_packages = mw()->update->composer_search_packages('cache=true');
                 <div class="mw-ui-box" style="width: 100%; padding: 12px 0;">
                     <div class="mw-ui-box-content tab">
                         <?php if ($search_packages) : ?>
-                            <?php foreach ($search_packages as $key => $item): ?>
-                                <?php if ($item['type'] == 'microweber-template'): ?>
-                                    <div class="mw-ui-col" style="width: 33%;">
-                                        <div class="mw-ui-col-container">
+                            <div class="mw-flex-row">
+                                <?php foreach ($search_packages as $key => $item): ?>
+                                    <?php if ($item['type'] == 'microweber-template'): ?>
+                                        <div class="mw-flex-col-xs-4 m-b-20">
                                             <div class="mw-ui-box" style="min-height: 300px;">
                                                 <div class="mw-ui-box-header">
                                                     <span class="mw-icon-gear"></span><span> <?php print $item['name'] ?></span>
@@ -88,18 +98,18 @@ $search_packages = mw()->update->composer_search_packages('cache=true');
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </div>
                         <?php endif; ?>
                     </div>
 
                     <div class="mw-ui-box-content tab" style="display: none">
                         <?php if ($search_packages) : ?>
-                            <?php foreach ($search_packages as $key => $item): ?>
-                                <?php if ($item['type'] == 'microweber-module'): ?>
-                                    <div class="mw-ui-col" style="width: 33%;">
-                                        <div class="mw-ui-col-container">
+                            <div class="mw-flex-row">
+                                <?php foreach ($search_packages as $key => $item): ?>
+                                    <?php if ($item['type'] == 'microweber-module'): ?>
+                                        <div class="mw-flex-col-xs-4 m-b-20">
                                             <div class="mw-ui-box" style="min-height: 300px;">
                                                 <div class="mw-ui-box-header">
                                                     <span class="mw-icon-gear"></span><span> <?php print $item['name'] ?></span>
@@ -139,17 +149,17 @@ $search_packages = mw()->update->composer_search_packages('cache=true');
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </div>
                         <?php endif; ?>
                     </div>
                     <div class="mw-ui-box-content tab" style="display: none">
                         <?php if ($search_packages) : ?>
-                            <?php foreach ($search_packages as $key => $item): ?>
-                                <?php if ($item['type'] != 'microweber-template' AND $item['type'] != 'microweber-module'): ?>
-                                    <div class="mw-ui-col" style="width: 33%;">
-                                        <div class="mw-ui-col-container">
+                            <div class="mw-flex-row">
+                                <?php foreach ($search_packages as $key => $item): ?>
+                                    <?php if ($item['type'] != 'microweber-template' AND $item['type'] != 'microweber-module'): ?>
+                                        <div class="mw-flex-col-xs-4 m-b-20">
                                             <div class="mw-ui-box" style="min-height: 300px;">
                                                 <div class="mw-ui-box-header">
                                                     <span class="mw-icon-gear"></span><span> <?php print $item['name'] ?></span>
@@ -189,9 +199,9 @@ $search_packages = mw()->update->composer_search_packages('cache=true');
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </div>
                         <?php endif; ?>
                     </div>
                 </div>
