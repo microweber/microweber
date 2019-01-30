@@ -337,6 +337,10 @@ function calendar_get_events_api($params = [])
                 if ($event->recurrence_type == "custom" && $event->recurrence_repeat_type == "year") {
                     $event->recurrence_type = 'annually_on_the_month_name_day_number';
                 }
+                
+                if ($event->recurrence_type == "custom" && $event->recurrence_repeat_type == "month") {
+                    $event->recurrence_type = 'monthly_on_the_week_number_day_name';
+                }
 
                 if ($event->recurrence_type == "weekly_on_the_day_name") {
                     $event->recurrence_type = "custom";
