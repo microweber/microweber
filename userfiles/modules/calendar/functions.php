@@ -337,6 +337,10 @@ function calendar_get_events_api($params = [])
                 if ($event->recurrence_type == "custom" && $event->recurrence_repeat_type == "year") {
                     $event->recurrence_type = 'annually_on_the_month_name_day_number';
                 }
+                
+                if ($event->recurrence_type == "custom" && $event->recurrence_repeat_type == "month") {
+                    $event->recurrence_type = 'monthly_on_the_week_number_day_name';
+                }
 
                 if ($event->recurrence_type == "weekly_on_the_day_name") {
                     $event->recurrence_type = "custom";
@@ -372,8 +376,7 @@ function calendar_get_events_api($params = [])
                     $events[] = $eventReady;
                 }
                 
-                
-                if ($event->recurrence_type == "monthly_on_the_day_number") {
+                if ($event->recurrence_type == "monthly_on_the_day_number" || $event->recurrence_type == "monthly_on_the_week_number_day_name") {
                     
                     $currentMonth = $year . '-' . $month . '-01 ';
                     $nextMonth = date('m', strtotime("+1 month", strtotime($year . '-' . $month)));
@@ -402,9 +405,22 @@ function calendar_get_events_api($params = [])
                             continue;
                         }
                         
-                        $dayNumber = date('d', strtotime($event->start_date));
-                        if ($dayNumber !== $dateOfTheMonth->getStart()->format('d')) {
-                            continue;
+                        if ($event->recurrence_type == "monthly_on_the_day_number") {
+                            $dayNumber = date('d', strtotime($event->start_date));
+                            if ($dayNumber !== $dateOfTheMonth->getStart()->format('d')) {
+                                continue;
+                            }
+                        }
+                        
+                        if ($event->recurrence_type == "monthly_on_the_week_number_day_name") {
+                            $dayName = date('l', strtotime($startDate));
+                            if ($dayName !== $dateOfTheMonth->getStart()->format('l')) {
+                                continue;
+                            }
+                            
+                            if ($dates_helper->getWeekOfMonth($startDateReady) !== $dates_helper->getWeekOfMonth($startDate)) {
+                                continue;
+                            }
                         }
                         
                         if ($event->all_day == 1) {
