@@ -2,12 +2,12 @@
 
 <script>
 
-	function edit_subscriber(id = false) {
-		var data = {};
+    function edit_subscriber(id = false) {
+        var data = {};
         data.id = id;
-		edit_subscriber_modal = mw.tools.open_module_modal('newsletter/edit_subscriber', data, {overlay: true, skin: 'simple'});
-	}
-    
+        edit_subscriber_modal = mw.tools.open_module_modal('newsletter/edit_subscriber', data, {overlay: true, skin: 'simple'});
+    }
+
     function delete_subscriber(id) {
         var ask = confirm("<?php _e('Are you sure you want to delete this subscriber?'); ?>");
         if (ask == true) {
@@ -35,7 +35,21 @@
     <span><?php _e('Add new subscriber'); ?></span>
 </a>
 
-<br />
-<br />
+
+<div class="pull-right">
+    <?php
+    $subscribers_params = array();
+    $subscribers_params['no_limit'] = true;
+    $subscribers_params['order_by'] = "created_at desc";
+    $subscribers = newsletter_get_subscribers($subscribers_params);
+    ?>
+    <?php if (is_array($subscribers)) : ?>
+        <strong><?php print _e('Total'); ?>:</strong>
+        <span><?php echo count($subscribers); ?> subscribers</span>
+    <?php endif; ?>
+</div>
+
+<br/>
+<br/>
 
 <module type="newsletter/subscribers_list"/>

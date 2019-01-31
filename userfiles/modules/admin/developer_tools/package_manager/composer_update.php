@@ -1,13 +1,4 @@
 <?php only_admin_access(); ?>
-
-<module type="admin/developer_tools/package_manager" />
-
-
-<?php
-return;
-
-?>
-
 <script type="text/javascript">
     mw.require('forms.js', true);
 </script>

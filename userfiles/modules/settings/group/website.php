@@ -130,7 +130,7 @@
         </div>
     </div>
 
-    <div class="mw-ui-field-holder">
+    <div class="mw-ui-field-holder" style="display: none">
         <label class="mw-ui-label">
             <?php _e("Fonts"); ?>
         </label>

@@ -22,7 +22,8 @@ use Composer\Package\PackageInterface;
 use Composer\Repository\CompositeRepository;
 use Composer\Repository\PlatformRepository;
 use Composer\Repository\RepositoryInterface;
-use  Microweber\Utils\Adapters\Packages\ComposerPackagesSearchCommand;
+use  Microweber\Utils\Adapters\Packages\ComposerPackagesSearchCommandController;
+use Composer\Console\HtmlOutputFormatter;
 
 
 class ComposerUpdate
@@ -120,11 +121,149 @@ class ComposerUpdate
 
         $composer = Factory::create($io);
 
-        $packages = new ComposerPackagesSearchCommand();
+        $packages = new ComposerPackagesSearchCommandController();
         $packages->setConfigPathname($conf);
         $packages->setComposer($composer);
         $return = $packages->handle($keyword);
         return $return;
+
+    }
+
+    public function install_package_by_name($params)
+    {
+
+
+        if (!isset($params['require_name']) or !$params['require_name']) {
+            return;
+        }
+        $version = 'latest';
+        if (isset($params['version']) and $params['version']) {
+            $version = trim($params['version']);
+        }
+
+        $params = parse_params($params);
+
+        // $io = new BufferIO($input, $output, null);
+        $keyword = $params['require_name'];
+        $keyword = strip_tags($keyword);
+        $keyword = trim($keyword);
+
+        $conf = $this->composer_home . '/composer.json';
+        $conf_auth = $this->composer_home . '/auth.json';
+
+
+        $return = $this->search_packages($keyword);
+
+        if (!$return) {
+            return;
+        }
+
+        $composer_orig =  @file_get_contents($conf);
+
+        $composer_orig =  @json_decode($composer_orig, true);
+
+
+
+        if (isset($return[$keyword])) {
+            $version_data = false;
+            $package_data = $return[$keyword];
+            if ($version == 'latest' and isset($package_data['latest_version']) and $package_data['latest_version']) {
+                $version_data = $package_data['latest_version'];
+            } elseif (isset($package_data['versions']) and isset($package_data['versions'][$keyword])) {
+                $version_data = $package_data['versions'][$keyword];
+            }
+            if (!$version_data) {
+                return;
+            }
+            $dryRun = false;
+            if (!isset($version_data['dist']) or !isset($version_data['dist'][0])) {
+                return array('error' => 'Error resolving Composer dependencies. No download source found for ' . $keyword);
+
+            }
+
+            $io = new BufferIO('', 1, new HtmlOutputFormatter());
+
+            $composer = Factory::create($io);
+
+
+
+           $temp_folder = storage_path('composer/' . url_title($keyword));
+            if (!is_dir($temp_folder)) {
+                mkdir_recursive($temp_folder);
+            }
+
+            $conf_new = $temp_folder . '/composer.json';
+            $conf_new = normalize_path($conf_new, false);
+
+            $auth_new = $temp_folder . '/auth.json';
+            $auth_new = normalize_path($conf_new, false);
+
+            $new_composer_config = array('require' => array(
+              //  $keyword => 'dev-master'
+                $keyword => '*'
+            ));
+
+            if (isset($composer_orig['repositories'])) {
+                $new_composer_config['repositories'] = $composer_orig['repositories'];
+                $new_composer_config['config'] = $composer_orig['config'];
+                $new_composer_config['minimum-stability'] = 'dev';
+                $new_composer_config['vendor-dir'] =$temp_folder;
+                $new_composer_config['config']['no-plugins'] =true;
+            }
+
+           file_put_contents($conf_new,json_encode($new_composer_config));
+            if(is_file($conf_auth)){
+                copy($conf_auth,$auth_new);
+            }
+
+
+
+            chdir($temp_folder);
+
+
+            $argv = array();
+          //  $argv[] = 'dry-run';
+            $argv[] = '--no-plugins';
+
+
+
+
+            $input = new ArgvInput($argv);
+            $output = new ConsoleOutput();
+            $helper = new HelperSet();
+            $config = new Config();
+
+
+
+            $output->setVerbosity(0);
+            $io = new ConsoleIO($input, $output, $helper);
+            $composer = Factory::create($io);
+
+     //       $input->setOption('no-plugins',true);
+
+
+
+            $composer->setConfig($config);
+            //$update = new InstallCommand();
+            $update = new \Microweber\Utils\Adapters\Packages\InstallCommand();
+            $update->setComposer($composer);
+            $out = $update->run($input, $output);
+
+
+dd($out);
+
+
+
+
+
+
+            return $return;
+
+
+
+        }
+
+
 
     }
 
