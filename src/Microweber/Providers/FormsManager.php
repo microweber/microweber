@@ -37,7 +37,7 @@ class FormsManager
             $params['order_by'] = 'created_at desc';
         }
         if (isset($params['keyword'])) {
-            $params['search_in_fields'] = array('id', 'created_on', 'created_by', 'rel_type', 'user_ip', 'module_name', 'form_values', 'url');
+            $params['search_in_fields'] = array('id', 'created_at', 'created_by', 'rel_type', 'user_ip', 'module_name', 'form_values', 'url');
         }
 
         $data = $this->app->database_manager->get($params);
