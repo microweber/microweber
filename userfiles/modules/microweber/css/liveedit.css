@@ -9,7 +9,6 @@
 
 *********************************************/
 
-
 html, body {
     min-height: 100%;
     -ms-overflow-style: scrollbar;
@@ -21,10 +20,9 @@ body.mw-live-edit .mw-control-box-left {
     top: 55px;
 }
 
-
 #mw-text-editor a.mw-ui-btn-medium,
 #mw-text-editor .mw-ui-btn-medium,
-.mw-active-item .mw_edit_settings{
+.mw-active-item .mw_edit_settings {
     height: 34px;
     line-height: 34px;
     font-size: 13px;
@@ -37,7 +35,6 @@ body.mw-live-edit .mw-control-box-left {
 #mw-text-editor {
     font-size: 13px;
 }
-
 
 .mw-drag-current-top.modules-layouts, .mw-drag-current-bottom.modules-layouts {
     transition: all .9s !important;
@@ -572,6 +569,7 @@ li.module-item.ui-draggable-dragging .mw_module_image {
     border-radius: 2px;
     height: auto;
 }
+
 #mw_handle_row:after, #mw_handle_module:after {
     position: absolute;
     top: 100%;
@@ -656,7 +654,7 @@ a.mw-make-cols {
     z-index: 2;
 }
 
-.module-active-layouts .mw-element-name-handle{
+.module-active-layouts .mw-element-name-handle {
     font-size: 0;
     top: -4px;
     position: relative;
@@ -1326,7 +1324,7 @@ div.ts_action {
     color: #222;
 }
 
-#live_edit_side_holder{
+#live_edit_side_holder {
     z-index: 1100 !important;
 }
 
@@ -3282,7 +3280,6 @@ div[id*='SSDIVEL'] {
 
 /* Sidebar in Live Edit */
 
-
 #live_edit_side_holder .sidebar-toggler {
     position: absolute;
 
@@ -3316,13 +3313,9 @@ div[id*='SSDIVEL'] {
     margin-top: 26px;
 }
 
-
-
 #live_edit_side_holder .sidebar-toggler i {
     color: #fff;
 }
-
-
 
 #live_edit_side_holder .module-modal-settings-menu-holder {
     right: 0;
@@ -3731,7 +3724,6 @@ body {
     }
 }
 
-
 .mw-cloneable-control {
     position: absolute;
     z-index: 1101;
@@ -3745,7 +3737,6 @@ body {
 .mw-module-near-cloneable.mw-cloneable-control {
     margin-top: 0;
 }
-
 
 .mw-cloneable-control-item {
     line-height: 16px;
@@ -3966,13 +3957,13 @@ body.dragStart .allow-drop {
     width: 100%;
 }
 
-.prop-ui-field-holder-size input.prop-ui-field{
+.prop-ui-field-holder-size input.prop-ui-field {
     max-width: -webkit-calc(100% - 70px);
     max-width: calc(100% - 70px);
 }
 
 .mw-css-editor-group .prop-ui-field-unit,
-.prop-ui-field-unit{
+.prop-ui-field-unit {
     max-width: 70px;
     background: #f3f3f3;
     padding-left: 5px;
@@ -4003,7 +3994,7 @@ body.dragStart .allow-drop {
     margin-left: 5px;
     font-size: 20px;
     position: relative;
-    top: -2px;
+    top: 0;
 }
 
 .mw-module-presets-opener:hover {
@@ -4045,19 +4036,20 @@ body.dragStart .allow-drop {
 
 .module-modal-settings-menu-holder a {
     display: block;
-    padding: 9px 9px;
+    padding: 5px;
     text-decoration: none;
-
+    background: #2b2b2b;
+    color: #fff;
 }
 
 .module-presets-action-btn-use {
     display: inline-block;
-    width: 25px;
-    height: 25px;
+    width: 23px;
+    height: 23px;
     border: 1px solid rgba(0, 132, 216, 1);
     position: relative;
     border-radius: 2px;
-    float: left;
+    cursor: pointer;
 }
 
 .module-presets-action-btn-use:after {
@@ -4068,7 +4060,7 @@ body.dragStart .allow-drop {
     color: white;
     transition: all .3s;
     transform: scale(.5);
-    font-size: 20px;
+    font-size: 14px;
 }
 
 .module-presets-action-btn-use:hover {
@@ -4080,7 +4072,6 @@ body.dragStart .allow-drop {
     opacity: 1;
     visibility: visible;
 }
-
 
 .mw-module-presets-content {
 
@@ -4096,16 +4087,7 @@ body.dragStart .allow-drop {
 }
 
 .module-presets-action-btn-delete {
-    cursor: pointer;
-    display: inline-block;
-    padding: 3px 3px;
-    color: rgba(199, 199, 199, 1);
-    width: 28px;
-    text-align: center;
-}
-
-.module-presets-action-btn-delete:hover {
-    color: rgba(255, 0, 0, 1);
+    font-size: 13px;
 }
 
 .module-presets-add-new-holder {
@@ -4113,9 +4095,8 @@ body.dragStart .allow-drop {
 
 }
 
-
 .module-presets-add-new-holder input[type='preset-field'] {
-    width: 100px;
+    width: 135px;
 }
 
 .module-presets-add-new-holder input.module-presets-name-field {
@@ -4146,13 +4127,6 @@ body.dragStart .allow-drop {
     color: white;
 }
 
-#js-release-btn {
-    display: inline-block;
-    padding: 4px;
-    border: 1px solid #eee;
-    border-radius: 2px;
-    background: #fff;
-}
 
 #mw-modules-layouts-tabsnav {
     width: 360px;
@@ -4193,7 +4167,7 @@ body.dragStart .allow-drop {
     position: relative;
     z-index: 2;
     width: 100%;
-    padding:11px 5px 10px 9px;
+    padding: 11px 5px 10px 9px;
     border-bottom: 1px solid rgba(0, 0, 0, .1);
 }
 
@@ -4220,8 +4194,7 @@ body.dragStart .allow-drop {
     margin: 5px 7px 0px 0px;
 }
 
-
-#js-live-edit-module-settings-items .mw_module_settings_sidebar_icon{
+#js-live-edit-module-settings-items .mw_module_settings_sidebar_icon {
     margin: 5px 14px 0px 10px;
 
 }
@@ -4283,9 +4256,11 @@ body.dragStart .allow-drop {
     color: #fff;
 }
 
-.tooltip-icon-picker{ width: 425px; }
+.tooltip-icon-picker {
+    width: 425px;
+}
 
-#mw-css-editor-selected{
+#mw-css-editor-selected {
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -4295,25 +4270,29 @@ body.dragStart .allow-drop {
     display: none;
 }
 
-.mw-css-editor-group > *+*{
-    margin-left:5px;
+.mw-css-editor-group > * + * {
+    margin-left: 5px;
 }
-.mw-css-editor-group .prop-ui-field-holder{
+
+.mw-css-editor-group .prop-ui-field-holder {
     width: 100%;
-    flex:1 1 auto;
+    flex: 1 1 auto;
 }
-.mw-css-editor-group .mw-ui-field{
+
+.mw-css-editor-group .mw-ui-field {
     width: 100%;
 }
-.mw-css-editor-group{
+
+.mw-css-editor-group {
     display: flex;
     justify-content: space-between;
 }
 
-#css-editor-selected-view{
+#css-editor-selected-view {
     font-size: 10px;
     text-transform: lowercase;
 }
+
 #css-editor-selected-view span {
     display: inline-block;
     padding: 0px 8px;
@@ -4324,32 +4303,32 @@ body.dragStart .allow-drop {
     line-height: normal !important;
 }
 
-#mw-css-editor{
-    position:absolute;
-    top:60px;
-    left:0;
-    width:100%;
+#mw-css-editor {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
     height: -webkit-calc(100% - 60px);
     height: calc(100% - 60px);
 }
 
-.mw-prop-editor-root{
+.mw-prop-editor-root {
     position: relative;
 }
 
-.mw-prop-editor-root.disabled{
+.mw-prop-editor-root.disabled {
     opacity: .5;
     pointer-events: none;
 }
 
-.mw-CSS-Editor-group{
+.mw-CSS-Editor-group {
     display: none;
     padding: 10px;
     border: 1px solid #eee;
     border-top: none;
 }
 
-.mw-CSS-Editor-group-title{
+.mw-CSS-Editor-group-title {
     display: block;
     cursor: pointer;
     background: #fafafa;

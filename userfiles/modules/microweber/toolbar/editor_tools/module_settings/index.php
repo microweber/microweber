@@ -12,11 +12,11 @@
     <script src="<?php print mw_includes_url(); ?>api/jquery-ui.js"></script>
 
 
-    <?php if(isset($params['live_edit_sidebar'])): ?>
+    <?php if (isset($params['live_edit_sidebar'])): ?>
 
-    <script type="text/javascript">
-        window.live_edit_sidebar = true;
-    </script>
+        <script type="text/javascript">
+            window.live_edit_sidebar = true;
+        </script>
     <?php endif; ?>
 
 
@@ -339,17 +339,9 @@
         });
 
 
-
-
-
-
-
-
-
-
         $(window).on('load', function () {
 
-        // $(document).ready(function() {
+            // $(document).ready(function() {
             mw.options.form('#settings-container', function () {
                 if (mw.notification) {
                     mw.notification.success('<?php _e('Settings are saved') ?>');
@@ -409,22 +401,22 @@
     }
 </script>
 <script type="text/javascript">
- //$(window).on('load', function () {
- //       setTimeout(function(){
- //
- //           mw.options.form('#settings-container', function () {
- //               if (mw.notification) {
- //                   mw.notification.success('<?php //_e('Settings are saved') ?>//');
- //               }
- //           });
- //
- //
- //       }, 1000);
- //
- //
- //
- //
- //   })
+    //$(window).on('load', function () {
+    //       setTimeout(function(){
+    //
+    //           mw.options.form('#settings-container', function () {
+    //               if (mw.notification) {
+    //                   mw.notification.success('<?php //_e('Settings are saved') ?>//');
+    //               }
+    //           });
+    //
+    //
+    //       }, 1000);
+    //
+    //
+    //
+    //
+    //   })
 </script>
 </body>
 </html>

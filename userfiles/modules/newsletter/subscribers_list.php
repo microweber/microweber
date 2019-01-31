@@ -107,6 +107,7 @@ $subscribers = newsletter_get_subscribers($subscribers_params);
         <table width="100%" border="0" class="mw-ui-table layout-fixed">
             <thead>
             <tr>
+                <th scope="col" width="40px"><?php _e('#'); ?></th>
                 <th scope="col"><?php _e('Name'); ?></th>
                 <th scope="col"><?php _e('E-mail'); ?></th>
                 <th scope="col"><?php _e('Subscribed at'); ?></th>
@@ -115,8 +116,9 @@ $subscribers = newsletter_get_subscribers($subscribers_params);
             </tr>
             </thead>
             <tbody>
-            <?php foreach ($subscribers as $subscriber): ?>
+            <?php foreach ($subscribers as $key => $subscriber): ?>
                 <tr>
+                    <td data-label="<?php _e('#'); ?>"><?php print $key + 1; ?></td>
                     <td data-label="<?php _e('Name'); ?>"><?php print $subscriber['name']; ?></td>
                     <td data-label="<?php _e('E-mail'); ?>"><?php print $subscriber['email']; ?></td>
                     <td data-label="<?php _e('Subscribed at'); ?>"><?php print $subscriber['created_at']; ?></td>
