@@ -1642,9 +1642,9 @@ mw.wysiwyg = {
     setDecorators: function (sel) {
         sel = sel || getSelection();
         var node = sel.focusNode;
-        while (node.nodeName != 'DIV' && node.nodeName != 'BODY') {
+        while (node.nodeName !== 'DIV' && node.nodeName !== 'BODY') {
             for (var x in mw.wysiwyg.decorators) {
-                if (node.nodeName.toLowerCase() == x) {
+                if (node.nodeName.toLowerCase() === x) {
                     mw.$(mw.wysiwyg.decorators[x]).addClass('mw_editor_btn_active')
                 }
             }

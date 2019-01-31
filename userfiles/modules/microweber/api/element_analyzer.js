@@ -4,7 +4,8 @@ mw.AfterDrop = function(){
     this.loadNewModules = function(){
         mw.pauseSave = true;
         var need_re_init = false;
-        mw.$(".edit .module-item").each(function(c) {
+        var all = mw.$(".edit .module-item"), count = 0;
+        all.each(function(c) {
             (function (el) {
                 var xhr = mw._({
                     selector: el,
@@ -15,9 +16,21 @@ mw.AfterDrop = function(){
                     },
                     fail:function () {
                         $(this).remove();
-                        mw.notification.error('Error loading module.')
+                        mw.notification.error('Error loading module.');
                     }
                 }, true);
+               if(xhr) {
+                   xhr.always(function () {
+                       count++;
+                       if(all.length === count) {
+                           mw.dragCurrent = null;
+                       }
+                   });
+               }
+               else {
+                   count++;
+               }
+
                 need_re_init = true;
             })(this);
         });
@@ -448,8 +461,8 @@ mw.ElementAnalyzer = function(options){
         }
         return this._fragment;
     }
-    this.getTarget = function(){
-        var t = this.validateInteractionTarget();
+    this.getTarget = function(t){
+        t = t || this.validateInteractionTarget();
         if(!t){
             return;
         }
@@ -468,7 +481,8 @@ mw.ElementAnalyzer = function(options){
             var res =  this.validateInteractionTarget(/*node === islayOutInLayout.target ? islayOutInLayout.target.parentNode : */islayOutInLayout.target);
             return  res;
         }
-        return this.validateInteractionTarget(node.parentNode);
+        if(node === mwd.body || node.parentNode === mwd.body) return null;
+        return this.getTarget(node.parentNode);
     }
 
     this.interactionAnalizer = function(e){
@@ -479,6 +493,8 @@ mw.ElementAnalyzer = function(options){
             scope.interactionTarget();
             scope.data.target = scope.getTarget();
 
+
+
             if(scope.data.target){
                     scope.analizePosition(e);
                     scope.analizeAction();
@@ -486,13 +502,15 @@ mw.ElementAnalyzer = function(options){
             }
             else{
                     var near = mw.dropables.findNearest(e);
-                    if(!!near.element){
+                    if(near.element){
                         scope.data.target = near.element;
                         scope.data.dropablePosition = near.position;
                         mw.dropables.findNearestException = true;
                         mw.dropable.show();
                     }
                     else{
+                        mw.currentDragMouseOver = null;
+                        mw.dropable.hide();
                         scope.dataReset();
                     }
 

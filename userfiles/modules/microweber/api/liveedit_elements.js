@@ -39,6 +39,10 @@ mw.dropables = {
         }
         for ( ; i2<edits.length; i2++ ) {
             var all = mw.ea.helpers.getElementsLike(":not(.element)", edits[i2]), i2a = 0;
+            var allAllowDrops = edits[i2].querySelectorAll(".allow-drop"), i3a = 0;
+            for( ; i3a<allAllowDrops.length; i3a++){
+                mw.tools.addClass(allAllowDrops[i3a], 'element');
+            }
             for( ; i2a<all.length; i2a++){
                 if(!mw.tools.hasClass(all[i2a], 'module')){
                     if(mw.ea.canDrop(all[i2a])){
@@ -65,7 +69,7 @@ mw.dropables = {
     },
     findNearest:function(event,selectors){
 
-    var selectors = (selectors || mw.drag.section_selectors).slice(0);
+    selectors = (selectors || mw.drag.section_selectors).slice(0);
 
 
     for(var i = 0 ; i<selectors.length ; i++){
@@ -90,9 +94,8 @@ mw.dropables = {
         if(ord.edit === -1 || ((ord.module !== -1 && ord.edit !== -1 ) && ord.module < ord.edit)){
           continue;
         }
-        if(!mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(all[i], ['allow-drop', 'nodrop'])){
+        if(!mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(all[i], ['allow-drop', 'nodrop'])){
           continue;
-
         }
         var el = $(all[i]), offtop = el.offset().top;
         var v1 = offtop - y;
@@ -176,107 +179,112 @@ mw.dropables = {
 }
 
 
- mw.liveEditHandlers = function(event){
-
-    if ( mw.emouse.x % 2 === 0 && mw.drag.columns.resizing === false ) {
-
+ mw.triggerLiveEditHandlers = {
+    _moduleRegister: null,
+    module: function(targetFrom){
+        targetFrom = targetFrom || mw.mm_target;
+        var module = mw.tools.firstMatchesOnNodeOrParent(targetFrom, '.module:not(.no-settings)');
+        var triggerTarget =  module.__disableModuleTrigger || module;
+        if(module){
+            if(this._moduleRegister !== module) {
+                mw.trigger("moduleOver", triggerTarget);
+                this._moduleRegister = module;
+            }
+        } else {
+            if (mw.mm_target.id !== 'mw_handle_module' && !mw.tools.hasParentWithId(mw.mm_target, 'mw_handle_module')) {
+                if(this._moduleRegister !== null) {
+                    mw.trigger("ModuleLeave", mw.mm_target);
+                    this._moduleRegister = null;
+                }
+            }
+        }
+    },
+    cloneable: function () {
         var cloneable = mw.tools.firstParentOrCurrentWithAnyOfClasses(mw.mm_target, ['cloneable', 'mw-cloneable-control']);
 
         if(!!cloneable){
-          if(mw.tools.hasClass(cloneable, 'mw-cloneable-control')){
-            mw.trigger("CloneableOver", mw.drag._onCloneableControl.__target);
-          }
-          else if(mw.tools.hasParentsWithClass(cloneable, 'mw-cloneable-control')){
-            mw.trigger("CloneableOver", mw.drag._onCloneableControl.__target);
-          }
-          else{
-            mw.trigger("CloneableOver", cloneable);
-          }
+            if(mw.tools.hasClass(cloneable, 'mw-cloneable-control')){
+                mw.trigger("CloneableOver", mw.drag._onCloneableControl.__target);
+            }
+            else if(mw.tools.hasParentsWithClass(cloneable, 'mw-cloneable-control')){
+                mw.trigger("CloneableOver", mw.drag._onCloneableControl.__target);
+            }
+            else{
+                mw.trigger("CloneableOver", cloneable);
+            }
 
         }
         else{
-          if(mw.drag._onCloneableControl && mw.mm_target !== mw.drag._onCloneableControl){
-            $(mw.drag._onCloneableControl).hide()
-          }
-        }
-
-        var targetLayout = mw.tools.firstParentWithClass()
-
-        if(mw.tools.hasClass(mw.mm_target, 'mw-layout-root')){
-            mw.trigger("LayoutOver", mw.mm_target);
-        }
-        else if(mw.tools.hasParentsWithClass(mw.mm_target, 'mw-layout-root')){
-            mw.trigger("LayoutOver", mw.tools.lastParentWithClass(mw.mm_target, 'mw-layout-root'));
-        }
-        if (mw.$mm_target.hasClass("element") && !mw.$mm_target.hasClass("module")
-            && (!mw.tools.hasParentsWithClass(mw.mm_target, 'module') ||(mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(mw.mm_target, ['edit', 'module']))
-                && (mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(mw.mm_target, ['allow-drop', 'nodrop']) || !mw.tools.hasParentsWithClass(mw.mm_target, 'nodrop')))) {
-            mw.trigger("ElementOver", mw.mm_target);
-        } else if (mw.$mm_target.parents(".element").length > 0 && !mw.tools.hasParentsWithClass(mw.mm_target, 'module')) {
-            mw.trigger("ElementOver", mw.mm_target);
-            //mw.trigger("ElementOver", mw.$mm_target.parents(".element:first")[0]);
-        } else if (mw.mm_target.id != 'mw_handle_element' && mw.$mm_target.parents("#mw_handle_element").length == 0) {
-            mw.trigger("ElementLeave", mw.mm_target);
-        }
-        if (mw.$mm_target.hasClass("module") && !mw.$mm_target.hasClass("no-settings")) {
-          if(!mw.mm_target.__disableModuleTrigger){
-            mw.trigger("moduleOver", mw.mm_target);
-          }
-          else{
-             mw.trigger("moduleOver", mw.mm_target.__disableModuleTrigger);
-          }
-
-
-        } else if (mw.tools.hasParentsWithClass(mw.mm_target, 'module')) {
-            var _parentmodule = mw.tools.firstParentWithClass(mw.mm_target, 'module');
-            if (!mw.tools.hasClass(_parentmodule, "no-settings") && !_parentmodule.__disableModuleTrigger) {
-                mw.trigger("moduleOver", _parentmodule);
+            if(mw.drag._onCloneableControl && mw.mm_target !== mw.drag._onCloneableControl){
+                mw.drag._onCloneableControl.style.display = 'none';
             }
-            else{
-             mw.trigger("moduleOver", _parentmodule.__disableModuleTrigger);
-          }
-
-        } else if (mw.mm_target.id != 'mw_handle_module' && mw.$mm_target.parents("#mw_handle_module").length == 0) {
-            mw.trigger("ModuleLeave", mw.mm_target);
         }
-        if (mw.mm_target === mw.image_resizer) {
+    },
+    _elementRegister:null,
+    element: function() {
+        var element = mw.tools.firstParentOrCurrentWithClass(mw.mm_target, 'element');
+        if(element && this._elementRegister !== element){
+            this._elementRegister = element;
+            if (!mw.tools.hasClass(element, 'module')
+                && (mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(mw.mm_target, ['edit', 'module'])
+                    && mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(mw.mm_target, ['allow-drop', 'nodrop']))) {
+                mw.trigger("ElementOver", mw.mm_target);
+            }
+            else if(this._elementRegister !== null){
+                if (!mw.tools.firstParentOrCurrentWithId(mw.mm_target, 'mw_handle_element')) {
+                    this._elementRegister = null;
+                    mw.trigger("ElementLeave", mw.mm_target);
+                }
+            }
+        }
+        if (mw.mm_target === mw.image_resizer && this._elementRegister !== mw.image.currentResizing[0]) {
+            this._elementRegister = mw.image.currentResizing[0];
             mw.trigger("ElementOver", mw.image.currentResizing[0]);
         }
-
-        if (mw.drag.columns.resizing === false && mw.tools.hasParentsWithClass(mw.mm_target, 'edit') && (!mw.tools.hasParentsWithClass(mw.mm_target, 'module') ||
-                mw.tools.hasParentsWithClass(mw.mm_target, 'allow-drop'))) {
-
-            //trigger on row
-            if (mw.$mm_target.hasClass("mw-row")) {
-                mw.trigger("RowOver", mw.mm_target);
-            } else if (mw.tools.hasParentsWithClass(mw.mm_target, 'mw-row')) {
-                mw.trigger("RowOver", mw.tools.firstParentWithClass(mw.mm_target, 'mw-row'));
-            } else if (mw.mm_target.id != 'mw_handle_row' && mw.$mm_target.parents("#mw_handle_row").length == 0) {
-                mw.trigger("RowLeave", mw.mm_target);
-            }
-
-            //onColumn
-
-            if (mw.drag.columns.resizing === false && mw.tools.hasClass(mw.mm_target, 'mw-col')) {
-                mw.drag.columnout = false;
-                mw.trigger("ColumnOver", mw.mm_target);
-            } else if (mw.drag.columns.resizing === false && mw.tools.hasParentsWithClass(mw.mm_target, 'mw-col')) {
-                mw.drag.columnout = false;
-                mw.trigger("ColumnOver", mw.tools.firstParentWithClass(mw.mm_target, 'mw-col'));
-            } else {
-                if (!mw.drag.columnout && !mw.tools.hasClass(mw.mm_target, 'mw-columns-resizer')) {
+    },
+    _layoutRegister:null,
+    layout: function () {
+         var targetLayout = mw.tools.firstParentOrCurrentWithClass(mw.mm_target, 'mw-layout-root');
+         if (targetLayout && this._layoutRegister !== targetLayout) {
+             this._layoutRegister = targetLayout;
+             mw.trigger("LayoutOver", targetLayout);
+         }
+    },
+     _rowRegister:null,
+    row: function () {
+         var row = mw.tools.firstParentOrCurrentWithClass(mw.mm_target, 'mw-row');
+         if (row && this._rowRegister !== row) {
+             this._rowRegister = row;
+             mw.trigger("RowOver", row);
+         } else if (this._rowRegister !== null && !mw.tools.firstParentOrCurrentWithId(mw.mm_target, 'mw_handle_row')) {
+             this._rowRegister = null;
+             mw.trigger("RowLeave", mw.mm_target);
+         }
+    },
+     col: function () {
+            if (!mw.drag.columns.resizing) {
+                var column = mw.tools.firstParentOrCurrentWithClass(mw.mm_target, 'mw-col');
+                if (column) {
+                    mw.drag.columnout = false;
+                    mw.trigger("ColumnOver", column);
+                } else {
                     mw.drag.columnout = true;
-                    mw.trigger("ColumnOut", mw.mm_target)
+                    mw.trigger("ColumnOut", mw.mm_target);
                 }
-
             }
+     }
+ };
+ mw.liveEditHandlers = function(event){
+    if ( /*mw.emouse.x % 2 === 0 && */ mw.drag.columns.resizing === false ) {
+        mw.triggerLiveEditHandlers.cloneable();
+        mw.triggerLiveEditHandlers.layout();
+        mw.triggerLiveEditHandlers.element();
+        mw.triggerLiveEditHandlers.module();
+        if (mw.drag.columns.resizing === false && mw.tools.hasParentsWithClass(mw.mm_target, 'edit') && (!mw.tools.hasParentsWithClass(mw.mm_target, 'module') ||
+            mw.tools.hasParentsWithClass(mw.mm_target, 'allow-drop'))) {
+            mw.triggerLiveEditHandlers.row();
+            mw.triggerLiveEditHandlers.col();
         }
-        if (mw.$mm_target.parents(".edit,.mw_master_handle").length == 0) {
-            if (!mw.$mm_target.hasClass(".edit") && !mw.$mm_target.hasClass("mw_master_handle")) {
-                //mw.trigger("AllLeave", mw.mm_target);
-            }
-        }
-
     }
 
     mw.image._dragTxt(event);
@@ -327,7 +335,7 @@ mw.dropables = {
             }
         }
     }
-}
+};
 
 
 mw.liveNodeSettings = {
@@ -397,21 +405,16 @@ mw.liveNodeSettings = {
             .hide()
             .filter('#js-live-edit-icon-settings-holder')
             .show();
-
     },
-
     __is_sidebar_opened: function () {
-
         if (mw.liveEditSettings  &&  mw.liveEditSettings.active) {
             return true;
         }
     }
-}
-
+};
 
 $(document).ready(function(){
     mw.on('liveEditSettingsReady', function(){
         mw.liveNodeSettings.initImage();
     });
-
-})
+});

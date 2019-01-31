@@ -1742,7 +1742,7 @@ mw.tools = {
     },
     parentsOrCurrentOrderMatchOrOnlyFirstOrNone: function (node, arr) {
         var curr = node;
-        while (curr !== document.body) {
+        while (curr && curr !== mwd.body) {
             var h1 = mw.tools.hasClass(curr, arr[0]);
             var h2 = mw.tools.hasClass(curr, arr[1]);
             if (h1 && h2) {
@@ -1825,6 +1825,10 @@ mw.tools = {
         return false;
     },
     firstMatchesOnNodeOrParent: function (node, arr) {
+        if(!arr) return;
+        if(typeof arr === 'string') {
+            arr = [arr];
+        }
         var curr = node;
         while (curr && curr !== document.body) {
             var i = 0;
@@ -1971,6 +1975,17 @@ mw.tools = {
         var curr = el.parentNode;
         while (curr && curr !== mwd.body) {
             if (mw.tools.hasClass(curr, cls)) {
+                return true;
+            }
+            curr = curr.parentNode;
+        }
+        return false;
+    },
+    hasParentWithId: function (el, id) {
+        if(!el) return;
+        var curr = el.parentNode;
+        while (curr && curr !== mwd.body) {
+            if (curr.id === id) {
                 return true;
             }
             curr = curr.parentNode;
@@ -2152,6 +2167,17 @@ mw.tools = {
         var curr = el;
         while ( curr !== mwd.body ) {
             if( curr.classList.contains(cls)) {
+                return curr;
+            }
+            curr = curr.parentNode;
+        }
+        return false;
+    },
+    firstParentOrCurrentWithId: function (el, id) {
+        if(!el) return false;
+        var curr = el;
+        while ( curr !== mwd.body ) {
+            if( curr.id === id) {
                 return curr;
             }
             curr = curr.parentNode;
