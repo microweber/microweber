@@ -34,6 +34,9 @@ config/database.php
 /cloudsigma
 /landing
 landing
+/mwlanding
+/fintech
+/stats3
 /mw2015
 /
 /userfiles/install_item_log.txt
@@ -46,6 +49,8 @@ node_modules/
 /userfiles/templates/utouch
 /userfiles/templates/microweber_org
 /userfiles/templates/microweber_com
+/userfiles/templates/landing_page_1
+/userfiles/templates/shopmag
 /cloudsigma
 /q-theme
 /active
