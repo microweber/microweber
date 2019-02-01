@@ -107,7 +107,7 @@ EOT
         ;
 
        // if ($input->getOption('no-plugins')) {
-            $install->disablePlugins();
+         $install->disablePlugins();
         //}
 
         return $install->run();

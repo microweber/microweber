@@ -28,7 +28,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-
+use Composer\Downloader\TransportException;
 use Composer\Plugin\CommandEvent;
 use Composer\Plugin\PluginEvents;
 
@@ -54,10 +54,17 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
         //$this->io->getOutput()
 
 
+        $packages = array();
         $packages = $this->searchPackages(
             $tokens,
             $searchName ? RepositoryInterface::SEARCH_NAME : RepositoryInterface::SEARCH_FULLTEXT
         );
+        try {
+
+
+        } catch (\Exception $e) {
+            // return $packages;
+        }
 
 
         if (!empty($packages)) {
@@ -82,6 +89,9 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
             'microweber-module',
         );
 
+        ini_set('memory_limit', '2777M');
+
+
         $repositoryManager = $this->getRepositoryManager();
 
         $platformRepo = new PlatformRepository;
@@ -89,16 +99,45 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
         $installedRepository = new CompositeRepository(
             array($localRepository, $platformRepo)
         );
-        $repositories = new CompositeRepository(
-            array_merge(
-                array($installedRepository),
-                $repositoryManager->getRepositories()
-            )
-        );
-        ini_set('memory_limit', '2777M');
+        $known_repos = $repositoryManager->getRepositories();
 
-        $results = $repositories->search(implode(' ', $tokens), $searchIn, 'microweber');
+
+        $has_error = false;
+
+
+
+
+        try {
+            $repositories = new CompositeRepository(
+                array_merge(
+                    array($installedRepository),
+                    $known_repos
+                )
+            );
+
+
+            $results = $this->_trySearch($repositories, $tokens, $searchIn);
+            $has_error = false;
+        } catch (\Composer\Downloader\TransportException $e) {
+            $err_msg = $e->getMessage();
+            $err_code = $e->getCode();
+            $has_error = true;
+            $known_repos_2 = $known_repos;
+
+
+            \Log::info('Package manager error ['.$err_code.'] '. $err_msg);
+
+            dd($e->getMessage(),$e->getCode(), $platformRepo, $known_repos, $localRepository);
+        }
+
+
+
+
+
+
         //$results = $repositories->search(implode(' ', $tokens), $searchIn);
+
+       // dd($known_repos);
 
 
         $mwVersion = 1;
@@ -190,6 +229,14 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
 
 
         return $packages;
+    }
+
+    private function _trySearch($repositories, $tokens, $searchIn)
+    {
+
+
+        return $repositories->search(implode(' ', $tokens), $searchIn, 'microweber');
+
     }
 
 

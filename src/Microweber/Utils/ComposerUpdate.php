@@ -136,7 +136,7 @@ class ComposerUpdate
         if (!isset($params['require_name']) or !$params['require_name']) {
             return;
         }
-        $version = 'latest';
+        $version = 'dev-master';
         if (isset($params['version']) and $params['version']) {
             $version = trim($params['version']);
         }
@@ -162,16 +162,21 @@ class ComposerUpdate
 
         $composer_orig =  @json_decode($composer_orig, true);
 
+        if (!isset($return[$keyword])) {
+            return array('error' => 'Error resolving Composer dependencies. Package not found in repositories ' . $keyword);
+
+        }
 
 
         if (isset($return[$keyword])) {
             $version_data = false;
             $package_data = $return[$keyword];
-            if ($version == 'latest' and isset($package_data['latest_version']) and $package_data['latest_version']) {
+            if ($version == 'dev-master' and isset($package_data['latest_version']) and $package_data['latest_version']) {
                 $version_data = $package_data['latest_version'];
-            } elseif (isset($package_data['versions']) and isset($package_data['versions'][$keyword])) {
-                $version_data = $package_data['versions'][$keyword];
+            } elseif (isset($package_data['versions']) and isset($package_data['versions'][$version])) {
+                $version_data = $package_data['versions'][$version];
             }
+
             if (!$version_data) {
                 return;
             }
