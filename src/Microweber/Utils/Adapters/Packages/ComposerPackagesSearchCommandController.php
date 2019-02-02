@@ -31,7 +31,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Composer\Downloader\TransportException;
 use Composer\Plugin\CommandEvent;
 use Composer\Plugin\PluginEvents;
-
+use Microweber\Utils\Adapters\Packages\PackageManagerException;
 
 use Microweber\Utils\Adapters\Packages\Helpers\ComposerAbstractController;
 
@@ -59,12 +59,12 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
             $tokens,
             $searchName ? RepositoryInterface::SEARCH_NAME : RepositoryInterface::SEARCH_FULLTEXT
         );
-        try {
-
-
-        } catch (\Exception $e) {
-            // return $packages;
-        }
+//        try {
+//
+//
+//        } catch (\Exception $e) {
+//            // return $packages;
+//        }
 
 
         if (!empty($packages)) {
@@ -101,43 +101,63 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
         );
         $known_repos = $repositoryManager->getRepositories();
 
-
+        $errors = array();
         $has_error = false;
+        $results = false;
+        $results_found = array();
+
+        do {
+            try {
+                $repositories = new CompositeRepository(
+                    array_merge(
+                        array($installedRepository),
+                        $known_repos
+                    )
+                );
+                $results = $this->_trySearch($repositories, $tokens, $searchIn);
+                $has_error = false;
+                if ($results) {
+                    $results_found = $results;
+                }
+            } catch (\Composer\Downloader\TransportException $e) {
+                $err_msg = $e->getMessage();
+                $err_code = $e->getCode();
+                $has_error = true;
+                foreach ($known_repos as $rk => $known_repo) {
+                    $u = $known_repo->getRepoConfig();
+                    $u = $u['url'];
+
+                    if (stristr($err_msg, $u)) {
+                        unset($known_repos[$rk]);
+                        //  dd($u,$known_repos);
+                    }
+
+                }
+                $errors[$err_code] = $err_msg;
+                //  dd($e->getMessage(),$e->getCode(), $platformRepo, $known_repos, $localRepository);
+
+            }
 
 
+        } while (!$results_found or !$known_repos);
 
 
-        try {
-            $repositories = new CompositeRepository(
-                array_merge(
-                    array($installedRepository),
-                    $known_repos
-                )
-            );
+        $results = $results_found;
 
 
-            $results = $this->_trySearch($repositories, $tokens, $searchIn);
-            $has_error = false;
-        } catch (\Composer\Downloader\TransportException $e) {
-            $err_msg = $e->getMessage();
-            $err_code = $e->getCode();
-            $has_error = true;
-            $known_repos_2 = $known_repos;
-
-
-            \Log::info('Package manager error ['.$err_code.'] '. $err_msg);
-
-            dd($e->getMessage(),$e->getCode(), $platformRepo, $known_repos, $localRepository);
+        if($has_error){
+            //\Log::info('Package manager error: ' . implode("\n", $errors));
         }
 
-
-
+        if (!$results) {
+            throw new PackageManagerException('Package manager error: ' . implode("\n", $errors));
+        }
 
 
 
         //$results = $repositories->search(implode(' ', $tokens), $searchIn);
 
-       // dd($known_repos);
+        // dd($known_repos);
 
 
         $mwVersion = 1;
@@ -229,6 +249,10 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
 
 
         return $packages;
+    }
+    public function setDisableNonActiveReposInComposer($bool=false)
+    {
+
     }
 
     private function _trySearch($repositories, $tokens, $searchIn)

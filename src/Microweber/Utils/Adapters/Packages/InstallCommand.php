@@ -81,6 +81,8 @@ EOT
         $commandEvent = new CommandEvent(PluginEvents::COMMAND, 'install', $input, $output);
         $composer->getEventDispatcher()->dispatch($commandEvent->getName(), $commandEvent);
 
+
+
         $install = Installer::create($io, $composer);
 
         $preferSource = false;
