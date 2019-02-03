@@ -114,16 +114,16 @@ class ComposerUpdate
         $keyword = strip_tags($keyword);
         $keyword = trim($keyword);
 
-       // $conf = $this->composer_home . '/composer.json';
-        $temp_folder = $this->_prepare_composer_workdir();
+        // $conf = $this->composer_home . '/composer.json';
+        $temp_folder = $this->_prepare_composer_workdir($keyword);
 
-        if(!$temp_folder){
+        if (!$temp_folder) {
             return array('error' => 'Error preparing installation for ' . $keyword);
 
         }
         $conf = $temp_folder . '/composer.json';
-
-         chdir($temp_folder);
+        $this->composer_temp_folder = $temp_folder;
+        chdir($temp_folder);
         // $io = new BufferIO($input, $output, null);
 
         $io = new BufferIO('', 1, null);
@@ -132,11 +132,14 @@ class ComposerUpdate
 
         $packages = new ComposerPackagesSearchCommandController();
         $packages->setConfigPathname($conf);
+        $packages->setDisableNonActiveReposInComposer(true);
         $packages->setComposer($composer);
         $return = $packages->handle($keyword);
         return $return;
 
     }
+
+    private $composer_temp_folder = '';
 
     public function install_package_by_name($params)
     {
@@ -157,7 +160,7 @@ class ComposerUpdate
         $keyword = strip_tags($keyword);
         $keyword = trim($keyword);
 
-     //   $conf = $this->composer_home . '/composer.json';
+        //   $conf = $this->composer_home . '/composer.json';
         //$conf_auth = $this->composer_home . '/auth.json';
 
 
@@ -167,9 +170,9 @@ class ComposerUpdate
             return array('error' => 'Error. Cannot find any packages for ' . $keyword);
         }
 
-     //   $composer_orig = @file_get_contents($conf);
+        //   $composer_orig = @file_get_contents($conf);
 
-      //  $composer_orig = @json_decode($composer_orig, true);
+        //  $composer_orig = @json_decode($composer_orig, true);
 
         if (!isset($return[$keyword])) {
             return array('error' => 'Error. Package not found in repositories ' . $keyword);
@@ -200,10 +203,11 @@ class ComposerUpdate
             $composer = Factory::create($io);
 
 
-            $temp_folder = storage_path('composer/' . url_title($keyword));
-            $temp_folder = $this->_prepare_composer_workdir($keyword);
+           // $temp_folder = storage_path('composer/' . url_title($keyword));
+           // $temp_folder = $this->_prepare_composer_workdir($keyword);
+            $temp_folder =  $this->composer_temp_folder;
 
-            if(!$temp_folder){
+            if (!$temp_folder) {
                 return array('error' => 'Error preparing installation for ' . $keyword);
 
             }
@@ -366,7 +370,6 @@ class ComposerUpdate
         }
 
 
-
         $conf = $this->composer_home . '/composer.json';
         $conf_auth = $this->composer_home . '/auth.json';
         $conf = normalize_path($conf, false);
@@ -380,8 +383,6 @@ class ComposerUpdate
         $composer_orig = @json_decode($composer_orig, true);
 
 
-
-
         $auth_new = $temp_folder . '/auth.json';
         $auth_new = normalize_path($auth_new, false);
 
@@ -392,7 +393,7 @@ class ComposerUpdate
                 $package_name => '*'
             ));
         } else {
-            $new_composer_config = array( );
+            $new_composer_config = array();
         }
         if (isset($composer_orig['repositories'])) {
             $new_composer_config['repositories'] = $composer_orig['repositories'];

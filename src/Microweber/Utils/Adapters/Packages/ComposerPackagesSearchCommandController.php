@@ -99,9 +99,10 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
         $installedRepository = new CompositeRepository(
             array($localRepository, $platformRepo)
         );
-        $known_repos = $repositoryManager->getRepositories();
+        $known_repos = $known_repos_orig = $repositoryManager->getRepositories();
 
         $errors = array();
+        $removed_repos = array();
         $has_error = false;
         $results = false;
         $results_found = array();
@@ -130,6 +131,7 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
                     if (stristr($err_msg, $u)) {
                         unset($known_repos[$rk]);
                         //  dd($u,$known_repos);
+                        $removed_repos[] = $known_repo;
                     }
 
                 }
@@ -142,17 +144,46 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
         } while (!$results_found or !$known_repos);
 
 
+        if ($removed_repos and $known_repos != $known_repos_orig) {
+            if ($this->_setDisableNonActiveReposInComposer) {
+                $f = $this->getConfigPathname();
+                $f = normalize_path($f, false);
+                $composer_temp = @file_get_contents($f);
+                $composer_temp = @json_decode($composer_temp, true);
+
+
+                foreach ($removed_repos as $removed_repo) {
+                    $u = $removed_repo->getRepoConfig();
+
+                    if (isset($u['url']) and isset($composer_temp['repositories']) and is_array($composer_temp['repositories']) and !empty($composer_temp['repositories'])) {
+                        foreach ($composer_temp['repositories'] as $kk1 => $composer_repo_item) {
+
+                            if (isset($composer_repo_item['url'])) {
+                                if (stristr($composer_repo_item['url'], $u['url'])) {
+                                    unset($composer_temp['repositories'][$kk1]);
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+                file_put_contents($f, json_encode($composer_temp));
+
+            }
+        }
+
+
         $results = $results_found;
 
 
-        if($has_error){
+        if ($has_error) {
             //\Log::info('Package manager error: ' . implode("\n", $errors));
         }
 
         if (!$results) {
             throw new PackageManagerException('Package manager error: ' . implode("\n", $errors));
         }
-
 
 
         //$results = $repositories->search(implode(' ', $tokens), $searchIn);
@@ -250,9 +281,12 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
 
         return $packages;
     }
-    public function setDisableNonActiveReposInComposer($bool=false)
-    {
 
+    private $_setDisableNonActiveReposInComposer = false;
+
+    public function setDisableNonActiveReposInComposer($bool = false)
+    {
+        $this->_setDisableNonActiveReposInComposer = $bool;
     }
 
     private function _trySearch($repositories, $tokens, $searchIn)
