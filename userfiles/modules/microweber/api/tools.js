@@ -1846,7 +1846,7 @@ mw.tools = {
         while (curr && curr !== document.body) {
             var i = 0;
             for ( ; i < arr.length; i++ ) {
-                if (mw.tools.hasAnyOfClasses(curr, arr[i])) {
+                if (mw.tools.hasClass(curr, arr[i])) {
                     return true;
                 }
             }

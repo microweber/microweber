@@ -368,6 +368,9 @@ li.module-item.ui-draggable-dragging .mw_module_image {
     font-size: 19px;
     line-height: 19px;
     opacity: 1;
+    border-radius: 30px;
+    background-color: white;
+    box-shadow: 0 1px 2px rgba(0,0,0,.2);
 }
 
 .dragStart .mw-sorthandle-moveit, body.dragStart *, body.dragStart .column_separator_title {

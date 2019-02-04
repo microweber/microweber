@@ -180,15 +180,34 @@ mw.dropables = {
 
 
  mw.triggerLiveEditHandlers = {
+    cacheEnabled: false,
+     reseSetCache: function(key) {
+        this[key] = {};
+     },
+    shouldTrigger:function(key, node) {
+        if(!this.cacheEnabled) return true;
+        var countMax = 3;
+        if(!this[key] || this[key].node !== node) {
+            this[key] = {
+                node:node,
+                count:0
+            };
+        }
+        if(this[key].count < countMax) {
+            this[key].count++;
+            return true;
+        }
+        return false;
+    },
     _moduleRegister: null,
     module: function(targetFrom){
         targetFrom = targetFrom || mw.mm_target;
         var module = mw.tools.firstMatchesOnNodeOrParent(targetFrom, '.module:not(.no-settings)');
         var triggerTarget =  module.__disableModuleTrigger || module;
         if(module){
-            if(this._moduleRegister !== module) {
+            if(this.shouldTrigger('_moduleRegister', triggerTarget)) {
                 mw.trigger("moduleOver", triggerTarget);
-                this._moduleRegister = module;
+
             }
         } else {
             if (mw.mm_target.id !== 'mw_handle_module' && !mw.tools.hasParentWithId(mw.mm_target, 'mw_handle_module')) {
