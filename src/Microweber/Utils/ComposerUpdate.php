@@ -360,6 +360,7 @@ class ComposerUpdate
     public function _prepare_composer_workdir($package_name = '')
     {
         $temp_folder = storage_path('composer/temp');
+        $cache_folder = storage_path('composer/cache');
 
         if ($package_name) {
             $temp_folder = storage_path('composer/' . url_title($package_name));
@@ -400,7 +401,12 @@ class ComposerUpdate
             $new_composer_config['config'] = $composer_orig['config'];
             $new_composer_config['minimum-stability'] = 'dev';
             $new_composer_config['vendor-dir'] = $temp_folder;
-            $new_composer_config['config']['no-plugins'] = true;
+         //   $new_composer_config['config']['no-plugins'] = true;
+            $new_composer_config['config']['cache-dir'] = $cache_folder;
+            $new_composer_config['config']['preferred-install'] = 'dist';
+            $new_composer_config['config']['discard-changes'] =true;
+            $new_composer_config['config']['htaccess-protect'] =true;
+            $new_composer_config['config']['archive-format'] ='zip';
         }
 
         file_put_contents($conf_new, json_encode($new_composer_config));
