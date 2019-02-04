@@ -28,10 +28,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-
+use Composer\Downloader\TransportException;
 use Composer\Plugin\CommandEvent;
 use Composer\Plugin\PluginEvents;
-
+use Microweber\Utils\Adapters\Packages\PackageManagerException;
 
 use Microweber\Utils\Adapters\Packages\Helpers\ComposerAbstractController;
 
@@ -54,10 +54,17 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
         //$this->io->getOutput()
 
 
+        $packages = array();
         $packages = $this->searchPackages(
             $tokens,
             $searchName ? RepositoryInterface::SEARCH_NAME : RepositoryInterface::SEARCH_FULLTEXT
         );
+//        try {
+//
+//
+//        } catch (\Exception $e) {
+//            // return $packages;
+//        }
 
 
         if (!empty($packages)) {
@@ -82,6 +89,9 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
             'microweber-module',
         );
 
+        ini_set('memory_limit', '2777M');
+
+
         $repositoryManager = $this->getRepositoryManager();
 
         $platformRepo = new PlatformRepository;
@@ -89,16 +99,96 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
         $installedRepository = new CompositeRepository(
             array($localRepository, $platformRepo)
         );
-        $repositories = new CompositeRepository(
-            array_merge(
-                array($installedRepository),
-                $repositoryManager->getRepositories()
-            )
-        );
-        ini_set('memory_limit', '2777M');
+        $known_repos = $known_repos_orig = $repositoryManager->getRepositories();
 
-        $results = $repositories->search(implode(' ', $tokens), $searchIn, 'microweber');
+        $errors = array();
+        $removed_repos = array();
+        $has_error = false;
+        $results = false;
+        $results_found = array();
+
+        do {
+            try {
+                $repositories = new CompositeRepository(
+                    array_merge(
+                        array($installedRepository),
+                        $known_repos
+                    )
+                );
+                $results = $this->_trySearch($repositories, $tokens, $searchIn);
+                $has_error = false;
+                if ($results) {
+                    $results_found = $results;
+                }
+            } catch (\Composer\Downloader\TransportException $e) {
+                $err_msg = $e->getMessage();
+                $err_code = $e->getCode();
+                $has_error = true;
+                foreach ($known_repos as $rk => $known_repo) {
+                    $u = $known_repo->getRepoConfig();
+                    $u = $u['url'];
+
+                    if (stristr($err_msg, $u)) {
+                        unset($known_repos[$rk]);
+                        //  dd($u,$known_repos);
+                        $removed_repos[] = $known_repo;
+                    }
+
+                }
+                $errors[$err_code] = $err_msg;
+                //  dd($e->getMessage(),$e->getCode(), $platformRepo, $known_repos, $localRepository);
+
+            }
+
+
+        } while (!$results_found or !$known_repos);
+
+
+        if ($removed_repos and $known_repos != $known_repos_orig) {
+            if ($this->_setDisableNonActiveReposInComposer) {
+                $f = $this->getConfigPathname();
+                $f = normalize_path($f, false);
+                $composer_temp = @file_get_contents($f);
+                $composer_temp = @json_decode($composer_temp, true);
+
+
+                foreach ($removed_repos as $removed_repo) {
+                    $u = $removed_repo->getRepoConfig();
+
+                    if (isset($u['url']) and isset($composer_temp['repositories']) and is_array($composer_temp['repositories']) and !empty($composer_temp['repositories'])) {
+                        foreach ($composer_temp['repositories'] as $kk1 => $composer_repo_item) {
+
+                            if (isset($composer_repo_item['url'])) {
+                                if (stristr($composer_repo_item['url'], $u['url'])) {
+                                    unset($composer_temp['repositories'][$kk1]);
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+                file_put_contents($f, json_encode($composer_temp));
+
+            }
+        }
+
+
+        $results = $results_found;
+
+
+        if ($has_error) {
+            //\Log::info('Package manager error: ' . implode("\n", $errors));
+        }
+
+        if (!$results) {
+            throw new PackageManagerException('Package manager error: ' . implode("\n", $errors));
+        }
+
+
         //$results = $repositories->search(implode(' ', $tokens), $searchIn);
+
+        // dd($known_repos);
 
 
         $mwVersion = 1;
@@ -190,6 +280,21 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
 
 
         return $packages;
+    }
+
+    private $_setDisableNonActiveReposInComposer = false;
+
+    public function setDisableNonActiveReposInComposer($bool = false)
+    {
+        $this->_setDisableNonActiveReposInComposer = $bool;
+    }
+
+    private function _trySearch($repositories, $tokens, $searchIn)
+    {
+
+
+        return $repositories->search(implode(' ', $tokens), $searchIn, 'microweber');
+
     }
 
 

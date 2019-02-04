@@ -17,6 +17,13 @@ AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css a
     </IfModule>
 
     RewriteEngine On
+
+
+    RewriteCond %{HTTP:Authorization} ^(.+)$
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+
+
     RewriteCond %{REQUEST_URI} !=/favicon.ico
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d

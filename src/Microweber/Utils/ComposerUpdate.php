@@ -114,7 +114,16 @@ class ComposerUpdate
         $keyword = strip_tags($keyword);
         $keyword = trim($keyword);
 
-        $conf = $this->composer_home . '/composer.json';
+        // $conf = $this->composer_home . '/composer.json';
+        $temp_folder = $this->_prepare_composer_workdir($keyword);
+
+        if (!$temp_folder) {
+            return array('error' => 'Error preparing installation for ' . $keyword);
+
+        }
+        $conf = $temp_folder . '/composer.json';
+        $this->composer_temp_folder = $temp_folder;
+        chdir($temp_folder);
         // $io = new BufferIO($input, $output, null);
 
         $io = new BufferIO('', 1, null);
@@ -123,11 +132,14 @@ class ComposerUpdate
 
         $packages = new ComposerPackagesSearchCommandController();
         $packages->setConfigPathname($conf);
+        $packages->setDisableNonActiveReposInComposer(true);
         $packages->setComposer($composer);
         $return = $packages->handle($keyword);
         return $return;
 
     }
+
+    private $composer_temp_folder = '';
 
     public function install_package_by_name($params)
     {
@@ -148,20 +160,24 @@ class ComposerUpdate
         $keyword = strip_tags($keyword);
         $keyword = trim($keyword);
 
-        $conf = $this->composer_home . '/composer.json';
-        $conf_auth = $this->composer_home . '/auth.json';
+        //   $conf = $this->composer_home . '/composer.json';
+        //$conf_auth = $this->composer_home . '/auth.json';
 
 
         $return = $this->search_packages($keyword);
 
         if (!$return) {
-            return;
+            return array('error' => 'Error. Cannot find any packages for ' . $keyword);
         }
 
-        $composer_orig =  @file_get_contents($conf);
+        //   $composer_orig = @file_get_contents($conf);
 
-        $composer_orig =  @json_decode($composer_orig, true);
+        //  $composer_orig = @json_decode($composer_orig, true);
 
+        if (!isset($return[$keyword])) {
+            return array('error' => 'Error. Package not found in repositories ' . $keyword);
+
+        }
 
 
         if (isset($return[$keyword])) {
@@ -169,9 +185,10 @@ class ComposerUpdate
             $package_data = $return[$keyword];
             if ($version == 'latest' and isset($package_data['latest_version']) and $package_data['latest_version']) {
                 $version_data = $package_data['latest_version'];
-            } elseif (isset($package_data['versions']) and isset($package_data['versions'][$keyword])) {
-                $version_data = $package_data['versions'][$keyword];
+            } elseif (isset($package_data['versions']) and isset($package_data['versions'][$version])) {
+                $version_data = $package_data['versions'][$version];
             }
+
             if (!$version_data) {
                 return;
             }
@@ -186,46 +203,52 @@ class ComposerUpdate
             $composer = Factory::create($io);
 
 
+           // $temp_folder = storage_path('composer/' . url_title($keyword));
+           // $temp_folder = $this->_prepare_composer_workdir($keyword);
+            $temp_folder =  $this->composer_temp_folder;
 
-           $temp_folder = storage_path('composer/' . url_title($keyword));
-            if (!is_dir($temp_folder)) {
-                mkdir_recursive($temp_folder);
+            if (!$temp_folder) {
+                return array('error' => 'Error preparing installation for ' . $keyword);
+
             }
 
-            $conf_new = $temp_folder . '/composer.json';
-            $conf_new = normalize_path($conf_new, false);
 
-            $auth_new = $temp_folder . '/auth.json';
-            $auth_new = normalize_path($conf_new, false);
-
-            $new_composer_config = array('require' => array(
-              //  $keyword => 'dev-master'
-                $keyword => '*'
-            ));
-
-            if (isset($composer_orig['repositories'])) {
-                $new_composer_config['repositories'] = $composer_orig['repositories'];
-                $new_composer_config['config'] = $composer_orig['config'];
-                $new_composer_config['minimum-stability'] = 'dev';
-                $new_composer_config['vendor-dir'] =$temp_folder;
-                $new_composer_config['config']['no-plugins'] =true;
-            }
-
-           file_put_contents($conf_new,json_encode($new_composer_config));
-            if(is_file($conf_auth)){
-                copy($conf_auth,$auth_new);
-            }
-
+//
+//            if (!is_dir($temp_folder)) {
+//                mkdir_recursive($temp_folder);
+//            }
+//
+//            $conf_new = $temp_folder . '/composer.json';
+//            $conf_new = normalize_path($conf_new, false);
+//
+//            $auth_new = $temp_folder . '/auth.json';
+//            $auth_new = normalize_path($conf_new, false);
+//
+//            $new_composer_config = array('require' => array(
+//                //  $keyword => 'dev-master'
+//                $keyword => '*'
+//            ));
+//
+//            if (isset($composer_orig['repositories'])) {
+//                $new_composer_config['repositories'] = $composer_orig['repositories'];
+//                $new_composer_config['config'] = $composer_orig['config'];
+//                $new_composer_config['minimum-stability'] = 'dev';
+//                $new_composer_config['vendor-dir'] = $temp_folder;
+//                $new_composer_config['config']['no-plugins'] = true;
+//            }
+//
+//            file_put_contents($conf_new, json_encode($new_composer_config));
+//            if (is_file($conf_auth)) {
+//                copy($conf_auth, $auth_new);
+//            }
 
 
             chdir($temp_folder);
 
 
             $argv = array();
-          //  $argv[] = 'dry-run';
+            //  $argv[] = 'dry-run';
             $argv[] = '--no-plugins';
-
-
 
 
             $input = new ArgvInput($argv);
@@ -234,13 +257,11 @@ class ComposerUpdate
             $config = new Config();
 
 
-
             $output->setVerbosity(0);
             $io = new ConsoleIO($input, $output, $helper);
             $composer = Factory::create($io);
 
-     //       $input->setOption('no-plugins',true);
-
+            //       $input->setOption('no-plugins',true);
 
 
             $composer->setConfig($config);
@@ -250,19 +271,13 @@ class ComposerUpdate
             $out = $update->run($input, $output);
 
 
-dd($out);
-
-
-
-
+            dd($out);
 
 
             return $return;
 
 
-
         }
-
 
 
     }
@@ -340,6 +355,61 @@ dd($out);
         }
 
         return $conf_items;
+    }
+
+    public function _prepare_composer_workdir($package_name = '')
+    {
+        $temp_folder = storage_path('composer/temp');
+
+        if ($package_name) {
+            $temp_folder = storage_path('composer/' . url_title($package_name));
+        }
+
+        if (!is_dir($temp_folder)) {
+            mkdir_recursive($temp_folder);
+        }
+
+
+        $conf = $this->composer_home . '/composer.json';
+        $conf_auth = $this->composer_home . '/auth.json';
+        $conf = normalize_path($conf, false);
+        $conf_auth = normalize_path($conf_auth, false);
+
+        $conf_new = $temp_folder . '/composer.json';
+        $conf_new = normalize_path($conf_new, false);
+
+        $composer_orig = @file_get_contents($conf);
+
+        $composer_orig = @json_decode($composer_orig, true);
+
+
+        $auth_new = $temp_folder . '/auth.json';
+        $auth_new = normalize_path($auth_new, false);
+
+        $new_composer_config = array();
+        if ($package_name) {
+            $new_composer_config = array('require' => array(
+                //  $keyword => 'dev-master'
+                $package_name => '*'
+            ));
+        } else {
+            $new_composer_config = array();
+        }
+        if (isset($composer_orig['repositories'])) {
+            $new_composer_config['repositories'] = $composer_orig['repositories'];
+            $new_composer_config['config'] = $composer_orig['config'];
+            $new_composer_config['minimum-stability'] = 'dev';
+            $new_composer_config['vendor-dir'] = $temp_folder;
+            $new_composer_config['config']['no-plugins'] = true;
+        }
+
+        file_put_contents($conf_new, json_encode($new_composer_config));
+        if (is_file($conf_auth)) {
+
+            copy($conf_auth, $auth_new);
+        }
+        return $temp_folder;
+
     }
 
 
