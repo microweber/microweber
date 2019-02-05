@@ -34,7 +34,7 @@
 
                                 <li>
                                     <label class="mw-ui-check">
-                                        <input <?php if ($ord['order_status'] == 'completed' or $ord['order_status'] == ''): ?>checked="checked"<?php endif; ?> type="radio" name="order_status" value="completed"/>
+                                        <input <?php if ($ord['order_status'] == 'completed' or $ord['order_status'] == null or $ord['order_status'] == ''): ?>checked="checked"<?php endif; ?> type="radio" name="order_status" value="completed"/>
                                         <span></span><span><?php _e("Completed Order"); ?></span>
                                     </label>
                                 </li>

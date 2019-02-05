@@ -105,7 +105,12 @@ if (!isset($tn[1])) {
                                     <a href="<?php print $item['link'] ?>" class="pull-right">
                                         <div class="card__price">
                                             <span><?php print currency_format($val1); ?></span>
+
+                                            <?php if ($item['original_price']): ?>
+                                                <del><?php print currency_format($item['original_price']); ?></del>
+                                            <?php endif; ?>
                                         </div>
+
                                     </a>
                                 <?php } ?>
                             <?php endif; ?>

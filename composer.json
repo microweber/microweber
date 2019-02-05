@@ -14,6 +14,9 @@
     {
       "type": "composer",
       "url": "https://packages.microweberapi.com/"
+    }, {
+      "type": "composer",
+      "url": "https://private-packages.microweberapi.com/"
     }
   ],
   "require": {
@@ -32,6 +35,7 @@
     "omnipay/stripe": "~2.0",
     "omnipay/paypal": "~2.0",
     "omnipay/mollie": "3.*",
+    "ramsey/uuid": "3.0",
     "paragonie/random_compat": "1.*",
     "coduo/php-humanizer": "*",
     "omnipay/common": "*",

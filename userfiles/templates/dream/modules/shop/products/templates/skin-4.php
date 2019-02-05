@@ -45,6 +45,9 @@ if (!isset($tn[1])) {
                             $val1 = array_shift($vals2); ?>
                             <div class="shop-item__price hover--reveal">
                                 <span><?php print currency_format($val1); ?></span>
+                                <?php if ($item['original_price']): ?>
+                                    <del><?php print currency_format($item['original_price']); ?></del>
+                                <?php endif; ?>
                             </div>
                         <?php } ?>
                     <?php endif; ?>
