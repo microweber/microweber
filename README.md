@@ -29,6 +29,8 @@ The most important thing you need to know is that Microweber pairs the latest CM
 
 * Powerful Admin Panel
 
+You can add dynamic pages, posts, products. All of these can be organized in custom categories in order to achieve a better navigation and showcase of a website’s content. New pages can be created using different layouts and all pages, posts and products come with a preset number layouts and modules to get users started. These modules can be changed and you can of course add your own custom set of modules as to create the most suitable content for your needs.
+
 ![Live edit](https://microweber.com/cdn/2019_version/2.jpg "")
 * Drag & Drop
 
