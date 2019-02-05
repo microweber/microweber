@@ -15,15 +15,18 @@
 
 ---
 
-![Live edit](https://microweber.com/cdn/microweber_screen_1.jpg "")
+![Live edit](https://microweber.com/cdn/2019_version/1.jpg "")
 
 
 ## What is Microweber? <a name="what-is" />
 
-Microweber is a new generation content management system that allows you to create a website using drag and drop.
-You can easily manipulate the content and the layout of your pages. No coding skills are required.
+Microweber is a Drag and Drop website builder and powerful CMS of new generation. It's based on PHP Laravel Framework. You can use Microweber to make a any kind of website, online store and blog. The Drag and Drop technology allows you to build your website without any technical knowledge.
 
-### [Live Demo](http://demo.microweber.org/admin?username=demo&password=demo)
+The core idea of the software is to let you create your own website, online shop or blog. From this moment of creation on, your journey towards success begins. Tagging all along will be different modules, customizations and features of the CMS, among them many specifically tailored for e-commerce enthusiasts and bloggers.
+
+The most important thing you need to know is that Microweber pairs the latest CMS trend – the unique Drag & Drop technology, with a revolutionary Real-Time Text Writing & Editing feature. Talking in user benefit, this pair of features means improved user experience, easier and quicker content management, visually highly appealing environment and flexibility.
+
+### [Microweber Live Demo](http://demo.microweber.org/?template=dream)
 
 ## Requirements <a name="requirements" />
 
