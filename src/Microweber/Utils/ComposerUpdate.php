@@ -400,19 +400,39 @@ class ComposerUpdate
             $new_composer_config['repositories'] = $composer_orig['repositories'];
             $new_composer_config['config'] = $composer_orig['config'];
             $new_composer_config['minimum-stability'] = 'dev';
-            $new_composer_config['vendor-dir'] = $temp_folder;
+           // $new_composer_config['vendor-dir'] = $temp_folder;
          //   $new_composer_config['config']['no-plugins'] = true;
             $new_composer_config['config']['cache-dir'] = $cache_folder;
             $new_composer_config['config']['preferred-install'] = 'dist';
             $new_composer_config['config']['discard-changes'] =true;
             $new_composer_config['config']['htaccess-protect'] =true;
             $new_composer_config['config']['archive-format'] ='zip';
+
+
+
+
         }
 
         file_put_contents($conf_new, json_encode($new_composer_config));
         if (is_file($conf_auth)) {
 
-            copy($conf_auth, $auth_new);
+            $composer_auth_temp = @file_get_contents($conf_auth);
+
+            $composer_auth_temp = @json_decode($composer_auth_temp, true);
+
+            $lic = mw()->update->get_licenses();
+            $lic = json_encode($lic);
+            $lic = base64_encode($lic);
+
+            if (isset($composer_auth_temp['http-basic'])) {
+                $composer_auth_temp['http-basic']["private-packages.microweberapi.com"] = array(
+                    "username"=> @gethostname(),
+                    "password"=> $lic
+                );
+                file_put_contents($auth_new, json_encode($composer_auth_temp));
+
+            }
+
         }
         return $temp_folder;
 
