@@ -27,15 +27,17 @@ The most important thing you need to know is that Microweber pairs the latest CM
 
 ## Core features of Microweber <a name="core-features" />
 
-* Powerful Admin Panel
+#### Powerful Admin Panel
 
 You can add dynamic pages, posts, products. All of these can be organized in custom categories in order to achieve a better navigation and showcase of a website�s content. New pages can be created using different layouts and all pages, posts and products come with a preset number layouts and modules to get users started. These modules can be changed and you can of course add your own custom set of modules as to create the most suitable content for your needs.
 
 ![Live edit](https://microweber.com/cdn/2019_version/2.jpg "")
 
-* Drag & Drop
+#### Drag & Drop
 
-![Drag and Drop](https://microweber.com/cdn/2019_version/drag_drop.gif "")
+Microweber operates on the Drag & Drop technology. This means that users can manage their content and arrange elements with just a click of the mouse, dragging and dropping them across the screen. Drag & Drop applies to all types of content: images, text fields, videos, and the whole variety of modules and additional customization options you have as a user. The default template “Dream” comes with more than 75+ prepared layouts that you can use via drag and drop.
+
+![Drag and Drop](https://microweber.com/cdn/2019_version/7.png "")
 
 
 ### [Microweber Live Demo](http://demo.microweber.org/?template=dream)
