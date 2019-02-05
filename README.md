@@ -39,6 +39,19 @@ Microweber operates on the Drag & Drop technology. This means that users can man
 
 ![Drag and Drop](https://microweber.com/cdn/2019_version/7.png "")
 
+#### E-commerce Solution
+
+Perhaps the main focus of Microweber CMS is E-commerce. A rising number of people have grown fond of the idea of online entrepreneurship and we aspire to cover their needs. The software has some built-in features that will help online shop founders see their business grow and excel.
+
+![E-commerce solution](https://microweber.com/cdn/2019_version/3.jpg "")
+
+#### Real Time Text Editing
+
+
+
+![E-commerce solution](https://microweber.com/cdn/2019_version/6.png "")
+
+Live Edit view is the manifestation of the Real-Time Text Writing & Editing core feature of Microweber CMS. Working in Live Edit view is in fact working on your website’s interface in real time. 
 
 ### [Microweber Live Demo](http://demo.microweber.org/?template=dream)
 
