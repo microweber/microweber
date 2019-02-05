@@ -33,7 +33,7 @@
 
             <script type="text/javascript">
                 var uploader = mw.files.uploader({
-                    filetypes: "zip,sql",
+                    filetypes: "zip,sql,json",
                     multiple: false
                 });
 

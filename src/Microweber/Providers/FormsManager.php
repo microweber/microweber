@@ -2,6 +2,9 @@
 
 namespace Microweber\Providers;
 
+use League\Csv\Writer;
+
+
 class FormsManager
 {
     /** @var \Microweber\Application */
@@ -199,8 +202,6 @@ class FormsManager
         }
 
 
-
-
         $terms_accepted = false;
         $user_require_terms = $this->app->option_manager->get('require_terms', $for_id);
 
@@ -254,7 +255,7 @@ class FormsManager
 //                    $validate_captcha = mw()->captcha->validate($params['captcha']);
 //                }
 
-                $validate_captcha = $this->app->captcha->validate($params['captcha'],$for_id);
+                $validate_captcha = $this->app->captcha->validate($params['captcha'], $for_id);
                 if (!$validate_captcha) {
 
                     return array(
@@ -442,16 +443,16 @@ class FormsManager
                         }
                     }
                 }
-                if(!$email_from){
-                    if(isset($params['email']) and (filter_var($params['email'], FILTER_VALIDATE_EMAIL))){
+                if (!$email_from) {
+                    if (isset($params['email']) and (filter_var($params['email'], FILTER_VALIDATE_EMAIL))) {
                         $email_from = $params['email'];
                     }
                 }
                 $from_name = $email_from;
-                if(isset($params['name']) and $params['name']){
+                if (isset($params['name']) and $params['name']) {
                     $from_name = $params['name'];
                 }
-                if(isset($params['from_name']) and $params['from_name']){
+                if (isset($params['from_name']) and $params['from_name']) {
                     $from_name = $params['from_name'];
                 }
 
@@ -464,7 +465,7 @@ class FormsManager
                             $msg = $notif['content'];
                             $subj = $notif['description'];
                             $from = $email_from;
- 
+
 
                             $sender->send($value, $subj, $msg, $from, false, false, $email_from, $from_name, $email_from);
                         } else {
@@ -482,12 +483,10 @@ class FormsManager
         }
 
 
-
-
         $success = array();
-        $success['success'] = _e('Your message has been sent',true);
-        if($email_redirect_after_submit){
-            $success['redirect'] =$email_redirect_after_submit;
+        $success['success'] = _e('Your message has been sent', true);
+        if ($email_redirect_after_submit) {
+            $success['redirect'] = $email_redirect_after_submit;
         }
         return $success;
 
@@ -584,6 +583,8 @@ class FormsManager
         //this function is experimental
         set_time_limit(0);
 
+        //   $data_for_csv = array();
+
         $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
@@ -596,42 +597,81 @@ class FormsManager
 
             $surl = $this->app->url_manager->site();
             $csv_output = '';
-            if (is_array($data)) {
-                $csv_output = 'id,';
-                $csv_output .= 'created_at,';
-                $csv_output .= 'user_ip,';
-                foreach ($data as $item) {
-                    if (isset($item['custom_fields'])) {
-                        foreach ($item['custom_fields'] as $k => $v) {
-                            $csv_output .= $this->app->format->no_dashes($k) . ',';
-                            $csv_output .= "\t";
+            /*   if (is_array($data)) {
+                   $csv_output = 'id,';
+                   $csv_output .= 'created_at,';
+                   $csv_output .= 'user_ip,';
+                   foreach ($data as $item) {
+                       if (isset($item['custom_fields'])) {
+                           foreach ($item['custom_fields'] as $k => $v) {
+                               $csv_output .= $this->app->format->no_dashes($k) . ',';
+                               //      $csv_output .= "\t";
+                           }
+                       }
+                   }
+
+                   $csv_output .= "\n";
+
+                   foreach ($data as $item) {
+                       if (isset($item['custom_fields'])) {
+                           $csv_output .= $item['id'] . ',';
+                           //   $csv_output .= "\t";
+                           $csv_output .= $item['created_at'] . ',';
+                           //  $csv_output .= "\t";
+                           $csv_output .= $item['user_ip'] . ',';
+                           //   $csv_output .= "\t";
+
+                           foreach ($item['custom_fields'] as $item1 => $val) {
+                               $output_val = $val;
+
+                               if (is_array($output_val)) {
+                                   $output_val = mw()->format->array_to_ul($output_val);
+                               }
+                               //  $output_val = nl2br($output_val);
+                               $output_val = str_replace('{SITE_URL}', $surl, $output_val);
+
+
+                               $csv_output .= $output_val . ',';
+                               //   $csv_output .= "\t";
+                           }
+                           $csv_output .= "\n";
+                       }
+                   }
+               }*/
+
+
+            $data_for_csv = array();
+            $data_known_keys = array();
+
+
+            foreach ($data as $item) {
+
+
+                $item_for_csv = array();
+                $item_for_csv['id'] = $item['id'];
+                $item_for_csv['created_at'] = $item['created_at'];
+                $item_for_csv['user_ip'] = $item['user_ip'];
+                if (isset($item['custom_fields'])) {
+                    foreach ($item['custom_fields'] as $k1 => $v1) {
+                        $output_val = $v1;
+
+                        if (is_array($output_val)) {
+                            $output_val = mw()->format->array_to_ul($output_val);
                         }
+                        $item_for_csv[$k1] = $output_val;
+
                     }
                 }
 
-                $csv_output .= "\n";
-
-                foreach ($data as $item) {
-                    if (isset($item['custom_fields'])) {
-                        $csv_output .= $item['id'] . ',';
-                        $csv_output .= "\t";
-                        $csv_output .= $item['created_at'] . ',';
-                        $csv_output .= "\t";
-                        $csv_output .= $item['user_ip'] . ',';
-                        $csv_output .= "\t";
-
-                        foreach ($item['custom_fields'] as $item1 => $val) {
-                            $output_val = $val;
-
-                            $output_val = str_replace('{SITE_URL}', $surl, $output_val);
-
-                            $csv_output .= $output_val . ',';
-                            $csv_output .= "\t";
-                        }
-                        $csv_output .= "\n";
-                    }
-                }
+                $data_known_keys = array_merge($data_known_keys, array_keys($item_for_csv));
+                $data_known_keys = array_unique($data_known_keys);
+                $data_for_csv[] = $item_for_csv;
             }
+
+            foreach ($data_known_keys as $k => $v) {
+                $data_known_keys[$k] = $this->app->format->no_dashes($v);
+            }
+
 
             $filename = 'export' . '_' . date('Y-m-d_H-i', time()) . uniqid() . '.csv';
             $filename_path = userfiles_path() . 'export' . DS . 'forms' . DS;
@@ -643,7 +683,14 @@ class FormsManager
                 @touch($filename_path_index);
             }
             $filename_path_full = $filename_path . $filename;
-            file_put_contents($filename_path_full, $csv_output);
+
+
+            $writer = Writer::createFromPath($filename_path_full, 'w+');
+            $writer->setNewline("\r\n");
+            $writer->insertOne($data_known_keys);
+
+            $writer->insertAll($data_for_csv);
+
             $download = $this->app->url_manager->link_to_file($filename_path_full);
 
             return array('success' => 'Your file has been exported!', 'download' => $download);
