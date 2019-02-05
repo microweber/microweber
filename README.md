@@ -23,16 +23,20 @@ Microweber is a Drag and Drop website builder and powerful CMS of new generation
 
 The core idea of the software is to let you create your own website, online shop or blog. From this moment of creation on, your journey towards success begins. Tagging all along will be different modules, customizations and features of the CMS, among them many specifically tailored for e-commerce enthusiasts and bloggers.
 
-The most important thing you need to know is that Microweber pairs the latest CMS trend – the unique Drag & Drop technology, with a revolutionary Real-Time Text Writing & Editing feature. Talking in user benefit, this pair of features means improved user experience, easier and quicker content management, visually highly appealing environment and flexibility.
+The most important thing you need to know is that Microweber pairs the latest CMS trend � the unique Drag & Drop technology, with a revolutionary Real-Time Text Writing & Editing feature. Talking in user benefit, this pair of features means improved user experience, easier and quicker content management, visually highly appealing environment and flexibility.
 
 ## Core features of Microweber <a name="core-features" />
 
 * Powerful Admin Panel
 
-You can add dynamic pages, posts, products. All of these can be organized in custom categories in order to achieve a better navigation and showcase of a website’s content. New pages can be created using different layouts and all pages, posts and products come with a preset number layouts and modules to get users started. These modules can be changed and you can of course add your own custom set of modules as to create the most suitable content for your needs.
+You can add dynamic pages, posts, products. All of these can be organized in custom categories in order to achieve a better navigation and showcase of a website�s content. New pages can be created using different layouts and all pages, posts and products come with a preset number layouts and modules to get users started. These modules can be changed and you can of course add your own custom set of modules as to create the most suitable content for your needs.
 
 ![Live edit](https://microweber.com/cdn/2019_version/2.jpg "")
+
 * Drag & Drop
+
+![Drag and Drop](https://microweber.com/cdn/2019_version/drag_drop.gif "")
+
 
 ### [Microweber Live Demo](http://demo.microweber.org/?template=dream)
 
