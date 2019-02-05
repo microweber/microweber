@@ -2,16 +2,15 @@
 
 **Current version: 1.0 running on Laravel 5!** 
 
-<center>
+
 **[Download](https://microweber.com/download.php) |
 [What is Microweber?](#what-is) |
+[Core features of Microweber](#core-features) |
 [Requirements](#requirements) |
 [Installation](#installation) |
 [Getting Started](#getting-started) |
 [Contribute](#contribute)**
-</center>
 
-[![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://deploy.azure.com/?repository=https://github.com/microweber/microweber)
 
 ---
 
@@ -26,9 +25,10 @@ The core idea of the software is to let you create your own website, online shop
 
 The most important thing you need to know is that Microweber pairs the latest CMS trend – the unique Drag & Drop technology, with a revolutionary Real-Time Text Writing & Editing feature. Talking in user benefit, this pair of features means improved user experience, easier and quicker content management, visually highly appealing environment and flexibility.
 
-## Core features of Microweber? <a name="core-features" />
+## Core features of Microweber <a name="core-features" />
 
 * Powerful Admin Panel
+
 ![Live edit](https://microweber.com/cdn/2019_version/2.jpg "")
 * Drag & Drop
 
