@@ -96,7 +96,7 @@
         {first_name} , {Last_name} , {email} , {unsubscribe} {site_url}
         <br/>
 
-        <button onclick="edit_iframe_template($('.js-edit-template-id').val())" type="button" class="mw-ui-btn" style="float:right;"><?php _e('Edit template'); ?></button>
+        <button onclick="edit_iframe_template($('.js-edit-template-id').val())" type="button" class="mw-ui-btn mw-ui-btn-info" style="float:right;"><?php _e('Use Template Generator'); ?></button>
 
         <textarea id="js-editor-template" name="text" class="js-edit-template-text" style="border:3px solid #cfcfcf; width:100%;height:500px;margin-top:5px;"></textarea>
 
