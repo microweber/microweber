@@ -277,12 +277,21 @@ function calendar_get_events_api($params = [])
     $month = date("m");
     $year = date("Y");
 
+
+    $selected_date = false;
+
     // Set up Month
     if (isset($params['month'])) {
         $month = $params['month'];
     } elseif (isset($_POST['month'])) {
         $month = $_POST['month'];
     }
+
+
+    if (isset($params['date'])) {
+        $selected_date = $params['date'];
+    }
+
 
     // Set up Year
     if (isset($params['year'])) {
@@ -311,6 +320,8 @@ function calendar_get_events_api($params = [])
 
                 // Example event
                 $eventReady = [];
+                $eventReady = (array)$event;
+
                 $eventReady['id'] = $event->id;
                 $eventReady['title'] = $event->title;
                 $eventReady['description'] = $event->description;
@@ -337,7 +348,7 @@ function calendar_get_events_api($params = [])
                 if ($event->recurrence_type == "custom" && $event->recurrence_repeat_type == "year") {
                     $event->recurrence_type = 'annually_on_the_month_name_day_number';
                 }
-                
+
                 if ($event->recurrence_type == "custom" && $event->recurrence_repeat_type == "month") {
                     $event->recurrence_type = 'monthly_on_the_week_number_day_name';
                 }
@@ -351,9 +362,11 @@ function calendar_get_events_api($params = [])
 
                     if ($event->all_day == 1) {
                         $eventReady['start'] = $startDate;
+                        //         $eventReady['start_time'] = $startDate;
                         $eventReady['end'] = $endDate;
                     } else {
                         $eventReady['start'] = $startDate . " " . $startTime;
+                        //     $eventReady['start_time'] = $startDate . " " . $startTime;
                         $eventReady['end'] = $endDate . " " . $endTime;
                     }
 
@@ -375,54 +388,54 @@ function calendar_get_events_api($params = [])
                     $eventReady['end'] = $endDate;
                     $events[] = $eventReady;
                 }
-                
+
                 if ($event->recurrence_type == "monthly_on_the_day_number" || $event->recurrence_type == "monthly_on_the_week_number_day_name") {
-                    
+
                     $currentMonth = $year . '-' . $month . '-01 ';
                     $nextMonth = date('m', strtotime("+1 month", strtotime($year . '-' . $month)));
                     $nextMonth = $year . '-' . $nextMonth . '-01 ';
-                    
+
                     $previousMonth = date('m', strtotime("-1 month", strtotime($year . '-' . $month)));
                     $previousMonth = $year . '-' . $previousMonth . '-01 ';
-                    
+
                     $datesOfTheCurrentMonth = $dates_helper->getDatesOfMonth($timeZone, $currentMonth);
                     $datesOfTheNextMonth = $dates_helper->getDatesOfMonth($timeZone, $nextMonth);
                     $datesOfThePreviousMonth = $dates_helper->getDatesOfMonth($timeZone, $previousMonth);
-                    
-                    
+
+
                     $datesOfTheMonthCombine = new ArrayCollection(
                         array_merge($datesOfTheNextMonth->toArray(), $datesOfThePreviousMonth->toArray())
                     );
-                    
+
                     $datesOfTheMonthAll = new ArrayCollection(
                         array_merge($datesOfTheCurrentMonth->toArray(), $datesOfTheMonthCombine->toArray())
                     );
-                    
+
                     foreach ($datesOfTheMonthAll as $dateOfTheMonth) {
-                        
+
                         $startDateReady = $dateOfTheMonth->getStart()->format('Y-m-d');
                         if (date("Y-m-d", strtotime($startDate)) > $startDateReady) {
                             continue;
                         }
-                        
+
                         if ($event->recurrence_type == "monthly_on_the_day_number") {
                             $dayNumber = date('d', strtotime($event->start_date));
                             if ($dayNumber !== $dateOfTheMonth->getStart()->format('d')) {
                                 continue;
                             }
                         }
-                        
+
                         if ($event->recurrence_type == "monthly_on_the_week_number_day_name") {
                             $dayName = date('l', strtotime($startDate));
                             if ($dayName !== $dateOfTheMonth->getStart()->format('l')) {
                                 continue;
                             }
-                            
+
                             if ($dates_helper->getWeekOfMonth($startDateReady) !== $dates_helper->getWeekOfMonth($startDate)) {
                                 continue;
                             }
                         }
-                        
+
                         if ($event->all_day == 1) {
                             $eventReady['start'] = $startDateReady;
                             $eventReady['end'] = $startDateReady;
@@ -430,10 +443,10 @@ function calendar_get_events_api($params = [])
                             $eventReady['start'] = $startDateReady . " " . $startTime;
                             $eventReady['end'] = $startDateReady . " " . $endTime;
                         }
-                        
+
                         $events[] = $eventReady;
                     }
-                    
+
                 }
 
                 if ($event->recurrence_type == "daily") {
@@ -460,13 +473,17 @@ function calendar_get_events_api($params = [])
                         $events[] = $eventReady;
                     }
 
+
                 }
 
                 if ($event->recurrence_type == "custom") {
 
                     if ($event->recurrence_repeat_type == "week") {
                         if (!empty($recurrenceRepeatOn)) {
-                        	$eventRecurrences = get_generated_recurrence_repeat($event, $recurrenceRepeatOn, $timeZone, $year, $month);
+                            $eventRecurrences = get_generated_recurrence_repeat($event, $recurrenceRepeatOn, $timeZone, $year, $month);
+
+                            //   dd($eventRecurrences);
+
                             foreach ($eventRecurrences as $eventRecurrence) {
                                 $eventReady['start'] = $eventRecurrence['start'];
                                 $eventReady['end'] = $eventRecurrence['end'];
@@ -506,6 +523,51 @@ function calendar_get_events_api($params = [])
 
         }
 
+
+        if ($selected_date and $events) {
+            $filter_events = array();
+
+            //dd($events,$selected_date);
+
+            //   $selected_date_f = date('Y-m-d', strtotime($selected_date));
+            $selected_date_f = strtotime($selected_date);
+
+
+            foreach ($events as $event) {
+                $ev_start = false;
+                $ev_end = false;
+
+                if (isset($event['start'])) {
+                    // $ev_start =    strtotime($event['start']);
+                    $ev_start = strtotime(date('Y-m-d 00:00:01', strtotime($event['start'])));
+
+                }
+                if (isset($event['end'])) {
+                    $ev_end = strtotime($event['end']);
+                    $ev_end_sel = strtotime($selected_date);
+                    //  $ev_end = strtotime( date('Y-m-d 00:00:01', $ev_end));
+                    $ev_end = strtotime(date('Y-m-d 23:59:59', $ev_end));
+                    $ev_end_sel = strtotime(date('Y-m-d 23:59:59', strtotime($selected_date)));
+
+                }
+
+                if ($ev_start and $ev_start <= $ev_end_sel) {
+                    if ($ev_end and $ev_end >= $ev_end_sel) {
+                        $filter_events[] = $event;
+                    }
+
+                }
+
+
+            }
+ 
+
+            return $filter_events;
+
+
+        }
+
+
         return $events;
     } else {
         if (is_ajax()) {
@@ -515,22 +577,23 @@ function calendar_get_events_api($params = [])
     }
 }
 
-function get_generated_recurrence_repeat($event, $recurrenceRepeatOn, $timeZone, $year, $month) {
-	
-	$previousYear = date('Y', strtotime("-1 month", strtotime($year . '-' . $month)));
-	$previousMonth = date('m', strtotime("-1 month", strtotime($year . '-' . $month)));
-	$previousMonthEvents = generate_recurrence_repeat($event, $recurrenceRepeatOn, $timeZone, $previousYear, $previousMonth);
-	
-	$nextYear = date('Y', strtotime("+1 month", strtotime($year . '-' . $month)));
-	$nextMonth = date('m', strtotime("+1 month", strtotime($year . '-' . $month)));
-	$nextMonthEvents = generate_recurrence_repeat($event, $recurrenceRepeatOn, $timeZone, $nextYear, $nextMonth);
-	
-	$currentMonthEvents = generate_recurrence_repeat($event, $recurrenceRepeatOn, $timeZone, $year, $month);
-	
-	$mergedEvents = array_merge($previousMonthEvents, $nextMonthEvents);
-	
-	
-	return array_merge($currentMonthEvents, $mergedEvents);
+function get_generated_recurrence_repeat($event, $recurrenceRepeatOn, $timeZone, $year, $month)
+{
+
+    $previousYear = date('Y', strtotime("-1 month", strtotime($year . '-' . $month)));
+    $previousMonth = date('m', strtotime("-1 month", strtotime($year . '-' . $month)));
+    $previousMonthEvents = generate_recurrence_repeat($event, $recurrenceRepeatOn, $timeZone, $previousYear, $previousMonth);
+
+    $nextYear = date('Y', strtotime("+1 month", strtotime($year . '-' . $month)));
+    $nextMonth = date('m', strtotime("+1 month", strtotime($year . '-' . $month)));
+    $nextMonthEvents = generate_recurrence_repeat($event, $recurrenceRepeatOn, $timeZone, $nextYear, $nextMonth);
+
+    $currentMonthEvents = generate_recurrence_repeat($event, $recurrenceRepeatOn, $timeZone, $year, $month);
+
+    $mergedEvents = array_merge($previousMonthEvents, $nextMonthEvents);
+
+
+    return array_merge($currentMonthEvents, $mergedEvents);
 }
 
 function generate_recurrence_repeat($event, $recurrenceRepeatOn, $timeZone, $year, $month)
@@ -603,7 +666,6 @@ function calendar_get_event_by_id($event_id)
 }
 
 
-
 // SAVE GROUP
 api_expose_admin('calendar_save_group');
 
@@ -619,7 +681,7 @@ function calendar_save_group($params)
         $save['title'] = $params['title'];
     }
 
-    if (! $save) {
+    if (!$save) {
         return;
     }
 
@@ -636,7 +698,7 @@ api_expose_admin('calendar_delete_group');
 
 function calendar_delete_group($params = false)
 {
-    if (! isset($params['id'])) {
+    if (!isset($params['id'])) {
         return 'Error';
     }
 

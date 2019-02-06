@@ -59,6 +59,10 @@ if ($save_groups) {
 	$groups = array_merge($groups, $save_groups);
 }
 
+
+$events = calendar_get_events_api($params);
+
+
 if ($event_count < 1) {
 	return print lnotif(_e('Click here to edit Calendar', true));
 }
