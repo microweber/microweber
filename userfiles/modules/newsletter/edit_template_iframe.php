@@ -35,40 +35,54 @@ $template = newsletter_get_template(array("id" => $template_id));
         margin: 10px 10px 10px 0;
     }
 
+    .choose-title{
+        font-size:24px;
+        color: #2b2b2b;
+        margin: 10px;
+        font: 400 24px Arial;
+    }
+
     .templates-screenshots a.active {
         border: 3px solid #0086db;
     }
 
     .templates-screenshots img {
-        max-height: 100px;
+        max-height: 250px;
     }
 </style>
 
-<div class="templates-screenshots">
-    <a href="<?php print url_current(); ?>&template=default" class="<?php if (!isset($_GET['template']) OR $_GET['template'] == 'default'): ?>active<?php endif; ?>">
-        <img src="<?php print modules_url(); ?>newsletter/predefined_templates/template_default.jpg" alt=""/>
-    </a>
-    <a href="<?php print url_current(); ?>&template=1" class="<?php if (isset($_GET['template']) AND $_GET['template'] == 1): ?>active<?php endif; ?>">
-        <img src="<?php print modules_url(); ?>newsletter/predefined_templates/template_1.jpg" alt=""/>
-    </a>
-    <a href="<?php print url_current(); ?>&template=2" class="<?php if (isset($_GET['template']) AND $_GET['template'] == 2): ?>active<?php endif; ?>">
-        <img src="<?php print modules_url(); ?>newsletter/predefined_templates/template_2.jpg" alt=""/>
-    </a>
-</div>
-
-<div id="newsletter-template" style="height:0px; overflow:hidden;">
-    <?php if ($template['text'] != '' AND isset($template['text'])): ?>
+<?php if ($template['text'] != '' AND isset($template['text'])): ?>
+    <div id="newsletter-template" style="height:0px; overflow:hidden;">
         <?php print $template['text']; ?>
+    </div>
+<?php else: ?>
+    <?php if (isset($_GET['template'])): ?>
+        <div id="newsletter-template" style="height:0px; overflow:hidden;">
+            <?php if (isset($_GET['template']) AND $_GET['template'] == 'default'): ?>
+                <?php include('predefined_templates/default.php'); ?>
+            <?php elseif (isset($_GET['template']) AND $_GET['template'] == 1): ?>
+                <?php include('predefined_templates/1.php'); ?>
+            <?php elseif (isset($_GET['template']) AND $_GET['template'] == 2): ?>
+                <?php include('predefined_templates/2.php'); ?>
+            <?php else: ?>
+                <?php include('predefined_templates/default.php'); ?>
+            <?php endif; ?>
+        </div>
     <?php else: ?>
-        <?php if (isset($_GET['template']) AND $_GET['template'] == 1): ?>
-            <?php include('predefined_templates/1.php'); ?>
-        <?php elseif(isset($_GET['template']) AND $_GET['template'] == 2): ?>
-            <?php include('predefined_templates/2.php'); ?>
-        <?php else: ?>
-            <?php include('predefined_templates/default.php'); ?>
-        <?php endif; ?>
+        <h3 class="choose-title">Choose template to start</h3>
+        <div class="templates-screenshots">
+            <a href="<?php print url_current(); ?>&template=default" class="<?php if (!isset($_GET['template']) OR $_GET['template'] == 'default'): ?>active<?php endif; ?>">
+                <img src="<?php print modules_url(); ?>newsletter/predefined_templates/template_default.jpg" alt=""/>
+            </a>
+            <a href="<?php print url_current(); ?>&template=1" class="<?php if (isset($_GET['template']) AND $_GET['template'] == 1): ?>active<?php endif; ?>">
+                <img src="<?php print modules_url(); ?>newsletter/predefined_templates/template_1.jpg" alt=""/>
+            </a>
+            <a href="<?php print url_current(); ?>&template=2" class="<?php if (isset($_GET['template']) AND $_GET['template'] == 2): ?>active<?php endif; ?>">
+                <img src="<?php print modules_url(); ?>newsletter/predefined_templates/template_2.jpg" alt=""/>
+            </a>
+        </div>
     <?php endif; ?>
-</div>
+<?php endif; ?>
 
 
 <script>
