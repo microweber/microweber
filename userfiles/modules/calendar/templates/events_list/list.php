@@ -3,7 +3,13 @@ $date = date('Y-m-d');
 if (isset($params['data-date'])) {
     $date = $params['data-date'];
 }
-$events = calendar_get_events('yearmonth=' . $date);
+//$events = calendar_get_events('yearmonth=' . $date);
+
+
+
+
+$events = calendar_get_events_api('date=' . $date);
+d($date);
 ?>
 
 <?php if ($events): ?>
@@ -25,8 +31,7 @@ $events = calendar_get_events('yearmonth=' . $date);
                 <div class="col-sm-8">
                     <h5><?php print $event['start_time'] . 'h - ' . $event['end_time'] . 'h'; ?>, <?php print $event['start_date'] . ' - ' . $event['end_date']; ?>, <?php print $event['short_description']; ?></h5>
                     <h3><?php print $event['title']; ?></h3>
-                    <h4><?php print $event['calendar_group_name']; ?></h4>
-                    <div>
+                     <div>
                         <p><?php print $event['description']; ?></p>
                         <?php if ($event_link): ?>
                             <a href="<?php print $event_link; ?>">View details</a>
