@@ -23,6 +23,8 @@ class Options
                 'field_values' => 'string',
                 'module' => 'string',
                 'is_system' => 'integer',
+                'option_value_prev' => 'longText',
+
             ],
         ];
     }

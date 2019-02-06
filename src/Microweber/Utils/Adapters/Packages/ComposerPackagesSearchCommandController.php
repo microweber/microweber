@@ -225,9 +225,25 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
                         $version_requires = $version->getRequires();
 
                         $version_type = $version->getType();
+                        $version_repo_raw = $version->getVersion();
+                        $version_repo = $version->getPrettyVersion();
 
 
+                        $package_is_allowed = false;
                         if ($version_type and in_array($version_type, $allowed_package_types)) {
+                            $package_is_allowed = true;
+
+                        }
+
+
+                        if ($version_type == 'microweber-core-update' and $result['name'] == 'microweber/update') {
+                            if (MW_VERSION == $version_repo) {
+                                $package_is_allowed = true;
+                            }
+                        }
+
+
+                        if ($package_is_allowed) {
 
                             $version_info = array();
                             $version_info['version'] = $version->getPrettyVersion();
