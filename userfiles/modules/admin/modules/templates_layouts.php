@@ -107,7 +107,7 @@ if ($screenshots) {
 
                 if (inner_mod_type) {
                     var inner_mod_type_admin = inner_mod_type + '/admin'
-                 //   mod_in_mods_html_btn += '<a class="mw-ui-btn mw-ui-btn-info" style="margin: 0 5px 5px 0;" href=\'javascript:window.parent.mw.tools.open_global_module_settings_modal("' + inner_mod_type_admin + '","' + inner_mod_id + '")\'>' + inner_mod_title + '</a>';
+                    //   mod_in_mods_html_btn += '<a class="mw-ui-btn mw-ui-btn-info" style="margin: 0 5px 5px 0;" href=\'javascript:window.parent.mw.tools.open_global_module_settings_modal("' + inner_mod_type_admin + '","' + inner_mod_id + '")\'>' + inner_mod_title + '</a>';
                     mod_in_mods_html_btn += '<a class="mw-ui-btn mw-ui-btn-info" style="margin: 0 5px 5px 0;" onclick=\'window.parent.mw.tools.open_global_module_settings_modal("' + inner_mod_type_admin + '","' + inner_mod_id + '")\'>' + inner_mod_title + '</a>';
                 }
             });
@@ -258,23 +258,55 @@ if ($screenshots) {
 
                         <div class="module-layouts-viewer">
                             <?php foreach ($module_templates as $item): ?>
-                                <?php if ((strtolower($item['name']) != 'default')): ?>
-                                    <a href="javascript:;" class="js-apply-template"
-                                       data-file="<?php print $item['layout_file'] ?>">
-                                        <div class="screenshot <?php if (($item['layout_file'] == $cur_template)): ?>active<?php endif; ?>">
-                                            <?php
-                                            $item_screenshot = thumbnail('');
-                                            if (isset($item['screenshot'])) {
-                                                $item_screenshot = $item['screenshot'];
-                                            }
-                                            ?>
+                                <?php if (($item['layout_file'] == $cur_template)): ?>
+                                    <?php if ((strtolower($item['name']) != 'default')): ?>
+                                        <a href="javascript:;" class="js-apply-template" data-file="<?php print $item['layout_file'] ?>">
+                                            <?php if ($item['layout_file'] == $cur_template): ?>
+                                                <div class="default-layout">DEFAULT</div>
+                                            <?php endif; ?>
 
-                                            <div class="holder">
-                                                <img src="<?php echo $item_screenshot; ?>" alt="<?php print $item['name']; ?>" style="max-width:100%;" title="<?php print $item['name']; ?>"/>
-                                                <div class="title"><?php print $item['name']; ?></div>
+                                            <div class="screenshot <?php if (($item['layout_file'] == $cur_template)): ?>active<?php endif; ?>">
+                                                <?php
+                                                $item_screenshot = thumbnail('');
+                                                if (isset($item['screenshot'])) {
+                                                    $item_screenshot = $item['screenshot'];
+                                                }
+                                                ?>
+
+                                                <div class="holder">
+                                                    <img src="<?php echo $item_screenshot; ?>" alt="<?php print $item['name']; ?>" style="max-width:100%;" title="<?php print $item['name']; ?>"/>
+                                                    <div class="title"><?php print $item['name']; ?></div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </a>
+                                        </a>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+
+
+                            <?php foreach ($module_templates as $item): ?>
+                                <?php if (($item['layout_file'] != $cur_template)): ?>
+                                    <?php if ((strtolower($item['name']) != 'default')): ?>
+                                        <a href="javascript:;" class="js-apply-template" data-file="<?php print $item['layout_file'] ?>">
+                                            <?php if ($item['layout_file'] == $cur_template): ?>
+                                                <div class="default-layout">DEFAULT</div>
+                                            <?php endif; ?>
+
+                                            <div class="screenshot <?php if (($item['layout_file'] == $cur_template)): ?>active<?php endif; ?>">
+                                                <?php
+                                                $item_screenshot = thumbnail('');
+                                                if (isset($item['screenshot'])) {
+                                                    $item_screenshot = $item['screenshot'];
+                                                }
+                                                ?>
+
+                                                <div class="holder">
+                                                    <img src="<?php echo $item_screenshot; ?>" alt="<?php print $item['name']; ?>" style="max-width:100%;" title="<?php print $item['name']; ?>"/>
+                                                    <div class="title"><?php print $item['name']; ?></div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    <?php endif; ?>
                                 <?php endif; ?>
                             <?php endforeach; ?>
                         </div>

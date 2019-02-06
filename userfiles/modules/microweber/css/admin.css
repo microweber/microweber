@@ -1075,7 +1075,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
     line-height: 17px;
     font-size: 12px;
     content: '\002b';
-    font-family: Microweber!important;
+    font-family: Microweber !important;
 }
 
 #mw-admin-main-menu li.active .mw-admin-main-menu-mini:after {
@@ -4778,7 +4778,6 @@ body.is_admin .mw-admin-container {
     float: left;
 }
 
-
 .table-responsive {
     overflow-x: auto;
     padding-bottom: 20px;
@@ -5340,11 +5339,12 @@ body.is_admin .mw-admin-container {
     padding: 0;
 }
 
-.mw-module-live-edit-settings .mw-accordion-item.active .mw-ui-box-header.mw-accordion-title{
-    border-color:#d6d6d6;
+.mw-module-live-edit-settings .mw-accordion-item.active .mw-ui-box-header.mw-accordion-title {
+    border-color: #d6d6d6;
 }
+
 .mw-module-live-edit-settings .mw-accordion-item.active .mw-ui-box-header.mw-accordion-title,
-.mw-module-live-edit-settings .mw-accordion-item.active .mw-ui-box-header.mw-accordion-content{
+.mw-module-live-edit-settings .mw-accordion-item.active .mw-ui-box-header.mw-accordion-content {
     border-radius: 0;
 }
 
@@ -5812,9 +5812,9 @@ body.is_admin .mw-admin-container {
     color: #df332b;
 }
 
-@media screen and (max-width: 767px){
+@media screen and (max-width: 767px) {
     .action-buttons a,
-    .action-buttons button{
+    .action-buttons button {
         margin: 5px 0;
     }
 }
@@ -6014,7 +6014,6 @@ body.is_admin .mw-admin-container {
     .shipping-country-row {
         padding: 0 0 15px 0;
     }
-
 
     .switcher-label-left {
         padding: 0;
@@ -7313,6 +7312,15 @@ select.silver-field {
     margin-top: 20px;
 }
 
+.module-layouts-viewer .default-layout {
+    position: absolute;
+    background: #0086db;
+    color: #fff;
+    padding: 5px;
+    font-weight: bold;
+    font-size: 10px;
+}
+
 .module-layouts-viewer .screenshot,
 .current-template .screenshot {
     display: inline-block;
@@ -7454,8 +7462,6 @@ select.silver-field {
     width: 100%;
 }
 
-
-
 .mw-admin-menu-sidebar-logout-desktop a {
     border-bottom: 0 !important;
 }
@@ -7487,7 +7493,7 @@ select.silver-field {
     }
 }
 
-#select-post-author .mw-ui-field{
+#select-post-author .mw-ui-field {
     width: 100%;
 }
 

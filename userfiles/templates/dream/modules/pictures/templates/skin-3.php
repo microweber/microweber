@@ -16,7 +16,7 @@ description: Skin 3
     <?php $rand = uniqid(); ?>
 
     <div class="text-center">
-        <div class="slider" data-animation="fade" data-arrows="true" data-paging="true">
+        <div class="slider" data-animation="fade" data-arrows="true" data-paging="true" data-adaptive-height="true">
             <div id="mw-gallery-<?php print $rand; ?>">
                 <ul class="slides">
                     <?php $count = -1;

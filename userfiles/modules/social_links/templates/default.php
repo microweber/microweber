@@ -63,5 +63,11 @@ description: Default
 
     <?php } ?>
 
+    <?php if ($github_enabled) { ?>
+
+        <a href="//github.com/<?php print $github_url; ?>" target="_blank"><span class="mw-icon-social-github"></span></a>
+
+    <?php } ?>
+
 
 </div>

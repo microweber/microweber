@@ -14,6 +14,7 @@ $googleplus_enabled_option = get_option('googleplus_enabled', $option_group);
 $pinterest_enabled_option = get_option('pinterest_enabled', $option_group);
 $youtube_enabled_option = get_option('youtube_enabled', $option_group);
 $linkedin_enabled_option = get_option('linkedin_enabled', $option_group);
+$github_enabled_option = get_option('github_enabled', $option_group);
 $instagram_enabled_option = get_option('instagram_enabled', $option_group);
 $rss_enabled_option = get_option('rss_enabled', $option_group);
 
@@ -23,6 +24,7 @@ $googleplus_enabled = $googleplus_enabled_option == 'y';
 $pinterest_enabled = $pinterest_enabled_option == 'y';
 $youtube_enabled = $youtube_enabled_option == 'y';
 $linkedin_enabled = $linkedin_enabled_option == 'y';
+$github_enabled = $github_enabled_option == 'y';
 $instagram_enabled = $instagram_enabled_option == 'y';
 $rss_enabled = $rss_enabled_option == 'y';
 
@@ -43,6 +45,8 @@ if (isset($params['show-icons'])) {
             $youtube_enabled = true;
         } else if (strpos($icon, 'linkedin') !== false and $linkedin_enabled_option === false) {
             $linkedin_enabled = true;
+        } else if (strpos($icon, 'github') !== false and $github_enabled_option === false) {
+            $github_enabled = true;
         } else if (strpos($icon, 'instagram') !== false and $instagram_enabled_option == false) {
             $instagram_enabled = true;
         } else if (strpos($icon, 'rss') !== false and $rss_enabled_option == false) {
@@ -99,6 +103,12 @@ if ($linkedin_url == false) {
     $linkedin_url = get_option('linkedin_url', 'website');
 }
 
+$github_url = get_option('github_url', $option_group);
+
+if ($github_url == false) {
+    $github_url = get_option('github_url', 'website');
+}
+
 
 $social_links_has_enabled = false;
 
@@ -108,7 +118,6 @@ if ($facebook_enabled or $twitter_enabled or $googleplus_enabled or $pinterest_e
 
 
 ?>
-
 
 
 <?php

@@ -16,30 +16,28 @@
                 $('.js-add-new-button').hide();
                 $("#edit-testimonials").attr("edit-id", "0");
                 mw.reload_module("#edit-testimonials");
+
+                $(".mw-ui-btn-nav-tabs .mw-ui-btn:first-of-type").trigger("click");
             });
         });
     });
 
-
     $(window).on('load', function () {
-        $("#client_img").on("click", function(){
-
+        $("#client_img").on("click", function () {
             mw.fileWindow({
-                types:'images',
-                change:function(url){
+                types: 'images',
+                change: function (url) {
                     url = url.toString();
                     mw.$("#client_picture").val(url).trigger('change');
                 }
             });
         });
 
-        mw.on.moduleReload("edit-testimonials", function(){
-
-            $("#client_img").on("click", function(){
-
+        mw.on.moduleReload("edit-testimonials", function () {
+            $("#client_img").on("click", function () {
                 mw.fileWindow({
-                    types:'images',
-                    change:function(url){
+                    types: 'images',
+                    change: function (url) {
                         url = url.toString();
                         mw.$("#client_picture").val(url).trigger('change');
                     }
