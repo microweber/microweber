@@ -23,14 +23,50 @@ $template = newsletter_get_template(array("id" => $template_id));
     .mw_modal_container {
         padding: 0px !important;
     }
+
+    .templates-screenshots {
+        padding-left: 10px;
+    }
+
+    .templates-screenshots a {
+        border: 3px solid #2b2b2b;
+        display: block;
+        float: left;
+        margin: 10px 10px 10px 0;
+    }
+
+    .templates-screenshots a.active {
+        border: 3px solid #0086db;
+    }
+
+    .templates-screenshots img {
+        max-height: 100px;
+    }
 </style>
 
+<div class="templates-screenshots">
+    <a href="<?php print url_current(); ?>&template=default" class="<?php if (!isset($_GET['template']) OR $_GET['template'] == 'default'): ?>active<?php endif; ?>">
+        <img src="<?php print modules_url(); ?>newsletter/predefined_templates/template_default.jpg" alt=""/>
+    </a>
+    <a href="<?php print url_current(); ?>&template=1" class="<?php if (isset($_GET['template']) AND $_GET['template'] == 1): ?>active<?php endif; ?>">
+        <img src="<?php print modules_url(); ?>newsletter/predefined_templates/template_1.jpg" alt=""/>
+    </a>
+    <a href="<?php print url_current(); ?>&template=2" class="<?php if (isset($_GET['template']) AND $_GET['template'] == 2): ?>active<?php endif; ?>">
+        <img src="<?php print modules_url(); ?>newsletter/predefined_templates/template_2.jpg" alt=""/>
+    </a>
+</div>
 
 <div id="newsletter-template" style="height:0px; overflow:hidden;">
     <?php if ($template['text'] != '' AND isset($template['text'])): ?>
         <?php print $template['text']; ?>
     <?php else: ?>
-        <?php include('predefined_templates/1.php'); ?>
+        <?php if (isset($_GET['template']) AND $_GET['template'] == 1): ?>
+            <?php include('predefined_templates/1.php'); ?>
+        <?php elseif(isset($_GET['template']) AND $_GET['template'] == 2): ?>
+            <?php include('predefined_templates/2.php'); ?>
+        <?php else: ?>
+            <?php include('predefined_templates/default.php'); ?>
+        <?php endif; ?>
     <?php endif; ?>
 </div>
 
