@@ -14,7 +14,7 @@ $config['tables'] = array(
 
 $config['settings'][]  = array(
     'type'=>'tooltip',
-    'title'=>'Space',
+    'title'=>'',
     'icon'=>'mw-icon-wand',
     'view'=>'quick_settings',
 );
