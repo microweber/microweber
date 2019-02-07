@@ -145,7 +145,14 @@ class CalendarManager
             $eventData['all_day'] = intval($eventData['all_day']);
         }
 
-        $eventData['content_id'] = intval($eventData['content_id']);
+        $dateObj= \DateTime::createFromFormat('Y-m-d', $eventData['end_date']);
+        $end_date = $dateObj->format('Y-m-d');
+
+
+        $dateObj= \DateTime::createFromFormat('Y-m-d', $eventData['start_date']);
+        $start_date = $dateObj->format('Y-m-d');
+
+         $eventData['content_id'] = intval($eventData['content_id']);
         $eventData['calendar_group_id'] = intval($eventData['calendar_group_id']);
         $eventData['recurrence_repeat_every'] = intval($eventData['recurrence_repeat_every']);
 
@@ -155,10 +162,15 @@ class CalendarManager
         $eventData['link_url'] = trim($eventData['link_url']);
         $eventData['recurrence_type'] = trim($eventData['recurrence_type']);
 
-        $eventData['start_date'] = date('Y-m-d', strtotime($eventData['start_date']));
-        $eventData['end_date'] = date('Y-m-d', strtotime($eventData['end_date']));
+//        $eventData['start_date'] = date('Y-m-d', strtotime($eventData['start_date']));
+//        $eventData['end_date'] = date('Y-m-d', strtotime($eventData['end_date']));
+
+
+        $eventData['start_date'] = $start_date;
+        $eventData['end_date'] = $end_date;
         $eventData['start_time'] = date('H:i:s', strtotime($eventData['start_time']));
         $eventData['end_time'] = date('H:i:s', strtotime($eventData['end_time']));
+
 
         if (isset($eventData['recurrence_repeat_on'])) {
             $eventData['recurrence_repeat_on'] = json_encode($eventData['recurrence_repeat_on']);
