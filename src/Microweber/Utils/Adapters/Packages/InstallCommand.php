@@ -13,6 +13,7 @@
 namespace Microweber\Utils\Adapters\Packages;
 
 use Composer\Installer;
+use Composer\Installer\InstallationManager;
 use Composer\Plugin\CommandEvent;
 use Composer\Plugin\PluginEvents;
 use Symfony\Component\Console\Input\InputInterface;
@@ -94,7 +95,7 @@ EOT
         ini_set('memory_limit','4777M');
 
         $install
-            ->setDryRun(0)
+          //  ->setDryRun(0)
             ->setVerbose(1)
         //    ->setPreferSource(0)
             ->setPreferDist(1)
