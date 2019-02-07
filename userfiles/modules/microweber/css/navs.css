@@ -229,6 +229,11 @@
         padding-left: 230px;
     }
 
+    html[dir=rtl] .admin-content-column {
+        padding-left: 0px;
+        padding-right: 230px;
+    }
+
     .tree-column-mobile-active .fixed-side-column {
         width: 300px;
         left: 230px;
