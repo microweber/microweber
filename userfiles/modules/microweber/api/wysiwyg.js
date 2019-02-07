@@ -307,7 +307,7 @@ mw.wysiwyg = {
             el.setAttribute('data-gramm', 'false');
             if (!el._handleCopy) {
                 el._handleCopy = true;
-                $(el).on('copy', function(){
+                $(el).on('copy', function(ev){
                     mw.wysiwyg.handleCopyEvent(ev);
                 });
             }

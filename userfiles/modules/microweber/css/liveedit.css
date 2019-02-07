@@ -287,6 +287,7 @@ li.module-item.ui-draggable-dragging {
     background: white;
     padding: 15px 5px !important;
     opacity: .9;
+    touch-action: none;
 }
 
 li.module-item.ui-draggable-dragging img {
@@ -658,9 +659,9 @@ a.mw-make-cols {
 }
 
 .module-active-layouts .mw-element-name-handle {
-    font-size: 0;
+    /*font-size: 0;
     top: -4px;
-    position: relative;
+    position: relative;*/
 }
 
 .mw_edit_settings [class*="mw-icon-"] {

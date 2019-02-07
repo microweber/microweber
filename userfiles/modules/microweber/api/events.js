@@ -316,43 +316,8 @@ mw.on.hashParamEventInit();
 
 
 
-mw.__bindMultiple__objects = [];
-mw.__bindMultiple__events = {};
 
 
-
-mw.bindMultiple = function(object, event, func){
-    var dont_exists = mw.__bindMultiple__objects.indexOf(object) == -1;
-
-    if(dont_exists){
-       var len = mw.__bindMultiple__objects.push(object);
-    }
-    var pos = mw.__bindMultiple__objects.indexOf(object);
-
-    if(mw.__bindMultiple__events[pos] === undefined){
-       mw.__bindMultiple__events[pos] = [func];
-    }
-    else{
-       mw.__bindMultiple__events[pos].push(func);
-    }
-
-    if(dont_exists){
-      $(object).bind(event, function(){
-          var pos = len-1;
-          var funcs = mw.__bindMultiple__events[pos];
-          for(var x in funcs){
-             funcs[x].call(object, event);
-          }
-       });
-    }
-    return object;
-}
-
-$.fn.bindMultiple = function(event, callback){
-    return this.each(function(){
-       mw.bindMultiple(this, event, callback);
-    });
-}
 
 
 mw.event = {
@@ -363,8 +328,22 @@ mw.event = {
   },
   key:function(e,key){
     return (e.keyCode === parseFloat(key));
+  },
+  page: function (e) {
+      e = e.originalEvent || e;
+      if (e.type.indexOf('touch') !== 0) {
+        return {
+            x: e.pageX,
+            y: e.pageY
+        };
+      } else {
+          return {
+              x: e.changedTouches[0].pageX,
+              y: e.changedTouches[0].pageY
+          };
+      }
   }
-}
+};
 
 
 

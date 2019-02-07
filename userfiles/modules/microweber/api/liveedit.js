@@ -1,6 +1,7 @@
 mw.require('wysiwyg.js');
 
 
+
 mw.require('control_box.js');
 mw.require('element_analyzer.js');
 mw.require('liveedit_elements.js');
@@ -29,7 +30,7 @@ mw.noEditModules = [
     '[type="template_settings"]'
 ];
 
-
+!function(a){function f(a,b){if(!(a.originalEvent.touches.length>1)){a.preventDefault();var c=a.originalEvent.changedTouches[0],d=document.createEvent("MouseEvents");d.initMouseEvent(b,!0,!0,window,1,c.screenX,c.screenY,c.clientX,c.clientY,!1,!1,!1,!1,0,null),a.target.dispatchEvent(d)}}if(a.support.touch="ontouchend"in document,a.support.touch){var e,b=a.ui.mouse.prototype,c=b._mouseInit,d=b._mouseDestroy;b._touchStart=function(a){var b=this;!e&&b._mouseCapture(a.originalEvent.changedTouches[0])&&(e=!0,b._touchMoved=!1,f(a,"mouseover"),f(a,"mousemove"),f(a,"mousedown"))},b._touchMove=function(a){e&&(this._touchMoved=!0,f(a,"mousemove"))},b._touchEnd=function(a){e&&(f(a,"mouseup"),f(a,"mouseout"),this._touchMoved||f(a,"click"),e=!1)},b._mouseInit=function(){var b=this;b.element.bind({touchstart:a.proxy(b,"_touchStart"),touchmove:a.proxy(b,"_touchMove"),touchend:a.proxy(b,"_touchEnd")}),c.call(b)},b._mouseDestroy=function(){var b=this;b.element.unbind({touchstart:a.proxy(b,"_touchStart"),touchmove:a.proxy(b,"_touchMove"),touchend:a.proxy(b,"_touchEnd")}),d.call(b)}}}(jQuery);
 
 mw.inaccessibleModules = document.createElement('div');
 mw.inaccessibleModules.className = 'mw-ui-btn-nav mwInaccessibleModulesMenu';
@@ -220,12 +221,14 @@ $(document).ready(function() {
 
     mw.dragSTOPCheck = false;
 
-    mw.edits.mouseleave(function(e) {
+    /*mw.edits.on('mouseleave', function(e) {
         if (mw.isDrag) {
             var el = $(this);
             var off = el.offset();
             var h = el.outerHeight();
             var w = el.outerWidth();
+            var ep = mw.event.page(e);
+
             if (this.className.indexOf('nodrop') === -1) {
                 if (e.pageX > off.left && e.pageX < off.left + w) {
                     mw.currentDragMouseOver = this;
@@ -240,7 +243,7 @@ $(document).ready(function() {
                 mw.dropable.addClass("mw_dropable_onleaveedit");
             }
         }
-    });
+    });*/
 
     mw.on("DragHoverOnEmpty", function(e, el) {
         if ($.browser.webkit) {
@@ -390,11 +393,11 @@ $(document).ready(function() {
 
 
 
-    $(mwd.body).on("mousedown mouseup", function(e) {
+    $(mwd.body).on("mousedown mouseup touchstart touchend", function(e) {
 
 
-        if (e.type === 'mousedown') {
-            if (typeof(mw.iconSelectorGUI) != "undefined"
+        if (e.type === 'mousedown' || e.type === 'touchstart') {
+            if (mw.iconSelectorGUI
                 && !mw.wysiwyg.elementHasFontIconClass(e.target)
                 && !mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['tooltip-icon-picker', 'mw-tooltip'])) {
                 $(mw.iconSelectorGUI).hide();
@@ -674,14 +677,14 @@ mw.drag = {
             y: 0
         };
 
-        $(mwd.body).on('mousemove', function(event) {
+        $(mwd.body).on('mousemove touchmove', function(event) {
+
             var that = this;
             mw.dragSTOPCheck = false;
             if (!mw.settings.resize_started) {
-                mw.emouse = {
-                    x: event.pageX,
-                    y: event.pageY
-                };
+
+                mw.emouse = mw.event.page(event);
+
                 mw.mm_target = event.target;
                 mw.$mm_target = $(mw.mm_target);
                 var mouseover_editable_region_inside_a_module = false;
@@ -695,12 +698,12 @@ mw.drag = {
                     }
                 } else {
                     mw.ea.data.currentGrabbed = mw.dragCurrent;
-                    if( (mw.emouse.x+mw.emouse.y) % 2 === 0 ) {
+                    //if( (mw.emouse.x+mw.emouse.y) % 2 === 0 ) {
                         mw.tools.removeClass(this, 'isTyping');
                         mw.ea.interactionAnalizer(event);
                         $(".currentDragMouseOver").removeClass("currentDragMouseOver");
                         $(mw.currentDragMouseOver).addClass("currentDragMouseOver");
-                    }
+                    //}
                 }
             }
         });
@@ -709,7 +712,7 @@ mw.drag = {
         mw.drag.fix_placeholders(true);
         mw.drag.fixes();
 
-        $(mwd.body).mouseup(function(event) {
+        $(mwd.body).on('mouseup touchend', function(event) {
 
             mw.mouseDownStarted = false;
             if (mw.isDrag && mw.dropable.is(":hidden")) {
@@ -721,14 +724,15 @@ mw.drag = {
             $(this).removeClass("not-allowed");
         });
 
-        $(mwd.body).mousedown(function(event) {
+        $(mwd.body).on('mousedown touchstart', function(event) {
             var target = event.target;
 
             if ($(target).hasClass("image_free_text")) {
                 mw.image._dragcurrent = target;
                 mw.image._dragparent = target.parentNode;
-                mw.image._dragcursorAt.x = event.pageX - target.offsetLeft;
-                mw.image._dragcursorAt.y = event.pageY - target.offsetTop;
+                var pagePos = mw.event.page(event);
+                mw.image._dragcursorAt.x = pagePos.x- target.offsetLeft;
+                mw.image._dragcursorAt.y = pagePos.y - target.offsetTop;
                 target.startedY = target.offsetTop - target.parentNode.offsetTop;
                 target.startedX = target.offsetLeft - target.parentNode.offsetLeft;
             }
@@ -960,8 +964,10 @@ mw.drag = {
             });
         });
     },
+
     init: function(selector, callback) {
         if (!mw.handle_item) {
+
             $(mwd.body).append(mw.settings.handles.module);
             $(mwd.body).append(mw.settings.handles.row);
             $(mwd.body).append(mw.settings.handles.element);
@@ -1183,7 +1189,8 @@ mw.drag = {
                     l = cols.length;
                 for (; i < l; i++) {
                     var _cleft = $(cols[i]).offset().left;
-                    if (_cleft < event.pageX && (_cleft + cols[i].clientWidth) > event.pageX) {
+                    var ePos = mw.event.page(event);
+                    if (_cleft < ePos.x && (_cleft + cols[i].clientWidth) > ePos.x) {
                         var tofocus = cols[i].querySelector('.mw-col-container');
                         if (tofocus === null) {
                             cols[i].innerHTML = '<div class="mw-col-container">' + cols[i].innerHTML + '</div>';
@@ -1215,13 +1222,13 @@ mw.drag = {
         var items = selector || ".modules-list li[data-module-name]";
         mw.$(items).draggable({
             revert: true,
-            /*cursorAt: {
+            cursorAt: {
                 top: -30
-            },*/
+            },
             revertDuration: 0,
             start: function(a, b) {
                 mw.isDrag = true;
-                mw.dragCurrent =mw.ea.data.currentGrabbed = mw.GlobalModuleListHelper;
+                mw.dragCurrent = mw.ea.data.currentGrabbed = mw.GlobalModuleListHelper;
                 $(mwd.body).addClass("dragStart");
                 mw.image_resizer._hide();
             },
@@ -1272,13 +1279,13 @@ mw.drag = {
             $(mwd.body).on("mouseup touchend", function(event) {
                 mw.image._dragcurrent = null;
                 mw.image._dragparent = null;
-                var sliders = mwd.getElementsByClassName("canvas-slider"),
+                var sliders = mwd.getElementsByClassName("canvas-slider"),cam
                     len = sliders.length,
                     i = 0;
                 for (; i < len; i++) {
                     sliders[i].isDrag = false;
                 }
-                if(event.type === 'mouseup' && mw.liveEditSelectMode === 'none'){
+                if((event.type === 'mouseup' || event.type === 'touchend') && mw.liveEditSelectMode === 'none'){
                     mw.liveEditSelectMode = 'element';
                 }
                 if (!mw.isDrag) {
@@ -2188,8 +2195,9 @@ mw.drop_regions = {
 
         var l = regions.left;
         var r = regions.right;
-        var mx = event.pageX;
-        var my = event.pageY;
+        var ep = mw.event.page(event);
+        var mx = ep.x;
+        var my = ep.y;
         if (mx > l.l && mx < l.r && my > l.t && my < l.b) {
             return 'left';
         } else if (mx > r.l && mx < r.r && my > r.t && my < r.b) {
@@ -2669,18 +2677,18 @@ $(window).on("load", function() {
         }
     });
 
-    mw.$("#liveedit_wysiwyg").mousedown(function() {
+    mw.$("#liveedit_wysiwyg").on('mousedown touchstart',function() {
         if (mw.$(".mw_editor_btn_hover").length == 0) {
             mw.mouseDownOnEditor = true;
             $(this).addClass("hover");
         }
     });
-    mw.$("#liveedit_wysiwyg").mouseup(function() {
+    mw.$("#liveedit_wysiwyg").on('mouseup touchend',function() {
         mw.mouseDownOnEditor = false;
         $(this).removeClass("hover");
     });
 
-    $(document.body).mouseup(function(event) {
+    $(document.body).on('mouseup touchend',function(event) {
         mw.target.item = event.target;
         mw.target.tag = event.target.tagName.toLowerCase();
         mw.mouseDownOnEditor = false;
@@ -2711,7 +2719,7 @@ $(window).on("load", function() {
     }
     mw.toolbar.fixPad();
     /*  WYSIWYG */
-    $(window).on("mouseup", function(e) {
+    $(window).on("mouseup touchend", function(e) {
 
         var sel = window.getSelection();
         if (sel.rangeCount > 0) {
@@ -2743,17 +2751,19 @@ $(window).on("load", function() {
             if (sel.rangeCount > 0 && ($.contains(e.target, cac) || $.contains(cac, e.target) || cac === e.target)) {
                 setTimeout(function() {
 
+                    var ep = mw.event.page(e);
+
                     if (cac.isContentEditable && !sel.isCollapsed && !mw.tools.hasClass(cac, 'plain-text') && !mw.tools.hasClass(cac, 'safe-element')) {
                         if (typeof(window.getSelection().getRangeAt(0).getClientRects()[0]) == 'undefined') {
                             return;
                         }
                         mw.smallEditorCanceled = false;
-                        var top = e.pageY - mw.smallEditor.height() - window.getSelection().getRangeAt(0).getClientRects()[0].height;
+                        var top = ep.y - mw.smallEditor.height() - window.getSelection().getRangeAt(0).getClientRects()[0].height;
                         mw.smallEditor.css({
                             visibility: "visible",
                             opacity: 0.7,
                             top: (top > 55 ? top : 55),
-                            left: e.pageX + mw.smallEditor.width() < $(window).width() ? e.pageX : ($(window).width() - mw.smallEditor.width() - 5)
+                            left: ep.x + mw.smallEditor.width() < $(window).width() ? ep.x : ($(window).width() - mw.smallEditor.width() - 5)
                         });
 
                     } else {
@@ -2790,11 +2800,15 @@ $(window).on("load", function() {
     });
     mw.smallEditorOff = 150;
 
-    $(window).on("mousemove", function(e) {
+    $(window).on("mousemove touchmove touchstart", function(e) {
         if (!!mw.smallEditor && !mw.isDrag && !mw.smallEditorCanceled && !mw.smallEditor.hasClass("editor_hover")) {
             var off = mw.smallEditor.offset();
+            var ep = mw.event.page(e);
             if (typeof off !== 'undefined') {
-                if (((e.pageX - mw.smallEditorOff) > (off.left + mw.smallEditor.width())) || ((e.pageY - mw.smallEditorOff) > (off.top + mw.smallEditor.height())) || ((e.pageX + mw.smallEditorOff) < (off.left)) || ((e.pageY + mw.smallEditorOff) < (off.top))) {
+                if (
+                    ((ep.x - mw.smallEditorOff) > (off.left + mw.smallEditor.width()))
+                    || ((ep.y - mw.smallEditorOff) > (off.top + mw.smallEditor.height()))
+                    || ((ep.x + mw.smallEditorOff) < (off.left)) || ((ep.y + mw.smallEditorOff) < (off.top))) {
                     if (typeof mw.smallEditor !== 'undefined') {
                         mw.smallEditor.css("visibility", "hidden");
                         mw.smallEditorCanceled = true;
@@ -2809,7 +2823,7 @@ $(window).on("load", function() {
             mw.smallEditorCanceled = true;
         }
     });
-    mw.$("#live_edit_toolbar,#mw_small_editor").on("mousedown", function(e) {
+    mw.$("#live_edit_toolbar, #mw_small_editor").on("mousedown touchstart", function(e) {
        $(".wysiwyg_external").empty()
         if (e.target.nodeName != 'INPUT' && e.target.nodeName != 'SELECT' && e.target.nodeName != 'OPTION' && e.target.nodeName != 'CHECKBOX') {
             e.preventDefault();
@@ -2835,22 +2849,12 @@ $(window).resize(function() {
 
 mw.preview = function() {
     var url = mw.url.removeHash(window.location.href);
-    var url = mw.url.set_param('preview', true, url);
+    url = mw.url.set_param('preview', true, url);
     window.open(url, '_blank');
     window.focus();
 };
 
-mw.iphonePreview = function() {
-    var url = mw.url.removeHash(window.location.href);
-    var url = mw.url.set_param('preview', true, url);
-    mw.tools.modal.frame({
-        url: url,
-        width: 320,
-        height: 592,
-        template: 'modal-iphone'
-    });
-    mw.tools.modal.overlay();
-};
+
 mw.quick = {
     w: '80%',
     h: '90%',
@@ -2881,37 +2885,38 @@ mw.quick = {
     edit: function(id, content_type, subtype, parent, category) {
         var str = "";
 
-        if (typeof(parent) != 'undefined') {
-            var str = "&recommended_parent=" + parent;
+        if (parent) {
+            str = "&recommended_parent=" + parent;
         }
 
-        if (content_type != undefined && content_type != '') {
+        if (content_type) {
             str = str + '&content_type=' + content_type;
         }
 
-        if (typeof(category) != 'undefined') {
+        if (category) {
             str = str + '&category=' + category;
         }
 
-        if (subtype != undefined && subtype != '') {
+        if (subtype) {
             str = str + '&subtype=' + subtype;
         }
 
         var actionType = '';
-        if(id == 0){
-            var actionType = 'Add';
+
+        if(id === 0){
+            actionType = 'Add';
         }else{
-            var actionType = 'Edit';
+            actionType = 'Edit';
         }
 
         var actionOf = 'Content';
-        if(content_type == 'post'){
+        if(content_type === 'post'){
             actionOf = 'Post'
-        }else if(content_type == 'page'){
+        }else if(content_type === 'page'){
             actionOf = 'Page'
-        }else if(content_type == 'product'){
+        }else if(content_type === 'product'){
             actionOf = 'Product'
-        }else if(content_type == 'category'){
+        }else if(content_type === 'category'){
             actionOf = 'Category'
         }
 

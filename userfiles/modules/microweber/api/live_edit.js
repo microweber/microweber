@@ -19,13 +19,14 @@ mw.live_edit.showHandle = function (element) {
 
     var mod_icon = mw.live_edit.getModuleIcon(module_type);
 
-    if (module_type === 'layouts') {
+   /* if (module_type === 'layouts') {
         title = mod_icon;
     }
     else{
         title = mod_icon + (title ? title : mw.msg.settings);
-    }
+    }*/
 
+    title = mod_icon + (title ? title : mw.msg.settings);
 
     if(!mw.handle_module){
         return;

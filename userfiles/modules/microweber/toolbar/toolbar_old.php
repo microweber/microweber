@@ -105,13 +105,6 @@
         </div>
 
       <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green mw-ui-btn right" onclick="mw.drag.save(this)" id="main-save-btn"><?php _e("Save"); ?></span>
-
-
-
-
-
-
-        <?php /*<a href="javascript:;" class="mw-ui-btn" onclick="mw.iphonePreview();"><span class="ico iPhone"></span>iPhone</a>*/   ?>
         <div class="mw-ui-dropdown right"> <a href="<?php print mw()->url_manager->current(); ?>/editmode:n" class="mw-ui-btn mw-ui-btn-medium" style="margin-left: 0;"><?php _e("Actions"); ?><span class="ico idownarr right"></span></a>
           <div class="mw-dropdown-content" style="width: 155px;">
 

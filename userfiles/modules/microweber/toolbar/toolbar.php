@@ -40,6 +40,8 @@ if (isset($_COOKIE['mw_exp'])) {
         mw.require("<?php print mw_includes_url(); ?>css/liveedit.rtl.css");
         <?php } ?>
 
+        
+
     </script>
 
     <?php if (config('app.debug')) { ?>
@@ -483,7 +485,6 @@ if (isset($_COOKIE['mw_exp'])) {
                                         <a href="<?php print mw()->url_manager->current(); ?>?editmode=n"><?php _e("View Website"); ?></a>
                                     </li>
                                     <?php event_trigger('live_edit_toolbar_action_menu_middle'); ?>
-                                    <?php /*<li><a class="mw-ui-btn" href="#" onclick="mw.preview();void(0);"><?php _e("Preview"); ?></a></li>*/ ?>
                                     <?php if (defined('CONTENT_ID') and CONTENT_ID > 0): ?>
                                         <?php $pub_or_inpub = mw()->content_manager->get_by_id(CONTENT_ID); ?>
                                         <li class="mw-set-content-unpublish" <?php if (isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] != 1): ?> style="display:none" <?php endif; ?>>

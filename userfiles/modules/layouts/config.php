@@ -9,5 +9,12 @@ $config['position'] = 99;
 $config['version'] = 0.1;
 
 $config['tables'] = array(
- 
+
+);
+
+$config['settings'][]  = array(
+    'type'=>'tooltip',
+    'title'=>'Space',
+    'icon'=>'mw-icon-wand',
+    'view'=>'quick_settings',
 );

@@ -737,13 +737,35 @@ mw.getScripts = function (array, callback) {
     }).fail(function(){
 
     });
-  }
+  };
 
-  mw.log = d = function(what) {
+  mw.inLog = function(what) {
+    if(!mw._inlog) {
+        mw._inlog = mwd.createElement('div');
+        mw._inlog.className = 'mw-in-log';
+        $(mw._inlog).css({
+            position: 'fixed',
+            bottom:0,
+            left:0,
+            padding:20,
+            background:'#fff',
+            zIndex:10,
+            height:190,
+            overflow:'auto',
+            fontSize:10
+
+        })
+        mwd.body.appendChild(mw._inlog)
+    }
+      $(mw._inlog).append('<br>'+what)
+      mw._inlog.scrollTop = mw._inlog.scrollHeight;
+
+  };
+  mw.log = function(what) {
     if (window.console && mw.settings.debug) {
       top.console.log(what);
     }
-  }
+  };
 
   mw.$ = function(selector, context) {
     if(typeof selector === 'object'){ return jQuery(selector); }

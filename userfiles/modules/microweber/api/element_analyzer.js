@@ -188,7 +188,7 @@ mw.ElementAnalyzer = function(options){
         node = node || this.data.target;
         var height = node.offsetHeight,
             offset = $(node).offset();
-        if (event.pageY > offset.top + (height / 2)) {
+        if (mw.event.page(event).y > offset.top + (height / 2)) {
             this.data.dropablePosition =  'bottom';
         } else {
             this.data.dropablePosition =  'top';
@@ -231,6 +231,8 @@ mw.ElementAnalyzer = function(options){
         if(!pos){
             return;
         }
+
+
 
         if(mw.tools.hasClass(node, 'allow-drop')){
             this.data.dropableAction = actions.Inside[pos];
@@ -486,14 +488,21 @@ mw.ElementAnalyzer = function(options){
     }
 
     this.interactionAnalizer = function(e){
+
         var scope = this;
         mw.dropable.hide();
+
         if(this.data.currentGrabbed){
-            scope.data.target = e.target;
+            if (e.type.indexOf('touch') !== -1) {
+                var coords = mw.event.page(e);
+                scope.data.target = mwd.elementFromPoint(coords.x, coords.y);
+            }
+            else {
+                scope.data.target = e.target;
+            }
+
             scope.interactionTarget();
             scope.data.target = scope.getTarget();
-
-
 
             if(scope.data.target){
                     scope.analizePosition(e);
@@ -501,6 +510,7 @@ mw.ElementAnalyzer = function(options){
                     mw.dropable.show();
             }
             else{
+
                     var near = mw.dropables.findNearest(e);
                     if(near.element){
                         scope.data.target = near.element;
@@ -512,6 +522,7 @@ mw.ElementAnalyzer = function(options){
                         mw.currentDragMouseOver = null;
                         mw.dropable.hide();
                         scope.dataReset();
+
                     }
 
             }

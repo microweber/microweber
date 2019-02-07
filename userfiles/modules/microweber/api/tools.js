@@ -2996,6 +2996,7 @@ mw.tools = {
             obj.element = mw.$(obj.element)[0];
         }
         if (!obj.element || obj.element === undefined) return false;
+
         var o = $.extend({}, mw.tools.richtextEditorSettings, obj);
         var frame = mwd.createElement('iframe');
         frame.richtextEditorSettings = o;
@@ -3042,6 +3043,9 @@ mw.tools = {
                     }
 
                 }, frame.contentWindow.SetValueTime);
+                $(obj.element).on('sourceChanged', function(e, val){
+                    frame.contentWindow.document.getElementById('editor-area').innerHTML = val;
+                })
             }
         });
         o.width = o.width != 'auto' ? o.width : '100%';

@@ -72,8 +72,8 @@ mw.dropables = {
     selectors = (selectors || mw.drag.section_selectors).slice(0);
 
 
-    for(var i = 0 ; i<selectors.length ; i++){
-        selectors[i] = '.edit ' + selectors[i].trim()
+    for(var ix = 0 ; i<selectors.length ; ix++){
+        selectors[ix] = '.edit ' + selectors[ix].trim()
     }
 
 
@@ -82,7 +82,7 @@ mw.dropables = {
 
       //return $( event.target ).closest( '.edit section' )
       var coords = { y:99999999 },
-          y = event.pageY,
+          y = mw.event.page(event).y,
           all = document.querySelectorAll(selectors),
           i = 0,
           final = {
