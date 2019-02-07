@@ -40,7 +40,7 @@ if (isset($_COOKIE['mw_exp'])) {
         mw.require("<?php print mw_includes_url(); ?>css/liveedit.rtl.css");
         <?php } ?>
 
-        
+
 
     </script>
 

@@ -1,12 +1,12 @@
-mw.requestAnimationFrame = ( function() {
+mw.requestAnimationFrame = (function () {
     return window.webkitRequestAnimationFrame ||
         window.mozRequestAnimationFrame ||
         window.oRequestAnimationFrame ||
         window.msRequestAnimationFrame ||
-        function( callback, element ) {
-            window.setTimeout( callback, 1000 / 60 );
+        function (callback, element) {
+            window.setTimeout(callback, 1000 / 60);
         };
-} )();
+})();
 
 mw.require("files.js");
 mw.require("css_parser.js");
@@ -126,10 +126,10 @@ if (!window.escape) {
     };
 }
 mw.tools = {
-    distance: function(x1, y1, x2, y2) {
+    distance: function (x1, y1, x2, y2) {
         var a = x1 - x2;
         var b = y1 - y2;
-        return Math.floor(Math.sqrt( a*a + b*b ));
+        return Math.floor(Math.sqrt(a * a + b * b));
     },
     copy: function (value) {
         var tempInput = document.createElement("input");
@@ -151,7 +151,7 @@ mw.tools = {
     constructions: function () {
         $(".mw-image-holder").each(function () {
             var img = this.querySelector('img');
-            if(img && img.src){
+            if (img && img.src) {
                 $(this).css('backgroundImage', 'url(' + img.src + ')')
             }
         })
@@ -719,8 +719,8 @@ mw.tools = {
             var max = 0;
             $(".mw_modal").each(function () {
                 var z = parseInt($(this).css('zIndex'), 10);
-                if(!isNaN(z)){
-                    max = z>max?z:max;
+                if (!isNaN(z)) {
+                    max = z > max ? z : max;
                 }
             }).css('zIndex', max);
             return modal_return;
@@ -992,7 +992,7 @@ mw.tools = {
 
             var modal2_test = mw.$("#mw_gallery")[0];
             var modal2 = false;
-            if(typeof(modal2_test) != 'undefined' && typeof(modal2_test.modal) != 'undefined'){
+            if (typeof(modal2_test) != 'undefined' && typeof(modal2_test.modal) != 'undefined') {
                 modal2 = modal2_test.modal;
             }
 
@@ -1025,7 +1025,7 @@ mw.tools = {
 
             var modal2_test = mw.$("#mw_gallery")[0];
             var modal2 = false;
-            if(typeof(modal2_test) != 'undefined' && typeof(modal2_test.modal) != 'undefined'){
+            if (typeof(modal2_test) != 'undefined' && typeof(modal2_test.modal) != 'undefined') {
                 modal2 = modal2_test.modal;
             }
 
@@ -1325,22 +1325,22 @@ mw.tools = {
                 }
             });
             mw.$(el)
-            .hover(function () {
-                $(this).add(this);
-                if (mw.tools.hasClass(cls, 'other-action')) {
-                    $(this).addClass('other-action');
-                }
-            }, function () {
-                $(this).removeClass("hover");
-                $(this).removeClass('other-action');
-            })
-            .on('mousedown touchstart', 'li[value]', function (event) {
-                $(mw.tools.firstParentWithClass(this, 'mw-dropdown')).setDropdownValue(this.getAttribute('value'), true);
-                return false;
-            })
-            .on('click', 'a[href="#"]', function (event) {
-                return false;
-            });
+                .hover(function () {
+                    $(this).add(this);
+                    if (mw.tools.hasClass(cls, 'other-action')) {
+                        $(this).addClass('other-action');
+                    }
+                }, function () {
+                    $(this).removeClass("hover");
+                    $(this).removeClass('other-action');
+                })
+                .on('mousedown touchstart', 'li[value]', function (event) {
+                    $(mw.tools.firstParentWithClass(this, 'mw-dropdown')).setDropdownValue(this.getAttribute('value'), true);
+                    return false;
+                })
+                .on('click', 'a[href="#"]', function (event) {
+                    return false;
+                });
         }
         /* end For loop */
         if (typeof mw.tools.dropdownActivated === 'undefined') {
@@ -1695,7 +1695,7 @@ mw.tools = {
         return has;
     },
     hasAnyOfClasses: function (node, arr) {
-        if(!node) return;
+        if (!node) return;
         var i = 0, l = arr.length, cls = node.className;
         for (; i < l; i++) {
             if (mw.tools.hasClass(cls, arr[i])) {
@@ -1815,7 +1815,7 @@ mw.tools = {
         var curr = node;
         while (curr && curr !== document.body) {
             var i = 0;
-            for ( ; i < arr.length; i++ ) {
+            for (; i < arr.length; i++) {
                 if (mw.tools.matches(curr, arr[i])) {
                     return true;
                 }
@@ -1825,14 +1825,14 @@ mw.tools = {
         return false;
     },
     firstMatchesOnNodeOrParent: function (node, arr) {
-        if(!arr) return;
-        if(typeof arr === 'string') {
+        if (!arr) return;
+        if (typeof arr === 'string') {
             arr = [arr];
         }
         var curr = node;
         while (curr && curr !== document.body) {
             var i = 0;
-            for ( ; i < arr.length; i++ ) {
+            for (; i < arr.length; i++) {
                 if (mw.tools.matches(curr, arr[i])) {
                     return curr;
                 }
@@ -1845,7 +1845,7 @@ mw.tools = {
         var curr = node;
         while (curr && curr !== document.body) {
             var i = 0;
-            for ( ; i < arr.length; i++ ) {
+            for (; i < arr.length; i++) {
                 if (mw.tools.hasClass(curr, arr[i])) {
                     return true;
                 }
@@ -1860,27 +1860,27 @@ mw.tools = {
         }
         if (el.fn) {
             el = el[0];
-            if(!el){
+            if (!el) {
                 return;
             }
         }
-        if(typeof cls === 'string'){
+        if (typeof cls === 'string') {
             cls = cls.trim();
         }
-        if(!el) return;
+        if (!el) return;
         var arr = cls.split(" ");
         var i = 0;
-        if (arr.length>1) {
+        if (arr.length > 1) {
             for (; i < arr.length; i++) {
                 mw.tools.addClass(el, arr[i]);
             }
             return;
         }
         if (typeof el === 'object') {
-            if(el.classList){
+            if (el.classList) {
                 el.classList.add(cls);
             }
-            else{
+            else {
                 if (!mw.tools.hasClass(el.className, cls)) el.className += (' ' + cls);
             }
         }
@@ -1889,16 +1889,16 @@ mw.tools = {
         }
     },
     removeClass: function (el, cls) {
-        if(typeof cls === 'string'){
+        if (typeof cls === 'string') {
             cls = cls.trim();
         }
-        if(!cls || !el) return;
+        if (!cls || !el) return;
         if (el === null) {
             return false;
         }
         if (el.fn) {
             el = el[0];
-            if(!el){
+            if (!el) {
                 return;
             }
         }
@@ -1918,19 +1918,19 @@ mw.tools = {
             var arr = cls.split(" ");
         }
         var i = 0;
-        if (arr.length>1) {
+        if (arr.length > 1) {
             for (; i < arr.length; i++) {
                 mw.tools.removeClass(el, arr[i]);
             }
             return;
         }
-        else if(!arr.length){
+        else if (!arr.length) {
             return;
         }
-        if(el.classList && cls){
+        if (el.classList && cls) {
             el.classList.remove(cls);
         }
-        else{
+        else {
             if (mw.tools.hasClass(el.className, cls)) el.className = (el.className + ' ').replace(cls + ' ', '').replace(/\s{2,}/g, ' ').trim();
         }
 
@@ -1971,7 +1971,7 @@ mw.tools = {
         return false;
     },
     hasParentsWithClass: function (el, cls) {
-        if(!el) return;
+        if (!el) return;
         var curr = el.parentNode;
         while (curr && curr !== mwd.body) {
             if (mw.tools.hasClass(curr, cls)) {
@@ -1982,7 +1982,7 @@ mw.tools = {
         return false;
     },
     hasParentWithId: function (el, id) {
-        if(!el) return;
+        if (!el) return;
         var curr = el.parentNode;
         while (curr && curr !== mwd.body) {
             if (curr.id === id) {
@@ -1995,7 +1995,7 @@ mw.tools = {
 
     hasChildrenWithTag: function (el, tag) {
         var tag = tag.toLowerCase();
-        var has= false;
+        var has = false;
         mw.tools.foreachChildren(el, function (loop) {
             if (this.nodeName.toLowerCase() === tag) {
                 has = true;
@@ -2005,7 +2005,7 @@ mw.tools = {
         return has;
     },
     hasParentsWithTag: function (el, tag) {
-        if(!el || !tag) return;
+        if (!el || !tag) return;
         tag = tag.toLowerCase();
         var curr = el.parentNode;
         while (curr && curr !== mwd.body) {
@@ -2017,7 +2017,7 @@ mw.tools = {
         return false;
     },
     hasHeadingParent: function (el) {
-        if(!el) return;
+        if (!el) return;
         var h = /^(h[1-6])$/i;
         var curr = el.parentNode;
         while (curr && curr !== mwd.body) {
@@ -2111,7 +2111,7 @@ mw.tools = {
         for (; i < l; i++) {
             obj[arr[i]] = -1;
         }
-        if(!node) return obj;
+        if (!node) return obj;
 
         var curr = node.parentNode;
         while (curr && curr !== mwd.body) {
@@ -2134,7 +2134,7 @@ mw.tools = {
         for (; i < l; i++) {
             obj[arr[i]] = -1;
         }
-        if(!node) return obj;
+        if (!node) return obj;
 
         var curr = node;
         while (curr && curr !== mwd.body) {
@@ -2152,10 +2152,10 @@ mw.tools = {
         return obj;
     },
     firstParentWithClass: function (el, cls) {
-        if(!el) return false;
+        if (!el) return false;
         var curr = el.parentNode;
-        while ( curr !== mwd.body ) {
-            if( curr.classList.contains(cls)) {
+        while (curr !== mwd.body) {
+            if (curr.classList.contains(cls)) {
                 return curr;
             }
             curr = curr.parentNode;
@@ -2163,10 +2163,10 @@ mw.tools = {
         return false;
     },
     firstParentOrCurrentWithClass: function (el, cls) {
-        if(!el) return false;
+        if (!el) return false;
         var curr = el;
-        while ( curr !== mwd.body ) {
-            if( curr.classList.contains(cls)) {
+        while (curr !== mwd.body) {
+            if (curr.classList.contains(cls)) {
                 return curr;
             }
             curr = curr.parentNode;
@@ -2174,10 +2174,10 @@ mw.tools = {
         return false;
     },
     firstParentOrCurrentWithId: function (el, id) {
-        if(!el) return false;
+        if (!el) return false;
         var curr = el;
-        while ( curr !== mwd.body ) {
-            if( curr.id === id) {
+        while (curr !== mwd.body) {
+            if (curr.id === id) {
                 return curr;
             }
             curr = curr.parentNode;
@@ -2185,10 +2185,10 @@ mw.tools = {
         return false;
     },
     firstParentOrCurrentWithAllClasses: function (node, arr) {
-        if(!node) return false;
+        if (!node) return false;
         var curr = node;
-        while ( curr !== mwd.body ) {
-            if( mw.tools.hasAllClasses(curr, arr)) {
+        while (curr !== mwd.body) {
+            if (mw.tools.hasAllClasses(curr, arr)) {
                 return curr;
             }
             curr = curr.parentNode;
@@ -2196,11 +2196,11 @@ mw.tools = {
         return false;
     },
     firstParentOrCurrentWithAnyOfClasses: function (node, arr) {
-        if(!node) return false;
+        if (!node) return false;
         var curr = node;
-        while ( curr && curr !== mwd.body ) {
-            if(!curr) return false;
-            if( mw.tools.hasAnyOfClasses(curr, arr)) {
+        while (curr && curr !== mwd.body) {
+            if (!curr) return false;
+            if (mw.tools.hasAnyOfClasses(curr, arr)) {
                 return curr;
             }
             curr = curr.parentNode;
@@ -2208,10 +2208,10 @@ mw.tools = {
         return false;
     },
     lastParentWithClass: function (el, cls) {
-        if(!el) return;
+        if (!el) return;
         var _has = false;
         var curr = el.parentNode;
-        while (curr && curr !== mwd.body ) {
+        while (curr && curr !== mwd.body) {
             if (mw.tools.hasClass(curr, cls)) {
                 _has = curr;
             }
@@ -2220,11 +2220,11 @@ mw.tools = {
         return _has;
     },
     firstParentWithTag: function (el, tag) {
-        if(!el) return;
+        if (!el) return;
         tag = typeof tag !== 'string' ? tag : [tag];
         var curr = el.parentNode;
-        while (curr && curr !== mwd.body ) {
-            if( tag.indexOf(curr.nodeName.toLowerCase()) !== -1) {
+        while (curr && curr !== mwd.body) {
+            if (tag.indexOf(curr.nodeName.toLowerCase()) !== -1) {
                 return curr;
             }
             curr = curr.parentNode;
@@ -2286,8 +2286,8 @@ mw.tools = {
             + '</tr>'
             + '<tr>'
             + '<td class="mw-modal-confirm-actions text-center">'
-            +'<span class="mw-ui-btn" onclick="mw.tools.modal.remove(\'mw_confirm_modal\');"><b>' + mw.msg.cancel + '</b></span> &nbsp; '
-            +'<button class="mw-ui-btn mw-ui-btn-info mw_confirm_modal_ok"><b>' + mw.msg.ok + '</b></button></td>'
+            + '<span class="mw-ui-btn" onclick="mw.tools.modal.remove(\'mw_confirm_modal\');"><b>' + mw.msg.cancel + '</b></span> &nbsp; '
+            + '<button class="mw-ui-btn mw-ui-btn-info mw_confirm_modal_ok"><b>' + mw.msg.ok + '</b></button></td>'
             + '</tr>'
             + '</table>';
         if (mw.$("#mw_confirm_modal").length === 0) {
@@ -2309,17 +2309,17 @@ mw.tools = {
 
         ok.off('click');
         ok.off('keyup');
-        ok.on('keyup', function(e){
-            if(e.keyCode === 13 || e.keyCode === 32){
+        ok.on('keyup', function (e) {
+            if (e.keyCode === 13 || e.keyCode === 32) {
                 callback.call(window);
                 modal.remove();
             }
         });
-        ok.on('click', function(){
+        ok.on('click', function () {
             callback.call(window);
             modal.remove();
         });
-        setTimeout(function(){
+        setTimeout(function () {
             $("button.mw_confirm_modal_ok", modal.main).focus();
         }, 120)
         return modal;
@@ -2693,7 +2693,7 @@ mw.tools = {
         var active = obj.activeNav || obj.activeClass || "active active-info",
             firstActive = 0;
 
-        obj.lastClickedTabIndex=null;
+        obj.lastClickedTabIndex = null;
 
 
         mw.$(obj.nav).click(function (e) {
@@ -2718,8 +2718,8 @@ mw.tools = {
                 }
             }
             return false;
-        }).each(function(i){
-            if(mw.tools.hasClass(this, active)){
+        }).each(function (i) {
+            if (mw.tools.hasClass(this, active)) {
                 firstActive = i;
             }
         });
@@ -3047,6 +3047,9 @@ mw.tools = {
                     frame.contentWindow.document.getElementById('editor-area').innerHTML = val;
                 })
             }
+            $(obj.element).on('sourceChanged', function (e, val) {
+                frame.contentWindow.document.getElementById('editor-area').innerHTML = val;
+            })
         });
         o.width = o.width != 'auto' ? o.width : '100%';
         $(frame).css({width: o.width, height: o.height});
@@ -3467,7 +3470,7 @@ mw.tools = {
         }
 
 
-        return mw.live_edit.showSettings(a,opts)
+        return mw.live_edit.showSettings(a, opts)
 
 
     },
@@ -3517,17 +3520,17 @@ mw.tools = {
             draggable: true
         });
     },
-    open_global_module_settings_modal: function (module_type, module_id, modalOptions,additional_params) {
+    open_global_module_settings_modal: function (module_type, module_id, modalOptions, additional_params) {
 
 
         var params = {};
-        params.id =module_id;
-        params.live_edit =true;
-        params.module_settings =true;
+        params.id = module_id;
+        params.live_edit = true;
+        params.module_settings = true;
         params.type = module_type;
         params.autosize = false;
 
-        var params_url = $.extend({},params,additional_params);
+        var params_url = $.extend({}, params, additional_params);
 
         var src = mw.settings.site_url + "api/module?" + json2url(params_url);
 
@@ -3546,7 +3549,7 @@ mw.tools = {
             draggable: true
         };
 
-        var settings = $.extend({},defaultOpts,modalOptions);
+        var settings = $.extend({}, defaultOpts, modalOptions);
 
         return mw.tools.modal.frame(settings);
     },
@@ -3562,16 +3565,15 @@ mw.tools = {
         }, modalOptions);
 
 
-
         var openiframe = false;
-        if(typeof (settings.iframe) != 'undefined' && settings.iframe){
+        if (typeof (settings.iframe) != 'undefined' && settings.iframe) {
             openiframe = true;
         }
-        if(openiframe){
+        if (openiframe) {
 
             var additional_params = {};
-            additional_params.type =module_type;
-            var params_url = $.extend({},params,additional_params);
+            additional_params.type = module_type;
+            var params_url = $.extend({}, params, additional_params);
             var src = mw.settings.site_url + "api/module?" + json2url(params_url);
             var xhr = false;
 
@@ -3591,8 +3593,6 @@ mw.tools = {
             var modal = mw.modal(settings);
             var xhr = mw.load_module(module_type, '#' + id_content, null, params);
         }
-
-
 
 
         return {
@@ -4394,21 +4394,20 @@ document.isHidden = function () {
 }
 
 
-
 mw._crossWindowEvents = false;
-mw.crossWindowEvent = function(ename, data){
+mw.crossWindowEvent = function (ename, data) {
     data = data || mw.random();
-    var rootName =  'mwCrossWindowEvent_';
+    var rootName = 'mwCrossWindowEvent_';
     if (!mw._crossWindowEvents) {
         mw._crossWindowEvents = true;
         mww.addEventListener('storage', function (e) {
-            if ( e.key.indexOf(rootName) !== -1 ) {
+            if (e.key.indexOf(rootName) !== -1) {
                 var item = localStorage.getItem(rootName + ename);
                 mw.trigger(ename, [JSON.parse(item)]);
             }
         });
     }
-    localStorage.setItem( rootName + ename, JSON.stringify(data));
+    localStorage.setItem(rootName + ename, JSON.stringify(data));
 }
 
 
@@ -4936,7 +4935,7 @@ mw.image = {
             $(mw.image_resizer).resizable("option", "alsoResize", el);
             $(mw.image_resizer).resizable("option", "aspectRatio", width / height);
             mw.image.currentResizing = el;
-            if(!el[0].contentEditable){
+            if (!el[0].contentEditable) {
                 mw.wysiwyg.contentEditable(el[0], true);
             }
 
@@ -5273,7 +5272,7 @@ mw.fileWindow = function (config) {
     config = config || {};
     var url = config.types ? ("rte_image_editor?types=" + config.types + '#fileWindow') : ("rte_image_editor#fileWindow");
     var url = mw.settings.site_url + 'editor_tools/' + url;
-    var root = window.top.mw?window.top.mw:mw;
+    var root = window.top.mw ? window.top.mw : mw;
     var modal = root.tools.modal.frame({
         url: url,
         name: "mw_rte_image",
@@ -5462,9 +5461,9 @@ mw._colorPicker = function (options) {
         this.hide = function () {
             $(this.tip).hide()
         };
-        this.toggle = function(){
+        this.toggle = function () {
             var tip = $(this.tip);
-            if(tip.is(':visible')){
+            if (tip.is(':visible')) {
                 this.hide()
             }
             else {
@@ -5689,38 +5688,38 @@ mw.extradataForm = function (options, data) {
     });
 };
 
-mw.uiAccordion = function(options){
-    if(!options) return;
+mw.uiAccordion = function (options) {
+    if (!options) return;
     options.element = options.element || '.mw-accordion';
 
     var scope = this;
 
-    this.getContents = function(){
+    this.getContents = function () {
         this.contents = this.root.children(this.options.contentSelector);
-        if(!this.contents.length){
+        if (!this.contents.length) {
             this.contents = $();
-            this.root.children(this.options.itemSelector).each(function(){
+            this.root.children(this.options.itemSelector).each(function () {
                 var title = $(this).children(scope.options.contentSelector)[0];
-                if(title){
+                if (title) {
                     scope.contents.push(title)
                 }
             });
         }
     }
-    this.getTitles = function(){
+    this.getTitles = function () {
         this.titles = this.root.children(this.options.titleSelector);
-        if(!this.titles.length){
+        if (!this.titles.length) {
             this.titles = $();
-            this.root.children(this.options.itemSelector).each(function(){
+            this.root.children(this.options.itemSelector).each(function () {
                 var title = $(this).children(scope.options.titleSelector)[0];
-                if(title){
+                if (title) {
                     scope.titles.push(title)
                 }
             });
         }
     }
 
-    this.prepare = function(options){
+    this.prepare = function (options) {
         var defaults = {
             multiple: false,
             itemSelector: ".mw-accordion-item,mw-accordion-item",
@@ -5732,7 +5731,7 @@ mw.uiAccordion = function(options){
         this.options = $.extend({}, defaults, options);
 
         this.root = mw.$(this.options.element).not('.mw-accordion-ready').eq(0);
-        if(!this.root.length) return;
+        if (!this.root.length) return;
         this.root.addClass('mw-accordion-ready');
         this.root[0].uiAccordion = this;
         this.getTitles()
@@ -5740,19 +5739,19 @@ mw.uiAccordion = function(options){
 
     };
 
-    this.getItem = function(q){
+    this.getItem = function (q) {
         var item;
-       if(typeof q  === 'number'){
-            item =  this.contents.eq(q)
-       }
-       else{
-           item = $(q);
-       }
-       return item;
+        if (typeof q === 'number') {
+            item = this.contents.eq(q)
+        }
+        else {
+            item = $(q);
+        }
+        return item;
     }
-    this.set = function(index){
+    this.set = function (index) {
         var item = this.getItem(index);
-        if(!this.options.multiple){
+        if (!this.options.multiple) {
             this.contents.not(item)
                 .slideUp()
                 .removeClass('active')
@@ -5770,8 +5769,8 @@ mw.uiAccordion = function(options){
             .addClass('active');
         $(this).trigger('accordionSet', [item]);
     }
-    this.unset = function(index){
-        if(typeof index === 'undefined') return;
+    this.unset = function (index) {
+        if (typeof index === 'undefined') return;
         var item = this.getItem(index);
         item.stop()
             .slideUp()
@@ -5779,30 +5778,31 @@ mw.uiAccordion = function(options){
             .prev()
             .removeClass('active')
             .parents('.mw-accordion-item').eq(0)
-            .removeClass('active');;
+            .removeClass('active');
+        ;
         $(this).trigger('accordionUnset', [item]);
     }
 
-    this.toggle = function(index){
+    this.toggle = function (index) {
         var item = this.getItem(index);
-        if(item.hasClass('active')){
-            if(this.options.toggle){
+        if (item.hasClass('active')) {
+            if (this.options.toggle) {
                 this.unset(item)
             }
         }
-        else{
+        else {
             this.set(item)
         }
     }
 
-    this.init = function(options){
+    this.init = function (options) {
         this.prepare(options);
         this.contents.hide()
-        if(this.options.openFirst){
+        if (this.options.openFirst) {
             this.contents.eq(0).show().addClass('active')
             this.titles.eq(0).addClass('active').parent('.mw-accordion-item').addClass('active');
         }
-        this.titles.on('click', function(){
+        this.titles.on('click', function () {
             scope.toggle(scope.titles.index(this));
         });
     }
@@ -5812,8 +5812,8 @@ mw.uiAccordion = function(options){
 };
 
 
-mw.tabAccordion = function(options, accordion){
-    if(!options) return;
+mw.tabAccordion = function (options, accordion) {
+    if (!options) return;
     var scope = this;
     this.options = options;
 
@@ -5821,53 +5821,53 @@ mw.tabAccordion = function(options, accordion){
     this.options.activeClass = this.options.activeClass || 'active-info';
 
 
-    this.buildAccordion = function(){
-        this.accordion =  accordion || new mw.uiAccordion(this.options);
+    this.buildAccordion = function () {
+        this.accordion = accordion || new mw.uiAccordion(this.options);
     }
 
-    this.breakPoint = function(){
+    this.breakPoint = function () {
         if (matchMedia("(max-width: " + this.options.breakPoint + "px)").matches) {
             $(this.nav).hide();
             $(this.accordion.titles).show();
         }
-        else{
+        else {
             $(this.nav).show();
             $(this.accordion.titles).hide();
         }
     }
 
-    this.createTabButton = function(content, index){
+    this.createTabButton = function (content, index) {
         this.buttons = this.buttons || $();
         var btn = document.createElement('span');
         this.buttons.push(btn)
-        var size = (this.options.tabsSize ? ' mw-ui-btn-' +  this.options.tabsSize : '');
-        var color = (this.options.tabsColor ? ' mw-ui-btn-' +  this.options.tabsColor : '');
-        var active = (index === 0 ? (' '+this.options.activeClass) :'');
+        var size = (this.options.tabsSize ? ' mw-ui-btn-' + this.options.tabsSize : '');
+        var color = (this.options.tabsColor ? ' mw-ui-btn-' + this.options.tabsColor : '');
+        var active = (index === 0 ? (' ' + this.options.activeClass) : '');
         btn.className = 'mw-ui-btn' + size + color + active;
         btn.innerHTML = content;
-        btn.onclick = function(){
+        btn.onclick = function () {
             scope.buttons.removeClass(scope.options.activeClass).eq(index).addClass(scope.options.activeClass);
             scope.accordion.set(index);
         }
         return btn;
     }
 
-    this.createTabs = function(){
+    this.createTabs = function () {
         this.nav = document.createElement('div');
-        this.nav.className =  'mw-ui-btn-nav mw-ui-btn-nav-tabs';
+        this.nav.className = 'mw-ui-btn-nav mw-ui-btn-nav-tabs';
         $(this.accordion.titles)
-            .each(function(i){
+            .each(function (i) {
                 scope.nav.appendChild(scope.createTabButton($(this).html(), i))
             })
             .hide();
         $(this.accordion.root).before(this.nav)
     }
 
-    this.init = function(){
+    this.init = function () {
         this.buildAccordion();
         this.createTabs();
         this.breakPoint();
-        $(window).on('load resize orientationchange', function(){
+        $(window).on('load resize orientationchange', function () {
             scope.breakPoint();
         });
     }

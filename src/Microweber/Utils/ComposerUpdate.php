@@ -135,6 +135,56 @@ class ComposerUpdate
         $packages->setDisableNonActiveReposInComposer(true);
         $packages->setComposer($composer);
         $return = $packages->handle($keyword);
+
+
+        $local_packages = mw()->update->collect_local_data();
+
+
+        if ($return) {
+            foreach ($return as $pk => $package) {
+
+                if (isset($package['type'])
+                    and isset($package['latest_version'])
+                    and isset($package['latest_version']['extra'])
+                    and isset($package['latest_version']['extra']['folder'])
+                ) {
+                    $package_type = $package['type'];
+                    $package_folder = $package['latest_version']['extra']['folder'];
+
+                    $local_packages_type = false;
+                    switch ($package_type) {
+                        case 'microweber-template':
+                            $local_packages_type = 'templates';
+                            break;
+                        case 'microweber-module':
+                            $local_packages_type = 'modules';
+                            break;
+                    }
+
+                    if ($package_folder and $local_packages_type) {
+
+                        if (isset($local_packages[$local_packages_type]) and is_array($local_packages[$local_packages_type])) {
+                            foreach ($local_packages[$local_packages_type] as $local_package_item) {
+
+                                if (isset($local_package_item['dir_name'])) {
+                                    if (strtolower($local_package_item['dir_name']) == strtolower($package_folder)) {
+                                        $local_package_item['composer_type'] = $package_type;
+                                        $local_package_item['local_type'] = $local_packages_type;
+                                        $package['current_install'] = $local_package_item;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    $return[$pk] = $package;
+
+                }
+
+            }
+        }
+
+
         return $return;
 
     }
@@ -203,9 +253,9 @@ class ComposerUpdate
             $composer = Factory::create($io);
 
 
-           // $temp_folder = storage_path('composer/' . url_title($keyword));
-           // $temp_folder = $this->_prepare_composer_workdir($keyword);
-            $temp_folder =  $this->composer_temp_folder;
+            // $temp_folder = storage_path('composer/' . url_title($keyword));
+            // $temp_folder = $this->_prepare_composer_workdir($keyword);
+            $temp_folder = $this->composer_temp_folder;
 
             if (!$temp_folder) {
                 return array('error' => 'Error preparing installation for ' . $keyword);
@@ -360,6 +410,7 @@ class ComposerUpdate
     public function _prepare_composer_workdir($package_name = '')
     {
         $temp_folder = storage_path('composer/temp');
+        $cache_folder = storage_path('composer/cache');
 
         if ($package_name) {
             $temp_folder = storage_path('composer/' . url_title($package_name));
@@ -399,14 +450,37 @@ class ComposerUpdate
             $new_composer_config['repositories'] = $composer_orig['repositories'];
             $new_composer_config['config'] = $composer_orig['config'];
             $new_composer_config['minimum-stability'] = 'dev';
-            $new_composer_config['vendor-dir'] = $temp_folder;
-            $new_composer_config['config']['no-plugins'] = true;
+            // $new_composer_config['vendor-dir'] = $temp_folder;
+            //   $new_composer_config['config']['no-plugins'] = true;
+            $new_composer_config['config']['cache-dir'] = $cache_folder;
+            $new_composer_config['config']['preferred-install'] = 'dist';
+            $new_composer_config['config']['discard-changes'] = true;
+            $new_composer_config['config']['htaccess-protect'] = true;
+            $new_composer_config['config']['archive-format'] = 'zip';
+
+
         }
 
         file_put_contents($conf_new, json_encode($new_composer_config));
         if (is_file($conf_auth)) {
 
-            copy($conf_auth, $auth_new);
+            $composer_auth_temp = @file_get_contents($conf_auth);
+
+            $composer_auth_temp = @json_decode($composer_auth_temp, true);
+
+            $lic = mw()->update->get_licenses();
+            $lic = json_encode($lic);
+            $lic = base64_encode($lic);
+
+            if (isset($composer_auth_temp['http-basic'])) {
+                $composer_auth_temp['http-basic']["private-packages.microweberapi.com"] = array(
+                    "username" => @gethostname(),
+                    "password" => $lic
+                );
+                file_put_contents($auth_new, json_encode($composer_auth_temp));
+
+            }
+
         }
         return $temp_folder;
 

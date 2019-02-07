@@ -13,6 +13,7 @@ $googleplus_enabled = get_option('googleplus_enabled', $option_group) == 'y';
 $pinterest_enabled = get_option('pinterest_enabled', $option_group) == 'y';
 $youtube_enabled = get_option('youtube_enabled', $option_group) == 'y';
 $linkedin_enabled = get_option('linkedin_enabled', $option_group) == 'y';
+$github_enabled = get_option('github_enabled', $option_group) == 'y';
 $instagram_enabled = get_option('instagram_enabled', $option_group) == 'y';
 $rss_enabled = get_option('rss_enabled', $option_group) == 'y';
 
@@ -23,6 +24,7 @@ $googleplus_url = get_option('googleplus_url', $option_group);
 $pinterest_url = get_option('pinterest_url', $option_group);
 $youtube_url = get_option('youtube_url', $option_group);
 $linkedin_url = get_option('linkedin_url', $option_group);
+$github_url = get_option('github_url', $option_group);
 ?>
 
     <style scoped="scoped">
@@ -178,6 +180,25 @@ $linkedin_url = get_option('linkedin_url', $option_group);
                 <td>
                     <div class="mw-ui-field-holder">
                         <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field mw-ui-field mw-ui-field-medium" name="linkedin_url" value="<?php print $linkedin_url; ?>"/>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label class="mw-ui-check">
+                        <input type="checkbox" class="mw_option_field" name="github_enabled" id="github_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($github_enabled) print 'checked="checked"'; ?>><span></span>
+                    </label>
+                </td>
+
+                <td><i class="fab fa-github  mw-socials-github-color"></i></td>
+
+                <td>
+                    <label class="mw-ui-inline-label" for="github_enabled">github.com/</label>
+                </td>
+                <td>
+                    <div class="mw-ui-field-holder">
+                        <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field mw-ui-field mw-ui-field-medium" name="github_url" value="<?php print $github_url; ?>"/>
                     </div>
                 </td>
             </tr>

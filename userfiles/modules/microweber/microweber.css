@@ -71,7 +71,7 @@ body {
 #mw_toolbar_back_to_live_edit i {
     font-family: 'Open Sans', sans-serif !important;
     font-size: 21px;
-    margin-right:3px;
+    margin-right: 3px;
 }
 
 body.mw-preview {
@@ -148,7 +148,8 @@ body.state-element .mw-row .element {
     -o-transition: color 0 ease-in !important;
     transition: none !important;
 }
-.mw-live-edit .module{
+
+.mw-live-edit .module {
     min-height: 20px;
 }
 
@@ -656,7 +657,7 @@ span.mw-powered-by {
 .mw-ui-btn-nav-tabs .mw-ui-btn .mw-icon-template,
 #create-menu-btn .mw-icon-plus {
     /*float: left;*/
-    margin-right:5px;
+    margin-right: 5px;
 }
 
 .mw-image-holder {
@@ -699,6 +700,7 @@ span.mw-powered-by {
 
 .gateway-selector img {
     max-width: 100px;
+    width: fit-content;
 }
 
 .mw-padding-top-1 {
@@ -745,19 +747,18 @@ span.mw-powered-by {
     position: relative;
 }
 
-
 #category-parent-selector.mw-tree-nav-skin-default .mw-tree-item-title {
     width: auto;
 }
-.mw-modal-confirm-actions{
+
+.mw-modal-confirm-actions {
     text-align: center;
 }
 
-.mw-modal-confirm-actions .mw-ui-btn{
+.mw-modal-confirm-actions .mw-ui-btn {
     min-width: 100px;
 }
 
-
-.gateway-selector li{
+.gateway-selector li {
     list-style-type: none;
 }

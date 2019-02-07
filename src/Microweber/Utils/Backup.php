@@ -445,6 +445,7 @@ class Backup
             $this->_import_content_from_json_file($json_file);
             $back_log_action = 'Content restored';
             $this->log_action($back_log_action);
+            @unlink($json_file);
         }
 
 
