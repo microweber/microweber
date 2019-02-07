@@ -11,6 +11,12 @@ $config['version'] = 0.1;
 $config['tables'] = array(
 
 );
+$config['settings'][]  = array(
+    'type'=>'popup',
+    'title'=>'',
+    'icon'=>'mw-icon-gear',
+    'view'=>'admin',
+);
 
 $config['settings'][]  = array(
     'type'=>'tooltip',
