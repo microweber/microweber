@@ -39,10 +39,12 @@ $(document).ready(function () {
 
     // Form scripting
     $('[name="start_date"], [name="end_date"]').datepicker({
-        zIndex: 1105
+        zIndex: 1105,
+        format: 'yyyy-mm-dd'
     });
     $('[name="start_time"], [name="end_time"]').timepicker({
-        scrollDefault: 'now'
+        scrollDefault: 'now',
+        format: 'yyyy-mm-dd'
     });
 
     var startDate = $('.js-start-date').val();

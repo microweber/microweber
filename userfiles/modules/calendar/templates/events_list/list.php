@@ -9,7 +9,7 @@ if (isset($params['data-date'])) {
 
 
 $events = calendar_get_events_api('date=' . $date);
-d($date);
+
 ?>
 
 <?php if ($events): ?>

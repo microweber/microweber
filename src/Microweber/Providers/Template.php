@@ -145,18 +145,27 @@ class Template
         return $val;
     }
 
+    public $template_config_cache = array();
+
     public function get_config($template = false)
     {
 
 
         if ($template == false) {
+
             $dir = template_dir();
 
             $file = $dir . 'config.php';
+
+            if (isset($this->template_config_cache[$file])) {
+                return $this->template_config_cache[$file];
+            }
+
+
             if (is_file($file)) {
                 include $file;
                 if (isset($config)) {
-
+                    $this->template_config_cache[$file] = $config;
                     return $config;
                 }
 
@@ -282,17 +291,17 @@ class Template
                 if ($static_files_delivery_method == 'content_proxy') {
                     $replaces[userfiles_url() . 'cache'] = 'https://' . $static_files_delivery_domain . '/' . userfiles_url() . 'cache';
                     $replaces[media_base_url()] = 'https://' . $static_files_delivery_domain . '/' . media_base_url();
-                    $replaces[template_url() ] = 'https://' . $static_files_delivery_domain . '/' . template_url();
-                    $replaces[modules_url() ] = 'https://' . $static_files_delivery_domain . '/' . modules_url();
-                 } else if ($static_files_delivery_method == 'cdn_domain') {
-                    $replaces[userfiles_url() . 'cache'] = str_replace($site_host,$static_files_delivery_domain,userfiles_url() . 'cache');
-                    $replaces[media_base_url()] = str_replace($site_host,$static_files_delivery_domain,media_base_url());
-                    $replaces[template_url()] = str_replace($site_host,$static_files_delivery_domain,template_url());
-                    $replaces[modules_url()] = str_replace($site_host,$static_files_delivery_domain,modules_url());
+                    $replaces[template_url()] = 'https://' . $static_files_delivery_domain . '/' . template_url();
+                    $replaces[modules_url()] = 'https://' . $static_files_delivery_domain . '/' . modules_url();
+                } else if ($static_files_delivery_method == 'cdn_domain') {
+                    $replaces[userfiles_url() . 'cache'] = str_replace($site_host, $static_files_delivery_domain, userfiles_url() . 'cache');
+                    $replaces[media_base_url()] = str_replace($site_host, $static_files_delivery_domain, media_base_url());
+                    $replaces[template_url()] = str_replace($site_host, $static_files_delivery_domain, template_url());
+                    $replaces[modules_url()] = str_replace($site_host, $static_files_delivery_domain, modules_url());
 
 
                 }
-                if($replaces){
+                if ($replaces) {
                     $layout = str_replace(array_keys($replaces), array_values($replaces), $layout);
                 }
             }

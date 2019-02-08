@@ -1,7 +1,7 @@
 <?php only_admin_access(); ?>
 <?php $lic = mw()->update->get_licenses('limit=10000'); ?>
-<?php if (is_array($lic) and !empty($lic)): ?>
-<script>
+
+    <script>
 
     mw.edit_licence = function ($lic_id) {
 
@@ -28,6 +28,8 @@
 
 
 </script>
+<?php if (is_array($lic) and !empty($lic)): ?>
+
 <div class="mw-ui-row admin-section-bar">
     <div class="mw-ui-col">
         <h2>
@@ -35,7 +37,7 @@
     </div>
 </div>
 
-<div class=" admin-side-content">
+<div class="  ">
     <table width="100%" cellspacing="0" cellpadding="0" class="mw-ui-table table-style-2">
         <thead>
         <tr>
@@ -75,9 +77,11 @@
                 <td class="center"><a class="show-on-hover mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-medium" href="javascript:mw.edit_licence('<?php print $item['id'] ?>');"><?php _e('Edit'); ?></a></td>
             </tr>
         <?php endforeach; ?>
-        <?php endif; ?>
+
         </tbody>
     </table>
 
     <a class="mw-ui-btn mw-ui-btn-invert mw-ui-btn-medium m-t-20" href="javascript:mw.validate_licenses();"><?php _e('Validate'); ?></a>
 </div>
+
+<?php endif; ?>   <a class="  mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-medium" href="javascript:mw.edit_licence('0');"><?php _e('Add'); ?> <?php _e('License'); ?></a>

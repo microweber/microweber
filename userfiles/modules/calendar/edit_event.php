@@ -7,8 +7,8 @@ $add_new = false;
 if (isset($params['event_id'])) {
     $data = calendar_get_event_by_id($params['event_id']);
     if (!empty($data)) {
-        $data['start_date'] = date("m/d/Y", strtotime($data['start_date']));
-        $data['end_date'] = date("m/d/Y", strtotime($data['end_date']));
+       // $data['start_date'] = date("Y-m-d", strtotime($data['start_date']));
+       // $data['end_date'] = date("Y-m-d", strtotime($data['end_date']));
         $data['start_time'] = date("H:i", strtotime($data['start_time']));
         $data['end_time'] = date("H:i", strtotime($data['end_time']));
     }
@@ -21,9 +21,9 @@ if (empty($data)) {
         'active' => 1,
         'content_id' => "",
         'title' => "",
-        'start_date' => date("m/d/Y"),
+        'start_date' => date("Y-m-d"),
         'start_time' => date("H:i"),
-        'end_date' => date("m/d/Y"),
+        'end_date' => date("Y-m-d"),
         'end_time' => date("H:i"),
         'description' => "",
         'short_description' => "",

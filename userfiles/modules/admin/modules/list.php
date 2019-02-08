@@ -58,6 +58,10 @@ if (isset($is_elements) and $is_elements == true) {
 
 } else {
     $modules = mw()->modules->get('installed=1&ui=1');
+    $module_layouts = mw()->modules->get('installed=1&module=layouts');
+
+
+    $hide_from_display_list = array('layouts','template_settings');
 
     $sortout_el = array();
     $sortout_mod = array();
@@ -70,7 +74,14 @@ if (isset($is_elements) and $is_elements == true) {
             }
         }
         $modules = array_merge($sortout_el, $sortout_mod);
+        if ($modules and !empty($module_layouts)) {
+            $modules = array_merge($modules, $module_layouts);
+        }
     }
+
+
+
+
 
     $modules_from_template = mw()->modules->get_modules_from_current_site_template();
     if (!empty($modules_from_template)) {
@@ -371,7 +382,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
                     ?>
                     <?php $module_id = $module_item['name_clean'] . '_' . uniqid($i); ?>
-                    <li <?php if (!isset($params['clean'])) { ?> id="<?php print $module_id; ?>" <?php } ?>
+                    <li    <?php if (isset($hide_from_display_list) and in_array($module_item['module'],$hide_from_display_list)) { ?> style="display: none"   <?php } ?>   <?php if (!isset($params['clean'])) { ?> id="<?php print $module_id; ?>" <?php } ?>
                             data-module-name="<?php print $module_item['module'] ?>"
 
                         <?php if ($mod_obj_str == 'elements'): ?> style="" <?php endif; ?>

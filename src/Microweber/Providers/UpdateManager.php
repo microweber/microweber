@@ -967,13 +967,14 @@ class UpdateManager
 
         $lic_ids = array();
         $licenses = $this->get_licenses($params);
+
         if (!empty($licenses)) {
             $result = $this->call('validate_licenses', $licenses);
 
             if (!empty($result)) {
                 foreach ($result as $k => $v) {
                     foreach ($licenses as $license) {
-                        if (isset($license['rel_type']) and $license['rel_type'] == $k) {
+                        if (!isset($license['rel_type']) or (isset($license['rel_type']) and $license['rel_type'] == $k)) {
                             if (is_array($v) and isset($v['status'])) {
                                 $license['status'] = $v['status'];
                                 foreach ($license as $license_k => $license_v) {
@@ -1028,17 +1029,29 @@ class UpdateManager
         if ($table == false) {
             return;
         }
+
+
+        if (isset($params['_delete_license'])  and $params['_delete_license'] == '_delete_license' and isset($params['id'])) {
+            $this->app->database_manager->delete_by_id('system_licenses', intval($params['id']));
+            return array('id' => 0, 'success' => 'License was deleted');
+
+        }
+
+
         if (!isset($params['rel_type']) and isset($params['rel'])) {
             $params['rel_type'] = $params['rel'];
         }
         if (!isset($params['rel_type']) and isset($params['local_key'])) {
             $prefix = explode('--', $params['local_key']);
+            if (!isset($prefix[1])) {
+                $prefix = explode('::', $params['local_key']);
+            }
             if (isset($prefix[1])) {
                 $params['rel_type'] = $prefix[0];
             }
         }
 
-        if (!isset($params['id']) and isset($params['rel_type'])) {
+        if (/*!isset($params['id']) and*/ isset($params['rel_type'])) {
             $update = array();
             $update['rel_type'] = $params['rel_type'];
             $update['one'] = true;
@@ -1047,7 +1060,7 @@ class UpdateManager
             if (isset($update['id'])) {
                 $params['id'] = $update['id'];
             }
-        } elseif (!isset($params['id']) and isset($params['local_key'])) {
+        } elseif (/*!isset($params['id']) and */isset($params['local_key'])) {
             $update = array();
             $update['local_key'] = $params['local_key'];
             $update['one'] = true;
@@ -1059,8 +1072,14 @@ class UpdateManager
         }
 
         $r = $this->app->database_manager->save($table, $params);
+
+
         if (isset($params['activate_on_save']) and $params['activate_on_save'] != false) {
-            $this->validate_license('id=' . $r);
+            $validation = $this->validate_license('id=' . $r);
+            if (!$validation) {
+                return array('id' => $r, 'warning' => 'License key saved is not valid');
+
+            }
         }
 
         return array('id' => $r, 'success' => 'License key saved');
@@ -1128,7 +1147,7 @@ class UpdateManager
         }
 
         if ($cache_id) {
-            $results = cache_get($cache_id, 'composer',60);
+            $results = cache_get($cache_id, 'composer', 60);
             if ($results) {
                 return $results;
             }
@@ -1137,8 +1156,8 @@ class UpdateManager
         $keyword = '';
         $runner = new \Microweber\Utils\ComposerUpdate();
         $results = $runner->search_packages($keyword);
-        if($results){
-            cache_save($results,$cache_id, 'composer',60);
+        if ($results) {
+            cache_save($results, $cache_id, 'composer', 60);
 
         }
 
