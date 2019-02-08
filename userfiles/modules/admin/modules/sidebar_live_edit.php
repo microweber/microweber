@@ -329,7 +329,7 @@
                 });
 
 
-                $("#mw-sidebar-modules-and-layouts-holder").on("mousedown touchstart", function (e) {
+                $("#mw-sidebar-modules-and-layouts-holder").on("mousedown", function (e) {
                     if (e.target.nodeName != 'INPUT' && e.target.nodeName != 'SELECT' && e.target.nodeName != 'OPTION' && e.target.nodeName != 'CHECKBOX') {
                         e.preventDefault();
                     }

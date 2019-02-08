@@ -3512,6 +3512,8 @@ div[id*='SSDIVEL'] {
     padding: 0px;
 }
 
+
+
 #modules-and-layouts-sidebar .module-admin-modules-list .module-item .mw_module_hold {
     background: transparent;
     padding: 10px;
@@ -3519,6 +3521,13 @@ div[id*='SSDIVEL'] {
     border: 1px solid transparent;
     border-radius: 2px;
     transition: .3s;
+}
+
+body.touchscreen-device #modules-and-layouts-sidebar .module-admin-modules-list-layouts .module-item{
+    width: 80%;
+}
+body.touchscreen-device #modules-and-layouts-sidebar .module-admin-modules-list .module-item{
+    width: 35%;
 }
 
 #modules-and-layouts-sidebar .module-admin-modules-list .module-item:hover .mw_module_hold {

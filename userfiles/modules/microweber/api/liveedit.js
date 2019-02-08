@@ -36,6 +36,9 @@ mw.inaccessibleModules = document.createElement('div');
 mw.inaccessibleModules.className = 'mw-ui-btn-nav mwInaccessibleModulesMenu';
 
 $(document).ready(function() {
+    if (("ontouchstart" in document.documentElement)) {
+        $('body').addClass('touchscreen-device');
+    }
 
     $("#live-edit-dropdown-actions-content a").off('click');
 
@@ -132,7 +135,7 @@ $(document).ready(function() {
             mw.event.cancel(e, true);
             mw.drag.save();
         }
-    })
+    });
 
      mw.edits = mw.$('.edit');
      mw.edits.on('keydown', function(e){
@@ -679,6 +682,8 @@ mw.drag = {
 
         $(mwd.body).on('mousemove touchmove', function(event) {
 
+            mw.inLog(event.target.nodeName)
+
             var that = this;
             mw.dragSTOPCheck = false;
             if (!mw.settings.resize_started) {
@@ -1092,7 +1097,7 @@ mw.drag = {
 
             var $handle_module = $(mw.handle_module).draggable({
                 handle: ".mw-sorthandle-moveit",
-                distance:20,
+                //distance:20,
                 cursorAt: {
                     top: -30
                 },
@@ -1222,9 +1227,9 @@ mw.drag = {
         var items = selector || ".modules-list li[data-module-name]";
         mw.$(items).draggable({
             revert: true,
-            cursorAt: {
+            /*cursorAt: {
                 top: -30
-            },
+            },*/
             revertDuration: 0,
             start: function(a, b) {
                 mw.isDrag = true;
@@ -2823,7 +2828,7 @@ $(window).on("load", function() {
             mw.smallEditorCanceled = true;
         }
     });
-    mw.$("#live_edit_toolbar, #mw_small_editor").on("mousedown touchstart", function(e) {
+    mw.$("#live_edit_toolbar, #mw_small_editor").on("mousedown", function(e) {
        $(".wysiwyg_external").empty()
         if (e.target.nodeName != 'INPUT' && e.target.nodeName != 'SELECT' && e.target.nodeName != 'OPTION' && e.target.nodeName != 'CHECKBOX') {
             e.preventDefault();

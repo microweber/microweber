@@ -215,7 +215,8 @@
             });
 
 
-            mw.$(".create-content-dropdown").hover(function () {
+            mw.$(".create-content-dropdown")
+                .on('mouseenter touchstart', function () {
                 var el = $(this);
                 var list = mw.$(".create-content-dropdown-list", el[0]);
 
@@ -226,16 +227,16 @@
                         list.stop().show().css("opacity", 1);
                     }
                 }, 222);
+            }).on("mouseleave", function(){
+                    var el = $(this);
+                    el.removeClass("over");
+                    setTimeout(function () {
+                        if (!el.hasClass("over")) {
+                            mw.$(".create-content-dropdown-list", el[0]).stop().fadeOut(322);
+                        }
+                    }, 322);
+                });
 
-            }, function () {
-                var el = $(this);
-                el.removeClass("over");
-                setTimeout(function () {
-                    if (!el.hasClass("over")) {
-                        mw.$(".create-content-dropdown-list", el[0]).stop().fadeOut(322);
-                    }
-                }, 322);
-            });
 
 
             mw.$("#mod_switch").click(function () {

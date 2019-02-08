@@ -290,6 +290,19 @@ if (isset($_COOKIE['mw_exp'])) {
                     $('a[data-id="mw-toolbar-show-sidebar-btn"]').addClass('opened');
                     mw.cookie.set("show-sidebar-layouts", '1');
 
+                $(mw.handle_module).css({
+                    top: "",
+                    left: ""
+                });
+                $(mw.handle_element).css({
+                    top: "",
+                    left: ""
+                });
+                $(mw.handle_row).css({
+                    top: "",
+                    left: ""
+                });
+
             })
             .on('ControlBoxHide', function () {
                 $(document.body).removeClass('has-opened-sidebar');

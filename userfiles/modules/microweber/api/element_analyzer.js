@@ -267,8 +267,8 @@ mw.ElementAnalyzer = function(options){
         scope:this,
         _isBlockCache:{},
         isBlockLevel:function(node){
-            node = node || this.data.target;
-            if(node.nodeType === 3){
+            node = node || (this.data ? this.data.target : null);
+            if(!node || node.nodeType === 3){
                 return false;
             }
             var name = node.nodeName;
@@ -391,7 +391,7 @@ mw.ElementAnalyzer = function(options){
     this.interactionTarget = function(next){
         node = this.data.target;
         if(next) node = node.parentNode;
-        while(!this.helpers.isBlockLevel(node)){
+        while(node && !this.helpers.isBlockLevel(node)){
             node = node.parentNode;
         }
         return node;
@@ -404,7 +404,7 @@ mw.ElementAnalyzer = function(options){
             this.cls.module,
             this.cls.emptyElement
         ];
-        while(node !== mwd.body){
+        while(node && node !== mwd.body){
             if(mw.tools.hasAnyOfClasses(node, cls)){
                 return node;
             }
