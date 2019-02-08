@@ -21,6 +21,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Composer\Command\BaseCommand;
+use Microweber\Utils\Adapters\Packages\Helpers\TemplateInstaller;
 
 /**
  * @author Jordi Boggiano <j.boggiano@seld.be>
@@ -61,19 +62,17 @@ exist it will look for composer.json and do the same.
 <info>php composer.phar install</info>
 
 EOT
-            )
-        ;
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = $this->getIO();
         if ($args = $input->getArgument('packages')) {
-            $io->writeError('<error>Invalid argument '.implode(' ', $args).'. Use "composer require '.implode(' ', $args).'" instead to add packages to your composer.json.</error>');
+            $io->writeError('<error>Invalid argument ' . implode(' ', $args) . '. Use "composer require ' . implode(' ', $args) . '" instead to add packages to your composer.json.</error>');
 
             return 1;
         }
-
 
 
         $composer = $this->getComposer(true, true);
@@ -84,20 +83,22 @@ EOT
 
 
 
+
+
         $install = Installer::create($io, $composer);
 
         $preferSource = false;
         $preferDist = false;
 
         $config = $composer->getConfig();
-       // set_time_limit(0);
+        // set_time_limit(0);
         ini_set('max_execution_time', 300);
-        ini_set('memory_limit','4777M');
+        ini_set('memory_limit', '4777M');
 
         $install
-          //  ->setDryRun(0)
+            //  ->setDryRun(0)
             ->setVerbose(1)
-        //    ->setPreferSource(0)
+            //    ->setPreferSource(0)
             ->setPreferDist(1)
             ->setDevMode(false)
             ->setDumpAutoloader(false)
@@ -106,11 +107,10 @@ EOT
             ->setOptimizeAutoloader(false)
             ->setPreferStable(true)
             ->setClassMapAuthoritative(false)
-            ->setIgnorePlatformRequirements(true)
-        ;
+            ->setIgnorePlatformRequirements(true);
 
-       // if ($input->getOption('no-plugins')) {
-         $install->disablePlugins();
+        // if ($input->getOption('no-plugins')) {
+        //$install->disablePlugins();
         //}
 
         return $install->run();

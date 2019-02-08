@@ -254,6 +254,7 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
                             $version_info['extra'] = $version->getExtra();
                             $version_info['dist'] = $version->getDistUrls();
 
+                            if($version_info['dist']){
                             if (!$latestVersion || $version->getReleaseDate() > $latestVersion->getReleaseDate()) {
                                 $latestVersion = $version;
                                 $latestVersionInfo = $version_info;
@@ -261,6 +262,8 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
                             }
                             $packages[$result['name']]['versions'][$version_info['version']] = $version_info;
                             $packages[$result['name']]['mw-compatible'] = true;
+                            }
+
                         }
 //                        if (isset($requires['microweber/microweber']) && $requires['microweber/microweber'] instanceof Link) {
 //                            /** @var Link $link */

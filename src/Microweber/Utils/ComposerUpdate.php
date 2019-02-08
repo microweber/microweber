@@ -24,7 +24,8 @@ use Composer\Repository\PlatformRepository;
 use Composer\Repository\RepositoryInterface;
 use  Microweber\Utils\Adapters\Packages\ComposerPackagesSearchCommandController;
 use Composer\Console\HtmlOutputFormatter;
-
+use Microweber\Utils\Adapters\Packages\Helpers\TemplateInstaller;
+use Microweber\Utils\Adapters\Packages\Helpers\ModuleInstaller;
 
 class ComposerUpdate
 {
@@ -229,7 +230,6 @@ class ComposerUpdate
 
         }
 
-
         if (isset($return[$keyword])) {
             $version_data = false;
             $package_data = $return[$keyword];
@@ -298,7 +298,7 @@ class ComposerUpdate
 
             $argv = array();
             //  $argv[] = 'dry-run';
-           // $argv[] = '--no-plugins';
+            // $argv[] = '--no-plugins';
 
 
             $input = new ArgvInput($argv);
@@ -313,6 +313,12 @@ class ComposerUpdate
             $composer = Factory::create($io);
 
             //       $input->setOption('no-plugins',true);
+
+
+            $installation_manager = $composer->getInstallationManager();
+
+            $installation_manager->addInstaller(new TemplateInstaller($io, $composer));
+            $installation_manager->addInstaller(new ModuleInstaller($io, $composer));
 
 
             $composer->setConfig($config);
@@ -449,8 +455,12 @@ class ComposerUpdate
             $new_composer_config = array();
         }
         if (isset($composer_orig['repositories'])) {
+
             $new_composer_config['repositories'] = $composer_orig['repositories'];
+
             $new_composer_config['repositories']['packagist'] = false;
+
+
             $new_composer_config['config'] = $composer_orig['config'];
             $new_composer_config['minimum-stability'] = 'dev';
             // $new_composer_config['vendor-dir'] = $temp_folder;
@@ -460,8 +470,8 @@ class ComposerUpdate
             $new_composer_config['config']['discard-changes'] = true;
             $new_composer_config['config']['htaccess-protect'] = true;
             $new_composer_config['config']['archive-format'] = 'zip';
-           // $new_composer_config['notify-batch'] = 'https://installreport.services.microweberapi.com/';
-           //  $new_composer_config['notification-url'] = 'https://installreport.services.microweberapi.com/';
+            // $new_composer_config['notify-batch'] = 'https://installreport.services.microweberapi.com/';
+            //  $new_composer_config['notification-url'] = 'https://installreport.services.microweberapi.com/';
 
         }
 
