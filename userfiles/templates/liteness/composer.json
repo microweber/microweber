@@ -1,7 +1,5 @@
 {
     "name": "microweber/liteness-template",
     "type": "microweber-template",
-    "extra": {
-        "folder": "liteness"
-    }
+	"target-dir": "liteness"
 }
