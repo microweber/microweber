@@ -17,16 +17,24 @@ class BaseInstaller extends LibraryInstaller
 
     public function getInstallPath(PackageInterface $package)
     {
-        $extra = $package->getExtra();;
+        $extra = $package->getExtra();
+        $target_dir = $package->getTargetDir();
 
 
-        if (!$extra or !isset($extra['folder']) or !($extra['folder'])) {
+        $folder = false;
+
+        if ($target_dir) {
+            $folder = $target_dir;
+        }
+        if (!$folder and ($extra and isset($extra['folder']) and ($extra['folder']))) {
+            $folder = $extra['folder'];
+        }
+
+        if (!$folder) {
             throw new \InvalidArgumentException(
                 'Unable to determinate the install folder for ' . $package->getPrettyName()
             );
         }
-
-        $folder = $extra['folder'];
 
         $folder = str_replace('..', '', $folder);
         return $this->folder_base . $folder;
