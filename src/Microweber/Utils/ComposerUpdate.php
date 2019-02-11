@@ -246,7 +246,7 @@ class ComposerUpdate
             }
             $dryRun = false;
             if (!isset($version_data['dist']) or !isset($version_data['dist'][0])) {
-                return array('error' => 'Error resolving Composer dependencies. No download source found for ' . $keyword);
+                return array('error' => 'No download source found for ' . $keyword);
 
             }
 
@@ -314,9 +314,10 @@ class ComposerUpdate
                 });
                 $allFiles = array_keys($allFiles);
 
-                $skip_files = array('composer.json', 'composer.lock', 'vendor');
+                $skip_files = array('composer.json', 'auth.json', 'composer.lock', 'vendor');
 
                 $cp_files = array();
+                $cp_files_fails = array();
                 if ($allFiles) {
                     foreach ($allFiles as $file_to_copy) {
                         $file_to_copy = str_ireplace($from_folder, '', $file_to_copy);
@@ -339,28 +340,31 @@ class ComposerUpdate
                     }
                 }
 
+                if ($cp_files and !empty($cp_files)) {
+                    foreach ($cp_files as $f) {
+                        $src = $from_folder . DS . $f;
+                        $dest = $to_folder . DS . $f;
+                        $src = normalize_path($src, false);
+                        $dest = normalize_path($dest, false);
+                        $dest_dn = dirname($dest);
+                        if (!is_dir($dest_dn)) {
+                            mkdir_recursive($dest_dn);
+                        }
+                        if (copy($src, $dest)) {
+                            //ok
+                        } else {
 
-            }
-
-            if ($cp_files and !empty($cp_files)) {
-                foreach ($cp_files as $f) {
-                    $src = $from_folder . DS . $f;
-                    $dest = $to_folder . DS . $f;
-                    $src = normalize_path($src, false);
-                    $dest = normalize_path($dest, false);
-                    $dest_dn = dirname($dest);
-                    if (!is_dir($dest_dn)) {
-                        mkdir_recursive($dest_dn);
+                        }
                     }
-
-                    copy($src, $dest);
-
+                    $resp = array();
+                    $resp['success'] = 'Success. You have installed: ' . $keyword . ' .  Total ' . count($cp_files) . ' files installed';
+                    $resp['log'] = $cp_files;
+                    if ($cp_files_fails) {
+                        $resp['errors'] = $cp_files_fails;
+                    }
+                    return $resp;
 
                 }
-
-
-                return array('success' => 'Success. You have installed: ' . $keyword . ' .  Total ' . count($cp_files) . ' files installed');
-
             }
 
 
@@ -467,7 +471,7 @@ class ComposerUpdate
 
     public function _prepare_composer_workdir($package_name = '', $version = false)
     {
-        $cache_folder = storage_path('composer/cache');
+        $cache_folder = mw_cache_path() . 'composer/cache';
 
 //        if ($package_name) {
 //            $temp_folder = storage_path('composer/' . url_title($package_name));
@@ -479,7 +483,7 @@ class ComposerUpdate
 //
 
 
-        $temp_folder = $this->_get_composer_workdir_path($package_name);
+        $temp_folder = $this->_get_composer_workdir_path($package_name . '-' . $version);
 
 
         $conf = $this->composer_home . '/composer.json';

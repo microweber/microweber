@@ -418,7 +418,13 @@ function clearcache()
         mkdir_recursive($empty_folder);
     }
 
-
+    $empty_folder = mw_cache_path().'composer';
+    if (is_dir($empty_folder)) {
+        rmdir_recursive($empty_folder, false);
+    }
+    if (!is_dir($empty_folder)) {
+        mkdir_recursive($empty_folder);
+    }
     return true;
 }
 
