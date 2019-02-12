@@ -130,13 +130,11 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
 
                     if (stristr($err_msg, $u)) {
                         unset($known_repos[$rk]);
-                        //  dd($u,$known_repos);
-                        $removed_repos[] = $known_repo;
+                         $removed_repos[] = $known_repo;
                     }
 
                 }
                 $errors[$err_code] = $err_msg;
-                //  dd($e->getMessage(),$e->getCode(), $platformRepo, $known_repos, $localRepository);
 
             }
 
@@ -187,8 +185,6 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
 
 
         //$results = $repositories->search(implode(' ', $tokens), $searchIn);
-
-        // dd($known_repos);
 
 
         $mwVersion = 1;
@@ -252,7 +248,13 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
                             $version_info['type'] = $version_type;
                             $version_info['requires'] = $version_requires;
                             $version_info['extra'] = $version->getExtra();
+                            $version_info['folder'] = $version->getTargetDir();
+
+
+
                             $version_info['dist'] = $version->getDistUrls();
+
+                            $version_info['dist_type'] = $version->getDistType();
 
                             if($version_info['dist']){
                             if (!$latestVersion || $version->getReleaseDate() > $latestVersion->getReleaseDate()) {
@@ -263,6 +265,7 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
                             $packages[$result['name']]['versions'][$version_info['version']] = $version_info;
                             $packages[$result['name']]['mw-compatible'] = true;
                             }
+
 
                         }
 //                        if (isset($requires['microweber/microweber']) && $requires['microweber/microweber'] instanceof Link) {

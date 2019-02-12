@@ -78,7 +78,6 @@ class ComposerUpdate
 //        $update->setComposer($composer);
 //        $out = $update->run($input, $output);
 
-        //  dd($output);
 
 //        $input = new ArrayInput(array('command' => 'update'));
 //
@@ -86,7 +85,7 @@ class ComposerUpdate
 //        $application = new Application();
 //        $application->setAutoExit(false);
 //        $out = $application->run($input);
-//     dd($out);
+
 //        echo "Done.";
     }
 
@@ -144,13 +143,22 @@ class ComposerUpdate
         if ($return) {
             foreach ($return as $pk => $package) {
 
+
                 if (isset($package['type'])
                     and isset($package['latest_version'])
                     and isset($package['latest_version']['extra'])
                     and isset($package['latest_version']['extra']['folder'])
                 ) {
                     $package_type = $package['type'];
-                    $package_folder = $package['latest_version']['extra']['folder'];
+
+                    $package_folder = false;
+                    if (!$package_folder and isset($package['latest_version']) and isset($package['latest_version']['extra']) and isset($package['latest_version']['extra']['folder'])) {
+                        $package_folder = $package['latest_version']['extra']['folder'];
+                    }
+
+
+                    //  dd($package);
+
 
                     $local_packages_type = false;
                     switch ($package_type) {
@@ -232,9 +240,11 @@ class ComposerUpdate
 
         }
 
+
         if (isset($return[$keyword])) {
             $version_data = false;
             $package_data = $return[$keyword];
+
             if ($version == 'latest' and isset($package_data['latest_version']) and $package_data['latest_version']) {
                 $version_data = $package_data['latest_version'];
             } elseif (isset($package_data['versions']) and isset($package_data['versions'][$version])) {
@@ -244,11 +254,29 @@ class ComposerUpdate
             if (!$version_data) {
                 return;
             }
-            $dryRun = false;
-            if (!isset($version_data['dist']) or !isset($version_data['dist'][0])) {
-                return array('error' => 'No download source found for ' . $keyword);
 
+
+
+
+
+
+            $dryRun = false;
+            if (isset($version_data['dist_type']) and isset($version_data['dist_type']) == 'license_key') {
+
+                return array(
+                    'error' => _e('You need license key', true),
+                    'form_data_required' => 'license_key',
+                    'form_data_module' => 'settings/group/license_edit'
+                );
+
+
+
+
+                return array('error' => 'You need license key to install ' . $keyword);
+            } else if (!isset($version_data['dist']) or !isset($version_data['dist'][0])) {
+                return array('error' => 'No download source found for ' . $keyword);
             }
+
 
             $io = new BufferIO('', 1, new HtmlOutputFormatter());
 
@@ -366,12 +394,6 @@ class ComposerUpdate
 
                 }
             }
-
-
-            //dd($out);
-
-
-            // return $return;
 
 
         }
@@ -513,7 +535,7 @@ class ComposerUpdate
                 $package_name => $version
             ));
         } else {
-            $new_composer_config = array();
+            $new_composer_config = array('repositories' => array());
         }
         if (isset($composer_orig['repositories'])) {
 
@@ -537,17 +559,25 @@ class ComposerUpdate
             $new_composer_config['config']['use-include-path'] = false;
             $new_composer_config['config']['discard-changes'] = true;
             $new_composer_config['config']['archive-format'] = 'zip';
-            // $new_composer_config['notify-batch'] = 'https://installreport.services.microweberapi.com/';
+            //  $new_composer_config['notify-batch'] = 'https://installreport.services.microweberapi.com/';
             //  $new_composer_config['notification-url'] = 'https://installreport.services.microweberapi.com/';
 
         }
 
         file_put_contents($conf_new, json_encode($new_composer_config));
+
+        $composer_auth_temp = array();
+
         if (is_file($conf_auth)) {
 
             $composer_auth_temp = @file_get_contents($conf_auth);
-
             $composer_auth_temp = @json_decode($composer_auth_temp, true);
+
+        } else {
+
+            if (!isset($composer_auth_temp['http-basic'])) {
+                $composer_auth_temp['http-basic'] = array();
+            }
 
             $lic = mw()->update->get_licenses();
             $lic = json_encode($lic);
@@ -559,7 +589,6 @@ class ComposerUpdate
                     "password" => $lic
                 );
                 file_put_contents($auth_new, json_encode($composer_auth_temp));
-
             }
 
         }
