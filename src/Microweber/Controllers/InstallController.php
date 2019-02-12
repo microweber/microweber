@@ -113,7 +113,7 @@ class InstallController extends Controller
                     touch($input['db_name']);
                 }
             }
- 
+
             Config::set("database.connections.$dbDriver.host", $input['db_host']);
             Config::set("database.connections.$dbDriver.username", $input['db_user']);
             Config::set("database.connections.$dbDriver.password", $input['db_pass']);

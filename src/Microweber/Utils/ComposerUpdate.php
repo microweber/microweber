@@ -353,7 +353,7 @@ class ComposerUpdate
                         if (copy($src, $dest)) {
                             //ok
                         } else {
-
+                            $cp_files_fails[] = $f;
                         }
                     }
                     $resp = array();
