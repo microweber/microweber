@@ -682,8 +682,6 @@ mw.drag = {
 
         $(mwd.body).on('mousemove touchmove', function(event) {
 
-            mw.inLog(event.target.nodeName)
-
             var that = this;
             mw.dragSTOPCheck = false;
             if (!mw.settings.resize_started) {
@@ -1481,10 +1479,11 @@ mw.drag = {
             left: ''
         });
         var more_selectors = '';
-        var a = mw.drag.external_grids_col_classes;
+        //var cols = mw.drag.external_grids_col_classes;
+        var cols = [];
         var index;
-        for (index = a.length - 1; index >= 0; --index) {
-            more_selectors += ',.edit .row > .' + a[index];
+        for (index = cols.length - 1; index >= 0; --index) {
+            more_selectors += ',.edit .row > .' + cols[index];
         }
         setTimeout(function() {
             mw.$(".edit .mw-col" + more_selectors).each(function() {
@@ -1710,16 +1709,15 @@ mw.drag = {
             return modal;
         }
         if (type === 'tooltip') {
-
+            var id = 'mw-tooltip-iframe-'+ mw.random()
             mw.tooltip({
                 id: 'module-settings-tooltip-' + modal_name,
                 group: 'module_settings_tooltip_show_on_btn',
                 close_on_click_outside: true,
-                content: '<iframe height="300" width="100%" frameborder="0" src="' + src + '"></iframe>',
-
+                content: '<iframe id="'+id+'" frameborder="0" class="mw-tooltip-iframe" src="' + src + '"></iframe>',
                 element: tooltip_element
             });
-
+            mw.tools.iframeAutoHeight(mwd.querySelector('#'+id))
         }
 
     },
