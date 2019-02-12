@@ -100,6 +100,9 @@ class InstallController extends Controller
                 $dbDriver = 'mysql';
             }
 
+
+
+
             Config::set('database.default', $dbDriver);
             if ($dbDriver == 'sqlite') {
                 if (isset($input['db_name_sqlite'])) {
@@ -110,7 +113,7 @@ class InstallController extends Controller
                     touch($input['db_name']);
                 }
             }
-
+ 
             Config::set("database.connections.$dbDriver.host", $input['db_host']);
             Config::set("database.connections.$dbDriver.username", $input['db_user']);
             Config::set("database.connections.$dbDriver.password", $input['db_pass']);
@@ -163,6 +166,19 @@ class InstallController extends Controller
                 Config::set('microweber.pre_configured', 1);
                 Config::set('microweber.pre_configured_input', $input);
             } else {
+
+
+                try {
+                    DB::connection()->getPdo();
+                } catch (\Exception $e) {
+                     $this->log("error" );
+
+                  //  return ("Error: Could not connect to the database.  Please check your configuration. Error: " . $e->getMessage() .' on ' . $e->getLine() . " – " . $e->getFile() );
+                    return ("Error: Could not connect to the database.  Please check your configuration. " . $e->getMessage() );
+                }
+
+
+
 
 
                 try {
