@@ -18,7 +18,7 @@
 
         $.post("<?php print api_link('mw_composer_install_package_by_name'); ?>", { require_name: $key, require_version:$version })
             .done(function (msg) {
-                d(msg);
+
                 mw.notification.msg(this);
              //   reload_changes();
             });

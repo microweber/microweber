@@ -110,13 +110,13 @@ class ComposerUpdate
         return $out;
     }
 
-    public function search_packages($keyword = '')
+    public function search_packages($keyword = '', $version = false)
     {
         $keyword = strip_tags($keyword);
         $keyword = trim($keyword);
 
         // $conf = $this->composer_home . '/composer.json';
-        $temp_folder = $this->_prepare_composer_workdir($keyword);
+        $temp_folder = $this->_prepare_composer_workdir($keyword, $version);
 
         if (!$temp_folder) {
             return array('error' => 'Error preparing installation for ' . $keyword);
@@ -194,28 +194,30 @@ class ComposerUpdate
 
     public function install_package_by_name($params)
     {
+        $params = parse_params($params);
+
+
+        $need_cofirm = false;
 
 
         if (!isset($params['require_name']) or !$params['require_name']) {
             return;
         }
         $version = 'latest';
-        if (isset($params['version']) and $params['version']) {
-            $version = trim($params['version']);
+        if (isset($params['require_version']) and $params['require_version']) {
+            $version = trim($params['require_version']);
         }
 
-        $params = parse_params($params);
-
-        // $io = new BufferIO($input, $output, null);
         $keyword = $params['require_name'];
         $keyword = strip_tags($keyword);
         $keyword = trim($keyword);
 
-        //   $conf = $this->composer_home . '/composer.json';
-        //$conf_auth = $this->composer_home . '/auth.json';
+        $version = strip_tags($version);
+        $version = trim($version);
 
 
-        $return = $this->search_packages($keyword);
+        $return = $this->search_packages($keyword, $version);
+
 
         if (!$return) {
             return array('error' => 'Error. Cannot find any packages for ' . $keyword);
@@ -244,7 +246,7 @@ class ComposerUpdate
             }
             $dryRun = false;
             if (!isset($version_data['dist']) or !isset($version_data['dist'][0])) {
-                return array('error' => 'Error resolving Composer dependencies. No download source found for ' . $keyword);
+                return array('error' => 'No download source found for ' . $keyword);
 
             }
 
@@ -261,36 +263,6 @@ class ComposerUpdate
                 return array('error' => 'Error preparing installation for ' . $keyword);
 
             }
-
-
-//
-//            if (!is_dir($temp_folder)) {
-//                mkdir_recursive($temp_folder);
-//            }
-//
-//            $conf_new = $temp_folder . '/composer.json';
-//            $conf_new = normalize_path($conf_new, false);
-//
-//            $auth_new = $temp_folder . '/auth.json';
-//            $auth_new = normalize_path($conf_new, false);
-//
-//            $new_composer_config = array('require' => array(
-//                //  $keyword => 'dev-master'
-//                $keyword => '*'
-//            ));
-//
-//            if (isset($composer_orig['repositories'])) {
-//                $new_composer_config['repositories'] = $composer_orig['repositories'];
-//                $new_composer_config['config'] = $composer_orig['config'];
-//                $new_composer_config['minimum-stability'] = 'dev';
-//                $new_composer_config['vendor-dir'] = $temp_folder;
-//                $new_composer_config['config']['no-plugins'] = true;
-//            }
-//
-//            file_put_contents($conf_new, json_encode($new_composer_config));
-//            if (is_file($conf_auth)) {
-//                copy($conf_auth, $auth_new);
-//            }
 
 
             chdir($temp_folder);
@@ -329,10 +301,77 @@ class ComposerUpdate
             $out = $update->run($input, $output);
 
 
-            dd($out);
+            if ($out === 0) {
 
 
-            return $return;
+                $from_folder = normalize_path($temp_folder, true);
+                $to_folder = mw_root_path();
+
+
+                $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($from_folder));
+                $allFiles = array_filter(iterator_to_array($iterator), function ($file) {
+                    return $file->isFile();
+                });
+                $allFiles = array_keys($allFiles);
+
+                $skip_files = array('composer.json', 'auth.json', 'composer.lock', 'vendor');
+
+                $cp_files = array();
+                $cp_files_fails = array();
+                if ($allFiles) {
+                    foreach ($allFiles as $file_to_copy) {
+                        $file_to_copy = str_ireplace($from_folder, '', $file_to_copy);
+
+                        $skip = false;
+
+
+                        foreach ($skip_files as $skip_file) {
+                            if (stripos($file_to_copy, $skip_file) === 0) {
+                                $skip = true;
+                            }
+                        }
+
+
+                        if (!$skip) {
+                            $cp_files [] = normalize_path($file_to_copy, false);
+                        }
+
+
+                    }
+                }
+
+                if ($cp_files and !empty($cp_files)) {
+                    foreach ($cp_files as $f) {
+                        $src = $from_folder . DS . $f;
+                        $dest = $to_folder . DS . $f;
+                        $src = normalize_path($src, false);
+                        $dest = normalize_path($dest, false);
+                        $dest_dn = dirname($dest);
+                        if (!is_dir($dest_dn)) {
+                            mkdir_recursive($dest_dn);
+                        }
+                        if (copy($src, $dest)) {
+                            //ok
+                        } else {
+
+                        }
+                    }
+                    $resp = array();
+                    $resp['success'] = 'Success. You have installed: ' . $keyword . ' .  Total ' . count($cp_files) . ' files installed';
+                    $resp['log'] = $cp_files;
+                    if ($cp_files_fails) {
+                        $resp['errors'] = $cp_files_fails;
+                    }
+                    return $resp;
+
+                }
+            }
+
+
+            //dd($out);
+
+
+            // return $return;
 
 
         }
@@ -415,18 +454,36 @@ class ComposerUpdate
         return $conf_items;
     }
 
-    public function _prepare_composer_workdir($package_name = '')
+    public function _get_composer_workdir_path($package_name = '')
     {
-        $temp_folder = storage_path('composer/temp');
-        $cache_folder = storage_path('composer/cache');
-
+        $temp_folder = mw_cache_path() . 'composer/temp';
         if ($package_name) {
-            $temp_folder = storage_path('composer/' . url_title($package_name));
+            $temp_folder = mw_cache_path() . 'composer/' . url_title($package_name);
         }
 
         if (!is_dir($temp_folder)) {
             mkdir_recursive($temp_folder);
         }
+        return $temp_folder;
+
+
+    }
+
+    public function _prepare_composer_workdir($package_name = '', $version = false)
+    {
+        $cache_folder = mw_cache_path() . 'composer/cache';
+
+//        if ($package_name) {
+//            $temp_folder = storage_path('composer/' . url_title($package_name));
+//        }
+//
+//        if (!is_dir($temp_folder)) {
+//            mkdir_recursive($temp_folder);
+//        }
+//
+
+
+        $temp_folder = $this->_get_composer_workdir_path($package_name . '-' . $version);
 
 
         $conf = $this->composer_home . '/composer.json';
@@ -447,9 +504,13 @@ class ComposerUpdate
 
         $new_composer_config = array();
         if ($package_name) {
+
+            if (!$version or $version == 'latest') {
+                $version = '*';
+            }
             $new_composer_config = array('require' => array(
                 //  $keyword => 'dev-master'
-                $package_name => '*'
+                $package_name => $version
             ));
         } else {
             $new_composer_config = array();
@@ -463,12 +524,18 @@ class ComposerUpdate
 
             $new_composer_config['config'] = $composer_orig['config'];
             $new_composer_config['minimum-stability'] = 'dev';
+            $new_composer_config['target-dir'] = 'installed';
+
+
             // $new_composer_config['vendor-dir'] = $temp_folder;
             //   $new_composer_config['config']['no-plugins'] = true;
             $new_composer_config['config']['cache-dir'] = $cache_folder;
             $new_composer_config['config']['preferred-install'] = 'dist';
             $new_composer_config['config']['discard-changes'] = true;
             $new_composer_config['config']['htaccess-protect'] = true;
+            $new_composer_config['config']['store-auths'] = false;
+            $new_composer_config['config']['use-include-path'] = false;
+            $new_composer_config['config']['discard-changes'] = true;
             $new_composer_config['config']['archive-format'] = 'zip';
             // $new_composer_config['notify-batch'] = 'https://installreport.services.microweberapi.com/';
             //  $new_composer_config['notification-url'] = 'https://installreport.services.microweberapi.com/';

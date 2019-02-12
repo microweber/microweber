@@ -81,7 +81,7 @@ class ComposerPackagesSearchCommand extends ComposerAbstractController
         $allowed_package_types = array(
             'microweber-template',
             'microweber-module',
-        );
+         );
 
         $repositoryManager = $this->getRepositoryManager();
 
