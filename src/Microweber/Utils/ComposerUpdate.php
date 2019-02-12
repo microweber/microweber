@@ -261,20 +261,22 @@ class ComposerUpdate
 
 
             $dryRun = false;
-            if (isset($version_data['dist_type']) and isset($version_data['dist_type']) == 'license_key') {
+            $need_key = false;
+            if (!isset($version_data['dist']) or !isset($version_data['dist'][0])) {
+                return array('error' => 'No download source found for ' . $keyword);
+            }
 
+            if (isset($version_data['dist_type']) and ($version_data['dist_type']) == 'license_key') {
+                $need_key = true;
+            }
+
+
+            if($need_key){
                 return array(
                     'error' => _e('You need license key', true),
                     'form_data_required' => 'license_key',
                     'form_data_module' => 'settings/group/license_edit'
                 );
-
-
-
-
-                return array('error' => 'You need license key to install ' . $keyword);
-            } else if (!isset($version_data['dist']) or !isset($version_data['dist'][0])) {
-                return array('error' => 'No download source found for ' . $keyword);
             }
 
 
