@@ -126,6 +126,28 @@ if (!window.escape) {
     };
 }
 mw.tools = {
+    iframeAutoHeight:function(frame){
+        frame = mw.$(frame)[0];
+        if(!frame) return;
+
+        frame.scrolling="no";
+        frame.style.minHeight = 0 + 'px';
+        frame.style.height = 0 + 'px';
+        frame.style.height = frame.contentWindow.document.body.scrollHeight + 'px';
+        $(frame).on('load resize', function(){
+            frame.style.height = 0 + 'px';
+            $('#settings-container,#settings-main', frame.contentWindow.document.body).css({
+                'minHeight': '0px'
+            });
+            frame.style.height = frame.contentWindow.document.body.scrollHeight + 'px';
+        });
+        $(frame.contentWindow.document.body).on('keyup click ajaxStop', function(){
+            setTimeout(function(){
+                frame.style.height = 0 + 'px';
+                frame.style.height = frame.contentWindow.document.body.scrollHeight + 'px';
+            }, 78);
+        });
+    },
     distance: function (x1, y1, x2, y2) {
         var a = x1 - x2;
         var b = y1 - y2;
@@ -313,7 +335,7 @@ mw.tools = {
             return tooltip;
         },
         setPosition: function (tooltip, el, position) {
-            var el = mw.$(el);
+            el = mw.$(el);
             if (el.length === 0) {
                 return false;
             }
@@ -324,82 +346,108 @@ mw.tools = {
                 tipheight = $(tooltip).outerHeight(),
                 off = el.offset(),
                 arrheight = mw.$('.mw-tooltip-arrow', tooltip).height();
-            if (off.top == 0 && off.left == 0) {
-                var off = $(el).parent().offset()
+            if (off.top === 0 && off.left === 0) {
+                off = $(el).parent().offset();
             }
             mw.tools.removeClass(tooltip, tooltip.tooltipData.position);
             mw.tools.addClass(tooltip, position);
             tooltip.tooltipData.position = position;
 
+            off.left = off.left > 0 ? off.left : 0;
+            off.top = off.top > 0 ? off.top : 0;
 
-            if (position == 'bottom-left') {
+            var leftCenter = off.left - tipwidth / 2 + w / 2;
+            leftCenter = leftCenter > 0 ? leftCenter : 0;
+
+            if (position === 'auto') {
+                var $win = $(window);
+                var wxCenter =  $win.width()/2;
+                var wyCenter =  ($win.height() + $win.scrollTop())/2;
+                var elXCenter =  off.left +(w/2);
+                var elYCenter =  off.top +(h/2);
+                var xPos, yPost;
+                var space = 100;
+
+                if(elXCenter > wxCenter) {
+                    xPos = 'left'
+                } else {
+                    xPos = 'right'
+                }
+
+                yPos = 'top'
+
+
+                return this.setPosition (tooltip, el, (xPos+'-'+yPos));
+            }
+
+            if (position === 'bottom-left') {
                 $(tooltip).css({
                     top: off.top + h + arrheight,
                     left: off.left
                 });
             }
-            else if (position == 'bottom-center') {
+            else if (position === 'bottom-center') {
                 $(tooltip).css({
                     top: off.top + h + arrheight,
-                    left: off.left - tipwidth / 2 + w / 2
+                    left: leftCenter
                 });
             }
-            else if (position == 'bottom-right') {
+            else if (position === 'bottom-right') {
                 $(tooltip).css({
                     top: off.top + h + arrheight,
                     left: off.left - tipwidth + w
                 });
             }
-            else if (position == 'top-right') {
+            else if (position === 'top-right') {
                 $(tooltip).css({
                     top: off.top - tipheight - arrheight,
                     left: off.left - tipwidth + w
                 });
             }
-            else if (position == 'top-left') {
+            else if (position === 'top-left') {
                 $(tooltip).css({
                     top: off.top - tipheight - arrheight,
                     left: off.left
                 });
             }
-            else if (position == 'top-center') {
+            else if (position === 'top-center') {
 
                 $(tooltip).css({
                     top: off.top - tipheight - arrheight,
-                    left: off.left - tipwidth / 2 + w / 2
+                    left: leftCenter
                 });
             }
-            else if (position == 'left-top') {
+            else if (position === 'left-top') {
                 $(tooltip).css({
                     top: off.top,
                     left: off.left - tipwidth - arrheight
                 });
             }
-            else if (position == 'left-bottom') {
+            else if (position === 'left-bottom') {
                 $(tooltip).css({
                     top: (off.top + h) - tipheight,
                     left: off.left - tipwidth - arrheight
                 });
             }
-            else if (position == 'left-center') {
+            else if (position === 'left-center') {
                 $(tooltip).css({
                     top: off.top - tipheight / 2 + h / 2,
                     left: off.left - tipwidth - arrheight
                 });
             }
-            else if (position == 'right-top') {
+            else if (position === 'right-top') {
                 $(tooltip).css({
                     top: off.top,
                     left: off.left + w + arrheight
                 });
             }
-            else if (position == 'right-bottom') {
+            else if (position === 'right-bottom') {
                 $(tooltip).css({
                     top: (off.top + h) - tipheight,
                     left: off.left + w + arrheight
                 });
             }
-            else if (position == 'right-center') {
+            else if (position === 'right-center') {
                 $(tooltip).css({
                     top: off.top - tipheight / 2 + h / 2,
                     left: off.left + w + arrheight
@@ -437,10 +485,10 @@ mw.tools = {
             if (typeof o.element === 'string') {
                 o.element = mw.$(o.element)
             }
-            ;
+
             if (o.element.constructor === [].constructor && o.element.length === 0) return false;
             if (typeof o.position === 'undefined') {
-                o.position = 'top-center';
+                o.position = 'auto';
             }
             if (typeof o.skin === 'undefined') {
                 o.skin = 'mw-tooltip-default';

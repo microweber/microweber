@@ -535,3 +535,17 @@ label .mw_toggle_tree {
 .mw-admin-order-sort-completed {
     margin-right: 20px;
 }
+
+.mw-row > .mw-col:first-child > .mw-col-container {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.mw-row > .mw-col:last-child > .mw-col-container {
+    padding-left: 0;
+    padding-right: 10px;
+}
+
+.text-right{
+    text-align: left ;
+}

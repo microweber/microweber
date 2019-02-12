@@ -106,6 +106,7 @@
                                 var html = ' <iframe id="mw-live-edit-sidebar-settings-iframe-holder-template-settings-frame" style="height:500px" class="mw-live-edit-sidebar-settings-iframe"   src="<?php print api_url() ?>module?id=template_settings_admin&live_edit=true&module_settings=true&type=settings/template&autosize=false&content_id=<?php print CONTENT_ID ?>"></iframe>'
                                 if ($("#mw-live-edit-sidebar-settings-iframe-holder-template-settings-frame").length == 0) {
                                     $('#mw-live-edit-sidebar-settings-iframe-holder-template-settings').html(html);
+                                    mw.tools.iframeAutoHeight('#mw-live-edit-sidebar-settings-iframe-holder-template-settings-frame')
                                 }
 
                             }

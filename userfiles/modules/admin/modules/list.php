@@ -404,6 +404,10 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
           $t = $t . ' / ' . $t2;
       }
 
+      $t = str_replace("\r", "", $t);
+
+      $t = str_replace("\n", "", $t);
+
 
       ?>
       <script type="text/javascript">
