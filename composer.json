@@ -21,13 +21,15 @@
   ],
   "require": {
     "laravel/framework": "5.4.*",
+
     "illuminate/contracts": "5.4.*",
+    "guzzle/guzzle": "dev-master",
     "laravel/socialite": "3.0.2",
     "composer/composer": "v1.2.2",
     "socialiteproviders/linkedin": "*",
     "illuminate/support": "5.4.*",
     "symfony/http-foundation": "*",
-    "vlucas/phpdotenv": "*",
+    "vlucas/phpdotenv": "2.2",
     "rcrowe/twigbridge": "*",
     "graham-campbell/markdown": "*",
     "keboola/csv": "1.1.*",
