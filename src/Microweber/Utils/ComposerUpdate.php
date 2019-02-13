@@ -123,12 +123,32 @@ class ComposerUpdate
         }
         $conf = $temp_folder . '/composer.json';
         $this->composer_temp_folder = $temp_folder;
+
+
+        $conf_temp = $temp_folder . '/composer.json';
+        $composer_temp = @file_get_contents($conf_temp);
+        $composer_temp = @json_decode($composer_temp, true);
+
+
         chdir($temp_folder);
         // $io = new BufferIO($input, $output, null);
 
         $io = new BufferIO('', 1, null);
 
+
+        $config = new Config(false, $temp_folder);
+
+        if ($composer_temp) {
+            $config->merge($composer_temp);
+        }
+
+      //  dd($config->raw());
+
+
         $composer = Factory::create($io);
+
+        $composer->setConfig($config);
+
 
         $packages = new ComposerPackagesSearchCommandController();
         $packages->setConfigPathname($conf);
@@ -231,10 +251,6 @@ class ComposerUpdate
             return array('error' => 'Error. Cannot find any packages for ' . $keyword);
         }
 
-        //   $composer_orig = @file_get_contents($conf);
-
-        //  $composer_orig = @json_decode($composer_orig, true);
-
         if (!isset($return[$keyword])) {
             return array('error' => 'Error. Package not found in repositories ' . $keyword);
 
@@ -256,10 +272,6 @@ class ComposerUpdate
             }
 
 
-
-
-
-
             $dryRun = false;
             $need_key = false;
             if (!isset($version_data['dist']) or !isset($version_data['dist'][0])) {
@@ -271,18 +283,13 @@ class ComposerUpdate
             }
 
 
-            if($need_key){
+            if ($need_key) {
                 return array(
                     'error' => _e('You need license key', true),
                     'form_data_required' => 'license_key',
                     'form_data_module' => 'settings/group/license_edit'
                 );
             }
-
-
-            $io = new BufferIO('', 1, new HtmlOutputFormatter());
-
-            $composer = Factory::create($io);
 
 
             // $temp_folder = storage_path('composer/' . url_title($keyword));
@@ -293,6 +300,10 @@ class ComposerUpdate
                 return array('error' => 'Error preparing installation for ' . $keyword);
 
             }
+
+            $conf_temp = $temp_folder . '/composer.json';
+            $composer_temp = @file_get_contents($conf_temp);
+            $composer_temp = @json_decode($composer_temp, true);
 
 
             chdir($temp_folder);
@@ -307,7 +318,11 @@ class ComposerUpdate
             $input = new ArrayInput($argv);
             $output = new ConsoleOutput();
             $helper = new HelperSet();
-            $config = new Config();
+            $config = new Config(false, $temp_folder);
+
+            if ($composer_temp) {
+                $config->merge($composer_temp);
+            }
 
 
             $output->setVerbosity(0);
@@ -321,6 +336,7 @@ class ComposerUpdate
 
             $installation_manager->addInstaller(new TemplateInstaller($io, $composer));
             $installation_manager->addInstaller(new ModuleInstaller($io, $composer));
+            $conf = $temp_folder . '/composer.json';
 
 
             $composer->setConfig($config);
@@ -496,6 +512,7 @@ class ComposerUpdate
     public function _prepare_composer_workdir($package_name = '', $version = false)
     {
         $cache_folder = mw_cache_path() . 'composer/cache';
+        $data_folder = mw_cache_path() . 'composer/data';
 
 //        if ($package_name) {
 //            $temp_folder = storage_path('composer/' . url_title($package_name));
@@ -539,61 +556,74 @@ class ComposerUpdate
         } else {
             $new_composer_config = array('repositories' => array());
         }
-        if (isset($composer_orig['repositories'])) {
 
-            $new_composer_config['repositories'] = $composer_orig['repositories'];
-
-            $new_composer_config['repositories']['packagist'] = false;
-
-
-            $new_composer_config['config'] = $composer_orig['config'];
-            $new_composer_config['minimum-stability'] = 'dev';
-            $new_composer_config['target-dir'] = 'installed';
-
-
-            // $new_composer_config['vendor-dir'] = $temp_folder;
-            //   $new_composer_config['config']['no-plugins'] = true;
-            $new_composer_config['config']['cache-dir'] = $cache_folder;
-            $new_composer_config['config']['preferred-install'] = 'dist';
-            $new_composer_config['config']['discard-changes'] = true;
-            $new_composer_config['config']['htaccess-protect'] = true;
-            $new_composer_config['config']['store-auths'] = false;
-            $new_composer_config['config']['use-include-path'] = false;
-            $new_composer_config['config']['discard-changes'] = true;
-            $new_composer_config['config']['archive-format'] = 'zip';
-            //  $new_composer_config['notify-batch'] = 'https://installreport.services.microweberapi.com/';
-            //  $new_composer_config['notification-url'] = 'https://installreport.services.microweberapi.com/';
-
+        if (!isset($composer_orig['repositories']) or !is_array($composer_orig['repositories'])) {
+            $composer_orig['repositories'] = array();
         }
+
+        $system_repos = array();
+        $system_repos[] = array("type" => "composer", "url" => "https://packages.microweberapi.com/");
+        $system_repos[] = array("type" => "composer", "url" => "https://private-packages.microweberapi.com/");
+
+        $composer_orig['repositories'] = array_merge($composer_orig['repositories'], $system_repos);
+        $new_composer_config['repositories'] = $composer_orig['repositories'];
+
+        $new_composer_config['repositories']['packagist'] = false;
+
+
+        $new_composer_config['config'] = $composer_orig['config'];
+        $new_composer_config['minimum-stability'] = 'dev';
+        //   $new_composer_config['target-dir'] = 'installed';
+
+
+        // $new_composer_config['vendor-dir'] = $temp_folder;
+        //   $new_composer_config['config']['no-plugins'] = true;
+        $new_composer_config['config']['cache-dir'] = $cache_folder;
+        $new_composer_config['config']['data-dir'] = $data_folder;
+        $new_composer_config['config']['preferred-install'] = 'dist';
+        $new_composer_config['config']['discard-changes'] = true;
+        $new_composer_config['config']['htaccess-protect'] = true;
+        $new_composer_config['config']['store-auths'] = false;
+        $new_composer_config['config']['use-include-path'] = false;
+        $new_composer_config['config']['discard-changes'] = true;
+        $new_composer_config['config']['archive-format'] = 'zip';
+        //  $new_composer_config['notify-batch'] = 'https://installreport.services.microweberapi.com/';
+        //  $new_composer_config['notification-url'] = 'https://installreport.services.microweberapi.com/';
+
 
         file_put_contents($conf_new, json_encode($new_composer_config));
 
         $composer_auth_temp = array();
 
+
         if (is_file($conf_auth)) {
 
-            $composer_auth_temp = @file_get_contents($conf_auth);
-            $composer_auth_temp = @json_decode($composer_auth_temp, true);
+            $composer_auth_tempf = @file_get_contents($conf_auth);
+            $composer_auth_temp = @json_decode($composer_auth_tempf, true);
 
-        } else {
-
-            if (!isset($composer_auth_temp['http-basic'])) {
-                $composer_auth_temp['http-basic'] = array();
+            if (!$composer_auth_temp) {
+                $composer_auth_temp = array();
             }
-
-            $lic = mw()->update->get_licenses();
-            $lic = json_encode($lic);
-            $lic = base64_encode($lic);
-
-            if (isset($composer_auth_temp['http-basic'])) {
-                $composer_auth_temp['http-basic']["private-packages.microweberapi.com"] = array(
-                    "username" => @gethostname(),
-                    "password" => $lic
-                );
-                file_put_contents($auth_new, json_encode($composer_auth_temp));
-            }
-
         }
+
+        if (!isset($composer_auth_temp['http-basic'])) {
+            $composer_auth_temp['http-basic'] = array();
+        }
+
+        $lic = mw()->update->get_licenses();
+
+        $lic = json_encode($lic);
+        $lic = base64_encode($lic);
+
+        if (isset($composer_auth_temp['http-basic'])) {
+            $composer_auth_temp['http-basic']["private-packages.microweberapi.com"] = array(
+                "username" => @gethostname(),
+                "password" => $lic
+            );
+            file_put_contents($auth_new, json_encode($composer_auth_temp));
+        }
+
+
         return $temp_folder;
 
     }
