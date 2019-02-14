@@ -286,8 +286,12 @@ class ComposerUpdate
             if ($need_key) {
                 return array(
                     'error' => _e('You need license key', true),
-                    'form_data_required' => 'license_key',
-                    'form_data_module' => 'settings/group/license_edit'
+                    '------form_data_required' => 'license_key',
+                    'form_data_module' => 'settings/group/license_edit',
+                    'form_data_module_params' => array(
+                        'require_name'=>$params['require_name'],
+                        'require_version'=>$version
+                    )
                 );
             }
 
