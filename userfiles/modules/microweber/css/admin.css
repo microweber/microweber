@@ -4623,6 +4623,7 @@ body.is_admin .mw-admin-container {
 
 .the-icoimage {
     width: 36px;
+    float: right;
     background-color: white;
     background-position: center;
     background-repeat: no-repeat;
@@ -4631,9 +4632,22 @@ body.is_admin .mw-admin-container {
     border-radius: 3px 0 0 3px;
 }
 
+
+html[dir="rtl"] .the-icoimage{
+    border-radius: 0 3px 3px 0;
+}
+
+
+
 #upload-icoimage {
     border-radius: 0 3px 3px 0;
-    border-left: 0;
+    border-left-width: 0;
+}
+
+html[dir="rtl"] #upload-icoimage{
+    border-radius: 3px 0 0 3px;
+    border-left-width: 1px;
+    border-right-width: 0px;
 }
 
 .top-search {

@@ -4539,7 +4539,7 @@ mw.postMsg = function (w, obj) {
     w.postMessage(JSON.stringify(obj), window.location.href);
 }
 $(document).ready(function () {
-    $(mwd.body).bind('mousemove', function (event) {
+    $(mwd.body).bind('mousemove touchmove touchstart', function (event) {
         if (mw.tools.hasClass(event.target, 'tip')) {
             mw.tools.titleTip(event.target);
         }
@@ -4661,6 +4661,15 @@ $(document).ready(function () {
             $('img', this).eq(0).after('<span class="mw-image-holder-overlay"></span>');
         }
     });
+
+    $(".mw-ui-dropdown").on('touchstart mousedown', function(){
+        $(this).toggleClass('active')
+    });
+    $(document.body).on('touchend', function(e){
+        if(!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['mw-ui-dropdown'])){
+            $(".mw-ui-dropdown.active").removeClass('active')
+        }
+    })
 
 
 });

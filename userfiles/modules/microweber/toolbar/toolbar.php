@@ -36,9 +36,7 @@ if (isset($_COOKIE['mw_exp'])) {
         mw.require("liveedit.js");
         mw.require("upgrades.js");
 
-        <?php if(_lang_is_rtl()){ ?>
-        mw.require("<?php print mw_includes_url(); ?>css/liveedit.rtl.css");
-        <?php } ?>
+
 
 
 
@@ -128,6 +126,9 @@ if (isset($_COOKIE['mw_exp'])) {
     </script>
     <link href="<?php print(mw_includes_url()); ?>css/wysiwyg.css" rel="stylesheet" type="text/css"/>
     <link href="<?php print(mw_includes_url()); ?>css/liveedit.css" rel="stylesheet" type="text/css"/>
+    <?php if(_lang_is_rtl()){ ?>
+        <link href="<?php print(mw_includes_url()); ?>css/liveedit.rtl.css" rel="stylesheet" type="text/css"/>
+    <?php } ?>
     <?php
 
     $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");

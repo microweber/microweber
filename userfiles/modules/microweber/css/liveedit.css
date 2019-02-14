@@ -357,20 +357,20 @@ li.module-item.ui-draggable-dragging .mw_module_image {
     display: inline-block;
     position: absolute;
     left: 50%;
-    margin-left: -25px;
+    margin-left: -17px;
     top: 0;
     background-color: transparent;
-    width: 50px;
-    height: 20px;
+    width: 35px;
+    height: 10px;
     content: "\f1b4";
     font-family: Microweber;
     border-radius: 2px;
     color: #272727;
-    font-size: 19px;
-    line-height: 19px;
+    font-size: 21px;
+    line-height: 10px;
     opacity: 1;
     border-radius: 30px;
-    background-color: white;
+    background-color: rgba(255,255,255,.6);
     box-shadow: 0 1px 2px rgba(0,0,0,.2);
 }
 

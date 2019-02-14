@@ -234,6 +234,7 @@
 
                 <div class="mw-ui-col module-presets-add-new-holder">
                     <input class="mw-ui-field module-presets-name-field mw-ui-field-medium" name="name" value="<?php print  $item['name'] ?>">
+                    <?php var_dump($item['name']); ?>
                     <textarea name="module_attrs" style="display: none"><?php print  $item['module_attrs'] ?></textarea>
                     <input type="hidden" name="module_id" value="<?php print  $item['module_id'] ?>">
                     <?php if ($item['module_id'] == $module_id) : ?>

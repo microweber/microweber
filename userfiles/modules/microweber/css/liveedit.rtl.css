@@ -1,6 +1,6 @@
 /* live edit */
 
-.toolbar-sections-tabs{
+/*.toolbar-sections-tabs{
     float: right;
 }
 
@@ -14,7 +14,7 @@
 
 .toolbar-sections-tabs > ul > li{
     float: right;
-}
+}*/
 
 #live_edit_toolbar_holder [class*='tst-']{
     border-right:0;
@@ -52,3 +52,7 @@
     float: left;
 }
 
+
+.ts_main_a{
+    padding-right: 10px;
+}

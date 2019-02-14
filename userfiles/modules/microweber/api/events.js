@@ -117,7 +117,6 @@ DOMChange:function(element, callback, attr, a){
         var observer = new MutationObserver(function(mutations) {
           mutations.forEach(function(mutation){
             if( !mw.on.DOMChangePause ) {
-               // console.log(mutation)
                 callback.call(mutation.target);
             }
           });
@@ -161,7 +160,7 @@ DOMChange:function(element, callback, attr, a){
             element.addEventListener("DOMAttrModified", function(e){
 
                 var attr = e.attrName;
-                if(attr != "contenteditable"){
+                if(attr !== "contenteditable"){
                     if( !mw.on.DOMChangePause ) {
                         if(!a){
                             callback.call(this);
@@ -341,6 +340,12 @@ mw.event = {
               x: e.changedTouches[0].pageX,
               y: e.changedTouches[0].pageY
           };
+      }
+  },
+  is: {
+      enter: function (e) {
+        e = e.originalEvent || e;
+        return e.key === "Enter" || e.keyCode === 13;
       }
   }
 };

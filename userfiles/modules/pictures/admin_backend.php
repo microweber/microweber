@@ -173,7 +173,7 @@ if (!isset($data["thumbnail"])) {
 
 
 <input name="thumbnail" type="hidden" value="<?php print ($data['thumbnail']) ?>"/>
-<div style="margin-top: -20px;text-align: right; margin-bottom: 15px;">
+<div style="text-align: right; margin-bottom: 15px;">
     <a href="javascript:mw_admin_puctires_upload_browse_existing()" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-ui-btn-outline btn-rounded"> <?php _e('Browse uploaded'); ?></a>
     <div class="clearfix"></div>
 </div>

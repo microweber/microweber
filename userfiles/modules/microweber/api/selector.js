@@ -203,7 +203,7 @@ mw.Selector = function(options) {
             }
         });
 
-        $(this.root).on( "mousemove", function(e){
+        $(this.root).on( "mousemove touchmove touchend", function(e){
             if(scope.active){
                 scope.setItem(e, scope.interactors)
             }

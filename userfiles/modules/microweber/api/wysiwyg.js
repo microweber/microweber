@@ -261,13 +261,29 @@ mw.wysiwyg = {
             }
         }
     },
-    removeEditable: function () {
+    removeEditable: function (skip) {
+        skip = skip || [];
         if (!mw.is.ie) {
-            var i,
+            var i=0, i2,
                 all = mwd.getElementsByClassName('edit'),
                 len = all.length;
             for (; i < len; i++) {
-                mw.wysiwyg.contentEditable(all[i],false);
+                if(skip.length) {
+                    var shouldSkip = false;
+                    mw.wysiwyg.contentEditable(all[i], false);
+                    for (i2=0;i2<skip.length;i2++){
+                        if(skip[i2] === all[i]) {
+                            shouldSkip = true;
+                        }
+                    }
+                    if(!shouldSkip) {
+                        mw.wysiwyg.contentEditable(all[i], false);
+                    }
+
+                } else {
+                    mw.wysiwyg.contentEditable(all[i], false);
+                }
+
             }
         }
         else {
@@ -304,6 +320,7 @@ mw.wysiwyg = {
             return el.contentEditable;
         }
         if (state) {
+            mw.on.DOMChangePause = true;
             el.setAttribute('data-gramm', 'false');
             if (!el._handleCopy) {
                 el._handleCopy = true;
@@ -315,13 +332,15 @@ mw.wysiwyg = {
         if(el.contentEditable !== state) { // chrome setter needs a check
             el.contentEditable = state;
         }
+        mw.on.DOMChangePause = false;
     },
 
     prepareContentEditable: function () {
         mw.on("EditMouseDown", function (e, el, target, originalEvent) {
-            mw.wysiwyg.removeEditable();
-          //  mw.$(".edit").attr("contentEditable", "false");
-            mw.$(".edit[contenteditable='true']").attr("contenteditable", "false");
+            mw.wysiwyg.removeEditable([el]);
+            /*mw.$(".edit[contenteditable='true']").each(function () {
+                mw.wysiwyg.contentEditable(el, false);
+            });*/
             var _el = $(el);
             if (!mw.tools.hasAnyOfClassesOnNodeOrParent(target, ['safe-mode'])) {
                 //_el.attr("contentEditable", "true").find('[contenteditable="false"]').not('.module').removeAttr('contenteditable');
@@ -1224,12 +1243,12 @@ mw.wysiwyg = {
                 if (mw.tools.isEmpty(e.target)) {
                     e.target.innerHTML = '&zwnj;&nbsp;';
                 }
-                if (e.keyCode == 13) {
+                if (mw.event.is.enter(e)) {
 
                     mw.$(".element-current").removeClass("element-current");
                     var el = mwd.querySelectorAll('.edit .element'), l = el.length, i = 0;
                     for (; i < l; i++) {
-                        if (el[i].id == '') {
+                        if (!el[i].id) {
                             el[i].id = mw.wysiwyg.createElementId();
                         }
                     }
@@ -1265,16 +1284,16 @@ mw.wysiwyg = {
     },
     change: function (el) {
         if (typeof el === 'string') {
-            var el = mwd.querySelector(el);
+            el = mwd.querySelector(el);
         }
         var target = null;
         if (mw.tools.hasClass(el, 'edit')) {
             mw.tools.addClass(el, 'changed');
-            var target = el;
+            target = el;
             mw.trigger('editChanged', target)
         }
         else if (mw.tools.hasParentsWithClass(el, 'edit')) {
-            var target = mw.tools.firstParentWithClass(el, 'edit');
+            target = mw.tools.firstParentWithClass(el, 'edit');
             mw.tools.addClass(target, 'changed');
             mw.trigger('editChanged', target)
         }
@@ -2675,7 +2694,7 @@ $(window).on('load', function () {
         }
     });
 
-    $(window).on("keydown mousedown mouseup", function (e) {
+    $(window).on("keydown", function (e) {
 
         if (e.type == 'keydown') {
             var isPlain = mw.tools.hasClass(e.target, 'plain-text');

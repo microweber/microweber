@@ -146,7 +146,7 @@
 
 
 
-                    <div class="mw-accordion-item" style="display: none;" onclick="mw.___load_css_editor_in_sidebar_accordeon()">
+                    <div class="mw-accordion-item"  onclick="mw.___load_css_editor_in_sidebar_accordeon()">
                         <div class="mw-ui-box-header mw-accordion-title">
                             <div class="header-holder">
                                 <i class="mai-setting2"></i> CSS Editor

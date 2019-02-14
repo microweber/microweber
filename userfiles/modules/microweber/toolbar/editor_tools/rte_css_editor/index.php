@@ -1,6 +1,7 @@
 
 <script type="text/javascript">
-    parent.mw.require("external_callbacks.js");
+    //parent.mw.require("external_callbacks.js");
+    mw.require("jquery-ui.js");
     mw.require("events.js");
     mw.require("forms.js");
     mw.require("files.js");
@@ -268,7 +269,6 @@
             },
             {
                 interface: 'block',
-
                 class: 'mw-CSS-Editor-group',
                 content: [
                     {
@@ -296,57 +296,6 @@
         ];
 
 
-        $("#mw-css-editor").on('load', function () {
-            this.contentWindow.mw.require('liveedit.css');
-
-            this.contentWindow.mw.$('body').css({
-                padding: '20px',
-                background: '#fff'
-            });
-            mw.elementCSSEditor = new mw.propEditor.schema({
-                schema: CSSEditorSchema,
-                element: '#mw-css-editor'
-            });
-
-            this.contentWindow.mw.trigger('ComponentsLaunch');
-
-            var _prepareCSSValue = function(property, value){
-                if(property === 'backgroundImage'){
-                    return 'url(' + value + ')';
-                }
-                return value;
-            };
-            var _setElementStyle = function(p, value){
-                var val = _prepareCSSValue(p, value);
-                var css = {};
-                css[p] = val;
-                if(p === 'backgroundClip') {
-                    css = {
-                        'background-clip':val,
-                        '-webkit-background-clip':val
-                    };
-                }
-                mw.$(mw.elementCSSEditor.currentElement).css(css);
-            };
-            $(mw.elementCSSEditor).on('change', function (event, property, value) {
-                if($.isArray(value)){
-                    value = value[0];
-                }
-                _setElementStyle(property, value);
-                mw.$(mw.elementCSSEditor.currentElement).attr('staticdesign', true);
-                mw.cssEditorSelector.positionSelected()
-            });
-
-
-            this.contentWindow.mw.$(".mw-CSS-Editor-group-title").on("click", function () {
-
-                $(this).next().stop().slideToggle();
-            })
-
-
-        });
-
-
         mw.cssSelectorTree = new mw.tree({
             element: '#css-editor-selected-view',
         });
@@ -354,7 +303,6 @@
 
         $(mw.cssEditorSelector).on('select', function(){
 
-            console.log(444)
 
             mw.cssEditorSelector.active = false;
             mw.liveEditSelectMode = 'element';
@@ -467,9 +415,65 @@
     });
 
 
+    $(window).on('load', function () {
+
+        mw.require('liveedit.css');
+
+       mw.$('body').css({
+            padding: '20px',
+            background: '#fff'
+        });
+        mw.elementCSSEditor = new mw.propEditor.schema({
+            schema: CSSEditorSchema,
+            element: '#css-editor'
+        });
+
+
+
+        mw.trigger('ComponentsLaunch');
+
+        var _prepareCSSValue = function(property, value){
+            if(property === 'backgroundImage'){
+                return 'url(' + value + ')';
+            }
+            return value;
+        };
+        var _setElementStyle = function(p, value){
+            var val = _prepareCSSValue(p, value);
+            var css = {};
+            css[p] = val;
+            if(p === 'backgroundClip') {
+                css = {
+                    'background-clip':val,
+                    '-webkit-background-clip':val
+                };
+            }
+            mw.$(mw.elementCSSEditor.currentElement).css(css);
+        };
+        $(mw.elementCSSEditor).on('change', function (event, property, value) {
+            if($.isArray(value)){
+                value = value[0];
+            }
+            _setElementStyle(property, value);
+            mw.$(mw.elementCSSEditor.currentElement).attr('staticdesign', true);
+            mw.cssEditorSelector.positionSelected()
+        });
+
+
+        mw.$(".mw-CSS-Editor-group-title").on("click", function () {
+
+            $(this).next().stop().slideToggle();
+        })
+
+
+    })
+
+
 </script>
 <div id="css-editor-selected-view">
 
 </div>
 
 <span class="mw-ui-btn mw-ui-btn-medium" id="css-editor-picker">Pick Element</span>
+
+<div id="css-editor"></div>

@@ -549,3 +549,8 @@ label .mw_toggle_tree {
 .text-right{
     text-align: left ;
 }
+
+.mw-ui-inline-list>*{
+    margin-right: 0;
+    margin-left: 10px;
+}

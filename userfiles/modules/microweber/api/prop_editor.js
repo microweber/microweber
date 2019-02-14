@@ -86,6 +86,7 @@ mw.propEditor = {
         }
     },
     rend:function(element, rend){
+
         element = mw.propEditor.getRootElement(element);
         for(var i=0;i<rend.length;i++){
             element.appendChild(rend[i].node);
@@ -99,7 +100,8 @@ mw.propEditor = {
             for(var i =0; i< this.options.schema.length;i++){
                 var item = this.options.schema[i];
                 if(typeof this._valSchema[item.id] === 'undefined'){
-                    this._rend.push(new mw.propEditor.interfaces[item.interface](this, item));
+                    var curr = new mw.propEditor.interfaces[item.interface](this, item);
+                    this._rend.push(curr);
                     if(item.id){
                         this._valSchema[item.id] = this._valSchema[item.id] || ''
                     }
@@ -112,6 +114,7 @@ mw.propEditor = {
             var final = [];
             for(var i =0; i<schema.length;i++){
                 var item = schema[i];
+
                 if(typeof this._valSchema[item.id] === 'undefined'){
                     this.options.schema.push(item);
                     var create = new mw.propEditor.interfaces[item.interface](this, item)
@@ -120,7 +123,7 @@ mw.propEditor = {
                     if(item.id){
                         this._valSchema[item.id] = this._valSchema[item.id] || ''
                     }
-                    this.rootHolder.appendChild(create.node);
+                    //this.rootHolder.appendChild(create.node);
                 }
             }
             return final;
@@ -205,25 +208,30 @@ mw.propEditor = {
             el.className = ' ';
             this.node = el;
         },
+        _count:1,
         block:function(proto, config){
-            var el = document.createElement('div');
+            mw.propEditor.interfaces._count+=100;
+            this.node = document.createElement('div');
+            var scope = this;
             if(typeof config.content === 'string') {
-                el.innerHTML = config.content;
+                this.node.innerHTML = config.content;
             } else {
                 var newItems = proto.updateSchema(config.content);
-                (function (newItems, el) {
-                    setTimeout(function(){
+
+                (function (el, newItems) {
+                    setTimeout(function () {
                         for(var i=0; i<newItems.length; i++){
-                            //el.appendChild(newItems[i].node);
-                            $(el).append(newItems[i].node);
+                            el.appendChild(newItems[i].node);
                         }
-                    });
-                })(newItems, el);
+                    }, mw.propEditor.interfaces._count );
+
+                })(scope.node, newItems);
+
+
             }
             if(config.class){
-                el.className = config.class;
+                this.node.className = config.class;
             }
-            this.node = el;
         },
         size:function(proto, config){
             var field = mw.propEditor.helpers.field('', 'number');
@@ -240,7 +248,7 @@ mw.propEditor = {
                 .addClass('prop-ui-field-unit');
             unitSelector.onchange = function(){
                 field.dataset.unit = $(this).val() || 'px';
-                console.log(field.dataset.unit);
+
                 $(proto).trigger('change', [config.id, field.value + field.dataset.unit]);
             };
 
@@ -254,7 +262,7 @@ mw.propEditor = {
             holder.appendChild(buttonNav);
 
             field.oninput = function(){
-                console.log(field.dataset.unit);
+
                 proto._valSchema[config.id] = this.value + this.dataset.unit;
                 $(proto).trigger('change', [config.id, this.value + this.dataset.unit]);
             };
@@ -574,11 +582,15 @@ mw.propEditor = {
             this.addImageButton();
             this.manageAddImageButton();
 
-            $(el).sortable({
-                update:function(){
-                    scope.refactor();
-                }
-            });
+            if($.fn.sortable){
+                $(el).sortable({
+                    update:function(){
+                        scope.refactor();
+                    }
+                });
+            }
+
+
 
             this.refactor = function () {
                 var val = [];
@@ -624,9 +636,7 @@ mw.propEditor = {
             });
             var label = mw.propEditor.helpers.label(config.label);
 
-            setTimeout(function(){
-                $(holder).prepend(label);
-            }, 10)
+            $(holder).prepend(label);
 
             this.node = holder;
             this.setValue = function(value){
