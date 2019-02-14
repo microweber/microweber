@@ -68,7 +68,10 @@ if (!isset($params['prefix'])) {
 
     });
 </script>
+<?php
+d($params);
 
+?>
 
 <form class="mw-license-key-activate" id="activate-form-<?php print $params['id'] ?>">
     <?php if (isset($lic['status'])): ?>

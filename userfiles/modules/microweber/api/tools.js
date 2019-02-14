@@ -5699,10 +5699,7 @@ jQuery.each(["xhrGet", "xhrPost"], function (i, method) {
 });
 
 mw.getExtradataFormData = function (data, call) {
-
-    mw.log(data)
-    if (data.form_data_module) {
-alert(11111)
+     if (data.form_data_module) {
         mw.loadModuleData(data.form_data_module, function (moduledata) {
             call.call(undefined, moduledata);
         },null,data.form_data_module_params);
