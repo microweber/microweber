@@ -14,6 +14,7 @@
 <script>
      mw.install_composer_package_by_package_name = function($key,$version) {
 
+         mw.tools.loading(mwd.querySelector('.js-install-package-loading-container'), true)
 
          var values =  { require_name: $key, require_version:$version };
 
@@ -22,7 +23,10 @@
              type: "post",
              data: values ,
              success: function (msg) {
+
+
                  mw.notification.msg(msg);
+                 mw.tools.loading(mwd.querySelector('.js-install-package-loading-container'), false)
 
              },
 
@@ -31,6 +35,9 @@
 
              }
 
+
+         }).always(function(jqXHR, textStatus) {
+             mw.tools.loading(mwd.querySelector('.js-install-package-loading-container'), false)
 
          })
 
@@ -43,13 +50,13 @@
 </script>
 
 
-<table width="100%" cellspacing="0" cellpadding="0" class="mw-ui-table">
+<table width="100%" cellspacing="0" cellpadding="0" class="mw-ui-table js-install-package-loading-container"  >
     <thead>
     <tr>
         <th>Package</th>
-        <th>Version</th>
+        <th>Type</th>
         <th></th>
-        <th></th>
+        <th>Versions</th>
     </tr>
     </thead>
     <tbody>
@@ -76,4 +83,5 @@
     <?php endif; ?>
     </tbody>
 </table>
-<pre id="remote_patch_log"><?php print_r($search_packages); ?></pre>
+
+

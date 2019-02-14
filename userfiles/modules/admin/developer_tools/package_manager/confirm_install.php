@@ -3,7 +3,7 @@
 only_admin_access();
 
 
-$confirm_key = $require_name = $require_version= $rel_type = '';
+$confirm_key = $require_name = $require_version = $rel_type = '';
 
 if (isset($params['confirm_key'])) {
     $confirm_key = $params['confirm_key'];
@@ -37,7 +37,9 @@ $get_existing_files_for_confirm = cache_get($confirm_key, 'composer');
 
 
 <script>
-    mw.install_composer_package_confirm_by_key = function ($confirm_key,$require_name,$require_version) {
+    mw.install_composer_package_confirm_by_key = function ($confirm_key, $require_name, $require_version) {
+
+        mw.tools.loading(mwd.querySelector('.js-install-package-loading-container-confirm'), true)
 
         var values = {confirm_key: $confirm_key, require_version: $require_version, require_name: $require_name};
         $.ajax({
@@ -46,9 +48,11 @@ $get_existing_files_for_confirm = cache_get($confirm_key, 'composer');
             data: values,
             success: function (msg) {
                 mw.notification.msg(msg, 3000);
-                if(msg.success){
+                if (msg.success) {
                     mw.tools.modal.get('#js-buttons-confirm-install').remove()
                 }
+                mw.tools.loading(mwd.querySelector('.js-install-package-loading-container-confirm'), false)
+
             }
         })
 
@@ -56,20 +60,24 @@ $get_existing_files_for_confirm = cache_get($confirm_key, 'composer');
 </script>
 
 
-<h1>Please confirm the installation of <?php print $rel_type ?></h1>
-<?php if ($get_existing_files_for_confirm) { ?>
-    <ul>
-        <?php foreach ($get_existing_files_for_confirm as $file) { ?>
+<div class="js-install-package-loading-container-confirm">
 
-            <li><?php print ($file) ?></li>
-        <?php } ?>
-    </ul>
-<?php } ?>
+    <h1>Please confirm the installation of <?php print $require_name ?></h1>
+    <?php if ($get_existing_files_for_confirm) { ?>
+        <ul>
+            <?php foreach ($get_existing_files_for_confirm as $file) { ?>
+
+                <li><?php print ($file) ?></li>
+            <?php } ?>
+        </ul>
+    <?php } ?>
 
 
-<div id="js-buttons-confirm-install">
+    <div id="js-buttons-confirm-install">
 
-    <a class="mw-ui-btn"   onclick="mw.tools.modal.get(this).remove()">Cancel</a>
-    <a class="mw-ui-btn" onclick="mw.install_composer_package_confirm_by_key('<?php print $confirm_key ?>', '<?php print $require_name ?>','<?php print $require_version ?>')">Confirm</a>
+        <a class="mw-ui-btn" onclick="mw.tools.modal.get(this).remove()">Cancel</a>
+        <a class="mw-ui-btn"
+           onclick="mw.install_composer_package_confirm_by_key('<?php print $confirm_key ?>', '<?php print $require_name ?>','<?php print $require_version ?>')">Confirm</a>
 
+    </div>
 </div>
