@@ -142,7 +142,7 @@ class ComposerUpdate
             $config->merge($composer_temp);
         }
 
-      //  dd($config->raw());
+        //  dd($config->raw());
 
 
         $composer = Factory::create($io);
@@ -225,39 +225,66 @@ class ComposerUpdate
         $params = parse_params($params);
 
 
-        $need_cofirm = false;
+        $need_confirm = true;
+        $need_confirm = true;
+        $cp_files = array();
+        $cp_files_fails = array();
 
+        $confirm_key = 'composer-' . mw()->user_manager->session_id() . rand();
 
-        if (!isset($params['require_name']) or !$params['require_name']) {
-            return;
-        }
-        $version = 'latest';
-        if (isset($params['require_version']) and $params['require_version']) {
-            $version = trim($params['require_version']);
-        }
-
-        $keyword = $params['require_name'];
-        $keyword = strip_tags($keyword);
-        $keyword = trim($keyword);
-
-        $version = strip_tags($version);
-        $version = trim($version);
-
-
-        $return = $this->search_packages($keyword, $version);
-
-
-        if (!$return) {
-            return array('error' => 'Error. Cannot find any packages for ' . $keyword);
-        }
-
-        if (!isset($return[$keyword])) {
-            return array('error' => 'Error. Package not found in repositories ' . $keyword);
-
+        if (isset($params['confirm_key'])) {
+            $confirm_key_get = $params['confirm_key'];
+            $get_existing_files_for_confirm = cache_get($confirm_key_get, 'composer');
+            if ($get_existing_files_for_confirm) {
+                $cp_files  = $get_existing_files_for_confirm;
+                $need_confirm = false;
+            }
         }
 
 
-        if (isset($return[$keyword])) {
+
+
+       // if (!$cp_files) {
+
+            if (!isset($params['require_name']) or !$params['require_name']) {
+                return;
+            }
+            $version = 'latest';
+            if (isset($params['require_version']) and $params['require_version']) {
+                $version = trim($params['require_version']);
+            }
+
+            $keyword = $params['require_name'];
+            $keyword = strip_tags($keyword);
+            $keyword = trim($keyword);
+
+            $version = strip_tags($version);
+            $version = trim($version);
+
+
+            $return = $this->search_packages($keyword, $version);
+
+
+            if (!$return) {
+                return array('error' => 'Error. Cannot find any packages for ' . $keyword);
+            }
+
+            if (!isset($return[$keyword])) {
+                return array('error' => 'Error. Package not found in repositories ' . $keyword);
+
+            }
+     //   }
+
+
+        $temp_folder = $this->composer_temp_folder;
+
+        $from_folder = normalize_path($temp_folder, true);
+        $to_folder = mw_root_path();
+
+
+
+
+        if (!$cp_files and isset($return[$keyword])) {
             $version_data = false;
             $package_data = $return[$keyword];
 
@@ -286,11 +313,11 @@ class ComposerUpdate
             if ($need_key) {
                 return array(
                     'error' => _e('You need license key', true),
-                    'form_data_required' => 'license_key',
+                    // 'form_data_required' => 'license_key',
                     'form_data_module' => 'settings/group/license_edit',
                     'form_data_module_params' => array(
-                        'require_name'=>$params['require_name'],
-                        'require_version'=>$version
+                        'require_name' => $params['require_name'],
+                        'require_version' => $version
                     )
                 );
             }
@@ -298,7 +325,6 @@ class ComposerUpdate
 
             // $temp_folder = storage_path('composer/' . url_title($keyword));
             // $temp_folder = $this->_prepare_composer_workdir($keyword);
-            $temp_folder = $this->composer_temp_folder;
 
             if (!$temp_folder) {
                 return array('error' => 'Error preparing installation for ' . $keyword);
@@ -351,11 +377,14 @@ class ComposerUpdate
             $out = $update->run($input, $output);
 
 
+
+
+
+
+
             if ($out === 0) {
 
 
-                $from_folder = normalize_path($temp_folder, true);
-                $to_folder = mw_root_path();
 
 
                 $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($from_folder));
@@ -367,7 +396,6 @@ class ComposerUpdate
                 $skip_files = array('composer.json', 'auth.json', 'composer.lock', 'vendor');
 
                 $cp_files = array();
-                $cp_files_fails = array();
                 if ($allFiles) {
                     foreach ($allFiles as $file_to_copy) {
                         $file_to_copy = str_ireplace($from_folder, '', $file_to_copy);
@@ -390,33 +418,55 @@ class ComposerUpdate
                     }
                 }
 
-                if ($cp_files and !empty($cp_files)) {
-                    foreach ($cp_files as $f) {
-                        $src = $from_folder . DS . $f;
-                        $dest = $to_folder . DS . $f;
-                        $src = normalize_path($src, false);
-                        $dest = normalize_path($dest, false);
-                        $dest_dn = dirname($dest);
-                        if (!is_dir($dest_dn)) {
-                            mkdir_recursive($dest_dn);
-                        }
-                        if (copy($src, $dest)) {
-                            //ok
-                        } else {
-                            $cp_files_fails[] = $f;
-                        }
-                    }
-                    $resp = array();
-                    $resp['success'] = 'Success. You have installed: ' . $keyword . ' .  Total ' . count($cp_files) . ' files installed';
-                    $resp['log'] = $cp_files;
-                    if ($cp_files_fails) {
-                        $resp['errors'] = $cp_files_fails;
-                    }
-                    return $resp;
+
+                if ($need_confirm) {
+
+                    cache_save($cp_files, $confirm_key, 'composer');
+
+                    return array(
+                        'error' => _e('Please confirm installation', true),
+                        //   'form_data_required' => 'confirm_key',
+                        'form_data_module' => 'admin/developer_tools/package_manager/confirm_install',
+                        'form_data_module_params' => array(
+                            'confirm_key' => $confirm_key,
+                            'require_name' => $params['require_name'],
+                            'require_version' => $version
+                        )
+                    );
+
 
                 }
+
+
             }
 
+        }
+
+
+
+        if ($cp_files and !empty($cp_files)) {
+            foreach ($cp_files as $f) {
+                $src = $from_folder . DS . $f;
+                $dest = $to_folder . DS . $f;
+                $src = normalize_path($src, false);
+                $dest = normalize_path($dest, false);
+                $dest_dn = dirname($dest);
+                if (!is_dir($dest_dn)) {
+                    mkdir_recursive($dest_dn);
+                }
+                if (copy($src, $dest)) {
+                    //ok
+                } else {
+                    $cp_files_fails[] = $f;
+                }
+            }
+            $resp = array();
+            $resp['success'] = 'Success. You have installed: ' . $keyword . ' .  Total ' . count($cp_files) . ' files installed';
+            $resp['log'] = $cp_files;
+            if ($cp_files_fails) {
+                $resp['errors'] = $cp_files_fails;
+            }
+            return $resp;
 
         }
 

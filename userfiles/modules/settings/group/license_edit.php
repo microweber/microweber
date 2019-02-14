@@ -69,7 +69,7 @@ if (!isset($params['prefix'])) {
     });
 </script>
 <?php
-d($params);
+//d($params);
 
 ?>
 
