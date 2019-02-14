@@ -110,6 +110,12 @@
                             if (data.indexOf('Warning') !== -1) {
                                 installprogressStop()
                             }
+                            if (data.indexOf('Error') !== -1) {
+                              //  installprogressStop()
+                               $('#mw_log').addClass('mw-ui-box-important');
+                            }
+
+
                             if (data == 'done') {
 
                                 setTimeout(function () {
@@ -122,6 +128,7 @@
                                 //location.reload();
 
                             } else {
+
                                 $('#mw_log').html(data).show();
                                 $('.mw-install-holder').slideDown();
                             }

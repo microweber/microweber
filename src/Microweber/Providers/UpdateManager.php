@@ -991,6 +991,7 @@ class UpdateManager
         }
 
         if (!empty($lic_ids)) {
+            clearcache();
             return array('updates' => $lic_ids, 'success' => 'Licenses are checked');
         }
     }

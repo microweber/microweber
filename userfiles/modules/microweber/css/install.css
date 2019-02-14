@@ -93,3 +93,8 @@ body{
 .change-templ-btn i {
   margin: 0 !important;
 }
+
+.installholder .mw-ui-box-important {
+  background-color: red;
+  color: white;
+}

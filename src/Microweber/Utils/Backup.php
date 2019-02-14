@@ -333,7 +333,13 @@ class Backup
 //                }
 
                 $json_restore = $target_dir . 'mw_content.json';
+
+
+
+
+
                 if (is_file($json_restore)) {
+
                     $json_file = $json_restore;
                 }
 
@@ -357,6 +363,8 @@ class Backup
             return array('error' => 'Invalid file extension. The restore file must be .sql, .json or .zip');
             die();
         }
+
+
 
         if ($sql_file != false) {
             $back_log_action = 'Restoring database';
@@ -437,15 +445,16 @@ class Backup
             echo "Files restored successfully!<br>\n";
             echo 'Backup used: ' . $filename . "<br>\n";
             if ($temp_dir_restore != false) {
-                @unlink($filename);
+          //      @unlink($filename);
             }
         } elseif ($json_file) {
+
             $back_log_action = 'Restoring content from JSON file';
             $this->log_action($back_log_action);
             $this->_import_content_from_json_file($json_file);
             $back_log_action = 'Content restored';
             $this->log_action($back_log_action);
-            @unlink($json_file);
+           // @unlink($json_file);
         }
 
 

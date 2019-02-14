@@ -76,6 +76,9 @@ class TemplateInstaller
             $restore = new \Microweber\Utils\Backup();
             $restore->backups_folder = $default_content_folder;
             $restore->backup_file = 'mw_default_content.zip';
+
+
+           // exit;
             //$restore->debug = 1;
             ob_start();
             try {

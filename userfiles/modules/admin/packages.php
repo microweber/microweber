@@ -1,8 +1,15 @@
 <?php only_admin_access(); ?>
+<script>
+
+    mw.require('admin_package_manager.js');
+
+
+</script>
 
 <?php
 
 $search_packages = mw()->update->composer_search_packages('cache=true');
+//$search_packages = mw()->update->composer_search_packages();
 
 //dd($search_packages);
 ?>
@@ -32,14 +39,14 @@ $search_packages = mw()->update->composer_search_packages('cache=true');
 <script>
     $(document).ready(function () {
         mw.tabs({
-            nav: '#nav .mw-ui-navigation a',
-            tabs: '#nav .tab'
+            nav: '#mw-packages-browser-nav-tabs-nav .mw-ui-navigation a',
+            tabs: '#mw-packages-browser-nav-tabs-nav .tab'
         });
     });
 </script>
 
 <div class="admin-side-content" style="max-width: 90%">
-    <div id="nav" class="mw-ui-row">
+    <div id="mw-packages-browser-nav-tabs-nav" class="mw-ui-row">
         <div class="mw-ui-col" style="width: 20%;">
             <div class="mw-ui-col-container">
                 <ul class="mw-ui-box mw-ui-navigation" id="nav">
@@ -59,44 +66,21 @@ $search_packages = mw()->update->composer_search_packages('cache=true');
                                 <?php foreach ($search_packages as $key => $item): ?>
                                     <?php if ($item['type'] == 'microweber-template'): ?>
                                         <div class="mw-flex-col-xs-4 m-b-20">
-                                            <div class="mw-ui-box" style="min-height: 300px;">
-                                                <div class="mw-ui-box-header">
-                                                    <span class="mw-icon-gear"></span><span> <?php print $item['name'] ?></span>
-                                                </div>
-                                                <div class="mw-ui-box-content">
 
-                                                    <p class="m-b-20"><?php print $item['description'] ?></p>
+                                            <?php
 
-                                                    <table cellspacing="0" cellpadding="0" class="mw-ui-table" width="100%">
-                                                        <tbody>
-                                                        <tr>
-                                                            <td>Release date</td>
-                                                            <td><?php print $item['latest_version']['release_date'] ?></td>
+                                            $view_file = __DIR__ . '/developer_tools/package_manager/partials/package_item.php';
 
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Version</td>
-                                                            <td><?php print $item['latest_version']['version'] ?></td>
+                                            $view = new \Microweber\View($view_file);
+                                            $view->assign('item', $item);
 
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Author</td>
-                                                            <td>Petko</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Website</td>
-                                                            <td><a href="#" class="mw-blue">plumtex.com</a></td>
-                                                        </tr>
-                                                        </tbody>
-                                                    </table>
+                                             print    $view->display();
 
-                                                    <div class="text-center m-t-20">
-                                                        <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info">Read more</a>
-                                                        <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification">Install</a>
-                                                        <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-important mw-ui-btn-outline"><i class="mw-icon-trash-a"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            ?>
+
+
+
+
                                         </div>
                                     <?php endif; ?>
                                 <?php endforeach; ?>
@@ -110,44 +94,19 @@ $search_packages = mw()->update->composer_search_packages('cache=true');
                                 <?php foreach ($search_packages as $key => $item): ?>
                                     <?php if ($item['type'] == 'microweber-module'): ?>
                                         <div class="mw-flex-col-xs-4 m-b-20">
-                                            <div class="mw-ui-box" style="min-height: 300px;">
-                                                <div class="mw-ui-box-header">
-                                                    <span class="mw-icon-gear"></span><span> <?php print $item['name'] ?></span>
-                                                </div>
-                                                <div class="mw-ui-box-content">
 
-                                                    <p class="m-b-20"><?php print $item['description'] ?></p>
 
-                                                    <table cellspacing="0" cellpadding="0" class="mw-ui-table" width="100%">
-                                                        <tbody>
-                                                        <tr>
-                                                            <td>Release date</td>
-                                                            <td><?php print $item['latest_version']['release_date'] ?></td>
+                                            <?php
 
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Version</td>
-                                                            <td><?php print $item['latest_version']['version'] ?></td>
+                                            $view_file = __DIR__ . '/developer_tools/package_manager/partials/package_item.php';
 
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Author</td>
-                                                            <td>Petko</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Website</td>
-                                                            <td><a href="#" class="mw-blue">plumtex.com</a></td>
-                                                        </tr>
-                                                        </tbody>
-                                                    </table>
+                                            $view = new \Microweber\View($view_file);
+                                            $view->assign('item', $item);
 
-                                                    <div class="text-center m-t-20">
-                                                        <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info">Read more</a>
-                                                        <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification">Install</a>
-                                                        <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-important mw-ui-btn-outline"><i class="mw-icon-trash-a"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            print    $view->display();
+
+                                            ?>
+
                                         </div>
                                     <?php endif; ?>
                                 <?php endforeach; ?>
@@ -160,44 +119,21 @@ $search_packages = mw()->update->composer_search_packages('cache=true');
                                 <?php foreach ($search_packages as $key => $item): ?>
                                     <?php if ($item['type'] != 'microweber-template' AND $item['type'] != 'microweber-module'): ?>
                                         <div class="mw-flex-col-xs-4 m-b-20">
-                                            <div class="mw-ui-box" style="min-height: 300px;">
-                                                <div class="mw-ui-box-header">
-                                                    <span class="mw-icon-gear"></span><span> <?php print $item['name'] ?></span>
-                                                </div>
-                                                <div class="mw-ui-box-content">
 
-                                                    <p class="m-b-20"><?php print $item['description'] ?></p>
 
-                                                    <table cellspacing="0" cellpadding="0" class="mw-ui-table" width="100%">
-                                                        <tbody>
-                                                        <tr>
-                                                            <td>Release date</td>
-                                                            <td><?php print $item['latest_version']['release_date'] ?></td>
 
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Version</td>
-                                                            <td><?php print $item['latest_version']['version'] ?></td>
+                                            <?php
 
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Author</td>
-                                                            <td>Petko</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Website</td>
-                                                            <td><a href="#" class="mw-blue">plumtex.com</a></td>
-                                                        </tr>
-                                                        </tbody>
-                                                    </table>
+                                            $view_file = __DIR__ . '/developer_tools/package_manager/partials/package_item.php';
 
-                                                    <div class="text-center m-t-20">
-                                                        <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info">Read more</a>
-                                                        <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification">Install</a>
-                                                        <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-important mw-ui-btn-outline"><i class="mw-icon-trash-a"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            $view = new \Microweber\View($view_file);
+                                            $view->assign('item', $item);
+
+                                            print    $view->display();
+
+                                            ?>
+
+
                                         </div>
                                     <?php endif; ?>
                                 <?php endforeach; ?>

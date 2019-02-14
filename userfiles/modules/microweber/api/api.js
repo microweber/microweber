@@ -49,7 +49,7 @@ jQuery.ajax = $.ajax = function(url, options){
         delete settings.success;
         settings.success = function (data, status, xhr) {
             if(data){
-                if (data.form_data_required) {
+                if (data.form_data_required || data.form_data_module) {
                     mw.extradataForm(settings, data);
                 }
                 else {
