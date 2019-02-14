@@ -38,6 +38,7 @@ $get_existing_files_for_confirm = cache_get($confirm_key, 'composer');
 
 <script>
     mw.install_composer_package_confirm_by_key = function ($confirm_key, $require_name, $require_version) {
+        mw.notification.success('Installing...',3000);
 
         mw.tools.loading(mwd.querySelector('.js-install-package-loading-container-confirm'), true)
 

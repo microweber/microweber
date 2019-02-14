@@ -5721,10 +5721,17 @@ mw.extradataForm = function (options, data) {
             $(form).append('<hr><button type="submit" class="mw-ui-btn pull-right mw-ui-btn-invert">' + mw.lang('Submit') + '</button>');
         }
 
+
+
+    
+
+
+
         form.action = options.url;
         form.method = options.type;
         form.__modal = mw.modal({
-            content: form
+            content: form,
+            title: data.error
         });
 
         if(data.form_data_required) {

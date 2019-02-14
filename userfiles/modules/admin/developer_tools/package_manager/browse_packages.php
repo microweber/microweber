@@ -14,6 +14,8 @@
 <script>
      mw.install_composer_package_by_package_name = function($key,$version) {
 
+         mw.notification.success('Loading...');
+
          mw.tools.loading(mwd.querySelector('.js-install-package-loading-container'), true)
 
          var values =  { require_name: $key, require_version:$version };
