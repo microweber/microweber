@@ -98,3 +98,6 @@
         <?php event_trigger('mw.admin.dashboard.main'); ?>
     </div>
 </div>
+<div class="m-t-10 text-right p-10">
+v<?php print MW_VERSION; ?>
+</div>

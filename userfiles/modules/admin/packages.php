@@ -8,8 +8,8 @@
 
 <?php
 
-//$search_packages = mw()->update->composer_search_packages('cache=true');
-$search_packages = mw()->update->composer_search_packages();
+$search_packages = mw()->update->composer_search_packages('cache=true');
+//$search_packages = mw()->update->composer_search_packages();
 
 //dd($search_packages);
 ?>
