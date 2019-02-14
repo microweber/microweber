@@ -203,6 +203,9 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
                 /** @var PackageInterface[] $versions */
                 $versions = $repositories->findPackages($result['name']);
 
+
+
+
                 /** @var PackageInterface|CompletePackageInterface $latestVersion */
                 $latestVersion = false;
                 $latestVersionInfo = false;
@@ -214,8 +217,47 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
                     $packages[$result['name']]['description'] = $versions[0] instanceof CompletePackageInterface
                         ? $versions[0]->getDescription()
                         : '';
+
+
+                    $packages[$result['name']]['license'] = $versions[0] instanceof CompletePackageInterface
+                        ? $versions[0]->getLicense()
+                        : '';
+
+                    $packages[$result['name']]['authors'] = $versions[0] instanceof CompletePackageInterface
+                        ? $versions[0]->getAuthors()
+                        : '';
+
+                    $packages[$result['name']]['keywords'] = $versions[0] instanceof CompletePackageInterface
+                        ? $versions[0]->getKeywords()
+                        : '';
+
+
+
+                    $packages[$result['name']]['support'] = $versions[0] instanceof CompletePackageInterface
+                        ? $versions[0]->getSupport()
+                        : '';
+
+
+                    $packages[$result['name']]['homepage'] = $versions[0] instanceof CompletePackageInterface
+                        ? $versions[0]->getHomepage()
+                        : '';
+
+
+
+                    $packages[$result['name']]['extra'] = $versions[0] instanceof CompletePackageInterface
+                        ? $versions[0]->getExtra()
+                        : '';
+
+
+
+
                     $packages[$result['name']]['mw-compatible'] = null;
                     $packages[$result['name']]['versions'] = array();
+
+
+
+
+
 
                     foreach ($versions as $version) {
                         $version_requires = $version->getRequires();

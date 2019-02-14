@@ -12,43 +12,10 @@
 
 
 <script>
-     mw.install_composer_package_by_package_name = function($key,$version) {
 
-         mw.notification.success('Loading...');
-
-         mw.tools.loading(mwd.querySelector('.js-install-package-loading-container'), true)
-
-         var values =  { require_name: $key, require_version:$version };
-
-         $.ajax({
-             url: "<?php print api_link('mw_composer_install_package_by_name'); ?>",
-             type: "post",
-             data: values ,
-             success: function (msg) {
+    mw.require('admin_package_manager.js');
 
 
-                 mw.notification.msg(msg);
-                 mw.tools.loading(mwd.querySelector('.js-install-package-loading-container'), false)
-
-             },
-
-
-             error: function(jqXHR, textStatus, errorThrown) {
-
-             }
-
-
-         }).always(function(jqXHR, textStatus) {
-             mw.tools.loading(mwd.querySelector('.js-install-package-loading-container'), false)
-
-         })
-
-
-
-
-
-
-    }
 </script>
 
 
@@ -67,12 +34,12 @@
         <?php foreach ($search_packages as $key => $val): ?>
             <td><?php print $key; ?></td>
             <td><?php print $val['type']; ?></td>
-            <td><button type="button" onClick="mw.install_composer_package_by_package_name('<?php print $key; ?>','latest')">install</button></td>
+            <td><button type="button" onClick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>','latest')">install</button></td>
             <td>
 
             <?php if (isset($val['versions']) and !empty($val['versions'])): ?>
                 <?php foreach ($val['versions'] as $vkey => $vval): ?>
-                    <button type="button" onClick="mw.install_composer_package_by_package_name('<?php print $key; ?>','<?php print $vkey; ?>')"><?php print $vkey; ?></button>
+                    <button type="button" onClick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>','<?php print $vkey; ?>')"><?php print $vkey; ?></button>
 
                 <?php endforeach; ?>
 
