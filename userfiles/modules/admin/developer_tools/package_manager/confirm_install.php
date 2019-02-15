@@ -108,7 +108,7 @@ $get_existing_files_for_confirm = cache_get($confirm_key, 'composer');
                             <?php if ($get_existing_files_for_confirm) { ?>
                                 <button type="button" class="js-show-files mw-ui-btn mw-ui-btn-info">Show files <?php print count($get_existing_files_for_confirm); ?></button>
                             <?php } ?>
-                            
+
                             <a class="mw-ui-btn mw-ui-btn-notification"
                                onclick="mw.install_composer_package_confirm_by_key('<?php print $confirm_key ?>', '<?php print $require_name ?>','<?php print $require_version ?>')">Confirm</a>
                         </div>
