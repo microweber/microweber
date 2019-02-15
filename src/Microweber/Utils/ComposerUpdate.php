@@ -167,17 +167,14 @@ class ComposerUpdate
                 if (isset($package['type'])
                     and isset($package['latest_version'])
                     and isset($package['latest_version']['extra'])
-                    and isset($package['latest_version']['extra']['folder'])
+                    and isset($package['latest_version']['folder'])
                 ) {
                     $package_type = $package['type'];
 
                     $package_folder = false;
-                    if (!$package_folder and isset($package['latest_version']) and isset($package['latest_version']['extra']) and isset($package['latest_version']['extra']['folder'])) {
-                        $package_folder = $package['latest_version']['extra']['folder'];
+                    if (!$package_folder and isset($package['latest_version']) and isset($package['latest_version']['extra']) and isset($package['latest_version']['folder'])) {
+                        $package_folder = $package['latest_version']['folder'];
                     }
-
-
-                    //  dd($package);
 
 
                     $local_packages_type = false;
@@ -230,58 +227,54 @@ class ComposerUpdate
         $cp_files = array();
         $cp_files_fails = array();
 
-        $confirm_key = 'composer-' . mw()->user_manager->session_id() . rand();
+        $confirm_key = 'composer-confirm-key-' . rand();
 
         if (isset($params['confirm_key'])) {
             $confirm_key_get = $params['confirm_key'];
             $get_existing_files_for_confirm = cache_get($confirm_key_get, 'composer');
             if ($get_existing_files_for_confirm) {
-                $cp_files  = $get_existing_files_for_confirm;
+                $cp_files = $get_existing_files_for_confirm;
                 $need_confirm = false;
             }
         }
 
 
+        // if (!$cp_files) {
+
+        if (!isset($params['require_name']) or !$params['require_name']) {
+            return;
+        }
+        $version = 'latest';
+        if (isset($params['require_version']) and $params['require_version']) {
+            $version = trim($params['require_version']);
+        }
+
+        $keyword = $params['require_name'];
+        $keyword = strip_tags($keyword);
+        $keyword = trim($keyword);
+
+        $version = strip_tags($version);
+        $version = trim($version);
 
 
-       // if (!$cp_files) {
-
-            if (!isset($params['require_name']) or !$params['require_name']) {
-                return;
-            }
-            $version = 'latest';
-            if (isset($params['require_version']) and $params['require_version']) {
-                $version = trim($params['require_version']);
-            }
-
-            $keyword = $params['require_name'];
-            $keyword = strip_tags($keyword);
-            $keyword = trim($keyword);
-
-            $version = strip_tags($version);
-            $version = trim($version);
+        $return = $this->search_packages($keyword, $version);
 
 
-            $return = $this->search_packages($keyword, $version);
+        if (!$return) {
+            return array('error' => 'Error. Cannot find any packages for ' . $keyword);
+        }
 
+        if (!isset($return[$keyword])) {
+            return array('error' => 'Error. Package not found in repositories ' . $keyword);
 
-            if (!$return) {
-                return array('error' => 'Error. Cannot find any packages for ' . $keyword);
-            }
-
-            if (!isset($return[$keyword])) {
-                return array('error' => 'Error. Package not found in repositories ' . $keyword);
-
-            }
-     //   }
+        }
+        //   }
 
 
         $temp_folder = $this->composer_temp_folder;
 
         $from_folder = normalize_path($temp_folder, true);
         $to_folder = mw_root_path();
-
-
 
 
         if (!$cp_files and isset($return[$keyword])) {
@@ -377,14 +370,7 @@ class ComposerUpdate
             $out = $update->run($input, $output);
 
 
-
-
-
-
-
             if ($out === 0) {
-
-
 
 
                 $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($from_folder));
@@ -441,7 +427,6 @@ class ComposerUpdate
             }
 
         }
-
 
 
         if ($cp_files and !empty($cp_files)) {
