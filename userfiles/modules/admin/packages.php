@@ -59,6 +59,10 @@ $search_packages = mw()->update->composer_search_packages('cache=true');
 
         <div class="mw-ui-col" style="width: 80%;">
             <div class="mw-ui-col-container">
+
+                <div id="mw-updates-queue"></div>
+
+
                 <div class="mw-ui-box" style="width: 100%; padding: 12px 0;">
                     <div class="mw-ui-box-content tab">
                         <?php if ($search_packages) : ?>

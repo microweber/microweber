@@ -27,6 +27,7 @@ use Composer\Console\HtmlOutputFormatter;
 use Microweber\Utils\Adapters\Packages\Helpers\TemplateInstaller;
 use Microweber\Utils\Adapters\Packages\Helpers\ModuleInstaller;
 use Microweber\Utils\Adapters\Packages\Helpers\CoreUpdateInstaller;
+use Microweber\Utils\Adapters\Packages\Helpers\InstallerIO;
 
 class ComposerUpdate
 {
@@ -135,16 +136,8 @@ class ComposerUpdate
         // $io = new BufferIO($input, $output, null);
 
 
-
-
-
-
-
-
-
-
-        $io = new BufferIO('', 1, null);
-
+        $io = new InstallerIO('',32, null);
+        //$io->setVerbosity(32);
 
         $config = new Config(false, $temp_folder);
 
@@ -161,9 +154,11 @@ class ComposerUpdate
 
 
         $packages = new ComposerPackagesSearchCommandController();
+        $packages->setIo($io);
         $packages->setConfigPathname($conf);
         $packages->setDisableNonActiveReposInComposer(true);
         $packages->setComposer($composer);
+
         $return = $packages->handle($keyword);
 
 
@@ -196,9 +191,6 @@ class ComposerUpdate
                             $local_packages_type = 'modules';
                             break;
                     }
-
-
-
 
 
                     if ($package_folder and $local_packages_type) {
@@ -376,8 +368,10 @@ class ComposerUpdate
             }
 
 
-            $output->setVerbosity(0);
-            $io = new ConsoleIO($input, $output, $helper);
+            //$output->setVerbosity(1);
+            //$io = new ConsoleIO($input, $output, $helper);
+            $io = new InstallerIO('',32, null);
+
             $composer = Factory::create($io);
 
             //       $input->setOption('no-plugins',true);
@@ -663,8 +657,8 @@ class ComposerUpdate
 
 
         $new_composer_config['config'] = $composer_orig['config'];
-       // $new_composer_config['minimum-stability'] = 'dev';
-         $new_composer_config['minimum-stability'] = 'stable';
+         $new_composer_config['minimum-stability'] = 'dev';
+       // $new_composer_config['minimum-stability'] = 'stable';
         //   $new_composer_config['target-dir'] = 'installed';
 
 

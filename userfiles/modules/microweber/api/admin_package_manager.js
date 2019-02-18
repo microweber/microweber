@@ -19,6 +19,7 @@ mw.admin.admin_package_manager.set_loading = function(is_loading) {
 mw.admin.admin_package_manager.install_composer_package_by_package_name = function($key,$version) {
 
     mw.notification.success('Loading...',15000);
+    mw.load_module('updates/worker', '#mw-updates-queue');
 
     mw.admin.admin_package_manager.set_loading(true)
 
