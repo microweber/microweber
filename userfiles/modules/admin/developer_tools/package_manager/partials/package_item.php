@@ -27,6 +27,21 @@ if (isset($item['extra']) and isset($item['extra']['_meta']) and isset($item['ex
 $key = $item['name'];
 $vkey = 'latest';
 
+if (isset($item['latest_version']) and isset($item['latest_version']['version'])) {
+    $vkey = $item['latest_version']['version'];
+}
+
+
+$local_install = false;
+$local_install_v = false;
+
+if (isset($item['current_install']) and $item['current_install']) {
+
+    $local_install = $item['current_install'];
+    if (isset($local_install['version']) and $local_install['version']) {
+        $local_install_v = $local_install['version'];
+    }
+}
 
 
 ?>
@@ -34,6 +49,15 @@ $vkey = 'latest';
 <div class="mw-ui-box" style="min-height: 300px;">
     <div class="mw-ui-box-header">
         <span class="mw-icon-gear"></span><span> <?php print $item['name'] ?></span>
+
+        <?php if ($local_install) { ?>
+
+
+            <span class="mw-ui-btn mw-ui-btn-small mw-ui-btn-notification pull-right">Your version <?php print $local_install_v ?></span>
+
+
+        <?php } ?>
+
     </div>
 
 
@@ -50,22 +74,23 @@ $vkey = 'latest';
 
 
             <?php if ($license): ?>
-            <tr>
-                <td>License</td>
-                <td><?php print $license; ?></td>
-            </tr>
+                <tr>
+                    <td>License</td>
+                    <td><?php print $license; ?></td>
+                </tr>
             <?php endif; ?>
 
 
             <?php if (isset($item['homepage'])): ?>
-            <tr>
-                <td>Website</td>
-                <td>
-                    <?php if (isset($item['homepage'])): ?>
-                        <a href="<?php print $item['homepage']; ?>" target="_blank" class="mw-blue"><?php print $item['homepage']; ?></a>
-                    <?php endif; ?>
-                </td>
-            </tr>
+                <tr>
+                    <td>Website</td>
+                    <td>
+                        <?php if (isset($item['homepage'])): ?>
+                            <a href="<?php print $item['homepage']; ?>" target="_blank"
+                               class="mw-blue"><?php print $item['homepage']; ?></a>
+                        <?php endif; ?>
+                    </td>
+                </tr>
             <?php endif; ?>
             <tr>
                 <td>Author</td>
@@ -109,16 +134,15 @@ $vkey = 'latest';
         <div class="text-center m-t-20">
 
 
-
             <?php if (isset($item['homepage'])): ?>
-            <a   href="<?php print $item['homepage']; ?>" target="_blank"    class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info">Read more</a>
+                <a href="<?php print $item['homepage']; ?>" target="_blank"
+                   class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info">Read more</a>
             <?php endif; ?>
 
 
-            <a href="javascript:;" onClick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>','<?php print $vkey; ?>')" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification">Install</a>
-
-
-
+            <a href="javascript:;"
+               onClick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>','<?php print $vkey; ?>')"
+               class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification">Install</a>
 
 
         </div>

@@ -130,7 +130,7 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
 
                     if (stristr($err_msg, $u)) {
                         unset($known_repos[$rk]);
-                         $removed_repos[] = $known_repo;
+                        $removed_repos[] = $known_repo;
                     }
 
                 }
@@ -175,10 +175,6 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
         $results = $results_found;
 
 
-        if ($has_error) {
-            //\Log::info('Package manager error: ' . implode("\n", $errors));
-        }
-
         if (!$results) {
             throw new PackageManagerException('Package manager error: ' . implode("\n", $errors));
         }
@@ -202,8 +198,6 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
             if (!isset($packages[$result['name']])) {
                 /** @var PackageInterface[] $versions */
                 $versions = $repositories->findPackages($result['name']);
-
-
 
 
                 /** @var PackageInterface|CompletePackageInterface $latestVersion */
@@ -232,7 +226,6 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
                         : '';
 
 
-
                     $packages[$result['name']]['support'] = $versions[0] instanceof CompletePackageInterface
                         ? $versions[0]->getSupport()
                         : '';
@@ -243,20 +236,13 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
                         : '';
 
 
-
                     $packages[$result['name']]['extra'] = $versions[0] instanceof CompletePackageInterface
                         ? $versions[0]->getExtra()
                         : '';
 
 
-
-
                     $packages[$result['name']]['mw-compatible'] = null;
                     $packages[$result['name']]['versions'] = array();
-
-
-
-
 
 
                     foreach ($versions as $version) {
@@ -291,25 +277,24 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
                             $version_info['requires'] = $version_requires;
                             $version_info['extra'] = $version->getExtra();
                             $version_info['folder'] = $version->getTargetDir();
-
-
-
                             $version_info['dist'] = $version->getDistUrls();
-
                             $version_info['dist_type'] = $version->getDistType();
 
-                            if($version_info['dist']){
-                            if (!$latestVersion || $version->getReleaseDate() > $latestVersion->getReleaseDate()) {
-                                $latestVersion = $version;
-                                $latestVersionInfo = $version_info;
-                                // $version_info['version_is_latest'] = 1;
+                            if ($version_info['dist']) {
+                                if( $version_info['version'] and !stristr($version_info['version'],'-dev') and !stristr($version_info['version'],'dev-')) {
+                                  //  if (!$latestVersion || $version->getReleaseDate() > $latestVersion->getReleaseDate()) {
+                                    if (!$latestVersion || version_compare($version->getVersion(), $latestVersion->getVersion())) {
+                                        $latestVersion = $version;
+                                        $latestVersionInfo = $version_info;
+                                    }
+                                    $packages[$result['name']]['versions'][$version_info['version']] = $version_info;
+                                    $packages[$result['name']]['mw-compatible'] = true;
+                                }
                             }
-                            $packages[$result['name']]['versions'][$version_info['version']] = $version_info;
-                            $packages[$result['name']]['mw-compatible'] = true;
-                            }
-
 
                         }
+
+
 //                        if (isset($requires['microweber/microweber']) && $requires['microweber/microweber'] instanceof Link) {
 //                            /** @var Link $link */
 //                            $link = $requires['microweber/microweber'];

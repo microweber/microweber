@@ -134,6 +134,15 @@ class ComposerUpdate
         chdir($temp_folder);
         // $io = new BufferIO($input, $output, null);
 
+
+
+
+
+
+
+
+
+
         $io = new BufferIO('', 1, null);
 
 
@@ -167,13 +176,13 @@ class ComposerUpdate
 
                 if (isset($package['type'])
                     and isset($package['latest_version'])
-                    and isset($package['latest_version']['extra'])
+                    and isset($package['latest_version'])
                     and isset($package['latest_version']['folder'])
                 ) {
                     $package_type = $package['type'];
 
                     $package_folder = false;
-                    if (!$package_folder and isset($package['latest_version']) and isset($package['latest_version']['extra']) and isset($package['latest_version']['folder'])) {
+                    if (!$package_folder and isset($package['latest_version']) and isset($package['latest_version']) and isset($package['latest_version']['folder'])) {
                         $package_folder = $package['latest_version']['folder'];
                     }
 
@@ -187,6 +196,10 @@ class ComposerUpdate
                             $local_packages_type = 'modules';
                             break;
                     }
+
+
+
+
 
                     if ($package_folder and $local_packages_type) {
 
@@ -275,10 +288,6 @@ class ComposerUpdate
 
         $temp_folder = $this->composer_temp_folder;
         $from_folder = normalize_path($temp_folder, true);
-
-
-
-
 
 
         $installers = array(
@@ -394,21 +403,10 @@ class ComposerUpdate
             $out = $update->run($input, $output);
 
 
-
-
-
-
-            if($install_core_update){
-                $from_folder_cp = $temp_folder.'/microweber-core-update/install-update/update/';
+            if ($install_core_update) {
+                $from_folder_cp = $temp_folder . '/microweber-core-update/install-update/update/';
                 $from_folder = $from_folder_cp;
             }
-
-
-
-
-
-
-
 
 
             if ($out === 0) {
@@ -472,13 +470,10 @@ class ComposerUpdate
         if ($cp_files and !empty($cp_files)) {
 
 
+            if ($install_core_update) {
 
-
-
-            if($install_core_update){
-
-                if($install_core_update){
-                    $from_folder_cp = $temp_folder.'/microweber-core-update/install-update/update/';
+                if ($install_core_update) {
+                    $from_folder_cp = $temp_folder . '/microweber-core-update/install-update/update/';
                     $from_folder = $from_folder_cp;
                 }
 
@@ -505,6 +500,9 @@ class ComposerUpdate
             if ($cp_files_fails) {
                 $resp['errors'] = $cp_files_fails;
             }
+
+            clearcache();
+
             return $resp;
 
         }
@@ -665,7 +663,8 @@ class ComposerUpdate
 
 
         $new_composer_config['config'] = $composer_orig['config'];
-        $new_composer_config['minimum-stability'] = 'dev';
+       // $new_composer_config['minimum-stability'] = 'dev';
+         $new_composer_config['minimum-stability'] = 'stable';
         //   $new_composer_config['target-dir'] = 'installed';
 
 

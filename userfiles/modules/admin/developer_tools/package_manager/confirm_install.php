@@ -35,7 +35,6 @@ if(is_array($get_existing_files_for_confirm)){
 }
 
 
-//var_dump($get_existing_files_for_confirm);
 
 ?>
 
