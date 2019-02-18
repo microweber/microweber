@@ -27,8 +27,12 @@ if (!$confirm_key) {
 }
 
 //d($confirm_key);
-
+$confirm_files_count =0;
 $get_existing_files_for_confirm = cache_get($confirm_key, 'composer');
+
+if(is_array($get_existing_files_for_confirm)){
+    $confirm_files_count =count($get_existing_files_for_confirm);
+}
 
 
 //var_dump($get_existing_files_for_confirm);
@@ -38,9 +42,11 @@ $get_existing_files_for_confirm = cache_get($confirm_key, 'composer');
 
 <script>
     mw.install_composer_package_confirm_by_key = function ($confirm_key, $require_name, $require_version) {
-        mw.notification.success('Installing...', 3000);
+        mw.notification.success('Installing...', 6000);
 
-        mw.tools.loading(mwd.querySelector('.js-install-package-loading-container-confirm'), true)
+        mw.admin.admin_package_manager.set_loading(true)
+
+
 
         var values = {confirm_key: $confirm_key, require_version: $require_version, require_name: $require_name};
         $.ajax({
@@ -52,7 +58,9 @@ $get_existing_files_for_confirm = cache_get($confirm_key, 'composer');
                 if (msg.success) {
                     mw.tools.modal.get('#js-buttons-confirm-install').remove()
                 }
-                mw.tools.loading(mwd.querySelector('.js-install-package-loading-container-confirm'), false)
+
+                mw.admin.admin_package_manager.set_loading(false)
+
 
             }
         })
@@ -82,6 +90,8 @@ $get_existing_files_for_confirm = cache_get($confirm_key, 'composer');
                 <div class="mw-ui-box text-center">
                     <div class="mw-ui-box-header">
                         <h4>Please confirm the installation of <br/> <strong><?php print $require_name ?></strong></h4>
+                        <h6><?php print count($get_existing_files_for_confirm); ?> files will be installed</h6>
+
                     </div>
                     <div class="mw-ui-box-content mw-text p-0">
                         <?php if ($get_existing_files_for_confirm) { ?>
@@ -106,7 +116,7 @@ $get_existing_files_for_confirm = cache_get($confirm_key, 'composer');
                             <a class="mw-ui-btn mw-ui-btn-important" onclick="mw.tools.modal.get(this).remove()">Cancel</a>
 
                             <?php if ($get_existing_files_for_confirm) { ?>
-                                <button type="button" class="js-show-files mw-ui-btn mw-ui-btn-info">Show files <?php print count($get_existing_files_for_confirm); ?></button>
+                                <button type="button" class="js-show-files mw-ui-btn mw-ui-btn-info">Show files </button>
                             <?php } ?>
 
                             <a class="mw-ui-btn mw-ui-btn-notification"

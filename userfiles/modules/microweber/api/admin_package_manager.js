@@ -6,14 +6,22 @@ mw.admin.admin_package_manager = mw.admin.admin_package_manager || {}
 
 
 
+mw.admin.admin_package_manager.set_loading = function(is_loading) {
+
+    mw.tools.loading(mwd.querySelector('.js-install-package-loading-container-confirm'), is_loading)
+    mw.tools.loading(mwd.querySelector('#mw-packages-browser-nav-tabs-nav'), is_loading)
+    mw.tools.loading(mwd.querySelector('.admin-toolbar'), is_loading)
+
+}
 
 
 
 mw.admin.admin_package_manager.install_composer_package_by_package_name = function($key,$version) {
 
-    mw.notification.success('Loading...');
+    mw.notification.success('Loading...',15000);
 
-    mw.tools.loading(mwd.querySelector('.js-install-package-loading-container'), true)
+    mw.admin.admin_package_manager.set_loading(true)
+
 
     var values =  { require_name: $key, require_version:$version };
 
@@ -25,25 +33,17 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name = functi
 
 
             mw.notification.msg(msg);
-            mw.tools.loading(mwd.querySelector('.js-install-package-loading-container'), false)
+            mw.admin.admin_package_manager.set_loading(false)
 
         },
-
 
         error: function(jqXHR, textStatus, errorThrown) {
 
         }
 
-
     }).always(function(jqXHR, textStatus) {
-        mw.tools.loading(mwd.querySelector('.js-install-package-loading-container'), false)
-
+        mw.admin.admin_package_manager.set_loading(false)
     })
-
-
-
-
-
 
 }
 

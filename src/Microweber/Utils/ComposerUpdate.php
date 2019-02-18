@@ -26,6 +26,7 @@ use  Microweber\Utils\Adapters\Packages\ComposerPackagesSearchCommandController;
 use Composer\Console\HtmlOutputFormatter;
 use Microweber\Utils\Adapters\Packages\Helpers\TemplateInstaller;
 use Microweber\Utils\Adapters\Packages\Helpers\ModuleInstaller;
+use Microweber\Utils\Adapters\Packages\Helpers\CoreUpdateInstaller;
 
 class ComposerUpdate
 {
@@ -219,8 +220,10 @@ class ComposerUpdate
 
     public function install_package_by_name($params)
     {
-        $params = parse_params($params);
 
+
+        $params = parse_params($params);
+        $install_core_update = false;
 
         $need_confirm = true;
         $need_confirm = true;
@@ -270,10 +273,26 @@ class ComposerUpdate
         }
         //   }
 
-
         $temp_folder = $this->composer_temp_folder;
-
         $from_folder = normalize_path($temp_folder, true);
+
+
+
+
+
+
+        $installers = array(
+            'Microweber\Utils\Adapters\Packages\Helpers\TemplateInstaller',
+            'Microweber\Utils\Adapters\Packages\Helpers\ModuleInstaller'
+        );
+        if ($keyword == 'microweber/update') {
+            $install_core_update = true;
+            $installers = array(
+                'Microweber\Utils\Adapters\Packages\Helpers\CoreUpdateInstaller'
+            );
+        }
+
+
         $to_folder = mw_root_path();
 
 
@@ -357,8 +376,13 @@ class ComposerUpdate
 
             $installation_manager = $composer->getInstallationManager();
 
-            $installation_manager->addInstaller(new TemplateInstaller($io, $composer));
-            $installation_manager->addInstaller(new ModuleInstaller($io, $composer));
+
+            if ($installers) {
+                foreach ($installers as $installer) {
+                    $installation_manager->addInstaller(new $installer($io, $composer));
+                }
+            }
+
             $conf = $temp_folder . '/composer.json';
 
 
@@ -370,8 +394,24 @@ class ComposerUpdate
             $out = $update->run($input, $output);
 
 
-            if ($out === 0) {
 
+
+
+
+            if($install_core_update){
+                $from_folder_cp = $temp_folder.'/microweber-core-update/install-update/update/';
+                $from_folder = $from_folder_cp;
+            }
+
+
+
+
+
+
+
+
+
+            if ($out === 0) {
 
                 $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($from_folder));
                 $allFiles = array_filter(iterator_to_array($iterator), function ($file) {
@@ -430,6 +470,20 @@ class ComposerUpdate
 
 
         if ($cp_files and !empty($cp_files)) {
+
+
+
+
+
+            if($install_core_update){
+
+                if($install_core_update){
+                    $from_folder_cp = $temp_folder.'/microweber-core-update/install-update/update/';
+                    $from_folder = $from_folder_cp;
+                }
+
+            }
+
             foreach ($cp_files as $f) {
                 $src = $from_folder . DS . $f;
                 $dest = $to_folder . DS . $f;

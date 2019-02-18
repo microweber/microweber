@@ -27,6 +27,8 @@ if (isset($item['extra']) and isset($item['extra']['_meta']) and isset($item['ex
 $key = $item['name'];
 $vkey = 'latest';
 
+
+
 ?>
 
 <div class="mw-ui-box" style="min-height: 300px;">
@@ -46,11 +48,16 @@ $vkey = 'latest';
                 <td><?php print $item['latest_version']['version'] ?></td>
             </tr>
 
+
+            <?php if ($license): ?>
             <tr>
                 <td>License</td>
                 <td><?php print $license; ?></td>
             </tr>
+            <?php endif; ?>
 
+
+            <?php if (isset($item['homepage'])): ?>
             <tr>
                 <td>Website</td>
                 <td>
@@ -59,7 +66,7 @@ $vkey = 'latest';
                     <?php endif; ?>
                 </td>
             </tr>
-
+            <?php endif; ?>
             <tr>
                 <td>Author</td>
                 <td><img src="<?php print $author_icon; ?>" style="max-height: 16px;"/> <?php print $author ?></td>
@@ -70,7 +77,7 @@ $vkey = 'latest';
                 <td><?php print date('d M Y', strtotime($item['latest_version']['release_date'])) ?></td>
             </tr>
 
-            <tr>
+            <tr style="display: none">
                 <td>Keywords</td>
                 <td>
                     <?php if (isset($item['keywords'])): ?>
@@ -79,7 +86,7 @@ $vkey = 'latest';
                 </td>
             </tr>
 
-            <tr>
+            <tr style="display: none">
                 <td>Support Source</td>
                 <td>
                     <?php if (isset($item['support']) AND isset($item['support']['source'])): ?>
@@ -88,7 +95,7 @@ $vkey = 'latest';
                 </td>
             </tr>
 
-            <tr>
+            <tr style="display: none">
                 <td>Support Issues</td>
                 <td>
                     <?php if (isset($item['support']) AND isset($item['support']['issues'])): ?>
@@ -100,10 +107,20 @@ $vkey = 'latest';
         </table>
 
         <div class="text-center m-t-20">
-            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info">Read more</a>
+
+
+
+            <?php if (isset($item['homepage'])): ?>
+            <a   href="<?php print $item['homepage']; ?>" target="_blank"    class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info">Read more</a>
+            <?php endif; ?>
+
+
             <a href="javascript:;" onClick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>','<?php print $vkey; ?>')" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification">Install</a>
 
-            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-important mw-ui-btn-outline"><i class="mw-icon-trash-a"></i></a>
+
+
+
+
         </div>
     </div>
 </div>
