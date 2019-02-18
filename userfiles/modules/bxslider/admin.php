@@ -214,7 +214,7 @@ if (isset($params['pager_custom'])) {
     <div class="mw-accordion-item">
         <div class="mw-ui-box-header mw-accordion-title">
             <div class="header-holder">
-                <i class="mw-icon-gear"></i> <?php print _e('Settings'); ?>
+                <i class="mw-icon-gear"></i> <?php print _e('Slides'); ?>
             </div>
         </div>
         <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
@@ -238,7 +238,7 @@ if (isset($params['pager_custom'])) {
     <div class="mw-accordion-item">
         <div class="mw-ui-box-header mw-accordion-title">
             <div class="header-holder">
-                <i class="mw-icon-beaker"></i> <?php print _e('Slider Settings'); ?>
+                <i class="mw-icon-gear"></i> <?php print _e('Settings'); ?>
             </div>
         </div>
         <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
