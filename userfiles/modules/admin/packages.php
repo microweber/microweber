@@ -15,6 +15,15 @@ $search_packages = mw()->update->composer_search_packages('cache=true');
 ?>
 
 
+<script>
+
+
+
+
+
+</script>
+
+
 <div class="section-header">
     <h2 class="pull-left"><span class="mw-icon-updates"></span> <?php _e("Packages"); ?></h2>
     <div class="pull-right">
@@ -25,15 +34,38 @@ $search_packages = mw()->update->composer_search_packages('cache=true');
     </div>
 
     <div class="pull-right m-r-10" style="margin-top:1px;">
-        <select class="mw-ui-field">
-            <option selected="selected" value="-1">Select some</option>
-            <option value="1">Mr</option>
-            <option value="2">Mrs</option>
-            <option value="3">Miss</option>
-            <option value="4">Ms</option>
-        </select>
+
+
+
+        <ul class="mw-ui-navigation mw-ui-navigation-horizontal">
+
+            <li>
+                <a href="javascript:;"><span class="mw-icon-gear"></span>  <span class="mw-icon-dropdown"></span></a>
+                <ul>
+                    <li><a  href="javascript:;" onclick="mw.admin.admin_package_manager.reload_packages_list();">Reload packages</a></li>
+                    <li><a  href="javascript:;" onclick="mw.admin.admin_package_manager.show_licenses_modal ();">Licenses</a></li>
+
+
+                </ul>
+            </li>
+
+        </ul>
+
+
+
+
+
+
+
     </div>
 </div>
+
+
+
+
+
+
+
 
 
 <script>
@@ -50,8 +82,8 @@ $search_packages = mw()->update->composer_search_packages('cache=true');
         <div class="mw-ui-col" style="width: 20%;">
             <div class="mw-ui-col-container">
                 <ul class="mw-ui-box mw-ui-navigation" id="nav">
-                    <li><a href="javascript:;" class="active">Themes</a></li>
-                    <li><a href="javascript:;">Plugins</a></li>
+                    <li><a href="javascript:;" class="active">Templates</a></li>
+                    <li><a href="javascript:;">Modules</a></li>
                     <li><a href="javascript:;">Others</a></li>
                 </ul>
             </div>
@@ -144,6 +176,34 @@ $search_packages = mw()->update->composer_search_packages('cache=true');
                             </div>
                         <?php endif; ?>
                     </div>
+
+
+
+
+                    <div class="mw-ui-box-content tab" style="display: none">
+                        <div class="mw-flex-row">
+
+                            <div class="mw-flex-col-xs-12 m-b-20">
+
+                                <module type="settings/group/licenses" />
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 </div>
             </div>
         </div>
