@@ -59,13 +59,17 @@ $search_packages = mw()->update->composer_search_packages('cache=true');
 
         <div class="mw-ui-col" style="width: 80%;">
             <div class="mw-ui-col-container">
+
+                <div id="mw-updates-queue"></div>
+
+
                 <div class="mw-ui-box" style="width: 100%; padding: 12px 0;">
                     <div class="mw-ui-box-content tab">
                         <?php if ($search_packages) : ?>
                             <div class="mw-flex-row">
                                 <?php foreach ($search_packages as $key => $item): ?>
                                     <?php if ($item['type'] == 'microweber-template'): ?>
-                                        <div class="mw-flex-col-xs-4 m-b-20">
+                                        <div class="mw-flex-col-xs-12  m-b-20">
 
                                             <?php
 
@@ -93,7 +97,7 @@ $search_packages = mw()->update->composer_search_packages('cache=true');
                             <div class="mw-flex-row">
                                 <?php foreach ($search_packages as $key => $item): ?>
                                     <?php if ($item['type'] == 'microweber-module'): ?>
-                                        <div class="mw-flex-col-xs-4 m-b-20">
+                                        <div class="mw-flex-col-xs-12 m-b-20">
 
 
                                             <?php
@@ -118,7 +122,7 @@ $search_packages = mw()->update->composer_search_packages('cache=true');
                             <div class="mw-flex-row">
                                 <?php foreach ($search_packages as $key => $item): ?>
                                     <?php if ($item['type'] != 'microweber-template' AND $item['type'] != 'microweber-module'): ?>
-                                        <div class="mw-flex-col-xs-4 m-b-20">
+                                        <div class="mw-flex-col-xs-12 m-b-20">
 
 
 

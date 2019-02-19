@@ -94,15 +94,10 @@
     }
 </script>
 <?php $required_packages = mw()->update->composer_get_required(); ?>
-<?php $other_packages = mw()->update->composer_get_required(); ?>
+<?php //  $other_packages = mw()->update->composer_get_required(); ?>
 
 
-<?php
 
-// $search_packages = mw()->update->composer_search_packages();
-//
-// dd($search_packages);
-?>
 
 
 
