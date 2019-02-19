@@ -26,7 +26,7 @@ if ($padding_bottom === null OR $padding_bottom === false OR $padding_bottom == 
                 <option value="" <?php if (!$padding_top) {echo 'selected';} ?>><?php _e("No Selected"); ?></option>
                 <?php if (isset($css_classes['padding-top'])): ?>
                     <?php foreach ($css_classes['padding-top'] as $key => $option): ?>
-                        <option value="<?php print $key; ?>"<?php if ($padding_top == $key) {echo 'selected';} ?>><?php print _e("Padding Top") . ' ' . $key; ?></option>
+                        <option value="<?php print $key; ?>"<?php if ($padding_top == $key) {echo 'selected';} ?>><?php print _e("Padding Top") . ' '; ?><?php if($key == 'none'): ?>0<?php else: ?><?php echo $key; ?><?php endif; ?></option>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </select>
@@ -40,7 +40,7 @@ if ($padding_bottom === null OR $padding_bottom === false OR $padding_bottom == 
                 <option value="" <?php if (!$padding_bottom) {echo 'selected';} ?>><?php _e("No Selected"); ?></option>
                 <?php if (isset($css_classes['padding-bottom'])): ?>
                     <?php foreach ($css_classes['padding-bottom'] as $key => $option): ?>
-                        <option value="<?php print $key; ?>"<?php if ($padding_bottom == $key) {echo 'selected';} ?>><?php print _e("Padding Bottom") . ' ' . $key; ?></option>
+                        <option value="<?php print $key; ?>"<?php if ($padding_bottom == $key) {echo 'selected';} ?>><?php print _e("Padding Bottom") . ' '; ?><?php if($key == 'none'): ?>0<?php else: ?><?php echo $key; ?><?php endif; ?></option>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </select>
