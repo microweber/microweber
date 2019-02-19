@@ -1,6 +1,18 @@
 <?php only_admin_access() ?>
 <?php
 $template_config = mw()->template->get_config();
+
+$cur_template = get_option('data-template', $params['parent-module-id']);
+if ($cur_template == false) {
+    if(isset($params['template'])){
+        $cur_template = $params['template'];
+    }
+}
+
+
+
+
+
 if (isset($template_config['layouts_css_classes'])) {
     $css_classes = $template_config['layouts_css_classes'];
 } else {
@@ -46,4 +58,16 @@ if ($padding_bottom === null OR $padding_bottom === false OR $padding_bottom == 
             </select>
         </div>
     </div>
+
+
+
+    <?php if($cur_template){ ?>
+
+    <module type="admin/modules/templates_settings" id="mw-module-skin-settings-module" parent-module-id="<?php print $params['parent-module-id'] ?>" parent-module="<?php print $params['parent-module'] ?>" parent-template="<?php print $cur_template ?>"/>
+
+
+    <?php } ?>
+
+
+
 </div>
