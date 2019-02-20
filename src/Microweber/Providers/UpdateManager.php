@@ -40,8 +40,13 @@ class UpdateManager
         }
     }
 
+    /**
+     * @deprecated 1.1.3
+     */
     public function browse()
     {
+
+        return;
         $data = $this->collect_local_data();
 
         $result = $this->call('browse', $data);
@@ -49,8 +54,13 @@ class UpdateManager
         return $result;
     }
 
+    /**
+     * @deprecated 1.1.3
+     */
     public function get_modules()
     {
+        return;
+
         $data = $this->collect_local_data();
         $data['add_new'] = true;
         $result = $this->call('get_modules', $data);
@@ -80,8 +90,10 @@ class UpdateManager
         if (is_array($t)) {
             foreach ($t as $value) {
                 if (isset($value['module']) and isset($value['version'])) {
-                    $mod = array('module' => $value['module'], 'version' => $value['version']);
-                    $modules[] = $mod;
+                    //  $mod = array('module' => $value['module'], 'version' => $value['version']);
+                    // $modules[] = $mod;
+                    $value['dir_name'] = $value['module'];
+                    $modules[] = $value;
 
                     $module_templates = $this->app->modules->templates($value['module']);
                     $mod_tpls = array();
@@ -185,8 +197,13 @@ class UpdateManager
         return admin_url('view:admin__modules__market?' . $params);
     }
 
+    /**
+     * @deprecated 1.1.3
+     */
     public function install_market_item($params)
     {
+        return;
+
         if (defined('MW_API_CALL')) {
             $to_trash = true;
             $adm = $this->app->user_manager->is_admin();
@@ -232,8 +249,12 @@ class UpdateManager
         return $res;
     }
 
+    /**
+     * @deprecated 1.1.3
+     */
     public function apply_updates($params)
     {
+        return;
         error_reporting(E_ERROR);
         $ret = array();
 
@@ -343,8 +364,13 @@ class UpdateManager
     private $updates_queue_cache_id = 'apply_updates_queue';
     private $updates_queue_cache_group = 'updates_queue';
 
+    /**
+     * @deprecated 1.1.3
+     */
     public function set_updates_queue($params = false)
     {
+
+        return;
         $params = parse_params($params);
 
         $a = $this->app->user_manager->is_admin();
@@ -372,8 +398,12 @@ class UpdateManager
 //        }
     }
 
+    /**
+     * @deprecated 1.1.3
+     */
     public function apply_updates_queue($params = false)
     {
+        return;
         $a = $this->app->user_manager->is_admin();
         if ($a == false) {
             mw_error('Must be admin!');
@@ -496,8 +526,25 @@ class UpdateManager
         return 'done';
     }
 
+    /**
+     * @deprecated 1.1.3
+     */
     public function check($skip_cache = false)
     {
+
+        return;
+
+//
+//
+//        $params = array();
+//        $params['return_found_local_packages'] = true;
+//
+//
+//        $runner = new \Microweber\Utils\ComposerUpdate();
+//        $result =  $runner->search_packages($params);
+//
+
+
         $update_channel = Config::get('microweber.update_channel');
         if ('disabled' == $update_channel) {
             return;
@@ -604,8 +651,13 @@ class UpdateManager
 
     private $_install_steps_num = 2;
 
+    /**
+     * @deprecated 1.1.3
+     */
     public function install_version($new_version, $on_step = false)
     {
+
+        return;
         if (defined('MW_API_CALL')) {
             only_admin_access();
         }
@@ -694,8 +746,13 @@ class UpdateManager
         return true;
     }
 
+    /**
+     * @deprecated 1.1.3
+     */
     private function install_from_market($item)
     {
+        return;
+
         if (isset($item['url']) and !isset($item['download'])) {
             $item['download'] = $item['url'];
         } elseif (isset($item['download_url']) and !isset($item['download'])) {
@@ -803,8 +860,13 @@ class UpdateManager
         }
     }
 
+    /**
+     * @deprecated 1.1.3
+     */
     public function install_module($module_name)
     {
+
+        return;
         $params = array();
         $params['module'] = $module_name;
         $params['add_new'] = $module_name;
@@ -845,8 +907,13 @@ class UpdateManager
         return $result;
     }
 
+    /**
+     * @deprecated 1.1.3
+     */
     public function install_element($module_name)
     {
+        return;
+
         $params = array();
 
         $params['element'] = $module_name;
@@ -1032,7 +1099,7 @@ class UpdateManager
         }
 
 
-        if (isset($params['_delete_license'])  and $params['_delete_license'] == '_delete_license' and isset($params['id'])) {
+        if (isset($params['_delete_license']) and $params['_delete_license'] == '_delete_license' and isset($params['id'])) {
             $this->app->database_manager->delete_by_id('system_licenses', intval($params['id']));
             return array('id' => 0, 'success' => 'License was deleted');
 
@@ -1052,7 +1119,9 @@ class UpdateManager
             }
         }
 
-        if (/*!isset($params['id']) and*/ isset($params['rel_type'])) {
+        if (/*!isset($params['id']) and*/
+        isset($params['rel_type'])
+        ) {
             $update = array();
             $update['rel_type'] = $params['rel_type'];
             $update['one'] = true;
@@ -1061,7 +1130,9 @@ class UpdateManager
             if (isset($update['id'])) {
                 $params['id'] = $update['id'];
             }
-        } elseif (/*!isset($params['id']) and */isset($params['local_key'])) {
+        } elseif (/*!isset($params['id']) and */
+        isset($params['local_key'])
+        ) {
             $update = array();
             $update['local_key'] = $params['local_key'];
             $update['one'] = true;
@@ -1144,7 +1215,7 @@ class UpdateManager
         $params = parse_params($params);
         $cache_id = false;
         if (isset($params['cache']) and $params['cache']) {
-            $cache_id = 'composer_search_packages';
+            $cache_id = 'composer_search_packages-' . md5(json_encode($params));
         }
 
         if ($cache_id) {
@@ -1155,8 +1226,13 @@ class UpdateManager
         }
 
         $keyword = '';
+        $search_params = array();
+        if (isset($params['keyword'])) {
+            $params['require_name'] = $keyword;
+        }
+
         $runner = new \Microweber\Utils\ComposerUpdate();
-        $results = $runner->search_packages($keyword);
+        $results = $runner->search_packages($params);
         if ($results) {
             cache_save($results, $cache_id, 'composer', 60);
 
@@ -1169,11 +1245,6 @@ class UpdateManager
     public function composer_install_package_by_name($params)
     {
         $runner = new \Microweber\Utils\ComposerUpdate();
-
-
-        $log_file = userfiles_path() . $this->log_filename;
-
-
         return $runner->install_package_by_name($params);
     }
 
@@ -1191,8 +1262,14 @@ class UpdateManager
         return $runner->get_require();
     }
 
+
+    /**
+     * @deprecated 1.1.3
+     */
     public function composer_save_package($params)
     {
+        return;
+
         $runner = new \Microweber\Utils\ComposerUpdate();
         $required = $runner->get_require();
 
@@ -1209,8 +1286,13 @@ class UpdateManager
         }
     }
 
+    /**
+     * @deprecated 1.1.3
+     */
     public function composer_replace_vendor_from_cache()
     {
+        return;
+
         $composer_cache = mw_cache_path() . 'composer' . DS;
         $vendor_cache = normalize_path($composer_cache . 'vendor', true);
         $vendor_cache_old = normalize_path($composer_cache . 'vendor_old', false);
@@ -1374,8 +1456,15 @@ class UpdateManager
 //        }
     }
 
+
+    /**
+     * @deprecated 1.1.3
+     */
     public function composer_run()
     {
+
+
+        return;
         $composer_cache = mw_cache_path() . 'composer' . DS;
         $vendor_cache = normalize_path($composer_cache . 'vendor', true);
         $composer_path = normalize_path(base_path() . '/', false);
@@ -1426,7 +1515,7 @@ class UpdateManager
         if (!ini_get('safe_mode')) {
             if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
                 ini_set('set_time_limit', 600);
-                ini_set('memory_limit', '160M');
+                ini_set('memory_limit', '2548M');
             }
             if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
                 set_time_limit(600);

@@ -15,8 +15,8 @@ only_admin_access();
        var $sel =  mw.$('.mw-select-updates-list');
 
         if($sel.length){
-            mw_apply_upd();
-            move_loading_bar();
+       //     mw_apply_upd();
+        //    move_loading_bar();
         }
 
 

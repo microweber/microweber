@@ -12,10 +12,14 @@ mw.admin.admin_package_manager.set_loading = function (is_loading) {
 
 
 mw.admin.admin_package_manager.reload_packages_list = function () {
-
+    mw.admin.admin_package_manager.set_loading(true)
     mw.clear_cache();
+    setTimeout(function(){
+        mw.reload_module('admin/packages')
+        mw.admin.admin_package_manager.set_loading(false)
+    }, 3000);
 
-    mw.reload_module('admin/packages')
+
 
 }
 

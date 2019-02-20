@@ -538,6 +538,17 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                     </li>
 
                     <?php if (mw()->ui->disable_marketplace != true): ?>
+                        <li <?php if ($view == 'packages'): ?> class="active" <?php endif; ?>>
+                            <a href="<?php print admin_url(); ?>view:packages">
+                                <span class="mai-market"></span> <strong>
+                                    <?php _e("Marketplace"); ?>
+                                </strong>
+                            </a>
+                        </li>
+                        <?php
+
+                        /*
+
                         <li <?php if ($view == 'marketplace'): ?> class="active" <?php endif; ?>>
                             <a href="<?php print admin_url(); ?>view:marketplace">
                                 <span class="mai-market"></span> <strong>
@@ -545,6 +556,11 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                 </strong>
                             </a>
                         </li>
+
+                        */
+
+                        ?>
+
                     <?php endif; ?>
                     <li <?php if ($view == 'settings' /*or ($load_module AND $load_module != 'users')*/): ?> class="active" <?php endif; ?>>
                         <a href="<?php print admin_url(); ?>view:settings#option_group=website"> <span class="mai-setting"></span>
@@ -572,6 +588,13 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                     <span class="mai-mail"></span><strong><?php _e("Email"); ?></strong>
                                 </a>
                             </li>
+
+
+
+
+
+
+
                             <?php event_trigger('mw_admin_settings_menu'); ?>
                             <?php $settings_menu = mw()->modules->ui('admin.settings.menu'); ?>
                             <?php if (is_array($settings_menu) and !empty($settings_menu)): ?>
