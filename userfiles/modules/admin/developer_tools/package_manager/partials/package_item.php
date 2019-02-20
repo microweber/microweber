@@ -24,6 +24,14 @@ if (isset($item['extra']) and isset($item['extra']['_meta']) and isset($item['ex
 
 }
 
+
+$screenshot = false;
+if (isset($item['extra']) and isset($item['extra']['_meta']) and isset($item['extra']['_meta']['screenshot'])) {
+    $screenshot = $item['extra']['_meta']['screenshot'];
+
+}
+
+
 $key = $item['name'];
 $vkey = 'latest';
 
@@ -64,6 +72,15 @@ if (isset($item['current_install']) and $item['current_install']) {
     <div class="mw-ui-box-content">
 
         <p class="m-b-20"><?php print $item['description'] ?></p>
+
+
+        <?php if ($screenshot): ?>
+            <div style="display: block; width: 134px; height: 134px; background-size: contain; background-repeat: no-repeat; background-position: center center; background-image: url('<?php print $screenshot; ?>')"  >
+
+            </div>
+
+         <?php endif; ?>
+
 
         <table cellspacing="0" cellpadding="0" class="mw-ui-table" width="100%">
             <tbody>
