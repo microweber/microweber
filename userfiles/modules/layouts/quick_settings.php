@@ -63,7 +63,7 @@ if ($padding_bottom === null OR $padding_bottom === false OR $padding_bottom == 
 
     <?php if($cur_template){ ?>
 
-    <module type="admin/modules/templates_settings" id="mw-module-skin-settings-module" parent-module-id="<?php print $params['parent-module-id'] ?>" parent-module="<?php print $params['parent-module'] ?>" parent-template="<?php print $cur_template ?>"/>
+    <module type="admin/modules/templates_settings" id="<?php print $params['parent-module-id'] ?>" parent-module-id="<?php print $params['parent-module-id'] ?>" parent-module="<?php print $params['parent-module'] ?>" parent-template="<?php print $cur_template ?>"/>
 
 
     <?php } ?>
