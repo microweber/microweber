@@ -72,7 +72,6 @@
                 window.parent.module_settings_modal_reference_window.location.href = src_new_modal_settings
             }
 
-
         }
         mw.module_preset_set_release = function (id) {
 
@@ -192,6 +191,8 @@
                         // window.parent.mw.reload_module("#<?php print $params['id'] ?>");
                         window.parent.mw.reload_module("#<?php print $params['id'] ?>");
                         mw.reload_module("#<?php print $params['id'] ?>")
+
+
                     });
 
                 }
@@ -213,7 +214,10 @@
 
 
         <?php $saved_modules = get_saved_modules_as_template("module={$module_name}"); ?>
-        <?php if (is_array($saved_modules)): ?>
+        <?php
+
+
+        if (is_array($saved_modules)): ?>
 
 
 
@@ -234,7 +238,7 @@
 
                 <div class="mw-ui-col module-presets-add-new-holder">
                     <input class="mw-ui-field module-presets-name-field mw-ui-field-medium" name="name" value="<?php print  $item['name'] ?>">
-                    <?php var_dump($item['name']); ?>
+
                     <textarea name="module_attrs" style="display: none"><?php print  $item['module_attrs'] ?></textarea>
                     <input type="hidden" name="module_id" value="<?php print  $item['module_id'] ?>">
                     <?php if ($item['module_id'] == $module_id) : ?>
@@ -247,6 +251,9 @@
                 </div>
 
                 <div class="mw-ui-col module-presets-add-new-holder" style="width: 40px;">
+                    <input type="hidden" name="id" value="<?php print  $item['id'] ?>">
+                    <input type="hidden" name="module" value="<?php print  $item['module'] ?>">
+
                     <span delete="1" js-mod-id="<?php print  $item['module_id'] ?>" class="mw-icon-trash-b mw-ui-btn mw-ui-btn-important mw-ui-btn-medium module-presets-action-btn module-presets-action-btn-delete "></span>
                 </div>
             </div>
@@ -257,6 +264,8 @@
             <div class="mw-ui-row">
                 <div class="mw-ui-col">
                     <div class="module-presets-add-new-holder">
+                        <input type="hidden" name="module_id" value="<?php print $module_id ?>">
+
                         <button type="button" release="<?php print  $mod_orig_id ?>" id="js-release-btn" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info module-presets-action-btn">Reset for current</button>
                     </div>
                 </div>
@@ -289,7 +298,7 @@
             <div class="module-presets-add-new-holder">
                 <input type="hidden" name="module" value="<?php print $module_name ?>">
                 <div class="mw-ui-btn-nav">
-                    <input type="preset-field" name="name" value="" placeholder="<?php _e('Title'); ?>" class="mw-ui-field mw-ui-field-medium">
+                    <input type="text" name="name" value="" placeholder="<?php _e('Title'); ?>" class="mw-ui-field mw-ui-field-medium">
                     <span js-mod-id="<?php print  $module_id ?>" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification module-presets-action-btn">Save</span>
                 </div>
                 <input type="hidden" name="module_id" value="<?php print $module_id ?>">

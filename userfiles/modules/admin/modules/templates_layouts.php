@@ -312,7 +312,10 @@ if ($screenshots) {
                         </div>
                     <?php endif; ?>
                 </div>
-                <module type="admin/modules/templates_settings" id="mw-module-skin-settings-module" parent-module-id="<?php print $params['parent-module-id'] ?>" parent-module="<?php print $params['parent-module'] ?>" parent-template="<?php print $cur_template ?>"/>
+
+
+
+                <module type="admin/modules/templates_settings" id="mw-module-skin-settings-module" parent-module-id="<?php print $params['parent-module-id'] ?>" parent-module="layouts" parent-template="<?php print $cur_template ?>"/>
             </div>
         </div>
     </div>
