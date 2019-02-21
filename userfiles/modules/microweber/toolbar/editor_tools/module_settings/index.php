@@ -109,6 +109,7 @@
 
         window.onbeforeunload = function () {
             $(mwd.body).addClass("mw-external-loading")
+            window.parent.$('.module-modal-settings-menu-holder').remove();
         };
 
         mw_module_settings_info = "";
@@ -416,8 +417,10 @@
 <script type="text/javascript">
 
     if (typeof (frame) != 'undefined') {
+       // mw.log(frame);
         $(frame).on('unload', function () {
-            window.parent.$('#module-modal-settings-menu-holder').remove();
+
+       //     window.parent.$('.module-modal-settings-menu-holder', frame).remove();
         });
     }
 </script>

@@ -3,7 +3,7 @@
 
 ?>
 
-<div class=" mw-normalize-css">
+<div class="  ">
 
 
     <?php if (isset($params['module_name']) and isset($params['module_id'])): ?>
@@ -32,7 +32,9 @@
         mod_id_for_presets = '<?php print $module_id ?>';
         mod_type_for_presets = '<?php print $module_name ?>';
         mod_type_opener_for_presets = '<?php print $module_name_opener ?>';
-        mod_id_orig = '<?php print $mod_orig_id ?>';
+        mod_id_orig = window.parent.mw.$('#' + mod_id_for_presets).attr("data-module-original-id");
+
+
 
 
         mw.module_preset_apply_actions_after_id_change = function (id, attrs) {
@@ -143,7 +145,8 @@
         $(document).ready(function () {
 
 
-            mw.$('.module-presets-action-btn').click(function () {
+             $('.module-presets-action-btn').click(function () {
+
                 var is_del = $(this).attr('delete');
                 var btn_mod_id = $(this).attr('js-mod-id');
                 var temp_form1 = mw.tools.firstParentWithClass(this, 'module-presets-add-new-holder');
@@ -158,7 +161,7 @@
                 if (parent_el != null) {
                     var attrs = window.parent.mw.tools.getAttrs(parent_el);
                 }
-
+                 mw.log(parent_el);
 
                 if (is_del != undefined) {
                     var save_module_as_template_url = '<?php print site_url('api') ?>/delete_module_as_template';
@@ -178,6 +181,8 @@
 
 
                 } else {
+
+
 
                     if (attrs) {
                         var attrs_json = (JSON.stringify(attrs));
@@ -231,9 +236,11 @@
 
                 ?>
                 <div class="mw-ui-col module-presets-add-new-holder" style="width: 30px;">
-                    <span js-mod-id="<?php print  $item['module_id'] ?>" use="<?php print  $item['module_id'] ?>" class="module-presets-action-btn module-presets-action-btn-use"></span>
+                    <span js-mod-id="<?php print  $item['module_id'] ?>" use="<?php print  $item['module_id'] ?>" class="module-presets-action-btn module-presets-action-btn-use">use</span>
                     <input type="hidden" name="id" value="<?php print  $item['id'] ?>">
                     <input type="hidden" name="module" value="<?php print  $item['module'] ?>">
+                    <textarea name="module_attrs" style="display: none"><?php print  $item['module_attrs'] ?></textarea>
+
                 </div>
 
                 <div class="mw-ui-col module-presets-add-new-holder">
