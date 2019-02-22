@@ -112,7 +112,7 @@ $subscribers = newsletter_get_subscribers($subscribers_params);
                 <th scope="col"><?php _e('E-mail'); ?></th>
                 <th scope="col"><?php _e('Subscribed at'); ?></th>
                 <th scope="col"><?php _e('Subscribed'); ?></th>
-                <th scope="col" width="140px">&nbsp;</th>
+                <th scope="col" width="200px">&nbsp;</th>
             </tr>
             </thead>
             <tbody>

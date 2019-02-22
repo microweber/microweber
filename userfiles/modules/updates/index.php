@@ -1,5 +1,20 @@
 <?php only_admin_access();
 
+
+?>
+<module type="admin/packages" show_only_updates="true" />
+
+<?php
+
+
+
+/**
+ * @deprecated 1.1.3
+ */
+
+return;
+
+
 if (url_param('add_module')) {
 
 }

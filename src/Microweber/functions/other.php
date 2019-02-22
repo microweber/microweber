@@ -228,6 +228,15 @@ function mw_post_update()
     }
 }
 
+
+
+
+
+
+/* DEPRECATED */
+/* DEPRECATED */
+/* DEPRECATED */
+
 api_expose_admin('mw_install_market_item');
 
 function mw_install_market_item($params)
@@ -304,6 +313,18 @@ function mw_check_for_update()
 
     return $mw_avail_updates;
 }
+
+/* END OF DEPRECATED */
+/* END OF DEPRECATED */
+/* END OF DEPRECATED */
+/* END OF DEPRECATED */
+
+
+
+
+
+
+
 
 api_expose_admin('mw_send_anonymous_server_data');
 // function used do send us the language files

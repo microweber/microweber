@@ -370,8 +370,8 @@ li.module-item.ui-draggable-dragging .mw_module_image {
     line-height: 10px;
     opacity: 1;
     border-radius: 30px;
-    background-color: rgba(255,255,255,.6);
-    box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    background-color: rgba(255, 255, 255, .6);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
 }
 
 .dragStart .mw-sorthandle-moveit, body.dragStart *, body.dragStart .column_separator_title {
@@ -3492,8 +3492,6 @@ div[id*='SSDIVEL'] {
     padding: 0px;
 }
 
-
-
 #modules-and-layouts-sidebar .module-admin-modules-list .module-item .mw_module_hold {
     background: transparent;
     padding: 10px;
@@ -3503,10 +3501,11 @@ div[id*='SSDIVEL'] {
     transition: .3s;
 }
 
-body.touchscreen-device #modules-and-layouts-sidebar .module-admin-modules-list-layouts .module-item{
+body.touchscreen-device #modules-and-layouts-sidebar .module-admin-modules-list-layouts .module-item {
     width: 80%;
 }
-body.touchscreen-device #modules-and-layouts-sidebar .module-admin-modules-list .module-item{
+
+body.touchscreen-device #modules-and-layouts-sidebar .module-admin-modules-list .module-item {
     width: 35%;
 }
 
@@ -4035,7 +4034,7 @@ body.dragStart .allow-drop {
 .mw-module-presets-content {
 
     overflow: hidden;
-    width: 190px;
+    width: 300px;
 }
 
 .mw-presets-list li {
@@ -4085,7 +4084,6 @@ body.dragStart .allow-drop {
     top: 4px;
     color: white;
 }
-
 
 #mw-modules-layouts-tabsnav {
     width: 360px;

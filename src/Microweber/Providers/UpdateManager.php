@@ -40,8 +40,13 @@ class UpdateManager
         }
     }
 
+    /**
+     * @deprecated 1.1.3
+     */
     public function browse()
     {
+
+        return;
         $data = $this->collect_local_data();
 
         $result = $this->call('browse', $data);
@@ -49,8 +54,13 @@ class UpdateManager
         return $result;
     }
 
+    /**
+     * @deprecated 1.1.3
+     */
     public function get_modules()
     {
+        return;
+
         $data = $this->collect_local_data();
         $data['add_new'] = true;
         $result = $this->call('get_modules', $data);
@@ -80,8 +90,10 @@ class UpdateManager
         if (is_array($t)) {
             foreach ($t as $value) {
                 if (isset($value['module']) and isset($value['version'])) {
-                    $mod = array('module' => $value['module'], 'version' => $value['version']);
-                    $modules[] = $mod;
+                    //  $mod = array('module' => $value['module'], 'version' => $value['version']);
+                    // $modules[] = $mod;
+                    $value['dir_name'] = $value['module'];
+                    $modules[] = $value;
 
                     $module_templates = $this->app->modules->templates($value['module']);
                     $mod_tpls = array();
@@ -185,8 +197,13 @@ class UpdateManager
         return admin_url('view:admin__modules__market?' . $params);
     }
 
+    /**
+     * @deprecated 1.1.3
+     */
     public function install_market_item($params)
     {
+        return;
+
         if (defined('MW_API_CALL')) {
             $to_trash = true;
             $adm = $this->app->user_manager->is_admin();
@@ -194,7 +211,7 @@ class UpdateManager
                 return array('error' => 'You must be admin to install from Marketplace!');
             }
         }
-        $this->_log_msg('Preparing');
+        $this->log_msg('Preparing');
 
         $this->_set_time_limit();
 
@@ -232,8 +249,12 @@ class UpdateManager
         return $res;
     }
 
+    /**
+     * @deprecated 1.1.3
+     */
     public function apply_updates($params)
     {
+        return;
         error_reporting(E_ERROR);
         $ret = array();
 
@@ -343,8 +364,13 @@ class UpdateManager
     private $updates_queue_cache_id = 'apply_updates_queue';
     private $updates_queue_cache_group = 'updates_queue';
 
+    /**
+     * @deprecated 1.1.3
+     */
     public function set_updates_queue($params = false)
     {
+
+        return;
         $params = parse_params($params);
 
         $a = $this->app->user_manager->is_admin();
@@ -372,14 +398,18 @@ class UpdateManager
 //        }
     }
 
+    /**
+     * @deprecated 1.1.3
+     */
     public function apply_updates_queue($params = false)
     {
+        return;
         $a = $this->app->user_manager->is_admin();
         if ($a == false) {
             mw_error('Must be admin!');
         }
         $this->_set_time_limit();
-        $this->_log_msg('Preparing');
+        $this->log_msg('Preparing');
 
         $c_id = $this->updates_queue_cache_id;
         $cache_group = $this->updates_queue_cache_group;
@@ -421,7 +451,7 @@ class UpdateManager
                                     $msg .= 'Installing...' . "\n";
                                 }
                                 $msg .= $item . "\n";
-                                $this->_log_msg($msg);
+                                $this->log_msg($msg);
 
                                 $queue = array($k => array(0 => $item));
 
@@ -436,7 +466,7 @@ class UpdateManager
                                 }
 
 
-                                $msg_log = $this->_log_msg(true);
+                                $msg_log = $this->log_msg(true);
                                 if (!empty($msg_log)) {
                                     $msg .= implode("\n", $msg_log) . "\n";
                                 }
@@ -496,8 +526,25 @@ class UpdateManager
         return 'done';
     }
 
+    /**
+     * @deprecated 1.1.3
+     */
     public function check($skip_cache = false)
     {
+
+        return;
+
+//
+//
+//        $params = array();
+//        $params['return_found_local_packages'] = true;
+//
+//
+//        $runner = new \Microweber\Utils\ComposerUpdate();
+//        $result =  $runner->search_packages($params);
+//
+
+
         $update_channel = Config::get('microweber.update_channel');
         if ('disabled' == $update_channel) {
             return;
@@ -604,8 +651,13 @@ class UpdateManager
 
     private $_install_steps_num = 2;
 
+    /**
+     * @deprecated 1.1.3
+     */
     public function install_version($new_version, $on_step = false)
     {
+
+        return;
         if (defined('MW_API_CALL')) {
             only_admin_access();
         }
@@ -632,7 +684,7 @@ class UpdateManager
             if (!$on_step or $on_step == 1) {
 
                 if (!is_file($dl_file)) {
-                    $this->_log_msg('Downloading core update');
+                    $this->log_msg('Downloading core update');
 
                     $get = $this->app->url_manager->download($value, $post_params = false, $save_to_file = $dl_file);
                 }
@@ -642,9 +694,9 @@ class UpdateManager
                 if (is_file($dl_file)) {
                     $unzip = new \Microweber\Utils\Unzip();
                     $target_dir = MW_ROOTPATH;
-                    $this->_log_msg('Preparing to unzip core update');
+                    $this->log_msg('Preparing to unzip core update');
                     $result = $unzip->extract($dl_file, $target_dir, $preserve_filepath = true);
-                    $this->_log_msg('Core update unzipped');
+                    $this->log_msg('Core update unzipped');
                     $new_composer = $target_dir . 'composer.json.merge';
                     if (is_file($new_composer)) {
                         //     $this->composer_merge($new_composer);
@@ -662,7 +714,7 @@ class UpdateManager
 
     public function post_update($version = false)
     {
-        $this->_log_msg('Applying post update actions');
+        $this->log_msg('Applying post update actions');
         $system_refresh = new \Microweber\Install\DbInstaller();
         $system_refresh->createSchema();
         //$system_refresh->run();
@@ -694,8 +746,13 @@ class UpdateManager
         return true;
     }
 
+    /**
+     * @deprecated 1.1.3
+     */
     private function install_from_market($item)
     {
+        return;
+
         if (isset($item['url']) and !isset($item['download'])) {
             $item['download'] = $item['url'];
         } elseif (isset($item['download_url']) and !isset($item['download'])) {
@@ -710,7 +767,7 @@ class UpdateManager
             $download_target = $this->temp_dir . md5($url) . basename($url);
 
             $download_target_extract_lock = $this->temp_dir . md5($url) . basename($url) . '.unzip_lock';
-            $this->_log_msg('Downloading from marketplace');
+            $this->log_msg('Downloading from marketplace');
 
             //if (!is_file($download_target)){
             $dl = $this->http()->url($url)->download($download_target);
@@ -719,7 +776,7 @@ class UpdateManager
             $expected = intval($item['size']);
 
             $download_link = $item['download'];
-            $this->_log_msg('Downloading from marketplace');
+            $this->log_msg('Downloading from marketplace');
 
             $ext = get_file_extension($download_link);
 
@@ -743,7 +800,7 @@ class UpdateManager
                             if ($dl == false) {
                                 if (is_file($download_target) and filesize($download_target) != $item['size']) {
                                     $fs = filesize($download_target);
-                                    $this->_log_msg('Downloading failed....');
+                                    $this->log_msg('Downloading failed....');
 
                                     return array('size' => $fs, 'expected_size' => $expected, 'try_again' => 'true', 'warning' => 'Only ' . $fs . ' bytes downloaded of total ' . $expected);
                                 }
@@ -756,7 +813,7 @@ class UpdateManager
 
 
         if ($download_target != false and is_file($download_target)) {
-            $this->_log_msg('Download complete');
+            $this->log_msg('Download complete');
 
             $where_to_unzip = MW_ROOTPATH;
 
@@ -770,10 +827,10 @@ class UpdateManager
                 } elseif ($item['item_type'] == 'element') {
                     $where_to_unzip = elements_path();
                 }
-                $this->_log_msg('Item type: ' . $item['item_type']);
+                $this->log_msg('Item type: ' . $item['item_type']);
 
                 if (isset($item['install_path']) and $item['install_path'] != false) {
-                    $this->_log_msg('Item folder name: ' . $item['install_path']);
+                    $this->log_msg('Item folder name: ' . $item['install_path']);
 
                     if ($item['item_type'] == 'module_template') {
                         $where_to_unzip = $where_to_unzip . DS . $item['install_path'] . DS . 'templates' . DS;
@@ -784,7 +841,7 @@ class UpdateManager
 
                 $where_to_unzip = str_replace('..', '', $where_to_unzip);
                 $where_to_unzip = normalize_path($where_to_unzip, true);
-                $this->_log_msg('Unzipping in ' . $where_to_unzip);
+                $this->log_msg('Unzipping in ' . $where_to_unzip);
                 $unzip = new \Microweber\Utils\Unzip();
                 $target_dir = $where_to_unzip;
                 $result = $unzip->extract($download_target, $target_dir, $preserve_filepath = true);
@@ -797,14 +854,19 @@ class UpdateManager
 
 
                 $num_files = count($result);
-                $this->_log_msg('Files extracted ' . $num_files);
+                $this->log_msg('Files extracted ' . $num_files);
                 return array('files' => $result, 'location' => $where_to_unzip, 'success' => "Item is installed. {$num_files} files extracted in {$where_to_unzip}");
             }
         }
     }
 
+    /**
+     * @deprecated 1.1.3
+     */
     public function install_module($module_name)
     {
+
+        return;
         $params = array();
         $params['module'] = $module_name;
         $params['add_new'] = $module_name;
@@ -819,13 +881,13 @@ class UpdateManager
                 }
                 $dl_file = $dir_c . $fname;
                 if (!is_file($dl_file)) {
-                    $this->_log_msg('Downloading module' . $fname);
+                    $this->log_msg('Downloading module' . $fname);
 
                     $get = $this->app->url_manager->download($value, $post_params = false, $save_to_file = $dl_file);
                 }
                 if (is_file($dl_file)) {
                     $unzip = new \Microweber\Utils\Unzip();
-                    $this->_log_msg('Unziping module' . $fname);
+                    $this->log_msg('Unziping module' . $fname);
 
                     $target_dir = MW_ROOTPATH;
                     $result = $unzip->extract($dl_file, $target_dir, $preserve_filepath = true);
@@ -845,8 +907,13 @@ class UpdateManager
         return $result;
     }
 
+    /**
+     * @deprecated 1.1.3
+     */
     public function install_element($module_name)
     {
+        return;
+
         $params = array();
 
         $params['element'] = $module_name;
@@ -1032,7 +1099,7 @@ class UpdateManager
         }
 
 
-        if (isset($params['_delete_license'])  and $params['_delete_license'] == '_delete_license' and isset($params['id'])) {
+        if (isset($params['_delete_license']) and $params['_delete_license'] == '_delete_license' and isset($params['id'])) {
             $this->app->database_manager->delete_by_id('system_licenses', intval($params['id']));
             return array('id' => 0, 'success' => 'License was deleted');
 
@@ -1052,7 +1119,9 @@ class UpdateManager
             }
         }
 
-        if (/*!isset($params['id']) and*/ isset($params['rel_type'])) {
+        if (/*!isset($params['id']) and*/
+        isset($params['rel_type'])
+        ) {
             $update = array();
             $update['rel_type'] = $params['rel_type'];
             $update['one'] = true;
@@ -1061,7 +1130,9 @@ class UpdateManager
             if (isset($update['id'])) {
                 $params['id'] = $update['id'];
             }
-        } elseif (/*!isset($params['id']) and */isset($params['local_key'])) {
+        } elseif (/*!isset($params['id']) and */
+        isset($params['local_key'])
+        ) {
             $update = array();
             $update['local_key'] = $params['local_key'];
             $update['one'] = true;
@@ -1115,7 +1186,7 @@ class UpdateManager
         return $log_file_url;
     }
 
-    private function _log_msg($msg)
+    public function log_msg($msg)
     {
         if ($msg === true) {
             return $this->log_messages;
@@ -1144,7 +1215,7 @@ class UpdateManager
         $params = parse_params($params);
         $cache_id = false;
         if (isset($params['cache']) and $params['cache']) {
-            $cache_id = 'composer_search_packages';
+            $cache_id = 'composer_search_packages-' . md5(json_encode($params));
         }
 
         if ($cache_id) {
@@ -1155,8 +1226,13 @@ class UpdateManager
         }
 
         $keyword = '';
+        $search_params = array();
+        if (isset($params['keyword'])) {
+            $params['require_name'] = $keyword;
+        }
+
         $runner = new \Microweber\Utils\ComposerUpdate();
-        $results = $runner->search_packages($keyword);
+        $results = $runner->search_packages($params);
         if ($results) {
             cache_save($results, $cache_id, 'composer', 60);
 
@@ -1169,17 +1245,12 @@ class UpdateManager
     public function composer_install_package_by_name($params)
     {
         $runner = new \Microweber\Utils\ComposerUpdate();
-
-
-        $log_file = userfiles_path() . $this->log_filename;
-
-
         return $runner->install_package_by_name($params);
     }
 
     public function composer_merge($composer_patch_path)
     {
-        $this->_log_msg('Merging composer files');
+        $this->log_msg('Merging composer files');
         $runner = new \Microweber\Utils\ComposerUpdate();
         $runner->merge($composer_patch_path);
     }
@@ -1191,8 +1262,14 @@ class UpdateManager
         return $runner->get_require();
     }
 
+
+    /**
+     * @deprecated 1.1.3
+     */
     public function composer_save_package($params)
     {
+        return;
+
         $runner = new \Microweber\Utils\ComposerUpdate();
         $required = $runner->get_require();
 
@@ -1209,8 +1286,13 @@ class UpdateManager
         }
     }
 
+    /**
+     * @deprecated 1.1.3
+     */
     public function composer_replace_vendor_from_cache()
     {
+        return;
+
         $composer_cache = mw_cache_path() . 'composer' . DS;
         $vendor_cache = normalize_path($composer_cache . 'vendor', true);
         $vendor_cache_old = normalize_path($composer_cache . 'vendor_old', false);
@@ -1374,8 +1456,15 @@ class UpdateManager
 //        }
     }
 
+
+    /**
+     * @deprecated 1.1.3
+     */
     public function composer_run()
     {
+
+
+        return;
         $composer_cache = mw_cache_path() . 'composer' . DS;
         $vendor_cache = normalize_path($composer_cache . 'vendor', true);
         $composer_path = normalize_path(base_path() . '/', false);
@@ -1394,7 +1483,7 @@ class UpdateManager
         putenv('COMPOSER_VENDOR_DIR=' . $vendor_cache);
         putenv('COMPOSER_NO_INTERACTION=1');
 
-        $this->_log_msg('Composer update...');
+        $this->log_msg('Composer update...');
         $runner = new \Microweber\Utils\ComposerUpdate($composer_cache);
         $config = array(
             'prepend-autoloader' => false,
@@ -1426,7 +1515,7 @@ class UpdateManager
         if (!ini_get('safe_mode')) {
             if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
                 ini_set('set_time_limit', 600);
-                ini_set('memory_limit', '160M');
+                ini_set('memory_limit', '2548M');
             }
             if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
                 set_time_limit(600);

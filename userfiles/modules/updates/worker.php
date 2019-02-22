@@ -11,8 +11,15 @@ only_admin_access();
     $(document).ready(function () {
 
         mw_apply_upd_set_log_display();
-        mw_apply_upd();
-        move_loading_bar();
+
+       var $sel =  mw.$('.mw-select-updates-list');
+
+        if($sel.length){
+       //     mw_apply_upd();
+        //    move_loading_bar();
+        }
+
+
     });
 
     function mw_apply_upd_set_log_display() {
@@ -107,6 +114,7 @@ only_admin_access();
         word-wrap: break-word;
         word-break: break-all;
         background: #efecec;
+        overflow-x: scroll;
     }
 
     #mw-update-res-log.done {

@@ -32,7 +32,7 @@
     </style>
     <?php
     $count = 0;
-    if (isset($data)) {
+    if (isset($data) AND $data) {
         foreach ($data as $slide) {
             $count++;
             ?>

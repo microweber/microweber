@@ -10,13 +10,13 @@ class CoreUpdateInstaller extends BaseInstaller
 {
 
 
-    protected $folder_base = './';
+    protected $folder_base = './microweber-core-update/';
     protected $supports = 'microweber-core-update';
-
 
     public function getInstallPath(PackageInterface $package)
     {
-        return parent::getInstallPath($package);
+
+        return $this->folder_base . 'install-update';
     }
 
 

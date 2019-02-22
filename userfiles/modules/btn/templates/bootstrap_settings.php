@@ -53,6 +53,9 @@
           <option <?php if($size=='btn-default-large btn-lg'){ print 'selected'; } ?> value="btn-default-large btn-lg">
           <?php _e("Large"); ?>
           </option>
+            <option <?php if($size=='btn-default-medium btn-md'){ print 'selected'; } ?> value="btn-default-medium btn-md">
+          <?php _e("Medium"); ?>
+          </option>
           <option <?php if($size=='btn-default-small btn-sm'){ print 'selected'; } ?> value="btn-default-small btn-sm">
           <?php _e("Small"); ?>
           </option>

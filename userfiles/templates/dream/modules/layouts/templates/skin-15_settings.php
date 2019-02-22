@@ -1,1 +1,1 @@
-<?php include('default_settings.php'); ?>
+<?php include(__DIR__.'/default_settings.php'); ?>

@@ -136,7 +136,7 @@ $iudates = $update_api->check($forced);
                 </tr>
             <?php endforeach; ?>
         <?php endif; ?>
-        <?php if (isset($iudates["module_templates"]) and !empty($iudates["module_templates"])): ?>
+        <?php if (isset($iudates["___disabled_module_templates"]) and !empty($iudates["___disabled_module_templates"])): ?>
             <?php $is_up_to_date = false; ?>
             <tr class="mw-table-head">
                 <td colspan="3"><?php _e("New module templates"); ?></td>
@@ -193,7 +193,7 @@ $iudates = $update_api->check($forced);
                 </tr>
             <?php endforeach; ?>
         <?php endif; ?>
-        <?php if (isset($iudates["elements"]) and !empty($iudates["elements"])): ?>
+        <?php if (isset($iudates["___disabled_elements"]) and !empty($iudates["___disabled_elements"])): ?>
             <tr class="mw-table-head">
                 <td colspan="3"><?php _e("New layouts updates are available"); ?></td>
             </tr>

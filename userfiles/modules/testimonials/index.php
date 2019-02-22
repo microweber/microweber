@@ -4,7 +4,6 @@ $template = get_option('data-template', $params['id']);
 if ($template == false and isset($params['template'])) {
     $template = $params['template'];
 }
-
 $show_testimonials_per_project = get_option('show_testimonials_per_project', $params['id']);
 
 
@@ -50,6 +49,7 @@ if ($show_testimonials_per_project) {
     $data = get_testimonials($get);
 
 }
+
 
 $all_have_pictures = true;
 if ($data) {

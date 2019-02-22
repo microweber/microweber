@@ -93,19 +93,28 @@ if (is_file($template_file)) {
 
 ?>
 <?php
-if (isset($params['pager'])) {
+$pager = get_option('pager', $params['id']);
+if ($pager) {
+    $pager = $pager;
+} elseif (isset($params['pager'])) {
     $pager = $params['pager'];
 } else {
     $pager = true;
 }
 
-if (isset($params['controls'])) {
+$controls = get_option('controls', $params['id']);
+if ($controls) {
+    $controls = $controls;
+} elseif (isset($params['controls'])) {
     $controls = $params['controls'];
 } else {
     $controls = true;
 }
 
-if (isset($params['loop'])) {
+$loop = get_option('loop', $params['id']);
+if ($loop) {
+    $loop = $loop;
+} elseif (isset($params['loop'])) {
     $loop = $params['loop'];
 } else {
     $loop = true;
@@ -128,10 +137,14 @@ if (isset($params['speed'])) {
 } else {
     $speed = '500';
 }
-if (isset($params['adaptive_height'])) {
+
+$adaptiveHeight = get_option('adaptive_height', $params['id']);
+if ($adaptiveHeight) {
+    $adaptiveHeight = $adaptiveHeight;
+} elseif (isset($params['adaptive_height'])) {
     $adaptiveHeight = $params['adaptive_height'];
 } else {
-    $adaptiveHeight = '500';
+    $adaptiveHeight = true;
 }
 
 if (isset($params['prev_text'])) {

@@ -26,6 +26,10 @@ use  Microweber\Utils\Adapters\Packages\ComposerPackagesSearchCommandController;
 use Composer\Console\HtmlOutputFormatter;
 use Microweber\Utils\Adapters\Packages\Helpers\TemplateInstaller;
 use Microweber\Utils\Adapters\Packages\Helpers\ModuleInstaller;
+use Microweber\Utils\Adapters\Packages\Helpers\CoreUpdateInstaller;
+use Microweber\Utils\Adapters\Packages\Helpers\InstallerIO;
+use Composer\Semver\Comparator;
+
 
 class ComposerUpdate
 {
@@ -109,8 +113,26 @@ class ComposerUpdate
         return $out;
     }
 
-    public function search_packages($keyword = '', $version = false)
+    public function search_packages($params)
     {
+        $params = parse_params($params);
+
+        $version = 'latest';
+        $keyword = '';
+        $return_only_updates = false;
+
+        if (isset($params['require_name']) and $params['require_name']) {
+            $keyword = trim($params['require_name']);
+        }
+
+        if (isset($params['require_version']) and $params['require_version']) {
+            $version = trim($params['require_version']);
+        }
+        if (isset($params['return_only_updates']) and $params['return_only_updates']) {
+            $return_only_updates = $params['return_only_updates'];
+        }
+
+
         $keyword = strip_tags($keyword);
         $keyword = trim($keyword);
 
@@ -133,8 +155,9 @@ class ComposerUpdate
         chdir($temp_folder);
         // $io = new BufferIO($input, $output, null);
 
-        $io = new BufferIO('', 1, null);
 
+        $io = new InstallerIO('', 32, null);
+        //$io->setVerbosity(32);
 
         $config = new Config(false, $temp_folder);
 
@@ -151,33 +174,33 @@ class ComposerUpdate
 
 
         $packages = new ComposerPackagesSearchCommandController();
+        $packages->setIo($io);
         $packages->setConfigPathname($conf);
         $packages->setDisableNonActiveReposInComposer(true);
         $packages->setComposer($composer);
+
         $return = $packages->handle($keyword);
 
 
+        $return_found = array();
+
         $local_packages = mw()->update->collect_local_data();
-
-
+        $local_packages_found = array();
         if ($return) {
             foreach ($return as $pk => $package) {
-
+                $is_found_on_local = false;
 
                 if (isset($package['type'])
                     and isset($package['latest_version'])
-                    and isset($package['latest_version']['extra'])
-                    and isset($package['latest_version']['extra']['folder'])
+                    and isset($package['latest_version'])
+
                 ) {
                     $package_type = $package['type'];
 
                     $package_folder = false;
-                    if (!$package_folder and isset($package['latest_version']) and isset($package['latest_version']['extra']) and isset($package['latest_version']['extra']['folder'])) {
-                        $package_folder = $package['latest_version']['extra']['folder'];
+                    if (!$package_folder and isset($package['latest_version']) and isset($package['latest_version']) and isset($package['latest_version']['folder'])) {
+                        $package_folder = $package['latest_version']['folder'];
                     }
-
-
-                    //  dd($package);
 
 
                     $local_packages_type = false;
@@ -188,30 +211,89 @@ class ComposerUpdate
                         case 'microweber-module':
                             $local_packages_type = 'modules';
                             break;
+
+                        case 'microweber-core-update':
+
+                            $is_found_on_local = true;
+                            $local_packages_type = false;
+                            break;
                     }
+
 
                     if ($package_folder and $local_packages_type) {
 
                         if (isset($local_packages[$local_packages_type]) and is_array($local_packages[$local_packages_type])) {
-                            foreach ($local_packages[$local_packages_type] as $local_package_item) {
+                            foreach ($local_packages[$local_packages_type] as $lpk => $local_package_item) {
 
                                 if (isset($local_package_item['dir_name'])) {
                                     if (strtolower($local_package_item['dir_name']) == strtolower($package_folder)) {
+
+                                        $is_found_on_local = true;
+
+
                                         $local_package_item['composer_type'] = $package_type;
                                         $local_package_item['local_type'] = $local_packages_type;
                                         $package['current_install'] = $local_package_item;
+                                        $package['has_update'] = false;
+
+
+                                        $package_update_found = false;
+
+
+                                        if (isset($package['latest_version']) and isset($package['latest_version']['version']) and isset($local_package_item['version'])) {
+                                            $v1 = trim($package['latest_version']['version']);
+                                            $v2 = trim($local_package_item['version']);
+                                            $has_update = Comparator::greaterThan($v1, $v2);
+
+                                            if ($has_update) {
+                                                $package_update_found = true;
+                                                $package['has_update'] = true;
+
+                                            }
+
+                                        }
+
+
+                                        if ($return_only_updates) {
+                                            if (!$package_update_found) {
+                                                $package = false;
+                                            }
+                                        }
+
+
+//                                        $local_package_item['package'] = $package;
+//
+//                                        if(!isset( $local_packages_found[$local_packages_type])){
+//                                            $local_packages_found[$local_packages_type] = array();
+//                                        }
+//                                        $local_packages_found[$local_packages_type][$lpk] = $local_package_item;
                                     }
+
+
                                 }
+
                             }
                         }
                     }
 
-                    $return[$pk] = $package;
 
+                    if ($package) {
+                        if ($is_found_on_local) {
+                            $return_found[$pk] = $package;
+                        }
+                        $return[$pk] = $package;
+                    }
                 }
 
             }
         }
+        if (isset($params['return_local_packages']) and $params['return_local_packages']) {
+            return $return_found;
+        }
+
+//        if(isset($params['return_found_local_packages']) and $params['return_found_local_packages']){
+//            return $local_packages_found;
+//        }
 
 
         return $return;
@@ -222,66 +304,76 @@ class ComposerUpdate
 
     public function install_package_by_name($params)
     {
-        $params = parse_params($params);
 
+
+        $params = parse_params($params);
+        $install_core_update = false;
 
         $need_confirm = true;
         $need_confirm = true;
         $cp_files = array();
         $cp_files_fails = array();
 
-        $confirm_key = 'composer-' . mw()->user_manager->session_id() . rand();
+        $confirm_key = 'composer-confirm-key-' . rand();
 
         if (isset($params['confirm_key'])) {
             $confirm_key_get = $params['confirm_key'];
             $get_existing_files_for_confirm = cache_get($confirm_key_get, 'composer');
             if ($get_existing_files_for_confirm) {
-                $cp_files  = $get_existing_files_for_confirm;
+                $cp_files = $get_existing_files_for_confirm;
                 $need_confirm = false;
             }
         }
 
 
+        // if (!$cp_files) {
+
+        if (!isset($params['require_name']) or !$params['require_name']) {
+            return;
+        }
+        $version = 'latest';
+        if (isset($params['require_version']) and $params['require_version']) {
+            $version = trim($params['require_version']);
+        }
+
+        $keyword = $params['require_name'];
+        $keyword = strip_tags($keyword);
+        $keyword = trim($keyword);
+
+        $version = strip_tags($version);
+        $version = trim($version);
 
 
-       // if (!$cp_files) {
-
-            if (!isset($params['require_name']) or !$params['require_name']) {
-                return;
-            }
-            $version = 'latest';
-            if (isset($params['require_version']) and $params['require_version']) {
-                $version = trim($params['require_version']);
-            }
-
-            $keyword = $params['require_name'];
-            $keyword = strip_tags($keyword);
-            $keyword = trim($keyword);
-
-            $version = strip_tags($version);
-            $version = trim($version);
+        $return = $this->search_packages($params);
 
 
-            $return = $this->search_packages($keyword, $version);
+        if (!$return) {
+            return array('error' => 'Error. Cannot find any packages for ' . $keyword);
+        }
 
+        if (!isset($return[$keyword])) {
+            return array('error' => 'Error. Package not found in repositories ' . $keyword);
 
-            if (!$return) {
-                return array('error' => 'Error. Cannot find any packages for ' . $keyword);
-            }
-
-            if (!isset($return[$keyword])) {
-                return array('error' => 'Error. Package not found in repositories ' . $keyword);
-
-            }
-     //   }
-
+        }
+        //   }
 
         $temp_folder = $this->composer_temp_folder;
-
         $from_folder = normalize_path($temp_folder, true);
+
+
+        $installers = array(
+            'Microweber\Utils\Adapters\Packages\Helpers\TemplateInstaller',
+            'Microweber\Utils\Adapters\Packages\Helpers\ModuleInstaller'
+        );
+        if ($keyword == 'microweber/update') {
+            $install_core_update = true;
+            $installers = array(
+                'Microweber\Utils\Adapters\Packages\Helpers\CoreUpdateInstaller'
+            );
+        }
+
+
         $to_folder = mw_root_path();
-
-
 
 
         if (!$cp_files and isset($return[$keyword])) {
@@ -355,8 +447,10 @@ class ComposerUpdate
             }
 
 
-            $output->setVerbosity(0);
-            $io = new ConsoleIO($input, $output, $helper);
+            //$output->setVerbosity(1);
+            //$io = new ConsoleIO($input, $output, $helper);
+            $io = new InstallerIO('', 32, null);
+
             $composer = Factory::create($io);
 
             //       $input->setOption('no-plugins',true);
@@ -364,8 +458,13 @@ class ComposerUpdate
 
             $installation_manager = $composer->getInstallationManager();
 
-            $installation_manager->addInstaller(new TemplateInstaller($io, $composer));
-            $installation_manager->addInstaller(new ModuleInstaller($io, $composer));
+
+            if ($installers) {
+                foreach ($installers as $installer) {
+                    $installation_manager->addInstaller(new $installer($io, $composer));
+                }
+            }
+
             $conf = $temp_folder . '/composer.json';
 
 
@@ -377,15 +476,15 @@ class ComposerUpdate
             $out = $update->run($input, $output);
 
 
+            if ($install_core_update) {
+                $from_folder_cp = $temp_folder . '/microweber-core-update/install-update/update/';
+                $from_folder = $from_folder_cp;
+                $from_folder =  normalize_path($from_folder, true);
 
-
-
+            }
 
 
             if ($out === 0) {
-
-
-
 
                 $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($from_folder));
                 $allFiles = array_filter(iterator_to_array($iterator), function ($file) {
@@ -395,10 +494,18 @@ class ComposerUpdate
 
                 $skip_files = array('composer.json', 'auth.json', 'composer.lock', 'vendor');
 
+
+                $from_folder2 =  normalize_path($from_folder, true);
+
+
+
                 $cp_files = array();
                 if ($allFiles) {
                     foreach ($allFiles as $file_to_copy) {
                         $file_to_copy = str_ireplace($from_folder, '', $file_to_copy);
+                        $file_to_copy = str_ireplace($from_folder2, '', $file_to_copy);
+
+
 
                         $skip = false;
 
@@ -443,8 +550,19 @@ class ComposerUpdate
         }
 
 
-
         if ($cp_files and !empty($cp_files)) {
+
+
+            if ($install_core_update) {
+
+                if ($install_core_update) {
+                    $from_folder_cp = $temp_folder . '/microweber-core-update/install-update/update/';
+                    $from_folder = $from_folder_cp;
+                    $from_folder =  normalize_path($from_folder, true);
+                }
+
+            }
+
             foreach ($cp_files as $f) {
                 $src = $from_folder . DS . $f;
                 $dest = $to_folder . DS . $f;
@@ -466,6 +584,17 @@ class ComposerUpdate
             if ($cp_files_fails) {
                 $resp['errors'] = $cp_files_fails;
             }
+            clearcache();
+
+
+            if ($install_core_update) {
+                mw()->update->post_update($version);
+
+            } else {
+                mw()->update->post_update();
+            }
+
+
             return $resp;
 
         }
@@ -627,6 +756,7 @@ class ComposerUpdate
 
         $new_composer_config['config'] = $composer_orig['config'];
         $new_composer_config['minimum-stability'] = 'dev';
+        // $new_composer_config['minimum-stability'] = 'stable';
         //   $new_composer_config['target-dir'] = 'installed';
 
 

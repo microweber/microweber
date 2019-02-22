@@ -16,8 +16,11 @@ only_admin_access();
     });
 </script>
 
-<?php $orders = get_orders('limit=5'); ?>
-
+<?php
+$orders = get_orders('limit=5');
+$shop_disabled = get_option('shop_disabled', 'website') == 'y';
+?>
+<?php if(!$shop_disabled): ?>
 <div class="dashboard-recent">
     <div class="dr-head">
         <span class="drh-activity-name"><i class="mai-shop"></i> <?php _e("Recent Orders") ?></span>
@@ -32,3 +35,4 @@ only_admin_access();
         </div>
     </div>
 </div>
+<?php endif; ?>

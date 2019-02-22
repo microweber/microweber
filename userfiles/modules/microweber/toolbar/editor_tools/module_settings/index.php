@@ -43,13 +43,13 @@
         mw.require('wysiwyg.js');
         mw.require("wysiwyg.css")
         mw.require('options.js');
-        //        mw.lib.require('font_awesome');
         mw.lib.require('font_awesome5');
     </script>
 
     <style>
         #settings-main {
             min-height: 200px;
+            overflow-x: hidden;
         }
 
         #settings-container {
@@ -110,6 +110,7 @@
 
         window.onbeforeunload = function () {
             $(mwd.body).addClass("mw-external-loading")
+            window.parent.$('.module-modal-settings-menu-holder').remove();
         };
 
         mw_module_settings_info = "";
@@ -314,11 +315,30 @@
                         $(btn).on('click', function () {
                             $(this).parent().toggleClass('active');
 
-                            window.parent.mw.load_module("editor/module_presets", '#module-modal-settings-menu-items-presets-holder<?php print $params['id'] ?>', function () {
-                                setTimeout(function () {
-                                    top.$(".mw-presets-dropdown .module").removeClass('module');
-                                }, 100)
-                            });
+
+                            var presets_mod = {};
+
+                            presets_mod.module_id = '<?php print $params['id'] ?>'
+                            presets_mod.module_name = '<?php print $params['module'] ?>'
+                            presets_mod.id = 'presets-<?php print $params['id'] ?>'
+                            //   presets_mod.mod_orig_id='<?php print $mod_orig_id ?>'
+                            //  var src = mw.settings.site_url + "api/module?" + json2url(presets_mod);
+                            var src = mw.settings.site_url + 'editor_tools/module_presets?' + json2url(presets_mod);
+
+
+                            var mod_presets_iframe_html_fr = '' +
+                                '<div class="js-module-presets-edit-frame">' +
+                                '<iframe src="' + src + '" frameborder="0" style="overflow: hidden;" width="280" height="400" onload="this.parentNode.classList.remove(\'loading\')">' +
+                                '</div>';
+
+                            window.parent.$('#module-modal-settings-menu-items-presets-holder<?php print $params['id'] ?>').html(mod_presets_iframe_html_fr);
+                            top.$(".mw-presets-dropdown .module").removeClass('module');
+
+                            //window.parent.mw.load_module("editor/module_presets", '#module-modal-settings-menu-items-presets-holder<?php //print $params['id'] ?>//', function () {
+                            //    setTimeout(function () {
+                            //        top.$(".mw-presets-dropdown .module").removeClass('module');
+                            //    }, 100)
+                            //});
                         });
 
                         var module_has_editable_parent = window.parent.$('#<?php print $params['id'] ?>');
@@ -395,8 +415,10 @@
 <script type="text/javascript">
 
     if (typeof (frame) != 'undefined') {
+        // mw.log(frame);
         $(frame).on('unload', function () {
-            window.parent.$('#module-modal-settings-menu-holder').remove();
+
+            //     window.parent.$('.module-modal-settings-menu-holder', frame).remove();
         });
     }
 </script>

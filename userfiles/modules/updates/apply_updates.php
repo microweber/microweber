@@ -1,6 +1,18 @@
 <?php
 
+
+
+/**
+ * @deprecated 1.1.3
+ */
+
+return;
+
+
+
+
 only_admin_access();
+
 
 
 $update_api = new \Microweber\Update();

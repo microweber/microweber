@@ -25,7 +25,9 @@ if (!isset($params['parent-module-id'])) {
 
 $params['id'] = $params['parent-module-id'];
 
-    $module_template = get_option('data-template', $params['parent-module-id']);
+
+
+$module_template = get_option('data-template', $params['parent-module-id']);
 
  if(!$module_template){
 
