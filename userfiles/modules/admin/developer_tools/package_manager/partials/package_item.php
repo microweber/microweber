@@ -8,7 +8,7 @@
         height: 150px;
         background-size: cover;
         background-repeat: no-repeat;
-        background-position: center center;
+        background-position: center top;
         margin: 10px auto 10px auto !important;
     }
 </style>
