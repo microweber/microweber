@@ -234,28 +234,32 @@ class ComposerUpdate
                                         $local_package_item['composer_type'] = $package_type;
                                         $local_package_item['local_type'] = $local_packages_type;
                                         $package['current_install'] = $local_package_item;
-
-                                        if ($return_only_updates) {
-                                            $package_update_found = false;
+                                        $package['has_update'] = false;
 
 
-                                            if (isset($package['latest_version']) and isset($package['latest_version']['version']) and isset($local_package_item['version'])) {
-                                                $v1 = trim($package['latest_version']['version']);
-                                                $v2 = trim($local_package_item['version']);
-                                                $has_update = Comparator::greaterThan($v1, $v2);
+                                        $package_update_found = false;
 
-                                                if ($has_update) {
-                                                    $package_update_found = true;
-                                                }
+
+                                        if (isset($package['latest_version']) and isset($package['latest_version']['version']) and isset($local_package_item['version'])) {
+                                            $v1 = trim($package['latest_version']['version']);
+                                            $v2 = trim($local_package_item['version']);
+                                            $has_update = Comparator::greaterThan($v1, $v2);
+
+                                            if ($has_update) {
+                                                $package_update_found = true;
+                                                $package['has_update'] = true;
 
                                             }
 
+                                        }
 
+
+
+
+                                        if ($return_only_updates) {
                                             if(!$package_update_found){
                                                 $package = false;
                                             }
-
-
                                         }
 
 
