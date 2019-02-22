@@ -6,7 +6,7 @@ mw.admin.admin_package_manager.set_loading = function (is_loading) {
 
     mw.tools.loading(mwd.querySelector('.js-install-package-loading-container-confirm'), is_loading)
     mw.tools.loading(mwd.querySelector('#mw-packages-browser-nav-tabs-nav'), is_loading)
-    mw.tools.loading(mwd.querySelector('.admin-toolbar'), is_loading)
+   // mw.tools.loading(mwd.querySelector('.admin-toolbar'), is_loading)
 
 }
 
@@ -15,7 +15,7 @@ mw.admin.admin_package_manager.reload_packages_list = function () {
     mw.admin.admin_package_manager.set_loading(true)
     mw.clear_cache();
     setTimeout(function(){
-        mw.reload_module('admin/packages')
+        mw.reload_module('admin/developer_tools/package_manager/browse_packages')
         mw.admin.admin_package_manager.set_loading(false)
     }, 3000);
 
@@ -69,6 +69,13 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name = functi
 
             mw.notification.msg(msg);
             mw.admin.admin_package_manager.set_loading(false)
+
+
+            if(msg.success){
+                mw.admin.admin_package_manager.reload_packages_list();
+            }
+
+
 
         },
 

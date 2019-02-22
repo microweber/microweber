@@ -254,10 +254,8 @@ class ComposerUpdate
                                         }
 
 
-
-
                                         if ($return_only_updates) {
-                                            if(!$package_update_found){
+                                            if (!$package_update_found) {
                                                 $package = false;
                                             }
                                         }
@@ -575,8 +573,16 @@ class ComposerUpdate
             if ($cp_files_fails) {
                 $resp['errors'] = $cp_files_fails;
             }
-
             clearcache();
+
+
+            if ($install_core_update) {
+                mw()->update->post_update($version);
+
+            } else {
+                mw()->update->post_update();
+            }
+
 
             return $resp;
 
