@@ -40,7 +40,20 @@ mw.admin.admin_package_manager.show_licenses_modal = function () {
 mw.admin.admin_package_manager.install_composer_package_by_package_name = function ($key, $version) {
 
     mw.notification.success('Loading...', 15000);
-    mw.load_module('updates/worker', '#mw-updates-queue');
+    //mw.load_module('updates/worker', '#mw-updates-queue');
+
+
+    var update_queue_set_modal = mw.modal({
+        content: '<div class="module" type="updates/worker" id="update_queue_process_alert"></div>',
+        overlay: false,
+        id: 'update_queue_set_modal',
+        title: 'Preparing'
+    });
+
+    mw.reload_module('#update_queue_process_alert');
+
+
+
 
     mw.admin.admin_package_manager.set_loading(true)
 
@@ -64,7 +77,9 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name = functi
         }
 
     }).always(function (jqXHR, textStatus) {
-        mw.admin.admin_package_manager.set_loading(false)
+        mw.admin.admin_package_manager.set_loading(false);
+
+        $('#update_queue_set_modal').remove();
     })
 
 }
