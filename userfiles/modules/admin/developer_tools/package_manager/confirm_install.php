@@ -81,6 +81,13 @@ if(is_array($get_existing_files_for_confirm)){
     });
 </script>
 
+<style>
+    .js-files{
+        max-height:300px;
+        overflow: scroll;
+    }
+</style>
+
 
 <div class="js-install-package-loading-container-confirm">
     <div class="">

@@ -1,8 +1,17 @@
 <?php only_admin_access() ?>
 
 
-
-
+<style>
+    .package-image {
+        display: block;
+        width: 150px;
+        height: 150px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+        margin: 10px auto 10px auto !important;
+    }
+</style>
 
 <?php
 
@@ -51,6 +60,11 @@ if (isset($item['current_install']) and $item['current_install']) {
     }
 }
 
+$has_update = false;
+if (isset($item['has_update']) and $item['has_update']) {
+    $has_update = true;
+}
+
 
 ?>
 
@@ -59,13 +73,8 @@ if (isset($item['current_install']) and $item['current_install']) {
         <span class="mw-icon-gear"></span><span> <?php print $item['name'] ?></span>
 
         <?php if ($local_install) { ?>
-
-
             <span class="mw-ui-btn mw-ui-btn-small mw-ui-btn-notification pull-right">Your version <?php print $local_install_v ?></span>
-
-
         <?php } ?>
-
     </div>
 
 
@@ -73,14 +82,12 @@ if (isset($item['current_install']) and $item['current_install']) {
 
         <p class="m-b-20"><?php print $item['description'] ?></p>
 
-
         <?php if ($screenshot): ?>
-            <div style="display: block; width: 134px; height: 134px; background-size: contain; background-repeat: no-repeat; background-position: center center; background-image: url('<?php print $screenshot; ?>')"  >
+            <div class="package-image" style="background-image: url('<?php print $screenshot; ?>')"></div>
 
-            </div>
-
-         <?php endif; ?>
-
+        <?php else: ?>
+            <div class="package-image" style="background-image: url('')"></div>
+        <?php endif; ?>
 
         <table cellspacing="0" cellpadding="0" class="mw-ui-table" width="100%">
             <tbody>
@@ -89,26 +96,28 @@ if (isset($item['current_install']) and $item['current_install']) {
                 <td><?php print $item['latest_version']['version'] ?></td>
             </tr>
 
+            <tr>
+                <td>License</td>
+                <td>
+                    <?php if ($license): ?>
+                        <?php print $license; ?>
+                    <?php else: ?>
+                        N/A
+                    <?php endif; ?>
+                </td>
+            </tr>
 
-            <?php if ($license): ?>
-                <tr>
-                    <td>License</td>
-                    <td><?php print $license; ?></td>
-                </tr>
-            <?php endif; ?>
+            <tr>
+                <td>Website</td>
+                <td>
+                    <?php if (isset($item['homepage'])): ?>
+                        <a href="<?php print $item['homepage']; ?>" target="_blank" class="mw-blue"><?php print $item['homepage']; ?></a>
+                    <?php else: ?>
+                        N/A
+                    <?php endif; ?>
+                </td>
+            </tr>
 
-
-            <?php if (isset($item['homepage'])): ?>
-                <tr>
-                    <td>Website</td>
-                    <td>
-                        <?php if (isset($item['homepage'])): ?>
-                            <a href="<?php print $item['homepage']; ?>" target="_blank"
-                               class="mw-blue"><?php print $item['homepage']; ?></a>
-                        <?php endif; ?>
-                    </td>
-                </tr>
-            <?php endif; ?>
             <tr>
                 <td>Author</td>
                 <td><img src="<?php print $author_icon; ?>" style="max-height: 16px;"/> <?php print $author ?></td>
@@ -156,10 +165,11 @@ if (isset($item['current_install']) and $item['current_install']) {
                    class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info">Read more</a>
             <?php endif; ?>
 
-
-            <a href="javascript:;"
-               onClick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>','<?php print $vkey; ?>')"
-               class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification">Install</a>
+            <?php if ($has_update): ?>
+                <a href="javascript:;" onClick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>','<?php print $vkey; ?>')" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-warn">Update</a>
+            <?php else: ?>
+                <a href="javascript:;" onClick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>','<?php print $vkey; ?>')" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification">Install</a>
+            <?php endif; ?>
 
 
         </div>

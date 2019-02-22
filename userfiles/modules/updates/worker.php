@@ -114,6 +114,7 @@ only_admin_access();
         word-wrap: break-word;
         word-break: break-all;
         background: #efecec;
+        overflow-x: scroll;
     }
 
     #mw-update-res-log.done {
