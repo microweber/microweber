@@ -3,13 +3,10 @@
 
 ?>
 
-<div class="  ">
 
 
-    <?php if (isset($params['module_name']) and isset($params['module_id'])): ?>
+<?php if (isset($params['module_name']) and isset($params['module_id'])): ?>
     <?php
-
-
     $module_name = urldecode($params['module_name']);
     $module_name_opener = urldecode($params['module_name']);
     $module_name = str_replace('/admin', '', $module_name);
@@ -33,8 +30,6 @@
         mod_type_for_presets = '<?php print $module_name ?>';
         mod_type_opener_for_presets = '<?php print $module_name_opener ?>';
         mod_id_orig = window.parent.mw.$('#' + mod_id_for_presets).attr("data-module-original-id");
-
-
 
 
         mw.module_preset_apply_actions_after_id_change = function (id, attrs) {
@@ -145,7 +140,7 @@
         $(document).ready(function () {
 
 
-             $('.module-presets-action-btn').click(function () {
+            $('.module-presets-action-btn').click(function () {
 
                 var is_del = $(this).attr('delete');
                 var btn_mod_id = $(this).attr('js-mod-id');
@@ -161,7 +156,7 @@
                 if (parent_el != null) {
                     var attrs = window.parent.mw.tools.getAttrs(parent_el);
                 }
-                 mw.log(parent_el);
+                mw.log(parent_el);
 
                 if (is_del != undefined) {
                     var save_module_as_template_url = '<?php print site_url('api') ?>/delete_module_as_template';
@@ -181,7 +176,6 @@
 
 
                 } else {
-
 
 
                     if (attrs) {
@@ -227,7 +221,7 @@
 
 
         <?php foreach ($saved_modules as $item): ?>
-            <div class="mw-ui-row mw-presets-list">
+            <div class="mw-flex-row mw-presets-list m-t-10">
                 <?php
 
                 if (!isset($item['module_attrs'])) {
@@ -235,15 +229,61 @@
                 }
 
                 ?>
-                <div class="mw-ui-col module-presets-add-new-holder" style="width: 30px;">
-                    <span js-mod-id="<?php print  $item['module_id'] ?>" use="<?php print  $item['module_id'] ?>" class="module-presets-action-btn module-presets-action-btn-use">use</span>
+
+                <div class="mw-flex-col-xs-2 module-presets-add-new-holder">
+                    <div class="box" style="width: 20px; margin: 0 auto;">
+                        <label class="mw-ui-check">
+                            <input type="checkbox" value="1" js-mod-id="<?php print  $item['module_id'] ?>" use="<?php print  $item['module_id'] ?>" class="module-presets-action-btn-use"><span></span><span></span>
+                        </label>
+                        <input type="hidden" name="id" value="<?php print  $item['id'] ?>">
+                        <input type="hidden" name="module" value="<?php print  $item['module'] ?>">
+                        <textarea name="module_attrs" style="display: none"><?php print  $item['module_attrs'] ?></textarea>
+                    </div>
+                </div>
+                <div class="mw-flex-col-xs-6 module-presets-add-new-holder">
+                    <div class="box">
+                        <input class="mw-ui-field module-presets-name-field mw-ui-field-medium" name="name" value="<?php print  $item['name'] ?>">
+
+                        <textarea name="module_attrs" style="display: none"><?php print  $item['module_attrs'] ?></textarea>
+                        <input type="hidden" name="module_id" value="<?php print  $item['module_id'] ?>">
+                        <?php if ($item['module_id'] == $module_id) : ?>
+                        <?php else : ?>
+                        <?php endif; ?>
+                        <?php if ($item['module_id'] == $module_id) {
+                            $fffound = 1;
+                        }
+                        ?>
+                    </div>
+                </div>
+                <div class="mw-flex-col-xs-2 module-presets-add-new-holder">
+                    <div class="box">
+                        <input type="hidden" name="id" value="<?php print  $item['id'] ?>">
+                        <input type="hidden" name="module" value="<?php print  $item['module'] ?>">
+
+                        <span delete="1" js-mod-id="<?php print  $item['module_id'] ?>" class="mw-icon-trash-b mw-ui-btn mw-ui-btn-important mw-ui-btn-medium module-presets-action-btn module-presets-action-btn-delete "></span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="mw-ui-row mw-presets-list m-t-10 hidden">
+                <?php
+
+                if (!isset($item['module_attrs'])) {
+                    $item['module_attrs'] = '';
+                }
+
+                ?>
+                <div class="mw-ui-col module-presets-add-new-holder" style="width: 15px !important;">
+                    <label class="mw-ui-check">
+                        <input type="checkbox" value="1" js-mod-id="<?php print  $item['module_id'] ?>" use="<?php print  $item['module_id'] ?>" class="module-presets-action-btn-use"><span></span><span></span>
+                    </label>
                     <input type="hidden" name="id" value="<?php print  $item['id'] ?>">
                     <input type="hidden" name="module" value="<?php print  $item['module'] ?>">
                     <textarea name="module_attrs" style="display: none"><?php print  $item['module_attrs'] ?></textarea>
-
                 </div>
 
-                <div class="mw-ui-col module-presets-add-new-holder">
+                <div class="mw-ui-col module-presets-add-new-holder" style="width: 50px !important;">
                     <input class="mw-ui-field module-presets-name-field mw-ui-field-medium" name="name" value="<?php print  $item['name'] ?>">
 
                     <textarea name="module_attrs" style="display: none"><?php print  $item['module_attrs'] ?></textarea>
@@ -257,7 +297,7 @@
                     ?>
                 </div>
 
-                <div class="mw-ui-col module-presets-add-new-holder" style="width: 40px;">
+                <div class="mw-ui-col module-presets-add-new-holder" style="width: 40px !important;">
                     <input type="hidden" name="id" value="<?php print  $item['id'] ?>">
                     <input type="hidden" name="module" value="<?php print  $item['module'] ?>">
 
@@ -280,40 +320,41 @@
         <?php endif; ?>
     </div>
 <?php endif; ?>
-</div>
+    </div>
 
 
-<?php if (($fffound) != false): ?>
-    <script>
-        $(document).ready(function () {
-            $("#module-modal-preset-linked-icon").addClass('is-linked').show();
+    <?php if (($fffound) != false): ?>
+        <script>
+            $(document).ready(function () {
+                $("#module-modal-preset-linked-icon").addClass('is-linked').show();
 
-        });
-    </script>
-<?php else : ?>
-    <script>
-        $(document).ready(function () {
-            $("#module-modal-preset-linked-icon").removeClass('is-linked').hide();
-        });
-    </script>
-<?php endif; ?>
+            });
+        </script>
+    <?php else : ?>
+        <script>
+            $(document).ready(function () {
+                $("#module-modal-preset-linked-icon").removeClass('is-linked').hide();
+            });
+        </script>
+    <?php endif; ?>
 
 
-<?php if (($fffound) == false): ?>
-    <div class="mw-ui-row">
-        <div class="mw-ui-col">
-            <div class="module-presets-add-new-holder">
+    <?php if (($fffound) == false): ?>
+        <div class="mw-flex-row m-t-10">
+            <div class="mw-flex-col-xs-2"></div>
+            <div class="mw-flex-col-xs-6 module-presets-add-new-holder">
                 <input type="hidden" name="module" value="<?php print $module_name ?>">
+                <input type="hidden" name="module_id" value="<?php print $module_id ?>">
+                <input type="text" name="name" value="" placeholder="<?php _e('Title'); ?>" class="mw-ui-field mw-ui-field-medium">
+            </div>
+            <div class="mw-flex-col-xs-3 module-presets-add-new-holder">
                 <div class="mw-ui-btn-nav">
-                    <input type="text" name="name" value="" placeholder="<?php _e('Title'); ?>" class="mw-ui-field mw-ui-field-medium">
                     <span js-mod-id="<?php print  $module_id ?>" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification module-presets-action-btn">Save</span>
                 </div>
-                <input type="hidden" name="module_id" value="<?php print $module_id ?>">
             </div>
         </div>
-    </div>
-<?php endif; ?>
+    <?php endif; ?>
+
 <?php else : ?>
     error $params['module_name'] is not set or $params['module_id'] is not set
 <?php endif; ?>
-</div>

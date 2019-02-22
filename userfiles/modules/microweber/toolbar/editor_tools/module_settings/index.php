@@ -49,6 +49,7 @@
     <style>
         #settings-main {
             min-height: 200px;
+            overflow-x: hidden;
         }
 
         #settings-container {
@@ -315,22 +316,19 @@
                             $(this).parent().toggleClass('active');
 
 
-
-
-
                             var presets_mod = {};
 
-                            presets_mod.module_id='<?php print $params['id'] ?>'
-                            presets_mod.module_name='<?php print $params['module'] ?>'
-                            presets_mod.id='presets-<?php print $params['id'] ?>'
-                          //   presets_mod.mod_orig_id='<?php print $mod_orig_id ?>'
-                          //  var src = mw.settings.site_url + "api/module?" + json2url(presets_mod);
-                            var src = mw.settings.site_url + 'editor_tools/module_presets?' +  json2url(presets_mod);
+                            presets_mod.module_id = '<?php print $params['id'] ?>'
+                            presets_mod.module_name = '<?php print $params['module'] ?>'
+                            presets_mod.id = 'presets-<?php print $params['id'] ?>'
+                            //   presets_mod.mod_orig_id='<?php print $mod_orig_id ?>'
+                            //  var src = mw.settings.site_url + "api/module?" + json2url(presets_mod);
+                            var src = mw.settings.site_url + 'editor_tools/module_presets?' + json2url(presets_mod);
 
 
                             var mod_presets_iframe_html_fr = '' +
                                 '<div class="js-module-presets-edit-frame">' +
-                                '<iframe src="' + src + '" frameborder="0" onload="this.parentNode.classList.remove(\'loading\')">' +
+                                '<iframe src="' + src + '" frameborder="0" style="overflow: hidden;" width="280" height="400" onload="this.parentNode.classList.remove(\'loading\')">' +
                                 '</div>';
 
                             window.parent.$('#module-modal-settings-menu-items-presets-holder<?php print $params['id'] ?>').html(mod_presets_iframe_html_fr);
@@ -417,10 +415,10 @@
 <script type="text/javascript">
 
     if (typeof (frame) != 'undefined') {
-       // mw.log(frame);
+        // mw.log(frame);
         $(frame).on('unload', function () {
 
-       //     window.parent.$('.module-modal-settings-menu-holder', frame).remove();
+            //     window.parent.$('.module-modal-settings-menu-holder', frame).remove();
         });
     }
 </script>
