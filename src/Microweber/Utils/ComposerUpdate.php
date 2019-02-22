@@ -479,6 +479,8 @@ class ComposerUpdate
             if ($install_core_update) {
                 $from_folder_cp = $temp_folder . '/microweber-core-update/install-update/update/';
                 $from_folder = $from_folder_cp;
+                $from_folder =  normalize_path($from_folder, true);
+
             }
 
 
@@ -492,10 +494,18 @@ class ComposerUpdate
 
                 $skip_files = array('composer.json', 'auth.json', 'composer.lock', 'vendor');
 
+
+                $from_folder2 =  normalize_path($from_folder, true);
+
+
+
                 $cp_files = array();
                 if ($allFiles) {
                     foreach ($allFiles as $file_to_copy) {
                         $file_to_copy = str_ireplace($from_folder, '', $file_to_copy);
+                        $file_to_copy = str_ireplace($from_folder2, '', $file_to_copy);
+
+
 
                         $skip = false;
 
@@ -548,6 +558,7 @@ class ComposerUpdate
                 if ($install_core_update) {
                     $from_folder_cp = $temp_folder . '/microweber-core-update/install-update/update/';
                     $from_folder = $from_folder_cp;
+                    $from_folder =  normalize_path($from_folder, true);
                 }
 
             }
