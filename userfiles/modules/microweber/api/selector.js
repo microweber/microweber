@@ -29,8 +29,7 @@ mw.Selector = function(options) {
             left:sleft,
             active:false
         });
-    }
-
+    };
     this.getFirstNonActiveSelector = function(){
         let i = 0;
         for( ; i <  this.selectors.length; i++){
@@ -40,20 +39,20 @@ mw.Selector = function(options) {
         }
         this.buildSelector();
         return this.selectors[this.selectors.length-1];
-    }
+    };
     this.deactivateAll = function(){
          let i = 0;
         for( ; i <  this.selectors.length; i++){
             this.selectors[i].active = false;
         }
-    }
+    };
 
     this.hideAll = function(){
         let i = 0;
         for( ; i <  this.selectors.length; i++){
             this.hideItem(this.selectors[i]);
         }
-    }
+    };
 
     this.hideItem = function(item){
 
@@ -62,14 +61,14 @@ mw.Selector = function(options) {
             if(!item[x]) continue;
             item[x].style.visibility = 'hidden';
         }
-    }
+    };
     this.showItem = function(item){
 
         for (let x in item){
             if(typeof item[x] === 'boolean') continue;
             item[x].style.visibility = 'visible';
         }
-    }
+    };
 
     this.buildInteractor = function(){
         var stop = document.createElement('div');

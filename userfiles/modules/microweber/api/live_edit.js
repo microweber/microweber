@@ -3,111 +3,7 @@ mw.live_edit = mw.live_edit || {};
 mw.live_edit.registry = mw.live_edit.registry || {};
 
 
-mw.live_edit.showHandle = function (element) {
-    var el = $(element);
-    var title = el.dataset("mw-title");
-    var id = el.attr("id");
-    var module_type = (el.dataset("type") || el.attr("type")).trim();
-    var cln = el[0].querySelector('.cloneable');
-    if(cln || mw.tools.hasClass(el[0], 'cloneable')){
-        if(($(cln).offset().top - el.offset().top) < 20){
-            mw.tools.addClass(mw.drag._onCloneableControl, 'mw-module-near-cloneable');
-        } else {
-            mw.tools.removeClass(mw.drag._onCloneableControl, 'mw-module-near-cloneable');
-        }
-    }
 
-    var mod_icon = mw.live_edit.getModuleIcon(module_type);
-
-   /* if (module_type === 'layouts') {
-        title = mod_icon;
-    }
-    else{
-        title = mod_icon + (title ? title : mw.msg.settings);
-    }*/
-
-    title = mod_icon + (title ? title : mw.msg.settings);
-
-    if(!mw.handle_module){
-        return;
-    }
-
-    mw.tools.classNamespaceDelete(mw.handle_module, 'module-active-');
-    mw.tools.addClass(mw.handle_module, 'module-active-' + module_type.replace(/\//g, '-'));
-
-    mw.$(".mw-element-name-handle", mw.handle_module).html(title);
-
-
-    var mw_edit_settings_multiple_holder_id = 'mw_edit_settings_multiple_holder-' + id;
-
-
-    mw.$(".mw_edit_settings_multiple_holder:visible", mw.handle_module).not("#" + mw_edit_settings_multiple_holder_id).hide();
-    if (mw.live_edit_module_settings_array && mw.live_edit_module_settings_array[module_type]) {
-
-        mw.$(".mw_edit_settings", mw.handle_module).hide();
-
-
-        if (mw.$('#' + mw_edit_settings_multiple_holder_id).length == 0) {
-            var new_el = mwd.createElement('div');
-            new_el.className = 'mw_edit_settings_multiple_holder';
-            new_el.id = mw_edit_settings_multiple_holder_id;
-            $('.mw_edit_settings', mw.handle_module).after(new_el);
-
-            // mw.$('#' + mw_edit_settings_multiple_holder_id).html(make_module_settings_handle_html);
-            var settings = mw.live_edit_module_settings_array[module_type];
-
-
-            mw.$(settings).each(function () {
-                if (typeof(this.view) != 'undefined' && typeof(this.title) != 'undefined') {
-                    var new_el = mwd.createElement('a');
-                    new_el.className = 'mw_edit_settings_multiple';
-                    new_el.title = this.title;
-                    new_el.draggable = 'false';
-                    var btn_id = 'mw_edit_settings_multiple_btn_' + mw.random();
-                    new_el.id = btn_id;
-
-                    if (typeof(this.type) != 'undefined' && (this.type) == 'tooltip') {
-                        new_el.href = 'javascript:mw.drag.current_module_settings_tooltip_show_on_element("' + btn_id + '","' + this.view + '", "tooltip"); void(0);';
-
-                    } else {
-                        new_el.href = 'javascript:mw.drag.module_settings(undefined,"' + this.view + '"); void(0);';
-
-                    }
-
-
-                    var icon = '';
-
-                    if (typeof(this.icon) != 'undefined') {
-                        icon = '<i class="mw-edit-module-settings-tooltip-icon ' + this.icon + '"></i>'
-                    }
-
-                    new_el.innerHTML = '' +
-                        icon +
-                        '<span class="mw-edit-module-settings-tooltip-btn-title">' +
-                        this.title +
-                        '</span>' +
-                        '';
-
-                    mw.$('#' + mw_edit_settings_multiple_holder_id).append(new_el);
-                }
-
-            });
-        }
-        $('#' + mw_edit_settings_multiple_holder_id + ':hidden').show();
-    } else {
-        mw.$(".mw_edit_settings", mw.handle_module).show();
-
-    }
-
-    if (mod_icon) {
-        var sorthandle_main = mw.$(".mw-element-name-handle", mw.handle_module).parent().parent();
-        if (sorthandle_main) {
-            mw.$(sorthandle_main).addClass('mw-element-name-handle-no-fallback-icon');
-        }
-    }
-
-
-};
 
 
 mw.live_edit.showSettings = function (a, opts) {
@@ -143,24 +39,9 @@ mw.live_edit.showSettings = function (a, opts) {
             a = mod_sel[0]
 
         }
-
-       /* var src = mw.settings.site_url + "api/module?id=" + module_id + "&live_edit=" + liveedit +"&view=" + view + "&module_settings=true&type=" + module_type;
-        return mw.tools.modal.frame({
-            url: src,
-            width: 532,
-            height: 250,
-            name: 'module-settings-' + a.replace(/\//g, '_'),
-            title: '',
-            callback: function () {
-
-            }
-        });*/
     }
 
     var curr = a || $("#mw_handle_module").data("curr");
-
-
-
     if(!curr){
         return;
     }
@@ -172,7 +53,6 @@ mw.live_edit.showSettings = function (a, opts) {
         var m = mw.$('#module-settings-' + curr.id)[0];
         m.scrollIntoView();
         mw.tools.highlight(m);
-      //  return false;
     }
     if (curr && curr.attributes) {
         $.each(curr.attributes, function (index, attr) {
@@ -363,17 +243,17 @@ mw.live_edit.getModuleTitleBar = function (module_type, module_id) {
 }
 
 mw.live_edit.getModuleIcon = function (module_type) {
-    if (mw.live_edit.registry[module_type] && typeof(mw.live_edit.registry[module_type].icon) != 'undefined') {
+    if (mw.live_edit.registry[module_type] && mw.live_edit.registry[module_type].icon) {
         return '<span class="mw_module_settings_sidebar_icon" style="background-image: url(' + mw.live_edit.registry[module_type].icon + ')"></span>';
     }
     else {
-        return '<span class="mw-icon-gear"></span>&nbsp;&nbsp;'
+        return '<span class="mw-icon-gear"></span>&nbsp;&nbsp;';
     }
 };
 mw.live_edit.getModuleTitle = function (module_type) {
-    if (mw.live_edit.registry[module_type] && typeof(mw.live_edit.registry[module_type].title) != 'undefined') {
+    if (mw.live_edit.registry[module_type] && mw.live_edit.registry[module_type].title) {
         return mw.live_edit.registry[module_type].title;
-    } else if (mw.live_edit.registry[module_type] && typeof(mw.live_edit.registry[module_type].name) != 'undefined') {
+    } else if (mw.live_edit.registry[module_type] && mw.live_edit.registry[module_type].name) {
         return mw.live_edit.registry[module_type].name;
     }
     else {

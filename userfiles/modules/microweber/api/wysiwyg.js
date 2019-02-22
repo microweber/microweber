@@ -544,7 +544,7 @@ mw.wysiwyg = {
         var scope = this;
         $('*', body).each(function () {
             if (this.nodeName !== 'A' && mw.ea.helpers.isInlineLevel(this) && (this.className.trim && !this.className.trim())) {
-                if (scope.areSameLike(this, this.nextElementSibling)) {
+                if (scope.areSameLike(this, this.nextElementSibling) && this.nextElementSibling === this.nextSibling) {
                     if (this.nextSibling !== this.nextElementSibling) {
                         this.appendChild(this.nextSibling);
                     }

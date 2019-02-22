@@ -2389,29 +2389,11 @@ body.dragStart .empty-element {
     min-width: 165px;
 }
 
-body.design_hover .element-current {
+/*body.design_hover .element-current {
     outline: 6px solid #227BD1 !important;
     outline: 6px solid rgba(34, 123, 209, 0.5) !important;
-}
+}*/
 
-.mwwysiwygcursor {
-    width: 5px;
-    height: 5px;
-    background: #00CC00;
-    border-radius: 4px;
-    overflow: hidden;
-    position: fixed;
-    left: -9999px;
-    top: -9999px;
-    z-index: 995;
-    box-shadow: 0 0 2px #00CC00;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
 
 .mw-toolbar-btn-menu > a.mw-ui-btn {
     margin: 10px 8px 0;
@@ -2590,7 +2572,6 @@ body.design_hover .element-current {
 }
 
 #mw_tabs li a:active {
-    box-shadow: inset 0 0 5px #A6A6A6;
     box-shadow: inset 0 1px 16px -14px #000000;
 }
 
@@ -2608,7 +2589,6 @@ body.design_hover .element-current {
 
 #mw_toolbar_logo {
     display: block;
-    height: 29px;
     text-indent: -999px;
     width: 201px;
     height: 52px;
@@ -3681,40 +3661,6 @@ body.mw-live-edit .mw-tooltip-content {
     overflow: hidden !important;
 }
 
-#mw_handle_module_up,
-#mw_handle_module_down {
-    display: inline-block;
-    width: 23px;
-    height: 23px;
-    line-height: 23px;
-    text-align: center;
-    font-family: Microweber;
-    cursor: pointer;
-    position: relative;
-    z-index: 2;
-    border-radius: 20px;
-    top: 1px;
-    background-color: #2b2b2b;
-    color: white;
-    font-size: 10px;
-    float: right;
-    right: 30px;
-    margin: 0 3px;
-}
-
-#mw_handle_module_up:hover,
-#mw_handle_module_down:hover {
-    background-color: black;
-    color: white;
-}
-
-#mw_handle_module_up:before {
-    content: "\0139"
-}
-
-#mw_handle_module_down:before {
-    content: "\0136"
-}
 
 body {
     margin-right: 0;
@@ -4204,7 +4150,7 @@ body.dragStart .allow-drop {
     position: relative;
     width: 21px;
     height: 21px;
-    margin: 5px 7px 0px 0px;
+    margin: 5px 0 0px 0px;
 }
 
 #js-live-edit-module-settings-items .mw_module_settings_sidebar_icon {
@@ -4350,6 +4296,137 @@ body.dragStart .allow-drop {
     border-bottom: 1px solid #e5e5e5;
     border-top-left-radius: 2px;
     border-top-right-radius: 2px;
+}
+
+
+.mw-handle-item{
+    position: absolute;
+    z-index: 1101;
+    display: inline-block;
+    transition: top .1s, left .1s;
+}
+
+.mw-handle-handler {
+    display: inline-block;
+    height: 30px;
+    border-radius: 33px;
+    background-color: #0a0a0a;
+    color: white;
+    line-height: 30px;
+
+}
+
+.mw-handle-menu{
+    background-color: #000;
+    padding: 5px 0;
+    border-radius: 3px;
+    color: #fff;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: block;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1, .5);
+    transform-origin: left center;
+    min-width: 175px;
+    transition: all .3s;
+    margin-top: 10px;
+}
+
+.mw-handle-menu:after{
+    position: absolute;
+    top: -5px;
+    left: 30px;
+    height: 0px;
+    width: 10px;
+    content: ' ';
+    display: block;
+    background-color: black;
+    transform: rotate(45deg);
+    transition: all .3s;
+}
+.mw-handle-menu:before{
+    position: absolute;
+    top: -10px;
+    left: 0;
+    height: 10px;
+    width: 100%;
+    content: ' ';
+    display: block;
+}
+.mw-handle-item.active .mw-handle-menu:after{
+    height: 10px;
+}
+.mw-handle-item.active .mw-handle-menu{
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1)  translate(0, 0);
+}
+
+.mw-handle-menu-item{
+    display: block;
+    padding: 5px 10px;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color .3s;
+    position: relative;
+    z-index: 1;
+}
+.mw-handle-menu-item:hover{
+    background-color: rgba(255,255,255,.2);
+}
+
+
+
+.mw-handle-menu-item-icon{
+    font-size: 19px;
+    margin-right: 6px;
+}
+
+
+.mw-handle-handler-icon{
+    padding: 0 5px 0 10px;
+    margin: 0;
+    border-right: 1px solid #333333;
+    display: inline-block;
+    cursor: -webkit-grab;
+    cursor: grab;
+    height: 30px;
+    vertical-align: top;
+    min-width: 30px;
+    text-align: center;
+}
+
+
+.mw-handle-item-mouse-down .mw-handle-handler-icon{
+    cursor: -webkit-grabbing;
+    cursor: grabbing;
+
+}
+
+.mw-handle-handler-title{
+    display: inline-block;
+    line-height: 30px;
+    height: 30px;
+    padding-right: 10px;
+    vertical-align: top;
+    cursor: pointer;
+    padding-left: 5px;
+    border-radius: 0 33px 33px 0;
+}
+.mw-handle-handler-title:hover{
+    background-color: #505050;
+}
+
+#mw-handle-item-element{
+    margin-top: -30px;
+}
+
+.mw-handle-element-title-icon{
+    font-weight: bold;
+    font-size: 10px;
+    color: #ffffff70;
 }
 
 

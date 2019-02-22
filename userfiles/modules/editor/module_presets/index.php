@@ -157,7 +157,7 @@
 
 
                 if (parent_el != null) {
-                    var attrs = window.parent.mw.tools.getAttrs(parent_el);
+                    attrs = window.parent.mw.tools.getAttrs(parent_el);
                 }
 
 

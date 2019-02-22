@@ -103,29 +103,31 @@ mw.propEditor = {
                     var curr = new mw.propEditor.interfaces[item.interface](this, item);
                     this._rend.push(curr);
                     if(item.id){
-                        this._valSchema[item.id] = this._valSchema[item.id] || ''
+                        this._valSchema[item.id] = this._valSchema[item.id] || '';
                     }
                 }
             }
-            $(this.rootHolder).html(' ').addClass('mw-prop-editor-root')
+            $(this.rootHolder).html(' ').addClass('mw-prop-editor-root');
             mw.propEditor.rend(this.rootHolder, this._rend);
         };
         this.updateSchema = function(schema){
+            this.pause = true;
             var final = [];
             for(var i =0; i<schema.length;i++){
                 var item = schema[i];
 
                 if(typeof this._valSchema[item.id] === 'undefined'){
                     this.options.schema.push(item);
-                    var create = new mw.propEditor.interfaces[item.interface](this, item)
+                    var create = new mw.propEditor.interfaces[item.interface](this, item);
                     this._rend.push(create);
                     final.push(create);
                     if(item.id){
-                        this._valSchema[item.id] = this._valSchema[item.id] || ''
+                        this._valSchema[item.id] = this._valSchema[item.id] || '';
                     }
                     //this.rootHolder.appendChild(create.node);
                 }
             }
+            this.pause = false;
             return final;
         };
         this.setValue = function(val){
@@ -162,9 +164,9 @@ mw.propEditor = {
         this.rootHolder = mw.propEditor.getRootElement(this.options.element);
         this.setSchema(this.options.schema);
 
-        setTimeout(function () {
-            mw.trigger('ComponentsLaunch');
-        }, 278)
+
+        mw.trigger('ComponentsLaunch');
+
 
     },
     interfaces:{
@@ -209,8 +211,11 @@ mw.propEditor = {
             this.node = el;
         },
         _count:1,
+        blockSchemaRender: function(){
+
+        },
         block:function(proto, config){
-            mw.propEditor.interfaces._count+=100;
+            mw.propEditor.interfaces._count+=2500;
             this.node = document.createElement('div');
             var scope = this;
             if(typeof config.content === 'string') {
@@ -219,11 +224,11 @@ mw.propEditor = {
                 var newItems = proto.updateSchema(config.content);
 
                 (function (el, newItems) {
-                    setTimeout(function () {
-                        for(var i=0; i<newItems.length; i++){
+                    //setTimeout(function () {
+                        for(var i=0; i < newItems.length; i++){
                             el.appendChild(newItems[i].node);
                         }
-                    }, mw.propEditor.interfaces._count );
+                    //}, mw.propEditor.interfaces._count );
 
                 })(scope.node, newItems);
 
