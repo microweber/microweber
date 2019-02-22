@@ -418,6 +418,16 @@ class FormsManager
                     $mail_autoresp = $email_autorespond;
                 }
 
+                if ($mail_autoresp) {
+                    foreach ($params as $k => $v) {
+                        if (is_string($v) and !is_array($k)) {
+                            $rk = '{' . $k . '}';
+                            $mail_autoresp = str_replace($rk, $v, $mail_autoresp);
+                        }
+                    }
+                }
+
+
                 $user_mails = array();
                 if (isset($admin_user_mails) and !empty($admin_user_mails)) {
                     $user_mails = $admin_user_mails;
