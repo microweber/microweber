@@ -420,8 +420,10 @@ class FormsManager
 
                 if ($mail_autoresp) {
                     foreach ($params as $k => $v) {
-                        $rk = '{'.$k.'}';
-                        $mail_autoresp = str_replace($rk,$v,$mail_autoresp);
+                        if (is_string($v) and !is_array($k)) {
+                            $rk = '{' . $k . '}';
+                            $mail_autoresp = str_replace($rk, $v, $mail_autoresp);
+                        }
                     }
                 }
 
@@ -456,13 +458,10 @@ class FormsManager
                         $email_from = $params['email'];
                     }
                 }
-
                 $from_name = $email_from;
-                
                 if (isset($params['name']) and $params['name']) {
                     $from_name = $params['name'];
                 }
-
                 if (isset($params['from_name']) and $params['from_name']) {
                     $from_name = $params['from_name'];
                 }
@@ -476,13 +475,18 @@ class FormsManager
                             $msg = $notif['content'];
                             $subj = $notif['description'];
                             $from = $email_from;
+
+
                             $sender->send($value, $subj, $msg, $from, false, false, $email_from, $from_name, $email_from);
                         } else {
+
                             $msg = $mail_autoresp;
                             $subj = $email_autorespond_subject ?: 'Thank you!';
                             $from = false;
                             $sender->send($value, $subj, $msg, $from);
                         }
+
+
                     }
                 }
             }
