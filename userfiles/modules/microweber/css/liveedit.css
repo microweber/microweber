@@ -4311,7 +4311,27 @@ body.dragStart .allow-drop {
     background-color: #0a0a0a;
     color: white;
     line-height: 30px;
+    position: relative;
+    white-space: nowrap;
+}
 
+.mw-handle-handler-title:after{
+    content: "\f10a";
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    background-color: rgba(255,255,255,.3);
+    border-radius: 15px;
+    font-family: Microweber;
+    text-align: center;
+    transition: all .3s;
+    line-height: 16px;
+    margin-left: 7px;
+    transform-origin: center;
+}
+
+.mw-handle-item.active .mw-handle-handler-title:after{
+    transform: rotate(90deg);
 }
 
 .mw-handle-menu{
@@ -4325,7 +4345,7 @@ body.dragStart .allow-drop {
     display: block;
     opacity: 0;
     visibility: hidden;
-    transform: scale(1, .5);
+    transform: scale(1, .5) translateZ(-30px);
     transform-origin: left center;
     min-width: 175px;
     transition: all .3s;
