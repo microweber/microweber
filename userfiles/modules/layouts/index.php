@@ -6,7 +6,6 @@
 
 <div class="bootstrap3ns">
     <?php
-    $layoutClasses = '';
     $classes = mw_get_layout_css_classes($params);
 
     $template = get_option('data-template', $params['id']);
