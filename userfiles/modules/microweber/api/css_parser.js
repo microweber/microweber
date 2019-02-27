@@ -7,7 +7,16 @@ mw.CSSParser = function(el){
     if(!el.nodeName) return false;
     if(typeof el !== 'object') return false;
     if(el.nodeName === undefined || el.nodeName === '#text' || el === null) return false;
-    var css = window.getComputedStyle(el, null);
+
+
+    try {
+        var css = window.getComputedStyle(el, null);
+    } catch(error) {
+        return;
+    }
+
+
+
 
     var f = {}
 

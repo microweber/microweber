@@ -991,7 +991,9 @@ mw.wysiwyg = {
         mw.wysiwyg.ready = true;
         $(mwd.body).on('mouseup', function (event) {
             if (event.target.isContentEditable) {
-                mw.wysiwyg.check_selection(event.target);
+                if(event.target.nodeName){
+                    mw.wysiwyg.check_selection(event.target);
+                }
             }
         });
         $(mwd.body).on('keydown', function (event) {
@@ -1594,7 +1596,7 @@ mw.wysiwyg = {
     },
     setActiveButtons: function (node) {
         var css = mw.CSSParser(node);
-        if (typeof css.get !== 'undefined') {
+        if (css && css.get) {
             var font = css.get.font();
             var family_array = font.family.split(',');
             if (family_array.length == 1) {
@@ -1673,6 +1675,9 @@ mw.wysiwyg = {
     started_checking: false,
     check_selection: function (target) {
         target = target || false;
+
+
+
         if (!mw.wysiwyg.started_checking) {
             mw.wysiwyg.started_checking = true;
 
@@ -1701,7 +1706,9 @@ mw.wysiwyg = {
                     mw.$(".mw_editor_alignment").removeClass('mw_editor_btn_active');
                     mw.$(".mw-align-" + align).addClass('mw_editor_btn_active');
                     for (; i < l; i++) {
+                        if(children[i].nodeName){
                         mw.wysiwyg.setActiveButtons(children[i]);
+                        }
                     }
                     mw.wysiwyg.setActiveFontSize(common);
                 }
@@ -1736,7 +1743,9 @@ mw.wysiwyg = {
                 mw.wysiwyg.setDecorators(selection)
             }
 
-            if (!!target) {
+            if (!!target && target.nodeName) {
+
+
                 mw.wysiwyg.setActiveButtons(target);
                 if (target.tagName == 'A') {
                     mw.$(".mw_editor_link").addClass('mw_editor_btn_active');
