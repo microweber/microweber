@@ -4301,7 +4301,6 @@ body.dragStart .allow-drop {
     position: absolute;
     z-index: 1101;
     display: inline-block;
-    xtransition: top .1s, left .1s;
 }
 
 body.dragStart .mw-columns-resizer,

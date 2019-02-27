@@ -189,31 +189,32 @@ mw._initHandles = {
     },
     _manageCollision: false,
     manageCollision:function () {
-        if(this._manageCollision) return;
-        this._manageCollision = true;
+        /*if(this._manageCollision) return;
+        this._manageCollision = true;*/
         var scope = this,
             max = 35,
             skip = [];
 
-            scope.getAll().forEach(function (curr) {
-                var master = curr, masterRect;
-                if (skip.indexOf(master) === -1){
-                    scope.getAll(curr).forEach(function (item) {
-                        masterRect = master.wrapper.getBoundingClientRect();
-                        var irect = item.wrapper.getBoundingClientRect();
-                        if (scope.collide(masterRect, irect)) {
-                            skip.push(item)
-                            item.wrapper.style.top = master.wrapper.style.top;
-                            item.wrapper.style.left = ((parseInt(master.wrapper.style.left, 10) + masterRect.width) + 10) + 'px';
-                            master = curr;
-                        }
-                    });
+        scope.getAll().forEach(function (curr) {
+            var master = curr, masterRect;
+            //if (skip.indexOf(master) === -1){
+            scope.getAll(curr).forEach(function (item) {
+                masterRect = master.wrapper.getBoundingClientRect();
+                var irect = item.wrapper.getBoundingClientRect();
+                if (scope.collide(masterRect, irect)) {
+                    skip.push(item)
+                    item.wrapper.style.top = master.wrapper.style.top;
+                    item.wrapper.style.left = ((parseInt(master.wrapper.style.left, 10) + masterRect.width) + 10) + 'px';
+                    master = curr;
                 }
             });
-        setTimeout(function () {
+            //}
+        });
+        /*setTimeout(function () {
             scope._manageCollision = true;
-        },40)
+        },40)*/
     },
+
     elements: function(){
         mw.handleElement = new mw.Handle({
             id: 'mw-handle-item-element',
@@ -500,10 +501,10 @@ mw._initHandles = {
             $(mw.handleModule.wrapper)
                 .removeClass('active')
                 .css({
-                    top: topPos,
+                    top: topPos + marginTop,
                     left: handleLeft,
                     //width: width,
-                    marginTop: marginTop
+                    //marginTop: marginTop
                 }).addClass('mw-active-item');
 
 
@@ -629,7 +630,6 @@ mw._initHandles = {
 
                             mw.$(".mw-handle-menu-dynamic", mw.handleModule.wrapper).append(new_el);
 
-                            console.log(mw.$(".mw-handle-menu-dynamic", mw.handleModule.wrapper).children().length)
 
                         }
 
