@@ -4301,7 +4301,18 @@ body.dragStart .allow-drop {
     position: absolute;
     z-index: 1101;
     display: inline-block;
-    transition: top .1s, left .1s;
+    xtransition: top .1s, left .1s;
+}
+
+body.dragStart .mw-columns-resizer,
+body.dragStart .mw-handle-item{
+    display: none;
+}
+
+body.dragStart .mw-handle-item.ui-draggable-dragging{
+    pointer-events: none;
+    transition: none;
+    display: inline-block;
 }
 
 .mw-handle-handler {
@@ -4316,7 +4327,7 @@ body.dragStart .allow-drop {
 }
 
 .mw-handle-handler-title:after{
-    content: "\f10a";
+    content: "\0138";
     display: inline-block;
     width: 15px;
     height: 15px;
@@ -4328,6 +4339,7 @@ body.dragStart .allow-drop {
     line-height: 16px;
     margin-left: 7px;
     transform-origin: center;
+    font-size: 8px;
 }
 
 .mw-handle-item.active .mw-handle-handler-title:after{
@@ -4382,7 +4394,8 @@ body.dragStart .allow-drop {
     transform: scale(1)  translate(0, 0);
 }
 
-.mw-handle-menu-item{
+.mw-handle-menu-item, .mw-handle-menu-dynamic > *,
+.mw-handle-menu-item:hover, .mw-handle-menu-dynamic > *:hover, .mw-handle-menu-dynamic > *:focus{
     display: block;
     padding: 5px 10px;
     white-space: nowrap;
@@ -4390,14 +4403,20 @@ body.dragStart .allow-drop {
     transition: background-color .3s;
     position: relative;
     z-index: 1;
+    color: #fff;
 }
 .mw-handle-menu-item:hover{
     background-color: rgba(255,255,255,.2);
 }
 
+.mw-handle-menu-dynamic{
+    border-top: 1px solid #4b4b4b;
+    border-bottom: 1px solid #4b4b4b;
+}
 
 
-.mw-handle-menu-item-icon{
+
+.mw-handle-menu-item-icon, .mw-edit-module-settings-tooltip-icon{
     font-size: 19px;
     margin-right: 6px;
 }
@@ -4437,14 +4456,40 @@ body.dragStart .allow-drop {
     background-color: #505050;
 }
 
-#mw-handle-item-element{
-    margin-top: -30px;
-}
 
 .mw-handle-element-title-icon{
     font-weight: bold;
     font-size: 10px;
     color: #ffffff70;
+}
+
+.mw-handle-columns-icon{
+    width: 17px;
+    padding: 2px;
+    background-color: white;
+    border-radius: 1px;
+    margin: -1px 0 0;
+    position: relative;
+    display: block;
+    height: 17px;
+    top: 7px;
+}
+.mw-handle-columns-icon:after{
+    position: absolute;
+    content: '';
+    width: 3px;
+    left: 50%;
+    margin-left: -1.5px;
+    top: 0;
+    height: 100%;
+    background-color: #000;
+}
+
+.mw-handle-no-drag .mw-handle-handler-icon{
+    pointer-events: none;
+}
+.mw-handle-no-drag .mw-handle-remove{
+    display: none;
 }
 
 

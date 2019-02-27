@@ -207,7 +207,6 @@ mw.dropables = {
         if(module){
             if(this.shouldTrigger('_moduleRegister', triggerTarget)) {
                 mw.trigger("moduleOver", triggerTarget);
-
             }
         } else {
             if (mw.mm_target.id !== 'mw_handle_module' && !mw.tools.hasParentWithId(mw.mm_target, 'mw_handle_module')) {
@@ -272,6 +271,7 @@ mw.dropables = {
      _rowRegister:null,
     row: function () {
          var row = mw.tools.firstParentOrCurrentWithClass(mw.mm_target, 'mw-row');
+
          if (row && this._rowRegister !== row) {
              this._rowRegister = row;
              mw.trigger("RowOver", row);

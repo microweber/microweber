@@ -6,6 +6,11 @@ mw.Handle = function(options) {
 
     var scope = this;
 
+    this._visible = true;
+    this.visible = function () {
+        return this._visible;
+    };
+
     this.createWrapper = function() {
         this.wrapper = mwd.createElement('div');
         this.wrapper.id = this.options.id || ('mw-handle-' + mw.random());
@@ -33,11 +38,13 @@ mw.Handle = function(options) {
 
     this.hide = function () {
         $(this.wrapper).hide().removeClass('active');
+        this._visible = false;
         return this;
     };
 
     this.show = function () {
         $(this.wrapper).show();
+        this._visible = true;
         return this;
     };
 
@@ -130,6 +137,83 @@ mw._activeModuleOver = {
 };
 
 mw._initHandles = {
+    getNodeHandler:function (node) {
+        if(mw._activeElementOver === node){
+            return mw.handleElement
+        } else if(mw._activeModuleOver === node) {
+            return mw.handleModule
+        } else if(mw._activeRowOver === node) {
+            return mw.handleColumns;
+        }
+    },
+    getAllNodes: function (but) {
+        var all = [
+            mw._activeModuleOver,
+            mw._activeRowOver,
+            mw._activeElementOver,
+
+
+        ];
+        all = all.filter(function (item) {
+            return !!item && item.nodeType === 1;
+        });
+        return all;
+    },
+    getAll: function (but) {
+        var all = [
+            mw.handleModule,
+            mw.handleColumns,
+            mw.handleElement,
+
+
+        ];
+        all = but ? all.filter(function (x) {
+            return x !== but;
+        }) :  all;
+        return all.filter(function (item) {
+            return item.visible();
+        });
+    },
+    hideAll:function (but) {
+        this.getAll(but).forEach(function (item) {
+            item.hide();
+        });
+    },
+    collide: function(a, b) {
+        return !(
+            ((a.y + a.height) < (b.y)) ||
+            (a.y > (b.y + b.height)) ||
+            ((a.x + a.width) < b.x) ||
+            (a.x > (b.x + b.width))
+        );
+    },
+    _manageCollision: false,
+    manageCollision:function () {
+        if(this._manageCollision) return;
+        this._manageCollision = true;
+        var scope = this,
+            max = 35,
+            skip = [];
+
+            scope.getAll().forEach(function (curr) {
+                var master = curr, masterRect;
+                if (skip.indexOf(master) === -1){
+                    scope.getAll(curr).forEach(function (item) {
+                        masterRect = master.wrapper.getBoundingClientRect();
+                        var irect = item.wrapper.getBoundingClientRect();
+                        if (scope.collide(masterRect, irect)) {
+                            skip.push(item)
+                            item.wrapper.style.top = master.wrapper.style.top;
+                            item.wrapper.style.left = ((parseInt(master.wrapper.style.left, 10) + masterRect.width) + 10) + 'px';
+                            master = curr;
+                        }
+                    });
+                }
+            });
+        setTimeout(function () {
+            scope._manageCollision = true;
+        },40)
+    },
     elements: function(){
         mw.handleElement = new mw.Handle({
             id: 'mw-handle-item-element',
@@ -137,6 +221,7 @@ mw._initHandles = {
                 {
                     title: 'Remove',
                     icon: 'mw-icon-bin',
+                    className:'mw-handle-remove',
                     action: function () {
                         mw.drag.delete_element(mw._activeElementOver);
                     }
@@ -147,7 +232,7 @@ mw._initHandles = {
         $(mw.handleElement.wrapper).draggable({
             handle: mw.handleElement.handleIcon,
             cursorAt: {
-                top: -30
+                //top: -30
             },
             start: function() {
                 mw.isDrag = true;
@@ -198,6 +283,9 @@ mw._initHandles = {
 
         mw.on("ElementOver", function(a, element) {
             mw._activeElementOver = element;
+
+
+
             mw.$(".mw_edit_delete, .mw_edit_delete_element, .mw-sorthandle-moveit, .column_separator_title").show();
             if (!mw.ea.canDrop(element)) {
                 mw.$(".mw_edit_delete, .mw_edit_delete_element, .mw-sorthandle-moveit, .column_separator_title").hide();
@@ -218,7 +306,8 @@ mw._initHandles = {
 
             var icon = '<span class="mw-handle-element-title-icon">'+element.nodeName+'</span>';
 
-            var title = 'Text';
+            var title = '';
+            /*var title = 'Text';
             switch(element.nodeName) {
                 case 'P':
                     title = 'Paragraph';
@@ -241,14 +330,15 @@ mw._initHandles = {
                 case 'H6':
                     title = 'Heading 6';
                     break;
-            }
+            }*/
 
             mw.handleElement.setTitle(icon, title);
 
 
 
+            mw.handleElement.show()
             $(mw.handleElement.wrapper).css({
-                top: o.top,
+                top: o.top - 30,
                 left: left_spacing
             });
 
@@ -257,6 +347,7 @@ mw._initHandles = {
             }
 
             mw.dropable.removeClass("mw_dropable_onleaveedit");
+            mw._initHandles.manageCollision();
 
         });
         
@@ -297,6 +388,7 @@ mw._initHandles = {
                 {
                     title: 'Remove',
                     icon: 'mw-icon-bin',
+                    className:'mw-handle-remove',
                     action: function () {
                         mw.drag.delete_element(mw._activeModuleOver);
                     }
@@ -307,7 +399,7 @@ mw._initHandles = {
             handle: mw.handleModule.handleIcon,
             distance:20,
             cursorAt: {
-                top: -30
+                //top: -30
             },
             start: function() {
                 mw.isDrag = true;
@@ -351,6 +443,8 @@ mw._initHandles = {
         });*/
 
         mw.on('moduleOver', function(e, element){
+
+
 
             mw._activeModuleOver = element;
             mw.$(".mw-handle-menu-dynamic", mw.handleModule.wrapper).empty();
@@ -442,11 +536,9 @@ mw._initHandles = {
                 mw.$(".mw_edit_delete, #mw_handle_module .mw-sorthandle-moveit, .column_separator_title").show();
 
                 if (order.edit === -1 || (order.module > -1 && order.edit > order.module)) {
-                    mw.$("#mw_handle_module .mw-sorthandle-moveit").hide();
-                    mw.$("#mw_handle_module .mw_edit_delete").hide();
+                    $(mw.handleModule.wrapper).addClass('mw-handle-no-drag');
                 } else {
-                    mw.$("#mw_handle_module .mw-sorthandle-moveit").show();
-                    mw.$("#mw_handle_module .mw_edit_delete").show();
+                    $(mw.handleModule.wrapper).removeClass('mw-handle-no-drag');
                 }
             }
 
@@ -481,7 +573,7 @@ mw._initHandles = {
             mw.tools.addClass(mw.handleModule, 'module-active-' + module_type.replace(/\//g, '-'));
 
 
-            var mw_edit_settings_multiple_holder_id = 'mw_edit_settings_multiple_holder-' + id;
+
 
 
 
@@ -490,11 +582,11 @@ mw._initHandles = {
                 mw.$(".mw_edit_settings", mw.handle_module).hide();
 
 
-                if (mw.$('#' + mw_edit_settings_multiple_holder_id).length === 0) {
+
 
                     var new_el = mwd.createElement('div');
                     new_el.className = 'mw_edit_settings_multiple_holder';
-                    new_el.id = mw_edit_settings_multiple_holder_id;
+
                     $('.mw_edit_settings', mw.handle_module).after(new_el);
 
                     // mw.$('#' + mw_edit_settings_multiple_holder_id).html(make_module_settings_handle_html);
@@ -529,20 +621,20 @@ mw._initHandles = {
                             new_el.innerHTML = '' +
                                 icon +
                                 '<span class="mw-edit-module-settings-tooltip-btn-title">' +
-                                this.title +
+                                this.title + 'Custom'+
                                 '</span>' +
                                 '';
 
-                            console.log(new_el)
+
 
                             mw.$(".mw-handle-menu-dynamic", mw.handleModule.wrapper).append(new_el);
 
+                            console.log(mw.$(".mw-handle-menu-dynamic", mw.handleModule.wrapper).children().length)
 
                         }
 
                     });
-                }
-                $('#' + mw_edit_settings_multiple_holder_id + ':hidden').show();
+
             } else {
                 mw.$(".mw_edit_settings", mw.handle_module).show();
 
@@ -563,6 +655,138 @@ mw._initHandles = {
             if(!element.id) {
                 element.id = "module_" + mw.random();
             }
+            mw._initHandles.manageCollision();
+        });
+    },
+    columns:function(){
+        mw.handleColumns = new mw.Handle({
+            id: 'mw-handle-item-columns',
+            menu:[
+                {
+                    title: 'One column',
+                    action: function () {
+                        mw.drag.create_columns(this,1);
+                    }
+                },
+                {
+                    title: '2 columns',
+                    action: function () {
+                        mw.drag.create_columns(this,2);
+                    }
+                },
+                {
+                    title: '3 columns',
+                    action: function () {
+                        mw.drag.create_columns(this,3);
+                    }
+                },
+                {
+                    title: '4 columns',
+                    action: function () {
+                        mw.drag.create_columns(this,4);
+                    }
+                },
+                {
+                    title: '5 columns',
+                    action: function () {
+                        mw.drag.create_columns(this,5);
+                    }
+                },
+                {
+                    title: 'Remove',
+                    icon: 'mw-icon-bin',
+                    className:'mw-handle-remove',
+                    action: function () {
+                        mw.drag.delete_element(mw._activeElementOver);
+                    }
+                }
+            ]
+        });
+        mw.handleColumns.setTitle('<span class="mw-handle-columns-icon"></span>', 'Grid');
+
+        $(mw.handleColumns.wrapper).draggable({
+            handle: mw.handleColumns.handleIcon,
+            cursorAt: {
+                //top: -30
+            },
+            start: function() {
+                mw.isDrag = true;
+                var curr = mw._activeRowOver ;
+                mw.dragCurrent = mw.ea.data.currentGrabbed = curr;
+                mw.dragCurrent.id == "" ? mw.dragCurrent.id = 'element_' + mw.random() : '';
+                $(mw.dragCurrent).invisible().addClass("mw_drag_current");
+                mw.trigger("AllLeave");
+                mw.drag.fix_placeholders();
+                $(mwd.body).addClass("dragStart");
+                mw.image_resizer._hide();
+                mw.wysiwyg.change(mw.dragCurrent);
+                mw.smallEditor.css("visibility", "hidden");
+                mw.smallEditorCanceled = true;
+            },
+            stop: function() {
+                $(mwd.body).removeClass("dragStart");
+            }
+        });
+
+        mw.on("RowOver", function(a, element) {
+
+            mw._activeRowOver = element;
+            var el = $(element);
+            var o = el.offset();
+            var width = el.width();
+            var pleft = parseFloat(el.css("paddingLeft"));
+            var htop = o.top - 35;
+            var left = o.left;
+
+            if (htop < 55 && mwd.getElementById('live_edit_toolbar') !== null) {
+                htop = 55;
+                left = left - 100;
+            }
+            if (htop < 0 && mwd.getElementById('live_edit_toolbar') === null) {
+                htop = 0;
+                //   var left = left-50;
+            }
+
+
+            mw.handleColumns.show()
+
+            $(mw.handleColumns.wrapper).css({
+                top: htop,
+                left: left,
+                //width: width
+            });
+            mw._initHandles.manageCollision();
+
+            var size = $(element).children(".mw-col").length;
+            mw.$("a.mw-make-cols").removeClass("active");
+            mw.$("a.mw-make-cols").eq(size - 1).addClass("active");
+             if(!element.id){
+                 element.id = "element_row_" + mw.random() ;
+             }
+
+            if (!mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(element, ['allow-drop', 'nodrop'])) {
+                mw.$("#mw_handle_row .mw_edit_delete, #mw_handle_row .mw_edit_delete_element, #mw_handle_row .mw-sorthandle-moveit, #mw_handle_row .column_separator_title").hide();
+                return false;
+            } else {
+                mw.$("#mw_handle_row .mw_edit_delete, #mw_handle_row .mw_edit_delete_element, #mw_handle_row .mw-sorthandle-moveit, #mw_handle_row .column_separator_title").show();
+            }
+
+
+
+        });
+    },
+    nodeLeave: function () {
+        var scope = this;
+
+        mw.on("ElementLeave", function(e, target) {
+            mw.handleElement.hide();
+        });
+        mw.on("ModuleLeave", function(e, target) {
+            mw.handleModule.hide();
+            //.removeClass('mw-active-item');
+        });
+        mw.on("RowLeave", function(e, target) {
+            //mw.handleColumns.hide();
         });
     }
 };
@@ -574,4 +798,6 @@ $(document).ready(function () {
 
     mw._initHandles.modules();
     mw._initHandles.elements();
+    mw._initHandles.columns();
+    mw._initHandles.nodeLeave();
 });
