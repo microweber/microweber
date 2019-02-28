@@ -1114,6 +1114,7 @@ class Parser
                     if ($option_mod == false) {
                         $option_mod = pq($elem)->attr('data-type');
                     }
+
                     if ($option_mod == false) {
                         $option_mod = pq($elem)->attr('type');
                     }
@@ -1129,7 +1130,6 @@ class Parser
                     }
 
                     $try_inherited = false;
-
 
                     if ($rel == 'content' or $rel == 'page' or $rel == 'post') {
 
@@ -1191,8 +1191,8 @@ class Parser
                         $get_global = 1;
                         $cont_field = false;
                     } elseif ($rel == 'module') {
-                        $data[$field] = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}");
 
+                        $data[$field] = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}");
 
                     }/* elseif (isset($attr['post'])) {
                         $get_global = false;
@@ -2450,7 +2450,7 @@ $srsc_str
             return $subject;
         }
 
-        $pos = strpos($subject, $search);
+        $pos = strpos($subject, (string) $search);
         if ($pos !== false) {
             $subject = substr_replace($subject, $replace, $pos, strlen($search));
         }
