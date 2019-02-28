@@ -4368,7 +4368,6 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     display: inline-block;
     width: 15px;
     height: 15px;
-    background-color: rgba(255, 255, 255, .3);
     border-radius: 15px;
     font-family: Microweber;
     text-align: center;

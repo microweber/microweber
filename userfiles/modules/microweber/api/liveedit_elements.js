@@ -254,7 +254,7 @@ mw.dropables = {
                     mw.trigger("ElementLeave", mw.mm_target);
                 //}
             }
-        } else if(!element) {
+        } else if(!element && !mw.tools.firstParentOrCurrentWithId(mw.mm_target, 'mw-handle-item-element')) {
             this._elementRegister = null;
             mw.trigger("ElementLeave", mw.mm_target);
         }
