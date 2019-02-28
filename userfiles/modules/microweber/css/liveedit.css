@@ -4535,6 +4535,8 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 
 #mw-handle-item-element .mw-handle-handler-icon{
     border-right-color: #33333324;
+    padding: 0 5px 0 5px;
+    min-width: 21px;
 }
 #mw-handle-item-element .mw-handle-element-title-icon,
 #mw-handle-item-element .mw-handle-handler,
@@ -4548,16 +4550,67 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 #mw-handle-item-element:hover .mw-handle-handler,
 #mw-handle-item-element:hover .mw-handle-handler-icon,
 #mw-handle-item-element:hover .mw-handle-handler-title{
-    color: #fff;
+
+
+
+    color: black;
+    font-size: 9px;
 }
 
 
-/*#mw-handle-item-element .mw-handle-handler{
-    background-color: rgba(0,0,0,.1);
-}*/
+
+#mw-handle-item-element .mw-handle-handler-title {
+    display: none;
+}
+#mw-handle-item-element .mw-handle-handler-title:after {
+    margin-left: 3px;
+    display: none;
+
+    /*content: "\0138";
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    font-family: Microweber;
+    text-align: center;
+    transition: all .3s;
+    line-height: 16px;
+    transform-origin: center;
+    font-size: 8px;*/
+}
+#mw-handle-item-element:hover .mw-handle-handler-title:after {
+    display: inline-block;
+}
+#mw-handle-item-element:hover .mw-handle-handler-title {
+    display: inline-block;
+}
+
+
+#mw-handle-item-element .mw-handle-handler-title {
+
+    padding-right: 3px;
+    vertical-align: top;
+
+    padding-left: 3px;
+    border-radius: 0 11px 11px 0;
+}
+
+ #mw-handle-item-element .mw-handle-handler{
+  /*  background-color: rgba(0,0,0,.4);*/
+    background-color: transparent;
+
+
+     border-radius: 5px;
+}
+
+#mw-handle-item-element .mw-handle-element-title-icon{
+    color:  black;
+}
 
 #mw-handle-item-element:hover .mw-handle-handler{
-    background-color: rgba(0,0,0,1);
+   /* background-color: rgba(0,0,0,1);*/
+    background-color: #d8d8d8;
+    color:  black;
 }
 
 

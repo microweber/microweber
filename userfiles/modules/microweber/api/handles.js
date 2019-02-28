@@ -306,6 +306,8 @@ mw._initHandles = {
             }
 
             var icon = '<span class="mw-handle-element-title-icon">'+element.nodeName+'</span>';
+            var icon = '<span class="mw-handle-element-title-icon">'+'<span class="mw-icon-app-more"></span> '+'</span>';
+            var icon = '<span class="mw-handle-element-title-icon">'+'<span class="mw-icon-drag"></span> '+'</span>';
 
             var title = '';
             /*var title = 'Text';
@@ -561,9 +563,12 @@ mw._initHandles = {
             }
 
             var mod_icon = mw.live_edit.getModuleIcon(module_type);
+            var mod_handle_title = (title ? title : mw.msg.settings);
+            if(module_type =='layouts'){
+                mod_handle_title = '';
+            }
 
-
-            mw.handleModule.setTitle(mod_icon, (title ? title : mw.msg.settings))
+            mw.handleModule.setTitle(mod_icon, mod_handle_title)
 
 
             if(!mw.handleModule){
