@@ -29,16 +29,22 @@
     <?php endif; ?>
 
     <?php if (config('app.debug')): ?>
-    <br /><br />
+
+    <?php
+
+        /*  <br /><br />
     <a class="mw-ui-btn" onclick="mw.load_module('settings/group/experimental','#mw-advanced-settings-dev-tools-output')">
         <?php _e("Experimental settings"); ?>
-    </a>
-    <?php endif; ?>
-
-    <br /><br />
+    </a>     <br /><br />
    <a class="mw-ui-btn" onclick="mw.load_module('admin/modules/packages','#mw-advanced-settings-dev-tools-output')">
         <?php  _e("Packages");  ?>
-    </a>
+    </a>  */
+
+        ?>
+
+    <?php endif; ?>
+
+
     <div class="mw-clear" style="padding-bottom:10px;"></div>
     <div id="mw-advanced-settings-dev-tools-output"></div>
 </div>

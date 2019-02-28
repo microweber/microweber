@@ -22,8 +22,8 @@ if (!isset($parent) or $parent == '') {
 }
 
 $cats = get_categories('no_limit=true&order_by=position asc&rel_id=[not_null]&parent_id=' . intval($parent));
-if($selected_page){
-    $cats = get_categories('no_limit=true&order_by=position asc&rel_id='.intval($selected_page));
+if ($selected_page) {
+    $cats = get_categories('no_limit=true&order_by=position asc&rel_id=' . intval($selected_page));
 }
 
 if (!empty($cats)) {
@@ -50,11 +50,7 @@ if (!empty($cats)) {
 }
 
 
-
-
-
-
-if(!$cats){
+if (!$cats) {
     print lnotif('Categories not found');
 }
 

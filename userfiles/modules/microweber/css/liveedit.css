@@ -26,6 +26,45 @@ body.mw-live-edit .mw-control-box-left {
     height: 34px;
     line-height: 32px;
     font-size: 13px;
+
+}
+
+.mw-sidebar-open-btn:hover,
+.mw-sidebar-open-btn.opened {
+    background: #0086db;
+    color: #fff !important;
+    text-decoration: none;
+    transition: .3s !important;
+}
+
+.mw-sidebar-open-btn:hover i,
+.mw-sidebar-open-btn.opened i{
+    color: #fff !important;
+    transition: .3s !important;
+}
+
+#back-to-admin-toolbar {
+    border-color: #2b2b2b;
+    color: #2b2b2b !important;
+    transition: .3s !important;
+}
+
+#back-to-admin-toolbar i{
+    color: #2b2b2b !important;
+    transition: .3s !important;
+}
+
+
+#back-to-admin-toolbar:hover {
+    background: #2b2b2b;
+    color: white !important;
+    text-decoration: none;
+    transition: .3s !important;
+}
+
+#back-to-admin-toolbar:hover i {
+    color: white !important;
+    transition: .3s !important;
 }
 
 #live_edit_toolbar,
@@ -2006,10 +2045,10 @@ div.mw_drag_started, li.module-item.ui-draggable-dragging {
     cursor: no-drop;
 }
 
-/*.edit .element-current, .edit .element-current:hover {
+.edit .element-current, .edit .element-current:hover {
     outline: 1px solid #429BD5 !important;
     outline: 1px solid #9FCCEA !important;
-}*/
+}
 
 .mw-empty {
     display: none;
@@ -2393,7 +2432,6 @@ body.dragStart .empty-element {
     outline: 6px solid #227BD1 !important;
     outline: 6px solid rgba(34, 123, 209, 0.5) !important;
 }*/
-
 
 .mw-toolbar-btn-menu > a.mw-ui-btn {
     margin: 10px 8px 0;
@@ -3660,7 +3698,6 @@ body.mw-live-edit .mw-tooltip-content {
     overflow: hidden !important;
 }
 
-
 body {
     margin-right: 0;
     transition: margin-right .3s;
@@ -3814,10 +3851,12 @@ body.isTyping .mw-cloneable-control-item {
 #mw-text-editor .mw-ui-btn-medium.mw-sidebar-open-btn:not(.opened) {
     border: 1px solid #0086db;
     color: #0086db;
+    transition: color .3s;
 }
 
 #mw-text-editor .mw-ui-btn-medium.mw-sidebar-open-btn:not(.opened) i {
     color: #0086db;
+    transition: color .3s;
 }
 
 body.dragStart .nodrop {
@@ -4296,19 +4335,18 @@ body.dragStart .allow-drop {
     border-top-right-radius: 2px;
 }
 
-
-.mw-handle-item{
+.mw-handle-item {
     position: absolute;
     z-index: 1101;
     display: inline-block;
 }
 
 body.dragStart .mw-columns-resizer,
-body.dragStart .mw-handle-item{
+body.dragStart .mw-handle-item {
     display: none;
 }
 
-body.dragStart .mw-handle-item.ui-draggable-dragging{
+body.dragStart .mw-handle-item.ui-draggable-dragging {
     pointer-events: none;
     transition: none;
     display: inline-block;
@@ -4325,12 +4363,12 @@ body.dragStart .mw-handle-item.ui-draggable-dragging{
     white-space: nowrap;
 }
 
-.mw-handle-handler-title:after{
+.mw-handle-handler-title:after {
     content: "\0138";
     display: inline-block;
     width: 15px;
     height: 15px;
-    /*background-color: rgba(255,255,255,.3);*/
+    background-color: rgba(255, 255, 255, .3);
     border-radius: 15px;
     font-family: Microweber;
     text-align: center;
@@ -4341,11 +4379,11 @@ body.dragStart .mw-handle-item.ui-draggable-dragging{
     font-size: 8px;
 }
 
-.mw-handle-item.active .mw-handle-handler-title:after{
+.mw-handle-item.active .mw-handle-handler-title:after {
     transform: rotate(90deg);
 }
 
-.mw-handle-menu{
+.mw-handle-menu {
     background-color: #000;
     padding: 5px 0;
     border-radius: 3px;
@@ -4363,7 +4401,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging{
     margin-top: 10px;
 }
 
-.mw-handle-menu:after{
+.mw-handle-menu:after {
     position: absolute;
     top: -5px;
     left: 30px;
@@ -4375,7 +4413,8 @@ body.dragStart .mw-handle-item.ui-draggable-dragging{
     transform: rotate(45deg);
     transition: all .3s;
 }
-.mw-handle-menu:before{
+
+.mw-handle-menu:before {
     position: absolute;
     top: -10px;
     left: 0;
@@ -4384,17 +4423,19 @@ body.dragStart .mw-handle-item.ui-draggable-dragging{
     content: ' ';
     display: block;
 }
-.mw-handle-item.active .mw-handle-menu:after{
+
+.mw-handle-item.active .mw-handle-menu:after {
     height: 10px;
 }
-.mw-handle-item.active .mw-handle-menu{
+
+.mw-handle-item.active .mw-handle-menu {
     opacity: 1;
     visibility: visible;
-    transform: scale(1)  translate(0, 0);
+    transform: scale(1) translate(0, 0);
 }
 
 .mw-handle-menu-item, .mw-handle-menu-dynamic > *,
-.mw-handle-menu-item:hover, .mw-handle-menu-dynamic > *:hover, .mw-handle-menu-dynamic > *:focus{
+.mw-handle-menu-item:hover, .mw-handle-menu-dynamic > *:hover, .mw-handle-menu-dynamic > *:focus {
     display: block;
     padding: 5px 10px;
     white-space: nowrap;
@@ -4404,11 +4445,12 @@ body.dragStart .mw-handle-item.ui-draggable-dragging{
     z-index: 1;
     color: #fff;
 }
-.mw-handle-menu-item:hover{
-    background-color: rgba(255,255,255,.2);
+
+.mw-handle-menu-item:hover {
+    background-color: rgba(255, 255, 255, .2);
 }
 
-.mw-handle-menu-dynamic{
+.mw-handle-menu-dynamic {
     border-top: 1px solid #4b4b4b;
     border-bottom: 1px solid #4b4b4b;
 }
@@ -4416,16 +4458,12 @@ body.dragStart .mw-handle-item.ui-draggable-dragging{
     display: none;
 }
 
-
-
-.mw-handle-menu-item-icon, .mw-edit-module-settings-tooltip-icon{
+.mw-handle-menu-item-icon, .mw-edit-module-settings-tooltip-icon {
     font-size: 19px;
     margin-right: 6px;
 }
 
-
-.mw-handle-handler-icon{
-    position: relative;
+.mw-handle-handler-icon {
     padding: 0 5px 0 10px;
     margin: 0;
     border-right: 1px solid #333333;
@@ -4438,14 +4476,13 @@ body.dragStart .mw-handle-item.ui-draggable-dragging{
     text-align: center;
 }
 
-
-.mw-handle-item-mouse-down .mw-handle-handler-icon{
+.mw-handle-item-mouse-down .mw-handle-handler-icon {
     cursor: -webkit-grabbing;
     cursor: grabbing;
 
 }
 
-.mw-handle-handler-title{
+.mw-handle-handler-title {
     display: inline-block;
     line-height: 30px;
     height: 30px;
@@ -4455,18 +4492,18 @@ body.dragStart .mw-handle-item.ui-draggable-dragging{
     padding-left: 5px;
     border-radius: 0 33px 33px 0;
 }
-.mw-handle-handler-title:hover{
+
+.mw-handle-handler-title:hover {
     background-color: #505050;
 }
 
-
-.mw-handle-element-title-icon{
+.mw-handle-element-title-icon {
     font-weight: bold;
     font-size: 10px;
     color: #ffffff70;
 }
 
-.mw-handle-columns-icon{
+.mw-handle-columns-icon {
     width: 17px;
     padding: 2px;
     background-color: white;
@@ -4477,7 +4514,8 @@ body.dragStart .mw-handle-item.ui-draggable-dragging{
     height: 17px;
     top: 7px;
 }
-.mw-handle-columns-icon:after{
+
+.mw-handle-columns-icon:after {
     position: absolute;
     content: '';
     width: 3px;
@@ -4488,26 +4526,11 @@ body.dragStart .mw-handle-item.ui-draggable-dragging{
     background-color: #000;
 }
 
-.mw-handle-no-drag .mw-handle-handler-icon:after{
-    content: '';
-    position: absolute;
-    width: 3px;
-    height: 100%;
-    background-color: rgba(217, 0, 0, 0.63);
-    transform: rotate(45deg);
-    left: 50%;
-    top: 0;
-    transform-origin: center center;
-    border-radius: 3px;
-}
-.mw-handle-no-drag .mw-handle-handler{
-    cursor: no-drop;
-}
-.mw-handle-no-drag .mw-handle-handler-icon{
+.mw-handle-no-drag .mw-handle-handler-icon {
     pointer-events: none;
-    opacity: .6;
 }
-.mw-handle-no-drag .mw-handle-remove{
+
+.mw-handle-no-drag .mw-handle-remove {
     display: none;
 }
 
@@ -4539,3 +4562,6 @@ body.dragStart .mw-handle-item.ui-draggable-dragging{
 }
 
 
+.view-website-button:hover{
+    background: #fff;
+}

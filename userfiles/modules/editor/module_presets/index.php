@@ -184,16 +184,6 @@
                     //$(this).attr('release','btn_mod_id')
                 } else if (is_use != undefined) {
 
-                    var use_attrs = JSON.parse(saved_module_attrs_json);
-
-
-
-
-
-
-                    mw.module_preset_set_use(is_use, use_attrs);
-
-
                 } else {
 
 
@@ -226,6 +216,16 @@
                     });
 
                 }
+
+                var use_attrs = JSON.parse(saved_module_attrs_json);
+
+
+
+
+
+
+                mw.module_preset_set_use(is_use, use_attrs);
+
 
 
                 return false;
