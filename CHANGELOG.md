@@ -2,6 +2,20 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [1.1.3] - 2019-02-28
+- Added package manager 
+- Added package manager 
+- Fixes on the live edit 
+- Live edit handles improvements 
+- Live edit performance improvements 
+- Improvements on newsletter and calendar modules
+- Better touch screen support
+- Better RTL support
+- [see all changes....](https://github.com/microweber/microweber/compare/1.1.2...1.1.3 "")
+
+
+
 ## [1.1.2.1] - 2018-12-14
 - Maintenance release 
 - Some fixes on the live edit 

@@ -241,12 +241,12 @@ mw.dropables = {
     _elementRegister:null,
     element: function() {
         var element = mw.tools.firstParentOrCurrentWithClass(mw.mm_target, 'element');
-        if(element && this._elementRegister !== element){
+        if(element && this._elementRegister !== element) {
             this._elementRegister = element;
             if (!mw.tools.hasClass(element, 'module')
                 && (mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(mw.mm_target, ['edit', 'module'])
                     && mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(mw.mm_target, ['allow-drop', 'nodrop']))) {
-                mw.trigger("ElementOver", mw.mm_target);
+                mw.trigger("x-ElementOver", mw.mm_target);
             }
             else if(this._elementRegister !== null){
                 if (!mw.tools.firstParentOrCurrentWithId(mw.mm_target, 'mw_handle_element')) {
@@ -257,7 +257,7 @@ mw.dropables = {
         }
         if (mw.mm_target === mw.image_resizer && this._elementRegister !== mw.image.currentResizing[0]) {
             this._elementRegister = mw.image.currentResizing[0];
-            mw.trigger("ElementOver", mw.image.currentResizing[0]);
+            mw.trigger("x-ElementOver", mw.image.currentResizing[0]);
         }
     },
     _layoutRegister:null,

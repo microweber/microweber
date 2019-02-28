@@ -573,16 +573,9 @@ mw._initHandles = {
             mw.tools.classNamespaceDelete(mw.handleModule, 'module-active-');
             mw.tools.addClass(mw.handleModule, 'module-active-' + module_type.replace(/\//g, '-'));
 
-
-
-
-
-
             if (mw.live_edit_module_settings_array && mw.live_edit_module_settings_array[module_type]) {
 
                 mw.$(".mw_edit_settings", mw.handle_module).hide();
-
-
 
 
                     var new_el = mwd.createElement('div');
@@ -619,12 +612,7 @@ mw._initHandles = {
                                 icon = '<i class="mw-edit-module-settings-tooltip-icon ' + this.icon + '"></i>';
                             }
 
-                            new_el.innerHTML = '' +
-                                icon +
-                                '<span class="mw-edit-module-settings-tooltip-btn-title">' +
-                                this.title + 'Custom'+
-                                '</span>' +
-                                '';
+                            new_el.innerHTML =  (icon + '<span class="mw-edit-module-settings-tooltip-btn-title">' + this.title+'</span>');
 
 
 
@@ -697,7 +685,9 @@ mw._initHandles = {
                     icon: 'mw-icon-bin',
                     className:'mw-handle-remove',
                     action: function () {
-                        mw.drag.delete_element(mw._activeElementOver);
+                        mw.drag.delete_element(mw._activeRowOver, function () {
+                            $(mw.drag.columns.resizer).hide();
+                        });
                     }
                 }
             ]
@@ -722,6 +712,7 @@ mw._initHandles = {
                 mw.wysiwyg.change(mw.dragCurrent);
                 mw.smallEditor.css("visibility", "hidden");
                 mw.smallEditorCanceled = true;
+                $(mw.drag.columns.resizer).hide()
             },
             stop: function() {
                 $(mwd.body).removeClass("dragStart");
