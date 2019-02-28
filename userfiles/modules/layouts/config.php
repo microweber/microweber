@@ -11,16 +11,11 @@ $config['version'] = 0.1;
 $config['tables'] = array(
 
 );
-$config['settings'][]  = array(
-    'type'=>'popup',
-    'title'=>'',
-    'icon'=>'mw-icon-gear',
-    'view'=>'admin',
-);
+
 
 $config['settings'][]  = array(
     'type'=>'tooltip',
-    'title'=>'',
+    'title'=>'Spacing',
     'icon'=>'mw-icon-wand',
     'view'=>'quick_settings',
 );

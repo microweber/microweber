@@ -2006,10 +2006,10 @@ div.mw_drag_started, li.module-item.ui-draggable-dragging {
     cursor: no-drop;
 }
 
-.edit .element-current, .edit .element-current:hover {
+/*.edit .element-current, .edit .element-current:hover {
     outline: 1px solid #429BD5 !important;
     outline: 1px solid #9FCCEA !important;
-}
+}*/
 
 .mw-empty {
     display: none;
@@ -4330,7 +4330,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging{
     display: inline-block;
     width: 15px;
     height: 15px;
-    background-color: rgba(255,255,255,.3);
+    /*background-color: rgba(255,255,255,.3);*/
     border-radius: 15px;
     font-family: Microweber;
     text-align: center;
@@ -4422,6 +4422,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging{
 
 
 .mw-handle-handler-icon{
+    position: relative;
     padding: 0 5px 0 10px;
     margin: 0;
     border-right: 1px solid #333333;
@@ -4484,8 +4485,24 @@ body.dragStart .mw-handle-item.ui-draggable-dragging{
     background-color: #000;
 }
 
+.mw-handle-no-drag .mw-handle-handler-icon:after{
+    content: '';
+    position: absolute;
+    width: 3px;
+    height: 100%;
+    background-color: rgba(217, 0, 0, 0.63);
+    transform: rotate(45deg);
+    left: 50%;
+    top: 0;
+    transform-origin: center center;
+    border-radius: 3px;
+}
+.mw-handle-no-drag .mw-handle-handler{
+    cursor: no-drop;
+}
 .mw-handle-no-drag .mw-handle-handler-icon{
     pointer-events: none;
+    opacity: .6;
 }
 .mw-handle-no-drag .mw-handle-remove{
     display: none;

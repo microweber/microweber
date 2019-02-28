@@ -1222,6 +1222,7 @@ mw.wysiwyg = {
                     // isTyping class is removed from livedit.js
                     mw.tools.addClass(this, 'isTyping');
                     mwd.body.editor_typing_startTime = new Date();
+                    mw._initHandles.hideAll();
                 } else {
                     // user is typing
                     started_typing_endTime = new Date();

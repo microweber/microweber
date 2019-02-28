@@ -1490,7 +1490,7 @@ mw.drag = {
      * @method mw.edit.delete_element(idobj)
      * @param Element id or selector
      */
-    delete_element: function(idobj) {
+    delete_element: function(idobj, c) {
         mw.tools.confirm(mw.settings.sorthandle_delete_confirmation_text, function() {
 
             mw.wysiwyg.change(idobj);
@@ -1500,6 +1500,9 @@ mw.drag = {
                 mw.handleModule.hide()
                 $(mw.handleModule).removeClass('mw-active-item');
                 mw.drag.fix_placeholders(true);
+                if(c){
+                    c.call()
+                }
             }, 300);
         });
     },
