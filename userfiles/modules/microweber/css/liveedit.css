@@ -4412,6 +4412,9 @@ body.dragStart .mw-handle-item.ui-draggable-dragging{
     border-top: 1px solid #4b4b4b;
     border-bottom: 1px solid #4b4b4b;
 }
+.mw-handle-menu-dynamic:empty{
+    display: none;
+}
 
 
 
@@ -4506,6 +4509,33 @@ body.dragStart .mw-handle-item.ui-draggable-dragging{
 }
 .mw-handle-no-drag .mw-handle-remove{
     display: none;
+}
+
+#mw-handle-item-element .mw-handle-handler-icon{
+    border-right-color: #33333324;
+}
+#mw-handle-item-element .mw-handle-element-title-icon,
+#mw-handle-item-element .mw-handle-handler,
+#mw-handle-item-element .mw-handle-handler-icon,
+#mw-handle-item-element .mw-handle-handler-title{
+    height: 20px;
+    line-height: 20px;
+    /*color: #0a0a0a;*/
+}
+#mw-handle-item-element:hover .mw-handle-element-title-icon,
+#mw-handle-item-element:hover .mw-handle-handler,
+#mw-handle-item-element:hover .mw-handle-handler-icon,
+#mw-handle-item-element:hover .mw-handle-handler-title{
+    color: #fff;
+}
+
+
+/*#mw-handle-item-element .mw-handle-handler{
+    background-color: rgba(0,0,0,.1);
+}*/
+
+#mw-handle-item-element:hover .mw-handle-handler{
+    background-color: rgba(0,0,0,1);
 }
 
 

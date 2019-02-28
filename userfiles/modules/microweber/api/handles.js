@@ -339,7 +339,7 @@ mw._initHandles = {
 
             mw.handleElement.show()
             $(mw.handleElement.wrapper).css({
-                top: o.top - 30,
+                top: o.top - 20,
                 left: left_spacing
             });
 

@@ -111,7 +111,6 @@ mw.propEditor = {
             mw.propEditor.rend(this.rootHolder, this._rend);
         };
         this.updateSchema = function(schema){
-            this.pause = true;
             var final = [];
             for(var i =0; i<schema.length;i++){
                 var item = schema[i];
@@ -127,7 +126,6 @@ mw.propEditor = {
                     //this.rootHolder.appendChild(create.node);
                 }
             }
-            this.pause = false;
             return final;
         };
         this.setValue = function(val){
@@ -215,24 +213,16 @@ mw.propEditor = {
 
         },
         block:function(proto, config){
-            mw.propEditor.interfaces._count+=2500;
+            mw.propEditor.interfaces._count += 2500;
             this.node = document.createElement('div');
             var scope = this;
             if(typeof config.content === 'string') {
                 this.node.innerHTML = config.content;
             } else {
                 var newItems = proto.updateSchema(config.content);
-
-                (function (el, newItems) {
-                    //setTimeout(function () {
-                        for(var i=0; i < newItems.length; i++){
-                            el.appendChild(newItems[i].node);
-                        }
-                    //}, mw.propEditor.interfaces._count );
-
-                })(scope.node, newItems);
-
-
+                for(var i=0; i < newItems.length; i++){
+                    this.node.appendChild(newItems[i].node);
+                }
             }
             if(config.class){
                 this.node.className = config.class;
