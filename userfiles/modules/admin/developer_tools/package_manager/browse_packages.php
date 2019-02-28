@@ -34,7 +34,7 @@ if ($search_packages and is_array($search_packages)) {
     }
 }
 
-if(isset($packages_by_type['microweber-core-update']) and !empty($packages_by_type['microweber-core-update'])){
+if (isset($packages_by_type['microweber-core-update']) and !empty($packages_by_type['microweber-core-update'])) {
     $core_update = $packages_by_type['microweber-core-update'];
 
 }
@@ -50,8 +50,10 @@ if(isset($packages_by_type['microweber-core-update']) and !empty($packages_by_ty
     <?php } ?>
     <div class="pull-right">
         <div class="top-search">
-            <input value="" name="module_keyword" placeholder="Search" type="text" autocomplete="off" onkeyup="event.keyCode==13?mw.url.windowHashParam('search',this.value):false">
-            <span class="top-form-submit" onclick="mw.url.windowHashParam('search',$(this).prev().val())"><span class="mw-icon-search"></span></span>
+            <input value="" name="module_keyword" placeholder="Search" type="text" autocomplete="off"
+                   onkeyup="event.keyCode==13?mw.url.windowHashParam('search',this.value):false">
+            <span class="top-form-submit" onclick="mw.url.windowHashParam('search',$(this).prev().val())"><span
+                        class="mw-icon-search"></span></span>
         </div>
     </div>
 
@@ -60,8 +62,10 @@ if(isset($packages_by_type['microweber-core-update']) and !empty($packages_by_ty
             <li>
                 <a href="javascript:;"><span class="mw-icon-gear"></span> <span class="mw-icon-dropdown"></span></a>
                 <ul>
-                    <li><a href="javascript:;" onclick="mw.admin.admin_package_manager.reload_packages_list();">Reload packages</a></li>
-                    <li><a href="javascript:;" onclick="mw.admin.admin_package_manager.show_licenses_modal ();">Licenses</a></li>
+                    <li><a href="javascript:;" onclick="mw.admin.admin_package_manager.reload_packages_list();">Reload
+                            packages</a></li>
+                    <li><a href="javascript:;"
+                           onclick="mw.admin.admin_package_manager.show_licenses_modal ();">Licenses</a></li>
                 </ul>
             </li>
         </ul>
@@ -84,8 +88,15 @@ if(isset($packages_by_type['microweber-core-update']) and !empty($packages_by_ty
                 <ul class="mw-ui-box mw-ui-navigation" id="nav">
 
                     <?php foreach ($packages_by_type as $pkkey => $pkitems): ?>
+                        <?php
 
-                        <li><a href="javascript:;" ><?php print titlelize($pkkey) ?></a></li>
+                        $pkkeys = explode('-', $pkkey);
+                        array_shift($pkkeys);
+                        $pkkeys = implode('-', $pkkeys);
+
+
+                        ?>
+                        <li><a href="javascript:;"><?php print titlelize($pkkeys) ?></a></li>
 
                     <?php endforeach; ?>
 
@@ -95,17 +106,6 @@ if(isset($packages_by_type['microweber-core-update']) and !empty($packages_by_ty
         </div>
 
         <div class="mw-flex-col-xs-12 mw-flex-col-md-8 mw-flex-col-lg-10">
-
-
-
-
-
-
-
-
-
-
-
 
 
             <?php if ($core_update) : ?>
@@ -129,29 +129,11 @@ if(isset($packages_by_type['microweber-core-update']) and !empty($packages_by_ty
                     <?php endforeach; ?>
 
 
-
-
-
                 <?php endforeach; ?>
             <?php endif; ?>
 
 
-
-
-
-
-
-
-
-
-
             <div class="mw-ui-col-container">
-
-
-
-
-
-
 
 
                 <div class="mw-ui-box" style="width: 100%; padding: 12px 0;">
