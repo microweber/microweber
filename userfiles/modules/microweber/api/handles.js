@@ -14,7 +14,7 @@ mw.Handle = function(options) {
     this.createWrapper = function() {
         this.wrapper = mwd.createElement('div');
         this.wrapper.id = this.options.id || ('mw-handle-' + mw.random());
-        this.wrapper.className = 'mw-defaults mw-handle-item ' + (this.options.className || '');
+        this.wrapper.className = 'mw-defaults mw-handle-item ' + (this.options.className || 'mw-handle-type-default');
         this.wrapper.contenteditable = false;
         $(this.wrapper).on('mousedown', function () {
             mw.tools.addClass(this, 'mw-handle-item-mouse-down');
@@ -110,7 +110,7 @@ mw.Handle = function(options) {
     };
     this.createMenu = function(){
         this.menu = mwd.createElement('div');
-        this.menu.className = 'mw-handle-menu';
+        this.menu.className = 'mw-handle-menu ' + (this.options.menuClass ? this.options.menuClass : 'mw-handle-menu-default');
         if (this.options.menu) {
             for (var i=0; i<this.options.menu.length; i++) {
                 if(this.options.menu[i].title !== '{dynamic}') {
@@ -218,6 +218,7 @@ mw._initHandles = {
     elements: function(){
         mw.handleElement = new mw.Handle({
             id: 'mw-handle-item-element',
+            className:'mw-handle-type-element',
             menu:[
                 {
                     title: 'Remove',
@@ -305,8 +306,8 @@ mw._initHandles = {
                 left_spacing = 0;
             }
 
-            var icon = '<span class="mw-handle-element-title-icon">'+element.nodeName+'</span>';
-            var icon = '<span class="mw-handle-element-title-icon">'+'<span class="mw-icon-app-more"></span> '+'</span>';
+            /*var icon = '<span class="mw-handle-element-title-icon">'+element.nodeName+'</span>';
+            var icon = '<span class="mw-handle-element-title-icon">'+'<span class="mw-icon-app-more"></span> '+'</span>';*/
             var icon = '<span class="mw-handle-element-title-icon">'+'<span class="mw-icon-drag"></span> '+'</span>';
 
             var title = '';
@@ -341,7 +342,7 @@ mw._initHandles = {
 
             mw.handleElement.show()
             $(mw.handleElement.wrapper).css({
-                top: o.top - 20,
+                top: o.top - 10,
                 left: left_spacing
             });
 

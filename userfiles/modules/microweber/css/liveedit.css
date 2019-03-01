@@ -2045,10 +2045,7 @@ div.mw_drag_started, li.module-item.ui-draggable-dragging {
     cursor: no-drop;
 }
 
-.edit .element-current, .edit .element-current:hover {
-    outline: 1px solid #429BD5 !important;
-    outline: 1px solid #9FCCEA !important;
-}
+
 
 .mw-empty {
     display: none;
@@ -3143,20 +3140,21 @@ div[id*='SSDIVEL'] {
 
 .mwInaccessibleModulesMenu {
     position: absolute;
-    z-index: 1102;
+    z-index: 1101;
     margin: 20px 0 0;
 }
 
 .mwInaccessibleModulesMenu .mw-ui-btn {
     text-transform: capitalize;
+
+    font-size: 12px;
 }
 
 .mwInaccessibleModulesMenu .mw-ui-btn {
     color: #2b2b2b;
-    background: #fff;
+    background-color: #D3DCE4;
     text-decoration: none;
     display: inline-block;
-    padding: 2px 7px;
     outline: none;
     position: relative;
     z-index: 1;
@@ -4202,8 +4200,6 @@ body.dragStart .allow-drop {
 }
 
 #mw-sidebar-quick-edit-items {
-    padding-left: 0;
-    padding-right: 0;
     position: static;
     padding: 0;
     background-color: #fff;
@@ -4352,18 +4348,21 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     display: inline-block;
 }
 
-.mw-handle-handler {
+.mw-handle-handler  {
     display: inline-block;
+    position: relative;
+    white-space: nowrap;
+}
+
+.mw-handle-type-default .mw-handle-handler {
     height: 30px;
     border-radius: 33px;
     background-color: #0a0a0a;
     color: white;
     line-height: 30px;
-    position: relative;
-    white-space: nowrap;
 }
 
-.mw-handle-handler-title:after {
+.mw-handle-type-default .mw-handle-handler-title:after {
     content: "\0138";
     display: inline-block;
     width: 15px;
@@ -4378,21 +4377,23 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     font-size: 8px;
 }
 
-.mw-handle-item.active .mw-handle-handler-title:after {
+.mw-handle-type-default .mw-handle-item.active .mw-handle-handler-title:after {
     transform: rotate(90deg);
 }
 
 .mw-handle-menu {
-    background-color: #000;
-    padding: 5px 0;
-    border-radius: 3px;
-    color: #fff;
     position: absolute;
     top: 100%;
     left: 0;
     display: block;
     opacity: 0;
     visibility: hidden;
+}
+.mw-handle-menu-default.mw-handle-menu {
+    background-color: #000;
+    padding: 5px 0;
+    border-radius: 3px;
+    color: #fff;
     transform: scale(1, .5) translateZ(-30px);
     transform-origin: left center;
     min-width: 175px;
@@ -4400,7 +4401,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     margin-top: 10px;
 }
 
-.mw-handle-menu:after {
+.mw-handle-menu-default.mw-handle-menu:after {
     position: absolute;
     top: -5px;
     left: 30px;
@@ -4413,7 +4414,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     transition: all .3s;
 }
 
-.mw-handle-menu:before {
+.mw-handle-menu-default.mw-handle-menu:before {
     position: absolute;
     top: -10px;
     left: 0;
@@ -4423,7 +4424,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     display: block;
 }
 
-.mw-handle-item.active .mw-handle-menu:after {
+.mw-handle-item.active .mw-handle-menu-default.mw-handle-menu:after {
     height: 10px;
 }
 
@@ -4445,11 +4446,11 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     color: #fff;
 }
 
-.mw-handle-menu-item:hover {
+.mw-handle-menu-default .mw-handle-menu-item:hover {
     background-color: rgba(255, 255, 255, .2);
 }
 
-.mw-handle-menu-dynamic {
+.mw-handle-menu-default .mw-handle-menu-dynamic {
     border-top: 1px solid #4b4b4b;
     border-bottom: 1px solid #4b4b4b;
 }
@@ -4457,12 +4458,12 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     display: none;
 }
 
-.mw-handle-menu-item-icon, .mw-edit-module-settings-tooltip-icon {
+.mw-handle-type-default .mw-handle-menu-item-icon, .mw-handle-type-default .mw-edit-module-settings-tooltip-icon {
     font-size: 19px;
     margin-right: 6px;
 }
 
-.mw-handle-handler-icon {
+.mw-handle-type-default .mw-handle-handler-icon {
     padding: 0 5px 0 10px;
     margin: 0;
     border-right: 1px solid #333333;
@@ -4481,7 +4482,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 
 }
 
-.mw-handle-handler-title {
+.mw-handle-type-default .mw-handle-handler-title {
     display: inline-block;
     line-height: 30px;
     height: 30px;
@@ -4492,17 +4493,17 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     border-radius: 0 33px 33px 0;
 }
 
-.mw-handle-handler-title:hover {
+.mw-handle-type-default .mw-handle-handler-title:hover {
     background-color: #505050;
 }
 
-.mw-handle-element-title-icon {
+.mw-handle-type-default .mw-handle-element-title-icon {
     font-weight: bold;
     font-size: 10px;
     color: #ffffff70;
 }
 
-.mw-handle-columns-icon {
+.mw-handle-type-default .mw-handle-columns-icon {
     width: 17px;
     padding: 2px;
     background-color: white;
@@ -4514,7 +4515,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     top: 7px;
 }
 
-.mw-handle-columns-icon:after {
+.mw-handle-type-default .mw-handle-columns-icon:after {
     position: absolute;
     content: '';
     width: 3px;
@@ -4533,87 +4534,94 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     display: none;
 }
 
-#mw-handle-item-element .mw-handle-handler-icon{
-    border-right-color: #33333324;
-    padding: 0 5px 0 5px;
-    min-width: 21px;
-}
-#mw-handle-item-element .mw-handle-element-title-icon,
-#mw-handle-item-element .mw-handle-handler,
-#mw-handle-item-element .mw-handle-handler-icon,
-#mw-handle-item-element .mw-handle-handler-title{
-    height: 20px;
-    line-height: 20px;
-    /*color: #0a0a0a;*/
-}
-#mw-handle-item-element:hover .mw-handle-element-title-icon,
-#mw-handle-item-element:hover .mw-handle-handler,
-#mw-handle-item-element:hover .mw-handle-handler-icon,
-#mw-handle-item-element:hover .mw-handle-handler-title{
-
-
-
-    color: black;
-    font-size: 9px;
-}
-
-
-
-#mw-handle-item-element .mw-handle-handler-title {
+.mw-handle-no-drag .mw-handle-remove {
     display: none;
 }
-#mw-handle-item-element .mw-handle-handler-title:after {
-    margin-left: 3px;
-    display: none;
 
-    /*content: "\0138";
+
+.mw-handle-type-element .mw-handle-handler{
     display: inline-block;
-    width: 15px;
-    height: 15px;
+    height: 20px;
+    margin-top: -10px
+}
+.mw-handle-type-element .mw-icon-drag{
+    font-size: 17px;
+}
+
+.mw-handle-type-element .mw-handle-handler-icon{
+    width: 27px;
+    height: 20px;
+    border: 1px solid #d3dce4;
+    text-align: center;
+    cursor: -webkit-grab;
+    cursor: grab;
+    display: inline-block;
+    border-radius: 20px;
+    transition: .3s;
+    background-color: white;
+    z-index: 2;
+    position: relative;
+}
+
+.mw-handle-type-element .mw-handle-handler-title{
+    width: 22px;
+    height: 20px;
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 0 20px 20px 0;
+    background-color: #d3dce4;
+    text-align: center;
+    transition: .3s;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+}
+.mw-handle-type-element:hover .mw-handle-handler-title,
+.mw-handle-type-element.active .mw-handle-handler-title{
+    opacity: 1;
+    visibility: visible;
+    left: 100%;
+}
+
+.mw-handle-type-element.active .mw-handle-handler-icon,
+.mw-handle-type-element:hover .mw-handle-handler-icon{
+    border-radius: 20px 0 0 20px;
+}
+
+
+.mw-handle-type-element  .mw-handle-handler-title:after {
+    content: "\0138";
+    display: inline-block;
+    height: 20px;
     border-radius: 15px;
     font-family: Microweber;
     text-align: center;
     transition: all .3s;
-    line-height: 16px;
+    font-size: 9px;
+    line-height: 21px;
     transform-origin: center;
-    font-size: 8px;*/
+    width: 20px;
 }
-#mw-handle-item-element:hover .mw-handle-handler-title:after {
-    display: inline-block;
+.mw-handle-type-element.active  .mw-handle-handler-title:after{
+    transform: rotate(90deg);
 }
-#mw-handle-item-element:hover .mw-handle-handler-title {
-    display: inline-block;
-}
-
-
-#mw-handle-item-element .mw-handle-handler-title {
-
-    padding-right: 3px;
-    vertical-align: top;
-
-    padding-left: 3px;
-    border-radius: 0 11px 11px 0;
+.edit .element-current, .edit .element-current:hover {
+    outline: 1px solid #0086DB !important;
 }
 
- #mw-handle-item-element .mw-handle-handler{
-  /*  background-color: rgba(0,0,0,.4);*/
-    background-color: transparent;
-
-
-     border-radius: 5px;
+.mw_module_settings_sidebar_icon{
+    margin: 4px 5px 0px 0px;
 }
 
-#mw-handle-item-element .mw-handle-element-title-icon{
-    color:  black;
-}
 
-#mw-handle-item-element:hover .mw-handle-handler{
-   /* background-color: rgba(0,0,0,1);*/
-    background-color: #d8d8d8;
-    color:  black;
-}
+
+
+
 
 
 .view-website-button:hover{
     background: #fff;
 }
+

@@ -78,7 +78,8 @@ $(document).ready(function() {
         modules.each(function(){
               var span = document.createElement('span');
               span.className = 'mw-ui-btn mw-ui-btn-small';
-              span.innerHTML = '<span class="mw-icon-module"></span>' + $(this).attr('data-type');
+              var type = $(this).attr('data-type')
+              span.innerHTML = mw.live_edit.getModuleIcon(type) + mw.live_edit.registry[type].title;
               var el = this;
               span.onclick = function(){
                   mw.tools.module_settings(el);

@@ -44,7 +44,8 @@ mw.lib.require('nestedsortable');
                 prepend:false,
                 selectable:false,
                 filter:false,
-                cantSelectTypes: []
+                cantSelectTypes: [],
+                document: document
             };
 
             var options = $.extend({}, defaults, config);
@@ -55,6 +56,7 @@ mw.lib.require('nestedsortable');
             options.data = options.data || [];
 
             this.options = options;
+            this.document = options.document;
 
             if(this.options.selectedData){
                 this.selectedData = this.options.selectedData;
@@ -92,7 +94,7 @@ mw.lib.require('nestedsortable');
         };
 
         this.json2ul = function(){
-            this.list = document.createElement( 'ul' );
+            this.list = scope.document.createElement( 'ul' );
             this.options.id = this.options.id || ( 'mw-tree-' + window.mwtree );
             this.list.id = this.options.id;
             this.list.className = 'mw-defaults mw-tree-nav mw-tree-nav-skin-'+this.options.skin;
@@ -322,7 +324,7 @@ mw.lib.require('nestedsortable');
         };
 
         this.button = function(){
-            var btn = document.createElement('mwbutton');
+            var btn = scope.document.createElement('mwbutton');
             btn.className = 'mw-tree-toggler';
             btn.onclick = function(){
                 scope.toggle(this.parentNode);
@@ -341,7 +343,7 @@ mw.lib.require('nestedsortable');
 
         this.checkBox = function(element){
             if(this.options.cantSelectTypes.indexOf(element.dataset.type) !== -1){
-                return document.createTextNode('');
+                return scope.document.createTextNode('');
             }
             var itype = 'radio';
             if(this.options.singleSelect){
@@ -350,9 +352,9 @@ mw.lib.require('nestedsortable');
             else if(this.options.multiPageSelect || element._data.type !== 'page'){
                 itype = 'checkbox';
             }
-            var label = document.createElement('tree-label');
-            var input = document.createElement('input');
-            var span = document.createElement('span');
+            var label = scope.document.createElement('tree-label');
+            var input = scope.document.createElement('input');
+            var span = scope.document.createElement('span');
             input.type = itype;
             input._data = element._data;
             input.value = element._data.id;
@@ -472,12 +474,12 @@ mw.lib.require('nestedsortable');
         };
 
         this.contextMenu = function(element){
-            var menu = document.createElement('span');
+            var menu = scope.document.createElement('span');
             menu.className = 'mw-tree-context-menu';
             if(this.options.contextMenu){
                 $.each(this.options.contextMenu, function(){
-                    var menuitem = document.createElement('span');
-                    var icon = document.createElement('span');
+                    var menuitem = scope.document.createElement('span');
+                    var icon = scope.document.createElement('span');
                     menuitem.title = this.title;
                     menuitem.className = 'mw-tree-context-menu-item';
                     icon.className = this.icon;
@@ -506,13 +508,13 @@ mw.lib.require('nestedsortable');
         };
 
         this.createItem = function(item){
-            var li = document.createElement('li');
+            var li = scope.document.createElement('li');
             li.dataset.type = item.type;
             li.dataset.id = item.id;
             li.dataset.parent_id = item.parent_id;
             var skip = this.skip(item);
             li.className = 'type-' + item.type + ' subtype-'+ item.subtype + ' skip-' + skip;
-            var container = document.createElement('span');
+            var container = scope.document.createElement('span');
             container.className = "mw-tree-item-content";
             container.innerHTML = '<span class="mw-tree-item-title">'+item.title+'</span>';
             li._data = item;
@@ -530,7 +532,7 @@ mw.lib.require('nestedsortable');
         };
 
         this.createList = function(item){
-            var nlist = document.createElement('ul');
+            var nlist = scope.document.createElement('ul');
             nlist.dataset.type = item.parent_type;
             nlist.dataset.id = item.parent_id;
             nlist.className = 'pre-init';
@@ -584,17 +586,17 @@ mw.lib.require('nestedsortable');
         };
 
         this.additional = function (obj) {
-            var li = document.createElement('li');
+            var li = scope.document.createElement('li');
             li.className = 'mw-tree-additional-item';
-            var container = document.createElement('span');
-            var containerTitle = document.createElement('span');
+            var container = scope.document.createElement('span');
+            var containerTitle = scope.document.createElement('span');
             container.className = "mw-tree-item-content";
             containerTitle.className = "mw-tree-item-title";
             container.appendChild(containerTitle);
             li.appendChild(container);
             if(obj.icon){
                 if(obj.icon.indexOf('</') === -1){
-                    var icon = document.createElement('span');
+                    var icon = scope.document.createElement('span');
                     icon.className = obj.icon;
                     containerTitle.appendChild(icon)
                 }
@@ -603,7 +605,7 @@ mw.lib.require('nestedsortable');
                 }
 
             }
-            var title = document.createElement('span');
+            var title = scope.document.createElement('span');
             title.innerHTML = obj.title;
             containerTitle.appendChild(title);
             li.onclick = function (ev) {

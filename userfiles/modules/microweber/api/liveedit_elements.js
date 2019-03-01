@@ -209,11 +209,11 @@ mw.dropables = {
                 mw.trigger("moduleOver", triggerTarget);
             }
         } else {
-            if (mw.mm_target.id !== 'mw_handle_module' && !mw.tools.hasParentWithId(mw.mm_target, 'mw_handle_module')) {
-                if(this._moduleRegister !== null) {
+            if (mw.mm_target.id !== 'mw-handle-item-module' && !mw.tools.hasParentWithId(mw.mm_target, 'mw-handle-item-module')) {
+                /*if(this._moduleRegister !== null) {*/
                     mw.trigger("ModuleLeave", mw.mm_target);
-                    this._moduleRegister = null;
-                }
+                    /*this._moduleRegister = null;
+                }*/
             }
         }
     },
@@ -244,19 +244,21 @@ mw.dropables = {
         if(element && this._elementRegister !== element) {
             this._elementRegister = element;
             if (!mw.tools.hasClass(element, 'module')
-                && (mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(mw.mm_target, ['edit', 'module'])
-                    && mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(mw.mm_target, ['allow-drop', 'nodrop']))) {
-                mw.trigger("ElementOver", mw.mm_target);
+                && (mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(element, ['edit', 'module'])
+                    && mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(element, ['allow-drop', 'nodrop']))) {
+
+                mw.trigger("ElementOver", element);
             }
             else /*if(this._elementRegister !== null)*/{
                 //if (!mw.tools.firstParentOrCurrentWithId(mw.mm_target, 'mw_handle_element')) {
                     this._elementRegister = null;
-                    mw.trigger("ElementLeave", mw.mm_target);
+                    //mw.trigger("ElementLeave", element);
                 //}
             }
         } else if(!element && !mw.tools.firstParentOrCurrentWithId(mw.mm_target, 'mw-handle-item-element')) {
             this._elementRegister = null;
-            mw.trigger("ElementLeave", mw.mm_target);
+            mw.trigger("ElementLeave");
+            console.log(333)
         }
         if (mw.mm_target === mw.image_resizer && this._elementRegister !== mw.image.currentResizing[0]) {
             this._elementRegister = mw.image.currentResizing[0];
