@@ -4331,6 +4331,14 @@ body.dragStart .allow-drop {
     border-top-right-radius: 2px;
 }
 
+.mw-handle-item,
+.mw-handle-item *{
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -webkit-touch-callout: none;
+    -moz-user-select: none;
+}
 .mw-handle-item {
     position: absolute;
     z-index: 1101;
@@ -4458,7 +4466,8 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     display: none;
 }
 
-.mw-handle-type-default .mw-handle-menu-item-icon, .mw-handle-type-default .mw-edit-module-settings-tooltip-icon {
+.mw-handle-menu-default .mw-handle-menu-item-icon,
+.mw-handle-menu-default .mw-edit-module-settings-tooltip-icon {
     font-size: 19px;
     margin-right: 6px;
 }
@@ -4542,7 +4551,8 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 .mw-handle-type-element .mw-handle-handler{
     display: inline-block;
     height: 20px;
-    margin-top: -10px
+    margin-top: -10px;
+    margin-left: 8px;
 }
 .mw-handle-type-element .mw-icon-drag{
     font-size: 17px;
@@ -4604,7 +4614,8 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     transform-origin: center;
     width: 20px;
 }
-.mw-handle-type-element.active  .mw-handle-handler-title:after{
+.mw-handle-type-default.active .mw-handle-handler-title:after,
+.mw-handle-type-element.active .mw-handle-handler-title:after{
     transform: rotate(90deg);
 }
 .edit .element-current, .edit .element-current:hover {
@@ -4615,13 +4626,12 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     margin: 4px 5px 0px 0px;
 }
 
-
-
-
-
-
-
 .view-website-button:hover{
     background: #fff;
+}
+
+.toolbar-hover .mw-wyswyg-plus-element,
+.toolbar-hover .mw-handle-item{
+    display: none !important;
 }
 

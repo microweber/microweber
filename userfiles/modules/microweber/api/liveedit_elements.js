@@ -258,7 +258,6 @@ mw.dropables = {
         } else if(!element && !mw.tools.firstParentOrCurrentWithId(mw.mm_target, 'mw-handle-item-element')) {
             this._elementRegister = null;
             mw.trigger("ElementLeave");
-            console.log(333)
         }
         if (mw.mm_target === mw.image_resizer && this._elementRegister !== mw.image.currentResizing[0]) {
             this._elementRegister = mw.image.currentResizing[0];

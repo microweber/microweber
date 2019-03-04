@@ -78,7 +78,7 @@ $(document).ready(function() {
         modules.each(function(){
               var span = document.createElement('span');
               span.className = 'mw-ui-btn mw-ui-btn-small';
-              var type = $(this).attr('data-type')
+              var type = $(this).attr('data-type');
               span.innerHTML = mw.live_edit.getModuleIcon(type) + mw.live_edit.registry[type].title;
               var el = this;
               span.onclick = function(){
@@ -753,7 +753,7 @@ mw.drag = {
                     mw.drag.module_settings(mw.tools.firstParentOrCurrentWithAnyOfClasses(event.target, ['module']))
                 } else {
 
-            
+
                         //var id = mwd.tools.firstParentWithClass(event.target, 'module').id;
                     var target = mw.tools.firstParentWithClass(event.target, 'module') ;
                     mw.liveNodeSettings.set('module', target);
