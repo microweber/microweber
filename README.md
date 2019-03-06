@@ -18,7 +18,7 @@
 ## What is Microweber?  
 
 
-![admin panel](http://microweber.org/userfiles/templates/microweber_org/assets/img/section-46/image.png "")
+![admin panel](https://microweber.org/userfiles/templates/microweber_org/assets/img/section-46/image.png "")
 
 
 Microweber is a Drag and Drop website builder and powerful CMS of new generation. It's based on PHP Laravel Framework. You can use Microweber to make a any kind of website, online store and blog. The Drag and Drop technology allows you to build your website without any technical knowledge.
@@ -73,9 +73,9 @@ Perhaps the main focus of Microweber CMS is E-commerce. A rising number of peopl
 
 ## See it in action
 
-* [Microweber Live Demo](http://demo.microweber.org/?template=dream)
+* [Microweber Live Demo](https://demo.microweber.org/?template=dream)
 * [Microweber Video](https://sitestatic.microweber.com/userfiles/templates/mw/videos/1.mp4)
-* [Deploy as DigitalOcean 1-Click App] (https://marketplace.digitalocean.com/apps/microweber?action=deploy&refcode=83e0646738fe)
+* [Deploy as DigitalOcean 1-Click App](https://marketplace.digitalocean.com/apps/microweber?action=deploy&refcode=83e0646738fe)
 
 
 
