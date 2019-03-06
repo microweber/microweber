@@ -65,7 +65,7 @@ You can add dynamic pages, posts, products. All of these can be organized in cus
 
 Perhaps the main focus of Microweber CMS is E-commerce. A rising number of people have grown fond of the idea of online entrepreneurship and we aspire to cover their needs. The software has some built-in features that will help online shop founders see their business grow and excel.
 
-![E-commerce solution](http://microweber.org/userfiles/media/microweber.org/layer_31.png "")
+![E-commerce solution](https://microweber.org/userfiles/media/microweber.org/layer_31.png "")
 
 
 
@@ -73,11 +73,9 @@ Perhaps the main focus of Microweber CMS is E-commerce. A rising number of peopl
 
 ## See it in action
 
-### [Microweber Live Demo] (http://demo.microweber.org/?template=dream)
-
-### [Microweber Video] (http://demo.microweber.org/?template=dream)
-
-### [Deploy as DigitalOcean 1-Click App] (https://marketplace.digitalocean.com/apps/microweber?action=deploy&refcode=83e0646738fe)
+* [Microweber Live Demo](http://demo.microweber.org/?template=dream)
+* [Microweber Video](https://sitestatic.microweber.com/userfiles/templates/mw/videos/1.mp4)
+* [Deploy as DigitalOcean 1-Click App] (https://marketplace.digitalocean.com/apps/microweber?action=deploy&refcode=83e0646738fe)
 
 
 
@@ -89,12 +87,9 @@ Perhaps the main focus of Microweber CMS is E-commerce. A rising number of peopl
 
 * HTTP server  
 * Database server
-* PHP >= 5.6 or [HHVM](http://docs.hhvm.com/manual/en/install-intro.install.php). The following only apply to PHP as they're included in the HHVM core.
+* PHP >= 5.6 
   * `lib-xml` must be enabled (with DOM support)
   * `GD` PHP extension
-  * `Mcrypt` PHP extension
-
-*Developer Note: Microweber runs great on HHVM. We highly recommend replacing PHP with HHVM (on Linux environments) or at least try it out if it's new to you.*
 
 ### HTTP Server
 
