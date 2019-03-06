@@ -18,7 +18,7 @@
 ## What is Microweber?  
 
 
-![admin panel](https://microweber.org/userfiles/templates/microweber_org/assets/img/section-46/image.png "")
+![admin panel](https://sitestatic.microweber.com/cdn/gh_readme/image.png "")
 
 
 Microweber is a Drag and Drop website builder and powerful CMS of new generation. It's based on PHP Laravel Framework. You can use Microweber to make a any kind of website, online store and blog. The Drag and Drop technology allows you to build your website without any technical knowledge.
@@ -37,7 +37,7 @@ Microweber operates on the Drag & Drop technology. This means that users can man
 
 
 
-![Drag and Drop](https://microweber.org/userfiles/media/microweber.org/microweber_drag_and_drop_gif_optimized_1.gif "")
+![Drag and Drop](https://sitestatic.microweber.com/cdn/gh_readme/microweber_drag_and_drop_gif_optimized_1.gif "")
 
 
 
@@ -45,7 +45,7 @@ Microweber operates on the Drag & Drop technology. This means that users can man
 #### Real Time Text Editing
 
 
-![E-commerce solution](https://sitestatic.microweber.com/userfiles/templates/mw/img/homepage-2018-third-section.gif "")
+![E-commerce solution](https://sitestatic.microweber.com/cdn/gh_readme/homepage-2018-third-section.gif "")
 
 Live Edit view is the manifestation of the Real-Time Text Writing & Editing core feature of Microweber CMS. Working in Live Edit view is in fact working on your website’s interface in real time. 
 
@@ -65,7 +65,7 @@ You can add dynamic pages, posts, products. All of these can be organized in cus
 
 Perhaps the main focus of Microweber CMS is E-commerce. A rising number of people have grown fond of the idea of online entrepreneurship and we aspire to cover their needs. The software has some built-in features that will help online shop founders see their business grow and excel.
 
-![E-commerce solution](https://microweber.org/userfiles/media/microweber.org/layer_31.png "")
+![E-commerce solution](https://sitestatic.microweber.com/cdn/gh_readme/layer_31.png "")
 
 
 
