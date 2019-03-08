@@ -5,7 +5,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.1.3] - 2019-02-28
 - Added package manager 
-- Added package manager 
 - Fixes on the live edit 
 - Live edit handles improvements 
 - Live edit performance improvements 
@@ -21,8 +20,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Some fixes on the live edit 
 - Custom CSS editor now saves properly
 - Added compatibility with Gramarly and Naptha browser plugins
-- [see all changes....](https://github.com/microweber/microweber/compare/1.1.2...1.1.3 "")
-
 
 ## [1.1.2] - 2018-12-06
 - Major update 

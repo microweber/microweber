@@ -14,10 +14,12 @@
 
 ---
 
-![Live edit](https://microweber.com/cdn/2019_version/1.jpg "")
+
+## What is Microweber?  
 
 
-## What is Microweber? <a name="what-is" />
+![admin panel](https://sitestatic.microweber.com/cdn/gh_readme/image.png "")
+
 
 Microweber is a Drag and Drop website builder and powerful CMS of new generation. It's based on PHP Laravel Framework. You can use Microweber to make a any kind of website, online store and blog. The Drag and Drop technology allows you to build your website without any technical knowledge.
 
@@ -25,46 +27,69 @@ The core idea of the software is to let you create your own website, online shop
 
 The most important thing you need to know is that Microweber pairs the latest CMS trend the unique Drag & Drop technology, with a revolutionary Real-Time Text Writing & Editing feature. Talking in user benefit, this pair of features means improved user experience, easier and quicker content management, visually highly appealing environment and flexibility.
 
-## Core features of Microweber <a name="core-features" />
 
-#### Powerful Admin Panel
+## Core features of Microweber  
 
-You can add dynamic pages, posts, products. All of these can be organized in custom categories in order to achieve a better navigation and showcase of a website's content. New pages can be created using different layouts and all pages, posts and products come with a preset number layouts and modules to get users started. These modules can be changed and you can of course add your own custom set of modules as to create the most suitable content for your needs.
-
-![Live edit](https://microweber.com/cdn/2019_version/2.jpg "")
 
 #### Drag & Drop
 
 Microweber operates on the Drag & Drop technology. This means that users can manage their content and arrange elements with just a click of the mouse, dragging and dropping them across the screen. Drag & Drop applies to all types of content: images, text fields, videos, and the whole variety of modules and additional customization options you have as a user. The default template “Dream” comes with more than 75+ prepared layouts that you can use via drag and drop.
 
-![Drag and Drop](https://microweber.com/cdn/2019_version/7.png "")
+
+
+![Drag and Drop](https://sitestatic.microweber.com/cdn/gh_readme/microweber_drag_and_drop_gif_optimized_1.gif "")
+
+
+
+
+#### Real Time Text Editing
+
+
+![E-commerce solution](https://sitestatic.microweber.com/cdn/gh_readme/homepage-2018-third-section.gif "")
+
+Live Edit view is the manifestation of the Real-Time Text Writing & Editing core feature of Microweber CMS. Working in Live Edit view is in fact working on your website’s interface in real time. 
+
+
+
+
+
+
+#### Powerful Admin Panel
+
+You can add dynamic pages, posts, products. All of these can be organized in custom categories in order to achieve a better navigation and showcase of a website's content. New pages can be created using different layouts and all pages, posts and products come with a preset number layouts and modules to get users started. These modules can be changed and you can of course add your own custom set of modules as to create the most suitable content for your needs.
+
+
+
 
 #### E-commerce Solution
 
 Perhaps the main focus of Microweber CMS is E-commerce. A rising number of people have grown fond of the idea of online entrepreneurship and we aspire to cover their needs. The software has some built-in features that will help online shop founders see their business grow and excel.
 
-![E-commerce solution](https://microweber.com/cdn/2019_version/3.jpg "")
-
-#### Real Time Text Editing
+![E-commerce solution](https://sitestatic.microweber.com/cdn/gh_readme/layer_31.png "")
 
 
 
-![E-commerce solution](https://microweber.com/cdn/2019_version/6.png "")
 
-Live Edit view is the manifestation of the Real-Time Text Writing & Editing core feature of Microweber CMS. Working in Live Edit view is in fact working on your website’s interface in real time. 
 
-### [Microweber Live Demo](http://demo.microweber.org/?template=dream)
+## See it in action
 
-## Requirements <a name="requirements" />
+* [Microweber Live Demo](https://demo.microweber.org/?template=dream)
+* [Microweber Video](https://sitestatic.microweber.com/userfiles/templates/mw/videos/1.mp4)
+* [Deploy as DigitalOcean 1-Click App](https://marketplace.digitalocean.com/apps/microweber?action=deploy&refcode=83e0646738fe)
 
-* HTTP server ([Apache](http://httpd.apache.org/), [IIS](http://www.iis.net/downloads), [nginx](http://nginx.org/en/download.html), etc.)
+
+
+
+
+
+
+## Requirements  
+
+* HTTP server  
 * Database server
-* PHP >= 5.6 or [HHVM](http://docs.hhvm.com/manual/en/install-intro.install.php). The following only apply to PHP as they're included in the HHVM core.
+* PHP >= 5.6 
   * `lib-xml` must be enabled (with DOM support)
   * `GD` PHP extension
-  * `Mcrypt` PHP extension
-
-*Developer Note: Microweber runs great on HHVM. We highly recommend replacing PHP with HHVM (on Linux environments) or at least try it out if it's new to you.*
 
 ### HTTP Server
 
@@ -82,6 +107,7 @@ server {
 ```
 
 ### IIS
+
 You can easily [import the `.htaccess` rewrite rules](http://www.iis.net/learn/extensions/url-rewrite-module/importing-apache-modrewrite-rules). Make sure you have enabled [the URL Rewrite module](http://www.iis.net/learn/extensions/url-rewrite-module/using-the-url-rewrite-module) for your website.
 
 ### Database
@@ -92,7 +118,7 @@ However, you can connect to more storage services (like [MongoDB](https://github
 On the installation screen you can only choose from databases enabled in your PHP configuration.
 If you don't see your server of choice in the list you have to enable the corresponding [PDO](http://php.net/manual/en/book.pdo.php) extension for your database server. [An example for Microsoft SQL Server](http://php.net/manual/en/mssql.installation.php). PHP usually comes with PDO enabled by default but you might have to uncomment or add `extension` directives to your `php.ini`.
 
-## Installation <a name="installation" />
+## Installation  
 
 ### The fast way: [Download](https://microweber.com/download.php) and unzip.
 
@@ -115,11 +141,11 @@ Make sure these folders, and everything inside, is writeable by the user executi
 * storage/
 * userfiles/
 
-## Getting Started <a name="getting-started" />
+## Getting Started  
 
 See the [online guides](http://microweber.com/docs/guides/README.md) for developers.
 
-## Contribute <a name="contribute" />
+## Contribute 
 We are looking for people who want to help us improve Microweber. 
 
 If you are a developer, submitting fixes is easy. Just fork the Microweber repository, make your changes and submit a pull request.
