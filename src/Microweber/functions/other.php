@@ -229,10 +229,6 @@ function mw_post_update()
 }
 
 
-
-
-
-
 /* DEPRECATED */
 /* DEPRECATED */
 /* DEPRECATED */
@@ -318,12 +314,6 @@ function mw_check_for_update()
 /* END OF DEPRECATED */
 /* END OF DEPRECATED */
 /* END OF DEPRECATED */
-
-
-
-
-
-
 
 
 api_expose_admin('mw_send_anonymous_server_data');
@@ -801,26 +791,20 @@ function special_unicode_to_utf8($str)
 }
 
 
-
-
-
-
-
-
-
-
-
-function get_date_format(){
+function get_date_format()
+{
     return mw()->format->get_date_format();
 
 }
 
-function date_system_format($db_date){
+function date_system_format($db_date)
+{
     return mw()->format->date_system_format($db_date);
 
 }
 
-function get_date_db_format($str_date){
+function get_date_db_format($str_date)
+{
     return mw()->format->get_date_db_format($str_date);
 
 }
@@ -837,7 +821,21 @@ function get_date_db_format($str_date){
  * @param string  find_date( ' some text 01/01/2012 some text' ) or find_date( ' some text October 5th 86 some text' )
  * @return mixed  false if no date found else array: array( 'day' => 01, 'month' => 01, 'year' => 2012 )
  */
-function find_date( $string ) {
+function find_date($string)
+{
     return mw()->format->find_date($string);
 
+}
+
+/**
+ * Function to check if you can use a PHP function
+ */
+function php_can_use_func($func_name)
+{
+    if (!defined('INI_SYSTEM_CHECK_DISABLED')) {
+        define('INI_SYSTEM_CHECK_DISABLED', ini_get('disable_functions'));
+    }
+    if (!strstr(INI_SYSTEM_CHECK_DISABLED, (string)$func_name)) {
+        return true;
+    }
 }
