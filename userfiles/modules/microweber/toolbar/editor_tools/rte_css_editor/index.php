@@ -1,4 +1,67 @@
 
+<style>
+
+    #css-editor-selected-view {
+        font-size: 10px;
+        text-transform: lowercase;
+        margin-bottom: 10px;
+    }
+
+    #css-editor-selected-view .mw-tree-nav-skin-default .mw-tree-item-content{
+        line-height: 14px;
+    }
+    #css-editor-selected-view .mw-tree-nav-skin-default li{
+        line-height: normal;
+    }
+    #css-editor-selected-view .mw-tree-nav-skin-default li li{
+        padding-left: 10px;
+    }
+    #css-editor-selected-view .mw-tree-nav-skin-default li ul li:after{
+        display: none;
+    }
+    #css-editor-selected-view .mw-tree-nav-skin-default li ul li:before{
+        display: none;
+    }
+    #css-editor-selected-view > span {
+        display: inline-block;
+        padding: 0px 8px;
+        border-radius: 2px;
+        background-color: #eee;
+        margin: 0 2px;
+        letter-spacing: 0px !important;
+        line-height: normal !important;
+        vertical-align: middle;
+    }
+
+    #mw-css-editor {
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        height: -webkit-calc(100% - 60px);
+        height: calc(100% - 60px);
+    }
+
+    #css-editor{
+        border: 1px solid #77777730;
+        border-radius: 3px;
+        overflow: hidden;
+        border-bottom: none;
+    }
+    #css-editor-picker svg{
+        margin-top: 2px;
+    }
+    #css-editor-picker path{
+        fill:#777;
+    }
+    #css-editor-picker {
+        margin: 0 0 10px 0;
+    }
+    #css-editor-picker.active{
+        box-shadow: inset 0 0 11px rgba(0,0,0,.2);
+        background: #fff;
+    }
+</style>
 <script type="text/javascript">
     //parent.mw.require("external_callbacks.js");
     mw.require("jquery-ui.js");
@@ -21,26 +84,28 @@
 
 
             mw.cssEditorSelector = new mw.Selector({
-                root: window.parent.document.body
+                root: window.parent.document.body,
+                document: window.parent.document
             });
 
-            mw.cssEditorSelector.active = false;
+            mw.cssEditorSelector.active(false);
             $("#css-editor-picker").on("click", function(){
-                mw.cssEditorSelector.active = !mw.cssEditorSelector.active;
-                mw.liveEditSelectMode = mw.cssEditorSelector.active ? 'element' : 'css';
-                mw.drag.plus.locked = mw.cssEditorSelector.active ? true : false;
-                $(this).toggleClass('active');
-                $('.mw-selector').toggle();
-            })
+                mw.cssEditorSelector.active(!mw.cssEditorSelector.active());
+            });
 
-
-
-
-
-
-
-
-
+        $(mw.cssEditorSelector).on('stateChange', function (e, state) {
+            if(state) {
+                $("#css-editor-picker").addClass('active')
+                top.mw.liveEditSelectMode = 'css';
+                top.mw.drag.plus.locked = true;
+                $('.mw-selector').show();
+            } else {
+                $("#css-editor-picker").removeClass('active');
+                top.mw.liveEditSelectMode = 'element';
+                top.mw.drag.plus.locked = false;
+                $('.mw-selector').hide();
+            }
+        })
     })
 
 </script>
@@ -206,6 +271,22 @@
                                 id: 'lineHeight'
                             }
                         ]
+                    },
+                    {
+                        interface: 'block',
+                        class: 'mw-css-editor-group',
+                        content: [
+                            {
+                                interface: 'size',
+                                label: 'Letter spacing',
+                                id: 'letterSpacing'
+                            },
+                            {
+                                interface: 'size',
+                                label: 'Word spacing',
+                                id: 'wordSpacing'
+                            }
+                        ]
                     }
                 ]
             },
@@ -298,13 +379,14 @@
 
         mw.cssSelectorTree = new mw.tree({
             element: '#css-editor-selected-view',
+            saveState: false
+
         });
 
 
         $(mw.cssEditorSelector).on('select', function(){
 
-
-            mw.cssEditorSelector.active = false;
+            mw.cssEditorSelector.active(false);
             mw.liveEditSelectMode = 'element';
             if(mw.elementCSSEditor){
                 var el = mw.cssEditorSelector.selected[0];
@@ -350,20 +432,38 @@
                  brdcrmb.reverse();
 
                  $("#css-editor-selected-view").append(brdcrmb);*/
-
+                var cname = function (ccurr) {
+                    if(!ccurr) return;
+                    return ccurr.nodeName + (ccurr.className?'.'+ccurr.className.split(' ').join('.'):'')+ (ccurr.id?'#'+ccurr.id:'');
+                };
                 var c = mw.elementCSSEditor.currentElement;
-                var cname = c.nodeName + (c.className?'.'+c.className.split(' ').join('.'):'')+ (c.id?'#'+c.id:'');
+
                 var parentcname = c.parentNode.nodeName + (c.parentNode.className?'.'+c.parentNode.className.split(' ').join('.'):'')+ (c.id?'#'+c.id:'');
-                var treedata = [{
-                    id: cname,
-                    title: cname,
-                    parent_id: 0,
-                    parent_type: "page",
-                    subtype: "home",
-                    type: "page"
-                }];
+                var treedata = [], ccurr = c;
+
+                while (ccurr ) {
+
+                        treedata.push({
+                            id: cname(ccurr),
+                            title: cname(ccurr),//ccurr.nodeName,
+                            parent_id: ccurr.parentNode.nodeName !== 'HTML' ? cname(ccurr.parentNode) : null,
+                            parent_type: ccurr.parentNode.nodeName !== 'HTML' ?  "page" : null,
+                            subtype: "page",
+                            type: "page"
+                        });
+                        ccurr = ccurr.parentNode;
+                        console.log(ccurr.nodeName)
+
+                        if(ccurr.nodeName === 'HTML'){
+                            break;
+                        }
+
+                }
 
 
+
+                treedata.reverse()
+                console.log(treedata)
                 mw.cssSelectorTree.setData(treedata);
 
 
@@ -404,6 +504,8 @@
                     maxHeight: css.maxHeight,
                     height: css.height,
                     boxShadow: css.boxShadow,
+                    letterSpacing: css.letterSpacing,
+                    wordSpacing: css.wordSpacing,
                     borderRadius: (css.borderTopLeftRadius + ' ' + css.borderTopRightRadius + ' ' + css.borderBottomLeftRadius + ' ' + css.borderBottomRightRadius),
                 };
                 mw.elementCSSEditor.setValue(val);
@@ -427,8 +529,6 @@
             schema: CSSEditorSchema,
             element: '#css-editor'
         });
-
-
 
         mw.trigger('ComponentsLaunch');
 
@@ -464,16 +564,12 @@
 
             $(this).next().stop().slideToggle();
         })
-
-
     })
-
-
 </script>
-<div id="css-editor-selected-view">
-
-</div>
-
-<span class="mw-ui-btn mw-ui-btn-medium" id="css-editor-picker">Pick Element</span>
-
+<div id="css-editor-selected-view"></div>
+<span class="mw-ui-btn mw-ui-btn-medium tip" id="css-editor-picker" data-tip="<?php _e('Pick element'); ?>" data-tipposition="right-center">
+    <svg xmlns="http://www.w3.org/2000/svg" height="22" height="22" viewBox="0 0 1024 1024" version="1.1">
+        <path d="M215.871559 402.969794c0-152.609747 124.147508-276.726555 276.726555-276.726555S769.325693 250.360048 769.325693 402.969794c0 41.884946-10.053983 81.198324-26.777877 116.812449l48.88129 39.539528c24.581861-46.796816 38.678928-99.92892 38.678928-156.353001 0-186.087209-151.392012-337.50992-337.50992-337.50992S155.089218 216.882586 155.089218 402.969794c0 182.040033 144.982022 330.508459 325.518818 336.901053l-9.846252-62.381769C328.532455 666.136519 215.871559 548.100196 215.871559 402.969794zM758.151189 765.617232l138.170896-14.190187-324.347133-262.33273c23.283286-21.468964 38.107923-51.960419 38.107923-86.12452 0-64.885799-52.606125-117.487831-117.491924-117.487831s-117.491924 52.602032-117.491924 117.487831c0 64.888869 52.606125 117.487831 117.491924 117.487831 12.138458 0 23.616884-2.366907 34.627658-5.783727l65.056692 412.29723 75.414597-106.777909c3.213181-4.541433 10.04682-4.229325 12.821003 0.586354l85.460394 148.020218 72.817446-42.040489-86.455047-149.752676C749.566674 772.22472 752.652965 766.181073 758.151189 765.617232z"/>
+    </svg>
+</span>
 <div id="css-editor"></div>

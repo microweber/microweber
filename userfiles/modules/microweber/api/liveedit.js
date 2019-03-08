@@ -7,6 +7,7 @@ mw.require('control_box.js');
 mw.require('element_analyzer.js');
 mw.require('liveedit_elements.js');
 mw.require('live_edit.js');
+mw.require('liveedit_widgets.js');
 mw.isDrag = false;
 mw.resizable_row_width = false;
 mw.mouse_over_handle = false;
@@ -78,13 +79,16 @@ $(document).ready(function() {
         modules.each(function(){
               var span = document.createElement('span');
               span.className = 'mw-ui-btn mw-ui-btn-small';
-              var type = $(this).attr('data-type');
-              span.innerHTML = mw.live_edit.getModuleIcon(type) + mw.live_edit.registry[type].title;
-              var el = this;
-              span.onclick = function(){
-                  mw.tools.module_settings(el);
-              };
-              mw.inaccessibleModules.appendChild(span);
+              var type = $(this).attr('data-type') || $(this).attr('type');
+              if(type && mw.live_edit.registry[type]){
+                  span.innerHTML = mw.live_edit.getModuleIcon(type) + mw.live_edit.registry[type].title;
+                  var el = this;
+                  span.onclick = function(){
+                      mw.tools.module_settings(el);
+                  };
+                  mw.inaccessibleModules.appendChild(span);
+              }
+
         });
         if(modules.length > 0){
             var off = $(el).offset();

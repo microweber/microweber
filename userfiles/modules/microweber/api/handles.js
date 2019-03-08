@@ -126,6 +126,7 @@ mw.Handle = function(options) {
     };
 
     this.create();
+    this.hide();
 
 
 };
@@ -354,8 +355,8 @@ mw._initHandles = {
             mw._initHandles.manageCollision();
 
         });
-        
-        
+
+
     },
     modules: function () {
         mw.handleModule = new mw.Handle({
@@ -693,6 +694,7 @@ mw._initHandles = {
                     action: function () {
                         mw.drag.delete_element(mw._activeRowOver, function () {
                             $(mw.drag.columns.resizer).hide();
+                            mw.handleColumns.hide();
                         });
                     }
                 }

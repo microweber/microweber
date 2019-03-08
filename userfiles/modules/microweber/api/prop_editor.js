@@ -93,13 +93,15 @@ mw.propEditor = {
         }
     },
     schema:function(options){
+        this._after = [];
         this.setSchema = function(schema){
             this.options.schema = schema;
             this._rend = [];
             this._valSchema = this._valSchema || {};
-            for(var i =0; i< this.options.schema.length;i++){
+            for(var i =0; i< this.options.schema.length; i++){
                 var item = this.options.schema[i];
-                if(typeof this._valSchema[item.id] === 'undefined'){
+                if(typeof this._valSchema[item.id] === 'undefined' && this._cache.indexOf(item) === -1){
+                    this._cache.push(item)
                     var curr = new mw.propEditor.interfaces[item.interface](this, item);
                     this._rend.push(curr);
                     if(item.id){
@@ -115,8 +117,9 @@ mw.propEditor = {
             for(var i =0; i<schema.length;i++){
                 var item = schema[i];
 
-                if(typeof this._valSchema[item.id] === 'undefined'){
+                if(typeof this._valSchema[item.id] === 'undefined' && this._cache.indexOf(item) === -1){
                     this.options.schema.push(item);
+                    this._cache.push(item)
                     var create = new mw.propEditor.interfaces[item.interface](this, item);
                     this._rend.push(create);
                     final.push(create);
@@ -157,16 +160,21 @@ mw.propEditor = {
                 }
             }
         };
+        this._cache = [];
         this.options = options;
         this.options.element = typeof this.options.element === 'string' ? document.querySelector(options.element) : this.options.element;
         this.rootHolder = mw.propEditor.getRootElement(this.options.element);
         this.setSchema(this.options.schema);
 
+        this._after.forEach(function (value) {
+            value.items.forEach(function (item) {
+                value.node.appendChild(item.node);
+            });
+        });
 
         mw.trigger('ComponentsLaunch');
-
-
     },
+
     interfaces:{
         quatro:function(proto, config){
             //"2px 4px 8px 122px"
@@ -208,25 +216,18 @@ mw.propEditor = {
             el.className = ' ';
             this.node = el;
         },
-        _count:1,
-        blockSchemaRender: function(){
-
-        },
-        block:function(proto, config){
-            mw.propEditor.interfaces._count += 2500;
-            this.node = document.createElement('div');
-            var scope = this;
+        block: function(proto, config){
+            var node = document.createElement('div');
             if(typeof config.content === 'string') {
-                this.node.innerHTML = config.content;
+                node.innerHTML = config.content;
             } else {
                 var newItems = proto.updateSchema(config.content);
-                for(var i=0; i < newItems.length; i++){
-                    this.node.appendChild(newItems[i].node);
-                }
+                proto._after.push({node: node, items: newItems});
             }
             if(config.class){
-                this.node.className = config.class;
+                node.className = config.class;
             }
+            this.node = node;
         },
         size:function(proto, config){
             var field = mw.propEditor.helpers.field('', 'number');
@@ -303,16 +304,16 @@ mw.propEditor = {
             };
 
             this.fields.position.placeholder = 'Position';
-            this.fields.x.placeholder = 'Horizontal offset';
-            this.fields.y.placeholder = 'Vertical offset';
+            this.fields.x.placeholder = 'X offset';
+            this.fields.y.placeholder = 'Y offset';
             this.fields.blur.placeholder = 'Blur';
             this.fields.spread.placeholder = 'Spread';
             this.fields.color.placeholder = 'Color';
             $(this.fields.color).addClass('mw-color-picker');
 
             var labelPosition = mw.propEditor.helpers.label('Position');
-            var labelX = mw.propEditor.helpers.label('Horizontal offset');
-            var labelY = mw.propEditor.helpers.label('Vertical offset');
+            var labelX = mw.propEditor.helpers.label('X offset');
+            var labelY = mw.propEditor.helpers.label('Y offset');
             var labelBlur = mw.propEditor.helpers.label('Blur');
             var labelSpread = mw.propEditor.helpers.label('Spread');
             var labelColor = mw.propEditor.helpers.label('Color');

@@ -126,27 +126,7 @@
 
                     <?php } ?>
 
-
-
-                    <script>
-
-
-
-
-                        mw.___load_css_editor_in_sidebar_accordeon = function () {
-                            if ($("#mw-css-editor-sidebar-iframe").length == 0) {
-                            $('#mw-css-editor-sidebar-iframe-holder').append('<iframe src="<?php print site_url('editor_tools'); ?>/rte_css_editor" id="mw-css-editor-sidebar-iframe" frameborder="0"></iframe>');
-
-                            }
-
-                        }
-
-
-                    </script>
-
-
-
-                    <div class="mw-accordion-item"  onclick="mw.___load_css_editor_in_sidebar_accordeon()" style="display: none">
+                    <div class="mw-accordion-item"  onclick="mw.liveEditWidgets.cssEditorInSidebarAccordion()" >
                         <div class="mw-ui-box-header mw-accordion-title">
                             <div class="header-holder">
                                 <i class="mai-setting2"></i> CSS Editor

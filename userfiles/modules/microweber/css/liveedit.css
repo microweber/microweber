@@ -3959,10 +3959,10 @@ body.dragStart .allow-drop {
 
 .mw-css-editor-group .prop-ui-field-unit,
 .prop-ui-field-unit {
-    max-width: 70px;
+    max-width: 50px;
     background: #f3f3f3;
     padding-left: 5px;
-    padding-right: 5px;
+    padding-right: 0px;
 }
 
 .mw-module-presets-opener {
@@ -4280,29 +4280,7 @@ body.dragStart .allow-drop {
     justify-content: space-between;
 }
 
-#css-editor-selected-view {
-    font-size: 10px;
-    text-transform: lowercase;
-}
 
-#css-editor-selected-view span {
-    display: inline-block;
-    padding: 0px 8px;
-    border-radius: 2px;
-    background-color: #eee;
-    margin: 0 2px;
-    letter-spacing: 0px !important;
-    line-height: normal !important;
-}
-
-#mw-css-editor {
-    position: absolute;
-    top: 60px;
-    left: 0;
-    width: 100%;
-    height: -webkit-calc(100% - 60px);
-    height: calc(100% - 60px);
-}
 
 .mw-prop-editor-root {
     position: relative;
@@ -4634,4 +4612,6 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 .toolbar-hover .mw-handle-item{
     display: none !important;
 }
+
+#css-editor-picker
 

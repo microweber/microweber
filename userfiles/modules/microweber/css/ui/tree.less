@@ -126,11 +126,17 @@
     font-family: Microweber;
   }
   .mw-tree-toggler:after {
-    content: '\f10a'
+    content: '\f10a';
+    transition: .3s;
+    position: relative;
+    display: inline-block;
   }
 
   .mw-tree-toggler.opened:after {
-    content: '\0118'
+      -webkit-transform: rotate(90deg);
+      -moz-transform: rotate(90deg);
+      -ms-transform: rotate(90deg);
+      transform: rotate(90deg);
   }
 
   .mw-tree-context-menu-item {

@@ -5,22 +5,25 @@ mw.css = function(element, css){
 }
 mw.Selector = function(options) {
 
+    this.options = options;
+    this.document = this.options.document || document;
+
 
     this.buildSelector = function(){
-        var stop = document.createElement('div');
-        var sright = document.createElement('div');
-        var sbottom = document.createElement('div');
-        var sleft = document.createElement('div');
+        var stop = this.document.createElement('div');
+        var sright = this.document.createElement('div');
+        var sbottom = this.document.createElement('div');
+        var sleft = this.document.createElement('div');
 
         stop.className = 'mw-selector mw-selector-top';
         sright.className = 'mw-selector mw-selector-right';
         sbottom.className = 'mw-selector mw-selector-bottom';
         sleft.className = 'mw-selector mw-selector-left';
 
-        document.body.appendChild(stop);
-        document.body.appendChild(sright);
-        document.body.appendChild(sbottom);
-        document.body.appendChild(sleft);
+        this.document.body.appendChild(stop);
+        this.document.body.appendChild(sright);
+        this.document.body.appendChild(sbottom);
+        this.document.body.appendChild(sleft);
 
         this.selectors.push({
             top:stop,
@@ -63,7 +66,6 @@ mw.Selector = function(options) {
         }
     };
     this.showItem = function(item){
-
         for (let x in item){
             if(typeof item[x] === 'boolean') continue;
             item[x].style.visibility = 'visible';
@@ -71,32 +73,32 @@ mw.Selector = function(options) {
     };
 
     this.buildInteractor = function(){
-        var stop = document.createElement('div');
-        var sright = document.createElement('div');
-        var sbottom = document.createElement('div');
-        var sleft = document.createElement('div');
+        var stop = this.document.createElement('div');
+        var sright = this.document.createElement('div');
+        var sbottom = this.document.createElement('div');
+        var sleft = this.document.createElement('div');
 
         stop.className = 'mw-selector mw-interactor mw-selector-top';
         sright.className = 'mw-selector mw-interactor mw-selector-right';
         sbottom.className = 'mw-selector mw-interactor mw-selector-bottom';
         sleft.className = 'mw-selector mw-interactor mw-selector-left';
 
-        document.body.appendChild(stop);
-        document.body.appendChild(sright);
-        document.body.appendChild(sbottom);
-        document.body.appendChild(sleft);
+        this.document.body.appendChild(stop);
+        this.document.body.appendChild(sright);
+        this.document.body.appendChild(sbottom);
+        this.document.body.appendChild(sleft);
 
         this.interactors = {
             top:stop,
             right:sright,
             bottom:sbottom,
-            left:sleft,
-        }
-    }
+            left:sleft
+        };
+    };
     this.isSelected = function(e){
         var target = e.target?e.target:e;
         return this.selected.indexOf(target) !== -1;
-    }
+    };
 
     this.unsetItem = function(e){
         var target = e.target?e.target:e;
@@ -115,7 +117,7 @@ mw.Selector = function(options) {
         }
     }
     this.position = function(item, target){
-        let off = $(target).offset();
+        var off = $(target).offset();
         mw.css(item.top, {
             top:off.top,
             left:off.left,
@@ -139,10 +141,11 @@ mw.Selector = function(options) {
     }
 
     this.setItem = function(e, item, select, extend){
+        if(!this.active()) return;
         var target = e.target?e.target:e;
         target = mw.tools.firstMatchesOnNodeOrParent(target, ['[id]']);
         var validateTarget = !mw.tools.firstMatchesOnNodeOrParent(target, ['.mw-control-box', '.mw-defaults']);
-        if(!target || validateTarget) return;
+        if(!target || !validateTarget) return;
         if($(target).hasClass('mw-select-skip')){
             return this.setItem(target.parentNode, item, select, extend);
         }
@@ -197,14 +200,14 @@ mw.Selector = function(options) {
         this.buildInteractor();
         var scope = this;
         $(this.root).on("click", function(e){
-            if(scope.active){
+            if(scope.active()){
                 scope.select(e);
             }
         });
 
         $(this.root).on( "mousemove touchmove touchend", function(e){
-            if(scope.active){
-                scope.setItem(e, scope.interactors)
+            if(scope.active()){
+                scope.setItem(e, scope.interactors);
             }
         });
         $(this.root).on( 'scroll', function(){
@@ -215,8 +218,16 @@ mw.Selector = function(options) {
         });
     };
 
-
-    this.active = false;
+    this._active = false;
+    this.active = function (state) {
+        if(typeof state === 'undefined') {
+            return this._active;
+        }
+        if(this._active !== state) {
+            this._active = state;
+            $(this).trigger('stateChange', [state]);
+        }
+    };
     this.selected = [];
     this.selectors = [];
     this.root = options.root;
