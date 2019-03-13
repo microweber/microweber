@@ -640,6 +640,7 @@ mw.drag = {
           top: off.top > 0 ? off.top : 0 ,
           left: off.left > 0 ? off.left : 0
         });
+
         if(next.length == 0){
           $('.mw-cloneable-control-next', clc).hide()
         }
@@ -653,6 +654,18 @@ mw.drag = {
           $('.mw-cloneable-control-prev', clc).show()
         }
         clc.show()
+          var cloner = mwd.querySelector('.mw-cloneable-control');
+          if(cloner) {
+              mw._initHandles.getAll().forEach(function (curr) {
+                  masterRect = curr.wrapper.getBoundingClientRect();
+                  var clonerect = cloner.getBoundingClientRect();
+
+                  if (mw._initHandles.collide(masterRect, clonerect)) {
+                      cloner.style.top = curr.wrapper.style.top;
+                      cloner.style.left = ((parseInt(curr.wrapper.style.left, 10) + masterRect.width) + 10) + 'px';
+                  }
+              });
+          }
       }
 
     },
