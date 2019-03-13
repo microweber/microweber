@@ -166,6 +166,9 @@ class Parser
         }
 
 
+
+
+
         $script_pattern = "/<style[^>]*>(.*)<\/style>/Uis";
         preg_match_all($script_pattern, $layout, $mw_script_matches);
         if (!empty($mw_script_matches)) {

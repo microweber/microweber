@@ -480,8 +480,9 @@ $limit =  $this->default_limit;
 
         } else {
             if ($allow_scripts == false) {
+
+
                 $criteria = $this->clean_input($criteria);
-                
                 $evil = ['(?<!\w)on\w*',   'xmlns', 'formaction',   'xlink:href', 'FSCommand', 'seekSegmentTime'];
 
                 $criteria =  $this->app->format->clean_xss($criteria, true,$evil, 'removeEvilAttributes');
@@ -492,6 +493,11 @@ $limit =  $this->default_limit;
             }
 
         }
+
+
+
+
+
 
         $table = $this->app->format->clean_html($table);
 
@@ -506,7 +512,6 @@ $limit =  $this->default_limit;
         if (!isset($criteria['id'])) {
             $criteria['id'] = 0;
         }
-
 
         $criteria['id'] = intval($criteria['id']);
         if (intval($criteria['id']) == 0) {
