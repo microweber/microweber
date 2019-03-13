@@ -164,7 +164,7 @@ mw._initHandles = {
         var all = [
             mw.handleModule,
             mw.handleColumns,
-            mw.handleElement,
+            mw.handleElement
 
 
         ];
