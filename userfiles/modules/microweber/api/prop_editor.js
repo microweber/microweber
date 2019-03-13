@@ -181,7 +181,7 @@ mw.propEditor = {
             var holder = mw.propEditor.helpers.quatroWrapper('mw-css-editor-group');
 
             for(var i = 0; i<4; i++){
-                var item = mw.propEditor.helpers.fieldPack(config.label[i], 'number');
+                var item = mw.propEditor.helpers.fieldPack(config.label[i], 'size');
                 holder.appendChild(item.holder);
                 item.field.oninput = function(){
                     var final = '';
@@ -230,14 +230,36 @@ mw.propEditor = {
             this.node = node;
         },
         size:function(proto, config){
-            var field = mw.propEditor.helpers.field('', 'number');
+            var field = mw.propEditor.helpers.field('', 'text');
+            this.field = field;
+            config.autocomplete = config.autocomplete || ['auto'];
+
             var holder = mw.propEditor.helpers.wrapper();
             var buttonNav = mw.propEditor.helpers.buttonNav();
             var label = mw.propEditor.helpers.label(config.label);
+            var scope = this;
+            var dtlist = document.createElement('datalist');
+            dtlist.id = 'mw-datalist-' + mw.random();
+            config.autocomplete.forEach(function (value) {
+                var option = document.createElement('option');
+                option.value = value;
+                dtlist.appendChild(option)
+            });
+
+            this.field.setAttribute('list', dtlist.id);
+            document.body.appendChild(dtlist)
+
+            this._makeVal = function(){
+                if(field.value === 'auto'){
+                    return 'auto';
+                }
+                return field.value + field.dataset.unit;
+            };
 
             var unitSelector = mw.propEditor.helpers.field('', 'select', [
                 'px', '%', 'rem', 'em', 'vh', 'vw', 'ex', 'cm', 'mm', 'in', 'pt', 'pc', 'ch'
             ]);
+            this.unitSelector = unitSelector;
             $(holder).addClass('prop-ui-field-holder-size');
             $(unitSelector)
                 .val('px')
@@ -245,7 +267,7 @@ mw.propEditor = {
             unitSelector.onchange = function(){
                 field.dataset.unit = $(this).val() || 'px';
 
-                $(proto).trigger('change', [config.id, field.value + field.dataset.unit]);
+                $(proto).trigger('change', [config.id, scope._makeVal()]);
             };
 
             $(unitSelector).on('change', function(){
@@ -260,18 +282,19 @@ mw.propEditor = {
             field.oninput = function(){
 
                 proto._valSchema[config.id] = this.value + this.dataset.unit;
-                $(proto).trigger('change', [config.id, this.value + this.dataset.unit]);
+                $(proto).trigger('change', [config.id, scope._makeVal()]);
             };
 
             this.node = holder;
             this.setValue = function(value){
-                field.value = parseInt(value, 10);
+                var an = parseInt(value, 10);
+                field.value = isNaN(an) ? value : an;
                 proto._valSchema[config.id] = value;
                 var unit = value.replace(/[0-9]/g, '').replace(/\./g, '');
                 field.dataset.unit = unit;
                 $(unitSelector).val(unit);
             };
-            this.id=config.id;
+            this.id = config.id;
 
         },
         text:function(proto, config){
@@ -309,6 +332,7 @@ mw.propEditor = {
             this.fields.blur.placeholder = 'Blur';
             this.fields.spread.placeholder = 'Spread';
             this.fields.color.placeholder = 'Color';
+            this.fields.color.dataset.options = 'position: ' + (config.pickerPosition || 'bottom-center');
             $(this.fields.color).addClass('mw-color-picker');
 
             var labelPosition = mw.propEditor.helpers.label('Position');
@@ -446,10 +470,11 @@ mw.propEditor = {
             this.id = config.id;
         },
         color:function(proto, config){
-            var field = mw.propEditor.helpers.field('', 'color');
+            var field = mw.propEditor.helpers.field('', 'text');
             if(field.type !== 'color'){
                 mw.colorPicker({
                     element:field,
+                    position: config.position || 'bottom-center',
                     onchange:function(){
                         $(proto).trigger('change', [config.id, field.value]);
                     }

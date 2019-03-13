@@ -2224,7 +2224,7 @@ mw.tools = {
     firstParentOrCurrentWithId: function (el, id) {
         if (!el) return false;
         var curr = el;
-        while (curr !== mwd.body) {
+        while (curr && curr !== mwd.body) {
             if (curr.id === id) {
                 return curr;
             }
@@ -2235,7 +2235,7 @@ mw.tools = {
     firstParentOrCurrentWithAllClasses: function (node, arr) {
         if (!node) return false;
         var curr = node;
-        while (curr !== mwd.body) {
+        while (curr && curr !== mwd.body) {
             if (mw.tools.hasAllClasses(curr, arr)) {
                 return curr;
             }
@@ -5388,7 +5388,6 @@ mw.modalFrame = function (o) {
 }
 mw.editor = mw.tools.richtextEditor;
 mw._colorPickerDefaults = {
-    position: 'bottom-center',
     skin: 'mw-tooltip-default',
     position: 'bottom-center',
     onchange: false

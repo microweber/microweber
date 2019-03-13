@@ -994,6 +994,7 @@ mw.drag = {
                 for (; i < len; i++) {
                     sliders[i].isDrag = false;
                 }
+
                 if((event.type === 'mouseup' || event.type === 'touchend') && mw.liveEditSelectMode === 'none'){
                     mw.liveEditSelectMode = 'element';
                 }
@@ -1408,7 +1409,7 @@ mw.drag = {
                 id: 'module-settings-tooltip-' + modal_name,
                 group: 'module_settings_tooltip_show_on_btn',
                 close_on_click_outside: true,
-                content: '<iframe id="'+id+'" frameborder="0" class="mw-tooltip-iframe" src="' + src + '"></iframe>',
+                content: '<iframe id="'+id+'" frameborder="0" class="mw-tooltip-iframe" src="' + src + '" scrolling="auto"></iframe>',
                 element: tooltip_element
             });
             mw.tools.iframeAutoHeight(mwd.querySelector('#'+id))
