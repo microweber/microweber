@@ -41,10 +41,9 @@ Microweber operates on the Drag & Drop technology. This means that users can man
 
 #### Real Time Text Editing
 
+Live Edit view is the manifestation of the Real-Time Text Writing & Editing core feature of Microweber CMS. Working in Live Edit view is in fact working on your website’s interface in real time. 
 
 ![E-commerce solution](https://sitestatic.microweber.com/cdn/gh_readme/homepage-2018-third-section.gif "")
-
-Live Edit view is the manifestation of the Real-Time Text Writing & Editing core feature of Microweber CMS. Working in Live Edit view is in fact working on your website’s interface in real time. 
 
 
 
