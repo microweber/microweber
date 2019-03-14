@@ -38,7 +38,7 @@ body.mw-live-edit .mw-control-box-left {
 }
 
 .mw-sidebar-open-btn:hover i,
-.mw-sidebar-open-btn.opened i{
+.mw-sidebar-open-btn.opened i {
     color: #fff !important;
     transition: .3s !important;
 }
@@ -49,11 +49,10 @@ body.mw-live-edit .mw-control-box-left {
     transition: .3s !important;
 }
 
-#back-to-admin-toolbar i{
+#back-to-admin-toolbar i {
     color: #2b2b2b !important;
     transition: .3s !important;
 }
-
 
 #back-to-admin-toolbar:hover {
     background: #2b2b2b;
@@ -2044,8 +2043,6 @@ div.mw_drag_started, li.module-item.ui-draggable-dragging {
     cursor: not-allowed;
     cursor: no-drop;
 }
-
-
 
 .mw-empty {
     display: none;
@@ -4280,8 +4277,6 @@ body.dragStart .allow-drop {
     justify-content: space-between;
 }
 
-
-
 .mw-prop-editor-root {
     position: relative;
 }
@@ -4310,13 +4305,14 @@ body.dragStart .allow-drop {
 }
 
 .mw-handle-item,
-.mw-handle-item *{
+.mw-handle-item * {
     user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
     -webkit-touch-callout: none;
     -moz-user-select: none;
 }
+
 .mw-handle-item {
     position: absolute;
     z-index: 1101;
@@ -4334,7 +4330,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     display: inline-block;
 }
 
-.mw-handle-handler  {
+.mw-handle-handler {
     display: inline-block;
     position: relative;
     white-space: nowrap;
@@ -4375,6 +4371,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     opacity: 0;
     visibility: hidden;
 }
+
 .mw-handle-menu-default.mw-handle-menu {
     background-color: #000;
     padding: 5px 0;
@@ -4440,7 +4437,8 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     border-top: 1px solid #4b4b4b;
     border-bottom: 1px solid #4b4b4b;
 }
-.mw-handle-menu-dynamic:empty{
+
+.mw-handle-menu-dynamic:empty {
     display: none;
 }
 
@@ -4525,18 +4523,28 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     display: none;
 }
 
-
-.mw-handle-type-element .mw-handle-handler{
+.mw-handle-type-element .mw-handle-handler {
     display: inline-block;
     height: 20px;
     margin-top: -10px;
     margin-left: 8px;
 }
-.mw-handle-type-element .mw-icon-drag{
+
+.mw-handle-type-element .mw-icon-drag {
     font-size: 17px;
 }
 
-.mw-handle-type-element .mw-handle-handler-icon{
+.mw-handle-type-element .mw-icon-drag:before {
+    width: 14px;
+    height: 15px;
+    background-image: url('images/drag_and_drop.svg');
+    content: '' !important;
+    background-position: center center;
+    background-repeat: no-repeat;
+    margin-top: 2px;
+}
+
+.mw-handle-type-element .mw-handle-handler-icon {
     width: 27px;
     height: 20px;
     border: 1px solid #d3dce4;
@@ -4551,7 +4559,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     position: relative;
 }
 
-.mw-handle-type-element .mw-handle-handler-title{
+.mw-handle-type-element .mw-handle-handler-title {
     width: 22px;
     height: 20px;
     display: inline-block;
@@ -4566,20 +4574,20 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     opacity: 0;
     visibility: hidden;
 }
+
 .mw-handle-type-element:hover .mw-handle-handler-title,
-.mw-handle-type-element.active .mw-handle-handler-title{
+.mw-handle-type-element.active .mw-handle-handler-title {
     opacity: 1;
     visibility: visible;
     left: 100%;
 }
 
 .mw-handle-type-element.active .mw-handle-handler-icon,
-.mw-handle-type-element:hover .mw-handle-handler-icon{
+.mw-handle-type-element:hover .mw-handle-handler-icon {
     border-radius: 20px 0 0 20px;
 }
 
-
-.mw-handle-type-element  .mw-handle-handler-title:after {
+.mw-handle-type-element .mw-handle-handler-title:after {
     content: "\0138";
     display: inline-block;
     height: 20px;
@@ -4592,24 +4600,26 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     transform-origin: center;
     width: 20px;
 }
+
 .mw-handle-type-default.active .mw-handle-handler-title:after,
-.mw-handle-type-element.active .mw-handle-handler-title:after{
+.mw-handle-type-element.active .mw-handle-handler-title:after {
     transform: rotate(90deg);
 }
+
 .edit .element-current, .edit .element-current:hover {
     outline: 1px solid #0086DB !important;
 }
 
-.mw_module_settings_sidebar_icon{
+.mw_module_settings_sidebar_icon {
     margin: 4px 5px 0px 0px;
 }
 
-.view-website-button:hover{
+.view-website-button:hover {
     background: #fff;
 }
 
 .toolbar-hover .mw-wyswyg-plus-element,
-.toolbar-hover .mw-handle-item{
+.toolbar-hover .mw-handle-item {
     display: none !important;
 }
 

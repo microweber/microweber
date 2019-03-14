@@ -235,6 +235,12 @@ mw.settings.libs = {
         function () {
             mw.require(mw.settings.libs_url + 'material_icons' + '/material_icons.css');
         }
+    ],
+    mw_icons_mind:[
+        function () {
+            mw.require(mw.settings.libs_url + 'mw-icons-mind' + '/line/style.css');
+            mw.require(mw.settings.libs_url + 'mw-icons-mind' + '/solid/style.css');
+        }
     ]
 };
 
