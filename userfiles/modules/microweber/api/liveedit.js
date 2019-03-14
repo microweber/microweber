@@ -640,6 +640,7 @@ mw.drag = {
           top: off.top > 0 ? off.top : 0 ,
           left: off.left > 0 ? off.left : 0
         });
+
         if(next.length == 0){
           $('.mw-cloneable-control-next', clc).hide()
         }
@@ -653,6 +654,18 @@ mw.drag = {
           $('.mw-cloneable-control-prev', clc).show()
         }
         clc.show()
+          var cloner = mwd.querySelector('.mw-cloneable-control');
+          if(cloner) {
+              mw._initHandles.getAll().forEach(function (curr) {
+                  masterRect = curr.wrapper.getBoundingClientRect();
+                  var clonerect = cloner.getBoundingClientRect();
+
+                  if (mw._initHandles.collide(masterRect, clonerect)) {
+                      cloner.style.top = curr.wrapper.style.top;
+                      cloner.style.left = ((parseInt(curr.wrapper.style.left, 10) + masterRect.width) + 10) + 'px';
+                  }
+              });
+          }
       }
 
     },
@@ -994,6 +1007,7 @@ mw.drag = {
                 for (; i < len; i++) {
                     sliders[i].isDrag = false;
                 }
+
                 if((event.type === 'mouseup' || event.type === 'touchend') && mw.liveEditSelectMode === 'none'){
                     mw.liveEditSelectMode = 'element';
                 }
@@ -1408,7 +1422,7 @@ mw.drag = {
                 id: 'module-settings-tooltip-' + modal_name,
                 group: 'module_settings_tooltip_show_on_btn',
                 close_on_click_outside: true,
-                content: '<iframe id="'+id+'" frameborder="0" class="mw-tooltip-iframe" src="' + src + '"></iframe>',
+                content: '<iframe id="'+id+'" frameborder="0" class="mw-tooltip-iframe" src="' + src + '" scrolling="auto"></iframe>',
                 element: tooltip_element
             });
             mw.tools.iframeAutoHeight(mwd.querySelector('#'+id))

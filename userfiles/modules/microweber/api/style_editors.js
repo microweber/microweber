@@ -185,23 +185,27 @@ generateJSON4StaticElements = function(){
     for( ; i<l; i++){
         var el = all[i];
         css = el.getAttribute("style");
-        if(!css) continue;
+        if(!css){
+            $(el).removeAttr('style');
+            $(el).removeAttr('staticdesign');
+            continue;
+        }
         var selector = mw.tools.generateSelectorForNode(el);
 
 
-    if(selector !== undefined && (selector =='body' || selector =='BODY')){
-      if(css !== undefined){
-        css = css.replace("padding-top","mw-pad-top");
-      }
-    }
+        if(selector !== undefined && (selector =='body' || selector =='BODY')){
+          if(css !== undefined){
+            css = css.replace("padding-top","mw-pad-top");
+          }
+        }
         if(el !== null) {
           obj[selector] = {
              selector:selector,
              css:css
           };
           $("#mw-dynamic-css").append(selector+ '{' + css + '}\r\n');
-          $(el).removeAttr('style')
-          $(el).removeAttr('staticdesign')
+          $(el).removeAttr('style');
+          $(el).removeAttr('staticdesign');
         }
     }
   }

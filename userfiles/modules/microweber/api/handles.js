@@ -164,7 +164,7 @@ mw._initHandles = {
         var all = [
             mw.handleModule,
             mw.handleColumns,
-            mw.handleElement,
+            mw.handleElement
 
 
         ];
@@ -209,11 +209,20 @@ mw._initHandles = {
                     master = curr;
                 }
             });
-            //}
         });
-        /*setTimeout(function () {
-            scope._manageCollision = true;
-        },40)*/
+
+        var cloner = mwd.querySelector('.mw-cloneable-control');
+        if(cloner) {
+            scope.getAll().forEach(function (curr) {
+                masterRect = curr.wrapper.getBoundingClientRect();
+                var clonerect = cloner.getBoundingClientRect();
+
+                if (scope.collide(masterRect, clonerect)) {
+                    cloner.style.top = curr.wrapper.style.top;
+                    cloner.style.left = ((parseInt(curr.wrapper.style.left, 10) + masterRect.width) + 10) + 'px';
+                }
+            });
+        }
     },
 
     elements: function(){

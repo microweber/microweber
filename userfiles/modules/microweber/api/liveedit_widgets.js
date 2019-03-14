@@ -5,6 +5,7 @@ mw.liveEditWidgets = {
             this._cssEditorInSidebarAccordion = mwd.createElement('iframe') ;
             this._cssEditorInSidebarAccordion.id = 'mw-css-editor-sidebar-iframe' ;
             this._cssEditorInSidebarAccordion.src = mw.external_tool('rte_css_editor');
+            this._cssEditorInSidebarAccordion.scrolling = 'no';
             this._cssEditorInSidebarAccordion.frameBorder = 0;
             mwd.querySelector('#mw-css-editor-sidebar-iframe-holder').appendChild(this._cssEditorInSidebarAccordion);
             this._cssEditorInSidebarAccordion.onload = function () {

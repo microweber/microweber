@@ -1,5 +1,10 @@
 mw.components = {
     'color-picker': function(el){
+        var options = this._options(el);
+        var defaults = {
+            position: 'bottom-center'
+        };
+        var settings = $.extend({}, defaults, options);
         var nav = document.createElement('div');
         nav.className = 'mw-ui-btn-nav mw-color-picker-holder';
         var view = document.createElement('div');
@@ -17,7 +22,7 @@ mw.components = {
         inputEl._time = null;
         var picker = mw.colorPicker({
             element:inputEl,
-            position:'bottom-center',
+            position:settings.position,
             onchange:function(color){
                 $('.mw-ui-btn-img', view).css("background-color", color);
                 $(inputEl).trigger('change');
@@ -63,6 +68,14 @@ mw.components = {
        var tb = new mw.tabAccordion(options, accordion);
     },
     accordion:function(el){
+        if(!el || el._accordion) return;
+        if(!$(el).is(':visible')){
+            setTimeout(function(){
+                mw.components.accordion(el);
+            }, 777, el);
+            return;
+        }
+        el._accordion = true;
         var options = this._options(el);
         var settings = $.extend(options, {element:el})
         var accordion = new mw.uiAccordion(settings);
@@ -85,11 +98,11 @@ mw.components = {
         }
         if($(el).hasClass('mw-accordion-full-height')){
             accordion._setHeight = function(){
-                var max = Math.min($(el).height(), $(window).height());
+                var max = Math.min($(el).parent().height(), $(window).height());
                 accordion.root.css('maxHeight', max);
                 var content_max = max - (accordion.titles.length * accordion.titles.eq(0).outerHeight());
                 accordion.contents.css('maxHeight', content_max);
-            }
+            };
             accordion._setHeight();
             $(window).on('load resize', function(){
                 accordion._setHeight();

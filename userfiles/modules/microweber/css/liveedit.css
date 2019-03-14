@@ -4623,5 +4623,14 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     display: none !important;
 }
 
-#css-editor-picker
+#mw-css-editor-sidebar-iframe{
+    max-height: 100%;
+    min-height: 0;
+    height: 100vh;
+}
+
+.mw-tooltip-content{
+    max-height: 90vh;
+    overflow: auto;
+}
 

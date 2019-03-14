@@ -97,7 +97,7 @@
                  style="display: none;">
 
 
-                <div class="mw-accordion mw-accordion-window-height" data-options="openFirst: false">
+                <div class="mw-accordion mw-accordion-full-height" data-options="openFirst: false">
 
 
                     <?php if (file_exists(TEMPLATE_DIR . 'template_settings.php')) { ?>
@@ -132,13 +132,7 @@
                                 <i class="mai-setting2"></i> CSS Editor
                             </div>
                         </div>
-                        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-
-
-
-
-
-<div id="mw-css-editor-sidebar-iframe-holder"></div>
+                        <div class="mw-accordion-content mw-ui-box mw-ui-box-content" id="mw-css-editor-sidebar-iframe-holder">
 
                         </div>
                     </div>

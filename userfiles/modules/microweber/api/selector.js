@@ -55,6 +55,7 @@ mw.Selector = function(options) {
         for( ; i <  this.selectors.length; i++){
             this.hideItem(this.selectors[i]);
         }
+        this.hideItem(this.interactors)
     };
 
     this.hideItem = function(item){

@@ -47,6 +47,7 @@
         border-radius: 3px;
         overflow: hidden;
         border-bottom: none;
+        margin-bottom: 15px;
     }
     #css-editor-picker svg{
         margin-top: 2px;
@@ -61,6 +62,22 @@
         box-shadow: inset 0 0 11px rgba(0,0,0,.2);
         background: #fff;
     }
+
+    .mw-CSS-Editor-group-border .prop-ui-field-holder-size{
+        float: left;
+        width: 45%;
+    }
+    .mw-CSS-Editor-group-border .prop-ui-field-holder-size + .prop-ui-field-holder{
+        float: left;
+        clear: none;
+    }
+    .mw-CSS-Editor-border-label{
+        clear: both;
+        padding-top: 15px;
+        margin-top: 15px;
+        border-top: 1px solid #ccc;
+    }
+
 </style>
 <script type="text/javascript">
     //parent.mw.require("external_callbacks.js");
@@ -79,23 +96,20 @@
 
 
     $(document).ready(function(){
-
-
-
-
             mw.cssEditorSelector = new mw.Selector({
                 root: window.parent.document.body,
                 document: window.parent.document
             });
-
+            parent.mw.cssEditorSelector = mw.cssEditorSelector;
             mw.cssEditorSelector.active(false);
             $("#css-editor-picker").on("click", function(){
                 mw.cssEditorSelector.active(!mw.cssEditorSelector.active());
             });
 
+
         $(mw.cssEditorSelector).on('stateChange', function (e, state) {
             if(state) {
-                $("#css-editor-picker").addClass('active')
+                $("#css-editor-picker").addClass('active');
                 top.mw.liveEditSelectMode = 'css';
                 top.mw.drag.plus.locked = true;
                 $('.mw-selector').show();
@@ -105,16 +119,10 @@
                 top.mw.drag.plus.locked = false;
                 $('.mw-selector').hide();
             }
-        })
-    })
-
-</script>
+        });
 
 
-<script>
 
-
-    $(document).ready(function () {
 
 
         CSSEditorSchema = [
@@ -150,12 +158,18 @@
                             {
                                 interface: 'size',
                                 label: 'Min width',
-                                id: 'minWidth'
+                                id: 'minWidth',
+                                autocomplete:[
+                                    '0'
+                                ]
                             },
                             {
                                 interface: 'size',
                                 label: 'Max width',
-                                id: 'maxWidth'
+                                id: 'maxWidth',
+                                autocomplete:[
+                                    'none'
+                                ]
                             }
                         ]
                     },
@@ -166,12 +180,18 @@
                             {
                                 interface: 'size',
                                 label: 'Min height',
-                                id: 'minHeight'
+                                id: 'minHeight',
+                                autocomplete:[
+                                    '0'
+                                ]
                             },
                             {
                                 interface: 'size',
                                 label: 'Max height',
-                                id: 'maxHeight'
+                                id: 'maxHeight',
+                                autocomplete:[
+                                    'none'
+                                ]
                             }
                         ]
                     }
@@ -345,6 +365,144 @@
             },
             {
                 interface: 'block',
+                content: 'Border',
+                class: 'mw-CSS-Editor-group-title',
+            },
+            {
+                interface: 'block',
+                class: 'mw-CSS-Editor-group mw-CSS-Editor-group-border',
+                content: [
+                    {
+                        interface: 'block',
+                        content: 'Border Top'
+                    },
+                    {
+                        interface: 'size',
+                        id: 'borderTopWidth',
+                        label: 'Size'
+                    },
+                    {
+                        interface: 'select',
+                        id: 'borderTopStyle',
+                        label: 'Type',
+                        options: [
+                            'none',
+                            'hidden',
+                            'dotted',
+                            'dashed',
+                            'solid',
+                            'double',
+                            'groove',
+                            'ridge',
+                            'inset',
+                            'outset'
+                        ]
+                    },
+                    {
+                        interface: 'color',
+                        label: 'Color',
+                        id: 'borderTopColor'
+                    },
+                    {
+                        interface: 'block',
+                        content: 'Border Bottom',
+                        class: 'mw-CSS-Editor-border-label'
+                    },
+                    {
+                        interface: 'size',
+                        id: 'borderBottomWidth',
+                        label: 'Size'
+                    },
+                    {
+                        interface: 'select',
+                        id: 'borderBottomStyle',
+                        label: 'Type',
+                        options: [
+                            'none',
+                            'hidden',
+                            'dotted',
+                            'dashed',
+                            'solid',
+                            'double',
+                            'groove',
+                            'ridge',
+                            'inset',
+                            'outset'
+                        ]
+                    },
+                    {
+                        interface: 'color',
+                        label: 'Color',
+                        id: 'borderBottomColor'
+                    },
+                    {
+                        interface: 'block',
+                        content: 'Border Left',
+                        class: 'mw-CSS-Editor-border-label'
+                    },
+                    {
+                        interface: 'size',
+                        id: 'borderLeftWidth',
+                        label: 'Size'
+                    },
+                    {
+                        interface: 'select',
+                        id: 'borderLeftStyle',
+                        label: 'Type',
+                        options: [
+                            'none',
+                            'hidden',
+                            'dotted',
+                            'dashed',
+                            'solid',
+                            'double',
+                            'groove',
+                            'ridge',
+                            'inset',
+                            'outset'
+                        ]
+                    },
+                    {
+                        interface: 'color',
+                        label: 'Color',
+                        id: 'borderLeftColor'
+                    },
+                    {
+                        interface: 'block',
+                        content: 'Border Right',
+                        class: 'mw-CSS-Editor-border-label'
+                    },
+                    {
+                        interface: 'size',
+                        id: 'borderRightWidth',
+                        label: 'Size'
+                    },
+                    {
+                        interface: 'select',
+                        id: 'borderRightStyle',
+                        label: 'Type',
+                        options: [
+                            'none',
+                            'hidden',
+                            'dotted',
+                            'dashed',
+                            'solid',
+                            'double',
+                            'groove',
+                            'ridge',
+                            'inset',
+                            'outset'
+                        ]
+                    },
+                    {
+                        interface: 'color',
+                        label: 'Color',
+                        id: 'borderRightColor'
+                    },
+                ]
+            },
+            {
+                interface: 'block',
                 content: 'Misc',
                 class: 'mw-CSS-Editor-group-title',
             },
@@ -354,7 +512,7 @@
                 content: [
                     {
                         interface: 'block',
-                        content: 'Border radius'
+                        content: 'Rounded Corners'
                     },
                     {
                         interface: 'quatro',
@@ -364,11 +522,12 @@
 
                     {
                         interface: 'block',
-                        content: 'Element Shadow'
+                        content: 'Element Shadow',
                     },
                     {
                         interface: 'shadow',
-                        id: 'boxShadow'
+                        id: 'boxShadow',
+                        pickerPosition: 'top-lefts'
                     }
                 ]
             }
@@ -386,6 +545,7 @@
 
         $(mw.cssEditorSelector).on('select', function(){
 
+            mw.cssEditorSelector.hideAll();
             mw.cssEditorSelector.active(false);
             mw.liveEditSelectMode = 'element';
             if(mw.elementCSSEditor){
@@ -452,7 +612,6 @@
                             type: "page"
                         });
                         ccurr = ccurr.parentNode;
-                        console.log(ccurr.nodeName)
 
                         if(ccurr.nodeName === 'HTML'){
                             break;
@@ -463,8 +622,9 @@
 
 
                 treedata.reverse()
-                console.log(treedata)
                 mw.cssSelectorTree.setData(treedata);
+
+                setFrame();
 
 
                 /*
@@ -504,8 +664,19 @@
                     maxHeight: css.maxHeight,
                     height: css.height,
                     boxShadow: css.boxShadow,
-                    letterSpacing: css.letterSpacing,
                     wordSpacing: css.wordSpacing,
+                    borderTopWidth: css.borderTopWidth,
+                    borderTopStyle: css.borderTopStyle,
+                    borderTopColor: css.borderTopColor,
+                    borderRightWidth: css.borderRightWidth,
+                    borderRightStyle: css.borderRightStyle,
+                    borderRightColor: css.borderRightColor,
+                    borderLeftWidth: css.borderLeftWidth,
+                    borderLeftStyle: css.borderLeftStyle,
+                    borderLeftColor: css.borderLeftColor,
+                    borderBottomWidth: css.borderBottomWidth,
+                    borderBottomStyle: css.borderBottomStyle,
+                    borderBottomColor: css.borderBottomColor,
                     borderRadius: (css.borderTopLeftRadius + ' ' + css.borderTopRightRadius + ' ' + css.borderBottomLeftRadius + ' ' + css.borderBottomRightRadius),
                 };
                 mw.elementCSSEditor.setValue(val);
@@ -516,10 +687,19 @@
 
     });
 
+    setFrame = function () {
+        var frame = parent.mw.liveEditWidgets.cssEditorInSidebarAccordion()
+        frame.style.height = 'auto';
+        var h1 = Math.max($(document.body).outerHeight(), document.body.scrollHeight);
+        frame.style.height = h1 + 'px';
+    };
+
 
     $(window).on('load', function () {
 
         mw.require('liveedit.css');
+
+        setFrame();
 
        mw.$('body').css({
             padding: '20px',
@@ -529,6 +709,9 @@
             schema: CSSEditorSchema,
             element: '#css-editor'
         });
+        parent.mw.elementCSSEditor = mw.elementCSSEditor;
+
+        mw.elementCSSEditor.disable();
 
         mw.trigger('ComponentsLaunch');
 
@@ -562,7 +745,24 @@
 
         mw.$(".mw-CSS-Editor-group-title").on("click", function () {
 
-            $(this).next().stop().slideToggle();
+            $(this).next().stop().slideToggle(function () {
+                setFrame()
+            });
+        })
+
+        setTimeout(function(){
+            setFrame()
+        }, 777)
+
+        $(top.document.body).on('click', function (e) {
+            if(mw.elementCSSEditor.currentElement){
+                var el = mw.tools.firstParentOrCurrentWithId(e.target, mw.elementCSSEditor.currentElement.id);
+                if(!el) {
+                    mw.elementCSSEditor.disable()
+                    mw.cssEditorSelector.hideAll()
+                    mw.elementCSSEditor.currentElement = null;
+                }
+            }
         })
     })
 </script>
