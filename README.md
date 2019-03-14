@@ -18,7 +18,7 @@
 ## What is Microweber?  
 
 
-![admin panel](https://sitestatic.microweber.com/cdn/gh_readme/image.png "")
+![admin panel](https://microweber.com/cdn/2019_version/1.jpg "")
 
 
 Microweber is a Drag and Drop website builder and powerful CMS of new generation. It's based on PHP Laravel Framework. You can use Microweber to make a any kind of website, online store and blog. The Drag and Drop technology allows you to build your website without any technical knowledge.
@@ -35,9 +35,7 @@ The most important thing you need to know is that Microweber pairs the latest CM
 
 Microweber operates on the Drag & Drop technology. This means that users can manage their content and arrange elements with just a click of the mouse, dragging and dropping them across the screen. Drag & Drop applies to all types of content: images, text fields, videos, and the whole variety of modules and additional customization options you have as a user. The default template “Dream” comes with more than 75+ prepared layouts that you can use via drag and drop.
 
-
-
-![Drag and Drop](https://sitestatic.microweber.com/cdn/gh_readme/microweber_drag_and_drop_gif_optimized_1.gif "")
+![Drag And Drop](https://microweber.com/cdn/2019_version/drag_drop.gif "")
 
 
 
@@ -58,6 +56,7 @@ Live Edit view is the manifestation of the Real-Time Text Writing & Editing core
 
 You can add dynamic pages, posts, products. All of these can be organized in custom categories in order to achieve a better navigation and showcase of a website's content. New pages can be created using different layouts and all pages, posts and products come with a preset number layouts and modules to get users started. These modules can be changed and you can of course add your own custom set of modules as to create the most suitable content for your needs.
 
+![Powerful Admin Panel](https://microweber.com/cdn/2019_version/2.jpg "")
 
 
 
@@ -65,8 +64,7 @@ You can add dynamic pages, posts, products. All of these can be organized in cus
 
 Perhaps the main focus of Microweber CMS is E-commerce. A rising number of people have grown fond of the idea of online entrepreneurship and we aspire to cover their needs. The software has some built-in features that will help online shop founders see their business grow and excel.
 
-![E-commerce solution](https://sitestatic.microweber.com/cdn/gh_readme/layer_31.png "")
-
+![E-commerce Solution](https://microweber.com/cdn/2019_version/3.jpg "")
 
 
 
