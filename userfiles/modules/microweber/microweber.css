@@ -57,7 +57,11 @@ body {
     font-family: 'Open Sans', sans-serif !important;
     background-color: #0084d8;
     border-color: #0084d8;
+    padding: 0 12px;
+    font-size: 12px;
     color: #fff;
+    height: 32px;
+    line-height: 30px;
 }
 
 #mw_toolbar_back_to_live_edit:hover {
