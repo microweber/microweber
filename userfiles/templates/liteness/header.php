@@ -46,7 +46,7 @@
             }
     </script>
 
-
+    <script>mw.lib.require('mw_icons_mind');</script>
 </head>
 <body class="<?php print $font . ' ' . $bgimage; ?> <?php print helper_body_classes(); ?>">
 <div id="main-container">
