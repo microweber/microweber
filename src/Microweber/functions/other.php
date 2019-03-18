@@ -835,7 +835,28 @@ function php_can_use_func($func_name)
     if (!defined('INI_SYSTEM_CHECK_DISABLED')) {
         define('INI_SYSTEM_CHECK_DISABLED', ini_get('disable_functions'));
     }
+
+
+    //if ($func_name == 'putenv') {
+        $available = true;
+        if (ini_get('safe_mode')) {
+            $available = false;
+        } else {
+            $d = INI_SYSTEM_CHECK_DISABLED;
+            $s = ini_get('suhosin.executor.func.blacklist');
+            if ("$d$s") {
+                $array = preg_split('/,\s*/', "$d,$s");
+                if (in_array($func_name, $array)) {
+                    $available = false;
+                }
+            }
+        }
+
+        return $available;
+    //}
+
     if (!strstr(INI_SYSTEM_CHECK_DISABLED, (string)$func_name)) {
         return true;
     }
+
 }
