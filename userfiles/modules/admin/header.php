@@ -644,9 +644,9 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                     </li>
                     <?php $load_module = url_param('load_module'); ?>
                     <li <?php print 'class="' . ($load_module == 'users' ? 'active' : '') . '"'; ?>>
-                        <a href="<?php print admin_url('view:modules/load_module:users#edit-user=' . $user_id); ?>" id="main-bar-user-menu-link" class="main-bar-user-menu-link-no-image">
+                        <a href="<?php print admin_url('view:modules/load_module:users'); ?>" id="main-bar-user-menu-link" class="main-bar-user-menu-link-no-image">
                             <span class="mai-user2"></span>
-                            <strong><?php _e("Profile"); ?></strong>
+                            <strong><?php _e("Users"); ?></strong>
                         </a>
                         <ul>
                             <li><a href="<?php print admin_url('view:modules/load_module:users#edit-user=' . $user_id); ?>" id="main-menu-my-profile"><?php _e("My Profile"); ?></a></li>

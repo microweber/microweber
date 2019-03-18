@@ -88,6 +88,7 @@
     $google = get_option('enable_user_google_registration', 'users') == 'y';
     $windows = get_option('enable_user_windows_live_registration', 'users') == 'y';
     $github = get_option('enable_user_github_registration', 'users') == 'y';
+    $microweber_login = get_option('enable_user_microweber_registration', 'users') == 'y';
     if ($facebook or $twitter or $google or $windows or $github) {
         $have_social_login = true;
     } else {

@@ -421,7 +421,14 @@ mw._initHandles = {
                 if(!mw.dragCurrent.id){
                     mw.dragCurrent.id = 'module_' + mw.random();
                 }
-                $(mw.dragCurrent).invisible().addClass("mw_drag_current");
+                if(mw.letools.isLayout(mw.dragCurrent)){
+                    $(mw.dragCurrent).css({
+                        opacity:0
+                    }).addClass("mw_drag_current");
+                } else {
+                    $(mw.dragCurrent).invisible().addClass("mw_drag_current");
+                }
+
                 mw.trigger("AllLeave");
                 mw.drag.fix_placeholders();
                 $(mwd.body).addClass("dragStart");

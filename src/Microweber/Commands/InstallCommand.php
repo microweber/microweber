@@ -101,6 +101,7 @@ class InstallCommand extends Command
             $input['default_template'] = (getenv('DEFAULT_TEMPLATE') ?: 'liteness');
             $input['with_default_content'] = true;
         }
+        $input['subscribe_for_update_notification'] = true;
 
 
         $this->info('Installing Microweber...');
