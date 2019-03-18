@@ -199,8 +199,8 @@ $orders = get_orders($orders_params);
                                                                              width="70" alt=""/></td>
                                                                     <td><?php print $theproduct['title']; ?></td>
                                                                     <td><?php print $product['qty']; ?></td>
-                                                                    <td><?php print $product['price']; ?></td>
-                                                                    <td><?php print (intval($product['qty']) * intval($product['price'])); ?></td>
+                                                                    <td><?php print currency_format($product['price']); ?></td>
+                                                                    <td><?php print currency_format(intval($product['qty']) * intval($product['price'])); ?></td>
                                                                 </tr>
                                                             <?php } ?>
                                                             </tbody>

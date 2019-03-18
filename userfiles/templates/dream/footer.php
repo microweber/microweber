@@ -4,10 +4,10 @@ if ($footer == '') {
     $footer = 'false';
 }
 
-$is_live =  mw()->user_manager->session_get('editmode') == true;
+$is_live = mw()->user_manager->session_get('editmode') == true;
 ?>
 <?php if ($footer != 'true' || $is_live): ?>
-    <footer class="bg--dark footer-4 nodrop mwjs-dream-footer" style="display:<?php print ($footer == 'true' and $is_live) ? 'none' : 'block';  ?>;">
+    <footer class="bg--dark footer-4 nodrop mwjs-dream-footer" style="display:<?php print ($footer == 'true' and $is_live) ? 'none' : 'block'; ?>;">
         <div class="container edit" field="dream_footer" rel="global">
             <div class="row">
                 <div class="col-md-3 col-sm-4 allow-drop">
@@ -53,10 +53,56 @@ $is_live =  mw()->user_manager->session_get('editmode') == true;
 <?php endif; ?>
 
 </div>
+<style>
+    .nav-module.menu-module {
+        flex: 1;
+    }
+
+    .nav-main > ul ul {
+        position: absolute;
+        padding: 10px;
+        background: #1274B5
+    }
+
+    .nav-main > ul > li {
+        display: inline-block;
+        position: relative;
+        margin: 10px;
+    }
+
+    .nav-main > ul a {
+        padding: 0;
+    }
+
+  /*  .okayNav__nav--visible {
+        overflow: visible;
+    }*/
+</style>
 
 
+<script src="<?php print template_url(); ?>assets/dist/main.min.js"></script>
 
-<script src="{TEMPLATE_URL}assets/dist/main.min.js"></script>
+<script>
+/*    $.fn.mwOKNav = function(options){
+        return this.each(function(){
+            var el = $(this),
+                time1 = 10, time2 = 70
+            el.okayNav(options);
+            var okData = el.data('plugin_okayNav');
+            setTimeout(function(){
+                okData.optimizeResize();
+            }, time1);
+            setTimeout(function(){
+                okData.optimizeResize();
+            }, time2);
+        })
+    }
+    $(document).ready(function(){
+        $('.nav-main').mwOKNav();
+    })*/
 
+</script>
+
+<script>mw.lib.require('okayNav');</script>
 </body>
 </html>
