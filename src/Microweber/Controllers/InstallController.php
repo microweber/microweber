@@ -101,8 +101,6 @@ class InstallController extends Controller
             }
 
 
-
-
             Config::set('database.default', $dbDriver);
             if ($dbDriver == 'sqlite') {
                 if (isset($input['db_name_sqlite'])) {
@@ -171,14 +169,11 @@ class InstallController extends Controller
                 try {
                     DB::connection()->getPdo();
                 } catch (\Exception $e) {
-                     $this->log("error" );
+                    $this->log("error");
 
-                  //  return ("Error: Could not connect to the database.  Please check your configuration. Error: " . $e->getMessage() .' on ' . $e->getLine() . " – " . $e->getFile() );
-                    return ("Error: Could not connect to the database.  Please check your configuration. " . $e->getMessage() );
+                    //  return ("Error: Could not connect to the database.  Please check your configuration. Error: " . $e->getMessage() .' on ' . $e->getLine() . " – " . $e->getFile() );
+                    return ("Error: Could not connect to the database.  Please check your configuration. " . $e->getMessage());
                 }
-
-
-
 
 
                 try {
@@ -244,6 +239,10 @@ class InstallController extends Controller
                         }
 
                         return $install_step_return;
+                    }
+                } elseif (!$install_step) {
+                    if (isset($input['admin_email']) and isset($input['subscribe_for_update_notification'])) {
+                        $this->reportInstall($input['admin_email'], $input['subscribe_for_update_notification']);
                     }
                 }
 
@@ -377,15 +376,14 @@ class InstallController extends Controller
             $data['email'] = $email;
         }
         $postData = array();
-        $postData['postdata'] = base64_encode(json_encode($data));
+        $postData['postdata'] = base64_encode(@json_encode($data));
         $http = new \Microweber\Utils\Http(app());
 
         try {
-            $http->url('https://installreport.services.microweberapi.com')->set_timeout(10)->post($postData);
+            $http->url('http://installreport.services.microweberapi.com')->set_timeout(10)->post($postData);
         } catch (\Exception $e) {
             //maybe internet connection problem
         }
-
 
     }
 
@@ -418,7 +416,6 @@ class InstallController extends Controller
             $yes_i_can = false;
         }
 
-
         if (!$this->_is_putenv_available()) {
             $yes_i_can = false;
         }
@@ -447,56 +444,30 @@ class InstallController extends Controller
 
     private function _is_escapeshellarg_available()
     {
-        $available = true;
-        if (ini_get('safe_mode')) {
-            $available = false;
-        } else {
-            $d = ini_get('disable_functions');
-            $s = ini_get('suhosin.executor.func.blacklist');
-            if ("$d$s") {
-                $array = preg_split('/,\s*/', "$d,$s");
-                if (in_array('escapeshellarg', $array)) {
-                    $available = false;
-                }
-            }
-        }
 
-        return $available;
+        return php_can_use_func('escapeshellarg');
+
+
     }
+
     private function _is_putenv_available()
     {
 
-        $available = true;
-        if (ini_get('safe_mode')) {
-            $available = false;
-        } else {
-            $d = ini_get('disable_functions');
-            $s = ini_get('suhosin.executor.func.blacklist');
 
-
-
-            if ("$d$s") {
-                $array = preg_split('/,\s*/', "$d,$s");
-                if (in_array('putenv', $array)) {
-                    $available = false;
-                }
-            }
-        }
-
-        return $available;
+        return php_can_use_func('putenv');
     }
 
 
     private function _is_shell_exec_available()
     {
 
+
         $available = true;
         if (ini_get('safe_mode')) {
             $available = false;
         } else {
             $d = ini_get('disable_functions');
             $s = ini_get('suhosin.executor.func.blacklist');
-
 
 
             if ("$d$s") {
