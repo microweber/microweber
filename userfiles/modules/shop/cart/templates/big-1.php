@@ -97,7 +97,7 @@ description: Full width cart template
             <div class="shipping-info">
                 <div class="row">
                     <div class="col-xs-12 col-sm-6 col-md-5">
-                        <module type="shop/discounts"/>
+                        <module type="shop/coupons"/>
                     </div>
 
                     <div class="col-xs-12 col-sm-6 col-md-4 col-md-offset-3">

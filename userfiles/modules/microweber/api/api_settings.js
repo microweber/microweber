@@ -170,6 +170,12 @@ mw.settings.libs = {
             }
         }
     ],
+    okayNav: [
+        function () {
+            mw.require(mw.settings.libs_url + 'okayNav' + '/dist/css/okayNav.min.css');
+            mw.require(mw.settings.libs_url + 'okayNav' + '/app/js/jquery.okayNav.js');
+        }
+    ],
     bootstrap_tags: [
         function () {
 
