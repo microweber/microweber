@@ -101,8 +101,9 @@ mw.settings.libs = {
     ],
     bootstrap4: [
         function () {
-            mw.require(mw.settings.libs_url + 'bootstrap-4.0.0-beta2' + '/css/bootstrap.min.css');
-            mw.require(mw.settings.libs_url + 'bootstrap-4.0.0-beta2' + '/js/bootstrap.min.js');
+            mw.require(mw.settings.libs_url + 'bootstrap-4.3.1' + '/css/bootstrap.min.css');
+            mw.require(mw.settings.libs_url + 'bootstrap-4.3.1' + '/js/popper.min.js');
+            mw.require(mw.settings.libs_url + 'bootstrap-4.3.1' + '/js/bootstrap.min.js');
             mw.require(mw.settings.libs_url + 'fontawesome-4.7.0' + '/css/font-awesome.min.css');
         }
     ],
