@@ -2,12 +2,12 @@
 /********************************************************
 
 
-var myTree = new mw.tree({
+ var myTree = new mw.tree({
 
 });
 
 
-********************************************************/
+ ********************************************************/
 
 
 
@@ -68,14 +68,14 @@ mw.lib.require('nestedsortable');
         this.skip = function(itemData){
             if(this.options.skip && this.options.skip.length>0){
                 loopSKIP:
-                for( var n=0; n<scope.options.skip.length; n++ ){
-                    var item = scope.options.skip[n];
-                    var case1 = (item.id == itemData.id && item.type == itemData.type);
-                    var case2 = (itemData.parent_id == item.id && item.type == itemData.type);
-                    if(case1 ||case2){
-                        return true;
+                    for( var n=0; n<scope.options.skip.length; n++ ){
+                        var item = scope.options.skip[n];
+                        var case1 = (item.id == itemData.id && item.type == itemData.type);
+                        var case2 = (itemData.parent_id == item.id && item.type == itemData.type);
+                        if(case1 ||case2){
+                            return true;
+                        }
                     }
-                }
                 return false;
             }
         };
@@ -93,13 +93,31 @@ mw.lib.require('nestedsortable');
             }
         };
 
+
+        this._jsonForEach = function(c){
+            var data = this.options.data.slice(0);
+            var ids = [0]
+            while (data.length) {
+                data.forEach(function(item, i){
+                    ids.forEach(function(id){
+                        if(item.parent_id == id){
+                            c.call(undefined, item);
+                            ids.push(item.id)
+                            data.splice(i, 1)
+                        }
+                    })
+                })
+            }
+        }
+
         this.json2ul = function(){
             this.list = scope.document.createElement( 'ul' );
             this.options.id = this.options.id || ( 'mw-tree-' + window.mwtree );
             this.list.id = this.options.id;
             this.list.className = 'mw-defaults mw-tree-nav mw-tree-nav-skin-'+this.options.skin;
             this.list._id = 0;
-            this.options.data.forEach(function(item){
+            //this.options.data.forEach(function(item){
+            this._jsonForEach(function(item){
                 var list = scope.getParent(item);
                 if(list){
                     list.appendChild(scope.createItem(item));
@@ -226,10 +244,10 @@ mw.lib.require('nestedsortable');
         };
         this.toggleSelect = function(li, type){
             if(this.isSelected(li, type)){
-               this.unselect(li, type)
+                this.unselect(li, type)
             }
             else{
-               this.select(li, type)
+                this.select(li, type)
             }
         };
 
@@ -517,6 +535,7 @@ mw.lib.require('nestedsortable');
             var container = scope.document.createElement('span');
             container.className = "mw-tree-item-content";
             container.innerHTML = '<span class="mw-tree-item-title">'+item.title+'</span>';
+            
             li._data = item;
             li.id = scope.options.id + '-' + item.type+'-'+item.id;
             li.appendChild(container);
@@ -635,13 +654,13 @@ mw.lib.require('nestedsortable');
         this.addHelperClasses = function(root, level){
             level = (level || 0) + 1;
             root = root || this.list;
-           $( root.children ).addClass('level-'+level).each(function(){
-               var ch = this.querySelector('ul');
+            $( root.children ).addClass('level-'+level).each(function(){
+                var ch = this.querySelector('ul');
                 if(ch){
                     $(this).addClass('has-children')
                     scope.addHelperClasses(ch, level);
                 }
-           })
+            })
         };
 
         this.loadSelected = function(){
