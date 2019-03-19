@@ -527,7 +527,7 @@
                     {
                         interface: 'shadow',
                         id: 'boxShadow',
-                        pickerPosition: 'top-lefts'
+                        pickerPosition: 'top-left'
                     }
                 ]
             }
@@ -539,7 +539,6 @@
         mw.cssSelectorTree = new mw.tree({
             element: '#css-editor-selected-view',
             saveState: false
-
         });
 
 
@@ -574,24 +573,6 @@
                 }
                 mw.elementCSSEditor.enable();
 
-
-                /*var brdcrmb_curr = document.createElement('span');
-                 brdcrmb_curr.innerHTML = mw.elementCSSEditor.currentElement.nodeName
-                 + (mw.elementCSSEditor.currentElement.className?'.'+mw.elementCSSEditor.currentElement.className.split(' ').join('.'):'')
-                 + (mw.elementCSSEditor.currentElement.id?'#'+mw.elementCSSEditor.currentElement.id:'');
-                 var brdcrmb = [brdcrmb_curr];
-                 mw.tools.foreachParents(mw.elementCSSEditor.currentElement, function(){
-
-                 var curr = document.createElement('span');
-                 curr.innerHTML = this.nodeName
-                 + (this.className?'.'+this.className.split(' ').join('.'):'')
-                 + (this.id?'#'+this.id:'');
-                 brdcrmb.push(curr)
-
-                 });
-                 brdcrmb.reverse();
-
-                 $("#css-editor-selected-view").append(brdcrmb);*/
                 var cname = function (ccurr) {
                     if(!ccurr) return;
                     return ccurr.nodeName + (ccurr.className?'.'+ccurr.className.split(' ').join('.'):'')+ (ccurr.id?'#'+ccurr.id:'');
@@ -619,22 +600,10 @@
 
                 }
 
-
-
-                treedata.reverse()
+                treedata.reverse();
                 mw.cssSelectorTree.setData(treedata);
 
                 setFrame();
-
-
-                /*
-                 *   id: 1
-                 parent_id: 0
-                 parent_type: "page"
-                 subtype: "home"
-                 title: "Home"
-                 type: "page"
-                 * */
 
                 var css = getComputedStyle(el);
                 var bgimg = css.backgroundImage;
@@ -752,7 +721,7 @@
 
         setTimeout(function(){
             setFrame()
-        }, 777)
+        }, 777);
 
         $(top.document.body).on('click', function (e) {
             if(mw.elementCSSEditor.currentElement){

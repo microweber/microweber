@@ -302,10 +302,7 @@ $(document).ready(function() {
             if (node.nodeName === 'IMG') {
                 uitype = 'image';
             }
-
-
-
-
+            
             if (mw.liveEditSettings.active) {
                 if (typeof(mw.sidebarSettingsTabs) != 'undefined') {
                     if (uitype != 'module') {

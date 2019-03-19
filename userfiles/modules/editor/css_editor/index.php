@@ -2,15 +2,18 @@
 ?>
 <?php only_admin_access(); ?>
 
+<style>
+    html,body{
+        direction: initial;
+    }
 
+</style>
 
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.js"></script>
 <script type="text/javascript">
         mw.require('options.js');
 
         $(document).ready(function(){
-
-
 
                 mw.require('https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.css');
 
@@ -40,54 +43,38 @@
                 })
 
 
-        })
+        });
 
+    $(window).on('load', function () {
+        mw.options.form('#<?php print $params['id'] ?>', function () {
+            if (mw.notification != undefined) {
+                mw.notification.success('CSS Updated');
+            }
+            if (typeof(window.parent.mw.wysiwyg) != 'undefined') {
+                var custom_fonts_stylesheet = window.parent.document.getElementById("mw-custom-user-css");
+                if (custom_fonts_stylesheet != null) {
+                    var custom_fonts_stylesheet_restyled = '<?php print api_nosession_url('template/print_custom_css') ?>?v=' + Math.random(0, 10000);
+                    custom_fonts_stylesheet.href = custom_fonts_stylesheet_restyled;
 
-</script>
-<style>
-html,body{
-    direction: initial;
-}
-
-</style>
-
-
-
-
-<script type="text/javascript">
-        $(window).on('load', function () {
-                mw.options.form('#<?php print $params['id'] ?>', function () {
-                        if (mw.notification != undefined) {
-                                mw.notification.success('CSS Updated');
-                        }
-                        if (typeof(window.parent.mw.wysiwyg) != 'undefined') {
-                                var custom_fonts_stylesheet = window.parent.document.getElementById("mw-custom-user-css");
-                                if (custom_fonts_stylesheet != null) {
-                                        var custom_fonts_stylesheet_restyled = '<?php print api_nosession_url('template/print_custom_css') ?>?v=' + Math.random(0, 10000);
-                                        custom_fonts_stylesheet.href = custom_fonts_stylesheet_restyled;
-
-                                }
-                        }
-
-                });
+                }
+            }
 
         });
-</script>
-<script type="text/javascript">
+
+    });
         $time_out_handle = 0;
 
 
         savecss = function(){
-
-                mw.options.saveOption({
-                    group:'template',
-                    key:'custom_css',
-                    value:css_code_area_editor.getValue()
-                },
-                function(){
-                    var el = (window.opener || top).$('#mw-custom-user-css')[0];
-                    mw.tools.refresh(el)
-                });
+            mw.options.saveOption({
+                group:'template',
+                key:'custom_css',
+                value:css_code_area_editor.getValue()
+            },
+            function(){
+                var el = (window.opener || top).$('#mw-custom-user-css')[0];
+                mw.tools.refresh(el)
+            });
         }
 
 </script>
