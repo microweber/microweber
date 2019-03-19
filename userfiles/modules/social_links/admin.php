@@ -16,6 +16,8 @@ $linkedin_enabled = get_option('linkedin_enabled', $option_group) == 'y';
 $github_enabled = get_option('github_enabled', $option_group) == 'y';
 $instagram_enabled = get_option('instagram_enabled', $option_group) == 'y';
 $rss_enabled = get_option('rss_enabled', $option_group) == 'y';
+$soundcloud_enabled = get_option('soundcloud_enabled', $option_group) == 'y';
+$mixcloud_enabled = get_option('mixcloud_enabled', $option_group) == 'y';
 
 $instagram_url = get_option('instagram_url', $option_group);
 $facebook_url = get_option('facebook_url', $option_group);
@@ -25,6 +27,8 @@ $pinterest_url = get_option('pinterest_url', $option_group);
 $youtube_url = get_option('youtube_url', $option_group);
 $linkedin_url = get_option('linkedin_url', $option_group);
 $github_url = get_option('github_url', $option_group);
+$soundcloud_url = get_option('soundcloud_url', $option_group);
+$mixcloud_url = get_option('mixcloud_url', $option_group);
 ?>
 
     <style scoped="scoped">
@@ -218,6 +222,44 @@ $github_url = get_option('github_url', $option_group);
                 <td>
                     <div class="mw-ui-field-holder">
                         <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field mw-ui-field mw-ui-field-medium" name="instagram_url" value="<?php print $instagram_url; ?>"/>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label class="mw-ui-check">
+                        <input type="checkbox" class="mw_option_field" name="soundcloud_enabled" id="soundcloud_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($soundcloud_enabled) print 'checked="checked"'; ?>><span></span>
+                    </label>
+                </td>
+
+                <td><i class="fab fa-soundcloud  mw-socials-color"></i></td>
+
+                <td>
+                    <label class="mw-ui-inline-label" for="soundcloud_enabled">soundcloud.com/</label>
+                </td>
+                <td>
+                    <div class="mw-ui-field-holder">
+                        <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field mw-ui-field mw-ui-field-medium" name="soundcloud_url" value="<?php print $soundcloud_url; ?>"/>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label class="mw-ui-check">
+                        <input type="checkbox" class="mw_option_field" name="mixcloud_enabled" id="mixcloud_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($mixcloud_enabled) print 'checked="checked"'; ?>><span></span>
+                    </label>
+                </td>
+
+                <td><i class="fab fa-mixcloud  mw-socials-color"></i></td>
+
+                <td>
+                    <label class="mw-ui-inline-label" for="mixcloud_enabled">mixcloud.com/</label>
+                </td>
+                <td>
+                    <div class="mw-ui-field-holder">
+                        <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field mw-ui-field mw-ui-field-medium" name="mixcloud_url" value="<?php print $mixcloud_url; ?>"/>
                     </div>
                 </td>
             </tr>

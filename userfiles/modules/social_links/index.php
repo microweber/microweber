@@ -18,6 +18,9 @@ $github_enabled_option = get_option('github_enabled', $option_group);
 $instagram_enabled_option = get_option('instagram_enabled', $option_group);
 $rss_enabled_option = get_option('rss_enabled', $option_group);
 
+$soundcloud_enabled_option = get_option('soundcloud_enabled', $option_group);
+$mixcloud_enabled_option = get_option('mixcloud_enabled', $option_group);
+
 $facebook_enabled = $facebook_enabled_option == 'y';
 $twitter_enabled = $twitter_enabled_option == 'y';
 $googleplus_enabled = $googleplus_enabled_option == 'y';
@@ -27,6 +30,9 @@ $linkedin_enabled = $linkedin_enabled_option == 'y';
 $github_enabled = $github_enabled_option == 'y';
 $instagram_enabled = $instagram_enabled_option == 'y';
 $rss_enabled = $rss_enabled_option == 'y';
+
+$soundcloud_enabled = $soundcloud_enabled_option == 'y';
+$mixcloud_enabled = $mixcloud_enabled_option == 'y';
 
 
 if (isset($params['show-icons'])) {
@@ -51,6 +57,10 @@ if (isset($params['show-icons'])) {
             $instagram_enabled = true;
         } else if (strpos($icon, 'rss') !== false and $rss_enabled_option == false) {
             $rss_enabled = true;
+        } else if (strpos($icon, 'soundcloud') !== false and $soundcloud_enabled_option == false) {
+            $soundcloud_enabled = true;
+        } else if (strpos($icon, 'mixcloud') !== false and $mixcloud_enabled_option == false) {
+            $mixcloud_enabled = true;
         }
     }
 }
@@ -109,10 +119,22 @@ if ($github_url == false) {
     $github_url = get_option('github_url', 'website');
 }
 
+$soundcloud_url = get_option('soundcloud_url', $option_group);
+
+if ($soundcloud_url == false) {
+    $soundcloud_url = get_option('soundcloud_url', 'website');
+}
+
+$mixcloud_url = get_option('mixcloud_url', $option_group);
+
+if ($mixcloud_url == false) {
+    $mixcloud_url = get_option('mixcloud_url', 'website');
+}
+
 
 $social_links_has_enabled = false;
 
-if ($facebook_enabled or $twitter_enabled or $googleplus_enabled or $pinterest_enabled or $youtube_enabled or $linkedin_enabled) {
+if ($facebook_enabled or $twitter_enabled or $googleplus_enabled or $pinterest_enabled or $youtube_enabled or $linkedin_enabled or $soundcloud_enabled or $mixcloud_enabled) {
     $social_links_has_enabled = true;
 }
 

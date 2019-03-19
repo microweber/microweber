@@ -10,7 +10,7 @@ description: Default
 
 */
 ?>
-
+<script>mw.lib.require('font_awesome5'')</script>
 <script>mw.moduleCSS('<?php print module_url(); ?>style.css');</script>
 <div class="mw-social-links">
 
@@ -66,6 +66,18 @@ description: Default
     <?php if ($github_enabled) { ?>
 
         <a href="//github.com/<?php print $github_url; ?>" target="_blank"><span class="mw-icon-social-github"></span></a>
+
+    <?php } ?>
+
+    <?php if ($soundcloud_enabled) { ?>
+
+        <a href="//soundcloud.com/<?php print $soundcloud_url; ?>" target="_blank"><span class="fab fa-soundcloud mw-icon-social-soundcloud"></span></a>
+
+    <?php } ?>
+
+    <?php if ($mixcloud_enabled) { ?>
+
+        <a href="//mixcloud.com/<?php print $mixcloud_url; ?>" target="_blank"><span class="fab fa-mixcloud mw-icon-social-mixcloud"></span></a>
 
     <?php } ?>
 

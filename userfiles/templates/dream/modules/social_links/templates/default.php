@@ -72,6 +72,18 @@ description: Default
         </li>
     <?php } ?>
 
+    <?php if ($soundcloud_enabled) { ?>
+
+        <li><a href="//soundcloud.com/<?php print $soundcloud_url; ?>" target="_blank" data-toggle="tooltip" data-placement="top" title="SoundCloud"><i class="socicon-soundcloud"></i></a></li>
+
+    <?php } ?>
+
+    <?php if ($mixcloud_enabled) { ?>
+
+        <li><a href="//mixcloud.com/<?php print $mixcloud_url; ?>" target="_blank" data-toggle="tooltip" data-placement="top" title="MixCloud"><i class="socicon-mixcloud"></i></a></li>
+
+    <?php } ?>
+
     <?php if ($rss_enabled) { ?>
         <li>
             <a href="<?php site_url(); ?>rss" target="_blank" data-toggle="tooltip" data-placement="top" title="Rss">
