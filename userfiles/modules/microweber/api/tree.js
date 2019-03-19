@@ -442,7 +442,7 @@ mw.lib.require('nestedsortable');
 
         this.sortable = function(element){
             $('ul', this.list).sortable({
-                items: ".type-category",
+                items: ".type-category, .type-page",
                 axis:'y',
                 listType:'ul',
                 handle:'.mw-tree-item-title',

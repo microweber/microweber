@@ -3057,7 +3057,7 @@ mw.tools = {
         frame.setAttribute('frameborder', 0);
         frame.setAttribute('allowtransparency', 'true');
         $(o.element).after(frame);
-        $(o.element).hide();
+        //$(o.element).hide();
         $.get(mw.external_tool('editor_toolbar'), function (a) {
             if (frame.contentWindow.document === null) {
                 return;
@@ -3094,10 +3094,18 @@ mw.tools = {
                 $(obj.element).on('sourceChanged', function(e, val){
                     frame.contentWindow.document.getElementById('editor-area').innerHTML = val;
                 })
+                $(frame.contentWindow.document.getElementById('editor-area')).on('keyup paste change', function(){
+                    if (frame.richtextEditorSettings.element.nodeName !== 'TEXTAREA') {
+                        frame.richtextEditorSettings.element.innerHTML = this.innerHTML
+                    }  else {
+                        frame.richtextEditorSettings.element.value = this.innerHTML;
+                    }
+                })
             }
             $(obj.element).on('sourceChanged', function (e, val) {
                 frame.contentWindow.document.getElementById('editor-area').innerHTML = val;
-            })
+            });
+
         });
         o.width = o.width != 'auto' ? o.width : '100%';
         $(frame).css({width: o.width, height: o.height});
