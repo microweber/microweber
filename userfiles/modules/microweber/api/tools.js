@@ -3057,7 +3057,7 @@ mw.tools = {
         frame.setAttribute('frameborder', 0);
         frame.setAttribute('allowtransparency', 'true');
         $(o.element).after(frame);
-        //$(o.element).hide();
+        $(o.element).hide();
         $.get(mw.external_tool('editor_toolbar'), function (a) {
             if (frame.contentWindow.document === null) {
                 return;
