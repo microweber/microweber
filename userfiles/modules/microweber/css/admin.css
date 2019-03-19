@@ -4512,13 +4512,22 @@ tr.mw-order-item.hovered, tr.mw-order-item {
     margin-right: 10px;
 }
 
+
 .section-header {
     background: white;
     padding: 15px;
     height: 66px;
     margin-bottom: 15px !important;
 }
-
+.section-header-fixer{
+    height: 66px;
+    position: relative;
+    z-index: 12;
+}
+.section-header-fixer .section-header{
+    position: fixed;
+    box-shadow: 0 2px 22px rgba(0,0,0,.05);
+}
 .section-header [src*=".svg"] {
     max-height: 24px;
     max-width: 24px;

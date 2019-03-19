@@ -606,7 +606,7 @@
                         treedata.push({
                             id: cname(ccurr),
                             title: cname(ccurr),//ccurr.nodeName,
-                            parent_id: ccurr.parentNode.nodeName !== 'HTML' ? cname(ccurr.parentNode) : null,
+                            parent_id: ccurr.parentNode.nodeName !== 'HTML' ? cname(ccurr.parentNode) : 0,
                             parent_type: ccurr.parentNode.nodeName !== 'HTML' ?  "page" : null,
                             subtype: "page",
                             type: "page"

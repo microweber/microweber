@@ -96,19 +96,24 @@ mw.lib.require('nestedsortable');
 
         this._jsonForEach = function(c){
             var data = this.options.data.slice(0);
-            var ids = [0]
-            while (data.length) {
+            var ids = [0];
+            var count = 0, max = 10000;
+            while (data.length && count<max) {
+                count++;
                 data.forEach(function(item, i){
                     ids.forEach(function(id){
                         if(item.parent_id == id){
                             c.call(undefined, item);
                             ids.push(item.id)
-                            data.splice(i, 1)
+                            data.splice(i, 1);
                         }
-                    })
-                })
+                    });
+                });
             }
-        }
+            if(count === max){
+                console.warn('MW Tree max loop iteration reached.');
+            }
+        };
 
         this.json2ul = function(){
             this.list = scope.document.createElement( 'ul' );
@@ -535,7 +540,7 @@ mw.lib.require('nestedsortable');
             var container = scope.document.createElement('span');
             container.className = "mw-tree-item-content";
             container.innerHTML = '<span class="mw-tree-item-title">'+item.title+'</span>';
-            
+
             li._data = item;
             li.id = scope.options.id + '-' + item.type+'-'+item.id;
             li.appendChild(container);
