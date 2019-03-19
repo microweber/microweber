@@ -19,3 +19,12 @@ event_bind('module.comments.item.info', function ($params) {
 event_bind('module.rating.simple', function ($params) {
 	return mw('rating\Controller')->simple_rating($params);
 });
+
+
+
+
+function get_rating_points($item){
+
+    return mw('rating\Controller')->get_rating_points($item);
+
+}

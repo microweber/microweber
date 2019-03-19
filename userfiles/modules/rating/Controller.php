@@ -128,6 +128,42 @@ class Controller
 
     }
 
+    function get_rating_points($item)
+    {
+
+        $item = parse_params($item);
+
+        $rating = 0;
+
+        $rel_type = 'content';
+        $rel_id = 0;
+
+
+        if (isset($item['rel_type'])) {
+            $rel_type = $item['rel_type'];
+        }
+        if (isset($item['rel_id'])) {
+            $rel_id = $item['rel_id'];
+        }
+
+
+        if (isset($item['content_id'])) {
+            $rel_type = 'content';
+            $rel_id = $item['content_id'];
+        }
+
+
+        $get = array();
+        $get['rel_type'] = $rel_type;
+        $get['rel_id'] = $rel_id;
+        $get['sum'] = 'rating';
+        $get['group_by'] = 'rel_id,rel_type';
+        $get['single'] = true;
+        $get = $this->model->get($get);
+        return $get;
+
+    }
+
 
     function comment_rating($item)
     {

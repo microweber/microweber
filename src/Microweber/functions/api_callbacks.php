@@ -112,6 +112,7 @@ api_expose_admin('content/get_admin_js_tree_json', function ($data) {
             if ($page['is_home']) {
                 $item['subtype'] = 'home';
             }
+            $item['position'] = intval($page['position']);
 
             $pages_cats = get_categories('parent_page=' . $page['id']);
             if ($pages_cats) {
@@ -134,6 +135,7 @@ api_expose_admin('content/get_admin_js_tree_json', function ($data) {
                     $item['title'] = $cat['title'];
 
                     $item['subtype'] = 'category';
+                    $item['position'] = intval($cat['position']);
 
 
                     $cats_sub = get_category_children($cat['id']);
@@ -150,6 +152,7 @@ api_expose_admin('content/get_admin_js_tree_json', function ($data) {
                                 $item['id'] = $cat_sub['id'];
                                 $item['type'] = 'category';
                                 $item['parent_id'] = intval($cat['id']);
+                                $item['position'] = intval($cat['position']);
 
                                 $item['parent_type'] = 'category';
                                 $item['title'] = $cat_sub['title'];
