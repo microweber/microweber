@@ -516,7 +516,7 @@ section.blog-post .container .container {
 .mwembed iframe {
     max-width: 100%;
     width: 100%;
-    height: auto;
+    /*height: auto;*/
 }
 
 .mw-payment-gateway-cart-checkout-shop-payments .mw-ui-check input + span {
