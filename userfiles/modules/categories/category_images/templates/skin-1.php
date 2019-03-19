@@ -1,14 +1,11 @@
 <?php
-/*
 
+/*
   type: layout
 
-  name: Default
+  name: Skin-1
 
-  description: Default
-
-
-
+  description: Skin-1
 */
 ?>
 
