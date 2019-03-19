@@ -125,21 +125,21 @@ mw.settings.libs = {
     ],
     bootstrap3ns: [
         function () {
-            var bootstrap_enabled = (typeof $().modal == 'function');
-            if (bootstrap_enabled == false) {
+            //var bootstrap_enabled = (typeof $().modal == 'function');
+            //if (bootstrap_enabled == false) {
                 mw.require(mw.settings.libs_url + 'bootstrap3' + '/js/bootstrap.min.js');
                 mw.require(mw.settings.libs_url + 'bootstrap3ns' + '/bootstrap.min.css');
                 mw.require(mw.settings.libs_url + 'fontawesome-4.7.0' + '/css/font-awesome.min.css');
-            }
+           // }
         }
     ],
     bootstrap_select: [
         function () {
-            var bootstrap_enabled = (typeof $().modal == 'function');
-            if (!bootstrap_enabled == false) {
+            //var bootstrap_enabled = (typeof $().modal == 'function');
+            //if (!bootstrap_enabled == false) {
                 mw.require(mw.settings.libs_url + 'bootstrap-select-1.12.2' + '/dist/js/bootstrap-select.min.js');
                 mw.require(mw.settings.libs_url + 'bootstrap-select-1.12.2' + '/dist/css/bootstrap-select.min.css');
-            }
+            //}
         }
     ],
     okayNav: [
@@ -151,16 +151,16 @@ mw.settings.libs = {
     bootstrap_tags: [
         function () {
 
-            var bootstrap_enabled = (typeof $().modal == 'function');
-            if (!bootstrap_enabled == false) {
+           // var bootstrap_enabled = (typeof $().modal == 'function');
+            //if (!bootstrap_enabled == false) {
                 mw.require(mw.settings.libs_url + 'typeahead' + '/typeahead.jquery.js');
                 mw.require(mw.settings.libs_url + 'typeahead' + '/typeahead.bundle.min.js');
                 mw.require(mw.settings.libs_url + 'typeahead' + '/bloodhound.js');
                 mw.require(mw.settings.libs_url + 'bootstrap_tags' + '/bootstrap-tagsinput.css');
                 mw.require(mw.settings.libs_url + 'bootstrap_tags' + '/bootstrap-tagsinput.js');
-            } else {
-                mw.log("You must load bootstrap to use bootstrap_tags");
-            }
+            //} else {
+                //mw.log("You must load bootstrap to use bootstrap_tags");
+            //}
 
         }
     ],
