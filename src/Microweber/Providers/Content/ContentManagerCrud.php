@@ -986,6 +986,7 @@ class ContentManagerCrud extends Crud
             $this->app->cache_manager->delete('content/' . $id);
 
             $pox = $maxpos - $i;
+
             DB::table($this->tables['content'])->whereId($id)->update(['position' => $pox]);
             ++$i;
         }

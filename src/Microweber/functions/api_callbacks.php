@@ -92,7 +92,7 @@ api_expose_admin('content/get_admin_js_tree_json', function ($data) {
 
 
     $json = array();
-    $pages = get_pages('no_limit=1');
+    $pages = get_pages('no_limit=1&order_by=position desc');
     if ($pages) {
         foreach ($pages as $page) {
             $item = array();
@@ -104,6 +104,7 @@ api_expose_admin('content/get_admin_js_tree_json', function ($data) {
             // $item['has_children'] = 0;
 
             $item['subtype'] = $page['subtype'];
+            $item['order_by'] = 'position asc';
 
             if ($page['is_shop']) {
                 $item['subtype'] = 'shop';
@@ -114,7 +115,7 @@ api_expose_admin('content/get_admin_js_tree_json', function ($data) {
             }
             $item['position'] = intval($page['position']);
 
-            $pages_cats = get_categories('parent_page=' . $page['id']);
+            $pages_cats = get_categories('parent_page=' . $page['id'].'&no_limit=1&order_by=position asc');
             if ($pages_cats) {
                 //  $item['has_children'] = 1;
             } else {
@@ -158,6 +159,7 @@ api_expose_admin('content/get_admin_js_tree_json', function ($data) {
                                 $item['title'] = $cat_sub['title'];
                                 //  $item['has_children'] = 0;
                                 $item['subtype'] = 'sub_category';
+                               // $item['order_by'] = 'position asc';
 
 //                                $cats_sub1 = get_category_children($cat_sub['id']);
 //                                if ($cats_sub1) {

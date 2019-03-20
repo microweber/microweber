@@ -479,10 +479,13 @@ class Utils
     public function update_position_field($table, $data = array())
     {
         $i = 0;
+
+
         if (is_array($data)) {
             foreach ($data as $value) {
                 $value = intval($value);
-                if ($value != 0) {
+
+                if ($value !== null) {
                     DB::table($table)->whereId($value)->update(['position' => $i]);
                 }
                 ++$i;
