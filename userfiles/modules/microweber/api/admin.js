@@ -28,12 +28,13 @@ mw.admin = {
     },
     contentScrollBoxHeightMinus: 0,
     contentScrollBoxHeightFix: function (node) {
-        mw.admin.contentScrollBoxHeightMinus = 0,
-            exceptor = mw.tools.firstParentWithClass(node, 'scroll-height-exception-master');
+        var exceptor = mw.tools.firstParentWithClass(node, 'scroll-height-exception-master');
+        mw.admin.contentScrollBoxHeightMinus = $(exceptor).offset().top
         if (!exceptor) {
             return $(window).height();
         }
         mw.$('.scroll-height-exception', exceptor).each(function () {
+            console.log($(this).outerHeight(true), this)
             mw.admin.contentScrollBoxHeightMinus = mw.admin.contentScrollBoxHeightMinus + $(this).outerHeight(true);
         });
 
@@ -208,7 +209,7 @@ mw.admin = {
         var locked = mw.cookie.ui('adminsidebarpin') == 'true';
         AdminCategoryTree = mwd.querySelector('.tree-column');
 		if(AdminCategoryTree == null){
-		return;	
+		return;
 		}
         if ((p != false) && (p.contains('edit') || p.contains('new'))) {
             if (AdminCategoryTree !== null) {

@@ -646,6 +646,29 @@ if ($action == 'posts') {
                 <div class="fixed-side-column scroll-height-exception-master">
 
 
+<style>
+    .tree-show-hide-nav{
+        box-shadow: 0 1px 1px rgba(0,0,0,.1);
+        margin-right: -10px;
+    }
+    #main-tree-search{
+
+        max-width: 100px;
+        transition: 1.2s;
+        background-position: 4px center;
+    }
+</style>
+                    <div class="tree-show-hide-nav scroll-height-exception">
+                        <div class="mw-ui-btn-nav">
+                            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium" onclick="pagesTree.openAll()"><?php _e("Open All"); ?></a>
+                            <a class="mw-ui-btn mw-ui-btn-medium" href="javascript:;" onclick="pagesTree.closeAll()"><?php _e("Close All"); ?></a>
+
+                            <input id="main-tree-search" placeholder="<?php _e('Search'); ?>" type="text" class="mw-ui-field mw-ui-field-medium mw-ui-searchfield">
+                        </div>
+
+
+                    </div>
+
                     <div class="fixed-side-column-container mw-tree" id="pages_tree_container_<?php print $my_tree_id; ?>">
 
                         <script>
@@ -707,11 +730,37 @@ if ($action == 'posts') {
 
                                     $(pagesTree).on("orderChange", function(e, item, data, old, local){
                                         var obj = {ids: local};
-                                        $.post("<?php print api_link('category/reorder'); ?>", obj, function () {
+                                        var url;
+                                        if(item.type === 'category'){
+                                            url = "<?php print api_link('category/reorder'); ?>" ;
+                                        }
+                                        else {
+                                            url = "<?php print api_link('content/reorder'); ?>";
+                                        }
+                                        $.post(url, obj, function () {
                                             mw.reload_module('#mw_page_layout_preview');
+                                            mw.notification.success('<?php _e("Changes are saved"); ?>')
                                         });
                                     });
                                     $(pagesTree).on("ready", function(){
+
+                                        $('#main-tree-search').on('input', function(){
+                                            var val = this.value.toLowerCase().trim();
+                                            if(!val){
+                                                pagesTree.showAll();
+                                            }
+                                            else{
+                                                pagesTree.options.data.forEach(function(item){
+
+                                                    if(item.title.toLowerCase().indexOf(val) === -1){
+                                                        pagesTree.hide(item);
+                                                    }
+                                                    else{
+                                                        pagesTree.show(item);
+                                                    }
+                                                });
+                                            }
+                                        })
 
                                         $('.mw-tree-item-title', pagesTree.list).on('click', function(){
                                             $('li.selected', pagesTree.list).each(function(){
@@ -732,7 +781,7 @@ if ($action == 'posts') {
                                                     action = 'showpostscat';
                                                 }
 
-                                                
+
                                                 mw.url.windowHashParam("action", action+":"+data.id);
                                             }
 
@@ -794,12 +843,7 @@ if ($action == 'posts') {
                     </div>
 
 
-                    <div class="tree-show-hide-nav scroll-height-exception">
 
-                        <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small"
-                           onclick="mw.tools.tree.openAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));"><?php _e("Open All"); ?></a> <a class="mw-ui-btn mw-ui-btn-small" href="javascript:;"
-                                                                                                                                                                    onclick="mw.tools.tree.closeAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));"><?php _e("Close All"); ?></a>
-                    </div>
 
 
                 </div>
@@ -826,4 +870,3 @@ if ($action == 'posts') {
         </div>
     </div>
 </div>
- 
