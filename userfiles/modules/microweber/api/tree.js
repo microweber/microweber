@@ -106,15 +106,18 @@ mw.lib.require('nestedsortable');
         this._jsonForEach = function(c){
             //var data = this.options.data.slice(0);
             var data = this._jsonSortClone();
-            var ids = [0];
+            var parents = [{type: 'category', id: 0}, {type: 'page', id: 0}];
             var count = 0, max = 10000;
             while (data.length && count<max) {
                 count++;
                 data.forEach(function(item, i){
-                    ids.forEach(function(id){
-                        if(item.parent_id == id){
+                    parents.forEach(function(parent){
+                        if(item.parent_id === parent.id && item.type === parent.type){
                             c.call(undefined, item);
-                            ids.push(item.id)
+                            parents.push({
+                                id: item.id,
+                                type: item.type
+                            });
                             data.splice(i, 1);
                         }
                     });

@@ -2044,9 +2044,6 @@ div.mw_drag_started, li.module-item.ui-draggable-dragging {
     cursor: no-drop;
 }
 
-.mw-empty {
-    display: none;
-}
 
 .mw-col-container:empty {
     min-height: 100px;

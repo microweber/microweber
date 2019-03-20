@@ -569,7 +569,6 @@ mw.wysiwyg = {
     isLocalPaste: function (clipboard) {
         var html = clipboard.getData('text/html');
         var parser = mw.tools.parseHtml(html).body;
-
         return (this._lastCopy && this._lastCopy.innerHTML && this._lastCopy.innerHTML.contains(html)) || parser.querySelector('.module,.element,.edit') !== null;
     },
     paste: function (e) {
@@ -651,6 +650,7 @@ mw.wysiwyg = {
                     }
 
                     html = mw.wysiwyg.pasteManager(html);
+                    console.log(html)
 
                     mw.wysiwyg.insert_html(html);
                     if (e.target.querySelector) {
