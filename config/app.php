@@ -78,7 +78,7 @@ return [
 	|
 	*/
 
-    'key' => 'YourSecretKey!!!',
+    'key' => getenv('APP_KEY') ?: 'YourSecretKey!!!',
 
 	'cipher' => 'AES-256-CBC',
 
