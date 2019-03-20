@@ -87,12 +87,23 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
 
                                 }
                             }
+                            $(document).ready(function(){
+                                $('#mw-post-added-<?php print $rand; ?>').on('mousedown touchstart', function(e){
+                                    if(e.target.nodeName === 'DIV') {
+                                        setTimeout(function () {
+                                            $('.mw-ui-invisible-field', e.target).focus()
+                                        },78)
+                                    }
+                                })
+                            })
                         </script>
 
                         <div class="mw-ui-field mw-tag-selector mw-ui-field-dropdown mw-ui-field-full" id="mw-post-added-<?php print $rand; ?>">
                             <div class="post-category-tags" onclick="handlenClickCategoriesTags(event)"></div>
 
-                            <span onclick="$('.mw-ui-category-selector').toggle()" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded pull-right add-to-cats">
+                            <span
+                                onclick="$('.mw-ui-category-selector').toggle()"
+                                class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded pull-right add-to-cats">
                                 <i class="mai-plus"></i> Add to categories
                             </span>
                         </div>
@@ -143,6 +154,9 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
 
                                                 $(".post-category-tags").after(atcmplt);
 
+                                                atcmplt.on('focus', function(){
+                                                    $('.mw-ui-category-selector').show()
+                                                });
                                                 atcmplt.on('input', function(){
                                                     var val = this.value.toLowerCase().trim();
                                                     if(!val){
