@@ -96,11 +96,19 @@ mw.lib.require('nestedsortable');
 
         this._jsonSortClone = function(){
             var data = this.options.data.slice(0);
-            data.sort(function(a, b){
-                if(a.position < b.position) return -1;
-                if(b.position > a.position) return 1;
-                return 0;
-            });
+            // data.sort(function(a, b){
+            //
+            //     if(a.type == 'category') {
+            //         if(a.position < b.position) return -1;
+            //
+            //         if(b.position > a.position) return 1;
+            //
+            //         return 0;
+            //     }
+            //
+            //
+            //
+            // });
             return data;
         };
         this._jsonForEach = function(c){

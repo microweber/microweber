@@ -302,6 +302,7 @@ class CategoryManager
         $params['table'] = $table;
         $params['no_limit'] = true;
         $params['parent_id'] = $parent_id;
+        $params['order_by'] = 'position asc';
 
         $save = $this->app->database_manager->get($params);
 
