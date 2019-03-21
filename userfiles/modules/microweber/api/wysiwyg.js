@@ -561,6 +561,7 @@ mw.wysiwyg = {
         var html = clipboard.getData('text/html');
         var parser = mw.tools.parseHtml(html).body;
 
+        mw.$('[style]', parser).removeAttr('style');
         mw.$('[id]', parser).each(function () {
             this.id = 'dlp-item-' + mw.random();
         });
@@ -572,16 +573,14 @@ mw.wysiwyg = {
         return (this._lastCopy && this._lastCopy.innerHTML && this._lastCopy.innerHTML.contains(html)) || parser.querySelector('.module,.element,.edit') !== null;
     },
     paste: function (e) {
-
+        var html, clipboard;
 
         if (!!e.originalEvent) {
-            var clipboard = e.originalEvent.clipboardData || mww.clipboardData;
+            clipboard = e.originalEvent.clipboardData || mww.clipboardData;
         }
         else {
-            var clipboard = e.clipboardData || mww.clipboardData;
+            clipboard = e.clipboardData || mww.clipboardData;
         }
-
-
         if (mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['safe-mode'])) {
             if (typeof clipboard !== 'undefined' && typeof clipboard.getData === 'function' && mw.wysiwyg.editable(e.target)) {
                 var text = clipboard.getData('text');
@@ -591,19 +590,20 @@ mw.wysiwyg = {
             }
 
         }
-
         if (mw.wysiwyg.isLocalPaste(clipboard)) {
             mw.wysiwyg.doLocalPaste(clipboard);
             e.preventDefault();
             return false;
         }
 
+
         if (mw.wysiwyg.pastedFromExcel(clipboard)) {
-            var html = mw.wysiwyg.cleanExcel(clipboard)
+            html = mw.wysiwyg.cleanExcel(clipboard)
             mw.wysiwyg.insert_html(html);
             e.preventDefault();
             return false;
         }
+
 
         if (clipboard.files.length > 0) {
             var i = 0;
@@ -623,7 +623,7 @@ mw.wysiwyg = {
         else {
             if (typeof clipboard !== 'undefined' && typeof clipboard.getData === 'function' && mw.wysiwyg.editable(e.target)) {
                 if (!mw.is.ie) {
-                    var html = clipboard.getData('text/html');
+                    html = clipboard.getData('text/html');
                     var text = clipboard.getData('text');
                     var isPlainText = false;
                     if (!html && text) {
@@ -636,11 +636,13 @@ mw.wysiwyg = {
                         }
 
                     }
+                    else {
+
+                    }
                 }
                 else {
-                    var html = clipboard.getData('text');
+                    html = clipboard.getData('text');
                 }
-
                 if (!!html) {
                     if (typeof mw.form != 'undefined') {
                         var is_link = mw.form.validate.url(html);
@@ -650,7 +652,6 @@ mw.wysiwyg = {
                     }
 
                     html = mw.wysiwyg.pasteManager(html);
-                    console.log(html)
 
                     mw.wysiwyg.insert_html(html);
                     if (e.target.querySelector) {

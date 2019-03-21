@@ -646,18 +646,18 @@ if ($action == 'posts') {
                 <div class="fixed-side-column scroll-height-exception-master">
 
 
-<style>
-    .tree-show-hide-nav{
-        box-shadow: 0 1px 1px rgba(0,0,0,.1);
-        margin-right: -10px;
-    }
-    #main-tree-search{
+                    <style>
+                        .tree-show-hide-nav{
+                            box-shadow: 0 1px 1px rgba(0,0,0,.1);
+                            margin-right: -10px;
+                        }
+                        #main-tree-search{
 
-        max-width: 100px;
-        transition: 1.2s;
-        background-position: 4px center;
-    }
-</style>
+                            max-width: 100px;
+                            transition: 1.2s;
+                            background-position: 4px center;
+                        }
+                    </style>
                     <div class="tree-show-hide-nav scroll-height-exception">
                         <div class="mw-ui-btn-nav">
                             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium" onclick="pagesTree.openAll()"><?php _e("Open All"); ?></a>
