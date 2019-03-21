@@ -75,7 +75,7 @@ mw.settings.libs = {
             mw.require(mw.settings.libs_url + 'bootstrap-4.3.1' + '/css/bootstrap.min.css');
             mw.require(mw.settings.libs_url + 'bootstrap-4.3.1' + '/js/popper.min.js');
             mw.require(mw.settings.libs_url + 'bootstrap-4.3.1' + '/js/bootstrap.min.js');
-            mw.require(mw.settings.libs_url + 'fontawesome-4.7.0' + '/css/font-awesome.min.css');
+            mw.require(mw.settings.libs_url + 'fontawesome-free-5.4.1' + '/css/all.min.css');
         }
     ],
     flag_icons: [
@@ -96,13 +96,13 @@ mw.settings.libs = {
 
         }
     ],
-    okay_nav: [
+    /*okay_nav: [
         function () {
             mw.require(mw.settings.libs_url + 'okayNav' + '/css/okayNav.min.css');
             mw.require(mw.settings.libs_url + 'okayNav' + '/js/jquery.okayNav.min.js');
 
         }
-    ],
+    ],*/
     bxslider: [
         function () {
             mw.require(mw.settings.libs_url + 'bxSlider' + '/jquery.bxslider.min.js', true);

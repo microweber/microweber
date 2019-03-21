@@ -139,6 +139,7 @@ include('options.php');
                 slidesToShow: '<?php print $slidesToShow; ?>',
                 slidesToScroll: '<?php print $slidesToScroll; ?>',
                 centerMode: <?php print $centerMode; ?>,
+                centerPadding: '0px',
                 draggable: <?php print $draggable; ?>,
                 fade: <?php print $fade; ?>,
                 focusOnSelect: <?php print $focusOnSelect; ?>
