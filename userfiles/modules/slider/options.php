@@ -157,7 +157,7 @@ if ($fade) {
     $fade = 'true';
 }
 
-$focusOnSelect = get_option('center_mode', $params['id']);
+$focusOnSelect = get_option('focus_on_select', $params['id']);
 if ($focusOnSelect) {
     $focusOnSelect = $focusOnSelect;
 } elseif (isset($params['focus_on_select'])) {

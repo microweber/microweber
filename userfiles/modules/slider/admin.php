@@ -307,7 +307,7 @@ include('options.php');
                     </div>
 
                     <div class="mw-ui-field-holder js-option js-slickslider">
-                        <label class="mw-ui-label"><?php _e("Center Mode"); ?></label>
+                        <label class="mw-ui-label"><?php _e("Focus On Select"); ?></label>
                         <select name="focus_on_select" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>">
                             <option value="false" <?php if ($focusOnSelect == 'false'): ?> selected="selected" <?php endif ?>><?php _e("False"); ?></option>
                             <option value="true" <?php if ($focusOnSelect == 'true'): ?> selected="selected" <?php endif ?>><?php _e("True"); ?></option>
