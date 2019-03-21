@@ -57,6 +57,7 @@ mw.lib.require('nestedsortable');
 
             this.options = options;
             this.document = options.document;
+            this._selectionChangeDisable = false;
 
             if(this.options.selectedData){
                 this.selectedData = this.options.selectedData;
@@ -94,26 +95,8 @@ mw.lib.require('nestedsortable');
         };
 
 
-        this._jsonSortClone = function(){
-            var data = this.options.data.slice(0);
-            // data.sort(function(a, b){
-            //
-            //     if(a.type == 'category') {
-            //         if(a.position < b.position) return -1;
-            //
-            //         if(b.position > a.position) return 1;
-            //
-            //         return 0;
-            //     }
-            //
-            //
-            //
-            // });
-            return data;
-        };
         this._jsonForEach = function(c){
-            //var data = this.options.data.slice(0);
-            var data = this._jsonSortClone();
+            var data = this.options.data.slice(0);
             var parents = [{type: 'category', id: 0}, {type: 'page', id: 0}];
             var count = 0, max = 10000;
             while (data.length && count<max) {
@@ -121,16 +104,17 @@ mw.lib.require('nestedsortable');
                 data.forEach(function(item, i){
                     parents.forEach(function(parent){
                         if(item.parent_id === parent.id && item.type === parent.type){
-                            c.call(undefined, item);
                             parents.push({
                                 id: item.id,
                                 type: item.type
                             });
                             data.splice(i, 1);
+                            c.call(undefined, item);
                         }
                     });
                 });
             }
+            console.log(parents, count)
             if(count === max){
                 console.warn('MW Tree max loop iteration reached.');
             }
@@ -142,8 +126,8 @@ mw.lib.require('nestedsortable');
             this.list.id = this.options.id;
             this.list.className = 'mw-defaults mw-tree-nav mw-tree-nav-skin-'+this.options.skin;
             this.list._id = 0;
-            //this.options.data.forEach(function(item){
-            this._jsonForEach(function(item){
+            this.options.data.forEach(function(item){
+            //this._jsonForEach(function(item){
                 var list = scope.getParent(item);
                 if(list){
                     list.appendChild(scope.createItem(item));
@@ -161,7 +145,9 @@ mw.lib.require('nestedsortable');
             if(!this.options.saveState) return;
             var data = [];
             $( 'li.' + this.options.openedClass, this.list  ).each(function(){
-                data.push({type:this._data.type, id:this._data.id})
+                if(this._data) {
+                    data.push({type:this._data.type, id:this._data.id})
+                }
             });
 
             mw.storage.set(this.options.id, data);
@@ -217,7 +203,9 @@ mw.lib.require('nestedsortable');
 
             this.manageUnselected();
             this.getSelected();
-            $(scope).trigger('selectionChange', [scope.selectedData]);
+            if(!this._selectionChangeDisable) {
+                $(scope).trigger('selectionChange', [scope.selectedData]);
+            }
         };
 
         this.unselect = function(li, type){
@@ -235,7 +223,9 @@ mw.lib.require('nestedsortable');
             }
             this.manageUnselected();
             this.getSelected();
-            $(scope).trigger('selectionChange', [scope.selectedData]);
+            if(!this._selectionChangeDisable) {
+                $(scope).trigger('selectionChange', [scope.selectedData]);
+            }
         };
 
         this.get = function(li, type){
@@ -277,8 +267,18 @@ mw.lib.require('nestedsortable');
             }
         };
 
+        this.selectAll = function(){
+            this._selectionChangeDisable = true;
+            this.select(this.options.data);
+            this._selectionChangeDisable = false;
+            $(scope).trigger('selectionChange', [this.selectedData]);
+        };
+
         this.unselectAll = function(){
-            return this.unselect(this.selectedData);
+            this._selectionChangeDisable = true;
+            this.unselect(this.selectedData);
+            this._selectionChangeDisable = false;
+            $(scope).trigger('selectionChange', [this.selectedData]);
         };
 
         this.open = function(li, type, _skipsave){
