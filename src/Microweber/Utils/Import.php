@@ -996,26 +996,30 @@ class Import
         $map_keys['updated'] = 'updated_at';
         $map_keys['pubDate'] = 'created_at';
 
-        if (isset($item['is_home']) and $item['is_home'] == 'y') {
-            $item['is_home'] = 1;
-        }
-
-        if (isset($item['is_active']) and $item['is_active'] == 'y') {
-            $item['is_active'] = 1;
-        }
-
-        if (isset($item['is_shop']) and $item['is_shop'] == 'y') {
-            $item['is_shop'] = 1;
-        } elseif (isset($item['is_shop']) and $item['is_shop'] == 'n') {
-            $item['is_shop'] = 0;
-        }
-        if (isset($item['is_deleted']) and $item['is_deleted'] == 'y') {
-            $item['is_deleted'] = 1;
-        } elseif (isset($item['is_deleted']) and $item['is_deleted'] == 'n') {
-            $item['is_deleted'] = 0;
-        }
         //dd($content_items);
         foreach ($content_items as $item) {
+
+
+            if (isset($item['is_home']) and $item['is_home'] == 'y') {
+                $item['is_home'] = 1;
+            }
+
+            if (isset($item['is_active']) and $item['is_active'] == 'y') {
+                $item['is_active'] = 1;
+            }
+
+            if (isset($item['is_shop']) and $item['is_shop'] == 'y') {
+                $item['is_shop'] = 1;
+            } elseif (isset($item['is_shop']) and $item['is_shop'] == 'n') {
+                $item['is_shop'] = 0;
+            }
+            if (isset($item['is_deleted']) and $item['is_deleted'] == 'y') {
+                $item['is_deleted'] = 1;
+            } elseif (isset($item['is_deleted']) and $item['is_deleted'] == 'n') {
+                $item['is_deleted'] = 0;
+            }
+
+
             if (isset($item['id'])) {
                 unset($item['id']);
             }
@@ -1263,12 +1267,36 @@ class Import
         return $here;
     }
 
-    public function export($tables = 'all')
+
+    public function export($manifest = false)
     {
+
+        $export_only_ids = array();
+        $content_ids = array();
+        $categories_ids = array();
+        $export_items = array();
+
+
+        if (isset($manifest['content_ids']) and $manifest['content_ids']) {
+            $content_ids = $manifest['content_ids'];
+            $export_only_ids['content'] = $content_ids;
+        }
+
+        if (isset($manifest['categories_ids']) and $manifest['categories_ids']) {
+            $categories_ids = $manifest['categories_ids'];
+            $export_only_ids['categories'] = $categories_ids;
+
+        }
+
+        if (isset($manifest['items']) and $manifest['items']) {
+            $export_items = $manifest['items'];
+        }
 
 
         $skip_tables = array(
-            "modules", "elements", "users", "log", "notifications", "content_revisions_history", "stats_users_online", "system_licenses", "users_oauth", "sessions"
+            "modules", "elements", "users", "log", "notifications", "content_revisions_history",'module_templates',
+            "stats_users_online",  "stats_browser_agents",  "stats_referrers_paths",  "stats_referrers_domains",  "stats_referrers",  "stats_visits_log",  "stats_urls",
+            "system_licenses", "users_oauth", "sessions"
         );
 
 
@@ -1286,6 +1314,7 @@ class Import
         $export_path = $export_location . $export_filename;
 
         $all_tables = array();
+        $all_tables_with_rel = array();
 
         $all_tables_raw = mw()->database_manager->get_tables_list();
         $local_prefix = mw()->database_manager->get_prefix();
@@ -1301,13 +1330,86 @@ class Import
         }
         $exported_tables_data = array();
         if ($all_tables) {
+
+
             foreach ($all_tables as $table) {
                 if (!in_array($table, $skip_tables)) {
                     $table_exists = mw()->database_manager->table_exists($table);
                     if ($table_exists) {
-                        $table_conent = db_get($table, 'no_limit=1&do_not_replace_site_url=true');
+                        $db_export_params = array();
+                        $db_export_params['no_limit'] = 1;
+                        $db_export_params['do_not_replace_site_url'] = 1;
+
+
+                        $has_rel_field = false;
+
+
+                        $table_fields = mw()->database_manager->get_fields($table);
+
+                        if ($table_fields) {
+                            foreach ($table_fields as $table_field) {
+
+                                if (strtolower($table_field) == 'rel_type') {
+                                    $has_rel_field = true;
+                                }
+                            }
+                        }
+
+
+                        if ($table == 'content') {
+                            if ($content_ids) {
+                                $rel_ids_implode = implode(',', $content_ids);
+
+                                $db_export_params['id'] ='[in]' . $rel_ids_implode;
+
+                             }
+                        } elseif ($table == 'categories') {
+                            if ($categories_ids) {
+                                $rel_ids_implode = implode(',', $categories_ids);
+
+                                $db_export_params['id'] = '[in]' . $rel_ids_implode;
+                            }
+                        } elseif ($has_rel_field) {
+
+                            $all_tables_with_rel[] = $table;
+                        }
+
+                        $table_conent = false;
+
+
+                        if (!$export_only_ids) {
+                            $table_conent = db_get($table, $db_export_params);
+                        } else {
+
+                            if ($has_rel_field) {
+                                foreach ($export_only_ids as $rel_key => $rel_ids) {
+                                    $rel_ids_implode = implode(',', $rel_ids);
+
+                                    $db_export_params['rel_type'] = $rel_key;
+                                    $db_export_params['rel_id'] = '[in]' . $rel_ids_implode;
+
+                                    $table_conent = db_get($table, $db_export_params);
+
+
+
+
+                                }
+///$export_only_ids
+
+                            } else {
+                               // $table_conent = db_get($table, $db_export_params);
+
+                            }
+
+                        }
+
+
                         if ($table_conent) {
-                            $exported_tables_data[$table] = $table_conent;
+                            if (isset($exported_tables_data[$table])) {
+                                $exported_tables_data[$table] = array_merge($exported_tables_data[$table],$table_conent);
+                            } else {
+                                $exported_tables_data[$table] = $table_conent;
+                            }
                         }
                     }
 
@@ -1319,7 +1421,9 @@ class Import
                 $item = utf8_encode($item);
             }
         });
-        $save = json_encode($exported_tables_data);
+
+
+        $save = json_encode($exported_tables_data,JSON_PRETTY_PRINT);
 
 
         if (file_put_contents($export_path, $save)) {

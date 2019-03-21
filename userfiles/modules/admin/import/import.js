@@ -3,11 +3,9 @@ mw.require('forms.js');
 mw.require('tools.js');
  
 mw.admin_import = {
-	create : function(selector){
-	 //  data = mw.$(selector+' input').serialize();
-
-	 mw.notification.success("Import started...");
-	 $.post(mw.settings.api_url+'Microweber/Utils/Import/create', false ,
+    export : function(manifest){
+	 mw.notification.success("Export started...");
+	 $.post(mw.settings.api_url+'Microweber/Utils/Import/export', manifest ,
 	 	function(msg) {
 	 		mw.reload_module('admin/import/manage');
 	 		mw.notification.msg(msg, 5000);
@@ -15,17 +13,7 @@ mw.admin_import = {
 
 	},
 
-	download : function(filename){
-	 //  data = mw.$(selector+' input').serialize();
 
-	 mw.notification.success("Import started...");
-	 $.post(mw.settings.api_url+'Microweber/Utils/Import/create', false ,
-	 	function(msg) {
-	 		mw.reload_module('admin/import/manage');
-	 		mw.notification.msg(msg, 15000);
-	 	});
-
-	},
 
 	restore_to_page : function(src,page_id){
 		data = {}
