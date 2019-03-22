@@ -927,7 +927,7 @@ class Backup
 
     public function _import_content_from_json_file($file, $params = array())
     {
-         include_once __DIR__.DS.'lib/jsonstreamingparser/vendor/autoload.php';
+         include_once __DIR__.DS.'lib/json-machine/vendor/autoload.php';
 
 
 
@@ -942,12 +942,16 @@ class Backup
 
 
         if (is_file($file)) {
-            ini_set('memory_limit', '512M');
+            ini_set('memory_limit', '-1');
             set_time_limit(0);
-            $cont = file_get_contents($file);
+          //  $cont = file_get_contents($file);
 
-            $restore = json_decode($cont, true);
-            if (is_array($restore) and !empty($restore)) {
+           // $restore = json_decode($cont, true);
+            $restore = \JsonMachine\JsonMachine::fromFile($file);
+
+
+
+            if ($restore) {
                 foreach ($restore as $table => $data) {
                     $table_exists = mw()->database_manager->table_exists($table);
                     if ($table_exists) {
