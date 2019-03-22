@@ -1,4 +1,4 @@
-<div>
+<div class="text-center">
     <?php if (isset($slide['primaryText'])) {
         $primaryText = $slide['primaryText'];
 

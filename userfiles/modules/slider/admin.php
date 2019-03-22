@@ -206,6 +206,90 @@ include('options.php');
                 </div>
 
                 <div class="slider-options">
+                    <!-- Sliders Responsive Options -->
+                    <div class="mw-flex-row js-option js-slickslider">
+                        <div class="mw-flex-col-xs-12">
+                            <h3>Responsive Options</h3>
+                        </div>
+
+                        <div class="mw-flex-col-xs-6 ">
+                            <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label">Extra Small &lt; 576px</label>
+                                <select name="slides-xs" class="mw-ui-field mw_option_field mw-full-width" data-option-group="<?php print $params['id']; ?>" data-columns="xs">
+                                    <option value="1" <?php if ($slides_xs == '1'): ?>selected<?php endif; ?>>1 slide</option>
+                                    <option value="2" <?php if ($slides_xs == '2'): ?>selected<?php endif; ?>>2 slides</option>
+                                    <option value="3" <?php if ($slides_xs == '3'): ?>selected<?php endif; ?>>3 slides</option>
+                                    <option value="4" <?php if ($slides_xs == '4'): ?>selected<?php endif; ?>>4 slides</option>
+                                    <option value="5" <?php if ($slides_xs == '5'): ?>selected<?php endif; ?>>5 slides</option>
+                                    <option value="6" <?php if ($slides_xs == '6'): ?>selected<?php endif; ?>>6 slides</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mw-flex-col-xs-6 ">
+                            <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label">Small ≥ 576px</label>
+                                <select name="slides-sm" class="mw-ui-field mw_option_field mw-full-width" data-option-group="<?php print $params['id']; ?>" data-columns="sm">
+                                    <option value="1" <?php if ($slides_sm == '1'): ?>selected<?php endif; ?>>1 slide</option>
+                                    <option value="2" <?php if ($slides_sm == '2'): ?>selected<?php endif; ?>>2 slides</option>
+                                    <option value="3" <?php if ($slides_sm == '3'): ?>selected<?php endif; ?>>3 slides</option>
+                                    <option value="4" <?php if ($slides_sm == '4'): ?>selected<?php endif; ?>>4 slides</option>
+                                    <option value="5" <?php if ($slides_sm == '5'): ?>selected<?php endif; ?>>5 slides</option>
+                                    <option value="6" <?php if ($slides_sm == '6'): ?>selected<?php endif; ?>>6 slides</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mw-flex-col-xs-6 ">
+                            <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label">Medium ≥ 768px</label>
+                                <select name="slides-md" class="mw-ui-field mw_option_field mw-full-width" data-option-group="<?php print $params['id']; ?>" data-columns="md">
+                                    <option value="1" <?php if ($slides_md == '1'): ?>selected<?php endif; ?>>1 slide</option>
+                                    <option value="2" <?php if ($slides_md == '2'): ?>selected<?php endif; ?>>2 slides</option>
+                                    <option value="3" <?php if ($slides_md == '3'): ?>selected<?php endif; ?>>3 slides</option>
+                                    <option value="4" <?php if ($slides_md == '4'): ?>selected<?php endif; ?>>4 slides</option>
+                                    <option value="5" <?php if ($slides_md == '5'): ?>selected<?php endif; ?>>5 slides</option>
+                                    <option value="6" <?php if ($slides_md == '6'): ?>selected<?php endif; ?>>6 slides</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mw-flex-col-xs-6 ">
+                            <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label">Large ≥ 992px</label>
+                                <select name="slides-lg" class="mw-ui-field mw_option_field mw-full-width" data-option-group="<?php print $params['id']; ?>" data-columns="lg">
+                                    <option value="1" <?php if ($slides_lg == '1'): ?>selected<?php endif; ?>>1 slide</option>
+                                    <option value="2" <?php if ($slides_lg == '2'): ?>selected<?php endif; ?>>2 slides</option>
+                                    <option value="3" <?php if ($slides_lg == '3'): ?>selected<?php endif; ?>>3 slides</option>
+                                    <option value="4" <?php if ($slides_lg == '4'): ?>selected<?php endif; ?>>4 slides</option>
+                                    <option value="5" <?php if ($slides_lg == '5'): ?>selected<?php endif; ?>>5 slides</option>
+                                    <option value="6" <?php if ($slides_lg == '6'): ?>selected<?php endif; ?>>6 slides</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mw-flex-col-xs-6 ">
+                            <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label">Extra large ≥ 1200px</label>
+                                <select name="slides-xl" class="mw-ui-field mw_option_field mw-full-width" data-option-group="<?php print $params['id']; ?>" data-columns="xl">
+                                    <option value="1" <?php if ($slides_xl == '1'): ?>selected<?php endif; ?>>1 slide</option>
+                                    <option value="2" <?php if ($slides_xl == '2'): ?>selected<?php endif; ?>>2 slides</option>
+                                    <option value="3" <?php if ($slides_xl == '3'): ?>selected<?php endif; ?>>3 slides</option>
+                                    <option value="4" <?php if ($slides_xl == '4'): ?>selected<?php endif; ?>>4 slides</option>
+                                    <option value="5" <?php if ($slides_xl == '5'): ?>selected<?php endif; ?>>5 slides</option>
+                                    <option value="6" <?php if ($slides_xl == '6'): ?>selected<?php endif; ?>>6 slides</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mw-flex-row">
+                        <div class="mw-flex-col-xs-12">
+                            <h3>Options</h3>
+                        </div>
+                    </div>
+
+                    <!-- Sliders Options -->
                     <div class="mw-ui-field-holder js-option js-bxslider js-slickslider">
                         <label class="mw-ui-label"><?php _e("Pager"); ?></label>
                         <select name="pager" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>">
@@ -243,7 +327,6 @@ include('options.php');
                         <input type="text" value="<?php print $speed; ?>" name="speed" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>"/>
                     </div>
 
-
                     <div class="mw-ui-field-holder js-option js-slickslider">
                         <label class="mw-ui-label"><?php _e("Pause on hover"); ?></label>
                         <select name="pause_on_hover" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>">
@@ -273,16 +356,6 @@ include('options.php');
                     </div>
 
                     <div class="mw-ui-field-holder js-option js-slickslider">
-                        <label class="mw-ui-label"><?php _e("Slides to show"); ?></label>
-                        <input type="text" value="<?php print $slidesToShow; ?>" name="slides_to_show" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>"/>
-                    </div>
-
-                    <div class="mw-ui-field-holder js-option js-slickslider">
-                        <label class="mw-ui-label"><?php _e("Slides to scroll"); ?></label>
-                        <input type="text" value="<?php print $slidesToScroll; ?>" name="slides_to_scroll" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>"/>
-                    </div>
-
-                    <div class="mw-ui-field-holder js-option js-slickslider">
                         <label class="mw-ui-label"><?php _e("Center Mode"); ?></label>
                         <select name="center_mode" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>">
                             <option value="false" <?php if ($centerMode == 'false'): ?> selected="selected" <?php endif ?>><?php _e("False"); ?></option>
@@ -299,7 +372,7 @@ include('options.php');
                     </div>
 
                     <div class="mw-ui-field-holder js-option js-slickslider">
-                        <label class="mw-ui-label"><?php _e("Fade"); ?></label>
+                        <label class="mw-ui-label"><?php _e("Fade"); ?> <small>(only for one slide)</small></label>
                         <select name="fade" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>">
                             <option value="false" <?php if ($fade == 'false'): ?> selected="selected" <?php endif ?>><?php _e("False"); ?></option>
                             <option value="true" <?php if ($fade == 'true'): ?> selected="selected" <?php endif ?>><?php _e("True"); ?></option>
