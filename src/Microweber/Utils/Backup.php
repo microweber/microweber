@@ -9,6 +9,8 @@
 namespace Microweber\Utils;
 
 
+use JsonStreamingParser\Listener\IdleListener;
+use JsonStreamingParser\Listener\InMemoryListener;
 use ZipArchive;
 use Illuminate\Database\QueryException;
 
@@ -253,14 +255,16 @@ class Backup
         }
 
 
-        ob_start();
+        //ob_start();
         $api = new \Microweber\Utils\Backup();
         $this->app->cache_manager->clear();
         $rest = $api->exec_restore($params);
 
+
+
         $this->app->cache_manager->clear();
 
-        ob_end_clean();
+        //  ob_end_clean();
 
         return array('success' => 'Backup was restored!');
 
@@ -272,6 +276,7 @@ class Backup
         ignore_user_abort(true);
         if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'memory_limit')) {
             ini_set('memory_limit', '2512M');
+            ini_set('memory_limit', "-1");
             ini_set("max_execution_time", "-1");
         }
 
@@ -279,6 +284,8 @@ class Backup
         if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
             set_time_limit(0);
         }
+
+        $preview_restore = false;
 
         $loc = $this->backup_file;
 
@@ -292,6 +299,12 @@ class Backup
         } elseif ($loc != false) {
             $id = $loc;
         }
+
+
+        if (isset($params['preview_restore']) and $params['preview_restore']) {
+            $preview_restore = $params['preview_restore'];
+        }
+
 
         if ($id == null) {
             return array('error' => 'You have not provided a backup to restore.');
@@ -335,9 +348,6 @@ class Backup
                 $json_restore = $target_dir . 'mw_content.json';
 
 
-
-
-
                 if (is_file($json_restore)) {
 
                     $json_file = $json_restore;
@@ -363,7 +373,6 @@ class Backup
             return array('error' => 'Invalid file extension. The restore file must be .sql, .json or .zip');
             die();
         }
-
 
 
         if ($sql_file != false) {
@@ -445,16 +454,23 @@ class Backup
             echo "Files restored successfully!<br>\n";
             echo 'Backup used: ' . $filename . "<br>\n";
             if ($temp_dir_restore != false) {
-          //      @unlink($filename);
+                //      @unlink($filename);
             }
         } elseif ($json_file) {
 
             $back_log_action = 'Restoring content from JSON file';
             $this->log_action($back_log_action);
-            $this->_import_content_from_json_file($json_file);
+            $json_restore = $this->_import_content_from_json_file($json_file, $params);
+
+
+
+            if($preview_restore){
+                return $json_restore;
+            }
+
             $back_log_action = 'Content restored';
             $this->log_action($back_log_action);
-           // @unlink($json_file);
+            // @unlink($json_file);
         }
 
 
@@ -909,8 +925,22 @@ class Backup
         return array('success' => "Backup was created for $end sec! $filename_to_return", 'filename' => $filename_to_return, 'runtime' => $end, 'url' => dir2url($filess));
     }
 
-    public function _import_content_from_json_file($file)
+    public function _import_content_from_json_file($file, $params = array())
     {
+         include_once __DIR__.DS.'lib/jsonstreamingparser/vendor/autoload.php';
+
+
+
+
+        $preview_items_for_restore = array();
+        $preview_restore = false;
+
+
+        if (isset($params['preview_restore']) and $params['preview_restore']) {
+            $preview_restore = $params['preview_restore'];
+        }
+
+
         if (is_file($file)) {
             ini_set('memory_limit', '512M');
             set_time_limit(0);
@@ -931,14 +961,29 @@ class Backup
                                 }
                             });
 
-                            $item['allow_html'] = true;
-                            $item['allow_scripts'] = true;
-                            db_save($table, $item);
+
+
+                            if ($preview_restore) {
+                                if (!isset($preview_items_for_restore[$table])) {
+                                    $preview_items_for_restore[$table] = array();
+                                }
+                                $preview_items_for_restore[$table][] = $item;
+                            } else {
+                                $item['allow_html'] = true;
+                                $item['allow_scripts'] = true;
+
+                                db_save($table, $item);
+                            }
                         }
                     }
                 }
             }
 
+        }
+
+
+        if($preview_restore){
+            return $preview_items_for_restore;
         }
     }
 
@@ -947,8 +992,12 @@ class Backup
 
 
         $skip_tables = array(
-            "modules", "elements", "users", "log", "notifications", "content_revisions_history", 'content_fields_drafts', "stats_users_online", "system_licenses", "users_oauth",
-            "sessions", "jobs", "failed_jobs"
+            "modules", "elements", "users", "log", "notifications",
+            "content_revisions_history", 'content_fields_drafts', "stats_users_online", "system_licenses", "users_oauth",
+            "sessions",
+            "stats_users_online",  "stats_browser_agents",  "stats_referrers_paths",  "stats_referrers_domains",  "stats_referrers",  "stats_visits_log",  "stats_urls",  "stats_geopip",
+
+            "jobs", "failed_jobs"
         );
 
 
@@ -1013,14 +1062,7 @@ class Backup
         $exported_tables_data = $array;
         $export_path = $json_file_path;
 
-        array_walk_recursive($exported_tables_data, function (&$item) {
-            if (is_string($item)) {
-                $item = utf8_encode($item);
-                $item = str_replace('Â ', ' ', $item);
-                $item = str_replace("Â ", ' ', $item);
-            }
-        });
-        $save = json_encode($exported_tables_data);
+        $save = $this->__json_encode($exported_tables_data);
 
         $export_path_d = dirname($export_path);
         if (!is_dir($export_path_d)) {
@@ -1034,6 +1076,22 @@ class Backup
         } else {
             false;
         }
+
+    }
+
+
+    private function __json_encode($exported_tables_data)
+    {
+
+        array_walk_recursive($exported_tables_data, function (&$item) {
+            if (is_string($item)) {
+                $item = utf8_encode($item);
+                $item = str_replace('Â ', ' ', $item);
+                $item = str_replace("Â ", ' ', $item);
+            }
+        });
+        $exported_tables_data = json_encode($exported_tables_data);
+        return $exported_tables_data;
 
     }
 
@@ -1131,7 +1189,7 @@ class Backup
             if (!empty($more_folders)) {
                 $backup_actions = array_merge($more_folders, $backup_actions);
             }
-         }
+        }
 
 
         $host = (parse_url(site_url()));
@@ -1173,8 +1231,6 @@ class Backup
                 $backup_actions = array_merge($text_files, $backup_actions);
             }
         }
-
-
 
 
         $cache_id = 'backup_queue';
