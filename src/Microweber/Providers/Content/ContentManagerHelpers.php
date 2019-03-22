@@ -1071,7 +1071,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
         $ret = array();
 
-        if ($results == false) {
+        if (!isset($results) or $results == false) {
             return;
         }
 

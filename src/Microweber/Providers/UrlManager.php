@@ -242,7 +242,6 @@ class UrlManager
         }
 
         $u1 = implode('/', $this->segment(-1, $url));
-
         return $u1;
     }
 
@@ -303,6 +302,7 @@ class UrlManager
 
         }
 
+
         if ($no_get == true) {
             $u = strtok($u, '?');
         }
@@ -345,20 +345,23 @@ class UrlManager
             $current_url = $page_url;
         }
         $site_url = $this->site_url();
-        $site_url = rtrim($site_url, '\\');
-        $site_url = rtrim($site_url, '/');
+      //  $site_url = rtrim($site_url, '\\');
+       // $site_url = rtrim($site_url, '/');
         $site_url = reduce_double_slashes($site_url);
         $site_url = rawurldecode($site_url);
 
-        $current_url = rtrim($current_url, '\\');
-        $current_url = rtrim($current_url, '/');
+       // $current_url = rtrim($current_url, '\\');
+       // $current_url = rtrim($current_url, '/');
+
         $current_url = rawurldecode($current_url);
         $current_url = str_replace($site_url, '', $current_url);
         $current_url = str_replace(' ', '%20', $current_url);
         $current_url = reduce_double_slashes($current_url);
 
+
         if (!isset($u) or $u == false) {
-            $u = explode('/', trim(preg_replace('/([^\w\:\-\.\%\/])/i', '', current(explode('?', $current_url, 2))), '/'));
+         //   $u = explode('/', mb_trim(preg_replace('/([^\w\:\-\.\%\/])/i', '', current(explode('?', $current_url, 2))), '/'));
+            $u = explode('/', current(explode('?', $current_url, 2)));
             if (isset($u[0])) {
                 //check for port
                 $string = substr($u[0], 0, 1);

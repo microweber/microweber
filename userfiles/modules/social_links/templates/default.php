@@ -10,7 +10,7 @@ description: Default
 
 */
 ?>
-<script>mw.lib.require('font_awesome5'')</script>
+<script>mw.lib.require('font_awesome5');</script>
 <script>mw.moduleCSS('<?php print module_url(); ?>style.css');</script>
 <div class="mw-social-links">
 

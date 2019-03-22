@@ -450,7 +450,10 @@ class ContentManagerCrud extends Crud
                 '%E2%80%9D',
             );
             $str = $data['url'];
-            $good[] = 9; #tab
+
+
+            $newstr = $str;
+           /* $good[] = 9; #tab
             $good[] = 10; #nl
             $good[] = 13; #cr
             for ($a = 32; $a < 127; ++$a) {
@@ -464,18 +467,30 @@ class ContentManagerCrud extends Crud
                 }
             }
 
-            $newstr = str_replace('--', '-', $newstr);
-            $newstr = str_replace('--', '-', $newstr);
+
+            */
+
+          //  $newstr = str_replace('--', '-', $newstr);
+           // $newstr = str_replace('--', '-', $newstr);
             if ($newstr == '-' or $newstr == '--') {
                 $newstr = 'post-' . date('YmdHis');
             }
+
+
+
+
+
             $data['url'] = $newstr;
+
 
             $url_changed = true;
             $data_to_save['url'] = $data['url'];
 
 
         }
+
+
+
 
         if (isset($data['category']) or isset($data['categories'])) {
             $cats_modified = true;
@@ -507,6 +522,8 @@ class ContentManagerCrud extends Crud
             }
 
             $data['url'] = $this->app->database_manager->escape_string($data['url']);
+
+
 
             $date123 = date('YmdHis');
 

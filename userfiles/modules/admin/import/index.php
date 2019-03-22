@@ -10,7 +10,7 @@
 
 
 		$(document).ready(function(){
-			  mw.admin_import.start_batch_process();
+			//  mw.admin_import.start_batch_process();
 
 
 			// mw.reload_module_interval('admin/import/process', 1500);
@@ -75,12 +75,6 @@ mw.ok_import_file = function(){
 
 
 
-
-
-
-
-
-<module type="admin/import/export" />
 
 <div class="mw-ui-row admin-section-bar">
     <div class="mw-ui-col">
