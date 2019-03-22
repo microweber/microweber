@@ -66,7 +66,7 @@ mw.State = function(options){
 
         this.hasNext = true;
         this.hasPrev = true;
-        if(this._activeIndex < 0) {
+        if(this._activeIndex <= -1) {
              this.hasPrev = false;
         }
         if(this._activeIndex === this._state.length-1) {

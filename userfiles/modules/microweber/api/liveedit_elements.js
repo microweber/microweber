@@ -11,10 +11,12 @@ mw.dropables = {
         dropable.innerHTML = '<span class="mw_dropable_arr"></span>';
         document.body.appendChild(dropable);
         mw.dropable = $(dropable);
-        mw.dropable.on("mouseenter", function() {
-            $(this).hide();
-        });
-
+        mw.dropable.hide = function(){
+            return $(this).addClass('mw_dropable_hidden')
+        };
+        mw.dropable.show = function(){
+            return $(this).removeClass('mw_dropable_hidden')
+        };
     },
 
 

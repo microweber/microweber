@@ -1,7 +1,7 @@
 mw.drag = mw.drag || {};
 mw.drag.plus = {
     locked: false,
-    disabled: true,
+    disabled: false,
    // mouse_moved: false,
     init: function (holder) {
 
