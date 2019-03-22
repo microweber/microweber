@@ -16,6 +16,32 @@ if ($engine) {
     $engine = 'bxslider';
 }
 
+$slides_xs = get_option('slides-xs', $params['id']);
+if ($slides_xs === null OR $slides_xs === false OR $slides_xs == '') {
+    $slides_xs = '1';
+}
+
+$slides_sm = get_option('slides-sm', $params['id']);
+if ($slides_sm === null OR $slides_sm === false OR $slides_sm == '') {
+    $slides_sm = '2';
+}
+
+$slides_md = get_option('slides-md', $params['id']);
+if ($slides_md === null OR $slides_md === false OR $slides_md == '') {
+    $slides_md = '3';
+}
+
+$slides_lg = get_option('slides-lg', $params['id']);
+if ($slides_lg === null OR $slides_lg === false OR $slides_lg == '') {
+    $slides_lg = '4';
+}
+
+$slides_xl = get_option('slides-xl', $params['id']);
+if ($slides_xl === null OR $slides_xl === false OR $slides_xl == '') {
+    $slides_xl = '4';
+}
+
+$thumb_quality = 1920 / $slides_xl;
 
 //bxSlider & Slick
 $pager = get_option('pager', $params['id']);
@@ -112,24 +138,6 @@ if ($slidesPerRow) {
     $slidesPerRow = 1;
 }
 
-$slidesToShow = get_option('slides_to_show', $params['id']);
-if ($slidesToShow) {
-    $slidesToShow = $slidesToShow;
-} elseif (isset($params['slides_to_show'])) {
-    $slidesToShow = $params['slides_to_show'];
-} else {
-    $slidesToShow = 1;
-}
-
-$slidesToScroll = get_option('slides_to_scroll', $params['id']);
-if ($slidesToScroll) {
-    $slidesToScroll = $slidesToScroll;
-} elseif (isset($params['slides_to_scroll'])) {
-    $slidesToScroll = $params['slides_to_scroll'];
-} else {
-    $slidesToScroll = 1;
-}
-
 $centerMode = get_option('center_mode', $params['id']);
 if ($centerMode) {
     $centerMode = $centerMode;
@@ -154,10 +162,10 @@ if ($fade) {
 } elseif (isset($params['fade'])) {
     $fade = $params['fade'];
 } else {
-    $fade = 'true';
+    $fade = 'false';
 }
 
-$focusOnSelect = get_option('center_mode', $params['id']);
+$focusOnSelect = get_option('focus_on_select', $params['id']);
 if ($focusOnSelect) {
     $focusOnSelect = $focusOnSelect;
 } elseif (isset($params['focus_on_select'])) {

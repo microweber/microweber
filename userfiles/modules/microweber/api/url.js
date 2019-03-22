@@ -146,8 +146,8 @@ mw.slug = {
   },
   removeSpecials:function(string){
     var string = mw.slug.normalize(string);
-    var special = 'àáäãâèéëêìíïîòóöôõùúüûñç·=_,:;',
-        normal =  'aaaaaeeeeiiiiooooouuuunc-------',
+    var special = 'àáäãâèéëêìíïîòóöôõùúüûñç·=,:;',
+        normal =  'aaaaaeeeeiiiiooooouuuunc------',
         len = special.length,
         i = 0;
     for ( ; i<len; i++) {

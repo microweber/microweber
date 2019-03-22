@@ -8,19 +8,19 @@
 			multiple:false
 		});
 
- 
-		$(document).ready(function(){
-			  mw.admin_import.start_batch_process();
 
-			
+		$(document).ready(function(){
+			//  mw.admin_import.start_batch_process();
+
+
 			// mw.reload_module_interval('admin/import/process', 1500);
-		
+
 		mw.$("#mw_uploader").append(uploader);
 				$(uploader).bind("FileUploaded", function(obj, data){
 					mw.$("#mw_uploader_loading").hide();
 					mw.$("#mw_uploader").show();
                     mw.$("#upload_backup_info").html("");
-				   
+
 					mw.admin_import.move_uploaded_file_to_import(data.src);
 				});
 
@@ -36,9 +36,9 @@
                    mw.notification.error("The file was not uploaded!");
 
             	});
-				
-				
-				
+
+
+
 				ModalContent = mw.$('#mw_import_to_page_holder').html();
 				mw.$('#mw_import_to_page_holder').remove();
 
@@ -47,12 +47,12 @@
 
 
 mw.confirm_import_file = function($filename){
-	
-	
-	
+
+
+
 	Alert(ModalContent);
-	$(".mw_import_file").val($filename);	
-	
+	$(".mw_import_file").val($filename);
+
 	mw.$('#mw_alert .mw-cancel').hide();
 }
 
@@ -60,17 +60,21 @@ mw.confirm_import_file = function($filename){
 
 
 mw.ok_import_file = function(){
- 
+
   var file = $('#mw_import_file').val()
   var page_id = $('#mw_import_to_page_selector').val()
   mw.admin_import.restore_to_page(file,page_id);
   	// mw.reload_module_interval('admin/import/process', 1500);
    $('.mw_modal').remove()
-  
-  
-  
+
+
+
 }
 </script>
+
+
+
+
 
 <div class="mw-ui-row admin-section-bar">
     <div class="mw-ui-col">
@@ -104,11 +108,11 @@ mw.ok_import_file = function(){
  
   <span id="mw_uploader_loading"></span>
 
- 
- 
+
+
   <?php _e("Upload file"); ?>
   <span id="upload_backup_info"></span></span></span> </div>
-  
+
   <div id="import-progress-log-holder" style="display:none">
   <?php _e('Progress:'); ?> <span id="import-progress-log-holder-values"></span>
 <meter value="" optimum="100" high="90" low="40" max="100" min="0" id="import-progress-log-meter"><?php _e('Import progress'); ?></meter>
@@ -117,6 +121,6 @@ mw.ok_import_file = function(){
 
 
   </div>
- 
+
 <module type="admin/import/manage" />
 </div>

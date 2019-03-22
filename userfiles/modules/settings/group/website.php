@@ -35,38 +35,38 @@
         </div>
 
 
-<?php
+        <?php
 
 
-/*        <div class="mw-ui-field-holder">
-        	<label class="mw-ui-label">
-        		<?php _e("Shop Enable/Disable"); ?>
-        	</label>
+        /*        <div class="mw-ui-field-holder">
+                    <label class="mw-ui-label">
+                        <?php _e("Shop Enable/Disable"); ?>
+                    </label>
 
-			<div class="mw-ui-check-selector">
-				<label class="mw-ui-check" style="margin-right: 15px;">
-					<input name="shop_disabled" class="mw_option_field" onchange="" data-option-group="website" value="n" type="radio" <?php if (get_option('shop_disabled', 'website') != "y"): ?> checked="checked" <?php endif; ?> >
-					<span></span><span><?php _e("Enable"); ?></span>
-				</label>
-				<label class="mw-ui-check">
-					<input name="shop_disabled" class="mw_option_field" onchange="" data-option-group="website" value="y" type="radio" <?php if (get_option('shop_disabled', 'website') == "y"): ?> checked="checked" <?php endif; ?> >
-					<span></span> <span><?php _e("Disable"); ?></span>
-				</label>
-			</div>
-        </div>*/
+                    <div class="mw-ui-check-selector">
+                        <label class="mw-ui-check" style="margin-right: 15px;">
+                            <input name="shop_disabled" class="mw_option_field" onchange="" data-option-group="website" value="n" type="radio" <?php if (get_option('shop_disabled', 'website') != "y"): ?> checked="checked" <?php endif; ?> >
+                            <span></span><span><?php _e("Enable"); ?></span>
+                        </label>
+                        <label class="mw-ui-check">
+                            <input name="shop_disabled" class="mw_option_field" onchange="" data-option-group="website" value="y" type="radio" <?php if (get_option('shop_disabled', 'website') == "y"): ?> checked="checked" <?php endif; ?> >
+                            <span></span> <span><?php _e("Disable"); ?></span>
+                        </label>
+                    </div>
+                </div>*/
 
 
-?>
+        ?>
 
         <div class="mw-ui-field-holder">
-             <label class="mw-ui-label">
-                 <?php _e("Website Keywords"); ?>
-                 <br>
-                 <small>
-                     <?php _e("Ex.: Cat, Videos of Cats, Funny Cats, Cat Pictures, Cat for Sale, Cat Products and Food"); ?>
-                 </small>
-             </label>
-             <input name="website_keywords" class="mw_option_field mw-ui-field" type="text" option-group="website" value="<?php print get_option('website_keywords', 'website'); ?>"/>
+            <label class="mw-ui-label">
+                <?php _e("Website Keywords"); ?>
+                <br>
+                <small>
+                    <?php _e("Ex.: Cat, Videos of Cats, Funny Cats, Cat Pictures, Cat for Sale, Cat Products and Food"); ?>
+                </small>
+            </label>
+            <input name="website_keywords" class="mw_option_field mw-ui-field" type="text" option-group="website" value="<?php print get_option('website_keywords', 'website'); ?>"/>
         </div>
 
         <div class="mw-ui-field-holder">
@@ -98,7 +98,7 @@
             <label class="mw-ui-label">
                 <?php _e("Date Format"); ?>
             </label>
-	    <?php $date_formats = array("Y-m-d H:i:s","Y-m-d H:i","d-m-Y H:i:s","d-m-Y H:i","m/d/y", "m/d/Y","d/m/Y","F j, Y g:i a", "F j, Y", "F, Y", "l, F jS, Y", "M j, Y @ G:i", "Y/m/d \a\t g:i A", "Y/m/d \a\t g:ia", "Y/m/d g:i:s A", "Y/m/d", "g:i a", "g:i:s a" ,'D-M-Y','D-M-Y H:i');  ?>
+            <?php $date_formats = array("Y-m-d H:i:s", "Y-m-d H:i", "d-m-Y H:i:s", "d-m-Y H:i", "m/d/y", "m/d/Y", "d/m/Y", "F j, Y g:i a", "F j, Y", "F, Y", "l, F jS, Y", "M j, Y @ G:i", "Y/m/d \a\t g:i A", "Y/m/d \a\t g:ia", "Y/m/d g:i:s A", "Y/m/d", "g:i a", "g:i:s a", 'D-M-Y', 'D-M-Y H:i'); ?>
             <?php $curent_val = get_option('date_format', 'website'); ?>
             <select name="date_format" class="mw-ui-field mw_option_field" option-group="website" style="width:300px;">
                 <?php if (is_array($date_formats)): ?>
@@ -137,19 +137,18 @@
         <div class="mw-ui-box mw-ui-box-content">
 
 
-        <?php
+            <?php
             $fonts = get_option('fonts', 'website');
 
-            if(!$fonts){
+            if (!$fonts) {
                 ?>
                 <p class="muted">No fonts</p>
                 <?php
-            }
-            else{
+            } else {
                 $fonts = json_encode($fonts);
                 ?>
                 <table class="mw-ui-table">
-                    <?php foreach ($fonts as $font){ ?>
+                    <?php foreach ($fonts as $font) { ?>
                         <tr>
                             <td><?php print $font['name']; ?></td>
                             <td><?php print $font['status']; ?></td>
@@ -158,12 +157,12 @@
                     <?php } ?>
                 </table>
             <?php }
-        ?>
+            ?>
         </div>
     </div>
 
 
-        <script>
+    <script>
         $(document).ready(function () {
             favUP = mw.uploader({
                 element: mwd.getElementById('upload-icoimage'),
@@ -197,7 +196,7 @@
         <div id="the-icoimage"></div>
         <input type="hidden" class="mw_option_field" name="favicon_image" id="favicon_image" value="<?php print $favicon_image; ?>" option-group="website"/>
         <span class="pull-left mw-ui-btn the-icoimage" style="background-image: url('<?php print $favicon_image; ?>');" <?php if ($favicon_image != '' and $favicon_image != false) { ?><?php } else { ?> style="display:block;" <?php } ?>></span>
-        <span class="mw-ui-btn" id="upload-icoimage"><span class="mw-icon-upload"></span><?php _e('Upload favion'); ?></span>
+        <span class="mw-ui-btn" id="upload-icoimage"><span class="mw-icon-upload"></span> <?php _e('Upload favion'); ?></span>
     </div>
 </div>
 

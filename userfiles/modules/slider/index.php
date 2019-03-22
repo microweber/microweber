@@ -49,7 +49,7 @@ foreach ($json as $slide) {
 
 
     $skin_file = $config['path_to_module'] . 'templates/' . $module_template_clean . '/skins/' . $slide['skin'] . '.php';
-    $skin_default = $config['path_to_module'] . 'templates/' . $module_template_clean . '/skins/bxslider-skin-1.php';
+    $skin_default = $config['path_to_module'] . 'templates/' . $module_template_clean . '/skins/default.php';
     $skin_file_from_template = template_dir() . 'modules/slider/templates/' . $module_template_clean . '/skins/' . $slide['skin'] . '.php';
 
     $skin_file_full_path = normalize_path($skin_file, false);
@@ -136,13 +136,42 @@ include('options.php');
                 responsive: <?php print $responsive; ?>,
                 autoplay: <?php print $autoplay; ?>,
                 slidesPerRow: '<?php print $slidesPerRow; ?>',
-                slidesToShow: '<?php print $slidesToShow; ?>',
-                slidesToScroll: '<?php print $slidesToScroll; ?>',
+                slidesToShow: '<?php print $slides_xl; ?>',
+                slidesToScroll: '<?php print $slides_xl; ?>',
                 centerMode: <?php print $centerMode; ?>,
                 centerPadding: '0px',
                 draggable: <?php print $draggable; ?>,
                 fade: <?php print $fade; ?>,
-                focusOnSelect: <?php print $focusOnSelect; ?>
+                focusOnSelect: <?php print $focusOnSelect; ?>,
+                responsive: [
+                    {
+                        breakpoint: 1199,
+                        settings: {
+                            slidesToShow: <?php print $slides_lg; ?>,
+                            slidesToScroll: <?php print $slides_lg; ?>
+                        }
+                    }, {
+                        breakpoint: 991,
+                        settings: {
+                            slidesToShow: <?php print $slides_md; ?>,
+                            slidesToScroll: <?php print $slides_md; ?>
+                        }
+                    },
+                    {
+                        breakpoint: 767,
+                        settings: {
+                            slidesToShow: <?php print $slides_sm; ?>,
+                            slidesToScroll: <?php print $slides_sm; ?>
+                        }
+                    },
+                    {
+                        breakpoint: 575,
+                        settings: {
+                            slidesToShow: <?php print $slides_xs; ?>,
+                            slidesToScroll: <?php print $slides_xs; ?>
+                        }
+                    }
+                ]
             };
             var stime = 0;
             mw.onLive(function () {
