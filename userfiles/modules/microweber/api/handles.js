@@ -203,8 +203,9 @@ mw._initHandles = {
                 masterRect = master.wrapper.getBoundingClientRect();
                 var irect = item.wrapper.getBoundingClientRect();
                 if (scope.collide(masterRect, irect)) {
-                    skip.push(item)
-                    item.wrapper.style.top = master.wrapper.style.top;
+                    skip.push(item);
+                    var topMore = item === mw.handleElement ? 10 : 0;
+                    item.wrapper.style.top = (parseInt(master.wrapper.style.top, 10) + topMore) + 'px';
                     item.wrapper.style.left = ((parseInt(master.wrapper.style.left, 10) + masterRect.width) + 10) + 'px';
                     master = curr;
                 }

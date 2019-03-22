@@ -110,7 +110,6 @@ $mod_suffix = md5($params['id']);
         function getData<?php print $mod_suffix ?>() {
 
             var date = $(".calendar").fullCalendar('getDate');
-            d(date);
             if (!date) {
                 return;
             }

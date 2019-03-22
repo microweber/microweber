@@ -8,6 +8,7 @@ mw.require('element_analyzer.js');
 mw.require('liveedit_elements.js');
 mw.require('live_edit.js');
 mw.require('liveedit_widgets.js');
+mw.require('state.js');
 mw.isDrag = false;
 mw.resizable_row_width = false;
 mw.mouse_over_handle = false;
@@ -1141,15 +1142,25 @@ mw.drag = {
 
                     setTimeout(function() {
                         if(mw.ea.data.target && mw.ea.data.currentGrabbed){
-
                             if(!!mw.ea.data.dropableAction && !!mw.ea.data.target && !!mw.ea.data.currentGrabbed){
-                                $(mw.ea.data.target)[mw.ea.data.dropableAction](mw.ea.data.currentGrabbed)
+                                var ed = mw.tools.firstParentOrCurrentWithClass(mw.ea.data.target, 'edit')
+                                mw.liveEditState.record({
+                                    target: ed,
+                                    value: ed.innerHTML
+                                });
+                                $(mw.ea.data.target)[mw.ea.data.dropableAction](mw.ea.data.currentGrabbed);
+
+                                setTimeout(function(ed) {
+                                    mw.liveEditState.record({
+                                        target: ed,
+                                        value: ed.innerHTML
+                                    });
+                                }, 50, ed);
                             }
                             else{
 
                             }
                         }
-
                         mw.drag.fixes();
                         setTimeout(function() {
                             mw.drag.fix_placeholders();

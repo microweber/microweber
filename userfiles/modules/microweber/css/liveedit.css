@@ -132,7 +132,6 @@ ul:not([class]) {
     font-weight: 100;
     text-align: center;
     line-height: 16px;
-    margin-left: -10px;
     font-family: sans-serif;
     -webkit-transition: opacity 0.3s;
     -moz-transition: opacity 0.3s;
@@ -3079,7 +3078,7 @@ div[id*='SSDIVEL'] {
 
 .mw-tooltip-insert-module {
     width: 290px;
-    min-width: 100%;
+    max-width: 100%;
 }
 
 .mw-tooltip-insert-module .mw-ui-searchfield {

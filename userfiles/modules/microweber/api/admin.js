@@ -7,13 +7,13 @@ mw.admin = {
         height: 'auto',
         size: 5,
         distance: 5,
-        position:(document.documentElement.dir == 'rtl' ? 'left': 'right')
+        position:(document.documentElement.dir === 'rtl' ? 'left': 'right')
     },
     scrollBox: function (selector, settings) {
-        var settings = $.extend({}, mw.admin.scrollBoxSettings, settings);
+        settings = $.extend({}, mw.admin.scrollBoxSettings, settings);
         var el = mw.$(selector);
 
-        if(typeof(el.slimScroll) == 'undefined'){
+        if(typeof(el.slimScroll) === 'undefined'){
             return;
         }
 
@@ -34,7 +34,6 @@ mw.admin = {
             return $(window).height();
         }
         mw.$('.scroll-height-exception', exceptor).each(function () {
-            console.log($(this).outerHeight(true), this)
             mw.admin.contentScrollBoxHeightMinus = mw.admin.contentScrollBoxHeightMinus + $(this).outerHeight(true);
         });
 
@@ -46,15 +45,15 @@ mw.admin = {
             return false;
         }
         mw.admin.scrollBox(el, settings);
-        var newheight = mw.admin.contentScrollBoxHeightFix(el)
+        var newheight = mw.admin.contentScrollBoxHeightFix(el);
         el.style.height = newheight + 'px';
-        el.parentNode.style.height = newheight + 'px'
+        el.parentNode.style.height = newheight + 'px';
         $(window).bind('resize', function () {
-            var newheight = mw.admin.contentScrollBoxHeightFix(el)
+            var newheight = mw.admin.contentScrollBoxHeightFix(el);
             el.style.height = newheight + 'px';
             el.parentNode.style.height = newheight + 'px';
             $(el).slimscroll({
-                position:(document.documentElement.dir == 'rtl' ? 'left': 'right')
+                position:(document.documentElement.dir === 'rtl' ? 'left': 'right')
             });
         });
     },

@@ -1,19 +1,20 @@
 mw.drag = mw.drag || {};
 mw.drag.plus = {
     locked: false,
+    disabled: true,
    // mouse_moved: false,
     init: function (holder) {
 
-
+        if(this.disabled) return;
 
         mw.drag.plusTop = mwd.querySelector('.mw-plus-top');
         mw.drag.plusBottom = mwd.querySelector('.mw-plus-bottom');
 
         if(typeof(mw.drag.plusTop) != 'undefined'){
-        mw.drag.plusTop.style.top = -9999 + 'px';
+            mw.drag.plusTop.style.top = -9999 + 'px';
         }
         if(typeof(mw.drag.plusBottom) != 'undefined'){
-        mw.drag.plusBottom.style.top = -9999 + 'px';
+            mw.drag.plusBottom.style.top = -9999 + 'px';
         }
         mw.$(holder).bind('mousemove', function (e) {
 
@@ -78,25 +79,23 @@ mw.drag.plus = {
     },
     set: function (node) {
 
-        var element_hover_delay;
-
-
-        element_hover_delay = setTimeout(function () {
-
+        setTimeout(function () {
 
             if (typeof node === 'undefined') {
                 return;
             }
-            var off = $(node).offset(), toolbar = mwd.querySelector('#live_edit_toolbar');
+            var off = $(node).offset(),
+                toolbar = mwd.querySelector('#live_edit_toolbar');
+            var oleft = Math.max(0, off.left - 10);
             if(toolbar && off.top < toolbar.offsetHeight){
               off.top = toolbar.offsetHeight + 10;
             }
             mw.drag.plusTop.style.top = off.top + 'px';
-            mw.drag.plusTop.style.left = off.left + 'px';
+            mw.drag.plusTop.style.left = oleft + 'px';
             // mw.drag.plusTop.style.display = 'block';
             mw.drag.plusTop.currentNode = node;
             mw.drag.plusBottom.style.top = (off.top + node.offsetHeight) + 'px';
-            mw.drag.plusBottom.style.left = off.left + 'px';
+            mw.drag.plusBottom.style.left = oleft + 'px';
             mw.drag.plusBottom.currentNode = node;
             mw.tools.removeClass([mw.drag.plusTop, mw.drag.plusBottom], 'active');
 
