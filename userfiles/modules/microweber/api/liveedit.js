@@ -121,6 +121,10 @@ $(document).ready(function() {
         });
         mw.on.stopWriting(e.target, function() {
             if (mw.tools.hasClass(e.target, 'edit') || mw.tools.hasParentsWithClass(this, 'edit')) {
+                mw.liveEditState.record({
+                    target:e.target,
+                    value:e.target.innerHTML
+                });
                 mw.drag.saveDraft();
             }
         });
