@@ -7,11 +7,16 @@
 
 //$sliderEngine = explode('-', $module_template_clean)[0];
 
+$engine_by_module_template = $module_template;
+$engine_by_module_template = explode('-', $engine_by_module_template);
+$engine_by_module_template = $engine_by_module_template[0];
 $engine = get_option('engine', $params['id']);
 if ($engine) {
     $engine = $engine;
 } elseif (isset($params['engine'])) {
     $engine = $params['engine'];
+} elseif (isset($engine_by_module_template)) {
+    $engine = $engine_by_module_template;
 } else {
     $engine = 'bxslider';
 }

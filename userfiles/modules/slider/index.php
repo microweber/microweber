@@ -70,7 +70,6 @@ foreach ($json as $slide) {
     $data[] = $slide;
 }
 
-include('options.php');
 
 if ($module_template == false and isset($params['template'])) {
     $module_template = $params['template'];
@@ -81,12 +80,13 @@ if ($module_template != false) {
     $template_file = module_templates($config['module'], 'bxslider-skin-1');
 }
 
+include('options.php');
+
 if (is_file($template_file)) {
     include($template_file);
 }
 
 ?>
-
 
 <?php if ($engine == 'bxslider'): ?>
     <script>mw.lib.require('bxslider');</script>
@@ -128,15 +128,15 @@ if (is_file($template_file)) {
                 arrows: <?php print $controls; ?>,
                 infinite: <?php print $loop; ?>,
                 adaptiveHeight: <?php print $adaptiveHeight; ?>,
-                autoplaySpeed: '<?php print $speed; ?>',
+                autoplaySpeed: <?php print $speed; ?>,
                 //speed: '<?php print $speed; ?>',
-                speed: '500',
+                speed: 500,
 
                 pauseOnHover: <?php print $pauseOnHover; ?>,
                 autoplay: <?php print $autoplay; ?>,
-                slidesPerRow: '<?php print $slidesPerRow; ?>',
-                slidesToShow: '<?php print $slides_xl; ?>',
-                slidesToScroll: '<?php print $slides_xl; ?>',
+                slidesPerRow: <?php print $slidesPerRow; ?>,
+                slidesToShow: <?php print $slides_xl; ?>,
+                slidesToScroll: <?php print $slides_xl; ?>,
                 centerMode: <?php print $centerMode; ?>,
                 centerPadding: '0px',
                 draggable: <?php print $draggable; ?>,
@@ -172,10 +172,15 @@ if (is_file($template_file)) {
                     }
                 ]
             };
+            console.log(config);
             var stime = 0;
             mw.onLive(function () {
                 stime = 500;
             });
+
+            if ($('.slickSlider', '#<?php print $params['id'] ?>').find('.slick-active').length > 0) {
+                $('.slickSlider', '#<?php print $params['id'] ?>').slick('unslick');
+            }
 
             setTimeout(function () {
                 $('.slickSlider', '#<?php print $params['id'] ?>').slick(config);

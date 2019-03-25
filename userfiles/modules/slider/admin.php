@@ -3,7 +3,7 @@
 <?php
 $defaults = array(
     'images' => '',
-    'primaryText' => 'My bxSlider',
+    'primaryText' => 'My Slider',
     'secondaryText' => 'Your slogan here',
     'seemoreText' => 'See more',
     'url' => '',
@@ -37,6 +37,10 @@ if (empty($skins) and is_dir($default_skins_path)) {
 
 $count = 0;
 
+$module_template_check = get_option('data-template', $params['id']);
+if ($module_template_check == false AND isset($params['template'])) {
+    $module_template = $params['template'];
+}
 include('options.php');
 ?>
 

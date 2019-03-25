@@ -1,23 +1,23 @@
 <?php
 $is_quick_edit = false;
 if (defined('QUICK_EDIT')) {
-$is_quick_edit = QUICK_EDIT;
+    $is_quick_edit = QUICK_EDIT;
 }
 
-if($is_quick_edit == true){
-	return include(__DIR__.DS.'toolbar_quick.php');
+if ($is_quick_edit == true) {
+    return include(__DIR__ . DS . 'toolbar_quick.php');
 }
 
 
 ?>
-<?php if (!isset($_GET['preview'])){ ?>
-<script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-core.js"></script>
-<script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-cssclassapplier.js"></script>
-<script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-selectionsaverestore.js"></script>
-<script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-serializer.js"></script>
-<script src="<?php print(mw_includes_url()); ?>api/jquery-ui.js"></script>
+<?php if (!isset($_GET['preview'])) { ?>
+    <script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-core.js"></script>
+    <script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-cssclassapplier.js"></script>
+    <script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-selectionsaverestore.js"></script>
+    <script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-serializer.js"></script>
+    <script src="<?php print(mw_includes_url()); ?>api/jquery-ui.js"></script>
 
-<script type="text/javascript">
+    <script type="text/javascript">
         mw.settings.liveEdit = true;
         mw.require("liveadmin.js");
         mw.require("events.js");
@@ -31,67 +31,66 @@ if($is_quick_edit == true){
         mw.require("content.js", true);
         mw.require("session.js");
         mw.require("liveedit.js");
-   
+
     </script>
-<script type="text/javascript">
-if(mw.cookie.get("helpinfoliveedit") != 'false'){
-     mw.require("helpinfo.js", true);
-     mw.require("<?php print mw_includes_url(); ?>css/helpinfo.css", true);
-}
-</script>
-<script type="text/javascript">
-
-
-  if(mw.cookie.get("helpinfoliveedit") != 'false'){
-     mw.helpinfo.cookie = "helpinfoliveedit";
-     mw.helpinfo.pauseInit = true;
-     $(window).bind("load", function(){
-        mw.mouse.gotoAndClick("#modules-and-layouts", {
-              left:mw.$("#modules-and-layouts").width()/2,
-              top:0
-          });
-          setTimeout(function(){
-              mw.tools.scrollTo();
-              mw.helpinfo.init();
-              setTimeout(function(){
-                mw.helpinfo.hide(true);
-              }, 8000);
-              mw.$("#mw_info_helper_footer .mw-ui-btn").eq(0).bind("click", function(){
-                mw.helpinfo.hide(true);
-              });
-          }, 2000);
-          $(mwd.body).mousedown(function(e){
-            if(!mw.tools.hasParentsWithClass(e.target, 'mw-defaults')){
-                mw.helpinfo.hide(true);
-            }
-          });
-     });
-  }
-
-  $(window).bind('load', function(){
-     <?php if(file_exists(TEMPLATE_DIR.'template_settings.php')){ ?>
-        var show_settings = mw.cookie.get('remove_template_settings') != 'true';
-        if(show_settings){
-          mw.tools.template_settings(true);
+    <script type="text/javascript">
+        if (mw.cookie.get("helpinfoliveedit") != 'false') {
+            mw.require("helpinfo.js", true);
+            mw.require("<?php print mw_includes_url(); ?>css/helpinfo.css", true);
         }
-     <?php  } ?>
-            
-     $(window).bind('saveStart', function(){
-       mw.$("#main-save-btn").html('<?php _e("Saving"); ?>...');
-     });
-     $(window).bind('saveEnd', function(){
-       mw.$("#main-save-btn").html('<?php _e("Save"); ?>');
-     });
+    </script>
+    <script type="text/javascript">
 
 
+        if (mw.cookie.get("helpinfoliveedit") != 'false') {
+            mw.helpinfo.cookie = "helpinfoliveedit";
+            mw.helpinfo.pauseInit = true;
+            $(window).bind("load", function () {
+                mw.mouse.gotoAndClick("#modules-and-layouts", {
+                    left: mw.$("#modules-and-layouts").width() / 2,
+                    top: 0
+                });
+                setTimeout(function () {
+                    mw.tools.scrollTo();
+                    mw.helpinfo.init();
+                    setTimeout(function () {
+                        mw.helpinfo.hide(true);
+                    }, 8000);
+                    mw.$("#mw_info_helper_footer .mw-ui-btn").eq(0).bind("click", function () {
+                        mw.helpinfo.hide(true);
+                    });
+                }, 2000);
+                $(mwd.body).mousedown(function (e) {
+                    if (!mw.tools.hasParentsWithClass(e.target, 'mw-defaults')) {
+                        mw.helpinfo.hide(true);
+                    }
+                });
+            });
+        }
 
-  });
+        $(window).bind('load', function () {
+            <?php if(file_exists(TEMPLATE_DIR . 'template_settings.php')){ ?>
+            var show_settings = mw.cookie.get('remove_template_settings') != 'true';
+            if (show_settings) {
+                mw.tools.template_settings(true);
+            }
+            <?php  } ?>
 
-</script>
-<link href="<?php print(mw_includes_url()); ?>css/wysiwyg.css" rel="stylesheet" type="text/css"/>
-<link href="<?php print(mw_includes_url()); ?>css/liveedit.css" rel="stylesheet" type="text/css"/>
+            $(window).bind('saveStart', function () {
+                mw.$("#main-save-btn").html('<?php _e("Saving"); ?>...');
+            });
+            $(window).bind('saveEnd', function () {
+                mw.$("#main-save-btn").html('<?php _e("Save"); ?>');
+            });
 
-<script type="text/javascript">
+
+        });
+
+    </script>
+    <link href="<?php print(mw_includes_url()); ?>css/wysiwyg.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php print(mw_includes_url()); ?>css/liveedit.css" rel="stylesheet" type="text/css"/>
+
+    <script type="text/javascript">
         $(document).ready(function () {
             mw.toolbar.minTop = parseFloat($(mwd.body).css("paddingTop"));
             setTimeout(function () {
@@ -105,7 +104,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
             }, 1000);
         });
     </script>
-<?php
+    <?php
     $back_url = site_url() . 'admin/view:content';
     if (defined('CONTENT_ID')) {
         if ((!defined('POST_ID') or POST_ID == false) and !defined('PAGE_ID') or PAGE_ID != false and PAGE_ID == CONTENT_ID) {
@@ -121,224 +120,220 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
 
     ?>
 
-<div class="mw-helpinfo semi_hidden">
-  <div class="mw-help-item" data-for="#live_edit_toolbar" data-pos="bottomcenter">
-    <div style="width: 300px;">
-      <p style="text-align: center"> <img src="<?php print mw_includes_url(); ?>img/dropf.gif" alt="" /> </p>
-      <p> You can easily grab any Module and insert it in your content. </p>
+    <div class="mw-helpinfo semi_hidden">
+        <div class="mw-help-item" data-for="#live_edit_toolbar" data-pos="bottomcenter">
+            <div style="width: 300px;">
+                <p style="text-align: center"><img src="<?php print mw_includes_url(); ?>img/dropf.gif" alt=""/></p>
+                <p> You can easily grab any Module and insert it in your content. </p>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
-<div class="mw-defaults" id="live_edit_toolbar_holder">
-  <div id="live_edit_toolbar">
-    <div id="mw-text-editor" class="mw-defaults mw_editor">
-      <div class="toolbar-sections-tabs">
-        <ul>
-          <li class="create-content-dropdown">
-            <a href="javascript:;" class="tst-logo" title="Microweber">
-                <span class="mw-icon-mw"></span>
-                <span class="mw-icon-dropdown"></span>
-            </a>
-            <div class="mw-dropdown-list create-content-dropdown-list">
-              <div class="mw-dropdown-list-search">
-                <input type="mwautocomplete" class="mwtb-search mw-dropdown-search mw-ui-searchfield" placeholder="Search content"/>
-              </div>
-              <?php
-                        $pt_opts = array();
-                        $pt_opts['link'] = "<a href='{link}#tab=pages'>{title}</a>";
-                        $pt_opts['list_tag'] = "ul";
-                        $pt_opts['ul_class'] = "";
-                        $pt_opts['list_item_tag'] = "li";
-                        $pt_opts['active_ids'] = CONTENT_ID;
-                        $pt_opts['limit'] = 1000;
-                        $pt_opts['active_code_tag'] = 'class="active"';
-                        mw()->content_manager->pages_tree($pt_opts);
-                        ?>
-              <a id="backtoadminindropdown" class="mw-ui-btn mw-ui-btn-invert" href="<?php print $back_url; ?>" title="<?php _e("Back to Admin"); ?>"> <span class="mw-icon-back"></span><span><?php _e("Back to Admin"); ?></span> </a> </div>
-          </li>
-          <?php event_trigger('live_edit_toolbar_menu_start'); ?>
-          <li class="create-content-dropdown mw-toolbar-btn-menu">
+    <div class="mw-defaults" id="live_edit_toolbar_holder">
+        <div id="live_edit_toolbar">
+            <div id="mw-text-editor" class="mw-defaults mw_editor">
+                <div class="toolbar-sections-tabs">
+                    <ul>
+                        <li class="create-content-dropdown">
+                            <a href="javascript:;" class="tst-logo" title="Microweber">
+                                <span class="mw-icon-mw"></span>
+                                <span class="mw-icon-dropdown"></span>
+                            </a>
+                            <div class="mw-dropdown-list create-content-dropdown-list">
+                                <div class="mw-dropdown-list-search">
+                                    <input type="mwautocomplete" class="mwtb-search mw-dropdown-search mw-ui-searchfield" placeholder="Search content"/>
+                                </div>
+                                <?php
+                                $pt_opts = array();
+                                $pt_opts['link'] = "<a href='{link}#tab=pages'>{title}</a>";
+                                $pt_opts['list_tag'] = "ul";
+                                $pt_opts['ul_class'] = "";
+                                $pt_opts['list_item_tag'] = "li";
+                                $pt_opts['active_ids'] = CONTENT_ID;
+                                $pt_opts['limit'] = 1000;
+                                $pt_opts['active_code_tag'] = 'class="active"';
+                                mw()->content_manager->pages_tree($pt_opts);
+                                ?>
+                                <a id="backtoadminindropdown" class="mw-ui-btn mw-ui-btn-invert" href="<?php print $back_url; ?>" title="<?php _e("Back to Admin"); ?>"> <span class="mw-icon-back"></span><span><?php _e("Back to Admin"); ?></span> </a></div>
+                        </li>
+                        <?php event_trigger('live_edit_toolbar_menu_start'); ?>
+                        <li class="create-content-dropdown mw-toolbar-btn-menu">
 
 
-          <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-dropdown-button" title="Create or manage your content" style="">  <?php _e("Add New"); ?> </a>
-            <ul class="mw-dropdown-list create-content-dropdown-list liveeditcreatecontentmenu"
-                        style="width: 170px; text-transform:uppercase;top: 51px;">
-              <?php event_trigger('live_edit_quick_add_menu_start'); ?>
-              <li>
-                <a href="javascript:;" onclick="mw.quick.edit(<?php print CONTENT_ID; ?>);"><span class="mw-icon-pen"></span><span>
+                            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-dropdown-button" title="Create or manage your content" style="">  <?php _e("Add New"); ?> </a>
+                            <ul class="mw-dropdown-list create-content-dropdown-list liveeditcreatecontentmenu"
+                                style="width: 170px; text-transform:uppercase;top: 51px;">
+                                <?php event_trigger('live_edit_quick_add_menu_start'); ?>
+                                <li>
+                                    <a href="javascript:;" onclick="mw.quick.edit(<?php print CONTENT_ID; ?>);"><span class="mw-icon-pen"></span><span>
                     <?php _e("Edit current"); ?>
                 </span>
-                </a>
-              </li>
-              <?php $create_content_menu =  mw()->modules->ui('content.create.menu');  ?>
-              <?php if (!empty($create_content_menu)): ?>
-    <?php foreach ($create_content_menu as $type => $item): ?>
-    <?php $title = ( isset( $item['title']))? ($item['title']) : false ; ?>
-    <?php $class = ( isset( $item['class']))? ($item['class']) : false ; ?>
-    <?php $html = ( isset( $item['html']))? ($item['html']) : false ; ?>
-    <?php $type = ( isset( $item['content_type']))? ($item['content_type']) : false ; ?>
-    <?php $subtype = ( isset( $item['subtype']))? ($item['subtype']) : false ; ?>
-    <li><a onclick="mw.quick.edit('0','<?php print $type; ?>', '<?php print $subtype; ?>'); return false;" href="<?php print admin_url('view:content'); ?>#action=new:<?php print $type; ?><?php if($subtype != false): ?>.<?php print $subtype; ?><?php endif; ?>"><span class="<?php print $class; ?>"></span><strong><?php print $title; ?></strong></a></li>
-    <?php endforeach; ?>
-    <?php endif; ?>
+                                    </a>
+                                </li>
+                                <?php $create_content_menu = mw()->modules->ui('content.create.menu'); ?>
+                                <?php if (!empty($create_content_menu)): ?>
+                                    <?php foreach ($create_content_menu as $type => $item): ?>
+                                        <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
+                                        <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
+                                        <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
+                                        <?php $type = (isset($item['content_type'])) ? ($item['content_type']) : false; ?>
+                                        <?php $subtype = (isset($item['subtype'])) ? ($item['subtype']) : false; ?>
+                                        <li><a onclick="mw.quick.edit('0','<?php print $type; ?>', '<?php print $subtype; ?>'); return false;"
+                                               href="<?php print admin_url('view:content'); ?>#action=new:<?php print $type; ?><?php if ($subtype != false): ?>.<?php print $subtype; ?><?php endif; ?>"><span class="<?php print $class; ?>"></span><strong><?php print $title; ?></strong></a></li>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
 
 
 
-              <?php event_trigger('live_edit_quick_add_menu_end'); ?>
-            </ul>
+                                <?php event_trigger('live_edit_quick_add_menu_end'); ?>
+                            </ul>
 
-          </li>
-          <li>
+                        </li>
+                        <li>
             <span class="mw-ui-btn-nav">
                 <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium default-invert" onclick="mw.toolbar.ComponentsShow('modules');"><span class="mw-icon-module"></span><?php _e("Modules"); ?></a>
                 <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium default-invert" onclick="mw.toolbar.ComponentsShow('layouts');"><span class="mw-icon-template"></span><?php _e("Layouts"); ?></a>
             </span>
-          </li>
+                        </li>
 
 
-          <li> <span style="display: none"
-                        class="liveedit_wysiwyg_prev"
-                        id="liveedit_wysiwyg_main_prev"
-                        title="<?php _e("Previous"); ?>"
-                        onclick="mw.liveEditWYSIWYG.slideLeft();"> </span> </li>
-          <?php event_trigger('live_edit_toolbar_menu_end'); ?>
-        </ul>
-      </div>
-      <div id="mw-toolbar-right" class="mw-defaults">
+                        <li> <span style="display: none"
+                                   class="liveedit_wysiwyg_prev"
+                                   id="liveedit_wysiwyg_main_prev"
+                                   title="<?php _e("Previous"); ?>"
+                                   onclick="mw.liveEditWYSIWYG.slideLeft();"> </span></li>
+                        <?php event_trigger('live_edit_toolbar_menu_end'); ?>
+                    </ul>
+                </div>
+                <div id="mw-toolbar-right" class="mw-defaults">
         <span
-            class="liveedit_wysiwyg_next"
-            id="liveedit_wysiwyg_main_next"
-            title="<?php _e("Next"); ?>"
-            onclick="mw.liveEditWYSIWYG.slideRight();"></span>
-        <div class="mw-toolbar-right-content">
-          <?php event_trigger('live_edit_toolbar_action_buttons'); ?>
+                class="liveedit_wysiwyg_next"
+                id="liveedit_wysiwyg_main_next"
+                title="<?php _e("Next"); ?>"
+                onclick="mw.liveEditWYSIWYG.slideRight();"></span>
+                    <div class="mw-toolbar-right-content">
+                        <?php event_trigger('live_edit_toolbar_action_buttons'); ?>
 
 
+                        <div class="mw-ui-dropdown mw-dropdown-defaultright" id="toolbar-dropdown-actions" style="padding-left: 10px;">
+                            <span class="mw-single-arrow-dropdown mw-single-arrow-dropdown-right"><span class="mw-icon-dropdown"></span></span>
+                            <div class="mw-ui-dropdown-content" id="    live-edit-dropdown-actions-content">
+                                <ul class="mw-ui-btn-vertical-nav">
+                                    <?php event_trigger('live_edit_toolbar_action_menu_start'); ?>
+                                    <li><a class="mw-ui-btn" title="<?php _e("Back to Admin"); ?>" href="<?php print $back_url; ?>"><?php _e("Back to Admin"); ?></a></li>
+                                    <?php /* <li>
+                                        <script>mw.userCanSwitchMode = false;</script>
+                                        <?php if (!isset($user['basic_mode']) or $user['basic_mode'] != 'y') { ?>
+                                            <script>mw.userCanSwitchMode = true;</script>
+                                            <?php if (isset($_COOKIE['advancedmode']) and $_COOKIE['advancedmode'] == 'true') { ?>
+                                                <a class="mw-ui-btn" href="javascript:;" onclick="mw.setMode('simple');" style="display:none"><?php _e("Simple Mode"); ?></a>
+                                            <?php } else { ?>
+                                                <a class="mw-ui-btn" href="javascript:;" onclick="mw.setMode('advanced')" style="display:none"><?php _e("Advanced Mode"); ?></a>
+                                            <?php } ?>
+                                        <?php } ?>
+                                    </li> */ ?>
+                                    <li>
 
-
-          <div class="mw-ui-dropdown mw-dropdown-defaultright" id="toolbar-dropdown-actions" style="padding-left: 10px;">
-            <span class="mw-single-arrow-dropdown mw-single-arrow-dropdown-right"><span class="mw-icon-dropdown"></span></span>
-            <div class="mw-ui-dropdown-content" id="live-edit-dropdown-actions-content">
-              <ul class="mw-ui-btn-vertical-nav">
-                <?php event_trigger('live_edit_toolbar_action_menu_start'); ?>
-                <li>
-                    <a class="mw-ui-btn" title="<?php _e("Back to Admin"); ?>" href="<?php print $back_url; ?>"><?php _e("Back to Admin"); ?></a></li>
-                <li>
-                  <script>mw.userCanSwitchMode = false;</script>
-                  <?php if (!isset($user['basic_mode']) or $user['basic_mode'] != 'y') { ?>
-                  <script>mw.userCanSwitchMode = true;</script>
-                  <?php if (isset($_COOKIE['advancedmode']) and $_COOKIE['advancedmode'] == 'true') { ?>
-                  <a class="mw-ui-btn" href="javascript:;" onclick="mw.setMode('simple');" style="display:none"><?php _e("Simple Mode"); ?></a>
-                  <?php } else { ?>
-                  <a class="mw-ui-btn" href="javascript:;" onclick="mw.setMode('advanced')" style="display:none"><?php _e("Advanced Mode"); ?></a>
-                  <?php } ?>
-                  <?php }  ?>
-                </li>
-                <li><a class="mw-ui-btn" href="<?php print mw()->url_manager->current(); ?>?editmode=n"><?php _e("View Website"); ?></a></li>
-                <?php event_trigger('live_edit_toolbar_action_menu_middle'); ?>
-                <?php /*<li><a class="mw-ui-btn" href="#" onclick="mw.preview();void(0);"><?php _e("Preview"); ?></a></li>*/ ?>
-                <?php if (defined('CONTENT_ID') and CONTENT_ID > 0): ?>
-                <?php $pub_or_inpub = mw()->content_manager->get_by_id(CONTENT_ID); ?>
-                <li class="mw-set-content-unpublish" <?php if (isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] != 'y'): ?> style="display:none" <?php endif; ?>> <a class="mw-ui-btn" href="javascript:mw.content.unpublish('<?php print CONTENT_ID; ?>')"><span>
+                                            <a class="mw-ui-btn" href="javascript:;" onclick="mw.setMode('simple');" style="display:none"><?php _e("Simple Mode"); ?></a>
+                                    
+                                    </li>
+                                    <li><a class="mw-ui-btn" href="<?php print mw()->url_manager->current(); ?>?editmode=n"><?php _e("View Website"); ?></a></li>
+                                    <?php event_trigger('live_edit_toolbar_action_menu_middle'); ?>
+                                    <?php /*<li><a class="mw-ui-btn" href="#" onclick="mw.preview();void(0);"><?php _e("Preview"); ?></a></li>*/ ?>
+                                    <?php if (defined('CONTENT_ID') and CONTENT_ID > 0): ?>
+                                        <?php $pub_or_inpub = mw()->content_manager->get_by_id(CONTENT_ID); ?>
+                                        <li class="mw-set-content-unpublish" <?php if (isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] != 'y'): ?> style="display:none" <?php endif; ?>><a class="mw-ui-btn" href="javascript:mw.content.unpublish('<?php print CONTENT_ID; ?>')"><span>
                   <?php _e("Unpublish"); ?>
-                  </span></a> </li>
-                <li class="mw-set-content-publish" <?php if (isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] == 'y'): ?> style="display:none" <?php endif; ?>> <a class="mw-ui-btn" href="javascript:mw.content.publish('<?php print CONTENT_ID; ?>')"><span>
+                  </span></a></li>
+                                        <li class="mw-set-content-publish" <?php if (isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] == 'y'): ?> style="display:none" <?php endif; ?>><a class="mw-ui-btn" href="javascript:mw.content.publish('<?php print CONTENT_ID; ?>')"><span>
                   <?php _e("Publish"); ?>
-                  </span></a> </li>
-                <?php endif; ?>
-                <li><a  href="#design_bnav" class="mw_ex_tools mw-ui-btn"><?php _e("Tools"); ?></a></li>
-                <li><a href="<?php print mw()->url_manager->api_link('logout'); ?>" class="mw-ui-btn"><span>
+                  </span></a></li>
+                                    <?php endif; ?>
+                                    <li><a href="#design_bnav" class="mw_ex_tools mw-ui-btn"><?php _e("Tools"); ?></a></li>
+                                    <li><a href="<?php print mw()->url_manager->api_link('logout'); ?>" class="mw-ui-btn"><span>
                   <?php _e("Logout"); ?>
                   </span></a></li>
-                <?php event_trigger('live_edit_toolbar_action_menu_end'); ?>
-              </ul>
-            </div>
-          </div>
+                                    <?php event_trigger('live_edit_toolbar_action_menu_end'); ?>
+                                </ul>
+                            </div>
+                        </div>
 
 
-
-          <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right" onclick="mw.drag.save()" id="main-save-btn">
+                        <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right" onclick="mw.drag.save()" id="main-save-btn">
           <?php _e("Save"); ?>
           </span>
 
 
+                        <a style="margin: 0px 10px; font-size: 33px; top: -2px;" class="mw-icon-back pull-right" title="<?php _e("Back to Admin"); ?>" href="<?php print $back_url; ?>"></a>
 
 
-           <a style="margin: 0px 10px; font-size: 33px; top: -2px;" class="mw-icon-back pull-right" title="<?php _e("Back to Admin"); ?>" href="<?php print $back_url; ?>"></a>
-
-
-
-
-
-
-          <div class="Switch2AdvancedModeTip" style="display: none">
-            <div class="Switch2AdvancedModeTip-tickContainer">
-              <div class="Switch2AdvancedModeTip-tick"></div>
-              <div class="Switch2AdvancedModeTip-tick2"></div>
+                        <div class="Switch2AdvancedModeTip" style="display: none">
+                            <div class="Switch2AdvancedModeTip-tickContainer">
+                                <div class="Switch2AdvancedModeTip-tick"></div>
+                                <div class="Switch2AdvancedModeTip-tick2"></div>
+                            </div>
+                            If you want to edit this section you have to switch do "<strong>Advanced Mode</strong>".
+                            <div class="Switch2AdvancedModeTiphr"></div>
+                            <div style="text-align: center"><span class="mw-ui-btn mw-ui-btn-small mw-ui-btn-green" onclick="mw.setMode('advanced');">Switch</span> <span class="mw-ui-btn mw-ui-btn-small" onclick="$(this.parentNode.parentNode).hide();mw.doNotBindSwitcher=true;">Cancel</span></div>
+                        </div>
+                    </div>
+                </div>
+                <?php include mw_includes_path() . 'toolbar' . DS . 'wysiwyg.php'; ?>
             </div>
-            If you want to edit this section you have to switch do "<strong>Advanced Mode</strong>".
-            <div class="Switch2AdvancedModeTiphr"></div>
-            <div style="text-align: center"> <span class="mw-ui-btn mw-ui-btn-small mw-ui-btn-green" onclick="mw.setMode('advanced');">Switch</span> <span class="mw-ui-btn mw-ui-btn-small" onclick="$(this.parentNode.parentNode).hide();mw.doNotBindSwitcher=true;">Cancel</span> </div>
-          </div>
-        </div>
-      </div>
-      <?php include mw_includes_path() . 'toolbar' . DS . 'wysiwyg.php'; ?>
-    </div>
-    <?php event_trigger('live_edit_toolbar_controls'); ?>
-    <div id="modules-and-layouts" style="" class="modules-and-layouts-holder">
-      <div class="toolbars-search">
-        <div class="mw-autocomplete left">
-          <input
-                type="mwautocomplete"
-                autocomplete="off"
-                id="modules_switcher"
-                data-for="modules"
-                class="mwtb-search mwtb-search-modules mw-ui-searchfield"
-                placeholder="<?php _e("Search Modules"); ?>"/>
+            <?php event_trigger('live_edit_toolbar_controls'); ?>
+            <div id="modules-and-layouts" style="" class="modules-and-layouts-holder">
+                <div class="toolbars-search">
+                    <div class="mw-autocomplete left">
+                        <input
+                                type="mwautocomplete"
+                                autocomplete="off"
+                                id="modules_switcher"
+                                data-for="modules"
+                                class="mwtb-search mwtb-search-modules mw-ui-searchfield"
+                                placeholder="<?php _e("Search Modules"); ?>"/>
 
-          <span class="mw-ui-btn mw-ui-btn-invert mw-ui-btn-small" id="mod_switch" data-action="layouts">
+                        <span class="mw-ui-btn mw-ui-btn-invert mw-ui-btn-small" id="mod_switch" data-action="layouts">
           <?php _e("Switch to Layouts"); ?>
           </span>
-          <?php /*<button class="mw-ui-btn mw-ui-btn-medium" id="modules_switch">Layouts</button>*/ ?>
+                        <?php /*<button class="mw-ui-btn mw-ui-btn-medium" id="modules_switch">Layouts</button>*/ ?>
+                    </div>
+                </div>
+                <div id="tab_modules" class="mw_toolbar_tab active">
+                    <div class="modules_bar_slider bar_slider">
+                        <div class="modules_bar">
+                            <module type="admin/modules/list"/>
+                        </div>
+                        <span class="modules_bar_slide_left">&nbsp;</span> <span
+                                class="modules_bar_slide_right">&nbsp;</span></div>
+                    <div class="mw_clear">&nbsp;</div>
+                </div>
+                <div id="tab_layouts" class="mw_toolbar_tab">
+                    <div class="modules_bar_slider bar_slider">
+                        <div class="modules_bar">
+                            <module type="admin/modules/list_layouts"/>
+                        </div>
+                        <span class="modules_bar_slide_left">&nbsp;</span> <span
+                                class="modules_bar_slide_right">&nbsp;</span></div>
+                </div>
+            </div>
+            <div id="mw-saving-loader"></div>
         </div>
-      </div>
-      <div id="tab_modules" class="mw_toolbar_tab active">
-        <div class="modules_bar_slider bar_slider">
-          <div class="modules_bar">
-            <module type="admin/modules/list"/>
-          </div>
-          <span class="modules_bar_slide_left">&nbsp;</span> <span
-                    class="modules_bar_slide_right">&nbsp;</span> </div>
-        <div class="mw_clear">&nbsp;</div>
-      </div>
-      <div id="tab_layouts" class="mw_toolbar_tab">
-        <div class="modules_bar_slider bar_slider">
-          <div class="modules_bar">
-            <module type="admin/modules/list_layouts"/>
-          </div>
-          <span class="modules_bar_slide_left">&nbsp;</span> <span
-                    class="modules_bar_slide_right">&nbsp;</span> </div>
-      </div>
     </div>
-    <div id="mw-saving-loader"></div>
-  </div>
-</div>
 
-<?php include mw_includes_path() . 'toolbar' . DS . 'wysiwyg_tiny.php'; ?>
-<script>
+    <?php include mw_includes_path() . 'toolbar' . DS . 'wysiwyg_tiny.php'; ?>
+    <script>
         mw.liveEditWYSIWYG = {
             ed: mwd.getElementById('liveedit_wysiwyg'),
             nextBTNS: mw.$(".liveedit_wysiwyg_next"),
             prevBTNS: mw.$(".liveedit_wysiwyg_prev"),
             step: function () {
-                return  $(mw.liveEditWYSIWYG.ed).width();
+                return $(mw.liveEditWYSIWYG.ed).width();
             },
             denied: false,
             buttons: function () {
                 var b = mw.tools.calc.SliderButtonsNeeded(mw.liveEditWYSIWYG.ed);
-				if(b == null){
-				    return;
-				}
+                if (b == null) {
+                    return;
+                }
                 if (b.left) {
                     mw.liveEditWYSIWYG.prevBTNS.show();
                 }
@@ -422,9 +417,9 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
             var tab_layouts = mwd.getElementById('tab_layouts');
             var modules_switcher = mwd.getElementById('modules_switcher');
 
-			if(modules_switcher == null){
-			    return;
-			}
+            if (modules_switcher == null) {
+                return;
+            }
             modules_switcher.searchIn = 'Modules_List_modules';
 
             $(modules_switcher).bind("keyup paste", function () {
@@ -474,20 +469,17 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                 mw.toolbar.ComponentsShow(h);
             });
 
-            $(mwd.querySelectorAll('.edit')).each(function(){
-              mw.linkTip.init(this);
+            $(mwd.querySelectorAll('.edit')).each(function () {
+                mw.linkTip.init(this);
             })
         });
 
 
-
-
-
     </script>
-<?php event_trigger('live_edit_toolbar_end'); ?>
-<?php include mw_includes_path() . 'toolbar' . DS . "design.php"; ?>
+    <?php event_trigger('live_edit_toolbar_end'); ?>
+    <?php include mw_includes_path() . 'toolbar' . DS . "design.php"; ?>
 <?php } else { ?>
-<script>
+    <script>
         previewHTML = function (html, index) {
             mw.$('.edit').eq(index).html(html);
         }
@@ -501,7 +493,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
         }
 
     </script>
-<style>
+    <style>
         .delete_column {
             display: none;
         }
@@ -510,28 +502,32 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
 
 <script>
 
-mw.require("plus.js");
-mw.require("columns.js");
+    mw.require("plus.js");
+    mw.require("columns.js");
 
-$(window).load(function(){
-    mw.drag.plus.init('.edit');
-    mw.drag.columns.init();
-});
+    $(window).load(function () {
+        mw.drag.plus.init('.edit');
+        mw.drag.columns.init();
+    });
 
 </script>
 <span class="mw-plus-top">+</span>
 <span class="mw-plus-bottom">+</span>
 
 <div style="display: none" id="plus-modules-list">
-<input type="text" class="mw-ui-searchfield" />
+    <input type="text" class="mw-ui-searchfield"/>
     <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs pull-left">
         <span class="mw-ui-btn active"><?php _e("Modules"); ?></span>
         <span class="mw-ui-btn "><?php _e("Layouts"); ?></span>
     </div>
 
     <div class="mw-ui-box">
-        <div class="module-bubble-tab" style="display: block"><module type="admin/modules/list" data-clean="true" class="modules-list-init module-as-element"></div>
-        <div class="module-bubble-tab"><module type="admin/modules/list_layouts" data-clean="true" class="modules-list-init module-as-element"></div>
+        <div class="module-bubble-tab" style="display: block">
+            <module type="admin/modules/list" data-clean="true" class="modules-list-init module-as-element">
+        </div>
+        <div class="module-bubble-tab">
+            <module type="admin/modules/list_layouts" data-clean="true" class="modules-list-init module-as-element">
+        </div>
         <div class="module-bubble-tab-not-found-message"></div>
     </div>
 </div>
