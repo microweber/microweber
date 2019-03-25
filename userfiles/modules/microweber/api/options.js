@@ -422,6 +422,11 @@ mw.options.form = function ($selector, callback, beforepost) {
                                     root._optionsEvents.beforepost.call(this);
 
                                 }
+
+                                if (top!= self && window.parent.mw.drag != undefined && window.parent.mw.drag.save != undefined) {
+                                    window.parent.mw.drag.save();
+                                }
+
                                 // mw.options._optionSaved = ''+mw.random();
                                 mw.options.save(this, root._optionsEvents.callback);
                             });
