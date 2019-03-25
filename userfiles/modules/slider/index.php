@@ -128,15 +128,15 @@ if (is_file($template_file)) {
                 arrows: <?php print $controls; ?>,
                 infinite: <?php print $loop; ?>,
                 adaptiveHeight: <?php print $adaptiveHeight; ?>,
-                autoplaySpeed: '<?php print $speed; ?>',
+                autoplaySpeed: <?php print $speed; ?>,
                 //speed: '<?php print $speed; ?>',
-                speed: '500',
+                speed: 500,
 
                 pauseOnHover: <?php print $pauseOnHover; ?>,
                 autoplay: <?php print $autoplay; ?>,
-                slidesPerRow: '<?php print $slidesPerRow; ?>',
-                slidesToShow: '<?php print $slides_xl; ?>',
-                slidesToScroll: '<?php print $slides_xl; ?>',
+                slidesPerRow: <?php print $slidesPerRow; ?>,
+                slidesToShow: <?php print $slides_xl; ?>,
+                slidesToScroll: <?php print $slides_xl; ?>,
                 centerMode: <?php print $centerMode; ?>,
                 centerPadding: '0px',
                 draggable: <?php print $draggable; ?>,
@@ -172,6 +172,7 @@ if (is_file($template_file)) {
                     }
                 ]
             };
+            console.log(config);
             var stime = 0;
             mw.onLive(function () {
                 stime = 500;
