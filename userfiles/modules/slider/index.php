@@ -12,7 +12,7 @@ if (!$module_template OR $module_template == '') {
 }
 $defaults = array(
     'images' => '',
-    'primaryText' => lang('A Slider', 'modules/bxslider'),
+    'primaryText' => lang('A Slider', 'modules/slider'),
     'secondaryText' => 'Your text here.',
     'seemoreText' => 'See more',
     'url' => '',
@@ -70,6 +70,7 @@ foreach ($json as $slide) {
     $data[] = $slide;
 }
 
+include('options.php');
 
 if ($module_template == false and isset($params['template'])) {
     $module_template = $params['template'];
@@ -77,13 +78,12 @@ if ($module_template == false and isset($params['template'])) {
 if ($module_template != false) {
     $template_file = module_templates($config['module'], $module_template);
 } else {
-    $template_file = module_templates($config['module'], 'bxskuder-skin-1');
+    $template_file = module_templates($config['module'], 'bxslider-skin-1');
 }
+
 if (is_file($template_file)) {
     include($template_file);
 }
-
-include('options.php');
 
 ?>
 
@@ -133,7 +133,6 @@ include('options.php');
                 speed: '500',
 
                 pauseOnHover: <?php print $pauseOnHover; ?>,
-                responsive: <?php print $responsive; ?>,
                 autoplay: <?php print $autoplay; ?>,
                 slidesPerRow: '<?php print $slidesPerRow; ?>',
                 slidesToShow: '<?php print $slides_xl; ?>',
@@ -177,6 +176,7 @@ include('options.php');
             mw.onLive(function () {
                 stime = 500;
             });
+
             setTimeout(function () {
                 $('.slickSlider', '#<?php print $params['id'] ?>').slick(config);
             }, stime)
@@ -184,3 +184,4 @@ include('options.php');
     </script>
 <?php endif; ?>
 <?php print lnotif("Click here to manage slides"); ?>
+

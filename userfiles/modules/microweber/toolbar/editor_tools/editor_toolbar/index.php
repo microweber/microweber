@@ -52,13 +52,11 @@
     }
 
     SetHeight = function (height) {
-
         if (typeof(window.richtextEditorSettings) == "undefined") {
             var height = height || 'auto';
         } else {
             var height = height || window.richtextEditorSettings.height;
         }
-
 
         if (height == 'auto') {
 
@@ -116,16 +114,9 @@
         mw.wysiwyg.nceui();
         Editable = mwd.getElementById('editor-area');
 
-        Editable.addEventListener("paste", function (e) {
-            // mw.wysiwyg.paste(e);
-        });
-
-
         mw.$("#editor-html-edit-btn").bind('mousedown', function (e) {
-
             e.preventDefault();
             toggleHTMLEditorBox();
-
         });
 
 
@@ -138,17 +129,17 @@
         SetHeight();
         mw.linkTip.init(Editable);
 
-        $("#editor-area").css({
-            maxHeight: innerHeight - $("#mw-admin-text-editor").outerHeight()
-        })
-
+        var max = innerHeight - $("#mw-admin-text-editor").outerHeight();
+        if(max > 100){
+            $("#editor-area").css({
+                maxHeight: innerHeight - $("#mw-admin-text-editor").outerHeight()
+            })
+        }
     });
 
 </script>
 
 <style>
-
-
     img {
         max-width: 100%;
     }

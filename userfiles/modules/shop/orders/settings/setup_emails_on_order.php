@@ -24,6 +24,7 @@
                     });
                 }
             });
+            console.log(OnNewOrderMailEditor)
 
             $(OnNewOrderMailEditor).bind('change', function () {
 

@@ -132,7 +132,6 @@ ul:not([class]) {
     font-weight: 100;
     text-align: center;
     line-height: 16px;
-    margin-left: -10px;
     font-family: sans-serif;
     -webkit-transition: opacity 0.3s;
     -moz-transition: opacity 0.3s;
@@ -497,12 +496,18 @@ li.module-item.ui-draggable-dragging .mw_module_image {
     bottom: -9px;
 }*/
 
+
 .mw_dropable {
     position: absolute !important;
     height: 3px;
     background: #0088CC;
     z-index: 997;
-    display: none;
+    visibility: visible;
+    transition: all .2s cubic-bezier(.73,1.06,.58,.84);
+}
+.mw_dropable_hidden{
+    visibility: hidden;
+    opacity: 0;
 }
 
 /* v2 dropable*/
@@ -511,6 +516,7 @@ li.module-item.ui-draggable-dragging .mw_module_image {
     height: 5px;
     border-radius: 2px;
     box-shadow: 0 0 12px rgba(0, 0, 0, .3);
+    pointer-events: none;
 }
 
 .mw_dropable_arr {
@@ -2788,7 +2794,6 @@ div[id*='SSDIVEL'] {
     position: absolute;
     font-size: 0.1px;
     display: block;
-    opacity: 0.4
 }
 
 .mw_image_resizer .ui-resizable-disabled .ui-resizable-handle, .ui-resizable-autohide .ui-resizable-handle {
@@ -2857,16 +2862,36 @@ div[id*='SSDIVEL'] {
 
 .mw_image_resizer .ui-resizable-ne {
     cursor: ne-resize;
-    width: 9px;
-    height: 9px;
-    right: -5px;
-    top: -5px;
+    right: -2px;
+    top: -2px;
+    border-width: 2px 2px 0 0
 }
 
-.mw_image_resizer .ui-resizable-se, .mw_image_resizer .ui-resizable-sw, .mw_image_resizer .ui-resizable-nw, .mw_image_resizer .ui-resizable-ne {
-    background: #333;
-    opacity: 0.7;
-    border-radius: 10px;
+.mw_image_resizer .ui-resizable-se{
+    border-width: 0 2px 2px 0;
+    bottom: -2px;
+    right: -2px;
+}
+.mw_image_resizer .ui-resizable-sw{
+    border-width: 0 0 2px 2px;
+    bottom: -2px;
+    left: -2px;
+}
+.mw_image_resizer .ui-resizable-nw{
+    border-width: 2px 0 0 2px;
+    top: -2px;
+    left: -2px;
+}
+
+.mw_image_resizer .ui-resizable-se,
+.mw_image_resizer .ui-resizable-sw,
+.mw_image_resizer .ui-resizable-nw,
+.mw_image_resizer .ui-resizable-ne {
+    border-color: rgba(36, 134, 216, 1);
+    border-style: solid;
+    opacity: 1;
+    width: 12px;
+    height: 12px;
 }
 
 /****************************
@@ -3079,7 +3104,7 @@ div[id*='SSDIVEL'] {
 
 .mw-tooltip-insert-module {
     width: 290px;
-    min-width: 100%;
+    max-width: 100%;
 }
 
 .mw-tooltip-insert-module .mw-ui-searchfield {
@@ -3784,9 +3809,6 @@ body.isTyping .mw-cloneable-control-item {
     background: #fafafa;
 }
 
-.mw_dropable {
-    pointer-events: none;
-}
 
 .html-editor-selcted {
     outline: 2px solid #329A4F;

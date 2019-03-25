@@ -290,101 +290,134 @@ include('options.php');
                     </div>
 
                     <!-- Sliders Options -->
-                    <div class="mw-ui-field-holder js-option js-bxslider js-slickslider">
-                        <label class="mw-ui-label"><?php _e("Pager"); ?></label>
-                        <select name="pager" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>">
-                            <option value="false" <?php if ($pager == 'false'): ?> selected="selected" <?php endif ?>><?php _e("False"); ?></option>
-                            <option value="true" <?php if ($pager == 'true'): ?> selected="selected" <?php endif ?>><?php _e("True"); ?></option>
-                        </select>
-                    </div>
+                    <div class="mw-flex-row">
+                        <div class="mw-flex-col-xs-6 js-option js-bxslider js-slickslider">
+                            <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label"><?php _e("Pager"); ?></label>
+                                <select name="pager" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>">
+                                    <option value="false" <?php if ($pager == 'false'): ?> selected="selected" <?php endif ?>><?php _e("False"); ?></option>
+                                    <option value="true" <?php if ($pager == 'true'): ?> selected="selected" <?php endif ?>><?php _e("True"); ?></option>
+                                </select>
+                            </div>
+                        </div>
 
-                    <div class="mw-ui-field-holder js-option js-bxslider js-slickslider">
-                        <label class="mw-ui-label"><?php _e("Controls"); ?></label>
-                        <select name="controls" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>">
-                            <option value="false" <?php if ($controls == 'false'): ?> selected="selected" <?php endif ?>><?php _e("False"); ?></option>
-                            <option value="true" <?php if ($controls == 'true'): ?> selected="selected" <?php endif ?>><?php _e("True"); ?></option>
-                        </select>
-                    </div>
+                        <div class="mw-flex-col-xs-6 js-option js-bxslider js-slickslider">
+                            <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label"><?php _e("Controls"); ?></label>
+                                <select name="controls" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>">
+                                    <option value="false" <?php if ($controls == 'false'): ?> selected="selected" <?php endif ?>><?php _e("False"); ?></option>
+                                    <option value="true" <?php if ($controls == 'true'): ?> selected="selected" <?php endif ?>><?php _e("True"); ?></option>
+                                </select>
+                            </div>
+                        </div>
 
-                    <div class="mw-ui-field-holder js-option js-bxslider js-slickslider">
-                        <label class="mw-ui-label"><?php _e("Loop"); ?></label>
-                        <select name="loop" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>">
-                            <option value="false" <?php if ($loop == 'false'): ?> selected="selected" <?php endif ?>><?php _e("False"); ?></option>
-                            <option value="true" <?php if ($loop == 'true'): ?> selected="selected" <?php endif ?>><?php _e("True"); ?></option>
-                        </select>
-                    </div>
 
-                    <div class="mw-ui-field-holder js-option js-bxslider js-slickslider">
-                        <label class="mw-ui-label"><?php _e("Adaptive Height"); ?></label>
-                        <select name="adaptive_height" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>">
-                            <option value="false" <?php if ($adaptiveHeight == 'false'): ?> selected="selected" <?php endif ?>><?php _e("False"); ?></option>
-                            <option value="true" <?php if ($adaptiveHeight == 'true'): ?> selected="selected" <?php endif ?>><?php _e("True"); ?></option>
-                        </select>
-                    </div>
+                        <div class="mw-flex-col-xs-6 js-option js-bxslider js-slickslider">
+                            <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label"><?php _e("Loop"); ?></label>
+                                <select name="loop" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>">
+                                    <option value="false" <?php if ($loop == 'false'): ?> selected="selected" <?php endif ?>><?php _e("False"); ?></option>
+                                    <option value="true" <?php if ($loop == 'true'): ?> selected="selected" <?php endif ?>><?php _e("True"); ?></option>
+                                </select>
+                            </div>
+                        </div>
 
-                    <div class="mw-ui-field-holder js-option js-bxslider js-slickslider">
-                        <label class="mw-ui-label"><?php _e("Speed"); ?></label>
-                        <input type="text" value="<?php print $speed; ?>" name="speed" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>"/>
-                    </div>
+                        <div class="mw-flex-col-xs-6 js-option js-bxslider js-slickslider">
+                            <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label"><?php _e("Adaptive Height"); ?></label>
+                                <select name="adaptive_height" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>">
+                                    <option value="false" <?php if ($adaptiveHeight == 'false'): ?> selected="selected" <?php endif ?>><?php _e("False"); ?></option>
+                                    <option value="true" <?php if ($adaptiveHeight == 'true'): ?> selected="selected" <?php endif ?>><?php _e("True"); ?></option>
+                                </select>
+                            </div>
+                        </div>
 
-                    <div class="mw-ui-field-holder js-option js-slickslider">
-                        <label class="mw-ui-label"><?php _e("Pause on hover"); ?></label>
-                        <select name="pause_on_hover" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>">
-                            <option value="false" <?php if ($pauseOnHover == 'false'): ?> selected="selected" <?php endif ?>><?php _e("False"); ?></option>
-                            <option value="true" <?php if ($pauseOnHover == 'true'): ?> selected="selected" <?php endif ?>><?php _e("True"); ?></option>
-                        </select>
-                    </div>
+                        <div class="mw-flex-col-xs-6 js-option js-bxslider js-slickslider">
+                            <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label"><?php _e("Speed"); ?></label>
+                                <input type="text" value="<?php print $speed; ?>" name="speed" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>"/>
+                            </div>
+                        </div>
 
-                    <div class="mw-ui-field-holder js-option js-slickslider">
-                        <label class="mw-ui-label"><?php _e("Responsive"); ?></label>
-                        <select name="responsive" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>">
-                            <option value="false" <?php if ($responsive == 'false'): ?> selected="selected" <?php endif ?>><?php _e("False"); ?></option>
-                            <option value="true" <?php if ($responsive == 'true'): ?> selected="selected" <?php endif ?>><?php _e("True"); ?></option>
-                        </select>
-                    </div>
-                    <div class="mw-ui-field-holder js-option js-slickslider">
-                        <label class="mw-ui-label"><?php _e("Autoplay"); ?></label>
-                        <select name="autoplay" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>">
-                            <option value="false" <?php if ($autoplay == 'false'): ?> selected="selected" <?php endif ?>><?php _e("False"); ?></option>
-                            <option value="true" <?php if ($autoplay == 'true'): ?> selected="selected" <?php endif ?>><?php _e("True"); ?></option>
-                        </select>
-                    </div>
+                        <div class="mw-flex-col-xs-6 js-option js-slickslider">
+                            <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label"><?php _e("Pause on hover"); ?></label>
+                                <select name="pause_on_hover" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>">
+                                    <option value="false" <?php if ($pauseOnHover == 'false'): ?> selected="selected" <?php endif ?>><?php _e("False"); ?></option>
+                                    <option value="true" <?php if ($pauseOnHover == 'true'): ?> selected="selected" <?php endif ?>><?php _e("True"); ?></option>
+                                </select>
+                            </div>
+                        </div>
 
-                    <div class="mw-ui-field-holder js-option  js-slickslider">
-                        <label class="mw-ui-label"><?php _e("Slides per row"); ?></label>
-                        <input type="text" value="<?php print $slidesPerRow; ?>" name="slides_per_row" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>"/>
-                    </div>
+                        <div class="mw-flex-col-xs-6 js-option js-slickslider">
+                            <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label"><?php _e("Responsive"); ?></label>
+                                <select name="responsive" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>">
+                                    <option value="false" <?php if ($responsive == 'false'): ?> selected="selected" <?php endif ?>><?php _e("False"); ?></option>
+                                    <option value="true" <?php if ($responsive == 'true'): ?> selected="selected" <?php endif ?>><?php _e("True"); ?></option>
+                                </select>
+                            </div>
+                        </div>
 
-                    <div class="mw-ui-field-holder js-option js-slickslider">
-                        <label class="mw-ui-label"><?php _e("Center Mode"); ?></label>
-                        <select name="center_mode" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>">
-                            <option value="false" <?php if ($centerMode == 'false'): ?> selected="selected" <?php endif ?>><?php _e("False"); ?></option>
-                            <option value="true" <?php if ($centerMode == 'true'): ?> selected="selected" <?php endif ?>><?php _e("True"); ?></option>
-                        </select>
-                    </div>
+                        <div class="mw-flex-col-xs-6 js-option js-slickslider">
+                            <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label"><?php _e("Autoplay"); ?></label>
+                                <select name="autoplay" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>">
+                                    <option value="false" <?php if ($autoplay == 'false'): ?> selected="selected" <?php endif ?>><?php _e("False"); ?></option>
+                                    <option value="true" <?php if ($autoplay == 'true'): ?> selected="selected" <?php endif ?>><?php _e("True"); ?></option>
+                                </select>
+                            </div>
+                        </div>
 
-                    <div class="mw-ui-field-holder js-option js-slickslider">
-                        <label class="mw-ui-label"><?php _e("Draggable"); ?></label>
-                        <select name="draggable" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>">
-                            <option value="false" <?php if ($draggable == 'false'): ?> selected="selected" <?php endif ?>><?php _e("False"); ?></option>
-                            <option value="true" <?php if ($draggable == 'true'): ?> selected="selected" <?php endif ?>><?php _e("True"); ?></option>
-                        </select>
-                    </div>
 
-                    <div class="mw-ui-field-holder js-option js-slickslider">
-                        <label class="mw-ui-label"><?php _e("Fade"); ?> <small>(only for one slide)</small></label>
-                        <select name="fade" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>">
-                            <option value="false" <?php if ($fade == 'false'): ?> selected="selected" <?php endif ?>><?php _e("False"); ?></option>
-                            <option value="true" <?php if ($fade == 'true'): ?> selected="selected" <?php endif ?>><?php _e("True"); ?></option>
-                        </select>
-                    </div>
+                        <div class="mw-flex-col-xs-6 js-option js-slickslider">
+                            <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label"><?php _e("Slides per row"); ?></label>
+                                <input type="text" value="<?php print $slidesPerRow; ?>" name="slides_per_row" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>"/>
+                            </div>
+                        </div>
 
-                    <div class="mw-ui-field-holder js-option js-slickslider">
-                        <label class="mw-ui-label"><?php _e("Focus On Select"); ?></label>
-                        <select name="focus_on_select" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>">
-                            <option value="false" <?php if ($focusOnSelect == 'false'): ?> selected="selected" <?php endif ?>><?php _e("False"); ?></option>
-                            <option value="true" <?php if ($focusOnSelect == 'true'): ?> selected="selected" <?php endif ?>><?php _e("True"); ?></option>
-                        </select>
+                        <div class="mw-flex-col-xs-6 js-option js-slickslider">
+                            <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label"><?php _e("Center Mode"); ?></label>
+                                <select name="center_mode" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>">
+                                    <option value="false" <?php if ($centerMode == 'false'): ?> selected="selected" <?php endif ?>><?php _e("False"); ?></option>
+                                    <option value="true" <?php if ($centerMode == 'true'): ?> selected="selected" <?php endif ?>><?php _e("True"); ?></option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mw-flex-col-xs-6 js-option js-slickslider">
+                            <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label"><?php _e("Draggable"); ?></label>
+                                <select name="draggable" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>">
+                                    <option value="false" <?php if ($draggable == 'false'): ?> selected="selected" <?php endif ?>><?php _e("False"); ?></option>
+                                    <option value="true" <?php if ($draggable == 'true'): ?> selected="selected" <?php endif ?>><?php _e("True"); ?></option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mw-flex-col-xs-6 js-option js-slickslider">
+                            <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label"><?php _e("Fade"); ?>
+                                    <small>(only for one slide)</small>
+                                </label>
+                                <select name="fade" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>">
+                                    <option value="false" <?php if ($fade == 'false'): ?> selected="selected" <?php endif ?>><?php _e("False"); ?></option>
+                                    <option value="true" <?php if ($fade == 'true'): ?> selected="selected" <?php endif ?>><?php _e("True"); ?></option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mw-flex-col-xs-6 js-option js-slickslider">
+                            <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label"><?php _e("Focus On Select"); ?></label>
+                                <select name="focus_on_select" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>">
+                                    <option value="false" <?php if ($focusOnSelect == 'false'): ?> selected="selected" <?php endif ?>><?php _e("False"); ?></option>
+                                    <option value="true" <?php if ($focusOnSelect == 'true'): ?> selected="selected" <?php endif ?>><?php _e("True"); ?></option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

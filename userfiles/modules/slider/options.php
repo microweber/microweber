@@ -41,7 +41,11 @@ if ($slides_xl === null OR $slides_xl === false OR $slides_xl == '') {
     $slides_xl = '4';
 }
 
-$thumb_quality = 1920 / $slides_xl;
+$thumb_quality_x = '1920';
+$thumb_quality_x = $thumb_quality_x / $slides_xl;
+
+$thumb_quality_y = '1920';
+$thumb_quality_y = $thumb_quality_y / $slides_xl;
 
 //bxSlider & Slick
 $pager = get_option('pager', $params['id']);

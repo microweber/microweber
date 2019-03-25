@@ -27,6 +27,6 @@
             </div>
         </div>
 
-        <div class="bxslider" style="<?php if (isset($slide['images'][0])) { ?>background-image:url(<?php print $slide['images'][0]; ?>);<?php } ?>"></div>
+        <div class="bxslider" style="<?php if (isset($slide['images'][0])) { ?>background-image:url(<?php print thumbnail($slide['images'][0], $thumb_quality_x, $thumb_quality_y); ?>);<?php } ?>"></div>
     </div>
 </div>

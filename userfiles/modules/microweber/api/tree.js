@@ -66,17 +66,42 @@ mw.lib.require('nestedsortable');
                 this.selectedData = [];
             }
         };
+        this.filter = function(val, key){
+            key = key || 'title';
+            val = (val || '').toLowerCase().trim();
+            if(!val){
+                scope.showAll();
+            }
+            else{
+                scope.options.data.forEach(function(item){
+                    if(item[key].toLowerCase().indexOf(val) === -1){
+                        scope.hide(item);
+                    }
+                    else{
+                        scope.show(item);
+                    }
+                });
+            }
+        };
+        this.search = function(){
+            this._seachInput = $(this.options.searchInput);
+            if(!this._seachInput[0] || this._seachInput[0]._tree) return;
+            this._seachInput[0]._tree = this;
+            var scope = this;
+            this._seachInput.on('input', function(){
+                scope.filter(this.value);
+            });
+        };
         this.skip = function(itemData){
             if(this.options.skip && this.options.skip.length>0){
-                loopSKIP:
-                    for( var n=0; n<scope.options.skip.length; n++ ){
-                        var item = scope.options.skip[n];
-                        var case1 = (item.id == itemData.id && item.type == itemData.type);
-                        var case2 = (itemData.parent_id == item.id && item.type == itemData.type);
-                        if(case1 ||case2){
-                            return true;
-                        }
+                for( var n=0; n<scope.options.skip.length; n++ ){
+                    var item = scope.options.skip[n];
+                    var case1 = (item.id == itemData.id && item.type == itemData.type);
+                    var case2 = (itemData.parent_id == item.id && item.type == itemData.type);
+                    if(case1 ||case2){
+                        return true;
                     }
+                }
                 return false;
             }
         };
@@ -95,30 +120,7 @@ mw.lib.require('nestedsortable');
         };
 
 
-        this._jsonForEach = function(c){
-            var data = this.options.data.slice(0);
-            var parents = [{type: 'category', id: 0}, {type: 'page', id: 0}];
-            var count = 0, max = 10000;
-            while (data.length && count<max) {
-                count++;
-                data.forEach(function(item, i){
-                    parents.forEach(function(parent){
-                        if(item.parent_id === parent.id && item.type === parent.type){
-                            parents.push({
-                                id: item.id,
-                                type: item.type
-                            });
-                            data.splice(i, 1);
-                            c.call(undefined, item);
-                        }
-                    });
-                });
-            }
-            console.log(parents, count)
-            if(count === max){
-                console.warn('MW Tree max loop iteration reached.');
-            }
-        };
+
 
         this.json2ul = function(){
             this.list = scope.document.createElement( 'ul' );
@@ -127,7 +129,6 @@ mw.lib.require('nestedsortable');
             this.list.className = 'mw-defaults mw-tree-nav mw-tree-nav-skin-'+this.options.skin;
             this.list._id = 0;
             this.options.data.forEach(function(item){
-            //this._jsonForEach(function(item){
                 var list = scope.getParent(item);
                 if(list){
                     list.appendChild(scope.createItem(item));
@@ -698,6 +699,7 @@ mw.lib.require('nestedsortable');
             this.addHelperClasses();
             this.restoreState();
             this.loadSelected();
+            this.search();
             setTimeout(function(){
                 $(scope).trigger('ready');
             }, 78)
