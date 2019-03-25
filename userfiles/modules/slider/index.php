@@ -70,6 +70,7 @@ foreach ($json as $slide) {
     $data[] = $slide;
 }
 
+include('options.php');
 
 if ($module_template == false and isset($params['template'])) {
     $module_template = $params['template'];
@@ -83,8 +84,6 @@ if ($module_template != false) {
 if (is_file($template_file)) {
     include($template_file);
 }
-
-include('options.php');
 
 ?>
 
