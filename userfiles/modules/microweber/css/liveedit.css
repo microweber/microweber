@@ -4048,8 +4048,8 @@ body.dragStart .allow-drop {
     display: block;
     padding: 5px;
     text-decoration: none;
-    background: #2b2b2b;
-    color: #fff;
+    background: #2b2b2b !important;
+    color: #fff !important;
 }
 
 .module-presets-action-btn-use {

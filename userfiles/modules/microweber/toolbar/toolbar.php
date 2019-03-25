@@ -37,9 +37,6 @@ if (isset($_COOKIE['mw_exp'])) {
         mw.require("upgrades.js");
 
 
-
-
-
     </script>
 
     <?php if (config('app.debug')) { ?>
@@ -126,7 +123,7 @@ if (isset($_COOKIE['mw_exp'])) {
     </script>
     <link href="<?php print(mw_includes_url()); ?>css/wysiwyg.css" rel="stylesheet" type="text/css"/>
     <link href="<?php print(mw_includes_url()); ?>css/liveedit.css" rel="stylesheet" type="text/css"/>
-    <?php if(_lang_is_rtl()){ ?>
+    <?php if (_lang_is_rtl()) { ?>
         <link href="<?php print(mw_includes_url()); ?>css/liveedit.rtl.css" rel="stylesheet" type="text/css"/>
     <?php } ?>
     <?php
@@ -148,18 +145,16 @@ if (isset($_COOKIE['mw_exp'])) {
 
     <?php
     $open_module_settings_in_sidebar = get_option('open_module_settings_in_sidebar', 'live_edit');
-     ?>
+    ?>
 
 
-        <script type="text/javascript">
-            <?php if ($open_module_settings_in_sidebar): ?>
-            mw.settings.live_edit_open_module_settings_in_sidebar = true;
-            <?php else: ?>
-            mw.settings.live_edit_open_module_settings_in_sidebar = false;
-            <?php endif; ?>
-        </script>
-
-
+    <script type="text/javascript">
+        <?php if ($open_module_settings_in_sidebar): ?>
+        mw.settings.live_edit_open_module_settings_in_sidebar = true;
+        <?php else: ?>
+        mw.settings.live_edit_open_module_settings_in_sidebar = false;
+        <?php endif; ?>
+    </script>
 
 
     <script type="text/javascript">
@@ -239,12 +234,14 @@ if (isset($_COOKIE['mw_exp'])) {
         });
 
     </script>
+
+
     <script>
 
 
         mw.on('liveEditSettingsReady', function () {
 
-       //     $('a','#live_edit_toolbar_holder').off('click')
+            //     $('a','#live_edit_toolbar_holder').off('click')
 
 
             mw.drag.init();
@@ -253,13 +250,13 @@ if (isset($_COOKIE['mw_exp'])) {
             });
             var params = mw.url.getUrlParams(location.href);
 
-            if(typeof mw.cookie.get('show-sidebar-layouts') === 'undefined'){
+            if (typeof mw.cookie.get('show-sidebar-layouts') === 'undefined') {
 
 
-                if(params.sidebar == 1){
+                if (params.sidebar == 1) {
                     mw.liveEditSettings.show();
                 }
-                else if(!params.sidebar){
+                else if (!params.sidebar) {
                     mw.liveEditSettings.hide();
                 }
             }
@@ -286,30 +283,30 @@ if (isset($_COOKIE['mw_exp'])) {
 
 
             $(mw.liveEditSettings)
-            .on('ControlBoxShow', function () {
-                $(document.body).addClass('has-opened-sidebar');
+                .on('ControlBoxShow', function () {
+                    $(document.body).addClass('has-opened-sidebar');
                     $('a[data-id="mw-toolbar-show-sidebar-btn"]').addClass('opened');
                     mw.cookie.set("show-sidebar-layouts", '1');
 
-                $(mw.handle_module).css({
-                    top: "",
-                    left: ""
-                });
-                $(mw.handle_element).css({
-                    top: "",
-                    left: ""
-                });
-                $(mw.handle_row).css({
-                    top: "",
-                    left: ""
-                });
+                    $(mw.handle_module).css({
+                        top: "",
+                        left: ""
+                    });
+                    $(mw.handle_element).css({
+                        top: "",
+                        left: ""
+                    });
+                    $(mw.handle_row).css({
+                        top: "",
+                        left: ""
+                    });
 
-            })
-            .on('ControlBoxHide', function () {
-                $(document.body).removeClass('has-opened-sidebar');
-                $('a[data-id="mw-toolbar-show-sidebar-btn"]').removeClass('opened');
-                mw.cookie.set("show-sidebar-layouts", '0');
-            });
+                })
+                .on('ControlBoxHide', function () {
+                    $(document.body).removeClass('has-opened-sidebar');
+                    $('a[data-id="mw-toolbar-show-sidebar-btn"]').removeClass('opened');
+                    mw.cookie.set("show-sidebar-layouts", '0');
+                });
 
             mw.tools.loading(mw.liveEditSettings.box);
 
@@ -482,7 +479,7 @@ if (isset($_COOKIE['mw_exp'])) {
                                         </a>
                                     </li>
 
-                                    <li style="display: none">
+                                    <?php /* <li style="display: nonex">
                                         <script>mw.userCanSwitchMode = false;</script>
                                         <?php if (!isset($user['basic_mode']) or $user['basic_mode'] != 'y') { ?>
                                             <script>mw.userCanSwitchMode = true;</script>
@@ -494,7 +491,8 @@ if (isset($_COOKIE['mw_exp'])) {
                                                style="display:none"><?php _e("Advanced Mode"); ?></a>
                                         <?php } ?>
                                         <?php } ?>
-                                    </li>
+                                    </li> */ ?>
+
                                     <li>
                                         <a href="<?php print mw()->url_manager->current(); ?>?editmode=n"><?php _e("View Website"); ?></a>
                                     </li>
@@ -522,6 +520,12 @@ if (isset($_COOKIE['mw_exp'])) {
                                             <?php } ?>
                                         </ul>
                                     </li>
+
+                                    <?php if (isset($_COOKIE['mw_basic_mode']) AND $_COOKIE['mw_basic_mode'] == '1'): ?>
+                                        <li><a href="javascript:;" onclick="mw.cookie.set('mw_basic_mode', '0'); window.location.reload();"><span><?php _e("Advanced Mode"); ?></span></a></li>
+                                    <?php else: ?>
+                                        <li><a href="javascript:;" onclick="mw.cookie.set('mw_basic_mode', '1'); window.location.reload();"><span><?php _e("Basic Mode"); ?></span></a></li>
+                                    <?php endif; ?>
 
                                     <li><a href="<?php print mw()->url_manager->api_link('logout'); ?>"><i class="mw-icon-off"></i><span><?php _e("Logout"); ?></span></a></li>
                                     <?php event_trigger('live_edit_toolbar_action_menu_end'); ?>
@@ -782,7 +786,9 @@ if (isset($_COOKIE['mw_exp'])) {
     mw.require("columns.js");
 
     $(window).load(function () {
+        <?php if (isset($_COOKIE['mw_basic_mode']) AND $_COOKIE['mw_basic_mode'] != '1'): ?>
         mw.drag.plus.init('.edit');
+        <?php endif; ?>
         mw.drag.columns.init();
     });
 </script>
