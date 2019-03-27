@@ -171,7 +171,27 @@ if ($id != 0) {
     </div>*/
 
   ?>
+
+
+    <?php
+    if(!isset($data['url_target'])){
+        $data['url_target'] = '';
+    }
+    ?>
+
     <br>
+
+    <div  class="mw-ui-field-holder">
+        <label class="mw-ui-label">Target attribute <small class="mw-help" data-help="Target "> (?)</small></label>
+        <input type="text" class="mw-ui-field" name="url_target" value="<?php print $data['url_target'] ?>"/>
+
+    </div>
+
+
+
+    <br>
+
+
 
 
 

@@ -82,9 +82,6 @@ EOT
         $composer->getEventDispatcher()->dispatch($commandEvent->getName(), $commandEvent);
 
 
-
-
-
         $install = Installer::create($io, $composer);
 
         $preferSource = false;
@@ -92,8 +89,11 @@ EOT
 
         $config = $composer->getConfig();
         // set_time_limit(0);
-        ini_set('max_execution_time', 300);
-        ini_set('memory_limit', '4777M');
+
+        if (php_can_use_func('ini_set')) {
+            ini_set('max_execution_time', 300);
+            ini_set('memory_limit', '4777M');
+        }
 
         $install
             //  ->setDryRun(0)

@@ -771,7 +771,7 @@ class ComposerUpdate
         $new_composer_config['config']['use-include-path'] = false;
         $new_composer_config['config']['discard-changes'] = true;
         $new_composer_config['config']['archive-format'] = 'zip';
-        //  $new_composer_config['notify-batch'] = 'https://installreport.services.microweberapi.com/';
+        $new_composer_config['notify-batch'] = 'https://installreport.services.microweberapi.com/';
         //  $new_composer_config['notification-url'] = 'https://installreport.services.microweberapi.com/';
 
 

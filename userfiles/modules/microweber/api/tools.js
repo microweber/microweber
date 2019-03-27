@@ -5875,9 +5875,14 @@ mw.uiAccordion = function (options) {
 
     this.init = function (options) {
         this.prepare(options);
-        this.contents.hide()
+        if(typeof(this.contents) != 'undefined'){
+            this.contents.hide()
+        }
+
         if (this.options.openFirst) {
+            if(typeof(this.contents) != 'undefined'){
             this.contents.eq(0).show().addClass('active')
+            }
             this.titles.eq(0).addClass('active').parent('.mw-accordion-item').addClass('active');
         }
         this.titles.on('click', function () {
