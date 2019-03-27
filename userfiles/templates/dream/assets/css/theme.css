@@ -5087,7 +5087,7 @@ label + input {
     margin-top: 0.8125em;
 }
 
-button {
+.btn {
     height: 52px;
     font-size: 0.625em !important;
     letter-spacing: 1px;
@@ -5096,15 +5096,15 @@ button {
     border-color: #425cbb;
 }
 
-button:hover,
-button:focus,
-button:active {
+button.btn:hover,
+button.btn:focus,
+button.btn:active {
     color: #fff !important;
 }
 
-button:active,
-button:hover,
-button:focus {
+button.btn:active,
+button.btn:hover,
+button.btn:focus {
     border-color: #425cbb !important;
 }
 
