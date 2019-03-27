@@ -111,6 +111,10 @@ class MenuManager
             unset($data_to_save['content_id']);
         }
 
+        if (isset($data_to_save['url_target'])) {
+            $data_to_save['url_target'] = trim($data_to_save['url_target']);
+        }
+
         if (isset($data_to_save['categories_id']) and intval($data_to_save['categories_id']) == 0) {
             unset($data_to_save['categories_id']);
             //$url_from_content = 1;
@@ -137,8 +141,8 @@ class MenuManager
             $this->app->cache_manager->delete('menus/' . $data_to_save['parent_id']);
         }
         if (isset($data_to_save['custom_link'])) {
-            $data_to_save['content_id'] = null;
-            $data_to_save['categories_id'] = null;
+            $data_to_save['content_id'] = 0;
+            $data_to_save['categories_id'] = 0;
             $data_to_save['url'] = $data_to_save['custom_link'];
         }
 
@@ -430,7 +434,7 @@ class MenuManager
 //        }
 
         if (!isset($link) or $link == false) {
-            $link = '<a itemprop="url" data-item-id="{id}" class="menu_element_link {active_class} {exteded_classes} {nest_level} {a_class} {a_submenu_class}"  href="{url}">{title}</a>';
+            $link = '<a itemprop="url" data-item-id="{id}" class="menu_element_link {active_class} {exteded_classes} {nest_level} {a_class} {a_submenu_class}"  {target_attribute} href="{url}">{title}</a>';
         }
 
         $id_attr_str = '';
@@ -587,6 +591,15 @@ class MenuManager
 
 
                 $ext_classes = '';
+                $url_target = '';
+                $url_target_attr_string = '';
+
+
+                if (isset($item['url_target']) and trim($item['url_target']) != '') {
+                    $url_target  =$item['url_target'];
+                    $url_target_attr_string = ' target="'.$url_target.'" ';
+
+                }
 
 
                 if (isset($item['parent']) and intval($item['parent']) > 0) {
@@ -611,7 +624,7 @@ class MenuManager
 
 
 
-                if ($show_images == true && $depth == 0 && isset($item['default_image'])) {
+                if ($show_images == true && $depth == 0 && isset($item['default_image']) and $item['default_image']) {
                     $style = ($item['size'] == 'auto' ? '' : ' style="width:' . $item['size'] . 'px"');
                     $image_html = '<div class="mw-rollover_images">';
                     $image_html .= '<a href="' . $item['url'] . '"><img class="mw-rollover-default_image" src="' . $item['default_image'] . '" alt="' . $item['title'] . '"' . $style . '/></a>';
@@ -645,6 +658,7 @@ class MenuManager
                 $menu_link = str_replace('{active_class}', $active_class, $menu_link);
                 $menu_link = str_replace('{a_class}', $a_class, $menu_link);
                 $menu_link = str_replace('{a_submenu_class}', $class_for_li_submenu_a, $menu_link);
+                $menu_link = str_replace('{target_attribute}', $url_target_attr_string, $menu_link);
                 $menu_link = str_replace('{li_submenu_a_class}', $class_for_li_submenu_a, $menu_link);
                 $to_print .= $menu_link;
 
