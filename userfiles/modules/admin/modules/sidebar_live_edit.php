@@ -1,3 +1,6 @@
+<?php if (isset($_COOKIE['mw_basic_mode']) AND $_COOKIE['mw_basic_mode'] == '1') {
+    return;
+} ?>
 <div id="modules-and-layouts-sidebar" class="modules-and-layouts-holder">
     <a href="javascript:;" title="<?php _e("Open/Close menu"); ?>" data-id="mw-toolbar-show-sidebar-btn"
        class="sidebar-toggler">
@@ -52,7 +55,7 @@
                        style="margin: 35px 0 15px 0; display: none; text-align: center;"><?php _e("No results were found"); ?></p>
                 </div>
                 <div class="mw-ui-box-content" style="padding-top: 60px;">
-                    <?php if(is_post() or is_product()) { ?>
+                    <?php if (is_post() or is_product()) { ?>
                         <div data-xmodule type="admin/modules/list_layouts" id="mw-sidebar-layouts-list" hide-dynamic="true"></div>
 
                     <?php } else { ?>
@@ -126,7 +129,7 @@
 
                     <?php } ?>
 
-                    <div class="mw-accordion-item"  onclick="mw.liveEditWidgets.cssEditorInSidebarAccordion()" >
+                    <div class="mw-accordion-item" onclick="mw.liveEditWidgets.cssEditorInSidebarAccordion()">
                         <div class="mw-ui-box-header mw-accordion-title">
                             <div class="header-holder">
                                 <i class="mai-setting2"></i> CSS Editor
@@ -288,16 +291,13 @@
                 } else {
                     $('.mw-search-no-results', '.' + what).hide();
                 }
-
             }
-
 
             $(document).ready(function () {
                 mw.sidebarSettingsTabs = mw.tabs({
                     nav: '#mw-modules-layouts-tabsnav  .tabnav',
                     tabs: '#mw-modules-layouts-tabsnav .tabitem'
                 });
-
 
                 $('#mw-modules-layouts-tabsnav .tabnav').on('click', function () {
                     $('#modules-and-layouts-sidebar .mw-ui-box').scrollTop(0);
@@ -340,23 +340,14 @@
             $(window).on('resize orientationchange', function () {
                 setScrollBoxes()
             });
-
-
         </script>
 
 
-
         <script>
-
-
             mw.liveEditDynamicTemp = {};
-
         </script>
 
         <style type="text/css" id="mw-dynamic-css">
 
-
         </style>
-
-
     </div>

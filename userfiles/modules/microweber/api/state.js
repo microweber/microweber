@@ -11,7 +11,10 @@ mw.State = function(options){
         if(!state){
             return this._state;
         }
+        this._state = state;
+        return this;
     }
+
 
     this.active = function(active){
         if(!active){
@@ -26,17 +29,20 @@ mw.State = function(options){
     }
 
     this.record = function(item){
-        if(this._activeIndex) {
+        if(this._activeIndex>-1) {
             var i = 0;
-            while ( i <= this._activeIndex) {
+            while ( i <  this._activeIndex) {
                 this._state.shift();
                 i++;
             }
         }
+
         this._state.unshift(item);
         this._active = null;
         this._activeIndex = -1;
         this.afterChange(false)
+        console.log(Math.random())
+        $(this).trigger('stateRecord', [this.eventData()])
         return this;
     }
 
@@ -48,7 +54,12 @@ mw.State = function(options){
     }
 
     this.undo = function(){
-        this._activeIndex++;
+        if(this._activeIndex === -1) {
+            this._activeIndex = 1;
+        }
+        else{
+           this._activeIndex++;
+        }
         this._active = this._state[this._activeIndex];
         this.afterChange('stateUndo')
         return this;
@@ -63,13 +74,12 @@ mw.State = function(options){
         }
     }
     this.afterChange = function(action){
-
         this.hasNext = true;
         this.hasPrev = true;
-        if(this._activeIndex <= -1) {
+        if(this._activeIndex <= 0) {
              this.hasPrev = false;
         }
-        if(this._activeIndex === this._state.length-1) {
+        if(this._activeIndex === this._state.length-1 || (this._state.length === 1 && this._state[0].$initial)) {
              this.hasNext = false;
         }
 
@@ -79,7 +89,6 @@ mw.State = function(options){
         if(action !== false){
            $(this).trigger('change', [this.eventData()])
         }
-
         return this;
     }
 
@@ -88,18 +97,60 @@ mw.State = function(options){
         this.afterChange('reset');
         return this;
     }
+
     this.clear = function(){
         this._state = [];
         this.afterChange('clear');
         return this;
     }
-}
+};
 
-
-$(document).ready(function(){
+(function(){
     mw.liveEditState = new mw.State();
-    $(mw.liveEditState).on('stateUndo stateRedo', function(e, data){
-        $(data.active.target).html(data.active.value);
-        mw.drag.load_new_modules()
+    mw.liveEditState.record({
+         value: null,
+         $initial: true
     })
-})
+    mw.$liveEditState = $(mw.liveEditState);
+
+    var ui = $('<div class="mw-ui-btn-nav"></div>'),
+        undo = mwd.createElement('button'),
+        redo = mwd.createElement('button');
+    undo.className = 'mw-ui-btn'
+    undo.innerHTML = 'Undo'
+    redo.className = 'mw-ui-btn';
+    redo.innerHTML = 'Redo';
+
+    undo.onclick = function(){
+        mw.liveEditState.undo()
+    }
+    redo.onclick = function(){
+        mw.liveEditState.redo()
+    }
+
+    ui.append(undo)
+    ui.append(redo)
+
+    $(document).ready(function(){
+        var idata = mw.liveEditState.eventData();
+        undo.disabled = !idata.hasNext;
+        redo.disabled = !idata.hasPrev;
+
+        mw.$liveEditState.on('stateRecord', function(e, data){
+            undo.disabled = !data.hasNext;
+            redo.disabled = !data.hasPrev;
+        })
+        mw.$liveEditState.on('stateUndo stateRedo', function(e, data){
+            console.log(data)
+            $(data.active.target).html(data.active.value);
+            mw.drag.load_new_modules();
+            undo.disabled = !data.hasNext;
+            redo.disabled = !data.hasPrev;
+        });
+
+        //$('.wysiwyg-cell-undo-redo').empty().append(ui)
+    })
+
+})();
+
+
