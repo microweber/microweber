@@ -5881,13 +5881,17 @@ mw.uiAccordion = function (options) {
 
         if (this.options.openFirst) {
             if(typeof(this.contents) != 'undefined'){
-            this.contents.eq(0).show().addClass('active')
+                this.contents.eq(0).show().addClass('active')
             }
-            this.titles.eq(0).addClass('active').parent('.mw-accordion-item').addClass('active');
+            if(typeof(this.titles) != 'undefined'){
+                this.titles.eq(0).addClass('active').parent('.mw-accordion-item').addClass('active');
+            }
         }
-        this.titles.on('click', function () {
-            scope.toggle(scope.titles.index(this));
-        });
+        if(typeof(this.titles) != 'undefined') {
+            this.titles.on('click', function () {
+                scope.toggle(scope.titles.index(this));
+            });
+        }
     }
 
     this.init(options);
