@@ -96,13 +96,6 @@ mw.settings.libs = {
 
         }
     ],
-    /*okay_nav: [
-        function () {
-            mw.require(mw.settings.libs_url + 'okayNav' + '/css/okayNav.min.css');
-            mw.require(mw.settings.libs_url + 'okayNav' + '/js/jquery.okayNav.min.js');
-
-        }
-    ],*/
     bxslider: [
         function () {
             mw.require(mw.settings.libs_url + 'bxSlider' + '/jquery.bxslider.min.js', true);
@@ -140,12 +133,6 @@ mw.settings.libs = {
                 mw.require(mw.settings.libs_url + 'bootstrap-select-1.12.2' + '/dist/js/bootstrap-select.min.js');
                 mw.require(mw.settings.libs_url + 'bootstrap-select-1.12.2' + '/dist/css/bootstrap-select.min.css');
             //}
-        }
-    ],
-    okayNav: [
-        function () {
-            mw.require(mw.settings.libs_url + 'okayNav' + '/dist/css/okayNav.min.css');
-            mw.require(mw.settings.libs_url + 'okayNav' + '/app/js/jquery.okayNav.js');
         }
     ],
     bootstrap_tags: [
