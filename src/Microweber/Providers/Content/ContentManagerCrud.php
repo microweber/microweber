@@ -291,9 +291,17 @@ class ContentManagerCrud extends Crud
                 for ($counter = 0; $counter <= $segs_qty; $counter += 1) {
                     $test = array_slice($segs, 0, $segs_qty - $counter);
                     $test = array_reverse($test);
+
+
+
                     if (isset($test[0])) {
                         $url = $this->get_by_url($test[0], true);
-                    }
+                        if(!$url){
+                            $test[0] = urldecode($test[0]);
+                            $url = $this->get_by_url($test[0], true);
+                        }
+                     }
+
                     if (!empty($url)) {
                         self::$precached_links[$link_hash] = $url;
 
