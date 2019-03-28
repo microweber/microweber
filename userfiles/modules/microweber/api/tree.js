@@ -146,13 +146,31 @@ mw.lib.require('nestedsortable');
 
         };
 
+
+
+        this._tempPrepare = function () {
+            for (var i=0; i<this._postCreated.length; i++) {
+                var it = this._postCreated[i];
+                if(it.parent_id !== 0) {
+                    var has = this.options.data.find(function (a) {
+                        return a.id ==  it.parent_id;
+                    });
+                    if(!has) {
+                        it.parent_id = 0;
+                        it.parent_type = "page";
+                    }
+                }
+            }
+        };
+
         this.tempRend = function () {
+            this._tempPrepare()
             var curr = scope._postCreated[0];
             var max = 10000, itr = 0;
             while(scope._postCreated.length && itr<max){
                 itr++;
                 var index = scope._postCreated.indexOf(curr);
-                var selector = '#' + scope.options.id + '-' + curr.type + '-'  + curr.id
+                var selector = '#' + scope.options.id + '-' + curr.type + '-'  + curr.id;
                 var it = $(selector)[0];
                 if(it){
                     scope._postCreated.splice(index, 1);
@@ -162,11 +180,10 @@ mw.lib.require('nestedsortable');
                 var list = scope.getParent(curr);
 
                 if(list && !$(selector)[0]){
-                    var li = scope.createItem(curr)
+                    var li = scope.createItem(curr);
                     if(li){
                         list.appendChild(li);
                     }
-
                     scope._postCreated.splice(index, 1);
                     curr = scope._postCreated[0];
                 }
