@@ -120,7 +120,7 @@ mw.lib.require('nestedsortable');
         };
 
 
-
+        this._postCreated = [];
 
         this.json2ul = function(){
             this.list = scope.document.createElement( 'ul' );
@@ -129,11 +129,51 @@ mw.lib.require('nestedsortable');
             this.list.className = 'mw-defaults mw-tree-nav mw-tree-nav-skin-'+this.options.skin;
             this.list._id = 0;
             this.options.data.forEach(function(item){
+            //this._jsonForEach(function(item){
                 var list = scope.getParent(item);
                 if(list){
-                    list.appendChild(scope.createItem(item));
+                    var li = scope.createItem(item)
+                    if(li){
+                        list.appendChild(li);
+                    }
+
+                }
+                else if(typeof list === 'undefined'){
+                    scope._postCreated.push(item);
                 }
             });
+            this.tempRend();
+
+        };
+
+        this.tempRend = function () {
+            var curr = scope._postCreated[0];
+
+            while(scope._postCreated.length){
+                var index = scope._postCreated.indexOf(curr);
+                var selector = '#' + scope.options.id + '-' + curr.type + '-'  + curr.id
+                var it = $(selector)[0];
+                if(it){
+                    scope._postCreated.splice(index, 1);
+                    curr = scope._postCreated[0];
+                    continue;
+                }
+                var list = scope.getParent(curr);
+
+                if(list && !$(selector)[0]){
+                    var li = scope.createItem(curr)
+                    if(li){
+                        list.appendChild(li);
+                    }
+
+                    scope._postCreated.splice(index, 1);
+                    curr = scope._postCreated[0];
+                }
+                else if(typeof list === 'undefined'){
+                    curr = scope._postCreated[index+1] || scope._postCreated[0];
+                }
+            }
+
         };
 
         this.setData = function(newData){
@@ -545,7 +585,12 @@ mw.lib.require('nestedsortable');
             }
         };
 
+        this._ids = [];
+
         this.createItem = function(item){
+            var selector = '#'+scope.options.id + '-' + item.type+'-'+item.id;
+            if(this._ids.indexOf(selector) !== -1) return false;
+            this._ids.push(selector)
             var li = scope.document.createElement('li');
             li.dataset.type = item.type;
             li.dataset.id = item.id;
@@ -587,42 +632,14 @@ mw.lib.require('nestedsortable');
             }
             else if(findli){
                 var nlistwrap = this.createItem(item);
+                if(!nlistwrap) return false;
                 var nlist = this.createList(item);
                 nlist.appendChild(nlistwrap);
                 findli.appendChild(nlist);
                 return false;
             }
-            else{
-                if(!isTemp){
-                    this.createTemp(item);
-                }
-            }
         };
 
-        this.createTemp = function (item) {
-            this._temp = this._temp || [];
-            this._temp.push(item);
-        };
-        this._initTempTryCount = 0;
-        this.initTemp = function(){
-            this._initTempTryCount++;
-            var found = [];
-            this._temp.forEach(function(item, i){
-                var list = scope.getParent(item, true);
-                if(list){
-                    list.appendChild(scope.createItem(item));
-                }
-                if(typeof list !== 'undefined'){
-                    found.push(i)
-                }
-            });
-            found.forEach(function (f) {
-                scope._temp.splice(f, 1)
-            });
-            if(this._temp.length && this._initTempTryCount < 100){
-                this.initTemp();
-            }
-        };
 
         this.additional = function (obj) {
             var li = scope.document.createElement('li');

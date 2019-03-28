@@ -3824,6 +3824,9 @@ body.isTyping .mw-cloneable-control-item {
     /*height: 53px;*/
 }
 
+.wysiwyg-cell-undo-redo .mw-ui-btn-nav{
+    margin: 10px 0 0 10px;
+}
 .wysiwyg-cell-undo-redo .mw_editor_btn {
     margin-top: 14px;
 }

@@ -175,6 +175,7 @@ class Content
                 'auto_populate' => 'string',
                 'description' => 'text',
                 'url' => 'longText',
+                'url_target' => 'string',
                 'size' => 'text',
                 'default_image' => 'longText',
                 'rollover_image' => 'longText',

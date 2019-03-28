@@ -2099,7 +2099,7 @@ class ContentManager
                             return array('error' => 'Please enter a captcha answer!');
                         }
                     } else {
-                        $cap = $this->app->user_manager->session_get('captcha');
+                       // $cap = $this->app->user_manager->session_get('captcha');
                         if (!mw()->captcha->validate($data['captcha'])) {
                             return array('error' => 'You must load a captcha first!');
                         }

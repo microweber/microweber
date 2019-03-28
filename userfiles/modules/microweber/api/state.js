@@ -110,26 +110,26 @@ mw.State = function(options){
     mw.liveEditState.record({
          value: null,
          $initial: true
-    })
+    });
     mw.$liveEditState = $(mw.liveEditState);
 
     var ui = $('<div class="mw-ui-btn-nav"></div>'),
         undo = mwd.createElement('button'),
         redo = mwd.createElement('button');
-    undo.className = 'mw-ui-btn'
-    undo.innerHTML = 'Undo'
-    redo.className = 'mw-ui-btn';
-    redo.innerHTML = 'Redo';
+    undo.className = 'mw-ui-btn mw-ui-btn-medium';
+    undo.innerHTML = '<span class="mw-icon-reply"></span>';
+    redo.className = 'mw-ui-btn mw-ui-btn-medium';
+    redo.innerHTML = '<span class="mw-icon-forward"></span>';
 
     undo.onclick = function(){
-        mw.liveEditState.undo()
-    }
+        mw.liveEditState.undo();
+    };
     redo.onclick = function(){
-        mw.liveEditState.redo()
-    }
+        mw.liveEditState.redo();
+    };
 
-    ui.append(undo)
-    ui.append(redo)
+    ui.append(undo);
+    ui.append(redo);
 
     $(document).ready(function(){
         var idata = mw.liveEditState.eventData();
@@ -139,17 +139,16 @@ mw.State = function(options){
         mw.$liveEditState.on('stateRecord', function(e, data){
             undo.disabled = !data.hasNext;
             redo.disabled = !data.hasPrev;
-        })
+        });
         mw.$liveEditState.on('stateUndo stateRedo', function(e, data){
-            console.log(data)
             $(data.active.target).html(data.active.value);
             mw.drag.load_new_modules();
             undo.disabled = !data.hasNext;
             redo.disabled = !data.hasPrev;
         });
 
-        //$('.wysiwyg-cell-undo-redo').empty().append(ui)
-    })
+        $('.wysiwyg-cell-undo-redo').empty().append(ui);
+    });
 
 })();
 
