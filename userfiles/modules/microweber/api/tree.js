@@ -148,8 +148,9 @@ mw.lib.require('nestedsortable');
 
         this.tempRend = function () {
             var curr = scope._postCreated[0];
-
-            while(scope._postCreated.length){
+            var max = 10000, itr = 0;
+            while(scope._postCreated.length && itr<max){
+                itr++;
                 var index = scope._postCreated.indexOf(curr);
                 var selector = '#' + scope.options.id + '-' + curr.type + '-'  + curr.id
                 var it = $(selector)[0];

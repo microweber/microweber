@@ -26,9 +26,10 @@ $here = mw_includes_url() . 'toolbar/editor_tools/plupload/';
         height: 100% !important;
     }
 </style>
-<script type="text/javascript" src="<?php print $here ?>js/plupload.js"></script>
+<script type="text/javascript" src="<?php print $here ?>plupload.full.min.js"></script>
+<?php /* <script type="text/javascript" src="<?php print $here ?>js/plupload.js"></script>
 <script type="text/javascript" src="<?php print $here ?>js/plupload.html5.js"></script>
-<script type="text/javascript" src="<?php print $here ?>js/plupload.html4.js"></script>
+<script type="text/javascript" src="<?php print $here ?>js/plupload.html4.js"></script> */?>
 
 <div id="container">
     <div id="pickfiles_<?php print $uid ?>" href="javascript:;">&nbsp;</div>
@@ -45,10 +46,10 @@ $here = mw_includes_url() . 'toolbar/editor_tools/plupload/';
         urlparams += 'path=' + Params.path + '&';
     }
 	 if (!!Params.autopath) {
-		 
+
         urlparams += 'autopath=' + Params.autopath + '&';
     }
-	
+
     urlparams += 'token=<?php print mw_csrf_token($uid); ?>';
 
     $(document).ready(function () {
@@ -61,7 +62,7 @@ $here = mw_includes_url() . 'toolbar/editor_tools/plupload/';
         ]
         this_frame = parent.mw.$("iframe[name='" + Name + "']");
         uploader = new plupload.Uploader({
-            runtimes: 'html5,html4',
+            runtimes: 'html5',
             browse_button: 'pickfiles_<?php print $uid  ?>',
             debug: 1,
             container: 'container',
