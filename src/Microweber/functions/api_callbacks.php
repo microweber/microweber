@@ -67,7 +67,7 @@ api_expose('template/print_custom_css', function ($data) {
 
 });
 
-api_expose_admin('content/get_admin_js_tree_json', function ($data) {
+api_expose_admin('content/get_admin_js_tree_json', function ($params) {
 //    json
 //
 //id: 5
@@ -92,7 +92,18 @@ api_expose_admin('content/get_admin_js_tree_json', function ($data) {
 
 
     $json = array();
-    $pages = get_pages('no_limit=1&order_by=position desc');
+
+    $pages_params = array();
+    $pages_params['no_limit'] = 1;
+    $pages_params['order_by'] = 'position desc';
+
+    if(isset($params['is_shop'])){
+         $pages_params['is_shop'] = intval($params['is_shop']);
+
+    }
+
+
+    $pages = get_pages($pages_params);
     if ($pages) {
         foreach ($pages as $page) {
             $item = array();

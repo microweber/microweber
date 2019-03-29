@@ -614,17 +614,29 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 </script>
 
 <?php
+
+$tree_url_endpoint = api_url('content/get_admin_js_tree_json');
+
+
 $pages_container_params_str = " is_shop='n' ";
 $pages_container_params_str = "   ";
 if (isset($is_shop)) {
     $pages_container_params_str = " is_shop='{$is_shop}' ";
+    $tree_url_endpoint = api_url('content/get_admin_js_tree_json?is_shop=1');
+
 } elseif (isset($params['is_shop'])) {
     $pages_container_params_str = " is_shop='" . $params['is_shop'] . "' ";
+    $tree_url_endpoint = api_url('content/get_admin_js_tree_json?is_shop=1');
+
 } elseif ($action == 'products') {
     $pages_container_params_str = " is_shop='y' ";
+    $tree_url_endpoint = api_url('content/get_admin_js_tree_json?is_shop=1');
+
 }
 if ($action == 'posts') {
     $pages_container_params_str = " is_shop='n'  skip-static-pages='true' ";
+    $tree_url_endpoint = api_url('content/get_admin_js_tree_json?is_shop=0');
+
 } elseif ($action == 'pages') {
     $pages_container_params_str = " content_type='page'  '   ";
 } elseif ($action == 'categories') {
@@ -642,6 +654,8 @@ if ($action == 'posts') {
 
 
             <div class="tree-column-holder">
+
+
 
                 <div class="fixed-side-column scroll-height-exception-master">
 
@@ -671,12 +685,14 @@ if ($action == 'posts') {
 
                     <div class="fixed-side-column-container mw-tree" id="pages_tree_container_<?php print $my_tree_id; ?>">
 
+
+
                         <script>
 
                             var pagesTree;
 
                             var pagesTreeRefresh = function(){
-                                $.get("<?php print api_url('content/get_admin_js_tree_json'); ?>", function(data){
+                                $.get("<?php print $tree_url_endpoint; ?>", function(data){
                                     var treeTail = [
                                         {
                                             title: '<?php _lang("Trash") ?>',
