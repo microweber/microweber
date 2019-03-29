@@ -74,35 +74,22 @@ $is_live = mw()->user_manager->session_get('editmode') == true;
         padding: 0;
     }
 
-  /*  .okayNav__nav--visible {
-        overflow: visible;
-    }*/
 </style>
 
 
 <script src="<?php print template_url(); ?>assets/dist/main.min.js"></script>
-
+<script src="<?php print template_url(); ?>assets/plugins/collapse-nav/dist/collapseNav.js"></script>
 <script>
-/*    $.fn.mwOKNav = function(options){
-        return this.each(function(){
-            var el = $(this),
-                time1 = 10, time2 = 70
-            el.okayNav(options);
-            var okData = el.data('plugin_okayNav');
-            setTimeout(function(){
-                okData.optimizeResize();
-            }, time1);
-            setTimeout(function(){
-                okData.optimizeResize();
-            }, time2);
-        })
-    }
-    $(document).ready(function(){
-        $('.nav-main').mwOKNav();
-    })*/
-
+    $(document).ready(function () {
+        $('.nav-main .menu').collapseNav({
+            responsive: 1,
+            mobile_break: 991,
+            li_class: 'dropdown',
+            li_a_class: '',
+            li_ul_class: '',
+            caret: '<span class="caret"></span>' //Element append immediately after the More text
+        });
+    })
 </script>
-
-<script>mw.lib.require('okayNav');</script>
 </body>
 </html>

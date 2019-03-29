@@ -565,3 +565,7 @@ section.blog-post .container .container {
         min-width: 220px;
     }
 }
+
+.menu > li > ul:not(.multi-column) > li.dropdown > a:after{
+    display: none;
+}

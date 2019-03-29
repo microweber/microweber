@@ -1959,4 +1959,3 @@ mr = (function (mr, $, window, document) {
     return mr;
 
 }(mr, jQuery, window, document));
-
