@@ -17,6 +17,7 @@ mw.dropables = {
         mw.dropable.show = function(){
             return $(this).removeClass('mw_dropable_hidden')
         };
+        mw.dropable.hide()
     },
 
 

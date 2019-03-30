@@ -114,7 +114,8 @@ $(document).ready(function() {
 
 
     mw.drag.create();
-    $(mwd.body).keyup(function(e) {
+
+    $(mwd.body).on('keyup', function(e) {
         mw.$(".mw_master_handle").css({
             left: "",
             top: ""
@@ -1147,18 +1148,40 @@ mw.drag = {
                     setTimeout(function() {
                         if(mw.ea.data.target && mw.ea.data.currentGrabbed){
                             if(!!mw.ea.data.dropableAction && !!mw.ea.data.target && !!mw.ea.data.currentGrabbed){
-                                var ed = mw.tools.firstParentOrCurrentWithClass(mw.ea.data.target, 'edit')
-                                mw.liveEditState.record({
+                                var ed = mw.tools.firstParentOrCurrentWithClass(mw.ea.data.target, 'edit');
+                                var prev = mw.ea.data.currentGrabbed.parentNode;
+                                var rec = {
                                     target: ed,
                                     value: ed.innerHTML
-                                });
+                                };
+                                if(prev){
+                                    var prevDoc = mw.tools.parseHtml(prev.innerHTML);
+                                    $(prevDoc.querySelector('.mw_drag_current')).css({
+                                        visibility: 'hidden',
+                                        opacity: 0
+                                    });
+                                    rec.prev = prev;
+                                    rec.prevValue = prevDoc.body.innerHTML;
+                                }
+
+                                mw.liveEditState.record(rec);
                                 $(mw.ea.data.target)[mw.ea.data.dropableAction](mw.ea.data.currentGrabbed);
 
                                 setTimeout(function(ed) {
-                                    mw.liveEditState.record({
+                                    var nrec = {
                                         target: ed,
                                         value: ed.innerHTML
-                                    });
+                                    };
+                                    if(prev){
+                                        var prevDoc = mw.tools.parseHtml(prev.innerHTML);
+                                        $(prevDoc.querySelector('.mw_drag_current')).css({
+                                            visibility: 'hidden',
+                                            opacity: 0
+                                        });
+                                        nrec.prev = prev;
+                                        nrec.prevValue = prevDoc.body.innerHTML;
+                                    }
+                                    mw.liveEditState.record(nrec);
                                 }, 50, ed);
                             }
                             else{
@@ -1523,14 +1546,24 @@ mw.drag = {
      */
     delete_element: function(idobj, c) {
         mw.tools.confirm(mw.settings.sorthandle_delete_confirmation_text, function() {
-
+            var el = mw.$(idobj);
             mw.wysiwyg.change(idobj);
-            mw.$(idobj).addClass("mwfadeout");
+            var elparent = el.parent()
+
+            mw.liveEditState.record({
+                target: elparent[0],
+                value: elparent.html()
+            });
+            el.addClass("mwfadeout");
             setTimeout(function() {
                 mw.$(idobj).remove();
-                mw.handleModule.hide()
+                mw.handleModule.hide();
                 $(mw.handleModule).removeClass('mw-active-item');
                 mw.drag.fix_placeholders(true);
+                mw.liveEditState.record({
+                    target: elparent[0],
+                    value: elparent.html()
+                });
                 if(c){
                     c.call()
                 }
