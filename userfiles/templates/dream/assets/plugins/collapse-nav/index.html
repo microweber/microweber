@@ -1,0 +1,230 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CollapseNav.js - jQuery Responsive Navigation</title>
+
+    <link rel="stylesheet" href="resources/style.css">
+
+    <script src="resources/script.js"></script>
+
+    <!-- The Initialization of CollapsNav.js -->
+    <link rel="stylesheet" href="dist/collapseNav.css">
+    <script src="dist/collapseNav.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.collapse-nav').collapseNav({
+                responsive: 1,
+                more_text: 'More Button',
+                mobile_break: 800,
+            });
+        })
+    </script>
+</head>
+<body id="overview">
+<nav>
+    <div id="title">Documentation</div>
+    <ul>
+        <li class="active"><a href="#overview">Overview</a></li>
+        <li><a href="#usage">Usage</a></li>
+        <li><a href="#settings">Settings</a></li>
+    </ul>
+    <a class="button" href="https://github.com/PYovchevski/collapse-nav" target="_blank">Download</a>
+</nav>
+<main>
+
+    <!-- Overview | START -->
+    <h1>
+        CollapseNav.js - jQuery Responsive Navigation<br/>
+        <span>By <a href="https://www.plumtex.com" target="_blank">PlumTex.com</a></span>
+    </h1>
+
+    <p class="support"><strong>Hey, thanks for using our simple jQuery plugin.</strong> <br/>You can use the plugin for all purposes. Please <a href="https://github.com/PYovchevski/collapse-nav" target="_blank">Star Us in GitHub</a> if you like the plugin.</p>
+
+    <p><strong>Simple Responsive Navigation which creates the redundant buttons in Dropdown Menu.</strong></p>
+
+    <div>
+        <ul class="collapse-nav">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">News</a></li>
+            <li><a href="#">Design</a></li>
+            <li><a href="#">Business</a></li>
+            <li><a href="#">Inspiration</a></li>
+            <li><a href="#">Philosophy</a></li>
+            <li><a href="#">Products</a></li>
+            <li><a href="#">Productivity</a></li>
+            <li><a href="#">Resources</a></li>
+            <li><a href="#">Interviews</a></li>
+            <li class="dropdown">
+                <a class="dropdown-toggle">Dropdown 1 <i class="caret"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Link 1</a></li>
+                    <li><a href="#">Link 2</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle">Dropdown 2 <i class="caret"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Link 1</a></li>
+                            <li><a href="#">Link 2</a></li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle">Dropdown 3 <i class="caret"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Link 1</a></li>
+                                    <li><a href="#">Link 2</a></li>
+                                    <li><a href="#">Link 3</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="#">Testimonials</a></li>
+            <li><a href="#">Showcases</a></li>
+        </ul>
+    </div>
+    <!-- Overview | END -->
+
+
+    <!-- Usage | START -->
+
+    <section id="usage">
+        <h2>Usage</h2>
+        <p><strong>To use this plugin you should add some lines</strong></p>
+
+        <h3>Set up your HTML markup</h3>
+        <pre>&lt;ul class="collapse-nav">
+    &lt;li>&lt;a href="#">Home&lt;/a>&lt;/li>
+    &lt;li>&lt;a href="#">News&lt;/a>&lt;/li>
+    &lt;li>&lt;a href="#">Design&lt;/a>&lt;/li>
+    &lt;li>&lt;a href="#">Business&lt;/a>&lt;/li>
+    &lt;li>&lt;a href="#">Inspiration&lt;/a>&lt;/li>
+&lt;/ul></pre>
+
+        <h3>Add collapseNav.css in your &lt;head></h3>
+        <pre>&lt;link rel="stylesheet" type="text/css" href="collapse-nav/dist/collapseNav.css"/></pre>
+
+        <h3>Add collapseNav.js before your closing &lt;body> tag, after jQuery (requires jQuery 1.7 +)</h3>
+        <pre>
+&lt;script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+            &lt;
+            script
+            type = "text/javascript"
+            src = "collapse-nav/dist/collapseNav.js" ></script>
+</pre>
+
+        <h3>Initialize your Collapse-Nav in your script file or an inline script tag</h3>
+        <pre>$(document).ready(function()
+  $('.your-class').collapseNav({
+    setting-name: setting-value
+  });
+});</pre>
+
+        <h3>Initialize your Collapse-Nav in your script file or an inline script tag</h3>
+        <pre>
+&lt;html>
+&lt;head>
+    &lt;title>My Now Amazing Webpage width Responsive Mobile Navigation&lt;/title>
+    &lt;link rel="stylesheet" type="text/css" href="collapse-nav/dist/collapseNav.css"/>
+&lt;/head>
+&lt;body>
+
+&lt;ul class="collapse-nav">
+    &lt;li>&lt;a href="#">Home&lt;/a>&lt;/li>
+    &lt;li>&lt;a href="#">News&lt;/a>&lt;/li>
+    &lt;li>&lt;a href="#">Design&lt;/a>&lt;/li>
+    &lt;li>&lt;a href="#">Business&lt;/a>&lt;/li>
+    &lt;li>&lt;a href="#">Inspiration&lt;/a>&lt;/li>
+&lt;/ul>
+
+&lt;script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js">&lt;/script>
+&lt;script type="text/javascript" src="collapse-nav/dist/collapseNav.js">&lt;/script>
+
+&lt;script type="text/javascript">
+    $(document).ready(function(){
+        $('.your-class').collapseNav({
+            setting-name: setting-value
+    });
+    });
+&lt;/script>
+
+&lt;/body>
+&lt;/html></pre>
+    </section>
+
+    <!-- Usage | END -->
+
+    <!-- Settings | START -->
+
+    <section id="settings">
+        <h2>Using the Plugin</h2>
+
+        <h3>Possible Settings</h3>
+        <hr/>
+
+        <h3 style="margin-bottom: 10px;">responsive</h3>
+        <p>
+            <strong>Type:</strong> boolean<br/>
+            <strong>Default:</strong> 1<br/>
+            Automatically count the possible buttons in the navigation
+        </p>
+        <hr/>
+
+        <h3 style="margin-bottom: 10px;">number_of_buttons</h3>
+        <p>
+            <strong>Type:</strong> boolean<br/>
+            <strong>Default:</strong> 4<br/>
+            Fixed number of buttons in the navigation. <strong>Works only if 'responsive' = 0</strong>
+        </p>
+        <hr/>
+
+        <h3 style="margin-bottom: 10px;">more_text</h3>
+        <p>
+            <strong>Type:</strong> string<br/>
+            <strong>Default:</strong> 'More'<br/>
+            The text on the Drop Down Button
+        </p>
+        <hr/>
+
+        <h3 style="margin-bottom: 10px;">mobile_break</h3>
+        <p>
+            <strong>Type:</strong> number<br/>
+            <strong>Default:</strong> 992<br/>
+            With this resolution and higher the script will be init
+        </p>
+        <hr/>
+
+        <h3 style="margin-bottom: 10px;">li_class</h3>
+        <p>
+            <strong>Type:</strong> string<br/>
+            <strong>Default:</strong> 'dropdown'<br/>
+            The class of ...
+        </p>
+        <hr/>
+
+        <h3 style="margin-bottom: 10px;">li_a_class</h3>
+        <p>
+            <strong>Type:</strong> string<br/>
+            <strong>Default:</strong> 'dropdown-toggle'<br/>
+            The class of ...
+        </p>
+        <hr/>
+
+        <h3 style="margin-bottom: 10px;">li_ul_class</h3>
+        <p>
+            <strong>Type:</strong> string<br/>
+            <strong>Default:</strong> 'dropdown-menu'<br/>
+            The class of ...
+        </p>
+        <hr/>
+
+        <h3 style="margin-bottom: 10px;">caret</h3>
+        <p>
+            <strong>Type:</strong> string<br/>
+            <strong>Default:</strong> '&lt;span class="caret"></span>'<br/>
+            Element appended immediately after the More text
+        </p>
+    </section>
+    <!-- Settings | END -->
+</main>
+</body>
+</html>
