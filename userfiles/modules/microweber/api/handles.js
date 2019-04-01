@@ -724,7 +724,7 @@ mw._initHandles = {
                 }
             ]
         });
-        mw.handleColumns.setTitle('<span class="mw-handle-columns-icon"></span>', 'Grid');
+        mw.handleColumns.setTitle('<span class="mw-handle-columns-icon"></span>', '');
 
         $(mw.handleColumns.wrapper).draggable({
             handle: mw.handleColumns.handleIcon,

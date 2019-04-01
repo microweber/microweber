@@ -390,7 +390,7 @@ mw.wysiwyg = {
                         firstBlock = mw.tools.firstMatchesOnNodeOrParent(firstBlock, cls);
                     }
                     // mw.$('[contenteditable]').not(firstBlock).removeAttr('contenteditable')
-                    mw.$("[contenteditable='true']").not(firstBlock).attr("contenteditable", "false");
+                     mw.$("[contenteditable='true']").not(firstBlock).attr("contenteditable", "false");
                     mw.wysiwyg.contentEditable(firstBlock, true);
                 }
                 else {
