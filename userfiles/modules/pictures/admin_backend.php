@@ -133,6 +133,10 @@ if ($for_id != false) {
                         });
                     }
                 }
+
+                $('.admin-thumb-item-loading').remove();
+
+
             }, 1300);
         }
     }
