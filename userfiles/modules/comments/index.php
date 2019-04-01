@@ -175,6 +175,10 @@ if (get_option('enable_comments', 'comments') == 'y') {
     }
 
     $comments = get_comments($comments_data);
+
+
+
+
     $cur_user_data = array();
     $cur_user = user_id();
     if ($cur_user != false) {
@@ -198,7 +202,7 @@ if (get_option('enable_comments', 'comments') == 'y') {
 
 
             if ( $comment['session_id'] == mw()->user_manager->session_id()) {
-                $show_comment = true;
+            //   $show_comment = true;
             }
 
 
@@ -231,11 +235,11 @@ if (get_option('enable_comments', 'comments') == 'y') {
             $comments_new[] = $comment;
 
         }
-        if ($comments_new) {
+       // if ($comments_new) {
             $comments = $comments_new;
-        }
+       // }
     }
-
+    
     $template = get_option('data-template', $params['id']);
     if (($template == false or ($template == '')) and isset($params['template'])) {
         $template = $params['template'];
