@@ -114,7 +114,12 @@ if ($for_id != false) {
                 if (typeof load_iframe_editor === 'function') {
                     load_iframe_editor();
                 }
-                mw.reload_module('#' + module_id);
+               // mw.reload_module('#' + module_id);
+                mw.reload_module('pictures/admin_backend_sortable_pics_list');
+
+                //
+
+
                 mw.reload_module_parent('pictures');
                 if (self !== top && typeof parent.mw === 'object') {
                     parent.mw.reload_module('pictures');
@@ -133,11 +138,7 @@ if ($for_id != false) {
     }
 </script>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        mw.module_pictures.init('#admin-thumbs-holder-sort-<?php print $rand; ?>');
-    });
-</script>
+
 <script type="text/javascript">
     mw_admin_puctires_upload_browse_existing = function () {
 
@@ -216,13 +217,13 @@ if (!isset($data["thumbnail"])) {
 </script>
 
 
-<div class="admin-thumbs-holder left  m-t-20" id="admin-thumbs-holder-sort-<?php print $rand; ?>">
+<div class=" left  m-t-20" id="admin-thumbs-holder-sort-<?php print $rand; ?>">
 
-    <div class="relative post-thumb-uploader" id="backend_image_uploader">
+    <div class="relative post-thumb-uploader m-t-10" id="backend_image_uploader">
         <small id="backend_image_uploader_label"><?php _e("Upload"); ?></small>
     </div>
 
-
+<div class="admin-thumbs-holder">
 
 
     <?php if ($for_id != false) { ?>
@@ -241,9 +242,13 @@ if (!isset($data["thumbnail"])) {
     <?php  }
 
 
+
+
+
+
     ?>
 
-
+</div>
 
     <?php
     /*<?php if (is_array($media)): ?>

@@ -45,12 +45,17 @@ foreach ($temp as $i) {
 
 
 
-
+$rand = 'pic-sorter-'.uniqid();
 
 ?>
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        mw.module_pictures.init('#admin-thumbs-holder-sort-<?php print $rand; ?>');
+    });
+</script>
 
-
+<div class="admin-thumbs-holder" id="admin-thumbs-holder-sort-<?php print $rand; ?>">
 <?php if (is_array($media)): ?>
     <?php $default_title = _e("Image title", true); ?>
     <?php foreach ($media as $key => $item): ?>
@@ -122,3 +127,4 @@ foreach ($temp as $i) {
 
 
 
+</div>

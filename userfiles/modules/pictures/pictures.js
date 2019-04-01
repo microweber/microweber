@@ -31,15 +31,12 @@ mw.module_pictures = {
       $.post(mw.settings.api_url + 'save_media', data,
           function (data) {
 
-
-
-
-              clearTimeout(mw.module_pictures.time)
+         clearTimeout(mw.module_pictures.time)
               mw.module_pictures.time = setTimeout(function () {
 
             mw.reload_module_parent('pictures');
 
-              }, 1500)
+          }, 1500)
 
 
       });
