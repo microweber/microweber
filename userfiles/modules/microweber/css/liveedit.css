@@ -508,6 +508,9 @@ li.module-item.ui-draggable-dragging .mw_module_image {
 .mw_dropable_hidden{
     visibility: hidden;
     opacity: 0;
+    width: 0;
+    height: 0;
+    overflow: hidden;
 }
 
 /* v2 dropable*/
@@ -2061,6 +2064,8 @@ div.mw_drag_started, li.module-item.ui-draggable-dragging {
     background: #FFFFB9;
 }
 
+.mw-empty-element:empty,
+.mw-live-edit .mw-empty-element.element:empty,
 .mw-col-container .mw-empty:first-child:empty {
     background: #FFFFB9;
     color: #0088CC;

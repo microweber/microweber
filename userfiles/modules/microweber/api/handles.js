@@ -518,11 +518,18 @@ mw._initHandles = {
             if (handleLeft < 0) {
                 handleLeft = 0;
             }
-            mw.handleModule.show()
+
+            var topPosFinal = topPos + marginTop;
+            var $lebar = $(lebar), $leoff = $lebar.offset();
+
+            if(topPosFinal < ($leoff.top + $lebar.height())){
+                topPosFinal = o.top + el.outerHeight();
+            }
+            mw.handleModule.show();
             $(mw.handleModule.wrapper)
                 .removeClass('active')
                 .css({
-                    top: topPos + marginTop,
+                    top: topPosFinal,
                     left: handleLeft,
                     //width: width,
                     //marginTop: marginTop

@@ -5440,18 +5440,24 @@ mw._colorPicker = function (options) {
     this.settings = settings;
     $el[0].mwToolTipBinded = true;
 
+    var sett = {
+        showAlpha: true,
+        showHSL: false,
+        showRGB: false,
+        showHEX: false,
+        palette: mw.tools.colorPickerColors
+    };
+
+    if(settings.value) {
+        sett.color = sett.value
+    }
 
     var frame;
     if (settings.method == 'inline') {
 
-        frame = AColorPicker.createPicker({
-            showAlpha: true,
-            showHSL: false,
-            showRGB: false,
-            showHEX: false,
-            attachTo: $el[0],
-            palette: mw.tools.colorPickerColors
-        });
+        sett.attachTo = $el[0];
+
+        frame = AColorPicker.createPicker(sett);
         frame.onchange = function (data) {
 
             if (proto.settings.onchange) {
@@ -5470,17 +5476,10 @@ mw._colorPicker = function (options) {
         var tip = mw.tooltip(settings), $tip = $(tip).hide();
         this.tip = tip;
 
-        mw.$('.mw-tooltip-content', tip).empty()
+        mw.$('.mw-tooltip-content', tip).empty();
+        sett.attachTo = mw.$('.mw-tooltip-content', tip)[0]
 
-        var frame = AColorPicker.createPicker({
-            showAlpha: true,
-            palette: mw.tools.colorPickerColors,
-            showHSL: false,
-            showRGB: false,
-            showHEX: false,
-            attachTo: mw.$('.mw-tooltip-content', tip)[0],
-
-        });
+        var frame = AColorPicker.createPicker(sett);
 
         frame.onchange = function (data) {
 
