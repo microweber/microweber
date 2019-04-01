@@ -31,17 +31,17 @@
 </style>
 <?php
 
-
-$init_image_options = array();
-$default_image_options = 'Tags, Author, Source, Link';
-$image_options = isset($params['image-options']) ? $params['image-options'] : isset($params['data-image-options']) ? $params['data-image-options'] : $default_image_options;
-
-
-$temp = explode(',', $image_options);
-foreach ($temp as $i) {
-    array_push($init_image_options, trim($i));
-}
-
+//
+//$init_image_options = array();
+//$default_image_options = 'Tags, Author, Source, Link';
+//$image_options = isset($params['image-options']) ? $params['image-options'] : isset($params['data-image-options']) ? $params['data-image-options'] : $default_image_options;
+//
+//
+//$temp = explode(',', $image_options);
+//foreach ($temp as $i) {
+//    array_push($init_image_options, trim($i));
+//}
+//
 
 if (!isset($for_id)) {
     $for_id = 0;
@@ -200,15 +200,53 @@ if (!isset($data["thumbnail"])) {
 </div>
 
 
+<?php
+/*
+<div class="admin-thumbs-holder left  ">
+    <div class="relative post-thumb-uploader" id="backend_image_uploader">
+        <small id="backend_image_uploader_label"><?php _e("Upload"); ?></small>
+    </div>
+</div>
+*/
+
+?>
+
+<script>
+    window.imageOptions = {};
+</script>
+
+
 <div class="admin-thumbs-holder left  m-t-20" id="admin-thumbs-holder-sort-<?php print $rand; ?>">
 
     <div class="relative post-thumb-uploader" id="backend_image_uploader">
         <small id="backend_image_uploader_label"><?php _e("Upload"); ?></small>
     </div>
-    <script>
-        window.imageOptions = {};
-    </script>
-    <?php if (is_array($media)): ?>
+
+
+
+
+    <?php if ($for_id != false) { ?>
+
+        <module type="pictures/admin_backend_sortable_pics_list" for="<?php print $for ?>"  for_id="<?php print $for_id ?>"  />
+
+
+
+    <?php } else { ?>
+
+        <module type="pictures/admin_backend_sortable_pics_list" for="<?php print $for ?>"  session_id="<?php print $sid ?>"  />
+
+
+
+
+    <?php  }
+
+
+    ?>
+
+
+
+    <?php
+    /*<?php if (is_array($media)): ?>
         <?php $default_title = _e("Image title", true); ?>
         <?php foreach ($media as $key => $item): ?>
             <div class="admin-thumb-item admin-thumb-item-<?php print $item['id'] ?>"
@@ -265,7 +303,10 @@ if (!isset($data["thumbnail"])) {
                 </div>
             </div>
         <?php endforeach; ?>
-    <?php endif; ?>
+    <?php endif; ?>*/
+
+
+    ?>
 
     <script>mw.require("files.js", true);</script>
     <script>
