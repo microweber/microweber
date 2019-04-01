@@ -39,13 +39,7 @@ if ($is_color === null OR $is_color === false OR $is_color == '') {
     <div class="container">
         <div class="row">
             <div class="col-sm-12 allow-drop">
-                <div class="mw-row">
-                    <div class="mw-col" style="width:100%">
-                        <div class="mw-col-container">
-                            <div class="mw-empty"></div>
-                        </div>
-                    </div>
-                </div>
+                <div class="element mw-empty-element"></div>
             </div>
         </div>
     </div>

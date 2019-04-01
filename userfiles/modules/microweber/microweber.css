@@ -90,7 +90,11 @@ body.mw-preview {
     transform-origin: 0 0;
 }
 
-.mw-empty {
+.mw-empty{
+    display: none;
+}
+
+.mw-empty-element:empty{
     display: none;
 }
 
