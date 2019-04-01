@@ -38,8 +38,8 @@ if ($is_color === null OR $is_color === false OR $is_color == '') {
 <section class="nodrop clean-container edit <?php print $padding ?>" field="layout-skin-69-<?php print $params['id'] ?>" rel="module">
     <div class="container">
         <div class="row">
-            <div class="col-sm-12 allow-drop">
-                <div class="element mw-empty-element"></div>
+            <div class="col-sm-12">
+                <div class="element mw-empty-element allow-drop"></div>
             </div>
         </div>
     </div>
