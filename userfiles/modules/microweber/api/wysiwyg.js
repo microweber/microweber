@@ -2632,6 +2632,7 @@ $(mwd).ready(function () {
         mw.wysiwyg._fontcolorpicker = mw.colorPicker({
             element: document.querySelector('#mw_editor_font_color'),
             tip: true,
+            showHEX:false,
             onchange: function (color) {
                 mw.wysiwyg.fontColor(color)
             }
@@ -2641,6 +2642,7 @@ $(mwd).ready(function () {
         mw.wysiwyg._bgfontcolorpicker = mw.colorPicker({
             element: document.querySelector('.mw_editor_font_background_color'),
             tip: true,
+            showHEX: false,
             onchange: function (color) {
                 mw.wysiwyg.fontbg(color)
             }

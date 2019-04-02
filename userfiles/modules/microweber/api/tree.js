@@ -45,7 +45,8 @@ mw.lib.require('nestedsortable');
                 selectable:false,
                 filter:false,
                 cantSelectTypes: [],
-                document: document
+                document: document,
+                _tempRender: true
             };
 
             var options = $.extend({}, defaults, config);
@@ -132,7 +133,7 @@ mw.lib.require('nestedsortable');
             //this._jsonForEach(function(item){
                 var list = scope.getParent(item);
                 if(list){
-                    var li = scope.createItem(item)
+                    var li = scope.createItem(item);
                     if(li){
                         list.appendChild(li);
                     }
@@ -142,8 +143,9 @@ mw.lib.require('nestedsortable');
                     scope._postCreated.push(item);
                 }
             });
-            this.tempRend();
-
+            if(this.options._tempRender) {
+                this.tempRend();
+            }
         };
 
 
@@ -167,10 +169,15 @@ mw.lib.require('nestedsortable');
             this._tempPrepare()
             var curr = scope._postCreated[0];
             var max = 10000, itr = 0;
+
             while(scope._postCreated.length && itr<max){
                 itr++;
                 var index = scope._postCreated.indexOf(curr);
                 var selector = '#' + scope.options.id + '-' + curr.type + '-'  + curr.id;
+                var lastc = selector.charAt(selector.length - 1);
+                if( lastc === '.' || lastc === '#') {
+                    selector = selector.substring(0, selector.length - 1);
+                }
                 var it = $(selector)[0];
                 if(it){
                     scope._postCreated.splice(index, 1);

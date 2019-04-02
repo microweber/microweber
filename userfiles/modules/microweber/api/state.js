@@ -169,7 +169,8 @@ mw.State = function(options){
             redo.disabled = !data.hasPrev;
         });
 
-        $('.wysiwyg-cell-undo-redo').empty().append(ui);
+        $('#history_panel_toggle,#history_dd,.mw_editor_undo,.mw_editor_redo').remove();
+        $('.wysiwyg-cell-undo-redo').prepend(ui);
     });
 
 })();

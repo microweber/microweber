@@ -583,7 +583,7 @@
 
                 var cname = function (ccurr) {
                     if(!ccurr) return;
-                    return ccurr.nodeName + (ccurr.className?'.'+ccurr.className.split(' ').join('.'):'')+ (ccurr.id?'#'+ccurr.id:'');
+                    return ccurr.nodeName + (ccurr.className?'.'+ccurr.className.trim().split(' ').join('.'):'')+ (ccurr.id?'#'+ccurr.id:'');
                 };
                 var c = mw.elementCSSEditor.currentElement;
 
@@ -609,6 +609,7 @@
                 }
 
                 treedata.reverse();
+                console.log(treedata)
                 mw.cssSelectorTree.setData(treedata);
 
                 setFrame();

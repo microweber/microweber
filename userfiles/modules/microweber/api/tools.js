@@ -5444,12 +5444,22 @@ mw._colorPicker = function (options) {
         showAlpha: true,
         showHSL: false,
         showRGB: false,
-        showHEX: false,
+        showHEX: true,
         palette: mw.tools.colorPickerColors
     };
 
     if(settings.value) {
-        sett.color = sett.value
+        sett.color = settings.value
+    }
+    if(typeof settings.showRGB !== 'undefined') {
+        sett.showRGB = settings.showRGB
+    }
+    if(typeof settings.showHEX !== 'undefined') {
+        sett.showHEX = settings.showHEX
+    }
+
+    if(typeof settings.showHSL !== 'undefined') {
+        sett.showHSL = settings.showHSL
     }
 
     var frame;
