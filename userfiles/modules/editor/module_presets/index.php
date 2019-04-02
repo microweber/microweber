@@ -269,10 +269,10 @@
 
 
 
-                    <div class="box " style="width: 20px; margin: 0 auto;">
+                    <div class="box " style="width: 35px; margin: 0 auto;">
 
 
-                        <button type="button" value="1" js-mod-id="<?php print  $item['module_id'] ?>" use="<?php print  $item['module_id'] ?>" class=" module-presets-action-btn  module-presets-action-btn-use">use</button>
+                        <button type="button" value="1" js-mod-id="<?php print  $item['module_id'] ?>" use="<?php print  $item['module_id'] ?>" class="mw-ui-btn mw-ui-btn-small module-presets-action-btn  module-presets-action-btn-use">use</button>
 
 
 

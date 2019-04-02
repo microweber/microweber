@@ -17,7 +17,7 @@ class CalendarDatesHelper
             ->setTimezone($timeZone)
             ->setFreq('DAILY')
             ->setByDay([$dayName])
-            ->setUntil(new \DateTime($startDate->format('Y-m') . '-' . cal_days_in_month(CAL_GREGORIAN, $startDate->format('m'), $startDate->format('Y'))));
+            ->setUntil(new \DateTime($startDate->format('Y-m') . '-' . $this->__daysInMonth( $startDate->format('m'), $startDate->format('Y'))));
 
         $transformer = new \Recurr\Transformer\ArrayTransformer();
 
@@ -37,7 +37,7 @@ class CalendarDatesHelper
             ->setStartDate($startDate)
             ->setTimezone($timeZone)
             ->setFreq('DAILY')
-            ->setUntil(new \DateTime($startDate->format('Y-m') . '-' . cal_days_in_month(CAL_GREGORIAN, $startDate->format('m'), $startDate->format('Y'))));
+            ->setUntil(new \DateTime($startDate->format('Y-m') . '-' . $this->__daysInMonth( $startDate->format('m'), $startDate->format('Y'))));
 
         $transformer = new \Recurr\Transformer\ArrayTransformer();
 
@@ -58,7 +58,7 @@ class CalendarDatesHelper
             ->setTimezone($timeZone)
             ->setFreq('DAILY')
             ->setInterval($interval)
-            ->setUntil(new \DateTime($startDate->format('Y-m') . '-' . cal_days_in_month(CAL_GREGORIAN, $startDate->format('m'), $startDate->format('Y'))));
+            ->setUntil(new \DateTime($startDate->format('Y-m') . '-' . $this->__daysInMonth( $startDate->format('m'), $startDate->format('Y'))));
 
         $transformer = new \Recurr\Transformer\ArrayTransformer();
 
@@ -82,22 +82,22 @@ class CalendarDatesHelper
 
         return $dayName;
     }
-    
-    
-    
+
+
     /**
      * Returns the number of week in a month for the specified date.
      *
      * @param string $date
      * @return int
      */
-    function getWeekOfMonth($date) {
+    function getWeekOfMonth($date)
+    {
         // estract date parts
         list($y, $m, $d) = explode('-', date('Y-m-d', strtotime($date)));
-        
+
         // current week, min 1
         $w = 1;
-        
+
         // for each day since the start of the month
         for ($i = 1; $i <= $d; ++$i) {
             // if that day was a sunday and is not the first day of month
@@ -106,8 +106,17 @@ class CalendarDatesHelper
                 ++$w;
             }
         }
-        
+
         // now return
         return $w;
+    }
+
+
+    private function __daysInMonth($month)
+    {
+
+        $date = new DateTime('last day of '.$month. ' month');
+        $numDaysOfCurrentMonth = $date->format('d');
+        return $numDaysOfCurrentMonth;
     }
 }
