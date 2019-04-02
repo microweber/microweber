@@ -953,10 +953,18 @@ class Backup
 
             if ($restore) {
                 foreach ($restore as $table => $data) {
-                    $table_exists = mw()->database_manager->table_exists($table);
-                    if ($table_exists) {
+
+                        $max_items_counter=0;
 
                         foreach ($data as $item) {
+
+                            $max_items_counter++;
+
+                            if($max_items_counter > 3000){
+                                break;
+                            }
+
+
                             array_walk_recursive($item, function (&$el) {
                                 if (is_string($el)) {
                                     $el = utf8_decode($el);
@@ -973,12 +981,18 @@ class Backup
                                 }
                                 $preview_items_for_restore[$table][] = $item;
                             } else {
-                                $item['allow_html'] = true;
-                                $item['allow_scripts'] = true;
 
-                                db_save($table, $item);
+                                $table_exists = mw()->database_manager->table_exists($table);
+                                if ($table_exists) {
+
+
+                                    $item['allow_html'] = true;
+                                    $item['allow_scripts'] = true;
+
+                                    db_save($table, $item);
+                                }
                             }
-                        }
+
                     }
                 }
             }

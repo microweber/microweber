@@ -53,7 +53,7 @@ mw.admin_import = {
 
 
 	create_full : function(selector){
-		
+		mw.admin_import.start_batch_process();
 		mw.load_module( 'admin/import/log',"#mw_import_log");
 	 
         mw.reload_module_interval("#mw_import_log", 5000);
@@ -98,6 +98,8 @@ mw.admin_import = {
 		$.post(mw.settings.api_url+'Microweber/Utils/Import/batch_process', {process:true} ,
 		
 			function(msg) {
+
+
 				
 				
 				if(typeof(msg.percent) != 'undefined'){
@@ -123,7 +125,7 @@ mw.admin_import = {
 				setTimeout(function(){ 
 				mw.admin_import.start_batch_process();
 				
-				 }, 2000);
+				 }, 5000);
  
 
 			

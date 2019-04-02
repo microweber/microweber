@@ -6,12 +6,12 @@
 namespace Microweber\Utils;
 
 api_expose_admin('Microweber\Utils\Import\delete');
-api_expose_admin('Microweber\Utils\Import\create');
+//api_expose_admin('Microweber\Utils\Import\create');
 api_expose_admin('Microweber\Utils\Import\download');
-api_expose_admin('Microweber\Utils\Import\create_full');
+//api_expose_admin('Microweber\Utils\Import\create_full');
 api_expose_admin('Microweber\Utils\Import\move_uploaded_file_to_import');
 api_expose_admin('Microweber\Utils\Import\restore');
-api_expose_admin('Microweber\Utils\Import\export');
+//api_expose_admin('Microweber\Utils\Import\export');
 api_expose_admin('Microweber\Utils\Import\batch_process');
 
 class Import
@@ -1226,14 +1226,13 @@ class Import
         if ($loc != false) {
             return $loc;
         }
-        $folder_root = false;
-        if (function_exists('userfiles_path')) {
-            $folder_root = userfiles_path();
-        } elseif (mw_cache_path()) {
-            $folder_root = normalize_path(mw_cache_path());
-        }
 
-        $here = $folder_root . 'import' . DS;
+        $folder_root = storage_path().'/export_content/';
+
+        $environment = \App::environment();
+
+
+        $here = $folder_root . $environment . DS;
 
         if (!is_dir($here)) {
             mkdir_recursive($here);
@@ -1244,7 +1243,6 @@ class Import
             }
         }
 
-        $here = $folder_root . 'import' . DS . get_table_prefix() . DS;
         $here2 = $this->app->option_manager->get('import_location', 'admin/import');
         if ($here2 != false and is_string($here2) and trim($here2) != 'default' and trim($here2) != '') {
             $here2 = normalize_path($here2, true);
@@ -1374,11 +1372,14 @@ class Import
                             $all_tables_with_rel[] = $table;
                         }
 
-                        $table_conent = false;
+                        $table_content = array();
+                        $table_content2 = array();
+
+                        $table_content = db_get($table, $db_export_params);
 
 
                         if (!$export_only_ids) {
-                            $table_conent = db_get($table, $db_export_params);
+
                         } else {
 
                             if ($has_rel_field) {
@@ -1388,9 +1389,11 @@ class Import
                                     $db_export_params['rel_type'] = $rel_key;
                                     $db_export_params['rel_id'] = '[in]' . $rel_ids_implode;
 
-                                    $table_conent = db_get($table, $db_export_params);
+                                    $table_content_rel = db_get($table, $db_export_params);
 
-
+                                    if ($table_content_rel) {
+                                        $table_content2 = array_merge($table_content2,$table_content_rel);
+                                    }
 
 
                                 }
@@ -1404,12 +1407,16 @@ class Import
                         }
 
 
-                        if ($table_conent) {
+                        if ($table_content) {
                             if (isset($exported_tables_data[$table])) {
-                                $exported_tables_data[$table] = array_merge($exported_tables_data[$table],$table_conent);
+                                $exported_tables_data[$table] = array_merge($exported_tables_data[$table],$table_content);
                             } else {
-                                $exported_tables_data[$table] = $table_conent;
+                                $exported_tables_data[$table] = $table_content;
                             }
+                        }
+                        if ($table_content2) {
+                            $exported_tables_data[$table] = array_merge($exported_tables_data[$table],$table_content2);
+
                         }
                     }
 
