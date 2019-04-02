@@ -725,14 +725,14 @@ class LayoutsManager
                                 $props = explode(',', $item['property']);
 
                                 foreach ($props as $prop) {
-                                    $curr .= $prop . ' ' . $item['value'] . ';';
+                                    $curr .= $prop . ' ' . $item['value'] . ';'."\n";
                                 }
                             } else {
                                 $props = explode(',', $item['property']);
                                 $curr = '';
                                 foreach ($props as $prop) {
                                     if (isset($item['value']) and trim($item['value']) != '') {
-                                        $curr .= $prop . ':' . $item['value'] . ';';
+                                        $curr .= $prop . ':' . $item['value'] . ';'."\n";
                                     }
                                 }
                             }
@@ -758,7 +758,7 @@ class LayoutsManager
                         $curr = '';
                         if ($css_props) {
                             foreach ($css_props as $prop_k => $prop_v) {
-                                $curr .= $prop_k . ':' . $prop_v . '; ';
+                                $curr .= $prop_k . ':' . $prop_v . '; '."\n";
                             }
                         }
                         if ($curr != '') {

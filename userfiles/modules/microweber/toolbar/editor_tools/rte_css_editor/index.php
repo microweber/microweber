@@ -95,6 +95,422 @@
 <script>
 
 
+    CSSEditorSchema = [
+        {
+            interface: 'block',
+            class: 'mw-CSS-Editor-group-title',
+            content: 'Size'
+        },
+        {
+            interface: 'block',
+            class: 'mw-CSS-Editor-group',
+            content: [
+                {
+                    interface: 'block',
+                    class: 'mw-css-editor-group',
+                    content: [
+                        {
+                            interface: 'size',
+                            label: 'Width',
+                            id: 'width'
+                        },
+                        {
+                            interface: 'size',
+                            label: 'Height',
+                            id: 'height'
+                        }
+                    ]
+                },
+                {
+                    interface: 'block',
+                    class: 'mw-css-editor-group',
+                    content: [
+                        {
+                            interface: 'size',
+                            label: 'Min width',
+                            id: 'minWidth',
+                            autocomplete:[
+                                '0'
+                            ]
+                        },
+                        {
+                            interface: 'size',
+                            label: 'Max width',
+                            id: 'maxWidth',
+                            autocomplete:[
+                                'none'
+                            ]
+                        }
+                    ]
+                },
+                {
+                    interface: 'block',
+                    class: 'mw-css-editor-group',
+                    content: [
+                        {
+                            interface: 'size',
+                            label: 'Min height',
+                            id: 'minHeight',
+                            autocomplete:[
+                                '0'
+                            ]
+                        },
+                        {
+                            interface: 'size',
+                            label: 'Max height',
+                            id: 'maxHeight',
+                            autocomplete:[
+                                'none'
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            interface: 'block',
+            class: 'mw-CSS-Editor-group-title',
+            content: 'Spacing'
+        },
+        {
+            interface: 'block',
+            class: 'mw-CSS-Editor-group',
+            content: [
+                {
+                    interface: 'block',
+                    class: '',
+                    content: 'Margin'
+                },
+                {
+                    interface: 'quatro',
+                    label: [' top', 'right', 'bottom', 'left'],
+                    id: 'margin'
+                },
+                {
+                    interface: 'block',
+                    class: '',
+                    content: 'Padding'
+                },
+                {
+                    interface: 'quatro',
+                    label: ['top', 'right', 'bottom', 'left'],
+                    id: 'padding'
+                }
+            ]
+        },
+
+
+        {
+            interface: 'block',
+            class: 'mw-CSS-Editor-group-title',
+            content: 'Typography'
+        },
+        {
+            interface: 'block',
+            class: 'mw-CSS-Editor-group',
+            content: [
+                {
+                    interface: 'block',
+                    class: 'mw-css-editor-group',
+                    content: [
+                        {
+                            interface: 'size',
+                            label: 'Size',
+                            id: 'fontSize'
+                        },
+                        {
+                            interface: 'select',
+                            label: 'Weight',
+                            id: 'fontWeight',
+                            options: ['inherit', 'normal', 'bold', 'bolder', 'lighter', 100, 200, 300, 400, 500, 600, 700, 800, 900]
+                        }
+
+                    ]
+                },
+                {
+                    interface: 'block',
+                    class: 'mw-css-editor-group',
+                    content: [
+                        {
+                            interface: 'select',
+                            label: 'Style',
+                            id: 'fontStyle',
+                            options: ['italic', 'normal']
+                        },
+                        {
+                            interface: 'color',
+                            label: 'Color',
+                            id: 'color'
+                        }
+
+                    ]
+                },
+                {
+                    interface: 'block',
+                    class: 'mw-css-editor-group',
+                    content: [
+                        {
+                            interface: 'select',
+                            label: 'Text transform',
+                            id: 'textTransform',
+                            options: ['none', 'uppercase', 'lowercase', 'capitalize']
+                        },
+                        {
+                            interface: 'size',
+                            label: 'Line Height',
+                            id: 'lineHeight'
+                        }
+                    ]
+                },
+                {
+                    interface: 'block',
+                    class: 'mw-css-editor-group',
+                    content: [
+                        {
+                            interface: 'size',
+                            label: 'Letter spacing',
+                            id: 'letterSpacing'
+                        },
+                        {
+                            interface: 'size',
+                            label: 'Word spacing',
+                            id: 'wordSpacing'
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            interface: 'block',
+            content: 'Background',
+            class: 'mw-CSS-Editor-group-title',
+        },
+        {
+            interface: 'block',
+            class: 'mw-CSS-Editor-group',
+            content: [
+                {
+                    interface: 'color',
+                    label: 'Color',
+                    id: 'backgroundColor'
+                },
+                {
+                    interface: 'file',
+                    id: 'backgroundImage',
+                    label: 'Image',
+                    types: 'images'
+                },
+                {
+                    interface: 'select',
+                    id: 'backgroundRepeat',
+                    label: 'Repeat',
+                    options: ['no-repeat', 'repeat-x', 'repeat-y', 'repeat']
+                },
+                {
+                    interface: 'select',
+                    id: 'backgroundSize',
+                    label: 'Size',
+                    options: ['auto', 'cover', {title: 'fit', value: 'contain'}, {title: 'scale', value: '100% 100%'}]
+                },
+                {
+                    interface: 'select',
+                    id: 'backgroundPosition',
+                    label: 'Position',
+                    options: [
+                        'center',
+                        {title: 'Top Left', value: '0 0'},
+                        {title: 'Top Center', value: '50% 0'},
+                        {title: 'Top Right', value: '100% 0'},
+                        {title: 'Middle Left', value: '0 50%'},
+                        {title: 'Middle Right', value: '100% 50%'},
+                        {title: 'Middle Right', value: '100% 50%'},
+                        {title: 'Bottom Left', value: '0 100%'},
+                        {title: 'Bottom Center', value: '50% 100%'},
+                        {title: 'Bottom Right', value: '100% 100%'}
+
+                    ]
+                },
+            ]
+        },
+        {
+            interface: 'block',
+            content: 'Border',
+            class: 'mw-CSS-Editor-group-title',
+        },
+        {
+            interface: 'block',
+            class: 'mw-CSS-Editor-group mw-CSS-Editor-group-border',
+            content: [
+                {
+                    interface: 'block',
+                    content: 'Border Top'
+                },
+                {
+                    interface: 'size',
+                    id: 'borderTopWidth',
+                    label: 'Size'
+                },
+                {
+                    interface: 'select',
+                    id: 'borderTopStyle',
+                    label: 'Type',
+                    options: [
+                        'none',
+                        'hidden',
+                        'dotted',
+                        'dashed',
+                        'solid',
+                        'double',
+                        'groove',
+                        'ridge',
+                        'inset',
+                        'outset'
+                    ]
+                },
+                {
+                    interface: 'color',
+                    label: 'Color',
+                    id: 'borderTopColor'
+                },
+                {
+                    interface: 'block',
+                    content: 'Border Bottom',
+                    class: 'mw-CSS-Editor-border-label'
+                },
+                {
+                    interface: 'size',
+                    id: 'borderBottomWidth',
+                    label: 'Size'
+                },
+                {
+                    interface: 'select',
+                    id: 'borderBottomStyle',
+                    label: 'Type',
+                    options: [
+                        'none',
+                        'hidden',
+                        'dotted',
+                        'dashed',
+                        'solid',
+                        'double',
+                        'groove',
+                        'ridge',
+                        'inset',
+                        'outset'
+                    ]
+                },
+                {
+                    interface: 'color',
+                    label: 'Color',
+                    id: 'borderBottomColor'
+                },
+                {
+                    interface: 'block',
+                    content: 'Border Left',
+                    class: 'mw-CSS-Editor-border-label'
+                },
+                {
+                    interface: 'size',
+                    id: 'borderLeftWidth',
+                    label: 'Size'
+                },
+                {
+                    interface: 'select',
+                    id: 'borderLeftStyle',
+                    label: 'Type',
+                    options: [
+                        'none',
+                        'hidden',
+                        'dotted',
+                        'dashed',
+                        'solid',
+                        'double',
+                        'groove',
+                        'ridge',
+                        'inset',
+                        'outset'
+                    ]
+                },
+                {
+                    interface: 'color',
+                    label: 'Color',
+                    id: 'borderLeftColor'
+                },
+                {
+                    interface: 'block',
+                    content: 'Border Right',
+                    class: 'mw-CSS-Editor-border-label'
+                },
+                {
+                    interface: 'size',
+                    id: 'borderRightWidth',
+                    label: 'Size'
+                },
+                {
+                    interface: 'select',
+                    id: 'borderRightStyle',
+                    label: 'Type',
+                    options: [
+                        'none',
+                        'hidden',
+                        'dotted',
+                        'dashed',
+                        'solid',
+                        'double',
+                        'groove',
+                        'ridge',
+                        'inset',
+                        'outset'
+                    ]
+                },
+                {
+                    interface: 'color',
+                    label: 'Color',
+                    id: 'borderRightColor'
+                },
+            ]
+        },
+        {
+            interface: 'block',
+            content: 'Misc',
+            class: 'mw-CSS-Editor-group-title',
+        },
+        {
+            interface: 'block',
+            class: 'mw-CSS-Editor-group',
+            content: [
+                {
+                    interface: 'block',
+                    content: 'Rounded Corners'
+                },
+                {
+                    interface: 'quatro',
+                    id: 'borderRadius',
+                    label: ['Top Left', 'Top Right', 'Bottom Left', 'Bottom Right']
+                },
+
+                {
+                    interface: 'block',
+                    content: 'Element Shadow',
+                },
+                {
+                    interface: 'shadow',
+                    id: 'boxShadow',
+                    pickerPosition: 'top-left'
+                }
+            ]
+        }
+
+
+    ];
+
+
+
+
+
+
+
     $(document).ready(function(){
             mw.cssEditorSelector = new mw.Selector({
                 root: window.parent.document.body,
@@ -125,415 +541,7 @@
 
 
 
-        CSSEditorSchema = [
-            {
-                interface: 'block',
-                class: 'mw-CSS-Editor-group-title',
-                content: 'Size'
-            },
-            {
-                interface: 'block',
-                class: 'mw-CSS-Editor-group',
-                content: [
-                    {
-                        interface: 'block',
-                        class: 'mw-css-editor-group',
-                        content: [
-                            {
-                                interface: 'size',
-                                label: 'Width',
-                                id: 'width'
-                            },
-                            {
-                                interface: 'size',
-                                label: 'Height',
-                                id: 'height'
-                            }
-                        ]
-                    },
-                    {
-                        interface: 'block',
-                        class: 'mw-css-editor-group',
-                        content: [
-                            {
-                                interface: 'size',
-                                label: 'Min width',
-                                id: 'minWidth',
-                                autocomplete:[
-                                    '0'
-                                ]
-                            },
-                            {
-                                interface: 'size',
-                                label: 'Max width',
-                                id: 'maxWidth',
-                                autocomplete:[
-                                    'none'
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        interface: 'block',
-                        class: 'mw-css-editor-group',
-                        content: [
-                            {
-                                interface: 'size',
-                                label: 'Min height',
-                                id: 'minHeight',
-                                autocomplete:[
-                                    '0'
-                                ]
-                            },
-                            {
-                                interface: 'size',
-                                label: 'Max height',
-                                id: 'maxHeight',
-                                autocomplete:[
-                                    'none'
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                interface: 'block',
-                class: 'mw-CSS-Editor-group-title',
-                content: 'Spacing'
-            },
-            {
-                interface: 'block',
-                class: 'mw-CSS-Editor-group',
-                content: [
-                    {
-                        interface: 'block',
-                        class: '',
-                        content: 'Margin'
-                    },
-                    {
-                        interface: 'quatro',
-                        label: [' top', 'right', 'bottom', 'left'],
-                        id: 'margin'
-                    },
-                    {
-                        interface: 'block',
-                        class: '',
-                        content: 'Padding'
-                    },
-                    {
-                        interface: 'quatro',
-                        label: ['top', 'right', 'bottom', 'left'],
-                        id: 'padding'
-                    }
-                ]
-            },
 
-
-            {
-                interface: 'block',
-                class: 'mw-CSS-Editor-group-title',
-                content: 'Typography'
-            },
-            {
-                interface: 'block',
-                class: 'mw-CSS-Editor-group',
-                content: [
-                    {
-                        interface: 'block',
-                        class: 'mw-css-editor-group',
-                        content: [
-                            {
-                                interface: 'size',
-                                label: 'Size',
-                                id: 'fontSize'
-                            },
-                            {
-                                interface: 'select',
-                                label: 'Weight',
-                                id: 'fontWeight',
-                                options: ['inherit', 'normal', 'bold', 'bolder', 'lighter', 100, 200, 300, 400, 500, 600, 700, 800, 900]
-                            }
-
-                        ]
-                    },
-                    {
-                        interface: 'block',
-                        class: 'mw-css-editor-group',
-                        content: [
-                            {
-                                interface: 'select',
-                                label: 'Style',
-                                id: 'fontStyle',
-                                options: ['italic', 'normal']
-                            },
-                            {
-                                interface: 'color',
-                                label: 'Color',
-                                id: 'color'
-                            }
-
-                        ]
-                    },
-                    {
-                        interface: 'block',
-                        class: 'mw-css-editor-group',
-                        content: [
-                            {
-                                interface: 'select',
-                                label: 'Text transform',
-                                id: 'textTransform',
-                                options: ['none', 'uppercase', 'lowercase', 'capitalize']
-                            },
-                            {
-                                interface: 'size',
-                                label: 'Line Height',
-                                id: 'lineHeight'
-                            }
-                        ]
-                    },
-                    {
-                        interface: 'block',
-                        class: 'mw-css-editor-group',
-                        content: [
-                            {
-                                interface: 'size',
-                                label: 'Letter spacing',
-                                id: 'letterSpacing'
-                            },
-                            {
-                                interface: 'size',
-                                label: 'Word spacing',
-                                id: 'wordSpacing'
-                            }
-                        ]
-                    }
-                ]
-            },
-
-            {
-                interface: 'block',
-                content: 'Background',
-                class: 'mw-CSS-Editor-group-title',
-            },
-            {
-                interface: 'block',
-                class: 'mw-CSS-Editor-group',
-                content: [
-                    {
-                        interface: 'color',
-                        label: 'Color',
-                        id: 'backgroundColor'
-                    },
-                    {
-                        interface: 'file',
-                        id: 'backgroundImage',
-                        label: 'Image',
-                        types: 'images'
-                    },
-                    {
-                        interface: 'select',
-                        id: 'backgroundRepeat',
-                        label: 'Repeat',
-                        options: ['no-repeat', 'repeat-x', 'repeat-y', 'repeat']
-                    },
-                    {
-                        interface: 'select',
-                        id: 'backgroundSize',
-                        label: 'Size',
-                        options: ['auto', 'cover', {title: 'fit', value: 'contain'}, {title: 'scale', value: '100% 100%'}]
-                    },
-                    {
-                        interface: 'select',
-                        id: 'backgroundPosition',
-                        label: 'Position',
-                        options: [
-                            'center',
-                            {title: 'Top Left', value: '0 0'},
-                            {title: 'Top Center', value: '50% 0'},
-                            {title: 'Top Right', value: '100% 0'},
-                            {title: 'Middle Left', value: '0 50%'},
-                            {title: 'Middle Right', value: '100% 50%'},
-                            {title: 'Middle Right', value: '100% 50%'},
-                            {title: 'Bottom Left', value: '0 100%'},
-                            {title: 'Bottom Center', value: '50% 100%'},
-                            {title: 'Bottom Right', value: '100% 100%'}
-
-                        ]
-                    },
-                ]
-            },
-            {
-                interface: 'block',
-                content: 'Border',
-                class: 'mw-CSS-Editor-group-title',
-            },
-            {
-                interface: 'block',
-                class: 'mw-CSS-Editor-group mw-CSS-Editor-group-border',
-                content: [
-                    {
-                        interface: 'block',
-                        content: 'Border Top'
-                    },
-                    {
-                        interface: 'size',
-                        id: 'borderTopWidth',
-                        label: 'Size'
-                    },
-                    {
-                        interface: 'select',
-                        id: 'borderTopStyle',
-                        label: 'Type',
-                        options: [
-                            'none',
-                            'hidden',
-                            'dotted',
-                            'dashed',
-                            'solid',
-                            'double',
-                            'groove',
-                            'ridge',
-                            'inset',
-                            'outset'
-                        ]
-                    },
-                    {
-                        interface: 'color',
-                        label: 'Color',
-                        id: 'borderTopColor'
-                    },
-                    {
-                        interface: 'block',
-                        content: 'Border Bottom',
-                        class: 'mw-CSS-Editor-border-label'
-                    },
-                    {
-                        interface: 'size',
-                        id: 'borderBottomWidth',
-                        label: 'Size'
-                    },
-                    {
-                        interface: 'select',
-                        id: 'borderBottomStyle',
-                        label: 'Type',
-                        options: [
-                            'none',
-                            'hidden',
-                            'dotted',
-                            'dashed',
-                            'solid',
-                            'double',
-                            'groove',
-                            'ridge',
-                            'inset',
-                            'outset'
-                        ]
-                    },
-                    {
-                        interface: 'color',
-                        label: 'Color',
-                        id: 'borderBottomColor'
-                    },
-                    {
-                        interface: 'block',
-                        content: 'Border Left',
-                        class: 'mw-CSS-Editor-border-label'
-                    },
-                    {
-                        interface: 'size',
-                        id: 'borderLeftWidth',
-                        label: 'Size'
-                    },
-                    {
-                        interface: 'select',
-                        id: 'borderLeftStyle',
-                        label: 'Type',
-                        options: [
-                            'none',
-                            'hidden',
-                            'dotted',
-                            'dashed',
-                            'solid',
-                            'double',
-                            'groove',
-                            'ridge',
-                            'inset',
-                            'outset'
-                        ]
-                    },
-                    {
-                        interface: 'color',
-                        label: 'Color',
-                        id: 'borderLeftColor'
-                    },
-                    {
-                        interface: 'block',
-                        content: 'Border Right',
-                        class: 'mw-CSS-Editor-border-label'
-                    },
-                    {
-                        interface: 'size',
-                        id: 'borderRightWidth',
-                        label: 'Size'
-                    },
-                    {
-                        interface: 'select',
-                        id: 'borderRightStyle',
-                        label: 'Type',
-                        options: [
-                            'none',
-                            'hidden',
-                            'dotted',
-                            'dashed',
-                            'solid',
-                            'double',
-                            'groove',
-                            'ridge',
-                            'inset',
-                            'outset'
-                        ]
-                    },
-                    {
-                        interface: 'color',
-                        label: 'Color',
-                        id: 'borderRightColor'
-                    },
-                ]
-            },
-            {
-                interface: 'block',
-                content: 'Misc',
-                class: 'mw-CSS-Editor-group-title',
-            },
-            {
-                interface: 'block',
-                class: 'mw-CSS-Editor-group',
-                content: [
-                    {
-                        interface: 'block',
-                        content: 'Rounded Corners'
-                    },
-                    {
-                        interface: 'quatro',
-                        id: 'borderRadius',
-                        label: ['Top Left', 'Top Right', 'Bottom Left', 'Bottom Right']
-                    },
-
-                    {
-                        interface: 'block',
-                        content: 'Element Shadow',
-                    },
-                    {
-                        interface: 'shadow',
-                        id: 'boxShadow',
-                        pickerPosition: 'top-left'
-                    }
-                ]
-            }
-
-
-        ];
 
 
         mw.cssSelectorTree = new mw.tree({
