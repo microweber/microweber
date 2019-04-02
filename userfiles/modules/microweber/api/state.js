@@ -122,8 +122,8 @@ mw.State = function(options){
     mw.$liveEditState = $(mw.liveEditState);
 
     var ui = $('<div class="mw-ui-btn-nav"></div>'),
-        undo = mwd.createElement('button'),
-        redo = mwd.createElement('button');
+        undo = mwd.createElement('span'),
+        redo = mwd.createElement('span');
     undo.className = 'mw-ui-btn mw-ui-btn-medium';
     undo.innerHTML = '<span class="mw-icon-reply"></span>';
     redo.className = 'mw-ui-btn mw-ui-btn-medium';
@@ -141,17 +141,21 @@ mw.State = function(options){
 
     $(document).ready(function(){
         var idata = mw.liveEditState.eventData();
-        undo.disabled = !idata.hasNext;
-        redo.disabled = !idata.hasPrev;
+
+        $(undo)[!idata.hasNext?'addClass':'removeClass']('disabled');
+        $(redo)[!idata.hasPrev?'addClass':'removeClass']('disabled');
+
+        /*undo.disabled = !idata.hasNext;
+        redo.disabled = !idata.hasPrev;*/
 
         mw.$liveEditState.on('stateRecord', function(e, data){
-            undo.disabled = !data.hasNext;
-            redo.disabled = !data.hasPrev;
+            $(undo)[!data.hasNext?'addClass':'removeClass']('disabled');
+            $(redo)[!data.hasPrev?'addClass':'removeClass']('disabled');
         });
         mw.$liveEditState.on('stateUndo stateRedo', function(e, data){
             if(!data.active || !data.active.target) {
-                undo.disabled = !data.hasNext;
-                redo.disabled = !data.hasPrev;
+                $(undo)[!data.hasNext?'addClass':'removeClass']('disabled');
+                $(redo)[!data.hasPrev?'addClass':'removeClass']('disabled');
                 return;
             }
             if(document.body.contains(data.active.target)) {
@@ -165,8 +169,8 @@ mw.State = function(options){
                 $(data.active.prev).html(data.active.prevValue);
             }
             mw.drag.load_new_modules();
-            undo.disabled = !data.hasNext;
-            redo.disabled = !data.hasPrev;
+            $(undo)[!data.hasNext?'addClass':'removeClass']('disabled');
+            $(redo)[!data.hasPrev?'addClass':'removeClass']('disabled');
         });
 
         $('#history_panel_toggle,#history_dd,.mw_editor_undo,.mw_editor_redo').remove();
