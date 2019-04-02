@@ -37,7 +37,7 @@
 **************************/
 
 html {
-    font-size: 12px;
+    font-size: 13px;
 }
 
 html, body {
@@ -197,7 +197,7 @@ h3 > [class*="mw-icon-"]:first-child {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    padding: 15px;
+    padding: 15px 15px 16px 15px;
 }
 
 #pages_tree_toolbar [class*='mw-icon-'] {
@@ -4512,22 +4512,24 @@ tr.mw-order-item.hovered, tr.mw-order-item {
     margin-right: 10px;
 }
 
-
 .section-header {
     background: white;
     padding: 15px;
-    height: 66px;
+    height: 60px;
     margin-bottom: 15px !important;
 }
-.section-header-fixer{
+
+.section-header-fixer {
     height: 66px;
     position: relative;
     z-index: 12;
 }
-.section-header-fixer .section-header{
+
+.section-header-fixer .section-header {
     position: fixed;
-    box-shadow: 0 2px 22px rgba(0,0,0,.05);
+    box-shadow: 0 2px 22px rgba(0, 0, 0, .05);
 }
+
 .section-header [src*=".svg"] {
     max-height: 24px;
     max-width: 24px;
@@ -4641,19 +4643,16 @@ body.is_admin .mw-admin-container {
     border-radius: 3px 0 0 3px;
 }
 
-
-html[dir="rtl"] .the-icoimage{
+html[dir="rtl"] .the-icoimage {
     border-radius: 0 3px 3px 0;
 }
-
-
 
 #upload-icoimage {
     border-radius: 0 3px 3px 0;
     border-left-width: 0;
 }
 
-html[dir="rtl"] #upload-icoimage{
+html[dir="rtl"] #upload-icoimage {
     border-radius: 3px 0 0 3px;
     border-left-width: 1px;
     border-right-width: 0px;
@@ -4661,7 +4660,7 @@ html[dir="rtl"] #upload-icoimage{
 
 .top-search {
     border: 1px solid #a8a8a8;
-    height: 36px;
+    height: 32px;
     width: 190px;
     background: #f5f5f5;
     border-radius: 2px;
@@ -4671,7 +4670,7 @@ html[dir="rtl"] #upload-icoimage{
 
 .top-search input {
     width: 148px !important;
-    height: 34px;
+    height: 30px;
     padding: 10px;
     border: none;
     outline: none;
@@ -4758,7 +4757,7 @@ html[dir="rtl"] #upload-icoimage{
 }
 
 .top-form-submit span {
-    top: 3px;
+    top: 0px;
 }
 
 .mw-admin-user-tab-content tbody tr:last-child .mw-ui-btn {
