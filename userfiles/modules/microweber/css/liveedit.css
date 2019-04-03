@@ -4408,7 +4408,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     transform: scale(1, .5) translateZ(-30px);
     transform-origin: left center;
     min-width: 175px;
-    transition: all .3s;
+    transition: all .1s;
     margin-top: 10px;
 }
 
@@ -4422,7 +4422,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     display: block;
     background-color: black;
     transform: rotate(45deg);
-    transition: all .3s;
+    transition: all .1s;
 }
 
 .mw-handle-menu-default.mw-handle-menu:before {
