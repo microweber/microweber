@@ -459,7 +459,6 @@ li.module-item.ui-draggable-dragging .mw_module_image {
     top: 0px;
 }
 
-
 .mw_dropable_arr {
     position: absolute;
     left: 50%;
@@ -493,16 +492,16 @@ li.module-item.ui-draggable-dragging .mw_module_image {
     bottom: -9px;
 }*/
 
-
 .mw_dropable {
     position: absolute !important;
     height: 3px;
     background: #0088CC;
     z-index: 997;
     visibility: visible;
-    transition: all .2s cubic-bezier(.73,1.06,.58,.84);
+    transition: all .2s cubic-bezier(.73, 1.06, .58, .84);
 }
-.mw_dropable_hidden{
+
+.mw_dropable_hidden {
     visibility: hidden;
     opacity: 0;
     width: 0;
@@ -610,9 +609,6 @@ li.module-item.ui-draggable-dragging .mw_module_image {
     display: block;
 }
 
-
-
-
 .column_separator_title,
 a.mw-make-cols {
     color: white;
@@ -627,7 +623,6 @@ a.mw-make-cols {
     padding: 0 7px;
     line-height: 23px;
 }
-
 
 .mw-make-cols + .mw_edit_delete {
     right: -23px !important;
@@ -702,7 +697,6 @@ a.mw-make-cols.active {
     position: static;
 }
 
-
 #items_handle {
     position: absolute;
     z-index: 999;
@@ -764,7 +758,6 @@ a.mw-make-cols.active {
 .mw_drag_current * {
     visibility: hidden !important;
 }
-
 
 #items_handle {
     left: -9999px;
@@ -2000,7 +1993,6 @@ div.mw_drag_started, li.module-item.ui-draggable-dragging {
     cursor: no-drop;
 }
 
-
 .mw-col-container:empty {
     min-height: 100px;
     width: 100%;
@@ -2289,7 +2281,7 @@ body.dragStart .empty-element {
 *****************************/
 
 #live_edit_toolbar_holder [class*='tst-'] {
-    display: block;
+    /*display: block;*/
     position: relative;
     width: 55px;
     height: 53px;
@@ -2297,6 +2289,9 @@ body.dragStart .empty-element {
     border-right: 1px solid #EAEAEA;
     border-bottom: 1px solid transparent;
     text-decoration: none !important;
+
+    display: flex;
+    align-items: center;
 }
 
 [class*='tst-'] .mw-icon-mw {
@@ -2305,8 +2300,8 @@ body.dragStart .empty-element {
     font-size: 30px;
 }
 
-.tst-logo [class*='mw-icon-'] {
-    top: 8px;
+.tst-logo .mw-icon-mw {
+    padding: 0 7px;
 }
 
 .tst-logo .mw-icon-dropdown {
@@ -2820,17 +2815,19 @@ div[id*='SSDIVEL'] {
     border-width: 2px 2px 0 0
 }
 
-.mw_image_resizer .ui-resizable-se{
+.mw_image_resizer .ui-resizable-se {
     border-width: 0 2px 2px 0;
     bottom: -2px;
     right: -2px;
 }
-.mw_image_resizer .ui-resizable-sw{
+
+.mw_image_resizer .ui-resizable-sw {
     border-width: 0 0 2px 2px;
     bottom: -2px;
     left: -2px;
 }
-.mw_image_resizer .ui-resizable-nw{
+
+.mw_image_resizer .ui-resizable-nw {
     border-width: 2px 0 0 2px;
     top: -2px;
     left: -2px;
@@ -3283,6 +3280,8 @@ div[id*='SSDIVEL'] {
     border-bottom-left-radius: 2px;
     top: 50%;
     margin-top: -34px;
+    font-size: 14px;
+    font-family: 'Lora', 'Helvetica', 'Arial', sans-serif;
 
 }
 
@@ -3300,12 +3299,18 @@ div[id*='SSDIVEL'] {
     -ms-transform: rotate(90deg);
     -o-transform: rotate(90deg);
     transform: rotate(90deg);
-    transition: 0.6s;
-    margin-top: 26px;
+    /*transition: 0.6s;*/
+    margin-top: 34px;
+    font-size: 14px;
+    line-height: 0;
+    font-family: 'Lora', 'Helvetica', 'Arial', sans-serif;
 }
 
 #live_edit_side_holder .sidebar-toggler i {
     color: #fff;
+    font-size: 14px;
+    line-height: 0;
+    font-family: 'Lora', 'Helvetica', 'Arial', sans-serif;
 }
 
 #live_edit_side_holder .module-modal-settings-menu-holder {
@@ -3762,7 +3767,6 @@ body.isTyping .mw-cloneable-control-item {
     background: #fafafa;
 }
 
-
 .html-editor-selcted {
     outline: 2px solid #329A4F;
     outline-offset: 2px;
@@ -3777,10 +3781,11 @@ body.isTyping .mw-cloneable-control-item {
     /*height: 53px;*/
 }
 
-.wysiwyg-cell-undo-redo .mw-ui-btn-nav{
+.wysiwyg-cell-undo-redo .mw-ui-btn-nav {
     margin: 10px 0 0 10px;
     float: left;
 }
+
 .wysiwyg-cell-undo-redo .mw_editor_btn {
     margin-top: 14px;
 }
@@ -4598,13 +4603,13 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     display: none !important;
 }
 
-#mw-css-editor-sidebar-iframe{
+#mw-css-editor-sidebar-iframe {
     max-height: 100%;
     min-height: 0;
     height: 100vh;
 }
 
-.mw-tooltip-content{
+.mw-tooltip-content {
     max-height: 90vh;
     overflow: auto;
 }

@@ -3,7 +3,7 @@
 <div id="coupons-accordion" class="mw-ui-box mw-ui-box-silver-blue m-t-20">
     <div class="mw-ui-box-header" onclick="mw.accordion('#coupons-accordion');">
         <div class="header-holder">
-            <i class="mai-percent"></i><?php _e("Coupons"); ?>
+            <i class="material-icons"> money_off </i> <?php _e("Coupons"); ?>
         </div>
     </div>
 
