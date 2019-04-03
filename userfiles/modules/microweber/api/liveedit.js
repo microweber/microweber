@@ -478,8 +478,7 @@ mw.drag = {
             $(mw.drag.columns.resizer).hide()
 
             var id = mw._activeRowOver.id;
-            $(mw.handle_row).children(".mw-col").removeClass("temp_column");
-            $(mw.handle_row).find("a").removeClass("active");
+
             $(selector).addClass("active")
             var $el_id = id != '' ? id : mw.settings.mw - row_id;
 
@@ -790,24 +789,6 @@ mw.drag = {
             }
         });
 
-
-
-
-
-        mw.$("#mw_handle_row,#mw_handle_module,#mw_handle_element,#items_handle").hover(function() {
-            var active = $(this).data("curr");
-            $(active).addClass("element-active");
-            $(this).addClass(this.id + 'hover');
-        }, function() {
-            var active = $(this).data("curr");
-            $(active).removeClass("element-active");
-            $(this).removeClass(this.id + 'hover');
-            $(this).css({
-                top: '',
-                left: ''
-            });
-        });
-
         mw.on("ItemLeave", function(e, target) {
             $(mw.handle_item).css({
                 top: "",
@@ -824,7 +805,7 @@ mw.drag = {
             $(mwd.body).append(mw.settings.handles.element);
             $(mwd.body).append(mw.settings.handles.item);
 
-            mw.handle_row = mwd.getElementById('mw_handle_row');
+
             mw.handle_element = mwd.getElementById('mw_handle_element');
             mw.handle_item = '';
 
@@ -839,22 +820,7 @@ mw.drag = {
                 +  '<input type="range">'
                 +  '</div></div>';
 
-            $(mw.handle_row).mouseenter(function() {
-                var curr = $(this).data("curr");
-                $(this).draggable("option", "helper", function() {
-                    var clone = $(curr).clone(true);
-                    clone.css({
-                        width: $(curr).width(),
-                        height: $(curr).height()
-                    });
-                    return clone;
-                });
-            }).click(function() {
-                var curr = $(this).data("curr");
-                if (!$(curr).hasClass("element-current")) {
-                    mw.trigger("ElementClick", curr);
-                }
-            });
+
             $(mw.handle_item).mouseenter(function() {
                 var el = $(this);
                 var curr = el.data("curr");
@@ -1994,74 +1960,6 @@ mw.drop_regions = {
 
 
 
-mw.history = {
-
-    /**
-     * Microweber history  class
-     *
-     * @class mw.history
-     */
-
-    /**
-     * Loads the history module
-     *
-     * @method mw.history.init()
-     */
-    init: function() {
-        data = {}
-        data.module = 'admin/mics/edit_block_history';
-        data.page_id = mw.settings.page_id;
-        data.post_id = mw.settings.post_id;
-        data.no_wrap = '1';
-        data.category_id = mw.settings.category_id;
-        data.for_url = document.location.href;
-        mw.$('#mw-history-panel').load(mw.settings.site_url + 'api/module', data);
-    },
-
-    /**
-     * Loads the history from file
-     *
-     * @method mw.history.load()
-     */
-    load: function($id) {
-        mw.on.DOMChangePause = true;
-        if ($id != undefined) {
-            $.ajax({
-                type: 'POST',
-                url: mw.settings.site_url + "api/get_content_field_draft",
-                data: {
-                    id: $id
-                },
-                dataType: "json",
-                success: function(data) {
-                    if (data.constructor !== [].constructor) {
-                        return false;
-                    }
-                    var l = data.length,
-                        i = 0;
-                    for (; i < l; i++) {
-                        var data_field = data[i];
-                        if (typeof data_field.field !== 'undefined' && typeof data_field.rel !== 'undefined') {
-                            var field = data_field.field;
-                            var rel = data_field.rel;
-                            mw.$('.edit[rel="' + rel + '"][field="' + field + '"]').html(data_field.value);
-                        } else if (typeof data_field.field !== 'undefined' && typeof data_field.rel_type !== 'undefined') {
-                            var field = data_field.field;
-                            var rel = data_field.rel_type;
-                            mw.$('.edit[rel="' + rel + '"][field="' + field + '"]').html(data_field.value);
-                        }
-                    }
-                    mw.$(".edit.changed").removeClass("changed");
-                    setTimeout(function() {
-                        mw.drag.fix_placeholders(true);
-                        mw.on.DOMChangePause = false;
-                    }, 200);
-                    mw.$(".hasdraft").remove();
-                }
-            })
-        }
-    }
-}
 /* Toolbar */
 mw.tools.addClass(mwd.body, 'mw-live-edit')
 mw.designTool = {
@@ -2387,10 +2285,7 @@ $(window).on("load", function() {
             !mw.tools.hasParentsWithClass(event.target, 'mw_handle_row') &&
             !mw.tools.hasClass(event.target, 'mw-row') &&
             !mw.tools.hasParentsWithClass(event.target, 'mw-row')) {
-            $(mw.handle_row).css({
-                top: "",
-                left: ""
-            });
+
             mw.$(".mw-row").each(function() {
                 this.clicked = false;
             });

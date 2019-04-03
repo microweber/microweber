@@ -67,9 +67,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
 <script type="text/javascript">
         $(document).ready(function () {
             mw.toolbar.minTop = parseFloat($(mwd.body).css("paddingTop"));
-            setTimeout(function () {
-                mw.history.init();
-            }, 500);
+
             mw.tools.module_slider.init();
             mw.tools.dropdown();
             mw.tools.toolbar_slider.init();

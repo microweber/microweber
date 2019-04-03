@@ -162,9 +162,7 @@ if (isset($_COOKIE['mw_exp'])) {
             if (typeof(mw.toolbar) != "undefined") {
                 mw.toolbar.minTop = parseFloat($(mwd.body).css("paddingTop"));
             }
-            setTimeout(function () {
-                mw.history.init();
-            }, 500);
+
             mw.tools.module_slider.init();
             mw.tools.dropdown();
             mw.tools.toolbar_slider.init();
@@ -287,19 +285,6 @@ if (isset($_COOKIE['mw_exp'])) {
                     $(document.body).addClass('has-opened-sidebar');
                     $('a[data-id="mw-toolbar-show-sidebar-btn"]').addClass('opened');
                     mw.cookie.set("show-sidebar-layouts", '1');
-
-                    $(mw.handle_module).css({
-                        top: "",
-                        left: ""
-                    });
-                    $(mw.handle_element).css({
-                        top: "",
-                        left: ""
-                    });
-                    $(mw.handle_row).css({
-                        top: "",
-                        left: ""
-                    });
 
                 })
                 .on('ControlBoxHide', function () {

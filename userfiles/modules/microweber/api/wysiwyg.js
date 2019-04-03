@@ -403,10 +403,10 @@ mw.wysiwyg = {
         });
     },
     hide_drag_handles: function () {
-        mw.$(".mw-wyswyg-plus-element,.mw_handle_row").hide();
+        mw.$(".mw-wyswyg-plus-element").hide();
     },
     show_drag_handles: function () {
-        mw.$(".mw-wyswyg-plus-element,.mw_handle_row").show();
+        mw.$(".mw-wyswyg-plus-element").show();
     },
 
     _external: function () {
@@ -2036,49 +2036,7 @@ mw.wysiwyg = {
         }
 
     },
-    _undo: false,
-    _redo: false,
-    undoredo: false,
-    undoRedoFixes: function () {
-        mw.wysiwyg.undoredo = true;
-        mw.askusertostay = true;
-        var curr = mw.historyActive;
-        var len = mw.tools.objLenght(mw.undoHistory);
-        if (typeof mw.undoHistory[curr] === 'undefined' && curr > 0) {
-            mw.$(".mw_editor_undo").addClass("disabled");
-            mw.$(".mw_editor_redo").removeClass("disabled");
-        }
-        if (typeof mw.undoHistory[curr] === 'undefined' && curr < 0) {
-            mw.$(".mw_editor_undo").removeClass("disabled");
-            mw.$(".mw_editor_redo").addClass("disabled");
-        }
-        if (typeof mw.undoHistory[curr] !== 'undefined' && curr > 0 && curr < len) {
-            mw.$(".mw_editor_undo").removeClass("disabled");
-            mw.$(".mw_editor_redo").removeClass("disabled");
-        }
-    },
-    historyUndo: function () {
-        mw.wysiwyg.undoredo = true;
-        mw.askusertostay = true;
-        if (typeof mw.undoHistory === 'object') {
-            var len = mw.tools.objLenght(mw.undoHistory);
-            if (len > 0) {
-                var active = mw.historyActive++;
-            }
-            mw.history.load(mw.undoHistory[active]);
-            mw.wysiwyg.undoRedoFixes();
-        }
-    },
-    historyRedo: function () {
-        if (typeof mw.undoHistory === 'object') {
-            var len = mw.tools.objLenght(mw.undoHistory);
-            if (len > 0) {
-                var active = mw.historyActive--;
-            }
-            mw.history.load(mw.undoHistory[active]);
-            mw.wysiwyg.undoRedoFixes();
-        }
-    },
+
 
     fontFamilies: ['Arial', 'Tahoma', 'Verdana', 'Georgia', 'Times New Roman'],
     fontFamiliesExtended: [],

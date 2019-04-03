@@ -581,11 +581,16 @@
                 }
                 mw.elementCSSEditor.enable();
 
-                var cname = function (ccurr) {
+                window.cname = function (ccurr) {
                     if(!ccurr) return;
-                    return ccurr.nodeName + (ccurr.className?'.'+ccurr.className.trim().split(' ').join('.'):'')+ (ccurr.id?'#'+ccurr.id:'');
+                    var cls = (ccurr.className || '').trim().replace(/\s{2,}/g, ' ').replace(/\.\./g,'.').replace(/\.\./g,'.');
+                    cls = cls?'.'+cls.split(' ').join('.'):'';
+                    var cn = ccurr.nodeName + cls + (ccurr.id?'#'+ccurr.id:'');
+                    return cn;
                 };
                 var c = mw.elementCSSEditor.currentElement;
+
+                if(!c || !c.parentNode) return;
 
                 var parentcname = c.parentNode.nodeName + (c.parentNode.className?'.'+c.parentNode.className.split(' ').join('.'):'')+ (c.id?'#'+c.id:'');
                 var treedata = [], ccurr = c;

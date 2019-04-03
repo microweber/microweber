@@ -122,13 +122,6 @@
             mw.tools.removeClass(mwd.getElementById('mw-quick-content'), 'loading');
             mw.reload_module('pages');
             parent.mw.askusertostay = false;
-            <?php if($is_current != false) :  ?>
-            if (window.parent.mw.history != undefined) {
-                setTimeout(function () {
-                    window.parent.mw.history.load('latest_content_edit');
-                }, 200);
-            }
-            <?php endif; ?>
         } else {
             mw.reload_module('[data-type="pages"]', function () {
                 if (mw.$("#pages_tree_toolbar .mw_del_tree_content").length === 0) {

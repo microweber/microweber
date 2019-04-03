@@ -282,7 +282,7 @@ mw.dropables = {
          if (row && this._rowRegister !== row) {
              this._rowRegister = row;
              mw.trigger("RowOver", row);
-         } else if (this._rowRegister !== null && !mw.tools.firstParentOrCurrentWithId(mw.mm_target, 'mw_handle_row')) {
+         } else if (this._rowRegister !== null) {
              this._rowRegister = null;
              mw.trigger("RowLeave", mw.mm_target);
          }

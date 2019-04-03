@@ -14,17 +14,7 @@
         mw.html_editor.build_dropdown(fields, false);
         mw.html_editor.populate_editor();
 
-        // mw.history.load
-        //   mw.html_editor.init();
 
-//
-//        $(window.parent).on('saveEnd', function () {
-//            alert( 213213 );
-//
-//        });
-
-
-        //
     })
     mw.require('<?php print modules_url()?>editor/selector.css');
 
