@@ -2659,7 +2659,7 @@ input#edit-content-url:focus, input#edit-content-url.active {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     width: 100%;
-    z-index: 9;
+    z-index: 101;
     top: 0;
 }
 
