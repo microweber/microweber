@@ -78,9 +78,9 @@ $is_live = mw()->user_manager->session_get('editmode') == true;
 
 
 <script src="<?php print template_url(); ?>assets/dist/main.min.js"></script>
-<script src="<?php print template_url(); ?>assets/plugins/collapse-nav/dist/collapseNav.js"></script>
+<script>mw.lib.require('collapse_nav');</script>
 <script>
-    $(document).ready(function () {
+    $(window).on('load', function () {
         $('.nav-main .menu').collapseNav({
             responsive: 1,
             mobile_break: 991,

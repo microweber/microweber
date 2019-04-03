@@ -155,6 +155,14 @@ if ($centerMode) {
 } else {
     $centerMode = 'true';
 }
+$centerPadding = get_option('center_padding', $params['id']);
+if ($centerPadding) {
+    $centerPadding = $centerPadding;
+} elseif (isset($params['center_padding'])) {
+    $centerPadding = $params['center_padding'];
+} else {
+    $centerPadding = '50px';
+}
 
 $draggable = get_option('draggable', $params['id']);
 if ($draggable) {

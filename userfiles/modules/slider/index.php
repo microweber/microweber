@@ -138,7 +138,7 @@ if (is_file($template_file)) {
                 slidesToShow: <?php print $slides_xl; ?>,
                 slidesToScroll: <?php print $slides_xl; ?>,
                 centerMode: <?php print $centerMode; ?>,
-                centerPadding: '0px',
+                centerPadding: '<?php print $centerPadding; ?>',
                 draggable: <?php print $draggable; ?>,
                 fade: <?php print $fade; ?>,
                 focusOnSelect: <?php print $focusOnSelect; ?>,

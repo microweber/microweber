@@ -391,6 +391,14 @@ include('options.php');
                             </div>
                         </div>
 
+
+                        <div class="mw-flex-col-xs-6 js-option js-slickslider">
+                            <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label"><?php _e("Center Padding"); ?></label>
+                                <input type="text" value="<?php print $centerPadding; ?>" name="center_padding" class="mw-ui-field mw_option_field mw-full-width" placeholder="Default: 50px" option_group="<?php print $params['id'] ?>"/>
+                            </div>
+                        </div>
+
                         <div class="mw-flex-col-xs-6 js-option js-slickslider">
                             <div class="mw-ui-field-holder">
                                 <label class="mw-ui-label"><?php _e("Draggable"); ?></label>

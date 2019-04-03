@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="dist/collapseNav.css">
     <script src="dist/collapseNav.js"></script>
     <script>
-        $(document).ready(function () {
+        $(window).on('load', function () {
             $('.collapse-nav').collapseNav({
                 responsive: 1,
                 more_text: 'More Button',
@@ -105,15 +105,12 @@
 
         <h3>Add collapseNav.js before your closing &lt;body> tag, after jQuery (requires jQuery 1.7 +)</h3>
         <pre>
-&lt;script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-            &lt;
-            script
-            type = "text/javascript"
-            src = "collapse-nav/dist/collapseNav.js" ></script>
+&lt;script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js">&lt;/script>
+&lt;script type="text/javascript" src="collapse-nav/dist/collapseNav.js">&lt;/script>
 </pre>
 
         <h3>Initialize your Collapse-Nav in your script file or an inline script tag</h3>
-        <pre>$(document).ready(function()
+        <pre>$(window).on('load', function () {
   $('.your-class').collapseNav({
     setting-name: setting-value
   });
@@ -140,7 +137,7 @@
 &lt;script type="text/javascript" src="collapse-nav/dist/collapseNav.js">&lt;/script>
 
 &lt;script type="text/javascript">
-    $(document).ready(function(){
+    $(window).on('load', function () {
         $('.your-class').collapseNav({
             setting-name: setting-value
     });

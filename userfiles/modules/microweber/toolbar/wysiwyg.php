@@ -2,7 +2,9 @@
     <?php if(is_admin()): ?>
     <div class="wysiwyg-undo-redo">
       <div class="wysiwyg-cell-undo-redo">
-          <span class="mw_editor_btn mw_editor_undo" data-command="custom-historyUndo" title="<?php _e("Undo"); ?>"><span class="ed-ico"></span></span>
+          <?php
+
+          /*<span class="mw_editor_btn mw_editor_undo" data-command="custom-historyUndo" title="<?php _e("Undo"); ?>"><span class="ed-ico"></span></span>
               <span class="mw_editor_btn mw_editor_redo disabled" data-command="custom-historyRedo" title="<?php _e("Redo"); ?>"><span class="ed-ico"></span></span>
           <span class="mw_editor_btn" id="history_panel_toggle" onclick="mw.$('#mw-history-panel').toggle()"><span class="mw-icon-arrow-down-b"></span></span>
         <div class="mw-ui-dropdown left" id="history_dd">
@@ -14,7 +16,9 @@
                   id="liveedit_wysiwyg_main_prev"
                   title="<?php _e("Previous"); ?>"
                   onclick="mw.liveEditWYSIWYG.slideLeft();"></span>
+*/
 
+          ?>
       </div>
     </div>
     <?php endif; ?>

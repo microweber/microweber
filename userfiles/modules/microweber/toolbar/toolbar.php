@@ -282,6 +282,10 @@ if (isset($_COOKIE['mw_exp'])) {
 
             $(mw.liveEditSettings)
                 .on('ControlBoxShow', function () {
+
+                    $(window).trigger('collapseNavReInit');
+
+
                     $(document.body).addClass('has-opened-sidebar');
                     $('a[data-id="mw-toolbar-show-sidebar-btn"]').addClass('opened');
                     mw.cookie.set("show-sidebar-layouts", '1');
@@ -291,6 +295,8 @@ if (isset($_COOKIE['mw_exp'])) {
                     $(document.body).removeClass('has-opened-sidebar');
                     $('a[data-id="mw-toolbar-show-sidebar-btn"]').removeClass('opened');
                     mw.cookie.set("show-sidebar-layouts", '0');
+                    $(window).trigger('collapseNavReInit');
+
                 });
 
             mw.tools.loading(mw.liveEditSettings.box);
