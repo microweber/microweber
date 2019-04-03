@@ -5,10 +5,10 @@ $curencies = mw()->shop_manager->currency_get();
 
 
 ?>
-<script  type="text/javascript">
-    $(document).ready(function(){
+<script type="text/javascript">
+    $(document).ready(function () {
 
-        mw.options.form('.<?php print $config['module_class'] ?>', function(){
+        mw.options.form('.<?php print $config['module_class'] ?>', function () {
             mw.notification.success("<?php _e("Currency settings are saved."); ?>");
             mw.reload_module('shop/payments/currency_render')
         });
@@ -16,14 +16,14 @@ $curencies = mw()->shop_manager->currency_get();
 </script>
 
 
-<div id="general-shop-settings-accordion" class="mw-ui-box mw-ui-box-silver-blue active m-t-20">
+<div id="general-shop-settings-accordion" class="mw-ui-box mw-ui-box-silver-blue  m-t-20">
     <div class="mw-ui-box-header" onclick="mw.accordion('#general-shop-settings-accordion');">
         <div class="header-holder">
             <i class="mai-setting2"></i> <?php _e('General Shop Settings') ?>
         </div>
     </div>
 
-    <div class="mw-accordion-content mw-ui-box-content">
+    <div class="mw-accordion-content mw-ui-box-content" style="display: none">
         <div class="mw-ui-row">
             <div class="mw-ui-col">
                 <div class="mw-ui-col-container">
@@ -42,35 +42,33 @@ $curencies = mw()->shop_manager->currency_get();
                 </div>
             </div>
 
-            <?php $currency_symbol_decimal = get_option('currency_symbol_decimal', 'payments');  ?>
+            <?php $currency_symbol_decimal = get_option('currency_symbol_decimal', 'payments'); ?>
 
-            <?php $cur_pos = get_option('currency_symbol_position', 'payments');    ?>
+            <?php $cur_pos = get_option('currency_symbol_position', 'payments'); ?>
             <div class="mw-ui-col">
                 <div class="mw-ui-col-container">
                     <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label bold p-b-10"><?php _e("Symbol position"); ?></label>
+                        <label class="mw-ui-label bold p-b-10"><?php _e("Symbol position"); ?></label>
 
-                    <select name="currency_symbol_position" class="mw-ui-field mw_option_field w100 silver-field" data-option-group="payments" data-reload="mw_curr_rend">
-                        <option <?php if (!$cur_pos): ?> selected="selected" <?php endif; ?> value=""><?php _e('Default'); ?></option>
-                        <option <?php if ($cur_pos == 'before'): ?> selected="selected" <?php endif; ?> value="before"><?php _e('Before number'); ?></option>
-                        <option <?php if ($cur_pos == 'after'): ?> selected="selected" <?php endif; ?> value="after"><?php _e('After number'); ?></option>
-                    </select>
+                        <select name="currency_symbol_position" class="mw-ui-field mw_option_field w100 silver-field" data-option-group="payments" data-reload="mw_curr_rend">
+                            <option <?php if (!$cur_pos): ?> selected="selected" <?php endif; ?> value=""><?php _e('Default'); ?></option>
+                            <option <?php if ($cur_pos == 'before'): ?> selected="selected" <?php endif; ?> value="before"><?php _e('Before number'); ?></option>
+                            <option <?php if ($cur_pos == 'after'): ?> selected="selected" <?php endif; ?> value="after"><?php _e('After number'); ?></option>
+                        </select>
                     </div>
                     <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label bold p-b-10"><?php _e("Show Decimals"); ?></label>
+                        <label class="mw-ui-label bold p-b-10"><?php _e("Show Decimals"); ?></label>
 
-                    <select name="currency_symbol_decimal" class="mw-ui-field mw_option_field w100 silver-field" data-option-group="payments" data-reload="mw_curr_rend">
-                        <option <?php if (!$currency_symbol_decimal): ?> selected="selected" <?php endif; ?> value=""><?php _e('Always'); ?></option>
-                        <option <?php if ($currency_symbol_decimal == 'when_needed'): ?> selected="selected" <?php endif; ?> value="when_needed"><?php _e('When needed'); ?></option>
-                    </select>
+                        <select name="currency_symbol_decimal" class="mw-ui-field mw_option_field w100 silver-field" data-option-group="payments" data-reload="mw_curr_rend">
+                            <option <?php if (!$currency_symbol_decimal): ?> selected="selected" <?php endif; ?> value=""><?php _e('Always'); ?></option>
+                            <option <?php if ($currency_symbol_decimal == 'when_needed'): ?> selected="selected" <?php endif; ?> value="when_needed"><?php _e('When needed'); ?></option>
+                        </select>
 
                     </div>
 
 
                 </div>
             </div>
-
-
 
 
             <div class="mw-ui-col">

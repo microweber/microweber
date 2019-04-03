@@ -7519,3 +7519,10 @@ select.silver-field {
     width: 100%;
 }
 
+.mw-ui-box-silver-blue .mw-ui-box-header i.material-icons {
+    font-size: 22px;
+}
+
+.mw-ui-box-silver-blue .mw-ui-box-header i[class*="mw-icon-"] {
+    font-size: 18px;
+}

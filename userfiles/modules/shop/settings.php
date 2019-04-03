@@ -3,14 +3,14 @@
 </div>
 
 <div class="admin-side-content">
-    <div id="payments-accordion" class="mw-ui-box mw-ui-box-silver-blue active m-t-20">
+    <div id="payments-accordion" class="mw-ui-box mw-ui-box-silver-blue  m-t-20">
         <div class="mw-ui-box-header" onclick="mw.accordion('#payments-accordion');">
             <div class="header-holder">
                 <i class="mai-order"></i><?php _e("Payment methods"); ?>
             </div>
         </div>
 
-        <div class="mw-accordion-content mw-ui-box-content">
+        <div class="mw-accordion-content mw-ui-box-content" style="display:none;">
             <module type="shop/payments" view="admin"/>
         </div>
     </div>
