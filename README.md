@@ -35,7 +35,7 @@ The most important thing you need to know is that Microweber pairs the latest CM
 
 Microweber operates on the Drag & Drop technology. This means that users can manage their content and arrange elements with just a click of the mouse, dragging and dropping them across the screen. Drag & Drop applies to all types of content: images, text fields, videos, and the whole variety of modules and additional customization options you have as a user. The default template “Dream” comes with more than 75+ prepared layouts that you can use via drag and drop.
 
-![Drag And Drop](https://microweber.com/cdn/2019_version/drag_drop.gif "")
+![Drag And Drop](https://microweber.com/cdn/2019_version/Drag_Drop_CMS_Microweber.gif "")
 
 
 
