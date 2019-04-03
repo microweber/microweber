@@ -103,6 +103,13 @@ mw.settings.libs = {
 
         }
     ],
+    collapse_nav: [
+        function () {
+            mw.require(mw.settings.libs_url + 'collapse-nav/dist' + '/collapseNav.js', true);
+            mw.require(mw.settings.libs_url + 'collapse-nav/dist' + '/collapseNav.css', true);
+
+        }
+    ],
     slick: [
         function () {
             mw.require(mw.settings.libs_url + 'slick' + '/slick.css', true);
@@ -120,33 +127,33 @@ mw.settings.libs = {
         function () {
             //var bootstrap_enabled = (typeof $().modal == 'function');
             //if (bootstrap_enabled == false) {
-                mw.require(mw.settings.libs_url + 'bootstrap3' + '/js/bootstrap.min.js');
-                mw.require(mw.settings.libs_url + 'bootstrap3ns' + '/bootstrap.min.css');
-                mw.require(mw.settings.libs_url + 'fontawesome-4.7.0' + '/css/font-awesome.min.css');
-           // }
+            mw.require(mw.settings.libs_url + 'bootstrap3' + '/js/bootstrap.min.js');
+            mw.require(mw.settings.libs_url + 'bootstrap3ns' + '/bootstrap.min.css');
+            mw.require(mw.settings.libs_url + 'fontawesome-4.7.0' + '/css/font-awesome.min.css');
+            // }
         }
     ],
     bootstrap_select: [
         function () {
             //var bootstrap_enabled = (typeof $().modal == 'function');
             //if (!bootstrap_enabled == false) {
-                mw.require(mw.settings.libs_url + 'bootstrap-select-1.12.2' + '/dist/js/bootstrap-select.min.js');
-                mw.require(mw.settings.libs_url + 'bootstrap-select-1.12.2' + '/dist/css/bootstrap-select.min.css');
+            mw.require(mw.settings.libs_url + 'bootstrap-select-1.12.2' + '/dist/js/bootstrap-select.min.js');
+            mw.require(mw.settings.libs_url + 'bootstrap-select-1.12.2' + '/dist/css/bootstrap-select.min.css');
             //}
         }
     ],
     bootstrap_tags: [
         function () {
 
-           // var bootstrap_enabled = (typeof $().modal == 'function');
+            // var bootstrap_enabled = (typeof $().modal == 'function');
             //if (!bootstrap_enabled == false) {
-                mw.require(mw.settings.libs_url + 'typeahead' + '/typeahead.jquery.js');
-                mw.require(mw.settings.libs_url + 'typeahead' + '/typeahead.bundle.min.js');
-                mw.require(mw.settings.libs_url + 'typeahead' + '/bloodhound.js');
-                mw.require(mw.settings.libs_url + 'bootstrap_tags' + '/bootstrap-tagsinput.css');
-                mw.require(mw.settings.libs_url + 'bootstrap_tags' + '/bootstrap-tagsinput.js');
+            mw.require(mw.settings.libs_url + 'typeahead' + '/typeahead.jquery.js');
+            mw.require(mw.settings.libs_url + 'typeahead' + '/typeahead.bundle.min.js');
+            mw.require(mw.settings.libs_url + 'typeahead' + '/bloodhound.js');
+            mw.require(mw.settings.libs_url + 'bootstrap_tags' + '/bootstrap-tagsinput.css');
+            mw.require(mw.settings.libs_url + 'bootstrap_tags' + '/bootstrap-tagsinput.js');
             //} else {
-                //mw.log("You must load bootstrap to use bootstrap_tags");
+            //mw.log("You must load bootstrap to use bootstrap_tags");
             //}
 
         }
@@ -196,12 +203,12 @@ mw.settings.libs = {
     acolorpicker: [
         'acolorpicker.js'
     ],
-    material_icons:[
+    material_icons: [
         function () {
             mw.require(mw.settings.libs_url + 'material_icons' + '/material_icons.css');
         }
     ],
-    mw_icons_mind:[
+    mw_icons_mind: [
         function () {
             mw.require(mw.settings.libs_url + 'mw-icons-mind' + '/line/style.css');
             mw.require(mw.settings.libs_url + 'mw-icons-mind' + '/solid/style.css');
