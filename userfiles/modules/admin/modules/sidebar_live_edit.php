@@ -55,16 +55,15 @@
                        style="margin: 35px 0 15px 0; display: none; text-align: center;"><?php _e("No results were found"); ?></p>
                 </div>
                 <div class="mw-ui-box-content" style="padding-top: 60px;">
-                    <div data-xmodule type="admin/modules/list_layouts" id="mw-sidebar-layouts-list"></div>
 
 
-                    <?php /* <?php if (is_post() or is_product()) { ?>
+                    <?php if (is_post() or is_product()) { ?>
                         <div data-xmodule type="admin/modules/list_layouts" id="mw-sidebar-layouts-list" hide-dynamic="true"></div>
 
                     <?php } else { ?>
                         <div data-xmodule type="admin/modules/list_layouts" id="mw-sidebar-layouts-list"></div>
 
-                    <?php } ?>*/ ?>
+                    <?php } ?>
 
                 </div>
             </div>
