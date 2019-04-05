@@ -18,6 +18,7 @@ $instagram_enabled = get_option('instagram_enabled', $option_group) == 'y';
 $rss_enabled = get_option('rss_enabled', $option_group) == 'y';
 $soundcloud_enabled = get_option('soundcloud_enabled', $option_group) == 'y';
 $mixcloud_enabled = get_option('mixcloud_enabled', $option_group) == 'y';
+$medium_enabled = get_option('medium_enabled', $option_group) == 'y';
 
 $instagram_url = get_option('instagram_url', $option_group);
 $facebook_url = get_option('facebook_url', $option_group);
@@ -29,6 +30,7 @@ $linkedin_url = get_option('linkedin_url', $option_group);
 $github_url = get_option('github_url', $option_group);
 $soundcloud_url = get_option('soundcloud_url', $option_group);
 $mixcloud_url = get_option('mixcloud_url', $option_group);
+$medium_url = get_option('medium_url', $option_group);
 ?>
 
     <style scoped="scoped">
@@ -260,6 +262,25 @@ $mixcloud_url = get_option('mixcloud_url', $option_group);
                 <td>
                     <div class="mw-ui-field-holder">
                         <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field mw-ui-field mw-ui-field-medium" name="mixcloud_url" value="<?php print $mixcloud_url; ?>"/>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label class="mw-ui-check">
+                        <input type="checkbox" class="mw_option_field" name="medium_enabled" id="medium_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($medium_enabled) print 'checked="checked"'; ?>><span></span>
+                    </label>
+                </td>
+
+                <td><i class="fab fa-medium  mw-socials-color"></i></td>
+
+                <td>
+                    <label class="mw-ui-inline-label" for="medium_enabled">medium.com/</label>
+                </td>
+                <td>
+                    <div class="mw-ui-field-holder">
+                        <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field mw-ui-field mw-ui-field-medium" name="medium_url" value="<?php print $medium_url; ?>"/>
                     </div>
                 </td>
             </tr>
