@@ -3,20 +3,21 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [1.1.4] - 2019-04-02
-- various live edit fixes
-- fix encryption key
-- color overlay does not work
+## [1.1.4] - 2019-04-03
+- Various live edit fixes
+- Fix encryption key
+- Color overlay does not work
 - Comment publish/unpublish does not work
 - Fix flicking of handles
-- fix text selection
 - Jumping icon
 - Fix grid button
 - Handle overlaps toolbar
-- fix UI alignment of buttons
+- Fix UI alignment of buttons
 - btn-primary is broken
 - Multiple pictures upload
-- fix undo issues
+- Fix undo issues
+- CSS editor beta version
+- Other small fixes
 - [see all changes....](https://github.com/microweber/microweber/compare/1.1.3...1.1.4 "")
 
 
