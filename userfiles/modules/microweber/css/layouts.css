@@ -12,7 +12,6 @@
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
-    padding-top: 56.25%;
 }
 
 .mw-static-element.mw-text-and-image .mw-image-holder-div .mw-background-image-holder img {
@@ -35,11 +34,10 @@
 
 .mw-static-element.mw-vertical-centered-text-and-image .mw-image-holder-div {
     -webkit-background-size: contain;
-    background-size: cover;
+    background-size: contain;
     background-position: center center;
     overflow: hidden;
     background-repeat: no-repeat;
-    padding-top: 56.25%;
 }
 
 .mw-static-element.mw-vertical-centered-text-and-image .mw-image-holder-div img,
