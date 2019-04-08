@@ -777,7 +777,8 @@ if (isset($_COOKIE['mw_exp'])) {
     mw.require("columns.js");
 
     $(window).load(function () {
-        <?php if (isset($_COOKIE['mw_basic_mode']) AND $_COOKIE['mw_basic_mode'] != '1'): ?>
+
+        <?php if (!isset($_COOKIE['mw_basic_mode']) or $_COOKIE['mw_basic_mode'] != '1'): ?>
         mw.drag.plus.init('.edit');
         <?php endif; ?>
         mw.drag.columns.init();

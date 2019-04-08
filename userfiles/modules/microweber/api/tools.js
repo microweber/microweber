@@ -2744,7 +2744,7 @@ mw.tools = {
         obj.lastClickedTabIndex = null;
 
 
-        mw.$(obj.nav).click(function (e) {
+        mw.$(obj.nav).on('click', function (e) {
             if (!$(this).hasClass(active)) {
                 var i = mw.tools.index(this, mw.$(obj.nav).get(), mw.$(obj.nav)[0].nodeName);
                 mw.$(obj.nav).removeClass(active);

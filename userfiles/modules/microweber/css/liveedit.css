@@ -3269,48 +3269,34 @@ div[id*='SSDIVEL'] {
 /* Sidebar in Live Edit */
 
 #live_edit_side_holder .sidebar-toggler {
-    position: absolute;
 
-    background: #0086db;
-    height: 68px;
-    width: 18px;
     display: block;
-    border: 0;
-    border-top-left-radius: 2px;
-    border-bottom-left-radius: 2px;
-    top: 50%;
-    margin-top: -34px;
-    font-size: 14px;
+    position: relative;
+    z-index: 2;
+    font-size: 19px;
+    padding: 7px;
+    border-radius: 3px;
+    text-align: center;
     font-family: 'Lora', 'Helvetica', 'Arial', sans-serif;
 
 }
 
-#live_edit_side_holder.mw-control-box-right .sidebar-toggler {
-    left: -19px;
-}
+
 
 #live_edit_side_holder.mw-control-box-left .sidebar-toggler {
     right: -19px;
 }
 
 #live_edit_side_holder .sidebar-toggler .i-holder {
-    -webkit-transform: rotate(90deg);
-    -moz-transform: rotate(90deg);
-    -ms-transform: rotate(90deg);
-    -o-transform: rotate(90deg);
-    transform: rotate(90deg);
-    /*transition: 0.6s;*/
-    margin-top: 34px;
+
     font-size: 14px;
-    line-height: 0;
     font-family: 'Lora', 'Helvetica', 'Arial', sans-serif;
 }
 
 #live_edit_side_holder .sidebar-toggler i {
-    color: #fff;
-    font-size: 14px;
-    line-height: 0;
+    font-size: 17px;
     font-family: 'Lora', 'Helvetica', 'Arial', sans-serif;
+    color: #9e9e9e;
 }
 
 #live_edit_side_holder .module-modal-settings-menu-holder {
@@ -4201,29 +4187,76 @@ body.dragStart .allow-drop {
     display: flex;
 }
 
+
 .mw-live-edit-sidebar-tabs a {
     display: block;
+    position: relative;
     text-align: center;
     flex: 1;
-    padding: 10px;
-    color: rgba(36, 134, 216, 1);
+    padding: 10px 0;
+    color: #9e9e9e;
     transition: .3s;
     font-size: 12px;
     letter-spacing: 0;
     text-decoration: none;
-    border-bottom: 1px solid #0086db;
+}
+.mw-live-edit-sidebar-tabs a.active{
+    color: rgba(36, 134, 216, 1);
 }
 
+
+.mw-live-edit-sidebar-tabs a.active i {
+    background-color: rgba(230, 239, 247, 1);
+}
 .mw-live-edit-sidebar-tabs a i {
-    display: block;
+    display: inline-block;
+    position: relative;
+    z-index: 2;
     font-size: 19px;
-    padding-bottom: 2px;
+    padding: 7px;
+    background-color: transparent;
+    transition: background-color .5s;
+    border-radius: 3px;
+
 }
 
-.mw-live-edit-sidebar-tabs a.active {
-    background-color: rgba(36, 134, 216, 1);
+
+.mw-close-sidebar-btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 2px 6px;
+    z-index: 9999;
+    background: #fff;
+    border-bottom-left-radius: 6px;
+    border-left: 1px solid;
+    border-bottom: 1px solid;
+}
+
+.mw-close-sidebar-btn:hover {
+    background: #0086db;
     color: #fff;
 }
+
+
+/*.mw-live-edit-sidebar-tabs: v2*/
+
+.mw-live-edit-sidebar-tabs-wrapper{
+    position: absolute;
+    width: 60px;
+    left: -60px;
+    top: 0;
+    height: 100%;
+    background-color: white;
+    box-shadow: -1px 0 2px rgba(0,0,0,.1);
+}
+
+.mw-live-edit-sidebar-tabs{
+
+    display: block;
+}
+
+
 
 .tooltip-icon-picker {
     width: 425px;
