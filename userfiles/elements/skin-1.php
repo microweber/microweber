@@ -1,9 +1,8 @@
 <div class="mw-static-element mw-text-and-image">
     <div class="mw-ui-row">
         <div class="mw-ui-col cloneable">
-            <div class="mw-image-holder">
+            <div class="mw-image-holder-div">
                 <div class="mw-background-image-holder" style="background-image: url('<?php print elements_url() ?>images/default-1.jpg');">
-                    <img src="<?php print elements_url() ?>images/default-1.jpg"/>
                 </div>
             </div>
         </div>
