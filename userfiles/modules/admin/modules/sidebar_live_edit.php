@@ -10,7 +10,11 @@
             <a href="javascript:;" title="<?php _e("Open/Close menu"); ?>" data-id="mw-toolbar-show-sidebar-btn"
                class="sidebar-toggler">
                 <div class="i-holder">
-                    <i class="mwi-hamb"></i>
+                    <span class="mw-m-menu-button">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
                 </div>
             </a>
             <div class="mw-live-edit-sidebar-tabs mw-normalize-css">

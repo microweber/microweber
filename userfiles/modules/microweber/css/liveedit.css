@@ -4200,19 +4200,19 @@ body.dragStart .allow-drop {
     letter-spacing: 0;
     text-decoration: none;
 }
-.mw-live-edit-sidebar-tabs a.active{
+#live_edit_side_holder.active .mw-live-edit-sidebar-tabs a.active{
     color: rgba(36, 134, 216, 1);
 }
 
 
-.mw-live-edit-sidebar-tabs a.active i {
+#live_edit_side_holder.active .mw-live-edit-sidebar-tabs a.active i {
     background-color: rgba(230, 239, 247, 1);
 }
 .mw-live-edit-sidebar-tabs a i {
     display: inline-block;
     position: relative;
     z-index: 2;
-    font-size: 19px;
+    font-size: 25px;
     padding: 7px;
     background-color: transparent;
     transition: background-color .5s;
@@ -4645,5 +4645,51 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 .mw-tooltip-content {
     max-height: 90vh;
     overflow: auto;
+}
+
+.mw-m-menu-button{
+    display: inline-block;
+    padding: 10px 0;
+    text-align: center;
+}
+#live_edit_side_holder .mw-m-menu-button{
+    padding: 12px 0 0
+}
+
+.mw-m-menu-button span{
+    width: 9px;
+    height: 9px;
+    border-radius: 9px;
+    background-color: rgba(251, 176, 48, 1);
+    display: inline-block;
+
+}
+.mw-m-menu-button span:nth-child(2){
+    background-color: rgba(250, 10, 79, 1);
+}
+
+.mw-m-menu-button span:nth-child(3){
+    background-color: rgba(92, 182, 52, 1);
+}
+
+.mw-m-menu-button:hover span{
+    animation: mw-m-menu-button-span .3s;
+}
+.mw-m-menu-button:hover span:nth-child(2){
+    animation-duration: .4s;
+}
+.mw-m-menu-button:hover span:nth-child(3){
+    animation-duration: .5s;
+}
+
+@-webkit-keyframes mw-m-menu-button-span {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+@keyframes mw-m-menu-button-span {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
 }
 
