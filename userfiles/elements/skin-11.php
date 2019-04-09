@@ -1,8 +1,7 @@
 <div class="mw-static-element mw-vertical-centered-text-and-image" id="text-image-left-<?php print CONTENT_ID; ?>">
     <div class="image">
-        <div class="mw-image-holder" style="background-image: url('<?php print elements_url() ?>images/default-1.jpg');">
-            <img src="<?php print elements_url() ?>images/default-1.jpg" alt=""/>
-            <span class="mw-image-holder-overlay"></span>
+        <div class="mw-image-holder-div" style="background-image: url('<?php print elements_url() ?>images/default-1.jpg');">
+            <span class="mw-image-holder-div-overlay"></span>
         </div>
     </div>
     <div class="info">
@@ -27,9 +26,8 @@
     </div>
 
     <div class="image">
-        <div class="mw-image-holder" style="background-image: url('<?php print elements_url() ?>images/default-7.jpg');">
-            <img src="<?php print elements_url() ?>images/default-7.jpg" alt=""/>
-            <span class="mw-image-holder-overlay"></span>
+        <div class="mw-image-holder-div" style="background-image: url('<?php print elements_url() ?>images/default-7.jpg');">
+            <span class="mw-image-holder-div-overlay"></span>
         </div>
     </div>
 </div>
