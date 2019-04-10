@@ -306,6 +306,12 @@
                 mw.wysiwyg.init("#mw-sidebar-modules-and-layouts-holder .mw_editor_btn");
                 mw.wysiwyg.dropdowns();
 
+                $(".mw-live-edit-sidebar-tabs-wrapper").on('click', function (e) {
+                    if(e.target === this) {
+                        mw.liveEditSettings.toggle();
+                    }
+                })
+
 
             });
 

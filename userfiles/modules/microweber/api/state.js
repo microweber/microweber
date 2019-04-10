@@ -31,6 +31,14 @@ mw.State = function(options){
         }
     };
 
+    this._timeout = null;
+    this.timeoutRecord = function(item){
+        clearTimeout(this._timeout);
+        this._timeout = setTimeout(function(scope, item){
+            scope.record(item);
+        }, 333, this, item);
+    };
+
     this.record = function(item){
         if(this._activeIndex>-1) {
             var i = 0;

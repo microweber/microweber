@@ -329,6 +329,7 @@ mw.wysiwyg = {
                 });
             }
         }
+        state = state === true ? 'true' : 'false';
         if(el.contentEditable !== state) { // chrome setter needs a check
             el.contentEditable = state;
         }

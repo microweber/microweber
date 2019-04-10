@@ -705,8 +705,16 @@
             if($.isArray(value)){
                 value = value[0];
             }
+            top.mw.liveEditState.timeoutRecord({
+                target: mw.elementCSSEditor.currentElement.parentNode,
+                value: mw.elementCSSEditor.currentElement.parentNode.innerHTML,
+            });
             _setElementStyle(property, value);
             mw.$(mw.elementCSSEditor.currentElement).attr('staticdesign', true);
+            top.mw.liveEditState.timeoutRecord({
+                target: mw.elementCSSEditor.currentElement.parentNode,
+                value: mw.elementCSSEditor.currentElement.parentNode.innerHTML,
+            });
             mw.cssEditorSelector.positionSelected()
         });
 

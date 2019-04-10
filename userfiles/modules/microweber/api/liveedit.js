@@ -527,57 +527,93 @@ mw.drag = {
 
         mwd.body.appendChild(this._onCloneableControl);
         $('.mw-cloneable-control-plus', this._onCloneableControl).on('click', function(){
+            var $t = $(mw.drag._onCloneableControl.__target).parent()
+            mw.liveEditState.record({
+                target: $t[0],
+                value: $t[0].innerHTML
+            });
             var parser = mw.tools.parseHtml(mw.drag._onCloneableControl.__target.outerHTML).body;
             var all = parser.querySelectorAll('[id]'), i = 0;
             for( ; i<all.length; i++){
                 all[i].id = 'mw-cl-id-' + mw.random();
             }
           $(mw.drag._onCloneableControl.__target).after(parser.innerHTML);
+            mw.liveEditState.record({
+                target: $t[0],
+                value: $t[0].innerHTML
+            });
           mw.wysiwyg.change(target)
         });
         $('.mw-cloneable-control-minus', this._onCloneableControl).on('click', function(){
+            var $t = $(mw.drag._onCloneableControl.__target).parent();
+            mw.liveEditState.record({
+                target: $t[0],
+                value: $t[0].innerHTML
+            });
           $(mw.drag._onCloneableControl.__target).fadeOut(function(){
               mw.wysiwyg.change(this);
             $(this).remove();
+              mw.liveEditState.record({
+                  target: $t[0],
+                  value: $t[0].innerHTML
+              });
           });
         });
         $('.mw-cloneable-control-next', this._onCloneableControl).on('click', function(){
+            var $t = $(mw.drag._onCloneableControl.__target).parent();
+            mw.liveEditState.record({
+                target: $t[0],
+                value: $t[0].innerHTML
+            });
            $(mw.drag._onCloneableControl.__target).next().after(mw.drag._onCloneableControl.__target)
+            mw.liveEditState.record({
+                target: $t[0],
+                value: $t[0].innerHTML
+            });
            mw.wysiwyg.change(mw.drag._onCloneableControl.__target)
         });
         $('.mw-cloneable-control-prev', this._onCloneableControl).on('click', function(){
+            var $t = $(mw.drag._onCloneableControl.__target).parent();
+            mw.liveEditState.record({
+                target: $t[0],
+                value: $t[0].innerHTML
+            });
            $(mw.drag._onCloneableControl.__target).prev().before(mw.drag._onCloneableControl.__target)
+            mw.liveEditState.record({
+                target: $t[0],
+                value: $t[0].innerHTML
+            });
            mw.wysiwyg.change(mw.drag._onCloneableControl.__target)
         });
       }
-      var clc = $(this._onCloneableControl)
+      var clc = $(this._onCloneableControl);
       if(target == 'hide'){
-        clc.hide()
+        clc.hide();
       }
       else{
-        clc.show()
+        clc.show();
         this._onCloneableControl.__target = target;
         var next = $(this._onCloneableControl.__target).next();
         var prev = $(this._onCloneableControl.__target).prev();
-        var el = $(target), off = el.offset()
+        var el = $(target), off = el.offset();
         clc.css({
           top: off.top > 0 ? off.top : 0 ,
           left: off.left > 0 ? off.left : 0
         });
 
         if(next.length == 0){
-          $('.mw-cloneable-control-next', clc).hide()
+          $('.mw-cloneable-control-next', clc).hide();
         }
         else{
-          $('.mw-cloneable-control-next', clc).show()
+          $('.mw-cloneable-control-next', clc).show();
         }
         if(prev.length == 0){
-          $('.mw-cloneable-control-prev', clc).hide()
+          $('.mw-cloneable-control-prev', clc).hide();
         }
         else{
-          $('.mw-cloneable-control-prev', clc).show()
+          $('.mw-cloneable-control-prev', clc).show();
         }
-        clc.show()
+        clc.show();
           var cloner = mwd.querySelector('.mw-cloneable-control');
           if(cloner) {
               mw._initHandles.getAll().forEach(function (curr) {

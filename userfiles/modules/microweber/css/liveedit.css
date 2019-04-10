@@ -19,6 +19,11 @@ body.mw-live-edit .mw-control-box-right,
 body.mw-live-edit .mw-control-box-left {
     top: 55px;
 }
+body.mw-live-edit .mw-control-box-right,
+body.mw-live-edit .mw-control-box-left {
+    max-height: -webkit-calc(100% - 55px);
+    max-height: calc(100% - 55px);
+}
 
 #mw-text-editor a.mw-ui-btn-medium,
 #mw-text-editor .mw-ui-btn-medium,
@@ -4188,6 +4193,7 @@ body.dragStart .allow-drop {
 }
 
 
+
 .mw-live-edit-sidebar-tabs a {
     display: block;
     position: relative;
@@ -4203,8 +4209,11 @@ body.dragStart .allow-drop {
 #live_edit_side_holder.active .mw-live-edit-sidebar-tabs a.active{
     color: rgba(36, 134, 216, 1);
 }
+#live_edit_side_holder.active .mw-live-edit-sidebar-tabs a:hover i{
+    background-color: rgb(225, 225, 225);
+}
 
-
+#live_edit_side_holder.active .mw-live-edit-sidebar-tabs a.active:hover i,
 #live_edit_side_holder.active .mw-live-edit-sidebar-tabs a.active i {
     background-color: rgba(230, 239, 247, 1);
 }
@@ -4225,22 +4234,41 @@ body.dragStart .allow-drop {
     position: absolute;
     right: 0;
     top: 0;
-    padding: 2px 6px;
     z-index: 9999;
     background: #fff;
-    border-bottom-left-radius: 6px;
-    border-left: 1px solid;
-    border-bottom: 1px solid;
-}
-
-.mw-close-sidebar-btn:hover {
-    background: #0086db;
-    color: #fff;
+    border-radius: 12px;
+    border: 2px solid;
+    width: 22px;
+    height: 22px;
+    text-align: center;
+    line-height: 18px;
+    font-size: 12px;
 }
 
 
 /*.mw-live-edit-sidebar-tabs: v2*/
 
+.mw-live-edit-sidebar-tabs-wrapper:after{
+    position: absolute;
+    cursor: pointer;
+    content: "\0137";
+    text-align: center;
+    width: 14px;
+    height: 25px;
+    background-color: rgba(124, 124, 124, 0.6);
+    color: #fff;
+    display: block;
+    border-radius: 4px 0 0 4px;
+    left: -14px;
+    top: 50%;
+    margin-top: -12px;
+    font-family: Microweber;
+    font-size: 12px;
+}
+
+#live_edit_side_holder.active .mw-live-edit-sidebar-tabs-wrapper:after{
+    content: "\0138";
+}
 .mw-live-edit-sidebar-tabs-wrapper{
     position: absolute;
     width: 60px;
@@ -4249,6 +4277,7 @@ body.dragStart .allow-drop {
     height: 100%;
     background-color: white;
     box-shadow: -1px 0 2px rgba(0,0,0,.1);
+    cursor: pointer;
 }
 
 .mw-live-edit-sidebar-tabs{
@@ -4648,12 +4677,13 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 }
 
 .mw-m-menu-button{
-    display: inline-block;
-    padding: 10px 0;
+    display: block;
     text-align: center;
-}
-#live_edit_side_holder .mw-m-menu-button{
-    padding: 12px 0 0
+    position: relative;
+    width: 40px;
+    height: 40px;
+    margin: 0 auto;
+
 }
 
 .mw-m-menu-button span{
@@ -4662,14 +4692,19 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     border-radius: 9px;
     background-color: rgba(251, 176, 48, 1);
     display: inline-block;
-
+    position: absolute;
+    transition: .3s;
+    left: 0;
+    top: 16px;
 }
 .mw-m-menu-button span:nth-child(2){
     background-color: rgba(250, 10, 79, 1);
+    left: 14px;
 }
 
 .mw-m-menu-button span:nth-child(3){
     background-color: rgba(92, 182, 52, 1);
+    left: 28px;
 }
 
 .mw-m-menu-button:hover span{

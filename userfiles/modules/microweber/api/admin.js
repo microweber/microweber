@@ -36,6 +36,8 @@ mw.admin = {
             contentScrollBoxHeightMinus = contentScrollBoxHeightMinus + $(this).outerHeight(true);
         });
 
+        console.log($(window).height(), contentScrollBoxHeightMinus)
+
         return $(window).height() - contentScrollBoxHeightMinus;
     },
     contentScrollBox: function (selector, settings) {
@@ -46,14 +48,9 @@ mw.admin = {
         mw.admin.scrollBox(el, settings);
         var newheight = mw.admin.contentScrollBoxHeightFix(el);
         el.style.height = newheight + 'px';
-        el.parentNode.style.height = newheight + 'px';
         $(window).bind('resize', function () {
             var newheight = mw.admin.contentScrollBoxHeightFix(el);
             el.style.height = newheight + 'px';
-            el.parentNode.style.height = newheight + 'px';
-           /* $(el).slimscroll({
-                position:(document.documentElement.dir === 'rtl' ? 'left': 'right')
-            });*/
         });
     },
     treeboxwidth: function () {
@@ -122,7 +119,7 @@ mw.admin = {
     editor: {
         set: function (frame) {
             $(frame).width('100%');
-            return;
+          /*
             if (!!frame && frame !== null && !!frame.contentWindow) {
                 var width_mbar = mw.$('#main-bar').width(),
                     tree = mwd.querySelector('.tree-column'),
@@ -137,7 +134,7 @@ mw.admin = {
                 $(frame)
                     .width(ww - width_tbar - width_mbar - 35)
                     .height(frame.contentWindow.document.body.offsetHeight);
-            }
+            }*/
         },
         init: function (area, params) {
             var params = params || {};

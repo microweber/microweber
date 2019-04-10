@@ -527,7 +527,6 @@ if (isset($_COOKIE['mw_exp'])) {
                         <a class="mw-ui-btn mw-ui-btn-medium view-website-button tip" href="<?php print mw()->url_manager->current(); ?>?editmode=n" data-tip="<?php _e('View Website'); ?>" data-tipposition="bottom-center"><i class="mw-icon-web-earth"></i></a>
                         <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right" onclick="mw.drag.save()" id="main-save-btn"><?php _e("Save"); ?></span>
 
-                        <a href="javascript:;" title="<?php _e("Menu"); ?>" data-id="mw-toolbar-show-sidebar-btn" class="mw-ui-btn mw-ui-btn-medium mw-sidebar-open-btn"><i class="m-r mwi-hamb"></i> <?php _e("Menu"); ?></a>
 
                         <a id="back-to-admin-toolbar" href="<?php print $back_url; ?>" class="mw-ui-btn mw-ui-btn-medium"><i class="m-r mw-icon-arrow-left-c"></i> <?php _e("Admin"); ?></a>
 
