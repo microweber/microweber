@@ -284,7 +284,7 @@
         {
             interface: 'block',
             content: 'Background',
-            class: 'mw-CSS-Editor-group-title',
+            class: 'mw-CSS-Editor-group-title'
         },
         {
             interface: 'block',
@@ -330,13 +330,13 @@
                         {title: 'Bottom Right', value: '100% 100%'}
 
                     ]
-                },
+                }
             ]
         },
         {
             interface: 'block',
             content: 'Border',
-            class: 'mw-CSS-Editor-group-title',
+            class: 'mw-CSS-Editor-group-title'
         },
         {
             interface: 'block',
@@ -468,13 +468,13 @@
                     interface: 'color',
                     label: 'Color',
                     id: 'borderRightColor'
-                },
+                }
             ]
         },
         {
             interface: 'block',
             content: 'Misc',
-            class: 'mw-CSS-Editor-group-title',
+            class: 'mw-CSS-Editor-group-title'
         },
         {
             interface: 'block',
@@ -502,14 +502,7 @@
             ]
         }
 
-
     ];
-
-
-
-
-
-
 
     $(document).ready(function(){
             mw.cssEditorSelector = new mw.Selector({
@@ -537,18 +530,10 @@
             }
         });
 
-
-
-
-
-
-
-
         mw.cssSelectorTree = new mw.tree({
             element: '#css-editor-selected-view',
             saveState: false
         });
-
 
         $(mw.cssEditorSelector).on('select', function(){
 

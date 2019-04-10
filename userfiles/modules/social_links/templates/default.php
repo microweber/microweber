@@ -81,5 +81,11 @@ description: Default
 
     <?php } ?>
 
+    <?php if ($medium_enabled) { ?>
+
+        <a href="//medium.com/<?php print $medium_url; ?>" target="_blank"><span class="fab fa-medium mw-icon-social-medium"></span></a>
+
+    <?php } ?>
+
 
 </div>

@@ -1,5 +1,8 @@
 mw.State = function(options){
-    this.options = options || {};
+    var defaults = {
+        maxItems: 99
+    };
+    this.options = $.extend({}, defaults, (options || {}));
     this._state = this.options.state || [];
     this._active = null;
     this._activeIndex = -1;
@@ -36,8 +39,10 @@ mw.State = function(options){
                 i++;
             }
         }
-
         this._state.unshift(item);
+        if(this._state.length >= this.options.maxItems) {
+            this._state.splice(-1,1);
+        }
         this._active = null;
         this._activeIndex = -1;
         this.afterChange(false);

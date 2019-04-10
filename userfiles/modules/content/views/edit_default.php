@@ -122,12 +122,12 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
                 $(".top-bar").addClass("fix-in-header").css('left', $('.window-holder').offset().left);
                 fixinheaderTime = setTimeout(function () {
                     $(".top-bar").addClass("after-fix-in-header")
-                    $("#create-content-btn").hide()
+                   // $("#create-content-btn").hide()
                 }, 10)
             }
             else {
                 $(".top-bar").removeClass("fix-in-header after-fix-in-header");
-                $("#create-content-btn").show()
+                //$("#create-content-btn").show()
                 clearTimeout(fixinheaderTime)
 
             }

@@ -13,11 +13,11 @@ mw.admin = {
         settings = $.extend({}, mw.admin.scrollBoxSettings, settings);
         var el = mw.$(selector);
 
-        if(typeof(el.slimScroll) === 'undefined'){
+        if(!el.slimScroll){
             return;
         }
 
-        el.slimScroll(settings);
+        //el.slimScroll(settings);
         var scroller = mw.$('.slimScrollBar', el[0].parentNode);
         scroller.bind('mousedown', function () {
             $(this).addClass('scrollMouseDown');
@@ -26,18 +26,17 @@ mw.admin = {
             mw.$('.scrollMouseDown').removeClass('scrollMouseDown');
         });
     },
-    contentScrollBoxHeightMinus: 0,
     contentScrollBoxHeightFix: function (node) {
         var exceptor = mw.tools.firstParentWithClass(node, 'scroll-height-exception-master');
-        mw.admin.contentScrollBoxHeightMinus = $(exceptor).offset().top
+        var contentScrollBoxHeightMinus = ($(exceptor).offset().top - $(window).scrollTop());
         if (!exceptor) {
             return $(window).height();
         }
         mw.$('.scroll-height-exception', exceptor).each(function () {
-            mw.admin.contentScrollBoxHeightMinus = mw.admin.contentScrollBoxHeightMinus + $(this).outerHeight(true);
+            contentScrollBoxHeightMinus = contentScrollBoxHeightMinus + $(this).outerHeight(true);
         });
 
-        return $(window).height() - mw.admin.contentScrollBoxHeightMinus;
+        return $(window).height() - contentScrollBoxHeightMinus;
     },
     contentScrollBox: function (selector, settings) {
         var el = mw.$(selector)[0];
@@ -52,9 +51,9 @@ mw.admin = {
             var newheight = mw.admin.contentScrollBoxHeightFix(el);
             el.style.height = newheight + 'px';
             el.parentNode.style.height = newheight + 'px';
-            $(el).slimscroll({
+           /* $(el).slimscroll({
                 position:(document.documentElement.dir === 'rtl' ? 'left': 'right')
-            });
+            });*/
         });
     },
     treeboxwidth: function () {
@@ -762,37 +761,14 @@ $(mww).bind('load', function () {
 
     if (mwd.getElementById('main-bar-user-menu-link') !== null) {
 
-        //mainbarusermenulink = mw.tooltip({
-        //    content: mw.$('#main-bar-user-tip').html(),
-        //    position: 'center-right',
-        //    group: 'main-bar-user-tip',
-        //    element: mwd.getElementById('main-bar-user-menu-link')
-        //});
-        //mainbarusermenulink.id = 'main-bar-user-menu-tooltip';
-
-       // mw.tools.addClass(mainbarusermenulink, 'main-bar-user-menu-tooltip');
-      //  mw.tools.tooltip.setPosition(mainbarusermenulink, mwd.getElementById('main-bar-user-menu-link'), 'top-left');
-      //  mainbarusermenulink.style.display = 'none';
-
         $(document.body).bind('click', function (e) {
-          //  mainbarusermenulink.style.display = 'block';
-
-
-        //    mw.$('#main-bar-user-tip').toggle();
-            //
             if (e.target !== mwd.getElementById('main-bar-user-menu-link') && e.target.parentNode !== mwd.getElementById('main-bar-user-menu-link')) {
-               // mw.$('.main-bar-user-menu-tooltip').removeClass('main-bar-user-menu-tooltip-active');
                 mw.$('#main-bar-user-tip').removeClass('main-bar-user-tip-active');
-               //  mw.$('#main-bar-user-tip:visible').hide();
             }
             else {
 
-              //  mw.$('#main-bar-user-tip').show();
-              //  mw.$('.main-bar-user-menu-tooltip').toggleClass('main-bar-user-menu-tooltip-active');
                 mw.$('#main-bar-user-tip').toggleClass('main-bar-user-tip-active');
             }
-            //mw.tools.tooltip.setPosition(mainbarusermenulink, mwd.getElementById('main-bar-user-menu-link'), 'center-right');
-
         });
     }
 

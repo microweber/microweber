@@ -211,7 +211,7 @@ mw.wysiwyg = {
                 mw.$(".edit").each(function () {
                     mw.on.DOMChange(this, function () {
                         mw.wysiwyg.change(this);
-                        if (this.querySelectorAll('*').length === 0 && hasAbilityToDropElementsInside(this)) {
+                        if (this.querySelectorAll('*').length === 0 && mw.live_edit.hasAbilityToDropElementsInside(this)) {
                             mw.wysiwyg.modify(this, function () {
                                 if (!mw.tools.hasAnyOfClassesOnNodeOrParent(this, ['safe-mode'])) {
                                     this.innerHTML = '<p class="element">' + this.innerHTML + '</p>';
@@ -221,7 +221,7 @@ mw.wysiwyg = {
                         mw.wysiwyg.normalizeBase64Images(this);
                     }, false, true);
                     $(this).mouseenter(function () {
-                        if (this.querySelectorAll('*').length === 0 && hasAbilityToDropElementsInside(this)) {
+                        if (this.querySelectorAll('*').length === 0 && mw.live_edit.hasAbilityToDropElementsInside(this)) {
 
                             mw.wysiwyg.modify(this, function () {
                                 if (!mw.tools.hasAnyOfClassesOnNodeOrParent(this, ['safe-mode'])) {

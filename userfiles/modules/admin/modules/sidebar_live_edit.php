@@ -2,39 +2,26 @@
     return;
 } ?>
 <div id="modules-and-layouts-sidebar" class="modules-and-layouts-holder">
-    <a href="javascript:;" title="<?php _e("Open/Close menu"); ?>" data-id="mw-toolbar-show-sidebar-btn"
-       class="sidebar-toggler">
-        <div class="i-holder">
-            <i class="mwi-hamb"></i>
-        </div>
-    </a>
-    <style>
-        .mw-close-sidebar-btn {
-            position: absolute;
-            right: 0;
-            top: 0;
-            padding: 2px 6px;
-            z-index: 9999;
-            background: #fff;
-            border-bottom-left-radius: 6px;
-            border-left: 1px solid;
-            border-bottom: 1px solid;
-        }
-
-        .mw-close-sidebar-btn:hover {
-            background: #0086db;
-            color: #fff;
-        }
-    </style>
-
     <div id="mw-modules-layouts-tabsnav">
         <a href="javascript:mw.liveEditSettings.hide();" class="mw-close-sidebar-btn"><i class="mw-icon-close"></i></a>
 
 
-        <div class="mw-live-edit-sidebar-tabs mw-normalize-css">
-            <a href="javascript:;" class="tabnav active"><i class="mwi-desktop-plus"></i> <?php _e("Layouts"); ?></a>
-            <a href="javascript:;" class="tabnav"><i class="mwi-folder"></i> <?php _e("Modules"); ?></a>
-            <a href="javascript:;" class="tabnav"><i class="mwi-cog"></i> <?php _e("Settings"); ?></a>
+        <div class="mw-live-edit-sidebar-tabs-wrapper">
+            <a href="javascript:;" title="<?php _e("Open/Close menu"); ?>" data-id="mw-toolbar-show-sidebar-btn"
+               class="sidebar-toggler">
+                <div class="i-holder">
+                    <span class="mw-m-menu-button">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+                </div>
+            </a>
+            <div class="mw-live-edit-sidebar-tabs mw-normalize-css">
+                <a href="javascript:;" class="tabnav active tip" data-tip="<?php _e("Layouts"); ?>" data-tipposition="left-center"><i class="mwi-desktop-plus"></i> </a>
+                <a href="javascript:;" class="tabnav tip" data-tip="<?php _e("Modules"); ?>" data-tipposition="left-center"><i class="mwi-folder"></i></a>
+                <a href="javascript:;" class="tabnav tip" data-tip="<?php _e("Settings"); ?>" data-tipposition="left-center"><i class="mwi-cog"></i></a>
+            </div>
         </div>
 
 
@@ -301,8 +288,12 @@
                     tabs: '#mw-modules-layouts-tabsnav .tabitem'
                 });
 
+
+
                 $('#mw-modules-layouts-tabsnav .tabnav').on('click', function () {
+
                     $('#modules-and-layouts-sidebar .mw-ui-box').scrollTop(0);
+                    mw.liveEditSettings.show();
                 });
 
 

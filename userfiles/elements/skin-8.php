@@ -1,8 +1,7 @@
 <div class="mw-static-element mw-head-100vh-image" id="head-100vh-image-<?php print CONTENT_ID; ?>">
-    <div class="mw-image-holder" style="background-image: url('<?php print elements_url() ?>images/default-12.jpg');">
-        <img src="<?php print elements_url() ?>images/default-12.jpg" alt=""/>
-        <span class="mw-image-holder-overlay"></span>
-        <div class="mw-image-holder-content" style="">
+    <div class="mw-image-holder-div" style="background-image: url('<?php print elements_url() ?>images/default-12.jpg');">
+        <span class="mw-image-holder-div-overlay"></span>
+        <div class="mw-image-holder-div-content" style="">
             <div class="content-holder">
                 <div class="inner">
                     <h1>Our Services</h1>

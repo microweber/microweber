@@ -686,6 +686,10 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
               Main Menu
 *************************************/
 
+.main-bar-column{
+    background: #2b2b2b;
+}
+
 #main-bar {
     width: 230px;
     height: 100%;
@@ -7531,4 +7535,37 @@ select.silver-field {
 
 .mw-ui-box-silver-blue .mw-ui-box-header i[class*="mw-icon-"] {
     font-size: 18px;
+}
+
+
+.fixed-side-column-container,
+#mw-admin-main-menu{
+    overflow: hidden;
+}
+
+#mw-admin-main-menu:hover,
+.fixed-side-column-container:hover{
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#mw-admin-main-menu::-webkit-scrollbar,
+.fixed-side-column-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+#mw-admin-main-menu::-webkit-scrollbar-track,
+.fixed-side-column-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+#mw-admin-main-menu::-webkit-scrollbar-thumb,
+.fixed-side-column-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+
+#mw-admin-main-menu::-webkit-scrollbar-thumb:hover,
+.fixed-side-column-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }

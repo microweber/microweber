@@ -20,6 +20,7 @@ $rss_enabled_option = get_option('rss_enabled', $option_group);
 
 $soundcloud_enabled_option = get_option('soundcloud_enabled', $option_group);
 $mixcloud_enabled_option = get_option('mixcloud_enabled', $option_group);
+$medium_enabled_option = get_option('medium_enabled', $option_group);
 
 $facebook_enabled = $facebook_enabled_option == 'y';
 $twitter_enabled = $twitter_enabled_option == 'y';
@@ -33,6 +34,7 @@ $rss_enabled = $rss_enabled_option == 'y';
 
 $soundcloud_enabled = $soundcloud_enabled_option == 'y';
 $mixcloud_enabled = $mixcloud_enabled_option == 'y';
+$medium_enabled = $medium_enabled_option == 'y';
 
 
 if (isset($params['show-icons'])) {
@@ -61,6 +63,8 @@ if (isset($params['show-icons'])) {
             $soundcloud_enabled = true;
         } else if (strpos($icon, 'mixcloud') !== false and $mixcloud_enabled_option == false) {
             $mixcloud_enabled = true;
+        } else if (strpos($icon, 'medium') !== false and $medium_enabled_option == false) {
+            $medium_enabled = true;
         }
     }
 }
@@ -129,6 +133,12 @@ $mixcloud_url = get_option('mixcloud_url', $option_group);
 
 if ($mixcloud_url == false) {
     $mixcloud_url = get_option('mixcloud_url', 'website');
+}
+
+$medium_url = get_option('medium_url', $option_group);
+
+if ($medium_url == false) {
+    $medium_url = get_option('medium_url', 'website');
 }
 
 

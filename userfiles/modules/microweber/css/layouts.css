@@ -6,7 +6,7 @@
 /* Elements for Layouts */
 
 /* Skin 1 */
-.mw-static-element.mw-text-and-image .mw-image-holder .mw-background-image-holder {
+.mw-static-element.mw-text-and-image .mw-image-holder-div .mw-background-image-holder {
     width: 100%;
     min-height: 100px;
     background-position: center center;
@@ -14,7 +14,7 @@
     background-size: cover;
 }
 
-.mw-static-element.mw-text-and-image .mw-image-holder .mw-background-image-holder img {
+.mw-static-element.mw-text-and-image .mw-image-holder-div .mw-background-image-holder img {
     visibility: hidden;
     max-width: 100%;
 }
@@ -32,7 +32,7 @@
     display: table;
 }
 
-.mw-static-element.mw-vertical-centered-text-and-image .mw-image-holder {
+.mw-static-element.mw-vertical-centered-text-and-image .mw-image-holder-div {
     -webkit-background-size: contain;
     background-size: contain;
     background-position: center center;
@@ -40,29 +40,29 @@
     background-repeat: no-repeat;
 }
 
-.mw-static-element.mw-vertical-centered-text-and-image .mw-image-holder img,
-.mw-static-element.mw-vertical-centered-text-and-image .mw-image-holder p {
+.mw-static-element.mw-vertical-centered-text-and-image .mw-image-holder-div img,
+.mw-static-element.mw-vertical-centered-text-and-image .mw-image-holder-div p {
     margin: 0 !important;
     margin-bottom: 0 !important;
 }
 
-.mw-static-element.mw-vertical-centered-text-and-image .mw-image-holder > img {
+.mw-static-element.mw-vertical-centered-text-and-image .mw-image-holder-div > img {
     position: relative !important;
     opacity: 0;
     visibility: hidden !important;
 }
 
-.mw-static-element.mw-vertical-centered-text-and-image .mw-image-holder .mw-image-holder-content h1 {
+.mw-static-element.mw-vertical-centered-text-and-image .mw-image-holder-div .mw-image-holder-div-content h1 {
     /*font-size: 48px;*/
     color: #fff;
 }
 
-.mw-static-element.mw-vertical-centered-text-and-image .mw-image-holder .mw-image-holder-content p {
+.mw-static-element.mw-vertical-centered-text-and-image .mw-image-holder-div .mw-image-holder-div-content p {
     /*font-size: 22px;*/
     color: #fff;
 }
 
-.mw-static-element.mw-vertical-centered-text-and-image .mw-image-holder .mw-image-holder-content .content-holder {
+.mw-static-element.mw-vertical-centered-text-and-image .mw-image-holder-div .mw-image-holder-div-content .content-holder {
     display: table-cell;
     vertical-align: middle;
 }
@@ -100,7 +100,7 @@
     }
 }
 
-.mw-static-element.mw-vertical-centered-text-and-image .mw-image-holder-overlay {
+.mw-static-element.mw-vertical-centered-text-and-image .mw-image-holder-div-overlay {
     background-color: rgba(0, 0, 0, .1);
 }
 
@@ -118,41 +118,41 @@
     margin: 0;
 }
 
-.mw-static-element.mw-head-image .mw-image-holder {
+.mw-static-element.mw-head-image .mw-image-holder-div {
     -webkit-background-size: cover;
     background-size: cover;
     background-position: center center;
     overflow: hidden;
 }
 
-.mw-static-element.mw-head-image .mw-image-holder .mw-image-holder-content {
+.mw-static-element.mw-head-image .mw-image-holder-div .mw-image-holder-div-content {
     height: 410px;
     display: table;
     width: 100%;
     text-align: center;
 }
 
-.dragStart .mw-image-holder,
-.dragStart .mw-image-holder-content {
+.dragStart .mw-image-holder-div,
+.dragStart .mw-image-holder-div-content {
     pointer-events: none;
 }
 
-.mw-static-element.mw-head-image .mw-image-holder .mw-image-holder-content h1 {
+.mw-static-element.mw-head-image .mw-image-holder-div .mw-image-holder-div-content h1 {
     font-size: 48px;
     color: #fff;
 }
 
-.mw-static-element.mw-head-image .mw-image-holder .mw-image-holder-content p {
+.mw-static-element.mw-head-image .mw-image-holder-div .mw-image-holder-div-content p {
     font-size: 22px;
     color: #fff;
 }
 
-.mw-static-element.mw-head-image .mw-image-holder .mw-image-holder-content .content-holder {
+.mw-static-element.mw-head-image .mw-image-holder-div .mw-image-holder-div-content .content-holder {
     display: table-cell;
     vertical-align: middle;
 }
 
-.mw-static-element.mw-head-image .mw-image-holder .mw-image-holder-content .content-holder .inner {
+.mw-static-element.mw-head-image .mw-image-holder-div .mw-image-holder-div-content .content-holder .inner {
     width: 80%;
     margin: 0 auto;
     height: auto;
@@ -235,7 +235,7 @@
     margin: 0;
 }
 
-.mw-static-element.mw-head-100vh-image .mw-image-holder {
+.mw-static-element.mw-head-100vh-image .mw-image-holder-div {
     -webkit-background-size: cover;
     background-size: cover;
     background-position: center center;
@@ -243,35 +243,35 @@
     height: 90vh;
 }
 
-.mw-static-element.mw-head-100vh-image .mw-image-holder .mw-image-holder-content {
+.mw-static-element.mw-head-100vh-image .mw-image-holder-div .mw-image-holder-div-content {
     height: 80vh;
     display: table;
     width: 100%;
     text-align: center;
 }
 
-.mw-static-element.mw-head-100vh-image .mw-image-holder .mw-image-holder-content h1 {
+.mw-static-element.mw-head-100vh-image .mw-image-holder-div .mw-image-holder-div-content h1 {
     /*font-size: 48px;*/
     color: #fff;
 }
 
-.mw-static-element.mw-head-100vh-image .mw-image-holder .mw-image-holder-content p {
+.mw-static-element.mw-head-100vh-image .mw-image-holder-div .mw-image-holder-div-content p {
     /*font-size: 22px;*/
     color: #fff;
 }
 
 @media screen and (min-width: 1919px) {
-    .mw-static-element.mw-head-100vh-image .mw-image-holder .mw-image-holder-content p {
+    .mw-static-element.mw-head-100vh-image .mw-image-holder-div .mw-image-holder-div-content p {
         font-size: 22px;
     }
 }
 
-.mw-static-element.mw-head-100vh-image .mw-image-holder .mw-image-holder-content .content-holder {
+.mw-static-element.mw-head-100vh-image .mw-image-holder-div .mw-image-holder-div-content .content-holder {
     display: table-cell;
     vertical-align: middle;
 }
 
-.mw-static-element.mw-head-100vh-image .mw-image-holder .mw-image-holder-content .content-holder .inner {
+.mw-static-element.mw-head-100vh-image .mw-image-holder-div .mw-image-holder-div-content .content-holder .inner {
     width: 80%;
     margin: 0 auto;
     height: auto;
