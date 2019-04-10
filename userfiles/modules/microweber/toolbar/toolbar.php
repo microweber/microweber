@@ -346,7 +346,7 @@ if (isset($_COOKIE['mw_exp'])) {
                         <li class="create-content-dropdown">
                             <a href="javascript:;" class="tst-logo" title="Microweber">
                                 <?php if (mw()->ui->logo_live_edit != false) : ?>
-                                    <span style="background-image:url('<?php print mw()->ui->logo_live_edit ?>'); width:30px; height:30px; display:inline-block; background-size:contain; background-repeat:no-repeat; background-position:center; position:relative; top:12px;"></span>
+                                    <span class="white-label-logo" style="background-image:url('<?php print mw()->ui->logo_live_edit ?>');"></span>
                                 <?php else: ?>
                                     <span class="mw-icon-mw"></span>
                                 <?php endif; ?>
@@ -354,9 +354,7 @@ if (isset($_COOKIE['mw_exp'])) {
                             </a>
                             <div class="mw-dropdown-list create-content-dropdown-list">
                                 <div class="mw-dropdown-list-search">
-                                    <input type="mwautocomplete"
-                                           class="mwtb-search mw-dropdown-search mw-ui-searchfield"
-                                           placeholder="Search content"/>
+                                    <input type="mwautocomplete" class="mwtb-search mw-dropdown-search mw-ui-searchfield" placeholder="Search content"/>
                                 </div>
                                 <?php
                                 $pt_opts = array();

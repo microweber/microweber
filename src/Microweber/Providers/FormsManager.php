@@ -186,6 +186,9 @@ class FormsManager
 
 
         $email_redirect_after_submit = $this->app->option_manager->get('email_redirect_after_submit', $for_id);
+        if (!$email_redirect_after_submit) {
+            $email_redirect_after_submit = $this->app->option_manager->get('email_redirect_after_submit', $default_mod_id);
+        }
 
 
         $user_id_or_email = false;
