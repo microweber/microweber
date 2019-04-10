@@ -337,7 +337,7 @@ mw.wysiwyg = {
 
     prepareContentEditable: function () {
         mw.on("EditMouseDown", function (e, el, target, originalEvent) {
-            mw.wysiwyg.removeEditable([el]);
+            //mw.wysiwyg.removeEditable([el]);
             /*mw.$(".edit[contenteditable='true']").each(function () {
                 mw.wysiwyg.contentEditable(el, false);
             });*/
