@@ -6,7 +6,7 @@
     left: 229px;
     background: #2b2b2b;
     color: white;
-    z-index: 100;
+    z-index: 104;
     padding: 15px 20px 15px 0;
 }
 
@@ -153,7 +153,7 @@
 .tree-column-holder {
     max-width: 100%;
     position: relative;
-    z-index: 101;
+    z-index: 102;
 }
 
 .tree-column-holder-custom-item {
@@ -173,6 +173,9 @@
 @media screen and (max-width: 1399px) {
     .main-bar-column {
         width: 0;
+    }
+    .tree-show-hide-nav{
+        margin-right: 0 !important;
     }
 
     .mobile-tree-menu {
@@ -265,6 +268,7 @@
         -ms-transform: translateX(0);
         -webkit-transform: translateX(0);
         transform: translateX(0);
+        z-index: 104;
     }
 
     #mb-active {

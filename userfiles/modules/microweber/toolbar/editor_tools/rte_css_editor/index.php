@@ -705,10 +705,15 @@
             if($.isArray(value)){
                 value = value[0];
             }
-            top.mw.liveEditState.timeoutRecord({
-                target: mw.elementCSSEditor.currentElement.parentNode,
-                value: mw.elementCSSEditor.currentElement.parentNode.innerHTML,
-            });
+            var currState = top.mw.liveEditState.state()
+            if(currState[currState.length-1].$id !== 'css'){
+                top.mw.liveEditState.record({
+                    target: mw.elementCSSEditor.currentElement.parentNode,
+                    value: mw.elementCSSEditor.currentElement.parentNode.innerHTML,
+                    $id: 'css'
+                });
+            }
+
             _setElementStyle(property, value);
             mw.$(mw.elementCSSEditor.currentElement).attr('staticdesign', true);
             top.mw.liveEditState.timeoutRecord({
