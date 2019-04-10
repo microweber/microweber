@@ -109,12 +109,11 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
       <div class="toolbar-sections-tabs">
 
         <ul>
-          <li class="create-content-dropdown"> <a href="javascript:;" class="tst-logo" title="Microweber"> <span>Microweber</span> <i class=" mw-dropdown-arrow right"></i> </a>
-            <div class="mw-dropdown-list create-content-dropdown-list"
-                         style="box-shadow: 2px 2px 10px -10px #111;width: 225px;">
+          <li class="create-content-dropdown">
+              <a href="javascript:;" class="tst-logo" title="Microweber"> <span>Microweber</span> <i class=" mw-dropdown-arrow right"></i> </a>
+            <div class="mw-dropdown-list create-content-dropdown-list" style="box-shadow: 2px 2px 10px -10px #111;width: 225px;">
               <div class="mw-dropdown-list-search">
-                <input type="mwautocomplete" class="mwtb-search mw-dropdown-search"
-                                   placeholder="Search content"/>
+                <input type="mwautocomplete" class="mwtb-search mw-dropdown-search" placeholder="Search content"/>
               </div>
               <?php
                         $pt_opts = array();
