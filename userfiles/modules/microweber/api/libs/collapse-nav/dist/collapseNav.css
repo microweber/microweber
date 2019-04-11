@@ -106,3 +106,23 @@
     border-left: 4px solid transparent;
     margin-left: 5px;
 }
+
+.collapse-nav:not(.collapseNav-initialized) li {
+    opacity: 0;
+    position: absolute;
+}
+
+.collapse-nav:not(.collapseNav-initialized) li:first-child {
+    opacity: 1;
+    position: relative;
+}
+
+.collapseNav-not-initialized li {
+    opacity: 0;
+    position: absolute;
+}
+
+.collapseNav-not-initialized li:first-child {
+    opacity: 1;
+    position: relative;
+}
