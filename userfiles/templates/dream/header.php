@@ -61,6 +61,20 @@
     }
     ?>
 
+    <script>mw.lib.require('collapse_nav');</script>
+    <script>
+        $(document).ready(function () {
+            $('.nav-main .menu').collapseNav({
+                responsive: 1,
+                mobile_break: 991,
+                li_class: 'dropdown',
+                li_a_class: '',
+                li_ul_class: '',
+                caret: '<span class="caret"></span>' //Element append immediately after the More text
+            });
+        })
+    </script>
+
     <link href="{TEMPLATE_URL}assets/dist/main.min.css" rel="stylesheet" type="text/css" media="all"/>
 
     <link href="{TEMPLATE_URL}assets/css/theme<?php print $color_scheme; ?>.css" id="theme-color" rel="stylesheet" type="text/css" media="all"/>
