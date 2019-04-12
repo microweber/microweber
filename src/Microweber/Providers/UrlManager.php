@@ -259,7 +259,7 @@ class UrlManager
         if ($skip_ajax == true) {
             $is_ajax = $this->is_ajax();
             if ($is_ajax == true) {
-                if ($_SERVER['HTTP_REFERER'] != false) {
+                if (isset($_SERVER['HTTP_REFERER']) and $_SERVER['HTTP_REFERER'] != false) {
                     $u = $_SERVER['HTTP_REFERER'];
                 }
             }

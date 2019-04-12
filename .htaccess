@@ -13,10 +13,19 @@ AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css a
 <IfModule mod_rewrite.c>
 
     <IfModule mod_negotiation.c>
-    Options -MultiViews
+    Options -MultiViews -Indexes
     </IfModule>
 
     RewriteEngine On
+
+    RewriteCond %{REQUEST_URI} !^/\.well-known
+    RewriteRule "(^|/)\." - [F]
+
+    RewriteCond %{REQUEST_URI} ^/userfiles/.*$ [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/userfiles/media/.*$ [NC]
+    RewriteRule . - [PT,L]
+
+    ErrorDocument 404 /404.html
 
 
     RewriteCond %{HTTP:Authorization} ^(.+)$
@@ -44,4 +53,4 @@ AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css a
   </IfModule>
 </FilesMatch>
 
-RedirectMatch 404 /(vendor|gulp)(/|$)
+RedirectMatch 404 /(vendor|gulp|src|storage|database|config|bootstrap|tests)(/|$)

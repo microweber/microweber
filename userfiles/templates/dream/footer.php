@@ -78,18 +78,5 @@ $is_live = mw()->user_manager->session_get('editmode') == true;
 
 
 <script src="<?php print template_url(); ?>assets/dist/main.min.js"></script>
-<script>mw.lib.require('collapse_nav');</script>
-<script>
-    $(window).on('load', function () {
-        $('.nav-main .menu').collapseNav({
-            responsive: 1,
-            mobile_break: 991,
-            li_class: 'dropdown',
-            li_a_class: '',
-            li_ul_class: '',
-            caret: '<span class="caret"></span>' //Element append immediately after the More text
-        });
-    })
-</script>
 </body>
 </html>
