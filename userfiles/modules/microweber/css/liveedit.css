@@ -3287,7 +3287,7 @@ div[id*='SSDIVEL'] {
     position: relative;
     z-index: 2;
     font-size: 19px;
-    padding: 7px;
+    padding: 2px 7px 0;
     border-radius: 3px;
     text-align: center;
     font-family: 'Lora', 'Helvetica', 'Arial', sans-serif;
@@ -3658,6 +3658,7 @@ body.mw-live-edit .mw-tooltip-content {
 #modules-and-layouts-sidebar .mw-live-edit-sidebar-iframe-holder {
     width: 100%;
     height: 100%;
+    padding: 0 12px;
 }
 
 #modules-and-layouts-sidebar .mw-live-edit-sidebar-settings-iframe {
@@ -4099,7 +4100,7 @@ body.dragStart .allow-drop {
 }
 
 #mw-modules-layouts-tabsnav {
-    width: 360px;
+    width: 300px;
 }
 
 .mw-live-edit-component-options {
@@ -4189,11 +4190,6 @@ body.dragStart .allow-drop {
     height: 100%;
 }
 
-.mw-liveedit-sidebar-search-wrapper {
-    margin: 12px;
-
-}
-
 .mw-live-edit-sidebar-tabs {
     width: 100%;
     margin: auto;
@@ -4217,8 +4213,8 @@ body.dragStart .allow-drop {
 #live_edit_side_holder.active .mw-live-edit-sidebar-tabs a.active{
     color: rgba(36, 134, 216, 1);
 }
-#live_edit_side_holder.active .mw-live-edit-sidebar-tabs a:hover i{
-    background-color: rgb(225, 225, 225);
+#live_edit_side_holder .mw-live-edit-sidebar-tabs a:hover i{
+    background-color: #f5f5f5;
 }
 
 #live_edit_side_holder.active .mw-live-edit-sidebar-tabs a.active:hover i,
@@ -4226,7 +4222,9 @@ body.dragStart .allow-drop {
     background-color: rgba(230, 239, 247, 1);
 }
 .mw-live-edit-sidebar-tabs a i {
-    display: inline-block;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
     position: relative;
     z-index: 2;
     font-size: 25px;
@@ -4234,23 +4232,23 @@ body.dragStart .allow-drop {
     background-color: transparent;
     transition: background-color .5s;
     border-radius: 3px;
+    width:40px;
+    min-height: 40px;
 
 }
 
 
 .mw-close-sidebar-btn {
     position: absolute;
-    right: 0;
-    top: 0;
+    right: 15px;
+    top: 13px;
     z-index: 9999;
-    background: #fff;
-    border-radius: 12px;
-    border: 2px solid;
     width: 22px;
     height: 22px;
     text-align: center;
     line-height: 18px;
     font-size: 12px;
+    color: #999;
 }
 
 
@@ -4267,13 +4265,20 @@ body.dragStart .allow-drop {
     color: #fff;
     display: block;
     border-radius: 4px 0 0 4px;
-    left: -14px;
+    left:0;
     top: 50%;
     margin-top: -12px;
     font-family: Microweber;
     font-size: 12px;
+    transition: .3s;
+    z-index: -1;
+    line-height: 25px;
 }
 
+#live_edit_side_holder:hover .mw-live-edit-sidebar-tabs-wrapper:after,
+#live_edit_side_holder.active .mw-live-edit-sidebar-tabs-wrapper:after{
+    left: -14px;
+}
 #live_edit_side_holder.active .mw-live-edit-sidebar-tabs-wrapper:after{
     content: "\0138";
 }
@@ -4677,6 +4682,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     max-height: 100%;
     min-height: 0;
     height: 100vh;
+    width:100%;
 }
 
 .mw-tooltip-content {
@@ -4690,6 +4696,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     position: relative;
     width: 40px;
     height: 40px;
+    height: 27px;
     margin: 0 auto;
 
 }
@@ -4734,5 +4741,53 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     0% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
     100% { transform: translateY(0); }
+}
+
+
+.mw-liveedit-css-editor-icon{
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.mw-liveedit-css-editor-icon path{
+    stroke:#9e9e9e;
+    fill:#9e9e9e;
+    stroke-width:4;
+    stroke-miterlimit:10;
+    transition: .3s;
+}
+
+.tabnav.active .mw-liveedit-css-editor-icon path{
+    stroke:rgba(36, 134, 216, 1);
+    fill:rgba(36, 134, 216, 1);
+    stroke-width:4;
+    stroke-miterlimit:10;
+}
+.mw-liveedit-css-editor-icon svg{
+    width:25px;
+}
+
+.mw-live-edit-tab-title .mw-search-no-results{
+    margin: 35px 0 15px 0; display: none; text-align: center;
+}
+.mw-live-edit-tab-title h6{
+    font-size: 11px;
+    text-transform: uppercase;
+    margin: 0;
+    letter-spacing: 0;
+    padding-bottom: 5px;
+    line-height: 28px;
+}
+.mw-live-edit-tab-title{
+    position: fixed;
+    position: sticky;
+    top: 0;
+    padding: 7px 12px;
+    width: 100%;
+    background: #f5f5f5;
+    z-index: 999;
 }
 

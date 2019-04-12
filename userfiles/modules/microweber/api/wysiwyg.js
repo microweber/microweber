@@ -966,8 +966,20 @@ mw.wysiwyg = {
                     return false;
                 }
                 event.preventDefault();
-
                 if (!$(this).hasClass('disabled')) {
+                    var rectarget = mw.wysiwyg.validateCommonAncestorContainer(getSelection().focusNode);
+                    rectarget = mw.tools.firstParentOrCurrentWithAnyOfClasses(rectarget, ['element', 'edit']);
+                    if(mw.liveEditState){
+                        var currState = mw.liveEditState.state()
+                        if(currState[0].$id !== 'wysiwyg   '){
+                            mw.liveEditState.record({
+                                target: rectarget,
+                                value: rectarget.innerHTML,
+                                $id: 'wysiwyg'
+                            });
+                        }
+                    }
+
                     var command = $(this).dataset('command');
                     if (!command.contains('custom-')) {
                         mw.wysiwyg._do(command);
@@ -976,6 +988,13 @@ mw.wysiwyg = {
                         var name = command.replace('custom-', "");
                         mw.wysiwyg[name]();
                     }
+                    if(mw.liveEditState){
+                        mw.liveEditState.record({
+                            target: rectarget,
+                            value: rectarget.innerHTML,
+                        });
+                    }
+                    console.log(12, rectarget)
                     $(this).removeClass("mw_editor_btn_mousedown");
                     mw.wysiwyg.check_selection(event.target);
 
@@ -1448,19 +1467,35 @@ mw.wysiwyg = {
         if (/^[0-9A-F]{3,6}$/i.test(color) && !color.contains("#")) {
             color = "#" + color;
         }
+        var rectarget = mw.wysiwyg.validateCommonAncestorContainer(getSelection().focusNode);
+        rectarget = mw.tools.firstParentOrCurrentWithAnyOfClasses(rectarget, ['element', 'edit']);
+        if(mw.liveEditState){
+            var currState = mw.liveEditState.state()
+            if(currState[0].$id !== 'wysiwyg   '){
+                mw.liveEditState.record({
+                    target: rectarget,
+                    value: rectarget.innerHTML,
+                    $id: 'wysiwyg'
+                });
+            }
+        }
         if (color == 'none') {
             mw.wysiwyg.execCommand('removeFormat', false, "foreColor");
         } else {
             document.execCommand("styleWithCSS", null, true);
             mw.wysiwyg.execCommand('forecolor', null, color);
         }
+        mw.liveEditState.record({
+            target: rectarget,
+            value: rectarget.innerHTML,
+        });
     },
     fontbg: function (color) {
 
         if (/^[0-9A-F]{3,6}$/i.test(color) && !color.contains("#")) {
             color = "#" + color;
         }
-        if (color == 'none') {
+        if (color === 'none') {
             mw.wysiwyg.execCommand('removeFormat', false, "backcolor");
         } else {
             document.execCommand("styleWithCSS", null, true);
@@ -1472,7 +1507,7 @@ mw.wysiwyg = {
         $(mw.wysiwyg.external).find("iframe").width(280).height(320);
     },
     change_bg_color: function (color) {
-        var color = color != 'transparent' ? '#' + color : color;
+        color = color !== 'transparent' ? '#' + color : color;
         mw.$(".element-current").css("backgroundColor", color);
         mw.wysiwyg.change('.element-current');
     },

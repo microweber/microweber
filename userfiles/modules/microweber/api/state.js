@@ -39,6 +39,10 @@ mw.State = function(options){
         }, 333, this, item);
     };
 
+    this.recordPack = function () {
+
+    };
+
     this.record = function(item){
         if(this._activeIndex>-1) {
             var i = 0;
@@ -124,6 +128,8 @@ mw.State = function(options){
         this.afterChange('clear');
         return this;
     };
+
+
 };
 
 (function(){
