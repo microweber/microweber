@@ -21,6 +21,9 @@ AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css a
     RewriteCond %{REQUEST_URI} !^/\.well-known
     RewriteRule "(^|/)\." - [F]
 
+    RewriteRule ^.*\.(gif|jpe?g|png|svg|bmp|webp|ico)$ - [L]
+
+
     RewriteCond %{REQUEST_URI} ^/userfiles/.*$ [NC,OR]
     RewriteCond %{REQUEST_URI} ^/userfiles/media/.*$ [NC]
     RewriteRule . - [PT,L]
