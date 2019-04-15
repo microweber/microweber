@@ -141,6 +141,7 @@ mw.url = {
 
 mw.slug = {
   normalize:function(string){
+
   //  return string.replace(/[`~!@#$%^&№€§*()\=?'"<>\{\}\[\]\\\/]/g, '');
     return string.replace(/[`~!@#$%^&№€§*()\=?'"<>\{\}\[\]\\]/g, '');
   },
