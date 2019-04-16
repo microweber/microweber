@@ -269,7 +269,7 @@
     width: 33px;
 }
 .mw_editor_paste_from_word .ed-ico{
-   background-position: -877px 3px;  
+   background-position: -877px 3px;
 }
 
 .mw_editor_font_background_color .ed-ico {
@@ -352,7 +352,7 @@
     background-position: center center;
 	opacity: 0.75;
 }
- 
+
 .mw_editor_unlink .ed-ico {
     background-image: url(../img/editor.link_active.png);
     background-position: center center;
@@ -428,15 +428,17 @@
 
 .mw-dropdown-type-wysiwyg {
     height: 25px;
-    width: 75px;
     float: left;
     border: 1px solid transparent;
     color: #595959;
-    border-radius: 0px;
     white-space: nowrap;
     border-radius: 3px;
     cursor: pointer;
 
+}
+
+.mw-dropdown-type-wysiwyg .mw-dropdown-value{
+    display: inline-block;
 }
 
 .mw-dropdown-type-wysiwyg.active {
@@ -507,11 +509,9 @@
 .mw-dropdown-type-wysiwyg .mw-dropdown-val {
     display: inline-block;
     padding: 4px 7px;
-    max-width: 80%;
-    max-width: calc(100% - 17px);
-    max-width: -webkit-calc(100% - 17px);
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 95%;
 }
 
 .mw-dropdown-type-wysiwyg .mw-dropdown-val * {
@@ -632,10 +632,10 @@
 }
 @media (max-width: 1024px) {
 	#liveedit_wysiwyg {
-		  
+
 		padding-left:0px;
 	}
-	
+
 }
 
 .mw_editor_redo.disabled,
@@ -977,7 +977,3 @@
 
 /* /Icons */
 
-
-#font_size_selector_main{
-    width: 65px;
-}

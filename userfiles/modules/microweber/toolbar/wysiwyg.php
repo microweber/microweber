@@ -9,16 +9,16 @@
           <span class="mw_editor_btn" id="history_panel_toggle" onclick="mw.$('#mw-history-panel').toggle()"><span class="mw-icon-arrow-down-b"></span></span>
         <div class="mw-ui-dropdown left" id="history_dd">
           <div class="mw-dropdown-list" id="mw-history-panel" style="display: none"></div>
-        </div>
+        </div>*/ ?>
 
             <span style="display: none"
                   class="liveedit_wysiwyg_prev"
                   id="liveedit_wysiwyg_main_prev"
                   title="<?php _e("Previous"); ?>"
                   onclick="mw.liveEditWYSIWYG.slideLeft();"></span>
-*/
 
-          ?>
+
+
       </div>
     </div>
     <?php endif; ?>
@@ -30,7 +30,7 @@
     <div class="wysiwyg-cell">
       <div class="relative"> <span class="mw_editor_btn mw_editor_t wysiwyg-convertible-toggler wysiwyg-convertible-toggler-1000"> <span class="mw-dropdown-arrow"></span> <span class="ed-ico"></span> </span>
         <div class="wysiwyg-convertible wysiwyg-convertible-1000"> <span class="mw_editor_btn mw_editor_bold" data-command="bold" title="<?php _e("Bold"); ?>"><span class="ed-ico"></span></span> <span class="mw_editor_btn mw_editor_italic" data-command="italic" title="<?php _e("Italic"); ?>"><span class="ed-ico"></span></span> <span class="mw_editor_btn mw_editor_underline" data-command="underline" title="<?php _e("Underline"); ?>"><span class="ed-ico"></span></span> <span class="mw_editor_btn mw_editor_strike" data-command="strikethrough" title="<?php _e("Strike Through"); ?>"><span class="ed-ico"></span></span>
-          <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_format" id="format_main" title="Format" data-value="" style="width:85px;"> <span class="mw-dropdown-value"> <span class="mw-dropdown-arrow"></span> <span class="mw-dropdown-val" style="width: 65px;">
+          <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_format" id="format_main" title="Format" data-value=""> <span class="mw-dropdown-value"> <span class="mw-dropdown-arrow"></span> <span class="mw-dropdown-val">
             <?php _e("Format"); ?>
             </span> </span>
             <div class="mw-dropdown-content">

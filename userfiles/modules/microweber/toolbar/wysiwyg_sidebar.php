@@ -45,7 +45,7 @@
 
         <div class="wysiwyg-table">
             <div class="wysiwyg-cell">
-                <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_format" id="format_main" title="Format" data-value="" style="width:85px;">
+                <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_format" id="format_main" title="Format" data-value="">
                             <span class="mw-dropdown-value">
                                 <span class="mw-dropdown-arrow"></span>
                                 <span class="mw-dropdown-val" style="width: 165px;">
