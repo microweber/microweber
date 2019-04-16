@@ -348,7 +348,7 @@
                         if (data == null) {
                             return false;
                         }
-                        var slug = data.replace("<?php print site_url() ?>", "").replace("/", "");
+                        var slug = data.replace("<?php print site_url() ?>", "");
                         mw.$("#edit-content-url").val(slug);
                         mw.$(".view-post-slug").html(slug);
                         mw.$("a.quick-post-done-link").attr("href", data + '?editmode=y');
