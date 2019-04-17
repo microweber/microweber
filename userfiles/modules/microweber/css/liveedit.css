@@ -1664,6 +1664,7 @@ body.loaded #live_edit_toolbar {
 
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list {
     background: white;
+    width: 206px;
 }
 
 .toolbar-sections-tabs > ul > li .mw-ui-btn-nav {
@@ -1690,6 +1691,9 @@ body.loaded #live_edit_toolbar {
     box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 5px -2px;
     overflow: hidden;
     top: 54px;
+}
+.create-content-dropdown-list ul{
+    padding: 0;
 }
 
 .mw-dropdown-list [class*='mw-icon-'] {
@@ -2224,12 +2228,12 @@ body.dragStart .empty-element {
     float: left;
     cursor: pointer;
     width: 25px;
-    height: 48px;
+    height: 54px;
     position: relative;
     background-image: url("../img/editor.png");
     background-repeat: no-repeat;
-    padding-top: 9px;
     background-origin: content-box;
+    background-position: center;
 }
 
 #liveedit_wysiwyg_main_prev:hover, #liveedit_wysiwyg_main_next:hover,
@@ -2268,7 +2272,7 @@ body.dragStart .empty-element {
 }
 
 #liveedit_wysiwyg_main_next {
-    background-position: -43px 11px;
+    background-position: -43px 18px;
 }
 
 #liveedit_wysiwyg_main_next:before {
@@ -2313,8 +2317,9 @@ body.dragStart .empty-element {
     background-repeat: no-repeat;
     background-position: center center;
     background-size: contain;
-    width: 38px;
+    width: 34px;
     height: 38px;
+    margin-left: 4px;
 }
 
 .tst-logo .mw-icon-dropdown {
@@ -2327,6 +2332,7 @@ body.dragStart .empty-element {
     display: inline-block;
     font-size: 100%;
     font-family: Verdana, Geneva, sans-serif;
+    margin: 0 0 0 2px;
 }
 
 #modules_switcher,
@@ -3168,6 +3174,10 @@ div[id*='SSDIVEL'] {
 
 #mw-text-editor #main-save-btn {
     color: #fff;
+}
+
+#mw-text-editor .mw-dropdown-list-search{
+    padding: 0;
 }
 
 .toolbar-sections-tabs > ul,
@@ -4789,5 +4799,45 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     width: 100%;
     background: #f5f5f5;
     z-index: 999;
+}
+
+.mw-inline-source-editor.active{
+    opacity: 1;
+    visibility: visible;
+}
+.mw-inline-source-editor{
+    z-index: 99;
+    position: absolute;
+    background-color: white;
+    transition: opacity .3s;
+    border: 1px solid #dcdcdc;
+    border-radius: 3px;
+    text-align: right;
+    visibility: hidden;
+    opacity: 0;
+    min-height: 70px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+.mw-inline-source-editor-buttons .mw-ui-btn{
+    margin-left: 10px;
+}
+.mw-inline-source-editor-buttons{
+    text-align: right;
+    padding: 10px;
+    position: relative;
+    border-top: 1px solid #eee;
+}
+.mw-inline-source-editor textarea{
+    border: none;
+    background-color: transparent;
+    outline: none;
+    height: 100%;
+    width: 100% ;
+    resize: none;
+    padding: 10px;
+    font-size: 12px;
+    font-family: monospace;
+    margin: 0;
+    border-radius: 3px 3px 0 0;
 }
 
