@@ -655,9 +655,9 @@ class Parser
                                             }
                                         } else {
 
-
+                                            $mod_id = $mod_id . '--1' ;
                                             if (!$it_loop and $coming_from_parent_id) {
-                                                $mod_id = $mod_id . '--1' ;
+
 
                                                 //  $mod_id = $mod_id . '-1asdds';
                                             }
