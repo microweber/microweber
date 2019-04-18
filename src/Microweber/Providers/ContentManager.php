@@ -526,7 +526,7 @@ class ContentManager
                 $next_link = '#';
                 if (isset($data[$active_item - 1])) {
                     $prev_link = $data[$active_item - 1];
-                    $limited_paging_begin[] = '<li class="mw-previous-page-item"><a data-page-number="' . ($active_item - 1) . '" href="' . $prev_link . '">&laquo;</a></li>';
+                    $limited_paging_begin[] = '<li class="mw-previous-page-item"><a class="mw-ui-btn" data-page-number="' . ($active_item - 1) . '" href="' . $prev_link . '">&laquo;</a></li>';
                 }
 
                 $limited_paging_begin = array_reverse($limited_paging_begin);
@@ -535,7 +535,7 @@ class ContentManager
 
                 if (isset($data[$active_item + 1])) {
                     $next_link = $data[$active_item + 1];
-                    $limited_paging[] = '<li class="mw-next-page-item"><a data-page-number="' . ($active_item + 1) . '" href="' . $next_link . '">&raquo;</a></li>';
+                    $limited_paging[] = '<li class="mw-next-page-item"><a class="mw-ui-btn" data-page-number="' . ($active_item + 1) . '" href="' . $next_link . '">&raquo;</a></li>';
                 }
                 if (count($limited_paging) > 2) {
                     $paging_items = $limited_paging;
@@ -1140,8 +1140,6 @@ class ContentManager
                             $to_print = str_replace('{empty}', '', $to_print);
 
 
-
-
                             if ($item['id'] == $item['parent']) {
                                 $remove_ids[] = intval($item['id']);
                             }
@@ -1429,7 +1427,7 @@ class ContentManager
 
                     if ($page['content_type'] == 'product') {
                         if (defined('PRODUCT_ID') == false) {
-                            define('PRODUCT_ID',intval($content['id']));
+                            define('PRODUCT_ID', intval($content['id']));
                         }
                     }
                 }
@@ -2099,7 +2097,7 @@ class ContentManager
                             return array('error' => 'Please enter a captcha answer!');
                         }
                     } else {
-                       // $cap = $this->app->user_manager->session_get('captcha');
+                        // $cap = $this->app->user_manager->session_get('captcha');
                         if (!mw()->captcha->validate($data['captcha'])) {
                             return array('error' => 'You must load a captcha first!');
                         }
