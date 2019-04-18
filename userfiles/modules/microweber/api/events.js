@@ -288,35 +288,24 @@ mw.on.hashParamEventInit();
 
    var hash =  mw.hash();
    if(hash.contains("showpostscat")){
-
       mw.$("html").addClass("showpostscat");
    }
    else{
-
       mw.$("html").removeClass("showpostscat");
    }
 
 
-   if(event.type=='hashchange'){
+   if (event.type === 'hashchange') {
      mw.hashHistory.push(mw.hash());
-
      var size = mw.hashHistory.length;
      var changes = mw.url.whichHashParamsHasBeenRemoved(mw.hashHistory[size-1], mw.hashHistory[size-2]), l=changes.length, i=0;
-     if(l>0){
-       for( ; i<l; i++){
-
+     if (l>0) {
+       for( ; i < l; i++ ){
           mw.on.hashParam(changes[i], "", true, true);
        }
      }
    }
-
 });
-
-
-
-
-
-
 
 
 mw.event = {
