@@ -35,6 +35,11 @@ function newsletter_subscribe($params)
 
 
     $rules = [
+        'email' => 'required|email'
+    ];
+
+
+    $rules_already_subscribed = [
         'email' => 'required|email|unique:newsletter_subscribers'
     ];
 
@@ -52,14 +57,27 @@ function newsletter_subscribe($params)
 
     $validator = Validator::make($input, $rules, $messages);
     if ($validator->fails()) {
-        newsletter_set_cookie_for_subscribed_user();
         $resp = array();
         $resp['error'] = $validator->messages();
         if ($redir) {
-            $resp['redirect'] = $redir;
+         //   $resp['redirect'] = $redir;
         }
         return $resp;
     }
+
+
+    $validator = Validator::make($input, $rules_already_subscribed, $messages);
+    if ($validator->fails()) {
+        //means user is subscribed and we will return success
+        $resp = array();
+        $resp['success'] = $validator->messages();
+        newsletter_set_cookie_for_subscribed_user();
+        if ($redir) {
+             $resp['redirect'] = $redir;
+        }
+        return $resp;
+    }
+
 
     $needs_terms = get_option('require_terms', $mod_id) == 'y';
     $enable_captcha = get_option('enable_captcha', $mod_id) == 'y';

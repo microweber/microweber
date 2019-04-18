@@ -3,6 +3,7 @@ mw.require('handles.js');
 
 
 
+mw.require('source-edit.js');
 mw.require('control_box.js');
 mw.require('element_analyzer.js');
 mw.require('liveedit_elements.js');

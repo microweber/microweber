@@ -368,7 +368,7 @@ class Parser
                     //$parse_item  = array_reverse($parse_item);
                     foreach ($parse_item as $key => $value) {
                         $replace_key = $key;
-                        if (isset($this->mw_replaced_modules_values[$replace_key])) {
+                            if (isset($this->mw_replaced_modules_values[$replace_key])) {
 
                             continue;
                         }
@@ -586,27 +586,32 @@ class Parser
 //                                         $skip= 0;
 
 
+                                        $inc_mod_num = 1;
+
+                                        if ($coming_from_parent_id != false) {
+                                            $par_id_mod_count = $coming_from_parent_id;
+
+                                        }
+
+                                        if (isset($this->_current_parser_module_of_type[$par_id_mod_count])) {
+                                            if (isset($this->_current_parser_module_of_type[$par_id_mod_count][$module_name])) {
+                                                $inc_mod_num = $this->_current_parser_module_of_type[$par_id_mod_count][$module_name];
+                                                $inc_mod_num++;
+//
+                                            }
+
+                                        } else {
+                                            // $inc_mod_num = 1;
+                                            //    $inc_mod_num = $it_loop;
+
+                                        }
+
+
+
                                         if (isset($this->_existing_module_ids[$mod_id])) {
                                             //    if ( !$skip) {
                                             ++$it_loop;
-                                            $inc_mod_num = 0;
 
-                                            if ($coming_from_parent_id != false) {
-                                                $par_id_mod_count = $coming_from_parent_id;
-
-                                            }
-
-                                            if (isset($this->_current_parser_module_of_type[$par_id_mod_count])) {
-                                                if (isset($this->_current_parser_module_of_type[$par_id_mod_count][$module_name])) {
-                                                    $inc_mod_num = $this->_current_parser_module_of_type[$par_id_mod_count][$module_name];
-//
-                                                }
-
-                                            } else {
-                                                // $inc_mod_num = 1;
-                                                //    $inc_mod_num = $it_loop;
-
-                                            }
 
                                             if ($coming_from_parent_id) {
                                                 //$mod_id =  $mod_id . '-' .$coming_from_parent_id;
@@ -654,7 +659,18 @@ class Parser
 
                                             }
                                         } else {
+
+                                            if(!$inc_mod_num){
+                                           //     $inc_mod_num = 1;
+                                                //   $this->_current_parser_module_of_type[$par_id_mod_count][$module_name] = 1;
+
+                                            }
+                                            $mod_id = $mod_id . '--'.$inc_mod_num ;
+
+                                           // $mod_id = $mod_id . '--rererew1' ;
                                             if (!$it_loop and $coming_from_parent_id) {
+
+
                                                 //  $mod_id = $mod_id . '-1asdds';
                                             }
                                         }
@@ -665,7 +681,9 @@ class Parser
 
                                         $attrs['id'] = $mod_id;
 
-                                        $module_html = str_replace('__MODULE_ID__', "id='{$attrs['id']}'", $module_html);
+                                     //   $module_html = str_replace('__MODULE_ID__', "id='{$attrs['id']}'", $module_html);
+                                        $module_html = str_replace('__MODULE_ID__', '', $module_html);
+
                                     } else {
                                         $module_html = str_replace('__MODULE_ID__', '', $module_html);
                                     }

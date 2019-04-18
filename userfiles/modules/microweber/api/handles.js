@@ -232,6 +232,14 @@ mw._initHandles = {
             className:'mw-handle-type-element',
             menu:[
                 {
+                    title: 'Edit HTML',
+                    icon: 'mw-icon-code',
+                    className:'mw-handle-remove',
+                    action: function () {
+                        mw.editSource(mw._activeElementOver);
+                    }
+                },
+                {
                     title: 'Remove',
                     icon: 'mw-icon-bin',
                     className:'mw-handle-remove',

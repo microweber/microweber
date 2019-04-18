@@ -3,10 +3,9 @@
 
 
 mw.CSSParser = function(el){
-    if(!el) return false;
-    if(!el.nodeName) return false;
+    if(!el || !el.nodeName) return false;
     if(typeof el !== 'object') return false;
-    if(el.nodeName === undefined || el.nodeName === '#text' || el === null) return false;
+    if(el.nodeName === undefined || el.nodeName === '#text') return false;
 
 
     try {
@@ -18,22 +17,22 @@ mw.CSSParser = function(el){
 
 
 
-    var f = {}
+    var f = {};
 
     f.display = function(){
       return css.display;
-    }
+    };
 
     f.isit = function(){
 
         return {
-          bold:parseFloat(css.fontWeight)>600 || css.fontWeight=='bold' || css.fontWeight =='bolder',
-          italic:css.fontStyle=='italic'||css.fontStyle=='oblique',
-          underlined:css.textDecoration=='underline'
+          bold:parseFloat(css.fontWeight)>600 || css.fontWeight === 'bold' || css.fontWeight === 'bolder',
+          italic:css.fontStyle === 'italic'||css.fontStyle === 'oblique',
+          underlined:css.textDecoration === 'underline'
         }
     }
     f.font = function(){
-      if(css===null) return false;
+      if(css === null) return false;
       return {
         size:css.fontSize,
         weight:css.fontWeight,
@@ -41,7 +40,7 @@ mw.CSSParser = function(el){
         height:css.lineHeight,
         family:css.fontFamily,
         color:css.color
-      }
+      };
     }
     f.alignNormalize = function(){
         if(!!css){
