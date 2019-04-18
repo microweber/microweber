@@ -526,7 +526,7 @@ class ContentManager
                 $next_link = '#';
                 if (isset($data[$active_item - 1])) {
                     $prev_link = $data[$active_item - 1];
-                    $limited_paging_begin[] = '<li class="mw-previous-page-item"><a data-page-number="' . ($active_item - 1) . '" href="' . $prev_link . '">&laquo;</a></li>';
+                    $limited_paging_begin[] = '<li class="mw-previous-page-item"><a class="mw-ui-btn" data-page-number="' . ($active_item - 1) . '" href="' . $prev_link . '">&laquo;</a></li>';
                 }
 
                 $limited_paging_begin = array_reverse($limited_paging_begin);
@@ -535,7 +535,7 @@ class ContentManager
 
                 if (isset($data[$active_item + 1])) {
                     $next_link = $data[$active_item + 1];
-                    $limited_paging[] = '<li class="mw-next-page-item"><a data-page-number="' . ($active_item + 1) . '" href="' . $next_link . '">&raquo;</a></li>';
+                    $limited_paging[] = '<li class="mw-next-page-item"><a class="mw-ui-btn" data-page-number="' . ($active_item + 1) . '" href="' . $next_link . '">&raquo;</a></li>';
                 }
                 if (count($limited_paging) > 2) {
                     $paging_items = $limited_paging;
