@@ -43,7 +43,7 @@ mw.inaccessibleModules = document.createElement('div');
 mw.inaccessibleModules.className = 'mw-ui-btn-nav mwInaccessibleModulesMenu';
 
 $(document).ready(function() {
-    mw.liveEditSelector = new mw.Selector({
+    /*mw.liveEditSelector = new mw.Selector({
         root: document.body,
         autoSelect: false
     });
@@ -55,7 +55,7 @@ $(document).ready(function() {
     mw.on("ElementClick", function(e, el, c) {
         console.log(el,c)
         mw.liveEditSelector.select(el);
-    })
+    })*/
     if (("ontouchstart" in document.documentElement)) {
         $('body').addClass('touchscreen-device');
     }

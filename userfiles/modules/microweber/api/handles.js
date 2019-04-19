@@ -242,7 +242,7 @@ mw._initHandles = {
                         mw.editSource(mw._activeElementOver);
                     }
                 },
-                {
+                /*{
                     title: 'Edit Style',
                     icon: 'mw-icon-edit',
                     action: function () {
@@ -263,7 +263,7 @@ mw._initHandles = {
 
 
                     }
-                },
+                },*/
                 {
                     title: 'Remove',
                     icon: 'mw-icon-bin',

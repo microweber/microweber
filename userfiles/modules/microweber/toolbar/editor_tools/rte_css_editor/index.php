@@ -2,7 +2,7 @@
 <style>
 
     #css-editor-selected-view {
-        font-size: 10px;
+        font-size: 12px;
         text-transform: lowercase;
         margin-bottom: 10px;
     }
@@ -530,10 +530,16 @@
             }
         });
 
-        mw.cssSelectorTree = new mw.tree({
+        var treeStub = {
+            setData : function (data) {
+                $('#css-editor-selected-view').html(data[data.length-1].title)
+            }
+        };
+
+        mw.cssSelectorTree = treeStub/*new mw.tree({
             element: '#css-editor-selected-view',
             saveState: false
-        });
+        })*/;
 
         $(mw.cssEditorSelector).on('select', function(){
 
