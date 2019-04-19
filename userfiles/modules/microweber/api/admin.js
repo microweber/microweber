@@ -36,8 +36,6 @@ mw.admin = {
             contentScrollBoxHeightMinus = contentScrollBoxHeightMinus + $(this).outerHeight(true);
         });
 
-        console.log($(window).height(), contentScrollBoxHeightMinus)
-
         return $(window).height() - contentScrollBoxHeightMinus;
     },
     contentScrollBox: function (selector, settings) {

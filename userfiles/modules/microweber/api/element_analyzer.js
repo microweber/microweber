@@ -118,26 +118,26 @@ mw.ElementAnalyzer = function(options){
     this.options = options || {};
     this.defaults = {
         classes:{
-            edit:'edit',
-            element:'element',
-            module:'module',
-            noDrop:'nodrop',
-            allowDrop:'allow-drop',
-            emptyElement:'mw-empty'
-
+            edit: 'edit',
+            element: 'element',
+            module: 'module',
+            noDrop: 'nodrop',
+            allowDrop: 'allow-drop',
+            emptyElement: 'mw-empty',
+            zone: 'mw-zone'
         },
         rows:['mw-row', 'mw-ui-row', 'row'],
         columns:['mw-col', 'mw-ui-col', 'col', 'column', 'columns'],
         columnMatches:'[class*="col-"]',
         rowMatches:'[class*="row-"]',
-    };                                   
+    };
     this.settings = $.extend({}, this.options, this.defaults);
 
     this.prepare = function(){
         this.cls = this.settings.classes;
         this.initCSS();
     };
-    
+
     this.initCSS = function(){
         var css = 'body.dragStart .'+this.cls.noDrop+'{'
             +'pointer-events: none;'
