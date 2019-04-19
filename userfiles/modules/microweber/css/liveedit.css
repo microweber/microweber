@@ -4439,7 +4439,6 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     color: #fff;
     transform: scale(1, .5) translateZ(-30px);
     transform-origin: left center;
-    min-width: 175px;
     transition: all .1s;
     margin-top: 10px;
 }
