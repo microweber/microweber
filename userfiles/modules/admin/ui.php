@@ -979,7 +979,8 @@
                         hideControls: false,
                         ready: function () {
                             mw.log('Editor is ready');
-                        }
+                        },
+                        style:'font-size: 19px; font-family: Times;'
                     });
 
 
