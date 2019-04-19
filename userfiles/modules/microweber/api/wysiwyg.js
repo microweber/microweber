@@ -1619,7 +1619,6 @@ mw.wysiwyg = {
         var css = mw.CSSParser(node);
         if (css && css.get) {
             var font = css.get.font();
-            console.log(font)
             var family_array = font.family.split(',');
             if (family_array.length == 1) {
                 var fam = font.family;

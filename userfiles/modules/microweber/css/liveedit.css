@@ -1979,11 +1979,6 @@ div.mw_drag_started, li.module-item.ui-draggable-dragging {
     box-shadow: inset 0 0 1px #fff;
 }
 
-.element-over:hover,
-.module-over:hover {
-    outline: 1px solid rgba(0, 134, 219, 1);
-    outline-offset: -1px;
-}
 
 .mw_modal .module-over:hover {
     outline: none
@@ -4671,10 +4666,6 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     transform: rotate(90deg);
 }
 
-.edit .element-current, .edit .element-current:hover {
-    outline: 1px solid #0086DB !important;
-}
-
 .mw_module_settings_sidebar_icon {
     margin: 4px 5px 0px 0px;
 }
@@ -4839,5 +4830,14 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     font-family: monospace;
     margin: 0;
     border-radius: 3px 3px 0 0;
+}
+
+.mw-inline-source-editor-error{
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: red;
 }
 

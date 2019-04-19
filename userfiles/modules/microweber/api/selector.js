@@ -5,8 +5,15 @@ mw.css = function(element, css){
 }
 mw.Selector = function(options) {
 
-    this.options = options;
-    this.document = this.options.document || document;
+    options = options || {};
+
+    var defaults = {
+        autoSelect: true,
+        document: document
+    };
+
+    this.options = $.extend({}, defaults, options);
+    this.document = this.options.document;
 
 
     this.buildSelector = function(){
@@ -143,7 +150,7 @@ mw.Selector = function(options) {
 
     this.setItem = function(e, item, select, extend){
         if(!this.active()) return;
-        var target = e.target?e.target:e;
+        var target = e.target ? e.target : e;
         target = mw.tools.firstMatchesOnNodeOrParent(target, ['[id]']);
         var validateTarget = !mw.tools.firstMatchesOnNodeOrParent(target, ['.mw-control-box', '.mw-defaults']);
         if(!target || !validateTarget) return;
@@ -168,25 +175,30 @@ mw.Selector = function(options) {
         }
 
 
-        this.position(item, target)
+        this.position(item, target);
 
         item.active = target;
 
         this.showItem(item);
-    }
+    };
 
     this.select = function(e, target){
         if(!e && !target) return;
-        target = target || e.target;
+        if(!e.nodeType){
+            target = target || e.target;
+        } else{
+            target = e;
+        }
+
         if(e.ctrlKey){
             this.setItem(target, this.getFirstNonActiveSelector(), true, true);
         }
         else{
-            this.hideAll()
+            this.hideAll();
             this.setItem(target, this.selectors[0], true, false);
         }
 
-    }
+    };
 
     this.deselect = function(e, target){
         e.preventDefault()
@@ -201,13 +213,13 @@ mw.Selector = function(options) {
         this.buildInteractor();
         var scope = this;
         $(this.root).on("click", function(e){
-            if(scope.active()){
+            if(scope.options.autoSelect && scope.active()){
                 scope.select(e);
             }
         });
 
         $(this.root).on( "mousemove touchmove touchend", function(e){
-            if(scope.active()){
+            if(scope.options.autoSelect && scope.active()){
                 scope.setItem(e, scope.interactors);
             }
         });
