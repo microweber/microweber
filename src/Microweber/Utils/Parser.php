@@ -368,7 +368,7 @@ class Parser
                     //$parse_item  = array_reverse($parse_item);
                     foreach ($parse_item as $key => $value) {
                         $replace_key = $key;
-                        if (isset($this->mw_replaced_modules_values[$replace_key])) {
+                            if (isset($this->mw_replaced_modules_values[$replace_key])) {
 
                             continue;
                         }
@@ -681,7 +681,9 @@ class Parser
 
                                         $attrs['id'] = $mod_id;
 
-                                        $module_html = str_replace('__MODULE_ID__', "id='{$attrs['id']}'", $module_html);
+                                     //   $module_html = str_replace('__MODULE_ID__', "id='{$attrs['id']}'", $module_html);
+                                        $module_html = str_replace('__MODULE_ID__', '', $module_html);
+
                                     } else {
                                         $module_html = str_replace('__MODULE_ID__', '', $module_html);
                                     }
