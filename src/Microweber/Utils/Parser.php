@@ -643,6 +643,7 @@ class Parser
                                                 //if ($mod_id_probe and !isset($this->_existing_module_ids[$mod_id_probe])) {
                                                 if ($mod_id_probe and !isset($this->_existing_module_ids_grouped[$coming_from_parent_id][$mod_id])) {
                                                     $mod_id = $mod_id_probe;
+
                                                 } else {
                                                     //  $mod_id = $mod_id . '--' .$it_loop;
                                                     //  $mod_id = $mod_id . '-' . $last_content_id;
@@ -671,7 +672,7 @@ class Parser
                                             if (!$it_loop and $coming_from_parent_id) {
 
 
-                                                //  $mod_id = $mod_id . '-1asdds';
+                                             //    $mod_id = $mod_id . '-1asdds';
                                             }
                                         }
                                         $this->_existing_module_ids[$mod_id] = $mod_id;
