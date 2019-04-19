@@ -661,18 +661,17 @@ class Parser
                                             }
                                         } else {
 
-                                            if(!$inc_mod_num){
-                                           //     $inc_mod_num = 1;
-                                                //   $this->_current_parser_module_of_type[$par_id_mod_count][$module_name] = 1;
+//                                            if(!$inc_mod_num){
+//                                                //   $this->_current_parser_module_of_type[$par_id_mod_count][$module_name] = 1;
+//
+//                                            }
+                                            $inc_mod_num = 1;
 
-                                            }
                                             $mod_id = $mod_id . '--'.$inc_mod_num ;
 
-                                           // $mod_id = $mod_id . '--rererew1' ;
                                             if (!$it_loop and $coming_from_parent_id) {
 
-
-                                             //    $mod_id = $mod_id . '-1asdds';
+                                             //    $mod_id = $mod_id . '-1';
                                             }
                                         }
                                         $this->_existing_module_ids[$mod_id] = $mod_id;
