@@ -43,7 +43,7 @@ mw.inaccessibleModules = document.createElement('div');
 mw.inaccessibleModules.className = 'mw-ui-btn-nav mwInaccessibleModulesMenu';
 
 $(document).ready(function() {
-    /*mw.liveEditSelector = new mw.Selector({
+   /* mw.liveEditSelector = new mw.Selector({
         root: document.body,
         autoSelect: false
     });
@@ -51,11 +51,7 @@ $(document).ready(function() {
     mw.on('ElementOver', function(e, target){
         mw.liveEditSelector.active(true);
         mw.liveEditSelector.setItem(target, mw.liveEditSelector.interactors);
-    });
-    mw.on("ElementClick", function(e, el, c) {
-        console.log(el,c)
-        mw.liveEditSelector.select(el);
-    })*/
+    });*/
     if (("ontouchstart" in document.documentElement)) {
         $('body').addClass('touchscreen-device');
     }
@@ -998,21 +994,31 @@ mw.drag = {
                             }
                         }
 
-                        var isel = mw.tools.firstParentOrCurrentWithClass(target, 'element');
-                        var isSafeEl = mw.tools.firstParentOrCurrentWithClass(target, 'safe-element');
-                        var isModule = mw.tools.firstParentOrCurrentWithClass(target, 'safe-element');
-
                         if ($(target).hasClass("plain-text")) {
                             mw.trigger("PlainTextClick", target);
                         }
-                        else if (isel) {
-                            mw.trigger("ElementClick", isel);
+
+                        else if ($(target).hasClass("element")) {
+                            mw.trigger("ElementClick", target);
                         }
-                        if (isSafeEl) {
-                            mw.trigger("SafeElementClick", isSafeEl);
+                        else if (mw.tools.hasParentsWithClass(target, 'element')) {
+
+                            mw.trigger("ElementClick", $(target).parents(".element")[0]);
                         }
-                        if (isModule) {
-                            mw.trigger("ModuleClick", isModule);
+
+                        if ($(target).hasClass("safe-element")) {
+                            mw.trigger("SafeElementClick", target);
+                        }
+                        else if (mw.tools.hasParentsWithClass(target, 'safe-element')) {
+
+                            mw.trigger("SafeElementClick", $(target).parents(".safe-element")[0]);
+                        }
+
+                        if ($(target).hasClass("module")) {
+                            mw.trigger("ModuleClick", target);
+                        }
+                        else if (mw.tools.hasParentsWithClass(target, 'module')) {
+                            mw.trigger("ModuleClick", $(target).parents(".module")[0]);
                         }
                     }
 
@@ -1036,23 +1042,23 @@ mw.drag = {
                     } else if (mw.tools.hasParentsWithClass(target, 'mw_item')) {
                         mw.trigger("ItemClick", $(target).parents(".mw_item")[0]);
                     }
-                    if (target.tagName === 'IMG' && mw.tools.hasParentsWithClass(target, 'edit')) {
+                    if (target.tagName == 'IMG' && mw.tools.hasParentsWithClass(target, 'edit')) {
                         var order = mw.tools.parentsOrder(mw.mm_target, ['edit', 'module']);
-                        if ((order.module === -1) || (order.edit > -1 && order.edit < order.module)) {
+                        if ((order.module == -1) || (order.edit > -1 && order.edit < order.module)) {
                             if (!mw.tools.hasParentsWithClass(target, 'mw-defaults')) {
                                 mw.trigger("ImageClick", target);
                             }
                             mw.wysiwyg.select_element(target);
                         }
                     }
-                    if (target.tagName === 'BODY') {
+                    if (target.tagName == 'BODY') {
                         mw.trigger("BodyClick", target);
                     }
 
-                    if (target.tagName === 'TABLE' && mw.tools.hasParentsWithClass(target, 'edit') && !mw.tools.hasParentsWithClass(target, 'module')) {
+                    if (target.tagName == 'TABLE' && mw.tools.hasParentsWithClass(target, 'edit') && !mw.tools.hasParentsWithClass(target, 'module')) {
                         mw.trigger("TableClick", target);
                     }
-                    if (target.tagName === 'TD' && mw.tools.hasParentsWithClass(target, 'edit')  && !mw.tools.hasParentsWithClass(target, 'module')) {
+                    if (target.tagName == 'TD' && mw.tools.hasParentsWithClass(target, 'edit')  && !mw.tools.hasParentsWithClass(target, 'module')) {
                         mw.trigger("TableTdClick", target);
                     }
                     if (mw.tools.hasClass(target, 'mw-empty') || mw.tools.hasParentsWithClass(target, 'mw-empty')) {
