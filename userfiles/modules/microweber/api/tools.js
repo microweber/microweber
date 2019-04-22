@@ -3069,6 +3069,7 @@ mw.tools = {
             frame.contentWindow.thisFrame = frame;
             frame.contentWindow.pauseChange = true;
             frame.contentWindow.richtextEditorSettings = o;
+
             frame.onload = function () {
                 var val = o.element.nodeName !== 'TEXTAREA' ? o.element.innerHTML : o.element.value
                 frame.contentWindow.document.getElementById('editor-area').innerHTML = val;
@@ -3101,6 +3102,7 @@ mw.tools = {
                         frame.richtextEditorSettings.element.value = this.innerHTML;
                     }
                 })
+                frame.contentWindow.mw.tools.createStyle(undefined, '#editor-area{' + (obj.style || '') + '}');
             }
             $(obj.element).on('sourceChanged', function (e, val) {
                 frame.contentWindow.document.getElementById('editor-area').innerHTML = val;

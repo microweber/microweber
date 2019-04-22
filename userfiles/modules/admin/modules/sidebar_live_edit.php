@@ -21,7 +21,7 @@
                 <a href="javascript:;" class="tabnav active tip" data-tip="<?php _e("Layouts"); ?>" data-tipposition="left-center"><i class="mwi-desktop-plus"></i> </a>
                 <a href="javascript:;" class="tabnav tip" data-tip="<?php _e("Modules"); ?>" data-tipposition="left-center"><i class="mwi-folder"></i></a>
                 <a href="javascript:;" class="tabnav tip" onclick="mw.liveEditWidgets.loadTemplateSettings('<?php print api_url() ?>module?id=template_settings_admin&live_edit=true&module_settings=true&type=settings/template&autosize=false&content_id=<?php print CONTENT_ID ?>')" data-tip="<?php _e("Template Settings"); ?>" data-tipposition="left-center"><i class="mwi-cog"></i></a>
-                <a href="javascript:;" class="tabnav tip"
+                <a href="javascript:;" class="tabnav tip mw-lscsse-tab"
                    onclick="mw.liveEditWidgets.cssEditorInSidebarAccordion()"
                    data-tip="<?php _e("Visual Editor"); ?>"
                    data-tipposition="left-center">

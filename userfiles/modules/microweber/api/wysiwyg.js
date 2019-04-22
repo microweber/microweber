@@ -1619,7 +1619,6 @@ mw.wysiwyg = {
         var css = mw.CSSParser(node);
         if (css && css.get) {
             var font = css.get.font();
-            console.log(font)
             var family_array = font.family.split(',');
             if (family_array.length == 1) {
                 var fam = font.family;
@@ -2010,11 +2009,18 @@ mw.wysiwyg = {
     },
     format: function (command) {
         var el = mw.wysiwyg.validateCommonAncestorContainer(window.getSelection().focusNode);
+        var edit = mw.tools.firstParentOrCurrentWithClass(el, 'edit');
+
+        var currState = edit.contentEditable;
+       /* if(edit && edit.contentEditable !== 'true'){
+            edit.contentEditable = true;
+            edit.querySelector('[contenteditable]').contenteditable = 'inherit';
+        }*/
         mw.wysiwyg.change(el);
 
         classApplier.forEach(function (c) {
             mw.tools.removeClass(el, c)
-        })
+        });
         if (command.indexOf('.') === 0) {
             var cls = command.split('.')[1];
 
@@ -2050,6 +2056,8 @@ mw.wysiwyg = {
                 }
             }
         }
+        console.log(edit, edit.contentEditable)
+        //edit.contentEditable = currState;
 
     },
 

@@ -5,8 +5,15 @@ mw.css = function(element, css){
 }
 mw.Selector = function(options) {
 
-    this.options = options;
-    this.document = this.options.document || document;
+    options = options || {};
+
+    var defaults = {
+        autoSelect: true,
+        document: document
+    };
+
+    this.options = $.extend({}, defaults, options);
+    this.document = this.options.document;
 
 
     this.buildSelector = function(){
@@ -34,7 +41,7 @@ mw.Selector = function(options) {
         });
     };
     this.getFirstNonActiveSelector = function(){
-        let i = 0;
+        var i = 0;
         for( ; i <  this.selectors.length; i++){
             if(!this.selectors[i].active){
                 return this.selectors[i]
@@ -44,14 +51,14 @@ mw.Selector = function(options) {
         return this.selectors[this.selectors.length-1];
     };
     this.deactivateAll = function(){
-         let i = 0;
+         var i = 0;
         for( ; i <  this.selectors.length; i++){
             this.selectors[i].active = false;
         }
     };
 
     this.hideAll = function(){
-        let i = 0;
+        var i = 0;
         for( ; i <  this.selectors.length; i++){
             this.hideItem(this.selectors[i]);
         }
@@ -61,14 +68,14 @@ mw.Selector = function(options) {
     this.hideItem = function(item){
 
         item.active = false;
-        for (let x in item){
+        for (var x in item){
             if(!item[x]) continue;
             item[x].style.visibility = 'hidden';
         }
     };
     this.showItem = function(item){
-        for (let x in item){
-            if(typeof item[x] === 'boolean') continue;
+        for (var x in item) {
+            if(typeof item[x] === 'boolean' || !item[x].className || item[x].className.indexOf('mw-selector') === -1) continue;
             item[x].style.visibility = 'visible';
         }
     };
@@ -103,47 +110,47 @@ mw.Selector = function(options) {
 
     this.unsetItem = function(e){
         var target = e.target?e.target:e;
-        for(let i = 0;i<this.selectors.length;i++){
+        for(var i = 0;i<this.selectors.length;i++){
             if(this.selectors[i].active === target){
                 this.hideItem(this.selectors[i]);
                 break;
             }
         }
         this.selected.splice(this.selected.indexOf(target), 1);
-    }
+    };
 
     this.positionSelected = function(){
-        for(let i = 0;i<this.selectors.length;i++){
+        for(var i = 0;i<this.selectors.length;i++){
             this.position(this.selectors[i], this.selectors[i].active)
         }
-    }
+    };
     this.position = function(item, target){
         var off = $(target).offset();
         mw.css(item.top, {
             top:off.top,
             left:off.left,
             width:target.offsetWidth
-        })
+        });
         mw.css(item.right, {
             top:off.top,
             left:off.left+target.offsetWidth,
             height:target.offsetHeight
-        })
+        });
         mw.css(item.bottom, {
             top:off.top+target.offsetHeight,
             left:off.left,
             width:target.offsetWidth
-        })
+        });
         mw.css(item.left, {
             top:off.top,
             left:off.left,
             height:target.offsetHeight
         });
-    }
+    };
 
     this.setItem = function(e, item, select, extend){
         if(!this.active()) return;
-        var target = e.target?e.target:e;
+        var target = e.target ? e.target : e;
         target = mw.tools.firstMatchesOnNodeOrParent(target, ['[id]']);
         var validateTarget = !mw.tools.firstMatchesOnNodeOrParent(target, ['.mw-control-box', '.mw-defaults']);
         if(!target || !validateTarget) return;
@@ -152,7 +159,7 @@ mw.Selector = function(options) {
         }
         if(select){
             if(this.isSelected(target)){
-                this.unsetItem(target)
+                this.unsetItem(target);
                 return false;
             }
             else{
@@ -168,28 +175,33 @@ mw.Selector = function(options) {
         }
 
 
-        this.position(item, target)
+        this.position(item, target);
 
         item.active = target;
 
         this.showItem(item);
-    }
+    };
 
     this.select = function(e, target){
         if(!e && !target) return;
-        target = target || e.target;
+        if(!e.nodeType){
+            target = target || e.target;
+        } else{
+            target = e;
+        }
+
         if(e.ctrlKey){
             this.setItem(target, this.getFirstNonActiveSelector(), true, true);
         }
         else{
-            this.hideAll()
+            this.hideAll();
             this.setItem(target, this.selectors[0], true, false);
         }
 
-    }
+    };
 
     this.deselect = function(e, target){
-        e.preventDefault()
+        e.preventDefault();
         target = target || e.target;
 
         this.unsetItem(target);
@@ -201,13 +213,13 @@ mw.Selector = function(options) {
         this.buildInteractor();
         var scope = this;
         $(this.root).on("click", function(e){
-            if(scope.active()){
+            if(scope.options.autoSelect && scope.active()){
                 scope.select(e);
             }
         });
 
         $(this.root).on( "mousemove touchmove touchend", function(e){
-            if(scope.active()){
+            if(scope.options.autoSelect && scope.active()){
                 scope.setItem(e, scope.interactors);
             }
         });

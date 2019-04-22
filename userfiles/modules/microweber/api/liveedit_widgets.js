@@ -13,6 +13,10 @@ mw.liveEditWidgets = {
                 this.contentWindow.document.body.style.padding = 0;
                 this.contentWindow.document.body.style.backgroundColor = 'transparent';
             };
+            $(this._cssEditorInSidebarAccordion)
+                .height($(this._cssEditorInSidebarAccordion)
+                    .parents('.mw-ui-box').outerHeight() -
+                    $(this._cssEditorInSidebarAccordion).parents('.tabitem').outerHeight());
         }
         return this._cssEditorInSidebarAccordion;
     },
@@ -30,6 +34,10 @@ mw.liveEditWidgets = {
             this._tplSettings.onload = function () {
                 this.contentWindow.document.querySelector('.mw-module-live-edit-settings').style.padding = 0;
             };
+            $(this._tplSettings)
+                .height($(this._tplSettings)
+                        .parents('.mw-ui-box').outerHeight() -
+                    $(this._tplSettings).parents('.tabitem').outerHeight());
         }
         return this._tplSettings;
     }

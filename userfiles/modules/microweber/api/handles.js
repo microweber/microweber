@@ -86,7 +86,11 @@ mw.Handle = function(options) {
             btn.id = data.id;
         }
         if(data.action){
-            btn.onclick = function () {
+            btn.onmousedown = function (e) {
+                e.preventDefault();
+            };
+            btn.onclick = function (e) {
+                e.preventDefault();
                 data.action();
             };
         }
@@ -234,11 +238,32 @@ mw._initHandles = {
                 {
                     title: 'Edit HTML',
                     icon: 'mw-icon-code',
-                    className:'mw-handle-remove',
                     action: function () {
                         mw.editSource(mw._activeElementOver);
                     }
                 },
+                /*{
+                    title: 'Edit Style',
+                    icon: 'mw-icon-edit',
+                    action: function () {
+                        mw.liveEditSettings.show();
+                        mw.sidebarSettingsTabs.set(3)
+                        if(mw.cssEditorSelector){
+                            mw.cssEditorSelector.active(true);
+                            mw.cssEditorSelector.select(mw._activeElementOver);
+                        } else{
+                            $(mw.liveEditWidgets.cssEditorInSidebarAccordion()).on('load', function () {
+                                setTimeout(function(){
+                                    mw.cssEditorSelector.active(true);
+                                    mw.cssEditorSelector.select(mw._activeElementOver);
+                                }, 333)
+                            });
+                        }
+                        mw.liveEditWidgets.cssEditorInSidebarAccordion();
+
+
+                    }
+                },*/
                 {
                     title: 'Remove',
                     icon: 'mw-icon-bin',

@@ -27,6 +27,15 @@ mw.editSource = function (node) {
             mw._editSource.validator.innerHTML = mw._editSource.area.value;
             mw._editSource.ok.disabled = mw._editSource.validator.innerHTML !== mw._editSource.area.value;
             mw._editSource.ok.classList[mw._editSource.ok.disabled ? 'add' : 'remove']('disabled');
+            var hasErr = $('.mw-inline-source-editor-error', mw._editSource.nav);
+            if(mw._editSource.ok.disabled) {
+                if(!hasErr.length) {
+                    $(mw._editSource.nav).prepend('<span class="mw-inline-source-editor-error">' + mw.lang('Invalid HTML') + '</span>');
+                }
+            }
+            else {
+                hasErr.remove()
+            }
         });
         $(mw._editSource.ok).on('click', function () {
             if(!mw._editSource.ok.disabled){
@@ -43,7 +52,7 @@ mw.editSource = function (node) {
         .width($node.outerWidth())
     $(mw._editSource.wrapper)
         .css(off)
-        .addClass('active')
+        .addClass('active');
 
 
 };

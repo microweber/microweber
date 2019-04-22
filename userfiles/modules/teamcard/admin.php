@@ -7,7 +7,8 @@ $defaults = array(
     'name' => '',
     'role' => '',
     'bio' => '',
-    'file' => ''
+    'file' => '',
+    'id' => $params['id'] . uniqid(),
 );
 
 $json = json_decode($settings, true);
@@ -50,7 +51,7 @@ if (isset($json) == false or count($json) == 0) {
                 data[i]['role'] = item.querySelector('.teamcard-role').value;
                 data[i]['bio'] = item.querySelector('.teamcard-bio').value;
                 data[i]['file'] = item.querySelector('.teamcard-file').value;
-
+                data[i]['id'] = item.querySelector('.teamcard-id').value || mw.random();
             }
             return data;
         },
@@ -60,13 +61,14 @@ if (isset($json) == false or count($json) == 0) {
 
 
         create: function () {
-            var last = $('.teamcard-setting-item:last');
+            var last = $('.teamcard-setting-item:first');
             var html = last.html();
             var item = mwd.createElement('div');
             item.className = last.attr("class");
             item.innerHTML = html;
             $(item.querySelectorAll('input')).val('');
             $(item.querySelectorAll('textarea')).val('');
+            $(item.querySelectorAll('.teamcard-id')).val(mw.random());
             $(item.querySelectorAll('.mw-uploader')).remove();
             $(item.querySelectorAll('img')).attr('src', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mN8/h8AAtMB6KonQukAAAAASUVORK5CYII=');
             last.before(item);
@@ -171,6 +173,7 @@ if (isset($json) == false or count($json) == 0) {
                                                 <span><?php _e('Upload image'); ?></span>
                                             </span>
                                         </div>
+                                        <input type="hidden" class="teamcard-id" value="<?php print array_get($slide, 'id'); ?>">
                                     </div>
                                 </div>
 
