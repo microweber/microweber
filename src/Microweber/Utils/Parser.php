@@ -665,12 +665,13 @@ class Parser
 //                                                //   $this->_current_parser_module_of_type[$par_id_mod_count][$module_name] = 1;
 //
 //                                            }
-                                            $inc_mod_num = 1;
+                                            //$inc_mod_num = 1;
 
-                                            $mod_id = $mod_id . '--'.$inc_mod_num ;
+                                          //  $mod_id = $mod_id . '--'.$inc_mod_num ;
+                                             $mod_id = $mod_id   ;
 
                                             if (!$it_loop and $coming_from_parent_id) {
-
+                                                $mod_id = $mod_id . '--'.$inc_mod_num ;
                                              //    $mod_id = $mod_id . '-1';
                                             }
                                         }
