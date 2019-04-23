@@ -124,23 +124,23 @@ class Parser
         $layout = str_replace('<?', '&lt;?', $layout);
 
 
-    /*    $script_pattern = "/<textarea[^>]*>(.*)<\/textarea>/Uis";
-        preg_match_all($script_pattern, $layout, $mw_script_matches);
+        /*    $script_pattern = "/<textarea[^>]*>(.*)<\/textarea>/Uis";
+            preg_match_all($script_pattern, $layout, $mw_script_matches);
 
-        if (!empty($mw_script_matches)) {
-            foreach ($mw_script_matches [0] as $key => $value) {
-                if ($value != '') {
-                    $v1 = crc32($value) . $mw_parser_replace_inc++;
-                    $v1 = '<tag-textarea>mw_replace_back_this_textarea_' . $v1 . '</tag-textarea>';
-                    $layout = str_replace($value, $v1, $layout);
-                    if (!isset($this->_replaced_input_tags[$v1])) {
-                        $this->_replaced_input_tags[$v1] = $value;
-                        $mw_replaced_textarea_tag[$v1] = $value;
+            if (!empty($mw_script_matches)) {
+                foreach ($mw_script_matches [0] as $key => $value) {
+                    if ($value != '') {
+                        $v1 = crc32($value) . $mw_parser_replace_inc++;
+                        $v1 = '<tag-textarea>mw_replace_back_this_textarea_' . $v1 . '</tag-textarea>';
+                        $layout = str_replace($value, $v1, $layout);
+                        if (!isset($this->_replaced_input_tags[$v1])) {
+                            $this->_replaced_input_tags[$v1] = $value;
+                            $mw_replaced_textarea_tag[$v1] = $value;
 
+                        }
                     }
                 }
-            }
-        }*/
+            }*/
 
         $layout = $this->_replace_tags_with_placeholders($layout);
 
@@ -368,7 +368,7 @@ class Parser
                     //$parse_item  = array_reverse($parse_item);
                     foreach ($parse_item as $key => $value) {
                         $replace_key = $key;
-                            if (isset($this->mw_replaced_modules_values[$replace_key])) {
+                        if (isset($this->mw_replaced_modules_values[$replace_key])) {
 
                             continue;
                         }
@@ -586,32 +586,27 @@ class Parser
 //                                         $skip= 0;
 
 
-                                        $inc_mod_num = 1;
-
-                                        if ($coming_from_parent_id != false) {
-                                            $par_id_mod_count = $coming_from_parent_id;
-
-                                        }
-
-                                        if (isset($this->_current_parser_module_of_type[$par_id_mod_count])) {
-                                            if (isset($this->_current_parser_module_of_type[$par_id_mod_count][$module_name])) {
-                                                $inc_mod_num = $this->_current_parser_module_of_type[$par_id_mod_count][$module_name];
-                                                $inc_mod_num++;
-//
-                                            }
-
-                                        } else {
-                                            // $inc_mod_num = 1;
-                                            //    $inc_mod_num = $it_loop;
-
-                                        }
-
-
-
                                         if (isset($this->_existing_module_ids[$mod_id])) {
                                             //    if ( !$skip) {
                                             ++$it_loop;
+                                            $inc_mod_num = 0;
 
+                                            if ($coming_from_parent_id != false) {
+                                                $par_id_mod_count = $coming_from_parent_id;
+
+                                            }
+
+                                            if (isset($this->_current_parser_module_of_type[$par_id_mod_count])) {
+                                                if (isset($this->_current_parser_module_of_type[$par_id_mod_count][$module_name])) {
+                                                    $inc_mod_num = $this->_current_parser_module_of_type[$par_id_mod_count][$module_name];
+//
+                                                }
+
+                                            } else {
+                                                // $inc_mod_num = 1;
+                                                //    $inc_mod_num = $it_loop;
+
+                                            }
 
                                             if ($coming_from_parent_id) {
                                                 //$mod_id =  $mod_id . '-' .$coming_from_parent_id;
@@ -643,7 +638,6 @@ class Parser
                                                 //if ($mod_id_probe and !isset($this->_existing_module_ids[$mod_id_probe])) {
                                                 if ($mod_id_probe and !isset($this->_existing_module_ids_grouped[$coming_from_parent_id][$mod_id])) {
                                                     $mod_id = $mod_id_probe;
-
                                                 } else {
                                                     //  $mod_id = $mod_id . '--' .$it_loop;
                                                     //  $mod_id = $mod_id . '-' . $last_content_id;
@@ -660,19 +654,8 @@ class Parser
 
                                             }
                                         } else {
-
-//                                            if(!$inc_mod_num){
-//                                                //   $this->_current_parser_module_of_type[$par_id_mod_count][$module_name] = 1;
-//
-//                                            }
-                                            //$inc_mod_num = 1;
-
-                                          //  $mod_id = $mod_id . '--'.$inc_mod_num ;
-                                             $mod_id = $mod_id   ;
-
                                             if (!$it_loop and $coming_from_parent_id) {
-                                                $mod_id = $mod_id . '--'.$inc_mod_num ;
-                                             //    $mod_id = $mod_id . '-1';
+                                                //  $mod_id = $mod_id . '-1asdds';
                                             }
                                         }
                                         $this->_existing_module_ids[$mod_id] = $mod_id;
@@ -682,9 +665,7 @@ class Parser
 
                                         $attrs['id'] = $mod_id;
 
-                                     //   $module_html = str_replace('__MODULE_ID__', "id='{$attrs['id']}'", $module_html);
-                                        $module_html = str_replace('__MODULE_ID__', '', $module_html);
-
+                                        $module_html = str_replace('__MODULE_ID__', "id='{$attrs['id']}'", $module_html);
                                     } else {
                                         $module_html = str_replace('__MODULE_ID__', '', $module_html);
                                     }
@@ -958,14 +939,14 @@ class Parser
 
         //  if (!$coming_from_parent) {
 
-     /*   if (!empty($mw_replaced_textarea_tag)) {
-            foreach ($mw_replaced_textarea_tag as $key => $value) {
-                if ($value != '') {
-                    $layout = str_replace($key, $value, $layout);
-                }
-                unset($mw_replaced_textarea_tag[$key]);
-            }
-        }*/
+        /*   if (!empty($mw_replaced_textarea_tag)) {
+               foreach ($mw_replaced_textarea_tag as $key => $value) {
+                   if ($value != '') {
+                       $layout = str_replace($key, $value, $layout);
+                   }
+                   unset($mw_replaced_textarea_tag[$key]);
+               }
+           }*/
 
 
         // if (!$coming_from_parent_id) {
@@ -977,7 +958,7 @@ class Parser
                     // $layout = str_replace($key, $value, $layout);
                     //  $this->_replaced_input_tags_inner_loops[$key] = 1;
                 }
-            //    unset($this->_replaced_input_tags_inner_loops[$key]);
+                //    unset($this->_replaced_input_tags_inner_loops[$key]);
             }
         }
 
@@ -2610,7 +2591,7 @@ $srsc_str
 
                     if (!isset($this->_replaced_input_tags_inner_loops[$v1])) {
                         $this->_replaced_input_tags_inner_loops[$v1] = $value;
-                    //    $mw_replaced_textarea_tag[$v1] = $value;
+                        //    $mw_replaced_textarea_tag[$v1] = $value;
                     }
                 }
             }
@@ -2628,7 +2609,7 @@ $srsc_str
                     if (!isset($this->_replaced_input_tags[$v1])) {
                         $this->_replaced_input_tags[$v1] = $value;
                         $mw_replaced_codes_tag[$v1] = $value;
-                     }
+                    }
                 }
             }
         }
