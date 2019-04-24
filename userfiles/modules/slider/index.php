@@ -30,10 +30,6 @@ if (isset($json) == false or count($json) == 0) {
 $mrand = 'mw-slider-' . uniqid();
 
 foreach ($json as $slide) {
-    if (!isset($slide['skin']) or $slide['skin'] == '') {
-        $slide['skin'] = 'default';
-    }
-
     if (isset($slide['images'])) {
         $slide['images'] = is_array($slide['images']) ? $slide['images'] : explode(',', $slide['images']);
     } else {
@@ -43,30 +39,36 @@ foreach ($json as $slide) {
     if (!isset($slide['seemoreText'])) {
         $slide['seemoreText'] = 'See more';
     }
+
+
+    if (!isset($slide['skin']) or $slide['skin'] == '') {
+        $slide['skin'] = 'default';
+    }
+
+
     $module_template_clean = str_replace('.php', '', $module_template);
     $default_skins_path = $config['path_to_module'] . 'templates/' . $module_template_clean . '/skins';
     $template_skins_path = template_dir() . 'modules/slider/templates/' . $module_template_clean . '/skins';
 
-
-    $skin_file = $config['path_to_module'] . 'templates/' . $module_template_clean . '/skins/' . $slide['skin'] . '.php';
-    $skin_default = $config['path_to_module'] . 'templates/' . $module_template_clean . '/skins/default.php';
     $skin_file_from_template = template_dir() . 'modules/slider/templates/' . $module_template_clean . '/skins/' . $slide['skin'] . '.php';
-
-    $skin_file_full_path = normalize_path($skin_file, false);
-    $skin_file = normalize_path($skin_file, false);
     $skin_file_from_template = normalize_path($skin_file_from_template, false);
+    $skin_default_from_template = template_dir() . 'modules/slider/templates/' . $module_template_clean . '/skins/default.php';
+    $skin_default_from_template = normalize_path($skin_default_from_template, false);
+    $skin_default = $config['path_to_module'] . 'templates/' . $module_template_clean . '/skins/default.php';
+    $skin_default = normalize_path($skin_default, false);
 
     if (is_file($skin_file_from_template)) {
-        $skin_file_full_path = ($skin_file_from_template);
-    } elseif (is_file($skin_file)) {
-        $skin_file_full_path = ($skin_file);
+        $skin_file = $skin_file_from_template;
+    } elseif (is_file($skin_default_from_template)) {
+        $skin_file = $skin_default_from_template;
     } else {
-        $skin_file_full_path = ($skin_default);
+        $skin_file = $skin_default;
     }
 
     if (!isset($slide['skin_file'])) {
-        $slide['skin_file'] = $skin_file_full_path;
+        $slide['skin_file'] = $skin_file;
     }
+
     $data[] = $slide;
 }
 
@@ -85,10 +87,9 @@ include('options.php');
 if (is_file($template_file)) {
     include($template_file);
 }
-
 ?>
 
-<?php if ($engine == 'slider'): ?>
+<?php if ($engine == 'slickslider'): ?>
 <?php endif; ?>
 
 <?php if ($engine == 'bxslider'): ?>
