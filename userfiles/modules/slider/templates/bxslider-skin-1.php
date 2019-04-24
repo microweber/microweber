@@ -4,9 +4,9 @@
 
   type: layout
 
-  name: bxSlider - Default
+  name: Default
 
-  description: bxSlider - Default
+  description: Default
 
 
 */
