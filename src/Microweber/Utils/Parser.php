@@ -584,17 +584,18 @@ class Parser
 //                                            $skip= 1;
 //                                        }
 //                                         $skip= 0;
+                                        if ($coming_from_parent_id != false) {
+                                            $par_id_mod_count = $coming_from_parent_id;
 
+                                        }
 
+                                      //  if (isset($this->_existing_module_ids[$mod_id])) {
                                         if (isset($this->_existing_module_ids[$mod_id])) {
                                             //    if ( !$skip) {
                                             ++$it_loop;
                                             $inc_mod_num = 0;
 
-                                            if ($coming_from_parent_id != false) {
-                                                $par_id_mod_count = $coming_from_parent_id;
 
-                                            }
 
                                             if (isset($this->_current_parser_module_of_type[$par_id_mod_count])) {
                                                 if (isset($this->_current_parser_module_of_type[$par_id_mod_count][$module_name])) {
@@ -627,12 +628,13 @@ class Parser
 
                                                 $mod_id_probe = false;
                                                 if ($coming_from_parent_id) {
+                                                    $mod_id_probe = $mod_id;
                                                     //$mod_id_probe =  $mod_id . '-coming_from_parent_id' .$coming_from_parent_id;
-                                                    $mod_id_probe = $coming_from_parent_id . '-' . $mod_id;
-                                                    $mod_id_probe = str_replace('module-', '', $mod_id_probe);
+                                                 //   $mod_id_probe = $coming_from_parent_id . '-' . $mod_id;
+                                                 //   $mod_id_probe = str_replace('module-', '', $mod_id_probe);
 
                                                 } else {
-                                                    $mod_id = $mod_id . '-' . $last_content_id;
+                                                 //   $mod_id = $mod_id . '-' . $last_content_id;
                                                 }
 
                                                 //if ($mod_id_probe and !isset($this->_existing_module_ids[$mod_id_probe])) {
@@ -645,7 +647,7 @@ class Parser
                                                     if ($mod_id_probe and !isset($this->_existing_module_ids_grouped[$coming_from_parent_id][$mod_id])) {
                                                         $mod_id = $mod_id_probe;
                                                     } else {
-                                                        $mod_id = $mod_id . '-random-fixme-id-' . uniqid();
+                                                     //   $mod_id = $mod_id . '-random-fixme-id-' . uniqid();
 
                                                     }
 
@@ -748,7 +750,20 @@ class Parser
                                         });
 
                                     }
+
                                     //   if($par_id_mod_count != 'global'){
+
+                                    // }
+                                    $mod_content = $this->load($module_name, $attrs);
+
+
+
+
+
+
+                                    if (!isset($this->_current_parser_module_of_type[$par_id_mod_count])) {
+                                        $this->_current_parser_module_of_type[$par_id_mod_count] = array();
+                                    }
                                     if (!isset($this->_current_parser_module_of_type[$par_id_mod_count])) {
                                         $this->_current_parser_module_of_type[$par_id_mod_count] = array();
                                     }
@@ -756,8 +771,11 @@ class Parser
                                         $this->_current_parser_module_of_type[$par_id_mod_count][$module_name] = 0;
                                     }
                                     $this->_current_parser_module_of_type[$par_id_mod_count][$module_name]++;
-                                    // }
-                                    $mod_content = $this->load($module_name, $attrs);
+
+
+
+
+
                                     $plain_modules = mw_var('plain_modules');
 
                                     if ($plain_modules != false) {
@@ -808,11 +826,17 @@ class Parser
                                             unset($pq_mod_inner);
 
                                         }
-
+                                      //  $mod_content2 = $mod_content;
                                         $proceed_with_parse = $this->_do_we_have_more_for_parse($mod_content);
+
                                         if ($proceed_with_parse == true) {
                                             $mod_content = $this->process($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1, $previous_attrs2);
                                         }
+
+
+
+
+
                                         if (strpos($mod_content, '<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>') !== false) {
 
                                             if (!isset($this->_mw_parser_passed_replaces_inner[$parse_key])) {
@@ -821,7 +845,7 @@ class Parser
                                                 if ($proceed_with_parse == true) {
                                                     $mod_content = $this->process($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1, $previous_attrs2);
                                                 }
-                                                $this->_mw_parser_passed_replaces_inner[$parse_key] = $mod_content;
+                                                 $this->_mw_parser_passed_replaces_inner[$parse_key] = $mod_content;
                                             } else {
                                                 $mod_content = $this->_mw_parser_passed_replaces_inner[$parse_key];
                                             }
@@ -854,6 +878,8 @@ class Parser
                                 $it_loop2++;
 
 
+
+
                                 $this->mw_replaced_modules_values[$replace_key] = $module_html;
                                 $layout = $this->_str_replace_first($value, $module_html, $layout);
                                 $layout = $this->_str_replace_first($replace_key, $module_html, $layout);
@@ -880,6 +906,10 @@ class Parser
 //                unset($this->_replaced_codes[$key]);
 //            }
 //        }
+
+
+
+
 
 
         if (!empty($mw_replaced_codes_tag)) {

@@ -206,6 +206,7 @@ include('options.php');
                     <select name="engine" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>">
                         <option value="bxslider" <?php if ($engine == 'bxslider'): ?> selected="selected" <?php endif ?>>bxSlider</option>
                         <option value="slickslider" <?php if ($engine == 'slickslider'): ?> selected="selected" <?php endif ?>>Slick Slider</option>
+                        <option value="slider" <?php if ($engine == 'slider'): ?> selected="selected" <?php endif ?>>Just Slider - Using Your Own Libraries</option>
                     </select>
                 </div>
 
