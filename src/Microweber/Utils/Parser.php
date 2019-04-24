@@ -27,6 +27,7 @@ class Parser
     private $_mw_parser_passed_hashes = array();
     private $_mw_parser_passed_hashes_rel = array();
     private $_mw_parser_passed_replaces = array();
+
     private $_mw_parser_passed_replaces_inner = array();
     private $_mw_parser_replaced_tags = array();
     private $_mw_parser_replaced_html_comments = array();
@@ -91,7 +92,10 @@ class Parser
         $previous_attrs2 = $previous_attrs;
         if (!isset($parser_mem_crc)) {
             $parser_mem_crc = 'parser_' . crc32($layout) . content_id();
-            if ($previous_attrs) {
+            if ($coming_from_parent_id) {
+                $parser_modules_crc = 'parser_modules' . crc32($coming_from_parent_id) . content_id() . crc32(json_encode($previous_attrs));
+
+            } else if ($previous_attrs) {
                 $parser_modules_crc = 'parser_modules' . crc32($layout) . content_id() . crc32(json_encode($previous_attrs));
 
             } else {
@@ -527,6 +531,7 @@ class Parser
 
 
                                         $mod_id = '';
+                                        $mod_id2 = '';
 
 
                                         if (!defined('CONTENT_ID')) {
@@ -587,14 +592,23 @@ class Parser
                                         if ($coming_from_parent_id != false) {
                                             $par_id_mod_count = $coming_from_parent_id;
 
+                                            if($this->_current_parser_rel and $this->_current_parser_rel ){
+                                                $par_id_mod_count = 'ed-'.$this->_current_parser_rel.$this->_current_parser_rel;
+                                            }
+
+                                        }
+
+                                        if (!isset($this->_existing_module_ids_grouped[$coming_from_parent_id])) {
+                                            $this->_existing_module_ids_grouped[$coming_from_parent_id] = array();
                                         }
 
                                       //  if (isset($this->_existing_module_ids[$mod_id])) {
-                                        if (isset($this->_existing_module_ids[$mod_id])) {
+                                        if (isset($this->_existing_module_ids_grouped[$par_id_mod_count][$mod_id])) {
                                             //    if ( !$skip) {
                                             ++$it_loop;
                                             $inc_mod_num = 0;
 
+                                           // dd($this->_current_parser_rel,$this->_current_parser_field);
 
 
                                             if (isset($this->_current_parser_module_of_type[$par_id_mod_count])) {
@@ -619,10 +633,9 @@ class Parser
                                             }
                                             // $mod_id = $mod_id . '--' . ++$this->_current_parser_module_of_type[$module_name];
                                             //  if (isset($this->_existing_module_ids[$mod_id])) {
-                                            if (!isset($this->_existing_module_ids_grouped[$coming_from_parent_id])) {
-                                                $this->_existing_module_ids_grouped[$coming_from_parent_id] = array();
-                                            }
-                                            if (isset($this->_existing_module_ids[$mod_id])) {
+
+                                          //  if (isset($this->_existing_module_ids[$mod_id])) {
+                                            if (isset($this->_existing_module_ids_grouped[$par_id_mod_count][$mod_id])) {
                                                 // if (isset($this->_existing_module_ids_grouped[$coming_from_parent_id][$mod_id])) {
 
 
@@ -638,13 +651,13 @@ class Parser
                                                 }
 
                                                 //if ($mod_id_probe and !isset($this->_existing_module_ids[$mod_id_probe])) {
-                                                if ($mod_id_probe and !isset($this->_existing_module_ids_grouped[$coming_from_parent_id][$mod_id])) {
+                                                if ($mod_id_probe and !isset($this->_existing_module_ids_grouped[$par_id_mod_count][$mod_id])) {
                                                     $mod_id = $mod_id_probe;
                                                 } else {
                                                     //  $mod_id = $mod_id . '--' .$it_loop;
                                                     //  $mod_id = $mod_id . '-' . $last_content_id;
 
-                                                    if ($mod_id_probe and !isset($this->_existing_module_ids_grouped[$coming_from_parent_id][$mod_id])) {
+                                                    if ($mod_id_probe and !isset($this->_existing_module_ids_grouped[$par_id_mod_count][$mod_id])) {
                                                         $mod_id = $mod_id_probe;
                                                     } else {
                                                      //   $mod_id = $mod_id . '-random-fixme-id-' . uniqid();
@@ -662,7 +675,7 @@ class Parser
                                         }
                                         $this->_existing_module_ids[$mod_id] = $mod_id;
 
-                                        $this->_existing_module_ids_grouped[$coming_from_parent_id][$mod_id] = $mod_id;
+                                        $this->_existing_module_ids_grouped[$par_id_mod_count][$mod_id] = $mod_id;
 
 
                                         $attrs['id'] = $mod_id;
@@ -704,6 +717,7 @@ class Parser
                                     $userclass = trim(str_replace(' disabled module ', ' module ', $userclass));
                                     $module_class = trim(str_replace(' disabled module ', ' module ', $module_class));
                                     $userclass = trim(str_replace(' module module ', ' module ', $userclass));
+                                    $userclass = trim(str_replace('module module ', 'module ', $userclass));
                                     $module_html = str_replace('__MODULE_CLASS_NAME__', '' . $module_class, $module_html);
                                     $module_html = str_replace('__USER_DEFINED_CLASS__', $userclass, $module_html);
 
@@ -1037,18 +1051,21 @@ class Parser
         }
 
         if (isset($this->_mw_parser_passed_replaces[$parser_mem_crc]) and !$no_cache) {
-
+            if(isset($this->_mw_edit_field_map[$parser_mem_crc]) and isset($this->_mw_edit_field_map[$parser_mem_crc]['field'])  and isset($this->_mw_edit_field_map[$parser_mem_crc]['rel'])){
+                $this->_current_parser_field = $this->_mw_edit_field_map[$parser_mem_crc]['field'];
+                $this->_current_parser_rel = $this->_mw_edit_field_map[$parser_mem_crc]['rel'];
+            }
 
             return $this->_mw_parser_passed_replaces[$parser_mem_crc];
         }
-        if (isset($mw_replaced_edit_fields_vals[$parser_mem_crc]) and !$no_cache) {
-            // return false;
-
-            return $mw_replaced_edit_fields_vals[$parser_mem_crc];
-        }
-        if ($no_cache and $from_parent) {
-            //    dd($parser_mem_crc, $layout,$from_parent);
-        }
+//        if (isset($mw_replaced_edit_fields_vals[$parser_mem_crc]) and !$no_cache) {
+//            // return false;
+//
+//      //      return $mw_replaced_edit_fields_vals[$parser_mem_crc];
+//        }
+//        if ($no_cache and $from_parent) {
+//            //    dd($parser_mem_crc, $layout,$from_parent);
+//        }
 //        if($from_parent){
 //            $pq = \phpQuery::newDocument($from_parent);
 //            $els = $pq['.edit'];
