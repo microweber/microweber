@@ -31,7 +31,7 @@ $mrand = 'mw-slider-' . uniqid();
 
 foreach ($json as $slide) {
     if (!isset($slide['skin']) or $slide['skin'] == '') {
-        $slide['skin'] = 'bxslider-skin-1';
+        $slide['skin'] = 'default';
     }
 
     if (isset($slide['images'])) {
@@ -87,6 +87,9 @@ if (is_file($template_file)) {
 }
 
 ?>
+
+<?php if ($engine == 'slider'): ?>
+<?php endif; ?>
 
 <?php if ($engine == 'bxslider'): ?>
     <script>mw.lib.require('bxslider');</script>
