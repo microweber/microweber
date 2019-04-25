@@ -1998,7 +1998,8 @@ mw.wysiwyg = {
         var el = mw.wysiwyg.validateCommonAncestorContainer(window.getSelection().focusNode);
         if (mw.wysiwyg.isSafeMode()) {
             $('[contenteditable]').removeAttr('contenteditable');
-            el.parentNode.contentEditable = true;
+            var parent = mw.tools.firstBlockLevel(el.parentNode);
+            parent.contentEditable = true;
         }
         mw.wysiwyg.execCommand('formatBlock', false, '<' + command + '>');
         mw.wysiwyg.execCommand('formatBlock', false, command );

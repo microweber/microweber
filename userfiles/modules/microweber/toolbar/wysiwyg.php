@@ -83,11 +83,6 @@
                   </div>
                   </a></li>
 
-   				 <li value="code_text"><a href="#">
-                  <div>
-                   <?php _e("Code"); ?>
-                  </div>
-                  </a></li>
 
                   <?php
                   if(isset($_GET['d'])): ?>

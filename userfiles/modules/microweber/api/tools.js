@@ -2221,6 +2221,14 @@ mw.tools = {
         }
         return false;
     },
+    firstBlockLevel: function (el) {
+        while(el && el !== document.body) {
+            if(mw.ea.helpers.isBlockLevel(el)) {
+                return el;
+            }
+            el = el.parentNode;
+        }
+    },
     firstParentOrCurrentWithId: function (el, id) {
         if (!el) return false;
         var curr = el;
@@ -4414,7 +4422,7 @@ mw.traverse = function (root, h) {
 }
 mw.isDragItem = mw.isBlockLevel = function (obj) {
     return mw.ea.helpers.isBlockLevel(obj);
-}
+};
 mw._JSPrefixes = ['Moz', 'Webkit', 'O', 'ms'];
 _Prefixtest = false;
 mw.JSPrefix = function (property) {
