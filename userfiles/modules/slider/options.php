@@ -93,7 +93,7 @@ if ($adaptiveHeight) {
 if (isset($params['speed'])) {
     $speed = $params['speed'];
 } else {
-    $speed = '5000';
+    $speed = '1000';
 }
 
 //bxSlider

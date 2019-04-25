@@ -28,6 +28,7 @@ config/database.php
 /storage/logs/.gitignore
 /userfiles/img
 /userfiles/install_log.txt
+/userfiles/mw_content.json
 /userfiles/install_item_log.txt
 node_modules/
 /config/database.php

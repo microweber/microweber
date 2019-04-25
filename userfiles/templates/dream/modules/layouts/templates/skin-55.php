@@ -62,7 +62,7 @@ position: 55
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 col-sm-6">
+            <div class="col-md-4 col-sm-6 cloneable">
                 <div class="card card-1">
                     <div class="card__icon">
                         <i class="icon icon--lg icon-Brain safe-element"></i>
@@ -77,7 +77,7 @@ position: 55
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 col-sm-6">
+            <div class="col-md-4 col-sm-6 cloneable">
                 <div class="card card-1">
                     <div class="card__icon">
                         <i class="icon icon--lg icon-Code-Window safe-element"></i>
@@ -92,7 +92,7 @@ position: 55
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 col-sm-6">
+            <div class="col-md-4 col-sm-6 cloneable">
                 <div class="card card-1">
                     <div class="card__icon">
                         <i class="icon icon--lg icon-Laptop-Phone safe-element"></i>

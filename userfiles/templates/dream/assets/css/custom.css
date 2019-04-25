@@ -323,9 +323,11 @@ Add your custom styles below
     border-radius: 15px;
 }
 
-.parallax .background-image-holder {
-    transform: none !important;
-    background-attachment: fixed !important;
+@media screen and (min-width: 768px) {
+    .parallax .background-image-holder {
+        transform: none !important;
+        background-attachment: fixed !important;
+    }
 }
 
 .parallax .slides.owl-carousel .background-image-holder {
@@ -596,6 +598,83 @@ body.mw-live-edit {
     overflow: hidden;
 }
 
-/*.mw-template-settings .mw_modal_container {*/
-/*margin-top: 0 !important;*/
-/*}*/
+.height-10,
+.height-20,
+.height-30,
+.height-40,
+.height-50,
+.height-60,
+.height-70,
+.height-80,
+.height-90,
+.height-100 {
+    height: auto !important;
+    position: relative;
+    display: flex;
+    align-items: center;
+    align-content: center;
+}
+
+.height-10 .pos-vertical-center,
+.height-20 .pos-vertical-center,
+.height-30 .pos-vertical-center,
+.height-40 .pos-vertical-center,
+.height-50 .pos-vertical-center,
+.height-60 .pos-vertical-center,
+.height-70 .pos-vertical-center,
+.height-80 .pos-vertical-center,
+.height-90 .pos-vertical-center,
+.height-100 .pos-vertical-center {
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*align-content: center;*/
+    top: auto;
+    transform: none;
+    -webkit-transform: none;
+
+    display: block;
+    /*top: 50%;*/
+    /*transform: translateY(100%);*/
+}
+
+@media all and (min-height: 600px) and (min-width: 767px) {
+    .height-10 {
+        min-height: 10vh;
+    }
+
+    .height-20 {
+        min-height: 20vh;
+    }
+
+    .height-30 {
+        min-height: 30vh;
+    }
+
+    .height-40 {
+        min-height: 40vh;
+    }
+
+    .height-50 {
+        min-height: 50vh;
+    }
+
+    .height-60 {
+        min-height: 60vh;
+    }
+
+    .height-70 {
+        min-height: 70vh;
+    }
+
+    .height-80 {
+        min-height: 80vh;
+    }
+
+    .height-90 {
+        min-height: 90vh;
+    }
+
+    .height-100 {
+        min-height: 100vh;
+    }
+}
