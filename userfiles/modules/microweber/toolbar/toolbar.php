@@ -526,7 +526,14 @@ if (isset($_COOKIE['mw_exp'])) {
                         <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right" onclick="mw.drag.save()" id="main-save-btn"><?php _e("Save"); ?></span>
 
 
-                        <a id="back-to-admin-toolbar" href="<?php print $back_url; ?>" class="mw-ui-btn mw-ui-btn-medium"><i class="m-r mw-icon-arrow-left-c"></i> <?php _e("Admin"); ?></a>
+                        <a
+                            id="back-to-admin-toolbar"
+                            href="<?php print $back_url; ?>"
+                            class="mw-ui-btn mw-ui-btn-medium tip"
+                            data-tip="<?php _e("Back to Admin"); ?>"
+                            data-tipposition="bottom-center">
+                            <i class="m-r mw-icon-arrow-left-c"></i>
+                        </a>
 
                         <div class="Switch2AdvancedModeTip" style="display: none">
                             <div class="Switch2AdvancedModeTip-tickContainer">

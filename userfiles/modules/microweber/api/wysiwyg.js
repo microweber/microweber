@@ -2009,25 +2009,15 @@ mw.wysiwyg = {
     },
     format: function (command) {
         var el = mw.wysiwyg.validateCommonAncestorContainer(window.getSelection().focusNode);
-        var edit = mw.tools.firstParentOrCurrentWithClass(el, 'edit');
-
-        var currState = edit.contentEditable;
-       /* if(edit && edit.contentEditable !== 'true'){
-            edit.contentEditable = true;
-            edit.querySelector('[contenteditable]').contenteditable = 'inherit';
-        }*/
+        $('[contenteditable]').removeAttr('contenteditable');
+        document.designMode = 'on';
         mw.wysiwyg.change(el);
-
         classApplier.forEach(function (c) {
             mw.tools.removeClass(el, c)
         });
-        if (command.indexOf('.') === 0) {
+        if ( command.indexOf('.') === 0 ) {
             var cls = command.split('.')[1];
-
             mw.tools.addClass(el, cls)
-            /*rangy.init();
-             var classApplier = rangy.createCssClassApplier(cls, true);
-             classApplier.applyToSelection(); */
         }
         else {
             if (!window.MSStream) {
@@ -2035,7 +2025,12 @@ mw.wysiwyg = {
                     var tag = command == 'code_text' ? 'code' : command;
                     mw.wysiwyg.select_element(el);
                     //el.parentNode.contentEditable = true
-                    mw.wysiwyg.contentEditable(el.parentNode, true);
+
+                    setTimeout(function(node){
+                        console.log(node)
+                        mw.wysiwyg.contentEditable(node, true);
+                        mw.wysiwyg.cursorToElement(node, 'start')
+                    }, 100, el.parentNode);
                     mw.wysiwyg.execCommand("insertHTML", false, "<" + command + ">" + el.innerHTML + "</" + command + ">");
                 }
                 else {
@@ -2045,7 +2040,6 @@ mw.wysiwyg = {
                         mw.wysiwyg.execCommand('FormatBlock', false, '<' + command + '>');
                     }
                 }
-
             }
             else {
                 var sel = window.getSelection();
@@ -2056,9 +2050,8 @@ mw.wysiwyg = {
                 }
             }
         }
-        console.log(edit, edit.contentEditable)
-        //edit.contentEditable = currState;
-
+        document.designMode = 'off';
+        //$(el).removeAttr('contenteditable')
     },
 
 

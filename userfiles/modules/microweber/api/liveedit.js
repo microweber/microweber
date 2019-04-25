@@ -642,7 +642,7 @@ mw.drag = {
       }
 
     },
-    dropOutsideDistance:25,
+    dropOutsideDistance: 25,
     columnout: false,
     noop: mwd.createElement('div'),
     create: function() {
@@ -657,12 +657,12 @@ mw.drag = {
             for (; i < l; i++) {
                 var el = els[i];
 
-
-                if( !mw.drag.target.canBeElement(el)){
+                if( !mw.drag.target.canBeElement(el) ){
                      continue;
                 }
                 var cls = el.className;
-                var isEl = mw.tools.hasAnyOfClassesOnNodeOrParent(el, ['module'])
+
+                var isEl = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(el, ['element', 'module'])
                         && !mw.tools.hasAnyOfClasses(el, ['mw-col','mw-col', 'mw-row', 'mw-zone']);
                 if (isEl) {
                     mw.tools.addClass(el, 'element');
