@@ -20,7 +20,6 @@
             <li>
                 <?php if (isset($slide['skin_file'])) { ?>
                     <?php include $slide['skin_file'] ?>
-
                 <?php } ?>
             </li>
         <?php } ?>

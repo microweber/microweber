@@ -19,10 +19,13 @@ body.mw-live-edit .mw-control-box-right,
 body.mw-live-edit .mw-control-box-left {
     top: 55px;
 }
+
 body.mw-live-edit .mw-control-box-right,
 body.mw-live-edit .mw-control-box-left {
-    max-height: -webkit-calc(100% - 55px);
-    max-height: calc(100% - 55px);
+    /*max-height: -webkit-calc(100% - 55px);
+    max-height: calc(100% - 55px);*/
+    max-height: 100%;
+    top: 0;
 }
 
 #mw-text-editor a.mw-ui-btn-medium,
@@ -1321,7 +1324,7 @@ div.ts_action {
 }
 
 #live_edit_side_holder {
-    z-index: 1100 !important;
+    z-index: 1101 !important;
 }
 
 #toolbar-dropdown-actions a {
@@ -1357,8 +1360,13 @@ body.loaded #live_edit_toolbar {
     position: fixed;
     top: 0;
     left: 0;
+    right: 50px;
     border-bottom: 1px solid #DDDDDD;
-
+    width: auto;
+    transition: .5s;
+}
+body.has-opened-sidebar #live_edit_toolbar {
+    right: 350px;
 }
 
 #modules-and-layouts {
@@ -3195,9 +3203,15 @@ div[id*='SSDIVEL'] {
     opacity: 0;
 }
 
-.mw-active-element-iseditable:not(.mw-active-element-is-plain-text) #liveedit_wysiwyg {
+
+.mw-active-element-iseditable  #liveedit_wysiwyg {
     transform: translateY(0%);
     opacity: 1;
+}
+/*.mw-active-element-iseditable.mw-active-element-is-in-safe-mode #liveedit_wysiwyg,*/
+.mw-active-element-iseditable.mw-active-element-is-plain-text #liveedit_wysiwyg {
+    transform: translateY(-24%);
+    opacity: 0;
 }
 
 .mw-active-element-is-plain-text #mw_small_editor {
@@ -4209,7 +4223,7 @@ body.dragStart .allow-drop {
     text-align: center;
     flex: 1;
     padding: 10px 0;
-    color: #9e9e9e;
+    color: #777;
     transition: .3s;
     font-size: 12px;
     letter-spacing: 0;
@@ -4266,7 +4280,7 @@ body.dragStart .allow-drop {
     text-align: center;
     width: 14px;
     height: 25px;
-    background-color: rgba(124, 124, 124, 0.6);
+    background-color: #777;
     color: #fff;
     display: block;
     border-radius: 4px 0 0 4px;
@@ -4289,13 +4303,21 @@ body.dragStart .allow-drop {
 }
 .mw-live-edit-sidebar-tabs-wrapper{
     position: absolute;
-    width: 60px;
-    left: -60px;
-    top: 0;
+    width: 50px;
     height: 100%;
     background-color: white;
     box-shadow: -1px 0 2px rgba(0,0,0,.1);
     cursor: pointer;
+}
+
+.mw-control-box-left .mw-live-edit-sidebar-tabs-wrapper{
+    right: -50px;
+    top: 0;
+}
+
+.mw-control-box-right .mw-live-edit-sidebar-tabs-wrapper{
+    left: -50px;
+    top: 0;
 }
 
 .mw-live-edit-sidebar-tabs{
@@ -4753,8 +4775,8 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 }
 
 .mw-liveedit-css-editor-icon path{
-    stroke:#9e9e9e;
-    fill:#9e9e9e;
+    stroke:#777;
+    fill:#777;
     stroke-width:4;
     stroke-miterlimit:10;
     transition: .3s;
