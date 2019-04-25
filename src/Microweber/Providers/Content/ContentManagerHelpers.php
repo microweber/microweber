@@ -559,6 +559,19 @@ class ContentManagerHelpers extends ContentManagerCrud
         $is_module = false;
 
 
+        if (php_can_use_func('ini_set')) {
+            @ini_set('memory_limit',  '512M');
+        }
+
+        if (php_can_use_func('set_time_limit')) {
+            set_time_limit(60);
+        }
+
+
+
+
+
+
         $is_admin = $this->app->user_manager->is_admin();
         if ($post_data) {
             if (isset($post_data['data_base64'])) {
