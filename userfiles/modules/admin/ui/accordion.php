@@ -202,3 +202,88 @@
 
 
 </div>
+
+<div class="ui_section">
+    <h2>Fields</h2>
+    <br>
+
+    <div class="mw-field" size="small">
+        <input type="text" placeholder="Small">
+    </div>
+    <br>
+    <br>
+    <div class="mw-field" size="medium">
+        <input type="text" placeholder="Medium">
+    </div>
+    <br>
+    <br>
+    <div class="mw-field">
+        <input type="text" placeholder="Default">
+    </div>
+    <br>
+    <br>
+    <div class="mw-field" size="large">
+        <input type="text" placeholder="Large">
+    </div>
+    <br>
+    <br>
+
+    <div class="mw-field" data-before="Distance">
+        <input type="text" placeholder="Distance">
+    </div>
+    <br>
+    <br>
+    <div class="mw-field" data-after="km">
+        <input type="text" placeholder="Distance">
+    </div>
+    <br>
+    <br>
+    <div class="mw-field" data-before="$" data-after=".00">
+        <input type="text" placeholder="Price">
+    </div>
+    <br>
+    <br>
+    <div class="mw-ui-btn-nav">
+        <a href="javascript:;" class="mw-ui-btn"><span class="mw-icon-magnify"></span></a>
+        <input type="text" class="mw-ui-field" placeholder="Search...">
+        <a href="javascript:;" class="mw-ui-btn"><span class="mw-icon-gear"></span></a>
+    </div>
+    <br>
+    <br>
+    <div class="mw-ui-btn-nav">
+        <a href="javascript:;" class="mw-ui-btn mw-ui-btn-outline"><span class="mw-icon-magnify"></span></a>
+        <input type="text" class="mw-ui-field" placeholder="Search...">
+        <div class="mw-dropdown mw-dropdown-default">
+            <span class="mw-dropdown-value mw-ui-btn mw-dropdown-val">Choose</span>
+            <div class="mw-dropdown-content">
+                <ul>
+                    <li value="1">Option 1</li>
+                    <li value="2">Option 2 !!!</li>
+                    <li value="3">Option 3</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="mw-ui-btn-nav">
+        <div class="mw-dropdown mw-dropdown-default">
+            <span class="mw-dropdown-value mw-ui-btn mw-dropdown-val">Choose</span>
+            <div class="mw-dropdown-content">
+                <ul>
+                    <li value="1">Option 1</li>
+                    <li value="2">Option 2 !!!</li>
+                    <li value="3">Option 3</li>
+                </ul>
+            </div>
+        </div>
+        <input type="text" class="mw-ui-field" placeholder="Search...">
+    </div>
+    <div class="mw-field" data-before="Native Select">
+        <select>
+            <option>Choose</option>
+            <option>Option 1</option>
+            <option>Option 2</option>
+        </select>
+    </div>
+</div>
