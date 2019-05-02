@@ -4994,9 +4994,12 @@ mw.image = {
 
             var el = $(el);
             var offset = el.offset();
-            var parentOffset = el.parent().offset();
-            offset.top = offset.top < parentOffset.top ? parentOffset.top : offset.top;
-            offset.left = offset.left < parentOffset.left ? parentOffset.left : offset.left;
+            var parent = el.parent();
+            var parentOffset = parent.offset();
+            if(parent[0].nodeName !== 'A'){
+                offset.top = offset.top < parentOffset.top ? parentOffset.top : offset.top;
+                offset.left = offset.left < parentOffset.left ? parentOffset.left : offset.left;
+            }
             var r = $(mw.image_resizer);
             var width = el.outerWidth();
             var height = el.outerHeight();
