@@ -2,6 +2,20 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.1.5] - 2019-05-02
+- Sometimes the Draging on Layouts doesn't work
+- Fix flicking of handles
+- Restore content in trash did't work
+- Resizeable controll outline missplaced on live edit
+- There was class .element on all modules
+- Format bug when you reformat after format 
+- Format looses selection
+- CSS editor can't select nodes
+- Style visibility: visible was appearing on all elemennts
+- Increase the pooling on is_logged function
+- Other small fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.1.4...1.1.5 "")
+
 
 ## [1.1.4] - 2019-04-03
 - Various live edit fixes
