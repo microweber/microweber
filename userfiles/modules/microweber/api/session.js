@@ -58,7 +58,7 @@ mw.session = {
                     mw.session.logRequest();
                 }
             });
-        }, 45000);
+        }, 90000);
     }
 }
 $(document).ready(function () {
