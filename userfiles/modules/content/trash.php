@@ -284,10 +284,11 @@ $paging_links = false;
                                 mw.treeRenderer.appendUI('.mw_pages_posts_tree');
                                 mw.tools.tree.recall(mwd.querySelector('.mw_pages_posts_tree'));
                             }
-                            mw.reload_module('#<?php print $params['id'] ?>', function () {
-                                mw.notification.success("<?php _e('Content is restored!'); ?>");
-                            });
                         }
+
+                    });
+                    mw.reload_module('#<?php print $params['id'] ?>', function () {
+                        mw.notification.success("<?php _e('Content is restored!'); ?>");
                     });
                 });
             });
