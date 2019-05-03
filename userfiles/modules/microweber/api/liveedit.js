@@ -555,7 +555,7 @@ mw.drag = {
                 target: $t[0],
                 value: $t[0].innerHTML
             });
-          mw.wysiwyg.change(target)
+          mw.wysiwyg.change(mw.drag._onCloneableControl.__target)
         });
         $('.mw-cloneable-control-minus', this._onCloneableControl).on('click', function(){
             var $t = $(mw.drag._onCloneableControl.__target).parent();
