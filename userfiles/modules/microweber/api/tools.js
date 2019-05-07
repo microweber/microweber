@@ -2221,6 +2221,14 @@ mw.tools = {
         }
         return false;
     },
+    firstBlockLevel: function (el) {
+        while(el && el !== document.body) {
+            if(mw.ea.helpers.isBlockLevel(el)) {
+                return el;
+            }
+            el = el.parentNode;
+        }
+    },
     firstParentOrCurrentWithId: function (el, id) {
         if (!el) return false;
         var curr = el;
@@ -4414,7 +4422,7 @@ mw.traverse = function (root, h) {
 }
 mw.isDragItem = mw.isBlockLevel = function (obj) {
     return mw.ea.helpers.isBlockLevel(obj);
-}
+};
 mw._JSPrefixes = ['Moz', 'Webkit', 'O', 'ms'];
 _Prefixtest = false;
 mw.JSPrefix = function (property) {
@@ -4986,9 +4994,12 @@ mw.image = {
 
             var el = $(el);
             var offset = el.offset();
-            var parentOffset = el.parent().offset();
-            offset.top = offset.top < parentOffset.top ? parentOffset.top : offset.top;
-            offset.left = offset.left < parentOffset.left ? parentOffset.left : offset.left;
+            var parent = el.parent();
+            var parentOffset = parent.offset();
+            if(parent[0].nodeName !== 'A'){
+                offset.top = offset.top < parentOffset.top ? parentOffset.top : offset.top;
+                offset.left = offset.left < parentOffset.left ? parentOffset.left : offset.left;
+            }
             var r = $(mw.image_resizer);
             var width = el.outerWidth();
             var height = el.outerHeight();

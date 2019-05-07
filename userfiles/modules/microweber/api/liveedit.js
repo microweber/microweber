@@ -555,7 +555,7 @@ mw.drag = {
                 target: $t[0],
                 value: $t[0].innerHTML
             });
-          mw.wysiwyg.change(target)
+          mw.wysiwyg.change(mw.drag._onCloneableControl.__target)
         });
         $('.mw-cloneable-control-minus', this._onCloneableControl).on('click', function(){
             var $t = $(mw.drag._onCloneableControl.__target).parent();
@@ -994,31 +994,22 @@ mw.drag = {
                             }
                         }
 
+                        var el = mw.tools.firstParentOrCurrentWithClass(target, 'element');
+                        var safeEl = mw.tools.firstParentOrCurrentWithClass(target, 'safe-element');
+                        var moduleEl = mw.tools.firstParentOrCurrentWithClass(target, 'module');
+
                         if ($(target).hasClass("plain-text")) {
                             mw.trigger("PlainTextClick", target);
+                        } else if (el) {
+                            mw.trigger("ElementClick", el);
                         }
 
-                        else if ($(target).hasClass("element")) {
-                            mw.trigger("ElementClick", target);
-                        }
-                        else if (mw.tools.hasParentsWithClass(target, 'element')) {
-
-                            mw.trigger("ElementClick", $(target).parents(".element")[0]);
+                        if (safeEl) {
+                            mw.trigger("SafeElementClick", safeEl);
                         }
 
-                        if ($(target).hasClass("safe-element")) {
-                            mw.trigger("SafeElementClick", target);
-                        }
-                        else if (mw.tools.hasParentsWithClass(target, 'safe-element')) {
-
-                            mw.trigger("SafeElementClick", $(target).parents(".safe-element")[0]);
-                        }
-
-                        if ($(target).hasClass("module")) {
-                            mw.trigger("ModuleClick", target);
-                        }
-                        else if (mw.tools.hasParentsWithClass(target, 'module')) {
-                            mw.trigger("ModuleClick", $(target).parents(".module")[0]);
+                        if (moduleEl) {
+                            mw.trigger("ModuleClick", moduleEl);
                         }
                     }
 

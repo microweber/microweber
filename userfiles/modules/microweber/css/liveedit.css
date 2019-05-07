@@ -22,10 +22,10 @@ body.mw-live-edit .mw-control-box-left {
 
 body.mw-live-edit .mw-control-box-right,
 body.mw-live-edit .mw-control-box-left {
-    /*max-height: -webkit-calc(100% - 55px);
-    max-height: calc(100% - 55px);*/
-    max-height: 100%;
-    top: 0;
+    max-height: -webkit-calc(100% - 55px);
+    max-height: calc(100% - 55px);
+    /*max-height: 100%;
+    top: 0;*/
 }
 
 #mw-text-editor a.mw-ui-btn-medium,
@@ -1319,7 +1319,7 @@ div.ts_action {
 #live_edit_toolbar {
     width: 100%;
 
-    z-index: 1101 !important;
+    z-index: 1102 !important;
     color: #222;
 }
 
@@ -1360,13 +1360,15 @@ body.loaded #live_edit_toolbar {
     position: fixed;
     top: 0;
     left: 0;
-    right: 50px;
+    /*right: 50px;*/
+    right: 0px;
     border-bottom: 1px solid #DDDDDD;
     width: auto;
     transition: .5s;
 }
 body.has-opened-sidebar #live_edit_toolbar {
-    right: 350px;
+    /*right: 350px;*/
+    right: 0px;
 }
 
 #modules-and-layouts {

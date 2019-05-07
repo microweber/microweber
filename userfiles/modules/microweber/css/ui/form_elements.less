@@ -533,6 +533,137 @@ div.mw-ui-field:after {
 
 }
 
+.mw-ui-field-append,
+.mw-ui-field-prepend{
+    display: inline-block;
+    background-color: #e1e1e1;
+    padding: 0 12px;
+}
+
+.mw-field, mw-field{
+    display: inline-flex;
+    position: relative;
+    vertical-align: top;
+    input,select,textarea{
+        border: 1px solid @fieldBorderColor;
+        padding: 0 8px;
+        width: 100%;
+        max-width: 100%;
+        border-radius: @radius;
+        background-color: white;
+        outline: none;
+        cursor: text;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        box-shadow: inset 0 0 3px rgba(0, 0, 0, .2);
+        transition: border-color .3s, box-shadow, .3s;
+        order: 2;
+        &:focus,
+        &:hover {
+            border-color: rgba(0, 134, 219, 1);
+            box-shadow: 0 0 3px rgba(0, 134, 219, .4);
+        }
+
+        &:focus {
+            box-shadow: inset 0 0 3px rgba(0, 134, 219, .4);
+            -webkit-box-shadow: inset 0 0 3px rgba(0, 134, 219, .4);
+        }
+    }
+
+
+    .mw-field-append,
+    .mw-field-prepend,
+    &[data-before]:before,
+    &[data-after]:after{
+        display: block;
+        background-color: #e1e1e1;
+        padding: 0 12px;
+        border: 1px solid #cfcfcf;
+        box-shadow: inset 1px 1px 4px 0px rgba(0,0,0,.1);
+        white-space: nowrap;
+
+    }
+    &[data-before]:before{
+        content: attr(data-before);
+    }
+    &[data-after]:after{
+        content: attr(data-after);
+    }
+    &[data-before]{
+        input,select,textarea{
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+    }
+    &[data-after]{
+        input,select,textarea{
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+    }
+    .mw-field-append, &[data-after]:after{
+        order: 5;
+        border-radius: 0 @radius @radius 0;
+        border-left: none;
+    }
+    .mw-field-prepend, &[data-before]:before{
+        order: 1;
+        border-radius: @radius 0 0 @radius;
+        border-right: none;
+    }
+
+    input, select,
+    .mw-field-prepend, &[data-before]:before,
+    .mw-field-append, &[data-after]:after{
+        height: @normalHeight;
+        line-height: @normalHeight;
+    }
+
+    select{
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background-position: 90% center;
+        background-position: -webkit-calc(~"100% - 10px") 50%;
+        background-position: calc(~"100% - 10px") 50%;
+        background-repeat: no-repeat;
+        background-size: 10px auto;
+        padding-right: 25px;
+        cursor: default;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 284.929 284.929' style='enable-background:new 0 0 284.929 284.929;' %3E%3Cpath fill='%23999' d='M282.082,76.511l-14.274-14.273c-1.902-1.906-4.093-2.856-6.57-2.856c-2.471,0-4.661,0.95-6.563,2.856L142.466,174.441 L30.262,62.241c-1.903-1.906-4.093-2.856-6.567-2.856c-2.475,0-4.665,0.95-6.567,2.856L2.856,76.515C0.95,78.417,0,80.607,0,83.082 c0,2.473,0.953,4.663,2.856,6.565l133.043,133.046c1.902,1.903,4.093,2.854,6.567,2.854s4.661-0.951,6.562-2.854L282.082,89.647 c1.902-1.903,2.847-4.093,2.847-6.565C284.929,80.607,283.984,78.417,282.082,76.511z'/%3E%3C/svg%3E%0A");
+    }
+    select::-ms-expand {
+        display: none;
+    }
+
+    &[size="medium"], &[data-size="medium"] {
+        input, select,
+        .mw-field-prepend, &[data-before]:before,
+        .mw-field-append, &[data-after]:after{
+            line-height: @mediumHeight;
+            height: @mediumHeight;
+        }
+    }
+    &[size="small"], &[data-size="small"] {
+        input, select,
+        .mw-field-prepend, &[data-before]:before,
+        .mw-field-append, &[data-after]:after{
+            height: @smallHeight;
+            line-height: @smallHeight;
+        }
+    }
+    &[size="large"], &[data-size="large"] {
+        input, select,
+        .mw-field-prepend, &[data-before]:before,
+        .mw-field-append, &[data-after]:after{
+            height: @largeHeight;
+            line-height: @largeHeight;
+
+        }
+    }
+}
+
 
 
 

@@ -35,17 +35,27 @@
         mw.module_preset_apply_actions_after_id_change = function (id, attrs) {
             var parent_el = window.parent.document.getElementById(mod_id_for_presets);
 
+
+            if (parent_el) {
+                var ed_field = window.parent.mw.tools.firstParentWithClass(parent_el, 'edit');
+                if (ed_field) {
+                    window.parent.mw.$(ed_field).addClass('changed');
+                    if (parent !== self && !!window.parent.mw) {
+                        if (window.parent.mw.drag != undefined && window.parent.mw.drag.save != undefined) {
+                            window.parent.mw.drag.save();
+                        }
+                        window.parent.mw.askusertostay = false;
+                    }
+                }
+            }
+
             window.parent.mw.reload_module("#" + id);
             window.parent.mw.reload_module_parent("#" + id);
 
 
             window.top.mw.reload_module("#" + id);
-            if (parent_el) {
-                var ed_field = window.parent.mw.tools.firstParentWithClass(parent_el, 'edit');
-                if (ed_field) {
-                    window.parent.mw.$(ed_field).addClass('changed');
-                }
-            }
+
+
             //mw.reload_module("#<?php print $params['id'] ?>")
             window.parent.mw.reload_module("#" + id);
             window.parent.mw.reload_module("#" + mod_id_for_presets);
@@ -62,11 +72,28 @@
                     var orig_attrs_str = $.param(orig_attrs);
 
                 }
-
                 // window.parent.$('#module-modal-settings-menu-holder').remove();
+             //   var src_new_modal_settings = mw.settings.site_url + 'api/module?id=' + id + '&live_edit=true&view=admin&is_mw_changed_preset_id=admin&module_settings=true&type=' + mod_type_opener_for_presets + '&autosize=true&' + orig_attrs_str;
 
-                var src_new_modal_settings = mw.settings.site_url + 'api/module?id=' + id + '&live_edit=true&view=admin&is_mw_changed_preset_id=admin&module_settings=true&type=' + mod_type_opener_for_presets + '&autosize=true&' + orig_attrs_str;
-                window.parent.module_settings_modal_reference_window.location.href = src_new_modal_settings
+                if (window.URL) {
+                    var url = new URL(window.parent.module_settings_modal_reference_window.location.href);
+
+                    var query_string = url.search;
+
+                    var search_params = new URLSearchParams(query_string);
+
+                    search_params.set('id', id);
+
+                    url.search = search_params.toString();
+                    var new_url = url.toString();
+                    var src_new_modal_settings  = new_url;
+
+                } else {
+                    var src_new_modal_settings = mw.settings.site_url + 'api/module?id=' + id + '&live_edit=true&view=admin&is_mw_changed_preset_id=admin&module_settings=true&type=' + mod_type_opener_for_presets + '&autosize=true&' + orig_attrs_str;
+            }
+
+
+              window.parent.module_settings_modal_reference_window.location.href = src_new_modal_settings
             }
 
         }
@@ -188,7 +215,7 @@
 
 
                     if(is_del){
-                        mw.module_preset_apply_actions_after_id_change(is_del)
+                         mw.module_preset_apply_actions_after_id_change(is_del)
                         if(temp_form1){
                             $(temp_form1).remove();
                         }
@@ -199,7 +226,7 @@
 
 
                     if (attrs) {
-                        var attrs_json = (JSON.stringify(attrs));
+                         var attrs_json = (JSON.stringify(attrs));
                         var append_attrs_field = '<textarea style="display: none" name="module_attrs">' + attrs_json + '</textarea>';
                         $(temp_form1).append(append_attrs_field);
 
@@ -217,14 +244,26 @@
 
                 }
 
-                var use_attrs = JSON.parse(saved_module_attrs_json);
 
 
 
 
 
 
-                mw.module_preset_set_use(is_use, use_attrs);
+
+                if(typeof(saved_module_attrs_json) != 'undefined'){
+                    var use_attrs = JSON.parse(saved_module_attrs_json);
+                    mw.module_preset_set_use(is_use, use_attrs);
+
+                }
+
+
+
+
+
+
+
+
 
 
 
@@ -276,6 +315,8 @@
 
 
 
+
+
                         <input type="hidden" name="id" value="<?php print  $item['id'] ?>">
                         <input type="hidden" name="module" value="<?php print  $item['module'] ?>">
                         <textarea name="module_attrs" style="display: none"><?php print  $item['module_attrs'] ?></textarea>
@@ -289,7 +330,21 @@
                 </div>
                 <div class="mw-flex-col-xs-6 module-presets-add-new-holder">
                     <div class="box">
-                        <?php print  $item['name'] ?>
+
+                        <?php if($fffound) { ?>
+
+                            <b><?php print  $item['name'] ?></b>
+
+                        <?php } else { ?>
+                            <?php print  $item['name'] ?>
+
+
+                        <?php } ?>
+
+
+
+
+
 
                         <?php
                         /*  <input class="mw-ui-field module-presets-name-field mw-ui-field-medium" name="name" value="<?php print  $item['name'] ?>">
@@ -373,10 +428,9 @@
 
 
 
-
                         <input type="hidden" name="module_id" value="<?php print $module_id ?>">
 
-                        <button type="button" js-mod-id="<?php print  $fffound;  ?>"   release="<?php print  $fffound;  ?>" id="js-release-btn" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info module-presets-action-btn">Reset for current</button>
+                        <button type="button" js-mod-id="<?php print  $fffound;  ?>"   release="<?php print  $fffound;  ?>" id="js-release-btn" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info module-presets-action-btn">Clear use of preset</button>
                     </div>
                 </div>
             </div>

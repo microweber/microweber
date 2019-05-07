@@ -200,7 +200,7 @@ if ($screenshots) {
                             <?php endif; ?>
                         </select>
 
-                        <?php if (isset($current_template)): ?>
+                        <?php if(isset($current_template)): ?>
                             <!-- Current template - Start -->
                             <div class="mw-ui-row">
                                 <div class="mw-ui-col current-template" style="width: 100%;">
@@ -274,7 +274,7 @@ if ($screenshots) {
                                                 ?>
 
                                                 <div class="holder">
-                                                    <img src="<?php echo $item_screenshot; ?>" alt="<?php print $item['name']; ?>" style="max-width:100%;" title="<?php print $item['name']; ?>"/>
+                                                    <img src="<?php echo $item_screenshot; ?>" alt="<?php print $item['name']; ?> - <?php print addslashes( $item['layout_file']) ?>" style="max-width:100%;" title="<?php print $item['name']; ?> - <?php print addslashes( $item['layout_file']) ?>"/>
                                                     <div class="title"><?php print $item['name']; ?></div>
                                                 </div>
                                             </div>
@@ -301,7 +301,7 @@ if ($screenshots) {
                                                 ?>
 
                                                 <div class="holder">
-                                                    <img src="<?php echo $item_screenshot; ?>" alt="<?php print $item['name']; ?>" style="max-width:100%;" title="<?php print $item['name']; ?>"/>
+                                                    <img src="<?php echo $item_screenshot; ?>" alt="<?php print $item['name']; ?> - <?php print addslashes( $item['layout_file']) ?>" style="max-width:100%;" title="<?php print $item['name']; ?> - <?php print addslashes( $item['layout_file']) ?>"/>
                                                     <div class="title"><?php print $item['name']; ?></div>
                                                 </div>
                                             </div>

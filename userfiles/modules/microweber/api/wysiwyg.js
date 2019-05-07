@@ -1576,29 +1576,16 @@ mw.wysiwyg = {
             var classApplier = rangy.createCssClassApplier("mw-font-size " + clstemp, true);
             classApplier.applyToSelection();
 
-            var icons = mw.wysiwyg.findTagAcrossSelection('i');
-            if (icons != false) {
-                mw.tools.addClass(icons, "mw-font-size " + clstemp);
-            }
-
             var all = mwd.querySelectorAll('.' + clstemp),
                 l = all.length,
                 i = 0;
-            for (; i < l; i++) {
+            for ( ; i < l; i++ ) {
                 all[i].style.fontSize = a + 'px';
                 mw.tools.removeClass(all[i], clstemp);
                 mw.wysiwyg.change(all[i]);
             }
-            if (icons != false) {
-                //var empty_spans = $(icons).children('span.mw-font-size');
-                //$(empty_spans).each(function (index) {
-                //    if ($(this).html() == '&nbsp;') {
-                //        $(this).remove()
-                //    }
-                //});
-            }
 
-            $('.edit .mw-font-size').removeClass('mw-font-size ')
+            $('.edit .mw-font-size').removeClass('mw-font-size')
 
         });
     },
@@ -2007,54 +1994,19 @@ mw.wysiwyg = {
 
         }
     },
-    format: function (command) {
+    formatNative: function (command) {
         var el = mw.wysiwyg.validateCommonAncestorContainer(window.getSelection().focusNode);
-        $('[contenteditable]').removeAttr('contenteditable');
-        document.designMode = 'on';
-        mw.wysiwyg.change(el);
-        classApplier.forEach(function (c) {
-            mw.tools.removeClass(el, c)
-        });
-        if ( command.indexOf('.') === 0 ) {
-            var cls = command.split('.')[1];
-            mw.tools.addClass(el, cls)
+        if (mw.wysiwyg.isSafeMode()) {
+            $('[contenteditable]').removeAttr('contenteditable');
+            var parent = mw.tools.firstBlockLevel(el.parentNode);
+            parent.contentEditable = true;
         }
-        else {
-            if (!window.MSStream) {
-                if (mw.wysiwyg.isSafeMode()) {
-                    var tag = command == 'code_text' ? 'code' : command;
-                    mw.wysiwyg.select_element(el);
-                    //el.parentNode.contentEditable = true
-
-                    setTimeout(function(node){
-                        console.log(node)
-                        mw.wysiwyg.contentEditable(node, true);
-                        mw.wysiwyg.cursorToElement(node, 'start')
-                    }, 100, el.parentNode);
-                    mw.wysiwyg.execCommand("insertHTML", false, "<" + command + ">" + el.innerHTML + "</" + command + ">");
-                }
-                else {
-                    if (command == 'code_text') {
-                        mw.wysiwyg.execCommand("insertHTML", false, "<code>" + document.getSelection() + "</code>");
-                    } else {
-                        mw.wysiwyg.execCommand('FormatBlock', false, '<' + command + '>');
-                    }
-                }
-            }
-            else {
-                var sel = window.getSelection();
-                if (mw.wysiwyg.isSelectionEditable()) {
-                    var c = mw.wysiwyg.validateCommonAncestorContainer(sel.getRangeAt(0).commonAncestorContainer);
-                    mw.tools.setTag(c, command);
-                    mw.wysiwyg.change(c)
-                }
-            }
-        }
-        document.designMode = 'off';
-        //$(el).removeAttr('contenteditable')
+        mw.wysiwyg.execCommand('formatBlock', false, '<' + command + '>');
+        mw.wysiwyg.execCommand('formatBlock', false, command );
     },
-
-
+    format: function (command) {
+        return this.formatNative(command);
+    },
     fontFamilies: ['Arial', 'Tahoma', 'Verdana', 'Georgia', 'Times New Roman'],
     fontFamiliesExtended: [],
     fontFamiliesTemplate: [],
