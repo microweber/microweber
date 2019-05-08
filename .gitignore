@@ -6,6 +6,8 @@ userfiles/media/*
 userfiles/export/*
 userfiles/import/*
 userfiles/cache/*
+userfiles/templates/liteness
+userfiles/templates/dream
 storage/cache/*
 cache/.htaccess
 cache/*
