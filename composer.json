@@ -20,12 +20,12 @@
     }
   ],
   "require": {
+    "composer/composer": "v1.2.2",
+    "composer/installers": "1.*",
     "laravel/framework": "5.4.*",
-
     "illuminate/contracts": "5.4.*",
     "guzzle/guzzle": "dev-master",
     "laravel/socialite": "3.0.2",
-    "composer/composer": "v1.2.2",
     "socialiteproviders/linkedin": "*",
     "illuminate/support": "5.4.*",
     "symfony/http-foundation": "*",
@@ -54,9 +54,10 @@
     "dompdf/dompdf": "0.8.2",
     "nikic/php-parser": "3.1.5",
     "doctrine/dbal": "2.5.3",
+    "microweber-templates/dream": "dev-master",
+    "microweber-templates/liteness": "dev-master",
     "microweber-deps/recurr": "dev-master",
     "microweber-deps/laravel-tagging": "dev-laravel-5",
-
     "oyejorge/less.php": "dev-master",
     "aws/aws-sdk-php": "^3.0@dev"
   },
