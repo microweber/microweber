@@ -243,8 +243,43 @@ $pages_count = intval($pages);
                                     </h3>
                                     <?php mw()->event_manager->trigger('module.content.manager.item.title', $item) ?>
 
+
+                                    <?php   $cats = content_categories($item['id']); ?>
+
+                                    <?php if($cats) { ?>
+                                        <span class="manage-post-item-cats-inline-list" >
+                                            <span class="mw-icon-category"></span>
+
+                                        <?php foreach($cats as $ck=> $cat): ?>
+
+                                            <a href="#action=showpostscat:<?php print ($cat['id']); ?>" class="tag label label-primary"><?php print $cat['title']; ?></a>
+
+
+                                            <?php if (isset($cats[$ck +1])): ?>,<?php endif; ?>
+
+
+                                        <?php endforeach; ?>
+
+
+                                      </span>
+
+
+                                        <br>
+                                    <?php } ?>
+
+
+
+
+
                                     <a class="manage-post-item-link-small mw-medium" target="_top"
                                        href="<?php print content_link($item['id']); ?>?editmode:y"><?php print content_link($item['id']); ?></a>
+
+
+
+
+
+
+
                                 </div>
                                 <div class="manage-post-item-links">
                                     <a target="_top" class="mw-ui-btn mw-ui-btn-default mw-ui-btn-medium" href="<?php print $edit_link ?>" onclick="javascript:mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>'); return false;">
@@ -261,7 +296,19 @@ $pages_count = intval($pages);
                                 </div>
                             </div>
                             <div class="mw-ui-col manage-post-item-col-4">
+
+
+
+
+
+
+
+
+
                                 <span class="manage-post-item-author" title="<?php print user_name($item['created_by']); ?>"><?php print user_name($item['created_by'], 'username') ?></span>
+
+
+
                             </div>
                             <div class="mw-ui-col manage-post-item-col-5">
                                 <?php mw()->event_manager->trigger('module.content.manager.item', $item) ?>
