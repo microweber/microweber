@@ -62,6 +62,9 @@
                                href="javascript:settings_load_module('Custom head tags','settings/group/custom_head_tags')"><?php _e("Custom head tags"); ?></a>
                         </li>
                         <li><a class="mw-ui-btn"
+                               href="javascript:settings_load_module('Custom footer tags','settings/group/custom_footer_tags')"><?php _e("Custom footer tags"); ?></a>
+                        </li>
+                        <li><a class="mw-ui-btn"
                                href="javascript:settings_load_module('Robots.txt file','settings/group/robots_txt')">Robots.txt <?php _e("file"); ?></a>
                         </li>
                     </ul>
