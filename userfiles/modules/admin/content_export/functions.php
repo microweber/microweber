@@ -76,8 +76,14 @@ class ContentExport
 	}
 	
 	private function _getCategories() {
+		
+		$getCategories = get_categories(array());
+		if (empty($getCategories)) {
+			return array();
+		}
+		
 		$categories = array();
-		foreach (get_categories(array()) as $category) {
+		foreach ($getCategories as $category) {
 			$categories[] = array(
 				"id" => $category['id'],
 				"parent_id" => $category['parent_id'],
@@ -91,6 +97,11 @@ class ContentExport
 	
 	private function _getProducts() {
 		
+		$getProducts = get_products(array());
+		if (empty($getProducts)) {
+			return array();
+		}
+		
 		$products = array();
 		$offers = array();
 		
@@ -100,7 +111,7 @@ class ContentExport
 			);
 		}
 		
-		foreach (get_products(array()) as $product) {
+		foreach ($getProducts as $product) {
 			
 			$contentData = content_data($product['id']);
 			
@@ -120,16 +131,16 @@ class ContentExport
 				"price" => $offers[$product['id']]['price'],
 				"quantity" => $contentData['qty'],
 				"sku" => $contentData['sku'],
+				"url" => $product['url'],
+				"description" => $product['description'],
+				"content" => $product['content'],
+				"pictures"=>$pictures,
 				"shipping_weight" => $contentData['shipping_weight'],
 				"shipping_width" => $contentData['shipping_width'],
 				"shipping_height" => $contentData['shipping_height'],
 				"shipping_depth" => $contentData['shipping_depth'],
 				"additional_shipping_cost" => $contentData['additional_shipping_cost'],
-				"is_free_shipping" => $contentData['is_free_shipping'],
-				"url" => $product['url'],
-				"description" => $product['description'],
-				"content" => $product['content'],
-				"pictures"=>$pictures
+				"is_free_shipping" => $contentData['is_free_shipping']
 			);
 		}
 		return $products;
@@ -137,6 +148,19 @@ class ContentExport
 	
 	private function _getOrders() {
 		
+		$getOrders = get_orders(array());
+		if (empty($getOrders)) {
+			return array();
+		}
+		
+		$orders = array();
+		foreach ($getOrders as $order) {
+			$orders[] = array(
+				"id" => $order['id'],
+			);
+		}
+		
+		return $orders;
 	}
 	
 	private function _getClients() {
@@ -145,8 +169,13 @@ class ContentExport
 	
 	private function _getCoupons() {
 		
+		$couponGetAll = coupon_get_all();
+		if (empty($couponGetAll)) {
+			return array();
+		}
+		
 		$coupons = array();
-		foreach (coupon_get_all() as $coupon) {
+		foreach ($couponGetAll as $coupon) {
 			$coupons[] = array(
 				"id" => $coupon['id'],
 				"name" => $coupon['coupon_name'],
