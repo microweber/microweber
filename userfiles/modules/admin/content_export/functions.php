@@ -69,10 +69,39 @@ class ContentExport
 	
 	private function _getPages() {
 		
+		$getPages = get_pages(array());
+		if (empty($getPages)) {
+			return array();
+		}
+		
+		$pages = array();
+		foreach ($getPages as $page) {
+			$pages[] = array(
+				"id" => $page['id'],
+				"title" => $page['title'],
+				"description" => $page['description'],
+				"content" => $page['content']
+			);
+		}
+		return $pages;
 	}
 	
 	private function _getPosts() {
+		$getPosts = get_posts(array());
+		if (empty($getPosts)) {
+			return array();
+		}
 		
+		$posts = array();
+		foreach ($getPosts as $post) {
+			$posts[] = array(
+				"id" => $post['id'],
+				"title" => $post['title'],
+				"description" => $post['description'],
+				"content" => $post['content']
+			);
+		}
+		return $posts;
 	}
 	
 	private function _getCategories() {
@@ -165,6 +194,28 @@ class ContentExport
 	
 	private function _getClients() {
 		
+		$getUsers = get_users(array());
+		if (empty($getUsers)) {
+			return array();
+		}
+		
+		$users = array();
+		foreach ($getUsers as $user) {
+			$users[] = array(
+				"id" => $user['id'],
+				"username" => $user['username'],
+				"email" => $user['email'],
+				"first_name" => $user['first_name'],
+				"middle_name" => $user['middle_name'],
+				"last_name" => $user['last_name'],
+				"thumbnail" => $user['thumbnail'],
+				"user_information" => $user['user_information'],
+				"profile_url" => $user['profile_url'],
+				"website_url" => $user['website_url'],
+			);
+		}
+		
+		return $users;
 	}
 	
 	private function _getCoupons() {
