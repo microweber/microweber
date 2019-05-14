@@ -76,6 +76,10 @@ class ContentExport
 			$readyExport['posts'] = $this->_getPosts();
 		}
 		
+		if (isset($this->exportContentTypes['export_comments'])) {
+			$readyExport['comments'] = $this->_getComments();
+		}
+		
 		if (isset($this->exportContentTypes['export_categories'])) {
 			$readyExport['categories'] = $this->_getCategories();
 		}
@@ -171,6 +175,33 @@ class ContentExport
 			);
 		}
 		return $posts;
+	}
+	
+	private function _getComments() {
+		
+		$getComments = get_comments(array());
+		if (empty($getComments)) {
+			return array();
+		}
+		
+		$comments = array();
+		foreach ($getComments as $comment) {
+			$comments[] = array(
+				"id" => $comment['id'],
+				"created_by" => $comment['created_by'],
+				"name" => $comment['comment_name'],
+				"body" => $comment['comment_body'],
+				"email" => $comment['comment_email'],
+				"website" => $comment['comment_website'],
+				"subject" => $comment['comment_subject'],
+				"is_spam" => $comment['is_spam'],
+				"is_new" => $comment['is_new'],
+				"reply_to_comment_id" => $comment['reply_to_comment_id'],
+				"user_ip" => $comment['user_ip'],
+				"from_url" => $comment['from_url'],
+			);
+		}
+		return $comments;
 	}
 	
 	private function _getCategories() {

@@ -40,6 +40,7 @@ label {
     <h4><?php _e("Website"); ?></h4>
     <label><input type="checkbox" name="export_pages" checked="checked" value="1"> <?php _e("Pages"); ?></label> <br />
     <label><input type="checkbox" name="export_posts" checked="checked" value="1"> <?php _e("Posts"); ?></label><br />
+     <label><input type="checkbox" name="export_comments" checked="checked" value="1"> <?php _e("Comments"); ?></label><br />
     <label><input type="checkbox" name="export_categories" checked="checked" value="1"> <?php _e("Categories"); ?></label><br />
     
      
