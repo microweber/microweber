@@ -51,6 +51,7 @@ class ContentExport
 		
 		
 		if ($this->exportFormatType == 'json') {
+			header('Content-Type: application/json');
 			return json_encode($readyExport);
 		} else {
 			throw new \Exception('Export format type is not supported.');
@@ -75,14 +76,33 @@ class ContentExport
 	}
 	
 	private function _getCategories() {
-		$readyCategories = array();
-		$categories = get_categories(array());
-		
-		return $readyCategories;
+		$categories = array();
+		foreach (get_categories(array()) as $category) {
+			$categories[] = array(
+				"id" => $category['id'],
+				"parent_id" => $category['parent_id'],
+				"title" => $category['title'],
+				"description" => $category['description'],
+				"content" => $category['content']
+			);
+		}
+		return $categories;
 	}
 	
 	private function _getProducts() {
-		
+		$products = array();
+		foreach (get_products(array()) as $product) {
+			var_dump($product)
+			die();
+			$products[] = array(
+				"id" => $product['id'],
+				"parent_id" => $product['parent_id'],
+				"title" => $product['title'],
+				"description" => $product['description'],
+				"content" => $product['content']
+			);
+		}
+		return $products;
 	}
 	
 	private function _getOrders() {
@@ -95,5 +115,20 @@ class ContentExport
 	
 	private function _getCoupons() {
 		
+		$coupons = array();
+		foreach (coupon_get_all() as $coupon) {
+			$coupons[] = array(
+				"id" => $coupon['id'],
+				"name" => $coupon['coupon_name'],
+				"code" => $coupon['coupon_code'],
+				"discount_type" => $coupon['discount_type'],
+				"discount_value" => $coupon['discount_value'],
+				"total_amount" => $coupon['total_amount'],
+				"uses_per_coupon" => $coupon['uses_per_coupon'],
+				"uses_per_customer" => $coupon['uses_per_customer'],
+			);
+		}
+		
+		return $coupons;
 	}
 }
