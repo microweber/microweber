@@ -211,7 +211,7 @@ class ContentExport
 		
 		foreach ($getProducts as $product) {
 			
-			$contentData = content_data($product['id']);
+			$contentData = get_content_by_id($product['id']);
 			
 			$readyProduct = array();
 			$readyProduct["id"] = $product['id'];
@@ -222,7 +222,18 @@ class ContentExport
 			}
 			
 			if (!empty($contentData)) {
-				$readyProduct["quantity"] = $contentData['qty'];
+				
+				if (isset($contentData['content_meta_title'])) {
+					$readyProduct["meta_title"] = $contentData['content_meta_title'];
+				}
+				
+				if (isset($contentData['content_meta_keywords'])) {
+					$readyProduct["meta_keywords"] = $contentData['content_meta_keywords'];
+				}
+				
+				if (isset($contentData['qty'])) {
+					$readyProduct["quantity"] = $contentData['qty'];
+				}
 				
 				if (isset($contentData['sku'])) {
 					$readyProduct["sku"] = $contentData['sku'];
