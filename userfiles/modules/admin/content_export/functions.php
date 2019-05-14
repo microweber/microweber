@@ -90,16 +90,46 @@ class ContentExport
 	}
 	
 	private function _getProducts() {
+		
 		$products = array();
+		$offers = array();
+		
+		foreach (offers_get_products(array()) as $offer) {
+			$offers[$offer['product_id']] = array(
+				"price"=>$offer['price']
+			);
+		}
+		
 		foreach (get_products(array()) as $product) {
-			var_dump($product)
-			die();
+			
+			$contentData = content_data($product['id']);
+			
+			$pictures = array();
+			foreach (get_pictures($product['id']) as $picture) {
+				$pictures[] = array(
+					"id"=>$picture['id'],
+					"title"=>$picture['title'],
+					"description"=>$picture['description'],
+					"filename"=>$picture['filename']
+				);
+			}
+			
 			$products[] = array(
 				"id" => $product['id'],
-				"parent_id" => $product['parent_id'],
 				"title" => $product['title'],
+				"price" => $offers[$product['id']]['price'],
+				"quantity" => $contentData['qty'],
+				"sku" => $contentData['sku'],
+				"shipping_weight" => $contentData['shipping_weight'],
+				"shipping_width" => $contentData['shipping_width'],
+				"shipping_height" => $contentData['shipping_height'],
+				"shipping_depth" => $contentData['shipping_depth'],
+				"additional_shipping_cost" => $contentData['additional_shipping_cost'],
+				"is_free_shipping" => $contentData['is_free_shipping'],
+				"url" => $product['url'],
 				"description" => $product['description'],
-				"content" => $product['content']
+				"content" => $product['content'],
+				"pictures"=>$pictures
 			);
 		}
 		return $products;
