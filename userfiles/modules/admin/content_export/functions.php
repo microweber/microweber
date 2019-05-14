@@ -2,9 +2,12 @@
 api_expose('content_export_start');
 function content_export_start($data)
 {
+	only_admin_access();
+	
 	$export = new ContentExport($data);
 	$export->setExportFormatType('json');
 	return $export->start();
+	
 }
 
 class ContentExport
@@ -14,6 +17,10 @@ class ContentExport
 	protected $exportFormatType = 'json';
 
 	public function __construct($data) {
+		
+		ini_set('memory_limit', '512M');
+		set_time_limit(0);
+		
 		$this->exportContentTypes = $data;
 	}
 	
@@ -49,10 +56,19 @@ class ContentExport
 			$readyExport['coupons'] = $this->_getCoupons();
 		}
 		
-		
 		if ($this->exportFormatType == 'json') {
-			header('Content-Type: application/json');
-			return json_encode($readyExport);
+			
+			$exportFilename = 'content_export_' . date("Y-m-d-his") . '.json';
+			$exportPath = $this->_getExportLocation() . $exportFilename;
+			
+			$save = json_encode($readyExport, JSON_PRETTY_PRINT);
+			
+			if (file_put_contents($exportPath, $save)) {
+				return array('success' => count($readyExport, COUNT_RECURSIVE) . ' items are exported', 'filepath'=>$exportPath);
+			} else {
+				return array('error' => 'There was error with export.');
+			}
+			
 		} else {
 			throw new \Exception('Export format type is not supported.');
 		}
@@ -62,9 +78,18 @@ class ContentExport
 		$this->exportContentType = $data;
 	}
 	
-	public function setExportFormatType($type)
-	{
+	public function setExportFormatType($type) {
 		$this->exportFormatType = $type;
+	}
+	
+	private function _getExportLocation() {
+		
+		$exportLocation = storage_path().'/export_content/';
+		if (!is_dir($exportLocation)) {
+			mkdir_recursive($exportLocation);
+		}
+		
+		return $exportLocation;
 	}
 	
 	private function _getPages() {
