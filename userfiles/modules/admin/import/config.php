@@ -1,6 +1,6 @@
 <?php
 $config = array();
-$config['name'] = "Import";
+$config['name'] = "Import\Export";
 $config['author'] = "Microweber";
  
 $config['categories'] = "admin"; 
