@@ -339,28 +339,35 @@ class ContentExport
 	
 	private function _getClients() {
 		
-		$getUsers = get_users(array());
-		if (empty($getUsers)) {
+		$getOrders = get_orders('order_by=created_at desc&groupby=email&is_completed=1');
+		if (empty($getOrders)) {
 			return array();
 		}
 		
-		$users = array();
-		foreach ($getUsers as $user) {
-			$users[] = array(
-				"id" => $user['id'],
-				"username" => $user['username'],
-				"email" => $user['email'],
-				"first_name" => $user['first_name'],
-				"middle_name" => $user['middle_name'],
-				"last_name" => $user['last_name'],
-				"thumbnail" => $user['thumbnail'],
-				"user_information" => $user['user_information'],
-				"profile_url" => $user['profile_url'],
-				"website_url" => $user['website_url'],
+		$clients = array();
+		foreach ($getOrders as $order) {
+			
+			$totalOrders = get_orders('count=1&email=' . $order['email'] . '&is_completed=1'); 
+			
+			$clients[] = array(
+				"id"=>$order['created_by'],
+				"picture"=>user_picture($order['created_by']),
+				"first_name" => $order['first_name'],
+				"last_name" => $order['last_name'],
+				"email" => $order['email'],
+				"country" => $order['country'],
+				"city" => $order['city'],
+				"state" => $order['state'],
+				"zip" => $order['zip'],
+				"address" => $order['address'],
+				"address2" => $order['address2'],
+				"phone" => $order['phone'],
+				"user_ip" => $order['user_ip'],
+				"total_orders"=>$totalOrders
 			);
 		}
 		
-		return $users;
+		return $clients;
 	}
 	
 	private function _getCoupons() {
