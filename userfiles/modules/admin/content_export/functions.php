@@ -4,7 +4,7 @@ function content_export_start($data)
 {
 	$export = new ContentExport($data);
 	$export->setExportFormatType('json');
-	$export->start();
+	return $export->start();
 }
 
 class ContentExport
@@ -22,31 +22,31 @@ class ContentExport
 		$readyExport = array();
 		
 		if (isset($this->exportContentTypes['export_pages'])) {
-			$readyExport['pages'] = $this->getPages();
+			$readyExport['pages'] = $this->_getPages();
 		}
 		
 		if (isset($this->exportContentTypes['export_posts'])) {
-			$readyExport['posts'] = $this->getPosts();
+			$readyExport['posts'] = $this->_getPosts();
 		}
 		
 		if (isset($this->exportContentTypes['export_categories'])) {
-			$readyExport['categories'] = $this->getCategories();
+			$readyExport['categories'] = $this->_getCategories();
 		}
 		
 		if (isset($this->exportContentTypes['export_products'])) {
-			$readyExport['products'] = $this->getProducts();
+			$readyExport['products'] = $this->_getProducts();
 		}
 		
 		if (isset($this->exportContentTypes['export_orders'])) {
-			$readyExport['orders'] = $this->getOrders();
+			$readyExport['orders'] = $this->_getOrders();
 		}
 		
 		if (isset($this->exportContentTypes['export_clients'])) {
-			$readyExport['clients'] = $this->getClients();
+			$readyExport['clients'] = $this->_getClients();
 		}
 		
 		if (isset($this->exportContentTypes['export_coupons'])) {
-			$readyExport['coupons'] = $this->getCoupons();
+			$readyExport['coupons'] = $this->_getCoupons();
 		}
 		
 		
@@ -64,5 +64,36 @@ class ContentExport
 	public function setExportFormatType($type)
 	{
 		$this->exportFormatType = $type;
+	}
+	
+	private function _getPages() {
+		
+	}
+	
+	private function _getPosts() {
+		
+	}
+	
+	private function _getCategories() {
+		$readyCategories = array();
+		$categories = get_categories(array());
+		
+		return $readyCategories;
+	}
+	
+	private function _getProducts() {
+		
+	}
+	
+	private function _getOrders() {
+		
+	}
+	
+	private function _getClients() {
+		
+	}
+	
+	private function _getCoupons() {
+		
 	}
 }
