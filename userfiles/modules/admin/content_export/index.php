@@ -6,8 +6,16 @@ $(document).ready(function(){
 	$('.js-mw-content-export-form').submit(function(e) {
 		e.preventDefault();
 		var formData = $(this).serialize();
+		
+		 mw.notification.success("Export started...");
+		 $.post(mw.settings.api_url+'content_export_start', formData , function(msg) {
+		 		//mw.reload_module('admin/import/manage');
+		 		//mw.notification.msg(msg, 5000);
 
-		console.log(formData);
+
+		 		console.log(msg);
+		 		
+		});
 		
 	});
 		
