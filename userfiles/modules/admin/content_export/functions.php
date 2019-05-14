@@ -105,13 +105,15 @@ class ContentExport
 				"id" => $page['id'],
 				"title" => $page['title'],
 				"description" => $page['description'],
-				"content" => $page['content']
+				"content" => $this->_clearContent($page['content']),
+				"pictures" => $this->_getPicturesByContentId($page['id'])
 			);
 		}
 		return $pages;
 	}
 	
 	private function _getPosts() {
+		
 		$getPosts = get_posts(array());
 		if (empty($getPosts)) {
 			return array();
@@ -119,11 +121,13 @@ class ContentExport
 		
 		$posts = array();
 		foreach ($getPosts as $post) {
+			
 			$posts[] = array(
 				"id" => $post['id'],
 				"title" => $post['title'],
 				"description" => $post['description'],
-				"content" => $post['content']
+				"content" => $this->_clearContent($post['content']),
+				"pictures" => $this->_getPicturesByContentId($post['id'])
 			);
 		}
 		return $posts;
@@ -143,7 +147,7 @@ class ContentExport
 				"parent_id" => $category['parent_id'],
 				"title" => $category['title'],
 				"description" => $category['description'],
-				"content" => $category['content']
+				"content" => $this->_clearContent($category['content']),
 			);
 		}
 		return $categories;
@@ -168,16 +172,6 @@ class ContentExport
 		foreach ($getProducts as $product) {
 			
 			$contentData = content_data($product['id']);
-			
-			$pictures = array();
-			foreach (get_pictures($product['id']) as $picture) {
-				$pictures[] = array(
-					"id"=>$picture['id'],
-					"title"=>$picture['title'],
-					"description"=>$picture['description'],
-					"filename"=>$picture['filename']
-				);
-			}
 			
 			$readyProduct = array();
 			$readyProduct["id"] = $product['id'];
@@ -223,7 +217,7 @@ class ContentExport
 			$readyProduct["url"] = $product['url'];
 			$readyProduct["description"] = $product['description'];
 			$readyProduct["content"] = $product['content'];
-			$readyProduct["pictures"] = $pictures;
+			$readyProduct["pictures"] = $this->_getPicturesByContentId($product['id']);
 			
 			$products[] = $readyProduct;
 		}
@@ -295,5 +289,33 @@ class ContentExport
 		}
 		
 		return $coupons;
+	}
+	
+	private function _clearContent($content) { 
+		
+		$content = preg_replace('#<module(.*?)>(.*?)</module>#is', '', $content);
+		$content = preg_replace('/\<[\/]{0,1}div[^\>]*\>/i', '', $content);
+		
+		return $content;
+	}
+	
+	private function _getPicturesByContentId($contentId) {
+		
+		$getPictures = get_pictures($contentId);
+		if (empty($getPictures)) {
+			return array();
+		}
+		
+		$pictures = array();
+		foreach ($getPictures as $picture) {
+			$pictures[] = array(
+				"id"=>$picture['id'],
+				"title"=>$picture['title'],
+				"description"=>$picture['description'],
+				"filename"=>$picture['filename']
+			);
+		}
+		
+		return $pictures;
 	}
 }
