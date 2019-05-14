@@ -179,23 +179,53 @@ class ContentExport
 				);
 			}
 			
-			$products[] = array(
-				"id" => $product['id'],
-				"title" => $product['title'],
-				"price" => $offers[$product['id']]['price'],
-				"quantity" => $contentData['qty'],
-				"sku" => $contentData['sku'],
-				"url" => $product['url'],
-				"description" => $product['description'],
-				"content" => $product['content'],
-				"pictures"=>$pictures,
-				"shipping_weight" => $contentData['shipping_weight'],
-				"shipping_width" => $contentData['shipping_width'],
-				"shipping_height" => $contentData['shipping_height'],
-				"shipping_depth" => $contentData['shipping_depth'],
-				"additional_shipping_cost" => $contentData['additional_shipping_cost'],
-				"is_free_shipping" => $contentData['is_free_shipping']
-			);
+			$readyProduct = array();
+			$readyProduct["id"] = $product['id'];
+			$readyProduct["title"] = $product['title'];
+			
+			if (isset($offers[$product['id']]['price'])) {
+				$readyProduct["price"] = $offers[$product['id']]['price'];
+			}
+			
+			if (!empty($contentData)) {
+				$readyProduct["quantity"] = $contentData['qty'];
+				
+				if (isset($contentData['sku'])) {
+					$readyProduct["sku"] = $contentData['sku'];
+				}
+				
+				if (isset($contentData['shipping_weight'])) {
+					$readyProduct["shipping_weight"] = $contentData['shipping_weight'];
+				}
+				
+				if (isset($contentData['shipping_width'])) {
+					$readyProduct["shipping_width"] = $contentData['shipping_width'];
+				}
+				
+				if (isset($contentData['shipping_height'])) {
+					$readyProduct["shipping_height"] = $contentData['shipping_height'];
+				}
+				
+				if (isset($contentData['shipping_depth'])) {
+					$readyProduct["shipping_depth"] = $contentData['shipping_depth'];
+				}
+				
+				if (isset($contentData['additional_shipping_cost'])) {
+					$readyProduct["additional_shipping_cost"] = $contentData['additional_shipping_cost'];
+				}
+				
+				if (isset($contentData['is_free_shipping'])) {
+					$readyProduct["is_free_shipping"] = $contentData['is_free_shipping'];
+				}
+
+			}
+			
+			$readyProduct["url"] = $product['url'];
+			$readyProduct["description"] = $product['description'];
+			$readyProduct["content"] = $product['content'];
+			$readyProduct["pictures"] = $pictures;
+			
+			$products[] = $readyProduct;
 		}
 		return $products;
 	}
