@@ -1,4 +1,6 @@
 <?php
+use Microweber\Utils\Import;
+
 api_expose('content_export_start');
 function content_export_start($data)
 {
@@ -6,8 +8,46 @@ function content_export_start($data)
 	
 	$export = new ContentExport($data);
 	$export->setExportFormatType('json');
+	
 	return $export->start();
 	
+}
+
+api_expose('content_export_download');
+function content_export_download($data)
+{
+	if (!is_admin()) {
+		mw_error('must be admin');
+	}
+
+	$export = new ContentExport();
+	$exportLocation = $export->getExportLocation();
+	
+	$exportPath = $exportLocation . $data['filename'];
+	$exportPath = str_replace('..', '', $exportPath);
+	
+	if (!is_file($exportPath)) {
+		return array('error' => 'You have not provided a existing filename to download.');
+		
+		die();
+	}
+	
+	// Check if the file exist.
+	if (file_exists($exportPath)) {
+		
+		// Add headers
+		header('Cache-Control: public');
+		header('Content-Description: File Transfer');
+		header('Content-Disposition: attachment; filename=' . basename($exportPath));
+		header('Content-Length: ' . filesize($exportPath));
+		
+		// Read file
+		$import = new Import();
+		$import->readfile_chunked($exportPath);
+		
+	} else {
+		die('File does not exist');
+	}
 }
 
 class ContentExport
@@ -16,7 +56,7 @@ class ContentExport
 	protected $exportContentTypes = array();
 	protected $exportFormatType = 'json';
 
-	public function __construct($data) {
+	public function __construct($data = array()) {
 		
 		ini_set('memory_limit', '512M');
 		set_time_limit(0);
@@ -59,12 +99,12 @@ class ContentExport
 		if ($this->exportFormatType == 'json') {
 			
 			$exportFilename = 'content_export_' . date("Y-m-d-his") . '.json';
-			$exportPath = $this->_getExportLocation() . $exportFilename;
+			$exportPath = $this->getExportLocation() . $exportFilename;
 			
 			$save = json_encode($readyExport, JSON_PRETTY_PRINT);
-			
+
 			if (file_put_contents($exportPath, $save)) {
-				return array('success' => count($readyExport, COUNT_RECURSIVE) . ' items are exported', 'filepath'=>$exportPath);
+				return array('success' => count($readyExport, COUNT_RECURSIVE) . ' items are exported', 'filename'=>$exportFilename);
 			} else {
 				return array('error' => 'There was error with export.');
 			}
@@ -82,7 +122,7 @@ class ContentExport
 		$this->exportFormatType = $type;
 	}
 	
-	private function _getExportLocation() {
+	public function getExportLocation() {
 		
 		$exportLocation = storage_path().'/export_content/';
 		if (!is_dir($exportLocation)) {
@@ -216,7 +256,7 @@ class ContentExport
 			
 			$readyProduct["url"] = $product['url'];
 			$readyProduct["description"] = $product['description'];
-			$readyProduct["content"] = $product['content'];
+			$readyProduct["content"] = $this->_clearContent($product['content']);
 			$readyProduct["pictures"] = $this->_getPicturesByContentId($product['id']);
 			
 			$products[] = $readyProduct;
@@ -233,9 +273,65 @@ class ContentExport
 		
 		$orders = array();
 		foreach ($getOrders as $order) {
-			$orders[] = array(
+			
+			$readyOrder = array(
 				"id" => $order['id'],
+				"order_id" => $order['order_id'],
+				"amount" => $order['amount'],
+				"transaction_id" => $order['transaction_id'],
+				"shipping" => $order['shipping'],
+				"currency" => $order['currency'],
+				"currency_code" => $order['currency_code'],
+				"first_name" => $order['first_name'],
+				"last_name" => $order['last_name'],
+				"email" => $order['email'],
+				"country" => $order['country'],
+				"city" => $order['city'],
+				"state" => $order['state'],
+				"zip" => $order['zip'],
+				"address" => $order['address'],
+				"address2" => $order['address2'],
+				"phone" => $order['phone'],
+				"user_ip" => $order['user_ip'],
+				"items_count" => $order['items_count'],
+				"order_status" => $order['order_status'],
+				"price" => $order['price'],
+				"other_info" => $order['other_info'],
+				
 			);
+			
+			$orderDiscount = array(
+				"promo_code" => $order['promo_code'],
+				"skip_promo_code" => $order['skip_promo_code'],
+				"coupon_id" => $order['coupon_id'],
+				"discount_type" => $order['discount_type'],
+				"discount_value" => $order['discount_value'],
+				"taxes_amount" => $order['taxes_amount'],
+			);
+			$readyOrder['discount_details'] = $orderDiscount;
+			
+			$orderPayment = array(
+				"payment_amount" => $order['payment_amount'],
+				"payment_currency" => $order['payment_currency'],
+				"payment_status" => $order['payment_status'],
+				"payment_email" => $order['payment_email'],
+				"payment_receiver_email" => $order['payment_receiver_email'],
+				"payment_name" => $order['payment_name'],
+				"payment_country" => $order['payment_country'],
+				"payment_address" => $order['payment_address'],
+				"payment_city" => $order['payment_city'],
+				"payment_state" => $order['payment_state'],
+				"payment_zip" => $order['payment_zip'],
+				"payment_phone" => $order['payment_phone'],
+				"payment_type" => $order['payment_type'],
+				"payer_details" => array(
+					"payer_id" => $order['payer_id'],
+					"payer_status" => $order['payer_status']
+				)
+			);
+			$readyOrder['paymen_details'] = $orderPayment;
+			
+			$orders[] = $readyOrder;
 		}
 		
 		return $orders;
@@ -295,6 +391,9 @@ class ContentExport
 		
 		$content = preg_replace('#<module(.*?)>(.*?)</module>#is', '', $content);
 		$content = preg_replace('/\<[\/]{0,1}div[^\>]*\>/i', '', $content);
+		$content = preg_replace('#\s(id|class|style)="[^"]+"#', '', $content);
+		
+		$content = trim($content);
 		
 		return $content;
 	}

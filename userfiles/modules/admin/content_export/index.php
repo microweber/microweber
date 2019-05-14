@@ -8,13 +8,11 @@ $(document).ready(function(){
 		var formData = $(this).serialize();
 		
 		 mw.notification.success("Export started...");
-		 $.post(mw.settings.api_url+'content_export_start', formData , function(msg) {
-		 		//mw.reload_module('admin/import/manage');
-		 		//mw.notification.msg(msg, 5000);
+		 $.post(mw.settings.api_url+'content_export_start', formData , function(data) {
 
-
-		 		console.log(msg);
-		 		
+	 		mw.notification.success(data.success);
+		    window.location = mw.settings.api_url + 'content_export_download?filename=' + data.filename;
+		 	
 		});
 		
 	});
