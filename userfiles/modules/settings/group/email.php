@@ -1,11 +1,20 @@
 <?php only_admin_access(); ?>
 <script  type="text/javascript">
-$(document).ready(function(){
 
-  mw.options.form('.<?php print $config['module_class'] ?>', function(){
-      mw.notification.success("<?php _e("Email settings are saved"); ?>.");
-	  mw.reload_module("<?php print $config['module'] ?>");
-    }); 
+function saveEmailOptions() {
+	$("input, select, textarea", $('.<?php print $config['module_class'] ?>')).each(function () {
+        mw.options.save(this, function () {
+            // saved
+        });
+	});
+	mw.notification.success("<?php _e("Email settings are saved"); ?>.");
+	mw.reload_module("<?php print $config['module'] ?>");
+}
+
+$(document).ready(function(){
+	$('.js-email-transport-select').change(function() {
+		saveEmailOptions();
+	});
 });
 
 mw.email_send_test = function(){
@@ -31,6 +40,7 @@ mw.email_send_test = function(){
     </div>
 </div>
 <div class="admin-side-content">
+
 <div class="<?php print $config['module_class'] ?> mw-ui-box">
 	<div class="mw-ui-box-content">
 		<div class="mw-ui-field-holder">
@@ -72,7 +82,7 @@ mw.email_send_test = function(){
             $email_transport = 'php';
         }
     ?>
-    <select name="email_transport" class="mw-ui-field mw_option_field"   type="text" option-group="email" data-refresh="settings/group/email">
+    <select name="email_transport" class="mw-ui-field mw_option_field js-email-transport-select"   type="text" option-group="email" data-refresh="settings/group/email">
         <option value="php" <?php if($email_transport == 'php'): ?> selected="selected" <?php endif; ?>>
         <?php _e("PHP mail function"); ?>
         </option>
@@ -189,6 +199,12 @@ mw.email_send_test = function(){
 				
 				<a class="mw-ui-btn " href="javascript:$('#test_eml_toggle').toggle(); void(0);"><?php _e("Test Method"); ?></a> </div>
 		</div>
+		
+		<br />
+		<br />
+		
+		<button onClick="saveEmailOptions()" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification">Save email settings</button>
+		
 	</div>
 </div>
 </div>
