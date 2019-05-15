@@ -549,7 +549,12 @@ class DefaultController extends Controller
                         $mclass = array_pop($api_function_full1);
 
                         if (class_exists($mclass, false)) {
-                            $class = new $mclass($this->app);
+                        	
+                        	if (is_array($this->app)) {
+                        		$class = new $mclass($this->app);
+                        	} else {
+                        		$class = new $mclass();
+                        	}
 
                             if (method_exists($class, $mmethod)) {
                                 $res = $class->$mmethod($data);
