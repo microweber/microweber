@@ -371,7 +371,7 @@ class ContentExport
 					"payer_status" => $order['payer_status']
 				)
 			);
-			$readyOrder['paymen_details'] = $orderPayment;
+			$readyOrder['payment_details'] = $orderPayment;
 			
 			$orders[] = $readyOrder;
 		}
