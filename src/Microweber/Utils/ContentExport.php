@@ -66,7 +66,36 @@ class ContentExport
 			}
 			
 		} else {
-			throw new \Exception('Export format type is not supported.');
+			return array('error' => 'Export format type is not supported.');
+		}
+	}
+	
+	public function download($filename) {
+		
+		$exportLocation = $this->getExportLocation();
+		
+		$exportPath = $exportLocation . $filename;
+		$exportPath = str_replace('..', '', $exportPath);
+		
+		if (!is_file($exportPath)) {
+			return array('error' => 'You have not provided a existing filename to download.');
+		}
+		
+		// Check if the file exist.
+		if (file_exists($exportPath)) {
+			
+			// Add headers
+			header('Cache-Control: public');
+			header('Content-Description: File Transfer');
+			header('Content-Disposition: attachment; filename=' . basename($exportPath));
+			header('Content-Length: ' . filesize($exportPath));
+			
+			// Read file
+			$import = new Import();
+			$import->readfile_chunked($exportPath);
+			
+		} else {
+			return array('error' => 'File does not exist');
 		}
 	}
 	
@@ -90,7 +119,7 @@ class ContentExport
 	
 	private function _getPages() {
 		
-		$getPages = get_pages(array());
+		$getPages = get_pages('no_limit=1');
 		if (empty($getPages)) {
 			return array();
 		}
@@ -110,7 +139,7 @@ class ContentExport
 	
 	private function _getPosts() {
 		
-		$getPosts = get_posts(array());
+		$getPosts = get_posts('no_limit=1');
 		if (empty($getPosts)) {
 			return array();
 		}
@@ -131,7 +160,7 @@ class ContentExport
 	
 	private function _getComments() {
 		
-		$getComments = get_comments(array());
+		$getComments = get_comments('no_limit=1');
 		if (empty($getComments)) {
 			return array();
 		}
@@ -158,7 +187,7 @@ class ContentExport
 	
 	private function _getCategories() {
 		
-		$getCategories = get_categories(array());
+		$getCategories = get_categories('no_limit=1');
 		if (empty($getCategories)) {
 			return array();
 		}
@@ -178,7 +207,7 @@ class ContentExport
 	
 	private function _getProducts() {
 		
-		$getProducts = get_products(array());
+		$getProducts = get_products('no_limit=1');
 		if (empty($getProducts)) {
 			return array();
 		}
@@ -186,7 +215,7 @@ class ContentExport
 		$products = array();
 		$offers = array();
 		
-		foreach (offers_get_products(array()) as $offer) {
+		foreach (offers_get_products('no_limit=1') as $offer) {
 			$offers[$offer['product_id']] = array(
 				"price"=>$offer['price']
 			);
@@ -260,7 +289,7 @@ class ContentExport
 	
 	private function _getOrders() {
 		
-		$getOrders = get_orders(array());
+		$getOrders = get_orders('no_limit=1');
 		if (empty($getOrders)) {
 			return array();
 		}
@@ -333,7 +362,7 @@ class ContentExport
 	
 	private function _getClients() {
 		
-		$getOrders = get_orders('order_by=created_at desc&groupby=email&is_completed=1');
+		$getOrders = get_orders('order_by=created_at desc&groupby=email&is_completed=1&no_limit');
 		if (empty($getOrders)) {
 			return array();
 		}
@@ -341,7 +370,7 @@ class ContentExport
 		$clients = array();
 		foreach ($getOrders as $order) {
 			
-			$totalOrders = get_orders('count=1&email=' . $order['email'] . '&is_completed=1');
+			$totalOrders = get_orders('count=1&email=' . $order['email'] . '&is_completed=1&no_limit=1');
 			
 			$clients[] = array(
 				"id"=>$order['created_by'],

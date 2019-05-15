@@ -22,6 +22,15 @@ class ContentExportTest extends TestCase
 		$export->setExportFormatType('xmla');
 		$exportStatus = $export->start();
 		
-		$this->assertArrayHasKey('filename', $exportStatus);  
+		$this->assertArrayHasKey('error', $exportStatus);  
+	}
+	
+	public function testExportWithWrongFileDownload()
+	{
+		$export = new ContentExport();
+		
+		$download = $export->download('wfafwa');
+
+		$this->assertArrayHasKey('error', $download);  
 	}
 }
