@@ -1,13 +1,12 @@
 <?php only_admin_access(); ?>
 <script type="text/javascript">
-    $(document).ready(function () {
-        mw.options.form('.<?php print $config['module_class'] ?>', function () {
-            mw.notification.success("<?php _e("Saved"); ?>.");
-        });
-
-    });
-
-
+    function saveFooterTags() {
+    	$("input, select, textarea", $('.<?php print $config['module_class'] ?>')).each(function () {
+	        mw.options.save(this, function () {
+	            mw.notification.success("<?php _e("Saved"); ?>.");
+	        });
+    	});
+    }
 </script>
 
 
@@ -23,5 +22,7 @@
         </div>
     </label>
     <textarea name="website_footer" class="mw_option_field mw-ui-field w100" type="text" option-group="website" style="min-height: 200px;"><?php print get_option('website_footer', 'website'); ?></textarea>
-</div>
 
+	<button onClick="saveFooterTags()" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification">Save</button>
+
+</div>
