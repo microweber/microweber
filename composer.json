@@ -24,7 +24,7 @@
     "composer/installers": "1.*",
     "laravel/framework": "5.4.*",
     "illuminate/contracts": "5.4.*",
-    "guzzlehttp/guzzle": "~6.0",  
+    "guzzlehttp/guzzle": "~6.0",
     "laravel/socialite": "3.0.2",
     "socialiteproviders/linkedin": "*",
     "illuminate/support": "5.4.*",
