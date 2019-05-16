@@ -1,39 +1,80 @@
 <?php
 namespace Microweber\Utils\Backup;
 
-class BackupManager {
+class BackupManager
+{
 
 	public $exportType = 'json';
 	public $importType = 'json';
-	
-	public function __construct() {
-		
+	public $importFile = false;
+
+	public function __construct()
+	{
 		ini_set('memory_limit', '512M');
 		set_time_limit(0);
-		
 	}
 
-	public function setExportType($type) {
+	public function setExportType($type)
+	{
 		$this->exportType = $type;
 	}
-	
-	public function setImportType($type) {
+
+	public function setImportType($type)
+	{
 		$this->importType = $type;
 	}
 	
-	public function export() {
-		
+	public function setImportFile($file)
+	{
+		$this->importFile = $this->getBackupLocation() . $file;
+	}
+
+	public function startExport()
+	{
 		$export = new Export();
 		$export->setType($this->exportType);
-		
-		return $export->getContent();
+
+		$content = $export->getContent();
+
+		if (isset($content['data'])) {
+			
+			$exportLocation = $this->getBackupLocation();
+			
+			$exportFilename = 'backup_export_' . date("Y-m-d-his") . '.'.$this->exportType;
+			$exportPath = $exportLocation . $exportFilename;
+
+			$save = file_put_contents($exportPath, $content['data']);
+			
+			if ($save) {
+				return array("filename"=>$exportPath, "success"=>"Backup export are saved success.");	
+			} else {
+				return array("error"=> "File not save");
+			}
+		}
 	}
-	
-	public function import() {
-		
+
+	public function startImport()
+	{
 		$import = new Import();
 		$import->setType($this->importType);
+		$import->setFile($this->importFile);
 		
 		return $import->readContent();
+	}
+
+	public function getBackupLocation()
+	{
+		$backupContent = storage_path() . '/backup_content/';
+
+		if (! is_dir($backupContent)) {
+			mkdir_recursive($backupContent);
+			$htaccess = $backupContent . '.htaccess';
+			if (! is_file($htaccess)) {
+				touch($htaccess);
+				file_put_contents($htaccess, 'Deny from all');
+			}
+		}
+
+		return $backupContent;
 	}
 }

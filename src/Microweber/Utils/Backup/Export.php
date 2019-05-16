@@ -37,7 +37,7 @@ class Export
 			return array(
 				'success' => count($data, COUNT_RECURSIVE) . ' items are exported',
 				'export_type' => $this->type,
-				'content' => $export->start()
+				'data' => $export->start()
 			);
 		} else {
 			return array(

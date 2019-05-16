@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aee9a3e20bdbc16e978f9c02916ae8ec",
+    "content-hash": "78fbb0bfc4b20d0c6c8f5cb66450a83d",
     "packages": [
         {
             "name": "arcanedev/seo-helper",
@@ -1794,6 +1794,47 @@
             "time": "2019-04-01T06:40:32+00:00"
         },
         {
+            "name": "halaxa/json-machine",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/halaxa/json-machine.git",
+                "reference": "caf8bbde766b59d0c9828e1b9ebc9615e9a00fd5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/halaxa/json-machine/zipball/caf8bbde766b59d0c9828e1b9ebc9615e9a00fd5",
+                "reference": "caf8bbde766b59d0c9828e1b9ebc9615e9a00fd5",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "guzzlehttp/guzzle": "^6",
+                "phpunit/phpunit": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "JsonMachine\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Filip Halaxa",
+                    "email": "filip@halaxa.cz"
+                }
+            ],
+            "description": "Fast, efficient and easy-to-use JSON stream parser developed for unpredictably long JSON streams or documents.",
+            "time": "2019-04-10T17:44:18+00:00"
+        },
+        {
             "name": "intervention/image",
             "version": "dev-master",
             "source": {
@@ -2711,6 +2752,159 @@
             "time": "2016-08-17T00:36:58+00:00"
         },
         {
+            "name": "league/omnipay",
+            "version": "2.3.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/omnipay.git",
+                "reference": "cc04bd22b4149c94c52b002181d4993e4f8fe812"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/omnipay/zipball/cc04bd22b4149c94c52b002181d4993e4f8fe812",
+                "reference": "cc04bd22b4149c94c52b002181d4993e4f8fe812",
+                "shasum": ""
+            },
+            "require": {
+                "omnipay/2checkout": "~2.0",
+                "omnipay/authorizenet": "~2.0",
+                "omnipay/buckaroo": "~2.0",
+                "omnipay/cardsave": "~2.0",
+                "omnipay/coinbase": "~2.0",
+                "omnipay/common": "~2.3",
+                "omnipay/dummy": "~2.0",
+                "omnipay/eway": "~2.0",
+                "omnipay/firstdata": "~2.0",
+                "omnipay/gocardless": "~2.0",
+                "omnipay/manual": "~2.0",
+                "omnipay/migs": "~2.0",
+                "omnipay/mollie": "~3.0",
+                "omnipay/multisafepay": "~2.0",
+                "omnipay/netaxept": "~2.0",
+                "omnipay/netbanx": "~2.0",
+                "omnipay/payfast": "~2.0",
+                "omnipay/payflow": "~2.0",
+                "omnipay/paymentexpress": "~2.0",
+                "omnipay/paypal": "~2.0",
+                "omnipay/pin": "~2.0",
+                "omnipay/sagepay": "~2.0",
+                "omnipay/securepay": "~2.0",
+                "omnipay/stripe": "~2.0",
+                "omnipay/targetpay": "~2.0",
+                "omnipay/worldpay": "~2.0"
+            },
+            "require-dev": {
+                "omnipay/tests": "~2.0"
+            },
+            "suggest": {
+                "academe/omnipay-helcim": "Helcim",
+                "agmscode/omnipay-agms": "Agms",
+                "alfaproject/omnipay-neteller": "Neteller",
+                "alfaproject/omnipay-skrill": "Skrill",
+                "andreas22/omnipay-fasapay": "Fasapay",
+                "andylibrian/omnipay-veritrans": "Veritrans",
+                "cardgate/omnipay-cardgate": "CardGate",
+                "coatesap/omnipay-datacash": "DataCash",
+                "coatesap/omnipay-paymentsense": "PaymentSense",
+                "coatesap/omnipay-realex": "Realex",
+                "dabsquared/omnipay-cybersource-soap": "Cybersource SOAP",
+                "delatbabel/omnipay-fatzebra": "Fat Zebra",
+                "dercoder/omnipay-ecopayz": "ecoPayz",
+                "dercoder/omnipay-globalcloudpay": "Globalcloudpay",
+                "descubraomundo/omnipay-pagarme": "Pagar.me",
+                "dioscouri/omnipay-cybersource": "Cybersource",
+                "fotografde/omnipay-checkoutcom": "Checkout.com",
+                "fruitcakestudio/omnipay-sisow": "Sisow",
+                "igaponov/omnipay-wirecard": "Wirecard",
+                "justinbusschau/omnipay-secpay": "SecPay",
+                "lokielse/omnipay-alipay": "Alipay",
+                "lokielse/omnipay-global-alipay": "Global Alipay",
+                "lokielse/omnipay-unionpay": "UnionPay",
+                "lokielse/omnipay-wechatpay": "WechatPay",
+                "mfauveau/omnipay-nmi": "Network Merchants Inc. (NMI)",
+                "mfauveau/omnipay-pacnet": "Pacnet",
+                "omnipay/payu": "PayU",
+                "paypronl/omnipay-paypro": "PayPro",
+                "samvaughton/omnipay-barclays-epdq": "Barclays ePDQ",
+                "teaandcode/omnipay-worldpay-xml": "WorldPay XML Direct"
+            },
+            "type": "metapackage",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Adrian Macneil",
+                    "email": "adrian@adrianmacneil.com"
+                },
+                {
+                    "name": "Kayla Daniels",
+                    "email": "kayladnls@gmail.com"
+                },
+                {
+                    "name": "Omnipay Community",
+                    "homepage": "https://github.com/thephpleague/omnipay/graphs/contributors"
+                }
+            ],
+            "description": "Includes Omnipay payment processing library and all officially supported gateways",
+            "homepage": "https://github.com/thephpleague/omnipay",
+            "keywords": [
+                "2checkout",
+                "2co",
+                "auth.net",
+                "authorize",
+                "authorize.net",
+                "buckaroo",
+                "cardsave",
+                "checkoutcom",
+                "coinbase",
+                "commweb",
+                "cybersource",
+                "dps",
+                "egate",
+                "eway",
+                "express",
+                "first data",
+                "firstdata",
+                "gateway",
+                "gocardless",
+                "ideal",
+                "merchant",
+                "migs",
+                "mollie",
+                "multisafepay",
+                "netaxept",
+                "netbanx",
+                "pagarme",
+                "pay",
+                "payfast",
+                "payflow",
+                "payment",
+                "paymentexpress",
+                "payone",
+                "paypal",
+                "payu",
+                "pin",
+                "purchase",
+                "rapid",
+                "sagepay",
+                "securepay",
+                "stripe",
+                "tala",
+                "tala-payments",
+                "targetpay",
+                "twocheckout",
+                "worldpay"
+            ],
+            "time": "2017-03-21T09:24:49+00:00"
+        },
+        {
             "name": "maxmind-db/reader",
             "version": "v1.4.1",
             "source": {
@@ -3008,6 +3202,41 @@
                 "microweber"
             ],
             "time": "2019-05-08T11:43:55+00:00"
+        },
+        {
+            "name": "microweber-templates/skeleton-template",
+            "version": "dev-master",
+            "target-dir": "skeleton",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microweber-dev/skeleton-template.git",
+                "reference": "80e9ec67dd9685c64f9044cc203c1d91b0d81eda"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/microweber-dev/skeleton-template/zipball/80e9ec67dd9685c64f9044cc203c1d91b0d81eda",
+                "reference": "80e9ec67dd9685c64f9044cc203c1d91b0d81eda",
+                "shasum": ""
+            },
+            "type": "microweber-template",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "MW Team",
+                    "email": "contacts@microweber.com"
+                }
+            ],
+            "description": "Skeleton",
+            "homepage": "https://microweber.com/",
+            "keywords": [
+                "Skeleton",
+                "ecommerce",
+                "microweber"
+            ],
+            "time": "2019-05-13T08:27:26+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -7164,13 +7393,14 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "guzzle/guzzle": 20,
         "microweber-templates/dream": 20,
         "microweber-templates/liteness": 20,
         "microweber-deps/recurr": 20,
         "microweber-deps/laravel-tagging": 20,
         "oyejorge/less.php": 20,
-        "aws/aws-sdk-php": 20
+        "aws/aws-sdk-php": 20,
+        "microweber-templates/skeleton-template": 20,
+        "halaxa/json-machine": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
