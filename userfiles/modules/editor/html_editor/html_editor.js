@@ -419,8 +419,12 @@ mw.html_editor.find_all_module_ids_in_element = function (element) {
 
             var inner_mod_type = $(this).attr("type");
             var inner_mod_id = $(this).attr("id");
+            var preset_id = $(this).attr("data-module-original-id");
+
+            if(!preset_id){
 
             mod_ids.push(inner_mod_id);
+            }
 
 
         });
