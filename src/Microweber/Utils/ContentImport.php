@@ -66,8 +66,6 @@ class ContentImport
 	{
 		foreach ($posts as $post) {
 			
-			continue;
-			
 			$save = save_content_admin(array(
 				// "id"=>$post['id'],
 				"is_active"=> 1,
@@ -76,6 +74,7 @@ class ContentImport
 			));
 			
 			var_dump($save);
+			die();
 		}
 	}
 
