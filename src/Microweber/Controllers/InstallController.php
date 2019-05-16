@@ -105,6 +105,7 @@ class InstallController extends Controller
             if ($dbDriver == 'sqlite') {
                 if (isset($input['db_name_sqlite'])) {
                     $input['db_name'] = $input['db_name_sqlite'];
+                    $input['db_name'] = str_replace(':.', '.', $input['db_name']);
                 }
                 Config::set("database.connections.$dbDriver.database", $input['db_name']);
                 if (!file_exists($input['db_name'])) {
