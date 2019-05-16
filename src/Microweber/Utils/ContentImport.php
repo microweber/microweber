@@ -1,8 +1,6 @@
 <?php
 namespace Microweber\Utils;
 
-use Microweber\Providers\Shop\OrderManager;
-
 class ContentImport
 {
 
@@ -19,7 +17,7 @@ class ContentImport
 
 	public function start()
 	{
-		$content = file_get_contents('http://active-bs4.local/microweber/api/content_export_download?filename=content_export_2019-05-15-042448.json');
+		$content = file_get_contents('api/content_export_download?filename=content_export_2019-05-15-042448.json');
 		$content = json_decode($content, TRUE);
 
 		if (isset($content['pages'])) {
@@ -56,59 +54,26 @@ class ContentImport
 	}
 
 	private function _importPages($pages)
-	{
-		foreach ($pages as $page) {
-			
-		}
-	}
+	{}
 
 	private function _importPosts($posts)
-	{
-		foreach ($posts as $post) {
-			
-			$save = save_content_admin(array(
-				// "id"=>$post['id'],
-				"is_active"=> 1,
-				"content_type"=> "post",
-				"title" => $post['title']
-			));
-			
-			var_dump($save);
-			die();
-		}
-	}
+	{}
 
 	private function _importComments($comments)
-	{
-		var_dump($comments);
-	}
+	{}
 
 	private function _importCategories($categories)
-	{
-		foreach ($categories as $category) {
-			
-		}
-	}
+	{}
 
 	private function _importProducts($products)
-	{
-		
-	}
+	{}
 
 	private function _importOrders($orders)
-	{
-		foreach ($orders as $order) { 
-			
-		}
-	}
+	{}
 
 	private function _importClients($clients)
-	{
-		
-	}
+	{}
 
 	private function _importCoupons($coupons)
-	{
-		var_dump($coupons);
-	}
+	{}
 }

@@ -1,10 +1,9 @@
 <?php
 namespace Microweber\Utils\Backup\Exporters;
 
-class JsonExport {
-
+class JsonExport extends DefaultExport
+{
 	public function start() {
-		echo 1;	
+		return json_encode($this->data, JSON_PRETTY_PRINT);
 	}
-	
 }

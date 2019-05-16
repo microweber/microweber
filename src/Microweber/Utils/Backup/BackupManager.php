@@ -5,6 +5,13 @@ class BackupManager {
 
 	public $exportType = 'json';
 	public $importType = 'json';
+	
+	public function __construct() {
+		
+		ini_set('memory_limit', '512M');
+		set_time_limit(0);
+		
+	}
 
 	public function setExportType($type) {
 		$this->exportType = $type;
