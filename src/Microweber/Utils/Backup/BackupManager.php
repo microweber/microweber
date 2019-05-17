@@ -10,7 +10,7 @@ class BackupManager
 
 	public function __construct()
 	{
-		ini_set('memory_limit', '512M');
+		ini_set('memory_limit', '-1');
 		set_time_limit(0);
 	}
 

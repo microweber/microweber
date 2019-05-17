@@ -7,7 +7,7 @@ use Microweber\Utils\Backup\Traits\DatabaseContentDataWriter;
 
 class DatabaseWriter
 {
-	// use DatabaseCustomFieldsWriter;
+	use DatabaseCustomFieldsWriter;
 	use DatabaseContentFieldsWriter;
 	use DatabaseContentDataWriter;
 
@@ -66,16 +66,14 @@ class DatabaseWriter
 		
 		if ($checkItemIsExists) {
 			$itemId = $checkItemIsExists['id'];
-			echo 'Item is allready saved.' . PHP_EOL;
+			echo $table . ': Item is allready saved.' . PHP_EOL;
 		} else {
-			echo 'Item is saved.' . PHP_EOL;
+			echo $table . ': Item is saved.' . PHP_EOL;
 			$item = $this->_unsetItemFields($item);
 			$itemId = db_save($table, $item);
 		}
-		
+		$this->_saveCustomFields($item, $itemId);
 		$this->_saveContentData($itemId);
-		
-		// $this->_saveCustomFields($item, $itemId);
 	}
 	
 	private function _saveItemWithRelationship($table, $item) {
@@ -89,19 +87,35 @@ class DatabaseWriter
 		$item['allow_scripts'] = true;
 		$item['is_deleted'] = false;
 		
-		$save = db_save($table, $item);
+		
+		$dbSelectParams = array();
+		$dbSelectParams['no_cache'] = true;
+		$dbSelectParams['limit'] = 1;
+		$dbSelectParams['single'] = true;
+		$dbSelectParams['do_not_replace_site_url'] = 1;
+		$dbSelectParams['title'] = $item['title'];
+		
+		$checkItemIsExists = db_get($table, $dbSelectParams);
+		
+		if ($checkItemIsExists) {
+			$itemId = $checkItemIsExists['id'];
+			echo $table . ': Item is allready saved.' . PHP_EOL;
+		} else {
+			echo $table . ': Item is saved.' . PHP_EOL;
+			$itemId = db_save($table, $item);
+		}
 		
 	}
 	
 	public function runWriter()
 	{
-		$importTables = array('content');
+		$importTables = array('categories');
 		
 		// All db tables
 		foreach ($importTables as $table) {
 			foreach ($this->content[$table] as $item) {
 				
-				if (isset($item['rel_type']) && isset($item['rel_id'])) {				
+				if (isset($item['rel_type']) && isset($item['rel_id'])) {			
 					$this->_saveItemWithRelationship($table, $item);
 					continue;
 				}
