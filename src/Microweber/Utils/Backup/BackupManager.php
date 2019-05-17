@@ -23,7 +23,7 @@ class BackupManager
 	{
 		$this->importType = $type;
 	}
-	
+
 	public function setImportFile($file)
 	{
 		$this->importFile = $this->getBackupLocation() . $file;
@@ -37,18 +37,23 @@ class BackupManager
 		$content = $export->getContent();
 
 		if (isset($content['data'])) {
-			
+
 			$exportLocation = $this->getBackupLocation();
-			
-			$exportFilename = 'backup_export_' . date("Y-m-d-his") . '.'.$this->exportType;
+
+			$exportFilename = 'backup_export_' . date("Y-m-d-his") . '.' . $this->exportType;
 			$exportPath = $exportLocation . $exportFilename;
 
 			$save = file_put_contents($exportPath, $content['data']);
-			
+
 			if ($save) {
-				return array("filename"=>$exportPath, "success"=>"Backup export are saved success.");	
+				return array(
+					"filename" => $exportPath,
+					"success" => "Backup export are saved success."
+				);
 			} else {
-				return array("error"=> "File not save");
+				return array(
+					"error" => "File not save"
+				);
 			}
 		}
 	}
@@ -58,8 +63,12 @@ class BackupManager
 		$import = new Import();
 		$import->setType($this->importType);
 		$import->setFile($this->importFile);
-		
-		return $import->readContent();
+
+		$content = $import->readContent();
+
+		$writer = new DatabaseWriter();
+		$writer->setContent($content['data']);
+		$writer->runWriter();
 	}
 
 	public function getBackupLocation()
