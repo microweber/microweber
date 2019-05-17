@@ -93,6 +93,10 @@ class DatabaseWriter
 			$dbSelectParams['email'] = $item['email'];
 		}
 		
+		if (isset($item['username'])) {
+			$dbSelectParams['username'] = $item['username'];
+		}
+		
 		if (isset($item['first_name'])) {
 			$dbSelectParams['first_name'] = $item['first_name'];
 		}
@@ -161,7 +165,7 @@ class DatabaseWriter
 	
 	public function runWriter()
 	{
-		$importTables = array('categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
+		$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
 		//$importTables = array('cart_orders');
 		
 		// All db tables
