@@ -3,11 +3,13 @@ namespace Microweber\Utils\Backup;
 
 use Microweber\Utils\Backup\Traits\DatabaseCustomFieldsWriter;
 use Microweber\Utils\Backup\Traits\DatabaseContentFieldsWriter;
+use Microweber\Utils\Backup\Traits\DatabaseContentDataWriter;
 
 class DatabaseWriter
 {
-	use DatabaseCustomFieldsWriter;
+	// use DatabaseCustomFieldsWriter;
 	use DatabaseContentFieldsWriter;
+	use DatabaseContentDataWriter;
 
 	public $content;
 
@@ -71,7 +73,9 @@ class DatabaseWriter
 			$itemId = db_save($table, $item);
 		}
 		
-		$this->_saveCustomFields($item, $itemId);
+		$this->_saveContentData($itemId);
+		
+		// $this->_saveCustomFields($item, $itemId);
 	}
 	
 	private function _saveItemWithRelationship($table, $item) {
