@@ -60,9 +60,58 @@ class DatabaseWriter
 		$dbSelectParams['limit'] = 1;
 		$dbSelectParams['single'] = true;
 		$dbSelectParams['do_not_replace_site_url'] = 1;
-		$dbSelectParams['title'] = $item['title'];
 		
+		if (isset($item['payment_verify_token'])) {
+			$dbSelectParams['payment_verify_token'] = $item['payment_verify_token'];
+		}
+		
+		if (isset($item['option_key'])) {
+			$dbSelectParams['option_key'] = $item['option_key'];
+		}
+		
+		if (isset($item['option_value'])) {
+			$dbSelectParams['option_value'] = $item['option_value'];
+		}
+		
+		if (isset($item['option_group'])) {
+			$dbSelectParams['option_group'] = $item['option_group'];
+		}
+		
+		if (isset($item['session_id'])) {
+			$dbSelectParams['session_id'] = $item['session_id'];
+		}
+		
+		if (isset($item['created_at'])) {
+			$dbSelectParams['created_at'] = $item['created_at'];
+		}
+		
+		if (isset($item['title'])) {
+			$dbSelectParams['title'] = $item['title'];
+		}
+		
+		if (isset($item['email'])) {
+			$dbSelectParams['email'] = $item['email'];
+		}
+		
+		if (isset($item['first_name'])) {
+			$dbSelectParams['first_name'] = $item['first_name'];
+		}
+		
+		if (isset($item['last_name'])) {
+			$dbSelectParams['last_name'] = $item['last_name'];
+		}
+		
+		if (isset($item['amount'])) {
+			$dbSelectParams['amount'] = $item['amount'];
+		}
+
 		$checkItemIsExists = db_get($table, $dbSelectParams);
+		/* 
+		if (isset($item['email'])) {
+			
+			var_dump($checkItemIsExists);
+			die();
+		} */
 		
 		if ($checkItemIsExists) {
 			$itemId = $checkItemIsExists['id'];
@@ -105,22 +154,28 @@ class DatabaseWriter
 			$itemId = db_save($table, $item);
 		}
 		
+		$this->_saveCustomFields($item, $itemId);
+		$this->_saveContentData($itemId);
+		
 	}
 	
 	public function runWriter()
 	{
-		$importTables = array('categories');
+		$importTables = array('categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
+		//$importTables = array('cart_orders');
 		
 		// All db tables
 		foreach ($importTables as $table) {
-			foreach ($this->content[$table] as $item) {
-				
-				if (isset($item['rel_type']) && isset($item['rel_id'])) {			
-					$this->_saveItemWithRelationship($table, $item);
-					continue;
+			if (isset($this->content[$table])) {
+				foreach ($this->content[$table] as $item) {
+					
+					/* if (isset($item['rel_type']) && isset($item['rel_id'])) {			
+						$this->_saveItemWithRelationship($table, $item);
+						continue;
+					} */
+					
+					$this->_saveItem($table, $item);
 				}
-				
-				$this->_saveItem($table, $item);
 			}
 		}
 	}
