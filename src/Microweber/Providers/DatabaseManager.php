@@ -89,7 +89,7 @@ class DatabaseManager extends DbUtils
      *  $results = $this->get("table=users&is_admin=0");
      * </code>
      */
-    public function  ($table, $params = null)
+    public function get($table, $params = null)
     {
         if ($params === null) {
             $params = $table;
