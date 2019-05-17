@@ -44,11 +44,11 @@ class DatabaseWriter
 		return $item;
 	}
 	
-	private function _getCustomFields($item) {
+	private function _getCustomFields($itemId) {
 		
 		$customFields = array();
 		foreach($this->content['custom_fields'] as $dataItem) {
-			if ($dataItem['rel_id'] == $item['id']) {
+			if ($dataItem['rel_id'] == $itemId) {
 				$customFields[] = $dataItem;
 			}
 		}
@@ -96,7 +96,7 @@ class DatabaseWriter
 	private function _saveCustomFields($item, $itemId) {
 		
 		// Get custom fields from file export
-		$customFields = $this->_getCustomFields($item);
+		$customFields = $this->_getCustomFields($itemId);
 		
 		if (!empty($customFields)) {
 			foreach ($customFields as $customField) {
@@ -130,15 +130,18 @@ class DatabaseWriter
 			$customFieldId = db_save('custom_fields', $customField);
 		}
 		
-		$this->_saveCustomFieldValue($customField, $customFieldId);
+		$this->_saveCustomFieldValues($customField, $customFieldId);
 		
 	}
 	
-	private function _saveCustomFieldValue($customField, $customFieldId) {
+	private function _saveCustomFieldValues($customField, $customFieldId) {
 		
 		$customFieldValues = $this->_getCustomFieldValues($customFieldId);
 		
 		foreach($customFieldValues as $customFieldValue) {
+			
+			// Fix encoding
+			$customFieldValue = $this->_fixItemEncoding($customFieldValue);
 			
 			// New field id
 			$customFieldValue['custom_field_id'] = $customFieldId;
