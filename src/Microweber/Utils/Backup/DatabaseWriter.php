@@ -56,13 +56,25 @@ class DatabaseWriter
 		return $customFields;
 	}
 	
+	private function _getCustomFieldValues($customFieldId) {
+		
+		$customFieldValues = array();
+		foreach($this->content['custom_fields_values'] as $dataItem) {
+			if ($dataItem['custom_field_id'] == $customFieldId) {
+				$customFieldValues[] = $dataItem;
+			}
+		}
+		
+		return $customFieldValues;
+	}
+	
 	private function _saveItem($table, $item) {
 		
 		$item = $this->_fixItemEncoding($item);
 		
-		$customFields = $this->_getCustomFields($item);
-		
 		$dbSelectParams = array();
+		$dbSelectParams['no_cache'] = true;
+		$dbSelectParams['limit'] = 1;
 		$dbSelectParams['single'] = true;
 		$dbSelectParams['do_not_replace_site_url'] = 1;
 		$dbSelectParams['title'] = $item['title'];
@@ -70,42 +82,87 @@ class DatabaseWriter
 		$checkItemIsExists = db_get($table, $dbSelectParams);
 		
 		if ($checkItemIsExists) {
+			$itemId = $checkItemIsExists['id'];
 			echo 'Item is allready saved.' . PHP_EOL;
 		} else {
 			echo 'Item is saved.' . PHP_EOL;
 			$item = $this->_unsetItemFields($item);
-			$save = db_save($table, $item);
+			$itemId = db_save($table, $item);
 		}
+		
+		$this->_saveCustomFields($item, $itemId);
+	}
+	
+	private function _saveCustomFields($item, $itemId) {
+		
+		// Get custom fields from file export
+		$customFields = $this->_getCustomFields($item);
 		
 		if (!empty($customFields)) {
 			foreach ($customFields as $customField) {
-				$this->_saveCustomField($item, $customField);
+				$this->_saveCustomField($customField, $itemId);
 			}
 		}
-		
 	}
 	
-	private function _saveCustomField($item, $customField) {
+	private function _saveCustomField($customField, $itemId) {
 		
 		// New rel id
-		$customField['rel_id'] = $item['id'];
+		$customField['rel_id'] = $itemId;
 		
 		$dbSelectParams = array();
+		$dbSelectParams['no_cache'] = true;
+		$dbSelectParams['limit'] = 1;
 		$dbSelectParams['single'] = true;
 		$dbSelectParams['do_not_replace_site_url'] = 1;
 		$dbSelectParams['type'] = $customField['type'];
 		$dbSelectParams['name'] = $customField['name'];
 		$dbSelectParams['name_key'] = $customField['name_key'];
+		$dbSelectParams['rel_id'] = $customField['rel_id'];
 		
 		$checkCustomFieldIsExists = db_get('custom_fields', $dbSelectParams);
 		
 		if ($checkCustomFieldIsExists) {
+			$customFieldId = $checkCustomFieldIsExists['id'];
 			echo 'Custom field is allready saved.' . PHP_EOL;
 		} else {
 			echo 'Custom field is saved.' . PHP_EOL;
-			$save = db_save('custom_fields', $customField);
+			$customFieldId = db_save('custom_fields', $customField);
 		}
 		
+		$this->_saveCustomFieldValue($customField, $customFieldId);
+		
+	}
+	
+	private function _saveCustomFieldValue($customField, $customFieldId) {
+		
+		$customFieldValues = $this->_getCustomFieldValues($customFieldId);
+		
+		foreach($customFieldValues as $customFieldValue) {
+			
+			// New field id
+			$customFieldValue['custom_field_id'] = $customFieldId;
+			$customFieldValue = $this->_unsetItemFields($customFieldValue);
+			
+			
+			$dbSelectParams = array();
+			$dbSelectParams['no_cache'] = true;
+			$dbSelectParams['limit'] = 1;
+			$dbSelectParams['single'] = true;
+			$dbSelectParams['do_not_replace_site_url'] = 1;
+			$dbSelectParams['custom_field_id'] = $customFieldValue['custom_field_id'];
+			$dbSelectParams['value'] = $customFieldValue['value'];
+			
+			$checkCustomFieldValueIsExists = db_get('custom_fields_values', $dbSelectParams);
+			if ($checkCustomFieldValueIsExists) {
+				$customFieldValueId = $checkCustomFieldValueIsExists['id'];
+				echo 'Custom field value is allready saved.' . PHP_EOL;
+			} else {
+				echo 'Custom field value is saved.' . PHP_EOL;
+				$customFieldValueId = db_save('custom_fields_values', $customFieldValue);
+			}
+			
+		}
 	}
 	
 	private function _saveItemWithRelationship($table, $item) {
