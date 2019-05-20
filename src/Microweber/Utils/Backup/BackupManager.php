@@ -63,8 +63,8 @@ class BackupManager
 		$import = new Import();
 		$import->setType($this->importType);
 		$import->setFile($this->importFile);
-
-		$content = $import->readContent();
+		
+		$content = $import->readContentWithCache();
 
 		$writer = new DatabaseWriter();
 		$writer->setContent($content['data']);

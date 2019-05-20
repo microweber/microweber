@@ -4,6 +4,7 @@ namespace Microweber\Utils\Backup;
 use Microweber\Utils\Backup\Readers\JsonReader;
 use Microweber\Utils\Backup\Readers\CsvReader;
 use Microweber\Utils\Backup\Readers\XmlReader;
+use Microweber\App\Providers\Illuminate\Support\Facades\Cache;
 
 class Import
 {
@@ -36,7 +37,6 @@ class Import
 			case 'xml':
 				$reader = new XmlReader($data);
 				break;
-				
 				// Don't forget a break
 		}
 		
@@ -57,9 +57,10 @@ class Import
 			'error' => 'Import format not supported.'
 		);
 	}
-
-	public function readContent()
-	{
-		return $this->importAsType($this->file);
+	
+	public function readContentWithCache() {
+		return Cache::rememberForever(md5($this->file), function() {
+			return $this->importAsType($this->file);
+		});
 	}
 }

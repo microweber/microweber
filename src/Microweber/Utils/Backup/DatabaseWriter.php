@@ -61,52 +61,25 @@ class DatabaseWriter
 		$dbSelectParams['single'] = true;
 		$dbSelectParams['do_not_replace_site_url'] = 1;
 		
-		if (isset($item['payment_verify_token'])) {
-			$dbSelectParams['payment_verify_token'] = $item['payment_verify_token'];
-		}
+		$recognizeParams = array(
+			'payment_verify_token',
+			'option_key',
+			'option_value',
+			'option_group',
+			'session_id',
+			'created_at',
+			'title',
+			'email',
+			'username',
+			'first_name',
+			'last_name',
+			'amount'
+		);
 		
-		if (isset($item['option_key'])) {
-			$dbSelectParams['option_key'] = $item['option_key'];
-		}
-		
-		if (isset($item['option_value'])) {
-			$dbSelectParams['option_value'] = $item['option_value'];
-		}
-		
-		if (isset($item['option_group'])) {
-			$dbSelectParams['option_group'] = $item['option_group'];
-		}
-		
-		if (isset($item['session_id'])) {
-			$dbSelectParams['session_id'] = $item['session_id'];
-		}
-		
-		if (isset($item['created_at'])) {
-			$dbSelectParams['created_at'] = $item['created_at'];
-		}
-		
-		if (isset($item['title'])) {
-			$dbSelectParams['title'] = $item['title'];
-		}
-		
-		if (isset($item['email'])) {
-			$dbSelectParams['email'] = $item['email'];
-		}
-		
-		if (isset($item['username'])) {
-			$dbSelectParams['username'] = $item['username'];
-		}
-		
-		if (isset($item['first_name'])) {
-			$dbSelectParams['first_name'] = $item['first_name'];
-		}
-		
-		if (isset($item['last_name'])) {
-			$dbSelectParams['last_name'] = $item['last_name'];
-		}
-		
-		if (isset($item['amount'])) {
-			$dbSelectParams['amount'] = $item['amount'];
+		foreach($recognizeParams as $recognizeParam) {
+			if (isset($item[$recognizeParam])) {
+				$dbSelectParams[$recognizeParam] = $item[$recognizeParam];
+			}
 		}
 
 		$checkItemIsExists = db_get($table, $dbSelectParams);
@@ -165,9 +138,15 @@ class DatabaseWriter
 	
 	public function runWriter()
 	{
+		$currentStep = 14;
+		$maxSteps = 15;
+		
+		echo 'Import batch: ' . $currentStep .'/'. $maxSteps . PHP_EOL;
+		
 		$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
 		//$importTables = array('cart_orders');
 		
+		$itemsForSave = array();
 		// All db tables
 		foreach ($importTables as $table) {
 			if (isset($this->content[$table])) {
@@ -178,8 +157,27 @@ class DatabaseWriter
 						continue;
 					} */
 					
-					$this->_saveItem($table, $item);
+					$itemsForSave[] = $item;
 				}
+			}
+		}
+		
+		if (!empty($itemsForSave)) {
+			
+			$maxItemsForSave = sizeof($itemsForSave);
+			$maxItemsForBatch = round($maxItemsForSave / $maxSteps, 0);
+			
+			$itemsBatch = array_chunk($itemsForSave, $maxItemsForBatch);
+			
+			if (!isset($itemsBatch[$currentStep])) {
+				echo 'No items in batch for current step.' . PHP_EOL;
+				echo 'Done!' . PHP_EOL;
+				return;
+			}
+			
+			foreach($itemsBatch[$currentStep] as $item) {
+				echo 'Save item...' . PHP_EOL;
+				//$this->_saveItem($table, $item);
 			}
 		}
 	}

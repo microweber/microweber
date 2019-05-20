@@ -58,9 +58,9 @@ trait DatabaseCustomFieldsWriter {
 		
 		if ($checkCustomFieldIsExists) {
 			$customFieldId = $checkCustomFieldIsExists['id'];
-			echo 'Custom field is allready saved.' . PHP_EOL;
+			echo $customField['name'] . ': Custom field is allready saved.' . PHP_EOL;
 		} else {
-			echo 'Custom field is saved.' . PHP_EOL;
+			echo $customField['name'] .': Custom field is saved.' . PHP_EOL;
 			$customFieldId = db_save('custom_fields', $customField);
 		}
 		
