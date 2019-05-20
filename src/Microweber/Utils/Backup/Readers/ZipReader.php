@@ -9,6 +9,10 @@ class ZipReader extends DefaultReader
 
 	use BackupLogger;
 	
+	/**
+	 * Read data from file
+	 * @return \JsonMachine\JsonMachine[]
+	 */
 	public function readData()
 	{
 		$this->_checkPathsExists();
@@ -34,6 +38,10 @@ class ZipReader extends DefaultReader
 		
 	}
 	
+	/**
+	 * Remove dir recursive
+	 * @param string $dir
+	 */
 	private function _removeFilesFromPath($dir)
 	{
 		if (!is_dir($dir)) {
@@ -65,6 +73,12 @@ class ZipReader extends DefaultReader
 		}
 	}
 	
+	/**
+	 * Clone directory by path and destination
+	 * @param stringh $source
+	 * @param stringh $destination
+	 * @return stringh|boolean
+	 */
 	private function _cloneDirectory($source, $destination)
 	{
 		if (is_file($source) and ! is_dir($destination)) {

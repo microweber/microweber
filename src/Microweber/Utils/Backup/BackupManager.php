@@ -17,21 +17,37 @@ class BackupManager
 		set_time_limit(0);
 	}
 
+	/**
+	 * Set export file format
+	 * @param string $type
+	 */
 	public function setExportType($type)
 	{
 		$this->exportType = $type;
 	}
 
+	/**
+	 * Set import file format
+	 * @param string $type
+	 */
 	public function setImportType($type) 
 	{
 		$this->importType = $type;
 	}
 
+	/**
+	 * Set import file path
+	 * @param string $file
+	 */
 	public function setImportFile($file) 
 	{
 		$this->importFile = $this->getBackupLocation() . $file;
 	}
 
+	/**
+	 * Start exporting
+	 * @return string[]
+	 */
 	public function startExport() 
 	{
 		$export = new Export();
@@ -61,6 +77,10 @@ class BackupManager
 		}
 	}
 
+	/**
+	 * Start importing
+	 * @return array
+	 */
 	public function startImport() 
 	{
 		$import = new Import();
@@ -80,6 +100,10 @@ class BackupManager
 		dd($writerResponse);
 	}
 
+	/**
+	 * Get backup location path.
+	 * @return string
+	 */
 	public function getBackupLocation() 
 	{
 		$backupContent = storage_path() . '/backup_content/';

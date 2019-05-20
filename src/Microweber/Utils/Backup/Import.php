@@ -11,34 +11,58 @@ use Microweber\Utils\Backup\Traits\BackupLogger;
 class Import
 {
 	use BackupLogger;
-	
+
+	/**
+	 * The import file type
+	 *
+	 * @var string
+	 */
 	public $type;
+
+	/**
+	 * The import file path
+	 *
+	 * @var string
+	 */
 	public $file;
 
-	public function setType($type) {
+	/**
+	 * Set file type
+	 *
+	 * @param string $file
+	 */
+	public function setType($type)
+	{
 		$this->type = $type;
 	}
-	
-	public function setFile($file) {
+
+	/**
+	 * Set file path
+	 *
+	 * @param string $file
+	 */
+	public function setFile($file)
+	{
 		$this->file = $file;
 	}
-	
-	public function importAsType($data) {
-		
+
+	/**
+	 * Import data as type
+	 *
+	 * @param array $data
+	 * @return array
+	 */
+	public function importAsType($data)
+	{
 		$reader = $this->_getReader($data);
-		
+
 		if ($reader) {
-			
 			$this->setLogInfo('Reading data from file ' . basename($this->file));
-			
 			$readedData = $reader->readData();
-			
-			if (!empty($readedData)) {
-				
+
+			if (! empty($readedData)) {
 				$successMessages = count($readedData, COUNT_RECURSIVE) . ' items are readed.';
-				
 				$this->setLogInfo($successMessages);
-				
 				return array(
 					'success' => $successMessages,
 					'imoport_type' => $this->type,
@@ -46,27 +70,35 @@ class Import
 				);
 			}
 		}
-		
+
 		$formatNotSupported = 'Import format not supported.';
-		
 		$this->setLogInfo($formatNotSupported);
-		
 		return array(
 			'error' => $formatNotSupported
 		);
 	}
-	
-	public function readContentWithCache()  {
-		
-		return Cache::rememberForever(md5($this->file . $this->type), function() {
+
+	/**
+	 * Get readed content from import file.
+	 *
+	 * @return array
+	 */
+	public function readContentWithCache()
+	{
+		return Cache::rememberForever(md5($this->file . $this->type), function () {
 			$this->setLogInfo('Start importing session..');
 			return $this->importAsType($this->file);
 		});
-		
 	}
-	
-	private function _getReader($data = array()) {
 
+	/**
+	 * Get file reader by type
+	 *
+	 * @param array $data
+	 * @return boolean|\Microweber\Utils\Backup\Readers\DefaultReader
+	 */
+	private function _getReader($data = array())
+	{
 		$reader = false;
 
 		switch ($this->type) {
@@ -84,7 +116,7 @@ class Import
 				break;
 			// Don't forget a break
 		}
-		
+
 		return $reader;
 	}
 }
