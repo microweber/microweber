@@ -63,8 +63,6 @@ class BackupManager
 
 	public function startImport() 
 	{
-		$this->setLogInfo('Start importing session..');
-		
 		$import = new Import();
 		$import->setType($this->importType);
 		$import->setFile($this->importFile);

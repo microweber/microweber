@@ -44,27 +44,37 @@ class Import
 		
 		if ($reader) {
 			
+			$this->setLogInfo('Reading data from file ' . basename($this->file));
+			
 			$readData = $reader->readData();
 			
 			if (!empty($readData)) {
+				
+				$successMessages = count($readData, COUNT_RECURSIVE) . ' items are readed.';
+				
+				$this->setLogInfo($successMessages);
+				
 				return array(
-					'success' => count($readData, COUNT_RECURSIVE) . ' items are readed.',
+					'success' => $successMessages,
 					'imoport_type' => $this->type,
 					'data' => $readData
 				);
 			}
 		}
 		
+		$formatNotSupported = 'Import format not supported.';
+		
+		$this->setLogInfo($formatNotSupported);
+		
 		return array(
-			'error' => 'Import format not supported.'
+			'error' => $formatNotSupported
 		);
 	}
 	
 	public function readContentWithCache() {
 		
-		$this->setLogInfo('Reading data from file ' . basename($this->file));
-		
 		return Cache::rememberForever(md5($this->file), function() {
+			$this->setLogInfo('Start importing session..');
 			return $this->importAsType($this->file);
 		});
 	}

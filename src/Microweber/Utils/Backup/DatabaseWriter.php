@@ -5,6 +5,7 @@ use Microweber\Utils\Backup\Traits\DatabaseCustomFieldsWriter;
 use Microweber\Utils\Backup\Traits\DatabaseContentFieldsWriter;
 use Microweber\Utils\Backup\Traits\DatabaseContentDataWriter;
 use Microweber\Utils\Backup\Traits\BackupLogger;
+use Microweber\App\Providers\Illuminate\Support\Facades\Cache;
 
 class DatabaseWriter
 {
@@ -140,9 +141,9 @@ class DatabaseWriter
 	
 	public function runWriter()
 	{
-		$currentStep = 3;
+		$currentStep = Cache::get('BackupImportingCurrentStep', 0);
 		$totalSteps = 15;
-		
+
 		$this->setLogInfo('Importing batch: ' . $currentStep . '/' . $totalSteps);
 		
 		$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
@@ -172,8 +173,8 @@ class DatabaseWriter
 			$itemsBatch = array_chunk($itemsForSave, $totalItemsForBatch);
 			
 			if (!isset($itemsBatch[$currentStep])) {
-				echo 'No items in batch for current step.' . PHP_EOL;
-				echo 'Done!' . PHP_EOL;
+				$this->setLogInfo('No items in batch for current step.');
+				$this->setLogInfo('Done!');
 				return;
 			}
 			$i = 1;
@@ -182,6 +183,9 @@ class DatabaseWriter
 				//$this->_saveItem($table, $item);
 				$i++;
 			}
+			
+			Cache::put('BackupImportingCurrentStep', $currentStep + 1, 60 * 10);
+			
 		}
 	}
 }

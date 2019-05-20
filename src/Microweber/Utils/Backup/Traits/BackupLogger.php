@@ -7,7 +7,7 @@ use Monolog\Handler\StreamHandler;
 trait BackupLogger
 {
 	private $logger;
-	private $importLogName = 'BackupImporting';
+	private $importLogName = 'Backup importing';
 	private $importLogFileName = 'import-session.log';
 	
 	public function setLogInfo($log) {
