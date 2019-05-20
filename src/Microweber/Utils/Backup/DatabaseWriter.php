@@ -1,4 +1,5 @@
 <?php
+
 namespace Microweber\Utils\Backup;
 
 use Microweber\Utils\Backup\Traits\DatabaseCustomFieldsWriter;
@@ -7,6 +8,12 @@ use Microweber\Utils\Backup\Traits\DatabaseContentDataWriter;
 use Microweber\Utils\Backup\Traits\BackupLogger;
 use Illuminate\Support\Facades\Cache;
 
+/**
+ * Microweber - Backup Module Database Writer
+ * @namespace Microweber\Utils\Backup
+ * @package DatabaseWriter
+ * @author Bozhidar Slaveykov
+ */
 class DatabaseWriter
 {
 	use BackupLogger;
@@ -14,9 +21,23 @@ class DatabaseWriter
 	use DatabaseContentFieldsWriter;
 	use DatabaseContentDataWriter;
 	
-	private $_cacheGroupName = 'BackupImporting';
+	/**
+	 * The current batch step.
+	 * @var integer
+	 */
 	public $currentStep = 0;
+	
+	/**
+	 * The content from backup file
+	 * @var string
+	 */
 	public $content;
+	
+	/**
+	 * The name of cache group for backup file.
+	 * @var string
+	 */
+	private $_cacheGroupName = 'BackupImporting';
 
 	public function setContent($content)
 	{
@@ -28,6 +49,11 @@ class DatabaseWriter
 		}
 	}
 
+	/**
+	 * Get relationship
+	 * @param array $item
+	 * @return array
+	 */
 	private function _getRelationship($item)
 	{
 		$relationship = array();
@@ -39,6 +65,11 @@ class DatabaseWriter
 		return $relationship;
 	}
 	
+	/**
+	 * Fix wrong encoding on database
+	 * @param array $item
+	 * @return array
+	 */
 	private function _fixItemEncoding($item) {
 		
 		// Fix encoding
@@ -53,6 +84,11 @@ class DatabaseWriter
 		return $item;
 	}
 	
+	/**
+	 * Unset item fields
+	 * @param array $item
+	 * @return array
+	 */
 	private function _unsetItemFields($item) {
 		$unsetFields = array('id', 'rel_id', 'order_id', 'position');
 		foreach($unsetFields as $field) {
@@ -61,6 +97,11 @@ class DatabaseWriter
 		return $item;
 	}
 	
+	/**
+	 * Save item in database
+	 * @param string $table
+	 * @param array $item
+	 */
 	private function _saveItem($table, $item) {
 		
 		$item = $this->_fixItemEncoding($item);
@@ -115,6 +156,11 @@ class DatabaseWriter
 		$this->_saveContentData($itemId);
 	}
 	
+	/**
+	 * Save item in database with relationship.
+	 * @param string $table
+	 * @param array $item
+	 */
 	private function _saveItemWithRelationship($table, $item) {
 		
 		$relationship = $this->_getRelationship($item);
@@ -150,6 +196,10 @@ class DatabaseWriter
 		
 	}
 	
+	/**
+	 * Run database writer.
+	 * @return string[]
+	 */
 	public function runWriter()
 	{
 		
@@ -206,6 +256,9 @@ class DatabaseWriter
 		}
 	}
 	
+	/**
+	 * Clear all cache on framework 
+ 	 */
 	private function _finishUp() {
 		
 		
