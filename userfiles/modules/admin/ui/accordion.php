@@ -195,7 +195,6 @@
          searchInput: '#tree-search'
      });
 
-     console.log(tree1)
 
  </script>
 
