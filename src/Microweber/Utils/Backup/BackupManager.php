@@ -1,14 +1,17 @@
 <?php
 namespace Microweber\Utils\Backup;
 
+use Microweber\Utils\Backup\Traits\BackupLogger;
+
 class BackupManager
 {
-
+	use BackupLogger;
+	
 	public $exportType = 'json';
 	public $importType = 'json';
 	public $importFile = false;
-
-	public function __construct()
+	
+	public function __construct() 
 	{
 		ini_set('memory_limit', '-1');
 		set_time_limit(0);
@@ -19,17 +22,17 @@ class BackupManager
 		$this->exportType = $type;
 	}
 
-	public function setImportType($type)
+	public function setImportType($type) 
 	{
 		$this->importType = $type;
 	}
 
-	public function setImportFile($file)
+	public function setImportFile($file) 
 	{
 		$this->importFile = $this->getBackupLocation() . $file;
 	}
 
-	public function startExport()
+	public function startExport() 
 	{
 		$export = new Export();
 		$export->setType($this->exportType);
@@ -58,8 +61,10 @@ class BackupManager
 		}
 	}
 
-	public function startImport()
+	public function startImport() 
 	{
+		$this->setLogInfo('Start importing session..');
+		
 		$import = new Import();
 		$import->setType($this->importType);
 		$import->setFile($this->importFile);
@@ -71,7 +76,7 @@ class BackupManager
 		$writer->runWriter();
 	}
 
-	public function getBackupLocation()
+	public function getBackupLocation() 
 	{
 		$backupContent = storage_path() . '/backup_content/';
 

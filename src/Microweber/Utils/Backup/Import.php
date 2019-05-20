@@ -5,10 +5,12 @@ use Microweber\Utils\Backup\Readers\JsonReader;
 use Microweber\Utils\Backup\Readers\CsvReader;
 use Microweber\Utils\Backup\Readers\XmlReader;
 use Microweber\App\Providers\Illuminate\Support\Facades\Cache;
+use Microweber\Utils\Backup\Traits\BackupLogger;
 
 class Import
 {
-
+	use BackupLogger;
+	
 	public $type;
 	public $file;
 
@@ -59,6 +61,9 @@ class Import
 	}
 	
 	public function readContentWithCache() {
+		
+		$this->setLogInfo('Reading data from file ' . basename($this->file));
+		
 		return Cache::rememberForever(md5($this->file), function() {
 			return $this->importAsType($this->file);
 		});

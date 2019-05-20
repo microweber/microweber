@@ -4,13 +4,15 @@ namespace Microweber\Utils\Backup;
 use Microweber\Utils\Backup\Traits\DatabaseCustomFieldsWriter;
 use Microweber\Utils\Backup\Traits\DatabaseContentFieldsWriter;
 use Microweber\Utils\Backup\Traits\DatabaseContentDataWriter;
+use Microweber\Utils\Backup\Traits\BackupLogger;
 
 class DatabaseWriter
 {
+	use BackupLogger;
 	use DatabaseCustomFieldsWriter;
 	use DatabaseContentFieldsWriter;
 	use DatabaseContentDataWriter;
-
+	
 	public $content;
 
 	public function setContent($content)
@@ -139,9 +141,9 @@ class DatabaseWriter
 	public function runWriter()
 	{
 		$currentStep = 3;
-		$maxSteps = 15;
+		$totalSteps = 15;
 		
-		echo 'Import batch: ' . $currentStep .'/'. $maxSteps . PHP_EOL;
+		$this->setLogInfo('Importing batch: ' . $currentStep . '/' . $totalSteps);
 		
 		$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
 		//$importTables = array('cart_orders');
@@ -164,10 +166,10 @@ class DatabaseWriter
 		
 		if (!empty($itemsForSave)) {
 			
-			$maxItemsForSave = sizeof($itemsForSave);
-			$maxItemsForBatch = round($maxItemsForSave / $maxSteps, 0);
+			$totalItemsForSave = sizeof($itemsForSave);
+			$totalItemsForBatch = round($totalItemsForSave / $totalSteps, 0);
 			
-			$itemsBatch = array_chunk($itemsForSave, $maxItemsForBatch);
+			$itemsBatch = array_chunk($itemsForSave, $totalItemsForBatch);
 			
 			if (!isset($itemsBatch[$currentStep])) {
 				echo 'No items in batch for current step.' . PHP_EOL;
