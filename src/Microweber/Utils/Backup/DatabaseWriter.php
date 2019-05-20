@@ -5,7 +5,7 @@ use Microweber\Utils\Backup\Traits\DatabaseCustomFieldsWriter;
 use Microweber\Utils\Backup\Traits\DatabaseContentFieldsWriter;
 use Microweber\Utils\Backup\Traits\DatabaseContentDataWriter;
 use Microweber\Utils\Backup\Traits\BackupLogger;
-use Microweber\App\Providers\Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Cache;
 
 class DatabaseWriter
 {
@@ -14,11 +14,18 @@ class DatabaseWriter
 	use DatabaseContentFieldsWriter;
 	use DatabaseContentDataWriter;
 	
+	private $_cacheGroupName = 'BackupImporting';
+	public $currentStep = 0;
 	public $content;
 
 	public function setContent($content)
 	{
 		$this->content = $content;
+		
+		$this->currentStep = (int) cache_get('CurrentStep', $this->_cacheGroupName);
+		if (!$this->currentStep) {
+			$this->currentStep = 0;
+		}
 	}
 
 	private function _getRelationship($item)
@@ -57,7 +64,7 @@ class DatabaseWriter
 	private function _saveItem($table, $item) {
 		
 		$item = $this->_fixItemEncoding($item);
-		
+
 		$dbSelectParams = array();
 		$dbSelectParams['no_cache'] = true;
 		$dbSelectParams['limit'] = 1;
@@ -84,8 +91,10 @@ class DatabaseWriter
 				$dbSelectParams[$recognizeParam] = $item[$recognizeParam];
 			}
 		}
-
+		
 		$checkItemIsExists = db_get($table, $dbSelectParams);
+		return;
+		
 		/* 
 		if (isset($item['email'])) {
 			
@@ -99,6 +108,7 @@ class DatabaseWriter
 		} else {
 			echo $table . ': Item is saved.' . PHP_EOL;
 			$item = $this->_unsetItemFields($item);
+			$item['skip_cache'] = true;
 			$itemId = db_save($table, $item);
 		}
 		$this->_saveCustomFields($item, $itemId);
@@ -131,6 +141,7 @@ class DatabaseWriter
 			echo $table . ': Item is allready saved.' . PHP_EOL;
 		} else {
 			echo $table . ': Item is saved.' . PHP_EOL;
+			$item['skip_cache'] = true;
 			$itemId = db_save($table, $item);
 		}
 		
@@ -141,16 +152,16 @@ class DatabaseWriter
 	
 	public function runWriter()
 	{
-		$currentStep = Cache::get('BackupImportingCurrentStep', 0);
+		
 		$totalSteps = 15;
-
-		$this->setLogInfo('Importing batch: ' . $currentStep . '/' . $totalSteps);
+		
+		$this->setLogInfo('Importing batch: ' . $this->currentStep . '/' . $totalSteps);
 		
 		$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
 		//$importTables = array('cart_orders');
 		
-		$itemsForSave = array();
 		// All db tables
+		$itemsForSave = array();
 		foreach ($importTables as $table) {
 			if (isset($this->content[$table])) {
 				foreach ($this->content[$table] as $item) {
@@ -172,19 +183,27 @@ class DatabaseWriter
 			
 			$itemsBatch = array_chunk($itemsForSave, $totalItemsForBatch);
 			
-			if (!isset($itemsBatch[$currentStep])) {
+			if (!isset($itemsBatch[$this->currentStep])) {
+				
 				$this->setLogInfo('No items in batch for current step.');
 				$this->setLogInfo('Done!');
-				return;
-			}
-			$i = 1;
-			foreach($itemsBatch[$currentStep] as $item) {
-				echo $i . ' -> Save item...' . PHP_EOL;
-				//$this->_saveItem($table, $item);
-				$i++;
+				
+				clearcache();
+
+				// cache_delete($this->_cacheGroupName);
+				
+				return array("success"=>"Done! All steps are finished.");
 			}
 			
-			Cache::put('BackupImportingCurrentStep', $currentStep + 1, 60 * 10);
+			$success = array();
+			foreach($itemsBatch[$this->currentStep] as $item) {
+				echo 'Save item' . PHP_EOL;
+				$success[] = $this->_saveItem($table, $item);
+			}
+			
+			echo 'Save cache ... ' .$this->currentStep. PHP_EOL;
+			
+			cache_save($this->currentStep + 1, 'CurrentStep',$this->_cacheGroupName, 60 * 10);
 			
 		}
 	}

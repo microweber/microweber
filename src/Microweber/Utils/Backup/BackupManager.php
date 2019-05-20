@@ -68,10 +68,16 @@ class BackupManager
 		$import->setFile($this->importFile);
 		
 		$content = $import->readContentWithCache();
-
+		
+		if (isset($content['error'])) {
+			return $content;
+		}
+		
 		$writer = new DatabaseWriter();
 		$writer->setContent($content['data']);
-		$writer->runWriter();
+		$writerResponse = $writer->runWriter();
+		
+		dd($writerResponse);
 	}
 
 	public function getBackupLocation() 

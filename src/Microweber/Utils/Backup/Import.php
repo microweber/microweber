@@ -14,50 +14,34 @@ class Import
 	public $type;
 	public $file;
 
-	public function setType($type)
-	{
+	public function setType($type) {
 		$this->type = $type;
 	}
 	
-	public function setFile($file)
-	{
+	public function setFile($file) {
 		$this->file = $file;
 	}
 	
-	public function importAsType($data)
-	{
-		$reader = false;
+	public function importAsType($data) {
 		
-		switch ($this->type) {
-			
-			case 'json':
-				$reader = new JsonReader($data);
-				break;
-			case 'csv':
-				$reader = new CsvReader($data);
-				break;
-			case 'xml':
-				$reader = new XmlReader($data);
-				break;
-				// Don't forget a break
-		}
+		$reader = $this->_getReader($data);
 		
 		if ($reader) {
 			
 			$this->setLogInfo('Reading data from file ' . basename($this->file));
 			
-			$readData = $reader->readData();
+			$readedData = $reader->readData();
 			
-			if (!empty($readData)) {
+			if (!empty($readedData)) {
 				
-				$successMessages = count($readData, COUNT_RECURSIVE) . ' items are readed.';
+				$successMessages = count($readedData, COUNT_RECURSIVE) . ' items are readed.';
 				
 				$this->setLogInfo($successMessages);
 				
 				return array(
 					'success' => $successMessages,
 					'imoport_type' => $this->type,
-					'data' => $readData
+					'data' => $readedData
 				);
 			}
 		}
@@ -71,11 +55,32 @@ class Import
 		);
 	}
 	
-	public function readContentWithCache() {
+	public function readContentWithCache()  {
 		
-		return Cache::rememberForever(md5($this->file), function() {
+		return Cache::rememberForever(md5($this->file . $this->type), function() {
 			$this->setLogInfo('Start importing session..');
 			return $this->importAsType($this->file);
 		});
+		
+	}
+	
+	private function _getReader($data = array()) {
+
+		$reader = false;
+
+		switch ($this->type) {
+			case 'json':
+				$reader = new JsonReader($data);
+				break;
+			case 'csv':
+				$reader = new CsvReader($data);
+				break;
+			case 'xml':
+				$reader = new XmlReader($data);
+				break;
+			// Don't forget a break
+		}
+		
+		return $reader;
 	}
 }
