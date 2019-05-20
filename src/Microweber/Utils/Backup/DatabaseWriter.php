@@ -155,7 +155,7 @@ class DatabaseWriter
 		
 		$totalSteps = 15;
 		
-		$this->setLogInfo('Importing batch: ' . $this->currentStep . '/' . $totalSteps);
+		$this->setLogInfo('Importing database batch: ' . $this->currentStep . '/' . $totalSteps);
 		
 		$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
 		//$importTables = array('cart_orders');
