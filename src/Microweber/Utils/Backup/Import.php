@@ -1,6 +1,7 @@
 <?php
 namespace Microweber\Utils\Backup;
 
+use Microweber\Utils\Backup\Readers\ZipReader;
 use Microweber\Utils\Backup\Readers\JsonReader;
 use Microweber\Utils\Backup\Readers\CsvReader;
 use Microweber\Utils\Backup\Readers\XmlReader;
@@ -57,6 +58,8 @@ class Import
 	
 	public function readContentWithCache()  {
 		
+		return $this->importAsType($this->file);
+		
 		return Cache::rememberForever(md5($this->file . $this->type), function() {
 			$this->setLogInfo('Start importing session..');
 			return $this->importAsType($this->file);
@@ -77,6 +80,9 @@ class Import
 				break;
 			case 'xml':
 				$reader = new XmlReader($data);
+				break;
+			case 'zip':
+				$reader = new ZipReader($data);
 				break;
 			// Don't forget a break
 		}
