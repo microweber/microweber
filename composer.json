@@ -60,8 +60,7 @@
     "microweber-deps/laravel-tagging": "dev-laravel-5",
     "oyejorge/less.php": "dev-master",
     "aws/aws-sdk-php": "^3.0@dev",
-    "microweber-templates/skeleton-template": "dev-master",
-    "halaxa/json-machine": "dev-master"
+    "microweber-templates/skeleton-template": "dev-master"
   },
   "autoload": {
     "psr-4": {
