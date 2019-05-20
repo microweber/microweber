@@ -188,9 +188,7 @@ class DatabaseWriter
 				$this->setLogInfo('No items in batch for current step.');
 				$this->setLogInfo('Done!');
 				
-				clearcache();
-
-				// cache_delete($this->_cacheGroupName);
+				$this->_finishUp();
 				
 				return array("success"=>"Done! All steps are finished.");
 			}
@@ -207,4 +205,23 @@ class DatabaseWriter
 			
 		}
 	}
+	
+	private function _finishUp() {
+		
+		
+		// cache_delete($this->_cacheGroupName);
+		
+		$this->setLogInfo('Cleaning up custom css cache');
+		
+		mw()->template->clear_cached_custom_css();
+		
+		if (function_exists('mw_post_update')) {
+			mw_post_update();
+		}
+		
+		$this->setLogInfo('Cleaning up system cache');
+		
+		mw()->cache_manager->clear();
+	}
+	
 }

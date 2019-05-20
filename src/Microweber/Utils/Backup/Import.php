@@ -58,8 +58,6 @@ class Import
 	
 	public function readContentWithCache()  {
 		
-		return $this->importAsType($this->file);
-		
 		return Cache::rememberForever(md5($this->file . $this->type), function() {
 			$this->setLogInfo('Start importing session..');
 			return $this->importAsType($this->file);

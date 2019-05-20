@@ -34,19 +34,6 @@ class ZipReader extends DefaultReader
 		
 	}
 	
-	private function _finishUp() {
-		
-		mw()->template->clear_cached_custom_css();
-		
-		if (function_exists('mw_post_update')) {
-			mw_post_update();
-		}
-		
-		$this->setLogInfo('Cleaning up cache');
-		
-		mw()->cache_manager->clear();
-	}
-	
 	private function _removeFilesFromPath($dir)
 	{
 		if (!is_dir($dir)) {
