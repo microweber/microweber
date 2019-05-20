@@ -2583,11 +2583,13 @@ class imageLib
                 $scaleQuality = round(($imageQuality / 100) * 9);
 
                 // *** Invert qualit setting as 0 is best, not 9
-                $invertScaleQuality = 9 - $scaleQuality;
+              //  $invertScaleQuality = 9 - $scaleQuality;
 
                 $this->checkInterlaceImage($this->isInterlace);
                 if (imagetypes() & IMG_PNG) {
-                    imagepng($this->imageResized, $savePath, $invertScaleQuality);
+                    // imagepng($this->imageResized, $savePath, $invertScaleQuality);
+                     imagepng($this->imageResized, $savePath, '-1');
+                   // imagepng($this->imageResized, $savePath);
                 } else {
                     $error = 'png';
                 }
