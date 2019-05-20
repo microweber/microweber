@@ -60,7 +60,7 @@ class Thumbnailer
 
         $magicianObj->resizeImage($width, $height, $magicianObj_mode);
 
-        $magicianObj->saveImage($dest, 100);
+        $magicianObj->saveImage($dest, 90);
 
 
     }

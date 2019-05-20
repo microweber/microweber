@@ -549,7 +549,12 @@ class DefaultController extends Controller
                         $mclass = array_pop($api_function_full1);
 
                         if (class_exists($mclass, false)) {
-                            $class = new $mclass($this->app);
+                        	
+                        	if (is_array($this->app)) {
+                        		$class = new $mclass($this->app);
+                        	} else {
+                        		$class = new $mclass();
+                        	}
 
                             if (method_exists($class, $mmethod)) {
                                 $res = $class->$mmethod($data);
@@ -1868,6 +1873,12 @@ class DefaultController extends Controller
                     }
                 }
             }
+            
+            // Add custom footer tags
+            $website_footer_tags = $this->app->option_manager->get('website_footer', 'website');
+            if ($website_footer_tags != false) {
+                $template_footer_src .= $website_footer_tags . "\n";
+            }
 
             if ($template_footer_src != false and is_string($template_footer_src)) {
                 $l = str_ireplace('</body>', $template_footer_src . '</body>', $l, $one);
@@ -1925,6 +1936,7 @@ class DefaultController extends Controller
                 }
         //    }
 
+            // Add custom head tags
             $website_head_tags = $this->app->option_manager->get('website_head', 'website');
             $rep_count = 1;
             if ($website_head_tags != false) {

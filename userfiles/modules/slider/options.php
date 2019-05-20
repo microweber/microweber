@@ -90,21 +90,29 @@ if ($adaptiveHeight) {
     $adaptiveHeight = 'true';
 }
 
-if (isset($params['speed'])) {
+$speed = get_option('speed', $params['id']);
+if ($speed) {
+    $speed = $speed;
+} elseif (isset($params['speed'])) {
     $speed = $params['speed'];
 } else {
     $speed = '1000';
 }
 
 //bxSlider
-
-if (isset($params['mode'])) {
+$mode = get_option('mode', $params['id']);
+if ($mode) {
+    $mode = $mode;
+} elseif (isset($params['mode'])) {
     $mode = $params['mode'];
 } else {
     $mode = 'horizontal';
 }
 
-if (isset($params['hideControlOnEnd'])) {
+$hideControlOnEnd = get_option('hideControlOnEnd', $params['id']);
+if ($hideControlOnEnd) {
+    $hideControlOnEnd = $hideControlOnEnd;
+} else if (isset($params['hideControlOnEnd'])) {
     $hideControlOnEnd = $params['hideControlOnEnd'];
 } else {
     $hideControlOnEnd = true;
