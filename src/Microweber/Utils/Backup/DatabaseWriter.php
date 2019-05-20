@@ -138,7 +138,7 @@ class DatabaseWriter
 	
 	public function runWriter()
 	{
-		$currentStep = 14;
+		$currentStep = 3;
 		$maxSteps = 15;
 		
 		echo 'Import batch: ' . $currentStep .'/'. $maxSteps . PHP_EOL;
@@ -174,11 +174,11 @@ class DatabaseWriter
 				echo 'Done!' . PHP_EOL;
 				return;
 			}
-			$i=0;
+			$i = 1;
 			foreach($itemsBatch[$currentStep] as $item) {
-				echo 'Save item...' . PHP_EOL;
+				echo $i . ' -> Save item...' . PHP_EOL;
 				//$this->_saveItem($table, $item);
-			$i++;
+				$i++;
 			}
 		}
 	}
