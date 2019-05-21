@@ -78,10 +78,16 @@ $(document).ready(function() {
         if(e.type === 'moduleOver'){
 
           var parentModule = mw.tools.lastParentWithClass(el, 'module');
+          var childModule = mw.tools.firstChildWithClass(el, 'module');
+
           var $el = $(el);
           if(!!parentModule && ( $el.offset().top - $(parentModule).offset().top) < 10 ){
             el.__disableModuleTrigger = parentModule;
             $el.addClass('inaccessibleModule');
+          }
+          else if(!!childModule && ( $(childModule).offset().top - $el.offset().top) < 10 ) {
+              childModule.__disableModuleTrigger = el;
+              $(childModule).addClass('inaccessibleModule');
           }
           else{
             $el.removeClass('inaccessibleModule');
@@ -94,8 +100,10 @@ $(document).ready(function() {
               var span = document.createElement('span');
               span.className = 'mw-ui-btn mw-ui-btn-small';
               var type = $(this).attr('data-type') || $(this).attr('type');
-              if(type && mw.live_edit.registry[type]){
-                  span.innerHTML = mw.live_edit.getModuleIcon(type) + mw.live_edit.registry[type].title;
+              if(type){
+                  var title = mw.live_edit.registry[type] ? mw.live_edit.registry[type].title : type;
+                  title = title.replace(/\_/, ' ');
+                  span.innerHTML = mw.live_edit.getModuleIcon(type) + title;
                   var el = this;
                   span.onclick = function(){
                       mw.tools.module_settings(el);

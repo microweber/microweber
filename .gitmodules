@@ -1,0 +1,6 @@
+[submodule "userfiles/templates/dream"]
+	path = userfiles/templates/dream
+	url = https://github.com/microweber-templates/dream.git
+[submodule "userfiles/templates/liteness"]
+	path = userfiles/templates/liteness
+	url = https://github.com/microweber-templates/liteness.git

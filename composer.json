@@ -54,13 +54,12 @@
     "dompdf/dompdf": "0.8.2",
     "nikic/php-parser": "3.1.5",
     "doctrine/dbal": "2.5.3",
-    "microweber-templates/dream": "dev-master",
-    "microweber-templates/liteness": "dev-master",
+    "microweber-templates/dream": "0.*",
+    "microweber-templates/liteness": "0.*",
     "microweber-deps/recurr": "dev-master",
     "microweber-deps/laravel-tagging": "dev-laravel-5",
     "oyejorge/less.php": "dev-master",
-    "aws/aws-sdk-php": "^3.0@dev",
-    "microweber-templates/skeleton-template": "dev-master"
+    "aws/aws-sdk-php": "^3.0@dev"
   },
   "autoload": {
     "psr-4": {
