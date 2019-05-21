@@ -244,43 +244,21 @@ $pages_count = intval($pages);
                                     <?php mw()->event_manager->trigger('module.content.manager.item.title', $item) ?>
 
 
-                                    <?php   $cats = content_categories($item['id']); ?>
+                                    <?php $cats = content_categories($item['id']); ?>
 
-                                    <?php if($cats) { ?>
-                                        <span class="manage-post-item-cats-inline-list" >
-                                            <span class="mw-icon-category"></span>
-
-                                        <?php foreach($cats as $ck=> $cat): ?>
-
-                                            <a href="#action=showpostscat:<?php print ($cat['id']); ?>" class="tag label label-primary"><?php print $cat['title']; ?></a>
-
-
-                                            <?php if (isset($cats[$ck +1])): ?>,<?php endif; ?>
-
-
-                                        <?php endforeach; ?>
-
-
+                                    <?php if ($cats) { ?>
+                                        <span class="manage-post-item-cats-inline-list">
+                                            <?php foreach ($cats as $ck => $cat): ?>
+                                                <a href="#action=showpostscat:<?php print ($cat['id']); ?>" class=" label label-primary"> <span class="mw-icon-category"></span> <?php print $cat['title']; ?></a>
+                                                <?php if (isset($cats[$ck + 1])): ?>,<?php endif; ?>
+                                            <?php endforeach; ?>
                                       </span>
-
-
-                                        <br>
+                                        <br />
                                     <?php } ?>
 
-
-
-
-
-                                    <a class="manage-post-item-link-small mw-medium" target="_top"
-                                       href="<?php print content_link($item['id']); ?>?editmode:y"><?php print content_link($item['id']); ?></a>
-
-
-
-
-
-
-
+                                    <a class="manage-post-item-link-small mw-medium" target="_top" href="<?php print content_link($item['id']); ?>?editmode:y"><?php print content_link($item['id']); ?></a>
                                 </div>
+
                                 <div class="manage-post-item-links">
                                     <a target="_top" class="mw-ui-btn mw-ui-btn-default mw-ui-btn-medium" href="<?php print $edit_link ?>" onclick="javascript:mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>'); return false;">
                                         <?php _e("Edit"); ?>
@@ -296,20 +274,9 @@ $pages_count = intval($pages);
                                 </div>
                             </div>
                             <div class="mw-ui-col manage-post-item-col-4">
-
-
-
-
-
-
-
-
-
                                 <span class="manage-post-item-author" title="<?php print user_name($item['created_by']); ?>"><?php print user_name($item['created_by'], 'username') ?></span>
-
-
-
                             </div>
+
                             <div class="mw-ui-col manage-post-item-col-5">
                                 <?php mw()->event_manager->trigger('module.content.manager.item', $item) ?>
                                 <?php print $append; ?>
@@ -411,15 +378,15 @@ $pages_count = intval($pages);
                 <?php
 
 
-              /*  if (isset($post_params['category-id'])) {
-                    $url = "#action=new:product&amp;category_id=" . $post_params['category-id'];
-                } elseif (isset($post_params['category'])) {
-                    $url = "#action=new:product&amp;category_id=" . $post_params['category'];
-                } else if (isset($post_params['parent'])) {
-                    $url = "#action=new:product&amp;parent_page=" . $post_params['parent'];
-                } else {
-                    $url = "#action=new:product";
-                }*/
+                /*  if (isset($post_params['category-id'])) {
+                      $url = "#action=new:product&amp;category_id=" . $post_params['category-id'];
+                  } elseif (isset($post_params['category'])) {
+                      $url = "#action=new:product&amp;category_id=" . $post_params['category'];
+                  } else if (isset($post_params['parent'])) {
+                      $url = "#action=new:product&amp;parent_page=" . $post_params['parent'];
+                  } else {
+                      $url = "#action=new:product";
+                  }*/
                 $url = "#action=new:product";
 
                 ?>
@@ -439,18 +406,18 @@ $pages_count = intval($pages);
                 <span class="mw-no-posts-foot-label"><?php _e("No Posts Here"); ?></span>
 
                 <?php
-//                if (isset($post_params['category-id'])) {
-//                    $url = "#action=new:post&amp;category_id=" . $post_params['category-id'];
-//
-//                } elseif (isset($post_params['category'])) {
-//                    $url = "#action=new:post&amp;category_id=" . $post_params['category'];
-//
-//                } else if (isset($post_params['parent'])) {
-//                    $url = "#action=new:post&amp;parent_page=" . $post_params['parent'];
-//
-//                }
+                //                if (isset($post_params['category-id'])) {
+                //                    $url = "#action=new:post&amp;category_id=" . $post_params['category-id'];
+                //
+                //                } elseif (isset($post_params['category'])) {
+                //                    $url = "#action=new:post&amp;category_id=" . $post_params['category'];
+                //
+                //                } else if (isset($post_params['parent'])) {
+                //                    $url = "#action=new:post&amp;parent_page=" . $post_params['parent'];
+                //
+                //                }
 
-                 $url = "#action=new:post"
+                $url = "#action=new:post"
                 ?>
 
                 <?php if (isset($url)): ?>
