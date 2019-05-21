@@ -261,7 +261,6 @@ class DatabaseWriter
  	 */
 	private function _finishUp() {
 		
-		
 		// cache_delete($this->_cacheGroupName);
 		
 		$this->setLogInfo('Cleaning up custom css cache');

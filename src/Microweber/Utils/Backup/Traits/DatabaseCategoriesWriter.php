@@ -50,6 +50,7 @@ trait DatabaseCategoriesWriter
 			$getNewCategory = $this->_getCategoryDatabase($category);
 		
 			if (!empty($getNewCategory) && $category['parent_id'] > 0) {
+				
 				// Find parent
 				$parentCategory = $this->_getCateogry($category['parent_id']);
 				if (!empty($parentCategory)) {
