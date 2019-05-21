@@ -167,6 +167,9 @@ class Parser
                     $layout = str_replace($value, $v1, $layout);
                     if (!isset($this->_replaced_input_tags[$v1])) {
                         $this->_replaced_input_tags[$v1] = $value;
+
+                    }
+                    if (!isset($mw_replaced_codes_tag[$v1])) {
                         $mw_replaced_codes_tag[$v1] = $value;
                     }
                 }
@@ -2715,6 +2718,23 @@ $srsc_str
         global $other_html_tag_replace_inc;
         global $mw_replaced_codes_tag;
         global $mw_replaced_textarea_tag;
+
+
+        $script_pattern = "/<script[^>]*>(.*)<\/script>/Uis";
+        preg_match_all($script_pattern, $mod_content, $mw_script_matches);
+
+        if (!empty($mw_script_matches)) {
+            foreach ($mw_script_matches [0] as $key => $value) {
+                if ($value != '') {
+                    $v1 = crc32($value);
+                    $v1 = '<tag>mw_replace_back_this_script_mod_inner_' . $v1 . '</tag>';
+                    $mod_content = str_replace($value, $v1, $mod_content);
+                    if (!isset($replaced_scripts[$v1])) {
+                        $mw_replaced_codes_tag[$v1] = $value;
+                    }
+                }
+            }
+        }
 
         $script_pattern = "/<code[^>]*>(.*)<\/code>/Uis";
         preg_match_all($script_pattern, $mod_content, $mw_script_matches);
