@@ -5,6 +5,10 @@ trait DatabaseContentDataWriter {
 	
 	private function _getContentData($itemId) {
 		
+		if (!isset($this->content['content_data'])) {
+			return;
+		}
+		
 		$contentData = array();
 		foreach($this->content['content_data'] as $dataItem) {
 			if ($dataItem['rel_id'] == $itemId) {

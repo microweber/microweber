@@ -5,8 +5,10 @@ namespace Microweber\Utils\Backup;
 use Microweber\Utils\Backup\Traits\DatabaseCustomFieldsWriter;
 use Microweber\Utils\Backup\Traits\DatabaseContentFieldsWriter;
 use Microweber\Utils\Backup\Traits\DatabaseContentDataWriter;
+use Microweber\Utils\Backup\Traits\DatabaseCategoryItemsWriter;
 use Microweber\Utils\Backup\Traits\BackupLogger;
 use Illuminate\Support\Facades\Cache;
+use Microweber\Utils\Backup\Traits\DatabaseCategoriesWriter;
 
 /**
  * Microweber - Backup Module Database Writer
@@ -20,6 +22,8 @@ class DatabaseWriter
 	use DatabaseCustomFieldsWriter;
 	use DatabaseContentFieldsWriter;
 	use DatabaseContentDataWriter;
+	use DatabaseCategoriesWriter;
+	use DatabaseCategoryItemsWriter;
 	
 	/**
 	 * The current batch step.
@@ -90,7 +94,7 @@ class DatabaseWriter
 	 * @return array
 	 */
 	private function _unsetItemFields($item) {
-		$unsetFields = array('id', 'rel_id', 'order_id', 'position');
+		$unsetFields = array('id', 'rel_id', 'order_id', 'parent_id', 'position');
 		foreach($unsetFields as $field) {
 			unset($item[$field]);
 		}
@@ -134,14 +138,6 @@ class DatabaseWriter
 		}
 		
 		$checkItemIsExists = db_get($table, $dbSelectParams);
-		return;
-		
-		/* 
-		if (isset($item['email'])) {
-			
-			var_dump($checkItemIsExists);
-			die();
-		} */
 		
 		if ($checkItemIsExists) {
 			$itemId = $checkItemIsExists['id'];
@@ -152,8 +148,11 @@ class DatabaseWriter
 			$item['skip_cache'] = true;
 			$itemId = db_save($table, $item);
 		}
-		$this->_saveCustomFields($item, $itemId);
-		$this->_saveContentData($itemId);
+		
+		$this->_fixCategoryParents();
+		$this->_saveCategoriesItems($item, $itemId); 
+		//$this->_saveCustomFields($item, $itemId);
+		//$this->_saveContentData($itemId);
 	}
 	
 	/**
@@ -194,6 +193,7 @@ class DatabaseWriter
 		$this->_saveCustomFields($item, $itemId);
 		$this->_saveContentData($itemId);
 		
+		var_dump($table);
 	}
 	
 	/**
@@ -207,9 +207,9 @@ class DatabaseWriter
 		
 		$this->setLogInfo('Importing database batch: ' . $this->currentStep . '/' . $totalSteps);
 		
-		$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
-		//$importTables = array('cart_orders');
-		
+		//$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
+		$importTables = array('content');
+
 		// All db tables
 		$itemsForSave = array();
 		foreach ($importTables as $table) {

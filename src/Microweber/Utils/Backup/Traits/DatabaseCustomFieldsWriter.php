@@ -5,6 +5,10 @@ trait DatabaseCustomFieldsWriter {
 	
 	private function _getCustomFields($itemId) {
 		
+		if (!isset($this->content['custom_fields'])) {
+			return;
+		}
+		
 		$customFields = array();
 		foreach($this->content['custom_fields'] as $dataItem) {
 			if ($dataItem['rel_id'] == $itemId) {
