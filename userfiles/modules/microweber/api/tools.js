@@ -1889,6 +1889,23 @@ mw.tools = {
         }
         return false;
     },
+    lastMatchesOnNodeOrParent: function (node, arr) {
+        if (!arr) return;
+        if (typeof arr === 'string') {
+            arr = [arr];
+        }
+        var curr = node, result;
+        while (curr && curr !== document.body) {
+            var i = 0;
+            for (; i < arr.length; i++) {
+                if (mw.tools.matches(curr, arr[i])) {
+                    result = curr;
+                }
+            }
+            curr = curr.parentNode;
+        }
+        return result;
+    },
     hasAnyOfClassesOnNodeOrParent: function (node, arr) {
         var curr = node;
         while (curr && curr !== document.body) {
@@ -5794,6 +5811,8 @@ mw.uiAccordion = function (options) {
 
     var scope = this;
 
+    console.log(options)
+
     this.getContents = function () {
         this.contents = this.root.children(this.options.contentSelector);
         if (!this.contents.length) {
@@ -5897,19 +5916,19 @@ mw.uiAccordion = function (options) {
 
     this.init = function (options) {
         this.prepare(options);
-        if(typeof(this.contents) != 'undefined'){
+        if(typeof(this.contents) !== 'undefined'){
             this.contents.hide()
         }
 
         if (this.options.openFirst) {
-            if(typeof(this.contents) != 'undefined'){
+            if(typeof(this.contents) !== 'undefined'){
                 this.contents.eq(0).show().addClass('active')
             }
-            if(typeof(this.titles) != 'undefined'){
+            if(typeof(this.titles) !== 'undefined'){
                 this.titles.eq(0).addClass('active').parent('.mw-accordion-item').addClass('active');
             }
         }
-        if(typeof(this.titles) != 'undefined') {
+        if(typeof(this.titles) !== 'undefined') {
             this.titles.on('click', function () {
                 scope.toggle(scope.titles.index(this));
             });

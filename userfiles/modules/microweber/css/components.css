@@ -823,3 +823,65 @@ body.mw-external-loading:after {
 .mw-element-name-handle-no-fallback-icon:before{
     display: none !important;
 }
+
+.mw-range{
+    position: relative;
+}
+
+.mw-range{
+    height:3px;
+    display: inline-block;
+    position: relative;
+    background-color: #cfcfcf;
+    min-width: 66px;
+}
+.mw-range .ui-slider-range{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    background-color: #0086db;
+}
+.mw-range .ui-slider-handle{
+    width:15px;
+    height: 15px;
+    position: relative;
+    top: -6px;
+    display: block;
+    border-radius: 15px;
+    background-color: white;
+    border: 2px solid #cfcfcf;
+    outline: none;
+    cursor: grab;
+}
+.mw-range.active .ui-slider-handle{
+    cursor: grabbing;
+}
+
+.mw-multiple-fields{
+    display: flex;
+}
+.mw-multiple-fields > .mw-field select,
+.mw-multiple-fields > .mw-field input{
+    border-radius: 0;
+}
+
+.mw-multiple-fields > .mw-field:first-child select,
+.mw-multiple-fields > .mw-field:first-child input{
+    border-radius: 2px 0 0 2px;
+}
+
+.mw-multiple-fields > .mw-field:last-child select,
+.mw-multiple-fields > .mw-field:last-child input{
+    border-radius: 0 2px 2px 0;
+}
+
+.mw-multiple-fields > .mw-field + .mw-field{
+    margin-left: -1px;
+}
+.mw-multiple-fields > .mw-field input:hover,
+.mw-multiple-fields > .mw-field input:focus{
+    z-index: 1;
+    position: relative;
+}

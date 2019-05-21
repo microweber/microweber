@@ -1,4 +1,23 @@
 mw.components = {
+    _rangeOnce: false,
+    'range': function(el){
+        var options = this._options(el);
+        var defaults = {
+            range: 'min'
+        };
+        var settings = $.extend({}, defaults, options);
+        $(el)
+            .slider(settings)
+            .on('mousedown touchstart', function(){
+                $(this).addClass('active');
+            });
+        if(!mw.components._rangeOnce) {
+            mw.components._rangeOnce = true;
+            $(document.body).on('mouseup touchend', function(){
+                $('.mw-range.active').removeClass('active');
+            });
+        }
+    },
     'color-picker': function(el){
         var options = this._options(el);
         var defaults = {
