@@ -22,19 +22,19 @@ if ($settings == false) {
         $json[] = array(
             'title' => 'Title 1',
             'id' => 'tab-' . uniqid(),
-            'icon' => 'fa fa-home'
+            'icon' => '<i class="fa fa-home"></i>'
         );
 
         $json[] = array(
             'title' => 'Title 2',
             'id' => 'tab-' . uniqid(),
-            'icon' => 'fa fa-home'
+            'icon' => '<i class="fa fa-home"></i>'
         );
 
         $json[] = array(
             'title' => 'Title 3',
             'id' => 'tab-' . uniqid(),
-            'icon' => 'fa fa-home'
+            'icon' => '<i class="fa fa-home"></i>'
         );
     }
 } else {
