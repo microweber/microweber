@@ -63,6 +63,7 @@ trait DatabaseCategoryItemsWriter {
 				} else {
 					
 					// Save category data if not exists
+					$category['save_to_table'] = 'categories';
 					$this->_saveItemDatabase($category);
 					
 					echo $category['title'] . ': Category not found.' . PHP_EOL;
