@@ -2,6 +2,25 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [1.1.6] - 2019-05-21
+- Module presets fix
+- fix UI alignment of buttons
+- Problem with the layouts
+- Sub-module settings does not appear
+- Update composer installers directory discovery logic
+- Clear format is not working
+- Add footer tags customization
+- Fix version in Composer
+- When you change date format can't save 
+- Cant upload picture
+- Tabs module in Dream template
+- Accordeon modules does not work
+- Fix cateogries display on posts module
+- [see all changes....](https://github.com/microweber/microweber/compare/1.1.5...1.1.6 "")
+
+
+
 ## [1.1.5] - 2019-05-02
 - Sometimes the Draging on Layouts doesn't work
 - Fix flicking of handles
