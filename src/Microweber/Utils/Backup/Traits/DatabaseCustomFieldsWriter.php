@@ -78,9 +78,6 @@ trait DatabaseCustomFieldsWriter {
 		
 		foreach($customFieldValues as $customFieldValue) {
 			
-			// Fix encoding
-			$customFieldValue = $this->_fixItemEncoding($customFieldValue);
-			
 			// New field id
 			$customFieldValue['custom_field_id'] = $customFieldId;
 			$customFieldValue = $this->_unsetItemFields($customFieldValue);

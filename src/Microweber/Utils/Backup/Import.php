@@ -66,7 +66,7 @@ class Import
 				return array(
 					'success' => $successMessages,
 					'imoport_type' => $this->type,
-					'data' => $readedData
+					'data' => $this->_fixContentEncoding($readedData)
 				);
 			}
 		}
@@ -89,6 +89,25 @@ class Import
 			$this->setLogInfo('Start importing session..');
 			return $this->importAsType($this->file);
 		});
+	}
+	
+	/**
+	 * Fix wrong encoding on database
+	 * @param array $item
+	 * @return array
+	 */
+	private function _fixContentEncoding($content) {
+		
+		// Fix content encoding
+		array_walk_recursive($content, function (&$element) {
+			if (is_string($element)) {
+				$element = utf8_decode($element);
+				$element = str_replace('Â ', ' ', $element);
+				$element = str_replace("Â ", ' ', $element);
+			}
+		});
+			
+		return $content;
 	}
 
 	/**

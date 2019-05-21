@@ -94,7 +94,8 @@ class BackupManager
 		}
 		
 		$writer = new DatabaseWriter();
-		$writer->setContent($content['data']);		$writerResponse = $writer->runWriter();
+		$writer->setContent($content['data']);
+		$writerResponse = $writer->runWriter();
 		
 		dd($writerResponse);
 	}

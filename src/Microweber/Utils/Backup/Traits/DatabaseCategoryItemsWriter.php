@@ -19,7 +19,7 @@ trait DatabaseCategoryItemsWriter {
 		return $contentData;
 	}
 	
-	private function _saveCategoriesItems($item, $itemId) {
+	private function _saveCategoriesItems($item, $itemIdDatabase) {
 		
 		if (!isset($item['id'])) {
 			return;
@@ -30,7 +30,7 @@ trait DatabaseCategoryItemsWriter {
 		
 		if (!empty($categoriesItems)) {
 			foreach ($categoriesItems as $categoryItem) {
-				$this->_saveCategoryItem($categoryItem, $itemId);
+				$this->_saveCategoryItem($categoryItem, $itemIdDatabase);
 			}
 		}
 	}
@@ -43,9 +43,6 @@ trait DatabaseCategoryItemsWriter {
 		
 		foreach($this->content['categories'] as $category) {
 			if ($category['id'] == $parentId) {
-				
-				// Fix encoding
-				$category =$this->_fixItemEncoding($category);
 				
 				$dbSelectParams = array();
 				$dbSelectParams['no_cache'] = true;
@@ -65,7 +62,7 @@ trait DatabaseCategoryItemsWriter {
 		}
 	}
 	
-	private function _saveCategoryItem($categoryItem, $itemId) {
+	private function _saveCategoryItem($categoryItem, $itemIdDatabase) {
 		
 		$category = $this->_getCategory($categoryItem['parent_id']);
 		
@@ -73,7 +70,7 @@ trait DatabaseCategoryItemsWriter {
 		$categoryItem['parent_id'] = $category['id'];
 		
 		// New rel id
-		$categoryItem['rel_id'] = $itemId;
+		$categoryItem['rel_id'] = $itemIdDatabase;
 		
 		$dbSelectParams = array();
 		$dbSelectParams['no_cache'] = true;
