@@ -36,24 +36,33 @@ trait DatabaseRelationWriter
 		return db_get($item['rel_type'], $dbSelectParams);
 	}
 
-	private function _fixRelations($item, $itemIdDatabase)
+	private function _fixRelations($savedItem)
 	{
-		
-		$relation = $this->_getRelation($item);
+		$relation = $this->_getRelation($savedItem['item']);
 		if (empty($relation)) {
+			echo 'Relation is empty.';
 			return;
 		}
 		
-		$relation['rel_type'] = $item['rel_type'];
+		$relation['rel_type'] = $savedItem['item']['rel_type'];
+		$relation['save_to_table'] = $savedItem['item']['rel_type'];
 
 		if (! empty($relation)) {
-
+			
 			$relationDatabase = $this->_getRelationDatabase($relation);
+			if (empty($relationDatabase)) {
+				// Save relation data if not exists
+				$this->_saveItemDatabase($relation);
+				// Get new relation
+				$relationDatabase = $this->_getRelationDatabase($relation);
+			}
+			
 			if (!empty($relationDatabase)) {
 				
-				$item['rel_id'] = $relationDatabase['id'];
-				$item['id'] = $itemIdDatabase;
-				db_save($item['save_to_table'], $item);
+				$savedItem['item']['rel_id'] = $relationDatabase['id'];
+				$savedItem['item']['id'] = $savedItem['itemIdDatabase'];
+				
+				db_save($savedItem['item']['save_to_table'], $savedItem['item']);
 				
 				echo 'Relation is fixed.' . PHP_EOL;
 				

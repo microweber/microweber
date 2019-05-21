@@ -19,18 +19,18 @@ trait DatabaseCategoryItemsWriter {
 		return $contentData;
 	}
 	
-	private function _saveCategoriesItems($item, $itemIdDatabase) {
+	private function _saveCategoriesItems($savedItem) {
 		
-		if (!isset($item['id'])) {
+		if (!isset($savedItem['item']['id'])) {
 			return;
 		}
 		
 		// Get content data from file export
-		$categoriesItems = $this->_getCategoriesItems($item['id']);
+		$categoriesItems = $this->_getCategoriesItems($savedItem['item']['id']);
 		
 		if (!empty($categoriesItems)) {
 			foreach ($categoriesItems as $categoryItem) {
-				$this->_saveCategoryItem($categoryItem, $itemIdDatabase);
+				$this->_saveCategoryItem($categoryItem, $savedItem['itemIdDatabase']);
 			}
 		}
 	}
@@ -38,10 +38,12 @@ trait DatabaseCategoryItemsWriter {
 	private function _getCategory($parentId) {
 		
 		if (!isset($this->content['categories'])) {
+			echo 'Categories not found.';
 			return;
 		}
 		
 		foreach($this->content['categories'] as $category) {
+			
 			if ($category['id'] == $parentId) {
 				
 				$dbSelectParams = array();
@@ -55,11 +57,21 @@ trait DatabaseCategoryItemsWriter {
 				$dbSelectParams['rel_type'] = $category['rel_type'];
 				
 				$checkCategoryIsExists = db_get('categories', $dbSelectParams);
+				
 				if ($checkCategoryIsExists) {
 					return $checkCategoryIsExists;
+				} else {
+					
+					// Save category data if not exists
+					$this->_saveItemDatabase($category);
+					
+					echo $category['title'] . ': Category not found.' . PHP_EOL;
+					
+					return $this->_getCategory($parentId);
 				}
 			}
 		}
+		
 	}
 	
 	private function _saveCategoryItem($categoryItem, $itemIdDatabase) {
@@ -68,6 +80,10 @@ trait DatabaseCategoryItemsWriter {
 		
 		// New parent id
 		$categoryItem['parent_id'] = $category['id'];
+		if (empty($categoryItem['parent_id'])) {
+			// Dont save item
+			return;
+		}
 		
 		// New rel id
 		$categoryItem['rel_id'] = $itemIdDatabase;
@@ -83,12 +99,12 @@ trait DatabaseCategoryItemsWriter {
 		
 		$checkCategoryItemsIsExists = db_get('categories_items', $dbSelectParams);
 		if ($checkCategoryItemsIsExists) {
-			$categoryItemId = $checkCategoryItemsIsExists['id'];
+			$categoryItemIdDatabase = $checkCategoryItemsIsExists['id'];
 			echo $categoryItem['parent_id'] . ': category item is allready saved.' . PHP_EOL;
 		} else {
 			echo $categoryItem['parent_id'] . ': category item is saved.' . PHP_EOL;
 			unset($categoryItem['id']);
-			$categoryItemId = db_save('categories_items', $categoryItem);
+			$categoryItemIdDatabase = db_save('categories_items', $categoryItem);
 		}
 		
 	}

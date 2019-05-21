@@ -30,22 +30,24 @@ trait DatabaseContentWriter
 		return db_get('content', $dbSelectParams);
 	}
 
-	private function _fixParentRelationship($item, $itemIdDatabase)
+	private function _fixParentRelationship($savedItem)
 	{
-		if (isset($item['parent'])) {
+		if (isset($savedItem['item']['parent'])) {
 
 			// Get content data from file export
-			$content = $this->_getContentById($item['parent']);
+			$content = $this->_getContentById($savedItem['item']['parent']);
 			if (! empty($content)) {
+				
 				$contentDatabase = $this->_getContentDatabase($content);
+				
 				if (! empty($contentDatabase)) {
 
-					$item['id'] = $itemIdDatabase;
-					$item['parent'] = $contentDatabase['id'];
+					$savedItem['item']['id'] = $savedItem['itemIdDatabase'];
+					$savedItem['item']['parent'] = $contentDatabase['id'];
 			
 					echo 'Fix parent relationship on content' . PHP_EOL;
 					
-					db_save('content', $item);
+					db_save('content', $savedItem['item']);
 				}
 			}
 		}

@@ -70,12 +70,7 @@ class DatabaseWriter
 		return $item;
 	}
 	
-	/**
-	 * Save item in database
-	 * @param string $table
-	 * @param array $item
-	 */
-	private function _saveItem($item) {
+	private function _saveItemDatabase($item) {
 		
 		$dbSelectParams = array();
 		$dbSelectParams['no_cache'] = true;
@@ -103,7 +98,7 @@ class DatabaseWriter
 				$dbSelectParams[$recognizeParam] = $item[$recognizeParam];
 			}
 		}
-		
+
 		$checkItemIsExists = db_get($item['save_to_table'], $dbSelectParams);
 		
 		if ($checkItemIsExists) {
@@ -111,20 +106,33 @@ class DatabaseWriter
 			echo $item['save_to_table'] . ': Item is allready saved.' . PHP_EOL;
 		} else {
 			echo $item['save_to_table'] . ': Item is saved.' . PHP_EOL;
-			$item = $this->_unsetItemFields($item);
-			$item['skip_cache'] = true;
-			$itemIdDatabase = db_save($item['save_to_table'], $item);
+			$saveItem = $this->_unsetItemFields($item);
+			$saveItem['skip_cache'] = true;
+			$itemIdDatabase = db_save($saveItem['save_to_table'], $saveItem);
 		}
 		
-		$this->_fixParentRelationship($item, $itemIdDatabase);
+		return array('item'=>$item, 'itemIdDatabase'=>$itemIdDatabase);
+	}
+	
+	/**
+	 * Save item in database
+	 * @param string $table
+	 * @param array $item
+	 */
+	private function _saveItem($item) {
 		
-		$this->_saveCategoriesItems($item, $itemIdDatabase);
+		$savedItem = $this->_saveItemDatabase($item);
+		
+		$this->_saveCustomFields($savedItem);
+		$this->_saveContentData($savedItem);
+		$this->_saveCategoriesItems($savedItem);
+		
+		$this->_fixRelations($savedItem);
+		$this->_fixParentRelationship($savedItem);
 		$this->_fixCategoryParents();
 		
-		$this->_saveCustomFields($item, $itemIdDatabase);
-		$this->_saveContentData($itemIdDatabase);
-		
-		$this->_fixRelations($item, $itemIdDatabase);
+		echo $item['save_to_table'];
+		//die();
 	}
 	
 	/**
@@ -133,13 +141,27 @@ class DatabaseWriter
 	 */
 	public function runWriter()
 	{
+		//$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
+		$importTables = array('content');
 		
-		$totalSteps = 2;
+		foreach ($importTables as $table) {
+			if (isset($this->content[$table])) {
+				foreach ($this->content[$table] as $item) {
+					$item['save_to_table'] = $table;
+					$this->_saveItem($item);
+				}
+			}
+		}
+	}
+	
+	public function runWriterBatch() 
+	{
+		$totalSteps = 1;
 		
 		$this->setLogInfo('Importing database batch: ' . $this->currentStep . '/' . $totalSteps);
 		
-		//$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
-		$importTables = array('content');
+		$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
+		$importTables = array('content', 'categories');
 
 		// All db tables
 		$itemsForSave = array();
