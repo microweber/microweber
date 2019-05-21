@@ -10,6 +10,7 @@ use Microweber\Utils\Backup\Traits\BackupLogger;
 use Illuminate\Support\Facades\Cache;
 use Microweber\Utils\Backup\Traits\DatabaseCategoriesWriter;
 use Microweber\Utils\Backup\Traits\DatabaseRelationWriter;
+use Microweber\Utils\Backup\Traits\DatabaseContentWriter;
 
 /**
  * Microweber - Backup Module Database Writer
@@ -22,6 +23,7 @@ class DatabaseWriter
 	use BackupLogger;
 	use DatabaseRelationWriter;
 	use DatabaseCustomFieldsWriter;
+	use DatabaseContentWriter;
 	use DatabaseContentFieldsWriter;
 	use DatabaseContentDataWriter;
 	use DatabaseCategoriesWriter;
@@ -114,11 +116,13 @@ class DatabaseWriter
 			$itemIdDatabase = db_save($item['save_to_table'], $item);
 		}
 		
-		//$this->_saveCategoriesItems($item, $itemIdDatabase);
-		//$this->_fixCategoryParents();
+		$this->_fixParentRelationship($item, $itemIdDatabase);
 		
-		//$this->_saveCustomFields($item, $itemIdDatabase);
-		//$this->_saveContentData($itemIdDatabase);
+		$this->_saveCategoriesItems($item, $itemIdDatabase);
+		$this->_fixCategoryParents();
+		
+		$this->_saveCustomFields($item, $itemIdDatabase);
+		$this->_saveContentData($itemIdDatabase);
 		
 		$this->_fixRelations($item, $itemIdDatabase);
 	}
@@ -135,7 +139,7 @@ class DatabaseWriter
 		$this->setLogInfo('Importing database batch: ' . $this->currentStep . '/' . $totalSteps);
 		
 		//$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
-		$importTables = array('categories');
+		$importTables = array('content');
 
 		// All db tables
 		$itemsForSave = array();
