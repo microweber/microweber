@@ -38,7 +38,7 @@
     "omnipay/paypal": "~2.0",
     "omnipay/mollie": "3.*",
     "ramsey/uuid": "3.0",
-    "paragonie/random_compat": "1.*", 
+    "paragonie/random_compat": "1.*",
     "coduo/php-humanizer": "2.0.*",
     "omnipay/common": "*",
     "league/csv": "^7.2",
