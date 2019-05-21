@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9ccb9fcb5fee8562af9645a7635e73f2",
+    "content-hash": "097ad3808516b21a362d438a6989d0f1",
     "packages": [
         {
             "name": "arcanedev/seo-helper",
@@ -137,16 +137,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.94.0",
+            "version": "3.94.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "fcc8593b3da8465d1181c73689117d13101a1c9a"
+                "reference": "759a565285324d2248b6ee783de541ce65bddd46"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/fcc8593b3da8465d1181c73689117d13101a1c9a",
-                "reference": "fcc8593b3da8465d1181c73689117d13101a1c9a",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/759a565285324d2248b6ee783de541ce65bddd46",
+                "reference": "759a565285324d2248b6ee783de541ce65bddd46",
                 "shasum": ""
             },
             "require": {
@@ -216,7 +216,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2019-05-20T18:14:09+00:00"
+            "time": "2019-05-21T18:29:47+00:00"
         },
         {
             "name": "coduo/php-humanizer",
@@ -3077,7 +3077,7 @@
         },
         {
             "name": "microweber-templates/dream",
-            "version": "dev-master",
+            "version": "1.1",
             "target-dir": "dream",
             "source": {
                 "type": "git",
@@ -3086,14 +3086,16 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-templates/dream/zipball/93b7de3c2f7518b92b16fbc1d0604f96b521cef3",
+                "url": "https://packages.microweberapi.com/dist/microweber-templates/dream/microweber-templates-dream-93b7de3c2f7518b92b16fbc1d0604f96b521cef3-zip-5e2ba2.zip",
                 "reference": "93b7de3c2f7518b92b16fbc1d0604f96b521cef3",
-                "shasum": ""
+                "shasum": "6381bc15f1f3fcb1f94f7d3e89363cd166a77b0c"
             },
             "type": "microweber-template",
             "extra": {
                 "preview_url": "https://dream-template.microweber.com/",
                 "_meta": {
+                    "screenshot": "https://packages.microweberapi.com/meta/meta-microweber-templates-dream-149293dc96c292183cea12ff3ba264db/screenshot.jpg",
+                    "readme": "https://packages.microweberapi.com/meta/meta-microweber-templates-dream-149293dc96c292183cea12ff3ba264db/readme.md",
                     "avatar": "https://favicon.microweberapi.com/https://microweber.com/"
                 }
             },
@@ -3115,17 +3117,17 @@
         },
         {
             "name": "microweber-templates/liteness",
-            "version": "dev-master",
+            "version": "1.0",
             "target-dir": "liteness",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-templates/liteness.git",
-                "reference": "804169c11547d1a9788726ce9fa3106023c7e445"
+                "reference": "dcd581e9c37381f15aa677e769a69ab333275d13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-templates/liteness/zipball/804169c11547d1a9788726ce9fa3106023c7e445",
-                "reference": "804169c11547d1a9788726ce9fa3106023c7e445",
+                "url": "https://api.github.com/repos/microweber-templates/liteness/zipball/dcd581e9c37381f15aa677e769a69ab333275d13",
+                "reference": "dcd581e9c37381f15aa677e769a69ab333275d13",
                 "shasum": ""
             },
             "type": "microweber-template",
@@ -3149,7 +3151,7 @@
                 "liteness",
                 "microweber"
             ],
-            "time": "2019-05-08T11:43:55+00:00"
+            "time": "2019-05-21T18:40:37+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
