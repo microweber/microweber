@@ -40,7 +40,7 @@ trait DatabaseRelationWriter
 	{
 		$relation = $this->_getRelation($savedItem['item']);
 		if (empty($relation)) {
-			echo 'Relation is empty.';
+			echo 'No relation in this item.' . PHP_EOL;
 			return;
 		}
 		

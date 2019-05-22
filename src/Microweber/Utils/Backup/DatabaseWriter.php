@@ -142,7 +142,7 @@ class DatabaseWriter
 	public function runWriter()
 	{
 		//$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
-		$importTables = array('content');
+		$importTables = array('cart_orders');
 		
 		foreach ($importTables as $table) {
 			if (isset($this->content[$table])) {

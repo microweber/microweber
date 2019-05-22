@@ -17,7 +17,7 @@
 
 		mw.$("#mw_uploader").append(uploader);
 				$(uploader).bind("FileUploaded", function(obj, data){
-					mw.$("#mw_uploader_loading").hide();
+					//mw.$("#mw_uploader_loading").hide();
 					mw.$("#mw_uploader").show();
                     mw.$("#upload_backup_info").html("");
 
@@ -26,7 +26,7 @@
 
 			    $(uploader).bind('progress', function(up, file) {
 
-					mw.$("#mw_uploader").hide();
+					//mw.$("#mw_uploader").hide();
 					mw.$("#mw_uploader_loading").show();
 					 mw.tools.disable(mwd.getElementById('mw_uploader_loading'), '<?php _e('Uploading...'); ?><span id="upload_backup_info"></span>');
                      mw.$("#upload_backup_info").html(file.percent + "%");
@@ -104,23 +104,32 @@ mw.ok_import_file = function(){
 
 
 
- <span id="mw_uploader" class="mw-ui-btn"><span class="mw-icon-upload"></span><span>
- 
-  <span id="mw_uploader_loading"></span>
+	 <span id="mw_uploader" class="mw-ui-btn">
+	 <span class="mw-icon-upload"></span>
+	 <span>
+		 
+		  <span id="mw_uploader_loading"></span>
+		
+		  <?php _e("Upload file"); ?>
+		  <span id="upload_backup_info"></span>
+		  
+	  </span>
+	  </span>
+  
+   </div>
 
-
-
-  <?php _e("Upload file"); ?>
-  <span id="upload_backup_info"></span></span></span> </div>
-
-  <div id="import-progress-log-holder" style="display:none">
+  <div id="import-progress-log-holder">
+  <br />
   <?php _e('Progress:'); ?> <span id="import-progress-log-holder-values"></span>
-<meter value="" optimum="100" high="90" low="40" max="100" min="0" id="import-progress-log-meter"><?php _e('Import progress'); ?></meter>
-
-<span data-tip="Cancel" class="mw-icon-close show-on-hover tip" onclick="mw.admin_import.cancel_batch_process();"></span>
-
-
+	<meter value="76" optimum="100" high="90" low="40" max="100" min="0"  style="width:310px;height:10px;" id="import-progress-log-meter"><?php _e('Import progress'); ?></meter>
+	
+	<span data-tip="Cancel" class="mw-icon-close show-on-hover tip" onclick="mw.admin_import.cancel_batch_process();"></span>
+	
+	 <br /> 
+	 <br />
   </div>
+  
+  
 
 <module type="admin/import/manage" />
 <!-- <br />
