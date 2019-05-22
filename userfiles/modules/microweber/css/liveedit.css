@@ -55,6 +55,9 @@ body.mw-live-edit .mw-control-box-left {
     border-color: #2b2b2b;
     color: #2b2b2b !important;
     transition: .3s !important;
+    width: 34px;
+    padding: 0;
+    border-radius: 34px;
 }
 
 #back-to-admin-toolbar i {
@@ -2445,7 +2448,6 @@ body.dragStart .empty-element {
 .mw-single-arrow-dropdown {
     display: inline-block;
     margin: 0 0 0;
-    background: url(../img/mw_dlm.png) repeat-y;
     cursor: pointer;
     padding: 10px 0 8px 10px;
 }
@@ -2629,11 +2631,11 @@ body.dragStart .empty-element {
 
 .mw-toolbar-right-content {
     float: right;
-    padding: 10px 0 10px 0;
+    padding: 10px 3px 10px 0;
 }
 
 #toolbar-dropdown-actions {
-    float: right;
+    display:inline-block;
     width: 30px;
 }
 
@@ -3304,7 +3306,7 @@ div[id*='SSDIVEL'] {
 
 #live_edit_side_holder .sidebar-toggler {
 
-    display: block;
+    display: none;
     position: relative;
     z-index: 2;
     font-size: 19px;
@@ -3636,12 +3638,13 @@ body.touchscreen-device #modules-and-layouts-sidebar .module-admin-modules-list 
 }
 
 .view-website-button {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    background: url(../img/les_planet.svg) no-repeat center;
+    background-size: contain;
+    vertical-align: middle;
 
-    border-left: 0;
-    margin-left: -2px;
-    padding: 0px 9px;
-    font-size: 18px;
-    float: right;
 }
 
 .mw-toolbar-add-new-content-ctrl i {
@@ -4235,7 +4238,7 @@ body.dragStart .allow-drop {
     color: rgba(36, 134, 216, 1);
 }
 #live_edit_side_holder .mw-live-edit-sidebar-tabs a:hover i{
-    background-color: #f5f5f5;
+    background-color: #fff;
 }
 
 #live_edit_side_holder.active .mw-live-edit-sidebar-tabs a.active:hover i,
@@ -4307,7 +4310,7 @@ body.dragStart .allow-drop {
     position: absolute;
     width: 50px;
     height: 100%;
-    background-color: white;
+    background-color: #F5F5F5;
     box-shadow: -1px 0 2px rgba(0,0,0,.1);
     cursor: pointer;
 }
@@ -4693,9 +4696,6 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     margin: 4px 5px 0px 0px;
 }
 
-.view-website-button:hover {
-    background: #fff;
-}
 
 .toolbar-hover .mw-wyswyg-plus-element,
 .toolbar-hover .mw-handle-item {
@@ -4768,13 +4768,19 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 }
 
 
-.mw-liveedit-css-editor-icon{
+.mw-liveedit-cbar-icon{
     display: inline-block;
     width: 25px;
     height: 25px;
-    background-size: contain;
+    background-size: 25px auto;
     background-repeat: no-repeat;
+    background-position: center;
+
 }
+.mw-lslayout-tab .mw-liveedit-cbar-icon{ background-image: url(../img/les_layouts.svg); }
+.mw-lsmodules-tab .mw-liveedit-cbar-icon{ background-image: url(../img/les_modules.svg); }
+.mw-lstemplatee-tab .mw-liveedit-cbar-icon{ background-image: url(../img/les_settings.svg); }
+.mw-lscsse-tab .mw-liveedit-cbar-icon{ background-image: url(../img/les_visualeditor.svg); }
 
 .mw-liveedit-css-editor-icon path{
     stroke:#777;

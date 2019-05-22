@@ -18,25 +18,25 @@
                 </div>
             </a>
             <div class="mw-live-edit-sidebar-tabs mw-normalize-css">
-                <a href="javascript:;" class="tabnav active tip" data-tip="<?php _e("Layouts"); ?>" data-tipposition="left-center"><i class="mwi-desktop-plus"></i> </a>
-                <a href="javascript:;" class="tabnav tip" data-tip="<?php _e("Modules"); ?>" data-tipposition="left-center"><i class="mwi-folder"></i></a>
-                <a href="javascript:;" class="tabnav tip" onclick="mw.liveEditWidgets.loadTemplateSettings('<?php print api_url() ?>module?id=template_settings_admin&live_edit=true&module_settings=true&type=settings/template&autosize=false&content_id=<?php print CONTENT_ID ?>')" data-tip="<?php _e("Template Settings"); ?>" data-tipposition="left-center"><i class="mwi-cog"></i></a>
+                <a href="javascript:;" class="tabnav active tip  mw-lslayout-tab" data-tip="<?php _e("Layouts"); ?>" data-tipposition="left-center">
+                    <i class="mw-liveedit-cbar-icon"> </i>
+                </a>
+                <a
+                    href="javascript:;"
+                    class="tabnav tip tab mw-lsmodules-tab"
+                    data-tip="<?php _e("Modules"); ?>"
+                    data-tipposition="left-center"><i class="mw-liveedit-cbar-icon"> </i></a>
+                <a
+                    href="javascript:;"
+                   class="tabnav tip mw-lstemplatee-tab"
+                   onclick="mw.liveEditWidgets.loadTemplateSettings('<?php print api_url() ?>module?id=template_settings_admin&live_edit=true&module_settings=true&type=settings/template&autosize=false&content_id=<?php print CONTENT_ID ?>')"
+                    data-tip="<?php _e("Template Settings"); ?>"
+                    data-tipposition="left-center"><i class="mw-liveedit-cbar-icon"> </i></a>
                 <a href="javascript:;" class="tabnav tip mw-lscsse-tab"
                    onclick="mw.liveEditWidgets.cssEditorInSidebarAccordion()"
                    data-tip="<?php _e("Visual Editor"); ?>"
                    data-tipposition="left-center">
-                    <i class="mw-liveedit-css-editor-icon">
-                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                             viewBox="31.7 -19.3 86.6 78.2" style="enable-background:new 31.7 -19.3 86.6 78.2;" xml:space="preserve">
-                            <path d="M45.2-17.2c-1.1,0-2,0.9-2,2v9.7C37.2-4.6,33.1,1,34,7c0.7,4.7,4.4,8.4,9.2,9.2v38.6c0,1.1,0.9,2,2,2
-                c1.1,0,2-0.9,2-2V16.1c6-1.1,9.9-6.9,8.8-12.8c-0.8-4.5-4.3-7.9-8.8-8.8v-9.7C47.2-16.3,46.3-17.2,45.2-17.2z"/>
-                            <path d="M105.2-17.2c-1.1,0-2,0.9-2,2v8.5c-6,0.9-10.1,6.6-9.2,12.6c0.7,4.7,4.4,8.4,9.2,9.2v39.7c0,1.1,0.9,2,2,2
-                s2-0.9,2-2V15c6-1.1,9.9-6.9,8.8-12.8c-0.8-4.5-4.3-7.9-8.8-8.8v-8.6C107.2-16.3,106.3-17.2,105.2-17.2z"/>
-                            <path d="M75.2-17.2c-1.1,0-2,0.9-2,2v37.9c-6,0.9-10.1,6.6-9.2,12.6c0.7,4.7,4.4,8.4,9.2,9.2v10.4c0,1.1,0.9,2,2,2
-                s2-0.9,2-2V44.4c6-1.1,9.9-6.9,8.8-12.8c-0.8-4.5-4.3-7.9-8.8-8.8v-37.9C77.2-16.3,76.3-17.2,75.2-17.2z"/>
-            </svg>
-
-                    </i>
+                    <i class="mw-liveedit-cbar-icon"> </i>
                 </a>
             </div>
         </div>

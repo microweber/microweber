@@ -208,7 +208,6 @@ mw.dropables = {
         var module = mw.tools.firstMatchesOnNodeOrParent(targetFrom, '.module:not(.no-settings)');
         //var module = mw.tools.lastMatchesOnNodeOrParent(targetFrom, '.module:not(.no-settings)');
         var triggerTarget =  module.__disableModuleTrigger || module;
-        console.log(66, triggerTarget, module)
         if(module){
             //if(this.shouldTrigger('_moduleRegister', triggerTarget)) {
                 mw.trigger("moduleOver", triggerTarget);

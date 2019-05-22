@@ -438,10 +438,23 @@ if (isset($_COOKIE['mw_exp'])) {
                         <?php event_trigger('live_edit_toolbar_action_buttons'); ?>
 
 
-                        <div class="mw-ui-dropdown mw-dropdown-defaultright" id="toolbar-dropdown-actions"
-                             style="padding-left: 10px;">
+
+
+                        <a
+                            id="back-to-admin-toolbar"
+                            href="<?php print $back_url; ?>"
+                            class="mw-ui-btn mw-ui-btn-medium tip"
+                            data-tip="<?php _e("Back to Admin"); ?>"
+                            data-tipposition="bottom-center">
+                            <i class="m-r mw-icon-arrow-left-c"></i>
+                        </a>
+                        <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert" onclick="mw.drag.save()" id="main-save-btn"><?php _e("Save"); ?></span>
+
+
+
+                        <div class="mw-ui-dropdown mw-dropdown-defaultright" id="toolbar-dropdown-actions" >
                             <span class="mw-single-arrow-dropdown mw-single-arrow-dropdown-right"><span
-                                        class="mw-icon-dropdown"></span></span>
+                                    class="mw-icon-dropdown"></span></span>
                             <div class="mw-ui-dropdown-content" id="live-edit-dropdown-actions-content">
                                 <ul class="mw-ui-box mw-ui-navigation">
                                     <?php event_trigger('live_edit_toolbar_action_menu_start'); ?>
@@ -521,18 +534,11 @@ if (isset($_COOKIE['mw_exp'])) {
                                 </ul>
                             </div>
                         </div>
-
-                        <a class="mw-ui-btn mw-ui-btn-medium view-website-button tip" href="<?php print mw()->url_manager->current(); ?>?editmode=n" data-tip="<?php _e('View Website'); ?>" data-tipposition="bottom-center"><i class="mw-icon-web-earth"></i></a>
-                        <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right" onclick="mw.drag.save()" id="main-save-btn"><?php _e("Save"); ?></span>
-
-
                         <a
-                            id="back-to-admin-toolbar"
-                            href="<?php print $back_url; ?>"
-                            class="mw-ui-btn mw-ui-btn-medium tip"
-                            data-tip="<?php _e("Back to Admin"); ?>"
-                            data-tipposition="bottom-center">
-                            <i class="m-r mw-icon-arrow-left-c"></i>
+                            class="view-website-button tip"
+                            href="<?php print mw()->url_manager->current(); ?>?editmode=n"
+                            data-tip="<?php _e('View Website'); ?>"
+                            data-tipposition="bottom-right"></i>
                         </a>
 
                         <div class="Switch2AdvancedModeTip" style="display: none">
