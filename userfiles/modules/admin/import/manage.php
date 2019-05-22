@@ -47,7 +47,7 @@
         <td>
         <!--<a class="show-on-hover mw-ui-btn mw-ui-btn-green" href="javascript:mw.admin_import.restore('<?php print $item['filename']  ?>')"><?php _e("Restore"); ?></a>-->
         
-        <a class="show-on-hover mw-ui-btn mw-ui-btn-green" href="javascript:mw.confirm_import_file('<?php print $item['filename']  ?>')"><?php _e("Restore"); ?></a>
+        <a class="show-on-hover mw-ui-btn mw-ui-btn-green" href="javascript:mw.admin_import.restore('<?php print $item['filename']  ?>')"><?php _e("Restore"); ?></a>
         
         
         </td>

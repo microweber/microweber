@@ -1,7 +1,7 @@
 <?php only_admin_access(); ?>
 <script  type="text/javascript">
 	mw.require("<?php print $config['url_to_module']; ?>js/upload-file.js");
-    mw.require("<?php print $config['url_to_module']; ?>js/import.js");
+    mw.require("<?php print $config['url_to_module']; ?>js/admin-import.js");
 </script>
 
 <?php if (isset($params['backend'])): ?>
