@@ -2636,7 +2636,7 @@ body.dragStart .empty-element {
 
 #toolbar-dropdown-actions {
     display:inline-block;
-    width: 30px;
+    width: 40px;
 }
 
 /*.mw_edit_delete {
@@ -4243,7 +4243,7 @@ body.dragStart .allow-drop {
 
 #live_edit_side_holder.active .mw-live-edit-sidebar-tabs a.active:hover i,
 #live_edit_side_holder.active .mw-live-edit-sidebar-tabs a.active i {
-    background-color: rgba(230, 239, 247, 1);
+    background-color: #fff;
 }
 .mw-live-edit-sidebar-tabs a i {
     display: inline-flex;
@@ -4777,8 +4777,8 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     background-position: center;
 
 }
-.mw-lslayout-tab .mw-liveedit-cbar-icon{ background-image: url(../img/les_layouts.svg); }
-.mw-lsmodules-tab .mw-liveedit-cbar-icon{ background-image: url(../img/les_modules.svg); }
+.mw-lslayout-tab .mw-liveedit-cbar-icon{ background-image: url(../img/les_layouts.svg); background-size: 19px auto; }
+.mw-lsmodules-tab .mw-liveedit-cbar-icon{ background-image: url(../img/les_modules.svg); background-size: 19px auto; }
 .mw-lstemplatee-tab .mw-liveedit-cbar-icon{ background-image: url(../img/les_settings.svg); }
 .mw-lscsse-tab .mw-liveedit-cbar-icon{ background-image: url(../img/les_visualeditor.svg); }
 
