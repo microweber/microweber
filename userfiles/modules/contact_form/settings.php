@@ -71,17 +71,14 @@ if(isset($params['for_module_id'])){
 <hr>
 <div class="mw-ui-field-holder">
     <label class="mw-ui-check">
-        <input
-                type="checkbox"
-                parent-reload="true"
-                name="require_terms"
-
-                value="y"
-                class="mw_option_field"
-                option-group="<?php print $mod_id ?>"
-            <?php if(get_option('require_terms', $mod_id)=='y'): ?>   checked="checked"  <?php endif; ?>
-        />
-        <span></span><span><?php _e("Users must agree to Terms and Conditions"); ?></span> </label>
+        <input type="checkbox" parent-reload="true" name="require_terms" value="y" class="mw_option_field" option-group="<?php print $mod_id ?>"
+            <?php if(get_option('require_terms', $mod_id)=='y'): ?>   checked="checked"  <?php endif; ?> />
+        <span>
+        </span>
+	        <span>
+	        <?php _e("Users must agree to Terms and Conditions"); ?>
+	        </span>
+        </label>
 </div>
 
 <div class="mw-ui-field-holder">
@@ -92,7 +89,6 @@ if(isset($params['for_module_id'])){
         <span><?php _e("Skip saving emails in database."); ?></span> 
    </label>
 </div>
-
 
 <?php if($mod_id != 'contact_form_default'){ ?>
 
