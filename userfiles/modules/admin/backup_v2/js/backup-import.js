@@ -34,6 +34,7 @@ mw.backup_import = {
 		    title: importContentFromFileText,
 		    id: 'mw_backup_import_modal' 
 		});
+		mw.backup_import.init_progress(0);
 		
 		data = {}
 		data.id = src;
@@ -46,13 +47,23 @@ mw.backup_import = {
 	},
 	
 	start_import: function () {
-		$.post(mw.settings.api_url+'Microweber/Utils/BackupV2/restore', data , function(jsonData) {
-			mw.backup_import.get_progess(jsonData.precentage);
-			mw.backup_import.start_import();
+		$.ajax({
+		  dataType: "json",
+		  url: mw.settings.api_url+'Microweber/Utils/BackupV2/restore',
+		  data: data,
+		  success: function(jsonData) {
+				mw.backup_import.get_progress(jsonData.precentage);
+				mw.backup_import.start_import();
+		  }
 		});
 	},
 	
-	get_progess: function(precent) {
+	get_progress: function(precent) {
+		$('.mw-ui-progress-bar').css('width', precent+'%');
+		$('.mw-ui-progress-percent').html(precent);
+	},
+	
+	init_progress: function(precent) {
 		var progressbar = '<div class="mw_install_progress">'+
 	        '<div class="mw-ui-progress" id="backup-import-progressbar">'+
 	            '<div class="mw-ui-progress-bar" style="width: '+precent+'%;"></div>'+
