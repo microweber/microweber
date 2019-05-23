@@ -1013,7 +1013,8 @@ class Backup
             "modules", "elements", "users", "log", "notifications",
             "content_revisions_history", 'content_fields_drafts', "stats_users_online", "system_licenses", "users_oauth",
             "sessions",
-            "stats_users_online",  "stats_browser_agents",  "stats_referrers_paths",  "stats_referrers_domains",  "stats_referrers",  "stats_visits_log",  "stats_urls",  "stats_geopip",
+            "stats_users_online",
+            "stats_browser_agents",  "stats_referrers_paths",  "stats_referrers_domains",  "stats_referrers",  "stats_visits_log",  "stats_urls",  "stats_geopip",
 
             "jobs", "failed_jobs"
         );
@@ -1234,6 +1235,17 @@ class Backup
                 $folders = array_merge($folders, $more_folders);
             }
         }
+
+
+
+        $cust_css_dir = $media_folder . DS . 'content' . DS;
+        if (is_dir($cust_css_dir)) {
+            $more_folders = \rglob($cust_css_dir . '*', GLOB_NOSORT);
+            if (!empty($more_folders)) {
+                $folders = array_merge($folders, $more_folders);
+            }
+        }
+
         if (!empty($folders)) {
             $text_files = array();
             foreach ($folders as $fold) {
