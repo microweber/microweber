@@ -20,12 +20,30 @@ var ActiveNode = null;
 
 
 var _prepare = {
+
+    border: function () {
+
+
+        $('#border-size, #border-color, #border-type').on('change input colorChange', function(){
+            console.log($('#border-color').val())
+
+            var prop = 'border',
+                propval = $('#border-position').val();
+            if(propval !== 'all') {
+                prop += (propval)
+            }
+            var color = $('#border-color').val() || '#111',
+                type = $('#border-type').val() || 'solid',
+                size = $('#border-size').val() || '1';
+            output( prop, size + 'px ' + type + ' ' + color);
+        });
+    },
     units: function(){
         var units = [
             'px', '%', 'rem', 'em', 'vh', 'vw'
         ];
         $('.unit').each(function(){
-            var select = $('<select/>');
+            var select = $('<select style="width: 60px"/>');
             var selectHolder = $('<div class="mw-field" data-prop="width" data-size="medium"></div>');
             $.each(units, function(){
                 select.append('<option value="'+this+'">'+this+'</option>');
@@ -68,21 +86,27 @@ var _populate = {
     common: function(css){
         $('.unit').each(function(){
             var val = css.css[this.dataset.prop];
-            var nval = parseFloat(val);
-            var isn = !isNaN(nval)
-            var unit = val.replace(/[0-9]/g, '').replace(/\./g, '');
-            val = isn ? nval : val;
-            if(isn){
+            if(val) {
+                var nval = parseFloat(val);
+                var isn = !isNaN(nval)
+                var unit = val.replace(/[0-9]/g, '').replace(/\./g, '');
+                val = isn ? nval : val;
+                if(isn){
 
-                $(this).next().find('select').val(unit)
+                    $(this).next().find('select').val(unit)
+                }
+                $('input', this).val(val)
             }
-            $('input', this).val(val)
+
         });
         $(".colorField").each(function(){
-            var color = css.css[this.dataset.prop];
-            this.style.backgroundColor = color;
-            this.style.color = mw.color.isDark(color) ? 'white' : 'black';
-            this.value = color.indexOf('rgb(') === 0 ? mw.color.rgbToHex(color) : color;
+            if(this.dataset.prop) {
+                var color = css.css[this.dataset.prop];
+                this.style.backgroundColor = color;
+                this.style.color = mw.color.isDark(color) ? 'white' : 'black';
+                this.value = color.indexOf('rgb(') === 0 ? mw.color.rgbToHex(color) : color;
+            }
+
         })
     },
     textAlign: function(css){
@@ -131,7 +155,13 @@ var init = function(){
             element:this,
             position:'bottom-center',
             onchange:function(color){
-                output(el.dataset.prop, color);
+                if(el.dataset.prop) {
+                    output(el.dataset.prop, color);
+                } else if(el.dataset.func) {
+                    eval(el.dataset.func + '(' + color + ')');
+                } else {
+                    $(el).trigger('colorChange', color)
+                }
                 el.style.backgroundColor = color;
                 el.style.color = mw.color.isDark(color) ? 'white' : 'black';
             }
@@ -142,7 +172,18 @@ var init = function(){
         output(this.dataset.prop, this.value)
     });
 
+    $("#background-select-item").on("click", function () {
+        mw.fileWindow({
+            types: 'images',
+            change: function (url) {
+                url = url.toString();
+                output('backgroundImage', 'url(' + url + ')')
+            }
+        });
+    });
+
     _prepare.units()
+    _prepare.border()
 
 };
 
@@ -325,10 +366,158 @@ top.mw.on('ElementClick', function(e, node){
                 </div>
             </div>
         </div>
+        <div class="s-field">
+            <label>Text transform</label>
+            <div class="s-field-content">
+                <div class="mw-multiple-fields">
+                    <div class="mw-field" data-size="medium">
+                        <select class="regular" data-prop="textTransform">
+                            <option value="none">none</option>
+                            <option value="capitalize">capitalize</option>
+                            <option value="uppercase">uppercase</option>
+                            <option value="lowercase">lowercase</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="s-field">
+            <label>Word Spacing</label>
+            <div class="s-field-content">
+                <div class="mw-multiple-fields">
+                    <div class="mw-field unit" data-prop="wordSpacing" data-size="medium"><input type="text"></div>
+                </div>
+            </div>
+        </div>
+        <div class="s-field">
+            <label>Letter Spacing</label>
+            <div class="s-field-content">
+                <div class="mw-multiple-fields">
+                    <div class="mw-field unit" data-prop="letterSpacing" data-size="medium"><input type="text"></div>
+                </div>
+            </div>
+        </div>
+
+
+
     </div>
 </div>
 
+<div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
+    <div class="mw-ui-box-header mw-accordion-title">Background</div>
+    <div class="mw-accordion-content mw-ui-box-content">
+        <div class="s-field">
+            <label>Type</label>
+            <div class="s-field-content">
+                <span class="mw-ui-btn mw-ui-btn-medium" id="background-select-item">Image</span>
+                <div class="mw-field" data-size="medium">
+                    <input type="text" class="colorField" data-prop="backgroundColor">
+                </div>
+            </div>
+        </div>
+        <div class="s-field">
+            <label>Size</label>
+            <div class="s-field-content">
+                <div class="mw-field" data-size="medium">
+                    <select type="text" class="regular" data-prop="backgroundSize">
+                        <option value="auto">Auto</option>
+                        <option value="contain">Fit</option>
+                        <option value="cover">Cover</option>
+                        <option value="100% 100%">Scale</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="s-field">
+            <label>Repeat</label>
+            <div class="s-field-content">
+                <div class="mw-field" data-size="medium">
+                    <select type="text" class="regular" data-prop="backgroundRepeat">
+                        <option value="repeat">repeat</option>
+                        <option value="no-repeat">no-repeat</option>
+                        <option value="repeat-x">repeat horizontally</option>
+                        <option value="repeat-y">repeat vertically </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="s-field">
+            <label>Position</label>
+            <div class="s-field-content">
+                <div class="mw-field" data-size="medium">
+                    <select type="text" class="regular" data-prop="backgroundPosition">
+                        <option value="0% 0%">Left Top</option>
+                        <option value="50% 0%">Center Top</option>
+                        <option value="100% 0%">Right Top</option>
 
+                        <option value="0% 50%">Left Center</option>
+                        <option value="50% 50%">Center Center</option>
+                        <option value="100% 50%">Right Center</option>
+
+                        <option value="0% 100%">Left Bottom</option>
+                        <option value="50% 100%">Center Bottom</option>
+                        <option value="100% 100%">Right Bottom</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
+    <div class="mw-ui-box-header mw-accordion-title">Border</div>
+    <div class="mw-accordion-content mw-ui-box-content">
+        <div class="s-field">
+            <label>Position</label>
+            <div class="s-field-content">
+                <div class="mw-field" data-size="medium">
+                    <select type="text" id="border-position">
+                        <option value="all" selected>All</option>
+                        <option value="Top">Top</option>
+                        <option value="Right">Right</option>
+                        <option value="Bottom">Bottom</option>
+                        <option value="Left">Left</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="s-field">
+            <label>Size</label>
+            <div class="s-field-content">
+                <div class="mw-multiple-fields">
+                    <div class="mw-field" data-size="medium"><input type="text" id="border-size"></div>
+                </div>
+            </div>
+        </div>
+        <div class="s-field">
+            <label>Color</label>
+            <div class="s-field-content">
+                <div class="mw-field" data-size="medium">
+                    <input type="text" class="colorField" id="border-color">
+                </div>
+            </div>
+        </div>
+        <div class="s-field">
+            <label>Type</label>
+            <div class="s-field-content">
+                <div class="mw-field" data-size="medium">
+                    <select type="text" id="border-type">
+                        <option value="" disabled selected>choose</option>
+                        <option value="none">none</option>
+                        <option value="solid">solid</option>
+                        <option value="dotted">dotted</option>
+                        <option value="dashed">dashed</option>
+                        <option value="double">double</option>
+                        <option value="groove">groove</option>
+                        <option value="ridge">ridge</option>
+                        <option value="inset">inset</option>
+                        <option value="outset">outset</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <div class="mw-css-editor">
