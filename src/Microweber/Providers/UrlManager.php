@@ -542,30 +542,34 @@ class UrlManager
         static $wrappers;
 
         if (!$wrappers) {
-            if (function_exists('stream_get_wrappers')) {
-                $wrappers = stream_get_wrappers();
-               // dd($wrappers);
-            } else {
-                $wrappers = array(
-                    'file',
-                    'php',
-                    'zlib',
-                    'data',
-                    'phar',
-                    'glob',
-                    'ssh2',
-                    'rar',
-                    'expect',
-                );
-            }
+
+            $wrappers = array(
+                'file',
+                'php',
+                'zlib',
+                'data',
+                'phar',
+                'glob',
+                'ssh2',
+                'rar',
+                'expect',
+            );
+//            if (function_exists('stream_get_wrappers')) {
+//            //    $wrappers = stream_get_wrappers();
+//               // dd($wrappers);
+//            } else {
+//
+//            }
 
         }
 
         if ($wrappers and $url_str) {
             foreach ($wrappers as $item) {
+                if(is_string($item)){
               //  if($item != 'http'){
-                    $url_str = str_ireplace($item . '://', '//', $url_str);
-
+              // dd($url_str);
+                    $url_str = str_ireplace($item . '://', '//', $url_str); 
+                }
               //  }
             }
         }
