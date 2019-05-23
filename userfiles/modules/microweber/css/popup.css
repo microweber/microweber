@@ -73,3 +73,7 @@ select.mw-ui-field:hover {
     -moz-box-shadow: none;
     box-shadow: none;
 }
+
+.manage-item-main-top .tag.label{
+    background: transparent;
+}

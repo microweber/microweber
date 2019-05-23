@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aee9a3e20bdbc16e978f9c02916ae8ec",
+    "content-hash": "097ad3808516b21a362d438a6989d0f1",
     "packages": [
         {
             "name": "arcanedev/seo-helper",
@@ -137,16 +137,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.93.5",
+            "version": "3.94.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "e9cfeb39ad6bc7c9ead2a40ce4fc23029ff1e17a"
+                "reference": "759a565285324d2248b6ee783de541ce65bddd46"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/e9cfeb39ad6bc7c9ead2a40ce4fc23029ff1e17a",
-                "reference": "e9cfeb39ad6bc7c9ead2a40ce4fc23029ff1e17a",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/759a565285324d2248b6ee783de541ce65bddd46",
+                "reference": "759a565285324d2248b6ee783de541ce65bddd46",
                 "shasum": ""
             },
             "require": {
@@ -216,7 +216,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2019-05-07T18:29:58+00:00"
+            "time": "2019-05-21T18:29:47+00:00"
         },
         {
             "name": "coduo/php-humanizer",
@@ -1611,12 +1611,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "bf595424e4d442a190582e088985dc835a789071"
+                "reference": "ca2892a8c2778c1821899fd2c79932e3b895f2ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/bf595424e4d442a190582e088985dc835a789071",
-                "reference": "bf595424e4d442a190582e088985dc835a789071",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/ca2892a8c2778c1821899fd2c79932e3b895f2ad",
+                "reference": "ca2892a8c2778c1821899fd2c79932e3b895f2ad",
                 "shasum": ""
             },
             "require": {
@@ -1669,7 +1669,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2019-04-15T08:22:37+00:00"
+            "time": "2019-05-12T12:35:22+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -2569,12 +2569,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "23f2326367dd04f1d2adbb2f0ecdd1f90d847c74"
+                "reference": "92d93308510d4aa439df85786991a2255723c0bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/23f2326367dd04f1d2adbb2f0ecdd1f90d847c74",
-                "reference": "23f2326367dd04f1d2adbb2f0ecdd1f90d847c74",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/92d93308510d4aa439df85786991a2255723c0bc",
+                "reference": "92d93308510d4aa439df85786991a2255723c0bc",
                 "shasum": ""
             },
             "require": {
@@ -2645,7 +2645,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2019-04-24T15:26:06+00:00"
+            "time": "2019-05-21T13:11:03+00:00"
         },
         {
             "name": "league/oauth1-client",
@@ -2709,6 +2709,148 @@
                 "twitter"
             ],
             "time": "2016-08-17T00:36:58+00:00"
+        },
+        {
+            "name": "league/omnipay",
+            "version": "2.3.x-dev",
+            "require": {
+                "omnipay/2checkout": "~2.0",
+                "omnipay/authorizenet": "~2.0",
+                "omnipay/buckaroo": "~2.0",
+                "omnipay/cardsave": "~2.0",
+                "omnipay/coinbase": "~2.0",
+                "omnipay/common": "~2.3",
+                "omnipay/dummy": "~2.0",
+                "omnipay/eway": "~2.0",
+                "omnipay/firstdata": "~2.0",
+                "omnipay/gocardless": "~2.0",
+                "omnipay/manual": "~2.0",
+                "omnipay/migs": "~2.0",
+                "omnipay/mollie": "~3.0",
+                "omnipay/multisafepay": "~2.0",
+                "omnipay/netaxept": "~2.0",
+                "omnipay/netbanx": "~2.0",
+                "omnipay/payfast": "~2.0",
+                "omnipay/payflow": "~2.0",
+                "omnipay/paymentexpress": "~2.0",
+                "omnipay/paypal": "~2.0",
+                "omnipay/pin": "~2.0",
+                "omnipay/sagepay": "~2.0",
+                "omnipay/securepay": "~2.0",
+                "omnipay/stripe": "~2.0",
+                "omnipay/targetpay": "~2.0",
+                "omnipay/worldpay": "~2.0"
+            },
+            "require-dev": {
+                "omnipay/tests": "~2.0"
+            },
+            "suggest": {
+                "academe/omnipay-helcim": "Helcim",
+                "agmscode/omnipay-agms": "Agms",
+                "alfaproject/omnipay-neteller": "Neteller",
+                "alfaproject/omnipay-skrill": "Skrill",
+                "andreas22/omnipay-fasapay": "Fasapay",
+                "andylibrian/omnipay-veritrans": "Veritrans",
+                "cardgate/omnipay-cardgate": "CardGate",
+                "coatesap/omnipay-datacash": "DataCash",
+                "coatesap/omnipay-paymentsense": "PaymentSense",
+                "coatesap/omnipay-realex": "Realex",
+                "dabsquared/omnipay-cybersource-soap": "Cybersource SOAP",
+                "delatbabel/omnipay-fatzebra": "Fat Zebra",
+                "dercoder/omnipay-ecopayz": "ecoPayz",
+                "dercoder/omnipay-globalcloudpay": "Globalcloudpay",
+                "descubraomundo/omnipay-pagarme": "Pagar.me",
+                "dioscouri/omnipay-cybersource": "Cybersource",
+                "fotografde/omnipay-checkoutcom": "Checkout.com",
+                "fruitcakestudio/omnipay-sisow": "Sisow",
+                "igaponov/omnipay-wirecard": "Wirecard",
+                "justinbusschau/omnipay-secpay": "SecPay",
+                "lokielse/omnipay-alipay": "Alipay",
+                "lokielse/omnipay-global-alipay": "Global Alipay",
+                "lokielse/omnipay-unionpay": "UnionPay",
+                "lokielse/omnipay-wechatpay": "WechatPay",
+                "mfauveau/omnipay-nmi": "Network Merchants Inc. (NMI)",
+                "mfauveau/omnipay-pacnet": "Pacnet",
+                "omnipay/payu": "PayU",
+                "paypronl/omnipay-paypro": "PayPro",
+                "samvaughton/omnipay-barclays-epdq": "Barclays ePDQ",
+                "teaandcode/omnipay-worldpay-xml": "WorldPay XML Direct"
+            },
+            "type": "metapackage",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Adrian Macneil",
+                    "email": "adrian@adrianmacneil.com"
+                },
+                {
+                    "name": "Kayla Daniels",
+                    "email": "kayladnls@gmail.com"
+                },
+                {
+                    "name": "Omnipay Community",
+                    "homepage": "https://github.com/thephpleague/omnipay/graphs/contributors"
+                }
+            ],
+            "description": "Includes Omnipay payment processing library and all officially supported gateways",
+            "homepage": "https://github.com/thephpleague/omnipay",
+            "keywords": [
+                "2checkout",
+                "2co",
+                "auth.net",
+                "authorize",
+                "authorize.net",
+                "buckaroo",
+                "cardsave",
+                "checkoutcom",
+                "coinbase",
+                "commweb",
+                "cybersource",
+                "dps",
+                "egate",
+                "eway",
+                "express",
+                "first data",
+                "firstdata",
+                "gateway",
+                "gocardless",
+                "ideal",
+                "merchant",
+                "migs",
+                "mollie",
+                "multisafepay",
+                "netaxept",
+                "netbanx",
+                "pagarme",
+                "pay",
+                "payfast",
+                "payflow",
+                "payment",
+                "paymentexpress",
+                "payone",
+                "paypal",
+                "payu",
+                "pin",
+                "purchase",
+                "rapid",
+                "sagepay",
+                "securepay",
+                "stripe",
+                "tala",
+                "tala-payments",
+                "targetpay",
+                "twocheckout",
+                "worldpay"
+            ],
+            "time": "2017-03-21T09:24:49+00:00"
         },
         {
             "name": "maxmind-db/reader",
@@ -2935,32 +3077,30 @@
         },
         {
             "name": "microweber-templates/dream",
-            "version": "dev-master",
+            "version": "1.1",
             "target-dir": "dream",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-templates/dream.git",
-                "reference": "05e016e081f0750228dd96eec17b565c7c7a55eb"
+                "reference": "93b7de3c2f7518b92b16fbc1d0604f96b521cef3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-templates/dream/zipball/05e016e081f0750228dd96eec17b565c7c7a55eb",
-                "reference": "05e016e081f0750228dd96eec17b565c7c7a55eb",
-                "shasum": ""
+                "url": "https://packages.microweberapi.com/dist/microweber-templates/dream/microweber-templates-dream-93b7de3c2f7518b92b16fbc1d0604f96b521cef3-zip-5e2ba2.zip",
+                "reference": "93b7de3c2f7518b92b16fbc1d0604f96b521cef3",
+                "shasum": "6381bc15f1f3fcb1f94f7d3e89363cd166a77b0c"
             },
             "type": "microweber-template",
             "extra": {
-                "preview_url": "https://dream-template.microweber.com/"
+                "preview_url": "https://dream-template.microweber.com/",
+                "_meta": {
+                    "screenshot": "https://packages.microweberapi.com/meta/meta-microweber-templates-dream-149293dc96c292183cea12ff3ba264db/screenshot.jpg",
+                    "readme": "https://packages.microweberapi.com/meta/meta-microweber-templates-dream-149293dc96c292183cea12ff3ba264db/readme.md",
+                    "avatar": "https://favicon.microweberapi.com/https://microweber.com/"
+                }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "MW Team",
-                    "email": "contacts@microweber.com"
-                }
             ],
             "description": "Dream",
             "homepage": "https://microweber.com/",
@@ -2969,21 +3109,25 @@
                 "ecommerce",
                 "microweber"
             ],
-            "time": "2019-05-08T11:26:05+00:00"
+            "support": {
+                "source": "https://github.com/microweber-templates/dream/tree/1.1",
+                "issues": "https://github.com/microweber-templates/dream/issues"
+            },
+            "time": "2019-05-21T15:33:12+00:00"
         },
         {
             "name": "microweber-templates/liteness",
-            "version": "dev-master",
+            "version": "1.0",
             "target-dir": "liteness",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-templates/liteness.git",
-                "reference": "804169c11547d1a9788726ce9fa3106023c7e445"
+                "reference": "dcd581e9c37381f15aa677e769a69ab333275d13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-templates/liteness/zipball/804169c11547d1a9788726ce9fa3106023c7e445",
-                "reference": "804169c11547d1a9788726ce9fa3106023c7e445",
+                "url": "https://api.github.com/repos/microweber-templates/liteness/zipball/dcd581e9c37381f15aa677e769a69ab333275d13",
+                "reference": "dcd581e9c37381f15aa677e769a69ab333275d13",
                 "shasum": ""
             },
             "type": "microweber-template",
@@ -3007,7 +3151,7 @@
                 "liteness",
                 "microweber"
             ],
-            "time": "2019-05-08T11:43:55+00:00"
+            "time": "2019-05-21T18:40:37+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -4308,160 +4452,6 @@
                 "payment"
             ],
             "time": "2016-09-21T10:52:03+00:00"
-        },
-        {
-            "name": "omnipay/omnipay",
-            "version": "2.3.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/thephpleague/omnipay.git",
-                "reference": "cc04bd22b4149c94c52b002181d4993e4f8fe812"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/omnipay/zipball/cc04bd22b4149c94c52b002181d4993e4f8fe812",
-                "reference": "cc04bd22b4149c94c52b002181d4993e4f8fe812",
-                "shasum": ""
-            },
-            "require": {
-                "omnipay/2checkout": "~2.0",
-                "omnipay/authorizenet": "~2.0",
-                "omnipay/buckaroo": "~2.0",
-                "omnipay/cardsave": "~2.0",
-                "omnipay/coinbase": "~2.0",
-                "omnipay/common": "~2.3",
-                "omnipay/dummy": "~2.0",
-                "omnipay/eway": "~2.0",
-                "omnipay/firstdata": "~2.0",
-                "omnipay/gocardless": "~2.0",
-                "omnipay/manual": "~2.0",
-                "omnipay/migs": "~2.0",
-                "omnipay/mollie": "~3.0",
-                "omnipay/multisafepay": "~2.0",
-                "omnipay/netaxept": "~2.0",
-                "omnipay/netbanx": "~2.0",
-                "omnipay/payfast": "~2.0",
-                "omnipay/payflow": "~2.0",
-                "omnipay/paymentexpress": "~2.0",
-                "omnipay/paypal": "~2.0",
-                "omnipay/pin": "~2.0",
-                "omnipay/sagepay": "~2.0",
-                "omnipay/securepay": "~2.0",
-                "omnipay/stripe": "~2.0",
-                "omnipay/targetpay": "~2.0",
-                "omnipay/worldpay": "~2.0"
-            },
-            "require-dev": {
-                "omnipay/tests": "~2.0"
-            },
-            "suggest": {
-                "academe/omnipay-helcim": "Helcim",
-                "agmscode/omnipay-agms": "Agms",
-                "alfaproject/omnipay-neteller": "Neteller",
-                "alfaproject/omnipay-skrill": "Skrill",
-                "andreas22/omnipay-fasapay": "Fasapay",
-                "andylibrian/omnipay-veritrans": "Veritrans",
-                "cardgate/omnipay-cardgate": "CardGate",
-                "coatesap/omnipay-datacash": "DataCash",
-                "coatesap/omnipay-paymentsense": "PaymentSense",
-                "coatesap/omnipay-realex": "Realex",
-                "dabsquared/omnipay-cybersource-soap": "Cybersource SOAP",
-                "delatbabel/omnipay-fatzebra": "Fat Zebra",
-                "dercoder/omnipay-ecopayz": "ecoPayz",
-                "dercoder/omnipay-globalcloudpay": "Globalcloudpay",
-                "descubraomundo/omnipay-pagarme": "Pagar.me",
-                "dioscouri/omnipay-cybersource": "Cybersource",
-                "fotografde/omnipay-checkoutcom": "Checkout.com",
-                "fruitcakestudio/omnipay-sisow": "Sisow",
-                "igaponov/omnipay-wirecard": "Wirecard",
-                "justinbusschau/omnipay-secpay": "SecPay",
-                "lokielse/omnipay-alipay": "Alipay",
-                "lokielse/omnipay-global-alipay": "Global Alipay",
-                "lokielse/omnipay-unionpay": "UnionPay",
-                "lokielse/omnipay-wechatpay": "WechatPay",
-                "mfauveau/omnipay-nmi": "Network Merchants Inc. (NMI)",
-                "mfauveau/omnipay-pacnet": "Pacnet",
-                "omnipay/payu": "PayU",
-                "paypronl/omnipay-paypro": "PayPro",
-                "samvaughton/omnipay-barclays-epdq": "Barclays ePDQ",
-                "teaandcode/omnipay-worldpay-xml": "WorldPay XML Direct"
-            },
-            "type": "metapackage",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Adrian Macneil",
-                    "email": "adrian@adrianmacneil.com"
-                },
-                {
-                    "name": "Kayla Daniels",
-                    "email": "kayladnls@gmail.com"
-                },
-                {
-                    "name": "Omnipay Community",
-                    "homepage": "https://github.com/thephpleague/omnipay/graphs/contributors"
-                }
-            ],
-            "description": "Includes Omnipay payment processing library and all officially supported gateways",
-            "homepage": "https://github.com/thephpleague/omnipay",
-            "keywords": [
-                "2checkout",
-                "2co",
-                "auth.net",
-                "authorize",
-                "authorize.net",
-                "buckaroo",
-                "cardsave",
-                "checkoutcom",
-                "coinbase",
-                "commweb",
-                "cybersource",
-                "dps",
-                "egate",
-                "eway",
-                "express",
-                "first data",
-                "firstdata",
-                "gateway",
-                "gocardless",
-                "ideal",
-                "merchant",
-                "migs",
-                "mollie",
-                "multisafepay",
-                "netaxept",
-                "netbanx",
-                "pagarme",
-                "pay",
-                "payfast",
-                "payflow",
-                "payment",
-                "paymentexpress",
-                "payone",
-                "paypal",
-                "payu",
-                "pin",
-                "purchase",
-                "rapid",
-                "sagepay",
-                "securepay",
-                "stripe",
-                "tala",
-                "tala-payments",
-                "targetpay",
-                "twocheckout",
-                "worldpay"
-            ],
-            "abandoned": "league/omnipay",
-            "time": "2017-03-21T09:24:49+00:00"
         },
         {
             "name": "omnipay/payfast",
@@ -5911,12 +5901,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "606e4d9c425d544337d681e30fa6483e534e26bc"
+                "reference": "8e1d1e406dd31727fa70cd5a99cda202e9d6a5c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/606e4d9c425d544337d681e30fa6483e534e26bc",
-                "reference": "606e4d9c425d544337d681e30fa6483e534e26bc",
+                "url": "https://api.github.com/repos/symfony/console/zipball/8e1d1e406dd31727fa70cd5a99cda202e9d6a5c6",
+                "reference": "8e1d1e406dd31727fa70cd5a99cda202e9d6a5c6",
                 "shasum": ""
             },
             "require": {
@@ -5975,7 +5965,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2019-05-06T09:25:16+00:00"
+            "time": "2019-05-09T08:42:51+00:00"
         },
         {
             "name": "symfony/css-selector",
@@ -6036,12 +6026,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
-                "reference": "681afbb26488903c5ac15e63734f1d8ac430c9b9"
+                "reference": "671fc55bd14800668b1d0a3708c3714940e30a8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/debug/zipball/681afbb26488903c5ac15e63734f1d8ac430c9b9",
-                "reference": "681afbb26488903c5ac15e63734f1d8ac430c9b9",
+                "url": "https://api.github.com/repos/symfony/debug/zipball/671fc55bd14800668b1d0a3708c3714940e30a8c",
+                "reference": "671fc55bd14800668b1d0a3708c3714940e30a8c",
                 "shasum": ""
             },
             "require": {
@@ -6084,7 +6074,7 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2019-04-11T09:48:14+00:00"
+            "time": "2019-05-18T13:32:47+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -6251,12 +6241,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "fa02215233be8de1c2b44617088192f9e8db3512"
+                "reference": "cb67f0c746ba61916cf4dc1b1a200b284a332cb9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/fa02215233be8de1c2b44617088192f9e8db3512",
-                "reference": "fa02215233be8de1c2b44617088192f9e8db3512",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/cb67f0c746ba61916cf4dc1b1a200b284a332cb9",
+                "reference": "cb67f0c746ba61916cf4dc1b1a200b284a332cb9",
                 "shasum": ""
             },
             "require": {
@@ -6297,7 +6287,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "https://symfony.com",
-            "time": "2019-05-01T08:04:33+00:00"
+            "time": "2019-05-18T16:33:51+00:00"
         },
         {
             "name": "symfony/http-kernel",
@@ -6727,12 +6717,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/routing.git",
-                "reference": "ff11aac46d6cb8a65f2855687bb9a1ac9d860eec"
+                "reference": "3458f90c2c17dfbb3260dbbfca19a0c415576ce0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/routing/zipball/ff11aac46d6cb8a65f2855687bb9a1ac9d860eec",
-                "reference": "ff11aac46d6cb8a65f2855687bb9a1ac9d860eec",
+                "url": "https://api.github.com/repos/symfony/routing/zipball/3458f90c2c17dfbb3260dbbfca19a0c415576ce0",
+                "reference": "3458f90c2c17dfbb3260dbbfca19a0c415576ce0",
                 "shasum": ""
             },
             "require": {
@@ -6795,7 +6785,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2019-03-29T21:58:42+00:00"
+            "time": "2019-05-18T16:36:47+00:00"
         },
         {
             "name": "symfony/translation",
@@ -7048,12 +7038,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "5d37a3260a8bd873b09cfc8355ae953557466d6e"
+                "reference": "571929f263d56590ddd6cf42e860264d26f07e51"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/5d37a3260a8bd873b09cfc8355ae953557466d6e",
-                "reference": "5d37a3260a8bd873b09cfc8355ae953557466d6e",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/571929f263d56590ddd6cf42e860264d26f07e51",
+                "reference": "571929f263d56590ddd6cf42e860264d26f07e51",
                 "shasum": ""
             },
             "require": {
@@ -7068,7 +7058,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.41-dev"
+                    "dev-master": "1.42-dev"
                 }
             },
             "autoload": {
@@ -7106,7 +7096,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2019-05-03T15:08:09+00:00"
+            "time": "2019-05-20T07:21:53+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -7164,9 +7154,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "guzzle/guzzle": 20,
-        "microweber-templates/dream": 20,
-        "microweber-templates/liteness": 20,
         "microweber-deps/recurr": 20,
         "microweber-deps/laravel-tagging": 20,
         "oyejorge/less.php": 20,

@@ -11,7 +11,7 @@ api_expose_admin('Microweber\Utils\Import\download');
 //api_expose_admin('Microweber\Utils\Import\create_full');
 api_expose_admin('Microweber\Utils\Import\move_uploaded_file_to_import');
 api_expose_admin('Microweber\Utils\Import\restore');
-//api_expose_admin('Microweber\Utils\Import\export');
+api_expose_admin('Microweber\Utils\Import\export');
 api_expose_admin('Microweber\Utils\Import\batch_process');
 
 class Import

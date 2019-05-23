@@ -333,28 +333,37 @@ class FormsManager
         } else {
             $cf_to_save = $params;
         }
-
-        $to_save['list_id'] = $list_id;
-        $to_save['rel_id'] = $for_id;
-        $to_save['rel_type'] = $for;
-
-        $to_save['user_ip'] = MW_USER_IP;
-
-        if (isset($params['module_name'])) {
-            $to_save['module_name'] = $params['module_name'];
+        
+        
+        $skip_saving_emails = $this->app->option_manager->get('skip_saving_emails', $for_id);
+        if (!$skip_saving_emails) {
+        	$skip_saving_emails = $this->app->option_manager->get('skip_saving_emails', $default_mod_id);
         }
-
-        if (!empty($fields_data)) {
-            $to_save['form_values'] = json_encode($fields_data);
-        } else {
-            $to_save['form_values'] = json_encode($params);
+        if ($skip_saving_emails !== 'y') {
+        	
+	        $to_save['list_id'] = $list_id;
+	        $to_save['rel_id'] = $for_id;
+	        $to_save['rel_type'] = $for;
+	
+	        $to_save['user_ip'] = MW_USER_IP;
+	
+	        if (isset($params['module_name'])) {
+	            $to_save['module_name'] = $params['module_name'];
+	        }
+	
+	        if (!empty($fields_data)) {
+	            $to_save['form_values'] = json_encode($fields_data);
+	        } else {
+	            $to_save['form_values'] = json_encode($params);
+	        }
+	
+	        $save = $this->app->database_manager->save($table, $to_save);
+	        $event_params = $params;
+	        $event_params['saved_form_entry_id'] = $save;
+	
+	        $this->app->event_manager->trigger('mw.forms_manager.after_post', $event_params);
+	        
         }
-
-        $save = $this->app->database_manager->save($table, $to_save);
-        $event_params = $params;
-        $event_params['saved_form_entry_id'] = $save;
-
-        $this->app->event_manager->trigger('mw.forms_manager.after_post', $event_params);
 
         if (isset($params['module_name'])) {
             $pp_arr = $params;

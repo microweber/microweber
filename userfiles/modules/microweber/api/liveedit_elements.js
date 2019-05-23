@@ -206,11 +206,12 @@ mw.dropables = {
     module: function(targetFrom){
         targetFrom = targetFrom || mw.mm_target;
         var module = mw.tools.firstMatchesOnNodeOrParent(targetFrom, '.module:not(.no-settings)');
+        //var module = mw.tools.lastMatchesOnNodeOrParent(targetFrom, '.module:not(.no-settings)');
         var triggerTarget =  module.__disableModuleTrigger || module;
         if(module){
-            if(this.shouldTrigger('_moduleRegister', triggerTarget)) {
+            //if(this.shouldTrigger('_moduleRegister', triggerTarget)) {
                 mw.trigger("moduleOver", triggerTarget);
-            }
+            //}
         } else {
             if (mw.mm_target.id !== 'mw-handle-item-module' && !mw.tools.hasParentWithId(mw.mm_target, 'mw-handle-item-module')) {
                 /*if(this._moduleRegister !== null) {*/

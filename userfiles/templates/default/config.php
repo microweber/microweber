@@ -5,7 +5,7 @@ $config['name'] = "New World";
 $config['author'] = "Microweber";
 $config['version'] = 0.1;
 $config['is_hidden_from_install_screen'] = true;
-
+$config['standalone_module_skins'] = true;
 
 $config['content'] = array();
 $config['content'][] = array(

@@ -1,0 +1,3 @@
+[submodule "userfiles/templates/dream"]
+	path = userfiles/templates/dream
+	url = https://github.com/microweber-templates/dream.git

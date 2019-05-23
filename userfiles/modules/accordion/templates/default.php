@@ -10,6 +10,18 @@ if (isset($json) == false or count($json) == 0) {
 }
 ?>
 
+<script>
+
+    $(document).ready(function(){
+        var root = $("#mw-accordion-module-<?php print $params['id'] ?>");
+        $('.accordion__title', root).on('click', function(){
+            $('li.active', root).removeClass('active');
+            $(this).parent().addClass('active');
+        })
+    })
+
+</script>
+
 
 <div id="mw-accordion-module-<?php print $params['id'] ?>" class="mw-accordion-box-wrapper">
     <ul class="accordion">
