@@ -40,7 +40,7 @@ trait DatabaseRelationWriter
 	{
 		$relation = $this->_getRelation($savedItem['item']);
 		if (empty($relation)) {
-			echo 'No relation in this item.' . PHP_EOL;
+			//echo 'No relation in this item.' . PHP_EOL;
 			return;
 		}
 		
@@ -64,7 +64,7 @@ trait DatabaseRelationWriter
 				
 				db_save($savedItem['item']['save_to_table'], $savedItem['item']);
 				
-				echo 'Relation is fixed.' . PHP_EOL;
+				//echo 'Relation is fixed.' . PHP_EOL;
 				
 			}
 		}

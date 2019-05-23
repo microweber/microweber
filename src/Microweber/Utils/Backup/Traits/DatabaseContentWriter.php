@@ -45,7 +45,7 @@ trait DatabaseContentWriter
 					$savedItem['item']['id'] = $savedItem['itemIdDatabase'];
 					$savedItem['item']['parent'] = $contentDatabase['id'];
 			
-					echo 'Fix parent relationship on content' . PHP_EOL;
+					//echo 'Fix parent relationship on content' . PHP_EOL;
 					
 					db_save('content', $savedItem['item']);
 				}

@@ -106,6 +106,7 @@ class BackupManager
 		$writer->setContent($content['data']);
 		$writer->runWriterWithBatch();
 		
+		return $writer->getImportLog();
 	}
 
 	/**

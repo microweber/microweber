@@ -62,9 +62,9 @@ trait DatabaseCustomFieldsWriter {
 		
 		if ($checkCustomFieldIsExists) {
 			$customFieldIdDatabase = $checkCustomFieldIsExists['id'];
-			echo $customField['name'] . ': Custom field is allready saved.' . PHP_EOL;
+			//echo $customField['name'] . ': Custom field is allready saved.' . PHP_EOL;
 		} else {
-			echo $customField['name'] .': Custom field is saved.' . PHP_EOL;
+			//echo $customField['name'] .': Custom field is saved.' . PHP_EOL;
 			$customFieldIdDatabase = db_save('custom_fields', $customField);
 		}
 		
@@ -94,9 +94,9 @@ trait DatabaseCustomFieldsWriter {
 			$checkCustomFieldValueIsExists = db_get('custom_fields_values', $dbSelectParams);
 			if ($checkCustomFieldValueIsExists) {
 				$customFieldValueIdDatabase = $checkCustomFieldValueIsExists['id'];
-				echo 'Custom field value is allready saved.' . PHP_EOL;
+				//echo 'Custom field value is allready saved.' . PHP_EOL;
 			} else {
-				echo 'Custom field value is saved.' . PHP_EOL;
+				//echo 'Custom field value is saved.' . PHP_EOL;
 				$customFieldValueIdDatabase = db_save('custom_fields_values', $customFieldValue);
 			}
 			

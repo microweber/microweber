@@ -109,15 +109,9 @@ class DatabaseWriter
 		
 		if ($checkItemIsExists) {
 			$itemIdDatabase = $checkItemIsExists['id'];
-			echo $item['save_to_table'] . ': Item is allready saved.' . PHP_EOL;
-			
 			$this->setLogInfo('Update item ' . $this->_getItemFriendlyName($item) . ' in ' . $item['save_to_table']);
-			
 		} else {
-
 			$this->setLogInfo('Save item ' . $this->_getItemFriendlyName($item) . ' in ' . $item['save_to_table']);
-
-			echo $item['save_to_table'] . ': Item is saved.' . PHP_EOL;
 			$saveItem = $this->_unsetItemFields($item);
 			$saveItem['skip_cache'] = true;
 			$itemIdDatabase = db_save($saveItem['save_to_table'], $saveItem);
@@ -154,7 +148,7 @@ class DatabaseWriter
 		$this->_fixParentRelationship($savedItem);
 		$this->_fixCategoryParents();
 		
-		echo $item['save_to_table'];
+		//echo $item['save_to_table'];
 		//die();
 	}
 	
@@ -218,11 +212,11 @@ class DatabaseWriter
 			
 			$success = array();
 			foreach($itemsBatch[$this->currentStep] as $item) {
-				echo 'Save item' . PHP_EOL;
+				//echo 'Save item' . PHP_EOL;
 				$success[] = $this->_saveItem($item);
 			}
 			
-			echo 'Save cache ... ' .$this->currentStep. PHP_EOL;
+			//echo 'Save cache ... ' .$this->currentStep. PHP_EOL;
 			
 			cache_save($this->currentStep + 1, 'CurrentStep',$this->_cacheGroupName, 60 * 10);
 			
@@ -230,13 +224,13 @@ class DatabaseWriter
 		
 	}
 	
-	public function getJsonLog() {
+	public function getImportLog() {
 		
-		$json = array();
-		$json['current_step'] = $this->currentStep;
-		$json['total_steps'] = $this->totalSteps;
+		$log = array();
+		$log['current_step'] = $this->currentStep;
+		$log['total_steps'] = $this->totalSteps;
 		
-		return json_encode($json, JSON_PRETTY_PRINT);
+		return $log;
 	}
 	
 	/**

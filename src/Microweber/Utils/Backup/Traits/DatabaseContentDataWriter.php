@@ -49,9 +49,9 @@ trait DatabaseContentDataWriter {
 		
 		if ($checkContentDataIsExists) {
 			$contentDataId = $checkContentDataIsExists['id'];
-			echo $singleContentData['field_name'] . ': Content data is allready saved.' . PHP_EOL;
+			//echo $singleContentData['field_name'] . ': Content data is allready saved.' . PHP_EOL;
 		} else {
-			echo $singleContentData['field_name'] . ': Content data is saved.' . PHP_EOL;
+			//echo $singleContentData['field_name'] . ': Content data is saved.' . PHP_EOL;
 			$singleContentData = $this->_unsetItemFields($singleContentData);
 			$contentDataId = db_save('content_data', $singleContentData);
 		}

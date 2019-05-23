@@ -12,6 +12,7 @@ namespace Microweber\Utils;
 use Microweber\Utils\Backup\BackupManager;
 
 api_expose_admin('Microweber\Utils\BackupV2\get');
+api_expose_admin('Microweber\Utils\BackupV2\getImportLogAsJson');
 api_expose_admin('Microweber\Utils\BackupV2\restore');
 api_expose_admin('Microweber\Utils\BackupV2\download');
 api_expose_admin('Microweber\Utils\BackupV2\upload');
@@ -195,9 +196,9 @@ class BackupV2
 		} else {
 			
 			$this->manager->setImportFile($filePath);
-			$x = $this->manager->startImport();
+			$importLog = $this->manager->startImport();
 			
-			var_dump($x);
+			return json_encode($importLog, JSON_PRETTY_PRINT);
 		}
 		
 		return $query;

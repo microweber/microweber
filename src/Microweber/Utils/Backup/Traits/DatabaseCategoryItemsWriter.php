@@ -66,7 +66,7 @@ trait DatabaseCategoryItemsWriter {
 					$category['save_to_table'] = 'categories';
 					$this->_saveItemDatabase($category);
 					
-					echo $category['title'] . ': Category not found.' . PHP_EOL;
+					//echo $category['title'] . ': Category not found.' . PHP_EOL;
 					
 					return $this->_getCategory($parentId);
 				}
@@ -101,9 +101,9 @@ trait DatabaseCategoryItemsWriter {
 		$checkCategoryItemsIsExists = db_get('categories_items', $dbSelectParams);
 		if ($checkCategoryItemsIsExists) {
 			$categoryItemIdDatabase = $checkCategoryItemsIsExists['id'];
-			echo $categoryItem['parent_id'] . ': category item is allready saved.' . PHP_EOL;
+			//echo $categoryItem['parent_id'] . ': category item is allready saved.' . PHP_EOL;
 		} else {
-			echo $categoryItem['parent_id'] . ': category item is saved.' . PHP_EOL;
+			//echo $categoryItem['parent_id'] . ': category item is saved.' . PHP_EOL;
 			unset($categoryItem['id']);
 			$categoryItemIdDatabase = db_save('categories_items', $categoryItem);
 		}
