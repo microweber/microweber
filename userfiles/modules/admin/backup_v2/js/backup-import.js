@@ -46,11 +46,22 @@ mw.backup_import = {
 	},
 	
 	start_import: function () {
-		mw.backup_import.get_log();
-		$.post(mw.settings.api_url+'Microweber/Utils/BackupV2/restore', data , function(msg) {
-			mw.backup_import.get_log();
+		$.post(mw.settings.api_url+'Microweber/Utils/BackupV2/restore', data , function(jsonData) {
+			mw.backup_import.get_progess(jsonData.precentage);
 			mw.backup_import.start_import();
 		});
+	},
+	
+	get_progess: function(precent) {
+		var progressbar = '<div class="mw_install_progress">'+
+	        '<div class="mw-ui-progress" id="backup-import-progressbar">'+
+	            '<div class="mw-ui-progress-bar" style="width: '+precent+'%;"></div>'+
+	            '<div class="mw-ui-progress-info">Importing...</div>'+
+	            '<span class="mw-ui-progress-percent">'+precent+'%</span>'+
+	        '</div>'+
+	        '<div class="backup-import-modal-log"></div>'+
+	    '</div>';
+		$('#mw_backup_import_modal').find('.mw_modal_container').html(progressbar);
 	},
 	
 	get_log: function() {
@@ -58,10 +69,10 @@ mw.backup_import = {
 		    url: userfilesUrl + 'backup-import-session.log',
 		    success: function (data) {
 		    	data = data.replace(/\n/g, "<br />");
-		    	$('#mw_backup_import_modal').find('.mw_modal_container').html(data);
+		    	$('#mw_backup_import_modal').find('.backup-import-modal-log').html(data);
 		    },  
 		    error: function() {
-		    	$('#mw_backup_import_modal').find('.mw_modal_container').html('Loading...');
+		    	$('#mw_backup_import_modal').find('.backup-import-modal-log').html('Loading...');
 		    }
 		});
 	}

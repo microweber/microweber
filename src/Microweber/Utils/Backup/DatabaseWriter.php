@@ -39,7 +39,7 @@ class DatabaseWriter
 	 * The total steps for batch.
 	 * @var integer
 	 */
-	public $totalSteps = 15;
+	public $totalSteps = 100;
 	
 	/**
 	 * The content from backup file
@@ -229,6 +229,7 @@ class DatabaseWriter
 		$log = array();
 		$log['current_step'] = $this->currentStep;
 		$log['total_steps'] = $this->totalSteps;
+		$log['precentage'] = ($this->currentStep * 100) / $this->totalSteps;
 		
 		return $log;
 	}
