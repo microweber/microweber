@@ -8,13 +8,18 @@ class BackupManager
 	use BackupLogger;
 	
 	public $exportType = 'json';
-	public $importType = 'json';
+	public $importType = false;
 	public $importFile = false;
 	
-	public function __construct() 
+	public function __construct()
 	{
-		ini_set('memory_limit', '-1');
-		set_time_limit(0);
+		if (php_can_use_func('ini_set')) {
+			ini_set('memory_limit', '-1');
+		}
+
+		if (php_can_use_func('set_time_limit')) {
+			set_time_limit(0);
+		}
 	}
 
 	/**
@@ -41,7 +46,12 @@ class BackupManager
 	 */
 	public function setImportFile($file) 
 	{
-		$this->importFile = $this->getBackupLocation() . $file;
+		if (! is_file($file)) {
+			throw new \Exception('Backup Manager: You have not provided a existing backup to restore.');
+		}
+		
+		$this->setImportType(pathinfo($file, PATHINFO_EXTENSION));
+		$this->importFile = $file;
 	}
 
 	/**
@@ -88,16 +98,14 @@ class BackupManager
 		$import->setFile($this->importFile);
 		
 		$content = $import->readContentWithCache();
-		
 		if (isset($content['error'])) {
 			return $content;
 		}
 		
 		$writer = new DatabaseWriter();
 		$writer->setContent($content['data']);
-		$writerResponse = $writer->runWriter();
+		$writerResponse = $writer->runWriterWithBatch();
 		
-		dd($writerResponse);
 	}
 
 	/**
@@ -106,8 +114,8 @@ class BackupManager
 	 */
 	public function getBackupLocation() 
 	{
-		$backupContent = storage_path() . '/backup_content/';
-
+		$backupContent = storage_path() . '/backup_content/' . \App::environment(). '/';
+		
 		if (! is_dir($backupContent)) {
 			mkdir_recursive($backupContent);
 			$htaccess = $backupContent . '.htaccess';

@@ -2,39 +2,63 @@
 mw.require('forms.js');
 mw.require('tools.js');
 
-mw.admin_import = {
-		
-	move_uploaded_file_to_import: function(src){
+mw.backup_import = {
+	
+	upload: function(src) {
 		data = {}
 		data.src=src;
-		$.post(mw.settings.api_url+'Microweber/Utils/Import/move_uploaded_file_to_import', data ,
+		$.post(mw.settings.api_url+'Microweber/Utils/BackupV2/upload', data ,
 			function(msg) {
-				mw.reload_module('admin/import/manage');
+				mw.reload_module('admin/backup_v2/manage');
 				mw.notification.msg(msg, 5000);
 			});
 	},
-	
 
 	remove: function($id, $selector_to_hide) {
 		mw.tools.confirm(mw.msg.del, function() {
 			data = {}
 			data.id = $id;
-			$.post(mw.settings.api_url + 'Microweber/Utils/Import/delete', data, function(resp) {
+			$.post(mw.settings.api_url + 'Microweber/Utils/BackupV2/delete', data, function(resp) {
 				mw.notification.msg(resp);
 				if ($selector_to_hide != undefined) {
-					$($selector_to_hide).fadeOut().remove();
+					mw.reload_module('admin/backup_v2/manage');
 				}
 			});
 		});
 	},
 	
-	restore: function(src) {
+	import: function(src) {
+		
+		mw.modal({
+		    content: '',
+		    title: importContentFromFileText,
+		    id: 'mw_backup_import_modal' 
+		});
+		
 		data = {}
 		data.id = src;
-		$.post(mw.settings.api_url+'Microweber/Utils/Import/restore', data , function(msg) {
-				mw.reload_module('admin/import/manage');
-				mw.notification.msg(msg, 15000);
-				//mw.reload_module('admin/import/process');
+		
+		mw.backup_import.start_import();
+	},
+	
+	start_import: function () {
+		mw.backup_import.get_log();
+		$.post(mw.settings.api_url+'Microweber/Utils/BackupV2/restore', data , function(msg) {
+			mw.backup_import.get_log();
+			mw.backup_import.start_import();
+		});
+	},
+	
+	get_log: function() {
+		$.ajax({
+		    url: userfilesUrl + 'backup-import-session.log',
+		    success: function (data) {
+		    	data = data.replace(/\n/g, "<br />");
+		    	$('#mw_backup_import_modal').find('.mw_modal_container').html(data);
+		    },  
+		    error: function() {
+		    	$('#mw_backup_import_modal').find('.mw_modal_container').html('Loading...');
+		    }
 		});
 	}
 }

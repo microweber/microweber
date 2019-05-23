@@ -142,7 +142,7 @@ class DatabaseWriter
 	public function runWriter()
 	{
 		//$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
-		$importTables = array('cart_orders');
+		$importTables = array('categories');
 		
 		foreach ($importTables as $table) {
 			if (isset($this->content[$table])) {
@@ -154,9 +154,14 @@ class DatabaseWriter
 		}
 	}
 	
-	public function runWriterBatch() 
+	public function runWriterWithBatch() 
 	{
-		$totalSteps = 1;
+		$totalSteps = 10;
+		
+		if ($this->currentStep == 0) {
+			// Clear old log file
+			$this->clearLog();
+		}
 		
 		$this->setLogInfo('Importing database batch: ' . $this->currentStep . '/' . $totalSteps);
 		
