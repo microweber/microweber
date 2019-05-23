@@ -36,6 +36,12 @@ class DatabaseWriter
 	public $currentStep = 0;
 	
 	/**
+	 * The total steps for batch.
+	 * @var integer
+	 */
+	public $totalSteps = 15;
+	
+	/**
 	 * The content from backup file
 	 * @var string
 	 */
@@ -104,7 +110,13 @@ class DatabaseWriter
 		if ($checkItemIsExists) {
 			$itemIdDatabase = $checkItemIsExists['id'];
 			echo $item['save_to_table'] . ': Item is allready saved.' . PHP_EOL;
+			
+			$this->setLogInfo('Update item ' . $this->_getItemFriendlyName($item) . ' in ' . $item['save_to_table']);
+			
 		} else {
+
+			$this->setLogInfo('Save item ' . $this->_getItemFriendlyName($item) . ' in ' . $item['save_to_table']);
+
 			echo $item['save_to_table'] . ': Item is saved.' . PHP_EOL;
 			$saveItem = $this->_unsetItemFields($item);
 			$saveItem['skip_cache'] = true;
@@ -112,6 +124,17 @@ class DatabaseWriter
 		}
 		
 		return array('item'=>$item, 'itemIdDatabase'=>$itemIdDatabase);
+	}
+	
+	private function _getItemFriendlyName($item) {
+		$name = '';
+		if (isset($item['title'])) {
+			$name = $item['title'];
+		}
+		if (isset($item['name'])) {
+			$name = $item['name'];
+		}
+		return $name;
 	}
 	
 	/**
@@ -156,14 +179,12 @@ class DatabaseWriter
 	
 	public function runWriterWithBatch() 
 	{
-		$totalSteps = 10;
-		
 		if ($this->currentStep == 0) {
 			// Clear old log file
 			$this->clearLog();
 		}
 		
-		$this->setLogInfo('Importing database batch: ' . $this->currentStep . '/' . $totalSteps);
+		$this->setLogInfo('Importing database batch: ' . $this->currentStep . '/' . $this->totalSteps);
 		
 		$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
 		$importTables = array('content', 'categories');
@@ -176,21 +197,20 @@ class DatabaseWriter
 					$item['save_to_table'] = $table;
 					$itemsForSave[] = $item;
 				}
+				$this->setLogInfo('Save content to table: ' . $table);
 			}
 		}
 		
 		if (!empty($itemsForSave)) {
 			
 			$totalItemsForSave = sizeof($itemsForSave);
-			$totalItemsForBatch = round($totalItemsForSave / $totalSteps, 0);
+			$totalItemsForBatch = round($totalItemsForSave / $this->totalSteps, 0);
 			
 			$itemsBatch = array_chunk($itemsForSave, $totalItemsForBatch);
 			
 			if (!isset($itemsBatch[$this->currentStep])) {
 				
 				$this->setLogInfo('No items in batch for current step.');
-				$this->setLogInfo('Done!');
-				
 				$this->_finishUp();
 				
 				return array("success"=>"Done! All steps are finished.");
@@ -207,6 +227,16 @@ class DatabaseWriter
 			cache_save($this->currentStep + 1, 'CurrentStep',$this->_cacheGroupName, 60 * 10);
 			
 		}
+		
+	}
+	
+	public function getJsonLog() {
+		
+		$json = array();
+		$json['current_step'] = $this->currentStep;
+		$json['total_steps'] = $this->totalSteps;
+		
+		return json_encode($json, JSON_PRETTY_PRINT);
 	}
 	
 	/**
@@ -227,6 +257,8 @@ class DatabaseWriter
 		$this->setLogInfo('Cleaning up system cache');
 		
 		mw()->cache_manager->clear();
+		
+		$this->setLogInfo('Done!');
 	}
 	
 }

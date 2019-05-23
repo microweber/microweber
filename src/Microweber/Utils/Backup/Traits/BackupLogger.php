@@ -8,7 +8,7 @@ trait BackupLogger
 {
 
 	private $logger;
-	private $importLogName = 'Backup importing';
+	private $importLogName = 'Importing';
 	private $importLogFileName = 'backup-import-session.log';
 
 	public function setLogInfo($log)
@@ -21,7 +21,7 @@ trait BackupLogger
 
 	public function clearLog()
 	{
-		@unlink($this->_getLogFilename());
+		file_put_contents($this->_getLogFilename(), false);
 	}
 
 	private function _getLogFilename()

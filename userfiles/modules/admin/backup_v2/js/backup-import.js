@@ -39,6 +39,10 @@ mw.backup_import = {
 		data.id = src;
 		
 		mw.backup_import.start_import();
+		
+		setInterval(function() {
+			mw.backup_import.get_log();
+		}, 2000);
 	},
 	
 	start_import: function () {
