@@ -279,17 +279,7 @@ class Import
         if (!is_file($filename)) {
             return array('error' => 'You have not provided a existing backup to restore.');
         } else {
-        	// This is the old method
-            // return $this->import_file($filename);
-   			try {	
-	        	$manager = new BackupManager();
-	        	$manager->setImportType('json');
-	        	$manager->setImportFile($filename);
-	        	
-	        	$import = $manager->startImport();
-   			} catch (\Exception $e) {
-   				return array('error' => $e->getMessage());
-   			}         
+            return $this->import_file($filename);     
         }
 
         return $params;

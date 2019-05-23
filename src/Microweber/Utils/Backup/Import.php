@@ -58,8 +58,18 @@ class Import
 
 		if ($reader) {
 			$this->setLogInfo('Reading data from file ' . basename($this->file));
-			$readedData = $reader->readData();
-
+			
+			try {
+				$readedData = $reader->readData();
+			} catch (\Exception $e) {
+				$readedData = array();
+				$fileIsBroken = 'Can\'t read data. The file is corrupt.';
+				$this->setLogInfo($fileIsBroken);
+				return array(
+					'error' => $fileIsBroken
+				);
+			}
+			
 			if (! empty($readedData)) {
 				$successMessages = count($readedData, COUNT_RECURSIVE) . ' items are readed.';
 				$this->setLogInfo($successMessages);
@@ -71,7 +81,7 @@ class Import
 			}
 		}
 
-		$formatNotSupported = 'Import format not supported.';
+		$formatNotSupported = 'Import format not supported';
 		$this->setLogInfo($formatNotSupported);
 		return array(
 			'error' => $formatNotSupported

@@ -9,7 +9,7 @@ $(document).ready(function () {
     mw.$("#mw_uploader").append(uploader);
     $(uploader).bind("FileUploaded", function (obj, data) {
     	
-    	mw.admin_import.move_uploaded_file_to_import(data.src);
+    	mw.backup_import.upload(data.src);
     	
         mw.$("#mw_uploader_loading").hide();
         mw.$("#mw_uploader").show();

@@ -17,7 +17,7 @@
         <th><?php _e("Time"); ?></th>
         <th><?php _e("Size"); ?></th>
         <th><?php _e("Download"); ?></th>
-        <th><?php _e("Restore"); ?></th>
+        <th><?php _e("Import"); ?></th>
         <th><?php _e("Delete"); ?></th>
       </tr>
     </thead>
@@ -28,13 +28,15 @@
         <td><?php _e("Time"); ?></td>
         <td><?php _e("Size"); ?></td>
         <td><?php _e("Download"); ?></td>
-        <td><?php _e("Restore"); ?></td>
+        <td><?php _e("Import"); ?></td>
         <td><?php _e("Delete"); ?></td>
       </tr>
     </tfoot>
     <tbody>
-      <?php $backups = mw('Microweber\Utils\Import')->get();
-		  if(isarr($backups )): ?>
+      <?php 
+      $backups = mw('Microweber\Utils\BackupV2')->get();
+		  if(isarr($backups )):
+		?>
       <?php
 	  $i = 1;
 	   foreach($backups  as $item): ?>
@@ -43,15 +45,13 @@
           <td><span class="mw-date"><?php print $item['date']  ?></span></td>
           <td><span class="mw-date"><?php print $item['time']  ?></span></td>
           <td><span class="mw-date"><?php print file_size_nice( $item['size'])  ?></span></td>
-          <td><a class="show-on-hover mw-ui-btn mw-ui-btn-blue" target="_blank" href="<?php print api_url('Microweber/Utils/Import/download'); ?>?file=<?php print $item['filename']  ?>"><?php _e("Download"); ?></a></td>
+          <td><a class="show-on-hover mw-ui-btn mw-ui-btn-blue" target="_blank" href="<?php print api_url('Microweber/Utils/BackupV2/download'); ?>?file=<?php print $item['filename']  ?>"><?php _e("Download"); ?></a></td>
         <td>
-        <!--<a class="show-on-hover mw-ui-btn mw-ui-btn-green" href="javascript:mw.admin_import.restore('<?php print $item['filename']  ?>')"><?php _e("Restore"); ?></a>-->
-        
-        <a class="show-on-hover mw-ui-btn mw-ui-btn-green" href="javascript:mw.admin_import.restore('<?php print $item['filename']  ?>')"><?php _e("Restore"); ?></a>
-        
+      
+        <a class="show-on-hover mw-ui-btn mw-ui-btn-green" href="javascript:mw.backup_import.import('<?php print $item['filename']  ?>')"><?php _e("Import"); ?></a>
         
         </td>
-        <td><a class="show-on-hover mw-ui-btn mw-ui-btn-red" href="javascript:mw.admin_import.remove('<?php print $item['filename']  ?>', '.mw_admin_import_item_<?php print $i ?>')"><?php _e("Delete"); ?></a></td>
+        <td><a class="show-on-hover mw-ui-btn mw-ui-btn-red" href="javascript:mw.backup_import.remove('<?php print $item['filename']  ?>', '.mw_admin_import_item_<?php print $i ?>')"><?php _e("Delete"); ?></a></td>
       </tr>
       <?php $i++; endforeach ; ?>
       <?php endif; ?>
