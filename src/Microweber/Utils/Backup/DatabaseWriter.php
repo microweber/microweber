@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Cache;
 use Microweber\Utils\Backup\Traits\DatabaseCategoriesWriter;
 use Microweber\Utils\Backup\Traits\DatabaseRelationWriter;
 use Microweber\Utils\Backup\Traits\DatabaseContentWriter;
+use Microweber\Utils\Backup\Traits\DatabaseMenusWriter;
 
 /**
  * Microweber - Backup Module Database Writer
@@ -21,6 +22,7 @@ use Microweber\Utils\Backup\Traits\DatabaseContentWriter;
 class DatabaseWriter
 {
 	use BackupLogger;
+	use DatabaseMenusWriter;
 	use DatabaseRelationWriter;
 	use DatabaseCustomFieldsWriter;
 	use DatabaseContentWriter;
@@ -39,7 +41,7 @@ class DatabaseWriter
 	 * The total steps for batch.
 	 * @var integer
 	 */
-	public $totalSteps = 100;
+	public $totalSteps = 10;
 	
 	/**
 	 * The content from backup file
@@ -88,7 +90,7 @@ class DatabaseWriter
 		$recognizeParams = array(
 			'payment_verify_token',
 			'option_key',
-			'option_value',
+			'item_type',
 			'option_group',
 			'session_id',
 			'created_at',
@@ -116,7 +118,6 @@ class DatabaseWriter
 		if ($checkItemIsExists) {
 			$itemIdDatabase = $checkItemIsExists['id'];
 			$this->setLogInfo('Update item ' . $this->_getItemFriendlyName($item) . ' in ' . $item['save_to_table']);
-			return;
 		} else {
 			$this->setLogInfo('Save item ' . $this->_getItemFriendlyName($item) . ' in ' . $item['save_to_table']);
 			$saveItem = $this->_unsetItemFields($item);
@@ -154,6 +155,7 @@ class DatabaseWriter
 		$this->_fixRelations($savedItem);
 		$this->_fixParentRelationship($savedItem);
 		$this->_fixCategoryParents();
+		$this->_fixMenuParents();
 		
 		//echo $item['save_to_table'];
 		//die();
@@ -166,7 +168,7 @@ class DatabaseWriter
 	public function runWriter()
 	{
 		//$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
-		$importTables = array('categories');
+		$importTables = array('menus');
 		
 		foreach ($importTables as $table) {
 			if (isset($this->content[$table])) {
@@ -243,6 +245,10 @@ class DatabaseWriter
 		$log['current_step'] = $this->currentStep;
 		$log['total_steps'] = $this->totalSteps;
 		$log['precentage'] = ($this->currentStep * 100) / $this->totalSteps;
+		
+		if ($this->currentStep >= $this->totalSteps) {
+			$log['done'] = true;
+		}
 		
 		return $log;
 	}

@@ -20,7 +20,7 @@ class ZipReader extends DefaultReader
 		$this->setLogInfo('Unzipping '.basename($this->file).' in userfiles...');
 		
 		$backupManager = new BackupManager();
-		$backupLocation = $backupManager->getBackupLocation(). 'temp_backup/';
+		$backupLocation = $backupManager->getBackupLocation(). 'temp_backup_zip/';
 		
 		// Remove old files
 		$this->_removeFilesFromPath($backupLocation);

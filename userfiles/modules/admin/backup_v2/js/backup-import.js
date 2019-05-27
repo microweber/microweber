@@ -41,7 +41,7 @@ mw.backup_import = {
 		
 		mw.backup_import.start_import();
 		
-		setInterval(function() {
+		var importLogInterval = setInterval(function() {
 			mw.backup_import.get_log();
 		}, 2000);
 	},
@@ -52,8 +52,15 @@ mw.backup_import = {
 		  url: mw.settings.api_url+'Microweber/Utils/BackupV2/restore',
 		  data: data,
 		  success: function(jsonData) {
+			if (jsonData.done) {
+				clearInterval(importLogInterval);
+				mw.backup_import.get_progress(100);
+				alert('done');
+				return;
+			} else {
 				mw.backup_import.get_progress(jsonData.precentage);
 				mw.backup_import.start_import();
+			}
 		  }
 		});
 	},

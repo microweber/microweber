@@ -7,12 +7,17 @@ use Monolog\Handler\StreamHandler;
 trait BackupLogger
 {
 
+	private $debug = true;
 	private $logger;
 	private $importLogName = 'Importing';
 	private $importLogFileName = 'backup-import-session.log';
 
 	public function setLogInfo($log)
 	{
+		if ($this->debug) {
+			echo $log . PHP_EOL;
+		}
+		
 		if (! $this->logger) {
 			$this->_getLogger();
 		}

@@ -57,12 +57,13 @@ class Import
 		$reader = $this->_getReader($file);
 		if ($reader) {
 			$this->setLogInfo('Reading data from file ' . basename($this->file));
-			
+
 			try {
 				$readedData = $reader->readData();
 			} catch (\Exception $e) {
 				$readedData = array();
-				$fileIsBroken = 'Can\'t read data. The file is corrupt.';
+				// $fileIsBroken = 'Can\'t read data. The file is corrupt.';
+				$fileIsBroken = $e->getMessage();
 				$this->setLogInfo($fileIsBroken);
 				return array(
 					'error' => $fileIsBroken
@@ -94,7 +95,7 @@ class Import
 	 */
 	public function readContentWithCache()
 	{
-		return Cache::rememberForever(md5($this->file . $this->type), function () {
+		return Cache::rememberForever(md5($this->file), function () {
 			mw()->cache_manager->clear();
 			$this->setLogInfo('Start importing session..');
 			return $this->importAsType($this->file);
