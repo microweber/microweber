@@ -104,7 +104,7 @@ class BackupManager
 		
 		$writer = new DatabaseWriter();
 		$writer->setContent($content['data']);
-		$writer->runWriterWithBatch();
+		$writer->runWriter();
 		
 		return $writer->getImportLog();
 	}

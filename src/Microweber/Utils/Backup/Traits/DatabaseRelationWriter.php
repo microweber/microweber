@@ -1,6 +1,8 @@
 <?php
 namespace Microweber\Utils\Backup\Traits;
 
+use Microweber\Utils\Backup\DatabaseSave;
+
 trait DatabaseRelationWriter
 {
 
@@ -62,7 +64,7 @@ trait DatabaseRelationWriter
 				$savedItem['item']['rel_id'] = $relationDatabase['id'];
 				$savedItem['item']['id'] = $savedItem['itemIdDatabase'];
 				
-				db_save($savedItem['item']['save_to_table'], $savedItem['item']);
+				DatabaseSave::save($savedItem['item']['save_to_table'], $savedItem['item']);
 				
 				//echo 'Relation is fixed.' . PHP_EOL;
 				

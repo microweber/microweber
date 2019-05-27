@@ -1,6 +1,8 @@
 <?php
 namespace Microweber\Utils\Backup\Traits;
 
+use Microweber\Utils\Backup\DatabaseSave;
+
 trait DatabaseContentWriter
 {
 
@@ -25,7 +27,10 @@ trait DatabaseContentWriter
 		$dbSelectParams['single'] = true;
 		$dbSelectParams['do_not_replace_site_url'] = 1;
 		$dbSelectParams['title'] = $content['title'];
-		$dbSelectParams['created_at'] = $content['created_at'];
+		$dbSelectParams['content_type'] = $content['content_type'];
+		$dbSelectParams['subtype'] = $content['subtype'];
+		$dbSelectParams['url'] = $content['url'];
+		$dbSelectParams['layout_file'] = $content['layout_file'];
 
 		return db_get('content', $dbSelectParams);
 	}
@@ -47,7 +52,7 @@ trait DatabaseContentWriter
 			
 					//echo 'Fix parent relationship on content' . PHP_EOL;
 					
-					db_save('content', $savedItem['item']);
+					DatabaseSave::save('content', $savedItem['item']);
 				}
 			}
 		}

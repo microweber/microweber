@@ -1,6 +1,8 @@
 <?php 
 namespace Microweber\Utils\Backup\Traits;
 
+use Microweber\Utils\Backup\DatabaseSave;
+
 trait DatabaseCustomFieldsWriter {
 	
 	private function _getCustomFields($itemId) {
@@ -65,7 +67,7 @@ trait DatabaseCustomFieldsWriter {
 			//echo $customField['name'] . ': Custom field is allready saved.' . PHP_EOL;
 		} else {
 			//echo $customField['name'] .': Custom field is saved.' . PHP_EOL;
-			$customFieldIdDatabase = db_save('custom_fields', $customField);
+			$customFieldIdDatabase = DatabaseSave::save('custom_fields', $customField);
 		}
 		
 		$this->_saveCustomFieldValues($customField, $customFieldIdDatabase);
@@ -97,7 +99,7 @@ trait DatabaseCustomFieldsWriter {
 				//echo 'Custom field value is allready saved.' . PHP_EOL;
 			} else {
 				//echo 'Custom field value is saved.' . PHP_EOL;
-				$customFieldValueIdDatabase = db_save('custom_fields_values', $customFieldValue);
+				$customFieldValueIdDatabase = DatabaseSave::save('custom_fields_values', $customFieldValue);
 			}
 			
 		}

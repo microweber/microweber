@@ -1,6 +1,8 @@
 <?php 
 namespace Microweber\Utils\Backup\Traits;
 
+use Microweber\Utils\Backup\DatabaseSave;
+
 trait DatabaseCategoryItemsWriter {
 	
 	private function _getCategoriesItems($itemId) {
@@ -105,7 +107,7 @@ trait DatabaseCategoryItemsWriter {
 		} else {
 			//echo $categoryItem['parent_id'] . ': category item is saved.' . PHP_EOL;
 			unset($categoryItem['id']);
-			$categoryItemIdDatabase = db_save('categories_items', $categoryItem);
+			$categoryItemIdDatabase = DatabaseSave::save('categories_items', $categoryItem);
 		}
 		
 	}

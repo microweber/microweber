@@ -1,6 +1,8 @@
 <?php
 namespace Microweber\Utils\Backup\Traits;
 
+use Microweber\Utils\Backup\DatabaseSave;
+
 trait DatabaseMenusWriter
 {
 
@@ -14,13 +16,18 @@ trait DatabaseMenusWriter
 		foreach ($this->content['menus'] as $menu) {
 			$menus[] = $menu;
 		}
-
+		
 		return $menus;
 	}
 
 	private function _getMenu($id)
 	{
-		foreach ($this->_getMenus() as $menu) {
+		$menus = $this->_getMenus();
+		if (empty($menus)){
+			return;
+		}
+		
+		foreach ($menus as $menu) {
 			if ($menu['id'] == $id) {
 				return $menu;
 			}
@@ -37,7 +44,15 @@ trait DatabaseMenusWriter
 		$dbSelectParams['title'] = $menu['title'];
 		$dbSelectParams['item_type'] = $menu['item_type'];
 		$dbSelectParams['created_at'] = $menu['created_at'];
-
+		
+		/* if ($menu['content_id'] > 0) {
+			
+			$getContent = $this->_getContentById($menu['content_id']);
+			
+			var_dump($getContent);
+			die();
+		} */
+		
 		return db_get('menus', $dbSelectParams);
 	}
 
@@ -46,7 +61,13 @@ trait DatabaseMenusWriter
 	 */
 	private function _fixMenuParents()
 	{
-		foreach ($this->_getMenus() as $menu) {
+		
+		$menus = $this->_getMenus();
+		if (empty($menus)){
+			return;
+		}
+		
+		foreach ($menus as $menu) {
 
 			$getNewMenu = $this->_getMenuDatabase($menu);
 
@@ -60,7 +81,8 @@ trait DatabaseMenusWriter
 
 					if (! empty($getNewParentMenu)) {
 						$getNewMenu['parent_id'] = $getNewParentMenu['id'];
-						db_save('menus', $getNewMenu);
+						
+						DatabaseSave::save('menus', $getNewMenu);
 					}
 				}
 			}

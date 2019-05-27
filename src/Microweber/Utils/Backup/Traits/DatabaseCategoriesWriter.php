@@ -1,6 +1,8 @@
 <?php
 namespace Microweber\Utils\Backup\Traits;
 
+use Microweber\Utils\Backup\DatabaseSave;
+
 trait DatabaseCategoriesWriter
 {
 
@@ -45,7 +47,11 @@ trait DatabaseCategoriesWriter
 	 */
 	private function _fixCategoryParents()
 	{
-		foreach ($this->_getCategories() as $category) {
+		$categories = $this->_getCategories();
+		if (empty($categories)) {
+			return;
+		}
+		foreach ($categories as $category) {
 
 			$getNewCategory = $this->_getCategoryDatabase($category);
 
@@ -59,7 +65,7 @@ trait DatabaseCategoriesWriter
 
 					if (! empty($getNewParentCategory)) {
 						$getNewCategory['parent_id'] = $getNewParentCategory['id'];
-						db_save('categories', $getNewCategory);
+						DatabaseSave::save('categories', $getNewCategory);
 					}
 				}
 			}

@@ -1,6 +1,8 @@
 <?php 
 namespace Microweber\Utils\Backup\Traits;
 
+use Microweber\Utils\Backup\DatabaseSave;
+
 trait DatabaseContentDataWriter {
 	
 	private function _getContentData($itemId) {
@@ -53,7 +55,7 @@ trait DatabaseContentDataWriter {
 		} else {
 			//echo $singleContentData['field_name'] . ': Content data is saved.' . PHP_EOL;
 			$singleContentData = $this->_unsetItemFields($singleContentData);
-			$contentDataId = db_save('content_data', $singleContentData);
+			$contentDataId = DatabaseSave::save('content_data', $singleContentData);
 		}
 		
 		/* 

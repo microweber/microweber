@@ -41,7 +41,7 @@ class DatabaseWriter
 	 * The total steps for batch.
 	 * @var integer
 	 */
-	public $totalSteps = 10;
+	public $totalSteps = 3;
 	
 	/**
 	 * The content from backup file
@@ -92,14 +92,18 @@ class DatabaseWriter
 			'option_key',
 			'item_type',
 			'option_group',
-			'session_id',
-			'created_at',
 			'title',
 			'email',
 			'username',
 			'first_name',
 			'last_name',
-			'amount'
+			'amount',
+			'content_type',
+			'subtype',
+			'url',
+			'layout_file',
+			'media_type',
+			'filename'
 		);
 		
 		foreach($recognizeParams as $recognizeParam) {
@@ -107,23 +111,19 @@ class DatabaseWriter
 				$dbSelectParams[$recognizeParam] = $item[$recognizeParam];
 			}
 		}
-
-		//\DB::enableQueryLog();
 		
 		$checkItemIsExists = db_get($item['save_to_table'], $dbSelectParams);
-		
-		//$query = \DB::getQueryLog();
-		//print_r($query);die();
-		
 		if ($checkItemIsExists) {
-			$itemIdDatabase = $checkItemIsExists['id'];
 			$this->setLogInfo('Update item ' . $this->_getItemFriendlyName($item) . ' in ' . $item['save_to_table']);
 		} else {
 			$this->setLogInfo('Save item ' . $this->_getItemFriendlyName($item) . ' in ' . $item['save_to_table']);
-			$saveItem = $this->_unsetItemFields($item);
-			$saveItem['skip_cache'] = true;
-			$itemIdDatabase = db_save($saveItem['save_to_table'], $saveItem);
 		}
+		
+		$saveItem = $this->_unsetItemFields($item);
+		if ($checkItemIsExists) {
+			$saveItem['id'] = $checkItemIsExists['id'];
+		}
+		$itemIdDatabase = DatabaseSave::save($saveItem['save_to_table'], $saveItem);
 		
 		return array('item'=>$item, 'itemIdDatabase'=>$itemIdDatabase);
 	}
@@ -167,12 +167,21 @@ class DatabaseWriter
 	 */
 	public function runWriter()
 	{
-		//$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
+		/* //$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
 		$importTables = array('menus');
 		
 		foreach ($importTables as $table) {
 			if (isset($this->content[$table])) {
 				foreach ($this->content[$table] as $item) {
+					$item['save_to_table'] = $table;
+					$this->_saveItem($item);
+				}
+			}
+		} */
+		
+		foreach ($this->content as $table=>$items) {
+			if (!empty($items)) {
+				foreach($items as $item) {
 					$item['save_to_table'] = $table;
 					$this->_saveItem($item);
 				}
@@ -191,7 +200,7 @@ class DatabaseWriter
 		
 		//$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
 		//$importTables = array('content', 'categories');
-		$excludeTables = array();
+		$excludeTables = array(); 
 		
 		// All db tables
 		$itemsForSave = array();
