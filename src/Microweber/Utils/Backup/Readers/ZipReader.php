@@ -33,8 +33,13 @@ class ZipReader extends DefaultReader
 			$copy = $this->_cloneDirectory($backupLocation, userfiles_path());
 		}
 		
-		$jsonReader = new JsonReader($backupLocation. 'mw_content.json');
-		return $jsonReader->readData();		
+		$mwContentJsonFile = $backupLocation. 'mw_content.json';
+		if (is_file($mwContentJsonFile)) {
+			$jsonReader = new JsonReader($mwContentJsonFile);
+			return $jsonReader->readData();		
+		} else {
+			$this->setLogInfo('The zip file has no mw_content.json. Nothing to import.');
+		}
 		
 	}
 	

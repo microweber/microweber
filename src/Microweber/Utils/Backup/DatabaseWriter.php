@@ -83,6 +83,7 @@ class DatabaseWriter
 		$dbSelectParams['limit'] = 1;
 		$dbSelectParams['single'] = true;
 		$dbSelectParams['do_not_replace_site_url'] = 1;
+		$dbSelectParams['fields'] = 'id';
 		
 		$recognizeParams = array(
 			'payment_verify_token',
@@ -105,11 +106,17 @@ class DatabaseWriter
 			}
 		}
 
+		//\DB::enableQueryLog();
+		
 		$checkItemIsExists = db_get($item['save_to_table'], $dbSelectParams);
+		
+		//$query = \DB::getQueryLog();
+		//print_r($query);die();
 		
 		if ($checkItemIsExists) {
 			$itemIdDatabase = $checkItemIsExists['id'];
 			$this->setLogInfo('Update item ' . $this->_getItemFriendlyName($item) . ' in ' . $item['save_to_table']);
+			return;
 		} else {
 			$this->setLogInfo('Save item ' . $this->_getItemFriendlyName($item) . ' in ' . $item['save_to_table']);
 			$saveItem = $this->_unsetItemFields($item);
@@ -180,19 +187,25 @@ class DatabaseWriter
 		
 		$this->setLogInfo('Importing database batch: ' . $this->currentStep . '/' . $this->totalSteps);
 		
-		$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
-		$importTables = array('content', 'categories');
-
+		//$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
+		//$importTables = array('content', 'categories');
+		$excludeTables = array();
+		
 		// All db tables
 		$itemsForSave = array();
-		foreach ($importTables as $table) {
-			if (isset($this->content[$table])) {
-				foreach ($this->content[$table] as $item) {
+		foreach ($this->content as $table=>$items) {
+			
+			if (in_array($table, $excludeTables)) {
+				continue;
+			}
+			
+			if (!empty($items)) {
+				foreach($items as $item) {
 					$item['save_to_table'] = $table;
 					$itemsForSave[] = $item;
 				}
-				$this->setLogInfo('Save content to table: ' . $table);
 			}
+			$this->setLogInfo('Save content to table: ' . $table);
 		}
 		
 		if (!empty($itemsForSave)) {

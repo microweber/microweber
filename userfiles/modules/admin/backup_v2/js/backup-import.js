@@ -34,7 +34,7 @@ mw.backup_import = {
 		    title: importContentFromFileText,
 		    id: 'mw_backup_import_modal' 
 		});
-		mw.backup_import.init_progress(0);
+		mw.backup_import.init_progress(1);
 		
 		data = {}
 		data.id = src;

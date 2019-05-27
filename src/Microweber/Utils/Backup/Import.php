@@ -52,10 +52,9 @@ class Import
 	 * @param array $data
 	 * @return array
 	 */
-	public function importAsType($data)
+	public function importAsType($file)
 	{
-		$reader = $this->_getReader($data);
-
+		$reader = $this->_getReader($file);
 		if ($reader) {
 			$this->setLogInfo('Reading data from file ' . basename($this->file));
 			
@@ -96,6 +95,7 @@ class Import
 	public function readContentWithCache()
 	{
 		return Cache::rememberForever(md5($this->file . $this->type), function () {
+			mw()->cache_manager->clear();
 			$this->setLogInfo('Start importing session..');
 			return $this->importAsType($this->file);
 		});
