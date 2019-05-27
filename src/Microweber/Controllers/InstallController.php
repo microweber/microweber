@@ -211,27 +211,38 @@ class InstallController extends Controller
                     $installer->run();
                 }
 
+
                 if (!$install_step or $install_step == 3) {
+                    $this->log('Setting up modules');
+                    $installer = new Install\ModulesInstaller();
+                    $installer->run();
+                }
+
+                if (!$install_step or $install_step == 4) {
                     $this->log('Setting up template');
                     $installer = new Install\TemplateInstaller();
                     $installer->logger = $this;
                     $installer->run();
                 }
-                if (!$install_step or $install_step == 4) {
+                if (!$install_step or $install_step == 5) {
                     $this->log('Setting up default options');
                     $installer = new Install\DefaultOptionsInstaller();
                     $installer->run();
                 }
 
-                if (!$install_step or $install_step == 5) {
-                    $this->log('Setting up modules');
+                if (!$install_step or $install_step == 6) {
+                    $this->log('Setting up modules after template install');
                     $installer = new Install\ModulesInstaller();
                     $installer->run();
                 }
+
+
+
+
                 if ($install_step) {
                     if ($install_step != 'finalize') {
                         $install_step_return = array('install_step' => $install_step + 1);
-                        if ($install_step == 5) {
+                        if ($install_step == 6) {
                             if (isset($input['admin_email']) and isset($input['subscribe_for_update_notification'])) {
                                 $this->reportInstall($input['admin_email'], $input['subscribe_for_update_notification']);
                             }
