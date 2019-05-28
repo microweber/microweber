@@ -12,6 +12,7 @@ use Microweber\Utils\Backup\Traits\DatabaseCategoriesWriter;
 use Microweber\Utils\Backup\Traits\DatabaseRelationWriter;
 use Microweber\Utils\Backup\Traits\DatabaseContentWriter;
 use Microweber\Utils\Backup\Traits\DatabaseMenusWriter;
+use Microweber\Utils\Backup\Traits\DatabaseMediaWriter;
 
 /**
  * Microweber - Backup Module Database Writer
@@ -22,6 +23,7 @@ use Microweber\Utils\Backup\Traits\DatabaseMenusWriter;
 class DatabaseWriter
 {
 	use BackupLogger;
+	use DatabaseMediaWriter;
 	use DatabaseMenusWriter;
 	use DatabaseRelationWriter;
 	use DatabaseCustomFieldsWriter;
@@ -86,12 +88,17 @@ class DatabaseWriter
 	
 	private function _saveItemDatabase($item) {
 		
-		// Dont import menus without title
+		if ($item['save_to_table'] == 'media' && empty($item['title'])) {
+			$this->_saveMedia($item);
+			return;
+		}
+		
 		if ($item['save_to_table'] == 'menus' && empty($item['title'])) {
 			$this->_saveMenuItem($item);
 			return;
 		}
 		
+		// Dont import menus without title
 		if ($item['save_to_table'] == 'content_fields' && empty($item['title'])) {
 			$this->_saveContentField($item);
 			return;
@@ -193,7 +200,7 @@ class DatabaseWriter
 			//$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
 		*/
 		
-		$importTables = array('content_fields');
+		$importTables = array('media');
 		
 		foreach ($importTables as $table) {
 			if (isset($this->content[$table])) {
