@@ -41,7 +41,7 @@ class DatabaseWriter
 	 * The total steps for batch.
 	 * @var integer
 	 */
-	public $totalSteps = 3;
+	public $totalSteps = 10;
 	
 	/**
 	 * The content from backup file
@@ -58,11 +58,17 @@ class DatabaseWriter
 	public function setContent($content)
 	{
 		$this->content = $content;
+	}
+	
+	private function _getCurrentStep() {
 		
 		$this->currentStep = (int) cache_get('CurrentStep', $this->_cacheGroupName);
+		
 		if (!$this->currentStep) {
 			$this->currentStep = 0;
 		}
+		
+		return $this->currentStep;
 	}
 	
 	/**
@@ -197,12 +203,12 @@ class DatabaseWriter
 	
 	public function runWriterWithBatch() 
 	{
-		if ($this->currentStep == 0) {
+		if ($this->_getCurrentStep() == 0) {
 			// Clear old log file
 			$this->clearLog();
 		}
 		
-		$this->setLogInfo('Importing database batch: ' . $this->currentStep . '/' . $this->totalSteps);
+		$this->setLogInfo('Importing database batch: ' . $this->_getCurrentStep() . '/' . $this->totalSteps);
 		
 		//$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
 		//$importTables = array('content', 'categories');
@@ -232,7 +238,7 @@ class DatabaseWriter
 			
 			$itemsBatch = array_chunk($itemsForSave, $totalItemsForBatch);
 			
-			if (!isset($itemsBatch[$this->currentStep])) {
+			if (!isset($itemsBatch[$this->_getCurrentStep()])) {
 				
 				$this->setLogInfo('No items in batch for current step.');
 				$this->_finishUp();
@@ -241,14 +247,14 @@ class DatabaseWriter
 			}
 			
 			$success = array();
-			foreach($itemsBatch[$this->currentStep] as $item) {
+			foreach($itemsBatch[$this->_getCurrentStep()] as $item) {
 				//echo 'Save item' . PHP_EOL;
 				$success[] = $this->_saveItem($item);
 			}
 			
 			//echo 'Save cache ... ' .$this->currentStep. PHP_EOL;
 			
-			cache_save($this->currentStep + 1, 'CurrentStep',$this->_cacheGroupName, 60 * 10);
+			cache_save($this->_getCurrentStep() + 1, 'CurrentStep', $this->_cacheGroupName, 60 * 10);
 			
 		}
 		
@@ -257,11 +263,11 @@ class DatabaseWriter
 	public function getImportLog() {
 		
 		$log = array();
-		$log['current_step'] = $this->currentStep;
+		$log['current_step'] = $this->_getCurrentStep();
 		$log['total_steps'] = $this->totalSteps;
-		$log['precentage'] = ($this->currentStep * 100) / $this->totalSteps;
+		$log['precentage'] = ($this->_getCurrentStep() * 100) / $this->totalSteps;
 		
-		if ($this->currentStep >= $this->totalSteps) {
+		if ($this->_getCurrentStep() >= $this->totalSteps) {
 			$log['done'] = true;
 		}
 		

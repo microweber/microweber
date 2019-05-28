@@ -40,10 +40,7 @@ mw.backup_import = {
 		data.id = src;
 		
 		mw.backup_import.start_import();
-		
-		var importLogInterval = setInterval(function() {
-			mw.backup_import.get_log();
-		}, 2000);
+		mw.backup_import.get_log_check('start');
 	},
 	
 	start_import: function () {
@@ -52,17 +49,32 @@ mw.backup_import = {
 		  url: mw.settings.api_url+'Microweber/Utils/BackupV2/restore',
 		  data: data,
 		  success: function(jsonData) {
+			  console.log(jsonData);
 			if (jsonData.done) {
-				clearInterval(importLogInterval);
 				mw.backup_import.get_progress(100);
-				alert('done');
-				return;
+				mw.backup_import.get_log_check('stop');
+				$('#mw_backup_import_modal').find('.backup-import-modal-log').before('<br /><h1>All data is imported success!</h1>');
+				return; 
 			} else {
 				mw.backup_import.get_progress(jsonData.precentage);
 				mw.backup_import.start_import();
 			}
 		  }
 		});
+	},
+	
+	get_log_check: function(action = 'start') {
+		
+		var importLogInterval = setInterval(function() {
+			mw.backup_import.get_log();
+		}, 2000);
+		
+		if (action == 'stop') {
+			for(i=0; i<10000; i++) {
+		        window.clearInterval(i);
+		    }
+		}
+		
 	},
 	
 	get_progress: function(precent) {

@@ -57,10 +57,10 @@ class ZipReader extends DefaultReader
 
 		foreach ($files as $fileinfo) {
 			$todo = ($fileinfo->isDir() ? 'rmdir' : 'unlink');
-			$todo($fileinfo->getRealPath());
+			@$todo($fileinfo->getRealPath());
 		}
 
-		rmdir($dir);
+		@rmdir($dir);
 	}
 	
 	private function _checkPathsExists() {
