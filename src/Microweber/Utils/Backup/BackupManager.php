@@ -10,6 +10,7 @@ class BackupManager
 	public $exportType = 'json';
 	public $importType = false;
 	public $importFile = false;
+	public $importBatch = false;
 	
 	public function __construct()
 	{
@@ -38,6 +39,10 @@ class BackupManager
 	public function setImportType($type) 
 	{
 		$this->importType = $type;
+	}
+	
+	public function setImportBatch($importBatch) {
+		$this->importBatch = $importBatch;
 	}
 
 	/**
@@ -104,7 +109,12 @@ class BackupManager
 		
 		$writer = new DatabaseWriter();
 		$writer->setContent($content['data']);
-		$writer->runWriter();
+		
+		if ($this->importBatch) {
+			$writer->runWriterWithBatch();	
+		} else {
+			$writer->runWriter();
+		}
 		
 		return $writer->getImportLog();
 	}
