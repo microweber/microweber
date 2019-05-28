@@ -43,15 +43,27 @@ mw.inaccessibleModules = document.createElement('div');
 mw.inaccessibleModules.className = 'mw-ui-btn-nav mwInaccessibleModulesMenu';
 
 $(document).ready(function() {
-   /* mw.liveEditSelector = new mw.Selector({
+    mw.liveEditSelector = new mw.Selector({
         root: document.body,
         autoSelect: false
     });
 
     mw.on('ElementOver', function(e, target){
-        mw.liveEditSelector.active(true);
-        mw.liveEditSelector.setItem(target, mw.liveEditSelector.interactors);
-    });*/
+
+        if(target.id){
+            mw.liveEditSelector.active(true);
+            mw.liveEditSelector.setItem(target, mw.liveEditSelector.interactors);
+        }
+
+    });
+
+    mw.on("ItemClick ImageClick ElementClick", function(e, el){
+        console.log(888, el)
+        if(el.id) {
+            mw.liveEditSelector.select(el);
+        }
+    });
+
     if (("ontouchstart" in document.documentElement)) {
         $('body').addClass('touchscreen-device');
     }
@@ -981,7 +993,7 @@ mw.drag = {
                     var currentComponent = mw.tools.firstParentOrCurrentWithAnyOfClasses(target, componentsClasses);
                     var fonttarget = mw.wysiwyg.firstElementThatHasFontIconClass(target);
 
-                    if( mw.tools.hasAnyOfClasses(target, componentsClasses) || mw.tools.hasParentsWithClass(target, 'module')) {
+                    if( mw.tools.hasAnyOfClassesOnNodeOrParent(target, componentsClasses)) {
                         if (currentComponent && !fonttarget) {
                             var isSafeMode = false;
                             var order = mw.tools.parentsOrder(target, ['safe-mode', 'module']);
@@ -1003,6 +1015,7 @@ mw.drag = {
                         }
 
                         var el = mw.tools.firstParentOrCurrentWithClass(target, 'element');
+                        console.log(990, el)
                         var safeEl = mw.tools.firstParentOrCurrentWithClass(target, 'safe-element');
                         var moduleEl = mw.tools.firstParentOrCurrentWithClass(target, 'module');
 

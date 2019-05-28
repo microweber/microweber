@@ -17,10 +17,27 @@
 
 var ActiveNode = null;
 
+var CSSShadow;
 
 
 var _prepare = {
+    shadow: function () {
+        CSSShadow = new mw.propEditor.schema({
+            schema: [
+                {
+                    interface: 'shadow',
+                    id: 'boxShadow',
+                    pickerPosition: 'top-left'
+                }
 
+            ],
+            element: document.querySelector('#shadow'),
+            size:'medium'
+        });
+        $(CSSShadow).on('change', function(e, id, val){
+            output(id, val)
+        })
+    },
     border: function () {
 
 
@@ -106,8 +123,8 @@ var _populate = {
                 this.style.color = mw.color.isDark(color) ? 'white' : 'black';
                 this.value = color.indexOf('rgb(') === 0 ? mw.color.rgbToHex(color) : color;
             }
-
-        })
+        });
+        $("#background-select-item").css('backgroundImage', css.backgroundImage)
     },
     textAlign: function(css){
         var align = css.get.alignNormalize();
@@ -184,6 +201,7 @@ var init = function(){
 
     _prepare.units()
     _prepare.border()
+    _prepare.shadow()
 
 };
 
@@ -407,14 +425,20 @@ top.mw.on('ElementClick', function(e, node){
     <div class="mw-ui-box-header mw-accordion-title">Background</div>
     <div class="mw-accordion-content mw-ui-box-content">
         <div class="s-field">
-            <label>Type</label>
+            <label>Image</label>
             <div class="s-field-content">
                 <span class="mw-ui-btn mw-ui-btn-medium" id="background-select-item">Image</span>
+            </div>
+        </div>
+        <div class="s-field">
+            <label>Color</label>
+            <div class="s-field-content">
                 <div class="mw-field" data-size="medium">
                     <input type="text" class="colorField" data-prop="backgroundColor">
                 </div>
             </div>
         </div>
+
         <div class="s-field">
             <label>Size</label>
             <div class="s-field-content">
@@ -516,6 +540,30 @@ top.mw.on('ElementClick', function(e, node){
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
+    <div class="mw-ui-box-header mw-accordion-title">Miscellaneous</div>
+    <div class="mw-accordion-content mw-ui-box-content">
+        <div class="s-field">
+            <label>Corner Radius</label>
+            <div class="s-field-content">
+                <div class="mw-field" data-size="medium">
+                    <div class="mw-multiple-fields">
+                        <div class="mw-field" data-size="medium" data-before="Top Left"><input type="text" class="regular" data-prop="borderTopLeftRadius"></div>
+                        <div class="mw-field" data-size="medium" data-before="Top Right"><input class="regular" type="text" data-prop="borderTopRightRadius"></div>
+                    </div>
+                </div>
+                <div class="mw-field" data-size="medium">
+                    <div class="mw-multiple-fields">
+                        <div class="mw-field" data-size="medium"><input class="regular" type="text" data-prop="borderBottomLeftRadius"></div>
+                        <div class="mw-field" data-size="medium"><input class="regular" type="text" data-prop="borderBottomRightRadius"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="shadow"></div>
+
     </div>
 </div>
 

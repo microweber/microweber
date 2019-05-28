@@ -143,8 +143,14 @@ body{
         margin-top: 2px;
         clear: both;
     }
+    .text-align .active{
+        background-color: #0e80e5;
+    }
+    .text-align > .active:before{
+        display: none;
+    }
     .text-align .active i{
-        background-color: #0aaaf1;
+        background-color: #fff;
     }
     .ta-left i:nth-child(2),
     .ta-left i:nth-child(3),

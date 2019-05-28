@@ -247,7 +247,7 @@ mw.propEditor = {
             });
 
             this.field.setAttribute('list', dtlist.id);
-            document.body.appendChild(dtlist)
+            document.body.appendChild(dtlist);
 
             this._makeVal = function(){
                 if(field.value === 'auto'){
@@ -357,16 +357,18 @@ mw.propEditor = {
                 scope.$fields.push(this);
             });
 
-            $(this.$fields).on('input', function(){
-                var val = $(scope.fields.position).val()
-                    + ' ' + scope.fields.x.value + 'px'
-                    + ' ' + scope.fields.y.value + 'px'
-                    + ' ' + scope.fields.blur.value + 'px'
-                    + ' ' + scope.fields.spread.value + 'px'
-                    + ' ' + scope.fields.color.value;
+            $(this.$fields).on('input change', function(){
+                var val = ($(scope.fields.position).val() || '')
+                    + ' ' + (scope.fields.x.value || 0) + 'px'
+                    + ' ' + (scope.fields.y.value || 0) + 'px'
+                    + ' ' + (scope.fields.blur.value || 0) + 'px'
+                    + ' ' + (scope.fields.spread.value || 0) + 'px'
+                    + ' ' + (scope.fields.color.value || 'rgba(0,0,0,.5)');
                 proto._valSchema[config.id] = val;
                 $(proto).trigger('change', [config.id, val]);
             });
+
+            $(this.fields.color).on('c')
 
 
 
