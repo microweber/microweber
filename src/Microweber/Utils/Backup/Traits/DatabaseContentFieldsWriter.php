@@ -15,4 +15,11 @@ trait DatabaseContentFieldsWriter {
 		return $contentFields;
 	}
 	
+	
+	private function _saveContentField($item) {
+		
+		
+		var_dump($item);
+		die();
+	}
 }

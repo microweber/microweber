@@ -64,10 +64,10 @@ trait DatabaseRelationWriter
 				$savedItem['item']['rel_id'] = $relationDatabase['id'];
 				$savedItem['item']['id'] = $savedItem['itemIdDatabase'];
 				
-				DatabaseSave::save($savedItem['item']['save_to_table'], $savedItem['item']);
+				// DatabaseSave::save($savedItem['item']['save_to_table'], $savedItem['item']);
 				
-				//echo 'Relation is fixed.' . PHP_EOL;
-				
+				// echo 'Relation is fixed.' . PHP_EOL;
+			
 			}
 		}
 	}

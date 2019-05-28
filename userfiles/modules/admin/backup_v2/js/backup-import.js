@@ -49,7 +49,12 @@ mw.backup_import = {
 		  url: mw.settings.api_url+'Microweber/Utils/BackupV2/restore',
 		  data: data,
 		  success: function(jsonData) {
-			  console.log(jsonData);
+			if (jsonData.error) {
+				$('#backup-import-progressbar').remove();
+				mw.backup_import.get_log_check('stop');
+				$('#mw_backup_import_modal').find('.backup-import-modal-log').before('<br /><h1>Error!</h1><br />' + jsonData.error);
+				return; 
+			}
 			if (jsonData.done) {
 				mw.backup_import.get_progress(100);
 				mw.backup_import.get_log_check('stop');

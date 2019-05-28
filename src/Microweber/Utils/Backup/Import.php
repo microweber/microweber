@@ -102,6 +102,11 @@ class Import
 		});
 	}
 	
+	public function readContent() {
+		$this->setLogInfo('Start importing session..');
+		return $this->importAsType($this->file);
+	}
+	
 	/**
 	 * Fix wrong encoding on database
 	 * @param array $item

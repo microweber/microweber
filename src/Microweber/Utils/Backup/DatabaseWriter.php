@@ -92,6 +92,11 @@ class DatabaseWriter
 			return;
 		}
 		
+		if ($item['save_to_table'] == 'content_fields' && empty($item['title'])) {
+			$this->_saveContentField($item);
+			return;
+		}
+		
 		$dbSelectParams = array();
 		$dbSelectParams['no_cache'] = true;
 		$dbSelectParams['limit'] = 1;
@@ -115,7 +120,9 @@ class DatabaseWriter
 			'url',
 			'layout_file',
 			'media_type',
-			'filename'
+			'filename',
+			'rel_type',
+			'field',
 		);
 		
 		foreach($recognizeParams as $recognizeParam) {
@@ -160,15 +167,18 @@ class DatabaseWriter
 		
 		$savedItem = $this->_saveItemDatabase($item);
 		
-		$this->_saveCustomFields($savedItem);
-		$this->_saveContentData($savedItem);
-		$this->_saveCategoriesItems($savedItem);
-		
-		$this->_fixRelations($savedItem);
-		$this->_fixParentRelationship($savedItem);
-		$this->_fixCategoryParents();
-		$this->_fixMenuParents();
-		
+		if ($savedItem) {
+			
+			$this->_saveCustomFields($savedItem);
+			$this->_saveContentData($savedItem);
+			$this->_saveCategoriesItems($savedItem);
+			
+			$this->_fixRelations($savedItem);
+			$this->_fixParentRelationship($savedItem);
+			$this->_fixCategoryParents();
+			$this->_fixMenuParents();
+			
+		}
 		//echo $item['save_to_table'];
 		//die();
 	}
@@ -179,17 +189,22 @@ class DatabaseWriter
 	 */
 	public function runWriter()
 	{
-		/* //$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
-		$importTables = array('menus');
+		/*
+			//$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
+		*/
+		
+		$importTables = array('content_fields');
 		
 		foreach ($importTables as $table) {
 			if (isset($this->content[$table])) {
 				foreach ($this->content[$table] as $item) {
 					$item['save_to_table'] = $table;
 					$this->_saveItem($item);
+					$items[] = $item;
 				}
 			}
-		} */
+		}
+		return;
 		
 		foreach ($this->content as $table=>$items) {
 			if (!empty($items)) {
