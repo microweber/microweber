@@ -22,6 +22,7 @@ var CSSShadow;
 
 var _prepare = {
     shadow: function () {
+        var root = document.querySelector('#shadow')
         CSSShadow = new mw.propEditor.schema({
             schema: [
                 {
@@ -31,12 +32,14 @@ var _prepare = {
                 }
 
             ],
-            element: document.querySelector('#shadow'),
+            element: root,
             size:'medium'
         });
         $(CSSShadow).on('change', function(e, id, val){
             output(id, val)
-        })
+        });
+        $('.mw-ui-field', root).addClass('mw-ui-field-medium')
+        $('.mw-ui-btn', root).addClass('mw-ui-btn-medium')
     },
     border: function () {
 
@@ -545,23 +548,27 @@ top.mw.on('ElementClick', function(e, node){
 <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
     <div class="mw-ui-box-header mw-accordion-title">Miscellaneous</div>
     <div class="mw-accordion-content mw-ui-box-content">
-        <div class="s-field">
-            <label>Corner Radius</label>
+        <div class="rouded-corners" >
+            <label>Rounded Corners</label>
             <div class="s-field-content">
                 <div class="mw-field" data-size="medium">
                     <div class="mw-multiple-fields">
-                        <div class="mw-field" data-size="medium" data-before="Top Left"><input type="text" class="regular" data-prop="borderTopLeftRadius"></div>
-                        <div class="mw-field" data-size="medium" data-before="Top Right"><input class="regular" type="text" data-prop="borderTopRightRadius"></div>
+                        <div class="mw-field" data-size="medium">
+                            <span class="mw-field-prepend"></span>
+                            <input type="text" class="regular" data-prop="borderTopLeftRadius">
+                        </div>
+                        <div class="mw-field" data-size="medium"><span class="mw-field-prepend"></span><input class="regular" type="text" data-prop="borderTopRightRadius"></div>
                     </div>
                 </div>
                 <div class="mw-field" data-size="medium">
                     <div class="mw-multiple-fields">
-                        <div class="mw-field" data-size="medium"><input class="regular" type="text" data-prop="borderBottomLeftRadius"></div>
-                        <div class="mw-field" data-size="medium"><input class="regular" type="text" data-prop="borderBottomRightRadius"></div>
+                        <div class="mw-field" data-size="medium"><span class="mw-field-prepend"></span><input class="regular" type="text" data-prop="borderBottomLeftRadius"></div>
+                        <div class="mw-field" data-size="medium"><span class="mw-field-prepend"></span><input class="regular" type="text" data-prop="borderBottomRightRadius"></div>
                     </div>
                 </div>
             </div>
         </div>
+        <label>Element shadow</label>
         <div id="shadow"></div>
 
     </div>

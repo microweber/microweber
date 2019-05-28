@@ -333,7 +333,16 @@ mw.propEditor = {
             this.fields.spread.placeholder = 'Spread';
             this.fields.color.placeholder = 'Color';
             this.fields.color.dataset.options = 'position: ' + (config.pickerPosition || 'bottom-center');
-            $(this.fields.color).addClass('mw-color-picker');
+            //$(this.fields.color).addClass('mw-color-picker');
+            mw.colorPicker({
+                element:this.fields.color,
+                position:'top-left',
+                onchange:function(color){
+                    $(scope.fields.color).trigger('change', color)
+                    scope.fields.color.style.backgroundColor = color;
+                    scope.fields.color.style.color = mw.color.isDark(color) ? 'white' : 'black';
+                }
+            });
 
             var labelPosition = mw.propEditor.helpers.label('Position');
             var labelX = mw.propEditor.helpers.label('X offset');
@@ -367,9 +376,6 @@ mw.propEditor = {
                 proto._valSchema[config.id] = val;
                 $(proto).trigger('change', [config.id, val]);
             });
-
-            $(this.fields.color).on('c')
-
 
 
             var holder = mw.propEditor.helpers.wrapper();
