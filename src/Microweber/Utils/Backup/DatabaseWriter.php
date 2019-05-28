@@ -80,6 +80,12 @@ class DatabaseWriter
 	
 	private function _saveItemDatabase($item) {
 		
+		// Dont import menus without title
+		if ($item['save_to_table'] == 'menus' && empty($item['title'])) {
+			$this->_saveMenuItem($item);
+			return;
+		}
+		
 		$dbSelectParams = array();
 		$dbSelectParams['no_cache'] = true;
 		$dbSelectParams['limit'] = 1;

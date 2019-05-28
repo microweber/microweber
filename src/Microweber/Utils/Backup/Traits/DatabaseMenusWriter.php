@@ -43,19 +43,57 @@ trait DatabaseMenusWriter
 		$dbSelectParams['do_not_replace_site_url'] = 1;
 		$dbSelectParams['title'] = $menu['title'];
 		$dbSelectParams['item_type'] = $menu['item_type'];
-		$dbSelectParams['created_at'] = $menu['created_at'];
-		
-		/* if ($menu['content_id'] > 0) {
-			
-			$getContent = $this->_getContentById($menu['content_id']);
-			
-			var_dump($getContent);
-			die();
-		} */
 		
 		return db_get('menus', $dbSelectParams);
 	}
 
+	private function _getMenuItemDatabase($menuItem) {
+	
+		$dbSelectParams = array();
+		$dbSelectParams['no_cache'] = true;
+		$dbSelectParams['limit'] = 1;
+		$dbSelectParams['single'] = true;
+		$dbSelectParams['do_not_replace_site_url'] = 1;
+		$dbSelectParams['item_type'] = $menuItem['item_type'];
+		$dbSelectParams['content_id'] = $menuItem['content_id'];
+		$dbSelectParams['parent_id'] = $menuItem['parent_id'];
+		
+		return db_get('menus', $dbSelectParams);
+	}
+	
+	private function _saveMenuItem($menu) {
+		
+		// Save new menu
+		$saveNewMenu = $menu;
+		
+		// Get content for menu
+		$content = $this->_getContentById($menu['content_id']);
+		if (!empty($content)) {
+			$contentDatabase = $this->_getContentDatabase($content);
+			if (! empty($contentDatabase)) {
+				$saveNewMenu['content_id'] = $contentDatabase['id'];
+			}
+		}
+		
+		// Get parent for menu
+		$parentMenu = $this->_getMenu($menu['parent_id']);
+		if (!empty($parentMenu)) {
+			$parentMenuDatabase = $this->_getMenuDatabase($parentMenu);
+			if (! empty($parentMenuDatabase)) {
+				$saveNewMenu['parent_id'] = $parentMenuDatabase['id'];
+			}
+		}
+		
+		// Save menu item
+		if (!empty($saveNewMenu)) {
+			unset($saveNewMenu['id']);
+			$menuItemDatabase = $this->_getMenuItemDatabase($saveNewMenu);
+			if (empty($menuItemDatabase)) {
+				DatabaseSave::save('menus', $saveNewMenu);
+			}
+		}
+	}
+	
 	/**
 	 * Get all menus from backup file, find parent ids and replace it with new parent ids
 	 */
@@ -63,6 +101,7 @@ trait DatabaseMenusWriter
 	{
 		
 		$menus = $this->_getMenus();
+		
 		if (empty($menus)){
 			return;
 		}
@@ -71,7 +110,8 @@ trait DatabaseMenusWriter
 
 			$getNewMenu = $this->_getMenuDatabase($menu);
 
-			if (! empty($getNewMenu) && $menu['parent_id'] > 0) {
+			// Only for main menus
+			if (! empty($getNewMenu) && empty($menu['content_id']) && $menu['parent_id'] > 0) {
 
 				// Find parent
 				$parentMenu = $this->_getMenu($menu['parent_id']);

@@ -44,7 +44,6 @@ trait DatabaseContentWriter
 			if (! empty($content)) {
 				
 				$contentDatabase = $this->_getContentDatabase($content);
-				
 				if (! empty($contentDatabase)) {
 
 					$savedItem['item']['id'] = $savedItem['itemIdDatabase'];
