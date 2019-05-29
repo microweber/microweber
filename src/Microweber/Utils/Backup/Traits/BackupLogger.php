@@ -14,6 +14,10 @@ trait BackupLogger
 
 	public function setLogInfo($log)
 	{
+		if (is_ajax()) {
+			$this->debug = false;	
+		}
+		
 		if ($this->debug) {
 			echo $log . PHP_EOL;
 		}

@@ -2,7 +2,7 @@
 namespace Microweber\Utils\Backup;
 
 /**
- * Microweber - Backup Module Database Writer
+ * Microweber - Backup Module Database Save
  * @namespace Microweber\Utils\Backup
  * @package DatabaseWriter
  * @author Bozhidar Slaveykov

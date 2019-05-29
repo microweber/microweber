@@ -111,30 +111,9 @@ class DatabaseWriter
 		$dbSelectParams['do_not_replace_site_url'] = 1;
 		$dbSelectParams['fields'] = 'id';
 		
-		$recognizeParams = array(
-			'payment_verify_token',
-			'option_key',
-			'item_type',
-			'option_group',
-			'title',
-			'email',
-			'username',
-			'first_name',
-			'last_name',
-			'amount',
-			'content_type',
-			'subtype',
-			'url',
-			'layout_file',
-			'media_type',
-			'filename',
-			'rel_type',
-			'field',
-		);
-		
-		foreach($recognizeParams as $recognizeParam) {
-			if (isset($item[$recognizeParam])) {
-				$dbSelectParams[$recognizeParam] = $item[$recognizeParam];
+		foreach(DatabaseDublicateChecker::getRecognizeFields($item['save_to_table']) as $tableField) {
+			if (isset($item[$tableField])) {
+				$dbSelectParams[$tableField] = $item[$tableField];
 			}
 		}
 		
@@ -200,7 +179,7 @@ class DatabaseWriter
 			//$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
 		*/
 		
-		$importTables = array('media');
+		/* $importTables = array('comments');
 		
 		foreach ($importTables as $table) {
 			if (isset($this->content[$table])) {
@@ -211,7 +190,9 @@ class DatabaseWriter
 				}
 			}
 		}
-		return;
+		
+		var_dump($items);
+		return; */
 		
 		foreach ($this->content as $table=>$items) {
 			if (!empty($items)) {
