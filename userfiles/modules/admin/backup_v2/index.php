@@ -4,7 +4,7 @@
 	var userfilesUrl = '<?php echo userfiles_url() ?>';
 	mw.require("<?php print $config['url_to_module']; ?>js/upload-file.js");
     mw.require("<?php print $config['url_to_module']; ?>js/backup-import.js");
-    mw.require("<?php print $config['url_to_module']; ?>js/backup-export.js");
+    mw.require("<?php print $config['url_to_module']; ?>js/backup-export.js?v=2");
 </script>
 
 <?php if (isset($params['backend'])): ?>
@@ -12,13 +12,6 @@
 <?php endif; ?>
 
 <div id="mw-admin-content" class="admin-side-content">
-
-
-	<div id="mw_backup_export_modal" style="display:none;">
-		<?php _e("Select content wich want to export"); ?>
-		<hr />
-	</div>
-
 
     <div class="mw_edit_page_default" id="mw_edit_page_left">
 

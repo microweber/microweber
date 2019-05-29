@@ -120,6 +120,8 @@ class BackupV2
 
 	public function download($query)
 	{
+		echo 'original';
+		return;
 		if (! is_admin()) {
 			mw_error('must be admin');
 		}
