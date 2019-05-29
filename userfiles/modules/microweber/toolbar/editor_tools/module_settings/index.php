@@ -303,12 +303,20 @@
                             // HERE FOR DROPDOWN
                             window.parent.$('.module-modal-settings-menu-holder-open-presets', toolbar).html(modal_preset_manager_html_placeholder_for_reload_content);
                         };
+
+
+
+
                         var html = ""
                             + "<div class='module-modal-settings-menu-content'>" +
+                            "<a  href='javascript:window.parent.mw.tools.confirm_reset_module_by_id(\"<?php print $params['id'] ?>\");'>Reset</a>" +
                             "<a  href='javascript:window.parent.modal_preset_manager_html_placeholder_for_reload();'>Presets</a>" +
 
                             "</div>"
                             + "<div class='module-modal-settings-menu-holder-open-presets' ></div>"
+
+
+
 
                         var btn = document.createElement('a');
                         btn.className = 'mw-module-presets-opener';
@@ -349,6 +357,9 @@
 
                             is_module_tml_holder.append(holder);
                         }
+
+
+
                     }
 
                     window.parent.modal_preset_manager_html_placeholder_for_reload();
@@ -411,6 +422,10 @@
 
     });
 </script>
+
+
+
+
 
 <script type="text/javascript">
 
