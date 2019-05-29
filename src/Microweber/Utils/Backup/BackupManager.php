@@ -105,7 +105,7 @@ class BackupManager
 		$import->setType($this->importType);
 		$import->setFile($this->importFile);
 		
-		$content = $import->readContent();
+		$content = $import->readContentWithCache();
 		if (isset($content['error'])) {
 			return $content;
 		}

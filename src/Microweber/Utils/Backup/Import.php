@@ -95,14 +95,24 @@ class Import
 	 */
 	public function readContentWithCache()
 	{
-		return Cache::rememberForever(md5($this->file), function () {
-			mw()->cache_manager->clear();
-			$this->setLogInfo('Start importing session..');
-			return $this->importAsType($this->file);
-		});
+		$databaseWriter = new DatabaseWriter();
+		$currentStep = $databaseWriter->getCurrentStep();
+		
+		if ($currentStep == 0) {
+			// This is frist step
+			Cache::forget(md5($this->file));
+			return Cache::rememberForever(md5($this->file), function () {
+				$this->setLogInfo('Start importing session..');
+				return $this->importAsType($this->file);
+			});
+		} else {
+			$this->setLogInfo('Read content from cache..');
+			// This is for the next steps from wizard
+			return Cache::get(md5($this->file));
+		}
 	}
 	
-	public function readContent() {
+	public function readContent() {		
 		$this->setLogInfo('Start importing session..');
 		return $this->importAsType($this->file);
 	}

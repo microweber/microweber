@@ -62,11 +62,16 @@ class DatabaseWriter
 		$this->content = $content;
 	}
 	
-	private function _getCurrentStep() {
+	public function getCurrentStep() {
 		
 		$this->currentStep = (int) cache_get('CurrentStep', $this->_cacheGroupName);
 		
 		if (!$this->currentStep) {
+			$this->currentStep = 0;
+		}
+		
+		if ($this->currentStep > $this->totalSteps) {
+			$this->_finishUp();
 			$this->currentStep = 0;
 		}
 		
@@ -206,12 +211,12 @@ class DatabaseWriter
 	
 	public function runWriterWithBatch() 
 	{
-		if ($this->_getCurrentStep() == 0) {
+		if ($this->getCurrentStep() == 0) {
 			// Clear old log file
 			$this->clearLog();
 		}
 		
-		$this->setLogInfo('Importing database batch: ' . $this->_getCurrentStep() . '/' . $this->totalSteps);
+		$this->setLogInfo('Importing database batch: ' . $this->getCurrentStep() . '/' . $this->totalSteps);
 		
 		//$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
 		//$importTables = array('content', 'categories');
@@ -241,7 +246,7 @@ class DatabaseWriter
 			
 			$itemsBatch = array_chunk($itemsForSave, $totalItemsForBatch);
 			
-			if (!isset($itemsBatch[$this->_getCurrentStep()])) {
+			if (!isset($itemsBatch[$this->getCurrentStep()])) {
 				
 				$this->setLogInfo('No items in batch for current step.');
 				$this->_finishUp();
@@ -250,14 +255,14 @@ class DatabaseWriter
 			}
 			
 			$success = array();
-			foreach($itemsBatch[$this->_getCurrentStep()] as $item) {
+			foreach($itemsBatch[$this->getCurrentStep()] as $item) {
 				//echo 'Save item' . PHP_EOL;
 				$success[] = $this->_saveItem($item);
 			}
 			
 			//echo 'Save cache ... ' .$this->currentStep. PHP_EOL;
 			
-			cache_save($this->_getCurrentStep() + 1, 'CurrentStep', $this->_cacheGroupName, 60 * 10);
+			cache_save($this->getCurrentStep() + 1, 'CurrentStep', $this->_cacheGroupName, 60 * 10);
 			
 		}
 		
@@ -266,11 +271,11 @@ class DatabaseWriter
 	public function getImportLog() {
 		
 		$log = array();
-		$log['current_step'] = $this->_getCurrentStep();
+		$log['current_step'] = $this->getCurrentStep();
 		$log['total_steps'] = $this->totalSteps;
-		$log['precentage'] = ($this->_getCurrentStep() * 100) / $this->totalSteps;
+		$log['precentage'] = ($this->getCurrentStep() * 100) / $this->totalSteps;
 		
-		if ($this->_getCurrentStep() >= $this->totalSteps) {
+		if ($this->getCurrentStep() >= $this->totalSteps) {
 			$log['done'] = true;
 		}
 		
