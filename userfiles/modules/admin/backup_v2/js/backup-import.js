@@ -46,7 +46,7 @@ mw.backup_import = {
 	start_import: function () {
 		$.ajax({
 		  dataType: "json",
-		  url: mw.settings.api_url+'Microweber/Utils/BackupV2/restore',
+		  url: mw.settings.api_url+'Microweber/Utils/BackupV2/import',
 		  data: data,
 		  success: function(jsonData) {
 			if (jsonData.error) {

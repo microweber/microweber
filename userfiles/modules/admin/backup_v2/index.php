@@ -3,7 +3,7 @@
 	var importContentFromFileText = '<?php _e("Importing content from file"); ?>';
 	var userfilesUrl = '<?php echo userfiles_url() ?>';
 	mw.require("<?php print $config['url_to_module']; ?>js/upload-file.js");
-    mw.require("<?php print $config['url_to_module']; ?>js/backup-import.js");
+    mw.require("<?php print $config['url_to_module']; ?>js/backup-import.js?v=4");
     mw.require("<?php print $config['url_to_module']; ?>js/backup-export.js?v=4");
 </script>
 

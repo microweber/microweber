@@ -13,10 +13,11 @@ use Microweber\Utils\Backup\BackupManager;
 
 api_expose_admin('Microweber\Utils\BackupV2\get');
 api_expose_admin('Microweber\Utils\BackupV2\getImportLogAsJson');
-api_expose_admin('Microweber\Utils\BackupV2\restore');
+api_expose_admin('Microweber\Utils\BackupV2\import');
 api_expose_admin('Microweber\Utils\BackupV2\download');
 api_expose_admin('Microweber\Utils\BackupV2\upload');
 api_expose_admin('Microweber\Utils\BackupV2\delete');
+api_expose_admin('Microweber\Utils\BackupV2\export');
 
 if (defined('INI_SYSTEM_CHECK_DISABLED') == false) {
 	define('INI_SYSTEM_CHECK_DISABLED', ini_get('disable_functions'));
@@ -171,7 +172,7 @@ class BackupV2
 		}
 	}
 	
-	public function restore($query) {
+	public function import($query) {
 	
 		only_admin_access();
 		
@@ -185,7 +186,7 @@ class BackupV2
 		}
 		
 		if (!$fileId) {
-			return array('error' => 'You have not provided a file to restore.');
+			return array('error' => 'You have not provided a file to import.');
 		}
 		
 		$fileId = str_replace('..', '', $fileId);
@@ -194,7 +195,7 @@ class BackupV2
 		$filePath = $backupLocation . $fileId;
 		
 		if (!is_file($filePath)) {
-			return array('error' => 'You have not provided a existing backup to restore.');
+			return array('error' => 'You have not provided a existing backup to import.');
 		} else {
 			
 			$this->manager->setImportFile($filePath);
@@ -204,6 +205,41 @@ class BackupV2
 		}
 		
 		return $query;
+		
+	}
+	
+	public function export($query) {
+		
+		$items = array();
+		$categoriesIds = array();
+		$contentIds = array();
+		
+		if (isset($query['items'])) {
+			foreach(explode(',', $query['items']) as $item) {
+				if (!empty($item)) {
+					$items[] = $item;
+				}
+			}
+		}
+		
+		if (isset($query['categories_ids'])) {
+			$categoriesIds = $query['categories_ids'];
+		}
+		
+		if (isset($query['content_ids'])) {
+			$contentIds = $query['content_ids'];
+		}
+		
+		$exportFormat = 'json';
+		if (in_array('media', $items)) {
+			$exportFormat = 'zip';
+		}
+		
+		$manager = new BackupManager();
+		$manager->setExportType($exportFormat);
+		$exportedStatus = $manager->startExport();
+		
+		var_dump($exportedStatus);
 		
 	}
 
