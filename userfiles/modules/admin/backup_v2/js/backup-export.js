@@ -17,16 +17,28 @@ mw.backup_export = {
 			+ '&nbsp;&nbsp;<a class="mw-ui-btn" onclick="mw.backup_export.unselect_all();"><i class="mw-icon-close"></i> Unselect all</a><br /><br />'
 			+ '<div id="quick-parent-selector-tree"></div>'
 			+ '<h3>Select items to export</h3>'
+			
+			+ '<label class="mw-ui-check">'
+			+ '<input  class="js-export-items" type="checkbox" value="media" name="export_items"><span></span><span>Export media</span>'
+			+ '</label>&nbsp;&nbsp;'
+			
 			+ '<label class="mw-ui-check">'
 			+ '<input  class="js-export-items" type="checkbox" value="comments" name="export_items"><span></span><span>Export comments</span>'
 			+ '</label>&nbsp;&nbsp;'
+			
 			+ '<label class="mw-ui-check">'
 			+ '<input class="js-export-items" type="checkbox" value="orders" name="export_items"><span></span><span>Export orders</span>'
 			+ '</label>&nbsp;&nbsp;'
+			
 			+ '<label class="mw-ui-check">'
 			+ '<input class="js-export-items" type="checkbox" value="users" name="export_items"><span></span><span>Export users</span>'
+			+ '</label>&nbsp;&nbsp;'
+			
+			+ '<label class="mw-ui-check">'
+			+ '<input  class="js-export-items" type="checkbox" value="settings" name="export_items"><span></span><span>Export settings</span>'
 			+ '</label>'
-			+ '<br /><br /><a class="mw-ui-btn mw-ui-btn-warn" onclick="mw.backup_export.export_start()"><i class="mw-icon-download"></i> Export selected data</a>'
+			
+			+ '<br /><br /><br /><a class="mw-ui-btn mw-ui-btn-warn" onclick="mw.backup_export.export_start()"><i class="mw-icon-download"></i> Export selected data</a>'
 			+ '&nbsp;&nbsp;<a class="mw-ui-btn mw-ui-btn-notification" onclick=""><i class="mw-icon-refresh"></i> Create Full Backup</a>'
 			+ '<div class="js-export-log"></div>';
 		
@@ -52,6 +64,14 @@ mw.backup_export = {
         });
 	},
 	
+	export_selected: function(manifest) {
+		 mw.notification.success("Export started...");
+		$.post(mw.settings.api_url+'Microweber/Utils/BackupV2/export', manifest , function(msg) {
+			 $('.js-export-log').html('<br /><br />Success!');
+		 	mw.notification.msg(msg, 5000);
+		 });
+	},
+	
 	export_start: function () {
 
         var selected_content = exportContentSelector.options.selectedData;
@@ -72,13 +92,11 @@ mw.backup_export = {
             return;
         }
 
-
         var export_manifest = {};
         export_manifest.content_ids = [];
         export_manifest.categories_ids = [];
         export_manifest.items = selected;
-
-
+        
         selected_content.forEach(function(item, i){
             if(item.type == 'category' ){
                 export_manifest.categories_ids.push(item.id);
@@ -89,6 +107,7 @@ mw.backup_export = {
         
         $('.js-export-log').html('<br /><br />Generating backup...');
         
-       // mw.log(export_manifest);
+        mw.backup_export.export_selected(export_manifest);
+        mw.log(export_manifest);
     }
 }
