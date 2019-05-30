@@ -4,9 +4,11 @@ namespace Microweber\Utils\Backup;
 use Microweber\Utils\Backup\Exporters\JsonExport;
 use Microweber\Utils\Backup\Exporters\CsvExport;
 use Microweber\Utils\Backup\Exporters\XmlExport;
+use Microweber\Utils\Backup\Exporters\ZipExport;
 
 class Export
 {
+	public $exportData = array();
 	public $type = 'json';
 
 	public function setType($type)
@@ -14,23 +16,31 @@ class Export
 		$this->type = $type;
 	}
 	
+	public function setExportData($data) {
+		$this->exportData = $data;
+	}
+	
 	public function exportAsType($data)
 	{
 		$export = false;
 		
 		switch ($this->type) {
-			
 			case 'json':
 				$export = new JsonExport($data);
 				break;
+				
 			case 'csv':
 				$export = new CsvExport($data);
 				break;
+				
 			case 'xml':
 				$export = new XmlExport($data);
 				break;
 				
-				// Don't forget a break
+			case 'zip':
+				$export = new ZipExport($data);
+				break;
+			// Don't forget a break
 		}
 		
 		if ($export) {
@@ -46,29 +56,87 @@ class Export
 		}
 	}
 
-	public function getContent()
+	public function getContent() {
+		
+		$readyContent = array();
+		$tables = $this->_getTablesForExport();
+		
+		foreach($tables as $table) {
+			$readyContent[$table] = $this->_getTableContent($table);
+		}
+		
+		var_dump($readyContent); 
+	}
+	
+	private function _getTableContent($table) {
+		
+		$exportFilter = array();
+		$exportFilter['no_limit'] = 1;
+		$exportFilter['do_not_replace_site_url'] = 1;
+		
+		return db_get($table, $exportFilter);
+	}
+	
+	private function _skipTablesForExport() {
+		
+		$skipTables = array();
+		$skipTables[] = 'modules';
+		$skipTables[] = 'elements';
+		$skipTables[] = 'users';
+		$skipTables[] = 'log';
+		$skipTables[] = 'notifications';
+		$skipTables[] = 'content_revisions_history';
+		$skipTables[] = 'module_templates';
+		$skipTables[] = 'stats_users_online';
+		$skipTables[] = 'stats_browser_agents';
+		$skipTables[] = 'stats_referrers_paths';
+		$skipTables[] = 'stats_referrers_domains';
+		$skipTables[] = 'stats_referrers';
+		$skipTables[] = 'stats_visits_log';
+		$skipTables[] = 'stats_urls';
+		$skipTables[] = 'system_licenses';
+		$skipTables[] = 'users_oauth';
+		$skipTables[] = 'sessions';
+		
+		return $skipTables;
+	}
+
+	private function _getTablesForExport() {
+		
+		$tablesList = mw()->database_manager->get_tables_list();
+		$tablePrefix = mw()->database_manager->get_prefix();
+		
+		$readyTableList = array();
+		foreach ($tablesList as $tableName) {
+			
+			if ($tablePrefix) {
+				$tableName = str_replace_first($tablePrefix, '', $tableName);
+			}
+			
+			if (in_array($tableName, $this->_skipTablesForExport())) {
+				continue;
+			}
+			
+			if (!empty($this->exportData)) {
+				if (!in_array($tableName, $this->exportData['items'])) {
+					continue;
+				}
+			}
+			
+			$readyTableList[] = $tableName;
+			
+		}
+		
+		return $readyTableList;
+	}
+	
+	public function getContentX()
 	{
 		$export_only_ids = array();
 		$content_ids = array();
 		$categories_ids = array();
 		$export_items = array();
 
-		/*
-		 * if (isset($manifest['content_ids']) and $manifest['content_ids']) {
-		 * $content_ids = $manifest['content_ids'];
-		 * $export_only_ids['content'] = $content_ids;
-		 * }
-		 *
-		 * if (isset($manifest['categories_ids']) and $manifest['categories_ids']) {
-		 * $categories_ids = $manifest['categories_ids'];
-		 * $export_only_ids['categories'] = $categories_ids;
-		 *
-		 * }
-		 *
-		 * if (isset($manifest['items']) and $manifest['items']) {
-		 * $export_items = $manifest['items'];
-		 * }
-		 */
 
 		$skip_tables = array(
 			"modules",

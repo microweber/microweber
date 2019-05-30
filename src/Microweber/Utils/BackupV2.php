@@ -222,14 +222,6 @@ class BackupV2
 			}
 		}
 		
-		if (isset($query['categories_ids'])) {
-			$categoriesIds = $query['categories_ids'];
-		}
-		
-		if (isset($query['content_ids'])) {
-			$contentIds = $query['content_ids'];
-		}
-		
 		$exportFormat = 'json';
 		if (in_array('media', $items)) {
 			$exportFormat = 'zip';
@@ -237,9 +229,17 @@ class BackupV2
 		
 		$manager = new BackupManager();
 		$manager->setExportType($exportFormat);
-		$exportedStatus = $manager->startExport();
+		$manager->setExportData('items', $items);
 		
-		var_dump($exportedStatus);
+		if (isset($query['content_ids']) && !empty($query['content_ids'])) {
+			$manager->setExportData('content_ids', $query['content_ids']);
+		}
+		
+		if (isset($query['categories_ids']) && !empty($query['categories_ids'])) {
+			$manager->setExportData('categories_ids', $query['categories_ids']);
+		}
+		
+		return $manager->startExport();
 		
 	}
 

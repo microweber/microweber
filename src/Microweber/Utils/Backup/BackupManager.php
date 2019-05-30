@@ -7,6 +7,7 @@ class BackupManager
 {
 	use BackupLogger;
 	
+	public $exportData = array();
 	public $exportType = 'json';
 	public $importType = false;
 	public $importFile = false;
@@ -30,6 +31,14 @@ class BackupManager
 	public function setExportType($type)
 	{
 		$this->exportType = $type;
+	}
+	
+	/**
+	 * Set wich data want to export
+	 * @param array $data
+	 */
+	public function setExportData($dataType, $dataIds) {
+		$this->exportData[$dataType] = $dataIds;
 	}
 
 	/**
@@ -67,9 +76,12 @@ class BackupManager
 	{
 		$export = new Export();
 		$export->setType($this->exportType);
-
+		$export->setExportData($this->exportData);
+		
 		$content = $export->getContent();
 
+		var_dump($content); 
+		die();
 		if (isset($content['data'])) {
 
 			$exportLocation = $this->getBackupLocation();
