@@ -210,33 +210,33 @@ class BackupV2
 	
 	public function export($query) {
 		
-		$items = array();
+		$tables = array();
 		$categoriesIds = array();
 		$contentIds = array();
 		
 		if (isset($query['items'])) {
 			foreach(explode(',', $query['items']) as $item) {
 				if (!empty($item)) {
-					$items[] = $item;
+					$tables[] = $item;
 				}
 			}
 		}
 		
 		$exportFormat = 'json';
-		if (in_array('media', $items)) {
+		if (in_array('media', $tables)) {
 			$exportFormat = 'zip';
 		}
 		
 		$manager = new BackupManager();
 		$manager->setExportType($exportFormat);
-		$manager->setExportData('items', $items);
+		$manager->setExportData('tables', $tables);
 		
 		if (isset($query['content_ids']) && !empty($query['content_ids'])) {
-			$manager->setExportData('content_ids', $query['content_ids']);
+			$manager->setExportData('contentIds', $query['content_ids']);
 		}
 		
 		if (isset($query['categories_ids']) && !empty($query['categories_ids'])) {
-			$manager->setExportData('categories_ids', $query['categories_ids']);
+			$manager->setExportData('categoryIds', $query['categories_ids']);
 		}
 		
 		return $manager->startExport();

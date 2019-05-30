@@ -8,9 +8,9 @@ use Microweber\Utils\Backup\Exporters\ZipExport;
 
 class Export
 {
-	public $exportData = array();
+	public $exportData;
 	public $type = 'json';
-
+	
 	public function setType($type)
 	{
 		$this->type = $type;
@@ -62,17 +62,41 @@ class Export
 		$tables = $this->_getTablesForExport();
 		
 		foreach($tables as $table) {
-			$readyContent[$table] = $this->_getTableContent($table);
+			
+			$ids = array();
+			
+			if ($table == 'categories') {
+				if (!empty($this->exportData['categoryIds'])) {
+					$ids = $this->exportData['categoryIds'];
+				}
+			}
+			
+			if ($table == 'content') {
+				if (!empty($this->exportData['contentIds'])) {
+					$ids = $this->exportData['contentIds'];
+				}
+			}
+			
+			$tableContent = $this->_getTableContent($table, $ids);
+			
+			if (!empty($tableContent)) {
+				$readyContent[$table] = $tableContent;
+			}
 		}
 		
-		var_dump($readyContent); 
+		return $readyContent;
+		
 	}
 	
-	private function _getTableContent($table) {
+	private function _getTableContent($table, $ids = array()) {
 		
 		$exportFilter = array();
 		$exportFilter['no_limit'] = 1;
 		$exportFilter['do_not_replace_site_url'] = 1;
+		
+		if (!empty($ids)) {
+			$exportFilter['ids'] = implode(',', $ids);
+		}
 		
 		return db_get($table, $exportFilter);
 	}
@@ -103,6 +127,18 @@ class Export
 
 	private function _getTablesForExport() {
 		
+		if (!empty($this->exportData['categoryIds'])) {
+			if (!in_array('categories',$this->exportData['tables'])) {
+				$this->exportData['tables'][] = 'categories';
+			}
+		}
+		
+		if (!empty($this->exportData['contentIds'])) {
+			if (!in_array('content', $this->exportData['tables'])) {
+				$this->exportData['tables'][] = 'content';
+			}
+		}
+		
 		$tablesList = mw()->database_manager->get_tables_list();
 		$tablePrefix = mw()->database_manager->get_prefix();
 		
@@ -118,8 +154,10 @@ class Export
 			}
 			
 			if (!empty($this->exportData)) {
-				if (!in_array($tableName, $this->exportData['items'])) {
-					continue;
+				if (isset($this->exportData['tables'])) {
+					if (!in_array($tableName, $this->exportData['tables'])) {
+						continue;
+					}
 				}
 			}
 			

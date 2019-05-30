@@ -7,7 +7,7 @@ class BackupManager
 {
 	use BackupLogger;
 	
-	public $exportData = array();
+	public $exportData = ['categoryIds'=>[], 'contentIds'=>[], 'tables'=>[]];
 	public $exportType = 'json';
 	public $importType = false;
 	public $importFile = false;
@@ -80,7 +80,7 @@ class BackupManager
 		
 		$content = $export->getContent();
 
-		var_dump($content); 
+		var_dump($content);
 		die();
 		if (isset($content['data'])) {
 
