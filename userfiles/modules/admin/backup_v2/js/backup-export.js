@@ -27,7 +27,7 @@ mw.backup_export = {
 			+ '</label>&nbsp;&nbsp;'
 			
 			+ '<label class="mw-ui-check">'
-			+ '<input class="js-export-items" type="checkbox" value="orders" name="export_items"><span></span><span>Export orders</span>'
+			+ '<input class="js-export-items" type="checkbox" value="cart_orders" name="export_items"><span></span><span>Export orders</span>'
 			+ '</label>&nbsp;&nbsp;'
 			
 			+ '<label class="mw-ui-check">'
@@ -35,7 +35,7 @@ mw.backup_export = {
 			+ '</label>&nbsp;&nbsp;'
 			
 			+ '<label class="mw-ui-check">'
-			+ '<input  class="js-export-items" type="checkbox" value="settings" name="export_items"><span></span><span>Export settings</span>'
+			+ '<input  class="js-export-items" type="checkbox" value="options" name="export_items"><span></span><span>Export settings</span>'
 			+ '</label>'
 			
 			+ '<br /><br /><br /><a class="mw-ui-btn mw-ui-btn-warn" onclick="mw.backup_export.export_start()"><i class="mw-icon-download"></i> Export selected data</a>'

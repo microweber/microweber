@@ -8,6 +8,7 @@ use Microweber\Utils\Backup\Exporters\ZipExport;
 
 class Export
 {
+	public $skipTables;
 	public $exportData;
 	public $type = 'json';
 	
@@ -103,29 +104,30 @@ class Export
 	
 	private function _skipTablesForExport() {
 		
-		$skipTables = array();
-		$skipTables[] = 'modules';
-		$skipTables[] = 'elements';
-		$skipTables[] = 'users';
-		$skipTables[] = 'log';
-		$skipTables[] = 'notifications';
-		$skipTables[] = 'content_revisions_history';
-		$skipTables[] = 'module_templates';
-		$skipTables[] = 'stats_users_online';
-		$skipTables[] = 'stats_browser_agents';
-		$skipTables[] = 'stats_referrers_paths';
-		$skipTables[] = 'stats_referrers_domains';
-		$skipTables[] = 'stats_referrers';
-		$skipTables[] = 'stats_visits_log';
-		$skipTables[] = 'stats_urls';
-		$skipTables[] = 'system_licenses';
-		$skipTables[] = 'users_oauth';
-		$skipTables[] = 'sessions';
+		$this->skipTables[] = 'modules';
+		$this->skipTables[] = 'elements';
+		$this->skipTables[] = 'users';
+		$this->skipTables[] = 'log';
+		$this->skipTables[] = 'notifications';
+		$this->skipTables[] = 'content_revisions_history';
+		$this->skipTables[] = 'module_templates';
+		$this->skipTables[] = 'stats_users_online';
+		$this->skipTables[] = 'stats_browser_agents';
+		$this->skipTables[] = 'stats_referrers_paths';
+		$this->skipTables[] = 'stats_referrers_domains';
+		$this->skipTables[] = 'stats_referrers';
+		$this->skipTables[] = 'stats_visits_log';
+		$this->skipTables[] = 'stats_urls';
+		$this->skipTables[] = 'system_licenses';
+		$this->skipTables[] = 'users_oauth';
+		$this->skipTables[] = 'sessions';
 		
-		return $skipTables;
+		return $this->skipTables;
 	}
 
 	private function _getTablesForExport() {
+		
+		$skipTables = $this->_skipTablesForExport();
 		
 		if (!empty($this->exportData['categoryIds'])) {
 			if (!in_array('categories',$this->exportData['tables'])) {
@@ -139,6 +141,15 @@ class Export
 			}
 		}
 		
+		if (!empty($this->exportData['tables'])) {
+			if (in_array('users', $this->exportData['tables'])) {
+				$keyOfSkipTable = array_search('users', $skipTables);
+				if ($keyOfSkipTable) {
+					unset($skipTables[$keyOfSkipTable]);
+				}
+			}
+		}
+		
 		$tablesList = mw()->database_manager->get_tables_list();
 		$tablePrefix = mw()->database_manager->get_prefix();
 		
@@ -149,7 +160,7 @@ class Export
 				$tableName = str_replace_first($tablePrefix, '', $tableName);
 			}
 			
-			if (in_array($tableName, $this->_skipTablesForExport())) {
+			if (in_array($tableName, $skipTables)) {
 				continue;
 			}
 			
