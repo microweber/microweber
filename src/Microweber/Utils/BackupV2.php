@@ -121,8 +121,6 @@ class BackupV2
 
 	public function download($query)
 	{
-		echo 'original';
-		return;
 		if (! is_admin()) {
 			mw_error('must be admin');
 		}
@@ -144,7 +142,7 @@ class BackupV2
 		}
 
 		$backupLocation = $this->manager->getBackupLocation();
-
+		
 		// Generate filename and set error variables
 		$filename = $backupLocation . $fileId;
 		$filename = str_replace('..', '', $filename);

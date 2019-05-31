@@ -10,9 +10,9 @@ class JsonExport extends DefaultExport
 
 		$jsonFilename = $this->_generateFilename();
 
-		file_put_contents($jsonFilename, $dump);
-		
-		return array("success"=>true, "filename"=> $jsonFilename);
+		file_put_contents($jsonFilename['filepath'], $dump);
+
+		return $jsonFilename;
 	}
 
 	public function getDump()

@@ -8,14 +8,16 @@ class DefaultExport implements ExportInterface
 {
 
 	protected $type = 'json';
+
 	protected $data;
 
 	public function __construct($data)
 	{
 		$this->data = $data;
 	}
-	
-	public function setType($type) {
+
+	public function setType($type)
+	{
 		$this->type = $type;
 	}
 
@@ -27,11 +29,13 @@ class DefaultExport implements ExportInterface
 	protected function _generateFilename()
 	{
 		$backupManager = new BackupManager();
-
 		$exportLocation = $backupManager->getBackupLocation();
+		$exportFilename = 'backup_export_' . date("Y-m-d-his") . '.' . $this->type;
 
-		$exportFilename = 'backup_export_' . date("Y-m-d-his") . '.'.$this->type;
-
-		return $exportLocation . $exportFilename;
+		return array(
+			'download' => api_url('Microweber/Utils/BackupV2/download?file=' . $exportFilename),
+			'filepath' => $exportLocation . $exportFilename,
+			'filename' => $exportFilename
+		);
 	}
 }
