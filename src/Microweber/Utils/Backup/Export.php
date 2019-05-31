@@ -43,11 +43,10 @@ class Export
 				break;
 		}
 		
+		$export->setType($this->type);
+		
 		if ($export) {
 			
-			
-			var_dump($export->start());
-			die();
 			return array(
 				'success' => count($data, COUNT_RECURSIVE) . ' items are exported',
 				'export_type' => $this->type,

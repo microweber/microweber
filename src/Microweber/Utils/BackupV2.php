@@ -222,13 +222,7 @@ class BackupV2
 			}
 		}
 		
-		$exportFormat = 'json';
-		if (in_array('media', $tables)) {
-			$exportFormat = 'zip';
-		}
-		
 		$manager = new BackupManager();
-		$manager->setExportType($exportFormat);
 		$manager->setExportData('tables', $tables);
 		
 		if (isset($query['content_ids']) && !empty($query['content_ids'])) {

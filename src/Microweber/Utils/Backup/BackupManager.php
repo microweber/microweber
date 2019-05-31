@@ -74,6 +74,11 @@ class BackupManager
 	 */
 	public function startExport() 
 	{
+		// If we want export media
+		if (in_array('media', $this->exportData['tables'])) {
+			$this->exportType = 'zip';
+		}
+		
 		$export = new Export();
 		$export->setType($this->exportType);
 		$export->setExportData($this->exportData);
