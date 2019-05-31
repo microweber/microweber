@@ -41,10 +41,13 @@ class Export
 			case 'zip':
 				$export = new ZipExport($data);
 				break;
-			// Don't forget a break
 		}
 		
 		if ($export) {
+			
+			
+			var_dump($export->start());
+			die();
 			return array(
 				'success' => count($data, COUNT_RECURSIVE) . ' items are exported',
 				'export_type' => $this->type,
@@ -59,10 +62,14 @@ class Export
 
 	public function getContent() {
 		
+		$exportTables = new ExportTables();
+		
 		$readyContent = array();
 		$tables = $this->_getTablesForExport();
 		
 		foreach($tables as $table) {
+			
+			$exportTables->addTable($table);
 			
 			$ids = array();
 			
@@ -82,6 +89,8 @@ class Export
 			
 			if (!empty($tableContent)) {
 				
+				$exportTables->addItemsToTable($table, $tableContent);
+				
 				$relations = array();
 				foreach($tableContent as $content) {
 					if (isset($content['rel_type']) && isset($content['rel_id'])) {
@@ -91,23 +100,19 @@ class Export
 				
 				if (!empty($relations)) {
 					foreach($relations as $relationTable=>$relationIds) {
+						
 						$relationTableContent = $this->_getTableContent($relationTable, $relationIds);
 						
-						
-						var_dump($relationTableContent);
-						die();
+						$exportTables->addItemsToTable($relationTable, $relationTableContent);
 					}
 				}
 				
-				var_dump($relations);
-				die();
-				
-				$readyContent[$table] = $tableContent;
 			}
 		}
 		
-		return $readyContent;
+		$readyData = $exportTables->getAllTableItems();
 		
+		return $this->exportAsType($readyData);
 	}
 	
 	private function _getTableContent($table, $ids = array()) {
@@ -123,7 +128,7 @@ class Export
 		return db_get($table, $exportFilter);
 	}
 	
-	private function _skipTablesForExport() {
+	private function _skipTables() {
 		
 		$this->skipTables[] = 'modules';
 		$this->skipTables[] = 'elements';
@@ -145,17 +150,19 @@ class Export
 		
 		return $this->skipTables;
 	}
-
-	private function _getTablesForExport() {
+	
+	private function _prepareSkipTables() {
 		
-		$skipTables = $this->_skipTablesForExport();
+		$skipTables = $this->_skipTables();
 		
+		// Add table categories if we have category ids
 		if (!empty($this->exportData['categoryIds'])) {
 			if (!in_array('categories',$this->exportData['tables'])) {
 				$this->exportData['tables'][] = 'categories';
 			}
 		}
 		
+		// Add table categories if we have content ids
 		if (!empty($this->exportData['contentIds'])) {
 			if (!in_array('content', $this->exportData['tables'])) {
 				$this->exportData['tables'][] = 'content';
@@ -170,6 +177,13 @@ class Export
 				}
 			}
 		}
+		
+		return $skipTables;
+	}
+	
+	private function _getTablesForExport() {
+		
+		$skipTables = $this->_prepareSkipTables();
 		
 		$tablesList = mw()->database_manager->get_tables_list();
 		$tablePrefix = mw()->database_manager->get_prefix();
