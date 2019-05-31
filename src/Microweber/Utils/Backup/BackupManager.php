@@ -83,30 +83,8 @@ class BackupManager
 		$export->setType($this->exportType);
 		$export->setExportData($this->exportData);
 		
-		$content = $export->getContent();
+		return $export->start();
 
-		var_dump($content);
-		die();
-		if (isset($content['data'])) {
-
-			$exportLocation = $this->getBackupLocation();
-
-			$exportFilename = 'backup_export_' . date("Y-m-d-his") . '.' . $this->exportType;
-			$exportPath = $exportLocation . $exportFilename;
-
-			$save = file_put_contents($exportPath, $content['data']);
-
-			if ($save) {
-				return array(
-					"filename" => $exportPath,
-					"success" => "Backup export are saved success."
-				);
-			} else {
-				return array(
-					"error" => "File not save"
-				);
-			}
-		}
 	}
 
 	/**
