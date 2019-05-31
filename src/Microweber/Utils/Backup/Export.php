@@ -59,7 +59,7 @@ class Export
 		}
 	}
 
-	public function getContent() {
+	public function start() {
 		
 		$exportTables = new ExportTables();
 		
