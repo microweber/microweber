@@ -135,12 +135,20 @@ class Zip
      */
     public function setZipFile($fileName)
     {
-        if (is_file($fileName)) {
+       /*  if (is_file($fileName)) {
             unlink($fileName);
-        }
-        $fd = fopen($fileName, 'x+b');
+        } */
+        
+    	if (is_file($fileName)) {
+    		$fd = fopen($fileName, 'a+b');
+    	} else {
+        	$fd = fopen($fileName, 'x+b');
+    	}
+    	
         if (is_resource($this->zipFile)) {
+        	
             rewind($this->zipFile);
+            
             while (!feof($this->zipFile)) {
                 fwrite($fd, fread($this->zipFile, $this->streamChunkSize));
             }

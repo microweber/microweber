@@ -15,7 +15,7 @@ class ZipExport extends DefaultExport
 	 * The total steps for batch.
 	 * @var integer
 	 */
-	public $totalSteps = 100;
+	public $totalSteps = 30;
 	
 	
 	/**
@@ -40,6 +40,19 @@ class ZipExport extends DefaultExport
 		return $this->currentStep;
 	}
 	
+	private function _getZipFileName() {
+		
+		$zipFileName = cache_get('ExportZipFileName', $this->_cacheGroupName);
+		
+		if (empty($zipFileName)) {
+			$generateFileName = $this->_generateFilename();
+			cache_save($generateFileName, 'ExportZipFileName', $this->_cacheGroupName, 60 * 10);
+			return $generateFileName;
+		}
+		
+		return $zipFileName;
+	}
+	
 	public function start() {
 		
 		if ($this->getCurrentStep() == 0) {
@@ -47,14 +60,17 @@ class ZipExport extends DefaultExport
 			BackupExportLogger::clearLog();
 		}
 		
+		// Get zip filename
+		$zipFileName = $this->_getZipFileName();
+		
+		// var_dump($zipFileName);
+		
 		BackupExportLogger::setLogInfo('Archiving files batch: ' . $this->getCurrentStep() . '/' . $this->totalSteps);
 		
-		// Get zip filename
-		$zipFilename = $this->_generateFilename();
-		
 		// Generate zip file
-		$zip = new \Microweber\Utils\Zip($zipFilename['filepath']);
-		$zip->setZipFile($zipFilename['filepath']);
+		$zip = new \Microweber\Utils\Zip($zipFileName['filepath']);
+		$zip->setZipFile($zipFileName['filepath'], true);
+		
 		$zip->setComment("Microweber backup of the userfiles folder and db.
                 \n The Microweber version at the time of backup was {MW_VERSION}
                 \nCreated on " . date('l jS \of F Y h:i:s A'));
@@ -93,6 +109,8 @@ class ZipExport extends DefaultExport
 				BackupExportLogger::setLogInfo('Archiving file <b>'. $file['dataFile'] . '</b>');
 				$zip->addLargeFile($file['filePath'], $file['dataFile']);
 			}
+			
+			$zip->finalize();
 			
 			cache_save($this->getCurrentStep() + 1, 'ExportCurrentStep', $this->_cacheGroupName, 60 * 10);
 		}

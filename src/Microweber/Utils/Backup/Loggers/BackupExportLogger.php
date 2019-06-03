@@ -37,7 +37,7 @@ class BackupExportLogger extends BackupDefaultLogger
 		array_push($file, $line);
 		
 		// Save Result
-		file_put_contents($fileName, implode(PHP_EOL, array_filter($file)));
+		@file_put_contents($fileName, implode(PHP_EOL, array_filter($file)));
 	}
 	
 }

@@ -68,7 +68,6 @@ mw.backup_export = {
 		
 		mw.backup_export.get_log_check('start');
 		
-		mw.notification.success("Export started...");
 		$.post(mw.settings.api_url+'Microweber/Utils/BackupV2/export', manifest , function(exportData) {
 			
 			if (typeof(exportData.data.download) !== 'undefined') {
@@ -84,9 +83,11 @@ mw.backup_export = {
 	
 	get_log_check: function(action = 'start') {
 		
+		mw.notification.success("Export started...");
+		
 		var importLogInterval = setInterval(function() {
 			mw.backup_export.get_log();
-		}, 2500);
+		}, 3000);
 		
 		if (action == 'stop') {
 			for(i=0; i<10000; i++) {
