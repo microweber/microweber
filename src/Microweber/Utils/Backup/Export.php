@@ -71,7 +71,7 @@ class Export
 		
 		foreach($tables as $table) {
 			
-			BackupExportLogger::setLogInfo('Exporting table: ' . $table);
+			BackupExportLogger::setLogInfo('Exporting table: <b>' . $table. '</b>');
 			
 			$exportTables->addTable($table);
 			
@@ -104,11 +104,11 @@ class Export
 				
 				if (!empty($relations)) {
 					
-					BackupExportLogger::setLogInfo('Get relations from table: ' . $table);
+					BackupExportLogger::setLogInfo('Get relations from table: <b>' . $table . '</b>');
 					
 					foreach($relations as $relationTable=>$relationIds) {
 						
-						BackupExportLogger::setLogInfo('Get data from relations table: ' . $relationTable);
+						BackupExportLogger::setLogInfo('Get data from relations table: <b>' . $relationTable. '</b>');
 						
 						$relationTableContent = $this->_getTableContent($relationTable, $relationIds);
 						
