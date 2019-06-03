@@ -95,7 +95,7 @@ mw.backup_export = {
 		    url: userfilesUrl + 'backup-export-session.log',
 		    success: function (data) {
 		    	data = data.replace(/\n/g, "<br />");
-		    	$('.js-export-log').html('<br />' + data);
+		    	$('.js-export-log').html('<br />' + data + '<br /><br />');
 		    },  
 		    error: function() {
 		    	$('.js-export-log').html('Error opening log file.');

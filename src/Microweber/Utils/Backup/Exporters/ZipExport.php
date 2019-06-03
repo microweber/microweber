@@ -35,11 +35,11 @@ class ZipExport extends DefaultExport
 			$dataFile = normalize_path($dataFile, false);
 			$filePath =  normalize_path($filePath, false);
 			
-			BackupExportLogger::setLogInfo('Archiving file '. $dataFile);
+			BackupExportLogger::setLogInfo('Archiving file <b>'. $dataFile . '</b>');
 			
 			$zip->addLargeFile($filePath, $dataFile);
 			
-			if ($i > 300) {
+			if ($i > 500) {
 				break;
 			}
 			
