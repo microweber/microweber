@@ -9,7 +9,7 @@ class DefaultExport implements ExportInterface
 	protected $type = 'json';
 	protected $data;
 
-	public function __construct($data)
+	public function __construct($data = array())
 	{
 		$this->data = $data;
 	}

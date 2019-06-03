@@ -6,6 +6,7 @@ use Microweber\Utils\Backup\Exporters\CsvExport;
 use Microweber\Utils\Backup\Exporters\XmlExport;
 use Microweber\Utils\Backup\Exporters\ZipExport;
 use Microweber\Utils\Backup\Loggers\BackupExportLogger;
+use Microweber\App\Providers\Illuminate\Support\Facades\Cache;
 
 class Export
 {
@@ -45,14 +46,22 @@ class Export
 		}
 		
 		$export->setType($this->type);
+		$exportStatus = $export->start();
 		
-		if ($export) {
+		if (isset($exportStatus['current_step'])) {
+			return $exportStatus;
+		}
+		
+		if (isset($exportStatus['download'])) {
 			
-			return array(
-				'success' => count($data, COUNT_RECURSIVE) . ' items are exported',
-				'export_type' => $this->type,
-				'data' => $export->start()
-			);
+			if (!empty($data)) {
+				return array(
+					'success' => count($data, COUNT_RECURSIVE) . ' items are exported',
+					'export_type' => $this->type,
+					'data' => $exportStatus
+				);
+			}
+			
 		} else {
 			return array(
 				'error' => 'Export format not supported.'
@@ -62,7 +71,36 @@ class Export
 
 	public function start() {
 		
-		BackupExportLogger::setLogInfo('Start exporting selected data...');
+		$readyData = $this->_getReadyDataCached();
+
+		return $this->exportAsType($readyData);
+	}
+	
+	private function _getExportDataHash() {
+		return md5(json_encode($this->exportData));
+	}
+	
+	private function _getReadyDataCached() {
+		
+		$exportDataHash = $this->_getExportDataHash();
+		
+		$zipExport = new ZipExport();
+		$currentStep = $zipExport->getCurrentStep();
+		
+		if ($currentStep == 0) {
+			// This is frist step
+			Cache::forget($exportDataHash);
+			return Cache::rememberForever($exportDataHash, function () {
+				return $this->_getReadyData();
+			});
+		} else {
+			BackupExportLogger::setLogInfo('Start exporting selected data...');
+			// This is for the next steps from wizard
+			return Cache::get($exportDataHash);
+		}
+	}
+	
+	private function _getReadyData() {
 		
 		$exportTables = new ExportTables();
 		
@@ -119,9 +157,7 @@ class Export
 			}
 		}
 		
-		$readyData = $exportTables->getAllTableItems();
-		
-		return $this->exportAsType($readyData);
+		return $exportTables->getAllTableItems();
 	}
 	
 	private function _getTableContent($table, $ids = array()) {

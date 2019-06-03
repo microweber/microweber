@@ -5,10 +5,49 @@ use Microweber\Utils\Backup\Loggers\BackupExportLogger;
 
 class ZipExport extends DefaultExport
 {
+	/**
+	 * The current batch step.
+	 * @var integer
+	 */
+	public $currentStep = 0;
+	
+	/**
+	 * The total steps for batch.
+	 * @var integer
+	 */
+	public $totalSteps = 100;
+	
+	
+	/**
+	 * The name of cache group for backup file.
+	 * @var string
+	 */
+	private $_cacheGroupName = 'BackupExporting';
+
+	public function getCurrentStep() {
+		
+		$this->currentStep = (int) cache_get('ExportCurrentStep', $this->_cacheGroupName);
+		
+		if (!$this->currentStep) {
+			$this->currentStep = 0;
+		}
+		
+		if ($this->currentStep > $this->totalSteps) {
+			$this->_finishUp();
+			$this->currentStep = 0;
+		}
+		
+		return $this->currentStep;
+	}
+	
 	public function start() {
 		
-		$json = new JsonExport($this->data);
-		$getJson = $json->start();
+		if ($this->getCurrentStep() == 0) {
+			// Clear old log file
+			BackupExportLogger::clearLog();
+		}
+		
+		BackupExportLogger::setLogInfo('Archiving files batch: ' . $this->getCurrentStep() . '/' . $this->totalSteps);
 		
 		// Get zip filename
 		$zipFilename = $this->_generateFilename();
@@ -20,23 +59,64 @@ class ZipExport extends DefaultExport
                 \n The Microweber version at the time of backup was {MW_VERSION}
                 \nCreated on " . date('l jS \of F Y h:i:s A'));
 		
-		// Add json file
-		if ($getJson['filepath']) {
-			$zip->addLargeFile($getJson['filepath'], 'mw_content.json', filectime($getJson['filepath']), 'Json Restore file');
+		if ($this->getCurrentStep() == 0) {
+			// Encode db json
+			$json = new JsonExport($this->data);
+			$getJson = $json->start();
+			
+			// Add json file
+			if ($getJson['filepath']) {
+				$zip->addLargeFile($getJson['filepath'], 'mw_content.json', filectime($getJson['filepath']), 'Json Restore file');
+			}
 		}
 		
 		$userFiles = $this->_getUserFilesPaths();
 		
-		foreach($userFiles as $file) {
-						
-			BackupExportLogger::setLogInfo('Archiving file <b>'. $file['dataFile'] . '</b>');
+		if (!empty($userFiles)) {
 			
-			$zip->addLargeFile($file['filePath'], $file['dataFile']);
+			$totalUserFilesForZip = sizeof($userFiles);
+			$totalUserFilesForBatch = round($totalUserFilesForZip / $this->totalSteps, 0);
+			
+			$userFilesBatch = array_chunk($userFiles, $totalUserFilesForBatch);
+			
+			if (!isset($userFilesBatch[$this->getCurrentStep()])) {
+				
+				BackupExportLogger::setLogInfo('No files in batch for current step.');
+				$this->_finishUp();
+				
+				$zip->finalize();
+				
+				return $zipFilename;
+			}
+			
+			foreach($userFilesBatch[$this->getCurrentStep()] as $file) {
+				BackupExportLogger::setLogInfo('Archiving file <b>'. $file['dataFile'] . '</b>');
+				$zip->addLargeFile($file['filePath'], $file['dataFile']);
+			}
+			
+			cache_save($this->getCurrentStep() + 1, 'ExportCurrentStep', $this->_cacheGroupName, 60 * 10);
 		}
 		
-		$zip->finalize();
+		return $this->getExportLog();
+	}
+	
+	public function getExportLog() {
 		
-		return $zipFilename;
+		$log = array();
+		$log['current_step'] = $this->getCurrentStep();
+		$log['total_steps'] = $this->totalSteps;
+		$log['precentage'] = ($this->getCurrentStep() * 100) / $this->totalSteps;
+		$log['data'] = false;
+		
+		if ($this->getCurrentStep() >= $this->totalSteps) {
+			$log['done'] = true;
+		}
+		
+		return $log;
+	}
+	
+	public function clearSteps() {
+		cache_delete($this->_cacheGroupName);
 	}
 	
 	private function _getUserFilesPaths() {
@@ -79,4 +159,14 @@ class ZipExport extends DefaultExport
 		}
 		return $files;
 	}
+	
+	/**
+	 * Clear all cache 
+	 */
+	private function _finishUp() {
+		$this->clearSteps();
+		BackupExportLogger::setLogInfo('Done!');
+		
+	}
+	
 }

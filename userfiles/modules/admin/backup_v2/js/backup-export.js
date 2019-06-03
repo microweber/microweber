@@ -70,17 +70,23 @@ mw.backup_export = {
 		
 		mw.notification.success("Export started...");
 		$.post(mw.settings.api_url+'Microweber/Utils/BackupV2/export', manifest , function(exportData) {
-			mw.backup_export.get_log_check('stop');
-			$('.js-export-log').html('<br />Success!<br /><br /><a href="'+exportData.data.download+'" class="mw-ui-btn mw-ui-btn-notification"><i class="mw-icon-download"></i> Download Backup</a>');
-		 	mw.notification.success(exportData.success);
+			
+			if (typeof(exportData.data.download) !== 'undefined') {
+				mw.backup_export.get_log_check('stop');
+				$('.js-export-log').html('<br />Success!<br /><br /><a href="'+exportData.data.download+'" class="mw-ui-btn mw-ui-btn-notification"><i class="mw-icon-download"></i> Download Backup</a>');
+			 	mw.notification.success(exportData.success);
+			} else {
+				mw.backup_export.export_selected(manifest);
+			}
+			// console.log(exportData.data.download);
 		 });
 	},
 	
 	get_log_check: function(action = 'start') {
-	
+		
 		var importLogInterval = setInterval(function() {
 			mw.backup_export.get_log();
-		}, 500);
+		}, 2500);
 		
 		if (action == 'stop') {
 			for(i=0; i<10000; i++) {
