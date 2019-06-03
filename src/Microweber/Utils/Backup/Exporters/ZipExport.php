@@ -15,7 +15,7 @@ class ZipExport extends DefaultExport
 	 * The total steps for batch.
 	 * @var integer
 	 */
-	public $totalSteps = 30;
+	public $totalSteps = 3;
 	
 	
 	/**
@@ -70,7 +70,6 @@ class ZipExport extends DefaultExport
 		// Generate zip file
 		$zip = new \Microweber\Utils\Zip($zipFileName['filepath']);
 		$zip->setZipFile($zipFileName['filepath'], true);
-		
 		$zip->setComment("Microweber backup of the userfiles folder and db.
                 \n The Microweber version at the time of backup was {MW_VERSION}
                 \nCreated on " . date('l jS \of F Y h:i:s A'));
@@ -100,8 +99,6 @@ class ZipExport extends DefaultExport
 				BackupExportLogger::setLogInfo('No files in batch for current step.');
 				$this->_finishUp();
 				
-				$zip->finalize();
-				
 				return $zipFilename;
 			}
 			
@@ -110,7 +107,8 @@ class ZipExport extends DefaultExport
 				$zip->addLargeFile($file['filePath'], $file['dataFile']);
 			}
 			
-			$zip->finalize();
+			
+			$zip->finalize(); 
 			
 			cache_save($this->getCurrentStep() + 1, 'ExportCurrentStep', $this->_cacheGroupName, 60 * 10);
 		}

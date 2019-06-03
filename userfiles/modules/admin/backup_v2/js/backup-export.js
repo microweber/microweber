@@ -87,7 +87,7 @@ mw.backup_export = {
 		
 		var importLogInterval = setInterval(function() {
 			mw.backup_export.get_log();
-		}, 3000);
+		}, 5000);
 		
 		if (action == 'stop') {
 			for(i=0; i<10000; i++) {
