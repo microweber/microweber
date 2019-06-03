@@ -7,8 +7,8 @@ use Monolog\Handler\StreamHandler;
 abstract class BackupDefaultLogger
 {
 
-	private static $debug = true;
-	private static $logger;
+	protected static $debug = true;
+	protected static $logger;
 	/* 
 	public static $logName = 'Default';
 	public static $logFileName = 'backup-default-session.log';
@@ -34,12 +34,12 @@ abstract class BackupDefaultLogger
 		file_put_contents(self::_getLogFilename(), false);
 	}
 
-	private static function _getLogFilename()
+	protected static function _getLogFilename()
 	{
 		return userfiles_path() . static::$logFileName;
 	}
 
-	private static function _getLogger()
+	protected static function _getLogger()
 	{
 		self::$logger = new Logger(static::$logName);
 		self::$logger->pushHandler(new StreamHandler(self::_getLogFilename()));

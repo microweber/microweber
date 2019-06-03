@@ -1,6 +1,8 @@
 <?php
 namespace Microweber\Utils\Backup\Exporters;
 
+use Microweber\Utils\Backup\Loggers\BackupExportLogger;
+
 class ZipExport extends DefaultExport
 {
 	public function start() {
@@ -23,11 +25,55 @@ class ZipExport extends DefaultExport
 			$zip->addLargeFile($getJson['filepath'], 'mw_content.json', filectime($getJson['filepath']), 'Json Restore file');
 		}
 		
-		// Add user media files
-		$zip->addDirectoryContent(userfiles_path() . DIRECTORY_SEPARATOR . 'css', 'css', true);
-		$zip->addDirectoryContent(userfiles_path() . DIRECTORY_SEPARATOR . 'media', 'media', true);
+		$userFiles = $this->_getUserFilesPaths();
+		
+		$i=0;
+		foreach($userFiles as $filePath) {
+			
+			$dataFile = str_replace(userfiles_path() . DIRECTORY_SEPARATOR, false, $filePath);
+			
+			$dataFile = normalize_path($dataFile, false);
+			$filePath =  normalize_path($filePath, false);
+			
+			BackupExportLogger::setLogInfo('Archiving file '. $dataFile);
+			
+			$zip->addLargeFile($filePath, $dataFile);
+			
+			if ($i > 300) {
+				break;
+			}
+			
+			$i++;
+		}
+		
 		$zip->finalize();
 		
 		return $zipFilename;
+	}
+	
+	private function _getUserFilesPaths() {
+		
+		$userFiles = array();
+		
+		$css = $this->_getDirContents(userfiles_path() . DIRECTORY_SEPARATOR . 'css');
+		$media = $this->_getDirContents(userfiles_path() . DIRECTORY_SEPARATOR . 'media');
+		
+		$userFiles = array_merge($css, $media);
+		
+		return $userFiles;
+		
+	}
+	
+	private function _getDirContents($path) {
+		
+		$rii = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
+
+		$files = array();
+		foreach ($rii as $file) {
+			if (! $file->isDir()) {
+				$files[] = $file->getPathname();
+			}
+		}
+		return $files;
 	}
 }
