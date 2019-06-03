@@ -26,6 +26,7 @@ class ZipExport extends DefaultExport
 		// Add user media files
 		$zip->addDirectoryContent(userfiles_path() . DIRECTORY_SEPARATOR . 'css', 'css', true);
 		$zip->addDirectoryContent(userfiles_path() . DIRECTORY_SEPARATOR . 'media', 'media', true);
+		$zip->finalize();
 		
 		return $zipFilename;
 	}
