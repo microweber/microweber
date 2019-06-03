@@ -4,15 +4,15 @@ namespace Microweber\Utils\Backup\Loggers;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
-class BackupDefaultLogger
+abstract class BackupDefaultLogger
 {
 
 	private static $debug = true;
 	private static $logger;
-
-	protected static $logName = 'Default';
-	protected static $logFileName = 'backup-default-session.log';
-	
+	/* 
+	public static $logName = 'Default';
+	public static $logFileName = 'backup-default-session.log';
+	 */
 	public static function setLogInfo($log)
 	{
 		if (is_ajax()) {
@@ -36,12 +36,12 @@ class BackupDefaultLogger
 
 	private static function _getLogFilename()
 	{
-		return userfiles_path() . self::$logFileName;
+		return userfiles_path() . static::$logFileName;
 	}
 
 	private static function _getLogger()
 	{
-		self::$logger = new Logger(self::$logName);
+		self::$logger = new Logger(static::$logName);
 		self::$logger->pushHandler(new StreamHandler(self::_getLogFilename()));
 	}
 }

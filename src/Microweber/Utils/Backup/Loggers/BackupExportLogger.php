@@ -3,8 +3,8 @@ namespace Microweber\Utils\Backup\Loggers;
 
 use Microweber\Utils\Backup\Loggers\BackupDefaultLogger;
 
-final class BackupExportLogger extends BackupDefaultLogger
+class BackupExportLogger extends BackupDefaultLogger
 {
-	protected static $logName = 'Exporting';
-	protected static $logFileName = 'backup-export-session.log';
+	public static $logName = 'Exporting';
+	public static $logFileName = 'backup-export-session.log'; 
 }

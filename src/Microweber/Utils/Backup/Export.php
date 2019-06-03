@@ -5,6 +5,7 @@ use Microweber\Utils\Backup\Exporters\JsonExport;
 use Microweber\Utils\Backup\Exporters\CsvExport;
 use Microweber\Utils\Backup\Exporters\XmlExport;
 use Microweber\Utils\Backup\Exporters\ZipExport;
+use Microweber\Utils\Backup\Loggers\BackupExportLogger;
 
 class Export
 {
@@ -61,12 +62,16 @@ class Export
 
 	public function start() {
 		
+		BackupExportLogger::setLogInfo('Start exporting selected data...');
+		
 		$exportTables = new ExportTables();
 		
 		$readyContent = array();
 		$tables = $this->_getTablesForExport();
 		
 		foreach($tables as $table) {
+			
+			BackupExportLogger::setLogInfo('Exporting table: ' . $table);
 			
 			$exportTables->addTable($table);
 			
@@ -98,7 +103,12 @@ class Export
 				}
 				
 				if (!empty($relations)) {
+					
+					BackupExportLogger::setLogInfo('Get relations from table: ' . $table);
+					
 					foreach($relations as $relationTable=>$relationIds) {
+						
+						BackupExportLogger::setLogInfo('Get data from relations table: ' . $relationTable);
 						
 						$relationTableContent = $this->_getTableContent($relationTable, $relationIds);
 						
