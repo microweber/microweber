@@ -12,6 +12,7 @@ use Microweber\Utils\Backup\Traits\DatabaseRelationWriter;
 use Microweber\Utils\Backup\Traits\DatabaseContentWriter;
 use Microweber\Utils\Backup\Traits\DatabaseMenusWriter;
 use Microweber\Utils\Backup\Traits\DatabaseMediaWriter;
+use Microweber\Utils\Backup\Loggers\BackupImportLogger;
 
 /**
  * Microweber - Backup Module Database Writer
@@ -122,9 +123,9 @@ class DatabaseWriter
 		
 		$checkItemIsExists = db_get($item['save_to_table'], $dbSelectParams);
 		if ($checkItemIsExists) {
-			$this->setLogInfo('Update item ' . $this->_getItemFriendlyName($item) . ' in ' . $item['save_to_table']);
+			BackupImportLogger::setLogInfo('Update item ' . $this->_getItemFriendlyName($item) . ' in ' . $item['save_to_table']);
 		} else {
-			$this->setLogInfo('Save item ' . $this->_getItemFriendlyName($item) . ' in ' . $item['save_to_table']);
+			BackupImportLogger::setLogInfo('Save item ' . $this->_getItemFriendlyName($item) . ' in ' . $item['save_to_table']);
 		}
 		
 		$saveItem = $this->_unsetItemFields($item);
@@ -211,10 +212,10 @@ class DatabaseWriter
 	{
 		if ($this->getCurrentStep() == 0) {
 			// Clear old log file
-			$this->clearLog();
+			BackupImportLogger::clearLog();
 		}
 		
-		$this->setLogInfo('Importing database batch: ' . $this->getCurrentStep() . '/' . $this->totalSteps);
+		BackupImportLogger::setLogInfo('Importing database batch: ' . $this->getCurrentStep() . '/' . $this->totalSteps);
 		
 		//$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
 		//$importTables = array('content', 'categories');
@@ -234,7 +235,7 @@ class DatabaseWriter
 					$itemsForSave[] = $item;
 				}
 			}
-			$this->setLogInfo('Save content to table: ' . $table);
+			BackupImportLogger::setLogInfo('Save content to table: ' . $table);
 		}
 		
 		if (!empty($itemsForSave)) {
@@ -246,7 +247,7 @@ class DatabaseWriter
 			
 			if (!isset($itemsBatch[$this->getCurrentStep()])) {
 				
-				$this->setLogInfo('No items in batch for current step.');
+				BackupImportLogger::setLogInfo('No items in batch for current step.');
 				$this->_finishUp();
 				
 				return array("success"=>"Done! All steps are finished.");
@@ -287,7 +288,7 @@ class DatabaseWriter
 		
 		// cache_delete($this->_cacheGroupName);
 		
-		$this->setLogInfo('Cleaning up custom css cache');
+		BackupImportLogger::setLogInfo('Cleaning up custom css cache');
 		
 		mw()->template->clear_cached_custom_css();
 		
@@ -295,11 +296,11 @@ class DatabaseWriter
 			mw_post_update();
 		}
 		
-		$this->setLogInfo('Cleaning up system cache');
+		BackupImportLogger::setLogInfo('Cleaning up system cache');
 		
 		mw()->cache_manager->clear();
 		
-		$this->setLogInfo('Done!');
+		BackupImportLogger::setLogInfo('Done!');
 	}
 	
 }

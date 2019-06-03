@@ -1,5 +1,5 @@
 <?php
-namespace Microweber\Utils\Backup\Traits\Loggers;
+namespace Microweber\Utils\Backup\Loggers;
 
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
@@ -10,6 +10,9 @@ class BackupDefaultLogger
 	private static $debug = true;
 	private static $logger;
 
+	protected static $logName = 'Default';
+	protected static $logFileName = 'backup-default-session.log';
+	
 	public static function setLogInfo($log)
 	{
 		if (is_ajax()) {
@@ -20,7 +23,7 @@ class BackupDefaultLogger
 			echo $log . PHP_EOL;
 		}
 
-		if (! $this->logger) {
+		if (! self::$logger) {
 			self::_getLogger();
 		}
 		self::$logger->info($log);
@@ -38,7 +41,7 @@ class BackupDefaultLogger
 
 	private static function _getLogger()
 	{
-		self::$logger = new Logger($this->logName);
+		self::$logger = new Logger(self::$logName);
 		self::$logger->pushHandler(new StreamHandler(self::_getLogFilename()));
 	}
 }
