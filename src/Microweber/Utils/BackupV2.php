@@ -231,6 +231,10 @@ class BackupV2
 			$manager->setExportData('categoryIds', $query['categories_ids']);
 		}
 		
+		if (is_ajax()) {
+			header('Content-Type: application/json');
+		}
+		
 		return $manager->startExport();
 		
 	}

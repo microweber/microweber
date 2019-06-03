@@ -66,9 +66,9 @@ mw.backup_export = {
 	
 	export_selected: function(manifest) {
 		mw.notification.success("Export started...");
-		$.post(mw.settings.api_url+'Microweber/Utils/BackupV2/export', manifest , function(data) {
-			$('.js-export-log').html('<br /><br />Success!<br /><br /><a href="'+data.data.download+'" class="mw-ui-btn mw-ui-btn-notification"><i class="mw-icon-download"></i> Download Backup</a>');
-		 	mw.notification.msg(data.success, 3000);
+		$.post(mw.settings.api_url+'Microweber/Utils/BackupV2/export', manifest , function(exportData) {  
+			$('.js-export-log').html('<br /><br />Success!<br /><br /><a href="'+exportData.data.download+'" class="mw-ui-btn mw-ui-btn-notification"><i class="mw-icon-download"></i> Download Backup</a>');
+		 	mw.notification.success(exportData.success);
 		 });
 	},
 	
