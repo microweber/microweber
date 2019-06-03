@@ -27,23 +27,11 @@ class ZipExport extends DefaultExport
 		
 		$userFiles = $this->_getUserFilesPaths();
 		
-		$i=0;
-		foreach($userFiles as $filePath) {
+		foreach($userFiles as $file) {
+						
+			BackupExportLogger::setLogInfo('Archiving file <b>'. $file['dataFile'] . '</b>');
 			
-			$dataFile = str_replace(userfiles_path() . DIRECTORY_SEPARATOR, false, $filePath);
-			
-			$dataFile = normalize_path($dataFile, false);
-			$filePath =  normalize_path($filePath, false);
-			
-			BackupExportLogger::setLogInfo('Archiving file <b>'. $dataFile . '</b>');
-			
-			$zip->addLargeFile($filePath, $dataFile);
-			
-			if ($i > 500) {
-				break;
-			}
-			
-			$i++;
+			$zip->addLargeFile($file['filePath'], $file['dataFile']);
 		}
 		
 		$zip->finalize();
@@ -54,13 +42,28 @@ class ZipExport extends DefaultExport
 	private function _getUserFilesPaths() {
 		
 		$userFiles = array();
+		$userFilesReady = array();
 		
 		$css = $this->_getDirContents(userfiles_path() . DIRECTORY_SEPARATOR . 'css');
 		$media = $this->_getDirContents(userfiles_path() . DIRECTORY_SEPARATOR . 'media');
 		
 		$userFiles = array_merge($css, $media);
 		
-		return $userFiles;
+		foreach($userFiles as $filePath) {
+			
+			$dataFile = str_replace(userfiles_path() . DIRECTORY_SEPARATOR, false, $filePath);
+			
+			$dataFile = normalize_path($dataFile, false);
+			$filePath =  normalize_path($filePath, false);
+			
+			$userFilesReady[] = array(
+				'dataFile'=>$dataFile,
+				'filePath'=>$filePath
+			);
+			
+		}
+		
+		return $userFilesReady;
 		
 	}
 	
