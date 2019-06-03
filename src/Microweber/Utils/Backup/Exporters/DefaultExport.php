@@ -6,9 +6,7 @@ use Microweber\Utils\Backup\BackupManager;
 
 class DefaultExport implements ExportInterface
 {
-
 	protected $type = 'json';
-
 	protected $data;
 
 	public function __construct($data)

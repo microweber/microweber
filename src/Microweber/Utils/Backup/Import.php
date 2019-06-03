@@ -6,12 +6,10 @@ use Microweber\Utils\Backup\Readers\JsonReader;
 use Microweber\Utils\Backup\Readers\CsvReader;
 use Microweber\Utils\Backup\Readers\XmlReader;
 use Microweber\App\Providers\Illuminate\Support\Facades\Cache;
-use Microweber\Utils\Backup\Traits\BackupLogger;
+use Microweber\Utils\Backup\Loggers\BackupImportLogger;
 
 class Import
 {
-	use BackupLogger;
-
 	/**
 	 * The import file type
 	 *
@@ -56,7 +54,7 @@ class Import
 	{
 		$reader = $this->_getReader($file);
 		if ($reader) {
-			$this->setLogInfo('Reading data from file ' . basename($this->file));
+			BackupImportLogger::setLogInfo('Reading data from file ' . basename($this->file));
 
 			try {
 				$readedData = $reader->readData();
@@ -64,7 +62,7 @@ class Import
 				$readedData = array();
 				// $fileIsBroken = 'Can\'t read data. The file is corrupt.';
 				$fileIsBroken = $e->getMessage();
-				$this->setLogInfo($fileIsBroken);
+				BackupImportLogger::setLogInfo($fileIsBroken);
 				return array(
 					'error' => $fileIsBroken
 				);
@@ -72,7 +70,7 @@ class Import
 			
 			if (! empty($readedData)) {
 				$successMessages = count($readedData, COUNT_RECURSIVE) . ' items are readed.';
-				$this->setLogInfo($successMessages);
+				BackupImportLogger::setLogInfo($successMessages);
 				return array(
 					'success' => $successMessages,
 					'imoport_type' => $this->type,
@@ -82,7 +80,7 @@ class Import
 		}
 
 		$formatNotSupported = 'Import format not supported';
-		$this->setLogInfo($formatNotSupported);
+		BackupImportLogger::setLogInfo($formatNotSupported);
 		return array(
 			'error' => $formatNotSupported
 		);
@@ -102,18 +100,18 @@ class Import
 			// This is frist step
 			Cache::forget(md5($this->file));
 			return Cache::rememberForever(md5($this->file), function () {
-				$this->setLogInfo('Start importing session..');
+				BackupImportLogger::setLogInfo('Start importing session..');
 				return $this->importAsType($this->file);
 			});
 		} else {
-			$this->setLogInfo('Read content from cache..');
+			BackupImportLogger::setLogInfo('Read content from cache..');
 			// This is for the next steps from wizard
 			return Cache::get(md5($this->file));
 		}
 	}
 	
 	public function readContent() {		
-		$this->setLogInfo('Start importing session..');
+		BackupImportLogger::setLogInfo('Start importing session..');
 		return $this->importAsType($this->file);
 	}
 	

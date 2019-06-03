@@ -1,13 +1,12 @@
 <?php
-
 namespace Microweber\Utils\Backup;
+
+use Illuminate\Support\Facades\Cache;
 
 use Microweber\Utils\Backup\Traits\DatabaseCustomFieldsWriter;
 use Microweber\Utils\Backup\Traits\DatabaseContentFieldsWriter;
 use Microweber\Utils\Backup\Traits\DatabaseContentDataWriter;
 use Microweber\Utils\Backup\Traits\DatabaseCategoryItemsWriter;
-use Microweber\Utils\Backup\Traits\BackupLogger;
-use Illuminate\Support\Facades\Cache;
 use Microweber\Utils\Backup\Traits\DatabaseCategoriesWriter;
 use Microweber\Utils\Backup\Traits\DatabaseRelationWriter;
 use Microweber\Utils\Backup\Traits\DatabaseContentWriter;
@@ -22,7 +21,6 @@ use Microweber\Utils\Backup\Traits\DatabaseMediaWriter;
  */
 class DatabaseWriter
 {
-	use BackupLogger;
 	use DatabaseMediaWriter;
 	use DatabaseMenusWriter;
 	use DatabaseRelationWriter;

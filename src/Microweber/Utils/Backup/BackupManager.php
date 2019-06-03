@@ -1,11 +1,8 @@
 <?php
 namespace Microweber\Utils\Backup;
 
-use Microweber\Utils\Backup\Traits\BackupLogger;
-
 class BackupManager
 {
-	use BackupLogger;
 	
 	public $exportData = ['categoryIds'=>[], 'contentIds'=>[], 'tables'=>[]];
 	public $exportType = 'json';
@@ -16,11 +13,11 @@ class BackupManager
 	public function __construct()
 	{
 		if (php_can_use_func('ini_set')) {
-			ini_set('memory_limit', '-1');
+			// ini_set('memory_limit', '-1');
 		}
 
 		if (php_can_use_func('set_time_limit')) {
-			set_time_limit(0);
+			// set_time_limit(0);
 		}
 	}
 
