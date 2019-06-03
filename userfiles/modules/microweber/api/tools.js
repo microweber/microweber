@@ -3611,7 +3611,7 @@ mw.tools = {
 
             window.mw.on.DOMChangePause = true;
 
-            if (childs_arr) {
+            if (childs_arr.length) {
                 $.ajax({
                     type: "POST",
                    // dataType: "json",
@@ -3633,6 +3633,9 @@ mw.tools = {
                 success: function(){
 
                     setTimeout(function () {
+
+
+                        $('#'+module_id).removeAttr('data-module-original-id');
                         mw.reload_module('#'+module_id);
                         window.mw.on.DOMChangePause = false;
 

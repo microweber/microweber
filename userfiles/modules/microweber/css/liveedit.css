@@ -4439,7 +4439,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     border-radius: 15px;
     font-family: Microweber;
     text-align: center;
-    transition: all .3s;
+    transition: none;
     line-height: 16px;
     margin-left: 7px;
     transform-origin: center;
@@ -4465,8 +4465,8 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     border-radius: 3px;
     color: #fff;
     transform: scale(1, .5) translateZ(-30px);
-    transform-origin: left center;
-    transition: all .1s;
+    transform-origin: top center;
+    transition: all 70ms ;
     margin-top: 10px;
 }
 
