@@ -48,31 +48,24 @@ class Export
 		$export->setType($this->type);
 		$exportStatus = $export->start();
 		
-		if (isset($exportStatus['current_step'])) {
-			return $exportStatus;
-		}
-		
-		if (isset($exportStatus['download'])) {
-			
-			if (!empty($data)) {
-				return array(
-					'success' => count($data, COUNT_RECURSIVE) . ' items are exported',
-					'export_type' => $this->type,
-					'data' => $exportStatus
-				);
-			}
-			
-		} else {
+		if (isset($exportStatus['download']) && !empty($exportStatus['download'])) {
 			return array(
-				'error' => 'Export format not supported.'
+				'success' => 'Items are exported',
+				'export_type' => $this->type,
+				'data' => $exportStatus
 			);
+		} else {
+			/* return array(
+				'error' => 'Export format not supported.'
+			); */
+			return $exportStatus;
 		}
 	}
 
 	public function start() {
 		
 		$readyData = $this->_getReadyDataCached();
-
+		
 		return $this->exportAsType($readyData);
 	}
 	

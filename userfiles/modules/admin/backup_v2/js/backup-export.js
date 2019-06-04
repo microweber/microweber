@@ -101,7 +101,7 @@ mw.backup_export = {
 		$.ajax({
 		    url: userfilesUrl + 'backup-export-session.log',
 		    success: function (data) {
-		    	data = data.replace(/\n/g, "<br />");
+		    	data = data.replace(/\n/g, "<br />"); 
 		    	$('.js-export-log').html('<br />' + data + '<br /><br />');
 		    },  
 		    error: function() {

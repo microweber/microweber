@@ -86,7 +86,6 @@ class ZipExport extends DefaultExport
 		}
 		
 		$userFiles = $this->_getUserFilesPaths();
-		
 		if (!empty($userFiles)) {
 			
 			$totalUserFilesForZip = sizeof($userFiles);
@@ -99,7 +98,7 @@ class ZipExport extends DefaultExport
 				BackupExportLogger::setLogInfo('No files in batch for current step.');
 				$this->_finishUp();
 				
-				return $zipFilename;
+				return $zipFileName;
 			}
 			
 			foreach($userFilesBatch[$this->getCurrentStep()] as $file) {
@@ -107,8 +106,9 @@ class ZipExport extends DefaultExport
 				$zip->addLargeFile($file['filePath'], $file['dataFile']);
 			}
 			
-			
-			$zip->finalize(); 
+			if ($this->getCurrentStep() == 0) {
+				$zip->finalize();
+			}
 			
 			cache_save($this->getCurrentStep() + 1, 'ExportCurrentStep', $this->_cacheGroupName, 60 * 10);
 		}
