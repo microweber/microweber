@@ -106,6 +106,13 @@ $paging_links = false;
                     $('.mw-ui-btn', '.trash-select-all').on('click', function () {
                         $(this).parent().find('.mw-ui-btn-info').addClass('mw-ui-btn-outline');
                         $(this).removeClass('mw-ui-btn-outline');
+
+                        if (mw.$(".select_delete_forever:checked").length === 0) {
+                            mw.$("#manage-buttons").hide();
+                        }
+                        else {
+                            mw.$("#manage-buttons").show();
+                        }
                     })
                 });
             </script>
