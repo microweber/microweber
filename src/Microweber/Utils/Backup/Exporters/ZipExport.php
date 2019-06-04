@@ -28,15 +28,6 @@ class ZipExport extends DefaultExport
 		
 		$this->currentStep = (int) cache_get('ExportCurrentStep', $this->_cacheGroupName);
 		
-		if (!$this->currentStep) {
-			$this->currentStep = 0;
-		}
-		
-		if ($this->currentStep > $this->totalSteps) {
-			$this->_finishUp();
-			$this->currentStep = 0;
-		}
-		
 		return $this->currentStep;
 	}
 	
@@ -68,9 +59,9 @@ class ZipExport extends DefaultExport
 		BackupExportLogger::setLogInfo('Archiving files batch: ' . $this->getCurrentStep() . '/' . $this->totalSteps);
 		
 		// Generate zip file
-		$zip = new \Microweber\Utils\Zip($zipFileName['filepath']);
-		$zip->setZipFile($zipFileName['filepath'], true);
-		$zip->setComment("Microweber backup of the userfiles folder and db.
+		$zip = new \ZipArchive();
+		$zip->open($zipFileName['filepath'], \ZipArchive::CREATE);
+		$zip->setArchiveComment("Microweber backup of the userfiles folder and db.
                 \n The Microweber version at the time of backup was {MW_VERSION}
                 \nCreated on " . date('l jS \of F Y h:i:s A'));
 		
@@ -81,7 +72,7 @@ class ZipExport extends DefaultExport
 			
 			// Add json file
 			if ($getJson['filepath']) {
-				$zip->addLargeFile($getJson['filepath'], 'mw_content.json', filectime($getJson['filepath']), 'Json Restore file');
+				$zip->addFile($getJson['filepath'], 'mw_content.json');
 			}
 		}
 		
@@ -103,10 +94,10 @@ class ZipExport extends DefaultExport
 			
 			foreach($userFilesBatch[$this->getCurrentStep()] as $file) {
 				BackupExportLogger::setLogInfo('Archiving file <b>'. $file['dataFile'] . '</b>');
-				$zip->addLargeFile($file['filePath'], $file['dataFile']);
+				$zip->addFile($file['filePath'], $file['dataFile']);
 			}
 			
-			//$zip->finalize();
+			$zip->close();
 			
 			cache_save($this->getCurrentStep() + 1, 'ExportCurrentStep', $this->_cacheGroupName, 60 * 10);
 		}
