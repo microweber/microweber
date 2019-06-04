@@ -83,7 +83,7 @@ mw.backup_export = {
 	
 	get_log_check: function(action = 'start') {
 		
-		mw.notification.success("Export started...");
+		// mw.notification.success("Export started...");
 		
 		var importLogInterval = setInterval(function() {
 			mw.backup_export.get_log();
