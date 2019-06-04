@@ -106,9 +106,7 @@ class ZipExport extends DefaultExport
 				$zip->addLargeFile($file['filePath'], $file['dataFile']);
 			}
 			
-			if ($this->getCurrentStep() == 0) {
-				$zip->finalize();
-			}
+			//$zip->finalize();
 			
 			cache_save($this->getCurrentStep() + 1, 'ExportCurrentStep', $this->_cacheGroupName, 60 * 10);
 		}
