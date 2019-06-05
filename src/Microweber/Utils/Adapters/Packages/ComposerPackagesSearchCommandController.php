@@ -89,7 +89,11 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
             'microweber-module',
         );
         mw()->update->log_msg('preparing');
-        ini_set('memory_limit', '2777M');
+
+        if (php_can_use_func('ini_set')) {
+            ini_set('memory_limit', '2777M');
+        }
+
 
 
         $repositoryManager = $this->getRepositoryManager();

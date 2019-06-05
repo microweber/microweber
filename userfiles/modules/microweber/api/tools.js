@@ -3606,8 +3606,84 @@ mw.tools = {
         //    draggable: true
         //});
     },
-    open_reset_content_editor: function () {
+    confirm_reset_module_by_id: function (module_id) {
+        var r = confirm("Are you sure you want to reset this module?");
+        if (r == true) {
+            var data = {};
+            data.modules_ids = [module_id];
+
+            var childs_arr = [];
+
+            $('#'+module_id).andSelf().find('.edit').each(function (i) {
+                var some_child = {};
+
+                mw.tools.removeClass(this, 'changed')
+                some_child.rel = $(this).attr('rel');
+                some_child.field = $(this).attr('field');
+
+                childs_arr.push(some_child);
+
+            });
+
+
+            window.mw.on.DOMChangePause = true;
+
+            if (childs_arr.length) {
+                $.ajax({
+                    type: "POST",
+                   // dataType: "json",
+                    //processData: false,
+                    url: mw.settings.api_url + "content/reset_edit",
+                    data: {reset:childs_arr}
+                  //  success: success,
+                  //  dataType: dataType
+                });
+           }
+
+
+            $.ajax({
+                type: "POST",
+                // dataType: "json",
+                //processData: false,
+                url: mw.settings.api_url + "content/reset_modules_settings",
+                data: data,
+                success: function(){
+
+                    setTimeout(function () {
+
+
+                        $('#'+module_id).removeAttr('data-module-original-id');
+                        mw.reload_module('#'+module_id);
+                        window.mw.on.DOMChangePause = false;
+
+                    }, 1000);
+
+                 },
+            });
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+
+
+    },
+    open_reset_content_editor: function (root_element_id) {
+
         var src = mw.settings.site_url + 'api/module?id=mw_global_reset_content_editor&live_edit=true&module_settings=true&type=editor/reset_content&autosize=true';
+
+        if(typeof(root_element_id) != 'undefined') {
+            var src = src + '&root_element_id='+root_element_id;
+        }
+
         var modal = mw.tools.modal.frame({
             url: src,
             // width: 500,

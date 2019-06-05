@@ -231,11 +231,17 @@ class ContentManagerHelpers extends ContentManagerCrud
             $this->app->cache_manager->delete('options');
 
         }
+        return true;
     }
 
     public function reset_edit_field($data)
     {
         if ($data) {
+            if(isset($data['reset'])){
+                $data = $data['reset'];
+            }
+
+
             foreach ($data as $item) {
                 if (isset($item['rel']) and ($item['rel'])) {
                     if (isset($item['field']) and ($item['field'])) {
@@ -247,13 +253,15 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                         $del = $del->delete();
 
+
+
                     }
                 }
             }
         }
         $this->app->cache_manager->delete('content');
         $this->app->cache_manager->delete('content_fields');
-        return;
+        return true;
         if (isset($data['id'])) {
             $cont = get_content_by_id($data['id']);
             if (isset($cont['id']) and $cont['id'] != 0) {
