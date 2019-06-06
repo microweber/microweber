@@ -62,7 +62,7 @@ class ZipExport extends DefaultExport
 		$zip = new \ZipArchive();
 		$zip->open($zipFileName['filepath'], \ZipArchive::CREATE);
 		$zip->setArchiveComment("Microweber backup of the userfiles folder and db.
-                \n The Microweber version at the time of backup was {MW_VERSION}
+                \nThe Microweber version at the time of backup was ".MW_VERSION."
                 \nCreated on " . date('l jS \of F Y h:i:s A'));
 		
 		if ($this->getCurrentStep() == 0) {
