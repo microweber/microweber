@@ -4,6 +4,7 @@ namespace Microweber\Utils\Backup;
 class BackupManager
 {
 	
+	public $exportAllData = false;
 	public $exportData = ['categoryIds'=>[], 'contentIds'=>[], 'tables'=>[]];
 	public $exportType = 'json';
 	public $importType = false;
@@ -21,6 +22,14 @@ class BackupManager
 		}
 	}
 
+	/**
+	 * Set export full
+	 * @param string $type
+	 */
+	public function setExportAllData($exportAllData) {
+		$this->exportAllData = $exportAllData;
+	}
+	
 	/**
 	 * Set export file format
 	 * @param string $type
@@ -79,6 +88,7 @@ class BackupManager
 		$export = new Export();
 		$export->setType($this->exportType);
 		$export->setExportData($this->exportData);
+		$export->setExportAllData($this->exportAllData);
 		
 		return $export->start();
 

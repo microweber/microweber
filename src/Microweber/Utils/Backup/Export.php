@@ -13,6 +13,7 @@ class Export
 	public $skipTables;
 	public $exportData;
 	public $type = 'json';
+	public $exportAllData = false;
 	
 	public function setType($type)
 	{
@@ -21,6 +22,10 @@ class Export
 	
 	public function setExportData($data) {
 		$this->exportData = $data;
+	}
+	
+	public function setExportAllData($exportAllData) {
+		$this->exportAllData = $exportAllData;
 	}
 	
 	public function exportAsType($data)
@@ -163,6 +168,11 @@ class Export
 			$exportFilter['ids'] = implode(',', $ids);
 		}
 		
+		$table_exists = mw()->database_manager->table_exists($table);
+		if (!$table_exists) {
+			return;
+		}
+		
 		return db_get($table, $exportFilter);
 	}
 	
@@ -185,6 +195,7 @@ class Export
 		$this->skipTables[] = 'system_licenses';
 		$this->skipTables[] = 'users_oauth';
 		$this->skipTables[] = 'sessions';
+		$this->skipTables[] = 'global';
 		
 		return $this->skipTables;
 	}
@@ -237,7 +248,7 @@ class Export
 				continue;
 			}
 			
-			if (!empty($this->exportData)) {
+			if (!empty($this->exportData) && $this->exportAllData == false) {
 				if (isset($this->exportData['tables'])) {
 					if (!in_array($tableName, $this->exportData['tables'])) {
 						continue;

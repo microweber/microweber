@@ -223,6 +223,10 @@ class BackupV2
 		$manager = new BackupManager();
 		$manager->setExportData('tables', $tables);
 		
+		if (isset($query['all'])) {
+			$manager->setExportAllData(true);
+		}
+		
 		if (isset($query['content_ids']) && !empty($query['content_ids'])) {
 			$manager->setExportData('contentIds', $query['content_ids']);
 		}
