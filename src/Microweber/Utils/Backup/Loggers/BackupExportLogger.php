@@ -24,6 +24,11 @@ class BackupExportLogger extends BackupDefaultLogger
 	}
 	
 	public static function addNew($fileName, $line, $max = 3) {
+		
+		if (!is_file($fileName)) {
+			file_put_contents($fileName, '');
+		}
+		
 		// Remove Empty Spaces
 		$file = array_filter(array_map("trim", file($fileName)));
 		

@@ -35,11 +35,15 @@ mw.backup_export = {
 			+ '</label>&nbsp;&nbsp;'
 			
 			+ '<label class="mw-ui-check">'
+			+ '<input  class="js-export-items" type="checkbox" value="menus" name="export_items"><span></span><span>Export menus</span>'
+			+ '</label><br /><br />'
+			
+			+ '<label class="mw-ui-check">'
 			+ '<input  class="js-export-items" type="checkbox" value="options" name="export_items"><span></span><span>Export settings</span>'
 			+ '</label>'
 			
 			+ '<br /><br /><br /><a class="mw-ui-btn mw-ui-btn-warn" onclick="mw.backup_export.export_start()"><i class="mw-icon-download"></i> Export selected data</a>'
-			+ '&nbsp;&nbsp;<a class="mw-ui-btn mw-ui-btn-notification" onclick=""><i class="mw-icon-refresh"></i> Create Full Backup</a>'
+			+ '&nbsp;&nbsp;<a class="mw-ui-btn mw-ui-btn-notification" onclick="mw.backup_export.export_fullbackup_start()"><i class="mw-icon-refresh"></i> Create Full Backup</a>'
 			+ '<div class="js-export-log"></div>';
 		
 		mw.modal({
@@ -95,7 +99,7 @@ mw.backup_export = {
 		    }
 		}
 		
-	},
+	}, 
 	
 	get_log: function() {
 		$.ajax({
@@ -110,8 +114,13 @@ mw.backup_export = {
 		});
 	},
 	
+	export_fullbackup_start: function() {
+		$('.js-export-log').html('<br /><br />Generating full backup...');
+        mw.backup_export.export_selected('all');
+	},
+	
 	export_start: function () {
-
+		
         var selected_content = exportContentSelector.options.selectedData;
         var selected_export_items = exportContentSelector.options.selectedData;
 

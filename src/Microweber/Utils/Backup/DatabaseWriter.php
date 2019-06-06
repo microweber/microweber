@@ -216,6 +216,10 @@ class DatabaseWriter
 		}
 		
 		BackupImportLogger::setLogInfo('Importing database batch: ' . $this->getCurrentStep() . '/' . $this->totalSteps);
+
+		if (empty($this->content)) {
+			return array("success"=>"Nothing to import.");
+		}
 		
 		//$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
 		//$importTables = array('content', 'categories');
