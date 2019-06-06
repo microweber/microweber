@@ -318,7 +318,7 @@ if (isset($params['data-alt-logo'])) {
             </label>
         </div>
 
-        <div class="mw-ui-row-nodrop hidden">
+        <div class="mw-ui-row-nodrop">
             <label class="mw-ui-check">
                 <div class="mw-ui-col" style="width: 40px;">
                     <input type="radio" class="mw_option_field" <?php if ($logotype == 'both' or $logotype == false){ ?>checked=""<?php } ?> name="logotype" value="both">
