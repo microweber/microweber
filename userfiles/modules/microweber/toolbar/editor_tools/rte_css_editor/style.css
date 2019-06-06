@@ -2,6 +2,15 @@ body{
     padding: 100px;
 }
 
+input,select{
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+}
+
+.mw-field{
+    width: 100%;
+}
+
 .mw-ese-holder{
     background-color: #f5f5f5;
     border: 1px solid #cfcfcf;
@@ -83,6 +92,9 @@ body{
         display: flex;
         justify-content: space-between;
     }
+    .mw-esr + .mw-esr{
+        padding-top: 12px;
+    }
     .mw-esr > div{
         width: 48%;
     }
@@ -98,10 +110,10 @@ body{
         display: block;
         font-size: 10px;
         text-transform: uppercase;
-        padding-bottom: 5px;
+        padding-bottom: 2px;
     }
     .mw-esc .mw-multiple-fields .mw-field:first-child{
-        width: 55%;
+        width: 100%;
     }
 
     .mw-accordion + .mw-accordion{
@@ -143,8 +155,14 @@ body{
         margin-top: 2px;
         clear: both;
     }
+    .text-align .active{
+        background-color: #0e80e5;
+    }
+    .text-align > .active:before{
+        display: none;
+    }
     .text-align .active i{
-        background-color: #0aaaf1;
+        background-color: #fff;
     }
     .ta-left i:nth-child(2),
     .ta-left i:nth-child(3),
@@ -181,3 +199,71 @@ body{
         left: 0;
         background-color: #e5e5e5;
      }
+
+    #shadow > .mw-ui-field-holder.prop-ui-field-holder{
+        float: none;
+        clear: both;
+        width: 100%;
+        padding-top: 5px;
+    }
+    #shadow .mw-ui-field-holder.prop-ui-field-holder .mw-ui-field-holder.prop-ui-field-holder{
+        float: left;
+        width: 32%;
+        clear: none;
+    }
+    #shadow .mw-ui-field-holder.prop-ui-field-holder .mw-ui-field-holder.prop-ui-field-holder + .mw-ui-field-holder.prop-ui-field-holder{
+        margin-left: 2%;
+    }
+
+    .mw-multiple-fields .mw-field-prepend + input{
+        border-left: none;
+        margin-left: -2px;
+
+
+    }
+    .mw-multiple-fields .mw-field-prepend{
+        background-color: white;
+        position: relative;
+        z-index: 2;
+    }
+
+    .rouded-corners {
+        padding-bottom: 20px;
+    }
+    .rouded-corners .mw-field .mw-field{
+        width: 70px;
+        margin: 10px 0 5px;
+    }
+    .rouded-corners .mw-field .mw-field + .mw-field{
+        margin-left: 10px;
+    }
+    .background-preview{
+        display: inline-block;
+        height: 2.308rem;
+        width: 2.308rem;
+        border-radius: 2px;
+        border: 1px solid #eee;
+        vertical-align: top;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    #css-editor-root:after{
+        display: none;
+        opacity: .6;
+        background-color: #f5f5f5;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        content: '';
+        z-index: 10;
+    }
+    #css-editor-root.disabled:after{
+        display: block;
+    }
+    #css-editor-root.disabled{
+        pointer-events: none;
+    }
+

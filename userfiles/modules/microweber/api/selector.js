@@ -169,7 +169,7 @@ mw.Selector = function(options) {
                 else{
                     this.selected = [target];
                 }
-                $(this).trigger('select');
+                $(this).trigger('select', [this.selected]);
             }
 
         }

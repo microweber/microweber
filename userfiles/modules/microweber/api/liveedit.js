@@ -43,15 +43,32 @@ mw.inaccessibleModules = document.createElement('div');
 mw.inaccessibleModules.className = 'mw-ui-btn-nav mwInaccessibleModulesMenu';
 
 $(document).ready(function() {
-   /* mw.liveEditSelector = new mw.Selector({
+    mw.liveEditSelector = new mw.Selector({
         root: document.body,
         autoSelect: false
     });
 
-    mw.on('ElementOver', function(e, target){
-        mw.liveEditSelector.active(true);
-        mw.liveEditSelector.setItem(target, mw.liveEditSelector.interactors);
-    });*/
+    mw.on('ElementOver ModuleOver', function(e, target){
+
+        if(target.id){
+            mw.liveEditSelector.active(true);
+            mw.liveEditSelector.setItem(target, mw.liveEditSelector.interactors);
+        }
+
+    });
+
+    mw.on("ImageClick ElementClick ModuleClick", function(e, el, originalEvent){
+        if(originalEvent) {
+            el = mw.tools.firstParentOrCurrentWithAnyOfClasses(originalEvent.target, ['element', 'module'])
+        }
+        if(el.id) {
+            if(mw.liveEditSelector.selected && mw.liveEditSelector.selected[0] === el) {
+                return;
+            }
+            mw.liveEditSelector.select(el);
+        }
+    });
+
     if (("ontouchstart" in document.documentElement)) {
         $('body').addClass('touchscreen-device');
     }
@@ -981,7 +998,7 @@ mw.drag = {
                     var currentComponent = mw.tools.firstParentOrCurrentWithAnyOfClasses(target, componentsClasses);
                     var fonttarget = mw.wysiwyg.firstElementThatHasFontIconClass(target);
 
-                    if( mw.tools.hasAnyOfClasses(target, componentsClasses) || mw.tools.hasParentsWithClass(target, 'module')) {
+                    if( mw.tools.hasAnyOfClassesOnNodeOrParent(target, componentsClasses)) {
                         if (currentComponent && !fonttarget) {
                             var isSafeMode = false;
                             var order = mw.tools.parentsOrder(target, ['safe-mode', 'module']);
@@ -1003,21 +1020,22 @@ mw.drag = {
                         }
 
                         var el = mw.tools.firstParentOrCurrentWithClass(target, 'element');
+
                         var safeEl = mw.tools.firstParentOrCurrentWithClass(target, 'safe-element');
                         var moduleEl = mw.tools.firstParentOrCurrentWithClass(target, 'module');
 
                         if ($(target).hasClass("plain-text")) {
                             mw.trigger("PlainTextClick", target);
                         } else if (el) {
-                            mw.trigger("ElementClick", el);
+                            mw.trigger("ElementClick", [el, event]);
                         }
 
                         if (safeEl) {
-                            mw.trigger("SafeElementClick", safeEl);
+                            mw.trigger("SafeElementClick", [safeEl, event]);
                         }
 
                         if (moduleEl) {
-                            mw.trigger("ModuleClick", moduleEl);
+                            mw.trigger("ModuleClick", [moduleEl, event]);
                         }
                     }
 
@@ -1050,14 +1068,14 @@ mw.drag = {
                             mw.wysiwyg.select_element(target);
                         }
                     }
-                    if (target.tagName == 'BODY') {
+                    if (target.tagName === 'BODY') {
                         mw.trigger("BodyClick", target);
                     }
 
-                    if (target.tagName == 'TABLE' && mw.tools.hasParentsWithClass(target, 'edit') && !mw.tools.hasParentsWithClass(target, 'module')) {
+                    if (target.tagName === 'TABLE' && mw.tools.hasParentsWithClass(target, 'edit') && !mw.tools.hasParentsWithClass(target, 'module')) {
                         mw.trigger("TableClick", target);
                     }
-                    if (target.tagName == 'TD' && mw.tools.hasParentsWithClass(target, 'edit')  && !mw.tools.hasParentsWithClass(target, 'module')) {
+                    if (target.tagName === 'TD' && mw.tools.hasParentsWithClass(target, 'edit')  && !mw.tools.hasParentsWithClass(target, 'module')) {
                         mw.trigger("TableTdClick", target);
                     }
                     if (mw.tools.hasClass(target, 'mw-empty') || mw.tools.hasParentsWithClass(target, 'mw-empty')) {
@@ -1213,7 +1231,7 @@ mw.drag = {
      * @example mw.drag.fix_placeholders(isHard , selector)
      */
     fix_placeholders: function(isHard, selector) {
-        var selector = selector || '.edit .row';
+        selector = selector || '.edit .row';
 
         var more_selectors2 = 'div.col-md';
         var a = mw.drag.external_grids_col_classes;

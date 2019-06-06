@@ -29,6 +29,8 @@ mw.live_edit.hasAbilityToDropElementsInside = function(target) {
     return true;
 };
 
+mw.require('dialog.js')
+
 
 mw.live_edit.showSettings = function (a, opts) {
 
@@ -134,6 +136,17 @@ mw.live_edit.showSettings = function (a, opts) {
         if(mw.liveEditSettings && mw.liveEditSettings.active){
              mw.liveEditSettings.hide();
         }
+
+        var nmodal = mw.dialogIframe({
+            url: src,
+            width: 532,
+            autoHeight:true,
+            id: modal_name,
+            title:''
+        });
+
+        nmodal.iframe.contentWindow.thismodal = nmodal;
+        return nmodal;
 
         var modal = top.mw.tools.modal.frame({
             url: src,

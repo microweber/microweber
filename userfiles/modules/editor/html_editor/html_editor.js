@@ -25,13 +25,23 @@ mw.html_editor.set_height = function () {
     }
     set()
 }
-mw.html_editor.get_edit_fields = function (also_in_modules) {
+mw.html_editor.get_edit_fields = function (also_in_modules,root_element_selector) {
 
     also_in_modules = typeof also_in_modules === 'undefined' ? false : also_in_modules;
 
 
     var fields_arr = [];
-    var get_edit_fields = wroot.$('.edit').each(function () {
+
+
+
+    var get_edit_fields = wroot.$('.edit');
+
+    if(typeof(root_element_selector) != 'undefined') {
+        var get_edit_fields = wroot.$('.edit',root_element_selector);
+    }
+
+
+    get_edit_fields.each(function () {
         var is_in_module = wroot.mw.tools.firstParentWithClass(this, 'module');
         if (!is_in_module || also_in_modules) {
             fields_arr.push(this);

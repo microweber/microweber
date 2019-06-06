@@ -17,15 +17,34 @@
 
 var ActiveNode = null;
 
+var CSSShadow;
 
 
 var _prepare = {
+    shadow: function () {
+        var root = document.querySelector('#shadow')
+        CSSShadow = new mw.propEditor.schema({
+            schema: [
+                {
+                    interface: 'shadow',
+                    id: 'boxShadow',
+                    pickerPosition: 'top-left'
+                }
 
+            ],
+            element: root,
+            size:'medium'
+        });
+        $(CSSShadow).on('change', function(e, id, val){
+            output(id, val)
+        });
+        $('.mw-ui-field', root).addClass('mw-ui-field-medium')
+        $('.mw-ui-btn', root).addClass('mw-ui-btn-medium')
+    },
     border: function () {
 
 
         $('#border-size, #border-color, #border-type').on('change input colorChange', function(){
-            console.log($('#border-color').val())
 
             var prop = 'border',
                 propval = $('#border-position').val();
@@ -71,17 +90,17 @@ var _prepare = {
 var _populate = {
     margin: function(css){
         var margin = css.get.margin(undefined, true);
-        mw.$('.margin-top').val(margin.top);
-        mw.$('.margin-right').val(margin.right);
-        mw.$('.margin-bottom').val(margin.bottom);
-        mw.$('.margin-left').val(margin.left);
+        mw.$('.margin-top').val(parseFloat(margin.top));
+        mw.$('.margin-right').val(parseFloat(margin.right));
+        mw.$('.margin-bottom').val(parseFloat(margin.bottom));
+        mw.$('.margin-left').val(parseFloat(margin.left));
     },
     padding: function(css){
         var padding = css.get.padding(undefined, true);
-        mw.$('.padding-top').val(padding.top);
-        mw.$('.padding-right').val(padding.right);
-        mw.$('.padding-bottom').val(padding.bottom);
-        mw.$('.padding-left').val(padding.left)
+        mw.$('.padding-top').val(parseFloat(padding.top));
+        mw.$('.padding-right').val(parseFloat(padding.right));
+        mw.$('.padding-bottom').val(parseFloat(padding.bottom));
+        mw.$('.padding-left').val(parseFloat(padding.left))
     },
     common: function(css){
         $('.unit').each(function(){
@@ -106,8 +125,9 @@ var _populate = {
                 this.style.color = mw.color.isDark(color) ? 'white' : 'black';
                 this.value = color.indexOf('rgb(') === 0 ? mw.color.rgbToHex(color) : color;
             }
-
-        })
+        });
+        console.log(css.css.backgroundImage)
+        $(".background-preview").css('backgroundImage', css.css.backgroundImage)
     },
     textAlign: function(css){
         var align = css.get.alignNormalize();
@@ -129,20 +149,22 @@ var populate = function(css){
 
 var output = function(property, value){
     if(ActiveNode) {
-          ActiveNode.style[property] = value
+          ActiveNode.style[property] = value;
+          top.mw.wysiwyg.change(ActiveNode);
+          top.mw.liveEditSelector.positionSelected()
     }
 };
 
 var init = function(){
-    mw.$('.margin-top').on('input', function(){ output('marginTop', this.value) });
-    mw.$('.margin-right').on('input', function(){ output('marginRight', this.value) });
-    mw.$('.margin-bottom').on('input', function(){ output('marginBottom', this.value) });
-    mw.$('.margin-left').on('input', function(){ output('marginLeft', this.value) });
+    mw.$('.margin-top').on('input', function(){ output('marginTop', this.value + 'px') });
+    mw.$('.margin-right').on('input', function(){ output('marginRight', this.value+ 'px') });
+    mw.$('.margin-bottom').on('input', function(){ output('marginBottom', this.value+ 'px') });
+    mw.$('.margin-left').on('input', function(){ output('marginLeft', this.value+ 'px') });
 
-    mw.$('.padding-top').on('input', function(){ output('paddingTop', this.value) });
-    mw.$('.padding-right').on('input', function(){ output('paddingRight', this.value) });
-    mw.$('.padding-bottom').on('input', function(){ output('paddingBottom', this.value) });
-    mw.$('.padding-left').on('input', function(){ output('paddingrginLeft', this.value) });
+    mw.$('.padding-top').on('input', function(){ output('paddingTop', this.value+ 'px') });
+    mw.$('.padding-right').on('input', function(){ output('paddingRight', this.value+ 'px') });
+    mw.$('.padding-bottom').on('input', function(){ output('paddingBottom', this.value+ 'px') });
+    mw.$('.padding-left').on('input', function(){ output('paddingrginLeft', this.value+ 'px') });
 
     $('.text-align > span').on('click', function(){
         output('textAlign', this.dataset.value);
@@ -178,21 +200,31 @@ var init = function(){
             change: function (url) {
                 url = url.toString();
                 output('backgroundImage', 'url(' + url + ')')
+                $('.background-preview').css('backgroundImage', 'url(' + url + ')')
             }
         });
     });
 
     _prepare.units()
     _prepare.border()
+    _prepare.shadow()
+
+    $('.mw-ui-box-header').on('click', function(){
+        setTimeout(function(){
+          $(document.body).trigger('click')
+        }, 400)
+    })
+
 
 };
 
 
 
-top.mw.on('ElementClick', function(e, node){
-    var css = mw.CSSParser(node);
+top.$(top.mw.liveEditSelector).on('select', function(e, nodes){
+
+    var css = mw.CSSParser(nodes[0]);
     populate(css);
-    ActiveNode = node;
+    ActiveNode = nodes[0];
 });
 
 
@@ -209,13 +241,20 @@ top.mw.on('ElementClick', function(e, node){
                 $(".mw-ese-holder.active").removeClass('active');
         });
 
-        init()
+        init();
 
+        var editorRoot = document.getElementById('css-editor-root');
+
+        setInterval(function(){
+            editorRoot.classList[ActiveNode ? 'remove' : 'add']('disabled');
+        }, 700)
 
     });
 
     $(window).on('load', function () {
-
+        setTimeout(function(){
+            $(document.body).trigger('click')
+        }, 400)
 
     });
 </script>
@@ -225,6 +264,7 @@ top.mw.on('ElementClick', function(e, node){
 
     <?php include "style.css";  ?>
 </style>
+<div id="css-editor-root">
 
 <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
     <div class="mw-ui-box-header mw-accordion-title">Size</div>
@@ -407,14 +447,21 @@ top.mw.on('ElementClick', function(e, node){
     <div class="mw-ui-box-header mw-accordion-title">Background</div>
     <div class="mw-accordion-content mw-ui-box-content">
         <div class="s-field">
-            <label>Type</label>
+            <label>Image</label>
             <div class="s-field-content">
+                <span class="background-preview"></span>
                 <span class="mw-ui-btn mw-ui-btn-medium" id="background-select-item">Image</span>
+            </div>
+        </div>
+        <div class="s-field">
+            <label>Color</label>
+            <div class="s-field-content">
                 <div class="mw-field" data-size="medium">
                     <input type="text" class="colorField" data-prop="backgroundColor">
                 </div>
             </div>
         </div>
+
         <div class="s-field">
             <label>Size</label>
             <div class="s-field-content">
@@ -518,8 +565,37 @@ top.mw.on('ElementClick', function(e, node){
         </div>
     </div>
 </div>
+<div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
+    <div class="mw-ui-box-header mw-accordion-title">Miscellaneous</div>
+    <div class="mw-accordion-content mw-ui-box-content">
+        <div class="rouded-corners" >
+            <label>Rounded Corners</label>
+            <div class="s-field-content">
+                <div class="mw-field" data-size="medium">
+                    <div class="mw-multiple-fields">
+                        <div class="mw-field" data-size="medium">
+                            <span class="mw-field-prepend"></span>
+                            <input type="text" class="regular" data-prop="borderTopLeftRadius">
+                        </div>
+                        <div class="mw-field" data-size="medium"><span class="mw-field-prepend"></span><input class="regular" type="text" data-prop="borderTopRightRadius"></div>
+                    </div>
+                </div>
+                <div class="mw-field" data-size="medium">
+                    <div class="mw-multiple-fields">
+                        <div class="mw-field" data-size="medium"><span class="mw-field-prepend"></span><input class="regular" type="text" data-prop="borderBottomLeftRadius"></div>
+                        <div class="mw-field" data-size="medium"><span class="mw-field-prepend"></span><input class="regular" type="text" data-prop="borderBottomRightRadius"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <label>Element shadow</label>
+        <div id="shadow"></div>
+
+    </div>
+</div>
 
 
 <div class="mw-css-editor">
 
+</div>
 </div>
