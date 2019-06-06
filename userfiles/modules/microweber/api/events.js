@@ -337,7 +337,11 @@ mw.event = {
       enter: function (e) {
         e = e.originalEvent || e;
         return e.key === "Enter" || e.keyCode === 13;
-      }
+      },
+      escape: function (e) {
+          e = e.originalEvent || e;
+          return e.key === "Escape" || e.keyCode === 27;
+      },
   }
 };
 

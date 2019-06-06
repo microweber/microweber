@@ -48,8 +48,8 @@ jQuery.ajax = $.ajax = function(url, options){
         settings._success = settings.success;
         delete settings.success;
         settings.success = function (data, status, xhr) {
-            if(data){
-                if (data.form_data_required || data.form_data_module) {
+            if(xhr.status === 200){
+                if (data && (data.form_data_required || data.form_data_module)) {
                     mw.extradataForm(settings, data);
                 }
                 else {

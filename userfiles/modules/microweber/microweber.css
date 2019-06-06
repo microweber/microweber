@@ -11,6 +11,9 @@
     padding: 0;
     -webkit-overflow-scrolling: touch;
 }
+.mw-dialog-opened,.mw-dialog-opened body{
+    overflow: hidden !important;
+}
 
 body {
     font-feature-settings: 'liga';

@@ -129,24 +129,41 @@ mw.tools = {
     iframeAutoHeight:function(frame){
         frame = mw.$(frame)[0];
         if(!frame) return;
+        var _detector =  document.createElement('div');
 
         frame.scrolling="no";
         frame.style.minHeight = 0 + 'px';
         frame.style.height = 0 + 'px';
         frame.style.height = frame.contentWindow.document.body.scrollHeight + 'px';
         $(frame).on('load resize', function(){
+            setTimeout(function(){
+                frame.contentWindow.document.body.appendChild(_detector);
+            }, 100);
             frame.style.height = 0 + 'px';
             $('#settings-container,#settings-main', frame.contentWindow.document.body).css({
                 'minHeight': '0px'
             });
-            frame.style.height = frame.contentWindow.document.body.scrollHeight + 'px';
+            frame._currHeight = frame.contentWindow.document.body.scrollHeight
+            frame.style.height = frame._currHeight + 'px';
+
+            frame._int = setInterval(function(){
+                if(frame.parentNode){
+                    var offTop = $(_detector).offset().top;
+                    if(offTop !== frame._currHeight){
+                        frame._currHeight = offTop;
+                        frame.style.height = offTop + 'px';
+                        $(frame).trigger('bodyResize')
+                    }
+
+                }
+                else {
+                    clearInterval(frame._int);
+                }
+            }, 333);
+
+
         });
-        $(frame.contentWindow.document.body).on('keyup click ajaxStop', function(){
-            setTimeout(function(){
-                frame.style.height = 0 + 'px';
-                frame.style.height = frame.contentWindow.document.body.scrollHeight + 'px';
-            }, 78);
-        });
+
     },
     distance: function (x1, y1, x2, y2) {
         var a = x1 - x2;
@@ -4650,6 +4667,12 @@ mw.postMsg = function (w, obj) {
     w.postMessage(JSON.stringify(obj), window.location.href);
 }
 $(document).ready(function () {
+    mw.on('mwDialogShow', function(){
+        $(document.documentElement).addClass('mw-dialog-opened');
+    });
+    mw.on('mwDialogHide', function(){
+        $(document.documentElement).removeClass('mw-dialog-opened');
+    });
     $(mwd.body).bind('mousemove touchmove touchstart', function (event) {
         if (mw.tools.hasClass(event.target, 'tip')) {
             mw.tools.titleTip(event.target);

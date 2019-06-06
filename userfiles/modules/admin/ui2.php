@@ -6,29 +6,33 @@
         <a class="mw-ui-btn mw-ui-btn-big" href="#js">JavaScript Components</a>
     </div>
     <div class="mw-ui-box mw-ui-box-content">
-        <ul class="mw-ui-box mw-ui-navigation mw-ui-navigation-horizontal" id="nav1">
+        <ul class="mw-ui-box mw-ui-navigation mw-ui-navigation-horizontal demonav" id="nav1">
 
         </ul>
         <script>
 
             $(document).ready(function(){
-                $('.ui_section').hide()
-                $(".ui_section").each(function(){
-                    var a = $("<a/>");
-                    var html = $(this).children("h2").text();
-                    var id = html.toLowerCase().replace(/\s/g, '-');
-                    a.html(html);
-                    a.attr('href', '#'+id);
-                    a.on('click', function(){
-                        $('.ui_section').hide()
-                        $($(this).attr('href')).show()
-                        return false;
-                    });
-                    this.id = id;
+                $('#doc-box > .mw-ui-box').each(function(){
+                    var scope = $(this);
+                    $('.ui_section', scope).hide()
+                    $(".ui_section", scope).each(function(){
+                        var a = $("<a/>");
+                        var html = $(this).children("h2").text();
+                        var id = html.toLowerCase().replace(/\s/g, '-');
+                        a.html(html);
+                        a.attr('href', '#'+id);
+                        a.on('click', function(){
+                            $('.ui_section', scope).hide()
+                            $($(this).attr('href'), scope).show()
+                            return false;
+                        });
+                        this.id = id;
 
-                    $("#nav1").append(a)
-                    a.wrap('<li>')
-                });
+                        $(".demonav", scope).append(a)
+                        a.wrap('<li>')
+                    });
+                })
+
             })
 
         </script>
@@ -51,7 +55,7 @@
             <?php include "ui/buttons.php"; ?>
 
             <?php include "ui/navigations.php"; ?>
-            
+
             <?php include "ui/grid.php"; ?>
             <?php include "ui/accordion.php"; ?>
 
@@ -60,8 +64,32 @@
     </div>
 
     <div class="mw-ui-box" style="display: none">
-        <div id="test"></div>
+        <ul class="mw-ui-box mw-ui-navigation mw-ui-navigation-horizontal  demonav" id="nav2">
+
+        </ul>
+        <div class="ui_section">
+            <h2>Module settings</h2>
+            <br>
+
+            <div id="test"></div>
+
+
+        </div>
+
+        <div class="ui_section">
+            <h2>Dialog</h2>
+            <br>
+
+            <button class="mw-ui-btn" onclick="mw.dialog({title:'opala', height: 'auto', content:'asdsad'});">Default</button>
+            <button class="mw-ui-btn" onclick="mw.dialogIframe({ url: 'https://www.youtube.com/embed/L0gakjjel3E' });">Iframe</button>
+            <button class="mw-ui-btn" onclick="mw.dialogIframe({ url: '<?php print site_url(); ?>', autoHeight: true });">Iframe Auto height</button>
+
+
+        </div>
+
+
         <script>
+            mw.require('dialog.js');
             mw.require('prop_editor.js');
             mw.require('module_settings.js');
         </script>
@@ -74,7 +102,7 @@
         mw.tabs({
             nav:$("#doc-box>.mw-ui-btn-nav>a"),
             tabs:$("#doc-box>.mw-ui-box")
-        }).set(0)
+        }).set(0);
 
         var settings = new mw.moduleSettings({
             element:'#test',

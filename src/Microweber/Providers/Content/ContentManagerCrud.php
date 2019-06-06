@@ -191,6 +191,8 @@ class ContentManagerCrud extends Crud
         $get = parent::get($params);
 
 
+
+
         if (isset($params['count']) or isset($params['single']) or isset($params['one']) or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
             if (isset($get['url'])) {
                 $get['full_url'] = $this->app->url_manager->site($get['url']);
@@ -205,7 +207,7 @@ class ContentManagerCrud extends Crud
                 if (isset($item['url'])) {
                     $item['url'] = $this->app->url_manager->site($item['url']);
                 }
-                if($extra_data){
+                if ($extra_data) {
                     $item['picture'] = get_picture($item['id']);
                 }
 
@@ -293,14 +295,13 @@ class ContentManagerCrud extends Crud
                     $test = array_reverse($test);
 
 
-
                     if (isset($test[0])) {
                         $url = $this->get_by_url($test[0], true);
-                        if(!$url){
+                        if (!$url) {
                             $test[0] = urldecode($test[0]);
                             $url = $this->get_by_url($test[0], true);
                         }
-                     }
+                    }
 
                     if (!empty($url)) {
                         self::$precached_links[$link_hash] = $url;
@@ -461,31 +462,28 @@ class ContentManagerCrud extends Crud
 
 
             $newstr = $str;
-           /* $good[] = 9; #tab
-            $good[] = 10; #nl
-            $good[] = 13; #cr
-            for ($a = 32; $a < 127; ++$a) {
-                $good[] = $a;
-            }
-            $newstr = '';
-            $len = strlen($str);
-            for ($b = 0; $b < $len + 1; ++$b) {
-                if (isset($str[$b]) and in_array(ord($str[$b]), $good)) {
-                    $newstr .= $str[$b];
-                }
-            }
+            /* $good[] = 9; #tab
+             $good[] = 10; #nl
+             $good[] = 13; #cr
+             for ($a = 32; $a < 127; ++$a) {
+                 $good[] = $a;
+             }
+             $newstr = '';
+             $len = strlen($str);
+             for ($b = 0; $b < $len + 1; ++$b) {
+                 if (isset($str[$b]) and in_array(ord($str[$b]), $good)) {
+                     $newstr .= $str[$b];
+                 }
+             }
 
 
-            */
+             */
 
-          //  $newstr = str_replace('--', '-', $newstr);
-           // $newstr = str_replace('--', '-', $newstr);
+            //  $newstr = str_replace('--', '-', $newstr);
+            // $newstr = str_replace('--', '-', $newstr);
             if ($newstr == '-' or $newstr == '--') {
                 $newstr = 'post-' . date('YmdHis');
             }
-
-
-
 
 
             $data['url'] = $newstr;
@@ -496,8 +494,6 @@ class ContentManagerCrud extends Crud
 
 
         }
-
-
 
 
         if (isset($data['category']) or isset($data['categories'])) {
@@ -530,7 +526,6 @@ class ContentManagerCrud extends Crud
             }
 
             $data['url'] = $this->app->database_manager->escape_string($data['url']);
-
 
 
             $date123 = date('YmdHis');
