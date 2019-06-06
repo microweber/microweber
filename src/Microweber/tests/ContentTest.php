@@ -10,7 +10,7 @@ class ContentTest extends TestCase
             'title' => 'this-is-my-test-post',
             'content_type' => 'post',
 
-            'is_active' => 1, );
+            'is_active' => 1,);
         //saving
         $save_post = save_content($params);
         //getting
@@ -30,13 +30,14 @@ class ContentTest extends TestCase
         $this->assertEquals(true, $save_post);
         $this->assertEquals(true, is_array($get_post));
     }
+
     public function testPages()
     {
         $params = array(
             'title' => 'My test page',
             'content_type' => 'page',
 
-            'is_active' => 1, );
+            'is_active' => 1,);
         //saving
         $parent_page = save_content($params);
         $page_link = content_link($parent_page);
@@ -45,7 +46,7 @@ class ContentTest extends TestCase
             'content_type' => 'page',
             'parent' => $parent_page,
 
-            'is_active' => 1, );
+            'is_active' => 1,);
         $sub_page = save_content($params);
         //getting
         $params = array(
@@ -53,7 +54,7 @@ class ContentTest extends TestCase
             'content_type' => 'page',
             'single' => true,
 
-            'is_active' => 1, );
+            'is_active' => 1,);
         $get_sub_page = get_content($params);
         $sub_page_parents = content_parents($get_sub_page['id']);
         //clean
@@ -70,13 +71,14 @@ class ContentTest extends TestCase
         $this->assertEquals('My test sub page', $get_sub_page['title']);
         $this->assertEquals($sub_page, $get_sub_page['id']);
     }
+
     public function testGetPages()
     {
         $params = array(
             'title' => 'My test page is here',
             'content_type' => 'page',
 
-            'is_active' => 1, );
+            'is_active' => 1,);
         //saving
         $new_page_id = save_content($params);
         $get_pages = get_pages($params);
@@ -99,6 +101,7 @@ class ContentTest extends TestCase
         $this->assertEquals(true, is_array($get_pages));
         $this->assertEquals(true, is_array($delete_sub_page));
     }
+
     public function testGetProducts()
     {
         $params = array(
@@ -106,7 +109,7 @@ class ContentTest extends TestCase
             'content_type' => 'post',
             'subtype' => 'product',
 
-            'is_active' => 1, );
+            'is_active' => 1,);
         //saving
         $new_page_id = save_content($params);
         $get_pages = get_products($params);
@@ -130,13 +133,14 @@ class ContentTest extends TestCase
         $this->assertEquals(true, is_array($get_pages));
         $this->assertEquals(true, is_array($delete_sub_page));
     }
+
     public function testGetPosts()
     {
         $params = array(
             'title' => 'My test post is here',
             'content_type' => 'post',
 
-            'is_active' => 1, );
+            'is_active' => 1,);
         //saving
         $new_post_id = save_content($params);
         $get_posts = get_posts($params);
@@ -160,6 +164,7 @@ class ContentTest extends TestCase
         $this->assertEquals(true, is_array($get_posts));
         $this->assertEquals(true, is_array($delete_sub_page));
     }
+
     public function testContentCategories()
     {
         $params = array(
@@ -167,7 +172,7 @@ class ContentTest extends TestCase
             'content_type' => 'page',
             'subtype' => 'dynamic',
 
-            'is_active' => 1, );
+            'is_active' => 1,);
 
         //saving
         $parent_page_id = save_content($params);
@@ -203,13 +208,14 @@ class ContentTest extends TestCase
 
         $this->assertEquals(true, is_array($delete_page));
     }
+
     public function testNextPrev()
     {
         $params = array(
             'title' => 'this is my test next prev post',
             'content_type' => 'post',
 
-            'is_active' => 1, );
+            'is_active' => 1,);
         //saving
         $save_post1 = save_content($params);
         $save_post2 = save_content($params);
@@ -233,5 +239,39 @@ class ContentTest extends TestCase
         $this->assertEquals(true, is_array($del2));
         $this->assertEquals(true, is_array($del3));
         $this->assertEquals(true, is_array($next));
+    }
+
+    public function testCrudFilter()
+    {
+        $params = array(
+            'title' => 'Test override',
+            'content_type' => 'post',
+            'is_active' => 1
+        );
+
+        $saved_id = save_content($params);
+
+
+        event_bind('mw.crud.content.get', function ($items) use ($saved_id) {
+            if($items){
+                foreach ($items as $k=> $item){
+                    if($item['id'] == $saved_id){
+                        $item['title'] = 'I just changed the title from a filter';
+                       // dd('asdasdsadas',$item);
+                    }
+                    $items[$k] = $item;
+                }
+            }
+            return $items;
+
+
+        });
+
+
+        $cont = get_content_by_id($saved_id);
+
+        dd($cont);
+
+
     }
 }
