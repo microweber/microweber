@@ -243,6 +243,7 @@ class ContentTest extends TestCase
 
     public function testCrudFilter()
     {
+        $phpunit = $this;
         $params = array(
             'title' => 'Test override',
             'content_type' => 'post',
@@ -252,12 +253,24 @@ class ContentTest extends TestCase
         $saved_id = save_content($params);
 
 
+        event_bind('mw.crud.content.get.params', function ($original_params) use ($saved_id,$phpunit) {
+            if(isset($original_params['id']) and $original_params['id'] == $saved_id) {
+                $new_params = $original_params;
+                $new_params['is_deleted'] = 0;
+
+
+                $phpunit->assertEquals($saved_id, $original_params['id']);
+
+                return $new_params;
+            }
+        });
+
+
         event_bind('mw.crud.content.get', function ($items) use ($saved_id) {
             if($items){
                 foreach ($items as $k=> $item){
                     if($item['id'] == $saved_id){
                         $item['title'] = 'I just changed the title from a filter';
-                       // dd('asdasdsadas',$item);
                     }
                     $items[$k] = $item;
                 }
@@ -270,8 +283,9 @@ class ContentTest extends TestCase
 
         $cont = get_content_by_id($saved_id);
 
-        dd($cont);
-
-
+        $this->assertEquals('I just changed the title from a filter', $cont['title']);
+        $this->assertEquals($saved_id, $cont['id']);
     }
+
+
 }

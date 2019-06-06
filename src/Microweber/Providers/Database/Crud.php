@@ -59,22 +59,15 @@ class Crud
                 if (is_array($override)) {
                     foreach ($override as $resp) {
                         if (is_array($resp) and !empty($resp)) {
-                            $override_data = array_merge_recursive($override_data, $resp);
-
+                           $override_data = $resp;
                             if($is_single_item){
                                 $get =  $override_data[0] ;
                             } else {
                                 $get =  $override_data;
-
                             }
-
-                            //dd('asdasdasd',$override_data);
-                         }
+                          }
                     }
-
                 }
-
-
             }
         }
 
