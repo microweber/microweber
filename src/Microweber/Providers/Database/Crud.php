@@ -26,10 +26,50 @@ class Crud
         if ($params == false) {
             return;
         }
+
         $table = $this->table;
         $params['table'] = $table;
 
+        $override = $this->app->event_manager->trigger('mw.crud.' . $table . '.get.params', $params);
+        if (is_array($override)) {
+            foreach ($override as $resp) {
+                if (is_array($resp) and !empty($resp)) {
+                    $params = array_merge($params, $resp);
+                }
+            }
+        }
+
         $get = $this->app->database_manager->get($params);
+
+        $override_data = array();
+
+        $is_single_item = false;
+        if (isset($params['single']) and $params['single']) {
+            $is_single_item = true;
+            $override_data[0] = $get;
+        } else {
+            $override_data = $get;
+
+        }
+        if ($override_data) {
+            if (isset($params['count']) and $params['count']) {
+                //do nothing on override
+            } else {
+                $override = $this->app->event_manager->trigger('mw.crud.' . $table . '.get', $override_data);
+                if (is_array($override)) {
+                    foreach ($override as $resp) {
+                        if (is_array($resp) and !empty($resp)) {
+                           $override_data = $resp;
+                            if($is_single_item){
+                                $get =  $override_data[0] ;
+                            } else {
+                                $get =  $override_data;
+                            }
+                          }
+                    }
+                }
+            }
+        }
 
         return $get;
     }
