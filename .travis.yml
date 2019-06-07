@@ -1,23 +1,24 @@
 language: php
 php:
-  - 5.6
-  - 7.1
-  - 7.2
+    - 5.6
+    - 7.1
+    - 7.2
 #matrix:
 #  allow_failures:
 #    - php: hhvm
 # optionally specify a list of environments, for example to test different RDBMS
 env:
-  - DB=mysql
+    - DB=mysql
 
 before_install:
-  - composer self-update
-  - composer dump-autoload
+    - composer self-update
+    - composer dump-autoload
 
 # execute any number of scripts before the test run, custom env's are available as variables
 
 before_script:
-  - travis_retry composer install
+    - travis_retry composer install
+    - curl -sSfL -o ~/.phpenv/versions/$TRAVIS_PHP_VERSION/bin/phpunit https://phar.phpunit.de/phpunit-5.7.phar
 
 #  - if [[ "$DB" == "pgsql" ]]; then psql -c "DROP DATABASE IF EXISTS hello_world_test;" -U postgres; fi
 #  - if [[ "$DB" == "pgsql" ]]; then psql -c "create database hello_world_test;" -U postgres; fi
@@ -29,10 +30,10 @@ script: phpunit
 
 # configure notifications (email, IRC, campfire etc)
 notifications:
-  irc: "irc.freenode.org#microweber"
+    rc: "irc.freenode.org#microweber"
 branches:
-  only:
-    - master
-    - dev
-    - tests	
-    - build
+    only:
+        - master
+        - dev
+        - tests	
+        - build

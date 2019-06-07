@@ -1,14 +1,11 @@
 <?php
 namespace Microweber\Utils\Backup\Readers;
 
-use Microweber\Utils\Backup\Traits\BackupLogger;
 use Microweber\Utils\Backup\BackupManager;
+use Microweber\Utils\Backup\Loggers\BackupImportLogger;
 
 class ZipReader extends DefaultReader
 {
-
-	use BackupLogger;
-	
 	/**
 	 * Read data from file
 	 * @return \JsonMachine\JsonMachine[]
@@ -17,10 +14,10 @@ class ZipReader extends DefaultReader
 	{
 		$this->_checkPathsExists();
 		
-		$this->setLogInfo('Unzipping '.basename($this->file).' in userfiles...');
+		BackupImportLogger::setLogInfo('Unzipping '.basename($this->file).' in userfiles...');
 		
 		$backupManager = new BackupManager();
-		$backupLocation = $backupManager->getBackupLocation(). 'temp_backup/';
+		$backupLocation = $backupManager->getBackupLocation(). 'temp_backup_zip/';
 		
 		// Remove old files
 		$this->_removeFilesFromPath($backupLocation);
@@ -29,12 +26,17 @@ class ZipReader extends DefaultReader
 		$unzip->extract($this->file, $backupLocation, true);
 		
 		if ($backupLocation != false and is_dir($backupLocation)) {
-			$this->setLogInfo('Media restored!');
+			BackupImportLogger::setLogInfo('Media restored!');
 			$copy = $this->_cloneDirectory($backupLocation, userfiles_path());
 		}
 		
-		$jsonReader = new JsonReader($backupLocation. 'mw_content.json');
-		return $jsonReader->readData();		
+		$mwContentJsonFile = $backupLocation. 'mw_content.json';
+		if (is_file($mwContentJsonFile)) {
+			$jsonReader = new JsonReader($mwContentJsonFile);
+			return $jsonReader->readData();		
+		} else {
+			BackupImportLogger::setLogInfo('The zip file has no mw_content.json. Nothing to import.');
+		}
 		
 	}
 	
@@ -52,10 +54,10 @@ class ZipReader extends DefaultReader
 
 		foreach ($files as $fileinfo) {
 			$todo = ($fileinfo->isDir() ? 'rmdir' : 'unlink');
-			$todo($fileinfo->getRealPath());
+			@$todo($fileinfo->getRealPath());
 		}
 
-		rmdir($dir);
+		@rmdir($dir);
 	}
 	
 	private function _checkPathsExists() {
