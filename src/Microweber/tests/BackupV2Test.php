@@ -11,31 +11,6 @@ use Microweber\Utils\Backup\BackupManager;
 
 class BackupV2Test extends TestCase
 {
-
-	public function testImportWrongFile() {
-		
-		$manager = new BackupManager();
-		$manager->setImportFile('wrongfile.txt');
-		$manager->setImportBatch(false);
-		
-		$importStatus = $manager->startImport();
-		
-		var_dump($importStatus);
-		
-		$this->assertArrayHasKey('error', $importStatus);  
-	}
-	
-	public function testExportWithWrongFormat()
-	{
-		$export = new BackupManager();
-		$export->setExportType('xmla');
-		$exportStatus = $export->startExport();
-		
-		var_dump($exportStatus);
-		
-		$this->assertArrayHasKey('error', $exportStatus);
-	}
-	
 	public function testExport() {
 		
 		$manager = new BackupManager();
@@ -47,19 +22,24 @@ class BackupV2Test extends TestCase
 		while (true) {
 			
 			$exportStatus = $manager->startExport();
-			
-			$this->assertArrayHasKey('current_step', $exportStatus);
-			$this->assertArrayHasKey('total_steps', $exportStatus);
-			
-			// The last exort step
-			if ($exportStatus['current_step'] == $exportStatus['total_steps']) {
-				$this->assertArrayHasKey('download', $exportStatus);
-				$this->assertArrayHasKey('success', $exportStatus);
+			 
+			if (isset($exportStatus['current_step'])) {
+				$this->assertArrayHasKey('current_step', $exportStatus);
+				$this->assertArrayHasKey('total_steps', $exportStatus);
+				$this->assertArrayHasKey('precentage', $exportStatus);
+				$this->assertArrayHasKey('data', $exportStatus);
 			}
 			
-			var_dump($exportStatus);
+			// The last exort step
+			if (isset($exportStatus['success'])) {
+				$this->assertArrayHasKey('data', $exportStatus);
+				$this->assertArrayHasKey('download', $exportStatus['data']);
+				$this->assertArrayHasKey('filepath', $exportStatus['data']);
+				$this->assertArrayHasKey('filename', $exportStatus['data']);
+				break;
+			}
 			
-			if ($i >= $exportStatus['total_steps']) {
+			if ($i > 10) {
 				break;
 			}
 			
@@ -68,4 +48,29 @@ class BackupV2Test extends TestCase
 		
 		
 	}
+	
+	public function testImportWrongFile() {
+		
+		$manager = new BackupManager();
+		$manager->setImportFile('wrongfile.txt');
+		$manager->setImportBatch(false);
+		
+		$importStatus = $manager->startImport();
+		
+		//var_dump($importStatus);
+		
+		$this->assertArrayHasKey('error', $importStatus);
+	}
+	
+	public function testExportWithWrongFormat()
+	{
+		$export = new BackupManager();
+		$export->setExportType('xmla');
+		$exportStatus = $export->startExport();
+		
+		//var_dump($exportStatus);
+		
+		$this->assertArrayHasKey('error', $exportStatus);
+	}
+	
 }
