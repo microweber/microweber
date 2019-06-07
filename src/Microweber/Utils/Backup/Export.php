@@ -30,25 +30,7 @@ class Export
 	
 	public function exportAsType($data)
 	{
-		$export = false;
-		
-		switch ($this->type) {
-			case 'json':
-				$export = new JsonExport($data);
-				break;
-				
-			case 'csv':
-				$export = new CsvExport($data);
-				break;
-				
-			case 'xml':
-				$export = new XmlExport($data);
-				break;
-				
-			case 'zip':
-				$export = new ZipExport($data);
-				break;
-		}
+		$export = $this->_getExporter($data);
 		
 		$export->setType($this->type);
 		$exportStatus = $export->start();
@@ -261,5 +243,33 @@ class Export
 		}
 		
 		return $readyTableList;
+	}
+	
+	private function _getExporter($data) {
+		
+		$export = false;
+		
+		switch ($this->type) {
+			case 'json':
+				$export = new JsonExport($data);
+				break;
+				
+			case 'csv':
+				$export = new CsvExport($data);
+				break;
+				
+			case 'xml':
+				$export = new XmlExport($data);
+				break;
+				
+			case 'zip':
+				$export = new ZipExport($data);
+				break;
+				
+			default:
+				throw new \Exception('Format not supported for exporting.');
+		}
+		
+		return $export;
 	}
 }

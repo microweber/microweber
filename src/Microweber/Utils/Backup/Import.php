@@ -54,6 +54,7 @@ class Import
 	{
 		$reader = $this->_getReader($file);
 		if ($reader) {
+			
 			BackupImportLogger::setLogInfo('Reading data from file ' . basename($this->file));
 
 			try {
@@ -63,9 +64,8 @@ class Import
 				// $fileIsBroken = 'Can\'t read data. The file is corrupt.';
 				$fileIsBroken = $e->getMessage();
 				BackupImportLogger::setLogInfo($fileIsBroken);
-				return array(
-					'error' => $fileIsBroken
-				);
+				
+				throw new \Exception($fileIsBroken);
 			}
 			
 			if (! empty($readedData)) {
@@ -81,9 +81,9 @@ class Import
 
 		$formatNotSupported = 'Import format not supported';
 		BackupImportLogger::setLogInfo($formatNotSupported);
-		return array(
-			'error' => $formatNotSupported
-		);
+		
+		throw new \Exception($formatNotSupported);
+		
 	}
 
 	/**
@@ -101,17 +101,21 @@ class Import
 			Cache::forget(md5($this->file));
 			return Cache::rememberForever(md5($this->file), function () {
 				BackupImportLogger::setLogInfo('Start importing session..');
+				
 				return $this->importAsType($this->file);
 			});
 		} else {
 			BackupImportLogger::setLogInfo('Read content from cache..');
+			
 			// This is for the next steps from wizard
 			return Cache::get(md5($this->file));
 		}
 	}
 	
 	public function readContent() {		
+		
 		BackupImportLogger::setLogInfo('Start importing session..');
+		
 		return $this->importAsType($this->file);
 	}
 	
@@ -148,16 +152,22 @@ class Import
 			case 'json':
 				$reader = new JsonReader($data);
 				break;
+				
 			case 'csv':
 				$reader = new CsvReader($data);
 				break;
+				
 			case 'xml':
 				$reader = new XmlReader($data);
 				break;
+				
 			case 'zip':
 				$reader = new ZipReader($data);
 				break;
-			// Don't forget a break
+				
+			default:
+				throw new \Exception('Format not supported for importing.');
+				break;
 		}
 
 		return $reader;

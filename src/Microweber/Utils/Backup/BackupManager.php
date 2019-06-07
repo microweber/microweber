@@ -67,7 +67,7 @@ class BackupManager
 	public function setImportFile($file) 
 	{
 		if (! is_file($file)) {
-			throw new \Exception('Backup Manager: You have not provided a existing backup to restore.');
+			return array('error' => 'Backup Manager: You have not provided a existing backup to restore.');
 		}
 		
 		$this->setImportType(pathinfo($file, PATHINFO_EXTENSION));
@@ -80,17 +80,23 @@ class BackupManager
 	 */
 	public function startExport() 
 	{
-		// If we want export media
-		if (in_array('media', $this->exportData['tables']) || $this->exportAllData == true) {
-			$this->exportType = 'zip';
+		try {
+			// If we want export media
+			if (in_array('media', $this->exportData['tables']) || $this->exportAllData == true) {
+				$this->exportType = 'zip';
+			}
+			
+			$export = new Export();
+			$export->setType($this->exportType);
+			$export->setExportData($this->exportData);
+			$export->setExportAllData($this->exportAllData);
+			
+			return $export->start();
+		
+		} catch (\Exception $e) {
+			// dd($e);
+			return array("error"=>$e->getMessage());
 		}
-		
-		$export = new Export();
-		$export->setType($this->exportType);
-		$export->setExportData($this->exportData);
-		$export->setExportAllData($this->exportAllData);
-		
-		return $export->start();
 
 	}
 
@@ -100,27 +106,30 @@ class BackupManager
 	 */
 	public function startImport() 
 	{
-
-		$writer = new DatabaseWriter();
-		
-		$import = new Import();
-		$import->setType($this->importType);
-		$import->setFile($this->importFile);
-		
-		$content = $import->readContentWithCache();
-		if (isset($content['error'])) {
-			return $content;
+		try {
+			$import = new Import();
+			$import->setType($this->importType);
+			$import->setFile($this->importFile);
+			
+			$content = $import->readContentWithCache();
+			if (isset($content['error'])) {
+				return $content;
+			}
+			
+			$writer = new DatabaseWriter();
+			$writer->setContent($content['data']);
+			
+			if ($this->importBatch) {
+				$writer->runWriterWithBatch();
+			} else {
+				$writer->runWriter();
+			}
+			
+			return $writer->getImportLog();
+			
+		} catch (\Exception $e) {
+			return array("error"=>$e->getMessage());
 		}
-		
-		$writer->setContent($content['data']);
-
-		if ($this->importBatch) {
-			$writer->runWriterWithBatch();	
-		} else {
-			$writer->runWriter();
-		}
-		
-		return $writer->getImportLog();
 	}
 
 	/**
