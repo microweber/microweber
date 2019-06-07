@@ -128,6 +128,9 @@ mw.Dialog = function(options){
 
             }
         };
+        this.footer = function (content) {
+
+        }
 
         this.build = function(){
             this.dialogMain = this.options.root.createElement('div');
