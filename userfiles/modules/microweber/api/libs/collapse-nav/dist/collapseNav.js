@@ -162,9 +162,9 @@ function collapseNav(selector, config) {
         $(navigation).append('<li class="' + li_class + '"><a href="javascript:;" class="' + li_a_class + '" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">' + more_text + caret + '</a>' + ul + '</li>')
     }
 
-    $(window).on('load', function () {
+    window.onload = function () {
         init(selector, config);
-    });
+    }
 
     $(window).on('resize collapseNavReInit', function () {
         $(navigation).html(original_navigation);
@@ -192,8 +192,8 @@ $.fn.collapseNav = function (config) {
     }
 
     return this.each(function () {
-        setTimeout(function () {
-            collapseNav(this, config);
-        }, 10);
+        // setTimeout(function () {
+        collapseNav(this, config);
+        // }, 10);
     })
 }
