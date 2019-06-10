@@ -59,7 +59,8 @@
     "microweber-deps/recurr": "dev-master",
     "microweber-deps/laravel-tagging": "dev-laravel-5",
     "oyejorge/less.php": "dev-master",
-    "aws/aws-sdk-php": "^3.0@dev"
+    "aws/aws-sdk-php": "^3.0@dev",
+    "halaxa/json-machine": "dev-master"
   },
   "autoload": {
     "psr-4": {
