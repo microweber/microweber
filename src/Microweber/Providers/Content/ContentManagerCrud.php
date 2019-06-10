@@ -182,10 +182,16 @@ class ContentManagerCrud extends Crud
             }
         }
 
+
+
+
         $extra_data = false;
         if (isset($params['get_extra_data'])) {
             $extra_data = true;
         }
+
+
+
 
 
         $get = parent::get($params);

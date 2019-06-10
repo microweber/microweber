@@ -1,6 +1,8 @@
 <?php 
 namespace Microweber\Utils\Backup\Traits;
 
+use Microweber\Utils\Backup\DatabaseSave;
+
 trait DatabaseCategoryItemsWriter {
 	
 	private function _getCategoriesItems($itemId) {
@@ -19,18 +21,18 @@ trait DatabaseCategoryItemsWriter {
 		return $contentData;
 	}
 	
-	private function _saveCategoriesItems($item, $itemId) {
+	private function _saveCategoriesItems($savedItem) {
 		
-		if (!isset($item['id'])) {
+		if (!isset($savedItem['item']['id'])) {
 			return;
 		}
 		
 		// Get content data from file export
-		$categoriesItems = $this->_getCategoriesItems($item['id']);
+		$categoriesItems = $this->_getCategoriesItems($savedItem['item']['id']);
 		
 		if (!empty($categoriesItems)) {
 			foreach ($categoriesItems as $categoryItem) {
-				$this->_saveCategoryItem($categoryItem, $itemId);
+				$this->_saveCategoryItem($categoryItem, $savedItem['itemIdDatabase']);
 			}
 		}
 	}
@@ -38,14 +40,13 @@ trait DatabaseCategoryItemsWriter {
 	private function _getCategory($parentId) {
 		
 		if (!isset($this->content['categories'])) {
+			echo 'Categories not found.';
 			return;
 		}
 		
 		foreach($this->content['categories'] as $category) {
+			
 			if ($category['id'] == $parentId) {
-				
-				// Fix encoding
-				$category =$this->_fixItemEncoding($category);
 				
 				$dbSelectParams = array();
 				$dbSelectParams['no_cache'] = true;
@@ -58,22 +59,37 @@ trait DatabaseCategoryItemsWriter {
 				$dbSelectParams['rel_type'] = $category['rel_type'];
 				
 				$checkCategoryIsExists = db_get('categories', $dbSelectParams);
+				
 				if ($checkCategoryIsExists) {
 					return $checkCategoryIsExists;
+				} else {
+					
+					// Save category data if not exists
+					$category['save_to_table'] = 'categories';
+					$this->_saveItemDatabase($category);
+					
+					//echo $category['title'] . ': Category not found.' . PHP_EOL;
+					
+					return $this->_getCategory($parentId);
 				}
 			}
 		}
+		
 	}
 	
-	private function _saveCategoryItem($categoryItem, $itemId) {
+	private function _saveCategoryItem($categoryItem, $itemIdDatabase) {
 		
 		$category = $this->_getCategory($categoryItem['parent_id']);
 		
 		// New parent id
 		$categoryItem['parent_id'] = $category['id'];
+		if (empty($categoryItem['parent_id'])) {
+			// Dont save item
+			return;
+		}
 		
 		// New rel id
-		$categoryItem['rel_id'] = $itemId;
+		$categoryItem['rel_id'] = $itemIdDatabase;
 		
 		$dbSelectParams = array();
 		$dbSelectParams['no_cache'] = true;
@@ -86,12 +102,12 @@ trait DatabaseCategoryItemsWriter {
 		
 		$checkCategoryItemsIsExists = db_get('categories_items', $dbSelectParams);
 		if ($checkCategoryItemsIsExists) {
-			$categoryItemId = $checkCategoryItemsIsExists['id'];
-			echo $categoryItem['parent_id'] . ': category item is allready saved.' . PHP_EOL;
+			$categoryItemIdDatabase = $checkCategoryItemsIsExists['id'];
+			//echo $categoryItem['parent_id'] . ': category item is allready saved.' . PHP_EOL;
 		} else {
-			echo $categoryItem['parent_id'] . ': category item is saved.' . PHP_EOL;
+			//echo $categoryItem['parent_id'] . ': category item is saved.' . PHP_EOL;
 			unset($categoryItem['id']);
-			$categoryItemId = db_save('categories_items', $categoryItem);
+			$categoryItemIdDatabase = DatabaseSave::save('categories_items', $categoryItem);
 		}
 		
 	}

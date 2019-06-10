@@ -247,7 +247,7 @@ mw.lib.require('nestedsortable');
                     li = parseInt(li, 10);
                 }
                 else{
-                    return mw.$(li);
+                    return mw.$(li)[0];
                 }
             }
             return li;
@@ -481,7 +481,6 @@ mw.lib.require('nestedsortable');
                 $(li)[this.checked?'addClass':'removeClass'](scope.options.selectedClass)
                 var data = scope.getSelected();
                 scope.manageUnselected()
-                console.log(data,00919)
                 $(scope).trigger('change', [data]);
             }*/
             return label;

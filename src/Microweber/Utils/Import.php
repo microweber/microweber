@@ -5,6 +5,8 @@
 
 namespace Microweber\Utils;
 
+use Microweber\Utils\Backup\BackupManager;
+
 api_expose_admin('Microweber\Utils\Import\delete');
 //api_expose_admin('Microweber\Utils\Import\create');
 api_expose_admin('Microweber\Utils\Import\download');
@@ -277,7 +279,7 @@ class Import
         if (!is_file($filename)) {
             return array('error' => 'You have not provided a existing backup to restore.');
         } else {
-            return $this->import_file($filename);
+            return $this->import_file($filename);     
         }
 
         return $params;
@@ -1152,7 +1154,7 @@ class Import
         }
 
         if (empty($content_items)) {
-            return array('error' => 'Nothing to impott is found!');
+            return array('error' => 'Nothing to import in this file.');
 
         }
 

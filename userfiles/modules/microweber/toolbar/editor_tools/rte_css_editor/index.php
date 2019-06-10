@@ -1,5 +1,7 @@
 
 
+<div id="tree"></div>
+
 <script type="text/javascript">
     //parent.mw.require("external_callbacks.js");
     mw.require("jquery-ui.js");
@@ -18,6 +20,52 @@
 var ActiveNode = null;
 
 var CSSShadow;
+
+var _activeTree = null;
+var activeTree = function(){
+    if(!ActiveNode) {
+        return;
+    }
+    var getParent = function(node){
+        if(node === document.body || mw.tools.hasClass(node, 'edit')){
+            return false;
+        }
+        if(node.parentNode.id){
+            return node.parentNode
+        } else {
+            return getParent(node.parentNode);
+        }
+    };
+    var data = [], curr = ActiveNode;
+    while(curr && curr !== document.body && !mw.tools.hasClass(curr, 'edit')){
+        if(curr.id){
+            var parent = getParent(curr);
+            var item = {
+                id: curr.id,
+                type: 'page',
+                title: curr.tagName.toLowerCase() + '#' + curr.id
+            }
+            if(parent){
+                item.parent_id = parent.id
+            }
+            data.push(item)
+        }
+        curr = curr.parentNode;
+    }
+    console.log(data, ActiveNode, _activeTree)
+
+    if(!_activeTree){
+        _activeTree = new mw.tree({
+            element:'#tree',
+            data:data,
+            saveState: false
+        });
+    } else{
+        _activeTree.setData(data);
+    }
+    top._activeTree = _activeTree
+
+};
 
 
 var _prepare = {
@@ -107,7 +155,7 @@ var _populate = {
             var val = css.css[this.dataset.prop];
             if(val) {
                 var nval = parseFloat(val);
-                var isn = !isNaN(nval)
+                var isn = !isNaN(nval);
                 var unit = val.replace(/[0-9]/g, '').replace(/\./g, '');
                 val = isn ? nval : val;
                 if(isn){
@@ -126,7 +174,6 @@ var _populate = {
                 this.value = color.indexOf('rgb(') === 0 ? mw.color.rgbToHex(color) : color;
             }
         });
-        console.log(css.css.backgroundImage)
         $(".background-preview").css('backgroundImage', css.css.backgroundImage)
     },
     textAlign: function(css){
@@ -205,9 +252,9 @@ var init = function(){
         });
     });
 
-    _prepare.units()
-    _prepare.border()
-    _prepare.shadow()
+    _prepare.units();
+    _prepare.border();
+    _prepare.shadow();
 
     $('.mw-ui-box-header').on('click', function(){
         setTimeout(function(){
@@ -221,10 +268,12 @@ var init = function(){
 
 
 top.$(top.mw.liveEditSelector).on('select', function(e, nodes){
-
-    var css = mw.CSSParser(nodes[0]);
-    populate(css);
-    ActiveNode = nodes[0];
+    if(nodes && nodes[0]){
+        var css = mw.CSSParser(nodes[0]);
+        populate(css);
+        ActiveNode = nodes[0];
+        activeTree();
+    }
 });
 
 

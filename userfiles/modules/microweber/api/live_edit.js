@@ -142,7 +142,8 @@ mw.live_edit.showSettings = function (a, opts) {
             width: 532,
             autoHeight:true,
             id: modal_name,
-            title:''
+            title:'',
+            className: 'mw-dialog-module-settings'
         });
 
         nmodal.iframe.contentWindow.thismodal = nmodal;

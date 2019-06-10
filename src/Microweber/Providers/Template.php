@@ -14,6 +14,7 @@
 namespace Microweber\Providers;
 
 use Microweber\Utils\Adapters\Template\MicroweberTemplate;
+use Microweber\Utils\Adapters\Template\TemplateCssParser;
 
 /**
  * Content class is used to get and save content in the database.
@@ -42,6 +43,7 @@ class Template
 
     public $adapter_current = null;
     public $adapter_default = null;
+    public $stylesheet_adapter = null;
 
     public function __construct($app = null)
     {
@@ -53,156 +55,20 @@ class Template
             }
         }
 
-        $this->adapter_current
-            = $this->adapter_default = new MicroweberTemplate($app);
+        $this->stylesheet_adapter = new TemplateCssParser($app);
+        $this->adapter_current = $this->adapter_default = new MicroweberTemplate($app);
     }
 
 
     public function compile_css($params)
     {
-
-
-        $path = false;
-        $og = false;
-        $template_folder = false;
-
-        if (isset($params['path'])) {
-            $path = $params['path'];
-        }
-        if (isset($params['option_group'])) {
-            $og = $params['option_group'];
-        }
-        if (isset($params['template_folder'])) {
-            $template_folder = $params['template_folder'];
-        }
-
-        if (!$path or !$og or !$template_folder) {
-            return;
-        }
-
-
-        $option_group = mw()->option_manager->get_all('option_group=' . $og);
-     //   dd($option_group);
-
-        $path = str_replace('\\', '/', $path);
-
-        // dd(TEMPLATES_DIR);
-
-        $path_dirname = dirname($path);
-        $template_url_with_path = templates_url() . $template_folder . '/' . $path_dirname . '/';
-        $dir = templates_path() . $template_folder;
-
-
-        $output_dir = media_uploads_path() . 'css/';
-        $output_url = media_uploads_url() . 'css/';
-        $output_file = $output_dir . $path . '.css';
-        $output_file_map = $output_dir . $path . '.map';
-        $output_file_map_url = $output_url . $path . '.map';
-
-        $dn_out = dirname($output_dir . $path);
-        if (!is_dir($dn_out)) {
-            mkdir_recursive($dn_out);
-        }
-
-
-        $style_file_path = normalize_path($dir . '/' . $path, false);
-        $style_file_path = str_replace('..', '', $style_file_path);
-
-
-        //$all_options
-        $options = array(
-            'sourceMap' => true,
-            'compress' => true,
-            'sourceMapWriteTo' => $output_file_map,
-            'sourceMapURL' => $output_file_map_url,
-        );
-        $options2 = array(
-            'sourceMap' => true,
-            'compress' => true,
-            'sourceMapWriteTo' => $output_file_map,
-            'sourceMapURL' => $output_file_map_url,
-        );
-
-
-        $variables = array();
-
-        if (is_array($option_group) and !empty($option_group)) {
-            foreach ($option_group as $option_group_item) {
-                $variables[$option_group_item['option_key']] = $option_group_item['option_value'];
-            }
-        }
-
-
-        //   $css_file_name = Less_Cache::Get( $less_files, $options, $variables );
-
-        $css = '';
-        try {
-            $parser = new \Less_Parser($options);
-            $parser->parseFile($style_file_path, $template_url_with_path);
-            $parser->ModifyVars($variables);
-
-            $css = $parser->getCss();
-        } catch (\Exception $e) {
-            return $e->getMessage();
-        }
-
-        $response = \Response::make($css);
-        $response->header('Content-Type', 'text/css');
-        return $response;
-
-
-
-        //      $imported_files = $parser->allParsedFiles();
-
-
-//        d($style_file_path);
-//        d($imported_files);
-//        exit;
-//
-//        d($path_dirname);
-//        exit;
+    	return $this->stylesheet_adapter->compile($params);
     }
 
 
-    public function get_stylesheet($path, $option_group_name = false)
+    public function get_stylesheet($path, $option_group_name = false, $cache = true)
     {
-        if (!$path) {
-            return;
-        }
-
-        $folder_name = $this->folder_name();
-
-        if (!$option_group_name) {
-            $option_group_name = $folder_name;
-        }
-        $use_cache = true;
-
-        if (is_live_edit()) {
-            $use_cache = false;
-        }
-
-       // $css_file_name = Less_Cache::Get( $less_files, $options );
-
-
-
-
-        $url = api_url('template/compile_css?path=' . $path . '&option_group=' . $option_group_name . '&template_folder=' . $folder_name);
-
-
-        return $url;
-
-
-        //$vars =
-
-
-        $url = $this->app->url_manager->site('api/compile_css') . '?mwv=' . MW_VERSION;
-
-        return $url;
-
-
-//$template =
-
-
+    	return $this->stylesheet_adapter->getStylesheet($path, $option_group_name, $cache);
     }
 
 
