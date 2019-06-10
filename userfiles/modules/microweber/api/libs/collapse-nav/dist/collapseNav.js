@@ -163,9 +163,7 @@ function collapseNav(selector, config) {
     }
 
     $(window).on('load', function () {
-        setTimeout(function () {
-            init(selector, config);
-        }, 10);
+        init(selector, config);
     });
 
     $(window).on('resize collapseNavReInit', function () {
@@ -194,6 +192,8 @@ $.fn.collapseNav = function (config) {
     }
 
     return this.each(function () {
-        collapseNav(this, config);
+        setTimeout(function () {
+            collapseNav(this, config);
+        }, 10);
     })
 }
