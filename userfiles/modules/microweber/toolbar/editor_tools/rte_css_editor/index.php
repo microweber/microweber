@@ -43,27 +43,33 @@ var activeTree = function(){
             var item = {
                 id: curr.id,
                 type: 'page',
-                title: curr.tagName.toLowerCase() + '#' + curr.id
-            }
-            if(parent){
-                item.parent_id = parent.id
-            }
+                title: curr.tagName.toLowerCase() + '#' + curr.id,
+                parent_id: parent ? parent.id : 0
+            };
+
             data.push(item)
         }
-        curr = curr.parentNode;
-    }
-    console.log(data, ActiveNode, _activeTree)
+        else {
+            parent = null;
+        }
+        if(parent){
+            curr = parent;
+        }
+        else {
+            curr = null;
+        }
 
-    if(!_activeTree){
-        _activeTree = new mw.tree({
-            element:'#tree',
-            data:data,
-            saveState: false
-        });
-    } else{
-        _activeTree.setData(data);
     }
-    top._activeTree = _activeTree
+    data = data.reverse();
+
+    $('#tree').empty();
+
+    _activeTree = new mw.tree({
+        element:'#tree',
+        data:data,
+        saveState: false
+    });
+
 
 };
 

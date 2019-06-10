@@ -14,10 +14,10 @@ mw.dialogIframe = function(options){
         options.height = 'auto';
     }
     options.content = '<iframe src="'+options.url.trim()+'" ' + attr + '><iframe>';
-    options.className = ('mw-modal-iframe ' + (options.className || '')).trim();
-    options.className += (options.autoHeight ? ' mw-modal-iframe-autoheight' : '');
+    options.className = ('mw-dialog-iframe mw-dialog-iframe-loading ' + (options.className || '')).trim();
+    options.className += (options.autoHeight ? ' mw-dialog-iframe-autoheight' : '');
     var dialog = new mw.Dialog(options);
-    dialog.iframe = dialog.dialogContainer.querySelector('iframe')
+    dialog.iframe = dialog.dialogContainer.querySelector('iframe');
     mw.tools.loading(dialog.dialogContainer, 90);
 
     setTimeout(function(){
@@ -31,7 +31,8 @@ mw.dialogIframe = function(options){
                 dialog.center();
                 $(frame).on('bodyResize', function () {
                     dialog.center();
-                })
+                });
+                dialog.dialogMain.classList.remove('mw-dialog-iframe-loading');
             }, 78);
         });
 
@@ -134,6 +135,7 @@ mw.Dialog = function(options){
 
         this.build = function(){
             this.dialogMain = this.options.root.createElement('div');
+
             this.dialogMain.id = this.id;
             var cls = 'mw-dialog mw-dialog-skin-' + this.options.skin;
             cls += (!this.options.className ? '' : (' ' + this.options.className));
@@ -254,6 +256,14 @@ mw.Dialog = function(options){
        this.height = function(height){
             $(this.dialogContainer).height(height);
        };
+       this.resize = function(width, height){
+            if(typeof width !== 'undefined'){
+                this.width(width);
+            }
+            if(typeof height !== 'undefined'){
+               this.height(height);
+            }
+        };
        this.content = function(content){
             this.options.content = content || '';
             this.dialogContainer.innerHTML =  this.options.content;
