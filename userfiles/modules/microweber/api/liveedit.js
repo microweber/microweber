@@ -3,6 +3,7 @@ mw.require('handles.js');
 
 
 
+mw.require('padding.js');
 mw.require('source-edit.js');
 mw.require('control_box.js');
 mw.require('element_analyzer.js');
@@ -46,6 +47,10 @@ $(document).ready(function() {
     mw.liveEditSelector = new mw.Selector({
         root: document.body,
         autoSelect: false
+    });
+
+    mw.paddingCTRL = new mw.paddingEditor({
+
     });
 
     mw.on('ElementOver ModuleOver', function(e, target){

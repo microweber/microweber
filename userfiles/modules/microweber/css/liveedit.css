@@ -4870,3 +4870,16 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     color: red;
 }
 
+.mw-padding-ctrl{
+    position: absolute;
+    z-index: 900;
+}
+
+.mw-padding-ctrl-top,
+.mw-padding-ctrl-bottom{
+    width: 100%;
+    height: 20px;
+    background-color: #0e80e5;
+    cursor: s-resize;
+}
+
