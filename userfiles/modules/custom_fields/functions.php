@@ -2,8 +2,18 @@
 
 function get_field_size_class($field_size = false){
 	
+	$css_framework = get_template_framework();
+	
 	if (!$field_size) {
-		$field_size = 'col-md-12';
+		if ($css_framework == 'mw-ui') {
+			$field_size = 'mw-flex-col-md-12';
+		}
+		if ($css_framework == 'bootstrap3') {
+			$field_size = 'col-md-12';
+		}
+		if ($css_framework == 'bootstrap4') {
+			$field_size = 'col-12';
+		}
 	}
 
 	return $field_size;
@@ -13,7 +23,6 @@ function get_field_size_options() {
 	
 	$css_framework = get_template_framework();
 
-	
 	if ($css_framework == 'mw-ui') {
 		for ($i = 1; $i <= 12; $i++) {
 			$options['mw-flex-col-md-' . $i] = 'mw-flex-col-md-' . $i;
@@ -24,6 +33,13 @@ function get_field_size_options() {
 		$options['col'] = 'col';
 		for ($i = 2; $i <= 12; $i++) {
 			$options['col-md-' . $i] = 'col-md-' . $i;
+		}
+	}
+	
+	if ($css_framework == 'bootstrap4') {
+		$options['col'] = 'col';
+		for ($i = 2; $i <= 12; $i++) {
+			$options['col-' . $i] = 'col-' . $i;
 		}
 	}
 	
@@ -49,7 +65,8 @@ function get_template_row_class() {
 		return 'mw-flex-row';
 	}
 	
-	if ($css_framework == 'bootstrap3') {
+	if ($css_framework == 'bootstrap3' || $css_framework == 'bootstrap4') {
 		return 'row';
 	}
+	
 }
