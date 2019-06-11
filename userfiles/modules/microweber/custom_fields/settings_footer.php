@@ -14,7 +14,7 @@ if($data['type'] !== 'breakline'):
     <div class="mw-custom-field-form-controls">
        <select class="mw-ui-field" name="options[field_size]">
        
-       	<?php foreach(get_field_size_options() as $optionKey=>$optionValue): ?>
+       	<?php foreach(get_field_size_options() as $optionKey=>$optionValue): ?> 
         <option <?php if($field_size == $optionKey):?>selected="selected"<?php endif; ?> value="<?php echo $optionKey; ?>"><?php echo $optionValue; ?></option> 
         <?php endforeach; ?>
         

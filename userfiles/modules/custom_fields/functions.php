@@ -16,7 +16,7 @@ function get_field_size_class($field_size = false){
 		}
 	}
 
-	return $field_size;
+	return $field_size; 
 }
 
 function get_field_size_options() {

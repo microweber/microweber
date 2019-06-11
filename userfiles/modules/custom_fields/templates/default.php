@@ -6,7 +6,7 @@
 <?php if (!empty($groupFields)): ?>
 	 <?php foreach ($groupFields as $fields): ?>
 	 
-	 	<div class="<?php echo get_template_row_class(); ?>">
+	 	<div class="<?php echo get_template_row_class(); ?>"> 
 	 
 		<?php if (!empty($fields)): ?>
 		    <?php $price_fields = array(); ?>
