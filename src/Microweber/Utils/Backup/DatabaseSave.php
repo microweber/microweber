@@ -15,7 +15,7 @@ class DatabaseSave
 		$tableData['allow_html'] = true;
 		$tableData['allow_scripts'] = true;
 		
-		$tableData = $this->_fixContentEncoding($tableData);
+		$tableData = self::_fixContentEncoding($tableData);
 		
 		return db_save($table, $tableData);
 	}
@@ -25,7 +25,7 @@ class DatabaseSave
 	 * @param array $item
 	 * @return array
 	 */
-	private function _fixContentEncoding($content) {
+	private static function _fixContentEncoding($content) {
 		
 		// Fix content encoding
 		array_walk_recursive($content, function (&$element) {
