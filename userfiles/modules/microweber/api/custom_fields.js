@@ -149,9 +149,16 @@ mw.custom_fields = {
             var el = this, _el = $(el);
             var val = _el.val();
             var name = el.name;
+
+
+
+
+
             if (name.contains("[")) {
+
                 if (name.contains('[]')) {
                     var _name = name.replace(/[\[\]']+/g, '');
+
                     if (name.indexOf('option') == 0) {
                         try {
                             data.options.push(val)

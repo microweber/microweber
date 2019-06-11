@@ -211,37 +211,42 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
                 $packages[$result['name']] = $result;
 
                 if (count($versions)) {
-                    $packages[$result['name']]['type'] = $versions[0]->getType();
-                    $packages[$result['name']]['description'] = $versions[0] instanceof CompletePackageInterface
-                        ? $versions[0]->getDescription()
+                    
+                    
+                    $last_v = $versions;
+                    $last_v = array_pop($last_v);
+                    
+                    $packages[$result['name']]['type'] = $last_v->getType();
+                    $packages[$result['name']]['description'] = $last_v instanceof CompletePackageInterface
+                        ? $last_v->getDescription()
                         : '';
 
 
-                    $packages[$result['name']]['license'] = $versions[0] instanceof CompletePackageInterface
-                        ? $versions[0]->getLicense()
+                    $packages[$result['name']]['license'] = $last_v instanceof CompletePackageInterface
+                        ? $last_v->getLicense()
                         : '';
 
-                    $packages[$result['name']]['authors'] = $versions[0] instanceof CompletePackageInterface
-                        ? $versions[0]->getAuthors()
+                    $packages[$result['name']]['authors'] = $last_v instanceof CompletePackageInterface
+                        ? $last_v->getAuthors()
                         : '';
 
-                    $packages[$result['name']]['keywords'] = $versions[0] instanceof CompletePackageInterface
-                        ? $versions[0]->getKeywords()
-                        : '';
-
-
-                    $packages[$result['name']]['support'] = $versions[0] instanceof CompletePackageInterface
-                        ? $versions[0]->getSupport()
+                    $packages[$result['name']]['keywords'] = $last_v instanceof CompletePackageInterface
+                        ? $last_v->getKeywords()
                         : '';
 
 
-                    $packages[$result['name']]['homepage'] = $versions[0] instanceof CompletePackageInterface
-                        ? $versions[0]->getHomepage()
+                    $packages[$result['name']]['support'] = $last_v instanceof CompletePackageInterface
+                        ? $last_v->getSupport()
                         : '';
 
 
-                    $packages[$result['name']]['extra'] = $versions[0] instanceof CompletePackageInterface
-                        ? $versions[0]->getExtra()
+                    $packages[$result['name']]['homepage'] = $last_v instanceof CompletePackageInterface
+                        ? $last_v->getHomepage()
+                        : '';
+
+
+                    $packages[$result['name']]['extra'] = $last_v instanceof CompletePackageInterface
+                        ? $last_v->getExtra()
                         : '';
 
 
