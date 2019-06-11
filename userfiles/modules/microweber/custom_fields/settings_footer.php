@@ -6,6 +6,9 @@ if (isset($data['options']['field_size'])) {
 }
 ?>
 
+<?php
+if($data['type'] !== 'breakline'):
+?>
 <div class="mw-custom-field-group">
     <label class="mw-custom-field-label" for="custom_field_width_size<?php print $rand; ?>"><b><?php _e('Width size'); ?></b></label>
     <div class="mw-custom-field-form-controls">
@@ -33,6 +36,8 @@ if (isset($data['options']['field_size'])) {
             <?php _e('Is this field Required?'); ?>
     </div>
 </div>
+
+
 <div class="mw-custom-field-group<?php print $hidden_class ?>">
     <label class="mw-custom-field-label"><?php _e('Active'); ?></label>
     <div class="mw-custom-field-form-controls">
@@ -71,5 +76,6 @@ if (isset($data['options']['field_size'])) {
     </script>
 
 </div>
+<?php endif; ?> 
 
 </div>
