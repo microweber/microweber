@@ -185,7 +185,7 @@ class Manager
         $toolbar->assign('page_info', $page_info);
         $toolbar->assign('keyword', $keyword);
         $toolbar->assign('params', $params);
-
+        $toolbar->assign('pages', $pages);
 
         $post_list_view = $this->views_dir . 'manager.php';
 

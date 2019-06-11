@@ -307,7 +307,7 @@ $pages_count = intval($pages);
                     <?php $i++; endforeach; ?>
             </div>
         <?php endif; ?>
-
+ 
 
         <?php if (isset($paging_links) and is_array($paging_links)): ?>
             <div class="mw-paging pull-right">
