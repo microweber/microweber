@@ -49,9 +49,11 @@ $(document).ready(function() {
         autoSelect: false
     });
 
-    mw.paddingCTRL = new mw.paddingEditor({
+    setInterval(function(){
+        mw.liveEditSelector.positionSelected()
+    }, 700)
 
-    });
+
 
     mw.on('ElementOver ModuleOver', function(e, target){
 
@@ -96,7 +98,6 @@ $(document).ready(function() {
     });
 
     mw.on('LayoutOver moduleOver', function(e, el){
-
         if(e.type === 'moduleOver'){
 
           var parentModule = mw.tools.lastParentWithClass(el, 'module');
@@ -424,6 +425,10 @@ $(document).ready(function() {
     $('span.mw-powered-by').on("click", function(e) {
         mw.tools.open_global_module_settings_modal('white_label/admin', 'mw-powered-by');
         return false;
+    });
+
+    mw.paddingCTRL = new mw.paddingEditor({
+
     });
 
 });

@@ -19,6 +19,8 @@
 
 var ActiveNode = null;
 
+
+
 var CSSShadow;
 
 var _activeTree = null;
@@ -27,7 +29,7 @@ var activeTree = function(){
         return;
     }
     var getParent = function(node){
-        if(node === document.body || mw.tools.hasClass(node, 'edit')){
+        if(!node || node === document.body || !node.parentNode || mw.tools.hasClass(node, 'edit')){
             return false;
         }
         if(node.parentNode.id){
@@ -203,8 +205,9 @@ var populate = function(css){
 var output = function(property, value){
     if(ActiveNode) {
           ActiveNode.style[property] = value;
+          ActiveNode.setAttribute('staticdesign', true);
           top.mw.wysiwyg.change(ActiveNode);
-          top.mw.liveEditSelector.positionSelected()
+          top.mw.liveEditSelector.positionSelected();
     }
 };
 
@@ -286,6 +289,13 @@ top.$(top.mw.liveEditSelector).on('select', function(e, nodes){
 
     $(document).ready(function(){
 
+        top.$(top.mwd.body).on('mousedown touchstart', function(e){
+            var node = mw.tools.firstMatchesOnNodeOrParent(e.target, ['.element', '.module']);
+            if( !node ){
+                ActiveNode = null;
+            }
+        });
+
         $(".mw-element-spacing-editor input")
             .on('focus', function(){
 
@@ -307,6 +317,14 @@ top.$(top.mw.liveEditSelector).on('select', function(e, nodes){
     });
 
     $(window).on('load', function () {
+        if(top.mw.liveEditSelector.selected[0]){
+            ActiveNode = top.mw.liveEditSelector.selected[0];
+
+            var css = mw.CSSParser(ActiveNode);
+            populate(css);
+            activeTree();
+        }
+        top.mw.liveEditSelector.positionSelected()
         setTimeout(function(){
             $(document.body).trigger('click')
         }, 400)
