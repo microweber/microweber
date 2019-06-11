@@ -149,9 +149,16 @@ mw.custom_fields = {
             var el = this, _el = $(el);
             var val = _el.val();
             var name = el.name;
+
+
+
+
+
             if (name.contains("[")) {
+
                 if (name.contains('[]')) {
                     var _name = name.replace(/[\[\]']+/g, '');
+
                     if (name.indexOf('option') == 0) {
                         try {
                             data.options.push(val)
@@ -170,14 +177,15 @@ mw.custom_fields = {
                     }
                 }
                 else {
-                    if (name.indexOf('option') == 0) {
+                    if (name.indexOf('options') == 0) {
                         var name = name.slice(name.indexOf("[") + 1, name.indexOf("]"));
-                        try {
-                            data.options[name].push(val)
-                        }
-                        catch (e) {
-                            data.options[name] = [val]
-                        }
+                        data.options[name] = val
+                        // try {
+                        //     data.options[name].push(val)
+                        // }
+                        // catch (e) {
+                        //     data.options[name] = [val]
+                        // }
                     }
                     else {
                         var arr_name = name.slice(0, name.indexOf("["));
