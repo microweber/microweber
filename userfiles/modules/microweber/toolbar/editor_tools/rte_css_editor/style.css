@@ -266,4 +266,7 @@ input,select{
     #css-editor-root.disabled{
         pointer-events: none;
     }
+    .mw-field.unit + .mw-field{
+        width:60px;
+    }
 

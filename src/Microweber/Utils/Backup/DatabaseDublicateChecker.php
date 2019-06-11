@@ -33,6 +33,7 @@ class DatabaseDublicateChecker
 		self::$tableFields[] = 'item_type';
 		self::$tableFields[] = 'option_group';
 		self::$tableFields[] = 'title';
+		self::$tableFields[] = 'url';
 		self::$tableFields[] = 'email';
 		self::$tableFields[] = 'username';
 		self::$tableFields[] = 'content_type';

@@ -4863,7 +4863,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 
 .mw-inline-source-editor-error{
     position: absolute;
-    left: 10px;
+    left: 10px;2
     top: 50%;
     transform: translateY(-50%);
     font-size: 14px;
@@ -4873,6 +4873,10 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 .mw-padding-ctrl{
     position: absolute;
     z-index: 900;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .mw-padding-ctrl-top,
