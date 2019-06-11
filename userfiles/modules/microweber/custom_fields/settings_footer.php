@@ -10,15 +10,14 @@ if (isset($data['options']['field_size'])) {
 if($data['type'] !== 'breakline'):
 ?>
 <div class="mw-custom-field-group">
-    <label class="mw-custom-field-label" for="custom_field_width_size<?php print $rand; ?>"><b><?php _e('Width size'); ?></b></label>
+    <label class="mw-custom-field-label" for="custom_field_width_size<?php print $rand; ?>"><b><?php _e('Organaize in columns'); ?></b></label>
     <div class="mw-custom-field-form-controls">
        <select class="mw-ui-field" name="options[field_size]">
-	        <option <?php if($field_size=='extra_small'):?>selected="selected"<?php endif; ?> value="extra_small">Extra Small</option> 
-	       	<option <?php if($field_size=='small'):?>selected="selected"<?php endif; ?> value="small">Small</option> 
-	       	<option <?php if($field_size=='medium'):?>selected="selected"<?php endif; ?> value="medium">Medium</option> 
-	       	<option <?php if($field_size=='normal'):?>selected="selected"<?php endif; ?> value="normal">Normal</option>
-	        <option <?php if($field_size=='lage'):?>selected="selected"<?php endif; ?> value="lage">Large</option>
-	        <option <?php if($field_size=='extra_large'):?>selected="selected"<?php endif; ?> value="extra_large">Extra Large</option> 
+       
+       	<?php foreach(get_field_size_options() as $optionKey=>$optionValue): ?>
+        <option <?php if($field_size == $optionKey):?>selected="selected"<?php endif; ?> value="<?php echo $optionKey; ?>"><?php echo $optionValue; ?></option> 
+        <?php endforeach; ?>
+        
        </select>
     </div>
 </div>
