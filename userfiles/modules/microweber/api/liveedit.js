@@ -427,9 +427,9 @@ $(document).ready(function() {
         return false;
     });
 
-    mw.paddingCTRL = new mw.paddingEditor({
+    /*mw.paddingCTRL = new mw.paddingEditor({
 
-    });
+    });*/
 
 });
 
