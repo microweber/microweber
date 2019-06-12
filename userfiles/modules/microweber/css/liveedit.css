@@ -4863,7 +4863,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 
 .mw-inline-source-editor-error{
     position: absolute;
-    left: 10px;2
+    left: 10px;
     top: 50%;
     transform: translateY(-50%);
     font-size: 14px;
@@ -4882,8 +4882,14 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 .mw-padding-ctrl-top,
 .mw-padding-ctrl-bottom{
     width: 100%;
-    height: 20px;
-    background-color: #0e80e5;
     cursor: s-resize;
+}
+
+.mw-padding-ctrl-top{
+    border-top: 1px dashed #939393;
+}
+
+.mw-padding-ctrl-bottom{
+    border-bottom: 1px dashed #939393;
 }
 

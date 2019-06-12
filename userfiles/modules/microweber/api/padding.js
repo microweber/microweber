@@ -2,6 +2,14 @@
 
     mw.paddingEditor = function( options ) {
 
+        options = options || {};
+
+        var defaults = {
+            height: 10
+        };
+
+        this.settings = $.extend({}, defaults, options);
+
         this._pageY = -1;
         this._active = null;
         this._paddingTopDown = false;
@@ -14,6 +22,9 @@
 
             this.paddingBottom = document.createElement('div');
             this.paddingBottom.className = 'mw-padding-ctrl mw-padding-ctrl-bottom';
+
+            this.paddingTop.style.height = this.settings.height + 'px';
+            this.paddingBottom.style.height = this.settings.height + 'px';
 
             document.body.appendChild(this.paddingTop);
             document.body.appendChild(this.paddingBottom);
@@ -36,7 +47,7 @@
             });
             $(document.body).on('mousemove', function(e){
                 var isDown = e.pageY < scope._pageY;
-                var inc = 10;
+                var inc = 5;
                 if(scope._paddingTopDown){
                     scope._working = true;
                     var curr = scope._active._currPaddingTop || (parseFloat($(scope._active).css('paddingTop')));
@@ -68,20 +79,33 @@
             var off = $el.offset();
             scope._active = targetIsLayout;
             scope.paddingTop.style.top = off.top + 'px';
-            scope.paddingBottom.style.top = (off.top + $el.outerHeight() - 20) + 'px';
+            scope.paddingBottom.style.top = (off.top + $el.outerHeight() - this.settings.height) + 'px';
+        };
+
+        this.selectors = [
+            '[class*="bg--"]',
+            '[data-module-name="layouts"]',
+            '[data-type="layouts"]',
+            '.imagebg'
+        ];
+
+        this.addSelector = function(selector){
+            this.selectors.push(selector);
         };
 
         this.eventsHandlers = function() {
+            mw.on('moduleOver ModuleClick', function(e, el, mel){
 
-            mw.on('moduleOver ModuleClick', function(e, el){
                 if(!scope._working){
-                    var targetIsLayout = mw.tools.firstMatchesOnNodeOrParent(el, ['[data-module-name="layouts"]', '[data-type="layouts"]']);
+                    var targetIsLayout = mw.tools.firstMatchesOnNodeOrParent(el, scope.selectors);
                     if(targetIsLayout){
+                        if(mw.tools.hasClass(targetIsLayout, 'module')){
+                            var child = $(targetIsLayout).children(scope.selectors.join(','))[0];
+                            targetIsLayout = child || targetIsLayout;
+                        }
                         scope.position(targetIsLayout);
                     }
                 }
-
-
             });
         };
 
@@ -89,8 +113,12 @@
             this.create();
             this.eventsHandlers();
             this.handleMouseMove();
-
+            this.info();
         };
+
+        this.info = function() {
+
+        }
 
         this.init();
     };
