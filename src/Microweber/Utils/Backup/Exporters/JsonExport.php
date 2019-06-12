@@ -9,7 +9,7 @@ class JsonExport extends DefaultExport
 		$dump = $this->getDump();
 
 		$jsonFilename = $this->_generateFilename();
-
+		
 		file_put_contents($jsonFilename['filepath'], $dump);
 
 		return $jsonFilename;

@@ -20,7 +20,7 @@ class JsonReader extends DefaultReader
 		foreach ($json as $jsonKey => $jsonValue) {
 			$readyJson[$jsonKey] = $jsonValue;
 		}
-
+		
 		return $readyJson;
 	}
 }
