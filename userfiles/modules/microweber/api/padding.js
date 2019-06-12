@@ -36,14 +36,19 @@
         this.handleMouseMove = function() {
             $(this.paddingTop).on('mousedown touchstart', function(){
                 scope._paddingTopDown = true;
+                $('html').addClass('paddding-control-start');
             });
             $(this.paddingBottom).on('mousedown touchstart', function(){
                 scope._paddingBottomDown = true;
+                $('html').addClass('paddding-control-start');
             });
             $(document.body).on('mouseup touchend', function(){
-                scope._paddingTopDown = false
-                scope._paddingBottomDown = false
+                scope._paddingTopDown = false;
+                scope._paddingBottomDown = false;
                 scope._working = false;
+                $(scope._info).removeClass('active');
+                mw.liveEditSelector.active(true);
+                $('html').removeClass('paddding-control-start');
             });
             $(document.body).on('mousemove', function(e){
                 var isDown = e.pageY < scope._pageY;
@@ -58,6 +63,9 @@
                     }
                     scope._active._currPaddingTop = parseFloat(scope._active.style.paddingTop);
                     scope.position(scope._active);
+                    scope.info();
+                    mw.liveEditSelector.pause();
+                    mw.trigger('PaddingControl', scope._active);
                 } else if(scope._paddingBottomDown){
                     scope._working = true;
                     var curr = scope._active._currPaddingBottom || (parseFloat($(scope._active).css('paddingBottom')));
@@ -68,6 +76,9 @@
                     }
                     scope._active._currPaddingBottom = parseFloat(scope._active.style.paddingBottom);
                     scope.position(scope._active);
+                    scope.info();
+                    mw.liveEditSelector.pause()
+                    mw.trigger('PaddingControl', scope._active);
                 }
 
                 scope._pageY = e.pageY;
@@ -80,6 +91,7 @@
             scope._active = targetIsLayout;
             scope.paddingTop.style.top = off.top + 'px';
             scope.paddingBottom.style.top = (off.top + $el.outerHeight() - this.settings.height) + 'px';
+
         };
 
         this.selectors = [
@@ -95,7 +107,6 @@
 
         this.eventsHandlers = function() {
             mw.on('moduleOver ModuleClick', function(e, el, mel){
-
                 if(!scope._working){
                     var targetIsLayout = mw.tools.firstMatchesOnNodeOrParent(el, scope.selectors);
                     if(targetIsLayout){
@@ -113,12 +124,26 @@
             this.create();
             this.eventsHandlers();
             this.handleMouseMove();
-            this.info();
         };
 
         this.info = function() {
-
-        }
+            if(!this._info){
+                this._info = document.createElement('div');
+                this._info.className = 'mw-padding-control-info';
+                document.body.appendChild(this._info);
+            }
+            $(this._info).addClass('active');
+            var off;
+            if (scope._paddingTopDown) {
+                off = $(scope.paddingTop).offset();
+                this._info.style.top = (off.top + scope.settings.height) + 'px';
+                this._info.innerHTML = scope._active.style.paddingTop;
+            } else if (scope._paddingBottomDown) {
+                off = $(scope.paddingBottom).offset();
+                this._info.style.top = (off.top - scope.settings.height - 30) + 'px';
+                this._info.innerHTML = scope._active.style.paddingBottom;
+            }
+        };
 
         this.init();
     };
