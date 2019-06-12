@@ -165,7 +165,7 @@
                     thismodal.main.scrollTop(0);
                 }
 
-                /*if (typeof thismodal.main[0] != 'undefined') {
+                if (typeof thismodal.main[0] != 'undefined') {
                     parent.mw.tools.modal.resize("#" + thismodal.main[0].id, false, mw.$('#settings-container').height() + 25, false);
                     setTimeout(function () {
                         var _new = thismodal.main.height();
@@ -173,11 +173,11 @@
                             parent.mw.tools.modal.center("#" + thismodal.main[0].id, 'vertical');
                         }
                     }, 400)
-                }*/
+                }
             }
 
             $(window).load(function () {
-                /*if (typeof thismodal.main[0] != 'undefined') {
+                if (typeof thismodal.main[0] != 'undefined') {
 
                     if (autoSize) {
                         parent.mw.tools.modal.resize("#" + thismodal.main[0].id, false, $('#settings-container').height() + 25, true);
@@ -202,7 +202,7 @@
                             }
                         });
                     }
-                }*/
+                }
             });
         }
 
@@ -307,14 +307,14 @@
 
                             // HERE FOR DROPDOWN
                             window.parent.$('.module-modal-settings-menu-holder-open-presets', toolbar).html(modal_preset_manager_html_placeholder_for_reload_content);
-                       
-                       
- 
- 
- 
-                       
-                       
-                       
+
+
+
+
+
+
+
+
                         };
 
 

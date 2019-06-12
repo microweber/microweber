@@ -4870,3 +4870,26 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     color: red;
 }
 
+.mw-padding-ctrl{
+    position: absolute;
+    z-index: 900;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.mw-padding-ctrl-top,
+.mw-padding-ctrl-bottom{
+    width: 100%;
+    cursor: s-resize;
+}
+
+.mw-padding-ctrl-top{
+    border-top: 1px dashed #939393;
+}
+
+.mw-padding-ctrl-bottom{
+    border-bottom: 1px dashed #939393;
+}
+

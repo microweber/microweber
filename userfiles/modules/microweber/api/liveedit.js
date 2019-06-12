@@ -3,6 +3,7 @@ mw.require('handles.js');
 
 
 
+mw.require('padding.js');
 mw.require('source-edit.js');
 mw.require('control_box.js');
 mw.require('element_analyzer.js');
@@ -48,6 +49,12 @@ $(document).ready(function() {
         autoSelect: false
     });
 
+    setInterval(function(){
+        mw.liveEditSelector.positionSelected()
+    }, 700)
+
+
+
     mw.on('ElementOver ModuleOver', function(e, target){
 
         if(target.id){
@@ -91,7 +98,6 @@ $(document).ready(function() {
     });
 
     mw.on('LayoutOver moduleOver', function(e, el){
-
         if(e.type === 'moduleOver'){
 
           var parentModule = mw.tools.lastParentWithClass(el, 'module');
@@ -419,6 +425,10 @@ $(document).ready(function() {
     $('span.mw-powered-by').on("click", function(e) {
         mw.tools.open_global_module_settings_modal('white_label/admin', 'mw-powered-by');
         return false;
+    });
+
+    mw.paddingCTRL = new mw.paddingEditor({
+
     });
 
 });

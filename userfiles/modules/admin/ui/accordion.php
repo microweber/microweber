@@ -180,12 +180,20 @@
  <script>
 
 
-     xtree_demo_data  = [
+     tree_demo_data  = [
          {"id":1,"type":"category","parent_id":0,"parent_type":"page","title":"cat1","subtype":"static"},
          {"id":2,"type":"page","parent_id":1,"parent_type":"page","title":"sub for page","subtype":"static"},
          {"id":3,"type":"page","parent_id":1,"parent_type":"category","title":"sub for cat","subtype":"static"},
          {"id":1,"type":"page","parent_id":0,"parent_type":"page","title":"page1","subtype":"static"}
      ];
+
+     tree_demo_data2  = [
+         {"id":1,"type":"category","parent_id":0,"parent_type":"page","title":"cat2222","subtype":"static"},
+         {"id":2,"type":"page","parent_id":1,"parent_type":"page","title":"sub for page2222","subtype":"static"},
+         {"id":3,"type":"page","parent_id":1,"parent_type":"category","title":"sub for cat222","subtype":"static"},
+         {"id":1,"type":"page","parent_id":0,"parent_type":"page","title":"page222z","subtype":"static"}
+     ];
+
      var tree1 = new mw.tree({
          element:'#tree_demo',
          data: tree_demo_data,
@@ -195,9 +203,25 @@
          searchInput: '#tree-search'
      });
 
+     test33 = function(){
+         tree1.setData(tree_demo_data2)
+     }
+     test22 = function(){
+         tree1=new mw.tree({
+             element:'#tree_demo',
+             data: tree_demo_data2,
+             selectable:true,
+             singleSelect:true,
+             cantSelectTypes: ['page'],
+             searchInput: '#tree-search'
+         });
+     }
+
 
  </script>
 
+    <button onclick="test22()">Test 999</button>
+    <button onclick="test33()">Test data</button>
 
 
 </div>

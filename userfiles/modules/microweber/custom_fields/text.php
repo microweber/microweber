@@ -6,10 +6,8 @@ if (!isset($data['input_class']) and isset($params['input-class'])) {
 } elseif (!isset($data['input_class']) and isset($params['input_class'])) {
     $data['input_class'] = $params['input_class'];
 } else {
-    $data['input_class'] = '';
-
+    $data['input_class'] = ''; 
 }
-
 
 ?>
 

@@ -176,7 +176,10 @@ mw._initHandles = {
             return x !== but;
         }) :  all;
         return all.filter(function (item) {
-            return item.visible();
+            if(item){
+                return item.visible();
+            }
+
         });
     },
     hideAll:function (but) {

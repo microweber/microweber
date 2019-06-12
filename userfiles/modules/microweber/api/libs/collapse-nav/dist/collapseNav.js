@@ -193,7 +193,9 @@ $.fn.collapseNav = function (config) {
 
     return this.each(function () {
         setTimeout(function () {
-            collapseNav(this, config);
+            $(window).resize();
         }, 10);
+
+        collapseNav(this, config);
     })
 }
