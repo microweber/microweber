@@ -100,14 +100,9 @@ if (isset($packages_by_type['microweber-core-update']) and !empty($packages_by_t
 
             var holder = mw.tools.firstParentOrCurrentWithClass(this,'js-package-install-content');
 
-
             $('.js-package-install-btn',holder).html("Install "+val);
             $('.js-package-install-btn',holder).data('vkey',val);
-            //
-            // mw.log(val);
-            // mw.log(vkey);
-            // mw.log(holder);
-            // alert(val);
+
 
         });
 
@@ -122,7 +117,11 @@ if (isset($packages_by_type['microweber-core-update']) and !empty($packages_by_t
 </script>
 
 
-
+<style>
+    .mw-sel-item-key-install {
+        border: none;
+    }
+</style>
 
 <div class="admin-side-content" style="max-width: 90%">
     <div id="mw-packages-browser-nav-tabs-nav" class="mw-flex-row">

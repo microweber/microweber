@@ -245,19 +245,6 @@ if(!isset($box_class)){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
             <?php if ($has_update): ?>
                 <a vkey="<?php print $vkey; ?>" href="javascript:;" onClick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).data('vkey'))"  class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-warn js-package-install-btn">Update</a>
             <?php else: ?>

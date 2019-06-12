@@ -87,7 +87,7 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name = functi
 
     }).always(function (jqXHR, textStatus) {
         mw.admin.admin_package_manager.set_loading(false);
-alert(1111);
+
         $('#update_queue_set_modal').remove();
     })
 
