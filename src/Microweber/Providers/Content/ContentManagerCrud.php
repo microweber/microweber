@@ -800,6 +800,9 @@ class ContentManagerCrud extends Crud
         if (isset($data_to_save['custom_field_is_active'])) {
             unset($data_to_save['custom_field_is_active']);
         }
+        if (isset($data_to_save['custom_field_width_size'])) {
+        	unset($data_to_save['custom_field_width_size']);
+        }
         if (isset($data_to_save['name'])) {
             unset($data_to_save['name']);
         }

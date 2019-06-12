@@ -139,6 +139,7 @@ class Ui
         $fields = array(
             'price' => 'Price',
             'text' => 'Text Field',
+        	'breakline' => 'Break Line',
             'radio' => 'Single Choice',
             'dropdown' => 'Dropdown',
             'checkbox' => 'Multiple choices',

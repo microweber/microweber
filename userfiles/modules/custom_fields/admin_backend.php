@@ -72,6 +72,7 @@ $module_id = $for_id;
   <div class="custom_fields_selector" style="display: none;">
     <ul class="mw-quick-links mw-quick-links-cols">
       <li><a href="javascript:;" data-type="text"><span class="ico iSingleText"></span><span><?php _e("Text Field"); ?></span></a></li>
+      <li><a href="javascript:;" data-type="breakline"><span class="ico mw-icon-web-remove"></span><span><?php _e("Break Line"); ?></span></a></li>
       <li><a href="javascript:;" data-type="number"><span class="ico iNumber"></span><span><?php _e("Number"); ?></span></a></li>
       <li><a href="javascript:;" data-type="price"><span class="ico iPrice"></span><span><?php _e("Price"); ?></span></a></li>
       <li><a href="javascript:;" data-type="phone"><span class="ico iPhone"></span><span><?php _e("Phone"); ?></span></a></li>
@@ -88,7 +89,7 @@ $module_id = $for_id;
   <module data-type="custom_fields/list" <?php print $hide_preview  ?>  for="<?php print $for;  ?>" for_module_id="<?php print $module_id ?>" <?php if(isset($params['rel_id'])): ?> rel_id="<?php print $params['rel_id'] ?>"  <?php endif; ?> id="mw_custom_fields_list_<?php print $params['id']; ?>" />
   <div class="custom-field-edit" id="custom-field-editor" style="display:none;">
     <div  class="custom-field-edit-header">
-      <div class="custom-field-edit-title"></div>
+      <div class="custom-field-edit-title"></div> 
       
     </div>
     <div class="mw-admin-custom-field-edit-item-wrapper">
