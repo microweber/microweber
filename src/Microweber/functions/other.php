@@ -709,6 +709,9 @@ api_expose_admin('template/compile_css', function ($params) {
     return mw()->template->compile_css($params);
 });
 
+api_expose_admin('template/delete_compiled_css', function ($params) {
+    return mw()->template->delete_compiled_css($params);
+});
 
 if (!function_exists('br2nl')) {
     function br2nl($string)

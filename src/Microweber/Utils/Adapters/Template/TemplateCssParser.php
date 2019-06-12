@@ -42,6 +42,25 @@ class TemplateCssParser
 		}
 		
     }
+
+    public function delete_compiled($options) {
+
+        $optionGroup = mw()->option_manager->get_all('option_group=' . $options['option_group']);
+
+        if (!empty($optionGroup)) {
+            foreach ($optionGroup as $option) {
+                mw()->option_manager->delete($option['option_key'], $option['option_group']);
+            }
+        }
+
+        $compileFile = $this->_getOutputDir($options['path']);
+        $compileFile = normalize_path($compileFile, false);
+        $compileFile = $compileFile . '.css';
+
+        @unlink($compileFile);
+
+        return 1;
+    }
     
     public function compileSaas() {
     	

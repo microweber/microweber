@@ -52,15 +52,15 @@ class BackupV2Test extends TestCase
 	public function testImport() {
 		
 		$manager = new BackupManager();
-		$manager->setImportFile('import.json');
+		$manager->setImportFile(storage_path('backup_v2_test.json'));
 		$manager->setImportType('json');
 		$manager->setImportBatch(false);
 		
 		$importStatus = $manager->startImport();
 		
-		//var_dump($importStatus);
+		// var_dump($importStatus);
 		
-		$this->assertArrayHasKey('error', $importStatus);
+		$this->assertArrayHasKey('success', $importStatus);
 	}
 	
 	public function testImportWrongFile() {

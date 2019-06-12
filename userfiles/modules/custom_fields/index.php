@@ -54,22 +54,23 @@ $data = mw()->fields_manager->get($for, $for_id, 1);
 
 $groupFields = array();
 $groupI = 0;
-foreach ($data as $field) {
-	
-	if($field['type'] == 'breakline') {
-		$groupI++;
-		continue;
+if (!empty($data)) {
+	foreach ($data as $field) {
+		
+		if($field['type'] == 'breakline') {
+			$groupI++;
+			continue;
+		}
+		
+		if (!isset($field['options']['field_size'])) {
+			$field['options']['field_size'] = false;
+		}
+		
+		$field['options']['field_size_class'] = get_field_size_class($field['options']['field_size']);
+		
+		$groupFields[$groupI][] = $field;
 	}
-	
-	if (!isset($field['options']['field_size'])) {
-		$field['options']['field_size'] = false;
-	}
-	
-	$field['options']['field_size_class'] = get_field_size_class($field['options']['field_size']);
-	
-	$groupFields[$groupI][] = $field;
 }
-
 
 /* $field_size_class = '';
 if (isset($field['options']['field_size'])) {
