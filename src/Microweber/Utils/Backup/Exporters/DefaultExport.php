@@ -11,6 +11,16 @@ class DefaultExport implements ExportInterface
 
 	public function __construct($data = array())
 	{
+		if (!empty($data)) {
+			array_walk_recursive($data, function (&$element) {
+				if (is_string($element)) {
+					$element = utf8_decode($element);
+					$element = str_replace('Â ', ' ', $element);
+					$element = str_replace("Â ", ' ', $element);
+				}
+			});
+		}
+		
 		$this->data = $data;
 	}
 
