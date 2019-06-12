@@ -3148,6 +3148,10 @@ body.grabbing, body.grabbing * {
     content: '\0101';
 }
 
+.mw-custom-field-icon-breakline:before {
+	content: '\f2f4';
+}
+
 .mw-custom-field-icon-text:before {
     content: '\0102';
 }
