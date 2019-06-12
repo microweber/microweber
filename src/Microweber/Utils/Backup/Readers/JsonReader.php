@@ -1,6 +1,8 @@
 <?php
 namespace Microweber\Utils\Backup\Readers;
 
+include_once __DIR__ . DS . 'lib/json-machine/vendor/autoload.php';
+
 use JsonMachine\JsonMachine;
 
 class JsonReader extends DefaultReader
