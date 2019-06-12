@@ -39,7 +39,7 @@ mw.admin.admin_package_manager.show_licenses_modal = function () {
 
 mw.admin.admin_package_manager.install_composer_package_by_package_name = function ($key, $version) {
 
-    mw.notification.success('Loading...', 15000);
+    mw.notification.success('Loading...', 25000);
     //mw.load_module('updates/worker', '#mw-updates-queue');
 
 
@@ -61,7 +61,6 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name = functi
     var values = {require_name: $key, require_version: $version};
 
 
-    mw.log(values);
 
     $.ajax({
         url: mw.settings.api_url + "mw_composer_install_package_by_name",
@@ -88,7 +87,7 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name = functi
 
     }).always(function (jqXHR, textStatus) {
         mw.admin.admin_package_manager.set_loading(false);
-
+alert(1111);
         $('#update_queue_set_modal').remove();
     })
 
