@@ -248,9 +248,14 @@ $pages_count = intval($pages);
 
                                     <?php if ($cats) { ?>
                                         <span class="manage-post-item-cats-inline-list">
+                                              <span class="mw-icon-category"></span>
                                             <?php foreach ($cats as $ck => $cat): ?>
-                                                <a href="#action=showpostscat:<?php print ($cat['id']); ?>" class=" label label-primary"> <span class="mw-icon-category"></span> <?php print $cat['title']; ?></a>
-                                                <?php if (isset($cats[$ck + 1])): ?>,<?php endif; ?>
+                                                <a href="#action=showpostscat:<?php print ($cat['id']); ?>" class=" label label-primary">
+
+
+
+
+                                                    <?php print $cat['title']; ?></a><?php if (isset($cats[$ck + 1])): ?>,<?php endif; ?>
                                             <?php endforeach; ?>
                                       </span>
                                         <br />

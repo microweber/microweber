@@ -400,6 +400,10 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                             <strong><?php _e("Dashboard"); ?></strong>
                         </a>
                     </li>
+
+
+                    <li><?php event_trigger('mw.admin.sidebar.li.1'); ?></li>
+
                     <li
                         <?php if ($view == 'content' and $action == false): ?>
                             class="active"

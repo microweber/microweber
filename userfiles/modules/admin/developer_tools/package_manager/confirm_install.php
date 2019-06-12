@@ -95,7 +95,8 @@ if(is_array($get_existing_files_for_confirm)){
             <div class="mw-flex-col-xs-12">
                 <div class="mw-ui-box text-center">
                     <div class="mw-ui-box-header">
-                        <h4>Please confirm the installation of <br/> <strong><?php print $require_name ?></strong></h4>
+                        <h4>Please confirm the installation of <br/> <strong><?php print $require_name ?></strong> </h4>
+                        <h5>Version <?php print $require_version ?> </h5>
                         <h6><?php print count($get_existing_files_for_confirm); ?> files will be installed</h6>
 
                     </div>
@@ -107,6 +108,8 @@ if(is_array($get_existing_files_for_confirm)){
                                     <tr>
                                         <th>File location</th>
                                     </tr>
+
+
                                     </thead>
 
                                     <?php foreach ($get_existing_files_for_confirm as $file) { ?>
@@ -122,7 +125,7 @@ if(is_array($get_existing_files_for_confirm)){
                             <a class="mw-ui-btn mw-ui-btn-important" onclick="mw.tools.modal.get(this).remove()">Cancel</a>
 
                             <?php if ($get_existing_files_for_confirm) { ?>
-                                <button type="button" class="js-show-files mw-ui-btn mw-ui-btn-info">Show files </button>
+                                <button type="button" class="js-show-files mw-ui-btn mw-ui-btn-info">Show files</button>
                             <?php } ?>
 
                             <a class="mw-ui-btn mw-ui-btn-notification"

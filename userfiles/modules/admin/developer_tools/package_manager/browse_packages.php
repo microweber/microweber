@@ -7,7 +7,6 @@
 $is_update_mode = false;
 $core_update = false;
 
-
 //$search_packages_params = array();
 $search_packages_params['cache'] = true;
 
@@ -17,6 +16,8 @@ if (isset($params['show_only_updates']) and $params['show_only_updates']) {
     $is_update_mode = true;
 
 }
+
+
 
 $search_packages = mw()->update->composer_search_packages($search_packages_params);
 //$search_packages = mw()->update->composer_search_packages();
@@ -62,8 +63,16 @@ if (isset($packages_by_type['microweber-core-update']) and !empty($packages_by_t
             <li>
                 <a href="javascript:;"><span class="mw-icon-gear"></span> <span class="mw-icon-dropdown"></span></a>
                 <ul>
-                    <li><a href="javascript:;" onclick="mw.admin.admin_package_manager.reload_packages_list();">Reload
-                            packages</a></li>
+                    <?php if(isset($_GET['only_updates']) and $_GET['only_updates']){ ?>
+
+                        <li><a href="?all">Show all packages</a></li>
+
+                    <?php } else { ?>
+
+                        <li><a href="?only_updates=1">Show updates</a></li>
+
+                    <?php } ?>
+                    <li><a href="javascript:;" onclick="mw.admin.admin_package_manager.reload_packages_list();">Reload packages</a></li>
                     <li><a href="javascript:;"
                            onclick="mw.admin.admin_package_manager.show_licenses_modal ();">Licenses</a></li>
                 </ul>
@@ -80,6 +89,40 @@ if (isset($packages_by_type['microweber-core-update']) and !empty($packages_by_t
         });
     });
 </script>
+
+
+<script>
+
+    $( document ).ready(function() {
+        $('.mw-sel-item-key-install').change(function() {
+            var val = $("option:selected", this).val();
+            var vkey= $(this).data('vkey');
+
+            var holder = mw.tools.firstParentOrCurrentWithClass(this,'js-package-install-content');
+
+
+            $('.js-package-install-btn',holder).html("Install "+val);
+            $('.js-package-install-btn',holder).data('vkey',val);
+            //
+            // mw.log(val);
+            // mw.log(vkey);
+            // mw.log(holder);
+            // alert(val);
+
+        });
+
+    });
+
+
+
+
+
+
+
+</script>
+
+
+
 
 <div class="admin-side-content" style="max-width: 90%">
     <div id="mw-packages-browser-nav-tabs-nav" class="mw-flex-row">

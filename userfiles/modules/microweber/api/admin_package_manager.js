@@ -60,6 +60,9 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name = functi
 
     var values = {require_name: $key, require_version: $version};
 
+
+    mw.log(values);
+
     $.ajax({
         url: mw.settings.api_url + "mw_composer_install_package_by_name",
         type: "post",
