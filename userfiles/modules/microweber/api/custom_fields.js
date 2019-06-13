@@ -177,15 +177,14 @@ mw.custom_fields = {
                     }
                 }
                 else {
-                    if (name.indexOf('options') == 0) {
+                    if (name.indexOf('option') == 0) {
                         var name = name.slice(name.indexOf("[") + 1, name.indexOf("]"));
-                        data.options[name] = val
-                        // try {
-                        //     data.options[name].push(val)
-                        // }
-                        // catch (e) {
-                        //     data.options[name] = [val]
-                        // }
+                        try {
+                            data.options[name].push(val)
+                        }
+                        catch (e) {
+                            data.options[name] = [val]
+                        }
                     }
                     else {
                         var arr_name = name.slice(0, name.indexOf("["));
