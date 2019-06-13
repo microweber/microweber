@@ -12,7 +12,7 @@ function get_field_size_class($field_size = false){
 			$field_size = 'col-md-12';
 		}
 		if ($css_framework == 'bootstrap4') {
-			$field_size = 'col-12';
+			$field_size = 'col-12'; 
 		}
 	}
 
