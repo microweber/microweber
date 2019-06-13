@@ -128,8 +128,12 @@ if (array_key_exists('types', $_GET)) {
             if (typeof parent.mw.iframecallbacks[hash] === 'function') {
                 if (hash == 'editimage') {
 
+
                     parent.mw.iframecallbacks[hash](this);
-                    parent.mw.image.resize.resizerSet(parent.mw.image.currentResizing[0]);
+                    if(parent.mw.image.currentResizing && parent.mw.image.currentResizing){
+                        parent.mw.image.resize.resizerSet(parent.mw.image.currentResizing[0]);
+
+                    }
 
                 } else {
 
