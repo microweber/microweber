@@ -163,6 +163,8 @@ function collapseNav(selector, config) {
     }
 
     $(window).on('load', function () {
+        // $(navigation).html(original_navigation);
+        // init(navigation, configuration);
         init(selector, config);
     });
 
@@ -175,27 +177,32 @@ function collapseNav(selector, config) {
         $(navigation).html(original_navigation);
         init(navigation, configuration);
     }, false);
+
+    // init(selector, config);
+
+    $(navigation).html(original_navigation);
+    init(navigation, configuration);
 }
 
 $.fn.collapseNav = function (config) {
-    if (!config) {
-        config = {
-            responsive: 1, //Automatically count the possible buttons in the navigation
-            number_of_buttons: 4, //Allowable number of buttons in the navigation. Works only if 'responsive' = 0
-            more_text: 'More', //The text on the Drop Down Button
-            mobile_break: 992, //With this resolution and higher the script will be init
-            li_class: 'dropdown',
-            li_a_class: 'dropdown-toggle',
-            li_ul_class: 'dropdown-menu',
-            caret: '<span class="caret"></span>' //Element append immediately after the More text
-        }
+    config = config || {}
+
+    var defaults = {
+        responsive: 1, //Automatically count the possible buttons in the navigation
+        number_of_buttons: 4, //Allowable number of buttons in the navigation. Works only if 'responsive' = 0
+        more_text: 'More', //The text on the Drop Down Button
+        mobile_break: 992, //With this resolution and higher the script will be init
+        li_class: 'dropdown',
+        li_a_class: 'dropdown-toggle',
+        li_ul_class: 'dropdown-menu',
+        caret: '<span class="caret"></span>' //Element append immediately after the More text
     }
 
-    return this.each(function () {
-        setTimeout(function () {
-            $(window).resize();
-        }, 10);
+    var settings = $.extend({}, defaults, config)
 
-        collapseNav(this, config);
+    return this.each(function () {
+        setTimeout(function(scope){
+            collapseNav(scope, settings);
+        }, 700, this);
     })
 }
