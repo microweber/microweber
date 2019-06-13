@@ -94,7 +94,7 @@ class DatabaseWriter
 	
 	private function _saveItemDatabase($item) {
 		
-		if (isset($item['rel_type']) && $item['rel_type'] == 'modules') {
+		if (isset($item['rel_type']) && $item['rel_type'] == 'modules' && $item['save_to_table'] == 'media') {
 			$this->_saveModule($item);
 			return;
 		}
