@@ -196,7 +196,9 @@ if (isset($params['for_module_id'])): ?>
                                  class="mw-admin-custom-field-edit-item-wrapper"><?php /*settings are loaded here*/ ?></div>
                         </td>
                         <td class="custom-fields-cell-settings">
-                            <a class="show-on-hover tip" href="javascript:mw.admin.custom_fields.edit_custom_field_item('#mw-custom-fields-list-settings-<?php print $field['id']; ?>',<?php print $field['id']; ?>);" data-tip="<?php print _e('Settings'); ?>"><span class="mw-icon-gear"></span></a>
+                            <a href="javascript:mw.admin.custom_fields.edit_custom_field_item('#mw-custom-fields-list-settings-<?php print $field['id']; ?>',<?php print $field['id']; ?>);">
+                            <span class="mw-icon-gear"></span> <?php print _e('Settings'); ?>
+                            </a>
                         </td>
                         <td class="custom-fields-cell-delete">
                             <a class="show-on-hover tip" href="javascript:;" onclick="mw.admin.custom_fields.del(<?php print $field['id']; ?>,'#mw-custom-list-element-<?php print $field['id']; ?>');" data-tip="<?php print _e('Delete'); ?>"><span class="mw-icon-bin"></span></a>
