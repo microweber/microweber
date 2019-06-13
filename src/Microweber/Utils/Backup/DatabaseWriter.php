@@ -13,6 +13,7 @@ use Microweber\Utils\Backup\Traits\DatabaseContentWriter;
 use Microweber\Utils\Backup\Traits\DatabaseMenusWriter;
 use Microweber\Utils\Backup\Traits\DatabaseMediaWriter;
 use Microweber\Utils\Backup\Loggers\BackupImportLogger;
+use Microweber\Utils\Backup\Traits\DatabaseModuleWriter;
 
 /**
  * Microweber - Backup Module Database Writer
@@ -23,6 +24,7 @@ use Microweber\Utils\Backup\Loggers\BackupImportLogger;
 class DatabaseWriter
 {
 	use DatabaseMediaWriter;
+	use DatabaseModuleWriter;
 	use DatabaseMenusWriter;
 	use DatabaseRelationWriter;
 	use DatabaseCustomFieldsWriter;
@@ -92,6 +94,11 @@ class DatabaseWriter
 	
 	private function _saveItemDatabase($item) {
 		
+		if (isset($item['rel_type']) && $item['rel_type'] == 'modules') {
+			$this->_saveModule($item);
+			return;
+		}
+		
 		if ($item['save_to_table'] == 'media' && empty($item['title'])) {
 			$this->_saveMedia($item);
 			return;
@@ -116,7 +123,7 @@ class DatabaseWriter
 		$dbSelectParams['fields'] = 'id';
 		
 		foreach(DatabaseDublicateChecker::getRecognizeFields($item['save_to_table']) as $tableField) {
-			if (isset($item[$tableField])) {
+			if (isset($item[$tableField])) { 
 				$dbSelectParams[$tableField] = $item[$tableField];
 			}
 		}
