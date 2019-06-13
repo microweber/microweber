@@ -163,9 +163,9 @@ function collapseNav(selector, config) {
     }
 
     $(window).on('load', function () {
-        // $(navigation).html(original_navigation);
-        // init(navigation, configuration);
-        init(selector, config);
+        $(navigation).html(original_navigation);
+        init(navigation, configuration);
+        // init(selector, config);
     });
 
     $(window).on('resize collapseNavReInit', function () {
@@ -180,7 +180,7 @@ function collapseNav(selector, config) {
 
     // init(selector, config);
 
-    $(navigation).html(original_navigation);
+    // $(navigation).html(original_navigation);
     init(navigation, configuration);
 }
 
