@@ -123,7 +123,7 @@ class DatabaseWriter
 		$dbSelectParams['fields'] = 'id';
 		
 		foreach(DatabaseDublicateChecker::getRecognizeFields($item['save_to_table']) as $tableField) {
-			if (isset($item[$tableField])) {
+			if (isset($item[$tableField])) { 
 				$dbSelectParams[$tableField] = $item[$tableField];
 			}
 		}
