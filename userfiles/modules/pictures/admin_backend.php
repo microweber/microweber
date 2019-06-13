@@ -380,7 +380,7 @@ if (!isset($data["thumbnail"])) {
             }
 
         }
-        var uploader = mw.files.uploader({
+        var uploader = new mw.files.uploader({
             filetypes: "images",
             name: 'basic-images-uploader'
         });

@@ -58,6 +58,9 @@ if( $id != 0){
         var data = mw.form.serialize(selector)
 
         $.post( "<?php print api_link('content/menu_item_save'); ?>",data, function( msg ) {
+
+
+
             if(mw.notification != undefined){
                 mw.notification.success('<?php _e('Menu changes are saved'); ?>');
             }
@@ -78,7 +81,8 @@ if( $id != 0){
                 //	mw.reload_module_parent("#edit-menu_item_edit_wrap-"+mw.menu_curenlty_editing_item_id)
 
             }
-        }
+
+         }
 
     };
     mw.menu_item_delete = function($item_id){
