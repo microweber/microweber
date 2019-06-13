@@ -138,8 +138,8 @@ html[dir='rtl'] .posts-selector{
 }
 
 .image-item{
-  max-height: 50px;
-  max-width: 50px;
+  max-height: 70px;
+  max-width: 70px;
 }
 
 #progressbar .mw-ui-progress-small{

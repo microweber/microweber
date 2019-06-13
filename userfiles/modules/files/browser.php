@@ -122,8 +122,10 @@ $path_nav = explode(DS, $path);
         <?php if (isset($data['dirs'])): ?>
             <ul class="mw-browser-list">
                 <?php foreach ($data['dirs'] as $item): ?>
-                    <?php $dir_link = str_replace($path_restirct, '', $item); ?>
+                    <?php //$dir_link = str_replace($path_restirct, '', $item); ?>
+                    <?php $dir_link =  $item; ?>
                     <li>
+
                         <a title="<?php print basename($item) . '&#10;' . dirname($item); ?>"
                            href="#path=<?php print urlencode($dir_link); ?>">
                             <span class="mw-icon-category"></span>
@@ -147,7 +149,7 @@ $path_nav = explode(DS, $path);
                            onclick="mw.url.windowHashParam('select-file', '<?php print mw()->url_manager->link_to_file($item) ?>'); return false;">
                             <?php $ext = strtolower(get_file_extension($item)); ?>
                             <?php if ($ext == 'jpg' or $ext == 'png' or $ext == 'gif' or $ext == 'jpeg' or $ext == 'bmp'): ?>
-                                <img data-src="<?php print thumbnail(mw()->url_manager->link_to_file($item), 48, 48); ?>"
+                                <img data-src="<?php print thumbnail(mw()->url_manager->link_to_file($item), 150, 150); ?>"
                                      class="image-item image-item-not-ready"/>
                             <?php else: ?>
                                 <span class="mw-fileico mw-fileico-<?php print $ext; ?>"><?php print $ext; ?></span>

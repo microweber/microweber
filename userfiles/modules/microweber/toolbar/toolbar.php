@@ -44,7 +44,7 @@ if (isset($_COOKIE['mw_exp'])) {
         <script type="text/javascript">
             window.__onerror_alert_shown = false;
             window.onerror = function (msg, url, lineNo, columnNo, error) {
-                if (!msg.contains('ResizeObserver') && !window.__onerror_alert_shown) {
+                if ((typeof(msg) != 'undefined') && !msg.contains('ResizeObserver') && !window.__onerror_alert_shown) {
                     var string = msg.toLowerCase();
                     var substring = "script error";
                     if (string.indexOf(substring) > -1) {

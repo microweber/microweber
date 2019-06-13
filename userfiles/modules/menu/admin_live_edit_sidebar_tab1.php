@@ -219,13 +219,22 @@
                 $.post("<?php print api_link('content/menu_item_save'); ?>", data, function (msg) {
                     parent.mw.reload_module('menu');
                     mw.reload_module('menu/edit_items');
+
+
+                    //
+                    // var m = mw.$('#module-settings-' + curr.id)[0];
+                    // m.scrollIntoView();
+                    // mw.tools.highlight(m);
+
+
+
                 });
             })
         });
 
     });
 
-    if (typeof mw.menu_save_new_item !== 'function') {
+   /* if (typeof mw.menu_save_new_item !== 'function') {
         mw.menu_save_new_item = function (selector, no_reload) {
 
 
@@ -241,9 +250,15 @@
                     parent.mw.reload_module('menu');
                 }
                 menuSelectorInit();
+                alert(23231221);
+
+
+
+
+
             });
         }
-    }
+    }*/
 </script>
 <?php $menus = get_menus(); ?>
 <?php
