@@ -169,7 +169,7 @@ class FormsManager
 
 
         $email_autorespond = $this->app->option_manager->get('email_autorespond', $for_id);
-        if (!$email_bcc) {
+        if (!$email_autorespond) {
             $email_autorespond = $this->app->option_manager->get('email_autorespond', $default_mod_id);
         }
 
