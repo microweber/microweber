@@ -19,6 +19,24 @@ function get_field_size_class($field_size = false){
 	return $field_size; 
 }
 
+function get_default_field_size_option() {
+	
+	$css_framework = get_template_framework();
+	
+	if ($css_framework == 'mw-ui') {
+		return 'mw-flex-col-md-6';
+	}
+	
+	if ($css_framework == 'bootstrap3') {
+		return 'col-md-6';
+	}
+	
+	if ($css_framework == 'bootstrap4') {
+		return 'col-6';
+	}
+	
+}
+
 function get_field_size_options() {
 	
 	$css_framework = get_template_framework();
