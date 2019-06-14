@@ -617,8 +617,8 @@ class LayoutsManager
 
             if (isset($ref_page['id']) and isset($ref_page['content_type']) and $ref_page['content_type'] != 'page') {
                 $ref_page_parent = $this->app->content_manager->get_by_id(intval($ref_page['id']));
-                if (isset($ref_page_partent['parent']) and intval($ref_page_partent['parent']) != 0) {
-                    $ref_page = $this->app->content_manager->get_by_id(intval($ref_page_partent['id']));
+                if (isset($ref_page_partent['parent']) and intval($ref_page_parent['parent']) != 0) {
+                    $ref_page = $this->app->content_manager->get_by_id(intval($ref_page_parent['id']));
                 } else {
                     $ref_page_parents = $this->app->content_manager->get_parents(intval($ref_page['id']));
                     if (!empty($ref_page_parents)) {
@@ -725,14 +725,14 @@ class LayoutsManager
                                 $props = explode(',', $item['property']);
 
                                 foreach ($props as $prop) {
-                                    $curr .= $prop . ' ' . $item['value'] . ';'."\n";
+                                    $curr .= $prop . ' ' . $item['value'] . ';' . "\n";
                                 }
                             } else {
                                 $props = explode(',', $item['property']);
                                 $curr = '';
                                 foreach ($props as $prop) {
                                     if (isset($item['value']) and trim($item['value']) != '') {
-                                        $curr .= $prop . ':' . $item['value'] . ';'."\n";
+                                        $curr .= $prop . ':' . $item['value'] . ';' . "\n";
                                     }
                                 }
                             }
@@ -741,9 +741,20 @@ class LayoutsManager
                             }
                         }
                     } else {
-                        if(isset($item['css'])){
 
-                        $props = explode(';', $item['css']);
+                        if (!isset($item['css']) and !isset($item['selector'])) {
+                            $find_css = $this->__array_search_key('css', $item);
+                            $find_selector = $this->__array_search_key('selector', $item);
+                            if ($find_css and $find_selector) {
+                                $item['css'] = $find_css;
+                                $item['selector'] = $find_selector;
+                            }
+
+                        }
+ 
+                        if (isset($item['css'])) {
+
+                            $props = explode(';', $item['css']);
                             $curr = '';
                             $css_props = array();
                             foreach ($props as $prop) {
@@ -760,14 +771,14 @@ class LayoutsManager
                             $curr = '';
                             if ($css_props) {
                                 foreach ($css_props as $prop_k => $prop_v) {
-                                    $curr .= $prop_k . ':' . $prop_v . '; '."\n";
+                                    $curr .= $prop_k . ':' . $prop_v . '; ' . "\n";
                                 }
                             }
                             if ($curr != '') {
                                 $item['css'] = $curr;
                             }
                         }
-                     }
+                    }
 
                     if (isset($item['selector']) and trim($item['selector']) != '' and isset($item['css'])) {
                         $item['selector'] = str_ireplace('.element-current', '', $item['selector']);
@@ -833,5 +844,18 @@ class LayoutsManager
         $this->external_layouts[] = ($arr);
 
         return $this->external_layouts;
+    }
+
+
+    private function __array_search_key($needle_key, $array)
+    {
+        foreach ($array AS $key => $value) {
+            if ($key == $needle_key) return $value;
+            if (is_array($value)) {
+                if (($result = $this->__array_search_key($needle_key, $value)) !== false)
+                    return $result;
+            }
+        }
+        return false;
     }
 }
