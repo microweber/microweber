@@ -30,6 +30,9 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
     <?php print $data['name'] ?>
     <?php else : ?>
     <?php endif; ?>
+    <?php if (isset($data['options']) == true and isset($data['options']["required"]) == true): ?>  
+  <span style="color:red;">*</span>
+  <?php endif; ?>
   </label>
 <input type="text"
          <?php if ($is_required): ?> required="true"  <?php endif; ?>

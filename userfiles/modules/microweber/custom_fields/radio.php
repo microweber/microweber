@@ -32,7 +32,12 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
 
 <div class="mw-ui-field-holder">  
 
-<div class="mw-ui-label"><?php print $data["name"]; ?></div>
+<div class="mw-ui-label"><?php print $data["name"]; ?>
+
+	<?php if (isset($data['options']) == true and isset($data['options']["required"]) == true): ?>  
+	<span style="color:red;">*</span>
+	<?php endif; ?>
+</div>
 
 
     <?php $i = 0; foreach($data['values'] as $v):  ?>
