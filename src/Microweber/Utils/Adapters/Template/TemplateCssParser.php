@@ -14,6 +14,10 @@ class TemplateCssParser
 
     public function getStylesheet($lessFilePath, $optionGroupName = false, $cache = true) {
     	
+    	if(config('microweber.developer_mode')) {
+    		$cache = false;	
+    	}
+    	
     	$themeFolderName = $this->app->template->folder_name();
     	
     	if (!$optionGroupName) {
