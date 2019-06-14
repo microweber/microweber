@@ -125,13 +125,13 @@ mw.custom_fields = {
 
     autoSaveOnWriting: function (el, id) {
         return false;
-        mw.on.stopWriting(el, function () {
+        /*mw.on.stopWriting(el, function () {
             this.save_form(id, function () {
                 if (typeof __sort_fields === 'function') {
                     // __sort_fields();
                 }
             });
-        });
+        });*/
     },
 
     add: function (el) {

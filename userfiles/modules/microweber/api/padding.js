@@ -50,6 +50,14 @@
                 mw.liveEditSelector.active(true);
                 $('html').removeClass('paddding-control-start');
             });
+            mw.event.windowLeave(function (e) {
+                scope._paddingTopDown = false;
+                scope._paddingBottomDown = false;
+                scope._working = false;
+                $(scope._info).removeClass('active');
+                mw.liveEditSelector.active(true);
+                $('html').removeClass('paddding-control-start');
+            });
             $(document.body).on('mousemove', function(e){
                 var isDown = e.pageY < scope._pageY;
                 var inc = 5;

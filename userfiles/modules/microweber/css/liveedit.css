@@ -2073,6 +2073,7 @@ img[_moz_resizing], table[_moz_resizing] {
     outline: 0px none;
 }
 
+.isTyping .mw-padding-ctrl,
 .isTyping .mw-selector{
     display: none;
 }
@@ -3762,7 +3763,7 @@ body {
     color: #000;
 }
 
-body.isTyping .mw-cloneable-control-item {
+body.isTyping .mw-cloneable-control {
     display: none;
 }
 

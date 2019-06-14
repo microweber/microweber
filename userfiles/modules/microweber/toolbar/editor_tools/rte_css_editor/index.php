@@ -231,7 +231,7 @@ var init = function(){
         var el = this;
         mw.colorPicker({
             element:this,
-            position:'bottom-center',
+            position:'bottom-right',
             onchange:function(color){
                 if(el.dataset.prop) {
                     output(el.dataset.prop, color);
@@ -250,6 +250,10 @@ var init = function(){
         output(this.dataset.prop, this.value)
     });
 
+    $("#background-remove").on("click", function () {
+        $('.background-preview').css('backgroundImage', 'none');
+        output('backgroundImage', 'none')
+    })
     $("#background-select-item").on("click", function () {
         mw.fileWindow({
             types: 'images',
@@ -524,6 +528,7 @@ top.$(top.mw.liveEditSelector).on('select', function(e, nodes){
             <div class="s-field-content">
                 <span class="background-preview"></span>
                 <span class="mw-ui-btn mw-ui-btn-medium" id="background-select-item">Image</span>
+                <span id="background-remove"><span class="mw-icon-close"></span></span>
             </div>
         </div>
         <div class="s-field">
