@@ -183,8 +183,16 @@ if ($id != 0) {
 
     <div  class="mw-ui-field-holder">
         <label class="mw-ui-label">Target attribute <small class="mw-help" data-help="Target "> (?)</small></label>
-        <input type="text" class="mw-ui-field" name="url_target" value="<?php print $data['url_target'] ?>"/>
-
+        
+        <select class="mw-ui-field" name="url_target">
+        <?php 
+        $attributeValues = explode("|", "_blank|_self|_parent|_top|framename");
+        foreach ($attributeValues as $attributeValue):
+        ?>
+       	<option value="<?php echo $attributeValue; ?>" <?php if($data['url_target'] == $attributeValue):?>selected="selected"<?php endif; ?>><?php echo $attributeValue; ?></option>
+        <?php endforeach; ?>
+		</select>
+		
     </div>
 
 
