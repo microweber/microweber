@@ -5,6 +5,7 @@ event_bind(
     'mw.admin.sidebar.li.1', function ($item) {
     if (mw()->ui->disable_marketplace != true) {
         $packages = __mw_get_packages_that_has_updates('microweber/core-update');
+
         if ($packages) {
             print '<module type="updates/admin_sidebar_btn" no_wrap="true" class="mw-lazy-load-module"></module>';
         }
@@ -26,12 +27,14 @@ function __mw_get_packages_that_has_updates($package_name=false)
     $cache_group = 'update';
 
 
+    $last_check = mw()->update->composer_search_packages($search_params);
+   /* dd($last_check);
 
     $last_check = cache_get($cache_id, $cache_group, 3600);
     if (!$last_check) {
         $last_check = mw()->update->composer_search_packages($search_params);
         cache_save($last_check, $cache_id, $cache_group);
-    }
+    }*/
     return $last_check;
 
 }

@@ -741,28 +741,31 @@ class LayoutsManager
                             }
                         }
                     } else {
+                        if(isset($item['css'])){
+
                         $props = explode(';', $item['css']);
-                        $curr = '';
-                        $css_props = array();
-                        foreach ($props as $prop) {
+                            $curr = '';
+                            $css_props = array();
+                            foreach ($props as $prop) {
 
-                            $prop_key = substr($prop, 0, strpos($prop, ':'));
-                            $prop_val = substr($prop, strpos($prop, ':') + 1, 9999);
-                            $prop_key = trim($prop_key);
-                            $prop_val = trim($prop_val);
-                            if ($prop_key and $prop_val) {
-                                $css_props[$prop_key] = $prop_val;
-                            }
+                                $prop_key = substr($prop, 0, strpos($prop, ':'));
+                                $prop_val = substr($prop, strpos($prop, ':') + 1, 9999);
+                                $prop_key = trim($prop_key);
+                                $prop_val = trim($prop_val);
+                                if ($prop_key and $prop_val) {
+                                    $css_props[$prop_key] = $prop_val;
+                                }
 
-                        }
-                        $curr = '';
-                        if ($css_props) {
-                            foreach ($css_props as $prop_k => $prop_v) {
-                                $curr .= $prop_k . ':' . $prop_v . '; '."\n";
                             }
-                        }
-                        if ($curr != '') {
-                            $item['css'] = $curr;
+                            $curr = '';
+                            if ($css_props) {
+                                foreach ($css_props as $prop_k => $prop_v) {
+                                    $curr .= $prop_k . ':' . $prop_v . '; '."\n";
+                                }
+                            }
+                            if ($curr != '') {
+                                $item['css'] = $curr;
+                            }
                         }
                      }
 
