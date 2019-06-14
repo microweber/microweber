@@ -297,7 +297,7 @@ class Modules
                             } else {
                                 $config['installed'] = 'auto';
                                 $tablesData = false;
-                                $schemaFileName = $moduleDir . 'schema.json';
+                                $schemaFileName = modules_path() . $moduleDir . '/schema.json';
                                 if (isset($config['tables']) && is_array($config['tables']) && !empty($config['tables'])) {
                                     $tablesData = $config['tables'];
                                 } elseif (isset($config['tables']) && is_callable($config['tables'])) {
