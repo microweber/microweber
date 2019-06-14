@@ -56,8 +56,8 @@
     "doctrine/dbal": "2.5.3",
     "microweber-templates/dream": "1.*",
     "microweber-templates/liteness": "1.*",
-    "microweber-deps/recurr": "dev-master",
-    "microweber-deps/laravel-tagging": "dev-laravel-5",
+    "microweber-deps/recurr": "~3.1",
+    "microweber-deps/laravel-tagging": "~2.2",
     "oyejorge/less.php": "1.*",
     "aws/aws-sdk-php": "^3.0@dev"
   },

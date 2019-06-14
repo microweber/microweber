@@ -18,7 +18,11 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
 ?>
 
 <div class="control-group form-group">
-  <label class="mw-ui-label" ><?php print $data["name"]; ?></label>
+  <label class="mw-ui-label" ><?php print $data["name"]; ?>
+	<?php if (isset($data['options']) == true and isset($data['options']["required"]) == true): ?>  
+	<span style="color:red;">*</span>
+	<?php endif; ?> 
+  </label>
 
     <input type="url"
         <?php if ($is_required): ?> required="true"  <?php endif; ?>

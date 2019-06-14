@@ -144,8 +144,9 @@ if (array_key_exists('types', $_GET)) {
 
                 parent[hash](GlobalEmbed)
             }
-
-            parent.mw.trigger('imageSrcChanged', [parent.mw.image.currentResizing[0], this])
+            if(parent.mw.image.currentResizing && parent.mw.image.currentResizing[0]) {
+                parent.mw.trigger('imageSrcChanged', [parent.mw.image.currentResizing[0], this]);
+            }
 
             parent.mw.tools.modal.remove('mw_rte_image');
 

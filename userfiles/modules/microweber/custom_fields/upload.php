@@ -23,7 +23,12 @@ if(!isset($data['input_class'])){
 ?>
 
 <div class="control-group form-group">
-  <label class="mw-ui-label"><?php print $data["name"]; ?></label>
+  <label class="mw-ui-label"><?php print $data["name"]; ?>
+  
+  <?php if (isset($data['options']) == true and isset($data['options']["required"]) == true): ?>  
+  <span style="color:red;">*</span>
+  <?php endif; ?>
+  </label>
   <div class="relative inline-block mw-custom-field-upload" id="upload_<?php print($rand); ?>">
     <div class="mw-ui-row-nodrop">
       <div class="mw-ui-col" style="width: auto">

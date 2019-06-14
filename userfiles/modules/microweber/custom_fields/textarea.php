@@ -12,6 +12,9 @@ if(!isset($data['input_class'])){
     <?php print $data['name'] ?>
     <?php else : ?>
     <?php endif; ?>
+  <?php if (isset($data['options']) == true and isset($data['options']["required"]) == true): ?>  
+  <span style="color:red;">*</span>
+  <?php endif; ?>
   </label>
   <?php if(isset($data['help']) == true and $data['help'] != ''): ?>
   <br />

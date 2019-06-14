@@ -3391,14 +3391,26 @@ mw.tools = {
         if (node.nodeName === 'BODY') {
             return 'body';
         }
-        if (node.id != '') {
+        if (!!node.id) {
             return '#' + node.id;
         }
-        var ___final = node.className != '' ? '.' + node.className.trim().split(' ').join('.') : node.nodeName.toLocaleLowerCase();
-        ___final = ___final.replace(/\.\./g, '.');
+        if(mw.tools.hasClass(node, 'edit')){
+            var field = node.getAttribute('field');
+            var rel = node.getAttribute('rel');
+            if(field && rel){
+                return '.edit[field="'+field+'"][rel="'+rel+'"]';
+            }
+        }
+        var filter = function(item) {
+            return item !== 'changed';
+        };
+        var _final = node.className != '' ? '.' + node.className.trim().split(' ').filter(filter).join('.') : node.nodeName.toLocaleLowerCase();
+
+
+        _final = _final.replace(/\.\./g, '.');
         mw.tools.foreachParents(node, function (loop) {
             if (this.id != '') {
-                ___final = '#' + this.id + ' > ' + ___final;
+                _final = '#' + this.id + ' > ' + _final;
                 mw.tools.stopLoop(loop);
                 return false
             }
@@ -3408,9 +3420,9 @@ mw.tools = {
             else {
                 var n = this.nodeName.toLocaleLowerCase();
             }
-            ___final = n + ' > ' + ___final;
+            _final = n + ' > ' + _final;
         });
-        return ___final;
+        return _final;
     },
     cloneObject: function (r) {
         var a = {}, i;

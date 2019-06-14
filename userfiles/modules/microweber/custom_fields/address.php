@@ -65,7 +65,13 @@ if (isset($data['options']) and is_array($data['options']) and !empty($data['opt
     <div>
         <?php if (isset($data['name']) == true and $data['name'] != ''): ?>
             <?php if ($show_label): ?>
-                <label class="mw-ui-label mw-address-label"><?php _e($data['name']) ?></label>
+                <label class="mw-ui-label mw-address-label"><?php _e($data['name']) ?>
+                
+                <?php if (isset($data['options']) == true && in_array('required', $data['options'])): ?>  
+					<span style="color:red;">*</span>
+					<?php endif; ?>
+                
+                </label>
             <?php endif; ?>
         <?php elseif (isset($data['name']) == true and $data['name'] != ''): ?>
         <?php else : ?>
@@ -87,7 +93,13 @@ if (isset($data['options']) and is_array($data['options']) and !empty($data['opt
                 }
                 ?>
                 <div class="mw-ui-field-holder control-group form-group">
-                    <label class="mw-ui-label mw-ui-label-address-custom-field"><?php _e($kv); ?></label>
+                    <label class="mw-ui-label mw-ui-label-address-custom-field"><?php _e($kv); ?>
+                    
+                    <?php if (isset($data['options']) == true && in_array('required', $data['options'])): ?>  
+					<span style="color:red;">*</span>
+					<?php endif; ?>
+                    
+                    </label>
 
                     <?php if ($k == 'country')  : ?>
                         <?php $countries_all = mw()->forms_manager->countries_list(); ?>
