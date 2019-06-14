@@ -481,7 +481,7 @@ class FormsManager
                 if (!empty($user_mails)) {
                     array_unique($user_mails);
                     $sender = new \Microweber\Utils\MailSender();
-                //    $sender->silent_exceptions = true;
+                    $sender->silent_exceptions = true;
                     foreach ($user_mails as $value) {
                         if ($value == $email_to || $value == $email_bcc) {
                             $msg = $notif['content'];
@@ -507,8 +507,8 @@ class FormsManager
 
         $success = array();
         $success['success'] = _e('Your message has been sent', true);
-        if ($email_redirect_after_submit and $user_mails) {
-      //      $success['redirect'] = $email_redirect_after_submit;
+        if ($email_redirect_after_submit ) {
+            $success['redirect'] = $email_redirect_after_submit;
         }
         return $success;
 
