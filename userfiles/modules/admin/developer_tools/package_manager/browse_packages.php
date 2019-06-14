@@ -125,6 +125,13 @@ if (isset($packages_by_type['microweber-core-update']) and !empty($packages_by_t
 
 <div class="admin-side-content" style="max-width: 90%">
     <div id="mw-packages-browser-nav-tabs-nav" class="mw-flex-row">
+
+
+        <?php if ($packages_by_type) : ?>
+
+
+
+
         <div class="mw-flex-col-xs-12 mw-flex-col-md-4 mw-flex-col-lg-2">
             <div class="mw-ui-col-container">
                 <ul class="mw-ui-box mw-ui-navigation" id="nav">
@@ -146,6 +153,13 @@ if (isset($packages_by_type['microweber-core-update']) and !empty($packages_by_t
                 </ul>
             </div>
         </div>
+
+        <?php endif; ?>
+
+
+
+
+
 
         <div class="mw-flex-col-xs-12 mw-flex-col-md-8 mw-flex-col-lg-10">
 
@@ -179,6 +193,11 @@ if (isset($packages_by_type['microweber-core-update']) and !empty($packages_by_t
 
 
                 <div class="mw-ui-box" style="width: 100%; padding: 12px 0;">
+
+
+
+
+
                     <?php if ($packages_by_type) : ?>
                         <?php foreach ($packages_by_type as $pkkey => $pkitems): ?>
                             <div class="mw-ui-box-content tab">
@@ -200,6 +219,12 @@ if (isset($packages_by_type['microweber-core-update']) and !empty($packages_by_t
                                 <?php endif; ?>
                             </div>
                         <?php endforeach; ?>
+
+                    <?php else: ?>
+                    <div class="mw-ui-box-content tab">
+                        No packages found.
+
+                    </div>
                     <?php endif; ?>
                 </div>
             </div>

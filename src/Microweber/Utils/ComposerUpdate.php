@@ -41,7 +41,9 @@ class ComposerUpdate
             $composer_path = normalize_path(base_path() . '/', false);
         }
         $this->composer_home = $composer_path;
-        putenv('COMPOSER_HOME=' . $composer_path);
+        if (php_can_use_func('putenv')) {
+            putenv('COMPOSER_HOME=' . $composer_path);
+        }
     }
 
     public function run($config_params = array())
@@ -217,24 +219,24 @@ class ComposerUpdate
 
                             $is_found_on_local = true;
                             $local_packages_type = false;
-                            $local_packages_type = 'core';
+                            //     $local_packages_type = 'core';
 
                             break;
                     }
 
-                   // dd($packages);
+                    // dd($packages);
 
                     $package_update_found = false;
 
                     if ($package_folder and $local_packages_type) {
 
-                        if($local_packages_type == 'core'){
-                            $v1 = trim($package['latest_version']['version']);
-                            $v2 = trim(MW_VERSION);
-                            $has_update = Comparator::greaterThan($v1, $v2);
-
-                          //  dd($packages, $has_update);
-                        }
+//                        if ($local_packages_type == 'core') {
+//                            $v1 = trim($package['latest_version']['version']);
+//                            $v2 = trim(MW_VERSION);
+//                            $has_update = Comparator::equalTo($v1, $v2);
+//
+//                            dd($packages, $has_update);
+//                        }
 
 
                         if (isset($local_packages[$local_packages_type]) and is_array($local_packages[$local_packages_type])) {
@@ -258,14 +260,16 @@ class ComposerUpdate
                                         if (isset($package['latest_version']) and isset($package['latest_version']['version']) and isset($local_package_item['version'])) {
                                             $v1 = trim($package['latest_version']['version']);
                                             $v2 = trim($local_package_item['version']);
-                                            $has_update = Comparator::greaterThan($v1, $v2);
 
-                                            if ($has_update) {
-                                                $package_update_found = true;
-                                                $package['has_update'] = true;
+                                            if ($v1 != $v2) {
 
+                                                $has_update = Comparator::greaterThan($v1, $v2);
+
+                                                if ($has_update) {
+                                                    $package_update_found = true;
+                                                    $package['has_update'] = true;
+                                                }
                                             }
-
                                         }
 
 

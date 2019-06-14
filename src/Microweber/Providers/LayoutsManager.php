@@ -751,7 +751,7 @@ class LayoutsManager
                             }
 
                         }
- 
+
                         if (isset($item['css'])) {
 
                             $props = explode(';', $item['css']);
