@@ -33,7 +33,9 @@ var activeTree = function(){
             return false;
         }
         if(node.parentNode.id){
-            return node.parentNode
+            return node.parentNode;
+        } else  if(mw.tools.hasClass(node.parentNode, 'edit')){
+            return node.parentNode;
         } else {
             return getParent(node.parentNode);
         }

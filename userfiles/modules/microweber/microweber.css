@@ -470,6 +470,9 @@ body.Resizing .mwembed:after {
     width: 100%;
     height: 100%;
 }
+.mw-uploader iframe{
+    min-height: 100%;
+}
 
 .notransition {
     -webkit-transition: none !important;
