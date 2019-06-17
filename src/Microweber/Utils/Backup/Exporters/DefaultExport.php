@@ -14,9 +14,10 @@ class DefaultExport implements ExportInterface
 		if (!empty($data)) {
 			array_walk_recursive($data, function (&$element) {
 				if (is_string($element)) {
-					$element = utf8_decode($element);
-					$element = str_replace('Ã‚ ', ' ', $element);
-					$element = str_replace("Ã‚ ", ' ', $element);
+					$utf8Chars = explode(' ', 'À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö');
+					foreach ($utf8Chars as $char) {
+						$element = str_replace($char, '', $element);
+					}
 				}
 			});
 		}
