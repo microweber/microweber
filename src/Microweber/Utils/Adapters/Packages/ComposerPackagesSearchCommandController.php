@@ -20,7 +20,7 @@ use Composer\Installer;
 use Composer\Package\CompletePackageInterface;
 use Composer\Package\Link;
 use Composer\Package\PackageInterface;
-use Composer\Repository\CompositeRepository;
+//use Composer\Repository\CompositeRepository;
 use Composer\Repository\PlatformRepository;
 use Composer\Repository\RepositoryInterface;
 
@@ -29,11 +29,13 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Composer\Downloader\TransportException;
+use Symfony\Component\Debug\Exception\FatalErrorException;
 use Composer\Plugin\CommandEvent;
 use Composer\Plugin\PluginEvents;
 use Microweber\Utils\Adapters\Packages\PackageManagerException;
 
 use Microweber\Utils\Adapters\Packages\Helpers\ComposerAbstractController;
+use Microweber\Utils\Adapters\Packages\Helpers\CompositeRepository;
 
 class ComposerPackagesSearchCommandController extends ComposerAbstractController
 {
@@ -96,14 +98,32 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
 
 
 
-        $repositoryManager = $this->getRepositoryManager();
+
+         $repositoryManager = $this->getRepositoryManager();
+
+//        $repositoryManager->setRepositoryClass('composer', 'Microweber\Utils\Adapters\Packages\Helpers\ComposerRepository');
+//        $repositoryManager->setRepositoryClass('package', 'Microweber\Utils\Adapters\Packages\Helpers\PackageRepository');
+//
+
+
+
+    //    dd($repositoryManager);
+
 
         $platformRepo = new PlatformRepository;
+
+
         $localRepository = $repositoryManager->getLocalRepository();
         $installedRepository = new CompositeRepository(
             array($localRepository, $platformRepo)
         );
         $known_repos = $known_repos_orig = $repositoryManager->getRepositories();
+
+
+
+
+
+
 
         $errors = array();
         $removed_repos = array();
@@ -113,12 +133,20 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
 
         do {
             try {
+//                $repositories = new CompositeRepository(
+//                    array_merge(
+//                        array($installedRepository),
+//                        $known_repos
+//                    )
+//                );
+
                 $repositories = new CompositeRepository(
                     array_merge(
-                        array($installedRepository),
+                        array($localRepository, $platformRepo),
                         $known_repos
                     )
                 );
+
                 $results = $this->_trySearch($repositories, $tokens, $searchIn);
                 $has_error = false;
                 if ($results) {
