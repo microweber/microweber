@@ -167,7 +167,7 @@ class ComposerUpdate
             $config->merge($composer_temp);
         }
 
-        //  dd($config->raw());
+       //  dd($config->raw());
 
 
         $composer = Factory::create($io);
@@ -182,6 +182,8 @@ class ComposerUpdate
         $packages->setComposer($composer);
 
         $return = $packages->handle($keyword);
+
+
 
 
         $return_found = array();
@@ -219,25 +221,33 @@ class ComposerUpdate
 
                             $is_found_on_local = true;
                             $local_packages_type = false;
-                            //     $local_packages_type = 'core';
+                                $local_packages_type = 'core';
 
                             break;
                     }
+
+
+                    if ($local_packages_type == 'core') {
+                        $v1 = trim($package['latest_version']['version']);
+                        $v2 = trim(MW_VERSION);
+                        $has_update = Comparator::equalTo($v1, $v2);
+                        if($has_update){
+                            $package['has_update'] = true;
+                            $return_packages_with_updates[$pk] = $package;
+
+                            //  dd($package);
+                        }
+
+                        // dd($packages, $has_update);
+                    }
+
+
 
                     // dd($packages);
 
                     $package_update_found = false;
 
                     if ($package_folder and $local_packages_type) {
-
-//                        if ($local_packages_type == 'core') {
-//                            $v1 = trim($package['latest_version']['version']);
-//                            $v2 = trim(MW_VERSION);
-//                            $has_update = Comparator::equalTo($v1, $v2);
-//
-//                            dd($packages, $has_update);
-//                        }
-
 
                         if (isset($local_packages[$local_packages_type]) and is_array($local_packages[$local_packages_type])) {
                             foreach ($local_packages[$local_packages_type] as $lpk => $local_package_item) {

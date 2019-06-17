@@ -20,7 +20,7 @@ function __mw_get_packages_that_has_updates($package_name=false)
 
     $search_params = array('return_only_updates' => true);
     if($package_name){
-        $search_params['keyword'] = $package_name;
+       $search_params['keyword'] = $package_name;
     }
 
     $cache_id = 'mw_update_check_auto_update_check'.crc32($package_name);
@@ -28,6 +28,10 @@ function __mw_get_packages_that_has_updates($package_name=false)
 
 
     $last_check = mw()->update->composer_search_packages($search_params);
+
+
+
+
    /* dd($last_check);
 
     $last_check = cache_get($cache_id, $cache_group, 3600);
