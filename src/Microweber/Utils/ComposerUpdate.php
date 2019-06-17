@@ -125,6 +125,8 @@ class ComposerUpdate
 
         if (isset($params['require_name']) and $params['require_name']) {
             $keyword = trim($params['require_name']);
+        } else if (isset($params['keyword']) and $params['keyword']) {
+            $keyword = trim($params['keyword']);
         }
 
         if (isset($params['require_version']) and $params['require_version']) {
@@ -175,11 +177,32 @@ class ComposerUpdate
         $composer->setConfig($config);
 
 
+
+
+        $repositoryManager = $composer->getRepositoryManager();
+
+       // dd($repositoryManager);
+//
+//
+//        $repositoryManager->setRepositoryClass('composer', 'Microweber\Utils\Adapters\Packages\Helpers\ComposerRepository');
+//        $repositoryManager->setRepositoryClass('package', 'Microweber\Utils\Adapters\Packages\Helpers\PackageRepository');
+//
+//
+//
+//
+//
+
+
+
+
+
         $packages = new ComposerPackagesSearchCommandController();
         $packages->setIo($io);
+
         $packages->setConfigPathname($conf);
         $packages->setDisableNonActiveReposInComposer(true);
         $packages->setComposer($composer);
+
 
         $return = $packages->handle($keyword);
 
