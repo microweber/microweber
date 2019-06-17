@@ -79,7 +79,6 @@ mw.Selector = function(options) {
         }
     };
     this.showItem = function(item){
-        item.active = true;
         for (var x in item) {
             if(typeof item[x] === 'boolean' || !item[x].className || item[x].className.indexOf('mw-selector') === -1) continue;
             item[x].style.visibility = 'visible';

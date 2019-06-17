@@ -66,10 +66,7 @@ $(document).ready(function() {
         if(target.id){
             mw.liveEditSelector.active(true);
             mw.liveEditSelector.setItem(target, mw.liveEditSelector.interactors);
-        } else {
-            mw.liveEditSelector.unsetItem(target);
         }
-
     });
 
     mw.on("ImageClick ElementClick ModuleClick", function(e, el, originalEvent){
