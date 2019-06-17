@@ -1,7 +1,7 @@
 <?php 
 
 if (!isset($params['content-type'])) {
-return;	
+	return;	
 }
 
 $template_config = mw()->template->get_config();
@@ -46,6 +46,8 @@ if(!empty($template_config)){
         <label class="mw-ui-label"> <?php print $title; ?> </label>
         <?php if($type=='textarea') { ?>
         <textarea name="data_<?php print $name; ?>" class="mw-ui-field w100" placeholder="<?php print $default_value ?>"><?php print $value ?></textarea>
+         <?php } else if($type=='color') { ?>
+         <input name="data_<?php print $name; ?>" class="mw-ui-field mw-ui-color-picker w100" type="text" placeholder="<?php print $default_value ?>" value="<?php print $value ?>">
         <?php } else { ?>
         <input name="data_<?php print $name; ?>" class="mw-ui-field w100" type="text" placeholder="<?php print $default_value ?>" value="<?php print $value ?>">
         <?php } ?>

@@ -321,3 +321,15 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
         <?php event_trigger('content/views/advanced_settings', $data); ?>
     </div>
 </div>
+
+<script>
+$(document).ready(function () {
+	pick1 = mw.colorPicker({
+		element: '.mw-ui-color-picker',
+		position: 'bottom-left',
+		onchange: function (color) {
+			// 
+		}
+	});
+});
+</script>
