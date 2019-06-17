@@ -4925,9 +4925,9 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     opacity: 1;
 }
 
-html.paddding-control-start .mw_image_resizer,
-html.paddding-control-start .mw-cloneable-control,
-html.paddding-control-start .mw-handle-item{
+html.padding-control-start .mw_image_resizer,
+html.padding-control-start .mw-cloneable-control,
+html.padding-control-start .mw-handle-item{
     display: none !important;
 }
 
