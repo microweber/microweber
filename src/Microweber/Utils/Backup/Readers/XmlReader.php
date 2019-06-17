@@ -23,7 +23,7 @@ class XmlReader extends DefaultReader
 		foreach ($xml['channel']['item'] as $item) {
 
 			$readyContent = array();
-			$readyContent['title'] = $item['title'];
+			$readyContent['title'] = $item['title'];  
 			$readyContent['id'] = $i;
 			$readyContent['content_type'] = 'post';
 			$readyContent['subtype'] = 'post';
