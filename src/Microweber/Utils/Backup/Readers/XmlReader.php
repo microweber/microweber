@@ -1,6 +1,8 @@
 <?php
 namespace Microweber\Utils\Backup\Readers;
 
+use Microweber\Providers\UrlManager;
+
 class XmlReader extends DefaultReader
 {
 
@@ -22,13 +24,19 @@ class XmlReader extends DefaultReader
 		$i = 0;
 		foreach ($xml['channel']['item'] as $item) {
 
+			$urlManager = new UrlManager(); 
+			
 			$readyContent = array();
 			$readyContent['title'] = $item['title'];  
+			$readyContent['url'] = $urlManager->slug($item['title']);
 			$readyContent['id'] = $i;
 			$readyContent['content_type'] = 'post';
 			$readyContent['subtype'] = 'post';
 			$readyContent['is_active'] = 1;
-			$readyContent['content'] = ''; // $item['description'];
+			
+			if (isset($item['description']) && !empty($item['description'])) {
+				$readyContent['content'] = $item['description'];
+			}
 
 			$categories = array();
 			$tags = array();
@@ -46,6 +54,10 @@ class XmlReader extends DefaultReader
 					}
 				}
 			}
+			
+			foreach ($item['category'] as $category) {
+				$categories[] = $category;
+			}
 
 			$tags = implode(', ', $tags);
 			if (! empty($tags)) {
@@ -53,10 +65,10 @@ class XmlReader extends DefaultReader
 			}
 
 			$categories = implode(', ', $categories);
-			if (! empty($tags)) {
-				$readyContent['categories'] = $categories;
+			if (! empty($categories)) {
+				$readyContent['category'] = $categories;
 			}
-
+			
 			$content[] = $readyContent;
 			$i ++;
 		}

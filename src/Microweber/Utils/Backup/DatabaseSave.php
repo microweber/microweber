@@ -16,10 +16,21 @@ class DatabaseSave
 		$tableData['skip_cache'] = true;
 		$tableData['allow_html'] = true;
 		$tableData['allow_scripts'] = true;
-
+		$tableData['extended_save'] = true;
+		
 		$tableData = self::_fixContentEncoding($tableData);
 
-		return db_save($table, $tableData);
+		
+		/* var_dump($tableData);
+		var_dump(save_content($tableData));
+		
+		 */
+		if ($table == 'content') {
+			return save_content($tableData);
+		} else {
+			return db_save($table, $tableData);
+		}
+		
 	}
 
 	/**
