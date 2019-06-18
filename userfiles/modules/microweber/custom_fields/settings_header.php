@@ -1,5 +1,7 @@
 <?php
 
+
+ 
 only_admin_access();
 
 $rand = rand();
@@ -8,7 +10,10 @@ $rand = rand();
 $data_orig = $data;
 //$rand = round($rand);
 
-$add_remove_controls = '' .
+ if ((isset($_REQUEST['field_id']) and ($_REQUEST['field_id']) )) {
+	$data_orig['field_id'] = $_REQUEST['field_id'];
+}
+ $add_remove_controls = '' .
     '<span class="mw-icon-plus" onclick="mw.custom_fields.add(this);" title="' . _e("Add", true) . '"></span>' .
     '<span class="mw-icon-close" onclick="mw.custom_fields.remove(this);mw.custom_fields.save(\'custom_fields_edit' . $rand . '\');" title="' . _e("Remove", true) . '"></span>' .
     '<span class="mw-icon-drag custom-fields-handle-field" title="' . _e("Move", true) . '"></span>';
@@ -29,6 +34,7 @@ if (intval($settings) == 2) {
 $hidden_class = ' mw-hide ';
 $is_for_module = mw()->url_manager->param('for_module_id', 1);
 $for = mw()->url_manager->param('for', 1);
+
 
 if (!empty($params)) {
 
@@ -74,6 +80,10 @@ if (isset($data['type'])) {
 
 if (!isset($data['type'])) {
     $data['type'] = $field_type;
+}
+
+if (isset($data['type'])) {
+	$field_type = $data['type'];
 }
 
 if ($data['name'] == '') {
@@ -199,9 +209,21 @@ if ($for == false) {
 
 
 <div class="mw-field-type-<?php print trim($field_type) ?>" id="custom_fields_edit<?php print $rand; ?>">
-    <?php if (isset($data['id']) and intval($data['id']) != 0): ?>
-        <input type="hidden" name="cf_id" value="<?php print intval($data['id']) ?>"/>
+    <?php if (isset($data['id']) and ($data['id']) != 0): ?>
+        <input type="hidden" name="cf_id" value="<?php print ($data['id']) ?>"/>
     <?php endif; ?>
+     
+     <?php  
+   
+     if (isset($data_orig['field_id']) and ($data_orig['field_id']) ): ?>
+         <input type="hidden" name="cf_id" value="<?php print ($data_orig['field_id']) ?>"/>
+    <?php endif; ?>
+    
+    
+    
+    
+ 
+    
     <?php if (isset($data['for']) and $data['for'] != false): ?>
         <?php $db_t = $for; ?>
         <input type="hidden" name="rel" value="<?php print ($db_t); ?>"/>
