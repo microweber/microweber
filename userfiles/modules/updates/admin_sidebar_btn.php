@@ -10,8 +10,11 @@ $package_name='microweber';
 //
 //}
 
-$check = __mw_get_packages_that_has_updates($package_name);
- var_dump($check);
+
+
+
+$check = __mw_check_core_system_update();
+// var_dump($check);
 if($check and is_array($check)){
     ?>
 
