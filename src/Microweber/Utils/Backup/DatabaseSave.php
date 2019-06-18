@@ -20,11 +20,6 @@ class DatabaseSave
 		
 		$tableData = self::_fixContentEncoding($tableData);
 
-		
-		/* var_dump($tableData);
-		var_dump(save_content($tableData));
-		
-		 */
 		if ($table == 'content') {
 			return save_content($tableData);
 		} else {

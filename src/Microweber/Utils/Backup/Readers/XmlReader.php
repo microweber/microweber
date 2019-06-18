@@ -40,23 +40,26 @@ class XmlReader extends DefaultReader
 
 			$categories = array();
 			$tags = array();
-			foreach ($item['category'] as $category) {
-				if (isset($category['@attributes'])) {
-
-					$attributes = $category['@attributes'];
-
-					if (isset($attributes['nicename']) && $attributes['domain'] == 'category') {
-						$categories[] = $attributes['nicename'];
-					}
-
-					if (isset($attributes['nicename']) && $attributes['domain'] == 'tag') {
-						$tags[] = $attributes['nicename'];
+			
+			if (isset($item['category'])) {
+				foreach ($item['category'] as $category) {
+					if (isset($category['@attributes'])) {
+	
+						$attributes = $category['@attributes'];
+	
+						if (isset($attributes['nicename']) && $attributes['domain'] == 'category') {
+							$categories[] = $attributes['nicename'];
+						}
+	
+						if (isset($attributes['nicename']) && $attributes['domain'] == 'tag') {
+							$tags[] = $attributes['nicename'];
+						}
 					}
 				}
-			}
-			
-			foreach ($item['category'] as $category) {
-				$categories[] = $category;
+				
+				foreach ($item['category'] as $category) {
+					$categories[] = $category;
+				}
 			}
 
 			$tags = implode(', ', $tags);
@@ -73,9 +76,8 @@ class XmlReader extends DefaultReader
 			$i ++;
 		}
 		
-		return array(
-			'content' => $content
-		);
+		return array('content' => $content);
+		
 	}
 
 }

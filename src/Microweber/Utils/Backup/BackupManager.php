@@ -128,7 +128,7 @@ class BackupManager
 			return $writer->getImportLog();
 			
 		} catch (\Exception $e) {
-			return array("error"=>$e->getMessage());
+			return array("file"=>$e->getFile(), "line"=>$e->getLine(), "error"=>$e->getMessage());
 		}
 	}
 
