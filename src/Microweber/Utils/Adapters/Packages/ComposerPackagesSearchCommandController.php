@@ -131,14 +131,9 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
         $results = false;
         $results_found = array();
 
-        do {
+        //do {
             try {
-//                $repositories = new CompositeRepository(
-//                    array_merge(
-//                        array($installedRepository),
-//                        $known_repos
-//                    )
-//                );
+
 
                 $repositories = new CompositeRepository(
                     array_merge(
@@ -147,11 +142,15 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
                     )
                 );
 
+
                 $results = $this->_trySearch($repositories, $tokens, $searchIn);
-                $has_error = false;
+
+
                 if ($results) {
                     $results_found = $results;
                 }
+
+
             } catch (\Composer\Downloader\TransportException $e) {
                 $err_msg = $e->getMessage();
                 $err_code = $e->getCode();
@@ -171,7 +170,7 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
             }
 
 
-        } while (!$results_found or !$known_repos);
+      //  } while (!$results_found or !$known_repos or !is_array($results));
 
 
         if ($removed_repos and $known_repos != $known_repos_orig) {
@@ -207,10 +206,12 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
         $results = $results_found;
 
 
+//        if (!$results and $errors) {
+//            throw new PackageManagerException('Package manager error: ' . implode("\n", $errors));
+//        }
         if (!$results) {
-            throw new PackageManagerException('Package manager error: ' . implode("\n", $errors));
+            return;
         }
-
 
         //$results = $repositories->search(implode(' ', $tokens), $searchIn);
 

@@ -4,11 +4,10 @@
 event_bind(
     'mw.admin.sidebar.li.1', function ($item) {
     if (mw()->ui->disable_marketplace != true) {
-        $packages = __mw_get_packages_that_has_updates('microweber/update');
 
-        if ($packages) {
-            print '<module type="updates/admin_sidebar_btn" no_wrap="true" class="mw-lazy-load-module"></module>';
-        }
+        //if ($packages) {
+            print '<div type="updates/admin_sidebar_btn" no_wrap="true" class="mw-lazy-load-module"></div>';
+       // }
     }
 }
 );
