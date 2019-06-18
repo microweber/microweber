@@ -2,7 +2,7 @@
 
 
 event_bind(
-    'mw.admin.sidebar.li.1', function ($item) {
+    'mw.admin.sidebar.li.last', function ($item) {
     if (mw()->ui->disable_marketplace != true) {
 
         $cache_id = 'mw_update_check_auto_update_check_core';
@@ -42,6 +42,9 @@ function __mw_check_core_system_update()
 
     if (!$last_check) {
         $search_params = array('return_only_updates' => true, 'keyword' => 'microweber/update');
+        //$search_params = array('return_only_updates' => true, 'keyword' => 'microweber');
+
+
         $last_check = mw()->update->composer_search_packages($search_params);
         if (!$last_check) {
             $last_check = 'noupdate';
