@@ -217,6 +217,9 @@ class DatabaseWriter
 	
 	public function runWriterWithBatch() 
 	{
+		if ($this->getCurrentStep() == 0) {
+			BackupImportLogger::clearLog();
+		}
 		
 		if ($this->getCurrentStep() == $this->totalSteps) {
 			// Clear old log file
