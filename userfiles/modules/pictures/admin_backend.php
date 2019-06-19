@@ -147,25 +147,23 @@ if ($for_id != false) {
     mw_admin_puctires_upload_browse_existing = function () {
 
 
-        mw_admin_puctires_upload_browse_existing_modal = window.top.mw.modalFrame({
+        // var dialog = window.top.mw.dialogIframe({
+        var dialog = window.top.mw.modalFrame({
             url: '<?php print site_url() ?>module/?type=files/admin&live_edit=true&remeber_path=true&ui=basic&start_path=media_host_base&from_admin=true&file_types=images&id=mw_admin_puctires_upload_browse_existing_modal<?php print $params['id'] ?>&from_url=<?php print site_url() ?>',
             title: "Browse pictures",
             id: 'mw_admin_puctires_upload_browse_existing_modal<?php print $params['id'] ?>',
-            onload: function () {
-
-                this.iframe.contentWindow.mw.on.hashParam('select-file', function () {
-                    after_upld(this, 'save', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
-
-                    after_upld(this, 'done', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
-                    mw.notification.success('<?php _e('The image is added to the gallery') ?>');
-
-                    mw_admin_puctires_upload_browse_existing_modal.remove();
-
-                })
-
-
-            },
             height: 400
+        })
+        $(dialog.iframe).on('load', function(){
+            this.contentWindow.mw.on.hashParam('select-file', function () {
+                after_upld(this, 'save', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
+
+                after_upld(this, 'done', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
+                mw.notification.success('<?php _e('The image is added to the gallery') ?>');
+
+                dialog.remove();
+
+            })
         })
 
     }
@@ -383,7 +381,7 @@ if (!isset($data["thumbnail"])) {
             }
 
         }
-        var uploader = mw.files.uploader({
+        var uploader = new mw.files.uploader({
             filetypes: "images",
             name: 'basic-images-uploader'
         });

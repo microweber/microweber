@@ -193,7 +193,7 @@ generateJSON4StaticElements = function(){
         var selector = mw.tools.generateSelectorForNode(el);
 
 
-        if(selector !== undefined && (selector =='body' || selector =='BODY')){
+        if(selector !== undefined && (selector === 'body' || selector === 'BODY')){
           if(css !== undefined){
             css = css.replace("padding-top","mw-pad-top");
           }

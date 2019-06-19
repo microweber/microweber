@@ -101,6 +101,7 @@ mw.custom_fields = {
             }
 
             mw.reload_module('#mw-admin-custom-field-edit-item-preview-' + data);
+            mw.reload_module('custom_fields/list');
 
 
             mw.reload_module_parent('custom_fields/list', function () {
@@ -125,13 +126,13 @@ mw.custom_fields = {
 
     autoSaveOnWriting: function (el, id) {
         return false;
-        mw.on.stopWriting(el, function () {
+        /*mw.on.stopWriting(el, function () {
             this.save_form(id, function () {
                 if (typeof __sort_fields === 'function') {
                     // __sort_fields();
                 }
             });
-        });
+        });*/
     },
 
     add: function (el) {
@@ -141,58 +142,64 @@ mw.custom_fields = {
         clone.find("input").val("").focus();
     },
     serialize: function (id) {
-        var el = mw.$(id);
-        fields = "input[type='text'], input[type='email'], input[type='number'], input[type='password'], input[type='hidden'], textarea, select, input[type='checkbox']:checked, input[type='radio']:checked";
+        var el = mw.$(id),
+        fields =
+            "input[type='text'], " +
+            "input[type='email'], input[type='number'], input[type='password'], input[type='hidden'], " +
+            "textarea, select, input[type='checkbox']:checked, input[type='radio']:checked";
         var data = {};
         data.options = {};
         $(fields, el).not(':disabled').each(function () {
             var el = this, _el = $(el);
             var val = _el.val();
             var name = el.name;
+            var notArray = this.nodeName === 'SELECT' && this.multiple === false;
+
             if (name.contains("[")) {
+
                 if (name.contains('[]')) {
                     var _name = name.replace(/[\[\]']+/g, '');
-                    if (name.indexOf('option') == 0) {
+
+                    if (name.indexOf('option') === 0) {
                         try {
-                            data.options.push(val)
+                            data.options.push(val);
                         }
                         catch (e) {
-                            data.options = [val]
+                            data.options = [val];
                         }
                     }
                     else {
                         try {
-                            data[_name].push(val)
+                            data[_name].push(val);
                         }
                         catch (e) {
-                            data[_name] = [val]
+                            data[_name] = [val];
                         }
                     }
                 }
                 else {
-                    if (name.indexOf('option') == 0) {
-                        var name = name.slice(name.indexOf("[") + 1, name.indexOf("]"));
-                        try {
-                            data.options[name].push(val)
+                    if (name.indexOf('option') === 0) {
+                        name = name.slice(name.indexOf("[") + 1, name.indexOf("]"));
+                        if(notArray) {
+                            data.options[name] = val;
                         }
-                        catch (e) {
-                            data.options[name] = [val]
+                        else {
+                            data.options[name] = data.options[name] || [];
+                            data.options[name].push(val);
                         }
+
+
                     }
                     else {
                         var arr_name = name.slice(0, name.indexOf("["));
                         var key = name.slice(name.indexOf("[") + 1, name.indexOf("]"));
-                        if (typeof data[arr_name] == 'object') {
-                            try {
-                                data[arr_name][key].push(val)
-                            }
-                            catch (e) {
-                                data[arr_name][key] = [val]
-                            }
+                        if (typeof data[arr_name] === 'object') {
+                            data[arr_name][key] = data[arr_name][key] || [];
+                            data[arr_name][key].push(val);
                         }
                         else {
-                            data[arr_name] = {}
-                            data[arr_name][key] = [val]
+                            data[arr_name] = {};
+                            data[arr_name][key] = [val];
                         }
                     }
                 }

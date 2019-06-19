@@ -20,7 +20,7 @@
     }
   ],
   "require": {
-    "composer/composer": "v1.2.2",
+    "composer/composer": "v1.8.5",
     "composer/installers": "1.*",
     "laravel/framework": "5.4.*",
     "illuminate/contracts": "5.4.*",
@@ -56,9 +56,9 @@
     "doctrine/dbal": "2.5.3",
     "microweber-templates/dream": "1.*",
     "microweber-templates/liteness": "1.*",
-    "microweber-deps/recurr": "dev-master",
-    "microweber-deps/laravel-tagging": "dev-laravel-5",
-    "oyejorge/less.php": "dev-master",
+    "microweber-deps/recurr": "~3.1",
+    "microweber-deps/laravel-tagging": "~2.2",
+    "oyejorge/less.php": "1.*",
     "aws/aws-sdk-php": "^3.0@dev"
   },
   "autoload": {

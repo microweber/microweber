@@ -127,7 +127,7 @@ mw.lib.require('nestedsortable');
             this.list = scope.document.createElement( 'ul' );
             this.options.id = this.options.id || ( 'mw-tree-' + window.mwtree );
             this.list.id = this.options.id;
-            this.list.className = 'mw-defaults mw-tree-nav mw-tree-nav-skin-'+this.options.skin;
+            this.list.className = 'mw-defaults mw-tree-nav mw-tree-nav-skin-' + this.options.skin;
             this.list._id = 0;
             this.options.data.forEach(function(item){
             //this._jsonForEach(function(item){
@@ -247,7 +247,7 @@ mw.lib.require('nestedsortable');
                     li = parseInt(li, 10);
                 }
                 else{
-                    return mw.$(li);
+                    return mw.$(li)[0];
                 }
             }
             return li;
@@ -406,7 +406,7 @@ mw.lib.require('nestedsortable');
             if(!li) return;
             li.classList.remove(this.options.openedClass);
             $(li.children).filter('mwbutton').removeClass(this.options.openedClass);
-            if(!_skipsave) this.saveState()
+            if(!_skipsave) this.saveState();
         };
 
         this.toggle = function(li, type){
@@ -414,7 +414,7 @@ mw.lib.require('nestedsortable');
             if(!li) return;
             li.classList.toggle(this.options.openedClass);
             $(li.children).filter('mwbutton').toggleClass(this.options.openedClass);
-            this.saveState()
+            this.saveState();
         };
 
         this.openAll = function(){
@@ -422,7 +422,7 @@ mw.lib.require('nestedsortable');
             $(all).each(function(){
                 scope.open(this, undefined, true);
             });
-            this.saveState()
+            this.saveState();
         };
 
         this.closeAll = function(){
@@ -430,7 +430,7 @@ mw.lib.require('nestedsortable');
             $(all).each(function(){
                 scope.close(this, undefined, true);
             });
-            this.saveState()
+            this.saveState();
         };
 
         this.button = function(){
@@ -481,7 +481,6 @@ mw.lib.require('nestedsortable');
                 $(li)[this.checked?'addClass':'removeClass'](scope.options.selectedClass)
                 var data = scope.getSelected();
                 scope.manageUnselected()
-                console.log(data,00919)
                 $(scope).trigger('change', [data]);
             }*/
             return label;

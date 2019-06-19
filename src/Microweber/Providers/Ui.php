@@ -108,14 +108,14 @@ class Ui
                     $notif_count = $notif_count + count($notif_data[$item]);
                 }
             }
-            if(isset($notif_data['popup']) and $notif_data['popup']) {
-                event_bind(
-                    'mw.admin.dashboard.main', function () use ($notif_data) {
-                    print load_module('updates/updates_popup',$notif_data);
-
-                 }
-                );
-            }
+//            if(isset($notif_data['popup']) and $notif_data['popup']) {
+//                event_bind(
+//                    'mw.admin.dashboard.main', function () use ($notif_data) {
+//                    print load_module('updates/updates_popup',$notif_data);
+//
+//                 }
+//                );
+//            }
 
         }
 
@@ -139,6 +139,7 @@ class Ui
         $fields = array(
             'price' => 'Price',
             'text' => 'Text Field',
+        	'breakline' => 'Break Line',
             'radio' => 'Single Choice',
             'dropdown' => 'Dropdown',
             'checkbox' => 'Multiple choices',

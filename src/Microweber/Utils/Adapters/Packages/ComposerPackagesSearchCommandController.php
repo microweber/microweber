@@ -20,7 +20,7 @@ use Composer\Installer;
 use Composer\Package\CompletePackageInterface;
 use Composer\Package\Link;
 use Composer\Package\PackageInterface;
-use Composer\Repository\CompositeRepository;
+//use Composer\Repository\CompositeRepository;
 use Composer\Repository\PlatformRepository;
 use Composer\Repository\RepositoryInterface;
 
@@ -29,11 +29,13 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Composer\Downloader\TransportException;
+use Symfony\Component\Debug\Exception\FatalErrorException;
 use Composer\Plugin\CommandEvent;
 use Composer\Plugin\PluginEvents;
 use Microweber\Utils\Adapters\Packages\PackageManagerException;
 
 use Microweber\Utils\Adapters\Packages\Helpers\ComposerAbstractController;
+use Microweber\Utils\Adapters\Packages\Helpers\CompositeRepository;
 
 class ComposerPackagesSearchCommandController extends ComposerAbstractController
 {
@@ -89,17 +91,39 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
             'microweber-module',
         );
         mw()->update->log_msg('preparing');
-        ini_set('memory_limit', '2777M');
+
+        if (php_can_use_func('ini_set')) {
+            ini_set('memory_limit', '2777M');
+        }
 
 
-        $repositoryManager = $this->getRepositoryManager();
+
+
+         $repositoryManager = $this->getRepositoryManager();
+
+//        $repositoryManager->setRepositoryClass('composer', 'Microweber\Utils\Adapters\Packages\Helpers\ComposerRepository');
+//        $repositoryManager->setRepositoryClass('package', 'Microweber\Utils\Adapters\Packages\Helpers\PackageRepository');
+//
+
+
+
+    //    dd($repositoryManager);
+
 
         $platformRepo = new PlatformRepository;
+
+
         $localRepository = $repositoryManager->getLocalRepository();
         $installedRepository = new CompositeRepository(
             array($localRepository, $platformRepo)
         );
         $known_repos = $known_repos_orig = $repositoryManager->getRepositories();
+
+
+
+
+
+
 
         $errors = array();
         $removed_repos = array();
@@ -107,19 +131,26 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
         $results = false;
         $results_found = array();
 
-        do {
+        //do {
             try {
+
+
                 $repositories = new CompositeRepository(
                     array_merge(
-                        array($installedRepository),
+                        array($localRepository, $platformRepo),
                         $known_repos
                     )
                 );
+
+
                 $results = $this->_trySearch($repositories, $tokens, $searchIn);
-                $has_error = false;
+
+
                 if ($results) {
                     $results_found = $results;
                 }
+
+
             } catch (\Composer\Downloader\TransportException $e) {
                 $err_msg = $e->getMessage();
                 $err_code = $e->getCode();
@@ -139,7 +170,7 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
             }
 
 
-        } while (!$results_found or !$known_repos);
+      //  } while (!$results_found or !$known_repos or !is_array($results));
 
 
         if ($removed_repos and $known_repos != $known_repos_orig) {
@@ -175,10 +206,12 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
         $results = $results_found;
 
 
+//        if (!$results and $errors) {
+//            throw new PackageManagerException('Package manager error: ' . implode("\n", $errors));
+//        }
         if (!$results) {
-            throw new PackageManagerException('Package manager error: ' . implode("\n", $errors));
+            return;
         }
-
 
         //$results = $repositories->search(implode(' ', $tokens), $searchIn);
 
@@ -207,37 +240,42 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
                 $packages[$result['name']] = $result;
 
                 if (count($versions)) {
-                    $packages[$result['name']]['type'] = $versions[0]->getType();
-                    $packages[$result['name']]['description'] = $versions[0] instanceof CompletePackageInterface
-                        ? $versions[0]->getDescription()
+                    
+                    
+                    $last_v = $versions;
+                    $last_v = array_pop($last_v);
+                    
+                    $packages[$result['name']]['type'] = $last_v->getType();
+                    $packages[$result['name']]['description'] = $last_v instanceof CompletePackageInterface
+                        ? $last_v->getDescription()
                         : '';
 
 
-                    $packages[$result['name']]['license'] = $versions[0] instanceof CompletePackageInterface
-                        ? $versions[0]->getLicense()
+                    $packages[$result['name']]['license'] = $last_v instanceof CompletePackageInterface
+                        ? $last_v->getLicense()
                         : '';
 
-                    $packages[$result['name']]['authors'] = $versions[0] instanceof CompletePackageInterface
-                        ? $versions[0]->getAuthors()
+                    $packages[$result['name']]['authors'] = $last_v instanceof CompletePackageInterface
+                        ? $last_v->getAuthors()
                         : '';
 
-                    $packages[$result['name']]['keywords'] = $versions[0] instanceof CompletePackageInterface
-                        ? $versions[0]->getKeywords()
-                        : '';
-
-
-                    $packages[$result['name']]['support'] = $versions[0] instanceof CompletePackageInterface
-                        ? $versions[0]->getSupport()
+                    $packages[$result['name']]['keywords'] = $last_v instanceof CompletePackageInterface
+                        ? $last_v->getKeywords()
                         : '';
 
 
-                    $packages[$result['name']]['homepage'] = $versions[0] instanceof CompletePackageInterface
-                        ? $versions[0]->getHomepage()
+                    $packages[$result['name']]['support'] = $last_v instanceof CompletePackageInterface
+                        ? $last_v->getSupport()
                         : '';
 
 
-                    $packages[$result['name']]['extra'] = $versions[0] instanceof CompletePackageInterface
-                        ? $versions[0]->getExtra()
+                    $packages[$result['name']]['homepage'] = $last_v instanceof CompletePackageInterface
+                        ? $last_v->getHomepage()
+                        : '';
+
+
+                    $packages[$result['name']]['extra'] = $last_v instanceof CompletePackageInterface
+                        ? $last_v->getExtra()
                         : '';
 
 

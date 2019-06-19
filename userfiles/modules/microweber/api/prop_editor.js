@@ -247,7 +247,7 @@ mw.propEditor = {
             });
 
             this.field.setAttribute('list', dtlist.id);
-            document.body.appendChild(dtlist)
+            document.body.appendChild(dtlist);
 
             this._makeVal = function(){
                 if(field.value === 'auto'){
@@ -333,7 +333,16 @@ mw.propEditor = {
             this.fields.spread.placeholder = 'Spread';
             this.fields.color.placeholder = 'Color';
             this.fields.color.dataset.options = 'position: ' + (config.pickerPosition || 'bottom-center');
-            $(this.fields.color).addClass('mw-color-picker');
+            //$(this.fields.color).addClass('mw-color-picker');
+            mw.colorPicker({
+                element:this.fields.color,
+                position:'top-left',
+                onchange:function(color){
+                    $(scope.fields.color).trigger('change', color)
+                    scope.fields.color.style.backgroundColor = color;
+                    scope.fields.color.style.color = mw.color.isDark(color) ? 'white' : 'black';
+                }
+            });
 
             var labelPosition = mw.propEditor.helpers.label('Position');
             var labelX = mw.propEditor.helpers.label('X offset');
@@ -357,17 +366,16 @@ mw.propEditor = {
                 scope.$fields.push(this);
             });
 
-            $(this.$fields).on('input', function(){
-                var val = $(scope.fields.position).val()
-                    + ' ' + scope.fields.x.value + 'px'
-                    + ' ' + scope.fields.y.value + 'px'
-                    + ' ' + scope.fields.blur.value + 'px'
-                    + ' ' + scope.fields.spread.value + 'px'
-                    + ' ' + scope.fields.color.value;
+            $(this.$fields).on('input change', function(){
+                var val = ($(scope.fields.position).val() || '')
+                    + ' ' + (scope.fields.x.value || 0) + 'px'
+                    + ' ' + (scope.fields.y.value || 0) + 'px'
+                    + ' ' + (scope.fields.blur.value || 0) + 'px'
+                    + ' ' + (scope.fields.spread.value || 0) + 'px'
+                    + ' ' + (scope.fields.color.value || 'rgba(0,0,0,.5)');
                 proto._valSchema[config.id] = val;
                 $(proto).trigger('change', [config.id, val]);
             });
-
 
 
             var holder = mw.propEditor.helpers.wrapper();

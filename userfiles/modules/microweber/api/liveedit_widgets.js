@@ -5,13 +5,18 @@ mw.liveEditWidgets = {
             this._cssEditorInSidebarAccordion = mwd.createElement('iframe') ;
             this._cssEditorInSidebarAccordion.id = 'mw-css-editor-sidebar-iframe' ;
             this._cssEditorInSidebarAccordion.src = mw.external_tool('rte_css_editor');
+            this._cssEditorInSidebarAccordion.style.opacity = 0;
             this._cssEditorInSidebarAccordion.scrolling = 'no';
             this._cssEditorInSidebarAccordion.frameBorder = 0;
-            mwd.querySelector('#mw-css-editor-sidebar-iframe-holder').appendChild(this._cssEditorInSidebarAccordion);
+            var holder = mwd.querySelector('#mw-css-editor-sidebar-iframe-holder');
+            holder.appendChild(this._cssEditorInSidebarAccordion);
+            mw.tools.loading(holder, 90);
             mw.tools.iframeAutoHeight(this._cssEditorInSidebarAccordion);
             this._cssEditorInSidebarAccordion.onload = function () {
                 this.contentWindow.document.body.style.padding = 0;
                 this.contentWindow.document.body.style.backgroundColor = 'transparent';
+                mw.tools.loading(holder, false);
+                this.style.opacity = 1;
             };
             $(this._cssEditorInSidebarAccordion)
                 .height($(this._cssEditorInSidebarAccordion)

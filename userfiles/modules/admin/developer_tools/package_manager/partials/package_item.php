@@ -71,10 +71,17 @@ if (isset($item['has_update']) and $item['has_update']) {
 }
 
 
-
 if(!isset($box_class)){
     $box_class = '';
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -93,7 +100,7 @@ if(!isset($box_class)){
     </div>
 
 
-    <div class="mw-ui-box-content">
+    <div class="mw-ui-box-content js-package-install-content">
 
         <p class="m-b-20"><?php print $item['description'] ?></p>
 
@@ -110,7 +117,43 @@ if(!isset($box_class)){
             <tbody>
             <tr>
                 <td>Version</td>
-                <td><?php print $item['latest_version']['version'] ?>
+                <td>
+
+
+
+                    <select class="mw-sel-item-key-install"  data-vkey="<?php print $key; ?>">
+
+                        <option value="<?php print $item['latest_version']['version'] ?>">
+                            <?php print $item['latest_version']['version'] ?>
+                        </option>
+
+                        <?php if (isset($item['versions']) and is_array($item['versions'])): ?>
+                        <?php $item['versions'] = array_reverse($item['versions'])  ?>
+                        <?php foreach($item['versions'] as $v_sel): ?>
+                        <?php if ($v_sel['version']  !=  $item['latest_version']['version'] ): ?>
+                                <option value="<?php print $v_sel['version']  ?>" >
+                                    <?php print $v_sel['version']  ?>
+                                </option>
+
+
+
+                                <?php endif; ?>
+                        <?php endforeach; ?>
+
+
+                        <?php endif; ?>
+
+
+                    </select>
+
+
+
+
+
+
+
+
+
 
 
                     <?php if ($has_update): ?>
@@ -119,7 +162,7 @@ if(!isset($box_class)){
 
 
 
-                        <a class="mw-ui-btn mw-ui-btn-small mw-ui-btn-warn pull-right" onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>','<?php print $vkey; ?>')"">update available</a>
+                        <a class="mw-ui-btn mw-ui-btn-small mw-ui-btn-warn pull-right" vkey="<?php print $vkey; ?>" title="Version <?php print $vkey; ?> is available" onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>','<?php print $vkey; ?>')"">update available</a>
 
                     <?php endif; ?>
 
@@ -198,11 +241,18 @@ if(!isset($box_class)){
                    class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info">Read more</a>
             <?php endif; ?>
 
+
+
+
             <?php if ($has_update): ?>
-                <a href="javascript:;" onClick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>','<?php print $vkey; ?>')" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-warn">Update</a>
+                <a vkey="<?php print $vkey; ?>" href="javascript:;" onClick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).data('vkey'))"  class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-warn js-package-install-btn">Update</a>
             <?php else: ?>
-                <a href="javascript:;" onClick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>','<?php print $vkey; ?>')" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification">Install</a>
+                <a vkey="<?php print $vkey; ?>" href="javascript:;"   onClick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).data('vkey'))" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification js-package-install-btn">Install</a>
             <?php endif; ?>
+
+
+
+
 
 
 

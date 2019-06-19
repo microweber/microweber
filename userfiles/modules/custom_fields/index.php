@@ -1,10 +1,10 @@
 <?php
-
+// include 'functions.php';
 
 $skip_types = array();
 $for = 'module';
 if (isset($params['for'])) {
-    $for = $params['for'];
+    $for = $params['for']; 
 }
 
 
@@ -51,6 +51,30 @@ if (isset($params['default-fields']) and isset($params['parent-module-id'])) {
 
 
 $data = mw()->fields_manager->get($for, $for_id, 1);
+
+$groupFields = array();
+$groupI = 0;
+if (!empty($data)) {
+	foreach ($data as $field) {
+		
+		if($field['type'] == 'breakline') {
+			$groupI++;
+			continue;
+		}
+		
+		$field['options']['field_size_class'] = false;
+		
+		if (isset($field['options']['field_size']) && is_array($field['options']['field_size'])) {
+			$field['options']['field_size_class'] = get_field_size_class($field['options']['field_size'][0]);
+		}
+		
+		if (isset($field['options']['field_size']) && is_string($field['options']['field_size'])) {
+			$field['options']['field_size_class'] = get_field_size_class($field['options']['field_size']);
+		}
+		
+		$groupFields[$groupI][] = $field;
+	}
+}
 
 $prined_items_count = 0;
 

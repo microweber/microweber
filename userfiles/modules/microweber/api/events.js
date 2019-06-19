@@ -212,7 +212,8 @@ DOMChange:function(element, callback, attr, a){
     });
   },
   tripleClick : function(el, callback){
-      var t, timeout = 199, el = el || window;
+      var t, timeout = 199;
+      el = el || window;
       el.addEventListener("dblclick", function () {
           t = setTimeout(function () {
               t = null;
@@ -222,7 +223,7 @@ DOMChange:function(element, callback, attr, a){
           if (t) {
               clearTimeout(t);
               t = null;
-              callback.call(el, e.target)
+              callback.call(el, e.target);
           }
       });
   },
@@ -311,8 +312,15 @@ mw.on.hashParamEventInit();
 
 
 mw.event = {
+  windowLeave: function(c) {
+      document.documentElement.addEventListener('mouseout', function(e) {
+          if (!e.relatedTarget && !e.toElement && c) {
+              c.call(document.body, e);
+          }
+      });
+  },
   cancel:function(e, prevent){
-    prevent===true?e.preventDefault():'';
+    prevent === true ? e.preventDefault() : '';
     e.cancelBubble = true;
     if (e.stopPropagation) e.stopPropagation();
   },
@@ -337,6 +345,10 @@ mw.event = {
       enter: function (e) {
         e = e.originalEvent || e;
         return e.key === "Enter" || e.keyCode === 13;
+      },
+      escape: function (e) {
+          e = e.originalEvent || e;
+          return e.key === "Escape" || e.keyCode === 27;
       }
   }
 };

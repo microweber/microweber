@@ -20,7 +20,12 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
 <script>mw.require('forms.js');</script>
 
 <div class="control-group form-group">
-  <label class="mw-ui-label"><?php print $data["name"]; ?></label>
+  <label class="mw-ui-label"><?php print $data["name"]; ?>
+  
+  <?php if (isset($data['options']) == true and isset($data['options']["required"]) == true): ?>  
+	<span style="color:red;">*</span>
+	<?php endif; ?>
+  </label>
   <div class="mw-custom-field-form-controls">
     <input type="number"
         onkeyup="mw.form.typeNumber(this);"

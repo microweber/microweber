@@ -55,6 +55,9 @@ body.mw-live-edit .mw-control-box-left {
     border-color: #2b2b2b;
     color: #2b2b2b !important;
     transition: .3s !important;
+    width: 34px;
+    padding: 0;
+    border-radius: 34px;
 }
 
 #back-to-admin-toolbar i {
@@ -2070,6 +2073,10 @@ img[_moz_resizing], table[_moz_resizing] {
     outline: 0px none;
 }
 
+.isTyping .mw-padding-ctrl,
+.isTyping .mw-selector{
+    display: none;
+}
 .isTyping .element-current, .isTyping .element-current:hover {
     outline: none !important;
 }
@@ -2445,7 +2452,6 @@ body.dragStart .empty-element {
 .mw-single-arrow-dropdown {
     display: inline-block;
     margin: 0 0 0;
-    background: url(../img/mw_dlm.png) repeat-y;
     cursor: pointer;
     padding: 10px 0 8px 10px;
 }
@@ -2629,12 +2635,12 @@ body.dragStart .empty-element {
 
 .mw-toolbar-right-content {
     float: right;
-    padding: 10px 0 10px 0;
+    padding: 10px 3px 10px 0;
 }
 
 #toolbar-dropdown-actions {
-    float: right;
-    width: 30px;
+    display:inline-block;
+    width: 40px;
 }
 
 /*.mw_edit_delete {
@@ -3304,7 +3310,7 @@ div[id*='SSDIVEL'] {
 
 #live_edit_side_holder .sidebar-toggler {
 
-    display: block;
+    display: none;
     position: relative;
     z-index: 2;
     font-size: 19px;
@@ -3636,12 +3642,13 @@ body.touchscreen-device #modules-and-layouts-sidebar .module-admin-modules-list 
 }
 
 .view-website-button {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    background: url(../img/les_planet.svg) no-repeat center;
+    background-size: contain;
+    vertical-align: middle;
 
-    border-left: 0;
-    margin-left: -2px;
-    padding: 0px 9px;
-    font-size: 18px;
-    float: right;
 }
 
 .mw-toolbar-add-new-content-ctrl i {
@@ -3756,7 +3763,7 @@ body {
     color: #000;
 }
 
-body.isTyping .mw-cloneable-control-item {
+body.isTyping .mw-cloneable-control {
     display: none;
 }
 
@@ -4235,12 +4242,12 @@ body.dragStart .allow-drop {
     color: rgba(36, 134, 216, 1);
 }
 #live_edit_side_holder .mw-live-edit-sidebar-tabs a:hover i{
-    background-color: #f5f5f5;
+    background-color: #fff;
 }
 
 #live_edit_side_holder.active .mw-live-edit-sidebar-tabs a.active:hover i,
 #live_edit_side_holder.active .mw-live-edit-sidebar-tabs a.active i {
-    background-color: rgba(230, 239, 247, 1);
+    background-color: #fff;
 }
 .mw-live-edit-sidebar-tabs a i {
     display: inline-flex;
@@ -4307,7 +4314,7 @@ body.dragStart .allow-drop {
     position: absolute;
     width: 50px;
     height: 100%;
-    background-color: white;
+    background-color: #F5F5F5;
     box-shadow: -1px 0 2px rgba(0,0,0,.1);
     cursor: pointer;
 }
@@ -4436,7 +4443,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     border-radius: 15px;
     font-family: Microweber;
     text-align: center;
-    transition: all .3s;
+    transition: none;
     line-height: 16px;
     margin-left: 7px;
     transform-origin: center;
@@ -4462,8 +4469,8 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     border-radius: 3px;
     color: #fff;
     transform: scale(1, .5) translateZ(-30px);
-    transform-origin: left center;
-    transition: all .1s;
+    transform-origin: top center;
+    transition: all 70ms ;
     margin-top: 10px;
 }
 
@@ -4693,9 +4700,6 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     margin: 4px 5px 0px 0px;
 }
 
-.view-website-button:hover {
-    background: #fff;
-}
 
 .toolbar-hover .mw-wyswyg-plus-element,
 .toolbar-hover .mw-handle-item {
@@ -4768,13 +4772,19 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 }
 
 
-.mw-liveedit-css-editor-icon{
+.mw-liveedit-cbar-icon{
     display: inline-block;
     width: 25px;
     height: 25px;
-    background-size: contain;
+    background-size: 25px auto;
     background-repeat: no-repeat;
+    background-position: center;
+
 }
+.mw-lslayout-tab .mw-liveedit-cbar-icon{ background-image: url(../img/les_layouts.svg); background-size: 19px auto; }
+.mw-lsmodules-tab .mw-liveedit-cbar-icon{ background-image: url(../img/les_modules.svg); background-size: 19px auto; }
+.mw-lstemplatee-tab .mw-liveedit-cbar-icon{ background-image: url(../img/les_settings.svg); }
+.mw-lscsse-tab .mw-liveedit-cbar-icon{ background-image: url(../img/les_visualeditor.svg); }
 
 .mw-liveedit-css-editor-icon path{
     stroke:#777;
@@ -4862,5 +4872,62 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     transform: translateY(-50%);
     font-size: 14px;
     color: red;
+}
+
+.mw-padding-ctrl{
+    position: absolute;
+    z-index: 900;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.mw-padding-ctrl-top,
+.mw-padding-ctrl-bottom{
+    width: 100%;
+    cursor: s-resize;
+}
+
+.mw-padding-ctrl-top{
+    border-top: 1px dashed #939393;
+}
+
+.mw-padding-ctrl-bottom{
+    border-bottom: 1px dashed #939393;
+}
+
+.mw-padding-control-info{
+    position: absolute;
+    opacity: 0;
+    transition: opacity .6s;
+    display: block;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    border-radius: 100px;
+    background-color: rgba(0,0,0,.6);
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    background-size: auto 17px;
+    background-image: url("data:image/svg+xml,%3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='105.9 77 204.2 511.3' style='enable-background:new 105.9 77 204.2 511.3;' xml:space='preserve'%3E%3Cpolygon fill='white' points='105.9,179.8 185.5,179.8 185.4,281.7 185.4,281.7 185.5,486.2 105.9,486.2 208,588.3 310.1,486.2 230.5,486.2 230.6,193.8 230.5,179.8 310.1,179.8 208,77.7 '/%3E%3C/svg%3E%0A");    color: #fff;
+    text-align: center;
+    z-index: 999;
+    pointer-events: none;
+    padding: 0 15px 0 25px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 12px;
+    font-family: Verdana, Geneva, sans-serif !important;
+}
+.mw-padding-control-info.active{
+    opacity: 1;
+}
+
+html.padding-control-start .mw_image_resizer,
+html.padding-control-start .mw-cloneable-control,
+html.padding-control-start .mw-handle-item{
+    display: none !important;
 }
 

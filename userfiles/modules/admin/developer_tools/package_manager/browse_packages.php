@@ -7,7 +7,6 @@
 $is_update_mode = false;
 $core_update = false;
 
-
 //$search_packages_params = array();
 $search_packages_params['cache'] = true;
 
@@ -17,6 +16,7 @@ if (isset($params['show_only_updates']) and $params['show_only_updates']) {
     $is_update_mode = true;
 
 }
+
 
 $search_packages = mw()->update->composer_search_packages($search_packages_params);
 //$search_packages = mw()->update->composer_search_packages();
@@ -36,6 +36,7 @@ if ($search_packages and is_array($search_packages)) {
 
 if (isset($packages_by_type['microweber-core-update']) and !empty($packages_by_type['microweber-core-update'])) {
     $core_update = $packages_by_type['microweber-core-update'];
+    unset($packages_by_type['microweber-core-update']);
 
 }
 
@@ -62,6 +63,15 @@ if (isset($packages_by_type['microweber-core-update']) and !empty($packages_by_t
             <li>
                 <a href="javascript:;"><span class="mw-icon-gear"></span> <span class="mw-icon-dropdown"></span></a>
                 <ul>
+                    <?php if (isset($_GET['only_updates']) and $_GET['only_updates']) { ?>
+
+                        <li><a href="?all">Show all packages</a></li>
+
+                    <?php } else { ?>
+
+                        <li><a href="?only_updates=1">Show updates</a></li>
+
+                    <?php } ?>
                     <li><a href="javascript:;" onclick="mw.admin.admin_package_manager.reload_packages_list();">Reload
                             packages</a></li>
                     <li><a href="javascript:;"
@@ -81,29 +91,65 @@ if (isset($packages_by_type['microweber-core-update']) and !empty($packages_by_t
     });
 </script>
 
+
+<script>
+
+    $(document).ready(function () {
+        $('.mw-sel-item-key-install').change(function () {
+            var val = $("option:selected", this).val();
+            var vkey = $(this).data('vkey');
+
+            var holder = mw.tools.firstParentOrCurrentWithClass(this, 'js-package-install-content');
+
+            $('.js-package-install-btn', holder).html("Install " + val);
+            $('.js-package-install-btn', holder).data('vkey', val);
+
+
+        });
+
+    });
+
+
+</script>
+
+
+<style>
+    .mw-sel-item-key-install {
+        border: none;
+    }
+</style>
+
 <div class="admin-side-content" style="max-width: 90%">
     <div id="mw-packages-browser-nav-tabs-nav" class="mw-flex-row">
-        <div class="mw-flex-col-xs-12 mw-flex-col-md-4 mw-flex-col-lg-2">
-            <div class="mw-ui-col-container">
-                <ul class="mw-ui-box mw-ui-navigation" id="nav">
-
-                    <?php foreach ($packages_by_type as $pkkey => $pkitems): ?>
-                        <?php
-
-                        $pkkeys = explode('-', $pkkey);
-                        array_shift($pkkeys);
-                        $pkkeys = implode('-', $pkkeys);
 
 
-                        ?>
-                        <li><a href="javascript:;"><?php print titlelize($pkkeys) ?></a></li>
-
-                    <?php endforeach; ?>
+        <?php if ($packages_by_type) : ?>
 
 
-                </ul>
+            <div class="mw-flex-col-xs-12 mw-flex-col-md-4 mw-flex-col-lg-2">
+                <div class="mw-ui-col-container">
+                    <ul class="mw-ui-box mw-ui-navigation" id="nav">
+
+                        <?php foreach ($packages_by_type as $pkkey => $pkitems): ?>
+                            <?php
+
+                            $pkkeys = explode('-', $pkkey);
+                            array_shift($pkkeys);
+                            $pkkeys = implode('-', $pkkeys);
+
+
+                            ?>
+                            <li><a href="javascript:;"><?php print titlelize($pkkeys) ?></a></li>
+
+                        <?php endforeach; ?>
+
+
+                    </ul>
+                </div>
             </div>
-        </div>
+
+        <?php endif; ?>
+
 
         <div class="mw-flex-col-xs-12 mw-flex-col-md-8 mw-flex-col-lg-10">
 
@@ -133,11 +179,16 @@ if (isset($packages_by_type['microweber-core-update']) and !empty($packages_by_t
             <?php endif; ?>
 
 
+
+            <?php if ($packages_by_type and !empty($packages_by_type)) : ?>
+
             <div class="mw-ui-col-container">
 
 
                 <div class="mw-ui-box" style="width: 100%; padding: 12px 0;">
-                    <?php if ($packages_by_type) : ?>
+
+
+
                         <?php foreach ($packages_by_type as $pkkey => $pkitems): ?>
                             <div class="mw-ui-box-content tab">
                                 <?php if ($pkitems) : ?>
@@ -158,9 +209,29 @@ if (isset($packages_by_type['microweber-core-update']) and !empty($packages_by_t
                                 <?php endif; ?>
                             </div>
                         <?php endforeach; ?>
-                    <?php endif; ?>
+
+                    <?php else: ?>
+
+
+                        <?php if (!$core_update) : ?>
+                            <div class="mw-ui-box-content tab">
+                                No packages found.
+
+                            </div>
+
+                        <?php endif; ?>
+
+
                 </div>
             </div>
+
+
+            <?php endif; ?>
+
+
+
+
+
         </div>
     </div>
 </div>

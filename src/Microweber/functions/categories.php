@@ -84,8 +84,11 @@ function category_link($id)
     return mw()->category_manager->link($id);
 }
 
-function category_title($id)
+function category_title($id = false)
 {
+    if (!$id) {
+        $id = CATEGORY_ID;
+    }
     if (intval($id) == 0) {
         return false;
     }

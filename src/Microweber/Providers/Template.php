@@ -14,6 +14,7 @@
 namespace Microweber\Providers;
 
 use Microweber\Utils\Adapters\Template\MicroweberTemplate;
+use Microweber\Utils\Adapters\Template\TemplateCssParser;
 
 /**
  * Content class is used to get and save content in the database.
@@ -42,6 +43,7 @@ class Template
 
     public $adapter_current = null;
     public $adapter_default = null;
+    public $stylesheet_adapter = null;
 
     public function __construct($app = null)
     {
@@ -53,9 +55,26 @@ class Template
             }
         }
 
-        $this->adapter_current
-            = $this->adapter_default = new MicroweberTemplate($app);
+        $this->stylesheet_adapter = new TemplateCssParser($app);
+        $this->adapter_current = $this->adapter_default = new MicroweberTemplate($app);
     }
+
+
+    public function compile_css($params)
+    {
+    	return $this->stylesheet_adapter->compile($params);
+    }
+
+    public function delete_compiled_css($params) {
+        return $this->stylesheet_adapter->delete_compiled($params);
+    }
+
+
+    public function get_stylesheet($path, $option_group_name = false, $cache = true)
+    {
+    	return $this->stylesheet_adapter->getStylesheet($path, $option_group_name, $cache);
+    }
+
 
     public function get_apijs_url()
     {
@@ -75,6 +94,7 @@ class Template
 
         return $url;
     }
+
 
     public function get_apijs_settings_url()
     {
@@ -126,6 +146,15 @@ class Template
     public function html_opening_tag($name, $value = false)
     {
         $this->html_opening_tag[$name] = $value;
+    }
+
+    public function folder_name()
+    {
+        if (!defined('THIS_TEMPLATE_FOLDER_NAME')) {
+            $this->app->content_manager->define_constants();
+        }
+        return THIS_TEMPLATE_FOLDER_NAME;
+        //
     }
 
     public function dir($add = false)

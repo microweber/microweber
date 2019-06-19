@@ -1,22 +1,35 @@
 <?php
 namespace Microweber\Utils\Backup;
 
-use Microweber\Utils\Backup\Traits\BackupLogger;
-
 class BackupManager
 {
-	use BackupLogger;
 	
+	public $exportAllData = false;
+	public $exportData = ['categoryIds'=>[], 'contentIds'=>[], 'tables'=>[]];
 	public $exportType = 'json';
-	public $importType = 'json';
+	public $importType = false;
 	public $importFile = false;
+	public $importBatch = true;
 	
-	public function __construct() 
+	public function __construct()
 	{
-		ini_set('memory_limit', '-1');
-		set_time_limit(0);
+		if (php_can_use_func('ini_set')) {
+			ini_set('memory_limit', '-1');
+		}
+
+		if (php_can_use_func('set_time_limit')) {
+			set_time_limit(0);
+		}
 	}
 
+	/**
+	 * Set export full
+	 * @param string $type
+	 */
+	public function setExportAllData($exportAllData) {
+		$this->exportAllData = $exportAllData;
+	}
+	
 	/**
 	 * Set export file format
 	 * @param string $type
@@ -24,6 +37,14 @@ class BackupManager
 	public function setExportType($type)
 	{
 		$this->exportType = $type;
+	}
+	
+	/**
+	 * Set wich data want to export
+	 * @param array $data
+	 */
+	public function setExportData($dataType, $dataIds) {
+		$this->exportData[$dataType] = $dataIds;
 	}
 
 	/**
@@ -34,6 +55,10 @@ class BackupManager
 	{
 		$this->importType = $type;
 	}
+	
+	public function setImportBatch($importBatch) {
+		$this->importBatch = $importBatch;
+	}
 
 	/**
 	 * Set import file path
@@ -41,7 +66,12 @@ class BackupManager
 	 */
 	public function setImportFile($file) 
 	{
-		$this->importFile = $this->getBackupLocation() . $file;
+		if (! is_file($file)) {
+			return array('error' => 'Backup Manager: You have not provided a existing backup to restore.');
+		}
+		
+		$this->setImportType(pathinfo($file, PATHINFO_EXTENSION));
+		$this->importFile = $file;
 	}
 
 	/**
@@ -50,31 +80,24 @@ class BackupManager
 	 */
 	public function startExport() 
 	{
-		$export = new Export();
-		$export->setType($this->exportType);
-
-		$content = $export->getContent();
-
-		if (isset($content['data'])) {
-
-			$exportLocation = $this->getBackupLocation();
-
-			$exportFilename = 'backup_export_' . date("Y-m-d-his") . '.' . $this->exportType;
-			$exportPath = $exportLocation . $exportFilename;
-
-			$save = file_put_contents($exportPath, $content['data']);
-
-			if ($save) {
-				return array(
-					"filename" => $exportPath,
-					"success" => "Backup export are saved success."
-				);
-			} else {
-				return array(
-					"error" => "File not save"
-				);
+		try {
+			// If we want export media
+			if (in_array('media', $this->exportData['tables']) || $this->exportAllData == true) {
+				$this->exportType = 'zip';
 			}
+			
+			$export = new Export();
+			$export->setType($this->exportType);
+			$export->setExportData($this->exportData);
+			$export->setExportAllData($this->exportAllData);
+			
+			return $export->start();
+		
+		} catch (\Exception $e) {
+			// dd($e);
+			return array("error"=>$e->getMessage());
 		}
+
 	}
 
 	/**
@@ -83,20 +106,30 @@ class BackupManager
 	 */
 	public function startImport() 
 	{
-		$import = new Import();
-		$import->setType($this->importType);
-		$import->setFile($this->importFile);
-		
-		$content = $import->readContentWithCache();
-		
-		if (isset($content['error'])) {
-			return $content;
+		try {
+			$import = new Import();
+			$import->setType($this->importType);
+			$import->setFile($this->importFile);
+			
+			$content = $import->readContentWithCache();
+			if (isset($content['error'])) {
+				return $content;
+			}
+			
+			$writer = new DatabaseWriter();
+			$writer->setContent($content['data']);
+			
+			if ($this->importBatch) {
+				$writer->runWriterWithBatch();
+			} else {
+				$writer->runWriter();
+			}
+			
+			return $writer->getImportLog();
+			
+		} catch (\Exception $e) {
+			return array("error"=>$e->getMessage());
 		}
-		
-		$writer = new DatabaseWriter();
-		$writer->setContent($content['data']);		$writerResponse = $writer->runWriter();
-		
-		dd($writerResponse);
 	}
 
 	/**
@@ -105,8 +138,8 @@ class BackupManager
 	 */
 	public function getBackupLocation() 
 	{
-		$backupContent = storage_path() . '/backup_content/';
-
+		$backupContent = storage_path() . '/backup_content/' . \App::environment(). '/';
+		
 		if (! is_dir($backupContent)) {
 			mkdir_recursive($backupContent);
 			$htaccess = $backupContent . '.htaccess';

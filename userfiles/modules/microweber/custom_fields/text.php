@@ -6,10 +6,8 @@ if (!isset($data['input_class']) and isset($params['input-class'])) {
 } elseif (!isset($data['input_class']) and isset($params['input_class'])) {
     $data['input_class'] = $params['input_class'];
 } else {
-    $data['input_class'] = '';
-
+    $data['input_class'] = ''; 
 }
-
 
 ?>
 
@@ -20,6 +18,9 @@ if (!isset($data['input_class']) and isset($params['input-class'])) {
         <?php elseif (isset($data['name']) == true and $data['name'] != ''): ?>
             <?php print $data['name'] ?>
         <?php else : ?>
+        <?php endif; ?>
+        <?php if (isset($data['options']) == true and isset($data['options']["required"]) == true): ?>  
+        <span style="color:red;">*</span>
         <?php endif; ?>
     </label>
     <?php if (isset($data['help']) == true and $data['help'] != ''): ?>

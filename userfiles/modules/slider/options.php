@@ -22,27 +22,47 @@ if ($engine) {
 }
 
 $slides_xs = get_option('slides-xs', $params['id']);
-if ($slides_xs === null OR $slides_xs === false OR $slides_xs == '') {
+if ($slides_xs) {
+    $slides_xs = $slides_xs;
+} elseif (isset($params['data-slides-xs'])) {
+    $slides_xs = $params['data-slides-xs'];
+} else {
     $slides_xs = '1';
 }
 
 $slides_sm = get_option('slides-sm', $params['id']);
-if ($slides_sm === null OR $slides_sm === false OR $slides_sm == '') {
+if ($slides_sm) {
+    $slides_sm = $slides_sm;
+} elseif (isset($params['data-slides-sm'])) {
+    $slides_sm = $params['data-slides-sm'];
+} else {
     $slides_sm = '2';
 }
 
 $slides_md = get_option('slides-md', $params['id']);
-if ($slides_md === null OR $slides_md === false OR $slides_md == '') {
+if ($slides_md) {
+    $slides_md = $slides_md;
+} elseif (isset($params['data-slides-md'])) {
+    $slides_md = $params['data-slides-md'];
+} else {
     $slides_md = '3';
 }
 
 $slides_lg = get_option('slides-lg', $params['id']);
-if ($slides_lg === null OR $slides_lg === false OR $slides_lg == '') {
+if ($slides_lg) {
+    $slides_lg = $slides_lg;
+} elseif (isset($params['data-slides-lg'])) {
+    $slides_lg = $params['data-slides-lg'];
+} else {
     $slides_lg = '4';
 }
 
 $slides_xl = get_option('slides-xl', $params['id']);
-if ($slides_xl === null OR $slides_xl === false OR $slides_xl == '') {
+if ($slides_xl) {
+    $slides_xl = $slides_xl;
+} elseif (isset($params['data-slides-xl'])) {
+    $slides_xl = $params['data-slides-xl'];
+} else {
     $slides_xl = '4';
 }
 

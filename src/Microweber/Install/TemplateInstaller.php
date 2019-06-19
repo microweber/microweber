@@ -5,6 +5,7 @@ namespace Microweber\Install;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Option;
+use Microweber\Utils\Backup\BackupManager;
 
 class TemplateInstaller
 {
@@ -72,25 +73,23 @@ class TemplateInstaller
                 }
             }
         }
+        
         if (is_file($default_content_file)) {
-            $restore = new \Microweber\Utils\Backup();
-            $restore->backups_folder = $default_content_folder;
-            $restore->backup_file = 'mw_default_content.zip';
-
-
-           // exit;
-            //$restore->debug = 1;
-            ob_start();
-            try {
-                $rest = $restore->exec_restore();
-            } catch (\Exception $e) {
-                return false;
-            }
-            ob_get_clean();
-
-            return true;
+        	
+        	try {
+        		$manager = new BackupManager();
+        		$manager->setImportFile($default_content_file);
+        		$manager->setImportBatch(false);
+        		$importStatus = $manager->startImport();
+        		
+        	} catch (\Exception $e) {
+        		return false;
+        	}
+        	
+        	ob_get_clean();
+        	return true;
         } else {
-            return false;
+        	return false;
         }
     }
 

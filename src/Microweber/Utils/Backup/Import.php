@@ -6,12 +6,10 @@ use Microweber\Utils\Backup\Readers\JsonReader;
 use Microweber\Utils\Backup\Readers\CsvReader;
 use Microweber\Utils\Backup\Readers\XmlReader;
 use Microweber\App\Providers\Illuminate\Support\Facades\Cache;
-use Microweber\Utils\Backup\Traits\BackupLogger;
+use Microweber\Utils\Backup\Loggers\BackupImportLogger;
 
 class Import
 {
-	use BackupLogger;
-
 	/**
 	 * The import file type
 	 *
@@ -52,30 +50,40 @@ class Import
 	 * @param array $data
 	 * @return array
 	 */
-	public function importAsType($data)
+	public function importAsType($file)
 	{
-		$reader = $this->_getReader($data);
-
+		$reader = $this->_getReader($file);
 		if ($reader) {
-			$this->setLogInfo('Reading data from file ' . basename($this->file));
-			$readedData = $reader->readData();
+			
+			BackupImportLogger::setLogInfo('Reading data from file ' . basename($this->file));
 
+			try {
+				$readedData = $reader->readData();
+			} catch (\Exception $e) {
+				$readedData = array();
+				// $fileIsBroken = 'Can\'t read data. The file is corrupt.';
+				$fileIsBroken = $e->getMessage();
+				BackupImportLogger::setLogInfo($fileIsBroken);
+				
+				throw new \Exception($fileIsBroken);
+			}
+			
 			if (! empty($readedData)) {
 				$successMessages = count($readedData, COUNT_RECURSIVE) . ' items are readed.';
-				$this->setLogInfo($successMessages);
+				BackupImportLogger::setLogInfo($successMessages);
 				return array(
 					'success' => $successMessages,
 					'imoport_type' => $this->type,
-					'data' => $readedData
+					'data' => $this->_fixContentEncoding($readedData)
 				);
 			}
 		}
 
-		$formatNotSupported = 'Import format not supported.';
-		$this->setLogInfo($formatNotSupported);
-		return array(
-			'error' => $formatNotSupported
-		);
+		$formatNotSupported = 'Import format not supported';
+		BackupImportLogger::setLogInfo($formatNotSupported);
+		
+		throw new \Exception($formatNotSupported);
+		
 	}
 
 	/**
@@ -85,10 +93,50 @@ class Import
 	 */
 	public function readContentWithCache()
 	{
-		return Cache::rememberForever(md5($this->file . $this->type), function () {
-			$this->setLogInfo('Start importing session..');
-			return $this->importAsType($this->file);
+		$databaseWriter = new DatabaseWriter();
+		$currentStep = $databaseWriter->getCurrentStep();
+		
+		if ($currentStep == 0) {
+			// This is frist step
+			Cache::forget(md5($this->file));
+			return Cache::rememberForever(md5($this->file), function () {
+				BackupImportLogger::setLogInfo('Start importing session..');
+				
+				return $this->importAsType($this->file);
+			});
+		} else {
+			BackupImportLogger::setLogInfo('Read content from cache..');
+			
+			// This is for the next steps from wizard
+			return Cache::get(md5($this->file));
+		}
+	}
+	
+	public function readContent() {		
+		
+		BackupImportLogger::setLogInfo('Start importing session..');
+		
+		return $this->importAsType($this->file);
+	}
+	
+	/**
+	 * Fix wrong encoding on database
+	 * @param array $item
+	 * @return array
+	 */
+	private function _fixContentEncoding($content) {
+		
+		// Fix content encoding
+		array_walk_recursive($content, function (&$element) {
+			if (is_string($element)) {
+				$utf8Chars = explode(' ', 'À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö');
+				foreach ($utf8Chars as $char) {
+					$element = str_replace($char, '', $element);
+				}
+			}
 		});
+			
+		return $content;
 	}
 
 	/**
@@ -105,16 +153,22 @@ class Import
 			case 'json':
 				$reader = new JsonReader($data);
 				break;
+				
 			case 'csv':
 				$reader = new CsvReader($data);
 				break;
+				
 			case 'xml':
 				$reader = new XmlReader($data);
 				break;
+				
 			case 'zip':
 				$reader = new ZipReader($data);
 				break;
-			// Don't forget a break
+				
+			default:
+				throw new \Exception('Format not supported for importing.');
+				break;
 		}
 
 		return $reader;

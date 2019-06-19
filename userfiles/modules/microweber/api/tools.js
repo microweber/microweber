@@ -129,24 +129,41 @@ mw.tools = {
     iframeAutoHeight:function(frame){
         frame = mw.$(frame)[0];
         if(!frame) return;
+        var _detector =  document.createElement('div');
 
         frame.scrolling="no";
         frame.style.minHeight = 0 + 'px';
         frame.style.height = 0 + 'px';
         frame.style.height = frame.contentWindow.document.body.scrollHeight + 'px';
         $(frame).on('load resize', function(){
+            setTimeout(function(){
+                frame.contentWindow.document.body.appendChild(_detector);
+            }, 100);
             frame.style.height = 0 + 'px';
             $('#settings-container,#settings-main', frame.contentWindow.document.body).css({
                 'minHeight': '0px'
             });
-            frame.style.height = frame.contentWindow.document.body.scrollHeight + 'px';
+            frame._currHeight = frame.contentWindow.document.body.scrollHeight
+            frame.style.height = frame._currHeight + 'px';
+
+            frame._int = setInterval(function(){
+                if(frame.parentNode){
+                    var offTop = $(_detector).offset().top;
+                    if(offTop !== frame._currHeight){
+                        frame._currHeight = offTop;
+                        frame.style.height = offTop + 'px';
+                        $(frame).trigger('bodyResize')
+                    }
+
+                }
+                else {
+                    clearInterval(frame._int);
+                }
+            }, 333);
+
+
         });
-        $(frame.contentWindow.document.body).on('keyup click ajaxStop', function(){
-            setTimeout(function(){
-                frame.style.height = 0 + 'px';
-                frame.style.height = frame.contentWindow.document.body.scrollHeight + 'px';
-            }, 78);
-        });
+
     },
     distance: function (x1, y1, x2, y2) {
         var a = x1 - x2;
@@ -3374,14 +3391,26 @@ mw.tools = {
         if (node.nodeName === 'BODY') {
             return 'body';
         }
-        if (node.id != '') {
+        if (!!node.id) {
             return '#' + node.id;
         }
-        var ___final = node.className != '' ? '.' + node.className.trim().split(' ').join('.') : node.nodeName.toLocaleLowerCase();
-        ___final = ___final.replace(/\.\./g, '.');
+        if(mw.tools.hasClass(node, 'edit')){
+            var field = node.getAttribute('field');
+            var rel = node.getAttribute('rel');
+            if(field && rel){
+                return '.edit[field="'+field+'"][rel="'+rel+'"]';
+            }
+        }
+        var filter = function(item) {
+            return item !== 'changed';
+        };
+        var _final = node.className != '' ? '.' + node.className.trim().split(' ').filter(filter).join('.') : node.nodeName.toLocaleLowerCase();
+
+
+        _final = _final.replace(/\.\./g, '.');
         mw.tools.foreachParents(node, function (loop) {
             if (this.id != '') {
-                ___final = '#' + this.id + ' > ' + ___final;
+                _final = '#' + this.id + ' > ' + _final;
                 mw.tools.stopLoop(loop);
                 return false
             }
@@ -3391,9 +3420,9 @@ mw.tools = {
             else {
                 var n = this.nodeName.toLocaleLowerCase();
             }
-            ___final = n + ' > ' + ___final;
+            _final = n + ' > ' + _final;
         });
-        return ___final;
+        return _final;
     },
     cloneObject: function (r) {
         var a = {}, i;
@@ -3589,8 +3618,84 @@ mw.tools = {
         //    draggable: true
         //});
     },
-    open_reset_content_editor: function () {
+    confirm_reset_module_by_id: function (module_id) {
+        var r = confirm("Are you sure you want to reset this module?");
+        if (r == true) {
+            var data = {};
+            data.modules_ids = [module_id];
+
+            var childs_arr = [];
+
+            $('#'+module_id).andSelf().find('.edit').each(function (i) {
+                var some_child = {};
+
+                mw.tools.removeClass(this, 'changed')
+                some_child.rel = $(this).attr('rel');
+                some_child.field = $(this).attr('field');
+
+                childs_arr.push(some_child);
+
+            });
+
+
+            window.mw.on.DOMChangePause = true;
+
+            if (childs_arr.length) {
+                $.ajax({
+                    type: "POST",
+                   // dataType: "json",
+                    //processData: false,
+                    url: mw.settings.api_url + "content/reset_edit",
+                    data: {reset:childs_arr}
+                  //  success: success,
+                  //  dataType: dataType
+                });
+           }
+
+
+            $.ajax({
+                type: "POST",
+                // dataType: "json",
+                //processData: false,
+                url: mw.settings.api_url + "content/reset_modules_settings",
+                data: data,
+                success: function(){
+
+                    setTimeout(function () {
+
+
+                        $('#'+module_id).removeAttr('data-module-original-id');
+                        mw.reload_module('#'+module_id);
+                        window.mw.on.DOMChangePause = false;
+
+                    }, 1000);
+
+                 },
+            });
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+
+
+    },
+    open_reset_content_editor: function (root_element_id) {
+
         var src = mw.settings.site_url + 'api/module?id=mw_global_reset_content_editor&live_edit=true&module_settings=true&type=editor/reset_content&autosize=true';
+
+        if(typeof(root_element_id) != 'undefined') {
+            var src = src + '&root_element_id='+root_element_id;
+        }
+
         var modal = mw.tools.modal.frame({
             url: src,
             // width: 500,
@@ -4574,6 +4679,12 @@ mw.postMsg = function (w, obj) {
     w.postMessage(JSON.stringify(obj), window.location.href);
 }
 $(document).ready(function () {
+    mw.on('mwDialogShow', function(){
+        $(document.documentElement).addClass('mw-dialog-opened');
+    });
+    mw.on('mwDialogHide', function(){
+        $(document.documentElement).removeClass('mw-dialog-opened');
+    });
     $(mwd.body).bind('mousemove touchmove touchstart', function (event) {
         if (mw.tools.hasClass(event.target, 'tip')) {
             mw.tools.titleTip(event.target);

@@ -149,15 +149,19 @@
             if (ex_title == '') {
                 $(thismodal.main).find(".mw_modal_title").html(modal_title_str + '');
             }
-            if (typeof thismodal.main.scrollTop == 'function') {
+            if (thismodal.main && typeof thismodal.main.scrollTop == 'function') {
                 thismodal.main.scrollTop(0);
+            }
+
+            if(thismodal.title) {
+                thismodal.title(modal_title_str)
             }
 
             __autoresize = function (force) {
                 var force = force || false;
                 var _old = thismodal.main.height();
 
-                if (typeof thismodal.main.scrollTop == 'function') {
+                if (thismodal.main && typeof thismodal.main.scrollTop == 'function') {
                     thismodal.main.scrollTop(0);
                 }
 
@@ -288,8 +292,8 @@
                             + "<div class='module-modal-settings-menu-holder-2<?php print $params['id'] ?>'>"
                             + "<a href='<?php print $mod_adm  ?>'><?php _e("Go to admin"); ?></a></div>";
 
-                        window.parent.modal_preset_manager_html_placeholder_for_reload = function () {
-                            var modal_preset_manager_html_placeholder_for_reload_content = ""
+                            window.parent.modal_preset_manager_html_placeholder_for_reload = function () {
+                           modal_preset_manager_html_placeholder_for_reload_content = ""
                                 + "<div id='module-modal-settings-menu-items-presets-holder<?php print $params['id'] ?>' module_id='<?php print $params['id'] ?>' module_name='<?php print $module_info['module'] ?>'>"
                                 + "</div>"
 
@@ -298,20 +302,40 @@
                             window.parent.module_settings_modal_reference_preset_editor_modal_id = presetsthismodalid;
                             window.parent.module_settings_modal_reference_window = window;
 
-                            //  $('#module-modal-settings-menu-holder-open-presets').html('');
+                                window.parent.$('#module-modal-settings-menu-holder-open-presets').html('');
+                                window.parent.$('.module-modal-settings-menu-holder-open-presets').html('');
 
                             // HERE FOR DROPDOWN
                             window.parent.$('.module-modal-settings-menu-holder-open-presets', toolbar).html(modal_preset_manager_html_placeholder_for_reload_content);
+
+
+
+
+
+
+
+
                         };
+
+
+
+
                         var html = ""
                             + "<div class='module-modal-settings-menu-content'>" +
-                            "<a  href='javascript:window.parent.modal_preset_manager_html_placeholder_for_reload();'>Presets</a>" +
+                            "<a  href='javascript:window.parent.mw.tools.confirm_reset_module_by_id(\"<?php print $params['id'] ?>\");'>Reset module</a>" +
+
+                            "<a  disabled-href='javascript:window.parent.modal_preset_manager_html_placeholder_for_reload();'>Presets</a>" +
+
 
                             "</div>"
                             + "<div class='module-modal-settings-menu-holder-open-presets' ></div>"
 
+
+
+
                         var btn = document.createElement('a');
                         btn.className = 'mw-module-presets-opener';
+                        //$('.mw-module-presets-opener').on('click', function () {
                         $(btn).on('click', function () {
                             $(this).parent().toggleClass('active');
 
@@ -345,10 +369,13 @@
 
                         if (typeof(module_has_editable_parent[0]) != 'undefined' && window.parent.mw.tools.hasParentsWithClass(module_has_editable_parent[0], 'edit')) {
                             $(holder).append(html);
-                            $(dd).prepend(btn);
+                         $(dd).prepend(btn);
 
                             is_module_tml_holder.append(holder);
                         }
+
+
+
                     }
 
                     window.parent.modal_preset_manager_html_placeholder_for_reload();
@@ -411,6 +438,10 @@
 
     });
 </script>
+
+
+
+
 
 <script type="text/javascript">
 

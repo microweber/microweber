@@ -1,4 +1,30 @@
 
+<?php 
+$field_size = get_default_field_size_option();
+if (isset($data['options']['field_size'][0])) {
+	$field_size = $data['options']['field_size'][0];
+}
+if (isset($data['options']['field_size']) && is_string($data['options']['field_size'])) {
+	$field_size = $data['options']['field_size'];
+}
+?>
+
+<?php
+if($data['type'] !== 'breakline'):
+?>
+<div class="mw-custom-field-group">
+    <label class="mw-custom-field-label" for="custom_field_width_size<?php print $rand; ?>"><b><?php _e('Organaize in columns'); ?></b></label>
+    <div class="mw-custom-field-form-controls">
+       <select class="mw-ui-field" name="options[field_size]">
+       
+       	<?php foreach(get_field_size_options() as $optionKey=>$optionValue): ?> 
+        <option <?php if($field_size == $optionKey):?>selected="selected"<?php endif; ?> value="<?php echo $optionKey; ?>"><?php echo $optionValue; ?></option> 
+        <?php endforeach; ?>
+        
+       </select>
+    </div>
+</div>
+
 <div class="mw-custom-field-group<?php print $hidden_class ?>">
     <label class="mw-custom-field-label" for="custom_field_required<?php print $rand; ?>"><?php _e('Required'); ?></label>
     <div class="mw-custom-field-form-controls">
@@ -12,6 +38,8 @@
             <?php _e('Is this field Required?'); ?>
     </div>
 </div>
+
+
 <div class="mw-custom-field-group<?php print $hidden_class ?>">
     <label class="mw-custom-field-label"><?php _e('Active'); ?></label>
     <div class="mw-custom-field-form-controls">
@@ -50,5 +78,6 @@
     </script>
 
 </div>
+<?php endif; ?> 
 
 </div>

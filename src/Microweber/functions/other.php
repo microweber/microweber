@@ -704,6 +704,15 @@ function mw_composer_replace_vendor_from_cache($params)
     return $update_api->composer_replace_vendor_from_cache($params);
 }
 
+
+api_expose_admin('template/compile_css', function ($params) {
+    return mw()->template->compile_css($params);
+});
+
+api_expose_admin('template/delete_compiled_css', function ($params) {
+    return mw()->template->delete_compiled_css($params);
+});
+
 if (!function_exists('br2nl')) {
     function br2nl($string)
     {
@@ -838,21 +847,21 @@ function php_can_use_func($func_name)
 
 
     //if ($func_name == 'putenv') {
-        $available = true;
-        if (ini_get('safe_mode')) {
-            $available = false;
-        } else {
-            $d = INI_SYSTEM_CHECK_DISABLED;
-            $s = ini_get('suhosin.executor.func.blacklist');
-            if ("$d$s") {
-                $array = preg_split('/,\s*/', "$d,$s");
-                if (in_array($func_name, $array)) {
-                    $available = false;
-                }
+    $available = true;
+    if (ini_get('safe_mode')) {
+        $available = false;
+    } else {
+        $d = INI_SYSTEM_CHECK_DISABLED;
+        $s = ini_get('suhosin.executor.func.blacklist');
+        if ("$d$s") {
+            $array = preg_split('/,\s*/', "$d,$s");
+            if (in_array($func_name, $array)) {
+                $available = false;
             }
         }
+    }
 
-        return $available;
+    return $available;
     //}
 
     if (!strstr(INI_SYSTEM_CHECK_DISABLED, (string)$func_name)) {

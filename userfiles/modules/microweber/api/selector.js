@@ -57,6 +57,11 @@ mw.Selector = function(options) {
         }
     };
 
+
+    this.pause = function(){
+        this.active(false);
+        this.hideAll();
+    };
     this.hideAll = function(){
         var i = 0;
         for( ; i <  this.selectors.length; i++){
@@ -169,7 +174,7 @@ mw.Selector = function(options) {
                 else{
                     this.selected = [target];
                 }
-                $(this).trigger('select');
+                $(this).trigger('select', [this.selected]);
             }
 
         }

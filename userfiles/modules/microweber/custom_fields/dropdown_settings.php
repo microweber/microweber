@@ -14,8 +14,8 @@
         <label class="mw-ui-check left" style="margin-right: 7px;">
             <input type="checkbox"
                    data-option-group="custom_fields"
-                   name="options[]"
-                   value="multiple"
+                   name="options[multiple]"
+                   value="1"
                 <?php if (isset($data['options']) == true and isset($data['options']["multiple"]) == true and $data['options']["multiple"] == '1'): ?> checked="checked" <?php endif; ?>
             />
 

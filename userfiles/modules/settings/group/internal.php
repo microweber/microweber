@@ -60,6 +60,7 @@ $system_cache_adapter = Config::get('microweber.cache_adapter');
 $compile_assets = Config::get('microweber.compile_assets');
 $force_https = Config::get('microweber.force_https');
 $update_channel = Config::get('microweber.update_channel');
+$developer_mode = Config::get('microweber.developer_mode');
 
 if ($system_cache_adapter == false) {
     $system_cache_adapter = 'file';
@@ -138,7 +139,15 @@ $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
             <option value="dev" <?php if ($update_channel == 'dev'): ?> selected <?php endif; ?> > Dev</option>
             <option value="disabled" <?php if ($update_channel == 'disabled'): ?> selected <?php endif; ?> > <?php _e('Disable'); ?></option>
         </select>
-
+        
+         <br />
+        <br />
+         <label class="mw-ui-label"> Developer Mode </label>   
+        <select name="microweber[developer_mode]" class="mw-ui-field">
+            <option value="0" <?php if ($developer_mode == '0'): ?> selected <?php endif; ?> > <?php _e('Disabled'); ?></option>
+            <option value="1" <?php if ($developer_mode == '1'): ?> selected <?php endif; ?> > <?php _e('Enabled'); ?></option>
+        </select>
+        
         <?php event_trigger('mw_admin_internal_settings', $params); ?>
         <br/>
         <br/>

@@ -1,6 +1,8 @@
 <?php 
 namespace Microweber\Utils\Backup\Traits;
 
+use Microweber\Utils\Backup\DatabaseSave;
+
 trait DatabaseCustomFieldsWriter {
 	
 	private function _getCustomFields($itemId) {
@@ -31,22 +33,22 @@ trait DatabaseCustomFieldsWriter {
 		return $customFieldValues;
 	}
 	
-	private function _saveCustomFields($item, $itemId) {
+	private function _saveCustomFields($savedItem) {
 		
 		// Get custom fields from file export
-		$customFields = $this->_getCustomFields($itemId);
+		$customFields = $this->_getCustomFields($savedItem['itemIdDatabase']);
 		
 		if (!empty($customFields)) {
 			foreach ($customFields as $customField) {
-				$this->_saveCustomField($customField, $itemId);
+				$this->_saveCustomField($customField, $savedItem['itemIdDatabase']);
 			}
 		}
 	}
 	
-	private function _saveCustomField($customField, $itemId) {
+	private function _saveCustomField($customField, $itemIdDatabase) {
 		
 		// New rel id
-		$customField['rel_id'] = $itemId;
+		$customField['rel_id'] = $itemIdDatabase;
 		
 		$dbSelectParams = array();
 		$dbSelectParams['no_cache'] = true;
@@ -61,28 +63,25 @@ trait DatabaseCustomFieldsWriter {
 		$checkCustomFieldIsExists = db_get('custom_fields', $dbSelectParams);
 		
 		if ($checkCustomFieldIsExists) {
-			$customFieldId = $checkCustomFieldIsExists['id'];
-			echo $customField['name'] . ': Custom field is allready saved.' . PHP_EOL;
+			$customFieldIdDatabase = $checkCustomFieldIsExists['id'];
+			//echo $customField['name'] . ': Custom field is allready saved.' . PHP_EOL;
 		} else {
-			echo $customField['name'] .': Custom field is saved.' . PHP_EOL;
-			$customFieldId = db_save('custom_fields', $customField);
+			//echo $customField['name'] .': Custom field is saved.' . PHP_EOL;
+			$customFieldIdDatabase = DatabaseSave::save('custom_fields', $customField);
 		}
 		
-		$this->_saveCustomFieldValues($customField, $customFieldId);
+		$this->_saveCustomFieldValues($customField, $customFieldIdDatabase);
 		
 	}
 	
-	private function _saveCustomFieldValues($customField, $customFieldId) {
+	private function _saveCustomFieldValues($customField, $customFieldIdDatabase) {
 		
-		$customFieldValues = $this->_getCustomFieldValues($customFieldId);
+		$customFieldValues = $this->_getCustomFieldValues($customFieldIdDatabase);
 		
 		foreach($customFieldValues as $customFieldValue) {
 			
-			// Fix encoding
-			$customFieldValue = $this->_fixItemEncoding($customFieldValue);
-			
 			// New field id
-			$customFieldValue['custom_field_id'] = $customFieldId;
+			$customFieldValue['custom_field_id'] = $customFieldIdDatabase;
 			$customFieldValue = $this->_unsetItemFields($customFieldValue);
 			
 			
@@ -96,11 +95,11 @@ trait DatabaseCustomFieldsWriter {
 			
 			$checkCustomFieldValueIsExists = db_get('custom_fields_values', $dbSelectParams);
 			if ($checkCustomFieldValueIsExists) {
-				$customFieldValueId = $checkCustomFieldValueIsExists['id'];
-				echo 'Custom field value is allready saved.' . PHP_EOL;
+				$customFieldValueIdDatabase = $checkCustomFieldValueIsExists['id'];
+				//echo 'Custom field value is allready saved.' . PHP_EOL;
 			} else {
-				echo 'Custom field value is saved.' . PHP_EOL;
-				$customFieldValueId = db_save('custom_fields_values', $customFieldValue);
+				//echo 'Custom field value is saved.' . PHP_EOL;
+				$customFieldValueIdDatabase = DatabaseSave::save('custom_fields_values', $customFieldValue);
 			}
 			
 		}

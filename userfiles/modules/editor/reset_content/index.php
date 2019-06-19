@@ -1,6 +1,8 @@
 <?php only_admin_access(); ?>
 
 
+
+
 <script src="<?php print modules_url() ?>editor/html_editor/html_editor.js"></script>
 
 
@@ -9,6 +11,13 @@
 
     $(document).ready(function () {
         var fields = mw.html_editor.get_edit_fields(true);
+
+
+    <?php if(isset($params['root_element_id']) and $params['root_element_id']){ ?>
+        var fields = mw.html_editor.get_edit_fields(true, '#<?php print $params['root_element_id'] ?>');
+    <?php } ?>
+
+
 
 
         mw.html_editor.build_dropdown(fields, false);
