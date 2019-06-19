@@ -4931,3 +4931,18 @@ html.padding-control-start .mw-handle-item{
     display: none !important;
 }
 
+
+.mw-padding-control-active-mark{
+    position: absolute;
+    z-index: 1100;
+    pointer-events: none;
+    background-color: rgba(0,0,0,.09);
+    display: none;
+    border: 1px solid #4584f6;
+    box-shadow: inset 0 0 20px rgba(0,0,0,.5);
+}
+
+.mw-padding-control-active-mark.active{
+    display: block;
+}
+

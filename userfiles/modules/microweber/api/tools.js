@@ -5922,7 +5922,7 @@ mw.uiAccordion = function (options) {
 
     var scope = this;
 
-    console.log(options)
+
 
     this.getContents = function () {
         this.contents = this.root.children(this.options.contentSelector);

@@ -58,6 +58,7 @@
                 scope._paddingBottomDown = false;
                 scope._working = false;
                 $(scope._info).removeClass('active');
+                scope.activeMark(false);
                 mw.liveEditSelector.active(true);
                 $('html').removeClass('padding-control-start');
             });
@@ -71,7 +72,7 @@
             });
             $(document.body).on('mousemove', function(e){
                 var isDown = e.pageY < scope._pageY;
-                var inc = 5;
+                var inc = 1;
                 var curr;
                 if(scope._paddingTopDown){
                     scope._working = true;
@@ -85,6 +86,7 @@
                     scope.position(scope._active);
                     scope.info();
                     scope._active.setAttribute('staticdesign', true);
+                    scope.activeMark(true);
                     mw.wysiwyg.change(scope._active);
                     mw.liveEditSelector.pause();
                     mw.trigger('PaddingControl', scope._active);
@@ -100,6 +102,7 @@
                     scope.position(scope._active);
                     scope.info();
                     scope._active.setAttribute('staticdesign', true);
+                    scope.activeMark(true);
                     mw.wysiwyg.change(scope._active);
                     mw.liveEditSelector.pause();
                     mw.trigger('PaddingControl', scope._active);
@@ -158,6 +161,28 @@
             this.eventsHandlers();
             this.handleMouseMove();
             this.prepareSelectors();
+        };
+
+        this.activeMark = function (state) {
+            if(typeof state === 'undefined') {
+                state = false;
+            }
+            if(!this._activeMark) {
+                this._activeMark = document.createElement('div');
+                this._activeMark.className = 'mw-padding-control-active-mark';
+                document.body.appendChild(this._activeMark);
+            }
+            if (state) {
+                mw.tools.addClass(this._activeMark, 'active');
+                var off = scope._active.getBoundingClientRect();
+                this._activeMark.style.top = off.top + 'px';
+                this._activeMark.style.left = off.left + 'px';
+                this._activeMark.style.width = off.width + 'px';
+                this._activeMark.style.height = off.height + 'px';
+            } else {
+                mw.tools.removeClass(this._activeMark, 'active');
+            }
+
         };
 
         this.info = function() {

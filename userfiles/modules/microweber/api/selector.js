@@ -156,7 +156,7 @@ mw.Selector = function(options) {
     this.setItem = function(e, item, select, extend){
         if(!this.active()) return;
         var target = e.target ? e.target : e;
-        target = mw.tools.firstMatchesOnNodeOrParent(target, ['[id]']);
+        target = mw.tools.firstMatchesOnNodeOrParent(target, ['[id]', '.edit']);
         var validateTarget = !mw.tools.firstMatchesOnNodeOrParent(target, ['.mw-control-box', '.mw-defaults']);
         if(!target || !validateTarget) return;
         if($(target).hasClass('mw-select-skip')){
