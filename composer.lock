@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6b665fd7c7296496428de3f1c63997ff",
+    "content-hash": "ba19ffe474c9c0d057801578f34edfe6",
     "packages": [
         {
             "name": "arcanedev/seo-helper",
@@ -137,16 +137,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.100.0",
+            "version": "3.100.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "ecf8acf56bdb6e642fe86ead6c80eab0c61067cb"
+                "reference": "4b3732bfc8c60e5c816dd3b1175b5a7f7231d98d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/ecf8acf56bdb6e642fe86ead6c80eab0c61067cb",
-                "reference": "ecf8acf56bdb6e642fe86ead6c80eab0c61067cb",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/4b3732bfc8c60e5c816dd3b1175b5a7f7231d98d",
+                "reference": "4b3732bfc8c60e5c816dd3b1175b5a7f7231d98d",
                 "shasum": ""
             },
             "require": {
@@ -216,7 +216,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2019-06-10T18:09:57+00:00"
+            "time": "2019-06-18T18:13:15+00:00"
         },
         {
             "name": "coduo/php-humanizer",
@@ -1118,7 +1118,7 @@
         },
         {
             "name": "doctrine/lexer",
-            "version": "1.0.2",
+            "version": "1.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/lexer.git",
@@ -1724,19 +1724,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/promises.git",
-                "reference": "926eaa3ff73cde2becf652b785831bcb7618568a"
+                "reference": "e6d006f1ced100d81755966f09625d71ce6a7dca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/promises/zipball/926eaa3ff73cde2becf652b785831bcb7618568a",
-                "reference": "926eaa3ff73cde2becf652b785831bcb7618568a",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/e6d006f1ced100d81755966f09625d71ce6a7dca",
+                "reference": "e6d006f1ced100d81755966f09625d71ce6a7dca",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5.0"
+                "php": ">=5.6"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8.36"
+                "phpunit/phpunit": "^5.7.27 || ^7.5"
             },
             "type": "library",
             "extra": {
@@ -1767,7 +1767,7 @@
             "keywords": [
                 "promise"
             ],
-            "time": "2018-10-30T00:20:04+00:00"
+            "time": "2019-06-11T17:44:31+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -1775,12 +1775,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "868353eb117c202ee1f3b214eef9717e3d871297"
+                "reference": "e113254d23b24c548f0b4d8f671828c4eeb876d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/868353eb117c202ee1f3b214eef9717e3d871297",
-                "reference": "868353eb117c202ee1f3b214eef9717e3d871297",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/e113254d23b24c548f0b4d8f671828c4eeb876d2",
+                "reference": "e113254d23b24c548f0b4d8f671828c4eeb876d2",
                 "shasum": ""
             },
             "require": {
@@ -1801,7 +1801,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.5-dev"
+                    "dev-master": "1.6-dev"
                 }
             },
             "autoload": {
@@ -1838,51 +1838,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2019-06-09T22:25:39+00:00"
-        },
-        {
-            "name": "halaxa/json-machine",
-            "version": "0.3.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/halaxa/json-machine.git",
-                "reference": "8e3555b270540130bd3626ab76bf1f1e394485f1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/halaxa/json-machine/zipball/8e3555b270540130bd3626ab76bf1f1e394485f1",
-                "reference": "8e3555b270540130bd3626ab76bf1f1e394485f1",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "php": ">=5.6"
-            },
-            "require-dev": {
-                "guzzlehttp/guzzle": "^6",
-                "phpunit/phpunit": "*"
-            },
-            "suggest": {
-                "guzzlehttp/guzzle": "To run scripts in src/examples."
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "JsonMachine\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Filip Halaxa",
-                    "email": "filip@halaxa.cz"
-                }
-            ],
-            "description": "Fast, efficient and easy-to-use JSON stream parser developed for unpredictably long JSON streams or documents.",
-            "time": "2019-03-20T19:33:36+00:00"
+            "time": "2019-06-17T23:10:01+00:00"
         },
         {
             "name": "intervention/image",
@@ -1956,16 +1912,16 @@
         },
         {
             "name": "jaybizzle/crawler-detect",
-            "version": "v1.2.83",
+            "version": "v1.2.84",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JayBizzle/Crawler-Detect.git",
-                "reference": "80f1357b431c605745eeb901fe4c32c8f25a5c52"
+                "reference": "b7f35477a56609dd0d753c07ada912b66af3df01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/80f1357b431c605745eeb901fe4c32c8f25a5c52",
-                "reference": "80f1357b431c605745eeb901fe4c32c8f25a5c52",
+                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/b7f35477a56609dd0d753c07ada912b66af3df01",
+                "reference": "b7f35477a56609dd0d753c07ada912b66af3df01",
                 "shasum": ""
             },
             "require": {
@@ -2001,7 +1957,7 @@
                 "crawlerdetect",
                 "php crawler detect"
             ],
-            "time": "2019-06-04T19:56:51+00:00"
+            "time": "2019-06-14T21:10:21+00:00"
         },
         {
             "name": "jenssegers/agent",
@@ -2705,12 +2661,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "92d93308510d4aa439df85786991a2255723c0bc"
+                "reference": "b5332367939def499b388d4e4eab38d1a400f775"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/92d93308510d4aa439df85786991a2255723c0bc",
-                "reference": "92d93308510d4aa439df85786991a2255723c0bc",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/b5332367939def499b388d4e4eab38d1a400f775",
+                "reference": "b5332367939def499b388d4e4eab38d1a400f775",
                 "shasum": ""
             },
             "require": {
@@ -2781,7 +2737,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2019-05-21T13:11:03+00:00"
+            "time": "2019-06-19T05:35:02+00:00"
         },
         {
             "name": "league/oauth1-client",
@@ -3103,17 +3059,17 @@
         },
         {
             "name": "microweber-deps/laravel-tagging",
-            "version": "dev-laravel-5",
+            "version": "2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-deps/laravel-tagging.git",
-                "reference": "e788f3a24b8de7b3c54d6ac2ee183e69d2e9cee9"
+                "reference": "ce928fbd43ed011847e0c245033b7447f54bf0c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-deps/laravel-tagging/zipball/e788f3a24b8de7b3c54d6ac2ee183e69d2e9cee9",
-                "reference": "e788f3a24b8de7b3c54d6ac2ee183e69d2e9cee9",
-                "shasum": ""
+                "url": "https://packages.microweberapi.com/dist/microweber-deps/laravel-tagging/microweber-deps-laravel-tagging-ce928fbd43ed011847e0c245033b7447f54bf0c6-zip-0b3356.zip",
+                "reference": "ce928fbd43ed011847e0c245033b7447f54bf0c6",
+                "shasum": "395bba348bfb2bb7acf0f420142df4fad3b9e77c"
             },
             "require": {
                 "illuminate/database": ">= 5.0",
@@ -3129,6 +3085,7 @@
             "type": "library",
             "extra": {
                 "_meta": {
+                    "readme": "https://packages.microweberapi.com/meta/meta-microweber-deps-laravel-tagging-477a6bbb424f0726e01a366ccfeb66b5/README.md",
                     "avatar": "https://favicon.microweberapi.com/https://smartersoftware.net/packages/laravel-tagging-taggable"
                 }
             },
@@ -3164,23 +3121,23 @@
                 "tags"
             ],
             "support": {
-                "source": "https://github.com/microweber-deps/laravel-tagging/tree/laravel-5"
+                "source": "https://github.com/microweber-deps/laravel-tagging/tree/2.2.1"
             },
-            "time": "2019-01-28T12:06:14+00:00"
+            "time": "2016-09-12T21:50:32+00:00"
         },
         {
             "name": "microweber-deps/recurr",
-            "version": "dev-master",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-deps/recurr.git",
-                "reference": "433e6750e0a85be18382e5a494883cd0b74aeab1"
+                "reference": "971af786bfb89511c3f815bdd9ebad6c3259e1fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-deps/recurr/zipball/433e6750e0a85be18382e5a494883cd0b74aeab1",
-                "reference": "433e6750e0a85be18382e5a494883cd0b74aeab1",
-                "shasum": ""
+                "url": "https://packages.microweberapi.com/dist/microweber-deps/recurr/microweber-deps-recurr-971af786bfb89511c3f815bdd9ebad6c3259e1fc-zip-481640.zip",
+                "reference": "971af786bfb89511c3f815bdd9ebad6c3259e1fc",
+                "shasum": "d2b7770a8dd9306da73041fb44a94769add3fe14"
             },
             "require": {
                 "doctrine/collections": "*",
@@ -3192,6 +3149,7 @@
             "type": "library",
             "extra": {
                 "_meta": {
+                    "readme": "https://packages.microweberapi.com/meta/meta-microweber-deps-recurr-ae504b0d0781d1505be4711d060cefd2/README.md",
                     "avatar": "https://favicon.microweberapi.com/https://github.com/selfworks/recurr"
                 }
             },
@@ -3226,31 +3184,31 @@
                 "rrule"
             ],
             "support": {
-                "source": "https://github.com/microweber-deps/recurr/tree/master"
+                "source": "https://github.com/microweber-deps/recurr/tree/v3.1.0"
             },
-            "time": "2019-01-28T12:04:19+00:00"
+            "time": "2018-09-27T19:16:00+00:00"
         },
         {
             "name": "microweber-templates/dream",
-            "version": "1.3",
+            "version": "1.4",
             "target-dir": "dream",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-templates/dream.git",
-                "reference": "ad1f77e08a608dd9f7f2d4d5f86b0e25204cca75"
+                "reference": "7016a694942c91a93674a40ae3f41c06ceebde6c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.microweberapi.com/dist/microweber-templates/dream/microweber-templates-dream-ad1f77e08a608dd9f7f2d4d5f86b0e25204cca75-zip-c2c2b9.zip",
-                "reference": "ad1f77e08a608dd9f7f2d4d5f86b0e25204cca75",
-                "shasum": "63f6359e821817583dc0286b8065c57b3fbaec04"
+                "url": "https://packages.microweberapi.com/dist/microweber-templates/dream/microweber-templates-dream-7016a694942c91a93674a40ae3f41c06ceebde6c-zip-67d11a.zip",
+                "reference": "7016a694942c91a93674a40ae3f41c06ceebde6c",
+                "shasum": "af8df8f8163b4ae982702a50873361827957d29a"
             },
             "type": "microweber-template",
             "extra": {
-                "preview_url": "https://dream-template.microweber.com/",
+                "preview_url": "https://templates.microweber.com/dream/",
                 "_meta": {
-                    "screenshot": "https://packages.microweberapi.com/meta/meta-microweber-templates-dream-0cdbeaffbe6f32fc9e4f6ba6824e55bd/screenshot.jpg",
-                    "readme": "https://packages.microweberapi.com/meta/meta-microweber-templates-dream-0cdbeaffbe6f32fc9e4f6ba6824e55bd/readme.md",
+                    "screenshot": "https://packages.microweberapi.com/meta/meta-microweber-templates-dream-0d16e6483a2fbbebe9e1fe33658d0e46/screenshot.jpg",
+                    "readme": "https://packages.microweberapi.com/meta/meta-microweber-templates-dream-0d16e6483a2fbbebe9e1fe33658d0e46/readme.md",
                     "avatar": "https://favicon.microweberapi.com/https://microweber.com/"
                 }
             },
@@ -3265,10 +3223,10 @@
                 "microweber"
             ],
             "support": {
-                "source": "https://github.com/microweber-templates/dream/tree/1.3",
+                "source": "https://github.com/microweber-templates/dream/tree/1.4",
                 "issues": "https://github.com/microweber-templates/dream/issues"
             },
-            "time": "2019-05-28T13:10:28+00:00"
+            "time": "2019-06-12T08:34:18+00:00"
         },
         {
             "name": "microweber-templates/liteness",
@@ -6145,12 +6103,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
-                "reference": "e79bbe15d8aa2ae923f4eac63deb91ceb44e5199"
+                "reference": "1172dc1abe44dfadd162239153818b074e6e53bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/debug/zipball/e79bbe15d8aa2ae923f4eac63deb91ceb44e5199",
-                "reference": "e79bbe15d8aa2ae923f4eac63deb91ceb44e5199",
+                "url": "https://api.github.com/repos/symfony/debug/zipball/1172dc1abe44dfadd162239153818b074e6e53bf",
+                "reference": "1172dc1abe44dfadd162239153818b074e6e53bf",
                 "shasum": ""
             },
             "require": {
@@ -6193,7 +6151,7 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2019-05-30T15:47:52+00:00"
+            "time": "2019-06-18T21:26:03+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -6261,12 +6219,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "acf99758b1df8e9295e6b85aa69f294565c9fedb"
+                "reference": "44fa9cad9e4300070a2ec745a14472a818b676ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/acf99758b1df8e9295e6b85aa69f294565c9fedb",
-                "reference": "acf99758b1df8e9295e6b85aa69f294565c9fedb",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/44fa9cad9e4300070a2ec745a14472a818b676ab",
+                "reference": "44fa9cad9e4300070a2ec745a14472a818b676ab",
                 "shasum": ""
             },
             "require": {
@@ -6303,7 +6261,7 @@
             ],
             "description": "Symfony Filesystem Component",
             "homepage": "https://symfony.com",
-            "time": "2019-02-04T21:34:32+00:00"
+            "time": "2019-06-13T10:34:15+00:00"
         },
         {
             "name": "symfony/finder",
@@ -6360,12 +6318,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "de037fca6e2702acccb4b261e35c06ff41d39ad1"
+                "reference": "db1d8bed54c05ecffb364b55189679e8fbf701a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/de037fca6e2702acccb4b261e35c06ff41d39ad1",
-                "reference": "de037fca6e2702acccb4b261e35c06ff41d39ad1",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/db1d8bed54c05ecffb364b55189679e8fbf701a2",
+                "reference": "db1d8bed54c05ecffb364b55189679e8fbf701a2",
                 "shasum": ""
             },
             "require": {
@@ -6406,7 +6364,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "https://symfony.com",
-            "time": "2019-06-05T13:24:38+00:00"
+            "time": "2019-06-16T11:18:06+00:00"
         },
         {
             "name": "symfony/http-kernel",
@@ -6414,12 +6372,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "71bd6d3eebde0175b59fec611969b127f0ab2241"
+                "reference": "1a7997505af886442a30a7250719af83d7463dbb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/71bd6d3eebde0175b59fec611969b127f0ab2241",
-                "reference": "71bd6d3eebde0175b59fec611969b127f0ab2241",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/1a7997505af886442a30a7250719af83d7463dbb",
+                "reference": "1a7997505af886442a30a7250719af83d7463dbb",
                 "shasum": ""
             },
             "require": {
@@ -6495,7 +6453,7 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "https://symfony.com",
-            "time": "2019-05-30T15:47:52+00:00"
+            "time": "2019-06-13T15:39:17+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -6836,12 +6794,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/routing.git",
-                "reference": "d884d559648dcb6abde01d67a12cde97f67213df"
+                "reference": "c3c486038e40e4ee495620f1e23f531af035f0f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/routing/zipball/d884d559648dcb6abde01d67a12cde97f67213df",
-                "reference": "d884d559648dcb6abde01d67a12cde97f67213df",
+                "url": "https://api.github.com/repos/symfony/routing/zipball/c3c486038e40e4ee495620f1e23f531af035f0f7",
+                "reference": "c3c486038e40e4ee495620f1e23f531af035f0f7",
                 "shasum": ""
             },
             "require": {
@@ -6904,7 +6862,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2019-05-30T15:47:52+00:00"
+            "time": "2019-06-12T01:24:15+00:00"
         },
         {
             "name": "symfony/translation",
@@ -6912,12 +6870,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "65af9c4082cac742db72c18d1c0c3368df183fc8"
+                "reference": "5c07632afb8cb14b422051b651213ed17bf7c249"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/65af9c4082cac742db72c18d1c0c3368df183fc8",
-                "reference": "65af9c4082cac742db72c18d1c0c3368df183fc8",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/5c07632afb8cb14b422051b651213ed17bf7c249",
+                "reference": "5c07632afb8cb14b422051b651213ed17bf7c249",
                 "shasum": ""
             },
             "require": {
@@ -6974,7 +6932,7 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
-            "time": "2019-06-05T11:33:52+00:00"
+            "time": "2019-06-13T10:34:15+00:00"
         },
         {
             "name": "symfony/var-dumper",
@@ -6982,12 +6940,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "ca5fef348a0440411bbca0f9ec14e9a11625bd6a"
+                "reference": "7b92618169c44af4bb226f69dbac42b56b1a7745"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/ca5fef348a0440411bbca0f9ec14e9a11625bd6a",
-                "reference": "ca5fef348a0440411bbca0f9ec14e9a11625bd6a",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/7b92618169c44af4bb226f69dbac42b56b1a7745",
+                "reference": "7b92618169c44af4bb226f69dbac42b56b1a7745",
                 "shasum": ""
             },
             "require": {
@@ -7043,7 +7001,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2019-05-01T09:52:10+00:00"
+            "time": "2019-06-13T16:26:35+00:00"
         },
         {
             "name": "symfony/yaml",
@@ -7157,12 +7115,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "8c4b748f23cf012841a77093e91e178102e119f0"
+                "reference": "5c9ec4d4a3b3b5182cd9204f9d73ba85ea76f6e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/8c4b748f23cf012841a77093e91e178102e119f0",
-                "reference": "8c4b748f23cf012841a77093e91e178102e119f0",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/5c9ec4d4a3b3b5182cd9204f9d73ba85ea76f6e1",
+                "reference": "5c9ec4d4a3b3b5182cd9204f9d73ba85ea76f6e1",
                 "shasum": ""
             },
             "require": {
@@ -7215,7 +7173,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2019-06-11T09:40:08+00:00"
+            "time": "2019-06-18T15:36:05+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -7273,8 +7231,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "microweber-deps/recurr": 20,
-        "microweber-deps/laravel-tagging": 20,
         "aws/aws-sdk-php": 20
     },
     "prefer-stable": false,
