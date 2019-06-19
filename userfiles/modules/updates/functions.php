@@ -2,44 +2,72 @@
 
 
 event_bind(
-    'mw.admin.sidebar.li.1', function ($item) {
+    'mw.admin.sidebar.li.last', function ($item) {
     if (mw()->ui->disable_marketplace != true) {
-        $packages = __mw_get_packages_that_has_updates('microweber/core-update');
 
-        if ($packages) {
-            print '<module type="updates/admin_sidebar_btn" no_wrap="true" class="mw-lazy-load-module"></module>';
+        $cache_id = 'mw_update_check_auto_update_check_core';
+        $cache_group = 'update';
+
+        $last_check = cache_get($cache_id, $cache_group, 3600);
+
+         if ($last_check == 'noupdate') {
+            return;
         }
+
+        print '<div type="updates/admin_sidebar_btn" no_wrap="true" class="mw-lazy-load-module"></div>';
+
+        //$check = __mw_check_core_system_update();
+
+
+//        if ($last_check) {
+//         //   print '<div type="updates/admin_sidebar_btn" no_wrap="true" class="mw-lazy-load-module"></div>';
+//        }
     }
 }
 );
 
 
-function __mw_get_packages_that_has_updates($package_name=false)
+function __mw_check_core_system_update()
 {
 
 
-    $search_params = array('return_only_updates' => true);
-    if($package_name){
-       $search_params['keyword'] = $package_name;
-    }
-
-    $cache_id = 'mw_update_check_auto_update_check'.crc32($package_name);
+    $cache_id = 'mw_update_check_auto_update_check_core';
     $cache_group = 'update';
 
-
-    $last_check = mw()->update->composer_search_packages($search_params);
-
-
-
-
-   /* dd($last_check);
-
     $last_check = cache_get($cache_id, $cache_group, 3600);
+
+    if ($last_check == 'noupdate') {
+        return;
+    }
+
     if (!$last_check) {
+        $search_params = array('return_only_updates' => true, 'keyword' => 'microweber/update');
+        //$search_params = array('return_only_updates' => true, 'keyword' => 'microweber');
+
+
         $last_check = mw()->update->composer_search_packages($search_params);
+        if (!$last_check) {
+            $last_check = 'noupdate';
+        } else {
+            $count = count($last_check);
+            if ($count > 0) {
+                $notif = array();
+                $notif['replace'] = true;
+                $notif['module'] = 'updates';
+                $notif['rel_type'] = 'update_check';
+                $notif['rel_id'] = 'updates_core';
+                $notif['title'] = 'New system update is available';
+                $notif['description'] = "There is new system update available";
+               // $notif['notification_data'] = @json_encode($last_check);
+
+                mw()->app->notifications_manager->save($notif);
+            }
+        }
         cache_save($last_check, $cache_id, $cache_group);
-    }*/
+    }
+
     return $last_check;
+
 
 }
 

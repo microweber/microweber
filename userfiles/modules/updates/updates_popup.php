@@ -1,4 +1,6 @@
 <?php only_admin_access();
+exit;
+//depricated
 
 if (!isset($params['popup'])) {
 return;

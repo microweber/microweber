@@ -789,6 +789,21 @@ class FieldsManager
             $settings = true;
         }
 
+        
+        $params = false;
+        if ((isset($_REQUEST['params']) and ($_REQUEST['params']) )) {
+        	$params = $_REQUEST['params'];
+        }
+        
+        if ((isset($_REQUEST['field_id']) and ($_REQUEST['field_id']) )) {
+        	$data['field_id'] = $_REQUEST['field_id'];
+        }
+         
+        
+        
+         
+ //         die();
+        
         if (isset($data['copy_from'])) {
             $copy_from = intval($data['copy_from']);
             if (is_admin() == true) {
@@ -887,6 +902,9 @@ class FieldsManager
         }
         $file = normalize_path($file, false);
 
+        
+        
+        
         if (is_file($file)) {
             $l = new \Microweber\View($file);
 

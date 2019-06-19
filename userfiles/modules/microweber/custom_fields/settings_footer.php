@@ -4,6 +4,9 @@ $field_size = get_default_field_size_option();
 if (isset($data['options']['field_size'][0])) {
 	$field_size = $data['options']['field_size'][0];
 }
+if (isset($data['options']['field_size']) && is_string($data['options']['field_size'])) {
+	$field_size = $data['options']['field_size'];
+}
 ?>
 
 <?php
