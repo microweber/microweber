@@ -57,16 +57,7 @@ class Import
 			
 			BackupImportLogger::setLogInfo('Reading data from file ' . basename($this->file));
 
-			try {
-				$readedData = $reader->readData();
-			} catch (\Exception $e) {
-				$readedData = array();
-				// $fileIsBroken = 'Can\'t read data. The file is corrupt.';
-				$fileIsBroken = $e->getMessage();
-				BackupImportLogger::setLogInfo($fileIsBroken);
-				
-				throw new \Exception($fileIsBroken);
-			}
+			$readedData = $reader->readData();
 			
 			if (! empty($readedData)) {
 				$successMessages = count($readedData, COUNT_RECURSIVE) . ' items are readed.';

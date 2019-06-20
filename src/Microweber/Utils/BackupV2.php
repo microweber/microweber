@@ -57,7 +57,7 @@ class BackupV2
 		}
 
 		$backupLocation = $this->manager->getBackupLocation();
-		$backupFiles = glob("$backupLocation{*.sql,*.zip,*.json,*.xml,*.xlsx}", GLOB_BRACE);
+		$backupFiles = glob("$backupLocation{*.sql,*.zip,*.json,*.xml,*.xlsx,*.csv}", GLOB_BRACE);
 
 		usort($backupFiles, function ($a, $b) {
 			return filemtime($a) < filemtime($b);

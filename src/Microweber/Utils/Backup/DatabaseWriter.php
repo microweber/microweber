@@ -213,18 +213,28 @@ class DatabaseWriter
 				}
 			}
 		}
+		
+		$this->_finishUp();
+		cache_save($this->totalSteps, 'CurrentStep', $this->_cacheGroupName, 60 * 10);
+		
 	}
 	
 	public function runWriterWithBatch() 
 	{
 		if ($this->getCurrentStep() == 0) {
+			BackupImportLogger::clearLog();
+		}
+		
+		if ($this->getCurrentStep() == $this->totalSteps) {
 			// Clear old log file
 			BackupImportLogger::clearLog();
+			$this->_finishUp();
 		}
 		
 		BackupImportLogger::setLogInfo('Importing database batch: ' . $this->getCurrentStep() . '/' . $this->totalSteps);
 
 		if (empty($this->content)) {
+			$this->_finishUp();
 			return array("success"=>"Nothing to import.");
 		}
 		
@@ -254,12 +264,17 @@ class DatabaseWriter
 			$totalItemsForSave = sizeof($itemsForSave);
 			$totalItemsForBatch = round($totalItemsForSave / $this->totalSteps, 0);
 			
-			$itemsBatch = array_chunk($itemsForSave, $totalItemsForBatch);
+			if ($totalItemsForBatch > 0) {
+				$itemsBatch = array_chunk($itemsForSave, $totalItemsForBatch);
+			} else {
+				$itemsBatch[0] = $itemsForSave;
+			}
 			
 			if (!isset($itemsBatch[$this->getCurrentStep()])) {
 				
 				BackupImportLogger::setLogInfo('No items in batch for current step.');
-				$this->_finishUp();
+				
+				cache_save($this->totalSteps, 'CurrentStep', $this->_cacheGroupName, 60 * 10);
 				
 				return array("success"=>"Done! All steps are finished.");
 			}
@@ -273,7 +288,8 @@ class DatabaseWriter
 			//echo 'Save cache ... ' .$this->currentStep. PHP_EOL;
 			
 			cache_save($this->getCurrentStep() + 1, 'CurrentStep', $this->_cacheGroupName, 60 * 10);
-			
+		
+		
 		}
 		
 	}

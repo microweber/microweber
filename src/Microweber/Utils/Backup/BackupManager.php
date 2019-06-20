@@ -26,7 +26,7 @@ class BackupManager
 	 * Set export full
 	 * @param string $type
 	 */
-	public function setExportAllData($exportAllData) {
+	public function setExportAllData(bool $exportAllData) {
 		$this->exportAllData = $exportAllData;
 	}
 	
@@ -128,7 +128,7 @@ class BackupManager
 			return $writer->getImportLog();
 			
 		} catch (\Exception $e) {
-			return array("error"=>$e->getMessage());
+			return array("file"=>$e->getFile(), "line"=>$e->getLine(), "error"=>$e->getMessage());
 		}
 	}
 
