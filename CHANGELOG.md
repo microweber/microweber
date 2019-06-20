@@ -3,6 +3,23 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.1.7] - 2019-06-21
+- Icons for "Live Edit" sidebar
+- Visual editor bug fixes and impovememnts like padding editor, erc
+- Added less parser and template settings from .less files
+- dialog.js fixes
+- Duplicate posts appear on default content
+- Update popup
+- $.ajax success callback
+- Paging is missing in admin panel
+- Insert image doesnt work
+- New backup manager beta
+- Added ability to set size of custom fields
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.1.6...1.1.7 "")
+
+
+
 ## [1.1.6] - 2019-05-21
 - Module presets fix
 - fix UI alignment of buttons

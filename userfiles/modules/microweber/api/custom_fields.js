@@ -101,6 +101,7 @@ mw.custom_fields = {
             }
 
             mw.reload_module('#mw-admin-custom-field-edit-item-preview-' + data);
+            mw.reload_module('custom_fields/list');
 
 
             mw.reload_module_parent('custom_fields/list', function () {

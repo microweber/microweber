@@ -29,7 +29,7 @@ class TemplateCssParser
     	if ($cache == false || !is_file($outputFileLocations['output']['file'])) {
     		return api_url('template/compile_css?path=' . $lessFilePath . '&option_group=' . $optionGroupName . '&template_folder=' . $themeFolderName);
     	}
-    	
+
     	return $outputFileLocations['output']['fileUrl'];
     	
     }
@@ -115,13 +115,23 @@ class TemplateCssParser
     	$lessDirPath = dirname($lessFilePath);
     	$templateUrlWithPath = templates_url() . $templateFolder . '/' . $lessDirPath . '/';
     	$templatePath = templates_path() . $templateFolder;
-    	
+
+
     	// Output dirs
     	$outputDir = media_uploads_path() . 'css/';
     	$outputUrl = media_uploads_url() . 'css/';
     	
     	$outputFile = $outputDir . $lessFilePath . '.css';
+
+    	$mtime = false;
+    	if(is_file($outputFile)){
+    	    $mtime = filemtime($outputFile);
+        }
+
     	$outputFileUrl = $outputUrl . $lessFilePath . '.css';
+    	if($mtime){
+            $outputFileUrl = $outputUrl . $lessFilePath . '.css?t='.$mtime;
+        }
     	$outputFileMap = $outputDir . $lessFilePath . '.map';
     	$outputFileMapUrl = $outputUrl . $lessFilePath . '.map';
     	

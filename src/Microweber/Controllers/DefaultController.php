@@ -246,7 +246,7 @@ class DefaultController extends Controller
         $api_exposed .= 'set_language ';
         $api_exposed .= (api_expose(true));
 
-        if (is_logged()) {
+        if (mw()->user_manager->is_logged()) {
             $api_exposed .= (api_expose_user(true));
         }
 
@@ -260,7 +260,7 @@ class DefaultController extends Controller
         $api_exposed = array_trim($api_exposed);
 
         $hooks = api_bind(true);
-        if (is_logged()) {
+        if (mw()->user_manager->is_logged()) {
             $hooks_admin = api_bind_user(true);
             if (is_array($hooks_admin)) {
                 $hooks = array_merge($hooks, $hooks_admin);
