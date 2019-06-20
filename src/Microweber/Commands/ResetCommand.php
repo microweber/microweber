@@ -58,7 +58,60 @@ class ResetCommand extends Command
     	{
     		$table = trim($table);
     		DB::table($table)->truncate();
+    		$this->info('Truncate table: ' . $table);
     	}
+    	
+    	$removeFiles = array();
+    	$removeFiles[] = userfiles_path() . 'cache';
+    	$removeFiles[] = userfiles_path() . 'media';
+    	$removeFiles[] = userfiles_path() . 'css';
+    	$removeFiles[] = userfiles_path() . 'elements';
+    	$removeFiles[] = userfiles_path() . 'backup-export-session.log';
+    	$removeFiles[] = userfiles_path() . 'install_item_log.txt';
+    	$removeFiles[] = userfiles_path() . 'install_log.txt';
+    	$removeFiles[] = userfiles_path() . 'mw_content.json';
+    	$removeFiles[] = storage_path() . '\localhost.sqlite';
+    	$removeFiles[] = storage_path() . '\logs';
+    	$removeFiles[] = storage_path() . '\cache';
+    	$removeFiles[] = storage_path() . '\app';
+    	$removeFiles[] = storage_path() . '\backup_content';
+    	$removeFiles[] = storage_path() . '\framework\cache' . DIRECTORY_SEPARATOR;
+    	$removeFiles[] = storage_path() . '\framework\sessions'. DIRECTORY_SEPARATOR;
+    	$removeFiles[] = storage_path() . '\framework\views'. DIRECTORY_SEPARATOR;
+    	
+    	foreach($removeFiles as $fileOrDir) {
+    		if (is_file($fileOrDir)) {
+    			$this->info('Remove file: ' . $fileOrDir);
+    			unlink($fileOrDir);
+    		} else {
+    			$this->info('Remove files from path: ' . $fileOrDir);
+    			$this->_removeFilesFromPath($fileOrDir);
+    		}
+    	}
+    	
+    	mkdir(storage_path() . '\framework\cache');
+    	mkdir(storage_path() . '\framework\sessions');
+    	mkdir(storage_path() . '\framework\views');
+    }
+    
+    /**
+     * Remove dir recursive
+     * @param string $dir
+     */
+    private function _removeFilesFromPath($dir)
+    {
+    	if (!is_dir($dir)) {
+    		return;
+    	}
+    	
+    	$files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST);
+    	
+    	foreach ($files as $fileinfo) {
+    		$todo = ($fileinfo->isDir() ? 'rmdir' : 'unlink');
+    		@$todo($fileinfo->getRealPath());
+    	}
+    	
+    	@rmdir($dir);
     }
     
     protected function getArguments()
