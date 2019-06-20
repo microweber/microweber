@@ -65,16 +65,22 @@ class XmlReader extends DefaultReader
 				}
 				
 				if (is_string($item['category'])) {
-					$categories[] = explode(',', $item['category']);
+					$categories = explode(',', $item['category']);
 				}
 			}
-
-			$tags = implode(', ', $tags);
+			
+			if (is_array($tags)) {
+				$tags = implode(', ', $tags);
+			}
+			
 			if (! empty($tags)) {
 				$readyContent['tags'] = $tags;
 			}
 
-			$categories = implode(', ', $categories);
+			if (is_array($categories)) {
+				$categories = implode(', ', $categories);
+			}
+			
 			if (! empty($categories)) {
 				$readyContent['categories'] = $categories;
 			}
