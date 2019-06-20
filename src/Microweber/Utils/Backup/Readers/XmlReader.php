@@ -69,7 +69,7 @@ class XmlReader extends DefaultReader
 
 			$categories = implode(', ', $categories);
 			if (! empty($categories)) {
-				$readyContent['category'] = $categories;
+				$readyContent['categories'] = $categories;
 			}
 			
 			$content[] = $readyContent;
