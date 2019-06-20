@@ -32,7 +32,6 @@ class DatabaseSave
 		$tableData['extended_save'] = true;
 		
 		if (isset($tableData['categories'])) {
-			//$mainCategory = explode(',', $tableData['category'])[0];
 			$tableData['parent'] = self::_getParentPageId();;
 		}
 		
@@ -46,7 +45,7 @@ class DatabaseSave
 		if (empty($pages)) {
 				
 			$params = array(
-				'title' => 'My categories page',
+				'title' => 'Blog',
 				'content_type' => 'page',
 				'subtype' => 'dynamic',
 				
