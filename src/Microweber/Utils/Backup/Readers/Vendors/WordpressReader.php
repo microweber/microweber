@@ -31,8 +31,8 @@ trait WordpressReader {
 				$readyContent['content'] = $item['description'];
 			}
 			
-			if (isset($item['pictures']) && !empty($item['pictures'])) {
-				$readyContent['pictures'] = $item['pictures'];
+			if (isset($item['pictures']) && !empty($item['pictures']) && is_string($item['pictures'])) {
+				$readyContent['images'][] = $item['pictures'];
 			}
 			
 			$categoryRecognize = 'category';

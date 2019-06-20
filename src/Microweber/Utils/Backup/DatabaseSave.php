@@ -31,33 +31,43 @@ class DatabaseSave
 	{
 		$tableData['extended_save'] = true;
 		
-		if (isset($tableData['categories'])) {
-			if (isset($tableData['price'])) {
-				$tableData['parent'] = self::_getParentPageId('Shop');
-			} else {
-				$tableData['parent'] = self::_getParentPageId('Blog');
-			}
+		if (isset($tableData['custom_field_price'])) {
+			$tableData['parent'] = self::_getParentPageId('shop');
+		} else {
+			$tableData['parent'] = self::_getParentPageId('blog');
 		}
 		
 		return save_content($tableData);
 	}
 
-	private static function _getParentPageId($type = "Blog") {
+	private static function _getParentPageId($type = "blog") {
 		
-		$pages = get_content('content_type=page&subtype=dynamic&limit=1000');
+		$params = '';
+		$title = 'Blog';
+		
+		if ($type=='shop') {
+			$title = 'Shop';
+			$params = '&is_shop=1';
+		}
+		
+		$pages = get_content('content_type=page&subtype=dynamic&limit=1000&title='.$title . $params);
 		
 		if (empty($pages)) {
 				
-			$params = array(
-				'title' => $type,
+			$saveContent = array(
+				'title' => $title,
 				'content_type' => 'page',
 				'subtype' => 'dynamic',
 				'is_active' => 1,
 				
 			);
 			
-			//saving
-			return save_content($params);
+			if ($type == 'shop') {
+				$saveContent['is_shop'] = 1;
+			}
+			
+			// Saving
+			return save_content($saveContent);
 		} else {
 			return $pages[0]['id'];
 		}
