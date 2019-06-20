@@ -11,46 +11,10 @@ use Microweber\Utils\Backup\BackupManager;
 
 class BackupV2Test extends TestCase
 {
-	public function testExport() {
-		
-		$manager = new BackupManager();
-		$manager->setExportType('zip');
-		$manager->setExportData('tables', array('media'));
-		$manager->setExportData('contentIds', array(1,2,3,4,5));
-		
-		$i = 0;
-		while (true) {
-			
-			$exportStatus = $manager->startExport();
-			 
-			if (isset($exportStatus['current_step'])) {
-				$this->assertArrayHasKey('current_step', $exportStatus);
-				$this->assertArrayHasKey('total_steps', $exportStatus);
-				$this->assertArrayHasKey('precentage', $exportStatus);
-				$this->assertArrayHasKey('data', $exportStatus);
-			}
-			
-			// The last exort step
-			if (isset($exportStatus['success'])) {
-				$this->assertArrayHasKey('data', $exportStatus);
-				$this->assertArrayHasKey('download', $exportStatus['data']);
-				$this->assertArrayHasKey('filepath', $exportStatus['data']);
-				$this->assertArrayHasKey('filename', $exportStatus['data']);
-				break;
-			}
-			
-			if ($i > 10) { 
-				break;
-			}
-			
-			$i++;
-		}
-		
-		
-	}
+	private static $_exportedFile = '';
 	
 	public function testImport() {
-
+		
 		$tempFile = 'backup_v2_test.json';
 		$json = '{
 			"categories_items": [
@@ -111,7 +75,7 @@ class BackupV2Test extends TestCase
 		}';
 		
 		file_put_contents(storage_path($tempFile), $json);
-
+		
 		$manager = new BackupManager();
 		$manager->setImportFile(storage_path($tempFile));
 		$manager->setImportType('json');
@@ -120,6 +84,54 @@ class BackupV2Test extends TestCase
 		$importStatus = $manager->startImport();
 		
 		$this->assertArrayHasKey('done', $importStatus);
+	}
+	
+	public function testFullExport() {
+		
+		$manager = new BackupManager();
+		$manager->setExportAllData(true);
+		
+		$i = 0;
+		while (true) {
+			$exportStatus =	$manager->startExport();
+			
+			if (isset($exportStatus['current_step'])) {
+				$this->assertArrayHasKey('current_step', $exportStatus);
+				$this->assertArrayHasKey('total_steps', $exportStatus);
+				$this->assertArrayHasKey('precentage', $exportStatus);
+				$this->assertArrayHasKey('data', $exportStatus);
+			}
+			
+			// The last exort step
+			if (isset($exportStatus['success'])) {
+				$this->assertArrayHasKey('data', $exportStatus);
+				$this->assertArrayHasKey('download', $exportStatus['data']);
+				$this->assertArrayHasKey('filepath', $exportStatus['data']);
+				$this->assertArrayHasKey('filename', $exportStatus['data']);
+				
+				self::$_exportedFile = $exportStatus['data']['filepath'];
+				
+				break;
+			}
+			
+			if ($i > 10) {
+				break;
+			}
+			
+			$i++;
+		}
+	}
+	
+	public function testImportZipFile() {
+		
+		$manager = new BackupManager();
+		$manager->setImportFile(self::$_exportedFile);
+		$manager->setImportBatch(false);
+		
+		$importStatus = $manager->startImport();
+		
+		$this->assertArrayHasKey('done', $importStatus);
+		$this->assertArrayHasKey('precentage', $importStatus);
 	}
 	
 	public function testImportWrongFile() {

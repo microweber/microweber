@@ -26,7 +26,7 @@ class BackupManager
 	 * Set export full
 	 * @param string $type
 	 */
-	public function setExportAllData($exportAllData) {
+	public function setExportAllData(bool $exportAllData) {
 		$this->exportAllData = $exportAllData;
 	}
 	
