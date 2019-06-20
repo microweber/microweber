@@ -6,6 +6,9 @@ use Microweber\Controllers\DefaultController;
 use Microweber\App\Providers\Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Input\InputArgument;
 use Microweber\Install\DbInstaller;
+use Microweber\Install\ModulesInstaller;
+use Microweber\Install\DefaultOptionsInstaller;
+use Microweber\App\Providers\Illuminate\Support\Facades\Cache;
 
 class ResetCommand extends Command
 {
@@ -60,6 +63,15 @@ class ResetCommand extends Command
     		$this->info('Truncate table: ' . $table);
     	}
     	
+    	// Reload modules
+    	$installer = new ModulesInstaller();
+    	$installer->run();
+    	
+    	$installer = new DefaultOptionsInstaller();
+    	$installer->run();
+    	
+    	// Remove files
+    	
     	$removeFiles = array();
     	
     	$removeFiles[] = userfiles_path() . 'cache';
@@ -83,16 +95,18 @@ class ResetCommand extends Command
     	foreach($removeFiles as $fileOrDir) {
     		if (is_file($fileOrDir)) {
     			$this->info('Remove file: ' . $fileOrDir);
-    			unlink($fileOrDir);
+    			@unlink($fileOrDir);
     		} else {
     			$this->info('Remove files from path: ' . $fileOrDir);
     			$this->_removeFilesFromPath($fileOrDir);
     		}
     	}
     	
-    	mkdir(storage_path() . '\framework\cache');
-    	mkdir(storage_path() . '\framework\sessions');
-    	mkdir(storage_path() . '\framework\views');
+    	@mkdir(storage_path() . '\framework\cache');
+    	@mkdir(storage_path() . '\framework\sessions');
+    	@mkdir(storage_path() . '\framework\views');
+    	
+    	Cache::flush();
     }
     
     /**
