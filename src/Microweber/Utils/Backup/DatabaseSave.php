@@ -32,24 +32,29 @@ class DatabaseSave
 		$tableData['extended_save'] = true;
 		
 		if (isset($tableData['categories'])) {
-			$tableData['parent'] = self::_getParentPageId();;
+			if (isset($tableData['price'])) {
+				$tableData['parent'] = self::_getParentPageId('Shop');
+			} else {
+				$tableData['parent'] = self::_getParentPageId('Blog');
+			}
 		}
 		
 		return save_content($tableData);
 	}
 
-	private static function _getParentPageId() {
+	private static function _getParentPageId($type = "Blog") {
 		
 		$pages = get_content('content_type=page&subtype=dynamic&limit=1000');
 		
 		if (empty($pages)) {
 				
 			$params = array(
-				'title' => 'Blog',
+				'title' => $type,
 				'content_type' => 'page',
 				'subtype' => 'dynamic',
+				'is_active' => 1,
 				
-				'is_active' => 1,);
+			);
 			
 			//saving
 			return save_content($params);

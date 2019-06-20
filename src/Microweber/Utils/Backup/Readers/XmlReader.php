@@ -1,10 +1,11 @@
 <?php
 namespace Microweber\Utils\Backup\Readers;
 
-use Microweber\Providers\UrlManager;
+use Microweber\Utils\Backup\Readers\Vendors\WordpressReader;
 
 class XmlReader extends DefaultReader
 {
+	use WordpressReader;
 
 	public function readData()
 	{
@@ -12,84 +13,8 @@ class XmlReader extends DefaultReader
 		$xml = json_decode(json_encode($xml), true);
 		
 		if (isset($xml['channel']['item'])) { 
-			return $this->_readWordpress($xml); 
-		} 
-		
-	}
-
-	private function _readWordpress($xml)
-	{
-		$content = array();
-
-		$i = 0;
-		foreach ($xml['channel']['item'] as $item) {
-
-			$urlManager = new UrlManager(); 
-			
-			$readyContent = array();
-			$readyContent['title'] = $item['title'];  
-			$readyContent['url'] = $urlManager->slug($item['title']);
-			$readyContent['id'] = $i;
-			$readyContent['content_type'] = 'post';
-			$readyContent['subtype'] = 'post';
-			$readyContent['is_active'] = 1;
-			
-			if (isset($item['description']) && !empty($item['description'])) {
-				$readyContent['content'] = $item['description'];
-			}
-
-			$categories = array();
-			$tags = array();
-			
-			if (isset($item['category'])) {
-				
-				if (is_array($item['category'] )) {
-					foreach ($item['category'] as $category) {
-						if (isset($category['@attributes'])) {
-		
-							$attributes = $category['@attributes'];
-		
-							if (isset($attributes['nicename']) && $attributes['domain'] == 'category') {
-								$categories[] = $attributes['nicename'];
-							}
-		
-							if (isset($attributes['nicename']) && $attributes['domain'] == 'tag') {
-								$tags[] = $attributes['nicename'];
-							}
-						}
-					}
-					
-					foreach ($item['category'] as $category) {
-						$categories[] = $category;
-					}
-				}
-				
-				if (is_string($item['category'])) {
-					$categories = explode(',', $item['category']);
-				}
-			}
-			
-			if (is_array($tags)) {
-				$tags = implode(', ', $tags);
-			}
-			
-			if (! empty($tags)) {
-				$readyContent['tags'] = $tags;
-			}
-
-			if (is_array($categories)) {
-				$categories = implode(', ', $categories);
-			}
-			
-			if (! empty($categories)) {
-				$readyContent['categories'] = $categories;
-			}
-			
-			$content[] = $readyContent;
-			$i ++;
+			return $this->readWordpress($xml['channel']['item']); 
 		}
-		
-		return array('content' => $content);
 		
 	}
 
