@@ -1,5 +1,4 @@
 <?php
-
 namespace Microweber\Commands;
 
 use Illuminate\Console\Command;
@@ -62,6 +61,7 @@ class ResetCommand extends Command
     	}
     	
     	$removeFiles = array();
+    	
     	$removeFiles[] = userfiles_path() . 'cache';
     	$removeFiles[] = userfiles_path() . 'media';
     	$removeFiles[] = userfiles_path() . 'css';
@@ -70,6 +70,7 @@ class ResetCommand extends Command
     	$removeFiles[] = userfiles_path() . 'install_item_log.txt';
     	$removeFiles[] = userfiles_path() . 'install_log.txt';
     	$removeFiles[] = userfiles_path() . 'mw_content.json';
+    	
     	$removeFiles[] = storage_path() . '\localhost.sqlite';
     	$removeFiles[] = storage_path() . '\logs';
     	$removeFiles[] = storage_path() . '\cache';
