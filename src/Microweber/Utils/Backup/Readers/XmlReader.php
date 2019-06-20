@@ -42,23 +42,30 @@ class XmlReader extends DefaultReader
 			$tags = array();
 			
 			if (isset($item['category'])) {
-				foreach ($item['category'] as $category) {
-					if (isset($category['@attributes'])) {
-	
-						$attributes = $category['@attributes'];
-	
-						if (isset($attributes['nicename']) && $attributes['domain'] == 'category') {
-							$categories[] = $attributes['nicename'];
+				
+				if (is_array($item['category'] )) {
+					foreach ($item['category'] as $category) {
+						if (isset($category['@attributes'])) {
+		
+							$attributes = $category['@attributes'];
+		
+							if (isset($attributes['nicename']) && $attributes['domain'] == 'category') {
+								$categories[] = $attributes['nicename'];
+							}
+		
+							if (isset($attributes['nicename']) && $attributes['domain'] == 'tag') {
+								$tags[] = $attributes['nicename'];
+							}
 						}
-	
-						if (isset($attributes['nicename']) && $attributes['domain'] == 'tag') {
-							$tags[] = $attributes['nicename'];
-						}
+					}
+					
+					foreach ($item['category'] as $category) {
+						$categories[] = $category;
 					}
 				}
 				
-				foreach ($item['category'] as $category) {
-					$categories[] = $category;
+				if (is_string($item['category'])) {
+					$categories[] = explode(',', $item['category']);
 				}
 			}
 
