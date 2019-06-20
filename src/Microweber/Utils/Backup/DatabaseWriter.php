@@ -213,6 +213,10 @@ class DatabaseWriter
 				}
 			}
 		}
+		
+		$this->_finishUp();
+		cache_save($this->totalSteps, 'CurrentStep', $this->_cacheGroupName, 60 * 10);
+		
 	}
 	
 	public function runWriterWithBatch() 

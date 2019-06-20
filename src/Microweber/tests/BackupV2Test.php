@@ -51,17 +51,75 @@ class BackupV2Test extends TestCase
 	
 	public function testImport() {
 
+		$tempFile = 'backup_v2_test.json';
+		$json = '{
+			"categories_items": [
+		        {
+		            "id": 1,
+		            "parent_id": 5,
+		            "rel_type": "content",
+		            "rel_id": 8
+		        },
+		        {
+		            "id": 2,
+		            "parent_id": 5,
+		            "rel_type": "content",
+		            "rel_id": 9
+		        }
+			],
+			"content": [
+		        {
+		            "id": 1,
+		            "content_type": "page",
+		            "subtype": "dynamic",
+		            "url": "shop",
+		            "title": "Shop",
+		            "parent": 0,
+		            "description": null,
+		            "position": null,
+		            "content": null,
+		            "content_body": null,
+		            "is_active": 1,
+		            "subtype_value": null,
+		            "custom_type": null,
+		            "custom_type_value": null,
+		            "active_site_template": "default",
+		            "layout_file": "layouts\/shop.php",
+		            "layout_name": null,
+		            "layout_style": null,
+		            "content_filename": null,
+		            "original_link": null,
+		            "is_home": 0,
+		            "is_pinged": 0,
+		            "is_shop": 1,
+		            "is_deleted": 0,
+		            "require_login": 0,
+		            "status": null,
+		            "content_meta_title": null,
+		            "content_meta_keywords": null,
+		            "session_id": "YzMeJdnpyiLc4t9ztX6xNRJvwIWZF3lMJ484ons8",
+		            "updated_at": "2019-06-20 10:08:52",
+		            "created_at": "2019-06-20 10:08:52",
+		            "expires_at": null,
+		            "created_by": 1,
+		            "edited_by": 1,
+		            "posted_at": null,
+		            "draft_of": null,
+		            "copy_of": null
+		        }
+			]
+		}';
+		
+		file_put_contents(storage_path($tempFile), $json);
 
 		$manager = new BackupManager();
-		$manager->setImportFile(storage_path('backup_v2_test.json'));
+		$manager->setImportFile(storage_path($tempFile));
 		$manager->setImportType('json');
 		$manager->setImportBatch(false);
 		
 		$importStatus = $manager->startImport();
 		
-		// var_dump($importStatus);
-		
-		$this->assertArrayHasKey('success', $importStatus);
+		$this->assertArrayHasKey('done', $importStatus);
 	}
 	
 	public function testImportWrongFile() {
