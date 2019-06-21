@@ -10,7 +10,7 @@ $here = mw_includes_url() . 'toolbar/editor_tools/plupload/';
     html, body, #container, #pickfiles_<?php print $uid  ?> {
         position: absolute;
         width: 100%;
-        height: 100%;
+        height:45px !important;
         top: 0;
         left: 0;
         background: transparent;
@@ -24,6 +24,9 @@ $here = mw_includes_url() . 'toolbar/editor_tools/plupload/';
         /* IE does not scales it correctly when visibility is set to hidden  */
         width: 100% !important;
         height: 100% !important;
+    }
+    .moxie-shim {
+    	height:45px !important;
     }
 </style>
 <script type="text/javascript" src="<?php print $here ?>plupload.full.min.js"></script>
