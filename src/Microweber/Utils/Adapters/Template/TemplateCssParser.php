@@ -20,9 +20,10 @@ class TemplateCssParser
         }
 
         $themeFolderName = $this->app->template->folder_name();
+        $optionGroupName = 'mw-template-' . $themeFolderName;
 
-        $outputFileLocations = $this->_getOutputFileLocations($lessFilePath, $themeFolderName);
-        $user_has_settings = $this->_getOptionVariables($themeFolderName);
+        $outputFileLocations = $this->_getOutputFileLocations($lessFilePath, $optionGroupName);
+        $user_has_settings = $this->_getOptionVariables($optionGroupName);
 
         if ($defaultCssFile and !$user_has_settings) {
 
@@ -39,7 +40,7 @@ class TemplateCssParser
 
 
         if ($cache == false || !is_file($outputFileLocations['output']['file'])) {
-        	return api_url('template/compile_css?path=' . $lessFilePath . '&option_group=' . $themeFolderName . '&template_folder=' . $themeFolderName);
+            return api_url('template/compile_css?path=' . $lessFilePath . '&option_group=' . $optionGroupName . '&template_folder=' . $themeFolderName);
         }
 
         return $outputFileLocations['output']['fileUrl'];
