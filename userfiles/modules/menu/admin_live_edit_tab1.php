@@ -3,6 +3,21 @@
     mw.require('forms.js', true);
     mw.require('url.js', true);
 </script>
+<style>
+    #layout_link_controller{
+        padding: 20px 0;
+    }
+    #layouts-selector{
+        padding: 20px;
+        margin-top: 15px;
+    }
+    .page-layout-tab .mw-field{
+        width: 100%;
+    }
+    .mw-ui-btn + .mw-ui-btn{
+        margin-left: 10px;
+    }
+</style>
 <?php if (!isset($rand)) {
     $rand = uniqid();
 } ?>
@@ -15,11 +30,10 @@
     mw.menu_add_new = function () {
         var obj = {};
         obj.title = $('#new_menu_name').val();
-
         $.post("<?php print api_link('content/menu_create') ?>", obj, function (data) {
             window.location.href = window.location.href;
         });
-    }
+    };
 
     mw.menu_save = function ($selector) {
         var obj = mw.form.serialize($selector);
@@ -40,15 +54,24 @@
 
         mw.$("#menu-selector").toggle();
         mw.$("#custom_link_controller").hide();
-    }
+        mw.$("#layout_link_controller").hide();
+    };
+
+    requestSection = function () {
+        mw.$("#layout_link_controller").toggle();
+        mw.$("#menu-selector").hide();
+        mw.$("#custom_link_controller").hide();
+    };
 
     requestCustomLink = function () {
-        // mw.$(".menu_item_edit").remove();
+        /*linkModal();*/
 
         mw.$("#custom_link_controller").toggle();
         mw.$("#menu-selector").hide();
+        mw.$("#layout_link_controller").hide();
 
-    }
+
+    };
 
     add_new_menu = function () {
         mw.$("#create-menu-holder").toggle();
@@ -344,8 +367,14 @@ if ($menu_data) {
 
                 <a href="javascript:requestLink();"
                    class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-rounded"><span><?php _e("Add Page to Menu"); ?></span></a>
+                <a href="javascript:requestSection();"
+                   class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded pull-right">
+                    <span><?php _e("Link to layout"); ?></span>
+                </a>
                 <a href="javascript:requestCustomLink();"
-                   class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded pull-right"><span><?php _e("Add Custom Link"); ?></span></a>
+                   class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded pull-right">
+                    <span><?php _e("Add Custom Link"); ?></span>
+                </a>
 
 
                 <br/>
@@ -370,6 +399,68 @@ if ($menu_data) {
         <div id="custom_link_inline_controller_edit_0">
 
             <input type="hidden" name="parent_id" id="add-custom-link-parent-id" value="<?php print $menu_id; ?>"/>
+
+        </div>
+    </div>
+    <script>
+
+        currentMenuId = <?php print $menu_id; ?> || 0;
+        var linkModal = function() {
+            var modal = mw.tools.modal.frame({
+                url: "rte_link_editor#handleLinkModal",
+                title: "Edit link",
+                name: "mw_rte_link",
+                //template: 'basic',
+                width: 600,
+                height: 300
+            });
+        }
+    </script>
+
+    <div id="layout_link_controller" class="mw-ui-gbox" style="display: none;">
+        <div class="page-layout-tab">
+            <label class="mw-ui-label"><?php _e('Link text'); ?></label>
+            <div class="mw-field">
+                <input type="text" id="ltext">
+            </div>
+            <ul class="mw-ui-box mw-ui-navigation" id="layouts-selector">
+
+            </ul>
+            <hr>
+            <span class="mw-ui-btn mw-ui-btn-info pull-right" onclick="submitLayoutLink()"><?php _e('Add to menu'); ?></span>
+            <script>
+                submitLayoutLink = function(){
+                    var selected = $('#layouts-selector input:checked');
+                    var val = top.location.href.split('#')[0] + '#mw@' + selected[0].id;
+
+                    mw.menu_save_new_item({
+                        title: $('#ltext').val(),
+                        url: val,
+                        parent_id: currentMenuId
+                    });
+                };
+                $(document).ready(function () {
+                    var layoutsData = [];
+                    var layouts = top.mw.$('.module[data-type="layouts"]');
+                    layouts.each(function () {
+                        layoutsData.push({
+                            name: this.getAttribute('template').split('.')[0],
+                            element: this,
+                            id: this.id
+                        })
+                    });
+                    var list = $('#layouts-selector');
+                    $.each(layoutsData, function(){
+                        var radio = '<input type="radio" name="layoutradio" id="' + this.id +' "><span></span>';
+                        var li = $('<li><label class="mw-ui-check">' + radio + ' ' + this.name + '</label></li>');
+                        var el = this.element;
+                        li.on('click', function(){
+                            top.mw.tools.scrollTo(el);
+                        });
+                        list.append(li);
+                    });
+                });
+            </script>
 
         </div>
     </div>

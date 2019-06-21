@@ -994,7 +994,7 @@ mw.wysiwyg = {
                             value: rectarget.innerHTML,
                         });
                     }
-                    console.log(12, rectarget)
+
                     $(this).removeClass("mw_editor_btn_mousedown");
                     mw.wysiwyg.check_selection(event.target);
 

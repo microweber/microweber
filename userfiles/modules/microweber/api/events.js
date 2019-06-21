@@ -278,18 +278,27 @@ mw.hashHistory = [window.location.hash]
 mw.prevHash = function(){
   var prev = mw.hashHistory[mw.hashHistory.length - 2];
   return prev !== undefined ? prev : '';
-}
+};
 
 
 
-$(window).bind("hashchange load", function(event){
+$(window).on("hashchange load", function(event){
     if(event.type === 'load'){
         mw._on.userIteractionInit();
     }
 
-mw.on.hashParamEventInit();
+    mw.on.hashParamEventInit();
 
    var hash =  mw.hash();
+
+   var isMWHash = hash.replace(/\#/g, '').indexOf('mw@') === 0;
+   if (isMWHash) {
+       var MWHash = hash.replace(/\#/g, '').replace('mw@', '');
+       var el = document.getElementById(MWHash);
+       if(el) {
+           mw.tools.scrollTo(el);
+       }
+   }
    if(hash.contains("showpostscat")){
       mw.$("html").addClass("showpostscat");
    }

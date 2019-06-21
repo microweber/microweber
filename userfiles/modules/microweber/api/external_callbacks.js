@@ -1,5 +1,6 @@
 mw.iframecallbacks = {
     insert_link: function (url, target, link_content) {
+
         url = url.trim();
         var contains = false;
         var arr = ['mailto:', 'tel:', 'skype:', 'sms:', 'geopoint:', 'whatsapp:'],

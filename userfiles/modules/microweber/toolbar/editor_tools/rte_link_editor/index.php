@@ -14,24 +14,18 @@
          Overwrites the original function
 
          *************************/
-    }
+    };
 
     is_searching = false;
 
-
-    var hash = window.location.hash;
-    var hash = hash.replace(/#/g, "");
-
-    var hash = hash !== '' ? hash : 'insert_link';
-
-
+    var hash = location.hash.replace(/#/g, "") || 'insert_link';
     mw.dd_autocomplete = function (id) {
         var el = $(id);
 
         el.on("change keyup paste focus", function (event) {
             if (!is_searching) {
                 var val = el.val();
-                if (event.type == 'focus') {
+                if (event.type === 'focus') {
                     if (el.hasClass('inactive')) {
                         el.removeClass('inactive')
                     }
@@ -130,7 +124,7 @@
         mw.$("#insert_email").click(function () {
             var val = mwd.getElementById('email_field').value;
             if (!val.contains('mailto:')) {
-                var val = 'mailto:' + val;
+                val = 'mailto:' + val;
             }
             parent.mw.iframecallbacks[hash](val);
             parent.mw.tools.modal.remove('mw_rte_link');
@@ -140,14 +134,12 @@
         mw.$("#insert_url").click(function () {
             var val = mwd.getElementById('customweburl').value;
             var target = '_self';
-            if (hash == 'insert_link') {
+            if (hash === 'insert_link') {
                 if (mwd.getElementById('url_target').checked == true) {
-                    var target = '_blank';
+                    target = '_blank';
                 }
             }
             var link_text_val = mwd.getElementById('customweburl_text').value;
-
-
             RegisterChange(hash, val, target, link_text_val);
             parent.mw.iframecallbacks[hash](val, target, link_text_val);
             parent.mw.tools.modal.remove('mw_rte_link');
@@ -246,6 +238,7 @@
             <a class="mw-ui-btn" href="javascript:;"><?php _e("File"); ?></a>
             <a class="mw-ui-btn" href="javascript:;"><?php _e("Email"); ?></a>
             <a class="mw-ui-btn available_elements_tab_show_hide_ctrl" href="javascript:;"><?php _e("Page Section"); ?></a>
+            <a class="mw-ui-btn page-layout-btn" href="javascript:;"><?php _e("Page Layout"); ?></a>
         </div>
         <div class="mw-ui-box mw-ui-box-content" id="tabs">
             <div class="tab" style="display: block">
@@ -269,7 +262,7 @@
             <div class="tab">
                 <div class="media-search-holder">
                     <div data-value="<?php print site_url(); ?>" id="insert_link_list" class="mw-dropdown mw-dropdown-default active">
-                        <input type="text" class="mw-ui-field inactive" id="dd_pages_search" placeholder="<?php _e("Click to select"); ?>"/>
+                        <input type="text" class="mw-ui-field inactive" id="dd_pages_search" autocomplete="off" placeholder="<?php _e("Click to select"); ?>"/>
                         <span class="mw-icon-dropdown"></span>
                         <div class="mw-dropdown-content">
                             <ul class="">
@@ -299,10 +292,11 @@
                 </div>
             </div>
             <div class="tab available_elements_tab_show_hide_ctrl">
+
                 <div id="available_elements"></div>
                 <script>
                     $(document).ready(function () {
-                        available_elements_tab_show_hide_ctrl_counter = 0;
+                        var available_elements_tab_show_hide_ctrl_counter = 0;
                         var html = [];
                         top.$("h1[id],h12[id],h3[id],h4[id],h5[id],h6[id]", top.document.body).each(function () {
                             available_elements_tab_show_hide_ctrl_counter++;
@@ -314,12 +308,53 @@
                             parent.mw.iframecallbacks[hash](top.location.href.split('#')[0] + $(this).dataset('href'));
                             parent.mw.tools.modal.remove('mw_rte_link');
                         });
-                        if (available_elements_tab_show_hide_ctrl_counter == 0) {
+                        if (!available_elements_tab_show_hide_ctrl_counter) {
                             mw.$('.available_elements_tab_show_hide_ctrl').hide();
                         }
-
                     })
                 </script>
+            </div>
+            <div class="tab page-layout-tab">
+                <div class="mw-field">
+                    <label><?php _e('Link text'); ?></label>
+                    <input type="text" id="ltext">
+                </div>
+                <ul class="mw-ui-box mw-ui-navigation" id="layouts-selector">
+
+                </ul>
+                <hr>
+                <span class="mw-ui-btn" onclick="submitLayoutLink()"><?php _e('Insert'); ?></span>
+                <script>
+                    submitLayoutLink = function(){
+                        var selected = $('#layouts-selector input:checked');
+                        var val = top.location.href.split('#')[0] + '#mw@' + selected[0].id;
+                        parent.mw.iframecallbacks[hash](val, '_self', mw.$('#ltext').val() || selected[0].id);
+                        parent.mw.tools.modal.remove('mw_rte_link');
+                        RegisterChange(hash, val);
+                    };
+                    $(document).ready(function () {
+                        var layoutsData = [];
+                        var layouts = top.mw.$('.module[data-type="layouts"]');
+                        layouts.each(function () {
+                            layoutsData.push({
+                                name: this.getAttribute('template').split('.')[0],
+                                element: this,
+                                id: this.id
+                            })
+                        });
+                        var list = $('#layouts-selector');
+                        $.each(layoutsData, function(){
+                            var radio = '<input type="radio" name="layoutradio" id="' + this.id +' "><span></span>';
+                            var li = $('<li><label class="mw-ui-check">' + radio + ' ' + this.name + '</label></li>');
+                            var el = this.element;
+                            li.on('click', function(){
+                                top.mw.tools.scrollTo(el);
+                            });
+                            list.append(li);
+                        });
+                    });
+                </script>
+
             </div>
         </div>
     </div>
