@@ -12,7 +12,7 @@ class TemplateCssParser
         $this->app = $app;
     }
 
-    public function getStylesheet($lessFilePath, $optionGroupName = false, $cache = true, $defaultCssFile = false)
+    public function getStylesheet($lessFilePath, $defaultCssFile = false, $cache = true)
     {
 
         if (config('microweber.developer_mode')) {
@@ -21,13 +21,8 @@ class TemplateCssParser
 
         $themeFolderName = $this->app->template->folder_name();
 
-        if (!$optionGroupName) {
-            $optionGroupName = $themeFolderName;
-        }
-
-
-        $outputFileLocations = $this->_getOutputFileLocations($lessFilePath, $optionGroupName);
-        $user_has_settings = $this->_getOptionVariables($optionGroupName);
+        $outputFileLocations = $this->_getOutputFileLocations($lessFilePath, $themeFolderName);
+        $user_has_settings = $this->_getOptionVariables($themeFolderName);
 
         if ($defaultCssFile and !$user_has_settings) {
 
@@ -44,7 +39,7 @@ class TemplateCssParser
 
 
         if ($cache == false || !is_file($outputFileLocations['output']['file'])) {
-            return api_url('template/compile_css?path=' . $lessFilePath . '&option_group=' . $optionGroupName . '&template_folder=' . $themeFolderName);
+        	return api_url('template/compile_css?path=' . $lessFilePath . '&option_group=' . $themeFolderName . '&template_folder=' . $themeFolderName);
         }
 
         return $outputFileLocations['output']['fileUrl'];
