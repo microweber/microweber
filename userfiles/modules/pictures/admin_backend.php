@@ -325,6 +325,8 @@ if (!isset($data["thumbnail"])) {
                 overlay: true,
                 content: el.html(),
                 template: 'default',
+                height: 550,
+
                 title: '<?php print _e('Image Settings'); ?>'
             })
         }
