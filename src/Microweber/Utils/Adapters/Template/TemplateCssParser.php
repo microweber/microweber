@@ -39,7 +39,7 @@ class TemplateCssParser
         }
 
 
-        if ($cache == false || !is_file($outputFileLocations['output']['file'])) {
+        if ($cache == false || !is_file($outputFileLocations['output']['file'])) { 
             return api_url('template/compile_css?path=' . $lessFilePath . '&option_group=' . $optionGroupName . '&template_folder=' . $themeFolderName);
         }
 
