@@ -1,7 +1,5 @@
 <?php
 
- 
-
 if (!isset($data['id'])) {
 include('empty_field_vals.php');
 }
@@ -56,13 +54,7 @@ if(!isset($data['input_class'])){
     mw.require('files.js');
 </script> 
 <script>
-
-    formHasUploader = true;
-
-
-
-
-
+formHasUploader = true;
 
 $(document).ready(function(){
 	 
