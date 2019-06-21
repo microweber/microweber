@@ -19,20 +19,20 @@ function get_field_size_class($field_size = false){
 	return $field_size; 
 }
 
-function get_default_field_size_option() {
+function get_default_field_size_option($field = array()) {
 	
 	$css_framework = get_template_framework();
 	
 	if ($css_framework == 'mw-ui') {
-		return 'mw-flex-col-md-6';
+		return 'mw-flex-col-md-12';
 	}
 	
 	if ($css_framework == 'bootstrap3') {
-		return 'col-md-6';
+		return 'col-md-12';
 	}
 	
 	if ($css_framework == 'bootstrap4') {
-		return 'col-6';
+		return 'col-12';
 	}
 	
 }

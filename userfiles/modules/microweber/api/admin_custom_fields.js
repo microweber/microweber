@@ -113,12 +113,17 @@ mw.admin.custom_fields.valueLiveEdit = function (span) {
         }
         mw.tools.removeClass(mw.tools.firstParentWithTag(this, 'tr'), 'active');
         $.post(mw.settings.api_url + 'fields/save', data, function (adata) {
-            var rstr = mwd.getElementById('mw-custom-fields-list-settings-' + data.id).innerHTML.replace(/\s+/g, '');
-            if (rstr != '' && !!data.value) {
-                mw.reload_module('#mw-custom-fields-list-settings-' + data.id);
-            }
-            mw.custom_fields.after_save();
-
+        	
+        	if (mwd.getElementById('mw-custom-fields-list-settings-' + data.id) != null) {
+        		
+	            var rstr = mwd.getElementById('mw-custom-fields-list-settings-' + data.id).innerHTML.replace(/\s+/g, '');
+	            
+	            if (rstr != '' && !!data.value) {
+	                mw.reload_module('#mw-custom-fields-list-settings-' + data.id);
+	            }
+        	}
+        	
+        	mw.custom_fields.after_save();
 
         });
         $(el.parentNode).removeClass('active');

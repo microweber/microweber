@@ -67,12 +67,12 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
       <?php if(is_array($opt)) { foreach($opt as $key => $val){ ?>
       <div>
         <label class="mw-ui-check">
-          <input data-for="<?php print $key; ?>" type="checkbox" value="<?php print $key; ?>" name="options[]" <?php if(isset($data['options']) and is_array($data['options']) and in_array( $key,$data['options']) or empty($data['options'])) : ?> checked="checked" <?php endif; ?>  />
-          <span></span><span><?php print $val; ?></span></label>
+          <input data-for="<?php print $key; ?>" type="checkbox" value="true" name="options[<?php print $key; ?>]" <?php if(isset($data['options']) and is_array($data['options']) and in_array( $key,$data['options']) or empty($data['options'])) : ?> checked="checked" <?php endif; ?>  />
+          <span></span><span><?php print $val; ?></span></label> 
       </div>
       <?php
 		    }
-		 } ?>
+		 } ?> 
     </div>
   </div>
 </div>
@@ -94,7 +94,7 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
   ?>
   <hr>
   <label class="mw-ui-check">
-    <input type="checkbox"  class="mw-custom-field-option" name="options[]"  <?php if($is_required == true): ?> checked="checked" <?php endif; ?> value="required">
+    <input type="checkbox"  class="mw-custom-field-option" name="options[required]"  <?php if($is_required == true): ?> checked="checked" <?php endif; ?> value="true">
     <span></span><span>
     <?php _e("Required"); ?>
     ?</span></label>

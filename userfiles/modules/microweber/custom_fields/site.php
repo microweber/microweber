@@ -23,7 +23,7 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
 	<span style="color:red;">*</span>
 	<?php endif; ?> 
   </label>
-
+<div class="mw-custom-field-form-controls">
     <input type="url"
         <?php if ($is_required): ?> required="true"  <?php endif; ?>
         data-custom-field-id="<?php print $data["id"]; ?>"
@@ -32,4 +32,5 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
 		class="<?php print $data['input_class']; ?> mw-ui-field"
         placeholder="<?php print $data["value"]; ?>" />
 
+</div>
 </div>

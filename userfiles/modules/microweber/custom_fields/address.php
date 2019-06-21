@@ -44,22 +44,8 @@ $defaults = array(
 if (!isset($data['options']) or !is_array($data['options']) or empty($data['options'])) {
     $data['options'] = $defaults;
 }
-
-if (isset($data['options']) and is_array($data['options']) and !empty($data['options'])) {
-//    if (is_array($data['values'])) {
-//        foreach ($data['values'] as $k => $v) {
-//            if (!isset($data['options'][$k])) {
-//                unset($data['values'][$k]);
-//            }
-//
-//        }
-//    } else {
-//
-//    }
-    $data['values'] = $data['options'];
-}
-
 ?>
+
 <?php if (is_array($data['values'])) : ?>
 
     <div>

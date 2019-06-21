@@ -22,6 +22,10 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
 
     $is_required = (isset($data['options']) == true and isset($data['options']["required"]) == true);
 
+    
+    if (!($data['values'])) {
+    	$data['values'][0] = _e('Please, set radio options.', true);
+    }
 ?>
 
 <?php
