@@ -30,27 +30,53 @@
             document.body.appendChild(this.paddingBottom);
         };
 
-
+        this.record = function() {
+            var root = mw.tools.firstParentOrCurrentWithAnyOfClasses(scope._active.parentNode, ['edit', 'element', 'module']);
+            mw.liveEditState.record({
+                target:root,
+                value: root.innerHTML
+            });
+        };
 
 
         this.handleMouseMove = function() {
             $(this.paddingTop).on('mousedown touchstart', function(){
                 scope._paddingTopDown = true;
+                $('html').addClass('padding-control-start');
             });
             $(this.paddingBottom).on('mousedown touchstart', function(){
                 scope._paddingBottomDown = true;
+                $('html').addClass('padding-control-start');
+                scope.record();
             });
             $(document.body).on('mouseup touchend', function(){
-                scope._paddingTopDown = false
-                scope._paddingBottomDown = false
+                if(scope._paddingTopDown || scope._paddingBottomDown) {
+                    scope.record();
+                }
+
+                scope._paddingTopDown = false;
+                scope._paddingBottomDown = false;
                 scope._working = false;
+                $(scope._info).removeClass('active');
+                scope.activeMark(false);
+                mw.liveEditSelector.active(true);
+                $('html').removeClass('padding-control-start');
+            });
+            mw.event.windowLeave(function (e) {
+                scope._paddingTopDown = false;
+                scope._paddingBottomDown = false;
+                scope._working = false;
+                $(scope._info).removeClass('active');
+                mw.liveEditSelector.active(true);
+                $('html').removeClass('padding-control-start');
             });
             $(document.body).on('mousemove', function(e){
                 var isDown = e.pageY < scope._pageY;
-                var inc = 5;
+                var inc = 1;
+                var curr;
                 if(scope._paddingTopDown){
                     scope._working = true;
-                    var curr = scope._active._currPaddingTop || (parseFloat($(scope._active).css('paddingTop')));
+                    curr = scope._active._currPaddingTop || (parseFloat($(scope._active).css('paddingTop')));
                     if(isDown){
                         scope._active.style.paddingTop = (curr <= 0 ? 0 : curr-inc) + 'px';
                     } else {
@@ -58,9 +84,15 @@
                     }
                     scope._active._currPaddingTop = parseFloat(scope._active.style.paddingTop);
                     scope.position(scope._active);
+                    scope.info();
+                    scope._active.setAttribute('staticdesign', true);
+                    scope.activeMark(true);
+                    mw.wysiwyg.change(scope._active);
+                    mw.liveEditSelector.pause();
+                    mw.trigger('PaddingControl', scope._active);
                 } else if(scope._paddingBottomDown){
                     scope._working = true;
-                    var curr = scope._active._currPaddingBottom || (parseFloat($(scope._active).css('paddingBottom')));
+                    curr = scope._active._currPaddingBottom || (parseFloat($(scope._active).css('paddingBottom')));
                     if(isDown){
                         scope._active.style.paddingBottom = (curr <= 0 ? 0 : curr-inc) + 'px';
                     } else {
@@ -68,6 +100,12 @@
                     }
                     scope._active._currPaddingBottom = parseFloat(scope._active.style.paddingBottom);
                     scope.position(scope._active);
+                    scope.info();
+                    scope._active.setAttribute('staticdesign', true);
+                    scope.activeMark(true);
+                    mw.wysiwyg.change(scope._active);
+                    mw.liveEditSelector.pause();
+                    mw.trigger('PaddingControl', scope._active);
                 }
 
                 scope._pageY = e.pageY;
@@ -80,6 +118,7 @@
             scope._active = targetIsLayout;
             scope.paddingTop.style.top = off.top + 'px';
             scope.paddingBottom.style.top = (off.top + $el.outerHeight() - this.settings.height) + 'px';
+
         };
 
         this.selectors = [
@@ -88,14 +127,22 @@
             '[data-type="layouts"]',
             '.imagebg'
         ];
+        this.prepareSelectors = function(){
+            /* var i = 0;
+            for( ; i < this.selectors.length; i++){
+                if(this.selectors[i].indexOf('[id') === -1){
+                    this.selectors[i] += '[id]';
+                }
+            } */
+        };
 
         this.addSelector = function(selector){
             this.selectors.push(selector);
+            this.prepareSelectors();
         };
 
         this.eventsHandlers = function() {
-            mw.on('moduleOver ModuleClick', function(e, el, mel){
-
+            mw.on('moduleOver ModuleClick', function(e, el){
                 if(!scope._working){
                     var targetIsLayout = mw.tools.firstMatchesOnNodeOrParent(el, scope.selectors);
                     if(targetIsLayout){
@@ -113,12 +160,49 @@
             this.create();
             this.eventsHandlers();
             this.handleMouseMove();
-            this.info();
+            this.prepareSelectors();
+        };
+
+        this.activeMark = function (state) {
+            if(typeof state === 'undefined') {
+                state = false;
+            }
+            if(!this._activeMark) {
+                this._activeMark = document.createElement('div');
+                this._activeMark.className = 'mw-padding-control-active-mark';
+                document.body.appendChild(this._activeMark);
+            }
+            if (state) {
+                mw.tools.addClass(this._activeMark, 'active');
+                var off = scope._active.getBoundingClientRect();
+                this._activeMark.style.top = off.top + 'px';
+                this._activeMark.style.left = off.left + 'px';
+                this._activeMark.style.width = off.width + 'px';
+                this._activeMark.style.height = off.height + 'px';
+            } else {
+                mw.tools.removeClass(this._activeMark, 'active');
+            }
+
         };
 
         this.info = function() {
-
-        }
+            if(!this._info){
+                this._info = document.createElement('div');
+                this._info.className = 'mw-padding-control-info';
+                document.body.appendChild(this._info);
+            }
+            $(this._info).addClass('active');
+            var off;
+            if (scope._paddingTopDown) {
+                off = $(scope.paddingTop).offset();
+                this._info.style.top = (off.top + scope.settings.height) + 'px';
+                this._info.innerHTML = scope._active.style.paddingTop;
+            } else if (scope._paddingBottomDown) {
+                off = $(scope.paddingBottom).offset();
+                this._info.style.top = (off.top - scope.settings.height - 30) + 'px';
+                this._info.innerHTML = scope._active.style.paddingBottom;
+            }
+        };
 
         this.init();
     };

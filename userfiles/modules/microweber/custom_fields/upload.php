@@ -1,7 +1,5 @@
 <?php
 
- 
-
 if (!isset($data['id'])) {
 include('empty_field_vals.php');
 }
@@ -23,13 +21,18 @@ if(!isset($data['input_class'])){
 ?>
 
 <div class="control-group form-group">
-  <label class="mw-ui-label"><?php print $data["name"]; ?></label>
+  <label class="mw-ui-label"><?php print $data["name"]; ?>
+  
+  <?php if (isset($data['options']) == true and isset($data['options']["required"]) == true): ?>  
+  <span style="color:red;">*</span>
+  <?php endif; ?>
+  </label>
   <div class="relative inline-block mw-custom-field-upload" id="upload_<?php print($rand); ?>">
     <div class="mw-ui-row-nodrop">
       <div class="mw-ui-col" style="width: auto">
 
       <span class="mw-ui-btn" id="upload_button_<?php print($rand); ?>">
-        <span class="mw-icon-upload"></span><?php _e("Browse"); ?>
+        <span class="mw-icon-upload"></span>&nbsp; <?php _e("Browse"); ?>
         </span>
         <input type="hidden" class="mw-ui-invisible-field" id="file_name<?php print $data["name"]; ?>" autocomplete="off"  />
         
@@ -51,13 +54,7 @@ if(!isset($data['input_class'])){
     mw.require('files.js');
 </script> 
 <script>
-
-    formHasUploader = true;
-
-
-
-
-
+formHasUploader = true;
 
 $(document).ready(function(){
 	 

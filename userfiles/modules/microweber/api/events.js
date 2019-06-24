@@ -212,7 +212,8 @@ DOMChange:function(element, callback, attr, a){
     });
   },
   tripleClick : function(el, callback){
-      var t, timeout = 199, el = el || window;
+      var t, timeout = 199;
+      el = el || window;
       el.addEventListener("dblclick", function () {
           t = setTimeout(function () {
               t = null;
@@ -222,7 +223,7 @@ DOMChange:function(element, callback, attr, a){
           if (t) {
               clearTimeout(t);
               t = null;
-              callback.call(el, e.target)
+              callback.call(el, e.target);
           }
       });
   },
@@ -277,18 +278,27 @@ mw.hashHistory = [window.location.hash]
 mw.prevHash = function(){
   var prev = mw.hashHistory[mw.hashHistory.length - 2];
   return prev !== undefined ? prev : '';
-}
+};
 
 
 
-$(window).bind("hashchange load", function(event){
+$(window).on("hashchange load", function(event){
     if(event.type === 'load'){
         mw._on.userIteractionInit();
     }
 
-mw.on.hashParamEventInit();
+    mw.on.hashParamEventInit();
 
    var hash =  mw.hash();
+
+   var isMWHash = hash.replace(/\#/g, '').indexOf('mw@') === 0;
+   if (isMWHash) {
+       var MWHash = hash.replace(/\#/g, '').replace('mw@', '');
+       var el = document.getElementById(MWHash);
+       if(el) {
+           mw.tools.scrollTo(el);
+       }
+   }
    if(hash.contains("showpostscat")){
       mw.$("html").addClass("showpostscat");
    }
@@ -311,8 +321,15 @@ mw.on.hashParamEventInit();
 
 
 mw.event = {
+  windowLeave: function(c) {
+      document.documentElement.addEventListener('mouseout', function(e) {
+          if (!e.relatedTarget && !e.toElement && c) {
+              c.call(document.body, e);
+          }
+      });
+  },
   cancel:function(e, prevent){
-    prevent===true?e.preventDefault():'';
+    prevent === true ? e.preventDefault() : '';
     e.cancelBubble = true;
     if (e.stopPropagation) e.stopPropagation();
   },
@@ -341,7 +358,7 @@ mw.event = {
       escape: function (e) {
           e = e.originalEvent || e;
           return e.key === "Escape" || e.keyCode === 27;
-      },
+      }
   }
 };
 

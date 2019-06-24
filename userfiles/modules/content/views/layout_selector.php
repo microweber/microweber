@@ -541,6 +541,10 @@ if (!empty($recomended_layouts)) {
 
 
                         <div class="layouts_box_container">
+
+
+
+
                             <select name="preview_layout_file" class="mw-ui-field mw-edit-page-layout-selector w100" id="active_site_layout_<?php print $rand; ?>" autocomplete="off">
                                 <?php if (!empty($layouts)): ?>
                                     <?php $i = 0;
@@ -561,9 +565,8 @@ if (!empty($recomended_layouts)) {
                                             <?php if (isset($item['name'])): ?>   title="<?php print $item['name'] ?>"  <?php endif; ?>
                                             <?php if (isset($item['tag'])): ?>   data-tag="<?php print $item['tag'] ?>"  <?php endif; ?>
                                             <?php if (isset($item['subtype'])): ?>   data-subtype="<?php print $item['subtype'] ?>"  <?php endif; ?>
-                                            <?php if (isset($item['subtype_value'])): ?>   data-subtype-value="<?php print $item['subtype_value'] ?>"  <?php endif; ?>
-                                        >
-                                            <?php print $item['name'] ?>
+                                            <?php if (isset($item['subtype_value'])): ?>   data-subtype-value="<?php print $item['subtype_value'] ?>"  <?php endif; ?> >
+                                            <?php print $item['name'] ?>    <?php if (isset($item['is_shop'])): ?>    (shop) <?php endif; ?>
                                         </option>
                                         <?php $i++; endforeach; ?>
                                 <?php endif; ?>

@@ -3,6 +3,7 @@
 $parent = get_option('fromcategory', $params['id']);
 $selected_page = get_option('frompage', $params['id']);
 
+$show_only_for_parent = get_option('single-only', $params['id']);
 
 $show_category_header = get_option('show_category_header', $params['id']);
 
@@ -22,9 +23,13 @@ if (!isset($parent) or $parent == '') {
 }
 
 $cats = get_categories('no_limit=true&order_by=position asc&rel_id=[not_null]&parent_id=' . intval($parent));
+if(!$cats or $show_only_for_parent){
+    $cats = get_categories('no_limit=true&order_by=position asc&rel_id=[not_null]&id=' . intval($parent));
+}
 if ($selected_page) {
     $cats = get_categories('no_limit=true&order_by=position asc&rel_id=' . intval($selected_page));
 }
+
 
 if (!empty($cats)) {
     foreach ($cats as $k => $cat) {

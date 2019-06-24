@@ -13,6 +13,7 @@ use Microweber\Utils\Backup\Traits\DatabaseContentWriter;
 use Microweber\Utils\Backup\Traits\DatabaseMenusWriter;
 use Microweber\Utils\Backup\Traits\DatabaseMediaWriter;
 use Microweber\Utils\Backup\Loggers\BackupImportLogger;
+use Microweber\Utils\Backup\Traits\DatabaseModuleWriter;
 
 /**
  * Microweber - Backup Module Database Writer
@@ -23,6 +24,7 @@ use Microweber\Utils\Backup\Loggers\BackupImportLogger;
 class DatabaseWriter
 {
 	use DatabaseMediaWriter;
+	use DatabaseModuleWriter;
 	use DatabaseMenusWriter;
 	use DatabaseRelationWriter;
 	use DatabaseCustomFieldsWriter;
@@ -92,6 +94,11 @@ class DatabaseWriter
 	
 	private function _saveItemDatabase($item) {
 		
+		if (isset($item['rel_type']) && $item['rel_type'] == 'modules' && $item['save_to_table'] == 'media') {
+			$this->_saveModule($item);
+			return;
+		}
+		
 		if ($item['save_to_table'] == 'media' && empty($item['title'])) {
 			$this->_saveMedia($item);
 			return;
@@ -116,7 +123,7 @@ class DatabaseWriter
 		$dbSelectParams['fields'] = 'id';
 		
 		foreach(DatabaseDublicateChecker::getRecognizeFields($item['save_to_table']) as $tableField) {
-			if (isset($item[$tableField])) {
+			if (isset($item[$tableField])) { 
 				$dbSelectParams[$tableField] = $item[$tableField];
 			}
 		}
@@ -206,18 +213,28 @@ class DatabaseWriter
 				}
 			}
 		}
+		
+		$this->_finishUp();
+		cache_save($this->totalSteps, 'CurrentStep', $this->_cacheGroupName, 60 * 10);
+		
 	}
 	
 	public function runWriterWithBatch() 
 	{
 		if ($this->getCurrentStep() == 0) {
+			BackupImportLogger::clearLog();
+		}
+		
+		if ($this->getCurrentStep() == $this->totalSteps) {
 			// Clear old log file
 			BackupImportLogger::clearLog();
+			$this->_finishUp();
 		}
 		
 		BackupImportLogger::setLogInfo('Importing database batch: ' . $this->getCurrentStep() . '/' . $this->totalSteps);
 
 		if (empty($this->content)) {
+			$this->_finishUp();
 			return array("success"=>"Nothing to import.");
 		}
 		
@@ -247,12 +264,17 @@ class DatabaseWriter
 			$totalItemsForSave = sizeof($itemsForSave);
 			$totalItemsForBatch = round($totalItemsForSave / $this->totalSteps, 0);
 			
-			$itemsBatch = array_chunk($itemsForSave, $totalItemsForBatch);
+			if ($totalItemsForBatch > 0) {
+				$itemsBatch = array_chunk($itemsForSave, $totalItemsForBatch);
+			} else {
+				$itemsBatch[0] = $itemsForSave;
+			}
 			
 			if (!isset($itemsBatch[$this->getCurrentStep()])) {
 				
 				BackupImportLogger::setLogInfo('No items in batch for current step.');
-				$this->_finishUp();
+				
+				cache_save($this->totalSteps, 'CurrentStep', $this->_cacheGroupName, 60 * 10);
 				
 				return array("success"=>"Done! All steps are finished.");
 			}
@@ -266,7 +288,8 @@ class DatabaseWriter
 			//echo 'Save cache ... ' .$this->currentStep. PHP_EOL;
 			
 			cache_save($this->getCurrentStep() + 1, 'CurrentStep', $this->_cacheGroupName, 60 * 10);
-			
+		
+		
 		}
 		
 	}

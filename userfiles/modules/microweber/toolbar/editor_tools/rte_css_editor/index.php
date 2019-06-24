@@ -24,8 +24,9 @@ var ActiveNode = null;
 var CSSShadow;
 
 var _activeTree = null;
+var _pauseActiveTree = false;
 var activeTree = function(){
-    if(!ActiveNode) {
+    if(!ActiveNode || _pauseActiveTree) {
         return;
     }
     var getParent = function(node){
@@ -33,20 +34,36 @@ var activeTree = function(){
             return false;
         }
         if(node.parentNode.id){
-            return node.parentNode
+            return node.parentNode;
+        } else  if(mw.tools.hasClass(node.parentNode, 'edit')){
+            return node.parentNode;
         } else {
             return getParent(node.parentNode);
         }
     };
     var data = [], curr = ActiveNode;
-    while(curr && curr !== document.body && !mw.tools.hasClass(curr, 'edit')){
-        if(curr.id){
+    while(curr && curr !== document.body){
+        if(curr.id || mw.tools.hasClass(curr, 'edit')){
             var parent = getParent(curr);
+            var selector = mw.tools.generateSelectorForNode(curr)
+                .replace(/\[/g, 'mw')
+                .replace(/["']/g, '')
+                .replace(/\]/g, 'mw');
+            var parent_selector = 0;
+
+            if(parent) {
+                parent_selector =  mw.tools.generateSelectorForNode(parent)
+                    .replace(/\[/g, 'mw')
+                    .replace(/["']/g, '')
+                    .replace(/\]/g, 'mw');
+            }
             var item = {
-                id: curr.id,
+                id: selector,
                 type: 'page',
-                title: curr.tagName.toLowerCase() + '#' + curr.id,
-                parent_id: parent ? parent.id : 0
+                title: curr.tagName.toLowerCase() + (curr.classList.length ? ('.' + curr.className.split(' ').join('.')) : '') ,
+                parent_id: parent_selector,
+                parent_type: 'page',
+                element: curr
             };
 
             data.push(item)
@@ -66,11 +83,26 @@ var activeTree = function(){
 
     $('#tree').empty();
 
+
+
     _activeTree = new mw.tree({
         element:'#tree',
         data:data,
-        saveState: false
+        saveState: false,
+        selectable: true,
+        singleSelect:true,
     });
+
+    _activeTree.openAll();
+    _activeTree.select($('#tree li:last')[0]);
+
+    $(_activeTree).on('selectionChange', function(e, data){
+        _pauseActiveTree = true;
+        top.mw.liveEditSelector.select(data[0].element);
+        setTimeout(function(){
+            _pauseActiveTree = false;
+        }, 10)
+    })
 
 
 };
@@ -231,7 +263,7 @@ var init = function(){
         var el = this;
         mw.colorPicker({
             element:this,
-            position:'bottom-center',
+            position:'bottom-right',
             onchange:function(color){
                 if(el.dataset.prop) {
                     output(el.dataset.prop, color);
@@ -250,6 +282,10 @@ var init = function(){
         output(this.dataset.prop, this.value)
     });
 
+    $("#background-remove").on("click", function () {
+        $('.background-preview').css('backgroundImage', 'none');
+        output('backgroundImage', 'none')
+    })
     $("#background-select-item").on("click", function () {
         mw.fileWindow({
             types: 'images',
@@ -291,7 +327,8 @@ top.$(top.mw.liveEditSelector).on('select', function(e, nodes){
 
         top.$(top.mwd.body).on('mousedown touchstart', function(e){
             var node = mw.tools.firstMatchesOnNodeOrParent(e.target, ['.element', '.module']);
-            if( !node ){
+            console.log(mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target, ['mw-control-box', 'mw-defaults']))
+            if( !node && !mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target, ['mw-control-box', 'mw-defaults']) ){
                 ActiveNode = null;
             }
         });
@@ -524,6 +561,7 @@ top.$(top.mw.liveEditSelector).on('select', function(e, nodes){
             <div class="s-field-content">
                 <span class="background-preview"></span>
                 <span class="mw-ui-btn mw-ui-btn-medium" id="background-select-item">Image</span>
+                <span id="background-remove"><span class="mw-icon-close"></span></span>
             </div>
         </div>
         <div class="s-field">

@@ -129,8 +129,19 @@ class ZipExport extends DefaultExport
 		$userFiles = array();
 		$userFilesReady = array();
 		
-		$css = $this->_getDirContents(userfiles_path() . DIRECTORY_SEPARATOR . 'css');
-		$media = $this->_getDirContents(userfiles_path() . DIRECTORY_SEPARATOR . 'media');
+		$userFilesPathCss = userfiles_path() . DIRECTORY_SEPARATOR . 'css';
+		$userFilesPathMedia = userfiles_path() . DIRECTORY_SEPARATOR . 'media';
+		
+		if (!is_dir($userFilesPathCss)) {
+			mkdir($userFilesPathCss);
+		}
+		
+		if (!is_dir($userFilesPathMedia)) {
+			mkdir($userFilesPathMedia);
+		}
+		
+		$css = $this->_getDirContents($userFilesPathCss);
+		$media = $this->_getDirContents($userFilesPathMedia);
 		
 		$userFiles = array_merge($css, $media);
 		

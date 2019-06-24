@@ -4,7 +4,7 @@
 	var userfilesUrl = '<?php echo userfiles_url() ?>';
 	mw.require("<?php print $config['url_to_module']; ?>js/upload-file.js");
     mw.require("<?php print $config['url_to_module']; ?>js/backup-import.js?v=4");
-    mw.require("<?php print $config['url_to_module']; ?>js/backup-export.js?v=7");
+    mw.require("<?php print $config['url_to_module']; ?>js/backup-export.js?v=8s");
 </script>
 
 <?php if (isset($params['backend'])): ?>
@@ -17,7 +17,7 @@
 
         <div class="mw-ui-btn-nav pull-left">
             <a href="javascript:;" onclick="mw.backup_export.choice()" class="mw-ui-btn mw-ui-btn-notification">
-                <i class="mw-icon-download"></i>&nbsp; <span><?php _e("Export content"); ?></span>
+                <i class="mw-icon-download"></i>&nbsp; <span><?php _e("Create backup & export content"); ?></span>
             </a>
         </div>
         
@@ -32,7 +32,7 @@
         <div class="vSpace">&nbsp;</div>
     </div>
 
-    <div class="mw_edit_page_right" style="padding: 20px 0;">
+    <div class="mw_edit_page_right" style="padding: 10px 0;">
         <module type="admin/backup_v2/manage"/>
     </div>
     

@@ -113,12 +113,17 @@ mw.admin.custom_fields.valueLiveEdit = function (span) {
         }
         mw.tools.removeClass(mw.tools.firstParentWithTag(this, 'tr'), 'active');
         $.post(mw.settings.api_url + 'fields/save', data, function (adata) {
-            var rstr = mwd.getElementById('mw-custom-fields-list-settings-' + data.id).innerHTML.replace(/\s+/g, '');
-            if (rstr != '' && !!data.value) {
-                mw.reload_module('#mw-custom-fields-list-settings-' + data.id);
-            }
-            mw.custom_fields.after_save();
-
+        	
+        	if (mwd.getElementById('mw-custom-fields-list-settings-' + data.id) != null) {
+        		
+	            var rstr = mwd.getElementById('mw-custom-fields-list-settings-' + data.id).innerHTML.replace(/\s+/g, '');
+	            
+	            if (rstr != '' && !!data.value) {
+	                mw.reload_module('#mw-custom-fields-list-settings-' + data.id);
+	            }
+        	}
+        	
+        	mw.custom_fields.after_save();
 
         });
         $(el.parentNode).removeClass('active');
@@ -218,37 +223,18 @@ mw.admin.custom_fields.deleteFieldValue = function (el) {
     $(el.parentNode).remove();
 }
 mw.admin.custom_fields.edit_custom_field_item = function ($selector, id, callback, event) {
-    var preview = mwd.getElementById('mw-custom-fields-list-preview-' + id),
-        settings = mwd.getElementById('mw-custom-fields-list-settings-' + id);
-    if (preview.style.display != 'none') {
-        $(preview).slideUp();
-        $(settings).slideDown();
-        var data = {};
-        data.settings = 'y';
-        data.field_id = id;
-        mw.$($selector).load(mw.settings.api_html + 'fields/make', data, function (a) {
-            mw.is.func(callback) ? callback.call(this) : '';
-            mw.custom_fields.sort($selector);
-			 
-            mw.$("input,textarea,select,checkbox,date,radio",$selector).bind("change keyup paste", function () {
-				var el = $(this)[0]
-				mw.on.stopWriting(el, function () {
-				mw.custom_fields.save_form($selector);
-				});
-				
-               
-            });
-            mw.$($selector + " input").bind('focus blur', function (e) {
-                var func = e.type === 'focus' ? 'addClass' : 'removeClass';
-                mw.tools[func](mw.tools.firstParentWithTag(e.target, 'tr'), 'active');
-            });
-        });
-    }
-    else {
-        $(settings).slideUp();
-        $(preview).slideDown();
+	
+    var mTitle = (id ? 'Edit custom field' : 'Add new custom field');
 
-    }
+    var data = {};
+    data.settings = 'y';
+    data.field_id = id;
+    
+    data.params = {};
+    data.params.field_id = id;
+    
+    editModal = mw.tools.open_module_modal('custom_fields/values_edit', data, {overlay: false, skin: 'simple', title: mTitle});
+    
 }
 
 $(mww).bind('load', function () {

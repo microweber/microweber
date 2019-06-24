@@ -2,6 +2,10 @@
 $selected_category = get_option('fromcategory', $params['id']);
 $selected_page = get_option('frompage', $params['id']);
 $show_category_header = get_option('show_category_header', $params['id']);
+$show_only_for_parent = get_option('single-only', $params['id']);
+
+
+
 $my_tree_id = ''
 ?>
 
@@ -124,7 +128,37 @@ $my_tree_id = ''
 
 
                 <div id="category-parent-selector"></div>
+
+
+
+
+
+
+
+                <br>
+               <hr>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label class="mw-ui-check">
+                            <input type="checkbox" class="mw_option_field"   name="single-only"
+                                    value="single-only" <?php if ($show_only_for_parent == '1') {
+                                echo 'checked';
+                            } ?> /> <span></span><span><?php _lang("Show only parent category"); ?></span>
+                        </label>
+                    </div>
+                </div>
+
+
+
+
+
+
             </div>
+
+
+
+
+
         </div>
     </div>
 

@@ -187,6 +187,7 @@ function user_login($params)
 api_expose('is_logged');
 function is_logged()
 {
+
     $is = mw()->user_manager->is_logged();
     if (defined('MW_API_CALL')) {
         mw()->event_manager->trigger('mw.user.is_logged');

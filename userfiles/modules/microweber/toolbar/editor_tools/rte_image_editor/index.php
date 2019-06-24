@@ -128,8 +128,12 @@ if (array_key_exists('types', $_GET)) {
             if (typeof parent.mw.iframecallbacks[hash] === 'function') {
                 if (hash == 'editimage') {
 
+
                     parent.mw.iframecallbacks[hash](this);
-                    parent.mw.image.resize.resizerSet(parent.mw.image.currentResizing[0]);
+                    if(parent.mw.image.currentResizing && parent.mw.image.currentResizing){
+                        parent.mw.image.resize.resizerSet(parent.mw.image.currentResizing[0]);
+
+                    }
 
                 } else {
 
@@ -140,8 +144,9 @@ if (array_key_exists('types', $_GET)) {
 
                 parent[hash](GlobalEmbed)
             }
-
-            parent.mw.trigger('imageSrcChanged', [parent.mw.image.currentResizing[0], this])
+            if(parent.mw.image.currentResizing && parent.mw.image.currentResizing[0]) {
+                parent.mw.trigger('imageSrcChanged', [parent.mw.image.currentResizing[0], this]);
+            }
 
             parent.mw.tools.modal.remove('mw_rte_image');
 

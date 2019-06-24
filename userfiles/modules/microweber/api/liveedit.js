@@ -50,10 +50,16 @@ $(document).ready(function() {
     });
 
     setInterval(function(){
-        mw.liveEditSelector.positionSelected()
-    }, 700)
+        mw.liveEditSelector.positionSelected();
+    }, 700);
 
-
+    $(document.body).on('mousemove', function(e){
+        if(mw.liveEditSelector.interactors.active) {
+            if(!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['module', 'element'])){
+                mw.liveEditSelector.hideItem(mw.liveEditSelector.interactors);
+            }
+        }
+    });
 
     mw.on('ElementOver ModuleOver', function(e, target){
 
@@ -61,7 +67,6 @@ $(document).ready(function() {
             mw.liveEditSelector.active(true);
             mw.liveEditSelector.setItem(target, mw.liveEditSelector.interactors);
         }
-
     });
 
     mw.on("ImageClick ElementClick ModuleClick", function(e, el, originalEvent){

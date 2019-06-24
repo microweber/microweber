@@ -874,7 +874,7 @@ mw.tools = {
             modal.main[0].querySelector('iframe').onload = function () {
                 typeof obj.callback === 'function' ? obj.callback.call(modal, this) : '';
                 typeof obj.onload === 'function' ? obj.onload.call(modal, this) : '';
-            }
+            };
             modal.iframe = modal.container.querySelector('iframe');
             return modal;
         },
@@ -2454,14 +2454,14 @@ mw.tools = {
         }
     },
     scrollTo: function (el, callback, minus) {
-        var minus = minus || 0;
+        minus = minus || 0;
         if ($(el).length === 0) {
             return false;
         }
         if (typeof callback === 'number') {
-            var minus = callback;
+            minus = callback;
         }
-        mw.$('html,body').animate({scrollTop: $(el).offset().top - minus}, function () {
+        mw.$('html,body').stop().animate({scrollTop: $(el).offset().top - minus}, function () {
             typeof callback === 'function' ? callback.call(el) : '';
         });
     },
@@ -3391,14 +3391,26 @@ mw.tools = {
         if (node.nodeName === 'BODY') {
             return 'body';
         }
-        if (node.id != '') {
+        if (!!node.id) {
             return '#' + node.id;
         }
-        var ___final = node.className != '' ? '.' + node.className.trim().split(' ').join('.') : node.nodeName.toLocaleLowerCase();
-        ___final = ___final.replace(/\.\./g, '.');
+        if(mw.tools.hasClass(node, 'edit')){
+            var field = node.getAttribute('field');
+            var rel = node.getAttribute('rel');
+            if(field && rel){
+                return '.edit[field="'+field+'"][rel="'+rel+'"]';
+            }
+        }
+        var filter = function(item) {
+            return item !== 'changed';
+        };
+        var _final = node.className != '' ? '.' + node.className.trim().split(' ').filter(filter).join('.') : node.nodeName.toLocaleLowerCase();
+
+
+        _final = _final.replace(/\.\./g, '.');
         mw.tools.foreachParents(node, function (loop) {
             if (this.id != '') {
-                ___final = '#' + this.id + ' > ' + ___final;
+                _final = '#' + this.id + ' > ' + _final;
                 mw.tools.stopLoop(loop);
                 return false
             }
@@ -3408,9 +3420,9 @@ mw.tools = {
             else {
                 var n = this.nodeName.toLocaleLowerCase();
             }
-            ___final = n + ' > ' + ___final;
+            _final = n + ' > ' + _final;
         });
-        return ___final;
+        return _final;
     },
     cloneObject: function (r) {
         var a = {}, i;
@@ -4803,6 +4815,16 @@ $(document).ready(function () {
         if(!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['mw-ui-dropdown'])){
             $(".mw-ui-dropdown.active").removeClass('active')
         }
+    });
+    $(document.body).on('click', 'a', function(e){
+        if(location.hash.indexOf('#mw@') !== -1 && (e.target.href || '').indexOf('#mw@') !== -1){
+            if(location.href === e.target.href){
+                var el = $('#' + e.target.href.split('mw@')[1])[0];
+                if(el){
+                    mw.tools.scrollTo(el)
+                }
+            }
+        }
     })
 
 
@@ -4814,10 +4836,10 @@ mw.ui.btn = {
             return false;
         }
         mw.tools.addClass(nav, 'activated');
-        var btn_selector = btn_selector || ".mw-ui-btn";
+        btn_selector = btn_selector || ".mw-ui-btn";
         var all = nav.querySelectorAll(btn_selector), i = 0, l = all.length, el;
         for (; i < l; i++) {
-            var el = all[i];
+            el = all[i];
             $(el).bind('click', function () {
                 if (!mw.tools.hasClass(this.className, 'active')) {
                     var active = nav.querySelector(btn_selector + ".active");
@@ -5910,7 +5932,7 @@ mw.uiAccordion = function (options) {
 
     var scope = this;
 
-    console.log(options)
+
 
     this.getContents = function () {
         this.contents = this.root.children(this.options.contentSelector);

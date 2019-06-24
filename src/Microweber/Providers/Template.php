@@ -65,10 +65,14 @@ class Template
     	return $this->stylesheet_adapter->compile($params);
     }
 
+    public function delete_compiled_css($params) {
+        return $this->stylesheet_adapter->delete_compiled($params);
+    }
 
-    public function get_stylesheet($path, $option_group_name = false, $cache = true)
+
+    public function get_stylesheet($path, $default_stylesheet = false, $cache = true)
     {
-    	return $this->stylesheet_adapter->getStylesheet($path, $option_group_name, $cache);
+    	return $this->stylesheet_adapter->getStylesheet($path, $default_stylesheet, $cache);
     }
 
 

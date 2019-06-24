@@ -169,7 +169,7 @@ class FormsManager
 
 
         $email_autorespond = $this->app->option_manager->get('email_autorespond', $for_id);
-        if (!$email_bcc) {
+        if (!$email_autorespond) {
             $email_autorespond = $this->app->option_manager->get('email_autorespond', $default_mod_id);
         }
 
@@ -507,8 +507,8 @@ class FormsManager
 
         $success = array();
         $success['success'] = _e('Your message has been sent', true);
-        if ($email_redirect_after_submit and $user_mails) {
-      //      $success['redirect'] = $email_redirect_after_submit;
+        if ($email_redirect_after_submit ) {
+            $success['redirect'] = $email_redirect_after_submit;
         }
         return $success;
 

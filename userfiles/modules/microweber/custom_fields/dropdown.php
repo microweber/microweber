@@ -21,14 +21,16 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
 
 $selected = false;
 
-
-
 $is_required = (isset($data['options']) == true and isset($data['options']["required"]) == true);
 
+
+if(!$data['values']) {
+	$data['values'][0] = _e('Please, set dropdown options.', true);
+}
 ?>
 
 <?php if(!empty($data['values'])) : ?>
-<div class="mw-ui-field-holder">    
+<div class="control-group form-group">    
 <label class="mw-ui-label">
     <?php if(isset($data['name']) == true and $data['name'] != ''): ?>
     <?php print $data['name'] ?>
@@ -36,6 +38,10 @@ $is_required = (isset($data['options']) == true and isset($data['options']["requ
     <?php print $data['name'] ?>
     <?php else : ?>
     <?php endif; ?>
+    
+    <?php if (isset($data['options']) == true and isset($data['options']["required"]) == true): ?>  
+	<span style="color:red;">*</span>
+	<?php endif; ?>
   </label>
 
 

@@ -1,5 +1,8 @@
 <?php only_admin_access(); ?>
 <script  type="text/javascript">
+/*
+
+<button onClick="saveEmailOptions()" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification">Save email settings</button>
 
 function saveEmailOptions() {
 	$("input, select, textarea", $('.<?php print $config['module_class'] ?>')).each(function () {
@@ -15,6 +18,14 @@ $(document).ready(function(){
 	$('.js-email-transport-select').change(function() {
 		saveEmailOptions();
 	});
+});*/
+
+
+
+$(document).ready(function(){
+    mw.options.form(".<?php print $config['module_class'] ?>", function () {
+        mw.notification.success("<?php _e("Email settings are saved"); ?>.");
+    });
 });
 
 mw.email_send_test = function(){
@@ -200,11 +211,8 @@ mw.email_send_test = function(){
 				<a class="mw-ui-btn " href="javascript:$('#test_eml_toggle').toggle(); void(0);"><?php _e("Test Method"); ?></a> </div>
 		</div>
 		
-		<br />
-		<br />
-		
-		<button onClick="saveEmailOptions()" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification">Save email settings</button>
-		
+
+
 	</div>
 </div>
 </div>

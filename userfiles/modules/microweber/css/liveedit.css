@@ -2073,6 +2073,10 @@ img[_moz_resizing], table[_moz_resizing] {
     outline: 0px none;
 }
 
+.isTyping .mw-padding-ctrl,
+.isTyping .mw-selector{
+    display: none;
+}
 .isTyping .element-current, .isTyping .element-current:hover {
     outline: none !important;
 }
@@ -3759,7 +3763,7 @@ body {
     color: #000;
 }
 
-body.isTyping .mw-cloneable-control-item {
+body.isTyping .mw-cloneable-control {
     display: none;
 }
 
@@ -4891,5 +4895,54 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 
 .mw-padding-ctrl-bottom{
     border-bottom: 1px dashed #939393;
+}
+
+.mw-padding-control-info{
+    position: absolute;
+    opacity: 0;
+    transition: opacity .6s;
+    display: block;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    border-radius: 100px;
+    background-color: rgba(0,0,0,.6);
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    background-size: auto 17px;
+    background-image: url("data:image/svg+xml,%3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='105.9 77 204.2 511.3' style='enable-background:new 105.9 77 204.2 511.3;' xml:space='preserve'%3E%3Cpolygon fill='white' points='105.9,179.8 185.5,179.8 185.4,281.7 185.4,281.7 185.5,486.2 105.9,486.2 208,588.3 310.1,486.2 230.5,486.2 230.6,193.8 230.5,179.8 310.1,179.8 208,77.7 '/%3E%3C/svg%3E%0A");    color: #fff;
+    text-align: center;
+    z-index: 999;
+    pointer-events: none;
+    padding: 0 15px 0 25px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 12px;
+    font-family: Verdana, Geneva, sans-serif !important;
+}
+.mw-padding-control-info.active{
+    opacity: 1;
+}
+
+html.padding-control-start .mw_image_resizer,
+html.padding-control-start .mw-cloneable-control,
+html.padding-control-start .mw-handle-item{
+    display: none !important;
+}
+
+
+.mw-padding-control-active-mark{
+    position: absolute;
+    z-index: 1100;
+    pointer-events: none;
+    background-color: rgba(0,0,0,.09);
+    display: none;
+    border: 1px solid #4584f6;
+    box-shadow: inset 0 0 20px rgba(0,0,0,.5);
+}
+
+.mw-padding-control-active-mark.active{
+    display: block;
 }
 

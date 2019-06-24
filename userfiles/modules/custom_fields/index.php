@@ -62,22 +62,19 @@ if (!empty($data)) {
 			continue;
 		}
 		
-		if (!isset($field['options']['field_size'])) {
-			$field['options']['field_size'] = false;
+		$field['options']['field_size_class'] = get_default_field_size_option($field);
+		
+		if (isset($field['options']['field_size']) && is_array($field['options']['field_size'])) {
+			$field['options']['field_size_class'] = get_field_size_class($field['options']['field_size'][0]);
 		}
 		
-		$field['options']['field_size_class'] = get_field_size_class($field['options']['field_size']);
+		if (isset($field['options']['field_size']) && is_string($field['options']['field_size'])) {
+			$field['options']['field_size_class'] = get_field_size_class($field['options']['field_size']);
+		}
 		
 		$groupFields[$groupI][] = $field;
 	}
 }
-
-/* $field_size_class = '';
-if (isset($field['options']['field_size'])) {
-	$field_size = $field['options']['field_size'];
-}
- */
-
 
 $prined_items_count = 0;
 

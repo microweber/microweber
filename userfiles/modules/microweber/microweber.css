@@ -17,6 +17,7 @@
 
 body {
     font-feature-settings: 'liga';
+    cursor: default;
 }
 
 .mw-defaults {
@@ -468,6 +469,9 @@ body.Resizing .mwembed:after {
     z-index: 9;
     width: 100%;
     height: 100%;
+}
+.mw-uploader iframe{
+    min-height: 100%;
 }
 
 .notransition {

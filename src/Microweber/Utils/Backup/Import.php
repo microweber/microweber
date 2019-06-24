@@ -57,16 +57,7 @@ class Import
 			
 			BackupImportLogger::setLogInfo('Reading data from file ' . basename($this->file));
 
-			try {
-				$readedData = $reader->readData();
-			} catch (\Exception $e) {
-				$readedData = array();
-				// $fileIsBroken = 'Can\'t read data. The file is corrupt.';
-				$fileIsBroken = $e->getMessage();
-				BackupImportLogger::setLogInfo($fileIsBroken);
-				
-				throw new \Exception($fileIsBroken);
-			}
+			$readedData = $reader->readData();
 			
 			if (! empty($readedData)) {
 				$successMessages = count($readedData, COUNT_RECURSIVE) . ' items are readed.';
@@ -129,9 +120,10 @@ class Import
 		// Fix content encoding
 		array_walk_recursive($content, function (&$element) {
 			if (is_string($element)) {
-				$element = utf8_decode($element);
-				$element = str_replace('Â ', ' ', $element);
-				$element = str_replace("Â ", ' ', $element);
+				$utf8Chars = explode(' ', 'À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö');
+				foreach ($utf8Chars as $char) {
+					$element = str_replace($char, '', $element);
+				}
 			}
 		});
 			

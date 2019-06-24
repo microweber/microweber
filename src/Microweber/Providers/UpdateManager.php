@@ -1219,8 +1219,12 @@ class UpdateManager
         }
 
         if ($cache_id) {
-            $results = cache_get($cache_id, 'composer', 60);
+            $results = cache_get($cache_id, 'composer', 600);
+
             if ($results) {
+                if ($results == 'noresults') {
+                    return array();
+                }
                 return $results;
             }
         }
@@ -1233,11 +1237,18 @@ class UpdateManager
 
         $runner = new \Microweber\Utils\ComposerUpdate();
         $results = $runner->search_packages($params);
-        if ($results) {
-            cache_save($results, $cache_id, 'composer', 60);
 
+
+        if (!$results) {
+            $results = 'noresults';
         }
 
+        if ($results) {
+            cache_save($results, $cache_id, 'composer', 60);
+        }
+        if ($results == 'noresults') {
+            return array();
+        }
         return $results;
     }
 

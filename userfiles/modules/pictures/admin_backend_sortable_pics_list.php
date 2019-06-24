@@ -34,7 +34,7 @@ if ($for_id != false) {
 
 
 $init_image_options = array();
-$default_image_options = 'Tags, Author, Source, Link';
+$default_image_options = 'Link, Caption, Author, Source, Tags';
 $image_options = isset($params['image-options']) ? $params['image-options'] : isset($params['data-image-options']) ? $params['data-image-options'] : $default_image_options;
 
 
@@ -84,7 +84,7 @@ $rand = 'pic-sorter-'.uniqid();
 
                 <div class="image-options">
                     <div class="mw-ui-field-holder">
-                        <label class="mw-ui-label"><?php _e("Image Description"); ?></label>
+                        <label class="mw-ui-label"><?php _e("Alt text"); ?></label>
                         <input class="mw-ui-field w100" autocomplete="off" value="<?php if ($item['title'] !== '') {
                             print $item['title'];
                         } else {

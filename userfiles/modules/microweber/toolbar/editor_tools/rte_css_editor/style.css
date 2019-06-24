@@ -270,3 +270,8 @@ input,select{
         width:60px;
     }
 
+    #background-remove{
+        cursor: pointer;
+        display: inline-block;
+    }
+
