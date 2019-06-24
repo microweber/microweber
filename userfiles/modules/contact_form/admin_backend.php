@@ -46,10 +46,14 @@
             $load_mod_action = false;
             if ((url_param('mod_action') != false)) {
                 $mod_action = url_param('mod_action');
-                if ($mod_action == 'browse' or $mod_action == 'add_new' or $mod_action == 'settings') {
+                if ($mod_action == 'browse' or $mod_action == 'add_new' or $mod_action == 'settings' or $mod_action == 'integrations') {
                     $load_list = false;
                     $load_mod_action = $mod_action;
                 }
+            }
+            
+            if ($mod_action == 'integrations') {
+            	$load_list = false;
             }
             ?>
 
@@ -63,11 +67,17 @@
                     <?php endforeach; ?>
                 <?php endif; ?>
             </div>
-
-
+            
+            
             <div class="mw-ui-btn-nav  m-b-10 pull-right">
                 <a href="<?php print $config['url']; ?>/mod_action:settings" class="<?php if($mod_action == 'settings'){ ?> active <?php }?> mw-ui-btn"><?php _e("Settings"); ?></a>
              </div>
+            
+            <div class="mw-ui-btn-nav  m-b-10 pull-right">
+             &nbsp;&nbsp;&nbsp;
+                <a href="<?php print $config['url']; ?>/mod_action:integrations" class="<?php if($mod_action == 'integrations'){ ?> active <?php }?> mw-ui-btn"><?php _e("Integrations"); ?></a>
+             </div>
+            
             </div>
 
 
@@ -116,11 +126,15 @@
                 <?php if ($load_mod_action == true): ?>
 
                     <?php if ($load_mod_action == 'settings'): ?>
-                <module type="settings/list" for_module="contact_form" for_module_id="contact_form_default" >
+               		<module type="settings/list" for_module="contact_form" for_module_id="contact_form_default" >
                     <module type="contact_form/settings"  for_module_id="contact_form_default"  />
-
                     <?php endif; ?>
-                <?php else : ?>
+                    
+                    <?php if ($load_mod_action == 'integrations'): ?>
+               		<module type="contact_form/integrations" for_module="contact_form" for_module_id="contact_form_default" >
+                    <?php endif; ?>
+                    
+                <?php else : ?> 
                 <?php endif; ?>
             </div>
         </div>
