@@ -47,8 +47,12 @@ class MailProvider
 	}
 
 	public function submit() {
+		$this->_mailerLite();
+	}
+	
+	private function _mailerLite() {
 		
-		$mailerliteApiKey = get_option('mailerlite_api_key', 'contact_form_default'); 
+		$mailerliteApiKey = get_option('mailerlite_api_key', 'contact_form_default');
 		
 		if (!empty($mailerliteApiKey)) {
 			
@@ -66,22 +70,27 @@ class MailProvider
 				$groupId = $newGroup->id;
 			}
 			
+			$subscribersApi = (new MailerLite($mailerliteApiKey))->subscribers();
+			$allSubscribers = $subscribersApi->get();
 			
-			$subscriber = [
-				'email' => $this->email,
-				'fields' => [
-					'name' => $this->firstName,
-					'last_name' => '',
-					'phone' => $this->phone,
-					'company' => $this->companyName
-				]
-			];
+			$subscriberEmails = array();
+			foreach($allSubscribers as $subscriber) {
+				$subscriberEmails[] = $subscriber->email;
+			}
 			
-			$response = $groupsApi->addSubscriber($groupId, $subscriber);
+			if (!in_array($this->email, $subscriberEmails)) {
+				$subscriber = [
+					'email' => $this->email,
+					'fields' => [
+						'name' => $this->firstName,
+						'last_name' => '',
+						'phone' => $this->phone,
+						'company' => $this->companyName
+					]
+				];
+				$groupsApi->addSubscriber($groupId, $subscriber);
+			}
 			
-			var_dump($response);
-			die();
 		}
-		
 	}
 }
