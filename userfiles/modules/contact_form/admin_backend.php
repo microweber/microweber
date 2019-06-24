@@ -57,7 +57,9 @@
             }
             ?>
 
-            <div >
+            <div>
+           
+           <!-- 
             <div class="mw-ui-btn-nav m-b-10">
                 <a class="mw-ui-btn <?php if ($load_list == 'default') { ?>active<?php } ?>" href="<?php print $config['url']; ?>/load_list:default"><?php _e('Default list'); ?></a>
                 <?php $data = get_form_lists('module_name=contact_form'); ?>
@@ -67,18 +69,45 @@
                     <?php endforeach; ?>
                 <?php endif; ?>
             </div>
+            -->
             
-            
-            <div class="mw-ui-btn-nav  m-b-10 pull-right">
-                <a href="<?php print $config['url']; ?>/mod_action:settings" class="<?php if($mod_action == 'settings'){ ?> active <?php }?> mw-ui-btn"><?php _e("Settings"); ?></a>
-             </div>
-            
-            <div class="mw-ui-btn-nav  m-b-10 pull-right">
-             &nbsp;&nbsp;&nbsp;
-                <a href="<?php print $config['url']; ?>/mod_action:integrations" class="<?php if($mod_action == 'integrations'){ ?> active <?php }?> mw-ui-btn"><?php _e("Mail Integrations"); ?></a>
-             </div>
-            
+            <div class="mw-flex-row">
+              
+              <div class="mw-flex-col-md-12">
+              <h3><b>Select from lists</b></h3>
+              </div>
+              
+              <div class="mw-flex-col-md-3">
+	             <div class="mw-field" size="large" style="width:100%;">
+			        <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+			        <option value="default"><?php _e('Default list'); ?></option>
+			         <?php $data = get_form_lists('module_name=contact_form'); ?>
+                	<?php if (is_array($data)): ?>
+                    <?php foreach ($data as $item): ?>
+			            <option <?php if ($load_list == $item['id']) { ?> selected="selected" <?php } ?> value="<?php print $config['url']; ?>/load_list:<?php print $item['id']; ?>"><?php print $item['title']; ?></option>
+			           <?php endforeach; ?>
+              		 <?php endif; ?>
+			        </select>
+			    </div>
+			     </div>
+			     
+			     <div class="mw-flex-col-md-6">
+			    <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-big" onclick="mw.$('.mw_create_new_list, #form_dropdown_lists').toggle()">Create New List</button>
+			     </div>
+			     
+	             <div class="mw-flex-col-md-2">
+	                <a href="<?php print $config['url']; ?>/mod_action:integrations" class="<?php if($mod_action == 'integrations'){ ?> active <?php }?> mw-ui-btn  mw-ui-btn-big " style="width:100%;"><?php _e("Mail Integrations"); ?></a>
+               </div>
+               
+               	 <div class="mw-flex-col-md-1">
+	                <a href="<?php print $config['url']; ?>/mod_action:settings" class="<?php if($mod_action == 'settings'){ ?> active <?php }?> mw-ui-btn  mw-ui-btn-big " style="width:100%;"><?php _e("Settings"); ?></a>
+	              </div>
+			     
+              </div>
             </div>
+            
+            <br />
+             	 <br />
 
 
 
@@ -120,7 +149,8 @@
                     <module type="contact_form/manager/list_toolbar" load_list="<?php print $load_list ?>"/>
                     <module type="contact_form/manager/list" load_list="<?php print $load_list ?>" for_module="<?php print $config["the_module"] ?>" id="forms_data_module"/>
                 <?php if (strtolower(trim($load_list)) != 'default'): ?>
-                    <span class="mw-ui-delete right" onclick="mw.forms_data_manager.delete_list('<?php print addslashes($load_list); ?>');"><?php _e("Delete list"); ?></span>
+                	<br />
+                    <span class="mw-ui-btn mw-ui-btn-important mw-ui-delete right" onclick="mw.forms_data_manager.delete_list('<?php print addslashes($load_list); ?>');"><?php _e("Delete list"); ?></span>
                 <?php endif; ?>
                 <?php endif; ?>
                 <?php if ($load_mod_action == true): ?>

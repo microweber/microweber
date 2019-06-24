@@ -205,12 +205,18 @@ if (is_array($data)) {
 <?php endif; ?>
 
 <?php if (is_array($data)) : ?>
-    <div class="mw-paging left"> <?php print paging("num=$data_paging"); ?> </div>
+    <div class="mw-paging mw-paging- mw-paging-">
+    
+    <?php print paging("num=$data_paging"); ?> 
+    
+    </div>
     <?php if (isset($params['export_to_excel'])) : ?>
     <?php endif; ?>
     <?php if (isset($params['export_to_excel'])) : ?>
     <?php endif; ?>
 <?php endif; ?>
+
+
 <?php
 
 
