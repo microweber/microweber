@@ -75,7 +75,7 @@
             
             <div class="mw-ui-btn-nav  m-b-10 pull-right">
              &nbsp;&nbsp;&nbsp;
-                <a href="<?php print $config['url']; ?>/mod_action:integrations" class="<?php if($mod_action == 'integrations'){ ?> active <?php }?> mw-ui-btn"><?php _e("Integrations"); ?></a>
+                <a href="<?php print $config['url']; ?>/mod_action:integrations" class="<?php if($mod_action == 'integrations'){ ?> active <?php }?> mw-ui-btn"><?php _e("Mail Integrations"); ?></a>
              </div>
             
             </div>

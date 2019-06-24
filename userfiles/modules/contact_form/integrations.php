@@ -16,8 +16,7 @@ if(isset($params['for_module_id'])){
 }
 ?>
 
-<div class="mw-accordion">
-
+<div class="mw-accordion <?php print $config['module_class'] ?>">
 	<?php foreach(get_mail_providers() as $mailProvider): ?>
 	<div class="mw-accordion-item">
 		<div class="mw-ui-box-header mw-accordion-title">
@@ -26,17 +25,17 @@ if(isset($params['for_module_id'])){
 			</div>
 		</div>
 		<div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-		
 			<?php foreach ($mailProvider['fields'] as $field): ?>
 			<div class="demobox">
-                <label class="mw-ui-label"><?php echo $field['title']; ?></label>
-                <input type="text" option-group="<?php print $mod_id ?>" value="<?php print get_option('mail_field_' . $field['name'], $mod_id); ?>" name="<?php echo $field['name']; ?>" class="mw-ui-field w100 mw_option_field">
+                <label class="mw-ui-label"><?php echo $field['title']; ?></label>  
+                <input type="text" option-group="<?php print $mod_id ?>" 
+               value="<?php print get_option($mailProvider['name'] . '_'. $field['name'], $mod_id); ?>" 
+               name="<?php echo $mailProvider['name']; ?>_<?php echo $field['name']; ?>"
+               class="mw-ui-field w100 mw_option_field">
             </div>
             <br />
             <?php endforeach; ?>
-		
 		</div>
 	</div>
 	<?php endforeach; ?>
-	
 </div>
