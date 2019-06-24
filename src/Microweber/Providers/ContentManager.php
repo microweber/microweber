@@ -439,7 +439,7 @@ class ContentManager
         if (isset($params['num'])) {
             $pages_count = $params['num'];
         }
-        $limit = false;
+        $limit = 10;
         if (isset($params['limit'])) {
             $limit = intval($params['limit']);
         }
@@ -476,7 +476,8 @@ class ContentManager
             } else {
                 $to_print = "";
             }
-
+            
+            $to_print = '<a data-page-number="'.$data[1].'" href="'.$data[1].'">First</a>'; 
 
             $paging_items = array();
             $active_item = 1;
@@ -524,19 +525,22 @@ class ContentManager
                 }
                 $prev_link = '#';
                 $next_link = '#';
-                if (isset($data[$active_item - 1])) {
-                    $prev_link = $data[$active_item - 1];
-                    $limited_paging_begin[] = '<a data-page-number="' . ($active_item - 1) . '" href="' . $prev_link . '">&laquo;</a>';
+                if (isset($data[$active_item - 10])) {
+                    $prev_link = $data[$active_item - 10];
+                    $limited_paging_begin[] = '<a data-page-number="' . ($active_item - 10) . '" href="' . $prev_link . '">&laquo;</a>';
                 }
 
                 $limited_paging_begin = array_reverse($limited_paging_begin);
 
                 $limited_paging = array_merge($limited_paging_begin, $limited_paging);
 
-                if (isset($data[$active_item + 1])) {
-                    $next_link = $data[$active_item + 1];
-                    $limited_paging[] = '<a data-page-number="' . ($active_item + 1) . '" href="' . $next_link . '">&raquo;</a>';
+                if (isset($data[$active_item + 10])) {
+                    $next_link = $data[$active_item + 10];
+                    $limited_paging[] = '<a data-page-number="' . ($active_item + 10) . '" href="' . $next_link . '">&raquo;</a>';
                 }
+                
+                $limited_paging[] = '<a data-page-number="'.end($data).'" href="'.end($data).'">Last</a>';
+                
                 if (count($limited_paging) > 2) {
                     $paging_items = $limited_paging;
                 }

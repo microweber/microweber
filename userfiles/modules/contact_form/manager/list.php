@@ -77,6 +77,8 @@ if (isset($params['for_module'])) {
     $data['module_name'] = $params['for_module'];
 }
 
+$data['limit'] = 1;
+
 $custom_fields = array();
 
 
@@ -202,7 +204,7 @@ if (is_array($data)) {
     </table>
 </div>
 
-<div class="mw-flex-row">
+<div class="mw-ui-row">
 
 <?php 
 $load_list = 'default';
@@ -214,7 +216,7 @@ if ($load_list == 1) {
 }
 ?>
 
- <div class="mw-flex-col-md-5">
+ <div class="mw-ui-col">
  
 <?php if (strtolower(trim($load_list)) != 'default'): ?>
 
@@ -225,8 +227,8 @@ if ($load_list == 1) {
  </div>
 
 <?php if (is_array($data)) : ?>
-	 <div class="mw-flex-col-md-3">
-    <div class="mw-paging mw-paging- mw-paging-">
+	 <div class="mw-ui-col text-center" style="width: 70%">
+    <div class="mw-paging mw-paging- mw-paging- inline-block">
     <?php print paging("num=$data_paging"); ?> 
     </div>
     <?php if (isset($params['export_to_excel'])) : ?>
@@ -237,11 +239,21 @@ if ($load_list == 1) {
 <?php endif; ?>
 
 <?php if (is_array($data)) : ?>
- <div class="mw-flex-col-md-4">
-    <div class="text-right">
+ <div class="mw-ui-col">
+    <div class="mw-field" style="width:100%;" data-before="&nbsp;&nbsp;&nbsp;&nbsp;<?php _e('Show items per page'); ?>&nbsp;&nbsp;&nbsp;&nbsp;">
+        <select>
+            <option>50</option>
+            <option>100</option>
+            <option>200</option>
+        </select>
+    </div>
+    <br /><br />
+  <div class="text-right">
         <strong><?php print _e('Total'); ?>:</strong>
         <span><?php echo count($data); ?> messages in this list</span>
     </div>
+    
+    
   </div>
 <?php endif; ?>
 
