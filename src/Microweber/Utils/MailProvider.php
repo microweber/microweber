@@ -1,6 +1,8 @@
 <?php
 namespace Microweber\Utils;
 
+use MailerLiteApi\MailerLite;
+
 class MailProvider
 {
 	protected $listTitle;
@@ -46,13 +48,40 @@ class MailProvider
 
 	public function submit() {
 		
-		//$groupsApi = (new MailerLite('your-api-key'))->groups();
-		//$newGroup = $groupsApi->create(['name' => 'New group']); // creates group and returns it
-		//$allGroups = $groupsApi->get(); // returns array of groups
+		$mailerliteApiKey = get_option('mailerlite_api_key', 'contact_form_default'); 
 		
-		echo get_option('mailerlite', 'contact_form_default'); 
-		
-		die();
+		if (!empty($mailerliteApiKey)) {
+			
+			$groupsApi = (new MailerLite($mailerliteApiKey))->groups();
+			$allGroups = $groupsApi->get();
+			
+			$groupNames = array();
+			foreach($allGroups as $group) {
+				$groupNames[] = $group->name;
+				$groupId = $group->id;
+			}
+			
+			if (!in_array($this->listTitle, $groupNames)) {
+				$newGroup = $groupsApi->create(['name' => $this->listTitle]);
+				$groupId = $newGroup->id;
+			}
+			
+			
+			$subscriber = [
+				'email' => $this->email,
+				'fields' => [
+					'name' => $this->firstName,
+					'last_name' => '',
+					'phone' => $this->phone,
+					'company' => $this->companyName
+				]
+			];
+			
+			$response = $groupsApi->addSubscriber($groupId, $subscriber);
+			
+			var_dump($response);
+			die();
+		}
 		
 	}
 }
