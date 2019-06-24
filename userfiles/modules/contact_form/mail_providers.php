@@ -4,7 +4,7 @@ function get_mail_providers()
 {
 	$providers = array();
 	
-	$provider = array();
+	/* $provider = array();
 	$provider['title'] = 'Mailchimp';
 	$provider['name'] = 'mailchimp';
 	$provider['fields'] = get_mailchimp_api_fields();
@@ -20,7 +20,7 @@ function get_mail_providers()
 	$provider['title'] = 'Mandril';
 	$provider['name'] = 'mandril';
 	$provider['fields'] = get_mandril_api_fields();
-	$providers[] = $provider;
+	$providers[] = $provider; */
 	
 	$provider = array();
 	$provider['title'] = 'MailerLite';
@@ -28,7 +28,7 @@ function get_mail_providers()
 	$provider['fields'] = get_mailerlite_api_fields();
 	$providers[] = $provider; 
 	
-	$provider = array();
+	/* $provider = array();
 	$provider['title'] = 'Flexmail';
 	$provider['name'] = 'flexmail';
 	$provider['fields'] = get_flexmail_api_fields();
@@ -43,8 +43,8 @@ function get_mail_providers()
 	$provider = array();
 	$provider['title'] = 'Amazon SES';
 	$provider['name'] = 'amazon_ses';
-	$provider['fields'] = get_amazon_ses_api_fields();
-	$providers[] = $provider;
+	$provider['fields'] = get_amazon_ses_api_fields(); 
+	$providers[] = $provider;*/
 	
 	return $providers;
 }
@@ -85,8 +85,8 @@ function get_mandril_api_fields()
 function get_mailerlite_api_fields()
 {
 	$field = array();
-	$field['name'] = 'secret';
-	$field['title'] = 'Secret';
+	$field['name'] = 'api_key';
+	$field['title'] = 'API Key';
 	
 	$fields[] = $field;
 	
