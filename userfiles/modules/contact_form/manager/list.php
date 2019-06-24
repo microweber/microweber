@@ -127,6 +127,7 @@ if (is_array($data)) {
 }
 
 ?>
+
 <div class="table-responsive table-scroll-visible">
     <table id="table_data_<?php print $params['id'] ?>" cellspacing="0" cellpadding="0" width="100%" class="mw-ui-table table-style-2 layout-auto">
         <thead>

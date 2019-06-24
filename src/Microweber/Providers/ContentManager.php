@@ -477,8 +477,10 @@ class ContentManager
                 $to_print = "";
             }
             
-            $to_print = '<a data-page-number="'.$data[1].'" href="'.$data[1].'">First</a>'; 
-
+            if ($current_page_from_url > 1) {
+            	$to_print = '<a data-page-number="'.$data[1].'" href="'.$data[1].'">First</a>'; 
+            }
+            
             $paging_items = array();
             $active_item = 1;
             foreach ($data as $key => $value) {
