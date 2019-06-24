@@ -65,6 +65,11 @@ if (isset($params['load_list'])) {
     $data['list_id'] = $params['load_list'];
 }
 
+
+$listData = get_form_lists("id=".$data['list_id']."&limit=1");
+$listData = $listData[0];
+
+
 if (isset($params['keyword'])) {
     $data['keyword'] = $params['keyword'];
 }
@@ -197,25 +202,51 @@ if (is_array($data)) {
     </table>
 </div>
 
+<div class="mw-flex-row">
+
+<?php 
+$load_list = 'default';
+if ((url_param('load_list') != false)) {
+	$load_list = url_param('load_list');
+}
+if ($load_list == 1) {
+	$load_list = 'default';
+}
+?>
+
+ <div class="mw-flex-col-md-5">
+ 
+<?php if (strtolower(trim($load_list)) != 'default'): ?>
+
+  <span class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-important mw-ui-delete" onclick="mw.forms_data_manager.delete_list('<?php print addslashes($load_list); ?>');">
+  <?php _e("Delete");?> <b><?php echo $listData['title']; ?></b> <?php _e("list"); ?>
+  </span>
+  <?php endif; ?>
+ </div>
+
 <?php if (is_array($data)) : ?>
+	 <div class="mw-flex-col-md-3">
+    <div class="mw-paging mw-paging- mw-paging-">
+    <?php print paging("num=$data_paging"); ?> 
+    </div>
+    <?php if (isset($params['export_to_excel'])) : ?>
+    <?php endif; ?>
+    <?php if (isset($params['export_to_excel'])) : ?>
+    <?php endif; ?>
+    </div>
+<?php endif; ?>
+
+<?php if (is_array($data)) : ?>
+ <div class="mw-flex-col-md-4">
     <div class="text-right">
         <strong><?php print _e('Total'); ?>:</strong>
         <span><?php echo count($data); ?> messages in this list</span>
     </div>
+  </div>
 <?php endif; ?>
 
-<?php if (is_array($data)) : ?>
-    <div class="mw-paging mw-paging- mw-paging-">
-    
-    <?php print paging("num=$data_paging"); ?> 
-    
-    </div>
-    <?php if (isset($params['export_to_excel'])) : ?>
-    <?php endif; ?>
-    <?php if (isset($params['export_to_excel'])) : ?>
-    <?php endif; ?>
-<?php endif; ?>
 
+</div>
 
 <?php
 

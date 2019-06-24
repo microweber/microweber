@@ -92,7 +92,7 @@
 			     </div>
 			     
 			     <div class="mw-flex-col-md-6">
-			    <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-big" onclick="mw.$('.mw_create_new_list, #form_dropdown_lists').toggle()">Create New List</button>
+			   		 <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-big">Create New List</button>
 			     </div>
 			     
 	             <div class="mw-flex-col-md-2">
@@ -148,10 +148,8 @@
                     </script>
                     <module type="contact_form/manager/list_toolbar" load_list="<?php print $load_list ?>"/>
                     <module type="contact_form/manager/list" load_list="<?php print $load_list ?>" for_module="<?php print $config["the_module"] ?>" id="forms_data_module"/>
-                <?php if (strtolower(trim($load_list)) != 'default'): ?>
-                	<br />
-                    <span class="mw-ui-btn mw-ui-btn-important mw-ui-delete right" onclick="mw.forms_data_manager.delete_list('<?php print addslashes($load_list); ?>');"><?php _e("Delete list"); ?></span>
-                <?php endif; ?>
+                
+                 
                 <?php endif; ?>
                 <?php if ($load_mod_action == true): ?>
 
