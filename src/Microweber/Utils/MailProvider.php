@@ -5,14 +5,14 @@ use MailerLiteApi\MailerLite;
 
 class MailProvider
 {
-	protected $listTitle;
-	protected $email;
-	protected $firstName;
-	protected $phone;
-	protected $companyName;
-	protected $companyPosition;
-	protected $companyRegistration;
-	protected $message;
+	protected $listTitle = '';
+	protected $email = '';
+	protected $firstName = '';
+	protected $phone = '';
+	protected $companyName = '';
+	protected $companyPosition = '';
+	protected $countryRegistration = '';
+	protected $message = '';
 
 	public function setListTitle($title) {
 		$this->listTitle = $title;
@@ -38,8 +38,8 @@ class MailProvider
 		$this->companyPosition = $position;
 	}
 
-	public function setCompanyRegistration($registration) {
-		$this->companyRegistration = $registration;
+	public function setCountryRegistration($country) {
+		$this->countryRegistration = $country;
 	}
 
 	public function setMessage($message) {

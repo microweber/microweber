@@ -509,16 +509,33 @@ class FormsManager
         	
         	$getFormLists = get_form_lists("?id=".$list_id.'&limit=1');
         	
-        	$provider = new MailProvider();
-        	$provider->setListTitle($getFormLists[0]['title']);
-        	$provider->setEmail($params['email']);
-        	$provider->setFirstName($params['first_name']);
-        	$provider->setPhone($params['phone']);
-        	$provider->setCompanyName($params['company_name']);
-        	$provider->setCompanyPosition($params['company_position']);
-        	$provider->setCompanyRegistration($params['company_registration']);
-        	$provider->setMessage($params['message']);
-        	$provider->submit();
+        	if (isset($getFormLists[0]['title'])) {
+        	
+	        	$provider = new MailProvider();
+	        	$provider->setListTitle($getFormLists[0]['title']);
+	        	$provider->setEmail($params['email']);
+	        	$provider->setFirstName($params['first_name']);
+	        	
+	        	if (isset($params['phone'])) {
+	        		$provider->setPhone($params['phone']);
+	        	}
+	        	
+	        	if (isset($params['company_name'])) {
+	        		$provider->setCompanyName($params['company_name']);
+	        	}
+	        	
+	        	if (isset($params['company_position'])) {
+	        		$provider->setCompanyPosition($params['company_position']);
+	        	}
+	        	
+	        	if (isset($params['country_registration'])) {
+	        		$provider->setCountryRegistration($params['country_registration']);
+	        	}
+	        	
+	        	$provider->setMessage($params['message']);
+	        	$provider->submit();
+	        	
+        	}
         	
         }
 

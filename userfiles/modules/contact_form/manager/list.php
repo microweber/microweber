@@ -77,7 +77,16 @@ if (isset($params['for_module'])) {
     $data['module_name'] = $params['for_module'];
 }
 
-$data['limit'] = 1;
+
+if (isset($_GET['per_page'])) {
+	$option = array();
+	$option['option_value'] = intval($_GET['per_page']);
+	$option['option_key'] = 'per_page';
+	$option['option_group'] = $params['for_module'];
+	save_option($option);
+}
+
+$data['limit'] = get_option('per_page', $params['for_module']);
 
 $custom_fields = array();
 
@@ -240,11 +249,13 @@ if ($load_list == 1) {
 
 <?php if (is_array($data)) : ?>
  <div class="mw-ui-col">
-    <div class="mw-field" style="width:100%;" data-before="&nbsp;&nbsp;&nbsp;&nbsp;<?php _e('Show items per page'); ?>&nbsp;&nbsp;&nbsp;&nbsp;">
-        <select>
-            <option>50</option>
-            <option>100</option>
-            <option>200</option>
+    <div class="mw-field" style="width:100%;" data-before="<?php _e('Show items per page'); ?>">
+        <select onchange="if (this.value) window.location.href=this.value">
+            <option value="">Select</option>
+            <option value="?per_page=10">10</option>
+             <option value="?per_page=50">50</option>
+            <option value="?per_page=100">100</option>
+            <option value="?per_page=200">200</option>
         </select>
     </div>
     <br /><br />
