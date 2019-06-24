@@ -156,7 +156,6 @@ mw.custom_fields = {
             var notArraySelect = this.nodeName === 'SELECT' && this.multiple === false;
             var notArrayDefault = this.name !== 'options[file_types]';
             var notArray = notArraySelect || notArrayDefault;
-            console.log(this.name)
 
             if (name.contains("[")) {
 

@@ -67,6 +67,7 @@ $(document).ready(function() {
             mw.liveEditSelector.active(true);
             mw.liveEditSelector.setItem(target, mw.liveEditSelector.interactors);
         }
+
     });
 
     mw.on("ImageClick ElementClick ModuleClick", function(e, el, originalEvent){
@@ -718,7 +719,6 @@ mw.drag = {
 
         $(mwd.body).on('mousemove touchmove', function(event) {
 
-            var that = this;
             mw.dragSTOPCheck = false;
             if (!mw.settings.resize_started) {
 
