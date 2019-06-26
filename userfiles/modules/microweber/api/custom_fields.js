@@ -4,12 +4,12 @@ mw.custom_fields = {
     },
     saveurl: mw.settings.api_url + 'fields/save',
     create: function (obj, callback, error) {
-        var obj = $.extend({}, this.settings, obj);
+        obj = $.extend({}, this.settings, obj);
         obj.id = 0;
         this.edit(obj, callback, error);
     },
     edit: function (obj, callback, error) {
-        var obj = $.extend({}, this.settings, obj);
+        obj = $.extend({}, this.settings, obj);
 
         $.post(mw.custom_fields.saveurl, obj, function (data) {
             if (typeof callback === 'function') {
@@ -33,7 +33,7 @@ mw.custom_fields = {
             });
     },
     sort: function (group) {
-        var group = mwd.getElementById(group);
+        group = mwd.getElementById(group);
         if (group == null) {
             return;
         }
@@ -50,7 +50,7 @@ mw.custom_fields = {
                 //scroll:false,
                 update: function () {
                     var par = mw.tools.firstParentWithClass(group, 'mw-admin-custom-field-edit-item-wrapper');
-                    if (par != null && par != false) {
+                    if (!!par) {
                         mw.custom_fields.save(par);
                     }
                 }
@@ -60,7 +60,7 @@ mw.custom_fields = {
     remove: function (id, callback, err) {
         var obj = {
             id: id
-        }
+        };
         $.post(mw.settings.api_url + "fields/delete", obj, function (data) {
             if (typeof callback === 'function') {
                 callback.call(data);

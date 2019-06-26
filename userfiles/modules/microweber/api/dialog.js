@@ -126,7 +126,6 @@ mw.Dialog = function(options){
                 else{
                    $(this.dialogHeader).prepend('<div class="mw-dialog-title">' + title + '</div>')
                 }
-
             }
         };
         this.footer = function (content) {
@@ -145,7 +144,6 @@ mw.Dialog = function(options){
             this.dialogHolder._dialog = this;
 
             this.header();
-
 
             this.dialogFooter = this.options.root.createElement('div');
             this.dialogFooter.className = 'mw-dialog-footer';
@@ -168,8 +166,6 @@ mw.Dialog = function(options){
             this.closeButton.onclick = function(){
                 this.$scope.remove();
             };
-
-
 
             this.width(this.options.width || 600);
             this.height(this.options.height || 320);

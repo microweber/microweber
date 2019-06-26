@@ -5655,7 +5655,9 @@ mw._colorPicker = function (options) {
 
         if ($el[0].nodeName == 'INPUT') {
             $el.on('focus', function (e) {
+                frame.color = this.value || '#0086db';
                 $(tip).show();
+
                 mw.tools.tooltip.setPosition(tip, $el[0], settings.position)
             });
         }

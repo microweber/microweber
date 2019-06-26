@@ -1,7 +1,7 @@
 <?php
 
 
- 
+
 only_admin_access();
 
 $rand = rand();
@@ -15,7 +15,7 @@ $data_orig = $data;
 }
  $add_remove_controls = '' .
     '<span class="mw-icon-plus" onclick="mw.custom_fields.add(this);" title="' . _e("Add", true) . '"></span>' .
-    '<span class="mw-icon-close" onclick="mw.custom_fields.remove(this);mw.custom_fields.save(\'custom_fields_edit' . $rand . '\');" title="' . _e("Remove", true) . '"></span>' .
+    '<span class="mw-icon-close" onclick="mw.custom_fields.remove('.$data_orig['field_id'].');mw.custom_fields.save(\'custom_fields_edit' . $rand . '\');" title="' . _e("Remove", true) . '"></span>' .
     '<span class="mw-icon-drag custom-fields-handle-field" title="' . _e("Move", true) . '"></span>';
 
 
@@ -212,18 +212,18 @@ if ($for == false) {
     <?php if (isset($data['id']) and ($data['id']) != 0): ?>
         <input type="hidden" name="cf_id" value="<?php print ($data['id']) ?>"/>
     <?php endif; ?>
-     
-     <?php  
-   
+
+     <?php
+
      if (isset($data_orig['field_id']) and ($data_orig['field_id']) ): ?>
          <input type="hidden" name="cf_id" value="<?php print ($data_orig['field_id']) ?>"/>
     <?php endif; ?>
-    
-    
-    
-    
- 
-    
+
+
+
+
+
+
     <?php if (isset($data['for']) and $data['for'] != false): ?>
         <?php $db_t = $for; ?>
         <input type="hidden" name="rel" value="<?php print ($db_t); ?>"/>

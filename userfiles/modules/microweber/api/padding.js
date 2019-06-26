@@ -115,6 +115,7 @@
                     mw.trigger('PaddingControl', scope._active);
                 }
                 scope._pageY = e.pageY;
+                scope._activePadding = curr;
             });
         };
 
@@ -169,7 +170,7 @@
             this.prepareSelectors();
         };
 
-        this.activeMark = function (state) {
+        this.activeMarkOld = function (state) {
             if(typeof state === 'undefined') {
                 state = false;
             }
@@ -185,6 +186,32 @@
                 this._activeMark.style.left = off.left + 'px';
                 this._activeMark.style.width = off.width + 'px';
                 this._activeMark.style.height = off.height + 'px';
+            } else {
+                mw.tools.removeClass(this._activeMark, 'active');
+            }
+
+        };
+        this.activeMark = function (state) {
+            if(typeof state === 'undefined') {
+                state = false;
+            }
+            if(!this._activeMark) {
+                this._activeMark = document.createElement('div');
+                this._activeMark.className = 'mw-padding-control-active-mark';
+                document.body.appendChild(this._activeMark);
+            }
+            if (state) {
+                mw.tools.addClass(this._activeMark, 'active');
+                var active = scope._paddingTopDown ? scope.paddingTop : scope.paddingBottom;
+                var off = scope._active.getBoundingClientRect();
+                this._activeMark.style.left = off.left + 'px';
+                this._activeMark.style.width = off.width + 'px';
+                this._activeMark.style.height = scope._activePadding + 'px';
+                if (scope._paddingTopDown) {
+                    this._activeMark.style.top = (off.top + scrollY) + 'px';
+                } else {
+                    this._activeMark.style.top = ((off.top + scrollY + $(scope._active).outerHeight()) - parseFloat(scope._active.style.paddingBottom)) + 'px';
+                }
             } else {
                 mw.tools.removeClass(this._activeMark, 'active');
             }
@@ -208,6 +235,7 @@
                 this._info.style.top = (off.top - scope.settings.height - 30) + 'px';
                 this._info.innerHTML = scope._active.style.paddingBottom;
             }
+            this._info.style.left = (off.left + (scope._active.clientWidth/2)) + 'px';
         };
 
         this.init();
