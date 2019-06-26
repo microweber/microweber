@@ -42,7 +42,7 @@ class Form
 				'mail_provider_id' => 'integer'
 			],
 			'forms_mail_providers_settings' => [
-				'provider_name' => '',
+				'provider_name' => 'string',
 				'provider_settings' => 'text',
 				'is_active' => 'integer'
 			]
