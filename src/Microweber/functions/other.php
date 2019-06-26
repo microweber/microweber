@@ -869,3 +869,19 @@ function php_can_use_func($func_name)
     }
 
 }
+
+
+
+
+function array_unique_recursive($array)
+{
+    $array = array_unique($array, SORT_REGULAR);
+
+    foreach ($array as $key => $elem) {
+        if (is_array($elem)) {
+            $array[$key] = array_unique_recursive($elem);
+        }
+    }
+
+    return $array;
+}

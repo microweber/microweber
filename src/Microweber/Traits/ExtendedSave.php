@@ -256,11 +256,13 @@ trait ExtendedSave
 
     public function extended_save_categories($params)
     {
-        if ($this->extended_save_has_permission()) {
+
+
+        if ($params and  $this->extended_save_has_permission()) {
             event_trigger('mw.database.extended_save_categories', $params);
             $data_to_save = $params;
             $cats_modified = false;
-            if (isset($data_to_save['categories'])) {
+            if (isset($data_to_save['categories']) and $data_to_save['categories']) {
                 if (is_string($data_to_save['categories'])) {
                     $data_to_save['categories'] = explode(',', $data_to_save['categories']);
                 }
