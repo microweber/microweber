@@ -28,12 +28,13 @@ function get_mail_providers()
 	$provider['fields'] = get_mailerlite_api_fields();
 	$providers[] = $provider; 
 	
-	/* $provider = array();
+	$provider = array();
 	$provider['title'] = 'Flexmail';
 	$provider['name'] = 'flexmail';
 	$provider['fields'] = get_flexmail_api_fields();
 	$providers[] = $provider;
 	
+	/* 
 	$provider = array();
 	$provider['title'] = 'Sparkpost';
 	$provider['name'] = 'sparkpost';
@@ -96,8 +97,14 @@ function get_mailerlite_api_fields()
 function get_flexmail_api_fields()
 {
 	$field = array();
-	$field['name'] = 'secret';
-	$field['title'] = 'Secret';
+	$field['name'] = 'api_user_id';
+	$field['title'] = 'API User ID';
+	
+	$fields[] = $field;
+	
+	$field = array();
+	$field['name'] = 'api_user_token';
+	$field['title'] = 'API User Token';
 	
 	$fields[] = $field;
 	

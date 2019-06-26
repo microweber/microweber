@@ -2,6 +2,7 @@
 namespace Microweber\Utils;
 
 use MailerLiteApi\MailerLite;
+use Finlet\flexmail\FlexmailAPI\FlexmailAPI;
 
 class MailProvider
 {
@@ -47,7 +48,22 @@ class MailProvider
 	}
 
 	public function submit() {
+		$this->_flexmail();
 		$this->_mailerLite();
+	}
+	
+	private function _flexmail() {
+		
+		$flexmailApiUserId = get_option('flexmail_api_user_id', 'contact_form_default');
+		$flexmailApiUserToken = get_option('flexmail_api_user_token', 'contact_form_default');
+		
+		if (!empty($flexmailApiUserId) && !empty($flexmailApiUserToken)) {
+			
+			
+			
+			echo 22;	
+			die();
+		}
 	}
 	
 	private function _mailerLite() {
