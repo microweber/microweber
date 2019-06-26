@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f3052055bdc59a568b7a05d853c7e0af",
+    "content-hash": "cc9ef507eac22455d35e5ed23ad56845",
     "packages": [
         {
             "name": "arcanedev/seo-helper",
@@ -1382,6 +1382,39 @@
                 "html"
             ],
             "time": "2018-02-23T01:58:20+00:00"
+        },
+        {
+            "name": "finlet/flexmail",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Finlet/flexmail.git",
+                "reference": "458b08560a704e14e24165892caff3bf14993b00"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Finlet/flexmail/zipball/458b08560a704e14e24165892caff3bf14993b00",
+                "reference": "458b08560a704e14e24165892caff3bf14993b00",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Finlet\\flexmail\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Rico van de Vin",
+                    "email": "rico@finlet.eu"
+                }
+            ],
+            "description": "Flexmail API PHP Wrapper.",
+            "time": "2016-01-11T10:04:22+00:00"
         },
         {
             "name": "geoip2/geoip2",
@@ -7686,7 +7719,8 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "aws/aws-sdk-php": 20,
-        "mailerlite/mailerlite-api-v2-php-sdk": 20
+        "mailerlite/mailerlite-api-v2-php-sdk": 20,
+        "finlet/flexmail": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
