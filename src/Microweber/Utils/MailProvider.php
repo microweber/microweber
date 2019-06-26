@@ -60,8 +60,30 @@ class MailProvider
 		if (!empty($flexmailApiUserId) && !empty($flexmailApiUserToken)) {
 			
 			
+			$config = new \Finlet\flexmail\Config\Config();
+			$config->set('wsdl', 'http://soap.flexmail.eu/3.0.0/flexmail.wsdl');
+			$config->set('service', 'http://soap.flexmail.eu/3.0.0/flexmail.php');
+			$config->set('user_id', $flexmailApiUserId);
+			$config->set('user_token', $flexmailApiUserToken); 
+			$config->set('debug_mode', true);
 			
-			echo 22;	
+			$flexmail = new \Finlet\flexmail\FlexmailAPI\FlexmailAPI($config);
+			
+			$categoryNames = array();
+			foreach ($flexmail->service('Category')->getAll()->categoryTypeItems as $category){ 
+				$categoryNames[] = $category->categoryName;
+			}
+			
+			if (!in_array($this->listTitle, $categoryNames)) {
+				$response = $flexmail->service("List")->create(array(
+					"mailingListName"    => $this->listTitle,
+					"categoryId" => 0,
+					"mailingListLanguage" => "FR",
+				));
+			}
+			
+			
+			var_dump($categoryNames);
 			die();
 		}
 	}
