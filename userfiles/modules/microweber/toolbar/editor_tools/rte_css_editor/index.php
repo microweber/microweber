@@ -98,7 +98,9 @@ var activeTree = function(){
 
     $(_activeTree).on('selectionChange', function(e, data){
         _pauseActiveTree = true;
-        top.mw.liveEditSelector.select(data[0].element);
+        if(data[0]){
+            top.mw.liveEditSelector.select(data[0].element);
+        }
         setTimeout(function(){
             _pauseActiveTree = false;
         }, 10)
@@ -325,9 +327,10 @@ top.$(top.mw.liveEditSelector).on('select', function(e, nodes){
 
     $(document).ready(function(){
 
+        mw.$('.mw-field input').attr('autocomplete', 'off')
+
         top.$(top.mwd.body).on('mousedown touchstart', function(e){
             var node = mw.tools.firstMatchesOnNodeOrParent(e.target, ['.element', '.module']);
-            console.log(mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target, ['mw-control-box', 'mw-defaults']))
             if( !node && !mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target, ['mw-control-box', 'mw-defaults']) ){
                 ActiveNode = null;
             }

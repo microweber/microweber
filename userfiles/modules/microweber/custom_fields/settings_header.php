@@ -15,7 +15,7 @@ $data_orig = $data;
 }
  $add_remove_controls = '' .
     '<span class="mw-icon-plus" onclick="mw.custom_fields.add(this);" title="' . _e("Add", true) . '"></span>' .
-    '<span class="mw-icon-close" onclick="mw.custom_fields.remove('.$data_orig['field_id'].');mw.custom_fields.save(\'custom_fields_edit' . $rand . '\');" title="' . _e("Remove", true) . '"></span>' .
+    '<span class="mw-icon-close" onclick="var parent = mw.tools.firstParentWithClass(this, \'mw-admin-custom-field-edit-item-wrapper\'); $(this).parents(\'.mw-custom-field-form-controls\').remove();mw.custom_fields.save(parent);" title="' . _e("Remove", true) . '"></span>' .
     '<span class="mw-icon-drag custom-fields-handle-field" title="' . _e("Move", true) . '"></span>';
 
 

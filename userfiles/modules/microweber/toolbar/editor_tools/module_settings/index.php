@@ -129,7 +129,7 @@
 
         <?php endif; ?>
 
-        if (typeof thismodal == 'undefined' && self !== parent && typeof this.name != 'undefined' && this.name != '') {
+        if (typeof thismodal === 'undefined' && self !== parent && typeof this.name != 'undefined' && this.name != '') {
             var frame = parent.mw.$('#' + this.name)[0];
             thismodal = parent.mw.tools.modal.get(mw.tools.firstParentWithClass(frame, 'mw_modal'));
         }

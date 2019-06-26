@@ -2236,7 +2236,7 @@ mw.tools = {
     firstParentWithClass: function (el, cls) {
         if (!el) return false;
         var curr = el.parentNode;
-        while (curr !== mwd.body) {
+        while (curr && curr !== mwd.body) {
             if (curr.classList.contains(cls)) {
                 return curr;
             }
@@ -5655,7 +5655,9 @@ mw._colorPicker = function (options) {
 
         if ($el[0].nodeName == 'INPUT') {
             $el.on('focus', function (e) {
-                frame.color = this.value || '#0086db';
+                if(this.value){
+                    frame.color = this.value;
+                }
                 $(tip).show();
 
                 mw.tools.tooltip.setPosition(tip, $el[0], settings.position)
@@ -5667,8 +5669,11 @@ mw._colorPicker = function (options) {
                 mw.tools.tooltip.setPosition(tip, $el[0], settings.position)
             });
         }
-        $(document.body).on('click', function (e) {
-
+        var documents = [document];
+        if (self !== top){
+            documents.push(top.document);
+        }
+        $(documents).on('click', function (e) {
             if (!mw.tools.hasParentsWithClass(e.target, 'mw-tooltip') && e.target !== $el[0]) {
                 $(tip).hide();
             }
