@@ -167,6 +167,9 @@ class ContentTest extends TestCase
 
     public function testContentCategories()
     {
+        mw()->database_manager->extended_save_set_permission(true);
+
+
         $params = array(
             'title' => 'My categories page',
             'content_type' => 'page',
@@ -208,6 +211,50 @@ class ContentTest extends TestCase
 
         $this->assertEquals(true, is_array($delete_page));
     }
+
+
+    public function testContentCategories2()
+    {
+        mw()->database_manager->extended_save_set_permission(true);
+
+        $params = array(
+            'title' => 'My categories page 2',
+            'content_type' => 'page',
+            'subtype' => 'dynamic',
+            'is_active' => 1,);
+
+        //saving
+        $parent_page_id = save_content($params);
+        $parent_page_data = get_content_by_id($parent_page_id);
+
+
+        $params = array(
+            'title' => 'My post in category',
+            'categories' => 'new sub category',
+            'content_type' => 'post',
+            'subtype' => 'post',
+            'parent' => $parent_page_id,
+        );
+
+
+        //saving
+        $post_in_category = save_content($params);
+
+        $post_in_category_data = get_content_by_id($post_in_category);
+
+        $this->assertEquals($parent_page_data['id'], $post_in_category_data['parent']);
+
+        $post_cats = content_categories($post_in_category, 'categories');
+
+        $this->assertEquals($post_cats[0]['title'],'new sub category');
+
+        $delete_category = delete_category($post_cats[0]['id']);
+        $deleted_category = get_category_by_id($post_cats[0]['id']);
+        $this->assertEquals(true, $delete_category);
+        $this->assertEquals(false, $deleted_category);
+    }
+
+
 
     public function testNextPrev()
     {
