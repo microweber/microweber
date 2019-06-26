@@ -59,7 +59,6 @@ class MailProvider
 		
 		if (!empty($flexmailApiUserId) && !empty($flexmailApiUserToken)) {
 			
-			
 			$config = new \Finlet\flexmail\Config\Config();
 			$config->set('wsdl', 'http://soap.flexmail.eu/3.0.0/flexmail.wsdl');
 			$config->set('service', 'http://soap.flexmail.eu/3.0.0/flexmail.php');
