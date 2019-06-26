@@ -159,7 +159,7 @@
                     <?php endif; ?>
                     
                     <?php if ($load_mod_action == 'integrations'): ?>
-               		<module type="contact_form/integrations" for_module="contact_form" for_module_id="contact_form_default" >
+               		<module type="admin/mail_providers/show_all" />
                     <?php endif; ?>
                     
                 <?php else : ?> 

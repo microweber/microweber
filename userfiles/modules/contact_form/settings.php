@@ -1,6 +1,5 @@
 <?php 
 only_admin_access();
-include 'mail_providers.php';
 ?>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -55,18 +54,25 @@ if(isset($params['for_module_id'])){
     </div>
 </div>
 
+
+<?php
+$mailProviders = get_modules('type=mail_provider');
+?>
+<?php if(!empty($mailProviders)): ?>
 <div class="mw-ui-field-holder">
     <label class="mw-ui-check">
         <span><?php _e("Use integration with selected mail providers"); ?></span> 
    </label>
    <br /> <br />
-   <?php foreach(get_mail_providers() as $mailProvider): ?>
+   
+   <?php foreach($mailProviders as $mailProvider): ?>
    <label class="mw-ui-check" style="border:1px solid #0000001a;border-radius:4px;padding:5px;padding-right:10px;">
-        <input type="checkbox" parent-reload="true" value="y" name="use_integration_with_<?php echo $mailProvider['name']; ?>" class="mw_option_field" option-group="<?php print $mod_id ?>" <?php if(get_option('use_integration_with_' . $mailProvider['name'], $mod_id)=='y'): ?> checked="checked"  <?php endif; ?>>
-        <span></span><span><?php echo $mailProvider['title']; ?></span>
+        <input type="checkbox" parent-reload="true" value="y" name="use_integration_with_<?php echo strtolower($mailProvider['name']); ?>" class="mw_option_field" option-group="<?php print $mod_id ?>" <?php if(get_option('use_integration_with_' . strtolower($mailProvider['name']), $mod_id)=='y'): ?> checked="checked"  <?php endif; ?>>
+        <span></span><span><?php echo $mailProvider['name']; ?></span>
    </label> 
    <?php endforeach; ?>
 </div>
+<?php endif; ?>
 
 <hr>
 <div class="mw-ui-field-holder">
