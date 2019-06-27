@@ -439,11 +439,11 @@ class ContentManager
         if (isset($params['num'])) {
             $pages_count = $params['num'];
         }
-        $limit = false;
+        $limit = 10;
         if (isset($params['limit'])) {
             $limit = intval($params['limit']);
         }
-
+		
         if (isset($params['class'])) {
             $class = $params['class'];
         }
@@ -472,12 +472,15 @@ class ContentManager
         if (is_array($data)) {
 
             if ($no_wrap) {
-                $to_print = "<ul class='{$class}'>";
+                $to_print = "";
             } else {
-                $to_print = "<div class='{$class}-holder' ><ul class='{$class}'>";
+                $to_print = "";
             }
-
-
+            
+            if ($current_page_from_url > 1) {
+            	$to_print = '<a data-page-number="'.$data[1].'" href="'.$data[1].'">First</a>'; 
+            }
+            
             $paging_items = array();
             $active_item = 1;
             foreach ($data as $key => $value) {
@@ -491,9 +494,9 @@ class ContentManager
                 }
 
                 $item_to_print = '';
-                $item_to_print .= "<li class=\"{$li_class} {$act_class}\" data-page-number=\"$key\">";
-                $item_to_print .= "<a class=\"mw-ui-btn {$act_class}\" href=\"$value\" data-page-number=\"$key\">$key</a> ";
-                $item_to_print .= '</li>';
+                $item_to_print .= "";
+                $item_to_print .= "<a class=\"{$act_class}\" href=\"$value\" data-page-number=\"$key\">$key</a> ";
+                $item_to_print .= '';
                 $paging_items[$key] = $item_to_print;
             }
 
@@ -524,19 +527,22 @@ class ContentManager
                 }
                 $prev_link = '#';
                 $next_link = '#';
-                if (isset($data[$active_item - 1])) {
-                    $prev_link = $data[$active_item - 1];
-                    $limited_paging_begin[] = '<li class="mw-previous-page-item"><a class="mw-ui-btn" data-page-number="' . ($active_item - 1) . '" href="' . $prev_link . '">&laquo;</a></li>';
+                if (isset($data[$active_item - 10])) {
+                    $prev_link = $data[$active_item - 10];
+                    $limited_paging_begin[] = '<a data-page-number="' . ($active_item - 10) . '" href="' . $prev_link . '">&laquo;</a>';
                 }
 
                 $limited_paging_begin = array_reverse($limited_paging_begin);
 
                 $limited_paging = array_merge($limited_paging_begin, $limited_paging);
 
-                if (isset($data[$active_item + 1])) {
-                    $next_link = $data[$active_item + 1];
-                    $limited_paging[] = '<li class="mw-next-page-item"><a class="mw-ui-btn" data-page-number="' . ($active_item + 1) . '" href="' . $next_link . '">&raquo;</a></li>';
+                if (isset($data[$active_item + 10])) {
+                    $next_link = $data[$active_item + 10];
+                    $limited_paging[] = '<a data-page-number="' . ($active_item + 10) . '" href="' . $next_link . '">&raquo;</a>';
                 }
+                
+                $limited_paging[] = '<a data-page-number="'.end($data).'" href="'.end($data).'">Last</a>';
+                
                 if (count($limited_paging) > 2) {
                     $paging_items = $limited_paging;
                 }
@@ -545,9 +551,9 @@ class ContentManager
 
 
             if ($no_wrap) {
-                $to_print .= '</ul>';
+                $to_print .= '';
             } else {
-                $to_print .= '</ul></div>';
+                $to_print .= '';
             }
 
             return $to_print;
