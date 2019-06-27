@@ -24,7 +24,7 @@ class DatabaseSaveContent
 			if (isset($tableData['custom_field_price'])) {
 				$tableData['parent'] = self::_getParentPageId('shop');
 			} else {
-				$tableData['parent'] = self::_getParentPageId('blog');
+				$tableData['parent'] = self::_getParentPageId('blog'); 
 			}
 		}
 
