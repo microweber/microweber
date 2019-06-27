@@ -42,6 +42,12 @@ if (isset($params['data-screenshots'])) {
     $screenshots = $params['data-screenshots'];
 }
 
+$search_bar = false;
+if (isset($params['data-search'])) {
+    $search_bar = $params['data-search'];
+}
+
+
 $cur_template = get_option('data-template', $params['parent-module-id']);
 
 
@@ -141,13 +147,18 @@ if ($screenshots) {
 
 
                     <div class="mw-mod-template-settings-holder">
-                        <select data-also-reload="#mw-module-skin-settings-module" name="data-template" class="mw-ui-field mw_option_field  w100 hidden" option_group="<?php print $params['parent-module-id'] ?>" data-refresh="<?php print $params['parent-module-id'] ?>">
+                        <select data-also-reload="#mw-module-skin-settings-module" name="data-template"
+                                class="mw-ui-field mw_option_field  w100 hidden"
+                                option_group="<?php print $params['parent-module-id'] ?>"
+                                data-refresh="<?php print $params['parent-module-id'] ?>">
                             <option value="default" <?php if (('default' == $cur_template)): ?>   selected="selected"  <?php endif; ?>><?php _e("Default"); ?></option>
 
                             <?php foreach ($templates as $item): ?>
                                 <?php if ((strtolower($item['name']) != 'default')): ?>
                                     <?php $default_item_names[] = $item['name']; ?>
-                                    <option <?php if (($item['layout_file'] == $cur_template)): ?>   selected="selected" <?php endif; ?> value="<?php print $item['layout_file'] ?>" title="Template: <?php print str_replace('.php', '', $item['layout_file']); ?>"> <?php print $item['name'] ?> </option>
+                                    <option <?php if (($item['layout_file'] == $cur_template)): ?>   selected="selected" <?php endif; ?>
+                                            value="<?php print $item['layout_file'] ?>"
+                                            title="Template: <?php print str_replace('.php', '', $item['layout_file']); ?>"> <?php print $item['name'] ?> </option>
                                 <?php endif; ?>
                             <?php endforeach; ?>
 
@@ -200,14 +211,16 @@ if ($screenshots) {
                             <?php endif; ?>
                         </select>
 
-                        <?php if(isset($current_template)): ?>
+                        <?php if (isset($current_template)): ?>
                             <!-- Current template - Start -->
                             <div class="mw-ui-row">
                                 <div class="mw-ui-col current-template" style="width: 100%;">
                                     <label class="mw-ui-label"><?php print _e('Current layout'); ?></label>
                                     <div class="screenshot">
                                         <div class="holder">
-                                            <img src="<?php echo $current_template['screenshot']; ?>" alt="<?php print $current_template['name']; ?>" style="max-width:100%;" title="<?php print $current_template['name']; ?>"/>
+                                            <img src="<?php echo $current_template['screenshot']; ?>"
+                                                 alt="<?php print $current_template['name']; ?>" style="max-width:100%;"
+                                                 title="<?php print $current_template['name']; ?>"/>
                                             <div class="title"><?php print $current_template['name']; ?></div>
                                         </div>
                                     </div>
@@ -256,11 +269,51 @@ if ($screenshots) {
                             });
                         </script>
 
+                    <?php if ($search_bar): ?>
+
+
+                        <script>
+                            $(document).ready(function () {
+                                mw.$('#module-skins-search').bind('keyup paste', function () {
+
+                                    var search_kw = $(this).val();
+
+                                    var items = document.querySelectorAll('.module-layouts-viewer > .js-apply-template');
+
+                                    var el = this;
+                                    var foundlen = 0;
+                                    mw.tools.search(search_kw, items, function (found) {
+
+                                        if (found) {
+                                            foundlen++;
+                                            $(this).show();
+                                        }
+                                        else {
+                                            $(this).hide();
+                                        }
+                                    });
+
+                                });
+                            });
+                        </script>
+
+
+                        <div class="">
+
+                            <input value="" placeholder="Search" id="module-skins-search" class="  mw-ui-field  " autocomplete="off" type="text">
+
+
+                        </div>
+
+                    <?php endif; ?>
+
+
                         <div class="module-layouts-viewer">
                             <?php foreach ($module_templates as $item): ?>
                                 <?php if (($item['layout_file'] == $cur_template)): ?>
                                     <?php if ((strtolower($item['name']) != 'default')): ?>
-                                        <a href="javascript:;" class="js-apply-template" data-file="<?php print $item['layout_file'] ?>">
+                                        <a href="javascript:;" class="js-apply-template"
+                                           data-file="<?php print $item['layout_file'] ?>">
                                             <?php if ($item['layout_file'] == $cur_template): ?>
                                                 <div class="default-layout">DEFAULT</div>
                                             <?php endif; ?>
@@ -274,7 +327,10 @@ if ($screenshots) {
                                                 ?>
 
                                                 <div class="holder">
-                                                    <img src="<?php echo $item_screenshot; ?>" alt="<?php print $item['name']; ?> - <?php print addslashes( $item['layout_file']) ?>" style="max-width:100%;" title="<?php print $item['name']; ?> - <?php print addslashes( $item['layout_file']) ?>"/>
+                                                    <img src="<?php echo $item_screenshot; ?>"
+                                                         alt="<?php print $item['name']; ?> - <?php print addslashes($item['layout_file']) ?>"
+                                                         style="max-width:100%;"
+                                                         title="<?php print $item['name']; ?> - <?php print addslashes($item['layout_file']) ?>"/>
                                                     <div class="title"><?php print $item['name']; ?></div>
                                                 </div>
                                             </div>
@@ -287,7 +343,8 @@ if ($screenshots) {
                             <?php foreach ($module_templates as $item): ?>
                                 <?php if (($item['layout_file'] != $cur_template)): ?>
                                     <?php if ((strtolower($item['name']) != 'default')): ?>
-                                        <a href="javascript:;" class="js-apply-template" data-file="<?php print $item['layout_file'] ?>">
+                                        <a href="javascript:;" class="js-apply-template"
+                                           data-file="<?php print $item['layout_file'] ?>">
                                             <?php if ($item['layout_file'] == $cur_template): ?>
                                                 <div class="default-layout">DEFAULT</div>
                                             <?php endif; ?>
@@ -301,7 +358,10 @@ if ($screenshots) {
                                                 ?>
 
                                                 <div class="holder">
-                                                    <img src="<?php echo $item_screenshot; ?>" alt="<?php print $item['name']; ?> - <?php print addslashes( $item['layout_file']) ?>" style="max-width:100%;" title="<?php print $item['name']; ?> - <?php print addslashes( $item['layout_file']) ?>"/>
+                                                    <img src="<?php echo $item_screenshot; ?>"
+                                                         alt="<?php print $item['name']; ?> - <?php print addslashes($item['layout_file']) ?>"
+                                                         style="max-width:100%;"
+                                                         title="<?php print $item['name']; ?> - <?php print addslashes($item['layout_file']) ?>"/>
                                                     <div class="title"><?php print $item['name']; ?></div>
                                                 </div>
                                             </div>
@@ -314,8 +374,9 @@ if ($screenshots) {
                 </div>
 
 
-
-                <module type="admin/modules/templates_settings" id="mw-module-skin-settings-module" parent-module-id="<?php print $params['parent-module-id'] ?>" parent-module="layouts" parent-template="<?php print $cur_template ?>"/>
+                <module type="admin/modules/templates_settings" id="mw-module-skin-settings-module"
+                        parent-module-id="<?php print $params['parent-module-id'] ?>" parent-module="layouts"
+                        parent-template="<?php print $cur_template ?>"/>
             </div>
         </div>
     </div>
