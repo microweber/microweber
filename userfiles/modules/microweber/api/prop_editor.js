@@ -69,7 +69,7 @@ mw.propEditor = {
 
             el.className = 'mw-ui-field prop-ui-field';
             el.value = val;
-
+console.log(987, el.value, val)
             return el;
         },
         fieldPack:function(label, type){
@@ -298,7 +298,41 @@ mw.propEditor = {
 
         },
         text:function(proto, config){
-            var field = mw.propEditor.helpers.field('', 'text');
+            var val = '';
+            if(config.value){
+                if(typeof config.value === 'function'){
+                    val = config.value();
+                } else {
+                    val = config.value;
+                }
+            }
+            var field = mw.propEditor.helpers.field(val, 'text');
+            var holder = mw.propEditor.helpers.wrapper();
+            var label = mw.propEditor.helpers.label(config.label);
+            holder.appendChild(label);
+            holder.appendChild(field);
+            field.oninput = function(){
+                proto._valSchema[config.id] = this.value;
+                $(proto).trigger('change', [config.id, this.value]);
+            };
+            this.node = holder;
+            this.setValue = function(value){
+                field.value = value;
+                proto._valSchema[config.id] = value;
+            };
+            this.id = config.id;
+        },
+        hidden:function(proto, config){
+            var val = '';
+            if(config.value){
+                if(typeof config.value === 'function'){
+                    val = config.value();
+                } else {
+                    val = config.value;
+                }
+            }
+
+            var field = mw.propEditor.helpers.field(val, 'hidden');
             var holder = mw.propEditor.helpers.wrapper();
             var label = mw.propEditor.helpers.label(config.label);
             holder.appendChild(label);
