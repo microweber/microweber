@@ -2,15 +2,14 @@
 
 function get_flexmail_api_fields()
 {
-	$mailProvider = get_mail_provider('flexmail');
-	$providerSettings = json_decode($mailProvider['provider_settings'], TRUE);
-	
+	$settings = get_mail_provider_settings('flexmail');
+
 	$field = array();
 	$field['name'] = 'api_user_id';
 	$field['title'] = 'API User ID';
-	
-	if (isset($providerSettings['api_user_id'])) {
-		$field['value'] = $providerSettings['api_user_id'];
+
+	if (isset($settings['api_user_id'])) {
+		$field['value'] = $settings['api_user_id'];
 	}
 
 	$fields[] = $field;
@@ -18,9 +17,9 @@ function get_flexmail_api_fields()
 	$field = array();
 	$field['name'] = 'api_user_token';
 	$field['title'] = 'API User Token';
-	
-	if (isset($providerSettings['api_user_token'])) {
-		$field['value'] = $providerSettings['api_user_token'];
+
+	if (isset($settings['api_user_token'])) {
+		$field['value'] = $settings['api_user_token'];
 	}
 
 	$fields[] = $field;

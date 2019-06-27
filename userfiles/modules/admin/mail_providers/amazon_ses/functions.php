@@ -2,16 +2,14 @@
 
 function get_amazon_ses_api_fields()
 {
-	
-	$mailProvider = get_mail_provider('amazon_ses');
-	$providerSettings = json_decode($mailProvider['provider_settings'], TRUE);
+	$settings = get_mail_provider_settings('amazon_ses');
 	
 	$field = array();
 	$field['name'] = 'api_key';
 	$field['title'] = 'Api Key';
 	
-	if (isset($providerSettings['api_key'])) {
-		$field['value'] = $providerSettings['api_key'];
+	if (isset($settings['api_key'])) {
+		$field['value'] = $settings['api_key'];
 	}
  
 	$fields[] = $field;
@@ -20,8 +18,8 @@ function get_amazon_ses_api_fields()
 	$field['name'] = 'secret';
 	$field['title'] = 'Secret';
 	
-	if (isset($providerSettings['secret'])) {
-		$field['value'] = $providerSettings['secret'];
+	if (isset($settings['secret'])) {
+		$field['value'] = $settings['secret'];
 	}
 
 	$fields[] = $field;
@@ -30,8 +28,8 @@ function get_amazon_ses_api_fields()
 	$field['name'] = 'region';
 	$field['title'] = 'Region';
 	
-	if (isset($providerSettings['region'])) {
-		$field['value'] = $providerSettings['region'];
+	if (isset($settings['region'])) {
+		$field['value'] = $settings['region'];
 	}
 
 	$fields[] = $field;

@@ -36,10 +36,18 @@ function save_mail_provider()
 function get_mail_provider($providerName)
 {
 	only_admin_access();
-	
+
 	$params = array();
 	$params['provider_name'] = $providerName;
 	$params['single'] = true;
-	
+
 	return db_get('forms_mail_providers_settings', $params);
+}
+
+function get_mail_provider_settings($providerName)
+{
+	only_admin_access();
+	
+	$mailProvider = get_mail_provider($providerName);
+	return json_decode($mailProvider['provider_settings'], TRUE);
 }

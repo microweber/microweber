@@ -2,18 +2,16 @@
 
 function get_mailerlite_api_fields()
 {
-	
-	$mailProvider = get_mail_provider('mailerlite');
-	$providerSettings = json_decode($mailProvider['provider_settings'], TRUE);
-	
+	$settings = get_mail_provider_settings('mailerlite');
+
 	$field = array();
 	$field['name'] = 'api_key';
 	$field['title'] = 'API Key';
-	
-	if (isset($providerSettings['api_key'])) {
-		$field['value'] = $providerSettings['api_key'];
+
+	if (isset($settings['api_key'])) {
+		$field['value'] = $settings['api_key'];
 	}
-	
+
 	$fields[] = $field;
 
 	return $fields;
