@@ -149,6 +149,10 @@ $(document).ready(function() {
         });
         if(modules.length > 0){
             var off = $(el).offset();
+            if(mw.tools.collision(el, mw.handleModule.wrapper)){
+                off.top = parseFloat(mw.handleModule.wrapper.style.top) + 30;
+                off.left = parseFloat(mw.handleModule.wrapper.style.left);
+            }
             mw.inaccessibleModules.style.top = off.top + 'px';
             mw.inaccessibleModules.style.left = off.left + 'px';
             $(mw.inaccessibleModules).show();

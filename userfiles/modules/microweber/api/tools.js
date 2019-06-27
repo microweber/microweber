@@ -126,6 +126,17 @@ if (!window.escape) {
     };
 }
 mw.tools = {
+    collision: function(el1, el2){
+        if(!el1 || !el2) return;
+        el1 = $(el1), el2 = $(el2);
+        var o1 = el1.offset();
+        var o2 = el2.offset();
+        o1.width = el1.width();
+        o1.height = el1.height();
+        o2.width = el2.width();
+        o2.height = el2.height();
+        return (o1.left < o2.left + o2.width  && o1.left + o1.width  > o2.left &&  o1.top < o2.top + o2.height && o1.top + o1.height > o2.top);
+    },
     iframeAutoHeight:function(frame){
         frame = mw.$(frame)[0];
         if(!frame) return;
