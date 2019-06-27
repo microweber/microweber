@@ -1,47 +1,33 @@
-<?php only_admin_access(); ?>
+<?php 
+only_admin_access();
+?>
 <script type="text/javascript">
     $(document).ready(function () {
-
         mw.options.form('.<?php print $config['module_class'] ?>', function () {
             mw.notification.success("<?php _e("All changes are saved"); ?>.");
         });
     });
+    initEditor = function() {
+       if (!window.editorLaunced) {
+              editorLaunced = true;
+              mw.editor({
+                  element:mwd.getElementById('editorAM'),
+                  hideControls:['format', 'fontsize', 'justifyfull']
+             });
+         }
+     }
+
+     $(document).ready(function(){
+        initEditor()
+     });
 </script>
-
-    <script>
-
-        initEditor = function(){
-            if(!window.editorLaunced){
-                editorLaunced = true;
-                mw.editor({
-                    element:mwd.getElementById('editorAM'),
-                    hideControls:['format', 'fontsize', 'justifyfull']
-                });
-            }
-        }
-
-
-
-        $(document).ready(function(){
-            initEditor()
-
-        });
-    </script>
-
 <?php
-
 $mod_id = $params['id'];
 if(isset($params['for_module_id'])){
     $mod_id = $params['for_module_id'];
 }
-
-
-
-
 ?>
 
-
-<hr>
 <div id="form_email_options">
     <label class="mw-ui-label" style="padding-bottom: 0;"><small><?php _e("Type your e-mail where you will receive the email from this form"); ?></small></label>
     <div class="mw-ui-field-holder">
@@ -68,6 +54,26 @@ if(isset($params['for_module_id'])){
     </div>
 </div>
 
+
+<?php
+$mailProviders = get_modules('type=mail_provider');
+?>
+<?php if(!empty($mailProviders)): ?>
+<div class="mw-ui-field-holder">
+    <label class="mw-ui-check">
+        <span><?php _e("Use integration with selected mail providers"); ?></span> 
+   </label>
+   <br /> <br />
+   
+   <?php foreach($mailProviders as $mailProvider): ?>
+   <label class="mw-ui-check" style="border:1px solid #0000001a;border-radius:4px;padding:5px;padding-right:10px;">
+        <input type="checkbox" parent-reload="true" value="y" name="use_integration_with_<?php echo strtolower($mailProvider['name']); ?>" class="mw_option_field" option-group="<?php print $mod_id ?>" <?php if(get_option('use_integration_with_' . strtolower($mailProvider['name']), $mod_id)=='y'): ?> checked="checked"  <?php endif; ?>>
+        <span></span><span><?php echo $mailProvider['name']; ?></span>
+   </label> 
+   <?php endforeach; ?>
+</div>
+<?php endif; ?>
+
 <hr>
 <div class="mw-ui-field-holder">
     <label class="mw-ui-check">
@@ -89,6 +95,7 @@ if(isset($params['for_module_id'])){
         <span><?php _e("Skip saving emails in database."); ?></span> 
    </label>
 </div>
+
 
 <?php if($mod_id != 'contact_form_default'){ ?>
 
