@@ -28,4 +28,4 @@
 </div>-->
 
 
-<module type="admin/modules/templates_layouts" data-screenshots="true"/>
+<module type="admin/modules/templates_layouts" data-screenshots="true" data-search="true"  />
