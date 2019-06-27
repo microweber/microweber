@@ -3,6 +3,7 @@
 namespace Microweber\Providers;
 
 use League\Csv\Writer;
+use Microweber\Utils\MailProvider;
 
 
 class FormsManager
@@ -503,7 +504,40 @@ class FormsManager
                 }
             }
         }
-
+        
+        if (isset($params['email'])) {
+        	
+        	$getFormLists = get_form_lists("?id=".$list_id.'&limit=1');
+        	
+        	if (isset($getFormLists[0]['title'])) {
+        	
+	        	$provider = new MailProvider();
+	        	$provider->setListTitle($getFormLists[0]['title']);
+	        	$provider->setEmail($params['email']);
+	        	$provider->setFirstName($params['first_name']);
+	        	
+	        	if (isset($params['phone'])) {
+	        		$provider->setPhone($params['phone']);
+	        	}
+	        	
+	        	if (isset($params['company_name'])) {
+	        		$provider->setCompanyName($params['company_name']);
+	        	}
+	        	
+	        	if (isset($params['company_position'])) {
+	        		$provider->setCompanyPosition($params['company_position']);
+	        	}
+	        	
+	        	if (isset($params['country_registration'])) {
+	        		$provider->setCountryRegistration($params['country_registration']);
+	        	}
+	        	
+	        	$provider->setMessage($params['message']);
+	        	$provider->submit();
+	        	
+        	}
+        	
+        }
 
         $success = array();
         $success['success'] = _e('Your message has been sent', true);

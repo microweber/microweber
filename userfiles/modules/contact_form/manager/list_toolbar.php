@@ -41,8 +41,11 @@ if (trim($load_list) == 'default') {
 </style>
 
     <div class="mw-ui-row form-list-toolbar">
-        <div class="mw-ui-col" style="width: 30%;">
+        <div class="mw-ui-col" style="width: 20%;">
             <h2 <?php if (trim($load_list) != 'default'): ?>id="form_field_title" <?php endif; ?>><?php print ($data['title']); ?></h2>
+            <a href="#" onClick='$("#form_field_title").click();' style="color: #0086DB;">Edit list name</a>
+            <br />
+            <br />
         </div>
         <div class="mw-ui-col">
 
