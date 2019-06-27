@@ -24,6 +24,9 @@
      class="mw-tabs-box-wrapper mw-module-tabs-skin-default">
   <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
     <?php
+
+
+
         $count = 0;
         foreach ($json as $slide) {
         $count ++;
@@ -41,9 +44,7 @@
         ?>
     <div class="mw-ui-box-content mw-ui-box-tab-content"
                  style="<?php if ($count!=1){ ?> display: none; <?php } else { ?>display: block; <?php } ?>">
-      <div class="edit allow-drop"
-                     field="tab-item-<?php print $count ?>"
-                     rel="module-<?php print $params['id'] ?>">
+      <div class="edit allow-drop"  field="tab-item-<?php print $count ?>"     rel="module-<?php print $params['id'] ?>">
         <div class="element"> <?php print isset($slide['content']) ? $slide['content'] : 'Tab content '.$count ?></div>
       </div>
     </div>
