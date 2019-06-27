@@ -25,17 +25,17 @@ if ($settings == false) {
             'icon' => '<i class="fa fa-home"></i>'
         );
 
-        $json[] = array(
-            'title' => 'Title 2',
-            'id' => 'tab-' . uniqid(),
-            'icon' => '<i class="fa fa-home"></i>'
-        );
-
-        $json[] = array(
-            'title' => 'Title 3',
-            'id' => 'tab-' . uniqid(),
-            'icon' => '<i class="fa fa-home"></i>'
-        );
+//        $json[] = array(
+//            'title' => 'Title 2',
+//            'id' => 'tab-' . uniqid(),
+//            'icon' => '<i class="fa fa-home"></i>'
+//        );
+//
+//        $json[] = array(
+//            'title' => 'Title 3',
+//            'id' => 'tab-' . uniqid(),
+//            'icon' => '<i class="fa fa-home"></i>'
+//        );
     }
 } else {
     $json = json_decode($settings, true);
