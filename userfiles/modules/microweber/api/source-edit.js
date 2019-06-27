@@ -47,9 +47,15 @@ mw.editSource = function (node) {
     mw._editSource.area.value = node.innerHTML;
     mw._editSource.target = node;
     var $node = $(node), off = $node.offset();
+    // $(mw._editSource.area)
+    //     .height($node.outerHeight())
+    //     .width($node.outerWidth())
+    //     .css('max-width', '80%')
+
     $(mw._editSource.area)
-        .height($node.outerHeight())
-        .width($node.outerWidth())
+        .height(250)
+        .width(600)
+
     $(mw._editSource.wrapper)
         .css(off)
         .addClass('active');

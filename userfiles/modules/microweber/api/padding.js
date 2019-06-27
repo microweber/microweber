@@ -26,6 +26,10 @@
             this.paddingTop.style.height = this.settings.height + 'px';
             this.paddingBottom.style.height = this.settings.height + 'px';
 
+
+            // this.paddingBottom.style.visibility = 'hidden';
+            // this.paddingTop.style.visibility = 'hidden';
+
             document.body.appendChild(this.paddingTop);
             document.body.appendChild(this.paddingBottom);
         };
