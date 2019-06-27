@@ -138,7 +138,22 @@
                     scope._activePadding = curr;
 
                 }
+
+                if (mw.liveEditData.move.hasLayout) {
+                    scope.show();
+                } else {
+                    scope.hide();
+                }
             });
+        };
+        this.show = function(){
+            scope.paddingTop.style.display = 'block';
+            scope.paddingBottom.style.display = 'block';
+        };
+
+        this.hide = function(){
+            scope.paddingTop.style.display = 'none';
+            scope.paddingBottom.style.display = 'none';
         };
 
         this.position = function(targetIsLayout) {
@@ -147,7 +162,6 @@
             scope._active = targetIsLayout;
             scope.paddingTop.style.top = off.top + 'px';
             scope.paddingBottom.style.top = (off.top + $el.outerHeight() - this.settings.height) + 'px';
-
         };
 
         this.selectors = [
@@ -190,6 +204,7 @@
             this.eventsHandlers();
             this.handleMouseMove();
             this.prepareSelectors();
+            this.hide();
         };
 
         this.activeMarkOld = function (state) {

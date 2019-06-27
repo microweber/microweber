@@ -561,6 +561,13 @@ mw._initHandles = {
             if(topPosFinal < ($leoff.top + $lebar.height())){
                 topPosFinal = o.top + el.outerHeight();
             }
+
+            if(el.attr('data-type') === 'layouts') {
+                topPosFinal = o.top + 10;
+                handleLeft = handleLeft + 10;
+            }
+
+
             mw.handleModule.show();
             $(mw.handleModule.wrapper)
                 .removeClass('active')
