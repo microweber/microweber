@@ -67,7 +67,7 @@ if (isset($json) == false or count($json) == 0) {
                 },
                 {
                     interface:'hidden',
-                    label:['none'],
+                    label:[''],
                     id:'id'
                 }
             ]
