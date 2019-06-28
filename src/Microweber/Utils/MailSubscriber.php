@@ -4,9 +4,9 @@ namespace Microweber\Utils;
 use MailerLiteApi\MailerLite;
 use Finlet\flexmail\FlexmailAPI\FlexmailAPI;
 
-class MailProvider
+class MailSubscriber
 {
-	protected $listTitle = '';
+	protected $listTitle = 'default';
 	protected $email = '';
 	protected $firstName = '';
 	protected $lastName = '';
@@ -16,7 +16,10 @@ class MailProvider
 	protected $companyPosition = '';
 	protected $countryRegistration = '';
 	protected $message = '';
-
+	protected $subscribeFrom = '';
+	protected $subscribeSource = '';
+	protected $subscribeSourceId = '';
+	
 	public function setListTitle($title) {
 		$this->listTitle = $title;
 	}
@@ -56,17 +59,46 @@ class MailProvider
 	public function setMessage($message) {
 		$this->message = $message;
 	}
+	
+	public function setSubscribeFrom($from) {
+		$this->subscribeFrom = $from;
+	}
+	
+	public function setSubscribeSource($source) {
+		$this->subscribeSource = $source;
+	}
+	
+	public function setSubscribeSourceId($id) {
+		$this->subscribeSourceId = $id;
+	}
 
-	public function submit() {
-		$this->_flexmail();
-		$this->_mailerLite();
+	public function subscribe() {
+		
+		if (!empty($this->subscribeFrom)) {
+			
+			if (get_option('use_integration_with_flexmail', $this->subscribeFrom) == 'y') {
+				$this->_flexmail();
+			}
+			
+			if (get_option('use_integration_with_mailerlite', $this->subscribeFrom) == 'y') {
+				$this->_mailerLite();
+			}
+		}
+		
 	}
 	
 	private function _flexmail() {
 		
 		$settings = get_mail_provider_settings('flexmail');
-	
+		
 		if (!empty($settings)) {
+			
+			$checkSubscriber = get_mail_subscriber($this->subscribeSource, $this->subscribeSourceId, 'flexmail');
+			
+			if (!empty($checkSubscriber)) {
+				echo 'Allready subscribed for flexmail.';
+				return;
+			}
 			
 			try {
 				$config = new \Finlet\flexmail\Config\Config();
@@ -105,10 +137,14 @@ class MailProvider
 					"emailAddressType" => $contact
 				)); 
 				
+				save_mail_subscriber($this->subscribeSource, $this->subscribeSourceId, 'flexmail');
 			
 			} catch (\Exception $e) {
+				if ($e->getCode() == 225)  {
+					save_mail_subscriber($this->subscribeSource, $this->subscribeSourceId, 'flexmail');
+				}
 				// Error
-				dd($e);
+				//dd($e);
 			}
 		}
 	}
@@ -118,6 +154,13 @@ class MailProvider
 		$settings = get_mail_provider_settings('mailerlite');
 		
 		if (!empty($settings)) {
+			
+			$checkSubscriber = get_mail_subscriber($this->subscribeSource, $this->subscribeSourceId, 'mailerlite');
+			
+			if (!empty($checkSubscriber)) {
+				echo 'Allready subscribed for mailerlite.';
+				return;
+			}
 			
 			try {
 				$groupsApi = (new MailerLite($settings['api_key']))->groups();
@@ -155,8 +198,11 @@ class MailProvider
 					$groupsApi->addSubscriber($groupId, $subscriber);
 				}
 				
+				save_mail_subscriber($this->subscribeSource, $this->subscribeSourceId, 'mailerlite');
+				
 			} catch (\Exception $e) {
 				// Error
+				// dd($e);
 			}
 		}
 	}
