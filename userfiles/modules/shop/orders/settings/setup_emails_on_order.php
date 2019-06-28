@@ -79,6 +79,10 @@
 </div>
 
 
+<module type="admin/mail_providers/integration_select" option_group="shop" />
+<hr />
+
+
 <div class="mw-ui-row m-b-20" style="margin: 0 -10px 20px -10px;">
     <div class="mw-ui-col p-10">
         <label class="mw-ui-label bold"><?php _e("Email subject"); ?></label>

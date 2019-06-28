@@ -8,6 +8,7 @@ function get_mailerlite_api_fields()
 	$field['name'] = 'api_key';
 	$field['title'] = 'API Key';
 
+	$field['value'] = '';
 	if (isset($settings['api_key'])) {
 		$field['value'] = $settings['api_key'];
 	}

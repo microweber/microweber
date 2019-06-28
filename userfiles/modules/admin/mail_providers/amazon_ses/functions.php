@@ -8,6 +8,7 @@ function get_amazon_ses_api_fields()
 	$field['name'] = 'api_key';
 	$field['title'] = 'Api Key';
 	
+	$field['value'] = '';
 	if (isset($settings['api_key'])) {
 		$field['value'] = $settings['api_key'];
 	}
@@ -18,6 +19,7 @@ function get_amazon_ses_api_fields()
 	$field['name'] = 'secret';
 	$field['title'] = 'Secret';
 	
+	$field['value'] = '';
 	if (isset($settings['secret'])) {
 		$field['value'] = $settings['secret'];
 	}
@@ -28,6 +30,7 @@ function get_amazon_ses_api_fields()
 	$field['name'] = 'region';
 	$field['title'] = 'Region';
 	
+	$field['value'] = '';
 	if (isset($settings['region'])) {
 		$field['value'] = $settings['region'];
 	}

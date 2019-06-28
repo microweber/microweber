@@ -35,16 +35,6 @@ class Form
 				'$index' => [
 					'title'
 				]
-			],
-			'forms_subscribers_log' => [
-				'rel_type' => 'string',
-				'rel_id' => 'string',
-				'mail_provider_id' => 'integer'
-			],
-			'forms_mail_providers_settings' => [
-				'provider_name' => 'string',
-				'provider_settings' => 'text',
-				'is_active' => 'integer'
 			]
 		];
 	}
