@@ -21,24 +21,26 @@ if ($settings == false) {
 
         $json[] = array(
             'title' => 'Title 1',
-            'id' => 'tab-' . uniqid(),
+            'id' => 'tab-' .  $params['id']. '-1',
             'icon' => '<i class="fa fa-home"></i>'
         );
 
-//        $json[] = array(
-//            'title' => 'Title 2',
-//            'id' => 'tab-' . uniqid(),
-//            'icon' => '<i class="fa fa-home"></i>'
-//        );
-//
-//        $json[] = array(
-//            'title' => 'Title 3',
-//            'id' => 'tab-' . uniqid(),
-//            'icon' => '<i class="fa fa-home"></i>'
-//        );
+
     }
 } else {
     $json = json_decode($settings, true);
+}
+
+
+
+$data = array();
+$count = 0;
+foreach ($json as $slide) {
+    $count++;
+    if (!isset($slide['id'])) {
+        $slide['id'] = 'tab-' .  $params['id']. '-'.$count;
+    }
+    array_push($data, $slide);
 }
 
 
