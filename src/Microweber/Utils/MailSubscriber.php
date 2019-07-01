@@ -93,10 +93,10 @@ class MailSubscriber
 		
 		if (!empty($settings)) {
 			
-			$checkSubscriber = get_mail_subscriber($this->subscribeSource, $this->subscribeSourceId, 'flexmail');
+			$checkSubscriber = get_mail_subscriber($this->email, $this->subscribeSource, $this->subscribeSourceId, 'flexmail');
 			
 			if (!empty($checkSubscriber)) {
-				echo 'Allready subscribed for flexmail.';
+				//echo 'Email '.$this->email.' allready subscribed for flexmail.';
 				return;
 			}
 			
@@ -109,19 +109,6 @@ class MailSubscriber
 				$config->set('debug_mode', true);
 				
 				$flexmail = new \Finlet\flexmail\FlexmailAPI\FlexmailAPI($config);
-				
-				/* $categoryNames = array();
-				foreach ($flexmail->service('Category')->getAll()->categoryTypeItems as $category){ 
-					$categoryNames[] = $category->categoryName;
-				} */
-				
-				/* if (!in_array($this->listTitle, $categoryNames)) {
-					$response = $flexmail->service("Category")->create(array(
-						'categoryName'=> $this->listTitle
-					));
-				}
-				
-				 */
 				
 				$contact = new \stdClass();
 				$contact->emailAddress = $this->email;
@@ -137,11 +124,11 @@ class MailSubscriber
 					"emailAddressType" => $contact
 				)); 
 				
-				save_mail_subscriber($this->subscribeSource, $this->subscribeSourceId, 'flexmail');
+				save_mail_subscriber($this->email, $this->subscribeSource, $this->subscribeSourceId, 'flexmail');
 			
 			} catch (\Exception $e) {
 				if ($e->getCode() == 225)  {
-					save_mail_subscriber($this->subscribeSource, $this->subscribeSourceId, 'flexmail');
+					save_mail_subscriber($this->email, $this->subscribeSource, $this->subscribeSourceId, 'flexmail');
 				}
 				// Error
 				//dd($e);
@@ -155,10 +142,10 @@ class MailSubscriber
 		
 		if (!empty($settings)) {
 			
-			$checkSubscriber = get_mail_subscriber($this->subscribeSource, $this->subscribeSourceId, 'mailerlite');
+			$checkSubscriber = get_mail_subscriber($this->email, $this->subscribeSource, $this->subscribeSourceId, 'mailerlite');
 			
 			if (!empty($checkSubscriber)) {
-				echo 'Allready subscribed for mailerlite.';
+				//echo 'Email '.$this->email.' allready subscribed for mailerlite.';
 				return;
 			}
 			
@@ -177,28 +164,18 @@ class MailSubscriber
 					$groupId = $newGroup->id;
 				}
 				
-				$subscribersApi = (new MailerLite($settings['api_key']))->subscribers();
-				$allSubscribers = $subscribersApi->get();
+				$subscriber = [
+					'email' => $this->email,
+					'fields' => [
+						'name' => $this->firstName,
+						'last_name' => $this->lastName,
+						'phone' => $this->phone,
+						'company' => $this->companyName
+					]
+				];
+				$groupsApi->addSubscriber($groupId, $subscriber);
 				
-				$subscriberEmails = array();
-				foreach($allSubscribers as $subscriber) {
-					$subscriberEmails[] = $subscriber->email;
-				}
-				
-				if (!in_array($this->email, $subscriberEmails)) {
-					$subscriber = [
-						'email' => $this->email,
-						'fields' => [
-							'name' => $this->firstName,
-							'last_name' => $this->lastName,
-							'phone' => $this->phone,
-							'company' => $this->companyName
-						]
-					];
-					$groupsApi->addSubscriber($groupId, $subscriber);
-				}
-				
-				save_mail_subscriber($this->subscribeSource, $this->subscribeSourceId, 'mailerlite');
+				save_mail_subscriber($this->email, $this->subscribeSource, $this->subscribeSourceId, 'mailerlite');
 				
 			} catch (\Exception $e) {
 				// Error

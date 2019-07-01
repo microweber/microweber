@@ -2,8 +2,56 @@
 
 event_bind('mw.mail_subscribe', function ($params) {
 	
-	if (isset($params['email'])) {
+	$email = false;
+	$name = false;
+	$message = false;
+	$phone = false;
+	$lastName = false;
 	
+	if (isset($params['email'])) {
+		$email = $params['email'];
+	}
+	
+	if (isset($params['name'])) {
+		$name = $params['name'];
+	}
+	
+	if (isset($params['first_name'])) {
+		$name = $params['first_name'];
+	}
+	
+	if (isset($params['last_name'])) {
+		$lastName = $params['last_name'];
+	}
+	
+	if (isset($params['phone'])) {
+		$phone = $params['phone'];
+	}
+	
+	if (isset($params['message'])) {
+		$message = $params['message'];
+	}
+	
+	foreach($params as $kParam=>$kValue) {
+		$kParamLower = mb_strtolower($kParam);
+		if ($kParamLower == 'email') {
+			$email = $kValue;
+		}
+		if ($kParamLower == 'message') {
+			$message = $kValue;
+		}
+		if ($kParamLower == 'phone') {
+			$phone = $kValue;
+		}
+		if ($kParamLower == 'name' || $kParamLower == 'first_name') {
+			$name = $kValue;
+		}
+		if ($kParamLower == 'last_name' || $kParamLower == 'lastname') {
+			$lastName = $kValue;
+		}
+	}
+	
+	if ($email) {
 		$provider = new \Microweber\Utils\MailSubscriber();
 		
 		if (isset($params['list_id'])) {
@@ -21,27 +69,10 @@ event_bind('mw.mail_subscribe', function ($params) {
 			$provider->setSubscribeSource($params['rel_type']);
 		}
 		
-		if (isset($params['first_name'])) {
-			$provider->setFirstName($params['first_name']);
-		}
-		
-		$provider->setEmail($params['email']);
-		
-		if (isset($params['first_name'])) {
-			$provider->setFirstName($params['first_name']);
-		}
-		
-		if (isset($params['name'])) {
-			$provider->setFirstName($params['name']);
-		}
-		
-		if (isset($params['last_name'])) {
-			$provider->setLastName($params['last_name']);
-		}
-		
-		if (isset($params['phone'])) {
-			$provider->setPhone($params['phone']);
-		}
+		$provider->setEmail($email);
+		$provider->setFirstName($name);
+		$provider->setLastName($lastName);
+		$provider->setPhone($phone);
 		
 		if (isset($params['company_name'])) {
 			$provider->setCompanyName($params['company_name']);
@@ -55,16 +86,13 @@ event_bind('mw.mail_subscribe', function ($params) {
 			$provider->setCountryRegistration($params['country_registration']);
 		}
 		
-		if (isset($params['message'])) {
-			$provider->setMessage($params['message']);
-		}
+		$provider->setMessage($message);
 		
 		if (isset($params['option_group'])) {
 			$provider->setSubscribeFrom($params['option_group']);
 		}
 		
 		$provider->subscribe();
-		
 	}
 	
 });
@@ -123,7 +151,7 @@ function get_mail_provider_settings($providerName)
 }
 
 
-function save_mail_subscriber($subscribeSource, $subscribeSourceId, $providerName) {
+function save_mail_subscriber($mailAddress, $subscribeSource, $subscribeSourceId, $providerName) {
 	
 	only_admin_access();
 	
@@ -132,6 +160,7 @@ function save_mail_subscriber($subscribeSource, $subscribeSourceId, $providerNam
 	if (isset($provider['id'])) {
 		
 		$params = array();
+		$params['mail_address'] = $mailAddress;
 		$params['rel_type'] = $subscribeSource;
 		$params['rel_id'] = $subscribeSourceId;
 		$params['mail_provider_id'] = $provider['id'];
@@ -141,7 +170,7 @@ function save_mail_subscriber($subscribeSource, $subscribeSourceId, $providerNam
 	}
 }
 
-function get_mail_subscriber($subscribeSource, $subscribeSourceId, $providerName) {
+function get_mail_subscriber($mailAddress, $subscribeSource, $subscribeSourceId, $providerName) {
 	
 	only_admin_access();
 	
@@ -150,6 +179,7 @@ function get_mail_subscriber($subscribeSource, $subscribeSourceId, $providerName
 	if (isset($provider['id'])) {
 		
 		$params = array();
+		$params['mail_address'] = $mailAddress;
 		$params['rel_type'] = $subscribeSource;
 		$params['rel_id'] = $subscribeSourceId;
 		$params['mail_provider_id'] = $provider['id'];

@@ -466,11 +466,8 @@ class FormsManager
                         }
                     }
                 }
-                if (!$email_from) {
-                    if (isset($params['email']) and (filter_var($params['email'], FILTER_VALIDATE_EMAIL))) {
-                        $email_from = $params['email'];
-                    }
-                }
+              
+                
                 $from_name = $email_from;
                 if (isset($params['name']) and $params['name']) {
                     $from_name = $params['name'];
@@ -505,8 +502,27 @@ class FormsManager
             }
         }
         
-        if (isset($params['email'])) {
+        
+        if (!isset($email_from)) {
+        	if (isset($params['email']) and (filter_var($params['email'], FILTER_VALIDATE_EMAIL))) {
+        		$email_from = $params['email'];
+        	}
+        	if (!isset($email_from) || !$email_from) {
+        		foreach($params as $pKey=>$pValue) {
+        			if (isset($params[$pKey]) && is_string($params[$pKey]) && (filter_var($params[$pKey], FILTER_VALIDATE_EMAIL))) {
+        				$email_from = $params[$pKey];
+        			}
+        		}
+        	}
+        }
+        
+        if (isset($email_from) && (filter_var($email_from, FILTER_VALIDATE_EMAIL))) {
         	
+        	if (isset($from_name)) {
+        		$params['name'] = $from_name;
+        	}
+        	
+        	$params['email'] = $email_from;
         	$params['list_id'] = $list_id;
         	$params['option_group'] = 'contact_form';
         	
