@@ -507,35 +507,13 @@ class FormsManager
         
         if (isset($params['email'])) {
         	
-        	$getFormLists = get_form_lists("?id=".$list_id.'&limit=1');
+        	$params['list_id'] = $list_id;
+        	$params['option_group'] = 'contact_form';
         	
-        	if (isset($getFormLists[0]['title'])) {
+        	$params['rel_id'] = $for_id;
+        	$params['rel_type'] = $for;
         	
-	        	$provider = new MailProvider();
-	        	$provider->setListTitle($getFormLists[0]['title']);
-	        	$provider->setEmail($params['email']);
-	        	$provider->setFirstName($params['first_name']);
-	        	
-	        	if (isset($params['phone'])) {
-	        		$provider->setPhone($params['phone']);
-	        	}
-	        	
-	        	if (isset($params['company_name'])) {
-	        		$provider->setCompanyName($params['company_name']);
-	        	}
-	        	
-	        	if (isset($params['company_position'])) {
-	        		$provider->setCompanyPosition($params['company_position']);
-	        	}
-	        	
-	        	if (isset($params['country_registration'])) {
-	        		$provider->setCountryRegistration($params['country_registration']);
-	        	}
-	        	
-	        	$provider->setMessage($params['message']);
-	        	$provider->submit();
-	        	
-        	}
+        	event_trigger('mw.mail_subscribe', $params);
         	
         }
 
