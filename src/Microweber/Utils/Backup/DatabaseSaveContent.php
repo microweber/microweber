@@ -28,8 +28,6 @@ class DatabaseSaveContent
 			}
 		}
 
-		$tableData = EncodingFix::runFix($tableData);
-
 		return save_content($tableData);
 	}
 

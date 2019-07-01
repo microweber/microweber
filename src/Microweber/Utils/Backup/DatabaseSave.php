@@ -16,9 +16,7 @@ class DatabaseSave
 		$tableData['skip_cache'] = true;
 		$tableData['allow_html'] = true;
 		$tableData['allow_scripts'] = true;
-
-		$tableData = EncodingFix::runFix($tableData);
-
+		
 		return db_save($table, $tableData);
 	}
 }
