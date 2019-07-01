@@ -2,7 +2,24 @@
 $(document).ready(function() {
 	var mail_provider_settings_form_class = '.mail-provider-flexmail-settings-form';
 	$(mail_provider_settings_form_class).on('change paste', 'input, select, textarea', function(){
+		$.post(mw.settings.api_url + 'save_mail_provider', $(mail_provider_settings_form_class).serialize(), function(data) {
+			mw.notification.success('Settings are saved.'); 
+		});
+	});
+
+	$('.mail-provider-test-api-flexmail').click(function() {
+		
 		$.post(mw.settings.api_url + 'save_mail_provider', $(mail_provider_settings_form_class).serialize());
+		
+		mw.notification.warning('Testing...');
+		$.post(mw.settings.api_url + 'test_mail_provider', $(mail_provider_settings_form_class).serialize(), function(data) {
+			if (data === '1') {
+				mw.notification.success('Sucessfull connecting.');
+			} else {	
+				mw.notification.error('Wrong mail provider settings.');
+			}
+		});
+		
 	});
 });
 </script>
@@ -16,4 +33,7 @@ $(document).ready(function() {
 </div>
 <br />
 <?php endforeach; ?>
+<div class="demobox">
+<button type="button" class="mw-ui-btn mw-ui-btn-info mail-provider-test-api-flexmail">Test Api</button>
+</div>
 </form>
