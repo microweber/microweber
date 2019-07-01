@@ -96,7 +96,7 @@ class MailSubscriber
 			$checkSubscriber = get_mail_subscriber($this->email, $this->subscribeSource, $this->subscribeSourceId, 'flexmail');
 			
 			if (!empty($checkSubscriber)) {
-				//echo 'Email '.$this->email.' allready subscribed for flexmail.';
+				// echo 'Email '.$this->email.' allready subscribed for flexmail.';
 				return;
 			}
 			
@@ -145,7 +145,7 @@ class MailSubscriber
 			$checkSubscriber = get_mail_subscriber($this->email, $this->subscribeSource, $this->subscribeSourceId, 'mailerlite');
 			
 			if (!empty($checkSubscriber)) {
-				//echo 'Email '.$this->email.' allready subscribed for mailerlite.';
+				// echo 'Email '.$this->email.' allready subscribed for mailerlite.';
 				return;
 			}
 			

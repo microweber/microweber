@@ -131,6 +131,23 @@ function save_mail_provider()
 	return db_save('mail_providers', $save);
 }
 
+api_expose('test_mail_provider');
+function test_mail_provider()
+{
+	only_admin_access();
+	
+	if (isset($_POST['mail_provider_name'])) {
+		
+		$mailProviderName = 'test_mail_' . $_POST['mail_provider_name'];
+		
+		if (function_exists($mailProviderName)) {
+			return $mailProviderName();
+		}
+		
+		return false;
+	}
+}
+
 function get_mail_provider($providerName)
 {
 	only_admin_access();
