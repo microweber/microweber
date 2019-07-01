@@ -20,16 +20,46 @@ class EncodingFix
 	public static function runFix($content)
 	{
 		// Fix content encoding
-		array_walk_recursive($content, function (&$element) {
-			if (is_string($element)) {
-				$utf8Chars = explode(' ', 'À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö');
-				foreach ($utf8Chars as $char) {
-					$element = str_replace($char, '', $element);
-				}
+		array_walk_recursive($content, function (&$item) {
+			if (is_string($item)) {
+				$item = self::fixLetters($item);
 			}
 		});
-			
+		
+		//var_dump($content);
+		
 		return $content;
 	}
 	
+	public static function fixLetters($string) {
+		
+		$readyString = '';
+		
+		$letters = self::utf8Split($string);
+		
+		if (is_array($letters)) {
+			foreach($letters as $letter) {
+				
+				//$letter = utf8_encode($letter);
+				//$letter = mb_substr($letter, 0, 1);
+				
+				//$letter = str_replace('Â ', ' ', $letter);
+				//$letter = str_replace("Â ", ' ', $letter);
+				
+				$readyString .= $letter;
+			}
+		}
+		
+		return $readyString;
+	}
+	
+	public static function utf8Split($str, $len = 1)
+	{
+		$arr = array();
+		$strLen = mb_strlen($str);
+		for ($i = 0; $i < $strLen; $i ++) {
+			$arr[] = mb_substr($str, $i, $len);
+		}
+		return $arr;
+	}
 }
