@@ -45,7 +45,7 @@ class ZipExport extends DefaultExport
 	}
 	
 	public function start() {
-		
+
 		if ($this->getCurrentStep() == 0) {
 			// Clear old log file
 			BackupExportLogger::clearLog();
@@ -66,6 +66,9 @@ class ZipExport extends DefaultExport
                 \nCreated on " . date('l jS \of F Y h:i:s A'));
 		
 		if ($this->getCurrentStep() == 0) {
+			
+			BackupExportLogger::setLogInfo('Start new importing..');
+			
 			// Encode db json
 			$json = new JsonExport($this->data);
 			$getJson = $json->start();
@@ -74,15 +77,22 @@ class ZipExport extends DefaultExport
 			if ($getJson['filepath']) {
 				$zip->addFile($getJson['filepath'], 'mw_content.json');
 			}
+			
 		}
 		
 		$userFiles = $this->_getUserFilesPaths();
+		
 		if (!empty($userFiles)) {
 			
 			$totalUserFilesForZip = sizeof($userFiles);
 			$totalUserFilesForBatch = round($totalUserFilesForZip / $this->totalSteps, 0);
 			
-			$userFilesBatch = array_chunk($userFiles, $totalUserFilesForBatch);
+			if ($totalUserFilesForBatch > 0) {
+				$userFilesBatch = array_chunk($userFiles, $totalUserFilesForBatch);
+			} else {
+				$userFilesBatch = array();
+				$userFilesBatch[] = $userFiles;
+			}
 			
 			if (!isset($userFilesBatch[$this->getCurrentStep()])) {
 				
@@ -97,7 +107,7 @@ class ZipExport extends DefaultExport
 				$zip->addFile($file['filePath'], $file['dataFile']);
 			}
 			
-			$zip->setCompressionIndex(4, \ZipArchive::CM_STORE);
+			$zip->setCompressionIndex(0, \ZipArchive::CM_STORE);
 			$zip->close();
 			
 			cache_save($this->getCurrentStep() + 1, 'ExportCurrentStep', $this->_cacheGroupName, 60 * 10);
