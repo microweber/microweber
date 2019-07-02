@@ -130,8 +130,8 @@ class ZipExport extends DefaultExport
 		$userFiles = array();
 		$userFilesReady = array();
 		
-		$userFilesPathCss = normalize_path(userfiles_path() . DIRECTORY_SEPARATOR . 'css');
-		$userFilesPathMedia = normalize_path(userfiles_path() . DIRECTORY_SEPARATOR . 'media');
+		$userFilesPathCss = userfiles_path() . DIRECTORY_SEPARATOR . 'css';
+		$userFilesPathMedia = userfiles_path() . DIRECTORY_SEPARATOR . 'media';
 		
 		if (!is_dir($userFilesPathCss)) {
 			mkdir_recursive($userFilesPathCss);
