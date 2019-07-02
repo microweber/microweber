@@ -60,7 +60,6 @@ class ZipExport extends DefaultExport
 		
 		// Generate zip file
 		$zip = new \ZipArchive();
-		$zip->setCompressionIndex(0, \ZipArchive::CM_STORE);
 		$zip->open($zipFileName['filepath'], \ZipArchive::CREATE);
 		$zip->setArchiveComment("Microweber backup of the userfiles folder and db.
                 \nThe Microweber version at the time of backup was ".MW_VERSION."
@@ -98,6 +97,7 @@ class ZipExport extends DefaultExport
 				$zip->addFile($file['filePath'], $file['dataFile']);
 			}
 			
+			$zip->setCompressionIndex(4, \ZipArchive::CM_STORE);
 			$zip->close();
 			
 			cache_save($this->getCurrentStep() + 1, 'ExportCurrentStep', $this->_cacheGroupName, 60 * 10);
@@ -130,15 +130,15 @@ class ZipExport extends DefaultExport
 		$userFiles = array();
 		$userFilesReady = array();
 		
-		$userFilesPathCss = userfiles_path() . DIRECTORY_SEPARATOR . 'css';
-		$userFilesPathMedia = userfiles_path() . DIRECTORY_SEPARATOR . 'media';
+		$userFilesPathCss = normalize_path(userfiles_path() . DIRECTORY_SEPARATOR . 'css');
+		$userFilesPathMedia = normalize_path(userfiles_path() . DIRECTORY_SEPARATOR . 'media');
 		
 		if (!is_dir($userFilesPathCss)) {
-			mkdir($userFilesPathCss);
+			mkdir_recursive($userFilesPathCss);
 		}
 		
 		if (!is_dir($userFilesPathMedia)) {
-			mkdir($userFilesPathMedia);
+			mkdir_recursive($userFilesPathMedia);
 		}
 		
 		$css = $this->_getDirContents($userFilesPathCss);
@@ -165,6 +165,10 @@ class ZipExport extends DefaultExport
 	}
 	
 	private function _getDirContents($path) {
+		
+		if (!is_dir($path)) {
+			return array();
+		}
 		
 		$rii = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
 
