@@ -82,38 +82,45 @@ class ZipExport extends DefaultExport
 		
 		$userFiles = $this->_getUserFilesPaths();
 		
-		if (!empty($userFiles)) {
-			
-			$totalUserFilesForZip = sizeof($userFiles);
-			$totalUserFilesForBatch = round($totalUserFilesForZip / $this->totalSteps, 0);
-			
-			if ($totalUserFilesForBatch > 0) {
-				$userFilesBatch = array_chunk($userFiles, $totalUserFilesForBatch);
-			} else {
-				$userFilesBatch = array();
-				$userFilesBatch[] = $userFiles;
-			}
-			
-			if (!isset($userFilesBatch[$this->getCurrentStep()])) {
-				
-				BackupExportLogger::setLogInfo('No files in batch for current step.');
-				$this->_finishUp();
-				
-				return $zipFileName;
-			}
-			
-			foreach($userFilesBatch[$this->getCurrentStep()] as $file) {
-				BackupExportLogger::setLogInfo('Archiving file <b>'. $file['dataFile'] . '</b>');
-				$zip->addFile($file['filePath'], $file['dataFile']);
-			}
+		if (empty($userFiles)) {
 			
 			$zip->setCompressionIndex(0, \ZipArchive::CM_STORE);
 			$zip->close();
 			
-			cache_save($this->getCurrentStep() + 1, 'ExportCurrentStep', $this->_cacheGroupName, 60 * 10);
+			BackupExportLogger::setLogInfo('No userfiles..');
+			$this->_finishUp();
+			
+			return $zipFileName;
 		}
 		
-		return $this->getExportLog();
+		$totalUserFilesForZip = sizeof($userFiles);
+		$totalUserFilesForBatch = round($totalUserFilesForZip / $this->totalSteps, 0);
+		
+		if ($totalUserFilesForBatch > 0) {
+			$userFilesBatch = array_chunk($userFiles, $totalUserFilesForBatch);
+		} else {
+			$userFilesBatch = array();
+			$userFilesBatch[] = $userFiles;
+		}
+		
+		if (!isset($userFilesBatch[$this->getCurrentStep()])) {
+			
+			BackupExportLogger::setLogInfo('No files in batch for current step.');
+			$this->_finishUp();
+			
+			return $zipFileName;
+		}
+		
+		foreach($userFilesBatch[$this->getCurrentStep()] as $file) {
+			BackupExportLogger::setLogInfo('Archiving file <b>'. $file['dataFile'] . '</b>');
+			$zip->addFile($file['filePath'], $file['dataFile']);
+		}
+		
+		$zip->setCompressionIndex(0, \ZipArchive::CM_STORE);
+		$zip->close();
+		
+		cache_save($this->getCurrentStep() + 1, 'ExportCurrentStep', $this->_cacheGroupName, 60 * 10);
+		
 	}
 	
 	public function getExportLog() {
