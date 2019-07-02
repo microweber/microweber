@@ -94,8 +94,7 @@ class BackupManager
 			return $export->start();
 		
 		} catch (\Exception $e) {
-			// dd($e);
-			return array("error"=>$e->getMessage());
+			return array("error"=>$e->getMessage(), "file"=>$e->getFile(), "code"=>$e->getCode(), "line"=>$e->getLine());
 		}
 
 	}

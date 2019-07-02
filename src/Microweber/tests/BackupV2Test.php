@@ -93,6 +93,7 @@ class BackupV2Test extends TestCase
 		
 		$i = 0;
 		while (true) {
+			
 			$exportStatus =	$manager->startExport();
 			
 			if (isset($exportStatus['current_step'])) {
@@ -110,7 +111,6 @@ class BackupV2Test extends TestCase
 				$this->assertArrayHasKey('filename', $exportStatus['data']);
 				
 				self::$_exportedFile = $exportStatus['data']['filepath'];
-				
 				break;
 			}
 			
@@ -142,8 +142,6 @@ class BackupV2Test extends TestCase
 		
 		$importStatus = $manager->startImport();
 		
-		//var_dump($importStatus);
-		
 		$this->assertArrayHasKey('error', $importStatus);
 	}
 	
@@ -152,8 +150,6 @@ class BackupV2Test extends TestCase
 		$export = new BackupManager();
 		$export->setExportType('xmla');
 		$exportStatus = $export->startExport();
-		
-		//var_dump($exportStatus);
 		
 		$this->assertArrayHasKey('error', $exportStatus);
 	}
