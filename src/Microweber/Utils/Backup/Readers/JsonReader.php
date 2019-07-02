@@ -8,6 +8,7 @@ $dir = str_replace('Backup/Readers', '', $dir);
 include_once $dir . 'lib/json-machine/vendor/autoload.php';
 
 use JsonMachine\JsonMachine;
+use Microweber\Utils\Backup\EncodingFix;
 
 class JsonReader extends DefaultReader
 {
@@ -21,6 +22,8 @@ class JsonReader extends DefaultReader
 		foreach ($json as $jsonKey => $jsonValue) {
 			$readyJson[$jsonKey] = $jsonValue;
 		}
+		
+		$readyJson = EncodingFix::runFix($readyJson);
 
 		return $readyJson;
 	}

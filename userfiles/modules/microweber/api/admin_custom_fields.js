@@ -43,7 +43,7 @@ mw.admin.custom_fields.initTextAreaValue = function (node) {
 
 
         node.onchange = function (e) {
-			
+
             var data = {
                 id: $(this).dataset('id'),
                 value: $(this).val()
@@ -113,16 +113,16 @@ mw.admin.custom_fields.valueLiveEdit = function (span) {
         }
         mw.tools.removeClass(mw.tools.firstParentWithTag(this, 'tr'), 'active');
         $.post(mw.settings.api_url + 'fields/save', data, function (adata) {
-        	
+
         	if (mwd.getElementById('mw-custom-fields-list-settings-' + data.id) != null) {
-        		
+
 	            var rstr = mwd.getElementById('mw-custom-fields-list-settings-' + data.id).innerHTML.replace(/\s+/g, '');
-	            
+
 	            if (rstr != '' && !!data.value) {
 	                mw.reload_module('#mw-custom-fields-list-settings-' + data.id);
 	            }
         	}
-        	
+
         	mw.custom_fields.after_save();
 
         });
@@ -134,9 +134,9 @@ mw.admin.custom_fields.valueLiveEdit = function (span) {
         mw.tools.removeClass(mw.tools.firstParentWithTag(this, 'tr'), 'active');
     });
     $(input).bind('keydown', function (e) {
-		 
+
         var code = (e.keyCode ? e.keyCode : e.which);
-		 
+
         if (code == 9) {
             var parent = mw.tools.firstParentWithClass(e.target, 'mw-admin-custom-field-value-edit-inline-holder');
             if (!e.shiftKey) {
@@ -158,18 +158,18 @@ mw.admin.custom_fields.valueLiveEdit = function (span) {
 
             return false;
         } else {
-			
-	/*		
+
+	/*
 				var el = $( e.target)[0];
 				mw.on.stopWriting(el, function () {
-				
+
 		             var parent = mw.tools.firstParentWithClass(el, 'mw-admin-custom-field-value-edit-inline');
 					 d(parent);
                     mw.admin.custom_fields.valueLiveEdit(parent);
 
-				
+
 			 });*/
-					
+
 		}
     });
 }
@@ -223,18 +223,18 @@ mw.admin.custom_fields.deleteFieldValue = function (el) {
     $(el.parentNode).remove();
 }
 mw.admin.custom_fields.edit_custom_field_item = function ($selector, id, callback, event) {
-	
+
     var mTitle = (id ? 'Edit custom field' : 'Add new custom field');
 
     var data = {};
     data.settings = 'y';
     data.field_id = id;
-    
+
     data.params = {};
     data.params.field_id = id;
-    
+
     editModal = mw.tools.open_module_modal('custom_fields/values_edit', data, {overlay: false, skin: 'simple', title: mTitle});
-    
+
 }
 
 $(mww).bind('load', function () {

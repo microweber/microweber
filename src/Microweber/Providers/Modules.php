@@ -295,6 +295,7 @@ class Modules
                             if ($list_as_element == true) {
                                 $this->app->layouts_manager->save($config);
                             } else {
+                                $this->log('Installing module: '. $config['name']);
                                 $config['installed'] = 'auto';
                                 $tablesData = false;
                                 $schemaFileName = modules_path() . $moduleDir . '/schema.json';
@@ -311,6 +312,7 @@ class Modules
                                 $saved_ids[] = $this->save($config);
 
                                 if ($tablesData) {
+                                    $this->log('Installing module DB: '. $config['name']);
                                     (new DbUtils())->build_tables($tablesData);
                                 }
                             }
@@ -1249,6 +1251,17 @@ class Modules
             }
 
             return $configs;
+        }
+    }
+
+    public $logger = null;
+
+
+
+    public function log($text)
+    {
+        if (is_object($this->logger) and method_exists($this->logger, 'log')) {
+            $this->logger->log($text);
         }
     }
 }

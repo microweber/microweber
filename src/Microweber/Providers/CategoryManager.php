@@ -362,9 +362,11 @@ class CategoryManager
             }
         }
 
-//        if (is_array($get_category) and !empty($get_category)) {
-//            array_unique($get_category);
-//        }
+        if (is_array($get_category) and !empty($get_category)) {
+            //array_unique($get_category);
+
+            $get_category =  array_unique_recursive($get_category);
+        }
 
         if (empty($get_category)) {
             return false;
@@ -748,6 +750,7 @@ class CategoryManager
         $params = parse_params($params);
         $table = $this->tables['categories_items'];
         $params['table'] = $table;
+
         $save = $this->app->database_manager->save($params);
         if (intval($save) == 0) {
             return false;

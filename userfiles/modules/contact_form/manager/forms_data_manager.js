@@ -43,8 +43,11 @@ mw.forms_data_manager = {
        $.post(mw.settings.api_url+'delete_forms_list', data ,
          function(resp) {
             mw.notification.msg(resp);
+          
          });
-   });
+       
+       mw.reload_module('settings/list');
+   	});
   },
   
   

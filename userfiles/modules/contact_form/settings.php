@@ -1,47 +1,33 @@
-<?php only_admin_access(); ?>
+<?php 
+only_admin_access();
+?>
 <script type="text/javascript">
     $(document).ready(function () {
-
         mw.options.form('.<?php print $config['module_class'] ?>', function () {
             mw.notification.success("<?php _e("All changes are saved"); ?>.");
         });
     });
+    initEditor = function() {
+       if (!window.editorLaunced) {
+              editorLaunced = true;
+              mw.editor({
+                  element:mwd.getElementById('editorAM'),
+                  hideControls:['format', 'fontsize', 'justifyfull']
+             });
+         }
+     }
+
+     $(document).ready(function(){
+        initEditor()
+     });
 </script>
-
-    <script>
-
-        initEditor = function(){
-            if(!window.editorLaunced){
-                editorLaunced = true;
-                mw.editor({
-                    element:mwd.getElementById('editorAM'),
-                    hideControls:['format', 'fontsize', 'justifyfull']
-                });
-            }
-        }
-
-
-
-        $(document).ready(function(){
-            initEditor()
-
-        });
-    </script>
-
 <?php
-
 $mod_id = $params['id'];
 if(isset($params['for_module_id'])){
     $mod_id = $params['for_module_id'];
 }
-
-
-
-
 ?>
 
-
-<hr>
 <div id="form_email_options">
     <label class="mw-ui-label" style="padding-bottom: 0;"><small><?php _e("Type your e-mail where you will receive the email from this form"); ?></small></label>
     <div class="mw-ui-field-holder">
@@ -68,6 +54,8 @@ if(isset($params['for_module_id'])){
     </div>
 </div>
 
+<module type="admin/mail_providers/integration_select" option_group="contact_form" />
+
 <hr>
 <div class="mw-ui-field-holder">
     <label class="mw-ui-check">
@@ -89,6 +77,7 @@ if(isset($params['for_module_id'])){
         <span><?php _e("Skip saving emails in database."); ?></span> 
    </label>
 </div>
+
 
 <?php if($mod_id != 'contact_form_default'){ ?>
 

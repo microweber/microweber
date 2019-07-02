@@ -26,12 +26,26 @@
             this.paddingTop.style.height = this.settings.height + 'px';
             this.paddingBottom.style.height = this.settings.height + 'px';
 
+
+            // this.paddingBottom.style.visibility = 'hidden';
+            // this.paddingTop.style.visibility = 'hidden';
+
             document.body.appendChild(this.paddingTop);
             document.body.appendChild(this.paddingBottom);
         };
 
+
         this.record = function() {
-            var root = mw.tools.firstParentOrCurrentWithAnyOfClasses(scope._active.parentNode, ['edit', 'element', 'module']);
+            if(!scope._active){
+                return;
+            }
+
+            var rec_scope = scope._active;
+            if(rec_scope.parentNode){
+                var rec_scope = rec_scope.parentNode;
+            }
+        //    var root = mw.tools.firstParentOrCurrentWithAnyOfClasses(scope._active.parentNode, ['edit', 'element', 'module']);
+            var root = mw.tools.firstParentOrCurrentWithAnyOfClasses(rec_scope, ['edit', 'element', 'module']);
             mw.liveEditState.record({
                 target:root,
                 value: root.innerHTML
@@ -39,13 +53,19 @@
         };
 
 
+
+        if(scope && scope._active){
+
+        }
         this.handleMouseMove = function() {
             $(this.paddingTop).on('mousedown touchstart', function(){
                 scope._paddingTopDown = true;
+                mw.liveEditSelectMode = 'none';
                 $('html').addClass('padding-control-start');
             });
             $(this.paddingBottom).on('mousedown touchstart', function(){
                 scope._paddingBottomDown = true;
+                mw.liveEditSelectMode = 'none';
                 $('html').addClass('padding-control-start');
                 scope.record();
             });
@@ -53,6 +73,7 @@
                 if(scope._paddingTopDown || scope._paddingBottomDown) {
                     scope.record();
                 }
+                mw.liveEditSelectMode = 'element';
 
                 scope._paddingTopDown = false;
                 scope._paddingBottomDown = false;
@@ -63,6 +84,10 @@
                 $('html').removeClass('padding-control-start');
             });
             mw.event.windowLeave(function (e) {
+                if(scope._paddingTopDown || scope._paddingBottomDown) {
+                    scope.record();
+                }
+                mw.liveEditSelectMode = 'element';
                 scope._paddingTopDown = false;
                 scope._paddingBottomDown = false;
                 scope._working = false;
@@ -70,46 +95,65 @@
                 mw.liveEditSelector.active(true);
                 $('html').removeClass('padding-control-start');
             });
-            $(document.body).on('mousemove', function(e){
-                var isDown = e.pageY < scope._pageY;
-                var inc = 1;
-                var curr;
-                if(scope._paddingTopDown){
-                    scope._working = true;
-                    curr = scope._active._currPaddingTop || (parseFloat($(scope._active).css('paddingTop')));
-                    if(isDown){
-                        scope._active.style.paddingTop = (curr <= 0 ? 0 : curr-inc) + 'px';
-                    } else {
-                        scope._active.style.paddingTop = (curr + inc) + 'px';
+            $(document).on('mousemove touchmove', function(e){
+                if(scope._active){
+                    var isDown = e.pageY < scope._pageY;
+                    var inc = isDown ? scope._pageY - e.pageY : e.pageY - scope._pageY;
+                    var curr;
+                    if(scope && scope._active && scope._paddingTopDown){
+                        scope._working = true;
+                        curr = scope._active._currPaddingTop || (parseFloat($(scope._active).css('paddingTop')));
+
+                        if(isDown){
+                            scope._active.style.paddingTop = (curr <= 0 ? 0 : curr-inc) + 'px';
+                        } else {
+                            scope._active.style.paddingTop = (curr + inc) + 'px';
+                        }
+                        scope._active._currPaddingTop = parseFloat(scope._active.style.paddingTop);
+                        scope.position(scope._active);
+                        scope.info();
+                        scope._active.setAttribute('staticdesign', true);
+                        scope.activeMark(true);
+                        mw.wysiwyg.change(scope._active);
+                        mw.liveEditSelector.pause();
+                        mw.trigger('PaddingControl', scope._active);
+                    } else if(scope && scope._active && scope._paddingBottomDown){
+                        scope._working = true;
+                        curr = scope._active._currPaddingBottom || (parseFloat($(scope._active).css('paddingBottom')));
+                        if(isDown){
+                            scope._active.style.paddingBottom = (curr <= 0 ? 0 : curr-inc) + 'px';
+                        } else {
+                            scope._active.style.paddingBottom = (curr + inc) + 'px';
+                        }
+                        scope._active._currPaddingBottom = parseFloat(scope._active.style.paddingBottom);
+                        scope.position(scope._active);
+                        scope.info();
+                        scope._active.setAttribute('staticdesign', true);
+                        scope.activeMark(true);
+                        mw.wysiwyg.change(scope._active);
+                        mw.liveEditSelector.pause();
+                        mw.trigger('PaddingControl', scope._active);
                     }
-                    scope._active._currPaddingTop = parseFloat(scope._active.style.paddingTop);
-                    scope.position(scope._active);
-                    scope.info();
-                    scope._active.setAttribute('staticdesign', true);
-                    scope.activeMark(true);
-                    mw.wysiwyg.change(scope._active);
-                    mw.liveEditSelector.pause();
-                    mw.trigger('PaddingControl', scope._active);
-                } else if(scope._paddingBottomDown){
-                    scope._working = true;
-                    curr = scope._active._currPaddingBottom || (parseFloat($(scope._active).css('paddingBottom')));
-                    if(isDown){
-                        scope._active.style.paddingBottom = (curr <= 0 ? 0 : curr-inc) + 'px';
-                    } else {
-                        scope._active.style.paddingBottom = (curr + inc) + 'px';
-                    }
-                    scope._active._currPaddingBottom = parseFloat(scope._active.style.paddingBottom);
-                    scope.position(scope._active);
-                    scope.info();
-                    scope._active.setAttribute('staticdesign', true);
-                    scope.activeMark(true);
-                    mw.wysiwyg.change(scope._active);
-                    mw.liveEditSelector.pause();
-                    mw.trigger('PaddingControl', scope._active);
+                    scope._pageY = e.pageY;
+                    scope._activePadding = curr;
+
                 }
 
-                scope._pageY = e.pageY;
+                if (mw.liveEditData.move.hasLayout) {
+                    scope.show();
+                } else {
+                    scope.hide();
+                }
             });
+        };
+        this.show = function(){
+            scope.paddingTop.style.display = 'block';
+            scope.paddingBottom.style.display = 'block';
+        };
+
+        this.hide = function(){
+            scope.paddingTop.style.display = 'none';
+            scope.paddingBottom.style.display = 'none';
         };
 
         this.position = function(targetIsLayout) {
@@ -118,7 +162,6 @@
             scope._active = targetIsLayout;
             scope.paddingTop.style.top = off.top + 'px';
             scope.paddingBottom.style.top = (off.top + $el.outerHeight() - this.settings.height) + 'px';
-
         };
 
         this.selectors = [
@@ -161,9 +204,10 @@
             this.eventsHandlers();
             this.handleMouseMove();
             this.prepareSelectors();
+            this.hide();
         };
 
-        this.activeMark = function (state) {
+        this.activeMarkOld = function (state) {
             if(typeof state === 'undefined') {
                 state = false;
             }
@@ -175,10 +219,36 @@
             if (state) {
                 mw.tools.addClass(this._activeMark, 'active');
                 var off = scope._active.getBoundingClientRect();
-                this._activeMark.style.top = off.top + 'px';
+                this._activeMark.style.top = (off.top + scrollY) + 'px';
                 this._activeMark.style.left = off.left + 'px';
                 this._activeMark.style.width = off.width + 'px';
                 this._activeMark.style.height = off.height + 'px';
+            } else {
+                mw.tools.removeClass(this._activeMark, 'active');
+            }
+
+        };
+        this.activeMark = function (state) {
+            if(typeof state === 'undefined') {
+                state = false;
+            }
+            if(!this._activeMark) {
+                this._activeMark = document.createElement('div');
+                this._activeMark.className = 'mw-padding-control-active-mark';
+                document.body.appendChild(this._activeMark);
+            }
+            if (state) {
+                mw.tools.addClass(this._activeMark, 'active');
+                var active = scope._paddingTopDown ? scope.paddingTop : scope.paddingBottom;
+                var off = scope._active.getBoundingClientRect();
+                this._activeMark.style.left = off.left + 'px';
+                this._activeMark.style.width = off.width + 'px';
+                this._activeMark.style.height = scope._activePadding + 'px';
+                if (scope._paddingTopDown) {
+                    this._activeMark.style.top = (off.top + scrollY) + 'px';
+                } else {
+                    this._activeMark.style.top = ((off.top + scrollY + $(scope._active).outerHeight()) - parseFloat(scope._active.style.paddingBottom)) + 'px';
+                }
             } else {
                 mw.tools.removeClass(this._activeMark, 'active');
             }
@@ -202,6 +272,7 @@
                 this._info.style.top = (off.top - scope.settings.height - 30) + 'px';
                 this._info.innerHTML = scope._active.style.paddingBottom;
             }
+            this._info.style.left = (off.left + (scope._active.clientWidth/2)) + 'px';
         };
 
         this.init();

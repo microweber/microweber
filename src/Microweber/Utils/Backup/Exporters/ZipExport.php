@@ -60,6 +60,7 @@ class ZipExport extends DefaultExport
 		
 		// Generate zip file
 		$zip = new \ZipArchive();
+		$zip->setCompressionIndex(0, \ZipArchive::CM_STORE);
 		$zip->open($zipFileName['filepath'], \ZipArchive::CREATE);
 		$zip->setArchiveComment("Microweber backup of the userfiles folder and db.
                 \nThe Microweber version at the time of backup was ".MW_VERSION."

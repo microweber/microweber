@@ -20,25 +20,27 @@ if ($settings == false) {
     } else {
         $json[] = array(
             'title' => 'Title 1',
-            'id' => 'accordion-' . uniqid(),
+            'id' => 'accordion-' .  $params['id']. '-1',
             'icon' => '<i class="fa fa-home"></i>'
         );
 
-        $json[] = array(
-            'title' => 'Title 2',
-            'id' => 'accordion-' . uniqid(),
-            'icon' => '<i class="fa fa-home"></i>'
-        );
 
-        $json[] = array(
-            'title' => 'Title 3',
-            'id' => 'accordion-' . uniqid(),
-            'icon' => '<i class="fa fa-home"></i>'
-        );
     }
 } else {
     $json = json_decode($settings, true);
 }
+
+$data = array();
+$count = 0;
+foreach ($json as $slide) {
+    $count++;
+    if (!isset($slide['id'])) {
+        $slide['id'] = 'accordion-' .  $params['id']. '-'.$count;
+    }
+    array_push($data, $slide);
+}
+
+
 
 if (is_file($template_file)) {
     include($template_file);

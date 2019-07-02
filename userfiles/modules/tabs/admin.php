@@ -19,7 +19,7 @@ if ($settings == false) {
 
 $defaults = array(
     'title' => '',
-    'id' => 'tab-' . uniqid(),
+    'id' => 'tab-' . time(),
     'icon' => ''
 );
 
@@ -64,6 +64,14 @@ if (isset($json) == false or count($json) == 0) {
                     interface:'icon',
                     label:['Icon'],
                     id:'icon'
+                },
+                {
+                    interface:'text',
+                    value: function(){
+                        return 'some-id-'+mw.random()
+                    },
+                    label:[''],
+                    id:'id'
                 }
             ]
         });

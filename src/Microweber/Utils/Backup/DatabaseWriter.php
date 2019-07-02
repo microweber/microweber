@@ -139,7 +139,20 @@ class DatabaseWriter
 		if ($checkItemIsExists) {
 			$saveItem['id'] = $checkItemIsExists['id'];
 		}
-		$itemIdDatabase = DatabaseSave::save($saveItem['save_to_table'], $saveItem);
+		
+		$saveAsContent = false;
+		if ($saveItem['save_to_table'] == 'content') {
+			$saveAsContent = true;
+			if (isset($saveItem['content_type']) && $saveItem['content_type'] == 'page') {
+				$saveAsContent = false;
+			}
+		}
+		
+		if ($saveAsContent) {
+			$itemIdDatabase = DatabaseSaveContent::save($saveItem['save_to_table'], $saveItem);
+		} else {
+			$itemIdDatabase = DatabaseSave::save($saveItem['save_to_table'], $saveItem);
+		}
 		
 		return array('item'=>$item, 'itemIdDatabase'=>$itemIdDatabase);
 	}

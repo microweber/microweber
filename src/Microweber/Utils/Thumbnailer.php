@@ -19,10 +19,10 @@ class Thumbnailer
     //$specifications['height'];
     //$specifications['width'];
 
-    public function createThumb(array $specifications,$dest)
+    public function createThumb(array $specifications, $dest)
     {
         $src = $this->image;
-        if(!$src){
+        if (!$src) {
             return;
         }
         $width = 0;
@@ -30,57 +30,38 @@ class Thumbnailer
         $crop = 0;
         $height = $specifications['height'];
         $width = $specifications['width'];
-
-
-//        $crop_x = 0;
-//        if (isset($specifications['crop_x'])) {
-//            $crop_x = $specifications['crop_x'];
-//        }
-//        $crop_y = 0;
-//        if (isset($specifications['crop_y'])) {
-//            $crop_y = $specifications['crop_y'];
-//        }
+        $pngQuality = 1;
+        $restQuality = 90;
 
         if (isset($specifications['crop']) and $specifications['crop']) {
             $crop = $specifications['crop'];
         }
 
-
         $width = intval($width);
         $height = intval($height);
 
+        $ext = pathinfo($src, PATHINFO_EXTENSION);
 
-
-
-        $magicianObj_mode = 3;
         $magicianObj = new \Microweber\Utils\lib\PHPImageMagician\imageLib($src);
+
+        $magicianObj_mode = 'landscape';
         if ($crop) {
-            $magicianObj_mode = 4;
+            $magicianObj_mode = 'crop';
         }
 
         $magicianObj->resizeImage($width, $height, $magicianObj_mode);
 
-        $magicianObj->saveImage($dest, 90);
+        if ($ext == 'png') {
+            $imgQuality = $pngQuality;
+        } else {
+            $imgQuality = $restQuality;
+        }
 
+        $magicianObj->saveImage($dest, $imgQuality);
 
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //

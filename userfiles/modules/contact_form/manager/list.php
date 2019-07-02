@@ -65,12 +65,28 @@ if (isset($params['load_list'])) {
     $data['list_id'] = $params['load_list'];
 }
 
+
+$listData = get_form_lists("id=".$data['list_id']."&limit=1");
+$listData = $listData[0];
+
+
 if (isset($params['keyword'])) {
     $data['keyword'] = $params['keyword'];
 }
 if (isset($params['for_module'])) {
     $data['module_name'] = $params['for_module'];
 }
+
+
+if (isset($_GET['per_page'])) {
+	$option = array();
+	$option['option_value'] = intval($_GET['per_page']);
+	$option['option_key'] = 'per_page';
+	$option['option_group'] = $params['for_module'];
+	save_option($option);
+}
+
+$data['limit'] = get_option('per_page', $params['for_module']);
 
 $custom_fields = array();
 
@@ -111,6 +127,7 @@ if (is_array($data)) {
 }
 
 ?>
+
 <div class="table-responsive table-scroll-visible">
     <table id="table_data_<?php print $params['id'] ?>" cellspacing="0" cellpadding="0" width="100%" class="mw-ui-table table-style-2 layout-auto">
         <thead>
@@ -197,20 +214,64 @@ if (is_array($data)) {
     </table>
 </div>
 
+<div class="mw-ui-row">
+
+<?php 
+$load_list = 'default';
+if ((url_param('load_list') != false)) {
+	$load_list = url_param('load_list');
+}
+if ($load_list == 1) {
+	$load_list = 'default';
+}
+?>
+
+ <div class="mw-ui-col">
+ 
+<?php if (strtolower(trim($load_list)) != 'default'): ?>
+
+  <span class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-important mw-ui-delete" onclick="mw.forms_data_manager.delete_list('<?php print addslashes($load_list); ?>');">
+  <?php _e("Delete");?> <b><?php echo $listData['title']; ?></b> <?php _e("list"); ?>
+  </span>
+  <?php endif; ?>
+ </div>
+
 <?php if (is_array($data)) : ?>
-    <div class="text-right">
-        <strong><?php print _e('Total'); ?>:</strong>
-        <span><?php echo count($data); ?> messages in this list</span>
+	 <div class="mw-ui-col text-center" style="width: 70%">
+    <div class="mw-paging mw-paging- mw-paging- inline-block">
+    <?php print paging("num=$data_paging"); ?> 
+    </div>
+    <?php if (isset($params['export_to_excel'])) : ?>
+    <?php endif; ?>
+    <?php if (isset($params['export_to_excel'])) : ?>
+    <?php endif; ?>
     </div>
 <?php endif; ?>
 
 <?php if (is_array($data)) : ?>
-    <div class="mw-paging left"> <?php print paging("num=$data_paging"); ?> </div>
-    <?php if (isset($params['export_to_excel'])) : ?>
-    <?php endif; ?>
-    <?php if (isset($params['export_to_excel'])) : ?>
-    <?php endif; ?>
+ <div class="mw-ui-col">
+    <div class="mw-field" style="width:100%;" data-before="<?php _e('Show items per page'); ?>">
+        <select onchange="if (this.value) window.location.href=this.value">
+            <option value="">Select</option>
+            <option value="?per_page=10">10</option>
+             <option value="?per_page=50">50</option>
+            <option value="?per_page=100">100</option>
+            <option value="?per_page=200">200</option>
+        </select>
+    </div>
+    <br /><br />
+  <div class="text-right">
+        <strong><?php print _e('Total'); ?>:</strong>
+        <span><?php echo count($data); ?> messages in this list</span>
+    </div>
+    
+    
+  </div>
 <?php endif; ?>
+
+
+</div>
+
 <?php
 
 

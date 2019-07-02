@@ -126,6 +126,17 @@ if (!window.escape) {
     };
 }
 mw.tools = {
+    collision: function(el1, el2){
+        if(!el1 || !el2) return;
+        el1 = $(el1), el2 = $(el2);
+        var o1 = el1.offset();
+        var o2 = el2.offset();
+        o1.width = el1.width();
+        o1.height = el1.height();
+        o2.width = el2.width();
+        o2.height = el2.height();
+        return (o1.left < o2.left + o2.width  && o1.left + o1.width  > o2.left &&  o1.top < o2.top + o2.height && o1.top + o1.height > o2.top);
+    },
     iframeAutoHeight:function(frame){
         frame = mw.$(frame)[0];
         if(!frame) return;
@@ -2236,7 +2247,7 @@ mw.tools = {
     firstParentWithClass: function (el, cls) {
         if (!el) return false;
         var curr = el.parentNode;
-        while (curr !== mwd.body) {
+        while (curr && curr !== mwd.body) {
             if (curr.classList.contains(cls)) {
                 return curr;
             }
@@ -5655,7 +5666,11 @@ mw._colorPicker = function (options) {
 
         if ($el[0].nodeName == 'INPUT') {
             $el.on('focus', function (e) {
+                if(this.value){
+                    frame.color = this.value;
+                }
                 $(tip).show();
+
                 mw.tools.tooltip.setPosition(tip, $el[0], settings.position)
             });
         }
@@ -5665,8 +5680,11 @@ mw._colorPicker = function (options) {
                 mw.tools.tooltip.setPosition(tip, $el[0], settings.position)
             });
         }
-        $(document.body).on('click', function (e) {
-
+        var documents = [document];
+        if (self !== top){
+            documents.push(top.document);
+        }
+        $(documents).on('click', function (e) {
             if (!mw.tools.hasParentsWithClass(e.target, 'mw-tooltip') && e.target !== $el[0]) {
                 $(tip).hide();
             }
