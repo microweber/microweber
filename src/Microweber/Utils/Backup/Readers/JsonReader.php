@@ -23,6 +23,6 @@ class JsonReader extends DefaultReader
 			$readyJson[$jsonKey] = $jsonValue;
 		}
 		
-		return $readyJson;
+		return EncodingFix::decode($readyJson);
 	}
 }
