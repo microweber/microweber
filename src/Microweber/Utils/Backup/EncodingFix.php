@@ -39,7 +39,7 @@ class EncodingFix
 				$item = utf8_encode($item);
 			}
 		});
-
+		
 		return $content;
 	}
 }
