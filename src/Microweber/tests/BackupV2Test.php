@@ -114,7 +114,7 @@ class BackupV2Test extends TestCase
 				break;
 			}
 			
-			if ($i > 10) {
+			if ($i > 10) { 
 				break;
 			}
 			
