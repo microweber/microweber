@@ -3,6 +3,7 @@ namespace Microweber\tests;
 
 use Microweber\Utils\Backup\BackupManager;
 use Faker\Factory;
+use Microweber\Utils\Backup\EncodingFix;
 
 /**
  * Run test
@@ -23,15 +24,53 @@ class BackupV2Test extends TestCase
 			
 			$faker = Factory::create($locale);
 			
-			$title = trim($faker->name);
+			$title = $faker->name;
 			
 			if (!empty($title)) {
 				
-				self::$_titles[] = $title;
+				// self::$_titles[] = json_encode(array('title'=>$title));
 				
-				save_content(array("title"=>$title));
+				//var_dump($title); 
+				
+				$contentId = save_content(array("title"=>$title));
+				
+				//var_dump(get_content("id=" . $contentId));
 			}
 		}
+		
+		/* 
+		var_dump(get_content('no_limit=0'));
+		die();
+		 */
+		/* 
+		$titles = self::$_titles;
+		
+		array_walk_recursive($titles, function (&$item) {
+			if (is_string($item)) {
+				$item = utf8_encode($item);
+				$item = str_replace('Â ', ' ', $item);
+				$item = str_replace("Â ", ' ', $item);
+			}
+		});
+		$titles = json_encode($titles);
+		
+		$titles = json_decode($titles, TRUE);
+		
+		array_walk_recursive($titles, function (&$el) {
+			if (is_string($el)) {
+				$el = utf8_decode($el);
+				$el = str_replace('Â ', ' ', $el);
+				$el = str_replace("Â ", ' ', $el);
+			}
+		});
+		
+		foreach($titles as $title) {
+			$titles = json_decode($title, TRUE);
+			var_dump($titles);
+		}
+			
+		
+		die(); */
 		
 	}
 	

@@ -4,7 +4,7 @@ namespace Microweber\Utils\Backup\Loggers;
 abstract class BackupDefaultLogger
 {
 
-	protected static $debug = false;
+	protected static $debug = true;
 	protected static $logger;
 
 	public static function clearLog()
@@ -22,7 +22,7 @@ abstract class BackupDefaultLogger
 			echo $log . PHP_EOL;
 		}
 		
-		self::addNew(self::_getLogFilename(), $log, 30);
+		// self::addNew(self::_getLogFilename(), $log, 30);
 		
 	}
 	

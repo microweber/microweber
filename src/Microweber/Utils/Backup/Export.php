@@ -150,12 +150,14 @@ class Export
 			$exportFilter['ids'] = implode(',', $ids);
 		}
 		
-		$table_exists = mw()->database_manager->table_exists($table);
-		if (!$table_exists) {
+		$tableExists = mw()->database_manager->table_exists($table);
+		if (!$tableExists) {
 			return;
 		}
 		
-		return db_get($table, $exportFilter);
+		$dbGet = db_get($table, $exportFilter);
+		
+		return $dbGet;
 	}
 	
 	private function _skipTables() {
