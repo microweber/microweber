@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cc9ef507eac22455d35e5ed23ad56845",
+    "content-hash": "5f385d99346b2286046f1135236889bb",
     "packages": [
         {
             "name": "arcanedev/seo-helper",
@@ -1415,6 +1415,56 @@
             ],
             "description": "Flexmail API PHP Wrapper.",
             "time": "2016-01-11T10:04:22+00:00"
+        },
+        {
+            "name": "fzaninotto/faker",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fzaninotto/Faker.git",
+                "reference": "fb218ada627f7c750c6e0e41cae486d2db48e911"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/fb218ada627f7c750c6e0e41cae486d2db48e911",
+                "reference": "fb218ada627f7c750c6e0e41cae486d2db48e911",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3.3 || ^7.0"
+            },
+            "require-dev": {
+                "ext-intl": "*",
+                "phpunit/phpunit": "^4.8.35 || ^5.7",
+                "squizlabs/php_codesniffer": "^1.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.9-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Faker\\": "src/Faker/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "François Zaninotto"
+                }
+            ],
+            "description": "Faker is a PHP library that generates fake data for you.",
+            "keywords": [
+                "data",
+                "faker",
+                "fixtures"
+            ],
+            "time": "2019-04-16T09:48:34+00:00"
         },
         {
             "name": "geoip2/geoip2",
@@ -7720,7 +7770,8 @@
     "stability-flags": {
         "aws/aws-sdk-php": 20,
         "mailerlite/mailerlite-api-v2-php-sdk": 20,
-        "finlet/flexmail": 20
+        "finlet/flexmail": 20,
+        "fzaninotto/faker": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

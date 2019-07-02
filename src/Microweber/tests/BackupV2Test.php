@@ -2,6 +2,7 @@
 namespace Microweber\tests;
 
 use Microweber\Utils\Backup\BackupManager;
+use Faker\Factory;
 
 /**
  * Run test
@@ -11,9 +12,30 @@ use Microweber\Utils\Backup\BackupManager;
 
 class BackupV2Test extends TestCase
 {
+	private static $_titles = array();
 	private static $_exportedFile = '';
 	
-	public function testImport() {
+	public function testEncoding() {
+		
+		$locales = array('el_GR', 'bg_BG', 'en_EN','at_AT','ko_KR','kk_KZ','ja_JP','fi_FI','es_ES');
+		
+		foreach($locales as $locale) {
+			
+			$faker = Factory::create($locale);
+			
+			$title = trim($faker->name);
+			
+			if (!empty($title)) {
+				
+				self::$_titles[] = $title;
+				
+				save_content(array("title"=>$title));
+			}
+		}
+		
+	}
+	
+	/* public function testImport() {
 		
 		$tempFile = 'backup_v2_test.json';
 		$json = '{
@@ -84,9 +106,11 @@ class BackupV2Test extends TestCase
 		$importStatus = $manager->startImport();
 		
 		$this->assertArrayHasKey('done', $importStatus);
-	}
+	} */
 	
 	public function testFullExport() {
+		
+		clearcache();
 		
 		$manager = new BackupManager();
 		$manager->setExportAllData(true);
@@ -111,6 +135,7 @@ class BackupV2Test extends TestCase
 				$this->assertArrayHasKey('filename', $exportStatus['data']);
 				
 				self::$_exportedFile = $exportStatus['data']['filepath'];
+				
 				break;
 			}
 			
@@ -128,10 +153,10 @@ class BackupV2Test extends TestCase
 		$manager->setImportFile(self::$_exportedFile);
 		$manager->setImportBatch(false);
 		
-		$importStatus = $manager->startImport();
+		$import = $manager->startImport();
 		
-		$this->assertArrayHasKey('done', $importStatus);
-		$this->assertArrayHasKey('precentage', $importStatus);
+		$this->assertArrayHasKey('done', $import);
+		$this->assertArrayHasKey('precentage', $import);
 	}
 	
 	public function testImportWrongFile() {
@@ -148,7 +173,7 @@ class BackupV2Test extends TestCase
 	public function testExportWithWrongFormat()
 	{
 		$export = new BackupManager();
-		$export->setExportType('xmla');
+		$export->setExportType('xml_');
 		$exportStatus = $export->startExport();
 		
 		$this->assertArrayHasKey('error', $exportStatus);

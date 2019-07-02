@@ -61,7 +61,8 @@
     "oyejorge/less.php": "1.*",
     "aws/aws-sdk-php": "^3.0@dev",
     "mailerlite/mailerlite-api-v2-php-sdk": "dev-master",
-    "finlet/flexmail": "dev-master"
+    "finlet/flexmail": "dev-master",
+    "fzaninotto/faker": "^1.9@dev"
   },
   "autoload": {
     "psr-4": {

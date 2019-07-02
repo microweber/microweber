@@ -19,7 +19,7 @@ class JsonExport extends DefaultExport
 
 	public function getDump()
 	{
-		return json_encode(EncodingFix::encode($this->data), JSON_PRETTY_PRINT);
+		return json_encode(EncodingFix::encode($this->data));
 	}
 	
 }
