@@ -139,7 +139,7 @@
 
                 }
 
-                if (mw.liveEditData.move.hasLayout) {
+                if (scope._active || mw.liveEditData.move.hasLayout) {
                     scope.show();
                 } else {
                     scope.hide();

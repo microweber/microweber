@@ -66,10 +66,12 @@ if (isset($json) == false or count($json) == 0) {
                     id:'icon'
                 },
                 {
-                    interface:'id',
-
-                    label:['Id'],
-                    id:'id'
+                    interface:'hidden',
+                    label:[''],
+                    id:'id',
+                    value: function(){
+                        return 'tab-' + mw.random();
+                    }
                 }
             ]
         });

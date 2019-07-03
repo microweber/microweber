@@ -57,9 +57,23 @@ mw.moduleSettings = function(options){
         return holder;
     };
 
-    this.addNew = function(){
-        pos = this.value.length;
-        var _new = mw.tools.cloneObject(JSON.parse(JSON.stringify(this.value[0])));
+    this.addNew = function(method){
+        method = method || 'new';
+        var pos = this.value.length;
+        var _new;
+        _new = mw.tools.cloneObject(JSON.parse(JSON.stringify(this.value[0])));
+        if(method === 'new'){
+            $.each(this.options.schema, function(){
+                if(this.value) {
+                    if(typeof this.value === 'function') {
+                        _new[this.id] = this.value();
+                    } else {
+                        _new[this.id] = this.value;
+                    }
+                }
+            })
+        }
+
         this.value.splice(pos, 0, _new);
         this.createItem(_new, pos);
     };
@@ -86,12 +100,9 @@ mw.moduleSettings = function(options){
         item.options.element._prop = item;
         item.setValue(curr);
         $(item).on('change', function(){
-            console.log(1, item.getValue())
             $.each(item.getValue(), function(a, b){
                 // todo: faster approach
                 var index = $(box).parent().children('.mw-module-settings-box').index(box);
-                console.log(2, item.getValue())
-                console.log(3, index, scope.value)
                 scope.value[index][a] = b;
             });
             $(scope).trigger('change', [scope.value/*, scope.value[i]*/]);
