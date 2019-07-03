@@ -15,7 +15,8 @@ if($data['type'] !== 'breakline'):
 <div class="mw-custom-field-group">
     <label class="mw-custom-field-label" for="custom_field_width_size<?php print $rand; ?>"><b><?php _e('Organaize in columns'); ?></b></label>
     <div class="mw-custom-field-form-controls">
-       <select class="mw-ui-field" name="options[field_size]">
+    	
+       <select class="mw-ui-field mw-full-width" name="options[field_size]">
        
        	<?php foreach(get_field_size_options() as $optionKey=>$optionValue): ?> 
         <option <?php if($field_size == $optionKey):?>selected="selected"<?php endif; ?> value="<?php echo $optionKey; ?>"><?php echo $optionValue; ?></option> 
@@ -31,7 +32,7 @@ if($data['type'] !== 'breakline'):
         <label class="mw-ui-check">
 
 
-              <input type="checkbox" class="mw-ui-field"  name="custom_field_required" id="custom_field_required<?php print $rand; ?>" value="y" <?php if (trim($data['custom_field_required']) == 'y'): ?> checked="checked"  <?php endif; ?> >
+              <input type="checkbox" class="mw-ui-field mw-full-width"  name="custom_field_required" id="custom_field_required<?php print $rand; ?>" value="y" <?php if (trim($data['custom_field_required']) == 'y'): ?> checked="checked"  <?php endif; ?> >
               <span></span>
             </label>
 
@@ -44,17 +45,17 @@ if($data['type'] !== 'breakline'):
     <label class="mw-custom-field-label"><?php _e('Active'); ?></label>
     <div class="mw-custom-field-form-controls">
         <label class="radio">
-            <input type="radio" class="mw-ui-field" name="custom_field_is_active"   <?php if (trim($data['custom_field_is_active']) == 'y'): ?> checked="checked"  <?php endif; ?>  value="y">
+            <input type="radio" class="mw-ui-field mw-full-width" name="custom_field_is_active"   <?php if (trim($data['custom_field_is_active']) == 'y'): ?> checked="checked"  <?php endif; ?>  value="y">
             <?php _e('Yes'); ?> </label>
         <label class="radio">
-            <input type="radio" class="mw-ui-field" name="custom_field_is_active" <?php if (trim($data['custom_field_is_active']) == 'n'): ?> checked="checked"  <?php endif; ?>   value="n">
+            <input type="radio" class="mw-ui-field mw-full-width" name="custom_field_is_active" <?php if (trim($data['custom_field_is_active']) == 'n'): ?> checked="checked"  <?php endif; ?>   value="n">
             <?php _e('No'); ?> </label>
     </div>
 </div>
 <div class="mw-custom-field-group<?php print $hidden_class ?>">
     <label class="mw-custom-field-label" ><?php _e('Help text'); ?></label>
     <div class="mw-custom-field-form-controls">
-        <input type="text"  name="custom_field_help_text" class="mw-ui-field"   value="<?php print ($data['custom_field_help_text']) ?>"  id="custom_field_help_text<?php print $rand; ?>">
+        <input type="text"  name="custom_field_help_text" class="mw-ui-field mw-full-width"   value="<?php print ($data['custom_field_help_text']) ?>"  id="custom_field_help_text<?php print $rand; ?>">
     </div>
 </div>
 <div class="form-actions custom-fields-form-actions">
