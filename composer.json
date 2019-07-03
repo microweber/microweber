@@ -59,10 +59,12 @@
     "microweber-deps/recurr": "~3.1",
     "microweber-deps/laravel-tagging": "~2.2",
     "oyejorge/less.php": "1.*",
-    "aws/aws-sdk-php": "^3.0@dev",
+    "aws/aws-sdk-php": "^3.0",
     "mailerlite/mailerlite-api-v2-php-sdk": "dev-master",
-    "finlet/flexmail": "dev-master",
-    "fzaninotto/faker": "^1.9@dev"
+    "finlet/flexmail": "dev-master"
+  },
+  "require-dev": {
+      "fzaninotto/faker": "^1.9"
   },
   "autoload": {
     "psr-4": {

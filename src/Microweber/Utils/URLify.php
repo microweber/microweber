@@ -3,6 +3,7 @@
 
 
 namespace Microweber\Utils;
+use Illuminate\Support\Str;
 
 
 
@@ -67,6 +68,9 @@ class URLify {
      * Filters a string, e.g., "Petty theft" to "petty-theft".
      */
     public static function filter($text, $length = 60,$to_lower=true) {
+        $text = Str::slug($text,'-');
+
+
         $text = self::downcode($text);
 
         // remove all these words from the string before urlifying
@@ -85,6 +89,7 @@ class URLify {
         if($to_lower){
         $text = strtolower($text);
         }
+
         // convert to lowercase
         return trim(substr($text, 0, $length), '-');
         // trim to first
