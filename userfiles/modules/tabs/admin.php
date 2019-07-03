@@ -68,7 +68,10 @@ if (isset($json) == false or count($json) == 0) {
                 {
                     interface:'hidden',
                     label:[''],
-                    id:'id'
+                    id:'id',
+                    value: function(){
+                        return 'tab-' + mw.random();
+                    }
                 }
             ]
         });

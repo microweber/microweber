@@ -43,7 +43,8 @@ var activeTree = function(){
     };
     var data = [], curr = ActiveNode;
     while(curr && curr !== document.body){
-        if(curr.id || mw.tools.hasClass(curr, 'edit')){
+        var custom = !!curr.className;
+        if(curr.id || mw.tools.hasClass(curr, 'edit') || custom){
             var parent = getParent(curr);
             var selector = mw.tools.generateSelectorForNode(curr)
                 .replace(/\[/g, 'mw')
