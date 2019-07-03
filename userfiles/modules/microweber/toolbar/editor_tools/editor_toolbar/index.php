@@ -106,7 +106,7 @@
     $(window).on("load", function () {
 
 
-        mw.$("#mw-admin-text-editor").bind('mousedown', function (e) {
+        mw.$("#mw-admin-text-editor").on('mousedown touchstart', function (e) {
             e.preventDefault();
             SetValue()
         });
@@ -114,7 +114,7 @@
         mw.wysiwyg.nceui();
         Editable = mwd.getElementById('editor-area');
 
-        mw.$("#editor-html-edit-btn").bind('mousedown', function (e) {
+        mw.$("#editor-html-edit-btn").on('mousedown touchstart', function (e) {
             e.preventDefault();
             toggleHTMLEditorBox();
         });
