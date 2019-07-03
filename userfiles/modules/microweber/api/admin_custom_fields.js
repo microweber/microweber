@@ -232,8 +232,8 @@ mw.admin.custom_fields.edit_custom_field_item = function ($selector, id, callbac
 
     data.params = {};
     data.params.field_id = id;
-
-    editModal = mw.tools.open_module_modal('custom_fields/values_edit', data, {overlay: false, skin: 'simple', title: mTitle});
+    
+    editModal = mw.tools.open_module_modal('custom_fields/values_edit', data, {overlay: false, width:'350px', height:'350px', skin: 'simple', title: mTitle});
 
 }
 

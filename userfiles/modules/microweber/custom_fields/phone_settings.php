@@ -7,7 +7,7 @@
             <?php _e('Title'); ?>
         </label>
 
-        <input type="text" class="mw-ui-field" value="<?php print ($data['name']) ?>" name="name" id="input_field_label<?php print $rand; ?>">
+        <input type="text" class="mw-ui-field mw-full-width" value="<?php print ($data['name']) ?>" name="name" id="input_field_label<?php print $rand; ?>">
 
     </div>
 </div>
@@ -19,14 +19,17 @@
 
 
     <input
-            class="mw-ui-field" type="text"
+            class="mw-ui-field mw-full-width" type="text"
             placeholder="ex.: 001-8892345678"
             name="value"
             value="<?php if ($data['value'] == ''): ?>ex.: 001-8892345678<?php else : print $data['value'];endif; ?>"/>
     <br/>
+    <br/>
     <label class="mw-ui-check"><input type="checkbox" class="mw-custom-field-option"
                                       name="options[required]" <?php if (isset($data['options']) == true and isset($data['options']["required"]) == true): ?> checked="checked" <?php endif; ?>
                                       value="1"><span></span><span><?php _e("Required"); ?>?</span></label>
+   <br/>
+   <br/>
     <?php print $savebtn; ?>
 </div>
 <?php include('settings_footer.php'); ?>

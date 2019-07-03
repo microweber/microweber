@@ -32,7 +32,7 @@
   <label class="mw-ui-label" for="input_field_label<?php print $rand; ?>">
     <?php _e('Title'); ?>
   </label>
-  <input type="text" onkeyup="" class="mw-ui-field" value="<?php print ($data['name']) ?>" name="name" id="input_field_label<?php print $rand; ?>">
+  <input type="text" onkeyup="" class="mw-ui-field mw-full-width" value="<?php print ($data['name']) ?>" name="name" id="input_field_label<?php print $rand; ?>">
 </div>
 <div class="custom-field-settings-values">
   <div class="mw-custom-field-group">
@@ -40,7 +40,7 @@
       <?php _e("Value"); ?>
     </label>
     <div id="mw-custom-fields-text-holder">
-      <textarea class="mw-ui-field" name="value"><?php print ($data['value']) ?></textarea>
+      <textarea class="mw-ui-field mw-full-width" name="value"><?php print ($data['value']) ?></textarea>
     </div>
   </div>
   <?php print $savebtn; ?> </div>

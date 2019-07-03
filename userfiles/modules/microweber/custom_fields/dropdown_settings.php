@@ -8,9 +8,10 @@
             <?php _e('Title'); ?>
         </label>
 
-        <input type="text" class="mw-ui-field" value="<?php print ($data['name']) ?>" name="name" id="input_field_label<?php print $rand; ?>">
+        <input type="text" class="mw-ui-field mw-full-width" value="<?php print ($data['name']) ?>" name="name" id="input_field_label<?php print $rand; ?>">
 
         <br>
+         <br/>
         <label class="mw-ui-check left" style="margin-right: 7px;">
             <input type="checkbox"
                    data-option-group="custom_fields"
@@ -22,11 +23,12 @@
             <span></span>
             <span><?php _e("Allow Multiple Choices"); ?></span>
         </label>
-        <br/>
+        <br/> <br/>
         <label class="mw-ui-check"><input type="checkbox" class="mw-custom-field-option"
                                           name="options[required]" <?php if (isset($data['options']) == true and isset($data['options']["required"]) == true): ?> checked="checked" <?php endif; ?>
                                           value="1"><span></span><span><?php _e("Required"); ?>?</span></label>
-
+	 <br/>
+	  <br/>
     </div>
 </div>
 
@@ -42,12 +44,12 @@
                     $v = implode(',', $v);
                 } ?>
                 <div class="mw-custom-field-form-controls">
-                    <input type="text" class="mw-ui-field" name="value[]" value="<?php print $v; ?>">
+                    <input type="text" class="mw-ui-field mw-full-width" name="value[]" value="<?php print $v; ?>">
                     <?php print $add_remove_controls; ?> </div>
             <?php endforeach; ?>
         <?php else: ?>
             <div class="mw-custom-field-form-controls">
-                <input type="text" name="value[]" class="mw-ui-field" value=""/>
+                <input type="text" name="value[]" class="mw-ui-field mw-full-width" value=""/>
                 <?php print $add_remove_controls; ?> </div>
         <?php endif; ?>
         <script type="text/javascript">

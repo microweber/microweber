@@ -20,7 +20,7 @@
     <?php _e('Field name'); ?>
   </label>
 
-    <input type="text" class="mw-ui-field" value="<?php print ($data['name']) ?>" name="name" id="input_field_label<?php print $rand; ?>">
+    <input type="text" class="mw-ui-field mw-full-width" value="<?php print ($data['name']) ?>" name="name" id="input_field_label<?php print $rand; ?>">
 
 </div>
 </div>
@@ -34,7 +34,7 @@
      <?php if(is_array($data['values'])) : ?>
      <?php foreach($data['values'] as $v): ?>
       <div class="mw-custom-field-form-controls">
-        <input type="text" class="mw-ui-field"  name="value[]"  value="<?php print $v; ?>" />
+        <input type="text" class="mw-ui-field mw-full-width"  name="value[]"  value="<?php print $v; ?>" />
         <?php print $add_remove_controls; ?>
       </div>
   <?php endforeach; ?>
@@ -43,7 +43,7 @@
 
 
     <div class="mw-custom-field-form-controls">
-        <input type="text" name="value[]" class="mw-ui-field"  value="" />
+        <input type="text" name="value[]" class="mw-ui-field mw-full-width"  value="" />
         <?php print $add_remove_controls; ?>
       </div>
   <?php endif; ?>
