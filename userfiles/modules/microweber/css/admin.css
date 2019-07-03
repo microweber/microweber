@@ -1662,7 +1662,7 @@ tr .mw-admin-custom-field-value-edit-inline:hover:before, tr .mw-admin-custom-fi
 .mw-custom-field-form-controls {
     margin-bottom: 10px;
     white-space: nowrap;
-    width: 250px;
+    width: 100%;
 }
 
 .mw-custom-field-group, .custom-field-settings-name {

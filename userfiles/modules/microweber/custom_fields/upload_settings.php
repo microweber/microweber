@@ -10,8 +10,8 @@
         <?php _e('Title'); ?>
       </label>
 
-        <input type="text" class="mw-ui-field" value="<?php print ($data['name']) ?>" name="name" id="input_field_label<?php print $rand; ?>">
-        <input type="hidden" class="mw-ui-field" value="<?php print ($data['value']) ?>" name="value">
+        <input type="text" class="mw-ui-field mw-full-width" value="<?php print ($data['name']) ?>" name="name" id="input_field_label<?php print $rand; ?>">
+        <input type="hidden" class="mw-ui-field mw-full-width" value="<?php print ($data['value']) ?>" name="value">
 
     </div>
 
@@ -53,7 +53,7 @@
         <div class="mw-ui-field-holder">
       <label class="mw-ui-label"><?php _e("Custom File Types"); ?></label>
 
-      <input type="text" class="mw-ui-field"  name="options[file_types]" value="<?php if(isset($data['options']) and isset($data['options']['file_types']) and is_array($data['options']['file_types'])) : ?><?php
+      <input type="text" class="mw-ui-field mw-full-width"  name="options[file_types]" value="<?php if(isset($data['options']) and isset($data['options']['file_types']) and is_array($data['options']['file_types'])) : ?><?php
 
       $array2 = array("images", "documents", "archives");
 
