@@ -4469,9 +4469,9 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     padding: 5px 0;
     border-radius: 3px;
     color: #fff;
-    transform: scale(1, .5) translateZ(-30px);
-    transform-origin: top center;
-    transition: all 70ms;
+    /*transform: scale(1, .5) translateZ(-30px);*/
+    /*transform-origin: top center;*/
+    /*transition: all 70ms;*/
     margin-top: 10px;
 }
 
@@ -4484,8 +4484,8 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     content: ' ';
     display: block;
     background-color: black;
-    transform: rotate(45deg);
-    transition: all .1s;
+     transform: rotate(45deg); 
+    /*transition: all .1s;*/
 }
 
 .mw-handle-menu-default.mw-handle-menu:before {
