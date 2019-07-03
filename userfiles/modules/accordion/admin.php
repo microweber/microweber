@@ -59,7 +59,10 @@ foreach ($json as $slide) {
                 {
                     interface:'hidden',
                     label:[''],
-                    id:'id'
+                    id:'id',
+                    value: function(){
+                        return 'tab-' + mw.random();
+                    }
                 }
             ]
         });
