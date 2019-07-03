@@ -26,14 +26,24 @@ if (isset($json) == false or count($json) == 0) {
 <div id="mw-accordion-module-<?php print $params['id'] ?>" class="mw-accordion-box-wrapper">
     <ul class="accordion">
         <?php foreach ($json as $key => $slide): ?>
+        <?php
+
+        $edit_field_key = $key;
+        if(isset($slide['id'])){
+            $edit_field_key = $slide['id'];
+        }
+
+         ?>
+
+
             <li class="<?php if ($key == 0): ?>active<?php endif; ?>">
                 <div class="accordion__title">
                     <span class="h5"><?php print isset($slide['icon']) ? $slide['icon'] . ' ' : ''; ?><?php print isset($slide['title']) ? $slide['title'] : ''; ?></span>
                 </div>
 
                 <div class="accordion__content">
-                    <div class="edit allow-drop" field="accordion-item-<?php print $key ?>" rel="module-<?php print $params['id'] ?>">
-                        <div class="element"> <?php print isset($slide['content']) ? $slide['content'] : 'Accordion content' ?></div>
+                    <div class="edit allow-drop" field="accordion-item-<?php print $edit_field_key ?>" rel="module-<?php print $params['id'] ?>">
+                       <div class="element"> <?php print isset($slide['content']) ? $slide['content'] : 'Accordion content' ?></div>
                     </div>
                     <div class="clearfix"></div>
                 </div>

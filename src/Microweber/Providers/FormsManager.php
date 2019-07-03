@@ -466,11 +466,8 @@ class FormsManager
                         }
                     }
                 }
-                if (!$email_from) {
-                    if (isset($params['email']) and (filter_var($params['email'], FILTER_VALIDATE_EMAIL))) {
-                        $email_from = $params['email'];
-                    }
-                }
+              
+                
                 $from_name = $email_from;
                 if (isset($params['name']) and $params['name']) {
                     $from_name = $params['name'];
@@ -505,37 +502,34 @@ class FormsManager
             }
         }
         
-        if (isset($params['email'])) {
-        	
-        	$getFormLists = get_form_lists("?id=".$list_id.'&limit=1');
-        	
-        	if (isset($getFormLists[0]['title'])) {
-        	
-	        	$provider = new MailProvider();
-	        	$provider->setListTitle($getFormLists[0]['title']);
-	        	$provider->setEmail($params['email']);
-	        	$provider->setFirstName($params['first_name']);
-	        	
-	        	if (isset($params['phone'])) {
-	        		$provider->setPhone($params['phone']);
-	        	}
-	        	
-	        	if (isset($params['company_name'])) {
-	        		$provider->setCompanyName($params['company_name']);
-	        	}
-	        	
-	        	if (isset($params['company_position'])) {
-	        		$provider->setCompanyPosition($params['company_position']);
-	        	}
-	        	
-	        	if (isset($params['country_registration'])) {
-	        		$provider->setCountryRegistration($params['country_registration']);
-	        	}
-	        	
-	        	$provider->setMessage($params['message']);
-	        	$provider->submit();
-	        	
+        
+        if (!isset($email_from)) {
+        	if (isset($params['email']) and (filter_var($params['email'], FILTER_VALIDATE_EMAIL))) {
+        		$email_from = $params['email'];
         	}
+        	if (!isset($email_from) || !$email_from) {
+        		foreach($params as $pKey=>$pValue) {
+        			if (isset($params[$pKey]) && is_string($params[$pKey]) && (filter_var($params[$pKey], FILTER_VALIDATE_EMAIL))) {
+        				$email_from = $params[$pKey];
+        			}
+        		}
+        	}
+        }
+        
+        if (isset($email_from) && (filter_var($email_from, FILTER_VALIDATE_EMAIL))) {
+        	
+        	if (isset($from_name)) {
+        		$params['name'] = $from_name;
+        	}
+        	
+        	$params['email'] = $email_from;
+        	$params['list_id'] = $list_id;
+        	$params['option_group'] = 'contact_form';
+        	
+        	$params['rel_id'] = $for_id;
+        	$params['rel_type'] = $for;
+        	
+        	event_trigger('mw.mail_subscribe', $params);
         	
         }
 

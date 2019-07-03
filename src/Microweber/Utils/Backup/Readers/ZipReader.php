@@ -18,7 +18,7 @@ class ZipReader extends DefaultReader
 		
 		$backupManager = new BackupManager();
 		$backupLocation = $backupManager->getBackupLocation(). 'temp_backup_zip/';
-		
+
 		// Remove old files
 		$this->_removeFilesFromPath($backupLocation);
 		
@@ -31,6 +31,7 @@ class ZipReader extends DefaultReader
 		}
 		
 		$mwContentJsonFile = $backupLocation. 'mw_content.json';
+		
 		if (is_file($mwContentJsonFile)) {
 			$jsonReader = new JsonReader($mwContentJsonFile);
 			return $jsonReader->readData();		

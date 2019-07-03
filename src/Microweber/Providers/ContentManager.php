@@ -1146,8 +1146,6 @@ class ContentManager
                             $to_print = str_replace('{empty}', '', $to_print);
 
 
-
-
                             if ($item['id'] == $item['parent']) {
                                 $remove_ids[] = intval($item['id']);
                             }
@@ -1435,7 +1433,7 @@ class ContentManager
 
                     if ($page['content_type'] == 'product') {
                         if (defined('PRODUCT_ID') == false) {
-                            define('PRODUCT_ID',intval($content['id']));
+                            define('PRODUCT_ID', intval($content['id']));
                         }
                     }
                 }
@@ -2105,7 +2103,7 @@ class ContentManager
                             return array('error' => 'Please enter a captcha answer!');
                         }
                     } else {
-                       // $cap = $this->app->user_manager->session_get('captcha');
+                        // $cap = $this->app->user_manager->session_get('captcha');
                         if (!mw()->captcha->validate($data['captcha'])) {
                             return array('error' => 'You must load a captcha first!');
                         }

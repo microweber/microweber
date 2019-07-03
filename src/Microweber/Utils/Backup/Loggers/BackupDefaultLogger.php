@@ -22,7 +22,7 @@ abstract class BackupDefaultLogger
 			echo $log . PHP_EOL;
 		}
 		
-		self::addNew(self::_getLogFilename(), $log, 30);
+		// self::addNew(self::_getLogFilename(), $log, 30);
 		
 	}
 	

@@ -26,13 +26,18 @@ if (isset($json) == false or count($json) == 0) {
 ?>
 
 <?php
+
 $data = array();
+$count = 0;
 foreach ($json as $slide) {
+    $count++;
     if (!isset($slide['id'])) {
-        $slide['id'] = 'accordion-' . uniqid();
+        $slide['id'] = 'accordion-' .  $params['id']. '-'.$count;
     }
     array_push($data, $slide);
 }
+
+
 ?>
 <script>
     $(window).on('load', function(){
@@ -50,6 +55,11 @@ foreach ($json as $slide) {
                     interface:'icon',
                     label:['Icon'],
                     id:'icon'
+                },
+                {
+                    interface:'hidden',
+                    label:[''],
+                    id:'id'
                 }
             ]
         });

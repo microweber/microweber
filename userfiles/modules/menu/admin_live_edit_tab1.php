@@ -259,17 +259,17 @@
             mw.form.post(selector, '<?php print api_link('content/menu_item_save'); ?>', function () {
 
                 mw.$('#<?php print $params['id'] ?>').removeAttr('new-menu-id');
-                if (no_reload === undefined) {
-                    mw.reload_module('menu/edit_items');
-                }
+        if (no_reload === undefined) {
+            mw.reload_module('menu/edit_items');
+        }
 
 
-                if (self !== parent && typeof parent.mw === 'object') {
-                    parent.mw.reload_module('menu');
-                }
-                menuSelectorInit();
-            });
-        }*/
+        if (self !== parent && typeof parent.mw === 'object') {
+            parent.mw.reload_module('menu');
+        }
+        menuSelectorInit();
+    });
+    }*/
     }
 </script>
 <?php $menus = get_menus(); ?>
@@ -364,15 +364,11 @@ if ($menu_data) {
 
 
                 <label class="mw-ui-label"><?php _e("Select page you want to add to your menu"); ?>:</label>
-
-                <a href="javascript:requestLink();"
-                   class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-rounded"><span><?php _e("Add Page to Menu"); ?></span></a>
-                <a href="javascript:requestSection();"
-                   class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded pull-right">
+                <a href="javascript:requestLink();"               class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-rounded"><span><?php _e("Add Page to Menu"); ?></span></a>
+                <a href="javascript:requestSection();"                   class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded pull-right">
                     <span><?php _e("Link to layout"); ?></span>
                 </a>
-                <a href="javascript:requestCustomLink();"
-                   class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded pull-right">
+                <a href="javascript:requestCustomLink();"             class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded pull-right">
                     <span><?php _e("Add Custom Link"); ?></span>
                 </a>
 
@@ -500,8 +496,7 @@ if ($menu_data) {
                 </small>
             </label>
 
-            <module data-type="menu/edit_items" id="items_list_<?php print $rand ?>"
-                    menu-name="<?php print $active_menu ?>" menu-id="<?php print $menu_id ?>"/>
+            <module data-type="menu/edit_items" id="items_list_<?php print $rand ?>"  menu-name="<?php print $active_menu ?>" menu-id="<?php print $menu_id ?>"/>
         <?php endif; ?>
     </div>
 </div>

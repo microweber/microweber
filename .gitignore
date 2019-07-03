@@ -8,6 +8,7 @@ userfiles/import/*
 userfiles/cache/*
 userfiles/templates/liteness
 userfiles/templates/dream
+userfiles/templates/bricksite
 storage/cache/*
 cache/.htaccess
 cache/*

@@ -15,7 +15,15 @@ function newsletter_subscribe($params)
     if (isset($params['mod_id'])) {
         $mod_id = $params['mod_id'];
     }
-
+	
+    $name = '';
+   	if (!empty(Input::get('first_name'))) {
+   		$name = Input::get('first_name');
+    }
+   		
+    if (!empty(Input::get('name'))) {
+    	$name = Input::get('name');
+    }
 
     $adm = mw()->user_manager->is_admin();
     if (defined('MW_API_CALL')) {
@@ -28,10 +36,8 @@ function newsletter_subscribe($params)
             }
         }
     }
-
+    
     $redir = newsletter_get_redirect_link_after_subscribe($mod_id);
-
-
 
 
     $rules = [
@@ -138,12 +144,14 @@ function newsletter_subscribe($params)
 
     $confirmation_code = str_random(30);
 
-    newsletter_save_subscriber([
-        'email' => Input::get('email'),
-        'name' => Input::get('name'),
-        'list_id' => $list_id,
-        'confirmation_code' => $confirmation_code
-    ]);
+    $subscriber_data = [
+    	'email' => Input::get('email'),
+    	'name' => $name,
+    	'list_id' => $list_id,
+    	'confirmation_code' => $confirmation_code
+    ];
+    
+    newsletter_save_subscriber($subscriber_data);
     $msg = 'Thanks for your subscription!';
 
     $resp = array(
@@ -153,7 +161,6 @@ function newsletter_subscribe($params)
     if ($redir) {
         $resp['redirect'] = $redir;
     }
-
 
     return $resp;
 }
@@ -214,6 +221,13 @@ function newsletter_save_subscriber($data)
     }
 
     $save_id = db_save($table, $data);
+    
+    $subscriber_data = array();
+    $subscriber_data['rel_type'] = 'newsletter_subscribers';
+    $subscriber_data['rel_id'] = $save_id;
+    $subscriber_data['option_group'] = 'newsletter';
+    
+    event_trigger('mw.mail_subscribe', $subscriber_data);
 
     if (isset($data['list_id'])) {
         newsletter_save_subscriber_list($save_id, $data['list_id']);

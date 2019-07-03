@@ -2,6 +2,8 @@
 namespace Microweber\tests;
 
 use Microweber\Utils\Backup\BackupManager;
+use Faker\Factory;
+use Microweber\Utils\Backup\EncodingFix;
 
 /**
  * Run test
@@ -11,9 +13,68 @@ use Microweber\Utils\Backup\BackupManager;
 
 class BackupV2Test extends TestCase
 {
+	private static $_titles = array();
 	private static $_exportedFile = '';
 	
-	public function testImport() {
+	public function testEncoding() {
+		
+		$locales = array('el_GR', 'bg_BG', 'en_EN','at_AT','ko_KR','kk_KZ','ja_JP','fi_FI','es_ES');
+		
+		foreach($locales as $locale) {
+			
+			$faker = Factory::create($locale);
+			
+			$title = $faker->name;
+			
+			if (!empty($title)) {
+				
+				// self::$_titles[] = json_encode(array('title'=>$title));
+				
+				//var_dump($title); 
+				
+				$contentId = save_content(array("title"=>$title));
+				
+				//var_dump(get_content("id=" . $contentId));
+			}
+		}
+		
+		/* 
+		var_dump(get_content('no_limit=0'));
+		die();
+		 */
+		/* 
+		$titles = self::$_titles;
+		
+		array_walk_recursive($titles, function (&$item) {
+			if (is_string($item)) {
+				$item = utf8_encode($item);
+				$item = str_replace('Â ', ' ', $item);
+				$item = str_replace("Â ", ' ', $item);
+			}
+		});
+		$titles = json_encode($titles);
+		
+		$titles = json_decode($titles, TRUE);
+		
+		array_walk_recursive($titles, function (&$el) {
+			if (is_string($el)) {
+				$el = utf8_decode($el);
+				$el = str_replace('Â ', ' ', $el);
+				$el = str_replace("Â ", ' ', $el);
+			}
+		});
+		
+		foreach($titles as $title) {
+			$titles = json_decode($title, TRUE);
+			var_dump($titles);
+		}
+			
+		
+		die(); */
+		
+	}
+	
+	/* public function testImport() {
 		
 		$tempFile = 'backup_v2_test.json';
 		$json = '{
@@ -84,15 +145,18 @@ class BackupV2Test extends TestCase
 		$importStatus = $manager->startImport();
 		
 		$this->assertArrayHasKey('done', $importStatus);
-	}
+	} */
 	
 	public function testFullExport() {
+		
+		clearcache();
 		
 		$manager = new BackupManager();
 		$manager->setExportAllData(true);
 		
 		$i = 0;
 		while (true) {
+			
 			$exportStatus =	$manager->startExport();
 			
 			if (isset($exportStatus['current_step'])) {
@@ -114,7 +178,7 @@ class BackupV2Test extends TestCase
 				break;
 			}
 			
-			if ($i > 10) {
+			if ($i > 10) { 
 				break;
 			}
 			
@@ -128,10 +192,10 @@ class BackupV2Test extends TestCase
 		$manager->setImportFile(self::$_exportedFile);
 		$manager->setImportBatch(false);
 		
-		$importStatus = $manager->startImport();
+		$import = $manager->startImport();
 		
-		$this->assertArrayHasKey('done', $importStatus);
-		$this->assertArrayHasKey('precentage', $importStatus);
+		$this->assertArrayHasKey('done', $import);
+		$this->assertArrayHasKey('precentage', $import);
 	}
 	
 	public function testImportWrongFile() {
@@ -142,18 +206,14 @@ class BackupV2Test extends TestCase
 		
 		$importStatus = $manager->startImport();
 		
-		//var_dump($importStatus);
-		
 		$this->assertArrayHasKey('error', $importStatus);
 	}
 	
 	public function testExportWithWrongFormat()
 	{
 		$export = new BackupManager();
-		$export->setExportType('xmla');
+		$export->setExportType('xml_');
 		$exportStatus = $export->startExport();
-		
-		//var_dump($exportStatus);
 		
 		$this->assertArrayHasKey('error', $exportStatus);
 	}

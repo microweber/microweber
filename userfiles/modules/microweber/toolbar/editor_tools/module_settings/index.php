@@ -352,7 +352,7 @@
 
                             var mod_presets_iframe_html_fr = '' +
                                 '<div class="js-module-presets-edit-frame">' +
-                                '<iframe src="' + src + '" frameborder="0" style="overflow: hidden;" width="280" height="400" onload="this.parentNode.classList.remove(\'loading\')">' +
+                                '<iframe src="' + src + '" frameborder="0" style="overflow: hidden;" width="280" height="400" onload="this.parentNode.classList.remove(\'loading\')"></iframe>' +
                                 '</div>';
 
                             window.parent.$('#module-modal-settings-menu-items-presets-holder<?php print $params['id'] ?>').html(mod_presets_iframe_html_fr);

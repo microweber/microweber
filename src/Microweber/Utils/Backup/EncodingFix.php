@@ -10,26 +10,40 @@ namespace Microweber\Utils\Backup;
  */
 class EncodingFix
 {
-	
+
 	/**
-	 * Fix wrong encoding on database
 	 *
 	 * @param array $item
 	 * @return array
 	 */
-	public static function runFix($content)
+	public static function decode($content)
 	{
-		// Fix content encoding
-		array_walk_recursive($content, function (&$element) {
-			if (is_string($element)) {
-				$utf8Chars = explode(' ', 'À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö');
-				foreach ($utf8Chars as $char) {
-					$element = str_replace($char, '', $element);
+		if (!empty($content)) {
+			array_walk_recursive($content, function (&$item) {
+				if (is_string($item)) {
+					$item = utf8_decode($item);
 				}
-			}
-		});
-			
+			});
+		}
+
 		return $content;
 	}
-	
+
+	/**
+	 *
+	 * @param array $item
+	 * @return array
+	 */
+	public static function encode($content)
+	{
+		if (!empty($content)) {
+			array_walk_recursive($content, function (&$item) {
+				if (is_string($item)) {
+					$item = utf8_encode($item);
+				}
+			});
+		}
+		
+		return $content;
+	}
 }
