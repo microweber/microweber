@@ -54,8 +54,6 @@ class ZipExport extends DefaultExport
 		// Get zip filename
 		$zipFileName = $this->_getZipFileName();
 		
-		// var_dump($zipFileName);
-		
 		BackupExportLogger::setLogInfo('Archiving files batch: ' . $this->getCurrentStep() . '/' . $this->totalSteps);
 		
 		// Generate zip file
@@ -119,8 +117,11 @@ class ZipExport extends DefaultExport
 		$zip->setCompressionIndex(0, \ZipArchive::CM_STORE);
 		$zip->close();
 		
+		$exportLog = $this->getExportLog();
+		
 		cache_save($this->getCurrentStep() + 1, 'ExportCurrentStep', $this->_cacheGroupName, 60 * 10);
 		
+		return $exportLog;
 	}
 	
 	public function getExportLog() {
@@ -128,7 +129,7 @@ class ZipExport extends DefaultExport
 		$log = array();
 		$log['current_step'] = $this->getCurrentStep();
 		$log['total_steps'] = $this->totalSteps;
-		$log['precentage'] = ($this->getCurrentStep() * 100) / $this->totalSteps;
+		$log['precentage'] = number_format((($this->getCurrentStep() * 100) / $this->totalSteps), 2);
 		$log['data'] = false;
 		
 		if ($this->getCurrentStep() >= $this->totalSteps) {
