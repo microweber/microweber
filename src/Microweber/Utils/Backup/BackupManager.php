@@ -1,9 +1,11 @@
 <?php
 namespace Microweber\Utils\Backup;
 
+use Microweber\Utils\Backup\Loggers\BackupImportLogger;
+use Microweber\Utils\Backup\Loggers\BackupExportLogger;
+
 class BackupManager
 {
-	
 	public $exportAllData = false;
 	public $exportData = ['categoryIds'=>[], 'contentIds'=>[], 'tables'=>[]];
 	public $exportType = 'json';
@@ -20,6 +22,17 @@ class BackupManager
 		if (php_can_use_func('set_time_limit')) {
 			set_time_limit(0);
 		}
+	}
+	
+	/**
+	 * Set logger
+	 * @param class $logger
+	 */
+	public function setLogger($logger) {
+		
+		BackupImportLogger::setLogger($logger);
+		BackupExportLogger::setLogger($logger);
+		
 	}
 
 	/**

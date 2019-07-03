@@ -77,10 +77,12 @@ class TemplateInstaller
         if (is_file($default_content_file)) {
         	
         	try {
+        		
         		$manager = new BackupManager();
         		$manager->setImportFile($default_content_file);
         		$manager->setImportBatch(false);
-        		$importStatus = $manager->startImport();
+        		$manager->setLogger($this->logger);
+        		$manager->startImport();
         		
         	} catch (\Exception $e) {
         		return false;

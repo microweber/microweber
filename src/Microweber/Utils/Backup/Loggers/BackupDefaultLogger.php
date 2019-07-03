@@ -6,6 +6,10 @@ abstract class BackupDefaultLogger
 
 	protected static $debug = false;
 	protected static $logger;
+	
+	public static function setLogger($logger) {
+		self::$logger = $logger;
+	}
 
 	public static function clearLog()
 	{
@@ -13,6 +17,13 @@ abstract class BackupDefaultLogger
 	}
 	
 	public static function setLogInfo($log) {
+		
+		if (self::$logger) {
+			$loggerClass = new self::$logger();
+			if (method_exists($loggerClass, 'log')) {
+				return $loggerClass->log($log);
+			}
+		}
 		
 		if (is_ajax()) {
 			self::$debug = false;
@@ -22,8 +33,7 @@ abstract class BackupDefaultLogger
 			echo $log . PHP_EOL;
 		}
 		
-		// self::addNew(self::_getLogFilename(), $log, 30);
-		
+		self::addNew(self::_getLogFilename(), $log, 30);
 	}
 	
 	public static function addNew($fileName, $line, $max = 15) {
