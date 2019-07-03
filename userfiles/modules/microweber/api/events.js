@@ -113,6 +113,21 @@ DOMChange:function(element, callback, attr, a){
     attr = attr || false;
     a = a || false;
 
+    element.addEventListener("input", function(e){
+        if( !mw.on.DOMChangePause ) {
+            if(!a){
+                callback.call(this);
+            }
+            else{
+                clearTimeout(element._int);
+                element._int = setTimeout(function(){
+                    callback.call(element);
+                }, mw.on.DOMChangeTime);
+            }
+
+        }
+    }, false);
+
     var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
 
     if(typeof MutationObserver === 'function'){
@@ -132,7 +147,7 @@ DOMChange:function(element, callback, attr, a){
                     callback.call(this);
                 }
                 else{
-                    clearInterval(element._int);
+                    clearTimeout(element._int);
                     element._int = setTimeout(function(){
                         callback.call(element);
                     }, mw.on.DOMChangeTime);
@@ -150,7 +165,7 @@ DOMChange:function(element, callback, attr, a){
                     callback.call(this);
                 }
                 else{
-                    clearInterval(element._int);
+                    clearTimeout(element._int);
                     element._int = setTimeout(function(){
                         callback.call(element);
                     }, mw.on.DOMChangeTime);
@@ -168,7 +183,7 @@ DOMChange:function(element, callback, attr, a){
                             callback.call(this);
                         }
                         else{
-                            clearInterval(element._int);
+                            clearTimeout(element._int);
                             element._int = setTimeout(function(){
                                 callback.call(element);
                             }, mw.on.DOMChangeTime);
@@ -192,13 +207,13 @@ DOMChange:function(element, callback, attr, a){
  },
  scrollBarOnBottom : function(obj, distance, callback){
     if(typeof obj === 'function'){
-       var callback = obj;
-       var obj =  window;
-       var distance = 0;
+       callback = obj;
+       obj =  window;
+       distance = 0;
     }
     if(typeof distance === 'function'){
-      var callback = distance;
-      var distance = 0;
+      callback = distance;
+      distance = 0;
     }
     obj._pauseCallback = false;
     obj.pauseScrollCallback = function(){ obj._pauseCallback = true;}
