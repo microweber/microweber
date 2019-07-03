@@ -177,7 +177,7 @@
                     l = arr.length,
                     i = 0,
                     last = arr[l - 2],
-                    percentage = Math.round(((l - 1) / 60) * 100);
+                    percentage = Math.round(((l - 1) / 500) * 100);
                 bar[0].style.width = percentage + '%';
                 percent.html(percentage + '%');
                 if (last == 'done') {

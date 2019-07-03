@@ -238,7 +238,7 @@
             <a class="mw-ui-btn" href="javascript:;"><?php _e("File"); ?></a>
             <a class="mw-ui-btn" href="javascript:;"><?php _e("Email"); ?></a>
             <a class="mw-ui-btn available_elements_tab_show_hide_ctrl" href="javascript:;"><?php _e("Page Section"); ?></a>
-            <a class="mw-ui-btn page-layout-btn" href="javascript:;"><?php _e("Page Layout"); ?></a>
+            <a class="mw-ui-btn page-layout-btn" style="display: none;" href="javascript:;"><?php _e("Page Layout"); ?></a>
         </div>
         <div class="mw-ui-box mw-ui-box-content" id="tabs">
             <div class="tab" style="display: block">
@@ -335,6 +335,9 @@
                     $(document).ready(function () {
                         var layoutsData = [];
                         var layouts = top.mw.$('.module[data-type="layouts"]');
+
+
+
                         layouts.each(function () {
                             layoutsData.push({
                                 name: this.getAttribute('template').split('.')[0],
@@ -352,6 +355,15 @@
                             });
                             list.append(li);
                         });
+
+
+                        if(layoutsData.length > 0){
+                            $('.page-layout-btn').show()
+                        }
+
+
+
+
                     });
                 </script>
 
