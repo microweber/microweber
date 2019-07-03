@@ -186,7 +186,7 @@ if ($id != 0) {
         
         <select class="mw-ui-field" name="url_target">
         <?php 
-        $attributeValues = explode("|", "_blank|_self|_parent|_top|framename");
+        $attributeValues = explode("|", "|_blank|_self|_parent|_top|framename");
         foreach ($attributeValues as $attributeValue):
         ?>
        	<option value="<?php echo $attributeValue; ?>" <?php if($data['url_target'] == $attributeValue):?>selected="selected"<?php endif; ?>><?php echo $attributeValue; ?></option>
