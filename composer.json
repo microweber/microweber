@@ -64,7 +64,7 @@
     "finlet/flexmail": "dev-master"
   },
   "require-dev": {
-      "fzaninotto/faker": "^1.9" 
+      "fzaninotto/faker": "^1.9"
   },
   "autoload": {
     "psr-4": {
