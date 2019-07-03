@@ -66,11 +66,9 @@ if (isset($json) == false or count($json) == 0) {
                     id:'icon'
                 },
                 {
-                    interface:'text',
-                    value: function(){
-                        return 'some-id-'+mw.random()
-                    },
-                    label:[''],
+                    interface:'id',
+
+                    label:['Id'],
                     id:'id'
                 }
             ]

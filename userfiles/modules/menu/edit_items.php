@@ -44,7 +44,14 @@ if( $id != 0){
 
 ?>
 <?php  $rand = uniqid(); ?>
-<?php if(isset($data) and $data != false): ?>
+
+
+
+
+
+
+
+
 <script  type="text/javascript">
     mw.require('forms.js', true);
 </script>
@@ -97,7 +104,7 @@ if( $id != 0){
 
             }
 
-         }
+        }
 
     };
     mw.menu_item_delete = function($item_id){
@@ -118,8 +125,8 @@ if( $id != 0){
 
             var master = mw.tools.firstParentWithClass(node, 'mw-modules-admin');
 
-             mw.$('li .active', master).removeClass('active');
-             mw.$('ul .active', master).removeClass('active');
+            mw.$('li .active', master).removeClass('active');
+            mw.$('ul .active', master).removeClass('active');
 
             $(node.parentNode).addClass('active');
             $(node.parentNode).parent().addClass('opened');
@@ -197,6 +204,13 @@ if( $id != 0){
         mw.menu_items_sort_<?php print $rand; ?>();
     });
 </script>
+
+
+
+
+
+<?php if(isset($data) and $data != false): ?>
+
 
 <div class="menu-module-wrapper">
     <style type="text/css" scoped="scoped">
