@@ -4484,7 +4484,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     content: ' ';
     display: block;
     background-color: black;
-     transform: rotate(45deg); 
+     transform: rotate(45deg);
     /*transition: all .1s;*/
 }
 
