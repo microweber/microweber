@@ -528,9 +528,32 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
                 </style>
                 
                 <script type="text/javascript">
+                
+	                function getAppendFiles() {
+	                	 var append_files = mw.$('#append_files').val();
+				          if (append_files == '') {
+				        	var append_files_array = [];
+				          } else {
+				          	var append_files_array = append_files.split(',');
+				          }
+
+				          return append_files_array;
+	                }
+	                
 					$(document).ready(function(){
 		
 					$('body').on('click', '.mw-append-file-delete', function() {
+						
+						var append_files_array = getAppendFiles();
+
+						for( var i = 0; i < append_files_array.length; i++){ 
+						   if (append_files_array[i] === $(this).attr('file-url')) {
+							   append_files_array.splice(i, 1); 
+						   }
+						}
+						
+						mw.$('#append_files').val(append_files_array.join(',')).trigger('change');
+						
 						$(this).parent().remove();
 					});
 					
@@ -542,19 +565,14 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
 					
 					  $(uploader).bind("FileUploaded", function(event, data){
 
-					  	  	  var append_file = '<div class="mw-append-file"><div>'+data.src+'</div><div class="mw-append-file-delete">Remove</div></div>';
+					  	  	  var append_file = '<div class="mw-append-file"><div>'+data.src+'</div><div class="mw-append-file-delete" file-url="'+data.src+'">Remove</div></div>';
 					  	  	  
 					          mw.$("#mw_uploader_loading").hide();
 					          mw.$("#mw_uploader").show();
 					          mw.$("#upload_info").html('');
 					          mw.$("#upload_files").append(append_file);
 
-					          var append_files = mw.$('#append_files').val();
-					          if (append_files == '') {
-					        	var append_files_array = [];
-					          } else {
-					          	var append_files_array = append_files.split(',');
-					          }
+					          var append_files_array = getAppendFiles();
 					          
 					          append_files_array.push(data.src);
 							          
@@ -579,7 +597,7 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
 					$appendFiles = explode(",", get_option('append_files', 'users'));
 					?>
 				
-				 <input name="append_files" value="<?php print get_option('append_files', 'users') ?>" class="mw-ui-field mw_option_field w100" id="append_files"  data-option-group="users" type="text"/>
+				 <input name="append_files" value="<?php print get_option('append_files', 'users') ?>" class="mw-ui-field mw_option_field w100" id="append_files"  data-option-group="users" type="hidden"/>
 
                 <h2><?php _e("Send email on new user registration"); ?></h2>
 
@@ -612,7 +630,7 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
 					<?php 
 					foreach($appendFiles as $file) {
 						?>
-						<div class="mw-append-file"><div><?php echo $file; ?></div><div class="mw-append-file-delete">Remove</div></div>
+						<div class="mw-append-file"><div><?php echo $file; ?></div><div class="mw-append-file-delete" file-url="<?php echo $file; ?>">Remove</div></div>
 						<?php
 					}
 					?>

@@ -25,6 +25,7 @@ $(document).ready(function(){
 $(document).ready(function(){
     mw.options.form(".<?php print $config['module_class'] ?>", function () {
         mw.notification.success("<?php _e("Email settings are saved"); ?>.");
+        mw.reload_module("<?php print $config['module'] ?>");
     });
 });
 

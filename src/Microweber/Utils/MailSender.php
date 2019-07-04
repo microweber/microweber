@@ -100,6 +100,20 @@ class MailSender
         }
     }
 
+    /**
+     * Send email
+     * @param string $to
+     * @param string $subject
+     * @param string $message
+     * @param boolean $add_hostname_to_subject
+     * @param boolean $no_cache
+     * @param boolean $cc
+     * @param boolean $email_from
+     * @param boolean $from_name
+     * @param boolean $reply_to
+     * @param array $attachments
+     * @return boolean
+     */
     public function send(
         $to,
         $subject,
@@ -109,7 +123,8 @@ class MailSender
         $cc = false,
         $email_from = false,
         $from_name = false,
-        $reply_to = false
+        $reply_to = false,
+    	$attachments = array()
     )
     {
 
@@ -146,9 +161,9 @@ class MailSender
         }
 
         if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
-           $sender =  $this->exec_send($to, $subject, $message, $email_from, $from_name, $reply_to);
+           $sender =  $this->exec_send($to, $subject, $message, $email_from, $from_name, $reply_to, $attachments);
             if (isset($cc) and ($cc) != false and (filter_var($cc, FILTER_VALIDATE_EMAIL))) {
-                $sender = $this->exec_send($cc, $subject, $message, $email_from, $from_name, $reply_to);
+                $sender = $this->exec_send($cc, $subject, $message, $email_from, $from_name, $reply_to, $attachments);
             }
 
            // mw()->cache_manager->save(true, $function_cache_id, $cache_group, 30);
@@ -199,7 +214,7 @@ class MailSender
         $this->cc = $to;
     }
 
-    public function exec_send($to, $subject, $text, $from_address = false, $from_name = false, $reply_to = false)
+    public function exec_send($to, $subject, $text, $from_address = false, $from_name = false, $reply_to = false, $attachments = array())
     {
         $from_address = $from_address ?: $this->email_from;
         $from_name = $from_name ?: $this->email_from_name;
@@ -233,10 +248,11 @@ class MailSender
                     }
                     $message->to($to)->subject($subject);
                     
-                    $pdf = userfiles_path(). 'xax.pdf';
-                    $message->attachData($pdf, 'invoice.pdf');
-                    
-                   // $message->attach($pathToFile);
+                    if (is_array($attachments) && !empty($attachments)) {
+                    	foreach($attachments as $attachmentFile) {
+                    		$message->attach($attachmentFile);
+                    	}
+                    }
                     
                     return true;
                 }

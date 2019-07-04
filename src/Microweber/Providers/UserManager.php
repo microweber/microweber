@@ -822,8 +822,14 @@ class UserManager
 
 
                     if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
+                    	
+                    	$appendFiles = array();
+                    	if (!empty(get_option('append_files', 'users'))) {
+	                    	$appendFiles = explode(",", get_option('append_files', 'users'));
+                    	}
+                    	
                         $sender = new \Microweber\Utils\MailSender();
-                        return $sender->send($to, $register_email_subject, $register_email_content);
+                        return $sender->send($to, $register_email_subject, $register_email_content, false, false, false, false, false, false, $appendFiles);
 
                     }
                 }
