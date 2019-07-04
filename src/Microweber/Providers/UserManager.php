@@ -828,7 +828,7 @@ class UserManager
 	                    	$appendFiles = explode(",", get_option('append_files', 'users'));
                     	}
                     	
-                        $sender = new \Microweber\Utils\MailSender();
+                        $sender = new \Microweber\Utils\MailSender(); 
                         return $sender->send($to, $register_email_subject, $register_email_content, false, false, false, false, false, false, $appendFiles);
 
                     }
