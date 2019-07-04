@@ -232,6 +232,12 @@ class MailSender
                         }
                     }
                     $message->to($to)->subject($subject);
+                    
+                    $pdf = userfiles_path(). 'xax.pdf';
+                    $message->attachData($pdf, 'invoice.pdf');
+                    
+                   // $message->attach($pathToFile);
+                    
                     return true;
                 }
             );
