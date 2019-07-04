@@ -3,6 +3,23 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.1.8] - 2019-07-04
+
+- Accordeon and tabs modules does not work 
+- Target doesnt work om menu
+- Visual editor bugs
+- Cant remove custom field value
+- Small WYSWYG editor is not triggering change event
+- Live edit handle is disapering and hard to reach
+- Added ability to add custom  link to #section
+- Contact form possibility to have more input fields
+- Contact form external API's integration
+- Contact form posibility to add attachment to reply message
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.1.7...1.1.8 "")
+
+
+
 ## [1.1.7] - 2019-06-21
 - Icons for "Live Edit" sidebar
 - Visual editor bug fixes and impovememnts like padding editor, erc
