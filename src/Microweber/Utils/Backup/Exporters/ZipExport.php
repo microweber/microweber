@@ -114,9 +114,10 @@ class ZipExport extends DefaultExport
 			$zip->addFile($file['filePath'], $file['dataFile']);
 		}
         
-		if(method_exists($this, 'setCompressionIndex')){
+		if (method_exists($zip, 'setCompressionIndex')) {
 		    $zip->setCompressionIndex(0, \ZipArchive::CM_STORE);
         }
+        
 		$zip->close();
 		
 		$exportLog = $this->getExportLog();
