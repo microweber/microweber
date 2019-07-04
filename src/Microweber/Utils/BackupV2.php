@@ -296,8 +296,8 @@ class BackupV2
 
 		while (! feof($handle)) {
 			$buffer = fread($handle, $chunk_size);
+            echo $buffer;
 			if (ob_get_level() > 0) {
-				echo $buffer;
 				ob_flush();
 				flush();
 			}
