@@ -296,9 +296,11 @@ class BackupV2
 
 		while (! feof($handle)) {
 			$buffer = fread($handle, $chunk_size);
-			echo $buffer;
-			ob_flush();
-			flush();
+			if (!empty($buffer)) {
+				echo $buffer;
+				ob_flush();
+				flush();
+			}
 			if ($retbytes) {
 				$cnt += strlen($buffer);
 			}
