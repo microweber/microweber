@@ -46,6 +46,9 @@ function __mw_check_core_system_update()
 
 
         $last_check = mw()->update->composer_search_packages($search_params);
+
+
+
         if (!$last_check) {
             $last_check = 'noupdate';
         } else {
@@ -63,7 +66,13 @@ function __mw_check_core_system_update()
                 mw()->app->notifications_manager->save($notif);
             }
         }
+
+
         cache_save($last_check, $cache_id, $cache_group);
+    }
+
+    if ($last_check and $last_check == 'noupdate') {
+        return;
     }
 
     return $last_check;
