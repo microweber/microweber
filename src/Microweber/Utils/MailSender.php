@@ -161,9 +161,9 @@ class MailSender
         }
 
         if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
-           $sender =  $this->exec_send($to, $subject, $message, $email_from, $from_name, $reply_to, $attachments);
+        	$sender =  $this->exec_send($to, $subject, $message, $email_from, $from_name, $reply_to, $attachments);
             if (isset($cc) and ($cc) != false and (filter_var($cc, FILTER_VALIDATE_EMAIL))) {
-                $sender = $this->exec_send($cc, $subject, $message, $email_from, $from_name, $reply_to, $attachments);
+            	$sender = $this->exec_send($cc, $subject, $message, $email_from, $from_name, $reply_to, $attachments);
             }
 
            // mw()->cache_manager->save(true, $function_cache_id, $cache_group, 30);
@@ -235,7 +235,7 @@ class MailSender
               \Mail::send(
                 'mw_email_send::emails.simple',
                 $content,
-                function ($message) use ($to, $subject, $from_address, $from_name, $reply_to) {
+              	function ($message) use ($to, $subject, $from_address, $from_name, $reply_to, $attachments) {
 
                     $from_name = $from_name ?: $from_address;
                     if ($from_address != false) {
@@ -263,6 +263,8 @@ class MailSender
                return false;
             } else {
                echo 'Caught exception: ', $e->getMessage(), "\n";
+               echo 'File: ', $e->getFile(), "\n";
+               echo 'Line: ', $e->getLine(), "\n";
                return false;
             }
          }
