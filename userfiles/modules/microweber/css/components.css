@@ -231,6 +231,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     cursor: grab;
     cursor: -moz-grab;
     cursor: -webkit-grab;
+    background-color: #f5f5f5;
 }
 
 .ui-sortable-helper .mw-post-media-img {
