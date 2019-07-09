@@ -23,19 +23,8 @@ description: Basic contact form
     </div>
     <form class="mw_form" data-form-id="<?php print $form_id ?>" name="<?php print $form_id ?>" method="post">
 
-
         <module type="custom_fields" for-id="<?php print $params['id'] ?>" data-for="module" default-fields="name,email,message"/>
-        <?php if (get_option('disable_captcha', $params['id']) != 'y'): ?>
-            <div class="control-group form-group">
-                <label><?php _e("Security code"); ?></label>
-                <div class="mw-ui-row captcha-holder">
-                    <div class="mw-ui-col">
-                        <module type="captcha"/>
-                    </div>
-                </div>
-            </div>
-        <?php endif; ?>
-      <!--  <input type="submit" class="btn btn-default" value="<?php _e("Submit"); ?>"/> -->
+      
     </form>
 
 </div>

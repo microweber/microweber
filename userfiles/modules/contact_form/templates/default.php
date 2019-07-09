@@ -29,19 +29,6 @@
 		
             <module type="custom_fields" for-id="<?php print $params['id'] ?>" data-for="module" default-fields="name,email,message"/>
             
-            <!--
-            <div class="control-group form-group">
-                <?php if (get_option('disable_captcha', $params['id']) != 'y'): ?>
-                    <label class="custom-field-title"><b><?php _e("Enter Security code"); ?></b></label>
-                    <div class="mw-ui-row captcha-holder" style="width: 220px;">
-                        <div class="mw-ui-col">
-                            <module type="captcha"/>
-                        </div>
-                    </div>
-                <?php endif; ?>
-            </div> -->
-            
-            
         </form>
     </div>
     <div class="message-sent" id="msg<?php print $form_id ?>">
