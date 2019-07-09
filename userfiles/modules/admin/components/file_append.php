@@ -62,7 +62,7 @@ $(document).ready(function(){
 		
  	$(uploader).bind("FileUploaded", function(event, data){
 
- 	  	 var append_file = '<div class="mw-append-file"><div>'+data.src+'</div><div class="mw-append-file-delete" file-url="'+data.src+'">Remove</div></div>';
+ 	  	 var append_file = '<div class="mw-append-file"><div>'+data.src+'</div><div class="mw-append-file-delete" file-url="'+data.src+'"><i class="mw-icon-close-round"></i></div></div>';
  	  	  
          mw.$("#mw_uploader_loading").hide();
          mw.$("#mw_uploader").show();

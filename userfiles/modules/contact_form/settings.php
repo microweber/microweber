@@ -45,12 +45,7 @@ if(isset($params['for_module_id'])){
         <label class="mw-ui-label"><?php _e("Autorespond Subject"); ?></label>
         <input name="email_autorespond_subject"   option-group="<?php print $mod_id ?>"    value="<?php print get_option('email_autorespond_subject', $mod_id); ?>"     class="mw-ui-field w100 mw_option_field"  type="text" />
     </div>
-    
-    <div class="mw-ui-field-holder">
-   		 <label class="mw-ui-label"><?php _e("Autorespond File Append"); ?></label>
-   		 <module type="admin/components/file_append" option_group="<?php print $mod_id ?>" />
-	</div>
-	
+   
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e("Autorespond Message"); ?></label>
         <textarea id="editorAM" name="email_autorespond" class="mw_option_field"  option-group="<?php print $mod_id ?>">
@@ -59,6 +54,15 @@ if(isset($params['for_module_id'])){
 
         <label class="mw-ui-label"><span class="ico ismall_warn"></span><small><?php _e("Autorespond e-mail sent back to the user"); ?></small></label>
     </div>
+    
+     <div class="mw-ui-field-holder">
+   		 <label class="mw-ui-label"><?php _e("Autorespond Email Attachment"); ?></label>
+   		
+   		 <span>Attach the file that user will recive after from entry. 
+   		 <br > <br />
+   		 <module type="admin/components/file_append" option_group="<?php print $mod_id ?>" />
+	</div>
+    
 </div>
 
 <module type="admin/mail_providers/integration_select" option_group="contact_form" />
