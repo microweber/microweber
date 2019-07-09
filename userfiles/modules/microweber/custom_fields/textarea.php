@@ -3,7 +3,9 @@ if(!isset($data['input_class'])){
     $data['input_class'] = '';
 }
 
-
+if(!isset($data['options']['rows'])) {
+	$data['options']['rows'] = '5';
+}
 ?>
 <div class="control-group form-group">
     <label class="mw-ui-label">
@@ -22,6 +24,6 @@ if(!isset($data['input_class'])){
   <small  class="mw-custom-field-help"><?php print $data['help'] ?></small>
   <?php endif; ?>
    <div class="controls">
-    <textarea  <?php if (trim($data['custom_field_required']) == 'y'): ?> required="true"  <?php endif; ?> <?php if (isset($data['input_class'])): ?> class="<?php print $data['input_class'] ?>"  <?php endif; ?>   data-custom-field-id="<?php print $data["id"]; ?>"  name="<?php print $data["name"]; ?>" ><?php print $data["value"]; ?></textarea>
+    <textarea rows="<?php echo $data['options']['rows']; ?>" <?php if (trim($data['custom_field_required']) == 'y'): ?> required="true"  <?php endif; ?> <?php if (isset($data['input_class'])): ?> class="<?php print $data['input_class'] ?>"  <?php endif; ?>   data-custom-field-id="<?php print $data["id"]; ?>"  name="<?php print $data["name"]; ?>" ><?php print $data["value"]; ?></textarea>
   </div>
 </div>
