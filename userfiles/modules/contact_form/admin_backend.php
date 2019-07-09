@@ -92,7 +92,7 @@
 			     </div>
 			     
 			     <div class="mw-flex-col-md-6">
-			   		 <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-big">Create New List</button>
+			   		 <!-- <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-big">Create New List</button> -->
 			     </div>
 			     
 	             <div class="mw-flex-col-md-2">
