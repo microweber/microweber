@@ -1450,7 +1450,7 @@ class imageLib
                 return array();
             }
         };
-        $exifData = exif_read_data($this->fileName, 'IFD0');
+        $exifData = @exif_read_data($this->fileName, 'IFD0');
         // *** Format the apperture value
         $ev = isset($exifData['ApertureValue']) ? $exifData['ApertureValue'] : '';
         $apPeicesArray = explode('/', $ev);
