@@ -9,6 +9,6 @@ if(isset($data['options']['field_type'])) {
 	<label class="mw-ui-label">&nbsp;</label>
 
 	<div class="mw-custom-field-form-controls">
-		<input type="<?php echo $field_type; ?>" class="mw-ui-btn pull-right" value="<?php _e($data["title"]); ?>"/>
+		<input type="<?php echo $field_type; ?>" class="mw-ui-btn" value="<?php _e($data["title"]); ?>"/>
 	</div>
 </div>
