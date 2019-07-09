@@ -627,8 +627,11 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
 					</span>
 					</span>
 					<div id="upload_files">
-					<?php 
+					<?php
 					foreach($appendFiles as $file) {
+						if (empty($file)) {
+							continue;
+						}
 						?>
 						<div class="mw-append-file"><div><?php echo $file; ?></div><div class="mw-append-file-delete" file-url="<?php echo $file; ?>">Remove</div></div>
 						<?php
