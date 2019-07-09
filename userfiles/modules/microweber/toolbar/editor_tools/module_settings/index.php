@@ -177,7 +177,7 @@
             }
 
             $(window).load(function () {
-                if (typeof thismodal.main[0] != 'undefined') {
+                if (thismodal.main && !!thismodal.main[0]) {
 
                     if (autoSize) {
                         parent.mw.tools.modal.resize("#" + thismodal.main[0].id, false, $('#settings-container').height() + 25, true);
