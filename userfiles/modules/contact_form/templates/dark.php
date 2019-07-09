@@ -41,11 +41,9 @@
                             <module type="captcha"/>
                         </div>
                     </div>
-
-                    <input type="submit" class="cft-submit pull-right" value="<?php _e("Send Message"); ?>"/>
-                <?php else: ?>
-                    <input type="submit" class="cft-submit pull-right" value="<?php _e("Send Message"); ?>"/>
                 <?php endif; ?>
+                
+                  <!-- <input type="submit" class="cft-submit pull-right" value="<?php _e("Send Message"); ?>"/>  -->
             </div>
         </form>
     </div>

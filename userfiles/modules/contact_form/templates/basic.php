@@ -35,7 +35,7 @@ description: Basic contact form
                 </div>
             </div>
         <?php endif; ?>
-        <input type="submit" class="btn btn-default" value="<?php _e("Submit"); ?>"/>
+      <!--  <input type="submit" class="btn btn-default" value="<?php _e("Submit"); ?>"/> -->
     </form>
 
 </div>
