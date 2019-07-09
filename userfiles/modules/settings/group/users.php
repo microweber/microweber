@@ -620,25 +620,7 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
                 
                  <div class="mw-ui-field-holder">
                     <label class="mw-ui-label"><?php _e("Email attachments"); ?></label>
-                    
-                    <span id="mw_uploader" class="mw-ui-btn">
-					<span class="ico iupload"></span>
-					<span>Upload file<span id="upload_info"></span>
-					</span>
-					</span>
-					<div id="upload_files">
-					<?php
-					foreach($appendFiles as $file) {
-						if (empty($file)) {
-							continue;
-						}
-						?>
-						<div class="mw-append-file"><div><?php echo $file; ?></div><div class="mw-append-file-delete" file-url="<?php echo $file; ?>">Remove</div></div>
-						<?php
-					}
-					?>
-					
-					</div>
+                    <module type="admin/components/file_append" option_group="users" />
                 </div>
 
                 <div class="mw-ui-field-holder">
