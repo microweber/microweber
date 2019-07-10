@@ -26,7 +26,7 @@ class CustomFieldsTest extends TestCase
 	    	
 	    	$this->assertTrue((count($fields) == 3), true);
     	
-	    /* 	
+	    	/* 	
 	    	var_dump(mw()->fields_manager->get_by_id($fields[0]));
 	    	
 	    	var_dump(mw()->fields_manager->get_by_id($fields[1]));
