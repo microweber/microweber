@@ -165,14 +165,19 @@ class FormsManager
 
 
         $email_to = $this->app->option_manager->get('email_to', $for_id);
-        $email_bcc = $this->app->option_manager->get('email_bcc', $for_id);
         if (!$email_to) {
             $email_to = $this->app->option_manager->get('email_to', $default_mod_id);
         }
+        
+        $email_bcc = $this->app->option_manager->get('email_bcc', $for_id);
         if (!$email_bcc) {
             $email_bcc = $this->app->option_manager->get('email_bcc', $default_mod_id);
         }
-
+        
+        $email_reply = $this->app->option_manager->get('email_reply', $for_id);
+        if (!$email_reply) {
+        	$email_reply = $this->app->option_manager->get('email_reply', $default_mod_id);
+        }
 
         $email_autorespond = $this->app->option_manager->get('email_autorespond', $for_id);
         if (!$email_autorespond) {
@@ -504,13 +509,13 @@ class FormsManager
                             $subj = $notif['description'];
                             $from = $email_from;
 
-                            $sender->send($value, $subj, $msg, $from, false, false, $email_from, $from_name, $email_from, $append_files_ready);
+                            $sender->send($value, $subj, $msg, $from, false, false, $email_from, $from_name, $email_reply, $append_files_ready);
                         } else {
 
                             $msg = $mail_autoresp;
                             $subj = $email_autorespond_subject ?: 'Thank you!';
                             $from = false;
-                            $sender->send($value, $subj, $msg, $from, false, false, false, false, false, $append_files_ready);
+                            $sender->send($value, $subj, $msg, $from, false, false, false, false, $email_reply, $append_files_ready);
                         }
 
 
