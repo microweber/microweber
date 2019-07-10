@@ -4473,6 +4473,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     /*transform-origin: top center;*/
     /*transition: all 70ms;*/
     margin-top: 10px;
+    min-width: 100%;
 }
 
 .mw-handle-menu-default.mw-handle-menu:after {

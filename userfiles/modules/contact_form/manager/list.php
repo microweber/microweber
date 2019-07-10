@@ -101,6 +101,10 @@ if ((url_param('current_page') != false)) {
     $data['current_page'] = url_param('current_page');
 }
 
+if ($data['limit'] == false) {
+	$data['limit'] = 10;
+}
+
 $custom_fields = array();
 $data = get_form_entires($data);
 
