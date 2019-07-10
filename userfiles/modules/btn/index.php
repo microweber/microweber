@@ -40,6 +40,18 @@ if ($style == '') {
     $style = 'btn-default';
 }
 
+if (isset($params['button_style']) && !empty($params['button_style'])) {
+	$style = $params['button_style'];
+}
+
+if (isset($params['button_action']) && !empty($params['button_action'])) {
+	$action = $params['button_action'];
+}
+
+if (isset($params['button_text']) && !empty($params['button_text'])) {
+	$text = $params['button_text'];
+}
+
 if ($size == false and isset($params['button_size'])) {
     $size = $params['button_size'];
 
@@ -74,10 +86,10 @@ if (is_file($template_file) != false) {
 
 <?php if ($action == 'popup') { ?>
 
-
     <script type="text/microweber" id="area<?php print $btn_id; ?>">
         <?php print $action_content; ?>
     </script>
+    
     <script>
         function <?php print $popup_function_id ?>() {
             mw.modal({

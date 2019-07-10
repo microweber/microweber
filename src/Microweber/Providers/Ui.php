@@ -139,7 +139,7 @@ class Ui
         $fields = array(
             'price' => 'Price',
             'text' => 'Text Field',
-        	'button' => 'Button',
+        	//'button' => 'Button',
             'radio' => 'Single Choice',
             'dropdown' => 'Dropdown',
             'checkbox' => 'Multiple choices',
@@ -150,7 +150,7 @@ class Ui
             'address' => 'Address',
             'date' => 'Date',
             'upload' => 'File Upload',
-        	'captcha' => 'Captcha',
+        	//'captcha' => 'Captcha',
             'property' => 'Property',
         	'breakline' => 'Break Line',
 

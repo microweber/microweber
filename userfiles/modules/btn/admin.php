@@ -99,13 +99,26 @@ $icon = get_option('icon', $params['id']);
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e("Action"); ?></label>
         <select class="mw-ui-field mw_option_field w100" id="action" name="button_action">
+            
             <?php /* <option <?php if ($action == '') {print 'selected';} ?> value=""><?php _e("None"); ?></option>*/ ?>
             <option <?php if ($action == 'url' OR $action == '') {
                 print 'selected';
-            } ?> value="url"><?php _e("Go to link"); ?></option>
+            } ?> value="url">
+            <?php _e("Go to link"); ?>
+            </option>
+            
             <option <?php if ($action == 'popup') {
                 print 'selected';
-            } ?> value="popup"><?php _e("Open a pop-up window"); ?></option>
+            } ?> value="popup">
+            <?php _e("Open a pop-up window"); ?>
+            </option>
+            
+            <option <?php if ($action == 'submit') {
+                print 'selected';
+            } ?> value="submit">
+            <?php _e("Submit form"); ?>
+            </option>
+            
         </select>
     </div>
 
