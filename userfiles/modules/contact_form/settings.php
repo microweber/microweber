@@ -36,6 +36,12 @@ if(isset($params['for_module_id'])){
         <label class="mw-ui-label"><?php _e("Email To"); ?></label>
         <input   name="email_to"    option-group="<?php print $mod_id ?>"   value="<?php print get_option('email_to', $mod_id); ?>"     class="mw-ui-field w100 mw_option_field" type="text" />
     </div>
+    
+    <div class="mw-ui-field-holder">
+        <label class="mw-ui-label"><?php _e("Email Reply To"); ?></label>
+        <input name="email_reply" option-group="<?php print $mod_id ?>"  value="<?php print get_option('email_reply', $mod_id); ?>" class="mw-ui-field w100 mw_option_field"  type="text" />
+    </div>
+    
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e("BCC Email To"); ?></label>
         <input name="email_bcc"    option-group="<?php print $mod_id ?>"  value="<?php print get_option('email_bcc', $mod_id); ?>"     class="mw-ui-field w100 mw_option_field"  type="text" />

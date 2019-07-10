@@ -226,7 +226,8 @@ class MailSender
         $content['to'] = $to;
         $content['from'] = $from_address;
         $content['from_name'] = $from_name;
-
+        
+      //  $reply_to = mw()->option_manager->get('email_reply', 'contact_form_default');
 
         ///  escapeshellcmd() has been disabled for security reasons
 
