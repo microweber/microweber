@@ -46,6 +46,7 @@ class FieldsManager
     public function make_default($rel, $rel_id, $fields_csv_str)
     {
         global $_mw_made_default_fields_register;
+        
         if (!defined('SKIP_CF_ADMIN_CHECK')) {
             define('SKIP_CF_ADMIN_CHECK', 1);
         }
@@ -85,6 +86,7 @@ class FieldsManager
 
         $table_custom_field = $this->table;
 
+        $saved_fields = array();
         if (isset($rel)) {
             $rel = $this->app->database_manager->escape_string($rel);
 
@@ -122,7 +124,7 @@ class FieldsManager
                         }
                         $make_field['type'] = $field_type;
 
-                        $this->save($make_field);
+                        $saved_fields[] = $this->save($make_field);
                         ++$pos;
                     }
                 }
@@ -131,6 +133,8 @@ class FieldsManager
                 }
             }
         }
+        
+        return $saved_fields;
     }
 
     public function save($data)

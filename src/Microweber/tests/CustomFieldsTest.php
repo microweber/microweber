@@ -19,13 +19,20 @@ class CustomFieldsTest extends TestCase
     	for ($i = 1; $i <= 10; $i++) {
 		    		
 	    	$rel = 'module';
-	    	$rel_id = 'layouts-'.($i + 10000).'-contact-form';
+	    	$rel_id = 'layouts-'.rand(1111,9999).'-contact-form';
 	    	$fields_csv_str = 'name,email,message';
 	    	
 	    	$fields = mw()->fields_manager->make_default($rel, $rel_id, $fields_csv_str);
 	    	
 	    	$this->assertTrue((count($fields) == 3), true);
     	
+	    /* 	
+	    	var_dump(mw()->fields_manager->get_by_id($fields[0]));
+	    	
+	    	var_dump(mw()->fields_manager->get_by_id($fields[1]));
+	    	
+	    	var_dump(mw()->fields_manager->get_by_id($fields[2]));
+	    	 */
     	}
     }
     
