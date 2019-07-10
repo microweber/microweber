@@ -476,30 +476,17 @@ $limit =  $this->default_limit;
         $criteria = $this->map_array_to_table($table, $data);
 
         if ($allow_html == false) {
-            $criteria = $this->app->format->clean_html($criteria);
-
+           $criteria = $this->app->format->clean_html($criteria);
         } else {
             if ($allow_scripts == false) {
+				$criteria = $this->clean_input($criteria);
+               
+				$evil = ['(?<!\w)on\w*',   'xmlns', 'formaction',   'xlink:href', 'FSCommand', 'seekSegmentTime'];
 
-
-                $criteria = $this->clean_input($criteria);
-                $evil = ['(?<!\w)on\w*',   'xmlns', 'formaction',   'xlink:href', 'FSCommand', 'seekSegmentTime'];
-
-                $criteria =  $this->app->format->clean_xss($criteria, true,$evil, 'removeEvilAttributes');
-
-
-            } else {
-
+				$criteria =  $this->app->format->clean_xss($criteria, true,$evil, 'removeEvilAttributes');
             }
 
         }
-
-
-
-
-
-
-        $table = $this->app->format->clean_html($table);
 
         $criteria = $this->app->url_manager->replace_site_url($criteria);
 

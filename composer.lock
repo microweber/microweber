@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6f70d0989038222ed55f883efaa44906",
+    "content-hash": "354a1cc320c882e11546d6cb7a211ad2",
     "packages": [
         {
             "name": "arcanedev/seo-helper",
@@ -7769,6 +7769,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "graham-campbell/markdown": 20,
         "mailerlite/mailerlite-api-v2-php-sdk": 20,
         "finlet/flexmail": 20
     },
