@@ -515,6 +515,9 @@ if (array_key_exists('types', $_GET)) {
             <?php if (is_admin()): ?>
                 <a href="javascript:;" class="mw-ui-btn" id="browseTab"><?php _e("Uploaded"); ?></a>
             <?php endif; ?>
+             <?php if (is_admin()): ?>
+                <a href="javascript:;" class="mw-ui-btn" id="unslashImagesTab"><?php _e("Media Library"); ?></a>
+            <?php endif; ?>
         </div>
 
 
@@ -567,6 +570,9 @@ if (array_key_exists('types', $_GET)) {
                 <div id="file_module_live_edit_adm"></div>
                 <?php event_trigger('live_edit_toolbar_image_search'); ?>
 
+            </div>
+            <div class="tab">
+            	<module type="pictures/media_library" />
             </div>
         </div>
 
