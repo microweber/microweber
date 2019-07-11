@@ -72,7 +72,6 @@ $module_id = $for_id;
   <div class="custom_fields_selector" style="display: none;">
     <ul class="mw-quick-links mw-quick-links-cols">
       <li><a href="javascript:;" data-type="text"><span class="ico iSingleText"></span><span><?php _e("Text Field"); ?></span></a></li>
-      <li><a href="javascript:;" data-type="breakline"><span class="ico mw-icon-web-remove"></span><span><?php _e("Break Line"); ?></span></a></li>
       <li><a href="javascript:;" data-type="number"><span class="ico iNumber"></span><span><?php _e("Number"); ?></span></a></li>
       <li><a href="javascript:;" data-type="price"><span class="ico iPrice"></span><span><?php _e("Price"); ?></span></a></li>
       <li><a href="javascript:;" data-type="phone"><span class="ico iPhone"></span><span><?php _e("Phone"); ?></span></a></li>

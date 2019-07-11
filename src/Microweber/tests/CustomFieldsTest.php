@@ -13,6 +13,30 @@ class CustomFieldsTest extends TestCase
         mw()->database_manager->extended_save_set_permission(true);
     }
 
+    public function testMakeDefaultFields() {
+    	
+    	
+    	for ($i = 1; $i <= 10; $i++) {
+		    		
+	    	$rel = 'module';
+	    	$rel_id = 'layouts-'.rand(1111,9999).'-contact-form';
+	    	$fields_csv_str = 'name,email,message';
+	    	
+	    	$fields = mw()->fields_manager->make_default($rel, $rel_id, $fields_csv_str);
+	    	
+	    	$this->assertTrue((count($fields) == 3), true);
+    	
+	    	/* 	
+	    	var_dump(mw()->fields_manager->get_by_id($fields[0]));
+	    	
+	    	var_dump(mw()->fields_manager->get_by_id($fields[1]));
+	    	
+	    	var_dump(mw()->fields_manager->get_by_id($fields[2]));
+	    	 */
+    	}
+    }
+    
+    
     public function testSaveCustomFields()
     {
         $my_product_id = 3;
@@ -86,21 +110,12 @@ class CustomFieldsTest extends TestCase
             ),
             'is_active' => 1,);
 
-
-
         $saved_id = save_content($params);
         $get = get_content_by_id($saved_id);
 
         $this->assertEquals($saved_id, ($get['id']));
 
-
         $get_custom_fields = content_custom_fields($saved_id);
-
-
-
-        // ....
-
-
 
 
     }
