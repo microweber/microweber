@@ -621,7 +621,6 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
                  <div class="mw-ui-field-holder">
                     <label class="mw-ui-label"><?php _e("Email attachments"); ?></label>
                     <module type="admin/components/file_append" option_group="users" />
-
                 </div>
 
                 <div class="mw-ui-field-holder">
