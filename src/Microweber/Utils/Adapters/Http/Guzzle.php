@@ -25,26 +25,10 @@ class Guzzle
     {
         $client = new Client();
 
-
-
-
-
-
-
         $response = $client->get($this->url, ['timeout' => $this->timeout, 'verify'=>__DIR__.DS.'cacert.pem.txt']);
 
-        $body = $response->getBody();
-        $r = '';
-
-        if (is_object($body) and method_exists($body, 'eof')) {
-            while (!$body->eof()) {
-                $r .= $body->read(1024);
-            }
-        } else {
-            return $body;
-        }
-
-        return $r;
+      	return $response->getBody()->getContents();
+      	 
     }
 
     public function download($save_to_file, $post_data = array())
