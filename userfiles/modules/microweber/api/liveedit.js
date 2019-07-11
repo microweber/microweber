@@ -578,7 +578,7 @@ mw.drag = {
     external_css_no_element_classes: ['container','navbar', 'navbar-header', 'navbar-collapse', 'navbar-static', 'navbar-static-top', 'navbar-default', 'navbar-text', 'navbar-right', 'navbar-center', 'navbar-left', 'nav navbar-nav', 'collapse', 'header-collapse', 'panel-heading', 'panel-body', 'panel-footer'],
     section_selectors: ['.module-layouts'],
     external_css_no_element_controll_classes: ['container', 'container-fluid', 'edit','noelement','no-element','allow-drop','nodrop', 'mw-open-module-settings','module-layouts'],
-    onCloneableControl:function(target){
+    onCloneableControl:function(target, isOverControl){
       if(!this._onCloneableControl){
         this._onCloneableControl = mwd.createElement('div');
         this._onCloneableControl.className = 'mw-cloneable-control';
@@ -657,13 +657,11 @@ mw.drag = {
       else{
         clc.show();
         this._onCloneableControl.__target = target;
+
         var next = $(this._onCloneableControl.__target).next();
         var prev = $(this._onCloneableControl.__target).prev();
         var el = $(target), off = el.offset();
-        clc.css({
-          top: off.top > 0 ? off.top : 0 ,
-          left: off.left > 0 ? off.left : 0
-        });
+
 
         if(next.length == 0){
           $('.mw-cloneable-control-next', clc).hide();
@@ -677,7 +675,18 @@ mw.drag = {
         else{
           $('.mw-cloneable-control-prev', clc).show();
         }
+        var leftCenter = (off.left > 0 ? off.left : 0) + (el.width()/2 - clc.width()/2) ;
         clc.show();
+          if(isOverControl){
+              return;
+          }
+          clc.css({
+              top: off.top > 0 ? off.top : 0 ,
+              //left: off.left > 0 ? off.left : 0
+              left: leftCenter
+          });
+
+
           var cloner = mwd.querySelector('.mw-cloneable-control');
           if(cloner) {
               mw._initHandles.getAll().forEach(function (curr) {
@@ -685,7 +694,7 @@ mw.drag = {
                   var clonerect = cloner.getBoundingClientRect();
 
                   if (mw._initHandles.collide(masterRect, clonerect)) {
-                      cloner.style.top = curr.wrapper.style.top;
+                      cloner.style.top = (parseFloat(curr.wrapper.style.top) + 10) + 'px';
                       cloner.style.left = ((parseInt(curr.wrapper.style.left, 10) + masterRect.width) + 10) + 'px';
                   }
               });
@@ -2169,8 +2178,8 @@ $(document).ready(function() {
 
 
 
-    mw.on('CloneableOver', function(e, target){
-      mw.drag.onCloneableControl(target)
+    mw.on('CloneableOver', function(e, target, isOverControl){
+      mw.drag.onCloneableControl(target, isOverControl)
     });
 
     var onModuleBetweenModulesTime = null;

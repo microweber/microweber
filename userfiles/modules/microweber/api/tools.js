@@ -5533,6 +5533,7 @@ mw.fileWindow = function (config) {
  The function returns Object
  ************************************************/
 mw.modal = function (o) {
+    // return new mw.Dialog(o);
     var modal = mw.tools.modal.init(o);
     if (!!modal && (typeof(modal.main) != "undefined")) {
         if (modal.main.constructor === $.fn.constructor) {

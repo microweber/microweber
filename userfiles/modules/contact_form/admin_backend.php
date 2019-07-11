@@ -80,10 +80,12 @@
               <div class="mw-flex-col-md-3">
 	             <div class="mw-field" size="large" style="width:100%;">
 			        <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+			        <option><?php _e('Select..'); ?></option>
 			        <option value="default"><?php _e('Default list'); ?></option>
 			         <?php $data = get_form_lists('module_name=contact_form'); ?>
                 	<?php if (is_array($data)): ?>
                     <?php foreach ($data as $item): ?>
+                    	<?php if(empty($item['title'])) { continue; } ?>
 			            <option <?php if ($load_list == $item['id']) { ?> selected="selected" <?php } ?> value="<?php print $config['url']; ?>/load_list:<?php print $item['id']; ?>"><?php print $item['title']; ?></option>
 			           <?php endforeach; ?>
               		 <?php endif; ?>
@@ -92,7 +94,7 @@
 			     </div>
 			     
 			     <div class="mw-flex-col-md-6">
-			   		 <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-big">Create New List</button>
+			   		 <!-- <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-big">Create New List</button> -->
 			     </div>
 			     
 	             <div class="mw-flex-col-md-2">
@@ -107,9 +109,7 @@
             </div>
             
             <br />
-             	 <br />
-
-
+            <br />
 
             <?php /*<div class="mw-ui-btn-nav">
           <a href="<?php print $config['url']; ?>/mod_action:browse" class="<?php if($mod_action == 'browse'){ ?> active <?php }?> mw-ui-btn"><?php _e("My mod_action"); ?></a>
@@ -148,10 +148,9 @@
                     </script>
                     <module type="contact_form/manager/list_toolbar" load_list="<?php print $load_list ?>"/>
                     <module type="contact_form/manager/list" load_list="<?php print $load_list ?>" for_module="<?php print $config["the_module"] ?>" id="forms_data_module"/>
-                
-                 
-                <?php endif; ?>
-                <?php if ($load_mod_action == true): ?>
+                	
+	                <?php endif; ?>
+               		 <?php if ($load_mod_action == true): ?> 
 
                     <?php if ($load_mod_action == 'settings'): ?>
                		<module type="settings/list" for_module="contact_form" for_module_id="contact_form_default" >

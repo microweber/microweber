@@ -1,5 +1,7 @@
 <?php
 
+use Microweber\Utils\Adapters\Media\Unsplash;
+
 api_expose('api_index', function ($data = false) {
     $fns = explode(' ', api_expose(true));
     $fns = array_filter($fns);
@@ -65,6 +67,21 @@ api_expose('template/print_custom_css', function ($data) {
 
     return $response;
 
+});
+
+api_expose('media_library/search', function ($data) {
+	
+	$search = array();
+	$unsplash = new Unsplash();
+	if (isset($data['keyword'])) {
+		$search = $unsplash->search($data['keyword']);
+	}
+	
+	$response = Response::make($search);
+	$response->header('Content-Type', 'text/json');
+	
+	return $response;
+	
 });
 
 api_expose_admin('content/get_admin_js_tree_json', function ($params) {

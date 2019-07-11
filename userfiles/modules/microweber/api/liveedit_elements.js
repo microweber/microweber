@@ -226,13 +226,13 @@ mw.dropables = {
 
         if(!!cloneable){
             if(mw.tools.hasClass(cloneable, 'mw-cloneable-control')){
-                mw.trigger("CloneableOver", mw.drag._onCloneableControl.__target);
+                mw.trigger("CloneableOver", [mw.drag._onCloneableControl.__target, true]);
             }
             else if(mw.tools.hasParentsWithClass(cloneable, 'mw-cloneable-control')){
-                mw.trigger("CloneableOver", mw.drag._onCloneableControl.__target);
+                mw.trigger("CloneableOver", [mw.drag._onCloneableControl.__target, true]);
             }
             else{
-                mw.trigger("CloneableOver", cloneable);
+                mw.trigger("CloneableOver", [cloneable, false]);
             }
 
         }

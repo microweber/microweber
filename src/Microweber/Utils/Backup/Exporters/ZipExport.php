@@ -113,8 +113,11 @@ class ZipExport extends DefaultExport
 			BackupExportLogger::setLogInfo('Archiving file <b>'. $file['dataFile'] . '</b>');
 			$zip->addFile($file['filePath'], $file['dataFile']);
 		}
-		
-		$zip->setCompressionIndex(0, \ZipArchive::CM_STORE);
+        
+		if (method_exists($zip, 'setCompressionIndex')) {
+		    $zip->setCompressionIndex(0, \ZipArchive::CM_STORE);
+        }
+        
 		$zip->close();
 		
 		$exportLog = $this->getExportLog();

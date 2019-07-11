@@ -100,6 +100,11 @@ class FormsManager
 
     public function post($params)
     {
+    	
+    	if (isset($params['for_id']) && !empty($params['for_id'])) {
+    		$params['for_id'] = str_replace("-custom-fields", false, $params['for_id']);
+    	}
+    	
         $adm = $this->app->user_manager->is_admin();
         if (defined('MW_API_CALL')) {
             //            $validate_token = $this->app->user_manager->csrf_validate($params);
@@ -160,14 +165,19 @@ class FormsManager
 
 
         $email_to = $this->app->option_manager->get('email_to', $for_id);
-        $email_bcc = $this->app->option_manager->get('email_bcc', $for_id);
         if (!$email_to) {
             $email_to = $this->app->option_manager->get('email_to', $default_mod_id);
         }
+        
+        $email_bcc = $this->app->option_manager->get('email_bcc', $for_id);
         if (!$email_bcc) {
             $email_bcc = $this->app->option_manager->get('email_bcc', $default_mod_id);
         }
-
+        
+        $email_reply = $this->app->option_manager->get('email_reply', $for_id);
+        if (!$email_reply) {
+        	$email_reply = $this->app->option_manager->get('email_reply', $default_mod_id);
+        }
 
         $email_autorespond = $this->app->option_manager->get('email_autorespond', $for_id);
         if (!$email_autorespond) {
@@ -239,7 +249,11 @@ class FormsManager
             }
         }
 
-
+        
+        if (isset($params['captcha'])) {
+        	$dis_cap = false;
+        }
+        
         if ($dis_cap == false) {
             if (!isset($params['captcha'])) {
                 return array(
@@ -478,6 +492,19 @@ class FormsManager
 
                 if (!empty($user_mails)) {
                     array_unique($user_mails);
+                    
+                    $append_files = $this->app->option_manager->get('append_files', $for_id);
+                    if (!$append_files) {
+                    	$append_files = $this->app->option_manager->get('append_files', $default_mod_id);
+                    }
+                    
+                    $append_files_ready = array();
+                    if (!empty($append_files)) {
+                    	$append_files_ready = explode(",", $append_files);
+                    }
+                    
+                    $email_autorespond = $this->app->option_manager->get('email_autorespond', $for_id);
+                    
                     $sender = new \Microweber\Utils\MailSender();
                     $sender->silent_exceptions = true;
                     foreach ($user_mails as $value) {
@@ -486,14 +513,13 @@ class FormsManager
                             $subj = $notif['description'];
                             $from = $email_from;
 
-
-                            $sender->send($value, $subj, $msg, $from, false, false, $email_from, $from_name, $email_from);
+                            $sender->send($value, $subj, $msg, $from, false, false, $email_from, $from_name, $email_reply, $append_files_ready);
                         } else {
 
                             $msg = $mail_autoresp;
                             $subj = $email_autorespond_subject ?: 'Thank you!';
                             $from = false;
-                            $sender->send($value, $subj, $msg, $from);
+                            $sender->send($value, $subj, $msg, $from, false, false, false, false, $email_reply, $append_files_ready);
                         }
 
 

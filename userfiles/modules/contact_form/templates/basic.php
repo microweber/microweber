@@ -25,6 +25,7 @@ description: Basic contact form
 
 
         <module type="custom_fields" for-id="<?php print $params['id'] ?>" data-for="module" default-fields="name,email,message"/>
+        
         <?php if (get_option('disable_captcha', $params['id']) != 'y'): ?>
             <div class="control-group form-group">
                 <label><?php _e("Security code"); ?></label>
@@ -35,10 +36,9 @@ description: Basic contact form
                 </div>
             </div>
         <?php endif; ?>
-        <input type="submit" class="btn btn-default" value="<?php _e("Submit"); ?>"/>
+        
+        <module type="btn" button_action="submit" button_style="btn btn-default" button_text="<?php _e("Submit"); ?>"  />
+        
     </form>
 
 </div>
-
-
-

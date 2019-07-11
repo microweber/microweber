@@ -423,6 +423,15 @@ createFolder = function(){
 }
 
 
+unsplash = function() {
+	$('.mw_files_admin_search').toggle();
+	$('#mw_files_admin').toggle();
+	$('#mw_files_media_library').toggle();
+	$('#mw_files_media_library').html('<?php _e("Loading"); ?>...');
+	$('#mw_files_media_library').reload_module(); 
+}
+
+
 mw.on.hashParam('search', function(){
 
     _mw_admin_files_manage('search', this);
@@ -502,7 +511,6 @@ ProgressBar.hide()
     })
 
 });
-
 </script>
   <?php
     $ui_order_control = 'dropdown';
@@ -530,21 +538,28 @@ ProgressBar.hide()
             <?php _e("Upload File"); ?>
             </span> <span class="mw-ui-btn mw-ui-btn-red delete_item disabled">
             <?php _e("Delete selected files"); ?>
-            </span> <span class="mw-ui-btn mw-ui-btn-blue" onclick="createFolder()">
+            </span> 
+            <span class="mw-ui-btn mw-ui-btn-blue" onclick="createFolder()">
             <?php _e("Create folder"); ?>
-            </span> </div>
+            </span>
+           <!-- <span class="mw-ui-btn mw-ui-btn-blue" onclick="unsplash()">
+            <?php _e("Unsplash Images"); ?>
+            </span>  -->  
+            </div>
           <input
             name="module_keyword"
-            class="mw-ui-searchfield pull-right"
+            class="mw-ui-searchfield pull-right mw_files_admin_search"
             type="text" onclick="$(this).css('width','200px')" placeholder="<?php _e("Search"); ?>" onkeyup="mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"    />
         </div>
         <div id="progressbar" style=""></div>
       </div>
     </div>
     <div id="mw_files_admin"></div>
+    <div id="mw_files_media_library" style="display: none"; type="pictures/media_library"></div>
     <div id="mw_user_edit_admin" ></div>
     <span class="mw-ui-btn pull-right disabled delete_item">
     <?php _e("Delete Selected"); ?>
-    </span> </div>
+    </span>
+    </div>
 </div>
 </div>

@@ -70,7 +70,8 @@ mw.Dialog = function(options){
             content: '',
             closeOnEscape: true,
             closeButton: true,
-            closeButtonAppendTo: '.mw-dialog-header'
+            closeButtonAppendTo: '.mw-dialog-header',
+            draggable: true
         };
 
         this.options = $.extend({}, defaults, options);
@@ -106,6 +107,21 @@ mw.Dialog = function(options){
         }
 
         mw.__dialogs.push(this);
+
+        this.draggable = function() {
+            if ( this.options.draggable && $.fn.draggable ) {
+                var $holder = $(this.dialogHolder);
+                $holder.draggable({
+                    handle: this.options.draggableHandle || '.mw-dialog-header',
+                    start: function() {
+                        $holder.addClass('mw-dialog-drag-start')
+                    },
+                    stop: function() {
+                        $holder.removeClass('mw-dialog-drag-start')
+                    }
+                });
+            }
+        };
 
         this.header = function() {
             this.dialogHeader = this.options.root.createElement('div');
@@ -144,6 +160,7 @@ mw.Dialog = function(options){
             this.dialogHolder._dialog = this;
 
             this.header();
+            this.draggable();
 
             this.dialogFooter = this.options.root.createElement('div');
             this.dialogFooter.className = 'mw-dialog-footer';
@@ -247,10 +264,12 @@ mw.Dialog = function(options){
         };
 
        this.width = function(width){
-            $(this.dialogContainer).width(width);
+            //$(this.dialogContainer).width(width);
+            $(this.dialogHolder).width(width);
        };
        this.height = function(height){
-            $(this.dialogContainer).height(height);
+            //$(this.dialogContainer).height(height);
+            $(this.dialogHolder).height(height);
        };
        this.resize = function(width, height){
             if(typeof width !== 'undefined'){

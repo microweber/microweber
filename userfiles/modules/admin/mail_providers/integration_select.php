@@ -9,6 +9,7 @@ $mailProviders = get_modules('type=mail_provider');
 ?>
 <?php if(!empty($mailProviders)): ?>
 <div class="mw-ui-field-holder">
+	<h3>Connect form to Mail Providers</h3>
     <label class="mw-ui-check">
         <span><?php _e("Save contacts information on selected mail providers"); ?></span> 
    </label>

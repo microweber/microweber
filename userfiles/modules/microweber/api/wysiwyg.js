@@ -2707,10 +2707,11 @@ mw.linkTip = {
         if (root === null || !root) {
             return false;
         }
-        mw.$(root).on('mousedown', function (e) {
+        mw.$(root).on('click', function (e) {
             var node = mw.linkTip.find(e.target);
             if (!!node) {
                 mw.linkTip.tip(node);
+                e.preventDefault()
             }
             else {
                 mw.$('.mw-link-tip').hide();
@@ -2718,24 +2719,16 @@ mw.linkTip = {
         });
     },
     find: function (target) {
-        var module = mw.tools.firstMatchesOnNodeOrParent(target, ['.module']);
         if (mw.tools.hasClass(target, 'module')) {
             return;
         }
-        else if (mw.tools.hasParentsWithClass(target, 'module')) {
-            var po = mw.tools.parentsOrder(target, ['edit', 'module'])
-            if (po.edit === -1) return;
-            if (po.edit > po.module) return;
+        var a = mw.tools.firstMatchesOnNodeOrParent(target, ['a']);
+        if(!a) return;
+
+        if (!mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(a, ['edit', 'module'])) {
+            return;
         }
-        if (target.nodeName === 'A') {
-            return target;
-        }
-        else if (mw.tools.hasParentsWithTag(target, 'a')) {
-            return mw.tools.firstParentWithTag(target, 'a');
-        }
-        else {
-            return undefined;
-        }
+        return a;
     },
     tip: function (node) {
 
