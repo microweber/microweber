@@ -31,7 +31,7 @@
     if(self !== parent){
       document.body.className += ' browser-liveedit';
     }
-</script> 
+</script>
   <script type="text/javascript">
     mw.require("events.js");
 	mw.require("forms.js");
@@ -145,7 +145,7 @@ html[dir='rtl'] .posts-selector{
 #progressbar .mw-ui-progress-small{
   height: 8px;
   margin: 8px 0;
-  
+
 }
 
 
@@ -241,13 +241,13 @@ _mw_admin_files_manage = function(param, value, callback){
 
 
 $(window).bind("load", function(){
-	
 
 
 
 
 
-<?php if(isset($params['start_path']) and $params['start_path'] == 'media_host_base') { ?>	
+
+<?php if(isset($params['start_path']) and $params['start_path'] == 'media_host_base') { ?>
 //mw.url.windowHashParam('path', "<?php print mw()->media_manager->relative_media_start_path(); ?>")
 //mw.url.windowHashParam('path', "<?php print media_uploads_path(); ?>")
     _mw_admin_files_manage('all');
@@ -327,10 +327,24 @@ deleteItem = function(url, name, frommodal){
 
 if(self === parent){
 mw.on.hashParam('select-file', function(){
+
   if(this!=false){
       var type = this.split(".").pop();
-      var type = type.toLowerCase();
-      if(type =='jpg' || type == 'png' || type =='jpeg' || type == 'gif'){
+
+      type = type.toLowerCase();
+
+      var is = function (a) {
+        a = a.trim();
+        return type === a;
+      };
+
+      var isImage = is('jpg')
+       || is('jpeg')
+       || is('png')
+       || is('gif')
+       || this.indexOf('images.unsplash.com') !== -1;
+
+      if(isImage){
           if(mw.$("#prfile").length == 0){
               mw.tools.modal.init({
                 html:createPopHTML(this),
@@ -366,7 +380,7 @@ mw.on.hashParam('select-file', function(){
                 name:"prfile",
                 title:this.split("/").pop()
           });
-		  
+
 		  /*mw.tools.modal.init({
                 html:createPopHTML(this, 'media'),
                 width:500,
@@ -374,8 +388,8 @@ mw.on.hashParam('select-file', function(){
                 name:"prfile",
                 title:this.split("/").pop()
               });    */
-		  
-		  
+
+
       }
   }
   else{
@@ -428,7 +442,7 @@ unsplash = function() {
 	$('#mw_files_admin').toggle();
 	$('#mw_files_media_library').toggle();
 	$('#mw_files_media_library').html('<?php _e("Loading"); ?>...');
-	$('#mw_files_media_library').reload_module(); 
+	$('#mw_files_media_library').reload_module();
 }
 
 
@@ -517,11 +531,11 @@ ProgressBar.hide()
 
 
     if(!isset($ui_order_control)){$ui_order_control = 'auto';}
-	
+
 	if(isset($params['ui'])){
 		 $ui_order_control = $params['ui'];
 	}
-	
+
 
  ?>
   <div class="mw-file-browser mw-file-browser-<?php print $ui_order_control; ?>">
@@ -538,13 +552,13 @@ ProgressBar.hide()
             <?php _e("Upload File"); ?>
             </span> <span class="mw-ui-btn mw-ui-btn-red delete_item disabled">
             <?php _e("Delete selected files"); ?>
-            </span> 
+            </span>
             <span class="mw-ui-btn mw-ui-btn-blue" onclick="createFolder()">
             <?php _e("Create folder"); ?>
             </span>
            <!-- <span class="mw-ui-btn mw-ui-btn-blue" onclick="unsplash()">
             <?php _e("Unsplash Images"); ?>
-            </span>  -->  
+            </span>  -->
             </div>
           <input
             name="module_keyword"

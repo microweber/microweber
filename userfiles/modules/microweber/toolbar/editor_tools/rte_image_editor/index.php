@@ -428,7 +428,7 @@ if (array_key_exists('types', $_GET)) {
 <style type="text/css">
 
     .mw-ui-box-content {
-        height: 138px;
+        min-height: 138px;
     }
 
     .mw-upload-filetypes {

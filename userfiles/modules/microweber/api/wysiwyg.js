@@ -1856,7 +1856,7 @@ mw.wysiwyg = {
         var url = !!types ? "rte_image_editor?types=" + types + '' + hash : "rte_image_editor" + hash;
 
         var url = mw.settings.site_url + 'editor_tools/' + url;
-        var modal = mw.tools.modal.frame({
+        /*var modal = mw.tools.modal.frame({
             url: url,
             name: "mw_rte_image",
             width: 430,
@@ -1864,7 +1864,16 @@ mw.wysiwyg = {
             template: 'mw_modal_basic',
             overlay: true
         });
-        modal.overlay.style.backgroundColor = 'white';
+        modal.overlay.style.backgroundColor = 'white';*/
+        var modal = mw.dialogIframe({
+            url: url,
+            name: "mw_rte_image",
+            width: 460,
+            height: 'auto',
+            autoHeight:true,
+            template: 'mw_modal_basic',
+            overlay: true
+        });
     },
     media: function (hash) {
         if (mw.settings.liveEdit && typeof mw.target.item === 'undefined') return false;

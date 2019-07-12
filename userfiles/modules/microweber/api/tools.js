@@ -151,9 +151,6 @@ mw.tools = {
                 frame.contentWindow.document.body.appendChild(_detector);
             }, 100);
             frame.style.height = 0 + 'px';
-            $('#settings-container,#settings-main', frame.contentWindow.document.body).css({
-                'minHeight': '0px'
-            });
             frame._currHeight = frame.contentWindow.document.body.scrollHeight
             frame.style.height = frame._currHeight + 'px';
 

@@ -235,10 +235,11 @@
                     //save
                     window.parent.mw.form.post(temp_form1, save_module_as_template_url, function () {
                         // window.parent.mw.reload_module("#<?php print $params['id'] ?>");
-                        window.parent.mw.reload_module("#<?php print $params['id'] ?>");
+                        mw.reload_module_everywhere("#<?php print $params['id'] ?>");
                         mw.reload_module("#<?php print $params['id'] ?>")
 
-                        mw.module_preset_apply_actions_after_id_change(mod_id_for_presets)
+                        mw.module_preset_apply_actions_after_id_change(mod_id_for_presets);
+                        cancelCreatePreset()
 
                     });
 
@@ -275,7 +276,7 @@
 
     </script>
     <?php $fffound = false; ?>
-    <div id="module-saved-presets">
+    <div id="module-saved-presets" class="mw-ui-box mw-ui-box-content">
         <?php /*<input type="button" value="release" release="<?php print  $mod_orig_id ?>" id="js-release-btn"
                    class="module-presets-action-btn"/>*/ ?>
 
@@ -291,7 +292,7 @@
 
 
         <?php foreach ($saved_modules as $item): ?>
-            <div class="mw-flex-row mw-presets-list m-t-10">
+            <div class="mw-flex-row mw-presets-list">
                 <?php
                 $fffound = false;
                 if (!isset($item['module_attrs'])) {
@@ -365,12 +366,15 @@
 
                     </div>
                 </div>
-                <div class="mw-flex-col-xs-2 module-presets-add-new-holder">
+                <div class="mw-flex-col-xs-4 module-presets-add-new-holder">
                     <div class="box">
                         <input type="hidden" name="id" value="<?php print  $item['id'] ?>">
                         <input type="hidden" name="module" value="<?php print  $item['module'] ?>">
 
-                        <button delete="<?php print  $item['module_id'] ?>" js-mod-id="<?php print  $item['module_id'] ?>" class="mw-icon-trash-b mw-ui-btn mw-ui-btn-important mw-ui-btn-medium module-presets-action-btn module-presets-action-btn-delete "></button>
+                        <button
+                            delete="<?php print  $item['module_id'] ?>"
+                            js-mod-id="<?php print  $item['module_id'] ?>"
+                            class="mw-icon-trash-b mw-ui-btn mw-ui-btn-important mw-ui-btn-small module-presets-action-btn module-presets-action-btn-delete "></button>
                     </div>
                 </div>
             </div>
@@ -423,14 +427,14 @@
         <?php if (($fffound) != false): ?>
             <div class="mw-ui-row">
                 <div class="mw-ui-col">
-                    <div class="module-presets-add-new-holder">
-
-
-
-
+                    <div class="module-presets-bottom-holder">
                         <input type="hidden" name="module_id" value="<?php print $module_id ?>">
-
-                        <button type="button" js-mod-id="<?php print  $fffound;  ?>"   release="<?php print  $fffound;  ?>" id="js-release-btn" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info module-presets-action-btn">Clear use of preset</button>
+                        <button
+                            type="button"
+                            js-mod-id="<?php print  $fffound;  ?>"
+                            release="<?php print  $fffound;  ?>"
+                            id="js-release-btn"
+                            class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info module-presets-action-btn">Clear use of preset</button>
                     </div>
                 </div>
             </div>
@@ -455,28 +459,66 @@
         </script>
     <?php endif; ?>
 
+<script>
+    var btn = document.createElement('span');
+    btn.className = 'mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification tip';
+    btn.dataset.tip = "Create preset";
+    btn.dataset.tipposition = "bottom-right";
+    btn.id = 'create-presets-btn';
+    btn.innerHTML = '<span class="mw-icon-plus-round"></span>';
+    btn.onclick = function(){
+        createPreset()
+    };
+    parent.document.querySelector('.mw-module-presets-content').appendChild(btn);
+    var t$win = window.parent;
 
-    <?php if (($fffound) == false): ?>
-        <b>Create new preset</b>
+    cancelCreatePreset = function(){
+        t$win.$('.create-presets-holder').hide();
+        $('.create-presets-holder').hide();
+
+        $('#module-saved-presets').show();
+        t$win.$('#module-saved-presets').show();
+
+        $('#create-presets-btn').show();
+        t$win.$('#create-presets-btn').show();
+    };
+
+    createPreset = function(){
+        $('.create-presets-holder').show();
+        t$win.$('.create-presets-holder').show();
+
+        $('#module-saved-presets').hide();
+        t$win.$('#module-saved-presets').hide();
+
+        $('#create-presets-btn').hide();
+        t$win.$('#create-presets-btn').hide();
+    }
+</script>
+
+    <?php //if (($fffound) == false): ?>
 
 
-        <div class="mw-flex-row m-t-10 module-presets-add-new-holder">
-
-            <div class="mw-flex-col-xs-2"></div>
-            <div class="mw-flex-col-xs-6 ">
-
-
-                <input type="hidden" name="module" value="<?php print $module_name ?>">
-                <input type="hidden" name="module_id" value="<?php print $module_id ?>">
-                <input type="text" name="name" value="" placeholder="<?php _e('Title'); ?>" class="mw-ui-field mw-ui-field-medium">
-            </div>
-            <div class="mw-flex-col-xs-3">
-                <div class="mw-ui-btn-nav">
-                    <span js-mod-id="<?php print  $module_id ?>" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification module-presets-action-btn">Save</span>
+        <div class="create-presets-holder" style="display: none;">
+            <b>Create new preset</b>
+            <div class="mw-flex-row m-t-10 module-presets-add-new-holder">
+                <div class="mw-flex-col-xs-9 ">
+                    <input type="hidden" name="module" value="<?php print $module_name ?>">
+                    <input type="hidden" name="module_id" value="<?php print $module_id ?>">
+                    <input type="text" name="name" value="" placeholder="<?php _e('Title'); ?>" class="mw-ui-field mw-ui-field-medium w100">
+                </div>
+                <div class="mw-flex-col-xs-3">
+                    <div class="mw-ui-btn-nav">
+                        <span
+                            onclick="cancelCreatePreset()"
+                            class="mw-ui-btn mw-ui-btn-medium">Cancel</span>
+                        <span
+                            js-mod-id="<?php print  $module_id ?>"
+                            class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification module-presets-action-btn">Save</span>
+                    </div>
                 </div>
             </div>
         </div>
-    <?php endif; ?>
+    <?php //endif; ?>
 
 <?php else : ?>
     error $params['module_name'] is not set or $params['module_id'] is not set

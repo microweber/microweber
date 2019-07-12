@@ -77,3 +77,22 @@ select.mw-ui-field:hover {
 .manage-item-main-top .tag.label{
     background: transparent;
 }
+
+.mw-presets-list.mw-flex-row .module-presets-add-new-holder:last-child{
+    text-align: right;
+}
+.mw-presets-list.mw-flex-row{
+    border-bottom: 1px solid #eee;
+    padding: 5px 0;
+}
+
+.module-presets-bottom-holder{
+    padding-top: 10px;
+    text-align: right;
+}
+
+.module-modal-settings-menu-holder-open-presets{
+    padding-top: 10px;
+}
+
+

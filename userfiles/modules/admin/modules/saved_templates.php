@@ -142,7 +142,7 @@ return;
                 var is_use = $(this).attr('use');
 
                 var is_release = $(this).attr('release');
-                if (is_release != undefined) {
+                if (!!is_release) {
 
                     mw.module_preset_set_release();
                     /*     var orig_id = window.parent.mw.$('#
@@ -155,7 +155,7 @@ return;
                      mw.module_preset_apply_actions_after_id_change(orig_id);
                      }
                      //*/
-                } else if (is_use != undefined) {
+                } else if (!!is_use) {
 
                     var use_attrs = JSON.parse(saved_module_attrs_json);
                     mw.module_preset_set_use(is_use, use_attrs);
@@ -193,7 +193,7 @@ return;
 //                    module_attrs
                     //save
                     window.parent.mw.form.post(temp_form1, save_module_as_template_url, function () {
-                        window.parent.mw.reload_module("#<?php print $params['id'] ?>");
+                        mw.reload_module_everywhere("#<?php print $params['id'] ?>");
                     });
 
                 }
@@ -207,13 +207,14 @@ return;
 
     </script>
     <?php $fffound = false; ?>
-    <div id="module-saved-presets">
+<?php if (is_array($saved_modules)): ?>
+    <div id="module-saved-presets" class="mw-ui-box mw-ui-box-content">
         <?php /*
         <input type="button" value="release" release="<?php print  $module_id ?>" class="module-presets-action-btn"/>
         <?php $saved_modules = get_saved_modules_as_template("module={$module_name}"); ?>*/ ?>
 
 
-        <?php if (is_array($saved_modules)): ?>
+
             <ul>
                 <?php foreach ($saved_modules as $item): ?>
                     <li>
@@ -256,8 +257,9 @@ return;
                     </li>
                 <?php endforeach; ?>
             </ul>
-        <?php endif; ?>
     </div>
+        <?php endif; ?>
+
     <?php if (($fffound) == false): ?>
         <div class="module-presets-add-new-holder">
             <input type="hidden" name="module" value="<?php print $module_name ?>">
