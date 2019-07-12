@@ -139,19 +139,20 @@ class Ui
         $fields = array(
             'price' => 'Price',
             'text' => 'Text Field',
-        	'breakline' => 'Break Line',
+        	//'button' => 'Button',
             'radio' => 'Single Choice',
             'dropdown' => 'Dropdown',
             'checkbox' => 'Multiple choices',
             'number' => 'Number',
-
             'phone' => 'Phone',
             'site' => 'Web Site',
             'email' => 'E-mail',
             'address' => 'Address',
             'date' => 'Date',
             'upload' => 'File Upload',
+        	//'captcha' => 'Captcha',
             'property' => 'Property',
+        	'breakline' => 'Break Line',
 
         );
 

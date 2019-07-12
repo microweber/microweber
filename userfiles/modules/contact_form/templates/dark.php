@@ -29,24 +29,7 @@
         <form class="mw_form" data-form-id="<?php print $form_id ?>" name="<?php print $form_id ?>" method="post">
 
             <module type="custom_fields" for-id="<?php print $params['id'] ?>" data-for="module" default-fields="name,email,message"/>
-            <div class="control-group form-group">
-                <?php if (get_option('disable_captcha', $params['id']) != 'y'): ?>
-
-
-                    <label class="custom-field-title label-block"><?php _e("Enter Security code"); ?></label>
-
-
-                    <div class="mw-ui-row captcha-holder">
-                        <div class="mw-ui-col">
-                            <module type="captcha"/>
-                        </div>
-                    </div>
-
-                    <input type="submit" class="cft-submit pull-right" value="<?php _e("Send Message"); ?>"/>
-                <?php else: ?>
-                    <input type="submit" class="cft-submit pull-right" value="<?php _e("Send Message"); ?>"/>
-                <?php endif; ?>
-            </div>
+           
         </form>
     </div>
     <div class="message-sent" id="msg<?php print $form_id ?>">
