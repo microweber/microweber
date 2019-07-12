@@ -477,7 +477,7 @@ class ContentManager
                 $to_print = "";
             }
             
-            if ($current_page_from_url > 1) {
+            if ($current_page_from_url > 1 && isset($params['show_first_last'])) {
             	$to_print = '<a data-page-number="'.$data[1].'" href="'.$data[1].'">First</a>'; 
             }
             
@@ -540,8 +540,10 @@ class ContentManager
                     $next_link = $data[$active_item + 10];
                     $limited_paging[] = '<a data-page-number="' . ($active_item + 10) . '" href="' . $next_link . '">&raquo;</a>';
                 }
-                
-                $limited_paging[] = '<a data-page-number="'.end($data).'" href="'.end($data).'">Last</a>';
+
+                if (isset($params['show_first_last'])) {
+                	$limited_paging[] = '<a data-page-number="'.end($data).'" href="'.end($data).'">Last</a>';
+                }
                 
                 if (count($limited_paging) > 2) {
                     $paging_items = $limited_paging;
