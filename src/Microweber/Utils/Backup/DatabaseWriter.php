@@ -105,8 +105,21 @@ class DatabaseWriter
 		}
 		
 		if ($item['save_to_table'] == 'menus') {
-			$this->_saveMenuItem($item);
+			if($this->_saveMenuItem($item)) {
+				$this->_fixMenuParents();
+			}
 			return;
+		}
+		
+		if ($item['save_to_table'] == 'categories_items') {
+			if ($this->_saveCategoriesItems($item)) {
+				$this->_fixCategoryParents();
+				return;
+			}
+		}
+		
+		if ($item['save_to_table'] == 'categories') {
+			$this->_fixCategoryParents();
 		}
 		
 		// Dont import menus without title
@@ -179,16 +192,21 @@ class DatabaseWriter
 		
 		if ($savedItem) {
 			
-			$this->_saveCustomFields($savedItem);
-			$this->_saveContentData($savedItem);
-			$this->_saveCategoriesItems($savedItem);
+			if ($item['save_to_table'] == 'custom_fields') {
+				$this->_saveCustomFields($savedItem);
+				return;
+			}
 			
+			if ($item['save_to_table'] == 'content_data') {
+				$this->_saveContentData($savedItem);
+				return;
+			}
+					
 			$this->_fixRelations($savedItem);
 			$this->_fixParentRelationship($savedItem);
-			$this->_fixCategoryParents();
-			$this->_fixMenuParents();
 			
 		}
+		
 		//echo $item['save_to_table'];
 		//die();
 	}
