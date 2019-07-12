@@ -223,6 +223,10 @@ class BackupV2
 		$manager = new BackupManager();
 		$manager->setExportData('tables', $tables);
 		
+		if (isset($query['format'])) {
+			$manager->setExportType($query['format']);
+		}
+		
 		if (isset($query['all'])) {
 			$manager->setExportAllData(true);
 		}
