@@ -249,7 +249,11 @@ class FormsManager
             }
         }
 
-
+        
+        if (isset($params['captcha'])) {
+        	$dis_cap = false;
+        }
+        
         if ($dis_cap == false) {
             if (!isset($params['captcha'])) {
                 return array(

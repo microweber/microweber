@@ -3201,6 +3201,21 @@ body.grabbing, body.grabbing * {
     content: "\f14a";
 }
 
+.mw-custom-field-icon-breakline:before {
+    font-family: 'Microweber';
+    content: "\f2f4";
+}
+
+.mw-custom-field-icon-button:before {
+    font-family: 'Microweber';
+    content: "\f340";
+}
+
+.mw-custom-field-icon-captcha:before {
+    font-family: 'Microweber';
+    content: "l";
+}
+
 .mw-ui-btn > [class*="mw-custom-field-icon-"] {
     font-size: 132%;
     margin: -2px 7px 0 0;

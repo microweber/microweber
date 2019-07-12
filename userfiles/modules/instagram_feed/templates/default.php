@@ -19,7 +19,7 @@ description: Default Instagram Feed
     .mw-instagram-feeds .feed-photo {
         float: left;
         width: 33.3%;
-        padding: 12px;
+        padding: 6px;
     }
 </style>
 
@@ -28,7 +28,9 @@ description: Default Instagram Feed
         <div class="mw-instagram-feeds">
             <?php foreach ($photos as $photo): ?>
                 <div class="feed-photo">
-                    <img src="<?php print $photo['thumbnail_src']; ?>" alt="<?php print $photo['module_caption']; ?>"/>
+                    <a href="<?php print $photo['thumbnail_src']; ?>" data-fancybox="">
+                        <img src="<?php print $photo['thumbnail_src']; ?>" alt="<?php print $photo['module_caption']; ?>"/>
+                    </a>
                 </div>
             <?php endforeach; ?>
         </div>

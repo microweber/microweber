@@ -184,6 +184,7 @@
                 </ul>
             </div>
         </div>
+        <a href="http://boris.microweber.com/userfiles/media/boris.microweber.com/ezgif.com-optimize__4.gif" style="float:right;color:#0086db;margin-top:5px;margin-bottom:5px;font-size:15px;" target="_new"><b>How to setup custom fields?</b></a>
         <hr>
         <div id="custom-fields-box">
 

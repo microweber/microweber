@@ -104,7 +104,7 @@ class DatabaseWriter
 			return;
 		}
 		
-		if ($item['save_to_table'] == 'menus' && empty($item['title'])) {
+		if ($item['save_to_table'] == 'menus') {
 			$this->_saveMenuItem($item);
 			return;
 		}

@@ -262,10 +262,20 @@
         <h2 class="pull-left"><span class="mai-modules"></span> <?php _e("My Modules"); ?></span></h2>
         <div class="pull-right">
             <div class="pull-right">
-                <div class="top-search">
+
+
+
+                <div class="top-search pull-right">
                     <input value="" name="module_keyword" placeholder='<?php _e("Search for modules"); ?>' type="text" autocomplete="off" onkeyup="event.keyCode==13?mw.url.windowHashParam('search',this.value):false">
                     <span class="top-form-submit" onclick="mw.url.windowHashParam('search',$(this).prev().val())"><span class="mw-icon-search"></span></span>
                 </div>
+
+                <?php if (mw()->ui->disable_marketplace != true): ?>
+
+
+                <h2 class="pull-right"><span class="mai-market"></span> <a  href="<?php print admin_url(); ?>view:packages"><?php _e("Marketplace"); ?></a></h2>
+                <?php endif; ?>
+
             </div>
 
 
