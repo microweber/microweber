@@ -1,16 +1,37 @@
 <?php
 
+event_bind(
+    'mw.admin.sidebar.li.first', function ($item) {
 
+
+    if (mw()->ui->disable_marketplace != true) {
+        $cache_id = 'mw_update_check_auto_update_check_core';
+        $cache_group = 'update';
+        $last_check = cache_get($cache_id, $cache_group, 3600);
+
+        if ($last_check and !empty($last_check) and isset($last_check['microweber/update'])) {
+            if(!defined('MW_UPDATE_NOTIFICATION_BTN_DISPLAYED_IN_SIDEBAR')){
+                define('MW_UPDATE_NOTIFICATION_BTN_DISPLAYED_IN_SIDEBAR', 1);
+            }
+            print '<div type="updates/admin_sidebar_btn" no_wrap="true" class="mw-lazy-load-module"></div>';
+        }
+
+    }
+}
+);
 event_bind(
     'mw.admin.sidebar.li.last', function ($item) {
     if (mw()->ui->disable_marketplace != true) {
 
+        if(defined('MW_UPDATE_NOTIFICATION_BTN_DISPLAYED_IN_SIDEBAR')){
+            return;
+        }
         $cache_id = 'mw_update_check_auto_update_check_core';
         $cache_group = 'update';
 
         $last_check = cache_get($cache_id, $cache_group, 3600);
 
-         if ($last_check == 'noupdate') {
+        if ($last_check == 'noupdate') {
             return;
         }
 
@@ -48,7 +69,6 @@ function __mw_check_core_system_update()
         $last_check = mw()->update->composer_search_packages($search_params);
 
 
-
         if (!$last_check) {
             $last_check = 'noupdate';
         } else {
@@ -61,7 +81,7 @@ function __mw_check_core_system_update()
                 $notif['rel_id'] = 'updates_core';
                 $notif['title'] = 'New system update is available';
                 $notif['description'] = "There is new system update available";
-               // $notif['notification_data'] = @json_encode($last_check);
+                // $notif['notification_data'] = @json_encode($last_check);
 
                 mw()->app->notifications_manager->save($notif);
             }

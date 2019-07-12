@@ -5,15 +5,7 @@ function get_field_size_class($field_size = false){
 	$css_framework = get_template_framework();
 	
 	if (!$field_size) {
-		if ($css_framework == 'mw-ui') {
-			$field_size = 'mw-flex-col-md-12';
-		}
-		if ($css_framework == 'bootstrap3') {
-			$field_size = 'col-md-12';
-		}
-		if ($css_framework == 'bootstrap4') {
-			$field_size = 'col-12'; 
-		}
+		return get_default_field_size_option();
 	}
 
 	return $field_size; 
@@ -24,15 +16,15 @@ function get_default_field_size_option($field = array()) {
 	$css_framework = get_template_framework();
 	
 	if ($css_framework == 'mw-ui') {
-		return 'mw-flex-col-md-12';
+		return 'mw-flex-col-md-12 mw-flex-col-sm-12 mw-flex-col-xs-12';
 	}
 	
 	if ($css_framework == 'bootstrap3') {
-		return 'col-md-12';
+		return 'col-md-12 col-sm-12 col-xs-12';
 	}
 	
 	if ($css_framework == 'bootstrap4') {
-		return 'col-12';
+		return 'col-12 col-sm-12 col-xs-12';
 	}
 	
 }

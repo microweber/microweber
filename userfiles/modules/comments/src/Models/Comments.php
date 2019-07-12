@@ -7,6 +7,7 @@ use Microweber\Providers\Database\Crud;
 use Microweber\Utils\Http;
 use Microweber\Utils\MailSender;
 use Microweber\View;
+use GrahamCampbell\Markdown\Facades\Markdown;
 
 
 class Comments extends Crud
@@ -37,7 +38,7 @@ class Comments extends Crud
         $params['table'] = $table;
 
         $comments = db_get($params);
-
+		
         if (is_array($comments)) {
             $i = 0;
             foreach ($comments as $item) {
@@ -58,7 +59,7 @@ class Comments extends Crud
                 if (isset($item['comment_body']) and ($item['comment_body'] != '')) {
                     $surl = site_url();
                     $item['comment_body'] = str_replace('{SITE_URL}', $surl, $item['comment_body']);
-                    $comments[$i]['comment_body'] = mw()->format->autolink($item['comment_body']);
+                    $comments[$i]['comment_body'] = $item['comment_body']; // mw()->format->autolink($item['comment_body']);
                 }
 
                 if (isset($params['single'])) {
@@ -232,11 +233,23 @@ class Comments extends Crud
             $data['from_url'] = mw()->url_manager->current(1);
 
         }
-
-
-
-
-        $saved_data = mw()->database_manager->save($table, $data);
+		
+		$comment_body = $data['comment_body'];
+		
+		// Claer HTML
+		$comment_body = $this->app->format->clean_html($comment_body);
+		
+		// Clear XSS
+		$evil = ['(?<!\w)on\w*',   'xmlns', 'formaction',   'xlink:href', 'FSCommand', 'seekSegmentTime'];
+		$comment_body =  $this->app->format->clean_xss($comment_body, true, $evil, 'removeEvilAttributes');
+		
+		$comment_body = Markdown::convertToHtml($comment_body);
+		
+		$data['comment_body'] = $comment_body;
+		$data['allow_html'] = '1';
+		$data['allow_scripts'] = '1';
+		
+		$saved_data = mw()->database_manager->save($table, $data);
 
 
         if (!isset($data['id']) and isset($data['comment_body'])) {
