@@ -33,21 +33,23 @@
 
 
         mw.module_preset_apply_actions_after_id_change = function (id, attrs) {
-            var parent_el = window.parent.document.getElementById(mod_id_for_presets);
+             var parent_el = window.top.document.getElementById(mod_id_for_presets);
 
 
             if (parent_el) {
-                var ed_field = window.parent.mw.tools.firstParentWithClass(parent_el, 'edit');
+                var ed_field = window.top.mw.tools.firstParentWithClass(parent_el, 'edit');
                 if (ed_field) {
-                    window.parent.mw.$(ed_field).addClass('changed');
-                    if (parent !== self && !!window.parent.mw) {
-                        if (window.parent.mw.drag != undefined && window.parent.mw.drag.save != undefined) {
-                            window.parent.mw.drag.save();
+                    window.top.mw.$(ed_field).addClass('changed');
+                    if (parent !== self && !!window.top.mw) {
+                        if (window.top.mw.drag != undefined && window.top.mw.drag.save != undefined) {
+                         //   window.top.mw.drag.save();
                         }
-                        window.parent.mw.askusertostay = false;
+                       //  window.top.mw.askusertostay = false;
+                        window.top.mw.askusertostay = true;
                     }
                 }
             }
+
 
             window.parent.mw.reload_module("#" + id);
             window.parent.mw.reload_module_parent("#" + id);
@@ -59,11 +61,16 @@
             //mw.reload_module("#<?php print $params['id'] ?>")
             window.parent.mw.reload_module("#" + id);
             window.parent.mw.reload_module("#" + mod_id_for_presets);
+           // window.top.mw.reload_module("#" + mod_id_for_presets);
+
+            /*
+
+            reloading of iframe
 
             if (
-                typeof(window.parent.module_settings_modal_reference_window) != 'undefined'
-                && typeof(window.parent.module_settings_modal_reference_preset_editor_modal_id) != 'undefined'
-                && window.parent.module_settings_modal_reference_preset_editor_modal_id
+                typeof(window.top.module_settings_modal_reference_window) != 'undefined'
+                && typeof(window.top.module_settings_modal_reference_preset_editor_modal_id) != 'undefined'
+                && window.top.module_settings_modal_reference_preset_editor_modal_id
             ) {
                 var orig_attrs_str = '';
                 var parent_el = window.parent.document.getElementById(id);
@@ -72,11 +79,10 @@
                     var orig_attrs_str = $.param(orig_attrs);
 
                 }
-                // window.parent.$('#module-modal-settings-menu-holder').remove();
-             //   var src_new_modal_settings = mw.settings.site_url + 'api/module?id=' + id + '&live_edit=true&view=admin&is_mw_changed_preset_id=admin&module_settings=true&type=' + mod_type_opener_for_presets + '&autosize=true&' + orig_attrs_str;
+
 
                 if (window.URL) {
-                    var url = new URL(window.parent.module_settings_modal_reference_window.location.href);
+                    var url = new URL(window.top.module_settings_modal_reference_window.location.href);
 
                     var query_string = url.search;
 
@@ -93,15 +99,15 @@
             }
 
 
-              window.parent.module_settings_modal_reference_window.location.href = src_new_modal_settings
-            }
+              window.top.module_settings_modal_reference_window.location.href = src_new_modal_settings
+            }*/
 
         }
         mw.module_preset_set_release = function (id) {
 
-            var orig_id = window.parent.mw.$('#' + mod_id_for_presets).attr("data-module-original-id");
+            var orig_id = window.top.mw.$('#' + mod_id_for_presets).attr("data-module-original-id");
             //  var orig_id = mod_id_orig;
-            var orig_attr = window.parent.mw.$('#' + mod_id_for_presets).attr("data-module-original-attrs");
+            var orig_attr = window.top.mw.$('#' + mod_id_for_presets).attr("data-module-original-attrs");
             //    var orig_id = id;
             // var orig_id = mod_id_for_presets;
 
@@ -111,21 +117,21 @@
 
             if (orig_id) {
 
-                window.parent.mw.$('#' + mod_id_for_presets).removeAttr("data-module-original-id");
-                window.parent.mw.$('#' + mod_id_for_presets).removeAttr("data-module-original-attrs");
+                window.top.mw.$('#' + mod_id_for_presets).removeAttr("data-module-original-id");
+                window.top.mw.$('#' + mod_id_for_presets).removeAttr("data-module-original-attrs");
                 if (orig_attr) {
                     var orig_attrs_decoded = JSON.parse(window.atob(orig_attr));
                     if (orig_attrs_decoded) {
-                        window.parent.mw.$('#' + mod_id_for_presets).attr(orig_attrs_decoded);
+                        window.top.mw.$('#' + mod_id_for_presets).attr(orig_attrs_decoded);
 
                     }
                 }
-                window.parent.mw.$('#' + mod_id_for_presets).removeAttr("data-module-original-id");
-                window.parent.mw.$('#' + mod_id_for_presets).removeAttr("data-module-original-attrs");
-                window.parent.mw.$('#' + mod_id_for_presets).attr("id", orig_id);
+                window.top.mw.$('#' + mod_id_for_presets).removeAttr("data-module-original-id");
+                window.top.mw.$('#' + mod_id_for_presets).removeAttr("data-module-original-attrs");
+                window.top.mw.$('#' + mod_id_for_presets).attr("id", orig_id);
                 window.top.mw.$('#' + mod_id_for_presets).attr("id", orig_id);
 
-                window.parent.mw.reload_module("#" + orig_id);
+                window.top.mw.reload_module("#" + orig_id);
                 mod_id_for_presets = orig_id;
                 mw.module_preset_apply_actions_after_id_change(mod_id_for_presets)
 
@@ -137,30 +143,56 @@
 
             var orig_attrs;
             var orig_attrs_encoded;
-            var parent_el = window.parent.document.getElementById(mod_id_for_presets);
+            var parent_el = window.top.document.getElementById(mod_id_for_presets);
+            var parent_el2 = null;
+            var parent_el2_window = window;
+
+
+            if (
+                typeof(window.top.module_settings_modal_reference_window) != 'undefined'
+                && typeof(window.top.module_settings_modal_reference_preset_editor_modal_id) != 'undefined'
+                && window.top.module_settings_modal_reference_preset_editor_modal_id
+            ) {
+              var parent_el2_window = window.top.module_settings_modal_reference_window;
+
+              var parent_el2 = parent_el2_window.document.getElementById(mod_id_for_presets);
+            }
+
+
+
             if (parent_el != null) {
-                var orig_attrs = window.parent.mw.tools.getAttrs(parent_el);
+                var orig_attrs = window.top.mw.tools.getAttrs(parent_el);
                 if (orig_attrs) {
                     var orig_attrs_encoded = window.btoa(JSON.stringify(orig_attrs));
                 }
             }
 
-            var set_orig_id = window.parent.mw.$(parent_el).attr("id");
-            var have_orig_id = window.parent.mw.$(parent_el).attr("data-module-original-id");
-            var have_orig_attr = window.parent.mw.$(parent_el).attr("data-module-original-attrs");
+            var set_orig_id = window.top.mw.$(parent_el).attr("id");
+            var have_orig_id = window.top.mw.$(parent_el).attr("data-module-original-id");
+            var have_orig_attr = window.top.mw.$(parent_el).attr("data-module-original-attrs");
 
             if (use_attrs) {
-                window.parent.mw.$(parent_el).attr(use_attrs);
+                window.top.mw.$(parent_el).attr(use_attrs);
             }
             if (!have_orig_attr && orig_attrs_encoded) {
-                window.parent.mw.$(parent_el).attr("data-module-original-attrs", orig_attrs_encoded);
+                window.top.mw.$(parent_el).attr("data-module-original-attrs", orig_attrs_encoded);
             }
             if (!have_orig_id) {
                 ///   alert(set_orig_id);
-                window.parent.mw.$(parent_el).attr("data-module-original-id", set_orig_id);
+                window.top.mw.$(parent_el).attr("data-module-original-id", set_orig_id);
             }
-            window.parent.mw.$(parent_el).attr("id", is_use);
-            // window.parent.mw.$(parent_el).css("background", 'red');
+            window.top.mw.$(parent_el).attr("id", is_use);
+            if(parent_el2){
+            parent_el2_window.mw.$(parent_el2).attr("id", is_use);
+            if (use_attrs) {
+                parent_el2_window.mw.$(parent_el2).attr(use_attrs);
+            }
+            }
+
+
+
+
+            // window.top.mw.$(parent_el).css("background", 'red');
              mod_id_for_presets = is_use;
             mw.module_preset_apply_actions_after_id_change(mod_id_for_presets)
 
@@ -180,13 +212,13 @@
 
 
                 var attrs;
-                var parent_el = window.parent.document.getElementById(btn_mod_id);
+                var parent_el = window.top.document.getElementById(btn_mod_id);
 
 
 
 
                 if (parent_el != null) {
-                    attrs = window.parent.mw.tools.getAttrs(parent_el);
+                    attrs = window.top.mw.tools.getAttrs(parent_el);
                 }
 
 
@@ -390,7 +422,7 @@
                 ?>
                 <div class="mw-ui-col module-presets-add-new-holder" style="width: 15px !important;">
                     <label class="mw-ui-check">
-                        <input type="checkbox" value="1" js-mod-id="<?php print  $item['module_id'] ?>" use="<?php print  $item['module_id'] ?>" class="module-presets-action-btn-use"><span></span><span></span>
+                        <input type="checkbox" value="1" title="" js-mod-id="<?php print  $item['module_id'] ?>" use="<?php print  $item['module_id'] ?>" class="module-presets-action-btn-use"><span></span><span></span>
                     </label>
                     <input type="hidden" name="id" value="<?php print  $item['id'] ?>">
                     <input type="hidden" name="module" value="<?php print  $item['module'] ?>">
