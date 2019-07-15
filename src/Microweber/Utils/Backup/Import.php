@@ -96,7 +96,8 @@ class Import
 				return $this->importAsType($this->file);
 			});
 		} else {
-			BackupImportLogger::setLogInfo('Read content from cache..');
+			
+			// BackupImportLogger::setLogInfo('Read content from cache..');
 			
 			// This is for the next steps from wizard
 			return Cache::get(md5($this->file));

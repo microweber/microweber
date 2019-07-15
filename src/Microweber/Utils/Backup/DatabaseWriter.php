@@ -72,7 +72,7 @@ class DatabaseWriter
 		}
 		
 		if ($this->currentStep > $this->totalSteps) {
-			$this->_finishUp();
+			$this->_finishUp('getCurrentStep()');
 			$this->currentStep = 0;
 		}
 		
@@ -245,7 +245,7 @@ class DatabaseWriter
 			}
 		}
 		
-		$this->_finishUp();
+		$this->_finishUp('runWriterBottom');
 		cache_save($this->totalSteps, 'CurrentStep', $this->_cacheGroupName, 60 * 10);
 		
 	}
@@ -259,13 +259,14 @@ class DatabaseWriter
 		if ($this->getCurrentStep() == $this->totalSteps) {
 			// Clear old log file
 			BackupImportLogger::clearLog();
-			$this->_finishUp();
+			$this->_clearOldImport();
+			//$this->_finishUp();
 		}
 		
 		BackupImportLogger::setLogInfo('Importing database batch: ' . $this->getCurrentStep() . '/' . $this->totalSteps);
-
+		
 		if (empty($this->content)) {
-			$this->_finishUp();
+			$this->_finishUp('runWriterWithBatchNothingToImport');
 			return array("success"=>"Nothing to import.");
 		}
 		
@@ -287,7 +288,7 @@ class DatabaseWriter
 					$itemsForSave[] = $item;
 				}
 			}
-			BackupImportLogger::setLogInfo('Save content to table: ' . $table);
+			 BackupImportLogger::setLogInfo('Save content to table: ' . $table);
 		}
 		
 		if (!empty($itemsForSave)) {
@@ -313,6 +314,7 @@ class DatabaseWriter
 			$success = array();
 			foreach($itemsBatch[$this->getCurrentStep()] as $item) {
 				//echo 'Save item' . PHP_EOL;
+			//	BackupImportLogger::setLogInfo('Save content to table: ' . $item['save_to_table']);
 				$success[] = $this->_saveItem($item);
 			}
 			
@@ -342,7 +344,9 @@ class DatabaseWriter
 	/**
 	 * Clear all cache on framework 
  	 */
-	private function _finishUp() {
+	private function _finishUp($callFrom = '') {
+		
+		// BackupImportLogger::setLogInfo('Call from: ' . $callFrom);
 		
 		// cache_delete($this->_cacheGroupName);
 		
@@ -361,4 +365,15 @@ class DatabaseWriter
 		BackupImportLogger::setLogInfo('Done!');
 	}
 	
+	private function _clearOldImport() {
+		
+		mw()->template->clear_cached_custom_css();
+		
+		if (function_exists('mw_post_update')) {
+			mw_post_update();
+		}
+		
+		mw()->cache_manager->clear();
+		
+	}
 }
