@@ -30,14 +30,41 @@ class Export
 	
 	public function exportAsType($data)
 	{
-		$export = $this->_getExporter($data);
-		
 		$exportMediaUserFiles = false;
 		
-		if (in_array('media', $data)) {
-			$exportMediaUserFiles = true;	
+		if (array_key_exists('media', $data)) {
+			$exportMediaUserFiles = true;
 		}
 		
+		$export = $this->_getExporter($data);
+		
+		if ($exportMediaUserFiles) {
+			
+			// Make Zip
+			$zipExport = new ZipExport();
+			
+			// Add exported files
+			foreach ($export['files'] as $file) {
+				$zipExport->addFile($file);
+			}
+			$zipExport->setExportMedia(true);
+			$export = $zipExport->start();
+			
+			if (isset($export['download']) && !empty($export['download'])) {
+				return array(
+					'success' => 'Items are exported',
+					'export_type' => $this->type,
+					'data' => $export
+				);
+			} else {
+				return $export;
+			}
+		}
+		
+		
+		
+		var_dump($export);
+		die();
 		if (isset($export['files'])) {
 		
 			$exportSingleFile = false;
@@ -47,6 +74,8 @@ class Export
 			}
 			
 			
+			var_dump($export);
+			die();
 			if ($exportSingleFile && isset($export['files']) && !empty($export['files'])) {
 				return array(
 					'success' => 'Items are exported',
@@ -68,6 +97,10 @@ class Export
 		
 		$readyData = $this->_getReadyDataCached();
 		
+		if (empty($readyData)) {
+			return array("error"=>"Empty content data.");
+		}
+		
 		return $this->exportAsType($readyData);
 	}
 	
@@ -77,7 +110,9 @@ class Export
 	
 	private function _getReadyDataCached() {
 		
-		$exportDataHash = $this->_getExportDataHash();
+		return $this->_getReadyData();
+		
+		/* $exportDataHash = $this->_getExportDataHash();
 		
 		$zipExport = new ZipExport();
 		$currentStep = $zipExport->getCurrentStep();
@@ -92,7 +127,7 @@ class Export
 			BackupExportLogger::setLogInfo('Start exporting selected data...');
 			// This is for the next steps from wizard
 			return Cache::get($exportDataHash);
-		}
+		} */
 	}
 	
 	private function _getReadyData() {
