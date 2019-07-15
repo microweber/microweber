@@ -62,7 +62,7 @@ class CsvExport extends DefaultExport
 	}
 }
 
-class CsvZipExport extends ZipExport {
+class CsvZipExport {
 	
 	protected $_exportMedia = false;
 	protected $_files = array();

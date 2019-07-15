@@ -33,7 +33,7 @@ abstract class BackupDefaultLogger
 			echo $log . PHP_EOL;
 		}
 		
-		self::addNew(self::_getLogFilename(), $log, 30);
+		self::addNew(self::_getLogFilename(), $log, 3);
 	}
 	
 	public static function addNew($fileName, $line, $max = 15) {
