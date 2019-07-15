@@ -32,21 +32,36 @@ class Export
 	{
 		$export = $this->_getExporter($data);
 		
-		$export->setType($this->type);
-		$exportStatus = $export->start();
+		$exportMediaUserFiles = false;
 		
-		if (isset($exportStatus['download']) && !empty($exportStatus['download'])) {
-			return array(
-				'success' => 'Items are exported',
-				'export_type' => $this->type,
-				'data' => $exportStatus
-			);
-		} else {
-			/* return array(
-				'error' => 'Export format not supported.'
-			); */
-			return $exportStatus;
+		if (in_array('media', $data)) {
+			$exportMediaUserFiles = true;	
 		}
+		
+		if (isset($export['files'])) {
+		
+			$exportSingleFile = false;
+			
+			if (count($export['files']) == 1) {
+				$exportSingleFile = true;
+			}
+			
+			
+			if ($exportSingleFile && isset($export['files']) && !empty($export['files'])) {
+				return array(
+					'success' => 'Items are exported',
+					'export_type' => $this->type,
+					'data' => $export['files'][0]
+				);
+			} else {
+				// return array(
+				// 'error' => 'Export format not supported.'
+				// ); 
+				return $export;
+			}
+			
+		}
+		
 	}
 
 	public function start() {
@@ -264,15 +279,17 @@ class Export
 				$export = new XmlExport($data);
 				break;
 				
-			case 'zip':
+			/* case 'zip':
 				$export = new ZipExport($data);
-				break;
+				break; */
 				
 			default:
 				throw new \Exception('Format not supported for exporting.');
 		}
 		
-		return $export;
+		$export->setType($this->type);
+		
+		return $export->start();
 	}
 	
 }
