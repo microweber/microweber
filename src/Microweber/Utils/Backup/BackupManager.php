@@ -94,10 +94,11 @@ class BackupManager
 	public function startExport() 
 	{
 		try {
-			// If we want export media
+			
+			/* // If we want export media
 			if (in_array('media', $this->exportData['tables']) || $this->exportAllData == true) {
 				$this->exportType = 'zip';
-			}
+			} */
 			
 			$export = new Export();
 			$export->setType($this->exportType);

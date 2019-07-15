@@ -17,6 +17,11 @@ class ZipExport extends DefaultExport
 	 */
 	public $totalSteps = 3;
 	
+	/**
+	 * The type of export
+	 * @var string
+	 */
+	public $type = 'zip';
 	
 	/**
 	 * The name of cache group for backup file.
@@ -31,7 +36,7 @@ class ZipExport extends DefaultExport
 		return $this->currentStep;
 	}
 	
-	private function _getZipFileName() {
+	protected function _getZipFileName() {
 		
 		$zipFileName = cache_get('ExportZipFileName', $this->_cacheGroupName);
 		
@@ -65,7 +70,7 @@ class ZipExport extends DefaultExport
 		
 		if ($this->getCurrentStep() == 0) {
 			
-			BackupExportLogger::setLogInfo('Start new importing..');
+			BackupExportLogger::setLogInfo('Start new exporting..');
 			
 			// Encode db json
 			$json = new JsonExport($this->data);
@@ -146,7 +151,7 @@ class ZipExport extends DefaultExport
 		cache_delete($this->_cacheGroupName);
 	}
 	
-	private function _getUserFilesPaths() {
+	protected function _getUserFilesPaths() {
 		
 		$userFiles = array();
 		$userFilesReady = array();
@@ -185,7 +190,7 @@ class ZipExport extends DefaultExport
 		
 	}
 	
-	private function _getDirContents($path) {
+	protected function _getDirContents($path) {
 		
 		if (!is_dir($path)) {
 			return array();
@@ -205,7 +210,7 @@ class ZipExport extends DefaultExport
 	/**
 	 * Clear all cache 
 	 */
-	private function _finishUp() {
+	protected function _finishUp() {
 		$this->clearSteps();
 		BackupExportLogger::setLogInfo('Done!');
 		
