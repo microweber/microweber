@@ -5,40 +5,35 @@ use Microweber\Utils\Backup\Loggers\BackupExportLogger;
 
 class CsvExport extends DefaultExport
 {
+	
+	/**
+	 * The type of export
+	 * @var string
+	 */
+	public $type = 'csv';
 
 	public function start()
 	{
 		
-		$export = array();
+		// $export = array();
 		
-		if (!empty($this->data)) {
+		/* if (!empty($this->data)) {
 			foreach ($this->data as $tableName=>$tableData) {
-				
 				foreach($tableData as $item) {
-					
-					if ($tableName == 'content') {
-						$readyItem = array();
-						$readyItem['id'] = $item['id'];
-						$readyItem['content_type'] = $item['content_type'];
-						$readyItem['title'] = $item['title'];
-						$readyItem['url'] = $item['url'];
-						$readyItem['content_body'] = trim($item['content']);
-						
-						
-						$export[$tableName][] = $readyItem;
-					} else {
-						$export[$tableName][] = $item;
-					}
+					$export[$tableName][] = $item;
 				}
 			}
-		}
-		
+		} */
+
 		$exportedFiles = array();
 		
-		if (!empty($export)) {
-			
-			foreach($export as $tableName=>$exportData) {
-			
+		if (!empty($this->data)) {
+			foreach($this->data as $tableName=>$exportData) {
+				
+				if (empty($exportData)) {
+					continue;
+				}
+				
 				$generateFileName = $this->_generateFilename($tableName);
 		 		
 				$csv = \League\Csv\Writer::createFromPath($generateFileName['filepath'], 'w');
@@ -50,19 +45,8 @@ class CsvExport extends DefaultExport
 				$exportedFiles[] = $generateFileName;
 			}
 		}
-		
-		$zip = new CsvZipExport();
-		foreach ($exportedFiles as $file) {
-			$zip->addFile($file);
-		}
-		$zipFile = $zip->start();
-		
-		// Remove files
-		foreach ($exportedFiles as $file) {
-			unlink($file['filepath']);
-		}
-		
-		return $zipFile;
+
+		return array("files"=>$exportedFiles);
 	}
 
 	public function array2csv($data, $delimiter = ',', $enclosure = '"', $escape_char = "\\")
@@ -80,7 +64,12 @@ class CsvExport extends DefaultExport
 
 class CsvZipExport extends ZipExport {
 	
+	protected $_exportMedia = false;
 	protected $_files = array();
+	
+	public function setExportMedia($active) {
+		$this->_exportMedia[] = $active;
+	}
 	
 	public function addFile($file) {
 		$this->_files[] = $file;
@@ -106,13 +95,14 @@ class CsvZipExport extends ZipExport {
 			$zip->addFile($file['filepath'], $file['filename']);
 		}
 		
-		
-		$userFiles = $this->_getUserFilesPaths();
-		
-		if (!empty($userFiles)) {
-			foreach($userFiles as $file) {
-				BackupExportLogger::setLogInfo('Archiving file <b>'. $file['dataFile'] . '</b>');
-				$zip->addFile($file['filePath'], $file['dataFile']);
+		if ($this->_exportMedia) {
+			$userFiles = $this->_getUserFilesPaths();
+			
+			if (!empty($userFiles)) {
+				foreach($userFiles as $file) {
+					BackupExportLogger::setLogInfo('Archiving file <b>'. $file['dataFile'] . '</b>');
+					$zip->addFile($file['filePath'], $file['dataFile']);
+				}
 			}
 		}
 		
