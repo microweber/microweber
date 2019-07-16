@@ -20,7 +20,7 @@ mw.backup_export = {
 			+ '<option value="json">Json</option>'
 			+ '<option value="csv">CSV</option>'
 			+ '<option value="xml">XML</option>'
-			+ '<option value="excel">Excel</option>'
+			+ '<option value="xlsx">Excel</option>'
 			+ '</select>'
 			+ '<br />'
 			+ '<h3><b>Create full backup of your site</b></h3>'

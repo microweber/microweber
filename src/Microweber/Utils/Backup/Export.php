@@ -60,16 +60,23 @@ class Export
 				$zipExport->setExportMedia(true);
 			}
 			
-			$export = $zipExport->start();
+			$zipExportReady = $zipExport->start();
 			
-			if (isset($export['download']) && !empty($export['download'])) {
+			// Delete unused ziped files
+			if (isset($export['files'])) {
+				foreach ($export['files'] as $file) {
+					unlink($file['filepath']);
+				}
+			}
+			
+			if (isset($zipExportReady['download']) && !empty($zipExportReady['download'])) {
 				return array(
 					'success' => 'Items are exported',
 					'export_type' => $this->type,
-					'data' => $export
+					'data' => $zipExportReady
 				);
 			} else {
-				return $export;
+				return $zipExportReady;
 			}
 		}
 		
