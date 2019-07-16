@@ -35,22 +35,24 @@ class ZipReader extends DefaultReader
 		$mwContentJsonFile = $backupLocation. 'mw_content.json';
 		
 		if (is_file($mwContentJsonFile)) {
-			$filesForImporting[] = array("file"=>$mwContentJsonFile, "reader"=>"json");
+			//$filesForImporting[] = array("file"=>$mwContentJsonFile, "reader"=>"json");
 		}
 		
 		// Find data to import
 		$tables = $this->_getTableList();
 		$supportedReaders =  $this->_getSupportedReaders();
 		$backupFiles = scandir($backupLocation);
-		foreach ($backupFiles as $file) {
-			$file = $backupLocation . $file;
+		foreach ($backupFiles as $filename) {
+			$file = $backupLocation . $filename;
 			if (!is_file($file)) {
 				continue;
 			}
 			$fileExtension = get_file_extension($file);
 			
+			$importToTable = str_replace('.'.$fileExtension, false, $filename);
+			
 			if (in_array($fileExtension, $supportedReaders)) {
-				$filesForImporting[] = array("file"=>$file, "reader"=>$fileExtension);
+				$filesForImporting[] = array("file"=>$file, "importToTable"=> $importToTable, "reader"=>$fileExtension);
 			}
 			
 		}
@@ -60,15 +62,16 @@ class ZipReader extends DefaultReader
 			return;
 		}
 		
+		// Decode files in zip
 		$readedData = array();
-		
 		foreach ($filesForImporting as $file) {
 			
 			$readerClass = 'Microweber\\Utils\\Backup\\Readers\\' . ucfirst($file['reader']) . 'Reader';
 			$reader = new $readerClass($file['file']);
 			$data = $reader->readData();
+			
 			if (!empty($data)) {
-				$readedData = array_merge($readedData, $data);
+				$readedData[$file['importToTable']] = $data;
 			}
 		}
 		

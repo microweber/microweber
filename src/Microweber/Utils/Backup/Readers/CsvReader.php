@@ -11,9 +11,11 @@ class CsvReader extends DefaultReader
 	{
 		$csv = $this->readCsv($this->file);
 		
-		if (isset($csv[0]['title']) && isset($csv[0]['content_body'])) {
+		/* if (isset($csv[0]['title']) && isset($csv[0]['content_body'])) {
 			return $this->readWordpress($csv);
-		}
+		} */
+		
+		return $csv;
 	}
 	
 	public function uniqueColumns(array $columns):array {
