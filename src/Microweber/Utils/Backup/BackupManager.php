@@ -125,6 +125,9 @@ class BackupManager
 			$import->setFile($this->importFile);
 			
 			$content = $import->readContentWithCache();
+			
+			var_dump($content);
+			die();
 			if (isset($content['error'])) {
 				return $content;
 			}

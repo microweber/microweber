@@ -7,6 +7,7 @@ use Microweber\Utils\Backup\Exporters\XmlExport;
 use Microweber\Utils\Backup\Exporters\ZipExport;
 use Microweber\Utils\Backup\Loggers\BackupExportLogger;
 use Microweber\App\Providers\Illuminate\Support\Facades\Cache;
+use Microweber\Utils\Backup\Exporters\ExcelExport;
 
 class Export
 {
@@ -30,6 +31,7 @@ class Export
 	
 	public function exportAsType($data)
 	{
+		$exportWithZip = false;
 		$exportMediaUserFiles = false;
 		
 		if (array_key_exists('media', $data)) {
@@ -38,16 +40,26 @@ class Export
 		
 		$export = $this->_getExporter($data);
 		
-		if ($exportMediaUserFiles) {
+		if (isset($export['files']) && count($export['files']) > 1) {
+			$exportWithZip = true;
+		}
+		
+		if ($exportWithZip || $exportMediaUserFiles) {
 			
 			// Make Zip
 			$zipExport = new ZipExport();
 			
 			// Add exported files
-			foreach ($export['files'] as $file) {
-				$zipExport->addFile($file);
+			if (isset($export['files'])) {
+				foreach ($export['files'] as $file) {
+					$zipExport->addFile($file);
+				}
 			}
-			$zipExport->setExportMedia(true);
+			
+			if ($exportMediaUserFiles) {
+				$zipExport->setExportMedia(true);
+			}
+			
 			$export = $zipExport->start();
 			
 			if (isset($export['download']) && !empty($export['download'])) {
@@ -61,10 +73,6 @@ class Export
 			}
 		}
 		
-		
-		
-		var_dump($export);
-		die();
 		if (isset($export['files'])) {
 		
 			$exportSingleFile = false;
@@ -73,9 +81,6 @@ class Export
 				$exportSingleFile = true;
 			}
 			
-			
-			var_dump($export);
-			die();
 			if ($exportSingleFile && isset($export['files']) && !empty($export['files'])) {
 				return array(
 					'success' => 'Items are exported',
@@ -83,9 +88,6 @@ class Export
 					'data' => $export['files'][0]
 				);
 			} else {
-				// return array(
-				// 'error' => 'Export format not supported.'
-				// ); 
 				return $export;
 			}
 			
@@ -312,6 +314,10 @@ class Export
 				
 			case 'xml':
 				$export = new XmlExport($data);
+				break;
+				
+			case 'excel':
+				$export = new ExcelExport($data);
 				break;
 				
 			/* case 'zip':
