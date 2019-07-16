@@ -13,7 +13,13 @@ class XmlExport extends DefaultExport
 	
 	public function start()
 	{
-		return $this->arrayToXml($this->data, new \SimpleXMLElement('<root/>'))->asXML();
+		$xmlString = $this->arrayToXml($this->data, new \SimpleXMLElement('<root/>'))->asXML();
+		
+		$xmlFileName = $this->_generateFilename();
+		
+		file_put_contents($xmlFileName['filepath'], $xmlString);
+		
+		return array("files"=>array($xmlFileName));
 	}
 
 	public function arrayToXml(array $arr, \SimpleXMLElement $xml)

@@ -7,7 +7,7 @@ use Microweber\Utils\Backup\Exporters\XmlExport;
 use Microweber\Utils\Backup\Exporters\ZipExport;
 use Microweber\Utils\Backup\Loggers\BackupExportLogger;
 use Microweber\App\Providers\Illuminate\Support\Facades\Cache;
-use Microweber\Utils\Backup\Exporters\ExcelExport;
+use Microweber\Utils\Backup\Exporters\XlsxExport;
 
 class Export
 {
@@ -316,8 +316,8 @@ class Export
 				$export = new XmlExport($data);
 				break;
 				
-			case 'excel':
-				$export = new ExcelExport($data);
+			case 'xlsx':
+				$export = new XlsxExport($data);
 				break;
 				
 			/* case 'zip':

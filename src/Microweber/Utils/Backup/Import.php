@@ -59,6 +59,8 @@ class Import
 
 			$readedData = $reader->readData();
 			
+			var_dump($readedData);
+			die();
 			if (! empty($readedData)) {
 				$successMessages = count($readedData, COUNT_RECURSIVE) . ' items are readed.';
 				BackupImportLogger::setLogInfo($successMessages);
@@ -69,7 +71,10 @@ class Import
 				);
 			}
 		}
-
+		
+		
+		var_dump($reader);
+		die();
 		$formatNotSupported = 'Import format not supported';
 		BackupImportLogger::setLogInfo($formatNotSupported);
 		

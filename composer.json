@@ -61,7 +61,8 @@
     "oyejorge/less.php": "1.*",
     "aws/aws-sdk-php": "^3.0",
     "mailerlite/mailerlite-api-v2-php-sdk": "dev-master",
-    "finlet/flexmail": "dev-master"
+    "finlet/flexmail": "dev-master",
+    "phpoffice/phpspreadsheet": "dev-master"
   },
   "require-dev": {
       "fzaninotto/faker": "^1.9"
