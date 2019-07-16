@@ -202,6 +202,12 @@
         $(document).ready(function () {
 
 
+
+
+
+
+
+
             $('.module-presets-action-btn').on('click',function () {
 
                 var is_del = $(this).attr('delete');
@@ -306,6 +312,22 @@
         });
 
 
+
+
+        function mw_preset_edit_name(input_obj) {
+
+
+
+            var save_module_as_template_url = '<?php print site_url('api') ?>/save_module_as_template';
+            var btn_mod_id = $(input_obj).attr('js-mod-id');
+            var temp_form1 = mw.tools.firstParentWithClass(input_obj, 'module-presets-add-new-holder');
+            window.parent.mw.form.post(temp_form1, save_module_as_template_url, function () {
+                window.parent.mw.notification.success('Preset name is updated');
+            });
+        }
+
+
+
     </script>
     <?php $fffound = false; ?>
     <div id="module-saved-presets" class="mw-ui-box mw-ui-box-content">
@@ -364,19 +386,27 @@
                 <div class="mw-flex-col-xs-6 module-presets-add-new-holder">
                     <div class="box">
 
+
+
+
+                        <?php
+
+                        /*
                         <?php if($fffound) { ?>
 
                             <b><?php print  $item['name'] ?></b>
 
                         <?php } else { ?>
                             <?php print  $item['name'] ?>
-
-
                         <?php } ?>
+*/
+                        ?>
+
+                        <input type="hidden" name="id" value="<?php print  $item['id'] ?>">
+                        <input type="hidden" name="module" value="<?php print  $item['module'] ?>">
 
 
-
-
+                        <input   type="text" onkeyup="mw.on.stopWriting(this,function(){mw_preset_edit_name(this)});"  js-mod-id="<?php print  $item['module_id'] ?>" class="mw-ui-field js-module-presets-edit-name mw-ui-field-medium" name="name" value="<?php print  $item['name'] ?>" />
 
 
                         <?php

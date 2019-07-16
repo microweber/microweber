@@ -364,15 +364,15 @@
                                 element: parent.mw.$('#module-modal-settings-menu-items-presets-holder<?php print $params['id'] ?>')[0]
                             });*/
 
-                            presetsMenuDialog = mw.dialog({
+                            presetsDialogModal = mw.dialog({
                                 content: holder,
                                 width:300,
                                 height:'auto',
-                                id:'preset-modal-'+iframeid,
+                                id:'dialog-'+iframeid,
                                 autoHeight:true,
                                 title: 'Presets'
                             });
-                            mw.tools.loading(presetsMenuDialog.dialogContainer, 99);
+                            mw.tools.loading(presetsDialogModal.dialogContainer, 99)
 
 
                             /*window
@@ -383,9 +383,11 @@
                             var frame = mwd.querySelector('#'+iframeid);
                             mw.tools.iframeAutoHeight(frame);
                             $(frame).on('load', function(){
-                                if(typeof(presetsMenuDialog) != 'undefined'){
-                                    presetsMenuDialog.center()
-                                    mw.tools.loading(presetsMenuDialog.dialogContainer, false)
+                                if(typeof(presetsDialogModal) != 'undefined'){
+                                    if(typeof(presetsDialogModal.center) != 'undefined') {
+                                        presetsDialogModal.center()
+                                    }
+                                    mw.tools.loading(presetsDialogModal.dialogContainer, false)
                                 }
                             })
 
