@@ -42,7 +42,7 @@ class DbInstaller
             new Schema\PasswordResetsTable(),
             new Schema\Updates(),
         	new Schema\MailSubscribe(),
-        	new Schema\MailTemlates()
+        	new Schema\MailTemplates()
         ];
     }
 

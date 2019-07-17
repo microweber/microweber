@@ -510,95 +510,6 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
                     });
                 </script>
                 
-                <style>
-                .mw-append-file {
-					padding: 5px;
-					border: 1px dotted #e2e2e2;
-					margin-top: 8px;
-					width: 500px;
-                }
-                .mw-append-file-delete {
-                	color: red;
-					float: right;
-					margin-top: -14px;
-					font-weight: bold;
-					font-size: 13px;
-					cursor:pointer;
-                }
-                </style>
-                
-                <script type="text/javascript">
-                
-	                function getAppendFiles() {
-	                	 var append_files = mw.$('#append_files').val();
-				          if (append_files == '') {
-				        	var append_files_array = [];
-				          } else {
-				          	var append_files_array = append_files.split(',');
-				          }
-
-				          return append_files_array;
-	                }
-	                
-					$(document).ready(function(){
-		
-					$('body').on('click', '.mw-append-file-delete', function() {
-						
-						var append_files_array = getAppendFiles();
-
-						for( var i = 0; i < append_files_array.length; i++){ 
-						   if (append_files_array[i] === $(this).attr('file-url')) {
-							   append_files_array.splice(i, 1); 
-						   }
-						}
-						
-						mw.$('#append_files').val(append_files_array.join(',')).trigger('change');
-						
-						$(this).parent().remove();
-					});
-					
-					 var uploader = mw.uploader({
-					    filetypes:"images,videos",
-					    multiple:false,
-					    element:"#mw_uploader"
-					  });
-					
-					  $(uploader).bind("FileUploaded", function(event, data){
-
-					  	  	  var append_file = '<div class="mw-append-file"><div>'+data.src+'</div><div class="mw-append-file-delete" file-url="'+data.src+'">Remove</div></div>';
-					  	  	  
-					          mw.$("#mw_uploader_loading").hide();
-					          mw.$("#mw_uploader").show();
-					          mw.$("#upload_info").html('');
-					          mw.$("#upload_files").append(append_file);
-
-					          var append_files_array = getAppendFiles();
-					          
-					          append_files_array.push(data.src);
-							          
-					          mw.$('#append_files').val(append_files_array.join(',')).trigger('change');
-					          
-					      });
-					
-					    $(uploader).bind('progress', function(up, file) {  
-					        mw.$("#mw_uploader").hide();
-					        mw.$("#mw_uploader_loading").show();
-					        mw.$("#upload_info").html(file.percent + "%");
-					     });
-					
-					    $(uploader).bind('error', function(up, file) {
-					        mw.notification.error("The file is not uploaded.");   
-					    });
-					
-					 });
-				</script> 
-				
-					<?php 
-					$appendFiles = explode(",", get_option('append_files', 'users'));
-					?>
-				
-				 <input name="append_files" value="<?php print get_option('append_files', 'users') ?>" class="mw-ui-field mw_option_field w100" id="append_files"  data-option-group="users" type="hidden"/>
-
                 <h2><?php _e("Send email on new user registration"); ?></h2>
 
                 <div class="mw-ui-field-holder">
@@ -619,7 +530,7 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
                 </div>
                 
                  <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label"><?php _e("Email attachments"); ?></label>
+                    <label class="mw-ui-label"><?php _e("Email attachments"); ?></label>  
                     <module type="admin/components/file_append" option_group="users" />
                 </div>
 

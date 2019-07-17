@@ -1,8 +1,9 @@
 <?php
 namespace Microweber\Install\Schema;
 
-class MailTemlates
+class MailTemplates
 {
+
 	public function get()
 	{
 		return [
