@@ -150,6 +150,7 @@ class Base
                 'rel_type' => 'string',
                 'notif_count' => 'integer',
                 'is_read' => 'integer',
+            	'is_mail_sent' => 'integer',
                 'module' => 'text',
                 'title' => 'text',
                 'description' => 'text',
