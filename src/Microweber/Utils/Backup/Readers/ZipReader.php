@@ -81,9 +81,13 @@ class ZipReader extends DefaultReader
 			
 			if (strpos($importToTable, 'backup_export') !== false) {
 				$readedData = $data;
+			} else if (strpos($importToTable, 'mw_content') !== false) {
+				$readedData = $data;
 			} else {
 				if (!empty($data)) {
-					$readedData[$file['importToTable']] = $data;
+					if (isset($file['importToTable'])) {
+						$readedData[$file['importToTable']] = $data;
+					}
 				}
 			}
 			
