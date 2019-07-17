@@ -403,6 +403,9 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 
 
 
+                    <li><?php event_trigger('mw.admin.sidebar.li.first'); ?></li>
+
+
                     <li
                         <?php if ($view == 'content' and $action == false): ?>
                             class="active"
@@ -541,35 +544,12 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                         </a>
                     </li>
 
-                    <?php if (mw()->ui->disable_marketplace != true): ?>
-                        <li <?php if ($view == 'packages'): ?> class="active" <?php endif; ?>>
-                            <a href="<?php print admin_url(); ?>view:packages">
-                                <span class="mai-market"></span> <strong>
-                                    <?php _e("Marketplace"); ?>
-                                </strong>
-                            </a>
-                        </li>
-                        <?php
 
-                        /*
-
-                        <li <?php if ($view == 'marketplace'): ?> class="active" <?php endif; ?>>
-                            <a href="<?php print admin_url(); ?>view:marketplace">
-                                <span class="mai-market"></span> <strong>
-                                    <?php _e("Marketplace"); ?>
-                                </strong>
-                            </a>
-                        </li>
-
-                        */
-
-                        ?>
-
-                    <?php endif; ?>
-                    <li <?php if ($view == 'settings' /*or ($load_module AND $load_module != 'users')*/): ?> class="active" <?php endif; ?>>
+                    <li <?php if (!url_param('has_core_update') and ($view == 'settings' or $view == 'packages') /*or ($load_module AND $load_module != 'users')*/): ?> class="active" <?php endif; ?>>
                         <a href="<?php print admin_url(); ?>view:settings#option_group=website"> <span class="mai-setting"></span>
                             <strong>
                                 <?php _e("Settings"); ?>
+
                             </strong>
                         </a>
 
@@ -592,6 +572,18 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                     <span class="mai-mail"></span><strong><?php _e("Email"); ?></strong>
                                 </a>
                             </li>
+
+
+                            <?php if (mw()->ui->disable_marketplace != true): ?>
+                                <li <?php if ($view == 'packages'): ?> class="active" <?php endif; ?>>
+                                    <a href="<?php print admin_url(); ?>view:packages">
+                                        <span class="mai-market"></span> <strong>
+                                            <?php _e("Marketplace"); ?>
+                                        </strong>
+                                    </a>
+                                </li>
+
+                            <?php endif; ?>
 
 
                             <?php event_trigger('mw_admin_settings_menu'); ?>

@@ -171,19 +171,21 @@ $path_nav = explode(DS, $path);
             </ul>
             <script>
                 rendImages = window.rendImages || function () {
-                        var all = mwd.querySelectorAll('.image-item-not-ready'),
-                            l = all.length,
-                            i = 0;
-                        for (; i < l; i++) {
-                            var item = all[i];
-                            var datasrc = item.getAttribute("data-src");
-                            if (mw.tools.inview(item) && datasrc !== null) {
-                                $(item).attr('src', datasrc).removeClass('image-item-not-ready');
-                            }
+                    var all = mwd.querySelectorAll('.image-item-not-ready'),
+                        l = all.length,
+                        i = 0;
+                    for (; i < l; i++) {
+                        var item = all[i];
+                        var datasrc = item.getAttribute("data-src");
+                        if (mw.tools.inview(item) && datasrc !== null) {
+                            $(item).attr('src', datasrc).removeClass('image-item-not-ready');
                         }
                     }
+                };
                 $(window).bind('load scroll ajaxStop', function () {
-                    rendImages();
+                    setTimeout(function(){
+                        rendImages();
+                    }, 333);
                 });
 
             </script>

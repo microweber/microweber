@@ -14,7 +14,7 @@
     .page-layout-tab .mw-field{
         width: 100%;
     }
-    .mw-ui-btn + .mw-ui-btn{
+    .admin-side-content .mw-ui-btn + .mw-ui-btn{
         margin-left: 10px;
     }
 </style>
@@ -458,7 +458,7 @@ if ($menu_data) {
                         elements_count++;
                     });
 
-  
+
                     if(elements_count != 0){
 
                         $('#request-section-link-toggle').show();
