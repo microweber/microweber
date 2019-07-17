@@ -12,7 +12,6 @@ class MailTemplates
 				'name' => 'string',
 				'subject' => 'string',
 				'message' => 'string',
-				'attachments' => 'string',
 				'from_name' => 'string',
 				'from_email' => 'string',
 				'custom' => 'string',
