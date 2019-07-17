@@ -135,6 +135,10 @@
             thismodal = parent.mw.tools.modal.get(mw.tools.firstParentWithClass(frame, 'mw_modal'));
         }
 
+
+
+
+
         //var the_module_settings_frame = parent.mw.$('#' + this.name)[0];
 
         if (typeof thismodal != 'undefined' && thismodal != false) {
@@ -252,12 +256,20 @@
 
 
                 $(document).ready(function () {
+
+
                     //   window.top.module_settings_modal_reference = thismodal;
                     <?php if(is_array($module_info)): ?>
 
                     <?php $mod_adm = admin_url('load_module:') . module_name_encode($module_info['module']); ?>
 
                     var is_module_tml_holder = $(toolbar).find(".module-modal-settings-menu-holder");
+                    
+                    
+
+
+
+
 
                     if (is_module_tml_holder.length > 0) {
                         is_module_tml_holder.empty();
@@ -280,14 +292,29 @@
 
                             var presetsthismodalid = thismodal.id;
 
+
+
+
                             window.parent.module_settings_modal_reference_preset_editor_modal_id = presetsthismodalid;
                             window.parent.module_settings_modal_reference_window = window;
+
+                                window.top.module_settings_modal_reference_preset_editor_modal_id = presetsthismodalid;
+                                window.top.module_settings_modal_reference_window = window;
+
+
+
+                              //  alert(presetsthismodalid);
+
+
 
                                 window.parent.$('#module-modal-settings-menu-holder-open-presets').html('');
                                 window.parent.$('.module-modal-settings-menu-holder-open-presets').html('');
 
                             // HERE FOR DROPDOWN
                             window.parent.$('.module-modal-settings-menu-holder-open-presets', toolbar).html(modal_preset_manager_html_placeholder_for_reload_content);
+
+
+
 
 
                         };
@@ -323,7 +350,7 @@
                             //   presets_mod.mod_orig_id='<?php print $mod_orig_id ?>'
                             //  var src = mw.settings.site_url + "api/module?" + json2url(presets_mod);
                             var src = mw.settings.site_url + 'editor_tools/module_presets?' + json2url(presets_mod);
-                            var iframeid = 'frame-' + mw.random();
+                            var iframeid = 'frame-' + presets_mod.module_id;
 
                             var mod_presets_iframe_html_fr = '' +
                                 '<div class="js-module-presets-edit-frame">' +
@@ -337,14 +364,15 @@
                                 element: parent.mw.$('#module-modal-settings-menu-items-presets-holder<?php print $params['id'] ?>')[0]
                             });*/
 
-                            var pDialog = mw.dialog({
+                            presetsDialogModal = mw.dialog({
                                 content: holder,
                                 width:300,
                                 height:'auto',
+                                id:'dialog-'+iframeid,
                                 autoHeight:true,
                                 title: 'Presets'
                             });
-                            mw.tools.loading(pDialog.dialogContainer, 99)
+                            mw.tools.loading(presetsDialogModal.dialogContainer, 99)
 
 
                             /*window
@@ -355,8 +383,12 @@
                             var frame = mwd.querySelector('#'+iframeid);
                             mw.tools.iframeAutoHeight(frame);
                             $(frame).on('load', function(){
-                                pDialog.center()
-                                mw.tools.loading(pDialog.dialogContainer, false)
+                                if(typeof(presetsDialogModal) != 'undefined'){
+                                    if(typeof(presetsDialogModal.center) != 'undefined') {
+                                        presetsDialogModal.center()
+                                    }
+                                    mw.tools.loading(presetsDialogModal.dialogContainer, false)
+                                }
                             })
 
                         });
