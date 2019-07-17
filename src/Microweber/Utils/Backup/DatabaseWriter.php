@@ -36,7 +36,7 @@ class DatabaseWriter
 	
 	/**
 	 * The current batch step.
-	 * @var integer 
+	 * @var integer
 	 */
 	public $currentStep = 0;
 	
@@ -57,7 +57,7 @@ class DatabaseWriter
 	 * @var string
 	 */
 	private $_cacheGroupName = 'BackupImporting';
-
+	
 	public function setContent($content)
 	{
 		$this->content = $content;
@@ -136,7 +136,7 @@ class DatabaseWriter
 		$dbSelectParams['fields'] = 'id';
 		
 		foreach(DatabaseDublicateChecker::getRecognizeFields($item['save_to_table']) as $tableField) {
-			if (isset($item[$tableField])) { 
+			if (isset($item[$tableField])) {
 				$dbSelectParams[$tableField] = $item[$tableField];
 			}
 		}
@@ -201,7 +201,7 @@ class DatabaseWriter
 				$this->_saveContentData($savedItem);
 				return;
 			}
-					
+			
 			$this->_fixRelations($savedItem);
 			$this->_fixParentRelationship($savedItem);
 			
@@ -218,19 +218,19 @@ class DatabaseWriter
 	public function runWriter()
 	{
 		/*
-			//$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
-		*/
+		 //$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
+		 */
 		
 		/* $importTables = array('comments');
 		
 		foreach ($importTables as $table) {
-			if (isset($this->content[$table])) {
-				foreach ($this->content[$table] as $item) {
-					$item['save_to_table'] = $table;
-					$this->_saveItem($item);
-					$items[] = $item;
-				}
-			}
+		if (isset($this->content[$table])) {
+		foreach ($this->content[$table] as $item) {
+		$item['save_to_table'] = $table;
+		$this->_saveItem($item);
+		$items[] = $item;
+		}
+		}
 		}
 		
 		var_dump($items);
@@ -250,7 +250,7 @@ class DatabaseWriter
 		
 	}
 	
-	public function runWriterWithBatch() 
+	public function runWriterWithBatch()
 	{
 		if ($this->getCurrentStep() == 0) {
 			BackupImportLogger::clearLog();
@@ -272,7 +272,7 @@ class DatabaseWriter
 		
 		//$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
 		//$importTables = array('content', 'categories');
-		$excludeTables = array(); 
+		$excludeTables = array();
 		
 		// All db tables
 		$itemsForSave = array();
@@ -288,7 +288,7 @@ class DatabaseWriter
 					$itemsForSave[] = $item;
 				}
 			}
-			 BackupImportLogger::setLogInfo('Save content to table: ' . $table);
+			BackupImportLogger::setLogInfo('Save content to table: ' . $table);
 		}
 		
 		if (!empty($itemsForSave)) {
@@ -314,15 +314,15 @@ class DatabaseWriter
 			$success = array();
 			foreach($itemsBatch[$this->getCurrentStep()] as $item) {
 				//echo 'Save item' . PHP_EOL;
-			//	BackupImportLogger::setLogInfo('Save content to table: ' . $item['save_to_table']);
+				//	BackupImportLogger::setLogInfo('Save content to table: ' . $item['save_to_table']);
 				$success[] = $this->_saveItem($item);
 			}
 			
 			//echo 'Save cache ... ' .$this->currentStep. PHP_EOL;
 			
 			cache_save($this->getCurrentStep() + 1, 'CurrentStep', $this->_cacheGroupName, 60 * 10);
-		
-		
+			
+			
 		}
 		
 	}
@@ -342,8 +342,8 @@ class DatabaseWriter
 	}
 	
 	/**
-	 * Clear all cache on framework 
- 	 */
+	 * Clear all cache on framework
+	 */
 	private function _finishUp($callFrom = '') {
 		
 		// BackupImportLogger::setLogInfo('Call from: ' . $callFrom);
@@ -377,6 +377,3 @@ class DatabaseWriter
 		
 	}
 }
-
-
-
