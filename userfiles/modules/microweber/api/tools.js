@@ -8,6 +8,20 @@ mw.requestAnimationFrame = (function () {
         };
 })();
 
+mw._intervals = {};
+mw.interval = function(key, func){
+    if(!key || !func || !!mw._intervals[key]) return;
+    mw._intervals[key] = func;
+};
+mw.removeInterval = function(key){
+    delete mw._intervals[key];
+};
+setInterval(function(){
+    for(var i in mw._intervals){
+        mw._intervals[i].call();
+    }
+}, 99);
+
 mw.require("files.js");
 mw.require("css_parser.js");
 mw.require("components.js");
@@ -278,10 +292,10 @@ mw.tools = {
         return can;
     },
     createStyle: function (c, css, ins) {
-        var ins = ins || mwd.getElementsByTagName('head')[0];
+        ins = ins || mwd.getElementsByTagName('head')[0];
         var style = mw.$(c)[0];
-        if (typeof style === 'undefined') {
-            var style = mwd.createElement('style');
+        if (!style) {
+            style = mwd.createElement('style');
             ins.appendChild(style);
         }
         style.innerHTML = css;
