@@ -1,5 +1,5 @@
 var uploader = mw.files.uploader({
-    filetypes: "zip, sql, json, csv, xls, xml",
+    filetypes: "zip, sql, json, csv, xls, xlsx, xml",
     multiple: false
 });
 

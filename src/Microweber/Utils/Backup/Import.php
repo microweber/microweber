@@ -7,6 +7,7 @@ use Microweber\Utils\Backup\Readers\CsvReader;
 use Microweber\Utils\Backup\Readers\XmlReader;
 use Microweber\App\Providers\Illuminate\Support\Facades\Cache;
 use Microweber\Utils\Backup\Loggers\BackupImportLogger;
+use Microweber\Utils\Backup\Readers\XlsxReader;
 
 class Import
 {
@@ -132,6 +133,10 @@ class Import
 				
 			case 'xml':
 				$reader = new XmlReader($data);
+				break;
+				
+			case 'xlsx':
+				$reader = new XlsxReader($data);
 				break;
 				
 			case 'zip':

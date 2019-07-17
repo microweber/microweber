@@ -35,7 +35,7 @@ class ZipReader extends DefaultReader
 		$mwContentJsonFile = $backupLocation. 'mw_content.json';
 		
 		if (is_file($mwContentJsonFile)) {
-			//$filesForImporting[] = array("file"=>$mwContentJsonFile, "reader"=>"json");
+			$filesForImporting[] = array("file"=>$mwContentJsonFile, "reader"=>"json");
 		}
 		
 		// Find data to import
@@ -48,10 +48,19 @@ class ZipReader extends DefaultReader
 				continue;
 			}
 			$fileExtension = get_file_extension($file);
-			
 			$importToTable = str_replace('.'.$fileExtension, false, $filename);
+
+			$addToImport = false;
 			
-			if (in_array($fileExtension, $supportedReaders)) {
+			if (strpos($importToTable, 'backup_export') !== false) {
+				$addToImport = true;
+			}
+			
+			if (in_array($fileExtension, $supportedReaders) && in_array($importToTable, $tables)) {
+				$addToImport = true;
+			}
+			
+			if ($addToImport) {
 				$filesForImporting[] = array("file"=>$file, "importToTable"=> $importToTable, "reader"=>$fileExtension);
 			}
 			
@@ -70,9 +79,14 @@ class ZipReader extends DefaultReader
 			$reader = new $readerClass($file['file']);
 			$data = $reader->readData();
 			
-			if (!empty($data)) {
-				$readedData[$file['importToTable']] = $data;
+			if (strpos($importToTable, 'backup_export') !== false) {
+				$readedData = $data;
+			} else {
+				if (!empty($data)) {
+					$readedData[$file['importToTable']] = $data;
+				}
 			}
+			
 		}
 		
 		if (empty($readedData)) {
