@@ -36,7 +36,7 @@ class DatabaseWriter
 	
 	/**
 	 * The current batch step.
-	 * @var integer
+	 * @var integer 
 	 */
 	public $currentStep = 0;
 	
