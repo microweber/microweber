@@ -12,6 +12,8 @@ class ZipReader extends DefaultReader
 	 */
 	public function readData()
 	{
+		$filesForImporting = array();
+		
 		$this->_checkPathsExists();
 		
 		BackupImportLogger::setLogInfo('Unzipping '.basename($this->file).' in userfiles...');
@@ -33,12 +35,102 @@ class ZipReader extends DefaultReader
 		$mwContentJsonFile = $backupLocation. 'mw_content.json';
 		
 		if (is_file($mwContentJsonFile)) {
-			$jsonReader = new JsonReader($mwContentJsonFile);
-			return $jsonReader->readData();		
-		} else {
-			BackupImportLogger::setLogInfo('The zip file has no mw_content.json. Nothing to import.');
+			$filesForImporting[] = array("file"=>$mwContentJsonFile, "reader"=>"json");
 		}
 		
+		// Find data to import
+		$tables = $this->_getTableList();
+		$supportedReaders =  $this->_getSupportedReaders();
+		$backupFiles = scandir($backupLocation);
+		foreach ($backupFiles as $filename) {
+			$file = $backupLocation . $filename;
+			if (!is_file($file)) {
+				continue;
+			}
+			$fileExtension = get_file_extension($file);
+			$importToTable = str_replace('.'.$fileExtension, false, $filename);
+
+			$addToImport = false;
+			
+			if (strpos($importToTable, 'backup_export') !== false) {
+				$addToImport = true;
+			}
+			
+			if (in_array($fileExtension, $supportedReaders) && in_array($importToTable, $tables)) {
+				$addToImport = true;
+			}
+			
+			if ($addToImport) {
+				$filesForImporting[] = array("file"=>$file, "importToTable"=> $importToTable, "reader"=>$fileExtension);
+			}
+			
+		}
+		
+		if (empty($filesForImporting)) {
+			BackupImportLogger::setLogInfo('The zip file has no files to import.');
+			return;
+		}
+		
+		// Decode files in zip
+		$readedData = array();
+		foreach ($filesForImporting as $file) {
+			
+			$readerClass = 'Microweber\\Utils\\Backup\\Readers\\' . ucfirst($file['reader']) . 'Reader';
+			$reader = new $readerClass($file['file']);
+			$data = $reader->readData();
+			
+			if (strpos($importToTable, 'backup_export') !== false) {
+				$readedData = $data;
+			} else {
+				if (!empty($data)) {
+					$readedData[$file['importToTable']] = $data;
+				}
+			}
+			
+		}
+		
+		if (empty($readedData)) {
+			BackupImportLogger::setLogInfo('The files in zip are empty. Nothing to import.');
+			return;
+		}
+		
+		return $readedData;
+	}
+	
+	private function _getSupportedReaders() {
+		
+		$readers = array();
+		$readersFolder = normalize_path(MW_PATH  . 'Utils/Backup/Readers');
+		$readersList = scandir($readersFolder);
+		foreach ($readersList as $file) {
+			if (!is_file($readersFolder . $file)) {
+				continue;
+			}
+			
+			$ext = str_replace('Reader.php', false, $file);
+			$ext = strtolower($ext);
+			
+			if ($ext == 'default' || $ext == 'zip') {
+				continue;	
+			}
+			
+			$readers[] = $ext;
+			
+		}
+		
+		return $readers;
+	}
+	
+	private function _getTableList() {
+		
+		$readyTables = array();
+		
+		$tables = mw()->database_manager->get_tables_list();
+		foreach ($tables as $table) {
+			$readyTables[] = str_replace(mw()->database_manager->get_prefix(), false, $table);	
+		}
+		
+		return $readyTables;
 	}
 	
 	/**

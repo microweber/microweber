@@ -15,25 +15,13 @@ class ZipExport extends DefaultExport
 	 * The total steps for batch.
 	 * @var integer
 	 */
-	public $totalSteps = 20;
+	public $totalSteps = 3;
 	
 	/**
 	 * The type of export
 	 * @var string
 	 */
 	public $type = 'zip';
-	
-	/**
-	 * Files in zip
-	 * @var array
-	 */
-	public $files = array();
-	
-	/**
-	 * Export media
-	 * @var string
-	 */
-	public $exportMedia = false;
 	
 	/**
 	 * The name of cache group for backup file.
@@ -43,7 +31,7 @@ class ZipExport extends DefaultExport
 
 	public function getCurrentStep() {
 		
-		$this->currentStep = (int) cache_get('ExportCurrentStepZip', $this->_cacheGroupName);
+		$this->currentStep = (int) cache_get('ExportCurrentStep', $this->_cacheGroupName);
 		
 		return $this->currentStep;
 	}
@@ -61,22 +49,11 @@ class ZipExport extends DefaultExport
 		return $zipFileName;
 	}
 	
-	public function setExportMedia($bool) {
-		$this->exportMedia = $bool;
-	}
-	
-	public function addFile($file) {
-		$this->files[] = $file;
-	}
-	
 	public function start() {
-		
-		$filesForZip = array();
-		
+
 		if ($this->getCurrentStep() == 0) {
 			// Clear old log file
 			BackupExportLogger::clearLog();
-			BackupExportLogger::setLogInfo('Start new exporting..');
 		}
 		
 		// Get zip filename
@@ -91,21 +68,24 @@ class ZipExport extends DefaultExport
                 \nThe Microweber version at the time of backup was ".MW_VERSION."
                 \nCreated on " . date('l jS \of F Y h:i:s A'));
 		
-		if (!empty($this->files))  {
-			/* foreach($this->files as $file) {
-			 BackupExportLogger::setLogInfo('Archiving file <b>'. $file['filename'] . '</b>');
-			 $zip->addFile($file['filepath'], $file['filename']);
-			 } */
-			$filesForZip = array_merge($filesForZip, $this->files);
+		if ($this->getCurrentStep() == 0) {
+			
+			BackupExportLogger::setLogInfo('Start new exporting..');
+			
+			// Encode db json
+			$json = new JsonExport($this->data);
+			$getJson = $json->start();
+			
+			// Add json file
+			if ($getJson['filepath']) {
+				$zip->addFile($getJson['filepath'], 'mw_content.json');
+			}
+			
 		}
 		
-		if ($this->exportMedia) {
-			$userFiles = $this->_getUserFilesPaths();
-			$filesForZip = array_merge($filesForZip, $userFiles);
-		}
+		$userFiles = $this->_getUserFilesPaths();
 		
-		/* 
-		if (empty($filesForZip)) {
+		if (empty($userFiles)) {
 			
 			$zip->setCompressionIndex(0, \ZipArchive::CM_STORE);
 			$zip->close();
@@ -115,19 +95,18 @@ class ZipExport extends DefaultExport
 			
 			return $zipFileName;
 		}
-		*/
 		
-		$totalFilesForZip = sizeof($filesForZip);
-		$totalFilesForBatch = round($totalFilesForZip / $this->totalSteps, 0);
+		$totalUserFilesForZip = sizeof($userFiles);
+		$totalUserFilesForBatch = round($totalUserFilesForZip / $this->totalSteps, 0);
 		
-		if ($totalFilesForBatch > 0) {
-			$filesBatch = array_chunk($filesForZip, $totalFilesForBatch);
+		if ($totalUserFilesForBatch > 0) {
+			$userFilesBatch = array_chunk($userFiles, $totalUserFilesForBatch);
 		} else {
-			$filesBatch = array();
-			$filesBatch[] = $filesForZip;
+			$userFilesBatch = array();
+			$userFilesBatch[] = $userFiles;
 		}
 		
-		if (!isset($filesBatch[$this->getCurrentStep()])) {
+		if (!isset($userFilesBatch[$this->getCurrentStep()])) {
 			
 			BackupExportLogger::setLogInfo('No files in batch for current step.');
 			$this->_finishUp();
@@ -135,9 +114,9 @@ class ZipExport extends DefaultExport
 			return $zipFileName;
 		}
 		
-		foreach($filesBatch[$this->getCurrentStep()] as $file) {
-			BackupExportLogger::setLogInfo('Archiving file <b>'. $file['filename'] . '</b>');
-			$zip->addFile($file['filepath'], $file['filename']);
+		foreach($userFilesBatch[$this->getCurrentStep()] as $file) {
+			BackupExportLogger::setLogInfo('Archiving file <b>'. $file['dataFile'] . '</b>');
+			$zip->addFile($file['filePath'], $file['dataFile']);
 		}
         
 		if (method_exists($zip, 'setCompressionIndex')) {
@@ -146,9 +125,11 @@ class ZipExport extends DefaultExport
         
 		$zip->close();
 		
-		cache_save($this->getCurrentStep() + 1, 'ExportCurrentStepZip', $this->_cacheGroupName, 60 * 10);
+		$exportLog = $this->getExportLog();
 		
-		return $this->getExportLog();
+		cache_save($this->getCurrentStep() + 1, 'ExportCurrentStep', $this->_cacheGroupName, 60 * 10);
+		
+		return $exportLog;
 	}
 	
 	public function getExportLog() {
@@ -199,8 +180,8 @@ class ZipExport extends DefaultExport
 			$filePath =  normalize_path($filePath, false);
 			
 			$userFilesReady[] = array(
-				'filename'=>$dataFile,
-				'filepath'=>$filePath
+				'dataFile'=>$dataFile,
+				'filePath'=>$filePath
 			);
 			
 		}

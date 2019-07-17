@@ -13,9 +13,18 @@ mw.backup_export = {
 	choice: function() {
 		
 		var modalContent = ''
+			+ '<h3><b>Select format file</b></h3>'
+			+ 'Select format file you want to export.'
+			+ '<br />'
+			+ '<select class="js-export-format mw-ui-field" name="export_format">'
+			+ '<option value="json">Json</option>'
+			+ '<option value="csv">CSV</option>'
+			+ '<option value="xml">XML</option>'
+			+ '<option value="xlsx">Excel</option>'
+			+ '</select>'
+			+ '<br />'
 			+ '<h3><b>Create full backup of your site</b></h3>'
 			+ 'Use the button to export full backup of your website with all data.'
-			+ '<br />'
 			+ '<br />'
 			+ '<div class="mw-flex-row">'
 			+ '<div class="mw-flex-col-md-6">'
@@ -25,7 +34,6 @@ mw.backup_export = {
 			+ '<div class="js-export-log" style="padding-top:8px"></div>'
 			+ '</div>'
 			+ '</div>'
-			+ '<br />'
 			+ '<br />'
 			+ '<h3><b>Select items to export</b></h3>'
 			+ 'Select pages, categories, posts etc. you want to export.'
@@ -41,7 +49,7 @@ mw.backup_export = {
 			+ '<br />'
 			
 			+ '<label class="mw-ui-check">'
-			+ '<input  class="js-export-items" type="checkbox" value="media" name="export_items"><span></span><span>Export media</span>'
+			+ '<input class="js-export-items" type="checkbox" value="media" name="export_items"><span></span><span>Export media</span>'
 			+ '</label>&nbsp;&nbsp;'
 			
 			+ '<label class="mw-ui-check">'
@@ -71,7 +79,7 @@ mw.backup_export = {
 			+ '<div class="mw-flex-col-md-6">'
 			+ '<div class="js-export-log"></div>'
 			+ '</div>'
-			+ '</div>';
+			+ '</div><br /><br /><br />';
 		
 		mw.modal({
 		    content: modalContent,
@@ -99,7 +107,9 @@ mw.backup_export = {
 		
 		mw.backup_export.get_log_check('start');
 		
-		$.post(mw.settings.api_url+'Microweber/Utils/BackupV2/export', manifest , function(exportData) {
+		manifest.format = $('.js-export-format').val();
+		
+		$.get(mw.settings.api_url+'Microweber/Utils/BackupV2/export', manifest , function(exportData) {
 			
 			if (typeof(exportData.data.download) !== 'undefined') {
 				mw.backup_export.get_log_check('stop');

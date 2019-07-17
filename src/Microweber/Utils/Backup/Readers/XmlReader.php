@@ -16,6 +16,7 @@ class XmlReader extends DefaultReader
 			return $this->readWordpress($xml['channel']['item']); 
 		}
 		
+		return $xml;
 	}
 
 }

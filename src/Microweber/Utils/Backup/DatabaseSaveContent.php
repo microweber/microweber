@@ -13,7 +13,6 @@ class DatabaseSaveContent
 
 	public static function save($table, $tableData)
 	{
-		
 		$tableData['skip_cache'] = true;
 		$tableData['allow_html'] = true;
 		$tableData['allow_scripts'] = true;

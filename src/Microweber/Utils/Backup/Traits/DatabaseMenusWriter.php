@@ -99,7 +99,6 @@ trait DatabaseMenusWriter
 	 */
 	private function _fixMenuParents()
 	{
-		
 		$menus = $this->_getMenus();
 		
 		if (empty($menus)){

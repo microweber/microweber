@@ -53,7 +53,7 @@ class BackupV2Test extends TestCase
 		$i = 0;
 		while (true) {
 			
-			$export =	$manager->startExport();
+			$export = $manager->startExport();
 			
 			$exportBool = false;
 			if (!empty($export)) {
@@ -81,12 +81,13 @@ class BackupV2Test extends TestCase
 				break;
 			}
 			
-			if ($i > 10) { 
+			if ($i > 100) { 
 				break;
 			}
 			
 			$i++;
 		}
+		
 	}
 	
 	public function testImportZipFile() {
@@ -96,11 +97,17 @@ class BackupV2Test extends TestCase
 			$this->assertArrayHasKey(0, delete_content(array('id'=>$content['id'], 'forever'=>true)));
 		}
 		
+		if (empty(self::$_exportedFile)) {
+			$this->assertTrue(false);
+			return;
+		}
+		
 		$manager = new BackupManager();
 		$manager->setImportFile(self::$_exportedFile);
 		$manager->setImportBatch(false);
 		
 		$import = $manager->startImport();
+		
 		
 		$importBool = false;
 		if (!empty($import)) {

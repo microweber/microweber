@@ -57,7 +57,7 @@ class DatabaseWriter
 	 * @var string
 	 */
 	private $_cacheGroupName = 'BackupImporting';
-
+	
 	public function setContent($content)
 	{
 		$this->content = $content;
@@ -72,7 +72,7 @@ class DatabaseWriter
 		}
 		
 		if ($this->currentStep > $this->totalSteps) {
-			$this->_finishUp();
+			$this->_finishUp('getCurrentStep()');
 			$this->currentStep = 0;
 		}
 		
@@ -105,8 +105,21 @@ class DatabaseWriter
 		}
 		
 		if ($item['save_to_table'] == 'menus') {
-			$this->_saveMenuItem($item);
+			if($this->_saveMenuItem($item)) {
+				$this->_fixMenuParents();
+			}
 			return;
+		}
+		
+		if ($item['save_to_table'] == 'categories_items') {
+			if ($this->_saveCategoriesItems($item)) {
+				$this->_fixCategoryParents();
+				return;
+			}
+		}
+		
+		if ($item['save_to_table'] == 'categories') {
+			$this->_fixCategoryParents();
 		}
 		
 		// Dont import menus without title
@@ -123,7 +136,7 @@ class DatabaseWriter
 		$dbSelectParams['fields'] = 'id';
 		
 		foreach(DatabaseDublicateChecker::getRecognizeFields($item['save_to_table']) as $tableField) {
-			if (isset($item[$tableField])) { 
+			if (isset($item[$tableField])) {
 				$dbSelectParams[$tableField] = $item[$tableField];
 			}
 		}
@@ -179,16 +192,21 @@ class DatabaseWriter
 		
 		if ($savedItem) {
 			
-			$this->_saveCustomFields($savedItem);
-			$this->_saveContentData($savedItem);
-			$this->_saveCategoriesItems($savedItem);
+			if ($item['save_to_table'] == 'custom_fields') {
+				$this->_saveCustomFields($savedItem);
+				return;
+			}
+			
+			if ($item['save_to_table'] == 'content_data') {
+				$this->_saveContentData($savedItem);
+				return;
+			}
 			
 			$this->_fixRelations($savedItem);
 			$this->_fixParentRelationship($savedItem);
-			$this->_fixCategoryParents();
-			$this->_fixMenuParents();
 			
 		}
+		
 		//echo $item['save_to_table'];
 		//die();
 	}
@@ -200,19 +218,19 @@ class DatabaseWriter
 	public function runWriter()
 	{
 		/*
-			//$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
-		*/
+		 //$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
+		 */
 		
 		/* $importTables = array('comments');
 		
 		foreach ($importTables as $table) {
-			if (isset($this->content[$table])) {
-				foreach ($this->content[$table] as $item) {
-					$item['save_to_table'] = $table;
-					$this->_saveItem($item);
-					$items[] = $item;
-				}
-			}
+		if (isset($this->content[$table])) {
+		foreach ($this->content[$table] as $item) {
+		$item['save_to_table'] = $table;
+		$this->_saveItem($item);
+		$items[] = $item;
+		}
+		}
 		}
 		
 		var_dump($items);
@@ -227,12 +245,12 @@ class DatabaseWriter
 			}
 		}
 		
-		$this->_finishUp();
+		$this->_finishUp('runWriterBottom');
 		cache_save($this->totalSteps, 'CurrentStep', $this->_cacheGroupName, 60 * 10);
 		
 	}
 	
-	public function runWriterWithBatch() 
+	public function runWriterWithBatch()
 	{
 		if ($this->getCurrentStep() == 0) {
 			BackupImportLogger::clearLog();
@@ -241,19 +259,20 @@ class DatabaseWriter
 		if ($this->getCurrentStep() == $this->totalSteps) {
 			// Clear old log file
 			BackupImportLogger::clearLog();
-			$this->_finishUp();
+			$this->_clearOldImport();
+			//$this->_finishUp();
 		}
 		
 		BackupImportLogger::setLogInfo('Importing database batch: ' . $this->getCurrentStep() . '/' . $this->totalSteps);
-
+		
 		if (empty($this->content)) {
-			$this->_finishUp();
+			$this->_finishUp('runWriterWithBatchNothingToImport');
 			return array("success"=>"Nothing to import.");
 		}
 		
 		//$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
 		//$importTables = array('content', 'categories');
-		$excludeTables = array(); 
+		$excludeTables = array();
 		
 		// All db tables
 		$itemsForSave = array();
@@ -295,14 +314,15 @@ class DatabaseWriter
 			$success = array();
 			foreach($itemsBatch[$this->getCurrentStep()] as $item) {
 				//echo 'Save item' . PHP_EOL;
+				//	BackupImportLogger::setLogInfo('Save content to table: ' . $item['save_to_table']);
 				$success[] = $this->_saveItem($item);
 			}
 			
 			//echo 'Save cache ... ' .$this->currentStep. PHP_EOL;
 			
 			cache_save($this->getCurrentStep() + 1, 'CurrentStep', $this->_cacheGroupName, 60 * 10);
-		
-		
+			
+			
 		}
 		
 	}
@@ -322,9 +342,11 @@ class DatabaseWriter
 	}
 	
 	/**
-	 * Clear all cache on framework 
- 	 */
-	private function _finishUp() {
+	 * Clear all cache on framework
+	 */
+	private function _finishUp($callFrom = '') {
+		
+		// BackupImportLogger::setLogInfo('Call from: ' . $callFrom);
 		
 		// cache_delete($this->_cacheGroupName);
 		
@@ -343,4 +365,15 @@ class DatabaseWriter
 		BackupImportLogger::setLogInfo('Done!');
 	}
 	
+	private function _clearOldImport() {
+		
+		mw()->template->clear_cached_custom_css();
+		
+		if (function_exists('mw_post_update')) {
+			mw_post_update();
+		}
+		
+		mw()->cache_manager->clear();
+		
+	}
 }

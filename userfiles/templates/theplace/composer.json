@@ -1,0 +1,28 @@
+{
+  "name": "microweber/template-theplace",
+  "type": "microweber-template",
+  "description": "The Place",
+  "keywords": [
+    "microweber",
+    "ecommerce",
+    "modern"
+  ],
+  "homepage": "https://microweber.com/theplace",
+  "license": "Commercial",
+  "authors": [
+    {
+      "name": "MW Team",
+      "email": "contacts@microweber.com"
+    }
+  ],
+  "support": {
+    "email": "support@microweber.com",
+    "forum": "https://microweber.com/forum",
+    "irc": "https://webchat.freenode.net/?embed=1&channels=#microweber",
+    "docs": "http://docs.microweber.com"
+  },
+  "extra": {
+    "preview_url": "https://templates.microweber.com/theplace/"
+  },
+  "target-dir": "theplace"
+}

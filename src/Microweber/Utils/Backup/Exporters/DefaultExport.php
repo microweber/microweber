@@ -6,8 +6,8 @@ use Microweber\Utils\Backup\BackupManager;
 
 class DefaultExport implements ExportInterface
 {
-	protected $type = 'json';
-	protected $data;
+	public $type = 'json';
+	public $data;
 
 	public function __construct($data = array())
 	{
@@ -24,12 +24,17 @@ class DefaultExport implements ExportInterface
 		// start exporting
 	}
 
-	protected function _generateFilename()
+	protected function _generateFilename($name = false)
 	{
 		$backupManager = new BackupManager();
 		$exportLocation = $backupManager->getBackupLocation();
-		$exportFilename = 'backup_export_' . date("Y-m-d-his") . '.' . $this->type;
-
+		
+		if ($name) {
+			$exportFilename = $name . '.' . $this->type;
+		} else {
+			$exportFilename = 'backup_export_' . date("Y-m-d-his") . '.' . $this->type;
+		}
+		
 		return array(
 			'download' => api_url('Microweber/Utils/BackupV2/download?file=' . $exportFilename),
 			'filepath' => $exportLocation . $exportFilename,
