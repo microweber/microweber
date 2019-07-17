@@ -125,9 +125,6 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
         display: none;
     }
 
-    .post-settings-holder {
-        padding: 20px;
-    }
 
     .manage-posts-holder, .manage-post-item {
         border: none
@@ -135,6 +132,9 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
 
     .manage-toobar-content {
         margin-bottom: 10px;
+    }
+    .post-settings-holder .mw-ui-btn-nav{
+        clear: none;
     }
 </style>
 <script type="text/javascript">

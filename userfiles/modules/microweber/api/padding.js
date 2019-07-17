@@ -1,3 +1,5 @@
+mw.require('tempcss.js');
+
 (function(mw){
 
     mw.paddingEditor = function( options ) {
@@ -42,7 +44,7 @@
 
             var rec_scope = scope._active;
             if(rec_scope.parentNode){
-                var rec_scope = rec_scope.parentNode;
+                rec_scope = rec_scope.parentNode;
             }
         //    var root = mw.tools.firstParentOrCurrentWithAnyOfClasses(scope._active.parentNode, ['edit', 'element', 'module']);
             var root = mw.tools.firstParentOrCurrentWithAnyOfClasses(rec_scope, ['edit', 'element', 'module']);
@@ -207,27 +209,6 @@
             this.hide();
         };
 
-        this.activeMarkOld = function (state) {
-            if(typeof state === 'undefined') {
-                state = false;
-            }
-            if(!this._activeMark) {
-                this._activeMark = document.createElement('div');
-                this._activeMark.className = 'mw-padding-control-active-mark';
-                document.body.appendChild(this._activeMark);
-            }
-            if (state) {
-                mw.tools.addClass(this._activeMark, 'active');
-                var off = scope._active.getBoundingClientRect();
-                this._activeMark.style.top = (off.top + scrollY) + 'px';
-                this._activeMark.style.left = off.left + 'px';
-                this._activeMark.style.width = off.width + 'px';
-                this._activeMark.style.height = off.height + 'px';
-            } else {
-                mw.tools.removeClass(this._activeMark, 'active');
-            }
-
-        };
         this.activeMark = function (state) {
             if(typeof state === 'undefined') {
                 state = false;
@@ -252,7 +233,20 @@
             } else {
                 mw.tools.removeClass(this._activeMark, 'active');
             }
+        };
 
+        this.generateCSS = function(obj, media){
+            if(!obj || !scope._active) return;
+
+            media = (media || 'all').trim();
+            var selector = mw.tools.generateSelectorForNode(scope._active);
+            var objCss = '{';
+            for (var i in obj) {
+                objCss += (i + ':' + obj[i] + ';');
+            }
+            objCss += '}';
+            var css = '@media ' + media  + ' {' + selector + objCss + '}';
+            return css;
         };
 
         this.info = function() {
@@ -274,7 +268,6 @@
             }
             this._info.style.left = (off.left + (scope._active.clientWidth/2)) + 'px';
         };
-
         this.init();
     };
 

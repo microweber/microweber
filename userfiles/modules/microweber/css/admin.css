@@ -2949,7 +2949,7 @@ body.grabbing, body.grabbing * {
 }
 
 .module-live-edit-settings {
-    padding: 15px;
+    padding: 0px;
 }
 
 .mw-accordion .mw-accordion-content .module-live-edit-settings {
