@@ -125,6 +125,13 @@ mw.url = {
         return obj;
     },
     type:function(url){
+      url = url.toString();
+      if( url ===  'false' ){
+          return false;
+      }
+      if(url.indexOf('/images.unsplash.com/') !== -1){
+          return 'image';
+      }
       var extension = url.split('.').pop();
       var images = 'jpg,png,gif,jpeg,bmp';
       if(images.contains(extension)){

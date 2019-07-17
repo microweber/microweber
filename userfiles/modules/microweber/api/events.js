@@ -69,7 +69,7 @@ mw._on = {
         }
         return false;
     }
-    if(trigger==true){
+    if(trigger === true){
         var index = mw.on._hashparams.indexOf(param);
 
         if(index != -1){
@@ -77,7 +77,7 @@ mw._on = {
           var params = mw.url.getHashParams(hash);
 
           if(typeof params[param] === 'string' && mw.on._hashparam_funcs[index] !== undefined){
-              mw.on._hashparam_funcs[index].call(params[param]);
+              mw.on._hashparam_funcs[index].call(decodeURIComponent(params[param]));
 
           }
         }

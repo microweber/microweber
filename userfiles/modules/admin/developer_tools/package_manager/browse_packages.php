@@ -49,13 +49,21 @@ if (isset($packages_by_type['microweber-core-update']) and !empty($packages_by_t
     <?php } else { ?>
         <h2 class="pull-left"><span class="mw-icon-updates"></span> <?php _e("Packages"); ?></h2>
     <?php } ?>
-    <div class="pull-right">
+    <div class="pull-right ">
+
+
         <div class="top-search">
             <input value="" name="module_keyword" placeholder="Search" type="text" autocomplete="off"
                    onkeyup="event.keyCode==13?mw.url.windowHashParam('search',this.value):false">
             <span class="top-form-submit" onclick="mw.url.windowHashParam('search',$(this).prev().val())"><span
                         class="mw-icon-search"></span></span>
         </div>
+
+
+
+
+
+
     </div>
 
     <div class="pull-right m-r-10" style="margin-top:1px;">
@@ -80,6 +88,13 @@ if (isset($packages_by_type['microweber-core-update']) and !empty($packages_by_t
             </li>
         </ul>
     </div>
+
+
+    <h2 class="pull-right"><span class="mai-modules"></span> <a href="<?php print admin_url(); ?>view:modules"><?php _e("My Modules"); ?></a></h2>
+
+
+
+
 </div>
 
 <script>

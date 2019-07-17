@@ -10,7 +10,7 @@ $here = mw_includes_url() . 'toolbar/editor_tools/plupload/';
     html, body, #container, #pickfiles_<?php print $uid  ?> {
         position: absolute;
         width: 100%;
-        height:45px !important;
+        height: 100% !important;
         top: 0;
         left: 0;
         background: transparent;

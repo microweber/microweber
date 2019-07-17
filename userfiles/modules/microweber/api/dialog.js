@@ -71,13 +71,17 @@ mw.Dialog = function(options){
             closeOnEscape: true,
             closeButton: true,
             closeButtonAppendTo: '.mw-dialog-header',
-            draggable: true
+            draggable: true,
+            scrollMode: 'inside' // 'inside' | 'window'
         };
 
         this.options = $.extend({}, defaults, options);
 
         this.id = this.options.id;
-
+        var exist = document.getElementById(this.id);
+        if(exist) {
+            return exist._dialog;
+        }
 
         this.hasBeenCreated = function(){
            return this.options.root.getElementById(this.id) !== null;
@@ -140,21 +144,22 @@ mw.Dialog = function(options){
                     root.html(title);
                 }
                 else{
-                   $(this.dialogHeader).prepend('<div class="mw-dialog-title">' + title + '</div>')
+                   $(this.dialogHeader).prepend('<div class="mw-dialog-title">' + title + '</div>');
                 }
             }
         };
         this.footer = function (content) {
 
-        }
+        };
 
         this.build = function(){
             this.dialogMain = this.options.root.createElement('div');
 
             this.dialogMain.id = this.id;
-            var cls = 'mw-dialog mw-dialog-skin-' + this.options.skin;
+            var cls = 'mw-dialog mw-dialog-scroll-mode-' + this.options.scrollMode + ' mw-dialog-skin-' + this.options.skin;
             cls += (!this.options.className ? '' : (' ' + this.options.className));
             this.dialogMain.className = cls;
+            this.dialogMain._dialog = this;
 
             this.dialogHolder = this.options.root.createElement('div');
             this.dialogHolder._dialog = this;
@@ -237,6 +242,7 @@ mw.Dialog = function(options){
 
         this.remove = function(){
             this.hide();
+            mw.removeInterval('iframe-' + this.id)
             $(this.dialogMain).remove();
             $(this).trigger('Remove');
             mw.trigger('mwDialogRemove', this);
@@ -286,13 +292,24 @@ mw.Dialog = function(options){
        };
 
 
+    this.contentMaxHeight = function(){
+        var scope = this;
+        if (this.options.scrollMode === 'inside') {
+            mw.interval('iframe-' + this.id, function(){
+                var max = $(window).height() - scope.dialogHeader.clientHeight - scope.dialogFooter.clientHeight - 40;
+                scope.dialogContainer.style.maxHeight =  max + 'px';
+            });
+        }
+    };
     this.init = function(){
             this.build();
+            this.contentMaxHeight();
             this.center();
             this.show();
             if(this.options.autoCenter){
                 (function(scope){
                     $(window).on('resize orientationchange load', function(){
+                        scope.contentMaxHeight()
                         scope.center();
                     });
                 })(this);

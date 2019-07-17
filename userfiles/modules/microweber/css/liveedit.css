@@ -1605,8 +1605,13 @@ body.has-opened-sidebar #live_edit_toolbar {
 .module-modal-settings-menu-holder {
     position: absolute;
     right: 40px;
-    top: 0px;
+    top: 6px;
     min-height: 30px;
+    opacity: .6;
+    transition: opacity .3s;
+}
+.module-modal-settings-menu-holder:hover{
+    opacity: 1;
 }
 
 .module-modal-settings-menu-holder a {
@@ -3977,30 +3982,17 @@ body.dragStart .allow-drop {
     display: block;
     transition: color .3s;
     cursor: pointer;
-}
-
-.mw-module-presets-opener {
     color: #bababa;
 }
 
-.mw-module-presets-opener:before {
-    /*  content: '\002d';
-      font-family: 'admin';
-      position: relative;
-      top: 1px;*/
-}
 
 .mw-module-presets-opener:after {
-    content: "\0118";
+    /*content: "\0118";*/
     font-family: Microweber !important;
     margin-left: 5px;
     font-size: 20px;
     position: relative;
     top: 0;
-}
-
-.mw-module-presets-opener:hover {
-    color: rgba(14, 128, 229, 1);
 }
 
 .mw-module-presets-content {
