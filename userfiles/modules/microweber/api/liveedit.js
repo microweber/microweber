@@ -53,9 +53,9 @@ $(document).ready(function() {
         autoSelect: false
     });
 
-    setInterval(function(){
-        mw.liveEditSelector.positionSelected();
-    }, 700);
+    // setInterval(function(){
+    //     mw.liveEditSelector.positionSelected();
+    // }, 700);
 
     $(document.body).on('mousemove', function(e){
         mw.liveEditData.move.hasLayout = !!mw.tools.firstMatchesOnNodeOrParent(e.target, ['[data-module-name="layouts"]', '[data-type="layouts"]']);
@@ -2154,6 +2154,8 @@ $(document).ready(function() {
 
     mw.on('UserInteraction', function(){
         mw.dropables.userInteractionClasses();
+        mw.liveEditSelector.positionSelected();
+
     });
 
 
