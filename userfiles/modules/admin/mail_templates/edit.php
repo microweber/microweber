@@ -1,8 +1,20 @@
 <?php only_admin_access(); ?>
 
 <?php 
-$template_id = (int) (isset($params['data_template_id']) ? $params['data_template_id'] : 0);
+$template_id = (isset($params['data_template_id']) ? $params['data_template_id'] : '');
+if (!empty($template_id)) {
 $template = get_mail_template_by_id($template_id);
+} else {
+	$template = array();
+	$template['name'] = '';
+	$template['type'] = 'new_comment';
+	$template['from_name'] = '';
+	$template['from_email'] = '';
+	$template['copy_to'] = '';
+	$template['subject'] = '';
+	$template['message'] = '';
+	$template['id'] = '';
+}
 ?>
 
 <script>
@@ -32,7 +44,8 @@ $template = get_mail_template_by_id($template_id);
         }
    });
     $(NewMailEditor).bind('change', function () {
-
+		<?php if ($template['id'] == ''): ?>
+		<?php endif; ?>
     });
 </script>
 

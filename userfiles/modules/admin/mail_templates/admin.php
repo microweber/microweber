@@ -21,6 +21,11 @@
 		    }
 		</script>
 		
+			 <a class="mw-ui-btn" href="javascript:edit_mail_template('');">
+			 	Create new template
+	          </a>
+	          <br />
+	          	 <br />	
 			<module type="admin/mail_templates/list" id="list-mail-templates" />
 			
 		</div> 
