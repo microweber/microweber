@@ -57,8 +57,7 @@
 ?>
     $(document).ready(function () {
         if (typeof thismodal !== 'undefined') {
-            thismodal.main.width(1000);
-            $(thismodal.main[0].getElementsByTagName('iframe')).width(985);
+            thismodal.width(1000);
         }
         $('.mw-admin-wrap').click(function () {
             // mw.options.form('.mw-set-payment-options');

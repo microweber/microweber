@@ -804,7 +804,7 @@ mw.tools = {
                 onopen.call(window, modal_return)
             }
             var max = 0;
-            $(".mw_modal").each(function () {
+            $(".mw_modal, .mw-dialog").each(function () {
                 var z = parseInt($(this).css('zIndex'), 10);
                 if (!isNaN(z)) {
                     max = z > max ? z : max;
@@ -827,7 +827,13 @@ mw.tools = {
             var el = mw.$(selector),
                 child_cont = el.find(".mw_modal_container:first"),
                 parent_cont = el.parents(".mw_modal_container:first");
-            if (child_cont.length !== 0) {
+            if(!el[0]){
+                return false;
+            }
+            else if(el[0]._dialog){
+                return el[0]._dialog;
+            }
+            else if (child_cont.length !== 0) {
                 return child_cont.parent()[0].modal;
             }
             else if (parent_cont.length !== 0) {
@@ -5511,15 +5517,17 @@ mw.fileWindow = function (config) {
     var url = config.types ? ("rte_image_editor?types=" + config.types + '#fileWindow') : ("rte_image_editor#fileWindow");
     var url = mw.settings.site_url + 'editor_tools/' + url;
     var root = window.top.mw ? window.top.mw : mw;
-    var modal = root.tools.modal.frame({
+    //var modal = root.tools.modal.frame({
+    var modal = root.dialogIframe({
         url: url,
         name: "mw_rte_image",
         width: 430,
-        height: 230,
+        height: 'auto',
+        autoHeight: true,
         //template: 'mw_modal_basic',
         overlay: true
     });
-    var frameWindow = $('iframe', modal.container)[0].contentWindow;
+    var frameWindow = $('iframe', modal.main)[0].contentWindow;
     frameWindow.onload = function () {
         frameWindow.$('body').on('change', function (e, url, m) {
             if (config.change) {
@@ -5527,8 +5535,7 @@ mw.fileWindow = function (config) {
                 modal.remove()
             }
         });
-    }
-    modal.overlay.style.backgroundColor = 'white';
+    };
 };
 /***********************************************
  mw.modal({

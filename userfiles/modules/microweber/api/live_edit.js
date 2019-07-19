@@ -147,7 +147,7 @@ mw.live_edit.showSettings = function (a, opts) {
         });
 
         nmodal.iframe.contentWindow.thismodal = nmodal;
-        //return nmodal;
+        return nmodal;
 
         var modal = top.mw.tools.modal.frame({
             url: src,
@@ -159,6 +159,7 @@ mw.live_edit.showSettings = function (a, opts) {
                 $(this.container).attr('data-settings-for-module', curr.id);
             }
         });
+        mw.live_edit.getModuleTitleBar(module_type, curr.id);
         return modal;
     } else {
 

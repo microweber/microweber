@@ -56,9 +56,13 @@
         display: flex;
         align-items:center;
         position: relative;
-        position: sticky;
         top: 0;
         z-index: 2;
+    }
+    &.mw-dialog-scroll-mode-window{
+        .mw-dialog-header{
+            position: sticky;
+        }
     }
     .mw-dialog-holder{
         background-color: white;

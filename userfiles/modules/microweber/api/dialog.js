@@ -72,7 +72,8 @@ mw.Dialog = function(options){
             closeButton: true,
             closeButtonAppendTo: '.mw-dialog-header',
             draggable: true,
-            scrollMode: 'inside' // 'inside' | 'window'
+            scrollMode: 'inside', // 'inside' | 'window',
+            centerMode: 'intuitive' // 'intuitive' | 'center'
         };
 
         this.options = $.extend({}, defaults, options);
@@ -118,11 +119,13 @@ mw.Dialog = function(options){
                 $holder.draggable({
                     handle: this.options.draggableHandle || '.mw-dialog-header',
                     start: function() {
-                        $holder.addClass('mw-dialog-drag-start')
+                        $holder.addClass('mw-dialog-drag-start');
                     },
                     stop: function() {
-                        $holder.removeClass('mw-dialog-drag-start')
-                    }
+                        $holder.removeClass('mw-dialog-drag-start');
+                    },
+                    containment: 'window',
+                    iframeFix: true
                 });
             }
         };
@@ -162,6 +165,9 @@ mw.Dialog = function(options){
             this.dialogMain._dialog = this;
 
             this.dialogHolder = this.options.root.createElement('div');
+            this.dialogHolder.id = 'mw-dialog-holder-' + this.id;
+
+
             this.dialogHolder._dialog = this;
 
             this.header();
@@ -171,6 +177,7 @@ mw.Dialog = function(options){
             this.dialogFooter.className = 'mw-dialog-footer';
 
             this.dialogContainer = this.options.root.createElement('div');
+            this.dialogContainer._dialog = this;
 
             this.dialogContainer.className = 'mw-dialog-container';
             this.dialogHolder.className = 'mw-dialog-holder';
@@ -188,6 +195,8 @@ mw.Dialog = function(options){
             this.closeButton.onclick = function(){
                 this.$scope.remove();
             };
+            this.main = $(this.dialogContainer); // obsolete
+            this.main.width = this.width;
 
             this.width(this.options.width || 600);
             this.height(this.options.height || 320);
@@ -257,15 +266,29 @@ mw.Dialog = function(options){
 
         this.destroy = this.remove;
 
+        this._prevHeight = -1;
 
         this.center = function(){
             var $holder = $(this.dialogHolder), $window = $(window);
-            var dtop = $window.height()/2 -  $holder.outerHeight()/2;
-            $holder.css({
-                left: $window.outerWidth()/2 -  $holder.outerWidth()/2,
-                top: dtop > 0 ? dtop : 0
-            });
+            var holderHeight = $holder.outerHeight();
+            var dtop, css = {};
+
+            if (this.options.centerMode === 'intuitive' && this._prevHeight < holderHeight) {
+                dtop = $window.height()/2 -  holderHeight/2;
+            } else if (this.options.centerMode === 'center') {
+                dtop = $window.height()/2 -  holderHeight/2;
+            }
+            css.left = $window.outerWidth()/2 -  $holder.outerWidth()/2;
+
+            if (dtop) {
+                css.top = dtop > 0 ? dtop : 0;
+            }
+
+            $holder.css(css);
+            this._prevHeight = holderHeight;
+
             $(this).trigger('dialogCenter');
+
             return this;
         };
 
@@ -309,7 +332,7 @@ mw.Dialog = function(options){
             if(this.options.autoCenter){
                 (function(scope){
                     $(window).on('resize orientationchange load', function(){
-                        scope.contentMaxHeight()
+                        scope.contentMaxHeight();
                         scope.center();
                     });
                 })(this);

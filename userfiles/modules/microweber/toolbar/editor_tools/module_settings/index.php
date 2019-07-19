@@ -158,48 +158,21 @@
                 thismodal.main.scrollTop(0);
             }
 
+            var icon = '';
+            if (mw_module_settings_info.icon) {
+                modal_title_str = ('<img class="mw-module-dialog-icon" src="'+mw_module_settings_info.icon+'">' + modal_title_str)
+            }
+
             if(thismodal.title) {
                 thismodal.title(modal_title_str)
             }
 
-            __autoresize = function (force) {
-                var force = force || false;
-                var _old = thismodal.main.height();
-
-                if (thismodal.main && typeof thismodal.main.scrollTop == 'function') {
-                    thismodal.main.scrollTop(0);
-                }
-
-                if (typeof thismodal.main[0] != 'undefined') {
-                    parent.mw.tools.modal.resize("#" + thismodal.main[0].id, false, mw.$('#settings-container').height() + 25, false);
-                    setTimeout(function () {
-                        var _new = thismodal.main.height();
-                        if (_new > _old || force) {
-                            parent.mw.tools.modal.center("#" + thismodal.main[0].id, 'vertical');
-                        }
-                    }, 400)
-                }
-            }
 
             $(window).load(function () {
                 if (thismodal.main && !!thismodal.main[0]) {
 
                     if (autoSize) {
                         parent.mw.tools.modal.resize("#" + thismodal.main[0].id, false, $('#settings-container').height() + 25, true);
-
-                        $(mwd.body).bind('mouseup click DOMNodeInserted', function () {
-                            setTimeout(function () {
-                                __autoresize();
-                            }, 99);
-                        }).ajaxStop(function () {
-                            setTimeout(function () {
-                                __autoresize();
-                            }, 99);
-                        });
-
-                        setInterval(function () {
-                            __autoresize();
-                        }, 99);
 
                         $(window.parent.window).bind("resize", function () {
                             if (parent != null) {
@@ -264,8 +237,8 @@
                     <?php $mod_adm = admin_url('load_module:') . module_name_encode($module_info['module']); ?>
 
                     var is_module_tml_holder = $(toolbar).find(".module-modal-settings-menu-holder");
-                    
-                    
+
+
 
 
 

@@ -4977,3 +4977,8 @@ html.padding-control-start .mw-handle-item {
     display: block;
 }
 
+.mw-module-dialog-icon{
+    width: 25px;
+    margin-right: 7px;
+}
+

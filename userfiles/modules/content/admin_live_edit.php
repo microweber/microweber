@@ -147,16 +147,16 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
 
 
     resizeModal = function (w, h) {
-        var type = typeof(thismodal), _w = w || 810, _h = h || mw.$('#settings-container').height() + 25;
+        var  _w = w || 810;
         if (type == 'undefined') {
             return;
         }
         if (type !== 'undefined' && type !== 'boolean') {
-            parent.mw.tools.modal.resize("#" + thismodal.main[0].id, _w, _h, false);
+            parent.mw.tools.modal.resize("#" + thismodal.main[0].id, _w, 'auto', false);
         }
         else {
             var modal = mw.tools.firstParentWithClass(this.frameElement, 'mw_modal').modal;
-            modal.resize(_w, _h);
+            modal.resize(_w, 'auto');
         }
     }
 
