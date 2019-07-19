@@ -22,7 +22,7 @@ $template = get_mail_template_by_id($template_id);
     NewMailEditor = mw.editor({
         element:mwd.getElementById('editorAM'),
         hideControls:['format', 'fontsize', 'justifyfull'],
-        height:900,
+        height:400,
         addControls: mwd.getElementById('editorctrls').innerHTML,
         ready: function (content) {
             content.defaultView.mw.dropdown();
@@ -64,6 +64,17 @@ $template = get_mail_template_by_id($template_id);
    <div class="mw-flex-col-md-5">
   <label class="mw-ui-label">Template Name</label> 
   <input type="text" name="name" value="<?php echo $template['name']; ?>" class="mw-ui-field" style="width:100%;">
+  </div>
+  
+   <div class="mw-flex-col-md-12"><br /></div>
+   
+   <div class="mw-flex-col-md-5">
+   <label class="mw-ui-label">Template Type</label> 
+  	<select name="type" class="mw-ui-field" style="width:100%;">  
+  	<?php foreach(get_mail_template_types() as $type):?>
+  	<option value="<?php echo $type; ?>" <?php if($type==$template['type']):?>selected="selected"<?php endif; ?>><?php echo $type; ?></option>
+  	<?php endforeach; ?>
+  	</select>	
   </div>
   
    <div class="mw-flex-col-md-12"><br /></div>
@@ -110,7 +121,6 @@ $template = get_mail_template_by_id($template_id);
 	<div class="mw-flex-col-md-12">
   	 <br />
   	  <input type="hidden" name="id" value="<?php echo $template['id']; ?>">
-  	  <input type="hidden" name="type" value="<?php echo $template['type']; ?>">
   	  
 	  <input type="submit" name="submit" value="Save changes" class="mw-ui-btn"/>
 	  &nbsp;&nbsp;

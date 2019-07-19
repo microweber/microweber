@@ -1,4 +1,22 @@
 <?php
+function get_mail_template_types() {
+	
+	$email_template_types = array();
+	
+	$default_mail_templates = normalize_path(MW_PATH  . 'Views/emails');
+	$default_mail_templates = scandir($default_mail_templates);
+	
+	foreach ($default_mail_templates as $template_file) {
+		if (strpos($template_file, "blade.php") !== false) {
+			
+			$template_type = str_replace('.blade.php', false, $template_file);
+			
+			$email_template_types[] = $template_type;
+		}
+	}
+	
+	return $email_template_types;
+}
 
 function get_mail_template_fields($type = '') {
 	
