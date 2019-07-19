@@ -270,7 +270,7 @@
                             </div>
                             <hr>
                             <div class="email-on-new-comment-setting">
-                                <label><?php _e("Email me on"); ?></label>
+                                <label><?php _e("Send email me on"); ?></label>
                                 <div class="email-on-new-comment-holder">
                                     <label class="mw-ui-check">
                                         <?php $email_enabled = get_option('email_on_new_comment', 'comments') == 'y'; ?>
@@ -291,13 +291,32 @@
                                     </div>
                                 </div>
                             </div>
-
+ 							<br />
+							<br />
+							
+ 							<div class="email-on-new-comment-setting email-on-reply-comment-setting">
+                                <label><?php _e("Send email to user on"); ?></label>
+                                <div class="email-on-new-comment-holder">
+                                    <label class="mw-ui-check">
+                                        <?php $email_enabled = get_option('email_user_on_new_comment_reply', 'comments') == 'y'; ?>
+                                        <input
+                                                type="checkbox"
+                                                name="email_user_on_new_comment_reply"
+                                                value="y"
+                                                parent-reload="true"
+                                                class="mw_option_field"
+                                                option-group="comments"
+                                            <?php if ($email_enabled): ?>   checked="checked"  <?php endif; ?>
+                                        />
+                                        <span></span><span><?php _e("New comment reply"); ?></span> 
+                                        </label>
+                                </div>
+                            </div>
 
                         </div>
                     </div>
                     <div class="mw-ui-col">
                         <div class="mw-ui-col-container">
-
 
                             <h5><?php _e("Avatar Display"); ?></h5>
                             <div class="mw-ui-field-holder">

@@ -62,7 +62,7 @@ function get_mail_template_fields($type = '') {
 		return $fields;
 	}
 	
-	if ($type == 'new_comment') {
+	if ($type == 'new_comment_reply') {
 		
 		$fields= array();
 		$fields[] = array('tag'=>'{id}', 'name'=> 'Comment Id');
@@ -73,9 +73,37 @@ function get_mail_template_fields($type = '') {
 		
 		return $fields;
 	}
+	
+	if ($type == 'new_user_registration') {
+		
+		$fields= array();
+		$fields[] = array('tag'=>'{id}', 'name'=> 'User Id');
+		$fields[] = array('tag'=>'{username}', 'name'=> 'Username');
+		$fields[] = array('tag'=>'{email}', 'name'=> 'Email');
+		$fields[] = array('tag'=>'{first_name}', 'name'=> 'First Name');
+		$fields[] = array('tag'=>'{last_name}', 'name'=> 'Last Name');
+		$fields[] = array('tag'=>'{created_at}', 'name'=> 'Date of registration');
+		$fields[] = array('tag'=>'{verify_email_link}', 'name'=> 'Verify email link');
+		return $fields;
+	}
+	
+	if ($type == 'forgot_password') {
+		
+		$fields= array();
+		$fields[] = array('tag'=>'{id}', 'name'=> 'User Id');
+		$fields[] = array('tag'=>'{username}', 'name'=> 'Username');
+		$fields[] = array('tag'=>'{email}', 'name'=> 'Email');
+		$fields[] = array('tag'=>'{first_name}', 'name'=> 'First Name');
+		$fields[] = array('tag'=>'{last_name}', 'name'=> 'Last Name');
+		$fields[] = array('tag'=>'{created_at}', 'name'=> 'Date of registration');
+		$fields[] = array('tag'=>'{reset_password_link}', 'name'=> 'Reset password link');
+		$fields[] = array('tag'=>'{ip}', 'name'=> 'IP address');
+		
+		return $fields;
+	}
 }
 
-api_expose('save_mail_template');
+api_expose_admin('save_mail_template');
 function save_mail_template($data)
 {
 	if (! is_admin()) {
@@ -149,7 +177,7 @@ function get_mail_templates($params = array())
 	return $templates;
 }
 
-api_expose('delete_mail_template');
+api_expose_admin('delete_mail_template');
 function delete_mail_template($params)
 {
 	if (! is_admin()) {
