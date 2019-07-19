@@ -29,7 +29,11 @@ $shop_page = get_content('is_shop=1');
 $requires_registration = get_option('shop_require_registration', 'website') == '1';
 
 
+$cart = array();
+$cart['session_id'] = mw()->user_manager->session_id();
+$cart['order_completed'] = 0;
 
+$data = get_cart($cart);
 
 
 $checkout_price_formation = array();
