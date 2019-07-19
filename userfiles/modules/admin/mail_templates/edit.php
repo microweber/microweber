@@ -1,11 +1,9 @@
 <?php only_admin_access(); ?>
 
-
 <?php 
-$template_id = (int) $params['data_template_id'];
-$template = get_mail_templates("id=".$template_id."&single=1");
+$template_id = (int) (isset($params['data_template_id']) ? $params['data_template_id'] : 0);
+$template = get_mail_template_by_id($template_id);
 ?>
-
 
 <script>
     $(document).ready(function () {
@@ -21,19 +19,10 @@ $template = get_mail_templates("id=".$template_id."&single=1");
         });
     });
 
-    initEditor = function() {
-        if (!window.editorLaunced) {
-               editorLaunced = true;
-               mw.editor({
-                   element:mwd.getElementById('editorAM'),
-                   hideControls:['format', 'fontsize', 'justifyfull']
-              });
-          }
-      }
-
-      $(document).ready(function(){
-         initEditor();
-      });
+    mw.editor({
+        element:mwd.getElementById('editorAM'),
+        hideControls:['format', 'fontsize', 'justifyfull']
+   });
 </script>
 
 <form id="edit-mail-template-form">
@@ -41,6 +30,13 @@ $template = get_mail_templates("id=".$template_id."&single=1");
   <h3>Edit mail template</h3>
   <br />
   <div class="mw-flex-row">
+  
+   <div class="mw-flex-col-md-5">
+  <label class="mw-ui-label">Template Name</label> 
+  <input type="text" name="name" value="<?php echo $template['name']; ?>" class="mw-ui-field" style="width:100%;">
+  </div>
+  
+   <div class="mw-flex-col-md-12"><br /></div>
   
   <div class="mw-flex-col-md-2">
   <label class="mw-ui-label">From Name</label>
@@ -83,9 +79,12 @@ $template = get_mail_templates("id=".$template_id."&single=1");
   
 	<div class="mw-flex-col-md-12">
   	 <br />
+  	  <input type="hidden" name="id" value="<?php echo $template['id']; ?>">
+  	  <input type="hidden" name="type" value="<?php echo $template['type']; ?>">
+  	  
 	  <input type="submit" name="submit" value="Save changes" class="mw-ui-btn"/>
 	  &nbsp;&nbsp;
-	  <input name="submit" value="Cancel" onClick="mw.reload_module('#edit-mail-template')" class="mw-ui-btn"/>
+	  <input name="submit" value="Cancel" onClick="mw.reload_module('admin/mail_templates')" class="mw-ui-btn"/>
     </div>
   
   </div>

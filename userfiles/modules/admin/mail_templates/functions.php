@@ -9,13 +9,51 @@ function save_mail_template($data)
 	return db_save($table, $data);
 }
 
+function get_mail_template_by_id($id) {
+	
+	foreach (get_mail_templates() as $template) {
+		if ($template['id'] == $id) {
+			return $template;
+		}
+	}
+	
+}
+
 function get_mail_templates($params = array())
 {
 	if (is_string($params)) {
 		$params = parse_params($params);
 	}
+	
 	$params['table'] = "mail_templates";
-	return db_get($params);
+	$templates =  db_get($params);
+	
+	
+	$default_mail_templates = normalize_path(MW_PATH  . 'Views/emails');
+	$default_mail_templates = scandir($default_mail_templates);
+	
+	foreach ($default_mail_templates as $template_file) {
+		if (strpos($template_file, "blade.php") !== false) {
+			
+			$template_name = str_replace('.blade.php', false, $template_file);
+			$template_name = str_replace('_', ' ', $template_name);
+			$template_name = ucfirst($template_name);
+			
+			$templates[] = array(
+				'id'=> $template_file,
+				'type' => $template_file,
+				'name' => $template_name,
+				'subject'=>$template_name,
+				'from_name'=> get_option('email_from_name','email'),
+				'from_email'=> get_option('email_from','email'),
+				'copy_to'=>'',
+				'message'=> '',
+				'is_active' => 1
+			);
+		}
+	}
+	
+	return $templates;
 }
 
 api_expose('delete_mail_template');
