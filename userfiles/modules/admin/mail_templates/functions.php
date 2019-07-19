@@ -18,6 +18,24 @@ function get_mail_template_types() {
 	return $email_template_types;
 }
 
+function get_mail_templates_by_type($type = '') {
+	
+	$templates = array();
+	
+	foreach (get_mail_templates() as $template) {
+		if ($template['type'] == $type) {
+		
+			if (isset($template['is_default'])) {
+				$template['name'] = $template['name'] . ' (default)';
+			}
+			
+			$templates[] = $template;
+		}
+	}
+	
+	return $templates;
+}
+
 function get_mail_template_fields($type = '') {
 	
 	if ($type == 'new_order' || $type == 'order_change_status' || $type == 'receive_payment') {
