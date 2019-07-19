@@ -84,6 +84,7 @@ function get_mail_template_fields($type = '') {
 		$fields[] = array('tag'=>'{last_name}', 'name'=> 'Last Name');
 		$fields[] = array('tag'=>'{created_at}', 'name'=> 'Date of registration');
 		$fields[] = array('tag'=>'{verify_email_link}', 'name'=> 'Verify email link');
+		
 		return $fields;
 	}
 	

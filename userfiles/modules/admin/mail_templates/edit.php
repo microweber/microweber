@@ -59,9 +59,14 @@ $template = get_mail_template_by_id($template_id);
         </span>
         <div class="mw-dropdown-content">
             <ul>
-				<?php foreach(get_mail_template_fields($template['type']) as $field): ?>
+	            <?php 
+	            $mailTypes = get_mail_template_fields($template['type']);
+	            if (!empty($mailTypes)):
+	            ?>
+				<?php foreach($mailTypes as $field): ?>
                 <li value="<?php echo $field['tag']; ?>"><a href="javascript:;"><?php _e($field['name']); ?></a></li>
                <?php endforeach; ?>
+               <?php endif; ?>
             </ul>
         </div>
     </div>
