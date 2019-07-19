@@ -7,6 +7,7 @@ use Microweber\Utils\Backup\Readers\CsvReader;
 use Microweber\Utils\Backup\Readers\XmlReader;
 use Microweber\App\Providers\Illuminate\Support\Facades\Cache;
 use Microweber\Utils\Backup\Loggers\BackupImportLogger;
+use Microweber\Utils\Backup\Readers\XlsxReader;
 
 class Import
 {
@@ -69,7 +70,7 @@ class Import
 				);
 			}
 		}
-
+		
 		$formatNotSupported = 'Import format not supported';
 		BackupImportLogger::setLogInfo($formatNotSupported);
 		
@@ -96,7 +97,8 @@ class Import
 				return $this->importAsType($this->file);
 			});
 		} else {
-			BackupImportLogger::setLogInfo('Read content from cache..');
+			
+			// BackupImportLogger::setLogInfo('Read content from cache..');
 			
 			// This is for the next steps from wizard
 			return Cache::get(md5($this->file));
@@ -131,6 +133,10 @@ class Import
 				
 			case 'xml':
 				$reader = new XmlReader($data);
+				break;
+				
+			case 'xlsx':
+				$reader = new XlsxReader($data);
 				break;
 				
 			case 'zip':

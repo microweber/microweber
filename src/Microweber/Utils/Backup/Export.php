@@ -7,6 +7,7 @@ use Microweber\Utils\Backup\Exporters\XmlExport;
 use Microweber\Utils\Backup\Exporters\ZipExport;
 use Microweber\Utils\Backup\Loggers\BackupExportLogger;
 use Microweber\App\Providers\Illuminate\Support\Facades\Cache;
+use Microweber\Utils\Backup\Exporters\XlsxExport;
 
 class Export
 {
@@ -30,28 +31,84 @@ class Export
 	
 	public function exportAsType($data)
 	{
+		$exportWithZip = false;
+		$exportMediaUserFiles = false;
+		
+		if (array_key_exists('media', $data)) {
+			$exportMediaUserFiles = true;
+		}
+		
 		$export = $this->_getExporter($data);
 		
-		$export->setType($this->type);
-		$exportStatus = $export->start();
-		
-		if (isset($exportStatus['download']) && !empty($exportStatus['download'])) {
-			return array(
-				'success' => 'Items are exported',
-				'export_type' => $this->type,
-				'data' => $exportStatus
-			);
-		} else {
-			/* return array(
-				'error' => 'Export format not supported.'
-			); */
-			return $exportStatus;
+		if (isset($export['files']) && count($export['files']) > 1) {
+			$exportWithZip = true;
 		}
+		
+		if ($exportWithZip || $exportMediaUserFiles) {
+			
+			// Make Zip
+			$zipExport = new ZipExport();
+			
+			// Add exported files
+			if (isset($export['files'])) {
+				foreach ($export['files'] as $file) {
+					$zipExport->addFile($file);
+				}
+			}
+			
+			if ($exportMediaUserFiles) {
+				$zipExport->setExportMedia(true);
+			}
+			
+			$zipExportReady = $zipExport->start();
+			
+			// Delete unused ziped files
+			if (isset($export['files'])) {
+				foreach ($export['files'] as $file) {
+					unlink($file['filepath']);
+				}
+			}
+			
+			if (isset($zipExportReady['download']) && !empty($zipExportReady['download'])) {
+				return array(
+					'success' => 'Items are exported',
+					'export_type' => $this->type,
+					'data' => $zipExportReady
+				);
+			} else {
+				return $zipExportReady;
+			}
+		}
+		
+		if (isset($export['files'])) {
+		
+			$exportSingleFile = false;
+			
+			if (count($export['files']) == 1) {
+				$exportSingleFile = true;
+			}
+			
+			if ($exportSingleFile && isset($export['files']) && !empty($export['files'])) {
+				return array(
+					'success' => 'Items are exported',
+					'export_type' => $this->type,
+					'data' => $export['files'][0]
+				);
+			} else {
+				return $export;
+			}
+			
+		}
+		
 	}
 
 	public function start() {
 		
 		$readyData = $this->_getReadyDataCached();
+		
+		if (empty($readyData)) {
+			return array("error"=>"Empty content data.");
+		}
 		
 		return $this->exportAsType($readyData);
 	}
@@ -62,7 +119,9 @@ class Export
 	
 	private function _getReadyDataCached() {
 		
-		$exportDataHash = $this->_getExportDataHash();
+		return $this->_getReadyData();
+		
+		/* $exportDataHash = $this->_getExportDataHash();
 		
 		$zipExport = new ZipExport();
 		$currentStep = $zipExport->getCurrentStep();
@@ -77,7 +136,7 @@ class Export
 			BackupExportLogger::setLogInfo('Start exporting selected data...');
 			// This is for the next steps from wizard
 			return Cache::get($exportDataHash);
-		}
+		} */
 	}
 	
 	private function _getReadyData() {
@@ -264,15 +323,21 @@ class Export
 				$export = new XmlExport($data);
 				break;
 				
-			case 'zip':
-				$export = new ZipExport($data);
+			case 'xlsx':
+				$export = new XlsxExport($data);
 				break;
+				
+			/* case 'zip':
+				$export = new ZipExport($data);
+				break; */
 				
 			default:
 				throw new \Exception('Format not supported for exporting.');
 		}
 		
-		return $export;
+		$export->setType($this->type);
+		
+		return $export->start();
 	}
 	
 }

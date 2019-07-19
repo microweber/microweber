@@ -41,7 +41,8 @@ class DbInstaller
             new Schema\JobsQueue(),
             new Schema\PasswordResetsTable(),
             new Schema\Updates(),
-        	new Schema\MailSubscribe()
+        	new Schema\MailSubscribe(),
+        	new Schema\MailTemplates()
         ];
     }
 

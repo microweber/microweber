@@ -1,0 +1,30 @@
+<?php only_admin_access(); ?>
+<?php if (isset($params['backend'])): ?>
+    <module type="admin/modules/info"/>
+<?php endif; ?>
+
+<div class="mw-ui mw-ui-box-content">
+<div class="mw-ui-box mw-ui-box-content">
+<h2><?php _e("Mail Templates"); ?></h2>
+<br />
+<div class="mw-ui-row">
+    <div class="mw-ui-col">
+        <div class="mw-ui-col-container">
+			
+			<script>
+		    function edit_mail_template(template_id) {
+		    	$('#list-mail-templates').slideUp();
+
+				// append edit 
+				$('#list-mail-templates').after('<div type="admin/mail_templates/edit" data_template_id="'+template_id+'" id="edit-mail-template"></div>');
+				mw.reload_module("#edit-mail-template");
+		    }
+		</script>
+		
+			<module type="admin/mail_templates/list" id="list-mail-templates" />
+			
+		</div> 
+	</div>
+</div>
+</div>
+</div>

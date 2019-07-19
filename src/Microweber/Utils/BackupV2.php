@@ -196,6 +196,10 @@ class BackupV2
 			return array('error' => 'You have not provided a existing backup to import.');
 		} else {
 			
+			if (isset($query['debug'])) {
+				$this->manager->setLogger(new BackupV2Logger());
+			}
+			
 			$this->manager->setImportFile($filePath);
 			$importLog = $this->manager->startImport();
 			
@@ -223,8 +227,16 @@ class BackupV2
 		$manager = new BackupManager();
 		$manager->setExportData('tables', $tables);
 		
+		if (isset($query['format'])) {
+			$manager->setExportType($query['format']);
+		}
+		
 		if (isset($query['all'])) {
 			$manager->setExportAllData(true);
+		}
+		
+		if (isset($query['debug'])) {
+			$manager->setLogger(new BackupV2Logger());
 		}
 		
 		if (isset($query['content_ids']) && !empty($query['content_ids'])) {
@@ -313,3 +325,13 @@ class BackupV2
 		return $status;
 	}
 }
+
+class BackupV2Logger {
+	
+	public function log($log) {
+		echo $log . '<br />';
+	}
+	
+}
+	
+

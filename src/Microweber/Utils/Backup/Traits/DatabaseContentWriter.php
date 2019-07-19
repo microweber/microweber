@@ -11,8 +11,9 @@ trait DatabaseContentWriter
 		if (! isset($this->content['content'])) {
 			return;
 		}
-
+		
 		foreach ($this->content['content'] as $dataItem) {
+			
 			if ($dataItem['id'] == $contentId) {
 				return $dataItem;
 			}
