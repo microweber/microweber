@@ -1,4 +1,44 @@
 <?php
+
+function get_mail_template_fields($type = '') {
+	
+	if ($type == 'new_order' || $type == 'order_change_status' || $type == 'receive_payment') {
+		
+		$fields= array();
+		$fields[] = array('tag'=>'{id}', 'name'=> 'Order Id');
+		$fields[] = array('tag'=>'{date}', 'name'=> 'Date');
+		$fields[] = array('tag'=>'{cart_items}', 'name'=> 'Cart items');
+		$fields[] = array('tag'=>'{amount}', 'name'=> 'Amount');
+		$fields[] = array('tag'=>'{order_status}', 'name'=> 'Order Status');
+		$fields[] = array('tag'=>'{currency}', 'name'=> 'Currency');
+		$fields[] = array('tag'=>'{first_name}', 'name'=> 'First Name');
+		$fields[] = array('tag'=>'{last_name}', 'name'=> 'Last Name');
+		$fields[] = array('tag'=>'{email}', 'name'=> 'Email');
+		$fields[] = array('tag'=>'{country}', 'name'=> 'Country');
+		$fields[] = array('tag'=>'{city}', 'name'=> 'City');
+		$fields[] = array('tag'=>'{state}', 'name'=> 'State');
+		$fields[] = array('tag'=>'{zip}', 'name'=> 'Zip');
+		$fields[] = array('tag'=>'{address}', 'name'=> 'Address');
+		$fields[] = array('tag'=>'{phone}', 'name'=> 'Phone');
+		$fields[] = array('tag'=>'{transaction_id}', 'name'=> 'Transaction Id');
+		$fields[] = array('tag'=>'{order_id}', 'name'=> 'Order Id');
+			
+		return $fields;
+	}
+	
+	if ($type == 'new_comment') {
+		
+		$fields= array();
+		$fields[] = array('tag'=>'{id}', 'name'=> 'Comment Id');
+		$fields[] = array('tag'=>'{date}', 'name'=> 'Date');
+		$fields[] = array('tag'=>'{first_name}', 'name'=> 'First Name');
+		$fields[] = array('tag'=>'{last_name}', 'name'=> 'Last Name');
+		$fields[] = array('tag'=>'{email}', 'name'=> 'Email');
+		
+		return $fields;
+	}
+}
+
 api_expose('save_mail_template');
 function save_mail_template($data)
 {
@@ -12,7 +52,13 @@ function save_mail_template($data)
 function get_mail_template_by_id($id) {
 	
 	foreach (get_mail_templates() as $template) {
+		
 		if ($template['id'] == $id) {
+			
+			if (isset($template['is_default'])) {
+				$template['message'] = file_get_contents(normalize_path(MW_PATH  . 'Views/emails') . $template['id']);
+			}
+			
 			return $template;
 		}
 	}

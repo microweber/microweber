@@ -19,11 +19,41 @@ $template = get_mail_template_by_id($template_id);
         });
     });
 
-    mw.editor({
+    NewMailEditor = mw.editor({
         element:mwd.getElementById('editorAM'),
-        hideControls:['format', 'fontsize', 'justifyfull']
+        hideControls:['format', 'fontsize', 'justifyfull'],
+        height:900,
+        addControls: mwd.getElementById('editorctrls').innerHTML,
+        ready: function (content) {
+            content.defaultView.mw.dropdown();
+            mw.$("#email_content_dynamic_vals li", content).bind('click', function () {
+            	NewMailEditor.api.insert_html($(this).attr('value'));
+            });
+        }
    });
+    $(NewMailEditor).bind('change', function () {
+
+    });
 </script>
+
+<div id="editorctrls" style="display: none">
+
+    <span class="mw_dlm"></span>
+    <div style="width: 112px;" data-value="" title="<?php _e("These values will be replaced with the actual content"); ?>" id="email_content_dynamic_vals" class="mw-dropdown mw-dropdown-type-wysiwyg mw-dropdown-type-wysiwyg_blue mw_dropdown_action_dynamic_values">
+        <span class="mw-dropdown-value">
+            <span class="mw-dropdown-arrow"></span>
+            <span class="mw-dropdown-val"><?php _e("E-mail Values"); ?></span>
+        </span>
+        <div class="mw-dropdown-content">
+            <ul>
+				<?php foreach(get_mail_template_fields($template['type']) as $field): ?>
+                <li value="<?php echo $field['tag']; ?>"><a href="javascript:;"><?php _e($field['name']); ?></a></li>
+               <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+
+</div>
 
 <form id="edit-mail-template-form">
 
