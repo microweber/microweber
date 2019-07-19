@@ -8,8 +8,8 @@ $template = get_mail_template_by_id($template_id);
 	$template = array();
 	$template['name'] = '';
 	$template['type'] = 'new_comment';
-	$template['from_name'] = '';
-	$template['from_email'] = '';
+	$template['from_name'] = get_option('email_from_name','email');
+	$template['from_email'] = get_option('email_from','email');
 	$template['copy_to'] = '';
 	$template['subject'] = '';
 	$template['message'] = '';
@@ -83,7 +83,7 @@ $template = get_mail_template_by_id($template_id);
    
    <div class="mw-flex-col-md-5">
    <label class="mw-ui-label">Template Type</label> 
-  	<select name="type" class="mw-ui-field" style="width:100%;">  
+  	<select name="type" class="mw-ui-field js-template-type" style="width:100%;">  
   	<?php foreach(get_mail_template_types() as $type):?>
   	<option value="<?php echo $type; ?>" <?php if($type==$template['type']):?>selected="selected"<?php endif; ?>><?php echo $type; ?></option>
   	<?php endforeach; ?>
