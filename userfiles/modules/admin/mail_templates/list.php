@@ -53,9 +53,11 @@
                 <a class="mw-ui-btn"
                        href="javascript:edit_mail_template('<?php print $item['id'] ?>');">Edit
                     </a>
+                    <?php if (!isset($item['is_default'])): ?>
                 <a class="mw-ui-btn"
                        href="javascript:delete_mail_template('<?php print $item['id'] ?>');">Delete
                     </a>
+                    <?php endif; ?>
                      </center>
                 </td>
             </tr>
