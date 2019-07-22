@@ -509,7 +509,8 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
 				        <label class="mw-ui-label bold">
 				        <?php _e("Select email template"); ?>
 				        </label> 
-				        <select name="new_user_registration_template" class="mw-ui-field mw_option_field" data-option-group="users" option-group="users" style="width:330px;">  
+				        <select name="new_user_registration_template" class="mw-ui-field mw_option_field" data-option-group="users" option-group="users" style="width:330px;">
+				        <option>Select...</option>
 					  	<?php foreach(get_mail_templates_by_type('new_user_registration') as $template): ?>
 					  		<option value="<?php echo $template['id']; ?>" <?php if(get_option('new_user_registration_template', 'users') == $template['id']): ?>selected="selected"<?php endif; ?>><?php echo $template['name']; ?></option>
 					  	<?php endforeach; ?>
@@ -552,7 +553,8 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
 				        <label class="mw-ui-label bold">
 				        <?php _e("Select email template"); ?>
 				        </label> 
-				        <select name="forgot_password" class="mw-ui-field mw_option_field" data-option-group="users" option-group="users" style="width:330px;">  
+				        <select name="forgot_password" class="mw-ui-field mw_option_field" data-option-group="users" option-group="users" style="width:330px;">
+				         <option>Select...</option>
 					  	<?php foreach(get_mail_templates_by_type('forgot_password') as $template): ?>
 					  		<option value="<?php echo $template['id']; ?>" <?php if(get_option('forgot_password', 'users') == $template['id']): ?>selected="selected"<?php endif; ?>><?php echo $template['name']; ?></option>
 					  	<?php endforeach; ?>
