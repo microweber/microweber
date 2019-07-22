@@ -18,6 +18,16 @@ function get_mail_template_types() {
 	return $email_template_types;
 }
 
+function get_default_mail_template_by_type($type = '') {
+	
+	foreach(get_default_mail_templates() as $template) {
+		if ($template['type'] == $type) {
+			return $template;
+		}
+	}
+	
+}
+
 function get_mail_templates_by_type($type = '') {
 	
 	$templates = array();
@@ -110,13 +120,18 @@ function save_mail_template($data)
 	if (! is_admin()) {
 		return;
 	}
+	
+	$data['allow_html'] = '1';
+	
 	$table = "mail_templates";
 	return db_save($table, $data);
 }
 
-function get_mail_template_by_id($id) {
+function get_mail_template_by_id($id, $type = false) {
 	
-	foreach (get_mail_templates() as $template) {
+	$templates = get_mail_templates();
+	
+	foreach ($templates as $template) {
 		
 		if ($template['id'] == $id) {
 			
@@ -128,6 +143,39 @@ function get_mail_template_by_id($id) {
 		}
 	}
 	
+	return get_default_mail_template_by_type($type);
+}
+
+function get_default_mail_templates() {
+	
+	$templates = array();
+	
+	$default_mail_templates = normalize_path(MW_PATH  . 'Views/emails');
+	$default_mail_templates = scandir($default_mail_templates);
+	
+	foreach ($default_mail_templates as $template_file) {
+		if (strpos($template_file, "blade.php") !== false) {
+			
+			$template_type = str_replace('.blade.php', false, $template_file);
+			$template_name = str_replace('_', ' ', $template_type);
+			$template_name = ucfirst($template_name);
+			
+			$templates[] = array(
+				'id'=> $template_file,
+				'type' => $template_type,
+				'name' => $template_name,
+				'subject'=>$template_name,
+				'from_name'=> get_option('email_from_name','email'),
+				'from_email'=> get_option('email_from','email'),
+				'copy_to'=>'',
+				'message'=> '',
+				'is_default' => true,
+				'is_active' => 1
+			);
+		}
+	}
+	
+	return $templates;
 }
 
 function get_mail_templates($params = array())

@@ -54,9 +54,9 @@
         <label class="mw-ui-label bold">
         <?php _e("Email template"); ?>
         </label> 
-        <select name="order_email_template" class="mw-ui-field mw_option_field" data-option-group="orders" option-group="orders" style="width:30%;">  
+        <select name="order_mail_template" class="mw-ui-field mw_option_field" data-option-group="orders" option-group="orders" style="width:30%;">  
 	  	<?php foreach(get_mail_templates_by_type('new_order') as $template): ?>
-	  		<option value="<?php echo $template['id']; ?>" <?php if(get_option('order_email_template', 'orders') == $template['id']): ?>selected="selected"<?php endif; ?>><?php echo $template['name']; ?></option>
+	  		<option value="<?php echo $template['id']; ?>" <?php if(get_option('order_mail_template', 'orders') == $template['id']): ?>selected="selected"<?php endif; ?>><?php echo $template['name']; ?></option>
 	  	<?php endforeach; ?>
 	  	</select>
 	  	<br />

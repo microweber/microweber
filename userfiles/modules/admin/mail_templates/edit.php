@@ -133,7 +133,7 @@ $template = get_mail_template_by_id($template_id);
   
   <div class="mw-flex-col-md-12">
   <br />
-  <textarea id="editorAM" name="content" class="mw-ui-field" style="width:100%;"><?php echo $template['message']; ?></textarea>
+  <textarea id="editorAM" name="message" class="mw-ui-field" style="width:100%;"><?php echo $template['message']; ?></textarea>
   </div>
   
 	<div class="mw-flex-col-md-12">
