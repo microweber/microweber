@@ -22,6 +22,9 @@ function get_default_mail_template_by_type($type = '') {
 	
 	foreach(get_default_mail_templates() as $template) {
 		if ($template['type'] == $type) {
+			
+			$template['message'] = file_get_contents(normalize_path(MW_PATH  . 'Views/emails') . $template['id']);
+			
 			return $template;
 		}
 	}
@@ -124,7 +127,21 @@ function save_mail_template($data)
 	$data['allow_html'] = '1';
 	
 	$table = "mail_templates";
-	return db_save($table, $data);
+	$save =  db_save($table, $data);
+	
+	
+	if (isset($data['append_files']) && !empty($data['append_files'])) {
+		
+		$option = array();
+		$option['option_value'] = $data['append_files'];
+		$option['option_key'] = 'append_files';
+		$option['option_group'] = 'mail_template_id_' . $save;
+		
+		mw()->option_manager->save($option);
+		
+	}
+	
+	return $save;
 }
 
 function get_mail_template_by_id($id, $type = false) {

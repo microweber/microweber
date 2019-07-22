@@ -120,7 +120,13 @@ $template = get_mail_template_by_id($template_id);
 	 <div class="mw-flex-col-md-5">
 	 	<br />
 		<label class="mw-ui-label"><?php _e("Email attachments"); ?></label>  
-		<module type="admin/components/file_append" option_group="mail_template_id_<?php echo $template_id; ?>" />
+		<?php 
+		$template_id_attachment = '';
+		if (is_int($template_id)) {
+			$template_id_attachment = $template_id;
+		}
+		?>
+		<module type="admin/components/file_append" option_group="mail_template_id_<?php echo $template_id_attachment; ?>" />
 	</div>
   
   <div class="mw-flex-col-md-12"></div>
