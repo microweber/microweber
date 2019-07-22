@@ -102,6 +102,20 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
         });
     }
 
+    mw.forgot_password_email_send_test = function () {
+        var email_to = {}
+        email_to.to = $('#test_email_to').val();
+        email_to.subject = $('#test_email_subject').val();
+
+        $.post("<?php print site_url('api_html/users/forgot_password_email_send_test'); ?>", email_to, function (msg) {
+
+            mw.tools.modal.init({
+                html: "<pre>" + msg + "</pre>",
+                title: "<?php _e('Email send results...'); ?>"
+            });
+        });
+    }
+    
     function checkAllowSocialsLogin() {
         var allowSocialsLoginSelect = $('select[name="allow_socials_login"]');
         if (allowSocialsLoginSelect.find('option:selected').val() == 'y') {
