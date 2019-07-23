@@ -51,7 +51,7 @@ function post_comment($data)
     $new_comment = get_comments('single=1&id=' . $comment_id);
     
     // SEND EMAIL NOTIFICATION
-    $new_comment_mail_template_id = mw()->option_manager->get('new_comment_reply_template', 'comments');
+    $new_comment_mail_template_id = mw()->option_manager->get('new_comment_reply_template', 'comments'); 
     $mail_template = get_mail_template_by_id($new_comment_mail_template_id, 'new_comment_reply');
     
     $new_comment_email_subject = $mail_template['subject'];
@@ -63,25 +63,28 @@ function post_comment($data)
     	
     	$email_to = $comment['comment_email'];
     	
-    	$twig = new \Twig_Environment(new \Twig_Loader_String());
-    	$comment_email_content = $twig->render(
-    		$new_comment_email_content,
-    		array('comment_author' => $comment['comment_name'], 'comment_reply_author' => $new_comment['comment_name'], 'post_url'=>$comment['from_url'])
-    	);
-    	
-    	if (isset($email_to) and (filter_var($email_to, FILTER_VALIDATE_EMAIL))) {
-    		
-    		$sender = new \Microweber\Utils\MailSender();
-    		$sender->send($email_to, $new_comment_email_subject, $comment_email_content);
-    		
-    		/* $cc = false;
-    		if (isset($order_email_cc) and (filter_var($order_email_cc, FILTER_VALIDATE_EMAIL))) {
-    			$cc = $order_email_cc;
-    			$sender->send($cc, $order_email_subject, $comment_email_content, false, $no_cache);
-    		} */
-    		
+    	try {
+	    	$twig = new \Twig_Environment(new \Twig_Loader_String());
+	    	$comment_email_content = $twig->render(
+	    		$new_comment_email_content,
+	    		array('comment_author' => $comment['comment_name'], 'comment_reply_author' => $new_comment['comment_name'], 'post_url'=>$comment['from_url'])
+	    	);
+	    	
+	    	if (isset($email_to) and (filter_var($email_to, FILTER_VALIDATE_EMAIL))) {
+	    		
+	    		$sender = new \Microweber\Utils\MailSender();
+	    		$sender->send($email_to, $new_comment_email_subject, $comment_email_content);
+	    		
+	    		/* $cc = false;
+	    		if (isset($order_email_cc) and (filter_var($order_email_cc, FILTER_VALIDATE_EMAIL))) {
+	    			$cc = $order_email_cc;
+	    			$sender->send($cc, $order_email_subject, $comment_email_content, false, $no_cache);
+	    		} */
+	    		
+	    	}
+    	} catch (Exception $e) {
+    		echo $e->getMessage();
     	}
-    	
     }
 
     return $comment_id;
