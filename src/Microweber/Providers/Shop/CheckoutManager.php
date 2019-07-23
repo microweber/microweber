@@ -536,8 +536,8 @@ class CheckoutManager
                  $order_email_content = $this->app->option_manager->get('order_email_content', 'orders');
                 */
             	// Get order mail temlate
-            	$order_mail_template_id = $this->app->option_manager->get('order_mail_template', 'orders');
-            	$mail_template = get_mail_template_by_id($order_mail_template_id, 'new_order');
+            	$new_order_mail_template_id = $this->app->option_manager->get('new_order_mail_template', 'orders');
+            	$mail_template = get_mail_template_by_id($new_order_mail_template_id, 'new_order');
             	$order_email_subject = $mail_template['subject'];
             	$order_email_content = $mail_template['message'];
             	

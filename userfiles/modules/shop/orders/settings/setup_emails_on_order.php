@@ -52,13 +52,11 @@
 <div class="mw-ui-row m-b-20" style="margin: 0 -10px 20px -10px;">
     <div class="mw-ui-col p-12">
         <label class="mw-ui-label bold">
-        <?php _e("Email template"); ?>
+        <?php _e("Select New Order Email Template"); ?>
         </label> 
-        <select name="order_mail_template" class="mw-ui-field mw_option_field" data-option-group="orders" option-group="orders" style="width:30%;">  
-	  	<?php foreach(get_mail_templates_by_type('new_order') as $template): ?>
-	  		<option value="<?php echo $template['id']; ?>" <?php if(get_option('order_mail_template', 'orders') == $template['id']): ?>selected="selected"<?php endif; ?>><?php echo $template['name']; ?></option>
-	  	<?php endforeach; ?>
-	  	</select>
+        
+        <module type="admin/mail_templates/select_template" option_group="orders" mail_template_type="new_order" />
+	  	
 	  	<br />
         <a class="mw-ui-btn mw-ui-btn-info mw-ui-btn-medium" style="float: left;" id="mail-test-btn" href="javascript:void(0);" onclick="$('#test_ord_eml_toggle').show();$(this).hide();">
        		<?php _e("Send test email"); ?>

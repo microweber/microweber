@@ -18,18 +18,21 @@ $template = get_mail_template_by_id($template_id);
 ?>
 
 <script>
-    $(document).ready(function () {
-        $("#edit-mail-template-form").submit(function (event) {
-            event.preventDefault();
-            var data = $(this).serialize();
-            var url = "<?php print api_url('save_mail_template'); ?>";
-            var post = $.post(url, data);
-            post.done(function (data) {
-                mw.reload_module("admin/mail_templates");
-                mw.reload_module("admin/mail_templates/list");
-            });
-        });
-    });
+	$("#edit-mail-template-form").submit(function (event) {
+	    event.preventDefault();
+	    var data = $(this).serialize();
+	    var url = "<?php print api_url('save_mail_template'); ?>";
+	    var post = $.post(url, data);
+	    post.done(function (data) {
+	        mw.reload_module("admin/mail_templates");
+	        mw.reload_module("admin/mail_templates/list");
+
+	     // Reload popup modal
+	        mw.load_module('admin/mail_templates/admin', '#mw_admin_mail_templates_manage', null, null);
+	        mw.reload_module('admin/mail_templates/select_template');
+	        
+	    }); 
+	});
 
     NewMailEditor = mw.editor({
         element:mwd.getElementById('editorAM'),
@@ -47,6 +50,14 @@ $template = get_mail_template_by_id($template_id);
 		<?php if ($template['id'] == ''): ?>
 		<?php endif; ?>
     });
+
+    function cancelTemplateEdit() {
+    	mw.reload_module('admin/mail_templates');
+
+    	// Reload popup modal
+    	mw.load_module('admin/mail_templates/admin', '#mw_admin_mail_templates_manage', null, null);
+    	mw.reload_module('admin/mail_templates/select_template');
+    }
 </script>
 
 <div id="editorctrls" style="display: none">
@@ -148,8 +159,10 @@ $template = get_mail_template_by_id($template_id);
   	  
 	  <input type="submit" name="submit" value="Save changes" class="mw-ui-btn"/>
 	  &nbsp;&nbsp;
-	  <input name="submit" value="Cancel" onClick="mw.reload_module('admin/mail_templates')" class="mw-ui-btn"/>
+	  <input name="submit" value="Cancel" onClick="cancelTemplateEdit();" class="mw-ui-btn"/>
     </div>
   
   </div>
 </form>
+<br />
+<br />
