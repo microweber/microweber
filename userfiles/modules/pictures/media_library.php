@@ -75,6 +75,9 @@
                                 });
                                 li.append(a);
                                 a.append(img);
+                                a.append('Author: ' +val.author);
+                                a.append('<br />');
+                                a.append('Likes: ' +val.likes); 
                                 root.append(li);
                             });
                         } else {
@@ -91,9 +94,16 @@
             }
             searchMediaLibrary('');
         </script>
-        <h3>Search for free stock photos</h3>
+       
+               
+         <center>
+         <h2 style="margin-top:0px;">Search Unsplash</h2>  
+		  <p><b>Enter a search term above to begin searching images from <a href="http://unsplash.com" target="_new" style="color:#009cff;">Unsplash.com</a>. <br />You can use free stock images.</b></p>
+			<br />
+		</center>
+       
         <div class="mw-field stock-field">
-            <input type="text" placeholder="Search" onkeyup="mw.on.stopWriting(this,function(){searchMediaLibrary(this.value)})" >
+            <input type="text" placeholder="Search for cars, cats and evrything you want..." onkeyup="mw.on.stopWriting(this,function(){searchMediaLibrary(this.value)})" >
         </div>
 
         <div style="display: none;" id="resbox">
