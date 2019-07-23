@@ -1,9 +1,7 @@
 <?php only_admin_access(); ?>
 
-
 <div>
     <style type="text/css" scoped="scoped">
-
 
         #other-settings {
             position: relative;
@@ -312,6 +310,20 @@
                                         </label>
                                 </div>
                             </div>
+                            
+                            <div class="mw-ui-field-holder mw-ui-row m-b-20">
+						    <div class="mw-ui-col p-12">
+						        <label class="mw-ui-label bold">
+						        <?php _e("Select new comment reply email template"); ?>
+						        </label> 
+						        <select name="new_comment_reply_template" class="mw-ui-field mw_option_field" data-option-group="comments" option-group="users" style="width:330px;">
+						        <option>Select...</option>
+							  	<?php foreach(get_mail_templates_by_type('new_comment_reply') as $template): ?>
+							  		<option value="<?php echo $template['id']; ?>" <?php if(get_option('new_comment_reply_template', 'comments') == $template['id']): ?>selected="selected"<?php endif; ?>><?php echo $template['name']; ?></option>
+							  	<?php endforeach; ?>
+							  	</select>
+						    </div>
+							</div>  
 
                         </div>
                     </div>
