@@ -118,10 +118,6 @@ body.mw-live-edit .plain-text {
     background-color: rgba(221, 221, 221, 1);
 }
 
-ol:not([class]),
-ul:not([class]) {
-    padding-left: 20px;
-}
 
 /****************************
            Plus
@@ -1607,8 +1603,11 @@ body.has-opened-sidebar #live_edit_toolbar {
     right: 40px;
     top: 6px;
     min-height: 30px;
-    opacity: .6;
+    opacity: 1;
     transition: opacity .3s;
+}
+.module-modal-settings-menu-holder .mw-dropdown{
+    top: 50%;
 }
 .module-modal-settings-menu-holder:hover{
     opacity: 1;
@@ -3978,7 +3977,6 @@ body.dragStart .allow-drop {
 }
 
 .mw-module-presets-opener {
-    float: right;
     display: block;
     transition: color .3s;
     cursor: pointer;
@@ -4979,6 +4977,6 @@ html.padding-control-start .mw-handle-item {
 
 .mw-module-dialog-icon{
     width: 25px;
-    margin-right: 7px;
+    margin:0 7px 0 0;
 }
 

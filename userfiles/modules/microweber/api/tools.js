@@ -1442,14 +1442,17 @@ mw.tools = {
         if (typeof mw.tools.dropdownActivated === 'undefined') {
             mw.tools.dropdownActivated = true;
             $(mwd.body).mousedown(function (e) {
-                if ($(e.target).hasClass('mw-dropdown-content')
-                    || $(e.target).hasClass('mw-dropdown')
-                    || mw.tools.hasParentsWithClass(e.target, 'mw-dropdown')
-                ) {
-                    // dont hide the dropdown
-                } else if (mw.$('.mw-dropdown.hover').length == 0) {
+                if (!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['mw-dropdown-content', 'mw-dropdown'])) {
                     mw.$(".mw-dropdown").removeClass("active");
                     mw.$(".mw-dropdown-content").hide();
+                    if(self !== top) {
+                        try {
+                            top.mw.$(".mw-dropdown").removeClass("active");
+                            top.mw.$(".mw-dropdown-content").hide();
+                        } catch(e){
+                            
+                        }
+                    }
                 }
             });
         }
