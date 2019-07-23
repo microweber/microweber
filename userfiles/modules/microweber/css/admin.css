@@ -7599,7 +7599,13 @@ select.silver-field {
 }
 
 #create-presets-btn{
-    position: absolute;
-    top: 10px;
-    right: 10px;
+    float: right;
+}
+.mw-presets-list-holder{
+    padding-top: 10px;
+    clear: both;
+}
+
+.js-module-preset-item-form-holder > div:last-child{
+    text-align: right;
 }

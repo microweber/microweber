@@ -155,6 +155,9 @@ mw.tools = {
         frame = mw.$(frame)[0];
         if(!frame) return;
         var _detector =  document.createElement('div');
+        if(!frame.contentWindow.document.body){
+            return;
+        }
 
         frame.scrolling="no";
         frame.style.minHeight = 0 + 'px';

@@ -205,7 +205,8 @@
         $(document).ready(function () {
 
 
-            $('.module-presets-action-btn').on('click', function () {
+            $('.module-presets-action-btn').on('click change', function () {
+
 
                 var is_del = $(this).attr('delete');
                 var btn_mod_id = $(this).attr('js-mod-id');
@@ -256,7 +257,7 @@
 
 
                     if (is_del) {
-                        mw.module_preset_apply_actions_after_id_change(is_del)
+                        mw.module_preset_apply_actions_after_id_change(is_del);
                         if (temp_form1) {
                             $(temp_form1).remove();
                         }
@@ -268,22 +269,17 @@
                         var attrs_json = (JSON.stringify(attrs));
                         var append_attrs_field = '<textarea style="display: none" name="module_attrs">' + attrs_json + '</textarea>';
                         $(temp_form1).append(append_attrs_field);
-
                     }
 
                     //save
-                    window.parent.mw.form.post(temp_form1, save_module_as_template_url, function () {
-                        // window.parent.mw.reload_module("#<?php print $params['id'] ?>");
+                    window.mw.form.post(temp_form1, save_module_as_template_url, function () {
                         mw.reload_module_everywhere("#<?php print $params['id'] ?>");
-                        mw.reload_module("#<?php print $params['id'] ?>")
-
+                        mw.reload_module("#<?php print $params['id'] ?>");
                         mw.module_preset_apply_actions_after_id_change(mod_id_for_presets);
-                        cancelCreatePreset()
-
+                        cancelCreatePreset();
                     });
 
                 }
-
 
                return false;
             });
@@ -292,7 +288,6 @@
 
 
         function mw_preset_edit_name(input_obj) {
-
 
             var save_module_as_template_url = '<?php print site_url('api') ?>/save_module_as_template';
             var btn_mod_id = $(input_obj).attr('js-mod-id');
@@ -314,7 +309,7 @@
                 $('.mw-presets-list[js-mod-id=' + selected_module_id + ']').addClass('active');
                 $('.js-module-presets-action-btn-clear[js-mod-id=' + selected_module_id + ']').show();
                 $('.js-module-presets-action-btn-use[js-mod-id=' + selected_module_id + ']').hide();
-            }  
+            }
 
 
         }
@@ -344,88 +339,72 @@
 
         if (is_array($saved_modules)): ?>
 
+        <div class="mw-presets-list-holder">
+
+            <?php foreach ($saved_modules as $item): ?>
 
 
-        <?php foreach ($saved_modules as $item): ?>
+                <?php
+                $fffound = false;
+                if (!isset($item['module_attrs'])) {
+                    $item['module_attrs'] = '';
+                }
+
+                if ($item['module_id'] == $module_id) {
+                    $fffound = $module_id;
 
 
-            <?php
-            $fffound = false;
-            if (!isset($item['module_attrs'])) {
-                $item['module_attrs'] = '';
-            }
+                }
 
-            if ($item['module_id'] == $module_id) {
-                $fffound = $module_id;
+                ?>
+                <div class="mw-flex-row mw-presets-list js-module-preset-item-form-holder <?php if ($fffound) { ?> active  <?php } ?>"
+                     js-mod-id="<?php print  $item['module_id'] ?>">
 
-
-            }
-
-            ?>
-            <div class="mw-flex-row mw-presets-list js-module-preset-item-form-holder <?php if ($fffound) { ?> active  <?php } ?>"
-                 js-mod-id="<?php print  $item['module_id'] ?>">
-
-                <input type="hidden" name="id" value="<?php print  $item['id'] ?>">
-                <input type="hidden" name="module" value="<?php print  $item['module'] ?>">
-                <textarea name="module_attrs" style="display: none"><?php print  $item['module_attrs'] ?></textarea>
+                    <input type="hidden" name="id" value="<?php print  $item['id'] ?>">
+                    <input type="hidden" name="module" value="<?php print  $item['module'] ?>">
+                    <textarea name="module_attrs" style="display: none"><?php print  $item['module_attrs'] ?></textarea>
 
 
-                <div class="mw-flex-col-xs-2  ">
-
-
-                    <div class="box " style="width: 35px; margin: 0 auto;">
-
-                            <button  style="display: none"  title="<?php print  $item['module_id'] ?>"  type="button" value="1" js-mod-id="<?php print  $item['module_id'] ?>"
-                                    use="<?php print  $item['module_id'] ?>"
-                                    class="mw-ui-btn mw-ui-btn-small module-presets-action-btn  js-module-presets-action-btn-use" >
-                                use
-                            </button>
-
-
-
-
-                             <button style="display: none"
+                    <div class="mw-flex-col-xs-2  ">
+                        <div class="box ">
+                            <label class="mw-ui-check">
+                                <input type="radio" name="preset_selector"
+                                       title="<?php print  $item['module_id'] ?>"
+                                       type="button"
+                                       value="1"
+                                       js-mod-id="<?php print $item['module_id'] ?>"
+                                       use="<?php print  $item['module_id'] ?>"
+                                       class="mw-ui-btn mw-ui-btn-medium module-presets-action-btn  js-module-presets-action-btn-use" >
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="mw-flex-col-xs-5 ">
+                        <div class="box">
+                            <input type="text" onkeyup="mw.on.stopWriting(this,function(){mw_preset_edit_name(this)});"
+                                   js-mod-id="<?php print  $item['module_id'] ?>"
+                                   class="mw-ui-field js-module-presets-edit-name mw-ui-field-medium" name="name"
+                                   value="<?php print  $item['name'] ?>"/>
+                        </div>
+                    </div>
+                    <div class="mw-flex-col-xs-5 ">
+                        <div class="box">
+                            <button style="display: none"
                                     type="button"
                                     js-mod-id="<?php print  $item['module_id'] ?>"
                                     release="<?php print  $item['module_id'] ?>"
 
-                                    class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info module-presets-action-btn js-module-presets-action-btn-clear">Clear
-                             </button>
-
-
-
-
-
-                    </div>
-
-
-                </div>
-                <div class="mw-flex-col-xs-6 ">
-                    <div class="box">
-
-                        <input type="text" onkeyup="mw.on.stopWriting(this,function(){mw_preset_edit_name(this)});"
-                               js-mod-id="<?php print  $item['module_id'] ?>"
-                               class="mw-ui-field js-module-presets-edit-name mw-ui-field-medium" name="name"
-                               value="<?php print  $item['name'] ?>"/>
-
-
+                                    class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline module-presets-action-btn js-module-presets-action-btn-clear">Clear
+                            </button>
+                            <button
+                                    delete="<?php print  $item['module_id'] ?>"
+                                    js-mod-id="<?php print  $item['module_id'] ?>"
+                                    class="mw-ui-btn mw-ui-btn-important mw-ui-btn-medium mw-ui-btn-outline module-presets-action-btn module-presets-action-btn-delete">Delete</button>
+                        </div>
                     </div>
                 </div>
-                <div class="mw-flex-col-xs-4 ">
-                    <div class="box">
-
-
-                        <button
-                                delete="<?php print  $item['module_id'] ?>"
-                                js-mod-id="<?php print  $item['module_id'] ?>"
-                                class="mw-icon-trash-b mw-ui-btn mw-ui-btn-important mw-ui-btn-small module-presets-action-btn module-presets-action-btn-delete "></button>
-                    </div>
-                </div>
-            </div>
-
-
-        <?php endforeach; ?>
-
+            <?php endforeach; ?>
+        </div>
 
         <?php if (($fffound) != false): ?>
             <div class="mw-ui-row">
@@ -475,15 +454,15 @@
 
     <script>
         var btn = document.createElement('span');
-        btn.className = 'mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification tip';
-        btn.dataset.tip = "Create preset";
+        btn.className = 'mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification mw-ui-btn-outline tip';
+        btn.dataset.tip = "Create new preset";
         btn.dataset.tipposition = "bottom-right";
         btn.id = 'create-presets-btn';
-        btn.innerHTML = '<span class="mw-icon-plus-round"></span>';
+        btn.innerHTML = 'Create new';
         btn.onclick = function () {
             createPreset()
         };
-        parent.document.querySelector('.mw-module-presets-content').appendChild(btn);
+        $(document.querySelector('#module-saved-presets')).prepend(btn);
         var t$win = window.parent;
 
         cancelCreatePreset = function () {
