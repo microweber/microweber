@@ -36,6 +36,21 @@ description: Default Twitter Feed
         border-bottom: 1px solid #43ACEF;
     }
 
+    .twitter-feed-default ul li a,
+    .twitter-feed-default ul li a:hover {
+        color: #78AEDF;
+        text-decoration: none;
+    }
+
+    .twitter-feed-default ul li span {
+        color: #757575;
+    }
+
+    .twitter-feed-default ul li small,
+    .twitter-feed-default ul li small a {
+        color: #c5c5c5;
+    }
+
     .twitter-feed-default ul li i {
         background: #fff;
         color: #78AEDF;
@@ -44,6 +59,8 @@ description: Default Twitter Feed
         margin-right: 10px;
         margin-bottom: 10px;
     }
+
+
 </style>
 
 <?php if ($items): ?>
