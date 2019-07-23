@@ -82,7 +82,7 @@ select.mw-ui-field:hover {
     text-align: right;
 }
 .mw-presets-list.mw-flex-row{
-    border-bottom: 1px solid #eee;
+    border-top: 1px solid #eee;
     padding: 5px 0;
 }
 

@@ -269,10 +269,10 @@
 
 
                             window.parent.module_settings_modal_reference_preset_editor_modal_id = presetsthismodalid;
-                            window.parent.module_settings_modal_reference_window = window;
+                            window.parent.module_settings_modal_reference_window = top;
 
                                 window.top.module_settings_modal_reference_preset_editor_modal_id = presetsthismodalid;
-                                window.top.module_settings_modal_reference_window = window;
+                                window.top.module_settings_modal_reference_window = top;
 
 
 
@@ -327,7 +327,7 @@
 
                             var mod_presets_iframe_html_fr = '' +
                                 '<div class="js-module-presets-edit-frame">' +
-                                '<iframe id="' + iframeid + '" src="' + src + '" frameborder="0" scrolling="no" width="280" onload="this.parentNode.classList.remove(\'loading\')"></iframe>' +
+                                '<iframe id="' + iframeid + '" src="' + src + '" frameborder="0" scrolling="no" width="100%" onload="this.parentNode.classList.remove(\'loading\')"></iframe>' +
                                 '</div>';
 
                             /*parent.mw.tooltip({
@@ -337,31 +337,32 @@
                                 element: parent.mw.$('#module-modal-settings-menu-items-presets-holder<?php print $params['id'] ?>')[0]
                             });*/
 
-                            presetsDialogModal = mw.dialog({
+                            presetsDialogModal = top.mw.dialog({
                                 content: holder,
-                                width:300,
+                                width:400,
                                 height:'auto',
                                 id:'dialog-'+iframeid,
                                 autoHeight:true,
                                 title: 'Presets'
                             });
-                            mw.tools.loading(presetsDialogModal.dialogContainer, 99)
+                            mw.tools.loading(presetsDialogModal.dialogContainer, 90);
 
 
-                            /*window
-                                .parent
-                                .*/$('#module-modal-settings-menu-items-presets-holder<?php print $params['id'] ?>')
-                                .html(mod_presets_iframe_html_fr);
+                            $(presetsDialogModal.dialogContainer).html(mod_presets_iframe_html_fr);
                             top.$(".mw-presets-dropdown .module").removeClass('module');
-                            var frame = mwd.querySelector('#'+iframeid);
-                            mw.tools.iframeAutoHeight(frame);
+                            var frame = presetsDialogModal.dialogContainer.querySelector('iframe');
+
                             $(frame).on('load', function(){
-                                if(typeof(presetsDialogModal) != 'undefined'){
-                                    if(typeof(presetsDialogModal.center) != 'undefined') {
-                                        presetsDialogModal.center()
+                                if(typeof(presetsDialogModal) !== 'undefined'){
+                                    if(typeof(presetsDialogModal.center) !== 'undefined') {
+                                        presetsDialogModal.center();
                                     }
                                     mw.tools.loading(presetsDialogModal.dialogContainer, false)
                                 }
+                                setTimeout(function(){
+                                    mw.tools.iframeAutoHeight(frame);
+
+                                }, 5555)
                             })
 
                         });
