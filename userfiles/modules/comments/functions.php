@@ -51,7 +51,7 @@ function post_comment($data)
     $new_comment = get_comments('single=1&id=' . $comment_id);
     
     // SEND EMAIL NOTIFICATION
-    $new_comment_mail_template_id = mw()->option_manager->get('new_comment_reply_template', 'comments'); 
+    $new_comment_mail_template_id = mw()->option_manager->get('new_comment_reply_email_template', 'comments'); 
     $mail_template = get_mail_template_by_id($new_comment_mail_template_id, 'new_comment_reply');
     
     $new_comment_email_subject = $mail_template['subject'];
