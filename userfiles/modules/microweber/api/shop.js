@@ -3,6 +3,10 @@
 mw.require('forms.js');
 
 
+
+
+
+
 mw.cart = {
 
     add_and_checkout: function (content_id, price, c) {
@@ -221,4 +225,58 @@ mw.cart = {
                 mw.trigger('mw.cart.checkout', [data]);
             });
     }
+}
+
+
+
+mw.cart.modal = {}
+
+mw.cart.modal.init = function (root_node) {
+
+
+    mw.cart.modal.bindStepButtons();
+}
+
+mw.cart.modal.bindStepButtons = function (step) {
+
+
+    $('.js-show-step').off('click');
+    $('.js-show-step').on('click', function () {
+
+        var has_error = 0;
+        var step = $(this).data('step');
+        if (step == 'payment-method') {
+
+            $('.js-delivery-address input').each(function () {
+                if (!this.checkValidity()) {
+                    mw.notification.warning('Please fill the required fields');
+                    $(this).addClass('error');
+                    has_error = 1;
+                } else {
+                    $(this).removeClass('error');
+                }
+
+            });
+
+            if (has_error) {
+                step = 'delivery-address'
+            }
+        }
+
+
+        $('.js-show-step').removeClass('active');
+
+        $('[data-step]').removeClass('active');
+        $('[data-step="' + step + '"]').addClass('active').parent().removeClass('muted');
+
+
+        step1 = '.js-' + step;
+        $('.js-step-content').hide();
+        $(step1).show();
+        $(this).addClass('active');
+
+
+    });
+
+
 }
