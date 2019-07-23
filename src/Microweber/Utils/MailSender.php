@@ -99,7 +99,45 @@ class MailSender
             Config::set('mail.encryption', $this->smtp_auth);
         }
     }
+    
+    public function set_email_to($email) {
+    	$this->email_to = $email;
+    }
+    
+    public function set_email_subject($subject) {
+    	$this->email_subject = $subject;
+    }
 
+    public function set_email_message($message) {
+    	$this->email_message = $message;
+    }
+    
+    public function set_email_hostname_to_subject($hostname) {
+    	$this->email_hstname_to_subject = $hostname;
+    }
+    
+    public function set_email_no_cache($cache) {
+    	$this->email_no_cache = $cache;
+    }
+    
+    public function set_email_cc($cc) {
+    	$this->email_cc = $cc;
+    }
+    
+    public function set_email_from($email) {
+    	$this->email_from = $email;
+    }
+    public function set_email_from_name($name) {
+    	$this->email_from_name = $name;
+    }
+    public function set_email_reply_to($replyTo) {
+    	$this->email_reply_to = $replyTo;
+    }
+    
+    public function set_email_attachments($attachments) {
+    	$this->email_attachments = $attachments;
+    }
+    
     /**
      * Send email
      * @param string $to
@@ -127,6 +165,21 @@ class MailSender
     	$attachments = array()
     )
     {
+    	
+    	
+    	echo 555555555555; 
+    	
+    	var_dump($to);
+    	var_dump($subject);
+    	var_dump($message);
+    	var_dump($add_hostname_to_subject);
+    	var_dump($no_cache);
+    	var_dump($cc); 
+    	var_dump($email_from);
+    	var_dump($from_name);
+    	var_dump($reply_to);
+    	var_dump($attachments);
+    	die();
 
         if (is_array($to)) {
             extract($to);

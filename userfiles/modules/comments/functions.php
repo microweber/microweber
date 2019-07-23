@@ -53,33 +53,39 @@ function post_comment($data)
     // SEND EMAIL NOTIFICATION
     $new_comment_mail_template_id = mw()->option_manager->get('new_comment_reply_email_template', 'comments'); 
     $mail_template = get_mail_template_by_id($new_comment_mail_template_id, 'new_comment_reply');
-    
-    $new_comment_email_subject = $mail_template['subject'];
-    $new_comment_email_content = $mail_template['message'];
 
    $comments = get_comments('content_id=' . $data['rel_id']);
    
+   
+   var_dump($comments);
+   die();
+   $comments_mail_map = array();
    foreach ($comments as $comment) {
     	
     	$email_to = $comment['comment_email'];
     	
+    	if (array_key_exists($email_to, $comments_mail_map)) {
+    		continue;
+    	}
+    	
+    	$comments_mail_map[$email_to] = $comment;
+    	
     	try {
 	    	$twig = new \Twig_Environment(new \Twig_Loader_String());
 	    	$comment_email_content = $twig->render(
-	    		$new_comment_email_content,
+	    		$mail_template['message'],
 	    		array('comment_author' => $comment['comment_name'], 'comment_reply_author' => $new_comment['comment_name'], 'post_url'=>$comment['from_url'])
 	    	);
 	    	
 	    	if (isset($email_to) and (filter_var($email_to, FILTER_VALIDATE_EMAIL))) {
 	    		
 	    		$sender = new \Microweber\Utils\MailSender();
-	    		$sender->send($email_to, $new_comment_email_subject, $comment_email_content);
-	    		
-	    		/* $cc = false;
-	    		if (isset($order_email_cc) and (filter_var($order_email_cc, FILTER_VALIDATE_EMAIL))) {
-	    			$cc = $order_email_cc;
-	    			$sender->send($cc, $order_email_subject, $comment_email_content, false, $no_cache);
-	    		} */
+	    		$sender->set_email_to($email_to);
+	    		$sender->set_email_subject($mail_template['subject']);
+	    		$sender->set_email_content($comment_email_content);
+	    		$sender->set_email_from($mail_template['from_email']);
+	    		$sender->set_email_from_name($mail_template['from_name']);
+	    		$sender->send(); 
 	    		
 	    	}
     	} catch (Exception $e) {

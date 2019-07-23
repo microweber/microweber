@@ -311,15 +311,15 @@
                                 </div>
                             </div>
                             
-                            <div class="mw-ui-field-holder mw-ui-row m-b-20">
-						    <div class="mw-ui-col p-12">
+                            <div class="mw-ui-field-holder">
+						    <div class="mw-ui-col">
 						        <label class="mw-ui-label bold">
 						        <?php _e("Select new comment reply email template"); ?>
 						        </label> 
 						        
 						        <module type="admin/mail_templates/select_template" option_group="comments" mail_template_type="new_comment_reply" />
 						        
-						    </div>
+						    </div> 
 							</div>  
 
                         </div>
