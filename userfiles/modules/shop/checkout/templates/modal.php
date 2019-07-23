@@ -37,7 +37,7 @@ description: Checkout
         mw.cart.modal.init('#checkout_modal_<?php print $params['id'] ?>')
 
 
-        mw.modal_cart.bindStepButtons();
+
 
     });
 </script>
@@ -103,7 +103,7 @@ description: Checkout
                             <?php $cart_show_enanbled = get_option('data-show-cart', $params['id']); ?>
                             <?php if ($cart_show_enanbled != 'n'): ?>
                                 <br/>
-                                <module type="shop/cart" template="small_modal" data-checkout-link-enabled="n"
+                                <module type="shop/cart" template="modal" data-checkout-link-enabled="n"
                                         id="cart_checkout_<?php print $params['id'] ?>"/>
 
                             <?php endif; ?>
@@ -113,11 +113,50 @@ description: Checkout
                         <div class="js-step-content js-delivery-address">
 
 
-                            <module type="shop/shipping"/>
+
+
+
+
+                            <div class="m-t-20 edit nodrop" field="checkout_personal_information_title" rel="global" rel_id="<?php print $params['id'] ?>">
+                                <div class="pull-right red">* All fields are required</div>
+                                <p class="bold m-b-10">Personal Information</p>
+                            </div>
+
+
+
+
+
+
+
+                            <div class="fields x2">
+                                <div class="field-holder">
+                                    <input name="first_name" class="form-control input-lg" type="text" value="" placeholder="<?php _e("First Name"); ?>"/>
+                                </div>
+
+                                <div class="field-holder">
+                                    <input name="last_name" class="form-control input-lg" type="text" value="" placeholder="<?php _e("Last Name"); ?>"/>
+                                </div>
+
+                                <div class="field-holder">
+                                    <input name="email" class="form-control input-lg" type="text" value="" placeholder="<?php _e("Email"); ?>" required />
+                                </div>
+
+                                <div class="field-holder">
+                                    <input name="phone" class="form-control input-lg" type="text" value="" placeholder="<?php _e("Phone"); ?>"/>
+                                </div>
+                            </div>
+
+
+
+
+
+                            <module type="shop/shipping" template="modal" />
 
                             <div class="m-t-10">
                                 <a href="#" class="btn btn-default btn-lg btn-block js-show-step" data-step="payment-method">Continue</a>
                             </div>
+
+
                         </div>
 
                         <div class="js-step-content js-payment-method">
@@ -126,7 +165,7 @@ description: Checkout
                             <div class="m-t-20">
 
 
-                                <module type="shop/payments"/>
+                                <module type="shop/payments" template="modal"/>
 
 
                                 <div class="mw-cart-action-holder">
