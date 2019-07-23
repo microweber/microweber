@@ -77,7 +77,7 @@
                                 a.append(img);
                                 a.append('Author: ' +val.author);
                                 a.append('<br />');
-                                a.append('Likes: ' +val.likes);
+                                a.append('Likes: ' +val.likes); 
                                 root.append(li);
                             });
                         } else {
