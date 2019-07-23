@@ -28,7 +28,7 @@ description: Default Instagram Feed
         <div class="mw-instagram-feeds">
             <?php foreach ($photos as $photo): ?>
                 <div class="feed-photo">
-                    <a href="<?php print $photo['thumbnail_src']; ?>" data-fancybox="">
+                    <a href="<?php print $photo['thumbnail_src']; ?>" data-fancybox target="_blank">
                         <img src="<?php print $photo['thumbnail_src']; ?>" alt="<?php print $photo['module_caption']; ?>"/>
                     </a>
                 </div>
