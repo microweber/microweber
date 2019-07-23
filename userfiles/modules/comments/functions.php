@@ -43,7 +43,6 @@ api_expose('post_comment');
 
 function post_comment($data)
 {
-	
 	// SAVE TO DATABASE
     $comments = new \Microweber\Comments\Models\Comments();
     $comment_id = $comments->save($data);
@@ -56,9 +55,6 @@ function post_comment($data)
 
    $comments = get_comments('content_id=' . $data['rel_id']);
    
-   
-   var_dump($comments);
-   die();
    $comments_mail_map = array();
    foreach ($comments as $comment) {
     	
@@ -80,11 +76,11 @@ function post_comment($data)
 	    	if (isset($email_to) and (filter_var($email_to, FILTER_VALIDATE_EMAIL))) {
 	    		
 	    		$sender = new \Microweber\Utils\MailSender();
-	    		$sender->set_email_to($email_to);
-	    		$sender->set_email_subject($mail_template['subject']);
-	    		$sender->set_email_content($comment_email_content);
-	    		$sender->set_email_from($mail_template['from_email']);
-	    		$sender->set_email_from_name($mail_template['from_name']);
+	    		$sender->setEmailTo($email_to);
+	    		$sender->setEmailSubject($mail_template['subject']);
+	    		$sender->setEmailMessage($comment_email_content);
+	    		$sender->setEmailFrom($mail_template['from_email']);
+	    		$sender->setEmailFromName($mail_template['from_name']);
 	    		$sender->send(); 
 	    		
 	    	}
