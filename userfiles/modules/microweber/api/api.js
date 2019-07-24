@@ -590,13 +590,11 @@ mw.getScripts = function (array, callback) {
       return false;
     }
     var storedValues = $node.dataset('storeValues') === 'true' ? {} : false;
-
     if(storedValues) {
         $node.find('[name]').each(function () {
             storedValues[this.name] = $(this).val();
         })
     }
-
 
     var xhr = $.post(url, to_send, function(data) {
 
@@ -618,6 +616,7 @@ mw.getScripts = function (array, callback) {
             var el = $(this);
             if(!el.val()) {
                 el.val(storedValues[this.name] || undefined);
+                this.setAttribute("value", storedValues[this.name] || '');
             }
         })
       }
@@ -633,7 +632,6 @@ mw.getScripts = function (array, callback) {
           if(typeof obj.done === 'function'){
               obj.done.call($(selector)[0], data);
           }
-
         mw.trigger('moduleLoaded');
       }, 33)
       if(!id){ mw.pauseSave = false;mw.on.DOMChangePause = false;  return false; }

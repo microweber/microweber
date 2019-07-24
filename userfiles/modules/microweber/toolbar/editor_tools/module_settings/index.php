@@ -435,53 +435,5 @@
         <input type="submit"/>
     <?php endif; ?>
 </form>
-<script type="text/javascript">
-    $(document).ready(function () {
-        __global_options_save_msg = function () {
-            if (mw.notification != undefined) {
-                mw.notification.success('<?php _e('Settings are updated!'); ?>');
-            }
-
-            if (window.parent.mw != undefined && window.parent.mw.reload_module != undefined) {
-                window.parent.mw.reload_module("#<?php print $params['id'] ?>");
-            }
-        }
-
-
-    });
-</script>
-
-
-
-
-
-<script type="text/javascript">
-
-    if (typeof (frame) != 'undefined') {
-        // mw.log(frame);
-        $(frame).on('unload', function () {
-
-            //     window.parent.$('.module-modal-settings-menu-holder', frame).remove();
-        });
-    }
-</script>
-<script type="text/javascript">
-    //$(window).on('load', function () {
-    //       setTimeout(function(){
-    //
-    //           mw.options.form('#settings-container', function () {
-    //               if (mw.notification) {
-    //                   mw.notification.success('<?php //_e('Settings are saved') ?>//');
-    //               }
-    //           });
-    //
-    //
-    //       }, 1000);
-    //
-    //
-    //
-    //
-    //   })
-</script>
 </body>
 </html>
