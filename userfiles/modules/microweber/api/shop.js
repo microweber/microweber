@@ -216,7 +216,7 @@ mw.cart.modal = {}
 mw.cart.modal.init = function (root_node) {
 
 
-    mw.cart.modal.bindStepButtons();
+    mw.cart.modal.bindStepButtons(root_node);
 }
 
 mw.cart.modal.bindStepButtons = function (step) {
@@ -233,7 +233,9 @@ mw.cart.modal.bindStepButtons = function (step) {
 
 
 
-
+        if (step == 'checkout-complete') {
+            return;
+        }
 
 
 

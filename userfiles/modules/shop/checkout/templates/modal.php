@@ -65,9 +65,9 @@ description: Checkout
                                 </a>
                             </div>
                             <div class="col-3 step-button muted">
-                                <a href="#" class="js-show-step" data-step="preview">
+                                <a href="#" class="js-show-step" data-step="checkout-complete">
                                     <i class="material-icons">remove_red_eye</i>
-                                    <span>Preview</span>
+                                    <span>Complete</span>
                                 </a>
                             </div>
                         </div>
@@ -182,7 +182,7 @@ description: Checkout
 
                             </div>
                         </div>
-                        <div class="js-step-content js-preview">
+                        <div class="js-step-content js-checkout-complete">
                             <div class="text-center p-40">
                                 <h3>Thank you for your purchase!</h3>
                             </div>
@@ -221,6 +221,22 @@ description: Checkout
 
         }, 500);
 
+        mw.on('mw.cart.checkout.success', function(event,data){
+
+            $('.js-show-step', '#checkout_modal_<?php print $params['id'] ?>').off('click');
+
+            if(typeof(data.order_completed) != 'undefined'  && data.order_completed){
+                $('.step-button .js-show-step', '#checkout_modal_<?php print $params['id'] ?>').removeClass('active');
+                $('.step-button', '#checkout_modal_<?php print $params['id'] ?>').addClass('muted');
+                $('.js-step-content' , '#checkout_modal_<?php print $params['id'] ?>').hide();
+
+
+                $('.step-button:nth-child(4)', '#checkout_modal_<?php print $params['id'] ?>').removeClass('muted');
+                $('.step-button:nth-child(4) .js-show-step', '#checkout_modal_<?php print $params['id'] ?>').addClass('active');
+                $('.js-step-content:nth-child(4)' , '#checkout_modal_<?php print $params['id'] ?>').show();
+            }
+
+        });
 
 
 
