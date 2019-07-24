@@ -14,6 +14,7 @@ use Microweber\Utils\Backup\Traits\DatabaseMenusWriter;
 use Microweber\Utils\Backup\Traits\DatabaseMediaWriter;
 use Microweber\Utils\Backup\Loggers\BackupImportLogger;
 use Microweber\Utils\Backup\Traits\DatabaseModuleWriter;
+use Microweber\Utils\Backup\Traits\DatabaseTaggingTaggedWriter;
 
 /**
  * Microweber - Backup Module Database Writer
@@ -33,6 +34,7 @@ class DatabaseWriter
 	use DatabaseContentDataWriter;
 	use DatabaseCategoriesWriter;
 	use DatabaseCategoryItemsWriter;
+	use DatabaseTaggingTaggedWriter;
 	
 	/**
 	 * The current batch step.
@@ -44,7 +46,7 @@ class DatabaseWriter
 	 * The total steps for batch.
 	 * @var integer
 	 */
-	public $totalSteps = 10;
+	public $totalSteps = 44;
 	
 	/**
 	 * The content from backup file
@@ -93,6 +95,11 @@ class DatabaseWriter
 	}
 	
 	private function _saveItemDatabase($item) {
+		
+		if ($item['save_to_table'] == 'tagging_tagged') {
+			$this->_taggingTagged($item);
+			return;
+		}
 		
 		if (isset($item['rel_type']) && $item['rel_type'] == 'modules' && $item['save_to_table'] == 'media') {
 			$this->_saveModule($item);
