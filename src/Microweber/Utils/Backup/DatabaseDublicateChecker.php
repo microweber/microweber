@@ -49,7 +49,12 @@ class DatabaseDublicateChecker
 		self::$tableFields[] = 'name';
 		self::$tableFields[] = 'slug';
 	}
-	
+    
+	public static function tagging_tag_groupsFields() {
+		self::$tableFields[] = 'name';
+		self::$tableFields[] = 'slug';
+	}
+    
 	public static function testimonialsFields()
 	{
 		self::$tableFields[] = 'client_picture';
