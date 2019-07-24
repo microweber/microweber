@@ -46,7 +46,7 @@ class DatabaseWriter
 	 * The total steps for batch.
 	 * @var integer
 	 */
-	public $totalSteps = 44;
+	public $totalSteps = 10;
 	
 	/**
 	 * The content from backup file
@@ -301,7 +301,8 @@ class DatabaseWriter
 		if (!empty($itemsForSave)) {
 			
 			$totalItemsForSave = sizeof($itemsForSave);
-			$totalItemsForBatch = round($totalItemsForSave / $this->totalSteps, 0);
+			$totalItemsForBatch = ($totalItemsForSave / $this->totalSteps, 0);
+            $totalItemsForBatch = ceil($totalItemsForBatch);
 			
 			if ($totalItemsForBatch > 0) {
 				$itemsBatch = array_chunk($itemsForSave, $totalItemsForBatch);
