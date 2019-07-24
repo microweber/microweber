@@ -841,10 +841,14 @@ mw._response = {
   },
   msgHolder : function(form, type, method){
     var method = method || 'append';
-    var err_holder = form.find(".alert:first");
+    var err_holder = form.find(".mw-checkout-response:first");
+    var err_holder2 = form.find(".alert:first");
     if(err_holder.length==0){
-        var err_holder = mwd.createElement('div');
-        form[method](err_holder);
+        err_holder = err_holder2;
+    }
+    if(err_holder.length==0){
+    var err_holder = mwd.createElement('div');
+    form[method](err_holder);
     }
 
     var bootrap_error_type = 'default';

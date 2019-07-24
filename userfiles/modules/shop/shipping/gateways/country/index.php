@@ -1,4 +1,4 @@
-<?php $rand = 'shipping_country_' . crc32($params['module']);
+<?php $rand = $module_wrapper_id = 'shipping_country_' . crc32($params['module']). crc32($params['id']);
 
 
 $data = mw('shop\shipping\gateways\country\shipping_to_country')->get("is_active=1");

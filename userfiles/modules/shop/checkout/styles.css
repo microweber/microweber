@@ -1,3 +1,7 @@
+
+@import url("modal.css"); /* Using a url */
+
+
 /* Checkout - Template - Checkout 1 */
 .mw-shopping-cart-checkout-layout-1 .btn-default {
     font-size: 14px;
@@ -82,3 +86,9 @@
     -moz-border-radius: 0;
     border-radius: 0;
 }
+
+
+
+
+
+

@@ -29,10 +29,10 @@ description: Small Modal
 
 
 <?php $total = cart_sum(); ?>
-<div class="products">
-    <?php if (is_array($data)) : ?>
+<div class="checkout-modal-products-wrapper">
+    <?php if (is_array($data) and $data) : ?>
         <?php foreach ($data as $item) : ?>
-            <div class="row product">
+            <div class="row checkout-modal-product-list-item">
                 <div class="col-lg-2">
                     <?php if (isset($item['item_image']) and $item['item_image'] != false): ?>
                         <?php $p = $item['item_image']; ?>
@@ -45,33 +45,42 @@ description: Small Modal
                     <?php endif; ?>
                 </div>
 
-                <div class="col-lg-4 title">
+                <div class="col-lg-4 checkout-modal-product-list-item-title">
                     <span><?php print $item['title'] ?></span>
                 </div>
-                <div class="col-lg-2 qty">
+                <div class="col-lg-2 checkout-modal-product-list-item-qty">
                     <div class="mw-qty-field">
                         <input type="number" class="form-control" name="qty" value="<?php print $item['qty'] ?>"  onchange="mw.cart.qty('<?php print $item['id'] ?>', this.value)"/>
                     </div>
                 </div>
-                <div class="col-lg-3 price">
+                <div class="col-lg-3 checkout-modal-product-list-item-price">
                     <span><?php print currency_format($item['price'] * $item['qty']); ?></span>
                 </div>
-                <div class="col-lg-1 action">
+                <div class="col-lg-1 checkout-modal-product-list-item-action">
                     <a data-toggle="tooltip" title="Remove" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="material-icons">close</i></a>
                 </div>
             </div>
         <?php endforeach; ?>
 
+
+
+    <?php else: ?>
+
+    <h5><?php _e("Your cart is empty."); ?> <?php _e("Please add some products in the cart."); ?></h5>
+
     <?php endif; ?>
+
 </div>
 
-<div class="amount row">
-    <div class="col-sm-6 promocode">
-        <module type="shop/coupons" />
+<?php if (is_array($data) and $data) : ?>
+<div class="checkout-modal-amount-holder row">
+    <div class="col-sm-6 checkout-modal-promocode-holder">
+        <module type="shop/coupons" template="modal" />
 
     </div>
-    <div class="col-sm-6 total">
+    <div class="col-sm-6 checkout-modal-total-holder">
         <p><strong>Total Amount: <?php print currency_format($total); ?></strong></p>
         <a href="#" class="btn btn-default btn-block btn-lg js-show-step"   data-step="delivery-address">Checkout</a>
     </div>
 </div>
+<?php endif; ?>
