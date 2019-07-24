@@ -151,12 +151,18 @@ mw.tools = {
         o2.height = el2.height();
         return (o1.left < o2.left + o2.width  && o1.left + o1.width  > o2.left &&  o1.top < o2.top + o2.height && o1.top + o1.height > o2.top);
     },
-    iframeAutoHeight:function(frame){
+    iframeAutoHeight:function(frame, mode){
+        mode = mode || 'onload';
         frame = mw.$(frame)[0];
         if(!frame) return;
         var _detector =  document.createElement('div');
         if(!frame.contentWindow.document.body){
             return;
+        }
+        if(mode === 'now'){
+            setTimeout(function(){
+                frame.contentWindow.document.body.appendChild(_detector);
+            }, 100);
         }
 
         frame.scrolling="no";
@@ -164,9 +170,13 @@ mw.tools = {
         frame.style.height = 0 + 'px';
         frame.style.height = frame.contentWindow.document.body.scrollHeight + 'px';
         $(frame).on('load resize', function(){
-            setTimeout(function(){
-                frame.contentWindow.document.body.appendChild(_detector);
-            }, 100);
+            if(mode === 'onload' && !_detector.appended){
+                _detector.appended = true;
+                setTimeout(function(){
+                    frame.contentWindow.document.body.appendChild(_detector);
+                }, 100);
+            }
+
             frame.style.height = 0 + 'px';
             frame._currHeight = frame.contentWindow.document.body.scrollHeight
             frame.style.height = frame._currHeight + 'px';
@@ -1450,7 +1460,7 @@ mw.tools = {
                             top.mw.$(".mw-dropdown").removeClass("active");
                             top.mw.$(".mw-dropdown-content").hide();
                         } catch(e){
-                            
+
                         }
                     }
                 }

@@ -371,7 +371,7 @@
                             $(presetsDialogModal.dialogContainer).html(mod_presets_iframe_html_fr);
                             top.$(".mw-presets-dropdown .module").removeClass('module');
                             var frame = presetsDialogModal.dialogContainer.querySelector('iframe');
-
+                            mw.tools.iframeAutoHeight(frame);
                             $(frame).on('load', function(){
                                 if(typeof(presetsDialogModal) !== 'undefined'){
                                     if(typeof(presetsDialogModal.center) !== 'undefined') {
@@ -379,10 +379,6 @@
                                     }
                                     mw.tools.loading(presetsDialogModal.dialogContainer, false)
                                 }
-                                setTimeout(function(){
-                                    mw.tools.iframeAutoHeight(frame);
-
-                                }, 5555)
                             })
 
                         });
