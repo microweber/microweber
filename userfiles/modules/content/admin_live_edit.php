@@ -147,18 +147,12 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
 
 
     resizeModal = function (w, h) {
-        var  _w = w || 810;
-        if (type == 'undefined') {
-            return;
+        if(window.thismodal && thismodal.resize){
+            thismodal.resize(w, h);
+            thismodal.center();
         }
-        if (type !== 'undefined' && type !== 'boolean') {
-            parent.mw.tools.modal.resize("#" + thismodal.main[0].id, _w, 'auto', false);
-        }
-        else {
-            var modal = mw.tools.firstParentWithClass(this.frameElement, 'mw_modal').modal;
-            modal.resize(_w, 'auto');
-        }
-    }
+
+    };
 
 
     mw.on.hashParam("action", function () {
