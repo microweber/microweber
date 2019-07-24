@@ -78,5 +78,19 @@ function get_template_row_class() {
 	if ($css_framework == 'bootstrap3' || $css_framework == 'bootstrap4') {
 		return 'row';
 	}
-	
+}
+
+
+
+function get_template_input_field_class() {
+
+    $css_framework = get_template_framework();
+
+    if ($css_framework == 'mw-ui') {
+        return 'mw-ui-field';
+    }
+
+    if ($css_framework == 'bootstrap3' || $css_framework == 'bootstrap4') {
+        return 'form-control';
+    }
 }

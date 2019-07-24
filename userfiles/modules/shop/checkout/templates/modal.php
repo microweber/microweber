@@ -16,40 +16,17 @@ description: Checkout
 
 
 
-<script>
-
-
-
-
-
-
-
-
-
-    $(document).ready(function () {
-
-
-
-        $('.step-button:nth-child(1) .js-show-step').addClass('active');
-        $('.js-step-content:nth-child(1)').show();
-
-
-        mw.cart.modal.init('#checkout_modal_<?php print $params['id'] ?>')
-
-
-        mw.modal_cart.bindStepButtons();
-
-    });
-</script>
-
-
-<div class="checkout-modal"  id="checkout_modal_<?php print $params['id'] ?>">
+<div class="checkout-modal" id="checkout_modal_<?php print $params['id'] ?>">
     <div>
         <?php if ($requires_registration and is_logged() == false): ?>
 
             <script>
                 $(document).ready(function () {
-                    $('#loginModal').modal();
+
+                    if (!!$.fn.selectpicker) {
+                        $('#loginModal').modal();
+                    }
+
                 })
             </script>
 
@@ -66,7 +43,6 @@ description: Checkout
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
-
 
 
                         <div class="row w-100">
@@ -89,9 +65,9 @@ description: Checkout
                                 </a>
                             </div>
                             <div class="col-3 step-button muted">
-                                <a href="#" class="js-show-step" data-step="preview">
+                                <a href="#" class="js-show-step" data-step="checkout-complete">
                                     <i class="material-icons">remove_red_eye</i>
-                                    <span>Preview</span>
+                                    <span>Complete</span>
                                 </a>
                             </div>
                         </div>
@@ -103,7 +79,7 @@ description: Checkout
                             <?php $cart_show_enanbled = get_option('data-show-cart', $params['id']); ?>
                             <?php if ($cart_show_enanbled != 'n'): ?>
                                 <br/>
-                                <module type="shop/cart" template="small_modal" data-checkout-link-enabled="n"
+                                <module type="shop/cart" template="modal" data-checkout-link-enabled="n"
                                         id="cart_checkout_<?php print $params['id'] ?>"/>
 
                             <?php endif; ?>
@@ -113,20 +89,67 @@ description: Checkout
                         <div class="js-step-content js-delivery-address">
 
 
-                            <module type="shop/shipping"/>
+                            <div class="m-t-20 edit nodrop" field="checkout_personal_information_title" rel="global"
+                                 rel_id="<?php print $params['id'] ?>">
+                                <div class="pull-right red">* All fields are required</div>
+                                <p class="bold m-b-10">Personal Information</p>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-6">
+
+                                    <div class="field-holder">
+                                        <input name="first_name" class="form-control input-lg" type="text" value=""
+                                               placeholder="<?php _e("First Name"); ?>"/>
+                                    </div>
+
+                                </div>
+                                <div class="col-6">
+                                    <div class="field-holder">
+                                        <input name="last_name" class="form-control input-lg" type="text" value=""
+                                               placeholder="<?php _e("Last Name"); ?>"/>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-6">
+
+                                    <div class="field-holder">
+                                        <input name="email" class="form-control input-lg" type="text" value=""
+                                               placeholder="<?php _e("Email"); ?>" required/>
+                                    </div>
+
+                                </div>
+                                <div class="col-6">
+                                    <div class="field-holder">
+                                        <input name="phone" class="form-control input-lg" type="text" value=""
+                                               placeholder="<?php _e("Phone"); ?>"/>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <module type="shop/shipping" data-store-values="true"  template="modal"/>
 
                             <div class="m-t-10">
-                                <a href="#" class="btn btn-default btn-lg btn-block js-show-step" data-step="payment-method">Continue</a>
+                                <a href="#" class="btn btn-default btn-lg btn-block js-show-step"
+                                   data-step="payment-method">Continue</a>
                             </div>
+
+
                         </div>
 
                         <div class="js-step-content js-payment-method">
-                            <hr>
 
                             <div class="m-t-20">
 
 
-                                <module type="shop/payments"/>
+                                <module type="shop/payments" data-store-values="true" template="modal"/>
 
 
                                 <div class="mw-cart-action-holder">
@@ -159,7 +182,7 @@ description: Checkout
 
                             </div>
                         </div>
-                        <div class="js-step-content js-preview">
+                        <div class="js-step-content js-checkout-complete">
                             <div class="text-center p-40">
                                 <h3>Thank you for your purchase!</h3>
                             </div>
@@ -168,7 +191,7 @@ description: Checkout
                 </div>
 
             </form>
-            <div class="mw-checkout-responce"></div>
+            <div class="mw-checkout-response"></div>
 
 
         <?php else: ?>
@@ -179,3 +202,47 @@ description: Checkout
         <?php endif; ?>
     </div>
 </div>
+
+
+
+<script>
+
+
+    $(document).ready(function () {
+
+        mw.cart.modal.init('#checkout_modal_<?php print $params['id'] ?>')
+
+        setTimeout(function(){
+
+
+            $('.step-button:nth-child(1) .js-show-step', '#checkout_modal_<?php print $params['id'] ?>').addClass('active');
+            $('.js-step-content:nth-child(1)' , '#checkout_modal_<?php print $params['id'] ?>').show();
+
+
+        }, 500);
+
+        mw.on('mw.cart.checkout.success', function(event,data){
+
+            $('.js-show-step', '#checkout_modal_<?php print $params['id'] ?>').off('click');
+
+            if(typeof(data.order_completed) != 'undefined'  && data.order_completed){
+                $('.step-button .js-show-step', '#checkout_modal_<?php print $params['id'] ?>').removeClass('active');
+                $('.step-button', '#checkout_modal_<?php print $params['id'] ?>').addClass('muted');
+                $('.js-step-content' , '#checkout_modal_<?php print $params['id'] ?>').hide();
+
+
+                $('.step-button:nth-child(4)', '#checkout_modal_<?php print $params['id'] ?>').removeClass('muted');
+                $('.step-button:nth-child(4) .js-show-step', '#checkout_modal_<?php print $params['id'] ?>').addClass('active');
+                $('.js-step-content:nth-child(4)' , '#checkout_modal_<?php print $params['id'] ?>').show();
+            }
+
+        });
+
+
+
+
+
+
+
+    });
+</script>

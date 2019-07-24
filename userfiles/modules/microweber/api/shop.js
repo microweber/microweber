@@ -1,21 +1,16 @@
-
 // JavaScript Document
 mw.require('forms.js');
-
-
-
-
 
 
 mw.cart = {
 
     add_and_checkout: function (content_id, price, c) {
         if (typeof(c) == 'undefined') {
-          var c = function(){
-            window.location.href=mw.settings.api_url+'shop/redirect_to_checkout';
-          }
+            var c = function () {
+                window.location.href = mw.settings.api_url + 'shop/redirect_to_checkout';
+            }
         }
-      return  mw.cart.add_item(content_id, price, c);
+        return mw.cart.add_item(content_id, price, c);
     },
 
     add_item: function (content_id, price, c) {
@@ -36,7 +31,6 @@ mw.cart = {
                 mw.cart.after_modify();
 
 
-
                 if (typeof c === 'function') {
                     c.call(data);
                 }
@@ -48,31 +42,29 @@ mw.cart = {
         var data = mw.form.serialize(selector);
 
 
-		var is_form_valid = true;
-		$('[required],.required',selector).each(function()
-		{
+        var is_form_valid = true;
+        $('[required],.required', selector).each(function () {
 
-			if(!this.validity.valid)
-			{
-				is_form_valid = false
+            if (!this.validity.valid) {
+                is_form_valid = false
 
-				var is_form_valid_check_all_fields_tip = mw.tooltip({
-					id: 'mw-cart-add-invalid-form-tooltip-show',
-					content: 'This field is required',
-					close_on_click_outside: true,
-					group: 'mw-cart-add-invalid-tooltip',
-					skin:'warning',
-					element: this
-				});
+                var is_form_valid_check_all_fields_tip = mw.tooltip({
+                    id: 'mw-cart-add-invalid-form-tooltip-show',
+                    content: 'This field is required',
+                    close_on_click_outside: true,
+                    group: 'mw-cart-add-invalid-tooltip',
+                    skin: 'warning',
+                    element: this
+                });
 
 
-				 return false;
-			}
-		});
+                return false;
+            }
+        });
 
-		 if(!is_form_valid){
-			 return;
-		 }
+        if (!is_form_valid) {
+            return;
+        }
 
 
         if (price != undefined && data != undefined) {
@@ -106,7 +98,7 @@ mw.cart = {
 
                     }
                 });
-               mw.cart.after_modify();
+                mw.cart.after_modify();
                 mw.trigger('mw.cart.remove', [data]);
             });
     },
@@ -124,7 +116,7 @@ mw.cart = {
 
     },
 
-    after_modify: function(){
+    after_modify: function () {
 
         mw.reload_module('shop/cart');
         mw.reload_module('shop/shipping');
@@ -137,7 +129,6 @@ mw.cart = {
 
     checkout: function (selector, callback) {
         var form = mw.$(selector);
-
 
 
         var state = form.dataset("loading");
@@ -162,12 +153,10 @@ mw.cart = {
                     mw.$('[data-type="shop/cart"]').removeAttr('hide-cart');
 
 
-
                     if (typeof(data2.error) != 'undefined') {
                         mw.$(selector + ' .mw-cart-data-holder').show();
                         mw.response(selector, data2);
                     } else if (typeof(data2.success) != 'undefined') {
-
 
 
                         if (typeof callback === 'function') {
@@ -187,19 +176,13 @@ mw.cart = {
                         mw.trigger('mw.cart.checkout.success', data2);
 
 
-            						if (typeof(data2.redirect) != 'undefined') {
+                        if (typeof(data2.redirect) != 'undefined') {
 
-            							setTimeout(function(){
-            							window.location.href = data2.redirect;
-            							}, 10)
+                            setTimeout(function () {
+                                window.location.href = data2.redirect;
+                            }, 10)
 
-						            }
-
-
-
-
-
-
+                        }
 
 
                     } else if (parseInt(data) > 0) {
@@ -228,13 +211,12 @@ mw.cart = {
 }
 
 
-
 mw.cart.modal = {}
 
 mw.cart.modal.init = function (root_node) {
 
 
-    mw.cart.modal.bindStepButtons();
+    mw.cart.modal.bindStepButtons(root_node);
 }
 
 mw.cart.modal.bindStepButtons = function (step) {
@@ -243,38 +225,71 @@ mw.cart.modal.bindStepButtons = function (step) {
     $('.js-show-step').off('click');
     $('.js-show-step').on('click', function () {
 
-        var has_error = 0;
+        var has_error = false;
         var step = $(this).data('step');
-        if (step == 'payment-method') {
+        var holder = mw.tools.firstParentWithClass(this, 'js-step-content');
 
-            $('.js-delivery-address input').each(function () {
-                if (!this.checkValidity()) {
-                    mw.notification.warning('Please fill the required fields');
-                    $(this).addClass('error');
-                    has_error = 1;
-                } else {
-                    $(this).removeClass('error');
-                }
 
-            });
 
+
+
+        if (step == 'checkout-complete') {
+            return;
+        }
+
+
+
+
+
+
+        $('input,textarea,select', holder).each(function () {
+            if (!this.checkValidity()) {
+                $(this).addClass('is-invalid');
+                // $(this).addClass('error');
+                has_error = 1;
+            } else {
+                $(this).removeClass('is-invalid');
+                // $(this).removeClass('error');
+            }
+
+        });
+
+
+
+
+
+        if (step == 'payment-method'  || step == 'preview') {
             if (has_error) {
                 step = 'delivery-address'
             }
         }
 
 
+
+
         $('.js-show-step').removeClass('active');
 
         $('[data-step]').removeClass('active');
         $('[data-step="' + step + '"]').addClass('active').parent().removeClass('muted');
-
-
+        $(this).addClass('active');
         step1 = '.js-' + step;
         $('.js-step-content').hide();
         $(step1).show();
-        $(this).addClass('active');
 
+
+
+
+
+
+
+
+        if (!has_error) {
+
+        }
+
+        if (has_error) {
+            mw.notification.warning('Please fill the required fields');
+        }
 
     });
 

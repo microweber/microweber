@@ -75,18 +75,20 @@ if ($template != false and strtolower($template) != 'none') {
     </script>
 
     <script>mw.lib.require('material_icons');</script>
-    <script>mw.moduleCSS("<?php print modules_url(); ?>shop/checkout/styles.css"); </script>
+
+
+    <link href="<?php print modules_url(); ?>shop/checkout/styles.css" rel="stylesheet">
 
     <script type="text/javascript">
         $(document).ready(function () {
             __max = 0;
-            mw.$(".mw-checkout-form .well").each(function () {
+            mw.$(".mw-checkout-form .well", '#<?php  print $params['id'] ?>').each(function () {
                 var h = $(this).height();
                 if (h > __max) {
                     __max = h;
                 }
             });
-            mw.$(".mw-checkout-form .well").css("minHeight", __max);
+            mw.$(".mw-checkout-form .well",'#<?php  print $params['id'] ?>').css("minHeight", __max);
 
         });
     </script>
