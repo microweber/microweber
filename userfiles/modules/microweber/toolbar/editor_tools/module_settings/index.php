@@ -237,19 +237,11 @@
                     <?php $mod_adm = admin_url('load_module:') . module_name_encode($module_info['module']); ?>
 
                     var is_module_tml_holder = $(toolbar).find(".module-modal-settings-menu-holder");
-
-
-
-
-
-
-
                     if (is_module_tml_holder.length > 0) {
                         is_module_tml_holder.empty();
 
                         var holder = mwd.createElement('div');
                         holder.className = 'mw-module-presets-content';
-
 
                         var html = ""
                             + "<div id='module-modal-settings-menu-items<?php print $params['id'] ?>' module_id='<?php print $params['id'] ?>' module_name='<?php print $module_info['module'] ?>'>"
@@ -261,7 +253,7 @@
                             window.parent.modal_preset_manager_html_placeholder_for_reload = function () {
                            modal_preset_manager_html_placeholder_for_reload_content = ""
                                 + "<div id='module-modal-settings-menu-items-presets-holder<?php print $params['id'] ?>' module_id='<?php print $params['id'] ?>' module_name='<?php print $module_info['module'] ?>'>"
-                                + "</div>"
+                                + "</div>";
 
                             var presetsthismodalid = thismodal.id;
 
