@@ -227,7 +227,7 @@ if ($screenshots) {
                     <span class="title">Current layout</span>
                     <div class="screenshot">
                         <div class="holder">
-                            <img src="<?php echo $current_template['screenshot']; ?>"
+                            <img src="<?php echo thumbnail($current_template['screenshot'], 300); ?>"
                                  alt="<?php print $current_template['name']; ?>" style="max-width:100%;"
                                  title="<?php print $current_template['name']; ?>"/>
                             <div class="title"><?php print $current_template['name']; ?></div>
