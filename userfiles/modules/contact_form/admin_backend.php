@@ -16,6 +16,17 @@
             margin: 8px 0 0 12px
         }
 
+        .contact-head{
+            overflow: hidden;
+        }
+        .contact-head > *{
+            float: left;
+        }
+        .contact-head a{
+            float: right;
+            margin-left: 10px;
+        }
+
     </style>
     <div id="mw_index_contact_form" class="admin-side-content" style="max-width:100%;">
         <div>
@@ -51,15 +62,15 @@
                     $load_mod_action = $mod_action;
                 }
             }
-            
+
             if ($mod_action == 'integrations') {
             	$load_list = false;
             }
             ?>
 
             <div>
-           
-           <!-- 
+
+           <!--
             <div class="mw-ui-btn-nav m-b-10">
                 <a class="mw-ui-btn <?php if ($load_list == 'default') { ?>active<?php } ?>" href="<?php print $config['url']; ?>/load_list:default"><?php _e('Default list'); ?></a>
                 <?php $data = get_form_lists('module_name=contact_form'); ?>
@@ -70,44 +81,27 @@
                 <?php endif; ?>
             </div>
             -->
-            
-            <div class="mw-flex-row">
-              
-              <div class="mw-flex-col-md-12">
-              <h3><b>Select from lists</b></h3>
-              </div>
-              
-              <div class="mw-flex-col-md-3">
-	             <div class="mw-field" size="large" style="width:100%;">
-			        <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-			        <option><?php _e('Select..'); ?></option>
-			        <option value="default"><?php _e('Default list'); ?></option>
-			         <?php $data = get_form_lists('module_name=contact_form'); ?>
-                	<?php if (is_array($data)): ?>
-                    <?php foreach ($data as $item): ?>
-                    	<?php if(empty($item['title'])) { continue; } ?>
-			            <option <?php if ($load_list == $item['id']) { ?> selected="selected" <?php } ?> value="<?php print $config['url']; ?>/load_list:<?php print $item['id']; ?>"><?php print $item['title']; ?></option>
-			           <?php endforeach; ?>
-              		 <?php endif; ?>
-			        </select>
-			    </div>
-			     </div>
-			     
-			     <div class="mw-flex-col-md-6">
-			   		 <!-- <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-big">Create New List</button> -->
-			     </div>
-			     
-	             <div class="mw-flex-col-md-2">
-	                <a href="<?php print $config['url']; ?>/mod_action:integrations" class="<?php if($mod_action == 'integrations'){ ?> active <?php }?> mw-ui-btn  mw-ui-btn-big " style="width:100%;"><?php _e("Mail Integrations"); ?></a>
-               </div>
-               
-               	 <div class="mw-flex-col-md-1">
-	                <a href="<?php print $config['url']; ?>/mod_action:settings" class="<?php if($mod_action == 'settings'){ ?> active <?php }?> mw-ui-btn  mw-ui-btn-big " style="width:100%;"><?php _e("Settings"); ?></a>
-	              </div>
-			     
-              </div>
+
+
+	             <div class="contact-head">
+                     <div class="mw-field" size="large">
+                        <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                        <option><?php _e('Select..'); ?></option>
+                        <option value="default"><?php _e('Default list'); ?></option>
+                         <?php $data = get_form_lists('module_name=contact_form'); ?>
+                        <?php if (is_array($data)): ?>
+                        <?php foreach ($data as $item): ?>
+                            <?php if(empty($item['title'])) { continue; } ?>
+                            <option <?php if ($load_list == $item['id']) { ?> selected="selected" <?php } ?> value="<?php print $config['url']; ?>/load_list:<?php print $item['id']; ?>"><?php print $item['title']; ?></option>
+                           <?php endforeach; ?>
+                         <?php endif; ?>
+                        </select>
+                    </div>
+                    <a href="<?php print $config['url']; ?>/mod_action:integrations" class="<?php if($mod_action == 'integrations'){ ?> active <?php }?> mw-ui-btn  mw-ui-btn-big "><?php _e("Mail Integrations"); ?></a>
+                    <a href="<?php print $config['url']; ?>/mod_action:settings" class="<?php if($mod_action == 'settings'){ ?> active <?php }?> mw-ui-btn  mw-ui-btn-big "><?php _e("Settings"); ?></a>
+                </div>
             </div>
-            
+
             <br />
             <br />
 
@@ -148,20 +142,20 @@
                     </script>
                     <module type="contact_form/manager/list_toolbar" load_list="<?php print $load_list ?>"/>
                     <module type="contact_form/manager/list" load_list="<?php print $load_list ?>" for_module="<?php print $config["the_module"] ?>" id="forms_data_module"/>
-                	
+
 	                <?php endif; ?>
-               		 <?php if ($load_mod_action == true): ?> 
+               		 <?php if ($load_mod_action == true): ?>
 
                     <?php if ($load_mod_action == 'settings'): ?>
                		<module type="settings/list" for_module="contact_form" for_module_id="contact_form_default" >
                     <module type="contact_form/settings"  for_module_id="contact_form_default"  />
                     <?php endif; ?>
-                    
+
                     <?php if ($load_mod_action == 'integrations'): ?>
                		<module type="admin/mail_providers/show_all" />
                     <?php endif; ?>
-                    
-                <?php else : ?> 
+
+                <?php else : ?>
                 <?php endif; ?>
             </div>
         </div>

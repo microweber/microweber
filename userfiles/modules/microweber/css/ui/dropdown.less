@@ -12,6 +12,10 @@
   -o-user-select: none;
   -khtml-user-select: none;
   user-select: none;
+    ul{
+        padding: 0;
+        white-space: nowrap;
+    }
 }
 
 .mw-ui-dropdown:hover,
@@ -124,8 +128,10 @@
 }
 
 .mw-dropdown > .mw-ui-btn.mw-dropdown-val {
-  width: 100%;
-  text-align: left;
+    width: 100%;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
 }
 
 /************************************
