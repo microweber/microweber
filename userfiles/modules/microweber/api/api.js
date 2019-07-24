@@ -468,8 +468,8 @@ mw.getScripts = function (array, callback) {
         return false;
     }
     var done = callback || function(){};
-    if (typeof module != 'undefined') {
-      if (typeof module == 'object') {
+    if (typeof module !== 'undefined') {
+      if (typeof module === 'object') {
 
         mw._({
           selector: module,
@@ -528,8 +528,6 @@ mw.getScripts = function (array, callback) {
     if(mw.on != undefined){
         mw.on.DOMChangePause = true;
     }
-    DONOTREPLACE = DONOTREPLACE || false;
-    sendSpecific = sendSpecific || false;
     var url = typeof obj.url !== 'undefined' ? obj.url : mw.settings.site_url+'module/';
     var selector = typeof obj.selector !=='undefined' ? obj.selector : '';
     var params =  typeof obj.params !=='undefined' ? obj.params : {};
@@ -542,7 +540,8 @@ mw.getScripts = function (array, callback) {
     if(mw.session != undefined){
         mw.session.checkPause = true;
     }
-    var node = $(obj.selector)[0]
+    var $node = $(obj.selector);
+    var node = $node[0];
     var attrs = node.attributes;
 
 
@@ -562,7 +561,7 @@ mw.getScripts = function (array, callback) {
        }
 
     if (sendSpecific) {
-      attrs["class"] !== undefined ? to_send["class"] = attrs["class"].nodeValue : ""
+      attrs["class"] !== undefined ? to_send["class"] = attrs["class"].nodeValue : "";
       attrs["data-module-name"] !== undefined ? to_send["data-module-name"] = attrs["data-module-name"].nodeValue : "";
       attrs["data-type"] !== undefined ? to_send["data-type"] = attrs["data-type"].nodeValue : "";
       attrs["type"] !== undefined ? to_send["type"] = attrs["type"].nodeValue : "";
@@ -571,7 +570,7 @@ mw.getScripts = function (array, callback) {
     }
     else {
       for (var i in attrs) {
-  		  if(attrs[i] != undefined){
+  		  if(attrs[i] !== undefined){
               var name = attrs[i].name;
               var val = attrs[i].nodeValue;
               if(typeof to_send[name] === 'undefined'){
@@ -582,7 +581,7 @@ mw.getScripts = function (array, callback) {
     }
     var b = true;
     for (var a in to_send) {
-       if(to_send.hasOwnProperty(a)) { var b = false; };
+       if(to_send.hasOwnProperty(a)) { b = false; }
     }
     if(b){
       mw.tools.removeClass(mwd.body, 'loading');
@@ -590,10 +589,18 @@ mw.getScripts = function (array, callback) {
       mw.on.DOMChangePause = false;
       return false;
     }
+    var storedValues = $node.dataset('storeValues') === 'true' ? {} : false;
+
+    if(storedValues) {
+        $node.find('[name]').each(function () {
+            storedValues[this.name] = $(this).val();
+        })
+    }
+
 
     var xhr = $.post(url, to_send, function(data) {
 
-      if(mw.session != undefined){
+      if(!!mw.session){
         mw.session.checkPause = false;
       }
       if(DONOTREPLACE){
@@ -605,15 +612,25 @@ mw.getScripts = function (array, callback) {
       }
 
       var docdata = mw.tools.parseHtml(data);
-      if(typeof to_send.id  !== 'undefined'){
-         var id = to_send.id;
+
+      if(storedValues) {
+        $('[name]', docdata).each(function(){
+            var el = $(this);
+            if(!el.val()) {
+                el.val(storedValues[this.name] || undefined);
+            }
+        })
       }
-      else{
-        var id = docdata.body.querySelector(['id']);
+
+      var id;
+      if (typeof to_send.id  !== 'undefined') {
+        id = to_send.id;
+      } else{
+        id = docdata.body.querySelector(['id']);
       }
       mw.$(selector).replaceWith($(docdata.body).html());
       setTimeout(function(){
-          if(typeof obj.done == 'function'){
+          if(typeof obj.done === 'function'){
               obj.done.call($(selector)[0], data);
           }
 
