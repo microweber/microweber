@@ -102,7 +102,7 @@
             	});
             }
 
-            function searchMediaLibrary(search) {
+            function searchMediaLibrary(search, page = 1) {
                 search = (search  || '').trim();
                 var root = $('#mw-media-library-results .mw-browser-list');
                 if(!search){
@@ -112,7 +112,7 @@
                 }
                 $('#resbox').show();
                 $('.stock-field').addClass('loading')
-                $.getJSON(mw.settings.api_url + "media_library/search?keyword=" + search, function(data) {
+                $.getJSON(mw.settings.api_url + "media_library/search?keyword=" + search + "&page=" + page, function(data) {
 
                     root.html('<?php echo _e('Searching'); ?>...');
 
@@ -145,6 +145,13 @@
 								
                                 root.append(li);
                             });
+
+                            var nextPage = parseInt(page) + 1;
+                            
+                            var loadMoreFunction = "searchMediaLibrary('" + search + "'," + nextPage + ");";
+                            
+                            $('#mw-media-library-pagination').html('<div style="text-align: center;"><button onClick="'+loadMoreFunction+'" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-info">Load more</button></div>');
+                            
                         } else {
                             $('.media-results').html('<li class="no-results">Nothing found for <b>'+search+'</b></li>')
                         }
@@ -176,6 +183,7 @@
                 <ul class="mw-browser-list" id="media-results">
                 </ul>
             </div>
+            <div id="mw-media-library-pagination"></div>
         </div>
 
     </div>

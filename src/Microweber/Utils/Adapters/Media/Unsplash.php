@@ -12,9 +12,9 @@ class Unsplash
         $this->app = $app;
     }
 
-    public function search($keyword) {
+    public function search($keyword, $page = 1) {
     	
-    	$json = mw()->http->url('http://imglib.microweberapi.com/index.php?search='. $keyword)->get();
+    	$json = mw()->http->url('http://imglib.microweberapi.com/index.php?search='. $keyword . '&page=' . $page)->get();
     	$json = json_decode($json, TRUE);
     	
     	return $json;

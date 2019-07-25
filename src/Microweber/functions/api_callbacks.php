@@ -73,8 +73,15 @@ api_expose_admin('media_library/search', function ($data) {
 	
 	$search = array();
 	$unsplash = new Unsplash();
+	
+	$page = 1;
+	
+	if (isset($data['page'])) {
+		$page = $data['page'];
+	}
+	
 	if (isset($data['keyword'])) {
-		$search = $unsplash->search($data['keyword']);
+		$search = $unsplash->search($data['keyword'], $page);
 	}
 	
 	$response = Response::make($search);
