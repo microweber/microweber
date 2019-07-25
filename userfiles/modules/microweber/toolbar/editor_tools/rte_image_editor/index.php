@@ -336,10 +336,12 @@ if (array_key_exists('types', $_GET)) {
             parent.mw.tools.modal.resize(parent.mwd.getElementById('mw_rte_image'), 730, height, true);
         }
 
+        var selector = '#image_tabs .mw-ui-btn-nav a';
+
         MediaTabs = mw.tabs({
-            nav: '#image_tabs .mw-ui-btn-nav a',
+            nav: selector,
             tabs: '.tab',
-            onclick: function (tab) {
+            onclick: function (tab, e, i) {
                 if (this.id == 'browseTab') {
 
                     if (!window.fileBrowserLoaded) {
@@ -360,6 +362,12 @@ if (array_key_exists('types', $_GET)) {
 
                 } else {
                     parent.mw.tools.modal.resize(parent.mwd.getElementById('mw_rte_image'), 430, 230, true);
+                }
+                console.log(i , ($(selector).length - 1));
+                if(i === ($(selector).length - 1)){
+                    thismodal.resize(800)
+                } else {
+                    thismodal.resize(460)
                 }
             }
         })
