@@ -20,7 +20,7 @@ class Unsplash
     	return $json;
     }
     
-    public function download($photoId) {
+    public function download($photoId) { 
     	
     	$filename = media_uploads_path() . $photoId . '.jpg';
     	
