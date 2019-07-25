@@ -19,4 +19,19 @@ class Unsplash
     	
     	return $json;
     }
+    
+    public function download($photoId) {
+    	
+    	$filename = media_uploads_path() . $photoId . '.jpg';
+    	
+    	$downloaded = mw()->http->url('http://imglib.microweberapi.com/download.php?photo_id='. $photoId)->download($filename);
+    	
+    	if ($downloaded) {
+    		
+    		
+    		
+    	}
+    	
+    	
+    }
 }

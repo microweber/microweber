@@ -4,26 +4,29 @@
 <div class="mw-module-admin-wrap">
   <div class="media-search-stock-images-wrapper">
         <style>
-            .mw-browser-list-png {
-                cursor:pointer;
-            }
-            .image-item{
+            .image-item-thumbnail {
                 display: inline-block;
-                width: 65px;
-                height: 65px;
                 background-repeat: no-repeat;
                 background-size: contain;
                 background-position: center;
+                width: 100% !important;
+				height: 115px !important;
             }
-            #media-results{
+            #media-results {
                 overflow: hidden;
             }
-            #media-results li a .image-item {
-                width: 100%;
-                height: 115px;
+            #media-results li .image-item-thumbnail {
+                width: 100% !important;
+                height: 115px !important;
+                cursor:pointer;
             }
-            #media-results li a{
-                width: 100%;
+            #media-results li a {
+                font-size:13px;
+                color: #156fbb;
+                width: 100% !important;
+            }
+            #media-results li button {
+                font-size:13px;
             }
             #media-results li.no-results{
                 width: 100%;
@@ -31,18 +34,35 @@
             }
             #media-results li{
                 float: left;
-                width: 48%;
+                width: 23%;
                 padding: 0;
                 border: 1px solid #d6d6d6;
                 margin: 1%;
                 border-radius: 3px;
                 box-shadow: 0 2px 2px #00000012;
             }
+            .mw-browser-list button {
+            	width:155px;
+            	margin-left:7px;
+            	margin-bottom:7px;
+            	padding:0px;
+            }
             .stock-field{
                 width: 100%;
                 padding-bottom: 20px;
             }
-            .
+            .image-item-likes {
+                padding: 5px;
+			    color: red;
+			    position: absolute;
+			    right: 0px;
+			    background: #c8c8c8e8;
+			    border-radius: 0px;
+		    }
+		    .image-item-author {
+		    	width:100%;
+		    	margin-bottom:7px;
+		    }
         </style>
         <script>
             function selectMediaImage(image) {
@@ -67,17 +87,30 @@
                         root.empty();
                         if(data.photos.length){
                             $.each(data.photos, function(key, val) {
+                                
                                 var li = $('<li/>');
-                                var a = $('<a class="mw-browser-list-file mw-browser-list-png" />');
-                                var img = $('<span class="image-item" style="background-image:url('+val.url_thumb+');">');
-                                img.on('click', function(){
-                                    selectMediaImage(val.url_regular);
+                                var download = $('<button class="mw-ui-btn mw-ui-btn-medium" />');
+                                var thumbnail = $('<span class="image-item-thumbnail" style="background-image:url('+val.url_thumb+');">');
+                                var author = $('<a href="' + val.author_url + '" class="image-item-author" target="_new" />');
+                                var likes = $('<span class="image-item-likes" />');
+                                
+                                thumbnail.on('click', function() {
+                                    selectMediaImage(mw.settings.api_url + "media_library/download?photo_id=" + val.id);
                                 });
-                                li.append(a);
-                                a.append(img);
-                                a.append('Author: ' +val.author);
-                                a.append('<br />');
-                                a.append('Likes: ' +val.likes); 
+
+                                download.on('click', function() {
+                                    selectMediaImage(mw.settings.api_url + "media_library/download?photo_id=" + val.id);
+                                }); 
+
+                                li.append(likes);
+                                li.append(thumbnail);
+                                li.append(download);
+                                li.append(author);
+                                
+                                download.append('Download');
+                                author.append('Author: ' + val.author);
+                                likes.append('<span class="mw-icon-heart"></span><br />' +val.likes); 
+								
                                 root.append(li);
                             });
                         } else {
