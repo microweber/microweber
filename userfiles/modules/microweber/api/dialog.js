@@ -33,6 +33,7 @@ mw.dialogIframe = function(options){
                     dialog.center();
                 });
                 dialog.dialogMain.classList.remove('mw-dialog-iframe-loading');
+                frame.contentWindow.thismodal = dialog;
             }, 78);
         });
 
@@ -56,6 +57,8 @@ mw.dialog.get = function (selector) {
 };
 
 mw.Dialog = function(options){
+
+        var scope = this;
 
         options = options || {};
         options.content = options.content || options.html || '';
@@ -268,9 +271,10 @@ mw.Dialog = function(options){
 
         this._prevHeight = -1;
 
-        this.center = function(){
+        this.center = function(width, height){
             var $holder = $(this.dialogHolder), $window = $(window);
-            var holderHeight = $holder.outerHeight();
+            var holderHeight = height || $holder.outerHeight();
+            var holderWidth = width || $holder.outerWidth();
             var dtop, css = {};
 
             if (this.options.centerMode === 'intuitive' && this._prevHeight < holderHeight) {
@@ -278,7 +282,7 @@ mw.Dialog = function(options){
             } else if (this.options.centerMode === 'center') {
                 dtop = $window.height()/2 -  holderHeight/2;
             }
-            css.left = $window.outerWidth()/2 -  $holder.outerWidth()/2;
+            css.left = $window.outerWidth()/2 - holderWidth/2;
 
             if (dtop) {
                 css.top = dtop > 0 ? dtop : 0;
@@ -307,6 +311,7 @@ mw.Dialog = function(options){
             if(typeof height !== 'undefined'){
                this.height(height);
             }
+            this.center(width, height)
         };
        this.content = function(content){
             this.options.content = content || '';
@@ -340,6 +345,9 @@ mw.Dialog = function(options){
             if(!this.options.pauseInit){
                 $(this).trigger('Init');
             }
+        $(this.dialogHolder).on('transitionend', function(){
+            scope.center();
+        });
 
         return this;
     };

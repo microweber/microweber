@@ -301,7 +301,7 @@ class DatabaseWriter
 		if (!empty($itemsForSave)) {
 			
 			$totalItemsForSave = sizeof($itemsForSave);
-			$totalItemsForBatch = ($totalItemsForSave / $this->totalSteps, 0);
+			$totalItemsForBatch = ($totalItemsForSave / $this->totalSteps);
             $totalItemsForBatch = ceil($totalItemsForBatch);
 			
 			if ($totalItemsForBatch > 0) {

@@ -1601,14 +1601,12 @@ body.has-opened-sidebar #live_edit_toolbar {
 .module-modal-settings-menu-holder {
     position: absolute;
     right: 40px;
-    top: 6px;
-    min-height: 30px;
+    top: 50%;
     opacity: 1;
     transition: opacity .3s;
+    transform: translateY(-50%);
 }
-.module-modal-settings-menu-holder .mw-dropdown{
-    top: 50%;
-}
+
 .module-modal-settings-menu-holder:hover{
     opacity: 1;
 }
