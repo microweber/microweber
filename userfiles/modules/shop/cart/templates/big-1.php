@@ -97,7 +97,9 @@ description: Full width cart template
             <div class="shipping-info">
                 <div class="row">
                     <div class="col-xs-12 col-sm-6 col-md-5">
-                        <module type="shop/coupons"/>
+                        <?php if (get_option('enable_coupons', 'shop') == 1): ?>
+                            <module type="shop/coupons"/>
+                        <?php endif ?>
                     </div>
 
                     <div class="col-xs-12 col-sm-6 col-md-4 col-md-offset-3">
