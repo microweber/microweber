@@ -156,6 +156,11 @@
     font-size: 16px
 }
 
+
+.checkout-modal .checkout-modal-total-price {
+    font-weight: bold;
+}
+
 .checkout-modal .js-step-content .form-control {
     border: 0;
     margin-bottom: 10px;

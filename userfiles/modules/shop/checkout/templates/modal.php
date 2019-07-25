@@ -14,8 +14,6 @@ description: Checkout
 ?>
 
 
-
-
 <div class="checkout-modal" id="checkout_modal_<?php print $params['id'] ?>">
     <div>
         <?php if ($requires_registration and is_logged() == false): ?>
@@ -31,9 +29,11 @@ description: Checkout
             </script>
 
 
+            <a></a>
+
+
         <?php else: ?>
             <div class="clear"></div>
-            <?php if ($payment_success == false): ?>
 
 
             <form class="mw-checkout-form" id="checkout_form_<?php print $params['id'] ?>" method="post">
@@ -41,39 +41,55 @@ description: Checkout
 
                 <div class="modal-content">
                     <div class="modal-header">
+
+
+
+                        <?php if(!isset($params['no-close-btn'])) { ?>
+
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
+
+                        <?php } ?>
+
 
 
                         <div class="row w-100">
                             <div class="col-3 step-button">
                                 <a href="#" class="js-show-step" data-step="shopping-cart">
                                     <i class="material-icons">shopping_cart</i>
-                                    <span><span class="hidden-xs">Shopping</span> Cart</span>
-                                </a>
+
+
+
+                                    <span><?php _e("Shopping Cart"); ?> </span>
+
+                                 </a>
                             </div>
                             <div class="col-3 step-button muted">
                                 <a href="#" class="js-show-step" data-step="delivery-address">
                                     <i class="material-icons">local_shipping</i>
-                                    <span>Delivery <span class="hidden-xs">Address</span></span>
-                                </a>
+                                     <span><?php _e("Delivery Address"); ?> </span>
+
+
+
+                                 </a>
                             </div>
                             <div class="col-3 step-button muted">
                                 <a href="#" class="js-show-step" data-step="payment-method">
                                     <i class="material-icons">payment</i>
-                                    <span>Payment <span class="hidden-xs">Method</span></span>
+                                    <span><?php _e("Payment Method"); ?> </span>
                                 </a>
                             </div>
                             <div class="col-3 step-button muted">
                                 <a href="#" class="js-show-step" data-step="checkout-complete">
                                     <i class="material-icons">remove_red_eye</i>
-                                    <span>Complete</span>
+                                    <span><?php _e("Complete"); ?></span>
                                 </a>
                             </div>
                         </div>
                     </div>
                     <div class="modal-body">
                         <div class="js-step-content js-shopping-cart">
+
 
 
                             <?php $cart_show_enanbled = get_option('data-show-cart', $params['id']); ?>
@@ -91,8 +107,8 @@ description: Checkout
 
                             <div class="m-t-20 edit nodrop" field="checkout_personal_information_title" rel="global"
                                  rel_id="<?php print $params['id'] ?>">
-                                <div class="pull-right red">* All fields are required</div>
-                                <p class="bold m-b-10">Personal Information</p>
+                                <div class="pull-right red">* <?php _e("All fields are required"); ?></div>
+                                <p class="bold m-b-10"><?php _e("Personal Information"); ?></p>
                             </div>
 
 
@@ -134,11 +150,11 @@ description: Checkout
                             </div>
 
 
-                            <module type="shop/shipping" data-store-values="true"  template="modal"/>
+                            <module type="shop/shipping" data-store-values="true" template="modal"/>
 
                             <div class="m-t-10">
                                 <a href="#" class="btn btn-default btn-lg btn-block js-show-step"
-                                   data-step="payment-method">Continue</a>
+                                   data-step="payment-method"><?php _e("Continue"); ?></a>
                             </div>
 
 
@@ -184,7 +200,7 @@ description: Checkout
                         </div>
                         <div class="js-step-content js-checkout-complete">
                             <div class="text-center p-40">
-                                <h3>Thank you for your purchase!</h3>
+                                <h3><?php _e("Thank you for your purchase!"); ?></h3>
                             </div>
                         </div>
                     </div>
@@ -194,15 +210,9 @@ description: Checkout
             <div class="mw-checkout-response"></div>
 
 
-        <?php else: ?>
-            <h2>
-                <?php _e("Your payment was successful."); ?>
-            </h2>
-        <?php endif; ?>
         <?php endif; ?>
     </div>
 </div>
-
 
 
 <script>
@@ -212,37 +222,53 @@ description: Checkout
 
         mw.cart.modal.init('#checkout_modal_<?php print $params['id'] ?>')
 
-        setTimeout(function(){
+
+        setTimeout(function () {
 
 
             $('.step-button:nth-child(1) .js-show-step', '#checkout_modal_<?php print $params['id'] ?>').addClass('active');
-            $('.js-step-content:nth-child(1)' , '#checkout_modal_<?php print $params['id'] ?>').show();
+            $('.js-step-content:nth-child(1)', '#checkout_modal_<?php print $params['id'] ?>').show();
+
+
+
+            <?php  if($payment_success){ ?>
+            mw_cart_show_payment_success_tab()
+
+            <?php }  ?>
+
+
 
 
         }, 500);
 
-        mw.on('mw.cart.checkout.success', function(event,data){
 
-            $('.js-show-step', '#checkout_modal_<?php print $params['id'] ?>').off('click');
-
-            if(typeof(data.order_completed) != 'undefined'  && data.order_completed){
-                $('.step-button .js-show-step', '#checkout_modal_<?php print $params['id'] ?>').removeClass('active');
-                $('.step-button', '#checkout_modal_<?php print $params['id'] ?>').addClass('muted');
-                $('.js-step-content' , '#checkout_modal_<?php print $params['id'] ?>').hide();
+        mw.on('mw.cart.checkout.success', function (event, data) {
 
 
-                $('.step-button:nth-child(4)', '#checkout_modal_<?php print $params['id'] ?>').removeClass('muted');
-                $('.step-button:nth-child(4) .js-show-step', '#checkout_modal_<?php print $params['id'] ?>').addClass('active');
-                $('.js-step-content:nth-child(4)' , '#checkout_modal_<?php print $params['id'] ?>').show();
+            if (typeof(data.order_completed) != 'undefined' && data.order_completed) {
+                mw_cart_show_payment_success_tab()
             }
 
         });
 
 
-
-
-
-
-
     });
+
+
+    function mw_cart_show_payment_success_tab() {
+        $('.js-show-step', '#checkout_modal_<?php print $params['id'] ?>').off('click');
+
+        $('.step-button .js-show-step', '#checkout_modal_<?php print $params['id'] ?>').removeClass('active');
+        $('.step-button', '#checkout_modal_<?php print $params['id'] ?>').addClass('muted');
+        $('.js-step-content', '#checkout_modal_<?php print $params['id'] ?>').hide();
+
+
+        $('.step-button:nth-child(4)', '#checkout_modal_<?php print $params['id'] ?>').removeClass('muted');
+        $('.step-button:nth-child(4) .js-show-step', '#checkout_modal_<?php print $params['id'] ?>').addClass('active');
+        $('.js-step-content:nth-child(4)', '#checkout_modal_<?php print $params['id'] ?>').show();
+
+
+    }
+
+
 </script>

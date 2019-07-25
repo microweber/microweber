@@ -33,7 +33,7 @@ description: Default
     <div class="m-t-20 edit nodrop" field="checkout_shipping_information_title" rel="global"
          rel_id="<?php print $params['id'] ?>">
         <div class="pull-right red">* All fields are required</div>
-        <p class="bold m-b-10">Shipping Information</p>
+        <p class="bold m-b-10"><?php _e("Shipping Information"); ?></p>
     </div>
 
 
