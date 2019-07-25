@@ -24,7 +24,7 @@
             #media-results li a {
                 font-size:13px;
                 color: #156fbb;
-                width: 100% !important;
+                width: 100% !important; 
             }
             #media-results li button {
                 font-size:13px;
