@@ -63,8 +63,17 @@ if (!empty($data)) {
 		}
 		
 		$field['options']['field_size_class'] = get_default_field_size_option($field);
-		
-		if (isset($field['options']['field_size']) && is_array($field['options']['field_size'])) {
+
+
+        if(isset($params['input_class'])){
+            $field['input_class'] = $params['input_class'];
+
+        }
+
+
+
+
+        if (isset($field['options']['field_size']) && is_array($field['options']['field_size'])) {
 			$field['options']['field_size_class'] = get_field_size_class($field['options']['field_size'][0]);
 		}
 		

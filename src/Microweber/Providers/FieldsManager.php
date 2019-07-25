@@ -802,11 +802,13 @@ class FieldsManager
         if ((isset($_REQUEST['field_id']) and ($_REQUEST['field_id']) )) {
         	$data['field_id'] = $_REQUEST['field_id'];
         }
-         
-        
-        
-         
- //         die();
+
+
+    //    d($data);
+
+
+
+        //input_class
         
         if (isset($data['copy_from'])) {
             $copy_from = intval($data['copy_from']);
@@ -861,6 +863,11 @@ class FieldsManager
         if (isset($data['value']) and is_array($data['value'])) {
             $data['value'] = implode(',', $data['value']);
         }
+
+
+
+
+
 
 
         $data['type'] = $field_type;

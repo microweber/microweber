@@ -260,11 +260,11 @@
 
 
 
-                            window.parent.module_settings_modal_reference_preset_editor_modal_id = presetsthismodalid;
-                            window.parent.module_settings_modal_reference_window = top;
+                            // window.parent.module_settings_modal_reference_preset_editor_modal_id = presetsthismodalid;
+                            // window.parent.module_settings_modal_reference_window = top;
 
                                 window.top.module_settings_modal_reference_preset_editor_modal_id = presetsthismodalid;
-                                window.top.module_settings_modal_reference_window = top;
+                                window.top.module_settings_modal_reference_window = window;
 
 
 

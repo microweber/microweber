@@ -2070,8 +2070,8 @@ class imageLib
         }
         if (!$img) {
             // *** Get extension
-            $extension = strrchr($file, '.');
-            $extension = fix_strtolower($extension);
+        	$extension = get_file_extension($file);
+            $extension = strtolower($extension);
             switch ($extension) {
                 case '.bmp':
                     $img = @$this->imagecreatefrombmp($file);

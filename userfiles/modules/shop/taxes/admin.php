@@ -92,7 +92,7 @@ only_admin_access();
         <div class="clearfix"></div>
     </div>
 
-    <p>Setup different types of taxes and they will upear automaticly in your cart </p>
+    <p>Setup different types of taxes and they will appear automatically in your cart </p>
 </div>
 
 <div class="mw-ui-box mw-ui-settings-box mw-ui-box-content ">

@@ -69,18 +69,36 @@ api_expose('template/print_custom_css', function ($data) {
 
 });
 
-api_expose('media_library/search', function ($data) {
+api_expose_admin('media_library/search', function ($data) {
 	
 	$search = array();
 	$unsplash = new Unsplash();
+	
+	$page = 1;
+	
+	if (isset($data['page'])) {
+		$page = $data['page'];
+	}
+	
 	if (isset($data['keyword'])) {
-		$search = $unsplash->search($data['keyword']);
+		$search = $unsplash->search($data['keyword'], $page);
 	}
 	
 	$response = Response::make($search);
 	$response->header('Content-Type', 'text/json');
 	
 	return $response;
+	
+});
+
+api_expose_admin('media_library/download', function ($data) {
+	
+	$unsplash = new Unsplash();
+	if (isset($data['photo_id'])) {
+		$image = $unsplash->download($data['photo_id']);
+	}
+	
+	return $image;
 	
 });
 

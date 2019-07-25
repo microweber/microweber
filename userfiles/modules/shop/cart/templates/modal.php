@@ -75,8 +75,10 @@ description: Small Modal
 <?php if (is_array($data) and $data) : ?>
 <div class="checkout-modal-amount-holder row">
     <div class="col-sm-6 checkout-modal-promocode-holder">
-        <module type="shop/coupons" template="modal" />
+    <?php if (get_option('enable_coupons', 'shop') == 1): ?>
 
+        <module type="shop/coupons" template="modal" />
+    <?php endif; ?>
     </div>
     <div class="col-sm-6 checkout-modal-total-holder">
         <p><strong>Total Amount: <?php print currency_format($total); ?></strong></p>

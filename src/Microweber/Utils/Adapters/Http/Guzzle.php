@@ -57,8 +57,12 @@ class Guzzle
                 curl_exec($ch); // get curl response
                 curl_close($ch);
                 fclose($fp);
+                
+                return true;
             }
         }
+        
+        return false;
     }
 
     public function post($data = false)
