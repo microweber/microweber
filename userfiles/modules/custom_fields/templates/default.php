@@ -20,7 +20,7 @@
 		            } else {
 		                $prined_items_count++;
 		                $field['params'] = $params;
-		
+
 		                print  mw()->fields_manager->make($field);
 		            }
 		        }
