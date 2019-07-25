@@ -114,10 +114,14 @@
                 $('.stock-field').addClass('loading')
                 $.getJSON(mw.settings.api_url + "media_library/search?keyword=" + search + "&page=" + page, function(data) {
 
-                    root.html('<?php echo _e('Searching'); ?>...');
-
+				   if (page == 1) {
+                   		root.html('<?php echo _e('Searching'); ?>...');
+				   }
+				   
                     if (data.success) {
-                        root.empty();
+                    	if (page == 1) {
+                       		root.empty();
+                    	}
                         if(data.photos.length){
                             $.each(data.photos, function(key, val) {
                                 
@@ -175,7 +179,7 @@
 		</center>
        
         <div class="mw-field stock-field">
-            <input type="text" placeholder="Search for cars, cats and evrything you want..." onkeyup="mw.on.stopWriting(this,function(){searchMediaLibrary(this.value)})" >
+            <input type="text" placeholder="Search for cars, cats and evrything you want..." onkeyup="mw.on.stopWriting(this,function(){searchMediaLibrary(this.value, 1)})" >
         </div>
 
         <div style="display: none;" id="resbox">
