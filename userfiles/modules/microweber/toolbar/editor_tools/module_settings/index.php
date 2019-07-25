@@ -406,6 +406,21 @@
                     mw.notification.success('<?php _e('Settings are saved') ?>');
                 }
             });
+            if(window.thismodal && thismodal.iframe) {
+                mw.tools.iframeAutoHeight(thismodal.iframe, 'now');
+            }
+            else if(window.top.frameElement && window.top.frameElement.contentWindow === window) {
+                mw.tools.iframeAutoHeight(window.top.frameElement, 'now');
+            } else if(window.top !== window) {
+                mw.$('iframe', top.document).each(function(){
+                    try{
+                      if(this.contentWindow === window) {
+                          mw.tools.iframeAutoHeight(this, 'now');
+                      }
+                    } catch(e){}
+                })
+            }
+
         });
 
 

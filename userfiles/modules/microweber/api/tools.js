@@ -155,41 +155,49 @@ mw.tools = {
         mode = mode || 'onload';
         frame = mw.$(frame)[0];
         if(!frame) return;
-        var _detector =  document.createElement('div');
+        if(!mw.tools.canAccessIFrame(frame)) {
+            console.log('Iframe can not be accessed.', frame);
+            return;
+        }
         if(!frame.contentWindow.document.body){
             return;
         }
+        if(!!frame.contentWindow.document.querySelector('.mw-iframe-auto-height-detector')){
+            return;
+        }
+
+        var _detector = document.createElement('div');
+        _detector.className = 'mw-iframe-auto-height-detector';
+        _detector.id = mw.id();
+
+        var insertDetector = function() {
+            if(!frame.contentWindow.document.querySelector('.mw-iframe-auto-height-detector')){
+                frame.contentWindow.document.body.appendChild(_detector);
+            }
+        };
+
         if(mode === 'now'){
             setTimeout(function(){
-                frame.contentWindow.document.body.appendChild(_detector);
+                insertDetector();
             }, 100);
         }
 
         frame.scrolling="no";
         frame.style.minHeight = 0 + 'px';
-        frame.style.height = 0 + 'px';
-        frame.style.height = frame.contentWindow.document.body.scrollHeight + 'px';
         $(frame).on('load resize', function(){
-            if(mode === 'onload' && !_detector.appended){
-                _detector.appended = true;
+            if(mode === 'onload'){
                 setTimeout(function(){
-                    frame.contentWindow.document.body.appendChild(_detector);
+                    insertDetector();
                 }, 100);
             }
-
-            frame.style.height = 0 + 'px';
-            frame._currHeight = frame.contentWindow.document.body.scrollHeight
-            frame.style.height = frame._currHeight + 'px';
-
             frame._int = setInterval(function(){
                 if(frame.parentNode){
                     var offTop = $(_detector).offset().top;
-                    if(offTop !== frame._currHeight){
+                    if(offTop && offTop !== frame._currHeight){
                         frame._currHeight = offTop;
                         frame.style.height = offTop + 'px';
-                        $(frame).trigger('bodyResize')
+                        $(frame).trigger('bodyResize');
                     }
-
                 }
                 else {
                     clearInterval(frame._int);

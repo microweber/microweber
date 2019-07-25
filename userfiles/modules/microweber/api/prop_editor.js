@@ -69,7 +69,6 @@ mw.propEditor = {
 
             el.className = 'mw-ui-field prop-ui-field';
             el.value = val;
-console.log(987, el.value, val)
             return el;
         },
         fieldPack:function(label, type){

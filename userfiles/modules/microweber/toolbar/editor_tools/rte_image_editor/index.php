@@ -363,7 +363,6 @@ if (array_key_exists('types', $_GET)) {
                 } else {
                     parent.mw.tools.modal.resize(parent.mwd.getElementById('mw_rte_image'), 430, 230, true);
                 }
-                console.log(i , ($(selector).length - 1));
                 if(i === ($(selector).length - 1)){
                     thismodal.resize(800)
                 } else {

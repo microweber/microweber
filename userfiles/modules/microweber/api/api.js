@@ -145,7 +145,12 @@ mw.askusertostay = false;
 
   mw.random = function() {
     return mw._random++;
-  }
+  };
+
+  mw.id = function(prefix) {
+    prefix = prefix || 'mw-';
+    return prefix + mw.random();
+  };
 
   String.prototype.contains = function(a) {
     return !!~this.indexOf(a);

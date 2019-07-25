@@ -114,7 +114,7 @@ if (isset($params['quick-add'])) {
         });
     });
 </script>
-<div class="mw-ui-box-content">
+<div class="pictures-admin-container">
     <style scoped="scoped">
         .tab {
             display: none;
