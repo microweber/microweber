@@ -50,6 +50,8 @@ class Parser
     private $iter_parent = array();
     private $_mw_edit_field_map = array();
     private $_additional_parsers = array();
+    public $current_module_params = false;
+    public $current_module = false;
 
     public function __construct($app = null)
     {
