@@ -75,8 +75,8 @@ description: Payments 1
 
             <div class="row">
                 <?php $print_total = cart_total(); ?>
-                <div class="col-xs-6 total-lable"><?php _e("Total"); ?></div>
-                <div class="col-xs-6 right total-price">
+                <div class="col-xs-6 checkout-modal-total-label"><?php _e("Total"); ?>: </div>
+                <div class="col-xs-6 right checkout-modal-total-price">
                     <?php print currency_format($print_total); ?>
                 </div>
             </div>

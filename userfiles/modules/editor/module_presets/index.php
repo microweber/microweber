@@ -209,6 +209,7 @@
 
 
                 var is_del = $(this).attr('delete');
+                var is_new = $(this).attr('is-new');
                 var btn_mod_id = $(this).attr('js-mod-id');
                 var temp_form1 = mw.tools.firstParentWithClass(this, 'js-module-preset-item-form-holder');
                 var save_module_as_template_url = '<?php print site_url('api') ?>/save_module_as_template';
@@ -271,12 +272,19 @@
                         $(temp_form1).append(append_attrs_field);
                     }
 
+
                     //save
                     window.mw.form.post(temp_form1, save_module_as_template_url, function () {
                         mw.reload_module_everywhere("#<?php print $params['id'] ?>");
                         mw.reload_module("#<?php print $params['id'] ?>");
                         mw.module_preset_apply_actions_after_id_change(mod_id_for_presets);
                         cancelCreatePreset();
+
+                        if(is_new){
+                            window.location.href = window.location.href
+                        }
+
+
                     });
 
                 }
@@ -333,11 +341,7 @@
 
 
         <?php $saved_modules = get_saved_modules_as_template("module={$module_name}"); ?>
-        <?php
-
-
-
-        if (is_array($saved_modules)): ?>
+        <?php     if (is_array($saved_modules)): ?>
 
         <div class="mw-presets-list-holder">
 
@@ -423,8 +427,14 @@
                 </div>
             </div>
         <?php endif; ?>
+
+
+        <?php endif; ?>
+
+
+
     </div>
-<?php endif; ?>
+
 
 
 
@@ -491,7 +501,7 @@
     <?php //if (($fffound) == false): ?>
 
 
-    <div class="create-presets-holder" style="display: none;">
+    <div class="create-presets-holder" style="display: none;" id="create-preset">
         <b>Create new preset</b>
         <div class="mw-flex-row m-t-10 js-module-preset-item-form-holder">
             <div class="mw-flex-col-xs-9 ">
@@ -506,7 +516,7 @@
                                 onclick="cancelCreatePreset()"
                                 class="mw-ui-btn mw-ui-btn-medium">Cancel</span>
                     <span
-                            js-mod-id="<?php print  $module_id ?>"
+                            js-mod-id="<?php print  $module_id ?>"  is-new="true"
                             class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification module-presets-action-btn">Save</span>
                 </div>
             </div>
