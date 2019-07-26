@@ -167,11 +167,9 @@ mw.require('tempcss.js');
         };
 
         this.selectors = [
-            '[class*="bg--"]',
-            '[data-module-name="layouts"]',
-            '[data-type="layouts"]',
-            '.imagebg'
+            '.mw-padding-gui-element'
         ];
+        
         this.prepareSelectors = function(){
             /* var i = 0;
             for( ; i < this.selectors.length; i++){

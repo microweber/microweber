@@ -69,7 +69,7 @@ mw.Dialog = function(options){
             overlayClose: false,
             autoCenter: true,
             root: document,
-            id: ('mw-dialog-' + new Date().getTime()),
+            id: mw.id('mw-dialog-'),
             content: '',
             closeOnEscape: true,
             closeButton: true,
@@ -104,7 +104,6 @@ mw.Dialog = function(options){
                 if(mw.event.is.escape(e)) {
                     for( var i = mw.__dialogs.length-1; i >= 0; i--) {
                         var dlg = mw.__dialogs[i];
-                        console.log(dlg)
                         if(dlg.options.closeOnEscape) {
                             dlg.remove();
                             break;
@@ -162,7 +161,7 @@ mw.Dialog = function(options){
             this.dialogMain = this.options.root.createElement('div');
 
             this.dialogMain.id = this.id;
-            var cls = 'mw-dialog mw-dialog-scroll-mode-' + this.options.scrollMode + ' mw-dialog-skin-' + this.options.skin;
+            var cls = 'mw-defaults mw-dialog mw-dialog-scroll-mode-' + this.options.scrollMode + ' mw-dialog-skin-' + this.options.skin;
             cls += (!this.options.className ? '' : (' ' + this.options.className));
             this.dialogMain.className = cls;
             this.dialogMain._dialog = this;
