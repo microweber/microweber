@@ -164,7 +164,7 @@ if (isset($notif_params['quick'])) {
                         $mod_info = false;
                         if (isset($item['module']) and $item['module'] != '') {
                             $mod_info = module_info($item['module']);
-                        } 
+                        }
 
                         //$view_more_link =
                         ?>
