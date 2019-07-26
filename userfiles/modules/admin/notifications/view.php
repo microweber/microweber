@@ -8,5 +8,5 @@ $notification_module = (int) $params['notification_module'];
 <?php 
 if ($notification_module == 'contact_form') :
 ?>
-
+<module type
 <?php endif; ?>

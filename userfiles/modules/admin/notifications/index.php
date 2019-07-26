@@ -151,7 +151,7 @@ if (isset($notif_params['quick'])) {
                 <?php endif; ?>
 
                 <tbody>
-                <?php foreach ($data as $item): ?>
+                <?php foreach ($data as $item): ?> 
                 
                		<!-- href="<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($item['module']) ?>/mw_notif:<?php print $item['id'] ?>" -->
 	                
