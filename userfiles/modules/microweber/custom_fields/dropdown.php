@@ -27,6 +27,11 @@ $is_required = (isset($data['options']) == true and isset($data['options']["requ
 if(!$data['values']) {
 	$data['values'][0] = _e('Please, set dropdown options.', true);
 }
+
+$multiple = false;
+if (isset($data['options']['multiple'])) {
+	$multiple = true;
+}
 ?>
 
 <?php if(!empty($data['values'])) : ?>
@@ -53,7 +58,7 @@ if(!$data['values']) {
 
 
  <?php if(is_array($data['values'])): ?>
-  <select <?php if(isset($data['options']) and is_array($data['options']) == true and  in_array('multiple', $data['options'])): ?> multiple="multiple"<?php endif; ?>  <?php if($is_required and $is_required==1){ ?> required <?php } ?>   class="mw-ui-field"  name="<?php print $data["name"]; ?>"  data-custom-field-id="<?php print $data["id"]; ?>">
+  <select <?php if (isset($multiple)): ?> multiple="multiple"<?php endif; ?> <?php if($is_required and $is_required==1){ ?> required <?php } ?>   class="mw-ui-field"  name="<?php print $data["name"]; ?>"  data-custom-field-id="<?php print $data["id"]; ?>">
     <?php
 	foreach($data['values'] as $k=>$v): ?>
     <?php if(is_string($k)){
