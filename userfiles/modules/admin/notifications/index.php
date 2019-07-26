@@ -38,6 +38,11 @@ if (isset($notif_params['quick'])) {
 }
 
 ?>
+<style>
+.mw-load-module-modal-link {
+	cursor:pointer;
+}
+</style>
 <script type="text/javascript">
 
     mw.notif_item_read = function ($item_id) {
@@ -76,6 +81,22 @@ if (isset($notif_params['quick'])) {
         });
     }
 
+
+    function load_module_modal(module_name, notification_id) {
+
+    	 mw.modal({
+             content: '<div id="mw_admin_preview_module_content"></div>',
+             title: 'Preview Notification',
+             id: 'mw_admin_preview_module_modal'
+         });
+
+
+    	 var params = {}
+         params.notification_id = notification_id;
+         params.notification_module = module_name;
+         
+         mw.load_module('admin/notifications/view', '#mw_admin_preview_module_content', null, params);
+    }
 
 </script>
 <?php if (is_array($data)): ?>
@@ -131,12 +152,19 @@ if (isset($notif_params['quick'])) {
 
                 <tbody>
                 <?php foreach ($data as $item): ?>
+                
+               		<!-- href="<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($item['module']) ?>/mw_notif:<?php print $item['id'] ?>" -->
+	                
+	                <?php 
+	                $load_module_modal_on_click = 'class="mw-load-module-modal-link" onClick="load_module_modal('."'". module_name_encode($item['module']) . "'" . ', ' . $item['id'] . ')";';
+	                ?>
+	                
                     <tr class="mw-ui-admin-notif-item-<?php print $item['id'] ?> <?php if (isset($item['is_read']) and trim($item['is_read']) == 'n'): ?> mw-notification-new <?php endif; ?>" <?php if (isset($item['is_read']) and trim($item['is_read']) == 'n'): ?> onclick="mw.notif_item_read('<?php print $item['id'] ?>');" <?php endif; ?>>
                         <?php
                         $mod_info = false;
                         if (isset($item['module']) and $item['module'] != '') {
                             $mod_info = module_info($item['module']);
-                        }
+                        } 
 
                         //$view_more_link =
                         ?>
@@ -144,8 +172,8 @@ if (isset($notif_params['quick'])) {
                                 <img src=" <?php print $mod_info['icon'] ?>" style="width: 18px; height: 18px;"/>
                             <?php endif; ?></td>
                         <td><?php if ($mod_info != false and isset($mod_info['name'])): ?>
-                                <a class="mw-ui-link" href="<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($item['module']) ?>/mw_notif:<?php print $item['id'] ?>"
-                                   title="<?php print $mod_info['name'] ?>"> <?php print $item['title'] ?></a>
+                        		
+                                <a class="mw-ui-link" <?php echo $load_module_modal_on_click; ?> title="<?php print $mod_info['name'] ?>"> <?php print $item['title'] ?></a>
                             <?php elseif (isset($item['rel_type']) and $item['rel_type'] == 'content'): ?>
                                 <a class="mw-ui-link" href="<?php print admin_url() ?>view:content#action=editpage:<?php print ($item['rel_id']) ?>"> <?php print $item['title'] ?></a>
                             <?php else : ?>
@@ -163,29 +191,22 @@ if (isset($notif_params['quick'])) {
 
                         <?php if ($is_quick == false): ?>
                             <td style="max-width: 60%;">
-                                <div class="notification_info"><a
-                                            href="<?php if ($mod_info != false and isset($mod_info['name'])): ?><?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($item['module']) ?>/mw_notif:<?php print  $item['id'] ?><?php endif; ?>">
+                                <div class="notification_info">
+                                  <a <?php echo $load_module_modal_on_click; ?> >
                                         <?php if (isset($item['content']) and $item['content'] != ''): ?>
                                             <?php print strip_tags(html_entity_decode($item['content'])); ?>
                                         <?php else : ?>
                                         <?php endif; ?>
-                                    </a></div>
+                                  </a>
+                                </div>
                             </td>
                         <?php endif; ?>
 
                         <td>
 
 
-
-
-
-
                             <?php
-
-
                             if (isset($item['module']) and $item['module'] == 'comments'): ?>
-
-
                            <?php
 
                                 /*       <div class="mw-dropdown mw-dropdown-default">
@@ -201,11 +222,6 @@ if (isset($notif_params['quick'])) {
                             </div>   */
                                 ?>
                             <?php endif; ?>
-
-
-
-
-
 
                         </td>
 
