@@ -47,6 +47,17 @@ if (isset($params['data-search'])) {
     $search_bar = $params['data-search'];
 }
 
+$small_view = false;
+if (isset($params['data-small-view'])) {
+    $small_view = $params['data-small-view'];
+}
+
+
+$skin_change_mode = false;
+if (isset($params['data-skin-change-mode'])) {
+    $skin_change_mode = $params['data-skin-change-mode'];
+}
+
 
 $cur_template = get_option('data-template', $params['parent-module-id']);
 
@@ -128,12 +139,27 @@ if ($screenshots) {
     }
 </script>
 
+<?php if(!$skin_change_mode): ?>
+
+
+
+
+
+<?php endif; ?>
+
+
+
+
 
 <?php if (is_array($templates)): ?>
     <?php $default_item_names = array(); ?>
 
 
     <div class="mw-modules-tabs">
+
+
+
+
 
         <div class="mw-accordion-item">
             <div class="mw-ui-box-header mw-accordion-title">
@@ -142,6 +168,10 @@ if ($screenshots) {
                 </div>
             </div>
             <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+
+
+
+
                 <!-- Settings Content -->
                 <div class="module-live-edit-settings module-layouts-settings">
 
@@ -241,6 +271,19 @@ if ($screenshots) {
                 <!-- Settings Content - End -->
             </div>
         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         <div class="mw-accordion-item">
             <div class="mw-ui-box-header mw-accordion-title">
