@@ -192,7 +192,7 @@ if (is_array($data)) {
                                 //                                }
                                 ?>
 
-                                <?php if (mb_strlen($values_plain) > 50): ?>
+                                <?php if (mb_strlen($values_plain) > 90): ?>
                                     <div class="js-limited">
                                         <?php print $values_plain; ?>
                                         <br/>
