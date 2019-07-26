@@ -150,7 +150,7 @@ class MailSubscriber
 					save_mail_subscriber($this->email, $this->subscribeSource, $this->subscribeSourceId, 'flexmail');
 				}
 				// Error
-				//dd($e);
+				// dd($e);
 			}
 		}
 	}

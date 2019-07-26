@@ -92,6 +92,19 @@ event_bind('mw.mail_subscribe', function ($params) {
 			$provider->setSubscribeFrom($params['option_group']);
 		}
 		
+		$ignoreFields = array('name','email','message','rel_id','rel_type','for','for_id','captcha','module_name','list_id','option_group');
+		
+		foreach($params as $key=>$value) {
+			if (in_array(mb_strtolower($key), $ignoreFields)) {
+				continue;
+			}
+			
+			$provider->addCustomField(array(
+				'key'=>$key,
+				'value'=>$value
+			));
+		}
+		
 		$provider->subscribe();
 	}
 	
