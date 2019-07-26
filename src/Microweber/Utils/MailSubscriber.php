@@ -122,7 +122,7 @@ class MailSubscriber
 					$customField->variableName = $field['key'];
 					$customField->value = $field['value'];
 					
-					$customFields[] = $customField;
+					array_push($customFields, $customField);
 				}
 				
 				$contact = new \stdClass();
@@ -141,7 +141,7 @@ class MailSubscriber
 				$response = $flexmail->service("Contact")->create(array(
 					"mailingListId"    => 10000,
 					"emailAddressType" => $contact
-				)); 
+				));
 				
 				save_mail_subscriber($this->email, $this->subscribeSource, $this->subscribeSourceId, 'flexmail');
 			
