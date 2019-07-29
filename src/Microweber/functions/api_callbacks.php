@@ -51,9 +51,11 @@ api_expose_admin('notifications_manager/delete', function ($data) {
 api_expose_admin('notifications_manager/reset', function ($data) {
     return mw()->notifications_manager->reset($data);
 });
-api_expose_admin('notifications_manager/reset', function ($data) {
-    return mw()->notifications_manager->reset($data);
+
+api_expose_admin('notifications_manager/read', function ($data) {
+	return mw()->notifications_manager->read($data);
 });
+
 api_expose_admin('notifications_manager/mark_all_as_read', function ($data) {
     return mw()->notifications_manager->mark_all_as_read($data);
 });

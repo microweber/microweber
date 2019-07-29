@@ -42,8 +42,8 @@ class NotificationsManager
         $params['one'] = true;
 
         $get = $this->get($params);
-
-        if ($get != false and isset($get['is_read']) and $get['is_read'] == 0) {
+		
+        if ($get) {
             $save = array();
             $save['id'] = $get['id'];
             $save['is_read'] = 1;
@@ -83,6 +83,26 @@ class NotificationsManager
 
             return $data;
         }
+    }
+    
+    public function reset()
+    {
+    	$data = $this->get('is_read=1&no_cache=true');
+    	
+    	if (is_array($data)) {
+			foreach ($data as $value) {
+				$save = array();
+				$save['is_read'] = 0;
+				$save['id'] = $value['id'];
+				$save['table'] = 'notifications';
+				$this->app->database_manager->save('notifications', $save);
+    		}
+    	}
+    		
+    	$this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
+    	$this->app->cache_manager->delete('notifications');
+    		
+    	return $data;
     }
 
 
@@ -125,6 +145,7 @@ class NotificationsManager
 
     public function delete($id)
     {
+    	
         $is_admin = $this->app->user_manager->is_admin();
         if (defined('MW_API_CALL') and $is_admin == false) {
             return array('error' => 'You must be logged in as admin to perform: ' . __CLASS__ . '->' . __FUNCTION__);
@@ -141,7 +162,6 @@ class NotificationsManager
         }
 
         $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . intval($id));
-
         $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
         return true;

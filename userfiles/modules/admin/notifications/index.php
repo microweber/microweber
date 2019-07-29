@@ -22,7 +22,7 @@ if (!isset($notif_params['limit'])) {
     $notif_params["limit"] = 500;
 }
 
-
+$notif_params["no_cache"] = true;
 $notif_params["order_by"] = 'created_at desc';
 $notif_params["order_by"] = 'is_read desc, created_at desc';
 
@@ -46,14 +46,14 @@ if (isset($notif_params['quick'])) {
 <script type="text/javascript">
 
     mw.notif_item_read = function ($item_id) {
-        $.get("<?php print api_link('notifications_manager/read'); ?>?id=" + $item_id, function () {
-
+        $.post("<?php print api_link('notifications_manager/read'); ?>?id=" + $item_id, function () {
+			
         });
 
     }
     mw.notif_item_delete = function ($item_id) {
         mw.tools.confirm(mw.msg.del, function () {
-            $.get("<?php print api_link('notifications_manager/delete'); ?>?id=" + $item_id, function () {
+            $.post("<?php print api_link('notifications_manager/delete'); ?>?id=" + $item_id, function () {
                 //mw.$('.mw-ui-admin-notif-item-'+$item_id).fadeOut();
                 mw.reload_module('admin/notifications');
                 //mw.reload_module('#<?php print $params['id'] ?>');
@@ -65,7 +65,7 @@ if (isset($notif_params['quick'])) {
 
 
     mw.notif_reset_all = function () {
-        $.get("<?php print api_link('notifications_manager/reset'); ?>", function () {
+        $.post("<?php print api_link('notifications_manager/reset'); ?>", function () {
             mw.reload_module('admin/notifications');
             //	mw.reload_module('#<?php print $params['id'] ?>');
 
@@ -74,17 +74,21 @@ if (isset($notif_params['quick'])) {
 
 
     mw.notif_mark_all_as_read = function () {
-        $.get("<?php print api_link('notifications_manager/mark_all_as_read'); ?>", function () {
+        $.post("<?php print api_link('notifications_manager/mark_all_as_read'); ?>", function () {
             mw.reload_module('admin/notifications');
             //	mw.reload_module('#<?php print $params['id'] ?>');
 
         });
     }
-	
+
+
     function load_module_modal(module_name, notification_id) {
+
+    	mw.notif_item_read(notification_id);
+
+    	mw.reload_module('admin/notifications');
         
  		if (module_name == 'contact_form') {
- 	 		
  	    	 mw.modal({
  	             content: '<div id="mw_admin_preview_module_content"></div>',
  	             title: 'Preview Notification',
@@ -102,6 +106,7 @@ if (isset($notif_params['quick'])) {
 			window.location.href = redirectModuleUrl;
 			return;
  		}
+ 		
     }
 </script>
 <?php if (is_array($data)): ?>
@@ -133,6 +138,7 @@ if (isset($notif_params['quick'])) {
 
                 <?php if ($is_quick == false): ?>
                     <colgroup>
+                    	<col width="40">
                         <col width="40">
                         <col width="200">
                         <col width="auto">
@@ -161,8 +167,8 @@ if (isset($notif_params['quick'])) {
 	                <?php 
 	                $load_module_modal_on_click = 'class="mw-load-module-modal-link" onClick="load_module_modal('."'". module_name_encode($item['module']) . "'" . ', ' . $item['id'] . ')";';
 	                ?>
-	                
-                    <tr class="mw-ui-admin-notif-item-<?php print $item['id'] ?> <?php if (isset($item['is_read']) and trim($item['is_read']) == 'n'): ?> mw-notification-new <?php endif; ?>" <?php if (isset($item['is_read']) and trim($item['is_read']) == 'n'): ?> onclick="mw.notif_item_read('<?php print $item['id'] ?>');" <?php endif; ?>>
+					
+                    <tr class="mw-ui-admin-notif-item-<?php print $item['id'] ?> <?php if (isset($item['is_read']) && $item['is_read'] == '0'): ?>mw-notification-new<?php endif; ?>" onclick="mw.notif_item_read('<?php print $item['id'] ?>');">
                         <?php
                         $mod_info = false;
                         if (isset($item['module']) and $item['module'] != '') {
@@ -171,6 +177,13 @@ if (isset($notif_params['quick'])) {
 
                         //$view_more_link =
                         ?>
+                        <td>
+							<label class="mw-ui-check">
+							   <input type="checkbox" value="true" name="checked[<?php echo $item['id']; ?>]">
+							   <span></span>
+							</label>
+						</td>
+                        
                         <td><?php if ($mod_info != false and isset($mod_info['name'])): ?>
                                 <img src=" <?php print $mod_info['icon'] ?>" style="width: 18px; height: 18px;"/>
                             <?php endif; ?></td>
