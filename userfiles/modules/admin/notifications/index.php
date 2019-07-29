@@ -80,24 +80,29 @@ if (isset($notif_params['quick'])) {
 
         });
     }
-
-
+	
     function load_module_modal(module_name, notification_id) {
-
-    	 mw.modal({
-             content: '<div id="mw_admin_preview_module_content"></div>',
-             title: 'Preview Notification',
-             id: 'mw_admin_preview_module_modal'
-         });
-
-
-    	 var params = {}
-         params.notification_id = notification_id;
-         params.notification_module = module_name;
-         
-         mw.load_module('admin/notifications/view', '#mw_admin_preview_module_content', null, params);
+        
+ 		if (module_name == 'contact_form') {
+ 	 		
+ 	    	 mw.modal({
+ 	             content: '<div id="mw_admin_preview_module_content"></div>',
+ 	             title: 'Preview Notification',
+ 	             id: 'mw_admin_preview_module_modal'
+ 	         });
+ 	         
+ 	    	 var params = {}
+ 	         params.notification_id = notification_id;
+ 	         params.notification_module = module_name;
+ 	         
+ 	         mw.load_module('admin/notifications/view', '#mw_admin_preview_module_content', null, params);
+ 	         	
+ 		} else {
+ 			var redirectModuleUrl = '<?php echo admin_url(); ?>view:modules/load_module:' + module_name + '/mw_notif:' + notification_id;
+			window.location.href = redirectModuleUrl;
+			return;
+ 		}
     }
-
 </script>
 <?php if (is_array($data)): ?>
 <?php $periods = array("Today", "Yesterday", "This week", "This mount, Older"); ?>
@@ -152,9 +157,7 @@ if (isset($notif_params['quick'])) {
 
                 <tbody>
                 <?php foreach ($data as $item): ?> 
-                
-               		<!-- href="<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($item['module']) ?>/mw_notif:<?php print $item['id'] ?>" -->
-	                
+                	
 	                <?php 
 	                $load_module_modal_on_click = 'class="mw-load-module-modal-link" onClick="load_module_modal('."'". module_name_encode($item['module']) . "'" . ', ' . $item['id'] . ')";';
 	                ?>
