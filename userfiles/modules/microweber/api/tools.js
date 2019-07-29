@@ -3673,6 +3673,26 @@ mw.tools = {
     confirm_reset_module_by_id: function (module_id) {
         var r = confirm("Are you sure you want to reset this module?");
         if (r == true) {
+
+
+
+
+            var is_a_preset = $('#'+module_id).attr('data-module-original-id');
+            var is_a_preset_attrs = $('#'+module_id).attr('data-module-original-attrs');
+            if(is_a_preset){
+                var orig_attrs_decoded = JSON.parse(window.atob(is_a_preset_attrs));
+                if (orig_attrs_decoded) {
+                    $('#'+module_id).removeAttr('data-module-original-id');
+                    $('#'+module_id).removeAttr('data-module-original-attrs');
+                    $('#'+module_id).attr(orig_attrs_decoded).reload_module();
+                 }
+                 return;
+            }
+
+
+
+
+
             var data = {};
             data.modules_ids = [module_id];
 
@@ -3705,6 +3725,8 @@ mw.tools = {
            }
 
 
+           //data-module-original-attrs
+
             $.ajax({
                 type: "POST",
                 // dataType: "json",
@@ -3724,6 +3746,9 @@ mw.tools = {
 
                  },
             });
+
+
+
 
 
 

@@ -207,6 +207,14 @@
                 parent_el2_window.mw.$(parent_el2).attr("id", is_use);
                 if (use_attrs) {
                     parent_el2_window.mw.$(parent_el2).attr(use_attrs);
+
+                    parent_el2_window.mw.$(parent_el2).reload_module(function () {
+                        parent_el2_window.mw.trigger('mw.presets.module_id_change')
+
+                    });
+
+
+
                 }
             }
 
