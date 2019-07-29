@@ -9,19 +9,16 @@ include('empty_field_vals.php');
 
 
 <?php
+$is_required = (isset($data['options']) == true and isset($data['options']["required"]) == true);
 
-    $is_required = (isset($data['options']) == true and isset($data['options']["required"]) == true);
-
-if (!isset( $data['input_class']) and isset($params['input-class'])) {
-     $data['input_class'] = $params['input-class'];
-} elseif (!isset( $data['input_class']) and  isset($params['input_class'])) {
-     $data['input_class'] = $params['input_class'];
-} else {
+if(!isset($data['input_class'])){
 	$data['input_class'] = '';
-	
 }
 
-//print $data["value"]; ?>
+if(isset($data['params']) and isset($data['params']['input_class'])) {
+	$data['input_class'] = $data['params']['input_class'];
+}
+?>
 <div class="control-group form-group">
 <label class="mw-ui-label">
     <?php if(isset($data['name']) == true and $data['name'] != ''): ?>

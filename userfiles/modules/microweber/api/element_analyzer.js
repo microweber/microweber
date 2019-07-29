@@ -47,10 +47,14 @@ mw.AfterDrop = function(){
         mw.have_new_items = false;
     }
 
+    this.__timeInit = null
 
     this.init = function(){
         var scope = this;
-        setTimeout(function(){
+        if(scope.__timeInit){
+           clearTimeout(scope.__timeInit);
+        }
+        scope.__timeInit = setTimeout(function(){
 
             mw.$(".mw-drag-current-bottom, .mw-drag-current-top").removeClass('mw-drag-current-bottom mw-drag-current-top');
             mw.$(".currentDragMouseOver").removeClass('currentDragMouseOver');
@@ -68,6 +72,8 @@ mw.AfterDrop = function(){
 
         }, 78)
     }
+
+
 }
 
 

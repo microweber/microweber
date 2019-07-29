@@ -7,24 +7,16 @@ include('empty_field_vals.php');
 }
 
 if(!isset($data['input_class'])){
-    $data['input_class'] = '';
+	$data['input_class'] = '';
 }
 
-
-
-if (!isset( $data['input_class']) and isset($params['input-class'])) {
-     $data['input_class'] = $params['input-class'];
-} elseif (!isset( $data['input_class']) and  isset($params['input_class'])) {
-     $data['input_class'] = $params['input_class'];
-} else {
-	 
-	
+if(isset($data['params']) and isset($data['params']['input_class'])) {
+	$data['input_class'] = $data['params']['input_class'];
 }
 ?>
+
 <?php
-
-    $is_required = (isset($data['options']) == true and isset($data['options']["required"]) == true);
-
+$is_required = (isset($data['options']) == true and isset($data['options']["required"]) == true);
 ?>
 <?php if(!empty($data['values'])) : ?>
 <div class="mw-ui-field-holder custom-fields-type-checkbox">

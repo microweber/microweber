@@ -75,6 +75,8 @@ class FieldsManager
         $make_field['rel_id'] = $rel_id;
         $is_made = $this->get_all($make_field);
 
+
+
         if (isset($_mw_made_default_fields_register[$function_cache_id])) {
             return;
         }
@@ -109,6 +111,7 @@ class FieldsManager
                     $ex['type'] = $field_type;
                     $ex['rel_type'] = $rel;
                     $ex['rel_id'] = $rel_id;
+                   // $ex['no_cache'] = $rel_id;
                     $ex = $this->get_all($ex);
                     if ($ex == false or is_array($ex) == false) {
                         $make_field = array();
@@ -125,6 +128,7 @@ class FieldsManager
                         $make_field['type'] = $field_type;
 
                         $saved_fields[] = $this->save($make_field);
+
                         ++$pos;
                     }
                 }
@@ -133,7 +137,7 @@ class FieldsManager
                 }
             }
         }
-        
+
         return $saved_fields;
     }
 
@@ -155,8 +159,8 @@ class FieldsManager
             $data['type'] = $data['custom_field_type'];
         }
 
-        if (isset($params['field_value'])) {
-            $params['value'] = $params['field_value'];
+        if (isset($data['field_value'])) {
+            $data['value'] = $data['field_value'];
         }
         if (isset($data['field_name']) and !isset($data['name'])) {
             $data['name'] = $data['field_name'];

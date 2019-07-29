@@ -197,8 +197,13 @@
             // add dropdown
 
 
+            if(!window.thismodal && window.top.module_settings_modal_reference_preset_editor_thismodal ){
+                window.thismodal = window.top.module_settings_modal_reference_preset_editor_thismodal
+
+            }
 
             if (window.thismodal) {
+
                 var toolbar = thismodal.dialogHeader;
 
                 var dd = mwd.createElement('div');
@@ -240,6 +245,7 @@
                     if (is_module_tml_holder.length > 0) {
                         is_module_tml_holder.empty();
 
+
                         var holder = mwd.createElement('div');
                         holder.className = 'mw-module-presets-content';
 
@@ -264,6 +270,7 @@
                             // window.parent.module_settings_modal_reference_window = top;
 
                                 window.top.module_settings_modal_reference_preset_editor_modal_id = presetsthismodalid;
+                                window.top.module_settings_modal_reference_preset_editor_thismodal = window.thismodal;
                                 window.top.module_settings_modal_reference_window = window;
 
 
@@ -307,6 +314,8 @@
                         var btn = document.createElement('li');
                         var btn2 = document.createElement('li');
                         btn2.innerHTML = 'Reset module';
+                       // btn2.innerHTML = 'Reset module' +"<br><small><?php print $params['id'] ?></small>";
+
                         btn2.onclick = function (ev) {
                             window
                                 .parent
@@ -398,14 +407,26 @@
         });
 
 
-        $(window).on('load', function () {
 
-            // $(document).ready(function() {
-            mw.options.form('#settings-container', function () {
+        mw.init_mod_iframe_setting_action = function(){
+
+            var settings_container_mod_el = $('#settings-container').find(">div:first-child>div:first-child");
+            var settings_container_mod_el = $('#settings-container');
+
+
+
+
+            mw.options.form(settings_container_mod_el, function () {
+
+
+
                 if (mw.notification) {
                     mw.notification.success('<?php _e('Settings are saved') ?>');
                 }
             });
+
+
+
             if(window.thismodal && thismodal.iframe) {
                 mw.tools.iframeAutoHeight(thismodal.iframe, 'now');
             }
@@ -414,15 +435,42 @@
             } else if(window.top !== window) {
                 mw.$('iframe', top.document).each(function(){
                     try{
-                      if(this.contentWindow === window) {
-                          mw.tools.iframeAutoHeight(this, 'now');
-                      }
+                        if(this.contentWindow === window) {
+                            mw.tools.iframeAutoHeight(this, 'now');
+                        }
                     } catch(e){}
                 })
             }
+        }
 
+
+
+
+        $(window).on('load', function () {
+
+            mw.init_mod_iframe_setting_action();
         });
 
+//        $(document).ready(function () {
+//
+//
+//
+//            mw.on('mw.presets.module_id_change', function(event, data){
+//                var settings_container_mod_el = $('#settings-container').find(">div:first-child>div:first-child");
+//
+//                mw.options.remove_bindings(settings_container_mod_el);
+//             //   settings_container_mod_el.addClass('mw-options-form-force-rebind')
+//                mw.init_mod_iframe_setting_action();
+//            })
+//
+//
+//
+//
+//
+//
+//
+//
+//        });
 
     </script>
 

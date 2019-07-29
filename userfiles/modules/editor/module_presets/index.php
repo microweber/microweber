@@ -23,6 +23,21 @@
     <script type="text/javascript">
         mw.require('forms.js', true);
     </script>
+
+
+
+
+    <style>
+        .mw-presets-list.active {
+            background: #efecec;
+        }
+        .mw-presets-list.disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+    </style>
+
+
     <script type="text/javascript">
 
         mod_parent_modal_dd_menu_wrapper_id = 'module-modal-settings-menu-holder';
@@ -30,6 +45,8 @@
         mod_type_for_presets = '<?php print $module_name ?>';
         mod_type_opener_for_presets = '<?php print $module_name_opener ?>';
         mod_id_orig = window.parent.mw.$('#' + mod_id_for_presets).attr("data-module-original-id");
+        mw_existing_modules_presets_ids = [];
+
 
 
         mw.module_preset_apply_actions_after_id_change = function (id, attrs) {
@@ -63,9 +80,9 @@
             window.parent.mw.reload_module("#" + mod_id_for_presets);
             // window.top.mw.reload_module("#" + mod_id_for_presets);
 
-            /*
 
-            reloading of iframe
+
+           // reloading of iframe
 
             if (
                 typeof(window.top.module_settings_modal_reference_window) != 'undefined'
@@ -100,7 +117,7 @@
 
 
               window.top.module_settings_modal_reference_window.location.href = src_new_modal_settings
-            }*/
+            }
 
         }
         mw.module_preset_set_release = function (id) {
@@ -190,6 +207,14 @@
                 parent_el2_window.mw.$(parent_el2).attr("id", is_use);
                 if (use_attrs) {
                     parent_el2_window.mw.$(parent_el2).attr(use_attrs);
+
+                    parent_el2_window.mw.$(parent_el2).reload_module(function () {
+                        parent_el2_window.mw.trigger('mw.presets.module_id_change')
+
+                    });
+
+
+
                 }
             }
 
@@ -309,15 +334,47 @@
         function mw_preset_show_hide_use_buttons(selected_module_id) {
 
 
+          //  alert(selected_module_id);
+
             $('.mw-presets-list').removeClass('active');
+            $('.mw-presets-list').removeClass('disabled');
             $('.js-module-presets-action-btn-clear').hide();
             $('.js-module-presets-action-btn-use').show();
 
+
+            if(mw_existing_modules_presets_ids.length > 0){
+                $( mw_existing_modules_presets_ids).each(function( index, element ) {
+                    if(selected_module_id != element){
+                        var is_element_exists = window.top.document.getElementById(element);
+                        if(is_element_exists){
+
+                            $('.mw-presets-list[js-mod-id=' + element + ']').addClass('disabled');
+                          //  alert(is_element_exists);
+                        }
+
+                    }
+                });
+            }
+          //  mw.log(mw_existing_modules_presets_ids);
+
+
+
+          //  $('.js-module-p resets-action-btn-use-radio').attr('checked', '');
+
             if(selected_module_id) {
+             //   $('.js-module-presets-action-btn-use-radio[js-mod-id=' + selected_module_id + ']').attr('checked', 'checked');
                 $('.mw-presets-list[js-mod-id=' + selected_module_id + ']').addClass('active');
                 $('.js-module-presets-action-btn-clear[js-mod-id=' + selected_module_id + ']').show();
                 $('.js-module-presets-action-btn-use[js-mod-id=' + selected_module_id + ']').hide();
             }
+
+
+
+
+
+
+
+
 
 
         }
@@ -325,15 +382,11 @@
     </script>
 
 
-    <style>
-        .mw-presets-list.active {
-            background: #efecec;
-        }
-    </style>
 
 
     <?php $fffound = false; ?>
     <?php $fffound_module_id = false; ?>
+
     <div id="module-saved-presets" class="mw-ui-box mw-ui-box-content">
 
 
@@ -355,12 +408,18 @@
                 }
 
                 if ($item['module_id'] == $module_id) {
-                    $fffound = $module_id;
+                    $fffound_module_id =   $fffound = $module_id;
 
 
                 }
 
                 ?>
+
+
+            <script>
+                mw_existing_modules_presets_ids.push('<?php print  $item['module_id'] ?>');
+            </script>
+
                 <div class="mw-flex-row mw-presets-list js-module-preset-item-form-holder <?php if ($fffound) { ?> active  <?php } ?>"
                      js-mod-id="<?php print  $item['module_id'] ?>">
 
@@ -369,18 +428,72 @@
                     <textarea name="module_attrs" style="display: none"><?php print  $item['module_attrs'] ?></textarea>
 
 
-                    <div class="mw-flex-col-xs-2  ">
-                        <div class="box ">
+                    <div class="mw-flex-col-xs-3  ">
+                        <div class="box">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                             <label class="mw-ui-check">
                                 <input type="radio" name="preset_selector"
                                        title="<?php print  $item['module_id'] ?>"
                                        type="button"
+
+
                                        value="1"
                                        js-mod-id="<?php print $item['module_id'] ?>"
                                        use="<?php print  $item['module_id'] ?>"
-                                       class="mw-ui-btn mw-ui-btn-medium module-presets-action-btn  js-module-presets-action-btn-use" >
+                                       class="mw-ui-btn mw-ui-btn-medium module-presets-action-btn  js-module-presets-action-btn-use js-module-presets-action-btn-use-radio" >
                                 <span></span>
+
+
+
+                                <button
+                                        type="button"
+                                        js-mod-id="<?php print  $item['module_id'] ?>"
+                                        use="<?php print  $item['module_id'] ?>"
+
+                                        class=" pull-right mw-ui-btn mw-ui-btn-medium
+                                        <?php if (($fffound) != false): ?>
+                                        mw-ui-btn-notification
+                                        <?php else :  ?>
+                                         mw-ui-btn-info
+                                        <?php endif; ?>
+                                        mw-ui-btn-outline module-presets-action-btn js-module-presets-action-btn-use">
+                                        Use
+                                </button>
+
+
                             </label>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                         </div>
                     </div>
                     <div class="mw-flex-col-xs-5 ">
@@ -391,19 +504,19 @@
                                    value="<?php print  $item['name'] ?>"/>
                         </div>
                     </div>
-                    <div class="mw-flex-col-xs-5 ">
+                    <div class="mw-flex-col-xs-4 ">
                         <div class="box">
                             <button style="display: none"
                                     type="button"
                                     js-mod-id="<?php print  $item['module_id'] ?>"
                                     release="<?php print  $item['module_id'] ?>"
 
-                                    class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline module-presets-action-btn js-module-presets-action-btn-clear">Clear
+                                    class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info   module-presets-action-btn js-module-presets-action-btn-clear">Clear
                             </button>
                             <button
                                     delete="<?php print  $item['module_id'] ?>"
                                     js-mod-id="<?php print  $item['module_id'] ?>"
-                                    class="mw-ui-btn mw-ui-btn-important mw-ui-btn-medium mw-ui-btn-outline module-presets-action-btn module-presets-action-btn-delete">Delete</button>
+                                    class="mw-ui-btn mw-ui-btn-important mw-ui-btn-medium mw-ui-btn-outline module-presets-action-btn module-presets-action-btn-delete"><span class="mw-icon-app-trash-outline"></span></button>
                         </div>
                     </div>
                 </div>
@@ -438,9 +551,19 @@
 
 
 
+
+
+
     <script>
+
+
+
         $(document).ready(function () {
+            <?php if (($fffound) != false): ?>
             mw_preset_show_hide_use_buttons('<?php print $fffound_module_id ?>');
+            <?php else : ?>
+            mw_preset_show_hide_use_buttons('');
+            <?php endif; ?>
         });
     </script>
 

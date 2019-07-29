@@ -370,6 +370,32 @@ mw.options._optionSaved = null;
 
 mw.options._bindedRootFormsRegistry = [];
 
+mw.options.remove_bindings = function ($selector) {
+
+    var $root = $($selector);
+    var root = $root[0];
+    if (!root) return;
+
+    if(root._optionsEvents){
+        delete(root._optionsEvents);
+        root._optionsEventsClearBidings = true;
+    }
+    root.addClass('mw-options-form-force-rebind');
+
+
+    mw.$("input, select, textarea", root)
+        .not('.mw-options-form-binded-custom')
+        .each(function () {
+            var item = $(this);
+
+
+            if (item && item[0] && item[0]._optionsEventsBinded) {
+                delete(item[0]._optionsEventsBinded);
+
+            }
+        });
+
+};
 mw.options.form = function ($selector, callback, beforepost) {
 
 
@@ -378,24 +404,33 @@ mw.options.form = function ($selector, callback, beforepost) {
 
 
     var numOfbindigs = 0;
+    var force_rebind = false;
 
     var $root = $($selector);
     var root = $root[0];
     if (!root) return;
 
    //
+    if (root && $root.hasClass('mw-options-form-force-rebind')) {
+        force_rebind = true;
 
+    }
 
     if (!root._optionsEvents) {
+
         mw.$("input, select, textarea", root)
             .not('.mw-options-form-binded-custom')
             .each(function () {
                 //this._optionSaved = true;
 
                 var item = $(this);
+                if(force_rebind){
+                    item[0]._optionsEventsBinded = null;
+                }
 
 
                 if (item && item[0] && !item[0]._optionsEventsBinded) {
+
                     if (item.hasClass('mw_option_field')) {
                         numOfbindigs++;
 

@@ -47,6 +47,17 @@ if (isset($params['data-search'])) {
     $search_bar = $params['data-search'];
 }
 
+$small_view = false;
+if (isset($params['data-small-view'])) {
+    $small_view = $params['data-small-view'];
+}
+
+
+$skin_change_mode = false;
+if (isset($params['data-skin-change-mode'])) {
+    $skin_change_mode = $params['data-skin-change-mode'];
+}
+
 
 $cur_template = get_option('data-template', $params['parent-module-id']);
 
@@ -70,7 +81,7 @@ if ($screenshots) {
             if (!isset($temp['screenshot'])) {
                 $temp['screenshot'] = '';
             }
-            $current_template = array('name' => $temp['name'], 'screenshot' => $temp['screenshot']);
+            $current_template = array('name' => $temp['name'], 'screenshot' => $temp['screenshot'], 'layout_file' => $temp['layout_file']);
         }
     }
 }
@@ -128,12 +139,27 @@ if ($screenshots) {
     }
 </script>
 
+<?php if(!$skin_change_mode): ?>
+
+
+
+
+
+<?php endif; ?>
+
+
+
+
 
 <?php if (is_array($templates)): ?>
     <?php $default_item_names = array(); ?>
 
 
     <div class="mw-modules-tabs">
+
+
+
+
 
         <div class="mw-accordion-item">
             <div class="mw-ui-box-header mw-accordion-title">
@@ -142,6 +168,10 @@ if ($screenshots) {
                 </div>
             </div>
             <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+
+
+
+
                 <!-- Settings Content -->
                 <div class="module-live-edit-settings module-layouts-settings">
 
@@ -215,7 +245,7 @@ if ($screenshots) {
                             <!-- Current template - Start -->
                             <div class="mw-ui-row">
                                 <div class="mw-ui-col current-template" style="width: 100%;">
-                                    <label class="mw-ui-label"><?php print _e('Current layout'); ?></label>
+                                    <label class="mw-ui-label" title="<?php print $current_template['layout_file']; ?>"><?php print _e('Current layout'); ?></label>
                                     <div class="screenshot">
                                         <div class="holder">
                                             <img src="<?php echo thumbnail($current_template['screenshot'], 300); ?>"
@@ -241,6 +271,19 @@ if ($screenshots) {
                 <!-- Settings Content - End -->
             </div>
         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         <div class="mw-accordion-item">
             <div class="mw-ui-box-header mw-accordion-title">
