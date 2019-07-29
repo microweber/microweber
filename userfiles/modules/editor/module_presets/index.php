@@ -23,6 +23,21 @@
     <script type="text/javascript">
         mw.require('forms.js', true);
     </script>
+
+
+
+
+    <style>
+        .mw-presets-list.active {
+            background: #efecec;
+        }
+        .mw-presets-list.disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+    </style>
+
+
     <script type="text/javascript">
 
         mod_parent_modal_dd_menu_wrapper_id = 'module-modal-settings-menu-holder';
@@ -30,6 +45,8 @@
         mod_type_for_presets = '<?php print $module_name ?>';
         mod_type_opener_for_presets = '<?php print $module_name_opener ?>';
         mod_id_orig = window.parent.mw.$('#' + mod_id_for_presets).attr("data-module-original-id");
+        mw_existing_modules_presets_ids = [];
+
 
 
         mw.module_preset_apply_actions_after_id_change = function (id, attrs) {
@@ -309,10 +326,32 @@
         function mw_preset_show_hide_use_buttons(selected_module_id) {
 
 
+          //  alert(selected_module_id);
+
             $('.mw-presets-list').removeClass('active');
+            $('.mw-presets-list').removeClass('disabled');
             $('.js-module-presets-action-btn-clear').hide();
             $('.js-module-presets-action-btn-use').show();
-          //  $('.js-module-presets-action-btn-use-radio').attr('checked', '');
+
+
+            if(mw_existing_modules_presets_ids.length > 0){
+                $( mw_existing_modules_presets_ids).each(function( index, element ) {
+                    if(selected_module_id != element){
+                        var is_element_exists = window.top.document.getElementById(element);
+                        if(is_element_exists){
+
+                            $('.mw-presets-list[js-mod-id=' + element + ']').addClass('disabled');
+                          //  alert(is_element_exists);
+                        }
+
+                    }
+                });
+            }
+          //  mw.log(mw_existing_modules_presets_ids);
+
+
+
+          //  $('.js-module-p resets-action-btn-use-radio').attr('checked', '');
 
             if(selected_module_id) {
              //   $('.js-module-presets-action-btn-use-radio[js-mod-id=' + selected_module_id + ']').attr('checked', 'checked');
@@ -322,20 +361,24 @@
             }
 
 
+
+
+
+
+
+
+
+
         }
 
     </script>
 
 
-    <style>
-        .mw-presets-list.active {
-            background: #efecec;
-        }
-    </style>
 
 
     <?php $fffound = false; ?>
     <?php $fffound_module_id = false; ?>
+
     <div id="module-saved-presets" class="mw-ui-box mw-ui-box-content">
 
 
@@ -357,12 +400,18 @@
                 }
 
                 if ($item['module_id'] == $module_id) {
-                    $fffound = $module_id;
+                    $fffound_module_id =   $fffound = $module_id;
 
 
                 }
 
                 ?>
+
+
+            <script>
+                mw_existing_modules_presets_ids.push('<?php print  $item['module_id'] ?>');
+            </script>
+
                 <div class="mw-flex-row mw-presets-list js-module-preset-item-form-holder <?php if ($fffound) { ?> active  <?php } ?>"
                      js-mod-id="<?php print  $item['module_id'] ?>">
 
@@ -373,8 +422,6 @@
 
                     <div class="mw-flex-col-xs-3  ">
                         <div class="box">
-
-
 
 
 
@@ -496,9 +543,19 @@
 
 
 
+
+
+
     <script>
+
+
+
         $(document).ready(function () {
+            <?php if (($fffound) != false): ?>
             mw_preset_show_hide_use_buttons('<?php print $fffound_module_id ?>');
+            <?php else : ?>
+            mw_preset_show_hide_use_buttons('');
+            <?php endif; ?>
         });
     </script>
 
