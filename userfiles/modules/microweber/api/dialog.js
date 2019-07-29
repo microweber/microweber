@@ -122,6 +122,7 @@ mw.Dialog = function(options){
                     handle: this.options.draggableHandle || '.mw-dialog-header',
                     start: function() {
                         $holder.addClass('mw-dialog-drag-start');
+                        scope._dragged = true;
                     },
                     stop: function() {
                         $holder.removeClass('mw-dialog-drag-start');
@@ -269,6 +270,7 @@ mw.Dialog = function(options){
         this.destroy = this.remove;
 
         this._prevHeight = -1;
+        this._dragged = false;
 
         this.center = function(width, height){
             var $holder = $(this.dialogHolder), $window = $(window);
@@ -281,7 +283,12 @@ mw.Dialog = function(options){
             } else if (this.options.centerMode === 'center') {
                 dtop = $window.height()/2 -  holderHeight/2;
             }
-            css.left = $window.outerWidth()/2 - holderWidth/2;
+            if(width) {
+                scope._dragged = false;
+            }
+            if(!scope._dragged) {
+                css.left = $window.outerWidth()/2 - holderWidth/2;
+            }
 
             if (dtop) {
                 css.top = dtop > 0 ? dtop : 0;

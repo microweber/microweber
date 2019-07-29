@@ -44,8 +44,7 @@ mw.liveEditData = {
 
 !function(a){function f(a,b){if(!(a.originalEvent.touches.length>1)){a.preventDefault();var c=a.originalEvent.changedTouches[0],d=document.createEvent("MouseEvents");d.initMouseEvent(b,!0,!0,window,1,c.screenX,c.screenY,c.clientX,c.clientY,!1,!1,!1,!1,0,null),a.target.dispatchEvent(d)}}if(a.support.touch="ontouchend"in document,a.support.touch){var e,b=a.ui.mouse.prototype,c=b._mouseInit,d=b._mouseDestroy;b._touchStart=function(a){var b=this;!e&&b._mouseCapture(a.originalEvent.changedTouches[0])&&(e=!0,b._touchMoved=!1,f(a,"mouseover"),f(a,"mousemove"),f(a,"mousedown"))},b._touchMove=function(a){e&&(this._touchMoved=!0,f(a,"mousemove"))},b._touchEnd=function(a){e&&(f(a,"mouseup"),f(a,"mouseout"),this._touchMoved||f(a,"click"),e=!1)},b._mouseInit=function(){var b=this;b.element.bind({touchstart:a.proxy(b,"_touchStart"),touchmove:a.proxy(b,"_touchMove"),touchend:a.proxy(b,"_touchEnd")}),c.call(b)},b._mouseDestroy=function(){var b=this;b.element.unbind({touchstart:a.proxy(b,"_touchStart"),touchmove:a.proxy(b,"_touchMove"),touchend:a.proxy(b,"_touchEnd")}),d.call(b)}}}(jQuery);
 
-mw.inaccessibleModules = document.createElement('div');
-mw.inaccessibleModules.className = 'mw-ui-btn-nav mwInaccessibleModulesMenu';
+
 
 $(document).ready(function() {
     mw.liveEditSelector = new mw.Selector({
@@ -103,74 +102,12 @@ $(document).ready(function() {
     mw.$("span.edit:not('.nodrop')").each(function(){
       mw.tools.setTag(this, 'div');
     });
-    document.body.appendChild(mw.inaccessibleModules);
+
 
     mw.$("#toolbar-template-settings").click(function() {
         mw.tools.toggle_template_settings();
     });
 
-    mw.on('LayoutOver moduleOver', function(e, el){
-        if(e.type === 'moduleOver'){
-
-          var parentModule = mw.tools.lastParentWithClass(el, 'module');
-          var childModule = mw.tools.firstChildWithClass(el, 'module');
-
-          var $el = $(el);
-          if(!!parentModule && ( $el.offset().top - $(parentModule).offset().top) < 10 ){
-            el.__disableModuleTrigger = parentModule;
-            $el.addClass('inaccessibleModule');
-          }
-          else if(!!childModule && ( $(childModule).offset().top - $el.offset().top) < 10 ) {
-              childModule.__disableModuleTrigger = el;
-              $(childModule).addClass('inaccessibleModule');
-          }
-          else{
-            $el.removeClass('inaccessibleModule');
-          }
-        }
-
-        mw.inaccessibleModules.innerHTML = '';
-        var modules = mw.$(".inaccessibleModule", el);
-        if(modules.length === 0){
-            var parent = mw.tools.firstParentWithClass(el, 'module');
-            if(parent){
-                if(($el.offset().top - $(parent).offset().top) < 10) {
-                    modules = $([el]);
-                    el = parent;
-                    $el = $(el);
-                }
-            }
-        }
-        modules.each(function(){
-              var span = document.createElement('span');
-              span.className = 'mw-ui-btn mw-ui-btn-small';
-              var type = $(this).attr('data-type') || $(this).attr('type');
-              if(type){
-                  var title = mw.live_edit.registry[type] ? mw.live_edit.registry[type].title : type;
-                  title = title.replace(/\_/, ' ');
-                  span.innerHTML = mw.live_edit.getModuleIcon(type) + title;
-                  var el = this;
-                  span.onclick = function(){
-                      mw.tools.module_settings(el);
-                  };
-                  mw.inaccessibleModules.appendChild(span);
-              }
-
-        });
-        if(modules.length > 0){
-            var off = $(el).offset();
-            if(mw.tools.collision(el, mw.handleModule.wrapper)){
-                off.top = parseFloat(mw.handleModule.wrapper.style.top) + 30;
-                off.left = parseFloat(mw.handleModule.wrapper.style.left);
-            }
-            mw.inaccessibleModules.style.top = off.top + 'px';
-            mw.inaccessibleModules.style.left = off.left + 'px';
-            $(mw.inaccessibleModules).show();
-        }
-        else{
-            $(mw.inaccessibleModules).hide();
-        }
-    });
     mw.$("#mw-toolbar-css-editor-btn").click(function() {
         mw.tools.open_custom_css_editor();
     });

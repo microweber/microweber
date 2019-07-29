@@ -365,6 +365,8 @@ if (array_key_exists('types', $_GET)) {
                 }
                 if(i === ($(selector).length - 1)){
                     thismodal.resize(800)
+                } else if(i === 2){
+                    thismodal.resize(600)
                 } else {
                     thismodal.resize(460)
                 }

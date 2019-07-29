@@ -1,5 +1,79 @@
 mw.require('selector.js');
 
+var dynamicModulesMenu = function(e, el) {
+    if(!mw.inaccessibleModules){
+        mw.inaccessibleModules = document.createElement('div');
+        mw.inaccessibleModules.className = 'mw-ui-btn-nav mwInaccessibleModulesMenu';
+        document.body.appendChild(mw.inaccessibleModules);
+    }
+
+    var $el;
+    if(e.type === 'moduleOver'){
+
+        var parentModule = mw.tools.lastParentWithClass(el, 'module');
+        var childModule = mw.tools.firstChildWithClass(el, 'module');
+
+        $el = $(el);
+        if(!!parentModule && ( $el.offset().top - $(parentModule).offset().top) < 10 ){
+            el.__disableModuleTrigger = parentModule;
+            $el.addClass('inaccessibleModule');
+        }
+        else if(!!childModule && ( $(childModule).offset().top - $el.offset().top) < 10 ) {
+            childModule.__disableModuleTrigger = el;
+            $(childModule).addClass('inaccessibleModule');
+        }
+        else{
+            $el.removeClass('inaccessibleModule');
+        }
+    }
+
+    mw.inaccessibleModules.innerHTML = '';
+    var modules = mw.$(".inaccessibleModule", el);
+    if(modules.length === 0){
+        var parent = mw.tools.firstParentWithClass(el, 'module');
+        if(parent){
+            if(($el.offset().top - $(parent).offset().top) < 10) {
+                modules = $([el]);
+                el = parent;
+                $el = $(el);
+            }
+        }
+    }
+    modules.each(function(){
+        var span = document.createElement('span');
+        span.className = 'mw-ui-btn mw-ui-btn-small';
+        var type = $(this).attr('data-type') || $(this).attr('type');
+        if(type){
+            var title = mw.live_edit.registry[type] ? mw.live_edit.registry[type].title : type;
+            title = title.replace(/\_/, ' ');
+            span.innerHTML = mw.live_edit.getModuleIcon(type) + title;
+            var el = this;
+            span.onclick = function(){
+                mw.tools.module_settings(el);
+            };
+            mw.inaccessibleModules.appendChild(span);
+        }
+    });
+    if(modules.length > 0){
+        var off = $(el).offset();
+        if(mw.tools.collision(el, mw.handleModule.wrapper)){
+            off.top = parseFloat(mw.handleModule.wrapper.style.top) + 30;
+            off.left = parseFloat(mw.handleModule.wrapper.style.left);
+        }
+        mw.inaccessibleModules.style.top = off.top + 'px';
+        mw.inaccessibleModules.style.left = off.left + 'px';
+        $(mw.inaccessibleModules).show();
+    }
+    else{
+        $(mw.inaccessibleModules).hide();
+    }
+
+
+    return $el[0];
+
+};
+
+
 mw.Handle = function(options) {
 
     this.options = options || {};
@@ -128,13 +202,9 @@ mw.Handle = function(options) {
         }
         this.wrapper.appendChild(this.menu);
     };
-
     this.create();
     this.hide();
-
-
 };
-
 
 mw._activeModuleOver = {
     module: null,
@@ -155,9 +225,7 @@ mw._initHandles = {
         var all = [
             mw._activeModuleOver,
             mw._activeRowOver,
-            mw._activeElementOver,
-
-
+            mw._activeElementOver
         ];
         all = all.filter(function (item) {
             return !!item && item.nodeType === 1;
@@ -197,8 +265,7 @@ mw._initHandles = {
     },
     _manageCollision: false,
     manageCollision:function () {
-        /*if(this._manageCollision) return;
-        this._manageCollision = true;*/
+
         var scope = this,
             max = 35,
             skip = [];
@@ -305,15 +372,6 @@ mw._initHandles = {
         });
 
         $(mw.handleElement.wrapper).mouseenter(function() {
-            /*var curr = mw._activeElementOver;
-            $(this).draggable("option", "helper", function() {
-                var clone = $(curr).clone(true);
-                clone.css({
-                    width: $(curr).width(),
-                    height: $(curr).height()
-                });
-                return clone;
-            });*/
         }).click(function() {
             if (!$(mw._activeElementOver).hasClass("element-current")) {
                 $(".element-current").removeClass("element-current");
@@ -325,16 +383,11 @@ mw._initHandles = {
                     mw.trigger("ElementClick", mw._activeElementOver);
                 }
             }
-            /*if (!$(mw._activeElementOver).hasClass('module')) {
-                mw.wysiwyg.select_element($(mw._activeElementOver)[0]);
-            }*/
+
         });
 
         mw.on("ElementOver", function(a, element) {
             mw._activeElementOver = element;
-
-
-
             mw.$(".mw_edit_delete, .mw_edit_delete_element, .mw-sorthandle-moveit, .column_separator_title").show();
             if (!mw.ea.canDrop(element)) {
                 mw.$(".mw_edit_delete, .mw_edit_delete_element, .mw-sorthandle-moveit, .column_separator_title").hide();
@@ -353,41 +406,13 @@ mw._initHandles = {
                 left_spacing = 0;
             }
 
-            /*var icon = '<span class="mw-handle-element-title-icon">'+element.nodeName+'</span>';
-            var icon = '<span class="mw-handle-element-title-icon">'+'<span class="mw-icon-app-more"></span> '+'</span>';*/
             var icon = '<span class="mw-handle-element-title-icon">'+'<span class="mw-icon-drag"></span> '+'</span>';
 
             var title = '';
-            /*var title = 'Text';
-            switch(element.nodeName) {
-                case 'P':
-                    title = 'Paragraph';
-                    break;
-                case 'H1':
-                    title = 'Heading 1';
-                    break;
-                case 'H2':
-                    title = 'Heading 2';
-                    break;
-                case 'H3':
-                    title = 'Heading 3';
-                    break;
-                case 'H4':
-                    title = 'Heading 4';
-                    break;
-                case 'H5':
-                    title = 'Heading 5';
-                    break;
-                case 'H6':
-                    title = 'Heading 6';
-                    break;
-            }*/
 
             mw.handleElement.setTitle(icon, title);
 
-
-
-            mw.handleElement.show()
+            mw.handleElement.show();
             $(mw.handleElement.wrapper).css({
                 top: o.top - 10,
                 left: left_spacing
@@ -482,9 +507,13 @@ mw._initHandles = {
                 mw.liveEditSelectMode = 'none';
             });
 
-        mw.on('moduleOver', function(e, element){
+        mw.on('moduleOver', function(e, pelement){
 
 
+
+            var element = dynamicModulesMenu(e, pelement) || pelement;
+
+            console.log(dynamicModulesMenu(e, pelement))
 
             mw._activeModuleOver = element;
             mw.$(".mw-handle-menu-dynamic", mw.handleModule.wrapper).empty();
@@ -540,8 +569,10 @@ mw._initHandles = {
             var topPosFinal = topPos + marginTop;
             var $lebar = $(lebar), $leoff = $lebar.offset();
 
+            var outheight = el.outerHeight();
+
             if(topPosFinal < ($leoff.top + $lebar.height())){
-                topPosFinal = o.top + el.outerHeight();
+                topPosFinal = (o.top + outheight) - (outheight > 100 ? 0 : mw.handleModule.wrapper.clientHeight);
             }
 
             if(el.attr('data-type') === 'layouts') {
@@ -620,8 +651,6 @@ mw._initHandles = {
             }
 
             mw.handleModule.setTitle(mod_icon, mod_handle_title)
-
-
             if(!mw.handleModule){
                 return;
             }
@@ -630,68 +659,42 @@ mw._initHandles = {
             mw.tools.addClass(mw.handleModule, 'module-active-' + module_type.replace(/\//g, '-'));
 
             if (mw.live_edit_module_settings_array && mw.live_edit_module_settings_array[module_type]) {
-
                 mw.$(".mw_edit_settings", mw.handle_module).hide();
+                var new_el = mwd.createElement('div');
+                new_el.className = 'mw_edit_settings_multiple_holder';
+                $('.mw_edit_settings', mw.handle_module).after(new_el);
+                var settings = mw.live_edit_module_settings_array[module_type];
+                mw.$(settings).each(function () {
+                    if (this.view) {
+                        var new_el = mwd.createElement('a');
+                        new_el.className = 'mw_edit_settings_multiple';
+                        new_el.title = this.title;
+                        new_el.draggable = 'false';
+                        var btn_id = 'mw_edit_settings_multiple_btn_' + mw.random();
+                        new_el.id = btn_id;
+                        if (this.type && this.type === 'tooltip') {
+                            new_el.href = 'javascript:mw.drag.current_module_settings_tooltip_show_on_element("' + btn_id + '","' + this.view + '", "tooltip"); void(0);';
 
-
-                    var new_el = mwd.createElement('div');
-                    new_el.className = 'mw_edit_settings_multiple_holder';
-
-                    $('.mw_edit_settings', mw.handle_module).after(new_el);
-
-                    // mw.$('#' + mw_edit_settings_multiple_holder_id).html(make_module_settings_handle_html);
-                    var settings = mw.live_edit_module_settings_array[module_type];
-
-
-                    mw.$(settings).each(function () {
-
-                        if (this.view) {
-                            var new_el = mwd.createElement('a');
-                            new_el.className = 'mw_edit_settings_multiple';
-                            new_el.title = this.title;
-                            new_el.draggable = 'false';
-                            var btn_id = 'mw_edit_settings_multiple_btn_' + mw.random();
-                            new_el.id = btn_id;
-
-                            if (this.type && this.type === 'tooltip') {
-                                new_el.href = 'javascript:mw.drag.current_module_settings_tooltip_show_on_element("' + btn_id + '","' + this.view + '", "tooltip"); void(0);';
-
-                            } else {
-                                new_el.href = 'javascript:mw.drag.module_settings(undefined,"' + this.view + '"); void(0);';
-
-                            }
-
-
-                            var icon = '';
-
-                            if (this.icon) {
-                                icon = '<i class="mw-edit-module-settings-tooltip-icon ' + this.icon + '"></i>';
-                            }
-
-                            new_el.innerHTML =  (icon + '<span class="mw-edit-module-settings-tooltip-btn-title">' + this.title+'</span>');
-
-
-
-                            mw.$(".mw-handle-menu-dynamic", mw.handleModule.wrapper).append(new_el);
-
-
+                        } else {
+                            new_el.href = 'javascript:mw.drag.module_settings(undefined,"' + this.view + '"); void(0);';
                         }
-
-                    });
-
+                        var icon = '';
+                        if (this.icon) {
+                            icon = '<i class="mw-edit-module-settings-tooltip-icon ' + this.icon + '"></i>';
+                        }
+                        new_el.innerHTML =  (icon + '<span class="mw-edit-module-settings-tooltip-btn-title">' + this.title+'</span>');
+                        mw.$(".mw-handle-menu-dynamic", mw.handleModule.wrapper).append(new_el);
+                    }
+                });
             } else {
                 mw.$(".mw_edit_settings", mw.handle_module).show();
-
             }
-
             if (mod_icon) {
                 var sorthandle_main = mw.$(".mw-element-name-handle", mw.handle_module).parent().parent();
                 if (sorthandle_main) {
                     mw.$(sorthandle_main).addClass('mw-element-name-handle-no-fallback-icon');
                 }
             }
-
-
 
             /*************************************/
 

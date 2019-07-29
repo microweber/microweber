@@ -4398,6 +4398,9 @@ body.dragStart .allow-drop {
     z-index: 1101;
     display: inline-block;
 }
+.mw-handle-item.active{
+    z-index: 1102;
+}
 
 body.dragStart .mw-columns-resizer,
 body.dragStart .mw-handle-item {
