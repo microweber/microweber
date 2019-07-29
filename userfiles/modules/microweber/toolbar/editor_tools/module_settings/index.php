@@ -307,6 +307,8 @@
                         var btn = document.createElement('li');
                         var btn2 = document.createElement('li');
                         btn2.innerHTML = 'Reset module';
+                       // btn2.innerHTML = 'Reset module' +"<br><small><?php print $params['id'] ?></small>";
+
                         btn2.onclick = function (ev) {
                             window
                                 .parent

@@ -312,8 +312,10 @@
             $('.mw-presets-list').removeClass('active');
             $('.js-module-presets-action-btn-clear').hide();
             $('.js-module-presets-action-btn-use').show();
+          //  $('.js-module-presets-action-btn-use-radio').attr('checked', '');
 
             if(selected_module_id) {
+             //   $('.js-module-presets-action-btn-use-radio[js-mod-id=' + selected_module_id + ']').attr('checked', 'checked');
                 $('.mw-presets-list[js-mod-id=' + selected_module_id + ']').addClass('active');
                 $('.js-module-presets-action-btn-clear[js-mod-id=' + selected_module_id + ']').show();
                 $('.js-module-presets-action-btn-use[js-mod-id=' + selected_module_id + ']').hide();
@@ -369,18 +371,74 @@
                     <textarea name="module_attrs" style="display: none"><?php print  $item['module_attrs'] ?></textarea>
 
 
-                    <div class="mw-flex-col-xs-2  ">
-                        <div class="box ">
+                    <div class="mw-flex-col-xs-3  ">
+                        <div class="box">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                             <label class="mw-ui-check">
                                 <input type="radio" name="preset_selector"
                                        title="<?php print  $item['module_id'] ?>"
                                        type="button"
+
+
                                        value="1"
                                        js-mod-id="<?php print $item['module_id'] ?>"
                                        use="<?php print  $item['module_id'] ?>"
-                                       class="mw-ui-btn mw-ui-btn-medium module-presets-action-btn  js-module-presets-action-btn-use" >
+                                       class="mw-ui-btn mw-ui-btn-medium module-presets-action-btn  js-module-presets-action-btn-use js-module-presets-action-btn-use-radio" >
                                 <span></span>
+
+
+
+                                <button
+                                        type="button"
+                                        js-mod-id="<?php print  $item['module_id'] ?>"
+                                        use="<?php print  $item['module_id'] ?>"
+
+                                        class=" pull-right mw-ui-btn mw-ui-btn-medium
+                                        <?php if (($fffound) != false): ?>
+                                        mw-ui-btn-notification
+                                        <?php else :  ?>
+                                         mw-ui-btn-info
+                                        <?php endif; ?>
+                                        mw-ui-btn-outline module-presets-action-btn js-module-presets-action-btn-use">
+                                        Use
+                                </button>
+
+
                             </label>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                         </div>
                     </div>
                     <div class="mw-flex-col-xs-5 ">
@@ -391,19 +449,19 @@
                                    value="<?php print  $item['name'] ?>"/>
                         </div>
                     </div>
-                    <div class="mw-flex-col-xs-5 ">
+                    <div class="mw-flex-col-xs-4 ">
                         <div class="box">
                             <button style="display: none"
                                     type="button"
                                     js-mod-id="<?php print  $item['module_id'] ?>"
                                     release="<?php print  $item['module_id'] ?>"
 
-                                    class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline module-presets-action-btn js-module-presets-action-btn-clear">Clear
+                                    class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info   module-presets-action-btn js-module-presets-action-btn-clear">Clear
                             </button>
                             <button
                                     delete="<?php print  $item['module_id'] ?>"
                                     js-mod-id="<?php print  $item['module_id'] ?>"
-                                    class="mw-ui-btn mw-ui-btn-important mw-ui-btn-medium mw-ui-btn-outline module-presets-action-btn module-presets-action-btn-delete">Delete</button>
+                                    class="mw-ui-btn mw-ui-btn-important mw-ui-btn-medium mw-ui-btn-outline module-presets-action-btn module-presets-action-btn-delete"><span class="mw-icon-app-trash-outline"></span></button>
                         </div>
                     </div>
                 </div>
