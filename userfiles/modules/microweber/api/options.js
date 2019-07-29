@@ -380,6 +380,9 @@ mw.options.remove_bindings = function ($selector) {
         delete(root._optionsEvents);
         root._optionsEventsClearBidings = true;
     }
+    root.addClass('mw-options-form-force-rebind');
+
+
     mw.$("input, select, textarea", root)
         .not('.mw-options-form-binded-custom')
         .each(function () {

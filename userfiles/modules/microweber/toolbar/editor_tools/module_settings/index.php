@@ -197,8 +197,13 @@
             // add dropdown
 
 
+            if(!window.thismodal && window.top.module_settings_modal_reference_preset_editor_thismodal ){
+                window.thismodal = window.top.module_settings_modal_reference_preset_editor_thismodal
+
+            }
 
             if (window.thismodal) {
+
                 var toolbar = thismodal.dialogHeader;
 
                 var dd = mwd.createElement('div');
@@ -240,6 +245,7 @@
                     if (is_module_tml_holder.length > 0) {
                         is_module_tml_holder.empty();
 
+
                         var holder = mwd.createElement('div');
                         holder.className = 'mw-module-presets-content';
 
@@ -264,6 +270,7 @@
                             // window.parent.module_settings_modal_reference_window = top;
 
                                 window.top.module_settings_modal_reference_preset_editor_modal_id = presetsthismodalid;
+                                window.top.module_settings_modal_reference_preset_editor_thismodal = window.thismodal;
                                 window.top.module_settings_modal_reference_window = window;
 
 
@@ -404,6 +411,7 @@
         mw.init_mod_iframe_setting_action = function(){
 
             var settings_container_mod_el = $('#settings-container').find(">div:first-child>div:first-child");
+            var settings_container_mod_el = $('#settings-container');
 
 
 
@@ -416,6 +424,9 @@
                     mw.notification.success('<?php _e('Settings are saved') ?>');
                 }
             });
+
+
+
             if(window.thismodal && thismodal.iframe) {
                 mw.tools.iframeAutoHeight(thismodal.iframe, 'now');
             }
@@ -437,30 +448,29 @@
 
         $(window).on('load', function () {
 
-
             mw.init_mod_iframe_setting_action();
         });
 
-        $(document).ready(function () {
-
-
-
-            mw.on('mw.presets.module_id_change', function(event, data){
-                var settings_container_mod_el = $('#settings-container').find(">div:first-child>div:first-child");
-
-               // mw.options.remove_bindings(settings_container_mod_el);
-                settings_container_mod_el.addClass('mw-options-form-force-rebind')
-                mw.init_mod_iframe_setting_action();
-            })
-
-
-
-
-
-
-
-
-        });
+//        $(document).ready(function () {
+//
+//
+//
+//            mw.on('mw.presets.module_id_change', function(event, data){
+//                var settings_container_mod_el = $('#settings-container').find(">div:first-child>div:first-child");
+//
+//                mw.options.remove_bindings(settings_container_mod_el);
+//             //   settings_container_mod_el.addClass('mw-options-form-force-rebind')
+//                mw.init_mod_iframe_setting_action();
+//            })
+//
+//
+//
+//
+//
+//
+//
+//
+//        });
 
     </script>
 

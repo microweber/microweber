@@ -80,9 +80,9 @@
             window.parent.mw.reload_module("#" + mod_id_for_presets);
             // window.top.mw.reload_module("#" + mod_id_for_presets);
 
-            /*
 
-            reloading of iframe
+
+           // reloading of iframe
 
             if (
                 typeof(window.top.module_settings_modal_reference_window) != 'undefined'
@@ -117,7 +117,7 @@
 
 
               window.top.module_settings_modal_reference_window.location.href = src_new_modal_settings
-            }*/
+            }
 
         }
         mw.module_preset_set_release = function (id) {
