@@ -47,7 +47,7 @@ api_expose_admin('get_content_field');
 api_expose_admin('notifications_manager/delete', function ($data) {
     return mw()->notifications_manager->delete($data);
 });
-
+ 
 api_expose_admin('notifications_manager/delete_selected', function ($data) {
 	return mw()->notifications_manager->delete_selected($data);
 });

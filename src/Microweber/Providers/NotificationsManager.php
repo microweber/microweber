@@ -56,6 +56,18 @@ class NotificationsManager
         return $get;
     }
 
+    public function read_selected($params) {
+    	
+    	$ids = explode(',', $params['ids']);
+    	
+    	if (!empty($ids)) {
+    		foreach ($ids as $id) {
+    			$this->read($id);
+    		}
+    	}
+    	
+    }
+    
     public function mark_as_read($module)
     {
         if (($module) != false and $module != '') {
@@ -105,6 +117,17 @@ class NotificationsManager
     	return $data;
     }
 
+    public function reset_selected($params) {
+    	
+    	$ids = explode(',', $params['ids']);
+    	
+    	if (!empty($ids)) {
+    		foreach ($ids as $id) {
+    			$this->reset($id);
+    		}
+    	}
+    	
+    }
 
     public function get_unread_count()
     {

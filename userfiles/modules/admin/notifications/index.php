@@ -63,9 +63,10 @@ if (isset($notif_params['quick'])) {
 
     }
 
-    mw.notif_delete_selected = function () {
+    mw.notif_get_selected = function() {
 
     	var selectedNotificationIds = [];
+    	
     	$(':checkbox').each(function() {
     		if ($(this).prop('checked')) {
     			selectedNotificationIds.push($(this).val());
@@ -73,12 +74,31 @@ if (isset($notif_params['quick'])) {
     	});
 
     	if(selectedNotificationIds.length < 1) {
-    		mw.notification.error('<?php echo _e('First select notifications to delete.'); ?>');
+    		mw.notification.error('<?php echo _e('First select notifications.'); ?>');
     		return;
     	}
+
+    	return selectedNotificationIds;
+    }
+
+    mw.notif_delete_selected = function () {
+
+    	var selectedNotificationIds = mw.notif_get_selected();
         
         mw.tools.confirm('<?php echo _e('Are you sure you want to delete');?> ' +selectedNotificationIds.length+ ' <?php echo _e(' notifications'); ?>?', function () {
             $.post("<?php print api_link('notifications_manager/delete_selected'); ?>?ids=" + selectedNotificationIds, function () {
+                mw.reload_module('admin/notifications');
+            });
+        });
+
+    }
+
+    mw.notif_read_selected = function () {
+
+    	var selectedNotificationIds = mw.notif_get_selected();
+        
+        mw.tools.confirm('<?php echo _e('Are you sure you want to read');?> ' +selectedNotificationIds.length+ ' <?php echo _e(' notifications'); ?>?', function () {
+            $.post("<?php print api_link('notifications_manager/read_selected'); ?>?ids=" + selectedNotificationIds, function () {
                 mw.reload_module('admin/notifications');
             });
         });
@@ -91,6 +111,19 @@ if (isset($notif_params['quick'])) {
             //	mw.reload_module('#<?php print $params['id'] ?>');
 
         });
+    }
+
+
+    mw.notif_reset_selected = function () {
+
+    	var selectedNotificationIds = mw.notif_get_selected();
+        
+        mw.tools.confirm('<?php echo _e('Are you sure you want to unread');?> ' +selectedNotificationIds.length+ ' <?php echo _e(' notifications'); ?>?', function () {
+            $.post("<?php print api_link('notifications_manager/reset_selected'); ?>?ids=" + selectedNotificationIds, function () {
+                mw.reload_module('admin/notifications');
+            });
+        });
+
     }
 
 
@@ -197,16 +230,29 @@ if (isset($notif_params['quick'])) {
                                 <div class="pull-right">
                                 
                                 <a href="javascript:mw.notif_delete_selected();" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-medium mw-ui-btn-important notif-delete-selected">
-                                <?php _e("Delete selected"); ?>
+                                <?php _e("Delete"); ?>
                                 </a> 
                                 
-                                <a href="javascript:mw.notif_select_all();" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-medium mw-ui-btn-info notif-select-all">
+                                 <a href="javascript:mw.notif_read_selected();" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-medium mw-ui-btn-notification notif-read-selected">
+                                <?php _e("Mark as read"); ?>
+                                </a>
+                                
+                                 <a href="javascript:mw.notif_reset_selected();" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-medium mw-ui-btn-warn notif-unread-selected">
+                                <?php _e("Mark as unread"); ?>
+                                </a>
+                                
+                                
+                                 <a href="javascript:mw.notif_select_all();" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-medium mw-ui-btn-info notif-select-all">
                                 <?php _e("Select all"); ?>
                                 </a>
                                 
-                                <a href="javascript:mw.notif_mark_all_as_read();" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-medium mw-ui-btn-notification">
-                                <?php _e("Mark all as read"); ?>
-                                </a>
+                                <b style="font-size:19px;">|</b> 
+                                
+                                	<?php if ($is_quick == false): ?>
+							                <a href="javascript:mw.notif_mark_all_as_read();" class="mw-ui-link"><?php _e("Read all"); ?></a> /
+							                <a href="javascript:mw.notif_reset_all();" class="mw-ui-link"><?php _e("Unread all"); ?></a> / 
+							                <a href="javascript:mw.notif_item_delete('all');" class="mw-ui-link"><?php _e("Delete all"); ?></a>
+							        <?php endif; ?>
                                 
                                 </div>
                             <?php endif; ?>
