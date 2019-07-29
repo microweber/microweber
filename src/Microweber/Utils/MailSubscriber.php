@@ -19,6 +19,7 @@ class MailSubscriber
 	protected $subscribeFrom = '';
 	protected $subscribeSource = '';
 	protected $subscribeSourceId = '';
+	protected $customFields = array();
 	
 	public function setListTitle($title) {
 		$this->listTitle = $title;
@@ -70,6 +71,10 @@ class MailSubscriber
 	
 	public function setSubscribeSourceId($id) {
 		$this->subscribeSourceId = $id;
+	} 
+	
+	public function addCustomField($field) {
+		$this->customFields[] = $field;
 	}
 
 	public function subscribe() {
@@ -110,6 +115,16 @@ class MailSubscriber
 				
 				$flexmail = new \Finlet\flexmail\FlexmailAPI\FlexmailAPI($config);
 				
+				$customFields = array();
+				foreach ($this->customFields as $field) {
+					
+					$customField = new \stdClass();
+					$customField->variableName = $field['key'];
+					$customField->value = $field['value'];
+					
+					array_push($customFields, $customField);
+				}
+				
 				$contact = new \stdClass();
 				$contact->emailAddress = $this->email;
 				$contact->name = $this->firstName;
@@ -119,10 +134,14 @@ class MailSubscriber
 				$contact->company = $this->companyName;
 				$contact->address = $this->address;
 				
+				if (!empty($customFields)) {
+					$contact->custom = $customFields;
+				}
+				
 				$response = $flexmail->service("Contact")->create(array(
 					"mailingListId"    => 10000,
 					"emailAddressType" => $contact
-				)); 
+				));
 				
 				save_mail_subscriber($this->email, $this->subscribeSource, $this->subscribeSourceId, 'flexmail');
 			
@@ -131,7 +150,7 @@ class MailSubscriber
 					save_mail_subscriber($this->email, $this->subscribeSource, $this->subscribeSourceId, 'flexmail');
 				}
 				// Error
-				//dd($e);
+				// dd($e);
 			}
 		}
 	}

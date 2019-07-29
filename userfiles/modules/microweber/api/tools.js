@@ -5694,7 +5694,7 @@ mw._colorPicker = function (options) {
         mw.$('.mw-tooltip-content', tip).empty();
         sett.attachTo = mw.$('.mw-tooltip-content', tip)[0]
 
-        var frame = AColorPicker.createPicker(sett);
+        frame = AColorPicker.createPicker(sett);
 
         frame.onchange = function (data) {
 
@@ -5702,12 +5702,12 @@ mw._colorPicker = function (options) {
                 proto.settings.onchange(data.color);
             }
 
-            if ($el[0].nodeName == 'INPUT') {
+            if ($el[0].nodeName === 'INPUT') {
                 $el.val(data.color);
             }
-        }
+        };
 
-        if ($el[0].nodeName == 'INPUT') {
+        if ($el[0].nodeName === 'INPUT') {
             $el.on('focus', function (e) {
                 if(this.value){
                     frame.color = this.value;
@@ -5732,7 +5732,7 @@ mw._colorPicker = function (options) {
                 $(tip).hide();
             }
         });
-        if ($el[0].nodeName == 'INPUT') {
+        if ($el[0].nodeName === 'INPUT') {
             $el.bind('blur', function () {
                 //$(tip).hide();
             });
@@ -5758,13 +5758,13 @@ mw._colorPicker = function (options) {
         }
     }
 
-}
+};
 mw.colorPicker = mw.colourPicker = function (o) {
     return new mw._colorPicker(o);
-}
+};
 mw.accordion = function (el, callback) {
     return mw.tools.accordion(mw.$(el)[0], callback);
-}
+};
 $.fn.timeoutHover = function (ce, cl, time1, time2) {
     var time1 = time1 || 350;
     var time2 = time2 || time1;
@@ -5898,20 +5898,6 @@ String.prototype.hash = function () {
 }
 
 mw.ajax = function (options) {
-    /* if (!options._success) {
-     options._success = options.success;
-     delete options.success;
-     options.success = function (data, status, xhr) {
-     if (data.form_data_required) {
-     mw.extradataForm(options, data);
-     }
-     else {
-     if (typeof options._success === 'function') {
-     options._success.call(this, data, status, xhr);
-     }
-     }
-     };
-     }*/
     var xhr = $.ajax(options);
     return xhr;
 };

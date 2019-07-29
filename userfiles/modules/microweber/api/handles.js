@@ -482,24 +482,6 @@ mw._initHandles = {
                 mw.liveEditSelectMode = 'none';
             });
 
-        $(mw.handleModule.handle).on('mouseenter touchstart', function() {
-            /*var curr = 'module_' + mw.random();
-            $(mw.handleModule.wrapper).draggable("option", "helper", function() {
-                var clone = $(mw._activeModuleOver).clone(true);
-                clone.css({
-                    width: $(curr).width(),
-                    height: $(curr).height()
-                });
-                return clone;
-            });*/
-        })
-        /*.on('click', function() {
-            var curr = $(this).data("curr");
-            if (!$(curr).hasClass("element-current")) {
-                mw.trigger("ElementClick", curr);
-            }
-        });*/
-
         mw.on('moduleOver', function(e, element){
 
 

@@ -131,6 +131,16 @@ $(document).ready(function() {
 
         mw.inaccessibleModules.innerHTML = '';
         var modules = mw.$(".inaccessibleModule", el);
+        if(modules.length === 0){
+            var parent = mw.tools.firstParentWithClass(el, 'module');
+            if(parent){
+                if(($el.offset().top - $(parent).offset().top) < 10) {
+                    modules = $([el]);
+                    el = parent;
+                    $el = $(el);
+                }
+            }
+        }
         modules.each(function(){
               var span = document.createElement('span');
               span.className = 'mw-ui-btn mw-ui-btn-small';
