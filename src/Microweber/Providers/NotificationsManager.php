@@ -166,6 +166,18 @@ class NotificationsManager
 
         return true;
     }
+    
+    public function delete_selected($params) {
+    	
+    	$ids = explode(',', $params['ids']);
+    	
+    	if (!empty($ids)) {
+    		foreach ($ids as $id) {
+    			$this->delete($id);
+    		}
+    	}
+    	
+    }
 
     public function delete_for_module($module)
     {

@@ -63,6 +63,27 @@ if (isset($notif_params['quick'])) {
 
     }
 
+    mw.notif_delete_selected = function () {
+
+    	var selectedNotificationIds = [];
+    	$(':checkbox').each(function() {
+    		if ($(this).prop('checked')) {
+    			selectedNotificationIds.push($(this).val());
+    		}
+    	});
+
+    	if(selectedNotificationIds.length < 1) {
+    		mw.notification.error('<?php echo _e('First select notifications to delete.'); ?>');
+    		return;
+    	}
+        
+        mw.tools.confirm('<?php echo _e('Are you sure you want to delete');?> ' +selectedNotificationIds.length+ ' <?php echo _e(' notifications'); ?>?', function () {
+            $.post("<?php print api_link('notifications_manager/delete_selected'); ?>?ids=" + selectedNotificationIds, function () {
+                mw.reload_module('admin/notifications');
+            });
+        });
+
+    }
 
     mw.notif_reset_all = function () {
         $.post("<?php print api_link('notifications_manager/reset'); ?>", function () {
@@ -81,7 +102,23 @@ if (isset($notif_params['quick'])) {
         });
     }
 
+	mw.notif_select_all = function () {
+        $(':checkbox').each(function() {
+        	$(this).prop('checked', true);
+        });
+        $('.notif-select-all').attr('href', 'javascript:mw.notif_unselect_all();');
+        $('.notif-select-all').html('<?php _e("Unselect all"); ?>');
+	}
 
+	mw.notif_unselect_all = function () {
+				
+        $(':checkbox').each(function() {
+        	$(this).prop('checked', false);
+        });
+        $('.notif-select-all').attr('href', 'javascript:mw.notif_select_all();');
+        $('.notif-select-all').html('<?php _e("Select all"); ?>');
+	}
+	
     function load_module_modal(module_name, notification_id) {
 
     	mw.notif_item_read(notification_id);
@@ -108,6 +145,8 @@ if (isset($notif_params['quick'])) {
  		}
  		
     }
+    
+    mw.notif_unselect_all(); 
 </script>
 <?php if (is_array($data)): ?>
 <?php $periods = array("Today", "Yesterday", "This week", "This mount, Older"); ?>
@@ -133,6 +172,7 @@ if (isset($notif_params['quick'])) {
 ?>
 <div class="admin-side-content">
     <div class="mw-admin-notifications-holder mw-ui-box mw-ui-box-content" id="<?php print $wrapper_id ?>">
+    
         <div class="table-responsive">
             <table cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic">
 
@@ -147,14 +187,28 @@ if (isset($notif_params['quick'])) {
                     </colgroup>
                     <thead>
                     <tr valign="middle">
-                        <th colspan="4" valign="middle">
+                        <th colspan="6" valign="middle">
                             <div class="pull-left">
                                 <h2 style="margin-top: 0;"><span class="mw-icon-notification"></span>
                                     <?php _e("Your Notifications"); ?>
                                 </h2>
                             </div>
                             <?php if ($is_quick == false): ?>
-                                <div class="pull-right"><a href="javascript:mw.notif_mark_all_as_read();" class="mw-ui-btn mw-ui-btn-invert"><?php _e("Mark all as read"); ?></a></div>
+                                <div class="pull-right">
+                                
+                                <a href="javascript:mw.notif_delete_selected();" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-medium mw-ui-btn-important notif-delete-selected">
+                                <?php _e("Delete selected"); ?>
+                                </a> 
+                                
+                                <a href="javascript:mw.notif_select_all();" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-medium mw-ui-btn-info notif-select-all">
+                                <?php _e("Select all"); ?>
+                                </a>
+                                
+                                <a href="javascript:mw.notif_mark_all_as_read();" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-medium mw-ui-btn-notification">
+                                <?php _e("Mark all as read"); ?>
+                                </a>
+                                
+                                </div>
                             <?php endif; ?>
                         </th>
                     </tr>
@@ -175,11 +229,11 @@ if (isset($notif_params['quick'])) {
                             $mod_info = module_info($item['module']);
                         }
 
-                        //$view_more_link =
+                        //$view_more_link = 
                         ?>
                         <td>
 							<label class="mw-ui-check">
-							   <input type="checkbox" value="true" name="checked[<?php echo $item['id']; ?>]">
+							   <input type="checkbox" value="<?php echo $item['id']; ?>" name="checked[<?php echo $item['id']; ?>]">
 							   <span></span>
 							</label>
 						</td>
@@ -201,9 +255,7 @@ if (isset($notif_params['quick'])) {
                                 <time title="<?php print mw('format')->date($item['created_at']); ?>"><?php print mw('format')->ago($item['created_at'], 1); ?></time>
                             </div>
 
-
                         </td>
-
 
                         <?php if ($is_quick == false): ?>
                             <td style="max-width: 60%;">
@@ -219,13 +271,13 @@ if (isset($notif_params['quick'])) {
                         <?php endif; ?>
 
                         <td>
-
-
+						
                             <?php
                             if (isset($item['module']) and $item['module'] == 'comments'): ?>
                            <?php
 
-                                /*       <div class="mw-dropdown mw-dropdown-default">
+                                /*
+                                <div class="mw-dropdown mw-dropdown-default">
                                 <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-dropdown-val"><i class="mai-idea"></i> Published</span>
                                 <div class="mw-dropdown-content" style="display: none;">
                                     <ul>
@@ -249,6 +301,8 @@ if (isset($notif_params['quick'])) {
                 </tbody>
             </table>
         </div>
+        
+        
         <?php if ($is_quick == false): ?>
 
             <div class="mw-ui-link-nav" style="padding: 20px 0;">
@@ -260,6 +314,8 @@ if (isset($notif_params['quick'])) {
                 <?php _e("Show system log"); ?>
             </a>
         <?php endif; ?>
+        
+        
     </div>
     <?php else : ?>
         <?php if ($is_quick == false): ?>
