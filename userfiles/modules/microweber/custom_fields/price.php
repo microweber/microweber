@@ -1,13 +1,15 @@
 <?php $rand = rand(); ?>
 
 <?php
-
 if(!isset($data['input_class'])){
-    $data['input_class'] = '';
+	$data['input_class'] = '';
 }
 
-
+if(isset($data['params']) and isset($data['params']['input_class'])) {
+	$data['input_class'] = $data['params']['input_class'];
+}
 ?>
+
 <?php if(!isset($data['make_select'])) : ?> 
 <div class="mw-custom-field-group mw-custom-field-price">
   <label class="mw-custom-field-label" ><?php print $data["name"]; ?></label>
