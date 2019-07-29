@@ -70,7 +70,7 @@ if ($screenshots) {
             if (!isset($temp['screenshot'])) {
                 $temp['screenshot'] = '';
             }
-            $current_template = array('name' => $temp['name'], 'screenshot' => $temp['screenshot']);
+            $current_template = array('name' => $temp['name'], 'screenshot' => $temp['screenshot'], 'layout_file' => $temp['layout_file']);
         }
     }
 }
@@ -215,7 +215,7 @@ if ($screenshots) {
                             <!-- Current template - Start -->
                             <div class="mw-ui-row">
                                 <div class="mw-ui-col current-template" style="width: 100%;">
-                                    <label class="mw-ui-label"><?php print _e('Current layout'); ?></label>
+                                    <label class="mw-ui-label" title="<?php print $current_template['layout_file']; ?>"><?php print _e('Current layout'); ?></label>
                                     <div class="screenshot">
                                         <div class="holder">
                                             <img src="<?php echo thumbnail($current_template['screenshot'], 300); ?>"
