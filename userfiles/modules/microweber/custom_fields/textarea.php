@@ -10,9 +10,6 @@ if(isset($data['params']) and isset($data['params']['input_class'])) {
 if(!isset($data['options']['rows'])) {
 	$data['options']['rows'] = '5';
 }
-
-
-
 ?>
 <div class="control-group form-group">
     <label class="mw-ui-label">

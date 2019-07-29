@@ -4,9 +4,14 @@ if (!isset($data['id'])) {
     include(__DIR__ . DS . 'empty_field_vals.php');
 }
 
-if (!isset($data['input_class'])) {
-    $data['input_class'] = '';
+if(!isset($data['input_class'])){
+	$data['input_class'] = '';
 }
+
+if(isset($data['params']) and isset($data['params']['input_class'])) {
+	$data['input_class'] = $data['params']['input_class'];
+}
+
 if (!isset($data['no-label'])) {
     $show_label = false;
 } else {
@@ -23,15 +28,6 @@ if (isset($params['skip-fields']) and $params['skip-fields'] != '') {
 if ($data['values'] == false or !is_array($data['values']) or !is_array($data['values'][0])) {
     $default_data = array('country' => 'Country', 'city' => 'City', 'zip' => 'Zip/Post code', 'state' => 'State/Province', 'address' => 'Address');
     $data['values'] = $default_data;
-}
-
-if (isset($params['input-class'])) {
-    $data['input_class'] = $params['input-class'];
-} elseif (isset($params['input_class'])) {
-    $data['input_class'] = $params['input_class'];
-} else {
-    $data['input_class'] = 'form-control';
-
 }
 
 $defaults = array(

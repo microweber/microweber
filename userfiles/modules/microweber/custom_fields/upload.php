@@ -5,11 +5,12 @@ include('empty_field_vals.php');
 }
 
 if(!isset($data['input_class'])){
-    $data['input_class'] = '';
+	$data['input_class'] = '';
 }
 
-
-
+if(isset($data['params']) and isset($data['params']['input_class'])) {
+	$data['input_class'] = $data['params']['input_class'];
+}
 ?>
 <?php $up = 'up'.uniqid().rand().rand().crc32($data['id']); ?>
 <?php if(!empty($data['name'])) : ?>

@@ -6,15 +6,14 @@ $rand = uniqid();
 ?>
 
 <?php
+$is_required = (isset($data['options']) == true and isset($data['options']["required"]) == true);
+  
+if(!isset($data['input_class'])){
+	$data['input_class'] = '';
+}
 
-    $is_required = (isset($data['options']) == true and isset($data['options']["required"]) == true);
-if (!isset( $data['input_class']) and isset($params['input-class'])) {
-     $data['input_class'] = $params['input-class'];
-} elseif (!isset( $data['input_class']) and  isset($params['input_class'])) {
-     $data['input_class'] = $params['input_class'];
-} else {
-	$data['input_class'] = 'form-control';
-	
+if(isset($data['params']) and isset($data['params']['input_class'])) {
+	$data['input_class'] = $data['params']['input_class'];
 }
 ?>
 
@@ -25,7 +24,7 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
   <?php endif; ?>
   </label>
   <div class="mw-custom-field-form-controls">
-    <input type="text"    <?php if ($is_required): ?> required="true"  <?php endif; ?>  data-custom-field-id="<?php print $data["id"]; ?>"  name="<?php print $data["name"]; ?>" id="date_<?php print $rand; ?>" placeholder="<?php print $data["value"]; ?>"    class="mw-ui-field">
+    <input type="text" <?php if ($is_required): ?> required="true"  <?php endif; ?>  data-custom-field-id="<?php print $data["id"]; ?>"  name="<?php print $data["name"]; ?>" id="date_<?php print $rand; ?>" placeholder="<?php print $data["value"]; ?>"    class="<?php print $data['input_class']; ?> mw-ui-field">
   </div>
 </div>
 

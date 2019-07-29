@@ -9,23 +9,19 @@ include('empty_field_vals.php');
 
 
 <?php
-
-
-if (!isset( $data['input_class']) and isset($params['input-class'])) {
-     $data['input_class'] = $params['input-class'];
-} elseif (!isset( $data['input_class']) and  isset($params['input_class'])) {
-     $data['input_class'] = $params['input_class'];
-} else {
+if(!isset($data['input_class'])){
 	$data['input_class'] = 'radio-inline';
-	
 }
 
-    $is_required = (isset($data['options']) == true and isset($data['options']["required"]) == true);
+if(isset($data['params']) and isset($data['params']['input_class'])) {
+	$data['input_class'] = $data['params']['input_class'];
+}
 
-    
-    if (!($data['values'])) {
-    	$data['values'][0] = _e('Please, set radio options.', true);
-    }
+$is_required = (isset($data['options']) == true and isset($data['options']["required"]) == true);
+
+if (!($data['values'])) {
+   $data['values'][0] = _e('Please, set radio options.', true);
+}
 ?>
 
 <?php
