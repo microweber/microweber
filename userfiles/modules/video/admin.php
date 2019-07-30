@@ -211,9 +211,23 @@
                                 </label>
                             </div>
 
-                            <hr/>
-
-                            <h5>Upload Thumbnail</h5>
+                        </div>
+                    </div>
+                    <div class="mw-accordion-item">
+                        <div class="mw-ui-box-header mw-accordion-title">
+                            <div class="header-holder">
+                                <i class="mai-setting2"></i> Video SEO
+                            </div>
+                        </div>
+                        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+                            <h5>Video Lazy Loading for SEO</h5>
+                            <div class="mw-ui-field-holder">
+                                <label class="mw-ui-check">
+                                    <input id="chk_lazyload" name="lazyload" class="mw-ui-field mw_option_field" type="checkbox" data-mod-name="<?php print $params['data-type'] ?>" value="y" <?php if (get_option('lazyload', $params['id']) == 'y') { ?> checked='checked' <?php } ?>/>
+                                    <span></span>
+                                    <span><?php _e("Lazy load"); ?></span>
+                                </label>
+                            </div>
                             <div class="mw-ui-field-holder">
                                 <label class="mw-ui-label"><?php _e("Upload Video Thumbnail from your computer"); ?>
                                     <br>
