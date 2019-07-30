@@ -96,7 +96,7 @@ class TemplateStackRenderer
         if ($js) {
             $js = array_unique($js);
             $compiledJs = $this->__compileJs($js);
-            foreach($compiledJs as $file) { 
+            foreach($compiledJs as $file) {  
            		$html_out .= '<script type="text/javascript" src="' . $file . '"></script>' . "\n";
             }
         }
