@@ -233,6 +233,10 @@ class Comments extends Crud
             $data['from_url'] = mw()->url_manager->current(1);
 
         }
+        
+        if (!isset($data['comment_body'])) {
+        	$data['comment_body'] = '';
+        }
 		
 		$comment_body = $data['comment_body'];
 		

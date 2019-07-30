@@ -97,9 +97,13 @@ class NotificationsManager
         }
     }
     
-    public function reset()
+    public function reset($id = false)
     {
-    	$data = $this->get('is_read=1&no_cache=true');
+    	if ($id) {
+    		$data = $this->get('is_read=1&no_cache=true&id=' . $id);
+    	} else {
+    		$data = $this->get('is_read=1&no_cache=true');
+    	}
     	
     	if (is_array($data)) {
 			foreach ($data as $value) {

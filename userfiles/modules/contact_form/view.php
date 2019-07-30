@@ -20,12 +20,7 @@ foreach($form_data['custom_fields'] as $kFiled=>$vField) {
 	$customFields[$kFiled] = $vField;
 }
 ?>
-<script>
-function mw_notification_mark_as_read(id) {
 
-	
-}
-</script>
 <h3 style="color: #2f9cff;"> View contact form entry</h3>
 Created at: <?php echo $form_data['created_at']; ?>
 <br />
@@ -43,9 +38,12 @@ Created at: <?php echo $form_data['created_at']; ?>
 
 
 <div class="pull-right" style="margin-top:10%;">
-<a href="javascript:mw_notification_mark_as_read(<?php echo $notification_id; ?>);" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-medium mw-ui-btn-notification">
+<a href="javascript:mw.notif_item_read(<?php echo $notification_id; ?>);" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-medium mw-ui-btn-notification">
 <i class="mw-icon-web-checkmark"></i> 
 Mark as read
+</a>
+<a href="javascript:mw.notif_item_reset(<?php echo $notification_id; ?>);" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-medium mw-ui-btn-warn">
+Mark as unread
 </a>
 <a href="<?php print admin_url() ?>view:modules/load_module:contact_form" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-medium mw-ui-btn-info">
 <i class="mw-icon-live"></i> 

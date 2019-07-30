@@ -9,6 +9,10 @@ $notification_module = $params['notification_module'];
 if ($notification_module === 'contact_form') :
 ?>
 <module type="contact_form/view" notification_id="<?php echo $notification_id; ?>" />
-<?php else: ?>
+<?php endif; ?>
 
+<?php
+if ($notification_module === 'comments') :
+?>
+<module type="comments/view" notification_id="<?php echo $notification_id; ?>" />
 <?php endif; ?>

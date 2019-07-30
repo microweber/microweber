@@ -26,7 +26,27 @@ $notif_params["no_cache"] = true;
 $notif_params["order_by"] = 'created_at desc';
 $notif_params["order_by"] = 'is_read desc, created_at desc';
 
+$filter_by = url_param('filter_by', true);
+if ($filter_by) {
+	if ($filter_by == 'comments') {
+		$notif_params["module"] = 'comments';
+	}
+	
+	if ($filter_by == 'orders') {
+		$notif_params["module"] = 'shop';
+	}
+	
+	if ($filter_by == 'form_entries') {
+		$notif_params["module"] = 'contact_form';
+	}
+	
+	if ($filter_by == 'new_user_registrations') {
+		$notif_params["module"] = 'users';
+	}
+}
+
 $data = mw()->notifications_manager->get($notif_params);
+
 $wrapper_id = "admin_notifications";
 if (isset($notif_params['wrapper-id'])) {
     $wrapper_id = $notif_params['wrapper-id'];
@@ -41,16 +61,28 @@ if (isset($notif_params['quick'])) {
 <style>
 .mw-load-module-modal-link {
 	cursor:pointer;
-}
+} 
 </style>
+<script type="text/javascript">
+$(document).ready(function () {
+	mw.dropdown();
+});
+</script>
+
 <script type="text/javascript">
 
     mw.notif_item_read = function ($item_id) {
         $.post("<?php print api_link('notifications_manager/read'); ?>?id=" + $item_id, function () {
-			
+        	mw.reload_module('admin/notifications');
         });
-
     }
+
+    mw.notif_item_reset = function ($item_id) {
+        $.post("<?php print api_link('notifications_manager/reset_selected'); ?>?ids=" + $item_id, function () {
+        	mw.reload_module('admin/notifications');
+        });
+    }
+    
     mw.notif_item_delete = function ($item_id) {
         mw.tools.confirm(mw.msg.del, function () {
             $.post("<?php print api_link('notifications_manager/delete'); ?>?id=" + $item_id, function () {
@@ -75,7 +107,7 @@ if (isset($notif_params['quick'])) {
 
     	if(selectedNotificationIds.length < 1) {
     		mw.notification.error('<?php echo _e('First select notifications.'); ?>');
-    		return;
+    		return [];
     	}
 
     	return selectedNotificationIds;
@@ -155,10 +187,8 @@ if (isset($notif_params['quick'])) {
     function load_module_modal(module_name, notification_id) {
 
     	mw.notif_item_read(notification_id);
-
-    	mw.reload_module('admin/notifications');
-        
- 		if (module_name == 'contact_form') {
+		
+ 		if (module_name == 'contact_form' || module_name == 'comments') {
  	    	 mw.modal({
  	             content: '<div id="mw_admin_preview_module_content"></div>',
  	             title: 'Preview Notification',
@@ -205,6 +235,26 @@ if (isset($notif_params['quick'])) {
 ?>
 <div class="admin-side-content">
     <div class="mw-admin-notifications-holder mw-ui-box mw-ui-box-content" id="<?php print $wrapper_id ?>">
+    
+    			<div class="mw-dropdown mw-dropdown-default">
+                    <span class="mw-dropdown-value mw-ui-btn mw-dropdown-val">
+                    Filter by<?php 
+                    if ($filter_by) {
+                    	$filter_by_text = str_replace('_', ' ', $filter_by);
+                    	echo ': ' . $filter_by_text;
+                    }
+                    ?>
+                    </span>
+                    <div class="mw-dropdown-content" style="display: none;">
+                        <ul>
+                        	<li style="padding: 0px;"><a style="border:0px;" href="?">All</a></li>
+                            <li style="padding: 0px;"><a style="border:0px;" href="?filter_by=comments">Comments</a></li>
+                            <li style="padding: 0px;"><a style="border:0px;" href="?filter_by=orders"">Orders</a></li>
+                            <li style="padding: 0px;"><a style="border:0px;" href="?filter_by=form_entries"">Form Entries</a></li>
+                            <li style="padding: 0px;"><a style="border:0px;" href="?filter_by=new_user_registrations"">New User Registrations</a></li>
+                        </ul>
+                    </div>
+                </div>
     
         <div class="table-responsive">
             <table cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic">
@@ -268,7 +318,7 @@ if (isset($notif_params['quick'])) {
 	                $load_module_modal_on_click = 'class="mw-load-module-modal-link" onClick="load_module_modal('."'". module_name_encode($item['module']) . "'" . ', ' . $item['id'] . ')";';
 	                ?>
 					
-                    <tr class="mw-ui-admin-notif-item-<?php print $item['id'] ?> <?php if (isset($item['is_read']) && $item['is_read'] == '0'): ?>mw-notification-new<?php endif; ?>" onclick="mw.notif_item_read('<?php print $item['id'] ?>');">
+                    <tr class="mw-ui-admin-notif-item-<?php print $item['id'] ?> <?php if (isset($item['is_read']) && $item['is_read'] == '0'): ?>mw-notification-new<?php endif; ?>">
                         <?php
                         $mod_info = false;
                         if (isset($item['module']) and $item['module'] != '') {
@@ -364,6 +414,29 @@ if (isset($notif_params['quick'])) {
         
     </div>
     <?php else : ?>
+    	<?php if ($filter_by): ?>
+    		
+    		<div class="mw-ui-box" style="width: 500px;text-align: center;margin: 60px auto;">
+                <div class="mw-ui-box-header">
+                    <h2>
+                        <?php _e("No notifications for this filter"); ?>
+                        !</h2>
+                </div>
+                <div class="mw-ui-box-content">
+                    <p>
+                        <?php _e("Choose your Action"); ?>
+                    </p>
+                    <br>
+                    <p><a href="?" class="mw-ui-btn mw-ui-btn-blue" style="margin-right: 12px;">
+                            <?php _e("Back to Notifications"); ?>
+                        </a>
+                        </p>
+                    <br>
+                    <?php //print notif('No new notifications available!'); ?>
+                </div>
+            </div>
+    
+    	<?php else: ?>
         <?php if ($is_quick == false): ?>
             <div class="mw-ui-box" style="width: 500px;text-align: center;margin: 60px auto;">
                 <div class="mw-ui-box-header">
@@ -385,6 +458,7 @@ if (isset($notif_params['quick'])) {
                     <?php //print notif('No new notifications available!'); ?>
                 </div>
             </div>
+        <?php endif; ?>
         <?php endif; ?>
     <?php endif; ?>
 </div>
