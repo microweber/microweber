@@ -7,27 +7,20 @@
         <?php $module_info = mw()->modules->get('one=1&ui=any&module=' . $params['module']); ?>
     <?php endif; ?>
 
+    <script type="text/javascript" src="<?php print(mw()->template->get_apijs_settings_url()); ?>"></script>
+    <script type="text/javascript" src="<?php print(mw()->template->get_apijs_url()); ?>"></script>
+    <script src="<?php print mw_includes_url(); ?>api/jquery-ui.js"></script>
+
     <?php template_stack_display('default'); ?>
 
 
 
-    <?php
-
-    /*<script type="text/javascript" src="<?php print(mw()->template->get_apijs_settings_url()); ?>"></script>
-    <script type="text/javascript" src="<?php print(mw()->template->get_apijs_url()); ?>"></script>
-    <script src="<?php print mw_includes_url(); ?>api/jquery-ui.js"></script>*/
-
-    ?>
-
-
 
 
     <?php
 
-    template_stack_add(mw()->template->get_apijs_settings_url());
-    template_stack_add(mw()->template->get_apijs_url());
 
-    template_stack_add(mw_includes_url().'api/jquery-ui.js');
+
 
 
 
