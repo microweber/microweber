@@ -238,7 +238,16 @@ class Files
                     }
                 }
             }
-            $arrayItems['files'] = $arrayItems_f;
+            
+            // Sort  by filetime
+            $sortedFiles = array();
+            foreach($arrayItems_f as $dir) {
+            	$sortedFiles[filemtime($dir)] = $dir;
+            }
+            ksort($sortedFiles);
+            $sortedFiles = array_reverse($sortedFiles);
+            
+            $arrayItems['files'] = $sortedFiles;
             $arrayItems['dirs'] = $arrayItems_d;
         }
 
