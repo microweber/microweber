@@ -18,7 +18,6 @@
             #media-results li .image-item-thumbnail {
                 width: 100% !important;
                 height: 171px !important;
-                cursor:pointer;
                 margin-bottom:5px;
             }
             #media-results li a {
@@ -100,6 +99,8 @@
             	$.get(getMediaImageUrl, function(imageUrl) {
 					 mw.url.windowHashParam('select-file', encodeURIComponent(imageUrl));
             	});
+            	
+            	mw.reload_module('files/browser');
             }
 
             function searchMediaLibrary(search, page = 1) {
@@ -131,10 +132,6 @@
                                 var author = '<div class="image-item-author">Author: <a href="' + val.author_url + '" target="_new">' + val.author + '</a></div>';
                                 var likes = $('<span class="image-item-likes" />');
                                 
-                                thumbnail.on('click', function() {
-                                    selectMediaImage(val.id);
-                                });
-
                                 download.on('click', function() {
                                     selectMediaImage($(this), val.id);
                                 }); 
