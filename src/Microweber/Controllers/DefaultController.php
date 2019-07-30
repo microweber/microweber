@@ -1054,6 +1054,8 @@ class DefaultController extends Controller
             $res = $this->app->parser->process($res, $options = false);
         }
 
+        $res = mw()->template->process_stacks($res);
+
         $res = execute_document_ready($res);
         if (!defined('MW_NO_OUTPUT')) {
             $res = $this->app->url_manager->replace_site_url_back($res);
@@ -2660,6 +2662,7 @@ class DefaultController extends Controller
         }
 
         $layout = mw()->template->process_meta($layout);
+        $layout = mw()->template->process_stacks($layout);
 
 
         $layout = $this->app->parser->process($layout, $options = false);

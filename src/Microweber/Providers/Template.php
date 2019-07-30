@@ -1,20 +1,11 @@
 <?php
 
 
-/*
- * This file is part of the Microweber framework.
- *
- * (c) Microweber LTD
- *
- * For full license information see
- * http://Microweber.com/license/
- *
- */
-
 namespace Microweber\Providers;
 
 use Microweber\Utils\Adapters\Template\MicroweberTemplate;
 use Microweber\Utils\Adapters\Template\TemplateCssParser;
+use Microweber\Utils\Adapters\Template\TemplateStackRenderer;
 
 /**
  * Content class is used to get and save content in the database.
@@ -44,6 +35,8 @@ class Template
     public $adapter_current = null;
     public $adapter_default = null;
     public $stylesheet_adapter = null;
+    public $stack_compiler_adapter = null;
+
 
     public function __construct($app = null)
     {
@@ -56,23 +49,25 @@ class Template
         }
 
         $this->stylesheet_adapter = new TemplateCssParser($app);
+        $this->stack_compiler_adapter = new TemplateStackRenderer($app);
         $this->adapter_current = $this->adapter_default = new MicroweberTemplate($app);
     }
 
 
     public function compile_css($params)
     {
-    	return $this->stylesheet_adapter->compile($params);
+        return $this->stylesheet_adapter->compile($params);
     }
 
-    public function delete_compiled_css($params) {
+    public function delete_compiled_css($params)
+    {
         return $this->stylesheet_adapter->delete_compiled($params);
     }
 
 
     public function get_stylesheet($path, $default_stylesheet = false, $cache = true)
     {
-    	return $this->stylesheet_adapter->getStylesheet($path, $default_stylesheet, $cache);
+        return $this->stylesheet_adapter->getStylesheet($path, $default_stylesheet, $cache);
     }
 
 
@@ -601,6 +596,7 @@ class Template
         $layout = $this->adapter('render', $params);
 
         $layout = $this->process_meta($layout);
+        $layout = $this->process_stacks($layout);
 
         return $layout;
     }
@@ -615,4 +611,23 @@ class Template
             }
         }
     }
+
+
+    public function stack_add($src, $group = 'default')
+    {
+        return $this->stack_compiler_adapter->add($src, $group);
+    }
+
+    public function stack_display($group = 'default')
+    {
+        return $this->stack_compiler_adapter->display($group);
+    }
+
+
+    public function process_stacks($layout)
+    {
+        return $this->stack_compiler_adapter->render($layout);
+
+    }
+
 }
