@@ -87,7 +87,7 @@ class TemplateStackRenderer
 
             if ($ext == 'js' or in_array($url, $internals_js) or in_array($stack_item, $internals_js)) {
                 $js[] = $url;
-            } else {
+            } elseif($ext == 'css') {
                 $css[] = $url;
             }
         }
