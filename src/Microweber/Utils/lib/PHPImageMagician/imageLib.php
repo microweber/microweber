@@ -957,6 +957,7 @@ class imageLib
         }
     }
     ## --------------------------------------------------------
+
     /** Apply a PNG overlay */
     private function gd_apply_overlay($im, $type, $amount)
         #
@@ -2070,7 +2071,7 @@ class imageLib
         }
         if (!$img) {
             // *** Get extension
-        	$extension = get_file_extension($file);
+            $extension = get_file_extension($file);
             $extension = strtolower($extension);
             switch ($extension) {
                 case '.bmp':
@@ -2318,19 +2319,33 @@ class imageLib
     {
         $file = $this->fileName;
         $isImage = false;
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $mimeType = finfo_file($finfo, $file);
-        finfo_close($finfo);
-        switch ($mimeType) {
-            case 'image/jpeg':
-            case 'image/gif':
-            case 'image/png':
-            case 'image/bmp':
-            case 'image/x-windows-bmp':
+
+
+        if (function_exists('finfo_open')) {
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $mimeType = finfo_file($finfo, $file);
+            finfo_close($finfo);
+            switch ($mimeType) {
+                case 'image/jpeg':
+                case 'image/gif':
+                case 'image/png':
+                case 'image/bmp':
+                case 'image/x-windows-bmp':
+                    $isImage = true;
+                    break;
+                default:
+                    $isImage = false;
+            }
+        } elseif (function_exists('getimagesize')) {
+            // open with GD
+            if (@is_array(getimagesize($file))) {
                 $isImage = true;
-                break;
-            default:
-                $isImage = false;
+            }
+        } elseif (function_exists('exif_imagetype')) {
+            // open with EXIF
+            if (false !== exif_imagetype($file)) {
+                $isImage = true;
+            }
         }
         return $isImage;
     }
