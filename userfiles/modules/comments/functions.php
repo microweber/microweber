@@ -43,62 +43,26 @@ api_expose('post_comment');
 
 function post_comment($data)
 {
-	// SAVE TO DATABASE
+	// Save to database
     $comments = new \Microweber\Comments\Models\Comments();
     $comment_id = $comments->save($data);
     
-    $new_comment = get_comments('single=1&id=' . $comment_id);
     
-    // SEND EMAIL NOTIFICATION
-    $new_comment_mail_template_id = mw()->option_manager->get('new_comment_reply_email_template', 'comments'); 
-    $mail_template = get_mail_template_by_id($new_comment_mail_template_id, 'new_comment_reply');
-
-   $comments = get_comments('content_id=' . $data['rel_id']);
-   
-   $comments_mail_map = array();
-   foreach ($comments as $comment) {
-    	
-    	$email_to = $comment['comment_email'];
-    	
-    	if (array_key_exists($email_to, $comments_mail_map)) {
-    		continue;
-    	}
-    	
-    	$comments_mail_map[$email_to] = $comment;
-    	
-    	try {
-	    	$twig = new \Twig_Environment(new \Twig_Loader_String());
-	    	$comment_email_content = $twig->render(
-	    		$mail_template['message'],
-	    		array('comment_author' => $comment['comment_name'], 'comment_reply_author' => $new_comment['comment_name'], 'post_url'=>$comment['from_url'])
-	    	);
-	    	
-	    	if (isset($email_to) and (filter_var($email_to, FILTER_VALIDATE_EMAIL))) {
-	    		
-	    		$sender = new \Microweber\Utils\MailSender();
-	    		$sender->setEmailTo($email_to);
-	    		$sender->setEmailSubject($mail_template['subject']);
-	    		$sender->setEmailMessage($comment_email_content);
-	    		$sender->setEmailFrom($mail_template['from_email']);
-	    		$sender->setEmailFromName($mail_template['from_name']);
-	    		$sender->send(); 
-	    		
-	    	}
-    	} catch (Exception $e) {
-    		echo $e->getMessage();
-    	}
+    // Send notification
+    if (is_numeric($comment_id)) {
+    	$emailJob = (new  \Microweber\Comments\Jobs\JobSendMailNotificationOnComment($comment_id))->onQueue('processing');
+   		\Queue::later(5, $emailJob); 
     }
-
+    
     return $comment_id;
 
 }
 
 function get_comments($params = false)
 {
-
     $comments = new \Microweber\Comments\Models\Comments();
+    
     return $comments->get($params);
-
 }
 
 
