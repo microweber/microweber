@@ -604,6 +604,19 @@ function template_headers_src()
     return mw()->template->head(true);
 }
 
+function template_stack_add($src, $group='default')
+{
+    return mw()->template->stack_add($src, $group='default');
+}
+
+function template_stack_display($group='default')
+{
+    return mw()->template->stack_display($group);
+}
+
+
+
+
 api_expose_admin('current_template_save_custom_css');
 function current_template_save_custom_css($data)
 {

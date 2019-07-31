@@ -797,6 +797,8 @@ class ModuleController extends Controller
         }
 
         $layout = $this->app->parser->process($layout, $options = false);
+        $layout = mw()->template->process_stacks($layout);
+
 
         $layout = execute_document_ready($layout);
 

@@ -8,6 +8,7 @@ $parser_cache_object = false; //global cache storage
 $mw_replaced_edit_fields_vals = array();
 $mw_replaced_edit_fields_vals_inner = array();
 $mw_replaced_codes_tag = array();
+
 $mw_replaced_textarea_tag = array();
 $local_mw_replaced_modules_ids_grouped = array();
 $local_mw_replaced_modules = array();
@@ -1005,7 +1006,6 @@ class Parser
                 if ($value != '') {
                     $layout = str_replace($key, $value, $layout);
                 }
-                // unset($mw_replaced_codes_tag[$key]);
             }
         }
 
@@ -1094,6 +1094,16 @@ class Parser
 //                }
 //            }
         // }
+
+        if (!empty($mw_replaced_codes_tag)) {
+            foreach ($mw_replaced_codes_tag as $key => $value) {
+                if ($value != '') {
+                    $layout = str_replace($key, $value, $layout);
+                }
+            }
+        }
+
+
         if (!$coming_from_parent) {
             $layout = $this->replace_url_placeholders($layout);
         }
@@ -2702,6 +2712,7 @@ $srsc_str
         global $mw_replaced_edit_fields_vals;
         global $other_html_tag_replace_inc;
         global $mw_replaced_codes_tag;
+
         global $mw_replaced_textarea_tag;
 
 
@@ -2716,6 +2727,7 @@ $srsc_str
                     $mod_content = str_replace($value, $v1, $mod_content);
                     if (!isset($replaced_scripts[$v1])) {
                         $mw_replaced_codes_tag[$v1] = $value;
+
                     }
                 }
             }

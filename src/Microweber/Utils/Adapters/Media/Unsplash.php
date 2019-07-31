@@ -51,6 +51,9 @@ class Unsplash
 			} else {
 				$urlThumbnail = dir2url($urlThumbnailFile);
 			}
+			
+			// Delete original file
+			@unlink($filename);
      
     		return $urlThumbnail;
     	}

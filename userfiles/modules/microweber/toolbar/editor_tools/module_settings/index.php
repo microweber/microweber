@@ -11,6 +11,41 @@
     <script type="text/javascript" src="<?php print(mw()->template->get_apijs_url()); ?>"></script>
     <script src="<?php print mw_includes_url(); ?>api/jquery-ui.js"></script>
 
+    <?php template_stack_display('default'); ?>
+
+
+
+
+
+    <?php
+
+
+
+
+
+
+    template_stack_add(mw_includes_url().'default.css');
+    template_stack_add(mw_includes_url().'css/components.css');
+    template_stack_add(mw_includes_url().'css/admin.css');
+    template_stack_add(mw_includes_url().'css/admin-new.css');
+    template_stack_add(mw_includes_url().'css/fade-window.css');
+    template_stack_add(mw_includes_url().'css/popup.css');
+
+
+
+    template_stack_add(mw_includes_url().'api/events.js');
+    template_stack_add(mw_includes_url().'api/url.js');
+    template_stack_add(mw_includes_url().'api/tools.js');
+    template_stack_add(mw_includes_url().'api/admin.js');
+    template_stack_add(mw_includes_url().'api/dialog.js');
+    template_stack_add(mw_includes_url().'api/liveadmin.js');
+    template_stack_add(mw_includes_url().'api/wysiwyg.js');
+    template_stack_add(mw_includes_url().'css/wysiwyg.css');
+    template_stack_add(mw_includes_url().'api/options.js');
+
+    ?>
+
+
 
     <?php if (isset($params['live_edit_sidebar'])): ?>
 
@@ -22,16 +57,17 @@
 
     <script type="text/javascript">
         liveEditSettings = true;
-
+/*
         mw.require('<?php print mw_includes_url(); ?>default.css');
         mw.require('<?php print mw_includes_url(); ?>css/components.css');
         mw.require('<?php print mw_includes_url(); ?>css/admin.css');
         mw.require('<?php print mw_includes_url(); ?>css/admin-new.css');
         mw.require('<?php print mw_includes_url(); ?>css/fade-window.css');
         mw.require('<?php print mw_includes_url(); ?>css/popup.css');
-        <?php if(_lang_is_rtl()){ ?>
-        mw.require('<?php print mw_includes_url(); ?>css/rtl.css');
-        <?php } ?>
+
+
+
+
         mw.require("events.js");
         mw.require("url.js");
         mw.require("tools.js");
@@ -43,9 +79,17 @@
         mw.require("forms.js");
         mw.require('wysiwyg.js');
         mw.require("wysiwyg.css")
-        mw.require('options.js');
+        mw.require('options.js');    */
+
+        <?php if(_lang_is_rtl()){ ?>
+        mw.require('<?php print mw_includes_url(); ?>css/rtl.css');
+        <?php } ?>
+
         mw.lib.require('font_awesome5');
     </script>
+
+
+
 
     <style>
         #settings-main {
