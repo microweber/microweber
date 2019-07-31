@@ -452,7 +452,7 @@
             mw.options.form(settings_container_mod_el, function () {
                 if (mw.notification) {
                     mw.notification.success('<?php _e('Settings are saved') ?>');
-                }
+                 }
                 mw.reload_module_parent('#<?php print $params['id']  ?>')
 
             });
@@ -493,6 +493,23 @@
 </div>
 
 
+
+
+<form method="get" id="mw_reload_this_module_popup_form" style="display:none">
+    <?php $mpar = $params;
+    if (isset($mpar['module_settings'])) {
+        unset($mpar['module_settings']);
+    }
+
+    ?>
+    <?php if (is_array($params)): ?>
+        <?php foreach ($params as $k => $item): ?>
+            <input type="text" name="<?php print $k ?>" value="<?php print $item ?>"/>
+        <?php endforeach; ?>
+        <input type="submit"/>
+    <?php endif; ?>
+</form>
+
 <script>
 
 
@@ -513,23 +530,6 @@
 
 
 </script>
-
-<form method="get" id="mw_reload_this_module_popup_form" style="display:none">
-    <?php $mpar = $params;
-    if (isset($mpar['module_settings'])) {
-        unset($mpar['module_settings']);
-    }
-
-    ?>
-    <?php if (is_array($params)): ?>
-        <?php foreach ($params as $k => $item): ?>
-            <input type="text" name="<?php print $k ?>" value="<?php print $item ?>"/>
-        <?php endforeach; ?>
-        <input type="submit"/>
-    <?php endif; ?>
-</form>
-
-
 
 </body>
 </html>

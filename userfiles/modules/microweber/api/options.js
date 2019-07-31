@@ -59,7 +59,7 @@ mw.options = {
 
         var el = $(el);
         var og, og1, refresh_modules11;
-         if (!el) {
+        if (!el) {
             return;
         }
 
@@ -100,7 +100,7 @@ mw.options = {
 
         }
 
-        var a = ['data-module-id', 'data-settings-for-module',  'option-group', 'data-option-group','data-refresh'],
+        var a = ['data-module-id', 'data-settings-for-module', 'option-group', 'data-option-group', 'data-refresh'],
             i = 0, l = a.length;
 
 
@@ -152,9 +152,9 @@ mw.options = {
         }
 
 
-       //  alert(og + '       ' +og1);
+        //  alert(og + '       ' +og1);
 
-        
+
         var o_data = {
             option_key: el.attr('name'),
             option_group: og,
@@ -215,10 +215,12 @@ mw.options = {
                 }
 
                 if ((typeof(liveEditSettings) != 'undefined' && liveEditSettings) || window.top.liveEditSettings) {
-                    if (!og1 && og_parent ) {
+                    if (!og1 && og_parent) {
                         which_module_to_reload = og_parent;
                     }
                 }
+
+                var reload_in_parent_trieggered = false;
 
 
                 //  alert('refresh_modules11     '+refresh_modules11);
@@ -255,6 +257,7 @@ mw.options = {
                             if (which_module_to_reload != og1) {
                                 mw.reload_module_parent("#" + og1);
                             }
+                            reload_in_parent_trieggered = 1;
 
 
                         }, 777);
@@ -286,6 +289,7 @@ mw.options = {
                                 });
                             }
                         }
+                        reload_in_parent_trieggered = 1;
 
                     }
                 }
@@ -337,7 +341,7 @@ mw.options = {
                            } else*/
 
 
-                if (reaload_in_parent !== true && which_module_to_reload != undefined && which_module_to_reload != '') {
+                if (reload_in_parent_trieggered == false && reaload_in_parent !== true && which_module_to_reload != undefined && which_module_to_reload != '') {
                     which_module_to_reload = which_module_to_reload.toString()
 
 
@@ -376,7 +380,7 @@ mw.options.remove_bindings = function ($selector) {
     var root = $root[0];
     if (!root) return;
 
-    if(root._optionsEvents){
+    if (root._optionsEvents) {
         delete(root._optionsEvents);
         root._optionsEventsClearBidings = true;
     }
@@ -410,7 +414,7 @@ mw.options.form = function ($selector, callback, beforepost) {
     var root = $root[0];
     if (!root) return;
 
-   //
+    //
     if (root && $root.hasClass('mw-options-form-force-rebind')) {
         force_rebind = true;
 
@@ -424,7 +428,7 @@ mw.options.form = function ($selector, callback, beforepost) {
                 //this._optionSaved = true;
 
                 var item = $(this);
-                if(force_rebind){
+                if (force_rebind) {
                     item[0]._optionsEventsBinded = null;
                 }
 
@@ -458,7 +462,7 @@ mw.options.form = function ($selector, callback, beforepost) {
 
                                 }
 
-                                if (top!= self && window.parent.mw.drag != undefined && window.parent.mw.drag.save != undefined) {
+                                if (top != self && window.parent.mw.drag != undefined && window.parent.mw.drag.save != undefined) {
                                     window.parent.mw.drag.save();
                                 }
 
@@ -473,14 +477,13 @@ mw.options.form = function ($selector, callback, beforepost) {
     }
 
 
-  //  alert($selector +'   --   ' +numOfbindigs);
+    //  alert($selector +'   --   ' +numOfbindigs);
 
 
     // REBIND
     if (numOfbindigs > 0) {
         root._optionsEvents = root._optionsEvents || {};
         root._optionsEvents = $.extend({}, root._optionsEvents, {callback: callback, beforepost: beforepost});
-
 
 
         var rebind = {};
