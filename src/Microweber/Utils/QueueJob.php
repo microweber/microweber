@@ -6,7 +6,7 @@ api_expose_admin('Microweber\Utils\QueueJob\processAll');
 class QueueJob
 {
 
-	private $_jobsPerClient = 3;
+	private $_jobsPerClient = 6;
 
 	public function __construct($app = null)
 	{
