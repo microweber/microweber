@@ -284,11 +284,6 @@
 
                             // HERE FOR DROPDOWN
                             window.parent.$('.module-modal-settings-menu-holder-open-presets', toolbar).html(modal_preset_manager_html_placeholder_for_reload_content);
-
-
-
-
-
                         };
 
                         var html = ""
@@ -299,7 +294,7 @@
 
 
                             "</div>"
-                            + "<div class='module-modal-settings-menu-holder-open-presets' ></div>"
+                            + "<div class='module-modal-settings-menu-holder-open-presets' ></div>";
 
 
 
@@ -408,32 +403,25 @@
 
 
 
-        mw.init_mod_iframe_setting_action = function(){
-
-            var settings_container_mod_el = $('#settings-container').find(">div:first-child>div:first-child");
+        var settingsAction = function(){
             var settings_container_mod_el = $('#settings-container');
-
-
-
-
             mw.options.form(settings_container_mod_el, function () {
-
-
-
                 if (mw.notification) {
                     mw.notification.success('<?php _e('Settings are saved') ?>');
                 }
             });
 
+            createAutoHeight()
+        };
 
-
+        var createAutoHeight = function() {
             if(window.thismodal && thismodal.iframe) {
                 mw.tools.iframeAutoHeight(thismodal.iframe, 'now');
             }
             else if(window.top.frameElement && window.top.frameElement.contentWindow === window) {
                 mw.tools.iframeAutoHeight(window.top.frameElement, 'now');
             } else if(window.top !== window) {
-                mw.$('iframe', top.document).each(function(){
+                top.mw.$('iframe').each(function(){
                     try{
                         if(this.contentWindow === window) {
                             mw.tools.iframeAutoHeight(this, 'now');
@@ -441,36 +429,20 @@
                     } catch(e){}
                 })
             }
-        }
-
-
+        };
 
 
         $(window).on('load', function () {
 
-            mw.init_mod_iframe_setting_action();
+            settingsAction();
+
+            mw.interval('_settingsAutoHeight', function(){
+                if(document.querySelector('.mw-iframe-auto-height-detector') === null) {
+                    createAutoHeight();
+                }
+            });
         });
 
-//        $(document).ready(function () {
-//
-//
-//
-//            mw.on('mw.presets.module_id_change', function(event, data){
-//                var settings_container_mod_el = $('#settings-container').find(">div:first-child>div:first-child");
-//
-//                mw.options.remove_bindings(settings_container_mod_el);
-//             //   settings_container_mod_el.addClass('mw-options-form-force-rebind')
-//                mw.init_mod_iframe_setting_action();
-//            })
-//
-//
-//
-//
-//
-//
-//
-//
-//        });
 
     </script>
 

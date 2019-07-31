@@ -48,8 +48,8 @@ if (array_key_exists('types', $_GET)) {
             if (eventType == 'done') {
                 /* parent.mw.iframecallbacks[hash](url, eventType); */
             }
-            if (typeof(thismodal) != "undefined") {
-                parent.mw.tools.modal.remove(thismodal.main);
+            if (window.thismodal) {
+                thismodal.remove();
             }
             return false;
         }

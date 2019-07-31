@@ -41,7 +41,7 @@ var dynamicModulesMenu = function(e, el) {
     }
     modules.each(function(){
         var span = document.createElement('span');
-        span.className = 'mw-ui-btn mw-ui-btn-small';
+        span.className = 'mw-handle-item mw-ui-btn mw-ui-btn-small';
         var type = $(this).attr('data-type') || $(this).attr('type');
         if(type){
             var title = mw.live_edit.registry[type] ? mw.live_edit.registry[type].title : type;

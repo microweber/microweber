@@ -140,6 +140,22 @@ if (!window.escape) {
     };
 }
 mw.tools = {
+    createAutoHeight: function() {
+        if(window.thismodal && thismodal.iframe) {
+            mw.tools.iframeAutoHeight(thismodal.iframe, 'now');
+        }
+        else if(window.top.frameElement && window.top.frameElement.contentWindow === window) {
+            mw.tools.iframeAutoHeight(window.top.frameElement, 'now');
+        } else if(window.top !== window) {
+            top.mw.$('iframe').each(function(){
+                try{
+                    if(this.contentWindow === window) {
+                        mw.tools.iframeAutoHeight(this, 'now');
+                    }
+                } catch(e){}
+            })
+        }
+    },
     collision: function(el1, el2){
         if(!el1 || !el2) return;
         el1 = $(el1), el2 = $(el2);
@@ -3805,7 +3821,8 @@ mw.tools = {
         var defaultOpts = {
             url: src,
             // width: 500,
-            height: '90vh',
+            height: 'auto',
+            autoHeight: true,
             name: 'mw-module-settings-editor-front',
             title: 'Settings',
             template: 'default',
@@ -3816,7 +3833,8 @@ mw.tools = {
 
         var settings = $.extend({}, defaultOpts, modalOptions);
 
-        return mw.tools.modal.frame(settings);
+        // return mw.tools.modal.frame(settings);
+        return mw.dialogIframe(settings);
     },
     open_module_modal: function (module_type, params, modalOptions) {
 

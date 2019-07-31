@@ -213,7 +213,10 @@ mw.dropables = {
                 mw.trigger("moduleOver", triggerTarget);
             //}
         } else {
-            if (mw.mm_target.id !== 'mw-handle-item-module' && !mw.tools.hasParentWithId(mw.mm_target, 'mw-handle-item-module')) {
+            if (
+                mw.mm_target.id !== 'mw-handle-item-module'
+                && !mw.tools.hasParentWithId(mw.mm_target, 'mw-handle-item-module')
+                && !mw.tools.hasAnyOfClassesOnNodeOrParent(mw.mm_target, ['mwInaccessibleModulesMenu'])) {
                 /*if(this._moduleRegister !== null) {*/
                     mw.trigger("ModuleLeave", mw.mm_target);
                     /*this._moduleRegister = null;

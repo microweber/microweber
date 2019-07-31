@@ -367,17 +367,11 @@
                 $('.js-module-presets-action-btn-clear[js-mod-id=' + selected_module_id + ']').show();
                 $('.js-module-presets-action-btn-use[js-mod-id=' + selected_module_id + ']').hide();
             }
-
-
-
-
-
-
-
-
-
-
         }
+
+        $(window).on('load', function(){
+            mw.tools.createAutoHeight()
+        })
 
     </script>
 
@@ -410,56 +404,27 @@
                 if ($item['module_id'] == $module_id) {
                     $fffound_module_id =   $fffound = $module_id;
 
-
                 }
-
                 ?>
-
-
             <script>
                 mw_existing_modules_presets_ids.push('<?php print  $item['module_id'] ?>');
             </script>
-
                 <div class="mw-flex-row mw-presets-list js-module-preset-item-form-holder <?php if ($fffound) { ?> active  <?php } ?>"
                      js-mod-id="<?php print  $item['module_id'] ?>">
-
                     <input type="hidden" name="id" value="<?php print  $item['id'] ?>">
                     <input type="hidden" name="module" value="<?php print  $item['module'] ?>">
                     <textarea name="module_attrs" style="display: none"><?php print  $item['module_attrs'] ?></textarea>
-
-
-                    <div class="mw-flex-col-xs-3  ">
+                    <div class="mw-flex-col-xs-3">
                         <div class="box">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                             <label class="mw-ui-check">
                                 <input type="radio" name="preset_selector"
                                        title="<?php print  $item['module_id'] ?>"
                                        type="button"
-
-
                                        value="1"
                                        js-mod-id="<?php print $item['module_id'] ?>"
                                        use="<?php print  $item['module_id'] ?>"
                                        class="mw-ui-btn mw-ui-btn-medium module-presets-action-btn  js-module-presets-action-btn-use js-module-presets-action-btn-use-radio" >
                                 <span></span>
-
-
-
                                 <button
                                         type="button"
                                         js-mod-id="<?php print  $item['module_id'] ?>"
@@ -474,26 +439,7 @@
                                         mw-ui-btn-outline module-presets-action-btn js-module-presets-action-btn-use">
                                         Use
                                 </button>
-
-
                             </label>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                         </div>
                     </div>
                     <div class="mw-flex-col-xs-5 ">
