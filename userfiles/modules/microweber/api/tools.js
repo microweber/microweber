@@ -3713,6 +3713,13 @@ mw.tools = {
                     $('#'+module_id).removeAttr('data-module-original-id');
                     $('#'+module_id).removeAttr('data-module-original-attrs');
                     $('#'+module_id).attr(orig_attrs_decoded).reload_module();
+
+                    if(  window.top.module_settings_modal_reference_preset_editor_thismodal ){
+                        window.top.module_settings_modal_reference_preset_editor_thismodal.remove();
+                    }
+
+
+
                  }
                  return;
             }
