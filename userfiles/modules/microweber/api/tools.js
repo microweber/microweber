@@ -171,36 +171,48 @@ mw.tools = {
         mode = mode || 'onload';
         frame = mw.$(frame)[0];
         if(!frame) return;
-        if(!mw.tools.canAccessIFrame(frame)) {
-            console.log('Iframe can not be accessed.', frame);
-            return;
-        }
-        if(!frame.contentWindow.document.body){
-            return;
-        }
-        if(!!frame.contentWindow.document.querySelector('.mw-iframe-auto-height-detector')){
-            return;
-        }
 
-        var _detector = document.createElement('div');
-        _detector.className = 'mw-iframe-auto-height-detector';
-        _detector.id = mw.id();
 
-        var insertDetector = function() {
-            if(!frame.contentWindow.document.querySelector('.mw-iframe-auto-height-detector')){
-                frame.contentWindow.document.body.appendChild(_detector);
-            }
-        };
 
-        if(mode === 'now'){
-            setTimeout(function(){
-                insertDetector();
-            }, 100);
-        }
+
+
+
+
 
         frame.scrolling="no";
         frame.style.minHeight = 0 + 'px';
         $(frame).on('load resize', function(){
+
+
+            if(!mw.tools.canAccessIFrame(frame)) {
+                console.log('Iframe can not be accessed.', frame);
+                return;
+            }
+            if(!frame.contentWindow.document.body){
+                return;
+            }
+            if(!!frame.contentWindow.document.querySelector('.mw-iframe-auto-height-detector')){
+                return;
+            }
+
+            var _detector = document.createElement('div');
+            _detector.className = 'mw-iframe-auto-height-detector';
+            _detector.id = mw.id();
+
+            var insertDetector = function() {
+                if(!frame.contentWindow.document.querySelector('.mw-iframe-auto-height-detector')){
+                    frame.contentWindow.document.body.appendChild(_detector);
+                }
+            };
+
+            if(mode === 'now'){
+                setTimeout(function(){
+                    insertDetector();
+                }, 100);
+            }
+
+
+
             if(mode === 'onload'){
                 setTimeout(function(){
                     insertDetector();
