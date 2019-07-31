@@ -36,7 +36,6 @@ mw.dialogIframe = function(options){
                 frame.contentWindow.thismodal = dialog;
             }, 78);
         });
-
     }, 12);
     return dialog
 };
@@ -76,7 +75,8 @@ mw.Dialog = function(options){
             closeButtonAppendTo: '.mw-dialog-header',
             draggable: true,
             scrollMode: 'inside', // 'inside' | 'window',
-            centerMode: 'intuitive' // 'intuitive' | 'center'
+            centerMode: 'intuitive', // 'intuitive' | 'center'
+            containment: 'window'
         };
 
         this.options = $.extend({}, defaults, options);
@@ -127,7 +127,7 @@ mw.Dialog = function(options){
                     stop: function() {
                         $holder.removeClass('mw-dialog-drag-start');
                     },
-                    containment: 'window',
+                    containment: scope.options.containment,
                     iframeFix: true
                 });
             }
@@ -215,6 +215,20 @@ mw.Dialog = function(options){
             }
             this.dialogOverlay();
             return this;
+        };
+
+        this.containmentManage = function(){
+            if(scope.options.containment === 'window'){
+                if(scope.options.scrollMode === 'inside'){
+                    var rect = this.dialogHolder.getBoundingClientRect();
+                    var $win = $(window);
+                    var sctop = $win.scrollTop();
+                    var height = $win.height();
+                    if(rect.top < sctop || (sctop + height) > (rect.top + rect.height)){
+                        this.center();
+                    }
+                }
+            }
         };
 
         this.dialogOverlay = function(){
@@ -332,6 +346,7 @@ mw.Dialog = function(options){
             mw.interval('iframe-' + this.id, function(){
                 var max = $(window).height() - scope.dialogHeader.clientHeight - scope.dialogFooter.clientHeight - 40;
                 scope.dialogContainer.style.maxHeight =  max + 'px';
+                scope.containmentManage();
             });
         }
     };

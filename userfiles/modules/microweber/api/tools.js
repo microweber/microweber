@@ -207,8 +207,8 @@ mw.tools = {
                 }, 100);
             }
             frame._int = setInterval(function(){
-                if(frame.parentNode){
-                    var offTop = $(_detector).offset().top;
+                if(frame.parentNode && frame.contentWindow && frame.contentWindow.$){
+                    var offTop = frame.contentWindow.$(_detector).offset().top;
                     if(offTop && offTop !== frame._currHeight){
                         frame._currHeight = offTop;
                         frame.style.height = offTop + 'px';
@@ -218,7 +218,7 @@ mw.tools = {
                 else {
                     clearInterval(frame._int);
                 }
-            }, 333);
+            }, 77);
 
 
         });
@@ -323,7 +323,7 @@ mw.tools = {
         var can = false;
         try {
             var doc = iframe.contentDocument || iframe.contentWindow.document;
-            can = !!doc.body;
+            can = !!doc.body && !!doc.documentElement;
         } catch (err) {
         }
         return can;

@@ -513,7 +513,6 @@ mw._initHandles = {
 
             var element = dynamicModulesMenu(e, pelement) || pelement;
 
-            console.log(dynamicModulesMenu(e, pelement))
 
             mw._activeModuleOver = element;
             mw.$(".mw-handle-menu-dynamic", mw.handleModule.wrapper).empty();
