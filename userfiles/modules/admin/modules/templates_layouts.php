@@ -58,6 +58,17 @@ if (isset($params['data-skin-change-mode'])) {
     $skin_change_mode = $params['data-skin-change-mode'];
 }
 
+$hide_skin_settings = false;
+if (isset($params['data-hide-skin-settings'])) {
+    $hide_skin_settings = $params['data-hide-skin-settings'];
+}
+
+$show_skin_setting_in_first_tab = false;
+if (isset($params['data-show-skin-settings-on-first-tab'])) {
+    $show_skin_setting_in_first_tab = $params['data-show-skin-settings-on-first-tab'];
+    $hide_skin_settings = true;
+}
+
 
 $cur_template = get_option('data-template', $params['parent-module-id']);
 
@@ -90,7 +101,12 @@ if ($screenshots) {
 
 <script type="text/javascript">
     $(document).ready(function () {
+
+
         mw.options.form('.mw-mod-template-settings-holder', function () {
+
+            var selected_skin =  $('#mw-module-skin-select-dropdown :selected').val();
+
             if (mw.notification != undefined) {
                 mw.notification.success('<?php _e("Module template is changed"); ?>');
             }
@@ -100,6 +116,12 @@ if ($screenshots) {
                 mw_admin_layouts_list_inner_modules_btns();
             }, 999);
             <?php endif; ?>
+
+
+            if(selected_skin){
+                $('#mw-module-skin-settings-module').attr('parent-template', selected_skin).reload_module();
+            }
+
         });
     });
 </script>
@@ -177,7 +199,7 @@ if ($screenshots) {
 
 
                     <div class="mw-mod-template-settings-holder">
-                        <select data-also-reload="#mw-module-skin-settings-module" name="data-template"
+                        <select id="mw-module-skin-select-dropdown" data-also-reload="#mw-module-skin-settings-module" name="data-template"
                                 class="mw-ui-field mw_option_field  w100 hidden"
                                 option_group="<?php print $params['parent-module-id'] ?>"
                                 data-refresh="<?php print $params['parent-module-id'] ?>">
@@ -264,6 +286,26 @@ if ($screenshots) {
                                 </div>
                             </div>
                         <?php endif; ?>
+
+
+
+
+
+                        <?php if ($show_skin_setting_in_first_tab): ?>
+
+                            <module type="admin/modules/templates_settings" id="mw-module-skin-settings-module"
+                                    parent-module-id="<?php print $params['parent-module-id'] ?>" parent-module="layouts"
+                                    parent-template="<?php print $cur_template ?>"/>
+
+                        <?php endif; ?>
+
+
+
+
+
+
+
+
                         <!-- Current template - End -->
                     </div>
 
@@ -417,9 +459,19 @@ if ($screenshots) {
                 </div>
 
 
+
+
+
+                <?php if (!$hide_skin_settings): ?>
                 <module type="admin/modules/templates_settings" id="mw-module-skin-settings-module"
                         parent-module-id="<?php print $params['parent-module-id'] ?>" parent-module="layouts"
                         parent-template="<?php print $cur_template ?>"/>
+
+                <?php endif; ?>
+
+
+
+
             </div>
         </div>
     </div>
