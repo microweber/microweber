@@ -204,7 +204,11 @@ function get_mail_templates($params = array())
 	
 	$defaultTemplates = get_default_mail_templates();
 	
-	$templates = array_merge($templates, $defaultTemplates);
+	if (empty($templates)) {
+		$templates = $defaultTemplates;
+	} else {
+		carray_merge($templates, $defaultTemplates);
+	}
 	
 	return $templates;
 }
