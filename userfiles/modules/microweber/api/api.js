@@ -558,7 +558,7 @@ mw.getScripts = function (array, callback) {
               setTimeout(function() {
                   var reload_index = mw.temp_reload_module_queue_holder.indexOf(node.id);
                   delete mw.temp_reload_module_queue_holder[reload_index];
-              }, 100);
+              }, 300);
           } else {
               return;
           }

@@ -92,11 +92,11 @@
 }
 
 /*.mw-tag-selector > span > i {*/
-    /*font-size: 16px;*/
-    /*color: #E8E8E8;*/
-    /*margin-right: 7px;*/
-    /*margin-top: 1px;*/
-    /*float: left;*/
+/*font-size: 16px;*/
+/*color: #E8E8E8;*/
+/*margin-right: 7px;*/
+/*margin-top: 1px;*/
+/*float: left;*/
 /*}*/
 
 .mw-tag-selector > span > i:after {
@@ -616,6 +616,10 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4 {
     white-space: nowrap;
 }
 
+.mw-browser-list li > a > span {
+    width: 80px;
+}
+
 .mw-file-item-check {
     clear: both;
     text-align: center;
@@ -821,22 +825,23 @@ body.mw-external-loading:after {
     opacity: 1;
 }
 
-.mw-element-name-handle-no-fallback-icon:before{
+.mw-element-name-handle-no-fallback-icon:before {
     display: none !important;
 }
 
-.mw-range{
+.mw-range {
     position: relative;
 }
 
-.mw-range{
-    height:3px;
+.mw-range {
+    height: 3px;
     display: inline-block;
     position: relative;
     background-color: #cfcfcf;
     min-width: 66px;
 }
-.mw-range .ui-slider-range{
+
+.mw-range .ui-slider-range {
     position: absolute;
     top: 0;
     left: 0;
@@ -844,8 +849,9 @@ body.mw-external-loading:after {
     width: 0;
     background-color: #0086db;
 }
-.mw-range .ui-slider-handle{
-    width:15px;
+
+.mw-range .ui-slider-handle {
+    width: 15px;
     height: 15px;
     position: relative;
     top: -6px;
@@ -856,33 +862,36 @@ body.mw-external-loading:after {
     outline: none;
     cursor: grab;
 }
-.mw-range.active .ui-slider-handle{
+
+.mw-range.active .ui-slider-handle {
     cursor: grabbing;
 }
 
-.mw-multiple-fields{
+.mw-multiple-fields {
     display: flex;
 }
+
 .mw-multiple-fields > .mw-field select,
-.mw-multiple-fields > .mw-field input{
+.mw-multiple-fields > .mw-field input {
     border-radius: 0;
 }
 
 .mw-multiple-fields > .mw-field:first-child select,
-.mw-multiple-fields > .mw-field:first-child input{
+.mw-multiple-fields > .mw-field:first-child input {
     border-radius: 2px 0 0 2px;
 }
 
 .mw-multiple-fields > .mw-field:last-child select,
-.mw-multiple-fields > .mw-field:last-child input{
+.mw-multiple-fields > .mw-field:last-child input {
     border-radius: 0 2px 2px 0;
 }
 
-.mw-multiple-fields > .mw-field + .mw-field{
+.mw-multiple-fields > .mw-field + .mw-field {
     margin-left: -1px;
 }
+
 .mw-multiple-fields > .mw-field input:hover,
-.mw-multiple-fields > .mw-field input:focus{
+.mw-multiple-fields > .mw-field input:focus {
     z-index: 1;
     position: relative;
 }

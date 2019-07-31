@@ -452,7 +452,9 @@
             mw.options.form(settings_container_mod_el, function () {
                 if (mw.notification) {
                     mw.notification.success('<?php _e('Settings are saved') ?>');
-                }
+                 }
+                mw.reload_module_parent('#<?php print $params['id']  ?>')
+
             });
 
             createAutoHeight()
@@ -476,16 +478,6 @@
         };
 
 
-        $(window).on('load', function () {
-
-            settingsAction();
-
-            mw.interval('_settingsAutoHeight', function(){
-                if(document.querySelector('.mw-iframe-auto-height-detector') === null) {
-                    createAutoHeight();
-                }
-            });
-        });
 
 
     </script>
@@ -499,6 +491,9 @@
         </div>
     </div>
 </div>
+
+
+
 
 <form method="get" id="mw_reload_this_module_popup_form" style="display:none">
     <?php $mpar = $params;
@@ -514,5 +509,27 @@
         <input type="submit"/>
     <?php endif; ?>
 </form>
+
+<script>
+
+
+
+
+    $(window).on('load', function () {
+
+        settingsAction();
+
+        mw.interval('_settingsAutoHeight', function(){
+            if(document.querySelector('.mw-iframe-auto-height-detector') === null) {
+                createAutoHeight();
+            }
+        });
+    });
+
+
+
+
+</script>
+
 </body>
 </html>

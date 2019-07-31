@@ -126,7 +126,7 @@ $path_nav = explode(DS, $path);
                     <?php $dir_link =  $item; ?>
                     <li>
 
-                        <a title="<?php print basename($item) . '&#10;' . dirname($item); ?>"
+                        <a title="<?php print basename($item); ?>"
                            href="#path=<?php print urlencode($dir_link); ?>">
                             <span class="mw-icon-category"></span>
                             <span><?php print basename($item); ?></span>
@@ -143,7 +143,7 @@ $path_nav = explode(DS, $path);
             <ul class="mw-browser-list">
                 <?php foreach ($data['files'] as $item): ?>
                     <li>
-                        <a title="<?php print basename($item) . '&#10;' . dirname($item); ?>"
+                        <a title="<?php print basename($item); ?>"
                            class="mw-browser-list-file mw-browser-list-<?php print substr(strrchr($item, '.'), 1); ?>"
                            href="<?php print mw()->url_manager->link_to_file($item) ?>"
                            onclick="mw.url.windowHashParam('select-file', '<?php print mw()->url_manager->link_to_file($item) ?>'); return false;">
