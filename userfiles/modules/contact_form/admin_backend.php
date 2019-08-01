@@ -66,8 +66,8 @@
             if ($mod_action == 'integrations') {
             	$load_list = false;
             }
-            ?>
-
+            ?> 
+ 
             <div>
 
            <!--
@@ -84,11 +84,11 @@
 
 
 	             <div class="contact-head">
-	             	<h4>Your lists</h4> 
+	             	<h4>Your form lists</h4> 
                      <div class="mw-field" size="large">
                         <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);" style="margin-left:15px;width:200px;">
                         <option value=""><?php _e('Select from lists'); ?></option>
-                        <option value=""><?php _e('Default list'); ?></option>
+                        <option value="load_module:contact_form"><?php _e('Default list'); ?></option>
                          <?php $data = get_form_lists('module_name=contact_form'); ?>
                         <?php if (is_array($data)): ?>
                         <?php foreach ($data as $item): ?>
@@ -98,8 +98,8 @@
                          <?php endif; ?>
                         </select>
                     </div>
-                    <a href="<?php print $config['url']; ?>/mod_action:integrations" class="<?php if($mod_action == 'integrations'){ ?> active <?php }?> mw-ui-btn  mw-ui-btn-big "><?php _e("Mail Integrations"); ?></a>
-                    <a href="<?php print $config['url']; ?>/mod_action:settings" class="<?php if($mod_action == 'settings'){ ?> active <?php }?> mw-ui-btn  mw-ui-btn-big "><?php _e("Settings"); ?></a>
+                    <a href="<?php print $config['url']; ?>/mod_action:integrations" class="<?php if($mod_action == 'integrations'){ ?> active <?php }?> mw-ui-btn mw-ui-btn-outline mw-ui-btn-notification"><?php _e("Mail Integrations"); ?></a>
+                    <a href="<?php print $config['url']; ?>/mod_action:settings" class="<?php if($mod_action == 'settings'){ ?> active <?php }?> mw-ui-btn mw-ui-btn-outline mw-ui-btn-info"><?php _e("Settings"); ?></a>
                 </div>
             </div>
 
