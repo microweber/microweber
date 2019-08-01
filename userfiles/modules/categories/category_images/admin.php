@@ -1,9 +1,10 @@
 <?php
+
+
 $selected_category = get_option('fromcategory', $params['id']);
 $selected_page = get_option('frompage', $params['id']);
 $show_category_header = get_option('show_category_header', $params['id']);
 $show_only_for_parent = get_option('single-only', $params['id']);
-
 
 
 $my_tree_id = ''
@@ -28,9 +29,6 @@ $my_tree_id = ''
 </style>
 
 
-
-
-
 <script type="text/javascript">
 
     mw.require('tree.js')
@@ -39,7 +37,7 @@ $my_tree_id = ''
 
 
 <style>
-    .module-categories-image-settings .level-1:not(.has-children):not(.type-category){
+    .module-categories-image-settings .level-1:not(.has-children):not(.type-category) {
         display: none;
     }
 </style>
@@ -48,19 +46,35 @@ $my_tree_id = ''
     var selectedData = [];
 
     <?php if($selected_category){ ?>
+    <?php $selected_category_explode = explode(',', $selected_category); ?>
+    <?php foreach ($selected_category_explode as $sel){ ?>
     selectedData.push({
-        id: <?php print $selected_category; ?>,
+        id: <?php print $sel; ?>,
         type: 'category'
     })
-
+    <?php } ?>
     <?php } ?>
 
 
-    $( document ).ready(function() {
+    <?php if($selected_page){ ?>
+    <?php $selected_page_explode = explode(',', $selected_page); ?>
+    <?php foreach ($selected_page_explode as $sel){ ?>
+    selectedData.push({
+        id: <?php print $sel; ?>,
+        type: 'page'
+    })
+    <?php } ?>
+    <?php } ?>
 
-        $.get("<?php print api_url('content/get_admin_js_tree_json'); ?>", function(data){
 
-            if(!Array.isArray(data)){
+
+
+
+    $(document).ready(function () {
+
+        $.get("<?php print api_url('content/get_admin_js_tree_json'); ?>", function (data) {
+
+            if (!Array.isArray(data)) {
                 var data = [];
             }
 
@@ -69,41 +83,61 @@ $my_tree_id = ''
                 id: 0,
                 type: 'category',
                 title: 'None',
-                "parent_id":0,
-                "parent_type":"category"
+                "parent_id": 0,
+                "parent_type": "category"
             });
 
 
-            var categoryParentSelector =    new mw.tree({
-                element:"#category-parent-selector",
+            var categoryParentSelector = new mw.tree({
+                element: "#category-parent-selector",
                 selectable: true,
                 selectedData: selectedData,
-                singleSelect: true,
+                //  singleSelect: true,
                 data: data
             })
 
             $(categoryParentSelector).on("selectionChange", function (e, selected) {
-                var parent = selected[0];
 
-                if(parent.type){
-                    if(parent.type == 'page'){
-                        $('#parentpage').val(parent.id).change();
-                        $('#parentcat').val('').change();
-                    }
-                    if(parent.type == 'category'){
-                        $('#parentcat').val(parent.id).change();
-                        $('#parentpage').val('').change();
+
+                var pages = [];
+                var cats = [];
+
+
+                $.each(selected, function (key, value) {
+
+
+                    var parent = value;
+
+
+                    if (parent.type) {
+                        if (parent.type == 'page') {
+                            pages.push(parent.id)
+                            // $('#parentpage').val(parent.id).change();
+                            //$('#parentcat').val('').change();
+                        }
+                        if (parent.type == 'category') {
+                            cats.push(parent.id)
+                            //    $('#parentcat').val(parent.id).change();
+                            //  $('#parentpage').val('').change();
+                        }
+
                     }
 
-                }
+
+                });
+
+                $('#parentpage').val(pages.join(',')).change();
+                $('#parentcat').val(cats.join(',')).change();
+
+
+                //   mw.log(selected);
+
 
             })
         });
 
 
     });
-
-
 
 
 </script>
@@ -121,8 +155,10 @@ $my_tree_id = ''
                 <input type="hidden" name="settings" id="settingsfield" value="" class="mw_option_field"/>
 
 
-                <input type="hidden" name="fromcategory" id="parentcat" value="<?php print $selected_category; ?>" class="mw_option_field"/>
-                <input type="hidden" name="frompage" id="parentpage" value="<?php print $selected_page; ?>" class="mw_option_field"/>
+                <input type="hidden" name="fromcategory" id="parentcat" value="<?php print $selected_category; ?>"
+                       class="mw_option_field"/>
+                <input type="hidden" name="frompage" id="parentpage" value="<?php print $selected_page; ?>"
+                       class="mw_option_field"/>
 
                 <label class="mw-ui-label"><?php _e('Select parent category'); ?></label>
 
@@ -130,18 +166,13 @@ $my_tree_id = ''
                 <div id="category-parent-selector"></div>
 
 
-
-
-
-
-
                 <br>
-               <hr>
+                <hr>
                 <div class="form-group">
                     <div class="checkbox">
                         <label class="mw-ui-check">
-                            <input type="checkbox" class="mw_option_field"   name="single-only"
-                                    value="single-only" <?php if ($show_only_for_parent == '1') {
+                            <input type="checkbox" class="mw_option_field" name="single-only"
+                                   value="single-only" <?php if ($show_only_for_parent == '1') {
                                 echo 'checked';
                             } ?> /> <span></span><span><?php _lang("Show only parent category"); ?></span>
                         </label>
@@ -149,14 +180,7 @@ $my_tree_id = ''
                 </div>
 
 
-
-
-
-
             </div>
-
-
-
 
 
         </div>

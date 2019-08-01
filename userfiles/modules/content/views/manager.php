@@ -1,6 +1,6 @@
 <?php
 $paging_links = false;
-$pages_count = intval($pages);
+$pages_count = intval($selected_pages);
 ?>
 <script type="text/javascript">
     mw.require('forms.js', true);
