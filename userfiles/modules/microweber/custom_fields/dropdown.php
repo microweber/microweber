@@ -32,10 +32,18 @@ if (isset($data['options']['multiple'])) {
 	$multiple = true;
 }
 ?>
+<script type="text/javascript">
+$(document).ready(function () {
 
-<?php if(!empty($data['values'])) : ?>
+ 
+	// 
+	
+});
+</script>
+
+<?php if(!empty($data['values'])) : ?> 
 <div class="control-group form-group">    
-<label class="mw-ui-label">
+<label class="mw-ui-label"> 
     <?php if(isset($data['name']) == true and $data['name'] != ''): ?>
     <?php print $data['name'] ?>
     <?php elseif(isset($data['name']) == true and $data['name'] != ''): ?>
@@ -57,22 +65,19 @@ if (isset($data['options']['multiple'])) {
 
 
  <?php if(is_array($data['values'])): ?>
-  <select <?php if (isset($multiple)): ?> multiple="multiple"<?php endif; ?> <?php if($is_required and $is_required==1){ ?> required <?php } ?>   class="mw-ui-field"  name="<?php print $data["name"]; ?>"  data-custom-field-id="<?php print $data["id"]; ?>">
-    <?php
-	foreach($data['values'] as $k=>$v): ?>
-    <?php if(is_string($k)){
-	$kv =  $k;
+  <select <?php if ($multiple): ?> multiple="multiple"<?php endif; ?> <?php if($is_required and $is_required==1){ ?> required <?php } ?>   class="mw-ui-field"  name="<?php print $data["name"]; ?>"  data-custom-field-id="<?php print $data["id"]; ?>">
+    <?php foreach($data['values'] as $k=>$v): ?>
+    <?php 
+    if(is_string($k)){
+		$kv =  $k;
 	} else {
-	$kv =  $v;
+		$kv =  $v;
 	}
-	
-	 
-	
 	?>
     <option  data-custom-field-id="<?php print $data["id"]; ?>" value="<?php print $kv; ?>" 
 	<?php if(!$selected): ?> selected="selected" <?php $selected=true; endif; ?> >
- 
-	<?php print ($v); ?></option>
+	<?php print ($v); ?>
+	</option>
     <?php endforeach; ?>
   </select>
   
