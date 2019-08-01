@@ -84,10 +84,11 @@
 
 
 	             <div class="contact-head">
+	             	<h4>Your lists</h4> 
                      <div class="mw-field" size="large">
-                        <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-                        <option><?php _e('Select..'); ?></option>
-                        <option value="default"><?php _e('Default list'); ?></option>
+                        <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);" style="margin-left:15px;width:200px;">
+                        <option value=""><?php _e('Select from lists'); ?></option>
+                        <option value=""><?php _e('Default list'); ?></option>
                          <?php $data = get_form_lists('module_name=contact_form'); ?>
                         <?php if (is_array($data)): ?>
                         <?php foreach ($data as $item): ?>
