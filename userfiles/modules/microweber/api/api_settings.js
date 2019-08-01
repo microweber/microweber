@@ -160,11 +160,8 @@ mw.settings.libs = {
     ],
     chosen: [
         function () {
-            //var bootstrap_enabled = (typeof $().modal == 'function');
-            //if (!bootstrap_enabled == false) {
-            mw.require(mw.settings.libs_url + 'chosen' + '/chosen.proto.min.js');
+            mw.require(mw.settings.libs_url + 'chosen' + '/chosen.jquery.min.js');
             mw.require(mw.settings.libs_url + 'chosen' + '/chosen.min.css');
-            //}
         }
     ],
     validation: [
