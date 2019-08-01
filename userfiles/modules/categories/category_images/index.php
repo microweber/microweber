@@ -1,6 +1,6 @@
 <?php
 
-$parent = get_option('fromcategory', $params['id']);
+$parent = $selected_category = get_option('fromcategory', $params['id']);
 $selected_page = get_option('frompage', $params['id']);
 
 $show_only_for_parent = get_option('single-only', $params['id']);
@@ -22,17 +22,115 @@ if (!isset($parent) or $parent == '') {
     $parent = 0;
 }
 
-$cats = get_categories('no_limit=true&order_by=position asc&rel_id=[not_null]&parent_id=' . intval($parent));
-if(!$cats or $show_only_for_parent){
-    $cats = get_categories('no_limit=true&order_by=position asc&rel_id=[not_null]&id=' . intval($parent));
-}
+//$cats = get_categories('no_limit=true&order_by=position asc&rel_id=[not_null]&parent_id=' . intval($parent));
+//if(!$cats or $show_only_for_parent){
+//    $cats = get_categories('no_limit=true&order_by=position asc&rel_id=[not_null]&id=' . intval($parent));
+//}
+//if ($selected_page and !$parent) {
+//    $cats = get_categories('no_limit=true&order_by=position asc&rel_id=' . intval($selected_page));
+//}
+
+$selected_cats = array();
+$selected_cats2 = array();
+$selected_pages = array();
+$cats = array();
+
+
 if ($selected_page) {
-    $cats = get_categories('no_limit=true&order_by=position asc&rel_id=' . intval($selected_page));
+    $selected_page_explode = explode(',', $selected_page);
+    foreach ($selected_page_explode as $sel) {
+        $selected_pages[] = $sel;
+    }
 }
+if ($selected_category) {
+    $selected_category_explode = explode(',', $selected_category);
+    foreach ($selected_category_explode as $sel) {
+        $selected_cats[] = $sel;
+    }
+}
+
+if ($selected_pages and $selected_cats) {
+    foreach ($selected_pages as $sel_p) {
+        $pp = get_content_by_id($sel_p);
+        $pp['is_page'] = true;
+        $cats[] = $pp;
+        foreach ($selected_cats as $sk => $sel_c) {
+            $category_page_check = get_page_for_category($sel_c);
+            $cat_data = get_category_by_id($sel_c);
+            if ($category_page_check == $sel_p) {
+                $cats[] = $cat_data;
+                unset($selected_cats[$sk]);
+            } else {
+                $selected_cats2[] = $cat_data;
+            }
+        }
+    }
+}
+
+if($cats and $selected_cats2){
+    $append_cats = array();
+    foreach ($selected_cats2 as $selected_cat2){
+        $is_found = false;
+        foreach ($cats as $selected_cat){
+            if (isset($selected_cat2['id'])  and isset($selected_cat['id'])) {
+                if($selected_cat2['id'] == $selected_cat['id']){
+                    $is_found = true;
+                }
+            }
+        }
+        if(!$is_found){
+            $append_cats[] = $selected_cat2;
+        }
+    }
+
+    $cats = array_merge($cats,$append_cats);
+}
+
 
 
 if (!empty($cats)) {
     foreach ($cats as $k => $cat) {
+
+        if (isset($cat['is_page']) ) {
+            $cat['picture'] = get_picture($cat['id'], 'content');
+            $cat['url'] = content_link($cat['id']);
+
+        } else {
+
+            $cat['picture'] = get_picture($cat['id'], 'category');
+            $cat['url'] = category_link($cat['id']);
+
+            if ($cat['rel_type'] == 'content') {
+                $latest = get_content("order_by=position desc&limit=30&category=" . $cat['id']);
+                if (!$cat['picture'] and isset($latest[0])) {
+                    $latest_product = $latest[0];
+                    $cat['picture'] = get_picture($latest_product['id']);
+                }
+                if ($latest) {
+                    $cat['content_items'] = $latest;
+                }
+            }
+        }
+
+        $cats[$k] = $cat;
+
+    }
+}
+
+
+//dd($cats);
+
+
+
+
+//d($selected_pages);
+//d($parent);
+//d($selected_page);
+
+ /*
+
+if (!empty($selected_cats)) {
+    foreach ($selected_cats as $k => $cat) {
 
         $cat['picture'] = get_picture($cat['id'], 'category');
 
@@ -49,17 +147,17 @@ if (!empty($cats)) {
             }
 
         }
-        $cats[$k] = $cat;
+        $selected_cats[$k] = $cat;
 
     }
-}
+}*/
 
-
-if (!$cats) {
+$selected_cats = $cats;
+if (!$selected_cats) {
     print lnotif('Categories not found');
 }
 
-$data = $cats;
+$data = $selected_cats;
 $module_template = get_option('data-template', $params['id']);
 
 if ($module_template != false and $module_template != 'none') {
