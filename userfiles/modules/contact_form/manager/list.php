@@ -243,9 +243,10 @@ if ($load_list == 1) {
   <?php endif; ?>
  </div>
 
-<?php if(count($data) > $limit_per_page): ?>
-<?php if (is_array($data)) : ?>
-	 <div class="mw-ui-col text-center" style="width: 70%">
+<?php if (is_array($data) && !empty($data)) : ?>
+<?php if(count($data) > $limit_per_page): ?> 
+
+<div class="mw-ui-col text-center" style="width: 70%">
     <div class="mw-paging mw-paging- mw-paging- inline-block">
     <?php print paging("num=$data_paging"); ?> 
     </div>
@@ -253,17 +254,15 @@ if ($load_list == 1) {
     <?php endif; ?>
     <?php if (isset($params['export_to_excel'])) : ?>
     <?php endif; ?>
-    </div>
-<?php endif; ?>
+</div>
 
-<?php if (is_array($data)) : ?>
- <div class="mw-ui-col">
+<div class="mw-ui-col">
     <div class="mw-field" style="width:100%;" data-before="<?php _e('Show items per page'); ?>">
         <select onchange="if (this.value) window.location.href=this.value">
             <option value="">Select</option>
             <option value="?per_page=10">10</option>
              <option value="?per_page=50">50</option>
-            <option value="?per_page=100">100</option>
+            <option value="?per_page=100">100</option> 
             <option value="?per_page=200">200</option>
         </select>
     </div>
@@ -272,7 +271,7 @@ if ($load_list == 1) {
         <strong><?php print _e('Total'); ?>:</strong>
         <span><?php echo count($data); ?> messages in this list</span>
     </div>
-  </div>
+</div>
 <?php endif; ?>
 <?php endif; ?>
 
