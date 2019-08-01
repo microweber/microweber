@@ -244,7 +244,7 @@ if ($load_list == 1) {
  </div>
 
 <?php if (is_array($data) && !empty($data)) : ?>
-<?php if(count($data) > $limit_per_page): ?> 
+<?php if(count($data) > $limit_per_page): ?>   
 
 <div class="mw-ui-col text-center" style="width: 70%">
     <div class="mw-paging mw-paging- mw-paging- inline-block">
