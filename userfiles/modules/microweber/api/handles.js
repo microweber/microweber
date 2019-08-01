@@ -412,7 +412,13 @@ mw._initHandles = {
 
             mw.handleElement.setTitle(icon, title);
 
-            mw.handleElement.show();
+            if(el.hasClass('allow-drop')){
+                mw.handleElement.hide();
+            } else{
+                mw.handleElement.show();
+            }
+
+
             $(mw.handleElement.wrapper).css({
                 top: o.top - 10,
                 left: left_spacing
@@ -508,12 +514,7 @@ mw._initHandles = {
             });
 
         mw.on('moduleOver', function(e, pelement){
-
-
-
             var element = dynamicModulesMenu(e, pelement) || pelement;
-
-
             mw._activeModuleOver = element;
             mw.$(".mw-handle-menu-dynamic", mw.handleModule.wrapper).empty();
             mw.$('#mw_handle_module_up,#mw_handle_module_down').hide();

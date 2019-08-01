@@ -1767,13 +1767,16 @@ mw.wysiwyg = {
     },
     link: function (prepolulate, node_id) {
         // mw.wysiwyg.save_selection();
-        var modal = mw.tools.modal.frame({
+        //var modal = mw.tools.modal.frame({
+        var modal = mw.dialogIframe({
             url: "rte_link_editor",
             title: "Edit link",
             name: "mw_rte_link",
+            id: "mw_rte_link",
             //template: 'basic',
             width: 600,
-            height: 300
+            height: 'auto',
+            autoHeight: true
         });
         mw.$('iframe', modal.main).on('change', function (a, b, c, e) {
             mw.iframecallbacks[b](c, e);

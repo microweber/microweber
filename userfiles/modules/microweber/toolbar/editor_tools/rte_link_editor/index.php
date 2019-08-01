@@ -315,11 +315,12 @@
                 </script>
             </div>
             <div class="tab page-layout-tab">
+                <label class="mw-ui-label"><?php _e('Link text'); ?></label>
                 <div class="mw-field">
-                    <label><?php _e('Link text'); ?></label>
+
                     <input type="text" id="ltext">
                 </div>
-                <ul class="mw-ui-box mw-ui-navigation" id="layouts-selector">
+                <ul class="mw-ui-box mw-ui-box-content mw-ui-navigation" id="layouts-selector">
 
                 </ul>
                 <hr>

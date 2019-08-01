@@ -2463,28 +2463,30 @@ mw.quick = {
     w: '80%',
     h: '90%',
     page: function() {
-        var modal = mw.tools.modal.frame({
+        var modal = mw.dialogIframe({
             url: mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=false&id=mw-quick-page&recommended_parent=" + mw.settings.page_id,
             width: mw.quick.w,
-            height: mw.quick.h,
+            height: 'auto',
+            autoHeight:true,
             name: 'quick_page',
             overlay: true,
-            title: 'New Page'
+            title: 'New Page',
+            scrollMode: 'window'
         });
         $(modal.main).addClass('mw-add-content-modal');
-        modal.overlay.style.backgroundColor = "white";
     },
     category: function() {
-        var modal = mw.tools.modal.frame({
+        var modal = mw.dialogIframe({
             url: mw.settings.api_url + "module/?type=categories/edit_category&live_edit=true&quick_edit=false&id=mw-quick-category&recommended_parent=" + mw.settings.page_id,
             width: mw.quick.w,
-            height: mw.quick.h,
+            height: 'auto',
+            autoHeight:true,
             name: 'quick_page',
             overlay: true,
-            title: 'New Category'
+            title: 'New Category',
+            scrollMode: 'window'
         });
         $(modal.main).addClass('mw-add-content-modal');
-        modal.overlay.style.backgroundColor = "white";
     },
     edit: function(id, content_type, subtype, parent, category) {
         var str = "";
@@ -2524,52 +2526,54 @@ mw.quick = {
             actionOf = 'Category'
         }
 
-        var modal = mw.tools.modal.frame({
+        var modal = mw.dialogIframe({
             url: mw.settings.api_url + "module/?type=content/edit&live_edit=true&quick_edit=false&is-current=true&id=mw-quick-page&content-id=" + id + str,
             width: mw.quick.w,
-            height: mw.quick.h,
+            height: 'auto',
+            autoHeight:true,
             name: 'quick_page',
+            id: 'quick_page',
             overlay: true,
-            title: actionType + ' ' + actionOf
+            title: actionType + ' ' + actionOf,
+            scrollMode: 'window'
         });
         $(modal.main).addClass('mw-add-content-modal');
-        modal.overlay.style.backgroundColor = "white";
     },
     page_2: function() {
-        var modal = mw.tools.modal.frame({
+        var modal = mw.dialogIframe({
             url: mw.settings.api_url + "module/?type=content/quick_add&live_edit=true&id=mw-new-content-add-ifame",
             width: mw.quick.w,
-            height: mw.quick.h,
+            height: 'auto',
             name: 'quick_page',
             overlay: true,
-            title: 'New Page'
+            title: 'New Page',
+            scrollMode: 'window'
         });
         $(modal.main).addClass('mw-add-content-modal');
-        modal.overlay.style.backgroundColor = "white";
     },
     post: function() {
-        var modal = mw.tools.modal.frame({
+        var modal = mw.dialogIframe({
             url: mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=false&id=mw-quick-post&subtype=post&parent-page-id=" + mw.settings.page_id + "&parent-category-id=" + mw.settings.category_id,
             width: mw.quick.w,
-            height: mw.quick.h,
+            height: 'auto',
+            autoHeight:true,
             name: 'quick_post',
             overlay: true,
             title: 'New Post'
         });
         $(modal.main).addClass('mw-add-content-modal');
-        modal.overlay.style.backgroundColor = "white";
     },
     product: function() {
-        var modal = mw.tools.modal.frame({
+        var modal = mw.dialogIframe({
             url: mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=false&id=mw-quick-product&subtype=product&parent-page-id=" + mw.settings.page_id + "&parent-category-id=" + mw.settings.category_id,
             width: mw.quick.w,
-            height: mw.quick.h,
+            height: 'auto',
+            autoHeight:true,
             name: 'quick_product',
             overlay: true,
             title: 'New Product'
         });
         $(modal.main).addClass('mw-add-content-modal');
-        modal.overlay.style.backgroundColor = "white";
     }
 }
 

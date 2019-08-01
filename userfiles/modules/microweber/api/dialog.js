@@ -13,7 +13,7 @@ mw.dialogIframe = function(options){
         attr += ' scrolling="no"';
         options.height = 'auto';
     }
-    options.content = '<iframe src="'+options.url.trim()+'" ' + attr + '><iframe>';
+    options.content = '<iframe src="'+mw.external_tool(options.url.trim())+'" ' + attr + '><iframe>';
     options.className = ('mw-dialog-iframe mw-dialog-iframe-loading ' + (options.className || '')).trim();
     options.className += (options.autoHeight ? ' mw-dialog-iframe-autoheight' : '');
     var dialog = new mw.Dialog(options);
@@ -34,7 +34,17 @@ mw.dialogIframe = function(options){
                 });
                 dialog.dialogMain.classList.remove('mw-dialog-iframe-loading');
                 frame.contentWindow.thismodal = dialog;
+                mw.tools.iframeAutoHeight(frame, 'now');
             }, 78);
+            if(mw.tools.canAccessIFrame(frame)) {
+               $(frame.contentWindow.document).on('keydown', function (e) {
+                    if(mw.event.is.escape(e) && !mw.event.targetIsField(e)){
+                        if(dialog.options.closeOnEscape){
+                            dialog.remove();
+                        }
+                    }
+               })
+            }
         });
     }, 12);
     return dialog

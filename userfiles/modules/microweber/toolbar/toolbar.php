@@ -310,11 +310,13 @@ if (isset($_COOKIE['mw_exp'])) {
                         all.each(function () {
                             var src = $(this).dataset("src");
                             if (src) {
-                                $(this).on("load", function () {
+                                $(this).on("load error", function () {
                                     settingsLoaded++;
-                                    if (settingsLoaded == all.length) {
+                                    if (settingsLoaded === all.length) {
                                         $("#live_edit_side_holder .module").removeClass("module")
-                                        mw.trigger('liveEditSettingsReady')
+                                        setTimeout(function(){
+                                            mw.trigger('liveEditSettingsReady')
+                                        }, 300)
 
                                     }
                                 });
@@ -324,9 +326,11 @@ if (isset($_COOKIE['mw_exp'])) {
                                 mw.tools.addClass(this, 'module');
                                 mw.reload_module(this, function () {
                                     settingsLoaded++;
-                                    if (settingsLoaded == all.length) {
+                                    if (settingsLoaded === all.length) {
                                         $("#live_edit_side_holder .module").removeClass("module")
-                                        mw.trigger('liveEditSettingsReady');
+                                        setTimeout(function(){
+                                            mw.trigger('liveEditSettingsReady')
+                                        }, 300)
                                     }
                                 })
                             }

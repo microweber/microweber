@@ -228,7 +228,7 @@ if (!empty($recomended_layouts)) {
             var iframe = mwd.querySelector('.preview_frame_wrapper iframe');
             if (!iframe) return;
             $(iframe).css({
-                height: 1 * ($(window).height() - 66)
+                height: 1 * ($(top).height() - 66)
             })
             var framewindow = iframe.contentWindow;
             //iframe.style.height = framewindow.document.body.clientHeight + 'px';
@@ -430,8 +430,8 @@ if (!empty($recomended_layouts)) {
 
                 //mw.templatePreview<?php print $rand; ?>.view();
                 //  mw.reload_module('<?php print $params['type']?>', function () {
-//                
-//				
+//
+//
 //            });
             }
             //mw.trigger('templateChanged');

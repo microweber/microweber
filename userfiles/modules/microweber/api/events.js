@@ -336,22 +336,22 @@ $(window).on("hashchange load", function(event){
 
 
 mw.event = {
-  windowLeave: function(c) {
+    windowLeave: function(c) {
       document.documentElement.addEventListener('mouseout', function(e) {
           if (!e.relatedTarget && !e.toElement && c) {
               c.call(document.body, e);
           }
       });
-  },
-  cancel:function(e, prevent){
+    },
+    cancel:function(e, prevent){
     prevent === true ? e.preventDefault() : '';
     e.cancelBubble = true;
     if (e.stopPropagation) e.stopPropagation();
-  },
-  key:function(e,key){
+    },
+    key:function(e,key){
     return (e.keyCode === parseFloat(key));
-  },
-  page: function (e) {
+    },
+    page: function (e) {
       e = e.originalEvent || e;
       if (e.type.indexOf('touch') !== 0) {
         return {
@@ -364,8 +364,15 @@ mw.event = {
               y: e.changedTouches[0].pageY
           };
       }
-  },
-  is: {
+    },
+    targetIsField: function(e) {
+        e = e.originalEvent || e;
+        var t = e.target;
+        return t.nodeName === 'INPUT' ||
+            t.nodeName === 'textarea' ||
+            t.nodeName === 'select';
+    },
+    is: {
       enter: function (e) {
         e = e.originalEvent || e;
         return e.key === "Enter" || e.keyCode === 13;
@@ -374,7 +381,7 @@ mw.event = {
           e = e.originalEvent || e;
           return e.key === "Escape" || e.keyCode === 27;
       }
-  }
+    }
 };
 
 
