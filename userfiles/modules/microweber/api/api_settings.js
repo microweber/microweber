@@ -158,6 +158,12 @@ mw.settings.libs = {
 
         }
     ],
+    chosen: [
+        function () {
+            mw.require(mw.settings.libs_url + 'chosen' + '/chosen.jquery.min.js');
+            mw.require(mw.settings.libs_url + 'chosen' + '/chosen.min.css');
+        }
+    ],
     validation: [
         function () {
             mw.require(mw.settings.libs_url + 'jquery_validation' + '/js/jquery.validationEngine.js');
