@@ -66,8 +66,8 @@
             if ($mod_action == 'integrations') {
             	$load_list = false;
             }
-            ?>
-
+            ?> 
+ 
             <div>
 
            <!--
