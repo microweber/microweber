@@ -32,7 +32,7 @@
     </div>
 </div>
 
-
+xxxxxxxxxxxxxxxxxxxxxxx
 <div class="custom-field-settings-values">
 
     <label class="mw-ui-label">Values</label>
@@ -44,16 +44,16 @@
                     $v = implode(',', $v);
                 } ?>
                 <div class="mw-custom-field-form-controls">
-                    <input type="text" class="mw-ui-field mw-full-width" name="value[]" value="<?php print $v; ?>">
+                    <input type="text" class="mw-ui-field <?php if(empty($add_remove_controls)):?>mw-full-width<?php endif; ?>" name="value[]" value="<?php print $v; ?>">
                     <?php print $add_remove_controls; ?> </div>
             <?php endforeach; ?>
         <?php else: ?>
             <div class="mw-custom-field-form-controls">
-                <input type="text" name="value[]" class="mw-ui-field mw-full-width" value=""/>
+                <input type="text" name="value[]" class="mw-ui-field <?php if(empty($add_remove_controls)):?>mw-full-width<?php endif; ?>" value=""/>
                 <?php print $add_remove_controls; ?> </div>
         <?php endif; ?>
         <script type="text/javascript">
-            mw.custom_fields.sort("fields<?php print $rand; ?>");
+            mw.custom_fields.sort("fields<?php print $rand; ?>"); 
         </script>
     </div>
     <?php print $savebtn; ?>
