@@ -32,7 +32,6 @@
     </div>
 </div>
 
-xxxxxxxxxxxxxxxxxxxxxxx
 <div class="custom-field-settings-values">
 
     <label class="mw-ui-label">Values</label>
