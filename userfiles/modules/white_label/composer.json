@@ -1,0 +1,11 @@
+{
+  "name": "mw-internal/white_label",
+  "description": "White Label",
+  "license": "Commercial",
+  "keywords": [
+    "white label"
+  ],
+  "homepage": "https://microweber.com/microweber-white-label-licence-module",
+  "type": "microweber-module",
+  "target-dir": "white_label"
+}
