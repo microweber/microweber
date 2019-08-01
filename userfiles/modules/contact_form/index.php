@@ -2,9 +2,7 @@
 <script  type="text/javascript">
 	mw.require("forms.js", true);
 </script>
-
-<script  type="text/javascript">
-
+<script type="text/javascript">
 if(typeof  processContactForm !== 'object'){
 
     processContactForm = {
@@ -95,26 +93,13 @@ if(typeof  processContactForm !== 'object'){
             }
        }
     }
-
-
-
-} 
-
+}
 
 $(document).ready(function(){
-
 	mw.$('form[data-form-id="<?php print $form_id ?>"]','#<?php print $params['id'] ?>').append('<input type="hidden" name="module_name"  value="<?php print $params['module']; ?>" />');
-
 	mw.$('form[data-form-id="<?php print $form_id ?>"]','#<?php print $params['id'] ?>').submit(function() {
-
-
 		processContactForm.send('form[data-form-id="<?php print $form_id ?>"]', "#msg<?php print $form_id; ?>");
-		
 		mw.$('input[type="submit"]','form[data-form-id="<?php print $form_id ?>"]').removeAttr('disabled');
-
-
-
-
     	return false;
     });
 });

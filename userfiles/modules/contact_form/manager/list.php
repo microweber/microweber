@@ -32,6 +32,7 @@
 
     .js-limited.more {
         white-space: inherit;
+		word-wrap: break-word;
     }
 
     .js-toggle-full {
@@ -104,6 +105,8 @@ if ((url_param('current_page') != false)) {
 if ($data['limit'] == false) {
 	$data['limit'] = 10;
 }
+
+$limit_per_page = $data['limit'];
 
 $custom_fields = array();
 $data = get_form_entires($data);
@@ -192,7 +195,7 @@ if (is_array($data)) {
                                 //                                }
                                 ?>
 
-                                <?php if (mb_strlen($values_plain) > 90): ?>
+                                <?php if (mb_strlen($values_plain) > 70): ?>
                                     <div class="js-limited">
                                         <?php print $values_plain; ?>
                                         <br/>
@@ -240,6 +243,7 @@ if ($load_list == 1) {
   <?php endif; ?>
  </div>
 
+<?php if(count($data) > $limit_per_page): ?>
 <?php if (is_array($data)) : ?>
 	 <div class="mw-ui-col text-center" style="width: 70%">
     <div class="mw-paging mw-paging- mw-paging- inline-block">
@@ -268,17 +272,13 @@ if ($load_list == 1) {
         <strong><?php print _e('Total'); ?>:</strong>
         <span><?php echo count($data); ?> messages in this list</span>
     </div>
-    
-    
   </div>
 <?php endif; ?>
-
+<?php endif; ?>
 
 </div>
 
 <?php
-
-
 /*<div id="start-email-campaign"> <a class="mw-ui-btn pull-right" href="javascript:;" onclick="Alert('<?php _e("Coming Soon"); ?>!');" >
   <?php _e("Start an Email Campaign"); ?>
   </a> <span class="pull-right" style="margin: 9px 20px 0 0;">

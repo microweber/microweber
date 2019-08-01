@@ -33,11 +33,13 @@ if (isset($data['options']['multiple'])) {
 }
 ?>
 
-<?php if ($multiple): ?> 
+<?php if ($multiple): ?>
 <script type="text/javascript">
 mw.lib.require('chosen');
+</script>
+<script type="text/javascript">
 $(document).ready(function () {
-	 $(".js-mw-select-<?php echo $data['id']; ?>").chosen({width:'100%'}); 
+	$(".js-mw-select-<?php echo $data['id']; ?>").chosen({width:'100%'}); 
 });
 </script>
 <?php endif; ?>
