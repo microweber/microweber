@@ -64,11 +64,11 @@ class Http
     public function get($params = false)
     {
         $http_cache_id = 'http_cache'.crc32(json_encode($params));
-    	$check_cache = cache_get($this->url, $http_cache_id);
+    	$check_cache = cache_get($http_cache_id, 'http_cache');
     	
     	if (!$check_cache) {
 	        $get = $this->adapter->get($params);
-	        cache_save($get, $this->url, $http_cache_id, $this->cache);
+	        cache_save($get, $http_cache_id, 'http_cache', $this->cache);
 	        return $get;
     	}
     	
