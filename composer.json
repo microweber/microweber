@@ -60,9 +60,9 @@
     "microweber-deps/laravel-tagging": "~2.2",
     "oyejorge/less.php": "1.*",
     "aws/aws-sdk-php": "^3.0",
-    "mailerlite/mailerlite-api-v2-php-sdk": "dev-master",
-    "finlet/flexmail": "dev-master",
-    "phpoffice/phpspreadsheet": "dev-master"
+    "mailerlite/mailerlite-api-v2-php-sdk": "*",
+    "finlet/flexmail": "*",
+    "phpoffice/phpspreadsheet": "*"
   },
   "require-dev": {
       "fzaninotto/faker": "^1.9"
