@@ -58,7 +58,7 @@ mw.backup_import = {
 			if (jsonData.done) {
 				mw.backup_import.get_progress(100);
 				mw.backup_import.get_log_check('stop');
-				$('#mw_backup_import_modal').find('.backup-import-modal-log').before('<br /><h1>All data is imported success!</h1>');
+				$('#mw_backup_import_modal').find('.backup-import-modal-log').before('<br /><h1>All data is imported successfully!</h1>');
 				return; 
 			} else {
 				mw.backup_import.get_progress(jsonData.precentage);
