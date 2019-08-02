@@ -380,77 +380,6 @@ top.$(top.mw.liveEditSelector).on('select', function(e, nodes){
 </style>
 <div id="css-editor-root">
 
-<div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
-    <div class="mw-ui-box-header mw-accordion-title">Size</div>
-    <div class="mw-accordion-content mw-ui-box-content">
-        <div class="mw-esr">
-            <div class="mw-esc">
-                <label>Width</label>
-                <div class="mw-multiple-fields">
-                    <div class="mw-field unit" data-prop="width" data-size="medium"><input type="text"></div>
-                </div>
-            </div>
-            <div class="mw-esc">
-                <label>Height</label>
-                <div class="mw-multiple-fields">
-                    <div class="mw-field unit" data-prop="height" data-size="medium"><input type="text"></div>
-                </div>
-            </div>
-        </div>
-        <div class="mw-esr">
-            <div class="mw-esc">
-                <label>Min Width</label>
-                <div class="mw-multiple-fields">
-                    <div class="mw-field unit" data-prop="minWidth" data-size="medium"><input type="text"></div>
-                </div>
-            </div>
-            <div class="mw-esc">
-                <label>Min Height</label>
-                <div class="mw-multiple-fields">
-                    <div class="mw-field unit" data-prop="minHeight" data-size="medium"><input type="text"></div>
-                </div>
-            </div>
-
-        </div>
-        <div class="mw-esr">
-            <div class="mw-esc">
-                <label>Max Width</label>
-                <div class="mw-multiple-fields">
-                    <div class="mw-field unit" data-prop="maxWidth" data-size="medium"><input type="text"></div>
-                </div>
-            </div>
-            <div class="mw-esc">
-                <label>Max Height</label>
-                <div class="mw-multiple-fields">
-                    <div class="mw-field unit" data-prop="maxHeight" data-size="medium"><input type="text"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
-    <div class="mw-ui-box-header mw-accordion-title">Spacing</div>
-    <div class="mw-accordion-content mw-ui-box-content">
-        <div class="mw-element-spacing-editor">
-            <span class="mw-ese-label">Margin</span>
-            <div class="mw-ese-holder mw-ese-margin">
-                <input class="mw-ese-top margin-top">
-                <input class="mw-ese-right margin-right">
-                <input class="mw-ese-bottom margin-bottom">
-                <input class="mw-ese-left margin-left">
-                <div class="mw-ese-holder mw-ese-padding">
-                    <input class="mw-ese-top padding-top">
-                    <input class="mw-ese-right padding-right">
-                    <input class="mw-ese-bottom padding-bottom">
-                    <input class="mw-ese-left padding-left">
-                    <span class="mw-ese-label">Padding</span>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
 
 <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
     <div class="mw-ui-box-header mw-accordion-title">Typography</div>
@@ -625,6 +554,81 @@ top.$(top.mw.liveEditSelector).on('select', function(e, nodes){
         </div>
     </div>
 </div>
+
+
+
+    <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
+        <div class="mw-ui-box-header mw-accordion-title">Size</div>
+        <div class="mw-accordion-content mw-ui-box-content">
+            <div class="mw-esr">
+                <div class="mw-esc">
+                    <label>Width</label>
+                    <div class="mw-multiple-fields">
+                        <div class="mw-field unit" data-prop="width" data-size="medium"><input type="text"></div>
+                    </div>
+                </div>
+                <div class="mw-esc">
+                    <label>Height</label>
+                    <div class="mw-multiple-fields">
+                        <div class="mw-field unit" data-prop="height" data-size="medium"><input type="text"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="mw-esr">
+                <div class="mw-esc">
+                    <label>Min Width</label>
+                    <div class="mw-multiple-fields">
+                        <div class="mw-field unit" data-prop="minWidth" data-size="medium"><input type="text"></div>
+                    </div>
+                </div>
+                <div class="mw-esc">
+                    <label>Min Height</label>
+                    <div class="mw-multiple-fields">
+                        <div class="mw-field unit" data-prop="minHeight" data-size="medium"><input type="text"></div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="mw-esr">
+                <div class="mw-esc">
+                    <label>Max Width</label>
+                    <div class="mw-multiple-fields">
+                        <div class="mw-field unit" data-prop="maxWidth" data-size="medium"><input type="text"></div>
+                    </div>
+                </div>
+                <div class="mw-esc">
+                    <label>Max Height</label>
+                    <div class="mw-multiple-fields">
+                        <div class="mw-field unit" data-prop="maxHeight" data-size="medium"><input type="text"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
+        <div class="mw-ui-box-header mw-accordion-title">Spacing</div>
+        <div class="mw-accordion-content mw-ui-box-content">
+            <div class="mw-element-spacing-editor">
+                <span class="mw-ese-label">Margin</span>
+                <div class="mw-ese-holder mw-ese-margin">
+                    <input class="mw-ese-top margin-top">
+                    <input class="mw-ese-right margin-right">
+                    <input class="mw-ese-bottom margin-bottom">
+                    <input class="mw-ese-left margin-left">
+                    <div class="mw-ese-holder mw-ese-padding">
+                        <input class="mw-ese-top padding-top">
+                        <input class="mw-ese-right padding-right">
+                        <input class="mw-ese-bottom padding-bottom">
+                        <input class="mw-ese-left padding-left">
+                        <span class="mw-ese-label">Padding</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 
 <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
     <div class="mw-ui-box-header mw-accordion-title">Border</div>
