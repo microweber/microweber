@@ -16,6 +16,9 @@ class Http
      * @var
      */
     public $app;
+    
+    public $url = false;
+    public $cache = false;
 
     public function __construct($app = null)
     {
@@ -39,7 +42,8 @@ class Http
     public function set_url($url)
     {
         $this->adapter->url = $url;
-
+		$this->url = $url;
+		
         return $this;
     }
 
@@ -49,10 +53,26 @@ class Http
 
         return $this;
     }
+    
+    public function set_cache($seconds = 1800) {
+    	
+    	$this->cache = $seconds;
+    	
+    	return $this;
+    }
 
     public function get($params = false)
     {
-        return $this->adapter->get($params);
+    	$check_cache = cache_get($this->url, 'http_cache');
+    	
+    	if (!$check_cache) {
+	        $get = $this->adapter->get($params);
+	        cache_save($get, $this->url, 'http_cache', $this->cache);
+	        return $get;
+    	}
+    	
+    	return $check_cache;
+    	
     }
 
     public function post($params = false)
