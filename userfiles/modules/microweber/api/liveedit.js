@@ -553,7 +553,8 @@ mw.drag = {
                 target: $t[0],
                 value: $t[0].innerHTML
             });
-          mw.wysiwyg.change(mw.drag._onCloneableControl.__target)
+          mw.wysiwyg.change(mw.drag._onCloneableControl.__target);
+          mw.drag.onCloneableControl('hide');
         });
         $('.mw-cloneable-control-minus', this._onCloneableControl).on('click', function(){
             var $t = $(mw.drag._onCloneableControl.__target).parent();
@@ -569,6 +570,7 @@ mw.drag = {
                   value: $t[0].innerHTML
               });
           });
+            mw.drag.onCloneableControl('hide');
         });
         $('.mw-cloneable-control-next', this._onCloneableControl).on('click', function(){
             var $t = $(mw.drag._onCloneableControl.__target).parent();
@@ -581,7 +583,8 @@ mw.drag = {
                 target: $t[0],
                 value: $t[0].innerHTML
             });
-           mw.wysiwyg.change(mw.drag._onCloneableControl.__target)
+           mw.wysiwyg.change(mw.drag._onCloneableControl.__target);
+            mw.drag.onCloneableControl('hide');
         });
         $('.mw-cloneable-control-prev', this._onCloneableControl).on('click', function(){
             var $t = $(mw.drag._onCloneableControl.__target).parent();
@@ -594,7 +597,8 @@ mw.drag = {
                 target: $t[0],
                 value: $t[0].innerHTML
             });
-           mw.wysiwyg.change(mw.drag._onCloneableControl.__target)
+           mw.wysiwyg.change(mw.drag._onCloneableControl.__target);
+            mw.drag.onCloneableControl('hide');
         });
       }
       var clc = $(this._onCloneableControl);

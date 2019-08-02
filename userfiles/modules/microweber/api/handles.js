@@ -606,32 +606,16 @@ mw._initHandles = {
                     }
                 }
             }
-            var order;
-            if(mw.tools.hasClass(element, 'module')){
-                order = mw.tools.parentsOrder(element, ['edit', 'module']);
-            }
-            else {
-                order = mw.tools.parentsAndCurrentOrder(element, ['edit', 'module']);
-            }
-            if (
-                !mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(element, ['allow-drop', 'nodrop'])
-                && (order.edit === -1 || (order.edit > order.module && order.module>-1))) {
 
+            var canDrag = mw.tools.parentsOrCurrentOrderMatch(element, ['edit', 'module'])
+                && mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(element, ['allow-drop', 'nodrop']);
+
+            if(canDrag){
+                $(mw.handleModule.wrapper).removeClass('mw-handle-no-drag');
             } else {
-                mw.$(".mw_edit_delete, #mw_handle_module .mw-sorthandle-moveit, .column_separator_title").show();
-
-                if (order.edit === -1 || (order.module > -1 && order.edit > order.module)) {
-                    $(mw.handleModule.wrapper).addClass('mw-handle-no-drag');
-                } else {
-                    $(mw.handleModule.wrapper).removeClass('mw-handle-no-drag');
-                }
+                $(mw.handleModule.wrapper).addClass('mw-handle-no-drag');
             }
 
-
-            /*************************************/
-
-
-            // el = $(element);
             var title = el.dataset("mw-title");
             var id = el.attr("id");
             var module_type = (el.dataset("type") || el.attr("type")).trim();
@@ -646,11 +630,11 @@ mw._initHandles = {
 
             var mod_icon = mw.live_edit.getModuleIcon(module_type);
             var mod_handle_title = (title ? title : mw.msg.settings);
-            if(module_type =='layouts'){
+            if(module_type === 'layouts'){
                 mod_handle_title = '';
             }
 
-            mw.handleModule.setTitle(mod_icon, mod_handle_title)
+            mw.handleModule.setTitle(mod_icon, mod_handle_title);
             if(!mw.handleModule){
                 return;
             }
