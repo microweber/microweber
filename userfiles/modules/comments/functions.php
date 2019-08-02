@@ -144,6 +144,20 @@ event_bind(
 
 
 event_bind(
+	'module.comments.item.before', function ($item) {
+	
+		$commentSessionId = false;
+		if (isset($item['session_id'])) {
+			$commentSessionId = $item['session_id'];
+		}
+		
+		if (mw()->user_manager->session_id() == $commentSessionId) {
+			echo '<module type="comments/manage_user" no_post_head="true" content_id="' . $item['id'] . '"  />';
+		}
+	}
+);
+
+event_bind(
     'mw.admin.dashboard.links', function () {
 
     $admin_dashboard_btn = array();
