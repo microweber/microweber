@@ -44,6 +44,14 @@ class FormsManager
             $params['search_in_fields'] = array('id', 'created_at', 'created_by', 'rel_type', 'user_ip', 'module_name', 'form_values', 'url');
         }
 
+        $is_single = false;
+        
+        if (isset($params['single']) and $params['single']) {
+        	$is_single = true;
+        	unset($params['single']);
+        	
+        }
+        
         $data = $this->app->database_manager->get($params);
 
         $ret = array();
@@ -62,9 +70,12 @@ class FormsManager
                     }
                 }
 
+                if($is_single){
+                	return $item;
+                }
                 $ret[] = $item;
             }
-
+            
             return $ret;
         } else {
             return $data;
@@ -415,8 +426,8 @@ class FormsManager
 
             $notif = array();
             $notif['module'] = $params['module_name'];
-            $notif['rel_type'] = 'forms_lists';
-            $notif['rel_id'] = $list_id;
+            $notif['rel_type'] = 'forms_data'; 
+            $notif['rel_id'] = $save;
             $notif['title'] = 'New form entry';
             $notif['description'] = $email_notification_subject ?: 'You have new form entry';
             $notif['content'] = 'You have new form entry from ' . $this->app->url_manager->current(1) . '<br />' . $this->app->format->array_to_ul($pp_arr);

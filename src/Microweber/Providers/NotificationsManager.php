@@ -42,8 +42,8 @@ class NotificationsManager
         $params['one'] = true;
 
         $get = $this->get($params);
-
-        if ($get != false and isset($get['is_read']) and $get['is_read'] == 0) {
+		
+        if ($get) {
             $save = array();
             $save['id'] = $get['id'];
             $save['is_read'] = 1;
@@ -56,6 +56,18 @@ class NotificationsManager
         return $get;
     }
 
+    public function read_selected($params) {
+    	
+    	$ids = explode(',', $params['ids']);
+    	
+    	if (!empty($ids)) {
+    		foreach ($ids as $id) {
+    			$this->read($id);
+    		}
+    	}
+    	
+    }
+    
     public function mark_as_read($module)
     {
         if (($module) != false and $module != '') {
@@ -84,7 +96,42 @@ class NotificationsManager
             return $data;
         }
     }
+    
+    public function reset($id = false)
+    {
+    	if ($id) {
+    		$data = $this->get('is_read=1&no_cache=true&id=' . $id);
+    	} else {
+    		$data = $this->get('is_read=1&no_cache=true');
+    	}
+    	
+    	if (is_array($data)) {
+			foreach ($data as $value) {
+				$save = array();
+				$save['is_read'] = 0;
+				$save['id'] = $value['id'];
+				$save['table'] = 'notifications';
+				$this->app->database_manager->save('notifications', $save);
+    		}
+    	}
+    		
+    	$this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
+    	$this->app->cache_manager->delete('notifications');
+    		
+    	return $data;
+    }
 
+    public function reset_selected($params) {
+    	
+    	$ids = explode(',', $params['ids']);
+    	
+    	if (!empty($ids)) {
+    		foreach ($ids as $id) {
+    			$this->reset($id);
+    		}
+    	}
+    	
+    }
 
     public function get_unread_count()
     {
@@ -125,6 +172,7 @@ class NotificationsManager
 
     public function delete($id)
     {
+    	
         $is_admin = $this->app->user_manager->is_admin();
         if (defined('MW_API_CALL') and $is_admin == false) {
             return array('error' => 'You must be logged in as admin to perform: ' . __CLASS__ . '->' . __FUNCTION__);
@@ -141,10 +189,21 @@ class NotificationsManager
         }
 
         $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . intval($id));
-
         $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
         return true;
+    }
+    
+    public function delete_selected($params) {
+    	
+    	$ids = explode(',', $params['ids']);
+    	
+    	if (!empty($ids)) {
+    		foreach ($ids as $id) {
+    			$this->delete($id);
+    		}
+    	}
+    	
     }
 
     public function delete_for_module($module)

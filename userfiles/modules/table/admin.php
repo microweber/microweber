@@ -3,21 +3,35 @@
 	Build html tables by Ezyweb.uk v1.0 14/09/2018
 
 	Future enharnsements:
-	1) add context sensitive menu to insert, mover, or delete cells, rows, and columns
-	2) add cell styling using cell classes
-	3) add template using jexcel.js https://bossanova.uk/jexcel
-	4) add template using bootgrid
-	5) add import csv option
-	6) add template to re-orientate on smaller screens https://codepen.io/AllThingsSmitty/pen/MyqmdM
+	1) add method to move position of rows and columns
+	2) add support for colspan
+	3) add cell styling
+	4) add template using jexcel.js https://bossanova.uk/jexcel
+	5) add template using bootgrid
+	6) add import csv option
+	7) add template to re-orientate on smaller screens https://codepen.io/AllThingsSmitty/pen/MyqmdM
+	8) add auto-save cell contents onblur
+	9) change to on-page editing?
+
+	Changes:
+	i) context sensitive menu added to insert and delete rows, and columns
+	ii) html now saved as html instead of json format
+
 */
 ?>
 <?php
 
 only_admin_access();
 
-$settings = get_option('settings', $params['id']);
+$tablehtml = get_option('table_html', $params['id']);
+$tablehtml = preg_replace("/\r|\n/", "", $tablehtml);
+$tablehtml = str_replace('id="' . $params['id'] . '"','id="htmltable"',$tablehtml);
 
+
+// Depricated - start
+$settings = get_option('settings', $params['id']);
 $json = ($settings ? $settings : '');
+// Depricated - end
 ?>
 
 <style>
@@ -32,59 +46,80 @@ $json = ($settings ? $settings : '');
         margin-top: 10px;
     }
 
-    table {
+    #modtable table {
         border-collapse: collapse;
     }
 
-    th {
-        height: 10px;
+    #modtable th {
+        height: 30px;
         border: 1px solid #cacaca;
         background: rgb(231, 235, 245);
         padding: 4px;
     }
 
-    td {
+    #modtable td {
+        height: 30px;
         border: 1px solid #cacaca;
         text-align: left;
-        height: 10px;
         padding: 4px;
     }
 
-    tr:nth-child(even) {
+    #modtable tr:nth-child(even) {
         background-color: #fafafa;
-        height: 10px;
+        min-height: 10px;
     }
 
-    .tab {
+    #modtable .tab {
         display: none;
     }
 </style>
 
 <script>
-    function appendRow() {
+	mw.lib.require('font_awesome5');
+	mw.require("<?php echo $config['url_to_module'];?>contextMenu/jquery.contextMenu.min.js");
+	mw.require("<?php echo $config['url_to_module'];?>contextMenu/jquery.contextMenu.min.css");
+	mw.require("<?php echo $config['url_to_module'];?>contextMenu/font/context-menu-icons.eot");
+
+
+// -- Depricated start --
+
+    function insertRow() {
         var tbl = document.getElementById('htmltable');
         var nrows = tbl.rows.length,
             row = tbl.insertRow(nrows),
             i;
         for (i = 0; i < tbl.rows[0].cells.length; i++) {
             var cellRef = 'r' + (nrows) + 'c' + (i + 1);
-            createCell(row.insertCell(i), '', 'row ' + cellRef);
+            createCell(row.insertCell(i), '');
+            //createCell(row.insertCell(i), '', 'row ' + cellRef);
         }
     }
 
-    function createHeaderCell(row, text, style) {
+    function appendRow() {
+        var tbl = document.getElementById('htmltable');
+        var nrows = tbl.rows.length,
+            row = tbl.insertRow(nrows),
+            i;
+        for (i = 0; i < tbl.rows[0].cells.length; i++) {
+            //var cellRef = 'r' + (nrows) + 'c' + (i + 1);
+            //createCell(row.insertCell(i), '', 'row ' + cellRef);
+            createCell(row.insertCell(i), '');
+        }
+    }
+
+    function createHeaderCell(row, text) {
         var headerCell = document.createElement("th");
         headerCell.innerHTML = text;
-        headerCell.setAttribute('class', style);
-        headerCell.setAttribute('className', style);
+        //headerCell.setAttribute('class', style);
+        //headerCell.setAttribute('className', style);
         headerCell.setAttribute('contenteditable', true);
         row.appendChild(headerCell);
     }
 
-    function createCell(cell, text, style) {
+    function createCell(cell, text) {
         var txt = document.createTextNode(text);
-        cell.setAttribute('class', style);
-        cell.setAttribute('className', style);    // set className attribute for IE (?!)
+        //cell.setAttribute('class', style);
+        //cell.setAttribute('className', style);    // set className attribute for IE (?!)
         cell.setAttribute('contenteditable', true);
         cell.appendChild(txt);
     }
@@ -96,12 +131,14 @@ $json = ($settings ? $settings : '');
         for (i = 0; i < tbl.rows.length; i++) {
             var ncols = tbl.rows[i].cells.length;
             if (i == 0) {
-                var cellRef = 'mw-table-h' + (ncols + 1);
+                //var cellRef = 'mw-table-h' + (ncols + 1);
                 var text = 'Header ' + (ncols + 1);
-                createHeaderCell(tbl.rows[i], text, 'th ' + cellRef);
+                createHeaderCell(tbl.rows[i], text);
+                //createHeaderCell(tbl.rows[i], text, 'th ' + cellRef);
             } else {
-                var cellRef = 'r' + (i) + 'c' + (ncols + 1);
-                createCell(tbl.rows[i].insertCell(ncols), '', 'col ' + cellRef);
+                //var cellRef = 'r' + (i) + 'c' + (ncols + 1);
+                createCell(tbl.rows[i].insertCell(ncols), '');
+                //createCell(tbl.rows[i].insertCell(ncols), '', 'col ' + cellRef);
             }
         }
     }
@@ -196,12 +233,12 @@ $json = ($settings ? $settings : '');
             var row$ = $('<tr/>');
             for (var colIndex = 0; colIndex < columns.length; colIndex++) {
                 var cellValue = jdata[i][columns[colIndex]];
-                var tdClass = "col r" + i + "c" + colIndex;
                 if (cellValue == null) {
                     cellValue = "";
                 }
-                var td = $('<td/>').html(cellValue).addClass(tdClass).attr('contenteditable', 'true');
-
+                //var tdClass = "col r" + i + "c" + colIndex;
+                //var td = $('<td/>').html(cellValue).addClass(tdClass).attr('contenteditable', 'true');
+				var td = $('<td/>').html(cellValue).attr('contenteditable', 'true');
                 row$.append(td);
             }
             tbody.append(row$);
@@ -234,6 +271,76 @@ $json = ($settings ? $settings : '');
         return columnSet;
     }
 
+// -- Depricated end --
+
+
+	$(function() {
+		$("#htmltable").contextMenu({
+			selector: 'td',
+			callback: function(key, options) {
+				switch (key){
+				  case 'insert_row_above':
+				  case 'insert_row_below':
+					var thisRow = $(this).parent();
+					var nCols = thisRow.children().length;
+					var newRow = '<tr>';
+					for(i = 1; i <= nCols; i++) {
+						newRow = newRow + '<td contenteditable="true"></td>';
+					}
+					newRow = newRow + '</tr>';
+					var i = thisRow.index();
+					if(key=='insert_row_above'){
+						$('#htmltable > tbody > tr').eq(i).before(newRow);
+					} else if(key=='insert_row_below') {
+						$('#htmltable > tbody > tr').eq(i).after(newRow);
+					}
+					break;
+				  case 'insert_column_before':
+				  case 'insert_column_after':
+    				var i = $(this).index();
+					$('#htmltable > thead').find('tr').each(function(){
+						var html = '<th contenteditable="true"></th>';
+						if(key=='insert_column_before'){
+						  	$(this).find('th').eq(i).before(html);
+						} else if(key=='insert_column_after') {
+							$(this).find('th').eq(i).after(html);
+						}
+					});
+					$('#htmltable > tbody').find('tr').each(function(){
+						var html = '<td contenteditable="true"></td>';
+						if(key=='insert_column_before'){
+							$(this).find('td').eq(i).before(html);
+						} else if(key=='insert_column_after') {
+							$(this).find('td').eq(i).after(html);
+						}
+					});
+				    break;
+				  case 'delete_row':
+				    $(this).parent().remove();
+				    break;
+				  case 'delete_column':
+				    var i = $(this).index();
+					$('#htmltable > thead').find('tr').each(function(){
+						$(this).find('th').eq(i).remove();
+					});
+					$('#htmltable > tbody').find('tr').each(function(){
+						$(this).find('td').eq(i).remove();
+					});
+				    break;
+				}
+			},
+			items: {
+				"insert_row_above": {name: "Insert row above", icon: "edit"},
+				"insert_row_below": {name: "Insert row below", icon: "edit"},
+				"insert_column_before": {name: "Insert column before", icon: "edit"},
+				"insert_column_after": {name: "Insert column after", icon: "edit"},
+				"delete_row": {name: "Delete row", icon: "delete"},
+				"delete_column": {name: "Delete column", icon: "delete"},
+			}
+		});
+	});
+
+
     // ---- button click functions -----
 
 
@@ -254,24 +361,31 @@ $json = ($settings ? $settings : '');
 
 
     $(document).ready(function () {
+        <?php if(!empty($tablehtml)) { ?>
+            $('#htmltable th').attr('contenteditable', 'true');
+            $('#htmltable td').attr('contenteditable', 'true');
 
-        <?php if(!empty($json)) { ?>
+        <?php } elseif(!empty($json)) { ?>
+  // -- Depricated start --
         try {
             var json = <?php print $json;?>;
             var jdata = json.tabledata;
             var tableId = "htmltable";
-            $("#htmltable tbody").empty()
-            $("#htmltable thead").empty()
-            buildTable(tableId, jdata)
+            $("#htmltable tbody").empty();
+            $("#htmltable thead").empty();
+            buildTable(tableId, jdata);
         } catch (e) {
             // No data found so default table will load
         }
+  // -- Depricated end --
         <?php } ?>
 
+
         $(document).on('click', '#saveData', function (event) {
+
+  /* -- Depricated start --
             var myRows = [];
             var headersText = [];
-            //TODO: save data to settings and add general and styles keys
             var tableCss = []; // place holder
             var $headers = $("th");
             var $cells;
@@ -291,6 +405,19 @@ $json = ($settings ? $settings : '');
             };
             var json = JSON.stringify(myObj);
             mw.$('#settingsfield').val(json).trigger('change');
+  // -- Depricated end -- */
+
+			var tableclone = $("#modtable").clone();
+			tableclone.find('#htmltable').attr('id','<?php print $params['id'];?>');
+			tableclone.find('th').each(function(){
+			     $(this).removeAttr('contenteditable');
+			});
+			tableclone.find('td').each(function(){
+			     $(this).removeAttr('contenteditable');
+			});
+			var tablehtml = tableclone.html();
+
+            mw.$('#htmlfield').val(tablehtml).trigger('change');
         });
     });
 </script>
@@ -307,21 +434,29 @@ $json = ($settings ? $settings : '');
             <!-- Settings Content -->
             <div class="module-live-edit-settings module-table-settings">
 
-                <input type="hidden" class="mw_option_field" name="settings" id="settingsfield"/>
+                <!-- <input type="hidden" class="mw_option_field" name="settings" id="settingsfield"/> //-->
+
+                <input type="hidden" class="mw_option_field" name="table_html" id="htmlfield"/>
 
                 <div id="modtable">
+                    <?php
+                    if(!empty($tablehtml)) {
+						print $tablehtml;
+					} else {
+					?>
                     <table id="htmltable" align="left" cellspacing="0" celpadding="0">
                         <thead>
                         <tr>
-                            <th class="th h1" classname="th h1" contentEditable="true">Header 1</th>
+                            <th contentEditable="true">Header 1</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <td class="col r1c1" classname="col r1c1" contentEditable="true"></td>
+                            <td contentEditable="true">Cell 1</td>
                         </tr>
                         </tbody>
                     </table>
+                    <?php } ?>
                 </div>
 
                 <div class="mw-ui-row-nodrop">
@@ -336,7 +471,7 @@ $json = ($settings ? $settings : '');
                             </button>
                         </div>
                     </div>
-
+<!-- superceded by right click menu
                     <div class="mw-ui-col">
                         <div class="mw-ui-col-container">
                             <button
@@ -352,7 +487,7 @@ $json = ($settings ? $settings : '');
                             </button>
                         </div>
                     </div>
-
+//-->
                     <div class="mw-ui-col">
                         <div class="mw-ui-col-container">
                             <button class="mw-ui-link mw-color-important mw-ui-btn-small m-b-10 mw-full-width" type="button" onclick="deleteColumn('all')">

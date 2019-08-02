@@ -47,13 +47,27 @@ api_expose_admin('get_content_field');
 api_expose_admin('notifications_manager/delete', function ($data) {
     return mw()->notifications_manager->delete($data);
 });
+ 
+api_expose_admin('notifications_manager/delete_selected', function ($data) {
+	return mw()->notifications_manager->delete_selected($data);
+});
 
 api_expose_admin('notifications_manager/reset', function ($data) {
     return mw()->notifications_manager->reset($data);
 });
-api_expose_admin('notifications_manager/reset', function ($data) {
-    return mw()->notifications_manager->reset($data);
+
+api_expose_admin('notifications_manager/reset_selected', function ($data) {
+	return mw()->notifications_manager->reset_selected($data);
 });
+
+api_expose_admin('notifications_manager/read', function ($data) {
+	return mw()->notifications_manager->read($data);
+});
+
+api_expose_admin('notifications_manager/read_selected', function ($data) {
+	return mw()->notifications_manager->read_selected($data);
+});
+
 api_expose_admin('notifications_manager/mark_all_as_read', function ($data) {
     return mw()->notifications_manager->mark_all_as_read($data);
 });

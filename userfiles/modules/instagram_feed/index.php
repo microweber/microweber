@@ -21,7 +21,7 @@ if ($template != false) {
 
 }
 
-$html = mw()->http->url('https://instagram.com/' . $username . '/')->get();
+$html = mw()->http->url('https://instagram.com/' . $username . '/')->set_cache(1800)->get();
 preg_match('/_sharedData = ({.*);<\/script>/', $html, $matches);
 $profile_data = json_decode($matches[1])->entry_data->ProfilePage[0]->graphql->user;
 $profile_data = json_encode($profile_data);
