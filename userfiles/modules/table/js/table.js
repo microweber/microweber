@@ -1,3 +1,4 @@
+// -- Depricated start --
 // Build HTML Table from json data
 function buildTable(tableId, jdata) {
     var elTable = jQuery("#" + tableId);
@@ -45,3 +46,4 @@ function addColumnHeaders(elTable, jdata) {
     thead.append(headerTr$);
     return columnSet;
 }
+// -- Depricated end --
