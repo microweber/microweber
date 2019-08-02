@@ -259,6 +259,27 @@ if (get_option('enable_comments', 'comments') == 'y') {
         mw.require("tools.js", true);
         mw.require("forms.js", true);
     </script>
+    
+    <script>
+	function edit_comment_user(id = false) {
+		var data = {};
+	    data.id = id;
+		edit_list_modal = mw.tools.open_module_modal('comments/edit_comment_user', data, {height:500,overlay: true, skin: 'simple'});
+	}
+	function delete_comment_user(id) {
+		
+		$.ajax({
+			  type: "POST",
+			  url: mw.settings.api_url + 'delete_comment_user',
+			  data: "comment_id=" + id,
+			  success: function() {
+				mw.reload_module('comments');
+				mw.notification.success('Comment deleted!');
+			  }
+		});
+		
+	}
+	</script>
 
     <script type="text/javascript">
         mw.init_comment_form<?php print md5($params['id']) ?> = function () {

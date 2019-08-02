@@ -1,6 +1,9 @@
 <?php 
 $comment_id = (int) $params['id'];
 $comment = get_comments('single=1&id=' . $comment_id);
+if (empty($comment)) {
+	return;
+}
 ?>
 <script type="text/javascript">
 $(document).ready(function () {
@@ -12,9 +15,10 @@ $(document).ready(function () {
  		$.ajax({
  			  type: "POST",
  			  url: mw.settings.api_url + 'save_comment_user',
- 			  data: "comment_body="+ $('#mw-comment-edit-textarea').val(),
+ 			  data: "comment_id=<?php echo $comment_id; ?>&comment_body="+ $('#mw-comment-edit-textarea').val(),
  			  success: function() {
-				// mw.nottification.success('Comment edit success.');
+ 				mw.reload_module('comments');
+ 				mw.notification.success('Comment saved!');
  			  }
  		});
  		
