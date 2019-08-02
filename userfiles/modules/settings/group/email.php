@@ -87,9 +87,7 @@ mw.email_send_test = function(){
 		</div>
 		</div>
 		</div>
-		
-		<hr>
-		
+		<br />
 		<div class="mw-ui-box">
 			<div class="mw-ui-box-header"><?php _e("Mail Send Settings"); ?></div>
 			<div class="mw-ui-box-content">
@@ -229,13 +227,13 @@ mw.email_send_test = function(){
 						<td>
 							<div class="mw-flex-row">
 							<div class="mw-flex-col-xs-12"><h3>Make a test email</h3><p>Send test email to check settings are they work correctly.</p><br /></div>
-							<div class="mw-flex-col-xs-5">
+							<div class="mw-flex-col-xs-6">
 							<label class="mw-ui-label">
 								<?php _e("Send test email to"); ?>
 							</label>
 							<input name="test_email_to" id="test_email_to" class="mw_option_field mw-ui-field"   type="text" option-group="email" value="<?php print get_option('test_email_to','email'); ?>"  />
 							</div>
-							<div class="mw-flex-col-xs-5">
+							<div class="mw-flex-col-xs-4">
 							<label class="mw-ui-label">
 								<?php _e("Test mail subject"); ?>
 							</label>
