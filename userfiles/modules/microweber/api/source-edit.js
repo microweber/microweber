@@ -41,6 +41,7 @@ mw.editSource = function (node) {
             if(!mw._editSource.ok.disabled){
                 $(mw._editSource.target).html(mw._editSource.area.value);
                 $(mw._editSource.wrapper).removeClass('active');
+                mw.wysiwyg.change(mw._editSource.target);
             }
         });
     }
