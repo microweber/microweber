@@ -36,6 +36,19 @@ api_expose_admin('mark_comment_post_notifications_as_read', function ($params) {
     }
 });
 
+api_expose('save_comment_user', function ($params) {
+	
+	$commentSessionId = false;
+	if (isset($item['session_id'])) {
+		$commentSessionId = $item['session_id'];
+	}
+	
+	if (mw()->user_manager->session_id() == $commentSessionId) {
+		var_dump($params);
+	}
+	
+});
+
 /**
  * post_comment
  */
@@ -152,7 +165,7 @@ event_bind(
 		}
 		
 		if (mw()->user_manager->session_id() == $commentSessionId) {
-			echo '<module type="comments/manage_user" no_post_head="true" content_id="' . $item['id'] . '"  />';
+			echo '<module type="comments/manage_user" no_post_head="true" comment_id="' . $item['id'] . '"  />';
 		}
 	}
 );
