@@ -3,6 +3,10 @@
 event_bind(
     'mw.admin.sidebar.li.first', function ($item) {
 
+    $update_channel = Config::get('microweber.update_channel');
+    if ('disabled' == $update_channel) {
+        return;
+    }
 
     if (mw()->ui->disable_marketplace != true) {
         $cache_id = 'mw_update_check_auto_update_check_core';
@@ -116,7 +120,8 @@ function mw_print_admin_updates_settings_link()
     }
     $notif_html = '';
     $mname = module_name_encode('updates');
-    print "<li><a class=\"item-" . $mname . "\" href=\"#option_group=" . $mname . "\"><span class=\"mai-thunder\"></span><strong>" . _e("Updates", true) . "</strong></a></li>";
+    $modurl =admin_url().'view:settings#option_group='. module_name_encode('updates');
+    print "<li><a class=\"item-" . $mname . "\" href=\"" . $modurl . "\"><span class=\"mai-thunder\"></span><strong>" . _e("Updates", true) . "</strong></a></li>";
 
     //$notif_count = mw()->notifications_manager->get('module=comments&is_read=0&count=1');
     /*if ($notif_count > 0) {

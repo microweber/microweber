@@ -2,7 +2,8 @@
 
 
 
-<?php if(isset($_GET['only_updates']) and $_GET['only_updates']){ ?>
+
+<?php if((isset($_GET['only_updates']) and $_GET['only_updates']) or isset($params['show_only_updates'])){ ?>
 
 
 

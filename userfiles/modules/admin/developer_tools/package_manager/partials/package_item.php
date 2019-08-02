@@ -11,6 +11,29 @@
         background-position: center top;
         margin: 10px auto 10px auto !important;
     }
+
+    .package-ext-link {
+
+        /* These are technically the same, but use both */
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+
+        -ms-word-break: break-all;
+        /* This is the dangerous one in WebKit, as it breaks things wherever */
+        word-break: break-all;
+        /* Instead use this non-standard one: */
+        word-break: break-word;
+
+        /* Adds a hyphen where the word breaks, if supported (No Blink) */
+        -ms-hyphens: auto;
+        -moz-hyphens: auto;
+        -webkit-hyphens: auto;
+        hyphens: auto;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+
+    }
 </style>
 
 <?php
@@ -90,7 +113,7 @@ if(!isset($box_class)){
 
 
 
-<div class="mw-ui-box " style="min-height: 300px;">
+<div class="mw-ui-box " style="min-height: 300px; height: 100%">
     <div class="mw-ui-box-header <?php print $box_class ?>  <?php if ($has_update): ?>   <?php endif; ?>    ">
         <span class="mw-icon-gear"></span><span> <?php print $item['name'] ?></span>
 
@@ -184,7 +207,7 @@ if(!isset($box_class)){
                 <td>Website</td>
                 <td>
                     <?php if (isset($item['homepage'])): ?>
-                        <a href="<?php print $item['homepage']; ?>" target="_blank" class="mw-blue"><?php print $item['homepage']; ?></a>
+                        <a href="<?php print $item['homepage']; ?>" target="_blank" class="mw-blue package-ext-link"><?php print $item['homepage']; ?></a>
                     <?php else: ?>
                         N/A
                     <?php endif; ?>

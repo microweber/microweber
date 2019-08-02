@@ -71,13 +71,13 @@ if (isset($packages_by_type['microweber-core-update']) and !empty($packages_by_t
             <li>
                 <a href="javascript:;"><span class="mw-icon-gear"></span> <span class="mw-icon-dropdown"></span></a>
                 <ul>
-                    <?php if (isset($_GET['only_updates']) and $_GET['only_updates']) { ?>
+                    <?php if ($is_update_mode) { ?>
 
-                        <li><a href="?all">Show all packages</a></li>
+                        <li><a href="<?php print admin_url() ?>view:packages">Show all packages</a></li>
 
                     <?php } else { ?>
 
-                        <li><a href="?only_updates=1">Show updates</a></li>
+                        <li><a href="<?php print admin_url() ?>view:settings#option_group=updates">Show updates</a></li>
 
                     <?php } ?>
                     <li><a href="javascript:;" onclick="mw.admin.admin_package_manager.reload_packages_list();">Reload
@@ -90,7 +90,7 @@ if (isset($packages_by_type['microweber-core-update']) and !empty($packages_by_t
     </div>
 
 
-    <h2 class="pull-right"><span class="mai-modules"></span> <a href="<?php print admin_url(); ?>view:modules"><?php _e("My Modules"); ?></a></h2>
+    <h2 class="pull-right "><span class="mai-modules"></span> <a class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline" href="<?php print admin_url(); ?>view:modules"><span class="mw-icon-back"></span><?php _e("My Modules"); ?></a></h2>
 
 
 

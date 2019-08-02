@@ -273,7 +273,7 @@
                 <?php if (mw()->ui->disable_marketplace != true): ?>
 
 
-                <h2 class="pull-right"><span class="mai-market"></span> <a  href="<?php print admin_url(); ?>view:packages"><?php _e("Marketplace"); ?></a></h2>
+               <a  href="<?php print admin_url(); ?>view:packages"   class="mw-ui-btn mw-ui-btn-info m-r-10">   <span class="mai-market"></span>  <?php _e("Marketplace"); ?></a>
                 <?php endif; ?>
 
             </div>
