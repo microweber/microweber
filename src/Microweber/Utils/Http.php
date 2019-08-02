@@ -40,7 +40,7 @@ class Http
     }
 
     public function set_url($url)
-    {
+    { 
         $this->adapter->url = $url;
 		$this->url = $url;
 		
