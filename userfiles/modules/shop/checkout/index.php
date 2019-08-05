@@ -77,7 +77,7 @@ if ($template != false and strtolower($template) != 'none') {
     <script>mw.lib.require('material_icons');</script>
 
 
-    <link href="<?php print modules_url(); ?>shop/checkout/styles.css" rel="stylesheet">
+    <link href="" rel="stylesheet">
 
     <script type="text/javascript">
         $(document).ready(function () {

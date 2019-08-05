@@ -13,6 +13,9 @@ description: Checkout
 
 ?>
 
+<script type="text/javascript">
+    mw.require("<?php print modules_url(); ?>shop/checkout/styles.css", true);
+</script>
 
 <div class="checkout-modal" id="checkout_modal_<?php print $params['id'] ?>">
     <div>
