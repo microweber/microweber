@@ -30,7 +30,6 @@
         -webkit-hyphens: auto;
         hyphens: auto;
         overflow: hidden;
-        text-overflow: ellipsis;
 
 
     }
@@ -67,6 +66,12 @@ if (!$screenshot and isset($item['extra']) and isset($item['extra']['_meta']) an
     $screenshot = $item['extra']['_meta']['screenshot'];
 
 }
+
+if($item['name'] == 'microweber/update') {
+    $screenshot = mw()->ui->admin_logo;
+}
+
+
 
 
 $key = $item['name'];
@@ -113,7 +118,7 @@ if(!isset($box_class)){
 
 
 
-<div class="mw-ui-box " style="min-height: 300px; height: 100%">
+<div class="mw-ui-box " style="min-height: 300px;">
     <div class="mw-ui-box-header <?php print $box_class ?>  <?php if ($has_update): ?>   <?php endif; ?>    ">
         <span class="mw-icon-gear"></span><span> <?php print $item['name'] ?></span>
 
@@ -127,6 +132,8 @@ if(!isset($box_class)){
 
         <p class="m-b-20"><?php print $item['description'] ?></p>
 
+
+
         <?php if ($screenshot): ?>
             <div class="package-image" style="background-image: url('<?php print $screenshot; ?>')"></div>
 
@@ -135,6 +142,9 @@ if(!isset($box_class)){
             <div class="package-image" style="background-image: url('')"></div>
             <?php endif; ?>
         <?php endif; ?>
+
+
+
 
         <table cellspacing="0" cellpadding="0" class="mw-ui-table" width="100%">
             <tbody>

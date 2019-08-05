@@ -374,9 +374,9 @@ if (isset($notif_params['quick'])) {
                                 </td>
 
                                 <td style="width: 210px; text-align: right; border-top:0;">
-                                    <a class="mw-ui-btn right" href="javascript:mw.load_module('admin/notifications/system_log','#admin_notifications')">
-                                        <?php _e("Show system log"); ?>
-                                    </a>
+                                    <a class="mw-ui-btn right" onClick="mw.load_module('admin/notifications/system_log','#admin_notifications');">
+									<?php _e("Show system log"); ?>
+									</a>
                                 </td>
                             </tr>
 

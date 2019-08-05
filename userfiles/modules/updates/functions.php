@@ -23,6 +23,8 @@ event_bind(
     }
 }
 );
+
+
 event_bind(
     'mw.admin.sidebar.li.last', function ($item) {
     if (mw()->ui->disable_marketplace != true) {
@@ -118,7 +120,16 @@ function mw_print_admin_updates_settings_link()
     if ($active == 'comments') {
         $cls = ' class="active" ';
     }
-    $notif_html = '';
+
+//       $update_check_count = mw()->app->notifications_manager->get('rel_type=update_check&is_read=0&count=1');
+//    $notif_html = '';
+//    if($update_check_count){
+//        $notif_html = '<sup class="mw-notification-count">'.$update_check_count.'</sup>';
+//
+//    }
+
+    //$check = __mw_check_core_system_update();
+
     $mname = module_name_encode('updates');
     $modurl =admin_url().'view:settings#option_group='. module_name_encode('updates');
     print "<li><a class=\"item-" . $mname . "\" href=\"" . $modurl . "\"><span class=\"mai-thunder\"></span><strong>" . _e("Updates", true) . "</strong></a></li>";

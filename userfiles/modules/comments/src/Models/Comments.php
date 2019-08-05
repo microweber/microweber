@@ -253,7 +253,7 @@ class Comments extends Crud
 		$data['allow_html'] = '1';
 		$data['allow_scripts'] = '1';
 		
-		$saved_data = mw()->database_manager->save($table, $data);
+		$saved_data_id = mw()->database_manager->save($table, $data);
 
 
         if (!isset($data['id']) and isset($data['comment_body'])) {
@@ -292,14 +292,32 @@ class Comments extends Crud
                 $message .= mw('format')->array_to_ul($data3);
 
                 $sender = new MailSender();
-                $sender->send($email_on_new_comment_value, $subject, $message, 1);
+                $sender->setEmailTo($email_on_new_comment_value);
+                $sender->setEmailSubject($subject);
+                $sender->setEmailMessage($message);
+                $sender->setEmailHostnameToSubject(1);
+                $sender->send();
             }
 
 
         }
+        
+        $get_comment = get_comments("single=1&id=" . $saved_data_id);
+        
+        if (isset($get_comment['is_subscribed_for_notification']) && isset($get_comment['is_sent_email'])) {
+	        
+        	if ($get_comment['action'] == 'publish' && $get_comment['is_subscribed_for_notification'] == 1 && $get_comment['is_sent_email'] == 0) {
+		        
+		        // Send notification
+        		if (is_numeric($saved_data_id)) {
+        			$emailJob = (new  \Microweber\Comments\Jobs\JobSendMailNotificationOnComment($saved_data_id))->onQueue('processing');
+		        	\Queue::later(5, $emailJob);
+		        }
+	
+	        }
+        }
 
-
-        return $saved_data;
+        return $saved_data_id;
     }
 
     public function mark_as_spam($data)

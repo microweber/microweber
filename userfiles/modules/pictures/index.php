@@ -9,6 +9,10 @@ if (isset($params['content_id'])) {
     $params['rel_id'] = intval($params['content_id']);
     $params['rel_type'] = 'content';
 }
+if (isset($params['no_img'])){
+    $no_img = $params['no_img'];
+}
+
 
 if (isset($params['rel'])){
 	$params['rel_type'] = $params['rel'];

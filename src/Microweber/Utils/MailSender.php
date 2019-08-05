@@ -18,17 +18,26 @@ class MailSender
     public $transport = false;
     public $debug = false;
     public $silent_exceptions = false;
-    public $email_from = false;
-    public $email_from_name = false;
     public $cc = false;
+    
+    // SMTP DETAILS
     public $smtp_host = false;
     public $smtp_port = false;
     public $smtp_username = false;
     public $smtp_password = false;
     public $smtp_auth = false;
     public $smtp_secure = false;
+    
+    // MAIL DETAILS
+    public $email_from = false;
+    public $email_from_name = false;
+    public $email_no_cache = false;
+    public $email_cc = false;
+    public $email_reply_to = false;
+    public $email_attachments = array();
+    public $email_add_hostname_to_subject = false;
+    
     private $here = false;
-
 
     public function __construct()
     {
@@ -99,7 +108,45 @@ class MailSender
             Config::set('mail.encryption', $this->smtp_auth);
         }
     }
+    
+    public function setEmailTo($email) {
+    	$this->email_to = $email;
+    }
+    
+    public function setEmailSubject($subject) {
+    	$this->email_subject = $subject;
+    }
 
+    public function setEmailMessage($message) {
+    	$this->email_message = $message;
+    }
+    
+    public function setEmailHostnameToSubject($hostname) {
+    	$this->email_add_hostname_to_subject = $hostname;
+    }
+    
+    public function setEmailNoCache($cache) {
+    	$this->email_no_cache = $cache;
+    }
+    
+    public function setEmailCc($cc) {
+    	$this->email_cc = $cc;
+    }
+    
+    public function setEmailFrom($email) {
+    	$this->email_from = $email;
+    }
+    public function setEmailFromName($name) {
+    	$this->email_from_name = $name;
+    }
+    public function setEmailReplyTo($replyTo) {
+    	$this->email_reply_to = $replyTo;
+    }
+    
+    public function setEmailAttachments($attachments) {
+    	$this->email_attachments = $attachments;
+    }
+    
     /**
      * Send email
      * @param string $to
@@ -115,9 +162,9 @@ class MailSender
      * @return boolean
      */
     public function send(
-        $to,
-        $subject,
-        $message,
+        $to = false,
+        $subject = false,
+        $message = false,
         $add_hostname_to_subject = false,
         $no_cache = false,
         $cc = false,
@@ -127,6 +174,45 @@ class MailSender
     	$attachments = array()
     )
     {
+    	if (empty($to)) {
+    		$to = $this->email_to;
+    	}
+    	
+    	if (empty($subject)) {
+    		$subject = $this->email_subject;
+    	}
+    	
+    	if (empty($message)) {
+    		$message = $this->email_message;
+    	}
+    	
+    	if (empty($add_hostname_to_subject)) {
+    		$add_hostname_to_subject = $this->email_add_hostname_to_subject;
+    	}
+    	
+    	if (empty($no_cache)) {
+    		$no_cache = $this->email_no_cache;
+    	}
+    	
+    	if (empty($cc)) {
+    		$cc = $this->email_cc;
+    	}
+    	
+    	if (empty($email_from)) {
+    		$email_from = $this->email_from;
+    	}
+    	
+    	if (empty($from_name)) {
+    		$from_name = $this->email_from_name;
+    	}
+    	
+    	if (empty($reply_to)) {
+    		$reply_to = $this->email_reply_to;
+    	}
+    	
+    	if (empty($attachments)) {
+    		$attachments = $this->email_attachments;
+    	}
 
         if (is_array($to)) {
             extract($to);
@@ -212,6 +298,7 @@ class MailSender
     public function setCc($to)
     {
         $this->cc = $to;
+        $this->email_cc = $to;
     }
 
     public function exec_send($to, $subject, $text, $from_address = false, $from_name = false, $reply_to = false, $attachments = array())

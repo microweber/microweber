@@ -31,7 +31,14 @@ Created at: <?php echo $form_data['created_at']; ?>
 	
 	<b style="font-size:13px;text-transform:uppercase"><?php echo $key; ?></b>
 	<br />
+	<?php if(is_string($value)): ?>
 	<?php echo $value; ?>
+	<?php endif; ?>
+	<?php if(is_array($value)): ?>
+	<?php foreach($value as $v):?>
+	<?php echo $v; ?> <br />
+	<?php endforeach; ?>
+	<?php endif; ?>
 	<br /><br /> 
 	<?php endforeach; ?>
 <?php endif; ?>

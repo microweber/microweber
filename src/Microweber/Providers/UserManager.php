@@ -802,8 +802,25 @@ class UserManager
         if (is_array($data)) {
             $register_email_enabled = $this->app->option_manager->get('register_email_enabled', 'users');
             if ($register_email_enabled == true) {
+            	
+            	/* 
                 $register_email_subject = $this->app->option_manager->get('register_email_subject', 'users');
                 $register_email_content = $this->app->option_manager->get('register_email_content', 'users');
+                 */
+            	
+            	// Get register mail temlate
+            	$new_user_registration_template_id = $this->app->option_manager->get('new_user_registration_email_template', 'users');
+            	$mail_template = get_mail_template_by_id($new_user_registration_template_id, 'new_user_registration');
+            	
+            	$register_email_subject = $mail_template['subject'];
+            	$register_email_content = $mail_template['message'];
+                
+            	
+            	$appendFiles = array();
+            	if (!empty(get_option('append_files', 'mail_template_id_' . $new_user_registration_template_id))) {
+            		$appendFiles = explode(",", get_option('append_files', 'mail_template_id_' . $new_user_registration_template_id));
+            	}
+            	
                 if ($register_email_subject == false or trim($register_email_subject) == '') {
                     $register_email_subject = 'Thank you for your registration!';
                 }
@@ -822,11 +839,6 @@ class UserManager
 
 
                     if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
-                    	
-                    	$appendFiles = array();
-                    	if (!empty(get_option('append_files', 'users'))) {
-	                    	$appendFiles = explode(",", get_option('append_files', 'users'));
-                    	}
                     	
                         $sender = new \Microweber\Utils\MailSender();
                         return $sender->send($to, $register_email_subject, $register_email_content, false, false, false, false, false, false, $appendFiles);

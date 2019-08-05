@@ -2,19 +2,34 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.1.9] - 2019-08-02
+
+- Overall stability fixes
+- Implemented new modal window
+- Implemented media library
+- Implemented Less parser
+- Finished the import export function
+- Fix a lot of handles bugs
+- Fix edit link dialog window
+- Fix presets drop-down for new modal
+- Fix some custom fields bugs
+- Fix Mail setting in admin
+- Ability to edit comment after post
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.1.8...1.1.9 "")
 
 ## [1.1.8] - 2019-07-04
 
 - Accordeon and tabs modules does not work 
-- Target doesnt work om menu
+- Target doesn't work on menu
 - Visual editor bugs
 - Cant remove custom field value
 - Small WYSWYG editor is not triggering change event
-- Live edit handle is disapering and hard to reach
+- Live edit handle is disappearing and hard to reach
 - Added ability to add custom  link to #section
 - Contact form possibility to have more input fields
 - Contact form external API's integration
-- Contact form posibility to add attachment to reply message
+- Contact form possibility to add attachment to reply message
 - Other fixes
 - [see all changes....](https://github.com/microweber/microweber/compare/1.1.7...1.1.8 "")
 
@@ -29,7 +44,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Update popup
 - $.ajax success callback
 - Paging is missing in admin panel
-- Insert image doesnt work
+- Insert image doesn't work
 - New backup manager beta
 - Added ability to set size of custom fields
 - Other fixes
@@ -50,16 +65,16 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Cant upload picture
 - Tabs module in Dream template
 - Accordeon modules does not work
-- Fix cateogries display on posts module
+- Fix categories display on posts module
 - [see all changes....](https://github.com/microweber/microweber/compare/1.1.5...1.1.6 "")
 
 
 
 ## [1.1.5] - 2019-05-02
-- Sometimes the Draging on Layouts doesn't work
+- Sometimes the Dragging on Layouts doesn't work
 - Fix flicking of handles
 - Restore content in trash did't work
-- Resizeable controll outline missplaced on live edit
+- Resizeable control outline misplaced on live edit
 - There was class .element on all modules
 - Format bug when you reformat after format 
 - Format looses selection

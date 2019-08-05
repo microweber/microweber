@@ -54,15 +54,15 @@
     "dompdf/dompdf": "0.8.2",
     "nikic/php-parser": "3.1.5",
     "doctrine/dbal": "2.5.3",
-    "microweber-templates/dream": "1.*",
-    "microweber-templates/liteness": "1.*",
+    "microweber-templates/dream": "*",
+    "microweber-templates/liteness": "*",
     "microweber-deps/recurr": "~3.1",
     "microweber-deps/laravel-tagging": "~2.2",
     "oyejorge/less.php": "1.*",
     "aws/aws-sdk-php": "^3.0",
-    "mailerlite/mailerlite-api-v2-php-sdk": "dev-master",
-    "finlet/flexmail": "dev-master",
-    "phpoffice/phpspreadsheet": "dev-master"
+    "mailerlite/mailerlite-api-v2-php-sdk": "*",
+    "finlet/flexmail": "*",
+    "phpoffice/phpspreadsheet": "*"
   },
   "require-dev": {
       "fzaninotto/faker": "^1.9"

@@ -102,6 +102,20 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
         });
     }
 
+    mw.forgot_password_email_send_test = function () {
+        var email_to = {}
+        email_to.to = $('#test_email_to').val();
+        email_to.subject = $('#test_email_subject').val();
+
+        $.post("<?php print site_url('api_html/users/forgot_password_email_send_test'); ?>", email_to, function (msg) {
+
+            mw.tools.modal.init({
+                html: "<pre>" + msg + "</pre>",
+                title: "<?php _e('Email send results...'); ?>"
+            });
+        });
+    }
+    
     function checkAllowSocialsLogin() {
         var allowSocialsLoginSelect = $('select[name="allow_socials_login"]');
         if (allowSocialsLoginSelect.find('option:selected').val() == 'y') {
@@ -491,24 +505,6 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
 
         <div id="mw-user-fields-form-set" class="mw-user-fields-form-item" style="display:none;padding-top: 20px;">
             <div class="mw-ui-box mw-ui-box-content">
-                <script type="text/javascript">
-                    runRegisterMailEditor = function () {
-                        RegisterMailEditor = mw.editor({
-                            element: "#register_email_content",
-                            addControls: mwd.getElementById('register_mail_editorctrls').innerHTML,
-                            ready: function (content) {
-                                content.defaultView.mw.dropdown();
-                                mw.$("#register_mail_dynamic_vals li", content).bind('click', function () {
-                                    RegisterMailEditor.api.insert_html($(this).attr('value'));
-                                });
-                            }
-                        });
-                    }
-
-                    $(document).ready(function () {
-                        runRegisterMailEditor();
-                    });
-                </script>
                 
                 <h2><?php _e("Send email on new user registration"); ?></h2>
 
@@ -521,70 +517,33 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
                         <span></span><span><?php _e("No"); ?></span>
                     </label>
                 </div>
-
-                <div class="mw-ui-field-holder" style="max-width: 400px;">
-                    <label class="mw-ui-label">
-                        <?php _e("Email subject"); ?>
-                    </label>
-                    <input name="register_email_subject" class="mw-ui-field mw_option_field w100" id="order_email_subject" placeholder="<?php _e("Thank you for your registration"); ?>!" data-option-group="users" value="<?php print get_option('register_email_subject', 'users') ?>" type="text"/>
-                </div>
                 
-                 <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label"><?php _e("Email attachments"); ?></label>  
-                    <module type="admin/components/file_append" option_group="users" />
-                </div>
-
-                <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label"><?php _e("Email content"); ?></label>
-                    <textarea class="mw-ui-field mw_option_field" data-option-group="users" id="register_email_content" name="register_email_content"><?php print get_option('register_email_content', 'users') ?></textarea>
-                </div>
-
-                <div id="register_mail_editorctrls" style="display: none"><span class="mw_dlm"></span>
-                    <div style="width: 112px;" data-value="" title="<?php _e("These values will be replaced with the actual content"); ?>" id="register_mail_dynamic_vals" class="mw-dropdown mw-dropdown-type-wysiwyg mw-dropdown-type-wysiwyg_blue mw_dropdown_action_dynamic_values">
-                        <span class="mw-dropdown-value"><span class="mw-dropdown-arrow"></span> <span class="mw-dropdown-val"><?php _e("E-mail Values"); ?></span></span>
-                        <div class="mw-dropdown-content">
-                            <ul>
-                                <li value="{id}"><a href="javascript:;"> <?php _e('User ID'); ?> </a></li>
-                                <li value="{username}"><a href="javascript:;"> <?php _e('Username'); ?> </a></li>
-                                <li value="{email}"><a href="javascript:;"> <?php _e('Email'); ?> </a></li>
-                                <li value="{first_name}"><a href="javascript:;"> <?php _e('First Name'); ?> </a></li>
-                                <li value="{last_name}"><a href="javascript:;"> <?php _e('Last Name'); ?> </a></li>
-                                <li value="{created_at}"><a href="javascript:;"> <?php _e('Date of registration'); ?> </a></li>
-                                <li value="{verify_email_link}"><a href="javascript:;"> <?php _e('Verify email link'); ?> </a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+               <div class="mw-ui-field-holder mw-ui-row m-b-20">
+				    <div class="mw-ui-col p-12">
+				        <label class="mw-ui-label bold">
+				        <?php _e("Select email template"); ?>
+				        </label> 
+				        
+					  	<module type="admin/mail_templates/select_template" option_group="users" mail_template_type="new_user_registration" />
+					  	
+					  	<br />
+					  	<br />
+					  	<a onclick="mw.register_email_send_test();" href="javascript:;" class="mw-ui-btn" style="float:left;width:330px;"><?php _e('Send Test Email'); ?></a>
+				    </div>
+				    
+				     
+				</div>  
+                
             </div>
 
-            <br/>
-
-            <a onclick="mw.register_email_send_test();" href="javascript:;" class="mw-ui-btn mw-ui-btn-small pull-right"><?php _e('Test'); ?></a>
-            <br/>
             <hr>
 
 
-            <a class="mw-ui-btn mw-ui-btn-small" href="javascript:;" onclick="$('#admin-forgot-pass-email-ctrl-holder').toggle()"><?php _e('Forgot password email settings'); ?></a>
-
+            <a class="mw-ui-btn" href="javascript:;" onclick="$('#admin-forgot-pass-email-ctrl-holder').toggle()"><?php _e('Forgot password email settings'); ?></a>
+			<br />
+			
             <div class="mw-ui-box mw-ui-box-content" id="admin-forgot-pass-email-ctrl-holder" style="display:none">
-                <script type="text/javascript">
-                    runForgotPassEmailEditor = function () {
-                        ForgotPassEmailEditor = mw.editor({
-                            element: "#forgot_pass_email_content",
-                            addControls: mwd.getElementById('forgot_pass_mail_editorctrls').innerHTML,
-                            ready: function (content) {
-                                content.defaultView.mw.dropdown();
-                                mw.$("#forgot_pass_mail_dynamic_vals li", content).bind('click', function () {
-                                    ForgotPassEmailEditor.api.insert_html($(this).attr('value'));
-                                });
-                            }
-                        });
-                    }
-
-                    $(document).ready(function () {
-                        runForgotPassEmailEditor();
-                    })
-                </script>
+             
 
                 <h2><?php _e("Send custom forgot password email"); ?></h2>
 
@@ -600,33 +559,21 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
                     </label>
                 </div>
 
-                <div class="mw-ui-field-holder" style="max-width: 400px;">
-                    <label class="mw-ui-label"><?php _e("Email subject"); ?></label>
-                    <input name="forgot_pass_email_subject" class="mw-ui-field mw_option_field w100" id="order_email_subject" placeholder="<?php _e("Password reset"); ?>!" data-option-group="orders" value="<?php print get_option('forgot_pass_email_subject', 'users') ?>" type="text"/>
-                </div>
-
-                <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label"><?php _e("Email content"); ?></label>
-                    <textarea class="mw-ui-field mw_option_field" data-option-group="users" id="forgot_pass_email_content" name="forgot_pass_email_content"><?php print get_option('forgot_pass_email_content', 'users') ?></textarea>
-                </div>
-
-                <div id="forgot_pass_mail_editorctrls" style="display: none"><span class="mw_dlm"></span>
-                    <div style="width: 112px;" data-value="" title="<?php _e("These values will be replaced with the actual content"); ?>" id="forgot_pass_mail_dynamic_vals" class="mw-dropdown mw-dropdown-type-wysiwyg mw-dropdown-type-wysiwyg_blue mw_dropdown_action_dynamic_values">
-                        <span class="mw-dropdown-value"><span class="mw-dropdown-arrow"></span> <span class="mw-dropdown-val"><?php _e("E-mail Values"); ?></span> </span>
-                        <div class="mw-dropdown-content">
-                            <ul>
-                                <li value="{id}"><a href="javascript:;"> <?php _e('User ID'); ?> </a></li>
-                                <li value="{username}"><a href="javascript:;"> <?php _e('Username'); ?> </a></li>
-                                <li value="{email}"><a href="javascript:;"> <?php _e('Email'); ?> </a></li>
-                                <li value="{first_name}"><a href="javascript:;"> <?php _e('First Name'); ?> </a></li>
-                                <li value="{last_name}"><a href="javascript:;"> <?php _e('Last Name'); ?> </a></li>
-                                <li value="{created_at}"><a href="javascript:;"> <?php _e('Date of registration'); ?> </a></li>
-                                <li value="{reset_password_link}"><a href="javascript:;"> <?php _e('Reset password link'); ?> </a></li>
-                                <li value="{ip}"><a href="javascript:;"> <?php _e('IP address'); ?> </a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+                <div class="mw-ui-field-holder mw-ui-row m-b-20">
+				    <div class="mw-ui-col p-12">
+				        <label class="mw-ui-label bold">
+				        <?php _e("Select email template"); ?>
+				        </label> 
+				        
+					  	<module type="admin/mail_templates/select_template" option_group="users" mail_template_type="forgot_password" />
+					  	
+					  	<br />
+					  	<br />
+					  	<a onclick="mw.forgot_password_email_send_test();" href="javascript:;" class="mw-ui-btn" style="float:left;width:330px;"><?php _e('Send Test Email'); ?></a>
+				    </div>
+				     
+				</div>  
+                
             </div>
         </div>
 

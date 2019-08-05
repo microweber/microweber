@@ -530,8 +530,17 @@ class CheckoutManager
             }
 
             if ($order_email_enabled == true) {
-                $order_email_subject = $this->app->option_manager->get('order_email_subject', 'orders');
-                $order_email_content = $this->app->option_manager->get('order_email_content', 'orders');
+            	
+                /*
+                 $order_email_subject = $this->app->option_manager->get('order_email_subject', 'orders');
+                 $order_email_content = $this->app->option_manager->get('order_email_content', 'orders');
+                */
+            	// Get order mail temlate
+            	$new_order_mail_template_id = $this->app->option_manager->get('new_order_mail_template', 'orders');
+            	$mail_template = get_mail_template_by_id($new_order_mail_template_id, 'new_order');
+            	$order_email_subject = $mail_template['subject'];
+            	$order_email_content = $mail_template['message'];
+            	
                 $order_email_cc = $this->app->option_manager->get('order_email_cc', 'orders');
                 $order_email_send_when = $this->app->option_manager->get('order_email_send_when', 'orders');
                 if ($order_email_send_when == 'order_paid' and !$skip_enabled_check) {
@@ -584,7 +593,7 @@ class CheckoutManager
                             }
                         }
                     }
-
+					
                     $twig = new \Twig_Environment(new \Twig_Loader_String());
                     $order_email_content = $twig->render(
                         $order_email_content,
