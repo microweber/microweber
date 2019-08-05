@@ -206,8 +206,12 @@ if (isset($_COOKIE['mw_exp'])) {
     <script>
         $(document).ready(function () {
 
+            if (!mw.cookie.get('mw-back-to-live-edit')) {
+                mw.cookie.set('mw-back-to-live-edit', true)
+            }
 
-            function mw_live_edit_opensidebar() {
+
+     /*       function mw_live_edit_opensidebar() {
                 if (mw.liveEditSettings.active) {
                 } else {
                     $('#live_edit_side_holder').addClass('sidebar_opened');
@@ -228,7 +232,7 @@ if (isset($_COOKIE['mw_exp'])) {
                 function () {
                     clearTimeout(hovertimer);
                 }
-            );
+            );*/
         });
 
     </script>
