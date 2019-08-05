@@ -3153,7 +3153,7 @@ body.grabbing, body.grabbing * {
 }
 
 .mw-custom-field-icon-hidden:before {
-	content: "\f306";
+	content: "\f306"; 
 }
 
 .mw-custom-field-icon-text:before {
