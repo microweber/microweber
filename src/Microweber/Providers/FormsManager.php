@@ -743,7 +743,7 @@ class FormsManager
                         $output_val = $v1;
 
                         if (is_array($output_val)) {
-                            $output_val = mw()->format->array_to_ul($output_val);
+                        	$output_val = mw()->format->array_to_seperator($output_val);
                         }
                         $item_for_csv[$k1] = $output_val;
 
