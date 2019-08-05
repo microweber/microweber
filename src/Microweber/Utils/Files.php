@@ -238,7 +238,8 @@ class Files
                     }
                 }
             }
-            
+
+            /*
             // Sort  by filetime
             $sortedFiles = array();
             foreach($arrayItems_f as $dir) {
@@ -246,8 +247,10 @@ class Files
             }
             ksort($sortedFiles);
             $sortedFiles = array_reverse($sortedFiles);
-            
-            $arrayItems['files'] = $sortedFiles;
+            */
+
+
+            $arrayItems['files'] = $arrayItems_f;
             $arrayItems['dirs'] = $arrayItems_d;
         }
 

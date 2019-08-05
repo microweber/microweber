@@ -3,9 +3,7 @@ if (!defined("MODULE_DB_COMMENTS")) {
     define('MODULE_DB_COMMENTS', 'comments');
 }
 
-
 require_once(__DIR__ . DS . 'vendor' . DS . 'autoload.php');
-
 
 api_expose_admin('mark_comment_as_spam', function ($params) {
     $comments = new \Microweber\Comments\Models\Comments();
@@ -97,56 +95,21 @@ api_expose('save_comment_user', function ($params) {
  * post_comment
  */
 api_expose('post_comment');
-
 function post_comment($data)
 {
-
-
-
-
-
-//    $emailJob = (new \Microweber\Comments\Jobs\JobSendNotificationOnComment())->delay(\Carbon::now()->addSeconds(3));
-//    dispatch($emailJob);
-
-    //   \Microweber\Comments\Jobs\JobSendNotificationOnComment::dispatch(123)->onQueue('processing');
-
-
-    // $queue = new \Microweber\Comments\Jobs\JobSendNotificationOnComment();
-
-    // $queue->dispatch(123)->delay(1);
-
-
+	// Save to database
     $comments = new \Microweber\Comments\Models\Comments();
     $comment_id = $comments->save($data);
-
-
-
-//
-//    $comment = (new Microweber\Comments\Models\Comment())->where('id', '=', $comment_id)->first();
-//
-//
-//    // $emailJob = (new  \Microweber\Comments\Jobs\SendEmailJob($comment))->delay(\Carbon::now()->addSeconds(300))->onQueue('processing');
-//    $emailJob = (new  \Microweber\Comments\Jobs\SendEmailJob($comment))->onQueue('processing');
-//
-//
-//    \Queue::later(5, $emailJob);
-
-
-
-
-
-
+    
     return $comment_id;
-
 
 }
 
 function get_comments($params = false)
 {
-
     $comments = new \Microweber\Comments\Models\Comments();
+    
     return $comments->get($params);
-
 }
 
 

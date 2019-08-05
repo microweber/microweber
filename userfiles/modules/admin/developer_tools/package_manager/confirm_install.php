@@ -59,6 +59,7 @@ if(is_array($get_existing_files_for_confirm)){
                 }
 
                 mw.admin.admin_package_manager.set_loading(false)
+                mw.admin.admin_package_manager.reload_packages_list();
 
 
             }

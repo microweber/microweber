@@ -21,10 +21,9 @@ class Comments
                 'is_moderated' => 'integer',
                 'from_url' => 'string',
                 'comment_subject' => 'string',
-
                 'is_new' => 'integer',
-
-                'send_email' => 'integer',
+                'is_sent_email' => 'integer',
+            	'is_subscribed_for_notification' => 'integer',
                 'session_id' => 'string',
             ],
         ];
