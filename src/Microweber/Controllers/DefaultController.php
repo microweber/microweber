@@ -1986,9 +1986,18 @@ class DefaultController extends Controller
                         }
                     }
                 }
-            } elseif ($is_editmode == false and $is_admin == true and mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false) and mw()->user_manager->session_get('back_to_editmode')) {
+            } elseif ($is_editmode == false and $is_admin == true and mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false)) {
                 if (!isset($_REQUEST['isolate_content_field']) and !isset($_REQUEST['content_id'])) {
                     $back_to_editmode = $this->app->user_manager->session_get('back_to_editmode');
+
+                    if(!$back_to_editmode){
+                        if(isset($_COOKIE['mw-back-to-live-edit'])){
+                            $back_to_editmode = $_COOKIE['mw-back-to-live-edit'];
+                        }
+                    }
+
+
+
                     if ($back_to_editmode == true) {
                         $tb = mw_includes_path() . DS . 'toolbar' . DS . 'toolbar_back.php';
 
