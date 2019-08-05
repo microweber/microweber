@@ -77,6 +77,12 @@ class JobSendMailNotificationOnComment implements ShouldQueue
 					
 					\Queue::later(3, $jobSendEmail);
 					
+					// Mark as sent
+					mw()->database_manager->save('comments', array(
+						'is_sent_email' => 1,
+						'id'=>$comment['id']
+					));
+					
 					return true;
 				}
 			} catch (\Exception $e) {

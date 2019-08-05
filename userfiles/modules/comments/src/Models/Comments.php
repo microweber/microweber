@@ -253,7 +253,7 @@ class Comments extends Crud
 		$data['allow_html'] = '1';
 		$data['allow_scripts'] = '1';
 		
-		$saved_data = mw()->database_manager->save($table, $data);
+		$saved_data_id = mw()->database_manager->save($table, $data);
 
 
         if (!isset($data['id']) and isset($data['comment_body'])) {
@@ -301,9 +301,23 @@ class Comments extends Crud
 
 
         }
+        
+        $get_comment = get_comments("single=1&id=" . $saved_data_id);
+        
+        if (isset($get_comment['is_subscribed_for_notification']) && isset($get_comment['is_sent_email'])) {
+	        
+        	if ($get_comment['action'] == 'publish' && $get_comment['is_subscribed_for_notification'] == 1 && $get_comment['is_sent_email'] == 0) {
+		        
+		        // Send notification
+        		if (is_numeric($saved_data_id)) {
+        			$emailJob = (new  \Microweber\Comments\Jobs\JobSendMailNotificationOnComment($saved_data_id))->onQueue('processing');
+		        	\Queue::later(5, $emailJob);
+		        }
+	
+	        }
+        }
 
-
-        return $saved_data;
+        return $saved_data_id;
     }
 
     public function mark_as_spam($data)

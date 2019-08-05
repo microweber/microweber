@@ -101,13 +101,6 @@ function post_comment($data)
     $comments = new \Microweber\Comments\Models\Comments();
     $comment_id = $comments->save($data);
     
-    
-    // Send notification
-    if (is_numeric($comment_id)) {
-    	$emailJob = (new  \Microweber\Comments\Jobs\JobSendMailNotificationOnComment($comment_id))->onQueue('processing');
-   		\Queue::later(5, $emailJob); 
-    }
-    
     return $comment_id;
 
 }
