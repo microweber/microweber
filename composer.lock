@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6572bc6ec85afc30f729e2dd4b1075d9",
+    "content-hash": "d7f6d0f2de2baf292418bda069e8ee24",
     "packages": [
         {
             "name": "arcanedev/seo-helper",
@@ -1170,16 +1170,16 @@
         },
         {
             "name": "doctrine/lexer",
-            "version": "1.0.x-dev",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/lexer.git",
-                "reference": "1febd6c3ef84253d7c815bed85fc622ad207a9f8"
+                "reference": "4ab6ea7c838ccb340883fd78915af079949cc64d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/lexer/zipball/1febd6c3ef84253d7c815bed85fc622ad207a9f8",
-                "reference": "1febd6c3ef84253d7c815bed85fc622ad207a9f8",
+                "url": "https://api.github.com/repos/doctrine/lexer/zipball/4ab6ea7c838ccb340883fd78915af079949cc64d",
+                "reference": "4ab6ea7c838ccb340883fd78915af079949cc64d",
                 "shasum": ""
             },
             "require": {
@@ -1226,7 +1226,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2019-06-08T11:03:04+00:00"
+            "time": "2018-10-21T19:22:05+00:00"
         },
         {
             "name": "dompdf/dompdf",
@@ -2114,7 +2114,7 @@
             "time": "2019-01-19T21:32:55+00:00"
         },
         {
-            "name": "jeremeamia/superclosure",
+            "name": "jeremeamia/SuperClosure",
             "version": "dev-master",
             "source": {
                 "type": "git",
@@ -2153,9 +2153,9 @@
             "authors": [
                 {
                     "name": "Jeremy Lindblom",
-                    "role": "Developer",
                     "email": "jeremeamia@gmail.com",
-                    "homepage": "https://github.com/jeremeamia"
+                    "homepage": "https://github.com/jeremeamia",
+                    "role": "Developer"
                 }
             ],
             "description": "Serialize Closure objects, including their context and binding",
@@ -2726,9 +2726,9 @@
             "authors": [
                 {
                     "name": "Ignace Nyamagana Butera",
-                    "role": "Developer",
                     "email": "nyamsprod@gmail.com",
-                    "homepage": "https://github.com/nyamsprod/"
+                    "homepage": "https://github.com/nyamsprod/",
+                    "role": "Developer"
                 }
             ],
             "description": "Csv data manipulation made easy in PHP",
@@ -2868,9 +2868,9 @@
             "authors": [
                 {
                     "name": "Ben Corlett",
-                    "role": "Developer",
                     "email": "bencorlett@me.com",
-                    "homepage": "http://www.webcomm.com.au"
+                    "homepage": "http://www.webcomm.com.au",
+                    "role": "Developer"
                 }
             ],
             "description": "OAuth 1.0 Client Library",
@@ -2893,6 +2893,17 @@
         {
             "name": "league/omnipay",
             "version": "2.3.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/omnipay.git",
+                "reference": "cc04bd22b4149c94c52b002181d4993e4f8fe812"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/omnipay/zipball/cc04bd22b4149c94c52b002181d4993e4f8fe812",
+                "reference": "cc04bd22b4149c94c52b002181d4993e4f8fe812",
+                "shasum": ""
+            },
             "require": {
                 "omnipay/2checkout": "~2.0",
                 "omnipay/authorizenet": "~2.0",
@@ -3381,7 +3392,7 @@
             "type": "library",
             "extra": {
                 "_meta": {
-                    "readme": "https://packages.microweberapi.com/meta/meta-microweber-deps-laravel-tagging-2.2.1-477a6bbb424f0726e01a366ccfeb66b5d51a90223bc56d64350b0499b9b7f69d/README.md",
+                    "readme": "https://packages.microweberapi.com/meta/meta-microweber-deps-laravel-tagging-477a6bbb424f0726e01a366ccfeb66b5/README.md",
                     "avatar": "https://favicon.microweberapi.com/https://smartersoftware.net/packages/laravel-tagging-taggable"
                 }
             },
@@ -3445,7 +3456,7 @@
             "type": "library",
             "extra": {
                 "_meta": {
-                    "readme": "https://packages.microweberapi.com/meta/meta-microweber-deps-recurr-v3.1.0-ae504b0d0781d1505be4711d060cefd25c44ea292b9c134edeec1d498bd4d3b1/README.md",
+                    "readme": "https://packages.microweberapi.com/meta/meta-microweber-deps-recurr-ae504b0d0781d1505be4711d060cefd2/README.md",
                     "avatar": "https://favicon.microweberapi.com/https://github.com/selfworks/recurr"
                 }
             },
@@ -3491,12 +3502,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-templates/dream.git",
-                "reference": "598ecb638e0d990e1190cce40742e519d127d149"
+                "reference": "5f15203660a07b3dc898511db3327757192b3a38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-templates/dream/zipball/598ecb638e0d990e1190cce40742e519d127d149",
-                "reference": "598ecb638e0d990e1190cce40742e519d127d149",
+                "url": "https://api.github.com/repos/microweber-templates/dream/zipball/5f15203660a07b3dc898511db3327757192b3a38",
+                "reference": "5f15203660a07b3dc898511db3327757192b3a38",
                 "shasum": ""
             },
             "type": "microweber-template",
@@ -3517,10 +3528,10 @@
                 "microweber"
             ],
             "support": {
-                "source": "https://github.com/microweber-templates/dream/tree/2.2",
+                "source": "https://github.com/microweber-templates/dream/tree/2.4",
                 "issues": "https://github.com/microweber-templates/dream/issues"
             },
-            "time": "2019-08-02T12:25:22+00:00"
+            "time": "2019-08-05T11:34:55+00:00"
         },
         {
             "name": "microweber-templates/liteness",
@@ -3602,9 +3613,9 @@
             "authors": [
                 {
                     "name": "Serban Ghita",
-                    "role": "Developer",
                     "email": "serbanghita@gmail.com",
-                    "homepage": "http://mobiledetect.net"
+                    "homepage": "http://mobiledetect.net",
+                    "role": "Developer"
                 }
             ],
             "description": "Mobile_Detect is a lightweight PHP class for detecting mobile devices. It uses the User-Agent string combined with specific HTTP headers to detect the mobile environment.",
@@ -6294,11 +6305,6 @@
             "extra": {
                 "branch-alias": {
                     "dev-master": "3.0.x-dev"
-                },
-                "_meta": {
-                    "readme": "https://packages.microweberapi.com/meta/meta-ramsey-uuid-3.0.0-ca613e529715b569b23a645a4e2d3b160a0af64b0577ce1456d26c191b8718fd/README.md",
-                    "changelog": "https://packages.microweberapi.com/meta/meta-ramsey-uuid-3.0.0-ca613e529715b569b23a645a4e2d3b160a0af64b0577ce1456d26c191b8718fd/CHANGELOG.md",
-                    "avatar": "https://favicon.microweberapi.com/https://github.com/ramsey/uuid"
                 }
             },
             "autoload": {
@@ -6306,6 +6312,7 @@
                     "Ramsey\\Uuid\\": "src/"
                 }
             },
+            "notification-url": "https://installreport.services.microweberapi.com",
             "license": [
                 "MIT"
             ],
@@ -8064,7 +8071,9 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "graham-campbell/markdown": 20
+        "graham-campbell/markdown": 20,
+        "microweber-templates/dream": 20,
+        "microweber-templates/liteness": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
