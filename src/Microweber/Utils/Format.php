@@ -8,6 +8,12 @@ use Crypt;
 
 class Format
 {
+	
+	public function array_to_seperator($array, $seperator = '|') 
+	{
+		return implode($array, $seperator);
+	}
+	
     /**
      * Prints an array in unordered list - <ul>.
      *

@@ -182,8 +182,7 @@ if (is_array($data)) {
                                 if (is_array($values_plain)) {
                                     $values_plain = mw()->format->array_to_ul($val_print);
                                 }
-
-
+								
                                 //var_dump($values_plain);
                                 //                                $max = 150;
                                 //                                if (strlen($values_plain) > $max) {
@@ -195,7 +194,7 @@ if (is_array($data)) {
                                 //                                }
                                 ?>
 
-                                <?php if (mb_strlen($values_plain) > 70): ?>
+                                <?php if (mb_strlen(mw()->format->clean_html($values_plain)) > 70): ?>
                                     <div class="js-limited">
                                         <?php print $values_plain; ?>
                                         <br/>
