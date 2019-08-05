@@ -11,10 +11,10 @@ class MailTemplates
 				'type' => 'string',
 				'name' => 'string',
 				'subject' => 'string',
-				'message' => 'string',
+				'message' => 'text',
 				'from_name' => 'string',
 				'from_email' => 'string',
-				'custom' => 'string',
+				'custom' => 'text',
 				'copy_to' => 'string',
 				'plain_text' => 'integer',
 				'is_active' => 'integer'

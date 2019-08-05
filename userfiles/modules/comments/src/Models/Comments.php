@@ -292,7 +292,11 @@ class Comments extends Crud
                 $message .= mw('format')->array_to_ul($data3);
 
                 $sender = new MailSender();
-                $sender->send($email_on_new_comment_value, $subject, $message, 1);
+                $sender->setEmailTo($email_on_new_comment_value);
+                $sender->setEmailSubject($subject);
+                $sender->setEmailMessage($message);
+                $sender->setEmailHostnameToSubject(1);
+                $sender->send();
             }
 
 
