@@ -3152,6 +3152,10 @@ body.grabbing, body.grabbing * {
 	content: '\f2f4';
 }
 
+.mw-custom-field-icon-hidden:before {
+	content: "\f306";
+}
+
 .mw-custom-field-icon-text:before {
     content: '\0102';
 }

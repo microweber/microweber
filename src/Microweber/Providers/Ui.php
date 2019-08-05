@@ -153,7 +153,7 @@ class Ui
         	//'captcha' => 'Captcha',
             'property' => 'Property',
         	'breakline' => 'Break Line',
-
+        	'hidden' => 'Hidden Field',
         );
 
         $this->custom_fields = $fields;
