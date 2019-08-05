@@ -41,8 +41,11 @@ trait DatabaseMenusWriter
 		$dbSelectParams['limit'] = 1;
 		$dbSelectParams['single'] = true;
 		$dbSelectParams['do_not_replace_site_url'] = 1;
-		$dbSelectParams['title'] = $menu['title'];
 		$dbSelectParams['item_type'] = $menu['item_type'];
+		
+		if (!empty($menu['title'])) {
+			$dbSelectParams['title'] = $menu['title'];
+		}
 		
 		return db_get('menus', $dbSelectParams);
 	}
@@ -57,6 +60,10 @@ trait DatabaseMenusWriter
 		$dbSelectParams['item_type'] = $menuItem['item_type'];
 		$dbSelectParams['content_id'] = $menuItem['content_id'];
 		$dbSelectParams['parent_id'] = $menuItem['parent_id'];
+		
+		if (!empty($menuItem['title'])) {
+			$dbSelectParams['title'] = $menuItem['title'];
+		}
 		
 		return db_get('menus', $dbSelectParams);
 	}
