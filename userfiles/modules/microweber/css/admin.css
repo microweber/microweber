@@ -3153,6 +3153,7 @@ body.grabbing, body.grabbing * {
 }
 
 .mw-custom-field-icon-hidden:before {
+	font-family: 'Microweber';
 	content: "\f306"; 
 }
 
