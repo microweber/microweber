@@ -3,9 +3,7 @@ if (!defined("MODULE_DB_COMMENTS")) {
     define('MODULE_DB_COMMENTS', 'comments');
 }
 
-
 require_once(__DIR__ . DS . 'vendor' . DS . 'autoload.php');
-
 
 api_expose_admin('mark_comment_as_spam', function ($params) {
     $comments = new \Microweber\Comments\Models\Comments();
@@ -40,7 +38,6 @@ api_expose_admin('mark_comment_post_notifications_as_read', function ($params) {
  * post_comment
  */
 api_expose('post_comment');
-
 function post_comment($data)
 {
 	// Save to database

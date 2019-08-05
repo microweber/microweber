@@ -1,8 +1,4 @@
 <?php
-event_bind('mw.admin.footer', function ($item) {
-	echo '<div type="admin/mics/queue_process" class="mw-lazy-load-module"></div>';
-});
-
 function get_mail_template_types() {
 	
 	$email_template_types = array();
