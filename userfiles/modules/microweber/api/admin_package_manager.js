@@ -6,19 +6,26 @@ mw.admin.admin_package_manager.set_loading = function (is_loading) {
 
     mw.tools.loading(mwd.querySelector('.js-install-package-loading-container-confirm'), is_loading)
     mw.tools.loading(mwd.querySelector('#mw-packages-browser-nav-tabs-nav'), is_loading)
-   // mw.tools.loading(mwd.querySelector('.admin-toolbar'), is_loading)
+    // mw.tools.loading(mwd.querySelector('.admin-toolbar'), is_loading)
 
 }
 
 
 mw.admin.admin_package_manager.reload_packages_list = function () {
     mw.admin.admin_package_manager.set_loading(true)
+    setTimeout(function () {
+    mw.notification.success('Reloading packages',15000);
+    }, 1000);
     mw.clear_cache();
-    setTimeout(function(){
-        mw.reload_module('admin/developer_tools/package_manager/browse_packages')
-        mw.admin.admin_package_manager.set_loading(false)
-    }, 3000);
+    mw.admin.admin_package_manager.set_loading(true)
 
+    setTimeout(function () {
+        mw.reload_module('admin/developer_tools/package_manager/browse_packages', function () {
+            mw.admin.admin_package_manager.set_loading(false)
+            mw.notification.success('Packages are reloaded');
+        })
+
+    }, 1000);
 
 
 }
@@ -53,13 +60,10 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name = functi
     mw.reload_module('#update_queue_process_alert');
 
 
-
-
     mw.admin.admin_package_manager.set_loading(true)
 
 
     var values = {require_name: $key, require_version: $version};
-
 
 
     $.ajax({
@@ -73,11 +77,10 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name = functi
             mw.admin.admin_package_manager.set_loading(false)
 
 
-            if(msg.success){
-                mw.admin.admin_package_manager.reload_packages_list();
+            if (msg.success) {
             }
 
-
+            mw.admin.admin_package_manager.reload_packages_list();
 
         },
 
