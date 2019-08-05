@@ -228,6 +228,20 @@
                                         />
                                         <span></span><span><?php _e("Disable Captcha?"); ?></span> </label>
                                 </div>
+                                <div class="mw-ui-field-holder">
+                                    <label class="mw-ui-check">
+                                        <input
+                                                type="checkbox"
+                                                parent-reload="true"
+                                                name="disable_comments_reply_notifications"
+                                                data-reload="comments/comments_for_post"
+                                                value="y"
+                                                class="mw_option_field"
+                                                option-group="comments"
+                                            <?php if (get_option('disable_comments_reply_notifications', 'comments') == 'y'): ?>   checked="checked"  <?php endif; ?>
+                                        />
+                                        <span></span><span><?php _e("Disable comments reply email notifications"); ?></span> </label>
+                                </div>
                                 <hr>
                                 <div class="mw-ui-field-holder">
                                     <label class="mw-ui-check">
