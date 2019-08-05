@@ -177,8 +177,6 @@
           </ul>
         </div>
       </div>
-      <?php /*<a href="#design_bnav" class="mw-ui-btn mw-ui-btn-revert ed_btn mw_ex_tools" style="margin: 11px 0 0 12px; "><span></span>Design</a>*/ ?>
-
     </div>
     <div id="tab_modules" class="mw_toolbar_tab">
 
@@ -227,7 +225,7 @@
               title:'New Page'
            });
         },
-		
+
 		 page_2 : function(){
            mw.tools.modal.frame({
               url:mw.settings.api_url + "module/?type=content/quick_add&live_edit=true&id=mw-new-content-add-ifame",
@@ -238,8 +236,8 @@
               title:'New Page'
            });
         },
-		
-		
+
+
         post : function(){
             mw.tools.modal.frame({
               url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=true&id=mw-quick-post&subtype=post",
@@ -272,7 +270,7 @@
          <a href="javascript:;" onclick="mw.quick.page();" class="mw-ui-btn "><span class="mw-ui-btn-plus left"></span><span class="ico ipage"></span> <?php _e('Add Page'); ?></a>
          <a href="javascript:;" onclick="mw.quick.post();" class="mw-ui-btn "><span class="mw-ui-btn-plus left"></span><span class="ico ipost"></span> <?php _e('Add Post'); ?></a>
          <a href="javascript:;" onclick="mw.quick.product();" class="mw-ui-btn "><span class="mw-ui-btn-plus left"></span><span class="ico iproduct"></span> <?php _e('Add Product'); ?></a>
-		 
+
 
 					<div class="mw-ui-dropdown mw-quick-pages-nav" style="z-index: 17;">
                         <a style="margin-left: 0;" class="mw-ui-btn mw-ui-btn-blue " href="javascript:;"><?php _e('Browse pages'); ?><span class="ico idownarr right"></span></a>
