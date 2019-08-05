@@ -297,9 +297,16 @@ function get_user($id = false)
 
 
 api_expose_admin('users/register_email_send_test', function () {
-    mw()->option_manager->override('users', 'register_email_enabled', true);
-    return mw()->user_manager->register_email_send();
+	
+	try {
+		mw()->option_manager->override('users', 'register_email_enabled', true);
+		return mw()->user_manager->register_email_send();
+	} catch (Exception $e) {
+		echo "Error Message: <br />" . $e->getMessage();
+	}
+    
 });
+
 api_expose('users/register_email_send', function ($params = false) {
     $uid = null;
     if (isset($params['user_id']) and is_admin()) {
@@ -308,6 +315,18 @@ api_expose('users/register_email_send', function ($params = false) {
     return mw()->user_manager->register_email_send($uid);
 });
 
+api_expose_admin('users/forgot_password_email_send_test', function () {
+	
+	echo '';
+	
+	/* try {
+		mw()->option_manager->override('users', 'forgot_pass_email_enabled', true);
+		return mw()->user_manager->send_forgot_password();
+	} catch (Exception $e) {
+		echo "Error Message: <br />" . $e->getMessage();
+	} */
+	
+});
 
 api_expose('users/search_authors', function ($params = false) {
 
