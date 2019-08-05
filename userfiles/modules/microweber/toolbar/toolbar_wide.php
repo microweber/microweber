@@ -157,9 +157,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
               <?php event_trigger('live_edit_quick_add_menu_end'); ?>
             </ul>
           </li>
-          <?php /*    <li><a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium" title="Browse Modules" style="margin: 12px 12px 12px 0;background-color: #fff">Modules</a></li>  */ ?>
-          <?php /*<li><a href="#design_bnav" class="tst-design mw_ex_tools" title="Design & Settings"><span>Design & Settings</span></a>
-                </li>*/ ?>
+
           <li> <span style="display: none"
                         class="liveedit_wysiwyg_prev"
                         id="liveedit_wysiwyg_main_prev"
@@ -254,7 +252,6 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                   </span></a> </li>
                 <?php endif; ?>
 
-                <li><a  href="#design_bnav" class="mw_ex_tools"><span class="ico itabadvanced"></span>Tools</a></li>
                 <li><a href="<?php print mw()->url_manager->api_link('logout'); ?>"><span
                                         class="ico ilogout"></span><span>
                   <?php _e("Logout"); ?>
@@ -418,7 +415,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
         }
         $(window).load(function () {
             mw.liveEditWYSIWYG.buttons();
-            $(window).bind("resize", function () {
+            $(window).on("resize", function () {
                 mw.liveEditWYSIWYG.buttons();
 
                 var n = mw.tools.calc.SliderNormalize(mw.liveEditWYSIWYG.ed);

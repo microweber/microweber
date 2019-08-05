@@ -73,34 +73,6 @@ if (isset($_COOKIE['mw_exp'])) {
 
 
     <script type="text/javascript">
-
-
-        //if(mw.cookie.get("helpinfoliveedit") != 'false'){
-        //     mw.helpinfo.cookie = "helpinfoliveedit";
-        //     mw.helpinfo.pauseInit = true;
-        //     $(window).bind("load", function(){
-        //        mw.mouse.gotoAndClick("#modules-and-layouts", {
-        //              left:mw.$("#modules-and-layouts").width()/2,
-        //              top:0
-        //          });
-        //          setTimeout(function(){
-        //              mw.tools.scrollTo();
-        //              mw.helpinfo.init();
-        //              setTimeout(function(){
-        //                mw.helpinfo.hide(true);
-        //              }, 8000);
-        //              mw.$("#mw_info_helper_footer .mw-ui-btn").eq(0).bind("click", function(){
-        //                mw.helpinfo.hide(true);
-        //              });
-        //          }, 2000);
-        //          $(mwd.body).mousedown(function(e){
-        //            if(!mw.tools.hasParentsWithClass(e.target, 'mw-defaults')){
-        //                mw.helpinfo.hide(true);
-        //            }
-        //          });
-        //     });
-        //  }
-
         $(window).bind('load', function () {
             <?php if(file_exists(TEMPLATE_DIR . 'template_settings.php')){ ?>
             // var show_settings = mw.cookie.get('remove_template_settings') != 'true';
@@ -518,12 +490,8 @@ if (isset($_COOKIE['mw_exp'])) {
                                     <li>
                                         <a><i class="mw-icon-arrowleft"></i><?php _e("Tools"); ?></a>
                                         <ul>
-                                            <li><a href="#design_bnav" class="mw_ex_tools"><span class="mw-icon-monitor"></span><?php _e("Visual editor"); ?></a></li>
                                             <li><a class="mw_ex_tools mw_editor_css_editor" id="mw-toolbar-css-editor-btn"><span class="mw-icon-css">{}</span><?php _e("CSS Editor"); ?></a></li>
                                             <li><a class="mw_ex_tools mw_editor_html_editor" id="mw-toolbar-html-editor-btn"><span class="mw-icon-code"></span><?php _e("HTML Editor"); ?></a></li>
-                                            <?php if (file_exists(TEMPLATE_DIR . 'template_settings.php')) { ?>
-                                                <li><a class="mw_ex_tools" id="mw-toolbar-template-settings" onclick="javascript:mw.tools.show_template_settings();"><span class="mw-icon-web-mixer"></span><?php _e("Template Settings"); ?></a></li>
-                                            <?php } ?>
                                         </ul>
                                     </li>
 
@@ -668,8 +636,11 @@ if (isset($_COOKIE['mw_exp'])) {
         }
         $(window).load(function () {
             mw.liveEditWYSIWYG.buttons();
-            $(window).bind("resize", function () {
+            $(window).on("resize", function () {
                 mw.liveEditWYSIWYG.buttons();
+
+            });
+            mw.interval(function () {
                 var n = mw.tools.calc.SliderNormalize(mw.liveEditWYSIWYG.ed);
                 if (!!n) {
                     mw.liveEditWYSIWYG.slideRight();

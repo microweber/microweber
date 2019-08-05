@@ -389,7 +389,7 @@ mw.tools = {
             else {
                 $(mw.tools.externalInstrument.register[name]).unbind('change');
             }
-            $(mw.tools.externalInstrument.register[name]).bind('change', function () {
+            $(mw.tools.externalInstrument.register[name]).on('change', function () {
                 Array.prototype.shift.apply(arguments);
                 callback.apply(this, arguments);
             });
@@ -629,13 +629,13 @@ mw.tools = {
             if (wl && $.contains(self.document, tip)) {
                 /*
                  //position bug: resize fires in modal frame
-                 $(self).bind('resize scroll', function (e) {
+                 $(self).on('resize scroll', function (e) {
                  if (self.document.contains(tip)) {
                  self.mw.tools.tooltip.setPosition(tip, tip.tooltipData.element, o.position);
                  }
                  });*/
                 if (o.group && typeof orig_options.close_on_click_outside !== 'undefined' && orig_options.close_on_click_outside) {
-                    $(self).bind('click', function (e, target) {
+                    $(self).on('click', function (e, target) {
                         mw.$("." + tip_group_class).hide();
                     });
                 }
@@ -837,7 +837,7 @@ mw.tools = {
                 modal_object.remove();
                 $(modal_return.overlay).remove();
             }
-            mw.$('.mw-modal-close', modal_object[0]).bind('click', function () {
+            mw.$('.mw-modal-close', modal_object[0]).on('click', function () {
                 modal_return.remove();
             });
             modal_return.center = function (a) {
@@ -1348,7 +1348,7 @@ mw.tools = {
             })(modal)
             if (typeof modal.normalized === 'undefined') {
                 modal.normalized = true;
-                $(window).bind("resize", function () {
+                $(window).on("resize", function () {
                     if (mwd.getElementById('mw_gallery') !== null) {
                         mw.tools.gallery.normalizer(modal);
                     }
@@ -1552,7 +1552,7 @@ mw.tools = {
             mw.$(".modules_bar_slide_right,.modules_bar_slide_left").mousedown(function () {
                 $(this).addClass("active");
             });
-            mw.$(".modules_bar_slide_right,.modules_bar_slide_left").bind("mouseup mouseout", function () {
+            mw.$(".modules_bar_slide_right,.modules_bar_slide_left").on("mouseup mouseout", function () {
                 $(this).removeClass("active");
             });
         },
@@ -3006,7 +3006,7 @@ mw.tools = {
             $(input).change(function () {
                 this.changed = true;
             });
-            $(input).bind('keydown keyup paste', function (e) {
+            $(input).on('keydown keyup paste', function (e) {
                 var el = this;
                 el.style.width = 0 + 'px';
                 el.style.width = el.scrollWidth + 6 + 'px';
@@ -3136,7 +3136,7 @@ mw.tools = {
                 frame.contentWindow.PrepareEditor();
             }
         });
-        $(frame).bind('change', function (e, val) {
+        $(frame).on('change', function (e, val) {
             if (area[0].tagName === 'TEXTAREA') {
                 area.val(val);
             }
@@ -3418,11 +3418,11 @@ mw.tools = {
         var setValue1 = ((!!n1.type && n1.nodeName !== 'BUTTON') || n1.nodeName === 'TEXTAREA') ? 'value' : 'textContent';
         var setValue2 = ((!!n2.type && n2.nodeName !== 'BUTTON') || n2.nodeName === 'TEXTAREA') ? 'value' : 'textContent';
         var events = 'keyup paste';
-        $(n1).bind(events, function () {
+        $(n1).on(events, function () {
             n2[setValue2] = n1[setValue1];
             $(n2).trigger('change');
         });
-        $(n2).bind(events, function () {
+        $(n2).on(events, function () {
             n1[setValue1] = n2[setValue2];
             $(n1).trigger('change');
         });
@@ -3433,7 +3433,7 @@ mw.tools = {
         }
         $.each($._data(from, 'events'), function () {
             $.each(this, function () {
-                $(to).bind(this.type, this.handler);
+                $(to).on(this.type, this.handler);
             });
         });
     },
@@ -3589,13 +3589,13 @@ mw.tools = {
                 top: mw.tools.TemplateSettingsModalDefaults.top,
                 zIndex: 1299
             }).addClass('mw-template-settings-hidden');
-            $(window).bind('resize', function () {
+            $(window).on('resize', function () {
                 clearTimeout(mw.tools.TemplateSettingsModalDefaults.timeout);
                 mw.tools.TemplateSettingsModalDefaults.timeout = setTimeout(function () {
                     mw.tools.modal.setDimmensions(modal, undefined, $(window).height() - (1.5 * mw.tools.TemplateSettingsModalDefaults.top), false);
                 }, 333);
             });
-            mw.$('iframe', $(modal.main)[0]).bind('load', function () {
+            mw.$('iframe', $(modal.main)[0]).on('load', function () {
                 if (justInit) {
                     mw.tools.hide_template_settings();
                 }
@@ -3639,7 +3639,7 @@ mw.tools = {
         }
         if (!mw.tools.TemplateSettingsEventsBinded) {
             mw.tools.TemplateSettingsEventsBinded = true;
-            $(mwd.body).bind('click', function (e) {
+            $(mwd.body).on('click', function (e) {
                 if (!mw.tools.hasParentsWithClass(e.target, 'mw-template-settings') && !mw.tools.hasParentsWithClass(e.target, 'mw-defaults')) {
                     mw.tools.hide_template_settings();
                 }
@@ -4195,7 +4195,7 @@ mw.wait('jQuery', function () {
         return this.each(function () {
             if ((this.type === 'checkbox' || this.type === 'radio') && !this.cmactivated) {
                 this.cmactivated = true;
-                $(this).bind("change", function () {
+                $(this).on("change", function () {
                     this.checked === true ? a.call(this) : b.call(this);
                 });
             }
@@ -4799,7 +4799,7 @@ $(document).ready(function () {
     mw.on('mwDialogHide', function(){
         $(document.documentElement).removeClass('mw-dialog-opened');
     });
-    $(mwd.body).bind('mousemove touchmove touchstart', function (event) {
+    $(mwd.body).on('mousemove touchmove touchstart', function (event) {
         if (mw.tools.hasClass(event.target, 'tip')) {
             mw.tools.titleTip(event.target);
         }
@@ -4868,7 +4868,7 @@ $(document).ready(function () {
         $.noop();
         _mwoldww = $(window).width();
     });
-    $(mwd.body).bind("keydown", function (e) {
+    $(mwd.body).on("keydown", function (e) {
         var isgal = mwd.querySelector('.mw_modal_gallery') !== null;
         if (isgal) {
             if (e.keyCode === 27) {  /* escape */
@@ -4954,7 +4954,7 @@ mw.ui.btn = {
         var all = nav.querySelectorAll(btn_selector), i = 0, l = all.length, el;
         for (; i < l; i++) {
             el = all[i];
-            $(el).bind('click', function () {
+            $(el).on('click', function () {
                 if (!mw.tools.hasClass(this.className, 'active')) {
                     var active = nav.querySelector(btn_selector + ".active");
                     if (active !== null) {
@@ -4973,7 +4973,7 @@ mw.ui.btn = {
         var all = nav.querySelectorAll(".mw-ui-btn"), i = 0, l = all.length;
         for (; i < l; i++) {
             var el = all[i];
-            $(el).bind('click', function () {
+            $(el).on('click', function () {
                 if (!mw.tools.hasClass(this.className, 'active')) {
                     this.className += ' active';
                 }
@@ -5855,7 +5855,7 @@ $.fn.timeoutHover = function (ce, cl, time1, time2) {
         });
     });
 }
-$(mww).bind('load', function () {
+$(mww).on('load', function () {
     mw.dropdown();
 });
 $(mwd).ready(function () {

@@ -361,14 +361,7 @@ mw.setCurrentStyles = function(el){
 
 
 $(document).ready(function(){
-  setInterval(function(){
-    if(mwd.querySelector('.element-current') === null){
-      mw.tools.addClass(mwd.querySelector('#design_bnav'), 'disabled')
-    }
-    else{
-      mw.tools.removeClass(mwd.querySelector('#design_bnav'), 'disabled')
-    }
-  }, 777);
+
 
   mw.$("#mw_ts_width")
     .on('input', function(){
@@ -396,23 +389,6 @@ $(document).ready(function(){
 
 
 
-if( typeof $.fn.draggable === 'function'){
-
-
-    mw.$("#design_bnav").draggable({
-      handle:"#design_bnav_handle",
-      containment:'window',
-      scroll:false,
-      start:function(){
-
-      },
-      stop:function(event, ui){
-        mw.cookie.ui("designtool_position", ui.position.top+"|"+ui.position.left)
-      }
-    });
-
-
-}
 
 mw.on("ItemClick onImageClick onElementClick", function(e, el){
 
@@ -470,9 +446,7 @@ $(mwd.body).on("click", function(e){
       mw.$(".mw-designtype-element").show();
       mw.$(".mw-designtype-image").hide();
       mw.setCurrentStyles(e.target);
-       //$(e.target).attr('staticdesign', 'true');
-       //mw.wysiwyg.change(mw.current_element)
-       mw.$("#design_bnav").addClass('available')
+
     }
 
   }
@@ -632,13 +606,6 @@ if(typeof(shadow_pos.bind) != 'function'){
     }, function(){
          mw.$(".element-current").height(mw.$("#height_slider").slider("value"));
     });
-
-    mw.$("#design_bnav").hover(function(){
-       $(mwd.body).addClass('design_hover')
-    }, function(){
-       $(mwd.body).removeClass('design_hover')
-    });
-
 
 
 
