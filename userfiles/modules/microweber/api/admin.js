@@ -20,23 +20,23 @@ mw.admin = {
         //el.slimScroll(settings);
         var scroller = mw.$('.slimScrollBar', el[0].parentNode);
         scroller.bind('mousedown', function () {
-            $(this).addClass('scrollMouseDown');
+            mw.$(this).addClass('scrollMouseDown');
         });
-        $(mwd.body).bind('mouseup', function () {
+        mw.$(mwd.body).bind('mouseup', function () {
             mw.$('.scrollMouseDown').removeClass('scrollMouseDown');
         });
     },
     contentScrollBoxHeightFix: function (node) {
         var exceptor = mw.tools.firstParentWithClass(node, 'scroll-height-exception-master');
-        var contentScrollBoxHeightMinus = ($(exceptor).offset().top - $(window).scrollTop());
+        var contentScrollBoxHeightMinus = ($(exceptor).offset().top - mw.$(window).scrollTop());
         if (!exceptor) {
-            return $(window).height();
+            return mw.$(window).height();
         }
         mw.$('.scroll-height-exception', exceptor).each(function () {
-            contentScrollBoxHeightMinus = contentScrollBoxHeightMinus + $(this).outerHeight(true);
+            contentScrollBoxHeightMinus = contentScrollBoxHeightMinus + mw.$(this).outerHeight(true);
         });
 
-        return $(window).height() - contentScrollBoxHeightMinus;
+        return mw.$(window).height() - contentScrollBoxHeightMinus;
     },
     contentScrollBox: function (selector, settings) {
         var el = mw.$(selector)[0];
@@ -46,7 +46,7 @@ mw.admin = {
         mw.admin.scrollBox(el, settings);
         var newheight = mw.admin.contentScrollBoxHeightFix(el);
         el.style.height = newheight + 'px';
-        $(window).bind('resize', function () {
+        mw.$(window).bind('resize', function () {
             var newheight = mw.admin.contentScrollBoxHeightFix(el);
             el.style.height = newheight + 'px';
         });
@@ -61,45 +61,45 @@ mw.admin = {
     createContentBtns: function () {
         var create_content_btn = mwd.querySelectorAll('.create-content-btn');
         if (create_content_btn.length !== 0) {
-            $(create_content_btn).each(function () {
+            mw.$(create_content_btn).each(function () {
                 if (!this.mwtooltip) {
                     this.mwtooltip = mw.tooltip({
-                        position: $(this).dataset('tip') != '' ? $(this).dataset('tip') : 'bottom-center',
+                        position: mw.$(this).dataset('tip') != '' ? mw.$(this).dataset('tip') : 'bottom-center',
                         content: mw.$('#create-content-menu').html(),
                         element: this,
                         skin: 'mw-tooltip-dark mw-tooltip-action'
                     });
                     var tip = this.mwtooltip;
                     mw.$('.create-content-menu', this.mwtooltip).click(function () {
-                        $(tip).hide();
+                        mw.$(tip).hide();
                     });
                     var el = this;
                     this.mwtooltip.style.display = 'none';
                     this.__tooltipActive = false;
-                    $(this).on('click', function () {
+                    mw.$(this).on('click', function () {
                         if(!this.__tooltipActive){
                             this.__tooltipActive = true;
-                            mw.tools.tooltip.setPosition(this.mwtooltip, this, ($(this).dataset('tip') != '' ? $(this).dataset('tip') : 'bottom-center'));
-                            $(this).addClass('active');
-                            $(this.mwtooltip).show();
+                            mw.tools.tooltip.setPosition(this.mwtooltip, this, ($(this).dataset('tip') != '' ? mw.$(this).dataset('tip') : 'bottom-center'));
+                            mw.$(this).addClass('active');
+                            mw.$(this.mwtooltip).show();
                         }
                         else{
                             this.__tooltipActive = false;
-                            $(this).removeClass('active');
-                            $(this.mwtooltip).hide();
+                            mw.$(this).removeClass('active');
+                            mw.$(this.mwtooltip).hide();
                         }
 
 
                     });
 
-                    $(document.body).on('click', function (e) {
+                    mw.$(document.body).on('click', function (e) {
                       if(!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['create-content-btn'])){
 
                           var create_content_btn = mwd.querySelectorAll('.create-content-btn');
-                          $(create_content_btn).each(function () {
-                              $(this.mwtooltip).hide();
+                          mw.$(create_content_btn).each(function () {
+                              mw.$(this.mwtooltip).hide();
                               this.__tooltipActive = false;
-                              $(this).removeClass('active');
+                              mw.$(this).removeClass('active');
                           })
 
                       }
@@ -116,20 +116,20 @@ mw.admin = {
     },
     editor: {
         set: function (frame) {
-            $(frame).width('100%');
+            mw.$(frame).width('100%');
           /*
             if (!!frame && frame !== null && !!frame.contentWindow) {
                 var width_mbar = mw.$('#main-bar').width(),
                     tree = mwd.querySelector('.tree-column'),
-                    width_tbar = $(tree).width(),
-                    ww = $(window).width();
+                    width_tbar = mw.$(tree).width(),
+                    ww = mw.$(window).width();
                 if (tree.style.display === 'none') {
                     width_tbar = 0;
                 }
                 if (width_mbar > 200) {
                     width_mbar = 0;
                 }
-                $(frame)
+                mw.$(frame)
                     .width(ww - width_tbar - width_mbar - 35)
                     .height(frame.contentWindow.document.body.offsetHeight);
             }*/
@@ -154,18 +154,18 @@ mw.admin = {
             frame.setAttribute('frameborder', 0);
             frame.setAttribute('allowtransparency', 'true');
             area.empty().append(frame);
-            $(frame).load(function () {
+            mw.$(frame).load(function () {
                 frame.contentWindow.thisframe = frame;
                 if (typeof frame.contentWindow.PrepareEditor === 'function') {
                     frame.contentWindow.PrepareEditor();
                 }
                 mw.admin.editor.set(frame);
-                $(frame.contentWindow.document.body).bind('keyup paste', function () {
+                mw.$(frame.contentWindow.document.body).bind('keyup paste', function () {
                     mw.admin.editor.set(frame);
                 });
             });
             mw.admin.editor.set(frame);
-            $(window).bind('resize', function () {
+            mw.$(window).bind('resize', function () {
                 mw.admin.editor.set(frame);
             });
             return frame;
@@ -210,7 +210,7 @@ mw.admin = {
                 !locked ? mw.$(AdminCategoryTree).addClass('tree-column-active') : '';
                 mw.$('.tree-column').click(function () {
                     if (AdminCategoryTree.treewidthactivated === true) {
-                        $(this).removeClass('tree-column-active');
+                        mw.$(this).removeClass('tree-column-active');
                         mw.admin.treeboxwidth();
                         clearInterval(mw.admin.manageToolbarInt);
                         mw.admin.manageToolbarInt = setInterval(function () {
@@ -221,7 +221,7 @@ mw.admin = {
                         }, 205);
                     }
                 });
-                $(mwd.body).bind('click', function (e) {
+                mw.$(mwd.body).bind('click', function (e) {
 
                     if (AdminCategoryTree.treewidthactivated === true && mw.cookie.ui('adminsidebarpin') !== 'true') {
                         if (!mw.tools.hasParentsWithClass(e.target, 'tree-column')) {
@@ -266,7 +266,7 @@ mw.admin = {
             mw.tools.tooltip.setPosition(mw.admin.postStatesTip, el, pos);
             mw.admin.postStatesTip.style.display = 'block';
             mw.$('.btn-posts-state.tip').addClass('tip-disabled');
-            $(mw.tools._titleTip).hide();
+            mw.$(mw.tools._titleTip).hide();
         },
         hide: function (e, d) {
             if (!mw.admin.postStatesTip) {
@@ -293,16 +293,16 @@ mw.admin = {
                 position: 'bottom-left',
                 element: '.btn-posts-state'
             });
-            $(mw.admin.postStatesTip).addClass('posts-states-tooltip');
+            mw.$(mw.admin.postStatesTip).addClass('posts-states-tooltip');
             mw.admin.postStatesTip.style.display = 'none';
             mw.admin.postStatesTip._over = false;
-            $(mw.admin.postStatesTip).hover(function () {
+            mw.$(mw.admin.postStatesTip).hover(function () {
                 this._over = true;
             }, function () {
                 this._over = false;
                 //mw.admin.postStatesTip.style.display = 'none';
             });
-            $(mwd.body).bind('mousedown', function (e) {
+            mw.$(mwd.body).bind('mousedown', function (e) {
                 if (mw.admin.postStatesTip._over === false && mw.admin.postStatesTip.style.display == 'block' && !mw.tools.hasClass(e.target, 'btn-posts-state') && !mw.tools.hasParentsWithClass(e.target, 'btn-posts-state')) {
                     mw.admin.postStatesTip.style.display = 'none';
                 }
@@ -316,7 +316,7 @@ mw.admin = {
                 mw.$('#is_post_active').val('1');
                 mw.$('.btn-posts-state.tip-disabled').removeClass('tip-disabled');
                 mw.admin.postStatesTip.style.display = 'none';
-                $(".btn-posts-state").html($('.btn-publish').html())
+                mw.$(".btn-posts-state").html($('.btn-publish').html())
             }
             else if (a == 'unpublish') {
                 mw.$('.btn-publish').removeClass('active');
@@ -325,7 +325,7 @@ mw.admin = {
                 mw.$('#is_post_active').val('0');
                 mw.$('.btn-posts-state.tip-disabled').removeClass('tip-disabled');
                 mw.admin.postStatesTip.style.display = 'none';
-                $(".btn-posts-state").html($('.btn-unpublish').html())
+                mw.$(".btn-posts-state").html($('.btn-unpublish').html())
             }
 
 
@@ -346,15 +346,15 @@ mw.admin = {
         }
         if (typeof rotator !== 'undefined') {
             if (!$(rotator).hasClass('activated')) {
-                $(rotator).addClass('activated')
+                mw.$(rotator).addClass('activated')
                 var all = rotator.children;
                 var l = all.length;
-                $(all).addClass('mw-simple-rotator-item');
+                mw.$(all).addClass('mw-simple-rotator-item');
 
                 rotator.go = function (where, callback, method) {
                     var method = method || 'animate';
-                    $(rotator).dataset('state', where);
-                    $(rotator.children).hide().eq(where).show()
+                    mw.$(rotator).dataset('state', where);
+                    mw.$(rotator.children).hide().eq(where).show()
                         if (typeof callback === 'function') {
                             callback.call(rotator);
                         }
@@ -383,11 +383,11 @@ mw.admin = {
         var itemsWrapper = obj.itemsWrapper;
 
         if (itemsWrapper == null) return false;
-        $(itemsWrapper).hide();
+        mw.$(itemsWrapper).hide();
         var items = obj.itemsWrapper.querySelectorAll(obj.items);
         var tagMethod = obj.method || 'parse';
 
-        var tagholder = $(obj.tagholder);
+        var tagholder = mw.$(obj.tagholder);
         var field = mw.$('input[type="text"]', tagholder[0]);
 
         if (field == null) {
@@ -405,7 +405,7 @@ mw.admin = {
             var icon = mwd.createElement('i');
             icon.className = mw.tools.firstParentWithTag(el, 'li').className;
 
-            $(span_holder).prepend(icon);
+            mw.$(span_holder).prepend(icon);
 
             span_holder.onclick = function (e) {
 
@@ -422,7 +422,7 @@ mw.admin = {
                                 mw.tools.stopLoop(loop);
                             }
                             if (this.tagName === 'LI') {
-                                $(this).addClass('active');
+                                mw.$(this).addClass('active');
                             }
                         });
 
@@ -433,7 +433,7 @@ mw.admin = {
 
                             mw.tools.highlightStop(mw.$(".highlighted").removeClass("highlighted"));
                             mw.tools.highlight(label);
-                            $(label).addClass("highlighted");
+                            mw.$(label).addClass("highlighted");
                         }, 55);
                     }
                 }
@@ -451,17 +451,17 @@ mw.admin = {
             if (method === 'parse' || el === 'all') {
                 var html = [];
                 var checks = itemsWrapper.querySelectorAll('input[type="radio"], input[type="checkbox"]');
-                $(checks).each(function () {
+                mw.$(checks).each(function () {
                     if (this.checked == true) {
-                        $(mw.tools.firstParentWithClass(this, 'mw-ui-check')).addClass("active");
+                        mw.$(mw.tools.firstParentWithClass(this, 'mw-ui-check')).addClass("active");
                         var tag = o.createTag(this);
                         html.push(tag);
                     }
                     else {
-                        $(mw.tools.firstParentWithClass(this, 'mw-ui-check')).removeClass("active");
+                        mw.$(mw.tools.firstParentWithClass(this, 'mw-ui-check')).removeClass("active");
                     }
                 });
-                $(tagholder).prepend(html);
+                mw.$(tagholder).prepend(html);
             }
             else if (method === 'prepend') {
                 var tag = o.createTag(el);
@@ -469,16 +469,16 @@ mw.admin = {
                     tagholder.prepend(tag);
                 }
                 else {
-                    $('.mw-ui-btn:last', tagholder).after(tag);
+                    mw.$('.mw-ui-btn:last', tagholder).after(tag);
                 }
             }
         }
 
         o.untag = function (pill, input) {
-            $(pill).remove();
+            mw.$(pill).remove();
             if (!!input) {
-                $(input)[0].checked = false;
-                $(mw.tools.firstParentWithClass($(input)[0], 'mw-ui-check')).removeClass("active");
+                mw.$(input)[0].checked = false;
+                mw.$(mw.tools.firstParentWithClass($(input)[0], 'mw-ui-check')).removeClass("active");
             }
             if (typeof obj.onUntag === 'function') {
                 obj.onUntag.call(o);
@@ -495,8 +495,8 @@ mw.admin = {
 
             itemsWrapper.style.top = '100%';
             itemsWrapper.style.display = 'block';
-            var off = $(itemsWrapper).offset();
-            if ((off.top + $(itemsWrapper).outerHeight()) > ($(window).scrollTop() + $(window).height())) {
+            var off = mw.$(itemsWrapper).offset();
+            if ((off.top + mw.$(itemsWrapper).outerHeight()) > ($(window).scrollTop() + mw.$(window).height())) {
                 itemsWrapper.style.top = 'auto';
                 itemsWrapper.style.bottom = '100%';
             }
@@ -507,12 +507,12 @@ mw.admin = {
             if (itemsWrapper.querySelector('input').binded != true) {
                 itemsWrapper.querySelector('input').binded = true;
                 var checks = itemsWrapper.querySelectorAll('input[type="radio"], input[type="checkbox"]');
-                $(checks).commuter(function () {
+                mw.$(checks).commuter(function () {
                     if (tagMethod === 'prepend') {
                         o.rend(tagMethod, this);
                     }
                     else {
-                        $('.mw-ui-btn', tagholder).remove();
+                        mw.$('.mw-ui-btn', tagholder).remove();
                         o.rend(tagMethod);
                     }
                     if (typeof obj.onTag === 'function') {
@@ -524,16 +524,16 @@ mw.admin = {
                 });
 
                 tagholder.hover(function () {
-                    $(this).addClass('mw-tagger-hover')
+                    mw.$(this).addClass('mw-tagger-hover')
                 }, function () {
-                    $(this).removeClass('mw-tagger-hover')
+                    mw.$(this).removeClass('mw-tagger-hover')
                 });
-                $(itemsWrapper).hover(function () {
-                    $(this).addClass('mw-tagger-hover')
+                mw.$(itemsWrapper).hover(function () {
+                    mw.$(this).addClass('mw-tagger-hover')
                 }, function () {
-                    $(this).removeClass('mw-tagger-hover')
+                    mw.$(this).removeClass('mw-tagger-hover')
                 });
-                $(mwd.body).bind('mousedown', function (e) {
+                mw.$(mwd.body).bind('mousedown', function (e) {
                     if (mw.$(".mw-tagger-hover").length == 0) {
                         itemsWrapper.style.display = 'none';
                         if (mw.$('.mw-ui-btn', tagholder).length == 0) {
@@ -542,23 +542,23 @@ mw.admin = {
                         else {
                             field.val('');
                         }
-                        $(items).show();
+                        mw.$(items).show();
                     }
                 });
             }
         });
         field[0].tagSettings = obj;
         field.keyup(function () {
-            var val = $(this).val();
+            var val = mw.$(this).val();
             var el = this;
             var foundlen = 0;
             mw.tools.search(val, items, function (found) {
                 if (found) {
                     foundlen++;
-                    $(this).show();
+                    mw.$(this).show();
                 }
                 else {
-                    $(this).hide();
+                    mw.$(this).hide();
                 }
             });
             if (foundlen === 0) {
@@ -609,7 +609,7 @@ mw.admin = {
             multiple: true,
             element: "#insert-image-uploader"
         });
-        $(uploader).bind("FileUploaded", function (obj, data) {
+        mw.$(uploader).bind("FileUploaded", function (obj, data) {
             var frameWindow = mwd.querySelector('.mw-iframe-editor').contentWindow;
             var hasRanges = frameWindow.getSelection().rangeCount > 0;
             var img = '<img class="element" src="' + data.src + '" />';
@@ -663,7 +663,7 @@ mw.admin = {
             all[i].MWbeforeLeaveLocker = true;
             var links = all[i].querySelectorAll('a'), ll = links.length, li = 0;
             for (; li < ll; li++) {
-                $(links[li]).bind('mouseup', function (e) {
+                mw.$(links[li]).bind('mouseup', function (e) {
                     if (mw.askusertostay === true) {
                         e.preventDefault();
                         return false;
@@ -708,7 +708,7 @@ mw.contactForm = function () {
 $(mwd).ready(function () {
     mw.admin.mobileMessage();
     mw.admin.treeboxwidth();
-    $(mwd.body).bind('keydown', function (e) {
+    mw.$(mwd.body).bind('keydown', function (e) {
         if (mw.event.key(e, 8) && (e.target.nodeName === 'DIV' || e.target === mwd.body)) {
             mw.event.cancel(e);
             return false;
@@ -718,7 +718,7 @@ $(mwd).ready(function () {
 
     mw.admin.beforeLeaveLocker();
 
-    $(document.body).on('click', '[data-href]', function(e){
+    mw.$(document.body).on('click', '[data-href]', function(e){
         e.preventDefault();
         e.stopPropagation()
         location.href = e.target.getAttribute('data-href')
@@ -728,8 +728,8 @@ $(mwd).ready(function () {
 });
 
 $(mww).bind('load', function () {
-  $(".mobile-tree-menu").on('click', function(){
-    $(".tree-column").toggleClass('tree-column-mobile-active')
+  mw.$(".mobile-tree-menu").on('click', function(){
+    mw.$(".tree-column").toggleClass('tree-column-mobile-active')
   })
     mw.admin.contentScrollBox('.fixed-side-column-container');
     mw.admin.contentScrollBox('#mw-admin-main-menu', {color: 'white'});
@@ -738,7 +738,7 @@ $(mww).bind('load', function () {
     if(locked == ''){
         mw.admin.CategoryTreeWidth(mw.url.getHashParams(location.hash).action);
         mw.cookie.ui('adminsidebarpin', 'true');
-        $(".tree-column-active").removeClass('tree-column-active')
+        mw.$(".tree-column-active").removeClass('tree-column-active')
     }
     else{
         mw.admin.treeboxwidth();
@@ -756,7 +756,7 @@ $(mww).bind('load', function () {
 
     if (mwd.getElementById('main-bar-user-menu-link') !== null) {
 
-        $(document.body).bind('click', function (e) {
+        mw.$(document.body).bind('click', function (e) {
             if (e.target !== mwd.getElementById('main-bar-user-menu-link') && e.target.parentNode !== mwd.getElementById('main-bar-user-menu-link')) {
                 mw.$('#main-bar-user-tip').removeClass('main-bar-user-tip-active');
             }
@@ -794,17 +794,17 @@ $(mww).bind('load', function () {
         mw.$('#pin-sidebar').addClass('active');
     }
 
-    $(window).on('adminSaveStart', function () {
+    mw.$(window).on('adminSaveStart', function () {
         var btn = mwd.querySelector('#content-title-field-buttons .btn-save span');
         btn.innerHTML = mw.msg.saving + '...';
     });
-    $(window).on('adminSaveEnd', function () {
+    mw.$(window).on('adminSaveEnd', function () {
         var btn = mwd.querySelector('#content-title-field-buttons .btn-save span');
         btn.innerHTML = mw.msg.save;
     });
 
     mw.$(".dr-item-table > table").click(function(){
-        $(this).toggleClass('active').next().stop().slideToggle().parents('.dr-item').toggleClass('active')
+        mw.$(this).toggleClass('active').next().stop().slideToggle().parents('.dr-item').toggleClass('active')
     })
 
 
@@ -826,14 +826,14 @@ $(mww).bind('scroll resize load', function (e) {
         if (bottommenu !== null) {
             var usermenu = mwd.getElementById('user-menu'),
                 lft = bottommenu.previousElementSibling,
-                wh = $(window).height();
+                wh = mw.$(window).height();
 
                 if(lft === null){
                     bottommenu.style.position = '';
                     return;
                 }
 
-            if (wh < ($(lft).offset().top - $(window).scrollTop() + lft.offsetHeight + usermenu.offsetHeight + bottommenu.offsetHeight)) {
+            if (wh < ($(lft).offset().top - mw.$(window).scrollTop() + lft.offsetHeight + usermenu.offsetHeight + bottommenu.offsetHeight)) {
                 bottommenu.style.position = "static";
             }
             else {
@@ -849,14 +849,14 @@ mw.on.moduleReload('pages_edit_container', function () {
 });
 
 QTABSArrow = function (el) {
-    var el = $(el);
+    var el = mw.$(el);
     if (el == null) {
         return;
     }
     if (el.length == 0) {
         return;
     }
-    var left = el.offset().left - $(mwd.getElementById('quick-add-post-options')).offset().left + (el[0].offsetWidth / 2) - 5;
+    var left = el.offset().left - mw.$(mwd.getElementById('quick-add-post-options')).offset().left + (el[0].offsetWidth / 2) - 5;
     mw.$('#quick-add-post-options-items-holder .mw-tooltip-arrow').css({left: left});
 }
 

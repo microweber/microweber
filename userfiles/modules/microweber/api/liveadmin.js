@@ -6,9 +6,9 @@ mw.ajaxState = {
 
 $(document).ready(function(){
   mw.session.checkInit();
-  $(mwd.body).ajaxStart(function(){
+  mw.$(mwd.body).ajaxStart(function(){
     mw.ajaxState.isGoing = true;
-    var body = $(this);
+    var body = mw.$(this);
     setTimeout(function(){
        mw.ajaxState.isGoing ? body.addClass('loading') : '';
     }, mw.ajaxState.time);
@@ -17,13 +17,13 @@ $(document).ready(function(){
     }, mw.ajaxState.tooMuchTime);
   });
 
-  $(mwd.body).ajaxStop(function(){
+  mw.$(mwd.body).ajaxStop(function(){
     mw.ajaxState.isGoing = false;
-    $(this).removeClass('loading').removeClass('still-loading');
+    mw.$(this).removeClass('loading').removeClass('still-loading');
   });
 
-  $(window).bind('unload', function(){
-       $(mwd.body).addClass('loading');
+  mw.$(window).bind('unload', function(){
+       mw.$(mwd.body).addClass('loading');
   });
 
 });

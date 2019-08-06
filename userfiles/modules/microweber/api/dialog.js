@@ -25,11 +25,11 @@ mw.dialogIframe = function(options){
         if(options.autoHeight) {
             mw.tools.iframeAutoHeight(frame);
         }
-        $(frame).on('load', function(){
+        mw.$(frame).on('load', function(){
             mw.tools.loading(dialog.dialogContainer, false);
             setTimeout(function(){
                 dialog.center();
-                $(frame).on('bodyResize', function () {
+                mw.$(frame).on('bodyResize', function () {
                     dialog.center();
                 });
                 dialog.dialogMain.classList.remove('mw-dialog-iframe-loading');
@@ -37,7 +37,7 @@ mw.dialogIframe = function(options){
                 mw.tools.iframeAutoHeight(frame, 'now');
             }, 78);
             if(mw.tools.canAccessIFrame(frame)) {
-               $(frame.contentWindow.document).on('keydown', function (e) {
+               mw.$(frame.contentWindow.document).on('keydown', function (e) {
                     if(mw.event.is.escape(e) && !mw.event.targetIsField(e)){
                         if(dialog.options.closeOnEscape){
                             dialog.remove();
@@ -110,7 +110,7 @@ mw.Dialog = function(options){
 
         if(!mw.__dialogsData._esc) {
             mw.__dialogsData._esc = true;
-            $(document).on('keydown', function (e) {
+            mw.$(document).on('keydown', function (e) {
                 if(mw.event.is.escape(e)) {
                     for( var i = mw.__dialogs.length-1; i >= 0; i--) {
                         var dlg = mw.__dialogs[i];
@@ -127,7 +127,7 @@ mw.Dialog = function(options){
 
         this.draggable = function() {
             if ( this.options.draggable && $.fn.draggable ) {
-                var $holder = $(this.dialogHolder);
+                var $holder = mw.$(this.dialogHolder);
                 $holder.draggable({
                     handle: this.options.draggableHandle || '.mw-dialog-header',
                     start: function() {
@@ -152,7 +152,7 @@ mw.Dialog = function(options){
         };
 
         this.title = function(title){
-            var root = $('.mw-dialog-title', this.dialogHeader);
+            var root = mw.$('.mw-dialog-title', this.dialogHeader);
             if(typeof title === 'undefined') {
                return root.html();
             } else {
@@ -160,7 +160,7 @@ mw.Dialog = function(options){
                     root.html(title);
                 }
                 else{
-                   $(this.dialogHeader).prepend('<div class="mw-dialog-title">' + title + '</div>');
+                   mw.$(this.dialogHeader).prepend('<div class="mw-dialog-title">' + title + '</div>');
                 }
             }
         };
@@ -194,7 +194,7 @@ mw.Dialog = function(options){
 
             this.dialogContainer.className = 'mw-dialog-container';
             this.dialogHolder.className = 'mw-dialog-holder';
-            $(this.dialogContainer).append(this.options.content);
+            mw.$(this.dialogContainer).append(this.options.content);
 
             this.dialogHolder.appendChild(this.dialogHeader);
             this.dialogHolder.appendChild(this.dialogContainer);
@@ -208,7 +208,7 @@ mw.Dialog = function(options){
             this.closeButton.onclick = function(){
                 this.$scope.remove();
             };
-            this.main = $(this.dialogContainer); // obsolete
+            this.main = mw.$(this.dialogContainer); // obsolete
             this.main.width = this.width;
 
             this.width(this.options.width || 600);
@@ -217,7 +217,7 @@ mw.Dialog = function(options){
             this.options.root.body.appendChild(this.dialogMain);
             this.dialogMain.appendChild(this.dialogHolder);
             if(this.options.closeButtonAppendTo){
-                $(this.options.closeButtonAppendTo, this.dialogMain).append(this.closeButton)
+                mw.$(this.options.closeButtonAppendTo, this.dialogMain).append(this.closeButton)
             }
             else {
                 this.dialogHolder.appendChild(this.closeButton);
@@ -231,7 +231,7 @@ mw.Dialog = function(options){
             if(scope.options.containment === 'window'){
                 if(scope.options.scrollMode === 'inside'){
                     var rect = this.dialogHolder.getBoundingClientRect();
-                    var $win = $(window);
+                    var $win = mw.$(window);
                     var sctop = $win.scrollTop();
                     var height = $win.height();
                     if(rect.top < sctop || (sctop + height) > (rect.top + rect.height)){
@@ -248,7 +248,7 @@ mw.Dialog = function(options){
             if(this.options.overlay === true){
                 this.dialogMain.appendChild(this.overlay);
             }
-            $(this.overlay).on('click', function(){
+            mw.$(this.overlay).on('click', function(){
                 if(this.$scope.options.overlayClose === true){
                     this.$scope.remove();
                 }
@@ -258,9 +258,9 @@ mw.Dialog = function(options){
         };
 
         this.show = function(){
-            $(this.dialogMain).addClass('active');
+            mw.$(this.dialogMain).addClass('active');
             this.center();
-            $(this).trigger('Show');
+            mw.$(this).trigger('Show');
             mw.trigger('mwDialogShow', this);
             return this;
         };
@@ -269,8 +269,8 @@ mw.Dialog = function(options){
         this.hide = function(){
             if(!this._hideStart) {
                 this._hideStart = true;
-                $(this.dialogMain).removeClass('active');
-                $(this).trigger('Hide');
+                mw.$(this.dialogMain).removeClass('active');
+                mw.$(this).trigger('Hide');
                 mw.trigger('mwDialogHide', this);
             }
             return this;
@@ -279,8 +279,8 @@ mw.Dialog = function(options){
         this.remove = function(){
             this.hide();
             mw.removeInterval('iframe-' + this.id)
-            $(this.dialogMain).remove();
-            $(this).trigger('Remove');
+            mw.$(this.dialogMain).remove();
+            mw.$(this).trigger('Remove');
             mw.trigger('mwDialogRemove', this);
             for(var i=0; i<mw.__dialogs.length; i++ ) {
                 if(mw.__dialogs[i] === this) {
@@ -297,7 +297,7 @@ mw.Dialog = function(options){
         this._dragged = false;
 
         this.center = function(width, height){
-            var $holder = $(this.dialogHolder), $window = $(window);
+            var $holder = mw.$(this.dialogHolder), $window = mw.$(window);
             var holderHeight = height || $holder.outerHeight();
             var holderWidth = width || $holder.outerWidth();
             var dtop, css = {};
@@ -321,18 +321,18 @@ mw.Dialog = function(options){
             $holder.css(css);
             this._prevHeight = holderHeight;
 
-            $(this).trigger('dialogCenter');
+            mw.$(this).trigger('dialogCenter');
 
             return this;
         };
 
        this.width = function(width){
             //$(this.dialogContainer).width(width);
-            $(this.dialogHolder).width(width);
+            mw.$(this.dialogHolder).width(width);
        };
        this.height = function(height){
             //$(this.dialogContainer).height(height);
-            $(this.dialogHolder).height(height);
+            mw.$(this.dialogHolder).height(height);
        };
        this.resize = function(width, height){
             if(typeof width !== 'undefined'){
@@ -354,7 +354,7 @@ mw.Dialog = function(options){
         var scope = this;
         if (this.options.scrollMode === 'inside') {
             mw.interval('iframe-' + this.id, function(){
-                var max = $(window).height() - scope.dialogHeader.clientHeight - scope.dialogFooter.clientHeight - 40;
+                var max = mw.$(window).height() - scope.dialogHeader.clientHeight - scope.dialogFooter.clientHeight - 40;
                 scope.dialogContainer.style.maxHeight =  max + 'px';
                 scope.containmentManage();
             });
@@ -367,16 +367,16 @@ mw.Dialog = function(options){
             this.show();
             if(this.options.autoCenter){
                 (function(scope){
-                    $(window).on('resize orientationchange load', function(){
+                    mw.$(window).on('resize orientationchange load', function(){
                         scope.contentMaxHeight();
                         scope.center();
                     });
                 })(this);
             }
             if(!this.options.pauseInit){
-                $(this).trigger('Init');
+                mw.$(this).trigger('Init');
             }
-        $(this.dialogHolder).on('transitionend', function(){
+        mw.$(this.dialogHolder).on('transitionend', function(){
             scope.center();
         });
 

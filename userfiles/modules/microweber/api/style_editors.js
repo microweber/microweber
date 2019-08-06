@@ -27,7 +27,7 @@ canvasCTRL_draw = function(context, type, color, x, y, w, h){
 }
 
 canvasCTRL_rendValue = function(canvas, x, y, opt){
-    var canvas = $(canvas);
+    var canvas = mw.$(canvas);
     var zeroX = canvas.width()/2;
     var zeroY = canvas.height()/2;
     var r_left = opt.alwayPositive=='no' ? x-zeroX : x;
@@ -94,7 +94,7 @@ $.fn.canvasCTRL = function(options){
     if(canvas.isDrag){
       event.stopPropagation();
       event.preventDefault();
-        var off = $(canvas).offset();
+        var off = mw.$(canvas).offset();
 
         var coords =  canvasCTRL_rendXY(w,h,event,isX,isY, off);
 
@@ -151,7 +151,7 @@ $.fn.canvasCTRL = function(options){
       event.preventDefault();
     };
   };
-  return $(canvas);
+  return mw.$(canvas);
 };
 
 
@@ -186,8 +186,8 @@ generateJSON4StaticElements = function(){
         var el = all[i];
         css = el.getAttribute("style");
         if(!css){
-            $(el).removeAttr('style');
-            $(el).removeAttr('staticdesign');
+            mw.$(el).removeAttr('style');
+            mw.$(el).removeAttr('staticdesign');
             continue;
         }
         var selector = mw.tools.generateSelectorForNode(el);
@@ -203,9 +203,9 @@ generateJSON4StaticElements = function(){
              selector:selector,
              css:css
           };
-          $("#mw-dynamic-css").append(selector+ '{' + css + '}\r\n');
-          $(el).removeAttr('style');
-          $(el).removeAttr('staticdesign');
+          mw.$("#mw-dynamic-css").append(selector+ '{' + css + '}\r\n');
+          mw.$(el).removeAttr('style');
+          mw.$(el).removeAttr('staticdesign');
         }
     }
   }
@@ -236,7 +236,7 @@ saveStaticElementsStyles = function(callback, error){
 
 
 mw.styleSliders = function(el){
-    var el = $(el);
+    var el = mw.$(el);
 
   if(typeof jQuery.fn.dataset !== 'function'){
     return;
@@ -258,7 +258,7 @@ mw.styleSliders = function(el){
     return {
        slide:function(event,ui){
           var val = (ui.value);
-          var type = $(this).dataset('type');
+          var type = mw.$(this).dataset('type');
           var to_set = type=='opacity'? val/100 :val;
           if(custom==''){
             mw.$(".element-current").css(type, to_set);
@@ -274,7 +274,7 @@ mw.styleSliders = function(el){
        change:function(event,ui){
          if(event.originalEvent!==undefined){
             var val = (ui.value);
-            var type = $(this).dataset('type');
+            var type = mw.$(this).dataset('type');
             var to_set = type=='opacity'? val/100 :val;
            mw.$("input[name='"+this.id+"']").val(val);
             if(custom==''){
@@ -302,16 +302,16 @@ mw.styleSliders = function(el){
 }
 
 init_square_maps = function(){
-  var items = $(".square_map .square_map_item");
+  var items = mw.$(".square_map .square_map_item");
   items.hover(function(){
-     var val = $(this).html();
-     $(this).parents(".square_map").find(".square_map_value").html(val);
+     var val = mw.$(this).html();
+     mw.$(this).parents(".square_map").find(".square_map_value").html(val);
   }, function(){
-     var val = $(this).parents(".square_map").find(".active").html();
-     $(this).parents(".square_map").find(".square_map_value").html(val);
+     var val = mw.$(this).parents(".square_map").find(".active").html();
+     mw.$(this).parents(".square_map").find(".square_map_value").html(val);
   });
   items.mousedown(function(){
-    var el = $(this);
+    var el = mw.$(this);
     if(!el.hasClass("active")){
         el.parents(".square_map").find(".active").removeClass("active");
         el.addClass("active");
@@ -320,8 +320,8 @@ init_square_maps = function(){
   });
 
   mw.$(".mw-dropdown_func_slider").change(function(){
-    var val = $(this).getDropdownValue();
-    var who = $(this).attr("data-for");
+    var val = mw.$(this).getDropdownValue();
+    var who = mw.$(this).attr("data-for");
     mw.$("#"+who).attr("data-type", val);
     mw.trigger('staticElementStyleChanged');
   });
@@ -372,25 +372,25 @@ $(document).ready(function(){
 
   mw.$("#mw_ts_width")
     .on('input', function(){
-     $(".element-current").css('width', this.value)
+     mw.$(".element-current").css('width', this.value)
     });
   mw.$("#mw_ts_height")
     .on('input', function(){
-      $(".element-current").css('height', this.value)
+      mw.$(".element-current").css('height', this.value)
     });
     mw.$("#mw_ts_margin")
         .on('input', function(){
-            var type = $(this).dataset('type');
+            var type = mw.$(this).dataset('type');
             if(type){
-                $(".element-current").css(type, this.value + 'px')
+                mw.$(".element-current").css(type, this.value + 'px')
             }
         });
 
     mw.$("#mw_ts_padding")
         .on('input', function(){
-            var type = $(this).dataset('type');
+            var type = mw.$(this).dataset('type');
             if(type) {
-                $(".element-current").css(type, this.value + 'px');
+                mw.$(".element-current").css(type, this.value + 'px');
             }
         });
 
@@ -422,9 +422,9 @@ $("#mw_ts_height").val(el.offsetHeight)
 if($(".ts_action:isVisible").length==0){
 
   mw.$(".element-current").removeClass("element-current");
-  $(el).addClass("element-current");
+  mw.$(el).addClass("element-current");
 
-  mw.current_element = $(".element-current")[0];
+  mw.current_element = mw.$(".element-current")[0];
   mw.current_element_styles = window.getComputedStyle(el, null);
 
 
@@ -481,7 +481,7 @@ $(mwd.body).on("click", function(e){
 
 
   mw.$(".ed_slider").each(function(){
-    $(this).slider(mw.styleSliders(this));
+    mw.$(this).slider(mw.styleSliders(this));
   });
 
 
@@ -489,7 +489,7 @@ $(mwd.body).on("click", function(e){
   init_square_maps();
 
   mw.$("#fx_element").change(function(){
-    var val = $(this).getDropdownValue();
+    var val = mw.$(this).getDropdownValue();
     mw.$("#element_effx .fx").hide();
     mw.$("#fx_"+val).show();
   });
@@ -498,12 +498,12 @@ $(mwd.body).on("click", function(e){
   /*
 
 
-  $(".perspective-slider").slider({
+  mw.$(".perspective-slider").slider({
     slide:function(event,ui){
-        mw.css3fx.perspective($(".element-current")[0], $(".element-current").width(), ui.value);
+        mw.css3fx.perspective($(".element-current")[0], mw.$(".element-current").width(), ui.value);
     },
     change:function(event,ui){
-        mw.css3fx.perspective($(".element-current")[0], $(".element-current").width(), ui.value);
+        mw.css3fx.perspective($(".element-current")[0], mw.$(".element-current").width(), ui.value);
     },
     stop:function(event,ui){
         mw.css3fx.set_obj($(".element-current")[0], 'transform', "perspective( "+$(".element-current").width()+"px ) rotateY( "+ui.value+"deg )");
@@ -522,7 +522,7 @@ $(mwd.body).on("click", function(e){
 
   mw.onLive(function(){
 
-  var shadow_pos  = $("#ed_shadow").canvasCTRL();
+  var shadow_pos  = mw.$("#ed_shadow").canvasCTRL();
 
 if(typeof(shadow_pos.bind) != 'function'){
   return false;
@@ -560,7 +560,7 @@ if(typeof(shadow_pos.bind) != 'function'){
         var len = arr.length;
         var x =  parseFloat(arr[len-4]);
         var y =  parseFloat(arr[len-3]);
-        var color = $(".ed_shadow_color").dataset("color");
+        var color = mw.$(".ed_shadow_color").dataset("color");
         mw.$(".element-current").css("box-shadow", x+"px " + y + "px "+ (val.left-5)*2 +"px #" + color);
       }
       mw.wysiwyg.change(mwd.querySelector(".element-current"));
@@ -573,7 +573,7 @@ if(typeof(shadow_pos.bind) != 'function'){
 
 
     mw.$(".slider_val input").keyup(function(event){
-        var el = $(this);
+        var el = mw.$(this);
         var _el = this;
         var val = _el.value;
         var val = val.replace(/[^-\d]/,'');
@@ -590,8 +590,8 @@ if(typeof(shadow_pos.bind) != 'function'){
     mw.$(".ts_border_position_selector a.border-style").click(function(){
       if(!$(this).hasClass("active")){
          mw.$(".ts_border_position_selector a.border-style.active").removeClass("active");
-         $(this).addClass("active");
-         var which = $(this).dataset("val");
+         mw.$(this).addClass("active");
+         var which = mw.$(this).dataset("val");
          mw.border_which = which;
          if(which=='none'){
            mw.$('.element-current').css("border", "none");
@@ -601,31 +601,31 @@ if(typeof(shadow_pos.bind) != 'function'){
 
     mw.$(".dd_border_selector").on("change", function(e){
 
-      mw.$('.element-current').css(mw.border_which+'Style', $(this).getDropdownValue());
+      mw.$('.element-current').css(mw.border_which+'Style', mw.$(this).getDropdownValue());
       mw.wysiwyg.change(mwd.querySelector(".element-current"));
     });
 
     mw.$(".dd_borderwidth_Selector").on("change", function(e){
-      mw.$('.element-current').css(mw.border_which+'Width', $(this).getDropdownValue());
+      mw.$('.element-current').css(mw.border_which+'Width', mw.$(this).getDropdownValue());
       mw.wysiwyg.change(mwd.querySelector(".element-current"));
     });
 
 
     mw.$("#ts_bg_repeat").on("change", function(){
-       mw.$('.element-current').css('backgroundRepeat', $(this).getDropdownValue());
+       mw.$('.element-current').css('backgroundRepeat', mw.$(this).getDropdownValue());
        mw.wysiwyg.change(mwd.querySelector(".element-current"));
     });
     mw.$("#ts_bg_position").on("change", function(e){
-       var val = $(this).getDropdownValue();
+       var val = mw.$(this).getDropdownValue();
        mw.$('.element-current').css('backgroundPosition', val);
        mw.wysiwyg.change(mwd.querySelector(".element-current"));
     });
 
 
     mw.$("#ed_auto_width").commuter(function(){
-         $(".element-current").width('auto');
+         mw.$(".element-current").width('auto');
     }, function(){
-         $(".element-current").width(mw.$("#mw_ts_width").val());
+         mw.$(".element-current").width(mw.$("#mw_ts_width").val());
     });
      mw.$("#ed_auto_height").commuter(function(){
          mw.$(".element-current").height('auto');
@@ -634,9 +634,9 @@ if(typeof(shadow_pos.bind) != 'function'){
     });
 
     mw.$("#design_bnav").hover(function(){
-       $(mwd.body).addClass('design_hover')
+       mw.$(mwd.body).addClass('design_hover')
     }, function(){
-       $(mwd.body).removeClass('design_hover')
+       mw.$(mwd.body).removeClass('design_hover')
     });
 
 

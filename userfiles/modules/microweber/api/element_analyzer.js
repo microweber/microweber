@@ -15,7 +15,7 @@ mw.AfterDrop = function(){
                         mw.wysiwyg.init_editables();
                     },
                     fail:function () {
-                        $(this).remove();
+                        mw.$(this).remove();
                         mw.notification.error('Error loading module.');
                     }
                 }, true);
@@ -60,7 +60,7 @@ mw.AfterDrop = function(){
             mw.$(".currentDragMouseOver").removeClass('currentDragMouseOver');
 
             mw.$(".mw_drag_current").each(function(){
-                $(this).removeClass('mw_drag_current').css({
+                mw.$(this).removeClass('mw_drag_current').css({
                     visibility:'visible',
                     opacity:''
                 });
@@ -193,7 +193,7 @@ mw.ElementAnalyzer = function(options){
     this.analizePosition = function(event, node){
         node = node || this.data.target;
         var height = node.offsetHeight,
-            offset = $(node).offset();
+            offset = mw.$(node).offset();
         if (mw.event.page(event).y > offset.top + (height / 2)) {
             this.data.dropablePosition =  'bottom';
         } else {
@@ -438,7 +438,7 @@ mw.ElementAnalyzer = function(options){
                         mw.wysiwyg.init_editables();
                     },
                     fail:function () {
-                        $(this).remove();
+                        mw.$(this).remove();
                         mw.notification.error('Error loading module.')
                     }
                 }, true);
@@ -533,13 +533,13 @@ mw.ElementAnalyzer = function(options){
 
             }
 
-            var el = $(scope.data.target);
+            var el = mw.$(scope.data.target);
             mw.currentDragMouseOver = scope.data.target;
 
             mw.dropables.set(scope.data.dropablePosition, el.offset(), el.height(), el.width());
 
             if(el[0] && !mw.tools.hasAnyOfClasses(el[0], ['mw-drag-current-'+scope.data.dropablePosition])){
-                $('.mw-drag-current-top,.mw-drag-current-bottom').removeClass('mw-drag-current-top mw-drag-current-bottom');
+                mw.$('.mw-drag-current-top,.mw-drag-current-bottom').removeClass('mw-drag-current-top mw-drag-current-bottom');
                 mw.tools.addClass(el[0], 'mw-drag-current-'+scope.data.dropablePosition)
             }
         }

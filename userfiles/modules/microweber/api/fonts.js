@@ -62,7 +62,7 @@ mw.fonts = {
         },
         remove:function(el, family, weight){
             if(!family){
-                $(el).removeAttr('href');
+                mw.$(el).removeAttr('href');
                 el._config = {};
             }
             else if(!weight){

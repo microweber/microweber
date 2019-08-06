@@ -85,8 +85,8 @@ mw.CSSParser = function(el){
     f.margin = function(parse, actual){
         if(actual){
             var _parent = el.parentNode;
-            var parentOff = $(_parent).offset();
-            var elOff = $(el).offset();
+            var parentOff = mw.$(_parent).offset();
+            var elOff = mw.$(el).offset();
             if(elOff.left > parentOff.left && css.marginLeft === css.marginRight && elOff.left - parentOff.left === parseInt(css.marginLeft, 10)){
                 return {
                     top:css.marginTop,

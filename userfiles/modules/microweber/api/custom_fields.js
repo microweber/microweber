@@ -38,14 +38,14 @@ mw.custom_fields = {
             return;
         }
         if (group.querySelectorAll('.mw-custom-field-form-controls').length > 0) {
-            $(group).sortable({
+            mw.$(group).sortable({
                 handle: '.custom-fields-handle-field',
                 placeholder: 'custom-fields-placeholder',
                 //containment: "parent",
                 axis: 'y',
                 items: ".mw-custom-field-form-controls",
                 start: function (a, ui) {
-                    $(ui.placeholder).height($(ui.item).outerHeight())
+                    mw.$(ui.placeholder).height($(ui.item).outerHeight())
                 },
                 //scroll:false,
                 update: function () {
@@ -101,13 +101,14 @@ mw.custom_fields = {
             }
 
             mw.reload_module('#mw-admin-custom-field-edit-item-preview-' + data);
-            mw.reload_module('custom_fields/list');
 
-
-            mw.reload_module_parent('custom_fields/list', function () {
-                if (!!callback) callback.call(data);
-                mw.trigger('customFieldSaved', [id, data]);
+            mw.reload_module_everywhere('custom_fields/list', function(win){
+                if(win !== window) {
+                    if (callback) callback.call(data);
+                    mw.trigger('customFieldSaved', [id, data]);
+                }
             });
+            
             mw.custom_fields.after_save();
         });
     },
@@ -136,7 +137,7 @@ mw.custom_fields = {
     },
 
     add: function (el) {
-        var parent = $(mw.tools.firstParentWithClass(el, 'mw-custom-field-form-controls'));
+        var parent = mw.$(mw.tools.firstParentWithClass(el, 'mw-custom-field-form-controls'));
         var clone = parent.clone(true);
         parent.after(clone);
         clone.find("input").val("").focus();
@@ -149,8 +150,8 @@ mw.custom_fields = {
             "textarea, select, input[type='checkbox']:checked, input[type='radio']:checked";
         var data = {};
         data.options = {};
-        $(fields, el).not(':disabled').each(function () {
-            var el = this, _el = $(el);
+        mw.$(fields, el).not(':disabled').each(function () {
+            var el = this, _el = mw.$(el);
             var val = _el.val();
             var name = el.name;
             var notArraySelect = this.nodeName === 'SELECT' && this.multiple === false;

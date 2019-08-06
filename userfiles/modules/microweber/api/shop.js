@@ -43,7 +43,7 @@ mw.cart = {
 
 
         var is_form_valid = true;
-        $('[required],.required', selector).each(function () {
+        mw.$('[required],.required', selector).each(function () {
 
             if (!this.validity.valid) {
                 is_form_valid = false
@@ -93,7 +93,7 @@ mw.cart = {
             function (data) {
                 var parent = mw.$('.mw-cart-item-' + $id).parent();
                 mw.$('.mw-cart-item-' + $id).fadeOut(function () {
-                    $(this).remove();
+                    mw.$(this).remove();
                     if (parent.find(".mw-cart-item").length == 0) {
 
                     }
@@ -222,11 +222,11 @@ mw.cart.modal.init = function (root_node) {
 mw.cart.modal.bindStepButtons = function (step) {
 
 
-    $('.js-show-step').off('click');
-    $('.js-show-step').on('click', function () {
+    mw.$('.js-show-step').off('click');
+    mw.$('.js-show-step').on('click', function () {
 
         var has_error = false;
-        var step = $(this).data('step');
+        var step = mw.$(this).data('step');
         var holder = mw.tools.firstParentWithClass(this, 'js-step-content');
 
 
@@ -242,14 +242,14 @@ mw.cart.modal.bindStepButtons = function (step) {
 
 
 
-        $('input,textarea,select', holder).each(function () {
+        mw.$('input,textarea,select', holder).each(function () {
             if (!this.checkValidity()) {
-                $(this).addClass('is-invalid');
-                // $(this).addClass('error');
+                mw.$(this).addClass('is-invalid');
+                // mw.$(this).addClass('error');
                 has_error = 1;
             } else {
-                $(this).removeClass('is-invalid');
-                // $(this).removeClass('error');
+                mw.$(this).removeClass('is-invalid');
+                // mw.$(this).removeClass('error');
             }
 
         });
@@ -267,14 +267,14 @@ mw.cart.modal.bindStepButtons = function (step) {
 
 
 
-        $('.js-show-step').removeClass('active');
+        mw.$('.js-show-step').removeClass('active');
 
-        $('[data-step]').removeClass('active');
-        $('[data-step="' + step + '"]').addClass('active').parent().removeClass('muted');
-        $(this).addClass('active');
+        mw.$('[data-step]').removeClass('active');
+        mw.$('[data-step="' + step + '"]').addClass('active').parent().removeClass('muted');
+        mw.$(this).addClass('active');
         step1 = '.js-' + step;
-        $('.js-step-content').hide();
-        $(step1).show();
+        mw.$('.js-step-content').hide();
+        mw.$(step1).show();
 
 
 

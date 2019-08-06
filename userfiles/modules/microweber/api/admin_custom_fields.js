@@ -32,7 +32,7 @@ mw.admin.custom_fields.initTextAreaValue = function (node) {
         node.fieldBinded = true;
 
 
-        $(node).bind('keyup paste click', function (e) {
+        mw.$(node).bind('keyup paste click', function (e) {
             var sh = this.scrollHeight;
             var oh = this.offsetHeight;
             if(sh > oh){
@@ -45,8 +45,8 @@ mw.admin.custom_fields.initTextAreaValue = function (node) {
         node.onchange = function (e) {
 
             var data = {
-                id: $(this).dataset('id'),
-                value: $(this).val()
+                id: mw.$(this).dataset('id'),
+                value: mw.$(this).val()
             }
 
             $.post(mw.settings.api_url + 'fields/save', data, function () {
@@ -78,9 +78,9 @@ mw.admin.custom_fields.addValueButtons = function (root) {
         all[i].onclick = function () {
             var span = mwd.createElement('span');
             span.className = 'mw-admin-custom-field-value-edit-inline-holder';
-            span.innerHTML = '<span class="mw-admin-custom-field-value-edit-inline" data-id="' + $(this).dataset('id') + '"></span><span onclick="mw.admin.custom_fields.deleteFieldValue(this);" class="delete-custom-fields"></span><span class="custom-field-comma">,</span>';
+            span.innerHTML = '<span class="mw-admin-custom-field-value-edit-inline" data-id="' + mw.$(this).dataset('id') + '"></span><span onclick="mw.admin.custom_fields.deleteFieldValue(this);" class="delete-custom-fields"></span><span class="custom-field-comma">,</span>';
             mw.admin.custom_fields.initValue(span.querySelector('.mw-admin-custom-field-value-edit-inline'));
-            $(this).prev().append(span);
+            mw.$(this).prev().append(span);
             mw.admin.custom_fields.valueLiveEdit(span.querySelector('.mw-admin-custom-field-value-edit-inline'));
         }
     }
@@ -88,7 +88,7 @@ mw.admin.custom_fields.addValueButtons = function (root) {
 }
 
 mw.admin.custom_fields.valueLiveEdit = function (span) {
-    $(span.parentNode).addClass('active');
+    mw.$(span.parentNode).addClass('active');
     mw.tools.addClass(mw.tools.firstParentWithTag(span, 'tr'), 'active');
     var input = mw.tools.liveEdit(span, true, function (el) {
         if (mw.tools.hasClass(el, 'mw-admin-custom-field-value-edit-inline')) {
@@ -101,14 +101,14 @@ mw.admin.custom_fields.valueLiveEdit = function (span) {
             }
 
             var data = {
-                id: $(el).dataset('id'),
+                id: mw.$(el).dataset('id'),
                 value: vals
             }
         }
         else {
             var data = {
-                id: $(el).dataset('id'),
-                name: $(el).text()
+                id: mw.$(el).dataset('id'),
+                name: mw.$(el).text()
             }
         }
         mw.tools.removeClass(mw.tools.firstParentWithTag(this, 'tr'), 'active');
@@ -126,14 +126,14 @@ mw.admin.custom_fields.valueLiveEdit = function (span) {
         	mw.custom_fields.after_save();
 
         });
-        $(el.parentNode).removeClass('active');
+        mw.$(el.parentNode).removeClass('active');
         mw.tools.removeClass(mw.tools.firstParentWithTag(el, 'tr'), 'active');
     }, 'mw-ui-field mw-ui-field-small');
-    $(input).bind('blur', function () {
+    mw.$(input).bind('blur', function () {
         mw.$('.mw-admin-custom-field-value-edit-inline-holder.active').removeClass('active');
         mw.tools.removeClass(mw.tools.firstParentWithTag(this, 'tr'), 'active');
     });
-    $(input).bind('keydown', function (e) {
+    mw.$(input).bind('keydown', function (e) {
 
         var code = (e.keyCode ? e.keyCode : e.which);
 
@@ -160,7 +160,7 @@ mw.admin.custom_fields.valueLiveEdit = function (span) {
         } else {
 
 	/*
-				var el = $( e.target)[0];
+				var el = mw.$( e.target)[0];
 				mw.on.stopWriting(el, function () {
 
 		             var parent = mw.tools.firstParentWithClass(el, 'mw-admin-custom-field-value-edit-inline');
@@ -181,8 +181,8 @@ mw.admin.custom_fields.make_fields_sortable = function () {
             distance: 35,
             update: function (event, ui) {
                 var obj = {ids: []};
-                $(this).find(".mw-admin-custom-field-name-edit-inline").each(function () {
-                    var id = $(this).dataset("id");
+                mw.$(this).find(".mw-admin-custom-field-name-edit-inline").each(function () {
+                    var id = mw.$(this).dataset("id");
                     obj.ids.push(id);
                 });
 
@@ -205,7 +205,7 @@ mw.admin.custom_fields.del = function (id, toremove) {
                 mw.reload_module_parent('custom_fields');
                 mw.reload_module('custom_fields/list', function () {
                     if (!!toremove) {
-                        $(toremove).remove();
+                        mw.$(toremove).remove();
                     }
                     mw.$("#custom-field-editor").removeClass('mw-custom-field-created').hide();
                     mw.trigger('customFieldSaved', id);
@@ -220,7 +220,7 @@ mw.admin.custom_fields.del = function (id, toremove) {
     });
 }
 mw.admin.custom_fields.deleteFieldValue = function (el) {
-    $(el.parentNode).remove();
+    mw.$(el.parentNode).remove();
 }
 mw.admin.custom_fields.edit_custom_field_item = function ($selector, id, callback, event) {
 
@@ -232,8 +232,8 @@ mw.admin.custom_fields.edit_custom_field_item = function ($selector, id, callbac
 
     data.params = {};
     data.params.field_id = id;
-    
-    editModal = mw.tools.open_module_modal('custom_fields/values_edit', data, {overlay: false, width:'350px', height:'350px', skin: 'simple', title: mTitle});
+
+    editModal = mw.tools.open_module_modal('custom_fields/values_edit', data, {overlay: false, width:'350px', height:'350px', title: mTitle});
 
 }
 

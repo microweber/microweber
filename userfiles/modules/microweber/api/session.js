@@ -63,7 +63,7 @@ mw.session = {
 }
 $(document).ready(function () {
 
-    $(document).bind("ajaxSend",function () {
+    mw.$(document).bind("ajaxSend",function () {
 
         mw.session.checkPause = true;
     }).bind("ajaxComplete", function () {

@@ -18,10 +18,10 @@ mw.liveEditWidgets = {
                 mw.tools.loading(holder, false);
                 this.style.opacity = 1;
             };
-            $(this._cssEditorInSidebarAccordion)
+            mw.$(this._cssEditorInSidebarAccordion)
                 .height($(this._cssEditorInSidebarAccordion)
                     .parents('.mw-ui-box').outerHeight() -
-                    $(this._cssEditorInSidebarAccordion).parents('.tabitem').outerHeight());
+                    mw.$(this._cssEditorInSidebarAccordion).parents('.tabitem').outerHeight());
         }
         return this._cssEditorInSidebarAccordion;
     },
@@ -34,15 +34,15 @@ mw.liveEditWidgets = {
             this._tplSettings.src = url;
             this._tplSettings.scrolling = 'no';
             this._tplSettings.frameBorder = 0;
-            $('#mw-live-edit-sidebar-settings-iframe-holder-template-settings').html(this._tplSettings);
+            mw.$('#mw-live-edit-sidebar-settings-iframe-holder-template-settings').html(this._tplSettings);
             mw.tools.iframeAutoHeight(this._tplSettings);
             this._tplSettings.onload = function () {
                 this.contentWindow.document.querySelector('.mw-module-live-edit-settings').style.padding = 0;
             };
-            $(this._tplSettings)
+            mw.$(this._tplSettings)
                 .height($(this._tplSettings)
                         .parents('.mw-ui-box').outerHeight() -
-                    $(this._tplSettings).parents('.tabitem').outerHeight());
+                    mw.$(this._tplSettings).parents('.tabitem').outerHeight());
         }
         return this._tplSettings;
     }

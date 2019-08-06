@@ -6,15 +6,15 @@ mw.components = {
             range: 'min'
         };
         var settings = $.extend({}, defaults, options);
-        $(el)
+        mw.$(el)
             .slider(settings)
             .on('mousedown touchstart', function(){
-                $(this).addClass('active');
+                mw.$(this).addClass('active');
             });
         if(!mw.components._rangeOnce) {
             mw.components._rangeOnce = true;
-            $(document.body).on('mouseup touchend', function(){
-                $('.mw-range.active').removeClass('active');
+            mw.$(document.body).on('mouseup touchend', function(){
+                mw.$('.mw-range.active').removeClass('active');
             });
         }
     },
@@ -33,9 +33,9 @@ mw.components = {
         var inputEl;
         if(el.nodeName === 'INPUT'){
             inputEl = el;
-            $(el).addClass('mw-ui-field').after(nav);
+            mw.$(el).addClass('mw-ui-field').after(nav);
             nav.appendChild(el);
-            $('.mw-ui-btn-img', view).css("background-color", el.value);
+            mw.$('.mw-ui-btn-img', view).css("background-color", el.value);
         }
 
         inputEl._time = null;
@@ -43,11 +43,11 @@ mw.components = {
             element:inputEl,
             position:settings.position,
             onchange:function(color){
-                $('.mw-ui-btn-img', view).css("background-color", color);
-                $(inputEl).trigger('change');
+                mw.$('.mw-ui-btn-img', view).css("background-color", color);
+                mw.$(inputEl).trigger('change');
             }
         });
-        $(view).on("click", function(){
+        mw.$(view).on("click", function(){
             setTimeout(function(){
                 picker.toggle();
             }, 10);
@@ -59,7 +59,7 @@ mw.components = {
             element: el
         };
         var settings = $.extend({}, defaults, options);
-        var ch = $(el).attr("onchange");
+        var ch = mw.$(el).attr("onchange");
 
         mw.fileWindow({
             types:'media',
@@ -75,7 +75,7 @@ mw.components = {
         var options = this._options(el);
         options.breakPoint = 100; //makes accordion if less then 100px
         if(window.live_edit_sidebar) {
-            $(el).addClass('mw-accordion-window-height')
+            mw.$(el).addClass('mw-accordion-window-height')
             options.breakPoint = 800; //makes accordion if less then 800px
         }
         var accordion = this.accordion(el);
@@ -100,34 +100,34 @@ mw.components = {
         var accordion = new mw.uiAccordion(settings);
         if($(el).hasClass('mw-accordion-window-height')){
             accordion._setHeight = function(){
-                var max =  $(window).height() - (accordion.root.offset().top - $(window).scrollTop());
+                var max =  mw.$(window).height() - (accordion.root.offset().top - mw.$(window).scrollTop());
                 accordion.root.css('height', max);
                 var content_max = max - (accordion.titles.length * accordion.titles.eq(0).outerHeight());
                 accordion.contents.css('height', content_max);
             };
             accordion._setHeight();
-            $(window).on('load resize', function(){
+            mw.$(window).on('load resize', function(){
                 accordion._setHeight();
             });
             if(window !== top){
-                $(top).on('load resize', function(){
+                mw.$(top).on('load resize', function(){
                     accordion._setHeight();
                 });
             }
         }
         if($(el).hasClass('mw-accordion-full-height')){
             accordion._setHeight = function(){
-                var max = Math.min($(el).parent().height(), $(window).height());
+                var max = Math.min($(el).parent().height(), mw.$(window).height());
                 accordion.root.css('maxHeight', max);
                 var content_max = max - (accordion.titles.length * accordion.titles.eq(0).outerHeight());
                 accordion.contents.css('maxHeight', content_max);
             };
             accordion._setHeight();
-            $(window).on('load resize', function(){
+            mw.$(window).on('load resize', function(){
                 accordion._setHeight();
             });
             if(window !== top){
-                $(top).on('load resize', function(){
+                mw.$(top).on('load resize', function(){
                     accordion._setHeight();
                 });
             }
@@ -143,7 +143,7 @@ mw.components = {
             });
         }
 
-        var el = $(el);
+        var el = mw.$(el);
 
         var options = JSON.parse(el.attr("data-options") || '{}');
 
@@ -159,19 +159,19 @@ mw.components = {
             if (!el[0].is_searching) {
                 var val = el.val();
                 if (event.type == 'blur') {
-                    $(this).next('ul').hide();
+                    mw.$(this).next('ul').hide();
                     return false;
                 }
                 if (event.type == 'focus') {
                     if ($(this).next('ul').html()) {
-                        $(this).next('ul').show()
+                        mw.$(this).next('ul').show()
                     }
                     return false;
                 }
                 el[0].is_searching = true;
 
                 this._settings.keyword = this.value;
-                $('ul', el).empty("")
+                mw.$('ul', el).empty("")
                 el.parent().addClass("loading");
                 mw.tools.ajaxSearch(this._settings, function () {
                     var lis = [];
@@ -182,13 +182,13 @@ mw.components = {
                             var li = document.createElement("li");
                             li._value = obj;
                             li.innerHTML = obj.title;
-                            $(li).on("mousedown touchstart", function () {
+                            mw.$(li).on("mousedown touchstart", function () {
                                 el.val(this._value.title);
 
                                 el[0]._value = this._value;
 
                                 el.trigger('postSelected', [this._value]);
-                                $(this.parentNode).hide()
+                                mw.$(this.parentNode).hide()
                             })
 
                             lis.push(li);
@@ -224,16 +224,16 @@ mw.components = {
     },
     _init: function () {
         mw.$('[data-mwcomponent]').each(function () {
-            var component = $(this).attr("data-mwcomponent");
+            var component = mw.$(this).attr("data-mwcomponent");
             if (mw.components[component]) {
                 mw.components[component](this);
-                $(this).removeAttr('data-mwcomponent')
+                mw.$(this).removeAttr('data-mwcomponent')
             }
         });
         $.each(this, function(key){
             if(key.indexOf('_') === -1){
                 mw.$('.mw-'+key+', '+key).not(".mw-component-ready").each(function () {
-                    $(this).addClass('mw-component-ready');
+                    mw.$(this).addClass('mw-component-ready');
                     mw.components[key](this);
                 });
             }
