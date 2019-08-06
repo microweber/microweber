@@ -37,9 +37,11 @@ class TemplateCssParser
                 return $defaultCssFileUrl;
             }
         }
-
+        
+        $token = md5(mw()->user_manager->session_id());
+        
         if ($cache == false || !is_file($outputFileLocations['output']['file'])) { 
-            $returnUrl = api_url('template/compile_css?path=' . $lessFilePath . '&option_group=' . $optionGroupName . '&template_folder=' . $themeFolderName);
+            $returnUrl = api_url('template/compile_css?path=' . $lessFilePath . '&option_group=' . $optionGroupName . '&template_folder=' . $themeFolderName . '&token=' . $token);
         } else {
         	$returnUrl = $outputFileLocations['output']['fileUrl'];
         }
@@ -50,7 +52,12 @@ class TemplateCssParser
 
     public function compile($options)
     {
-
+    	$token = md5(mw()->user_manager->session_id());
+    	
+    	if ($options['token'] !== $token) {
+    		return;
+    	}
+    	
         $compileFile = $this->_getOutputDir($options['path']);
         $extension = get_file_extension($compileFile);
 
