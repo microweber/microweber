@@ -69,11 +69,11 @@ if (is_file($form_fields_from_template)) {
             <?php _e("Expiration Date"); ?>
         </label>
         <div class="row ">
-            <div class="col-xs-6">
+            <div class="col-md-6">
                 <input name="cc_month" class="form-control" placeholder="<?php _e("Month"); ?>" type="text" value=""
                        class="form-control"/>
             </div>
-            <div class="col-xs-6">
+            <div class="col-md-6">
                 <input name="cc_year" class="form-control" placeholder="<?php _e("Year"); ?>" type="text" value=""
                        class="form-control"/>
             </div>
