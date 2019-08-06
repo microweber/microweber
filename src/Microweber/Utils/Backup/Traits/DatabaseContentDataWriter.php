@@ -1,66 +1,49 @@
-<?php 
+<?php
 namespace Microweber\Utils\Backup\Traits;
 
 use Microweber\Utils\Backup\DatabaseSave;
 
-trait DatabaseContentDataWriter {
-	
-	private function _getContentData($itemId) {
-		
-		if (!isset($this->content['content_data'])) {
-			return;
-		}
-		
-		$contentData = array();
-		foreach($this->content['content_data'] as $dataItem) {
-			if ($dataItem['rel_id'] == $itemId) {
-				$contentData[] = $dataItem;
-			}
-		}
-		
-		return $contentData;
-	}
+trait DatabaseContentDataWriter
+{
 
-	private function _saveContentData($itemId) {
-		
-		// Get content data from file export
-		$contentData = $this->_getContentData($itemId);
-		
-		if (!empty($contentData)) {
-			foreach ($contentData as $singleContentData) {
-				$this->_saveSingleContentData($singleContentData, $itemId);
-			}
-		}
-	}
-	
-	private function _saveSingleContentData($singleContentData, $itemId) {
-		
-		// New rel id
-		$singleContentData['rel_id'] = $itemId;
-		
+	private function _getContentDataDatabase($item)
+	{
 		$dbSelectParams = array();
 		$dbSelectParams['no_cache'] = true;
 		$dbSelectParams['limit'] = 1;
 		$dbSelectParams['single'] = true;
 		$dbSelectParams['do_not_replace_site_url'] = 1;
-		$dbSelectParams['type'] = $singleContentData['field_name'];
-		$dbSelectParams['name'] = $singleContentData['field_value'];
-		$dbSelectParams['rel_id'] = $singleContentData['rel_id'];
-		
-		$checkContentDataIsExists = db_get('content_data', $dbSelectParams);
-		
-		if ($checkContentDataIsExists) {
-			$contentDataId = $checkContentDataIsExists['id'];
-			//echo $singleContentData['field_name'] . ': Content data is allready saved.' . PHP_EOL;
-		} else {
-			//echo $singleContentData['field_name'] . ': Content data is saved.' . PHP_EOL;
-			$singleContentData = $this->_unsetItemFields($singleContentData);
-			$contentDataId = DatabaseSave::save('content_data', $singleContentData);
+		$dbSelectParams['field_name'] = $item['field_name'];
+		$dbSelectParams['field_value'] = $item['field_value'];
+		$dbSelectParams['rel_id'] = $item['rel_id'];
+
+		return db_get('content_data', $dbSelectParams);
+	}
+
+	private function _saveContentData($item)
+	{
+		// Save new item
+		$saveNewContentData = $item;
+
+		// Get content for menu
+		if ($item['rel_type'] == 'content') {
+			$content = $this->_getContentById($item['rel_id']);
+			if (! empty($content)) {
+				$contentDatabase = $this->_getContentDatabase($content);
+				if (! empty($contentDatabase)) {
+					$saveNewContentData['rel_id'] = $contentDatabase['id'];
+					$saveNewContentData['content_id'] = $contentDatabase['id'];
+				}
+			}
 		}
-		
-		/* 
-		var_dump($contentDataId);
-		var_dump($singleContentData);
-		die(); */
+
+		// Save menu item
+		if (! empty($saveNewContentData)) {
+			unset($saveNewContentData['id']);
+			$itemDatabase = $this->_getContentDataDatabase($saveNewContentData);
+			if (empty($itemDatabase)) {
+				return DatabaseSave::save('content_data', $saveNewContentData);
+			}
+		}
 	}
 }
