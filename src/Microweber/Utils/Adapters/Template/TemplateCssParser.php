@@ -15,7 +15,7 @@ class TemplateCssParser
     public function getStylesheet($lessFilePath, $defaultCssFile = false, $cache = true)
     {
 
-        if (config('microweber.developer_mode')) {
+        if (config('microweber.developer_mode') == 1) {
             $cache = false;
         }
 
@@ -32,18 +32,19 @@ class TemplateCssParser
             $defaultCssFilePath = normalize_path($templatePath . '/' . $defaultCssFile, false);
             $defaultCssFileUrl = templates_url() . $themeFolderName;
             $defaultCssFileUrl = $defaultCssFileUrl . '/' . $defaultCssFile;
+            
             if (is_file($defaultCssFilePath) and !$user_has_settings) {
                 return $defaultCssFileUrl;
             }
-
         }
-
 
         if ($cache == false || !is_file($outputFileLocations['output']['file'])) { 
-            return api_url('template/compile_css?path=' . $lessFilePath . '&option_group=' . $optionGroupName . '&template_folder=' . $themeFolderName);
+            $returnUrl = api_url('template/compile_css?path=' . $lessFilePath . '&option_group=' . $optionGroupName . '&template_folder=' . $themeFolderName);
+        } else {
+        	$returnUrl = $outputFileLocations['output']['fileUrl'];
         }
-
-        return $outputFileLocations['output']['fileUrl'];
+    	
+        return $returnUrl;
 
     }
 
@@ -183,7 +184,6 @@ class TemplateCssParser
 
     private function _saveCompiledCss($outputFile, $cssContent)
     {
-
         file_put_contents($outputFile, $cssContent);
 
     }
