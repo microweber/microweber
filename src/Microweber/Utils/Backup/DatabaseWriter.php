@@ -96,6 +96,16 @@ class DatabaseWriter
 	
 	private function _saveItemDatabase($item) {
 		
+		if ($item['save_to_table'] == 'custom_fields') {
+			$this->_saveCustomField($item);
+			return;
+		}
+		
+		if ($item['save_to_table'] == 'content_data') {
+			$this->_saveContentData($item);
+			return;
+		}
+		
 		if ($item['save_to_table'] == 'tagging_tagged') {
 			$this->_taggingTagged($item);
 			return;
@@ -198,20 +208,8 @@ class DatabaseWriter
 		$savedItem = $this->_saveItemDatabase($item);
 		
 		if ($savedItem) {
-			
-			if ($item['save_to_table'] == 'custom_fields') {
-				$this->_saveCustomFields($savedItem);
-				return;
-			}
-			
-			if ($item['save_to_table'] == 'content_data') {
-				$this->_saveContentData($savedItem);
-				return;
-			}
-			
 			$this->_fixRelations($savedItem);
 			$this->_fixParentRelationship($savedItem);
-			
 		}
 		
 		//echo $item['save_to_table'];
