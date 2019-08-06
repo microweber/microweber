@@ -108,7 +108,7 @@ mw.custom_fields = {
                     mw.trigger('customFieldSaved', [id, data]);
                 }
             });
-            
+
             mw.custom_fields.after_save();
         });
     },
