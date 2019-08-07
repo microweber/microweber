@@ -78,7 +78,7 @@ if ($stylesheet_settings) {
     }
 
     function deleteCompiledCSS() {
-        $.get(mw.settings.api_url + "template/delete_compiled_css?path=assets/less/theme.less&option_group=mw-template-dream", function () {
+        $.get(mw.settings.api_url + "template/delete_compiled_css?path=<?php print $template_settings['stylesheet_compiler']['source_file']; ?>&option_group=<?php print $option_group; ?>", function () {
             // Delete
             reloadTemplate();
             window.parent.mw.drag.save();
@@ -108,6 +108,7 @@ if ($stylesheet_settings) {
                             $(window).load(function () {
                                 mw.colorPicker({
                                     element: '#<?php echo $key; ?>',
+                                    value: $('input[name="<?php echo $key; ?>"]').val(),
                                     position: 'bottom-left',
                                     onchange: function (color) {
                                         $('#<?php echo $key; ?>').css('background', color);
