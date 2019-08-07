@@ -1,12 +1,12 @@
 $(document).ready(function(){
-    $('.mw-lazy-load-module').reload_module();
+    mw.$('.mw-lazy-load-module').reload_module();
 });
 
 
 $(document).ready(function(){
 
     mw.common['data-mw-close']();
-    $(mwd.body)
+    mw.$(mwd.body)
     .on('click', '[data-mw-dialog]', function(e){
         mw.common['data-mw-dialog'](e);
     })
@@ -35,8 +35,8 @@ mw.common = {
         if(e && e.target){
             var data = e.target.getAttribute('data-mw-close');
             var cookie = JSON.parse(mw.cookie.get('data-mw-close') || '{}');
-            $(data).slideUp(function(){
-                $(this).remove();
+            mw.$(data).slideUp(function(){
+                mw.$(this).remove();
                 cookie[data] = true;
                 mw.cookie.set('data-mw-close', JSON.stringify(cookie));
             })
@@ -46,7 +46,7 @@ mw.common = {
             mw.$('[data-mw-close]').each(function(){
                 var data = this.getAttribute('data-mw-dialog');
                 if(cookie[data]){
-                    $(data).remove();
+                    mw.$(data).remove();
                 }
             })
         }

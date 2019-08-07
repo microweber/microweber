@@ -57,7 +57,7 @@ mw.options = {
     save: function (el, callback) {
 
 
-        var el = $(el);
+        var el = mw.$(el);
         var og, og1, refresh_modules11;
         if (!el) {
             return;
@@ -77,7 +77,7 @@ mw.options = {
         if (og_test) {
             og_parent = og_test.id;
 
-            og_parent = $(og_test).attr('for-module-id') || og_test.id;
+            og_parent = mw.$(og_test).attr('for-module-id') || og_test.id;
 
 
         }
@@ -88,7 +88,7 @@ mw.options = {
 
         var also_reload = el.attr('data-reload') || el.attr('data-also-reload');
 
-        var modal = $(mw.tools.modal.get(el).container);
+        var modal = mw.$(mw.tools.modal.get(el).container);
 
         if (refresh_modules11 == undefined && modal !== undefined) {
 
@@ -376,7 +376,7 @@ mw.options._bindedRootFormsRegistry = [];
 
 mw.options.remove_bindings = function ($selector) {
 
-    var $root = $($selector);
+    var $root = mw.$($selector);
     var root = $root[0];
     if (!root) return;
 
@@ -390,7 +390,7 @@ mw.options.remove_bindings = function ($selector) {
     mw.$("input, select, textarea", root)
         .not('.mw-options-form-binded-custom')
         .each(function () {
-            var item = $(this);
+            var item = mw.$(this);
 
 
             if (item && item[0] && item[0]._optionsEventsBinded) {
@@ -410,7 +410,7 @@ mw.options.form = function ($selector, callback, beforepost) {
     var numOfbindigs = 0;
     var force_rebind = false;
 
-    var $root = $($selector);
+    var $root = mw.$($selector);
     var root = $root[0];
     if (!root) return;
 
@@ -427,7 +427,7 @@ mw.options.form = function ($selector, callback, beforepost) {
             .each(function () {
                 //this._optionSaved = true;
 
-                var item = $(this);
+                var item = mw.$(this);
                 if (force_rebind) {
                     item[0]._optionsEventsBinded = null;
                 }
@@ -449,24 +449,15 @@ mw.options.form = function ($selector, callback, beforepost) {
                         item.addClass('mw-options-form-binded');
                         item.on('change input paste', function (e) {
 
-
-                            //  var isCheckLike = this.type === 'checkbox' || this.type === 'radio';
                             var isCheckLike = true;
-                            var token = isCheckLike ? this.name : this.name + $(this).val();
-                            //if(mw.options._optionSaved !== token){
-                            //mw.options._optionSaved = token;
+                            var token = isCheckLike ? this.name : this.name + mw.$(this).val();
                             mw.options.___slowDownEvent(token, this, function () {
-
                                 if (typeof root._optionsEvents.beforepost === 'function') {
                                     root._optionsEvents.beforepost.call(this);
-
                                 }
-
-                                if (top != self && window.parent.mw.drag != undefined && window.parent.mw.drag.save != undefined) {
+                                if (top !== self && window.parent.mw.drag && window.parent.mw.drag.save) {
                                     window.parent.mw.drag.save();
                                 }
-
-                                // mw.options._optionSaved = ''+mw.random();
                                 mw.options.save(this, root._optionsEvents.callback);
                             });
                             //}
@@ -554,7 +545,7 @@ mw.options.___rebindAllFormsAfterReload = function () {
                         .not('.mw-options-form-binded-custom')
                         .not('.mw-options-form-binded')
                         .each(function () {
-                            var item = $(this);
+                            var item = mw.$(this);
                             if (item.hasClass('mw_option_field')) {
                                 if (!item[0]._optionsEventsBinded) {
                                     has_non_binded = true;
@@ -586,7 +577,7 @@ mw.options.___rebindAllFormsAfterReload = function () {
 //    var module = module.replace(/##/g, '#');
 //    var m = mw.$(".module[data-type='" + module + "']");
 //    if (m.length === 0) {
-//        try { var m = $(module); }  catch(e) {};
+//        try { var m = mw.$(module); }  catch(e) {};
 //    }
 //
 //}

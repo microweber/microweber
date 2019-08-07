@@ -30,7 +30,7 @@ mw.form = {
     }
   },
   dstatic:function(event, d){
-    var d = d || $(event.target).dataset('default') || false;
+    var d = d || mw.$(event.target).dataset('default') || false;
     var type = event.type;
     var target = event.target;
     if(!!d){
@@ -42,7 +42,7 @@ mw.form = {
         }
     }
     if(type=='keyup'){
-        $(target).addClass('loading');
+        mw.$(target).addClass('loading');
     }
   },
   post:function(selector, url_to_post, callback, ignorenopost, callback_error){
@@ -115,7 +115,7 @@ mw.form = {
                 break;
             }
         }
-        var parent = $(document.getElementsByName(objname)[0].parentNode);
+        var parent = mw.$(document.getElementsByName(objname)[0].parentNode);
         if(this_radio_valid){
            parent.removeClass("error");
         }
@@ -149,32 +149,32 @@ mw.form = {
     proceed:{
       checkbox:function(obj){
         if(mw.form.validate.checkbox(obj)){
-            $(obj).parents('.field').removeClass("error");
+            mw.$(obj).parents('.field').removeClass("error");
         }
         else{
-            $(obj).parents('.field').addClass("error");
+            mw.$(obj).parents('.field').addClass("error");
         }
       },
       field:function(obj){
         if(mw.form.validate.field(obj)){
-           $(obj).parents('.field').removeClass("error");
+           mw.$(obj).parents('.field').removeClass("error");
          }
          else{
-           $(obj).parents('.field').addClass("error");
+           mw.$(obj).parents('.field').addClass("error");
          }
       },
       email:function(obj){
         if(mw.form.validate.email(obj)){
-           $(obj).parents('.field').removeClass("error");
+           mw.$(obj).parents('.field').removeClass("error");
         }
         else{
-           $(obj).parents('.field').addClass("error");
+           mw.$(obj).parents('.field').addClass("error");
         }
       }
     },
     checkFields:function(form){
-        $(form).find(".required,[required]").each(function(){
-          var type = $(this).attr("type");
+        mw.$(form).find(".required,[required]").each(function(){
+          var type = mw.$(this).attr("type");
           if(type=='checkbox'){
              mw.form.validate.proceed.checkbox(this);
           }
@@ -185,18 +185,18 @@ mw.form = {
              mw.form.validate.proceed.field(this);
           }
         });
-        $(form).find(".required-email").each(function(){
+        mw.$(form).find(".required-email").each(function(){
             mw.form.validate.proceed.email(this);
         });
     },
     init:function(obj){
         mw.form.validate.checkFields(obj);
         if($(obj).find(".error").length>0){
-            $(obj).addClass("error submited");
+            mw.$(obj).addClass("error submited");
             return false;
         }
         else{
-           $(obj).removeClass("error");
+           mw.$(obj).removeClass("error");
             return true;
         }
     }

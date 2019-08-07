@@ -9,7 +9,7 @@ mw.autoComplete = function(options){
             map: { title:'title', value:'id' }
         };
         this.options = $.extend({}, defaults, options);
-        this.options.element = $(this.options.element)[0];
+        this.options.element = mw.$(this.options.element)[0];
         if(!this.options.element){
             return;
         }
@@ -46,7 +46,7 @@ mw.autoComplete = function(options){
         if(this.options.placeholder){
             this.inputField.placeholder = this.options.placeholder;
         }
-        $(this.inputField).on('input focus', function(e){
+        mw.$(this.inputField).on('input focus', function(e){
             var val = e.type === 'focus' ? '' : this.value;
             scope.search(val);
         });
@@ -66,13 +66,13 @@ mw.autoComplete = function(options){
         li.value = this.dataValue(data);
         var img = this.dataImage(data);
 
-        $(li)
+        mw.$(li)
         .append( '<a href="javascript:;">'+this.dataTitle(data)+'</a>' )
         .on('click', function(){
             scope.select(data);
         });
         if(img){
-            $('a',li).prepend(img);
+            mw.$('a',li).prepend(img);
         }
         return li;
     };
@@ -100,7 +100,7 @@ mw.autoComplete = function(options){
         if(!this.options.multiple){
             this.listHolder.style.display = 'none';
         }
-        $(this).trigger('change', [this.selected]);
+        mw.$(this).trigger('change', [this.selected]);
     };
 
     this.rendSingle = function(){
@@ -125,7 +125,7 @@ mw.autoComplete = function(options){
     };
 
     this.rendResults = function(){
-        $(this.listHolder).empty().show();
+        mw.$(this.listHolder).empty().show();
         $.each(this.results, function(){
             scope.listHolder.appendChild(scope.createListItem(this));
         });
@@ -246,7 +246,7 @@ mw.autoComplete = function(options){
     };
 
     this.handleEvents = function(){
-        $(document.body).on('click', function(e){
+        mw.$(document.body).on('click', function(e){
             if(!mw.tools.hasParentsWithClass(e.target, 'mw-autocomplete')){
                 scope.listHolder.style.display = 'none';
             }

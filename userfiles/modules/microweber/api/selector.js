@@ -130,7 +130,7 @@ mw.Selector = function(options) {
         }
     };
     this.position = function(item, target){
-        var off = $(target).offset();
+        var off = mw.$(target).offset();
         mw.css(item.top, {
             top:off.top,
             left:off.left,
@@ -174,7 +174,7 @@ mw.Selector = function(options) {
                 else{
                     this.selected = [target];
                 }
-                $(this).trigger('select', [this.selected]);
+                mw.$(this).trigger('select', [this.selected]);
             }
 
         }
@@ -217,21 +217,21 @@ mw.Selector = function(options) {
         this.buildSelector();
         this.buildInteractor();
         var scope = this;
-        $(this.root).on("click", function(e){
+        mw.$(this.root).on("click", function(e){
             if(scope.options.autoSelect && scope.active()){
                 scope.select(e);
             }
         });
 
-        $(this.root).on( "mousemove touchmove touchend", function(e){
+        mw.$(this.root).on( "mousemove touchmove touchend", function(e){
             if(scope.options.autoSelect && scope.active()){
                 scope.setItem(e, scope.interactors);
             }
         });
-        $(this.root).on( 'scroll', function(){
+        mw.$(this.root).on( 'scroll', function(){
             scope.positionSelected();
         });
-        $(window).on('resize orientationchange', function(){
+        mw.$(window).on('resize orientationchange', function(){
             scope.positionSelected();
         });
     };
@@ -243,7 +243,7 @@ mw.Selector = function(options) {
         }
         if(this._active !== state) {
             this._active = state;
-            $(this).trigger('stateChange', [state]);
+            mw.$(this).trigger('stateChange', [state]);
         }
     };
     this.selected = [];

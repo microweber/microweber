@@ -7,20 +7,20 @@ mw.drag.columns = {
         mw.wysiwyg.contentEditable(mw.drag.columns.resizer, false);
         mw.drag.columns.resizer.className = 'unselectable mw-columns-resizer';
         mw.drag.columns.resizer.pos = 0;
-        $(mw.drag.columns.resizer).on('mousedown', function () {
+        mw.$(mw.drag.columns.resizer).on('mousedown', function () {
             mw.drag.columns.resizing = true;
             mw.drag.columns.resizer.pos = 0;
         });
         mwd.body.appendChild(mw.drag.columns.resizer);
 
-        $(mw.drag.columns.resizer).hide();
+        mw.$(mw.drag.columns.resizer).hide();
     },
     resize: function (e) {
         if (!mw.drag.columns.resizer.curr) return false;
         var w = parseFloat(mw.drag.columns.resizer.curr.style.width);
         if (isNaN(w)) {
-            w = $(mw.drag.columns.resizer.curr).outerWidth();
-            var widthParentPixels = $(mw.drag.columns.resizer.curr).parent().outerWidth();
+            w = mw.$(mw.drag.columns.resizer.curr).outerWidth();
+            var widthParentPixels = mw.$(mw.drag.columns.resizer.curr).parent().outerWidth();
             w = (w / widthParentPixels) * 100;
         }
 
@@ -29,15 +29,15 @@ mw.drag.columns = {
 
         if(typeof(next) == "undefined"){
             // dirty fix
-            $(mw.drag.columns.resizer).hide();
+            mw.$(mw.drag.columns.resizer).hide();
             return false;
 
         }
 
         var w2 = parseFloat(next.style.width);
         if (isNaN(w2)) {
-            w2 = $(next).outerWidth();
-            var widthParentPixels = $(next).parent().outerWidth();
+            w2 = mw.$(next).outerWidth();
+            var widthParentPixels = mw.$(next).parent().outerWidth();
             w2 = (w2 / widthParentPixels) * 100;
          }
 
@@ -62,8 +62,8 @@ mw.drag.columns = {
     position: function (el) {
         if (!!mw.drag.columns.nextColumn(el)) {
             mw.drag.columns.resizer.curr = el;
-            var off = $(el).offset();
-            $(mw.drag.columns.resizer).css({
+            var off = mw.$(el).offset();
+            mw.$(mw.drag.columns.resizer).css({
                 top: off.top,
                 left: mw.tools.isRtl() ? off.left - 10 : off.left + el.offsetWidth - 10,
                 height: el.offsetHeight
@@ -77,7 +77,7 @@ mw.drag.columns = {
             mw.drag.columns.position(col);
         });
         mw.on("ColumnOut", function (e, col) {
-            $(mw.drag.columns.resizer).hide();
+            mw.$(mw.drag.columns.resizer).hide();
         });
 
     },
@@ -95,7 +95,7 @@ mw.drag.columns = {
     }
 }
 $(mwd).ready(function () {
-    $(mwd.body).on('mouseup', function () {
+    mw.$(mwd.body).on('mouseup', function () {
         if (mw.drag.plus.locked) {
             mw.wysiwyg.change(mw.drag.columns.resizer.curr);
         }
@@ -103,7 +103,7 @@ $(mwd).ready(function () {
         mw.drag.plus.locked = false;
         mw.tools.removeClass(mwd.body, 'mw-column-resizing');
     });
-    $(mwd.body).on('mousemove', function (e) {
+    mw.$(mwd.body).on('mousemove', function (e) {
         if (mw.drag.columns.resizing === true && mw.isDrag === false) {
             mw.drag.columns.resize(e);
             e.preventDefault();

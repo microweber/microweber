@@ -799,13 +799,13 @@ mw.getScripts = function (array, callback) {
    }
 
 mw.response = function(form, data, messages_at_the_bottom){
-    var messages_at_the_bottom = messages_at_the_bottom || false;
+     messages_at_the_bottom = messages_at_the_bottom || false;
     if(data == null  ||  typeof data == 'undefined' ){
       return false;
     }
 
     var data = mw.tools.toJSON(data);
-    if(typeof data == 'undefined'){
+    if(typeof data === 'undefined'){
           return false;
       }
 
@@ -890,25 +890,6 @@ mw._response = {
 }
 
 
-mw._one = {};
-mw._ones = {};
-
-mw.one = function(name, func){
-  if(mw._one[name] === undefined){ mw._one[name] = true; }
-  if(typeof func === 'function'){
-    if(mw._one[name] === true){
-      mw._one[name] = false;
-      func.call();
-      mw.on.one(name, func, true);
-    }
-  }
-  else{
-    if(func == 'ready' || func == 'done' || func === true){
-      mw._one[name] = true;
-      mw.on.one(name, func, true, true);
-    }
-  }
-}
 mw.user = {
   isLogged:function(callback){
     $.post(mw.settings.api_url + 'is_logged', function(data){

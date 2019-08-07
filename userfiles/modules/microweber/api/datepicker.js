@@ -22,9 +22,9 @@
 	// Picker object
 	
 	var Datepicker = function(element, options){
-		this.element = $(element);
+		this.element = mw.$(element);
 		this.format = DPGlobal.parseFormat(options.format||this.element.data('date-format')||'mm/dd/yyyy');
-		this.picker = $(DPGlobal.template)
+		this.picker = mw.$(DPGlobal.template)
 							.appendTo('body')
 							.on({
 								click: $.proxy(this.click, this),
@@ -243,7 +243,7 @@
 		click: function(e) {
 			e.stopPropagation();
 			e.preventDefault();
-			var target = $(e.target).closest('span, td, th');
+			var target = mw.$(e.target).closest('span, td, th');
 			if (target.length === 1) {
 				switch(target[0].nodeName.toLowerCase()) {
 					case 'th':
@@ -323,7 +323,7 @@
 	
 	$.fn.datepicker = function ( option, val ) {
 		return this.each(function () {
-			var $this = $(this),
+			var $this = mw.$(this),
 				data = $this.data('datepicker'),
 				options = typeof option === 'object' && option;
 			if (!data) {

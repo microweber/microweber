@@ -51,8 +51,8 @@ mw.controlBox = function(options){
 
     this.show = function(){
         this.active = true;
-        $(this.box).addClass('active') ;
-        $(this).trigger('ControlBoxShow')
+        mw.$(this.box).addClass('active') ;
+        mw.$(this).trigger('ControlBoxShow')
     };
 
     this.init = function(){
@@ -61,8 +61,8 @@ mw.controlBox = function(options){
     };
     this.hide = function(){
         this.active = false;
-        $(this.box).removeClass('active');
-        $(this).trigger('ControlBoxHide');
+        mw.$(this.box).removeClass('active');
+        mw.$(this).trigger('ControlBoxHide');
     };
 
 

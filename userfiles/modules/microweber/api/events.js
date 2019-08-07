@@ -4,11 +4,11 @@ mw.hash = function(b){ return b === undefined ? window.location.hash : window.lo
 
 mw.on = function(eventName, callback){
     $.each(eventName.split(' '), function(){
-        $(mw._on._eventsRegister).on(this.toString(), callback);
+        mw.$(mw._on._eventsRegister).on(this.toString(), callback);
     });
 };
 mw.trigger = function(eventName, paramsArray){
-    return $([mww, mw._on._eventsRegister]).trigger(eventName, paramsArray);
+    return mw.$([mww, mw._on._eventsRegister]).trigger(eventName, paramsArray);
 };
 
 mw._on = {
@@ -218,9 +218,9 @@ DOMChange:function(element, callback, attr, a){
     obj._pauseCallback = false;
     obj.pauseScrollCallback = function(){ obj._pauseCallback = true;}
     obj.continueScrollCallback = function(){ obj._pauseCallback = false;}
-    $(obj).scroll(function(e){
+    mw.$(obj).scroll(function(e){
       var h = obj === window ? mwd.body.scrollHeight : obj.scrollHeight;
-      var calc = h - $(obj).scrollTop() - $(obj).height();
+      var calc = h - mw.$(obj).scrollTop() - mw.$(obj).height();
       if(calc <= distance && !obj._pauseCallback){
         callback.call(obj);
       }
@@ -274,7 +274,7 @@ DOMChange:function(element, callback, attr, a){
   userIteractionInitRegister: new Date().getTime(),
   userIteractionInit: function(){
       var max = 378;
-      $(mwd).on('mousemove touchstart click keydown resize ajaxStop', function(){
+      mw.$(mwd).on('mousemove touchstart click keydown resize ajaxStop', function(){
           var time = new Date().getTime();
           if((time - mw._on.userIteractionInitRegister) > max){
               mw._on.userIteractionInitRegister = time;

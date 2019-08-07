@@ -44,7 +44,7 @@ mw.mouse = mw.mouse || {
   },
   goto:function(el, callback, o){
     mw.mouse.create();
-    var off = $(el).offset();
+    var off = mw.$(el).offset();
     if(typeof o !== 'object'){
         o = {
           left:0,
@@ -52,7 +52,7 @@ mw.mouse = mw.mouse || {
         }
     }
     if(typeof off === 'undefined') { return false; }
-    $(mw.mouse.m).css({
+    mw.$(mw.mouse.m).css({
       left:'50%',
       top:'50%',
       display:'block'
@@ -62,7 +62,7 @@ mw.mouse = mw.mouse || {
          callback.call(el)
        }
        else{
-          $(mw.mouse.m).css({
+          mw.$(mw.mouse.m).css({
             left:'50%',
             top:'50%',
             display:'none'
@@ -71,15 +71,15 @@ mw.mouse = mw.mouse || {
     });
   },
   click:function(el, callback){
-       $(el).click();
-       $(mw.mouse.m).addClass("mw-mouseclick");
+       mw.$(el).click();
+       mw.$(mw.mouse.m).addClass("mw-mouseclick");
        setTimeout(function(){
-         $(mw.mouse.m).removeClass("mw-mouseclick");
+         mw.$(mw.mouse.m).removeClass("mw-mouseclick");
          if(typeof callback === 'function'){
            callback.call(el);
          }
          else{
-           $(mw.mouse.m).fadeOut();
+           mw.$(mw.mouse.m).fadeOut();
          }
        }, 200);
   },
@@ -127,97 +127,97 @@ mw.helpinfo = {
 
        hideFooter ? mw.$("#mw_info_helper_footer").hide() :  mw.$("#mw_info_helper_footer").show();
 
-       var off = $(el).offset();
+       var off = mw.$(el).offset();
        if(typeof off === 'undefined') { return false; }
-       var w = $(el).outerWidth();
-       var h = $(el).outerHeight();
+       var w = mw.$(el).outerWidth();
+       var h = mw.$(el).outerHeight();
 
-       var tipheight = $(mw.helpinfo_helper).height();
-       var tipwidth = $(mw.helpinfo_helper).width();
-       $(mw.helpinfo_helper).removeAttr("style");
+       var tipheight = mw.$(mw.helpinfo_helper).height();
+       var tipwidth = mw.$(mw.helpinfo_helper).width();
+       mw.$(mw.helpinfo_helper).removeAttr("style");
 
        if(pos == 'bottomleft'){
-         $(mw.helpinfo_helper).css({
+         mw.$(mw.helpinfo_helper).css({
              top:off.top + h + 17,
              left:off.left
          });
          mw.helpinfo_helper.className = 'helpinfo_helper bottomleft';
        }
        if(pos == 'bottomcenter'){
-         $(mw.helpinfo_helper).css({
+         mw.$(mw.helpinfo_helper).css({
              top:off.top + h + 17,
              left:off.left - tipwidth/2 + w/2
          });
           mw.helpinfo_helper.className = 'helpinfo_helper bottomcenter';
        }
        else if(pos=='bottomright'){
-          $(mw.helpinfo_helper).css({
+          mw.$(mw.helpinfo_helper).css({
              top:off.top + h + 17,
              left:off.left - tipwidth + w
          });
           mw.helpinfo_helper.className = 'helpinfo_helper bottomright';
        }
        else if(pos=='topright'){
-          $(mw.helpinfo_helper).css({
+          mw.$(mw.helpinfo_helper).css({
              top:off.top - tipheight - 17,
              left:off.left - tipwidth + w
          });
          mw.helpinfo_helper.className = 'helpinfo_helper topright';
        }
        else if(pos=='topleft'){
-          $(mw.helpinfo_helper).css({
+          mw.$(mw.helpinfo_helper).css({
              top:off.top - tipheight - 17,
              left:off.left
          });
          mw.helpinfo_helper.className = 'helpinfo_helper topleft';
        }
        else if(pos=='topcenter'){
-          $(mw.helpinfo_helper).css({
+          mw.$(mw.helpinfo_helper).css({
              top:off.top - tipheight - 17,
              left:off.left - tipwidth/2 + w/2
          });
          mw.helpinfo_helper.className = 'helpinfo_helper topcenter';
        }
        else if(pos=='lefttop'){
-         $(mw.helpinfo_helper).css({
+         mw.$(mw.helpinfo_helper).css({
              top:off.top,
              left:off.left - tipwidth -17
          });
          mw.helpinfo_helper.className = 'helpinfo_helper lefttop';
        }
        else if(pos == 'leftcenter'){
-         $(mw.helpinfo_helper).css({
+         mw.$(mw.helpinfo_helper).css({
              top:off.top -  tipheight/2 + h/2,
              left:off.left - tipwidth - 17
          });
          mw.helpinfo_helper.className = 'helpinfo_helper leftcenter';
        }
        else if(pos=='righttop'){
-         $(mw.helpinfo_helper).css({
+         mw.$(mw.helpinfo_helper).css({
              top:off.top,
              left:off.left + w + 17
          });
          mw.helpinfo_helper.className = 'helpinfo_helper righttop';
        }
        else if(pos == 'rightcenter'){
-         $(mw.helpinfo_helper).css({
+         mw.$(mw.helpinfo_helper).css({
              top:off.top -  tipheight/2 + h/2,
              left:off.left + w + 17
          });
          mw.helpinfo_helper.className = 'helpinfo_helper rightcenter';
        }
        if($(mw.helpinfo.active).dataset("css") != ''){
-          $(mw.helpinfo_helper).attr("style", $(mw.helpinfo_helper).attr("style") + $(mw.helpinfo.active).dataset("css"));
+          mw.$(mw.helpinfo_helper).attr("style", mw.$(mw.helpinfo_helper).attr("style") + mw.$(mw.helpinfo.active).dataset("css"));
         }
     },
     autoscroll:function(el){
-      var off = $(el).offset();
+      var off = mw.$(el).offset();
        if(typeof off === 'undefined') { return false; }
-      var elh = $(el).outerHeight();
-      var h = $(window).height();
-      var scr = $(window).scrollTop();
-      var tipo = $(mw.helpinfo_helper).offset();
-      var scr = $(window).scrollTop();
+      var elh = mw.$(el).outerHeight();
+      var h = mw.$(window).height();
+      var scr = mw.$(window).scrollTop();
+      var tipo = mw.$(mw.helpinfo_helper).offset();
+      var scr = mw.$(window).scrollTop();
       var speed = 150;
       if(tipo.top < off.top){
         mw.$([mwd.documentElement, mwd.body]).stop().animate({scrollTop:tipo.top - 10 }, speed);
@@ -240,24 +240,24 @@ mw.helpinfo = {
        }
        if( typeof mw.helpinfo_helper === 'undefined'){
          mw.helpinfo.helper();
-         mw.helpinfo.active =  $(mwd.getElementsByClassName('mw-help-item')[0]);
+         mw.helpinfo.active =  mw.$(mwd.getElementsByClassName('mw-help-item')[0]);
        }
        mw.$(".mwcurrhelp").removeClass("mwcurrhelp");
-       $(mw.helpinfo_overlay).show();
-       $(mw.helpinfo.active).addClass("active");
-       var who = $($(mw.helpinfo.active).dataset("for"));
+       mw.$(mw.helpinfo_overlay).show();
+       mw.$(mw.helpinfo.active).addClass("active");
+       var who = mw.$($(mw.helpinfo.active).dataset("for"));
 
        mw.$(who).addClass("mwcurrhelp");
 
-       $(mw.helpinfo_helper).removeClass('semi_hidden');
-       $(mw.helpinfo_container).html($(mw.helpinfo.active).html());
+       mw.$(mw.helpinfo_helper).removeClass('semi_hidden');
+       mw.$(mw.helpinfo_container).html($(mw.helpinfo.active).html());
        if($(mw.helpinfo.active).dataset("onbeforeshow") != ''){
           var func = mw.helpinfo.parseCallback($(mw.helpinfo.active).dataset("onbeforeshow"));
           if(typeof mw.helpinfo.functions[func.name] === 'function'){
                mw.helpinfo.functions[func.name](func.params);
           }
         }
-       mw.helpinfo.position(who, $(mw.helpinfo.active).dataset("pos"));
+       mw.helpinfo.position(who, mw.$(mw.helpinfo.active).dataset("pos"));
        mw.helpinfo.autoscroll(who);
        if(mw.helpinfo.active.dataset("onshow") != ''){
           var func = mw.helpinfo.parseCallback($(mw.helpinfo.active).dataset("onshow"));
@@ -280,9 +280,9 @@ mw.helpinfo = {
            }
           return false;
         }
-        $(mw.helpinfo.active).removeClass("active");
-        mw.helpinfo.active = $(mw.helpinfo.active).next().length > 0 ? $(mw.helpinfo.active).next() : mw.$(".mw-help-item").eq(0);
-        var who = $($(mw.helpinfo.active).dataset("for"));
+        mw.$(mw.helpinfo.active).removeClass("active");
+        mw.helpinfo.active = mw.$(mw.helpinfo.active).next().length > 0 ? mw.$(mw.helpinfo.active).next() : mw.$(".mw-help-item").eq(0);
+        var who = mw.$($(mw.helpinfo.active).dataset("for"));
         if($(who).length == 0) {
          mw.helpinfo.next();
          return false;
@@ -295,9 +295,9 @@ mw.helpinfo = {
           mw.helpinfo.int = setTimeout(function(){mw.helpinfo.previous()}, 400);
           return false;
         }
-        $(mw.helpinfo.active).removeClass("active");
-        mw.helpinfo.active = $(mw.helpinfo.active).prev().length > 0 ? $(mw.helpinfo.active).prev() : mw.$(".mw-help-item:last");
-        var who = $($(mw.helpinfo.active).dataset("for"));
+        mw.$(mw.helpinfo.active).removeClass("active");
+        mw.helpinfo.active = mw.$(mw.helpinfo.active).prev().length > 0 ? mw.$(mw.helpinfo.active).prev() : mw.$(".mw-help-item:last");
+        var who = mw.$($(mw.helpinfo.active).dataset("for"));
         if($(who).length == 0) {
          mw.helpinfo.previous();
          return false;
@@ -308,8 +308,8 @@ mw.helpinfo = {
        var disable = disable || false;
        var tohelp = tohelp || false;
        mw.$(".mwcurrhelp").removeClass("mwcurrhelp");
-       $(mw.helpinfo_helper).css({left:-9999});
-       $(mw.helpinfo_overlay).hide();
+       mw.$(mw.helpinfo_helper).css({left:-9999});
+       mw.$(mw.helpinfo_overlay).hide();
 
        if(disable){
           mw.cookie.set(mw.helpinfo.cookie , "false", 4380);
@@ -317,10 +317,10 @@ mw.helpinfo = {
        }
     },
     pause:function(){
-      $("#mw_info_helper_footer").addClass("disabled");
+      mw.$("#mw_info_helper_footer").addClass("disabled");
     },
     unpause:function(){
-       $("#mw_info_helper_footer").removeClass("disabled");
+       mw.$("#mw_info_helper_footer").removeClass("disabled");
     },
     HideToHelp:function(){
         var help = mwd.getElementById('helpbtn');
@@ -350,7 +350,7 @@ mw.helpinfo = {
       gotonextpage:function(url){
         mw.$("#mw_helpinfo_next_btn").bind("mouseup", function(e){
           if($(".mw-help-item:last").hasClass("active")){
-            $(this).removeAttr("onclick");
+            mw.$(this).removeAttr("onclick");
             window.location.href = url;
             return false;
           }

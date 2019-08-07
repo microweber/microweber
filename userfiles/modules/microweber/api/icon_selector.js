@@ -201,19 +201,19 @@ mw.iconSelector = mw.iconSelector || {
 */
 
                 if(refresh){
-                    $(".tooltip-icon-picker .mw-tooltip-content").html(mw.iconSelector._string)
-                    $(mw.iconSelectorGUI).hide()
+                    mw.$(".tooltip-icon-picker .mw-tooltip-content").html(mw.iconSelector._string)
+                    mw.$(mw.iconSelectorGUI).hide()
                 }
             }
             else if(refresh){
-                $(".tooltip-icon-picker .mw-tooltip-content").html(mw.iconSelector._string)
-                $(mw.iconSelectorGUI).hide()
+                mw.$(".tooltip-icon-picker .mw-tooltip-content").html(mw.iconSelector._string)
+                mw.$(mw.iconSelectorGUI).hide()
             }
 
-            $(mw.iconSelectorGUI).addClass('tooltip-icon-picker')
+            mw.$(mw.iconSelectorGUI).addClass('tooltip-icon-picker')
 
 
-            $('.mw-icons-selector', mw.iconSelectorGUI).show();
+            mw.$('.mw-icons-selector', mw.iconSelectorGUI).show();
             var tabs = mw.tabs({
                 nav:'.live-edit-icon-pick-menu .mw-ui-btn',
                 tabs:'.live-edit-icon-pick-tab'
@@ -226,7 +226,7 @@ mw.iconSelector = mw.iconSelector || {
                 position:'bottom-center',
                 method:'inline',
                 onchange:function(color){
-                    $(mw.iconSelector._activeElement).css("color", color);
+                    mw.$(mw.iconSelector._activeElement).css("color", color);
                 }
             });
             mw.iconSelector.searchInit();
@@ -257,27 +257,27 @@ mw.iconSelector = mw.iconSelector || {
             if(mw.iconSelector._activeElement !== null){
 
 
-            $(mw.iconSelectorGUI).show();
-            $('.mw-icons-selector', mw.iconSelectorGUI).show();
+            mw.$(mw.iconSelectorGUI).show();
+            mw.$('.mw-icons-selector', mw.iconSelectorGUI).show();
 
 
             mw.tools.tooltip.setPosition(mw.iconSelectorGUI, mw.iconSelector._activeElement, 'bottom-center');
           }
           else{
 
-                $(mw.iconSelectorGUI).hide();
+                mw.$(mw.iconSelectorGUI).hide();
           }
 
         }
-        var icons_size_val = $(mw.iconSelector._activeElement).css("fontSize");
+        var icons_size_val = mw.$(mw.iconSelector._activeElement).css("fontSize");
         var a = parseInt(icons_size_val);
 
         if (a > 0) {
-            $('.mw-icons-selector-set-icon-size').val(a);
+            mw.$('.mw-icons-selector-set-icon-size').val(a);
         }
 
        if(mw.iconSelector._activeElement === null || refresh){
-         $(mw.iconSelectorGUI).hide();
+         mw.$(mw.iconSelectorGUI).hide();
 
        }
 
@@ -305,12 +305,12 @@ mw.iconSelector = mw.iconSelector || {
 
             if(typeof(mw.iconSelector._activeElement) != 'undefined' && typeof(mw.iconSelector._activeElement.nodeName) != 'undefined'){
                 if(mw.iconSelector._activeElement.nodeName == "INPUT"){
-                    $(mw.iconSelector._activeElement).val(icon).trigger( "change");
+                    mw.$(mw.iconSelector._activeElement).val(icon).trigger( "change");
                 }
             }
 
         }
-        $(mw.tools.firstParentWithClass(mw.iconSelector._activeElement, 'edit')).addClass('changed');
+        mw.$(mw.tools.firstParentWithClass(mw.iconSelector._activeElement, 'edit')).addClass('changed');
         //mw.iconSelector._activeElement = null;
 
 
@@ -318,7 +318,7 @@ mw.iconSelector = mw.iconSelector || {
     },
     hide: function () {
         if (mw.iconSelector._string != '') {
-            $(mw.iconSelectorGUI).hide();
+            mw.$(mw.iconSelectorGUI).hide();
         }
     },
     search:function(val){
@@ -342,26 +342,26 @@ mw.iconSelector = mw.iconSelector || {
       mw.iconSelector.searchelement.className = 'mw-ui-searchfield icon-picker-search';
       mw.iconSelector.searchelement.__time = null;
       mw.$('.' + mw.iconSelector._exceptions.join(', .'), mw.iconSelectorGUI).remove()
-      $(mw.iconSelector.searchelement).on('input keyup paste', function(){
+      mw.$(mw.iconSelector.searchelement).on('input keyup paste', function(){
         clearTimeout(mw.iconSelector.searchelement.__time);
         mw.iconSelector.searchelement.__time = setTimeout(function(){
           var val = mw.iconSelector.searchelement.value.toLowerCase();
           if(!val){
-            $(".live-edit-icon-pick-tab li").show();
+            mw.$(".live-edit-icon-pick-tab li").show();
             return;
           }
           var results = mw.iconSelector.search(mw.iconSelector.searchelement.value);
-          $(".live-edit-icon-pick-tab li").hide().each(function(){
+          mw.$(".live-edit-icon-pick-tab li").hide().each(function(){
             if(this.title.toLowerCase().indexOf(val) !== -1){
-              $(this).show();
+              mw.$(this).show();
             }
           })
         }, 100)
       })
-      $(mw.iconSelector.searchelement).appendTo('.tooltip-icon-picker')
+      mw.$(mw.iconSelector.searchelement).appendTo('.tooltip-icon-picker')
     },
     iconDropdown:function(selector, options){
-        var el = $(selector)[0];
+        var el = mw.$(selector)[0];
         if(!el) return;
         options = options || {}
         options.mode = options.mode || 'absolute';
@@ -398,31 +398,31 @@ mw.iconSelector = mw.iconSelector || {
 
         mw.iconSelector.getMaterialIconsDropdown(function(){
           html = '<ul class="mw-icons-selector mw-icons-selector-dropdown" style="position:'+options.mode+';width:100%; left:0;top:100%;">' + html + this + '</ul>';
-          $(selector).addClass('mw-icons-selector-dropdown-wrapper').empty().append(holder).append(html)
-          $('li', el).on('mousedown touchstart', function(){
-            var val =  $(this).html()
-            $('.mw-ui-field-icon', holder).html(val);
+          mw.$(selector).addClass('mw-icons-selector-dropdown-wrapper').empty().append(holder).append(html)
+          mw.$('li', el).on('mousedown touchstart', function(){
+            var val =  mw.$(this).html()
+            mw.$('.mw-ui-field-icon', holder).html(val);
              if(typeof options.onchange === 'function'){
                  options.onchange.call(undefined, val, el)
              }
-              $('.mw-icons-selector-dropdown', el).on()
+              mw.$('.mw-icons-selector-dropdown', el).on()
           });
         })
 
 
-        $(input).on('focus', function(){
-            $(this).parent().parent().addClass('focused')
+        mw.$(input).on('focus', function(){
+            mw.$(this).parent().parent().addClass('focused')
         });
-         $(input).on('input change', function(){
+         mw.$(input).on('input change', function(){
              var val = $.trim(this.value);
              clearTimeout(input.__time);
              (function(val, el){
                  input.__time = setTimeout(function(){
                         if(!val){
-                            $('.mw-icons-selector li', el).show()
+                            mw.$('.mw-icons-selector li', el).show()
                         }
                         else{
-                            $('.mw-icons-selector li', el).hide().filter('[data-value*="'+val+'"]').show()
+                            mw.$('.mw-icons-selector li', el).hide().filter('[data-value*="'+val+'"]').show()
                         }
                         if(typeof options.onchange == 'function'){
                              //options.onchange.call(undefined, input.value, el)
@@ -436,19 +436,19 @@ mw.iconSelector = mw.iconSelector || {
 
 
 
-        $(input).on('blur', function(){
+        mw.$(input).on('blur', function(){
             (function(el){
                 clearTimeout(el.__time)
                 el.__time = setTimeout(function(){
-                    $(el).parent().parent().removeClass('focused')
+                    mw.$(el).parent().parent().removeClass('focused')
                 }, 200)
             })(this)
         });
 
         return {
             value: function (val) {
-                if(!val) return $('.mw-ui-field-icon', holder).html();
-                $('.mw-ui-field-icon', holder).html(val);
+                if(!val) return mw.$('.mw-ui-field-icon', holder).html();
+                mw.$('.mw-ui-field-icon', holder).html(val);
             }
         }
 
@@ -495,9 +495,9 @@ mw.iconSelector = mw.iconSelector || {
         var a = parseInt(val);
 
         if (a > 5) {
-            $(mw.iconSelector._activeElement).css("fontSize", a + "px");
+            mw.$(mw.iconSelector._activeElement).css("fontSize", a + "px");
         } else {
-            $(mw.iconSelector._activeElement).css("fontSize", "inherit");
+            mw.$(mw.iconSelector._activeElement).css("fontSize", "inherit");
         }
 
 

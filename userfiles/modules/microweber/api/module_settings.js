@@ -20,7 +20,7 @@ mw.moduleSettings = function(options){
 
     this.options = $.extend({}, defaults, options);
 
-    this.options.element = $(this.options.element)[0];
+    this.options.element = mw.$(this.options.element)[0];
     this.value = this.options.data.slice();
 
     var scope = this;
@@ -34,15 +34,15 @@ mw.moduleSettings = function(options){
             var header = document.createElement('div');
             header.className = "mw-ui-box-header";
             header.innerHTML = this.options.header.replace(/{count}/g, '<span class="mw-module-settings-box-index">'+(i+1)+'</span>');
-            $(header).on('click', function(){
-                $(this).next().slideToggle();
+            mw.$(header).on('click', function(){
+                mw.$(this).next().slideToggle();
             });
             return header;
 
         }
     };
     this.headerAnalize = function(i, header){
-        $("[data-action='remove']", header).on('click', function(){
+        mw.$("[data-action='remove']", header).on('click', function(){
             scope.remove(i);
         });
     };
@@ -81,10 +81,10 @@ mw.moduleSettings = function(options){
         if(typeof pos === 'undefined') return;
         this.value.splice(pos, 1);
         this.items.splice(pos, 1);
-        $(this.options.element).children().eq(pos).slideUp(function(){
-            $(this).remove();
+        mw.$(this.options.element).children().eq(pos).slideUp(function(){
+            mw.$(this).remove();
         });
-        $(scope).trigger('change', [scope.value/*, scope.value[i]*/]);
+        mw.$(scope).trigger('change', [scope.value/*, scope.value[i]*/]);
     };
 
     this.createItem = function(curr, i){
@@ -94,18 +94,18 @@ mw.moduleSettings = function(options){
             schema: this.options.schema,
             element: box.querySelector('.mw-ui-box-content')
         });
-        $(box).prepend(header);
+        mw.$(box).prepend(header);
         this.headerAnalize(i, header);
         this.items.push(item);
         item.options.element._prop = item;
         item.setValue(curr);
-        $(item).on('change', function(){
+        mw.$(item).on('change', function(){
             $.each(item.getValue(), function(a, b){
                 // todo: faster approach
-                var index = $(box).parent().children('.mw-module-settings-box').index(box);
+                var index = mw.$(box).parent().children('.mw-module-settings-box').index(box);
                 scope.value[index][a] = b;
             });
-            $(scope).trigger('change', [scope.value/*, scope.value[i]*/]);
+            mw.$(scope).trigger('change', [scope.value/*, scope.value[i]*/]);
         });
     };
 
@@ -122,14 +122,14 @@ mw.moduleSettings = function(options){
     this.refactorDomPosition = function(){
         scope.items = [];
         scope.value = [];
-        $(".mw-module-settings-box-index", this.options.element).each(function (i) {
-            $(this).text(i+1);
+        mw.$(".mw-module-settings-box-index", this.options.element).each(function (i) {
+            mw.$(this).text(i+1);
         });
-        $('.mw-module-settings-box-content', this.options.element).each(function(i){
+        mw.$('.mw-module-settings-box-content', this.options.element).each(function(i){
             scope.items.push(this._prop);
             scope.value.push(this._prop.getValue());
         });
-        $(scope).trigger('change', [scope.value]);
+        mw.$(scope).trigger('change', [scope.value]);
     };
 
     this.create = function(){
@@ -149,7 +149,7 @@ mw.moduleSettings = function(options){
             if(typeof this.options.sortable === 'object'){
                 conf = $.extend({}, conf, this.options.sortable);
             }
-            $(this.options.element).sortable(conf);
+            mw.$(this.options.element).sortable(conf);
         }
     };
 
