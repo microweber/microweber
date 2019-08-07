@@ -18,7 +18,7 @@ class Themes
 {
 	/**
 	 * Upload zip file
-	 * @param unknown $query
+	 * @param get params $query
 	 * @return string[]
 	 */
 	public function upload($query)
