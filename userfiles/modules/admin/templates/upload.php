@@ -11,6 +11,7 @@ $(document).ready(function () {
     
     $(uploader).bind("FileUploaded", function (obj, data) {
     	$('#mw_uploader').fadeIn();
+    	$('.overwrite-existing-checkobx').fadeIn();
     	$('#upload_file_info').hide();
     	mw.notification.success("Moving uploaded file...");
     	
@@ -24,19 +25,22 @@ $(document).ready(function () {
     	
 		$.post(mw.settings.api_url+'Microweber/Utils/Themes/upload', postData,
 			function(msg) {
-				// mw.reload_module('admin/backup_v2/manage');
-				mw.notification.msg(msg, 5000);
+				if (msg.success) {
+			    	mw.reload_module('content/views/layout_selector');
+			    }
+				mw.notification.msg(msg, 5000); 
 		});
     });
 
     $(uploader).bind('progress', function (up, file) {
         $('#mw_uploader').hide();
+        $('.overwrite-existing-checkobx').hide();
         $('#upload_file_info').show();
         mw.$("#upload_file_info").html("<b>Uploading file " + file.percent + "%</b><br /><br />");
     });
     
     $(uploader).bind('error', function (up, file) {
-        mw.notification.error("The backup must be sql or zip.");
+        mw.notification.error("The template must be zip.");
     });
     
 });
@@ -48,7 +52,7 @@ $(document).ready(function () {
 
 <span id="upload_file_info" style="font-size:14px;"></span>
 
-<label class="mw-ui-check">
+<label class="mw-ui-check overwrite-existing-checkobx">
 <input type="checkbox" value="1" name="overwrite_existing_template" id="overwrite_existing_template">
 <span></span><span>Overwrite existing template</span>
 </label>
