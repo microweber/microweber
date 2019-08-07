@@ -10,12 +10,12 @@ mw.dropables = {
         dropable.className = 'mw_dropable';
         dropable.innerHTML = '<span class="mw_dropable_arr"></span>';
         document.body.appendChild(dropable);
-        mw.dropable = $(dropable);
+        mw.dropable = mw.$(dropable);
         mw.dropable.hide = function(){
-            return $(this).addClass('mw_dropable_hidden')
+            return mw.$(this).addClass('mw_dropable_hidden')
         };
         mw.dropable.show = function(){
-            return $(this).removeClass('mw_dropable_hidden')
+            return mw.$(this).removeClass('mw_dropable_hidden')
         };
         mw.dropable.hide()
     },
@@ -76,14 +76,11 @@ mw.dropables = {
 
 
     for(var ix = 0 ; i<selectors.length ; ix++){
-        selectors[ix] = '.edit ' + selectors[ix].trim()
+        selectors[ix] = '.edit ' + selectors[ix].trim();
     }
-
 
     selectors = selectors.join(',');
 
-
-      //return $( event.target ).closest( '.edit section' )
       var coords = { y:99999999 },
           y = mw.event.page(event).y,
           all = document.querySelectorAll(selectors),
@@ -100,7 +97,7 @@ mw.dropables = {
         if(!mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(all[i], ['allow-drop', 'nodrop'])){
           continue;
         }
-        var el = $(all[i]), offtop = el.offset().top;
+        var el = mw.$(all[i]), offtop = el.offset().top;
         var v1 = offtop - y;
         var v2 = y - (offtop + el[0].offsetHeight);
         var v = v1 > 0 ? v1 : v2;
@@ -124,7 +121,7 @@ mw.dropables = {
     },
     display: function(el) {
 
-        el = $(el);
+        el = mw.$(el);
         var offset = el.offset();
         var width = el.outerWidth();
         var height = el.outerHeight();
@@ -179,7 +176,7 @@ mw.dropables = {
             });
         }
     }
-}
+};
 
 
  mw.triggerLiveEditHandlers = {
@@ -387,7 +384,7 @@ mw.liveNodeSettings = {
         if (!this.__is_sidebar_opened()) {
             return;
         }
-        $('.mw-live-edit-component-options')
+        mw.$('.mw-live-edit-component-options')
             .hide()
             .filter('#js-live-edit-side-wysiwyg-editor-holder')
             .show();
@@ -396,20 +393,10 @@ mw.liveNodeSettings = {
         if (!this.__is_sidebar_opened()) {
             return;
         }
-        $('.mw-live-edit-component-options')
-            .hide()
+        mw.$('.mw-live-edit-component-options').hide();
     },
     module: function (el) {
-        if (this.__is_sidebar_opened()) {
-            // $('.mw-live-edit-component-options')
-            //     .hide()
-            //     .filter('#js-live-edit-module-settings-holder')
-            //     .show();
-        }
         mw.live_edit.showSettings(undefined, {mode:"sidebar", liveedit:true})
-      //   mw.drag.module_settings();
-
-
     },
     image: function (el) {
         if (!this.__is_sidebar_opened()) {
@@ -420,18 +407,18 @@ mw.liveNodeSettings = {
             .contents()
             .find("#mwimagecurrent")
             .attr("src", el.src)
-        $('.mw-live-edit-component-options')
+        mw.$('.mw-live-edit-component-options')
             .hide()
             .filter('#js-live-edit-image-settings-holder')
             .show()
     },
     initImage: function () {
         var url = mw.external_tool('imageeditor');
-        $("#js-live-edit-image-settings-holder").append('<iframe src="' + url + '" frameborder="0" id="mw-live-edit-sidebar-image-frame"></iframe>');
+        mw.$("#js-live-edit-image-settings-holder").append('<iframe src="' + url + '" frameborder="0" id="mw-live-edit-sidebar-image-frame"></iframe>');
     },
     icon: function () {
         mw.iconSelector.settingsUI(true);
-        $('.mw-live-edit-component-options')
+        mw.$('.mw-live-edit-component-options')
             .hide()
             .filter('#js-live-edit-icon-settings-holder')
             .show();

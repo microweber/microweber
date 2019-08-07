@@ -5,18 +5,6 @@ use Microweber\Utils\Backup\DatabaseSave;
 
 trait DatabaseContentFieldsWriter {
 	
-	private function _getContentField($itemId) {
-		
-		$contentFields = array();
-		foreach($this->content['content_fields'] as $dataItem) {
-			if ($dataItem['rel_id'] == $itemId) {
-				$contentFields[] = $dataItem;
-			}
-		}
-		
-		return $contentFields;
-	}
-	
 	private function _getContentFieldDatabase($item) {
 		
 		$dbSelectParams = array();
@@ -50,7 +38,7 @@ trait DatabaseContentFieldsWriter {
 			unset($saveNewItem['id']);
 			$itemDatabase = $this->_getContentFieldDatabase($saveNewItem);
 			if (empty($itemDatabase)) {
-				DatabaseSave::save('content_fields', $saveNewItem);
+				DatabaseSave::save('content_fields', $saveNewItem); 
 			}
 		}
 	}

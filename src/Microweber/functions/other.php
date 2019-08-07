@@ -718,7 +718,7 @@ function mw_composer_replace_vendor_from_cache($params)
 }
 
 
-api_expose_admin('template/compile_css', function ($params) {
+api_expose('template/compile_css', function ($params) {
     return mw()->template->compile_css($params);
 });
 

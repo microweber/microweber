@@ -13,14 +13,14 @@ var dynamicModulesMenu = function(e, el) {
         var parentModule = mw.tools.lastParentWithClass(el, 'module');
         var childModule = mw.tools.firstChildWithClass(el, 'module');
 
-        $el = $(el);
-        if(!!parentModule && ( $el.offset().top - $(parentModule).offset().top) < 10 ){
+        $el = mw.$(el);
+        if(!!parentModule && ( $el.offset().top - mw.$(parentModule).offset().top) < 10 ){
             el.__disableModuleTrigger = parentModule;
             $el.addClass('inaccessibleModule');
         }
-        else if(!!childModule && ( $(childModule).offset().top - $el.offset().top) < 10 ) {
+        else if(!!childModule && ( mw.$(childModule).offset().top - $el.offset().top) < 10 ) {
             childModule.__disableModuleTrigger = el;
-            $(childModule).addClass('inaccessibleModule');
+            mw.$(childModule).addClass('inaccessibleModule');
         }
         else{
             $el.removeClass('inaccessibleModule');
@@ -32,17 +32,17 @@ var dynamicModulesMenu = function(e, el) {
     if(modules.length === 0){
         var parent = mw.tools.firstParentWithClass(el, 'module');
         if(parent){
-            if(($el.offset().top - $(parent).offset().top) < 10) {
-                modules = $([el]);
+            if(($el.offset().top - mw.$(parent).offset().top) < 10) {
+                modules = mw.$([el]);
                 el = parent;
-                $el = $(el);
+                $el = mw.$(el);
             }
         }
     }
     modules.each(function(){
         var span = document.createElement('span');
         span.className = 'mw-handle-item mw-ui-btn mw-ui-btn-small';
-        var type = $(this).attr('data-type') || $(this).attr('type');
+        var type = mw.$(this).attr('data-type') || mw.$(this).attr('type');
         if(type){
             var title = mw.live_edit.registry[type] ? mw.live_edit.registry[type].title : type;
             title = title.replace(/\_/, ' ');
@@ -55,17 +55,17 @@ var dynamicModulesMenu = function(e, el) {
         }
     });
     if(modules.length > 0){
-        var off = $(el).offset();
+        var off = mw.$(el).offset();
         if(mw.tools.collision(el, mw.handleModule.wrapper)){
             off.top = parseFloat(mw.handleModule.wrapper.style.top) + 30;
             off.left = parseFloat(mw.handleModule.wrapper.style.left);
         }
         mw.inaccessibleModules.style.top = off.top + 'px';
         mw.inaccessibleModules.style.left = off.left + 'px';
-        $(mw.inaccessibleModules).show();
+        mw.$(mw.inaccessibleModules).show();
     }
     else{
-        $(mw.inaccessibleModules).hide();
+        mw.$(mw.inaccessibleModules).hide();
     }
 
 
@@ -90,10 +90,10 @@ mw.Handle = function(options) {
         this.wrapper.id = this.options.id || ('mw-handle-' + mw.random());
         this.wrapper.className = 'mw-defaults mw-handle-item ' + (this.options.className || 'mw-handle-type-default');
         this.wrapper.contenteditable = false;
-        $(this.wrapper).on('mousedown', function () {
+        mw.$(this.wrapper).on('mousedown', function () {
             mw.tools.addClass(this, 'mw-handle-item-mouse-down');
         });
-        $(document).on('mouseup', function () {
+        mw.$(document).on('mouseup', function () {
             mw.tools.removeClass(scope.wrapper, 'mw-handle-item-mouse-down');
         });
         mwd.body.appendChild(this.wrapper);
@@ -111,13 +111,13 @@ mw.Handle = function(options) {
     };
 
     this.hide = function () {
-        $(this.wrapper).hide().removeClass('active');
+        mw.$(this.wrapper).hide().removeClass('active');
         this._visible = false;
         return this;
     };
 
     this.show = function () {
-        $(this.wrapper).show();
+        mw.$(this.wrapper).show();
         this._visible = true;
         return this;
     };
@@ -135,11 +135,11 @@ mw.Handle = function(options) {
         this.wrapper.appendChild(this.handle);
 
         this.handleTitle.onclick = function () {
-            $(scope.wrapper).toggleClass('active');
+            mw.$(scope.wrapper).toggleClass('active');
         };
-        $(mwd.body).on('click', function (e) {
+        mw.$(mwd.body).on('click', function (e) {
             if(!mw.tools.hasParentWithId(e.target, scope.wrapper.id)){
-                $(scope.wrapper).removeClass('active');
+                mw.$(scope.wrapper).removeClass('active');
             }
         });
     };
@@ -237,8 +237,6 @@ mw._initHandles = {
             mw.handleModule,
             mw.handleColumns,
             mw.handleElement
-
-
         ];
         all = but ? all.filter(function (x) {
             return x !== but;
@@ -322,7 +320,7 @@ mw._initHandles = {
                             mw.cssEditorSelector.active(true);
                             mw.cssEditorSelector.select(mw._activeElementOver);
                         } else{
-                            $(mw.liveEditWidgets.cssEditorInSidebarAccordion()).on('load', function () {
+                            mw.$(mw.liveEditWidgets.cssEditorInSidebarAccordion()).on('load', function () {
                                 setTimeout(function(){
                                     mw.cssEditorSelector.active(true);
                                     mw.cssEditorSelector.select(mw._activeElementOver);
@@ -345,7 +343,7 @@ mw._initHandles = {
             ]
         });
 
-        $(mw.handleElement.wrapper).draggable({
+        mw.$(mw.handleElement.wrapper).draggable({
             handle: mw.handleElement.handleIcon,
             cursorAt: {
                 //top: -30
@@ -357,24 +355,24 @@ mw._initHandles = {
                 if(!mw.dragCurrent.id){
                     mw.dragCurrent.id = 'element_' + mw.random()
                 }
-                $(mw.dragCurrent).invisible().addClass("mw_drag_current");
+                mw.$(mw.dragCurrent).invisible().addClass("mw_drag_current");
                 mw.trigger("AllLeave");
                 mw.drag.fix_placeholders();
-                $(mwd.body).addClass("dragStart");
+                mw.$(mwd.body).addClass("dragStart");
                 mw.image_resizer._hide();
                 mw.wysiwyg.change(mw.dragCurrent);
                 mw.smallEditor.css("visibility", "hidden");
                 mw.smallEditorCanceled = true;
             },
             stop: function() {
-                $(mwd.body).removeClass("dragStart");
+                mw.$(mwd.body).removeClass("dragStart");
             }
         });
 
-        $(mw.handleElement.wrapper).mouseenter(function() {
+        mw.$(mw.handleElement.wrapper).mouseenter(function() {
         }).click(function() {
             if (!$(mw._activeElementOver).hasClass("element-current")) {
-                $(".element-current").removeClass("element-current");
+                mw.$(".element-current").removeClass("element-current");
 
                 if (mw._activeElementOver.nodeName === 'IMG') {
 
@@ -393,7 +391,7 @@ mw._initHandles = {
                 mw.$(".mw_edit_delete, .mw_edit_delete_element, .mw-sorthandle-moveit, .column_separator_title").hide();
                 return false;
             }
-            var el = $(element);
+            var el = mw.$(element);
 
             var o = el.offset();
 
@@ -419,7 +417,7 @@ mw._initHandles = {
             }
 
 
-            $(mw.handleElement.wrapper).css({
+            mw.$(mw.handleElement.wrapper).css({
                 top: o.top - 10,
                 left: left_spacing
             });
@@ -477,7 +475,7 @@ mw._initHandles = {
                 }
             ]
         });
-        $(mw.handleModule.wrapper).draggable({
+        mw.$(mw.handleModule.wrapper).draggable({
             handle: mw.handleModule.handleIcon,
             distance:20,
             cursorAt: {
@@ -490,23 +488,23 @@ mw._initHandles = {
                     mw.dragCurrent.id = 'module_' + mw.random();
                 }
                 if(mw.letools.isLayout(mw.dragCurrent)){
-                    $(mw.dragCurrent).css({
+                    mw.$(mw.dragCurrent).css({
                         opacity:0
                     }).addClass("mw_drag_current");
                 } else {
-                    $(mw.dragCurrent).invisible().addClass("mw_drag_current");
+                    mw.$(mw.dragCurrent).invisible().addClass("mw_drag_current");
                 }
 
                 mw.trigger("AllLeave");
                 mw.drag.fix_placeholders();
-                $(mwd.body).addClass("dragStart");
+                mw.$(mwd.body).addClass("dragStart");
                 mw.image_resizer._hide();
                 mw.wysiwyg.change(mw.dragCurrent);
                 mw.smallEditor.css("visibility", "hidden");
                 mw.smallEditorCanceled = true;
             },
             stop: function() {
-                $(mwd.body).removeClass("dragStart");
+                mw.$(mwd.body).removeClass("dragStart");
             }
         })
             .on("mousedown", function(e){
@@ -519,7 +517,7 @@ mw._initHandles = {
             mw.$(".mw-handle-menu-dynamic", mw.handleModule.wrapper).empty();
             mw.$('#mw_handle_module_up,#mw_handle_module_down').hide();
             if(mw._activeModuleOver && mw._activeModuleOver.getAttribute('data-type') === 'layouts'){
-                var $el = $(mw._activeModuleOver);
+                var $el = mw.$(mw._activeModuleOver);
                 var hasedit =  mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst($el[0],['edit', 'module']);
                 if(hasedit){
                     if($el.prev('[data-type="layouts"]').length !== 0){
@@ -531,7 +529,7 @@ mw._initHandles = {
                 }
             }
 
-            var el = $(element);
+            var el = mw.$(element);
             var o = el.offset();
             var width = el.width();
             var pleft = parseFloat(el.css("paddingLeft"));
@@ -551,7 +549,7 @@ mw._initHandles = {
             if(topPos<minTop){
                 topPos = minTop;
             }
-            var ws = $(window).scrollTop();
+            var ws = mw.$(window).scrollTop();
             if(topPos<(ws+minTop)){
                 topPos=(ws+minTop);
                 marginTop =  -15;
@@ -567,7 +565,7 @@ mw._initHandles = {
             }
 
             var topPosFinal = topPos + marginTop;
-            var $lebar = $(lebar), $leoff = $lebar.offset();
+            var $lebar = mw.$(lebar), $leoff = $lebar.offset();
 
             var outheight = el.outerHeight();
 
@@ -582,7 +580,7 @@ mw._initHandles = {
 
 
             mw.handleModule.show();
-            $(mw.handleModule.wrapper)
+            mw.$(mw.handleModule.wrapper)
                 .removeClass('active')
                 .css({
                     top: topPosFinal,
@@ -595,7 +593,7 @@ mw._initHandles = {
             mw.$('#mw_handle_module_up, #mw_handle_module_down').hide();
 
             if(element && element.getAttribute('data-type') === 'layouts'){
-                var $el = $(element);
+                var $el = mw.$(element);
                 var hasedit =  mw.tools.hasParentsWithClass($el[0],'edit');
                 if(hasedit){
                     if($el.prev('[data-type="layouts"]').length !== 0){
@@ -611,9 +609,9 @@ mw._initHandles = {
                 && mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(element, ['allow-drop', 'nodrop']);
 
             if(canDrag){
-                $(mw.handleModule.wrapper).removeClass('mw-handle-no-drag');
+                mw.$(mw.handleModule.wrapper).removeClass('mw-handle-no-drag');
             } else {
-                $(mw.handleModule.wrapper).addClass('mw-handle-no-drag');
+                mw.$(mw.handleModule.wrapper).addClass('mw-handle-no-drag');
             }
 
             var title = el.dataset("mw-title");
@@ -646,7 +644,7 @@ mw._initHandles = {
                 mw.$(".mw_edit_settings", mw.handle_module).hide();
                 var new_el = mwd.createElement('div');
                 new_el.className = 'mw_edit_settings_multiple_holder';
-                $('.mw_edit_settings', mw.handle_module).after(new_el);
+                mw.$('.mw_edit_settings', mw.handle_module).after(new_el);
                 var settings = mw.live_edit_module_settings_array[module_type];
                 mw.$(settings).each(function () {
                     if (this.view) {
@@ -729,7 +727,7 @@ mw._initHandles = {
                     className:'mw-handle-remove',
                     action: function () {
                         mw.drag.delete_element(mw._activeRowOver, function () {
-                            $(mw.drag.columns.resizer).hide();
+                            mw.$(mw.drag.columns.resizer).hide();
                             mw.handleColumns.hide();
                         });
                     }
@@ -738,7 +736,7 @@ mw._initHandles = {
         });
         mw.handleColumns.setTitle('<span class="mw-handle-columns-icon"></span>', '');
 
-        $(mw.handleColumns.wrapper).draggable({
+        mw.$(mw.handleColumns.wrapper).draggable({
             handle: mw.handleColumns.handleIcon,
             cursorAt: {
                 //top: -30
@@ -748,25 +746,25 @@ mw._initHandles = {
                 var curr = mw._activeRowOver ;
                 mw.dragCurrent = mw.ea.data.currentGrabbed = curr;
                 mw.dragCurrent.id == "" ? mw.dragCurrent.id = 'element_' + mw.random() : '';
-                $(mw.dragCurrent).invisible().addClass("mw_drag_current");
+                mw.$(mw.dragCurrent).invisible().addClass("mw_drag_current");
                 mw.trigger("AllLeave");
                 mw.drag.fix_placeholders();
-                $(mwd.body).addClass("dragStart");
+                mw.$(mwd.body).addClass("dragStart");
                 mw.image_resizer._hide();
                 mw.wysiwyg.change(mw.dragCurrent);
                 mw.smallEditor.css("visibility", "hidden");
                 mw.smallEditorCanceled = true;
-                $(mw.drag.columns.resizer).hide()
+                mw.$(mw.drag.columns.resizer).hide()
             },
             stop: function() {
-                $(mwd.body).removeClass("dragStart");
+                mw.$(mwd.body).removeClass("dragStart");
             }
         });
 
         mw.on("RowOver", function(a, element) {
 
             mw._activeRowOver = element;
-            var el = $(element);
+            var el = mw.$(element);
             var o = el.offset();
             var width = el.width();
             var pleft = parseFloat(el.css("paddingLeft"));
@@ -785,14 +783,14 @@ mw._initHandles = {
 
             mw.handleColumns.show()
 
-            $(mw.handleColumns.wrapper).css({
+            mw.$(mw.handleColumns.wrapper).css({
                 top: htop,
                 left: left,
                 //width: width
             });
             mw._initHandles.manageCollision();
 
-            var size = $(element).children(".mw-col").length;
+            var size = mw.$(element).children(".mw-col").length;
             mw.$("a.mw-make-cols").removeClass("active");
             mw.$("a.mw-make-cols").eq(size - 1).addClass("active");
              if(!element.id){

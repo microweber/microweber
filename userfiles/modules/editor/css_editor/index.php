@@ -7,6 +7,10 @@
         direction: initial;
     }
 
+    .CodeMirror-code{
+        min-height: 80vh;
+    }
+
 </style>
 
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.js"></script>

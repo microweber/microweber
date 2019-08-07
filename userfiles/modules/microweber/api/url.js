@@ -172,7 +172,7 @@ mw.slug = {
   toggleEdit:function(){
     var edit = mw.$(".edit-post-slug");
     var view = mw.$(".view-post-slug");
-    $([edit, view]).toggleClass('active');
+    mw.$([edit, view]).toggleClass('active');
 
     if(view.hasClass("active")){
      view.html(edit.val());

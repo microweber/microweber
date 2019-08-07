@@ -13,7 +13,7 @@ mw.tags = mw.chips = function(options){
 
     "use strict";
 
-    options.element = $(options.element)[0];
+    options.element = mw.$(options.element)[0];
     options.size = options.size || 'medium';
 
     this.options = options;
@@ -29,7 +29,7 @@ mw.tags = mw.chips = function(options){
     */
 
     this.refresh = function(){
-        $(scope.options.element).empty();
+        mw.$(scope.options.element).empty();
         this.rend();
     };
 
@@ -103,14 +103,14 @@ mw.tags = mw.chips = function(options){
             icon = ic;
         }
 
-        return $(icon)[0];
+        return mw.$(icon)[0];
      };
 
      this.removeTag = function (index) {
         var item = this.options.data[index];
         this.options.data.splice(index,1);
         this.refresh();
-        $(scope).trigger('tagRemoved', [item]);
+        mw.$(scope).trigger('tagRemoved', [item]);
      };
 
      this.tag = function (options) {
@@ -156,16 +156,16 @@ mw.tags = mw.chips = function(options){
             var image = this.createImage(config);
 
              if(image){
-                 $(tag_holder).prepend(image);
+                 mw.$(tag_holder).prepend(image);
              }
              if(icon){
-                 $(tag_holder).prepend(icon);
+                 mw.$(tag_holder).prepend(icon);
              }
 
 
             tag_holder.onclick = function (e) {
                 if(e.target !== tag_close){
-                    $(scope).trigger('tagClick', [this._config, this._index, this])
+                    mw.$(scope).trigger('tagClick', [this._config, this._index, this])
                 }
             };
 
@@ -189,8 +189,8 @@ mw.treeTags = mw.treeChips = function(options){
     this.options = options;
     var scope = this;
 
-    var tagsHolder = options.tagsHolder || $('<div class="mw-tree-tag-tags-holder"></div>');
-    var treeHolder = options.treeHolder || $('<div class="mw-tree-tag-tree-holder"></div>');
+    var tagsHolder = options.tagsHolder || mw.$('<div class="mw-tree-tag-tags-holder"></div>');
+    var treeHolder = options.treeHolder || mw.$('<div class="mw-tree-tag-tree-holder"></div>');
 
     var treeSettings = $.extend({}, this.options, {element:treeHolder})
     var tagsSettings = $.extend({}, this.options, {element:tagsHolder, data:this.options.selectedData || []});
@@ -199,13 +199,13 @@ mw.treeTags = mw.treeChips = function(options){
 
     this.tags = new mw.tags(tagsSettings);
 
-    $( this.options.element ).append(tagsHolder);
-    $( this.options.element ).append(treeHolder);
+    mw.$( this.options.element ).append(tagsHolder);
+    mw.$( this.options.element ).append(treeHolder);
 
-     $(this.tags).on('tagRemoved', function(event, item){
+     mw.$(this.tags).on('tagRemoved', function(event, item){
          scope.tree.unselect(item);
      });
-     $(this.tree).on('selectionChange', function(event, selectedData){
+     mw.$(this.tree).on('selectionChange', function(event, selectedData){
         scope.tags.setData(selectedData)
     });
 
