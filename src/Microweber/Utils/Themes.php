@@ -1,4 +1,11 @@
 <?php
+/**
+ * Author: bobi
+ * Upload themes from zip
+ * @namespace Microweber\Utils
+ * 
+ */
+
 namespace Microweber\Utils;
 
 api_expose_admin('Microweber\Utils\Themes\upload');
@@ -9,14 +16,11 @@ if (defined('INI_SYSTEM_CHECK_DISABLED') == false) {
 
 class Themes
 {
-	protected function _getTemplatesPath() {
-		
-		$templatesPath = userfiles_path() . 'templates';
-		$templatesPath = normalize_path($templatesPath);
-		
-		return $templatesPath;
-	}
-	
+	/**
+	 * Upload zip file
+	 * @param unknown $query
+	 * @return string[]
+	 */
 	public function upload($query)
 	{
 		only_admin_access();
@@ -108,4 +112,17 @@ class Themes
 			'success' => "Template was uploaded success!"
 		);
 	}
+	
+	/**
+	 * Get template folder
+	 * @return string
+	 */
+	protected function _getTemplatesPath() {
+		
+		$templatesPath = userfiles_path() . 'templates';
+		$templatesPath = normalize_path($templatesPath);
+		
+		return $templatesPath;
+	}
+	
 }
