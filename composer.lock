@@ -3491,12 +3491,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-templates/dream.git",
-                "reference": "5f15203660a07b3dc898511db3327757192b3a38"
+                "reference": "609220a50be8cc53cbb6b7b277842a51fc24b1be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-templates/dream/zipball/5f15203660a07b3dc898511db3327757192b3a38",
-                "reference": "5f15203660a07b3dc898511db3327757192b3a38",
+                "url": "https://api.github.com/repos/microweber-templates/dream/zipball/609220a50be8cc53cbb6b7b277842a51fc24b1be",
+                "reference": "609220a50be8cc53cbb6b7b277842a51fc24b1be",
                 "shasum": ""
             },
             "type": "microweber-template",
@@ -3517,10 +3517,10 @@
                 "microweber"
             ],
             "support": {
-                "source": "https://github.com/microweber-templates/dream/tree/2.4",
+                "source": "https://github.com/microweber-templates/dream/tree/2.5",
                 "issues": "https://github.com/microweber-templates/dream/issues"
             },
-            "time": "2019-08-05T11:34:55+00:00"
+            "time": "2019-08-07T13:51:19+00:00"
         },
         {
             "name": "microweber-templates/liteness",
