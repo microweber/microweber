@@ -28,38 +28,74 @@ class Themes
 		}
 		
 		$checkFile = url2dir(trim($query['src']));
-		if (is_file($checkFile)) {
-			
-			$templatesPath = $this->_getTemplatesPath();
-			
-			// Make cache dir
-			$cacheTemplateDir = $templatesPath . md5(time()). '/';
-			mkdir($cacheTemplateDir);
-			
-			if (copy($checkFile, $cacheTemplateDir . 'uploaded-file.zip')) {
-				
-				// Unzip uploaded files
-				$unzip = new \Microweber\Utils\Unzip();
-				$unzip->extract($cacheTemplateDir . 'uploaded-file.zip', $cacheTemplateDir); 
-				
-				
-				
-				
-				
-				return array(
-					'success' => "Theme was uploaded success!"
-				);
-				
-			} else {
-				return array(
-					'error' => 'Error moving uploaded file!'
-				);
-			}
-			
-		} else {
+		if (!is_file($checkFile)) {
 			return array(
 				'error' => 'Uploaded file is not found!'
 			);
 		}
+			
+		$templatesPath = $this->_getTemplatesPath();
+		
+		// Make cache dir
+		$cacheTemplateDir = $templatesPath . md5(time()). '/';
+		mkdir($cacheTemplateDir);
+		
+		if (!copy($checkFile, $cacheTemplateDir . 'uploaded-file.zip')) {
+			
+			// Remove cached dir
+			rmdir_recursive($cacheTemplateDir, false);
+			
+			return array(
+				'error' => 'Error moving uploaded file!'
+			);
+		}
+				
+		// Unzip uploaded files
+		$unzip = new \Microweber\Utils\Unzip();
+		$unzip->extract($cacheTemplateDir . 'uploaded-file.zip', $cacheTemplateDir); 
+		
+		// Check config file
+		if (!is_file($cacheTemplateDir . "config.php") || !is_file($cacheTemplateDir . "composer.json")) {
+			
+			// Remove cached dir
+			rmdir_recursive($cacheTemplateDir, false);
+			
+			return array(
+				'error' => "config.php or composer.json is not found in template."
+			);
+		}
+		
+		// include($cacheTemplateDir . 'config.php');
+		$composerThemeJson = json_decode(file_get_contents($cacheTemplateDir . "composer.json"), true);
+		
+		if (!isset($composerThemeJson['target-dir'])) {
+			
+			// Remove cached dir
+			rmdir_recursive($cacheTemplateDir, false);
+			
+			return array(
+				'error' => "Target dir not found in composer.json."
+			);
+		}
+		
+		// Remove uploaded file
+		@unlink($cacheTemplateDir . 'uploaded-file.zip');
+				
+		// Rename cache folder name to theme name
+		$renameFolder = @rename($cacheTemplateDir, $templatesPath .'/'. $composerThemeJson['target-dir']);
+		
+		if (!$renameFolder) {
+			
+			// Remove cached dir
+			rmdir_recursive($cacheTemplateDir, false);
+			
+			return array(
+				'success' => "Template allready exists!"
+			);
+		}
+		
+		return array(
+			'success' => "Template was uploaded success!"
+		);
 	}
 }

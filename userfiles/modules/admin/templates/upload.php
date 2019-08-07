@@ -16,6 +16,8 @@ $(document).ready(function () {
     	
     	postData = {}
     	postData.src = data.src;
+    	postData.overwrite = $('#overwrite_existing_template').val();
+    	
 		$.post(mw.settings.api_url+'Microweber/Utils/Themes/upload', postData,
 			function(msg) {
 				// mw.reload_module('admin/backup_v2/manage');
@@ -41,6 +43,13 @@ $(document).ready(function () {
 <br />
 
 <span id="upload_file_info" style="font-size:14px;"></span>
+
+<label class="mw-ui-check">
+<input type="checkbox" value="1" name="overwrite_existing_template" id="overwrite_existing_template">
+<span></span><span>Overwrite existing template</span>
+</label>
+<br />
+<br />
 
  <span id="mw_uploader" class="mw-ui-btn mw-ui-btn-info">
 	<i class="mw-icon-upload"></i>&nbsp;
