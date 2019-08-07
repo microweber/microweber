@@ -13,7 +13,7 @@ $(document).ready(function () {
     	$('#mw_uploader').fadeIn();
     	$('.overwrite-existing-checkobx').fadeIn();
     	$('#upload_file_info').hide();
-    	mw.notification.success("Moving uploaded file...");
+    	mw.notification.success("Moving uploaded file..."); 
     	
     	postData = {}
     	postData.src = data.src;
@@ -33,7 +33,7 @@ $(document).ready(function () {
     });
 
     $(uploader).bind('progress', function (up, file) {
-        $('#mw_uploader').hide();
+        $('#mw_uploader').hide(); 
         $('.overwrite-existing-checkobx').hide();
         $('#upload_file_info').show();
         mw.$("#upload_file_info").html("<b>Uploading file " + file.percent + "%</b><br /><br />");
@@ -56,7 +56,9 @@ $(document).ready(function () {
 <input type="checkbox" value="1" name="overwrite_existing_template" id="overwrite_existing_template">
 <span></span><span>Overwrite existing template</span>
 </label>
+
 <br />
+
 <br />
 
  <span id="mw_uploader" class="mw-ui-btn mw-ui-btn-info">
