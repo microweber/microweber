@@ -11,11 +11,21 @@ $(document).ready(function () {
     
     $(uploader).bind("FileUploaded", function (obj, data) {
     	$('#mw_uploader').fadeIn();
-    	// alert(data.src);
+    	$('#upload_file_info').hide();
+    	mw.notification.success("Moving uploaded file...");
+    	
+    	postData = {}
+    	postData.src = data.src;
+		$.post(mw.settings.api_url+'Microweber/Utils/Themes/upload', postData,
+			function(msg) {
+				// mw.reload_module('admin/backup_v2/manage');
+				mw.notification.msg(msg, 5000);
+		});
     });
 
     $(uploader).bind('progress', function (up, file) {
         $('#mw_uploader').hide();
+        $('#upload_file_info').show();
         mw.$("#upload_file_info").html("<b>Uploading file " + file.percent + "%</b><br /><br />");
     });
     
