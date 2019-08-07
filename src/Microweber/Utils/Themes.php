@@ -21,6 +21,11 @@ class Themes
 	{
 		only_admin_access();
 		
+		$overwrite = false;
+		if (isset($query['overwrite']) && $query['overwrite'] == 1) { 
+			$overwrite = true;
+		}
+		
 		if (! isset($query['src'])) {
 			return array(
 				'error' => 'You have not provided src to the file.'
@@ -80,7 +85,12 @@ class Themes
 		
 		// Remove uploaded file
 		@unlink($cacheTemplateDir . 'uploaded-file.zip');
-				
+		
+		if ($overwrite) {
+			// Delete old folder
+			rmdir_recursive($templatesPath .'/'. $composerThemeJson['target-dir'], false);
+		}
+		
 		// Rename cache folder name to theme name
 		$renameFolder = @rename($cacheTemplateDir, $templatesPath .'/'. $composerThemeJson['target-dir']);
 		

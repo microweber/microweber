@@ -16,7 +16,11 @@ $(document).ready(function () {
     	
     	postData = {}
     	postData.src = data.src;
-    	postData.overwrite = $('#overwrite_existing_template').val();
+    	postData.overwrite = 0
+    	
+    	if ($('#overwrite_existing_template').is(':checked')) {
+    		postData.overwrite = 1;
+    	}
     	
 		$.post(mw.settings.api_url+'Microweber/Utils/Themes/upload', postData,
 			function(msg) {
