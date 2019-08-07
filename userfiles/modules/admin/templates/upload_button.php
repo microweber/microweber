@@ -5,7 +5,6 @@ function upload_template_modal() {
 	    title: 'Upload Template',
 	    id: 'mw_admin_upload_template_modal'
 	});
-	
 	var params = {};
 	mw.load_module('admin/templates/upload', '#mw_admin_upload_template_modal_content', null, params);
 }
