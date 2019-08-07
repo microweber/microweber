@@ -2893,17 +2893,6 @@
         {
             "name": "league/omnipay",
             "version": "2.3.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/thephpleague/omnipay.git",
-                "reference": "cc04bd22b4149c94c52b002181d4993e4f8fe812"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/omnipay/zipball/cc04bd22b4149c94c52b002181d4993e4f8fe812",
-                "reference": "cc04bd22b4149c94c52b002181d4993e4f8fe812",
-                "shasum": ""
-            },
             "require": {
                 "omnipay/2checkout": "~2.0",
                 "omnipay/authorizenet": "~2.0",
@@ -3392,7 +3381,7 @@
             "type": "library",
             "extra": {
                 "_meta": {
-                    "readme": "https://packages.microweberapi.com/meta/meta-microweber-deps-laravel-tagging-477a6bbb424f0726e01a366ccfeb66b5/README.md",
+                    "readme": "https://packages.microweberapi.com/meta/meta-microweber-deps-laravel-tagging-2.2.1-477a6bbb424f0726e01a366ccfeb66b5d51a90223bc56d64350b0499b9b7f69d/README.md",
                     "avatar": "https://favicon.microweberapi.com/https://smartersoftware.net/packages/laravel-tagging-taggable"
                 }
             },
@@ -3456,7 +3445,7 @@
             "type": "library",
             "extra": {
                 "_meta": {
-                    "readme": "https://packages.microweberapi.com/meta/meta-microweber-deps-recurr-ae504b0d0781d1505be4711d060cefd2/README.md",
+                    "readme": "https://packages.microweberapi.com/meta/meta-microweber-deps-recurr-v3.1.0-ae504b0d0781d1505be4711d060cefd25c44ea292b9c134edeec1d498bd4d3b1/README.md",
                     "avatar": "https://favicon.microweberapi.com/https://github.com/selfworks/recurr"
                 }
             },
