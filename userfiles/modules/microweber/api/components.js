@@ -204,23 +204,7 @@ mw.components = {
         el.trigger("postSearchReady")
     },
     _options: function (el) {
-        var opt = ( el.dataset.options || '').trim().split(','), final = {};
-        if(!opt[0]) return final;
-        $.each(opt, function(){
-            var arr = this.split(':');
-            var val = arr[1].trim();
-            if(!val){
-
-            }
-            else if(val === 'true' || val === 'false'){
-                val = val === 'true';
-            }
-            else if(!/\D/.test(val)){
-                val = parseInt(val, 10);
-            }
-            final[arr[0].trim()] = val;
-        });
-        return final;
+        return mw.tools.elementOptions(el)
     },
     _init: function () {
         mw.$('[data-mwcomponent]').each(function () {

@@ -69,20 +69,16 @@
                                     });
                                 });
 
-
-                                mw.$("input[name='order_status']").commuter(function () {
-                                    var val = this.value;
-                                    obj.order_status = val;
-
-                                    $.post(mw.settings.site_url + "api/shop/update_order", obj, function () {
-                                        mw.tools.el_switch(mwd.querySelectorAll('#mw_order_status .mw-notification'), 'semi');
-                                        var states = {
-                                            'y': '<?php _e("Completed"); ?>',
-                                            'n': '<?php _e("Pending"); ?>',
+                                mw.$("input[name='order_status']").on('change', function () {
+                                    var data = {id: obj.id, order_status: this.value};
+                                    $.post(mw.settings.site_url + "api/shop/update_order", data, function () {
+                                        if(data.order_status === 'pending') {
+                                            mw.$('#mw_order_status .mw-warning').removeClass('semi_hidden');
+                                            mw.$('#mw_order_status .mw-success').addClass('semi_hidden');
+                                        } else {
+                                            mw.$('#mw_order_status .mw-warning').addClass('semi_hidden');
+                                            mw.$('#mw_order_status .mw-success').removeClass('semi_hidden');
                                         }
-                                        mw.which(val, states, function () {
-                                            mw.$(".mw-order-item-<?php print $ord['id']; ?> .mw-order-item-status").html(this.toString());
-                                        });
                                         mw.reload_module('shop/orders');
                                     });
                                 });

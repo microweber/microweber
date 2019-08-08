@@ -310,28 +310,26 @@ mw._initHandles = {
                         mw.editSource(mw._activeElementOver);
                     }
                 },
-                /*{
+                {
                     title: 'Edit Style',
                     icon: 'mw-icon-edit',
                     action: function () {
                         mw.liveEditSettings.show();
-                        mw.sidebarSettingsTabs.set(3)
+                        mw.sidebarSettingsTabs.set(3);
                         if(mw.cssEditorSelector){
-                            mw.cssEditorSelector.active(true);
-                            mw.cssEditorSelector.select(mw._activeElementOver);
+                            mw.liveEditSelector.active(true);
+                            mw.liveEditSelector.select(mw._activeElementOver);
                         } else{
                             mw.$(mw.liveEditWidgets.cssEditorInSidebarAccordion()).on('load', function () {
                                 setTimeout(function(){
-                                    mw.cssEditorSelector.active(true);
-                                    mw.cssEditorSelector.select(mw._activeElementOver);
-                                }, 333)
+                                    mw.liveEditSelector.active(true);
+                                    mw.liveEditSelector.select(mw._activeElementOver);
+                                }, 333);
                             });
                         }
                         mw.liveEditWidgets.cssEditorInSidebarAccordion();
-
-
                     }
-                },*/
+                },
                 {
                     title: 'Remove',
                     icon: 'mw-icon-bin',

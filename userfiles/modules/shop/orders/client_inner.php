@@ -89,7 +89,7 @@
                             768: 4,
                             500: 2,
                             400: 1
-                        }
+                        };
                         mw.require('forms.js', true);
 
 
@@ -103,7 +103,7 @@
 
                     <h4 class="pull-left m-t-10"><?php _e("Client information"); ?></h4>
 
-                    <table border="0" cellpadding="0" cellspacing="0" class="mw-ui-table table-style-2 layout-auto table-clients mw-client-information nonactive " style="margin-bottom: 15px;">
+                    <table border="0" cellpadding="0" cellspacing="0" class="mw-ui-table table-style-2 table-clients mw-client-information nonactive " style="margin-bottom: 15px;">
                         <thead>
                         <tr>
                             <th style="width: 100px;"></th>

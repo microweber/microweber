@@ -45,9 +45,9 @@ mw.AfterDrop = function(){
             }
         }
         mw.have_new_items = false;
-    }
+    };
 
-    this.__timeInit = null
+    this.__timeInit = null;
 
     this.init = function(){
         var scope = this;
@@ -226,11 +226,11 @@ mw.ElementAnalyzer = function(options){
         var actions =  {
             Around:{
                 top:'before',
-                bottom:'after',
+                bottom:'after'
             },
             Inside:{
                top:'prepend',
-               bottom:'append',
+               bottom:'append'
             }
         };
 
@@ -265,7 +265,7 @@ mw.ElementAnalyzer = function(options){
 
             }
         }
-    }
+    };
 
 
 
@@ -391,7 +391,7 @@ mw.ElementAnalyzer = function(options){
 
         },
         noop:function(){}
-    }
+    };
 
 
     this.interactionTarget = function(next){
@@ -401,7 +401,7 @@ mw.ElementAnalyzer = function(options){
             node = node.parentNode;
         }
         return node;
-    }
+    };
     this.validateInteractionTarget = function(node){
         node = node || this.data.target;
         var cls = [
@@ -417,13 +417,13 @@ mw.ElementAnalyzer = function(options){
             node = node.parentNode;
         }
         return false;
-    }
+    };
     this.on = function(events, listener) {
         events = events.trim().split(' ');
         for (var i=0 ; i<events.length; i++) {
              document.body.addEventListener(events[i], listener, false);
         }
-    }
+    };
     this.loadNewModules = function(){
         mw.pauseSave = true;
         var need_re_init = false;
@@ -449,7 +449,7 @@ mw.ElementAnalyzer = function(options){
             need_re_init = true;
         }
         mw.have_new_items = false;
-    }
+    };
     this.whenUp = function(){
         var scope = this;
         this.on('mouseup touchend', function(){
@@ -457,7 +457,7 @@ mw.ElementAnalyzer = function(options){
                 scope.data.currentGrabbed = null;
             }
         });
-    }
+    };
     this.fragment = function(){
         if(!this._fragment){
             this._fragment = document.createElement('div');
@@ -480,7 +480,7 @@ mw.ElementAnalyzer = function(options){
         else{
             return this.redirect(t);
         }
-    }
+    };
 
     this.redirect = function(node){
         node = node || this.data.target;
@@ -491,7 +491,7 @@ mw.ElementAnalyzer = function(options){
         }
         if(node === mwd.body || node.parentNode === mwd.body) return null;
         return this.getTarget(node.parentNode);
-    }
+    };
 
     this.interactionAnalizer = function(e){
 
@@ -543,20 +543,20 @@ mw.ElementAnalyzer = function(options){
                 mw.tools.addClass(el[0], 'mw-drag-current-'+scope.data.dropablePosition)
             }
         }
-    }
+    };
 
     this.whenMove = function(){
         var scope = this;
         this.on('mousemove touchmove', function(e){
             scope.interactionAnalizer(e)
         });
-    }
+    };
     this.init = function(){
         this.fragment();
         this.prepare();
-    }
+    };
 
-    this.init()
-}
+    this.init();
+};
 
 mw.ea = new mw.ElementAnalyzer();

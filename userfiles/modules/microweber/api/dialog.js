@@ -278,7 +278,8 @@ mw.Dialog = function(options){
 
         this.remove = function(){
             this.hide();
-            mw.removeInterval('iframe-' + this.id)
+            mw.removeInterval('iframe-' + this.id);
+            mw.$(this).trigger('BeforeRemove');
             mw.$(this.dialogMain).remove();
             mw.$(this).trigger('Remove');
             mw.trigger('mwDialogRemove', this);

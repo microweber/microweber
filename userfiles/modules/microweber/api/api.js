@@ -131,7 +131,7 @@ mw.askusertostay = false;
 
   warnOnLeave = function(){
      mw.tools.confirm("<?php _e("You have unsaved changes! Are you sure"); ?>?");
-  }
+  };
 
   mw.module = {}
 

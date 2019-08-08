@@ -1,9 +1,9 @@
 mw.admin = mw.admin || {};
-mw.admin.custom_fields = mw.admin.custom_fields || {}
+mw.admin.custom_fields = mw.admin.custom_fields || {};
 
 mw.admin.custom_fields.initValues = function () {
     var master = mwd.getElementById('custom-fields-post-table');
-    if (master === null) {
+    if ( master === null ) {
         return false;
     }
     var all = master.querySelectorAll('.mw-admin-custom-field-name-edit-inline, .mw-admin-custom-field-value-edit-inline'),
@@ -13,25 +13,18 @@ mw.admin.custom_fields.initValues = function () {
         mw.admin.custom_fields.initValue(all[i]);
     }
     mw.admin.custom_fields.addValueButtons();
-
-
-
-    var all = master.querySelectorAll('.mw-admin-custom-field-value-edit-text'),
-        l = all.length,
-        i = 0;
-    for (; i < l; i++) {
+    all = master.querySelectorAll('.mw-admin-custom-field-value-edit-text');
+    l = all.length;
+    i = 0;
+    for ( ; i < l; i++ ) {
         mw.admin.custom_fields.initTextAreaValue(all[i]);
     }
+};
 
-    //
 
-
-}
 mw.admin.custom_fields.initTextAreaValue = function (node) {
     if (!node.fieldBinded) {
         node.fieldBinded = true;
-
-
         mw.$(node).bind('keyup paste click', function (e) {
             var sh = this.scrollHeight;
             var oh = this.offsetHeight;
@@ -39,27 +32,19 @@ mw.admin.custom_fields.initTextAreaValue = function (node) {
                 this.style.height = sh+"px";
             }
 
-        })
-
-
+        });
         node.onchange = function (e) {
-
             var data = {
                 id: mw.$(this).dataset('id'),
                 value: mw.$(this).val()
-            }
-
+            };
             $.post(mw.settings.api_url + 'fields/save', data, function () {
-              //  mw.reload_module_parent('custom_fields');
                  mw.custom_fields.after_save();
-
-
             });
-
-
         }
     }
-}
+};
+
 mw.admin.custom_fields.initValue = function (node) {
     if (!node.fieldBinded) {
         node.fieldBinded = true;

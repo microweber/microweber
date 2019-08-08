@@ -405,27 +405,26 @@ setTimeout(function(){
 
 mw.drag = {
     create_columns: function(selector, $numcols) {
-
         if (!$(selector).hasClass("active")) {
 
-            mw.$(mw.drag.columns.resizer).hide()
+            mw.$(mw.drag.columns.resizer).hide();
 
             var id = mw._activeRowOver.id;
 
-            mw.$(selector).addClass("active")
-            var $el_id = id != '' ? id : mw.settings.mw - row_id;
+            mw.$(selector).addClass("active");
+            var $el_id = id !== '' ? id : mw.settings.mw - row_id;
 
             mw.settings.sortables_created = false;
             var $exisintg_num = mw.$('#' + $el_id).children(".mw-col").length;
 
-            if ($numcols == 0) {
-                var $numcols = 1;
+            if ($numcols === 0) {
+                $numcols = 1;
             }
-            var $numcols = parseInt($numcols);
-            if ($exisintg_num == 0) {
+            $numcols = parseInt($numcols);
+            if ($exisintg_num === 0) {
                 $exisintg_num = 1;
             }
-            if ($numcols != $exisintg_num) {
+            if ($numcols !== $exisintg_num) {
                 if ($numcols > $exisintg_num) { //more columns
                     var i = $exisintg_num;
                     for (; i < $numcols; i++) {
@@ -439,12 +438,11 @@ mw.drag = {
                 } else { //less columns
                     var $cols_to_remove = $exisintg_num - $numcols;
                     if ($cols_to_remove > 0) {
-
                         var fragment = document.createDocumentFragment(),
                             last_after_remove;
 
                         mw.$('#' + $el_id).children(".mw-col").each(function(i) {
-                            if (i == ($numcols - 1)) {
+                            if (i === ($numcols - 1)) {
                                 last_after_remove = mw.$(this);
 
                             } else {
@@ -479,7 +477,7 @@ mw.drag = {
                     }
                 }
 
-                var $exisintg_num = mw.$('#' + $el_id).children(".mw-col").size();
+                $exisintg_num = mw.$('#' + $el_id).children(".mw-col").size();
                 var $eq_w = 100 / $exisintg_num;
                 var $eq_w1 = $eq_w;
                 mw.$('#' + $el_id).children(".mw-col").width($eq_w1 + '%');
@@ -502,7 +500,7 @@ mw.drag = {
           position:'relative'
         })
         .animate({top:prevOff.top - thisOff.top}, function(){
-          if(dir == 'prev'){
+          if(dir === 'prev'){
             prev.before(el);
           }
           else{
@@ -767,9 +765,6 @@ mw.drag = {
                 mw.$(mw.inline.tableControl).hide();
                 mw.$(".tc-activecell").removeClass('tc-activecell');
             }
-            if (!mw.isDrag && mw.tools.hasClass(target, 'mw-empty')) {
-
-            }
         });
 
         mw.on("ItemLeave", function(e, target) {
@@ -823,9 +818,6 @@ mw.drag = {
                 }
             });
 
-
-
-
             mw.$(mw.handle_item).draggable({
                 cursorAt: {
                     top: -30
@@ -845,13 +837,8 @@ mw.drag = {
                     mw.$(mwd.body).removeClass("dragStart");
                 }
             });
-
         }
         mw.drag.the_drop();
-
-
-
-
     },
     properFocus: function(event) {
         if (mw.tools.hasClass(event.target, 'mw-row') || mw.tools.hasClass(event.target, 'mw-col')) {
@@ -865,11 +852,11 @@ mw.drag = {
                     var _cleft = mw.$(cols[i]).offset().left;
                     var ePos = mw.event.page(event);
                     if (_cleft < ePos.x && (_cleft + cols[i].clientWidth) > ePos.x) {
-                        var tofocus = cols[i].querySelector('.mw-col-container');
+                        tofocus = cols[i].querySelector('.mw-col-container');
                         if (tofocus === null) {
                             cols[i].innerHTML = '<div class="mw-col-container">' + cols[i].innerHTML + '</div>';
                         }
-                        var tofocus = cols[i].querySelector('.mw-col-container');
+                        tofocus = cols[i].querySelector('.mw-col-container');
                         break;
                     }
                 }
@@ -887,7 +874,6 @@ mw.drag = {
                 range.collapse(false);
                 sel.removeAllRanges();
                 sel.addRange(range);
-
             }
         }
     },
@@ -918,7 +904,7 @@ mw.drag = {
                 }, 200);
             }
         });
-        mw.$(items).mouseenter(function() {
+        mw.$(items).on('mouseenter touchstart', function() {
             mw.$(this).draggable("option", "helper", function() {
                 var clone = mw.$(this).clone(true);
                 clone.appendTo(mwd.body);

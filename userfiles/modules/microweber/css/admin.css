@@ -3154,7 +3154,7 @@ body.grabbing, body.grabbing * {
 
 .mw-custom-field-icon-hidden:before {
 	font-family: 'Microweber';
-	content: "\f306"; 
+	content: "\f306";
 }
 
 .mw-custom-field-icon-text:before {
@@ -5386,6 +5386,10 @@ html[dir="rtl"] #upload-icoimage {
     width: 90%;
     margin: auto;
     padding: 50px 0;
+}
+
+.admin-side-content .mw-ui-table{
+    table-layout: fixed;
 }
 
 .mw-module-live-edit-settings .admin-side-content {

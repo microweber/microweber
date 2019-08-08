@@ -140,6 +140,25 @@ if (!window.escape) {
     };
 }
 mw.tools = {
+    elementOptions: function(el) {
+        var opt = ( el.dataset.options || '').trim().split(','), final = {};
+        if(!opt[0]) return final;
+        $.each(opt, function(){
+            var arr = this.split(':');
+            var val = arr[1].trim();
+            if(!val){
+
+            }
+            else if(val === 'true' || val === 'false'){
+                val = val === 'true';
+            }
+            else if(!/\D/.test(val)){
+                val = parseInt(val, 10);
+            }
+            final[arr[0].trim()] = val;
+        });
+        return final;
+    },
     createAutoHeight: function() {
         if(window.thismodal && thismodal.iframe) {
             mw.tools.iframeAutoHeight(thismodal.iframe, 'now');
@@ -2516,7 +2535,7 @@ mw.tools = {
         else {
             mw.$(arr).each(function () {
                 var el = mw.$(this);
-                if (el.css('display') == 'none') {
+                if (el.css('display') === 'none') {
                     el.show();
                 }
                 else {
@@ -4589,6 +4608,32 @@ $.fn.visibilityDefault = function () {
 };
 $.fn.invisible = function () {
     return this.css("visibility", "hidden").css("opacity", "0");
+};
+
+$.fn.mwDialog = function(conf){
+    var el = this[0];
+    var options = mw.tools.elementOptions(el);
+    var id = mw.id('mwDialog-');
+    var idEl = mw.id('mwDialogTemp-');
+    var defaults = {
+        height: 'auto',
+        autoHeight: true,
+        width: 'auto'
+    };
+    var settings = $.extend({}, defaults, options, conf);
+    $(el).before('<mw-dialog-temp id="'+idEl+'"></mw-dialog-temp>');
+    var dialog = mw.dialog(settings);
+    dialog.dialogContainer.appendChild(el);
+    $(el).show();
+    if(settings.width === 'auto'){
+        dialog.width($(el).width);
+        dialog.center($(el).width);
+    }
+    $(dialog).on('BeforeRemove', function(){
+        mw.$('#' + idEl).replaceWith(el);
+        $(el).hide()
+    });
+    return this;
 };
 mw.which = function (str, arr_obj, func) {
     if (arr_obj instanceof Array) {
