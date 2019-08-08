@@ -1,10 +1,10 @@
 <?php if (is_live_edit()): ?>
     <!-- Make sure jQuery, jQuery UI, font awesome, and bootstrap 4 are included. TinyMCE is optional. -->
     <link rel="stylesheet" type="text/css" href="<?php print modules_url(); ?>grid/plugin/grideditor.css" />
-    <script src="<?php print modules_url(); ?>grid/plugin//jquery.grideditor.min.js"></script>
+    <script src="<?php print modules_url(); ?>grid/plugin/jquery.grideditor.js"></script>
 
     <script>
-        mw.lib.require('grid_editor');
+//        mw.lib.require('grid_editor');
 
         $(document).ready(function () {
             $('.mw-edit-grid').on('click', function () {

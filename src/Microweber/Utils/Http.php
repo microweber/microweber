@@ -63,7 +63,7 @@ class Http
 
     public function get($params = false)
     {
-        $http_cache_id = 'http_cache'.crc32(json_encode($params));
+        $http_cache_id = 'http_cache'.crc32($this->url . json_encode($params)); 
     	$check_cache = cache_get($http_cache_id, 'http_cache');
     	
     	if (!$check_cache) {
