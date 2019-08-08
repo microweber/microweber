@@ -28,7 +28,7 @@ mw.cart = {
         $.post(mw.settings.api_url + 'update_cart', data,
             function (data) {
 
-                mw.cart.after_modify();
+                mw.cart.after_modify(data);
 
 
                 if (typeof c === 'function') {
@@ -76,7 +76,7 @@ mw.cart = {
         $.post(mw.settings.api_url + 'update_cart', data,
             function (data) {
 
-                mw.cart.after_modify();
+                mw.cart.after_modify(data);
 
                 if (typeof c === 'function') {
                     c.call(data);
@@ -110,19 +110,24 @@ mw.cart = {
         data.qty = $qty;
         $.post(mw.settings.api_url + 'update_cart_item_qty', data,
             function (data) {
-                mw.cart.after_modify();
+                mw.cart.after_modify(data);
                 mw.trigger('mw.cart.qty', [data]);
             });
 
     },
 
-    after_modify: function () {
+    after_modify: function (data) {
+
+
 
         mw.reload_module('shop/cart');
         mw.reload_module('shop/shipping');
         mw.reload_module('shop/payments');
 
-        mw.trigger('mw.cart.after_modify');
+        mw.trigger('mw.cart.after_modify', data);
+
+
+
 
 
     },
@@ -211,12 +216,59 @@ mw.cart = {
 }
 
 
+
 mw.cart.modal = {}
 
 mw.cart.modal.init = function (root_node) {
 
 
     mw.cart.modal.bindStepButtons(root_node);
+
+
+    var inner_cart_module = $(root_node).find('[parent-module-id="js-ajax-cart-checkout-process"]')[0];
+
+    if(inner_cart_module ){
+       // mw.log(inner_cart_module.innerHTML);
+         var check  = $(document).find('[id="'+inner_cart_module.id+'"]').length
+
+
+        //mw.log(check);
+
+        mw.on.moduleReload(inner_cart_module.id, function () {
+            //alert('Module was reloaded')
+        });
+    }
+
+
+
+
+
+
+
+    // mw.on('mw.cart.after_modify', function () {
+    //
+    // });
+
+
+    // var inner_cart_module = $(root_node).find('[data-type="shop/cart"]');
+    // if(inner_cart_module.length > 0){
+    //     if(!inner_cart_module.hasClass('cart-modal-module-events-binded')){
+    //         var inner_cart_module_id = inner_cart_module.attr('id')
+    //
+    //         inner_cart_module.addClass('cart-modal-module-events-binded')
+    //
+    //
+    //
+    //         mw.on.moduleReload($('[data-type="shop/cart"]')[0], function () {
+    //             alert('Module was reloaded')
+    //         });
+    //
+    //     }
+    //
+    // }
+
+
+
 }
 
 mw.cart.modal.bindStepButtons = function (step) {
@@ -275,13 +327,6 @@ mw.cart.modal.bindStepButtons = function (step) {
         step1 = '.js-' + step;
         mw.$('.js-step-content').hide();
         mw.$(step1).show();
-
-
-
-
-
-
-
 
         if (!has_error) {
 
