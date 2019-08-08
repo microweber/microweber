@@ -697,6 +697,11 @@ if (!empty($recomended_layouts)) {
                         </div>
                     </div>
                 <?php endif; ?>
+                
+                 <div class="mw-ui-col" style="width: 180px;">
+                      <module type="admin/templates/upload_button" />  
+                  </div> 
+                
             </div>
         </div>
     <?php endif; ?>

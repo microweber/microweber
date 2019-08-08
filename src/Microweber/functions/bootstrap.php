@@ -77,3 +77,5 @@ include_once $functions_dir.'categories.php';
 include_once $functions_dir.'options.php';
 include_once $functions_dir.'shop.php';
 include_once $functions_dir.'modules.php';
+include_once $functions_dir.'templates.php';
+
