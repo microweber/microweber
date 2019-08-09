@@ -7,10 +7,10 @@ if (is_file($form_fields_from_template)) {
 	return;
 }
 
-$templateFormRowClass = get_template_form_row_class();
-$templateFormGroupClass = get_template_form_group_class();
-$templateInputFieldClass = get_template_input_field_class();
-$templateFormGroupLabelClass = get_template_form_group_label_class();
+$templateFormRowClass = template_form_row_class();
+$templateFormGroupClass = template_form_group_class();
+$templateInputFieldClass = template_input_field_class();
+$templateFormGroupLabelClass = template_form_group_label_class();
 
 // Set space aroud diffrent classes
 if (!empty($templateFormGroupClass)) { 
@@ -19,13 +19,13 @@ if (!empty($templateFormGroupClass)) {
 ?>
 
 <div class="<?php echo $templateFormRowClass; ?>">
-	<div class="<?php echo get_field_size_class(6); ?><?php echo $templateFormGroupClass; ?>">
+	<div class="<?php echo template_field_size_class(6); ?><?php echo $templateFormGroupClass; ?>">
 		<label class="<?php echo $templateFormGroupLabelClass; ?>">
             <?php _e("First Name"); ?>
         </label> 
         <input name="cc_first_name" type="text" class="<?php echo $templateInputFieldClass; ?>" value="" />
 	</div>
-	<div class="<?php echo get_field_size_class(6); ?><?php echo $templateFormGroupClass; ?>">
+	<div class="<?php echo template_field_size_class(6); ?><?php echo $templateFormGroupClass; ?>">
 		<label class="<?php echo $templateFormGroupLabelClass; ?>">
             <?php _e("Last Name"); ?>
         </label> 
@@ -34,7 +34,7 @@ if (!empty($templateFormGroupClass)) {
 </div>
 
 <div class="<?php echo $templateFormRowClass; ?>">
-	<div class="<?php echo get_field_size_class(12); ?><?php echo $templateFormGroupClass; ?>">
+	<div class="<?php echo template_field_size_class(12); ?><?php echo $templateFormGroupClass; ?>">
 		<label class="<?php echo $templateFormGroupLabelClass; ?>">
             <?php _e("Credit Card"); ?>
         </label> 
@@ -54,7 +54,7 @@ if (!empty($templateFormGroupClass)) {
 		</select>
 	</div>
 
-	<div class="<?php echo get_field_size_class(12); ?><?php echo $templateFormGroupClass; ?>">
+	<div class="<?php echo template_field_size_class(12); ?><?php echo $templateFormGroupClass; ?>">
 		<label class="<?php echo $templateFormGroupLabelClass; ?>">
             <?php _e("Credit Card Number"); ?>
         </label> 
@@ -65,7 +65,7 @@ if (!empty($templateFormGroupClass)) {
 
 <div class="<?php echo $templateFormRowClass; ?>">
 
-	<div class="<?php echo get_field_size_class(4); ?><?php echo $templateFormGroupClass; ?>">
+	<div class="<?php echo template_field_size_class(4); ?><?php echo $templateFormGroupClass; ?>">
 		<label class="<?php echo $templateFormGroupLabelClass; ?>">
 	            <?php _e("CVC"); ?>
 	    </label> 
@@ -73,14 +73,14 @@ if (!empty($templateFormGroupClass)) {
 		<div class="cc_process_error"></div>
 	</div>
 
-	<div class="<?php echo get_field_size_class(4); ?><?php echo $templateFormGroupClass; ?>">
+	<div class="<?php echo template_field_size_class(4); ?><?php echo $templateFormGroupClass; ?>">
 		<label class="<?php echo $templateFormGroupLabelClass; ?>">
             <?php _e("Expiration"); ?>
         </label> 
         <input name="cc_month" placeholder="<?php _e("MM"); ?>" type="text" value="" class="<?php echo $templateInputFieldClass; ?>" />
 	</div>
 
-	<div class="<?php echo get_field_size_class(4); ?><?php echo $templateFormGroupClass; ?>">
+	<div class="<?php echo template_field_size_class(4); ?><?php echo $templateFormGroupClass; ?>">
 		<label class="<?php echo $templateFormGroupLabelClass; ?>">&nbsp;</label> 
 		<input name="cc_year" placeholder="<?php _e("YYYY"); ?>" type="text" value="" class="<?php echo $templateInputFieldClass; ?>" />
 	</div>

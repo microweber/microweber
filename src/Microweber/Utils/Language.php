@@ -5,9 +5,14 @@ namespace Microweber\Utils;
 use Microweber\Utils\Backup\Exporters\SpreadsheetHelper;
 
 api_expose_admin('Microweber/Utils/Language/export');
+api_expose_admin('Microweber/Utils/Language/upload');
 
 class Language
 {
+	public function upload($params) {
+		var_dump($params);
+	}
+	
 	public function export($params) {
 		
 		$content = array();
