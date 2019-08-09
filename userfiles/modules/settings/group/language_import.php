@@ -15,7 +15,8 @@ $(document).ready(function () {
     	mw.notification.success("Moving uploaded file..."); 
     	
     	postData = {}
-    	postData.src = data.src;
+    	postData.src = data.src; 
+    	postData.namespace = "<?php echo $params['namespace']; ?>";
     	
 		$.post(mw.settings.api_url+'Microweber/Utils/Language/upload', postData,
 			function(msg) {

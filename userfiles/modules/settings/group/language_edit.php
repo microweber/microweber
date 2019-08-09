@@ -23,6 +23,7 @@
 		    id: 'mw_admin_import_language_modal'
 		});
 		var params = {};
+		params.namespace = namespace;
 		mw.load_module('settings/group/language_import', '#mw_admin_import_language_modal_content', null, params);
 	}
 
