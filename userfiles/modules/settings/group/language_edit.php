@@ -16,8 +16,14 @@
 <script type="text/javascript">
 
 	function import_language_by_namespace(namespace) {
-
-
+		mw.modal({
+		    content: '<div id="mw_admin_import_language_modal_content"></div>',
+		    title: 'Import Language File',
+		    height:200,
+		    id: 'mw_admin_import_language_modal'
+		});
+		var params = {};
+		mw.load_module('settings/group/language_import', '#mw_admin_import_language_modal_content', null, params);
 	}
 
 	function export_language_by_namespace(namespace) {
