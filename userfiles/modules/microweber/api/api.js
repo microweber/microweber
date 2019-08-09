@@ -906,6 +906,7 @@ mw.required.push("<?php print mw_includes_url(); ?>api/color.js");
 
 mw.required.push("<?php print mw_includes_url(); ?>api/tools.js");
 
+
 mw.required.push("<?php print mw_includes_url(); ?>api/css_parser.js");
 
 mw.required.push("<?php print mw_includes_url(); ?>api/files.js");
@@ -925,6 +926,8 @@ mw.required.push("<?php print mw_includes_url(); ?>api/common.js");
 
 mw.required.push("<?php print mw_includes_url(); ?>api/components.js");
 
+mw.required.push("<?php print mw_includes_url(); ?>api/dialog.js");
+
 
 
 
@@ -935,6 +938,8 @@ mw.required.push("<?php print mw_includes_url(); ?>api/components.js");
 
 
 <?php  include __DIR__.DS."tools.js"; ?>
+
+
 
 
 <?php  include  __DIR__.DS."css_parser.js"; ?>
@@ -961,7 +966,7 @@ mw.required.push("<?php print mw_includes_url(); ?>api/components.js");
 <?php  include  __DIR__.DS."components.js"; ?>
 
 
-
+<?php  include __DIR__.DS."dialog.js"; ?>
 
 
 

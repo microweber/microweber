@@ -410,6 +410,8 @@ class CartManager extends Crud
 
         $cart = array();
         $cart['id'] = intval($data['id']);
+
+
         $cart['session_id'] = mw()->user_manager->session_id();
 
         $cart['order_completed'] = 0;
@@ -446,6 +448,12 @@ class CartManager extends Crud
             $cart_data_to_save['qty'] = $cart['qty'];
             $cart_data_to_save['id'] = $cart['id'];
             $cart_saved_id = $this->app->database_manager->save($table, $cart_data_to_save);
+
+
+
+
+        //    return array('success' => 'Item quantity is changed',  'cart_sum' => $cart_sum, 'cart_items' => $cart_qty);
+
 
             return $cart_saved_id;
         }

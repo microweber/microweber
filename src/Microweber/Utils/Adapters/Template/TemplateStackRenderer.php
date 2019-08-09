@@ -52,6 +52,9 @@ class TemplateStackRenderer
         if ($this->_printer) {
             foreach ($this->_printer as $stack_name => $replace_key) {
                 if (isset($this->_stacks_for_display[$stack_name])) {
+                    if(!isset($this->stacks[$stack_name])){
+                        $this->stacks[$stack_name] = array();
+                    }
                     $stack = $this->stacks[$stack_name];
                     if ($stack) {
                         $stack_html = '';
