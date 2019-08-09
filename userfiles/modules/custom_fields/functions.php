@@ -1,9 +1,9 @@
 <?php
 
-function get_field_size_options()
+function field_size_options()
 {
 	
-	$css_framework = get_template_framework();
+	$css_framework = template_framework();
 	
 	if ($css_framework == 'mw-ui') {
 		for ($i = 1; $i <= 12; $i++) {
