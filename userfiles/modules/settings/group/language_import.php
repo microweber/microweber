@@ -23,7 +23,7 @@ $(document).ready(function () {
 				if (msg.success) {
 			    	mw.reload_module('settings/group/language_edit');
 			    }
-				mw.notification.msg(msg, 5000); 
+				mw.notification.msg(msg);
 		});
     });
 

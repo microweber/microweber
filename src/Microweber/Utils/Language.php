@@ -18,8 +18,14 @@ class Language
 		// Unset first rows
 		unset($rows[0]);
 		
-		var_dump($rows);
+		$readyData = array();
+		foreach($rows as $row) {
+			$readyData[$row[0]] = $row[1];
+		}
 		
+		$save = mw()->lang_helper->save_language_file_content($readyData);
+		
+		return $save;
 	}
 	
 	public function export($params) {
