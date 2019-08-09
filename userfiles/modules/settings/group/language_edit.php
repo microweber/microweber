@@ -15,13 +15,18 @@
 </script>
 <script type="text/javascript">
 
+	function import_language_by_namespace(namespace) {
+
+
+	}
+
 	function export_language_by_namespace(namespace) {
 		$.ajax({
 			type: "POST",
 			url: mw.settings.api_url + "Microweber/Utils/Language/export",
 			data: "namespace=" + namespace,
 			success: function (data) {
-				console.log(data);
+				window.location = data;
 			}
 		});
 	}
@@ -113,7 +118,8 @@ $namespaces = mw()->lang_helper->get_all_language_file_namespaces();
         <div class="mw-accordion-content mw-ui-box-content" style="">
             <h3>Global language file</h3>
             
-            <a onClick="export_language_by_namespace('global');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded">Export as CSV</a>
+            <a onClick="export_language_by_namespace('global');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded">Export to Excel</a>
+            <a onClick="import_language_by_namespace('global');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded">Import Excel</a>
 			<br />
 			<br />
             
@@ -165,8 +171,9 @@ $namespaces = mw()->lang_helper->get_all_language_file_namespaces();
                 </div>
                 
                 <div class="mw-accordion-content mw-ui-box-content">
-					
-					<a onClick="export_language_by_namespace('<?php print $ns; ?>');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded">Export as CSV</a>
+					 
+					<a onClick="export_language_by_namespace('<?php print $ns; ?>');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded">Export Excel</a>
+					<a onClick="import_language_by_namespace('<?php print $ns; ?>');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded">Import Excel</a>
 					<br />
 					<br />
 					
