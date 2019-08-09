@@ -1,6 +1,6 @@
 <?php
 
-function field_size_options()
+function template_field_size_options()
 {
 	
 	$css_framework = template_framework();

@@ -23,13 +23,12 @@ function template_stylesheet()
 function template_default_css()
 {
     $template_settings = mw()->template->get_config();
+    
     if (isset($template_settings['stylesheet_compiler']) AND isset($template_settings['stylesheet_compiler']['css_file'])) {
-
+    	return '<link href="' . template_url() . $template_settings['stylesheet_compiler']['css_file'] . '" id="theme-style" rel="stylesheet" type="text/css" media="all"/>';
     } else {
         return;
     }
-
-    return '<link href="' . template_url() . $template_settings['stylesheet_compiler']['css_file'] . '" id="theme-style" rel="stylesheet" type="text/css" media="all"/>';
 }
 
 function template_framework()
@@ -117,7 +116,7 @@ function template_field_size_class($field_size = false)
 	
 	// Get default field size
 	if (!$field_size) {
-		return default_field_size_option();
+		return template_default_field_size_option();
 	}
 	
 	if ($css_framework == 'mw-ui') {

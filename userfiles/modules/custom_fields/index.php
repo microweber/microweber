@@ -62,7 +62,7 @@ if (!empty($data)) {
 			continue;
 		}
 		
-		$field['options']['field_size_class'] = default_field_size_option($field);
+		$field['options']['field_size_class'] = template_default_field_size_option($field);
 
 
         if(isset($params['input_class'])){
@@ -70,11 +70,11 @@ if (!empty($data)) {
         }
 
         if (isset($field['options']['field_size']) && is_array($field['options']['field_size'])) {
-			$field['options']['field_size_class'] = field_size_class($field['options']['field_size'][0]);
+			$field['options']['field_size_class'] = template_field_size_class($field['options']['field_size'][0]);
 		}
 		
 		if (isset($field['options']['field_size']) && is_string($field['options']['field_size'])) {
-			$field['options']['field_size_class'] = field_size_class($field['options']['field_size']);
+			$field['options']['field_size_class'] = template_field_size_class($field['options']['field_size']);
 		}
 		
 		$groupFields[$groupI][] = $field;
