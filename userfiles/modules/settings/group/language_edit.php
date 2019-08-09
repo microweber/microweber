@@ -16,10 +16,14 @@
 <script type="text/javascript">
 
 	function export_language_by_namespace(namespace) {
-
-
-		
-
+		$.ajax({
+			type: "POST",
+			url: mw.settings.api_url + "Microweber/Utils/Language/export",
+			data: "namespace=" + namespace,
+			success: function (data) {
+				console.log(data);
+			}
+		});
 	}
 	
     function send_lang_form_to_microweber() {
