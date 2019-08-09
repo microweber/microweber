@@ -10,7 +10,15 @@ api_expose_admin('Microweber/Utils/Language/upload');
 class Language
 {
 	public function upload($params) {
-		var_dump($params);
+		
+		$localFielapth = url2dir($params['src']);
+		
+		$rows = SpreadsheetHelper::newSpreadsheet($localFielapth)->getRows();
+	
+		// Unset first rows
+		unset($rows[0]);
+		
+		var_dump($rows);
 		
 	}
 	

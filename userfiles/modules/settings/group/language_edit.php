@@ -57,11 +57,19 @@
 
 
     function save_lang_form($form_id) {
-        mw.form.post('#' + $form_id, '<?php print api_link('save_language_file_content'); ?>',
-            function (msg) {
-                mw.notification.msg(this);
-
-        });
+		
+    	var formArray = $('#'+$form_id).serializeArray();
+		
+        $.ajax({   
+			type: "POST",
+			url: "<?php print api_link('save_language_file_content'); ?>",
+			data: {lines: JSON.stringify(formArray) },
+			dataType: "json",
+			success: function (msg) {
+				mw.notification.msg(msg);
+			}
+		});
+        
         return false;
     }
 </script>
