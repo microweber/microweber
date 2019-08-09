@@ -1,4 +1,5 @@
 <?php
+
 function template_option_group()
 {
     return 'mw-template-' . mw()->template->folder_name();
@@ -109,7 +110,7 @@ function template_input_field_class()
 	}
 }
 
-function field_size_class($field_size = false)
+function template_field_size_class($field_size = false)
 {
 	
 	$css_framework = template_framework();
@@ -134,7 +135,7 @@ function field_size_class($field_size = false)
 	return $field_size;
 }
 
-function default_field_size_option($field = array()) 
+function template_default_field_size_option($field = array()) 
 {
 	$css_framework = template_framework();
 	
@@ -150,4 +151,59 @@ function default_field_size_option($field = array())
 		return 'col-12 col-sm-12 col-xs-12';
 	}
 	
+}
+
+function get_template_default_field_size_option()
+{
+	return template_default_field_size_option();
+}
+
+function get_template_field_size_class()
+{
+	return template_field_size_class();
+}
+
+function get_template_input_field_class()
+{
+	return template_input_field_class();
+}
+
+function get_template_form_group_label_class()
+{
+	return template_form_group_label_class();
+}
+
+function get_template_form_group_class()
+{
+	return template_form_group_class();
+}
+
+function get_template_form_row_class()
+{
+	return template_form_row_class();
+}
+
+function get_template_form_row_class()
+{
+	return template_row_class();
+}
+
+function get_template_form_row_class()
+{
+	return template_framework();
+}
+
+function get_template_form_row_class()
+{
+	return template_default_css();
+}
+
+function get_template_stylesheet()
+{
+	return template_stylesheet();
+}
+
+function get_template_option_group()
+{
+	return template_option_group();
 }
