@@ -17,6 +17,7 @@ $(document).ready(function () {
     	postData = {}
     	postData.src = data.src; 
     	postData.namespace = "<?php echo $params['namespace']; ?>";
+    	postData.language = "<?php echo $params['language']; ?>";
     	
 		$.post(mw.settings.api_url+'Microweber/Utils/Language/upload', postData,
 			function(msg) {

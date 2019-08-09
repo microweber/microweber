@@ -15,7 +15,7 @@
 </script>
 <script type="text/javascript">
 
-	function import_language_by_namespace(namespace) {
+	function import_language_by_namespace(namespace, language) {
 		mw.modal({
 		    content: '<div id="mw_admin_import_language_modal_content"></div>',
 		    title: 'Import Language File',
@@ -24,14 +24,15 @@
 		});
 		var params = {};
 		params.namespace = namespace;
+		params.language = language; 
 		mw.load_module('settings/group/language_import', '#mw_admin_import_language_modal_content', null, params);
 	}
 
-	function export_language_by_namespace(namespace) {
+	function export_language_by_namespace(namespace, language) {
 		$.ajax({
 			type: "POST",
 			url: mw.settings.api_url + "Microweber/Utils/Language/export",
-			data: "namespace=" + namespace,
+			data: "namespace=" + namespace + "&language="+language, 
 			success: function (data) {
 				window.location = data;
 			}
@@ -133,8 +134,8 @@ $namespaces = mw()->lang_helper->get_all_language_file_namespaces();
         <div class="mw-accordion-content mw-ui-box-content" style="">
             <h3>Global language file</h3>
             
-            <a onClick="export_language_by_namespace('global');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded">Export to Excel</a>
-            <a onClick="import_language_by_namespace('global');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded">Import Excel</a>
+            <a onClick="export_language_by_namespace('global', '<?php print $lang ?>');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded">Export to Excel</a>
+            <a onClick="import_language_by_namespace('global', '<?php print $lang ?>');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded">Import Excel</a>
 			<br />
 			<br />
             
@@ -187,8 +188,8 @@ $namespaces = mw()->lang_helper->get_all_language_file_namespaces();
                 
                 <div class="mw-accordion-content mw-ui-box-content">
 					 
-					<a onClick="export_language_by_namespace('<?php print $ns; ?>');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded">Export Excel</a>
-					<a onClick="import_language_by_namespace('<?php print $ns; ?>');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded">Import Excel</a>
+					<a onClick="export_language_by_namespace('<?php print $ns; ?>', '<?php print $lang ?>');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded">Export Excel</a>
+					<a onClick="import_language_by_namespace('<?php print $ns; ?>', '<?php print $lang ?>');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded">Import Excel</a>
 					<br />
 					<br />
 					

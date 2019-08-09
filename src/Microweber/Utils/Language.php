@@ -23,6 +23,14 @@ class Language
 			$readyData[$row[0]] = $row[1];
 		}
 		
+		if (isset($params['namespace'])) {
+			$readyData['___namespace'] = $params['namespace'];
+		}
+		
+		if (isset($params['language'])) {
+			$readyData['___lang'] = $params['language'];
+		}
+		
 		$save = mw()->lang_helper->save_language_file_content($readyData);
 		
 		return $save;
@@ -33,8 +41,13 @@ class Language
 		$content = array();
 		
 		$filename = $params['namespace'];
-		$filename = str_replace('/', false, $filename);
-		$filename = str_replace('\\', false, $filename);
+		$filename = str_replace('/', '-', $filename);
+		$filename = str_replace('\\', '-', $filename);
+		
+		if (isset($params['language']) && !empty($params['language'])) {
+			$filename = $params['language'] .'-' . $filename; 
+		}
+		
 		$exportFilename = userfiles_path() .'/'. $filename . '.xlsx';
 		
 		if ($params['namespace'] == 'global') {
