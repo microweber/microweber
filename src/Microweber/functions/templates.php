@@ -187,12 +187,12 @@ function get_template_form_row_class()
 	return template_row_class();
 }
 
-function get_template_form_row_class()
+function get_template_framework()
 {
 	return template_framework();
 }
 
-function get_template_form_row_class()
+function get_template_default_css()
 {
 	return template_default_css();
 }
