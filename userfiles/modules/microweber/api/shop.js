@@ -226,6 +226,7 @@ mw.cart.modal.init = function (root_node) {
 
 
     var inner_cart_module = $(root_node).find('[parent-module-id="js-ajax-cart-checkout-process"]')[0];
+    var inner_cart_module = $(root_node).find('[id="cart_checkout_js-ajax-cart-checkout-process"]')[0];
 
     if(inner_cart_module ){
        // mw.log(inner_cart_module.innerHTML);
@@ -244,7 +245,7 @@ mw.cart.modal.init = function (root_node) {
 
 
 
-
+    //
     // mw.on('mw.cart.after_modify', function () {
     //
     // });
@@ -271,11 +272,13 @@ mw.cart.modal.init = function (root_node) {
 
 }
 
-mw.cart.modal.bindStepButtons = function (step) {
+mw.cart.modal.bindStepButtons = function (root_node) {
+
+    $( root_node).off( "click",'.js-show-step');
+    $( root_node).on( "click",'.js-show-step', function( event ) {
 
 
-    mw.$('.js-show-step').off('click');
-    mw.$('.js-show-step').on('click', function () {
+
 
         var has_error = false;
         var step = mw.$(this).data('step');
@@ -337,6 +340,15 @@ mw.cart.modal.bindStepButtons = function (step) {
         }
 
     });
+
+
+/*
+    mw.$('.js-show-step').off('click');
+    mw.$('.js-show-step').on('click', function () {
+
+
+
+    });*/
 
 
 }
