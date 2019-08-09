@@ -15,48 +15,48 @@
 </script>
 <script type="text/javascript">
 
+	function import_language_by_namespace(namespace) {
 
+
+	}
+
+	function export_language_by_namespace(namespace) {
+		$.ajax({
+			type: "POST",
+			url: mw.settings.api_url + "Microweber/Utils/Language/export",
+			data: "namespace=" + namespace,
+			success: function (data) {
+				window.location = data;
+			}
+		});
+	}
+	
     function send_lang_form_to_microweber() {
 
         if (!mw.$(".send-your-lang a").hasClass("disabled")) {
 
             mw.tools.disable(mwd.querySelector(".send-your-lang a"), "<?php _e('Sending...'); ?>");
             $.each($('.lang-edit-form'), function () {
-
-
                 mw.form.post($(this), '<?php print api_link('send_lang_form_to_microweber'); ?>',
                     function (msg) {
-
                         mw.notification.msg(this, 1000, true);
-
                         mw.tools.enable(mwd.querySelector(".send-your-lang a"));
-
                     });
-
             });
-
-
         }
-
-
+        
         return false;
-
     }
 
 
     function save_lang_form($form_id) {
-
-
         mw.form.post('#' + $form_id, '<?php print api_link('save_language_file_content'); ?>',
             function (msg) {
                 mw.notification.msg(this);
 
-            });
+        });
         return false;
-
     }
-
-
 </script>
 <style>
     .send-your-lang {
@@ -117,6 +117,12 @@ $namespaces = mw()->lang_helper->get_all_language_file_namespaces();
         </div>
         <div class="mw-accordion-content mw-ui-box-content" style="">
             <h3>Global language file</h3>
+            
+            <a onClick="export_language_by_namespace('global');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded">Export to Excel</a>
+            <a onClick="import_language_by_namespace('global');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded">Import Excel</a>
+			<br />
+			<br />
+            
             <form id="language-form-<?php print $params['id'] ?>" class="lang-edit-form">
                 <input name="___lang" value="<?php print $lang ?>" type="hidden">
 
@@ -153,20 +159,24 @@ $namespaces = mw()->lang_helper->get_all_language_file_namespaces();
 
         <?php
         $cont = mw()->lang_helper->get_language_file_content($ns);
-
         ?>
-
 
         <?php if (!empty($cont)): ?>
             <div id="accordion-<?php print $params['id'] . $iter ?>" class="mw-ui-box mw-ui-box-silver-blue active">
                 <div class="mw-ui-box-header"
                      onclick="mw.accordion('#accordion-<?php print $params['id'] . $iter ?>');">
                     <div class="header-holder">
-                        <i class="mai-setting2"></i>Language file: <?php print $ns ?>
+                        <i class="mai-setting2"></i>Language file: <?php print $ns ?> 
                     </div>
                 </div>
-                <div class="mw-accordion-content mw-ui-box-content" style="">
-
+                
+                <div class="mw-accordion-content mw-ui-box-content">
+					 
+					<a onClick="export_language_by_namespace('<?php print $ns; ?>');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded">Export Excel</a>
+					<a onClick="import_language_by_namespace('<?php print $ns; ?>');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded">Import Excel</a>
+					<br />
+					<br />
+					
                     <form id="language-form-<?php print $params['id'] . $iter ?>" class="lang-edit-form">
                         <input name="___namespace" value="<?php print $ns ?>" type="hidden">
                         <input name="___lang" value="<?php print $lang ?>" type="hidden">
@@ -190,15 +200,9 @@ $namespaces = mw()->lang_helper->get_all_language_file_namespaces();
                             <?php endforeach; ?>
                         </table>
                     </form>
-
-
                 </div>
             </div>
-
-
         <?php endif; ?>
-
-
     <?php endforeach; ?>
 
 
@@ -209,5 +213,5 @@ $namespaces = mw()->lang_helper->get_all_language_file_namespaces();
     <label class="mw-ui-label">
         <small><?php _e('Help us improve Microweber'); ?></small>
     </label>
-    <a onclick="send_lang_form_to_microweber()"
-       class="mw-ui-btn mw-ui-btn-blue"><?php _e('Send us your translation'); ?></a></div>
+    <a onclick="send_lang_form_to_microweber()" class="mw-ui-btn mw-ui-btn-blue"><?php _e('Send us your translation'); ?></a>
+</div>

@@ -510,7 +510,11 @@ class Lang
             foreach ($list as $l) {
                 $dir = dirname($l);
                 if ($dir and stristr($dir, $lang_files_dir) and is_dir($dir)) {
-                    $ns[] = str_replace($lang_files_dir, '', $dir);
+                	$dir =  str_replace($lang_files_dir, '', $dir);
+                	$namespace = str_replace(' ', '', $dir);
+                	$namespace = str_replace('..', '', $namespace);
+                	$namespace = str_replace('\\', '/', $namespace);
+                	$ns[] = $namespace;
 
                 }
             }
