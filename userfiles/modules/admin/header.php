@@ -31,7 +31,6 @@
         mw.require("<?php print mw_includes_url(); ?>css/admin.css");
         mw.require("<?php print mw_includes_url(); ?>css/admin-new.css");
         mw.require("wysiwyg.js");
-        mw.require("tools.js");
         mw.require("url.js");
         mw.require("options.js");
         mw.require("events.js");

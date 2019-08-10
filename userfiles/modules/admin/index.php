@@ -57,8 +57,9 @@
 
             } ?>
         <?php endif; ?>
+        <?php event_trigger('mw.admin.footer'); ?>
     </div>
-    <?php event_trigger('mw.admin.footer'); ?>
+
 <?php endif; ?>
 
 <?php include(__DIR__ . DS . 'footer.php'); ?>
