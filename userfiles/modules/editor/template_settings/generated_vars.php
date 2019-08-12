@@ -21,9 +21,8 @@ if ($template_settings) {
                 $$key = 'no-default-option';
             }
         } elseif ($$key == null) {
-            $$key = (string)'';
+            $$key = '';
         }
-/*        var_dump($$key);
-        echo PHP_EOL . '<br /><br />';*/
+
     }
 }

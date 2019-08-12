@@ -14,16 +14,19 @@ $option_group = 'mw-template-' . mw()->template->folder_name();
 
 if ($stylesheet_settings) {
     foreach ($stylesheet_settings as $key => $setting) {
-
         $$key = get_option($key, $option_group);
-        if ($$key == '') {
-            $$key = $setting['default'];
+        if ($$key === false AND $$key !== null) {
+            if (isset($setting['default'])) {
+                $$key = $setting['default'];
+            } else {
+                $$key = '';
+            }
+        } elseif ($$key == null) {
+            $$key = '';
         }
-
     }
 }
 
-//dd($template_settings);
 ?>
 
 
