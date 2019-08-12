@@ -13,7 +13,24 @@
     mw.require('<?php print $config['url_to_module'] ?>menu_admin.js', true);
 </script>
 
+<script>
 
+    $(window).on('load', function(){
+        var holder = mw.$('#link-selector-holder');
+        /*var link = mw.instruments.link({
+            mode: 'inline'
+        });
+        $(holder).append(link.frame);
+        link.handler.on('change', function(e, url, target, text){
+            console.log(url, target, text)
+        });*/
+        if(window.thismodal) {
+            thismodal.width(600);
+            thismodal.center(600);
+        }
+    })
+
+</script>
 
 
 
@@ -382,8 +399,16 @@ if ($menu_data) {
 
 
                 <label class="mw-ui-label"><?php _e("Select page you want to add to your menu"); ?>:</label>
-                <a href="javascript:requestLink();"               class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-rounded"><span><?php _e("Add Page to Menu"); ?></span></a>
-                <a id="request-section-link-toggle" style="display: none" href="javascript:requestSection();"                   class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded pull-right">
+                <div id="link-selector-holder"></div>
+                <a
+                    href="javascript:requestLink();"
+                    class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-rounded"><span><?php _e("Add Page to Menu"); ?></span>
+                </a>
+                <a
+                    id="request-section-link-toggle"
+                    style="display: none"
+                    href="javascript:requestSection();"
+                   class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded pull-right">
                     <span><?php _e("Link to layout"); ?></span>
                 </a>
                 <a href="javascript:requestCustomLink();"             class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded pull-right">

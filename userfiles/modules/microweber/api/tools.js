@@ -71,7 +71,7 @@ $.fn.reload_module = function (c) {
         })(this)
         //   }
     })
-}
+};
 $.fn.dataset = function (dataset, val) {
     var el = this[0];
     if (el === undefined) return false;
@@ -84,7 +84,8 @@ $.fn.dataset = function (dataset, val) {
         !!el.dataset ? el.dataset[_dataset] = val : mw.$(el).attr("data-" + dataset, val);
         return mw.$(el);
     }
-}
+};
+
 String.prototype._exec = function (a, b, c) {
     var a = a || "";
     var b = b || "";
@@ -105,10 +106,10 @@ String.prototype._exec = function (a, b, c) {
         }
         return mw.is.func(temp) ? temp(a, b, c) : temp;
     }
-}
+};
 mw.exec = function (str, a, b, c) {
     return str._exec(a, b, c);
-}
+};
 String.prototype.endsWith = function (str) {
     return this.indexOf(str, this.length - str.length) !== -1;
 };
@@ -186,22 +187,34 @@ mw.tools = {
         o2.height = el2.height();
         return (o1.left < o2.left + o2.width  && o1.left + o1.width  > o2.left &&  o1.top < o2.top + o2.height && o1.top + o1.height > o2.top);
     },
-    iframeAutoHeight:function(frame, mode){
-        mode = mode || 'onload';
+    iframeAutoHeight:function(frame){
+
         frame = mw.$(frame)[0];
         if(!frame) return;
 
+        var _detector = document.createElement('div');
+        _detector.className = 'mw-iframe-auto-height-detector';
+        _detector.id = mw.id();
 
+        var insertDetector = function() {
+            if(frame.contentWindow) {
+                var det = frame.contentWindow.document.querySelector('.mw-iframe-auto-height-detector');
+                if(!det){
+                    frame.contentWindow.document.body.appendChild(_detector);
+                } else if(det !== frame.contentWindow.document.body.lastChild){
+                    frame.contentWindow.document.body.appendChild(det);
+                }
+            }
 
+        };
 
-
-
-
+        setTimeout(function(){
+            insertDetector();
+        }, 100);
 
         frame.scrolling="no";
         frame.style.minHeight = 0 + 'px';
         mw.$(frame).on('load resize', function(){
-
 
             if(!mw.tools.canAccessIFrame(frame)) {
                 console.log('Iframe can not be accessed.', frame);
@@ -214,45 +227,21 @@ mw.tools = {
                 return;
             }
 
-            var _detector = document.createElement('div');
-            _detector.className = 'mw-iframe-auto-height-detector';
-            _detector.id = mw.id();
-
-            var insertDetector = function() {
-                if(!frame.contentWindow.document.querySelector('.mw-iframe-auto-height-detector')){
-                    frame.contentWindow.document.body.appendChild(_detector);
-                }
-            };
-
-            if(mode === 'now'){
-                setTimeout(function(){
-                    insertDetector();
-                }, 100);
-            }
-
-
-
-            if(mode === 'onload'){
-                setTimeout(function(){
-                    insertDetector();
-                }, 100);
-            }
-            frame._int = setInterval(function(){
-                if(frame.parentNode && frame.contentWindow && frame.contentWindow.$){
-                    var offTop = frame.contentWindow.$(_detector).offset().top;
-                    if(offTop && offTop !== frame._currHeight){
-                        frame._currHeight = offTop;
-                        frame.style.height = offTop + 'px';
-                        mw.$(frame).trigger('bodyResize');
-                    }
-                }
-                else {
-                    clearInterval(frame._int);
-                }
-            }, 77);
-
-
+            insertDetector();
         });
+        frame._int = setInterval(function(){
+            if(frame.parentNode && frame.contentWindow && frame.contentWindow.$){
+                var offTop = frame.contentWindow.$(_detector).offset().top;
+                if(offTop && offTop !== frame._currHeight){
+                    frame._currHeight = offTop;
+                    frame.style.height = offTop + 'px';
+                    mw.$(frame).trigger('bodyResize');
+                }
+            }
+            else {
+                //clearInterval(frame._int);
+            }
+        }, 77);
 
     },
     distance: function (x1, y1, x2, y2) {
@@ -5666,7 +5655,7 @@ mw.modal = function (o) {
         var modal = undefined;
     }
     return modal;
-}
+};
 mw.modalFrame = function (o) {
     var modal = mw.tools.modal.frame(o);
     if (!!modal && (typeof(modal.main) != "undefined")) {
