@@ -97,7 +97,7 @@ if ($stylesheet_settings) {
         <?php if ($stylesheet_settings): ?>
             <?php foreach ($stylesheet_settings as $key => $setting): ?>
                 <?php if ($setting['type'] == 'title'): ?>
-                    <h5><?php echo $setting['label']; ?></h5>
+                    <h5><?php echo $setting['label']; ?> <?php if (isset($setting['help'])): ?><span class="tip" data-tip="<?php echo $setting['help']; ?>">(<span class="red">?</span>)</span><?php endif; ?></h5>
                 <?php elseif ($setting['type'] == 'delimiter'): ?>
                     <hr/>
                 <?php elseif ($setting['type'] == 'color'): ?>
@@ -105,7 +105,7 @@ if ($stylesheet_settings) {
                         <div class="theme-color-selector">
                             <button style="background: <?php echo $$key ?>;" id="<?php echo $key; ?>"></button>
                             <input class="mw-ui-field mw_option_field hidden" name="<?php echo $key; ?>" value="<?php echo $$key ?>" data-option-group="<?php echo $option_group; ?>" placeholder="Default color: <?php echo $setting['default']; ?>">
-                            <?php echo $setting['label']; ?>
+                            <?php echo $setting['label']; ?> <?php if (isset($setting['help'])): ?><span class="tip" data-tip="<?php echo $setting['help']; ?>">(<span class="red">?</span>)</span><?php endif; ?>
                         </div>
 
                         <script>
@@ -125,7 +125,7 @@ if ($stylesheet_settings) {
                     </div>
                 <?php elseif ($setting['type'] == 'text'): ?>
                     <div class="form-group">
-                        <label class="control-label mw-ui-label"><?php echo $setting['label']; ?></label>
+                        <label class="control-label mw-ui-label"><?php echo $setting['label']; ?> <?php if (isset($setting['help'])): ?><span class="tip" data-tip="<?php echo $setting['help']; ?>">(<span class="red">?</span>)</span><?php endif; ?></label>
                         <input class="form-control mw-ui-field mw_option_field" name="<?php echo $key; ?>" value="<?php echo $$key ?>" data-option-group="<?php echo $option_group; ?>" placeholder="Default: <?php echo $setting['default']; ?>">
                     </div>
                 <?php endif; ?>

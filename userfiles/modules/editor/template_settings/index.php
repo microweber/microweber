@@ -26,7 +26,7 @@
         <?php if ($template_settings): ?>
             <?php foreach ($template_settings as $key => $setting): ?>
                 <?php if ($setting['type'] == 'title'): ?>
-                    <h5><?php echo $setting['label']; ?></h5>
+                    <h5><?php echo $setting['label']; ?> <?php if (isset($setting['help'])): ?><span class="tip" data-tip="<?php echo $setting['help']; ?>">(<span class="red">?</span>)</span><?php endif; ?></h5>
                 <?php elseif ($setting['type'] == 'delimiter'): ?>
                     <hr/>
                 <?php elseif ($setting['type'] == 'text'): ?>
