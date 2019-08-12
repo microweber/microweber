@@ -43,6 +43,6 @@
   <p class="mobile-message-paragraph"><?php _e('Currently Microweber is designed to be used in larger screens.'); ?></p>
   <p><span class="mw-ui-btn" onclick="mw.admin.mobileMessage(true, 'true')"><?php _e('Continue anyway'); ?></span></p>
 </div>
-<?php event_trigger('mw.admin.footer'); ?>
+
 </body>
 </html>

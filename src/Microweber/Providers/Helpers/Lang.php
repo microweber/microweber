@@ -1,6 +1,4 @@
 <?php
-
-
 namespace Microweber\Providers\Helpers;
 
 use \Microweber\Utils\URLify;
@@ -510,7 +508,11 @@ class Lang
             foreach ($list as $l) {
                 $dir = dirname($l);
                 if ($dir and stristr($dir, $lang_files_dir) and is_dir($dir)) {
-                    $ns[] = str_replace($lang_files_dir, '', $dir);
+                	$dir =  str_replace($lang_files_dir, '', $dir);
+                	$namespace = str_replace(' ', '', $dir);
+                	$namespace = str_replace('..', '', $namespace);
+                	$namespace = str_replace('\\', '/', $namespace);
+                	$ns[] = $namespace;
 
                 }
             }
@@ -678,9 +680,18 @@ class Lang
 
     function save_language_file_content($data)
     {
-        if (isset($_POST) and !empty($_POST)) {
-            $data = $_POST;
-        }
+    	// Decode json from post
+    	if (isset($data['lines']) && is_string($data['lines'])) {
+    		$jsonDecode = json_decode($data['lines'], true);
+    		if ($jsonDecode && is_array($jsonDecode)) {
+    			$readyData = array();
+    			foreach($jsonDecode as $dataExplode) {
+    				$readyData[$dataExplode['name']] = $dataExplode['value'];
+    			}
+    			$data = $readyData;
+    		}
+    	}
+    	
         if (is_admin() == true) {
             if (isset($data['unicode_temp_remove'])) {
                 unset($data['unicode_temp_remove']);
@@ -704,9 +715,6 @@ class Lang
                 return;
             }
             $lang = str_replace('.', '', $lang);
-
-
-
 
             //$lang = current_lang();
 
