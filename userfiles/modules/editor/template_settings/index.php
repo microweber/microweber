@@ -1,10 +1,9 @@
 <?php include 'generated_vars.php'; ?>
 
-
 <script>mw.lib.require('bootstrap3ns');</script>
 <script>
     function resetToDefault() {
-        mw.tools.confirm_reset_module_by_id('<?php echo $option_group; ?>-settings')
+        mw.tools.confirm_reset_module_by_id('<?php echo $option_group; ?>')
         window.parent.location.reload(false);
     }
 
