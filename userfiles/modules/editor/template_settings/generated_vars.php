@@ -13,8 +13,10 @@ $option_group = 'mw-template-' . mw()->template->folder_name() . '-settings';
 if ($template_settings) {
     foreach ($template_settings as $key => $setting) {
         $$key = get_option($key, $option_group);
-        if (!isset($$key) AND !$$key) {
+        if ($$key == false AND isset($setting['default'])) {
             $$key = $setting['default'];
+        } else {
+            $$key = 'no-such-a-option';
         }
     }
 }
