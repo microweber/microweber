@@ -31,12 +31,12 @@
                     <hr/>
                 <?php elseif ($setting['type'] == 'text'): ?>
                     <div class="form-group">
-                        <label class="control-label mw-ui-label"><?php echo $setting['label']; ?></label>
+                        <label class="control-label mw-ui-label"><?php echo $setting['label']; ?> <?php if (isset($setting['help'])): ?><span class="tip" data-tip="<?php echo $setting['help']; ?>"><span class="red">?</span></span><?php endif; ?></label>
                         <input class="form-control mw-ui-field mw_option_field" name="<?php echo $key; ?>" value="<?php echo $$key ?>" data-option-group="<?php echo $option_group; ?>" placeholder="Default: <?php echo $setting['default']; ?>">
                     </div>
                 <?php elseif ($setting['type'] == 'dropdown'): ?>
                     <div class="form-group">
-                        <label for="<?php echo $key; ?>" class="control-label"><?php echo $setting['label']; ?></label>
+                        <label for="<?php echo $key; ?>" class="control-label"><?php echo $setting['label']; ?> <?php if (isset($setting['help'])): ?><span class="tip" data-tip="<?php echo $setting['help']; ?>">(<span class="red">?</span>)</span><?php endif; ?></label>
                         <div>
                             <select name="<?php echo $key; ?>" id="<?php echo $key; ?>" class="mw_option_field form-control" data-option-group="<?php print $option_group; ?>">
                                 <?php if (isset($setting['options'])): ?>
