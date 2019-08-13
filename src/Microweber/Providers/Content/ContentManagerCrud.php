@@ -190,10 +190,7 @@ class ContentManagerCrud extends Crud
             $extra_data = true;
         }
 
-
-        $params['no_cache'] = $table;
-
-
+ 
 
         $get = parent::get($params);
 
