@@ -19,10 +19,7 @@
 </script>
 
 <div class="<?php print $config['module_class'] ?>">
-    <?php $data = get_option('current_template', 'template', 1);
-
-
-    ?>
+    <?php $data = get_option('current_template', 'template', 1);    ?>
     <?php
     if (!isset($data['id'])) {
         $data['id'] = 0;

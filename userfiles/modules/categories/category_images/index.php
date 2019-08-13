@@ -60,10 +60,11 @@ if ($selected_pages) {
         if ($selected_cats) {
             foreach ($selected_cats as $sk => $sel_c) {
                 $category_page_check = get_page_for_category($sel_c);
-                d($category_page_check);
+                //
                 $cat_data = get_category_by_id($sel_c);
-                if ($category_page_check == $sel_p) {
+                if (isset($category_page_check['id']) and $category_page_check['id'] == $sel_p) {
                     $cats[] = $cat_data;
+
                     unset($selected_cats[$sk]);
                 } else {
                  //   $selected_cats2[] = $cat_data;
@@ -84,39 +85,6 @@ if ($selected_cats) {
     }
 }
 
-
-
-
-//d($cats);
-
-
-//
-//$append_cats = array();
-//
-//if ($cats and $selected_cats2) {
-//
-//    foreach ($selected_cats2 as $selected_cat2) {
-//        $is_found = false;
-//        foreach ($cats as $selected_cat) {
-//            if (isset($selected_cat2['id']) and isset($selected_cat['id'])) {
-//                if ($selected_cat2['id'] == $selected_cat['id']) {
-//                    $is_found = true;
-//                }
-//            }
-//        }
-//        if (!$is_found) {
-//            $append_cats[] = $selected_cat2;
-//        }
-//    }
-//
-//} elseif (!$cats and $selected_cats) {
-
-//
-//}
-//
-//if ($append_cats) {
-//    $cats = array_merge($cats, $append_cats);
-//}
 
 
 if (!empty($cats)) {
@@ -147,32 +115,6 @@ if (!empty($cats)) {
 
     }
 }
-
-
-/*
-
-if (!empty($selected_cats)) {
-   foreach ($selected_cats as $k => $cat) {
-
-       $cat['picture'] = get_picture($cat['id'], 'category');
-
-       if ($cat['rel_type'] == 'content') {
-           $latest = get_content("order_by=position desc&limit=30&category=" . $cat['id']);
-
-           if (!$cat['picture'] and isset($latest[0])) {
-               $latest_product = $latest[0];
-               $cat['picture'] = get_picture($latest_product['id']);
-           }
-
-           if ($latest) {
-               $cat['content_items'] = $latest;
-           }
-
-       }
-       $selected_cats[$k] = $cat;
-
-   }
-}*/
 
 $selected_cats = $cats;
 if (!$selected_cats) {
