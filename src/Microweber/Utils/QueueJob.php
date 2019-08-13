@@ -6,29 +6,34 @@ api_expose_admin('Microweber\Utils\QueueJob\processAll');
 class QueueJob
 {
 
-	private $_jobsPerClient = 6;
+    private $_jobsPerClient = 6;
 
-	public function __construct($app = null)
-	{
-		if (is_object($app)) {
-			$this->app = $app;
-		} else {
-			$this->app = mw();
-		}
-	}
+    public function __construct($app = null)
+    {
+        if (is_object($app)) {
+            $this->app = $app;
+        } else {
+            $this->app = mw();
+        }
+    }
 
-	public function processAll()
-	{
-		$i = 0;
-		while ($entry = \Queue::pop()) {
+    public function processAll()
+    {
+        $i = 0;
+        while ($entry = \Queue::pop()) {
 
-			$entry->fire();
+            $entry->fire();
 
-			if ($i > $this->_jobsPerClient) {
-				break;
-			}
+            if ($i > $this->_jobsPerClient) {
+                break;
+            }
 
-			$i ++;
-		}
-	}
+            $i++;
+        }
+    }
+
+    public function size()
+    {
+        return \Queue::size();
+    }
 }
