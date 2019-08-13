@@ -62,12 +62,34 @@
         <input id="mw_curr_theme_val" name="current_template" class="mw_option_field mw-ui-field" type="hidden" option-group="template" value="<?php print  $data['option_value']; ?>" data-id="<?php print  $data['id']; ?>"/>
         <module type="content/views/layout_selector" show_full="true" data-active-site-template="<?php print $data['option_value'] ?>" autoload="1" xxlive_edit_styles_check="1" no-default-name="true"/>
         <div class="layout-selector-footer">
+            <div  class="mw-ui-row">
+
             <?php if (mw()->ui->disable_marketplace != true): ?>
-                <a class="mw-ui-link pull-left" href="<?php print mw()->update->marketplace_admin_link('browse-templates=true'); ?>">
-                    <small><?php _e("More Templates"); ?></small>
-                </a>
+
+
+                <div class="mw-ui-col" style="width: 100px;">
+                    <module type="admin/templates/upload_button" />
+                </div>
+
+
+                <div class="mw-ui-col" style="width: 180px;">
+                   <a class="mw-ui-link pull-left" href="<?php print mw()->update->marketplace_admin_link('browse-templates=true'); ?>">
+                       <small><?php _e("More Templates"); ?></small>
+                   </a>
+               </div>
+
+
+
+
             <?php endif; ?>
+                <div class="mw-ui-col" style="width: 180px;">
             <button class="mw-ui-btn mw-ui-btn-info mw-action-change-template pull-right" onClick="mw_set_default_template()"><?php _e("Apply Template"); ?></button>
+
+                </div>
+
+            </div>
+
+
         </div>
     </div>
 </div>

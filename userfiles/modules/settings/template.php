@@ -127,6 +127,7 @@ if ($json != false) {
                 obj.id = "template-settings";
                 obj.module = "settings/template";
                 obj.save_template_settings = true;
+                obj.show_upload_template_button = true;
                 obj.active_site_template = "<?php print $active_template_dir; ?>";
                 obj[name] = {
                     selector: $(this).dataset("selector"),

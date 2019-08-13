@@ -401,7 +401,8 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
       $t = $module_item["name"];
       $t2 = _e($module_item["name"], true);
       if ($t2 and $t != $t2) {
-          $t = $t . ' / ' . $t2;
+        //  $t = $t . ' / ' . $t2;
+          $t=$t2;
       }
 
       $t = str_replace("\r", "", $t);
