@@ -390,6 +390,16 @@ class CartManager extends Crud
         if ($check_cart != false and is_array($check_cart)) {
             $table = $this->table;
             $this->app->database_manager->delete_by_id($table, $id = $cart['id'], $field_name = 'id');
+
+            $cart_return = $check_cart;
+
+            $cart_sum = $this->sum(true);
+            $cart_qty = $this->sum(false);
+
+            return array('success' => 'Item quantity changed', 'product' => $cart_return, 'cart_sum' => $cart_sum, 'cart_items_quantity' => $cart_qty);
+
+
+
             return array('success' => 'Item removed from cart');
         } else {
             return array('error' => 'Item not removed from cart');
@@ -443,21 +453,27 @@ class CartManager extends Crud
             }
 
 
+            $cart_return = $check_cart;
+
+
+
             $table = $this->table;
             $cart_data_to_save = array();
             $cart_data_to_save['qty'] = $cart['qty'];
             $cart_data_to_save['id'] = $cart['id'];
             $cart_saved_id = $this->app->database_manager->save($table, $cart_data_to_save);
 
+            $cart_sum = $this->sum(true);
+            $cart_qty = $this->sum(false);
+            return array('success' => 'Item quantity changed', 'product' => $cart_return, 'cart_sum' => $cart_sum, 'cart_items_quantity' => $cart_qty);
 
 
 
-        //    return array('success' => 'Item quantity is changed',  'cart_sum' => $cart_sum, 'cart_items' => $cart_qty);
-
-
-            return $cart_saved_id;
         }
     }
+
+
+
 
     public function empty_cart()
     {
@@ -468,6 +484,11 @@ class CartManager extends Crud
         $this->no_cache = true;
         $this->app->cache_manager->delete('cart');
         $this->app->cache_manager->delete('cart_orders/global');
+
+        $cart_sum = $this->sum(true);
+        $cart_qty = $this->sum(false);
+        return array('success' => 'Cart is emptied',  'cart_sum' => $cart_sum, 'cart_items_quantity' => $cart_qty);
+
     }
 
     public function delete_cart($params)
@@ -766,9 +787,9 @@ class CartManager extends Crud
                 $cart_return['product_link'] = $this->app->content_manager->link($cart['rel_id']);
             }
             $cart_sum = $this->sum(true);
-            $cart_qty = $this->sum();
+            $cart_qty = $this->sum(false);
 
-            return array('success' => 'Item added to cart', 'product' => $cart_return, 'cart_sum' => $cart_sum, 'cart_items' => $cart_qty);
+            return array('success' => 'Item added to cart', 'product' => $cart_return, 'cart_sum' => $cart_sum, 'cart_items_quantity' => $cart_qty);
         } else {
             return array('error' => 'Invalid cart items');
         }
@@ -848,4 +869,7 @@ class CartManager extends Crud
     {
         return $this->table;
     }
+
+
+
 }

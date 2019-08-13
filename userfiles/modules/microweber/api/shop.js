@@ -124,6 +124,13 @@ mw.cart = {
         mw.reload_module('shop/shipping');
         mw.reload_module('shop/payments');
 
+
+
+        if((typeof data == 'object') && typeof data.cart_items_quantity !== 'undefined'){
+            $('.js-shopping-cart-quantity').html(data.cart_items_quantity);
+        }
+
+
         mw.trigger('mw.cart.after_modify', data);
 
 
