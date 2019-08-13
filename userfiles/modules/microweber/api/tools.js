@@ -197,7 +197,7 @@ mw.tools = {
         _detector.id = mw.id();
 
         var insertDetector = function() {
-            if(frame.contentWindow) {
+            if(frame.contentWindow && frame.contentWindow.document && frame.contentWindow.document.body){
                 var det = frame.contentWindow.document.querySelector('.mw-iframe-auto-height-detector');
                 if(!det){
                     frame.contentWindow.document.body.appendChild(_detector);
