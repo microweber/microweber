@@ -2,8 +2,21 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [1.1.9] - 2019-08-02
+## [1.1.10] - 2019-08-02
+- Various live edit fixes
+- Fixes on the new modal window
+- Fixes on categories module
+- Fixes cart module 
+- Added ability to export and import language entries 
+- Added ability upload template 
+- Added ability to use template framework classes in CSS grid 
+- Added new module for unified template settings generated from config.php (beta) 
+- Added background job queue (beta) 
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.1.9...1.1.10 "")
 
+
+## [1.1.9] - 2019-08-02
 - Overall stability fixes
 - Implemented new modal window
 - Implemented media library
@@ -18,8 +31,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Other fixes
 - [see all changes....](https://github.com/microweber/microweber/compare/1.1.8...1.1.9 "")
 
-## [1.1.8] - 2019-07-04
 
+## [1.1.8] - 2019-07-04
 - Accordeon and tabs modules does not work 
 - Target doesn't work on menu
 - Visual editor bugs
