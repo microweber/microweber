@@ -60,7 +60,7 @@ if ($selected_pages) {
         if ($selected_cats) {
             foreach ($selected_cats as $sk => $sel_c) {
                 $category_page_check = get_page_for_category($sel_c);
-                //
+
                 $cat_data = get_category_by_id($sel_c);
                 if (isset($category_page_check['id']) and $category_page_check['id'] == $sel_p) {
                     $cats[] = $cat_data;

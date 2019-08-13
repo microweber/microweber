@@ -191,6 +191,7 @@ class ContentManagerCrud extends Crud
         }
 
 
+        $params['no_cache'] = $table;
 
 
 
