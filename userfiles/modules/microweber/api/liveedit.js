@@ -651,7 +651,6 @@ mw.drag = {
       }
 
     },
-    dropOutsideDistance: 25,
     columnout: false,
     noop: mwd.createElement('div'),
     create: function() {
@@ -705,12 +704,10 @@ mw.drag = {
                     }
                 } else {
                     mw.ea.data.currentGrabbed = mw.dragCurrent;
-                    //if( (mw.emouse.x+mw.emouse.y) % 2 === 0 ) {
-                        mw.tools.removeClass(this, 'isTyping');
-                        mw.ea.interactionAnalizer(event);
-                        mw.$(".currentDragMouseOver").removeClass("currentDragMouseOver");
-                        mw.$(mw.currentDragMouseOver).addClass("currentDragMouseOver");
-                    //}
+                    mw.tools.removeClass(this, 'isTyping');
+                    mw.ea.interactionAnalizer(event);
+                    mw.$(".currentDragMouseOver").removeClass("currentDragMouseOver");
+                    mw.$(mw.currentDragMouseOver).addClass("currentDragMouseOver");
                 }
             }
         });
@@ -720,7 +717,6 @@ mw.drag = {
         mw.drag.fixes();
 
         mw.$(mwd.body).on('mouseup touchend', function(event) {
-
             mw.mouseDownStarted = false;
             if (mw.isDrag && mw.dropable.is(":hidden")) {
                 mw.$(".ui-draggable-dragging").css({
@@ -730,10 +726,8 @@ mw.drag = {
             }
             mw.$(this).removeClass("not-allowed");
         });
-
         mw.$(mwd.body).on('mousedown touchstart', function(event) {
             var target = event.target;
-
             if ($(target).hasClass("image_free_text")) {
                 mw.image._dragcurrent = target;
                 mw.image._dragparent = target.parentNode;
@@ -752,12 +746,8 @@ mw.drag = {
                 if(!mw.settings.live_edit_open_module_settings_in_sidebar){
                     mw.drag.module_settings(mw.tools.firstParentOrCurrentWithAnyOfClasses(event.target, ['module']))
                 } else {
-
-
-                        //var id = mwd.tools.firstParentWithClass(event.target, 'module').id;
                     var target = mw.tools.firstParentWithClass(event.target, 'module') ;
                     mw.liveNodeSettings.set('module', target);
-                    //mw.liveNodeSettings.set('module', event.target);
                 }
             }
 
@@ -939,7 +929,7 @@ mw.drag = {
             mw.$(mwd.body).on("mouseup touchend", function(event) {
                 mw.image._dragcurrent = null;
                 mw.image._dragparent = null;
-                var sliders = mwd.getElementsByClassName("canvas-slider"),cam
+                var sliders = mwd.getElementsByClassName("canvas-slider"),
                     len = sliders.length,
                     i = 0;
                 for (; i < len; i++) {
@@ -955,14 +945,6 @@ mw.drag = {
                         'element',
                         'safe-element',
                         'module',
-                        /*
-                        'mw_edit_settings',
-                        'mw_master_handle',
-                        'mw_handle_module_arrow',
-                        'mw-element-name-handle',
-                        'mw-sorthandle-module',
-                        'mw-sorthandle-col',
-                        */
                         'plain-text'
                     ];
 
@@ -971,7 +953,7 @@ mw.drag = {
 
                     if( mw.tools.hasAnyOfClassesOnNodeOrParent(target, componentsClasses)) {
                         if (currentComponent && !fonttarget) {
-                            var isSafeMode = false;
+
                             var order = mw.tools.parentsOrder(target, ['safe-mode', 'module']);
                             if(mw.tools.hasClass(currentComponent, 'module')){
                                 mw.trigger("ComponentClick", [target, 'module']);

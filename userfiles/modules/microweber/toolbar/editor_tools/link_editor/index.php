@@ -1,27 +1,15 @@
 <script>
-    parent.mw.require("external_callbacks.js");
     mw.require("forms.js");
     mw.require("files.js");
     mw.require("tools.js");
-
 </script>
 
 <script type="text/javascript">
 
-    RegisterChange = function () {
-        /************************
-
-         Overwrites the original function
-
-         *************************/
-    };
-
-    is_searching = false;
-
+    var is_searching = false;
     var hash = location.hash.replace(/#/g, "") || 'insert_link';
-    mw.dd_autocomplete = function (id) {
+    var dd_autocomplete = function (id) {
         var el = $(id);
-
         el.on("change keyup paste focus", function (event) {
             if (!is_searching) {
                 var val = el.val();
@@ -50,19 +38,13 @@
                 });
             }
         });
-    }
-
-
-    setACValue = function (val) {
-        RegisterChange(hash, val);
-        parent.mw.iframecallbacks[hash](val);
-        parent.mw.tools.modal.remove('mw_rte_link');
     };
 
+    setACValue = function () {
+        mw.instrumentData.handler.trigger('change', Array.prototype.slice.call(arguments));
+    };
 
     $(document).ready(function () {
-
-
         Progress = mw.$('#mw-upload-progress');
         ProgressBar = Progress.find('.mw-ui-progress-bar');
         ProgressInfo = Progress.find('.mw-ui-progress-info');
@@ -70,12 +52,11 @@
         ProgressDoneHTML = '<span class="ico iDone" style="top:-6px;"></span>&nbsp;<?php _e("Done! All files have been uploaded"); ?>.';
         ProgressErrorHTML = function (filename) {
             return '<span class="ico iRemove" style="top:-6px;"></span>&nbsp;<?php _e("Error"); ?>! "' + filename + '" - <?php _e("Invalid filetype"); ?>.';
-        }
+        };
 
         mw.tools.dropdown();
 
-        mw.dd_autocomplete('#dd_pages_search');
-
+        dd_autocomplete('#dd_pages_search');
 
         var frame = mw.files.uploader({name: 'upload_file_link', filetypes: 'all', multiple: false});
 
@@ -114,21 +95,17 @@
             Progress.show()
         });
         $(frame).on("FileUploaded", function (frame, item) {
-            parent.mw.iframecallbacks[hash](item.src);
+            setACValue(item.src);
         });
 
-
         frame_holder.append(frame);
-
 
         mw.$("#insert_email").click(function () {
             var val = mwd.getElementById('email_field').value;
             if (!val.contains('mailto:')) {
                 val = 'mailto:' + val;
             }
-            parent.mw.iframecallbacks[hash](val);
-            parent.mw.tools.modal.remove('mw_rte_link');
-            RegisterChange(hash, val);
+            setACValue(val);
             return false;
         });
         mw.$("#insert_url").click(function () {
@@ -140,27 +117,19 @@
                 }
             }
             var link_text_val = mwd.getElementById('customweburl_text').value;
-            RegisterChange(hash, val, target, link_text_val);
-            parent.mw.iframecallbacks[hash](val, target, link_text_val);
-            parent.mw.tools.modal.remove('mw_rte_link');
+            setACValue(val, target, link_text_val);
 
             return false;
         });
-
         $("#insert_from_dropdown").click(function () {
             var val = mw.$("#insert_link_list").getDropdownValue();
-            parent.mw.iframecallbacks[hash](val);
-            parent.mw.tools.modal.remove('mw_rte_link');
+            setACValue(val);
             return false;
         });
-
-
         LinkTabs = mw.tabs({
             nav: ".mw-ui-btn-nav-tabs a",
             tabs: ".tab"
         });
-
-
     });
 
 
@@ -168,6 +137,10 @@
 
 
 <style type="text/css">
+
+    #insert_link_list .mw-dropdown-content{
+        position: relative;
+    }
 
 
     #upload_frame {
@@ -183,9 +156,6 @@
         display: none;
     }
 
-    #mw-popup-insertlink {
-        padding: 10px;
-    }
 
     .mw-ui-row-nodrop, .media-search-holder {
         margin-bottom: 12px;
@@ -304,9 +274,7 @@
                             mw.$('#available_elements').append('<a data-href="#' + this.id + '"><strong>' + this.nodeName + '</strong> - ' + this.textContent + '</a>')
                         });
                         mw.$('#available_elements a').on('click', function () {
-
-                            parent.mw.iframecallbacks[hash](top.location.href.split('#')[0] + $(this).dataset('href'));
-                            parent.mw.tools.modal.remove('mw_rte_link');
+                            setACValue(top.location.href.split('#')[0] + $(this).dataset('href'));
                         });
                         if (!available_elements_tab_show_hide_ctrl_counter) {
                             mw.$('.available_elements_tab_show_hide_ctrl').hide();
@@ -317,6 +285,7 @@
             <div class="tab page-layout-tab">
                 <label class="mw-ui-label"><?php _e('Link text'); ?></label>
                 <div class="mw-field">
+
                     <input type="text" id="ltext">
                 </div>
                 <ul class="mw-ui-box mw-ui-box-content mw-ui-navigation" id="layouts-selector">
@@ -328,9 +297,8 @@
                     submitLayoutLink = function(){
                         var selected = $('#layouts-selector input:checked');
                         var val = top.location.href.split('#')[0] + '#mw@' + selected[0].id;
-                        parent.mw.iframecallbacks[hash](val, '_self', mw.$('#ltext').val() || selected[0].id);
-                        parent.mw.tools.modal.remove('mw_rte_link');
-                        RegisterChange(hash, val);
+                        setACValue(val, '_self', mw.$('#ltext').val() || selected[0].id);
+
                     };
                     $(document).ready(function () {
                         var layoutsData = [];

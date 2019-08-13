@@ -458,7 +458,8 @@ mw.getScripts = function (array, callback) {
             })
         }
     })
-  }
+  };
+
   mw.reload_module = function(module, callback) {
     if(module.constructor === [].constructor){
         var l = module.length, i=0, w = 1;
@@ -468,6 +469,7 @@ mw.getScripts = function (array, callback) {
             if(w === l && typeof callback === 'function'){
               callback.call();
             }
+            $( this ).trigger('ModuleReload')
           });
         }
         return false;
@@ -497,10 +499,10 @@ mw.getScripts = function (array, callback) {
                   for (var i=0;i<m.length;i++){
                       mw.reload_module(m[i], function(){
                           count++;
-
-                          if(count == m.length && typeof callback === 'function'){
-                              callback.call()
+                          if(count === m.length && typeof callback === 'function'){
+                              callback.call();
                           }
+                          $( document ).trigger('ModuleReload')
                       })
                   }
               })(callback)
@@ -638,20 +640,20 @@ mw.getScripts = function (array, callback) {
               obj.done.call($(selector)[0], data);
           }
         mw.trigger('moduleLoaded');
-      }, 33)
+      }, 33);
       if(!id){ mw.pauseSave = false;mw.on.DOMChangePause = false;  return false; }
 
 
       typeof mw.drag !== 'undefined' ? mw.drag.fix_placeholders(true) : '';
       var m = mwd.getElementById(id);
       typeof obj.done === 'function' ? obj.done.call(selector, m) : '';
-      if(!!mw.wysiwyg){
+      if(mw.wysiwyg){
         $(m).hasClass("module") ? mw.wysiwyg.init_editables(m) : '' ;
-          if(!!mw.on){
-            mw.on.moduleReload(id, "", true);
-          }
       }
-      if(mw.on != undefined){
+      if(mw.on){
+        mw.on.moduleReload(id, "", true);
+      }
+      if (mw.on != undefined) {
         mw.on.DOMChangePause = false;
       }
       mw.tools.removeClass(mwd.body, 'loading');

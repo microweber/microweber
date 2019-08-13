@@ -50,7 +50,7 @@
                         <label for="search-input">
                             <i class="mw-icon-search" aria-hidden="true"></i>
                         </label>
-                        <input onkeyup="mwSidebarSearchItems(this.value, 'layouts')" class="form-control input-lg" placeholder="Search for Layouts" autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1" data-id="mw-sidebar-search-input-for-modules-and-layouts">
+                        <input onkeyup="mwSidebarSearchItems(this.value, 'layouts')" placeholder="Search for Layouts" autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1" data-id="mw-sidebar-search-input-for-modules-and-layouts">
                         <a href="javascript:mwSidebarSearchClear('layouts');" class="mw-sidebar-search-clear-x-btn mw-icon-close" aria-hidden="true" style="display: none;"></a>
                     </div>
                     <p class="mw-search-no-results" ><?php _e("No results were found"); ?></p>
@@ -71,7 +71,7 @@
                         <label for="search-input">
                             <i class="mw-icon-search" aria-hidden="true"></i>
                         </label>
-                        <input onkeyup="mwSidebarSearchItems(this.value, 'modules')" class="form-control input-lg"
+                        <input onkeyup="mwSidebarSearchItems(this.value, 'modules')"
                                placeholder="Search for Modules"
                                autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1"
                                data-id="mw-sidebar-search-input-for-modules-and-layouts">
