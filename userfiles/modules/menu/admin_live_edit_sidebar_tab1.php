@@ -15,7 +15,6 @@
     mw.menu_add_new = function () {
         var obj = {};
         obj.title = $('#new_menu_name').val();
-
         $.post("<?php print api_link('content/menu_create') ?>", obj, function (data) {
             window.location.href = window.location.href;
         });
@@ -28,23 +27,7 @@
 
             menuSelectorInit();
         });
-    }
-
-
-    requestLink = function () {
-        // mw.$(".menu_item_edit").remove();
-
-        mw.$("#menu-selector").toggle();
-        mw.$("#custom_link_controller").hide();
-    }
-
-    requestCustomLink = function () {
-        // mw.$(".menu_item_edit").remove();
-
-        mw.$("#custom_link_controller").toggle();
-        mw.$("#menu-selector").hide();
-
-    }
+    };
 
     add_new_menu = function () {
         mw.$("#create-menu-holder").toggle();
@@ -68,15 +51,10 @@
 
 
     mw.menu_edit_items = function ($menu_name, $selector) {
-
         mw.$($selector).attr('menu-name', $menu_name);
-
-
         mw.load_module('menu/edit_items', $selector);
         menuSelectorInit();
-
-
-    }
+    };
 
     menuSelectorInit = function (selector) {
 
@@ -89,20 +67,14 @@
         if (items == null) {
             return;
         }
-        if (items.commuter == undefined) {
+        if (!$.fn.commuter) {
             return;
 
         }
         items.commuter(function () {
-
-
             var data = {};
-
-
-            var save_selector = '#custom_link_inline_controller_edit_0';
             var content_id = mw.$("[name='content_id']:checked");
             var categories_id = mw.$("[name='category_id']:checked");
-
 
             if (typeof(mw.menu_curenlty_editing_item_id) != 'undefined' && mw.menu_curenlty_editing_item_id != false) {
                 //	data.id = mw.menu_curenlty_editing_item_id;
@@ -115,7 +87,6 @@
                     if (title_for_item_val) {
                         data.title = title_for_item_val;
                     }
-
                 }
 
                 if (tree_content_id) {
@@ -125,44 +96,23 @@
                 data.id = mw.menu_curenlty_editing_item_id;
                 data.url = null;
 
-
             } else {
-
                 var get_parent_id = $('#add-custom-link-parent-id').val();
                 if (get_parent_id) {
                     data.parent_id = get_parent_id;
                 }
-
             }
-
 
             data.content_id = content_id.val();
             data.categories_id = categories_id.val();
-
-
-            var el = this;
-
             content_id.val('');
             categories_id.val('');
-
-
             $.post("<?php print api_link('content/menu_item_save'); ?>", data, function (msg) {
-                // mw.reload_module('menu');
                 parent.mw.reload_module('menu');
-
                 mw.reload_module('menu/edit_items');
-
-
             });
-
-
-            //  mw.menu_save_new_item(save_selector);
-            //mw.reload_module('menu/edit_items');
-
             mw.$(selector).hide();
         });
-
-
     }
 
     view_all_subs = function () {
@@ -189,76 +139,13 @@
     cancel_editing_menu = function (id) {
         $("#menu-item-" + id).removeClass('active');
         $("#edit-menu_item_edit_wrap-" + id).remove();
-    }
+    };
 
 
     $(document).ready(function () {
-
         menuSelectorInit();
-        $.get("<?php print api_url('content/get_admin_js_tree_json'); ?>", function (tdata) {
-            pagesMenuTreeSelector = new mw.tree({
-                element: '#tree-selector',
-                data: tdata,
-                selectable: true,
-                singleSelect: true
-                //filter:{type:'page'}
-            });
-            $(pagesMenuTreeSelector).on('selectionChange', function (e, selectedData) {
-                var item = selectedData[0];
-                var data = {};
-                if (item.type == 'page') {
-                    data.content_id = item.id;
-                }
-                if (item.type == 'category') {
-                    data.categories_id = item.id;
-                }
-
-                data.parent_id = $("#add-custom-link-parent-id").val();
-                requestLink()
-
-                $.post("<?php print api_link('content/menu_item_save'); ?>", data, function (msg) {
-                    parent.mw.reload_module('menu');
-                    mw.reload_module('menu/edit_items');
-
-
-                    //
-                    // var m = mw.$('#module-settings-' + curr.id)[0];
-                    // m.scrollIntoView();
-                    // mw.tools.highlight(m);
-
-
-
-                });
-            })
-        });
-
     });
 
-   /* if (typeof mw.menu_save_new_item !== 'function') {
-        mw.menu_save_new_item = function (selector, no_reload) {
-
-
-            mw.form.post(selector, '<?php print api_link('content/menu_item_save'); ?>', function () {
-
-                mw.$('#<?php print $params['id'] ?>').removeAttr('new-menu-id');
-                if (no_reload === undefined) {
-                    mw.reload_module('menu/edit_items');
-                }
-
-
-                if (self !== parent && typeof parent.mw === 'object') {
-                    parent.mw.reload_module('menu');
-                }
-                menuSelectorInit();
-                alert(23231221);
-
-
-
-
-
-            });
-        }
-    }*/
 </script>
 <?php $menus = get_menus(); ?>
 <?php

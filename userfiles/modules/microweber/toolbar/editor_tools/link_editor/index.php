@@ -2,9 +2,25 @@
     mw.require("forms.js");
     mw.require("files.js");
     mw.require("tools.js");
+    mw.require("instruments.js");
 </script>
 
 <script type="text/javascript">
+
+    var _created = false;
+    var createFilePicker = function () {
+        if(!_created){
+            _created = true;
+            var filepicker = mw.instruments.file({
+                mode: 'inline'
+            });
+            mw.$('#file_section').append(filepicker.frame);
+            filepicker.handler.on('change', function (e, url) {
+                var filename = url.split('/').pop();
+                setACValue(url, '_self', filename)
+            })
+        }
+    };
 
     var is_searching = false;
     var hash = location.hash.replace(/#/g, "") || 'insert_link';
@@ -45,60 +61,10 @@
     };
 
     $(document).ready(function () {
-        Progress = mw.$('#mw-upload-progress');
-        ProgressBar = Progress.find('.mw-ui-progress-bar');
-        ProgressInfo = Progress.find('.mw-ui-progress-info');
-        ProgressPercent = Progress.find('.mw-ui-progress-percent');
-        ProgressDoneHTML = '<span class="ico iDone" style="top:-6px;"></span>&nbsp;<?php _e("Done! All files have been uploaded"); ?>.';
-        ProgressErrorHTML = function (filename) {
-            return '<span class="ico iRemove" style="top:-6px;"></span>&nbsp;<?php _e("Error"); ?>! "' + filename + '" - <?php _e("Invalid filetype"); ?>.';
-        };
 
         mw.tools.dropdown();
 
         dd_autocomplete('#dd_pages_search');
-
-        var frame = mw.files.uploader({name: 'upload_file_link', filetypes: 'all', multiple: false});
-
-        var frame_holder = mw.$("#upload_frame");
-
-        frame.width = frame_holder.width();
-
-        frame.height = frame_holder.height();
-
-        frame.className += ' mw_upload_frame';
-        $(frame).on("progress", function (frame, file) {
-            Progress.show();
-            ProgressBar.width(file.percent + '%');
-            ProgressInfo.html(file.name);
-            ProgressPercent.html(file.percent + '%');
-        });
-        $(frame).on("done", function (frame, item) {
-            ProgressBar.width('0%');
-            ProgressPercent.html('');
-            ProgressInfo.html(ProgressDoneHTML);
-            parent.mw.tools.modal.remove('mw_rte_link');
-            Progress.hide();
-        });
-
-        $(frame).on("error", function (frame, file) {
-            ProgressBar.width('0%');
-            ProgressPercent.html('');
-            ProgressInfo.html(ProgressErrorHTML(file.name));
-            Progress.hide();
-        });
-
-        $(frame).on("FilesAdded", function (frame, files_array, runtime) {
-            if (runtime == 'html4') {
-                ProgressInfo.html('<?php _e("Uploading"); ?> - "' + files_array[0].name + '" ...');
-            }
-            Progress.show()
-        });
-        $(frame).on("FileUploaded", function (frame, item) {
-            setACValue(item.src);
-        });
-
-        frame_holder.append(frame);
 
         mw.$("#insert_email").click(function () {
             var val = mwd.getElementById('email_field').value;
@@ -128,7 +94,10 @@
         });
         LinkTabs = mw.tabs({
             nav: ".mw-ui-btn-nav-tabs a",
-            tabs: ".tab"
+            tabs: ".tab",
+            onclick: function(){
+                createFilePicker()
+            }
         });
     });
 
@@ -142,20 +111,9 @@
         position: relative;
     }
 
-
-    #upload_frame {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        z-index: 1;
-        top: 0;
-        left: 0;
-    }
-
     #tabs .tab {
         display: none;
     }
-
 
     .mw-ui-row-nodrop, .media-search-holder {
         margin-bottom: 12px;
@@ -186,7 +144,6 @@
         display: block;
         padding: 10px 12px;
         cursor: pointer;
-
     }
 
     #available_elements a:hover {
@@ -244,15 +201,7 @@
             </div>
             <div class="tab">
                 <div class="media-search-holder">
-                    <div class="mw-ui-btn mw-ui-btn-big w100">
-                        <div id="upload_frame"></div>
-                        <span class="mw-icon-upload"></span><?php _e("Upload"); ?>
-                    </div>
-                </div>
-                <div class="mw-ui-progress" id="mw-upload-progress" style="width: 100%;display: none">
-                    <div class="mw-ui-progress-bar" style="width: 0%;"></div>
-                    <div class="mw-ui-progress-info"></div>
-                    <span class="mw-ui-progress-percent"></span>
+                    <div id="file_section"></div>
                 </div>
             </div>
             <div class="tab">
@@ -298,14 +247,10 @@
                         var selected = $('#layouts-selector input:checked');
                         var val = top.location.href.split('#')[0] + '#mw@' + selected[0].id;
                         setACValue(val, '_self', mw.$('#ltext').val() || selected[0].id);
-
                     };
                     $(document).ready(function () {
                         var layoutsData = [];
                         var layouts = top.mw.$('.module[data-type="layouts"]');
-
-
-
                         layouts.each(function () {
                             layoutsData.push({
                                 name: this.getAttribute('template').split('.')[0],
@@ -323,15 +268,9 @@
                             });
                             list.append(li);
                         });
-
-
                         if(layoutsData.length > 0){
                             $('.page-layout-btn').show()
                         }
-
-
-
-
                     });
                 </script>
 

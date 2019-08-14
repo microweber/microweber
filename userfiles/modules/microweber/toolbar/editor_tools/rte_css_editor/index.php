@@ -20,6 +20,25 @@
 var ActiveNode = null;
 
 
+var reset = function(){
+    if(!ActiveNode){
+        return;
+    }
+    var sel = mw.tools.generateSelectorForNode(ActiveNode);
+    var data = {};
+    data[sel] = {
+        selector: sel,
+        value: "reset"
+    };
+
+    $.post(mw.settings.api_url + "current_template_save_custom_css", data, function(data){
+        mw.notification.success('Element styles restored')
+        mw.tools.refresh(top.document.querySelector('link[href*="live_edit.css"]'))
+    }).fail(function(){
+
+    });
+};
+
 
 var CSSShadow;
 
@@ -92,6 +111,15 @@ var activeTree = function(){
         saveState: false,
         selectable: true,
         singleSelect:true,
+        contextMenu: [
+            {
+                title: 'Reset styles',
+                icon: 'mw-icon-reload',
+                action: function() {
+                    reset()
+                }
+            }
+        ]
     });
 
     _activeTree.openAll();

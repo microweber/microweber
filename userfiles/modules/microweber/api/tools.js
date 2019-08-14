@@ -2472,7 +2472,8 @@ mw.tools = {
             var modal = mw.modal({
                 html: html,
                 width: 400,
-                height: 200,
+                height: 'auto',
+                autoHeight: true,
                 overlay: false,
                 name: "mw_confirm_modal",
                 template: "mw_modal_basic"
@@ -4610,8 +4611,14 @@ $.fn.mwDialog = function(conf){
         width: 'auto'
     };
     var settings = $.extend({}, defaults, options, conf);
+    if(conf === 'close' || conf === 'hide'){
+        if(el._dialog){
+            el._dialog.remove()
+        }
+    }
     $(el).before('<mw-dialog-temp id="'+idEl+'"></mw-dialog-temp>');
     var dialog = mw.dialog(settings);
+    el._dialog = dialog;
     dialog.dialogContainer.appendChild(el);
     $(el).show();
     if(settings.width === 'auto'){
@@ -4620,7 +4627,8 @@ $.fn.mwDialog = function(conf){
     }
     $(dialog).on('BeforeRemove', function(){
         mw.$('#' + idEl).replaceWith(el);
-        $(el).hide()
+        $(el).hide();
+        el._dialog = null;
     });
     return this;
 };
@@ -5539,16 +5547,16 @@ mw.image = {
         }
     },
     settings: function () {
-        var modal = mw.tools.modal.frame({
+        //var modal = mw.tools.modal.frame({
+        var modal = mw.dialogIframe({
             url: 'imageeditor',
             template: "mw_modal_basic",
             overlay: true,
             width: '600',
-            height: "80%",
+            height: "auto",
+            autoHeight: true,
             name: 'mw-image-settings-modal'
         });
-        modal.overlay.style.backgroundColor = 'white';
-        mw.$(modal.main).css('max-height', 600);
     }
 };
 

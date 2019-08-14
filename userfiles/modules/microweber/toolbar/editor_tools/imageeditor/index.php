@@ -35,7 +35,7 @@
         .nav-actions{
             float: right;
         }
-        
+
         @media (max-width:550px){
             .nav-actions{
                 clear: both;
@@ -54,11 +54,24 @@
                 padding-right: 0px;
             }
         }
-        
+
         #mwimagecurrent{
             display: block;
             margin: auto;
         }
+
+        #background-properties{
+            clear: both;
+            padding-top: 12px;
+        }
+
+        .s-field select{
+            width: 170px;
+        }
+        .s-field + .s-field{
+            padding-top: 10px;
+        }
+
 
 
     </style>
@@ -78,11 +91,11 @@
                 <div class="mw-ui-btn-nav pull-left" style="margin-right:12px">
 
 
-          <span class="mw-ui-btn mw-ui-btn-icon" onclick="mw.createCropTool();">
-            <span class="mw-icon-crop"></span>
+          <span class="mw-ui-btn" onclick="mw.createCropTool();">
+            <span class="mw-icon-crop"></span> <?php _e('Crop') ?>
           </span>
           <span class="mw-ui-btn mw-ui-btn-icon" onclick="mw.image.rotate(mw.image.current);mw.image.current_need_resize = true;mw.$('#mw_image_reset').removeClass('disabled')">
-            <span class="mw-icon-app-refresh-empty"></span>
+            <span class="mw-icon-app-refresh-empty"></span> <?php _e('Rotate'); ?>
           </span>
 
                 </div>
@@ -98,6 +111,44 @@
                     </div>
                 </div>
 
+                <div id="background-properties" style="display: none;">
+                        <div class="s-field">
+                            <label>Size</label>
+                            <div class="s-field-content">
+                                <div class="mw-field" data-size="medium">
+                                    <select type="text" class="regular" data-prop="backgroundSize">
+                                        <option value="auto">Auto</option>
+                                        <option value="contain">Fit</option>
+                                        <option value="cover">Cover</option>
+                                        <option value="100% 100%">Scale</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="s-field">
+                            <label>Position</label>
+                            <div class="s-field-content">
+                                <div class="mw-field" data-size="medium">
+                                    <select type="text" class="regular" data-prop="backgroundPosition">
+                                        <option value="0% 0%">Left Top</option>
+                                        <option value="50% 0%">Center Top</option>
+                                        <option value="100% 0%">Right Top</option>
+
+                                        <option value="0% 50%">Left Center</option>
+                                        <option value="50% 50%">Center Center</option>
+                                        <option value="100% 50%">Right Center</option>
+
+                                        <option value="0% 100%">Left Bottom</option>
+                                        <option value="50% 100%">Center Bottom</option>
+                                        <option value="100% 100%">Right Bottom</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                </div>
+
 
             </div>
 
@@ -111,6 +162,8 @@
                 </script>
                 <script>
 
+                    isBG = false;
+
 
                   CurrSRC = function(b){
                     var curr = parent.mw.image.currentResizing ? parent.mw.image.currentResizing[0] : new Image();
@@ -123,6 +176,7 @@
                       }
                     }
                     else{
+                        isBG = {};
                       if(!b){
 
                         return mw.CSSParser(curr)
@@ -158,12 +212,9 @@
                       }
 
                       $("#mwimagecurrentoverlay").css('backgroundColor', final)
-                  }
-                  $(document).ready(function(){
+                  };
 
-//                      if(typeof(parent.mw.image.currentResizing) == 'null' ) {
-//                          return;
-//                      }
+                  $(document).ready(function(){
 
                       window.top.mw.on('imageSrcChanged', function(e, node, url){
                         if(url != $('#mwimagecurrent')[0].src){
@@ -180,9 +231,9 @@
                       SelectedImage = parent.mw.$('.element-current')[0];
                   }
 
-                  if(!window.SelectedImage){
-                      SelectedImage = new Image();
-                  };
+                      if(!window.SelectedImage){
+                          SelectedImage = new Image();
+                      }
 
                       if(SelectedImage.nodeName != 'IMG'){
                           $(".imeditor-image-description,.imeditor-image-link").remove()
@@ -336,8 +387,17 @@
             alt = SelectedImage.alt;
         mw.$("#the-image-holder").html("<img id='mwimagecurrent' src='" + src + "' /><span id='mwimagecurrentoverlay'></span>");
 
+        if(isBG){
+            mw.$('#background-properties')
+                .show()
+                .find('select')
+                .on('change input', function () {
+                    isBG[this.dataset.prop] = $(this).val()
+                });
+        }
+
          if(!!window.previewbg){
-          $("#mwimagecurrentoverlay").css('backgroundColor', previewbg) 
+          $("#mwimagecurrentoverlay").css('backgroundColor', previewbg)
          }
 
 
@@ -347,10 +407,14 @@
         if(!!title)mw.$("#image-title").val(title);
         if(!!alt)mw.$("#image-alt").val(alt);
 
-        mw.$(".mw-ui-btn-savetheimage").click(function () {
+        mw.$(".mw-ui-btn-savetheimage").on('click', function () {
 
 
+            console.log(SelectedImage, isBG)
+            if(isBG) {
+                $(SelectedImage).css(isBG)
 
+            }
             CurrSRC(mw.image.current.src)
             if(!!mw.image.current_align){
                 SelectedImage.align = mw.image.current_align;
@@ -367,9 +431,8 @@
                     SelectedImage.style.width = w + 'px';
                     SelectedImage.style.height = 'auto';
                     // parent.mw.wysiwyg.normalizeBase64Image(theImage);
-                    var modal = parent.mwd.getElementById('mw-image-settings-modal');
-                    if(modal){
-                        modal.modal.remove();
+                    if(window.thismodal) {
+                        thismodal.remove()
                     }
 
                 });
@@ -393,10 +456,10 @@
 
             window.top.$(window.top).trigger('imageSrcChanged', [SelectedImage, CurrSRC()])
 
-            var modal =  parent.document.getElementById('mw-image-settings-modal');
-            if(modal){
-                modal.modal.remove();
+            if(window.thismodal){
+                thismodal.remove()
             }
+
 
 
         });

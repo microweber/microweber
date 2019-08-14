@@ -7,7 +7,7 @@ mw.instruments = {
         frame.className = 'mw-instrument-frame';
         frame.frameBorder = '0';
         $(frame).css(settings.css || {width: '100%'}).on('load', function () {
-            this.contentWindow.thismodal = this;
+            this.contentWindow.thisframe= this;
             if(!settings.css || !settings.css.height) {
                 mw.tools.iframeAutoHeight(this);
             }
@@ -42,16 +42,48 @@ mw.instruments = {
         } else {
             return {};
         }
-
-
         var id = mw.id();
-
         var final = {
             frame: frame,
             dialog: dialog,
             handler: $({}),
             id: id,
-            window: window,
+            window: window
+        };
+        this.handler(id, final);
+        $(frame).on('load', function(url, target, text){
+            this.contentWindow.mw.instrumentData = final;
+        });
+        return final;
+    },
+    file: function(config){
+        config = config || {};
+        var defaults = {
+            mode: 'dialog' // 'dialog', 'inline'
+        };
+        var settings = $.extend({}, defaults, config);
+        var frame, dialog;
+        if(settings.mode === 'inline'){
+            frame = this._create({
+                url: 'file_picker'
+            });
+        } else if(settings.mode === 'dialog') {
+            dialog = mw.dialogIframe({
+                url:' file_picker',
+                height: 'auto',
+                autoHeight: true
+            });
+            frame = dialog.iframe;
+        } else {
+            return {};
+        }
+        var id = mw.id();
+        var final = {
+            frame: frame,
+            dialog: dialog,
+            handler: $({}),
+            id: id,
+            window: window
         };
         this.handler(id, final);
         $(frame).on('load', function(url, target, text){
