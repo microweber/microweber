@@ -362,24 +362,14 @@ trait QueryFilter
                                     $join->whereIn('categories_items.parent_id', $ids)->distinct();
 
 
-                                    foreach ($ids as $cat_id) {
-                                        //    $join->where('categories_items.parent_id', intval($cat_id));
-                                    }
-
-
-//                                    foreach ($ids as $cat_id) {
-//                                        $join->where('categories_items.parent_id', $cat_id);
-//                                    }
-
                                 });
+
                                 // $query->whereIn('categories_items.parent_id', $ids);
-                                foreach ($ids as $cat_id) {
-                                    // $query->where('categories_items.parent_id', $cat_id);
-                                }
-
-
                                 //    $query = $query->join('categories_items as categories_items_joined_table', 'categories_items_joined_table.rel_id', '=', $table . '.id')->where('categories_items_joined_table.rel_type', $table);
                             }
+
+                            $query = $query->distinct();
+
 
 
 //
@@ -398,7 +388,7 @@ trait QueryFilter
 //                               $query->where('categories_items_joined_table.parent_id', $cat_id);
 //                            }
 
-                            //    $query = $query->distinct();
+                          //    $query = $query->distinct();
 
 
 //                        $query = $query->join('categories_items as categories_items_joined_table', 'categories_items_joined_table.rel_id', '=', $table . '.id')

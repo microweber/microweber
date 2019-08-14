@@ -190,9 +190,7 @@ class ContentManagerCrud extends Crud
             $extra_data = true;
         }
 
-
-
-
+ 
 
         $get = parent::get($params);
 

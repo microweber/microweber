@@ -22,6 +22,7 @@ if (!isset($parent) or $parent == '') {
     $parent = 0;
 }
 
+
 //$cats = get_categories('no_limit=true&order_by=position asc&rel_id=[not_null]&parent_id=' . intval($parent));
 //if(!$cats or $show_only_for_parent){
 //    $cats = get_categories('no_limit=true&order_by=position asc&rel_id=[not_null]&id=' . intval($parent));
@@ -42,6 +43,8 @@ if ($selected_page) {
         $selected_pages[] = $sel;
     }
 }
+
+
 if ($selected_category) {
     $selected_category_explode = explode(',', $selected_category);
     foreach ($selected_category_explode as $sel) {
@@ -49,41 +52,37 @@ if ($selected_category) {
     }
 }
 
-if ($selected_pages and $selected_cats) {
+if ($selected_pages) {
     foreach ($selected_pages as $sel_p) {
         $pp = get_content_by_id($sel_p);
         $pp['is_page'] = true;
         $cats[] = $pp;
-        foreach ($selected_cats as $sk => $sel_c) {
-            $category_page_check = get_page_for_category($sel_c);
-            $cat_data = get_category_by_id($sel_c);
-            if ($category_page_check == $sel_p) {
-                $cats[] = $cat_data;
-                unset($selected_cats[$sk]);
-            } else {
-                $selected_cats2[] = $cat_data;
+        if ($selected_cats) {
+            foreach ($selected_cats as $sk => $sel_c) {
+                $category_page_check = get_page_for_category($sel_c);
+
+                $cat_data = get_category_by_id($sel_c);
+                if (isset($category_page_check['id']) and $category_page_check['id'] == $sel_p) {
+                    $cats[] = $cat_data;
+
+                    unset($selected_cats[$sk]);
+                } else {
+                 //   $selected_cats2[] = $cat_data;
+                }
             }
         }
     }
 }
 
-if($cats and $selected_cats2){
-    $append_cats = array();
-    foreach ($selected_cats2 as $selected_cat2){
-        $is_found = false;
-        foreach ($cats as $selected_cat){
-            if (isset($selected_cat2['id'])  and isset($selected_cat['id'])) {
-                if($selected_cat2['id'] == $selected_cat['id']){
-                    $is_found = true;
-                }
-            }
-        }
-        if(!$is_found){
-            $append_cats[] = $selected_cat2;
+if ($selected_cats) {
+
+    $selected_cats_ids = $selected_cats;
+    foreach ($selected_cats_ids as $selected_cats_id) {
+        $cat_data = get_category_by_id($selected_cats_id);
+        if ($cat_data) {
+            $cats[] = $cat_data;
         }
     }
-
-    $cats = array_merge($cats,$append_cats);
 }
 
 
@@ -91,7 +90,7 @@ if($cats and $selected_cats2){
 if (!empty($cats)) {
     foreach ($cats as $k => $cat) {
 
-        if (isset($cat['is_page']) ) {
+        if (isset($cat['is_page'])) {
             $cat['picture'] = get_picture($cat['id'], 'content');
             $cat['url'] = content_link($cat['id']);
 
@@ -116,41 +115,6 @@ if (!empty($cats)) {
 
     }
 }
-
-
-//dd($cats);
-
-
-
-
-//d($selected_pages);
-//d($parent);
-//d($selected_page);
-
- /*
-
-if (!empty($selected_cats)) {
-    foreach ($selected_cats as $k => $cat) {
-
-        $cat['picture'] = get_picture($cat['id'], 'category');
-
-        if ($cat['rel_type'] == 'content') {
-            $latest = get_content("order_by=position desc&limit=30&category=" . $cat['id']);
-
-            if (!$cat['picture'] and isset($latest[0])) {
-                $latest_product = $latest[0];
-                $cat['picture'] = get_picture($latest_product['id']);
-            }
-
-            if ($latest) {
-                $cat['content_items'] = $latest;
-            }
-
-        }
-        $selected_cats[$k] = $cat;
-
-    }
-}*/
 
 $selected_cats = $cats;
 if (!$selected_cats) {

@@ -23,9 +23,9 @@ if (isset($_COOKIE['mw_exp'])) {
     <script type="text/javascript">
         mw.settings.liveEdit = true;
         mw.require("liveadmin.js");
-        mw.require("events.js");
+     //   mw.require("events.js");
         mw.require("url.js");
-        mw.require("tools.js");
+        //mw.require("tools.js");
         mw.require("wysiwyg.js");
         mw.require("css_parser.js");
         mw.require("style_editors.js");
@@ -178,6 +178,8 @@ if (isset($_COOKIE['mw_exp'])) {
     <script>
         $(document).ready(function () {
 
+
+
             if (!mw.cookie.get('mw-back-to-live-edit')) {
                 mw.cookie.set('mw-back-to-live-edit', true)
             }
@@ -312,10 +314,13 @@ if (isset($_COOKIE['mw_exp'])) {
                             }
                         })
 
-                    }, 10)
+                    }, 500)
                 });
-            }, 10)
+
+            }, 1000)
         })
+
+
     </script>
 
     <div class="mw-defaults" id="live_edit_toolbar_holder" <?php print lang_attributes(); ?>>
