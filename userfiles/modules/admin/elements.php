@@ -58,8 +58,7 @@ function mw_reload_all_modules(){
 
 <table width=" 100%" border="1">
   <tr>
-    <td><module type="categories/selector" rel="elements" id="modules_admin_categories_<?php print $rand; ?>" /></td>
-    <td><module type="admin/modules/elements" id="modules_admin_<?php print $rand; ?>"    /></td>
+     <td><module type="admin/modules/elements" id="modules_admin_<?php print $rand; ?>"    /></td>
   </tr>
 </table>
 

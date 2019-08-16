@@ -52,6 +52,7 @@
     });
 
     function mw_reload_all_modules() {
+        mw_reload_all_elements()
         mw.notification.success('Reloading...', 3000)
         mw.tools.loading(true);
 
@@ -59,12 +60,23 @@
         mw.$('#modules_admin_<?php print $params['id']; ?>').attr('cleanup_db', 1);
         $(".reload-module-btn").addClass('reloading')
         mw.load_module('admin/modules/manage', '#modules_admin_<?php print $params['id']; ?>', function () {
+
             mw.notification.success('Modules have been reloaded', 5000)
             mw.$('#modules_admin_<?php print $params['id']; ?>').removeAttr('cleanup_db');
             $(".reload-module-btn").removeClass('reloading');
             mw.tools.loading(false);
         });
     }
+
+
+    function mw_reload_all_elements(){
+        mw.tools.loading(true);
+        mw.$('#reload_elements_empty_holder').attr('reload_modules',1);
+        mw.$('#reload_elements_empty_holder').attr('cleanup_db',1);
+        mw.load_module('admin/modules/elements','#reload_elements_empty_holder',function () {  mw.tools.loading(false);});
+    }
+
+
 
     _modulesSort = function () {
         var hash = mw.url.getHashParams(window.location.hash);
@@ -323,3 +335,7 @@
 
     </div>
 </div>
+
+
+
+<div id="reload_elements_empty_holder" style="display: none"></div>
