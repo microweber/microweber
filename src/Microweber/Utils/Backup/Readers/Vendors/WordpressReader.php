@@ -29,7 +29,7 @@ trait WordpressReader {
 							$price = $itemChildNode->nodeValue;
 						}
 						if ($itemChildNode->nodeName == 'content:encoded') {
-							$contentDecoded = $itemChildNode->nodeValue;
+							$contentDecoded = $itemChildNode->nodeValue; 
 						}
 					}
 				}
