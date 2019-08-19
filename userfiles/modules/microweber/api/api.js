@@ -637,7 +637,7 @@ mw.getScripts = function (array, callback) {
       mw.$(selector).replaceWith($(docdata.body).html());
       if(hasDone){
           setTimeout(function(){
-              //obj.done.call($(selector)[0], data);
+              obj.done.call($(selector)[0], data);
               mw.trigger('moduleLoaded');
           }, 33);
       }

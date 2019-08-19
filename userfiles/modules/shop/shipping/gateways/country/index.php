@@ -1,4 +1,4 @@
-<?php $rand = $module_wrapper_id = 'shipping_country_' . crc32($params['module']). crc32($params['id']);
+<?php $rand = $module_wrapper_id = 'shipping_country_' . md5($params['module']). md5($params['id']);
 
 
 $data = mw('shop\shipping\gateways\country\shipping_to_country')->get("is_active=1");
@@ -135,4 +135,3 @@ if (isset($template_file) and ($template_file) != false and is_file($template_fi
     //print 'No default template for '.  $config['module'] .' is found';
 }
 
- 

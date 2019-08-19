@@ -3844,7 +3844,7 @@ mw.tools = {
         var settings = $.extend({}, {
             content: '<div class="module-modal-content" id="' + id_content + '"></div>',
             id: id
-        }, modalOptions);
+        }, modalOptions, {skin: 'default'});
 
         var xhr = false;
         var openiframe = false;
@@ -3873,6 +3873,8 @@ mw.tools = {
             return mw.tools.modal.frame(settings);
 
         } else {
+            delete settings.skin;
+            delete settings.template;
             var modal = top.mw.dialog(settings);
             xhr = top.mw.load_module(module_type, '#' + id_content, null, params);
         }
