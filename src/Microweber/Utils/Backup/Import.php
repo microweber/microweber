@@ -17,7 +17,7 @@ class Import
 	 *
 	 * @var string
 	 */
-	public $type;
+	public $type; 
 
 	/**
 	 * The import file path
