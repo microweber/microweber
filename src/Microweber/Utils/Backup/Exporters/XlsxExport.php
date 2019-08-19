@@ -22,6 +22,11 @@ class XlsxExport extends DefaultExport
 				
 				$xlsxFileName = $this->_generateFilename($tableName);
 				
+				if (is_file($xlsxFileName['filepath'])) {
+					$exportedFiles[] = $xlsxFileName;
+					continue;
+				}
+				
 				$spreadsheet = SpreadsheetHelper::newSpreadsheet();
 				$spreadsheet->addRow(array_keys($exportData[0]));
 				$spreadsheet->addRows($exportData);
