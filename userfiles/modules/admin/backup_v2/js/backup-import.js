@@ -33,7 +33,7 @@ mw.backup_import = {
 		'<h3>Import File Options</h3>'+
 		'<br />'+
 		'<label class="mw-ui-check">'+
-		'<input type="checkbox" />'+
+		'<input type="checkbox" class="js-backup-import-overwrite-by-id" value="1" />'+
 		'<span></span><span>Overwrite existing content by ID.</span>'+
 		'</label>'+
 		'<br /><br />'+
@@ -50,7 +50,7 @@ mw.backup_import = {
 		});
 		
 		data = {};
-		data.id = src; 
+		data.id = src;
 	},
 	
 	start_import_button: function (src) {
@@ -61,6 +61,9 @@ mw.backup_import = {
 	},
 	
 	start_import: function () {
+		
+		data.overwrite_by_id = $('.js-backup-import-overwrite-by-id').val();
+		
 		$.ajax({
 		  dataType: "json",
 		  url: mw.settings.api_url+'Microweber/Utils/BackupV2/import',
