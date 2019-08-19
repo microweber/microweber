@@ -153,7 +153,7 @@ mw.backup_export = {
 	
 	export_fullbackup_start: function() {
 		$('.js-export-log').html('Generating full backup...');
-        mw.backup_export.export_selected('all');
+        mw.backup_export.export_selected('all&format=' + $('.js-export-format').val());
 	},
 	
 	export_start: function () {
