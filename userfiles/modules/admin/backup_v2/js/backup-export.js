@@ -112,7 +112,7 @@ mw.backup_export = {
 		$.get(mw.settings.api_url+'Microweber/Utils/BackupV2/export', manifest , function(exportData) {
 			
 			if (typeof(exportData.data.download) !== 'undefined') {
-				mw.backup_export.get_log_check('stop');
+				mw.backup_export.get_log_check('stop');  
 				$('.js-export-log').html('<a href="'+exportData.data.download+'" class="mw-ui-link" style="font-size:14px;font-weight:bold;"><i class="mw-icon-download"></i> Download your backup</a>');
 			 	mw.notification.success(exportData.success);
 			} else {
