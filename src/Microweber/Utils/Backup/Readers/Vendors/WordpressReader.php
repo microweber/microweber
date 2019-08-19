@@ -5,12 +5,64 @@ use Microweber\Providers\UrlManager;
 
 trait WordpressReader {
 	
-	protected function readWordpress($items)
+	protected function readWordpress()
+	{
+		$urlManager = new UrlManager();
+		
+		$xml = new \DOMDocument();
+		$xml->load($this->file);
+		
+		$i=0;
+		foreach($xml->getElementsByTagName('item') as $item) {
+			
+			$title = false;
+			$contentDecoded = false;
+			$price = false;
+			
+			if ($item->hasChildNodes() && $item->childNodes->length > 0) {
+				foreach ($item->childNodes as $itemChildNode) {
+					if (isset($itemChildNode->nodeName)) {
+						if ($itemChildNode->nodeName == 'title') {
+							$title = $itemChildNode->nodeValue;
+						}
+						if ($itemChildNode->nodeName == 'price') {
+							$price = $itemChildNode->nodeValue;
+						}
+						if ($itemChildNode->nodeName == 'content:encoded') {
+							$contentDecoded = $itemChildNode->nodeValue;
+						}
+					}
+				}
+			}
+			
+			$readyContent = array();
+			$readyContent['title'] = $title;
+			$readyContent['url'] = $urlManager->slug($title);
+			$readyContent['content'] = $contentDecoded;
+			$readyContent['id'] = $i;
+			$readyContent['content_type'] = 'post';
+			$readyContent['subtype'] = 'post';
+			$readyContent['is_active'] = 1;
+			
+			
+			if ($price) {
+				$readyContent['custom_field_price'] = $price;
+				$readyContent['content_type'] = 'product';
+			}
+			
+			$content[] = $readyContent;
+			$i++;
+		}
+		
+		return array('content' => $content);
+	}
+	
+	protected function oldWordRead()
 	{
 		$content = array();
 		
 		$i = 0;
-		foreach ($items as $item) {
+		foreach ($xml->channel->item as $item) {
 			
 			$urlManager = new UrlManager();
 			
