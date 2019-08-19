@@ -8,46 +8,7 @@ class XlsxReader extends DefaultReader
 
 	public function readData()
 	{
-		$tables = $this->_getTableList();
-		$data = $this->_readSpreadsheet();
-
-		if (isset($data[0]['rel_type'])) {
-			$data = array(
-				$data[0]['rel_type'] => $data
-			);
-		}
-
-		$filename = basename($this->file);
-		$fileExtension = get_file_extension($this->file);
-		$importToTable = str_replace('.' . $fileExtension, false, $filename);
-
-		$foundedTable = false;
-		foreach ($tables as $table) {
-			if (strpos($importToTable, $table) !== false) {
-				$foundedTable = $table;
-				break;
-			}
-		}
-
-		if ($foundedTable) {
-			return array(
-				$foundedTable => $data
-			);
-		} else {
-			return false;
-		}
-	}
-
-	private function _getTableList()
-	{
-		$readyTables = array();
-
-		$tables = mw()->database_manager->get_tables_list();
-		foreach ($tables as $table) {
-			$readyTables[] = str_replace(mw()->database_manager->get_prefix(), false, $table);
-		}
-
-		return $readyTables;
+		return $this->_readSpreadsheet();
 	}
 
 	private function _readSpreadsheet()
