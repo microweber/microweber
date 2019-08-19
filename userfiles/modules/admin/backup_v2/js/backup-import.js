@@ -32,7 +32,7 @@ mw.backup_import = {
 		var importOptions = '<div>'+
 		'<h3>Import File Options</h3>'+
 		'<br />'+
-		'<label class="mw-ui-check">'+
+		'<label class="mw-ui-check">'+ 
 		'<input type="checkbox" class="js-backup-import-overwrite-by-id" value="1" />'+
 		'<span></span><span>Overwrite existing content by ID.</span>'+
 		'</label>'+
