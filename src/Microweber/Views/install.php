@@ -287,7 +287,17 @@
                                 $check_pass = false;
                                 $server_check_errors['dom'] = _e('The DOM PHP extension must be loaded', true);
                             }
+                            
+                            if (!extension_loaded('curl')) {
+                            	$check_pass = false;
+                            	$server_check_errors['curl'] = _e('The Curl PHP extension must be loaded', true);
+                            }
 
+                            if (!extension_loaded('curl')) {
+                            	$check_pass = false;
+                            	$server_check_errors['curl'] = _e('The Curl PHP extension must be loaded', true);
+                            }
+                        
                             if (!extension_loaded('xml')) {
                                 $check_pass = false;
                                 $server_check_errors['xml'] = _e('The lib-xml PHP extension must be loaded', true);
