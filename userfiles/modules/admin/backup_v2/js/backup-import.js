@@ -50,7 +50,7 @@ mw.backup_import = {
 		});
 		
 		data = {};
-		data.id = src;
+		data.id = src; 
 	},
 	
 	start_import_button: function (src) {
