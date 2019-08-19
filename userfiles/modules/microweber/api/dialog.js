@@ -49,9 +49,13 @@
     };
 
     mw.dialog.get = function (selector) {
-        var el = mw.$(selector),
-            child_cont = el.querySelector('.mw-dialog-holder'),
-            parent_cont = el.parents(".mw-dialog-holder:first");
+        var el = mw.$(selector)[0];
+        if(!el) return false;
+        if(el._dialog) {
+            return el._dialog;
+        }
+        var child_cont = el.querySelector('.mw-dialog-holder');
+        var parent_cont = el.parents(".mw-dialog-holder:first");
         if (child_cont) {
             return child_cont._dialog;
         }
@@ -149,6 +153,14 @@
             }
         };
 
+        this.footer = function (content) {
+            this.dialogFooter = this.options.root.createElement('div');
+            this.dialogFooter.className = 'mw-dialog-footer';
+            if (this.options.footer) {
+                $(this.dialogFooter).append(this.options.footer);
+            }
+        };
+
         this.title = function (title) {
             var root = mw.$('.mw-dialog-title', this.dialogHeader);
             if (typeof title === 'undefined') {
@@ -162,9 +174,7 @@
                 }
             }
         };
-        this.footer = function (content) {
 
-        };
 
         this.build = function () {
             this.dialogMain = this.options.root.createElement('div');
@@ -182,10 +192,10 @@
             this.dialogHolder._dialog = this;
 
             this.header();
+            this.footer();
             this.draggable();
 
-            this.dialogFooter = this.options.root.createElement('div');
-            this.dialogFooter.className = 'mw-dialog-footer';
+
 
             this.dialogContainer = this.options.root.createElement('div');
             this.dialogContainer._dialog = this;

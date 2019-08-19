@@ -2462,21 +2462,20 @@ mw.tools = {
             + '<tr>'
             + '<td align="center" valign="middle"><div class="mw_alert_holder">' + question + '</div></td>'
             + '</tr>'
-            + '<tr>'
-            + '<td class="mw-modal-confirm-actions text-center">'
-            + '<span class="mw-ui-btn" onclick="mw.tools.modal.remove(\'mw_confirm_modal\');"><b>' + mw.msg.cancel + '</b></span> &nbsp; '
-            + '<button class="mw-ui-btn mw-ui-btn-info mw_confirm_modal_ok"><b>' + mw.msg.ok + '</b></button></td>'
-            + '</tr>'
             + '</table>';
+
+        var ok = $('<span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info">'+mw.msg.ok+'</span>');
+        var cancel = $('<span class="mw-ui-btn mw-ui-btn-medium ">' + mw.msg.cancel + '</span>');
+
         if (mw.$("#mw_confirm_modal").length === 0) {
-            var modal = mw.modal({
-                html: html,
+            var modal = mw.dialog({
+                content: html,
                 width: 400,
                 height: 'auto',
                 autoHeight: true,
                 overlay: false,
                 name: "mw_confirm_modal",
-                template: "mw_modal_basic"
+                footer: [cancel, ok]
             });
         }
         else {
@@ -2484,23 +2483,23 @@ mw.tools = {
             var modal = mw.$("#mw_confirm_modal")[0].modal;
         }
 
-        var ok = mw.$('.mw_confirm_modal_ok', modal.main)
 
-        ok.off('click');
-        ok.off('keyup');
         ok.on('keyup', function (e) {
             if (e.keyCode === 13 || e.keyCode === 32) {
                 callback.call(window);
                 modal.remove();
             }
         });
+        cancel.on('click', function () {
+            modal.remove();
+        })
         ok.on('click', function () {
             callback.call(window);
             modal.remove();
         });
         setTimeout(function () {
             mw.$("button.mw_confirm_modal_ok", modal.main).focus();
-        }, 120)
+        }, 120);
         return modal;
     },
     _confirm: function (question, callback) {

@@ -532,11 +532,11 @@ mw.getScripts = function (array, callback) {
 
 
   mw["_"] = function(obj, sendSpecific, DONOTREPLACE) {
-    if(mw.on != undefined){
+    if(mw.on){
         mw.on.DOMChangePause = true;
     }
     var url = typeof obj.url !== 'undefined' ? obj.url : mw.settings.site_url+'module/';
-    var selector = typeof obj.selector !=='undefined' ? obj.selector : '';
+    var selector = typeof obj.selector !== 'undefined' ? obj.selector : '';
     var params =  typeof obj.params !=='undefined' ? obj.params : {};
     var to_send = params;
     if(typeof $(obj.selector)[0] === 'undefined') {
@@ -554,7 +554,7 @@ mw.getScripts = function (array, callback) {
 
 
      // wait between many reloads
-      if(node.id) {
+      if (node.id) {
           if ( mw.temp_reload_module_queue_holder.indexOf(node.id) == -1){
           mw.temp_reload_module_queue_holder.push(node.id);
               setTimeout(function() {
@@ -564,8 +564,7 @@ mw.getScripts = function (array, callback) {
           } else {
               return;
           }
-
-       }
+      }
 
     if (sendSpecific) {
       attrs["class"] !== undefined ? to_send["class"] = attrs["class"].nodeValue : "";
@@ -619,7 +618,7 @@ mw.getScripts = function (array, callback) {
       var docdata = mw.tools.parseHtml(data);
 
       if(storedValues) {
-        $('[name]', docdata).each(function(){
+        mw.$('[name]', docdata).each(function(){
             var el = $(this);
             if(!el.val()) {
                 el.val(storedValues[this.name] || undefined);
@@ -628,6 +627,7 @@ mw.getScripts = function (array, callback) {
         })
       }
 
+      var hasDone = typeof obj.done === 'function';
       var id;
       if (typeof to_send.id  !== 'undefined') {
         id = to_send.id;
@@ -635,23 +635,30 @@ mw.getScripts = function (array, callback) {
         id = docdata.body.querySelector(['id']);
       }
       mw.$(selector).replaceWith($(docdata.body).html());
-      setTimeout(function(){
-          if(typeof obj.done === 'function'){
-              obj.done.call($(selector)[0], data);
-          }
-        mw.trigger('moduleLoaded');
-      }, 33);
-      if(!id){ mw.pauseSave = false;mw.on.DOMChangePause = false;  return false; }
+      if(hasDone){
+          setTimeout(function(){
+              //obj.done.call($(selector)[0], data);
+              mw.trigger('moduleLoaded');
+          }, 33);
+      }
+
+      if(!id){
+          mw.pauseSave = false;
+          mw.on.DOMChangePause = false;
+          return false;
+      }
 
 
       typeof mw.drag !== 'undefined' ? mw.drag.fix_placeholders(true) : '';
       var m = mwd.getElementById(id);
       typeof obj.done === 'function' ? obj.done.call(selector, m) : '';
+
       if(mw.wysiwyg){
         $(m).hasClass("module") ? mw.wysiwyg.init_editables(m) : '' ;
       }
-      if(mw.on){
+      if(mw.on && !hasDone){
         mw.on.moduleReload(id, "", true);
+        mw.trigger('moduleLoaded');
       }
       if (mw.on != undefined) {
         mw.on.DOMChangePause = false;
@@ -899,7 +906,33 @@ mw.user = {
         callback.call(isLogged, isLogged);
     });
   }
-}
+};
+mw.top = function(){
+  var getLastParent = function() {
+      var curr = window.parent;
+      while(curr && mw.tools.canAccessWindow(curr) && curr.mw){
+          parents.push(curr);
+          curr = curr.parent;
+      }
+      return curr;
+  };
+  if(window === top){
+    return window.mw;
+  } else {
+        if(mw.tools.canAccessWindow(top) && top.mw){
+            return top.mw;
+        } else{
+            if(window.top !== window.parent){
+                return getLastParent();
+            }
+            else{
+                return window.mw;
+            }
+        }
+  }
+};
+
+
 
 
 mw.required.push("<?php print mw_includes_url(); ?>api/jquery.js");

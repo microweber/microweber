@@ -165,7 +165,7 @@ mw.Handle = function(options) {
             };
             btn.onclick = function (e) {
                 e.preventDefault();
-                data.action();
+                data.action.call(scope, e, this, data);
             };
         }
         return btn;
@@ -688,6 +688,7 @@ mw._initHandles = {
     columns:function(){
         mw.handleColumns = new mw.Handle({
             id: 'mw-handle-item-columns',
+            className:'mw-handle-type-element',
             menu:[
                 {
                     title: 'One column',

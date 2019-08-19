@@ -99,26 +99,26 @@ $icon = get_option('icon', $params['id']);
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e("Action"); ?></label>
         <select class="mw-ui-field mw_option_field w100" id="action" name="button_action">
-            
+
             <?php /* <option <?php if ($action == '') {print 'selected';} ?> value=""><?php _e("None"); ?></option>*/ ?>
             <option <?php if ($action == 'url' OR $action == '') {
                 print 'selected';
             } ?> value="url">
             <?php _e("Go to link"); ?>
             </option>
-            
+
             <option <?php if ($action == 'popup') {
                 print 'selected';
             } ?> value="popup">
             <?php _e("Open a pop-up window"); ?>
             </option>
-            
+
             <option <?php if ($action == 'submit') {
                 print 'selected';
             } ?> value="submit">
             <?php _e("Submit form"); ?>
             </option>
-            
+
         </select>
     </div>
 
@@ -128,10 +128,17 @@ $icon = get_option('icon', $params['id']);
     </div>
 
     <div id="btn_url_holder">
-        <div class="mw-ui-field-holder">
-            <input type="text" name="url" id="btn btn-default_url" value="<?php print $url; ?>" placeholder="<?php _e("Enter URL"); ?>" class="mw_option_field mw-ui-field w100"/>
+        <div class="mw-ui-btn-nav">
+            <input
+                readonly
+                type="text"
+                name="url"
+                id="btn-default_url"
+                value="<?php print $url; ?>"
+                placeholder="<?php _e("Enter URL"); ?>"
+                class="mw_option_field mw-ui-field"/>
+            <a href="javascript:;" class="mw-ui-btn"><span class="mw-icon-gear"></span></a>
         </div>
-
         <div class="mw-ui-field-holder">
             <label class="mw-ui-check">
                 <input type="checkbox" name="url_blank" value="y" class="mw_option_field"<?php if ($url_blank == 'y'): ?> checked="checked" <?php endif; ?>>
@@ -139,6 +146,39 @@ $icon = get_option('icon', $params['id']);
             </label>
         </div>
     </div>
+
+
+    <script>
+        mw.top().require('instruments.js');
+        var _pickUrl = false;
+        var pickUrl = function(){
+            var conf = {
+                instrument: 'link',
+                id: 'pick-link'
+            };
+            if(!_pickUrl) {
+                _pickUrl = mw.top().instruments.run(conf);
+                _pickUrl.handler.on('change', function(e, val){
+                    mw.$('#btn-default_url').val(val).trigger('change');
+                    mw.top().dialog.get('#pick-link').remove();
+                });
+            } else{
+                mw.top().instruments.run(conf);
+            }
+        };
+
+
+        $(window).on('load', function(){
+            mw.$('#btn_url_holder').find('a, input').on('click', function(){
+                pickUrl();
+            });
+            setTimeout(function () {
+                console.log( $('#btn_url_holder').find('a, input'));
+                console.log( $('#btn_url_holder'));
+            }, 3333)
+        })
+
+    </script>
 
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e("Select Icon"); ?></label>

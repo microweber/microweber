@@ -14,6 +14,61 @@ mw.instruments = {
         });
         return frame;
     },
+    _run: {},
+    run: function(config){
+        if(!config || !config.instrument || !config.id) {
+            return;
+        }
+        config.show = typeof config.show === 'undefined' ? true : config.show;
+        config.width = config.width || 600;
+        if(!this._run[config.id]){
+            var inst = this[config.instrument]({
+                mode: 'inline'
+            });
+            var div = $('<div id="'+config.id+'" />');
+            div.hide();
+            $(document.body).append(div);
+            div.append(inst.frame);
+            this._run[config.id] = inst;
+        }
+        if (config.show) {
+            mw.$('#' + config.id).mwDialog({
+                //id: 'mw-instrument-dialog-' + config.id,
+                width: config.width
+            });
+        }
+        return this._run[config.id];
+    },
+    createMode: function(mode, url, id){
+        var frame, dialog;
+        if(mode === 'inline'){
+            frame = this._create({
+                url: 'link_editor'
+            });
+        } else if(mode === 'dialog') {
+            var exists = mw.dialog.get('#' + id.replace('#', ''));
+            if(exists){
+                exists.show();
+                return {
+                    dialog: exists,
+                    frame: exists.iframe
+                };
+            }
+            dialog = mw.dialogIframe({
+                url: url,
+                height: 'auto',
+                autoHeight: true
+            });
+            frame = dialog.iframe;
+        } else {
+            return {};
+        }
+
+        return {
+            frame: frame,
+            dialog: dialog
+        };
+    },
     _handlers: {},
     handler: function(id, val){
         if(!val) {
