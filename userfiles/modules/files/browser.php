@@ -98,13 +98,13 @@ if(isset($params['viewsize'])){
 
 <span class="pull-right">
 
-
+Thumbnail size:
         <a href="javascript:;" onclick="mw.url.windowHashParam('viewsize', '');"
         class="mw-ui-btn mw-ui-btn-small  ">
-            <span class="mw-icon-images-frame"></span>
+          <?php _e("Small"); ?>
         </a>
         <a href="javascript:;" onclick="mw.url.windowHashParam('viewsize', 'big');"
-            class="mw-ui-btn mw-ui-btn-small  "><span class="mw-icon-image-frame"></span>
+            class="mw-ui-btn mw-ui-btn-small  "><?php _e("Big"); ?>
 
         </a>
         <a href="javascript:;" onclick="mw.url.windowHashParam('path', PreviousFolder);"
@@ -183,7 +183,7 @@ if(isset($params['viewsize'])){
                            onclick="mw.url.windowHashParam('select-file', '<?php print mw()->url_manager->link_to_file($item) ?>'); return false;">
                             <?php $ext = strtolower(get_file_extension($item)); ?>
                             <?php if ($ext == 'jpg' or $ext == 'png' or $ext == 'gif' or $ext == 'jpeg' or $ext == 'bmp'): ?>
-                                <img data-src="<?php print thumbnail(mw()->url_manager->link_to_file($item), $tn_size, $tn_size); ?>"
+                                <img data-src="<?php print thumbnail(mw()->url_manager->link_to_file($item), $tn_size, $tn_size,true); ?>"
                                      class="<?php print basename($item) ?> image-item-not-ready"/>
                             <?php else: ?>
                                 <div class="mw-fileico mw-fileico-<?php print $ext; ?>"><span><?php print $ext; ?></span></div>
@@ -200,7 +200,7 @@ if(isset($params['viewsize'])){
                             <span class="mw-icon-close"
                                   onclick="deleteItem(mwd.getElementById('v<?php print $rand; ?>').value);"></span>
                         </div>
-                    </li>`
+                    </li>
                 <?php endforeach; ?>
             </ul>
             <script>
