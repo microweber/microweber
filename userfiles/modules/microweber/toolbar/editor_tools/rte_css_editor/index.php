@@ -31,8 +31,8 @@ var reset = function(){
         value: "reset"
     };
 
-    $.post(mw.settings.api_url + "current_template_save_custom_css", data, function(data){
-        mw.notification.success('Element styles restored')
+    top.$.post(mw.settings.api_url + "current_template_save_custom_css", data, function(data){
+        mw.notification.success('Element styles restored');
         mw.tools.refresh(top.document.querySelector('link[href*="live_edit.css"]'))
     }).fail(function(){
 
