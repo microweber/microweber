@@ -62,14 +62,15 @@ class Export
 			
 			$zipExportReady = $zipExport->start();
 			
-			// Delete unused ziped files
-			if (isset($export['files'])) {
-				foreach ($export['files'] as $file) {
-					unlink($file['filepath']);
-				}
-			}
-			
 			if (isset($zipExportReady['download']) && !empty($zipExportReady['download'])) {
+				
+				// Delete unused ziped files
+				if (isset($export['files'])) {
+					foreach ($export['files'] as $file) {
+						@unlink($file['filepath']);
+					}
+				}
+				
 				return array(
 					'success' => 'Items are exported',
 					'export_type' => $this->type,
