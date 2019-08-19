@@ -128,7 +128,6 @@ class BackupManager
 			$import = new Import();
 			$import->setType($this->importType);
 			$import->setFile($this->importFile);
-			$import->setOverwriteById($this->importOvewriteById);
 			
 			$content = $import->readContentWithCache();
 			
@@ -138,6 +137,7 @@ class BackupManager
 			
 			$writer = new DatabaseWriter();
 			$writer->setContent($content['data']);
+			$writer->setOverwriteById($this->importOvewriteById);
 			
 			if ($this->importBatch) {
 				$writer->runWriterWithBatch();

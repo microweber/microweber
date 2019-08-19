@@ -27,12 +27,6 @@ class Import
 	public $file;
 
 	/**
-	 * Overwrite by id
-	 * @var bool
-	 */
-	public $ovewriteById;
-	
-	/**
 	 * Set file type
 	 *
 	 * @param string $file
@@ -50,10 +44,6 @@ class Import
 	public function setFile($file)
 	{
 		$this->file = $file;
-	}
-
-	public function setOverwriteById($overwrite) {
-		$this->ovewriteById = $overwrite;
 	}
 	
 	/**

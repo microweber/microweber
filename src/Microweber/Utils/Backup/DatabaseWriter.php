@@ -49,6 +49,12 @@ class DatabaseWriter
 	public $totalSteps = 10;
 	
 	/**
+	 * Overwrite by id
+	 * @var string
+	 */
+	public $overwriteById = false;
+	
+	/**
 	 * The content from backup file
 	 * @var string
 	 */
@@ -79,6 +85,10 @@ class DatabaseWriter
 		}
 		
 		return $this->currentStep;
+	}
+	
+	public function setOverwriteById($overwrite) {
+		$this->overwriteById = $overwrite;
 	}
 	
 	/**
@@ -152,9 +162,15 @@ class DatabaseWriter
 		$dbSelectParams['do_not_replace_site_url'] = 1;
 		$dbSelectParams['fields'] = 'id';
 		
-		foreach(DatabaseDublicateChecker::getRecognizeFields($item['save_to_table']) as $tableField) {
-			if (isset($item[$tableField])) {
-				$dbSelectParams[$tableField] = $item[$tableField];
+		if ($this->overwriteById) {
+			if (isset($item['id'])) {
+				$dbSelectParams['id'] = $item['id'];
+			}
+		} else {
+			foreach(DatabaseDublicateChecker::getRecognizeFields($item['save_to_table']) as $tableField) {
+				if (isset($item[$tableField])) {
+					$dbSelectParams[$tableField] = $item[$tableField];
+				}
 			}
 		}
 		
