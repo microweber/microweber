@@ -12,6 +12,7 @@ class BackupManager
 	public $importType = false;
 	public $importFile = false;
 	public $importBatch = true;
+	public $importOvewriteById = false;
 	
 	public function __construct()
 	{
@@ -72,6 +73,10 @@ class BackupManager
 	public function setImportBatch($importBatch) {
 		$this->importBatch = $importBatch;
 	}
+	
+	public function setImportOvewriteById($overwrite) {
+		$this->importOvewriteById = $overwrite;
+	}
 
 	/**
 	 * Set import file path
@@ -123,6 +128,7 @@ class BackupManager
 			$import = new Import();
 			$import->setType($this->importType);
 			$import->setFile($this->importFile);
+			$import->setOverwriteById($this->importOvewriteById);
 			
 			$content = $import->readContentWithCache();
 			
