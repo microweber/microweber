@@ -1,6 +1,6 @@
 
 <?php 
-$field_size = get_default_field_size_option();
+$field_size = template_default_field_size_option();
 if (isset($data['options']['field_size'][0])) {
 	$field_size = $data['options']['field_size'][0];
 }
@@ -18,7 +18,7 @@ if($data['type'] !== 'breakline'):
     	
        <select class="mw-ui-field mw-full-width" name="options[field_size]">
        
-       	<?php foreach(get_field_size_options() as $optionKey=>$optionValue): ?> 
+       	<?php foreach(template_field_size_options() as $optionKey=>$optionValue): ?> 
         <option <?php if($field_size == $optionKey):?>selected="selected"<?php endif; ?> value="<?php echo $optionKey; ?>"><?php echo $optionValue; ?></option> 
         <?php endforeach; ?>
         
