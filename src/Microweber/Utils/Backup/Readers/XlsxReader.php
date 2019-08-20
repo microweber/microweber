@@ -29,7 +29,7 @@ class XlsxReader extends DefaultReader
 
 			$data[] = $readyRow;
 		}
-
+		
 		return $data;
 	}
 }
