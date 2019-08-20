@@ -5,14 +5,8 @@ class ExportTables
 {
 
 	public $tables;
-
 	public $tablesMap;
-
-	public function addTable($table)
-	{
-		$this->tables[$table] = array();
-	}
-
+	
 	public function addItemToTable($table, $item)
 	{
 		if (isset($this->tablesMap[$table])) {

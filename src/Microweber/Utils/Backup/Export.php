@@ -151,13 +151,21 @@ class Export
 			
 			BackupExportLogger::setLogInfo('Exporting table: <b>' . $table. '</b>');
 			
-			$exportTables->addTable($table);
-			
 			$ids = array();
 			
 			if ($table == 'categories') {
+				
 				if (!empty($this->exportData['categoryIds'])) {
 					$ids = $this->exportData['categoryIds'];
+				}
+				
+				// Get all posts for this category
+				$contentForCategories = get_content(array(
+					"categories"=>$ids,
+					"no_limit"=>true
+				));
+				if (is_array($contentForCategories) && !empty($contentForCategories)) {
+					$exportTables->addItemsToTable('content', $contentForCategories);
 				}
 			}
 			
