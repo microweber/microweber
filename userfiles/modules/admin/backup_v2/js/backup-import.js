@@ -32,11 +32,12 @@ mw.backup_import = {
 		var importOptions = '<div>'+
 		'<h3>Import File Options</h3>'+
 		'<br />'+
-		'<label class="mw-ui-check">'+ 
+		'<label class="mw-ui-check" style="height: 26px;">'+ 
 		'<input type="checkbox" class="js-backup-import-overwrite-by-id" value="1" />'+
-		'<span></span><span>Overwrite existing content by ID.</span>'+
+		'<span style="margin-top:18px;" ></span><span>Overwrite existing content by ID.</span>'+
 		'</label>'+
-		'<br /><br />'+
+		'<br /><span style="color:red;margin-left:26px;">Warning! If this option are marked, it will be replace all existing posts.</span>'+
+		'<hr />'+
 		'<div><a class="mw-ui-btn mw-ui-btn-warn" onclick="mw.backup_import.start_import_button()">Start importing content</a></div>'+
 		'</div>'+
 		'<br /><br /><div class="backup-import-modal-log-progress"></div>'+
