@@ -220,8 +220,8 @@ mw.admin.custom_fields.edit_custom_field_item = function ($selector, id, callbac
 
     editModal = mw.tools.open_module_modal('custom_fields/values_edit', data, {
         overlay: false,
-        width:'350px',
-        height:'auto',
+        width:'450px',
+        height:'350px',
         autoHeight: true,
         title: mTitle
     });

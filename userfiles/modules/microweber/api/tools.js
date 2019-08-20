@@ -3875,8 +3875,8 @@ mw.tools = {
         } else {
             delete settings.skin;
             delete settings.template;
-            var modal = top.mw.dialog(settings);
-            xhr = top.mw.load_module(module_type, '#' + id_content, null, params);
+            var modal = mw.dialog(settings);
+            xhr = mw.load_module(module_type, '#' + id_content, null, params);
         }
 
 
