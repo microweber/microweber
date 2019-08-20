@@ -16,7 +16,7 @@ class XmlReader extends DefaultReader
 			$xml = $this->readWordpress();
 		}
 		
-		// var_dump($xml);	die();
+		// var_dump($xml);	die(); 
 		
 		return $xml;
 	}

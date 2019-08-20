@@ -152,7 +152,7 @@ class DatabaseWriter
 		// Dont import menus without title
 		if ($item['save_to_table'] == 'content_fields' && empty($item['title'])) {
 			$this->_saveContentField($item);
-			return;
+			return; 
 		}
 		
 		$dbSelectParams = array();
