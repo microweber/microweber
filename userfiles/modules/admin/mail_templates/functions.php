@@ -207,7 +207,13 @@ function get_mail_templates($params = array())
 	if (empty($templates)) {
 		$templates = $defaultTemplates;
 	} else {
-		carray_merge($templates, $defaultTemplates);
+	    if(!$templates){
+            $templates = array();
+        }
+        if(!$defaultTemplates){
+            $defaultTemplates = array();
+        }
+		array_merge($templates, $defaultTemplates);
 	}
 	
 	return $templates;
