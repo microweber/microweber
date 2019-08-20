@@ -62,7 +62,7 @@ mw.backup_import = {
 	
 	start_import: function () {
 		
-		data.overwrite_by_id = $('.js-backup-import-overwrite-by-id').val();
+		data.overwrite_by_id = $('.js-backup-import-overwrite-by-id').is(":checked");
 		
 		$.ajax({
 		  dataType: "json",

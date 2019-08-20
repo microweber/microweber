@@ -13,8 +13,10 @@ class XmlReader extends DefaultReader
 		$xml = json_decode(json_encode($xml), true);
 		
 		if (isset($xml['channel']['item'])) { 
-			return $this->readWordpress();
+			$xml = $this->readWordpress();
 		}
+		
+		// var_dump($xml);	die();
 		
 		return $xml;
 	}
