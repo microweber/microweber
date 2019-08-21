@@ -126,7 +126,7 @@ foreach($fields_group as $field_group_key=>$fields) {
 }
 $fields_group = $ready_fields_group;
 
-$template_file =  get_option('data-template', $params['id']);;
+$template_file = get_option('data-template', $params['id']);
 
 if (isset($params['template'])) {
     $module_template = $params['template'];

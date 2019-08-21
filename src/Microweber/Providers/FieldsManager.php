@@ -796,7 +796,6 @@ class FieldsManager
         if (isset($data['settings']) or (isset($_REQUEST['settings']) and trim($_REQUEST['settings']) == 'y')) {
             $settings = true;
         }
-
         
         $params = false;
         if ((isset($_REQUEST['params']) and ($_REQUEST['params']) )) {
@@ -807,11 +806,7 @@ class FieldsManager
         	$data['field_id'] = $_REQUEST['field_id'];
         }
 
-
-    //    d($data);
-
-
-
+  		// d($data);
         //input_class
         
         if (isset($data['copy_from'])) {
@@ -863,37 +858,36 @@ class FieldsManager
             $data['values'] = $data['field_values'];
         }
 
-
         if (isset($data['value']) and is_array($data['value'])) {
             $data['value'] = implode(',', $data['value']);
         }
-
-
-
-
-
-
-
+		
         $data['type'] = $field_type;
-
+        
         if (isset($data['options']) and is_string($data['options'])) {
             $data['options'] = $this->_decode_options($data['options']);
         }
 
         $data = $this->app->url_manager->replace_site_url_back($data);
 
-        $dir = mw_includes_path();
-        $dir = $dir . DS . 'custom_fields' . DS;
+        $template_file = get_option('data-template', $data['params']['id']);
+        $template_file_exp = explode('/', $template_file);
+        $template_file = $template_file_exp[0];
+        
+        $dir = modules_path();
+        $dir = $dir . DS . 'custom_fields' . DS . 'templates' . DS . $template_file . DS;
         $field_type = str_replace('..', '', $field_type);
         $load_from_theme = false;
         if (defined('ACTIVE_TEMPLATE_DIR')) {
-            $custom_fields_from_theme = ACTIVE_TEMPLATE_DIR . 'modules' . DS . 'custom_fields' . DS;
+        	$custom_fields_from_theme = ACTIVE_TEMPLATE_DIR . 'modules' . DS . 'custom_fields' . DS . 'templates' . DS . $template_file . DS;
+        	
             if (is_dir($custom_fields_from_theme)) {
                 if ($settings == true or isset($data['settings'])) {
                     $file = $custom_fields_from_theme . $field_type . '_settings.php';
                 } else {
                     $file = $custom_fields_from_theme . $field_type . '.php';
                 }
+                
                 if (is_file($file)) {
                     $load_from_theme = true;
                 }
@@ -916,15 +910,9 @@ class FieldsManager
             }
         }
         $file = normalize_path($file, false);
-
-        
-        
         
         if (is_file($file)) {
             $l = new \Microweber\View($file);
-
-            //
-
             $l->assign('settings', $settings);
             if (isset($data['params'])) {
                 $l->assign('params', $data['params']);
