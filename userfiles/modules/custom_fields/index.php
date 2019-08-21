@@ -90,7 +90,8 @@ foreach($fields_group as $field_group_key=>$fields) {
 			if (isset($field['type']) and $field['type'] == 'price') {
 				$price_fields[] = $field;
 			} else {
-				$ready_fields[] = $field;
+				$field['params'] = $params;
+				$ready_fields[] =  array('html'=>mw()->fields_manager->make($field));
 			}
 		}
 	}
@@ -124,8 +125,6 @@ foreach($fields_group as $field_group_key=>$fields) {
 	$ready_fields_group[$field_group_key] = $ready_fields;
 }
 $fields_group = $ready_fields_group;
-
-$prined_items_count = 0;
 
 $template_file =  get_option('data-template', $params['id']);;
 

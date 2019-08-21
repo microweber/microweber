@@ -1,15 +1,17 @@
 <?php
+
 /*
- *
- * type: layout
- *
- * name: Bootstrap 3
- *
- * description: Bootstrap 3
- *
- */
+
+type: layout
+
+name: MW UI
+
+description: MW UI
+
+*/
+
 ?>
-<div class="row">
+<div class="mw-ui-rows">
 	 <?php if (!empty($fields_group)): ?>
 		 <?php foreach ($fields_group as $fields): ?>
 		 
