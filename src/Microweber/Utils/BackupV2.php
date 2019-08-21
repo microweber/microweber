@@ -183,7 +183,7 @@ class BackupV2
 			$fileId = $query['file'];
 		}
 		
-		if (isset($query['overwrite_by_id']) && $query['overwrite_by_id']) {
+		if (isset($query['overwrite_by_id']) && $query['overwrite_by_id'] == 'true') {
 			$this->manager->setImportOvewriteById(true);
 		}
 		

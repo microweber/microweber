@@ -15,7 +15,7 @@ class DatabaseSaveContent
 	{
 		$tableData['skip_cache'] = true;
 		$tableData['allow_html'] = true;
-		$tableData['allow_scripts'] = true;
+		$tableData['allow_scripts'] = true; 
 
 		$tableData['extended_save'] = true;
 
