@@ -109,6 +109,8 @@ class DatabaseWriter
 		if ($item['save_to_table'] == 'options') {
 			if (isset($item['option_key']) && $item['option_key'] == 'current_template') {
 				if (!is_dir(userfiles_path().'/templates/'.$item['option_value'])) {
+					// Template not found
+					return;
 				}
 			}
 		}
