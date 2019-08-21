@@ -1,10 +1,5 @@
-<?php if (!isset($params['no-for-fields'])) { ?>
-    <input type="hidden" name="for_id" value="<?php print $for_id ?>"/>
-    <input type="hidden" name="for" value="<?php print $for ?>"/>
-<?php } ?>
-
-<?php if (!empty($groupFields)): ?>
-	 <?php foreach ($groupFields as $fields): ?>
+<?php if (!empty($fields_group)): ?>
+	 <?php foreach ($fields_group as $fields): ?>
 	 
 	 	<div class="<?php echo get_template_row_class(); ?>"> 
 	 

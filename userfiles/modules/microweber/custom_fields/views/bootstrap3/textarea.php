@@ -1,0 +1,1 @@
+bachka textareata

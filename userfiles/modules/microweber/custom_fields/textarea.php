@@ -31,4 +31,3 @@ if(!isset($data['options']['rows'])) {
     <textarea rows="<?php echo $data['options']['rows']; ?>" <?php if (trim($data['custom_field_required']) == 'y'): ?> required="true"  <?php endif; ?> <?php if (isset($data['input_class'])): ?> class="<?php print $data['input_class'] ?>"  <?php endif; ?>   data-custom-field-id="<?php print $data["id"]; ?>"  name="<?php print $data["name"]; ?>" ><?php print $data["value"]; ?></textarea>
   </div>
 </div>
-start refactoring...

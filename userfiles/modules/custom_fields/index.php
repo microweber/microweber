@@ -52,19 +52,18 @@ if (isset($params['default-fields']) and isset($params['parent-module-id'])) {
 
 $data = mw()->fields_manager->get($for, $for_id, 1);
 
-$groupFields = array();
-$groupI = 0;
+$fields_group = array();
+$group_i = 0;
 if (!empty($data)) {
 	foreach ($data as $field) {
 		
 		if($field['type'] == 'breakline') {
-			$groupI++;
+			$group_i++;
 			continue;
 		}
 		
 		$field['options']['field_size_class'] = template_default_field_size_option($field);
-
-
+		
         if(isset($params['input_class'])){
             $field['input_class'] = $params['input_class'];
         }
@@ -77,27 +76,61 @@ if (!empty($data)) {
 			$field['options']['field_size_class'] = template_field_size_class($field['options']['field_size']);
 		}
 		
-		$groupFields[$groupI][] = $field;
+		$fields_group[$group_i][] = $field;
 	}
 }
 
+$ready_fields_group = array();
+foreach($fields_group as $field_group_key=>$fields) {
+	/* $field_html = '';
+	
+	if (!in_array($field['type'], $skip_types)) {
+		if (isset($field['type']) and $field['type'] == 'price') {
+			$field_html .= '<select name="price">';
+			$field['make_select'] = true;
+			$field_html .=  mw()->fields_manager->make($field);
+			$field_html .= '</select>';
+		} else {
+			$field_html =  mw()->fields_manager->make($field);
+		}
+	}
+	$field['params'] = $params;
+	*/
+	$ready_fields = array();
+	foreach($fields as $field) {
+		
+		$ready_fields[] = $field;
+	}
+	
+	$ready_fields_group[$field_group_key] = $ready_fields;
+}
+
+
+var_dump($ready_fields_group);
+die();
 $prined_items_count = 0;
 
-$template_file = false;
+$template_file =  get_option('data-template', $params['id']);;
 
 if (isset($params['template'])) {
     $module_template = $params['template'];
     $template_file = module_templates($config['module'], $module_template);
-
 }
 
 if ($template_file == false) {
     $template_file = module_templates($config['module'], 'default');
+} else {
+	$template_file = module_templates($config['module'], $template_file);
 }
 
+if (!isset($params['no-for-fields'])) {
+    echo '<input type="hidden" name="for_id" value="'.$for_id.'"/>';
+    echo "\n";
+    echo '<input type="hidden" name="for" value="'.$for.'"/>';
+} 
 
 if ($template_file != false and is_file($template_file) != false) {
-
     include($template_file);
 }
- 
+
+//echo 1; die();
