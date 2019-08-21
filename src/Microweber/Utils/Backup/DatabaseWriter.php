@@ -106,6 +106,13 @@ class DatabaseWriter
 	
 	private function _saveItemDatabase($item) {
 		
+		if ($item['save_to_table'] == 'options') {
+			if (isset($item['option_key']) && $item['option_key'] == 'current_template') {
+				if (!is_dir(userfiles_path().'/templates/'.$item['option_value'])) {
+				}
+			}
+		}
+		
 		if ($item['save_to_table'] == 'custom_fields') {
 			$this->_saveCustomField($item);
 			return;
