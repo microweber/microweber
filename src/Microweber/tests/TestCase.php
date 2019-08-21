@@ -1,8 +1,6 @@
 <?php
 
 
-
-
 namespace Microweber\tests;
 
 use Illuminate\Support\Facades\DB;
@@ -14,7 +12,6 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
     private $sqlite_file = 'phpunit.sqlite';
 
 
-
     public function createApplication()
     {
 
@@ -23,37 +20,45 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         }
         $testing_env_name = 'testing';
 
-        $config_folder = __DIR__ . '/../../../config/testing/';
+
+        $testEnvironment = $testing_env_name = env('APP_ENV') ? env('APP_ENV') : 'testing';
+
+
+        $config_folder = __DIR__ . '/../../../config/' . $testEnvironment . '/';
         $mw_file = $config_folder . 'microweber.php';
 
-        if (!is_dir($config_folder)) {
-            mkdir($config_folder);
-        }
 
-        $unitTesting = true;
-        $testEnvironment = env('APP_ENV') ? env('APP_ENV') : 'testing';
         $test_env_from_conf = env('APP_ENV_TEST_FROM_CONFIG');
+
         if ($test_env_from_conf) {
             $testing_env_name = $testEnvironment = $test_env_from_conf;
             putenv("APP_ENV=$testing_env_name");
             if (!defined('MW_UNIT_TEST_ENV_FROM_TEST')) {
                 define('MW_UNIT_TEST_ENV_FROM_TEST', $testing_env_name);
-                $config_folder = __DIR__ . '/../../../config/'.$testing_env_name.'/';
+                $config_folder = __DIR__ . '/../../../config/' . $testing_env_name . '/';
                 $config_folder = realpath($config_folder);
                 $mw_file = $config_folder . '/microweber.php';
             }
         }
-        file_put_contents($mw_file, "<?php return array (
+
+        if (!is_file($mw_file)) {
+
+            if (!is_dir($config_folder)) {
+                mkdir($config_folder);
+            }
+
+            file_put_contents($mw_file, "<?php return array (
             'is_installed' => 0,
             'compile_assets' => 0,
             'install_default_template' => 'default',
             'install_default_template_content' => 1,
             );"
-        );
-
+            );
+        }
         $app = require __DIR__ . '/../../../bootstrap/app.php';
         $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
-        $app['env'] = $testing_env_name;
+        //  $app['env'] = $testing_env_name;
+        $environment = $app->environment();
 
         $this->assertEquals(true, is_dir($config_folder));
 
@@ -62,9 +67,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         });
 
         $environment = $app->environment();
-
         $this->sqlite_file = storage_path() . '/phpunit.' . $environment . '.sqlite';
-
 
 
         if (is_file($this->sqlite_file)) {
