@@ -7,12 +7,11 @@ if (isset($params['for'])) {
     $for = $params['for']; 
 }
 
-
 if (isset($params['data-skip-type'])) {
     $skip_types = explode(',', $params['data-skip-type']);
     $skip_types = array_trim($skip_types);
-
 }
+$skip_types = array();
 
 
 if (isset($params['content-id'])) {
@@ -82,32 +81,50 @@ if (!empty($data)) {
 
 $ready_fields_group = array();
 foreach($fields_group as $field_group_key=>$fields) {
-	/* $field_html = '';
-	
-	if (!in_array($field['type'], $skip_types)) {
-		if (isset($field['type']) and $field['type'] == 'price') {
-			$field_html .= '<select name="price">';
-			$field['make_select'] = true;
-			$field_html .=  mw()->fields_manager->make($field);
-			$field_html .= '</select>';
-		} else {
-			$field_html =  mw()->fields_manager->make($field);
+
+	$ready_fields = array();
+	// $default_fields = array();
+	$price_fields = array();
+	foreach($fields as $field) {
+		if (!in_array($field['type'], $skip_types)) {
+			if (isset($field['type']) and $field['type'] == 'price') {
+				$price_fields[] = $field;
+			} else {
+				$ready_fields[] = $field;
+			}
 		}
 	}
-	$field['params'] = $params;
-	*/
-	$ready_fields = array();
-	foreach($fields as $field) {
+	
+	if (!in_array('price', $skip_types) and is_array($price_fields)) {
 		
-		$ready_fields[] = $field;
+		$field_html = '';
+		
+		$price_fields_count = count($price_fields);
+		
+		if ($price_fields_count > 1) {
+		     $field_html .= '<select name="price">';
+		}
+		
+		foreach ($price_fields as $field) {
+			if ($price_fields_count > 1) {
+				$field['make_select'] = true;
+			}
+			$field_html .= mw()->fields_manager->make($field);
+		}
+		
+		if ($price_fields_count > 1) {
+			$field_html .= '</select>';
+		}
+		
+		$ready_fields[] = array(
+			'html'=>$field_html
+		);
 	}
 	
 	$ready_fields_group[$field_group_key] = $ready_fields;
 }
+$fields_group = $ready_fields_group;
 
-
-var_dump($ready_fields_group);
-die();
 $prined_items_count = 0;
 
 $template_file =  get_option('data-template', $params['id']);;
