@@ -939,6 +939,7 @@ class FieldsManager
         	$field_settings['class'] = false;
         	$field_settings['as_text_area'] = false;
         	$field_settings['multiple'] = false;
+        	$field_settings['type'] = 'button';
         	
         	if (isset($data['id'])) {
         		$field_data['id'] = $data['id'];
@@ -980,6 +981,10 @@ class FieldsManager
         	
         	if (is_array($data['values']) && !empty($data['values'])) {
         		$field_data['values'] = $data['values'];
+        	}
+        	
+        	if (isset($data['options']['field_type'])) {
+        		$field_settings['type'] = $data['options']['field_type'];
         	}
         	
         	$parseView = new \Microweber\View($file);
