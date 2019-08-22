@@ -60,6 +60,7 @@ class Front
 
         $cat_from_url = get_category_id_from_url();
         $posts_parent_related = false;
+        $posts_list_show_sub_pages = false;
         if (isset($params['current_page'])) {
             // $params['current_page'] = $params['current_page'];
         } elseif (isset($params['curent-page'])) {
@@ -194,6 +195,7 @@ class Front
         }
 
 
+
         if ($posts_parent_category == false and isset($post_params['category_id'])) {
             $posts_parent_category = $post_params['category_id'];
         }
@@ -206,8 +208,9 @@ class Front
         if ($posts_parent_category_cfg == 'related') {
             $posts_parent_related = true;
             $posts_parent_category = $posts_parent_related = CATEGORY_ID;
-
-
+        }
+        if ($posts_parent_category_cfg == 'sub_pages') {
+            $posts_list_show_sub_pages = true;
         }
 
         if ($posts_parent_category == false and ($cfg_page_id == 'current_page')) {
@@ -261,6 +264,8 @@ class Front
         if ($posts_parent_related == false) {
             if (intval($cfg_page_id_force) or !isset($params['global'])) {
                 if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
+
+
                     $sub_categories = array();
                     $page_categories = false;
                     if (intval($cfg_page_id) != 0 and $cat_from_url == false) {
@@ -413,7 +418,6 @@ class Front
             $post_params['subtype_value'] = $params['subtype_value'];
         }
 
-
         $schema_org_item_type = false;
         $schema_org_item_type_tag = false;
 
@@ -540,6 +544,16 @@ class Front
             }
 
         }
+if($posts_list_show_sub_pages){
+    $post_params['content_type'] = 'page';
+    $post_params['parent'] = PAGE_ID;
+}
+
+     //   d($post_params);
+
+
+
+
 
 
         $content = get_content($post_params);
@@ -549,6 +563,8 @@ class Front
 
         if ($posts_parent_related != false and empty($content) and isset($post_params['category'])) {
             unset($post_params['category']);
+
+            //dd($post_params);
             $content = get_content($post_params);
         }
 

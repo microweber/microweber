@@ -57,7 +57,14 @@ $rand = uniqid(); ?>
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e("Display"); ?> <?php print ($set_content_type) ?> <?php _e("from page"); ?></label>
 
+
         <select name="data-page-id" id="the_post_data-page-id<?php print  $rand ?>" class="mw-ui-field w100 mw_option_field" onchange="mw_reload_content_mod_window()">
+
+            <?php if(intval($posts_parent_page) > 0 and !get_content_by_id($posts_parent_page)){ ?>
+                <option value=""   selected="selected"  >
+                    <?php _e("Unknown page"); ?>
+                </option>
+            <?php } ?>
             <option value="current_page" <?php if (('current_page' == ($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>>
                 --
                 <?php _e("Current page"); ?>
@@ -93,6 +100,7 @@ $rand = uniqid(); ?>
     </div>
     <?php if ($posts_parent_page != false and intval($posts_parent_page) > 0): ?>
         <?php $posts_parent_category = get_option('data-category-id', $params['id']); ?>
+
         <div class="mw-ui-field-holder">
             <label class="mw-ui-label"><?php _e("Show only from category"); ?></label>
             <select name="data-category-id" id="the_post_data-page-id<?php print  $rand ?>"
@@ -119,11 +127,15 @@ $rand = uniqid(); ?>
                 ?>
                 <option value='0' <?php if ((0 == intval($posts_parent_category))): ?>   selected="selected"  <?php endif; ?>>
                     --
-                    <?php _e("None"); ?>
+                    <?php _e("All"); ?>
                 </option>
                 <option value='related' <?php if (('related' == trim($posts_parent_category))): ?>   selected="selected"  <?php endif; ?>>
                     --
                     <?php _e("Related"); ?>
+                </option>
+                <option value='sub_pages' <?php if (('sub_pages' == trim($posts_parent_category))): ?>   selected="selected"  <?php endif; ?>>
+                    --
+                    <?php _e("Sub Pages"); ?>
                 </option>
             </select>
         </div>
