@@ -74,12 +74,21 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             // @unlink($this->sqlite_file);
         }
 
-        $db_driver = 'sqlite';
-        $db_host = '';
-        $db_user = '';
-        $db_pass = '';
-        $db_prefix = '';
-        $db_name = $this->sqlite_file;
+
+
+        $db_driver =  env('DB_DRIVER') ? env('DB_DRIVER') : 'sqlite'  ;
+        $db_host = env('DB_HOST', '');
+        $db_port = env('DB_PORT', '');
+        if($db_port){
+            $db_host = $db_host.':'.$db_port;
+        }
+
+        $db_user =  env('DB_USERNAME', '');
+        $db_pass = env('DB_PASSWORD', '');
+        $db_prefix = env('DB_PREFIX', '');
+        $db_name = env('DB_DATABASE', $this->sqlite_file);
+
+      //  $db_name = $this->sqlite_file;
         if ($test_env_from_conf) {
             $dbEngines = \Config::get('database.connections');
             $defaultDbEngine = \Config::get('database.default');
@@ -127,6 +136,9 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             // 'db_name' => ':memory:',
             '--env' => $environment,
         );
+
+
+
 
         $is_installed = mw_is_installed();
 
