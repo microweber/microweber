@@ -106,6 +106,15 @@ class DatabaseWriter
 	
 	private function _saveItemDatabase($item) {
 		
+		if ($item['save_to_table'] == 'options') {
+			if (isset($item['option_key']) && $item['option_key'] == 'current_template') {
+				if (!is_dir(userfiles_path().'/templates/'.$item['option_value'])) {
+					// Template not found
+					return;
+				}
+			}
+		}
+		
 		if ($item['save_to_table'] == 'custom_fields') {
 			$this->_saveCustomField($item);
 			return;
@@ -152,7 +161,7 @@ class DatabaseWriter
 		// Dont import menus without title
 		if ($item['save_to_table'] == 'content_fields' && empty($item['title'])) {
 			$this->_saveContentField($item);
-			return;
+			return; 
 		}
 		
 		$dbSelectParams = array();

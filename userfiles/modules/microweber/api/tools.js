@@ -244,7 +244,7 @@ mw.tools = {
 
 
                     if (dmax.dialogHolder.offsetHeight + 100 > framw.win.innerHeight) {
-                        _detector.style.height = ((dmax.dialogHolder.offsetHeight + 100) - framw.win.innerHeight) + 'px';
+                        _detector.style.height = ((dmax.dialogHolder.offsetHeight + 160) - framw.win.innerHeight) + 'px';
                     } else {
                         //_detector.style.height = 0;
                     }
