@@ -927,33 +927,59 @@ class FieldsManager
         	 */
         	
         	$field_data = array();
-        	$field_data['name'] = '';
-        	$field_data['id'] = '';
-        	$field_data['placeholder'] = '';
+        	$field_data['name'] = false;
+        	$field_data['id'] = 0;
+        	$field_data['placeholder'] = false;
+        	$field_data['help'] = false;
+        	$field_data['values'] = array();
+        	$field_data['value'] = false;
         	
         	$field_settings = array();
         	$field_settings['required'] = false;
         	$field_settings['class'] = false;
+        	$field_settings['as_text_area'] = false;
+        	$field_settings['multiple'] = false;
         	
         	if (isset($data['id'])) {
         		$field_data['id'] = $data['id'];
         	}
         	
         	if (isset($data['name'])) {
+        		$data['name'] = ucwords(str_replace('_', ' ', $data['name']));
         		$field_data['name'] = $data['name'];
         	}
         	
-        	if (isset($data['options']["required"])) {
+        	if (isset($data['help'])) {
+        		$field_data['help'] = $data['help'];
+        	}
+        	
+        	if (isset($data['options']['required'])) {
         		$field_settings['required'] = true;
         	}
         	
-        	if(isset($data['params']['input_class'])) {
+        	if (isset($data['params']['input_class'])) {
         		$field_settings['class'] = $data['params']['input_class'];
         	}
         	
-        	$field_data['placeholder'] = $data["value"];
-        	if (is_array($data["value"])) {
-        		$field_data['placeholder'] = implode(',', $data["value"]);
+        	if (isset($data['options']['as_text_area'])) {
+        		$field_settings['as_text_area'] = true;
+        	}
+        	
+        	if (isset($data['options']['multiple'])) {
+        		$field_settings['multiple'] = true;
+        	}
+        	
+        	if (isset($data['value'])) {
+        		$field_data['value'] = $data['value'];
+        		$field_data['placeholder'] = $data['value'];
+        	}
+        	
+        	if (is_array($data['value'])) {
+        		$field_data['placeholder'] = implode(',', $data['value']);
+        	}
+        	
+        	if (is_array($data['values']) && !empty($data['values'])) {
+        		$field_data['values'] = $data['values'];
         	}
         	
         	$parseView = new \Microweber\View($file);
