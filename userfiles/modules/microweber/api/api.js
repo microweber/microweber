@@ -137,7 +137,12 @@ mw.askusertostay = false;
 
   mwd = document;
   mww = window;
+
   mwhead = mwd.head || mwd.getElementsByTagName('head')[0];
+
+  mw.doc = mwd;
+  mw.win = mww;
+  mw.head = mwhead;
 
   mw.loaded = false;
 
@@ -635,9 +640,11 @@ mw.getScripts = function (array, callback) {
         id = docdata.body.querySelector(['id']);
       }
       mw.$(selector).replaceWith($(docdata.body).html());
+      var count = 0;
       if(hasDone){
           setTimeout(function(){
-              obj.done.call($(selector)[0], data);
+              count++;
+              //obj.done.call($(selector)[0], data);
               mw.trigger('moduleLoaded');
           }, 33);
       }
