@@ -869,10 +869,14 @@ class FieldsManager
         }
 
         $data = $this->app->url_manager->replace_site_url_back($data);
-
-        $template_file = get_option('data-template', $data['params']['id']);
-        $template_file_exp = explode('/', $template_file);
-        $template_file = $template_file_exp[0];
+	
+        if (isset($data['params'])) {
+	        $template_file = get_option('data-template', $data['params']['id']);
+	        $template_file_exp = explode('/', $template_file);
+	        $template_file = $template_file_exp[0];
+        } else {
+        	$template_file = 'mw-ui';
+        }
         
         $dir = modules_path();
         $dir = $dir . DS . 'custom_fields' . DS . 'templates' . DS . $template_file . DS;
@@ -912,30 +916,57 @@ class FieldsManager
         $file = normalize_path($file, false);
         
         if (is_file($file)) {
-            $l = new \Microweber\View($file);
-            $l->assign('settings', $settings);
-            if (isset($data['params'])) {
-                $l->assign('params', $data['params']);
-            } else {
-                $l->assign('params', false);
-            }
-            //  $l->settings = $settings;
-
-            if (isset($data) and !empty($data)) {
-                $l->data = $data;
-            } else {
-                $l->data = array();
-            }
-
-            $l->assign('data', $data);
-
-            $layout = $l->__toString();
-
-            if($settings and defined('MW_API_HTML_OUTPUT')){
-                $layout = $this->app->parser->process($layout, $options = false);
-            }
-
-            return $layout;
+        	
+        	/**
+        	 * field_data['name']
+        	 * field_data['id']
+        	 * field_data['placeholder']
+        	 *
+        	 * field_settings['required']
+        	 * field_settings['class']
+        	 */
+        	
+        	$field_data = array();
+        	$field_data['name'] = '';
+        	$field_data['id'] = '';
+        	$field_data['placeholder'] = '';
+        	
+        	$field_settings = array();
+        	$field_settings['required'] = false;
+        	$field_settings['class'] = false;
+        	
+        	if (isset($data['id'])) {
+        		$field_data['id'] = $data['id'];
+        	}
+        	
+        	if (isset($data['name'])) {
+        		$field_data['name'] = $data['name'];
+        	}
+        	
+        	if (isset($data['options']["required"])) {
+        		$field_settings['required'] = true;
+        	}
+        	
+        	if(isset($data['params']['input_class'])) {
+        		$field_settings['class'] = $data['params']['input_class'];
+        	}
+        	
+        	$field_data['placeholder'] = $data["value"];
+        	if (is_array($data["value"])) {
+        		$field_data['placeholder'] = implode(',', $data["value"]);
+        	}
+        	
+        	$parseView = new \Microweber\View($file);
+        	$parseView->assign('data', $field_data);
+        	$parseView->assign('settings', $field_settings);
+        	
+        	$layout = $parseView->__toString();
+        	
+        	if($settings and defined('MW_API_HTML_OUTPUT')){
+        		$layout = $this->app->parser->process($layout, $options = false);
+        	}
+        	
+        	return $layout;
         }
     }
 
