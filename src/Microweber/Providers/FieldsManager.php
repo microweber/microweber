@@ -940,6 +940,7 @@ class FieldsManager
         	$field_settings['as_text_area'] = false;
         	$field_settings['multiple'] = false;
         	$field_settings['type'] = 'button';
+        	$field_settings['rows'] = '5';
         	
         	if (isset($data['id'])) {
         		$field_data['id'] = $data['id'];
@@ -968,6 +969,10 @@ class FieldsManager
         	
         	if (isset($data['options']['multiple'])) {
         		$field_settings['multiple'] = true;
+        	}
+        	
+        	if (isset($data['options']['rows'])) {
+        		$field_settings['rows'] = $data['options']['rows'];
         	}
         	
         	if (isset($data['value'])) {
