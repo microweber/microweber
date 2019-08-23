@@ -136,7 +136,9 @@
             containment: 'window'
         };
 
-        this.options = $.extend({}, defaults, options);
+        this.options = $.extend({}, defaults, options, {
+            skin: 'default'
+        });
 
         this.id = this.options.id;
         var exist = document.getElementById(this.id);
