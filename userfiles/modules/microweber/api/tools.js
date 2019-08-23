@@ -230,11 +230,31 @@ mw.tools = {
             insertDetector();
         });
         frame._int = setInterval(function(){
+
+
             if(frame.parentNode && frame.contentWindow && frame.contentWindow.$){
+                var max = -1, dmax = null, framw = frame.contentWindow.mw;
+                if(framw.__dialogs && framw.__dialogs.length){
+                    framw.__dialogs.forEach(function($dialog){
+                        if($dialog.dialogHolder.offsetHeight > max){
+                            max = $dialog.dialogHolder.offsetHeight;
+                            dmax = $dialog;
+                        }
+                    });
+
+
+                    if (dmax.dialogHolder.offsetHeight + 100 > framw.win.innerHeight) {
+                        _detector.style.height = ((dmax.dialogHolder.offsetHeight + 160) - framw.win.innerHeight) + 'px';
+                    } else {
+                        //_detector.style.height = 0;
+                    }
+
+                }
                 var offTop = frame.contentWindow.$(_detector).offset().top;
-                if(offTop && offTop !== frame._currHeight){
-                    frame._currHeight = offTop;
-                    frame.style.height = offTop + 'px';
+                var calc = offTop + _detector.offsetHeight;
+                if(calc && calc !== frame._currHeight){
+                    frame._currHeight = calc;
+                    frame.style.height = calc + 'px';
                     mw.$(frame).trigger('bodyResize');
                 }
             }
@@ -3837,7 +3857,7 @@ mw.tools = {
     },
     open_module_modal: function (module_type, params, modalOptions) {
 
-        var id = 'module-modal-' + mw.random();
+        var id = mw.id('module-modal-');
         var id_content = id + '-content';
         modalOptions = modalOptions || {};
 
@@ -3870,11 +3890,14 @@ mw.tools = {
                 autoHeight: true
             };
 
-            return mw.tools.modal.frame(settings);
+            return mw.top().tools.modal.frame(settings);
 
         } else {
             delete settings.skin;
             delete settings.template;
+            settings.height = 'auto';
+            settings.autoHeight = true;
+            settings.encapsulate = false;
             var modal = mw.dialog(settings);
             xhr = mw.load_module(module_type, '#' + id_content, null, params);
         }
