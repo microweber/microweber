@@ -38,7 +38,7 @@ mw.live_edit.showSettings = function (a, opts) {
     var mode = opts.mode ||  'modal';
 
     var view = opts.view || 'admin';
-    var module_type
+    var module_type;
     if (typeof a === 'string') {
         module_type = a;
         var module_id = a;

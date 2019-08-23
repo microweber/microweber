@@ -644,7 +644,7 @@ mw.getScripts = function (array, callback) {
       if(hasDone){
           setTimeout(function(){
               count++;
-              //obj.done.call($(selector)[0], data);
+              obj.done.call($(selector)[0], data);
               mw.trigger('moduleLoaded');
           }, 33);
       }
@@ -658,7 +658,7 @@ mw.getScripts = function (array, callback) {
 
       typeof mw.drag !== 'undefined' ? mw.drag.fix_placeholders(true) : '';
       var m = mwd.getElementById(id);
-      typeof obj.done === 'function' ? obj.done.call(selector, m) : '';
+      // typeof obj.done === 'function' ? obj.done.call(selector, m) : '';
 
       if(mw.wysiwyg){
         $(m).hasClass("module") ? mw.wysiwyg.init_editables(m) : '' ;
