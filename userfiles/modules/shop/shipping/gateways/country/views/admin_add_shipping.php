@@ -6,9 +6,9 @@
     }
     mw.require('forms.js');
     mw.require('<?php print $config['url_to_module'] ?>country.js');
-    if (typeof thismodal !== 'undefined') {
-        thismodal.main.width(1000);
-        $(thismodal.main[0].getElementsByTagName('iframe')).width(985);
+    if (window.thismodal) {
+        thismodal.width(1000);
+        thismodal.center(1000);
     }
 </script>
 

@@ -183,6 +183,10 @@ class BackupV2
 			$fileId = $query['file'];
 		}
 		
+		if (isset($query['overwrite_by_id']) && $query['overwrite_by_id'] == 'true') {
+			$this->manager->setImportOvewriteById(true);
+		}
+		
 		if (!$fileId) {
 			return array('error' => 'You have not provided a file to import.');
 		}

@@ -62,14 +62,15 @@ class Export
 			
 			$zipExportReady = $zipExport->start();
 			
-			// Delete unused ziped files
-			if (isset($export['files'])) {
-				foreach ($export['files'] as $file) {
-					unlink($file['filepath']);
-				}
-			}
-			
 			if (isset($zipExportReady['download']) && !empty($zipExportReady['download'])) {
+				
+				// Delete unused ziped files
+				if (isset($export['files'])) {
+					foreach ($export['files'] as $file) {
+						@unlink($file['filepath']);
+					}
+				}
+				
 				return array(
 					'success' => 'Items are exported',
 					'export_type' => $this->type,
@@ -150,13 +151,21 @@ class Export
 			
 			BackupExportLogger::setLogInfo('Exporting table: <b>' . $table. '</b>');
 			
-			$exportTables->addTable($table);
-			
 			$ids = array();
 			
 			if ($table == 'categories') {
+				
 				if (!empty($this->exportData['categoryIds'])) {
 					$ids = $this->exportData['categoryIds'];
+				}
+				
+				// Get all posts for this category
+				$contentForCategories = get_content(array(
+					"categories"=>$ids,
+					"no_limit"=>true
+				));
+				if (is_array($contentForCategories) && !empty($contentForCategories)) {
+					$exportTables->addItemsToTable('content', $contentForCategories);
 				}
 			}
 			

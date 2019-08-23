@@ -71,6 +71,19 @@ $path_nav = explode(DS, $path);
 
 
 
+$tn_size = 150;
+$image_item_class = 'image-item';
+$browser_list_holder_class = 'mw-browser-list';
+
+if(isset($params['viewsize'])){
+   if($params['viewsize']=='big'){
+       $tn_size = 260;
+       $image_item_class = 'image-item-big';
+       $browser_list_holder_class = 'mw-browser-list mw-browser-list-big';
+
+   }
+}
+
 ?>
 <script>
 
@@ -81,10 +94,31 @@ $path_nav = explode(DS, $path);
 
 
 <div class="mw-ui-box mw-file-browser">
-    <div class="mw-ui-box-header"><a href="javascript:;" onclick="mw.url.windowHashParam('path', PreviousFolder);"
-                                     class="mw-ui-btn mw-ui-btn-small pull-right mw-ui-btn-invert">
+    <div class="mw-ui-box-header">
+
+<span class="pull-right">
+
+Thumbnail size:
+        <a href="javascript:;" onclick="mw.url.windowHashParam('viewsize', '');"
+        class="mw-ui-btn mw-ui-btn-small  ">
+          <?php _e("Small"); ?>
+        </a>
+        <a href="javascript:;" onclick="mw.url.windowHashParam('viewsize', 'big');"
+            class="mw-ui-btn mw-ui-btn-small  "><?php _e("Big"); ?>
+
+        </a>
+        <a href="javascript:;" onclick="mw.url.windowHashParam('path', PreviousFolder);"
+                                     class="mw-ui-btn mw-ui-btn-small  mw-ui-btn-invert">
+
+
+
             <?php _e("Back"); ?>
-        </a> <span class="mw-browser-uploader-path">
+        </a>
+
+      </span>
+
+
+        <span class="mw-browser-uploader-path">
 
 
               <a href="#path=" style="color: #212121;"><span
@@ -140,7 +174,7 @@ $path_nav = explode(DS, $path);
         <?php endif; ?>
         <div class="mw-ui-box-hr"></div>
         <?php if (isset($data['files'])): ?>
-            <ul class="mw-browser-list">
+            <ul class="<?php print $browser_list_holder_class ?>">
                 <?php foreach ($data['files'] as $item): ?>
                     <li>
                         <a title="<?php print basename($item); ?>"
@@ -149,10 +183,10 @@ $path_nav = explode(DS, $path);
                            onclick="mw.url.windowHashParam('select-file', '<?php print mw()->url_manager->link_to_file($item) ?>'); return false;">
                             <?php $ext = strtolower(get_file_extension($item)); ?>
                             <?php if ($ext == 'jpg' or $ext == 'png' or $ext == 'gif' or $ext == 'jpeg' or $ext == 'bmp'): ?>
-                                <img data-src="<?php print thumbnail(mw()->url_manager->link_to_file($item), 150, 150); ?>"
-                                     class="image-item image-item-not-ready"/>
+                                <img data-src="<?php print thumbnail(mw()->url_manager->link_to_file($item), $tn_size, $tn_size,true); ?>"
+                                     class="<?php print basename($item) ?> image-item-not-ready"/>
                             <?php else: ?>
-                                <span class="mw-fileico mw-fileico-<?php print $ext; ?>"><?php print $ext; ?></span>
+                                <div class="mw-fileico mw-fileico-<?php print $ext; ?>"><span><?php print $ext; ?></span></div>
                             <?php endif; ?>
                             <span><?php print basename($item) ?></span>
                         </a>

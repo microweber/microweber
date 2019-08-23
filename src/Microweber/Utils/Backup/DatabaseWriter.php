@@ -49,6 +49,12 @@ class DatabaseWriter
 	public $totalSteps = 10;
 	
 	/**
+	 * Overwrite by id
+	 * @var string
+	 */
+	public $overwriteById = false;
+	
+	/**
 	 * The content from backup file
 	 * @var string
 	 */
@@ -81,6 +87,10 @@ class DatabaseWriter
 		return $this->currentStep;
 	}
 	
+	public function setOverwriteById($overwrite) {
+		$this->overwriteById = $overwrite;
+	}
+	
 	/**
 	 * Unset item fields
 	 * @param array $item
@@ -95,6 +105,15 @@ class DatabaseWriter
 	}
 	
 	private function _saveItemDatabase($item) {
+		
+		if ($item['save_to_table'] == 'options') {
+			if (isset($item['option_key']) && $item['option_key'] == 'current_template') {
+				if (!is_dir(userfiles_path().'/templates/'.$item['option_value'])) {
+					// Template not found
+					return;
+				}
+			}
+		}
 		
 		if ($item['save_to_table'] == 'custom_fields') {
 			$this->_saveCustomField($item);
@@ -142,7 +161,7 @@ class DatabaseWriter
 		// Dont import menus without title
 		if ($item['save_to_table'] == 'content_fields' && empty($item['title'])) {
 			$this->_saveContentField($item);
-			return;
+			return; 
 		}
 		
 		$dbSelectParams = array();
@@ -152,9 +171,15 @@ class DatabaseWriter
 		$dbSelectParams['do_not_replace_site_url'] = 1;
 		$dbSelectParams['fields'] = 'id';
 		
-		foreach(DatabaseDublicateChecker::getRecognizeFields($item['save_to_table']) as $tableField) {
-			if (isset($item[$tableField])) {
-				$dbSelectParams[$tableField] = $item[$tableField];
+		if ($this->overwriteById) {
+			if (isset($item['id'])) {
+				$dbSelectParams['id'] = $item['id'];
+			}
+		} else {
+			foreach(DatabaseDublicateChecker::getRecognizeFields($item['save_to_table']) as $tableField) {
+				if (isset($item[$tableField])) {
+					$dbSelectParams[$tableField] = $item[$tableField];
+				}
 			}
 		}
 		

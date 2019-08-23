@@ -12,6 +12,7 @@ class BackupManager
 	public $importType = false;
 	public $importFile = false;
 	public $importBatch = true;
+	public $importOvewriteById = false;
 	
 	public function __construct()
 	{
@@ -71,6 +72,10 @@ class BackupManager
 	
 	public function setImportBatch($importBatch) {
 		$this->importBatch = $importBatch;
+	}
+	
+	public function setImportOvewriteById($overwrite) {
+		$this->importOvewriteById = $overwrite;
 	}
 
 	/**
@@ -132,6 +137,7 @@ class BackupManager
 			
 			$writer = new DatabaseWriter();
 			$writer->setContent($content['data']);
+			$writer->setOverwriteById($this->importOvewriteById);
 			
 			if ($this->importBatch) {
 				$writer->runWriterWithBatch();

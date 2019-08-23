@@ -1,8 +1,6 @@
 <?php
 
 
-
-
 namespace Microweber\tests;
 
 use Illuminate\Support\Facades\DB;
@@ -14,7 +12,6 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
     private $sqlite_file = 'phpunit.sqlite';
 
 
-
     public function createApplication()
     {
 
@@ -23,37 +20,45 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         }
         $testing_env_name = 'testing';
 
-        $config_folder = __DIR__ . '/../../../config/testing/';
+
+        $testEnvironment = $testing_env_name = env('APP_ENV') ? env('APP_ENV') : 'testing';
+
+
+        $config_folder = __DIR__ . '/../../../config/' . $testEnvironment . '/';
         $mw_file = $config_folder . 'microweber.php';
 
-        if (!is_dir($config_folder)) {
-            mkdir($config_folder);
-        }
 
-        $unitTesting = true;
-        $testEnvironment = env('APP_ENV') ? env('APP_ENV') : 'testing';
         $test_env_from_conf = env('APP_ENV_TEST_FROM_CONFIG');
+
         if ($test_env_from_conf) {
             $testing_env_name = $testEnvironment = $test_env_from_conf;
             putenv("APP_ENV=$testing_env_name");
             if (!defined('MW_UNIT_TEST_ENV_FROM_TEST')) {
                 define('MW_UNIT_TEST_ENV_FROM_TEST', $testing_env_name);
-                $config_folder = __DIR__ . '/../../../config/'.$testing_env_name.'/';
+                $config_folder = __DIR__ . '/../../../config/' . $testing_env_name . '/';
                 $config_folder = realpath($config_folder);
                 $mw_file = $config_folder . '/microweber.php';
             }
         }
-        file_put_contents($mw_file, "<?php return array (
+
+        if (!is_file($mw_file)) {
+
+            if (!is_dir($config_folder)) {
+                mkdir($config_folder);
+            }
+
+            file_put_contents($mw_file, "<?php return array (
             'is_installed' => 0,
             'compile_assets' => 0,
             'install_default_template' => 'default',
             'install_default_template_content' => 1,
             );"
-        );
-
+            );
+        }
         $app = require __DIR__ . '/../../../bootstrap/app.php';
         $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
-        $app['env'] = $testing_env_name;
+        //  $app['env'] = $testing_env_name;
+        $environment = $app->environment();
 
         $this->assertEquals(true, is_dir($config_folder));
 
@@ -62,21 +67,28 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         });
 
         $environment = $app->environment();
-
         $this->sqlite_file = storage_path() . '/phpunit.' . $environment . '.sqlite';
-
 
 
         if (is_file($this->sqlite_file)) {
             // @unlink($this->sqlite_file);
         }
 
-        $db_driver = 'sqlite';
-        $db_host = '';
-        $db_user = '';
-        $db_pass = '';
-        $db_prefix = '';
-        $db_name = $this->sqlite_file;
+
+
+        $db_driver =  env('DB_DRIVER') ? env('DB_DRIVER') : 'sqlite'  ;
+        $db_host = env('DB_HOST', '');
+        $db_port = env('DB_PORT', '');
+        if($db_port){
+            $db_host = $db_host.':'.$db_port;
+        }
+
+        $db_user =  env('DB_USERNAME', '');
+        $db_pass = env('DB_PASSWORD', '');
+        $db_prefix = env('DB_PREFIX', '');
+        $db_name = env('DB_DATABASE', $this->sqlite_file);
+
+      //  $db_name = $this->sqlite_file;
         if ($test_env_from_conf) {
             $dbEngines = \Config::get('database.connections');
             $defaultDbEngine = \Config::get('database.default');
@@ -124,6 +136,9 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             // 'db_name' => ':memory:',
             '--env' => $environment,
         );
+
+
+
 
         $is_installed = mw_is_installed();
 

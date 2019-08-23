@@ -29,21 +29,42 @@ mw.backup_import = {
 	
 	import: function(src) {
 		
+		var importOptions = '<div>'+
+		'<h3>Import File Options</h3>'+
+		'<br />'+
+		'<label class="mw-ui-check" style="height: 26px;">'+ 
+		'<input type="checkbox" class="js-backup-import-overwrite-by-id" value="1" />'+
+		'<span style="margin-top:18px;" ></span><span>Overwrite existing content by ID.</span>'+
+		'</label>'+
+		'<br /><span style="color:red;margin-left:26px;">Warning! If this option are marked, it will be replace all existing posts.</span>'+
+		'<hr />'+
+		'<div><a class="mw-ui-btn mw-ui-btn-warn" onclick="mw.backup_import.start_import_button()">Start importing content</a></div>'+
+		'</div>'+
+		'<br /><br /><div class="backup-import-modal-log-progress"></div>'+
+		'';
+		
 		mw.modal({
-		    content: '',
+			height: 570,
+		    content: importOptions,
 		    title: importContentFromFileText,
 		    id: 'mw_backup_import_modal' 
 		});
-		mw.backup_import.init_progress(1);
 		
-		data = {}
+		data = {};
 		data.id = src;
-		
+	},
+	
+	start_import_button: function (src) {
+		$('#mw_backup_import_modal').find('.backup-import-modal-log-progress').html('Loading file...');
+		mw.backup_import.init_progress(1);
 		mw.backup_import.start_import();
 		mw.backup_import.get_log_check('start');
 	},
 	
 	start_import: function () {
+		
+		data.overwrite_by_id = $('.js-backup-import-overwrite-by-id').is(":checked");
+		
 		$.ajax({
 		  dataType: "json",
 		  url: mw.settings.api_url+'Microweber/Utils/BackupV2/import',
@@ -52,13 +73,13 @@ mw.backup_import = {
 			if (jsonData.error) {
 				$('#backup-import-progressbar').remove();
 				mw.backup_import.get_log_check('stop');
-				$('#mw_backup_import_modal').find('.backup-import-modal-log').before('<br /><h1>Error!</h1><br />' + jsonData.error);
+				$('#mw_backup_import_modal').find('.backup-import-modal-log').before('<h3>Error!</h3><br />' + jsonData.error);
 				return; 
 			}
 			if (jsonData.done) {
 				mw.backup_import.get_progress(100);
 				mw.backup_import.get_log_check('stop');
-				$('#mw_backup_import_modal').find('.backup-import-modal-log').before('<br /><h1>All data is imported successfully!</h1>');
+				$('#mw_backup_import_modal').find('.backup-import-modal-log').before('<h3>All data is imported successfully!</h3>');
 				return; 
 			} else {
 				mw.backup_import.get_progress(jsonData.precentage);
@@ -96,7 +117,7 @@ mw.backup_import = {
 	        '</div>'+
 	        '<div class="backup-import-modal-log"></div>'+
 	    '</div>';
-		$('#mw_backup_import_modal').find('.mw_modal_container').html(progressbar);
+		$('#mw_backup_import_modal').find('.backup-import-modal-log-progress').html(progressbar);
 	},
 	
 	get_log: function() {

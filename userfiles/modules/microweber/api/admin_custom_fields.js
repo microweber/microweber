@@ -179,7 +179,7 @@ mw.admin.custom_fields.make_fields_sortable = function () {
         });
     }
     return sortable_holder;
-}
+};
 mw.admin.custom_fields.del = function (id, toremove) {
     var q = "Are you sure you want to delete '" + mw.$('#mw-custom-list-element-' + id + ' .mw-admin-custom-field-name-edit-inline').text() + "' ?";
     mw.tools.confirm(q, function () {
@@ -203,10 +203,10 @@ mw.admin.custom_fields.del = function (id, toremove) {
 
         });
     });
-}
+};
 mw.admin.custom_fields.deleteFieldValue = function (el) {
     mw.$(el.parentNode).remove();
-}
+};
 mw.admin.custom_fields.edit_custom_field_item = function ($selector, id, callback, event) {
 
     var mTitle = (id ? 'Edit custom field' : 'Add new custom field');
@@ -220,13 +220,14 @@ mw.admin.custom_fields.edit_custom_field_item = function ($selector, id, callbac
 
     editModal = mw.tools.open_module_modal('custom_fields/values_edit', data, {
         overlay: false,
-        width:'350px',
+        width:'450px',
         height:'auto',
         autoHeight: true,
-        title: mTitle
+        title: mTitle,
+        scrollMode: 'window'
     });
 
-}
+};
 
 $(mww).bind('load', function () {
     mw.admin.custom_fields.initValues();
