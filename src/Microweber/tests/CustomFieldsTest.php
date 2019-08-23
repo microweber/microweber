@@ -13,30 +13,31 @@ class CustomFieldsTest extends TestCase
         mw()->database_manager->extended_save_set_permission(true);
     }
 
-    public function testMakeDefaultFields() {
-    	
-    	
-    	for ($i = 1; $i <= 10; $i++) {
-		    		
-	    	$rel = 'module';
-	    	$rel_id = 'layouts-'.rand(1111,9999).'-contact-form';
-	    	$fields_csv_str = 'name,email,message';
-	    	
-	    	$fields = mw()->fields_manager->make_default($rel, $rel_id, $fields_csv_str);
-	    	
-	    	$this->assertTrue((count($fields) == 3), true);
-    	
-	    	/* 	
-	    	var_dump(mw()->fields_manager->get_by_id($fields[0]));
-	    	
-	    	var_dump(mw()->fields_manager->get_by_id($fields[1]));
-	    	
-	    	var_dump(mw()->fields_manager->get_by_id($fields[2]));
-	    	 */
-    	}
+    public function testMakeDefaultFields()
+    {
+
+
+        for ($i = 1; $i <= 10; $i++) {
+
+            $rel = 'module';
+            $rel_id = 'layouts-' . rand(1111, 9999) . '-contact-form';
+            $fields_csv_str = 'name,email,message';
+
+            $fields = mw()->fields_manager->make_default($rel, $rel_id, $fields_csv_str);
+            if ($fields) {
+                $this->assertTrue((count($fields) == 3), true);
+            }
+            /*
+            var_dump(mw()->fields_manager->get_by_id($fields[0]));
+
+            var_dump(mw()->fields_manager->get_by_id($fields[1]));
+
+            var_dump(mw()->fields_manager->get_by_id($fields[2]));
+             */
+        }
     }
-    
-    
+
+
     public function testSaveCustomFields()
     {
         $my_product_id = 3;
@@ -96,7 +97,6 @@ class CustomFieldsTest extends TestCase
     }
 
 
-
     public function testProductWithCustomFields()
     {
         $params = array(
@@ -104,8 +104,8 @@ class CustomFieldsTest extends TestCase
             'content_type' => 'product',
             'subtype' => 'product',
             'custom_fields' => array(
-                array('type'=>'dropdown','name'=>'Color', 'value' => array('Purple','Blue')),
-                array('type'=>'price','name'=>'Price', 'value' => '9.99'),
+                array('type' => 'dropdown', 'name' => 'Color', 'value' => array('Purple', 'Blue')),
+                array('type' => 'price', 'name' => 'Price', 'value' => '9.99'),
 
             ),
             'is_active' => 1,);
