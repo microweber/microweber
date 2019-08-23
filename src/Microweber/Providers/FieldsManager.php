@@ -933,6 +933,8 @@ class FieldsManager
         	$field_data['help'] = false;
         	$field_data['values'] = array();
         	$field_data['value'] = false;
+        	$field_data['options'] = array();
+        	$field_data['options']['old_price'] = false;
         	
         	$field_settings = array();
         	$field_settings['required'] = false;
@@ -941,9 +943,14 @@ class FieldsManager
         	$field_settings['multiple'] = false;
         	$field_settings['type'] = 'button';
         	$field_settings['rows'] = '5';
+        	$field_settings['make_select'] = false;
         	
         	if (isset($data['id'])) {
         		$field_data['id'] = $data['id'];
+        	}
+        	
+        	if (isset($data['make_select'])) {
+        		$field_settings['make_select'] = $data['make_select'];
         	}
         	
         	if (isset($data['name'])) {
@@ -953,6 +960,14 @@ class FieldsManager
         	
         	if (isset($data['help'])) {
         		$field_data['help'] = $data['help'];
+        	}
+        	
+        	if (isset($data['options']['old_price'])) {
+        		$field_data['options']['old_price'] = $data['options']['old_price'];
+        	}
+        	
+        	if (isset($data['options']['field_size_class'])) {
+        		$field_settings['class'] = $data['options']['field_size_class'];
         	}
         	
         	if (isset($data['options']['required'])) {
