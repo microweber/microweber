@@ -944,6 +944,7 @@ class FieldsManager
         	$field_settings['type'] = 'button';
         	$field_settings['rows'] = '5';
         	$field_settings['make_select'] = false;
+        	$field_settings['options']['file_types'] = array();
         	
         	if (isset($data['id'])) {
         		$field_data['id'] = $data['id'];
@@ -978,14 +979,17 @@ class FieldsManager
         		$field_settings['class'] = $data['params']['input_class'];
         	}
         	
+        	// For input to textarea
         	if (isset($data['options']['as_text_area'])) {
         		$field_settings['as_text_area'] = true;
         	}
         	
+        	// For dropdown select
         	if (isset($data['options']['multiple'])) {
         		$field_settings['multiple'] = true;
         	}
         	
+        	// For textarea 
         	if (isset($data['options']['rows'])) {
         		$field_settings['rows'] = $data['options']['rows'];
         	}
@@ -1005,6 +1009,30 @@ class FieldsManager
         	
         	if (isset($data['options']['field_type'])) {
         		$field_settings['type'] = $data['options']['field_type'];
+        	}
+        	
+        	// For file upload
+        	if ($data['type'] == 'upload') {
+	        	if (is_array($data['options']) and isset($data['options']['file_types'])) {
+	        		$field_settings['options']['file_types'] = array_merge($field_data['options'], $data['options']['file_types']);
+	        	}
+        	}
+        	
+        	// For address type options
+        	if ($data['type'] == 'address') {
+        		
+        		if ($data['values'] == false or !is_array($data['values']) or !is_array($data['values'][0])) {
+        			
+        			$skips = array();
+        			if (isset($params['skip-fields']) and $params['skip-fields'] != '') {
+        				$skips = explode(',', $params['skip-fields']);
+        				$skips = array_trim($skips);
+        			}
+        			
+        			$default_data_address = array('country' => 'Country', 'city' => 'City', 'zip' => 'Zip/Post code', 'state' => 'State/Province', 'address' => 'Address');
+        			$field_data['values'] = array_merge($field_data['values'], $default_data_address);
+        		}
+        		$field_data['countries'] = mw()->forms_manager->countries_list();
         	}
         	
         	$parseView = new \Microweber\View($file);
