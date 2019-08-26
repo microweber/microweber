@@ -1,1 +1,0 @@
-bachka textareata
