@@ -870,12 +870,14 @@ class FieldsManager
 
         $data = $this->app->url_manager->replace_site_url_back($data);
 	
+        $template_file = 'mw-ui';
+        
         if (isset($data['params'])) {
-	        $template_file = get_option('data-template', $data['params']['id']);
-	        $template_file_exp = explode('/', $template_file);
-	        $template_file = $template_file_exp[0];
-        } else {
-        	$template_file = 'mw-ui';
+	        $template_file_option = get_option('data-template', $data['params']['id']);
+	        $template_file_exp = explode('/', $template_file_option);
+	        if (!empty($template_file_exp[0])) {
+	        	$template_file = $template_file_exp[0];
+	        }
         }
         
         $dir = modules_path();
