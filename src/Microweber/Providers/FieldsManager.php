@@ -945,6 +945,7 @@ class FieldsManager
         	$field_settings = array();
         	$field_settings['required'] = false;
         	$field_settings['class'] = false;
+        	$field_settings['field_size'] = 12;
         	$field_settings['as_text_area'] = false;
         	$field_settings['multiple'] = false;
         	$field_settings['type'] = 'button';
@@ -975,6 +976,10 @@ class FieldsManager
         	
         	if (isset($data['options']['field_size_class'])) {
         		$field_settings['class'] = $data['options']['field_size_class'];
+        	}
+        	
+        	if (isset($data['options']['field_size'])) {
+        		$field_settings['field_size'] = $data['options']['field_size'];
         	}
         	
         	if (isset($data['options']['required'])) {

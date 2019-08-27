@@ -1,3 +1,4 @@
+<div class="col-md-<?php echo $settings['field_size']; ?>">
 <div class="mw-ui-field-holder custom-fields-type-checkbox">
 <div class="mw-ui-label"><?php echo $data["name"]; ?></div>
 	<div class="mw-customfields-checkboxes">
@@ -11,4 +12,5 @@
 		
 		<?php endforeach; ?>
 	</div>
+</div>
 </div>

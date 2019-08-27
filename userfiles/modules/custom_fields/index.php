@@ -68,10 +68,12 @@ if (!empty($data)) {
         }
 
         if (isset($field['options']['field_size']) && is_array($field['options']['field_size'])) {
+			$field['options']['field_size'] = $field['options']['field_size'][0];
 			$field['options']['field_size_class'] = template_field_size_class($field['options']['field_size'][0]);
 		}
 		
 		if (isset($field['options']['field_size']) && is_string($field['options']['field_size'])) {
+			$field['options']['field_size'] = $field['options']['field_size'];
 			$field['options']['field_size_class'] = template_field_size_class($field['options']['field_size']);
 		}
 		

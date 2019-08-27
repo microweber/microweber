@@ -1,3 +1,4 @@
+<div class="<?php echo $settings['class']; ?>">
 <div class="mw-ui-field-holder">
 	<label class="mw-ui-label"> 
 	<?php echo $data['name']; ?>
@@ -10,9 +11,10 @@
     <?php endif; ?>
 	<div class="mw-ui-controls">
 		<?php if ($settings['as_text_area']): ?>
-			<textarea type="text" class="mw-ui-field <?php echo $settings['class']; ?>" <?php if ($settings['required']): ?>required="true"<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name']; ?>" placeholder="<?php echo $data['placeholder']; ?>"></textarea>
+			<textarea type="text" class="mw-ui-field" <?php if ($settings['required']): ?>required="true"<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name']; ?>" placeholder="<?php echo $data['placeholder']; ?>"></textarea>
 		<?php else: ?>
-			<input type="text" class="mw-ui-field <?php echo $settings['class']; ?>" <?php if ($settings['required']): ?>required="true"<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name']; ?>" placeholder="<?php echo $data['placeholder']; ?>" />
+			<input type="text" class="mw-ui-field" <?php if ($settings['required']): ?>required="true"<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name']; ?>" placeholder="<?php echo $data['placeholder']; ?>" />
 		<?php endif; ?>
 	</div>
+</div>
 </div>

@@ -1,6 +1,6 @@
 <script>mw.require('forms.js');</script>
 
-<div class="<?php echo $settings['class']; ?>">
+<div class="col-md-<?php echo $settings['field_size']; ?>">
 <div class="form-group">
 	<label> 
 	<?php echo $data['name']; ?>

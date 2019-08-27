@@ -1,15 +1,14 @@
 <?php
 
 /*
-
-type: layout
-
-name: Bootstrap 4
-
-description: Bootstrap 4
-
-*/
-
+ *
+ * type: layout
+ *
+ * name: Bootstrap 4
+ *
+ * description: Bootstrap 4
+ *
+ */
 ?>
 <div class="row">
 	 <?php if (!empty($fields_group)): ?>

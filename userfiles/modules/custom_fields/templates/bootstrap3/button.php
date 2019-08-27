@@ -1,4 +1,4 @@
-<div class="<?php echo $settings['class']; ?>">
+<div class="col-md-<?php echo $settings['field_size']; ?>">
 <div class="form-group">
 	<label class="mw-ui-label">&nbsp;</label>
 	<div class="mw-custom-field-form-controls">

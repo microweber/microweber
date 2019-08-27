@@ -1,17 +1,16 @@
 <?php
 
 /*
-
-type: layout
-
-name: MW UI
-
-description: MW UI
-
-*/
-
+ *
+ * type: layout
+ *
+ * name: MW UI
+ *
+ * description: MW UI
+ *
+ */
 ?>
-<div class="mw-ui-rows">
+<div class="mw-flex-row">
 	 <?php if (!empty($fields_group)): ?>
 		 <?php foreach ($fields_group as $fields): ?>
 		 
