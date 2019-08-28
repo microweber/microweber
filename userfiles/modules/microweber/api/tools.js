@@ -141,6 +141,47 @@ if (!window.escape) {
     };
 }
 mw.tools = {
+    fragment: function(){
+        if(!this._fragment){
+            this._fragment = document.createElement('div');
+            this._fragment.style.visibility = 'hidden';
+            this._fragment.style.position = 'absolute';
+            this._fragment.style.width = '1px';
+            this._fragment.style.height = '1px';
+            document.body.appendChild(this._fragment);
+        }
+        return this._fragment;
+    },
+    _isBlockCache:{},
+    isBlockLevel:function(node){
+        if(!node || node.nodeType === 3){
+            return false;
+        }
+        var name = node.nodeName;
+        if(typeof this._isBlockCache[name] !== 'undefined'){
+            return this._isBlockCache[name];
+        }
+        var test = document.createElement(name);
+        this.fragment().appendChild(test);
+        this._isBlockCache[name] = getComputedStyle(test).display === 'block';
+        this.fragment().removeChild(test);
+        return this._isBlockCache[name];
+    },
+    _isInlineCache:{},
+    isInlineLevel:function(node){
+        if(node.nodeType === 3){
+            return false;
+        }
+        var name = node.nodeName;
+        if(typeof this._isInlineCache[name] !== 'undefined'){
+            return this._isInlineCache[name];
+        }
+        var test = document.createElement(name);
+        this.fragment().appendChild(test);
+        this._isInlineCache[name] = getComputedStyle(test).display === 'inline' && node.nodeName !== 'BR';
+        this.fragment().removeChild(test);
+        return this._isInlineCache[name];
+    },
     elementOptions: function(el) {
         var opt = ( el.dataset.options || '').trim().split(','), final = {};
         if(!opt[0]) return final;
@@ -211,7 +252,6 @@ mw.tools = {
         setTimeout(function(){
             insertDetector();
         }, 100);
-
         frame.scrolling="no";
         frame.style.minHeight = 0 + 'px';
         mw.$(frame).on('load resize', function(){
@@ -1936,7 +1976,8 @@ mw.tools = {
     parentsOrCurrentOrderMatch: function (node, arr) {
         var curr = node,
             match = {a: 0, b: 0},
-            count = 1;
+            count = 1,
+            hadA = false;
         while (curr !== document.body) {
             count++;
             var h1 = mw.tools.hasClass(curr, arr[0]);
@@ -1950,23 +1991,56 @@ mw.tools = {
             else {
                 if (h1) {
                     match.a = count;
+                    hadA = true;
                 }
                 else if (h2) {
                     match.b = count;
                 }
                 if (match.b > match.a) {
-                    return true;
+                    return hadA ? true : false;
                 }
             }
             curr = curr.parentNode;
         }
         return false;
     },
+    parentsOrCurrentOrderMatchOrNone:function(node, arr){
+        if(!node) return false;
+        var curr = node,
+            match = {a: 0, b: 0},
+            count = 1,
+            hadA = false;
+        while (curr && curr !== document.body) {
+            count++;
+            var h1 = mw.tools.hasClass(curr, arr[0]);
+            var h2 = mw.tools.hasClass(curr, arr[1]);
+            if (h1 && h2) {
+                if (match.a > 0) {
+                    return true;
+                }
+                return false;
+            }
+            else {
+                if (h1) {
+                    match.a = count;
+                    hadA = true;
+                }
+                else if (h2) {
+                    match.b = count;
+                }
+                if (match.b > match.a) {
+                    return hadA ? true : false;
+                }
+            }
+            curr = curr.parentNode;
+        }
+        return match.a === 0 && match.b === 0;
+    },
     parentsOrCurrentOrderMatchOrOnlyFirstOrBoth: function (node, arr) {
         var curr = node,
             has1 = false,
             has2 = false;
-        while (curr !== document.body) {
+        while (curr && curr !== document.body) {
             var h1 = mw.tools.hasClass(curr, arr[0]);
             var h2 = mw.tools.hasClass(curr, arr[1]);
             if (h1 && h2) {
@@ -1982,7 +2056,7 @@ mw.tools = {
             }
             curr = curr.parentNode;
         }
-        return true;
+        return false;
     },
     matchesAnyOnNodeOrParent: function (node, arr) {
         var curr = node;
@@ -4635,10 +4709,11 @@ $.fn.mwDialog = function(conf){
         width: 'auto'
     };
     var settings = $.extend({}, defaults, options, conf);
-    if(conf === 'close' || conf === 'hide'){
+    if(conf === 'close' || conf === 'hide' || conf === 'remove'){
         if(el._dialog){
             el._dialog.remove()
         }
+        return;
     }
     $(el).before('<mw-dialog-temp id="'+idEl+'"></mw-dialog-temp>');
     var dialog = mw.dialog(settings);

@@ -75,16 +75,33 @@ if (typeof Range.prototype.querySelectorAll === 'undefined') {
         var nodes = f.querySelectorAll(s);
         r.insertNode(f);
         return nodes;
-    }
+    };
 }
 mw.wysiwyg = {
+    html2text:function(html){
+        return $(mw.tools.parseHtml(html).body).text()
+    },
+    isTargetEditable: function(target){
+        var curr = target;
+        while(curr && curr !== document.body){
+            if(curr.contentEditable === 'true'){
+                return true;
+            } else if(curr.contentEditable === 'inherit'){
+                curr = curr.parentNode;
+            } else {
+                return false;
+            }
+        }
+    },
     isSafeMode: function (el) {
         if (!el) {
             var sel = window.getSelection(),
-                range = sel.getRangeAt(0),
-                el = mw.wysiwyg.validateCommonAncestorContainer(range.commonAncestorContainer);
+                range = sel.getRangeAt(0);
+            el = mw.wysiwyg.validateCommonAncestorContainer(range.commonAncestorContainer);
         }
-        return mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrBoth(el, ['safe-mode', 'edit']);
+        var hasSafe = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrBoth(el, ['safe-mode', 'edit']);
+        var regInsafe = mw.tools.parentsOrCurrentOrderMatchOrNone(el, ['regular-mode', 'safe-mode']);
+        return hasSafe && !regInsafe;
     },
     parseClassApplierSheet: function () {
         var sheet = mwd.querySelector('link[classApplier]');
@@ -330,21 +347,21 @@ mw.wysiwyg = {
             }
         }
         state = state === true ? 'true' : 'false';
-        if(el.contentEditable !== state) { // chrome setter needs a check
-            el.contentEditable = state;
+        if(mw.wysiwyg.isSafeMode(el)){
+            if(el.contentEditable !== state) { // chrome setter needs a check
+                el.contentEditable = state;
+            }
+        } else {
+            mw.tools.firstParentOrCurrentWithAnyOfClasses(el, ['edit', 'regular-mode', 'element']);
         }
+
         mw.on.DOMChangePause = false;
     },
 
     prepareContentEditable: function () {
         mw.on("EditMouseDown", function (e, el, target, originalEvent) {
-            //mw.wysiwyg.removeEditable([el]);
-            /*mw.$(".edit[contenteditable='true']").each(function () {
-                mw.wysiwyg.contentEditable(el, false);
-            });*/
-            var _el = mw.$(el);
-            if (!mw.tools.hasAnyOfClassesOnNodeOrParent(target, ['safe-mode'])) {
-                //_el.attr("contentEditable", "true").find('[contenteditable="false"]').not('.module').removeAttr('contenteditable');
+
+            if (!mw.wysiwyg.isSafeMode(target)) {
                 if (!mw.is.ie) { //Non IE browser
                     var orderValid = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(originalEvent.target, ['edit', 'module']);
                     mw.wysiwyg.contentEditable(el, orderValid)
@@ -378,10 +395,9 @@ mw.wysiwyg = {
                 var firstBlock = target;
                 var blocks = ['p', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'header', 'section', 'footer', 'ul', 'ol'];
                 var blocksClass = ['safe-element'];
-                var po = mw.tools.parentsOrder(firstBlock, ['edit', 'module']);
+                var po = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(firstBlock, ['edit', 'module']);
 
-                if (po.module == -1 || po.module > po.edit) {
-
+                if (po) {
                     if (blocks.indexOf(firstBlock.nodeName.toLocaleLowerCase()) === -1 && !mw.tools.hasAnyOfClassesOnNodeOrParent(firstBlock, blocksClass)) {
                         var cls = [];
                         blocksClass.forEach(function (item) {
@@ -390,12 +406,8 @@ mw.wysiwyg = {
                         cls = cls.concat(blocks);
                         firstBlock = mw.tools.firstMatchesOnNodeOrParent(firstBlock, cls);
                     }
-                    // mw.$('[contenteditable]').not(firstBlock).removeAttr('contenteditable')
                      mw.$("[contenteditable='true']").not(firstBlock).attr("contenteditable", "false");
                     mw.wysiwyg.contentEditable(firstBlock, true);
-                }
-                else {
-                //    mw.$('[contenteditable]').removeAttr('contenteditable')
                 }
 
             }

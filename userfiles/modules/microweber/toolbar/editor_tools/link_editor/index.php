@@ -38,14 +38,21 @@
                     }
                 }
                 mw.tools.ajaxSearch({keyword: val, limit: 4}, function () {
-                    var lis = "";
+                    var lis = [];
                     var json = this;
+                    var createLi = function(obj){
+                        var li = document.createElement('li');
+                        li.className = 'mw-dd-list-result';
+                        li.onclick = function (ev) {
+                            setACValue(obj.url, '_self', obj.title, obj)
+                        };
+                        li.innerHTML = "<a href='javascript:;'>" + obj.title + "</a>";
+                        return li;
+                    };
                     for (var item in json) {
                         var obj = json[item];
                         if (typeof obj === 'object') {
-                            var title = obj.title;
-                            var url = obj.url;
-                            lis += "<li class='mw-dd-list-result' value='" + url + "' onclick='setACValue(\"" + url + "\")'><a href='javascript:;'>" + title + "</a></li>";
+                            lis.push(createLi(obj));
                         }
                     }
                     var ul = el.parent().find("ul");
@@ -66,7 +73,7 @@
 
         dd_autocomplete('#dd_pages_search');
 
-        mw.$("#insert_email").click(function () {
+        mw.$("#insert_email").on('click', function () {alert(1)
             var val = mwd.getElementById('email_field').value;
             if (!val.contains('mailto:')) {
                 val = 'mailto:' + val;
@@ -152,6 +159,10 @@
 
     #available_elements a + a {
         border-top: 1px solid #eee;
+    }
+
+    #insert_link .mw-dropdown-content{
+        position: relative;
     }
 
 </style>

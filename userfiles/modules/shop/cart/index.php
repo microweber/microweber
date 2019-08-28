@@ -5,8 +5,6 @@
 
 <?php
 
-
-$tems = get_option('shop_require_terms', 'website') == 1;
 $shop_page = get_content('is_shop=1');
 
 $shipping_options = mw('shop\shipping\shipping_api')->get_active();
@@ -35,11 +33,7 @@ if ($checkout_link_enanbled != 'n') {
     $checkout_page_link = false;
 }
 
-
 $cart_price_summary = true;
-
-
-
 
 //$taxes_enabled = get_option('enable_taxes', 'shop') == 1;
 //
@@ -65,13 +59,6 @@ $cart_price_summary = true;
 
 
 $cart_totals = mw()->cart_manager->totals();
-
-
-
-
-
-
-
 
 
 $template = get_option('data-template', $params['id']);

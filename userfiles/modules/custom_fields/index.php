@@ -4,7 +4,7 @@
 $skip_types = array();
 $for = 'module';
 if (isset($params['for'])) {
-    $for = $params['for']; 
+    $for = $params['for'];
 }
 
 
@@ -56,12 +56,17 @@ $groupFields = array();
 $groupI = 0;
 if (!empty($data)) {
 	foreach ($data as $field) {
-		
 		if($field['type'] == 'breakline') {
 			$groupI++;
 			continue;
 		}
-		
+
+		if(isset($params['parent-module'] ) and $params['parent-module'] == 'contact_form'){
+			if(strtolower($field['name'])=='name' || strtolower($field['name'])=='email' || strtolower($field['name'])=='message'){
+			  $field['options']['required'] = 'y';
+			}
+		}
+
 		$field['options']['field_size_class'] = template_default_field_size_option($field);
 
 
@@ -72,11 +77,11 @@ if (!empty($data)) {
         if (isset($field['options']['field_size']) && is_array($field['options']['field_size'])) {
 			$field['options']['field_size_class'] = template_field_size_class($field['options']['field_size'][0]);
 		}
-		
+
 		if (isset($field['options']['field_size']) && is_string($field['options']['field_size'])) {
 			$field['options']['field_size_class'] = template_field_size_class($field['options']['field_size']);
 		}
-		
+
 		$groupFields[$groupI][] = $field;
 	}
 }
@@ -100,4 +105,4 @@ if ($template_file != false and is_file($template_file) != false) {
 
     include($template_file);
 }
- 
+

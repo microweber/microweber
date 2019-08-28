@@ -8,9 +8,9 @@ if(typeof  processContactForm !== 'object'){
     processContactForm = {
        send: function(selector, msgselector){
             mw.tools.loading(selector);
-			
+
 			mw.$('input[type="submit"]',selector).attr('disabled', 'disabled');
-			
+
             mw.form.post(selector, undefined, function(form){
                 mw.tools.loading(selector, false);
     			var data2 = this;
@@ -102,9 +102,16 @@ $(document).ready(function(){
 		mw.$('input[type="submit"]','form[data-form-id="<?php print $form_id ?>"]').removeAttr('disabled');
     	return false;
     });
+	$('body').click(function(){
+	   if( $('#msg<?php print $form_id; ?>').is(":visible") ) {
+		  $('#msg<?php print $form_id; ?>').hide();
+	   }
+	});
 });
 </script>
-<?php $save_as = get_option('form_name', $params['id']);
+
+<?php
+$save_as = get_option('form_name', $params['id']);
 
 if($save_as == false){
 	$save_as = $params['id'];
@@ -120,10 +127,31 @@ if($module_template != false and $module_template != 'none'){
 	} else {
 			$template_file = module_templates( $config['module'], 'default');
 	}
-	
+
 }
- $template_file_def = module_templates( $config['module'], 'default');
- 
+$template_file_def = module_templates( $config['module'], 'default');
+
+$require_terms = get_option('require_terms', $params['module'] . '_default');
+$require_terms_when = '';
+
+if($require_terms) {
+    $user_id_or_email = (is_logged()? user_id():false);
+    if(mw()->user_manager->terms_check('terms_contact', $user_id_or_email)){
+    	$require_terms = 'n';
+    } else {
+		$require_terms_when = get_option('require_terms_when', $params['module'] . '_default');
+		if($require_terms_when == 'b') {
+			$terms_label = get_option('terms_label', 'users');
+			$terms_label_cleared = str_replace('&nbsp;', '', $terms_label);
+			$terms_label_cleared = strip_tags($terms_label_cleared);
+			$terms_label_cleared = mb_trim($terms_label_cleared);
+			if ($terms_label_cleared == '') {
+				$terms_label = 'I agree with the <a href="' . site_url() . 'terms" target="_blank">Terms and Conditions</a>';
+			}
+		}
+	}
+}
+
 if(isset($template_file) and is_file($template_file) != false){
  	include($template_file);
 } elseif(isset($template_file_def) and is_file($template_file_def) != false){
