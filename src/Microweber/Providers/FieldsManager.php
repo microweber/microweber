@@ -880,6 +880,10 @@ class FieldsManager
 	        }
         }
         
+        if ($template_file == 'default') {
+        	$template_file = 'mw-ui';
+        }
+        
         $dir = modules_path();
         
         if ($settings == true or isset($data['settings'])) {
@@ -936,6 +940,7 @@ class FieldsManager
         	
         	$field_data = array();
         	$field_data['name'] = false;
+        	$field_data['type'] = false;
         	$field_data['id'] = 0;
         	$field_data['placeholder'] = false;
         	$field_data['help'] = false;
@@ -966,6 +971,17 @@ class FieldsManager
         	if (isset($data['name'])) {
         		$data['name'] = ucwords(str_replace('_', ' ', $data['name']));
         		$field_data['name'] = $data['name'];
+        	}
+        	
+        	if (isset($data['type'])) {
+        		$field_data['type'] = $data['type'];
+        	}
+        	
+        	if (isset($data['rel_type'])) {
+        		$field_settings['rel_type'] = $data['rel_type'];
+        	}
+        	if (isset($data['rel_id'])) {
+        		$field_settings['rel_id'] = $data['rel_id'];
         	}
         	
         	if (isset($data['help'])) {

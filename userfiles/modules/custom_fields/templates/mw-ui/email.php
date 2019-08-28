@@ -1,5 +1,5 @@
 <div class="<?php echo $settings['class']; ?>">
-<div class="control-group form-group">
+<div class="mw-ui-field-holder">
 	<label class="mw-ui-label"> 
 	<?php echo $data['name']; ?>
 	<?php if ($settings['required']): ?>

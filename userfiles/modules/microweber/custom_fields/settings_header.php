@@ -49,8 +49,8 @@ if (!isset($data['id'])) {
 
 }
 
-if ($for == false and isset($data['rel_type'])) {
-    $for = $data['rel_type'];
+if ($for == false and isset($settings['rel_type'])) {
+	$for = $settings['rel_type'];
 }
 
 
@@ -147,8 +147,8 @@ if (!isset($for_module_id) or $for_module_id == false) {
     }
 }
 if (!isset($for) or $for == false) {
-    if (isset($data['rel_type'])) {
-        $for = $data['rel_type'];
+	if (isset($settings['rel_type'])) {
+    	$for = $settings['rel_type'];
 
     }
 }
@@ -158,8 +158,8 @@ if (!isset($data['position'])) {
 
 }
 if (!isset($for_module_id) or $for_module_id == false) {
-    if (isset($data['rel_id'])) {
-        $for_module_id = $data['rel_id'];
+	if (isset($settings['rel_id'])) {
+		$for_module_id = $settings['rel_id'];
 
     }
 }
@@ -206,7 +206,6 @@ if ($for == false) {
 
 
 ?>
-
 
 <div class="mw-field-type-<?php print trim($field_type) ?>" id="custom_fields_edit<?php print $rand; ?>">
     <?php if (isset($data['id']) and ($data['id']) != 0): ?>
