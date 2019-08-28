@@ -1,11 +1,7 @@
 <?php
-
-
-
 only_admin_access();
 
 $rand = rand();
-
 
 $data_orig = $data;
 //$rand = round($rand);
@@ -204,60 +200,43 @@ if ($for == false) {
     }
 }
 
-
+// var_dump($data); die();
 ?>
 
-<div class="mw-field-type-<?php print trim($field_type) ?>" id="custom_fields_edit<?php print $rand; ?>">
+<div class="mw-field-type-<?php echo  trim($field_type) ?>" id="custom_fields_edit<?php echo  $rand; ?>">
     <?php if (isset($data['id']) and ($data['id']) != 0): ?>
-        <input type="hidden" name="cf_id" value="<?php print ($data['id']) ?>"/>
+        <input type="hidden" name="cf_id" value="<?php echo  ($data['id']) ?>"/>
     <?php endif; ?>
 
-     <?php
-
-     if (isset($data_orig['field_id']) and ($data_orig['field_id']) ): ?>
-         <input type="hidden" name="cf_id" value="<?php print ($data_orig['field_id']) ?>"/>
+     <?php if (isset($data_orig['field_id']) and ($data_orig['field_id']) ): ?>
+         <input type="hidden" name="cf_id" value="<?php echo  ($data_orig['field_id']) ?>"/>
     <?php endif; ?>
 
-
-
-
-
-
-    <?php if (isset($data['for']) and $data['for'] != false): ?>
-        <?php $db_t = $for; ?>
-        <input type="hidden" name="rel" value="<?php print ($db_t); ?>"/>
-        <input type="hidden" name="rel_id" value="<?php print strval($for_module_id) ?>"/>
+    <?php if ($for): ?>
+        <input type="hidden" name="rel" value="<?php echo  ($for); ?>"/>
+        <input type="hidden" name="rel_id" value="<?php echo  strval($for_module_id) ?>"/>
     <?php endif; ?>
+    
     <?php if (isset($save_to_content_id)): ?>
-        <input type="hidden" name="copy_rel_id" value="<?php print strval($save_to_content_id) ?>"/>
+        <input type="hidden" name="copy_rel_id" value="<?php echo  strval($save_to_content_id) ?>"/>
     <?php endif; ?>
-    <input type="hidden" name="type" value="<?php print trim($field_type) ?>"/>
+    
+    <input type="hidden" name="type" value="<?php echo  trim($field_type) ?>"/>
 
     <?php
-
-
-    /*<input type="hidden" name="position" value="<?php print $data['position'] ?>" /> */
-
+    /*<input type="hidden" name="position" value="<?php echo  $data['position'] ?>" /> */
     ?>
 
     <script>
-
-
         $(document).ready(function () {
 
-            var master = mwd.getElementById('custom_fields_edit<?php print $rand; ?>');
-
+            var master = mwd.getElementById('custom_fields_edit<?php echo  $rand; ?>');
             var fields = master.querySelector('input[type="text"], input[type="email"], textarea, input[type="checkbox"], input[type="radio"], select');
-
 
             if (typeof is_body_click_binded === 'undefined') {
                 is_body_click_binded = true;
-
-
             }
 
-
         });
-
     </script>
 </div>

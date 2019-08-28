@@ -950,6 +950,8 @@ class FieldsManager
         	$field_data['options']['old_price'] = false;
         	
         	$field_settings = array();
+        	$field_settings['rel_id'] = false;
+        	$field_settings['rel_type'] = false;
         	$field_settings['required'] = false;
         	$field_settings['class'] = false;
         	$field_settings['field_size'] = 12;
@@ -1042,7 +1044,7 @@ class FieldsManager
         	
         	// For file upload
         	if ($data['type'] == 'upload') {
-	        	if (is_array($data['options']) and isset($data['options']['file_types'])) {
+	        	if (is_array($data['options']) && isset($data['options']['file_types'])) {
 	        		$field_settings['options']['file_types'] = array_merge($field_data['options'], $data['options']['file_types']);
 	        	}
         	}
@@ -1050,19 +1052,51 @@ class FieldsManager
         	// For address type options
         	if ($data['type'] == 'address') {
         		
-        		if ($data['values'] == false or !is_array($data['values']) or !is_array($data['values'][0])) {
+        		if ($data['values'] == false || !is_array($data['values']) || !is_array($data['values'][0])) {
         			
-        			$skips = array();
+        			$default_address_fields = array('country' => 'Country', 'city' => 'City', 'zip' => 'Zip/Post code', 'state' => 'State/Province', 'address' => 'Address');
+        			
+        			$field_data['default_address_fields'] = $default_address_fields;
+        			
+        			$skip_fields = array();
         			if (isset($params['skip-fields']) and $params['skip-fields'] != '') {
-        				$skips = explode(',', $params['skip-fields']);
-        				$skips = array_trim($skips);
+        				$skip_fields = explode(',', $params['skip-fields']);
+        				$skip_fields = array_trim($skip_fields);
         			}
         			
-        			$default_data_address = array('country' => 'Country', 'city' => 'City', 'zip' => 'Zip/Post code', 'state' => 'State/Province', 'address' => 'Address');
-        			$field_data['values'] = array_merge($field_data['values'], $default_data_address);
+        			$selected_address_fields = array();
+        			if (isset($data['options']['country'])) {
+        				$selected_address_fields[] = 'country';
+        			}
+        			if (isset($data['options']['city'])) {
+        				$selected_address_fields[] = 'city';
+        			}
+        			if (isset($data['options']['zip'])) {
+        				$selected_address_fields[] = 'zip';
+        			}
+        			if (isset($data['options']['state'])) {
+        				$selected_address_fields[] = 'state';
+        			}
+        			if (isset($data['options']['address'])) {
+        				$selected_address_fields[] = 'address';
+        			}
+        			
+        			if (!empty($selected_address_fields)) {
+        				$new_address_fields = array();
+        				foreach($selected_address_fields as $field) {
+        					if (isset($default_address_fields[$field])) {
+        						$new_address_fields[$field] = $default_address_fields[$field];
+        					}
+        				}
+        				$default_address_fields = $new_address_fields;
+        			}
+        			
+        			$field_data['values'] = array_merge($field_data['values'], $default_address_fields);
         		}
         		$field_data['countries'] = mw()->forms_manager->countries_list();
         	}
+        	
+        	//var_dump($data);die(); 
         	
         	$parseView = new \Microweber\View($file);
         	$parseView->assign('data', $field_data);

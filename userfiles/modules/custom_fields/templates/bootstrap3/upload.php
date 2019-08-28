@@ -1,7 +1,8 @@
 <?php $up = 'up'.uniqid().rand().rand().crc32($data['id']); ?>
 <?php $rand = uniqid(); ?>
 
-<div class="control-group form-group">
+<div class="col-md-<?php echo $settings['field_size']; ?>">
+<div class="form-group">
 
   <label class="mw-ui-label"><?php echo $data["name"]; ?>
   <?php if ($settings['required']): ?>  
@@ -27,8 +28,9 @@
     </div>
   </div>
 </div>
-
 <div class="alert alert-error" id="upload_err<?php echo($rand); ?>"  style="display:none;"> </div>
+</div>
+
 <script>
     mw.require('tools.js');
     mw.require('files.js');
