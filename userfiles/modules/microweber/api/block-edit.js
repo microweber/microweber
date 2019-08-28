@@ -155,14 +155,13 @@ mw.registerComponent('block-edit-editButton', function(el){
     mw.$(el).on('click', function(){
         var options = mw.components._options(this);
         if(options.module){
-            mw.blockEdit.get(this).moduleEdit(options.module);
+            mw.blockEdit.get(options.for || this).moduleEdit(options.module);
             return;
         } else if(options.element){
             var el = mw.$(options.element)[0];
             if(el){
-                mw.blockEdit.get(this).editByElement(el);
+                mw.blockEdit.get(options.for || this).editByElement(el);
             }
-
         }
         mw.blockEdit.get(this).edit();
     });

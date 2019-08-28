@@ -4821,8 +4821,7 @@ html[dir="rtl"] #upload-icoimage {
     line-height: 13px;
 }
 
-#custom_link_controller .mw-ui-btn-info,
-#custom_link_inline_controller .mw-ui-btn {
+#custom_link_controller .mw-ui-btn-info{
     line-height: 14px;
 }
 

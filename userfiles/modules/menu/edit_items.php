@@ -34,9 +34,11 @@ if( $id != 0){
     $menu_params['link'] = '
     <div id="menu-item-{id}" data-item-id="{id}"  class="module_item">
     <span class="mw-ui-btn mw-ui-link mw-ui-btn-rounded mw-ui-btn-small show-on-hover pull-right" onclick="mw.menu_admin.delete_item({id});"><i class="mw-icon-app-trash"></i></span>
-    <span class="mw-ui-btn mw-ui-link mw-ui-btn-rounded mw-ui-btn-small show-on-hover pull-right" onclick="mw.menu_admin.set_edit_item({id}, this);">'. _e('Edit', true) .'</span>
+    <span 
+        class="mw-ui-btn mw-ui-link mw-ui-btn-rounded mw-ui-btn-small show-on-hover pull-right" 
+        onclick="mw.menu_admin.set_edit_item({id}, this, '.$id.');">'. _e('Edit', true) .'</span>
 	<span class="mw-icon-drag mw_admin_modules_sortable_handle"></span>
-	<span data-item-id="{id}" class="menu_element_link {active_class}" onclick="mw.menu_admin.set_edit_item({id}, this);">{title}</span> 
+	<span data-item-id="{id}" class="menu_element_link {active_class}" onclick="mw.menu_admin.set_edit_item({id}, this, '.$id.');">{title}</span> 
 	</div>';
 
     $data = menu_tree( $menu_params);
@@ -63,7 +65,7 @@ if( $id != 0){
                 old_handle: '.iMove',
                 attribute : 'data-item-id',
                 update:function(){
-                    var obj = {ids:[], ids_parents:{}}
+                    var obj = {ids:[], ids_parents:{}};
                     $(this).find('.menu_element').each(function(){
                         var id = this.attributes['data-item-id'].nodeValue;
                         obj.ids.push(id);

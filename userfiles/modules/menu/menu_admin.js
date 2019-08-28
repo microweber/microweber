@@ -66,7 +66,7 @@ mw.menu_admin.delete_item = function($item_id){
 };
 
 
-mw.menu_admin.set_edit_item = function($item_id, node){
+mw.menu_admin.set_edit_item = function($item_id, node, $id){
     if(typeof node === 'object'){
         var li = mw.tools.firstParentWithTag(node, 'li');
         var id = $(li).dataset('item-id');
@@ -79,7 +79,7 @@ mw.menu_admin.set_edit_item = function($item_id, node){
         $(node.parentNode).addClass('active');
         $(node.parentNode).parent().addClass('opened');
         mw.menu_admin.curenlty_editing_item_id = id;
-        if(mw.$("#edit-menu_item_edit_wrap-"+id).length>0){
+        if(mw.$("#edit-menu_item_edit_wrap-" + id).length>0){
             return false;
         }
         else{
@@ -92,7 +92,7 @@ mw.menu_admin.set_edit_item = function($item_id, node){
     mw.$('.module-menu-edit-item').remove();
     the_li.find('.module_item').eq(0).after('<div id="edit-menu_item_edit_wrap-'+$item_id+'" item-id="'+$item_id+'"></div>');
     $('#edit-menu_item_edit_wrap-'+$item_id).attr('item-id',$item_id);
-    $('#edit-menu_item_edit_wrap-'+$item_id).attr('menu-id','<?php print $id?>');
+    $('#edit-menu_item_edit_wrap-'+$item_id).attr('menu-id', $id);
     mw.tools.loading(the_li[0], true);
     mw.load_module('menu/edit_item','#edit-menu_item_edit_wrap-'+$item_id, function(){
         mw.$('#custom_link_inline_controller').show();

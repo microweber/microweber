@@ -121,32 +121,15 @@ if ($id != 0) {
 
                 <?php endif; ?>
 
-                <div class="mw-ui-field-holder">
-                    <input type="text" placeholder="<?php _e("URL"); ?>" class="mw-ui-field w100" autocomplete="off" name="url" value="<?php print $data['url'] ?>" xxname="x-url" onchange="this.name='custom_link'"/>
+                <div class="mw-field change-url-box">
+                    <input type="text" id="id-<?php print $data['id'] ?>" readonly placeholder="<?php _e("URL"); ?>" class="mw-ui-field w100" autocomplete="off" name="url" value="<?php print $data['url'] ?>"/>
+                    <span class="mw-ui-btn mw-field-append" data-for="id-<?php print $data['id'] ?>"><span class="mw-icon-gear"></span></span>
                 </div>
 
-                <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-rounded" onclick="mw.$('#menu-selector-<?php print $data['id'] ?>').toggle();">
-                    <?php _e("Select page from your site"); ?>
-                </button>
-
-                <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded" onclick="mw.$('#menu-selector-<?php print $data['id'] ?>adv').toggle();">
+                <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline" onclick="mw.$('#menu-selector-<?php print $data['id'] ?>adv').toggle();">
                     <?php _e("Advanced"); ?>
                 </button>
 
-
-
-
-
-
-
-
-                <?php if ($data['id'] != 0): ?>
-                    <div id="menu-selector-<?php print $data['id'] ?>" class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" style="top: 3px;">
-                        <microweber module="categories/selector" active_ids="<?php print $data['content_id'] ?>" categories_active_ids="<?php print $data['categories_id'] ?>" for="content" rel_id="<?php print 0 ?>" input-type-categories="radio" input-name-categories="tree_cat_id"
-                                    input-name="tree_content_id"/>
-                    </div>
-                    <script>mw.treeRenderer.appendUI('#menu-selector-<?php  print $data['id'] ?>');</script>
-                <?php endif; ?>
 
                 <?php if ($data['id'] != 0): ?>
 
@@ -183,16 +166,16 @@ if ($id != 0) {
 
     <div  class="mw-ui-field-holder">
         <label class="mw-ui-label">Target attribute <small class="mw-help" data-help="Target "> (?)</small></label>
-        
+
         <select class="mw-ui-field" name="url_target">
-        <?php 
+        <?php
         $attributeValues = explode("|", "|_blank|_self|_parent|_top|framename");
         foreach ($attributeValues as $attributeValue):
         ?>
        	<option value="<?php echo $attributeValue; ?>" <?php if($data['url_target'] == $attributeValue):?>selected="selected"<?php endif; ?>><?php echo $attributeValue; ?></option>
         <?php endforeach; ?>
 		</select>
-		
+
     </div>
 
 
@@ -254,3 +237,33 @@ if ($id != 0) {
     </div>
 <?php else: ?>
 <?php endif; ?>
+
+<script>
+    $(document).ready(function () {
+        $('.change-url-box .mw-ui-btn, .change-url-box input').on('click', function(){
+            var scope = this;
+            var link = mw.instruments.link({
+                mode: 'dialog'
+            });
+            link.handler.on('change', function(e, url, target, name, data){
+                if(scope.nodeName === 'INPUT'){
+                    scope.value = url;
+                    $(scope).trigger('change')
+                } else{
+                    var f = scope.dataset.for;
+                    if(f){
+                        $('#' + f).val(url);
+                        var parent = mw.tools.firstParentWithClass(this, 'mw-ui-gbox');
+                        if(data && data.id){
+                            mw.$('[name="content_id"]', parent).val(data.id)
+                        } else{
+                            mw.$('[name="content_id"]', parent).val(false)
+                        }
+                        $('#' + f).trigger('change')
+                    }
+                }
+                link.dialog.remove();
+            })
+        })
+    })
+</script>
