@@ -43,18 +43,20 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         if (!is_file($mw_file)) {
 
-            if (!is_dir($config_folder)) {
-                mkdir($config_folder);
-            }
 
-            file_put_contents($mw_file, "<?php return array (
+        }
+        if (!is_dir($config_folder)) {
+            mkdir($config_folder);
+        }
+
+        file_put_contents($mw_file, "<?php return array (
             'is_installed' => 0,
             'compile_assets' => 0,
             'install_default_template' => 'default',
             'install_default_template_content' => 1,
             );"
-            );
-        }
+        );
+
         $app = require __DIR__ . '/../../../bootstrap/app.php';
         $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
         //  $app['env'] = $testing_env_name;
@@ -76,17 +78,19 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
 
 
+
         $db_driver =  env('DB_DRIVER') ? env('DB_DRIVER') : 'sqlite'  ;
         $db_host = env('DB_HOST', '');
         $db_port = env('DB_PORT', '');
-        if($db_port){
-            $db_host = $db_host.':'.$db_port;
-        }
+
+
+
 
         $db_user =  env('DB_USERNAME', '');
         $db_pass = env('DB_PASSWORD', '');
         $db_prefix = env('DB_PREFIX', '');
         $db_name = env('DB_DATABASE', $this->sqlite_file);
+
 
       //  $db_name = $this->sqlite_file;
         if ($test_env_from_conf) {
@@ -143,6 +147,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         $is_installed = mw_is_installed();
 
         if (!$is_installed) {
+
             $install = \Artisan::call('microweber:install', $install_params);
             $this->assertEquals(0, $install);
         }
