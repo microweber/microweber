@@ -1,6 +1,6 @@
 # Microweber: Drag-and-Drop CMS
 
-**Current version: 1.0 running on Laravel 5!** 
+**Current version: 1.0 running on Laravel 5!**
 
 
 **[Download](https://microweber.com/download.php) |
@@ -41,7 +41,7 @@ Microweber operates on the Drag & Drop technology. This means that users can man
 
 #### Real Time Text Editing
 
-Live Edit view is the manifestation of the Real-Time Text Writing & Editing core feature of Microweber CMS. Working in Live Edit view is in fact working on your website’s interface in real time. 
+Live Edit view is the manifestation of the Real-Time Text Writing & Editing core feature of Microweber CMS. Working in Live Edit view is in fact working on your website’s interface in real time.
 
 ![E-commerce solution](https://sitestatic.microweber.com/cdn/gh_readme/homepage-2018-third-section.gif "")
 
@@ -72,15 +72,11 @@ Perhaps the main focus of Microweber CMS is E-commerce. A rising number of peopl
 
 
 
-
-
-
-
 ## Requirements  
 
 * HTTP server  
 * Database server
-* PHP >= 5.6 
+* PHP >= 5.6
   * `lib-xml` must be enabled (with DOM support)
   * `GD` PHP extension
 
@@ -138,10 +134,10 @@ Make sure these folders, and everything inside, is writeable by the user executi
 
 See the [online guides](http://microweber.com/docs/guides/README.md) for developers.
 
-## Contribute 
-We are looking for people who want to help us improve Microweber. 
+## Contribute
+We are looking for people who want to help us improve Microweber.
 
-If you are a developer, submitting fixes is easy. Just fork the Microweber repository, make your changes and submit a pull request.
+If you are a developer, submitting fixes is easy. Just fork the Microweber repository, make your changes, submit a pull request and be sure all tests are passing.
 
 ## Build Status
-[![Build Status](https://api.travis-ci.org/microweber/microweber.svg)](https://travis-ci.org/microweber/microweber)
+[![Build Status](https://ci.microweber.com/job/microweber/job/master/badge/icon)](https://ci.microweber.com/job/microweber/)
