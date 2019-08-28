@@ -61,7 +61,7 @@ if (!empty($data)) {
 			continue;
 		}
 
-		if($params['parent-module'] == 'contact_form'){
+		if(isset($params['parent-module'] ) and $params['parent-module'] == 'contact_form'){
 			if(strtolower($field['name'])=='name' || strtolower($field['name'])=='email' || strtolower($field['name'])=='message'){
 			  $field['options']['required'] = 'y';
 			}
