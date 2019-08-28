@@ -25,13 +25,14 @@
                                 type="checkbox"
                                 parent-reload="true"
                                 name="require_terms"
-
                                 value="y"
                                 class="mw_option_field"
                                 option-group="comments"
+                                data-value-unchecked="n"
+                                data-value-checked="y"
                             <?php if (get_option('require_terms', 'comments') == 'y'): ?>   checked="checked"  <?php endif; ?>
                         />
-                        <span></span><span><?php _e("Users must agree to Terms and Conditions"); ?></span> </label>
+                        <span></span><span><?php _e("Users must agree to the Terms and Conditions"); ?></span> </label>
                 </div>
             </div>
 

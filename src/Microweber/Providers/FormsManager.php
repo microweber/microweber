@@ -45,13 +45,13 @@ class FormsManager
         }
 
         $is_single = false;
-        
+
         if (isset($params['single']) and $params['single']) {
         	$is_single = true;
         	unset($params['single']);
-        	
+
         }
-        
+
         $data = $this->app->database_manager->get($params);
 
         $ret = array();
@@ -75,7 +75,7 @@ class FormsManager
                 }
                 $ret[] = $item;
             }
-            
+
             return $ret;
         } else {
             return $data;
@@ -111,11 +111,10 @@ class FormsManager
 
     public function post($params)
     {
-    	
     	if (isset($params['for_id']) && !empty($params['for_id'])) {
     		$params['for_id'] = str_replace("-custom-fields", false, $params['for_id']);
     	}
-    	
+
         $adm = $this->app->user_manager->is_admin();
         if (defined('MW_API_CALL')) {
             //            $validate_token = $this->app->user_manager->csrf_validate($params);
@@ -179,12 +178,12 @@ class FormsManager
         if (!$email_to) {
             $email_to = $this->app->option_manager->get('email_to', $default_mod_id);
         }
-        
+
         $email_bcc = $this->app->option_manager->get('email_bcc', $for_id);
         if (!$email_bcc) {
             $email_bcc = $this->app->option_manager->get('email_bcc', $default_mod_id);
         }
-        
+
         $email_reply = $this->app->option_manager->get('email_reply', $for_id);
         if (!$email_reply) {
         	$email_reply = $this->app->option_manager->get('email_reply', $default_mod_id);
@@ -227,7 +226,6 @@ class FormsManager
         }
 
 
-        $terms_accepted = false;
         $user_require_terms = $this->app->option_manager->get('require_terms', $for_id);
 
 
@@ -246,12 +244,13 @@ class FormsManager
             } else {
 
                 $check_term = $this->app->user_manager->terms_check($terms_and_conditions_name, $user_id_or_email);
+
                 if (!$check_term) {
                     if (isset($params['terms']) and $params['terms']) {
-                        $terms_accepted = true;
+                        $this->app->user_manager->terms_accept($terms_and_conditions_name, $user_id_or_email);
                     } else {
                         return array(
-                            'error' => _e('You must agree to terms and conditions', true),
+                            'error' => _e('You must agree to The Terms and Conditions', true),
                             'form_data_required' => 'terms',
                             'form_data_module' => 'users/terms'
                         );
@@ -260,11 +259,11 @@ class FormsManager
             }
         }
 
-        
+
         if (isset($params['captcha'])) {
         	$dis_cap = false;
         }
-        
+
         if ($dis_cap == false) {
             if (!isset($params['captcha'])) {
                 return array(
@@ -359,36 +358,36 @@ class FormsManager
         } else {
             $cf_to_save = $params;
         }
-        
-        
+
+
         $skip_saving_emails = $this->app->option_manager->get('skip_saving_emails', $for_id);
         if (!$skip_saving_emails) {
         	$skip_saving_emails = $this->app->option_manager->get('skip_saving_emails', $default_mod_id);
         }
         if ($skip_saving_emails !== 'y') {
-        	
+
 	        $to_save['list_id'] = $list_id;
 	        $to_save['rel_id'] = $for_id;
 	        $to_save['rel_type'] = $for;
-	
+
 	        $to_save['user_ip'] = MW_USER_IP;
-	
+
 	        if (isset($params['module_name'])) {
 	            $to_save['module_name'] = $params['module_name'];
 	        }
-	
+
 	        if (!empty($fields_data)) {
 	            $to_save['form_values'] = json_encode($fields_data);
 	        } else {
 	            $to_save['form_values'] = json_encode($params);
 	        }
-	
+
 	        $save = $this->app->database_manager->save($table, $to_save);
 	        $event_params = $params;
 	        $event_params['saved_form_entry_id'] = $save;
-	
+
 	        $this->app->event_manager->trigger('mw.forms_manager.after_post', $event_params);
-	        
+
         }
 
         if (isset($params['module_name'])) {
@@ -426,7 +425,7 @@ class FormsManager
 
             $notif = array();
             $notif['module'] = $params['module_name'];
-            $notif['rel_type'] = 'forms_data'; 
+            $notif['rel_type'] = 'forms_data';
             $notif['rel_id'] = $save;
             $notif['title'] = 'New form entry';
             $notif['description'] = $email_notification_subject ?: 'You have new form entry';
@@ -491,8 +490,8 @@ class FormsManager
                         }
                     }
                 }
-              
-                
+
+
                 $from_name = $email_from;
                 if (isset($params['name']) and $params['name']) {
                     $from_name = $params['name'];
@@ -503,19 +502,19 @@ class FormsManager
 
                 if (!empty($user_mails)) {
                     array_unique($user_mails);
-                    
+
                     $append_files = $this->app->option_manager->get('append_files', $for_id);
                     if (!$append_files) {
                     	$append_files = $this->app->option_manager->get('append_files', $default_mod_id);
                     }
-                    
+
                     $append_files_ready = array();
                     if (!empty($append_files)) {
                     	$append_files_ready = explode(",", $append_files);
                     }
-                    
+
                     $email_autorespond = $this->app->option_manager->get('email_autorespond', $for_id);
-                    
+
                     $sender = new \Microweber\Utils\MailSender();
                     $sender->silent_exceptions = true;
                     foreach ($user_mails as $value) {
@@ -538,8 +537,8 @@ class FormsManager
                 }
             }
         }
-        
-        
+
+
         if (!isset($email_from)) {
         	if (isset($params['email']) and (filter_var($params['email'], FILTER_VALIDATE_EMAIL))) {
         		$email_from = $params['email'];
@@ -552,22 +551,22 @@ class FormsManager
         		}
         	}
         }
-        
+
         if (isset($email_from) && (filter_var($email_from, FILTER_VALIDATE_EMAIL))) {
-        	
+
         	if (isset($from_name)) {
         		$params['name'] = $from_name;
         	}
-        	
+
         	$params['email'] = $email_from;
         	$params['list_id'] = $list_id;
         	$params['option_group'] = 'contact_form';
-        	
+
         	$params['rel_id'] = $for_id;
         	$params['rel_type'] = $for;
-        	
+
         	event_trigger('mw.mail_subscribe', $params);
-        	
+
         }
 
         $success = array();
