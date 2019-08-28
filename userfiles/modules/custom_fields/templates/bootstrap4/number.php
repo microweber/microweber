@@ -12,7 +12,7 @@
         <small class="mw-custom-field-help"><?php echo $data['help']; ?></small>
     <?php endif; ?>
 	
-	<input type="number" onKeyup="mw.form.typeNumber(this);" class="mw-ui-field <?php echo $settings['class']; ?>" <?php if ($settings['required']): ?>required="true"<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name']; ?>" placeholder="<?php echo $data['placeholder']; ?>" />
+	<input type="number" onKeyup="mw.form.typeNumber(this);" class="mw-ui-field form-control" <?php if ($settings['required']): ?>required="true"<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name']; ?>" placeholder="<?php echo $data['placeholder']; ?>" />
 
 </div>
 </div>

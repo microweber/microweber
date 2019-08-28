@@ -5,7 +5,7 @@
 		<?php $i = 0; foreach($data['values'] as $value):  ?>
 		<?php $i++; ?>
 			<label class="mw-ui-check">
-				<input class="<?php echo $settings["class"]; ?>" type="checkbox" name="<?php echo $data["name"]; ?>[]" id="field-<?php echo $data["id"]; ?>"  data-custom-field-id="<?php echo $data["id"]; ?>" value="<?php echo $value; ?>" />
+				<input class="form-control" type="checkbox" name="<?php echo $data["name"]; ?>[]" id="field-<?php echo $data["id"]; ?>"  data-custom-field-id="<?php echo $data["id"]; ?>" value="<?php echo $value; ?>" />
 				<span></span>
 				<span><?php echo $value; ?></span>
             </label>
