@@ -1,5 +1,15 @@
 <?php
 
+event_bind('mw.admin.dashboard.content.before', function ($params = false) {
+//    print '<div type="site_stats/admin" class="mw-lazy-load-module" id="site_stats_admin"></div>';
+    if (mw()->ui->disable_marketplace != true) {
+        print '<h1 style="font-size: 24px; color: #555555;">Welcome to Microweber ' . MW_VERSION . '</h1>';
+        print '<p style="font-size: 13px; color: #999999; line-height: 1.6;">Use Microweber to build your website, online shop or blog.</p>';
+        print '<p style="font-size: 13px; color: #999999; line-height: 1.6; margin-bottom:30px;">Create and  edit content, sell online, manage orders and clients with Open Source CMS Microweber.</p>';
+    }
+});
+
+
 event_bind(
     'mw.admin.sidebar.li.first', function ($item) {
 
@@ -14,7 +24,7 @@ event_bind(
         $last_check = cache_get($cache_id, $cache_group, 3600);
 
         if ($last_check and !empty($last_check) and isset($last_check['microweber/update'])) {
-            if(!defined('MW_UPDATE_NOTIFICATION_BTN_DISPLAYED_IN_SIDEBAR')){
+            if (!defined('MW_UPDATE_NOTIFICATION_BTN_DISPLAYED_IN_SIDEBAR')) {
                 define('MW_UPDATE_NOTIFICATION_BTN_DISPLAYED_IN_SIDEBAR', 1);
             }
             print '<div type="updates/admin_sidebar_btn" no_wrap="true" class="mw-lazy-load-module"></div>';
@@ -29,7 +39,7 @@ event_bind(
     'mw.admin.sidebar.li.last', function ($item) {
     if (mw()->ui->disable_marketplace != true) {
 
-        if(defined('MW_UPDATE_NOTIFICATION_BTN_DISPLAYED_IN_SIDEBAR')){
+        if (defined('MW_UPDATE_NOTIFICATION_BTN_DISPLAYED_IN_SIDEBAR')) {
             return;
         }
         $cache_id = 'mw_update_check_auto_update_check_core';
@@ -131,7 +141,7 @@ function mw_print_admin_updates_settings_link()
     //$check = __mw_check_core_system_update();
 
     $mname = module_name_encode('updates');
-    $modurl =admin_url().'view:settings#option_group='. module_name_encode('updates');
+    $modurl = admin_url() . 'view:settings#option_group=' . module_name_encode('updates');
     print "<li><a class=\"item-" . $mname . "\" href=\"" . $modurl . "\"><span class=\"mai-thunder\"></span><strong>" . _e("Updates", true) . "</strong></a></li>";
 
     //$notif_count = mw()->notifications_manager->get('module=comments&is_read=0&count=1');

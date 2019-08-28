@@ -1,6 +1,7 @@
 <?php event_trigger('mw.admin.dashboard.start'); ?>
 <div class="mw-ui-col-container mw-admin-dashboard-main">
     <div class="admin-side-content">
+        <?php event_trigger('mw.admin.dashboard.content.before'); ?>
         <?php event_trigger('mw.admin.dashboard.content'); ?>
 
 
