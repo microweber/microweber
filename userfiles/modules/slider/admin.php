@@ -364,7 +364,7 @@ include('options.php');
                             </div>
                         </div>
 
-                        <div class="mw-flex-col-xs-6 js-option js-slickslider">
+                        <div class="mw-flex-col-xs-6 js-option js-bxslider js-slickslider">
                             <div class="mw-ui-field-holder">
                                 <label class="mw-ui-label"><?php _e("Autoplay"); ?></label>
                                 <select name="autoplay" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>">
