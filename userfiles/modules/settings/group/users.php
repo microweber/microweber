@@ -115,7 +115,7 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
             });
         });
     }
-    
+
     function checkAllowSocialsLogin() {
         var allowSocialsLoginSelect = $('select[name="allow_socials_login"]');
         if (allowSocialsLoginSelect.find('option:selected').val() == 'y') {
@@ -505,7 +505,7 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
 
         <div id="mw-user-fields-form-set" class="mw-user-fields-form-item" style="display:none;padding-top: 20px;">
             <div class="mw-ui-box mw-ui-box-content">
-                
+
                 <h2><?php _e("Send email on new user registration"); ?></h2>
 
                 <div class="mw-ui-field-holder">
@@ -517,23 +517,23 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
                         <span></span><span><?php _e("No"); ?></span>
                     </label>
                 </div>
-                
+
                <div class="mw-ui-field-holder mw-ui-row m-b-20">
 				    <div class="mw-ui-col p-12">
 				        <label class="mw-ui-label bold">
 				        <?php _e("Select email template"); ?>
-				        </label> 
-				        
+				        </label>
+
 					  	<module type="admin/mail_templates/select_template" option_group="users" mail_template_type="new_user_registration" />
-					  	
+
 					  	<br />
 					  	<br />
 					  	<a onclick="mw.register_email_send_test();" href="javascript:;" class="mw-ui-btn" style="float:left;width:330px;"><?php _e('Send Test Email'); ?></a>
 				    </div>
-				    
-				     
-				</div>  
-                
+
+
+				</div>
+
             </div>
 
             <hr>
@@ -541,9 +541,9 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
 
             <a class="mw-ui-btn" href="javascript:;" onclick="$('#admin-forgot-pass-email-ctrl-holder').toggle()"><?php _e('Forgot password email settings'); ?></a>
 			<br />
-			
+
             <div class="mw-ui-box mw-ui-box-content" id="admin-forgot-pass-email-ctrl-holder" style="display:none">
-             
+
 
                 <h2><?php _e("Send custom forgot password email"); ?></h2>
 
@@ -563,17 +563,17 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
 				    <div class="mw-ui-col p-12">
 				        <label class="mw-ui-label bold">
 				        <?php _e("Select email template"); ?>
-				        </label> 
-				        
+				        </label>
+
 					  	<module type="admin/mail_templates/select_template" option_group="users" mail_template_type="forgot_password" />
-					  	
+
 					  	<br />
 					  	<br />
 					  	<a onclick="mw.forgot_password_email_send_test();" href="javascript:;" class="mw-ui-btn" style="float:left;width:330px;"><?php _e('Send Test Email'); ?></a>
 				    </div>
-				     
-				</div>  
-                
+
+				</div>
+
             </div>
         </div>
 
@@ -587,7 +587,7 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
             <div class="mw-ui-box mw-ui-box-content">
                 <h2><?php _e("User privacy settings"); ?></h2>
 
-                <h4><?php _e("Users must agree to Terms and Conditions"); ?></h4>
+                <h4><?php _e("Users must agree to the Terms and Conditions"); ?></h4>
 
                 <label class="mw-ui-check" style="margin-right: 15px;">
                     <input name="require_terms" class="mw_option_field" data-option-group="users" value="0" type="radio" <?php if (get_option('require_terms', 'users') != 1): ?> checked="checked" <?php endif; ?> >
@@ -600,7 +600,7 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
                 </label>
 
                 <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label"><?php _e("Terms and conditions Text"); ?></label>
+                    <label class="mw-ui-label"><?php _e("User consent text"); ?></label>
                     <?php
                     $terms_label = get_option('terms_label', 'users');
                     $terms_label_cleared = str_replace('&nbsp;', '', $terms_label);
@@ -608,13 +608,13 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
                     $terms_label_cleared = mb_trim($terms_label_cleared);
 
                     if ($terms_label_cleared == '') {
-                        $terms_label = 'I agree with <a href="' . site_url() . 'terms" target="_blank">terms and conditions</a>';
+                        $terms_label = 'I agree with your <a href="' . site_url() . 'terms" target="_blank">Terms and Conditions</a> and  <a href="' . site_url() . 'privacy" target="_blank">Privacy Policy</a>';
                     }
                     ?>
                     <textarea class="mw-ui-field mw_option_field" data-option-group="users" id="terms_label" name="terms_label"><?php print $terms_label; ?></textarea>
                     <script>
                         $(document).ready(function () {
-                            myEditor = mw.editor({element: '#terms_label'});
+                            myEditor = mw.editor({element: '#terms_label',height: 200});
                         });
                     </script>
                 </div>
