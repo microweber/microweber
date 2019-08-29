@@ -1,3 +1,4 @@
+<div class="col-md-<?php echo $settings['field_size']; ?>">
 <?php if ($settings['multiple']): ?>
 <script type="text/javascript">
 mw.lib.require('chosen');
@@ -8,8 +9,6 @@ $(document).ready(function () {
 });
 </script>
 <?php endif; ?>
-
-<div class="col-md-<?php echo $settings['field_size']; ?>">
 <div class="form-group">
 	<label> 
 	<?php echo $data['name']; ?>

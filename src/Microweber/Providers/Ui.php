@@ -151,9 +151,8 @@ class Ui
             'date' => 'Date',
         	'time' => 'Time',
             'upload' => 'File Upload',
-        	//'captcha' => 'Captcha',
             'property' => 'Property', 
-        	'breakline' => 'Break Line',
+        	'breakline' => 'Break Line Seperator', 
         	'hidden' => 'Hidden Field',
         );
 

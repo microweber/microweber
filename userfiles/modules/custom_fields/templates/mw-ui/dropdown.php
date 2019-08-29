@@ -1,3 +1,5 @@
+<div class="mw-flex-col-md-<?php echo $settings['field_size']; ?>">
+
 <?php if ($settings['multiple']): ?>
 <script type="text/javascript">
 mw.lib.require('chosen');
@@ -9,7 +11,6 @@ $(document).ready(function () {
 </script>
 <?php endif; ?>
 
-<div class="mw-flex-col-md-<?php echo $settings['field_size']; ?>">
 <div class="mw-ui-field-holder">
 	<label class="mw-ui-label"> 
 	<?php echo $data['name']; ?>
