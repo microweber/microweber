@@ -103,6 +103,7 @@ if (is_file($template_file)) {
                 infiniteLoop: <?php print $loop; ?>,
                 adaptiveHeight: <?php print $adaptiveHeight; ?>,
                 speed: '<?php print $speed; ?>',
+                auto: '<?php print $autoplay; ?>',
 
                 hideControlOnEnd:  <?php print $hideControlOnEnd; ?>,
                 mode: '<?php print $mode; ?>',
