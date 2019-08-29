@@ -31,7 +31,7 @@ class BackupV2Test extends TestCase
 			} else {
 				$this->assertTrue(true);
 				
-				$contentId = save_content(array("title"=>$inputTitle));
+				$contentId=  save_content(array("title"=>$inputTitle));
 				$outputContent = get_content("single=true&id=" . $contentId);
 				
 				$this->assertSame($outputContent['title'], $inputTitle);
