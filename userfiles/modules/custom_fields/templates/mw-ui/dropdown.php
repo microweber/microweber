@@ -9,6 +9,7 @@ $(document).ready(function () {
 </script>
 <?php endif; ?>
 
+<div class="mw-flex-col-md-<?php echo $settings['field_size']; ?>">
 <div class="mw-ui-field-holder">
 	<label class="mw-ui-label"> 
 	<?php echo $data['name']; ?>
@@ -20,7 +21,7 @@ $(document).ready(function () {
         <small class="mw-custom-field-help"><?php echo $data['help']; ?></small>
     <?php endif; ?>
 	<div class="mw-ui-controls">
-		<select <?php if ($settings['multiple']): ?>multiple="multiple"<?php endif; ?> class="mw-ui-field <?php echo $settings['class']; ?> js-mw-select-<?php echo $data['id']; ?>" <?php if ($settings['required']): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name']; ?>" />
+		<select <?php if ($settings['multiple']): ?>multiple="multiple"<?php endif; ?> class="mw-ui-field js-mw-select-<?php echo $data['id']; ?>" <?php if ($settings['required']): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name']; ?>" />
 			
 			<?php foreach($data['values'] as $key=>$value): ?>
 		    <option data-custom-field-id="<?php print $data["id"]; ?>" value="<?php echo $key; ?>">
@@ -30,4 +31,5 @@ $(document).ready(function () {
 			
 		</select>
 	</div>
+</div>
 </div>

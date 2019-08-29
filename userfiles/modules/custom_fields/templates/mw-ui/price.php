@@ -1,5 +1,6 @@
 <?php $rand = rand(); ?>
 
+<div class="mw-flex-col-md-<?php echo $settings['field_size']; ?>">
 <?php if ($settings['make_select']) : ?> 
 <div class="mw-custom-field-group mw-custom-field-price">
   <label class="mw-custom-field-label" ><?php echo $data["name"]; ?></label>
@@ -15,3 +16,4 @@
 <?php else: ?>
 <option type="url" class="mw-ui-field <?php echo $settings['class']; ?>" id="custom_field_help_text<?php echo $rand; ?>" <?php if ($settings['required']): ?>required="true"<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name']; ?>" value="<?php echo $data['value']; ?>"></option>
 <?php endif; ?>
+</div>
