@@ -33,11 +33,11 @@
                                 <?php endforeach; ?>
                             </select>
                         <?php } else { ?>
-                            <input type="text" class="" name="<?php echo $data['name'] ?>[<?php echo ($key); ?>]" <?php if ($settings['required']) { ?> required <?php } ?> data-custom-field-id="<?php echo $data["id"]; ?>"/>
+                            <input type="text" class="mw-ui-field" name="<?php echo $data['name'] ?>[<?php echo ($key); ?>]" <?php if ($settings['required']) { ?> required <?php } ?> data-custom-field-id="<?php echo $data["id"]; ?>"/>
                         <?php } ?>
 
                     <?php else: ?>
-                        <input type="text" class="" name="<?php echo $data['name'] ?>[<?php echo ($key); ?>]" <?php if ($settings['required']) { ?> required <?php } ?>
+                        <input type="text" class="mw-ui-field" name="<?php echo $data['name'] ?>[<?php echo ($key); ?>]" <?php if ($settings['required']) { ?> required <?php } ?>
                                data-custom-field-id="<?php echo $data["id"]; ?>"/>
                     <?php endif; ?>
                     
