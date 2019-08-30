@@ -151,27 +151,27 @@ pipeline {
 	            }
 	        }
         }
-        stage('PHPUnit 7.3 MySQL 8.0') {
-          agent {
-            kubernetes {
-                label "${getKubeLabel(6, BRANCH_NAME, BUILD_NUMBER)}"
-                defaultContainer 'app'
-                yamlFile 'build/pods/php73-mysql80-phpunit.yaml'
-                nodeSelector "${getKubeNodeSelector(6)}"
-            }
-          }
-          steps {
-            sh 'pwd'
-            sh 'composer install -o --no-progress'
-            sh 'phpunit --version'
-            sh 'phpunit --log-junit "reports/unitreport-php73-mysql80.xml"'
-          }
-	        post {
-	            always {
-	                junit 'reports/unitreport-php73-mysql80.xml'
-	            }
-	        }
-        }
+       // stage('PHPUnit 7.3 MySQL 8.0') {
+       //   agent {
+       //     kubernetes {
+       //         label "${getKubeLabel(6, BRANCH_NAME, BUILD_NUMBER)}"
+       //         defaultContainer 'app'
+       //         yamlFile 'build/pods/php73-mysql80-phpunit.yaml'
+       //         nodeSelector "${getKubeNodeSelector(6)}"
+       //     }
+       //   }
+       //   steps {
+       //     sh 'pwd'
+       //     sh 'composer install -o --no-progress'
+       //     sh 'phpunit --version'
+       //     sh 'phpunit --log-junit "reports/unitreport-php73-mysql80.xml"'
+       //   }
+	   //     post {
+	   //         always {
+	   //             junit 'reports/unitreport-php73-mysql80.xml'
+	   //         }
+	   //     }
+       // }
        // stage('PHPUnit 7.4') {
        //   agent {
        //     kubernetes {
