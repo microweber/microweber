@@ -8,7 +8,7 @@ if ($check and is_array($check) and !isset($_COOKIE['mw_dont_show_update_notif']
     ?>
 
     <a class="active" href="<?php print admin_url(); ?>view:settings#option_group=updates">
-        <span class="mai-notification"><sup class="mw-notification-count">new</sup></span> <strong>
+        <span class="mai-notification"><sup class="mw-notification-count">1</sup></span> <strong>
             <?php _e("Updates"); ?>
         </strong>
     </a>
@@ -19,7 +19,7 @@ if ($check and is_array($check) and !isset($_COOKIE['mw_dont_show_update_notif']
             if ($('.mw-admin-dashboard-main').length) {
 
                 mw.modal({
-                    height: 470,
+                    height: 440,
                     width: 590,
                     id: 'mw-js-update-modal-notification-modal',
                     content: $('#mw-js-update-modal-notification').html()

@@ -119,6 +119,15 @@ if ($speed) {
     $speed = '1000';
 }
 
+$autoplay = get_option('autoplay', $params['id']);
+if ($autoplay) {
+    $autoplay = $autoplay;
+} elseif (isset($params['autoplay'])) {
+    $autoplay = $params['autoplay'];
+} else {
+    $autoplay = 'true';
+}
+
 //bxSlider
 $mode = get_option('mode', $params['id']);
 if ($mode) {
@@ -155,15 +164,6 @@ if ($responsive) {
     $responsive = $params['responsive'];
 } else {
     $responsive = 'true';
-}
-
-$autoplay = get_option('autoplay', $params['id']);
-if ($autoplay) {
-    $autoplay = $autoplay;
-} elseif (isset($params['autoplay'])) {
-    $autoplay = $params['autoplay'];
-} else {
-    $autoplay = 'true';
 }
 
 $slidesPerRow = get_option('slides_per_row', $params['id']);
