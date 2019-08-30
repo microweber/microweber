@@ -109,6 +109,7 @@ foreach($fields_group as $field_group_key=>$fields) {
 		}
 		
 		foreach ($price_fields as $field) {
+			$field['make_select'] = false;
 			if ($price_fields_count > 1) {
 				$field['make_select'] = true;
 			}
