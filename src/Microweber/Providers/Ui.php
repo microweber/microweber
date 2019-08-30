@@ -152,7 +152,7 @@ class Ui
         	'time' => 'Time',
             'upload' => 'File Upload',
             'property' => 'Property', 
-        	'breakline' => 'Break Line Seperator', 
+        	'breakline' => 'Break Line', 
         	'hidden' => 'Hidden Field',
         );
 

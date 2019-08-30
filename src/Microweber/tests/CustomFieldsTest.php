@@ -12,7 +12,130 @@ class CustomFieldsTest extends TestCase
         // set permission to save custom fields (normally available to admin users)
         mw()->database_manager->extended_save_set_permission(true);
     }
-
+	
+    public function testCustomFieldHtmlOutput() {
+    	
+    	$rel = 'module';
+    	$rel_id = 'layouts-'.rand(1111,9999).'-contact-form';
+    	$fields_csv_str = 'price, text, radio, select, checkbox, number, phone, website, email, address, date, time, fileupload, property, hidden, message';
+    	$fields_csv_array = explode(',', $fields_csv_str);
+    	
+    	$fields = mw()->fields_manager->make_default($rel, $rel_id, $fields_csv_str);
+    	
+    	foreach ($fields as $key=>$field_id) {
+    		
+    		$html_output = mw()->fields_manager->make($field_id);
+    		
+    		$field_name = trim($fields_csv_array[$key]);
+    		
+    		if ($field_name == 'price') {
+    			
+    			$check_input_if_exists = false;
+    			if ((strpos($html_output, 'name="Price"')) !== false && (strpos($html_output, '<input') !== false) && (strpos($html_output, 'type="hidden"') !== false)) {
+    				$check_input_if_exists = true;
+    			}
+    			
+    			$this->assertEquals($check_input_if_exists, true);
+    		}
+    		
+    		if ($field_name == 'phone') {
+    			
+    			$check_input_if_exists = false;
+    			if (strpos($html_output, 'name="Phone"') !== false) {
+    				$check_input_if_exists = true;
+    			}
+    			
+    			$this->assertEquals($check_input_if_exists, true);
+    		}
+    		
+    		if ($field_name == 'date') {
+    			
+    			$check_input_if_exists = false;
+    			if (strpos($html_output, 'name="Date"') !== false) {
+    				$check_input_if_exists = true;
+    			}
+    			
+    			$this->assertEquals($check_input_if_exists, true);
+    		}
+    		
+    		
+    		if ($field_name == 'fileupload') {
+    			
+    			$check_input_if_exists = false;
+    			if (strpos($html_output, 'name="Fileupload"') !== false) {
+    				$check_input_if_exists = true;
+    			}
+    			
+    			$this->assertEquals($check_input_if_exists, true);
+    		}
+    		
+    		if ($field_name == 'hidden') {
+    			$check_input_if_exists = false;
+    			if (strpos($html_output, 'type="hidden"') !== false) {
+    				$check_input_if_exists = true;
+    			}
+    			$this->assertEquals($check_input_if_exists, true);
+    		}
+    		
+    		if ($field_name == 'checkbox') {
+    			$check_input_if_exists = false;
+    			if (strpos($html_output, 'type="checkbox"') !== false) {
+    				$check_input_if_exists = true;
+    			}
+    			$this->assertEquals($check_input_if_exists, true);
+    		}
+    		
+    		if ($field_name == 'radio') {
+    			$check_input_if_exists = false;
+    			if (strpos($html_output, 'type="radio"') !== false) {
+    				$check_input_if_exists = true;
+    			}
+    			$this->assertEquals($check_input_if_exists, true);
+    		}
+    		
+    		if ($field_name == 'time') {
+    			$check_input_if_exists = false;
+    			if (strpos($html_output, 'type="time"') !== false) {
+    				$check_input_if_exists = true;
+    			}
+    			$this->assertEquals($check_input_if_exists, true);
+    		}
+    		
+    		if ($field_name == 'number') {
+    			$check_input_if_exists = false;
+    			if (strpos($html_output, 'type="number"') !== false) {
+    				$check_input_if_exists = true;
+    			}
+    			$this->assertEquals($check_input_if_exists, true);
+    		}
+    		
+    		if ($field_name == 'name') {
+    			$check_input_if_exists = false;
+    			if (strpos($html_output, 'type="text"') !== false) {
+    				$check_input_if_exists = true;
+    			}
+    			$this->assertEquals($check_input_if_exists, true);
+    		}
+    		
+    		if ($field_name == 'email') {
+    			$check_input_if_exists = false;
+    			if (strpos($html_output, 'type="email"') !== false) {
+    				$check_input_if_exists = true;
+    			}
+    			$this->assertEquals($check_input_if_exists, true);
+    		}
+    		
+    		if ($field_name == 'message') {
+    			$check_input_if_exists = false;
+    			if (strpos($html_output, '<textarea') !== false) {
+    				$check_input_if_exists = true;
+    			}
+    			$this->assertEquals($check_input_if_exists, true);
+    		}
+    		
+    	}
+    }
+    
     public function testMakeDefaultFields() {
     	
     	
@@ -116,7 +239,7 @@ class CustomFieldsTest extends TestCase
         $this->assertEquals($saved_id, ($get['id']));
 
         $get_custom_fields = content_custom_fields($saved_id);
-
-
+        
     }
+  
 }
