@@ -301,13 +301,12 @@ $(document).ready(function() {
     });
 
     mw.on("ElementClick", function(e, el, c) {
-        console.log(el, mw.drag.target.canBeEditable(el))
         mw.$(".element-current").not(el).removeClass('element-current');
         if (mw.liveEditSelectMode === 'element') {
             mw.$(el).addClass('element-current');
 
             if(mw.drag.target.canBeEditable(el)){
-                mw.wysiwyg.contentEditable(el, true)
+                //mw.wysiwyg.contentEditable(el, true)
             }
         }
 
@@ -867,6 +866,7 @@ mw.drag = {
     },
 
     toolbar_modules: function(selector) {
+        return;
         var items = selector || ".modules-list li[data-module-name]";
         mw.$(items).draggable({
             revert: true,
@@ -1055,8 +1055,6 @@ mw.drag = {
                     if (mw.tools.hasClass(target, 'mw-empty') && target.innerHTML.trim() !== '') {
                         target.className = 'element';
                     }
-                }
-                if (!mw.isDrag) {
                     mw.drag.properFocus(event);
                 }
                 if (mw.isDrag) {

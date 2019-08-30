@@ -346,13 +346,22 @@ mw.wysiwyg = {
                 });
             }
         }
-        state = state === true ? 'true' : 'false';
-        if(mw.wysiwyg.isSafeMode(el)){
-            if(el.contentEditable !== state) { // chrome setter needs a check
-                el.contentEditable = state;
+        if(state === true){
+            state = 'true';
+        } else if(state === false) {
+            state = 'false';
+        }
+
+
+        if(state === 'true'){
+            if(mw.wysiwyg.isSafeMode(el)){
+            } else {
+                el = mw.tools.firstParentOrCurrentWithAnyOfClasses(el, ['edit', 'regular-mode']);
             }
-        } else {
-            mw.tools.firstParentOrCurrentWithAnyOfClasses(el, ['edit', 'regular-mode', 'element']);
+        }
+        if(el && el.contentEditable !== state) { // chrome setter needs a check
+
+            el.contentEditable = state;
         }
 
         mw.on.DOMChangePause = false;
@@ -401,7 +410,7 @@ mw.wysiwyg = {
                     if (blocks.indexOf(firstBlock.nodeName.toLocaleLowerCase()) === -1 && !mw.tools.hasAnyOfClassesOnNodeOrParent(firstBlock, blocksClass)) {
                         var cls = [];
                         blocksClass.forEach(function (item) {
-                            cls.push('.' + item)
+                            cls.push('.' + item);
                         });
                         cls = cls.concat(blocks);
                         firstBlock = mw.tools.firstMatchesOnNodeOrParent(firstBlock, cls);
