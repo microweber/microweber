@@ -295,7 +295,7 @@ class Modules
                             if ($list_as_element == true) {
                                 $this->app->layouts_manager->save($config);
                             } else {
-                                $this->log('Installing module: '. $config['name']);
+                                $this->log('Installing module: ' . $config['name']);
                                 $config['installed'] = 'auto';
                                 $tablesData = false;
                                 $schemaFileName = modules_path() . $moduleDir . '/schema.json';
@@ -312,7 +312,7 @@ class Modules
                                 $saved_ids[] = $this->save($config);
 
                                 if ($tablesData) {
-                                    $this->log('Installing module DB: '. $config['name']);
+                                    $this->log('Installing module DB: ' . $config['name']);
                                     (new DbUtils())->build_tables($tablesData);
                                 }
                             }
@@ -1257,11 +1257,59 @@ class Modules
     public $logger = null;
 
 
-
     public function log($text)
     {
         if (is_object($this->logger) and method_exists($this->logger, 'log')) {
             $this->logger->log($text);
         }
     }
+
+
+    public $_module_locations_root_cache = array();
+
+    public function locate_root_module($module_name)
+    {
+        if (isset($this->_module_locations_root_cache[$module_name])) {
+            return $this->_module_locations_root_cache[$module_name];
+        }
+
+
+        $module_name_parts = explode('/', $module_name);
+
+
+        if ($module_name_parts and is_array($module_name_parts)) {
+            $folders_to_check = array();
+            $module_name_parts_count = count($module_name_parts) - 1;
+
+            if ($module_name_parts_count) {
+                for ($id = $module_name_parts_count; $id > 0; $id--) {
+                    unset($module_name_parts[$id]);
+                    if ($module_name_parts) {
+                        $folders_to_check[] = implode('/', $module_name_parts);
+                    }
+                }
+            }
+
+            if ($folders_to_check) {
+
+                foreach ($folders_to_check as $module_name_check) {
+                    $modules_dir_default = modules_path() . $module_name_check;
+                    $modules_dir_default = normalize_path($modules_dir_default, true);
+                    if (is_dir($modules_dir_default) and is_file($modules_dir_default . 'config.php')) {
+                        $this->_module_locations_root_cache[$module_name] = $module_name_check;
+                        return $module_name_check;
+//                        $is_installed = $this->app->modules->is_installed($module_name_check);
+//                        if (!$is_installed) {
+//                            return '';
+//                        }
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
 }
