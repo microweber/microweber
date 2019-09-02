@@ -1,6 +1,7 @@
 mw.require('wysiwyg.js');
 mw.require('handles.js');
 
+mw.liveedit = {};
 
 
 mw.require('padding.js');
@@ -12,6 +13,11 @@ mw.require('live_edit.js');
 mw.require('liveedit_widgets.js');
 mw.require('state.js');
 mw.require('selector.js');
+mw.require('liveedit.modules.toolbar.js');
+
+
+
+
 mw.isDrag = false;
 mw.resizable_row_width = false;
 mw.mouse_over_handle = false;
@@ -304,10 +310,6 @@ $(document).ready(function() {
         mw.$(".element-current").not(el).removeClass('element-current');
         if (mw.liveEditSelectMode === 'element') {
             mw.$(el).addClass('element-current');
-
-            if(mw.drag.target.canBeEditable(el)){
-                //mw.wysiwyg.contentEditable(el, true)
-            }
         }
 
         mw.$('.module').each(function(){
@@ -866,59 +868,7 @@ mw.drag = {
     },
 
     toolbar_modules: function(selector) {
-        return;
-        var items = selector || ".modules-list li[data-module-name]";
-        mw.$(items).draggable({
-            revert: true,
-            /*cursorAt: {
-                top: -30
-            },*/
-            revertDuration: 0,
-            start: function(a, b) {
-                mw.isDrag = true;
-                mw.dragCurrent = mw.ea.data.currentGrabbed = mw.GlobalModuleListHelper;
-                mw.$(mwd.body).addClass("dragStart");
-                mw.image_resizer._hide();
-            },
-            stop: function() {
-                mw.isDrag = false;
-                mw.pauseSave = true;
-                var el = this;
-                mw.$(mwd.body).removeClass("dragStart");
-                setTimeout(function() {
-                    mw.drag.load_new_modules();
-                    mw.recommend.increase($(mw.dragCurrent).attr("data-module-name"));
-                    mw.drag.toolbar_modules(el);
-                }, 200);
-            }
-        });
-        mw.$(items).on('mouseenter touchstart', function() {
-            mw.$(this).draggable("option", "helper", function() {
-                var clone = mw.$(this).clone(true);
-                clone.appendTo(mwd.body);
-                mw.GlobalModuleListHelper = clone[0];
-                return clone[0];
-            });
-        });
-        mw.$(items).on("click mousedown mouseup", function(e) {
-            e.preventDefault();
-            if (e.type === 'click') {
-                return false;
-            }
-            if (e.type === 'mousedown') {
-                this.mousedown = true;
-            }
-            if (e.type === 'mouseup' && e.which === 1 && !!this.mousedown) {
-                mw.$(items).each(function() {
-                    this.mousedown = false;
-                });
-                if (!mw.isDrag && mww.getSelection().rangeCount > 0 && mwd.querySelector('.mw_modal') === null && mw.modulesClickInsert) {
-                    var html = this.outerHTML;
-                    mw.wysiwyg.insert_html(html);
-                    mw.drag.load_new_modules();
-                }
-            }
-        });
+        mw.liveedit.modulesToolbar.init(selector);
     },
     the_drop: function() {
 

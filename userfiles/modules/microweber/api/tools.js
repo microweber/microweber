@@ -2510,46 +2510,7 @@ mw.tools = {
         mw.$(toggler).toggleClass('toggler-active');
         mw.is.func(callback) ? callback.call(who) : '';
     },
-    memoryToggle: function (toggler) {
-        if (typeof _MemoryToggleContentID == 'undefined') return false;
-        var id = toggler.id;
-        var who = mw.$(toggler).dataset('for');
-        mw.tools.toggle(who, "#" + id);
-        var page = "page_" + _MemoryToggleContentID;
-        var is_active = mw.$(toggler).hasClass('toggler-active');
-        if (_MemoryToggleContentID == '0') return false;
-        var curr = mw.cookie.ui(page);
-        if (curr == "") {
-            var obj = {}
-            obj[id] = is_active;
-            mw.cookie.ui(page, obj);
-        }
-        else {
-            curr[id] = is_active;
-            mw.cookie.ui(page, curr);
-        }
-    },
-    memoryToggleRecall: function () {
-        if (typeof _MemoryToggleContentID == 'undefined') return false;
-        var page = "page_" + _MemoryToggleContentID;
-        var curr = mw.cookie.ui(page);
-        if (curr != "") {
-            $.each(curr, function (a, b) {
-                if (b == true) {
-                    var toggler = mw.$("#" + a);
-                    toggler.addClass('toggler-active');
-                    var who = toggler.dataset("for");
-                    mw.$(who).show().addClass('toggle-active');
-                    var callback = toggler.dataset("callback");
-                    if (callback != "") {
-                        mw.wait(callback, function () {
-                            window[callback]();
-                        });
-                    }
-                }
-            });
-        }
-    },
+
     confirm: function (question, callback) {
         var html = ''
             + '<table class="mw_alert" width="100%" height="140" cellpadding="0" cellspacing="0">'

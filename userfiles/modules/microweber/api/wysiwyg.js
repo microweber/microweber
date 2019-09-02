@@ -323,6 +323,9 @@ mw.wysiwyg = {
     handleCopyEvent: function (event) {
         this._lastCopy = event.target;
     },
+    contentEditableSplitTypes: function (el) {
+
+    },
     contentEditable: function (el, state) {
         if (!el) {
             return;
@@ -351,11 +354,10 @@ mw.wysiwyg = {
         } else if(state === false) {
             state = 'false';
         }
-
-
         if(state === 'true'){
             if(mw.wysiwyg.isSafeMode(el)){
             } else {
+
                 el = mw.tools.firstParentOrCurrentWithAnyOfClasses(el, ['edit', 'regular-mode']);
             }
         }
@@ -369,11 +371,17 @@ mw.wysiwyg = {
 
     prepareContentEditable: function () {
         mw.on("EditMouseDown", function (e, el, target, originalEvent) {
+            mw.$('.safe-mode').each(function () {
+                mw.wysiwyg.contentEditable(this, 'inherit');
+            });
 
             if (!mw.wysiwyg.isSafeMode(target)) {
                 if (!mw.is.ie) { //Non IE browser
                     var orderValid = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(originalEvent.target, ['edit', 'module']);
-                    mw.wysiwyg.contentEditable(el, orderValid)
+                    mw.$('.safe-mode').each(function () {
+                        mw.wysiwyg.contentEditable(this, false);
+                    });
+                    mw.wysiwyg.contentEditable(target, orderValid);
                 }
                 else {   // IE browser
                     mw.wysiwyg.removeEditable();
@@ -1337,6 +1345,9 @@ mw.wysiwyg = {
         }
     },
     validateCommonAncestorContainer: function (c) {
+        if( !c || !c.parentNode || c.parentNode === document.body ){
+            return null;
+        }
         try {   /* Firefox returns wrong target (div) when you click on a spin-button */
             if (typeof c.querySelector === 'function') {
                 return c;
@@ -1362,26 +1373,26 @@ mw.wysiwyg = {
         if (!node) {
             return false;
         }
-        var a = a || 'start';
+        a = (a || 'start').trim();
         var sel = mww.getSelection();
         var r = mwd.createRange();
         sel.removeAllRanges();
-        if (a == 'start') {
+        if (a === 'start') {
             r.selectNodeContents(node);
             r.collapse(true);
             sel.addRange(r);
         }
-        else if (a == 'end') {
+        else if (a === 'end') {
             r.selectNodeContents(node);
             r.collapse(false);
             sel.addRange(r);
         }
-        else if (a == 'before') {
+        else if (a === 'before') {
             r.selectNode(node);
             r.collapse(true);
             sel.addRange(r);
         }
-        else if (a == 'after') {
+        else if (a === 'after') {
             r.selectNode(node);
             r.collapse(false);
             sel.addRange(r);
