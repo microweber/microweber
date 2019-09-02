@@ -10,7 +10,43 @@ class CustomFieldsTest extends TestCase
         parent::setUp();
 
         // set permission to save custom fields (normally available to admin users)
-        mw()->database_manager->extended_save_set_permission(true);
+        mw()->database_manager->extended_save_set_permission(true); 
+    }
+    
+    public function testCustomFieldsPost() {
+    	
+    	$rel = 'module';
+    	$rel_id = 'layouts-'.rand(1111,9999).'-contact-form';
+
+    	$params = array();
+    	$params['for_id'] = $rel_id;
+    	$params['for'] = $rel;
+    	$params['message'] = 'This is my message.';
+    	$params['email'] = 'bobi@microweber.com';
+    	$params['second_email'] = 'bobi@microweber.com';
+    	$params['website'] = 'bobi.microweber.com';
+    	$params['phone'] = '0885451012';
+    	$params['number'] = '123456789';
+    	$params['select'] = array('1123', '213213');
+    	
+    	// Disable captcha
+    	save_option(array(
+    		'option_group'=>$params['for_id'],
+    		'option_key'=> 'disable_captcha',
+    		'option_value'=> 'y'
+    	));
+    	
+    	$response = mw()->forms_manager->post($params);
+    	
+    	$entry = mw()->forms_manager->get_entires('single=1&id=' . $response['id']);
+    	
+    	$this->assertEquals($entry['custom_fields']['message'], $params['message']);
+    	$this->assertEquals($entry['custom_fields']['email'], $params['email']);
+    	$this->assertEquals($entry['custom_fields']['second_email'], $params['second_email']);
+    	$this->assertEquals($entry['custom_fields']['website'], $params['website']);
+    	$this->assertEquals($entry['custom_fields']['phone'], $params['phone']);
+    	$this->assertEquals($entry['custom_fields']['number'], $params['number']);
+    	
     }
 	
     public function testCustomFieldHtmlOutput() {
