@@ -18,7 +18,7 @@ description: Default Menu skin
 
 <div class="module-navigation module-navigation-default">
       <?php
-      $mt =  menu_tree($menu_filter);
+      $mt =  menu_tree($menu_filter, false, true);
       if($mt != false){
         print ($mt);
       }

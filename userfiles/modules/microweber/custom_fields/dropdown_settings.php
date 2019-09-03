@@ -17,15 +17,15 @@
                    data-option-group="custom_fields"
                    name="options[multiple]"
                    value="1"
-                <?php if (isset($data['options']) == true and isset($data['options']["multiple"]) == true and $data['options']["multiple"] == '1'): ?> checked="checked" <?php endif; ?>
+                   <?php if ($settings["multiple"]): ?> checked="checked" <?php endif; ?>
             />
 
             <span></span>
-            <span><?php _e("Allow Multiple Choices"); ?></span>
+            <span> <?php _e("Allow Multiple Choices"); ?></span>
         </label>
         <br/> <br/>
         <label class="mw-ui-check"><input type="checkbox" class="mw-custom-field-option"
-                                          name="options[required]" <?php if (isset($data['options']) == true and isset($data['options']["required"]) == true): ?> checked="checked" <?php endif; ?>
+                                          name="options[required]" <?php if ($settings["required"]): ?> checked="checked" <?php endif; ?>
                                           value="1"><span></span><span><?php _e("Required"); ?>?</span></label>
 	 <br/>
 	  <br/>

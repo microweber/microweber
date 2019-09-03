@@ -2,7 +2,6 @@
 <script>
 if(!!mw.custom_fields.address_settings){
     mw.custom_fields.address_settings = {
-
     };
 }
 
@@ -17,14 +16,9 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
   mw.$('#mw-custom-fields-address-fields-'+f + " input").attr('disabled', 'disabled');
 
 });
-
-
-
-
 </script>
+
 <style>
-
-
 #mw-custom-fields-address-fields-selector{
   padding: 10px 0;
 }
@@ -38,55 +32,40 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
   margin-right: 6px;
   top: 3px;
 }
-
 </style>
-<?php $is_required = (isset($data['options']) == true and is_array($data['options']) == true and in_array('required',$data['options']) == true);
-
-
-  
-          ?>
+<?php 
+//  var_dump($data['values']);var_dump($settings);die();
+?>
 <div class="custom-field-settings-name">
   <div class="mw-custom-field-group ">
-    <label class="mw-ui-label" for="input_field_label<?php print $rand; ?>">
+    <label class="mw-ui-label" for="input_field_label<?php echo $rand; ?>">
       <?php _e('Title'); ?>
     </label>
-    <input type="text" class="mw-ui-field mw-full-width" value="<?php print ($data['name']) ?>" name="name" id="input_field_label<?php print $rand; ?>">
-    <?php
-
-     $opt = array(
-        'country'=>'Country',
-        'city'=>'City',
-        'address'=>'Address',
-        'state'=>'State/Province',
-        'zip'=>'Zip/Postal Code'
-     );
-
-	
-     ?>
+    <input type="text" class="mw-ui-field mw-full-width" value="<?php echo ($data['name']) ?>" name="name" id="input_field_label<?php echo $rand; ?>">
+    
     <div id="mw-custom-fields-address-fields-selector">
-      <?php if(is_array($opt)) { foreach($opt as $key => $val){ ?>
+    
+     <?php foreach($data['default_address_fields'] as $key=>$value): ?>
       <div>
         <label class="mw-ui-check">
-          <input data-for="<?php print $key; ?>" type="checkbox" value="true" name="options[<?php print $key; ?>]" <?php if(isset($data['options']) and is_array($data['options']) and in_array( $key,$data['options']) or empty($data['options'])) : ?> checked="checked" <?php endif; ?>  />
-          <span></span><span><?php print $val; ?></span></label> 
+          <input data-for="<?php echo $key; ?>" type="checkbox" value="true" name="options[<?php echo $key; ?>]" <?php if(isset($data['values'][$key])) : ?> checked="checked" <?php endif; ?>  />
+          <span></span>
+          <span><?php echo $value; ?></span>
+         </label> 
       </div>
-      <?php
-		    }
-		 } ?> 
+      <?php endforeach; ?> 
     </div>
   </div>
 </div>
-
- 
 
 <div class="custom-field-settings-values">
   <?php 
   
   /*<div class="mw-custom-field-group">
     <?php foreach($opt as $key => $val){ ?>
-    <div class="mw-ui-field-holder mw-custom-fields-address-fields-<?php print $key; ?>">
-      <label class="mw-ui-label"><?php print $val; ?></label>
-      <input type="text" class="mw-ui-field" name="value[<?php print $key; ?>]" <?php if(isset($data['values'][$key]) and isset($data['values'][$key])) : ?> value="<?php print $data['values'][$key] ?>"  <?php endif; ?> />
+    <div class="mw-ui-field-holder mw-custom-fields-address-fields-<?php echo $key; ?>">
+      <label class="mw-ui-label"><?php echo $val; ?></label>
+      <input type="text" class="mw-ui-field" name="value[<?php echo $key; ?>]" <?php if(isset($data['values'][$key]) and isset($data['values'][$key])) : ?> value="<?php echo $data['values'][$key] ?>"  <?php endif; ?> />
     </div>
     <?php } ?>
   </div>*/
@@ -94,10 +73,11 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
   ?>
   <hr>
   <label class="mw-ui-check">
-    <input type="checkbox"  class="mw-custom-field-option" name="options[required]"  <?php if($is_required == true): ?> checked="checked" <?php endif; ?> value="true">
+    <input type="checkbox"  class="mw-custom-field-option" name="options[required]" <?php if ($settings['required']): ?> checked="checked" <?php endif; ?> value="true">
     <span></span><span>
     <?php _e("Required"); ?>
     ?</span></label>
     <br><br>
-  <?php print $savebtn; ?> </div>
+  <?php echo $savebtn; ?>
+</div>
 <?php include('settings_footer.php'); ?>
