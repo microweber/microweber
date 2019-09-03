@@ -35,12 +35,6 @@
  }
  
 $module_id = $for_id;
-
-
-
-
-		  
-
 ?>
 <script type="text/javascript">
 
@@ -79,6 +73,7 @@ $module_id = $for_id;
       <li><a href="javascript:;" data-type="email"><span class="ico iEmail"></span><span><?php _e("E-mail"); ?></span></a></li>
       <li><a href="javascript:;" data-type="address"><span class="ico iAddr"></span><span><?php _e("Adress"); ?></span></a></li>
       <li><a href="javascript:;" data-type="date"><span class="ico iDate"></span><span><?php _e("Date"); ?></span></a></li>
+      <li><a href="javascript:;" data-type="time"><span class="ico iTime"></span><span><?php _e("Time"); ?></span></a></li>   
       <li><a href="javascript:;" data-type="upload"><span class="ico iUpload"></span><span><?php _e("File Upload"); ?></span></a></li>
       <li><a href="javascript:;" data-type="radio"><span class="ico iRadio"></span><span><?php _e("Single Choice"); ?></span></a></li>
       <li><a href="javascript:;" data-type="dropdown"><span class="ico iDropdown"></span><span><?php _e("Dropdown"); ?></span></a></li>

@@ -149,10 +149,10 @@ class Ui
             'email' => 'E-mail',
             'address' => 'Address',
             'date' => 'Date',
+        	'time' => 'Time',
             'upload' => 'File Upload',
-        	//'captcha' => 'Captcha',
-            'property' => 'Property',
-        	'breakline' => 'Break Line',
+            'property' => 'Property', 
+        	'breakline' => 'Break Line', 
         	'hidden' => 'Hidden Field',
         );
 

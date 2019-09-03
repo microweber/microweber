@@ -1181,6 +1181,7 @@ class DefaultController extends Controller
 
                         return $this->app->url_manager->redirect($this->app->url_manager->site_url($page_url));
                     } else {
+
                         $is_editmode = false;
                     }
                 }
@@ -1188,6 +1189,7 @@ class DefaultController extends Controller
 
             if (mw()->user_manager->session_id() and !$is_no_editmode) {
                 $is_editmode = $this->app->user_manager->session_get('editmode');
+
             } else {
                 $is_editmode = false;
                 $page_url = $this->app->url_manager->param_unset('no_editmode', $page_url);
@@ -1199,6 +1201,10 @@ class DefaultController extends Controller
         if ($is_quick_edit == true) {
             $is_editmode = true;
         }
+
+
+
+
         $preview_module = false;
         $preview_module_template = false;
         $is_preview_module_skin = false;
@@ -1951,6 +1957,17 @@ class DefaultController extends Controller
             }
 
 
+            if ($is_editmode === null and $is_admin == true and mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false)) {
+                //editmode fix
+                $back_to_editmode = $this->app->user_manager->session_get('back_to_editmode');
+
+                if(!$back_to_editmode){
+                    if(isset($_COOKIE['mw-back-to-live-edit']) and $_COOKIE['mw-back-to-live-edit']){
+                        $is_editmode = true;
+                    }
+                }
+            }
+
             if ($is_editmode == true and $this->isolate_by_html_id == false and !isset($_REQUEST['isolate_content_field'])) {
                 if ($is_admin == true) {
                     $tb = mw_includes_path() . DS . 'toolbar' . DS . 'toolbar.php';
@@ -1995,7 +2012,6 @@ class DefaultController extends Controller
                             $back_to_editmode = $_COOKIE['mw-back-to-live-edit'];
                         }
                     }
-
 
 
                     if ($back_to_editmode == true) {

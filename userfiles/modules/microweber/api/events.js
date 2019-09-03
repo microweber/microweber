@@ -349,7 +349,7 @@ mw.event = {
     if (e.stopPropagation) e.stopPropagation();
     },
     key:function(e,key){
-    return (e.keyCode === parseFloat(key));
+        return (e.keyCode === parseFloat(key));
     },
     page: function (e) {
       e = e.originalEvent || e;

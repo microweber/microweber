@@ -1,14 +1,3 @@
-
-<?php 
-$field_size = template_default_field_size_option();
-if (isset($data['options']['field_size'][0])) {
-	$field_size = $data['options']['field_size'][0];
-}
-if (isset($data['options']['field_size']) && is_string($data['options']['field_size'])) {
-	$field_size = $data['options']['field_size'];
-}
-?>
-
 <?php
 if($data['type'] !== 'breakline'):
 ?>
@@ -19,7 +8,7 @@ if($data['type'] !== 'breakline'):
        <select class="mw-ui-field mw-full-width" name="options[field_size]">
        
        	<?php foreach(template_field_size_options() as $optionKey=>$optionValue): ?> 
-        <option <?php if($field_size == $optionKey):?>selected="selected"<?php endif; ?> value="<?php echo $optionKey; ?>"><?php echo $optionValue; ?></option> 
+        <option <?php if($settings['field_size'] == $optionKey):?>selected="selected"<?php endif; ?> value="<?php echo $optionKey; ?>"><?php echo $optionValue; ?></option> 
         <?php endforeach; ?>
         
        </select>
@@ -32,7 +21,7 @@ if($data['type'] !== 'breakline'):
         <label class="mw-ui-check">
 
 
-              <input type="checkbox" class="mw-ui-field mw-full-width"  name="custom_field_required" id="custom_field_required<?php print $rand; ?>" value="y" <?php if (trim($data['custom_field_required']) == 'y'): ?> checked="checked"  <?php endif; ?> >
+              <input type="checkbox" class="mw-ui-field mw-full-width"  name="custom_field_required" id="custom_field_required<?php print $rand; ?>" value="y" <?php if ($settings['required']): ?> checked="checked"  <?php endif; ?> >
               <span></span>
             </label>
 

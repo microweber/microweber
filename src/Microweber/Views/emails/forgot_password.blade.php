@@ -1,1 +1,1 @@
-FOROGT PASSWORD
+Forgot password

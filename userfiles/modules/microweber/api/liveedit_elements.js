@@ -12,16 +12,13 @@ mw.dropables = {
         document.body.appendChild(dropable);
         mw.dropable = mw.$(dropable);
         mw.dropable.hide = function(){
-            return mw.$(this).addClass('mw_dropable_hidden')
+            return mw.$(this).addClass('mw_dropable_hidden');
         };
         mw.dropable.show = function(){
-            return mw.$(this).removeClass('mw_dropable_hidden')
+            return mw.$(this).removeClass('mw_dropable_hidden');
         };
         mw.dropable.hide()
     },
-
-
-
     userInteractionClasses:function(){
         var bgHolders = mwd.querySelectorAll(".edit.background-image-holder, .edit .background-image-holder, .edit[style*='background-image'], .edit [style*='background-image']");
         var noEditModules = mwd.querySelectorAll('.module' + mw.noEditModules.join(',.module'));

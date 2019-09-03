@@ -192,10 +192,10 @@ class CheckoutManager
             $shipping_cost_max = false;
             $shipping_cost = false;
             $shipping_cost_above = false;
-            
+
             $discount_value = false;
             $discount_type = false;
-            
+
             $coupon_id = false;
             $coupon_code = false;
 
@@ -212,16 +212,16 @@ class CheckoutManager
                 $shipping_cost_above = $this->app->user_manager->session_get('shipping_cost_above');
             }
             if (($this->app->user_manager->session_get('discount_value'))) {
-            	$discount_value = $this->app->user_manager->session_get('discount_value');
+                $discount_value = $this->app->user_manager->session_get('discount_value');
             }
             if (($this->app->user_manager->session_get('discount_type'))) {
-            	$discount_type = $this->app->user_manager->session_get('discount_type');
+                $discount_type = $this->app->user_manager->session_get('discount_type');
             }
             if (($this->app->user_manager->session_get('coupon_id'))) {
-            	$coupon_id = $this->app->user_manager->session_get('coupon_id');
+                $coupon_id = $this->app->user_manager->session_get('coupon_id');
             }
             if (($this->app->user_manager->session_get('coupon_code'))) {
-            	$coupon_code = $this->app->user_manager->session_get('coupon_code');
+                $coupon_code = $this->app->user_manager->session_get('coupon_code');
             }
 
             //post any of those on the form
@@ -367,7 +367,6 @@ class CheckoutManager
             $place_order['discount_value'] = $discount_value;
 
 
-
             if ($mw_process_payment == true) {
                 $shop_dir = module_dir('shop');
                 $shop_dir = $shop_dir . DS . 'payments' . DS . 'gateways' . DS;
@@ -392,11 +391,10 @@ class CheckoutManager
                     $place_order['is_paid'] = 0;
                     $place_order['success'] = 'Your order has been placed successfully!';
                 }
-                
 
-                
+
                 $place_order['order_status'] = 'new';
-                
+
                 if (!empty($checkout_errors)) {
                     return array('error' => $checkout_errors);
                 }
@@ -404,7 +402,7 @@ class CheckoutManager
                 if (isset($place_order['error'])) {
                     return array('error' => $place_order['error']);
                 }
-				
+
                 $ord = $this->app->shop_manager->place_order($place_order);
                 $place_order['id'] = $ord;
             }
@@ -530,17 +528,26 @@ class CheckoutManager
             }
 
             if ($order_email_enabled == true) {
-            	
-                /*
-                 $order_email_subject = $this->app->option_manager->get('order_email_subject', 'orders');
-                 $order_email_content = $this->app->option_manager->get('order_email_content', 'orders');
-                */
-            	// Get order mail temlate
-            	$new_order_mail_template_id = $this->app->option_manager->get('new_order_mail_template', 'orders');
-            	$mail_template = get_mail_template_by_id($new_order_mail_template_id, 'new_order');
-            	$order_email_subject = $mail_template['subject'];
-            	$order_email_content = $mail_template['message'];
-            	
+
+
+               //  $order_email_subject = $this->app->option_manager->get('order_email_subject', 'orders');
+                // $order_email_content = $this->app->option_manager->get('order_email_content', 'orders');
+
+                $mail_template = false;
+                $mail_template_binds = $this->app->event_manager->trigger('mw.cart.confirm_email_send', $order_id);
+
+                if (is_array($mail_template_binds)) {
+                    $mail_template = array_pop($mail_template_binds);
+                }
+
+                if (!$mail_template) {
+                    return;
+                }
+
+
+                $order_email_subject = $mail_template['subject'];
+                $order_email_content = $mail_template['message'];
+
                 $order_email_cc = $this->app->option_manager->get('order_email_cc', 'orders');
                 $order_email_send_when = $this->app->option_manager->get('order_email_send_when', 'orders');
                 if ($order_email_send_when == 'order_paid' and !$skip_enabled_check) {
@@ -593,7 +600,7 @@ class CheckoutManager
                             }
                         }
                     }
-					
+
                     $twig = new \Twig_Environment(new \Twig_Loader_String());
                     $order_email_content = $twig->render(
                         $order_email_content,

@@ -1835,7 +1835,7 @@ tr .mw-admin-custom-field-value-edit-inline:hover:before, tr .mw-admin-custom-fi
     border: none;
     display: block;
     text-align: center;
-    width: 130px;
+    width: 90px;
     padding: 14px;
 }
 
@@ -3171,6 +3171,11 @@ body.grabbing, body.grabbing * {
 
 .mw-custom-field-icon-date:before {
     content: '\0105';
+}
+
+.mw-custom-field-icon-time:before {
+	font-family: 'Microweber';
+    content: '\f2d6';
 }
 
 .mw-custom-field-icon-email:before {
