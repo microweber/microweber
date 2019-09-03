@@ -1,6 +1,51 @@
 (function (mw) {
 
 
+    mw._dialogEncapsulate = function (content, scripts) {
+        scripts = $.merge(scripts || [], [
+            mw.settings.site_url + 'apijs_settings?mwv=' + mw.version,
+            mw.settings.site_url + 'apijs?mwv='+mw.version
+        ]);
+
+        var frame = document.createElement('iframe');
+        frame.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+        frame.allowFullscreen = true;
+        frame.scrolling = "no";
+        frame.width = "100%";
+        frame.frameBorder = "0";
+        frame.style.display = 'none';
+        document.body.appendChild(frame);
+
+        frame.__int = setInterval(function(){
+            if(frame.contentWindow && frame.contentWindow.document && frame.contentWindow.document.body){
+                $(frame.contentWindow.document.head)
+                    .append('<link rel="stylesheet" href="'+mw.settings.modules_url + 'microweber/default.css?mwv='+mw.version+'">');
+                var c = 0;
+                $.each(scripts, function(){
+                    var el = frame.contentWindow.document.createElement('script');
+                    $(el).on('load error', function(){
+                        c++;
+                        if(c === scripts.length){
+                            setTimeout(function(){
+                                $(frame).trigger('load');
+                                $(frame.contentWindow).trigger('load');
+                            }, 78);
+                        }
+                    });
+                    el.src = this;
+                    // $(frame.contentWindow.document.head).append(el);
+                });
+
+                $(frame.contentWindow.document.body).append(content);
+
+                mw.tools.iframeAutoHeight(frame);
+                clearInterval(frame.__int);
+
+            }
+        }, 78);
+        return frame;
+    };
+
     mw.dialog = function (options) {
         return new mw.Dialog(options);
     };
@@ -37,8 +82,14 @@
                 if (mw.tools.canAccessIFrame(frame)) {
                     mw.$(frame.contentWindow.document).on('keydown', function (e) {
                         if (mw.event.is.escape(e) && !mw.event.targetIsField(e)) {
-                            if (dialog.options.closeOnEscape) {
-                                dialog.remove();
+                            if(frame.contentWindow.mw.__dialogs && frame.contentWindow.mw.__dialogs.length){
+                                var dlg = frame.contentWindow.mw.__dialogs;
+                                dlg[dlg.length - 1].remove();
+                            }
+                            else {
+                                if (dialog.options.closeOnEscape) {
+                                    dialog.remove();
+                                }
                             }
                         }
                     })
@@ -91,7 +142,9 @@
             containment: 'window'
         };
 
-        this.options = $.extend({}, defaults, options);
+        this.options = $.extend({}, defaults, options, {
+            skin: 'default'
+        });
 
         this.id = this.options.id;
         var exist = document.getElementById(this.id);
@@ -202,7 +255,15 @@
 
             this.dialogContainer.className = 'mw-dialog-container';
             this.dialogHolder.className = 'mw-dialog-holder';
-            mw.$(this.dialogContainer).append(this.options.content);
+
+            var cont = this.options.encapsulate ? mw._dialogEncapsulate(this.options.content) : this.options.content;
+
+            mw.$(this.dialogContainer).append(cont);
+
+            if (this.options.encapsulate) {
+                this.iframe = cont;
+                this.iframe.style.display = '';
+            }
 
             this.dialogHolder.appendChild(this.dialogHeader);
             this.dialogHolder.appendChild(this.dialogContainer);

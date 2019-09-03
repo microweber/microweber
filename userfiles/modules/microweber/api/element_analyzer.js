@@ -271,37 +271,13 @@ mw.ElementAnalyzer = function(options){
 
     this.helpers = {
         scope:this,
-        _isBlockCache:{},
         isBlockLevel:function(node){
             node = node || (this.data ? this.data.target : null);
-            if(!node || node.nodeType === 3){
-                return false;
-            }
-            var name = node.nodeName;
-            if(typeof this._isBlockCache[name] !== 'undefined'){
-                return this._isBlockCache[name];
-            }
-            var test = document.createElement(name);
-            this.scope.fragment().appendChild(test);
-            this._isBlockCache[name] = getComputedStyle(test).display === 'block';
-            this.scope.fragment().removeChild(test);
-            return this._isBlockCache[name];
+            return mw.tools.isBlockLevel(node);
         },
-        _isInlineCache:{},
         isInlineLevel:function(node){
             node = node || this.data.target;
-            if(node.nodeType === 3){
-                return false;
-            }
-            var name = node.nodeName;
-            if(typeof this._isInlineCache[name] !== 'undefined'){
-                return this._isInlineCache[name];
-            }
-            var test = document.createElement(name);
-            this.scope.fragment().appendChild(test);
-            this._isInlineCache[name] = getComputedStyle(test).display === 'inline' && node.nodeName !== 'BR';
-            this.scope.fragment().removeChild(test);
-            return this._isInlineCache[name];
+            return mw.tools.isInlineLevel(node);
         },
         canAccept:function(target, what){
             var accept = target.dataset('accept');
@@ -458,17 +434,7 @@ mw.ElementAnalyzer = function(options){
             }
         });
     };
-    this.fragment = function(){
-        if(!this._fragment){
-            this._fragment = document.createElement('div');
-            this._fragment.style.visibility = 'hidden';
-            this._fragment.style.position = 'absolute';
-            this._fragment.style.width = '1px';
-            this._fragment.style.height = '1px';
-            document.body.appendChild(this._fragment);
-        }
-        return this._fragment;
-    }
+
     this.getTarget = function(t){
         t = t || this.validateInteractionTarget();
         if(!t){
@@ -552,7 +518,6 @@ mw.ElementAnalyzer = function(options){
         });
     };
     this.init = function(){
-        this.fragment();
         this.prepare();
     };
 

@@ -1,4 +1,4 @@
-<?php 
+<?php
 only_admin_access();
 ?>
 <script type="text/javascript">
@@ -34,67 +34,48 @@ if(isset($params['for_module_id'])){
     <label class="mw-ui-label" style="padding-bottom: 0;"><small><?php _e("Type your e-mail where you will receive the email from this form"); ?></small></label>
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e("Email To"); ?></label>
-        <input   name="email_to"    option-group="<?php print $mod_id ?>"   value="<?php print get_option('email_to', $mod_id); ?>"     class="mw-ui-field w100 mw_option_field" type="text" />
+        <input name="email_to" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_to', $mod_id); ?>" class="mw-ui-field w100 mw_option_field" type="text" />
     </div>
-    
+
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e("Email Reply To"); ?></label>
-        <input name="email_reply" option-group="<?php print $mod_id ?>"  value="<?php print get_option('email_reply', $mod_id); ?>" class="mw-ui-field w100 mw_option_field"  type="text" />
+        <input name="email_reply" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_reply', $mod_id); ?>" class="mw-ui-field w100 mw_option_field" type="text" />
     </div>
-    
+
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e("BCC Email To"); ?></label>
-        <input name="email_bcc"    option-group="<?php print $mod_id ?>"  value="<?php print get_option('email_bcc', $mod_id); ?>"     class="mw-ui-field w100 mw_option_field"  type="text" />
+        <input name="email_bcc" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_bcc', $mod_id); ?>" class="mw-ui-field w100 mw_option_field" type="text" />
     </div>
 
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e("Autorespond Subject"); ?></label>
-        <input name="email_autorespond_subject"   option-group="<?php print $mod_id ?>"    value="<?php print get_option('email_autorespond_subject', $mod_id); ?>"     class="mw-ui-field w100 mw_option_field"  type="text" />
+        <input name="email_autorespond_subject"   option-group="<?php print $mod_id ?>"    value="<?php print get_option('email_autorespond_subject', $mod_id); ?>" class="mw-ui-field w100 mw_option_field" type="text" />
     </div>
-   
+
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e("Autorespond Message"); ?></label>
-        <textarea id="editorAM" name="email_autorespond" class="mw_option_field"  option-group="<?php print $mod_id ?>">
+        <textarea id="editorAM" name="email_autorespond" class="mw_option_field" option-group="<?php print $mod_id ?>">
     			<?php print get_option('email_autorespond', $mod_id); ?>
     		</textarea>
 
         <label class="mw-ui-label"><span class="ico ismall_warn"></span><small><?php _e("Autorespond e-mail sent back to the user"); ?></small></label>
     </div>
-    
+
      <div class="mw-ui-field-holder">
    		 <label class="mw-ui-label"><?php _e("Autorespond Email Attachment"); ?></label>
-   		
-   		 <span>Attach the file that user will recive after from entry. 
+
+   		 <span>Attach the file that user will recive after from entry.
    		 <br > <br />
    		 <module type="admin/components/file_append" option_group="<?php print $mod_id ?>" />
 	</div>
-    
+
 </div>
 
 <module type="admin/mail_providers/integration_select" option_group="contact_form" />
 
 <hr>
-<div class="mw-ui-field-holder">
-    <label class="mw-ui-check">
-        <input type="checkbox" parent-reload="true" name="require_terms" value="y" class="mw_option_field" option-group="<?php print $mod_id ?>"
-            <?php if(get_option('require_terms', $mod_id)=='y'): ?>   checked="checked"  <?php endif; ?> />
-        <span>
-        </span>
-	        <span>
-	        <?php _e("Users must agree to Terms and Conditions"); ?>
-	        </span>
-        </label>
-</div>
 
-<div class="mw-ui-field-holder">
-    <label class="mw-ui-check">
-        <input type="checkbox" parent-reload="true" name="skip_saving_emails" value="y" class="mw_option_field" option-group="<?php print $mod_id ?>"
-            <?php if(get_option('skip_saving_emails', $mod_id)=='y'): ?> checked="checked"  <?php endif; ?> />
-        <span></span>
-        <span><?php _e("Skip saving emails in database."); ?></span> 
-   </label>
-</div>
-
+<module type="contact_form/privacy_settings"/>
 
 <?php if($mod_id != 'contact_form_default'){ ?>
 

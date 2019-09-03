@@ -1,6 +1,6 @@
 mw.State = function(options){
     var defaults = {
-        maxItems: 99
+        maxItems: 1000
     };
     this.options = $.extend({}, defaults, (options || {}));
     this._state = this.options.state || [];

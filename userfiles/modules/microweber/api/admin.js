@@ -813,11 +813,11 @@ $(mww).bind('load', function () {
 });
 
 
-$(mww).bind('hashchange', function () {
+$(mww).on('hashchange', function () {
     mw.admin.treeboxwidth();
 });
 
-$(mww).bind('scroll resize load', function (e) {
+$(mww).on('scroll resize load', function (e) {
     if (e.type == "scroll" || e.type == 'resize') {
         mw.admin.manageToolbarSet();
     }

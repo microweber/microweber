@@ -309,3 +309,31 @@
         </select>
     </div>
 </div>
+
+<div class="ui_section">
+    <script>
+        mw.require('block-edit.js');
+    </script>
+    <h2>Edit box</h2>
+    <br>
+
+    <form id="example_form" style="display: none">
+        <div class="mw-field">
+            <input type="text" placeholder="Name">
+        </div>
+
+        <div class="mw-field">
+            <input type="text" placeholder="Mail">
+        </div>
+        <button type="button" class="mw-ui-btn mw-block-edit-closeButton">Submit</button>
+    </form>
+
+    <div class="mw-block-edit" data-mwcomponent="block-edit">
+        <module type="social_links" id="socials"/>
+        <hr>
+        <span class="mw-ui-btn mw-block-edit-editButton" data-options="module: social_links/admin ">Edit</span>
+        <span class="mw-ui-btn mw-block-edit-editButton" data-options="element: #example_form ">Edit Other</span>
+    </div>
+
+
+</div>

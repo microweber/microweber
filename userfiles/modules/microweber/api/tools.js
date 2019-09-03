@@ -141,6 +141,47 @@ if (!window.escape) {
     };
 }
 mw.tools = {
+    fragment: function(){
+        if(!this._fragment){
+            this._fragment = document.createElement('div');
+            this._fragment.style.visibility = 'hidden';
+            this._fragment.style.position = 'absolute';
+            this._fragment.style.width = '1px';
+            this._fragment.style.height = '1px';
+            document.body.appendChild(this._fragment);
+        }
+        return this._fragment;
+    },
+    _isBlockCache:{},
+    isBlockLevel:function(node){
+        if(!node || node.nodeType === 3){
+            return false;
+        }
+        var name = node.nodeName;
+        if(typeof this._isBlockCache[name] !== 'undefined'){
+            return this._isBlockCache[name];
+        }
+        var test = document.createElement(name);
+        this.fragment().appendChild(test);
+        this._isBlockCache[name] = getComputedStyle(test).display === 'block';
+        this.fragment().removeChild(test);
+        return this._isBlockCache[name];
+    },
+    _isInlineCache:{},
+    isInlineLevel:function(node){
+        if(node.nodeType === 3){
+            return false;
+        }
+        var name = node.nodeName;
+        if(typeof this._isInlineCache[name] !== 'undefined'){
+            return this._isInlineCache[name];
+        }
+        var test = document.createElement(name);
+        this.fragment().appendChild(test);
+        this._isInlineCache[name] = getComputedStyle(test).display === 'inline' && node.nodeName !== 'BR';
+        this.fragment().removeChild(test);
+        return this._isInlineCache[name];
+    },
     elementOptions: function(el) {
         var opt = ( el.dataset.options || '').trim().split(','), final = {};
         if(!opt[0]) return final;
@@ -211,7 +252,6 @@ mw.tools = {
         setTimeout(function(){
             insertDetector();
         }, 100);
-
         frame.scrolling="no";
         frame.style.minHeight = 0 + 'px';
         mw.$(frame).on('load resize', function(){
@@ -230,11 +270,31 @@ mw.tools = {
             insertDetector();
         });
         frame._int = setInterval(function(){
+
+
             if(frame.parentNode && frame.contentWindow && frame.contentWindow.$){
+                var max = -1, dmax = null, framw = frame.contentWindow.mw;
+                if(framw.__dialogs && framw.__dialogs.length){
+                    framw.__dialogs.forEach(function($dialog){
+                        if($dialog.dialogHolder.offsetHeight > max){
+                            max = $dialog.dialogHolder.offsetHeight;
+                            dmax = $dialog;
+                        }
+                    });
+
+
+                    if (dmax.dialogHolder.offsetHeight + 100 > framw.win.innerHeight) {
+                        _detector.style.height = ((dmax.dialogHolder.offsetHeight + 160) - framw.win.innerHeight) + 'px';
+                    } else {
+                        //_detector.style.height = 0;
+                    }
+
+                }
                 var offTop = frame.contentWindow.$(_detector).offset().top;
-                if(offTop && offTop !== frame._currHeight){
-                    frame._currHeight = offTop;
-                    frame.style.height = offTop + 'px';
+                var calc = offTop + _detector.offsetHeight;
+                if(calc && calc !== frame._currHeight){
+                    frame._currHeight = calc;
+                    frame.style.height = calc + 'px';
                     mw.$(frame).trigger('bodyResize');
                 }
             }
@@ -1916,7 +1976,8 @@ mw.tools = {
     parentsOrCurrentOrderMatch: function (node, arr) {
         var curr = node,
             match = {a: 0, b: 0},
-            count = 1;
+            count = 1,
+            hadA = false;
         while (curr !== document.body) {
             count++;
             var h1 = mw.tools.hasClass(curr, arr[0]);
@@ -1930,23 +1991,56 @@ mw.tools = {
             else {
                 if (h1) {
                     match.a = count;
+                    hadA = true;
                 }
                 else if (h2) {
                     match.b = count;
                 }
                 if (match.b > match.a) {
-                    return true;
+                    return hadA ? true : false;
                 }
             }
             curr = curr.parentNode;
         }
         return false;
     },
+    parentsOrCurrentOrderMatchOrNone:function(node, arr){
+        if(!node) return false;
+        var curr = node,
+            match = {a: 0, b: 0},
+            count = 1,
+            hadA = false;
+        while (curr && curr !== document.body) {
+            count++;
+            var h1 = mw.tools.hasClass(curr, arr[0]);
+            var h2 = mw.tools.hasClass(curr, arr[1]);
+            if (h1 && h2) {
+                if (match.a > 0) {
+                    return true;
+                }
+                return false;
+            }
+            else {
+                if (h1) {
+                    match.a = count;
+                    hadA = true;
+                }
+                else if (h2) {
+                    match.b = count;
+                }
+                if (match.b > match.a) {
+                    return hadA ? true : false;
+                }
+            }
+            curr = curr.parentNode;
+        }
+        return match.a === 0 && match.b === 0;
+    },
     parentsOrCurrentOrderMatchOrOnlyFirstOrBoth: function (node, arr) {
         var curr = node,
             has1 = false,
             has2 = false;
-        while (curr !== document.body) {
+        while (curr && curr !== document.body) {
             var h1 = mw.tools.hasClass(curr, arr[0]);
             var h2 = mw.tools.hasClass(curr, arr[1]);
             if (h1 && h2) {
@@ -1962,7 +2056,7 @@ mw.tools = {
             }
             curr = curr.parentNode;
         }
-        return true;
+        return false;
     },
     matchesAnyOnNodeOrParent: function (node, arr) {
         var curr = node;
@@ -2416,46 +2510,7 @@ mw.tools = {
         mw.$(toggler).toggleClass('toggler-active');
         mw.is.func(callback) ? callback.call(who) : '';
     },
-    memoryToggle: function (toggler) {
-        if (typeof _MemoryToggleContentID == 'undefined') return false;
-        var id = toggler.id;
-        var who = mw.$(toggler).dataset('for');
-        mw.tools.toggle(who, "#" + id);
-        var page = "page_" + _MemoryToggleContentID;
-        var is_active = mw.$(toggler).hasClass('toggler-active');
-        if (_MemoryToggleContentID == '0') return false;
-        var curr = mw.cookie.ui(page);
-        if (curr == "") {
-            var obj = {}
-            obj[id] = is_active;
-            mw.cookie.ui(page, obj);
-        }
-        else {
-            curr[id] = is_active;
-            mw.cookie.ui(page, curr);
-        }
-    },
-    memoryToggleRecall: function () {
-        if (typeof _MemoryToggleContentID == 'undefined') return false;
-        var page = "page_" + _MemoryToggleContentID;
-        var curr = mw.cookie.ui(page);
-        if (curr != "") {
-            $.each(curr, function (a, b) {
-                if (b == true) {
-                    var toggler = mw.$("#" + a);
-                    toggler.addClass('toggler-active');
-                    var who = toggler.dataset("for");
-                    mw.$(who).show().addClass('toggle-active');
-                    var callback = toggler.dataset("callback");
-                    if (callback != "") {
-                        mw.wait(callback, function () {
-                            window[callback]();
-                        });
-                    }
-                }
-            });
-        }
-    },
+
     confirm: function (question, callback) {
         var html = ''
             + '<table class="mw_alert" width="100%" height="140" cellpadding="0" cellspacing="0">'
@@ -3837,7 +3892,7 @@ mw.tools = {
     },
     open_module_modal: function (module_type, params, modalOptions) {
 
-        var id = 'module-modal-' + mw.random();
+        var id = mw.id('module-modal-');
         var id_content = id + '-content';
         modalOptions = modalOptions || {};
 
@@ -3870,11 +3925,14 @@ mw.tools = {
                 autoHeight: true
             };
 
-            return mw.tools.modal.frame(settings);
+            return mw.top().tools.modal.frame(settings);
 
         } else {
             delete settings.skin;
             delete settings.template;
+            settings.height = 'auto';
+            settings.autoHeight = true;
+            settings.encapsulate = false;
             var modal = mw.dialog(settings);
             xhr = mw.load_module(module_type, '#' + id_content, null, params);
         }
@@ -4612,10 +4670,11 @@ $.fn.mwDialog = function(conf){
         width: 'auto'
     };
     var settings = $.extend({}, defaults, options, conf);
-    if(conf === 'close' || conf === 'hide'){
+    if(conf === 'close' || conf === 'hide' || conf === 'remove'){
         if(el._dialog){
             el._dialog.remove()
         }
+        return;
     }
     $(el).before('<mw-dialog-temp id="'+idEl+'"></mw-dialog-temp>');
     var dialog = mw.dialog(settings);

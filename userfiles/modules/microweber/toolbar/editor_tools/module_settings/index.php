@@ -255,6 +255,7 @@
                 dd.className = 'mw-presets-dropdown module-modal-settings-menu-holder';
                 $(toolbar).append(dd);
 
+
                 mw.module_preset_linked_dd_menu_show_icon = function () {
 
                     var is_module_preset_tml_holder = $(".module-modal-preset-linked-icon", toolbar);
@@ -427,9 +428,11 @@
 
 
 
-                        var module_has_editable_parent = window.parent.$('#<?php print $params['id'] ?>');
+                        //var module_has_editable_parent = window.parent.$('#<?php print $params['id'] ?>');
+                        var module_has_editable_parent = window.parent.$('#<?php print $params['id'] ?>').parent();
 
-                        if (typeof(module_has_editable_parent[0]) != 'undefined' && window.parent.mw.tools.hasParentsWithClass(module_has_editable_parent[0], 'edit')) {
+                       if (typeof(module_has_editable_parent[0]) != 'undefined' && window.parent.mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(module_has_editable_parent[0], ['edit','module'])) {
+
                             $(holder).append(html);
                          $(dd).prepend(dropdown);
 

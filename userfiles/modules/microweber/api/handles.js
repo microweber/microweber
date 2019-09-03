@@ -603,9 +603,8 @@ mw._initHandles = {
                 }
             }
 
-            var canDrag = mw.tools.parentsOrCurrentOrderMatch(element, ['edit', 'module'])
+            var canDrag = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(element.parentNode, ['edit', 'module'])
                 && mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(element, ['allow-drop', 'nodrop']);
-
             if(canDrag){
                 mw.$(mw.handleModule.wrapper).removeClass('mw-handle-no-drag');
             } else {
@@ -688,7 +687,7 @@ mw._initHandles = {
     columns:function(){
         mw.handleColumns = new mw.Handle({
             id: 'mw-handle-item-columns',
-            className:'mw-handle-type-element',
+            // className:'mw-handle-type-element',
             menu:[
                 {
                     title: 'One column',

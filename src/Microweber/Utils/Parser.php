@@ -2154,9 +2154,14 @@ class Parser
 
             $modules_dir_default = modules_path() . $module_name;
             $modules_dir_default = normalize_path($modules_dir_default, true);
+            $module_name_root = mw()->modules->locate_root_module($module_name);
+            $modules_dir_default_root = modules_path() . $module_name_root;
+            $modules_dir_default_root = normalize_path($modules_dir_default_root, true);
 
-            if (is_dir($modules_dir_default) and is_file($modules_dir_default . 'config.php')) {
-                $is_installed = $this->app->modules->is_installed($module_name);
+
+
+            if ($module_name_root and is_dir($modules_dir_default_root) and is_file($modules_dir_default_root . 'config.php')) {
+                $is_installed = $this->app->modules->is_installed($module_name_root);
                 if (!$is_installed) {
                     return '';
 

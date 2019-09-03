@@ -1,6 +1,7 @@
 mw.require('wysiwyg.js');
 mw.require('handles.js');
 
+mw.liveedit = {};
 
 
 mw.require('padding.js');
@@ -12,6 +13,11 @@ mw.require('live_edit.js');
 mw.require('liveedit_widgets.js');
 mw.require('state.js');
 mw.require('selector.js');
+mw.require('liveedit.modules.toolbar.js');
+
+
+
+
 mw.isDrag = false;
 mw.resizable_row_width = false;
 mw.mouse_over_handle = false;
@@ -262,7 +268,7 @@ $(document).ready(function() {
 
     mw.on("ComponentClick", function(e, node, type){
 
-        if(type === 'icon'){
+        if (type === 'icon'){
             mw.iconSelector._activeElement = node;
             mw.iconSelector.uiHTML();
             mw.iconSelector.settingsUI();
@@ -270,8 +276,6 @@ $(document).ready(function() {
 
         }
         if(mw.settings.live_edit_open_module_settings_in_sidebar) {
-
-
             mw.log('ComponentClick' + type);
             if (!mw.liveEditSettings) {
                 return; // admin mode
@@ -289,7 +293,7 @@ $(document).ready(function() {
             }
 
             if (mw.liveEditSettings.active) {
-                if (typeof(mw.sidebarSettingsTabs) != 'undefined') {
+                if (mw.sidebarSettingsTabs) {
                     if (uitype !== 'module') {
                         mw.sidebarSettingsTabs.setLastClicked();
                     } else {
@@ -303,14 +307,9 @@ $(document).ready(function() {
     });
 
     mw.on("ElementClick", function(e, el, c) {
-
         mw.$(".element-current").not(el).removeClass('element-current');
         if (mw.liveEditSelectMode === 'element') {
             mw.$(el).addClass('element-current');
-
-            if(mw.drag.target.canBeEditable(el)){
-                mw.wysiwyg.contentEditable(el, true)
-            }
         }
 
         mw.$('.module').each(function(){
@@ -869,62 +868,27 @@ mw.drag = {
     },
 
     toolbar_modules: function(selector) {
-        var items = selector || ".modules-list li[data-module-name]";
-        mw.$(items).draggable({
-            revert: true,
-            /*cursorAt: {
-                top: -30
-            },*/
-            revertDuration: 0,
-            start: function(a, b) {
-                mw.isDrag = true;
-                mw.dragCurrent = mw.ea.data.currentGrabbed = mw.GlobalModuleListHelper;
-                mw.$(mwd.body).addClass("dragStart");
-                mw.image_resizer._hide();
-            },
-            stop: function() {
-                mw.isDrag = false;
-                mw.pauseSave = true;
-                var el = this;
-                mw.$(mwd.body).removeClass("dragStart");
-                setTimeout(function() {
-                    mw.drag.load_new_modules();
-                    mw.recommend.increase($(mw.dragCurrent).attr("data-module-name"));
-                    mw.drag.toolbar_modules(el);
-                }, 200);
-            }
-        });
-        mw.$(items).on('mouseenter touchstart', function() {
-            mw.$(this).draggable("option", "helper", function() {
-                var clone = mw.$(this).clone(true);
-                clone.appendTo(mwd.body);
-                mw.GlobalModuleListHelper = clone[0];
-                return clone[0];
-            });
-        });
-        mw.$(items).on("click mousedown mouseup", function(e) {
-            e.preventDefault();
-            if (e.type === 'click') {
-                return false;
-            }
-            if (e.type === 'mousedown') {
-                this.mousedown = true;
-            }
-            if (e.type === 'mouseup' && e.which === 1 && !!this.mousedown) {
-                mw.$(items).each(function() {
-                    this.mousedown = false;
-                });
-                if (!mw.isDrag && mww.getSelection().rangeCount > 0 && mwd.querySelector('.mw_modal') === null && mw.modulesClickInsert) {
-                    var html = this.outerHTML;
-                    mw.wysiwyg.insert_html(html);
-                    mw.drag.load_new_modules();
-                }
-            }
-        });
+        mw.liveedit.modulesToolbar.init(selector);
     },
     the_drop: function() {
+
+
+
         if (!$(mwd.body).hasClass("bup")) {
             mw.$(mwd.body).addClass("bup");
+
+            $(document.body).on('drop', function(e){
+                var ev = e.originalEvent || e;
+                if(mw.wysiwyg.isTargetEditable(ev.target)){
+                    var items = ev.dataTransfer.items;
+                    for(var i=0; i< items.length; i++){
+                        items[i].getAsString(function(a){
+                            mw.wysiwyg.insert_html(mw.wysiwyg.html2text(a))
+                        })
+                    }
+                    ev.preventDefault();
+                }
+            })
 
             mw.$(mwd.body).on("mouseup touchend", function(event) {
                 mw.image._dragcurrent = null;
@@ -954,11 +918,11 @@ mw.drag = {
                     if( mw.tools.hasAnyOfClassesOnNodeOrParent(target, componentsClasses)) {
                         if (currentComponent && !fonttarget) {
 
-                            var order = mw.tools.parentsOrder(target, ['safe-mode', 'module']);
+                            var order = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(target, ['safe-mode', 'module']);
                             if(mw.tools.hasClass(currentComponent, 'module')){
                                 mw.trigger("ComponentClick", [target, 'module']);
                             }
-                            else if (mw.wysiwyg.isSelectionEditable() && !mw.tools.hasAnyOfClasses(target, componentsClasses) && order['safe-mode'] < order['module']) {
+                            else if (mw.wysiwyg.isSelectionEditable() && !mw.tools.hasAnyOfClasses(target, componentsClasses) && order) {
                                 mw.trigger("ComponentClick", [target, 'element']);
                             }
                             else {
@@ -1041,8 +1005,6 @@ mw.drag = {
                     if (mw.tools.hasClass(target, 'mw-empty') && target.innerHTML.trim() !== '') {
                         target.className = 'element';
                     }
-                }
-                if (!mw.isDrag) {
                     mw.drag.properFocus(event);
                 }
                 if (mw.isDrag) {
@@ -1218,7 +1180,6 @@ mw.drag = {
    target :  {
 
         canBeElement: function(target) {
-            var yesno = true;
             var el = target;
             var noelements = ['mw-ui-col', 'mw-col-container', 'mw-ui-col-container'];
 
@@ -1234,24 +1195,10 @@ mw.drag = {
             noelements = noelements.concat(section_selectors);
             noelements = noelements.concat(icon_selectors);
 
-            if (mw.tools.hasAnyOfClasses(el, noelements)) {
-                yesno = false;
-            }
-            return yesno;
+            return mw.tools.hasAnyOfClasses(el, noelements);
         },
-        canBeEditable: function(target) {
-            var noyes = false;
-            var el = target;
-            if( !el.isContentEditable && !mw.tools.hasAnyOfClassesOnNodeOrParent(el, ['safe-mode']) ) {
-                var order = mw.tools.parentsOrder(el, ['edit','module']);
-                if(order.module === -1 && order.edit !== -1){
-                    noyes = true;
-                }
-                if(order.module > order.edit){
-                    noyes = true;
-                }
-            }
-            return noyes;
+        canBeEditable: function(el) {
+            return el.isContentEditable || mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(el, ['edit','module']);
         }
    },
 
@@ -1300,28 +1247,28 @@ mw.drag = {
         });
         var data1 = attributes;
         var module_type = null;
-        if (data1['data-type'] != undefined) {
+        if (data1['data-type']) {
             module_type = data1['data-type'];
             data1['data-type'] = data1['data-type'] + '/admin';
         }
-        if (data1['data-module-name'] != undefined) {
+        if (data1['data-module-name']) {
             delete(data1['data-module-name']);
         }
-        if (data1['type'] != undefined) {
+        if (data1['type']) {
             module_type = data1['type'];
             data1['type'] = data1['type'] + '/admin';
         }
-        if (module_type != null && view != undefined) {
+        if (module_type != null && view) {
             data1['data-type'] = data1['type'] = module_type + '/' + view;
         }
 
-        if (typeof data1['class'] != 'undefined') {
+        if (data1['class']) {
             delete(data1['class']);
         }
-        if (typeof data1['style'] != 'undefined') {
+        if (data1['style']) {
             delete(data1['style']);
         }
-        if (typeof data1.contenteditable != 'undefined') {
+        if (data1.contenteditable) {
             delete(data1.contenteditable);
         }
         data1.live_edit = 'true';
@@ -1373,63 +1320,7 @@ mw.drag = {
         }
 
     },
-    ModuleSettingsPopupLoaded: function(id) {
 
-        mw.$("#" + id + " .mw_option_field").on("change blur", function() {
-
-            var refresh_modules11 = mw.$(this).attr('data-refresh');
-
-            if (refresh_modules11 == undefined) {
-                var refresh_modules11 = mw.$(this).attr('data-reload');
-            }
-
-            if (refresh_modules11 == undefined) {
-                var refresh_modules11 = mw.$(this).parents('.mw_modal_container:first').attr('data-settings-for-module');
-                var refresh_modules11 = '#' + refresh_modules11;
-            }
-
-            var mname = mw.$(this).parents('.module:first').attr('data-type');
-            var og = mw.$(this).attr('data-module-id');
-            if (og == undefined) {
-                var og = mw.$(this).parents('.mw_modal_container:first').attr('data-settings-for-module')
-            }
-            if (this.type === 'checkbox') {
-                var val = '';
-                var items = mw.$('input[name="' + this.name + '"]');
-                for (var i = 0; i < items.length; i++) {
-                    var _val = items[i].value;
-                    var val = items[i].checked === true ? (val === '' ? _val : val + ", " + _val) : val;
-                }
-            } else {
-                val = this.value
-            }
-            var o_data = {
-                option_key: mw.$(this).attr('name'),
-                option_group: og,
-                option_value: val
-                    // chkboxes:checkboxes_obj
-            };
-            if (mname !== undefined) {
-                o_data.module = mname;
-            }
-            $.ajax({
-                type: "POST",
-                url: mw.settings.site_url + "api/save_option",
-                data: o_data,
-                success: function() {
-                    if (refresh_modules11 !== undefined && refresh_modules11 !== '') {
-                        refresh_modules11 = refresh_modules11.toString();
-                        if (window.mw !== undefined) {
-                            if (window.mw.reload_module != undefined) {
-                                window.mw.reload_module(refresh_modules11);
-                                window.mw.reload_module('#' + refresh_modules11);
-                            }
-                        }
-                    }
-                }
-            });
-        });
-    },
     /**
      * Loads the module in the given dom element by the $update_element selector .
      *
@@ -1514,10 +1405,6 @@ mw.drag = {
             url: mw.settings.api_url + 'save_edit',
             data: data,
             dataType: "json"
-        });
-
-        xhr.error(function(jqXHR, textStatus, errorThrown){
-
         });
 
         xhr.always(function() {
@@ -1621,7 +1508,7 @@ mw.drag = {
                 var attrs = helper.item.attributes;
                 if (attrs.length > 0) {
                     var ai = 0,
-                        al = attrs.length
+                        al = attrs.length;
                     for (; ai < al; ai++) {
                         attr_obj[attrs[ai].nodeName] = attrs[ai].nodeValue;
                     }
@@ -2004,6 +1891,11 @@ $(window).on("load", function() {
     }, function() {
         mw.$(this).removeClass("toolbar_bnav_hover");
     });
+
+    mw.interval('regular-mode', function(){
+        mw.$('.nodrop .allow-drop').addClass('regular-mode');
+    })
+
     }, 100)
 });
 
@@ -2118,7 +2010,7 @@ $(document).ready(function() {
             }
         }, 1000)
 
-    })
+    });
 
 
 });
