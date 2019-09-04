@@ -47,10 +47,14 @@ mw.editSource = function (node) {
     }
     mw._editSource.area.value = node.innerHTML;
     mw._editSource.target = node;
-    var $node = mw.$(node), off = $node.offset();
+    var $node = mw.$(node), off = $node.offset(), nwidth = $node.outerWidth();
+    var sl = mw.$('.mw-live-edit-sidebar-tabs-wrapper').offset();
+    if (off.left + nwidth > sl.left) {
+        off.left -= ((off.left + nwidth) - sl.left + 10);
+    }
     mw.$(mw._editSource.area)
         .height($node.outerHeight())
-        .width($node.outerWidth())
+        .width(nwidth);
 
     mw.$(mw._editSource.wrapper)
         .css(off)

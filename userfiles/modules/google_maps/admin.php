@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    mw.require("style_editors.js");
+    
     zoommap = function (val) {
         mw.$("#zoom_level").val(val).trigger("change");
     }

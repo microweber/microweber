@@ -3010,80 +3010,69 @@ mw.tools = {
         }
         return diff;
     },
+
     liveEdit: function (el, textonly, callback, fieldClass) {
-        if (el.getElementsByTagName('input').length === 0) {
-            var textonly = textonly || true;
-            var input = mwd.createElement('input');
-            input.type = "text";
-            input.className = (fieldClass || "mw-ui-field") + ' mw-liveedit-field';
-            input.style.width = mw.$(el).width() + 'px';
-            if (textonly === true) {
-                input.value = el.textContent;
-                input.onblur = function () {
-                    var val = this.value;
-                    var ischanged = this.changed === true;
-                    setTimeout(function () {
-                        mw.$(el).text(val);
-                        if (typeof callback === 'function' && ischanged) {
-                            callback.call(val, el);
-                        }
-                    }, 3);
-                }
-                input.onkeydown = function (e) {
-                    if (e.keyCode === 13) {
-                        var val = this.value;
-                        mw.$(el).text(val);
-                        if (typeof callback === 'function') {
-                            callback.call(val, el);
-                        }
-                        return false;
-                    }
-                }
-            }
-            else {
-                input.value = el.innerHTML;
-                input.onblur = function () {
-                    var val = this.value;
-                    var ischanged = this.changed === true;
-                    setTimeout(function () {
-                        el.innerHTML = val;
-                        if (typeof callback === 'function' && ischanged) {
-                            callback.call(val, el);
-                        }
-                    }, 3)
-                }
-                input.onkeydown = function (e) {
-                    if (e.keyCode === 13) {
-                        var val = this.value
-                        el.innerHTML = val;
-                        if (typeof callback === 'function') {
-                            callback.call(val, el);
-                        }
-                        return false;
-                    }
-                }
-            }
-            mw.$(el).empty().append(input);
-            mw.$(input).focus();
-            input.changed = false;
-            mw.$(input).change(function () {
-                this.changed = true;
-            });
-            mw.$(input).bind('keydown keyup paste', function (e) {
-                var el = this;
-                el.style.width = 0 + 'px';
-                el.style.width = el.scrollWidth + 6 + 'px';
-                if (e.type === 'paste') {
-                    setTimeout(function () {
-                        el.style.width = 0 + 'px';
-                        el.style.width = el.scrollWidth + 6 + 'px';
-                    }, 70);
-                }
-                if (mw.is.ie) {
-                    el.style.width = (el.value.length * 5.9) + 'px';
-                }
-            });
+        if (!el || el.querySelector('.mw-live-edit-input') !== null) {
+            return;
         }
+        textonly = (typeof textonly === 'undefined') ? true : textonly;
+        var input = mwd.createElement('span');
+        input.className = (fieldClass || "") + ' mw-live-edit-input mw-liveedit-field';
+        input.contentEditable = true;
+        var $input = $(input);
+        if (textonly === true) {
+            input.innerHTML = el.textContent;
+            input.onblur = function () {
+                var val = $input.text();
+                var ischanged = this.changed === true;
+                setTimeout(function () {
+                    mw.$(el).text(val);
+                    if (typeof callback === 'function' && ischanged) {
+                        callback.call(val, el);
+                    }
+                }, 3);
+            }
+            input.onkeydown = function (e) {
+                if (e.keyCode === 13) {
+                    e.preventDefault();
+                    mw.$(el).text($input.text());
+                    if (typeof callback === 'function') {
+                        callback.call($input.text(), el);
+                    }
+                    return false;
+                }
+            }
+        }
+        else {
+            input.innerHTML = el.innerHTML;
+            input.onblur = function () {
+                var val = this.innerHTML;
+                var ischanged = this.changed === true;
+                setTimeout(function () {
+                    el.innerHTML = val;
+                    if (typeof callback === 'function' && ischanged) {
+                        callback.call(val, el);
+                    }
+                }, 3)
+            }
+            input.onkeydown = function (e) {
+                if (e.keyCode === 13) {
+                    e.preventDefault();
+                    var val = this.innerHTML;
+                    el.innerHTML = val;
+                    if (typeof callback === 'function') {
+                        callback.call(val, el);
+                    }
+                    return false;
+                }
+            }
+        }
+        mw.$(el).empty().append(input);
+        $input.focus();
+        input.changed = false;
+        $input.change(function () {
+            this.changed = true;
+        });
         return input;
     },
     objectExtend: function (str, value) {
@@ -3667,35 +3656,6 @@ mw.tools = {
                 }
             });
 
-            //
-            //  Open template settings icon is sidebar
-            //  mw.$(modal.main).append('<span class="template-settings-icon"></span><span class="template-settings-close"><span class="template-settings-close-x"></span>' + mw.msg.remove + '</span>');
-
-            mw.$('.template-settings-icon').click(function () {
-                mw.tools.toggle_template_settings();
-            });
-            mw.$('.template-settings-close').click(function () {
-                mw.$('.mw-template-settings').remove();
-                mw.cookie.set("remove_template_settings", "true");
-                mw.tools.hide_template_settings();
-                var cookie = mw.cookie.get("template_settings_message");
-                if (typeof cookie == 'undefined' || cookie == 'true') {
-                    mw.cookie.set("template_settings_message", 'false', 3048);
-                    var actions = mw.$('#toolbar-template-settings');
-                    var tooltip = mw.tooltip({
-                        element: actions,
-                        content: "<div style='text-align:center;width:200px;'>" + mw.msg.templateSettingsHidden + ".</div>",
-                        position: "bottom-center"
-                    });
-                    mw.$("#toolbar-template-settings .ed-ico").addClass("action");
-                    setTimeout(function () {
-                        mw.$(tooltip).fadeOut(function () {
-                            mw.$(tooltip).remove();
-                            mw.$("#toolbar-template-settings .ed-ico").removeClass("action");
-                        });
-                    }, 2000);
-                }
-            });
         }
         else {
             mw.tools.hide_template_settings();
@@ -3971,78 +3931,7 @@ mw.tools = {
         }
         return Math.round(((3 / 4) * n));
     },
-    calc: {
-        SliderButtonsNeeded: function (parent) {
-            var t = {left: false, right: false};
-            if (parent == null || !parent) {
-                return;
-            }
-            var el = parent.firstElementChild;
-            if ($(parent).width() > mw.$(el).width()) return t;
-            var a = mw.$(parent).offset().left + mw.$(parent).width();
-            var b = mw.$(el).offset().left + mw.$(el).width();
-            if (b > a) {
-                t.right = true;
-            }
-            if ($(el).offset().left < mw.$(parent).offset().left) {
-                t.left = true;
-            }
-            return t;
-        },
-        SliderNormalize: function (parent) {
-            if (parent === null || !parent) {
-                return false;
-            }
-            var el = parent.firstElementChild;
-            var a = mw.$(parent).offset().left + mw.$(parent).width();
-            var b = mw.$(el).offset().left + mw.$(el).width();
-            if (b < a) {
-                return (a - b);
-            }
-            return false;
-        },
-        SliderNext: function (parent, step) {
-            if (parent === null || !parent) {
-                return false;
-            }
-            var el = parent.firstElementChild;
-            if ($(parent).width() > mw.$(el).width()) return 0;
-            var a = mw.$(parent).offset().left + mw.$(parent).width();
-            var b = mw.$(el).offset().left + mw.$(el).width();
-            var step = step || mw.$(parent).width();
-            var curr = parseFloat(window.getComputedStyle(el, null).left);
-            if (a < b) {
-                if ((b - step) > a) {
-                    return (curr - step);
-                }
-                else {
-                    return curr - (b - a);
-                }
-            }
-            else {
-                return curr - (b - a);
-            }
-        },
-        SliderPrev: function (parent, step) {
-            if (parent === null || !parent) {
-                return false;
-            }
-            var el = parent.firstElementChild;
-            var step = step || mw.$(parent).width();
-            var curr = parseFloat(window.getComputedStyle(el, null).left);
-            if (curr < 0) {
-                if ((curr + step) < 0) {
-                    return (curr + step);
-                }
-                else {
-                    return 0;
-                }
-            }
-            else {
-                return 0;
-            }
-        }
-    },
+
     progressDefaults: {
         skin: 'mw-ui-progress',
         action: mw.msg.loading + '...',

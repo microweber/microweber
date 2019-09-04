@@ -154,13 +154,13 @@
                                 <?php $uploadedVideo = get_option('upload', $params['id']);  ?>
                                 <video
                                         style="display: <?php print !!$uploadedVideo ? 'block' : 'none' ?>;"
-                                        <?php print 'src="'.$uploadedVideo.'"' ?>;
+                                        <?php print 'src="'.$uploadedVideo.'"'; ?>
                                         width="100%"
                                         height="200px"
                                         id="video-preview"
                                         controls>
 
-                                </video>;
+                                </video>
 
 
 

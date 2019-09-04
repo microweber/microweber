@@ -141,7 +141,7 @@ mw.require('tempcss.js');
 
                 }
 
-                if (scope._active || mw.liveEditData.move.hasLayout) {
+                if (scope._active || mw.liveedit.data.get('move', 'hasLayout')) {
                     scope.show();
                 } else {
                     scope.hide();
@@ -169,7 +169,7 @@ mw.require('tempcss.js');
         this.selectors = [
             '.mw-padding-gui-element'
         ];
-        
+
         this.prepareSelectors = function(){
             /* var i = 0;
             for( ; i < this.selectors.length; i++){

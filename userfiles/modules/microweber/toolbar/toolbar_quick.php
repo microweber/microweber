@@ -8,22 +8,22 @@
         mw.require("tools.js");
         mw.require("wysiwyg.js");
         mw.require("css_parser.js");
-        mw.require("style_editors.js");
+
         mw.require("forms.js");
         mw.require("files.js");
         mw.require("content.js", true);
         mw.require("session.js");
         mw.require("liveedit.js");
-  
+
     </script>
-  
- 
+
+
 <script type="text/javascript">
         $(document).ready(function () {
           $(mwd.body).addClass("mw-admin-view")
         });
 </script>
- 
+
 
 
 
@@ -32,8 +32,6 @@
 <link href="<?php print(mw_includes_url()); ?>css/wysiwyg.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript">
         $(document).ready(function () {
-            mw.toolbar.minTop = parseFloat($(mwd.body).css("paddingTop"));
-
             mw.tools.module_slider.init();
             mw.tools.dropdown();
             mw.tools.toolbar_slider.init();
@@ -61,7 +59,7 @@
 
     ?>
 
-  
+
 
 
 <div id="image_settings_modal_holder" style="display: none">
@@ -100,9 +98,9 @@
             },
             denied: false,
             buttons: function () {
-                var b = mw.tools.calc.SliderButtonsNeeded(mw.liveEditWYSIWYG.ed);
+                var b = mw.liveEditWYSIWYG.calc.SliderButtonsNeeded(mw.liveEditWYSIWYG.ed);
 				if(b == null){
-				return;	
+				return;
 				}
                 if (b.left) {
                     mw.liveEditWYSIWYG.prevBTNS.show();
@@ -121,7 +119,7 @@
                 if (!mw.liveEditWYSIWYG.denied) {
                     mw.liveEditWYSIWYG.denied = true;
                     var el = mw.liveEditWYSIWYG.ed.firstElementChild;
-                    var to = mw.tools.calc.SliderPrev(mw.liveEditWYSIWYG.ed, mw.liveEditWYSIWYG.step());
+                    var to = mw.liveEditWYSIWYG.calc.SliderPrev(mw.liveEditWYSIWYG.ed, mw.liveEditWYSIWYG.step());
                     $(el).animate({left: to}, function () {
                         mw.liveEditWYSIWYG.denied = false;
                         mw.liveEditWYSIWYG.buttons();
@@ -133,7 +131,7 @@
                     mw.liveEditWYSIWYG.denied = true;
                     var el = mw.liveEditWYSIWYG.ed.firstElementChild;
 
-                    var to = mw.tools.calc.SliderNext(mw.liveEditWYSIWYG.ed, mw.liveEditWYSIWYG.step());
+                    var to = mw.liveEditWYSIWYG.calc.SliderNext(mw.liveEditWYSIWYG.ed, mw.liveEditWYSIWYG.step());
                     $(el).animate({left: to}, function () {
                         mw.liveEditWYSIWYG.denied = false;
                         mw.liveEditWYSIWYG.buttons();
@@ -166,13 +164,13 @@
             $(window).bind("resize", function () {
                 mw.liveEditWYSIWYG.buttons();
 
-                var n = mw.tools.calc.SliderNormalize(mw.liveEditWYSIWYG.ed);
+                var n = mw.liveEditWYSIWYG.calc.SliderNormalize(mw.liveEditWYSIWYG.ed);
                 if (!!n) {
                     mw.liveEditWYSIWYG.slideRight();
                 }
             });
             mw.$(".tst-modules").click(function () {
-                mw.$('#modules-and-layouts').toggleClass("active");
+
                 mw.$(this).next('ul').hide()
                 var has_active = mwd.querySelector(".mw_toolbar_tab.active") !== null;
                 if (!has_active) {
@@ -180,7 +178,7 @@
                     mw.tools.addClass(mwd.querySelector('.mwtb-search-modules'), 'active');
                     $(mwd.querySelector('.mwtb-search-modules')).focus();
                 }
-                mw.toolbar.fixPad();
+                mw.liveedit.toolbar.fixPad();
             });
 
 
@@ -189,7 +187,7 @@
             var modules_switcher = mwd.getElementById('modules_switcher');
             // var modules_switch = mwd.getElementById('modules_switch');
 			if(modules_switcher == null){
-			return;	
+			return;
 			}
             modules_switcher.searchIn = 'Modules_List_modules';
 
@@ -200,11 +198,7 @@
             });
 
 
-            mw.$(".toolbars-search").hover(function () {
-                mw.tools.addClass(this, 'hover');
-            }, function () {
-                mw.tools.removeClass(this, 'hover');
-            });
+
 
             mw.$(".show_editor").click(function () {
                 mw.$("#liveedit_wysiwyg").toggle();
@@ -237,18 +231,6 @@
 
 
 
-            mw.$("#mod_switch").click(function () {
-                var h = $(this).dataset("action");
-                toolbar_set(h);
-                if (h == 'layouts') {
-                    this.innerHTML = '<?php _e("Switch to Modules"); ?>';
-                    $(this).dataset("action", 'modules');
-                }
-                else {
-                    this.innerHTML = '<?php _e("Switch to Layouts"); ?>';
-                    $(this).dataset("action", 'layouts');
-                }
-            });
 
 
         });

@@ -68,10 +68,7 @@
             text-decoration: none !important;
         }
 
-        .mw-browser-list-big a {
-            height: 150px;
-            width: 150px;
-        }
+
 
         .mw-browser-list .mw-fileico {
             height: 60px;

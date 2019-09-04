@@ -219,6 +219,10 @@ mw.settings.libs = {
             mw.require(mw.settings.libs_url + 'mw-icons-mind' + '/line/style.css');
             mw.require(mw.settings.libs_url + 'mw-icons-mind' + '/solid/style.css');
         }
+    ],
+    uppy: [
+        'uppy.min.js',
+        'uppy.min.css'
     ]
 };
 
@@ -275,7 +279,7 @@ mw.lib = {
             });
         }
     }
-}
+};
 
 mw.lang = function (key) {
     var camel = key.trim().replace(/(?:^\w|[A-Z]|\b\w)/g, function (letter, index) {
