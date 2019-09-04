@@ -1,0 +1,18 @@
+#!/usr/bin/env php
+
+<?php
+
+if (file_exists($autoloader = __DIR__ . '/../../../autoload.php')) {
+    require_once $autoloader;
+} else {
+    require_once __DIR__ . '/../vendor/autoload.php';
+}
+
+use TusPhp\Commands\ExpirationCommand;
+use Symfony\Component\Console\Application;
+
+$app = new Application();
+
+$app->add(new ExpirationCommand());
+
+$app->run();

@@ -46,6 +46,7 @@ $here = mw_includes_url() . 'toolbar/editor_tools/uppy/';
     }
 
     urlparams += 'token=<?php print mw_csrf_token($uid); ?>';
+    urlparams += '&engine=tus';
 
     $(document).ready(function () {
         $(mwd.body).mousedown(function (e) {
@@ -65,9 +66,10 @@ $here = mw_includes_url() . 'toolbar/editor_tools/uppy/';
         console.log(filtersarr, Params.filters)
 
 
-        var uploader = Uppy.Core()
+        var uploader = Uppy.Core({ autoProceed: true })
                 .use(Uppy.Dashboard, {
                     inline: true,
+
                     target: '#container',
                     chunkSize: 5*1024*1024,
                     allowedFileTypes: filtersarr,

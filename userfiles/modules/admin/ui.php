@@ -1607,7 +1607,7 @@
              #pl,#uppy{
                  position: relative;
                  width: 600px;
-                 height: 400px;
+                 height: 600px;
                  background-color: #ccc;
              }
 
@@ -1615,7 +1615,7 @@
             <script>
 
                 var updefaults = {
-                    filetypes:"png,gif,jpg,jpeg,tiff,bmp,svg",
+                    filetypes:"png,gif,jpg,jpeg,tiff,bmp,svg,zip,sql",
                     url:mw.settings.upload_url,
                     multiple:true
                 }

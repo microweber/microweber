@@ -68,8 +68,10 @@ $here = mw_includes_url() . 'toolbar/editor_tools/plupload/';
             runtimes: 'html5',
             browse_button: 'pickfiles_<?php print $uid  ?>',
             debug: 1,
+            max_retries: 10,
             container: 'container',
-            chunk_size: '1000kb',
+          //  chunk_size: '1500kb',
+            chunk_size: 1500000,
             url: '<?php print site_url('plupload'); ?>?' + urlparams,
             filters: filters,
             multi_selection: multi
