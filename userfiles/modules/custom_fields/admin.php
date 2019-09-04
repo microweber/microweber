@@ -187,8 +187,11 @@
         <a href="http://boris.microweber.com/userfiles/media/boris.microweber.com/ezgif.com-optimize__4.gif" style="float:right;color:#0086db;margin-top:5px;margin-bottom:5px;font-size:15px;" target="_new"><b>How to setup custom fields?</b></a>
         <hr>
         <div id="custom-fields-box">
-
-
+        
+	        <?php if (isset($params['live_edit'])): ?>
+	        	<module type="admin/modules/templates"/>
+	        <?php endif; ?>
+        
             <module data-type="custom_fields/list"   for="<?php print $for ?>" <?php if (isset($for_id)): ?> rel_id='<?php print $for_id; ?>'  <?php endif; ?>  list-preview="true" id="mw_custom_fields_list_preview" />
         </div>
     </div>
