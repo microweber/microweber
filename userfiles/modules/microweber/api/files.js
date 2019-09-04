@@ -56,7 +56,7 @@ mw.files = {
         var str = str.substring(0, str.length - 1);
         return str;
     },
-    uploader:function(obj){
+    uploader:function(obj, mode1){
             var obj = $.extend({}, mw.files.settings, obj);
             var frame = mwd.createElement('iframe');
             frame.className = 'mw-uploader mw-uploader-'+obj.type;
@@ -72,8 +72,13 @@ mw.files = {
                 params += '&autopath=' + encodeURIComponent(obj.autopath);
             }
             params+= '&mwv=' + mw.version;
+            if(mode1){
+                frame.src = mw.external_tool('uppy'+params);
 
-            frame.src = mw.external_tool('plupload'+params);
+            }
+            else {
+                frame.src = mw.external_tool('plupload'+params);
+            }
             frame.name = obj.name || 'mw-uploader-frame-'+mw.random();
             frame.style.background = "transparent";
             frame.setAttribute('frameborder', 0);

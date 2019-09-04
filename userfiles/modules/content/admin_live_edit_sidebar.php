@@ -50,7 +50,7 @@ $add_new_text = _e('Add new ' . $cont_type_to_add, true);
             <span class="fas fa-list"></span> &nbsp;<?php print $mange_btn_text ?>
         </a>
 
-        <a href="javascript:window.parent.mw.quick.edit('0','<?php print $cont_type_to_add ?>', '', '<?php print $page_id_for_add ?>', '<?php print $category_id_for_add ?>');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification mw-ui-btn-rounded">
+        <a href="javascript:window.parent.mw.liveedit.manageContent.edit('0','<?php print $cont_type_to_add ?>', '', '<?php print $page_id_for_add ?>', '<?php print $category_id_for_add ?>');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification mw-ui-btn-rounded">
             <span class="fas fa-plus-circle"></span> &nbsp;<?php print $add_new_text ?>
         </a>
     </div>

@@ -76,6 +76,7 @@ mw.admin.custom_fields.valueLiveEdit = function (span) {
     mw.$(span.parentNode).addClass('active');
     mw.tools.addClass(mw.tools.firstParentWithTag(span, 'tr'), 'active');
     var input = mw.tools.liveEdit(span, true, function (el) {
+        var data;
         if (mw.tools.hasClass(el, 'mw-admin-custom-field-value-edit-inline')) {
             var vals = [],
                 all = mw.tools.firstParentWithClass(el, 'custom-fields-values-holder').parentNode.querySelectorAll('.mw-admin-custom-field-value-edit-inline'),
@@ -85,16 +86,16 @@ mw.admin.custom_fields.valueLiveEdit = function (span) {
                 vals.push(all[i].textContent);
             }
 
-            var data = {
+            data = {
                 id: mw.$(el).dataset('id'),
                 value: vals
-            }
+            };
         }
         else {
-            var data = {
+            data = {
                 id: mw.$(el).dataset('id'),
                 name: mw.$(el).text()
-            }
+            };
         }
         mw.tools.removeClass(mw.tools.firstParentWithTag(this, 'tr'), 'active');
         $.post(mw.settings.api_url + 'fields/save', data, function (adata) {
@@ -103,7 +104,7 @@ mw.admin.custom_fields.valueLiveEdit = function (span) {
 
 	            var rstr = mwd.getElementById('mw-custom-fields-list-settings-' + data.id).innerHTML.replace(/\s+/g, '');
 
-	            if (rstr != '' && !!data.value) {
+	            if (rstr && !!data.value) {
 	                mw.reload_module('#mw-custom-fields-list-settings-' + data.id);
 	            }
         	}
@@ -113,7 +114,7 @@ mw.admin.custom_fields.valueLiveEdit = function (span) {
         });
         mw.$(el.parentNode).removeClass('active');
         mw.tools.removeClass(mw.tools.firstParentWithTag(el, 'tr'), 'active');
-    }, 'mw-ui-field mw-ui-field-small');
+    });
     mw.$(input).bind('blur', function () {
         mw.$('.mw-admin-custom-field-value-edit-inline-holder.active').removeClass('active');
         mw.tools.removeClass(mw.tools.firstParentWithTag(this, 'tr'), 'active');
