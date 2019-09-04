@@ -32,8 +32,6 @@
 <link href="<?php print(mw_includes_url()); ?>css/wysiwyg.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript">
         $(document).ready(function () {
-            mw.toolbar.minTop = parseFloat($(mwd.body).css("paddingTop"));
-
             mw.tools.module_slider.init();
             mw.tools.dropdown();
             mw.tools.toolbar_slider.init();
@@ -180,7 +178,7 @@
                     mw.tools.addClass(mwd.querySelector('.mwtb-search-modules'), 'active');
                     $(mwd.querySelector('.mwtb-search-modules')).focus();
                 }
-                mw.toolbar.fixPad();
+                mw.liveedit.toolbar.fixPad();
             });
 
 

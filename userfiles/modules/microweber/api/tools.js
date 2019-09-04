@@ -3656,35 +3656,6 @@ mw.tools = {
                 }
             });
 
-            //
-            //  Open template settings icon is sidebar
-            //  mw.$(modal.main).append('<span class="template-settings-icon"></span><span class="template-settings-close"><span class="template-settings-close-x"></span>' + mw.msg.remove + '</span>');
-
-            mw.$('.template-settings-icon').click(function () {
-                mw.tools.toggle_template_settings();
-            });
-            mw.$('.template-settings-close').click(function () {
-                mw.$('.mw-template-settings').remove();
-                mw.cookie.set("remove_template_settings", "true");
-                mw.tools.hide_template_settings();
-                var cookie = mw.cookie.get("template_settings_message");
-                if (typeof cookie == 'undefined' || cookie == 'true') {
-                    mw.cookie.set("template_settings_message", 'false', 3048);
-                    var actions = mw.$('#toolbar-template-settings');
-                    var tooltip = mw.tooltip({
-                        element: actions,
-                        content: "<div style='text-align:center;width:200px;'>" + mw.msg.templateSettingsHidden + ".</div>",
-                        position: "bottom-center"
-                    });
-                    mw.$("#toolbar-template-settings .ed-ico").addClass("action");
-                    setTimeout(function () {
-                        mw.$(tooltip).fadeOut(function () {
-                            mw.$(tooltip).remove();
-                            mw.$("#toolbar-template-settings .ed-ico").removeClass("action");
-                        });
-                    }, 2000);
-                }
-            });
         }
         else {
             mw.tools.hide_template_settings();

@@ -129,11 +129,8 @@ if (isset($_COOKIE['mw_exp'])) {
     </script>
 
 
-    <script type="text/javascript">
+    <script>
         $(document).ready(function () {
-            if (typeof(mw.toolbar) != "undefined") {
-                mw.toolbar.minTop = parseFloat($(mwd.body).css("paddingTop"));
-            }
 
             mw.tools.module_slider.init();
             mw.tools.dropdown();
