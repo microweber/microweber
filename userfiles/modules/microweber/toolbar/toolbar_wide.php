@@ -8,7 +8,7 @@
         mw.require("tools.js");
         mw.require("wysiwyg.js");
         mw.require("css_parser.js");
-        mw.require("style_editors.js");
+
         mw.require("forms.js");
         mw.require("files.js");
         mw.require("content.js", true);
@@ -134,22 +134,22 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
             <ul class="mw-dropdown-list create-content-dropdown-list liveeditcreatecontentmenu"
                         style="width: 170px; text-transform:uppercase;">
               <?php event_trigger('live_edit_quick_add_menu_start'); ?>
-              <li><a href="javascript:;" onclick="mw.quick.edit(<?php print CONTENT_ID; ?>);"><span
+              <li><a href="javascript:;" onclick="mw.liveedit.manageContent.edit(<?php print CONTENT_ID; ?>);"><span
                                     class="ico ieditpage"
                                     style="margin-right: 12px;"></span><span>
                 <?php _e("Edit current"); ?>
                 </span></a> </li>
-              <li><a href="javascript:;" onclick="mw.quick.post();"><span
+              <li><a href="javascript:;" onclick="mw.liveedit.manageContent.post();"><span
                                     class="mw-ui-btn-plus left"></span><span
                                     class="ico ipost"></span>
                 <?php _e("Post"); ?>
                 </a></li>
-              <li><a href="javascript:;" onclick="mw.quick.page();"><span
+              <li><a href="javascript:;" onclick="mw.liveedit.manageContent.page();"><span
                                     class="mw-ui-btn-plus left"></span><span
                                     class="ico ipage"></span>
                 <?php _e("Page"); ?>
                 </a></li>
-              <li><a href="javascript:;" onclick="mw.quick.category();"><span
+              <li><a href="javascript:;" onclick="mw.liveedit.manageContent.category();"><span
                                     class="mw-ui-btn-plus left"></span><span
                                     class="ico icategory"></span>
                 <?php _e("Category"); ?>
@@ -281,41 +281,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
     </div>
     <?php event_trigger('live_edit_toolbar_controls'); ?>
 
-    <div id="modules-and-layouts" style="" class="modules-and-layouts-holder">
-      <div class="toolbars-search">
-        <div class="mw-autocomplete left">
-          <input
-                    type="mwautocomplete"
-                    autocomplete="off"
-                    id="modules_switcher"
-                    data-for="modules"
-                    class="mwtb-search mwtb-search-modules"
-                    placeholder="<?php _e("Modules"); ?>"/>
-          <div class="mw_clear"></div>
-          <span class="mw-ui-btn mw-ui-btn-blue mw-ui-btn-small" id="mod_switch" data-action="layouts">
-          <?php _e("Switch to Layouts"); ?>
-          </span>
-          <?php /*<button class="mw-ui-btn mw-ui-btn-medium" id="modules_switch">Layouts</button>*/ ?>
-        </div>
-      </div>
-      <div id="tab_modules" class="mw_toolbar_tab active">
-        <div class="modules_bar_slider bar_slider">
-          <div class="modules_bar">
-            <module type="admin/modules/list"/>
-          </div>
-          <span class="modules_bar_slide_left">&nbsp;</span> <span
-                    class="modules_bar_slide_right">&nbsp;</span> </div>
-        <div class="mw_clear">&nbsp;</div>
-      </div>
-      <div id="tab_layouts" class="mw_toolbar_tab">
-        <div class="modules_bar_slider bar_slider">
-          <div class="modules_bar">
-            <module type="admin/modules/list_layouts"/>
-          </div>
-          <span class="modules_bar_slide_left">&nbsp;</span> <span
-                    class="modules_bar_slide_right">&nbsp;</span> </div>
-      </div>
-    </div>
+
     <div id="mw-saving-loader"></div>
   </div>
 </div>
@@ -355,7 +321,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
             },
             denied: false,
             buttons: function () {
-                var b = mw.tools.calc.SliderButtonsNeeded(mw.liveEditWYSIWYG.ed);
+                var b = mw.liveEditWYSIWYG.calc.SliderButtonsNeeded(mw.liveEditWYSIWYG.ed);
                 if (b.left) {
                     mw.liveEditWYSIWYG.prevBTNS.show();
                 }
@@ -373,7 +339,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                 if (!mw.liveEditWYSIWYG.denied) {
                     mw.liveEditWYSIWYG.denied = true;
                     var el = mw.liveEditWYSIWYG.ed.firstElementChild;
-                    var to = mw.tools.calc.SliderPrev(mw.liveEditWYSIWYG.ed, mw.liveEditWYSIWYG.step());
+                    var to = mw.liveEditWYSIWYG.calc.SliderPrev(mw.liveEditWYSIWYG.ed, mw.liveEditWYSIWYG.step());
                     $(el).animate({left: to}, function () {
                         mw.liveEditWYSIWYG.denied = false;
                         mw.liveEditWYSIWYG.buttons();
@@ -385,7 +351,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                     mw.liveEditWYSIWYG.denied = true;
                     var el = mw.liveEditWYSIWYG.ed.firstElementChild;
 
-                    var to = mw.tools.calc.SliderNext(mw.liveEditWYSIWYG.ed, mw.liveEditWYSIWYG.step());
+                    var to = mw.liveEditWYSIWYG.calc.SliderNext(mw.liveEditWYSIWYG.ed, mw.liveEditWYSIWYG.step());
                     $(el).animate({left: to}, function () {
                         mw.liveEditWYSIWYG.denied = false;
                         mw.liveEditWYSIWYG.buttons();
@@ -418,13 +384,13 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
             $(window).on("resize", function () {
                 mw.liveEditWYSIWYG.buttons();
 
-                var n = mw.tools.calc.SliderNormalize(mw.liveEditWYSIWYG.ed);
+                var n = mw.liveEditWYSIWYG.calc.SliderNormalize(mw.liveEditWYSIWYG.ed);
                 if (!!n) {
                     mw.liveEditWYSIWYG.slideRight();
                 }
             });
             mw.$(".tst-modules").click(function () {
-                mw.$('#modules-and-layouts').toggleClass("active");
+
                 mw.$(this).next('ul').hide()
                 var has_active = mwd.querySelector(".mw_toolbar_tab.active") !== null;
                 if (!has_active) {
@@ -450,11 +416,6 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
             });
 
 
-            mw.$(".toolbars-search").hover(function () {
-                mw.tools.addClass(this, 'hover');
-            }, function () {
-                mw.tools.removeClass(this, 'hover');
-            });
 
             mw.$(".show_editor").click(function () {
                 mw.$("#liveedit_wysiwyg").toggle();
@@ -485,55 +446,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                 }, 322);
             });
 
-
-            mw.$("#mod_switch").click(function () {
-                var h = $(this).dataset("action");
-                toolbar_set(h);
-                if (h == 'layouts') {
-                    this.innerHTML = '<?php _e("Switch to Modules"); ?>';
-                    $(this).dataset("action", 'modules');
-                }
-                else {
-                    this.innerHTML = '<?php _e("Switch to Layouts"); ?>';
-                    $(this).dataset("action", 'layouts');
-                }
-            });
-
-
         });
-
-
-        toolbar_set = function (a) {
-            mw.$("#modules-and-layouts, .tst-modules").addClass("active");
-            modules_switcher.value = '';
-            mw.$("#modules-and-layouts .module-item").show();
-
-            mw.$(".modules_bar_slide_left").hide();
-
-            mw.$(".modules_bar").scrollLeft(0);
-
-            mw.cookie.ui("#modules-and-layouts,#tab_modules,.tst-modules", "true");
-            mw.$(".modules-layouts-menu .create-content-dropdown-list").hide();
-
-            if (a == 'layouts') {
-                mw.$(modules_switcher).dataset("for", "layouts");
-                mw.$(modules_switcher).attr("placeholder", "Layouts");
-                // $(modules_switch).html("Modules");
-                $(modules_switcher).focus();
-                modules_switcher.searchIn = 'Modules_List_elements';
-                mw.tools.addClass(tab_layouts, 'active');
-                mw.tools.removeClass(tab_modules, 'active');
-            }
-            else if (a == 'modules') {
-                mw.$(modules_switcher).dataset("for", "modules");
-                mw.$(modules_switcher).attr("placeholder", "Modules");
-                //   $(modules_switch).html("Layouts");
-                $(modules_switcher).focus();
-                modules_switcher.searchIn = 'Modules_List_modules';
-                mw.tools.addClass(tab_modules, 'active');
-                mw.tools.removeClass(tab_layouts, 'active');
-            }
-        }
 
 
     </script>

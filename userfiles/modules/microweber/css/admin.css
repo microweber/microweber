@@ -1535,6 +1535,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
 }
 
 #custom-fields-post-table .mw-liveedit-field {
+    width: 100%;
     min-width: 55px;
     font-size: 13px;
     height: auto;
@@ -1544,9 +1545,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
     background-color: #FAFAFA;
 }
 
-#custom-fields-post-table .mw-ui-field {
-    width: 80%;
-}
+
 
 #custom-fields-post-table .mw-icon-gear {
     font-size: 20px;
@@ -1638,6 +1637,15 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
     padding: 0 20px 0 3px;
     position: relative;
     white-space: pre-line;
+}
+.mw-admin-custom-field-value-edit-inline-holder .mw-admin-custom-field-name-edit-inline{
+    padding-right: 15px;
+}
+.mw-admin-custom-field-value-edit-inline{
+    background-color: #eee;
+}
+.custom-field-comma{
+    display: none;
 }
 
 .mw-admin-custom-field-value-edit-inline:before, .mw-admin-custom-field-name-edit-inline:before {
@@ -1758,6 +1766,7 @@ tr .mw-admin-custom-field-value-edit-inline:hover:before, tr .mw-admin-custom-fi
     position: relative;
     display: inline-block;
     vertical-align: middle;
+    margin:3px;
 }
 
 .custom-fields-values-holder .mw-admin-custom-field-value-edit-inline-holder:last-child .custom-field-comma {
