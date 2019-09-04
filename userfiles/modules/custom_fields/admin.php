@@ -34,13 +34,11 @@
     }
 
 
-
-
     if (isset($params['data-content-id'])) {
         $for_id = $params['data-content-id'];
         $for = 'content';
     } else if (isset($params['content-id'])) {
-       // $for_id = $params['content-id'];
+        // $for_id = $params['content-id'];
         $for_id = $for_module_id = $params['rel_id'] = $params['content-id'];
         $for = 'content';
         $for = 'content';
@@ -52,18 +50,16 @@
     } elseif (isset($params['rel_id'])) {
         $for_id = $module_id = $params['rel_id'];
 
-    }elseif (isset($params['data-id'])) {
+    } elseif (isset($params['data-id'])) {
         $for_id = $module_id = $params['data-id'];
 
     }
 
- 
 
-   // $module_id = $for_id;
+    // $module_id = $for_id;
     //$rand = rand();
     $fields = mw()->ui->custom_fields();
     ?>
-
 
 
     <script type="text/javascript">
@@ -163,7 +159,7 @@
 
                             <li data-copyof="<?php print $item['id'] ?>" value="<?php print $item['type']; ?>"><span
                                         class="mw-custom-field-icon-text mw-custom-field-icon-<?php print $item['type']; ?>"></span><span
-                                        class="mw-custom-field-title"><?php print $item['name']; ?></span></li>
+                                        class="mw-custom-field-title" title="<?php print htmlspecialchars($item['name']); ?>"><?php print $item['name']; ?></span></li>
 
                         <?php endforeach; ?>
                     <?php endif; ?>
@@ -184,15 +180,15 @@
                 </ul>
             </div>
         </div>
-        <a href="http://boris.microweber.com/userfiles/media/boris.microweber.com/ezgif.com-optimize__4.gif" style="float:right;color:#0086db;margin-top:5px;margin-bottom:5px;font-size:15px;" target="_new"><b>How to setup custom fields?</b></a>
+        <a href="http://docs.microweber.com/assets/img/custom_fields_settings.gif" style="float:right;color:#0086db;margin-top:5px;margin-bottom:5px;font-size:15px;" target="_blank"><b>How to setup custom fields?</b></a>
         <hr>
         <div id="custom-fields-box">
-        
-	        <?php if (isset($params['live_edit'])): ?>
-	        	<module type="admin/modules/templates"/>
-	        <?php endif; ?>
-        
-            <module data-type="custom_fields/list"   for="<?php print $for ?>" <?php if (isset($for_id)): ?> rel_id='<?php print $for_id; ?>'  <?php endif; ?>  list-preview="true" id="mw_custom_fields_list_preview" />
+
+            <?php if (isset($params['live_edit'])): ?>
+                <module type="admin/modules/templates"/>
+            <?php endif; ?>
+
+            <module data-type="custom_fields/list" for="<?php print $for ?>" <?php if (isset($for_id)): ?> rel_id='<?php print $for_id; ?>'  <?php endif; ?> list-preview="true" id="mw_custom_fields_list_preview"/>
         </div>
     </div>
 </div>
