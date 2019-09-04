@@ -27,7 +27,6 @@
 </script>
 
 
-
 <div class="mw-modules-tabs">
     <div class="mw-accordion-item">
         <div class="mw-ui-box-header mw-accordion-title" id="form_options">
@@ -60,7 +59,7 @@
         </div>
         <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
             <!-- Settings Content -->
-            <div class="module-live-edit-settings module-contact-form-settings"> 
+            <div class="module-live-edit-settings module-contact-form-settings">
 
                 <module type="contact_form/manager/assign_list_to_module" data-for-module="<?php print $config['module_name'] ?>" data-for-module-id="<?php print $params['id'] ?>"/>
                 <hr/>
