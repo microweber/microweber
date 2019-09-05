@@ -75,10 +75,10 @@ if (!$data) {
                 }
                 ?>
                 <div class="tip pull-right" data-tip="Browser: <?php print $item['browser_name']; ?>">
-                    <i class="fa fa-<?php print $browser; ?>"></i>
+                    <i class="fab fa-<?php print $browser; ?>"></i>
                 </div>
                 <div class="tip pull-right m-r-5" data-tip="OS: <?php print $item['browser_os']; ?>">
-                    <i class="fa fa-<?php print $os; ?>"></i>
+                    <i class="fab fa-<?php print $os; ?>"></i>
                 </div>
             </div>
         </div>
