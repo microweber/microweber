@@ -149,7 +149,7 @@ class Files
         $filter_extensions = false;
 
         if (isset($params['extensions']) and is_string($params['extensions'])) {
-            $filter_extensions = explode(',',$params['extensions']);
+            $filter_extensions = explode(',', $params['extensions']);
         }
 
         $restrict_path = false;
@@ -213,20 +213,19 @@ class Files
                     $file_ext = get_file_extension($df);
 
 
-
-                    if($filter_extensions and !empty($filter_extensions)){
-                         $skip = true;
-                         foreach ($filter_extensions as $filter_extension){
-                            if($filter_extension == $file_ext){
+                    if ($filter_extensions and !empty($filter_extensions)) {
+                        $skip = true;
+                        foreach ($filter_extensions as $filter_extension) {
+                            if ($filter_extension == $file_ext) {
                                 $skip = false;
                             }
-                         }
+                        }
 //                        if(array_search($file_ext,$filter_extensions)){
 //                           // $skip = false;
 //                        }
                     }
 
-                    if( $skip == false){
+                    if ($skip == false) {
                         if (!in_array($df, $arrayItems_f)) {
                             $arrayItems_f[] = $df;
                         }
@@ -529,5 +528,276 @@ class Files
         $response->foundation->finish();
 
         exit;
+    }
+
+
+    function get_dangerous_files_extentions()
+    {
+
+
+        $dangerous = array(
+            'php',
+            'php5',
+            'php4',
+            'php3',
+            'ptml',
+            'hphp',
+            'html',
+            'xhtml',
+            'phtml',
+            'shtml',
+            'htm',
+            'pl',
+            'js',
+            'cgi',
+            'rb',
+            'py',
+            'asp',
+            'htaccess',
+            'exe',
+            'msi',
+            'sh',
+            'bat',
+            'vbs',
+            'vb',
+            'lnk',
+
+            // from http://www.file-extensions.org/filetype/extension/name/program-executable-files
+            'action ',  //  Automator Action  Mac OS
+            'apk',      //     Application  Android
+            'app',      //     Executable  Mac OS
+            'bat',      //     Batch File  Windows
+            'bin',      //     Binary Executable  Windows, Mac OS, Linux
+            'cmd',      //     Command Script  Windows
+            'com',      //     Command File  Windows
+            'command',  //   Terminal Command  Mac OS
+            'cpl',      //     Control Panel Extension  Windows
+            'csh',      //     C Shell Script  Mac OS, Linux
+            'exe',      //     Executable  Windows
+            'gadget',   //  Windows Gadget  Windows
+            'inf1',     //      Setup Information File  Windows
+            'ins',      //     Internet Communication Settings  Windows
+            'inx',      //     InstallShield Compiled Script  Windows
+            'ipa',      //     Application  iOS
+            'isu',      //     InstallShield Uninstaller Script  Windows
+            'job',      //     Windows Task Scheduler Job File  Windows
+            'jse',      //     JScript Encoded File  Windows
+            'ksh',      //     Unix Korn Shell Script  Linux
+            'lnk',      //     File Shortcut  Windows
+            'msc',      //     Microsoft Common Console Document  Windows
+            'msi',      //     Windows Installer Package  Windows
+            'msp',      //     Windows Installer Patch  Windows
+            'mst',      //     Windows Installer Setup Transform File  Windows
+            'osx',      //     Executable  Mac OS
+            'out',      //     Executable  Linux
+            'paf',      //     Portable Application Installer File  Windows
+            'pif',      //     Program Information File  Windows
+            'prg',      //     Executable  GEM
+            'ps1',      //     Windows PowerShell Cmdlet  Windows
+            'reg',      //     Registry Data File  Windows
+            'rgs',      //     Registry Script  Windows
+            'run',      //     Executable  Linux
+            'sct',      //     Windows Scriptlet  Windows
+            'shb',      //     Windows Document Shortcut  Windows
+            'shs',      //     Shell Scrap Object  Windows
+            'u3p',      //     U3 Smart Application  Windows
+            'vb',       //    VBScript File  Windows
+            'vbe',      //     VBScript Encoded Script  Windows
+            'vbs',      //     VBScript File  Windows
+            'vbscript', //    Visual Basic Script  Windows
+            'workflow', //    Automator Workflow  Mac OS
+            'ws',       //    Windows Script  Windows
+            'wsf',      //  Windows Script  Windows
+
+            // from http://fileinfo.com/filetypes/executable
+            '0xe',        //    F-Secure Renamed Virus File',
+            '73k',        //    TI-73 Application',
+            '89k',        //    TI-89 Application',
+            '8ck',        //    TI-83 and TI-84 Plus Application
+            'a6p',        //    Authorware 6 Program',
+            'a7r',        //    Authorware 7 Runtime File',
+            'ac',        //    Autoconf Script',
+            'acc',        //    GEM Accessory File',
+            'acr',        //    ACRobot Script',
+            'action',        //    Automator Action',
+            'actm',        //    AutoCAD Action Macro File',
+            'ahk',        //    AutoHotkey Script',
+            'air',        //    Adobe AIR Installation Package',
+            'apk',        //    Android Package File',
+            'app',        //    Mac OS X Application',
+            'app',        //    FoxPro Generated Application',
+            'app',        //    Symbian OS Application',
+            'applescripT',        //    AppleScript File',
+            'arscript',        //    ArtRage Script',
+            'asb',        //    Alphacam Stone VB Macro File',
+            'azw2',        //    Kindle Active Content App File',
+            'ba_',        //    Renamed BAT File',
+            'bat',        //    DOS Batch File',
+            'beam',        //    Compiled Erlang File',
+            'bin',        //    Generic Binary Executable File',
+            'bin',        //    Unix Executable File',
+            'btm',        //    4DOS Batch File',
+            'caction',        //    Automator Converter Action',
+            'cel',        //    Celestia Script File',
+            'celx',        //    Celestia Script',
+            'cgi',        //    Common Gateway Interface Script',
+            'cmd',        //    Windows Command File',
+            'cof',        //    MPLAB COFF File',
+            'com',        //    DOS Command File',
+            'command',        //    Terminal Command File',
+            'csh',        //    C Shell Script',
+            'cyw',        //    Rbot.CYW Worm File',
+            'dek',        //    Eavesdropper Batch File',
+            'dld',        //    EdLog Compiled Program',
+            'dmc',        //    Medical Manager Script',
+            'dosexec',
+            'ds',        //    TWAIN Data Source',
+            'dxl',        //    Rational DOORS Script',
+            'e_e',        //    Renamed EXE File',
+            'ear',        //    Java Enterprise Archive File',
+            'ebm',        //    EXTRA! Basic Macro',
+            'ebs',        //    E-Run 1.x Script',
+            'ebs2',        //    E-Run 2.0 Script File',
+            'ecf',        //    SageCRM Component File',
+            'eham',        //    ExtraHAM Executable File',
+            'elf',        //    Nintendo Wii Game File',
+            'es',        //    SageCRM Script File',
+            'esh',        //    Extended Shell Batch File',
+            'ex4',        //    MetaTrader Program File',
+            'ex_',        //    Compressed Executable File',
+            'ex_',        //    Renamed Windows Executable File',
+            'exe',        //    Windows Executable File',
+            'exe',        //    PortableApps.com Application',
+            'exe1',        //    Renamed EXE File',
+            'exopc',        //    ExoPC Application',
+            'ezs',        //    EZ-R Stats Batch Script',
+            'ezt',        //    EZT Malicious Worm File',
+            'fas',        //    Compiled Fast-Load AutoLISP File'
+            'fas',        //    QuickSilver Fast Save Lisp File',
+            'fky',        //    FoxPro Macro',
+            'fpi',        //    FPS Creator Intelligence Script',
+            'frs',        //    Flash Renamer Script',
+            'fxp',        //    FoxPro Compiled Program',
+            'gadget',        //    Windows Gadget',
+            'gpe',        //    GP2X Video Game',
+            'gpu',        //    GP2X Utility Program',
+            'gs',        //    Geosoft Script',
+            'ham',        //    HAM Executable File',
+            'hms',        //    HostMonitor Script File',
+            'hpf',        //    HP9100A Program File',
+            'hta',        //    HTML Application',
+            'icd',        //    SafeDisc Encrypted Program',
+            'iim',        //    iMacro Macro File',
+            'ipa',        //    iOS Application',
+            'ipf',        //    SMS Installer Script',
+            'isu',        //    InstallShield Uninstaller Script'
+            'ita',        //    VTech InnoTab Application File',
+            'jar',        //    Java Archive File',
+            'js',        //    JScript Executable Script',
+            'jse',        //    JScript Encoded File',
+            'jsx',        //    ExtendScript Script File',
+            'kix',        //    KiXtart Script File',
+            'ksh',        //    Unix Korn Shell Script',
+            'lo',        //    Interleaf Compiled Lisp File',
+            'ls',        //    LightWave LScript File',
+            'm3g',        //    Mobile 3D Graphics Program',
+            'mam',        //    Microsoft Access Macro',
+            'mcr',        //    3ds Max Macroscript File',
+            'mcr',        //    Tecplot Macro',
+            'mel',        //    Maya Embedded Language File',
+            'mem',        //    Macro Editor Macro',
+            'mio',        //    MioEngine Application File',
+            'mm',        //    NeXtMidas Macro File',
+            'mpx',        //    FoxPro Compiled Menu Program',
+            'mrc',        //    mIRC Script File',
+            'mrp',        //    Mobile Application File',
+            'ms',        //    3ds Max Script File',
+            'ms',        //    Maxwell Script',
+            'msl',        //    Magick Scripting Language File',
+            'mxe',        //    Macro Express Playable Macro',
+            'n',        //    Neko Bytecode File',
+            'nexe',        //    Chrome Native Client Executable',
+            'ore',        //    Ore Executable File',
+            'osx',        //    PowerPC Executable File',
+            'otm',        //    Outlook Macro File',
+            'out',        //    Compiled Executable File',
+            'paf',        //    Portable Application Installer Fi
+            'paf.exe',        //    PortableApps.com Program File
+            'pex',        //    ProBoard Executable File',
+            'phar',        //    PHP Archive',
+            'pif',        //    Program Information File',
+            'plsc',        //    Messenger Plus! Live Script File'
+            'plx',        //    Perl Executable File',
+            'prc',        //    Palm Resource Code File',
+            'prg',        //    Program File',
+            'prg',        //    GEM Application',
+            'ps1',        //    Windows PowerShell Cmdlet File',
+            'pvd',        //    Instalit Script',
+            'pwc',        //    PictureTaker File',
+            'pyc',        //    Python Compiled File',
+            'pyo',        //    Python Optimized Code',
+            'qit',        //    QIT Trojan Horse File',
+            'qpx',        //    FoxPro Compiled Query Program',
+            'rbx',        //    Rembo-C Compiled Script',
+            'rfu',        //    Remote Firmware Update',
+            'rgs',        //    Registry Script',
+            'rox',        //    Actuate Report Object Executable
+            'rpj',        //    Real Pac Batch Job File',
+            'run',        //    Linux Executable File',
+            'rxe',        //    Lego Mindstorms NXT Executable Pr
+            's2a',        //    SEAL2 Application',
+            'sbs',        //    SPSS Script',
+            'sca',        //    Scala Script File',
+            'scar',        //    SCAR Script',
+            'scb',        //    Scala Published Script',
+            'scpt',        //    AppleScript Script File',
+            'scptd',        //    AppleScript Script Bundle',
+            'scr',        //    Script File',
+            'script',        //    Generic Script File',
+            'sct',        //    Windows Scriptlet',
+            'seed',        //    Linux Preseed File',
+            'shb',        //    Windows Document Shortcut',
+            'smm',        //    Ami Pro Macro',
+            'spr',        //    FoxPro Generated Screen File',
+            'tcp',        //    Tally Compiled Program File',
+            'thm',        //    Thermwood Macro File',
+            'tms',        //    Telemate Script',
+            'u3p',        //    U3 Smart Application',
+            'udf',        //    Excel User Defined Function',
+            'upx',        //    Ultimate Packer for eXecutables F
+            'vb',        //    VBScript File',    	//
+            'vbe',        //    VBScript Encoded Script File',
+            'vbs',        //    VBScript File',
+            'vbscript',        //    Visual Basic Script',
+            'vdo',        //    Heathen Virus File',
+            'vexe',        //    Virus Executable File',
+            'vlx',        //    Compiled AutoLISP File',
+            'vpm',        //    Vox Proxy Macro File',
+            'vxp',        //    Mobile Application File',
+            'wcm',        //    WordPerfect Macro',
+            'widget',        //    Microsoft Windows Mobile Widget',
+            'widget',        //    Yahoo! Widget',
+            'wiz',        //    Microsoft Wizard File',
+            'workflow',        //    Automator Workflow',
+            'wpk',        //    WordPerfect Macro',
+            'wpm',        //    WordPerfect Macro File',
+            'ws',        //    Windows Script',
+            'wsf',        //    Windows Script File',
+            'wsh',        //    Windows Script Host Settings',
+            'x86',        //    Linux Executable File',
+            'xap',        //    Silverlight Application Package',
+            'xbap',        //    XAML Browser Application File',
+            'xlm',        //    Excel Macro',
+            'xqt',        //    SuperCalc Macro File',
+            'xys',        //    XYplorer Script File',
+            'zl9',        //    ZoneAlarm Quarantined EXE File
+
+
+            'swf',        //    Flash File
+
+        );
+
+
+        return $dangerous;
     }
 }
