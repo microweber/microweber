@@ -155,14 +155,18 @@ class MicroweberServiceProvider extends ServiceProvider
     protected function setEnvironmentDetection()
     {
         if (! is_cli()) {
+            if(isset($_SERVER['HTTP_HOST'])){
             $domain = $_SERVER['HTTP_HOST'];
+            } else if(isset($_SERVER['SERVER_NAME'])){
+                $domain = $_SERVER['SERVER_NAME'];
+            }
 
             return $this->app->detectEnvironment(function () use ($domain) {
                 if (getenv('APP_ENV')) {
                     return getenv('APP_ENV');
                 }
 
-                $port = explode(':', $_SERVER['HTTP_HOST']);
+                $port = explode(':', $domain);
 
                 $domain = str_ireplace('www.', '', $domain);
 

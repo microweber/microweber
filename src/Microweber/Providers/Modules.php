@@ -242,16 +242,19 @@ class Modules
 
                         if (is_file($t1 . '.svg')) {
                             $try_icon = $t1 . '.svg';
-                        } else {
+                        } elseif (is_file($t1 . '.png')) {
                             $try_icon = $t1 . '.png';
+                        } else {
+                            $try_icon = $t1 . '.jpg';
                         }
                         $main_try_icon = modules_path() . $config['module'] . DS . 'icon.png';
                     } else {
-
                         if (is_file($mod_name . '.svg')) {
                             $try_icon = $mod_name . '.svg';
-                        } else {
+                        } elseif (is_file($mod_name . '.png')) {
                             $try_icon = $mod_name . '.png';
+                        } else {
+                            $try_icon = $mod_name . '.jpg';
                         }
                     }
 
@@ -1231,6 +1234,8 @@ class Modules
                     $try_icon = $module_dir . $module_name . '.png';
                     if (is_file($try_icon)) {
                         $config['icon'] = $this->app->url_manager->link_to_file($try_icon);
+                    } elseif (is_file($module_dir . $module_name . '.jpg')) {
+                        $config['icon'] = $this->app->url_manager->link_to_file($module_dir . $module_name . '.jpg');
                     } else {
                         $config['icon'] = $this->app->url_manager->link_to_file($def_icon);
                     }

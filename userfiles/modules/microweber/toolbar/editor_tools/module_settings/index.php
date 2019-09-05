@@ -20,29 +20,24 @@
     <?php
 
 
+    template_stack_add(mw_includes_url() . 'default.css');
+    template_stack_add(mw_includes_url() . 'css/components.css');
+    template_stack_add(mw_includes_url() . 'css/admin.css');
+    template_stack_add(mw_includes_url() . 'css/admin-new.css');
+    template_stack_add(mw_includes_url() . 'css/fade-window.css');
+    template_stack_add(mw_includes_url() . 'css/popup.css');
 
 
-
-
-    template_stack_add(mw_includes_url().'default.css');
-    template_stack_add(mw_includes_url().'css/components.css');
-    template_stack_add(mw_includes_url().'css/admin.css');
-    template_stack_add(mw_includes_url().'css/admin-new.css');
-    template_stack_add(mw_includes_url().'css/fade-window.css');
-    template_stack_add(mw_includes_url().'css/popup.css');
-
-
-
-    template_stack_add(mw_includes_url().'api/instruments.js');
-    template_stack_add(mw_includes_url().'api/events.js');
-    template_stack_add(mw_includes_url().'api/url.js');
-    template_stack_add(mw_includes_url().'api/tools.js');
-    template_stack_add(mw_includes_url().'api/admin.js');
-    template_stack_add(mw_includes_url().'api/dialog.js');
-    template_stack_add(mw_includes_url().'api/liveadmin.js');
-    template_stack_add(mw_includes_url().'api/wysiwyg.js');
-    template_stack_add(mw_includes_url().'css/wysiwyg.css');
-    template_stack_add(mw_includes_url().'api/options.js');
+    template_stack_add(mw_includes_url() . 'api/instruments.js');
+    template_stack_add(mw_includes_url() . 'api/events.js');
+    template_stack_add(mw_includes_url() . 'api/url.js');
+    template_stack_add(mw_includes_url() . 'api/tools.js');
+    template_stack_add(mw_includes_url() . 'api/admin.js');
+    template_stack_add(mw_includes_url() . 'api/dialog.js');
+    template_stack_add(mw_includes_url() . 'api/liveadmin.js');
+    template_stack_add(mw_includes_url() . 'api/wysiwyg.js');
+    template_stack_add(mw_includes_url() . 'css/wysiwyg.css');
+    template_stack_add(mw_includes_url() . 'api/options.js');
 
     ?>
 
@@ -58,29 +53,29 @@
 
     <script type="text/javascript">
         liveEditSettings = true;
-/*
-        mw.require('<?php print mw_includes_url(); ?>default.css');
-        mw.require('<?php print mw_includes_url(); ?>css/components.css');
-        mw.require('<?php print mw_includes_url(); ?>css/admin.css');
-        mw.require('<?php print mw_includes_url(); ?>css/admin-new.css');
-        mw.require('<?php print mw_includes_url(); ?>css/fade-window.css');
-        mw.require('<?php print mw_includes_url(); ?>css/popup.css');
+        /*
+         mw.require('<?php print mw_includes_url(); ?>default.css');
+         mw.require('<?php print mw_includes_url(); ?>css/components.css');
+         mw.require('<?php print mw_includes_url(); ?>css/admin.css');
+         mw.require('<?php print mw_includes_url(); ?>css/admin-new.css');
+         mw.require('<?php print mw_includes_url(); ?>css/fade-window.css');
+         mw.require('<?php print mw_includes_url(); ?>css/popup.css');
 
 
 
 
-        mw.require("events.js");
-        mw.require("url.js");
-        mw.require("tools.js");
-        mw.require('admin.js');
-        mw.require('dialog.js');
+         mw.require("events.js");
+         mw.require("url.js");
+         mw.require("tools.js");
+         mw.require('admin.js');
+         mw.require('dialog.js');
 
 
-        mw.require("liveadmin.js");
-        mw.require("forms.js");
-        mw.require('wysiwyg.js');
-        mw.require("wysiwyg.css")
-        mw.require('options.js');    */
+         mw.require("liveadmin.js");
+         mw.require("forms.js");
+         mw.require('wysiwyg.js');
+         mw.require("wysiwyg.css")
+         mw.require('options.js');    */
 
         <?php if(_lang_is_rtl()){ ?>
         mw.require('<?php print mw_includes_url(); ?>css/rtl.css');
@@ -88,8 +83,6 @@
 
         mw.lib.require('font_awesome5');
     </script>
-
-
 
 
     <style>
@@ -112,6 +105,7 @@
             line-height: 0;
             height: 0;
         }
+
     </style>
 
     <?php
@@ -181,9 +175,6 @@
         }
 
 
-
-
-
         //var the_module_settings_frame = parent.mw.$('#' + this.name)[0];
 
         if (typeof thismodal != 'undefined' && thismodal != false) {
@@ -205,10 +196,10 @@
 
             var icon = '';
             if (mw_module_settings_info.icon) {
-                modal_title_str = ('<img class="mw-module-dialog-icon" src="'+mw_module_settings_info.icon+'">' + modal_title_str)
+                modal_title_str = ('<img class="mw-module-dialog-icon" src="' + mw_module_settings_info.icon + '">' + modal_title_str)
             }
 
-            if(thismodal.title) {
+            if (thismodal.title) {
                 thismodal.title(modal_title_str)
             }
 
@@ -242,7 +233,7 @@
             // add dropdown
 
 
-            if(!window.thismodal && window.top.module_settings_modal_reference_preset_editor_thismodal ){
+            if (!window.thismodal && window.top.module_settings_modal_reference_preset_editor_thismodal) {
                 window.thismodal = window.top.module_settings_modal_reference_preset_editor_thismodal
 
             }
@@ -302,31 +293,27 @@
                             + "<div class='module-modal-settings-menu-holder-2<?php print $params['id'] ?>'>"
                             + "<a href='<?php print $mod_adm  ?>'><?php _e("Go to admin"); ?></a></div>";
 
-                            window.parent.modal_preset_manager_html_placeholder_for_reload = function () {
-                           modal_preset_manager_html_placeholder_for_reload_content = ""
+                        window.parent.modal_preset_manager_html_placeholder_for_reload = function () {
+                            modal_preset_manager_html_placeholder_for_reload_content = ""
                                 + "<div id='module-modal-settings-menu-items-presets-holder<?php print $params['id'] ?>' module_id='<?php print $params['id'] ?>' module_name='<?php print $module_info['module'] ?>'>"
                                 + "</div>";
 
                             var presetsthismodalid = thismodal.id;
 
 
-
-
                             // window.parent.module_settings_modal_reference_preset_editor_modal_id = presetsthismodalid;
                             // window.parent.module_settings_modal_reference_window = top;
 
-                                window.top.module_settings_modal_reference_preset_editor_modal_id = presetsthismodalid;
-                                window.top.module_settings_modal_reference_preset_editor_thismodal = window.thismodal;
-                                window.top.module_settings_modal_reference_window = window;
+                            window.top.module_settings_modal_reference_preset_editor_modal_id = presetsthismodalid;
+                            window.top.module_settings_modal_reference_preset_editor_thismodal = window.thismodal;
+                            window.top.module_settings_modal_reference_window = window;
 
 
-
-                              //  alert(presetsthismodalid);
-
+                            //  alert(presetsthismodalid);
 
 
-                                window.parent.$('#module-modal-settings-menu-holder-open-presets').html('');
-                                window.parent.$('.module-modal-settings-menu-holder-open-presets').html('');
+                            window.parent.$('#module-modal-settings-menu-holder-open-presets').html('');
+                            window.parent.$('.module-modal-settings-menu-holder-open-presets').html('');
 
                             // HERE FOR DROPDOWN
                             window.parent.$('.module-modal-settings-menu-holder-open-presets', toolbar).html(modal_preset_manager_html_placeholder_for_reload_content);
@@ -343,19 +330,16 @@
                             + "<div class='module-modal-settings-menu-holder-open-presets' ></div>";
 
 
-
-
-
                         var dropdown = document.createElement('div');
                         var dropdownContent = document.createElement('div');
-                        dropdownContent.className ='mw-dropdown-content';
-                        dropdownContent.innerHTML ='<ul></ul>';
+                        dropdownContent.className = 'mw-dropdown-content';
+                        dropdownContent.innerHTML = '<ul></ul>';
                         dropdown.className = 'mw-dropdown mw-dropdown-default';
-                        dropdown.innerHTML = '<span class="mw-dropdown-value mw-ui-btn mw-ui-btn-small mw-ui-btn-outline mw-dropdown-val">Options</span>';
+                        dropdown.innerHTML = '<span class="mw-dropdown-value mw-ui-btn mw-ui-btn-small mw-ui-btn-outline mw-dropdown-val css-preset-dropdown"></span>';
                         var btn = document.createElement('li');
                         var btn2 = document.createElement('li');
                         btn2.innerHTML = 'Reset module';
-                       // btn2.innerHTML = 'Reset module' +"<br><small><?php print $params['id'] ?></small>";
+                        // btn2.innerHTML = 'Reset module' +"<br><small><?php print $params['id'] ?></small>";
 
                         btn2.onclick = function (ev) {
                             window
@@ -393,18 +377,18 @@
                                 '</div>';
 
                             /*parent.mw.tooltip({
-                                close_on_click_outside: false,
-                                content: mod_presets_iframe_html_fr,
-                                position: 'bottom-right',
-                                element: parent.mw.$('#module-modal-settings-menu-items-presets-holder<?php print $params['id'] ?>')[0]
-                            });*/
+                             close_on_click_outside: false,
+                             content: mod_presets_iframe_html_fr,
+                             position: 'bottom-right',
+                             element: parent.mw.$('#module-modal-settings-menu-items-presets-holder<?php print $params['id'] ?>')[0]
+                             });*/
 
                             presetsDialogModal = top.mw.dialog({
                                 content: holder,
-                                width:400,
-                                height:'auto',
-                                id:'dialog-'+iframeid,
-                                autoHeight:true,
+                                width: 400,
+                                height: 'auto',
+                                id: 'dialog-' + iframeid,
+                                autoHeight: true,
                                 title: 'Presets'
                             });
                             mw.tools.loading(presetsDialogModal.dialogContainer, 90);
@@ -414,9 +398,9 @@
                             top.$(".mw-presets-dropdown .module").removeClass('module');
                             var frame = presetsDialogModal.dialogContainer.querySelector('iframe');
                             mw.tools.iframeAutoHeight(frame);
-                            $(frame).on('load', function(){
-                                if(typeof(presetsDialogModal) !== 'undefined'){
-                                    if(typeof(presetsDialogModal.center) !== 'undefined') {
+                            $(frame).on('load', function () {
+                                if (typeof(presetsDialogModal) !== 'undefined') {
+                                    if (typeof(presetsDialogModal.center) !== 'undefined') {
                                         presetsDialogModal.center();
                                     }
                                     mw.tools.loading(presetsDialogModal.dialogContainer, false)
@@ -426,15 +410,13 @@
                         });
 
 
-
-
                         //var module_has_editable_parent = window.parent.$('#<?php print $params['id'] ?>');
                         var module_has_editable_parent = window.parent.$('#<?php print $params['id'] ?>').parent();
 
-                       if (typeof(module_has_editable_parent[0]) != 'undefined' && window.parent.mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(module_has_editable_parent[0], ['edit','module'])) {
+                        if (typeof(module_has_editable_parent[0]) != 'undefined' && window.parent.mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(module_has_editable_parent[0], ['edit', 'module'])) {
 
                             $(holder).append(html);
-                         $(dd).prepend(dropdown);
+                            $(dd).prepend(dropdown);
 
                             is_module_tml_holder.append(holder);
                         }
@@ -450,13 +432,12 @@
         });
 
 
-
-        var settingsAction = function(){
+        var settingsAction = function () {
             var settings_container_mod_el = $('#settings-container');
             mw.options.form(settings_container_mod_el, function () {
                 if (mw.notification) {
                     mw.notification.success('<?php _e('Settings are saved') ?>');
-                 }
+                }
                 mw.reload_module_parent('#<?php print $params['id']  ?>')
 
             });
@@ -464,24 +445,23 @@
             createAutoHeight()
         };
 
-        var createAutoHeight = function() {
-            if(window.thismodal && thismodal.iframe) {
+        var createAutoHeight = function () {
+            if (window.thismodal && thismodal.iframe) {
                 mw.tools.iframeAutoHeight(thismodal.iframe, 'now');
             }
-            else if(window.top.frameElement && window.top.frameElement.contentWindow === window) {
+            else if (window.top.frameElement && window.top.frameElement.contentWindow === window) {
                 mw.tools.iframeAutoHeight(window.top.frameElement, 'now');
-            } else if(window.top !== window) {
-                top.mw.$('iframe').each(function(){
-                    try{
-                        if(this.contentWindow === window) {
+            } else if (window.top !== window) {
+                top.mw.$('iframe').each(function () {
+                    try {
+                        if (this.contentWindow === window) {
                             mw.tools.iframeAutoHeight(this, 'now');
                         }
-                    } catch(e){}
+                    } catch (e) {
+                    }
                 })
             }
         };
-
-
 
 
     </script>
@@ -495,8 +475,6 @@
         </div>
     </div>
 </div>
-
-
 
 
 <form method="get" id="mw_reload_this_module_popup_form" style="display:none">
@@ -517,28 +495,24 @@
 <script>
 
 
-
-
     $(window).on('load', function () {
 
         settingsAction();
 
-        mw.interval('_settingsAutoHeight', function(){
-            if(document.querySelector('.mw-iframe-auto-height-detector') === null) {
+        mw.interval('_settingsAutoHeight', function () {
+            if (document.querySelector('.mw-iframe-auto-height-detector') === null) {
                 createAutoHeight();
             }
         });
 
-        $(document).on('keyup', function(e){
-            if(mw.event.is.escape(e) && !mw.event.targetIsField(e)){
-                if(window.thismodal && thismodal.options.closeOnEscape) {
+        $(document).on('keyup', function (e) {
+            if (mw.event.is.escape(e) && !mw.event.targetIsField(e)) {
+                if (window.thismodal && thismodal.options.closeOnEscape) {
                     thismodal.remove()
                 }
             }
         })
     });
-
-
 
 
 </script>
