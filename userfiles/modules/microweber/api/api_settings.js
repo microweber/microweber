@@ -123,6 +123,12 @@ mw.settings.libs = {
             mw.require(mw.settings.libs_url + 'bootstrap-datepicker' + '/js/bootstrap-datepicker.js', true);
         }
     ],
+    bootstrap_datetimepicker: [
+        function () {
+            mw.require(mw.settings.libs_url + 'bootstrap-datetimepicker' + '/css/bootstrap-datetimepicker.min.css', true);
+            mw.require(mw.settings.libs_url + 'bootstrap-datetimepicker' + '/js/bootstrap-datetimepicker.min.js', true);
+        }
+    ],
     bootstrap3ns: [
         function () {
             //var bootstrap_enabled = (typeof $().modal == 'function');
