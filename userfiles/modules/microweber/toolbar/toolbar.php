@@ -74,12 +74,7 @@ if (isset($_COOKIE['mw_exp'])) {
 
     <script type="text/javascript">
         $(window).bind('load', function () {
-            <?php if(file_exists(TEMPLATE_DIR . 'template_settings.php')){ ?>
-            // var show_settings = mw.cookie.get('remove_template_settings') != 'true';
-            // if (show_settings) {
-            //      // mw.tools.template_settings(true);
-            // }
-            <?php  } ?>
+
 
             $(window).bind('saveStart', function () {
                 mw.$("#main-save-btn").html('<?php _e("Saving"); ?>...');
@@ -129,11 +124,8 @@ if (isset($_COOKIE['mw_exp'])) {
     </script>
 
 
-    <script type="text/javascript">
+    <script>
         $(document).ready(function () {
-            if (typeof(mw.toolbar) != "undefined") {
-                mw.toolbar.minTop = parseFloat($(mwd.body).css("paddingTop"));
-            }
 
             mw.tools.module_slider.init();
             mw.tools.dropdown();

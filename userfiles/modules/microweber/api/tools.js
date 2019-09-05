@@ -3499,23 +3499,7 @@ mw.tools = {
         mw.$(node).replaceWith(el);
         return el;
     },
-    _fixDeniedParagraphHierarchySelector: ''
-    + '.edit p h1,.edit p h2,.edit p h3,'
-    + '.edit p h4,.edit p h5,.edit p h6,'
-    + '.edit p p,.edit p ul,.edit p ol,'
-    + '.edit p header,.edit p form,.edit p article,'
-    + '.edit p aside,.edit p blockquote,.edit p footer,.edit p div',
-    fixDeniedParagraphHierarchy: function (root) {
-        var root = root || mwd.body;
-        if (mwd.body.querySelector(mw.tools._fixDeniedParagraphHierarchySelector) !== null) {
-            var all = root.querySelectorAll(mw.tools._fixDeniedParagraphHierarchySelector), l = all.length, i = 0;
-            for (; i < l; i++) {
-                var el = all[i];
-                var the_parent = mw.tools.firstParentWithTag(el, 'p');
-                mw.tools.setTag(the_parent, 'div');
-            }
-        }
-    },
+
     generateSelectorForNode: function (node) {
         if (node === null || node.nodeType === 3) {
             return false;
@@ -3594,114 +3578,7 @@ mw.tools = {
             });
         }
     },
-    TemplateSettingsEventsBinded: false,
-    TemplateSettingsModalDefaults: {
-        top: 100,
-        width: 300,
-        timeout: null
-    },
-    hide_template_settings: function () {
-        mw.$('.mw-template-settings').css('right', -mw.tools.TemplateSettingsModalDefaults.width - 5).addClass('mw-template-settings-hidden');
-        mw.$("#toolbar-template-settings").removeClass("mw_editor_btn_active");
-    },
-    show_template_settings: function () {
-        if (mw.$('.mw-template-settings').length === 0) {
-            mw.tools.template_settings();
-        }
-        mw.$('.mw-template-settings').css('right', 0).removeClass('mw-template-settings-hidden');
-        mw.$("#toolbar-template-settings").addClass("mw_editor_btn_active");
-        mw.cookie.set("remove_template_settings", "false");
-    },
-    toggle_template_settings: function () {
-        if (mw.$('.mw-template-settings').hasClass('mw-template-settings-hidden') || mw.$('.mw-template-settings').length === 0) {
-            mw.tools.show_template_settings();
-        }
-        else {
-            mw.tools.hide_template_settings();
-        }
-    },
-    template_settings: function (justInit) {
-        var justInit = justInit || false;
-        if (mw.$('.mw-template-settings').length === 0) {
-            var src = mw.settings.site_url + 'api/module?id=settings/template&live_edit=true&module_settings=true&type=settings/template&autosize=false';
-            var modal = mw.tools.modal.frame({
-                url: src,
-                width: mw.tools.TemplateSettingsModalDefaults.width,
-                height: mw.$(window).height() - (1.5 * mw.tools.TemplateSettingsModalDefaults.top),
-                name: 'template-settings',
-                //title:'Template Settings',
-                template: 'mw-template-settings',
-                center: false,
-                resize: false,
-                draggable: false
-            });
-            mw.$(modal.main).css({
-                right: -mw.tools.TemplateSettingsModalDefaults.width - 115,
-                left: 'auto',
-                top: mw.tools.TemplateSettingsModalDefaults.top,
-                zIndex: 1299
-            }).addClass('mw-template-settings-hidden');
-            mw.$(window).bind('resize', function () {
-                clearTimeout(mw.tools.TemplateSettingsModalDefaults.timeout);
-                mw.tools.TemplateSettingsModalDefaults.timeout = setTimeout(function () {
-                    mw.tools.modal.setDimmensions(modal, undefined, mw.$(window).height() - (1.5 * mw.tools.TemplateSettingsModalDefaults.top), false);
-                }, 333);
-            });
-            mw.$('iframe', mw.$(modal.main)[0]).bind('load', function () {
-                if (justInit) {
-                    mw.tools.hide_template_settings();
-                }
-                else {
-                    mw.tools.show_template_settings();
-                }
-            });
-
-            //
-            //  Open template settings icon is sidebar
-            //  mw.$(modal.main).append('<span class="template-settings-icon"></span><span class="template-settings-close"><span class="template-settings-close-x"></span>' + mw.msg.remove + '</span>');
-
-            mw.$('.template-settings-icon').click(function () {
-                mw.tools.toggle_template_settings();
-            });
-            mw.$('.template-settings-close').click(function () {
-                mw.$('.mw-template-settings').remove();
-                mw.cookie.set("remove_template_settings", "true");
-                mw.tools.hide_template_settings();
-                var cookie = mw.cookie.get("template_settings_message");
-                if (typeof cookie == 'undefined' || cookie == 'true') {
-                    mw.cookie.set("template_settings_message", 'false', 3048);
-                    var actions = mw.$('#toolbar-template-settings');
-                    var tooltip = mw.tooltip({
-                        element: actions,
-                        content: "<div style='text-align:center;width:200px;'>" + mw.msg.templateSettingsHidden + ".</div>",
-                        position: "bottom-center"
-                    });
-                    mw.$("#toolbar-template-settings .ed-ico").addClass("action");
-                    setTimeout(function () {
-                        mw.$(tooltip).fadeOut(function () {
-                            mw.$(tooltip).remove();
-                            mw.$("#toolbar-template-settings .ed-ico").removeClass("action");
-                        });
-                    }, 2000);
-                }
-            });
-        }
-        else {
-            mw.tools.hide_template_settings();
-        }
-        if (!mw.tools.TemplateSettingsEventsBinded) {
-            mw.tools.TemplateSettingsEventsBinded = true;
-            mw.$(mwd.body).bind('click', function (e) {
-                if (!mw.tools.hasParentsWithClass(e.target, 'mw-template-settings') && !mw.tools.hasParentsWithClass(e.target, 'mw-defaults')) {
-                    mw.tools.hide_template_settings();
-                }
-            });
-        }
-    },
-
     module_settings: function (a, view, liveedit) {
-
-
         var opts = {};
         if (typeof liveedit === 'undefined') {
             opts.liveedit = true;
@@ -3712,44 +3589,7 @@ mw.tools = {
         else {
             opts.view = 'admin';
         }
-
-
         return mw.live_edit.showSettings(a, opts)
-
-
-    },
-    open_custom_css_editor: function () {
-        var src = mw.settings.site_url + 'api/module?id=mw_global_css_editor&live_edit=true&module_settings=true&type=editor/css_editor&autosize=true';
-        var modal = mw.dialogIframe({
-            url: src,
-            // width: 500,
-            height:'auto',
-            autoHeight: true,
-            name: 'mw-css-editor-front',
-            title: 'CSS Editor',
-            template: 'default',
-            center: false,
-            resize: true,
-            draggable: true
-        });
-    },
-    open_custom_html_editor: function () {
-        var src = mw.settings.site_url + 'api/module?id=mw_global_html_editor&live_edit=true&module_settings=true&type=editor/code_editor&autosize=true';
-
-        window.open(src, "Code editor", "toolbar=no, menubar=no,scrollbars=yes,resizable=yes,location=no,directories=no,status=yes");
-
-
-        //var modal = mw.tools.modal.frame({
-        //    url: src,
-        //    // width: 500,
-        //    // height: mw.$(window).height() - (2.5 * mw.tools.TemplateSettingsModalDefaults.top),
-        //    name: 'mw-html-editor-front',
-        //    title: 'HTML Editor',
-        //    template: 'default',
-        //    center: false,
-        //    resize: true,
-        //    draggable: true
-        //});
     },
     confirm_reset_module_by_id: function (module_id) {
         if (confirm("Are you sure you want to reset this module?")) {

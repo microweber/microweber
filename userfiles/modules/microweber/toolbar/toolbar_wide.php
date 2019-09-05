@@ -52,23 +52,14 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
      });
   }
 
-  $(window).bind('load', function(){
-     <?php if(file_exists(TEMPLATE_DIR.'template_settings.php')){ ?>
-        var show_settings = mw.cookie.get('remove_template_settings') != 'true';
-        if(show_settings){
-          mw.tools.template_settings(true);
-        }
-     <?php  } ?>
-  });
+
 
 </script>
 <link href="<?php print(mw_includes_url()); ?>css/components.css" rel="stylesheet" type="text/css"/>
 <link href="<?php print(mw_includes_url()); ?>css/wysiwyg.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript">
         $(document).ready(function () {
-            mw.toolbar.minTop = parseFloat($(mwd.body).css("paddingTop"));
 
-            mw.tools.module_slider.init();
             mw.tools.dropdown();
             mw.tools.toolbar_slider.init();
             mw_save_draft_int = self.setInterval(function () {
@@ -398,7 +389,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                     mw.tools.addClass(mwd.querySelector('.mwtb-search-modules'), 'active');
                     $(mwd.querySelector('.mwtb-search-modules')).focus();
                 }
-                mw.toolbar.fixPad();
+                mw.liveedit.toolbar.fixPad();
             });
 
 

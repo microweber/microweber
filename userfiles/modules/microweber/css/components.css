@@ -558,11 +558,29 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4 {
     text-decoration: underline;
 }
 
-.mw-browser-list ul, .mw-browser-list li {
+.mw-browser-list {
+    display: block;
+}
+
+.mw-browser-list:after {
+    display: block;
+    clear: both;
+    content: '';
+}
+
+.mw-browser-list li {
     display: inline-block;
     padding: 8px;
     list-style: none;
     position: relative;
+
+    float: left;
+    display: block;
+    width: 150px;
+}
+
+.mw-browser-list.mw-browser-list-big li {
+    width: 235px;
 }
 
 .mw-browser-list li .mw-icon-close {
@@ -570,6 +588,8 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4 {
     cursor: pointer;
 
 }
+
+
 
 .mw-browser-list li .mw-ui-check + .mw-icon-close {
     float: right;
@@ -584,7 +604,7 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4 {
     display: inline-block;
     text-align: center;
     font-size: 10px;
-    width: 55px;
+    width: 100%;
     text-decoration: none;
     color: #434343;
     padding: 3px 0;
@@ -616,8 +636,9 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4 {
     white-space: nowrap;
 }
 
-.mw-browser-list li > a > span {
-    width: 80px;
+.mw-browser-list li .mw-icon-category {
+    width: 100%;
+
 }
 
 .mw-file-item-check {

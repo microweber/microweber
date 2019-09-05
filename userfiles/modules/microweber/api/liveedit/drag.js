@@ -1,4 +1,21 @@
 mw.drag = {
+    _fixDeniedParagraphHierarchySelector: ''
+    + '.edit p h1,.edit p h2,.edit p h3,'
+    + '.edit p h4,.edit p h5,.edit p h6,'
+    + '.edit p p,.edit p ul,.edit p ol,'
+    + '.edit p header,.edit p form,.edit p article,'
+    + '.edit p aside,.edit p blockquote,.edit p footer,.edit p div',
+    fixDeniedParagraphHierarchy: function (root) {
+        root = root || mwd.body;
+        var all = root.querySelectorAll(mw.drag._fixDeniedParagraphHierarchySelector);
+        if (all.length) {
+            var i = 0;
+            for ( ; i < all.length; i++ ) {
+                var the_parent = mw.tools.firstParentWithTag(all[i], 'p');
+                mw.tools.setTag(the_parent, 'div');
+            }
+        }
+    },
     create_columns: function(selector, $numcols) {
         if (!$(selector).hasClass("active")) {
 
@@ -714,7 +731,7 @@ mw.drag = {
                 if (!!mwr) {
                     mwr.style.height = 'auto';
                 }
-                mw.tools.fixDeniedParagraphHierarchy();
+                mw.drag.fixDeniedParagraphHierarchy();
 
             });
         }, 222);

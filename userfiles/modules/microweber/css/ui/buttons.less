@@ -47,7 +47,8 @@
 }
 
 .mw-ui-btn {
-  display: inline-block;
+  display: inline-flex;
+    align-items: center;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -57,9 +58,6 @@
   position: relative;
   text-decoration: none;
   font-size: 1.154rem;
-  line-height: @normalHeight;
-  line-height: ~"-webkit-calc(" @normalHeight ~" - 2px)";
-  line-height: ~"calc(" @normalHeight ~" - 2px)";
   height: @normalHeight;
   border-radius: @radius;
   color: @defaultTextColor;
@@ -212,16 +210,12 @@ input.mw-ui-btn {
   font-size: 1.385rem;
   height: @largeHeight;
   padding: 0 1.538rem;
-  line-height: ~"-webkit-calc(" @largeHeight ~" - 2px)";
-  line-height: ~"calc(" @largeHeight ~" - 2px)";
 }
 
 .mw-ui-btn-medium {
   font-size: 1rem;
   height: @mediumHeight;
   padding: 0px 1rem;
-  line-height: ~"-webkit-calc(" @mediumHeight ~" - 2px)";
-  line-height: ~"calc(" @mediumHeight ~" - 2px)";
 }
 
 .mw-ui-btn-small,
@@ -230,10 +224,6 @@ input.mw-ui-btn {
   font-size: 0.8462rem;
   height: @smallHeight;
   padding: 0 0.7692rem;
-  line-height: @smallHeight;
-  line-height: ~"-webkit-calc(" @smallHeight ~" - 2px)";
-  line-height: ~"calc(" @smallHeight ~" - 2px)";
-
 }
 
 /* States */
@@ -293,18 +283,16 @@ input.mw-ui-btn {
   text-align: center;
   vertical-align: middle;
   display: inline-block;
-  top: -1px;
 }
 
 .mw-ui-btn > .mw-icon-dropdown {
   font-size: 12px;
-  margin-top: -7px;
   margin-right: 0;
   margin-left: 7px;
 }
 
 .mw-ui-btn > .mw-icon-right {
-  margin: -2px 0 0 7px;
+  margin: 0 0 0 7px;
 }
 
 .mw-ui-btn.active > [class*='mw-icon-'],
@@ -369,28 +357,32 @@ input.mw-ui-btn {
 }
 
 .mw-ui-btn-nav-fluid {
-  display: table;
+  display: flex;
   width: 100%;
   vertical-align: top;
 }
 
 .mw-ui-btn-nav-fluid > li {
-  float: none;
-  display: table-cell;
-  vertical-align: top;
+    float: none;
+    display: flex;
+    vertical-align: top;
+    flex: 1;
+    align-items: center;
 }
 
 .mw-ui-btn-nav-fluid > li > .mw-ui-btn {
-  float: none;
-  display: block;
-  width: 100%;
-  white-space: nowrap;
+    float: none;
+    display: flex;
+    width: 100%;
+    white-space: nowrap;
+    align-items: center;
+    justify-content: center;
 }
 
 .mw-ui-btn-vertical-nav .mw-ui-btn {
   border-width: 1px 1px 0px 1px;
   border-radius: 0px;
-  display: block;
+  display: flex;
   text-align: left;
 }
 
@@ -410,7 +402,6 @@ input.mw-ui-btn {
   background-size: cover;
   border-radius: 3px;
   transform: translateX(-20%);
-  top: 6px;
   position: relative;
 }
 
@@ -426,7 +417,6 @@ input.mw-ui-btn {
   .mw-ui-btn-img {
     width: ~"-webkit-calc(" @mediumHeight ~" - 12px)";
     height: ~"-webkit-calc(" @mediumHeight ~" - 12px)";
-    top: 6px;
   }
 }
 
@@ -434,7 +424,6 @@ input.mw-ui-btn {
   .mw-ui-btn-img {
     width: ~"-webkit-calc(" @smallHeight ~" - 6px)";
     height: ~"-webkit-calc(" @smallHeight ~" - 6px)";
-    top: 2px;
   }
 }
 

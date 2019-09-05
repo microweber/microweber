@@ -12,7 +12,7 @@ if (!$data) {
             $referrerIcon = '<img class="icon" src="https://favicon.microweberapi.com/' . $referrer . '" alt="">';
         } else {
             $referrer = _e('Direct', true);
-            $referrerIcon = '<i class="fa fa-globe"></i>';
+            $referrerIcon = '<i class="fas fa-globe"></i>';
         }
         ?>
         <li class="source">
