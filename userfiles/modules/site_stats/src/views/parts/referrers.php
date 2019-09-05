@@ -7,7 +7,7 @@ if (!$data) {
 <ul class="">
     <?php foreach ($data as $item): ?>
         <?php
-        if ($item['referrer_domain_id'] != null) {
+        if (isset($item['referrer_domain_id']) and isset($item['referrer_domain']) and $item['referrer_domain_id'] != null) {
             $referrer = $item['referrer_domain'];
             $referrerIcon = '<img class="icon" src="https://favicon.microweberapi.com/' . $referrer . '" alt="">';
         } else {
@@ -26,7 +26,7 @@ if (!$data) {
             </a>
 
             <ul class="subsources">
-                <?php if ($item['referrer_domain_id'] != null AND $item['referrer_paths']): ?>
+                <?php if (isset($item['referrer_domain_id'])  and isset($item['referrer_paths'])  and $item['referrer_domain_id'] != null AND $item['referrer_paths']): ?>
               <?php foreach ($item['referrer_paths'] as $path): ?>
 
                         <?php
