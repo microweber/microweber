@@ -109,10 +109,10 @@ $(document).ready(function() {
 
 
     mw.$("#mw-toolbar-css-editor-btn").click(function() {
-        mw.tools.open_custom_css_editor();
+        mw.liveedit.widgets.cssEditorDialog();
     });
     mw.$("#mw-toolbar-html-editor-btn").click(function() {
-        mw.tools.open_custom_html_editor();
+        mw.liveedit.widgets.htmlEditorDialog();
     });
 
     mw.$("#mw-toolbar-reset-content-editor-btn").click(function() {
@@ -416,7 +416,7 @@ $(window).on("load", function() {
         mw.$("#module_category_selector").change(function() {
             var val = mw.$(this).getDropdownValue();
 
-            if (val == 'all') {
+            if (val === 'all') {
                 mw.$(".list-modules li").show();
                 return false;
             }

@@ -52,14 +52,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
      });
   }
 
-  $(window).bind('load', function(){
-     <?php if(file_exists(TEMPLATE_DIR.'template_settings.php')){ ?>
-        var show_settings = mw.cookie.get('remove_template_settings') != 'true';
-        if(show_settings){
-          mw.tools.template_settings(true);
-        }
-     <?php  } ?>
-  });
+
 
 </script>
 <link href="<?php print(mw_includes_url()); ?>css/components.css" rel="stylesheet" type="text/css"/>
