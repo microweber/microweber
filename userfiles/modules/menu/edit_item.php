@@ -242,7 +242,7 @@ if ($id != 0) {
     $(document).ready(function () {
         $('.change-url-box .mw-ui-btn, .change-url-box input').on('click', function(){
             var scope = this;
-            var link = mw.instruments.link({
+            var link = mw.top().instruments.link({
                 mode: 'dialog'
             });
             link.handler.on('change', function(e, url, target, name, data){

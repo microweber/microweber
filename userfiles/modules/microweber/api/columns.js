@@ -1,4 +1,4 @@
-mw.drag = mw.drag || {}
+mw.drag = mw.drag || {};
 mw.drag.columns = {
     step: 0.8,
     resizing: false,
@@ -18,30 +18,24 @@ mw.drag.columns = {
     resize: function (e) {
         if (!mw.drag.columns.resizer.curr) return false;
         var w = parseFloat(mw.drag.columns.resizer.curr.style.width);
+        var widthParentPixels;
         if (isNaN(w)) {
             w = mw.$(mw.drag.columns.resizer.curr).outerWidth();
-            var widthParentPixels = mw.$(mw.drag.columns.resizer.curr).parent().outerWidth();
+            widthParentPixels = mw.$(mw.drag.columns.resizer.curr).parent().outerWidth();
             w = (w / widthParentPixels) * 100;
         }
-
-
         var next = mw.drag.columns.nextColumn(mw.drag.columns.resizer.curr);
-
-        if(typeof(next) == "undefined"){
-            // dirty fix
+        if(!next){
             mw.$(mw.drag.columns.resizer).hide();
             return false;
-
         }
 
         var w2 = parseFloat(next.style.width);
         if (isNaN(w2)) {
             w2 = mw.$(next).outerWidth();
-            var widthParentPixels = mw.$(next).parent().outerWidth();
+            widthParentPixels = mw.$(next).parent().outerWidth();
             w2 = (w2 / widthParentPixels) * 100;
          }
-
-        //d("w1 "+ w + "  w2 "+ w2)
 
         if (mw.drag.columns.resizer.pos < e.pageX) {
             if (w2 < 10 && !mw.tools.isRtl()) return false;
@@ -84,18 +78,18 @@ mw.drag.columns = {
     nextColumn: function (col) {
         var next = col.nextElementSibling;
         if (next === null) {
-            return undefined
+            return;
         }
         if (mw.tools.hasClass(next, 'mw-col')) {
             return next;
         }
         else {
-            return mw.drag.columns.nextColumn(next)
+            return mw.drag.columns.nextColumn(next);
         }
     }
 }
 $(mwd).ready(function () {
-    mw.$(mwd.body).on('mouseup', function () {
+    mw.$(mwd.body).on('mouseup touchend', function () {
         if (mw.drag.plus.locked) {
             mw.wysiwyg.change(mw.drag.columns.resizer.curr);
         }
@@ -103,7 +97,7 @@ $(mwd).ready(function () {
         mw.drag.plus.locked = false;
         mw.tools.removeClass(mwd.body, 'mw-column-resizing');
     });
-    mw.$(mwd.body).on('mousemove', function (e) {
+    mw.$(mwd.body).on('mousemove touchmove', function (e) {
         if (mw.drag.columns.resizing === true && mw.isDrag === false) {
             mw.drag.columns.resize(e);
             e.preventDefault();

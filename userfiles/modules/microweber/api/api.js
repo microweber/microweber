@@ -969,7 +969,7 @@ mw.required.push("<?php print mw_includes_url(); ?>api/common.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/components.js");
 
 mw.required.push("<?php print mw_includes_url(); ?>api/dialog.js");
-mw.required.push("<?php print mw_includes_url(); ?>api/components.js");
+mw.required.push("<?php print mw_includes_url(); ?>api/instruments.js");
 
 
 
@@ -1012,7 +1012,7 @@ mw.required.push("<?php print mw_includes_url(); ?>api/components.js");
 
 <?php  include __DIR__.DS."dialog.js"; ?>
 
-<?php  include __DIR__.DS."components.js"; ?>
+<?php  include __DIR__.DS."instruments.js"; ?>
 
 
 

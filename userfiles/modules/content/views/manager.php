@@ -39,7 +39,8 @@ $pages_count = intval($pages);
                 data.parent_id = page.value;
             }
 
-            var categories = mwd.querySelectorAll('#posts_bulk_assing_category_tree_resp input[type="checkbox"]:checked'), l = categories.length, i = 0, arr = [];
+            var categories = mwd.querySelectorAll('#posts_bulk_assing_category_tree_resp input[type="checkbox"]:checked'),
+                l = categories.length, i = 0, arr = [];
 
             if (l > 0) {
 
@@ -68,13 +69,15 @@ $pages_count = intval($pages);
     }
     assign_selected_posts_to_category = function () {
 
-        CategoryAssignModal = mw.modal({
+        CategoryAssignModal = mw.dialog({
             content: '<div id="posts_bulk_assing_category" style="display:none"><div id="posts_bulk_assing_category_tree_resp"></div></div>'
-            + '<button class="mw-ui-btn" onclick="assign_selected_posts_to_category_exec()">Move posts</button>'
+            + '<button class="mw-ui-btn" onclick="assign_selected_posts_to_category_exec()">Move posts</button>',
+            autoHeight: true,
+            height: 'auto'
         });
         mw.load_module('categories/selector', "#posts_bulk_assing_category_tree_resp", function () {
             mw.treeRenderer.appendUI('#posts_bulk_assing_category')
-
+            CategoryAssignModal.center()
         });
         $('#posts_bulk_assing_category').addClass('mw-tree').show();
         $('#posts_bulk_assing_category').show();
@@ -312,7 +315,7 @@ $pages_count = intval($pages);
                     <?php $i++; endforeach; ?>
             </div>
         <?php endif; ?>
- 
+
 
         <?php if (isset($paging_links) and is_array($paging_links)): ?>
             <div class="mw-paging pull-right">
