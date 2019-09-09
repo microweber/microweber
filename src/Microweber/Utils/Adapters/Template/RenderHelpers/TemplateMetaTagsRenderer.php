@@ -91,7 +91,9 @@ class TemplateMetaTagsRenderer
                     $meta['description'] = $this->app->option_manager->get('website_description', 'website');
                 }
 
-                if (isset($meta['content_meta_description'])) {
+                if (isset($meta['description']) and $meta['description'] != '') {
+                    $meta['content_meta_description'] = $meta['description'];
+                } elseif (isset($meta['content_meta_description'])) {
                     $meta['content_meta_description'] = content_description($meta['id']);
                 } else {
                     $meta['content_meta_description'] = $this->app->option_manager->get('website_description', 'website');
