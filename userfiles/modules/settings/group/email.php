@@ -259,7 +259,7 @@ mw.email_send_test = function(){
 				</div>
 			<br />
 		
-			<button onClick="saveEmailOptions()" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-notification"><span class="mw-icon-check"></span> <?php _e("Save email settings"); ?></button>
+			<button onClick="saveEmailOptions()" class="mw-ui-btn   mw-ui-btn-notification"><span class="mw-icon-check"></span> <?php _e("Save email settings"); ?></button>
 
 		<br />
 	</div>

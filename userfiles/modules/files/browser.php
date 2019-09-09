@@ -29,11 +29,9 @@ if (isset($params['path']) and trim($params['path']) != '' and trim($params['pat
 
 }
 
-
 $path = str_replace('./', '', $path);
 $path = str_replace('..', '', $path);
 $path = urldecode($path);
-
 
 $path = str_replace($path_restirct, '', $path);
 
