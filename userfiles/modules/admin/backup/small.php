@@ -19,7 +19,7 @@
   <?php _e("Create Database Backup"); ?>
   </span></a> <a href="javascript:mw.admin_backup.create_full('.mw_edit_page_right')" class="mw-ui-btn mw-ui-btn-blue"><span class="ico iplus"></span><span>
   <?php _e("Create Full Backup"); ?>
-  </span></a> 
+  </span></a>
   <script type="text/javascript">
 		var uploader = mw.files.uploader({
 			filetypes:"zip,sql",
@@ -34,8 +34,8 @@
 						_mw_log_reload_int = true;
 					     mw.reload_module_interval("#mw_backup_log", 6000);
 					}
-			
-			
+
+
 		mw.$("#mw_uploader").append(uploader);
 				$(uploader).bind("FileUploaded", function(obj, data){
 					mw.admin_backup.move_uploaded_file_to_backup(data.src);
@@ -65,13 +65,13 @@
             	});
 
 
-			
+
 
 		});
 
 
-		</script> 
-  <span id="mw_uploader" class="mw-ui-btn"><span class="ico iupload"></span><span>
+		</script>
+  <span id="mw_uploader" class="mw-ui-btn"><span class="ico iupload"></span>&nbsp;<span>
   <?php _e("Upload backup"); ?>
   <span id="upload_backup_info"></span></span></span> </div>
 <div id="mw_uploader_loading" class="mw-ui-btn" style="display:none;">
@@ -84,4 +84,4 @@
 <?php else :?>
 <module type="admin/backup/manage" />
 <?php endif ;?>
- 
+

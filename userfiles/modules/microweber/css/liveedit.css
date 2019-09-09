@@ -2645,9 +2645,7 @@ div[id*='SSDIVEL'] {
 }
 
 #image-edit-nav .mw-ui-btn span {
-    line-height: 33px;
     opacity: 1;
-    height: 40px;
 }
 
 #image-edit-nav .mw-ui-btn {
@@ -2667,9 +2665,6 @@ div[id*='SSDIVEL'] {
     font-size: 24px;
 }
 
-#image-edit-nav .mw-ui-btn span.mw-icon-image-frame {
-    line-height: 35px;
-}
 
 /****************************
      Template Settings

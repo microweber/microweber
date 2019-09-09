@@ -22,5 +22,18 @@ mw.liveedit.toolbar = {
                 mw.mouseDownOnEditor = false;
                 mw.$(this).removeClass("hover");
             });
+        mw.$(window).scroll(function() {
+            if ($(window).scrollTop() > 10) {
+                mw.tools.addClass(mwd.getElementById('live_edit_toolbar'), 'scrolling');
+            } else {
+                mw.tools.removeClass(mwd.getElementById('live_edit_toolbar'), 'scrolling');
+            }
+
+        });
+        mw.$("#live_edit_toolbar").hover(function() {
+            mw.$(mwd.body).addClass("toolbar-hover");
+        }, function() {
+            mw.$(mwd.body).removeClass("toolbar-hover");
+        });
     }
 };

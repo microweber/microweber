@@ -104,7 +104,7 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
                             <span
                                 onclick="$('.mw-ui-category-selector').toggle()"
                                 class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded pull-right add-to-cats">
-                                <i class="mai-plus"></i> Add to categories
+                                <i class="mai-plus"></i> &nbsp; <?php _e('Add to categories'); ?>
                             </span>
                         </div>
                         <div class="mw-ui-category-selector mw-ui-category-selector-abs mw-tree mw-tree-selector"
@@ -328,7 +328,7 @@ $(document).ready(function () {
 		element: '.mw-ui-color-picker',
 		position: 'bottom-left',
 		onchange: function (color) {
-			// 
+			//
 		}
 	});
 });

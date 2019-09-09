@@ -92,10 +92,11 @@
 
 
           <span class="mw-ui-btn" onclick="mw.createCropTool();">
-            <span class="mw-icon-crop"></span> <?php _e('Crop') ?>
+            <span class="mw-icon-crop"></span> &nbsp;<?php _e('Crop') ?>
           </span>
-          <span class="mw-ui-btn mw-ui-btn-icon" onclick="mw.image.rotate(mw.image.current);mw.image.current_need_resize = true;mw.$('#mw_image_reset').removeClass('disabled')">
-            <span class="mw-icon-app-refresh-empty"></span> <?php _e('Rotate'); ?>
+          <span class="mw-ui-btn mw-ui-btn-icon"
+                onclick="mw.image.rotate(mw.image.current);mw.image.current_need_resize = true;mw.$('#mw_image_reset').removeClass('disabled')">
+            <span class="mw-icon-app-refresh-empty"></span> &nbsp; <?php _e('Rotate'); ?>
           </span>
 
                 </div>

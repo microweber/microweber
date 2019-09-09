@@ -4817,201 +4817,8 @@ mw.ui.btn = {
         }
     }
 }
-mw.inline = {
-    bar: function (id) {
-        if (typeof id === 'undefined') {
-            return false;
-        }
-        if (mw.$("#" + id).length === 0) {
-            var bar = mwd.createElement('div');
-            bar.id = id;
-            mw.wysiwyg.contentEditable(bar, false);
-            bar.className = 'mw-defaults mw-inline-bar';
-            mwd.body.appendChild(bar);
-            return bar;
-        }
-        else {
-            return mw.$("#" + id)[0];
-        }
-    },
-    tableControl: false,
-    tableController: function (el, e) {
-        if (typeof e !== 'undefined') {
-            e.stopPropagation();
-        }
-        if (mw.inline.tableControl === false) {
-            mw.inline.tableControl = mw.inline.bar('mw-inline-tableControl');
-            mw.inline.tableControl.innerHTML = ''
-            mw.inline.tableControl.innerHTML = ''
-                + '<ul class="mw-ui-box mw-ui-navigation mw-ui-navigation-horizontal">'
-                + '<li>'
-                + '<a href="javascript:;">Insert<span class="mw-icon-dropdown"></span></a>'
-                + '<ul>'
-                + '<li><a href="javascript:;" onclick="mw.inline.tableManager.insertRow(\'above\', mw.inline.activeCell);">Row Above</a></li>'
-                + '<li><a href="javascript:;" onclick="mw.inline.tableManager.insertRow(\'under\', mw.inline.activeCell);">Row Under</a></li>'
-                + '<li><a href="javascript:;" onclick="mw.inline.tableManager.insertColumn(\'left\', mw.inline.activeCell)">Column on left</a></li>'
-                + '<li><a href="javascript:;" onclick="mw.inline.tableManager.insertColumn(\'right\', mw.inline.activeCell)">Column on right</a></li>'
-                + '</ul>'
-                + '</li>'
-                + '<li>'
-                + '<a href="javascript:;">Style<span class="mw-icon-dropdown"></span></a>'
-                + '<ul>'
-                + '<li><a href="javascript:;" onclick="mw.inline.tableManager.setStyle(\'mw-wysiwyg-table\', mw.inline.activeCell);">Bordered</a></li>'
-                + '<li><a href="javascript:;" onclick="mw.inline.tableManager.setStyle(\'mw-wysiwyg-table-zebra\', mw.inline.activeCell);">Bordered Zebra</a></li>'
-                + '<li><a href="javascript:;" onclick="mw.inline.tableManager.setStyle(\'mw-wysiwyg-table-simple\', mw.inline.activeCell);">Simple</a></li>'
-                + '<li><a href="javascript:;" onclick="mw.inline.tableManager.setStyle(\'mw-wysiwyg-table-simple-zebra\', mw.inline.activeCell);">Simple Zebra</a></li>'
-                + '</ul>'
-                + '</li>'
-                + '<li>'
-                + '<a href="javascript:;">Delete<span class="mw-icon-dropdown"></span></a>'
-                + '<ul>'
-                + '<li><a href="javascript:;" onclick="mw.inline.tableManager.deleteRow(mw.inline.activeCell);">Row</a></li>'
-                + '<li><a href="javascript:;" onclick="mw.inline.tableManager.deleteColumn(mw.inline.activeCell);">Column</a></li>'
-                + '</ul>'
-                + '</li>'
-                + '</ul>';
-        }
-        var off = mw.$(el).offset();
-        mw.$(mw.inline.tableControl).css({
-            top: off.top - 45,
-            left: off.left,
-            display: 'block'
-        });
-    },
-    activeCell: null,
-    setActiveCell: function (el, event) {
-        if (!mw.tools.hasClass(el.className, 'tc-activecell')) {
-            mw.$(".tc-activecell").removeClass('tc-activecell');
-            mw.$(el).addClass('tc-activecell');
-            mw.inline.activeCell = el;
-        }
-    },
-    tableManager: {
-        insertColumn: function (dir, cell) {
-            var cell = mw.$(cell)[0];
-            if (cell === null) {
-                return false;
-            }
-            var dir = dir || 'right';
-            var rows = mw.$(cell.parentNode.parentNode).children('tr');
-            var i = 0, l = rows.length, index = mw.tools.index(cell);
-            for (; i < l; i++) {
-                var row = rows[i];
-                var cell = mw.$(row).children('td')[index];
-                if (dir == 'left' || dir == 'both') {
-                    mw.$(cell).before("<td>&nbsp;</td>");
-                }
-                if (dir == 'right' || dir == 'both') {
-                    mw.$(cell).after("<td>&nbsp;</td>");
-                }
-            }
-        },
-        insertRow: function (dir, cell) {
-            var cell = mw.$(cell)[0];
-            if (cell === null) {
-                return false;
-            }
-            var dir = dir || 'under';
-            var parent = cell.parentNode, cells = mw.$(parent).children('td'), i = 0, l = cells.length, html = '';
-            for (; i < l; i++) {
-                html += '<td>&nbsp;</td>';
-            }
-            var html = '<tr>' + html + '</tr>';
-            if (dir == 'under' || dir == 'both') {
-                mw.$(parent).after(html)
-            }
-            if (dir == 'above' || dir == 'both') {
-                mw.$(parent).before(html)
-            }
-        },
-        deleteRow: function (cell) {
-            mw.$(cell.parentNode).remove();
-        },
-        deleteColumn: function (cell) {
-            var index = mw.tools.index(cell), body = cell.parentNode.parentNode, rows = mw.$(body).children('tr'), l = rows.length, i = 0;
-            for (; i < l; i++) {
-                var row = rows[i];
-                mw.$(row.getElementsByTagName('td')[index]).remove();
-            }
-        },
-        setStyle: function (cls, cell) {
-            var table = mw.tools.firstParentWithTag(cell, 'table');
-            mw.tools.classNamespaceDelete(table, 'mw-wysiwyg-table');
-            mw.$(table).addClass(cls);
-        }
-    }
-}
-mw.dynamicCSS = {
-    previewOne: function (selector, value) {
-        if (mwd.getElementById('user_css') === null) {
-            var style = mwd.createElement('style');
-            style.type = 'text/css';
-            style.id = 'user_css';
-            mwd.head.appendChild(style);
-        }
-        else {
-            var style = mwd.getElementById('user_css');
-        }
-        var css = selector + '{' + value + "}";
-        style.appendChild(document.createTextNode(css));
-    },
-    manageObject: function (main_obj, selector_obj) {
-    }
-}
-mw.css3fx = {
-    perspective: function (a) {
-        if (typeof mw.current_element === 'undefined') return false;
-        var el = mw.current_element;
-        var val = "perspective( " + mw.$(el).width() + "px ) rotateY( " + a + "deg )";
-        el.style[mw.JSPrefix('transform')] = val;
-        mw.$(el).addClass("mwfx");
-        mw.css3fx.set_obj(el, "transform", val);
-    },
-    rotate: function (a) {
-        if (typeof mw.current_element === 'undefined') return false;
-        var el = mw.current_element;
-        var val = "matrix(" + Math.cos(a) + "," + Math.sin(a) + "," + -Math.sin(a) + "," + Math.cos(a) + ", 0, 0)";
-        el.style[mw.JSPrefix('transform')] = val;
-        mw.$(el).addClass("mwfx");
-        mw.css3fx.set_obj(el, "transform", val);
-    },
-    set_obj: function (element, option, value) {
-        if (typeof element.attributes["data-mwfx"] !== 'undefined') {
-            var json = mw.css3fx.read(element);
-            json[option] = value;
-            var string = JSON.stringify(json);
-            var string = string.replace(/{/g, "").replace(/}/g);
-            var string = string.replace(/"/g, "XX");
-            mw.$(element).dataset("mwfx", string);
-        }
-        else {
-            mw.$(element).dataset("mwfx", "XX" + option + "XX:XX" + value + "XX");
-        }
-    },
-    init_css: function (el) {
-        var el = el || ".mwfx";
-        mw.$(el).each(function () {
-            var elem = this;
-            var json = mw.css3fx.read(el);
-            $.each(json, function (a, b) {
-                mw.$(elem).css(mw.JSPrefix(a), b);
-            });
-        });
-    },
-    read: function (el) {
-        var el = mw.$(el);
-        var attr = el.dataset("mwfx");
-        if (typeof attr !== 'undefined') {
-            var attr = attr.replace(/XX/g, '"');
-            var attr = attr.replace(/undefined/g, '');
-            var json = $.parseJSON('{' + attr + '}');
-            return json;
-        }
-        else {
-            return false;
-        }
-    }
-}
+
+
 mw.image = {
     isResizing: false,
     currentResizing: null,
@@ -5115,21 +4922,16 @@ mw.image = {
                     mwd.getElementById('image-settings-button').style.display = 'none';
                 }
                 else {
-                    mwd.getElementById('image-settings-button').style.display = 'inline-block';
+                    mwd.getElementById('image-settings-button').style.display = '';
                 }
             }
             /* } */
         },
         init: function (selector) {
             mw.image_resizer == undefined ? mw.image.resize.prepare() : '';
-            /*
-             mw.$(".element-image").each(function(){
-             var img = this.getElementsByTagName('img')[0];
-             this.style.width = mw.$(img).width()+'px';
-             this.style.height = mw.$(img).height()+'px';
-             });     */
+
             mw.on("ImageClick", function (e, el) {
-                if (!mw.image.isResizing && !mw.isDrag && !mw.settings.resize_started && el.tagName == 'IMG') {
+                if (!mw.image.isResizing && !mw.isDrag && !mw.settings.resize_started && el.tagName === 'IMG') {
                     mw.image.resize.resizerSet(el);
                 }
             })
@@ -5162,7 +4964,7 @@ mw.image = {
         }
         if (!mw.image._isrotating) {
             mw.image._isrotating = true;
-            var img_object = img_object || mwd.querySelector("img.element-current");
+            img_object = img_object || mwd.querySelector("img.element-current");
             if (img_object === null) {
                 return false;
             }
@@ -5185,23 +4987,23 @@ mw.image = {
                 var y = 0;
                 switch (angle) {
                     case 90:
-                        var contextWidth = h;
-                        var contextHeight = w;
-                        var y = -h;
+                        contextWidth = h;
+                        contextHeight = w;
+                        y = -h;
                         break;
                     case 180:
-                        var x = -w;
-                        var y = -h;
+                        x = -w;
+                        y = -h;
                         break;
                     case 270:
-                        var contextWidth = h;
-                        var contextHeight = w;
-                        var x = -w;
+                        contextWidth = h;
+                        contextHeight = w;
+                        x = -w;
                         break;
                     default:
-                        var contextWidth = h;
-                        var contextHeight = w;
-                        var y = -h;
+                        contextWidth = h;
+                        contextHeight = w;
+                        y = -h;
                 }
                 mw.image.Rotator.setAttribute('width', contextWidth);
                 mw.image.Rotator.setAttribute('height', contextHeight);

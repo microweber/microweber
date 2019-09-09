@@ -22,6 +22,7 @@ mw.require('liveedit/toolbar.js');
 mw.require('liveedit/editors.js');
 mw.require('liveedit/data.js');
 mw.require('liveedit/edit.fields.js');
+mw.require('liveedit/inline.js');
 
 
 
@@ -235,7 +236,7 @@ $(document).ready(function() {
     });
     mw.on("TableClick", function(e, el) {
         if (typeof(mw.inline) != 'undefined') {
-            mw.inline.tableController(el);
+            mw.liveedit.inline.tableController(el);
         }
     });
 
@@ -248,10 +249,10 @@ $(document).ready(function() {
     });
     mw.on("TableTdClick", function(e, el) {
         if (typeof(mw.inline) !== 'undefined') {
-            mw.inline.setActiveCell(el, e);
+            mw.liveedit.inline.setActiveCell(el, e);
             var td_parent_table = mw.tools.firstParentWithTag(el, 'table');
             if (td_parent_table) {
-                mw.inline.tableController(td_parent_table);
+                mw.liveedit.inline.tableController(td_parent_table);
             }
         }
     });
@@ -307,9 +308,6 @@ $(document).ready(function() {
 
 });
 
-
-
-/* Toolbar */
 mw.tools.addClass(mwd.body, 'mw-live-edit');
 
 $(document).ready(function() {
@@ -328,29 +326,12 @@ $(document).ready(function() {
             }
         }
     });
-    mw.$(window).scroll(function() {
-        if ($(window).scrollTop() > 10) {
-            mw.tools.addClass(mwd.getElementById('live_edit_toolbar'), 'scrolling');
-        } else {
-            mw.tools.removeClass(mwd.getElementById('live_edit_toolbar'), 'scrolling');
-        }
-
-    });
-    mw.$("#live_edit_toolbar").hover(function() {
-        mw.$(mwd.body).addClass("toolbar-hover");
-    }, function() {
-        mw.$(mwd.body).removeClass("toolbar-hover");
-    });
-
-
 
     mw.on('UserInteraction', function(){
         mw.dropables.userInteractionClasses();
         mw.liveEditSelector.positionSelected();
 
     });
-
-
 
     mw.on('ElementOver moduleOver', function(e, target){
         var over_target_el = null
@@ -448,12 +429,6 @@ $(window).on("load", function() {
 
     mw.wysiwyg.prepareContentEditable();
 
-
-    mw.$("#history_dd").hover(function() {
-        mw.$(this).addClass("hover");
-    }, function() {
-        mw.$(this).removeClass("hover");
-    });
     mw.image.resize.init(".element-image");
     mw.$(mwd.body).mousedown(function(event) {
 

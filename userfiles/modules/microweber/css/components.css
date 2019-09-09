@@ -559,7 +559,8 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4 {
 }
 
 .mw-browser-list {
-    display: block;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .mw-browser-list:after {
@@ -573,10 +574,8 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4 {
     padding: 8px;
     list-style: none;
     position: relative;
-
-    float: left;
     display: block;
-    width: 150px;
+    width: 75px;
 }
 
 .mw-browser-list.mw-browser-list-big li {
@@ -599,6 +598,12 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4 {
 .mw-browser-list li:hover .mw-icon-close {
     visibility: visible;
 }
+
+.mw-browser-list li img{
+    transition: .3s;
+    position: relative;
+}
+
 
 .mw-browser-list a {
     display: inline-block;
@@ -623,6 +628,7 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4 {
     font-size: 11px;
     width: 95%;
 }
+
 
 .mw-browser-list a img + span,
 .mw-browser-list a .mw-fileico + span,

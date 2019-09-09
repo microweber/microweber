@@ -104,8 +104,8 @@ mw.ok_import_file = function(){
 
 
 
- <span id="mw_uploader" class="mw-ui-btn"><span class="mw-icon-upload"></span><span>
- 
+ <span id="mw_uploader" class="mw-ui-btn"><span class="mw-icon-upload"></span>&nbsp;<span>
+
   <span id="mw_uploader_loading"></span>
 
 

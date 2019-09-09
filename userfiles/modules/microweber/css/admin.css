@@ -5013,7 +5013,6 @@ html[dir="rtl"] #upload-icoimage {
 
     .browser-ctrl-bar .mw-ui-searchfield {
         display: block;
-        margin-top: 10px;
         width: 200px;
     }
 
@@ -7340,7 +7339,7 @@ select.silver-field {
 }
 
 .mw-advanced-settings ul li a {
-    display: block;
+    display: flex;
 }
 
 .mw-advanced-settings .box-title i {

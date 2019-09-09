@@ -105,7 +105,7 @@ if (empty($data)) {
         <label class="mw-ui-label">Image</label>
         <input type="hidden" name="image_url" value="<?php echo $data['image_url'] ?>" id="event-img"/>
         <span id="mw_uploader" class="mw-ui-btn">
-            <span class="ico iupload"></span>
+            <span class="ico iupload"></span> &nbsp;
             <span>Upload file<span id="upload_info"></span></span>
         </span>
         <br/>

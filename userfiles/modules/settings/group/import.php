@@ -5,7 +5,7 @@
 
 Import
 <div class="back-up-nav-btns">
-  
+
   <script type="text/javascript">
     		var uploader = mw.files.uploader({
     			filetypes:"zip,sql",
@@ -15,7 +15,7 @@ Import
 		_mw_log_reload_int = false;
 		$(document).ready(function(){
 
-			
+
 
 		mw.$("#mw_uploader").append(uploader);
 				$(uploader).bind("FileUploaded", function(obj, data){
@@ -46,13 +46,13 @@ Import
             	});
 
 
-			
+
 
 		});
 
 
 		</script>
-  <span id="mw_uploader" class="mw-ui-btn"><span class="mw-icon-upload"></span><span>
+  <span id="mw_uploader" class="mw-ui-btn"><span class="mw-icon-upload"></span> <span>
   <?php _e("Upload backup"); ?>
   <span id="upload_backup_info"></span></span></span> </div>
 <div id="mw_uploader_loading" class="mw-ui-btn" style="display:none;">

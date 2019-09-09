@@ -486,7 +486,7 @@ if (array_key_exists('types', $_GET)) {
     }
 
     .mw-upload-filetypes li span {
-        display: block;
+        display: flex;
         white-space: nowrap;
         margin-top: 12px;
     }

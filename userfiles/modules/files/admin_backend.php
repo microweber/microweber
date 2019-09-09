@@ -573,7 +573,7 @@
           </span> </span>
                         <div class="mw-ui-btn-nav pull-left"> <span id="mw_uploader"
                                                                     class="mw-ui-btn mw-ui-btn-notification"><span
-                                        class="mw-icon-upload"></span>
+                                        class="mw-icon-upload"></span>&nbsp;
                                 <?php _e("Upload File"); ?>
             </span> <span class="mw-ui-btn mw-ui-btn-red delete_item disabled">
             <?php _e("Delete selected files"); ?>

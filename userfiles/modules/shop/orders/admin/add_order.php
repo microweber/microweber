@@ -143,7 +143,11 @@ $data = $products;
                                 <input type="text" name="price" class="mw-ui-field mw-full-width" required="required" placeholder="Example: 10"/>
                             </div>
 
-                            <button class="mw-ui-btn mw-ui-btn-info pull-right" onclick="mw_admin_custom_order_item_add('#mw_admin_custom_order_item_add_form')"><i class="fas fa-plus-circle"></i> Add the Item</button>
+                            <button
+                                class="mw-ui-btn mw-ui-btn-info pull-right"
+                                onclick="mw_admin_custom_order_item_add('#mw_admin_custom_order_item_add_form')">
+                                <i class="fas fa-plus-circle"></i> &nbsp;<?php _e('Add Item'); ?>
+                            </button>
                         </div>
                     </div>
                 </div>

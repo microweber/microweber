@@ -364,7 +364,7 @@ mw.drag = {
             }
 
             if (!mw.tools.hasParentsWithTag(event.target, 'TABLE') && !mw.tools.hasParentsWithClass(event.target, 'mw-inline-bar')) {
-                mw.$(mw.inline.tableControl).hide();
+                mw.$(mw.liveedit.inline.tableControl).hide();
                 mw.$(".tc-activecell").removeClass('tc-activecell');
             }
         });
