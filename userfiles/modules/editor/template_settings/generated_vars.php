@@ -37,17 +37,17 @@ if ($template_less_settings) {
     $less_option_group = 'mw-template-' . mw()->template->folder_name();
     if ($template_less_settings) {
         foreach ($template_less_settings as $key => $setting) {
-            $key = 'less_' . $key;
-            $$key = get_option($key, $less_option_group);
+            $less_key = 'less_' . $key;
+            $$less_key = get_option($key, $less_option_group);
 //        var_dump($$key);
-            if ($$key === false AND $$key !== null) {
+            if ($$less_key === false AND $$less_key !== null) {
                 if (isset($setting['default'])) {
-                    $$key = $setting['default'];
+                    $$less_key = $setting['default'];
                 } else {
-                    $$key = 'no-default-option';
+                    $$less_key = 'no-default-option';
                 }
-            } elseif ($$key == null) {
-                $$key = '';
+            } elseif ($$less_key == null) {
+                $$less_key = '';
             }
 
         }
