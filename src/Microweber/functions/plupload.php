@@ -73,6 +73,7 @@ if (is_admin() != false) {
 
 }
 
+
 if ($allowed_to_upload == false) {
     if (isset($_REQUEST['rel_type']) and isset($_REQUEST['custom_field_id']) and trim($_REQUEST['rel_type']) != '' and trim($_REQUEST['rel_type']) != 'false') {
         $cfid = mw()->fields_manager->get_by_id(intval($_REQUEST['custom_field_id']));
