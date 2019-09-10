@@ -24,66 +24,58 @@ $pages_count = intval($pages);
 
     assign_selected_posts_to_category_exec = function () {
         mw.tools.confirm("Are you sure you want to move the selected posts?", function () {
-            var selected_cats;
-
-
-            var master = mwd.getElementById('<?php print $params['id']; ?>');
-            var arr = mw.check.collectChecked(master);
-
-            var data = {};
-            data.content_ids = arr;
-
-            var page = mwd.querySelector('#posts_bulk_assing_category_tree_resp input[type="radio"]:checked');
-
-            if (page !== null) {
-                data.parent_id = page.value;
-            }
-
-            var categories = mwd.querySelectorAll('#posts_bulk_assing_category_tree_resp input[type="checkbox"]:checked'),
-                l = categories.length, i = 0, arr = [];
-
-            if (l > 0) {
-
-                for (; i < l; i++) {
-                    arr.push(categories[i].value);
+            var dialog = mw.dialog.get('#pick-categories');
+            var tree = mw.tree.get('#pick-categories');
+            var selected = tree.getSelected();
+            var posts = mw.check.collectChecked(mwd.getElementById('<?php print $params['id']; ?>'));
+            var data = {
+                content_ids: posts,
+                categories: []
+            };
+            selected.forEach(function(item){
+                if(item.type === 'category') {
+                    data.categories.push(item.id);
+                } else if (item.type === 'page') {
+                    data.parent_id = item.id;
                 }
-
-                data.categories = arr;
-
-            }
-
-
+            });
             $.post("<?php print api_link('content/bulk_assign'); ?>", data, function (msg) {
                 mw.notification.msg(msg);
                 mw.reload_module('#<?php print $params['id']; ?>');
-                // close modal
-
-
-                CategoryAssignModal.remove();
+                dialog.remove();
             });
-
-
         });
+    };
 
 
-    }
     assign_selected_posts_to_category = function () {
+        $.get("<?php print  api_url('content/get_admin_js_tree_json'); ?>", function(data){
+            var btn = document.createElement('button');
+            btn.className = 'mw-ui-btn';
+            btn.innerHTML = mw.lang('Move posts');
+            btn.onclick = function (ev) {
+                assign_selected_posts_to_category_exec();
+            };
+            var dialog = mw.dialog({
+               height: 'auto',
+               autoHeight: true,
+               id: 'pick-categories',
+               footer: btn,
+               title: mw.lang('Select categories')
+            });
+            var tree = new mw.tree({
+                data:data,
+                element:dialog.dialogContainer,
+                sortable:false,
+                selectable:true,
+                multiPageSelect: false
+            });
+            $(tree).on("ready", function(){
+                dialog.center();
+            })
 
-        CategoryAssignModal = mw.dialog({
-            content: '<div id="posts_bulk_assing_category" style="display:none"><div id="posts_bulk_assing_category_tree_resp"></div></div>'
-            + '<button class="mw-ui-btn" onclick="assign_selected_posts_to_category_exec()">Move posts</button>',
-            autoHeight: true,
-            height: 'auto'
         });
-        mw.load_module('categories/selector', "#posts_bulk_assing_category_tree_resp", function () {
-            mw.treeRenderer.appendUI('#posts_bulk_assing_category')
-            CategoryAssignModal.center()
-        });
-        $('#posts_bulk_assing_category').addClass('mw-tree').show();
-        $('#posts_bulk_assing_category').show();
-
-
-    }
+    };
 
     mw.delete_single_post = function (id) {
         mw.tools.confirm("<?php _e("Do you want to delete this post"); ?>?", function () {

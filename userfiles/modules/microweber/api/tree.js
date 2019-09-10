@@ -125,6 +125,7 @@ mw.lib.require('nestedsortable');
 
         this.json2ul = function(){
             this.list = scope.document.createElement( 'ul' );
+            this.list._tree = this;
             this.options.id = this.options.id || ( 'mw-tree-' + window.mwtree );
             this.list.id = this.options.id;
             this.list.className = 'mw-defaults mw-tree-nav mw-tree-nav-skin-' + this.options.skin;
@@ -149,7 +150,6 @@ mw.lib.require('nestedsortable');
 
 
         this._tempPrepare = function () {
-            console.log(scope._postCreated)
             for (var i=0; i<this._postCreated.length; i++) {
                 var it = this._postCreated[i];
                 if(it.parent_id !== 0) {
@@ -749,5 +749,20 @@ mw.lib.require('nestedsortable');
         this.init();
     };
     mw.tree = mwtree;
+    mw.tree.get = function (a) {
+        var a = mw.$(a)[0];
+        if(!a) return;
+        if(mw.tools.hasClass(a, 'mw-tree-nav')){
+            return a._tree;
+        }
+        var child = a.querySelector('.mw-tree-nav');
+        if(child) return child._tree;
+        var parent = mw.tools.firstParentWithClass(a, 'mw-tree-nav');
+
+        if(parent) {
+            return parent._tree;
+        }
+
+    }
 
 })();
