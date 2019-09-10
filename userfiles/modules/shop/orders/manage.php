@@ -164,9 +164,9 @@
 
 
                 <div class="pull-right">
-                    <div class="top-search">
-                        <input type="text" class="mw-ui-searchfield active pull-right" id="orders-search-field" placeholder="<?php _e("Search in orders"); ?>"/>
-                        <span class="top-form-submit" onclick="mw.url.windowHashParam('search', $(this).prev().val());"><span class="mw-icon-search"></span></span>
+                    <div class="mw-field top-search">
+                        <input type="text" class="mw-ui-field active" id="orders-search-field" placeholder="<?php _e("Search in orders"); ?>"/>
+                        <span class="mw-ui-btn mw-field-append" onclick="mw.url.windowHashParam('search', $(this).prev().val());"><span class="mw-icon-search"></span></span>
                     </div>
                 </div>
 

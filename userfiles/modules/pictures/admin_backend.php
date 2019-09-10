@@ -92,7 +92,7 @@ if ($for_id != false) {
 
 <script type="text/javascript">
     after_upld = function (a, e, f, id, module_id) {
-        if (e != 'done') {
+        if (e !== 'done') {
             var data = {};
             data['for'] = f;
             data.src = a;
@@ -104,11 +104,9 @@ if ($for_id != false) {
                 data.for_id = (id);
 
             }
-
-
             mw.module_pictures.after_upload(data);
         }
-        if (e == 'done') {
+        if (e === 'done') {
             setTimeout(function () {
                 mw.tools.modal.remove('mw_rte_image');
                 if (typeof load_iframe_editor === 'function') {
@@ -410,7 +408,7 @@ if (!isset($data["thumbnail"])) {
 
 
             mw.$("#backend_image_uploader").append(uploader);
-            $(uploader).bind("FilesAdded", function (a, b) {
+            $(uploader).on("FilesAdded", function (a, b) {
                 var i = 0, l = b.length;
                 for (; i < l; i++) {
                     if (mw.$(".admin-thumbs-holder .admin-thumb-item").length > 0) {
@@ -421,29 +419,24 @@ if (!isset($data["thumbnail"])) {
                     }
                 }
             });
-            $(uploader).bind("progress", function (a, b) {
+            $(uploader).on("progress", function (a, b) {
                 mw.$("#im-" + b.id + " .uimprogress").width(b.percent + "%").html(b.percent + "%");
             });
-            $(uploader).bind("FileUploaded done", function (e, a) {
-
-
-                if (typeof(a) != 'undefined' && typeof(a.ask_user_to_enable_auto_resizing) != 'undefined') {
-
+            $(uploader).on("done", function (e, a) {
+                after_upld(undefined, 'done');
+            });
+            $(uploader).on("FileUploaded done", function (e, a) {
+                if (a && a.ask_user_to_enable_auto_resizing) {
                     mw.module_pictures.open_image_upload_settings_modal();
-
                 }
-                if ( typeof(a) != 'undefined' &&  typeof(a.image_was_auto_resized_msg) != 'undefined') {
-
-
+                if (a &&  a.image_was_auto_resized_msg) {
                     window.top.mw.notification.warning(a.image_was_auto_resized_msg, 5200);
                 }
-
-                if (typeof(a) != 'undefined') {
-                    setTimeout(function () {
-                        after_upld(a.src, e.type, '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
-                    }, 1300);
-
+                if(a){
+                    after_upld(a.src, e.type, '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
                 }
+
+
             });
             $(".image-tag-view").remove();
             $(".image-tags").each(function () {

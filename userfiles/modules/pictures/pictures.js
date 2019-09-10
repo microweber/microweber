@@ -1,12 +1,10 @@
 mw.module_pictures = {
     after_upload: function (data) {
         $.post(mw.settings.api_url + 'save_media', data,
-            function (data) {
-
+            function (resp) {
+                console.log(data, resp)
             });
-
-        //$('#'+data.for_id).trigger('change').find('[data-type="pictures/admin"]').trigger('change')
-    },
+        },
     time:null,
     after_change: function (data) {
         clearTimeout(mw.module_pictures.time)
@@ -73,7 +71,7 @@ mw.module_pictures = {
           if (confirm('Are you sure you want to delete selected images?')) {
               $.post(mw.settings.api_url + 'delete_media', { ids: id  }, function (data) {
                 $.each(id, function(){
-                  $('.admin-thumb-item-' + this).fadeOut(); 
+                  $('.admin-thumb-item-' + this).fadeOut();
                 })
 
                   mw.module_pictures.after_change()

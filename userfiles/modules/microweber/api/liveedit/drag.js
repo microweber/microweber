@@ -490,7 +490,7 @@ mw.drag = {
         if (!$(mwd.body).hasClass("bup")) {
             mw.$(mwd.body).addClass("bup");
 
-            $(document.body).on('drop', function(e){
+           /* $(document.body).on('drop', function(e){
                 var ev = e.originalEvent || e;
                 if(mw.wysiwyg.isTargetEditable(ev.target)){
                     var items = ev.dataTransfer.items;
@@ -501,7 +501,7 @@ mw.drag = {
                     }
                     ev.preventDefault();
                 }
-            })
+            });*/
 
             mw.$(mwd.body).on("mouseup touchend", function(event) {
                 mw.image._dragcurrent = null;

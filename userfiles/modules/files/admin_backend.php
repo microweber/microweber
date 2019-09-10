@@ -72,7 +72,7 @@
 
         .mw-browser-list .mw-fileico {
             height: 60px;
-            width: 60px;
+            width: 100%;
             display: flex;
             flex-flow: row;
             align-items: center;
@@ -82,23 +82,22 @@
 
         .mw-browser-list-big .mw-fileico {
             height: 150px;
-            width: 150px;
             text-align: center;
-
         }
 
         .mw-browser-list .mw-fileico > span {
             display: block;
             margin: 0 auto;
+            text-transform: uppercase;
+        }
+        .mw-browser-list-big .mw-fileico > span {
+            font-size: 22px;
         }
 
         .posts-selector span:hover {
             text-decoration: underline
         }
 
-        .mw-browser-list:not(.mw-browser-list-big)  li a > span {
-            text-align: left !important;
-        }
 
 
         /* Live Edit */
@@ -366,13 +365,17 @@
 
                     if (isImage) {
                         if (mw.$("#prfile").length == 0) {
-                            mw.tools.modal.init({
+                            var dialog = mw.dialog({
                                 html: createPopHTML(this),
                                 width: 500,
-                                height: 460,
+                                height: 'auto',
+                                autoHeight: true,
                                 name: "prfile",
                                 title: this.split("/").pop()
                             });
+                            $(dialog).on('Remove', function(){
+                                mw.url.windowDeleteHashParam('select-file')
+                            })
                         }
                         else {
                             mw.$("#prfile .mw_modal_container").html(createPopHTML(this))
@@ -380,13 +383,17 @@
                         }
                     }
                     else if (type == 'mp3' || type == 'avi' || type == 'mp4' || type == 'wmv' || type == 'swf') {
-                        mw.tools.modal.init({
+                        var dialog = mw.dialog({
                             html: createPopHTML(this, 'media'),
                             width: 500,
-                            height: 460,
+                            height: 'auto',
+                            autoHeight: true,
                             name: "prfile",
                             title: this.split("/").pop()
                         });
+                        $(dialog).on('Remove', function(){
+                            mw.url.windowDeleteHashParam('select-file')
+                        })
                     }
                     else {
                         if (mw.$("#prfile").length > 0) {

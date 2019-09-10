@@ -181,12 +181,14 @@ Thumbnail size:
                            onclick="mw.url.windowHashParam('select-file', '<?php print mw()->url_manager->link_to_file($item) ?>'); return false;">
                             <?php $ext = strtolower(get_file_extension($item)); ?>
                             <?php if ($ext == 'jpg' or $ext == 'png' or $ext == 'gif' or $ext == 'jpeg' or $ext == 'bmp'): ?>
-                                <img data-src="<?php print thumbnail(mw()->url_manager->link_to_file($item), $tn_size, $tn_size,true); ?>"
-                                     class="<?php print basename($item) ?> image-item-not-ready"/>
+                                <!--<img data-src="<?php print thumbnail(mw()->url_manager->link_to_file($item), $tn_size, $tn_size,true); ?>"
+                                     class="<?php print basename($item) ?> image-item-not-ready"/> -->
+                            <span data-src="<?php print thumbnail(mw()->url_manager->link_to_file($item), $tn_size, $tn_size,true); ?>"
+                                  class="<?php print basename($item) ?> as-image image-item-not-ready"></span>
                             <?php else: ?>
                                 <div class="mw-fileico mw-fileico-<?php print $ext; ?>"><span><?php print $ext; ?></span></div>
                             <?php endif; ?>
-                            <span><?php print basename($item) ?></span>
+                            <span class="mw-browser-list-name"><?php print basename($item) ?></span>
                         </a>
                         <?php $rand = md5($item); ?>
                         <div class="mw-file-item-check">
@@ -201,6 +203,20 @@ Thumbnail size:
                     </li>
                 <?php endforeach; ?>
             </ul>
+        <style>
+
+            .as-image{
+                display: block;
+                height: 60px;
+                width: 100%;
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: center;
+            }
+            .mw-browser-list-big .as-image{
+                height: 150px;
+            }
+        </style>
             <script>
                 rendImages = window.rendImages || function () {
                     var all = mwd.querySelectorAll('.image-item-not-ready'),
@@ -210,7 +226,12 @@ Thumbnail size:
                         var item = all[i];
                         var datasrc = item.getAttribute("data-src");
                         if (mw.tools.inview(item) && datasrc !== null) {
-                            $(item).attr('src', datasrc).removeClass('image-item-not-ready');
+                            if(item.nodeName === 'IMG'){
+                                $(item).attr('src', datasrc).removeClass('image-item-not-ready');
+                            } else {
+                                $(item).css('backgroundImage', 'url(' + datasrc + ')').removeClass('image-item-not-ready');
+                            }
+
                         }
                     }
                 };

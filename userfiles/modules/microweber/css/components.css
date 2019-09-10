@@ -570,16 +570,32 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4 {
 }
 
 .mw-browser-list li {
-    display: inline-block;
     padding: 8px;
     list-style: none;
     position: relative;
     display: block;
-    width: 75px;
+    width: 10%;
+    min-width: 80px;
+}
+.mw-browser-list-big li {
+    width: 20%;
 }
 
-.mw-browser-list.mw-browser-list-big li {
-    width: 235px;
+@media (max-width:1150px) {
+    .mw-browser-list-big li {
+        width: 25%;
+    }
+}
+@media (max-width:700px) {
+    .mw-browser-list-big li {
+        width: 33.3333%;
+    }
+}
+
+@media (max-width:550px) {
+    .mw-browser-list-big li {
+        width: 50%;
+    }
 }
 
 .mw-browser-list li .mw-icon-close {
@@ -630,10 +646,8 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4 {
 }
 
 
-.mw-browser-list a img + span,
-.mw-browser-list a .mw-fileico + span,
-.mw-browser-list a [class*='mw-icon-'] + span,
-.mw-browser-list a [class*='mw-icon-'] + span {
+
+.mw-browser-list-name {
     display: block;
     clear: both;
     overflow: hidden;
