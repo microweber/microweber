@@ -443,7 +443,7 @@ class ContentManager
         if (isset($params['limit'])) {
             $limit = intval($params['limit']);
         }
-		
+
         if (isset($params['class'])) {
             $class = $params['class'];
         }
@@ -476,11 +476,11 @@ class ContentManager
             } else {
                 $to_print = "";
             }
-            
+
             if ($current_page_from_url > 1 && isset($params['show_first_last'])) {
-            	$to_print = '<a data-page-number="'.$data[1].'" href="'.$data[1].'">First</a>'; 
+                $to_print = '<a data-page-number="' . $data[1] . '" href="' . $data[1] . '">First</a>';
             }
-            
+
             $paging_items = array();
             $active_item = 1;
             foreach ($data as $key => $value) {
@@ -542,9 +542,9 @@ class ContentManager
                 }
 
                 if (isset($params['show_first_last'])) {
-                	$limited_paging[] = '<a data-page-number="'.end($data).'" href="'.end($data).'">Last</a>';
+                    $limited_paging[] = '<a data-page-number="' . end($data) . '" href="' . end($data) . '">Last</a>';
                 }
-                
+
                 if (count($limited_paging) > 2) {
                     $paging_items = $limited_paging;
                 }
@@ -562,7 +562,7 @@ class ContentManager
         }
     }
 
-    public function paging_links($base_url = false, $pages_count, $paging_param = 'curent_page', $keyword_param = 'keyword')
+    public function paging_links($base_url = false, $pages_count, $paging_param = 'current_page', $keyword_param = 'keyword')
     {
         if ($base_url == false) {
             if ($this->app->url_manager->is_ajax() == false) {
@@ -580,16 +580,48 @@ class ContentManager
         if (strpos($the_url, '?')) {
             $the_url = substr($the_url, 0, strpos($the_url, '?'));
         }
+        $get_params = array();
+        $get_params_append = '';
+        if ($_GET) {
+            $get_params = array_merge($get_params,$_GET);
+        }
+
+        if (isset($get_params[$paging_param])) {
+            unset($get_params[$paging_param]);
+        }
+
+        if ($get_params) {
+
+            $get_params_append = implode('&', array_map(
+                function ($v, $k) {
+                    return sprintf("%s=%s", $k, $v);
+                },
+                $get_params,
+                array_keys($get_params)
+            ));
+
+        }
 
         $in_empty_url = false;
         if ($the_url == site_url()) {
             $in_empty_url = 1;
         }
 
+
+        if ($get_params_append) {
+            if (stristr($base_url,  '?') == false) {
+                $append_to_links = '?' . $get_params_append;
+            } else {
+                $append_to_links = '&' . $get_params_append;
+
+            }
+        }
+
         $the_url = explode('/', $the_url);
         for ($x = 1; $x <= $pages_count; ++$x) {
             $new = array();
             foreach ($the_url as $itm) {
+
                 $itm = explode(':', $itm);
                 if ($itm[0] == $paging_param) {
                     $itm[1] = $x;
@@ -597,22 +629,39 @@ class ContentManager
                 $new[] = implode(':', $itm);
             }
             $new_url = implode('/', $new);
-            $page_links[$x] = $new_url . $append_to_links;
+
+
+           // $page_links[$x] = $new_url . $append_to_links;
+            $page_links[$x] = $new_url ;
         }
+
+
         $count = count($page_links);
         for ($x = 1; $x <= $count; ++$x) {
             if (stristr($page_links[$x], $paging_param . ':') == false) {
                 if ($in_empty_url == false) {
                     $l = reduce_double_slashes($page_links[$x] . '/' . $paging_param . ':' . $x);
+                    if ($get_params_append) {
+                       $l = $l . '?' . $get_params_append;
+                    }
                 } else {
-                    $l = reduce_double_slashes($page_links[$x] . '?' . $paging_param . ':' . $x);
+                    $l = reduce_double_slashes($page_links[$x] . '?' . $paging_param . '=' . $x);
+                    if ($get_params_append) {
+                     $l = $l . '&' . $get_params_append;
+                    }
+                }
+
+                $l = reduce_double_slashes($page_links[$x] . '?' . $paging_param . '=' . $x);
+                if ($get_params_append) {
+                    $l = $l . '&' . $get_params_append;
                 }
                 $l = str_ireplace('module/', '', $l);
-                $page_links[$x] = $l . $append_to_links;
+                $page_links[$x] = $l ;
+                //$page_links[$x] = $l . $append_to_links;
+                //$page_links[$x] = $l . $append_to_links;
             }
         }
-
-        return $page_links;
+         return $page_links;
     }
 
     /**

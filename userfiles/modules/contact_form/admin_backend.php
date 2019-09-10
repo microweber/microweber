@@ -70,17 +70,6 @@
  
             <div>
 
-           <!--
-            <div class="mw-ui-btn-nav m-b-10">
-                <a class="mw-ui-btn <?php if ($load_list == 'default') { ?>active<?php } ?>" href="<?php print $config['url']; ?>/load_list:default"><?php _e('Default list'); ?></a>
-                <?php $data = get_form_lists('module_name=contact_form'); ?>
-                <?php if (is_array($data)): ?>
-                    <?php foreach ($data as $item): ?>
-                        <a class="mw-ui-btn <?php if ($load_list == $item['id']) { ?> active <?php } ?>" href="<?php print $config['url']; ?>/load_list:<?php print $item['id']; ?>"><?php print $item['title']; ?></a>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </div>
-            -->
 
 
 	             <div class="contact-head">
@@ -88,7 +77,7 @@
                      <div class="mw-field" size="large">
                         <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);" style="margin-left:15px;width:200px;">
                         <option value=""><?php _e('Select from lists'); ?></option>
-                        <option value="load_module:contact_form"><?php _e('Default list'); ?></option>
+                        <option value="<?php print $config['url']; ?>"><?php _e('Default list'); ?></option>
                          <?php $data = get_form_lists('module_name=contact_form'); ?>
                         <?php if (is_array($data)): ?>
                         <?php foreach ($data as $item): ?>
