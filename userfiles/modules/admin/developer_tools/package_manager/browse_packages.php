@@ -52,10 +52,10 @@ if (isset($packages_by_type['microweber-core-update']) and !empty($packages_by_t
     <div class="pull-right ">
 
 
-        <div class="top-search">
+        <div class="mw-field top-search">
             <input value="" name="module_keyword" placeholder="Search" type="text" autocomplete="off"
                    onkeyup="event.keyCode==13?mw.url.windowHashParam('search',this.value):false">
-            <span class="top-form-submit" onclick="mw.url.windowHashParam('search',$(this).prev().val())"><span
+            <span class="mw-ui-btn mw-field-append" onclick="mw.url.windowHashParam('search',$(this).prev().val())"><span
                         class="mw-icon-search"></span></span>
         </div>
 

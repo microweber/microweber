@@ -337,13 +337,13 @@ if ($last_page_front != false) {
                                     <?php endif; ?>
 
                                     <div class="pull-right relative m-r-10">
-                                        <div class="top-search">
+                                        <div class="mw-field top-search">
                                             <input value="<?php if (isset($params['keyword']) and $params['keyword'] != false): ?><?php print $params['keyword'] ?><?php endif; ?>"
                                                 <?php if (isset($params['keyword']) and $params['keyword'] != false): ?> autofocus="autofocus"
                                                 <?php endif; ?>
                                                    placeholder="<?php _e("Search"); ?>" type="text"
                                                    onkeyup="event.keyCode==13?mw.url.windowHashParam('search',this.value):false"/>
-                                            <span class="top-form-submit"
+                                            <span class="mw-ui-btn mw-field-append"
                                                   onclick="mw.url.windowHashParam('search',$(this).prev().val())"><span
                                                     class="mw-icon-search"></span></span>
                                         </div>
