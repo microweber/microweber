@@ -80,7 +80,7 @@ if (!empty($data)) {
 		$fields_group[$group_i][] = $field;
 	}
 }
-
+$prined_items_count = false; 
 $ready_fields_group = array();
 foreach($fields_group as $field_group_key=>$fields) {
 
