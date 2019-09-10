@@ -79,10 +79,10 @@ if ($last_messages == null) {
                             <?php if (isset($message['custom_fields']) and  $message['custom_fields'] and !empty($message['custom_fields'])): ?>
                                 <?php $fields_ch = array_chunk($message['custom_fields'], 3, true) ?>
                                 <?php foreach ($fields_ch as $key_c => $fields): ?>
-                                    <?php $service_keys = array('For Id', 'For', 'Module Name'); ?>
+                                    <?php $service_keys = array('For Id', 'For', 'Module Name', 'Form Id', 'Submit'); ?>
                                     <div class="pull-left">
                                         <?php foreach ($fields as $key => $field): ?>
-                                            <?php if (!in_array(mw()->format->titlelize($key), $service_keys)): ?>
+                                            <?php if ($field and !in_array(mw()->format->titlelize($key), $service_keys)): ?>
                                                 <div class="box">
                                                     <p class="label"><?php print  mw()->format->titlelize($key); ?></p>
                                                     <p class="content">

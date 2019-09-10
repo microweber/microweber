@@ -32,7 +32,7 @@
 
     .js-limited.more {
         white-space: inherit;
-		word-wrap: break-word;
+        word-wrap: break-word;
     }
 
     .js-toggle-full {
@@ -67,30 +67,41 @@ if (isset($params['load_list'])) {
 }
 
 
-$listData = get_form_lists("id=".$data['list_id']."&limit=1");
+$listData = get_form_lists("id=" . $data['list_id'] . "&limit=1");
 $listData = $listData[0];
 
-
+$limit = 30;
 if (isset($params['keyword'])) {
     $data['keyword'] = $params['keyword'];
 }
 if (isset($params['for_module'])) {
-    $data['module_name'] = $params['for_module'];
+    //$data['module_name'] = $params['for_module'];
+}
+if (isset($_GET['per_page']) and $_GET['per_page']) {
+    $limit = intval($_GET['per_page']);
 }
 
+//if (isset($_GET['per_page'])) {
+//	$option = array();
+//	$option['option_value'] = intval($_GET['per_page']);
+//	$option['option_key'] = 'per_page';
+//	$option['option_group'] = $params['for_module'];
+//	save_option($option);
+//}
+//
+//$data['limit'] = get_option('per_page', $params['for_module']);
+$data_count_all = $data;
+$data_count_all['limit'] = null;
+$data_count_all['count'] = true;
+$total_count = get_form_entires($data_count_all);
 
-if (isset($_GET['per_page'])) {
-	$option = array();
-	$option['option_value'] = intval($_GET['per_page']);
-	$option['option_key'] = 'per_page';
-	$option['option_group'] = $params['for_module'];
-	save_option($option);
-}
 
-$data['limit'] = get_option('per_page', $params['for_module']);
-
+$data['limit'] = $limit;
 $custom_fields = array();
 
+if ((url_param('current_page') != false)) {
+    $data['current_page'] = url_param('current_page');
+}
 
 $data_paging = $data;
 $data_paging['page_count'] = 1;
@@ -98,17 +109,15 @@ $data_paging['page_count'] = 1;
 
 $data_paging = get_form_entires($data_paging);
 
-if ((url_param('current_page') != false)) {
-    $data['current_page'] = url_param('current_page');
-}
+//
+//if ($data['limit'] == false) {
+//	$data['limit'] = 10;
+//}
 
-if ($data['limit'] == false) {
-	$data['limit'] = 10;
-}
-
-$limit_per_page = $data['limit'];
-
+//$limit_per_page = $data['limit'];
+$limit_per_page = 50;
 $custom_fields = array();
+
 $data = get_form_entires($data);
 
 if (is_array($data)) {
@@ -136,7 +145,8 @@ if (is_array($data)) {
 ?>
 
 <div class="table-responsive table-scroll-visible">
-    <table id="table_data_<?php print $params['id'] ?>" cellspacing="0" cellpadding="0" width="100%" class="mw-ui-table table-style-2 layout-auto">
+    <table id="table_data_<?php print $params['id'] ?>" cellspacing="0" cellpadding="0" width="100%"
+           class="mw-ui-table table-style-2 layout-auto">
         <thead>
         <tr>
             <th class="mw-ui-table-small"><?php _e("ID"); ?></th>
@@ -156,7 +166,10 @@ if (is_array($data)) {
                 <tr class="mw-form-entry-item mw-form-entry-item-<?php print $item['id'] ?>">
                     <td><?php print $item['id'] ?></td>
                     <td style="text-align: center;" class="entry-col">
-                        <div class="mw-date" title="<?php print mw()->format->ago($item['created_at'], 1); ?>"><?php print mw()->format->date($item['created_at'], 'd M Y H'); ?>h</div>
+                        <div class="mw-date"
+                             title="<?php print mw()->format->ago($item['created_at'], 1); ?>"><?php print mw()->format->date($item['created_at'], 'd M Y H:i'); ?>
+
+                        </div>
                     </td>
 
                     <?php
@@ -182,7 +195,7 @@ if (is_array($data)) {
                                 if (is_array($values_plain)) {
                                     $values_plain = mw()->format->array_to_ul($val_print);
                                 }
-								
+
                                 //var_dump($values_plain);
                                 //                                $max = 150;
                                 //                                if (strlen($values_plain) > $max) {
@@ -198,7 +211,8 @@ if (is_array($data)) {
                                     <div class="js-limited">
                                         <?php print $values_plain; ?>
                                         <br/>
-                                        <button class="js-toggle-full mw-ui-btn mw-ui-btn-info mw-ui-btn-small mw-ui-btn-outline"><span>show more</span><span>show less</span></button>
+                                        <button class="js-toggle-full mw-ui-btn mw-ui-btn-info mw-ui-btn-small mw-ui-btn-outline">
+                                            <span>show more</span><span>show less</span></button>
                                     </div>
                                 <?php else: ?>
                                     <?php print $values_plain; ?>
@@ -207,7 +221,9 @@ if (is_array($data)) {
                         <?php endforeach; ?>
                     <?php endif; ?>
                     <td class="mw-ui-table-delete-item">
-                        <a class="mw-ui-btn mw-ui-btn-icon mw-ui-btn-important mw-ui-btn-outline mw-ui-btn-medium" href="javascript:mw.forms_data_manager.delete('<?php print $item['id'] ?>','.mw-form-entry-item-<?php print $item['id'] ?>');"><span class="mw-icon-bin"></span></a>
+                        <a class="mw-ui-btn mw-ui-btn-icon mw-ui-btn-important mw-ui-btn-outline mw-ui-btn-medium"
+                           href="javascript:mw.forms_data_manager.delete('<?php print $item['id'] ?>','.mw-form-entry-item-<?php print $item['id'] ?>');"><span
+                                    class="mw-icon-bin"></span></a>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -220,67 +236,60 @@ if (is_array($data)) {
     </table>
 </div>
 
-<div class="mw-ui-row">
+<div class="mw-ui-row m-t-20">
 
-<?php 
-$load_list = 'default';
-if ((url_param('load_list') != false)) {
-	$load_list = url_param('load_list');
-}
-if ($load_list == 1) {
-	$load_list = 'default';
-}
-?>
+    <?php
+    $load_list = 'default';
+    if ((url_param('load_list') != false)) {
+        $load_list = url_param('load_list');
+    }
+    if ($load_list == 1) {
+        $load_list = 'default';
+    }
 
- <div class="mw-ui-col">
- 
-<?php if (strtolower(trim($load_list)) != 'default'): ?>
 
-  <span class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-important mw-ui-delete" onclick="mw.forms_data_manager.delete_list('<?php print addslashes($load_list); ?>');">
-  <?php _e("Delete");?> <b><?php echo $listData['title']; ?></b> <?php _e("list"); ?>
-  </span>
-  <?php endif; ?>
- </div>
+    ?>
 
-<?php if (is_array($data) && !empty($data)) : ?>
-<?php if(count($data) > $limit_per_page): ?>   
-
-<div class="mw-ui-col text-center" style="width: 70%">
-    <div class="mw-paging mw-paging- mw-paging- inline-block">
-    <?php print paging("num=$data_paging"); ?> 
+    <div class="mw-ui-col">
+        <?php if (strtolower(trim($load_list)) != 'default'): ?>
+            <span class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-important mw-ui-delete"
+                  onclick="mw.forms_data_manager.delete_list('<?php print addslashes($load_list); ?>');">
+                    <?php _e("Delete"); ?>&nbsp;<b><?php echo $listData['title']; ?></b>&nbsp;<?php _e("list"); ?>
+                </span>
+        <?php endif; ?>
     </div>
-    <?php if (isset($params['export_to_excel'])) : ?>
+
+    <?php if (is_array($data) && !empty($data)) : ?>
+        <div class="mw-ui-col text-center" style="width: 70%">
+            <div class="mw-paging mw-paging- mw-paging- inline-block">
+                <?php print paging("num=$data_paging"); ?>
+            </div>
+            <?php if (isset($params['export_to_excel'])) : ?>
+            <?php endif; ?>
+            <?php if (isset($params['export_to_excel'])) : ?>
+            <?php endif; ?>
+        </div>
+
+        <div class="mw-ui-col" style="width: 240px;">
+            <div class="mw-field" style="width:100%;" data-before="<?php _e('Show items per page'); ?>">
+                <form method="get">
+                    <select name="per_page" onchange="this.form.submit()">
+                        <option value="">Select</option>
+                        <option value="10" <?php if ($limit == 30): ?>  selected  <?php endif; ?>>30</option>
+                        <option value="50" <?php if ($limit == 50): ?>  selected  <?php endif; ?>>50</option>
+                        <option value="100" <?php if ($limit == 100): ?>  selected  <?php endif; ?>>100</option>
+                        <option value="200" <?php if ($limit == 200): ?>  selected  <?php endif; ?>>200</option>
+                    </select>
+
+
+                </form>
+            </div>
+            <br/><br/>
+            <div class="text-right">
+                <strong><?php print _e('Total'); ?>:</strong>
+                <span><?php echo ($total_count); ?> messages in this list</span>
+            </div>
+        </div>
     <?php endif; ?>
-    <?php if (isset($params['export_to_excel'])) : ?>
-    <?php endif; ?>
-</div>
-
-<div class="mw-ui-col">
-    <div class="mw-field" style="width:100%;" data-before="<?php _e('Show items per page'); ?>">
-        <select onchange="if (this.value) window.location.href=this.value">
-            <option value="">Select</option>
-            <option value="?per_page=10">10</option>
-             <option value="?per_page=50">50</option>
-            <option value="?per_page=100">100</option> 
-            <option value="?per_page=200">200</option>
-        </select>
-    </div>
-    <br /><br />
-  <div class="text-right">
-        <strong><?php print _e('Total'); ?>:</strong>
-        <span><?php echo count($data); ?> messages in this list</span>
-    </div>
-</div>
-<?php endif; ?>
-<?php endif; ?>
 
 </div>
-
-<?php
-/*<div id="start-email-campaign"> <a class="mw-ui-btn pull-right" href="javascript:;" onclick="Alert('<?php _e("Coming Soon"); ?>!');" >
-  <?php _e("Start an Email Campaign"); ?>
-  </a> <span class="pull-right" style="margin: 9px 20px 0 0;">
-  <?php _e("Get more from your mailing lists, send email to your users"); ?>
-  </span> </div>*/
-
-?>
