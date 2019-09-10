@@ -1963,9 +1963,13 @@ class DefaultController extends Controller
 
                 if(!$back_to_editmode){
                     if(isset($_COOKIE['mw-back-to-live-edit']) and $_COOKIE['mw-back-to-live-edit']){
+                        if($is_admin){
                         $is_editmode = true;
+                        }
                     }
                 }
+
+
             }
 
             if ($is_editmode == true and $this->isolate_by_html_id == false and !isset($_REQUEST['isolate_content_field'])) {
@@ -2008,7 +2012,7 @@ class DefaultController extends Controller
                     $back_to_editmode = $this->app->user_manager->session_get('back_to_editmode');
 
                     if(!$back_to_editmode){
-                        if(isset($_COOKIE['mw-back-to-live-edit'])){
+                        if(isset($_COOKIE['mw-back-to-live-edit']) and $is_admin){
                             $back_to_editmode = $_COOKIE['mw-back-to-live-edit'];
                         }
                     }
