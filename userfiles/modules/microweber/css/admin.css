@@ -4706,42 +4706,8 @@ html[dir="rtl"] #upload-icoimage {
     border-right-width: 0px;
 }
 
-.top-search {
-    border: 1px solid #a8a8a8;
-    height: 32px;
-    width: 190px;
-    background: #f5f5f5;
-    border-radius: 2px;
-    position: relative;
-    right: 0;
-}
 
-.top-search input {
-    width: 148px !important;
-    height: 30px;
-    padding: 10px;
-    border: none;
-    outline: none;
-    float: left;
-    position: absolute;
 
-    width: 100%;
-    color: #000;
-    background: #f8f8f8;
-    width: 100%;
-    border-color: #c2c2c2;
-}
-
-.top-search input:focus {
-    background: #fff;
-    border-color: #82c4ed;
-    -webkit-box-shadow: 0 0 10px #82c4ed;
-    box-shadow: 0 0 10px #82c4ed;
-}
-
-.top-search .top-form-submit {
-    background: transparent;
-}
 
 .golive-button {
 

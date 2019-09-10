@@ -278,14 +278,28 @@
 
 
                 <div class="top-search pull-right">
-                    <input value="" name="module_keyword" placeholder='<?php _e("Search for modules"); ?>' type="text" autocomplete="off" onkeyup="event.keyCode==13?mw.url.windowHashParam('search',this.value):false">
-                    <span class="top-form-submit" onclick="mw.url.windowHashParam('search',$(this).prev().val())"><span class="mw-icon-search"></span></span>
+                    <div class="mw-field">
+                        <input
+                            value=""
+                            name="module_keyword"
+                            placeholder='<?php _e("Search for modules"); ?>'
+                            type="text"
+                            autocomplete="off"
+                            onkeyup="event.keyCode===13?mw.url.windowHashParam('search',this.value):false">
+                        <span class="mw-ui-btn mw-field-append" onclick="mw.url.windowHashParam('search',$(this).prev().val())"><span class="mw-icon-search"></span></span>
+
+                    </div>
+
                 </div>
 
                 <?php if (mw()->ui->disable_marketplace != true): ?>
 
 
-               <a  href="<?php print admin_url(); ?>view:packages"   class="mw-ui-btn mw-ui-btn-info m-r-10">   <span class="mai-market"></span>  <?php _e("Marketplace"); ?></a>
+               <a  href="<?php print admin_url(); ?>view:packages" class="mw-ui-btn mw-ui-btn-info m-r-10">
+                   <span class="mai-market"></span>
+                   &nbsp;
+                   <?php _e("Marketplace"); ?>
+               </a>
                 <?php endif; ?>
 
             </div>
@@ -325,9 +339,16 @@
                 </div>
             </div>
 
-            <button onclick="mw_reload_all_modules()" class="mw-ui-btn mw-ui-btn-notification tip reload-module-btn pull-right" data-tip="<?php _e("Reload modules"); ?>"><span class="mw-icon-reload"></span> <?php _e("Reload modules"); ?></button>
+            <span
+                onclick="mw_reload_all_modules()"
+                class="mw-ui-btn mw-ui-btn-notification tip reload-module-btn pull-right"
+                data-tip="<?php _e("Reload modules"); ?>">
+                <span class="mw-icon-reload"></span>
+                &nbsp;
+                <?php _e("Reload modules"); ?>
+            </span>
         </div>
-        
+
         <div class="mw-ui-box mw-ui-box-content mw-modules-admin-holder">
             <div id="modules_admin_<?php print $params['id']; ?>"></div>
             <div id="modules_market_<?php print $params['id']; ?>"></div>

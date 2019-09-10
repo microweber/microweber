@@ -585,12 +585,16 @@ div.mw-ui-field:after {
     &[data-before]:before,
     &[data-after]:after{
         display: block;
-        background-color: #e1e1e1;
-        padding: 0 12px;
+        white-space: nowrap;
+    }
+    [class="mw-field-append"],
+    [class="mw-field-prepend"],
+    &[data-before]:before,
+    &[data-after]:after{
         border: 1px solid #cfcfcf;
         box-shadow: inset 1px 1px 4px 0px rgba(0,0,0,.1);
-        white-space: nowrap;
-
+        background-color: #e1e1e1;
+        padding: 0 12px;
     }
     &[data-before]:before{
         content: attr(data-before);
