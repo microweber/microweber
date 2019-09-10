@@ -66,6 +66,11 @@ $(document).ready(function() {
         root: document.body,
         autoSelect: false
     });
+
+    mw.paddingCTRL = new mw.paddingEditor({
+
+    });
+
     mw.$(document.body).on('touchmove mousemove', function(){
         if(mw.liveEditSelector.interactors.active) {
             if( !mw.liveedit.data.get('move', 'hasModuleOrElement') ){
@@ -300,10 +305,6 @@ $(document).ready(function() {
     mw.$('span.mw-powered-by').on("click", function(e) {
         mw.tools.open_global_module_settings_modal('white_label/admin', 'mw-powered-by');
         return false;
-    });
-
-    mw.paddingCTRL = new mw.paddingEditor({
-
     });
 
     mw.wysiwyg.init_editables();
