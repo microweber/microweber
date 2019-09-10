@@ -5666,10 +5666,17 @@ mw.extradataForm = function (options, data) {
             mw.$(form).on('submit', function (e) {
                 e.preventDefault();
                 var exdata = mw.serializeFields(this);
+                if(typeof options.data === 'string'){
+                    var params = {};
+                    options.data.split('&').forEach(function(a){
+                        var c = a.split('=');
+                        params[c[0]] = c[1];
+                    });
+                    options.data = params;
+                }
                 for (var i in exdata) {
                     options.data[i] = exdata[i];
                 }
-
 
                 mw.ajax(options);
                 form.__modal.remove();
