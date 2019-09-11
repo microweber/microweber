@@ -2,6 +2,20 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.1.11] - 2019-09-11
+- Various live edit fixes
+- Fixes on the custom fields module to support templates 
+- Fixes on the contact form module that was not saving in lists
+- Fixes on the file browser module
+- Fixes the text formating while elements has .safe-mode class 
+- Fixes of the categories_images module to have more flexible selection 
+- Fixes of the twitter feed and instagram feed module to cache the request 
+- Fixes of accordeon module 
+- Fixes of live edti toolbar  
+- Added ability to change background image position 
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.1.10...1.1.11 "")
+
 ## [1.1.10] - 2019-08-02
 - Various live edit fixes
 - Fixes on the new modal window
