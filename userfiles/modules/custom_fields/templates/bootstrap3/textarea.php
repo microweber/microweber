@@ -1,14 +1,16 @@
 <div class="col-md-<?php echo $settings['field_size']; ?>">
-<div class="form-group">
-	<label> 
-	<?php echo $data['name']; ?>
-	<?php if ($settings['required']): ?>
-	<span style="color: red;">*</span>
-	<?php endif; ?>
-	</label>
-	 <?php if ($data['help']): ?>
-    <small class="mw-custom-field-help"><?php echo $data['help']; ?></small>
-    <?php endif; ?>
-	<textarea type="text" rows="<?php echo $settings['rows']; ?>" class="mw-ui-field form-control" <?php if ($settings['required']): ?>required="true"<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name']; ?>" placeholder="<?php echo $data['placeholder']; ?>"></textarea>
-</div>
+    <div class="form-group">
+        <label class="control-label">
+            <?php echo $data['name']; ?>
+            <?php if ($settings['required']): ?>
+                <span style="color: red;">*</span>
+            <?php endif; ?>
+        </label>
+
+        <textarea type="text" rows="<?php echo $settings['rows']; ?>" class="form-control" <?php if ($settings['required']): ?>required="true"<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name']; ?>" placeholder="<?php echo $data['placeholder']; ?>"></textarea>
+
+        <?php if ($data['help']): ?>
+            <span class="help-block"><?php echo $data['help']; ?></span>
+        <?php endif; ?>
+    </div>
 </div>
