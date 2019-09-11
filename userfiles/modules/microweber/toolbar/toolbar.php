@@ -344,7 +344,7 @@ if (isset($_COOKIE['mw_exp'])) {
                                 $pt_opts['active_code_tag'] = 'class="active"';
                                 mw()->content_manager->pages_tree($pt_opts);
                                 ?>
-                                <a id="backtoadminindropdown" class="mw-ui-btn mw-ui-btn-invert"
+                                <a id="backtoadminindropdown"
                                    href="<?php print $back_url; ?>" title="<?php _e("Back to Admin"); ?>"> <span
                                             class="mw-icon-back"></span><span><?php _e("Back to Admin"); ?></span> </a>
                             </div>

@@ -781,15 +781,12 @@ html.mw_pages #items_handle {
 
 #backtoadminindropdown {
     border-radius: 0;
-    display: block;
-    text-align: left;
+    display: flex;
     background-color: #0084D8;
     color: #fff;
+    padding: 10px;
 }
 
-#backtoadminindropdown .mw-icon-back {
-    top: -1px;
-}
 
 /****************************
       Design tool
@@ -3368,15 +3365,14 @@ body.touchscreen-device #modules-and-layouts-sidebar .module-admin-modules-list 
 
 .toolbar-sections-tabs i.mw-icon-plus {
     font-size: 14px;
-    margin: 0 !important;
+    margin: 0;
     background: #0086db;
     color: #fff;
-    -webkit-border-radius: 30px;
-    -moz-border-radius: 30px;
     border-radius: 30px;
     width: 16px;
     height: 16px;
-    padding: 1px;
+    line-height: 16px;
+    padding: 0px;
 }
 
 .view-website-button {

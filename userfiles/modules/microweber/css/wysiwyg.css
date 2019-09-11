@@ -505,10 +505,6 @@
     display: inline-block;
 }
 
-#history_dd {
-    position: relative;
-}
-
 #mw-history-panel {
     left: -22px;
     width: 150px;

@@ -3832,12 +3832,12 @@ mw.tools = {
             },
             set: function (v, action) {
                 if (v > 100) {
-                    var v = 100;
+                    v = 100;
                 }
                 if (v < 0) {
-                    var v = 0;
+                    v = 0;
                 }
-                var action = action || this.progress.progressInfo.action;
+                action = action || this.progress.progressInfo.action;
                 mw.$('.mw-ui-progress-bar', this.progress).css('width', v + '%');
                 mw.$('.mw-ui-progress-percent', this.progress).html(v + '%');
             }
