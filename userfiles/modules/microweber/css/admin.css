@@ -2436,10 +2436,10 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
 
 .post-states-tip-nav .mw-ui-btn {
     border: none;
-    display: block;
     background-color: transparent;
     padding-left: 14px;
     padding-right: 14px;
+    justify-content: left;
 }
 
 .post-states-tip-nav .mw-ui-btn:hover {
@@ -4728,23 +4728,6 @@ html[dir="rtl"] #upload-icoimage {
 }
 
 @media (max-width: 1140px) {
-
-    .top-search {
-        width: 36px;
-    }
-
-    .top-search:hover, .top-search.focused {
-        width: 150px;
-    }
-
-    .top-search input {
-        display: none;
-    }
-
-    .top-search:hover input,
-    .top-search.focused input {
-        display: block;
-    }
 
     .editbtn {
         background-position: center;

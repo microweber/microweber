@@ -84,6 +84,7 @@ $here = mw_includes_url() . 'toolbar/editor_tools/plupload/';
             var params = mw.url.getUrlParams(uploader.settings.url);
             var u = base + "?" + json2url(params) + "&" + json2url(data);
             uploader.settings.url = u;
+            uploader.setOption('url', u);
 
           }
         uploader.init();

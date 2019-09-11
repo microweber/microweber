@@ -4,7 +4,7 @@
 
 
     CreateCategoryForPost = function (step) {
-        
+
         mw.$("#category-not-found-name").html(mw.$('#quick-tag-field').val());
         if (step === 0) {
             mw.$("#category-tree-not-found-message").hide();
@@ -37,18 +37,14 @@
             //  var parent = mw.tools.hasClass(parent, 'is_page') ? 'content_id' : 'parent_id';
             var data = {
                 title: mw.$('#quick-tag-field').val()
-            }
+            };
             data[parent] = checked.value;
             //data[parent] = checked.value;
             $.post(mw.settings.api_url + "category/save", data, function () {
                 mw.reload_module("categories/selector", function (el) {
-
                     mw.$("#category-tree-not-found-message").hide();
                     mw.$("#parent-category-selector-block").show();
-                    mw.treeRenderer.appendUI('#' + $(el).attr('id'));
-
                 })
-
             });
         }
     }
