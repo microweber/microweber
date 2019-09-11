@@ -176,40 +176,6 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
                                                 })
 
 
-                                                /*
-
-                                                var atcmplt = $("<div style='display: inline-block;'></div>");
-
-                                                $(".post-category-tags").after(atcmplt);
-
-                                                var atData = [];
-
-                                                $.each(tdata, function () {
-                                                    var item = Object.assign({}, this);
-
-                                                    item.id =  item.id;
-                                                    atData.push(item)
-                                                });
-
-
-                                                categorySelector.autoComplete = new mw.autoComplete({
-                                                    data: atData,
-                                                    element:atcmplt
-                                                });
-
-                                                $(categorySelector.autoComplete).on('change', function(e, val){
-
-                                                    categorySelector.tree.select(val);
-                                                    $(".mw-tree-selector").show();
-
-                                                    var el = categorySelector.tree.list.querySelector('[data-id="'+val.id+'"][data-type="'+val.type+'"]');
-                                                    mw.tools.highlight(el);
-                                                    if(el){
-                                                        el.scrollIntoView();
-                                                    }
-
-                                                });*/
-
                                             });
 
                                             $(categorySelector.tags).on("tagClick", function (e, data) {

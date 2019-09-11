@@ -285,13 +285,6 @@ $paging_links = false;
                 arr.forever = true;
                 mw.post_undelete(arr, function () {
                     mw.reload_module("pages", function () {
-                        if (!!mw.treeRenderer) {
-                            var isel = $('#pages_tree_toolbar');
-                            if (isel.length > 0) {
-                                mw.treeRenderer.appendUI('.mw_pages_posts_tree');
-                                mw.tools.tree.recall(mwd.querySelector('.mw_pages_posts_tree'));
-                            }
-                        }
 
                     });
                     mw.reload_module('#<?php print $params['id'] ?>', function () {
@@ -310,17 +303,10 @@ $paging_links = false;
 
                     mw.reload_module("pages", function () {
                         mw.$(".mw_pages_posts_tree").removeClass("activated");
-                        if (!!mw.treeRenderer) {
-                            var isel = $('#pages_tree_toolbar');
-                            if (isel.length > 0) {
-                                mw.treeRenderer.appendUI('.mw_pages_posts_tree');
-                                mw.tools.tree.recall(mwd.querySelector('.mw_pages_posts_tree'));
-                            }
-                            mw.notification.success("<?php _e('Content is restored!'); ?>");
-                            mw.reload_module('#<?php print $params['id'] ?>', function () {
+                        mw.notification.success("<?php _e('Content is restored!'); ?>");
+                        mw.reload_module('#<?php print $params['id'] ?>', function () {
 
-                            });
-                        }
+                        });
                     });
 
 

@@ -750,7 +750,7 @@ mw.lib.require('nestedsortable');
     };
     mw.tree = mwtree;
     mw.tree.get = function (a) {
-        var a = mw.$(a)[0];
+        a = mw.$(a)[0];
         if(!a) return;
         if(mw.tools.hasClass(a, 'mw-tree-nav')){
             return a._tree;

@@ -1,6 +1,4 @@
-<script type="text/javascript">
-    <?php include_once(mw_includes_path() . 'api/treerenderer.php'); ?>
-</script>
+
 <?php if (isset($params['show_edit_categories_admin_link'])): ?>
     <style>
         .category-tree-icon-category-editable-hover-crtl {

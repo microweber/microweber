@@ -9,7 +9,6 @@
 <script type="text/javascript">
 
 
-    <?php include mw_includes_path() . 'api/treerenderer.php'; ?>
 
 
     mw.menu_add_new = function () {
@@ -25,7 +24,6 @@
         $.post("<?php print api_link('content/menu_create') ?>", obj, function (data) {
             window.location.href = window.location.href;
 
-            menuSelectorInit();
         });
     };
 
@@ -53,67 +51,10 @@
     mw.menu_edit_items = function ($menu_name, $selector) {
         mw.$($selector).attr('menu-name', $menu_name);
         mw.load_module('menu/edit_items', $selector);
-        menuSelectorInit();
+
     };
 
-    menuSelectorInit = function (selector) {
 
-
-        var selector = selector || "#menu-selector";
-        mw.treeRenderer.appendUI(selector);
-
-        var items = mw.$(selector + ' input[type="radio"]');
-
-        if (items == null) {
-            return;
-        }
-        if (!$.fn.commuter) {
-            return;
-
-        }
-        items.commuter(function () {
-            var data = {};
-            var content_id = mw.$("[name='content_id']:checked");
-            var categories_id = mw.$("[name='category_id']:checked");
-
-            if (typeof(mw.menu_curenlty_editing_item_id) != 'undefined' && mw.menu_curenlty_editing_item_id != false) {
-                //	data.id = mw.menu_curenlty_editing_item_id;
-                var save_selector = '#custom_link_inline_controller_edit_' + mw.menu_curenlty_editing_item_id;
-                var title_for_item = mw.$("[name='title']", save_selector);
-                var tree_content_id = mw.$("[name='tree_content_id']:checked", save_selector);
-                var tree_cat_id = mw.$("[name='tree_cat_id']:checked", save_selector);
-                if (title_for_item) {
-                    var title_for_item_val = title_for_item.val()
-                    if (title_for_item_val) {
-                        data.title = title_for_item_val;
-                    }
-                }
-
-                if (tree_content_id) {
-                    var content_id = tree_content_id;
-                    var categories_id = tree_cat_id;
-                }
-                data.id = mw.menu_curenlty_editing_item_id;
-                data.url = null;
-
-            } else {
-                var get_parent_id = $('#add-custom-link-parent-id').val();
-                if (get_parent_id) {
-                    data.parent_id = get_parent_id;
-                }
-            }
-
-            data.content_id = content_id.val();
-            data.categories_id = categories_id.val();
-            content_id.val('');
-            categories_id.val('');
-            $.post("<?php print api_link('content/menu_item_save'); ?>", data, function (msg) {
-                parent.mw.reload_module('menu');
-                mw.reload_module('menu/edit_items');
-            });
-            mw.$(selector).hide();
-        });
-    }
 
     view_all_subs = function () {
         var master = mwd.querySelector('.mw-modules-admin');
@@ -142,9 +83,7 @@
     };
 
 
-    $(document).ready(function () {
-        menuSelectorInit();
-    });
+
 
 </script>
 <?php $menus = get_menus(); ?>

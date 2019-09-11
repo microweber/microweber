@@ -239,6 +239,10 @@ if ($id != 0) {
 <?php endif; ?>
 
 <script>
+    cancel_editing_menu = function (id) {
+        $("#menu-item-" + id).removeClass('active');
+        $("#edit-menu_item_edit_wrap-" + id).remove();
+    };
     $(document).ready(function () {
         $('.change-url-box .mw-ui-btn, .change-url-box input').on('click', function(){
             var scope = this;

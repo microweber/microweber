@@ -97,7 +97,7 @@ mw.menu_admin.set_edit_item = function($item_id, node, $id){
     mw.load_module('menu/edit_item','#edit-menu_item_edit_wrap-'+$item_id, function(){
         mw.$('#custom_link_inline_controller').show();
 
-        menuSelectorInit("#menu-selector-"+$item_id);
+
         mwd.querySelector('#custom_link_inline_controller input[type="text"]').focus();
         mw.tools.loading(the_li[0], false);
     });

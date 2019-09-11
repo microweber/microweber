@@ -2519,7 +2519,7 @@ mw.tools = {
             + '</tr>'
             + '</table>';
 
-        var ok = $('<span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info">'+mw.msg.ok+'</span>');
+        var ok = $('<span tabindex="99999" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info">'+mw.msg.ok+'</span>');
         var cancel = $('<span class="mw-ui-btn mw-ui-btn-medium ">' + mw.msg.cancel + '</span>');
 
         if (mw.$("#mw_confirm_modal").length === 0) {
@@ -2553,7 +2553,7 @@ mw.tools = {
             modal.remove();
         });
         setTimeout(function () {
-            mw.$("button.mw_confirm_modal_ok", modal.main).focus();
+            mw.$(ok).focus();
         }, 120);
         return modal;
     },
