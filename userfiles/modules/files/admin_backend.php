@@ -600,7 +600,7 @@
                 </div>
             </div>
             <div id="mw_files_admin"></div>
-            <div id="mw_files_media_library" style="display: none" ; type="pictures/media_library"></div>
+            <div id="mw_files_media_library" style="display: none" type="pictures/media_library"></div>
             <div id="mw_user_edit_admin"></div>
             <span class="mw-ui-btn pull-right disabled delete_item">
     <?php _e("Delete Selected"); ?>

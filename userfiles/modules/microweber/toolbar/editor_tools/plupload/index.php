@@ -55,8 +55,6 @@ $here = mw_includes_url() . 'toolbar/editor_tools/plupload/';
 
     urlparams += 'token=<?php print mw_csrf_token($uid); ?>';
 
-
-
     $(document).ready(function () {
         $(mwd.body).mousedown(function (e) {
             e.preventDefault();
@@ -83,10 +81,12 @@ $here = mw_includes_url() . 'toolbar/editor_tools/plupload/';
             var base = mw.url.strip(uploader.settings.url);
             var params = mw.url.getUrlParams(uploader.settings.url);
             var u = base + "?" + json2url(params) + "&" + json2url(data);
-            uploader.settings.url = u;
+         //   uploader.settings.url = u;
             uploader.setOption('url', u);
 
-          }
+
+
+        }
         uploader.init();
         uploader.bind('FilesAdded', function (up, files) {
             this_frame.trigger("FilesAdded", [files]);

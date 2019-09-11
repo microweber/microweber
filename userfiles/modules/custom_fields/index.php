@@ -80,6 +80,8 @@ if (!empty($data)) {
 		$fields_group[$group_i][] = $field;
 	}
 }
+
+
 $prined_items_count = false; 
 $ready_fields_group = array();
 foreach($fields_group as $field_group_key=>$fields) {
@@ -92,7 +94,7 @@ foreach($fields_group as $field_group_key=>$fields) {
 			if (isset($field['type']) and $field['type'] == 'price') {
 				$price_fields[] = $field;
 			} else {
-				$field['params'] = $params;
+                $field['params'] = $params;
 				$ready_fields[] =  array('html'=>mw()->fields_manager->make($field));
 			}
 		}
@@ -105,6 +107,9 @@ foreach($fields_group as $field_group_key=>$fields) {
 		$price_fields_count = count($price_fields);
 		
 		if ($price_fields_count > 1) {
+
+
+
 		     $field_html .= '<select name="price">';
 		}
 		

@@ -154,8 +154,8 @@ Thumbnail size:
         <?php if (isset($data['dirs'])): ?>
             <ul class="mw-browser-list">
                 <?php foreach ($data['dirs'] as $item): ?>
-                    <?php //$dir_link = str_replace($path_restirct, '', $item); ?>
                     <?php $dir_link =  $item; ?>
+                    <?php $dir_link = str_replace($path_restirct, '', $dir_link); ?>
                     <li>
 
                         <a title="<?php print basename($item); ?>"

@@ -867,11 +867,16 @@ class FieldsManager
         if (isset($data['options']) and is_string($data['options'])) {
             $data['options'] = $this->_decode_options($data['options']);
         }
+        $dir = modules_path();
 
         $data = $this->app->url_manager->replace_site_url_back($data);
-	
         $template_file = 'mw-ui';
-        
+        $css_framework = template_framework();
+        if($css_framework and is_dir($dir . DS . 'custom_fields' . DS . 'templates' . DS . $css_framework . DS)){
+            $template_file = $css_framework;
+        }
+
+
         if (isset($data['params'])) {
 	        $template_file_option = get_option('data-template', $data['params']['id']);
 	        $template_file_exp = explode('/', $template_file_option);
@@ -879,13 +884,12 @@ class FieldsManager
 	        	$template_file = $template_file_exp[0];
 	        }
         }
-        
+
         if ($template_file == 'default') {
         	$template_file = 'mw-ui';
         }
-        
-        $dir = modules_path();
-        
+
+
         if ($settings == true or isset($data['settings'])) {
         	$dir = $dir . DS . 'microweber'.DS.'custom_fields' . DS;
         } else {
