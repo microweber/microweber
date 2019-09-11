@@ -35,7 +35,7 @@ function template_framework()
 {
 	
 	$css_framework = 'mw-ui';
-	
+
 	if(isset(mw()->template->get_config()['framework'])) {
 		$css_framework = mw()->template->get_config()['framework'];
 	}
@@ -99,7 +99,7 @@ function template_form_group_label_class()
 function template_input_field_class()
 {
 	$css_framework = template_framework();
-	
+
 	if ($css_framework == 'mw-ui') {
 		return 'mw-ui-field';
 	}
