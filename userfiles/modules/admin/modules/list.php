@@ -7,9 +7,16 @@ $modules = array();
 $modules_by_categories = array();
 $mod_obj_str = 'modules';
 
+$template_config = mw()->template->get_config();
 
 $show_grouped_by_cats = false;
 $hide_dynamic_layouts = false;
+$disable_elements = false;
+if(isset($template_config['elements_mode']) and $template_config['elements_mode'] == 'disabled'){
+
+    $disable_elements = true;
+
+}
 
 if(isset($params['hide-dynamic']) and $params['hide-dynamic']){
     $hide_dynamic_layouts = true;
@@ -26,12 +33,20 @@ if (isset($is_elements) and $is_elements == true) {
     if ($modules == false) {
         // scan_for_modules($modules_options);
         $el_params['no_cache'] = true;
-        mw()->modules->scan_for_elements($el_params);
+                mw()->modules->scan_for_elements($el_params);
         $modules = mw()->layouts_manager->get($el_params);
+
+
     }
     if ($modules == false) {
         $modules = array();
     }
+
+if($disable_elements){
+    $modules = array();
+}
+
+
     // REMOVE
     //$modules = array();
 
