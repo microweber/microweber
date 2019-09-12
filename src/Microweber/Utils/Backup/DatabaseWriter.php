@@ -106,6 +106,23 @@ class DatabaseWriter
 	
 	private function _saveItemDatabase($item) {
 		
+		if ($this->overwriteById) {
+			
+			// We will overwrite content by id from our db structure
+			
+			$dbSelectParams = array();
+			$dbSelectParams['no_cache'] = true;
+			$dbSelectParams['limit'] = 1;
+			$dbSelectParams['single'] = true;
+			$dbSelectParams['do_not_replace_site_url'] = 1;
+			$dbSelectParams['fields'] = 'id';
+			$dbSelectParams['id'] = $item['id'];
+			
+			$itemIdDatabase = DatabaseSave::save($item['save_to_table'], $item);
+			
+			return array('item'=>$item, 'itemIdDatabase'=>$itemIdDatabase);
+		}
+		
 		if ($item['save_to_table'] == 'options') {
 			if (isset($item['option_key']) && $item['option_key'] == 'current_template') {
 				if (!is_dir(userfiles_path().'/templates/'.$item['option_value'])) {
@@ -171,15 +188,9 @@ class DatabaseWriter
 		$dbSelectParams['do_not_replace_site_url'] = 1;
 		$dbSelectParams['fields'] = 'id';
 		
-		if ($this->overwriteById) {
-			if (isset($item['id'])) {
-				$dbSelectParams['id'] = $item['id'];
-			}
-		} else {
-			foreach(DatabaseDublicateChecker::getRecognizeFields($item['save_to_table']) as $tableField) {
-				if (isset($item[$tableField])) {
-					$dbSelectParams[$tableField] = $item[$tableField];
-				}
+		foreach(DatabaseDublicateChecker::getRecognizeFields($item['save_to_table']) as $tableField) {
+			if (isset($item[$tableField])) {
+				$dbSelectParams[$tableField] = $item[$tableField];
 			}
 		}
 		
