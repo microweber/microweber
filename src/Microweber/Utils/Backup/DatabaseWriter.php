@@ -79,10 +79,11 @@ class DatabaseWriter
 			$this->currentStep = 0;
 		}
 		
+		/*
 		if ($this->currentStep > $this->totalSteps) {
-			$this->_finishUp('getCurrentStep()');
-			$this->currentStep = 0;
-		}
+			//$this->_finishUp('getCurrentStep()');
+			//$this->currentStep = 0;
+		}*/
 		
 		return $this->currentStep;
 	}
@@ -297,14 +298,7 @@ class DatabaseWriter
 			BackupImportLogger::clearLog();
 		}
 		
-		if ($this->getCurrentStep() == $this->totalSteps) {
-			// Clear old log file
-			BackupImportLogger::clearLog();
-			$this->_clearOldImport();
-			//$this->_finishUp();
-		}
-		
-		BackupImportLogger::setLogInfo('Importing database batch: ' . $this->getCurrentStep() . '/' . $this->totalSteps);
+		BackupImportLogger::setLogInfo('Importing database batch: ' . ($this->getCurrentStep() + 1) . '/' . $this->totalSteps);
 		
 		if (empty($this->content)) {
 			$this->_finishUp('runWriterWithBatchNothingToImport');
@@ -364,7 +358,6 @@ class DatabaseWriter
 			
 			cache_save($this->getCurrentStep() + 1, 'CurrentStep', $this->_cacheGroupName, 60 * 10);
 			
-			
 		}
 		
 	}
@@ -377,7 +370,14 @@ class DatabaseWriter
 		$log['precentage'] = ($this->getCurrentStep() * 100) / $this->totalSteps;
 		
 		if ($this->getCurrentStep() >= $this->totalSteps) {
+			
 			$log['done'] = true;
+			
+			// Clear log file
+			BackupImportLogger::clearLog();
+			
+			// Finish up
+			$this->_finishUp();
 		}
 		
 		return $log;
@@ -392,10 +392,6 @@ class DatabaseWriter
 		
 		// cache_delete($this->_cacheGroupName);
 		
-		BackupImportLogger::setLogInfo('Cleaning up custom css cache');
-		
-		mw()->template->clear_cached_custom_css();
-		
 		if (function_exists('mw_post_update')) {
 			mw_post_update();
 		}
@@ -405,17 +401,5 @@ class DatabaseWriter
 		mw()->cache_manager->clear();
 		
 		BackupImportLogger::setLogInfo('Done!');
-	}
-	
-	private function _clearOldImport() {
-		
-		mw()->template->clear_cached_custom_css();
-		
-		if (function_exists('mw_post_update')) {
-			mw_post_update();
-		}
-		
-		mw()->cache_manager->clear();
-		
 	}
 }

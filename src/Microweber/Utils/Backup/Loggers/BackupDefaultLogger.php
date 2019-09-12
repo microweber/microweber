@@ -4,7 +4,7 @@ namespace Microweber\Utils\Backup\Loggers;
 abstract class BackupDefaultLogger
 {
 
-	protected static $debug = false;
+	protected static $debug = true;
 	protected static $logger;
 	
 	public static function setLogger($logger) {
