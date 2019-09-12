@@ -79,10 +79,11 @@ class DatabaseWriter
 			$this->currentStep = 0;
 		}
 		
+		/*
 		if ($this->currentStep > $this->totalSteps) {
-			$this->_finishUp('getCurrentStep()');
-			$this->currentStep = 0;
-		}
+			//$this->_finishUp('getCurrentStep()');
+			//$this->currentStep = 0;
+		}*/
 		
 		return $this->currentStep;
 	}
@@ -105,6 +106,23 @@ class DatabaseWriter
 	}
 	
 	private function _saveItemDatabase($item) {
+		
+		if ($this->overwriteById) {
+			
+			// We will overwrite content by id from our db structure
+			
+			$dbSelectParams = array();
+			$dbSelectParams['no_cache'] = true;
+			$dbSelectParams['limit'] = 1;
+			$dbSelectParams['single'] = true;
+			$dbSelectParams['do_not_replace_site_url'] = 1;
+			$dbSelectParams['fields'] = 'id';
+			$dbSelectParams['id'] = $item['id'];
+			
+			$itemIdDatabase = DatabaseSave::save($item['save_to_table'], $item);
+			
+			return array('item'=>$item, 'itemIdDatabase'=>$itemIdDatabase);
+		}
 		
 		if ($item['save_to_table'] == 'options') {
 			if (isset($item['option_key']) && $item['option_key'] == 'current_template') {
@@ -171,15 +189,9 @@ class DatabaseWriter
 		$dbSelectParams['do_not_replace_site_url'] = 1;
 		$dbSelectParams['fields'] = 'id';
 		
-		if ($this->overwriteById) {
-			if (isset($item['id'])) {
-				$dbSelectParams['id'] = $item['id'];
-			}
-		} else {
-			foreach(DatabaseDublicateChecker::getRecognizeFields($item['save_to_table']) as $tableField) {
-				if (isset($item[$tableField])) {
-					$dbSelectParams[$tableField] = $item[$tableField];
-				}
+		foreach(DatabaseDublicateChecker::getRecognizeFields($item['save_to_table']) as $tableField) {
+			if (isset($item[$tableField])) {
+				$dbSelectParams[$tableField] = $item[$tableField];
 			}
 		}
 		
@@ -286,14 +298,7 @@ class DatabaseWriter
 			BackupImportLogger::clearLog();
 		}
 		
-		if ($this->getCurrentStep() == $this->totalSteps) {
-			// Clear old log file
-			BackupImportLogger::clearLog();
-			$this->_clearOldImport();
-			//$this->_finishUp();
-		}
-		
-		BackupImportLogger::setLogInfo('Importing database batch: ' . $this->getCurrentStep() . '/' . $this->totalSteps);
+		BackupImportLogger::setLogInfo('Importing database batch: ' . ($this->getCurrentStep() + 1) . '/' . $this->totalSteps);
 		
 		if (empty($this->content)) {
 			$this->_finishUp('runWriterWithBatchNothingToImport');
@@ -353,7 +358,6 @@ class DatabaseWriter
 			
 			cache_save($this->getCurrentStep() + 1, 'CurrentStep', $this->_cacheGroupName, 60 * 10);
 			
-			
 		}
 		
 	}
@@ -366,7 +370,15 @@ class DatabaseWriter
 		$log['precentage'] = ($this->getCurrentStep() * 100) / $this->totalSteps;
 		
 		if ($this->getCurrentStep() >= $this->totalSteps) {
+			
 			$log['done'] = true;
+			
+			// Finish up
+			$this->_finishUp();
+			
+			// Clear log file
+			BackupImportLogger::clearLog();
+			
 		}
 		
 		return $log;
@@ -381,10 +393,6 @@ class DatabaseWriter
 		
 		// cache_delete($this->_cacheGroupName);
 		
-		BackupImportLogger::setLogInfo('Cleaning up custom css cache');
-		
-		mw()->template->clear_cached_custom_css();
-		
 		if (function_exists('mw_post_update')) {
 			mw_post_update();
 		}
@@ -394,17 +402,5 @@ class DatabaseWriter
 		mw()->cache_manager->clear();
 		
 		BackupImportLogger::setLogInfo('Done!');
-	}
-	
-	private function _clearOldImport() {
-		
-		mw()->template->clear_cached_custom_css();
-		
-		if (function_exists('mw_post_update')) {
-			mw_post_update();
-		}
-		
-		mw()->cache_manager->clear();
-		
 	}
 }

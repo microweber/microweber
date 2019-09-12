@@ -29,11 +29,21 @@ mw.backup_import = {
 	
 	import: function(src) {
 		
+		var checked = '';
+		
+		if (src.lastIndexOf('backup') >= 0) {
+			checked = 'checked="checked"';
+		}
+		
+		if (src.lastIndexOf('mw_default_content') >= 0) {
+			checked = 'checked="checked"';
+		}
+		
 		var importOptions = '<div>'+
 		'<h3>Import File Options</h3>'+
 		'<br />'+
 		'<label class="mw-ui-check" style="height: 26px;">'+ 
-		'<input type="checkbox" class="js-backup-import-overwrite-by-id" value="1" />'+
+		'<input type="checkbox" class="js-backup-import-overwrite-by-id" value="1" '+checked+' />'+
 		'<span style="margin-top:18px;" ></span><span>Overwrite existing content by ID.</span>'+
 		'</label>'+
 		'<br /><span style="color:red;margin-left:26px;">Warning! If this option are marked, it will be replace all existing posts.</span>'+
