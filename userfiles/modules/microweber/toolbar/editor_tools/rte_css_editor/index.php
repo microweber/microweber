@@ -721,16 +721,25 @@ top.$(top.mw.liveEditSelector).on('select', function(e, nodes){
                 <div class="mw-field" data-size="medium">
                     <div class="mw-multiple-fields">
                         <div class="mw-field" data-size="medium">
-                            <span class="mw-field-prepend"></span>
+                            <span class="mw-field-prepend"><i class="angle angle-top-left"></i></span>
                             <input type="text" class="regular" data-prop="borderTopLeftRadius">
                         </div>
-                        <div class="mw-field" data-size="medium"><span class="mw-field-prepend"></span><input class="regular" type="text" data-prop="borderTopRightRadius"></div>
+                        <div class="mw-field" data-size="medium">
+                            <span class="mw-field-prepend"><i class="angle angle-top-right"></i></span>
+                            <input class="regular" type="text" data-prop="borderTopRightRadius">
+                        </div>
                     </div>
                 </div>
                 <div class="mw-field" data-size="medium">
                     <div class="mw-multiple-fields">
-                        <div class="mw-field" data-size="medium"><span class="mw-field-prepend"></span><input class="regular" type="text" data-prop="borderBottomLeftRadius"></div>
-                        <div class="mw-field" data-size="medium"><span class="mw-field-prepend"></span><input class="regular" type="text" data-prop="borderBottomRightRadius"></div>
+                        <div class="mw-field" data-size="medium">
+                            <span class="mw-field-prepend"><i class="angle angle-bottom-left"></i></span>
+                            <input class="regular" type="text" data-prop="borderBottomLeftRadius">
+                        </div>
+                        <div class="mw-field" data-size="medium">
+                            <span class="mw-field-prepend"><i class="angle angle-bottom-right"></i></span>
+                            <input class="regular" type="text" data-prop="borderBottomRightRadius">
+                        </div>
                     </div>
                 </div>
             </div>

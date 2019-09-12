@@ -176,7 +176,7 @@ if (($modules and !$modules_by_categories) or ($modules and !$show_grouped_by_ca
 
 
 
- 
+
 if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset($modules) and is_array($modules)) {
     $recommended = json_decode($_COOKIE['recommend'], true);
 
@@ -306,7 +306,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
         foreach ($module_layouts_skins as $dynamic_layout): ?>
             <?php if (isset($dynamic_layout['layout_file'])): ?>
                 <li data-module-name="layouts" ondrop="true" template="<?php print $dynamic_layout['layout_file'] ?>"
-                    data-filter="<?php print $dynamic_layout['name'] ?>" class="module-item"
+                    data-filter="<?php print $dynamic_layout['name'] ?>" class="module-item module-item-layout"
                     unselectable="on">
                     <span class="mw_module_hold">
                         <?php if (!isset($dynamic_layout['screenshot'])): ?>
@@ -404,7 +404,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                             data-filter="<?php print $module_item['name'] ?>"
                             ondrop="true"
                             data-category="<?php isset($module_item['categories']) ? print addslashes($module_item['categories']) : ''; ?>"
-                            class="module-item module-cat-toggle-<?php print $mod_cat ?> <?php if ($mod_obj_str == 'elements'): ?>default-layouts<?php endif; ?><?php if (isset($module_item['as_element']) and intval($module_item['as_element'] == 1) or (isset($is_elements) and $is_elements == true)) : ?> module-as-element<?php endif; ?>">
+                            class="module-item module-item-module module-cat-toggle-<?php print $mod_cat ?> <?php if ($mod_obj_str == 'elements'): ?>default-layouts<?php endif; ?><?php if (isset($module_item['as_element']) and intval($module_item['as_element'] == 1) or (isset($is_elements) and $is_elements == true)) : ?> module-as-element<?php endif; ?>">
                     <span unselectable="on" class="mw_module_hold"
                           title="<?php print addslashes($module_item["name"]); ?>. <?php print addslashes($module_item["description"]) ?>">
 

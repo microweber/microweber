@@ -722,7 +722,7 @@ if ($action == 'posts') {
                                                 icon:'mw-icon-app-trash',
                                                 action:function(element, data, menuitem){
                                                     if(data.type  == 'category' ){
-                                                        mw.tools.tree.del_category(data.id, function(){
+                                                        mw.content.deleteCategory(data.id, function(){
 
                                                             $('#' + pagesTree.options.id + '-' + data.type + '-' + data.id).fadeOut(function(){
                                                                 if(window.pagesTreeRefresh){pagesTreeRefresh()};
@@ -730,7 +730,7 @@ if ($action == 'posts') {
                                                         });
                                                     }
                                                     else{
-                                                        mw.tools.tree.del(data.id, function(){
+                                                        mw.content.deleteContent(data.id, function(){
                                                             $('#' + pagesTree.options.id + '-' + data.type + '-' + data.id, pagesTree.list).fadeOut(function(){
                                                                 if(window.pagesTreeRefresh){pagesTreeRefresh()};
                                                             })

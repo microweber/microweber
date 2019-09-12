@@ -213,7 +213,7 @@ if (isset($params['live_edit'])) {
                                 <?php endif; ?>
 
                                 <?php if (intval($data['id']) != 0): ?>
-                                    <a href="javascript:mw.tools.tree.del_category('<?php print ($data['id']) ?>');" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-important"><i class="mw-icon-bin"></i>&nbsp; <?php _e('Delete') ?></a>
+                                    <a href="javascript:mw.content.deleteCategory('<?php print ($data['id']) ?>');" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-important"><i class="mw-icon-bin"></i>&nbsp; <?php _e('Delete') ?></a>
                                 <?php endif; ?>
                             </div>
 

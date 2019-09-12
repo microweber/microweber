@@ -10,6 +10,7 @@ mw.liveedit.modulesToolbar = {
                 mw.dragCurrent = mw.ea.data.currentGrabbed = mw.GlobalModuleListHelper;
                 mw.$(mwd.body).addClass("dragStart");
                 mw.image_resizer._hide();
+
             },
             stop: function() {
                 mw.isDrag = false;
@@ -25,9 +26,15 @@ mw.liveedit.modulesToolbar = {
         });
         $items.on('mouseenter touchstart', function() {
             mw.$(this).draggable("option", "helper", function() {
-                var clone = mw.$(this).clone(true);
+                var el = $(this);
+                var clone = el.clone(true);
                 clone.appendTo(mwd.body);
+                clone.addClass('mw-module-drag-clone');
                 mw.GlobalModuleListHelper = clone[0];
+                clone.css({
+                    width: el.width(),
+                    height: el.height()
+                });
                 return clone[0];
             });
         });

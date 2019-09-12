@@ -1,6 +1,27 @@
 
  mw.content = mw.content || {
-      publish : function($id) {
+
+     deleteContent: function (id, callback) {
+         mw.tools.confirm(mw.msg.del, function () {
+             $.post(mw.settings.site_url + "api/content/delete", {id: id}, function (data) {
+                 if (callback) {
+                     callback.call(data, data);
+                 }
+                 mw.notification.success('Content deleted');
+             });
+         })
+     },
+     deleteCategory: function (id, callback) {
+         mw.tools.confirm('Are you sure you want to delete this?', function () {
+             $.post(mw.settings.site_url + "api/category/delete", {id: id}, function (data) {
+                 mw.notification.success('Category deleted');
+                 if (callback) {
+                     callback.call(data, data);
+                 }
+             });
+         });
+     },
+     publish : function($id) {
             var master = {};
             master.id= $id;
             mw.$(mwd.body).addClass("loading");

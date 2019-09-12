@@ -25,6 +25,7 @@ setInterval(function(){
 mw.require("files.js");
 mw.require("css_parser.js");
 mw.require("components.js");
+mw.require("content.js");
 mw.require("color.js");
 mw.lib.require("acolorpicker");
 //mw.require(mw.settings.includes_url + "css/ui.css");
@@ -1717,171 +1718,6 @@ mw.tools = {
         var allFields = "textarea, select, input[type='checkbox']:checked, input[type='color'], input[type='date'], input[type='datetime'], input[type='datetime-local'], input[type='email'], input[type='file'], input[type='hidden'], input[type='month'], input[type='number'], input[type='password'], input[type='radio']:checked, input[type='range'], input[type='search'], input[type='tel'], input[type='text'], input[type='time'], input[type='url'], input[type='week']";
         return mw.$(allFields, fields).not(':disabled');
     },
-    tree: {
-        toggle: function (el, event) {
-            mw.$(el.parentNode).toggleClass('active');
-            var master = mw.tools.firstParentWithClass(el, 'mw-tree');
-            mw.tools.tree.remember(master);
-            "mw.admin.treeboxwidth"._exec();
-            if (event.type === 'click') {
-                event.stopPropagation();
-                event.preventDefault();
-                return false;
-            }
-        },
-        open: function (el, parents) {
-            var parents = parents || false;
-            mw.$(el.parentNode).addClass('active');
-            var master = mw.tools.firstParentWithClass(el, 'mw-tree');
-            mw.tools.tree.remember(master);
-            if (!parents) return;
-            mw.tools.foreachParents(el, function (loop) {
-                if (mw.tools.hasClass(this, 'mw-tree')) {
-                    mw.tools.stopLoop(loop);
-                }
-                else {
-                    if (this.nodeName === 'LI') {
-                        mw.tools.tree.open(this.querySelector('.pages_tree_link'), false)
-                    }
-                }
-            });
-        },
-        del: function (id, callback) {
-            mw.tools.confirm(mw.msg.del, function () {
-                if (mw.notification != undefined) {
-                    mw.notification.success('Content deleted');
-                }
-                $.post(mw.settings.site_url + "api/content/delete", {id: id}, function (data) {
-                    if (callback) {
-
-                        callback.call(data, data)
-                    }
-                });
-            })
-        },
-        del_category: function (id, callback) {
-            mw.tools.confirm('Are you sure you want to delete this?', function () {
-                $.post(mw.settings.site_url + "api/category/delete", {id: id}, function (data) {
-                    mw.notification.success('Category deleted');
-                    if (callback) {
-
-                        callback.call(data, data)
-                    }
-                });
-            })
-        },
-        detectType: function (tree_object) {
-            if (tree_object !== null && typeof tree_object === 'object') {
-                return tree_object.querySelector('li input[type="checkbox"], li input[type="radio"]') !== null ? 'selector' : 'controller';
-            }
-        },
-        remember: function (tree) {
-            var type = mw.tools.tree.detectType(tree);
-            if (type === 'controller') {
-                _remember = "";
-                var lis = tree.querySelectorAll("li.active");
-                var len = lis.length;
-                $.each(lis, function (i) {
-                    i++;
-                    if (!!this.attributes['data-item-id']) {
-                        var id = this.attributes['data-item-id'].nodeValue;
-                        _remember = i < len ? _remember + id + "," : _remember + id;
-                    }
-                });
-                mw.cookie.ui("tree_" + tree.id, _remember);
-            }
-        },
-        recall: function (tree) {
-            if (tree) {
-                var ids = mw.cookie.ui("tree_" + tree.id);
-                if (typeof(ids) != 'undefined' && ids != false) {
-                    var ids = ids.split(",");
-                    $.each(ids, function (a, b) {
-                        if (tree.querySelector('.item_' + b)) {
-                            tree.querySelector('.item_' + b).className += ' active';
-                        }
-                    });
-                }
-            }
-        },
-        toggleit: function (el, event, pageid) {
-            event.stopPropagation();
-            mw.tools.tree.toggle(el, event);
-        },
-        openit: function (el, event, pageid) {
-            event.stopPropagation();
-            if (mw.askusertostay === true) {
-                return false;
-            }
-            if (el.attributes['data-page-id'] !== undefined) {
-                mw.url.windowHashParam('action', 'showposts:' + pageid);
-            }
-            else if (el.attributes['data-category-id'] !== undefined) {
-                mw.url.windowHashParam('action', 'showpostscat:' + pageid);
-            }
-            mw.tools.tree.open(el, event);
-            'mw.admin.treeboxwidth'._exec();
-        },
-        closeAll: function (tree) {
-            mw.$(tree.querySelectorAll('li')).removeClass('active').removeClass('active-bg');
-            mw.tools.tree.remember(tree);
-            'mw.admin.treeboxwidth'._exec();
-        },
-        openAll: function (tree) {
-            mw.$(tree.querySelectorAll('li')).addClass('active');
-            mw.tools.tree.remember(tree);
-            'mw.admin.treeboxwidth'._exec();
-        },
-        checker: function (el) {
-            var is_checkbox = el.getElementsByTagName('input')[0];
-            if (is_checkbox.type != 'checkbox') {
-                return false;
-            }
-            var state = el.getElementsByTagName('input')[0].checked;
-            if (state === true) {
-                if (is_checkbox.type == 'checkbox') {
-                    var ul = mw.tools.firstParentWithClass(is_checkbox, 'pages_tree');
-                    if (ul != false) {
-                        if (ul.querySelector('input[type="radio"]:checked') !== null) {
-                            return false;
-                        }
-                    }
-                }
-                mw.tools.foreachParents(el.parentNode, function (loop) {
-                    this.tagName === 'LI' ? this.getElementsByTagName('input')[0].checked = true : '';
-                    this.tagName === 'DIV' ? mw.tools.stopLoop(loop) : '';
-                });
-            }
-            else {
-            }
-        },
-        old_checker: function (el) {
-            var is_checkbox = el.getElementsByTagName('input')[0];
-            if (is_checkbox.type != 'checkbox') {
-                return false;
-            }
-            var state = el.getElementsByTagName('input')[0].checked;
-            if (state === true) {
-                mw.tools.foreachParents(el.parentNode, function (loop) {
-                    this.tagName === 'LI' ? this.getElementsByTagName('input')[0].checked = true : '';
-                    this.tagName === 'DIV' ? mw.tools.stopLoop(loop) : '';
-                });
-            }
-            else {
-                var f = el.parentNode.getElementsByTagName('input'), i = 0, len = f.length;
-                for (; i < len; i++) {
-                    f[i].checked = false;
-                }
-            }
-        },
-        viewChecked: function (tree) {
-            var all = tree.querySelectorAll('li input'), i = 0, len = all.length;
-            for (; i < len; i++) {
-                var curr = all[i];
-                curr.parentNode.parentNode.style.display = !curr.checked ? 'none' : '';
-            }
-        }
-    },
     hasClass: function (classname, whattosearch) {
         if (classname === null) {
             return false;
@@ -2523,7 +2359,7 @@ mw.tools = {
         var cancel = $('<span class="mw-ui-btn mw-ui-btn-medium ">' + mw.msg.cancel + '</span>');
 
         if (mw.$("#mw_confirm_modal").length === 0) {
-            var modal = mw.dialog({
+            var modal = mw.top().dialog({
                 content: html,
                 width: 400,
                 height: 'auto',
@@ -4234,22 +4070,8 @@ mw.recommend = {
         }
     }
 }
-String.prototype.toCamelCase = function () {
-    return mw.tools.toCamelCase(this);
-};
-$.fn.datas = function () {
-    var attrs = this[0].attributes;
-    var toreturn = {}
-    for (var item in attrs) {
-        var attr = attrs[item];
-        if (attr.nodeName !== undefined) {
-            if (attr.nodeName.contains("data-")) {
-                toreturn[attr.nodeName] = attr.nodeValue;
-            }
-        }
-    }
-    return toreturn;
-}
+
+
 mw.check = {
     all: function (selector) {
         mw.$(selector).find("input[type='checkbox']").each(function () {
@@ -4280,28 +4102,14 @@ mw.check = {
         return arr;
     }
 }
-mw.walker = function (context, callback) {
-    var context = mw.is.obj(context) ? context : mwd.body;
-    var callback = mw.is.func(context) ? context : callback;
-    var walker = document.createTreeWalker(context, NodeFilter.SHOW_ELEMENT, null, false);
-    while (walker.nextNode()) {
-        callback.call(walker.currentNode);
-    }
-}
+
 Array.prototype.remove = Array.prototype.remove || function (what) {
         var i = 0, l = this.length;
         for (; i < l; i++) {
             this[i] === what ? this.splice(i, 1) : '';
         }
-    }
-Array.prototype.exposeToHash = function (name, callback) {
-    if (typeof name === 'undefined') {
-        return false;
-    }
-    mw.on.hashParam(name, function () {
-        callback.call(this);
-    });
-}
+    };
+
 Array.prototype.min = function () {
     return Math.min.apply(Math, this);
 };
@@ -4333,7 +4141,7 @@ mw._dump = function (obj) {
             var c = '<i>' + c + ')</i>';
         }
         else if (typeof b === 'object') {
-            var c = '<a href="javascript:;" onclick="mw.tools.modal.init({html: \'<h2>mw.' + a + '</h2>\' + mw._dump(mw.' + a + ')});"> + Object</a>';
+            var c = '<a href="javascript:;" onclick="mw.dialog({height: \'auto\', autoHeight: true, html: \'<h2>mw.' + a + '</h2>\' + mw._dump(mw.' + a + ')});"> + Object</a>';
         }
         else {
             var c = b.toString()
@@ -4342,13 +4150,15 @@ mw._dump = function (obj) {
     });
     html = html + '</ol>';
     return html;
-}
+};
 mw.dump = function () {
-    mw.tools.modal.init({
+    mw.dialog({
         html: mw._dump(),
-        width: 800
+        width: 800,
+        height: 'auto',
+        autoHeight: true
     });
-}
+};
 mw.notification = {
     msg: function (data, timeout, _alert) {
         var timeout = timeout || 1000;
@@ -4406,7 +4216,7 @@ mw.notification = {
         var timeout = timeout || 1000;
         mw.notification.append('warning', text, timeout);
     }
-}
+};
 $.fn.visible = function () {
     return this.css("visibility", "visible").css("opacity", "1");
 };
@@ -4469,26 +4279,7 @@ mw.which = function (str, arr_obj, func) {
         }
     }
 }
-mw.traverse = function (root, h) {
-    var els = root.querySelectorAll('.edit .element, .edit .module');
-    mw.$(els).each(function () {
-        _dis = this;
-        var el = mwd.createElement('span');
-        el.className = 'layer';
-        mw.$(el).data("for", this);
-        mw.$(el).click(function () {
-            if (!$(el).attr('staticdesign')) {
-                mw.$(".element-current").removeClass("element-current");
-                mw.$($(el).data("for")).addClass("element-current");
-                mw.$(_dis).remove()
-            }
-        });
-        var str = _dis.textContent.slice(0, 25);
-        el.innerHTML = mw.$(this).hasClass("module") ? 'Module' : 'Element';
-        el.innerHTML += ' - <small>' + str + '...</span>';
-        h.appendChild(el);
-    });
-}
+
 mw.isDragItem = mw.isBlockLevel = function (obj) {
     return mw.ea.helpers.isBlockLevel(obj);
 };
