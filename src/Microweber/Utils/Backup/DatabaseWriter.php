@@ -373,11 +373,12 @@ class DatabaseWriter
 			
 			$log['done'] = true;
 			
+			// Finish up
+			$this->_finishUp();
+			
 			// Clear log file
 			BackupImportLogger::clearLog();
 			
-			// Finish up
-			$this->_finishUp();
 		}
 		
 		return $log;

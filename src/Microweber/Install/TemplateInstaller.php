@@ -81,6 +81,7 @@ class TemplateInstaller
         		$manager = new BackupManager();
         		$manager->setImportFile($default_content_file);
         		$manager->setImportBatch(false);
+        		$manager->setImportOvewriteById(true);
         		$manager->setLogger($this->logger);
         		$manager->startImport();
         		
