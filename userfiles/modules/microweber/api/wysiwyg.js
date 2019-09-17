@@ -1057,25 +1057,7 @@ mw.wysiwyg = {
                     return true;
                 }
                 var sel = window.getSelection();
-                if (event.keyCode === 13) {
 
-                    if (mw.tools.hasAnyOfClassesOnNodeOrParent(event.target, ['safe-mode'])) {
-
-                        var isList = mw.tools.firstMatchesOnNodeOrParent(event.target, ['li', 'ul', 'ol'])
-                        if (!isList) {
-                            event.preventDefault();
-                            if (event.shiftKey) {
-                                mw.wysiwyg.insert_html('<br>');
-                            }
-                            else {
-                                mw.wysiwyg.insert_html('<br><br>');
-                            }
-                        }
-
-
-                    }
-
-                }
                 if (sel.rangeCount > 0) {
                     var r = sel.getRangeAt(0);
                     if (event.keyCode == 9 && !event.shiftKey && sel.focusNode.parentNode.iscontentEditable && sel.isCollapsed) {   /* tab key */
@@ -1207,6 +1189,9 @@ mw.wysiwyg = {
                 //mw.wysiwyg.select_all(mw.tools.firstParentWithClass(target, 'element'));
             }
             var s = window.getSelection();
+            if(!s.rangeCount) {
+                return;
+            }
             var r = s.getRangeAt(0);
             var c = r.cloneContents();
             //var common = mw.wysiwyg.validateCommonAncestorContainer(r.commonAncestorContainer);
@@ -2775,22 +2760,18 @@ mw.linkTip = {
     tip: function (node) {
 
         var link_id = null;
-        if (typeof(node) == 'object' && (typeof(node.id) == null) || node.id == '') {
-            link_id = 'mw-link-id-' + mw.random()
+        if (typeof(node) === 'object' && !node.id) {
+            link_id = 'mw-link-id-' + mw.random();
             node.id = link_id;
         }
-        if (typeof(node) == 'object' && (typeof(node.id) != null) || node.id != '') {
-            var link_id = node.id;
+        if (typeof(node) === 'object' && !!node.id) {
+            link_id = node.id;
         }
         if (!mw.linkTip._tip) {
-
             var href_target = '_self';
-
             if (node.href.indexOf(location.host) !== -1) {
-                //different page
-                var href_target = '_blank';
+                href_target = '_blank';
             }
-
             var content = '<a href="' + node.getAttribute('href') + '" target="' + href_target + '"  edit-id="' + link_id + '" class="mw-link-tip-link">' + node.getAttribute('href') + '</a><span>-</span><a edit-href="' + node.getAttribute('href') + '" edit-id="' + link_id + '" href="javascript:;" class="mw-link-tip-edit">Edit</a>';
             mw.linkTip._tip = mw.tooltip({content: content, position: 'bottom-center', skin: 'dark', element: node});
             mw.$(mw.linkTip._tip).addClass('mw-link-tip');

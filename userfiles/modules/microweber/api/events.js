@@ -32,8 +32,9 @@ mw._on = {
   },
   onmodules : {},
   moduleReload : function(id, c, trigger){
+      var exists;
      if(trigger){
-          var exists = typeof mw.on.onmodules[id] !== 'undefined';
+          exists = typeof mw.on.onmodules[id] !== 'undefined';
           if(exists){
             var i = 0, l = mw.on.onmodules[id].length;
             for( ; i < l; i++){
@@ -43,7 +44,7 @@ mw._on = {
         return false;
      }
      if(mw.is.func(c)){
-       var exists = typeof mw.on.onmodules[id] !== 'undefined';
+       exists = typeof mw.on.onmodules[id] !== 'undefined';
        if(exists){
           mw.on.onmodules[id].push(c);
        }
@@ -52,7 +53,7 @@ mw._on = {
        }
      }
      else if(c==='off'){
-        var exists = typeof mw.on.onmodules[id] !== 'undefined';
+        exists = typeof mw.on.onmodules[id] !== 'undefined';
         if(exists){
           mw.on.onmodules[id] = [];
         }
@@ -372,14 +373,28 @@ mw.event = {
             t.nodeName === 'textarea' ||
             t.nodeName === 'select';
     },
+    get: function(e) {
+        return e.originalEvent || e;
+    },
+    keyCode: function(e) {
+        e = mw.event.get(e);
+        return e.keyCode || e.which;
+    },
+    isKeyCode: function(e, code){
+        return this.keyCode(e) === code;
+    },
     is: {
       enter: function (e) {
-        e = e.originalEvent || e;
-        return e.key === "Enter" || e.keyCode === 13;
+        e = mw.event.get(e);
+        return e.key === "Enter" || mw.event.isKeyCode(e, 13);
       },
       escape: function (e) {
-          e = e.originalEvent || e;
-          return e.key === "Escape" || e.keyCode === 27;
+          e = mw.event.get(e);
+          return e.key === "Escape" || mw.event.isKeyCode(e, 27);
+      },
+      backSpace  : function (e) {
+        e = mw.event.get(e);
+        return e.key === "Backspace" || mw.event.isKeyCode(e, 8);
       }
     }
 };

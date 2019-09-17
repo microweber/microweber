@@ -192,36 +192,7 @@ body.mw-live-edit .plain-text {
     max-height: 260px;
 }
 
-.modules-list-init li {
-    list-style: none;
-    clear: both;
-    cursor: pointer;
-    padding: 10px;
-    overflow: hidden;
-}
 
-.modules-list-init li:hover {
-    background: #F0F0F0;
-}
-
-.modules-list-init .mw_module_image {
-    float: left;
-}
-
-.modules-list-init .module_name {
-    float: left;
-    white-space: nowrap;
-    margin: 7px 0 0 7px;
-    width: 150px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.mw-tooltip-insert-module ul li img {
-    max-width: 32px;
-    margin-bottom: 0;
-    margin-right: 10px;
-}
 
 /****************************
          /  Plus end

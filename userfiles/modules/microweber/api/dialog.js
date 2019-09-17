@@ -92,7 +92,10 @@
                                 }
                             }
                         }
-                    })
+                    });
+                }
+                if(typeof options.onload === 'function') {
+                    options.onload.call(dialog)
                 }
             });
         }, 12);
