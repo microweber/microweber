@@ -68,10 +68,6 @@ mw.adminComments = {
         }
     },
     mark_as_spam:function($comment_id){
-
-        alert($comment_id);
-
-
-
+        
     }
 }

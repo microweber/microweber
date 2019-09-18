@@ -180,19 +180,12 @@ if (isset($params['data-alt-logo'])) {
     }
 
     var mw_admin_logo_upload_browse_existing = function (inverse = false) {
-
-        if (inverse) {
-            var modal_id = 'mw_admin_logo_upload_browse_existing_modal<?php print $params['id'] ?>_inverse'
-        } else {
-            var modal_id = 'mw_admin_logo_upload_browse_existing_modal<?php print $params['id'] ?>'
-        }
-
-        var mw_admin_logo_upload_browse_existing_modal = window.top.mw.modalFrame({
+        var modal_id = 'mw_admin_logo_upload_browse_existing_modal<?php print $params['id'] ?>' + (inverse ? '_inverse' : '');
+        var dialog = mw.top().dialogIframe({
             url: '<?php print site_url() ?>module/?type=files/admin&live_edit=true&remeber_path=true&ui=basic&start_path=media_host_base&from_admin=true&file_types=images&id=mw_admin_logo_upload_browse_existing_modal<?php print $params['id'] ?>&from_url=<?php print site_url() ?>',
             title: "Browse pictures",
             id: modal_id,
             onload: function () {
-
                 this.iframe.contentWindow.mw.on.hashParam('select-file', function () {
                     mw.notification.success('<?php _e('Logo image selected') ?>');
                     if (inverse) {
@@ -200,14 +193,12 @@ if (isset($params['data-alt-logo'])) {
                     } else {
                         setNewImage(this);
                     }
-                    mw_admin_logo_upload_browse_existing_modal.remove();
-
-                })
-                this.iframe.contentWindow.document.body.style.padding = '15px';
+                    dialog.remove();
+                });
             },
-            height: 400
+            height: 'auto',
+            autoHeight: true
         })
-
     }
 
 </script>
