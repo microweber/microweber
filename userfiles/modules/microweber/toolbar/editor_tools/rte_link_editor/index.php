@@ -33,7 +33,8 @@
                         return false;
                     }
                 }
-                mw.tools.ajaxSearch({keyword: val, limit: 4}, function () {
+                // param is_active:'y' breaks search + is a limit required?
+                mw.tools.ajaxSearch({keyword: val, limit: 20}, function () {
                     var lis = "";
                     var json = this;
                     for (var item in json) {
@@ -185,6 +186,7 @@
 
     #mw-popup-insertlink {
         padding: 10px;
+        overflow:auto;
     }
 
     .mw-ui-row-nodrop, .media-search-holder {
