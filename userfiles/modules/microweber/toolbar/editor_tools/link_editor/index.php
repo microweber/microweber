@@ -37,7 +37,8 @@
                         return false;
                     }
                 }
-                mw.tools.ajaxSearch({keyword: val, limit: 4}, function () {
+                // is_active: 'y' fails + is a limit required?
+                mw.tools.ajaxSearch({keyword: val, limit: 20}, function () {
                     var lis = [];
                     var json = this;
                     var createLi = function(obj){
@@ -120,6 +121,10 @@
 
     #tabs .tab {
         display: none;
+    }
+
+    #mw-popup-insertlink {
+        overflow:auto;
     }
 
     .mw-ui-row-nodrop, .media-search-holder {
