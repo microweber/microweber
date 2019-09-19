@@ -14,9 +14,11 @@
 
 #mw-text-editor {
     width: 100%;
+    display: flex;
     min-height: 35px;
     background: #F5F5F5;
     z-index: 996;
+    justify-content: space-between;
 }
 
 .mw_editor.disabled, #mw_small_editor.disabled,
@@ -529,6 +531,7 @@
 
 .wysiwyg-table {
     display: table;
+    display: flex;
     padding: 15px 0;
     position: relative;
     left: 0;
@@ -536,6 +539,7 @@
 
 .wysiwyg-table > .wysiwyg-cell {
     display: table-cell;
+    display: flex;
     vertical-align: middle;
     float: none;
     white-space: nowrap;

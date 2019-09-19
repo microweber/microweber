@@ -15,16 +15,16 @@ mw.liveedit.initLoad = function() {
                 mw.$(".list-modules li").show();
                 return false;
             }
-            (val != -1 && val != "-1") ? mw.tools.toolbar_sorter(Modules_List_modules, val): '';
+            (val !== -1 && val !== "-1") ? mw.tools.toolbar_sorter(Modules_List_modules, val): '';
         });
         mw.$("#elements_category_selector").change(function() {
             var val = mw.$(this).getDropdownValue();
 
-            if (val == 'all') {
+            if (val === 'all') {
                 mw.$(".list-elements li").show();
                 return false;
             }
-            (val != -1 && val != "-1") ? mw.tools.toolbar_sorter(Modules_List_elements, val): '';
+            (val !== -1 && val !== "-1") ? mw.tools.toolbar_sorter(Modules_List_elements, val): '';
         });
 
 
@@ -33,7 +33,8 @@ mw.liveedit.initLoad = function() {
         mw.interval('regular-mode', function(){
             mw.$('.row').addClass('nodrop');
             mw.$('.row .col').addClass('allow-drop');
-            mw.$('.nodrop .allow-drop').addClass('regular-mode');
+            // mw.$('.nodrop .allow-drop').addClass('regular-mode');
+            mw.$('.safe-element[class*="mw-micon-"]').removeClass('safe-element');
         })
 
     }, 100);

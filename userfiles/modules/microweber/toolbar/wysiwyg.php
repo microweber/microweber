@@ -2,7 +2,7 @@
     <?php if(is_admin()): ?>
     <div class="wysiwyg-undo-redo">
       <div class="wysiwyg-cell-undo-redo">
-            <span style="display: none"
+            <span
                   class="liveedit_wysiwyg_prev"
                   id="liveedit_wysiwyg_main_prev"
                   title="<?php _e("Previous"); ?>"

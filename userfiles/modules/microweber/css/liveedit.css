@@ -592,13 +592,6 @@ a.mw-make-cols {
     /**/
 }
 
-.mw_edit_settings {
-    opacity: 0;
-    color: #fff !important;
-    transition: opacity 0.3s, transform 0.3s;
-    transform: scale(.5) translateY(10px);
-    z-index: 2;
-}
 
 .module-active-layouts .mw-element-name-handle {
     /*font-size: 0;
@@ -606,14 +599,8 @@ a.mw-make-cols {
     position: relative;*/
 }
 
-.mw_edit_settings [class*="mw-icon-"] {
-    font-size: 19px;
-}
 
-.mw-active-item .mw_edit_settings {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-}
+
 
 a.mw-make-cols {
     position: absolute;
@@ -1302,10 +1289,10 @@ body.has-opened-sidebar #live_edit_toolbar {
 }
 
 .toolbar-sections-tabs {
-    float: left;
     position: relative;
     z-index: 12;
     background: #F5F5F5;
+    white-space: nowrap;
 }
 
 .toolbar-sections-tabs > ul > li.hover > ul,
@@ -1360,9 +1347,10 @@ body.has-opened-sidebar #live_edit_toolbar {
 }
 
 .toolbar-sections-tabs > ul > li {
-    float: left;
     list-style: none;
     position: relative;
+    display: inline-block;
+    vertical-align: top;
 }
 
 .mw-dropdown-list {
@@ -1908,7 +1896,7 @@ body.dragStart .empty-element {
 
 .editor_wrapper_tabled {
     display: inline-block;
-    position: absolute;
+    position: relative;
 }
 
 #liveedit_wysiwyg_main_prev, #liveedit_wysiwyg_main_next {
@@ -1922,6 +1910,13 @@ body.dragStart .empty-element {
     background-repeat: no-repeat;
     background-origin: content-box;
     background-position: center;
+    opacity: 0;
+    pointer-events: none;
+}
+
+#liveedit_wysiwyg_main_prev.active, #liveedit_wysiwyg_main_next.active{
+    opacity: 1;
+    pointer-events: all;
 }
 
 #liveedit_wysiwyg_main_prev:hover, #liveedit_wysiwyg_main_next:hover,
@@ -2300,11 +2295,11 @@ body.dragStart .empty-element {
 }
 
 #mw-toolbar-right {
-    float: right;
     background: #F5F5F5;
     padding: 0px 10px 0px 0;
     position: relative;
     z-index: 1;
+    white-space: nowrap;
 }
 
 .mw-toolbar-right-content {
@@ -3375,7 +3370,6 @@ body.isTyping .mw-cloneable-control {
 
 .wysiwyg-undo-redo {
     display: inline-block;
-    float: left;
     position: relative;
     z-index: 2;
     background: #F5F5F5;
@@ -3384,7 +3378,10 @@ body.isTyping .mw-cloneable-control {
 
 .wysiwyg-cell-undo-redo .mw-ui-btn-nav {
     margin: 10px 0 0 10px;
-    float: left;
+    white-space: nowrap;
+}
+.wysiwyg-cell-undo-redo .mw-ui-btn-nav > * {
+    float: none;
 }
 
 .wysiwyg-cell-undo-redo .mw_editor_btn {

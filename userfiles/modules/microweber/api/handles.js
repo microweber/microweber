@@ -172,13 +172,7 @@ mw.Handle = function(options) {
     };
 
     this._defaultButtons = [
-        {
-            title:'Delete',
-            icon: 'mw-icon-bin',
-            action: function () {
-                mw.drag.delete_element(mw.handle_module);
-            }
-        }
+
     ];
 
     this.createMenuDynamicHolder = function(){
@@ -638,10 +632,10 @@ mw._initHandles = {
             mw.tools.addClass(mw.handleModule, 'module-active-' + module_type.replace(/\//g, '-'));
 
             if (mw.live_edit_module_settings_array && mw.live_edit_module_settings_array[module_type]) {
-                mw.$(".mw_edit_settings", mw.handle_module).hide();
+
                 var new_el = mwd.createElement('div');
                 new_el.className = 'mw_edit_settings_multiple_holder';
-                mw.$('.mw_edit_settings', mw.handle_module).after(new_el);
+
                 var settings = mw.live_edit_module_settings_array[module_type];
                 mw.$(settings).each(function () {
                     if (this.view) {
@@ -666,13 +660,7 @@ mw._initHandles = {
                     }
                 });
             } else {
-                mw.$(".mw_edit_settings", mw.handle_module).show();
-            }
-            if (mod_icon) {
-                var sorthandle_main = mw.$(".mw-element-name-handle", mw.handle_module).parent().parent();
-                if (sorthandle_main) {
-                    mw.$(sorthandle_main).addClass('mw-element-name-handle-no-fallback-icon');
-                }
+
             }
 
             /*************************************/

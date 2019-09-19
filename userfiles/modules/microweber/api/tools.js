@@ -1439,7 +1439,7 @@ mw.tools = {
         for (; i < l; i++) {
             var el = items[i];
             var cls = el.className;
-            if (!!el.mwDropdownActivated) {
+            if (el.mwDropdownActivated) {
                 continue;
             }
             el.mwDropdownActivated = true;

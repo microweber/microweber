@@ -1,4 +1,5 @@
 mw.liveedit.data = {
+    _data:{},
     init: function() {
         mw.$(document.body).on('touchmove mousemove', function(e){
             var hasLayout = !!mw.tools.firstMatchesOnNodeOrParent(e.target, ['[data-module-name="layouts"]', '[data-type="layouts"]']);
@@ -7,10 +8,10 @@ mw.liveedit.data = {
         });
     },
     set: function(action, item, value){
-        this[action] = this[action] || {};
-        this[action][item] = value;
+        this._data[action] = this._data[action] || {};
+        this._data[action][item] = value;
     },
     get: function(action, item){
-        return this[action] && this[action][item];
+        return this._data[action] ? this._data[action][item] : undefined;
     }
 };

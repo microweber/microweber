@@ -28,6 +28,8 @@ mw.require('liveedit/inline.js');
 mw.require('liveedit/events.custom.js');
 mw.require('liveedit/events.js');
 mw.require('liveedit/initready.js');
+mw.require('liveedit/widgets.js');
+mw.require('liveedit/beforeleave.js');
 mw.require('liveedit/initload.js');
 
 
