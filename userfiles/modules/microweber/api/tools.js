@@ -716,45 +716,6 @@ mw.tools = {
     tip: function (o) {
         return mw.tools.tooltip.init(o);
     },
-    inlineModal: function (o) {
-        /*
-         **********************************************
-         mw.tools.inlineModal({
-         element: "#selector", Node or jQuery Object *: Required - The element in which the 'inlineModal' will be put.
-         content: string, Node or jQuery Object *: content for the 'inlineModal'.
-         template: string *: sets class for the 'inlineModal'. Default - ".mw-inline-modal-default"
-         });
-         ***********************************************
-         */
-        var tpl = o.template || 'mw-inline-modal-default';
-        if (o.element === null || typeof o.element === 'undefined') {
-            return false;
-        }
-        if (o.content === null || typeof o.content === 'undefined') {
-            o.content = "";
-        }
-        var m = mwd.createElement('div'), c = mwd.createElement('div');
-        mw.wysiwyg.contentEditable(m, false);
-        m.className = 'mw-inline-modal ' + tpl;
-        c.className = 'mw-inline-modal-container';
-        c.innerHTML = '<span class="mw-inline-modal-container-close" onclick="$(mw.tools.firstParentWithClass(this, \'mw-inline-modal\')).remove();"></span>';
-        m.innerHTML = '<div class="mw-inline-modal-overlay"></div>';
-        var pos = mw.$(o.element).css("position");
-        if (pos != 'relative' && pos != 'absolute' && pos != 'fixed') {
-            mw.$(o.element).css("position", "relative");
-        }
-        if (typeof o.content === 'object') {
-            o.content = mw.$(o.content).clone(true);
-            o.content.show();
-        }
-        mw.$(c).append(o.content);
-        m.appendChild(c);
-        mw.$(o.element).append(m);
-        var h1 = mw.$(o.element).outerHeight();
-        var h2 = mw.$(c).outerHeight();
-        c.style.top = h1 / 2 - h2 / 2 + "px";
-        return m;
-    },
     cssNumber: function (val) {
         var units = ["px", "%", "in", "cm", "mm", "em", "ex", "pt", "pc"];
         if (typeof val === 'number') {
@@ -4364,7 +4325,7 @@ mw.storage = {
     change: function (key, callback, other) {
         if (!('localStorage' in mww)) return false;
         if (key === 'INIT' && 'addEventListener' in document) {
-            mww.addEventListener('storage', function (e) {
+            addEventListener('storage', function (e) {
                 if (e.key === 'mw') {
                     var _new = JSON.parse(e.newValue || {});
                     var _old = JSON.parse(e.oldValue || {});
@@ -4399,23 +4360,10 @@ mw.storage = {
     }
 }
 mw.storage.init();
-rcss = function () {
-    mw.$("link").each(function () {
-        var href = this.href;
-        this.href = mw.url.set_param('v', mw.random(), href);
-    });
-}
-setVisible = function (e) {
-    if (e.type == 'focus') {
-        mw.$(mw.tools.firstParentWithClass(e.target, 'mw-dropdown-content')).visible()
-    }
-    else if (e.type == 'blur') {
-        mw.$(mw.tools.firstParentWithClass(e.target, 'mw-dropdown-content')).visibilityDefault()
-    }
-}
+
 mw.postMsg = function (w, obj) {
     w.postMessage(JSON.stringify(obj), window.location.href);
-}
+};
 $(document).ready(function () {
     mw.on('mwDialogShow', function(){
         mw.$(document.documentElement).addClass('mw-dialog-opened');
@@ -4481,7 +4429,7 @@ $(document).ready(function () {
             });
         }
     });
-    _mwoldww = mw.$(window).width();
+    var _mwoldww = mw.$(window).width();
     mw.$(window).resize(function () {
         if ($(window).width() > _mwoldww) {
             mw.trigger("increaseWidth");
@@ -4518,28 +4466,7 @@ $(document).ready(function () {
             }
         }
     });
-    mw.$(".mw-pin").each(function () {
-        var el = this,
-            who = mw.$(el).dataset("for"),
-            is = mw.cookie.ui(who) == 'true';
-        if (is) {
-            mw.tools.addClass(el, 'active');
-            var who = mw.$(who);
-            who.addClass("active")
-        }
-        mw.$(el).click(function () {
-            if ($(this).hasClass("active")) {
-                mw.tools.removeClass(this, 'active');
-                var who = mw.$(el).dataset("for");
-                mw.cookie.ui(who, "false");
-            }
-            else {
-                mw.tools.addClass(this, 'active');
-                var who = mw.$(el).dataset("for");
-                mw.cookie.ui(who, "true");
-            }
-        });
-    });
+
     mw.$(".mw-image-holder").each(function () {
         if ($(".mw-image-holder-overlay", this).length === 0) {
             mw.$('img', this).eq(0).after('<span class="mw-image-holder-overlay"></span>');
@@ -4567,48 +4494,6 @@ $(document).ready(function () {
 
 
 });
-mw.ui = mw.tools;
-mw.ui.btn = {
-    radionav: function (nav, btn_selector) {
-        if (mw.tools.hasClass(nav.className, 'activated')) {
-            return false;
-        }
-        mw.tools.addClass(nav, 'activated');
-        btn_selector = btn_selector || ".mw-ui-btn";
-        var all = nav.querySelectorAll(btn_selector), i = 0, l = all.length, el;
-        for (; i < l; i++) {
-            el = all[i];
-            mw.$(el).bind('click', function () {
-                if (!mw.tools.hasClass(this.className, 'active')) {
-                    var active = nav.querySelector(btn_selector + ".active");
-                    if (active !== null) {
-                        mw.tools.removeClass(active, 'active');
-                    }
-                    this.className += ' active';
-                }
-            });
-        }
-    },
-    checkboxnav: function (nav) {
-        if (mw.tools.hasClass(nav.className, 'activated')) {
-            return false;
-        }
-        mw.tools.addClass(nav, 'activated');
-        var all = nav.querySelectorAll(".mw-ui-btn"), i = 0, l = all.length;
-        for (; i < l; i++) {
-            var el = all[i];
-            mw.$(el).bind('click', function () {
-                if (!mw.tools.hasClass(this.className, 'active')) {
-                    this.className += ' active';
-                }
-                else {
-                    mw.tools.removeClass(this, 'active');
-                }
-            });
-        }
-    }
-}
-
 
 mw.image = {
     isResizing: false,
@@ -4971,19 +4856,12 @@ mw.image = {
     }
 };
 
-mw.module = {
-    load: function () {
-    },
-    reload: function () {
-    },
-    loadData: function () {
-    }
-}
+
 /* Exposing to mw  */
 mw.gallery = function (arr, start, modal) {
-    if (self === top || window == window) {
-        return mw.tools.gallery.init(arr, start, modal)
-    }
+
+    return mw.tools.gallery.init(arr, start, modal)
+
 };
 mw.tooltip = mw.tools.tip;
 mw.tip = function (o) {
@@ -5019,7 +4897,6 @@ mw.uploader = function (o) {
 mw.dropdown = mw.tools.dropdown;
 mw.confirm = mw.tools.confirm;
 mw.tabs = mw.tools.tabGroup;
-mw.inlineModal = mw.tools.inlineModal;
 mw.progress = mw.tools.progress;
 mw.external = function (o) {
     return mw.tools._external(o);
@@ -5383,15 +5260,7 @@ mw.responsive = {
         });
     }
 }
-String.prototype.hash = function () {
-    var self = this, range = Array(this.length);
-    for (var i = 0; i < this.length; i++) {
-        range[i] = i;
-    }
-    return Array.prototype.map.call(range, function (i) {
-        return self.charCodeAt(i).toString(16);
-    }).join('');
-}
+
 
 mw.ajax = function (options) {
     var xhr = $.ajax(options);
@@ -5439,12 +5308,6 @@ mw.extradataForm = function (options, data) {
         if(data.form_data_required){
             mw.$(form).append('<hr><button type="submit" class="mw-ui-btn pull-right mw-ui-btn-invert">' + mw.lang('Submit') + '</button>');
         }
-
-
-
-
-
-
 
         form.action = options.url;
         form.method = options.type;
@@ -5524,8 +5387,8 @@ mw.uiAccordion = function (options) {
         if (!this.root.length) return;
         this.root.addClass('mw-accordion-ready');
         this.root[0].uiAccordion = this;
-        this.getTitles()
-        this.getContents()
+        this.getTitles();
+        this.getContents();
 
     };
 
@@ -5538,7 +5401,8 @@ mw.uiAccordion = function (options) {
             item = mw.$(q);
         }
         return item;
-    }
+    };
+
     this.set = function (index) {
         var item = this.getItem(index);
         if (!this.options.multiple) {
@@ -5558,7 +5422,8 @@ mw.uiAccordion = function (options) {
             .parents('.mw-accordion-item').eq(0)
             .addClass('active');
         mw.$(this).trigger('accordionSet', [item]);
-    }
+    };
+
     this.unset = function (index) {
         if (typeof index === 'undefined') return;
         var item = this.getItem(index);

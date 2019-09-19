@@ -263,8 +263,7 @@ return;
     <?php if (($fffound) == false): ?>
         <div class="module-presets-add-new-holder">
             <input type="hidden" name="module" value="<?php print $module_name ?>">
-            <input type="text" name="name" value="" class="mw-ui-field" xonfocus="setVisible(event);"
-                   xonblur="setVisible(event);">
+            <input type="text" name="name" value="" class="mw-ui-field">
             <input type="hidden" name="module_id" value="<?php print $module_id ?>">
             <input type="button" js-mod-id="<?php print  $module_id ?>" value="Save"
                    class="mw-ui-btn mw-ui-btn-notification module-presets-action-btn"/>

@@ -416,7 +416,7 @@ mw.drag = {
                     var clone = mw.$(curr).clone(true);
                     clone.css({
                         width: mw.$(curr).width(),
-                        height: mw.$(curr).height()
+                        height: 'auto'
                     });
                     return clone;
                 });

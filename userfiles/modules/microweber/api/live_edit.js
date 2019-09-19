@@ -140,6 +140,7 @@ mw.live_edit.showSettings = function (a, opts) {
         var nmodal = mw.dialogIframe({
             url: src,
             width: 532,
+            height: 'auto',
             autoHeight:true,
             id: modal_name,
             title:'',
@@ -149,18 +150,6 @@ mw.live_edit.showSettings = function (a, opts) {
         nmodal.iframe.contentWindow.thismodal = nmodal;
         return nmodal;
 
-        var modal = top.mw.tools.modal.frame({
-            url: src,
-            width: 532,
-            height: 150,
-            name: modal_name,
-            title: '',
-            callback: function () {
-                $(this.container).attr('data-settings-for-module', curr.id);
-            }
-        });
-        mw.live_edit.getModuleTitleBar(module_type, curr.id);
-        return modal;
     } else {
 
 
@@ -168,7 +157,7 @@ mw.live_edit.showSettings = function (a, opts) {
             mw.liveEditSettings.show();
         }
 
-        if(typeof(mw.sidebarSettingsTabs) != 'undefined'){
+        if(mw.sidebarSettingsTabs){
             mw.sidebarSettingsTabs.set(2);
         }
 
