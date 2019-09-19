@@ -130,7 +130,6 @@ mw.drag = {
 
             })
     },
-    external_grids_row_classes: ['row'],
     external_grids_col_classes: ['row', 'col-lg-1', 'col-lg-10', 'col-lg-11', 'col-lg-12', 'col-lg-2', 'col-lg-3', 'col-lg-4', 'col-lg-5', 'col-lg-6', 'col-lg-7', 'col-lg-8', 'col-lg-9', 'col-md-1', 'col-md-10', 'col-md-11', 'col-md-12', 'col-md-2', 'col-md-3', 'col-md-4', 'col-md-5', 'col-md-6', 'col-md-7', 'col-md-8', 'col-md-9', 'col-sm-1', 'col-sm-10', 'col-sm-11', 'col-sm-12', 'col-sm-2', 'col-sm-3', 'col-sm-4', 'col-sm-5', 'col-sm-6', 'col-sm-7', 'col-sm-8', 'col-sm-9', 'col-xs-1', 'col-xs-10', 'col-xs-11', 'col-xs-12', 'col-xs-2', 'col-xs-3', 'col-xs-4', 'col-xs-5', 'col-xs-6', 'col-xs-7', 'col-xs-8', 'col-xs-9'],
     external_css_no_element_classes: ['container','navbar', 'navbar-header', 'navbar-collapse', 'navbar-static', 'navbar-static-top', 'navbar-default', 'navbar-text', 'navbar-right', 'navbar-center', 'navbar-left', 'nav navbar-nav', 'collapse', 'header-collapse', 'panel-heading', 'panel-body', 'panel-footer'],
     section_selectors: ['.module-layouts'],
@@ -263,10 +262,9 @@ mw.drag = {
         }
 
     },
-    columnout: false,
     noop: mwd.createElement('div'),
     create: function() {
-        mw.top_half = false;
+
         var edits = mwd.body.querySelectorAll(".edit"),
             elen = edits.length,
             ei = 0;
@@ -376,83 +374,16 @@ mw.drag = {
             }
         });
 
-        mw.on("ItemLeave", function(e, target) {
-            mw.$(mw.handle_item).css({
-                top: "",
-                left: ""
-            });
-        });
     },
 
     init: function(selector, callback) {
-        if (!mw.handle_item) {
-
-            mw.$(mwd.body).append(mw.settings.handles.module);
-            mw.$(mwd.body).append(mw.settings.handles.row);
-            mw.$(mwd.body).append(mw.settings.handles.element);
-            mw.$(mwd.body).append(mw.settings.handles.item);
-
-
-            mw.handle_element = mwd.getElementById('mw_handle_element');
-            mw.handle_item = '';
-
-            var pd = '<div class="mw-module-quick-options">'
-                + '<span class="mw-module-quick-options-menu"></span>'
-                +  '<div class="mw-module-quick-options-content">'
-                +  '<label>Top spacing</label>'
-                +  '<input type="range">'
-                +  '<label>Bottom spacing</label>'
-                +  '<input type="range">'
-                +  '<label>Top and bottom</label>'
-                +  '<input type="range">'
-                +  '</div></div>';
-
-
-            mw.$(mw.handle_item).mouseenter(function() {
-                var el = mw.$(this);
-                var curr = el.data("curr");
-                curr.id = 'item_' + mw.random();
-                el.draggable("option", "helper", function() {
-                    var clone = mw.$(curr).clone(true);
-                    clone.css({
-                        width: mw.$(curr).width(),
-                        height: 'auto'
-                    });
-                    return clone;
-                });
-            }).click(function() {
-                var curr = mw.$(this).data("curr");
-                if (!$(curr).hasClass("element-current")) {
-                    mw.trigger("ItemClick", curr);
-                }
-            });
-
-            mw.$(mw.handle_item).draggable({
-                cursorAt: {
-                    top: -30
-                },
-                start: function() {
-                    mw.isDrag = true;
-                    var curr = mw.$(mw.handle_item).data("curr");
-                    mw.dragCurrent =mw.ea.data.currentGrabbed = curr;
-                    mw.$(mw.dragCurrent).invisible().addClass("mw_drag_current");
-                    mw.trigger("AllLeave");
-                    mw.drag.fix_placeholders();
-                    mw.$(mwd.body).addClass("dragStart");
-                    mw.image_resizer._hide();
-                    mw.wysiwyg.change(mw.dragCurrent);
-                },
-                stop: function() {
-                    mw.$(mwd.body).removeClass("dragStart");
-                }
-            });
-        }
         mw.drag.the_drop();
     },
     properFocus: function(event) {
+        var tofocus;
         if (mw.tools.hasClass(event.target, 'mw-row') || mw.tools.hasClass(event.target, 'mw-col')) {
             if (mw.tools.hasClass(event.target, 'mw-col')) {
-                var tofocus = event.target.querySelector('.mw-col-container');
+                tofocus = event.target.querySelector('.mw-col-container');
             } else {
                 var i = 0,
                     cols = event.target.children,
@@ -473,7 +404,7 @@ mw.drag = {
             if (!!tofocus && tofocus.querySelector('.element') !== null) {
                 var arr = tofocus.querySelectorAll('.element'),
                     l = arr.length;
-                var tofocus = arr[l - 1];
+                tofocus = arr[l - 1];
 
             }
             if (!!tofocus) {
@@ -497,8 +428,15 @@ mw.drag = {
         if (!$(mwd.body).hasClass("bup")) {
             mw.$(mwd.body).addClass("bup");
 
-           /* $(document.body).on('drop', function(e){
-                var ev = e.originalEvent || e;
+           $(document.body).on('drop', function(e){
+               var ev = e.originalEvent || e;
+               if(mw.wysiwyg.isTargetEditable(ev.target)) {
+                   ev.preventDefault();
+               }
+
+                /*
+                    // todo:
+
                 if(mw.wysiwyg.isTargetEditable(ev.target)){
                     var items = ev.dataTransfer.items;
                     for(var i=0; i< items.length; i++){
@@ -506,9 +444,9 @@ mw.drag = {
                             mw.wysiwyg.insert_html(mw.wysiwyg.html2text(a))
                         })
                     }
-                    ev.preventDefault();
-                }
-            });*/
+
+                }*/
+            });
 
             mw.$(mwd.body).on("mouseup touchend", function(event) {
                 mw.image._dragcurrent = null;

@@ -134,7 +134,7 @@ mw.dropables = {
     },
     set: function(pos, offset, height, width) {
         if (pos === 'top') {
-            mw.top_half = true;
+
             mw.dropable.css({
                 top: offset.top - 2,
                 left: offset.left,
@@ -144,7 +144,7 @@ mw.dropables = {
             mw.dropable.data("position", "top");
             mw.dropable.addClass("mw_dropable_arr_up");
         } else if (pos === 'bottom') {
-            mw.top_half = false;
+
             mw.dropable.css({
                 top: offset.top + height + 2,
                 left: offset.left,
@@ -289,10 +289,8 @@ mw.dropables = {
             if (!mw.drag.columns.resizing) {
                 var column = mw.tools.firstParentOrCurrentWithClass(mw.mm_target, 'mw-col');
                 if (column) {
-                    mw.drag.columnout = false;
                     mw.trigger("ColumnOver", column);
                 } else {
-                    mw.drag.columnout = true;
                     mw.trigger("ColumnOut", mw.mm_target);
                 }
             }

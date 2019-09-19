@@ -4,15 +4,15 @@ Primary style
 
 -------------------------------- */
 .microweber {
-  /* http://meyerweb.com/eric/tools/css/reset/ 
+  /* http://meyerweb.com/eric/tools/css/reset/
      v2.0 | 20110126
      License: none (public domain)
   */
   /* HTML5 display-role reset for older browsers */
   /* --------------------------------
-  
+
   options-nav navigation style
-  
+
   -------------------------------- */
 }
 .microweber html, .microweber body, .microweber div, .microweber span, .microweber applet, .microweber object, .microweber iframe,
@@ -1177,9 +1177,7 @@ Primary style
 .microweber .dark range input[type=range]::-moz-range-thumb {
   background: #39263a;
 }
-.xxxxmw_edit_settings_multiple_holder .mw_edit_settings_multiple {
- background:transparent !important;
-}
+
 .mw-edit-module-settings-tooltip-btn {
   position: relative;
   display: block;
@@ -1190,16 +1188,16 @@ Primary style
   font-size: 1.4rem;
   color: #ccddcb;
   background-color: black;
-  
-  
+
+
       padding: 0;
     height: 60px;
     width: 60px;
     border-radius: 30px;
     position: relative;
     background-color: #332234;
- 
-   
+
+
 }
 .mw-edit-module-settings-tooltip-btn .mw-edit-module-settings-tooltip-icon  {
   font-size: 50px;

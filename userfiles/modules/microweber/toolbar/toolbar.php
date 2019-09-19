@@ -58,7 +58,7 @@ if (isset($_COOKIE['mw_exp'])) {
                             'Error object: ' + JSON.stringify(error)
                         ].join(' \n ');
 
-                        alert(message);
+                        console.log(message);
                     }
 
                     return false;
@@ -400,12 +400,14 @@ if (isset($_COOKIE['mw_exp'])) {
                         <?php event_trigger('live_edit_toolbar_menu_end'); ?>
                     </ul>
                 </div>
+
+                <?php include mw_includes_path() . 'toolbar' . DS . 'wysiwyg.php'; ?>
                 <div id="mw-toolbar-right" class="mw-defaults">
         <span
-                class="liveedit_wysiwyg_next"
-                id="liveedit_wysiwyg_main_next"
-                title="<?php _e("Next"); ?>"
-                onclick="mw.liveEditWYSIWYG.slideRight();"></span>
+            class="liveedit_wysiwyg_next"
+            id="liveedit_wysiwyg_main_next"
+            title="<?php _e("Next"); ?>"
+            onclick="mw.liveEditWYSIWYG.slideRight();"></span>
                     <div class="mw-toolbar-right-content">
                         <?php event_trigger('live_edit_toolbar_action_buttons'); ?>
 
@@ -523,7 +525,6 @@ if (isset($_COOKIE['mw_exp'])) {
                         </div>
                     </div>
                 </div>
-                <?php include mw_includes_path() . 'toolbar' . DS . 'wysiwyg.php'; ?>
             </div>
             <?php event_trigger('live_edit_toolbar_controls'); ?>
 
@@ -621,16 +622,16 @@ if (isset($_COOKIE['mw_exp'])) {
                     return;
                 }
                 if (b.left) {
-                    mw.liveEditWYSIWYG.prevBTNS.show();
+                    mw.liveEditWYSIWYG.prevBTNS.addClass('active');
                 }
                 else {
-                    mw.liveEditWYSIWYG.prevBTNS.hide();
+                    mw.liveEditWYSIWYG.prevBTNS.removeClass('active');
                 }
                 if (b.right) {
-                    mw.liveEditWYSIWYG.nextBTNS.show();
+                    mw.liveEditWYSIWYG.nextBTNS.addClass('active');
                 }
                 else {
-                    mw.liveEditWYSIWYG.nextBTNS.hide();
+                    mw.liveEditWYSIWYG.nextBTNS.removeClass('active');
                 }
             },
             slideLeft: function () {
@@ -677,16 +678,50 @@ if (isset($_COOKIE['mw_exp'])) {
                 }
             }
         }
-        $(window).load(function () {
+        $(window).on('load', function () {
+            alert(1)
             mw.liveEditWYSIWYG.buttons();
             $(window).on("resize", function () {
                 mw.liveEditWYSIWYG.buttons();
 
             });
-            mw.interval(function () {
+            mw.interval('liveEditWYSIWYG', function () {
+                console.log(!1)
                 var n = mw.liveEditWYSIWYG.calc.SliderNormalize(mw.liveEditWYSIWYG.ed);
                 if (!!n) {
                     mw.liveEditWYSIWYG.slideRight();
+                }
+                var edl = mw.$("#liveedit_wysiwyg");
+                var ewidth = 0;
+                edl.find('.wysiwyg-cell').each(function(){
+                    ewidth += this.offsetWidth;
+                });
+                edl.find('.wysiwyg-table').width(ewidth)
+
+                edl.css({
+                    maxWidth: 'calc(100% - '
+                    + ((edl.offset().left + mw.$('#mw-toolbar-right').width()) + 20 )
+                    + 'px)'
+                });
+
+            });
+
+            $(".wysiwyg-table").draggable({
+                axis: 'x',
+                drag : function(event,ui){
+                    var parent = ui.helper[0].parentNode;
+
+                    var dragWidth = ui.helper[0].clientWidth;
+                    var parentWidth = parent.clientWidth;
+
+                    var widthDifference = dragWidth - parentWidth;
+
+
+                    if(ui.position.left > 0) ui.position.left = 0;
+                    else if(ui.position.left < -widthDifference) ui.position.left = -widthDifference;
+
+
+
                 }
             });
 

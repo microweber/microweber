@@ -1046,7 +1046,7 @@ mw.wysiwyg = {
                 }
             }
         });
-        mw.$(mwd.body).on('keydown', function (event) {
+        mw.$(mwd.body).on('obsolate.keydown', function (event) {
             if ((event.keyCode == 46 || event.keyCode == 8) && event.type == 'keydown') {
                 mw.tools.removeClass(mw.image_resizer, 'active');
                 mw.wysiwyg.change('.element-current');
@@ -1057,6 +1057,16 @@ mw.wysiwyg = {
                     return true;
                 }
                 var sel = window.getSelection();
+                if (mw.event.is.enter(event)) {
+                    if (mw.tools.hasAnyOfClassesOnNodeOrParent(event.target, ['safe-mode'])) {
+                        var isList = mw.tools.firstMatchesOnNodeOrParent(event.target, ['li', 'ul', 'ol'])
+                        if (!isList) {
+                            event.preventDefault();
+                            mw.wysiwyg.insert_html('<br>');
+                        }
+                    }
+                }
+
 
                 if (sel.rangeCount > 0) {
                     var r = sel.getRangeAt(0);
@@ -1349,7 +1359,7 @@ mw.wysiwyg = {
 
     editable: function (el) {
         var el = mw.wysiwyg.validateCommonAncestorContainer(el);
-        return el.isContentEditable;
+        return el.isContentEditable && ['SELECT', 'INPUT', 'TEXTAREA'].indexOf(el.nodeName) === -1;
     },
     cursorToElement: function (node, a) {
         if (node === null) {
