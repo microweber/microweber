@@ -180,7 +180,7 @@
                 </ul>
             </div>
         </div>
-        <a href="http://docs.microweber.com/assets/img/custom_fields_settings.gif" style="float:right;color:#0086db;margin-top:5px;margin-bottom:5px;font-size:15px;" target="_blank"><b>How to setup custom fields?</b></a>
+
         <hr>
         <div id="custom-fields-box">
             <?php if (isset($params['live_edit'])): ?>
@@ -190,6 +190,14 @@
 
             <module data-type="custom_fields/list" for="<?php print $for ?>" <?php if (isset($for_id)): ?> rel_id='<?php print $for_id; ?>'  <?php endif; ?> list-preview="true" id="mw_custom_fields_list_preview"/>
         </div>
+
+        <label class="mw-ui-label">
+        <br>
+
+        <small  style="float:right;" >
+            <a style="color: #999999" href="http://docs.microweber.com/assets/img/custom_fields_settings.gif" target="_blank"><b>How to setup custom fields?</b></a>
+        </small>
+        </label>
     </div>
 </div>
 

@@ -472,7 +472,6 @@ mw.ElementAnalyzer = function(options){
             else {
                 scope.data.target = e.target;
             }
-
             scope.interactionTarget();
             scope.data.target = scope.getTarget();
 

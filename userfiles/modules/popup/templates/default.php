@@ -8,6 +8,8 @@ name: Default
 
 description: Default
 
+TODO: add option to show accept button instead of close
+
 */
 ?>
 <script>
@@ -15,31 +17,41 @@ description: Default
 </script>
 
 <div class="bootstrap3ns">
-    <?php if ($type == 'on_click'): ?>
-        <a data-toggle="modal" href="#popup-<?php print $params['id']; ?>" data-backdrop="false">Click to open modal</a>
+    <?php if ($type == 'on_click'):
+        $onclick = (($source == 'existing_page' && !empty($page_id))? 'onclick="return popup_get_content();"' : '');
+    ?>
+        <a id="#popup-link" <?php print $onclick;?> data-toggle="modal" href="#popup-<?php print $params['id']; ?>" data-backdrop="false"><?php print $link_text;?></a>
     <?php endif; ?>
 
-    <div class="modal fade" tabindex="-1" role="dialog" id="popup-<?php print $params['id']; ?>">
+    <div class="modal fade" tabindex="-1" role="dialog" id="popup-<?php print $params['id']; ?>" style="display:none">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
+					<?php if($source == 'existing_page'):?>
+					<h4 id="modal-title"></h4>
+					<?php else: ?>
                     <h4 class="modal-title edit" rel="module" field="module-popup-title-<?php print $params['id']; ?>">
                         Modal title</h4>
+                    <?php endif;?>
                 </div>
                 <div class="modal-body">
-                    <div style="max-height: 50vh; overflow-y: scroll;">
+                    <div style="max-height: 50vh; overflow-y: scroll; padding-right:15px">
+                        <?php if($source == 'existing_page'): ?>
+                              <div id="modal-content">loading ...</div>
+                        <?php else: ?>
                         <div class="edit allow-drop" rel="module"
                              field="module-popup-content-<?php print $params['id']; ?>">
                             <p>One fine body&hellip;</p>
                         </div>
+                        <?php endif;?>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 
-                    <?php if (in_live_edit()): ?>
+                    <?php if (in_live_edit() && $source != 'existing_page'): ?>
                         <button type="button" class="btn btn-success" onclick="mw.drag.save();">Save</button>
                     <?php endif; ?>
 

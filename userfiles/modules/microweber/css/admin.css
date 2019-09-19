@@ -2692,9 +2692,6 @@ input#edit-content-url:focus, input#edit-content-url.active {
 }
 
 .toolbar-live-edit span {
-    font-size: 17px;
-    vertical-align: middle;
-    float: left;
     margin-right: 10px;
 }
 

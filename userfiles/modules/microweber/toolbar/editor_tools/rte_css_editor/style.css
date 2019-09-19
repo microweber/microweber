@@ -279,3 +279,35 @@ input,select{
         padding-bottom: 25px;
     }
 
+    .angle{
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        border: 1px dotted #ccc;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .angle-top-left{
+        border-top-left-radius: 7px;
+        border-left: 1px solid #000;
+        border-top: 1px solid #000;
+    }
+    .angle-top-right{
+        border-top-right-radius: 7px;
+        border-right: 1px solid #000;
+        border-top: 1px solid #000;
+    }
+    .angle-bottom-left{
+        border-bottom-left-radius: 7px;
+        border-left: 1px solid #000;
+        border-bottom: 1px solid #000;
+    }
+    .angle-bottom-right{
+        border-bottom-right-radius: 7px;
+        border-right: 1px solid #000;
+        border-bottom: 1px solid #000;
+    }
+
+

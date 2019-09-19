@@ -1,9 +1,10 @@
 <?php
 $template = get_option('data-template', $params['id']);
 
+$defaultUsername = 'bummer.frenchie.wild';
 $username = get_option('username', $params['id']);
 if (!isset($username) or $username == false or $username == '') {
-    $username = 'bummer.frenchie.wild';
+    $username = $defaultUsername;
 }
 
 $number_of_items = get_option('number_of_items', $params['id']);
@@ -21,9 +22,25 @@ if ($template != false) {
 
 }
 
-$html = mw()->http->url('https://instagram.com/' . $username . '/')->set_cache(1800)->get();
-preg_match('/_sharedData = ({.*);<\/script>/', $html, $matches);
-$profile_data = json_decode($matches[1])->entry_data->ProfilePage[0]->graphql->user;
+try {
+    $html = mw()->http->url('https://instagram.com/' . $username . '/')->set_cache(1800)->get();
+    preg_match('/_sharedData = ({.*);<\/script>/', $html, $matches);
+
+} catch (Exception $e) {
+    echo 'Caught exception: ', $e->getMessage(), "\n";
+    return;
+}
+
+if (!isset($matches[1])) {
+    print lnotif("Click here to edit Instagram feed");
+}
+
+$profile_data = json_decode($matches[1]);
+if (!isset($profile_data->entry_data) or !isset($profile_data->entry_data->ProfilePage)) {
+    print _e("Profile not found");
+    return;
+}
+$profile_data = $profile_data->entry_data->ProfilePage[0]->graphql->user;
 $profile_data = json_encode($profile_data);
 $profile_data = json_decode($profile_data, true);
 

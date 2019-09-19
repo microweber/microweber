@@ -23,7 +23,7 @@ mw.instruments = {
             return;
         }
         config.show = typeof config.show === 'undefined' ? true : config.show;
-        config.width = config.width || 600;
+        config.width = config.width || 660;
         if(!this._run[config.id]){
             var inst = this[config.instrument]({
                 mode: 'inline'

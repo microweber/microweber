@@ -315,11 +315,18 @@ mw.drag = {
                         }
                     }
                 } else {
-                    mw.ea.data.currentGrabbed = mw.dragCurrent;
-                    mw.tools.removeClass(this, 'isTyping');
-                    mw.ea.interactionAnalizer(event);
-                    mw.$(".currentDragMouseOver").removeClass("currentDragMouseOver");
-                    mw.$(mw.currentDragMouseOver).addClass("currentDragMouseOver");
+                    var sidebar = document.getElementById('live_edit_side_holder');
+                    if(sidebar && sidebar.contains && sidebar.contains(mw.mm_target)){
+                        mw.dropable.hide();
+                        mw.ea.data.target = null;
+                    } else {
+                        mw.ea.data.currentGrabbed = mw.dragCurrent;
+                        mw.tools.removeClass(this, 'isTyping');
+                        mw.ea.interactionAnalizer(event);
+                        mw.$(".currentDragMouseOver").removeClass("currentDragMouseOver");
+                        mw.$(mw.currentDragMouseOver).addClass("currentDragMouseOver");
+                    }
+
                 }
             }
         });
@@ -409,7 +416,7 @@ mw.drag = {
                     var clone = mw.$(curr).clone(true);
                     clone.css({
                         width: mw.$(curr).width(),
-                        height: mw.$(curr).height()
+                        height: 'auto'
                     });
                     return clone;
                 });
