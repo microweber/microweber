@@ -14,7 +14,7 @@ foreach($templates as $template){
 
 
     print '<h3>'.$template['layout_file'].'</h3>';
-    print '<module type="layouts"   template="'.$template['layout_file'].'"  id="layout-'.$template['layout_file'].'" />';
+    print '<module type="layouts"   template="'.$template['layout_file'].'"  id="layout-'.url_title($template['layout_file']).'" />';
 
 }
 
@@ -33,7 +33,7 @@ foreach($modules as $module){
 
 
     print '<h3>'.$module['module'].'</h3>';
-    print '<module type="'.$module['module'].'" id="mod-'.$module['module'].'" />';
+    print '<module type="'.$module['module'].'" id="mod-'.url_title($module['module']).'" />';
 
 }
 
