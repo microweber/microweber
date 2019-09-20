@@ -901,7 +901,17 @@ class Modules
             $module_namei = str_ireplace('/admin', '', $module_namei);
         }
         $uninstall_lock = $this->get('one=1&ui=any&module=' . $module_namei);
-        if (empty($uninstall_lock) or (isset($uninstall_lock['installed']) and $uninstall_lock['installed'] != '' and intval($uninstall_lock['installed']) != 1)) {
+
+        if (!$uninstall_lock or empty($uninstall_lock) or (isset($uninstall_lock['installed']) and $uninstall_lock['installed'] != '' and intval($uninstall_lock['installed']) != 1)) {
+            $root_mod= $this->locate_root_module($module_name);
+            if($root_mod){
+                $uninstall_lock = $this->get('one=1&ui=any&module=' . $root_mod);
+                if (empty($uninstall_lock) or (isset($uninstall_lock['installed']) and $uninstall_lock['installed'] != '' and intval($uninstall_lock['installed']) != 1)) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
             return false;
         } else {
             return true;
