@@ -135,10 +135,13 @@ $require_terms = get_option('require_terms', $params['module'] . '_default');
 $require_terms_when = '';
 
 if($require_terms) {
-    $user_id_or_email = (is_logged()? user_id():false);
-    if(mw()->user_manager->terms_check('terms_contact', $user_id_or_email)){
-    	$require_terms = 'n';
-    } else {
+    if(is_logged()){
+    	if(mw()->user_manager->terms_check('terms_contact', user_id())) {
+    	    $require_terms = 'n';
+    	}
+    }
+
+    if($require_terms) {
 		$require_terms_when = get_option('require_terms_when', $params['module'] . '_default');
 		if($require_terms_when == 'b') {
 			$terms_label = get_option('terms_label', 'users');
@@ -149,6 +152,16 @@ if($require_terms) {
 				$terms_label = 'I agree with the <a href="' . site_url() . 'terms" target="_blank">Terms and Conditions</a>';
 			}
 		}
+	}
+}
+
+$show_newsletter_subscription = get_option('newsletter_subscription', $params['module'] . '_default');
+if($show_newsletter_subscription == 'y') {
+	$newsletter_subscribed = false;
+	if(is_logged()){
+	    if(mw()->user_manager->terms_check('terms_newsletter', user_id())){
+		    $newsletter_subscribed = true;
+	    }
 	}
 }
 
