@@ -104,29 +104,6 @@ description: Default register template
 
             <div class="alert" style="margin: 0;display: none;"></div>
 
-            <?php if ($have_social_login): ?>
-            <div class="social-login">
-                <h5><?php _e("Login with"); ?>:</h5>
-                    <ul>
-                        <?php if ($facebook): ?>
-                            <li><a href="<?php print api_link('user_social_login?provider=facebook') ?>" class="mw-signin-with-facebook">Facebook login</a></li>
-                        <?php endif; ?>
-                        <?php if ($twitter): ?>
-                            <li><a href="<?php print api_link('user_social_login?provider=twitter') ?>" class="mw-signin-with-twitter">Twitter login</a></li>
-                        <?php endif; ?>
-                        <?php if ($google): ?>
-                            <li><a href="<?php print api_link('user_social_login?provider=google') ?>" class="mw-signin-with-google">Google login</a></li>
-                        <?php endif; ?>
-                        <?php if ($windows): ?>
-                            <li><a href="<?php print api_link('user_social_login?provider=live') ?>" class="mw-signin-with-live">Windows login</a></li>
-                        <?php endif; ?>
-                        <?php if ($github): ?>
-                            <li><a href="<?php print api_link('user_social_login?provider=github') ?>" class="mw-signin-with-github">Github login</a></li>
-                        <?php endif; ?>
-                    </ul>
-            </div>
-            <?php endif; ?>
-
             <button type="submit" class="btn btn-default pull-right"><?php print $form_btn_title ?></button>
 
             <div style="clear: both"></div>
