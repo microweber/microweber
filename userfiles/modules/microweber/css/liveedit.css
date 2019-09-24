@@ -4547,3 +4547,8 @@ html.padding-control-start .mw-handle-item {
     margin:0 7px 0 0;
 }
 
+.safe-element-svg{
+    position: relative;
+    top: 2px;
+}
+

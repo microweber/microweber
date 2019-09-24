@@ -230,7 +230,7 @@ mw.wysiwyg = {
                         mw.wysiwyg.change(this);
                         if (this.querySelectorAll('*').length === 0 && mw.live_edit.hasAbilityToDropElementsInside(this)) {
                             mw.wysiwyg.modify(this, function () {
-                                if (!mw.tools.hasAnyOfClassesOnNodeOrParent(this, ['safe-mode'])) {
+                                if (!mw.wysiwyg.isSafeMode(this)) {
                                     this.innerHTML = '<p class="element">' + this.innerHTML + '</p>';
                                 }
                             });
@@ -241,7 +241,7 @@ mw.wysiwyg = {
                         if (this.querySelectorAll('*').length === 0 && mw.live_edit.hasAbilityToDropElementsInside(this)) {
 
                             mw.wysiwyg.modify(this, function () {
-                                if (!mw.tools.hasAnyOfClassesOnNodeOrParent(this, ['safe-mode'])) {
+                                if (!mw.wysiwyg.isSafeMode(this)) {
                                     this.innerHTML = '<p class="element">' + this.innerHTML + '&nbsp;</p>';
                                 }
                             });
@@ -611,7 +611,7 @@ mw.wysiwyg = {
         else {
             clipboard = e.clipboardData || mww.clipboardData;
         }
-        if (mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['safe-mode'])) {
+        if (mw.wysiwyg.isSafeMode(e.target)) {
             if (typeof clipboard !== 'undefined' && typeof clipboard.getData === 'function' && mw.wysiwyg.editable(e.target)) {
                 var text = clipboard.getData('text');
                 mw.wysiwyg.insert_html(text);
@@ -1058,7 +1058,7 @@ mw.wysiwyg = {
                 }
                 var sel = window.getSelection();
                 if (mw.event.is.enter(event)) {
-                    if (mw.tools.hasAnyOfClassesOnNodeOrParent(event.target, ['safe-mode'])) {
+                    if (mw.wysiwyg.isSafeMode(event.target)) {
                         var isList = mw.tools.firstMatchesOnNodeOrParent(event.target, ['li', 'ul', 'ol'])
                         if (!isList) {
                             event.preventDefault();
@@ -2524,7 +2524,7 @@ mw.wysiwyg.dropdowns = function () {
     mw.wysiwyg.initFontSelectorBox();
     mw.$("#wysiwyg_insert").not('.ready').addClass('ready').on("change", function () {
         var fnode = window.getSelection().focusNode;
-        var isPlain = mw.tools.hasClass(fnode, 'plain-text') || mw.tools.hasClass(fnode.parentNode, 'plain-text')
+        var isPlain = mw.tools.firstParentOrCurrentWithClass(fnode, 'plain-text');
         if (mw.wysiwyg.isSelectionEditable()) {
             var val = mw.$(this).getDropdownValue();
 
@@ -2693,6 +2693,7 @@ $(window).on('load', function () {
                 }
             }
             if (e.ctrlKey) {
+                var isPlain = mw.tools.firstParentOrCurrentWithClass(e.target, 'plain-text');
                 if (!isPlain) {
                     var code = e.keyCode;
                     if (code === 66) {
