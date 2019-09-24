@@ -23,7 +23,7 @@ description: Default
                 <?php _e('Name'); ?>
                 <span class="asteriskField">*</span>
             </label>
-            <input class="form-control" name="name" placeholder="You Name" type="text"/>
+            <input class="form-control" required="true" name="name" placeholder="Your Name" type="text"/>
         </div>
 
         <div class="form-group hide-on-success">
@@ -31,7 +31,7 @@ description: Default
                 <?php _e('Email'); ?>
                 <span class="asteriskField">*</span> 
             </label>
-            <input class="form-control" name="email" placeholder="your@email.com" type="text"/>
+            <input class="form-control" required="true" name="email" placeholder="name@email.com" type="text"/>
         </div>
         
          <div class="form-group hide-on-success">
@@ -53,7 +53,13 @@ description: Default
 			<?php endif; ?>
 			</select>
         </div>
-        
+
+	<?php if($require_terms): ?>
+	 <div class="form-group hide-on-success">
+		<module type="users/terms" data-for="newsletter" />
+	    </div>
+	<?php endif; ?>
+
         <div class="form-group  hide-on-success">
             <div>
                 <button class="btn btn-primary " name="submit" type="submit">

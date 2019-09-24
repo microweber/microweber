@@ -160,7 +160,11 @@ $icon = get_option('icon', $params['id']);
                 _pickUrl = mw.top().instruments.run(conf);
                 _pickUrl.handler.on('change', function(e, val){
                     mw.$('#btn-default_url').val(val).trigger('change');
-                    mw.top().dialog.get('#pick-link').remove();
+                    var dialog = mw.top().dialog.get('#pick-link');
+                    if(dialog){
+                        dialog.remove();
+                    }
+
                 });
             } else{
                 mw.top().instruments.run(conf);

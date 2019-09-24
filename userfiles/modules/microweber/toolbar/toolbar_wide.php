@@ -153,7 +153,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                         class="liveedit_wysiwyg_prev"
                         id="liveedit_wysiwyg_main_prev"
                         title="<?php _e("Previous"); ?>"
-                        onclick="mw.liveEditWYSIWYG.slideLeft();"> </span> </li>
+                        onclick="mw.liveedit.toolbar.editor.slideLeft();"> </span> </li>
 
          <?php event_trigger('live_edit_toolbar_menu_end'); ?>
 
@@ -165,7 +165,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
 
       </div>
       <div id="mw-toolbar-right" class="mw-defaults"> <span class="liveedit_wysiwyg_next" id="liveedit_wysiwyg_main_next" title="<?php _e("Next"); ?>"
-                          onclick="mw.liveEditWYSIWYG.slideRight();"></span>
+                          onclick="mw.liveedit.toolbar.editor.slideRight();"></span>
 
 
 
@@ -308,44 +308,44 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
             nextBTNS: mw.$(".liveedit_wysiwyg_next"),
             prevBTNS: mw.$(".liveedit_wysiwyg_prev"),
             step: function () {
-                return  $(mw.liveEditWYSIWYG.ed).width();
+                return  $(mw.liveedit.toolbar.editor.ed).width();
             },
             denied: false,
             buttons: function () {
-                var b = mw.liveEditWYSIWYG.calc.SliderButtonsNeeded(mw.liveEditWYSIWYG.ed);
+                var b = mw.liveedit.toolbar.editor.calc.SliderButtonsNeeded(mw.liveedit.toolbar.editor.ed);
                 if (b.left) {
-                    mw.liveEditWYSIWYG.prevBTNS.show();
+                    mw.liveedit.toolbar.editor.prevBTNS.show();
                 }
                 else {
-                    mw.liveEditWYSIWYG.prevBTNS.hide();
+                    mw.liveedit.toolbar.editor.prevBTNS.hide();
                 }
                 if (b.right) {
-                    mw.liveEditWYSIWYG.nextBTNS.show();
+                    mw.liveedit.toolbar.editor.nextBTNS.show();
                 }
                 else {
-                    mw.liveEditWYSIWYG.nextBTNS.hide();
+                    mw.liveedit.toolbar.editor.nextBTNS.hide();
                 }
             },
             slideLeft: function () {
-                if (!mw.liveEditWYSIWYG.denied) {
-                    mw.liveEditWYSIWYG.denied = true;
-                    var el = mw.liveEditWYSIWYG.ed.firstElementChild;
-                    var to = mw.liveEditWYSIWYG.calc.SliderPrev(mw.liveEditWYSIWYG.ed, mw.liveEditWYSIWYG.step());
+                if (!mw.liveedit.toolbar.editor.denied) {
+                    mw.liveedit.toolbar.editor.denied = true;
+                    var el = mw.liveedit.toolbar.editor.ed.firstElementChild;
+                    var to = mw.liveedit.toolbar.editor.calc.SliderPrev(mw.liveedit.toolbar.editor.ed, mw.liveedit.toolbar.editor.step());
                     $(el).animate({left: to}, function () {
-                        mw.liveEditWYSIWYG.denied = false;
-                        mw.liveEditWYSIWYG.buttons();
+                        mw.liveedit.toolbar.editor.denied = false;
+                        mw.liveedit.toolbar.editor.buttons();
                     });
                 }
             },
             slideRight: function () {
-                if (!mw.liveEditWYSIWYG.denied) {
-                    mw.liveEditWYSIWYG.denied = true;
-                    var el = mw.liveEditWYSIWYG.ed.firstElementChild;
+                if (!mw.liveedit.toolbar.editor.denied) {
+                    mw.liveedit.toolbar.editor.denied = true;
+                    var el = mw.liveedit.toolbar.editor.ed.firstElementChild;
 
-                    var to = mw.liveEditWYSIWYG.calc.SliderNext(mw.liveEditWYSIWYG.ed, mw.liveEditWYSIWYG.step());
+                    var to = mw.liveedit.toolbar.editor.calc.SliderNext(mw.liveedit.toolbar.editor.ed, mw.liveedit.toolbar.editor.step());
                     $(el).animate({left: to}, function () {
-                        mw.liveEditWYSIWYG.denied = false;
-                        mw.liveEditWYSIWYG.buttons();
+                        mw.liveedit.toolbar.editor.denied = false;
+                        mw.liveedit.toolbar.editor.buttons();
                     });
                 }
             },
@@ -354,7 +354,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                 var who = $(who);
                 if (who.length > 1) {
                     $(who).each(function () {
-                        mw.liveEditWYSIWYG.fixConvertible(this);
+                        mw.liveedit.toolbar.editor.fixConvertible(this);
                     });
                     return false;
                 }
@@ -371,13 +371,13 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
             }
         }
         $(window).load(function () {
-            mw.liveEditWYSIWYG.buttons();
+            mw.liveedit.toolbar.editor.buttons();
             $(window).on("resize", function () {
-                mw.liveEditWYSIWYG.buttons();
+                mw.liveedit.toolbar.editor.buttons();
 
-                var n = mw.liveEditWYSIWYG.calc.SliderNormalize(mw.liveEditWYSIWYG.ed);
+                var n = mw.liveedit.toolbar.editor.calc.SliderNormalize(mw.liveedit.toolbar.editor.ed);
                 if (!!n) {
-                    mw.liveEditWYSIWYG.slideRight();
+                    mw.liveedit.toolbar.editor.slideRight();
                 }
             });
             mw.$(".tst-modules").click(function () {
@@ -410,7 +410,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
 
             mw.$(".show_editor").click(function () {
                 mw.$("#liveedit_wysiwyg").toggle();
-                mw.liveEditWYSIWYG.buttons();
+                mw.liveedit.toolbar.editor.buttons();
                 $(this).toggleClass("active");
             });
 

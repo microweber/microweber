@@ -611,7 +611,6 @@ class UserManager
             }
         }
 
-
         if (!$no_captcha) {
             if (!isset($params['captcha'])) {
                 return array(
@@ -732,6 +731,41 @@ class UserManager
                     }
 
 
+					// added newsletter subscription - maybe better to use function newsletter_subscribe but it would need modifying
+					if (isset($params['newsletter_subscribe']) and $params['newsletter_subscribe']) {
+
+						$subscribe = false;
+
+						if ($user_require_terms) {
+
+							// terms_user already logged now log terms_newsletter using the same authorisation
+
+							$check_term = $this->app->user_manager->terms_check('terms_newsletter', $email);
+
+							if (!$check_term) {
+								if ($terms_accepted) {
+									$this->app->user_manager->terms_accept('terms_newsletter', $next);
+									$subscribe = true;
+								}
+							}
+						} else {
+							$subscribe = true;
+						}
+
+						if ($subscribe) {
+
+							$subscriber_data = [
+								'email' => $email,
+								'name' => $first_name,
+								'confirmation_code' => str_random(30),
+								'is_subscribed' => 1
+							];
+
+							$this->app->database_manager->save('newsletter_subscribers', $subscriber_data);
+						}
+					}
+
+
                     $this->force_save = false;
                     $this->app->cache_manager->delete('users/global');
                     $this->session_del('captcha');
@@ -802,25 +836,25 @@ class UserManager
         if (is_array($data)) {
             $register_email_enabled = $this->app->option_manager->get('register_email_enabled', 'users');
             if ($register_email_enabled == true) {
-            	
-            	/* 
+
+            	/*
                 $register_email_subject = $this->app->option_manager->get('register_email_subject', 'users');
                 $register_email_content = $this->app->option_manager->get('register_email_content', 'users');
                  */
-            	
+
             	// Get register mail temlate
             	$new_user_registration_template_id = $this->app->option_manager->get('new_user_registration_email_template', 'users');
             	$mail_template = get_mail_template_by_id($new_user_registration_template_id, 'new_user_registration');
-            	
+
             	$register_email_subject = $mail_template['subject'];
             	$register_email_content = $mail_template['message'];
-                
-            	
+
+
             	$appendFiles = array();
             	if (!empty(get_option('append_files', 'mail_template_id_' . $new_user_registration_template_id))) {
             		$appendFiles = explode(",", get_option('append_files', 'mail_template_id_' . $new_user_registration_template_id));
             	}
-            	
+
                 if ($register_email_subject == false or trim($register_email_subject) == '') {
                     $register_email_subject = 'Thank you for your registration!';
                 }
@@ -839,7 +873,7 @@ class UserManager
 
 
                     if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
-                    	
+
                         $sender = new \Microweber\Utils\MailSender();
                         return $sender->send($to, $register_email_subject, $register_email_content, false, false, false, false, false, false, $appendFiles);
 

@@ -4406,7 +4406,7 @@ $(document).ready(function () {
         el.toggleClass("active");
         if (el.hasClass("active")) {
             if (typeof mw.liveEditWYSIWYG === 'object') {
-                mw.liveEditWYSIWYG.fixConvertible(next);
+                mw.liveedit.toolbar.editor.fixConvertible(next);
             }
         }
     });
