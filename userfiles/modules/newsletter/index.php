@@ -1,5 +1,7 @@
 <?php
 
+$require_terms = get_option('require_terms', $params['module']);
+
 if ($params['id'] == 'edit_template_iframe') {
 	include 'edit_template_iframe.php';
 	return;

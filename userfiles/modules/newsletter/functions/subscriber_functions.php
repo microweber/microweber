@@ -152,7 +152,7 @@ function newsletter_subscribe($params)
     ];
     
     newsletter_save_subscriber($subscriber_data);
-    $msg = 'Thanks for your subscription!';
+    $msg = 'Thank you for subscribing!';
 
     $resp = array(
         'success' => $msg

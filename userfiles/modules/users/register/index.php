@@ -70,6 +70,32 @@
     }
 
 
+	$require_terms = get_option('require_terms', 'users');
+	$terms_and_conditions_name = 'terms_user';
+	if($require_terms) {
+		$user_id_or_email = (is_logged()? user_id():false);
+		if(mw()->user_manager->terms_check($terms_and_conditions_name, $user_id_or_email)){
+			$require_terms = 'n';
+		} else {
+			$terms_label = get_option('terms_label', 'users');
+			$terms_label_cleared = str_replace('&nbsp;', '', $terms_label);
+			$terms_label_cleared = strip_tags($terms_label_cleared);
+			$terms_label_cleared = mb_trim($terms_label_cleared);
+			if ($terms_label_cleared == '') {
+				$terms_label = 'I agree with the <a href="' . site_url() . 'terms" target="_blank">Terms and Conditions</a>';
+			}
+		}
+	}
+
+    $show_newsletter_subscription = get_option('form_show_newsletter_subscription', 'users');
+    if($show_newsletter_subscription == 'y') {
+		$newsletter_subscribed = false;
+		$user_id_or_email = (is_logged()? user_id():false);
+		if(mw()->user_manager->terms_check('terms_newsletter', $user_id_or_email)){
+			$newsletter_subscribed = true;
+		}
+    }
+
     $module_template = get_option('data-template', $params['id']);
     if ($module_template == false and isset($params['template'])) {
         $module_template = $params['template'];

@@ -52,8 +52,6 @@ class FormsManager
 
         }
 
-
-
         $data = $this->app->database_manager->get($params);
 
         $ret = array();
@@ -236,7 +234,8 @@ class FormsManager
         }
 
 
-        if ($user_id_or_email and $user_require_terms) {
+        if ($user_require_terms) {
+
             if (!$user_id_or_email) {
                 return array(
                     'error' => _e('You must provide email address', true),
@@ -258,9 +257,51 @@ class FormsManager
                         );
                     }
                 }
-            }
+             }
         }
 
+
+		// ezyweb added newsletter subscription
+		if (isset($params['newsletter_subscribe']) and $params['newsletter_subscribe']) {
+
+			if ($user_require_terms and $user_id_or_email) {
+
+                // terms_contact already logged now log terms_newsletter using the same authorisation
+
+                $check_term = $this->app->user_manager->terms_check('terms_newsletter', $user_id_or_email);
+
+                if (!$check_term) {
+                    if (isset($params['terms']) and $params['terms']) {
+			            $this->app->user_manager->terms_accept('terms_newsletter', $user_id_or_email);
+			        } else {
+                        return array(
+                            'error' => _e('You must agree to The Terms and Conditions', true),
+                            'form_data_required' => 'terms',
+                            'form_data_module' => 'users/terms'
+                        );
+                    }
+			    }
+            }
+
+			if (isset($params['Name']) and $params['Name']) {
+
+				if (is_numeric($user_id_or_email)) {
+					$user = $this->app->user_manager->get_by_id($user_id_or_email);
+					$email = $user['email'];
+				} else {
+					$email = $user_id_or_email;
+				}
+
+				$subscriber_data = [
+					'email' => $email,
+					'name' => $params['Name'],
+					'confirmation_code' => str_random(30),
+					'is_subscribed' => 1
+				];
+
+				$this->app->database_manager->save('newsletter_subscribers', $subscriber_data);
+			}
+		}
 
         if (isset($params['captcha'])) {
         	$dis_cap = false;
@@ -574,11 +615,11 @@ class FormsManager
         $success = array();
         $success['id'] = $save;
         $success['success'] = _e('Your message has been sent', true);
-        
+
         if ($email_redirect_after_submit) {
             $success['redirect'] = $email_redirect_after_submit;
         }
-        
+
         return $success;
 
     }

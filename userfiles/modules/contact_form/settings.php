@@ -79,6 +79,15 @@ if (isset($params['for_module_id'])) {
 
 <hr>
 
+<div class="mw-ui-field-holder">
+    <label class="mw-ui-check">
+        <input type="checkbox" parent-reload="true" name="newsletter_subscription" value="y" data-value-unchecked="n" data-value-checked="y" class="mw_option_field" option-group="<?php print $mod_id ?>"
+            <?php if(get_option('newsletter_subscription', $mod_id)=='y'): ?> checked="checked" <?php endif; ?> />
+        <span></span><span><?php _e("Show newsletter subscription checkbox"); ?></span></label>
+</div>
+
+<hr>
+
 <module type="contact_form/privacy_settings"/>
 
 <?php if ($mod_id != 'contact_form_default') { ?>
