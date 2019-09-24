@@ -493,8 +493,8 @@ mw.wysiwyg = {
         }
         try {  // 0x80004005
             if (document.queryCommandSupported(a) && mw.wysiwyg.isSelectionEditable()) {
-                var b = b || false;
-                var c = c || false;
+                b = b || false;
+                c = c || false;
                 var node = window.getSelection().focusNode;
                 var elementNode = mw.wysiwyg.validateCommonAncestorContainer(node);
                 var before = mw.$(node).clone()[0];
@@ -1046,7 +1046,7 @@ mw.wysiwyg = {
                 }
             }
         });
-        mw.$(mwd.body).on('obsolate.keydown', function (event) {
+        mw.$(mwd.body).on('keydown', function (event) {
             if ((event.keyCode == 46 || event.keyCode == 8) && event.type == 'keydown') {
                 mw.tools.removeClass(mw.image_resizer, 'active');
                 mw.wysiwyg.change('.element-current');
@@ -1062,7 +1062,13 @@ mw.wysiwyg = {
                         var isList = mw.tools.firstMatchesOnNodeOrParent(event.target, ['li', 'ul', 'ol'])
                         if (!isList) {
                             event.preventDefault();
-                            mw.wysiwyg.insert_html('<br>');
+                            mw.wysiwyg.insert_html(' <br>');
+                            if(sel.focusNode.nextSibling.nodeName === 'BR' && sel.focusNode.nextSibling === sel.focusNode.parentNode.lastChild){
+                                var id = mw.id('mw-br-');
+                                mw.wysiwyg.insert_html(' <br><br id="'+id+'">');
+
+                                mw.wysiwyg.cursorToElement(mwd.getElementById(id), 'after');
+                            }
                         }
                     }
                 }
@@ -2678,11 +2684,11 @@ $(window).on('load', function () {
 
     mw.$(window).on("keydown", function (e) {
 
-        if (e.type == 'keydown') {
-            var isPlain = mw.tools.hasClass(e.target, 'plain-text');
-            if (e.keyCode == 13) {
+        if (e.type === 'keydown') {
+
+            if (e.keyCode === 13) {
                 var field = mw.tools.mwattr(e.target, 'field');
-                if (field == 'title' || isPlain) {
+                if (field === 'title' || mw.tools.hasClass(e.target, 'plain-text')) {
                     e.preventDefault();
                 }
             }

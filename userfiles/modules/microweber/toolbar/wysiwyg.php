@@ -6,7 +6,7 @@
                   class="liveedit_wysiwyg_prev"
                   id="liveedit_wysiwyg_main_prev"
                   title="<?php _e("Previous"); ?>"
-                  onclick="mw.liveEditWYSIWYG.slideLeft();"></span>
+                  onclick="mw.liveedit.toolbar.editor.slideLeft();"></span>
 
 
 
