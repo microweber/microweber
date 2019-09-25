@@ -4552,3 +4552,15 @@ html.padding-control-start .mw-handle-item {
     top: 2px;
 }
 
+h1.element,
+h2.element,
+h3.element,
+h4.element,
+h5.element,
+h6.element,
+p.element,
+div.element,
+section.element{
+    min-height: 15px;
+}
+

@@ -4,6 +4,7 @@
 mw.require('css_parser.js');
 mw.require('icon_selector.js');
 mw.require('events.js');
+
 //mw.lib.require('rangy');
 
 classApplier = window.classApplier || [];
@@ -1082,122 +1083,7 @@ mw.wysiwyg = {
                         mw.wysiwyg.insert_html('&nbsp;&nbsp;&nbsp;&nbsp;');
                         return false;
                     }
-                    if (event.keyCode == 46 || event.keyCode == 8) {
-
-                        if (!mw.settings.liveEdit) {
-                            return true;
-                        }
-                        var nextNode = null;
-
-                        if (event.keyCode == 46 || event.keyCode == 8) {
-                            if (event.keyCode == 46) {
-                                var nextchar = sel.focusNode.textContent.charAt(sel.focusOffset);
-                                var nextnextchar = sel.focusNode.textContent.charAt(sel.focusOffset + 1);
-                                var nextel = sel.focusNode.nextSibling || sel.focusNode.nextElementSibling;
-
-                            } else {
-                                var nextchar = sel.focusNode.textContent.charAt(sel.focusOffset - 1);
-                                var nextnextchar = sel.focusNode.textContent.charAt(sel.focusOffset - 2);
-                                var nextel = sel.focusNode.previouSibling || sel.focusNode.previousElementSibling;
-
-                            }
-
-
-                            if ((nextchar == ' ' || /\r|\n/.exec(nextchar) !== null) && sel.focusNode.nodeType === 3 && !nextnextchar) {
-                                event.preventDefault()
-                                return false;
-                            }
-
-
-                            if (nextnextchar == '') {
-
-
-                                if (nextchar.replace(/\s/g, '') == '' && r.collapsed) {
-
-                                    if (nextel && !mw.ea.helpers.isBlockLevel(nextel) && ( typeof(nextel.className) == 'undefined' || !nextel.className.trim())) {
-                                        return true;
-                                    }
-                                    else if (nextel && nextel.nodeName != 'BR') {
-                                        if (sel.focusNode.nodeName === 'P') {
-                                            if (event.keyCode === 46) {
-                                                if (sel.focusNode.nextElementSibling.nodeName === 'P') {
-                                                    return true;
-                                                }
-                                            }
-                                            if (event.keyCode === 8) {
-
-                                                if (sel.focusNode.previousElementSibling.nodeName === 'P') {
-                                                    return true;
-                                                }
-                                            }
-                                        }
-                                        event.preventDefault()
-                                        return false;
-                                    }
-
-                                }
-                                else if ((focus.previousElementSibling === null && rootfocus.previousElementSibling === null) && mw.tools.hasAnyOfClassesOnNodeOrParent(rootfocus, ['nodrop', 'allow-drop'])) {
-                                    return false;
-                                }
-                                else {
-
-                                }
-                            }
-                            if (nextchar == '') {
-
-
-                                //continue check nodes
-                                if (event.keyCode == 46) {
-                                    nextNode = mw.wysiwyg.merge.getNext(sel.focusNode);
-                                }
-                                if (event.keyCode == 8) {
-                                    nextNode = mw.wysiwyg.merge.getPrev(sel.focusNode);
-                                }
-                                if (mw.wysiwyg.merge.alwaysMergeable(nextNode)) {
-                                    return true;
-                                }
-
-                                var nonbr = mw.wysiwyg.merge.isInNonbreakable(nextNode)
-                                if (nonbr) {
-                                    event.preventDefault();
-                                    return false;
-                                }
-
-                                if (nextNode.nodeValue == '') {
-
-                                }
-                                if (nextNode !== null && mw.wysiwyg.merge.isMergeable(nextNode)) {
-                                    if (event.keyCode == 46) {
-                                        mw.wysiwyg.merge.manageBreakables(sel.focusNode, nextNode, 'next', event)
-                                    }
-                                    else {
-                                        mw.wysiwyg.merge.manageBreakables(sel.focusNode, nextNode, 'prev', event)
-                                    }
-                                }
-                                else {
-                                    event.preventDefault()
-                                }
-                                //  }
-                                if (nextNode === null) {
-                                    nextNode = sel.focusNode.parentNode.nextSibling;
-                                    if (!mw.wysiwyg.merge.isMergeable(nextNode)) {
-                                        event.preventDefault();
-                                    }
-                                    if (event.keyCode == 46) {
-                                        mw.wysiwyg.merge.manageBreakables(sel.focusNode, nextNode, 'next', event)
-                                    }
-                                    else {
-                                        mw.wysiwyg.merge.manageBreakables(sel.focusNode, nextNode, 'prev', event)
-                                    }
-
-                                }
-
-                            } else {
-
-                            }
-                        }
-
-                    }
+                    return mw.wysiwyg.manageDeleteAndBackspace(event, sel);
                 }
             }
         });
@@ -1279,9 +1165,6 @@ mw.wysiwyg = {
 
 
                 mw.$(this._onCloneableControl).hide()
-                if (mw.tools.isEmpty(e.target)) {
-                    e.target.innerHTML = '&zwnj;&nbsp;';
-                }
                 if (mw.event.is.enter(e)) {
 
                     mw.$(".element-current").removeClass("element-current");
@@ -1370,12 +1253,11 @@ mw.wysiwyg = {
         return el.isContentEditable && ['SELECT', 'INPUT', 'TEXTAREA'].indexOf(el.nodeName) === -1;
     },
     cursorToElement: function (node, a) {
-        if (node === null) {
-            return false;
-        }
+
         if (!node) {
             return false;
         }
+        mw.wysiwyg.contentEditable(node, true);
         a = (a || 'start').trim();
         var sel = mww.getSelection();
         var r = mwd.createRange();
@@ -2759,7 +2641,9 @@ $(window).on('load', function () {
         }
 
     }
+    mw.require('wysiwygmdab.js');
 });
+
 mw.linkTip = {
     init: function (root) {
         if (root === null || !root) {
