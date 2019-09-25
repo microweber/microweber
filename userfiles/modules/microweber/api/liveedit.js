@@ -44,7 +44,7 @@ $files[] = 'liveedit/initload.js';
 
 foreach($files as $file){
 
-    print 'mw.required.push("<?php print mw_includes_url(); ?>api/'.$file.'");'."\n";
+    print 'mw.required.push("'.$file.'");'."\n";
 }
 
 foreach($files as $file){
