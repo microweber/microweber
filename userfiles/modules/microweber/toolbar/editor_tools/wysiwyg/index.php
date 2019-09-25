@@ -326,7 +326,7 @@ img{
 
     <script>
         mw.lib.require('material_icons')
-        mw.require('liveedit.js')
+        mw.require("<?php print mw()->template->get_liveeditjs_url()  ?>");
         mw.require('columns.js')
         mw.require('plus.js')
         mw.require('columns.js')
