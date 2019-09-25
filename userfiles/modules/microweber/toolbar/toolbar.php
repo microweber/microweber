@@ -31,7 +31,7 @@ if (isset($_COOKIE['mw_exp'])) {
 
         mw.require("forms.js");
         mw.require("files.js");
-        mw.require("content.js", true);
+        mw.require("content.js");
         mw.require("session.js");
         mw.require("<?php print mw()->template->get_liveeditjs_url()  ?>");
         mw.require("upgrades.js");

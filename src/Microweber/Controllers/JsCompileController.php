@@ -16,6 +16,7 @@ class JsCompileController extends Controller
     /** @var \Microweber\Application */
     public $app;
 
+
     public function __construct($app = null)
     {
         if (!is_object($this->app)) {
@@ -72,11 +73,12 @@ class JsCompileController extends Controller
         $l = str_replace('{MW_SITE_URL}', $this->app->url_manager->site(), $l);
         $l = str_replace('%7BSITE_URL%7D', $this->app->url_manager->site(), $l);
 
-        $response = \Response::make($l);
-        $response->header('Content-Type', 'application/javascript');
+
 
         $compile_assets = \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
+            $l = $this->minify_js($l);
+
             $userfiles_dir = userfiles_path();
             $hash = md5(site_url());
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs');
@@ -96,7 +98,8 @@ class JsCompileController extends Controller
                 }
             }
         }
-
+        $response = \Response::make($l);
+        $response->header('Content-Type', 'application/javascript');
         if (!$this->app->make('config')->get('app.debug')) {
             // enable caching if in not in debug mode
             $response->header('Etag', $etag);
@@ -168,6 +171,8 @@ class JsCompileController extends Controller
 
         $compile_assets = \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
+            $l = $this->minify_js($l);
+
             $userfiles_dir = userfiles_path();
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs');
             $userfiles_cache_filename = $userfiles_cache_dir . 'api_settings.' . md5(site_url() . template_dir()) . '.' . MW_VERSION . '.js';
@@ -221,12 +226,15 @@ class JsCompileController extends Controller
         $l = str_replace('{MW_SITE_URL}', $this->app->url_manager->site(), $l);
         $l = str_replace('%7BSITE_URL%7D', $this->app->url_manager->site(), $l);
 
-        $response = \Response::make($l);
-        $response->header('Content-Type', 'application/javascript');
+
+
+
 
 
         $compile_assets = \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
+            $l = $this->minify_js($l);
+
             $userfiles_dir = userfiles_path();
             $hash = md5(site_url());
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs');
@@ -247,7 +255,8 @@ class JsCompileController extends Controller
             }
         }
 
-
+        $response = \Response::make($l);
+        $response->header('Content-Type', 'application/javascript');
         if (!$this->app->make('config')->get('app.debug')) {
             // enable caching if in not in debug mode
             $response->header('Etag', $etag);
@@ -328,6 +337,23 @@ class JsCompileController extends Controller
         }
 
         return $url;
+    }
+
+
+    public function minify_js($layout)
+    {
+        $optimize_asset_loading = get_option('optimize_asset_loading', 'website');
+        if ($optimize_asset_loading == 'y') {
+            $minifier = normalize_path(MW_PATH . 'Utils/lib/JShrink/Minifier.php', false);
+            if (is_file($minifier)) {
+                include_once $minifier;
+
+
+                $layout = \JShrink\Minifier::minify($layout);
+
+            }
+        }
+        return $layout;
     }
 
 }

@@ -30,12 +30,12 @@
 
     <?php if (config('app.debug')): ?>
 
-    <?php
 
-        /*  <br /><br />
+
+         <br /><br />
     <a class="mw-ui-btn" onclick="mw.load_module('settings/group/experimental','#mw-advanced-settings-dev-tools-output')">
         <?php _e("Experimental settings"); ?>
-    </a>     <br /><br />
+    </a>     <?php   /* <br /><br />
    <a class="mw-ui-btn" onclick="mw.load_module('admin/modules/packages','#mw-advanced-settings-dev-tools-output')">
         <?php  _e("Packages");  ?>
     </a>  */
