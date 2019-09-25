@@ -392,9 +392,13 @@ mw.event = {
           e = mw.event.get(e);
           return e.key === "Escape" || mw.event.isKeyCode(e, 27);
       },
-      backSpace  : function (e) {
+      backSpace : function (e) {
         e = mw.event.get(e);
         return e.key === "Backspace" || mw.event.isKeyCode(e, 8);
+      },
+      delete: function (e) {
+          e = mw.event.get(e);
+          return e.key === "Delete" || mw.event.isKeyCode(e, 46);
       }
     }
 };
