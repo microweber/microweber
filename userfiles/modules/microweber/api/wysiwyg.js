@@ -95,11 +95,12 @@ mw.wysiwyg = {
     },
     isSafeMode: function (el) {
         if (!el) {
-            var sel = window.getSelection(),
-                range = sel.getRangeAt(0);
+            var sel = window.getSelection();
+            if(!sel.rangeCount) return false;
+            var range = sel.getRangeAt(0);
             el = mw.wysiwyg.validateCommonAncestorContainer(range.commonAncestorContainer);
         }
-        var hasSafe = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrBoth(el, ['safe-mode', 'edit']);
+        var hasSafe = mw.tools.hasAnyOfClassesOnNodeOrParent(el, ['safe-mode']);
         var regInsafe = mw.tools.parentsOrCurrentOrderMatchOrNone(el, ['regular-mode', 'safe-mode']);
         return hasSafe && !regInsafe;
     },
@@ -482,9 +483,10 @@ mw.wysiwyg = {
         document.execCommand('styleWithCss', 'false', false);
         var fnode = window.getSelection().focusNode;
 
+
         if ((fnode !== null) && (mw.tools.hasClass(fnode, 'plain-text') || mw.tools.hasClass(fnode.parentNode, 'plain-text') || mw.tools.hasParentsWithClass(fnode.parentNode, 'plain-text'))) {
-            if (a == 'inserthtml') {
-                c = mw.tools.parseHtml(c).body.innerText
+            if (a === 'inserthtml') {
+                // c = mw.tools.parseHtml(c).body.innerText;
             }
             else {
                 return false;
@@ -1063,7 +1065,7 @@ mw.wysiwyg = {
                         if (!isList) {
                             event.preventDefault();
                             mw.wysiwyg.insert_html(' <br>');
-                            if(sel.focusNode.nextSibling.nodeName === 'BR' && sel.focusNode.nextSibling === sel.focusNode.parentNode.lastChild){
+                            if(sel.focusNode.nextSibling && sel.focusNode.nextSibling.nodeName === 'BR' && sel.focusNode.nextSibling === sel.focusNode.parentNode.lastChild){
                                 var id = mw.id('mw-br-');
                                 mw.wysiwyg.insert_html(' <br><br id="'+id+'">');
 
@@ -1398,6 +1400,26 @@ mw.wysiwyg = {
             r.collapse(false);
             sel.addRange(r);
         }
+    },
+    rfapplier: function (tag, classname, style_object) {
+        // var el = mw.wysiwyg.applier('div', 'element', {width: "100%"});
+        var parent, fnode = getSelection().focusNode;
+        /*if(mw.wysiwyg.isSafeMode(mw.wysiwyg.validateCommonAncestorContainer(fnode))) {
+            parent = mw.tools.firstParentWithClass(fnode, 'safe-mode');
+            console.log(parent)
+            if(parent){
+                mw.wysiwyg.contentEditable(parent, true);
+                $('[contenteditable]', parent).removeAttr('contenteditable')
+            }
+
+        }*/
+        var id = mw.id('mw-applier-element-');
+        this.execCommand("insertHTML", false, '<'+tag+' '+(classname ? 'class="' + classname + '"' : '')+' id="'+id+'">'+ getSelection()+'</'+tag+'>');
+        var $el = mw.$('#' + id);
+        if (style_object) {
+            $el.css(style_object);
+        }
+        return $el[0];
     },
     applier: function (tag, classname, style_object) {
         var classname = classname || '';
@@ -1892,15 +1914,7 @@ mw.wysiwyg = {
         var url = !!types ? "rte_image_editor?types=" + types + '' + hash : "rte_image_editor" + hash;
 
         var url = mw.settings.site_url + 'editor_tools/' + url;
-        /*var modal = mw.tools.modal.frame({
-            url: url,
-            name: "mw_rte_image",
-            width: 430,
-            height: 230,
-            template: 'mw_modal_basic',
-            overlay: true
-        });
-        modal.overlay.style.backgroundColor = 'white';*/
+
         var modal = mw.dialogIframe({
             url: url,
             name: "mw_rte_image",
@@ -2008,7 +2022,7 @@ mw.wysiwyg = {
             var range = mwd.createRange();
             range.selectNode(mwd.querySelector('.edit .element'));
         }
-        mw.wysiwyg.selection = {}
+        mw.wysiwyg.selection = {};
         mw.wysiwyg.selection.sel = selection;
         mw.wysiwyg.selection.range = range;
         mw.wysiwyg.selection.element = mw.$(mw.wysiwyg.validateCommonAncestorContainer(range.commonAncestorContainer));

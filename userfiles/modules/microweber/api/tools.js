@@ -2226,8 +2226,8 @@ mw.tools = {
     firstParentOrCurrentWithClass: function (el, cls) {
         if (!el) return false;
         var curr = el;
-        while (curr !== mwd.body) {
-            if (curr.classList.contains(cls)) {
+        while (curr && curr !== mwd.body) {
+            if (mw.tools.hasClass(curr, cls)) {
                 return curr;
             }
             curr = curr.parentNode;

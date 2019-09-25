@@ -23,7 +23,6 @@ mw.liveedit.inline = {
         if (mw.liveedit.inline.tableControl === false) {
             mw.liveedit.inline.tableControl = mw.liveedit.inline.bar('mw-inline-tableControl');
             mw.liveedit.inline.tableControl.innerHTML = ''
-            mw.liveedit.inline.tableControl.innerHTML = ''
                 + '<ul class="mw-ui-box mw-ui-navigation mw-ui-navigation-horizontal">'
                 + '<li>'
                 + '<a href="javascript:;">Insert<span class="mw-icon-dropdown"></span></a>'
@@ -69,11 +68,11 @@ mw.liveedit.inline = {
     },
     tableManager: {
         insertColumn: function (dir, cell) {
-            var cell = mw.$(cell)[0];
+            cell = mw.$(cell)[0];
             if (cell === null) {
                 return false;
             }
-            var dir = dir || 'right';
+            dir = dir || 'right';
             var rows = mw.$(cell.parentNode.parentNode).children('tr');
             var i = 0, l = rows.length, index = mw.tools.index(cell);
             for (; i < l; i++) {
