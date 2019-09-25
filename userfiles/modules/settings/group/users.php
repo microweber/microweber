@@ -42,6 +42,7 @@ $form_show_first_name = get_option('form_show_first_name', 'users');
 $form_show_last_name = get_option('form_show_last_name', 'users');
 $form_show_address = get_option('form_show_address', 'users');
 $form_show_password_confirmation = get_option('form_show_password_confirmation', 'users');
+$form_show_newsletter_subscription = get_option('form_show_newsletter_subscription', 'users');
 ?>
 
 <script type="text/javascript">
@@ -666,6 +667,14 @@ $form_show_password_confirmation = get_option('form_show_password_confirmation',
                     <label class="mw-ui-check">
                         <input type="checkbox" value="y" <?php if ($form_show_password_confirmation == 'y'): ?> checked <?php endif; ?> name="form_show_password_confirmation" class="mw_option_field" option-group="users">
                         <span></span> <span><?php _e("Show password confirmation field?"); ?></span>
+                    </label>
+
+                     <br/>
+                     <br/>
+
+                    <label class="mw-ui-check">
+                         <input type="checkbox" value="y" <?php if ($form_show_newsletter_subscription == 'y'): ?> checked <?php endif; ?> name="form_show_newsletter_subscription" class="mw_option_field" option-group="users">
+                         <span></span> <span><?php _e("Show newsletter subscription checkbox?"); ?></span>
                     </label>
                 </div>
             </div>

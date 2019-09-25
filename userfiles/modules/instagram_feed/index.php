@@ -30,9 +30,15 @@ try {
     echo 'Caught exception: ', $e->getMessage(), "\n";
     return;
 }
+if (!($matches)) {
+    print lnotif("Click here to edit Instagram feed");
+    return;
+}
+
 
 if (!isset($matches[1])) {
     print lnotif("Click here to edit Instagram feed");
+    return;
 }
 
 $profile_data = json_decode($matches[1]);

@@ -24,7 +24,7 @@ if(user_id() == 0){
   mw.require ("forms.js");
   mw.require("files.js");
   mw.require("content.js", true);
-  mw.require("liveedit.js");
+  mw.require("<?php print mw()->template->get_liveeditjs_url()  ?>");
   mw.require(mw.settings.includes_url + "css/liveedit.css");
   mw.require(mw.settings.includes_url + "css/components.css");
   mw.require(mw.settings.includes_url + "css/wysiwyg.css");
