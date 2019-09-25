@@ -248,8 +248,6 @@ class JsCompileController extends Controller
         }
 
 
-
-
         if (!$this->app->make('config')->get('app.debug')) {
             // enable caching if in not in debug mode
             $response->header('Etag', $etag);
@@ -260,5 +258,76 @@ class JsCompileController extends Controller
         return $response;
     }
 
+
+    public function get_apijs_url()
+    {
+
+
+        $url = $this->app->url_manager->site('apijs') . '?mwv=' . MW_VERSION;
+        $compile_assets = \Config::get('microweber.compile_assets');
+        if ($compile_assets and defined('MW_VERSION')) {
+            $userfiles_dir = userfiles_path();
+            $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs' . DS);
+            $hash = md5(site_url());
+            $userfiles_cache_filename = $userfiles_cache_dir . 'api.' . $hash . '.' . MW_VERSION . '.js';
+            if (is_file($userfiles_cache_filename)) {
+                $url = userfiles_url() . 'cache/apijs/' . 'api.' . $hash . '.' . MW_VERSION . '.js';
+            }
+        }
+
+        return $url;
+    }
+
+
+    public function get_apijs_settings_url()
+    {
+        $url = $this->app->url_manager->site('apijs_settings') . '?mwv=' . MW_VERSION;;
+        $compile_assets = \Config::get('microweber.compile_assets');
+        if ($compile_assets and defined('MW_VERSION')) {
+            $userfiles_dir = userfiles_path();
+            $file = mw_includes_path() . 'api' . DS . 'api_settings.js';
+            $mtime = false;
+            if (is_file($file)) {
+                $mtime = filemtime($file);
+            }
+
+            $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs' . DS);
+            $fn = 'api_settings.' . md5(site_url() . template_dir() . $mtime) . '.' . MW_VERSION . '.js';
+            $userfiles_cache_filename = $userfiles_cache_dir . $fn;
+            if (is_file($userfiles_cache_filename)) {
+                if (is_file($userfiles_cache_filename)) {
+                    $url = userfiles_url() . 'cache/apijs/' . $fn;
+                }
+            }
+        }
+
+        return $url;
+    }
+
+
+    public function get_liveeditjs_url()
+    {
+        $url = $this->app->url_manager->site('apijs_liveedit') . '?mwv=' . MW_VERSION;;
+        $compile_assets = \Config::get('microweber.compile_assets');
+        if ($compile_assets and defined('MW_VERSION')) {
+            $userfiles_dir = userfiles_path();
+            $file = mw_includes_path() . 'api' . DS . 'liveedit.js';
+            $mtime = false;
+            if (is_file($file)) {
+                $mtime = filemtime($file);
+            }
+
+            $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs' . DS);
+            $fn = 'api.liveedit.' . md5(site_url() . template_dir() . $mtime) . '.' . MW_VERSION . '.js';
+            $userfiles_cache_filename = $userfiles_cache_dir . $fn;
+            if (is_file($userfiles_cache_filename)) {
+                if (is_file($userfiles_cache_filename)) {
+                    $url = userfiles_url() . 'cache/apijs/' . $fn;
+                }
+            }
+        }
+
+        return $url;
+    }
 
 }
