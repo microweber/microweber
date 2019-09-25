@@ -1,36 +1,59 @@
-mw.require('wysiwyg.js');
-mw.require('handles.js');
 
 mw.liveedit = {};
 
 
-mw.require('padding.js');
-mw.require('source-edit.js');
-mw.require('control_box.js');
-mw.require('element_analyzer.js');
-mw.require('liveedit_elements.js');
-mw.require('live_edit.js');
-mw.require('liveedit_widgets.js');
-mw.require('state.js');
-mw.require('selector.js');
+<?php
 
+
+
+$files = array();
+$files[] = 'wysiwyg.js';
+$files[] = 'handles.js';
+$files[] = 'padding.js';
+$files[] = 'source-edit.js';
+$files[] = 'control_box.js';
+$files[] = 'element_analyzer.js';
+$files[] = 'liveedit_elements.js';
+$files[] = 'liveedit_elements.js';
+$files[] = 'live_edit.js';
+$files[] = 'live_edit.js';
+$files[] = 'liveedit_widgets.js';
+$files[] = 'state.js';
+$files[] = 'selector.js';
 
 // Liveedit
-mw.require('liveedit/modules.toolbar.js');
-mw.require('liveedit/drag.js');
-mw.require('liveedit/drop.regions.js');
-mw.require('liveedit/manage.content.js');
-mw.require('liveedit/toolbar.js');
-mw.require('liveedit/editors.js');
-mw.require('liveedit/data.js');
-mw.require('liveedit/edit.fields.js');
-mw.require('liveedit/inline.js');
-mw.require('liveedit/events.custom.js');
-mw.require('liveedit/events.js');
-mw.require('liveedit/initready.js');
-mw.require('liveedit/widgets.js');
-mw.require('liveedit/beforeleave.js');
-mw.require('liveedit/initload.js');
+
+$files[] = 'liveedit/modules.toolbar.js';
+$files[] = 'liveedit/drag.js';
+$files[] = 'liveedit/drop.regions.js';
+$files[] = 'liveedit/manage.content.js';
+$files[] = 'liveedit/toolbar.js';
+$files[] = 'liveedit/editors.js';
+$files[] = 'liveedit/data.js';
+$files[] = 'liveedit/edit.fields.js';
+$files[] = 'liveedit/inline.js';
+$files[] = 'liveedit/events.custom.js';
+$files[] = 'liveedit/events.js';
+$files[] = 'liveedit/initready.js';
+$files[] = 'liveedit/widgets.js';
+$files[] = 'liveedit/beforeleave.js';
+$files[] = 'liveedit/initload.js';
+
+
+
+
+foreach($files as $file){
+
+    print 'mw.required.push("'.$file.'");'."\n";
+}
+
+foreach($files as $file){
+
+   // print 'mw.require("'.$file.'");'."\n";
+    print  file_get_contents(__DIR__.DS.$file)."\n";
+}
+?>
+
 
 
 

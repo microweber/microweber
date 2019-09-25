@@ -136,19 +136,15 @@ mw.components = {
     },
     postSearch: function (el) {
         var defaults = {keyword: el.value, limit: 4};
-
         el._setValue = function (id) {
             mw.tools.ajaxSearch(this._settings, function () {
 
             });
-        }
+        };
 
-        var el = mw.$(el);
-
+        el = mw.$(el);
         var options = JSON.parse(el.attr("data-options") || '{}');
-
         settings = $.extend({}, defaults, options);
-
         el[0]._settings = settings;
 
         el.wrap("<div class='mw-component-post-search'></div>");

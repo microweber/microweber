@@ -1,9 +1,11 @@
 <?php
 
 Route::group(['middleware' => '\Microweber\App\Http\Middleware\SessionlessMiddleware', 'namespace' => '\Microweber\Controllers'], function () {
-    Route::any('/apijs', 'DefaultController@apijs');
-    Route::any('apijs/{all}', array('as' => 'apijs', 'uses' => 'DefaultController@apijs'))->where('all', '.*');
-    Route::any('/apijs_settings', 'DefaultController@apijs_settings');
+    Route::any('/apijs', 'JsCompileController@apijs');
+    Route::any('apijs/{all}', array('as' => 'apijs', 'uses' => 'JsCompileController@apijs'))->where('all', '.*');
+    Route::any('/apijs_settings', 'JsCompileController@apijs_settings');
+    Route::any('/apijs_liveedit', 'JsCompileController@apijs_liveedit');
+
     Route::any('api_nosession/{all}', array('as' => 'api', 'uses' => 'DefaultController@api'))->where('all', '.*');
     Route::any('/api_nosession', 'DefaultController@api');
     Route::any('/favicon.ico', function () {

@@ -345,20 +345,7 @@ mw.tools = {
         if (!!item.type && !!item.target) {
             el = item.target;
         }
-        if (mw.tools.hasClass(el, 'edit')) return true;
-        var hasParentsModule = mw.tools.hasParentsWithClass(el, 'module');
-        var hasParentsEdit = mw.tools.hasParentsWithClass(el, 'edit');
-        if (hasParentsModule && !hasParentsEdit) return false;
-        if (!hasParentsModule && hasParentsEdit) return true;
-        if (hasParentsModule && hasParentsEdit) {
-            var order = mw.tools.parentsOrder(item, ['edit', 'module']);
-            if (order.edit < order.module) {
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
+        return mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(el, ['edit', 'module']);
     },
     eachIframe: function (callback, root, ignore) {
         root = root || document, scope = this, ignore = ignore || [];
@@ -2226,8 +2213,8 @@ mw.tools = {
     firstParentOrCurrentWithClass: function (el, cls) {
         if (!el) return false;
         var curr = el;
-        while (curr !== mwd.body) {
-            if (curr.classList.contains(cls)) {
+        while (curr && curr !== mwd.body) {
+            if (mw.tools.hasClass(curr, cls)) {
                 return curr;
             }
             curr = curr.parentNode;
