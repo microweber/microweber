@@ -1,6 +1,24 @@
 <?php
 if($data['type'] !== 'breakline'):
 ?>
+
+<?php 
+$fields = mw()->ui->custom_fields();
+?>
+<div class="mw-custom-field-group">
+    <label class="mw-custom-field-label" for="custom_field_width_type<?php print $rand; ?>"><b><?php _e('Field Type'); ?></b></label>
+    <div class="mw-custom-field-form-controls">
+    	
+       <select class="mw-ui-field mw-full-width" name="options[field_type]">
+       
+       	<?php foreach($fields as $fieldType=>$fieldName): ?> 
+        <option <?php if($data['type'] == $fieldType):?>selected="selected"<?php endif; ?> value="<?php echo $fieldType; ?>"><?php echo $fieldName; ?></option> 
+        <?php endforeach; ?>
+        
+       </select>
+    </div>
+</div>
+
 <div class="mw-custom-field-group">
     <label class="mw-custom-field-label" for="custom_field_width_size<?php print $rand; ?>"><b><?php _e('Organaize in columns'); ?></b></label>
     <div class="mw-custom-field-form-controls">
