@@ -2808,7 +2808,8 @@ mw.tools = {
             input.innerHTML = el.textContent;
             input.onblur = function () {
                 var val = $input.text();
-                var ischanged = this.changed === true;
+                var ischanged = true;
+                alert(1)
                 setTimeout(function () {
                     mw.$(el).text(val);
                     if (typeof callback === 'function' && ischanged) {
