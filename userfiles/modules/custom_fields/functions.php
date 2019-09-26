@@ -3,7 +3,7 @@
 function template_field_size_options()
 {
 	$css_framework = template_framework();
-	
+
 	if ($css_framework == 'mw-ui') {
 		for ($i = 1; $i <= 12; $i ++) {
 			$options[$i] = 'mw-flex-col-md-' . $i;
@@ -24,3 +24,4 @@ function template_field_size_options()
 
 	return $options;
 }
+
