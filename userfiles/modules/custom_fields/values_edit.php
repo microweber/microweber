@@ -20,6 +20,11 @@ $(document).ready(function () {
 			var el = $(this)[0]
 			mw.on.stopWriting(el, function () {
 				mw.custom_fields.save_form($selector);
+
+				if (mw.$($selector).find('.mw-needs-reload').length > 0) {
+					mw.reload_module('custom_fields/values_edit');
+				}
+				
 			});
         });
 

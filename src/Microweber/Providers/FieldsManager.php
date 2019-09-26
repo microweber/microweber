@@ -177,6 +177,11 @@ class FieldsManager
         if (isset($data['rel']) and !isset($data['rel_type'])) {
             $data['rel_type'] = $data['rel'];
         }
+        
+        
+        if (isset($data['options']['field_type']) && !empty($data['options']['field_type'])) {
+        	$data['type'] = $data['options']['field_type'];
+        }
 
         $data_to_save = ($data);
         $data_to_save = $this->unify_params($data_to_save);

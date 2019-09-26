@@ -9,9 +9,10 @@ $fields = mw()->ui->custom_fields();
     <label class="mw-custom-field-label" for="custom_field_width_type<?php print $rand; ?>"><b><?php _e('Field Type'); ?></b></label>
     <div class="mw-custom-field-form-controls">
     	
-       <select class="mw-ui-field mw-full-width" name="options[field_type]">
+       <select class="mw-ui-field mw-full-width" name="options[field_type]" onChange="$(this).addClass('mw-needs-reload');">
        
        	<?php foreach($fields as $fieldType=>$fieldName): ?> 
+       	<?php if($fieldType=='breakline') { continue; } ?>
         <option <?php if($data['type'] == $fieldType):?>selected="selected"<?php endif; ?> value="<?php echo $fieldType; ?>"><?php echo $fieldName; ?></option> 
         <?php endforeach; ?>
         
