@@ -2,11 +2,7 @@
 
 <?php
 $curr_symbol = mw()->shop_manager->currency_symbol();
-
-
-
 ?>
-
 
 <div class="mw-ui-field-holder">
   <label class="mw-ui-label" for="input_field_label<?php print $rand; ?>">
@@ -28,10 +24,10 @@ $curr_symbol = mw()->shop_manager->currency_symbol();
 </div>
 
 
-
-
-<?php event_trigger('mw.admin.custom_fields.price_settings', $data); ?>
-
+<?php
+$settings['id'] = $data['id'];
+event_trigger('mw.admin.custom_fields.price_settings', $settings);
+?>
 
 
 <?php include('settings_footer.php'); ?>
