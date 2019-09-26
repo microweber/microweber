@@ -11,8 +11,6 @@ if (isset($params['data-skip-type'])) {
     $skip_types = explode(',', $params['data-skip-type']);
     $skip_types = array_trim($skip_types);
 }
-$skip_types = array();
-
 
 if (isset($params['content-id'])) {
     $for_id = $params['content-id'];
