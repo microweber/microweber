@@ -98,15 +98,25 @@ class MailSender
 
         }
 
+        
         if ($this->transport == 'gmail') {
             Config::set('mail.host', 'smtp.gmail.com');
             Config::set('mail.port', 587);
             Config::set('mail.encryption', 'tls');
+        } else if ($this->transport == 'cpanel') {
+        	Config::set('mail.host', $this->smtp_host);
+        	Config::set('mail.port', 587);
+        	Config::set('mail.encryption', 'tls');
+        } else if ($this->transport == 'plesk') {
+        	Config::set('mail.host', $this->smtp_host);
+        	Config::set('mail.port', 25);
+        	Config::set('mail.encryption', 'tls');
         } else {
             Config::set('mail.host', $this->smtp_host);
             Config::set('mail.port', $this->smtp_port);
             Config::set('mail.encryption', $this->smtp_auth);
         }
+        
     }
     
     public function setEmailTo($email) {
@@ -347,6 +357,7 @@ class MailSender
             );
            return true;
          } catch (\Exception $e) {
+         	dd($e);
             if ($this->silent_exceptions) {
                return false;
             } else {
