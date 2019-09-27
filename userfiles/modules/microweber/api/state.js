@@ -62,6 +62,12 @@ mw.State = function(options){
         return this;
     };
 
+    this.actionRecord = function(recordGenFunc, action){
+        this.record(recordGenFunc());
+        action.call();
+        this.record(recordGenFunc());
+    };
+
     this.redo = function(){
         this._activeIndex--;
         this._active = this._state[this._activeIndex];

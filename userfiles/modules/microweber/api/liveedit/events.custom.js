@@ -33,6 +33,9 @@ mw.liveedit.handleCustomEvents = function() {
     mw.on("IconElementClick", function(e, el) {
         mw.iconSelector._activeElement = el;
         mw.iconSelector.settingsUI();
+        setTimeout(function () {
+            mw.wysiwyg.contentEditable(el, false);
+        })
     });
 
     mw.on("ComponentClick", function(e, node, type){

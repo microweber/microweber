@@ -245,7 +245,6 @@ if (isset($params['quick_edit'])) {
                                                     $(document).ready(function () {
                                                         setTimeout(function () {
                                                             $('#content-title-field').focus();
-                                                            // alert(1);
                                                         }, 100);
                                                     });
                                                 });

@@ -74,7 +74,7 @@
 
         dd_autocomplete('#dd_pages_search');
 
-        mw.$("#insert_email").on('click', function () {alert(1)
+        mw.$("#insert_email").on('click', function () {
             var val = mwd.getElementById('email_field').value;
             if (!val.contains('mailto:')) {
                 val = 'mailto:' + val;

@@ -363,6 +363,9 @@ mw.wysiwyg = {
                 el = mw.tools.firstParentOrCurrentWithAnyOfClasses(el, ['edit', 'regular-mode']);
             }
         }
+        if (mw.liveedit.data.set('mouseup', 'isIcon')) {
+            state = false;
+        }
         if(el && el.contentEditable !== state) { // chrome setter needs a check
 
             el.contentEditable = state;
@@ -1256,6 +1259,9 @@ mw.wysiwyg = {
 
         if (!node) {
             return false;
+        }
+        if(mw.tools.hasAnyOfClassesOnNodeOrParent(node, ['safe-element'])){
+            return;
         }
         mw.wysiwyg.contentEditable(node, true);
         a = (a || 'start').trim();
