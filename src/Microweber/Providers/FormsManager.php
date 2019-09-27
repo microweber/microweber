@@ -172,7 +172,16 @@ class FormsManager
         if (!$dis_cap) {
             $dis_cap = $this->app->option_manager->get('disable_captcha', $default_mod_id) == 'y';
         }
-
+        
+        $email_from = $this->app->option_manager->get('email_from', $for_id);
+        if (!$email_from) {
+        	$email_from = $this->app->option_manager->get('email_from', $default_mod_id);
+        }
+        
+        $from_name = $this->app->option_manager->get('email_from_name', $for_id);
+        if (!$from_name) {
+        	$from_name = $this->app->option_manager->get('email_from_name', $default_mod_id);
+        }
 
         $email_to = $this->app->option_manager->get('email_to', $for_id);
         if (!$email_to) {
@@ -518,7 +527,7 @@ class FormsManager
                     $user_mails[] = $email_bcc;
                 }
 
-                $email_from = false;
+                // $email_from = false;
                 if (!$email_from and isset($cf_to_save) and !empty($cf_to_save)) {
                     foreach ($cf_to_save as $value) {
                         if (is_array($value) and isset($value['value'])) {
@@ -535,7 +544,7 @@ class FormsManager
                 }
 
 
-                $from_name = $email_from;
+               //  $from_name = $email_from;
                 if (isset($params['name']) and $params['name']) {
                     $from_name = $params['name'];
                 }
