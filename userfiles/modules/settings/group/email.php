@@ -120,15 +120,21 @@ mw.email_send_test = function(){
 				        <option value="smtp" <?php if($email_transport == 'smtp'): ?> selected="selected" <?php endif; ?>>
 				        <?php _e("SMTP server"); ?>
 				        </option>
+				        <option value="cpanel" <?php if($email_transport == 'cpanel'): ?> selected="selected" <?php endif; ?>>
+				        <?php _e("cPanel"); ?>
+				        </option>
+				        <option value="plesk" <?php if($email_transport == 'plesk'): ?> selected="selected" <?php endif; ?>>
+				        <?php _e("Plesk"); ?>
+				        </option>
 				    </select>
 				</div>
 				</div>
 				
-				<?php if($email_transport == 'smtp' or $email_transport == 'gmail' or $email_transport == 'yahoo' or $email_transport == 'hotmail' or $email_transport == 'smtp'): ?>
+				<?php if($email_transport == 'smtp' or $email_transport == 'cpanel' or $email_transport == 'plesk' or $email_transport == 'gmail' or $email_transport == 'yahoo' or $email_transport == 'hotmail' or $email_transport == 'smtp'): ?>
                 
                 <div class="mw-flex-col-xs-6">
                 <div class="mw-ui-field-holder">
-				<label class="mw-ui-label"><?php print ucfirst($email_transport); ?>
+				<label class="mw-ui-label"><?php print titlelize($email_transport); ?>
 					<?php _e("Username"); ?>
 					<br />
 					<small>
@@ -142,7 +148,7 @@ mw.email_send_test = function(){
                 
                 <div class="mw-flex-col-xs-6">
                <div class="mw-ui-field-holder">
-				<label class="mw-ui-label"><?php print ucfirst($email_transport); ?>
+				<label class="mw-ui-label"><?php print titlelize($email_transport); ?>
 					<?php _e("Password"); ?>
 					<br />
 					<small>&nbsp;</small>
