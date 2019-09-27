@@ -1,13 +1,22 @@
 <?php only_admin_access(); ?>
 <script  type="text/javascript">
 
-function saveEmailOptions() {
+function saveEmailOptions(notification) {
+
+	if (!!notification) {
+		notification = true;
+	}
+	
 	$("input, select, textarea", $('.<?php print $config['module_class'] ?>')).each(function () {
         mw.options.save(this, function () {
             // saved
         });
 	});
-	mw.notification.success("<?php _e("Email settings are saved"); ?>.");
+	
+	if (notification) {
+		mw.notification.success("<?php _e("Email settings are saved"); ?>.");
+	}
+
 	mw.reload_module("<?php print $config['module'] ?>");
 }
 
@@ -28,6 +37,12 @@ $(document).ready(function(){
 */
 mw.email_send_test = function(){
 
+	$("input, select, textarea", $('.<?php print $config['module_class'] ?>')).each(function () {
+        mw.options.save(this, function () {
+            // saved
+        });
+	});
+	
 	var email_to = {}
 	email_to.to = $('#test_email_to').val();
 	email_to.subject = $('#test_email_subject').val();
@@ -39,7 +54,7 @@ mw.email_send_test = function(){
 			 html:"<pre>"+msg+"</pre>",	
 			 title:"Email send results..."
 		 });
-	  });
+	 });
 }
 </script>
 
@@ -159,8 +174,10 @@ mw.email_send_test = function(){
                 
 				<?php endif; ?>
 				
-				<?php if($email_transport == 'smtp'): ?>
-				 <div class="mw-flex-col-xs-6">
+			
+				
+				<?php if($email_transport == 'smtp' || $email_transport == 'plesk' || $email_transport == 'cpanel'): ?>
+				 <div class="<?php if($email_transport == 'smtp'): ?>mw-flex-col-xs-6<?php else: ?>mw-flex-col-xs-12<?php endif; ?>">
                 <div class="mw-ui-field-holder">
 				<label class="mw-ui-label">
 					<?php _e("Smtp Email Host"); ?>
@@ -171,7 +188,9 @@ mw.email_send_test = function(){
 				<input name="smtp_host" class="mw_option_field mw-ui-field"   type="text" option-group="email"  value="<?php print get_option('smtp_host','email'); ?>" />
 				</div>
 				</div>
+				<?php endif; ?>
 				
+				<?php if($email_transport == 'smtp'): ?>
 				 <div class="mw-flex-col-xs-6">
                 <div class="mw-ui-field-holder">
 				<label class="mw-ui-label">
@@ -263,9 +282,9 @@ mw.email_send_test = function(){
 				</div>
 				</div>
 				</div>
-			<br />
+				<br />
 		
-			<button onClick="saveEmailOptions()" class="mw-ui-btn   mw-ui-btn-notification"><span class="mw-icon-check"></span> <?php _e("Save email settings"); ?></button>
+			<button onClick="saveEmailOptions(1)" class="mw-ui-btn mw-ui-btn-notification"><span class="mw-icon-check"></span> <?php _e("Save email settings"); ?></button>
 
 		<br />
 	</div>
