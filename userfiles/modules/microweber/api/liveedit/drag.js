@@ -471,7 +471,7 @@ mw.drag = {
                     ];
 
                     var currentComponent = mw.tools.firstParentOrCurrentWithAnyOfClasses(target, componentsClasses);
-                    var fonttarget = mw.wysiwyg.firstElementThatHasFontIconClass(target);
+                    var fonttarget = mw.liveedit.data.get('mouseup', 'isIcon');
 
                     if( mw.tools.hasAnyOfClassesOnNodeOrParent(target, componentsClasses)) {
                         if (currentComponent && !fonttarget) {

@@ -38,14 +38,7 @@
     z-index: 99;
 }
 
-#mw-text-editor:after {
-    content: ".";
-    display: block;
-    clear: both;
-    visibility: hidden;
-    line-height: 0;
-    height: 0;
-}
+
 
 #mw-admin-text-editor {
     width: 100%;

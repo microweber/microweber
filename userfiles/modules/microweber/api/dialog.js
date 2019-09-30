@@ -391,8 +391,23 @@
                 css.top = dtop > 0 ? dtop : 0;
             }
 
+            if(window !== mw.top().win && document.body.scrollHeight > mw.top().win.innerHeight){
+                $win = $(mw.top());
+
+                css.top = $(document).scrollTop() + 50;
+                var off = $(window.frameElement).offset();
+                console.log(window.frameElement, off)
+                if(off.top < 0) {
+                    css.top += -(off.top);
+                }
+
+            }
+
+
             $holder.css(css);
             this._prevHeight = holderHeight;
+
+
 
             mw.$(this).trigger('dialogCenter');
 
@@ -449,9 +464,16 @@
             if (!this.options.pauseInit) {
                 mw.$(this).trigger('Init');
             }
-            mw.$(this.dialogHolder).on('transitionend', function () {
+            setTimeout(function(){
                 scope.center();
-            });
+                setTimeout(function(){
+                    scope.center();
+                    setTimeout(function(){
+                        scope.center();
+                    }, 3000);
+                }, 333);
+            }, 78);
+
 
             return this;
         };

@@ -1,7 +1,15 @@
-mw.wysiwyg.mdabSafeMode = function (event, sel) {
-    var node = mw.wysiwyg.validateCommonAncestorContainer(sel.focusNode);
-    var range = sel.getRangeAt(0);
-    if(!node.innerText.replace(/\s/gi, '')){
+
+var canDestroy = function (event) {
+    var target = event.target;
+    return !mw.tools.hasAnyOfClassesOnNodeOrParent(event, ['safe-element'])
+            && mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(target, ['allow-drop', 'nodrop']);
+};
+
+mw.wysiwyg._manageDeleteAndBackspaceInSafeMode = {
+    emptyNode: function (event, node, sel, range) {
+        if(!canDestroy(node)) {
+            return;
+        }
         var todelete = node;
         if(mw.tools.hasAnyOfClasses(node.parentNode, ['text', 'title'])){
             todelete = node.parentNode;
@@ -29,51 +37,61 @@ mw.wysiwyg.mdabSafeMode = function (event, sel) {
             target: parent,
             value: parent.innerHTML
         });
+    },
+    nodeBoundaries: function (event, node, sel, range) {
+        var isStart = range.startOffset === 0 || !(sel.anchorNode.data.substring(0, range.startOffset).replace(/\s/g, ''));
+        var curr, content;
+        if(mw.event.is.backSpace(event) && isStart && range.collapsed){ // is at the beginning
+            curr = node;
+            if(mw.tools.hasAnyOfClasses(node.parentNode, ['text', 'title'])){
+                curr = node.parentNode;
+            }
+            var prev = curr.previousElementSibling;
+            if(prev && prev.nodeName === node.nodeName && canDestroy(node)) {
+                content = node.innerHTML;
+                mw.wysiwyg.cursorToElement(prev, 'end');
+                prev.appendChild(range.createContextualFragment(content));
+                $(curr).remove();
+            }
+        } else if(mw.event.is.delete(event)
+            && range.collapsed
+            && range.startOffset === sel.anchorNode.data.replace(/\s*$/,'').length // is at the end
+            && canDestroy(node)){
+            curr = node;
+            if(mw.tools.hasAnyOfClasses(node.parentNode, ['text', 'title'])){
+                curr = node.parentNode;
+            }
+            var next = curr.nextElementSibling, deleteParent;
+            if(mw.tools.hasAnyOfClasses(next, ['text', 'title'])){
+                next = next.firstElementChild;
+                deleteParent = true;
+            }
+            if(next && next.nodeName === curr.nodeName) {
+                content = next.innerHTML;
+                setTimeout(function(){
+                    var parent = deleteParent ? next.parentNode.parentNode : next.parentNode;
+                    mw.liveEditState.actionRecord(function() {
+                            return {
+                                target: parent,
+                                value: parent.innerHTML
+                            };
+                        }, function () {
+                            curr.append(range.createContextualFragment(content));
+                        }
+                    );
+                });
+            }
+        }
+    }
+};
+mw.wysiwyg.manageDeleteAndBackspaceInSafeMode = function (event, sel) {
+    var node = mw.wysiwyg.validateCommonAncestorContainer(sel.focusNode);
+    var range = sel.getRangeAt(0);
+    if(!node.innerText.replace(/\s/gi, '')){
+        mw.wysiwyg._manageDeleteAndBackspaceInSafeMode.emptyNode(event, node, sel, range);
         return false;
     }
-
-    var isStart = range.startOffset === 0 || !(sel.anchorNode.data.substring(0, range.startOffset).replace(/\s/g, ''));
-    var curr, content;
-    if(mw.event.is.backSpace(event) && isStart && range.collapsed){ // is at the beginning
-        curr = node;
-        if(mw.tools.hasAnyOfClasses(node.parentNode, ['text', 'title'])){
-            curr = node.parentNode;
-        }
-        var prev = curr.previousElementSibling;
-        if(prev && prev.nodeName === node.nodeName) {
-            content = node.innerHTML;
-            mw.wysiwyg.cursorToElement(prev, 'end');
-            prev.appendChild(range.createContextualFragment(content));
-            $(curr).remove();
-        }
-    } else if(mw.event.is.delete(event) && range.collapsed && range.startOffset === sel.anchorNode.data.replace(/\s*$/,'').length){ // is at the end
-        curr = node;
-        if(mw.tools.hasAnyOfClasses(node.parentNode, ['text', 'title'])){
-            curr = node.parentNode;
-        }
-        var next = curr.nextElementSibling, deleteParent;
-        if(mw.tools.hasAnyOfClasses(next, ['text', 'title'])){
-            next = next.firstElementChild;
-            deleteParent = true;
-        }
-        if(next && next.nodeName === curr.nodeName) {
-            content = next.innerHTML;
-            setTimeout(function(){
-                var parent = deleteParent ? next.parentNode.parentNode : next.parentNode;
-                mw.liveEditState.record({
-                    target: parent,
-                    value: parent.innerHTML
-                });
-                curr.append(range.createContextualFragment(content));
-                $(deleteParent ? next.parentNode : next).remove();
-                mw.liveEditState.record({
-                    target: parent,
-                    value: parent.innerHTML
-                });
-            });
-        }
-    }
-
+    mw.wysiwyg._manageDeleteAndBackspaceInSafeMode.nodeBoundaries(event, node, sel, range);
     return true;
 };
 mw.wysiwyg.manageDeleteAndBackspace = function (event, sel) {
@@ -84,7 +102,7 @@ mw.wysiwyg.manageDeleteAndBackspace = function (event, sel) {
         var isSafe = mw.wysiwyg.isSafeMode();
 
         if(isSafe) {
-            return mw.wysiwyg.mdabSafeMode(event, sel);
+            return mw.wysiwyg.manageDeleteAndBackspaceInSafeMode(event, sel);
         }
 
         if (!mw.settings.liveEdit) {

@@ -2809,7 +2809,6 @@ mw.tools = {
             input.onblur = function () {
                 var val = $input.text();
                 var ischanged = true;
-                alert(1)
                 setTimeout(function () {
                     mw.$(el).text(val);
                     if (typeof callback === 'function' && ischanged) {
@@ -3548,7 +3547,11 @@ mw.tools = {
             settings.autoHeight = true;
             settings.encapsulate = false;
             var modal = mw.dialog(settings);
-            xhr = mw.load_module(module_type, '#' + id_content, null, params);
+            xhr = mw.load_module(module_type, '#' + id_content, function(){
+                setTimeout(function(){
+                    modal.center();
+                },333)
+            }, params);
         }
 
 
