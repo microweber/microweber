@@ -40,9 +40,8 @@ $(document).ready(function () {
                             <div class="product-name">
                                 <?php if (isset($message['custom_fields']) and $message['custom_fields']): ?>
                                     <?php foreach ($message['custom_fields'] as $key => $field): ?>
+                                    	<?php $key = strtolower($key); ?>
                                         <?php if ($key == 'name'): ?>
-                                            <?php print $field; ?>
-                                        <?php elseif ($key == 'Name'): ?>
                                             <?php print $field; ?>
                                         <?php elseif ($key == 'first_name'): ?>
                                             <?php print $field; ?>

@@ -39,12 +39,25 @@ if (trim($load_list) == 'default') {
 }
 </style>
 
+<?php 
+$hideEditButton = false;
+if ($load_list == 'default') {
+	$hideEditButton = true;
+} else if ($load_list == 'all_lists') {
+	$hideEditButton = true;
+}
+?>
+
     <div class="mw-ui-row form-list-toolbar">
         <div class="mw-ui-col" style="width: 20%;">
-            <h2 <?php if (trim($load_list) != 'default'): ?>id="form_field_title" <?php endif; ?>><?php print ($data['title']); ?></h2>
+            <h2 <?php if (!$hideEditButton): ?>id="form_field_title" <?php endif; ?>><?php print ($data['title']); ?></h2>
+            
+            <?php if (!$hideEditButton): ?>
             <a href="#" onClick='$("#form_field_title").click();' style="color: #0086DB;">Edit list name</a>
             <br />
             <br />
+            <?php endif; ?>
+            
         </div>
         <div class="mw-ui-col">
 

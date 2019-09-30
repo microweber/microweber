@@ -170,12 +170,19 @@ echo $view->__toString();
     if ((url_param('load_list') != false)) {
         $load_list = url_param('load_list');
     }
-    if ($load_list == 1) {
-        $load_list = 'default';
-    }
     ?>
+    
+	<?php 
+	$hideEditButton = false;
+	if ($load_list == 'default') {
+		$hideEditButton = true;
+	} else if ($load_list == 'all_lists') {
+		$hideEditButton = true;
+	}
+	?>
+    
     <div class="mw-ui-col">
-        <?php if (strtolower(trim($load_list)) != 'default'): ?>
+        <?php if (!$hideEditButton): ?>
             <span class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-important mw-ui-delete"
                   onclick="mw.forms_data_manager.delete_list('<?php print addslashes($load_list); ?>');">
                     <?php _e("Delete"); ?>&nbsp;<b><?php echo $listData['title']; ?></b>&nbsp;<?php _e("list"); ?>
