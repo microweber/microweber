@@ -65,6 +65,10 @@ class Export
 				$zipExport->setExportMedia(true);
 			}
 			
+			if ($this->includeMedia == false) {
+				$zipExport->setExportMedia(false);
+			}
+			
 			$zipExportReady = $zipExport->start();
 			
 			if (isset($zipExportReady['download']) && !empty($zipExportReady['download'])) {
