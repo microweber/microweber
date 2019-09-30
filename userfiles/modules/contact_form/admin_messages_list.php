@@ -46,6 +46,10 @@ $(document).ready(function () {
                                             <?php print $field; ?>
                                         <?php elseif ($key == 'first_name'): ?>
                                             <?php print $field; ?>
+                                        <?php elseif ($key == 'full_name'): ?>
+                                            <?php print $field; ?>
+                                        <?php elseif ($key == 'last_name'): ?>
+                                            <?php print $field; ?>
                                         <?php endif; ?>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
