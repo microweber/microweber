@@ -49,7 +49,7 @@ trait DatabaseRelationWriter
 		$relation['rel_type'] = $savedItem['item']['rel_type'];
 		$relation['save_to_table'] = $savedItem['item']['rel_type'];
 
-		if (! empty($relation)) {
+		if (! empty($relation) && isset($relation['title'])) {
 			
 			$relationDatabase = $this->_getRelationDatabase($relation);
 			if (empty($relationDatabase)) {
