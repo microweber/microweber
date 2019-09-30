@@ -236,6 +236,9 @@ class BackupV2
 		}
 		
 		if (isset($query['all'])) {
+			if (isset($query['include_media']) && $query['include_media'] == 'true') {
+				$manager->setExportIncludeMedia(true);
+			}
 			$manager->setExportAllData(true);
 		}
 		

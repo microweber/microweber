@@ -15,6 +15,7 @@ class Export
 	public $exportData;
 	public $type = 'json';
 	public $exportAllData = false;
+	public $includeMedia = false;
 	
 	public function setType($type)
 	{
@@ -27,6 +28,10 @@ class Export
 	
 	public function setExportAllData($exportAllData) {
 		$this->exportAllData = $exportAllData;
+	}
+	
+	public function setIncludeMedia($includeMedia) {
+		$this->includeMedia = $includeMedia;
 	}
 	
 	public function exportAsType($data)
