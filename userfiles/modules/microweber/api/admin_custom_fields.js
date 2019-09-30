@@ -224,8 +224,7 @@ mw.admin.custom_fields.edit_custom_field_item = function ($selector, id, callbac
         width:'450px',
         height:'auto',
         autoHeight: true,
-        title: mTitle,
-        scrollMode: 'window'
+        title: mTitle
     });
 
 };

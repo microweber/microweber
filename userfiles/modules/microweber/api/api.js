@@ -923,7 +923,7 @@ mw.top = function(){
           parents.push(curr);
           curr = curr.parent;
       }
-      return curr;
+      return curr.mw;
   };
   if(window === top){
     return window.mw;

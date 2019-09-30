@@ -1293,6 +1293,8 @@ body.has-opened-sidebar #live_edit_toolbar {
     z-index: 12;
     background: #F5F5F5;
     white-space: nowrap;
+    display: flex;
+    flex-wrap: nowrap;
 }
 
 .toolbar-sections-tabs > ul > li.hover > ul,

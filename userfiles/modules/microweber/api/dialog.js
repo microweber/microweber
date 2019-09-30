@@ -396,7 +396,6 @@
 
                 css.top = $(document).scrollTop() + 50;
                 var off = $(window.frameElement).offset();
-                console.log(window.frameElement, off)
                 if(off.top < 0) {
                     css.top += -(off.top);
                 }

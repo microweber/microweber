@@ -1,18 +1,4 @@
 
-    <?php if(is_admin()): ?>
-    <div class="wysiwyg-undo-redo">
-      <div class="wysiwyg-cell-undo-redo">
-            <span
-                  class="liveedit_wysiwyg_prev"
-                  id="liveedit_wysiwyg_main_prev"
-                  title="<?php _e("Previous"); ?>"
-                  onclick="mw.liveedit.toolbar.editor.slideLeft();"></span>
-
-
-
-      </div>
-    </div>
-    <?php endif; ?>
 
 <div class="editor_wrapper editor_wrapper_tabled" id="liveedit_wysiwyg">
   <div class="wysiwyg-table">

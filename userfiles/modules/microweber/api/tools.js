@@ -275,17 +275,30 @@ mw.tools = {
 
             if(frame.parentNode && frame.contentWindow && frame.contentWindow.$){
                 var max = -1, dmax = null, framw = frame.contentWindow.mw;
+                var mheight;
                 if(framw.__dialogs && framw.__dialogs.length){
                     framw.__dialogs.forEach(function($dialog){
-                        if($dialog.dialogHolder.offsetHeight > max){
-                            max = $dialog.dialogHolder.offsetHeight;
+                        mheight = Math.max(
+                            $dialog.dialogHolder.scrollHeight,
+                            $dialog.dialogHolder.offsetHeight,
+                            $dialog.dialogContainer.scrollHeight,
+                            $dialog.dialogContainer.offsetHeight
+                        );
+                        if(mheight > max){
+                            max = mheight;
                             dmax = $dialog;
                         }
                     });
 
+                    var body = framw.win.document.body,
+                        html = framw.win.document.documentElement;
 
-                    if (dmax.dialogHolder.offsetHeight + 100 > framw.win.innerHeight) {
-                        _detector.style.height = ((dmax.dialogHolder.offsetHeight + 160) - framw.win.innerHeight) + 'px';
+                    var height = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
+                    var height1 = ((dmax.dialogHolder.offsetHeight) - height);
+                    if (mheight > height) {
+                        if(height1) {
+                            _detector.style.height = (mheight - height) + 'px';
+                        }
                     } else {
                         //_detector.style.height = 0;
                     }
@@ -302,7 +315,7 @@ mw.tools = {
             else {
                 //clearInterval(frame._int);
             }
-        }, 77);
+        }, 1077);
 
     },
     distance: function (x1, y1, x2, y2) {
@@ -2327,11 +2340,12 @@ mw.tools = {
             if (e.keyCode === 13 || e.keyCode === 32) {
                 callback.call(window);
                 modal.remove();
+                e.preventDefault();
             }
         });
         cancel.on('click', function () {
             modal.remove();
-        })
+        });
         ok.on('click', function () {
             callback.call(window);
             modal.remove();
