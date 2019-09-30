@@ -43,6 +43,11 @@ $form_show_last_name = get_option('form_show_last_name', 'users');
 $form_show_address = get_option('form_show_address', 'users');
 $form_show_password_confirmation = get_option('form_show_password_confirmation', 'users');
 $form_show_newsletter_subscription = get_option('form_show_newsletter_subscription', 'users');
+
+$registration_approval_required = get_option('registration_approval_required', 'users');
+if ($registration_approval_required == false) {
+    $registration_approval_required = 'n';
+}
 ?>
 
 <script type="text/javascript">
@@ -255,6 +260,14 @@ $form_show_newsletter_subscription = get_option('form_show_newsletter_subscripti
             <select name="allow_socials_login" class="mw-ui-field mw_option_field" type="text" option-group="users">
                 <option value="y" <?php if ($allow_socials_login == 'y'): ?> selected="selected" <?php endif; ?>><?php _e("Yes"); ?></option>
                 <option value="n" <?php if ($allow_socials_login == 'n'): ?> selected="selected" <?php endif; ?>><?php _e("No"); ?></option>
+            </select>
+        </div>
+
+        <div class="mw-ui-field-holder">
+            <label class="mw-ui-label"><?php _e("Registration Approval Required"); ?></label>
+            <select name="registration_approval_required" class="mw-ui-field mw_option_field" type="text" option-group="users">
+                <option value="y" <?php if ($registration_approval_required == 'y'): ?> selected="selected" <?php endif; ?>><?php _e("Yes"); ?></option>
+                <option value="n" <?php if ($registration_approval_required == 'n'): ?> selected="selected" <?php endif; ?>><?php _e("No"); ?></option>
             </select>
         </div>
 

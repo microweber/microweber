@@ -7580,3 +7580,13 @@ select.silver-field {
 .js-module-preset-item-form-holder > div:last-child{
     text-align: right;
 }
+
+.mw-registered {
+    color:#469a36;
+}
+.mw-inactive {
+    color:#fa8e36;
+}
+.mw-approval-required {
+    color: #dc0d17;
+}

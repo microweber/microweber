@@ -79,6 +79,7 @@ class Base
                 'expires_on' => 'dateTime',
                 'last_login' => 'dateTime',
                 'last_login_ip' => 'string',
+                'login_count' => 'integer',
                 'created_by' => 'integer',
                 'edited_by' => 'integer',
                 'username' => 'string',
