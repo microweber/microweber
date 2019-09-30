@@ -55,16 +55,9 @@ $(document).ready(function () {
                                 <?php endif; ?>
                             </div>
 
-                            <div style="width:auto;"><?php print date('M m, Y - H:m', strtotime($message['created_at'])); ?></div>
+                            <div><?php print date('M m, Y - H:m', strtotime($message['created_at'])); ?></div>
 
-                            <div style="width:auto;min-width:180px"><?php print mw()->format->ago($message['created_at']); ?></div>
-                            
-                            <div style="width:auto;text-align:right;">
-                            <button type="button"class="mw-ui-btn mw-ui-btn-icon mw-ui-btn-important mw-ui-btn-outline mw-ui-btn-medium"
-                          		 onClick="mw.forms_data_manager.delete('<?php print $message['id'] ?>','#message-n-<?php print $message['id'] ?>');">
-                          		 <span class="mw-icon-bin"></span>
-                              </button>
-                            </div>
+                            <div><?php print mw()->format->ago($message['created_at']); ?></div>
                             
                         </div>
 
@@ -98,6 +91,13 @@ $(document).ready(function () {
                                 <?php endforeach; ?>
                             <?php endif; ?>
                             <div class="clearfix"></div>
+                            
+                           <div style="width:auto;text-align:right;">
+                            <button type="button"class="mw-ui-btn mw-ui-btn-icon mw-ui-btn-important mw-ui-btn-outline mw-ui-btn-medium"
+                          		 onClick="mw.forms_data_manager.delete('<?php print $message['id'] ?>','#message-n-<?php print $message['id'] ?>');">
+                          		 <span class="mw-icon-bin"></span>
+                              </button>
+                            </div>
                         </div>
 
                         <span class="mw-icon-close new-close tip" data-tip="<?php _e("Close"); ?>" data-tipposition="top-center" onclick=""></span>

@@ -1,6 +1,10 @@
-<?php if (is_admin() == false) {
-	return array('error' => 'Not logged in as admin');
-} ?>
+<?php
+if (is_admin() == false) {
+	return array(
+		'error' => 'Not logged in as admin'
+	);
+}
+?>
 <script type="text/javascript">
     mw.require('<?php print $config['url_to_module']; ?>forms_data_manager.js');
 </script>
@@ -58,21 +62,26 @@
 
 <?php
 
-$data = array();
+$filterData = array();
 if (isset($params['load_list'])) {
     if ($params['load_list'] == 'default') {
         $params['load_list'] = '0';
     }
-    $data['list_id'] = $params['load_list'];
+    $filterData['list_id'] = $params['load_list'];
 }
 
-
-$listData = get_form_lists("id=" . $data['list_id'] . "&limit=1");
-$listData = $listData[0];
+if ($filterData['list_id'] == 'all_lists') {
+	$listData = array(
+		'title'=> 'All lists'
+	);
+} else {
+	$listData = get_form_lists("id=" . $filterData['list_id'] . "&limit=1");
+	$listData = $listData[0];
+}
 
 $limit = 30;
 if (isset($params['keyword'])) {
-    $data['keyword'] = $params['keyword'];
+	$filterData['keyword'] = $params['keyword'];
 }
 if (isset($params['for_module'])) {
     //$data['module_name'] = $params['for_module'];
@@ -90,20 +99,20 @@ if (isset($_GET['per_page']) and $_GET['per_page']) {
 //}
 //
 //$data['limit'] = get_option('per_page', $params['for_module']);
-$data_count_all = $data;
+$data_count_all = $filterData;
 $data_count_all['limit'] = null;
 $data_count_all['count'] = true;
 $total_count = get_form_entires($data_count_all);
 
 
-$data['limit'] = $limit;
+$filterData['limit'] = $limit;
 $custom_fields = array();
 
 if ((url_param('current_page') != false)) {
-    $data['current_page'] = url_param('current_page');
+	$filterData['current_page'] = url_param('current_page');
 }
 
-$data_paging = $data;
+$data_paging = $filterData;
 $data_paging['page_count'] = 1;
 
 
@@ -118,7 +127,12 @@ $data_paging = get_form_entires($data_paging);
 $limit_per_page = 50;
 $custom_fields = array();
 
-$data = get_form_entires($data);
+
+if ($filterData['list_id'] == 'all_lists') {
+	$data = get_form_entires(array('limit'=>$filterData['limit']));
+} else {
+	$data = get_form_entires($filterData);
+}
 
 if (is_array($data)) {
     foreach ($data as $item) {
