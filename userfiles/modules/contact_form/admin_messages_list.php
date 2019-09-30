@@ -56,10 +56,10 @@ $(document).ready(function () {
                             <div style="width:auto;min-width:180px"><?php print mw()->format->ago($message['created_at']); ?></div>
                             
                             <div style="width:auto;text-align:right;">
-                            <a class="mw-ui-btn mw-ui-btn-icon mw-ui-btn-important mw-ui-btn-outline mw-ui-btn-medium"
-                          		 href="javascript:mw.forms_data_manager.delete('<?php print $message['id'] ?>','#message-n-<?php print $message['id'] ?>');">
+                            <button type="button"class="mw-ui-btn mw-ui-btn-icon mw-ui-btn-important mw-ui-btn-outline mw-ui-btn-medium"
+                          		 onClick="mw.forms_data_manager.delete('<?php print $message['id'] ?>','#message-n-<?php print $message['id'] ?>');">
                           		 <span class="mw-icon-bin"></span>
-                              </a>
+                              </button>
                             </div>
                             
                         </div>
