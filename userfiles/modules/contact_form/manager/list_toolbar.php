@@ -12,8 +12,8 @@ if (!isset($params['load_list'])) {
     mw.require('<?php print $config['url_to_module']; ?>forms_data_manager.js');
 
 </script>
-<?php $def = _e("Search for data", true);
-
+<?php
+$def = _e("Search for data", true);
 $load_list = $params['load_list'];
 ?>
 <?php
@@ -21,31 +21,43 @@ if (trim($load_list) == 'default') {
     $data = array();
     $data['title'] = "Default list";
     $data['id'] = "default";
+} else if (trim($load_list) == 'all_lists') {
+	$data = array();
+	$data['title'] = "All lists";
+	$data['id'] = "all_lists";
 } else {
     $data = get_form_lists('single=1&id=' . $load_list);
-
 }
-
 ?>
 
 <style>
-
-    #start-email-campaign {
-        padding: 15px 0px 4px;
-    }
-
-    .form-list-toolbar h2 {
-        margin-top: 0;
-    }
-
+#start-email-campaign {
+	padding: 15px 0px 4px;
+}
+.form-list-toolbar h2 {
+	margin-top: 0;
+}
 </style>
+
+<?php 
+$hideEditButton = false;
+if ($load_list == 'default') {
+	$hideEditButton = true;
+} else if ($load_list == 'all_lists') {
+	$hideEditButton = true;
+}
+?>
 
     <div class="mw-ui-row form-list-toolbar">
         <div class="mw-ui-col" style="width: 20%;">
-            <h2 <?php if (trim($load_list) != 'default'): ?>id="form_field_title" <?php endif; ?>><?php print ($data['title']); ?></h2>
+            <h2 <?php if (!$hideEditButton): ?>id="form_field_title" <?php endif; ?>><?php print ($data['title']); ?></h2>
+            
+            <?php if (!$hideEditButton): ?>
             <a href="#" onClick='$("#form_field_title").click();' style="color: #0086DB;">Edit list name</a>
             <br />
             <br />
+            <?php endif; ?>
+            
         </div>
         <div class="mw-ui-col">
 
@@ -65,8 +77,7 @@ if (trim($load_list) == 'default') {
                         class="pull-right mw-ui-searchfield"
                         type="search"
                         placeholder='<?php print $def; ?>'
-                        onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"
-                />
+                        onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});" />
 
 
             </div>

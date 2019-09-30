@@ -27,8 +27,9 @@ mw.backup_export = {
 			+ 'Use the button to export full backup of your website with all data.'
 			+ '<br />'
 			+ '<div class="mw-flex-row">'
-			+ '<div class="mw-flex-col-md-6">'
-			+ '&nbsp;&nbsp;<a class="mw-ui-btn mw-ui-btn-notification" onclick="mw.backup_export.export_fullbackup_start()"><i class="mw-icon-refresh"></i> Create Full Backup</a>'
+			+ '<div class="mw-flex-col-md-6">' 
+			+ '<br /><label class="mw-ui-check"><input class="js-export-include-media" type="checkbox" value="true" checked="checked" name="export_media"><span></span><span>Include media files</span><br /><br /></label>'
+			+ '&nbsp;&nbsp;<a class="mw-ui-btn mw-ui-btn-notification" onclick="mw.backup_export.export_fullbackup_start()"><i class="mw-icon-refresh"></i> &nbsp; Create Full Backup</a>'
 			+ '</div>'
 			+ '<div class="mw-flex-col-md-6">'
 			+ '<div class="js-export-log" style="padding-top:8px"></div>'
@@ -153,7 +154,7 @@ mw.backup_export = {
 	
 	export_fullbackup_start: function() {
 		$('.js-export-log').html('Generating full backup...');
-        mw.backup_export.export_selected('all&format=' + $('.js-export-format').val());
+        mw.backup_export.export_selected('all&format=' + $('.js-export-format').val() + '&include_media=' + $('.js-export-include-media').is(":checked"));
 	},
 	
 	export_start: function () {

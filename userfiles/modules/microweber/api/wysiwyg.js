@@ -363,7 +363,7 @@ mw.wysiwyg = {
                 el = mw.tools.firstParentOrCurrentWithAnyOfClasses(el, ['edit', 'regular-mode']);
             }
         }
-        if (mw.liveedit.data.set('mouseup', 'isIcon')) {
+        if (typeof(mw.liveedit) != 'undefined' && mw.liveedit.data.set('mouseup', 'isIcon')) {
             state = false;
         }
         if(el && el.contentEditable !== state) { // chrome setter needs a check

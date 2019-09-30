@@ -3,7 +3,9 @@
     $(document).ready(function(){
 
         mw.options.form('.<?php print $config['module_class'] ?>', function(){
+            mw.clear_cache();
             mw.notification.success("<?php _e("All changes are saved"); ?>.");
+
         });
     });
 </script>

@@ -1147,6 +1147,13 @@ class DefaultController extends Controller
 
         $is_no_editmode = $this->app->url_manager->param('no_editmode');
         $is_quick_edit = $this->app->url_manager->param('mw_quick_edit');
+        $back_to_editmode = $this->app->user_manager->session_get('back_to_editmode');
+        if(!$back_to_editmode){
+            if(isset($_COOKIE['mw-back-to-live-edit']) and $is_admin){
+                $back_to_editmode = $_COOKIE['mw-back-to-live-edit'];
+            }
+        }
+
 
         if ($is_quick_edit != false) {
             $page_url = $this->app->url_manager->param_unset('mw_quick_edit', $page_url);
@@ -1300,16 +1307,17 @@ class DefaultController extends Controller
 
             if ($is_editmode == false
                 and !$is_preview_template
+                and !$is_no_editmode
                 and !$is_preview_module
                 and $this->isolate_by_html_id == false
                 and !isset($_REQUEST['isolate_content_field'])
+                and !isset($_REQUEST['content_id'])
                 and !isset($_REQUEST['embed_id'])
                 and !is_cli()
                 and !defined('MW_API_CALL')
                 and !defined('MW_NO_SESSION')
             ) {
 
-                $back_to_editmode = $this->app->user_manager->session_get('back_to_editmode');
 
                 if (!$back_to_editmode and !$is_editmode and empty($_GET)) {
                     if ($enable_full_page_cache) {
@@ -1335,6 +1343,7 @@ class DefaultController extends Controller
             $output_cache_id = __FUNCTION__ . crc32($_SERVER['REQUEST_URI']);
             $output_cache_group = 'global/full_page_cache';
             $output_cache_content = $this->app->cache_manager->get($output_cache_id, $output_cache_group, $output_cache_timeout);
+
             if ($output_cache_content != false) {
                 echo $output_cache_content;
 
@@ -2009,14 +2018,6 @@ class DefaultController extends Controller
                 }
             } elseif ($is_editmode == false and $is_admin == true and mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false)) {
                 if (!isset($_REQUEST['isolate_content_field']) and !isset($_REQUEST['content_id'])) {
-                    $back_to_editmode = $this->app->user_manager->session_get('back_to_editmode');
-
-                    if(!$back_to_editmode){
-                        if(isset($_COOKIE['mw-back-to-live-edit']) and $is_admin){
-                            $back_to_editmode = $_COOKIE['mw-back-to-live-edit'];
-                        }
-                    }
-
 
                     if ($back_to_editmode == true) {
                         $tb = mw_includes_path() . DS . 'toolbar' . DS . 'toolbar_back.php';

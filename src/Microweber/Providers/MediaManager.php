@@ -726,9 +726,7 @@ class MediaManager
         }
 
         $cache_path = $cd . $cache;
-
         if (file_exists($cache_path)) {
-        	
         	if(!isset($return_cache_path)){
         		if (!headers_sent()) {
         			if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
@@ -743,10 +741,7 @@ class MediaManager
         			}
         		}
         	}
-        	
-        	
-        	
-            
+
         } else {
             $src = $this->app->url_manager->clean_url_wrappers($src);
 
@@ -766,6 +761,7 @@ class MediaManager
                         if ($crop) {
                             $thumbOptions['crop'] = $crop;
                         }
+
                         $tn->createThumb($thumbOptions, $cache_path);
 
                         unset($tn);
@@ -1075,9 +1071,9 @@ class MediaManager
         if ($crop) {
             $cache_id['crop'] = $crop;
         }
-
         $cache_id = 'tn-' . md5(serialize($cache_id)) . '.' . $ext;
         $cache_path = $cd . $cache_id;
+      //  d($cache_path);
 
         if ($is_remote) {
             return $src;

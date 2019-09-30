@@ -1,6 +1,10 @@
-<?php if (is_admin() == false) {
-    return array('error' => 'Not logged in as admin');
-} ?>
+<?php
+if (is_admin() == false) {
+	return array(
+		'error' => 'Not logged in as admin'
+	);
+}
+?>
 <script type="text/javascript">
     mw.require('<?php print $config['url_to_module']; ?>forms_data_manager.js');
 </script>
@@ -58,21 +62,26 @@
 
 <?php
 
-$data = array();
+$filterData = array();
 if (isset($params['load_list'])) {
     if ($params['load_list'] == 'default') {
         $params['load_list'] = '0';
     }
-    $data['list_id'] = $params['load_list'];
+    $filterData['list_id'] = $params['load_list'];
 }
 
-
-$listData = get_form_lists("id=" . $data['list_id'] . "&limit=1");
-$listData = $listData[0];
+if ($filterData['list_id'] == 'all_lists') {
+	$listData = array(
+		'title'=> 'All lists'
+	);
+} else {
+	$listData = get_form_lists("id=" . $filterData['list_id'] . "&limit=1");
+	$listData = $listData[0];
+}
 
 $limit = 30;
 if (isset($params['keyword'])) {
-    $data['keyword'] = $params['keyword'];
+	$filterData['keyword'] = $params['keyword'];
 }
 if (isset($params['for_module'])) {
     //$data['module_name'] = $params['for_module'];
@@ -90,20 +99,20 @@ if (isset($_GET['per_page']) and $_GET['per_page']) {
 //}
 //
 //$data['limit'] = get_option('per_page', $params['for_module']);
-$data_count_all = $data;
+$data_count_all = $filterData;
 $data_count_all['limit'] = null;
 $data_count_all['count'] = true;
 $total_count = get_form_entires($data_count_all);
 
 
-$data['limit'] = $limit;
+$filterData['limit'] = $limit;
 $custom_fields = array();
 
 if ((url_param('current_page') != false)) {
-    $data['current_page'] = url_param('current_page');
+	$filterData['current_page'] = url_param('current_page');
 }
 
-$data_paging = $data;
+$data_paging = $filterData;
 $data_paging['page_count'] = 1;
 
 
@@ -118,7 +127,12 @@ $data_paging = get_form_entires($data_paging);
 $limit_per_page = 50;
 $custom_fields = array();
 
-$data = get_form_entires($data);
+
+if ($filterData['list_id'] == 'all_lists') {
+	$data = get_form_entires(array('limit'=>$filterData['limit']));
+} else {
+	$data = get_form_entires($filterData);
+}
 
 if (is_array($data)) {
     foreach ($data as $item) {
@@ -141,100 +155,13 @@ if (is_array($data)) {
         }
     }
 }
-
 ?>
 
-<div class="table-responsive table-scroll-visible">
-    <table id="table_data_<?php print $params['id'] ?>" cellspacing="0" cellpadding="0" width="100%"
-           class="mw-ui-table table-style-2 layout-auto">
-        <thead>
-        <tr>
-            <th class="mw-ui-table-small"><?php _e("ID"); ?></th>
-            <th style="width: 150px; text-align: center;"><?php _e("Date"); ?></th>
-            <?php if (is_array($custom_fields)): ?>
-                <?php foreach ($custom_fields as $k => $item): ?>
-                    <th><?php print  mw()->format->no_dashes($k); ?></th>
-                <?php endforeach; ?>
-            <?php endif; ?>
-            <th width="20" class="mw-ui-table-small"><?php _e("Delete"); ?></th>
-        </tr>
-        </thead>
-
-        <tbody>
-        <?php if (is_array($data)): ?>
-            <?php foreach ($data as $item) : ?>
-                <tr class="mw-form-entry-item mw-form-entry-item-<?php print $item['id'] ?>">
-                    <td><?php print $item['id'] ?></td>
-                    <td style="text-align: center;" class="entry-col">
-                        <div class="mw-date"
-                             title="<?php print mw()->format->ago($item['created_at'], 1); ?>"><?php print mw()->format->date($item['created_at'], 'd M Y H:i'); ?>
-
-                        </div>
-                    </td>
-
-                    <?php
-                    //	 $custom_fields = array();
-                    //	 if(isset($item['custom_fields'])){
-                    //    foreach ($item['custom_fields'] as $k=>$value) {
-                    //     $custom_fields[$k] =$value;
-                    //    }
-                    //   }
-
-                    ?>
-
-                    <?php if (is_array($custom_fields)): ?>
-                        <?php foreach ($custom_fields as $key => $value): ?>
-                            <td class="entry-col">
-                                <?php
-                                $val_print = '';
-                                if (isset($item['custom_fields']) and isset($item['custom_fields'][$key])) {
-                                    $val_print = $item['custom_fields'][$key];
-                                }
-                                $values_plain = mw()->format->clean_html($val_print);
-
-                                if (is_array($values_plain)) {
-                                    $values_plain = mw()->format->array_to_ul($val_print);
-                                }
-
-                                //var_dump($values_plain);
-                                //                                $max = 150;
-                                //                                if (strlen($values_plain) > $max) {
-                                //                                    $first = substr($values_plain, 0, $max);
-                                //                                    $rest = substr($values_plain, $max);
-                                //                                    print '<div>' . $first . '<span class="semi_hidden">' . $rest . '</span> <a href="javascript:;" onclick="toggle_show_less(this);" class="mw-ui-link" data-later="Less"> ' . _e('...more') . '</a></div>';
-                                //                                } else {
-                                //                                    print mw()->format->autolink($val_print);
-                                //                                }
-                                ?>
-
-                                <?php if (mb_strlen(mw()->format->clean_html($values_plain)) > 70): ?>
-                                    <div class="js-limited">
-                                        <?php print $values_plain; ?>
-                                        <br/>
-                                        <button class="js-toggle-full mw-ui-btn mw-ui-btn-info mw-ui-btn-small mw-ui-btn-outline">
-                                            <span>show more</span><span>show less</span></button>
-                                    </div>
-                                <?php else: ?>
-                                    <?php print $values_plain; ?>
-                                <?php endif; ?>
-                            </td>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                    <td class="mw-ui-table-delete-item">
-                        <a class="mw-ui-btn mw-ui-btn-icon mw-ui-btn-important mw-ui-btn-outline mw-ui-btn-medium"
-                           href="javascript:mw.forms_data_manager.delete('<?php print $item['id'] ?>','.mw-form-entry-item-<?php print $item['id'] ?>');"><span
-                                    class="mw-icon-bin"></span></a>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <tr>
-                <td colspan="100" align="center" style="background: #FFFD8C;"><?php _e("No items found"); ?></td>
-            </tr>
-        <?php endif; ?>
-        </tbody>
-    </table>
-</div>
+<?php
+$view = new \Microweber\View(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'admin_messages_list.php');
+$view->assign('last_messages', $data);
+echo $view->__toString();
+?>
 
 <div class="mw-ui-row m-t-20">
 
@@ -243,15 +170,19 @@ if (is_array($data)) {
     if ((url_param('load_list') != false)) {
         $load_list = url_param('load_list');
     }
-    if ($load_list == 1) {
-        $load_list = 'default';
-    }
-
-
     ?>
-
+    
+	<?php 
+	$hideEditButton = false;
+	if ($load_list == 'default') {
+		$hideEditButton = true;
+	} else if ($load_list == 'all_lists') {
+		$hideEditButton = true;
+	}
+	?>
+    
     <div class="mw-ui-col">
-        <?php if (strtolower(trim($load_list)) != 'default'): ?>
+        <?php if (!$hideEditButton): ?>
             <span class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-important mw-ui-delete"
                   onclick="mw.forms_data_manager.delete_list('<?php print addslashes($load_list); ?>');">
                     <?php _e("Delete"); ?>&nbsp;<b><?php echo $listData['title']; ?></b>&nbsp;<?php _e("list"); ?>
@@ -291,5 +222,4 @@ if (is_array($data)) {
             </div>
         </div>
     <?php endif; ?>
-
 </div>

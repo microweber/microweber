@@ -51,6 +51,9 @@
             if ((url_param('load_list') != false)) {
                 $load_list = url_param('load_list');
             }
+            if (url_param('load_list') === false) {
+            	$load_list = 'all_lists';
+            }
             ?>
             <?php
             $mod_action = '';
@@ -76,13 +79,23 @@
 	             	<h4>Your form lists</h4> 
                      <div class="mw-field" size="large">
                         <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);" style="margin-left:15px;width:200px;">
-                        <option value=""><?php _e('Select from lists'); ?></option>
-                        <option value="<?php print $config['url']; ?>"><?php _e('Default list'); ?></option>
+                        <option <?php if ($load_list === 'all_lists') { ?> selected="selected" <?php } ?> value="<?php print $config['url']; ?>"><?php _e('All lists'); ?></option>
+                        <option <?php if ($load_list === 'default') { ?> selected="selected" <?php } ?> value="<?php print $config['url']; ?>/load_list:0"><?php _e('Default list'); ?>
+                         (<?php
+							echo mw()->forms_manager->get_entires('count=true&list_id=0');
+							?>)
+                        </option>
                          <?php $data = get_form_lists('module_name=contact_form'); ?>
                         <?php if (is_array($data)): ?>
                         <?php foreach ($data as $item): ?>
                             <?php if(empty($item['title'])) { continue; } ?>
-                            <option <?php if ($load_list == $item['id']) { ?> selected="selected" <?php } ?> value="<?php print $config['url']; ?>/load_list:<?php print $item['id']; ?>"><?php print $item['title']; ?></option>
+                            <option <?php if ($load_list == $item['id']) { ?> selected="selected" <?php } ?> value="<?php print $config['url']; ?>/load_list:<?php print $item['id']; ?>">
+                            <?php print $item['title']; ?>
+								                            	
+								(<?php
+								echo mw()->forms_manager->get_entires('count=true&list_id=' . $item['id']);
+								?>)
+                            </option>
                            <?php endforeach; ?>
                          <?php endif; ?>
                         </select>
