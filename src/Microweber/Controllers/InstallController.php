@@ -235,7 +235,9 @@ class InstallController extends Controller
                 if (!$install_step or $install_step == 5) {
                     $this->log('Setting up default options');
                     $installer = new Install\DefaultOptionsInstaller();
-                    $installer->setLanguage($input['site_lang']);
+                    if (isset($input['site_lang'])) {
+                        $installer->setLanguage($input['site_lang']);
+                    }
                     $installer->run();
                 }
 
