@@ -90,10 +90,3 @@ function video_module_is_embed($str)
         return false;
     }
 }
-
-
-api_expose('video_lazyload');
-function video_lazyload()
-{
-    return urldecode($_POST['html_code']);
-}

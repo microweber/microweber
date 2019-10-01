@@ -38,7 +38,12 @@ if ($prior != '2' or $prior == false) {
             $autoplay = 'autoplay';
         }
 
-        $code = '<div class="mwembed "><video controls width="' . $w . '" height="' . $h . '" ' . $autoplay . ' src="' . $upload . '" poster="'. $thumb .'"></video></div>';
+        $embed_data_tag = 'src="' . $upload . '"';
+        if ($lazyload) {
+            $embed_data_tag = 'data-src="' . $upload . '"';
+        }
+
+        $code = '<div class="mwembed"><video class="js-embed-'.$params['id'].'" controls width="' . $w . '" height="' . $h . '" ' . $autoplay . ' '.$embed_data_tag.' poster="'. $thumb .'"></video></div>';
     } else {
         $show_video_settings_btn = true;
     }
@@ -50,38 +55,15 @@ if($show_video_settings_btn) {
     if(in_live_edit()){
         $code = "<div class='video-module-default-view mw-open-module-settings'><img src='" . $config['url_to_module'] . "video.svg' style='width: 65px; height: 65px;'/></div>";
     }
-} else {
-	if($lazyload && $use_thumbnail) {
-		$unique_id = str_replace('-','',$params['id']);
-		$css = '<style>.video-player{text-align:center;background: #000;}.video-player img:hover{cursor: pointer;}</style>' . "\n";
-		if($enable_full_page_cache){
-			// use ajax to return decoded html instead of using only js to avoid issues with full page cache and innerHTML value
-			$script = '<script type="application/javascript">' .
-			'function replaceImg' . $unique_id . '(img){' .
-				'$.ajax({' .
-					'url: \'' . api_url('video_lazyload') .'\',' .
-					'data: {html_code: \'' . urlencode($code) . '\'},' .
-					'type: \'POST\',' .
-					'dataType: \'html\',' .
-					'success: function (response) {' .
-						'var div = document.createElement("div");' .
-						'div.innerHTML = response;' .
-						'img.parentNode.replaceChild(div, img);' .
-					'},' .
-					'error: function (XMLHttpRequest, textStatus, errorThrown) {' .
-						'console.log(XMLHttpRequest);' .
-						'console.log(textStatus);' .
-						'console.log(errorThrown);' .
-					'}' .
-				'});' .
-			'}</script>' . "\n";
-		} else {
-			$script = '<script>function replaceImg' . $unique_id . '(img){var div = document.createElement("div");div.innerHTML = \'' . $code . '\';img.parentNode.replaceChild(div, img);}</script>' . "\n";
-		}
-		$code = $css . $script . '<div class="video-player"><img onclick="javascript:replaceImg' . $unique_id . '(this);" src="' . $thumb . '"></div>';
-	}
 }
-
-
-print $code;
 ?>
+
+<?php if($lazyload) { ?>
+    <script>
+        $(document).ready(function() {
+            $('.js-embed-<?php echo $params['id']; ?>').attr('src', $('.js-embed-<?php echo $params['id']; ?>').attr('data-src'));
+        });
+    </script>
+<?php } ?>
+
+<?php print $code;  ?>

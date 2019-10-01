@@ -260,11 +260,11 @@
                                     </small>
                                 </label>
                                 <div class="row" style="margin-top:10px;">
-                                    <div class="mw-ui-check col-xs-6">
+                                    <label class="mw-ui-check col-xs-6">
                                         <input id="chk_lazyload" name="lazyload" class="mw-ui-field mw_option_field" type="checkbox" data-mod-name="<?php print $params['data-type'] ?>" value="y" <?php if (get_option('lazyload', $params['id']) == 'y') { ?> checked='checked' <?php } ?>/>
                                         <span></span>
                                         <span><?php _e("Lazy load"); ?></span>
-                                    </div>
+                                    </label>
                                 </div>
                             </div>
                         </div>
