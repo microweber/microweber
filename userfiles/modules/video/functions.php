@@ -90,3 +90,4 @@ function video_module_is_embed($str)
         return false;
     }
 }
+
