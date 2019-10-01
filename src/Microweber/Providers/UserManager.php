@@ -244,15 +244,14 @@ class UserManager
 			if($user_data['is_active'] == 0) {
                 $this->logout();
                 $registration_approval_required = get_option('registration_approval_required', 'users');
-                if($registration_approval_required =='y' && $user_data['login_count'] == 0) {
+                if($registration_approval_required =='y') {
                     return array('error' => 'Your account is awaiting approval');
                 } else {
                     return array('error' => 'Your account has been disabled');
                 }
 			}
 
-			$login_count = ($user_data['login_count']+1);
-			$this->update_last_login_time($login_count);
+			$this->update_last_login_time();
 
             $this->app->event_manager->trigger('mw.user.login', $user_data);
             if ($ok && $redirect_after) {
@@ -1501,8 +1500,7 @@ class UserManager
                     $this->session_set('user_session', $user_session);
                     $user_session = $this->session_get('user_session');
 
-					$login_count = ($data['login_count']+1);
-                    $this->update_last_login_time($login_count);
+                    $this->update_last_login_time();
                     $user_session['success'] = _e('You are logged in!', true);
 
                     return $user_session;
@@ -1537,7 +1535,7 @@ class UserManager
         return $data;
     }
 
-    public function update_last_login_time($login_count)
+    public function update_last_login_time()
     {
         $uid = user_id();
         if (intval($uid) > 0) {
@@ -1545,8 +1543,6 @@ class UserManager
             $data_to_save['id'] = $uid;
             $data_to_save['last_login'] = date('Y-m-d H:i:s');
             $data_to_save['last_login_ip'] = MW_USER_IP;
-            $data_to_save['login_count'] = $login_count;
-
 
             $table = $this->tables['users'];
             $save = $this->app->database_manager->save($table, $data_to_save);
