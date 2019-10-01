@@ -14,20 +14,20 @@ function video_module_url2embed($u, $w, $h, $autoplay)
         $protocol = "https://";
     }
 
- 
+
     if (stristr($u, 'youtube.com') !== false) {
         $p = parse_url($u);
 		if(!isset($p['query']) or $p['query'] == false){
-		return false;	
+		return false;
 		}
-		 
+
         $id = explode('v=', $p['query']);
 		parse_str($p['query'],$vars);
-		 
+
         if (isset($vars['v'])) {
 		return '<div class="mwembed"><iframe width="' . $w . '" height="' . $h . '" src="' . $protocol . 'www.youtube.com/embed/' . $vars['v'] . '?v=1&wmode=transparent&autoplay=' . $autoplay . '" frameborder="0" allowfullscreen></iframe></div>';
         } else {
-		return false;	
+		return false;
 		}
     } else if (stristr($u, 'youtu.be') !== false) {
         $url_parse = parse_url($u);
@@ -36,19 +36,19 @@ function video_module_url2embed($u, $w, $h, $autoplay)
     }  elseif (stristr($u, 'facebook.com') !== false) {
         $p = parse_url($u);
 		if(!isset($p['query']) or $p['query'] == false){
-		return false;	
+		return false;
 		}
-		 
+
         $id = explode('v=', $p['query']);
 		parse_str($p['query'],$vars);
-		 
+
         if (isset($vars['v'])) {
-			
+
 			return '<script>(function(d, s, id) {  var js, fjs = d.getElementsByTagName(s)[0];  if (d.getElementById(id)) return;  js = d.createElement(s); js.id = id;  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";  fjs.parentNode.insertBefore(js, fjs);}(document, \'script\', \'facebook-jssdk\'));</script><div class="fb-post" data-href="https://www.facebook.com/video.php?v='.$vars['v'].'" data-width="' . $w . '" data-height="' . $h . '"><div class="fb-xfbml-parse-ignore"></div></div>';
-			
-	 
+
+
         } else {
-		return false;	
+		return false;
 		}
     }else if (stristr($u, 'vimeo.com') !== false) {
         $url_parse = parse_url($u);
@@ -95,5 +95,15 @@ function video_module_is_embed($str)
 api_expose('video_lazyload');
 function video_lazyload()
 {
-    return urldecode($_POST['html_code']);
+    $code = '';
+
+    if(isset($_POST['src']) && $_POST['width'] && isset($_POST['height'])){
+		$src = strip_tags(urldecode($_POST['src']));
+		$w = strip_tags($_POST['width']);
+		$h = strip_tags($_POST['height']);
+
+		$code = '<div class="mwembed"><iframe width="'.$w.'" height="'.$h.'" src="'.$src.'" frameborder="0" allowfullscreen></iframe></div>';
+    }
+
+    return $code;
 }

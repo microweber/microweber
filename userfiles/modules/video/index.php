@@ -11,9 +11,11 @@ if ($code == false) {
 
 $enable_full_page_cache = get_option('enable_full_page_cache','website');
 
+$enable_full_page_cache = (($enable_full_page_cache == 'y')? true : false);
+
 $lazyload = get_option('lazyload', $params['id']);
 
-$lazyload = ((!empty($lazyload) && $lazyload == 'y')? true : false);
+$lazyload = (($lazyload == 'y')? true : false);
 
 $upload = get_option('upload', $params['id']);
 
@@ -40,7 +42,9 @@ if ($h == false) {
         $h = intval($params['height']);
     }
 }
-if ($autoplay == false) {
+if ($lazyload) {
+    $autoplay = 1;
+} elseif ($autoplay == false) {
     if (isset($params['autoplay'])) {
         $autoplay = intval($params['autoplay']);
     }
