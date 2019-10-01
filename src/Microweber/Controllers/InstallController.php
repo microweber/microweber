@@ -137,7 +137,14 @@ class InstallController extends Controller
                 Config::set('microweber.pre_configured', null);
                 Config::set('microweber.pre_configured_input', null);
             }
-
+            
+            if (isset($input['admin_url'])) {
+            	Config::set('microweber.admin_url', $input['admin_url']);
+            }
+            
+            if (isset($input['site_lang'])) {
+            	Config::set('microweber.site_lang', $input['site_lang']);
+            }
 
             if (Config::get('app.key') == 'YourSecretKey!!!') {
                 if (!is_cli()) {
