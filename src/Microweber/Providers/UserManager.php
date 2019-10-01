@@ -157,7 +157,7 @@ class UserManager
         if (!isset($params['password']) and isset($params['password_base64']) and $params['password_base64']) {
             $params['password'] = @base64_decode($params['password_base64']);
         }
-        
+
         // So we use second parameter
         if (!isset($params['username']) and isset($params['username_encoded']) and $params['username_encoded']) {
             $params['username'] = @base64_decode($params['username_encoded']);
@@ -240,6 +240,19 @@ class UserManager
             $user = Auth::login(Auth::user());
             $user_data = $this->get_by_id(Auth::user()->id);
             $user_data['old_sid'] = $old_sid;
+
+			if($user_data['is_active'] == 0) {
+                $this->logout();
+                $registration_approval_required = get_option('registration_approval_required', 'users');
+                if($registration_approval_required =='y' && $user_data['login_count'] == 0) {
+                    return array('error' => 'Your account is awaiting approval');
+                } else {
+                    return array('error' => 'Your account has been disabled');
+                }
+			}
+
+			$login_count = ($user_data['login_count']+1);
+			$this->update_last_login_time($login_count);
 
             $this->app->event_manager->trigger('mw.user.login', $user_data);
             if ($ok && $redirect_after) {
@@ -715,7 +728,14 @@ class UserManager
                     $reg['username'] = $user;
                     $reg['email'] = $email;
                     $reg['password'] = $pass2;
-                    $reg['is_active'] = 1;
+
+                    $registration_approval_required = get_option('registration_approval_required', 'users');
+                    if($registration_approval_required == 'y'){
+                        $reg['is_active'] = 0;
+                    } else {
+                        $reg['is_active'] = 1;
+                    }
+
                     if ($first_name != false) {
                         $reg['first_name'] = $first_name;
                     }
@@ -786,7 +806,10 @@ class UserManager
                     if (isset($pass2)) {
                         $params['password2'] = $pass2;
                     }
-                    $this->make_logged($params['id']);
+
+                    if($registration_approval_required == 'n'){
+                        $this->make_logged($params['id']);
+                    }
 
                     return array('success' => 'You have registered successfully');
                 } else {
@@ -1478,7 +1501,8 @@ class UserManager
                     $this->session_set('user_session', $user_session);
                     $user_session = $this->session_get('user_session');
 
-                    $this->update_last_login_time();
+					$login_count = ($data['login_count']+1);
+                    $this->update_last_login_time($login_count);
                     $user_session['success'] = _e('You are logged in!', true);
 
                     return $user_session;
@@ -1513,7 +1537,7 @@ class UserManager
         return $data;
     }
 
-    public function update_last_login_time()
+    public function update_last_login_time($login_count)
     {
         $uid = user_id();
         if (intval($uid) > 0) {
@@ -1521,6 +1545,8 @@ class UserManager
             $data_to_save['id'] = $uid;
             $data_to_save['last_login'] = date('Y-m-d H:i:s');
             $data_to_save['last_login_ip'] = MW_USER_IP;
+            $data_to_save['login_count'] = $login_count;
+
 
             $table = $this->tables['users'];
             $save = $this->app->database_manager->save($table, $data_to_save);

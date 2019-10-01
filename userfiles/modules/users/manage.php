@@ -55,6 +55,7 @@ $paging = get_users($paging_data);
 
 $self_id = user_id();
 
+$registration_approval_required = get_option('registration_approval_required', 'users');
 ?>
 <?php if (is_array($data)): ?>
     <div class="table-responsive">
@@ -66,6 +67,7 @@ $self_id = user_id();
                 <th><?php _e("Email"); ?></th>
                 <th><?php _e("Role"); ?></th>
                 <th><?php _e("Is Active"); ?></th>
+                <th><?php _e("Login #"); ?></th>
                 <th><?php _e("Edit"); ?>
                 </th>
             </tr>
@@ -77,6 +79,7 @@ $self_id = user_id();
                 <td><?php _e("Email"); ?></td>
                 <td><?php _e("Role"); ?></td>
                 <td><?php _e("Is Active"); ?></td>
+                <th><?php _e("Login #"); ?></th>
                 <td><?php _e("Edit"); ?></td>
             </tr>
             </tfoot>
@@ -111,11 +114,16 @@ $self_id = user_id();
                     </td>
                     <td>
                         <?php if ($item['is_active'] == 1): ?>
-                            <span class="mw-icon-check" style="float: none"></span>
+                            <span class="mw-icon-check mw-registered" style="float: none"></span>
                         <?php else: ?>
-                            <span class="mw-icon-unpublish" style="float: none; "></span>
+                            <?php if($registration_approval_required =='y' && $item['is_active'] == 0 && $item['login_count'] == 0):?>
+                            <span class="mw-icon-unpublish mw-approval-required" data-id="<?php print $item['id']; ?>" style="float: none; "></span>
+                            <?php else:?>
+                            <span class="mw-icon-unpublish mw-inactive" data-id="<?php print $item['id']; ?>" style="float: none; "></span>
+                            <?php endif;?>
                         <?php endif; ?>
                     </td>
+                    <td><?php print $item['login_count']; ?></td>
                     <td>
                         <?php if ($self_id != $item['id']): ?>
                             <span class="show-on-hover del-row" title="<?php _e("Delete"); ?>" onclick="mw_admin_delete_user_by_id('<?php print $item['id']; ?>')"></span>
@@ -141,10 +149,8 @@ $self_id = user_id();
                     mw.$('#<?php print $params['id'] ?>').attr('current_page', pn)
                     mw.reload_module('#<?php print $params['id'] ?>');
 
-
                     return false;
                 });
-
             });
 
 
@@ -152,3 +158,37 @@ $self_id = user_id();
         <?php print paging("num={$paging}&paging_param={$paging_param}&current_page={$current_page_from_url}&class=mw-paging") ?>
     <?php endif; ?>
 <?php endif; ?>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+		$(".mw-approval-required").mouseenter(function () {
+			if($("#mw-approval-required-tooltip-show-" + $(this).data("id")).length) {
+				$("#mw-approval-required-tooltip-show-" + $(this).data("id")).show();
+			} else {
+				var el = $(".mw-approval-required");
+				var text = "Account requires approval";
+				mw.tooltip({id: 'mw-approval-required-tooltip-show-' + $(this).data("id"), element: el, content: text, position: 'top-left'}); // 'close_on_click_outside: true' not working and top-left shows top-right
+			}
+		});
+
+        $(".mw-approval-required").mouseleave(function () {
+            $("#mw-approval-required-tooltip-show-" + $(this).data("id")).hide();
+        });
+
+		$(".mw-inactive").mouseenter(function () {
+			if($("#mw-inactive-tooltip-show-" + $(this).data("id")).length) {
+				$("#mw-inactive-tooltip-show-" + $(this).data("id")).show();
+			} else {
+				var el = $(".mw-inactive");
+				var text = "Account disabled";
+				mw.tooltip({id: 'mw-inactive-tooltip-show-' + $(this).data("id"), element: el, content: text, position: 'top-left'});
+			}
+		});
+
+        $(".mw-inactive").mouseleave(function () {
+            $("#mw-inactive-tooltip-show-" + $(this).data("id")).hide();
+        });
+    });
+</script>
