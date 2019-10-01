@@ -255,34 +255,43 @@ if ($registration_approval_required == false) {
 
         <div id="mw-user-fields-form-set" class="mw-user-fields-form-item" style="display:none;padding-top: 20px;">
             <div class="mw-ui-box mw-ui-box-content">
-                
-                <?php $curent_val = get_option('enable_user_registration', 'users'); ?>
-                <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label"><?php _e("Enable User Registration"); ?></label>
-                    <select name="enable_user_registration" class="mw-ui-field mw_option_field" type="text" option-group="users">
-                        <option value="y" <?php if ($curent_val == 'y'): ?> selected="selected" <?php endif; ?>><?php _e("Yes"); ?></option>
-                        <option value="n" <?php if ($curent_val == 'n'): ?> selected="selected" <?php endif; ?>><?php _e("No"); ?></option>
-                    </select>
+                <div class="mw-ui-row">
+                    <div class="mw-ui-col">
+                        <div class="mw-ui-col-container">
+                            <?php $curent_val = get_option('enable_user_registration', 'users'); ?>
+                            <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label"><?php _e("Enable User Registration"); ?></label>
+                                <select name="enable_user_registration" class="mw-ui-field mw_option_field w100" type="text" option-group="users">
+                                    <option value="y" <?php if ($curent_val == 'y'): ?> selected="selected" <?php endif; ?>><?php _e("Yes"); ?></option>
+                                    <option value="n" <?php if ($curent_val == 'n'): ?> selected="selected" <?php endif; ?>><?php _e("No"); ?></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mw-ui-col">
+                        <?php $allow_socials_login = get_option('allow_socials_login', 'users'); ?>
+                        <div class="mw-ui-col-container">
+                            <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label"><?php _e("Enable User Registration With Socials"); ?></label>
+                                <select name="allow_socials_login" class="mw-ui-field mw_option_field w100" type="text" option-group="users">
+                                    <option value="y" <?php if ($allow_socials_login == 'y'): ?> selected="selected" <?php endif; ?>><?php _e("Yes"); ?></option>
+                                    <option value="n" <?php if ($allow_socials_login == 'n'): ?> selected="selected" <?php endif; ?>><?php _e("No"); ?></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mw-ui-col">
+                        <div class="mw-ui-col-container">
+                            <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label"><?php _e("Registration Approval Required"); ?></label>
+                                <select name="registration_approval_required" class="mw-ui-field mw_option_field w100" type="text" option-group="users">
+                                    <option value="y" <?php if ($registration_approval_required == 'y'): ?> selected="selected" <?php endif; ?>><?php _e("Yes"); ?></option>
+                                    <option value="n" <?php if ($registration_approval_required == 'n'): ?> selected="selected" <?php endif; ?>><?php _e("No"); ?></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-
-                <?php $allow_socials_login = get_option('allow_socials_login', 'users'); ?>
-                <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label"><?php _e("Enable User Registration With Socials"); ?></label>
-                    <select name="allow_socials_login" class="mw-ui-field mw_option_field" type="text" option-group="users">
-                        <option value="y" <?php if ($allow_socials_login == 'y'): ?> selected="selected" <?php endif; ?>><?php _e("Yes"); ?></option>
-                        <option value="n" <?php if ($allow_socials_login == 'n'): ?> selected="selected" <?php endif; ?>><?php _e("No"); ?></option>
-                    </select>
-                </div>
-
-                <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label"><?php _e("Registration Approval Required"); ?></label>
-                    <select name="registration_approval_required" class="mw-ui-field mw_option_field" type="text" option-group="users">
-                        <option value="y" <?php if ($registration_approval_required == 'y'): ?> selected="selected" <?php endif; ?>><?php _e("Yes"); ?></option>
-                        <option value="n" <?php if ($registration_approval_required == 'n'): ?> selected="selected" <?php endif; ?>><?php _e("No"); ?></option>
-                    </select>
-                </div>
-
                 <div class="js-show-socials-registration">
                     <div class="mw-ui-field-holder">
                         <label class="mw-ui-label"><?php _e("Allow Social Login with"); ?></label>
