@@ -806,7 +806,7 @@ class UserManager
                         $params['password2'] = $pass2;
                     }
 
-                    if($registration_approval_required == 'n'){
+                    if($registration_approval_required != 'y'){
                         $this->make_logged($params['id']);
                     }
 
