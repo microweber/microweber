@@ -8,10 +8,13 @@ use Option;
 
 class DefaultOptionsInstaller
 {
+	protected $language = 'en';
+	
     public function run()
     {
         try {
             $this->setDefault();
+            $this->setDefaultLanguage();
             $this->setCommentsEnabled();
             $this->setShippingEnabled();
             $this->setPaymentsEnabled();
@@ -20,7 +23,7 @@ class DefaultOptionsInstaller
         }
         return true;
     }
-
+	
     public function setDefault()
     {
         $existing = DB::table('options')->where('option_key', 'website_title')
@@ -35,7 +38,27 @@ class DefaultOptionsInstaller
         }
 
     }
-
+    
+    public function setLanguage($language)
+    {
+    	$this->language = $language;
+    }
+    
+    public function setDefaultLanguage()
+    {
+    	$existing = DB::table('options')->where('option_key', 'language')
+    	->where('option_group', 'website')->first();
+    	if ($existing == false) {
+    		$option = new Option();
+    		$option->option_key = 'language';
+    		$option->option_group = 'website';
+    		$option->option_value = $this->language;
+    		$option->is_system = 1;
+    		$option->save();
+    	}
+    	
+    }
+    
     public function setCommentsEnabled()
     {
         $existing = DB::table('options')->where('option_key', 'enable_comments')
