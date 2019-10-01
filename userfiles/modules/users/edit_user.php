@@ -5,6 +5,8 @@
 $uid = 0;
 //$rand = uniqid();
 
+$registration_approval_required = get_option('registration_approval_required', 'users');
+
 $user_params = array();
 $user_params['id'] = 0;
 if (isset($params['edit-user'])) {
@@ -35,7 +37,6 @@ if (isset($data[0]) == false) {
 } else {
     $data = $data[0];
 }
-
 
 ?>
 <?php if (is_array($data)): ?>
@@ -249,6 +250,9 @@ if (isset($data[0]) == false) {
                                     <span></span> <span>
               <?php _e("No"); ?>
               </span> </label>
+                                <?php if($registration_approval_required =='y' && $data['is_active'] == 0): ?>
+                                <span class="mw-approval-required"><?php _e("Account requires approval"); ?></span>
+                                <?php endif; ?>
                             </div>
                         </td>
                     </tr>
