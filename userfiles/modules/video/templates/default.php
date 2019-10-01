@@ -58,7 +58,7 @@ if($show_video_settings_btn) {
 }
 ?>
 
-<?php if($lazyload) { ?>
+<?php if($lazyload && $prior== '2') { ?>
     <script>
         $(document).ready(function() {
             $('.js-embed-<?php echo $params['id']; ?>').attr('src', $('.js-embed-<?php echo $params['id']; ?>').attr('data-src'));
