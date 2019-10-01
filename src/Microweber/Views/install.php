@@ -287,7 +287,7 @@
                                 $check_pass = false;
                                 $server_check_errors['dom'] = _e('The DOM PHP extension must be loaded', true);
                             }
-                            
+
                             if (!extension_loaded('curl')) {
                             	$check_pass = false;
                             	$server_check_errors['curl'] = _e('The Curl PHP extension must be loaded', true);
@@ -297,12 +297,12 @@
                             	$check_pass = false;
                             	$server_check_errors['curl'] = _e('The Curl PHP extension must be loaded', true);
                             }
-                        
+
                             if (!extension_loaded('xml')) {
                                 $check_pass = false;
                                 $server_check_errors['xml'] = _e('The lib-xml PHP extension must be loaded', true);
                             }
-                            
+
                             if (!extension_loaded('curl')) {
                             	$check_pass = false;
                             	$server_check_errors['curl'] = _e('The Curl PHP extension must be loaded', true);
@@ -552,40 +552,6 @@
                                                     <?php endif; ?>
 
                                                     <label class="mw-ui-label bold center" style="margin-top:30px; color: #0086db; font-size: 18px;"><?php print 'Login Information'; ?></label>
-													
-													<br />
-													<a href="JavaScript:void(0);" onClick="$('.advanced-options-installation').toggle()" style="color: #009cff;">Show advanced options</a>
-													<div class="advanced-options-installation" style="display:none;">
-
-													 <div class="mw-ui-field-holder">
-                                                       <label class="mw-ui-label">
-                                                           <?php _e('Admin URL'); ?>
-                                                       </label>
-                                                       <input type="text" class="mw-ui-field" tabindex="8" name="admin_url" value="admin" />
-                                                    </div>
-									                                            
-										           <?php
-										           $current_lang = current_lang(); 
-										           ?> 
-												 <div class="mw-ui-field-holder">
-												 	   <label class="mw-ui-label">
-                                                           <?php _e('Site Language'); ?>
-                                                       </label>
-							                            <select name="site_lang" class="mw-ui-field">
-							                            
-						                                  <?php if ($current_lang != 'en'): ?>
-						                                      <option value="<?php print strtoupper($current_lang); ?>"><?php print strtoupper($current_lang); ?></<option>
-						                                   <?php else: ?>
-						                                      <option value="en">EN</<option>
-						                                   <?php endif; ?>
-							                                
-					                                        <?php $langs = get_available_languages(); ?>
-					                                        <?php foreach ($langs as $lang): ?>
-					                                           <option value="<?php print $lang; ?>"><?php print strtoupper($lang); ?></option>
-					                                        <?php endforeach; ?>
-							                            </select>
-									                </div>
-									                </div>
 
                                                     <div class="mw-ui-row" style="margin-top:20px;">
                                                         <div class="mw-ui-col" style="padding-right:10px;">
@@ -631,6 +597,49 @@
                                                             <a name="create-admin"></a>
                                                         </div>
                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="mw-ui-col-container" style="margin-top:15px">
+                                            <a href="JavaScript:void(0);"
+                                               onClick="$('.advanced-options-installation').toggle()"
+                                               style="color: #009cff;">Show advanced options</a>
+                                            <div class="advanced-options-installation" style="display:none;">
+
+                                                <div class="mw-ui-field-holder">
+                                                    <label class="mw-ui-label">
+                                                        <?php _e('Admin URL'); ?>
+                                                    </label>
+                                                    <input type="text" class="mw-ui-field" tabindex="8"
+                                                           name="admin_url" value="admin"/>
+                                                </div>
+
+                                                <?php
+                                                $current_lang = current_lang();
+                                                ?>
+                                                <div class="mw-ui-field-holder">
+                                                    <label class="mw-ui-label">
+                                                        <?php _e('Site Language'); ?>
+                                                    </label>
+                                                    <select name="site_lang" class="mw-ui-field">
+
+                                                        <?php if ($current_lang != 'en'): ?>
+                                                        <option value="<?php print strtoupper($current_lang); ?>"><?php print strtoupper($current_lang); ?></
+                                                    <option>
+                                                    <?php else: ?>
+                                                        <option value="en">EN</
+                                                        <option>
+                                                            <?php endif; ?>
+
+                                                            <?php $langs = get_available_languages(); ?>
+                                                            <?php foreach ($langs
+
+                                                            as $lang): ?>
+                                                        <option value="<?php print $lang; ?>"><?php print strtoupper($lang); ?></option>
+                                                    <?php endforeach; ?>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
