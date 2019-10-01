@@ -552,7 +552,10 @@
                                                     <?php endif; ?>
 
                                                     <label class="mw-ui-label bold center" style="margin-top:30px; color: #0086db; font-size: 18px;"><?php print 'Login Information'; ?></label>
-
+													
+													<br />
+													<a href="JavaScript:void(0);" onClick="$('.advanced-options-installation').toggle()" style="color: #009cff;">Show advanced options</a>
+													<div class="advanced-options-installation" style="display:none;">
 
 													 <div class="mw-ui-field-holder">
                                                        <label class="mw-ui-label">
@@ -581,6 +584,7 @@
 					                                           <option value="<?php print $lang; ?>"><?php print strtoupper($lang); ?></option>
 					                                        <?php endforeach; ?>
 							                            </select>
+									                </div>
 									                </div>
 
                                                     <div class="mw-ui-row" style="margin-top:20px;">
