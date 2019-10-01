@@ -8,13 +8,10 @@ use Option;
 
 class DefaultOptionsInstaller
 {
-	protected $language = 'en';
-	
     public function run()
     {
         try {
             $this->setDefault();
-            $this->setDefaultLanguage();
             $this->setCommentsEnabled();
             $this->setShippingEnabled();
             $this->setPaymentsEnabled();
@@ -41,18 +38,13 @@ class DefaultOptionsInstaller
     
     public function setLanguage($language)
     {
-    	$this->language = $language;
-    }
-    
-    public function setDefaultLanguage()
-    {
     	$existing = DB::table('options')->where('option_key', 'language')
     	->where('option_group', 'website')->first();
     	if ($existing == false) {
     		$option = new Option();
     		$option->option_key = 'language';
     		$option->option_group = 'website';
-    		$option->option_value = $this->language;
+    		$option->option_value = $language;
     		$option->is_system = 1;
     		$option->save();
     	}
