@@ -67,7 +67,6 @@ $registration_approval_required = get_option('registration_approval_required', '
                 <th><?php _e("Email"); ?></th>
                 <th><?php _e("Role"); ?></th>
                 <th><?php _e("Is Active"); ?></th>
-                <th><?php _e("Login #"); ?></th>
                 <th><?php _e("Edit"); ?>
                 </th>
             </tr>
@@ -79,7 +78,6 @@ $registration_approval_required = get_option('registration_approval_required', '
                 <td><?php _e("Email"); ?></td>
                 <td><?php _e("Role"); ?></td>
                 <td><?php _e("Is Active"); ?></td>
-                <th><?php _e("Login #"); ?></th>
                 <td><?php _e("Edit"); ?></td>
             </tr>
             </tfoot>
@@ -116,14 +114,13 @@ $registration_approval_required = get_option('registration_approval_required', '
                         <?php if ($item['is_active'] == 1): ?>
                             <span class="mw-icon-check mw-registered" style="float: none"></span>
                         <?php else: ?>
-                            <?php if($registration_approval_required =='y' && $item['is_active'] == 0 && $item['login_count'] == 0):?>
+                            <?php if($registration_approval_required =='y' && $item['is_active'] == 0):?>
                             <span class="mw-icon-unpublish mw-approval-required" data-id="<?php print $item['id']; ?>" style="float: none; "></span>
                             <?php else:?>
                             <span class="mw-icon-unpublish mw-inactive" data-id="<?php print $item['id']; ?>" style="float: none; "></span>
                             <?php endif;?>
                         <?php endif; ?>
                     </td>
-                    <td><?php print $item['login_count']; ?></td>
                     <td>
                         <?php if ($self_id != $item['id']): ?>
                             <span class="show-on-hover del-row" title="<?php _e("Delete"); ?>" onclick="mw_admin_delete_user_by_id('<?php print $item['id']; ?>')"></span>
