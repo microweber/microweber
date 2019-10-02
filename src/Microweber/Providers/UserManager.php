@@ -1163,7 +1163,20 @@ class UserManager
 
                 if ($params['username'] != false and filter_var($params['username'], FILTER_VALIDATE_EMAIL)) {
                     $params['email'] = $params['username'];
-                    unset($params['username']);
+                }
+
+                $findUserId = false;
+                $findByUsername = User::where('username', $params['username'])->first();
+                if ($findByUsername) {
+                    $findUserId = $findByUsername->id;
+                } else {
+                    $findByEmail = User::where('email', $params['email'])->first();
+                    if ($findByEmail) {
+                        $findUserId = $findByEmail->id;
+                    }
+                }
+                if (!$findUserId) {
+                    return;
                 }
 
                 $loginAttempt = new LoginAttempt();
@@ -1173,6 +1186,8 @@ class UserManager
                 if (isset($params['email'])) {
                     $loginAttempt->email = $params['email'];
                 }
+
+                $loginAttempt->user_id = $findUserId;
                 $loginAttempt->time = time();
                 $loginAttempt->ip = MW_USER_IP;
                 $loginAttempt->success = $params['success'];
