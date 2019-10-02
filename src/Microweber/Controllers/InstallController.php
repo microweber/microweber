@@ -137,7 +137,14 @@ class InstallController extends Controller
                 Config::set('microweber.pre_configured', null);
                 Config::set('microweber.pre_configured_input', null);
             }
-
+            
+            if (isset($input['admin_url'])) {
+            	Config::set('microweber.admin_url', $input['admin_url']);
+            }
+            
+            if (isset($input['site_lang'])) {
+            	Config::set('microweber.site_lang', $input['site_lang']);
+            }
 
             if (Config::get('app.key') == 'YourSecretKey!!!') {
                 if (!is_cli()) {
@@ -228,6 +235,9 @@ class InstallController extends Controller
                 if (!$install_step or $install_step == 5) {
                     $this->log('Setting up default options');
                     $installer = new Install\DefaultOptionsInstaller();
+                    if (isset($input['site_lang'])) {
+                        $installer->setLanguage($input['site_lang']);
+                    }
                     $installer->run();
                 }
 
@@ -237,9 +247,6 @@ class InstallController extends Controller
                     $installer->logger = $this;
                     $installer->run();
                 }
-
-
-
 
                 if ($install_step) {
                     if ($install_step != 'finalize') {

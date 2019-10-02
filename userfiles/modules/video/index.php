@@ -9,6 +9,12 @@ if ($code == false) {
     }
 }
 
+$enable_full_page_cache = get_option('enable_full_page_cache','website');
+
+$lazyload = get_option('lazyload', $params['id']);
+
+$lazyload = ((!empty($lazyload) && $lazyload == 'y')? true : false);
+
 $upload = get_option('upload', $params['id']);
 
 $thumb = get_option('upload_thumb', $params['id']);
@@ -53,7 +59,6 @@ if($upload and !$code){
 }
 
 
-
 $module_template = get_option('data-template', $params['id']);
 
 
@@ -68,7 +73,6 @@ if ($module_template != false) {
 if (is_file($template_file)) {
     include($template_file);
 }
-
 
 if(!$upload and !$code){
     print  lnotif('Click to edit video');

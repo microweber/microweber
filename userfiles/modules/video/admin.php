@@ -131,7 +131,7 @@
                     <div class="mw-accordion-item">
                         <div class="mw-ui-box-header mw-accordion-title">
                             <div class="header-holder">
-                                <i class="mai-setting2"></i> Embed Video
+                                <i class="mai-setting2"></i>Embed Video
                             </div>
                         </div>
                         <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
@@ -210,35 +210,53 @@
                                     <span><?php _e("Autoplay"); ?></span>
                                 </label>
                             </div>
-
-                            <hr/>
-
-                            <h5>Upload Thumbnail</h5>
+                            <hr />
                             <div class="mw-ui-field-holder">
-                                <label class="mw-ui-label"><?php _e("Upload Video Thumbnail from your computer"); ?>
+                                <label class="mw-ui-label"><?php _e("Video Lazy Loading for SEO"); ?>
                                     <br>
-                                    <small><?php _e("Optional setting to reduce page size for YouTube videos"); ?>
+                                    <small><?php _e("Optional setting for use with embedded YouTube videos to defer the downloading of video scripts. Thumbnail image required, see Thumbnail Upload section."); ?>
                                     </small>
                                 </label>
-
                                 <div class="row" style="margin-top:10px;">
-                                    <div class="col-xs-6">
-                                        <input name="upload_thumb" id="upload_thumb_field" class="mw-ui-field mw_option_field semi_hidden" type="text" data-mod-name="<?php print $params['data-type'] ?>" value="<?php print get_option('upload_thumb', $params['id']) ?>"/>
-                                        <span class="mw-ui-btn mw-ui-btn-info" id="upload_thumb_btn"><span class="fas fa-upload"></span> &nbsp; <?php _e("Browse Video Screenshot"); ?></span>
+                                    <label class="mw-ui-check col-xs-6">
+                                        <input id="chk_lazyload" name="lazyload" class="mw-ui-field mw_option_field" type="checkbox" data-mod-name="<?php print $params['data-type'] ?>" value="y" <?php if (get_option('lazyload', $params['id']) == 'y') { ?> checked='checked' <?php } ?>/>
+                                        <span></span>
+                                        <span><?php _e("Lazy load"); ?></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <hr />
+
+                            <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+                                <div class="mw-ui-field-holder">
+                                    <label class="mw-ui-label"><?php _e("Upload Video Thumbnail from your computer"); ?>
+                                        <br>
+                                        <small><?php _e("Optional thumbnail image for use with uploaded or embedded videos. Required if Lazy Loading selected."); ?>
+                                        </small>
+                                    </label>
+
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="col-xs-6">
+                                            <input name="upload_thumb" id="upload_thumb_field" class="mw-ui-field mw_option_field semi_hidden" type="text" data-mod-name="<?php print $params['data-type'] ?>" value="<?php print get_option('upload_thumb', $params['id']) ?>"/>
+                                            <span class="mw-ui-btn mw-ui-btn-info" id="upload_thumb_btn"><span class="fas fa-upload"></span> &nbsp; <?php _e("Choose thumbnail image"); ?></span>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <img id="thumb" src="<?php print thumbnail(get_option('upload_thumb', $params['id']), 100, 100); ?>" alt=""/>
+                                            <input id="upload_thumb" name="upload_thumb" class="mw-ui-field mw_option_field" type="hidden" data-mod-name="<?php print $params['data-type'] ?>" value=""/>
+                                        </div>
                                     </div>
-                                    <div class="col-xs-6">
-                                        <img id="thumb" src="<?php print thumbnail(get_option('upload_thumb', $params['id']), 100, 100); ?>" alt=""/>
-                                        <input id="upload_thumb" name="upload_thumb" class="mw-ui-field mw_option_field" type="hidden" data-mod-name="<?php print $params['data-type'] ?>" value=""/>
-                                    </div>
+                                </div>
+
+                                <div class="mw-ui-progress" id="upload_thumb_status" style="display: none">
+                                    <div style="width: 0%" class="mw-ui-progress-bar"></div>
+                                    <div class="mw-ui-progress-info"><?php _e("Status"); ?>: <span class="mw-ui-progress-percent">0</span></div>
                                 </div>
                             </div>
 
-                            <div class="mw-ui-progress" id="upload_thumb_status" style="display: none">
-                                <div style="width: 0%" class="mw-ui-progress-bar"></div>
-                                <div class="mw-ui-progress-info"><?php _e("Status"); ?>: <span class="mw-ui-progress-percent">0</span></div>
-                            </div>
                         </div>
                     </div>
+
+
                 </div>
 
 
