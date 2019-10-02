@@ -231,7 +231,7 @@ class VideoEmbed
             if (empty($html)) {
                 $html = 'Can\'t read video from this source file.';
             }
-            
+
             return $this->_getEmbedVideoWrapper($html);
         }
 
@@ -243,31 +243,47 @@ class VideoEmbed
             if ($this->_isCodeAllreadyEmbeded($this->getEmbedCode())) {
                 $html = $this->getEmbedCode();
             } else {
-                $videoUrlHost = $this->_getUrlHost($this->getEmbedCode());
+                $videoUrl = $this->getEmbedCode();
+                $videoUrlHost = $this->_getUrlHost($videoUrl);
                 switch ($videoUrlHost) {
                     case 'youtube.com':
-                        $html = $this->_getYoutubePlayer();
+                        $html = $this->_getYoutubePlayer($videoUrl);
                         break;
                     case 'youtu.be':
-                        $html = $this->_getYoutuPlayer();
+                        $html = $this->_getYoutuPlayer($videoUrl);
                         break;
                     case 'facebook.com':
-                        $html = $this->_getFacebookPlayer();
+                        $html = $this->_getFacebookPlayer($videoUrl);
                         break;
                     case 'vimeo.com':
-                        $html = $this->_getVimeoPlayer();
+                        $html = $this->_getVimeoPlayer($videoUrl);
                         break;
                     case 'metacafe.com':
-                        $html = $this->_getMetCafePlayer();
+                        $html = $this->_getMetCafePlayer($videoUrl);
                         break;
                     case 'dailymotion.com':
-                        $html = $this->_getDailyMotionPlayer();
+                        $html = $this->_getDailyMotionPlayer($videoUrl);
                         break;
                 }
             }
 
             return $this->_getEmbedIframeWrapper($html);
         }
+    }
+
+    protected function _getDailyMotionPlayer($url) {
+
+        $urlParse = parse_url($url);
+        $urlPath = ltrim($urlParse['path'], '/');
+        $id = explode('/', $urlPath);
+        $id = explode('_', $id[1]);
+
+        if (!isset($id[0])) {
+            return false;
+        }
+
+        return 'fwa';
+
     }
 
     protected function _getEmbedIframeWrapper($html = '')

@@ -1,9 +1,19 @@
 <?php
 
 
-function video_module_url2embed($u, $w, $h, $autoplay)
+function video_module_url2embed($u, $w, $h, $autoplay, $thumb = false, $lazyload = false, $id = false)
 {
+    $embed_data_src_tag = 'src';
+    if ($lazyload) {
+        $embed_data_src_tag = 'data-src';
+    }
 
+    $customStyle = '';
+    $thumbImg = '';
+    if ($thumb) {
+        $customStyle = 'style="display:none" class="js-embed-'.$id.'"';
+        $thumbImg = '<div class="lazyload-thumbnail-image" style="background-image:url('.$thumb.');background-repeat:no-repeat;background-size: contain;background-position: top;width:100%;height:'.$h.'px;"></div>';
+    }
 
     $protocol = "http://";
     if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'
@@ -25,14 +35,14 @@ function video_module_url2embed($u, $w, $h, $autoplay)
 		parse_str($p['query'],$vars);
 		 
         if (isset($vars['v'])) {
-		return '<div class="mwembed"><iframe width="' . $w . '" height="' . $h . '" src="' . $protocol . 'www.youtube.com/embed/' . $vars['v'] . '?v=1&wmode=transparent&autoplay=' . $autoplay . '" frameborder="0" allowfullscreen></iframe></div>';
+		return '<div class="mwembed">'.$thumbImg.'<iframe '.$customStyle.' width="' . $w . '" height="' . $h . '" '.$embed_data_src_tag.'="' . $protocol . 'www.youtube.com/embed/' . $vars['v'] . '?v=1&wmode=transparent&autoplay=' . $autoplay . '" frameborder="0" allowfullscreen></iframe></div>';
         } else {
 		return false;	
 		}
     } else if (stristr($u, 'youtu.be') !== false) {
         $url_parse = parse_url($u);
         $url_parse = ltrim($url_parse['path'], '/');
-        return '<div class="mwembed"><iframe width="' . $w . '" height="' . $h . '" src="' . $protocol . 'www.youtube.com/embed/' . $url_parse . '?v=1&wmode=transparent&autoplay=' . $autoplay . '" frameborder="0" allowfullscreen></iframe></div>';
+        return '<div class="mwembed">'.$thumbImg.'<iframe '.$customStyle.' width="' . $w . '" height="' . $h . '" '.$embed_data_src_tag.'="' . $protocol . 'www.youtube.com/embed/' . $url_parse . '?v=1&wmode=transparent&autoplay=' . $autoplay . '" frameborder="0" allowfullscreen></iframe></div>';
     }  elseif (stristr($u, 'facebook.com') !== false) {
         $p = parse_url($u);
 		if(!isset($p['query']) or $p['query'] == false){
@@ -57,7 +67,7 @@ function video_module_url2embed($u, $w, $h, $autoplay)
         }
         $url_parse = ltrim($url_parse['path'], '/');
 
-        return '<div class="mwembed"><iframe src="' . $protocol . 'player.vimeo.com/video/' . $url_parse . '?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;color=bc9b6a&wmode=transparent&autoplay=' . $autoplay . '" width="' . $w . '" height="' . $h . '" frameborder="0" allowFullScreen></iframe></div>';
+        return '<div class="mwembed">'.$thumbImg.'<iframe '.$customStyle.' '.$embed_data_src_tag.'="' . $protocol . 'player.vimeo.com/video/' . $url_parse . '?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;color=bc9b6a&wmode=transparent&autoplay=' . $autoplay . '" width="' . $w . '" height="' . $h . '" frameborder="0" allowFullScreen></iframe></div>';
     } else if (stristr($u, 'metacafe.com') !== false) {
         $url_parse = parse_url($u);
         $path = ltrim($url_parse['path'], '/');
@@ -65,7 +75,7 @@ function video_module_url2embed($u, $w, $h, $autoplay)
         if (!isset($id[1])) {
             return false;
         }
-        return '<div class="mwembed"><iframe src="' . $protocol . 'www.metacafe.com/embed/' . $id[1] . '/?ap=' . $autoplay . '" width="' . $w . '" height="' . $h . '"  allowFullScreen frameborder=0></iframe></div>';
+        return '<div class="mwembed">'.$thumbImg.'<iframe '.$customStyle.' '.$embed_data_src_tag.'="' . $protocol . 'www.metacafe.com/embed/' . $id[1] . '/?ap=' . $autoplay . '" width="' . $w . '" height="' . $h . '"  allowFullScreen frameborder=0></iframe></div>';
     } else if (stristr($u, 'dailymotion.com') !== false) {
         $url_parse = parse_url($u);
         $path = ltrim($url_parse['path'], '/');
@@ -74,7 +84,7 @@ function video_module_url2embed($u, $w, $h, $autoplay)
         if (!isset($id[0])) {
             return false;
         }
-        return '<div class="mwembed"><iframe frameborder="0" width="' . $w . '" height="' . $h . '" src="' . $protocol . 'www.dailymotion.com/embed/video/' . $id[0] . '/?autoPlay=' . $autoplay . '"></iframe></div>';
+        return '<div class="mwembed">'.$thumbImg.'<iframe '.$customStyle.' frameborder="0" width="' . $w . '" height="' . $h . '" '.$embed_data_src_tag.'="' . $protocol . 'www.dailymotion.com/embed/video/' . $id[0] . '/?autoPlay=' . $autoplay . '"></iframe></div>';
     } else {
         return $u;
     }

@@ -1,17 +1,20 @@
 <?php
-
 /*
-
 type: layout
-
 name: Default
-
 description: Default
-
 */
+
+echo $code;
+return;
 ?>
 
 <?php
+
+$embed_data_tag = 'src="' . $upload . '"';
+if ($lazyload) {
+    $embed_data_tag = 'data-src="' . $upload . '"';
+}
 
 if ($prior != '2' or $prior == false) {
     if ($code != '') {
@@ -24,7 +27,7 @@ if ($prior != '2' or $prior == false) {
 		if (video_module_is_embed($code) == true) {
 			$code = '<div class="mwembed">' . $code . '</div>';
 		} else {
-			$code = video_module_url2embed($code, $w, $h, $autoplay);
+			$code = video_module_url2embed($code, $w, $h, $autoplay, $thumb, $lazyload, $params['id']);
 		}
 
     } else {
@@ -36,11 +39,6 @@ if ($prior != '2' or $prior == false) {
             $autoplay = '';
         } else {
             $autoplay = 'autoplay';
-        }
-
-        $embed_data_tag = 'src="' . $upload . '"';
-        if ($lazyload) {
-            $embed_data_tag = 'data-src="' . $upload . '"';
         }
 
         $code = '<div class="mwembed"><video class="js-embed-'.$params['id'].'" controls width="' . $w . '" height="' . $h . '" ' . $autoplay . ' '.$embed_data_tag.' poster="'. $thumb .'"></video></div>';
@@ -58,10 +56,22 @@ if($show_video_settings_btn) {
 }
 ?>
 
-<?php if($lazyload && $prior== '2') { ?>
+<?php if($lazyload && $prior == '2') { ?>
     <script>
         $(document).ready(function() {
             $('.js-embed-<?php echo $params['id']; ?>').attr('src', $('.js-embed-<?php echo $params['id']; ?>').attr('data-src'));
+        });
+    </script>
+<?php } ?>
+
+<?php if($lazyload && $prior !== '2') { ?>
+    <script>
+        $(document).ready(function() {
+            $('.js-embed-<?php echo $params['id']; ?>').parent().find('.lazyload-thumbnail-image').click(function () {
+               // $('.js-embed-<?php echo $params['id']; ?>').attr('src', $('.js-embed-<?php echo $params['id']; ?>').attr('data-src'));
+                //$('.js-embed-<?php echo $params['id']; ?>').parent().find('.lazyload-thumbnail-image').remove();
+                //$('.js-embed-<?php echo $params['id']; ?>').css('display', 'block');
+            });
         });
     </script>
 <?php } ?>
