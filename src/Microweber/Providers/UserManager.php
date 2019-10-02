@@ -582,6 +582,12 @@ class UserManager
             }
             //}
         }
+
+        $enable_user_gesitration = get_option('enable_user_registration', 'users');
+        if ($enable_user_gesitration == 'n') {
+            return array('error' => 'User registration is disabled.');
+        }
+
         $user = isset($params['username']) ? $params['username'] : false;
         $pass = isset($params['password']) ? $params['password'] : false;
         $pass2 = isset($params['password2']) ? $params['password2'] : $pass;
