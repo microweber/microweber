@@ -1,17 +1,11 @@
 <script>
 
-    $(window).on("load", function () {
-
-
-    })
     $(document).ready(function () {
-        //mw.wysiwyg.init();
         mw.tools.dropdown(mwd.getElementById('mw-admin-text-editor'));
-
         Editor = mw.$('#mw-admin-text-editor');
         Editor.mousedown(function (e) {
             e.preventDefault()
-        })
+        });
 
         Editor.hover(function () {
             $(this).addClass('editor_hover');
@@ -91,7 +85,7 @@
 
         <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_format" id="format_main" title="<?php _e("Format"); ?>" data-value="">
                 <span class="mw-dropdown-value">
-                    <span class="mw-dropdown-arrow"></span>
+
                     <span class="mw-dropdown-val"><?php _e("Format"); ?></span>
                 </span>
             <div class="mw-dropdown-content">
@@ -111,7 +105,7 @@
 
         <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_font_family" id="font_family_selector_main" title="<?php _e("Font"); ?>" data-value="Arial">
               <span class="mw-dropdown-value">
-                  <span class="mw-dropdown-arrow"></span>
+
                   <span class="mw-dropdown-val">Arial</span>
               </span>
             <div class="mw-dropdown-content">
@@ -128,7 +122,7 @@
 
         <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_font_size" id="font_size_selector_main" title="<?php _e("Font Size"); ?>">
                 <span class="mw-dropdown-value">
-                  <span class="mw-dropdown-arrow"></span>
+
                   <span class="mw-dropdown-val"><?php _e('Size'); ?></span>
                 </span>
             <div class="mw-dropdown-content">
@@ -165,35 +159,7 @@
 
         <span title="Paste from word" onclick="mw.wysiwyg.pasteFromWordUI();" class="mw_editor_btn mw_editor_paste_from_word"><span class="ed-ico"></span></span>
         <span class="mw_editor_btn mw_editor_remove_formatting" data-command="removeformat" title="<?php _e("Remove Formatting"); ?>"><span class="ed-ico"></span></span>
-
-
         <span class="mw_editor_btn mw_editor_html_editor" id="mw-toolbar-html-editor-btn" title="<?php _e("HTML Editor"); ?>" ><span class="ed-ico mw-icon-code"></span></span>
-
-
-
-
-
-
-        <?php
-        /*if (is_admin() and isset($_REQUEST['modules'])) {
-            $mods = explode(',', $_REQUEST['modules']);
-            $mods = array_trim($mods);
-            if (is_array($mods)) {
-                foreach ($mods as $mod) {
-                    print load_module($mod);
-                }
-            }
-        }*/
-        ?>
-
-
-
-      <?php
-      /*  <button form="quickform-edit-content" type="submit" class="mw_editor_btn save-scrolled" title="<?php _e("Save"); ?>">
-            <i class="fa fa-save"></i> <span class="label"><?php _e("Save"); ?></span></button>*/
-
-      ?>
-
     </div>
 
 </div>

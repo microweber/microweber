@@ -3,17 +3,17 @@
 
 
 mw.require('options.js', true);
- 
+
 
 </script>
 <script  type="text/javascript">
 $(document).ready(function(){
-	
+
   mw.options.form('.<?php print $config['module_class'] ?>', function(){
       mw.notification.success("<?php _e("Template styles are saved"); ?>.");
-	  
-	 
-	  
+
+
+
     });
 });
 </script>
@@ -21,26 +21,26 @@ $(document).ready(function(){
 <div id="mw-theme-settings" contenteditable="false"> <span class="btn btn-default btn-medium" onclick="mw.$('#mw-theme-settings-content').toggle();"><?php _e('Template Settings'); ?>&nbsp;<span class="icon-align-justify"></span></span>
   <div id="mw-theme-settings-content">
     <hr>
-    
-    
-    
-    
-    
+
+
+
+
+
     <label ><small>Font</small></label>
-    
-  
-    
-    
+
+
+
+
         <input  name="font-size" option-group="<?php print TEMPLATE_NAME; ?>"     value="<?php print get_option('font-size', TEMPLATE_NAME); ?>"     class="mw-ui-field mw_option_field" type="text" />
        <label ><small><?php _e('Font'); ?></small></label>
-    
-  
-    
-    
+
+
+
+
         <input  name="background-color" option-group="<?php print TEMPLATE_NAME; ?>"     value="<?php print get_option('background-color', TEMPLATE_NAME); ?>"     class="mw-ui-field mw_option_field" type="text" />
-    
-    
-    <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_font_family hovered" id="mwthemesettings-fontfamily" data-value="Arial" style="width:210px;float:none"> <span class="mw-dropdown-value"> <span class="mw-dropdown-arrow"></span> <span class="mw-dropdown-val">Arial</span> </span>
+
+
+    <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_font_family hovered" id="mwthemesettings-fontfamily" data-value="Arial" style="width:210px;float:none"> <span class="mw-dropdown-value">  <span class="mw-dropdown-val">Arial</span> </span>
       <div class="mw-dropdown-content">
         <ul style="width: 100%;">
           <li value="Droid Serif"><a href="javascript:;" style="font-family:Droid Serif">Droid Serif</a></li>
@@ -125,4 +125,4 @@ $(document).ready(function(){
 });
 
 
-</script> 
+</script>

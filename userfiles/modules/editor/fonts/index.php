@@ -12,7 +12,7 @@ return include(__DIR__.DS.'admin.php');
 </script>
 <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_font_family"  title="<?php _e("Font"); ?>" data-value="Arial" style="width: 100%;">
     <span class="mw-dropdown-value">
-        <span class="mw-dropdown-arrow"></span>
+
         <span class="mw-dropdown-val">Arial</span>
     </span>
   <div class="mw-dropdown-content">
