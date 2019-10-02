@@ -121,6 +121,15 @@ class Base
                 'data_raw' => 'string',
             ],
 
+            'login_attempts' => [
+                'user_id' => 'integer',
+                'username' => 'string',
+                'email' => 'string',
+                'ip' => 'string',
+                'success' => 'integer',
+                'time' => 'string',
+            ],
+
             'log' => [
                 'updated_at' => 'dateTime',
                 'created_at' => 'dateTime',

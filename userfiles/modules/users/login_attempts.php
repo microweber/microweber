@@ -1,7 +1,7 @@
 <?php
 
 $user_id = $params['user_id'];
-$loginAttempts = \Microweber\App\LoginAttempt::where('id', $user_id)
+$loginAttempts = \Microweber\App\LoginAttempt::where('user_id', $user_id)
     ->orderBy('time', 'desc')
     ->take(40)
     ->get();
@@ -29,6 +29,7 @@ $loginAttempts = \Microweber\App\LoginAttempt::where('id', $user_id)
         </tfoot>
         <tbody>
         <?php
+        if (!$loginAttempts->isEmpty()):
         foreach($loginAttempts as $attempt):
         ?>
         <tr>
@@ -45,6 +46,9 @@ $loginAttempts = \Microweber\App\LoginAttempt::where('id', $user_id)
             </td>
         </tr>
         <?php endforeach; ?>
+        <?php else: ?>
+        <tr><td rowspan="5"><?php echo _e('No login attempts found for this user.'); ?></td></tr>
+        <?php endif; ?>
         </tbody>
     </table>
 </div>
