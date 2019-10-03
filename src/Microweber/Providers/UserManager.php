@@ -1161,20 +1161,28 @@ class UserManager
         if (!empty($params)) {
             if (isset($params['username']) || isset($params['email'])) {
 
-                if ($params['username'] != false and filter_var($params['username'], FILTER_VALIDATE_EMAIL)) {
+                if (isset($params['username']) && $params['username'] != false and filter_var($params['username'], FILTER_VALIDATE_EMAIL)) {
                     $params['email'] = $params['username'];
                 }
 
                 $findUserId = false;
-                $findByUsername = User::where('username', $params['username'])->first();
+                $findByUsername = false;
+
+                if (isset($params['username'])) {
+                    $findByUsername = User::where('username', $params['username'])->first();
+                }
+
                 if ($findByUsername) {
                     $findUserId = $findByUsername->id;
                 } else {
-                    $findByEmail = User::where('email', $params['email'])->first();
-                    if ($findByEmail) {
-                        $findUserId = $findByEmail->id;
+                    if (isset($params['email'])) {
+                        $findByEmail = User::where('email', $params['email'])->first();
+                        if ($findByEmail) {
+                            $findUserId = $findByEmail->id;
+                        }
                     }
                 }
+
                 if (!$findUserId) {
                     return;
                 }
@@ -1360,14 +1368,18 @@ class UserManager
 
     public function send_forgot_password($params)
     {
-        if (!isset($params['captcha'])) {
-            return array('error' => 'Please enter the captcha answer!');
-        } else {
-            $validate_captcha = $this->app->captcha->validate($params['captcha']);
-            if ($validate_captcha == false) {
-                return array('error' => 'Invalid captcha answer!', 'captcha_error' => true);
+        $no_captcha = get_option('captcha_disabled', 'users') == 'y';
+        if (!$no_captcha) {
+            if (!isset($params['captcha'])) {
+                return array('error' => 'Please enter the captcha answer!');
+            } else {
+                $validate_captcha = $this->app->captcha->validate($params['captcha']);
+                if ($validate_captcha == false) {
+                    return array('error' => 'Invalid captcha answer!', 'captcha_error' => true);
+                }
             }
         }
+
         if (isset($params['email'])) {
             //return array('error' => 'Enter username or email!');
         } elseif (!isset($params['username']) or trim($params['username']) == '') {

@@ -16,12 +16,18 @@ class UserTest extends TestCase {
     private static $_password = false;
     private static $_email = false;
 
-    public function testRegistration()
-    {
+    private function _disableCaptcha() {
+
         $data['option_value'] = 'y';
         $data['option_key'] = 'captcha_disabled';
         $data['option_group'] = 'users';
         $save = save_option($data);
+
+    }
+
+    public function testRegistration()
+    {
+        $this->_disableCaptcha();
 
         $randomInt = rand(1111, 9999);
         $password = md5($randomInt);
@@ -70,6 +76,7 @@ class UserTest extends TestCase {
 
     public function testLogin()
     {
+        $this->_disableCaptcha();
 
         $loginDetails = array();
         $loginDetails['username'] = self::$_username;
@@ -84,6 +91,7 @@ class UserTest extends TestCase {
 
     public function testWrongPasswordLogin()
     {
+        $this->_disableCaptcha();
 
         $loginDetails = array();
         $loginDetails['username'] = self::$_username;
@@ -98,6 +106,7 @@ class UserTest extends TestCase {
 
     public function testWrongUsernameLogin()
     {
+        $this->_disableCaptcha();
 
         $loginDetails = array();
         $loginDetails['username'] = 'microweber-make-money';
@@ -112,6 +121,7 @@ class UserTest extends TestCase {
 
     public function testWrongEmailLogin()
     {
+        $this->_disableCaptcha();
 
         $loginDetails = array();
         $loginDetails['email'] = 'microweber-make-happy';
@@ -126,6 +136,8 @@ class UserTest extends TestCase {
 
     public function testForgotPassword()
     {
+        $this->_disableCaptcha();
+
         $userDetails = array();
         $userDetails['username'] = self::$_username;
         $userDetails['email'] =  self::$_email;
@@ -135,4 +147,6 @@ class UserTest extends TestCase {
 
         $this->assertArrayHasKey('success', $requestStatus);
     }
+
+    
 }
