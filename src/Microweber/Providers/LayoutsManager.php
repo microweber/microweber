@@ -121,7 +121,7 @@ class LayoutsManager
             $cache_content = $this->app->cache_manager->get($cache_id, $cache_group);
 
             if (($cache_content) != false) {
-                // return $cache_content;
+                return $cache_content;
             }
         }
 

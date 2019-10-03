@@ -31,15 +31,13 @@ class ElementsConfigReader
             return;
         }
 
-        //$loc_of_config = dirname($filename) . DS . 'config.php';
         $loc_of_config = str_ireplace('.php', '_config.php', $filename);
 
         $template_dirs = array();
-        $possible_dir2 = TEMPLATE_DIR;
 
-        $template_dirs[] = $possible_dir2;
-
-        //d($loc_of_config);
+        if (defined('TEMPLATE_DIR')) {
+            $template_dirs[] = TEMPLATE_DIR;
+        }
         $config_ready = array();
 
         $layout_file = $filename;
@@ -64,9 +62,6 @@ class ElementsConfigReader
 
                 $config_ready['type'] = 'layout';
                 $config_ready['as_element'] = true;
-
-
-
 
 
             }
@@ -185,12 +180,6 @@ class ElementsConfigReader
                         $to_return_temp['tag'] = trim($result);
                     }
                     $layout_file = $filename;
-                    //$layout_file = str_replace($path, '', $filename);
-//                if (isset($options['get_dynamic_layouts'])) {
-//                    $layout_file = str_replace($possible_dir2, '', $layout_file);
-//
-//                }
-
 
                     $layout_file = str_replace(DS, '/', $layout_file);
                     $to_return_temp['layout_file'] = $layout_file;
