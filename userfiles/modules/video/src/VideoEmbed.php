@@ -1,4 +1,5 @@
 <?php
+namespace Microweber\Modules\Video;
 
 /**
  * Class VideoEmbed

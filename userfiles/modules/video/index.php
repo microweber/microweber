@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . DS . 'VideoEmbed.php';
+require_once __DIR__ . DS . 'vendor/autoload.php';
 
 $prior = get_option('prior', $params['id']);
 
@@ -61,7 +61,7 @@ if($upload and !$code){
     $prior = 2;
 }
 
-$video = new VideoEmbed();
+$video = new \Microweber\Modules\Video\VideoEmbed();
 $video->setId($params['id']);
 $video->setLazyLoad($lazyload);
 $video->setAutoplay($autoplay);

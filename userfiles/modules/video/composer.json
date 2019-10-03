@@ -1,0 +1,25 @@
+{
+  "name": "microweber/video",
+  "description": "Video embeding.",
+  "license": "MIT",
+  "homepage": "https://www.microweber.com",
+  "authors": [
+    {
+      "name": "Bozhidar Slaveykov",
+      "email": "bobi@microweber.com"
+    }
+  ],
+  "keywords": [
+    "vimeo",
+    "video",
+    "youtube",
+    "playlist"
+  ],
+  "autoload": {
+    "psr-4": {
+      "Microweber\\Modules\\Video\\": "src/"
+    }
+  },
+  "type": "microweber-module",
+  "target-dir": "video"
+}
