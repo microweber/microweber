@@ -227,6 +227,7 @@ class VideoEmbed
 
     public function render()
     {
+        $html = false;
 
         // This is the uploaded video
         if ($this->isPlayUploadedVideo()) {
@@ -271,6 +272,9 @@ class VideoEmbed
 
             if (!$html) {
                 $html = 'Can\'t read video from this source url.';
+                if (in_live_edit()) {
+                    $html = "<div class='video-module-default-view mw-open-module-settings'><img src='" . modules_url() . "video/video.svg' style='width: 65px; height: 65px;'/></div>";
+                }
             }
 
             return $this->_getEmbedIframeWrapper($html);
