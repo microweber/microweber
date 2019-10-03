@@ -948,8 +948,23 @@ class DefaultController extends Controller
 
             unset($data['ondrop']);
         }
+      //  d($data);
+     //   d($mod_n);
+        if ($mod_n == 'element-from-template' && isset($data['template'])) {
+            $t = str_replace('..', '', $data['template']);
+            $possible_layout = TEMPLATE_DIR . $t;
+            $possible_layout = normalize_path($possible_layout, false);
 
-        if ($mod_n == 'layout' && isset($data['template'])) {
+            if (is_file($possible_layout)) {
+                $l = new \Microweber\View($possible_layout);
+                $layout = $l->__toString();
+                $layout = $this->app->parser->process($layout, $options = false);
+                return response($layout);
+
+
+            }
+        }
+        if ($mod_n == 'module-' && isset($data['template'])) {
             $t = str_replace('..', '', $data['template']);
             $possible_layout = templates_path() . $t;
             $possible_layout = normalize_path($possible_layout, false);

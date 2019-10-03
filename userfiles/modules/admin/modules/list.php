@@ -29,6 +29,7 @@ if (isset($is_elements) and $is_elements == true) {
         $el_params['layout_type'] = $params['layout_type'];
     }
     $modules = mw()->layouts_manager->get($el_params);
+    //$modules = false;
 
     if ($modules == false) {
         // scan_for_modules($modules_options);
@@ -38,11 +39,28 @@ if (isset($is_elements) and $is_elements == true) {
 
 
     }
+
+
+
+
+
+   // dd($modules);
+
     if ($modules == false) {
         $modules = array();
     }
 
-if($disable_elements){
+    $elements_from_template = mw()->layouts_manager->get_elements_from_current_site_template();
+    if (!empty($elements_from_template)) {
+
+        $modules = array_merge($modules, $elements_from_template);
+      //  dd($modules);
+
+    }
+
+
+
+    if($disable_elements){
     $modules = array();
 }
 
@@ -404,6 +422,9 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                             data-filter="<?php print $module_item['name'] ?>"
                             ondrop="true"
                             data-category="<?php isset($module_item['categories']) ? print addslashes($module_item['categories']) : ''; ?>"
+                    <?php if (isset($module_item['template'])) { ?>
+                            template="<?php print $module_item['template'] ?>"
+                    <?php } ?>
                             class="module-item module-item-module module-cat-toggle-<?php print $mod_cat ?> <?php if ($mod_obj_str == 'elements'): ?>default-layouts<?php endif; ?><?php if (isset($module_item['as_element']) and intval($module_item['as_element'] == 1) or (isset($is_elements) and $is_elements == true)) : ?> module-as-element<?php endif; ?>">
                     <span unselectable="on" class="mw_module_hold"
                           title="<?php print addslashes($module_item["name"]); ?>. <?php print addslashes($module_item["description"]) ?>">
