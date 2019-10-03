@@ -401,10 +401,17 @@ class VideoEmbed
     protected function _getHtmlVideoPlayer()
     {
         $attributes = array();
-        $attributes[] = 'src="' . $this->getUploadedVideoUrl() . '"';
         $attributes[] = 'controls="1"';
         $attributes[] = 'width="' . $this->getWidth() . '"';
         $attributes[] = 'height="' . $this->getHeight() . '"';
+
+        if ($this->isLazyLoad()) {
+            $attributes[] = 'class="js-mw-embed-htmlvideo-' . $this->getId() . '"';
+            $attributes[] = 'style="display:none;"';
+            $attributes[] = 'data-src="' . $this->getUploadedVideoUrl() . '"';
+        } else {
+            $attributes[] = 'src="' . $this->getUploadedVideoUrl() . '"';
+        }
 
         if ($this->isThumbnail()) {
             $attributes[] = 'poster="' . $this->getThumbnail() . '"';
