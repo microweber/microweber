@@ -181,8 +181,6 @@ Thumbnail size:
                            onclick="mw.url.windowHashParam('select-file', '<?php print mw()->url_manager->link_to_file($item) ?>'); return false;">
                             <?php $ext = strtolower(get_file_extension($item)); ?>
                             <?php if ($ext == 'jpg' or $ext == 'png' or $ext == 'gif' or $ext == 'jpeg' or $ext == 'bmp'): ?>
-                                <!--<img data-src="<?php print thumbnail(mw()->url_manager->link_to_file($item), $tn_size, $tn_size,true); ?>"
-                                     class="<?php print basename($item) ?> image-item-not-ready"/> -->
                             <span data-src="<?php print thumbnail(mw()->url_manager->link_to_file($item), $tn_size, $tn_size,true); ?>"
                                   class="<?php print basename($item) ?> as-image image-item-not-ready"></span>
                             <?php else: ?>
@@ -225,6 +223,7 @@ Thumbnail size:
                     for (; i < l; i++) {
                         var item = all[i];
                         var datasrc = item.getAttribute("data-src");
+                        console.log(mw.tools.inview(item))
                         if (mw.tools.inview(item) && datasrc !== null) {
                             if(item.nodeName === 'IMG'){
                                 $(item).attr('src', datasrc).removeClass('image-item-not-ready');
@@ -235,10 +234,26 @@ Thumbnail size:
                         }
                     }
                 };
-                $(window).bind('load scroll ajaxStop', function () {
+                var browserList = mw.$('#mw-browser-list-holder')
+                $(browserList).on('scroll', function () {
+                    rendImages();
+                });
+                $(window).on('load', function () {
+                    if(thismodal) {
+                        $(thismodal).on('dialogCenter', function(){
+                            setTimeout(function(){
+                                rendImages();
+                            }, 333);
+                        })
+                    }
+                    $()
+                });
+                $(window).on('load ajaxStop resize', function () {
                     setTimeout(function(){
                         rendImages();
                     }, 333);
+
+                    browserList.height($(top).height() - browserList.offset().top - 220)
                 });
 
             </script>

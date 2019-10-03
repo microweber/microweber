@@ -329,9 +329,27 @@
             return this;
         };
 
+        this._afterSize = function() {
+            if(mw._iframeDetector) {
+                mw._iframeDetector.pause = true;
+                var frame = window.frameElement;
+                if(frame){
+                    var height = this.dialogContainer.scrollHeight + this.dialogHeader.scrollHeight;
+                    if($(frame).height() < height) {
+                        frame.style.height = ((height + 100) - this.dialogHeader.offsetHeight - this.dialogFooter.offsetHeight) + 'px';
+                        if(window.thismodal){
+                            thismodal.height(height + 100);
+                        }
+
+                    }
+                }
+            }
+        };
+
         this.show = function () {
             mw.$(this.dialogMain).addClass('active');
             this.center();
+            this._afterSize();
             mw.$(this).trigger('Show');
             mw.trigger('mwDialogShow', this);
             return this;
@@ -342,6 +360,9 @@
             if (!this._hideStart) {
                 this._hideStart = true;
                 mw.$(this.dialogMain).removeClass('active');
+                if(mw._iframeDetector) {
+                    mw._iframeDetector.pause = false;
+                }
                 mw.$(this).trigger('Hide');
                 mw.trigger('mwDialogHide', this);
             }
@@ -407,19 +428,25 @@
             this._prevHeight = holderHeight;
 
 
-
+            this._afterSize();
             mw.$(this).trigger('dialogCenter');
 
             return this;
         };
 
         this.width = function (width) {
-            //$(this.dialogContainer).width(width);
+            if(!width) {
+                return mw.$(this.dialogHolder).outerWidth();
+            }
             mw.$(this.dialogHolder).width(width);
+            this._afterSize();
         };
         this.height = function (height) {
-            //$(this.dialogContainer).height(height);
+            if(!height) {
+                return mw.$(this.dialogHolder).outerHeight();
+            }
             mw.$(this.dialogHolder).height(height);
+            this._afterSize();
         };
         this.resize = function (width, height) {
             if (typeof width !== 'undefined') {
