@@ -183,6 +183,18 @@
                                 <div class="mw-ui-progress-info"><?php _e("Status"); ?>: <span class="mw-ui-progress-percent">0</span></div>
                             </div>
 
+                        </div>
+                    </div>
+
+
+                    <div class="mw-accordion-item">
+                        <div class="mw-ui-box-header mw-accordion-title">
+                            <div class="header-holder">
+                                <i class="mai-setting2"></i>Video Settings
+                            </div>
+                        </div>
+                        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+
                             <div class="mw-ui-row-nodrop mw-ui-row-fixed" style="width: auto">
                                 <div class="mw-ui-col">
                                     <div class="mw-ui-col-container">
@@ -211,18 +223,8 @@
                                 </label>
                             </div>
 
-                        </div>
-                    </div>
+                            <hr />
 
-
-                    <div class="mw-accordion-item">
-                        <div class="mw-ui-box-header mw-accordion-title">
-                            <div class="header-holder">
-                                <i class="mai-setting2"></i>Upload Thumbnail
-                            </div>
-                        </div>
-
-                        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
                             <div class="mw-ui-field-holder">
                                 <label class="mw-ui-label"><?php _e("Upload Video Thumbnail from your computer"); ?>
                                     <br>
@@ -246,18 +248,9 @@
                                 <div style="width: 0%" class="mw-ui-progress-bar"></div>
                                 <div class="mw-ui-progress-info"><?php _e("Status"); ?>: <span class="mw-ui-progress-percent">0</span></div>
                             </div>
-                        </div>
 
-                    </div>
+                            <hr />
 
-
-                    <div class="mw-accordion-item">
-                        <div class="mw-ui-box-header mw-accordion-title">
-                            <div class="header-holder">
-                                <i class="mai-setting2"></i>Video Lazy Loading
-                            </div>
-                        </div>
-                        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
                             <div class="mw-ui-field-holder">
                                 <label class="mw-ui-label"><?php _e("Video Lazy Loading for SEO"); ?>
                                     <br>

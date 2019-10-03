@@ -178,6 +178,10 @@ class VideoEmbed
      */
     public function setEmbedCode($embedCode)
     {
+        if (stristr($embedCode, '<iframe') !== false) {
+            $embedCode = preg_replace('#\<iframe(.*?)\ssrc\=\"(.*?)\"(.*?)\>#i', '<iframe$1 src="$2?wmode=transparent"$3>', $embedCode);
+        }
+
         $this->embedCode = $embedCode;
     }
 
@@ -238,8 +242,6 @@ class VideoEmbed
         // This is the embeded video from youtube, facebook etc.
         if ($this->isPlayEmbedVideo()) {
 
-            $html = 'Can\'t read video from this source url.';
-
             if ($this->_isCodeAllreadyEmbeded($this->getEmbedCode())) {
                 $html = $this->getEmbedCode();
             } else {
@@ -265,6 +267,10 @@ class VideoEmbed
                         $html = $this->_getDailyMotionPlayer($videoUrl);
                         break;
                 }
+            }
+
+            if (!$html) {
+                $html = 'Can\'t read video from this source url.';
             }
 
             return $this->_getEmbedIframeWrapper($html);
