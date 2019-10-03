@@ -141,7 +141,7 @@ $current_lang = current_lang();
               <?php _e("Language"); ?>
               </span></li>
                         <li>
-                            <div data-value="" title="" class="mw-dropdown mw-dropdown-type-wysiwyg" id="lang_selector"> <span class="mw-dropdown-value"> <span class="mw-dropdown-arrow"></span>
+                            <div data-value="" title="" class="mw-dropdown mw-dropdown-type-wysiwyg" id="lang_selector"> <span class="mw-dropdown-value">
                                     <?php if ($current_lang != 'en'): ?>
                                         <span class="mw-dropdown-val"><?php print strtoupper($current_lang); ?></span>
                                     <?php else: ?>

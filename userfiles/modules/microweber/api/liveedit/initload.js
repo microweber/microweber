@@ -32,7 +32,7 @@ mw.liveedit.initLoad = function() {
 
         mw.interval('regular-mode', function(){
             mw.$('.row').addClass('nodrop');
-            mw.$('.row .col').addClass('allow-drop');
+            mw.$('.row .col, .row [class*="col-"]').addClass('allow-drop');
             // mw.$('.nodrop .allow-drop').addClass('regular-mode');
             mw.$('.safe-element[class*="mw-micon-"]').removeClass('safe-element');
         })

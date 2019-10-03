@@ -3006,7 +3006,7 @@ mw.tools = {
     },
     richtextEditorSettings: {
         width: '100%',
-        height: 320,
+        height: 'auto',
         addControls: false,
         hideControls: false,
         ready: false
@@ -3083,6 +3083,9 @@ mw.tools = {
         });
         o.width = o.width != 'auto' ? o.width : '100%';
         mw.$(frame).css({width: o.width, height: o.height});
+        if(o.height === 'auto') {
+            mw.tools.iframeAutoHeight(frame);
+        }
         frame.setValue = function (val) {
             frame.contentWindow.pauseChange = true;
             frame.contentWindow.document.getElementById('editor-area').innerHTML = val;

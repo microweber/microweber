@@ -515,7 +515,7 @@ mw.drag = {
                     }
 
                     if (fonttarget && !mw.tools.hasAnyOfClasses(target, ['element','module'])) {
-                        if ((fonttarget.tagName == 'I' || fonttarget.tagName == 'SPAN') && mw.tools.hasParentsWithClass(fonttarget, 'edit') && !mw.tools.hasParentsWithClass(fonttarget, 'dropdown')) {
+                        if ((fonttarget.tagName === 'I' || fonttarget.tagName === 'SPAN') && mw.tools.hasParentsWithClass(fonttarget, 'edit') && !mw.tools.hasParentsWithClass(fonttarget, 'dropdown')) {
                             if (!mw.tools.hasParentsWithClass(fonttarget, 'module')) {
                                 mw.trigger("IconElementClick", fonttarget);
                                 mw.trigger("ComponentClick", [fonttarget, 'icon']);
@@ -534,7 +534,7 @@ mw.drag = {
                     } else if (mw.tools.hasParentsWithClass(target, 'mw_item')) {
                         mw.trigger("ItemClick", mw.$(target).parents(".mw_item")[0]);
                     }
-                    if (target.tagName == 'IMG' && mw.tools.hasParentsWithClass(target, 'edit')) {
+                    if (target.tagName === 'IMG' && mw.tools.hasParentsWithClass(target, 'edit')) {
                         var order = mw.tools.parentsOrder(mw.mm_target, ['edit', 'module']);
                         if ((order.module == -1) || (order.edit > -1 && order.edit < order.module)) {
                             if (!mw.tools.hasParentsWithClass(target, 'mw-defaults')) {
@@ -547,12 +547,14 @@ mw.drag = {
                         mw.trigger("BodyClick", target);
                     }
 
-                    if (target.tagName === 'TABLE' && mw.tools.hasParentsWithClass(target, 'edit') && !mw.tools.hasParentsWithClass(target, 'module')) {
-                        mw.trigger("TableClick", target);
+
+                    var isTd =  target.tagName === 'TD' ? target : mw.tools.firstParentWithTag(target, 'td');
+                    if(!!isTd){
+                        if(mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(target, ['edit', 'module'])){
+                            mw.trigger("TableTdClick", target);
+                        }
                     }
-                    if (target.tagName === 'TD' && mw.tools.hasParentsWithClass(target, 'edit')  && !mw.tools.hasParentsWithClass(target, 'module')) {
-                        mw.trigger("TableTdClick", target);
-                    }
+
                     if (mw.tools.hasClass(target, 'mw-empty') || mw.tools.hasParentsWithClass(target, 'mw-empty')) {
 
                     } else {
