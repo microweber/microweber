@@ -300,7 +300,7 @@ class VideoEmbed
         } else {
             $attributes[] = 'src="'.$url .'"';
         }
-        
+
         return '<iframe ' . implode(" ", $attributes) . '</iframe>';
     }
 

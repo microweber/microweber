@@ -8,7 +8,6 @@ description: Default
 echo $code;
 return;
 ?>
-
 <?php
 
 $embed_data_tag = 'src="' . $upload . '"';
