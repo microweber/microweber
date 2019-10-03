@@ -5345,6 +5345,9 @@ html[dir="rtl"] #upload-icoimage {
     margin: auto;
     padding: 50px 0;
 }
+.browser-liveedit .admin-side-content{
+    padding-bottom: 0;
+}
 
 .admin-side-content .mw-ui-table{
     table-layout: fixed;
@@ -7222,7 +7225,6 @@ select.silver-field {
 
 #white_label_settings_holder .mw-iframe-editor {
     min-height: 150px;
-    height: 100px !important;
 }
 
 .mw-help-tip {

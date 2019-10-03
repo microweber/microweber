@@ -544,6 +544,7 @@
     float: none;
     white-space: nowrap;
     background: url(../img/mw_dlm.png) no-repeat right center;
+    padding: 0 8px 0 2px;
 }
 
 .wysiwyg-table > .wysiwyg-cell:first-child {

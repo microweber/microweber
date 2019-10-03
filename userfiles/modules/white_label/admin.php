@@ -199,7 +199,7 @@
                                         $(document).ready(function () {
                                             mw.editor({
                                                 element: '#powered_by_link_text',
-                                                height: 'auto',
+                                                height: '300px',
                                                 hideControls: ['fontfamily', 'fontsize', 'image', 'format', 'alignment', 'ol', 'ul'],
                                                 ready: function () {
                                                     <?php if ($disable_powered_by_link): ?>

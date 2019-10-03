@@ -246,6 +246,10 @@ mw.tools = {
                 } else if(det !== frame.contentWindow.document.body.lastChild){
                     frame.contentWindow.document.body.appendChild(det);
                 }
+                if(frame.contentWindow.mw) {
+                    frame.contentWindow.mw._iframeDetector = _detector;
+                }
+
             }
 
         };
@@ -271,39 +275,7 @@ mw.tools = {
             insertDetector();
         });
         frame._int = setInterval(function(){
-
-
-            if(frame.parentNode && frame.contentWindow && frame.contentWindow.$){
-                var max = -1, dmax = null, framw = frame.contentWindow.mw;
-                var mheight;
-                if(framw.__dialogs && framw.__dialogs.length){
-                    framw.__dialogs.forEach(function($dialog){
-                        mheight = Math.max(
-                            $dialog.dialogHolder.scrollHeight,
-                            $dialog.dialogHolder.offsetHeight,
-                            $dialog.dialogContainer.scrollHeight,
-                            $dialog.dialogContainer.offsetHeight
-                        );
-                        if(mheight > max){
-                            max = mheight;
-                            dmax = $dialog;
-                        }
-                    });
-
-                    var body = framw.win.document.body,
-                        html = framw.win.document.documentElement;
-
-                    var height = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
-                    var height1 = ((dmax.dialogHolder.offsetHeight) - height);
-                    if (mheight > height) {
-                        if(height1) {
-                            _detector.style.height = (mheight - height) + 'px';
-                        }
-                    } else {
-                        //_detector.style.height = 0;
-                    }
-
-                }
+            if(frame.parentNode && frame.contentWindow && frame.contentWindow.$ && (!mw._iframeDetector || !mw._iframeDetector.pause)){
                 var offTop = frame.contentWindow.$(_detector).offset().top;
                 var calc = offTop + _detector.offsetHeight;
                 if(calc && calc !== frame._currHeight){
@@ -315,7 +287,7 @@ mw.tools = {
             else {
                 //clearInterval(frame._int);
             }
-        }, 1077);
+        }, 77);
 
     },
     distance: function (x1, y1, x2, y2) {
