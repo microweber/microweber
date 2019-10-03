@@ -69,7 +69,12 @@ $video->setThumbnail($thumb);
 if ($w !== '100%') {
     $video->setWidth($w . 'px');
 }
-$video->setHeight($h . 'px');
+if (strpos($h, 'px') !== false) {
+    $video->setHeight($h);
+} else {
+    $video->setHeight($h . 'px');
+}
+
 $video->setUploadedVideoUrl($upload);
 $video->setEmbedCode($code);
 $video->setPlayEmbedVideo(true);

@@ -4,11 +4,21 @@ type: layout
 name: Default
 description: Default
 */
-
-echo $code;
-return;
 ?>
+
+
+<?php echo $code; ?>
+
+<?php if($lazyload) { ?>
+    <script>
+        $(document).ready(function() {
+            $('.js-mw-embed-iframe-<?php echo $params['id']; ?>').attr('src', $('.js-mw-embed-iframe-<?php echo $params['id']; ?>').attr('data-src'));
+        });
+    </script>
+<?php } ?>
+
 <?php
+return;
 
 $embed_data_tag = 'src="' . $upload . '"';
 if ($lazyload) {
@@ -55,24 +65,3 @@ if($show_video_settings_btn) {
 }
 ?>
 
-<?php if($lazyload && $prior == '2') { ?>
-    <script>
-        $(document).ready(function() {
-            $('.js-embed-<?php echo $params['id']; ?>').attr('src', $('.js-embed-<?php echo $params['id']; ?>').attr('data-src'));
-        });
-    </script>
-<?php } ?>
-
-<?php if($lazyload && $prior !== '2') { ?>
-    <script>
-        $(document).ready(function() {
-            $('.js-embed-<?php echo $params['id']; ?>').parent().find('.lazyload-thumbnail-image').click(function () {
-               // $('.js-embed-<?php echo $params['id']; ?>').attr('src', $('.js-embed-<?php echo $params['id']; ?>').attr('data-src'));
-                //$('.js-embed-<?php echo $params['id']; ?>').parent().find('.lazyload-thumbnail-image').remove();
-                //$('.js-embed-<?php echo $params['id']; ?>').css('display', 'block');
-            });
-        });
-    </script>
-<?php } ?>
-
-<?php print $code;  ?>

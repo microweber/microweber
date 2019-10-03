@@ -271,8 +271,27 @@ class VideoEmbed
         }
     }
 
-    protected function _getDailyMotionPlayer($url) {
+    protected function _getYoutubePlayer($url)
+    {
+        $urlParse = parse_url($url);
+        if(!isset($urlParse['query']) or $urlParse['query'] == false){
+            return false;
+        }
 
+        $id = explode('v=', $urlParse['query']);
+        parse_str($urlParse['query'],$query);
+
+        if (isset($query['v'])) {
+            $videoUrl = $this->_getPortocol() . 'www.youtube.com/embed/' . $query['v'] . '?v=1&wmode=transparent&autoplay=' . $this->isAutoplay();
+            return $this->_getVideoIframe($videoUrl);
+        } else {
+            return false;
+        }
+
+    }
+
+    protected function _getDailyMotionPlayer($url)
+    {
         $urlParse = parse_url($url);
         $urlPath = ltrim($urlParse['path'], '/');
         $id = explode('/', $urlPath);
@@ -285,7 +304,6 @@ class VideoEmbed
         $videoUrl = $this->_getPortocol() . 'www.dailymotion.com/embed/video/' . $id[0] . '/?autoPlay=' . $this->isAutoplay();
 
         return $this->_getVideoIframe($videoUrl);
-
     }
 
     protected function _getVideoIframe($url)
@@ -294,6 +312,7 @@ class VideoEmbed
         $attributes[] = 'frameborder="0"';
         $attributes[] = 'width="'.$this->getWidth() .'"';
         $attributes[] = 'height="'.$this->getHeight() .'"';
+        $attributes[] = 'class="js-mw-embed-iframe-' . $this->getId() . '"';
 
         if ($this->isLazyLoad()) {
             $attributes[] = 'data-src="'.$url .'"';
@@ -301,17 +320,7 @@ class VideoEmbed
             $attributes[] = 'src="'.$url .'"';
         }
 
-        return '<iframe ' . implode(" ", $attributes) . '</iframe>';
-    }
-
-    protected function _getEmbedIframeWrapper($html = '')
-    {
-        return '<div class="mwembed mwembed-iframe" ' . $this->_getEmbedWrapperStyles() . '>' . $html . '</div>';
-    }
-
-    protected function _getEmbedVideoWrapper($html = '')
-    {
-        return '<div class="mwembed mwembed-video" ' . $this->_getEmbedWrapperStyles() . '>' . $html . '</div>';
+        return '<iframe ' . implode(" ", $attributes) . '></iframe>';
     }
 
     protected function _getUrlHost($url)
@@ -343,6 +352,16 @@ class VideoEmbed
         }
 
         return '<video ' . implode(" ", $attributes) . '></video>';
+    }
+
+    protected function _getEmbedIframeWrapper($html = '')
+    {
+        return '<div class="mwembed mwembed-iframe js-mw-embed-wrapper-'.$this->getId().'" ' . $this->_getEmbedWrapperStyles() . '>' . $html . '</div>';
+    }
+
+    protected function _getEmbedVideoWrapper($html = '')
+    {
+        return '<div class="mwembed mwembed-video js-mw-embed-wrapper-'.$this->getId().'" ' . $this->_getEmbedWrapperStyles() . '>' . $html . '</div>';
     }
 
     protected function _getEmbedWrapperStyles()
