@@ -282,8 +282,26 @@ class VideoEmbed
             return false;
         }
 
-        return 'fwa';
+        $videoUrl = $this->_getPortocol() . 'www.dailymotion.com/embed/video/' . $id[0] . '/?autoPlay=' . $this->isAutoplay();
 
+        return $this->_getVideoIframe($videoUrl);
+
+    }
+
+    protected function _getVideoIframe($url)
+    {
+        $attributes = array();
+        $attributes[] = 'frameborder="0"';
+        $attributes[] = 'width="'.$this->getWidth() .'"';
+        $attributes[] = 'height="'.$this->getHeight() .'"';
+
+        if ($this->isLazyLoad()) {
+            $attributes[] = 'data-src="'.$url .'"';
+        } else {
+            $attributes[] = 'src="'.$url .'"';
+        }
+        
+        return '<iframe ' . implode(" ", $attributes) . '</iframe>';
     }
 
     protected function _getEmbedIframeWrapper($html = '')
