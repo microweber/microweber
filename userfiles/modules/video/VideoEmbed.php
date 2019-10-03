@@ -271,6 +271,57 @@ class VideoEmbed
         }
     }
 
+    protected function _getFacebookPlayer($url) {
+
+        $urlParse = parse_url($url);
+
+        if(!isset($urlParse['query']) or $urlParse['query'] == false){
+            return false;
+        }
+
+        $id = explode('v=', $urlParse['query']);
+        parse_str($urlParse['query'],$query);
+
+        if (isset($query['v'])) {
+            return '<script>(function(d, s, id) {  var js, fjs = d.getElementsByTagName(s)[0];  if (d.getElementById(id)) return;  js = d.createElement(s); js.id = id;  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";  fjs.parentNode.insertBefore(js, fjs);}(document, \'script\', \'facebook-jssdk\'));</script><div class="fb-post" data-href="https://www.facebook.com/video.php?v='.$query['v'].'" data-width="' . $this->getWidth() . '" data-height="' . $this->getHeight() . '"><div class="fb-xfbml-parse-ignore"></div></div>';
+        }
+
+        return false;
+    }
+
+    protected function _getVimeoPlayer($url) {
+
+        $urlParse = parse_url($url);
+        $urlParse = ltrim($urlParse['path'], '/');
+
+        $videoUrl = $this->_getPortocol() . 'player.vimeo.com/video/' . $urlParse . '?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;color=bc9b6a&wmode=transparent&autoplay=' . $this->isAutoplay();
+        return $this->_getVideoIframe($videoUrl);
+    }
+
+    protected function _getMetCafePlayer($url) {
+
+        $urlParse = parse_url($url);
+        $urlPath = ltrim($urlParse['path'], '/');
+        $id = explode('/', $urlPath);
+
+        if (!isset($id[1])) {
+            return false;
+        }
+
+        $videoUrl = $this->_getPortocol() . 'metacafe.com/embed/' . $id[1] . '/?ap=' . $this->isAutoplay();
+
+        return $this->_getVideoIframe($videoUrl);
+    }
+
+    protected function _getYoutuPlayer($url) {
+
+        $urlParse = parse_url($url);
+        $urlParse = ltrim($urlParse['path'], '/');
+
+        $videoUrl = $this->_getPortocol() . 'youtube.com/embed/' . $urlParse . '?v=1&wmode=transparent&autoplay=' . $this->isAutoplay();
+        return $this->_getVideoIframe($videoUrl);
+    }
+
     protected function _getYoutubePlayer($url)
     {
         $urlParse = parse_url($url);
@@ -282,12 +333,11 @@ class VideoEmbed
         parse_str($urlParse['query'],$query);
 
         if (isset($query['v'])) {
-            $videoUrl = $this->_getPortocol() . 'www.youtube.com/embed/' . $query['v'] . '?v=1&wmode=transparent&autoplay=' . $this->isAutoplay();
+            $videoUrl = $this->_getPortocol() . 'youtube.com/embed/' . $query['v'] . '?v=1&wmode=transparent&autoplay=' . $this->isAutoplay();
             return $this->_getVideoIframe($videoUrl);
-        } else {
-            return false;
         }
 
+        return false;
     }
 
     protected function _getDailyMotionPlayer($url)
@@ -301,7 +351,7 @@ class VideoEmbed
             return false;
         }
 
-        $videoUrl = $this->_getPortocol() . 'www.dailymotion.com/embed/video/' . $id[0] . '/?autoPlay=' . $this->isAutoplay();
+        $videoUrl = $this->_getPortocol() . 'dailymotion.com/embed/video/' . $id[0] . '/?autoPlay=' . $this->isAutoplay();
 
         return $this->_getVideoIframe($videoUrl);
     }
@@ -312,9 +362,11 @@ class VideoEmbed
         $attributes[] = 'frameborder="0"';
         $attributes[] = 'width="'.$this->getWidth() .'"';
         $attributes[] = 'height="'.$this->getHeight() .'"';
-        $attributes[] = 'class="js-mw-embed-iframe-' . $this->getId() . '"';
+        $attributes[] = 'allowFullScreen="true"';
 
         if ($this->isLazyLoad()) {
+            $attributes[] = 'class="js-mw-embed-iframe-' . $this->getId() . '"';
+            $attributes[] = 'style="display:none;"';
             $attributes[] = 'data-src="'.$url .'"';
         } else {
             $attributes[] = 'src="'.$url .'"';
@@ -354,24 +406,33 @@ class VideoEmbed
         return '<video ' . implode(" ", $attributes) . '></video>';
     }
 
+    protected function _getEmbedWrapper($class, $html)
+    {
+        if ($this->isLazyLoad()) {
+            $class .= ' js-mw-embed-wrapper-' . $this->getId();
+        }
+
+        return '<div class="mwembed '.$class.'" ' . $this->_getEmbedWrapperStyles() . '>' . $html . '</div>';
+    }
+
     protected function _getEmbedIframeWrapper($html = '')
     {
-        return '<div class="mwembed mwembed-iframe js-mw-embed-wrapper-'.$this->getId().'" ' . $this->_getEmbedWrapperStyles() . '>' . $html . '</div>';
+        return $this->_getEmbedWrapper('mwembed-iframe', $html);
     }
 
     protected function _getEmbedVideoWrapper($html = '')
     {
-        return '<div class="mwembed mwembed-video js-mw-embed-wrapper-'.$this->getId().'" ' . $this->_getEmbedWrapperStyles() . '>' . $html . '</div>';
+        return $this->_getEmbedWrapper('mwembed-video', $html);
     }
 
     protected function _getEmbedWrapperStyles()
     {
         $styles = array();
-        $styles[] = 'background:#000';
         $styles[] = 'width:' . $this->getWidth();
         $styles[] = 'height:' . $this->getHeight();
 
-        if ($this->isThumbnail() && $this->isPlayEmbedVideo()) {
+        if ($this->isThumbnail() && $this->isLazyLoad()) {
+            $styles[] = 'background:#000';
             $styles[] = 'background-image:url(' . $this->getThumbnail() . ')';
             $styles[] = 'background-repeat:no-repeat';
             $styles[] = 'background-size: contain';
