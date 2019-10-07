@@ -45,6 +45,8 @@ class ElementsConfigReader
         if (isset($template_dirs) and !empty($template_dirs)) {
             foreach ($template_dirs as $template_dir) {
                 $layout_file = str_replace($template_dir, '', $layout_file);
+
+                $layout_file = str_replace(normalize_path($template_dir), '', $layout_file);
             }
         }
         $layout_file = str_replace(DS, '/', $layout_file);
@@ -179,9 +181,9 @@ class ElementsConfigReader
                         $result = str_ireplace('tag:', '', $result);
                         $to_return_temp['tag'] = trim($result);
                     }
-                    $layout_file = $filename;
+                //    $layout_file = $filename;
 
-                    $layout_file = str_replace(DS, '/', $layout_file);
+                  //  $layout_file = str_replace(DS, '/', $layout_file);
                     $to_return_temp['layout_file'] = $layout_file;
                     $to_return_temp['filename'] = $filename;
 
