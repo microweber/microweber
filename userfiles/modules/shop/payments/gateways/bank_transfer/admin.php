@@ -52,5 +52,7 @@
 
 
 <label class="mw-ui-label"><?php _e('Payment instructions'); ?></label>
+<br >
+<p>Use <b>{{order_id}}</b> to show id of order in payment instructions.</p>
 <textarea name="bank_transfer_instructions" class="mw-ui-field mw_option_field block-field" data-option-group="payments"><?php print get_option('bank_transfer_instructions', 'payments') ?></textarea>
 <p style="margin-bottom:20px;"><?php _e('Displays to customers after they place an order with this payment method.'); ?></p>
