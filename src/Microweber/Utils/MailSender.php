@@ -19,7 +19,7 @@ class MailSender
     public $debug = false;
     public $silent_exceptions = false;
     public $cc = false;
-    
+
     // SMTP DETAILS
     public $smtp_host = false;
     public $smtp_port = false;
@@ -27,7 +27,7 @@ class MailSender
     public $smtp_password = false;
     public $smtp_auth = false;
     public $smtp_secure = false;
-    
+
     // MAIL DETAILS
     public $email_from = false;
     public $email_from_name = false;
@@ -36,7 +36,7 @@ class MailSender
     public $email_reply_to = false;
     public $email_attachments = array();
     public $email_add_hostname_to_subject = false;
-    
+
     private $here = false;
 
     public function __construct()
@@ -98,65 +98,65 @@ class MailSender
 
         }
 
-        
+
         if ($this->transport == 'gmail') {
             Config::set('mail.host', 'smtp.gmail.com');
             Config::set('mail.port', 587);
             Config::set('mail.encryption', 'tls');
         } else if ($this->transport == 'cpanel') {
-        	Config::set('mail.host', $this->smtp_host);
-        	Config::set('mail.port', 587);
-        	Config::set('mail.encryption', 'tls');
+            Config::set('mail.host', $this->smtp_host);
+            Config::set('mail.port', 587);
+            Config::set('mail.encryption', 'tls');
         } else if ($this->transport == 'plesk') {
-        	Config::set('mail.host', $this->smtp_host);
-        	Config::set('mail.port', 25);
-        	Config::set('mail.encryption', 'tls');
+            Config::set('mail.host', $this->smtp_host);
+            Config::set('mail.port', 25);
+            Config::set('mail.encryption', 'tls');
         } else {
             Config::set('mail.host', $this->smtp_host);
             Config::set('mail.port', $this->smtp_port);
             Config::set('mail.encryption', $this->smtp_auth);
         }
-        
+
     }
-    
+
     public function setEmailTo($email) {
-    	$this->email_to = $email;
+        $this->email_to = $email;
     }
-    
+
     public function setEmailSubject($subject) {
-    	$this->email_subject = $subject;
+        $this->email_subject = $subject;
     }
 
     public function setEmailMessage($message) {
-    	$this->email_message = $message;
+        $this->email_message = $message;
     }
-    
+
     public function setEmailHostnameToSubject($hostname) {
-    	$this->email_add_hostname_to_subject = $hostname;
+        $this->email_add_hostname_to_subject = $hostname;
     }
-    
+
     public function setEmailNoCache($cache) {
-    	$this->email_no_cache = $cache;
+        $this->email_no_cache = $cache;
     }
-    
+
     public function setEmailCc($cc) {
-    	$this->email_cc = $cc;
+        $this->email_cc = $cc;
     }
-    
+
     public function setEmailFrom($email) {
-    	$this->email_from = $email;
+        $this->email_from = $email;
     }
     public function setEmailFromName($name) {
-    	$this->email_from_name = $name;
+        $this->email_from_name = $name;
     }
     public function setEmailReplyTo($replyTo) {
-    	$this->email_reply_to = $replyTo;
+        $this->email_reply_to = $replyTo;
     }
-    
+
     public function setEmailAttachments($attachments) {
-    	$this->email_attachments = $attachments;
+        $this->email_attachments = $attachments;
     }
-    
+
     /**
      * Send email
      * @param string $to
@@ -181,48 +181,48 @@ class MailSender
         $email_from = false,
         $from_name = false,
         $reply_to = false,
-    	$attachments = array()
+        $attachments = array()
     )
     {
-    	if (empty($to)) {
-    		$to = $this->email_to;
-    	}
-    	
-    	if (empty($subject)) {
-    		$subject = $this->email_subject;
-    	}
-    	
-    	if (empty($message)) {
-    		$message = $this->email_message;
-    	}
-    	
-    	if (empty($add_hostname_to_subject)) {
-    		$add_hostname_to_subject = $this->email_add_hostname_to_subject;
-    	}
-    	
-    	if (empty($no_cache)) {
-    		$no_cache = $this->email_no_cache;
-    	}
-    	
-    	if (empty($cc)) {
-    		$cc = $this->email_cc;
-    	}
-    	
-    	if (empty($email_from)) {
-    		$email_from = $this->email_from;
-    	}
-    	
-    	if (empty($from_name)) {
-    		$from_name = $this->email_from_name;
-    	}
-    	
-    	if (empty($reply_to)) {
-    		$reply_to = $this->email_reply_to;
-    	}
-    	
-    	if (empty($attachments)) {
-    		$attachments = $this->email_attachments;
-    	}
+        if (empty($to)) {
+            $to = $this->email_to;
+        }
+
+        if (empty($subject)) {
+            $subject = $this->email_subject;
+        }
+
+        if (empty($message)) {
+            $message = $this->email_message;
+        }
+
+        if (empty($add_hostname_to_subject)) {
+            $add_hostname_to_subject = $this->email_add_hostname_to_subject;
+        }
+
+        if (empty($no_cache)) {
+            $no_cache = $this->email_no_cache;
+        }
+
+        if (empty($cc)) {
+            $cc = $this->email_cc;
+        }
+
+        if (empty($email_from)) {
+            $email_from = $this->email_from;
+        }
+
+        if (empty($from_name)) {
+            $from_name = $this->email_from_name;
+        }
+
+        if (empty($reply_to)) {
+            $reply_to = $this->email_reply_to;
+        }
+
+        if (empty($attachments)) {
+            $attachments = $this->email_attachments;
+        }
 
         if (is_array($to)) {
             extract($to);
@@ -257,12 +257,12 @@ class MailSender
         }
 
         if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
-        	$sender =  $this->exec_send($to, $subject, $message, $email_from, $from_name, $reply_to, $attachments);
+            $sender =  $this->exec_send($to, $subject, $message, $email_from, $from_name, $reply_to, $attachments);
             if (isset($cc) and ($cc) != false and (filter_var($cc, FILTER_VALIDATE_EMAIL))) {
-            	$sender = $this->exec_send($cc, $subject, $message, $email_from, $from_name, $reply_to, $attachments);
+                $sender = $this->exec_send($cc, $subject, $message, $email_from, $from_name, $reply_to, $attachments);
             }
 
-           // mw()->cache_manager->save(true, $function_cache_id, $cache_group, 30);
+            // mw()->cache_manager->save(true, $function_cache_id, $cache_group, 30);
 
             return $sender;
         } else {
@@ -323,17 +323,17 @@ class MailSender
         $content['to'] = $to;
         $content['from'] = $from_address;
         $content['from_name'] = $from_name;
-        
-      //  $reply_to = mw()->option_manager->get('email_reply', 'contact_form_default');
+
+        //  $reply_to = mw()->option_manager->get('email_reply', 'contact_form_default');
 
         ///  escapeshellcmd() has been disabled for security reasons
 
 
-       try {
-              \Mail::send(
+        try {
+            \Mail::send(
                 'mw_email_send::emails.simple',
                 $content,
-              	function ($message) use ($to, $subject, $from_address, $from_name, $reply_to, $attachments) {
+                function ($message) use ($to, $subject, $from_address, $from_name, $reply_to, $attachments) {
 
                     $from_name = $from_name ?: $from_address;
                     if ($from_address != false) {
@@ -345,28 +345,28 @@ class MailSender
                         }
                     }
                     $message->to($to)->subject($subject);
-                    
+
                     if (is_array($attachments) && !empty($attachments)) {
-                    	foreach($attachments as $attachmentFile) {
-                    		$message->attach($attachmentFile);
-                    	}
+                        foreach($attachments as $attachmentFile) {
+                            $message->attach($attachmentFile);
+                        }
                     }
-                    
+
                     return true;
                 }
             );
-           return true;
-         } catch (\Exception $e) {
-         	dd($e);
+            return true;
+        } catch (\Exception $e) {
+
             if ($this->silent_exceptions) {
-               return false;
+                return false;
             } else {
-               echo 'Caught exception: ', $e->getMessage(), "\n";
-               echo 'File: ', $e->getFile(), "\n";
-               echo 'Line: ', $e->getLine(), "\n";
-               return false;
+                echo 'Caught exception: ', $e->getMessage(), "\n";
+                echo 'File: ', $e->getFile(), "\n";
+                echo 'Line: ', $e->getLine(), "\n";
+                return false;
             }
-         }
+        }
 
 
         return false;
