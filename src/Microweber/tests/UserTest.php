@@ -1,4 +1,5 @@
 <?php
+
 namespace Microweber\tests;
 
 use Microweber\App\User;
@@ -9,15 +10,15 @@ use Microweber\Providers\UserManager;
  * @author Bobi Slaveykvo Microweber
  * @command php phpunit.phar --filter UserTest
  */
-
-class UserTest extends TestCase {
+class UserTest extends TestCase
+{
 
     private static $_username = false;
     private static $_password = false;
     private static $_email = false;
 
-    private function _disableCaptcha() {
-
+    private function _disableCaptcha()
+    {
         $data['option_value'] = 'y';
         $data['option_key'] = 'captcha_disabled';
         $data['option_group'] = 'users';
@@ -25,9 +26,43 @@ class UserTest extends TestCase {
 
     }
 
+    private function _enableUserRegistration()
+    {
+        $data['option_value'] = 'y';
+        $data['option_key'] = 'enable_user_registration';
+        $data['option_group'] = 'users';
+        $save = save_option($data);
+    }
+
+    private function _disableUserRegistration()
+    {
+        $data['option_value'] = 'n';
+        $data['option_key'] = 'enable_user_registration';
+        $data['option_group'] = 'users';
+        $save = save_option($data);
+    }
+
+    private function _disableRegistrationApproval()
+    {
+        $data['option_value'] = 'n';
+        $data['option_key'] = 'registration_approval_required';
+        $data['option_group'] = 'users';
+        $save = save_option($data);
+    }
+
+    private function _enableRegistrationApproval()
+    {
+        $data['option_value'] = 'y';
+        $data['option_key'] = 'registration_approval_required';
+        $data['option_group'] = 'users';
+        $save = save_option($data);
+    }
+
     public function testRegistration()
     {
         $this->_disableCaptcha();
+        $this->_enableUserRegistration();
+        $this->_disableRegistrationApproval();
 
         $randomInt = rand(1111, 9999);
         $password = md5($randomInt);
@@ -49,38 +84,40 @@ class UserTest extends TestCase {
         self::$_email = $newUser['email'];
 
     }
-/*
-    public function testEmailWrongRegistration()
-    {
-        $data['option_value'] = 'y';
-        $data['option_key'] = 'captcha_disabled';
-        $data['option_group'] = 'users';
-        $save = save_option($data);
 
-        $randomInt = rand(1111, 9999);
-        $password = md5($randomInt);
+    /*
+        public function testEmailWrongRegistration()
+        {
+            $data['option_value'] = 'y';
+            $data['option_key'] = 'captcha_disabled';
+            $data['option_group'] = 'users';
+            $save = save_option($data);
 
-        // Test wrong email user registration
-        $newUser = array();
-        // $newUser['username'] = 'bobi_'.$randomInt;
-        $newUser['email'] = 'wrong-email';
-        $newUser['password'] = $password;
-        $newUser['password_confirm'] = $password;
+            $randomInt = rand(1111, 9999);
+            $password = md5($randomInt);
 
-        $userManager = new UserManager();
-        $registerStatus = $userManager->register($newUser);
+            // Test wrong email user registration
+            $newUser = array();
+            // $newUser['username'] = 'bobi_'.$randomInt;
+            $newUser['email'] = 'wrong-email';
+            $newUser['password'] = $password;
+            $newUser['password_confirm'] = $password;
 
-        $this->assertArrayHasKey('success', $registerStatus);
-    }
-*/
+            $userManager = new UserManager();
+            $registerStatus = $userManager->register($newUser);
+
+            $this->assertArrayHasKey('success', $registerStatus);
+        }
+    */
 
     public function testLogin()
     {
         $this->_disableCaptcha();
+        $this->_disableRegistrationApproval();
 
         $loginDetails = array();
         $loginDetails['username'] = self::$_username;
-        $loginDetails['password'] =  self::$_password;
+        $loginDetails['password'] = self::$_password;
 
         $userManager = new UserManager();
         $loginStatus = $userManager->login($loginDetails);
@@ -92,10 +129,11 @@ class UserTest extends TestCase {
     public function testWrongPasswordLogin()
     {
         $this->_disableCaptcha();
+        $this->_disableRegistrationApproval();
 
         $loginDetails = array();
         $loginDetails['username'] = self::$_username;
-        $loginDetails['password'] =  'microweber-best';
+        $loginDetails['password'] = 'microweber-best';
 
         $userManager = new UserManager();
         $loginStatus = $userManager->login($loginDetails);
@@ -107,10 +145,11 @@ class UserTest extends TestCase {
     public function testWrongUsernameLogin()
     {
         $this->_disableCaptcha();
+        $this->_disableRegistrationApproval();
 
         $loginDetails = array();
         $loginDetails['username'] = 'microweber-make-money';
-        $loginDetails['password'] =  'microweber-is-the-best';
+        $loginDetails['password'] = 'microweber-is-the-best';
 
         $userManager = new UserManager();
         $loginStatus = $userManager->login($loginDetails);
@@ -122,10 +161,11 @@ class UserTest extends TestCase {
     public function testWrongEmailLogin()
     {
         $this->_disableCaptcha();
+        $this->_disableRegistrationApproval();
 
         $loginDetails = array();
         $loginDetails['email'] = 'microweber-make-happy';
-        $loginDetails['password'] =  'microweber-is-the-best';
+        $loginDetails['password'] = 'microweber-is-the-best';
 
         $userManager = new UserManager();
         $loginStatus = $userManager->login($loginDetails);
@@ -140,7 +180,7 @@ class UserTest extends TestCase {
 
         $userDetails = array();
         $userDetails['username'] = self::$_username;
-        $userDetails['email'] =  self::$_email;
+        $userDetails['email'] = self::$_email;
 
         $userManager = new UserManager();
         $requestStatus = $userManager->send_forgot_password($userDetails);
@@ -148,5 +188,60 @@ class UserTest extends TestCase {
         $this->assertArrayHasKey('success', $requestStatus);
     }
 
-    
+    public function testDisableUserRegistration()
+    {
+        $this->_disableUserRegistration();
+
+        $randomInt = rand(1111, 9999);
+        $password = md5($randomInt);
+
+        // Test simple user registration
+        $newUser = array();
+        $newUser['username'] = 'bobi_' . $randomInt;
+        $newUser['email'] = $newUser['username'] . '@microweber.com';
+        $newUser['password'] = $password;
+        $newUser['password_confirm'] = $password;
+
+        $userManager = new UserManager();
+        $registerStatus = $userManager->register($newUser);
+
+        $this->assertArrayHasKey('error', $registerStatus);
+    }
+
+    public function testUserApprovalRegistration()
+    {
+        $this->_enableUserRegistration();
+        $this->_enableRegistrationApproval();
+
+        $randomInt = rand(1111, 9999);
+        $password = md5($randomInt);
+
+        // Test simple user registration
+        $newUser = array();
+        $newUser['username'] = 'bobi_' . $randomInt;
+        $newUser['email'] = $newUser['username'] . '@microweber.com';
+        $newUser['password'] = $password;
+        $newUser['password_confirm'] = $password;
+
+        $userManager = new UserManager();
+        $registerStatus = $userManager->register($newUser);
+
+        $this->assertArrayHasKey('success', $registerStatus);
+
+        $loginDetails = array();
+        $loginDetails['username'] = $newUser['username'];
+        $loginDetails['password'] = $newUser['password'];
+
+        $userManager = new UserManager();
+        $loginStatus = $userManager->login($loginDetails);
+
+        $this->assertArrayHasKey('error', $loginStatus);
+
+        if (strpos($loginStatus['error'], 'awaiting approval') !== false) {
+            $this->assertEquals(true, true);
+        } else {
+            $this->assertEquals(true, false);
+        }
+    }
+
 }
