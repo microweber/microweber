@@ -884,10 +884,12 @@ class FieldsManager
 
         if (isset($data['params'])) {
 	        $template_file_option = get_option('data-template', $data['params']['id']);
+	        /*
 	        $template_file_exp = explode('/', $template_file_option);
 	        if (!empty($template_file_exp[0])) {
 	        	$template_file = $template_file_exp[0];
 	        }
+	        */ 
         }
 
         if ($template_file == 'default') {
