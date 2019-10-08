@@ -328,6 +328,15 @@ class MailSender
 
         ///  escapeshellcmd() has been disabled for security reasons
 
+        if (defined('MW_UNIT_TEST')) {
+            $unitTestMailPath = storage_path() . DIRECTORY_SEPARATOR . 'mails' . DIRECTORY_SEPARATOR;
+            if (!is_dir($unitTestMailPath)) {
+                mkdir($unitTestMailPath);
+            }
+            $unitTestMailFile = $unitTestMailPath . 'mail_sender.txt';
+            // $unitTestMailFile = $unitTestMailPath . str_slug($to . '-' . $subject) . '.txt';
+            file_put_contents($unitTestMailFile, $text);
+        }
 
         try {
             \Mail::send(

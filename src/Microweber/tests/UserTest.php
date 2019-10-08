@@ -184,8 +184,27 @@ class UserTest extends TestCase
 
         $userManager = new UserManager();
         $requestStatus = $userManager->send_forgot_password($userDetails);
-
         $this->assertArrayHasKey('success', $requestStatus);
+
+        $checkEmailContent = file_get_contents(storage_path() . DIRECTORY_SEPARATOR . 'mails' . DIRECTORY_SEPARATOR . 'mail_sender.txt');
+
+        $findPasswordResetLink = false;
+        if (strpos($checkEmailContent, 'reset_password_link=') !== false) {
+            $findPasswordResetLink = true;
+        }
+        $findUsername = false;
+        if (strpos($checkEmailContent, $userDetails['username']) !== false) {
+            $findUsername = true;
+        }
+        $findIpAddress = false;
+        if (strpos($checkEmailContent, MW_USER_IP) !== false) {
+            $findIpAddress = true;
+        }
+
+        $this->assertEquals(true, $findPasswordResetLink);
+        $this->assertEquals(true, $findUsername);
+        $this->assertEquals(true, $findIpAddress);
+
     }
 
     public function testDisableUserRegistration()
