@@ -5308,7 +5308,7 @@ mw.extradataForm = function (options, data) {
                     var params = {};
                     options.data.split('&').forEach(function(a){
                         var c = a.split('=');
-                        params[c[0]] = decodeURI(c[1]);
+                        params[c[0]] = decodeURIComponent(c[1]);
                     });
                     options.data = params;
                 }
