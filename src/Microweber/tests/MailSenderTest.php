@@ -18,7 +18,7 @@ class MailSenderTest extends TestCase
         $to = 'bobi@microweber.com';
         $subject = 'Email subject';
         $replyTo = 'Reply to';
-        $message = 'This is example message.';
+        $content = 'This is example message.';
         $from = 'peter@microweber.com';
         $fromName = 'Peter Microweber';
 
@@ -27,7 +27,7 @@ class MailSenderTest extends TestCase
         $mail->setEmailTo($to);
         $mail->setEmailSubject($subject);
         $mail->setEmailReplyTo($replyTo);
-        $mail->setEmailMessage($message);
+        $mail->setEmailMessage($content);
         $mail->setEmailFrom($from);
         $mail->setEmailFromName($fromName);
         $mail->send();
@@ -35,10 +35,11 @@ class MailSenderTest extends TestCase
         $checkEmailContent = file_get_contents(storage_path() . DIRECTORY_SEPARATOR . 'mails' . DIRECTORY_SEPARATOR . 'mail_sender.txt');
         $checkEmailContent = json_decode($checkEmailContent, true);
 
-        
-        var_dump($checkEmailContent);
-        die();
-
+        $this->assertSame($checkEmailContent['content'], $content);
+        $this->assertSame($checkEmailContent['from_name'], $fromName);
+        $this->assertSame($checkEmailContent['from'], $from);
+        $this->assertSame($checkEmailContent['to'], $to);
+        $this->assertSame($checkEmailContent['subject'], $subject);
     }
 
 }
