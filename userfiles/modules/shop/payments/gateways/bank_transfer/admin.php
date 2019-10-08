@@ -50,6 +50,26 @@
     </li>
 </ul>
 
+<ul class="mw-ui-inline-list" style="margin-bottom:20px;">
+    <li>
+        <label class="mw-ui-label p-10 bold"><?php _e("Send email with payment instructions"); ?>?:</label>
+    </li>
+    <li>
+        <label class="mw-ui-check">
+            <input name="bank_transfer_send_email_instructions" class="mw_option_field" data-option-group="payments" value="y" type="radio" <?php if (get_option('bank_transfer_send_email_instructions', 'payments') == 'y'): ?> checked="checked" <?php endif; ?> >
+            <span></span>
+            <span><?php _e("Yes"); ?></span>
+        </label>
+    </li>
+    <li>
+        <label class="mw-ui-check">
+            <input name="bank_transfer_send_email_instructions" class="mw_option_field" data-option-group="payments" value="n" type="radio" <?php if (get_option('bank_transfer_send_email_instructions', 'payments') != 'y'): ?> checked="checked" <?php endif; ?> >
+            <span></span>
+            <span><?php _e("No"); ?></span>
+        </label>
+    </li>
+</ul>
+
 
 <label class="mw-ui-label"><?php _e('Payment instructions'); ?></label>
 <br >

@@ -604,8 +604,13 @@ class CheckoutManager
                     $twig = new \Twig_Environment(new \Twig_Loader_String());
                     $order_email_content = $twig->render(
                         $order_email_content,
-                        array('cart' => $cart_items, 'order' => $ord_data)
+                        array('cart' => $cart_items, 'order' => $ord_data, 'order_id'=>$ord_data['id'])
                     );
+
+                    if (get_option('bank_transfer_send_email_instructions', 'payments') == 'y') {
+                        $order_email_content .= _e("<br /><br />Follow payment instructions", true);
+                        $order_email_content .= '<br />' . get_option('bank_transfer_instructions', 'payments');
+                    }
 
                     if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
                         $sender = new \Microweber\Utils\MailSender();
