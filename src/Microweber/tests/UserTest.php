@@ -58,6 +58,14 @@ class UserTest extends TestCase
         $save = save_option($data);
     }
 
+    private function _enableRegisterEmail()
+    {
+        $data['option_value'] = 'y';
+        $data['option_key'] = 'register_email_enabled';
+        $data['option_group'] = 'users';
+        $save = save_option($data);
+    }
+
     public function testRegistration()
     {
         $this->_disableCaptcha();
@@ -231,6 +239,7 @@ class UserTest extends TestCase
     {
         $this->_enableUserRegistration();
         $this->_enableRegistrationApproval();
+        $this->_enableRegisterEmail();
 
         $randomInt = rand(1111, 9999);
         $password = md5($randomInt);
@@ -261,6 +270,34 @@ class UserTest extends TestCase
         } else {
             $this->assertEquals(true, false);
         }
+        
+
+        //var_dump($loginStatus);
+
+        $checkEmailContent = file_get_contents(storage_path() . DIRECTORY_SEPARATOR . 'mails' . DIRECTORY_SEPARATOR . 'mail_sender.txt');
+
+        /*
+         $findPasswordResetLink = false;
+        if (strpos($checkEmailContent, 'reset_password_link=') !== false) {
+            $findPasswordResetLink = true;
+        }
+        $findUsername = false;
+        if (strpos($checkEmailContent, $userDetails['username']) !== false) {
+            $findUsername = true;
+        }
+        $findIpAddress = false;
+        if (strpos($checkEmailContent, MW_USER_IP) !== false) {
+            $findIpAddress = true;
+        }
+
+        $this->assertEquals(true, $findPasswordResetLink);
+        $this->assertEquals(true, $findUsername);
+        $this->assertEquals(true, $findIpAddress);
+         */
+
+
+        //var_dump($checkEmailContent);
+        //die();
     }
 
 }
