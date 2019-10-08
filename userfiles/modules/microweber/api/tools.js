@@ -25,8 +25,8 @@ setInterval(function(){
 mw.require("files.js");
 mw.require("css_parser.js");
 mw.require("components.js");
-mw.require("content.js");
-mw.require("color.js");
+//mw.require("content.js");
+mw.require("color.js");//
 mw.lib.require("acolorpicker");
 //mw.require(mw.settings.includes_url + "css/ui.css");
 (function () {
@@ -3526,8 +3526,8 @@ mw.tools = {
                 height:'auto',
                 autoHeight: true
             };
-
-            return mw.top().tools.modal.frame(settings);
+            return mw.top().dialogIframe(settings);
+           // return mw.top().tools.modal.frame(settings);
 
         } else {
             delete settings.skin;

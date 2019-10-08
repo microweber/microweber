@@ -65,7 +65,7 @@
                 <hr/>
 
                 <h6><?php _e("Contact Form Fields"); ?></h6>
-                <module type="custom_fields" view="admin" data-for="module" data-id="<?php print $params['id'] ?>"/>
+                <module type="custom_fields" view="admin" data-for="module" for-id="<?php print $params['id'] ?>"/>
 
             </div>
             <!-- Settings Content - End -->
