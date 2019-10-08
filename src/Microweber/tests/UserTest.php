@@ -195,6 +195,8 @@ class UserTest extends TestCase
         $this->assertArrayHasKey('success', $requestStatus);
 
         $checkEmailContent = file_get_contents(storage_path() . DIRECTORY_SEPARATOR . 'mails' . DIRECTORY_SEPARATOR . 'mail_sender.txt');
+        $checkEmailContent = json_decode($checkEmailContent, true);
+        $checkEmailContent = $checkEmailContent['content'];
 
         $findPasswordResetLink = false;
         if (strpos($checkEmailContent, 'reset_password_link=') !== false) {
@@ -237,7 +239,6 @@ class UserTest extends TestCase
 
     public function testUserApprovalRegistration()
     {
-        return;
         $this->_enableUserRegistration();
         $this->_enableRegistrationApproval();
         $this->_enableRegisterEmail();
@@ -276,6 +277,8 @@ class UserTest extends TestCase
 
         $checkEmailContent = file_get_contents(storage_path() . DIRECTORY_SEPARATOR . 'mails' . DIRECTORY_SEPARATOR . 'mail_sender.txt');
 
+        var_dump($checkEmailContent);
+        die();
         /*
          $findPasswordResetLink = false;
         if (strpos($checkEmailContent, 'reset_password_link=') !== false) {

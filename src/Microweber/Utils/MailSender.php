@@ -333,7 +333,6 @@ class MailSender
             if (!is_dir($unit_test_mail_path)) {
                 mkdir($unit_test_mail_path);
             }
-
             $unit_test_mail_file = $unit_test_mail_path . 'mail_sender.txt';
             file_put_contents($unit_test_mail_file, json_encode($content));
         }

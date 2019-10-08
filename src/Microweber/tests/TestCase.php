@@ -150,6 +150,14 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
             $install = \Artisan::call('microweber:install', $install_params);
             $this->assertEquals(0, $install);
+
+            // Clear caches
+            \Artisan::call('config:cache');
+            \Artisan::call('config:clear');
+            \Artisan::call('cache:clear');
+
+            $is_installed = mw_is_installed();
+            $this->assertEquals(1, $is_installed);
         }
 
         return $app;
