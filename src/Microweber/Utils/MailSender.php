@@ -358,12 +358,16 @@ class MailSender
             return true;
         } catch (\Exception $e) {
 
+            $exceptionMessage  = 'C aught exception: ' . $e->getMessage() . "\n";
+            $exceptionMessage .= 'File: ' . $e->getFile() . "\n";
+            $exceptionMessage .= 'Line: ' . $e->getLine() . "\n";
+
+            mw()->log_manager->save('is_system=y&field=action&rel=mail_sender&title=Can\'t send test email&content=' . $exceptionMessage);
+
             if ($this->silent_exceptions) {
                 return false;
             } else {
-                echo 'Caught exception: ', $e->getMessage(), "\n";
-                echo 'File: ', $e->getFile(), "\n";
-                echo 'Line: ', $e->getLine(), "\n";
+                echo $exceptionMessage;
                 return false;
             }
         }

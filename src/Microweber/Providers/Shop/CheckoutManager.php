@@ -608,7 +608,7 @@ class CheckoutManager
                     );
 
                     if (get_option('bank_transfer_send_email_instructions', 'payments') == 'y') {
-                        $order_email_content .= _e("<br /><br />Follow payment instructions", true);
+                        $order_email_content .= "<br /><br />" . _e("Follow payment instructions", true);
                         $order_email_content .= '<br />' . get_option('bank_transfer_instructions', 'payments');
                     }
 
