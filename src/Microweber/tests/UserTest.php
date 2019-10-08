@@ -283,7 +283,7 @@ class UserTest extends TestCase
         if (strpos($checkEmailContent, 'verify_email_link?key=') !== false) {
             $findVerifyEmailLink = true;
         }
-        
+
         $findUsername = false;
         if (strpos($checkEmailContent, $loginDetails['username']) !== false) {
             $findUsername = true;
