@@ -589,28 +589,45 @@ class CheckoutManager
                         }
 
                         $order_items_html = $this->app->format->array_to_table($cart_items_info);
-                        $order_email_content = str_replace('{cart_items}', $order_items_html, $order_email_content);
-                        $order_email_content = str_replace('{date}', date('F jS, Y', strtotime($ord_data['created_at'])), $order_email_content);
+                        $order_email_content = str_replace('{{cart_items}}', $order_items_html, $order_email_content);
+                        $order_email_content = str_replace('{{date}}', date('F jS, Y', strtotime($ord_data['created_at'])), $order_email_content);
                         foreach ($ord_data as $key => $value) {
                             if (!is_array($value) and is_string($key)) {
                                 if (strtolower($key) == 'amount') {
                                     $value = number_format($value, 2);
+                                    $order_email_content = str_ireplace('{{' . $key . '}}', $value, $order_email_content);
+                                    continue;
                                 }
-                                $order_email_content = str_ireplace('{' . $key . '}', $value, $order_email_content);
                             }
                         }
+                    }
+
+                    if (get_option('bank_transfer_send_email_instructions', 'payments') == 'y') {
+                        $order_email_content .=  _e("Follow payment instructions", true);
+                        $order_email_content .= '<br />' . get_option('bank_transfer_instructions', 'payments');
                     }
 
                     $twig = new \Twig_Environment(new \Twig_Loader_String());
                     $order_email_content = $twig->render(
                         $order_email_content,
-                        array('cart' => $cart_items, 'order' => $ord_data, 'order_id'=>$ord_data['id'])
+                        array(
+                            'cart' => $cart_items,
+                            'order' => $ord_data,
+                            'order_id'=>$ord_data['id'],
+                            'transaction_id'=>$ord_data['transaction_id'],
+                            'currency'=>$ord_data['currency'],
+                            'order_status'=>$ord_data['order_status'],
+                            'first_name'=>$ord_data['first_name'],
+                            'last_name'=>$ord_data['last_name'],
+                            'email'=>$ord_data['email'],
+                            'phone'=>$ord_data['phone'],
+                            'address'=>$ord_data['address'],
+                            'zip'=>$ord_data['zip'],
+                            'state'=>$ord_data['state'],
+                            'city'=>$ord_data['city'],
+                            'country'=>$ord_data['country']
+                        )
                     );
-
-                    if (get_option('bank_transfer_send_email_instructions', 'payments') == 'y') {
-                        $order_email_content .= _e("Follow payment instructions", true);
-                        $order_email_content .= '<br />' . get_option('bank_transfer_instructions', 'payments');
-                    }
 
                     if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
                         $sender = new \Microweber\Utils\MailSender();
