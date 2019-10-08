@@ -121,19 +121,20 @@ class LayoutsManager
             $cache_content = $this->app->cache_manager->get($cache_id, $cache_group);
 
             if (($cache_content) != false) {
-                return $cache_content;
+             //   return $cache_content;
             }
         }
 
         $glob_patern = '*.php';
         $template_dirs = array();
+
         if (isset($options['get_dynamic_layouts'])) {
             // $possible_dir = TEMPLATE_DIR.'modules'.DS.'layout'.DS;
             $possible_dir = TEMPLATE_DIR . 'modules' . DS . 'layout' . DS;
             $possible_dir2 = TEMPLATE_DIR;
-
+         //   dd($options);
             if (is_dir($possible_dir)) {
-                $template_dirs[] = $possible_dir2;
+               // $template_dirs[] = $possible_dir2;
                 $dir2 = rglob($possible_dir . '*.php', 0);
                 if (!empty($dir2)) {
                     foreach ($dir2 as $dir_glob) {
@@ -157,6 +158,7 @@ class LayoutsManager
 
         $configs = array();
         if (!empty($dir)) {
+         // dd($dir);
             foreach ($dir as $filename) {
                 $skip = false;
                 if (!isset($options['get_dynamic_layouts'])) {
@@ -217,7 +219,7 @@ class LayoutsManager
                 if (!isset($options['no_cache'])) {
                     $this->app->cache_manager->save($configs, $function_cache_id, $cache_group);
                 }
-
+            //   var_dump($configs);
                 return $configs;
             }
         }

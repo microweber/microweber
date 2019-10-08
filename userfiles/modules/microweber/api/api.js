@@ -956,6 +956,8 @@ mw.top = function(){
 
 mw.required.push("<?php print mw_includes_url(); ?>api/jquery.js");
 
+
+mw.required.push("<?php print mw_includes_url(); ?>api/libs/acolorpicker/acolorpicker.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/color.js");
 
 mw.required.push("<?php print mw_includes_url(); ?>api/tools.js");
@@ -983,6 +985,7 @@ mw.required.push("<?php print mw_includes_url(); ?>api/components.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/dialog.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/instruments.js");
 
+mw.required.push("<?php print mw_includes_url(); ?>api/content.js");
 
 
 
@@ -990,6 +993,8 @@ mw.required.push("<?php print mw_includes_url(); ?>api/instruments.js");
 
 
 <?php  include  __DIR__.DS."color.js"; ?>
+
+<?php  include  __DIR__.DS."libs/acolorpicker/acolorpicker.js"; ?>
 
 
 <?php  include __DIR__.DS."tools.js"; ?>
@@ -1025,6 +1030,8 @@ mw.required.push("<?php print mw_includes_url(); ?>api/instruments.js");
 <?php  include __DIR__.DS."dialog.js"; ?>
 
 <?php  include __DIR__.DS."instruments.js"; ?>
+
+<?php  include __DIR__.DS."content.js"; ?>
 
 
 

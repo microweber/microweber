@@ -215,15 +215,20 @@ mw.admin.custom_fields.edit_custom_field_item = function ($selector, id, callbac
     var data = {};
     data.settings = 'y';
     data.field_id = id;
+    data.live_edit = true;
+    data.module_settings = true;
+    data.id = id;
+
 
     data.params = {};
     data.params.field_id = id;
 
-    editModal = mw.tools.open_module_modal('custom_fields/values_edit', data, {
+    editModal = mw.top().tools.open_module_modal('custom_fields/values_edit', data, {
         overlay: false,
         width:'450px',
         height:'auto',
         autoHeight: true,
+        iframe: true,
         title: mTitle
     });
 

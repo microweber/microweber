@@ -13,7 +13,7 @@ $show_grouped_by_cats = false;
 $hide_dynamic_layouts = false;
 $disable_elements = false;
 if(isset($template_config['elements_mode']) and $template_config['elements_mode'] == 'disabled'){
-
+//dd($template_config);
     $disable_elements = true;
 
 }
@@ -54,7 +54,6 @@ if (isset($is_elements) and $is_elements == true) {
     if (!empty($elements_from_template)) {
 
         $modules = array_merge($modules, $elements_from_template);
-      //  dd($modules);
 
     }
 
@@ -67,19 +66,18 @@ if (isset($is_elements) and $is_elements == true) {
 
     // REMOVE
     //$modules = array();
-
+//return;
 
     // $dynamic_layouts = mw()->layouts_manager->get_all('no_cache=1&get_dynamic_layouts=1');
     $dynamic_layouts = false;
     $module_layouts_skins = false;
     $dynamic_layouts = mw()->layouts_manager->get_all('no_cache=1&get_dynamic_layouts=1');
-    $module_layouts_skins = mw()->modules->templates('layouts');
-
+      $module_layouts_skins = mw()->modules->templates('layouts');
     if($hide_dynamic_layouts){
-        $dynamic_layouts =  false;
-        $module_layouts_skins =  false;
-
+         $dynamic_layouts =  false;
+         $module_layouts_skins =  false;
     }
+
 
     // $module_layouts_skins_def = mw()->modules->templates('layouts',false, false, 'module_dir');
     //$module_layouts_skins_def = mw()->modules->templates('layouts',false, false, 'dream');
@@ -314,11 +312,16 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
     </script>
 
 
-    <?php if (isset($module_layouts_skins) and is_array($module_layouts_skins)): ?>
-        <?php $i = 0; ?>
+    <?php
 
+    if (isset($module_layouts_skins) and is_array($module_layouts_skins)): ?>
         <?php
 
+
+
+        $i = 0; ?>
+
+        <?php
 
 
         foreach ($module_layouts_skins as $dynamic_layout): ?>
@@ -327,7 +330,11 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                     data-filter="<?php print $dynamic_layout['name'] ?>" class="module-item module-item-layout"
                     unselectable="on">
                     <span class="mw_module_hold">
-                        <?php if (!isset($dynamic_layout['screenshot'])): ?>
+                        <?php
+
+
+
+                        if (!isset($dynamic_layout['screenshot'])): ?>
                             <?php $dynamic_layout['screenshot'] = $def_icon; ?>
                         <?php endif; ?>
                         <span class="mw_module_image">
@@ -348,7 +355,10 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                               alt="<?php isset($dynamic_layout['description']) ? print addslashes($dynamic_layout['description']) : ''; ?>"><?php print titlelize(_e($dynamic_layout['name'], true)); ?></span>
                     </span>
                 </li>
-            <?php endif; ?>
+            <?php
+
+
+            endif; ?>
         <?php endforeach; ?>
     <?php endif; ?>
 

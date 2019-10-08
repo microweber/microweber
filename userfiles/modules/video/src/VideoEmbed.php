@@ -457,6 +457,14 @@ class VideoEmbed
             $styles[] = 'background-position: top';
         }
 
+        if (!$this->isThumbnail() && $this->isLazyLoad()) {
+            $styles[] = 'background:#000';
+            $styles[] = 'background-image:url(' . modules_url() . 'video/video.svg' . ')';
+            $styles[] = 'background-repeat:no-repeat';
+            $styles[] = 'background-position: center center';
+            $styles[] = 'background-size: 60px';
+        }
+
         return 'style="' . implode(';', $styles) . '"';
     }
 
