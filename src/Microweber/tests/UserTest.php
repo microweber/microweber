@@ -276,31 +276,21 @@ class UserTest extends TestCase
         //var_dump($loginStatus);
 
         $checkEmailContent = file_get_contents(storage_path() . DIRECTORY_SEPARATOR . 'mails' . DIRECTORY_SEPARATOR . 'mail_sender.txt');
+        $checkEmailContent = json_decode($checkEmailContent, TRUE);
+        $checkEmailContent = $checkEmailContent['content'];
 
-        var_dump($checkEmailContent);
-        die();
-        /*
-         $findPasswordResetLink = false;
-        if (strpos($checkEmailContent, 'reset_password_link=') !== false) {
-            $findPasswordResetLink = true;
+        $findVerifyEmailLink = false;
+        if (strpos($checkEmailContent, 'verify_email_link?key=') !== false) {
+            $findVerifyEmailLink = true;
         }
+        
         $findUsername = false;
-        if (strpos($checkEmailContent, $userDetails['username']) !== false) {
+        if (strpos($checkEmailContent, $loginDetails['username']) !== false) {
             $findUsername = true;
         }
-        $findIpAddress = false;
-        if (strpos($checkEmailContent, MW_USER_IP) !== false) {
-            $findIpAddress = true;
-        }
 
-        $this->assertEquals(true, $findPasswordResetLink);
+        $this->assertEquals(true, $findVerifyEmailLink);
         $this->assertEquals(true, $findUsername);
-        $this->assertEquals(true, $findIpAddress);
-         */
-
-
-        //var_dump($checkEmailContent);
-        //die();
     }
 
 }
