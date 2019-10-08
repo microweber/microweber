@@ -329,12 +329,13 @@ class MailSender
         ///  escapeshellcmd() has been disabled for security reasons
 
         if (defined('MW_UNIT_TEST')) {
-            $unitTestMailPath = storage_path() . DIRECTORY_SEPARATOR . 'mails' . DIRECTORY_SEPARATOR;
-            if (!is_dir($unitTestMailPath)) {
-                mkdir($unitTestMailPath);
+            $unit_test_mail_path = storage_path() . DIRECTORY_SEPARATOR . 'mails' . DIRECTORY_SEPARATOR;
+            if (!is_dir($unit_test_mail_path)) {
+                mkdir($unit_test_mail_path);
             }
-            $unitTestMailFile = $unitTestMailPath . 'mail_sender.txt';
-            file_put_contents($unitTestMailFile, $text);
+
+            $unit_test_mail_file = $unit_test_mail_path . 'mail_sender.txt';
+            file_put_contents($unit_test_mail_file, json_encode($content));
         }
 
         try {
