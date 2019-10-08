@@ -90,6 +90,7 @@ mw.instruments = {
             frame = this._create({
                 url: 'link_editor'
             });
+            mw.tools.iframeAutoHeight(frame)
         } else if(settings.mode === 'dialog') {
           dialog = mw.dialogIframe({
               url:' link_editor',

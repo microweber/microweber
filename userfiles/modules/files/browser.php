@@ -223,7 +223,6 @@ Thumbnail size:
                     for (; i < l; i++) {
                         var item = all[i];
                         var datasrc = item.getAttribute("data-src");
-                        console.log(mw.tools.inview(item))
                         if (mw.tools.inview(item) && datasrc !== null) {
                             if(item.nodeName === 'IMG'){
                                 $(item).attr('src', datasrc).removeClass('image-item-not-ready');
@@ -239,7 +238,7 @@ Thumbnail size:
                     rendImages();
                 });
                 $(window).on('load', function () {
-                    if(thismodal) {
+                    if(window.thismodal) {
                         $(thismodal).on('dialogCenter', function(){
                             setTimeout(function(){
                                 rendImages();

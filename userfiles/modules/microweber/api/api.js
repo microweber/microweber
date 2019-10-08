@@ -916,6 +916,16 @@ mw.user = {
     });
   }
 };
+
+mw.parent = function(){
+    if(window === top){
+        return window.mw;
+    }
+    if(mw.tools.canAccessWindow(parent) && parent.mw){
+        return parent.mw;
+    }
+    return window.mw;
+};
 mw.top = function(){
   var getLastParent = function() {
       var curr = window.parent;

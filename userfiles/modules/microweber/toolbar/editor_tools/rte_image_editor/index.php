@@ -338,7 +338,7 @@ if (array_key_exists('types', $_GET)) {
                 var height = 230;
             }
             parent.mw.tools.modal.resize(parent.mwd.getElementById('mw_rte_image'), 730, height, true);
-        }
+        };
 
         var selector = '#image_tabs .mw-ui-btn-nav a';
 

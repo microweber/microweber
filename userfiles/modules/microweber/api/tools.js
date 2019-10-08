@@ -275,12 +275,14 @@ mw.tools = {
             insertDetector();
         });
         frame._int = setInterval(function(){
-            if(frame.parentNode && frame.contentWindow && frame.contentWindow.$ && (!mw._iframeDetector || !mw._iframeDetector.pause)){
+            if(frame.parentNode && frame.contentWindow  && frame.contentWindow.$){
                 var offTop = frame.contentWindow.$(_detector).offset().top;
                 var calc = offTop + _detector.offsetHeight;
-                if(calc && calc !== frame._currHeight){
+                //calc = Math.max(calc, mw.tools.nestedFramesHeight(frame));
+                frame._currHeight = frame._currHeight || 0;
+                if(calc && calc !== frame._currHeight ){
                     frame._currHeight = calc;
-                    frame.style.height = calc + 'px';
+                     frame.style.height = calc + 'px';
                     mw.$(frame).trigger('bodyResize');
                 }
             }
@@ -290,6 +292,7 @@ mw.tools = {
         }, 77);
 
     },
+
     distance: function (x1, y1, x2, y2) {
         var a = x1 - x2;
         var b = y1 - y2;
@@ -5291,7 +5294,7 @@ mw.extradataForm = function (options, data) {
 
         form.action = options.url;
         form.method = options.type;
-        form.__modal = mw.modal({
+        form.__modal = mw.dialog({
             content: form,
             title: data.error
         });
@@ -5300,17 +5303,20 @@ mw.extradataForm = function (options, data) {
             mw.$(form).on('submit', function (e) {
                 e.preventDefault();
                 var exdata = mw.serializeFields(this);
+
                 if(typeof options.data === 'string'){
                     var params = {};
                     options.data.split('&').forEach(function(a){
                         var c = a.split('=');
-                        params[c[0]] = c[1];
+                        params[c[0]] = decodeURI(c[1]);
                     });
                     options.data = params;
                 }
                 for (var i in exdata) {
                     options.data[i] = exdata[i];
                 }
+
+                console.log(options)
 
                 mw.ajax(options);
                 form.__modal.remove();

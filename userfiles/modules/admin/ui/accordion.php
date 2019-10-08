@@ -329,8 +329,7 @@
     </form>
 
     <div class="mw-block-edit" data-mwcomponent="block-edit">
-        <module type="social_links" id="socials"/>
-        <hr>
+
         <span class="mw-ui-btn mw-block-edit-editButton" data-options="module: social_links/admin ">Edit</span>
         <span class="mw-ui-btn mw-block-edit-editButton" data-options="element: #example_form ">Edit Other</span>
     </div>

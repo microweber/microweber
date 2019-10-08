@@ -1670,7 +1670,9 @@ tr .mw-admin-custom-field-value-edit-inline:hover:before, tr .mw-admin-custom-fi
 .mw-custom-field-form-controls {
     margin-bottom: 10px;
     white-space: nowrap;
-    width: 100%;
+    width: 80%;
+    width: -webkit-calc(100% - 70px);
+    width: calc(100% - 70px);
 }
 
 .mw-custom-field-group, .custom-field-settings-name {
@@ -1687,7 +1689,6 @@ tr .mw-admin-custom-field-value-edit-inline:hover:before, tr .mw-admin-custom-fi
 .mw-custom-field-form-controls [class*='mw-icon-'] {
     font-size: 18px;
     margin: 0 4px;
-    visibility: hidden;
     cursor: pointer;
     width: 3%;
 }

@@ -1806,13 +1806,12 @@ mw.wysiwyg = {
 
         var url = mw.settings.site_url + 'editor_tools/' + url;
 
-        var modal = mw.dialogIframe({
+        var modal = mw.top().dialogIframe({
             url: url,
             name: "mw_rte_image",
             width: 460,
             height: 'auto',
             autoHeight:true,
-            template: 'mw_modal_basic',
             overlay: true
         });
     },
