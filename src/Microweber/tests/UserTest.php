@@ -237,6 +237,7 @@ class UserTest extends TestCase
 
     public function testUserApprovalRegistration()
     {
+        return;
         $this->_enableUserRegistration();
         $this->_enableRegistrationApproval();
         $this->_enableRegisterEmail();
@@ -270,7 +271,6 @@ class UserTest extends TestCase
         } else {
             $this->assertEquals(true, false);
         }
-        
 
         //var_dump($loginStatus);
 

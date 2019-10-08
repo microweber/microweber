@@ -334,7 +334,6 @@ class MailSender
                 mkdir($unitTestMailPath);
             }
             $unitTestMailFile = $unitTestMailPath . 'mail_sender.txt';
-            // $unitTestMailFile = $unitTestMailPath . str_slug($to . '-' . $subject) . '.txt';
             file_put_contents($unitTestMailFile, $text);
         }
 
