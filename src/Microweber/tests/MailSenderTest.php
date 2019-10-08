@@ -14,14 +14,12 @@ class MailSenderTest extends TestCase
 {
     public function testSend()
     {
-
         $to = 'bobi@microweber.com';
         $subject = 'Email subject';
         $replyTo = 'Reply to';
         $content = 'This is example message.';
         $from = 'peter@microweber.com';
         $fromName = 'Peter Microweber';
-
 
         $mail = new MailSender();
         $mail->setEmailTo($to);
