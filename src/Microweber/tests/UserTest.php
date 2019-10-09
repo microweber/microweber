@@ -194,7 +194,7 @@ class UserTest extends TestCase
         $requestStatus = $userManager->send_forgot_password($userDetails);
         $this->assertArrayHasKey('success', $requestStatus);
 
-        $checkEmailContent = file_get_contents(storage_path() . DIRECTORY_SEPARATOR . 'mails' . DIRECTORY_SEPARATOR . 'mail_sender.txt');
+        $checkEmailContent = file_get_contents(storage_path() . DIRECTORY_SEPARATOR . 'mail_sender.txt');
         $checkEmailContent = json_decode($checkEmailContent, true);
         $checkEmailContent = $checkEmailContent['content'];
 
@@ -275,7 +275,7 @@ class UserTest extends TestCase
 
         //var_dump($loginStatus);
 
-        $checkEmailContent = file_get_contents(storage_path() . DIRECTORY_SEPARATOR . 'mails' . DIRECTORY_SEPARATOR . 'mail_sender.txt');
+        $checkEmailContent = file_get_contents(storage_path() . DIRECTORY_SEPARATOR . 'mail_sender.txt');
         $checkEmailContent = json_decode($checkEmailContent, TRUE);
         $checkEmailContent = $checkEmailContent['content'];
 

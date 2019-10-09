@@ -79,7 +79,7 @@ class CheckoutTest extends TestCase
         $this->assertArrayHasKey('currency', $checkoutStatus);
         $this->assertArrayHasKey('order_status', $checkoutStatus);
 
-        $checkEmailContent = file_get_contents(storage_path() . DIRECTORY_SEPARATOR . 'mails' . DIRECTORY_SEPARATOR . 'mail_sender.txt');
+        $checkEmailContent = file_get_contents(storage_path() . DIRECTORY_SEPARATOR . 'mail_sender.txt');
         $checkEmailContent = json_decode($checkEmailContent, TRUE);
         $checkEmailContent = $checkEmailContent['content'];
 

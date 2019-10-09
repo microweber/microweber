@@ -329,7 +329,7 @@ class MailSender
         ///  escapeshellcmd() has been disabled for security reasons
 
         if (defined('MW_UNIT_TEST')) {
-            $unit_test_mail_path = storage_path() . DIRECTORY_SEPARATOR . 'mails' . DIRECTORY_SEPARATOR;
+            $unit_test_mail_path = storage_path() . DIRECTORY_SEPARATOR;
             if (!is_dir($unit_test_mail_path)) {
                 mkdir($unit_test_mail_path);
             }
