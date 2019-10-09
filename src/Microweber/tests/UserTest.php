@@ -12,7 +12,6 @@ use Microweber\Providers\UserManager;
  */
 class UserTest extends TestCase
 {
-
     private static $_username = false;
     private static $_password = false;
     private static $_email = false;
@@ -194,8 +193,7 @@ class UserTest extends TestCase
         $requestStatus = $userManager->send_forgot_password($userDetails);
         $this->assertArrayHasKey('success', $requestStatus);
 
-        $checkEmailContent = file_get_contents(storage_path() . DIRECTORY_SEPARATOR . 'mail_sender.txt');
-        $checkEmailContent = json_decode($checkEmailContent, true);
+        $checkEmailContent = json_decode(MailSender::$content, true);
         $checkEmailContent = $checkEmailContent['content'];
 
         $findPasswordResetLink = false;
@@ -275,8 +273,7 @@ class UserTest extends TestCase
 
         //var_dump($loginStatus);
 
-        $checkEmailContent = file_get_contents(storage_path() . DIRECTORY_SEPARATOR . 'mail_sender.txt');
-        $checkEmailContent = json_decode($checkEmailContent, TRUE);
+        $checkEmailContent = json_decode(MailSender::$content, TRUE);
         $checkEmailContent = $checkEmailContent['content'];
 
         $findVerifyEmailLink = false;

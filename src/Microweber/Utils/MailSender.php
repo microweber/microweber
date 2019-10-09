@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Mail;
 
 class MailSender
 {
+    // Send Content
+    public static $content;
+
     public $transport = false;
     public $debug = false;
     public $silent_exceptions = false;
@@ -328,18 +331,9 @@ class MailSender
 
         ///  escapeshellcmd() has been disabled for security reasons
 
-        /*if (defined('MW_UNIT_TEST')) {
-            $unit_test_mail_path = storage_path() . DIRECTORY_SEPARATOR;
-
-            $unit_test_mail_file = $unit_test_mail_path . 'mail_sender.txt';
-            file_put_contents($unit_test_mail_file, json_encode($content));
-            return;
-        }*/
-
-        $unit_test_mail_path = storage_path() . DIRECTORY_SEPARATOR;
-
-        $unit_test_mail_file = $unit_test_mail_path . 'mail_sender.txt';
-        file_put_contents($unit_test_mail_file, json_encode($content));
+        if (defined('MW_UNIT_TEST')) {
+            self::$content = json_encode($content);
+        }
 
         try {
             \Mail::send(
@@ -370,7 +364,7 @@ class MailSender
             return true;
         } catch (\Exception $e) {
 
-            $exceptionMessage  = 'Caught exception: ' . $e->getMessage() . "\n";
+            $exceptionMessage  = 'C aught exception: ' . $e->getMessage() . "\n";
             $exceptionMessage .= 'File: ' . $e->getFile() . "\n";
             $exceptionMessage .= 'Line: ' . $e->getLine() . "\n";
 
