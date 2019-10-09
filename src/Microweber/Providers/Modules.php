@@ -670,18 +670,22 @@ class Modules
 
         $module_name = str_replace('admin', '', $module_name);
         $module_name_l = $this->locate($module_name);
-
+$replace_paths = array();
         if ($module_name_l == false) {
             $module_name_l = modules_path() . DS . $module_name . DS;
             $module_name_l = normalize_path($module_name_l, 1);
+            $replace_paths[] = $module_name_l;
         } else {
             $module_name_l = dirname($module_name_l) . DS . 'templates' . DS;
             $module_name_l = normalize_path($module_name_l, 1);
+            $replace_paths[] = $module_name_l;
         }
 
         $module_name_l_theme = ACTIVE_TEMPLATE_DIR . 'modules' . DS . $module_name . DS . 'templates' . DS;
         $module_name_l_theme = normalize_path($module_name_l_theme, 1);
 
+        $replace_paths[] = $module_name_l_theme;
+        $replace_paths[] =         normalize_path(    'modules' . '/' . $module_name .'/' .'templates' . '/', 1);
 
         $template_config = mw()->template->get_config();
 
@@ -694,7 +698,7 @@ class Modules
                 $options['no_cache'] = 1;
                 $options['path'] = $module_name_l;
                 $module_name_l = $this->app->layouts_manager->scan($options);
-                
+
                 //  $module_name_l  = array();
 
                 if (is_dir($module_name_l_theme)) {
@@ -719,9 +723,23 @@ class Modules
                             // $comb = array_merge($module_skins_from_theme, $module_name_l);
                             if (is_array($comb) and !empty($comb)) {
                                 foreach ($comb as $k1 => $itm) {
-                                    if (isset($itm['layout_file']) and $itm['layout_file']) {
-                                        $itm['layout_file'] = normalize_path($itm['layout_file']);
-                                    }
+//                                    if (isset($itm['layout_file']) and $itm['layout_file']) {
+//
+//                                            foreach ($replace_paths as $replace_path) {
+//                                                $replace_path2  = str_replace(DS, '/', $replace_path );
+//
+//                                                $itm['layout_file']  = str_replace(DS, '/', $itm['layout_file'] );
+//
+//                                                $itm['layout_file'] = str_ireplace($replace_path, '', $itm['layout_file']);
+//                                                $itm['layout_file'] = str_ireplace($replace_path2, '', $itm['layout_file']);
+//
+//                                                $itm['layout_file'] = str_ireplace(normalize_path($replace_path), '', $itm['layout_file']);
+//                                            }
+//                                      //
+//
+//                                        $itm['layout_file'] = normalize_path($itm['layout_file'],false);
+//
+//                                    }
                                     if (!in_array($itm['layout_file'], $file_names_found)) {
                                         if (isset($itm['visible'])) {
                                             if ($itm['visible'] == 'false'
