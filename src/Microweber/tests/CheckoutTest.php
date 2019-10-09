@@ -80,8 +80,7 @@ class CheckoutTest extends TestCase
         $this->assertArrayHasKey('currency', $checkoutStatus);
         $this->assertArrayHasKey('order_status', $checkoutStatus);
 
-        $checkEmailContent = json_decode(MailSender::$content, TRUE);
-        $checkEmailContent = $checkEmailContent['content'];
+        $checkEmailContent = MailSender::$last_send['content'];
 
         $findFirstName = false;
         if (strpos($checkEmailContent, $checkoutDetails['first_name']) !== false) {

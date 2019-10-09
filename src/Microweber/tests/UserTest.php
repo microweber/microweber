@@ -193,8 +193,7 @@ class UserTest extends TestCase
         $requestStatus = $userManager->send_forgot_password($userDetails);
         $this->assertArrayHasKey('success', $requestStatus);
 
-        $checkEmailContent = json_decode(MailSender::$content, true);
-        $checkEmailContent = $checkEmailContent['content'];
+        $checkEmailContent = MailSender::$last_send['content'];
 
         $findPasswordResetLink = false;
         if (strpos($checkEmailContent, 'reset_password_link=') !== false) {
@@ -271,10 +270,7 @@ class UserTest extends TestCase
             $this->assertEquals(true, false);
         }
 
-        //var_dump($loginStatus);
-
-        $checkEmailContent = json_decode(MailSender::$content, TRUE);
-        $checkEmailContent = $checkEmailContent['content'];
+        $checkEmailContent = MailSender::$last_send['content'];
 
         $findVerifyEmailLink = false;
         if (strpos($checkEmailContent, 'verify_email_link?key=') !== false) {

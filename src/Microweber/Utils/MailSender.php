@@ -15,9 +15,7 @@ use Illuminate\Support\Facades\Mail;
 
 class MailSender
 {
-    // Send Content
-    public static $content;
-
+    public static $last_send = false;
     public $transport = false;
     public $debug = false;
     public $silent_exceptions = false;
@@ -332,7 +330,7 @@ class MailSender
         ///  escapeshellcmd() has been disabled for security reasons
 
         if (defined('MW_UNIT_TEST')) {
-            self::$content = json_encode($content);
+            self::$last_send = $content;
         }
 
         try {
