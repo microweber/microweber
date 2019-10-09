@@ -556,7 +556,6 @@ if (array_key_exists('types', $_GET)) {
         <div class="mw-ui-box mw-ui-box-content">
             <div class="tab" id="drag_files_here" style="display: block">
                 <div class="text-center" style="padding: 10px 0;">
-                    <?php var_dump($types); ?>
                     <ul class="mw-upload-filetypes" id="">
 
                         <?php if (in_array('images', $types)) { ?>

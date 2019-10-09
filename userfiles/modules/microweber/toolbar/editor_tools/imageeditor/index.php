@@ -262,8 +262,8 @@
                       }
                     });
 
-                    $(".mw-ui-btn-change-image").on('click', function(){
-                      top.mw.wysiwyg.media('#editimage');
+                    $(".mw-ui-btn-change-image").on('click', function(e){
+                      top.mw.wysiwyg.media('#editimage', e.target);
                       if(window.thismodal){
                           thismodal.remove()
                       }
@@ -306,7 +306,7 @@
             </div>
             <div class="mw-ui-btn-nav nav-actions">
 
-                <span class='mw-ui-btn mw-ui-btn-change-image'><?php _e("Change"); ?></span>
+
 
                 <span class="mw-ui-btn disabled" id="mw_image_reset"><?php _e("Reset"); ?></span>
 

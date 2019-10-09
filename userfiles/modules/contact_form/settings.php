@@ -10,10 +10,11 @@ only_admin_access();
     initEditor = function () {
         if (!window.editorLaunced) {
             editorLaunced = true;
-            mw.editor({
+            var fr = mw.editor({
                 element: mwd.getElementById('editorAM'),
                 hideControls: ['format', 'fontsize', 'justifyfull']
             });
+            mw.tools.iframeAutoHeight(fr)
         }
     }
 
@@ -34,23 +35,23 @@ if (isset($params['for_module_id'])) {
     <label class="mw-ui-label" style="padding-bottom: 0;">
         <small><?php _e("Type your e-mail where you will receive the email from this form"); ?></small>
     </label>
-    
+
     <div class="mw-flex-row">
-    
+
     <div class="mw-flex-col-xs-6">
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e("Email From"); ?></label>
         <input name="email_from" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_from', $mod_id); ?>" class="mw-ui-field w100 mw_option_field" type="text"/>
     </div>
     </div>
-    
+
     <div class="mw-flex-col-xs-6">
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e("Email From Name"); ?></label>
         <input name="email_from_name" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_from_name', $mod_id); ?>" class="mw-ui-field w100 mw_option_field" type="text"/>
     </div>
     </div>
-    
+
      <div class="mw-flex-col-xs-4">
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e("Email To"); ?></label>
@@ -78,9 +79,9 @@ if (isset($params['for_module_id'])) {
         <input name="email_autorespond_subject" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_autorespond_subject', $mod_id); ?>" class="mw-ui-field w100 mw_option_field" type="text"/>
     </div>
     </div>
-	
+
 	</div>
-	
+
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e("Autorespond Message"); ?></label>
         <textarea id="editorAM" name="email_autorespond" class="mw_option_field" option-group="<?php print $mod_id ?>">

@@ -1714,6 +1714,7 @@ mw.wysiwyg = {
     link: function (prepolulate, node_id) {
         // mw.wysiwyg.save_selection();
         //var modal = mw.tools.modal.frame({
+        mw.require('external_callbacks.js');
         var modal = mw.top().dialogIframe({
             url: "rte_link_editor",
             title: "Edit link",
@@ -1799,6 +1800,7 @@ mw.wysiwyg = {
         mw.wysiwyg.change('.element-current');
     },
     request_media: function (hash, types) {
+        mw.require('external_callbacks.js');
         types = types || false;
         if (hash === '#editimage') {
             types = 'images';
@@ -1807,7 +1809,7 @@ mw.wysiwyg = {
         var url = !!types ? "rte_image_editor?types=" + types + '' + hash : "rte_image_editor" + hash;
 
         url = mw.settings.site_url + 'editor_tools/' + url;
-
+        var sel = mw.wysiwyg.save_selection()
         var modal = mw.top().dialogIframe({
             url: url,
             name: "mw_rte_image",
@@ -1816,11 +1818,34 @@ mw.wysiwyg = {
             autoHeight:true,
             overlay: true
         }, function(res) {
-            if(res.indexOf('<') !== -1) {
-                mw.wysiwyg.insert_html(res);
-            } else {
-                mw.wysiwyg.insert_image(res);
+
+            mw.wysiwyg.restore_selection();
+ 
+            if(hash === 'editimage') {
+                if(mw.image.currentResizing) {
+                    if (mw.image.currentResizing[0].nodeName === 'IMG') {
+                        mw.image.currentResizing.attr("src", res);
+                        mw.image.currentResizing.css('height', 'auto');
+                    }
+                    else {
+                        mw.image.currentResizing.css("backgroundImage", 'url(' + mw.files.safeFilename(res) + ')');
+                        mw.wysiwyg.bgQuotesFix(parent.mw.image.currentResizing[0])
+                    }
+
+                    mw.wysiwyg.change(mw.image.currentResizing[0]);
+                    mw.image.currentResizing.load(function () {
+                        mw.image.resize.resizerSet(this);
+                    });
+                }
             }
+            else {
+                if(res.indexOf('<') !== -1) {
+                    mw.wysiwyg.insert_html(res);
+                } else {
+                    mw.wysiwyg.insert_image(res);
+                }
+            }
+
             this.remove();
 
         });
@@ -1884,7 +1909,11 @@ mw.wysiwyg = {
             mw.wysiwyg.contentEditable(el.parentNode, false);
             mw.$(el).replaceWith(frame);
         }
-        mw.wysiwyg.change(mw.wysiwyg.validateCommonAncestorContainer(window.getSelection().getRangeAt(0).commonAncestorContainer));
+        var sel = getSelection();
+        if(sel.rangeCount){
+            mw.wysiwyg.change(mw.wysiwyg.validateCommonAncestorContainer(sel.getRangeAt(0).commonAncestorContainer));
+
+        }
     },
     selection_length: function () {
         var n = window.getSelection().getRangeAt(0).cloneContents().childNodes,
@@ -1908,12 +1937,10 @@ mw.wysiwyg = {
         mw.wysiwyg.insert_html(img);
         mw.settings.liveEdit ? mw.$("#" + id).attr("contenteditable", false) : '';
         mw.$("#" + id).removeAttr("_moz_dirty");
-        mw.wysiwyg.save_selection();
         mw.wysiwyg.change(mwd.getElementById(id));
         return id;
     },
-    save_selection: function (a) {
-        var a = a || false;
+    save_selection: function () {
         var selection = window.getSelection();
         if (selection.rangeCount > 0) {
             var range = selection.getRangeAt(0);
