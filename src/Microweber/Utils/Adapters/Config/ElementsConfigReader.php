@@ -49,6 +49,11 @@ class ElementsConfigReader
                 $layout_file = str_replace(normalize_path($template_dir), '', $layout_file);
             }
         }
+
+
+
+        $layout_file = substr($layout_file, 0, strpos($layout_file, "templates"));
+
         $layout_file = str_replace(DS, '/', $layout_file);
 
         if (is_file($loc_of_config)) {
