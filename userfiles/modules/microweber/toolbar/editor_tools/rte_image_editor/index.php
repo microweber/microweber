@@ -27,16 +27,20 @@ if (array_key_exists('types', $_GET)) {
     hash = hash !== '' ? hash : 'insert_html';
 
     UpdateImage = function (url) {
-        if (parent.mw.image.currentResizing[0].nodeName == 'IMG') {
-            parent.mw.image.currentResizing.attr("src", url);
-            parent.mw.image.currentResizing.css('height', 'auto');
+        if (parent.mw.image.currentResizing) {
+            if (parent.mw.image.currentResizing[0].nodeName === 'IMG') {
+                parent.mw.image.currentResizing.attr("src", url);
+                parent.mw.image.currentResizing.css('height', 'auto');
+            }
+            else {
+                parent.mw.image.currentResizing.css("backgroundImage", 'url(' + mw.files.safeFilename(url) + ')');
+                top.mw.wysiwyg.bgQuotesFix(parent.mw.image.currentResizing[0])
+            }
         }
-        else {
-            parent.mw.image.currentResizing.css("backgroundImage", 'url(' + mw.files.safeFilename(url) + ')');
-            top.mw.wysiwyg.bgQuotesFix(parent.mw.image.currentResizing[0])
+        if(window.thismodal) {
+            thismodal.result(url);
         }
-
-    }
+    };
 
     afterMediaIsInserted = function (url, todo, eventType) { /* what to do after image is uploaded (depending on the hash in the url)    */
 
@@ -61,18 +65,12 @@ if (array_key_exists('types', $_GET)) {
         if (!todo) {
             if (hash !== '') {
                 if (hash == 'editimage') {
-
-
                     UpdateImage(url)
-
-
-                    parent.mw.wysiwyg.change(parent.mw.image.currentResizing[0])
-
-                    parent.mw.image.resize.resizerSet(parent.mw.image.currentResizing[0]);
-
-                    parent.mw.trigger('imageSrcChanged', [parent.mw.image.currentResizing[0], url])
-
-
+                    if(parent.mw.image.currentResizing){
+                        parent.mw.wysiwyg.change(parent.mw.image.currentResizing[0])
+                        parent.mw.image.resize.resizerSet(parent.mw.image.currentResizing[0]);
+                        parent.mw.trigger('imageSrcChanged', [parent.mw.image.currentResizing[0], url])
+                    }
                 } else if (hash == 'set_bg_image') {
                     parent.mw.wysiwyg.set_bg_image(url);
                     parent.mw.wysiwyg.change(parent.mw.current_element);
@@ -148,8 +146,11 @@ if (array_key_exists('types', $_GET)) {
                 parent.mw.trigger('imageSrcChanged', [parent.mw.image.currentResizing[0], this]);
             }
 
-            parent.mw.tools.modal.remove('mw_rte_image');
+            if(window.thismodal) {
+                thismodal.result(this)
+            }
 
+            parent.mw.tools.modal.remove('mw_rte_image');
 
             mw.notification.success('<?php _e('The image is changed') ?>');
 
@@ -211,6 +212,10 @@ if (array_key_exists('types', $_GET)) {
                     }
 
                 }
+                if(window.thismodal) {
+                    thismodal.result(item.src)
+                }
+
             });
 
             $(frame).bind("done", function (frame, item) {
@@ -275,6 +280,10 @@ if (array_key_exists('types', $_GET)) {
                 setTimeout(function () {
                     var val = urlSearcher.val();
                     if (hash == 'fileWindow') {
+
+                        if(window.thismodal) {
+                            thismodal.result(val)
+                        }
                         $('body').trigger('change', [val]);
                         return false;
                     }
@@ -290,6 +299,9 @@ if (array_key_exists('types', $_GET)) {
                         } else if (typeof parent[hash] === 'function') {
                             parent[hash](GlobalEmbed);
 
+                        }
+                        if(window.thismodal) {
+                            thismodal.result(GlobalEmbed)
                         }
                         parent.mw.tools.modal.remove('mw_rte_image');
                     }
@@ -323,7 +335,14 @@ if (array_key_exists('types', $_GET)) {
                 }
 
             }
-            parent.mw.trigger('imageSrcChanged', [parent.mw.image.currentResizing[0], url])
+            if(window.thismodal) {
+                thismodal.result(val)
+            }
+            if(parent.mw.image.currentResizing) {
+                parent.mw.trigger('imageSrcChanged', [parent.mw.image.currentResizing[0], val]);
+
+            }
+
             parent.mw.tools.modal.remove('mw_rte_image');
         });
 
@@ -537,7 +556,9 @@ if (array_key_exists('types', $_GET)) {
         <div class="mw-ui-box mw-ui-box-content">
             <div class="tab" id="drag_files_here" style="display: block">
                 <div class="text-center" style="padding: 10px 0;">
+                    <?php var_dump($types); ?>
                     <ul class="mw-upload-filetypes" id="">
+
                         <?php if (in_array('images', $types)) { ?>
                             <li class="mw-upload-filetype-image" data-type="images">
                                 <div class="mw-icon-image"></div>

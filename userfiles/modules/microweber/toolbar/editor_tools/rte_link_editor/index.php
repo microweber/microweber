@@ -9,11 +9,19 @@
 <script type="text/javascript">
 
     RegisterChange = function () {
-        /************************
+        var args = Array.prototype.slice.call(arguments);
 
-         Overwrites the original function
+        if(parent.mw.iframecallbacks[hash]) {
+            parent.mw.iframecallbacks[hash].apply( this, arguments );
+        }
+        if(window.thismodal){
+            thismodal.result({
+                url: args[1],
+                target: args[2],
+                text: args[3]
+            }, true);
+        }
 
-         *************************/
     };
 
     is_searching = false;
@@ -42,7 +50,7 @@
                         if (typeof obj === 'object') {
                             var title = obj.title;
                             var url = obj.url;
-                            lis += "<li class='mw-dd-list-result' value='" + url + "' onclick='setACValue(\"" + url + "\")'><a href='javascript:;'>" + title + "</a></li>";
+                            lis += "<li class='mw-dd-list-result' value='" + url + "' onclick='setACValue(hash, \"" + url + "\")'><a href='javascript:;'>" + title + "</a></li>";
                         }
                     }
                     var ul = el.parent().find("ul");
@@ -54,10 +62,8 @@
     }
 
 
-    setACValue = function (val) {
+    setACValue = function (hash, val) {
         RegisterChange(hash, val);
-        parent.mw.iframecallbacks[hash](val);
-        parent.mw.tools.modal.remove('mw_rte_link');
     };
 
 
@@ -115,7 +121,7 @@
             Progress.show()
         });
         $(frame).on("FileUploaded", function (frame, item) {
-            parent.mw.iframecallbacks[hash](item.src);
+            setACValue(hash, item.src)
         });
 
 
@@ -127,9 +133,8 @@
             if (!val.contains('mailto:')) {
                 val = 'mailto:' + val;
             }
-            parent.mw.iframecallbacks[hash](val);
-            parent.mw.tools.modal.remove('mw_rte_link');
-            RegisterChange(hash, val);
+            setACValue(hash, val)
+
             return false;
         });
         mw.$("#insert_url").click(function () {
@@ -142,16 +147,15 @@
             }
             var link_text_val = mwd.getElementById('customweburl_text').value;
             RegisterChange(hash, val, target, link_text_val);
-            parent.mw.iframecallbacks[hash](val, target, link_text_val);
-            parent.mw.tools.modal.remove('mw_rte_link');
+
 
             return false;
         });
 
         $("#insert_from_dropdown").click(function () {
             var val = mw.$("#insert_link_list").getDropdownValue();
-            parent.mw.iframecallbacks[hash](val);
-            parent.mw.tools.modal.remove('mw_rte_link');
+            RegisterChange(hash, val);
+
             return false;
         });
 
@@ -330,9 +334,7 @@
                     submitLayoutLink = function(){
                         var selected = $('#layouts-selector input:checked');
                         var val = top.location.href.split('#')[0] + '#mw@' + selected[0].id;
-                        parent.mw.iframecallbacks[hash](val, '_self', mw.$('#ltext').val() || selected[0].id);
-                        parent.mw.tools.modal.remove('mw_rte_link');
-                        RegisterChange(hash, val);
+                        RegisterChange(hash, val, '_self', mw.$('#ltext').val() || selected[0].id);
                     };
                     $(document).ready(function () {
                         var layoutsData = [];

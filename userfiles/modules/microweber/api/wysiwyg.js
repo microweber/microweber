@@ -1714,19 +1714,20 @@ mw.wysiwyg = {
     link: function (prepolulate, node_id) {
         // mw.wysiwyg.save_selection();
         //var modal = mw.tools.modal.frame({
-        var modal = mw.dialogIframe({
+        var modal = mw.top().dialogIframe({
             url: "rte_link_editor",
             title: "Edit link",
             name: "mw_rte_link",
             id: "mw_rte_link",
             //template: 'basic',
-            width: 600,
+            width: 700,
             height: 'auto',
             autoHeight: true
+        }, function(result){
+            console.log(result)
+            mw.iframecallbacks.insert_link(result.url, result.target, result.text);
         });
-        mw.$('iframe', modal.main).on('change', function (a, b, c, e) {
-            mw.iframecallbacks[b](c, e);
-        });
+
 
         var link = false;
         if (typeof(prepolulate) != 'undefined') {
@@ -1798,13 +1799,14 @@ mw.wysiwyg = {
         mw.wysiwyg.change('.element-current');
     },
     request_media: function (hash, types) {
-        var types = types || false;
-        if (hash == '#editimage') {
-            var types = 'images';
+        types = types || false;
+        if (hash === '#editimage') {
+            types = 'images';
+            //hash = 'noop';
         }
         var url = !!types ? "rte_image_editor?types=" + types + '' + hash : "rte_image_editor" + hash;
 
-        var url = mw.settings.site_url + 'editor_tools/' + url;
+        url = mw.settings.site_url + 'editor_tools/' + url;
 
         var modal = mw.top().dialogIframe({
             url: url,
@@ -1813,6 +1815,14 @@ mw.wysiwyg = {
             height: 'auto',
             autoHeight:true,
             overlay: true
+        }, function(res) {
+            if(res.indexOf('<') !== -1) {
+                mw.wysiwyg.insert_html(res);
+            } else {
+                mw.wysiwyg.insert_image(res);
+            }
+            this.remove();
+
         });
     },
     media: function (hash) {

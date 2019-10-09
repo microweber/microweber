@@ -49,7 +49,7 @@
     mw.dialog = function (options) {
         return new mw.Dialog(options);
     };
-    mw.dialogIframe = function (options) {
+    mw.dialogIframe = function (options, cres) {
         options.pauseInit = true;
         var attr = 'frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen';
         if (options.autoHeight) {
@@ -59,7 +59,7 @@
         options.content = '<iframe src="' + mw.external_tool(options.url.trim()) + '" ' + attr + '><iframe>';
         options.className = ('mw-dialog-iframe mw-dialog-iframe-loading ' + (options.className || '')).trim();
         options.className += (options.autoHeight ? ' mw-dialog-iframe-autoheight' : '');
-        var dialog = new mw.Dialog(options);
+        var dialog = new mw.Dialog(options, cres);
         dialog.iframe = dialog.dialogContainer.querySelector('iframe');
         mw.tools.loading(dialog.dialogContainer, 90);
 
@@ -121,7 +121,7 @@
         }
     };
 
-    mw.Dialog = function (options) {
+    mw.Dialog = function (options, cres) {
 
         var scope = this;
 
@@ -469,6 +469,20 @@
             this.options.content = content || '';
             this.dialogContainer.innerHTML = this.options.content;
             return this;
+        };
+
+        this.result = function(result, doClose) {
+            this.value = result;
+            if(this.options.onResult){
+                this.options.onResult.call( this, result );
+            }
+            if (cres) {
+                cres.call( this, result );
+            }
+            $(this).trigger('Result', [result]);
+            if(doClose){
+                this.remove();
+            }
         };
 
 
