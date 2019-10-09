@@ -14,10 +14,6 @@ class MailSenderTest extends TestCase
 {
     public function testSend()
     {
-        if (!defined('MW_UNIT_TEST')) {
-            define('MW_UNIT_TEST', TRUE);
-        }
-
         $to = 'bobi@microweber.com';
         $subject = 'Email subject';
         $replyTo = 'Reply to';
