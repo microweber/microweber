@@ -11,7 +11,7 @@ use Microweber\Utils\Backup\EncodingFix;
  * @command php phpunit.phar --filter BackupV2Test
  */
 
-class BackupV2Test extends TestCase
+class ZBackupV2Test extends TestCase
 {
 	private static $_titles = array();
 	private static $_exportedFile = '';
