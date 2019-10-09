@@ -151,22 +151,20 @@ class InstallController extends Controller
                     $_SERVER['argv'] = array();
                 }
                 $this->log('Generating key');
-                if (!$this->_can_i_use_artisan_key_generate_command()) {
-                    $fallback_key = str_random(32);
-                    $fallback_key_str = 'base64:' . base64_encode($fallback_key);
-                    Config::set('app.key', $fallback_key_str);
-                    $allowed_configs[] = 'app';
-                } else {
+                /*if ($this->_can_i_use_artisan_key_generate_command()) {
                     Artisan::call('key:generate', [
                         '--force' => true,
                     ]);
-                }
+                }*/
+                $fallback_key = str_random(32);
+                $fallback_key_str = 'base64:' . base64_encode($fallback_key);
+                Config::set('app.key', $fallback_key_str);
+                $allowed_configs[] = 'app';
             }
 
             $this->log('Saving config');
             Config::save($allowed_configs);
             Cache::flush();
-
 
             if ($config_only) {
                 Config::set('microweber.pre_configured', 1);
