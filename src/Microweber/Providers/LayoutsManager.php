@@ -15,6 +15,7 @@ namespace Microweber\Providers;
 
 use Illuminate\Support\Facades\Cache;
 use Microweber\App\Providers\Illuminate\Support\Facades\Paginator;
+use Microweber\Utils\Adapters\Config\ElementsConfigReader;
 
 class LayoutsManager
 {
@@ -120,19 +121,20 @@ class LayoutsManager
             $cache_content = $this->app->cache_manager->get($cache_id, $cache_group);
 
             if (($cache_content) != false) {
-                return $cache_content;
+             //   return $cache_content;
             }
         }
 
         $glob_patern = '*.php';
         $template_dirs = array();
+
         if (isset($options['get_dynamic_layouts'])) {
             // $possible_dir = TEMPLATE_DIR.'modules'.DS.'layout'.DS;
             $possible_dir = TEMPLATE_DIR . 'modules' . DS . 'layout' . DS;
             $possible_dir2 = TEMPLATE_DIR;
-
+         //   dd($options);
             if (is_dir($possible_dir)) {
-                $template_dirs[] = $possible_dir2;
+               // $template_dirs[] = $possible_dir2;
                 $dir2 = rglob($possible_dir . '*.php', 0);
                 if (!empty($dir2)) {
                     foreach ($dir2 as $dir_glob) {
@@ -146,16 +148,17 @@ class LayoutsManager
         if (!isset($options['get_dynamic_layouts'])) {
             if (!isset($options['filename'])) {
                 $dir = rglob($glob_patern, 0, $path);
+
             } else {
                 $dir = array();
                 $dir[] = $options['filename'];
             }
-        } else {
         }
 
 
         $configs = array();
         if (!empty($dir)) {
+         // dd($dir);
             foreach ($dir as $filename) {
                 $skip = false;
                 if (!isset($options['get_dynamic_layouts'])) {
@@ -168,152 +171,22 @@ class LayoutsManager
                             $skip = true;
                         }
                     }
+                    if (strstr($filename, 'elements' . DS)) {
+                        $skip = false;
+                    }
                 }
+
+
                 if ($skip == false and is_file($filename)) {
 
-                    $fin = file_get_contents($filename);
-                    $fin = preg_replace('/\r\n?/', "\n", $fin);
+                    $conf_reader = new ElementsConfigReader($this->app);
+                    $to_return_temp = $conf_reader->read($filename);
 
-                    $here_dir = dirname($filename) . DS;
-                    $to_return_temp = array();
-                    if (preg_match('/type:.+/', $fin, $regs)) {
-                        $result = $regs[0];
-                        $result = str_ireplace('type:', '', $result);
-                        $to_return_temp['type'] = trim($result);
-                        $to_return_temp['directory'] = $here_dir;
-                        if (strstr($here_dir, templates_path())) {
-                            $templ_dir = str_replace(templates_path(), '', $here_dir);
-                            if ($templ_dir != '') {
-                                $templ_dir = explode(DS, $templ_dir);
-                                if (isset($templ_dir[0])) {
-                                    $to_return_temp['template_dir'] = $templ_dir[0];
-                                }
-                            }
-                        }
-                        if (strstr($here_dir, modules_path())) {
-                            $templ_dir1 = str_replace(modules_path(), '', $here_dir);
-
-                            $templ_dir1 = str_ireplace('templates', '', $templ_dir1);
-                            $templ_dir1 = str_ireplace('\\', '/', $templ_dir1);
-                            $templ_dir1 = str_ireplace('//', '/', $templ_dir1);
-                            $templ_dir1 = rtrim($templ_dir1, '/\\');
-
-                            $to_return_temp['module_directory'] = $templ_dir1;
-                        }
-
-                        if (strtolower($to_return_temp['type']) == 'layout') {
-                            $to_return_temp['directory'] = $here_dir;
-
-                            if (preg_match('/is_shop:.+/', $fin, $regs)) {
-                                $result = $regs[0];
-                                $result = str_ireplace('is_shop:', '', $result);
-                                $to_return_temp['is_shop'] = trim($result);
-                            }
-
-                            if (preg_match('/name:.+/', $fin, $regs)) {
-                                $result = $regs[0];
-                                $result = str_ireplace('name:', '', $result);
-                                $to_return_temp['name'] = trim($result);
-                            }
-
-                            if (preg_match('/is_default:.+/', $fin, $regs)) {
-                                $result = $regs[0];
-                                $result = str_ireplace('is_default:', '', $result);
-                                $to_return_temp['is_default'] = trim($result);
-                            }
-
-                            if (preg_match('/position:.+/', $fin, $regs)) {
-                                $result = $regs[0];
-                                $result = str_ireplace('position:', '', $result);
-                                $to_return_temp['position'] = intval($result);
-                            } else {
-                                $to_return_temp['position'] = 99999;
-                            }
-
-                            if (preg_match('/version:.+/', $fin, $regs)) {
-                                $result = $regs[0];
-                                $result = str_ireplace('version:', '', $result);
-                                $to_return_temp['version'] = trim($result);
-                            }
-                            if (preg_match('/visible:.+/', $fin, $regs)) {
-                                $result = $regs[0];
-                                $result = str_ireplace('visible:', '', $result);
-                                $to_return_temp['visible'] = trim($result);
-                            }
-
-                            if (preg_match('/icon:.+/', $fin, $regs)) {
-                                $result = $regs[0];
-                                $result = str_ireplace('icon:', '', $result);
-                                $to_return_temp['icon'] = trim($result);
-
-                                $possible = $here_dir . $to_return_temp['icon'];
-                                if (is_file($possible)) {
-                                    $to_return_temp['icon'] = $this->app->url_manager->link_to_file($possible);
-                                } else {
-                                    unset($to_return_temp['icon']);
-                                }
-                            }
-
-                            if (preg_match('/image:.+/', $fin, $regs)) {
-                                $result = $regs[0];
-                                $result = str_ireplace('image:', '', $result);
-                                $to_return_temp['image'] = trim($result);
-                                $possible = $here_dir . $to_return_temp['image'];
-
-                                if (is_file($possible)) {
-                                    $to_return_temp['image'] = $this->app->url_manager->link_to_file($possible);
-                                } else {
-                                    unset($to_return_temp['image']);
-                                }
-                            }
-
-                            if (preg_match('/description:.+/', $fin, $regs)) {
-                                $result = $regs[0];
-                                $result = str_ireplace('description:', '', $result);
-                                $to_return_temp['description'] = trim($result);
-                            }
-
-                            if (preg_match('/content_type:.+/', $fin, $regs)) {
-                                $result = $regs[0];
-                                $result = str_ireplace('content_type:', '', $result);
-                                $to_return_temp['content_type'] = trim($result);
-                            }
-
-                            if (preg_match('/tag:.+/', $fin, $regs)) {
-                                $result = $regs[0];
-                                $result = str_ireplace('tag:', '', $result);
-                                $to_return_temp['tag'] = trim($result);
-                            }
-
-                            $layout_file = str_replace($path, '', $filename);
-                            if (isset($options['get_dynamic_layouts'])) {
-                                //   dd($template_dirs);
-                                $layout_file = str_replace($possible_dir2, '', $layout_file);
-
-                            }
-                            if (isset($template_dirs) and !empty($template_dirs)) {
-                                foreach ($template_dirs as $template_dir) {
-                                    $layout_file = str_replace($template_dir, '', $layout_file);
-                                }
-                            }
-
-                            $layout_file = str_replace(DS, '/', $layout_file);
-                            $to_return_temp['layout_file'] = $layout_file;
-                            $to_return_temp['filename'] = $filename;
-                            $screen = str_ireplace('.php', '.png', $filename);
-                            $screen_jpg = str_ireplace('.php', '.jpg', $filename);
-                            if (is_file($screen_jpg)) {
-                                $to_return_temp['screenshot_file'] = $screen_jpg;
-                            } elseif (is_file($screen)) {
-                                $to_return_temp['screenshot_file'] = $screen;
-                            }
-                            if (isset($to_return_temp['screenshot_file'])) {
-                                $to_return_temp['screenshot'] = $this->app->url_manager->link_to_file($to_return_temp['screenshot_file']);
-                            }
-
-                            $configs[] = $to_return_temp;
-                        }
+                    if ($to_return_temp) {
+                        $configs[] = $to_return_temp;
                     }
+
+
                 }
             }
 
@@ -346,7 +219,7 @@ class LayoutsManager
                 if (!isset($options['no_cache'])) {
                     $this->app->cache_manager->save($configs, $function_cache_id, $cache_group);
                 }
-
+            //   var_dump($configs);
                 return $configs;
             }
         }
@@ -501,6 +374,24 @@ class LayoutsManager
 
             $this->app->cache_manager->delete('elements' . DIRECTORY_SEPARATOR . '');
         }
+    }
+
+
+    public function get_elements_from_current_site_template()
+    {
+        if (!defined('ACTIVE_TEMPLATE_DIR')) {
+            $this->app->content_manager->define_constants();
+        }
+
+        $dir_name = ACTIVE_TEMPLATE_DIR . 'elements' . DS;
+
+        if (is_dir($dir_name)) {
+            $opts = array();
+            $opts['path'] = $dir_name;
+            return $this->scan($opts);
+        }
+
+
     }
 
     public function template_remove_custom_css($params)

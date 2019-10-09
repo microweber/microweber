@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Config;
 use Laravel\Socialite\SocialiteManager;
 use Illuminate\Support\Facades\Session;
 use Auth;
+use Microweber\App\LoginAttempt;
 use Microweber\Providers\Users\TosManager;
 use User;
 
@@ -157,7 +158,7 @@ class UserManager
         if (!isset($params['password']) and isset($params['password_base64']) and $params['password_base64']) {
             $params['password'] = @base64_decode($params['password_base64']);
         }
-        
+
         // So we use second parameter
         if (!isset($params['username']) and isset($params['username_encoded']) and $params['username_encoded']) {
             $params['username'] = @base64_decode($params['username_encoded']);
@@ -241,14 +242,27 @@ class UserManager
             $user_data = $this->get_by_id(Auth::user()->id);
             $user_data['old_sid'] = $old_sid;
 
+            if ($user_data['is_active'] == 0) {
+                $this->logout();
+                $registration_approval_required = get_option('registration_approval_required', 'users');
+                if ($registration_approval_required == 'y') {
+                    return array('error' => 'Your account is awaiting approval');
+                } else {
+                    return array('error' => 'Your account has been disabled');
+                }
+            }
+
+            $this->update_last_login_time();
+
             $this->app->event_manager->trigger('mw.user.login', $user_data);
             if ($ok && $redirect_after) {
                 return $this->app->url_manager->redirect($redirect_after);
             } elseif ($ok) {
+                $this->login_set_success_attempt($params);
                 return ['success' => 'You are logged in!'];
             }
         } else {
-            $this->login_set_failed_attempt();
+            $this->login_set_failed_attempt($params);
         }
 
         return array('error' => 'Please enter right username and password!');
@@ -570,6 +584,12 @@ class UserManager
             }
             //}
         }
+
+        $enable_user_gesitration = get_option('enable_user_registration', 'users');
+        if ($enable_user_gesitration == 'n') {
+            return array('error' => 'User registration is disabled.');
+        }
+
         $user = isset($params['username']) ? $params['username'] : false;
         $pass = isset($params['password']) ? $params['password'] : false;
         $pass2 = isset($params['password2']) ? $params['password2'] : $pass;
@@ -715,7 +735,14 @@ class UserManager
                     $reg['username'] = $user;
                     $reg['email'] = $email;
                     $reg['password'] = $pass2;
-                    $reg['is_active'] = 1;
+
+                    $registration_approval_required = get_option('registration_approval_required', 'users');
+                    if ($registration_approval_required == 'y') {
+                        $reg['is_active'] = 0;
+                    } else {
+                        $reg['is_active'] = 1;
+                    }
+
                     if ($first_name != false) {
                         $reg['first_name'] = $first_name;
                     }
@@ -739,39 +766,39 @@ class UserManager
                     }
 
 
-					// added newsletter subscription - maybe better to use function newsletter_subscribe but it would need modifying
-					if (isset($params['newsletter_subscribe']) and $params['newsletter_subscribe']) {
+                    // added newsletter subscription - maybe better to use function newsletter_subscribe but it would need modifying
+                    if (isset($params['newsletter_subscribe']) and $params['newsletter_subscribe']) {
 
-						$subscribe = false;
+                        $subscribe = false;
 
-						if ($user_require_terms) {
+                        if ($user_require_terms) {
 
-							// terms_user already logged now log terms_newsletter using the same authorisation
+                            // terms_user already logged now log terms_newsletter using the same authorisation
 
-							$check_term = $this->app->user_manager->terms_check('terms_newsletter', $email);
+                            $check_term = $this->app->user_manager->terms_check('terms_newsletter', $email);
 
-							if (!$check_term) {
-								if ($terms_accepted) {
-									$this->app->user_manager->terms_accept('terms_newsletter', $next);
-									$subscribe = true;
-								}
-							}
-						} else {
-							$subscribe = true;
-						}
+                            if (!$check_term) {
+                                if ($terms_accepted) {
+                                    $this->app->user_manager->terms_accept('terms_newsletter', $next);
+                                    $subscribe = true;
+                                }
+                            }
+                        } else {
+                            $subscribe = true;
+                        }
 
-						if ($subscribe) {
+                        if ($subscribe) {
 
-							$subscriber_data = [
-								'email' => $email,
-								'name' => $first_name,
-								'confirmation_code' => str_random(30),
-								'is_subscribed' => 1
-							];
+                            $subscriber_data = [
+                                'email' => $email,
+                                'name' => $first_name,
+                                'confirmation_code' => str_random(30),
+                                'is_subscribed' => 1
+                            ];
 
-							$this->app->database_manager->save('newsletter_subscribers', $subscriber_data);
-						}
-					}
+                            $this->app->database_manager->save('newsletter_subscribers', $subscriber_data);
+                        }
+                    }
 
 
                     $this->force_save = false;
@@ -786,7 +813,10 @@ class UserManager
                     if (isset($pass2)) {
                         $params['password2'] = $pass2;
                     }
-                    $this->make_logged($params['id']);
+
+                    if ($registration_approval_required != 'y') {
+                        $this->make_logged($params['id']);
+                    }
 
                     return array('success' => 'You have registered successfully');
                 } else {
@@ -845,23 +875,23 @@ class UserManager
             $register_email_enabled = $this->app->option_manager->get('register_email_enabled', 'users');
             if ($register_email_enabled == true) {
 
-            	/*
+                /*
                 $register_email_subject = $this->app->option_manager->get('register_email_subject', 'users');
                 $register_email_content = $this->app->option_manager->get('register_email_content', 'users');
                  */
 
-            	// Get register mail temlate
-            	$new_user_registration_template_id = $this->app->option_manager->get('new_user_registration_email_template', 'users');
-            	$mail_template = get_mail_template_by_id($new_user_registration_template_id, 'new_user_registration');
+                // Get register mail temlate
+                $new_user_registration_template_id = $this->app->option_manager->get('new_user_registration_email_template', 'users');
+                $mail_template = get_mail_template_by_id($new_user_registration_template_id, 'new_user_registration');
 
-            	$register_email_subject = $mail_template['subject'];
-            	$register_email_content = $mail_template['message'];
+                $register_email_subject = $mail_template['subject'];
+                $register_email_content = $mail_template['message'];
 
 
-            	$appendFiles = array();
-            	if (!empty(get_option('append_files', 'mail_template_id_' . $new_user_registration_template_id))) {
-            		$appendFiles = explode(",", get_option('append_files', 'mail_template_id_' . $new_user_registration_template_id));
-            	}
+                $appendFiles = array();
+                if (!empty(get_option('append_files', 'mail_template_id_' . $new_user_registration_template_id))) {
+                    $appendFiles = explode(",", get_option('append_files', 'mail_template_id_' . $new_user_registration_template_id));
+                }
 
                 if ($register_email_subject == false or trim($register_email_subject) == '') {
                     $register_email_subject = 'Thank you for your registration!';
@@ -1126,8 +1156,67 @@ class UserManager
         return $id_to_return;
     }
 
-    public function login_set_failed_attempt()
+    public function login_set_attempt($params = array())
     {
+        if (!empty($params)) {
+            if (isset($params['username']) || isset($params['email'])) {
+
+                if (isset($params['username']) && $params['username'] != false and filter_var($params['username'], FILTER_VALIDATE_EMAIL)) {
+                    $params['email'] = $params['username'];
+                }
+
+                $findUserId = false;
+                $findByUsername = false;
+
+                if (isset($params['username'])) {
+                    $findByUsername = User::where('username', $params['username'])->first();
+                }
+
+                if ($findByUsername) {
+                    $findUserId = $findByUsername->id;
+                } else {
+                    if (isset($params['email'])) {
+                        $findByEmail = User::where('email', $params['email'])->first();
+                        if ($findByEmail) {
+                            $findUserId = $findByEmail->id;
+                        }
+                    }
+                }
+
+                if (!$findUserId) {
+                    return;
+                }
+
+                $loginAttempt = new LoginAttempt();
+                if (isset($params['username'])) {
+                    $loginAttempt->username = $params['username'];
+                }
+                if (isset($params['email'])) {
+                    $loginAttempt->email = $params['email'];
+                }
+
+                $loginAttempt->user_id = $findUserId;
+                $loginAttempt->time = time();
+                $loginAttempt->ip = MW_USER_IP;
+                $loginAttempt->success = $params['success'];
+                $loginAttempt->save();
+            }
+        }
+    }
+
+    public function login_set_success_attempt($params = array())
+    {
+        $params['success'] = true;
+        $this->login_set_attempt($params);
+
+        $this->app->log_manager->save('title=Success login&is_system=y&rel_type=login_succes&user_ip=' . MW_USER_IP);
+    }
+
+    public function login_set_failed_attempt($params = array())
+    {
+        $params['success'] = false;
+        $this->login_set_attempt($params);
+
         $this->app->log_manager->save('title=Failed login&is_system=y&rel_type=login_failed&user_ip=' . MW_USER_IP);
     }
 
@@ -1279,14 +1368,18 @@ class UserManager
 
     public function send_forgot_password($params)
     {
-        if (!isset($params['captcha'])) {
-            return array('error' => 'Please enter the captcha answer!');
-        } else {
-            $validate_captcha = $this->app->captcha->validate($params['captcha']);
-            if ($validate_captcha == false) {
-                return array('error' => 'Invalid captcha answer!', 'captcha_error' => true);
+        $no_captcha = get_option('captcha_disabled', 'users') == 'y';
+        if (!$no_captcha) {
+            if (!isset($params['captcha'])) {
+                return array('error' => 'Please enter the captcha answer!');
+            } else {
+                $validate_captcha = $this->app->captcha->validate($params['captcha']);
+                if ($validate_captcha == false) {
+                    return array('error' => 'Invalid captcha answer!', 'captcha_error' => true);
+                }
             }
         }
+
         if (isset($params['email'])) {
             //return array('error' => 'Enter username or email!');
         } elseif (!isset($params['username']) or trim($params['username']) == '') {

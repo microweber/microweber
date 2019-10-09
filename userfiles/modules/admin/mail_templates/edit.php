@@ -65,7 +65,7 @@ if (!empty($template_id)) {
     <span class="mw_dlm"></span>
     <div style="width: 112px;" data-value="" title="<?php _e("These values will be replaced with the actual content"); ?>" id="email_content_dynamic_vals" class="mw-dropdown mw-dropdown-type-wysiwyg mw-dropdown-type-wysiwyg_blue mw_dropdown_action_dynamic_values">
         <span class="mw-dropdown-value">
-            <span class="mw-dropdown-arrow"></span>
+
             <span class="mw-dropdown-val"><?php _e("E-mail Values"); ?></span>
         </span>
         <div class="mw-dropdown-content">

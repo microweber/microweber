@@ -180,7 +180,6 @@ class Modules
         $saved_ids = array();
         if (!empty($dir)) {
             $configs = array();
-
             foreach ($dir as $key => $value) {
                 $skip_module = false;
                 if (isset($options['skip_admin']) and $options['skip_admin'] == true) {
@@ -263,10 +262,13 @@ class Modules
                     if ($main_try_icon and is_file($main_try_icon)) {
                         $config['icon'] = $this->app->url_manager->link_to_file($main_try_icon);
                     } elseif (is_file($try_icon)) {
+//                        d($config);
+//                        d($try_icon);
                         $config['icon'] = $this->app->url_manager->link_to_file($try_icon);
                     } else {
                         $config['icon'] = $this->app->url_manager->link_to_file($def_icon);
                     }
+
 
                     if (isset($config['ui'])) {
                         $config['ui'] = intval($config['ui']);
@@ -296,6 +298,8 @@ class Modules
                     if (isset($config['name']) and $skip_save !== true and $skip_module == false) {
                         if (trim($config['module']) != '') {
                             if ($list_as_element == true) {
+
+
                                 $this->app->layouts_manager->save($config);
                             } else {
                                 $this->log('Installing module: ' . $config['name']);
@@ -321,6 +325,7 @@ class Modules
                             }
                         }
                     }
+
                     $configs[] = $config;
                 }
             }
@@ -661,6 +666,8 @@ class Modules
      */
     public function templates($module_name, $template_name = false, $get_settings_file = false)
     {
+
+
         $module_name = str_replace('admin', '', $module_name);
         $module_name_l = $this->locate($module_name);
 
@@ -1217,6 +1224,7 @@ class Modules
         }
 
         $dir_name = ACTIVE_TEMPLATE_DIR . 'modules' . DS;
+
 
         if (is_dir($dir_name)) {
             $configs = array();

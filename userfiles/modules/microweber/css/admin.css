@@ -1670,7 +1670,9 @@ tr .mw-admin-custom-field-value-edit-inline:hover:before, tr .mw-admin-custom-fi
 .mw-custom-field-form-controls {
     margin-bottom: 10px;
     white-space: nowrap;
-    width: 100%;
+    width: 80%;
+    width: -webkit-calc(100% - 70px);
+    width: calc(100% - 70px);
 }
 
 .mw-custom-field-group, .custom-field-settings-name {
@@ -1687,7 +1689,6 @@ tr .mw-admin-custom-field-value-edit-inline:hover:before, tr .mw-admin-custom-fi
 .mw-custom-field-form-controls [class*='mw-icon-'] {
     font-size: 18px;
     margin: 0 4px;
-    visibility: hidden;
     cursor: pointer;
     width: 3%;
 }
@@ -5345,6 +5346,9 @@ html[dir="rtl"] #upload-icoimage {
     margin: auto;
     padding: 50px 0;
 }
+.browser-liveedit .admin-side-content{
+    padding-bottom: 0;
+}
 
 .admin-side-content .mw-ui-table{
     table-layout: fixed;
@@ -7222,7 +7226,6 @@ select.silver-field {
 
 #white_label_settings_holder .mw-iframe-editor {
     min-height: 150px;
-    height: 100px !important;
 }
 
 .mw-help-tip {
@@ -7579,4 +7582,14 @@ select.silver-field {
 
 .js-module-preset-item-form-holder > div:last-child{
     text-align: right;
+}
+
+.mw-registered {
+    color:#469a36;
+}
+.mw-inactive {
+    color:#fa8e36;
+}
+.mw-approval-required {
+    color: #dc0d17;
 }

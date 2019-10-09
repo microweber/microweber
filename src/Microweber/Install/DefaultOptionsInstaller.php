@@ -20,7 +20,7 @@ class DefaultOptionsInstaller
         }
         return true;
     }
-
+	
     public function setDefault()
     {
         $existing = DB::table('options')->where('option_key', 'website_title')
@@ -35,7 +35,23 @@ class DefaultOptionsInstaller
         }
 
     }
-
+    
+    public function setLanguage($language)
+    {
+    	$existing = Option::where('option_key', 'language')->where('option_group', 'website')->first();
+    	if ($existing) {
+            $existing->option_value = $language;
+            $existing->save();
+        } else {
+    		$option = new Option();
+    		$option->option_key = 'language';
+    		$option->option_group = 'website';
+    		$option->option_value = $language;
+    		$option->is_system = 1;
+    		$option->save();
+    	}
+    }
+    
     public function setCommentsEnabled()
     {
         $existing = DB::table('options')->where('option_key', 'enable_comments')

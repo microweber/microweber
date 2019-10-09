@@ -2299,7 +2299,9 @@ body.dragStart .empty-element {
 #mw-toolbar-right {
     background: #F5F5F5;
     padding: 0px 10px 0px 0;
-    position: relative;
+    position: absolute;
+    top: 0;
+    right: 0;
     z-index: 1;
     white-space: nowrap;
 }

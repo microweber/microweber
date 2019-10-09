@@ -102,6 +102,8 @@ if (!$time_delay) {
         list-style: none;
         margin-bottom: 10px;
     }
+    #insert_link_list .mw-dropdown-content{ position: relative;}
+
     #insert_link_list {
         width: 100%;
     }

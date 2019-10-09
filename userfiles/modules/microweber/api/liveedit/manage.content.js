@@ -9,7 +9,7 @@ mw.liveedit.manageContent = {
             name: 'quick_page',
             overlay: true,
             title: 'New Page',
-            scrollMode: 'window'
+            scrollMode: 'inside'
         });
         mw.$(modal.main).addClass('mw-add-content-modal');
     },
@@ -22,7 +22,7 @@ mw.liveedit.manageContent = {
             name: 'quick_page',
             overlay: true,
             title: 'New Category',
-            scrollMode: 'window'
+            scrollMode: 'inside'
         });
         mw.$(modal.main).addClass('mw-add-content-modal');
     },
@@ -73,7 +73,7 @@ mw.liveedit.manageContent = {
             id: 'quick_page',
             overlay: true,
             title: actionType + ' ' + actionOf,
-            scrollMode: 'window'
+            scrollMode: 'inside'
         });
         mw.$(modal.main).addClass('mw-add-content-modal');
     },
@@ -85,7 +85,7 @@ mw.liveedit.manageContent = {
             name: 'quick_page',
             overlay: true,
             title: 'New Page',
-            scrollMode: 'window'
+            scrollMode: 'inside'
         });
         mw.$(modal.main).addClass('mw-add-content-modal');
     },

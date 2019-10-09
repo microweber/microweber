@@ -10,6 +10,30 @@
     //    });
 </script>
 
+<script>
+    function mw_admin_edit_country_item_popup(id) {
+        if (id) {
+            var modalTitle = '<?php _e('Edit country'); ?>';
+        } else {
+            var modalTitle = '<?php _e('Add country'); ?>';
+
+        }
+
+        mw_admin_edit_country_item_popup_modal_opened = mw.modal({
+            content: '<div id="mw_admin_edit_country_item_module"></div>',
+            title: modalTitle,
+            id: 'mw_admin_edit_country_item_popup_modal'
+        });
+
+
+        var params = {}
+        if (id) {
+            params.edit_id = id
+        }
+
+        mw.load_module('shop/shipping/gateways/country/add_country', '#mw_admin_edit_country_item_module', null, params);
+    }
+</script>
 <?php if (is_array($data) and !empty($data)): ?>
     <div class="mw-ui-row m-t-20">
         <?php if ($active_or_disabled == 'active'): ?>

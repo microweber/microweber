@@ -145,8 +145,6 @@
     }
 
     #editor-master {
-        height: 100vh;
-
         max-width: 100%;
     }
 
@@ -224,7 +222,7 @@
 
             <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_format mw_editor_format" id="format_main" title="<?php _e("Format"); ?>" data-value="">
                 <span class="mw-dropdown-value">
-                    <span class="mw-dropdown-arrow"></span>
+
                     <span class="mw-dropdown-val"><?php _e("Format"); ?></span>
                 </span>
                 <div class="mw-dropdown-content">
@@ -243,7 +241,7 @@
 
             <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_font_family mw_editor_fontfamily" id="font_family_selector_main" title="<?php _e("Font"); ?>" data-value="Arial">
               <span class="mw-dropdown-value">
-                  <span class="mw-dropdown-arrow"></span>
+
                   <span class="mw-dropdown-val">Arial</span>
               </span>
                 <div class="mw-dropdown-content">
@@ -258,7 +256,7 @@
             </div>
             <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_font_size mw_editor_fontsize" id="font_size_selector_main" title="<?php _e("Font Size"); ?>">
                 <span class="mw-dropdown-value">
-                  <span class="mw-dropdown-arrow"></span>
+
                   <span class="mw-dropdown-val"><?php _e("Size"); ?></span>
                 </span>
                 <div class="mw-dropdown-content">

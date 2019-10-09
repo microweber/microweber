@@ -287,7 +287,7 @@ class MicroweberServiceProvider extends ServiceProvider
             if ($language != false) {
                 set_current_lang($language);
             }
-
+			
             if (is_cli()) {
             	$this->commands('Microweber\Commands\ResetCommand');
                 $this->commands('Microweber\Commands\UpdateCommand');

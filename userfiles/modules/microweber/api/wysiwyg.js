@@ -146,10 +146,13 @@ mw.wysiwyg = {
         mw.wysiwyg.save_selection();
         var cleaner = mw.$('<div class="mw-cleaner-block" contenteditable="true"><small class="muted">Paste document here.</small></div>')
         var inserter = mw.$('<span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right">Insert</span>')
-        var clean = mw.modal({
+        var clean = mw.dialog({
             content: cleaner,
             overlay: true,
-            title: 'Paste from word'
+            title: 'Paste from word',
+            footer: inserter,
+            height: 'auto',
+            autoHeight: true
         });
         cleaner.on('paste', function () {
             setTimeout(function () {
@@ -168,7 +171,7 @@ mw.wysiwyg = {
             mw.wysiwyg.insert_html(cleaner.html());
             clean.remove();
         });
-        cleaner.after(inserter)
+        //cleaner.after(inserter)
     },
     globalTarget: mwd.body,
     allStatements: function (c, f) {
@@ -1803,13 +1806,12 @@ mw.wysiwyg = {
 
         var url = mw.settings.site_url + 'editor_tools/' + url;
 
-        var modal = mw.dialogIframe({
+        var modal = mw.top().dialogIframe({
             url: url,
             name: "mw_rte_image",
             width: 460,
             height: 'auto',
             autoHeight:true,
-            template: 'mw_modal_basic',
             overlay: true
         });
     },

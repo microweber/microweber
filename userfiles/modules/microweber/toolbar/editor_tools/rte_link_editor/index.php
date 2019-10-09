@@ -192,7 +192,7 @@
     .mw-ui-row-nodrop, .media-search-holder {
         margin-bottom: 12px;
     }
-
+    .media-search-holder .mw-dropdown-content { position: relative; }
     .mw-ui-box-content {
         padding-top: 20px;
     }

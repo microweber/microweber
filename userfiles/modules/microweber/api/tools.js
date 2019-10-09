@@ -25,8 +25,8 @@ setInterval(function(){
 mw.require("files.js");
 mw.require("css_parser.js");
 mw.require("components.js");
-mw.require("content.js");
-mw.require("color.js");
+//mw.require("content.js");
+mw.require("color.js");//
 mw.lib.require("acolorpicker");
 //mw.require(mw.settings.includes_url + "css/ui.css");
 (function () {
@@ -246,6 +246,10 @@ mw.tools = {
                 } else if(det !== frame.contentWindow.document.body.lastChild){
                     frame.contentWindow.document.body.appendChild(det);
                 }
+                if(frame.contentWindow.mw) {
+                    frame.contentWindow.mw._iframeDetector = _detector;
+                }
+
             }
 
         };
@@ -271,53 +275,24 @@ mw.tools = {
             insertDetector();
         });
         frame._int = setInterval(function(){
-
-
-            if(frame.parentNode && frame.contentWindow && frame.contentWindow.$){
-                var max = -1, dmax = null, framw = frame.contentWindow.mw;
-                var mheight;
-                if(framw.__dialogs && framw.__dialogs.length){
-                    framw.__dialogs.forEach(function($dialog){
-                        mheight = Math.max(
-                            $dialog.dialogHolder.scrollHeight,
-                            $dialog.dialogHolder.offsetHeight,
-                            $dialog.dialogContainer.scrollHeight,
-                            $dialog.dialogContainer.offsetHeight
-                        );
-                        if(mheight > max){
-                            max = mheight;
-                            dmax = $dialog;
-                        }
-                    });
-
-                    var body = framw.win.document.body,
-                        html = framw.win.document.documentElement;
-
-                    var height = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
-                    var height1 = ((dmax.dialogHolder.offsetHeight) - height);
-                    if (mheight > height) {
-                        if(height1) {
-                            _detector.style.height = (mheight - height) + 'px';
-                        }
-                    } else {
-                        //_detector.style.height = 0;
-                    }
-
-                }
+            if(frame.parentNode && frame.contentWindow  && frame.contentWindow.$){
                 var offTop = frame.contentWindow.$(_detector).offset().top;
                 var calc = offTop + _detector.offsetHeight;
-                if(calc && calc !== frame._currHeight){
+                //calc = Math.max(calc, mw.tools.nestedFramesHeight(frame));
+                frame._currHeight = frame._currHeight || 0;
+                if(calc && calc !== frame._currHeight ){
                     frame._currHeight = calc;
-                    frame.style.height = calc + 'px';
+                     frame.style.height = calc + 'px';
                     mw.$(frame).trigger('bodyResize');
                 }
             }
             else {
                 //clearInterval(frame._int);
             }
-        }, 1077);
+        }, 77);
 
     },
+
     distance: function (x1, y1, x2, y2) {
         var a = x1 - x2;
         var b = y1 - y2;
@@ -3006,7 +2981,7 @@ mw.tools = {
     },
     richtextEditorSettings: {
         width: '100%',
-        height: 320,
+        height: 'auto',
         addControls: false,
         hideControls: false,
         ready: false
@@ -3083,6 +3058,9 @@ mw.tools = {
         });
         o.width = o.width != 'auto' ? o.width : '100%';
         mw.$(frame).css({width: o.width, height: o.height});
+        if(o.height === 'auto') {
+            mw.tools.iframeAutoHeight(frame);
+        }
         frame.setValue = function (val) {
             frame.contentWindow.pauseChange = true;
             frame.contentWindow.document.getElementById('editor-area').innerHTML = val;
@@ -3551,8 +3529,8 @@ mw.tools = {
                 height:'auto',
                 autoHeight: true
             };
-
-            return mw.top().tools.modal.frame(settings);
+            return mw.top().dialogIframe(settings);
+           // return mw.top().tools.modal.frame(settings);
 
         } else {
             delete settings.skin;
@@ -5316,7 +5294,7 @@ mw.extradataForm = function (options, data) {
 
         form.action = options.url;
         form.method = options.type;
-        form.__modal = mw.modal({
+        form.__modal = mw.dialog({
             content: form,
             title: data.error
         });
@@ -5325,17 +5303,20 @@ mw.extradataForm = function (options, data) {
             mw.$(form).on('submit', function (e) {
                 e.preventDefault();
                 var exdata = mw.serializeFields(this);
+
                 if(typeof options.data === 'string'){
                     var params = {};
                     options.data.split('&').forEach(function(a){
                         var c = a.split('=');
-                        params[c[0]] = c[1];
+                        params[c[0]] = decodeURIComponent(c[1]);
                     });
                     options.data = params;
                 }
                 for (var i in exdata) {
                     options.data[i] = exdata[i];
                 }
+
+                console.log(options)
 
                 mw.ajax(options);
                 form.__modal.remove();

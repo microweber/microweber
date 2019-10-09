@@ -15,7 +15,7 @@ if (isset($log_params['module'])) {
 if(isset($params['limit'])){
 	$log_params["is_read"] = $params['is_read'];
 }*/
-$log_params["is_system"] = 'n';
+// $log_params["is_system"] = 'n';
 $log_params["order_by"] = 'created_at desc';
 $data = mw()->log_manager->get($log_params);
 
@@ -83,22 +83,22 @@ $data = mw()->log_manager->get($log_params);
                     }
                     ?>
                     <td>
-                        <time class="mw-date"
-                              title="<?php print mw('format')->date($item['created_at']); ?> (<?php print ($item['created_at']); ?>)"><?php print mw('format')->ago($item['created_at'], 1); ?></time>
-                        <br>
-
+                        <?php print mw('format')->date($item['created_at']); ?>
+                        <br />
 
                         <?php if ($mod_info != false and isset($mod_info['name'])): ?>
-                            <img src=" <?php print thumbnail($mod_info['icon'], 16, 16) ?>"/>
+                            <img src=" <?php print thumbnail($mod_info['icon'], 16, 16) ?>" width="26px" height="26px" />
+                            <br />
                         <?php elseif (isset($item['rel_type']) and trim($item['rel_type']) != '') : ?>
                         <?php endif; ?>
+
                         <?php if (isset($item['rel_type']) and trim($item['rel_type']) != '') : ?>
-                            <span><?php print $item['rel_type'] ?></span> <br>
+                            <span><?php print titlelize($item['rel_type']) ?></span> <br>
                         <?php else : ?>
                         <?php endif; ?>
-                        <?php if (isset($item['user_ip']) and $item['user_ip'] != ''): ?>
 
-                            <small><?php print $item['user_ip'] ?></small>
+                        <?php if (isset($item['user_ip']) and $item['user_ip'] != ''): ?>
+                            <small>IP: <?php print $item['user_ip'] ?></small>
                         <?php endif; ?>
 
                     </td>

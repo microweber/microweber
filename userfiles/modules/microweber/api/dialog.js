@@ -128,6 +128,11 @@
         options = options || {};
         options.content = options.content || options.html || '';
 
+        if(!options.height && typeof options.autoHeight === 'undefined') {
+            options.height = 'auto';
+            options.autoHeight = true;
+        }
+
         var defaults = {
             skin: 'default',
             overlay: true,
@@ -142,7 +147,7 @@
             draggable: true,
             scrollMode: 'inside', // 'inside' | 'window',
             centerMode: 'intuitive', // 'intuitive' | 'center'
-            containment: 'window'
+            containment: 'window',
         };
 
         this.options = $.extend({}, defaults, options, {
@@ -329,9 +334,27 @@
             return this;
         };
 
+        this._afterSize = function() {
+            if(mw._iframeDetector) {
+                mw._iframeDetector.pause = true;
+                var frame = window.frameElement;
+                if(frame && parent !== top){
+                    var height = this.dialogContainer.scrollHeight + this.dialogHeader.scrollHeight;
+                    if($(frame).height() < height) {
+                        frame.style.height = ((height + 100) - this.dialogHeader.offsetHeight - this.dialogFooter.offsetHeight) + 'px';
+                        if(window.thismodal){
+                            thismodal.height(height + 100);
+                        }
+
+                    }
+                }
+            }
+        };
+
         this.show = function () {
             mw.$(this.dialogMain).addClass('active');
             this.center();
+            this._afterSize();
             mw.$(this).trigger('Show');
             mw.trigger('mwDialogShow', this);
             return this;
@@ -342,6 +365,9 @@
             if (!this._hideStart) {
                 this._hideStart = true;
                 mw.$(this.dialogMain).removeClass('active');
+                if(mw._iframeDetector) {
+                    mw._iframeDetector.pause = false;
+                }
                 mw.$(this).trigger('Hide');
                 mw.trigger('mwDialogHide', this);
             }
@@ -397,7 +423,10 @@
                 css.top = $(document).scrollTop() + 50;
                 var off = $(window.frameElement).offset();
                 if(off.top < 0) {
-                    css.top += -(off.top);
+                    css.top += Math.abs(off.top);
+                }
+                if(window.thismodal) {
+                    css.top += thismodal.dialogContainer.scrollTop;
                 }
 
             }
@@ -407,19 +436,25 @@
             this._prevHeight = holderHeight;
 
 
-
+            this._afterSize();
             mw.$(this).trigger('dialogCenter');
 
             return this;
         };
 
         this.width = function (width) {
-            //$(this.dialogContainer).width(width);
+            if(!width) {
+                return mw.$(this.dialogHolder).outerWidth();
+            }
             mw.$(this.dialogHolder).width(width);
+            this._afterSize();
         };
         this.height = function (height) {
-            //$(this.dialogContainer).height(height);
+            if(!height) {
+                return mw.$(this.dialogHolder).outerHeight();
+            }
             mw.$(this.dialogHolder).height(height);
+            this._afterSize();
         };
         this.resize = function (width, height) {
             if (typeof width !== 'undefined') {

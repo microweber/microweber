@@ -114,7 +114,7 @@
           <select class="mw-ui-field">
             <option value="dropdown" selected="selected">Dropdown</option>
           </select>
- 
+
     </td>
       <td><textarea>
           <select class="mw-ui-field">
@@ -606,7 +606,7 @@
         <td id="qwewqeqw" style="padding: 20px 0;">
           <script>
           $(document).ready(function(){
-          
+
           });
           </script>
           <h2>Tabs</h2>
@@ -665,7 +665,7 @@
 
         <div data-value="" title="" class="mw-dropdown mw-dropdown-type-wysiwyg">
                 <span class="mw-dropdown-value">
-                    <span class="mw-dropdown-arrow"></span>
+
                     <span class="mw-dropdown-val">Simple</span>
                 </span>
               <div class="mw-dropdown-content" style="display: block;">
@@ -784,9 +784,9 @@ $(".my-dropdown").bind("change", function(){
       <td>
              <h2>Modals</h2>
   <a href="javascript:;" class="mw-ui-btn" onclick="mw.tools.modal.init({html:'Test <span onclick=\'parent.mw.tools.modal.overlay()\' class=\'mw-ui-btn\'>add overlay</span>'})">Default</a>
-  
+
   <a href="javascript:;" class="mw-ui-btn" onclick="mw.tools.modal.init({html:'Test', template:'mw_modal_simple'})">Custom Template</a>
-  
+
   <a href="javascript:;" class="mw-ui-btn" onclick="testMedia()">Media upload with callback</a>
   <script>
 
@@ -810,9 +810,9 @@ mw.tools.modal.frame({
   </script>
 
 
-    
 
-      
+
+
   <a href="javascript:;" class="mw-ui-btn" onclick="testlink()">Link management</a>
   <script>
 
@@ -835,7 +835,7 @@ mw.tools.modal.frame({
   </script>
 
 
-    
+
 
 
   <h2>API</h2>
