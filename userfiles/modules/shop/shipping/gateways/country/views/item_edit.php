@@ -183,9 +183,16 @@ if ($weight_units == false) {
                      mw.notification.success("<?php _e("Shipping changes are saved"); ?>");
                      });*/
                 }
-                if (window.parent != undefined && window.parent.mw != undefined) {
-                    window.parent.mw.reload_module('shop/shipping/gateways/country');
+            mw.reload_module_everywhere('shop/shipping/gateways/country/admin_backend');
+
+
+            if (window.parent != undefined && window.parent.mw != undefined) {
+                   // window.parent.mw.reload_module('shop/shipping/gateways/country');
+                    mw.reload_module_everywhere('shop/shipping/gateways/country');
+
                 }
+
+
                 mw.reload_module('shop/shipping', function () {
                     var m = mw.$('#shipping-table-list-item-id-' + the_saved_id);
 
