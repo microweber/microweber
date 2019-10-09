@@ -17,6 +17,10 @@ class BackupV2Test extends TestCase
 	private static $_exportedFile = '';
 	
 	public function testEncoding() {
+
+        if (!defined('MW_UNIT_TEST')) {
+            define('MW_UNIT_TEST', TRUE);
+        }
 		
 		$locales = array('el_GR', 'bg_BG', 'en_EN','at_AT','ko_KR','kk_KZ','ja_JP','fi_FI','es_ES');
 		
