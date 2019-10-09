@@ -685,7 +685,6 @@ class Modules
 
         $template_config = mw()->template->get_config();
 
-
         if (!is_dir($module_name_l) /*and !is_dir($module_name_l_theme)*/) {
             return false;
         } else {
@@ -695,6 +694,7 @@ class Modules
                 $options['no_cache'] = 1;
                 $options['path'] = $module_name_l;
                 $module_name_l = $this->app->layouts_manager->scan($options);
+                
                 //  $module_name_l  = array();
 
                 if (is_dir($module_name_l_theme)) {

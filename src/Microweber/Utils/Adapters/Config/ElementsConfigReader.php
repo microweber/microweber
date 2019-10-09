@@ -34,7 +34,7 @@ class ElementsConfigReader
         $loc_of_config = str_ireplace('.php', '_config.php', $filename);
 
         $template_dirs = array();
-
+        $template_dirs[] = modules_path();
         if (defined('TEMPLATE_DIR')) {
             $template_dirs[] = TEMPLATE_DIR;
         }
