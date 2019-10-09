@@ -11,13 +11,13 @@ use Microweber\Utils\Backup\EncodingFix;
  * @command php phpunit.phar --filter BackupV2Test
  */
 
-class BackupV2Test extends TestCase
+class ZBackupV2Test extends TestCase
 {
 	private static $_titles = array();
 	private static $_exportedFile = '';
 	
 	public function testEncoding() {
-		
+
 		$locales = array('el_GR', 'bg_BG', 'en_EN','at_AT','ko_KR','kk_KZ','ja_JP','fi_FI','es_ES');
 		
 		foreach($locales as $locale) {

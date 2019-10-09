@@ -4,6 +4,7 @@ namespace Microweber\tests;
 
 use Microweber\App\User;
 use Microweber\Providers\UserManager;
+use Microweber\Utils\MailSender;
 
 /**
  * Run test
@@ -12,7 +13,6 @@ use Microweber\Providers\UserManager;
  */
 class UserTest extends TestCase
 {
-
     private static $_username = false;
     private static $_password = false;
     private static $_email = false;
@@ -194,7 +194,7 @@ class UserTest extends TestCase
         $requestStatus = $userManager->send_forgot_password($userDetails);
         $this->assertArrayHasKey('success', $requestStatus);
 
-        $checkEmailContent = file_get_contents(storage_path() . DIRECTORY_SEPARATOR . 'mails' . DIRECTORY_SEPARATOR . 'mail_sender.txt');
+        $checkEmailContent = MailSender::$last_send['content'];
 
         $findPasswordResetLink = false;
         if (strpos($checkEmailContent, 'reset_password_link=') !== false) {
@@ -237,7 +237,6 @@ class UserTest extends TestCase
 
     public function testUserApprovalRegistration()
     {
-        return;
         $this->_enableUserRegistration();
         $this->_enableRegistrationApproval();
         $this->_enableRegisterEmail();
@@ -272,32 +271,20 @@ class UserTest extends TestCase
             $this->assertEquals(true, false);
         }
 
-        //var_dump($loginStatus);
+        $checkEmailContent = MailSender::$last_send['content'];
 
-        $checkEmailContent = file_get_contents(storage_path() . DIRECTORY_SEPARATOR . 'mails' . DIRECTORY_SEPARATOR . 'mail_sender.txt');
-
-        /*
-         $findPasswordResetLink = false;
-        if (strpos($checkEmailContent, 'reset_password_link=') !== false) {
-            $findPasswordResetLink = true;
+        $findVerifyEmailLink = false;
+        if (strpos($checkEmailContent, 'verify_email_link?key=') !== false) {
+            $findVerifyEmailLink = true;
         }
+
         $findUsername = false;
-        if (strpos($checkEmailContent, $userDetails['username']) !== false) {
+        if (strpos($checkEmailContent, $loginDetails['username']) !== false) {
             $findUsername = true;
         }
-        $findIpAddress = false;
-        if (strpos($checkEmailContent, MW_USER_IP) !== false) {
-            $findIpAddress = true;
-        }
 
-        $this->assertEquals(true, $findPasswordResetLink);
+        $this->assertEquals(true, $findVerifyEmailLink);
         $this->assertEquals(true, $findUsername);
-        $this->assertEquals(true, $findIpAddress);
-         */
-
-
-        //var_dump($checkEmailContent);
-        //die();
     }
 
 }

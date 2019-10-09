@@ -34,7 +34,7 @@ class ElementsConfigReader
         $loc_of_config = str_ireplace('.php', '_config.php', $filename);
 
         $template_dirs = array();
-
+        $template_dirs[] = modules_path();
         if (defined('TEMPLATE_DIR')) {
             $template_dirs[] = TEMPLATE_DIR;
         }
@@ -49,6 +49,11 @@ class ElementsConfigReader
                 $layout_file = str_replace(normalize_path($template_dir), '', $layout_file);
             }
         }
+
+
+
+        $layout_file = substr($layout_file, 0, strpos($layout_file, "templates"));
+
         $layout_file = str_replace(DS, '/', $layout_file);
 
         if (is_file($loc_of_config)) {

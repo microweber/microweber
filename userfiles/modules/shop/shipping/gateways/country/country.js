@@ -8,9 +8,10 @@ mw.shipping_country = {
             obj.id = id;
             $.post(mw.shipping_country.url + "/shipping_to_country/delete",  obj, function(data){
               mw.$(".country-id-"+id).fadeOut();
-              mw.reload_module('[data-parent-module="shop/shipping"]');
+                mw.reload_module_everywhere('[data-parent-module="shop/shipping"]');
+                mw.reload_module_everywhere('shop/shipping/gateways/country/admin_backend');
 			   if(window.parent != undefined && window.parent.mw != undefined){
-					window.parent.mw.reload_module('shop/shipping/gateways/country');
+                   mw.reload_module_everywhere('shop/shipping/gateways/country');
 				}
             });
         });

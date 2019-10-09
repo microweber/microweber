@@ -498,6 +498,7 @@ class CheckoutManager
         }
 
         $ord_data = $this->app->shop_manager->get_orders('one=1&id=' . $order_id);
+
         if (is_array($ord_data)) {
             $ord = $order_id;
             $notification = array();
@@ -527,23 +528,25 @@ class CheckoutManager
                 $order_email_enabled = $skip_enabled_check;
             }
 
-            if ($order_email_enabled == true) {
 
+            if ($order_email_enabled == true) {
 
                //  $order_email_subject = $this->app->option_manager->get('order_email_subject', 'orders');
                 // $order_email_content = $this->app->option_manager->get('order_email_content', 'orders');
 
                 $mail_template = false;
                 $mail_template_binds = $this->app->event_manager->trigger('mw.cart.confirm_email_send', $order_id);
-
                 if (is_array($mail_template_binds)) {
-                    $mail_template = array_pop($mail_template_binds);
+                    foreach ($mail_template_binds  as $bind) {
+                        if (is_array($bind) && isset($bind['mail_template'])) {
+                            $mail_template = $bind['mail_template'];
+                        }
+                    }
                 }
 
                 if (!$mail_template) {
                     return;
                 }
-
 
                 $order_email_subject = $mail_template['subject'];
                 $order_email_content = $mail_template['message'];

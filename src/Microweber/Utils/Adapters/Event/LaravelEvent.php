@@ -32,8 +32,10 @@ class LaravelEvent
                         $resp[] = $fn($data);
                     }
                 }
+                return $resp;
             }
         }
+
         $args = func_get_args();
         array_shift($args);
         if (count($args) == 1) {
@@ -54,7 +56,9 @@ class LaravelEvent
             }
             self::$hooks[$hook_name][] = $callback;
         } else {
-            Event::listen($hook_name, $callback);
+            // Laravel Event Listen not work properly
+            self::$hooks[$hook_name][] = $callback;
+            //Event::listen($hook_name, $callback);
         }
     }
 }

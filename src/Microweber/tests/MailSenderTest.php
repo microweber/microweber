@@ -30,8 +30,7 @@ class MailSenderTest extends TestCase
         $mail->setEmailFromName($fromName);
         $mail->send();
 
-        $checkEmailContent = file_get_contents(storage_path() . DIRECTORY_SEPARATOR . 'mails' . DIRECTORY_SEPARATOR . 'mail_sender.txt');
-        $checkEmailContent = json_decode($checkEmailContent, true);
+        $checkEmailContent = MailSender::$last_send;
 
         $this->assertSame($checkEmailContent['content'], $content);
         $this->assertSame($checkEmailContent['from_name'], $fromName);

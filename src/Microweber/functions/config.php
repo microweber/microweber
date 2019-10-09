@@ -2,13 +2,7 @@
 
 function mw_is_installed()
 {
-    static $is = null;
-
-    if ($is === null) {
-        $is = Config::get('microweber.is_installed');
-    }
-
-    return (bool) $is;
+    return Config::get('microweber.is_installed');
 }
 
 api_expose_admin('mw_save_framework_config_file', function ($params) {
@@ -23,7 +17,7 @@ api_expose_admin('mw_save_framework_config_file', function ($params) {
                     if (is_numeric($config)) {
                         $config = intval($config);
                     }
-                    Config::set($k.'.'.$config_k, $config);
+                    Config::set($k . '.' . $config_k, $config);
                     $save_configs[] = $k;
                 }
             }
