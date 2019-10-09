@@ -2,6 +2,7 @@
 namespace Microweber\tests;
 
 use Microweber\Providers\Shop\CheckoutManager;
+use Microweber\Utils\MailSender;
 
 /**
  * Run test
@@ -79,8 +80,7 @@ class CheckoutTest extends TestCase
         $this->assertArrayHasKey('currency', $checkoutStatus);
         $this->assertArrayHasKey('order_status', $checkoutStatus);
 
-        $checkEmailContent = file_get_contents(storage_path() . DIRECTORY_SEPARATOR . 'mail_sender.txt');
-        $checkEmailContent = json_decode($checkEmailContent, TRUE);
+        $checkEmailContent = json_decode(MailSender::$content, TRUE);
         $checkEmailContent = $checkEmailContent['content'];
 
         $findFirstName = false;
