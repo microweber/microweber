@@ -104,7 +104,8 @@ class OrderManager
         if ($sid == false) {
             return $sid;
         }
-        
+
+        $place_order = array_filter($place_order);
         $ord = $this->app->database_manager->save($this->table, $place_order);
         $place_order['id'] = $ord;
 
@@ -121,6 +122,7 @@ class OrderManager
 //        }
 
         DB::transaction(function () use ($sid, $ord, $place_order) {
+
             DB::table($this->app->cart_manager->table_name())->whereOrderCompleted(0)->whereSessionId($sid)->update(['order_id' => $ord]);
 
             if (isset($place_order['order_completed']) and $place_order['order_completed'] == 1) {
