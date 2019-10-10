@@ -66,11 +66,14 @@ class MailSender
 
         $email_from = mw()->option_manager->get('email_from', 'email');
 
+        $hostname = mw()->url_manager->hostname();
+
+
         if ($email_from == false or trim($email_from) == '') {
             if ($this->email_from_name != '') {
-                $email_from = ($this->email_from_name) . '@' . mw()->url_manager->hostname();
+                $email_from = ($this->email_from_name) . '@' .$hostname;
             } else {
-                $email_from = 'noreply@' . mw()->url_manager->hostname();
+                $email_from = 'noreply@' . $hostname;
             }
             $email_from = str_replace(' ', '-', $email_from);
         }

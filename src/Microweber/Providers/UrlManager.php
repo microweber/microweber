@@ -27,6 +27,10 @@ class UrlManager
             }
         }
 
+        if(!$u1){
+            $u1 = 'localhost';
+        }
+
         return $u1;
     }
 
@@ -513,7 +517,7 @@ class UrlManager
                 if (isset($this->repaced_urls[$parser_mem_crc])) {
                     $ret[$k] = $this->repaced_urls[$parser_mem_crc];
                 } else {
-                    if (is_array($v)) {
+                    if (is_array($v) ) {
                         $v = $this->replace_site_url_back($v);
                     } elseif (is_string($v) and $v !== '0') {
                         $v = $this->replace_site_url_back($v);
