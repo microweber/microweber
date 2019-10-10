@@ -13,13 +13,18 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Uploader in folder does not work
 - Edit link Modal in small window
 - Table editor is missing in live edit
-- Fix layload of video module
 - Jumping modal
 - Shipping to country module in live edit
 - Video module lazyload
 - Modal horizontal scroll
 - Fix toolbar align to be on left
 - You must not to be able to write in icon
+- Contact form module fixed
+- Added option for user registration to be able to be approved by admin
+- Added bank transfer payment method
+- Added elements to be able to come from the active template
+- Added custom fields module template support
+- Added mail templates
 - Other fixes
 - [see all changes....](https://github.com/microweber/microweber/compare/1.1.10...1.1.11 "")
 
