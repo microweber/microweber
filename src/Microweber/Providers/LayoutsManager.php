@@ -74,7 +74,6 @@ class LayoutsManager
             $opts = array();
             $opts['path'] = $dir_name;
             $elements = $elements_config_reader->scan($dir_name);
-           // dd($elements);
             return $elements;
         }
     }
