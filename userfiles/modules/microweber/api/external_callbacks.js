@@ -129,12 +129,7 @@ mw.iframecallbacks = {
         }
 
     },
-    insert_html: function (html) {
-        return mw.wysiwyg.insert_html(html);
-    },
-    insert_image: function (url) {
-        return mw.wysiwyg.insert_image(url);
-    },
+
     set_bg_image: function (url) {
         return mw.wysiwyg.set_bg_image(url);
     },
@@ -153,7 +148,7 @@ mw.iframecallbacks = {
     change_shadow_color: function (color) {
         return mw.wysiwyg.change_shadow_color(color);
     },
-    editimage: function (url) {
+    ьeditimage: function (url) {
 
 
         if(mw.image.currentResizing) {

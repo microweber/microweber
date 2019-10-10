@@ -1263,7 +1263,7 @@ mw.wysiwyg = {
         if (!node) {
             return false;
         }
-        if(mw.tools.hasAnyOfClassesOnNodeOrParent(node, ['safe-element'])){
+        if(mw.tools.hasAnyOfClassesOnNodeOrParent(node, ['safe-element', 'icon', 'mw-icon', 'material-icons', 'mw-wysiwyg-custom-icon'])){
             return;
         }
         mw.wysiwyg.contentEditable(node, true);
@@ -1818,10 +1818,14 @@ mw.wysiwyg = {
             autoHeight:true,
             overlay: true
         }, function(res) {
+            if(hash === '#set_bg_image'){
+                mw.wysiwyg.set_bg_image(res);
+                return;
+            }
 
             mw.wysiwyg.restore_selection();
- 
-            if(hash === 'editimage') {
+
+            if(hash === '#editimage') {
                 if(mw.image.currentResizing) {
                     if (mw.image.currentResizing[0].nodeName === 'IMG') {
                         mw.image.currentResizing.attr("src", res);

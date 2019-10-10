@@ -39,7 +39,7 @@ mw.wysiwyg._manageDeleteAndBackspaceInSafeMode = {
         });
     },
     nodeBoundaries: function (event, node, sel, range) {
-        var isStart = range.startOffset === 0 || !(sel.anchorNode.data.substring(0, range.startOffset).replace(/\s/g, ''));
+        var isStart = range.startOffset === 0 || !((sel.anchorNode.data || '').substring(0, range.startOffset).replace(/\s/g, ''));
         var curr, content;
         if(mw.event.is.backSpace(event) && isStart && range.collapsed){ // is at the beginning
             curr = node;
