@@ -2,6 +2,28 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.1.12] - 2019-10-10
+- Various live edit fixes
+- cannot save "edit as HTML"
+- Handle overlap problem ?
+- Custom fields hidden field does not work
+- Files browser add thumbnail size
+- Extra tags on format of Heading
+- Modal window scroll is missing
+- Uploader in folder does not work
+- Edit link Modal in small window
+- Table editor is missing in live edit
+- Fix layload of video module
+- Jumping modal
+- Shipping to country module in live edit
+- Video module lazyload
+- Modal horizontal scroll
+- Fix toolbar align to be on left
+- You must not to be able to write in icon
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.1.10...1.1.11 "")
+
+
 ## [1.1.11] - 2019-09-11
 - Various live edit fixes
 - Fixes on the custom fields module to support templates 
