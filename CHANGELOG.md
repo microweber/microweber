@@ -26,7 +26,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added custom fields module template support
 - Added mail templates
 - Other fixes
-- [see all changes....](https://github.com/microweber/microweber/compare/1.1.10...1.1.11 "")
+- [see all changes....](https://github.com/microweber/microweber/compare/1.1.11...1.1.12 "")
 
 
 ## [1.1.11] - 2019-09-11
