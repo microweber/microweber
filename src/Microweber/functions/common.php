@@ -108,6 +108,10 @@ if (!function_exists('site_url')) {
             $site_url .= MW_SITE_URL_PATH_PREFIX;
         }
 
+        if(!$site_url){
+            $site_url = 'http://localhost/';
+        }
+
         return $site_url . $add_string;
     }
 }

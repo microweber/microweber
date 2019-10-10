@@ -15,6 +15,7 @@ namespace Microweber\Providers;
 
 use Illuminate\Support\Facades\Cache;
 use Microweber\App\Providers\Illuminate\Support\Facades\Paginator;
+use Microweber\Utils\Adapters\Config\ElementsConfigReader;
 
 class LayoutsManager
 {
@@ -59,10 +60,24 @@ class LayoutsManager
 
         return $res;
     }
+
     public function get_elements_from_current_site_template()
     {
+        if (!defined('ACTIVE_TEMPLATE_DIR')) {
+            $this->app->content_manager->define_constants();
+        }
 
+        $dir_name = ACTIVE_TEMPLATE_DIR . 'elements' . DS;
+
+        $elements_config_reader = new ElementsConfigReader();
+        if (is_dir($dir_name)) {
+            $opts = array();
+            $opts['path'] = $dir_name;
+            $elements = $elements_config_reader->scan($dir_name);
+            return $elements;
+        }
     }
+
     public function scan($options = false)
     {
         $options = parse_params($options);

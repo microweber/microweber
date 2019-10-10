@@ -19,8 +19,23 @@ class ElementsConfigReader
             }
         }
 
-
         $this->app = $app;
+    }
+
+    public function scan($folder)
+    {
+        $glob_patern = '*.php';
+        $dir = rglob($folder . '*.php', 0);
+        if ($dir) {
+            $configs = array();
+            foreach ($dir as $filename) {
+                $read = $this->read($filename);
+                if ($read) {
+                    $configs[] = $this->read($filename);
+                }
+            }
+            return $configs;
+        }
     }
 
     public function read($filename)
@@ -50,9 +65,12 @@ class ElementsConfigReader
             }
         }
 
+        if (defined('TEMPLATE_DIR')) {
+            $layout_file = substr(normalize_path($layout_file , false), strpos(normalize_path($layout_file,false), TEMPLATE_DIR),strlen($layout_file) );
 
+        }
 
-        $layout_file = substr($layout_file, 0, strpos($layout_file, "templates"));
+        $layout_file = substr($layout_file, strpos($layout_file, "templates"),strlen($layout_file) );
 
         $layout_file = str_replace(DS, '/', $layout_file);
 
@@ -150,7 +168,7 @@ class ElementsConfigReader
 
                         $possible = $here_dir . $to_return_temp['icon'];
                         if (is_file($possible)) {
-                            $to_return_temp['icon'] = $this->app->url_manager->link_to_file($possible);
+                            $to_return_temp['icon'] = mw()->url_manager->link_to_file($possible);
                         } else {
                             unset($to_return_temp['icon']);
                         }
@@ -163,7 +181,7 @@ class ElementsConfigReader
                         $possible = $here_dir . $to_return_temp['image'];
 
                         if (is_file($possible)) {
-                            $to_return_temp['image'] = $this->app->url_manager->link_to_file($possible);
+                            $to_return_temp['image'] = mw()->url_manager->link_to_file($possible);
                         } else {
                             unset($to_return_temp['image']);
                         }
@@ -186,9 +204,9 @@ class ElementsConfigReader
                         $result = str_ireplace('tag:', '', $result);
                         $to_return_temp['tag'] = trim($result);
                     }
-                //    $layout_file = $filename;
+                    //    $layout_file = $filename;
 
-                  //  $layout_file = str_replace(DS, '/', $layout_file);
+                    //  $layout_file = str_replace(DS, '/', $layout_file);
                     $to_return_temp['layout_file'] = $layout_file;
                     $to_return_temp['filename'] = $filename;
 
@@ -208,8 +226,8 @@ class ElementsConfigReader
                 $config_ready['screenshot_file'] = $screen;
             }
             if (isset($config_ready['screenshot_file'])) {
-                $config_ready['screenshot'] = $this->app->url_manager->link_to_file($config_ready['screenshot_file']);
-                $config_ready['icon'] = $this->app->url_manager->link_to_file($config_ready['screenshot_file']);
+                $config_ready['screenshot'] = mw()->url_manager->link_to_file($config_ready['screenshot_file']);
+                $config_ready['icon'] = mw()->url_manager->link_to_file($config_ready['screenshot_file']);
 
             }
         }
