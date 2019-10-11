@@ -881,9 +881,14 @@ class FieldsManager
             $template_file = $css_framework;
         }
 
-
+        $template_file_option = false;
         if (isset($data['params'])) {
-	        $template_file_option = get_option('data-template', $data['params']['id']);
+            $template_file_option = get_option('data-template', $data['params']['id']);
+        } else {
+            $template_file_option = get_option('data-template', $field_id);
+        }
+
+        if ($template_file_option) {
 	        $template_file_exp = explode('/', $template_file_option);
 	        if (!empty($template_file_exp[0])) {
 	        	$template_file = $template_file_exp[0];
@@ -911,7 +916,6 @@ class FieldsManager
                 } else {
                     $file = $custom_fields_from_theme . $field_type . '.php';
                 }
-                
                 if (is_file($file)) {
                     $load_from_theme = true;
                 }
@@ -925,6 +929,7 @@ class FieldsManager
                 $file = $dir . $field_type . '.php';
             }
         }
+
         if (!is_file($file)) {
             $field_type = 'text';
             if ($settings == true or isset($data['settings'])) {
@@ -933,8 +938,8 @@ class FieldsManager
                 $file = $dir . $field_type . '.php';
             }
         }
+
         $file = normalize_path($file, false);
-        
         if (is_file($file)) {
         	
         	/**

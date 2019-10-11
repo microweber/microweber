@@ -23,6 +23,14 @@ class CustomFieldsTemplatesTest extends TestCase
         $fields = mw()->fields_manager->make_default($rel, $rel_id, $fields_csv_str);
         foreach ($fields as $key=>$field_id) {
 
+
+            $option = array();
+            $option['option_value'] = 'bootstrap3/index.php';
+            $option['option_key'] = 'data-template';
+            $option['option_group'] = $field_id;
+            $save = save_option($option);
+
+
             $html_output = mw()->fields_manager->make($field_id);
             var_dump($html_output);
 
