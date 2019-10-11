@@ -14,7 +14,6 @@ class CustomFieldsTemplatesTest extends TestCase
 
     public function testCustomTemplate()
     {
-        return;
         // Make new custom template
         $templateCustomFields = mw()->template->dir()
                     . 'modules' . DS
@@ -34,6 +33,19 @@ class CustomFieldsTemplatesTest extends TestCase
          *
          */
         ?>
+        <?php if (!empty($fields_group)): ?>
+            <?php foreach ($fields_group as $fields): ?>
+    
+                <?php if (!empty($fields)): ?>
+    
+                    <?php foreach ($fields as $field): ?>
+                        <?php echo $field[\'html\']; ?>
+                    <?php endforeach; ?>
+    
+                <?php endif; ?>
+    
+            <?php endforeach; ?>
+        <?php endif; ?>
         ';
 
         file_put_contents($templateCustomFields . DS . 'index.php', $templateCustomFieldsIndex);
@@ -85,7 +97,7 @@ class CustomFieldsTemplatesTest extends TestCase
     {
         $rel = 'module';
         $rel_id = 'layouts-' . rand(1111, 9999) . '-contact-form';
-        $fields_csv_str = 'text, select, number, phone, website, email, fileupload, message';
+        $fields_csv_str = 'text, dropdown, number, phone, website, email, fileupload, message';
         $fields_csv_array = explode(',', $fields_csv_str);
 
         $fields = mw()->fields_manager->make_default($rel, $rel_id, $fields_csv_str);
@@ -101,28 +113,30 @@ class CustomFieldsTemplatesTest extends TestCase
             $field = mw()->fields_manager->get_by_id($field_id);
 
             $checkRow = false;
-            if (strpos($output, 'class="col-md-12"') !== false) {
+            if (strpos($output, 'class="col-md-12') !== false) {
                 $checkRow = true;
             }
             if (!$checkRow) {
-/*               var_dump($output);
-               die();*/
+               // var_dump($field);
+               //var_dump($output);
+              // die();
                 // echo $field['type'] . PHP_EOL;
             }
             $this->assertEquals(true, $checkRow);
 
             $checkInputClass = false;
-            if (strpos($output, 'class="form-control"') !== false) {
+            if (strpos($output, 'class="form-control') !== false) {
                 $checkInputClass = true;
             }
             if (!$checkInputClass) {
-                //  echo $field['type'] . PHP_EOL;
+                //var_dump($output);
+                //echo $field['type'] . PHP_EOL;
             }
 
             $this->assertEquals(true, $checkInputClass);
 
             $checkFormGroup = false;
-            if (strpos($output, 'class="form-group"') !== false) {
+            if (strpos($output, 'class="form-group') !== false) {
                 $checkFormGroup = true;
             }
             if (!$checkFormGroup) {
@@ -137,7 +151,7 @@ class CustomFieldsTemplatesTest extends TestCase
     {
         $rel = 'module';
         $rel_id = 'layouts-' . rand(1111, 9999) . '-contact-form';
-        $fields_csv_str = 'text, select, number, phone, website, email, fileupload, message';
+        $fields_csv_str = 'text, dropdown, number, phone, website, email, fileupload, message';
         $fields_csv_array = explode(',', $fields_csv_str);
 
         $fields = mw()->fields_manager->make_default($rel, $rel_id, $fields_csv_str);
@@ -153,7 +167,7 @@ class CustomFieldsTemplatesTest extends TestCase
             $field = mw()->fields_manager->get_by_id($field_id);
 
             $checkRow = false;
-            if (strpos($output, 'class="col-12"') !== false) {
+            if (strpos($output, 'class="col-12') !== false) {
                 $checkRow = true;
             }
             if (!$checkRow) {
@@ -162,7 +176,7 @@ class CustomFieldsTemplatesTest extends TestCase
             $this->assertEquals(true, $checkRow);
 
             $checkInputClass = false;
-            if (strpos($output, 'class="form-control"') !== false) {
+            if (strpos($output, 'class="form-control') !== false) {
                 $checkInputClass = true;
             }
             if (!$checkInputClass) {
@@ -172,7 +186,7 @@ class CustomFieldsTemplatesTest extends TestCase
             $this->assertEquals(true, $checkInputClass);
 
             $checkFormGroup = false;
-            if (strpos($output, 'class="form-group"') !== false) {
+            if (strpos($output, 'class="form-group') !== false) {
                 $checkFormGroup = true;
             }
             if (!$checkFormGroup) {
@@ -187,7 +201,7 @@ class CustomFieldsTemplatesTest extends TestCase
     {
         $rel = 'module';
         $rel_id = 'layouts-' . rand(1111, 9999) . '-contact-form';
-        $fields_csv_str = 'text, select, number, phone, website, email, fileupload, message';
+        $fields_csv_str = 'text, dropdown, number, phone, website, email, fileupload, message';
         $fields_csv_array = explode(',', $fields_csv_str);
 
         $fields = mw()->fields_manager->make_default($rel, $rel_id, $fields_csv_str);
@@ -203,7 +217,7 @@ class CustomFieldsTemplatesTest extends TestCase
             $field = mw()->fields_manager->get_by_id($field_id);
 
             $checkRow = false;
-            if (strpos($output, 'class="mw-flex-col-md-12"') !== false) {
+            if (strpos($output, 'class="mw-flex-col-md-12') !== false) {
                 $checkRow = true;
             }
             if (!$checkRow) {
@@ -214,7 +228,7 @@ class CustomFieldsTemplatesTest extends TestCase
 
 
             $checkInputClass = false;
-            if (strpos($output, 'class="mw-ui-field"') !== false) {
+            if (strpos($output, 'class="mw-ui-field') !== false) {
                 $checkInputClass = true;
             }
             if (!$checkInputClass) {
@@ -223,7 +237,7 @@ class CustomFieldsTemplatesTest extends TestCase
             $this->assertEquals(true, $checkInputClass);
 
             $checkFormGroup = false;
-            if (strpos($output, 'class="mw-ui-controls"') !== false) {
+            if (strpos($output, 'class="mw-ui-controls') !== false) {
                 $checkFormGroup = true;
             }
             if (!$checkFormGroup) {
