@@ -884,18 +884,15 @@ class FieldsManager
 
         if (isset($data['params'])) {
 	        $template_file_option = get_option('data-template', $data['params']['id']);
-	        /*
 	        $template_file_exp = explode('/', $template_file_option);
 	        if (!empty($template_file_exp[0])) {
 	        	$template_file = $template_file_exp[0];
 	        }
-	        */ 
         }
 
         if ($template_file == 'default') {
         	$template_file = 'mw-ui';
         }
-
 
         if ($settings == true or isset($data['settings'])) {
         	$dir = $dir . DS . 'microweber'.DS.'custom_fields' . DS;
@@ -907,8 +904,8 @@ class FieldsManager
         $load_from_theme = false;
         if (defined('ACTIVE_TEMPLATE_DIR')) {
         	$custom_fields_from_theme = ACTIVE_TEMPLATE_DIR . 'modules' . DS . 'custom_fields' . DS . 'templates' . DS . $template_file . DS;
-        	
             if (is_dir($custom_fields_from_theme)) {
+
                 if ($settings == true or isset($data['settings'])) {
                     $file = $custom_fields_from_theme . $field_type . '_settings.php';
                 } else {
@@ -920,7 +917,7 @@ class FieldsManager
                 }
             }
         }
-        
+
         if ($load_from_theme == false) {
             if ($settings == true or isset($data['settings'])) {
                 $file = $dir . $field_type . '_settings.php';
