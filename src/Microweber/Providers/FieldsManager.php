@@ -872,85 +872,19 @@ class FieldsManager
         if (isset($data['options']) and is_string($data['options'])) {
             $data['options'] = $this->_decode_options($data['options']);
         }
-        $dir = modules_path();
 
         $data = $this->app->url_manager->replace_site_url_back($data);
-        $template_file = 'mw-ui';
-        $css_framework = template_framework();
-        if($css_framework and is_dir($dir . DS . 'custom_fields' . DS . 'templates' . DS . $css_framework . DS)){
-            $template_file = $css_framework;
-        }
 
-        $template_file_option = false;
-        if (isset($data['params'])) {
-            $template_file_option = get_option('data-template', $data['params']['id']);
+        $template_files = $this->get_template_files($data);
+
+        if ($settings || isset($data['settings'])) {
+            $file = $template_files['settings_file'];
         } else {
-            $template_file_option = get_option('data-template', $field_id);
+            $file = $template_files['preview_file'];
         }
 
-        if ($template_file_option) {
-	        $template_file_exp = explode('/', $template_file_option);
-	        if (!empty($template_file_exp[0])) {
-	        	$template_file = $template_file_exp[0];
-	        }
-        }
-
-        if ($template_file == 'default') {
-        	$template_file = 'mw-ui';
-        }
-
-        if ($settings == true or isset($data['settings'])) {
-        	$dir = $dir . DS . 'microweber'.DS.'custom_fields' . DS;
-        } else {
-        	$dir = $dir . DS . 'custom_fields' . DS . 'templates' . DS . $template_file . DS;
-        }
-        
-        $field_type = str_replace('..', '', $field_type);
-        $load_from_theme = false;
-        if (defined('ACTIVE_TEMPLATE_DIR')) {
-        	$custom_fields_from_theme = ACTIVE_TEMPLATE_DIR . 'modules' . DS . 'custom_fields' . DS . 'templates' . DS . $template_file . DS;
-            if (is_dir($custom_fields_from_theme)) {
-
-                if ($settings == true or isset($data['settings'])) {
-                    $file = $custom_fields_from_theme . $field_type . '_settings.php';
-                } else {
-                    $file = $custom_fields_from_theme . $field_type . '.php';
-                }
-                if (is_file($file)) {
-                    $load_from_theme = true;
-                }
-            }
-        }
-
-        if ($load_from_theme == false) {
-            if ($settings == true or isset($data['settings'])) {
-                $file = $dir . $field_type . '_settings.php';
-            } else {
-                $file = $dir . $field_type . '.php';
-            }
-        }
-
-        if (!is_file($file)) {
-            $field_type = 'text';
-            if ($settings == true or isset($data['settings'])) {
-                $file = $dir . $field_type . '_settings.php';
-            } else {
-                $file = $dir . $field_type . '.php';
-            }
-        }
-
-        $file = normalize_path($file, false);
         if (is_file($file)) {
-        	
-        	/**
-        	 * field_data['name']
-        	 * field_data['id']
-        	 * field_data['placeholder']
-        	 *
-        	 * field_settings['required']
-        	 * field_settings['class']
-        	 */
-        	
+
         	$field_data = array();
         	$field_data['name'] = false;
         	$field_data['type'] = false;
@@ -1120,9 +1054,94 @@ class FieldsManager
         	if($settings and defined('MW_API_HTML_OUTPUT')){
         		$layout = $this->app->parser->process($layout, $options = false);
         	}
-        	
+
         	return $layout;
         }
+    }
+
+    public function get_template_files($data)
+    {
+        $settings_file = false;
+        $preview_file = false;
+
+        $template_name = $this->get_template_name($data);
+        $default_template_name = $this->get_default_template_name($data);
+
+        $ovewrite_templates_path = ACTIVE_TEMPLATE_DIR . 'modules' . DS . 'custom_fields' . DS . 'templates';
+        $original_tempaltes_path = modules_path() . 'custom_fields' . DS . 'templates';
+
+        $settings_file = modules_path() . DS . 'microweber' . DS . 'custom_fields' . DS . $data['type'] . '_settings.php';
+
+        // Try to open overwrite template files
+        $overwrite_template_file_preview = $ovewrite_templates_path . DS . $template_name . DS . $data['type'] . '.php';
+
+        // Try to open original template files
+        $original_template_file_preview = $original_tempaltes_path . DS . $template_name . DS . $data['type'] . '.php';
+
+        // Get default tempalte files
+        $default_template_file_preview = $original_tempaltes_path . DS .  $default_template_name . DS . $data['type'] . '.php';
+
+        // Try to get overwrite template file
+        if (is_file($overwrite_template_file_preview)) {
+            $preview_file = $overwrite_template_file_preview;
+        }
+
+        // Try to get template file for current theme
+        if (!$preview_file) {
+            if (is_file($original_template_file_preview)) {
+                $preview_file = $original_template_file_preview;
+            }
+        }
+
+        // Get default template file
+        if (!$preview_file) {
+            if (is_file($default_template_file_preview)) {
+                $preview_file = $default_template_file_preview;
+            }
+        }
+
+        $settings_file = normalize_path($settings_file, FALSE);
+        $preview_file = normalize_path($preview_file, FALSE);
+
+        return array('preview_file'=>$preview_file, 'settings_file'=>$settings_file);
+    }
+
+    public function get_template_name($data)
+    {
+        $template_name = false;
+
+        if (isset($data['params']['id'])) {
+            $template_name = get_option('data-template', $data['params']['id']);
+        } else {
+            $template_name = get_option('data-template', $data['id']);
+        }
+        if ($template_name) {
+            $template_name_exp = explode('/', $template_name);
+            if (!empty($template_name_exp[0])) {
+                $template_name = $template_name_exp[0];
+            }
+        }
+
+        if (!$template_name) {
+            return $this->get_default_template_name();
+        }
+
+        return $template_name;
+    }
+
+    public function get_default_template_name() {
+
+        $template_name = false;
+
+        if (!$template_name) {
+            $template_name = template_framework();
+        }
+
+        if (!$template_name) {
+            $template_name = 'mw-ui';
+        }
+
+        return $template_name;
     }
 
     /**
