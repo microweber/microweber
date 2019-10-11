@@ -12,6 +12,68 @@ class CustomFieldsTemplatesTest extends TestCase
         mw()->database_manager->extended_save_set_permission(true);
     }
 
+    public function testCustomTemplate()
+    {
+
+        // Make new custom template
+        $templateCustomFields = mw()->template->dir()
+                    . 'modules' . DIRECTORY_SEPARATOR
+                    . 'custom_fields' .DIRECTORY_SEPARATOR
+                    . 'templates' . DIRECTORY_SEPARATOR
+                    . 'unit-test';
+        mkdir_recursive($templateCustomFields);
+
+        $templateCustomFieldsIndex = '<?php
+        /*
+         *
+         * type: layout
+         *
+         * name: Unit Test
+         *
+         * description: Unit Test
+         *
+         */
+        ?>
+        ';
+
+        file_put_contents($templateCustomFields . DIRECTORY_SEPARATOR . 'index.php', $templateCustomFieldsIndex);
+        file_put_contents($templateCustomFields . DIRECTORY_SEPARATOR . 'text.php', '<input type="text" class="unit-test" />');
+
+        $rel = 'module';
+        $rel_id = 'layouts-' . rand(1111, 9999) . '-contact-form';
+        $fields_csv_str = 'text, email';
+        $fields_csv_array = explode(',', $fields_csv_str);
+
+        $fields = mw()->fields_manager->make_default($rel, $rel_id, $fields_csv_str);
+        foreach ($fields as $key => $field_id) {
+
+            $option = array();
+            $option['option_value'] = 'unit-test/index.php';
+            $option['option_key'] = 'data-template';
+            $option['option_group'] = $field_id;
+            $save = save_option($option);
+
+            $output = mw()->fields_manager->make($field_id);
+            $field = mw()->fields_manager->get_by_id($field_id);
+
+            $checkOutput = false;
+            if (empty($output)) {
+                $checkOutput = true;
+            }
+            $this->assertEquals(true, $checkOutput);
+
+            $checkInputClass = false;
+            if (strpos($output, 'class="unit-test"') !== false) {
+                $checkInputClass = true;
+            }
+            if (!$checkInputClass) {
+                //  echo $field['type'] . PHP_EOL;
+            }
+            $this->assertEquals(true, $checkInputClass);
+
+        }
+    }
+
     public function testBootstrapTempalte()
     {
         $rel = 'module';
