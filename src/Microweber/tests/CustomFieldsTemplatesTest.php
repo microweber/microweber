@@ -23,18 +23,33 @@ class CustomFieldsTemplatesTest extends TestCase
         $fields = mw()->fields_manager->make_default($rel, $rel_id, $fields_csv_str);
         foreach ($fields as $key=>$field_id) {
 
-
             $option = array();
             $option['option_value'] = 'bootstrap3/index.php';
             $option['option_key'] = 'data-template';
             $option['option_group'] = $field_id;
             $save = save_option($option);
 
+            $output = mw()->fields_manager->make($field_id);
 
-            $html_output = mw()->fields_manager->make($field_id);
-            var_dump($html_output);
+            $checkRow = false;
+            if (strpos($output, 'class="col-md-12"') !== false) {
+                $checkRow = true;
+            }
+            $this->assertEquals($checkRow, true);
 
-            die();
+
+            $checkInputClass = false;
+            if (strpos($output, 'class="form-control"') !== false) {
+                $checkInputClass = true;
+            }
+            $this->assertEquals($checkInputClass, true);
+
+            $checkFormGroup = false;
+            if (strpos($output, 'class="form-group"') !== false) {
+                $checkFormGroup = true;
+            }
+            $this->assertEquals($checkFormGroup, true);
+
         }
     }
 }
