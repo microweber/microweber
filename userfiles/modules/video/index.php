@@ -83,7 +83,12 @@ if ($upload && !$code) {
     $video->setPlayEmbedVideo(false);
     $video->setPlayUploadedVideo(true);
 }
+
+
+
 $code = $video->render();
+
+$provider = $video->getProvider();
 
 $module_template = get_option('data-template', $params['id']);
 

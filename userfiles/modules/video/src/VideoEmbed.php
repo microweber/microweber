@@ -252,21 +252,27 @@ class VideoEmbed
                 switch ($videoUrlHost) {
                     case 'youtube.com':
                         $html = $this->_getYoutubePlayer($videoUrl);
+                        $this->providerIs = 'youtube';
                         break;
                     case 'youtu.be':
                         $html = $this->_getYoutuPlayer($videoUrl);
+                        $this->providerIs = 'youtube';
                         break;
                     case 'facebook.com':
                         $html = $this->_getFacebookPlayer($videoUrl);
+                        $this->providerIs = 'facebook';
                         break;
                     case 'vimeo.com':
                         $html = $this->_getVimeoPlayer($videoUrl);
+                        $this->providerIs = 'vimeo';
                         break;
                     case 'metacafe.com':
                         $html = $this->_getMetCafePlayer($videoUrl);
+                        $this->providerIs = 'metacafe';
                         break;
                     case 'dailymotion.com':
                         $html = $this->_getDailyMotionPlayer($videoUrl);
+                        $this->providerIs = 'dailymotion';
                         break;
                 }
             }
@@ -282,34 +288,46 @@ class VideoEmbed
         }
     }
 
-    protected function _getFacebookPlayer($url) {
+    public $providerIs = '';
+
+    public function getProvider()
+    {
+        return $this->providerIs;
+
+    }
+
+    protected function _getFacebookPlayer($url)
+    {
 
         $urlParse = parse_url($url);
 
-        if(!isset($urlParse['query']) or $urlParse['query'] == false){
+        if (!isset($urlParse['query']) or $urlParse['query'] == false) {
             return false;
         }
 
         $id = explode('v=', $urlParse['query']);
-        parse_str($urlParse['query'],$query);
+        parse_str($urlParse['query'], $query);
 
         if (isset($query['v'])) {
-            return '<script>(function(d, s, id) {  var js, fjs = d.getElementsByTagName(s)[0];  if (d.getElementById(id)) return;  js = d.createElement(s); js.id = id;  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";  fjs.parentNode.insertBefore(js, fjs);}(document, \'script\', \'facebook-jssdk\'));</script><div class="fb-post" data-href="https://www.facebook.com/video.php?v='.$query['v'].'" data-width="' . $this->getWidth() . '" data-height="' . $this->getHeight() . '"><div class="fb-xfbml-parse-ignore"></div></div>';
+            return '<script>(function(d, s, id) {  var js, fjs = d.getElementsByTagName(s)[0];  if (d.getElementById(id)) return;  js = d.createElement(s); js.id = id;  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";  fjs.parentNode.insertBefore(js, fjs);}(document, \'script\', \'facebook-jssdk\'));</script><div class="fb-post" data-href="https://www.facebook.com/video.php?v=' . $query['v'] . '" data-width="' . $this->getWidth() . '" data-height="' . $this->getHeight() . '"><div class="fb-xfbml-parse-ignore"></div></div>';
         }
 
         return false;
     }
 
-    protected function _getVimeoPlayer($url) {
+    protected function _getVimeoPlayer($url)
+    {
 
         $urlParse = parse_url($url);
         $urlParse = ltrim($urlParse['path'], '/');
 
-        $videoUrl = $this->_getPortocol() . 'player.vimeo.com/video/' . $urlParse . '?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;color=bc9b6a&wmode=transparent&autoplay=' . $this->isAutoplay();
-        return $this->_getVideoIframe($videoUrl);
+        //$videoUrl = $this->_getPortocol() . 'player.vimeo.com/video/' . $urlParse . '?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;color=bc9b6a&wmode=transparent&autoplay=' . $this->isAutoplay();
+        return $videoUrl = '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/' . $urlParse . '?title=0&byline=0&portrait=0&autoplay=' . $this->isAutoplay() . '" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe></div><script src="https://player.vimeo.com/api/player.js"></script></div>';
+        //return $this->_getVideoIframe($videoUrl);
     }
 
-    protected function _getMetCafePlayer($url) {
+    protected function _getMetCafePlayer($url)
+    {
 
         $urlParse = parse_url($url);
         $urlPath = ltrim($urlParse['path'], '/');
@@ -324,7 +342,8 @@ class VideoEmbed
         return $this->_getVideoIframe($videoUrl);
     }
 
-    protected function _getYoutuPlayer($url) {
+    protected function _getYoutuPlayer($url)
+    {
 
         $urlParse = parse_url($url);
         $urlParse = ltrim($urlParse['path'], '/');
@@ -336,12 +355,12 @@ class VideoEmbed
     protected function _getYoutubePlayer($url)
     {
         $urlParse = parse_url($url);
-        if(!isset($urlParse['query']) or $urlParse['query'] == false){
+        if (!isset($urlParse['query']) or $urlParse['query'] == false) {
             return false;
         }
 
         $id = explode('v=', $urlParse['query']);
-        parse_str($urlParse['query'],$query);
+        parse_str($urlParse['query'], $query);
 
         if (isset($query['v'])) {
             $videoUrl = $this->_getPortocol() . 'youtube.com/embed/' . $query['v'] . '?v=1&wmode=transparent&autoplay=' . $this->isAutoplay();
@@ -371,16 +390,16 @@ class VideoEmbed
     {
         $attributes = array();
         $attributes[] = 'frameborder="0"';
-        $attributes[] = 'width="'.$this->getWidth() .'"';
-        $attributes[] = 'height="'.$this->getHeight() .'"';
+        $attributes[] = 'width="' . $this->getWidth() . '"';
+        $attributes[] = 'height="' . $this->getHeight() . '"';
         $attributes[] = 'allowFullScreen="true"';
 
         if ($this->isLazyLoad()) {
             $attributes[] = 'class="js-mw-embed-iframe-' . $this->getId() . '"';
             $attributes[] = 'style="display:none;"';
-            $attributes[] = 'data-src="'.$url .'"';
+            $attributes[] = 'data-src="' . $url . '"';
         } else {
-            $attributes[] = 'src="'.$url .'"';
+            $attributes[] = 'src="' . $url . '"';
         }
 
         return '<iframe ' . implode(" ", $attributes) . '></iframe>';
@@ -430,7 +449,7 @@ class VideoEmbed
             $class .= ' js-mw-embed-wrapper-' . $this->getId();
         }
 
-        return '<div class="mwembed '.$class.'" ' . $this->_getEmbedWrapperStyles() . '>' . $html . '</div>';
+        return '<div class="mwembed ' . $class . '" ' . $this->_getEmbedWrapperStyles() . '>' . $html . '</div>';
     }
 
     protected function _getEmbedIframeWrapper($html = '')
