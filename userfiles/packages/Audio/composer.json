@@ -1,0 +1,15 @@
+{
+    "name": "microweber/audio",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Microweber\\Packages\\Audio\\": ""
+        }
+    }
+}

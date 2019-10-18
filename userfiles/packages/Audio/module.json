@@ -1,0 +1,16 @@
+{
+    "name": "Audio",
+    "alias": "audio",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Microweber\\Packages\\Audio\\Providers\\AudioServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}
