@@ -251,7 +251,7 @@ if (isset($params['quick_edit'])) {
                                             </script>
 
                                             <?php event_trigger('content.edit.title.after'); ?>
-                                            <?php $custom_title_ui = mw()->modules->ui('content.edit.title.after'); ?>
+                                            <?php $custom_title_ui = mw()->modules_manager->ui('content.edit.title.after'); ?>
                                             <?php if (!empty($custom_title_ui)): ?>
                                                 <?php foreach ($custom_title_ui as $item): ?>
                                                     <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
@@ -263,7 +263,7 @@ if (isset($params['quick_edit'])) {
                                                          title="<?php print $title; ?>"><?php print $html; ?></div>
                                                 <?php endforeach; ?>
                                             <?php endif; ?>
-                                            <?php $custom_title_ui = mw()->modules->ui('content.edit.title.end'); ?>
+                                            <?php $custom_title_ui = mw()->modules_manager->ui('content.edit.title.end'); ?>
                                             <?php if (!empty($custom_title_ui)): ?>
                                                 <?php foreach ($custom_title_ui as $item): ?>
                                                     <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>

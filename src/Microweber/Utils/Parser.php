@@ -2187,10 +2187,10 @@ class Parser
 //            }
 
 
-            $installed_module = $this->app->modules->get('single=1&ui=any&module=' . $module_name);
+            $installed_module = $this->app->modules_manager->get('single=1&ui=any&module=' . $module_name);
 
 
-//            $is_installed = $this->app->modules->is_installed($module_name);
+//            $is_installed = $this->app->modules_manager->is_installed($module_name);
 //
 //            if(!$is_installed){
 //                d($module_name);
@@ -2200,14 +2200,14 @@ class Parser
 
             $modules_dir_default = modules_path() . $module_name;
             $modules_dir_default = normalize_path($modules_dir_default, true);
-            $module_name_root = mw()->modules->locate_root_module($module_name);
+            $module_name_root = mw()->modules_manager->locate_root_module($module_name);
             $modules_dir_default_root = modules_path() . $module_name_root;
             $modules_dir_default_root = normalize_path($modules_dir_default_root, true);
 
 
 
             if ($module_name_root and is_dir($modules_dir_default_root) and is_file($modules_dir_default_root . 'config.php')) {
-                $is_installed = $this->app->modules->is_installed($module_name_root);
+                $is_installed = $this->app->modules_manager->is_installed($module_name_root);
                 if (!$is_installed) {
                     return '';
                 }
@@ -2224,7 +2224,7 @@ class Parser
             }
 
             //$config['url_to_module'] = rtrim($config['url_to_module'], '///');
-            $lic = $this->app->modules->license($module_name);
+            $lic = $this->app->modules_manager->license($module_name);
             //  $lic = 'valid';
             if ($lic != false) {
                 $config['license'] = $lic;
@@ -2341,7 +2341,7 @@ class Parser
     public function replace_non_cached_modules_with_placeholders($layout)
     {
         //   $non_cached
-        $non_cached = $this->app->modules->get('allow_caching=0&ui=any');
+        $non_cached = $this->app->modules_manager->get('allow_caching=0&ui=any');
         $has_changes = false;
 //dd($non_cached);
         if (!$non_cached or $layout == '') {

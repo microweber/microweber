@@ -84,7 +84,7 @@ class UpdateManager
 
         $t = site_templates();
         $data['templates'] = $t;
-        $t = $this->app->modules->get('ui=any&no_limit=true');
+        $t = $this->app->modules_manager->get('ui=any&no_limit=true');
         $modules = array();
         $data['module_templates'] = array();
         if (is_array($t)) {
@@ -95,7 +95,7 @@ class UpdateManager
                     $value['dir_name'] = $value['module'];
                     $modules[] = $value;
 
-                    $module_templates = $this->app->modules->templates($value['module']);
+                    $module_templates = $this->app->modules_manager->templates($value['module']);
                     $mod_tpls = array();
                     if (is_array($module_templates)) {
                         foreach ($module_templates as $key1 => $value1) {
@@ -122,9 +122,9 @@ class UpdateManager
         $data['modules'] = $modules;
 
         if ($this->skip_cache) {
-            $t = $this->app->modules->scan_for_elements('skip_cache=1');
+            $t = $this->app->modules_manager->scan_for_elements('skip_cache=1');
         } else {
-            $t = $this->app->modules->scan_for_elements();
+            $t = $this->app->modules_manager->scan_for_elements();
         }
         $elements = array();
         if (is_array($t)) {
@@ -896,12 +896,12 @@ class UpdateManager
             $params = array();
             $params['skip_cache'] = true;
 
-            $data = $this->app->modules->get($params);
+            $data = $this->app->modules_manager->get($params);
             $this->app->cache_manager->delete('update/global');
             $this->app->cache_manager->delete('db');
             $this->app->cache_manager->delete('modules');
 
-            $this->app->modules->scan_for_modules();
+            $this->app->modules_manager->scan_for_modules();
         }
 
         return $result;
@@ -941,7 +941,7 @@ class UpdateManager
             $params = array();
             $params['skip_cache'] = true;
 
-            // $data = $this->app->modules->get($params);
+            // $data = $this->app->modules_manager->get($params);
         }
 
         return $result;
@@ -1027,7 +1027,7 @@ class UpdateManager
         if ($adm == false) {
             return;
         }
-        $table = $this->app->modules->tables['system_licenses'];
+        $table = $this->app->modules_manager->tables['system_licenses'];
         if ($table == false) {
             return;
         }
@@ -1076,7 +1076,7 @@ class UpdateManager
             $params = $params2;
         }
 
-        $table = $this->app->modules->tables['system_licenses'];
+        $table = $this->app->modules_manager->tables['system_licenses'];
         if ($table == false) {
             return;
         }
@@ -1093,7 +1093,7 @@ class UpdateManager
         if ($adm == false) {
             return;
         }
-        $table = $this->app->modules->tables['system_licenses'];
+        $table = $this->app->modules_manager->tables['system_licenses'];
         if ($table == false) {
             return;
         }

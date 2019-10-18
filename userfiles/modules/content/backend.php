@@ -842,7 +842,7 @@ if ($action == 'posts') {
 
 
 
-                        <?php $custom_title_ui = mw()->modules->ui('content.manager.tree.after'); ?>
+                        <?php $custom_title_ui = mw()->modules_manager->ui('content.manager.tree.after'); ?>
                         <?php if (!empty($custom_title_ui)): ?>
                             <?php foreach ($custom_title_ui as $item): ?>
                                 <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>

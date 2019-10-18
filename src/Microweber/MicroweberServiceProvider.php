@@ -233,7 +233,7 @@ class MicroweberServiceProvider extends ServiceProvider
             'log_manager' => 'LogManager',
             'option_manager' => 'OptionManager',
             'template' => 'Template',
-            'modules' => 'Modules',
+            'modules_manager' => 'Modules',
             'category_manager' => 'CategoryManager',
             'menu_manager' => 'MenuManager',
             'user_manager' => 'UserManager',

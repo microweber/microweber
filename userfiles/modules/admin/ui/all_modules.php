@@ -1,7 +1,7 @@
 <?php
 
 
-$modules = mw()->modules->get('installed=1&ui=1');
+$modules = mw()->modules_manager->get('installed=1&ui=1');
 
 
 foreach($modules as $module){

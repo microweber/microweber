@@ -10,7 +10,7 @@ if (!isset($params['parent-module'])) {
 
 $v_mod = $params['parent-module'];
 
-$module = mw()->modules->get('one=1&ui=any&module=' . $v_mod);
+$module = mw()->modules_manager->get('one=1&ui=any&module=' . $v_mod);
 ?>
 
 <div class="section-header">

@@ -34,7 +34,7 @@ if (isset($is_elements) and $is_elements == true) {
     if ($modules == false) {
         // scan_for_modules($modules_options);
         $el_params['no_cache'] = true;
-                mw()->modules->scan_for_elements($el_params);
+                mw()->modules_manager->scan_for_elements($el_params);
         $modules = mw()->layouts_manager->get($el_params);
 
 
@@ -72,15 +72,15 @@ if (isset($is_elements) and $is_elements == true) {
     $dynamic_layouts = false;
     $module_layouts_skins = false;
     $dynamic_layouts = mw()->layouts_manager->get_all('no_cache=1&get_dynamic_layouts=1');
-      $module_layouts_skins = mw()->modules->templates('layouts');
+      $module_layouts_skins = mw()->modules_manager->templates('layouts');
     if($hide_dynamic_layouts){
          $dynamic_layouts =  false;
          $module_layouts_skins =  false;
     }
 
 
-    // $module_layouts_skins_def = mw()->modules->templates('layouts',false, false, 'module_dir');
-    //$module_layouts_skins_def = mw()->modules->templates('layouts',false, false, 'dream');
+    // $module_layouts_skins_def = mw()->modules_manager->templates('layouts',false, false, 'module_dir');
+    //$module_layouts_skins_def = mw()->modules_manager->templates('layouts',false, false, 'dream');
 //var_dump($module_layouts_skins_def);
 //    if(is_array($module_layouts_skins) and is_arr($module_layouts_skins_def) and ($module_layouts_skins != $module_layouts_skins_def)){
 //        $module_layouts_skins = array_merge($module_layouts_skins,$module_layouts_skins_def);
@@ -88,8 +88,8 @@ if (isset($is_elements) and $is_elements == true) {
 
 
 } else {
-    $modules = mw()->modules->get('installed=1&ui=1');
-    $module_layouts = mw()->modules->get('installed=1&module=layouts');
+    $modules = mw()->modules_manager->get('installed=1&ui=1');
+    $module_layouts = mw()->modules_manager->get('installed=1&module=layouts');
 
 
     $hide_from_display_list = array('layouts','template_settings');
@@ -114,7 +114,7 @@ if (isset($is_elements) and $is_elements == true) {
 
 
 
-    $modules_from_template = mw()->modules->get_modules_from_current_site_template();
+    $modules_from_template = mw()->modules_manager->get_modules_from_current_site_template();
     if (!empty($modules_from_template)) {
         if (!is_array($modules)) {
             $modules = array();

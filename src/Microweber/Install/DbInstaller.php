@@ -25,7 +25,7 @@ class DbInstaller
         Cache::flush();
 //        $this->log('Installing modules');
 //
-//        mw()->modules->install();
+//        mw()->modules_manager->install();
     }
 
     public function getSystemSchemas()

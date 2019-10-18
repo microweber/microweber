@@ -1339,7 +1339,7 @@ class Modules
                     if (is_dir($modules_dir_default) and is_file($modules_dir_default . 'config.php')) {
                         $this->_module_locations_root_cache[$module_name] = $module_name_check;
                         return $module_name_check;
-//                        $is_installed = $this->app->modules->is_installed($module_name_check);
+//                        $is_installed = $this->app->modules_manager->is_installed($module_name_check);
 //                        if (!$is_installed) {
 //                            return '';
 //                        }

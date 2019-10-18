@@ -3,7 +3,7 @@
 }
 
 
-$custom_tabs = mw()->modules->ui('content.edit.tabs');
+$custom_tabs = mw()->modules_manager->ui('content.edit.tabs');
 
 ?>
 <div id="settings-tabs">
