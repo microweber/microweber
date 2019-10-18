@@ -1,0 +1,15 @@
+{
+    "name": "microweber/audio",
+    "description": "",
+    "authors": [
+        {
+            "name": "Bozhidar Slaveykov",
+            "email": "bobi@microweber.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Packages\\Audio\\": ""
+        }
+    }
+}

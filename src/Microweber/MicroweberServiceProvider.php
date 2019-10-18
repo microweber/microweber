@@ -122,6 +122,9 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
+
+        $this->app->register('Nwidart\Modules\LaravelModulesServiceProvider');
+        $this->aliasInstance->alias('Module', 'Nwidart\Modules\Facades\Module::class');
     }
 
     protected function registerLaravelProviders()
