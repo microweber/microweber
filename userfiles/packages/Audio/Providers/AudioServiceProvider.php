@@ -34,7 +34,8 @@ class AudioServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        mw()->modules_manager->register('audio', ' Microweber\Packages\Audio\Http\Controllers\AudioController@index');
+        mw()->modules_manager->register('audio/admin', ' Microweber\Packages\Audio\Http\Controllers\AudioController@admin');
     }
 
     /**

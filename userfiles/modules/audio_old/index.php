@@ -18,9 +18,3 @@
             <?php print lnotif(_e('Upload Audio File or paste URL.', true));   ?>
         <?php } ?>
 </div>
-
-
-
-
-
-
