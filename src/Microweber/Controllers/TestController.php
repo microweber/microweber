@@ -6,10 +6,11 @@ use Illuminate\Routing\Controller;
 
 class TestController extends Controller
 {
-    public function getIndex()
+    public function index($params)
     {
-        $a = new \Microweber\Install\WebserverInstaller();
-        $a = $a->run();
-        dd($a);
+        return 'Hello from TestController@index';
     }
+
+
+   
 }

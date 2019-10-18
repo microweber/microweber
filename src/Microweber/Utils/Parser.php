@@ -1981,6 +1981,8 @@ class Parser
         return $contentNode;
     }
 
+    public $module_registry = array();
+
     public function load($module_name, $attrs = array())
     {
         $is_element = false;
@@ -2017,6 +2019,59 @@ class Parser
         if (!defined('ACTIVE_TEMPLATE_DIR')) {
             $this->app->content_manager->define_constants();
         }
+
+
+
+        if (isset($attrs) and is_array($attrs) and !empty($attrs)) {
+            $attrs2 = array();
+            foreach ($attrs as $attrs_k => $attrs_v) {
+                $attrs_k2 = substr($attrs_k, 0, 5);
+                if (strtolower($attrs_k2) == 'data-') {
+                    $attrs_k21 = substr($attrs_k, 5);
+                    $attrs2[$attrs_k21] = $attrs_v;
+                } elseif (!isset($attrs['data-' . $attrs_k])) {
+                    $attrs2['data-' . $attrs_k] = $attrs_v;
+                }
+
+                $attrs2[$attrs_k] = $attrs_v;
+            }
+            $attrs = $attrs2;
+        }
+
+
+        if (isset($attrs['module-id']) and $attrs['module-id'] != false) {
+            $attrs['id'] = $attrs['module-id'];
+        }
+
+        if (!isset($attrs['id'])) {
+            global $mw_mod_counter;
+            ++$mw_mod_counter;
+            //  $seg_clean = $this->app->url_manager->segment(0);
+            $seg_clean = $this->app->url_manager->segment(0, url_current());
+
+
+            if (defined('IS_HOME')) {
+                $seg_clean = '';
+            }
+            $seg_clean = str_replace('%20', '-', $seg_clean);
+            $seg_clean = str_replace(' ', '-', $seg_clean);
+            $seg_clean = str_replace('.', '', $seg_clean);
+            $attrs1 = crc32(serialize($attrs) . $seg_clean . $mw_mod_counter);
+            $attrs1 = str_replace('%20', '-', $attrs1);
+            $attrs1 = str_replace(' ', '-', $attrs1);
+            $attrs['id'] = ( $this->module_css_class($module_name) . '-' . $attrs1);
+        }
+        if (isset($attrs['id']) and strstr($attrs['id'], '__MODULE_CLASS_NAME__')) {
+            $attrs['id'] = str_replace('__MODULE_CLASS_NAME__',  $this->module_css_class($module_name), $attrs['id']);
+            //$attrs['id'] = ('__MODULE_CLASS__' . '-' . $attrs1);
+        }
+
+        if(isset($this->module_registry[$module_name]) and $this->module_registry[$module_name]){
+            return   \App::call($this->module_registry[$module_name], ["params"=>$attrs]);
+        }
+
+
+
 
         $module_in_template_dir = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '';
         $module_in_template_dir = normalize_path($module_in_template_dir, 1);
@@ -2082,23 +2137,14 @@ class Parser
                 }
             }
         }
+
+
+
+
+
         //
         if (isset($try_file1) != false and $try_file1 != false and is_file($try_file1)) {
-            if (isset($attrs) and is_array($attrs) and !empty($attrs)) {
-                $attrs2 = array();
-                foreach ($attrs as $attrs_k => $attrs_v) {
-                    $attrs_k2 = substr($attrs_k, 0, 5);
-                    if (strtolower($attrs_k2) == 'data-') {
-                        $attrs_k21 = substr($attrs_k, 5);
-                        $attrs2[$attrs_k21] = $attrs_v;
-                    } elseif (!isset($attrs['data-' . $attrs_k])) {
-                        $attrs2['data-' . $attrs_k] = $attrs_v;
-                    }
 
-                    $attrs2[$attrs_k] = $attrs_v;
-                }
-                $attrs = $attrs2;
-            }
             $config = array();
             $config['path_to_module'] = $config['mp'] = $config['path'] = normalize_path((dirname($try_file1)) . '/', true);
             $config['the_module'] = $module_name;
@@ -2164,7 +2210,6 @@ class Parser
                 $is_installed = $this->app->modules->is_installed($module_name_root);
                 if (!$is_installed) {
                     return '';
-
                 }
             }
 
@@ -2185,35 +2230,17 @@ class Parser
                 $config['license'] = $lic;
             }
 
-            if (isset($attrs['module-id']) and $attrs['module-id'] != false) {
-                $attrs['id'] = $attrs['module-id'];
-            }
-
-            if (!isset($attrs['id'])) {
-                global $mw_mod_counter;
-                ++$mw_mod_counter;
-                //  $seg_clean = $this->app->url_manager->segment(0);
-                $seg_clean = $this->app->url_manager->segment(0, url_current());
 
 
-                if (defined('IS_HOME')) {
-                    $seg_clean = '';
-                }
-                $seg_clean = str_replace('%20', '-', $seg_clean);
-                $seg_clean = str_replace(' ', '-', $seg_clean);
-                $seg_clean = str_replace('.', '', $seg_clean);
-                $attrs1 = crc32(serialize($attrs) . $seg_clean . $mw_mod_counter);
-                $attrs1 = str_replace('%20', '-', $attrs1);
-                $attrs1 = str_replace(' ', '-', $attrs1);
-                $attrs['id'] = ($config['module_class'] . '-' . $attrs1);
-            }
-            if (isset($attrs['id']) and strstr($attrs['id'], '__MODULE_CLASS_NAME__')) {
-                $attrs['id'] = str_replace('__MODULE_CLASS_NAME__', $config['module_class'], $attrs['id']);
-                //$attrs['id'] = ('__MODULE_CLASS__' . '-' . $attrs1);
-            }
 
-            //load scripts and css
             $module_css = '';
+
+
+           /*
+           Deprecated
+
+           //load scripts and css
+
             $module_css_file = dirname($try_file1) . DS . 'module.css';
             if (is_file($module_css_file)) {
                 $module_css = @file_get_contents($module_css_file);
@@ -2221,7 +2248,7 @@ class Parser
                 if ($module_css) {
                     $module_css = str_replace('#module', '#' . url_title($attrs['id']), $module_css);
                 }
-            }
+            }*/
 
 
             $l1 = new \Microweber\View($try_file1);
