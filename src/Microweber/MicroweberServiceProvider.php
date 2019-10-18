@@ -312,6 +312,16 @@ class MicroweberServiceProvider extends ServiceProvider
         if (file_exists($routesFile)) {
             include $routesFile;
         }
+
+        $routeCollection = \Route::getRoutes();
+        foreach ($routeCollection as $route) {
+            if(isset($route->action) && isset($route->action['middleware']) && isset($route->action['controller'])) {
+                if((is_array($route->action['middleware']) && in_array('module', $route->action['middleware']))
+                    || (is_string($route->action['middleware']) && $route->action['middleware'] == 'module')) {
+                    mw()->modules_manager->register($route->uri, $route->action['controller']);
+                }
+            }
+        }
     }
 
     public function autoloadModules($className)

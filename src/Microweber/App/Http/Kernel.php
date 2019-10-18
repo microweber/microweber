@@ -27,6 +27,7 @@ class Kernel extends HttpKernel {
 		'auth' => 'Microweber\App\Http\Middleware\Authenticate',
 		'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
 		'guest' => 'Microweber\App\Http\Middleware\RedirectIfAuthenticated',
+        'module' => 'Microweber\App\Http\Middleware\ModuleMiddleware'
 	];
 
 }
