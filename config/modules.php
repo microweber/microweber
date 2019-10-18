@@ -11,7 +11,7 @@ return [
     |
     */
 
-    'namespace' => 'Packages',
+    'namespace' => 'Microweber\Packages',
 
     /*
     |--------------------------------------------------------------------------
