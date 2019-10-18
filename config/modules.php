@@ -142,8 +142,8 @@ return [
     'composer' => [
         'vendor' => 'microweber',
         'author' => [
-            'name' => 'Bozhidar Slaveykov',
-            'email' => 'bobi@microweber.com',
+            'name' => 'Microweber Team',
+            'email' => 'info@microweber.com',
         ],
     ],
     /*
