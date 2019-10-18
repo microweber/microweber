@@ -315,10 +315,20 @@ class MicroweberServiceProvider extends ServiceProvider
 
         $routeCollection = \Route::getRoutes();
         foreach ($routeCollection as $route) {
-            if(isset($route->action) && isset($route->action['middleware']) && isset($route->action['controller'])) {
+
+            if (isset($route->action) && isset($route->action['middleware'])) {
                 if((is_array($route->action['middleware']) && in_array('module', $route->action['middleware']))
                     || (is_string($route->action['middleware']) && $route->action['middleware'] == 'module')) {
-                    mw()->modules_manager->register($route->uri, $route->action['controller']);
+
+                    // Call with controller
+                    if (isset($route->action['controller']) && !empty($route->action['controller'])) {
+                        mw()->modules_manager->register($route->uri, $route->action['controller']);
+                    }
+
+                    // Call with uses
+                    if (isset($route->action['uses']) && is_callable($route->action['uses'])) {
+                        mw()->modules_manager->register($route->uri, $route->action['uses']);
+                    }
                 }
             }
         }
