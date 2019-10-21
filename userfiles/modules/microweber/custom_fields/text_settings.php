@@ -63,11 +63,12 @@
        <div class="mw-custom-field-group">
            <label class="mw-ui-label" for="value<?php print $rand; ?>"><?php _e("Placeholder"); ?></label>
            <div id="mw-custom-fields-text-holder">
-               <input class="mw-ui-field mw-full-width" name="placeholder" value="<?php echo $data['placeholder']; ?>" />
+               <input type="text" class="mw-ui-field mw-full-width" name="placeholder" value="<?php echo $data['placeholder']; ?>" />
            </div>
        </div>
 
-    <?php print $savebtn; ?>
+
+       <?php print $savebtn; ?>
     
     </div>
 
