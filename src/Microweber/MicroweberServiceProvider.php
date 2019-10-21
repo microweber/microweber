@@ -312,13 +312,15 @@ class MicroweberServiceProvider extends ServiceProvider
         if (file_exists($routesFile)) {
             include $routesFile;
         }
-
+/*
         $routeCollection = \Route::getRoutes();
         foreach ($routeCollection as $route) {
 
             if (isset($route->action) && isset($route->action['middleware'])) {
                 if((is_array($route->action['middleware']) && in_array('module', $route->action['middleware']))
-                    || (is_string($route->action['middleware']) && $route->action['middleware'] == 'module')) {
+                    || (is_array($route->action['middleware']) && in_array('module.admin', $route->action['middleware']))
+                    || (is_string($route->action['middleware']) && $route->action['middleware'] == 'module')
+                    || (is_string($route->action['middleware']) && $route->action['middleware'] == 'module.admin')) {
 
                     // Call with controller
                     if (isset($route->action['controller']) && !empty($route->action['controller'])) {
@@ -331,7 +333,7 @@ class MicroweberServiceProvider extends ServiceProvider
                     }
                 }
             }
-        }
+        }*/
     }
 
     public function autoloadModules($className)

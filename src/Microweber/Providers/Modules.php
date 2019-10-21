@@ -1356,7 +1356,7 @@ class Modules
 
     public function register($module_type, $controller)
     {
-        $this->app->parser->module_registry[$module_type] = $controller;
+        $this->app->parser->module_registry[trim($module_type)] = trim($controller);
     }
 
 }
