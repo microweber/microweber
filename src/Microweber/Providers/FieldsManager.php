@@ -161,7 +161,7 @@ class FieldsManager
                             $make_field['options']['as_text_area'] = $as_text_area;
                         }
 
-                        
+
                         $saved_fields[] = $this->save($make_field);
 
                         ++$pos;
@@ -218,7 +218,6 @@ class FieldsManager
         if (isset($data['rel']) and !isset($data['rel_type'])) {
             $data['rel_type'] = $data['rel'];
         }
-        
         
         if (isset($data['options']['field_type']) && !empty($data['options']['field_type'])) {
         	$data['type'] = $data['options']['field_type'];
@@ -954,6 +953,10 @@ class FieldsManager
 
         if (isset($data['id'])) {
             $field_data['id'] = $data['id'];
+        }
+
+        if (isset($data['placeholder'])) {
+            $field_data['placeholder'] = $data['placeholder'];
         }
 
         if (isset($data['make_select'])) {

@@ -137,7 +137,7 @@ class Content
                 'type' => 'string',
                 'name' => 'text',
                 'name_key' => 'text',
-
+                'placeholder' => 'text',
                 'updated_at' => 'dateTime',
                 'created_at' => 'dateTime',
                 'created_by' => 'integer',
