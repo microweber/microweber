@@ -503,10 +503,23 @@ if ($registration_approval_required == false) {
                         </ol>
 
                         <div class="mw-ui-field-holder" style="max-width: 400px;">
+
+                            <?php
+                            $microweber_app_url = get_option('microweber_app_url', 'users');
+                            if (empty($microweber_app_url)) {
+                                $microweber_app_url = 'https://mwlogin.com';
+                            }
+                            ?>
+
+                            <label class="mw-ui-label"><?php _e("Server URL"); ?></label>
+                            <input name="microweber_app_url" class="mw_option_field mw-ui-field mw-title-field w100" style="" type="text" option-group="users" value="<?php print $microweber_app_url; ?>"/>
+
                             <label class="mw-ui-label"><?php _e("Client ID"); ?></label>
                             <input name="microweber_app_id" class="mw_option_field mw-ui-field mw-title-field w100" style="" type="text" option-group="users" value="<?php print get_option('microweber_app_id', 'users'); ?>"/>
+
                             <label class="mw-ui-label"><?php _e("Client secret"); ?></label>
                             <input name="microweber_app_secret" class="mw_option_field mw-ui-field mw-title-field w100" style="" type="text" option-group="users" value="<?php print get_option('microweber_app_secret', 'users'); ?>"/>
+
                         </div>
                     </div>
                 </div>
