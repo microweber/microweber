@@ -28,8 +28,7 @@ description: Default
 <?php } ?>
 
 <?php if ($provider == 'vimeo'): ?>
-
     <?php echo $code; ?>
-    <?php else: ?>
+<?php else: ?>
     <?php echo $code; ?>
 <?php endif; ?>
