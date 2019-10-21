@@ -113,31 +113,19 @@ class FieldsManager
 
                     $as_text_area = false;
                     $field_type = 'text';
-                    $field_name_lowercase = strtolower($field_name);
+                    $field_name_lower = strtolower($field_name);
 
-                    if (strpos($field_name_lowercase, 'message') !== false) {
+                    if (strpos($field_name_lower, 'message') !== false) {
                         $as_text_area = true;
                         $field_type = 'text';
                     }
 
-                    if (strpos($field_name_lowercase, 'phone') !== false) {
-                        $field_type = 'phone';
+                    $fields = mw()->ui->custom_fields();
+                    if (array_key_exists($field_name_lower, $fields)) {
+                        $field_type = $field_name;
                     }
-
-                    if (strpos($field_name_lowercase, 'email') !== false) {
-                        $field_type = 'email';
-                    }
-
-                    if (strpos($field_name_lowercase, 'time') !== false) {
-                        $field_type = 'time';
-                    }
-
-                    if (strpos($field_name_lowercase, 'date') !== false) {
-                        $field_type = 'date';
-                    }
-
-                    if (strpos($field_name_lowercase, 'address') !== false) {
-                        $field_type = 'address';
+                    if (in_array($field_name_lower, $fields)) {
+                        $field_type = $field_name;
                     }
 
                     $ex['name'] = $field_name;
@@ -160,7 +148,6 @@ class FieldsManager
                         if ($as_text_area) {
                             $make_field['options']['as_text_area'] = $as_text_area;
                         }
-
 
                         $saved_fields[] = $this->save($make_field);
 
