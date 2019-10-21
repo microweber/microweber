@@ -1,0 +1,15 @@
+{
+    "name": "microweber/googlemaps",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Microweber\\Packages\\GoogleMaps\\": ""
+        }
+    }
+}

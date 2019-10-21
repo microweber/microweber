@@ -1,0 +1,16 @@
+{
+    "name": "GoogleMaps",
+    "alias": "googlemaps",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Microweber\\Packages\\GoogleMaps\\Providers\\GoogleMapsServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}
