@@ -2311,7 +2311,7 @@ mw.tools = {
         }
 
 
-        ok.on('keyup', function (e) {
+        ok.on('keydown', function (e) {
             if (e.keyCode === 13 || e.keyCode === 32) {
                 callback.call(window);
                 modal.remove();
@@ -5520,8 +5520,9 @@ mw.tabAccordion = function (options, accordion) {
         mw.$(window).on('load resize orientationchange', function () {
             scope.breakPoint();
         });
-    }
+    };
 
     this.init();
-}
+};
+
 

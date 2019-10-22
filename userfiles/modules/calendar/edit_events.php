@@ -10,13 +10,9 @@ $all_days = calendar_get_events('group_by_type=1&group_by_date=1');
 </script>
 <script>
     function reload_calendar_after_save() {
-        mw.reload_module_parent('#<?php print $params['id'] ?>');
-        mw.reload_module('calendar/edit_events');
+        mw.reload_module_everywhere('#<?php print $params['id'] ?>');
+        mw.reload_module_everywhere('calendar/edit_events');
         window.parent.$(window.parent.document).trigger('calendar.update');
-        if (typeof(editEventModal) != 'undefined' && editEventModal.modal) {
-            editEventModal.modal.remove();
-        }
-
     }
 </script>
 

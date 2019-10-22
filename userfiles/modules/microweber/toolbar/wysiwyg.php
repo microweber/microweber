@@ -148,12 +148,7 @@
                     <li value="hr"><a href="javascript:;" style="font-size: 10px">
                       <?php _e("Horizontal Rule"); ?>
                       </a></li>
-                    <li value="box"><a href="javascript:;" style="font-size: 10px">
-                      <?php _e("Box"); ?>
-                      </a></li>
-                    <li value="table"><a href="javascript:;" style="font-size: 10px">
-                      <?php _e("Table"); ?>
-                      </a></li>
+
                     <li value="pre"><a href="javascript:;" style="font-size: 10px">
                       <?php _e("Pre formatted"); ?>
                       </a></li>

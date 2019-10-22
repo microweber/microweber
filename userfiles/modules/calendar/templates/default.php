@@ -38,12 +38,18 @@ $mod_suffix = md5($params['id']);
 
 <script>
 
+
+
     $(document).ready(function () {
 
-        $(document).bind('calendar.update', function () {
-            getData<?php print $mod_suffix ?>();
-            $('.calendar', '#<?php print $mod_id ?>').fullCalendar('removeEvents');
-            $('.calendar').fullCalendar('addEventSource', json_events);
+        var scopeCalendar = mw.$('#calendar-<?php print $mod_suffix; ?>');
+
+        $(document).on('calendar.update', function () {
+            getData('<?php print $mod_suffix ?>', function () {
+                scopeCalendar.fullCalendar('removeEvents');
+                scopeCalendar.fullCalendar('addEventSource', json_events);
+            });
+
         });
 
 
@@ -62,7 +68,7 @@ $mod_suffix = md5($params['id']);
         /* initialize the calendar
          -----------------------------------------------------------------*/
 
-        $('.calendar').fullCalendar({
+        scopeCalendar.fullCalendar({
             //events for selected month are loaded in viewRender event
             //events: JSON.parse(json_events),
             //test event
@@ -100,16 +106,18 @@ $mod_suffix = md5($params['id']);
 
             viewRender: function (view, element) {
                 // getData for selected year-month
-                getData<?php print $mod_suffix ?>();
+                getData('<?php print $mod_suffix ?>', function(){
+                    scopeCalendar.fullCalendar('removeEvents');
+                    scopeCalendar.fullCalendar('addEventSource', json_events);
+                });
 
-                $('.calendar').fullCalendar('removeEvents');
-                $('.calendar').fullCalendar('addEventSource', json_events);
-            },
+
+            }
         });
 
-        function getData<?php print $mod_suffix ?>() {
+        function getData($mod_suffix, c) {
 
-            var date = $(".calendar").fullCalendar('getDate');
+            var date = $("#calendar-" + $mod_suffix).fullCalendar('getDate');
             if (!date) {
                 return;
             }
@@ -123,6 +131,9 @@ $mod_suffix = md5($params['id']);
                 async: false,
                 success: function (s) {
                     json_events = s;
+                    if(c) {
+                        c.call()
+                    }
                 }
             });
         }
@@ -138,5 +149,5 @@ $mod_suffix = md5($params['id']);
 </div>
 
 <div class="mw-calendar mw-calendar-default">
-    <div class='calendar'>Calendar</div>
+    <div class='calendar' id="calendar-<?php print $mod_suffix; ?>">Calendar</div>
 </div>

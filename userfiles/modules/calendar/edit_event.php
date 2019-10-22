@@ -57,12 +57,17 @@ if (empty($data)) {
     // SEARCH CONTENT
     var content_id = <?php echo !!$data['content_id'] ? $data['content_id'] : 'false'; ?>;
 
+    $(window).on('load', function () {
+
+    })
     $(document).ready(function () {
         $("#postSearch").on("postSelected", function (event, data) {
             content_id = data.id;
             onSelectedPost(content_id);
 
         });
+        editEventModal = window.thismodal;
+        console.log(editEventModal)
 
         onSelectedPost(content_id);
     });
@@ -288,7 +293,7 @@ if (empty($data)) {
 
     <div class="mw-ui-btn-nav pull-right">
         <span class="mw-ui-btn " onclick="editEventModal.modal.remove()">Cancel</span>
-        <button class="mw-ui-btn mw-ui-btn-invert " xxxonclick='$("#editEventForm").submit();'>Save</button>
+        <button class="mw-ui-btn mw-ui-btn-invert " type="submit">Save</button>
     </div>
 
     <div class="mw-ui-btn-nav pull-left">

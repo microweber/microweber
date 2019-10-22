@@ -12,7 +12,7 @@ function editEventId(event_id) {
 
     }
 
-    editEventModal =  mw.tools.open_module_modal('calendar/edit_event', data, {
+    editEventModal =  mw.top().tools.open_module_modal('calendar/edit_event', data, {
         overlay: true,
       //  iframe: true,
 

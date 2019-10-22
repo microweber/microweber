@@ -23,74 +23,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 <script>
 
     function reload_calendar_after_save() {
-        mw.reload_module_parent('#<?php print $params['id'] ?>');
-        mw.reload_module('calendar/edit_events');
+        mw.reload_module_everywhere('#<?php print $params['id'] ?>');
+        mw.reload_module_everywhere('calendar/edit_events');
         window.parent.$(window.parent.document).trigger('calendar.update');
-        if (typeof(editEventModal) != 'undefined' && editEventModal.modal) {
-            editEventModal.modal.remove();
-        }
-
     }
 
 </script>
 
-<?php
-
-/*<script>
-    function editEventId(event_id) {
-        var data = {};
-        data.event_id = event_id;
-
-        var modalopts = {};
-        modalopts.iframe = true;
-
-
-        editEventModal = window.parent.mw.tools.open_module_modal('calendar/edit_event', data, {overlay: true, skin: 'simple'},modalopts)
-
-
-
-
-    }
-
-    function deleteEvent(event_id) {
-        var con = confirm('<?php _e('Are you sure to delete this event permanently?'); ?>');
-        if (con == true) {
-            $.ajax({
-                    url: '<?php print api_url('calendar_remove_event');?>',
-                    data: 'eventid=' + event_id,
-                    type: 'POST',
-                    dataType: 'json',
-                    success: function (response) {
-                        if (typeof(reload_calendar_after_save) != 'undefined') {
-                            reload_calendar_after_save();
-                        }
-                    }
-                }
-            );
-        }
-    }
-
-    function reload_calendar_after_save() {
-        mw.reload_module_parent('#<?php print $params['id'] ?>');
-        mw.reload_module('calendar/edit_events');
-        window.parent.$(window.parent.document).trigger('calendar.update');
-        if (typeof(editEventModal) != 'undefined' && editEventModal.modal) {
-            editEventModal.modal.remove();
-        }
-
-    }
-
-    function openEventsImportModal() {
-
-        var data = {};
-
-        importEventsModal = mw.tools.open_module_modal('calendar/import_events', data, {overlay: true, skin: 'simple'})
-
-    }
-</script>*/
-
-
-?>
 <?php if (isset($params['backend'])): ?>
     <module type="admin/modules/info"/>
 <?php endif; ?>

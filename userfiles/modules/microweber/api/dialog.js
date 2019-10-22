@@ -103,13 +103,14 @@
     };
 
     mw.dialog.get = function (selector) {
-        var el = mw.$(selector)[0];
+        var $el = mw.$(selector);
+        var el = $el[0];
         if(!el) return false;
         if(el._dialog) {
             return el._dialog;
         }
         var child_cont = el.querySelector('.mw-dialog-holder');
-        var parent_cont = el.parents(".mw-dialog-holder:first");
+        var parent_cont = $el.parents(".mw-dialog-holder:first");
         if (child_cont) {
             return child_cont._dialog;
         }

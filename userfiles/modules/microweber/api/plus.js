@@ -16,12 +16,13 @@ mw.drag.plus = {
         if(typeof(mw.drag.plusBottom) != 'undefined'){
             mw.drag.plusBottom.style.top = -9999 + 'px';
         }
-        mw.$(holder).bind('mousemove', function (e) {
+        mw.$(holder).on('mousemove touchmove click', function (e) {
 
 
             if (mw.drag.plus.locked === false && mw.isDrag === false) {
                 if (e.pageY % 2 === 0 && mw.tools.isEditable(e)) {
                     var node = mw.drag.plus.selectNode(e.target);
+
                     mw.drag.plus.set(node);
                     mw.$(mwd.body).removeClass('editorKeyup');
                 }
@@ -31,7 +32,7 @@ mw.drag.plus = {
                 mw.drag.plusBottom.style.top = -9999 + 'px';
             }
         });
-        mw.$(holder).bind('mouseleave', function (e) {
+        mw.$(holder).on('mouseleave', function (e) {
             if (mw.drag.plus.locked === false) {
                 mw.drag.plus.set(undefined);
             }
@@ -40,36 +41,17 @@ mw.drag.plus = {
     },
     selectNode: function (target) {
 
-        if (target === undefined || target === null
-          || mw.tools.hasClass(target, 'nodrop')
-          || mw.tools.hasParentsWithClass(target, 'noedit')
-          || mw.tools.hasParentsWithClass(target, 'noplus')
-          || mw.tools.hasParentsWithClass(target, 'nodrop')
-          || mw.tools.hasClass(target, 'edit')) {
-
+        if(!target || mw.tools.hasAnyOfClassesOnNodeOrParent(target, ['noplus', 'noedit', 'noplus']) || mw.tools.hasClass(target, 'edit')) {
             mw.drag.plusTop.style.top = -9999 + 'px';
             mw.drag.plusBottom.style.top = -9999 + 'px';
-            return undefined;
+            return;
         }
-        if (mw.tools.hasClass(target, 'module')) {
-            return target;
-        }
-        else if (mw.tools.hasParentsWithClass(target, 'module')) {
-            return mw.tools.lastParentWithClass(target, 'module');
-        }
-        else if (mw.tools.hasClass(target, 'element')) {
-            return target;
-        }
-        else if (target.nodeName === 'P' || target === mw.image_resizer) {
-            return target;
-        }
-        else if (mw.tools.hasParentsWithTag(target, 'p')) {
-            return mw.tools.firstParentWithTag(target, 'p');
-        }
-        else if (mw.tools.hasClass(target, 'mw-empty')) {
-            return target;
-        } else if (mw.tools.hasParentsWithClass(target, 'element')) {
-            return mw.tools.lastParentWithClass(target, 'element');
+        var comp = mw.tools.firstMatchesOnNodeOrParent(target, ['.module', '.element', 'p', '.mw-empty']);
+
+        if (comp
+            && mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(target, ['regular-mode', 'safe-mode'])
+            && mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(target, ['allow-drop', 'nodrop']))  {
+            return comp;
         }
         else {
             mw.drag.plusTop.style.top = -9999 + 'px';
@@ -84,18 +66,19 @@ mw.drag.plus = {
             if (typeof node === 'undefined') {
                 return;
             }
-            var off = mw.$(node).offset(),
+            var $node = mw.$(node)
+            var off = $node.offset(),
                 toolbar = mwd.querySelector('#live_edit_toolbar');
             var oleft = Math.max(0, off.left - 10);
             if(toolbar && off.top < toolbar.offsetHeight){
               off.top = toolbar.offsetHeight + 10;
             }
             mw.drag.plusTop.style.top = off.top + 'px';
-            mw.drag.plusTop.style.left = oleft + 'px';
+            mw.drag.plusTop.style.left = oleft + ($node.width()/2) + 'px';
             // mw.drag.plusTop.style.display = 'block';
             mw.drag.plusTop.currentNode = node;
             mw.drag.plusBottom.style.top = (off.top + node.offsetHeight) + 'px';
-            mw.drag.plusBottom.style.left = oleft + 'px';
+            mw.drag.plusBottom.style.left = oleft + ($node.width()/2) + 'px';
             mw.drag.plusBottom.currentNode = node;
             mw.tools.removeClass([mw.drag.plusTop, mw.drag.plusBottom], 'active');
 
@@ -131,14 +114,15 @@ mw.drag.plus = {
                     content: mwd.getElementById('plus-modules-list').innerHTML,
                     element: this,
                     position: mw.drag.plus.tipPosition(this.currentNode),
-                    template: 'mw-tooltip-default mw-tooltip-insert-module'
+                    template: 'mw-tooltip-default mw-tooltip-insert-module',
+                    id: 'mw-plus-tooltip-selector'
                 });
                 mw.tabs({
                     nav: tip.querySelectorAll('.mw-ui-btn'),
                     tabs: tip.querySelectorAll('.module-bubble-tab'),
                 });
 
-                mw.$('.mw-ui-searchfield', tip).bind('keyup paste', function () {
+                mw.$('.mw-ui-searchfield', tip).on('keyup paste', function () {
                     var resultsLength = mw.drag.plus.search(this.value, mw.$('.module-bubble-tab:visible', tip)[0]);
                     if (resultsLength === 0) {
                         mw.$('.module-bubble-tab-not-found-message').html(mw.msg.no_results_for + ': <em>' + this.value + '</em>').show();
@@ -200,3 +184,5 @@ InsertModule = function (module, cls) {
     }, cls);
     mw.$('.mw-tooltip').hide();
 }
+
+

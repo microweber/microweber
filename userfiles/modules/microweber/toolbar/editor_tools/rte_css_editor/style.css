@@ -123,7 +123,12 @@ input,select{
         display: none !important;
     }
 
-
+    #classtags .disabled{
+        pointer-events: none;
+    }
+    #classtags .mw-ui-btn {
+        margin: 3px 6px 3px 0;
+    }
 
     .s-field {
         display: flex;

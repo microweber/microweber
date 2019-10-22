@@ -1057,3 +1057,61 @@ $(window).on('load', function(){
 
 <?php  include  __DIR__.DS."session.js"; ?>
 
+
+
+/*
+    options.data = [
+        {
+            title: string,
+            value: any,
+            icon?: string,
+            selected?: boolean
+        }
+    ]
+
+ */
+
+mw.Select = function(options) {
+    var defaults = {
+        data: [],
+        skin: 'default'
+    };
+    options  = options || {};
+    this.settings = $.extend({}, defaults, options);
+    var scope = this;
+
+    this.rendOption = function(item){
+        var oh = document.createElement('div');
+        oh.$value = item.value;
+        oh.$data = item;
+        oh.className = 'mw-select-option';
+        oh.onclick = function () {
+            scope.setValue(oh.$value)
+        };
+        return oh;
+    };
+
+    this.rendValueholder = function(item){
+        var oh = document.createElement('div');
+        oh.className = 'mw-select-value';
+        oh.onclick = function () {
+            scope.setValue(oh.$value)
+        };
+        return oh;
+    };
+
+    this.setValue = function(val){
+        if(!val) return;
+    };
+
+    this.rendOptions = function(){
+        var oh = document.createElement('div');
+        oh.className = 'mw-select';
+        $.each(this.settings.data, function(){
+            oh.appendChild(this.rendOption(this))
+        });
+        return oh;
+    }
+
+};
+

@@ -1,6 +1,7 @@
 $(document).ready(function () {
 
     // PROCESS FORM
+
     $("#editEventForm").submit(function (e) {
 
 
@@ -16,14 +17,12 @@ $(document).ready(function () {
             type: 'POST',
             dataType: 'json',
             success: function (response) {
-                if (typeof(reload_calendar_after_save) != 'undefined') {
-                    reload_calendar_after_save();
-                }
-                if (typeof(window.parent.reload_calendar_after_save) != 'undefined') {
-                    window.parent.reload_calendar_after_save();
-                }
-                if (typeof(editEventModal) != 'undefined') {
-                    editEventModal.modal.remove()
+
+                mw.reload_module_everywhere('calendar/edit_events');
+                mw.notification.success(mw.lang('All changes saved'));
+                var dialog = mw.dialog.get(e.target);
+                if(dialog){
+                    dialog.remove();
                 }
             },
             error: function (e) {

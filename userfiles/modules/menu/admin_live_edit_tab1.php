@@ -18,24 +18,33 @@
 
 
     $(window).on('load', function(){
-        var holder = mw.$('#link-selector-holder');
-        var link = mw.instruments.link({
-            mode: 'inline'
-        });
-        $(holder).append(link.frame);
-        link.handler.on('change', function(e, url, target, text){
-            mw.menu_admin.save_item({
-                title: text || url.split('/').pop(),
-                url: url,
-                parent_id: currentMenuId
-            });
-            mw.$('#link-selector-holder').mwDialog('close')
-        });
+
         if(window.thismodal) {
             thismodal.width(700);
             thismodal.center(700);
         }
     })
+
+    var addMenuItem = function() {
+        //$('#link-selector-holder').mwDialog({width: '90%', document: top.document})
+        var inst = mw.top()
+        .instruments.link({
+            mode: 'dialog'
+        });
+
+        inst.handler.on('change', function(e, url, target, text){
+            mw.menu_admin.save_item({
+                title: text || url.split('/').pop(),
+                url: url,
+                parent_id: currentMenuId
+            });
+            mw.$('#link-selector-holder').mwDialog('close');
+
+        });
+        $(inst.frame).on('load', function () {
+            $('#customweburl_text_field_holder', this.contentWindow.document).show()
+        })
+    }
 
 </script>
 
@@ -226,6 +235,8 @@ if ($menu_data) {
 
 <script>
     currentMenuId = <?php print $menu_id; ?> || 0;
+
+
 </script>
 
 <div class="admin-side-content">
@@ -292,7 +303,7 @@ if ($menu_data) {
         <?php endif; ?>
     </div>
     <br>
-    <span class="mw-ui-btn mw-ui-btn-info pull-right" onclick="$('#link-selector-holder').mwDialog({width: '90%', document: top.document})"><span class="mw-icon-plus"></span> Add menu item</span>
+    <span class="mw-ui-btn mw-ui-btn-info pull-right" onclick="addMenuItem()"><span class="mw-icon-plus"></span> Add menu item</span>
     <div id="link-selector-holder" style="display: none"></div>
 </div>
 <script><?php include('menu_admin.js'); ?></script>
