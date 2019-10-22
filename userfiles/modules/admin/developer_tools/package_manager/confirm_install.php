@@ -98,7 +98,7 @@ if(is_array($get_existing_files_for_confirm)){
                             </div>
                         <?php } ?>
                         <div id="js-buttons-confirm-install" style="padding: 20px;">
-                            <a class="mw-ui-btn mw-ui-btn-important" onclick="mw.tools.modal.get(this).remove()">Cancel</a>
+                            <a class="mw-ui-btn mw-ui-btn-important" onclick="mw.dialog.get(this).remove()">Cancel</a>
 
                             <?php if ($get_existing_files_for_confirm) { ?>
                                 <button type="button" class="js-show-files mw-ui-btn mw-ui-btn-info">Show files</button>
