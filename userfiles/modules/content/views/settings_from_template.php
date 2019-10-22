@@ -61,7 +61,7 @@ if (!empty($template_config)) {
                                 <?php endif; ?>
                             </select>
                         <?php } else { ?>
-                            <input name="data_ <?php print $name; ?>" class="mw-ui-field w100" type="text" placeholder="<?php print $default_value ?>" value="<?php print $value ?>">
+                            <input name="data_<?php print $name; ?>" class="mw-ui-field w100" type="text" placeholder="<?php print $default_value ?>" value="<?php print $value ?>">
                         <?php } ?>
                     </div>
                 <?php endforeach; ?>

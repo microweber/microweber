@@ -53,7 +53,7 @@ function video_module_url2embed($u, $w, $h, $autoplay)
         }
         $url_parse = ltrim($url_parse['path'], '/');
 
-        return '<div class="mwembed"><iframe src="' . $protocol . 'player.vimeo.com/video/' . $url_parse . '?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;color=bc9b6a&wmode=transparent&autoplay=' . $autoplay . '" width="' . $w . '" height="' . $h . '" frameborder="0" allowFullScreen></iframe></div>';
+        return '<div class="mwembed"><div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/' . $url_parse . '?title=0&byline=0&portrait=0&autoplay=' . $autoplay . '" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe></div><script src="https://player.vimeo.com/api/player.js"></script></div>';
     } else if (stristr($u, 'metacafe.com') !== false) {
         $url_parse = parse_url($u);
         $path = ltrim($url_parse['path'], '/');

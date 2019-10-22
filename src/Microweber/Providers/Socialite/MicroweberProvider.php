@@ -15,6 +15,11 @@ class MicroweberProvider extends AbstractProvider implements ProviderInterface
 
     protected function apiUrl($path)
     {
+        $microweber_app_url = get_option('microweber_app_url', 'users');
+        if (!empty($microweber_app_url)) {
+            $this->serverUrl = $microweber_app_url;
+        }
+
         return $this->serverUrl . $path;
     }
 

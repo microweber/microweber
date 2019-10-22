@@ -22,16 +22,31 @@
 <?php
 
 $data = get_pictures('rel_type=modules&rel_id=' . $params['id']);
-$items_number = get_option('items_number', $params['id']);
+
 $maxRowHeight = get_option('max_row_height', $params['id']);
-$rowHeight = get_option('row_height', $params['id']);
-if (!$maxRowHeight) {
+if ($maxRowHeight) {
+    $maxRowHeight = $maxRowHeight;
+} elseif (isset($params['max_row_height'])) {
+    $maxRowHeight = $params['max_row_height'];
+} else {
     $maxRowHeight = 250;
 }
-if (!$rowHeight) {
+
+$rowHeight = get_option('row_height', $params['id']);
+if ($rowHeight) {
+    $rowHeight = $rowHeight;
+} elseif (isset($params['row_height'])) {
+    $rowHeight = $params['row_height'];
+} else {
     $rowHeight = 120;
 }
-if (!$items_number) {
+
+$items_number = get_option('items_number', $params['id']);
+if ($items_number) {
+    $items_number = $items_number;
+} elseif (isset($params['items_number'])) {
+    $items_number = $params['items_number'];
+} else {
     $items_number = 10;
 }
 $items_number = intval($items_number);
@@ -80,41 +95,40 @@ $items_number = intval($items_number);
                         scope.empty().justifiedImages(scope.data('__config'));
 
 
+                        $(window).on('resize orientationchange', function () {
+                            clearTimeout(scope[0].__time);
+                            scope[0].__time = setTimeout(function () {
+                                var sdata = scope.data('__config') || [];
+                                scope.empty().justifiedImages(sdata);
+                                setTimeout(function () {
+                                    $("#carousel-grid-<?php print $params['id']; ?> img.image-thumb").not('.gallery-ready').each(function (i) {
+                                        var el = $(this);
+                                        el.addClass('gallery-ready')
 
-                        $(window).on('resize orientationchange', function(){
-                          clearTimeout(scope[0].__time);
-                          scope[0].__time = setTimeout(function(){
-                              var sdata = scope.data('__config') || [];
-                            scope.empty().justifiedImages(sdata);
-                            setTimeout(function(){
-                              $("#carousel-grid-<?php print $params['id']; ?> img.image-thumb").not('.gallery-ready').each(function(i){
-                             var el = $(this);
-                             el.addClass('gallery-ready')
+                                        el.on('click', function () {
+                                            if (!!window['gallery<?php print $rand; ?>']) {
+                                                mw.gallery(gallery<?php print $rand; ?>, i)
+                                            }
 
-                               el.on('click', function(){
-                                 if(!!window['gallery<?php print $rand; ?>']){
-                                   mw.gallery(gallery<?php print $rand; ?>, i)
-                                 }
+                                        })
 
-                               })
-
-                           })
-                            }, 100)
-                          }, 333);
+                                    })
+                                }, 100)
+                            }, 333);
                         })
-                       $("#carousel-grid-<?php print $params['id']; ?> img.image-thumb").not('.gallery-ready').each(function(i){
-                         var el = $(this);
-                         el.addClass('gallery-ready')
+                        $("#carousel-grid-<?php print $params['id']; ?> img.image-thumb").not('.gallery-ready').each(function (i) {
+                            var el = $(this);
+                            el.addClass('gallery-ready')
 
-                           el.on('click', function(){
-                             if(!!window['gallery<?php print $rand; ?>']){
-                               mw.gallery(gallery<?php print $rand; ?>, i)
-                             }
+                            el.on('click', function () {
+                                if (!!window['gallery<?php print $rand; ?>']) {
+                                    mw.gallery(gallery<?php print $rand; ?>, i)
+                                }
 
-                           })
+                            })
 
 
-                       })
+                        })
 
                         slidesDone++;
                         if (slidesDone == allslides.length) {
@@ -153,7 +167,7 @@ $items_number = intval($items_number);
             $count++;
             $html .= $count == 1 ? '<div class="carousel-grid-slide">' : '';
             $html .= '<img src="' . thumbnail($pic['filename'], 600) . '" >' . ($pic['title'] != null ? ('<span class="carousel-grid-slide-description">' . $pic['title'] . '</span>') : '');
-            $html .= ($count == $items_number || !isset($data[$key+1])) ? '</div>' : '';
+            $html .= ($count == $items_number || !isset($data[$key + 1])) ? '</div>' : '';
             $count = $count != $items_number ? $count : 0;
         }
         print $html;

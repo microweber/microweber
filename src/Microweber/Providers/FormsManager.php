@@ -161,7 +161,7 @@ class FormsManager
         if (!isset($for_id)) {
             return array('error' => 'Please provide for_id parameter with module id');
         }
-        $user_mails = array();
+
 
         $terms_and_conditions_name = 'terms_contact';
 
@@ -431,10 +431,11 @@ class FormsManager
         } else {
             $cf_to_save = $params;
         }
-
+        $save = 1;
 
         $skip_saving_emails = $this->app->option_manager->get('skip_saving_emails', $for_id);
         if (!$skip_saving_emails) {
+            $skip_saving_emails = $this->app->option_manager->get('skip_saving_emails', $default_mod_id);
             $skip_saving_emails = $this->app->option_manager->get('skip_saving_emails', $default_mod_id);
         }
         if ($skip_saving_emails !== 'y') {
@@ -494,7 +495,7 @@ class FormsManager
                 unset($pp_arr['message']);
                 $pp_arr['message'] = $temp; // push to end of array
             }
-
+            $user_mails = array();
 
             $notif = array();
             $notif['module'] = $params['module_name'];
@@ -508,7 +509,10 @@ class FormsManager
             if ($email_to == false) {
                 $email_to = $this->app->option_manager->get('email_from', 'email');
             }
+
+
             $admin_user_mails = array();
+
             if ($email_to == false) {
                 $admins = $this->app->user_manager->get_all('is_admin=1');
                 if (is_array($admins) and !empty($admins)) {
@@ -516,10 +520,22 @@ class FormsManager
                         if (isset($admin['email']) and (filter_var($admin['email'], FILTER_VALIDATE_EMAIL))) {
                             $admin_user_mails[] = $admin['email'];
                             $email_to = $admin['email'];
+                            $user_mails[] = $admin['email'];
                         }
                     }
                 }
+
             }
+
+            if (is_array($params) and !empty($params)) {
+                foreach ($params as $param) {
+                     if (is_string($param) and (filter_var($param, FILTER_VALIDATE_EMAIL))) {
+                        $user_mails[] = $param;
+                    }
+                }
+
+            }
+
 
             if ($email_to != false) {
                 $mail_autoresp = 'Thank you for your request!';
@@ -538,15 +554,13 @@ class FormsManager
                 }
 
 
-                $user_mails = array();
-                if (isset($admin_user_mails) and !empty($admin_user_mails)) {
-                    $user_mails = $admin_user_mails;
-                }
-
                 $user_mails[] = $email_to;
                 if (isset($email_bcc) and (filter_var($email_bcc, FILTER_VALIDATE_EMAIL))) {
                     $user_mails[] = $email_bcc;
                 }
+
+
+
 
                 // $email_from = false;
                 if (!$email_from and isset($cf_to_save) and !empty($cf_to_save)) {
@@ -585,6 +599,7 @@ class FormsManager
                     if (!empty($append_files)) {
                         $append_files_ready = explode(",", $append_files);
                     }
+                  //  var_dump($user_mails);
 
                     $email_autorespond = $this->app->option_manager->get('email_autorespond', $for_id);
 
