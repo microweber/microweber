@@ -125,8 +125,8 @@ body.mw-live-edit .plain-text {
     visibility: visible;
     z-index: 997;
     display: block;
-    width: 16px;
-    height: 16px;
+    width: 19px;
+    height: 19px;
     border-radius: 30px;
     background-color: #CCCCCC;
     cursor: pointer;
@@ -140,6 +140,7 @@ body.mw-live-edit .plain-text {
     -webkit-transition: opacity 0.3s;
     -moz-transition: opacity 0.3s;
     transition: opacity 0.3s;
+    border: 2px solid #999;
 
 }
 
@@ -151,27 +152,10 @@ body.mw-live-edit .plain-text {
     margin-top: -10px;
 }
 
-[class*='mw-plus-']:after {
-    display: block;
-    position: absolute;
-    top: 50%;
-    margin-top: -5px;
-    right: -1px;
-    content: '';
-    width: 10px;
-    height: 10px;
-    background-color: #CCCCCC;
-    -webkit-transform: rotate(45deg);
-    -moz-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    -o-transform: rotate(45deg);
-    transform: rotate(45deg);
-    z-index: -1;
-}
 
-[class*='mw-plus-'].active, [class*='mw-plus-'].active:after,
-[class*='mw-plus-']:hover,
-[class*='mw-plus-']:hover:after {
+
+[class*='mw-plus-'].active,
+[class*='mw-plus-']:hover{
     background-color: #434343;
 }
 
@@ -2756,8 +2740,6 @@ div[id*='SSDIVEL'] {
 }
 
 .mw-tooltip-insert-module .mw-ui-searchfield {
-    position: absolute;
-    right: 10px;
     border-radius: 3px 3px 0 0;
     border-bottom-width: 0;
 }
@@ -4566,5 +4548,12 @@ p.element,
 div.element,
 section.element{
     min-height: 15px;
+}
+
+#mw-plus-tooltip-selector .mw-ui-searchfield{
+    width: 100%;
+}
+#mw-plus-tooltip-selector .mw-ui-btn-nav{
+    display: none;
 }
 

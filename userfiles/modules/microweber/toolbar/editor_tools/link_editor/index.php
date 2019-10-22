@@ -7,6 +7,24 @@
 
 <script type="text/javascript">
 
+
+    RegisterChange = function () {
+        var args = Array.prototype.slice.call(arguments);
+
+        if(parent.mw.iframecallbacks && parent.mw.iframecallbacks[hash]) {
+            parent.mw.iframecallbacks[hash].apply( this, arguments );
+        }
+        if(window.thismodal){
+            thismodal.result({
+                url: args[1],
+                target: args[2],
+                text: args[3]
+            }, true);
+        }
+        thismodal.remove()
+
+    };
+
     var _created = false;
     var createFilePicker = function () {
         if(!_created){
@@ -66,6 +84,7 @@
 
     setACValue = function () {
         mw.instrumentData.handler.trigger('change', Array.prototype.slice.call(arguments));
+        RegisterChange(arguments)
     };
 
     $(document).ready(function () {
@@ -175,6 +194,13 @@
 
 
 <div id="mw-popup-insertlink">
+    <div class="mw-ui-field-holder" id="customweburl_text_field_holder" style="display: none">
+        <label class="mw-ui-label"><?php _e("Link text"); ?></label>
+        <textarea type="text" class="mw-ui-field w100" id="customweburl_text" placeholder="Link text"></textarea>
+    </div>
+    <div class="mw-full-width m-t-20" style="display: none">
+        <label class="mw-ui-check mw-clear"><input type="checkbox" id="url_target"><span></span><span><?php _e("Open link in new window"); ?></span></label>
+    </div>
     <div class="">
         <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
             <a class="mw-ui-btn active" href="javascript:;"><?php _e("Website URL"); ?></a>
@@ -187,18 +213,11 @@
         <div class="mw-ui-box mw-ui-box-content" id="tabs">
             <div class="tab" style="display: block">
                 <div class="media-search-holder">
-
-                    <div class="mw-ui-field-holder" id="customweburl_text_field_holder" style="display:none">
-                        <label class="mw-ui-label"><?php _e("Link text"); ?></label>
-                        <textarea type="text" class="mw-ui-field w100" id="customweburl_text" placeholder="Link text"></textarea>
-                    </div>
                     <div class="mw-ui-field-holder">
                         <label class="mw-ui-label"><?php _e("URL"); ?></label>
                         <input type="text" class="mw-ui-field" id="customweburl" autofocus=""/>
                         <span class="mw-ui-btn mw-ui-btn-notification" id="insert_url"><?php _e("Insert"); ?></span>
-                        <div class="mw-full-width m-t-20">
-                            <label class="mw-ui-check mw-clear"><input type="checkbox" id="url_target"><span></span><span><?php _e("Open link in new window"); ?></span></label>
-                        </div>
+
                     </div>
 
                 </div>

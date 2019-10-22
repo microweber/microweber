@@ -40,9 +40,30 @@ mw.tags = mw.chips = function(options){
     this.rend = function(){
         $.each(this.options.data, function(i){
             var data = $.extend({index:i}, this);
-            scope.options.element.appendChild(scope.tag(data))
+            scope.options.element.appendChild(scope.tag(data));
         });
+        if(this.options.inputField) {
+            scope.options.element.appendChild(this.addInputField());
+        }
     };
+
+    this.addInputField = function () {
+        this._field = document.createElement('input');
+        this._field.className = 'mw-ui-invisible-field mw-ui-field-' + this.options.size;
+        this._field.onkeydown = function (e) {
+            if(mw.event.is.enter(e)) {
+                var val = scope._field.value.trim();
+                if(val) {
+                    scope.addTag({
+                        title: val
+                    });
+                }
+            }
+        };
+        return this._field;
+    };
+
+
 
     this.dataValue = function(data){
         if(typeof data === 'string'){
@@ -110,8 +131,17 @@ mw.tags = mw.chips = function(options){
         var item = this.options.data[index];
         this.options.data.splice(index,1);
         this.refresh();
-        mw.$(scope).trigger('tagRemoved', [item]);
+        mw.$(scope).trigger('tagRemoved', [item, this.options.data]);
+        mw.$(scope).trigger('change', [item, this.options.data]);
      };
+
+    this.addTag = function(data, index){
+        index = typeof index === 'number' ? index : this.options.data.length;
+        this.options.data.splice( index, 0, data );
+        this.refresh();
+        mw.$(scope).trigger('tagAdded', [data, this.options.data]);
+        mw.$(scope).trigger('change', [data, this.options.data]);
+    };
 
      this.tag = function (options) {
             var config = {
@@ -150,6 +180,11 @@ mw.tags = mw.chips = function(options){
 
             tag_holder.innerHTML = '<span class="tag-label-content">' + this.dataTitle(config) + '</span>';
 
+             if(typeof this.options.disableItem === 'function') {
+                 if(this.options.disableItem(config)){
+                     tag_holder.className += ' disabled';
+                 }
+             }
 
             var icon = this.createIcon(config);
 
@@ -192,7 +227,7 @@ mw.treeTags = mw.treeChips = function(options){
     var tagsHolder = options.tagsHolder || mw.$('<div class="mw-tree-tag-tags-holder"></div>');
     var treeHolder = options.treeHolder || mw.$('<div class="mw-tree-tag-tree-holder"></div>');
 
-    var treeSettings = $.extend({}, this.options, {element:treeHolder})
+    var treeSettings = $.extend({}, this.options, {element:treeHolder});
     var tagsSettings = $.extend({}, this.options, {element:tagsHolder, data:this.options.selectedData || []});
 
     this.tree = new mw.tree(treeSettings);
@@ -206,7 +241,7 @@ mw.treeTags = mw.treeChips = function(options){
          scope.tree.unselect(item);
      });
      mw.$(this.tree).on('selectionChange', function(event, selectedData){
-        scope.tags.setData(selectedData)
+        scope.tags.setData(selectedData);
     });
 
 };

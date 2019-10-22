@@ -9,7 +9,7 @@
             <?php endif; ?>
         </label>
 
-        <input type="number" onKeyup="mw.form.typeNumber(this);" class="form-control" <?php if ($settings['required']): ?>required="true"<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name']; ?>" placeholder="<?php echo $data['placeholder']; ?>"/>
+        <input type="number" onKeyup="mw.form.typeNumber(this);" class="form-control" <?php if ($settings['required']): ?>required="true"<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name']; ?>" placeholder="<?php echo $data['placeholder']; ?>" />
 
         <?php if ($data['help']): ?>
             <span class="help-block"><?php echo $data['help']; ?></span>

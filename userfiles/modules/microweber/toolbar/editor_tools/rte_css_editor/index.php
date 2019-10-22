@@ -141,7 +141,7 @@ var activeTree = function(){
 
 var _prepare = {
     shadow: function () {
-        var root = document.querySelector('#shadow')
+        var root = document.querySelector('#shadow');
         CSSShadow = new mw.propEditor.schema({
             schema: [
                 {
@@ -149,7 +149,6 @@ var _prepare = {
                     id: 'boxShadow',
                     pickerPosition: 'top-left'
                 }
-
             ],
             element: root,
             size:'medium'
@@ -157,8 +156,8 @@ var _prepare = {
         $(CSSShadow).on('change', function(e, id, val){
             output(id, val)
         });
-        $('.mw-ui-field', root).addClass('mw-ui-field-medium')
-        $('.mw-ui-btn', root).addClass('mw-ui-btn-medium')
+        $('.mw-ui-field', root).addClass('mw-ui-field-medium');
+        $('.mw-ui-btn', root).addClass('mw-ui-btn-medium');
     },
     border: function () {
 
@@ -349,6 +348,15 @@ top.$(top.mw.liveEditSelector).on('select', function(e, nodes){
         populate(css);
         ActiveNode = nodes[0];
         activeTree();
+
+        var clsdata = [];
+        $.each(nodes[0].className.split(' '), function(){
+            var cls = this.trim();
+            if(cls) {
+                clsdata.push({title: cls})
+            }
+        });
+        window.classes.setData(clsdata)
     }
 });
 
@@ -407,6 +415,45 @@ top.$(top.mw.liveEditSelector).on('select', function(e, nodes){
     <?php include "style.css";  ?>
 </style>
 <div id="css-editor-root">
+
+    <script>
+        mw.require('tags.js');
+
+
+        $(window).on('load', function(){
+            window.classes = new mw.tags({
+                element: '#classtags',
+                data: [],
+                inputField: true,
+                wrap: true,
+                disableItem: function(item) {
+                    return item.title.indexOf('module') !== -1 || item.title.indexOf('element') !== -1;
+                }
+            });
+            $(classes).on('change', function(e, item, data){
+                var cls = [];
+                $.each(data, function(){
+                    cls.push(this.title);
+                });
+                ActiveNode.setAttribute('class', cls.join(' '))
+
+            });
+        })
+
+    </script>
+
+    <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
+        <div class="mw-ui-box-header mw-accordion-title">Attributes</div>
+        <div class="mw-accordion-content mw-ui-box-content">
+            <div class="mw-ui-field-holder">
+                <label class="mw-ui-label">Classes</label>
+                <div class="mw-ui-field w100" id="classtags"></div>
+            </div>
+
+
+
+        </div>
+    </div>
 
 
 <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">

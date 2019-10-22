@@ -472,15 +472,28 @@ mw.wysiwyg = {
     },
     execCommandFilter: function (a, b, c) {
         var arr = ['justifyCenter', 'justifyFull', 'justifyLeft', 'justifyRight'];
+        var align;
+        var node = window.getSelection().focusNode;
+        var elementNode = mw.wysiwyg.validateCommonAncestorContainer(node);
+        console.log(elementNode, mw.wysiwyg.isSafeMode(elementNode))
+        if (mw.wysiwyg.isSafeMode(elementNode) && arr.indexOf(a) !== -1) {
+            align = a.split('justify')[1].toLowerCase();
+            if (align === 'full') {
+                align = 'justify';
+            }
+            elementNode.style.textAlign = align;
+            mw.wysiwyg.change(elementNode);
+            return false;
+        }
         if (mw.is.firefox && arr.indexOf(a) !== -1) {
-            var node = window.getSelection().focusNode;
-            var elementNode = mw.wysiwyg.validateCommonAncestorContainer(node);
-            if (elementNode.nodeName == 'P') {
-                var align = a.split('justify')[1].toLocaleString();
-                if (align == 'full') {
+
+            if (elementNode.nodeName === 'P') {
+                align = a.split('justify')[1].toLowerCase();
+                if (align === 'full') {
                     align = 'justify';
                 }
-                elementNode.style.textAlign = align
+                elementNode.style.textAlign = align;
+                mw.wysiwyg.change(elementNode)
                 return false;
             }
         }

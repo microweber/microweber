@@ -67,23 +67,26 @@ class FieldsManager
 
         $function_cache_id = 'fields_' . __FUNCTION__ . crc32($function_cache_id);
 
-        //$is_made = $this->app->option_manager->get($function_cache_id, 'make_default_custom_fields');
+        $is_made = $this->app->option_manager->get($function_cache_id, 'make_default_custom_fields');
 
         $make_field = array();
 
         $make_field['rel_type'] = $rel;
         $make_field['rel_id'] = $rel_id;
-        $is_made = $this->get_all($make_field);
-
-
+      //  $is_made = $this->get_all($make_field);
 
         if (isset($_mw_made_default_fields_register[$function_cache_id])) {
             return;
         }
 
-        if (is_array($is_made) and !empty($is_made)) {
+        if ($is_made) {
             return;
         }
+
+       /* if (is_array($is_made) and !empty($is_made)) {
+            return;
+        }
+        */
         $_mw_made_default_fields_register[$function_cache_id] = true;
 
         $table_custom_field = $this->table;
@@ -104,10 +107,28 @@ class FieldsManager
 
             $pos = 0;
             if (is_array($fields_csv_str)) {
-                foreach ($fields_csv_str as $field_type) {
+                foreach ($fields_csv_str as $field_name) {
+
                     $ex = array();
 
+                    $as_text_area = false;
+                    $field_type = 'text';
+                    $field_name_lower = strtolower($field_name);
 
+                    if (strpos($field_name_lower, 'message') !== false) {
+                        $as_text_area = true;
+                        $field_type = 'text';
+                    }
+
+                    $fields = mw()->ui->custom_fields();
+                    if (array_key_exists($field_name_lower, $fields)) {
+                        $field_type = $field_name;
+                    }
+                    if (in_array($field_name_lower, $fields)) {
+                        $field_type = $field_name;
+                    }
+
+                    $ex['name'] = $field_name;
                     $ex['type'] = $field_type;
                     $ex['rel_type'] = $rel;
                     $ex['rel_id'] = $rel_id;
@@ -119,19 +140,26 @@ class FieldsManager
                         $make_field['rel_type'] = $rel;
                         $make_field['rel_id'] = $rel_id;
                         $make_field['position'] = $pos;
-                        $make_field['name'] = ucfirst($field_type);
+                        $make_field['name'] = ucfirst($field_name);
                         $make_field['value'] = '';
-
-                        if ($field_type == 'message') {
-                            $field_type = 'textarea';
-                        }
                         $make_field['type'] = $field_type;
+                        $make_field['options']['field_type'] = $field_type;
+
+                        if ($as_text_area) {
+                            $make_field['options']['as_text_area'] = $as_text_area;
+                        }
 
                         $saved_fields[] = $this->save($make_field);
 
                         ++$pos;
                     }
                 }
+
+                $option = array();
+                $option['option_value'] = true;
+                $option['option_key'] = $function_cache_id;
+                $option['option_group'] = 'make_default_custom_fields';
+                $this->app->option_manager->save($option);
                 if ($pos > 0) {
                     $this->app->cache_manager->delete('custom_fields/global');
                 }
@@ -178,7 +206,6 @@ class FieldsManager
             $data['rel_type'] = $data['rel'];
         }
         
-        
         if (isset($data['options']['field_type']) && !empty($data['options']['field_type'])) {
         	$data['type'] = $data['options']['field_type'];
         }
@@ -206,9 +233,9 @@ class FieldsManager
                 if (isset($form_data_from_id['type']) and $form_data_from_id['type'] != '' and (!isset($data_to_save['type']) or ($data_to_save['type']) == '')) {
                     $data_to_save['type'] = $form_data_from_id['type'];
                 }
-                if (isset($form_data_from_id['name']) and $form_data_from_id['name'] != '' and (!isset($data_to_save['name']) or ($data_to_save['name']) == '')) {
+               /* if (isset($form_data_from_id['name']) and $form_data_from_id['name'] != '' and (!isset($data_to_save['name']) or ($data_to_save['name']) == '')) {
                     $data_to_save['name'] = $form_data_from_id['name'];
-                }
+                }*/
             }
 
             if (isset($data_to_save['copy_rel_id'])) {
@@ -915,6 +942,10 @@ class FieldsManager
             $field_data['id'] = $data['id'];
         }
 
+        if (isset($data['placeholder'])) {
+            $field_data['placeholder'] = $data['placeholder'];
+        }
+
         if (isset($data['make_select'])) {
             $field_settings['make_select'] = $data['make_select'];
         }
@@ -976,11 +1007,10 @@ class FieldsManager
 
         if (isset($data['value'])) {
             $field_data['value'] = $data['value'];
-            $field_data['placeholder'] = $data['value'];
         }
 
         if (is_array($data['value'])) {
-            $field_data['placeholder'] = implode(',', $data['value']);
+            $field_data['value'] = implode(',', $data['value']);
         }
 
         if (is_array($data['values']) && !empty($data['values'])) {
@@ -1039,13 +1069,10 @@ class FieldsManager
                     }
                     $default_address_fields = $new_address_fields;
                 }
-
                 $field_data['values'] = array_merge($field_data['values'], $default_address_fields);
             }
             $field_data['countries'] = mw()->forms_manager->countries_list();
         }
-
-        //var_dump($data);die();
 
         $parseView = new \Microweber\View($file);
         $parseView->assign('data', $field_data);
@@ -1110,6 +1137,9 @@ class FieldsManager
         }
 
         $settings_file = modules_path() . DS . 'microweber' . DS . 'custom_fields' . DS . $data['type'] . '_settings.php';
+        if (!is_file($settings_file)) {
+            $settings_file = modules_path() . DS . 'microweber' . DS . 'custom_fields' . DS . 'text_settings.php';
+        }
 
         $settings_file = normalize_path($settings_file, FALSE);
         $preview_file = normalize_path($preview_file, FALSE);

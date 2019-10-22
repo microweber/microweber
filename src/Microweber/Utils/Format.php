@@ -8,12 +8,12 @@ use Crypt;
 
 class Format
 {
-	
-	public function array_to_seperator($array, $seperator = '|') 
-	{
-		return implode($array, $seperator);
-	}
-	
+
+    public function array_to_seperator($array, $seperator = '|')
+    {
+        return implode($array, $seperator);
+    }
+
     /**
      * Prints an array in unordered list - <ul>.
      *
@@ -29,7 +29,7 @@ class Format
         $retStr = '<' . $ul_tag . '>';
         if (is_array($arr)) {
             foreach ($arr as $key => $val) {
-                if (!is_array($key) and  $val) {
+                if (!is_array($key) and $val) {
                     $key = str_replace('_', ' ', $key);
                     $key = ucwords($key);
 
@@ -71,7 +71,7 @@ class Format
         }
     }
 
-    function array_to_table($array,$table=true)
+    function array_to_table($array, $table = true)
     {
         $out = '';
         foreach ($array as $key => $value) {
@@ -99,14 +99,6 @@ class Format
     }
 
 
-
-
-
-
-
-
-
-
     /**
      * Formats a date by given pattern.
      *
@@ -131,8 +123,6 @@ class Format
     }
 
 
-
-
     /**
      * Find Date in a String
      *
@@ -146,9 +136,10 @@ class Format
      * @param string  find_date( ' some text 01/01/2012 some text' ) or find_date( ' some text October 5th 86 some text' )
      * @return mixed  false if no date found else array: array( 'day' => 01, 'month' => 01, 'year' => 2012 )
      */
-    function find_date( $string ) {
-        $shortenize = function( $string ) {
-            return substr( $string, 0, 3 );
+    function find_date($string)
+    {
+        $shortenize = function ($string) {
+            return substr($string, 0, 3);
         };
         // Define month name:
         $month_names = array(
@@ -165,7 +156,7 @@ class Format
             "november",
             "december"
         );
-        $short_month_names = array_map( $shortenize, $month_names );
+        $short_month_names = array_map($shortenize, $month_names);
         // Define day name
         $day_names = array(
             "monday",
@@ -176,110 +167,111 @@ class Format
             "saturday",
             "sunday"
         );
-        $short_day_names = array_map( $shortenize, $day_names );
+        $short_day_names = array_map($shortenize, $day_names);
         // Define ordinal number
         $ordinal_number = ['st', 'nd', 'rd', 'th'];
         $day = "";
         $month = "";
         $year = "";
         // Match dates: 01/01/2012 or 30-12-11 or 1 2 1985
-        preg_match( '/([0-9]?[0-9])[\.\-\/ ]+([0-1]?[0-9])[\.\-\/ ]+([0-9]{2,4})/', $string, $matches );
-        if ( $matches ) {
-            if ( $matches[1] )
+        preg_match('/([0-9]?[0-9])[\.\-\/ ]+([0-1]?[0-9])[\.\-\/ ]+([0-9]{2,4})/', $string, $matches);
+        if ($matches) {
+            if ($matches[1])
                 $day = $matches[1];
-            if ( $matches[2] )
+            if ($matches[2])
                 $month = $matches[2];
-            if ( $matches[3] )
+            if ($matches[3])
                 $year = $matches[3];
         }
         // Match dates: Sunday 1st March 2015; Sunday, 1 March 2015; Sun 1 Mar 2015; Sun-1-March-2015
-        preg_match('/(?:(?:' . implode( '|', $day_names ) . '|' . implode( '|', $short_day_names ) . ')[ ,\-_\/]*)?([0-9]?[0-9])[ ,\-_\/]*(?:' . implode( '|', $ordinal_number ) . ')?[ ,\-_\/]*(' . implode( '|', $month_names ) . '|' . implode( '|', $short_month_names ) . ')[ ,\-_\/]+([0-9]{4})/i', $string, $matches );
-        if ( $matches ) {
-            if ( empty( $day ) && $matches[1] )
+        preg_match('/(?:(?:' . implode('|', $day_names) . '|' . implode('|', $short_day_names) . ')[ ,\-_\/]*)?([0-9]?[0-9])[ ,\-_\/]*(?:' . implode('|', $ordinal_number) . ')?[ ,\-_\/]*(' . implode('|', $month_names) . '|' . implode('|', $short_month_names) . ')[ ,\-_\/]+([0-9]{4})/i', $string, $matches);
+        if ($matches) {
+            if (empty($day) && $matches[1])
                 $day = $matches[1];
-            if ( empty( $month ) && $matches[2] ) {
-                $month = array_search( strtolower( $matches[2] ),  $short_month_names );
-                if ( ! $month )
-                    $month = array_search( strtolower( $matches[2] ),  $month_names );
+            if (empty($month) && $matches[2]) {
+                $month = array_search(strtolower($matches[2]), $short_month_names);
+                if (!$month)
+                    $month = array_search(strtolower($matches[2]), $month_names);
                 $month = $month + 1;
             }
-            if ( empty( $year ) && $matches[3] )
+            if (empty($year) && $matches[3])
                 $year = $matches[3];
         }
         // Match dates: March 1st 2015; March 1 2015; March-1st-2015
-        preg_match('/(' . implode( '|', $month_names ) . '|' . implode( '|', $short_month_names ) . ')[ ,\-_\/]*([0-9]?[0-9])[ ,\-_\/]*(?:' . implode( '|', $ordinal_number ) . ')?[ ,\-_\/]+([0-9]{4})/i', $string, $matches );
-        if ( $matches ) {
-            if ( empty( $month ) && $matches[1] ) {
-                $month = array_search( strtolower( $matches[1] ),  $short_month_names );
-                if ( ! $month )
-                    $month = array_search( strtolower( $matches[1] ),  $month_names );
+        preg_match('/(' . implode('|', $month_names) . '|' . implode('|', $short_month_names) . ')[ ,\-_\/]*([0-9]?[0-9])[ ,\-_\/]*(?:' . implode('|', $ordinal_number) . ')?[ ,\-_\/]+([0-9]{4})/i', $string, $matches);
+        if ($matches) {
+            if (empty($month) && $matches[1]) {
+                $month = array_search(strtolower($matches[1]), $short_month_names);
+                if (!$month)
+                    $month = array_search(strtolower($matches[1]), $month_names);
                 $month = $month + 1;
             }
-            if ( empty( $day ) && $matches[2] )
+            if (empty($day) && $matches[2])
                 $day = $matches[2];
-            if ( empty( $year ) && $matches[3] )
+            if (empty($year) && $matches[3])
                 $year = $matches[3];
         }
         // Match month name:
-        if ( empty( $month ) ) {
-            preg_match( '/(' . implode( '|', $month_names ) . ')/i', $string, $matches_month_word );
-            if ( $matches_month_word && $matches_month_word[1] )
-                $month = array_search( strtolower( $matches_month_word[1] ),  $month_names );
+        if (empty($month)) {
+            preg_match('/(' . implode('|', $month_names) . ')/i', $string, $matches_month_word);
+            if ($matches_month_word && $matches_month_word[1])
+                $month = array_search(strtolower($matches_month_word[1]), $month_names);
             // Match short month names
-            if ( empty( $month ) ) {
-                preg_match( '/(' . implode( '|', $short_month_names ) . ')/i', $string, $matches_month_word );
-                if ( $matches_month_word && $matches_month_word[1] )
-                    $month = array_search( strtolower( $matches_month_word[1] ),  $short_month_names );
+            if (empty($month)) {
+                preg_match('/(' . implode('|', $short_month_names) . ')/i', $string, $matches_month_word);
+                if ($matches_month_word && $matches_month_word[1])
+                    $month = array_search(strtolower($matches_month_word[1]), $short_month_names);
             }
             $month = $month + 1;
         }
         // Match 5th 1st day:
-        if ( empty( $day ) ) {
-            preg_match( '/([0-9]?[0-9])(' . implode( '|', $ordinal_number ) . ')/', $string, $matches_day );
-            if ( $matches_day && $matches_day[1] )
+        if (empty($day)) {
+            preg_match('/([0-9]?[0-9])(' . implode('|', $ordinal_number) . ')/', $string, $matches_day);
+            if ($matches_day && $matches_day[1])
                 $day = $matches_day[1];
         }
         // Match Year if not already setted:
-        if ( empty( $year ) ) {
-            preg_match( '/[0-9]{4}/', $string, $matches_year );
-            if ( $matches_year && $matches_year[0] )
+        if (empty($year)) {
+            preg_match('/[0-9]{4}/', $string, $matches_year);
+            if ($matches_year && $matches_year[0])
                 $year = $matches_year[0];
         }
-        if ( ! empty ( $day ) && ! empty ( $month ) && empty( $year ) ) {
-            preg_match( '/[0-9]{2}/', $string, $matches_year );
-            if ( $matches_year && $matches_year[0] )
+        if (!empty ($day) && !empty ($month) && empty($year)) {
+            preg_match('/[0-9]{2}/', $string, $matches_year);
+            if ($matches_year && $matches_year[0])
                 $year = $matches_year[0];
         }
         // Day leading 0
-        if ( 1 == strlen( $day ) )
+        if (1 == strlen($day))
             $day = '0' . $day;
         // Month leading 0
-        if ( 1 == strlen( $month ) )
+        if (1 == strlen($month))
             $month = '0' . $month;
         // Check year:
-        if ( 2 == strlen( $year ) && $year > 20 )
+        if (2 == strlen($year) && $year > 20)
             $year = '19' . $year;
-        else if ( 2 == strlen( $year ) && $year < 20 )
+        else if (2 == strlen($year) && $year < 20)
             $year = '20' . $year;
         $date = array(
-            'year'  => $year,
+            'year' => $year,
             'month' => $month,
-            'day'   => $day
+            'day' => $day
         );
         // Return false if nothing found:
-        if ( empty( $year ) && empty( $month ) && empty( $day ) )
+        if (empty($year) && empty($month) && empty($day))
             return false;
         else
             return $date;
     }
 
-    function get_date_format(){
+    function get_date_format()
+    {
         $date_format_set = get_option('date_format', 'website');
         $date_format_default = 'm/d/Y h:i a';
         $date_format = '';
-        if($date_format_set && (strstr($date_format_set,'/')||strstr($date_format_set,'-'))){
-            $date_format = str_replace('-','/',$date_format_set);
-            if(strstr($date_format,'d/m')) {
+        if ($date_format_set && (strstr($date_format_set, '/') || strstr($date_format_set, '-'))) {
+            $date_format = str_replace('-', '/', $date_format_set);
+            if (strstr($date_format, 'd/m')) {
                 $date_format = 'd/m/Y h:i a';
             } else {
                 $date_format = $date_format_default;
@@ -290,35 +282,33 @@ class Format
         return $date_format;
     }
 
-    function date_system_format($db_date){
+    function date_system_format($db_date)
+    {
         $date_format = $this->get_date_format();
         $date = date_create($db_date);
-        return date_format($date,$date_format);
+        return date_format($date, $date_format);
     }
 
-    function get_date_db_format($str_date){
+    function get_date_db_format($str_date)
+    {
         $date_format_set = get_option('date_format', 'website');
         $date_db_format = 'Y-m-d H:i:s';
         $date_format_default = 'm/d/Y h:i a';
         $str_db_date = '';
-        if(strstr($str_date,'/')||strstr($str_date,'-')||strstr($str_date,'.')) {
-            $str_date = str_replace('-','/',$str_date);
-            $str_date = str_replace('.','/',$str_date);
+        if (strstr($str_date, '/') || strstr($str_date, '-') || strstr($str_date, '.')) {
+            $str_date = str_replace('-', '/', $str_date);
+            $str_date = str_replace('.', '/', $str_date);
         }
-        if($date_format_set){
+        if ($date_format_set) {
             $date = $this->find_date($str_date);
             $str_db_date = $date['year'] . '-' . $date['month'] . '-' . $date['day'];
-        }elseif($dateTime = \DateTime::createFromFormat($date_format_default, $str_date)){
+        } elseif ($dateTime = \DateTime::createFromFormat($date_format_default, $str_date)) {
             $str_db_date = $dateTime->format($date_db_format);
-        }else{
+        } else {
             $str_db_date = '0000-00-00 00:00:00';
         }
         return $str_db_date;
     }
-
-
-
-
 
 
     public function array_trim($variable)
@@ -432,12 +422,11 @@ class Format
 
         if (is_int($time)) {
             $date = $time;
-            $ago = new \DateTime("@" .$time);
+            $ago = new \DateTime("@" . $time);
         } else {
-           // $date = strtotime($time);
+            // $date = strtotime($time);
             $ago = new \DateTime($time);
         }
-
 
 
         $diff = $now->diff($ago);
@@ -466,7 +455,7 @@ class Format
         return $string ? implode(', ', $string) . ' ago' : 'just now';
     }
 
-    public function clean_xss($var, $do_not_strip_tags = false,$evil=null,$method='process')
+    public function clean_xss($var, $do_not_strip_tags = false, $evil = null, $method = 'process')
     {
         static $sec;
 
@@ -476,7 +465,7 @@ class Format
 
         if (is_array($var)) {
             foreach ($var as $key => $val) {
-                $output[$key] = $this->clean_xss($val, $do_not_strip_tags,$evil,$method);
+                $output[$key] = $this->clean_xss($val, $do_not_strip_tags, $evil, $method);
             }
         } else {
             $var = $sec->clean($var);
@@ -485,8 +474,8 @@ class Format
 
             $var = str_replace('<?', '&lt;?', $var);
             $var = str_replace('?>', '?&gt;', $var);
-          /*  $var = str_ireplace('<module', '&lt;module', $var);
-            $var = str_ireplace('<Microweber', '&lt;Microweber', $var);*/
+            /*  $var = str_ireplace('<module', '&lt;module', $var);
+              $var = str_ireplace('<Microweber', '&lt;Microweber', $var);*/
 
             $var = str_ireplace('javascript:', '', $var);
             $var = str_ireplace('vbscript:', '', $var);
@@ -558,8 +547,8 @@ class Format
             $var = str_ireplace('</script>', '', $var);
             $var = str_replace('<?', '&lt;?', $var);
             $var = str_replace('?>', '?&gt;', $var);
-       //     $var = str_ireplace('<module', '&lt;module', $var);
-         //   $var = str_ireplace('<Microweber', '&lt;Microweber', $var);
+            //     $var = str_ireplace('<module', '&lt;module', $var);
+            //   $var = str_ireplace('<Microweber', '&lt;Microweber', $var);
             $var = str_ireplace("\0075\0072\\", '', $var);
             if ($do_not_strip_tags == false) {
                 $var = strip_tags(trim($var));
@@ -757,9 +746,9 @@ class Format
         $separatorsCountToBeErased = strlen($cleanString) - strlen($onlyNumbersString) - 1;
 
         $stringWithCommaOrDot = preg_replace('/([,\.])/', '', $cleanString, $separatorsCountToBeErased);
-        $removedThousendSeparator = preg_replace('/(\.|,)(?=[0-9]{3,}$)/', '',  $stringWithCommaOrDot);
+        $removedThousendSeparator = preg_replace('/(\.|,)(?=[0-9]{3,}$)/', '', $stringWithCommaOrDot);
 
-        return (float) str_replace(',', '.', $removedThousendSeparator);
+        return (float)str_replace(',', '.', $removedThousendSeparator);
     }
 
     /**
@@ -901,13 +890,18 @@ class Format
     public function lnotif($text, $class = 'success')
     {
         $editmode_sess = mw()->user_manager->session_get('editmode');
+
+
         if (defined('MW_BACKEND') and MW_BACKEND != false) {
-           return false;
+            return false;
         }
-       // if ($editmode_sess == false) {
-            if (defined('IN_EDITOR_TOOLS') and IN_EDITOR_TOOLS != false) {
-                $editmode_sess = true;
-            }
+        if (defined('IN_EDIT') and IN_EDIT != false) {
+            $editmode_sess = true;
+        }
+        // if ($editmode_sess == false) {
+        if (defined('IN_EDITOR_TOOLS') and IN_EDITOR_TOOLS != false) {
+            $editmode_sess = true;
+        }
         //}
 
         if ($editmode_sess == true) {

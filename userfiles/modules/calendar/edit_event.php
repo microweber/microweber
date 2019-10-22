@@ -1,5 +1,8 @@
 <?php only_admin_access(); ?>
 
+<script>
+    mw.require("<?php  print  modules_url() ?>calendar/calendar_admin.js");
+</script>
 <?php
 $data = false;
 $add_new = false;
@@ -57,15 +60,19 @@ if (empty($data)) {
     // SEARCH CONTENT
     var content_id = <?php echo !!$data['content_id'] ? $data['content_id'] : 'false'; ?>;
 
-    $(document).ready(function () {
-        $("#postSearch").on("postSelected", function (event, data) {
-            content_id = data.id;
+    $(window).on('load', function () {
+
+            $("#postSearch").on("postSelected", function (event, data) {
+                content_id = data.id;
+                onSelectedPost(content_id);
+
+            });
+            editEventModal = window.thismodal;
+            console.log(editEventModal)
+
             onSelectedPost(content_id);
+    })
 
-        });
-
-        onSelectedPost(content_id);
-    });
 
     function onSelectedPost(content_id) {
         if (content_id) {
@@ -79,9 +86,10 @@ if (empty($data)) {
     }
 </script>
 
-<script src="<?php echo $config['url_to_module']; ?>js/image-upload.js" type='text/javascript'/>
-<script src="<?php echo $config['url_to_module']; ?>js/edit-event-ajax.js" type='text/javascript'/>
-<script src="<?php echo $config['url_to_module']; ?>js/edit-event.js" type='text/javascript'/>
+<script src="<?php echo $config['url_to_module']; ?>js/image-upload.js" type='text/javascript'></script>
+
+<script src="<?php echo $config['url_to_module']; ?>js/edit-event-ajax.js" type='text/javascript'></script>
+<script src="<?php echo $config['url_to_module']; ?>js/edit-event.js" type='text/javascript'></script>
 
 <form id="editEventForm">
     <input type="hidden" name="id" value="<?php echo $data['id'] ?>"/>
@@ -287,8 +295,8 @@ if (empty($data)) {
     <hr>
 
     <div class="mw-ui-btn-nav pull-right">
-        <span class="mw-ui-btn " onclick="editEventModal.modal.remove()">Cancel</span>
-        <button class="mw-ui-btn mw-ui-btn-invert " xxxonclick='$("#editEventForm").submit();'>Save</button>
+        <span class="mw-ui-btn " onclick="thismodal.remove()">Cancel</span>
+        <button class="mw-ui-btn mw-ui-btn-invert " type="submit">Save</button>
     </div>
 
     <div class="mw-ui-btn-nav pull-left">

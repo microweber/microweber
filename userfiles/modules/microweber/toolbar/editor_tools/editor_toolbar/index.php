@@ -16,17 +16,19 @@
 <script>mw.require("wysiwyg.js");</script>
 
 <script>
+    getAreaHTML = function () {
+        var val = Editable.innerHTML;
+        if(!$(Editable).text().trim()) {
+            return '';
+        }
+        return val;
+    };
     SetValueTime = 600;
     SetValueTimeout = null;
     SetValue = function () {
         clearTimeout(SetValueTimeout);
         SetValueTimeout = setTimeout(function () {
-            if (mw.is.ie) {
-                mw.$('[contenteditable]').each(function(){mw.wysiwyg.contentEditable(this, false)});
-                mw.wysiwyg.nceui();
-            }
-
-            var newval = Editable.innerHTML;
+            var newval = getAreaHTML();
 
             if (newval != OLDVALUE) {
 
@@ -52,33 +54,30 @@
     }
 
     SetHeight = function (height) {
-        if (typeof(window.richtextEditorSettings) == "undefined") {
-            var height = height || 'auto';
+        if (!window.richtextEditorSettings) {
+            height = height || 'auto';
         } else {
-            var height = height || window.richtextEditorSettings.height;
+            height = height || window.richtextEditorSettings.height;
         }
 
-        if (height == 'auto') {
-
-
+        if (height === 'auto') {
             setInterval(function () {
                 parent.mw.$('#' + this.name).height($('#editor-master').height())
             }, 222);
         }
         else {
-            var height = parseFloat(height);
+             height = parseFloat(height);
             var offset = mwd.getElementById('mw-admin-text-editor').offsetHeight;
-            if (offset == 0) {
+            if (offset === 0) {
                 offset = height / 9;
             }
             var _height = height - offset;
-//            Editable.style.height = _height + 'px';
         }
-    }
+    };
 
 
     toggleHTMLEditorBox = function () {
-        var newval = Editable.innerHTML;
+        var newval = getAreaHTML();
         $('#editor-area-html-editor-box').val(newval);
         $('#editor-area-html-editor-box').height(Editable.style.height);
         $('#editor-area-html-editor-box').width($('#editor-master').width());
@@ -92,7 +91,7 @@
 
 
         //$('#editor-area-html-editor-box').val(newval);
-    }
+    };
     updateHTMLFromTextArea = function (val) {
 
         Editable.innerHTML = val;
@@ -100,7 +99,7 @@
         setTimeout(function () {
             //  SetValue();
         }, SetValueTime);
-    }
+    };
 
 
     $(window).on("load", function () {

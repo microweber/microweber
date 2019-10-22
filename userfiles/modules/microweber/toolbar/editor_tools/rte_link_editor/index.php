@@ -237,6 +237,10 @@
 
 
 <div id="mw-popup-insertlink">
+    <div class="mw-ui-field-holder" id="customweburl_text_field_holder" style="display:none">
+        <label class="mw-ui-label"><?php _e("Link text"); ?></label>
+        <textarea type="text" class="mw-ui-field w100" id="customweburl_text" placeholder="Link text"></textarea>
+    </div>
     <div class="">
         <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
             <a class="mw-ui-btn active" href="javascript:;"><?php _e("Website URL"); ?></a>
@@ -249,11 +253,6 @@
         <div class="mw-ui-box mw-ui-box-content" id="tabs">
             <div class="tab" style="display: block">
                 <div class="media-search-holder">
-
-                    <div class="mw-ui-field-holder" id="customweburl_text_field_holder" style="display:none">
-                        <label class="mw-ui-label"><?php _e("Link text"); ?></label>
-                        <textarea type="text" class="mw-ui-field w100" id="customweburl_text" placeholder="Link text"></textarea>
-                    </div>
                     <div class="mw-ui-field-holder">
                         <label class="mw-ui-label"><?php _e("URL"); ?></label>
                         <input type="text" class="mw-ui-field" id="customweburl" autofocus=""/>

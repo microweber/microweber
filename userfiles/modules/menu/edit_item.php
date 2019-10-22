@@ -268,6 +268,9 @@ if ($id != 0) {
                 }
                 link.dialog.remove();
             })
+            $(link.frame).on('load', function () {
+                $('#customweburl_text_field_holder', this.contentWindow.document).hide()
+            })
         })
     })
 </script>
