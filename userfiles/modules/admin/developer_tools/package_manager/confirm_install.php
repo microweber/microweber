@@ -40,32 +40,7 @@ if(is_array($get_existing_files_for_confirm)){
 
 
 <script>
-    mw.install_composer_package_confirm_by_key = function ($confirm_key, $require_name, $require_version) {
-        mw.notification.success('Installing...', 6000);
 
-        mw.admin.admin_package_manager.set_loading(true)
-
-
-
-        var values = {confirm_key: $confirm_key, require_version: $require_version, require_name: $require_name};
-        $.ajax({
-            url: "<?php print api_link('mw_composer_install_package_by_name'); ?>",
-            type: "post",
-            data: values,
-            success: function (msg) {
-                mw.notification.msg(msg, 3000);
-                if (msg.success) {
-                    mw.tools.modal.get('#js-buttons-confirm-install').remove()
-                }
-
-                mw.admin.admin_package_manager.set_loading(false)
-                mw.admin.admin_package_manager.reload_packages_list();
-
-
-            }
-        })
-
-    }
 
     $(document).ready(function () {
         $('.js-show-files').on('click', function () {
