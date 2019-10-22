@@ -22,11 +22,14 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 <script>
 
-    function reload_calendar_after_save() {
-        mw.reload_module_everywhere('#<?php print $params['id'] ?>');
-        mw.reload_module_everywhere('calendar/edit_events');
-        window.parent.$(window.parent.document).trigger('calendar.update');
-    }
+    //function reload_calendar_after_save() {
+    //    mw.reload_module_everywhere('#<?php //print $params['id'] ?>//');
+    //    mw.reload_module_everywhere('calendar/edit_events');
+    //    window.parent.$(window.parent.document).trigger('calendar.update');
+    //    mw.top().$(window.parent.document).trigger('calendar.update');
+    //    alert(33333)
+    //
+    //}
 
 </script>
 

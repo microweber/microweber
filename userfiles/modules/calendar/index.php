@@ -63,7 +63,7 @@ if ($save_groups) {
 $events = calendar_get_events_api($params);
 
 
-if ($event_count < 1) {
+if (!$event_count) {
 	return print lnotif(_e('Click here to edit Calendar', true));
 }
 

@@ -9,11 +9,14 @@ $all_days = calendar_get_events('group_by_type=1&group_by_date=1');
     mw.require("<?php  print  modules_url() ?>calendar/calendar_admin.js");
 </script>
 <script>
-    function reload_calendar_after_save() {
-        mw.reload_module_everywhere('#<?php print $params['id'] ?>');
-        mw.reload_module_everywhere('calendar/edit_events');
-        window.parent.$(window.parent.document).trigger('calendar.update');
-    }
+    //function reload_calendar_after_save() {
+    //    mw.reload_module_everywhere('#<?php //print $params['id'] ?>//');
+    //    mw.reload_module_everywhere('calendar/edit_events');
+    //    window.parent.$(window.parent.document).trigger('calendar.update');
+    //    mw.top().$(window.parent.document).trigger('calendar.update');
+    //    alert(32423452)
+    //
+    //}
 </script>
 
 <div class="module-live-edit-settings">

@@ -19,6 +19,8 @@ $(document).ready(function () {
             success: function (response) {
 
                 mw.reload_module_everywhere('calendar/edit_events');
+                mw.top().$(window.parent.document).trigger('calendar.update');
+
                 mw.notification.success(mw.lang('All changes saved'));
                 var dialog = mw.dialog.get(e.target);
                 if(dialog){
