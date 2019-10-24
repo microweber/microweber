@@ -687,7 +687,7 @@ if (isset($_COOKIE['mw_exp'])) {
 <span class="mw-plus-bottom mw-wyswyg-plus-element"></span>
 
 <div style="display: none" id="plus-modules-list">
-    <input type="text" class="mw-ui-searchfield"/>
+    <input type="text" class="mw-ui-searchfield" placeholder="<?php _e('Search') ?>"/>
     <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs pull-left">
         <span class="mw-ui-btn mw-ui-btn-medium active"><i class="mw-icon-module"></i> <?php _e("Modules"); ?></span>
         <span class="mw-ui-btn mw-ui-btn-medium"><i class="mw-icon-template"></i> <?php _e("Layouts"); ?></span>
