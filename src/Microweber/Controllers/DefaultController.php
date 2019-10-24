@@ -1383,6 +1383,7 @@ class DefaultController extends Controller
                 $found_mod = false;
                 $page = $this->app->content_manager->get_by_url($page_url);
                 $page_exact = $this->app->content_manager->get_by_url($page_url, true);
+           //dd($page,$page_exact,$page_url);
                 $page_url_segment_1 = $this->app->url_manager->segment(0, $page_url);
                 if ($preview_module != false) {
                     $page_url = $preview_module;
@@ -1392,12 +1393,15 @@ class DefaultController extends Controller
                 }
 
                 if ($page_exact == false and $found_mod == false and $this->app->modules->is_installed($page_url) and $page_url != 'settings' and $page_url != 'admin') {
-
                     $found_mod = true;
-
-
                 }
 
+                if(!$page_exact and !$page and stristr($page_url,'index.php')){
+                        // prevent loading of non exisitng page at index.php/somepage
+                    $response = \Response::make('Error 404 The webpage cannot be found');
+                    $response->setStatusCode(404);
+                    return $response;
+                 }
 
                 // if ($found_mod == false) {
                 if (empty($page)) {
@@ -1751,6 +1755,13 @@ class DefaultController extends Controller
         if (defined('CATEGORY_ID')) {
             $category = $this->app->category_manager->get_by_id(CATEGORY_ID);
         }
+        if ($is_editmode == true and !defined('IN_EDIT')) {
+            define('IN_EDIT', true);
+        }
+
+        if (isset($is_quick_edit) and $is_quick_edit == true and !defined('QUICK_EDIT')) {
+            define('QUICK_EDIT', true);
+        }
 
         if ($render_file) {
             $render_params = array();
@@ -1821,13 +1832,7 @@ class DefaultController extends Controller
             }
             $modify_content = event_trigger('on_load', $content);
 
-            if ($is_editmode == true and !defined('IN_EDIT')) {
-                define('IN_EDIT', true);
-            }
 
-            if (isset($is_quick_edit) and $is_quick_edit == true and !defined('QUICK_EDIT')) {
-                define('QUICK_EDIT', true);
-            }
 
             $l = $this->app->parser->process($l, $options = false);
 
