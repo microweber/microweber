@@ -22,29 +22,16 @@
         });
     });
 
-    $(window).on('load', function () {
-        $("#client_img").on("click", function () {
-            mw.fileWindow({
-                types: 'images',
-                change: function (url) {
-                    url = url.toString();
-                    mw.$("#client_picture").val(url).trigger('change');
-                }
-            });
+    var handleClientImg = function () {
+        mw.fileWindow({
+            types: 'images',
+            change: function (url) {
+                url = url.toString();
+                mw.$("#client_picture").val(url).trigger('change');
+            }
         });
+    };
 
-        mw.on.moduleReload("edit-testimonials", function () {
-            $("#client_img").on("click", function () {
-                mw.fileWindow({
-                    types: 'images',
-                    change: function (url) {
-                        url = url.toString();
-                        mw.$("#client_picture").val(url).trigger('change');
-                    }
-                });
-            });
-        });
-    })
 
 </script>
 
@@ -105,13 +92,26 @@ if (!isset($data['client_company'])) {
     <input type="hidden" name="id" value="<?php print $data['id'] ?>"/>
 
     <div class="mw-ui-field-holder">
+
         <label class="mw-ui-label"><?php _e('Client Name'); ?></label>
         <input type="text" name="name" placeholder="Name" value="<?php print $data['name'] ?>" class="mw-ui-field w100">
     </div>
 
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e('Client Picture'); ?></label>
-        <input type="text" name="client_picture" id="client_picture" value="<?php print $data['client_picture'] ?>" class="mw-ui-field"> &nbsp; <span class="mw-ui-btn mw-ui-btn-info" id="client_img"><span class="fas fa-upload"></span> &nbsp; <?php _e('Select Image'); ?></span>
+        <div class="mw-field w100">
+            <input
+                type="text"
+                name="client_picture"
+                id="client_picture"
+                value="<?php print $data['client_picture'] ?>"
+                class="mw-ui-field">
+            <span class="mw-ui-btn mw-field-append mw-ui-btn-info" id="client_img" onclick="handleClientImg();">
+                 <span class="fas fa-upload"></span> &nbsp; <?php _e('Select Image'); ?>
+            </span>
+        </div>
+
+
     </div>
 
     <div class="mw-ui-field-holder">

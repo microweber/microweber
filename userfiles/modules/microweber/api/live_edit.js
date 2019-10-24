@@ -68,11 +68,7 @@ mw.live_edit.showSettings = function (a, opts) {
         return;
     }
     var attributes = {};
-    if (curr && curr.id && mw.$('#module-settings-' + curr.id).length > 0) {
-        var m = mw.$('#module-settings-' + curr.id)[0];
-        m.scrollIntoView();
-        mw.tools.highlight(m);
-    }
+
     if (curr && curr.attributes) {
         $.each(curr.attributes, function (index, attr) {
             attributes[attr.name] = attr.value;
@@ -136,7 +132,12 @@ mw.live_edit.showSettings = function (a, opts) {
         if(mw.liveEditSettings && mw.liveEditSettings.active){
              mw.liveEditSettings.hide();
         }
-
+        var has = mw.$('#' + modal_name);
+        if(has.length){
+            var dialog = mw.dialog.get(has[0]);
+            dialog.show();
+            return dialog;
+        }
         var nmodal = mw.dialogIframe({
             url: src,
             width: 532,
@@ -144,7 +145,8 @@ mw.live_edit.showSettings = function (a, opts) {
             autoHeight:true,
             id: modal_name,
             title:'',
-            className: 'mw-dialog-module-settings'
+            className: 'mw-dialog-module-settings',
+            closeButtonAction: 'hide'
         });
 
         nmodal.iframe.contentWindow.thismodal = nmodal;

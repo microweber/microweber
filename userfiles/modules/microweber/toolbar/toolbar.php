@@ -683,8 +683,8 @@ if (isset($_COOKIE['mw_exp'])) {
     });
 </script>
 
-<span class="mw-plus-top mw-wyswyg-plus-element">+</span>
-<span class="mw-plus-bottom mw-wyswyg-plus-element">+</span>
+<span class="mw-plus-top mw-wyswyg-plus-element"></span>
+<span class="mw-plus-bottom mw-wyswyg-plus-element"></span>
 
 <div style="display: none" id="plus-modules-list">
     <input type="text" class="mw-ui-searchfield"/>

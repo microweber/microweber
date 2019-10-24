@@ -426,7 +426,7 @@ top.$(top.mw.liveEditSelector).on('select', function(e, nodes){
                 data: [],
                 inputField: true,
                 wrap: true,
-                disableItem: function(item) {
+                hideItem: function(item) {
                     return item.title.indexOf('module') !== -1 || item.title.indexOf('element') !== -1;
                 }
             });
