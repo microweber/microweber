@@ -21,11 +21,11 @@
 ![admin panel](https://microweber.com/cdn/2019_version/1.jpg "")
 
 
-Microweber is a Drag and Drop website builder and powerful CMS of new generation. It's based on PHP Laravel Framework. You can use Microweber to make a any kind of website, online store and blog. The Drag and Drop technology allows you to build your website without any technical knowledge.
+Microweber is a Drag and Drop website builder and a powerful next generation CMS. It's based on the PHP Laravel Framework. You can use Microweber to make any kind of website, online store, and blog. The Drag and Drop technology allows you to build your website without any technical knowledge.
 
-The core idea of the software is to let you create your own website, online shop or blog. From this moment of creation on, your journey towards success begins. Tagging all along will be different modules, customizations and features of the CMS, among them many specifically tailored for e-commerce enthusiasts and bloggers.
+The core idea of the software is to let you create your own website, online shop or blog. From this moment of creation, your journey towards success begins. Supporting you along the way will be different modules, customizations and features of the CMS. Many of them are specifically tailored for e-commerce enthusiasts and bloggers.
 
-The most important thing you need to know is that Microweber pairs the latest CMS trend the unique Drag & Drop technology, with a revolutionary Real-Time Text Writing & Editing feature. Talking in user benefit, this pair of features means improved user experience, easier and quicker content management, visually highly appealing environment and flexibility.
+The most important thing you need to know is that Microweber pairs the latest Drag & Drop technology, with a revolutionary Real-Time Text Writing & Editing feature. This pair of features delivers an improved user experience, easier and quicker content management, a visually appealing environment, and flexibility.
 
 
 ## Core features of Microweber  
@@ -33,7 +33,7 @@ The most important thing you need to know is that Microweber pairs the latest CM
 
 #### Drag & Drop
 
-Microweber operates on the Drag & Drop technology. This means that users can manage their content and arrange elements with just a click of the mouse, dragging and dropping them across the screen. Drag & Drop applies to all types of content: images, text fields, videos, and the whole variety of modules and additional customization options you have as a user. The default template “Dream” comes with more than 75+ prepared layouts that you can use via drag and drop.
+Microweber implements Drag & Drop technology. This means that users can manage their content and arrange elements with just a click of the mouse, dragging and dropping them across the screen. Drag & Drop applies to all types of content: images, text fields, videos, and the various modules and customization options you have as a user. The default template “Dream” comes with more than 75+ prepared layouts that you can use via drag and drop.
 
 ![Drag And Drop](https://microweber.com/cdn/2019_version/Drag_Drop_CMS_Microweber.gif "")
 
@@ -41,7 +41,7 @@ Microweber operates on the Drag & Drop technology. This means that users can man
 
 #### Real Time Text Editing
 
-Live Edit view is the manifestation of the Real-Time Text Writing & Editing core feature of Microweber CMS. Working in Live Edit view is in fact working on your website’s interface in real time.
+Live Edit view is the manifestation of the Real-Time Text Writing & Editing core feature of Microweber CMS. Live Edit view changes your website’s interface in real time.
 
 ![E-commerce solution](https://sitestatic.microweber.com/cdn/gh_readme/homepage-2018-third-section.gif "")
 
@@ -49,7 +49,7 @@ Live Edit view is the manifestation of the Real-Time Text Writing & Editing core
 
 #### Powerful Admin Panel
 
-You can add dynamic pages, posts, products. All of these can be organized in custom categories in order to achieve a better navigation and showcase of a website's content. New pages can be created using different layouts and all pages, posts and products come with a preset number layouts and modules to get users started. These modules can be changed and you can of course add your own custom set of modules as to create the most suitable content for your needs.
+You can add dynamic pages, posts, and products. All of these can be organized in custom categories in order to achieve a better navigation and showcase of a website's content. New pages can be created using different layouts. In addition, all pages, posts and products come with a number of preset layouts and modules to get users started. These modules can be changed and you can add your own custom set of modules in order to create the most suitable content for your needs.
 
 ![Powerful Admin Panel](https://microweber.com/cdn/2019_version/2.jpg "")
 
@@ -57,7 +57,7 @@ You can add dynamic pages, posts, products. All of these can be organized in cus
 
 #### E-commerce Solution
 
-Perhaps the main focus of Microweber CMS is E-commerce. A rising number of people have grown fond of the idea of online entrepreneurship and we aspire to cover their needs. The software has some built-in features that will help online shop founders see their business grow and excel.
+The main focus of Microweber CMS is E-commerce. A rising number of people have grown fond of the idea of online entrepreneurship and we aspire to cover their needs. The software has some built-in features that will help online shop founders see their business grow and excel.
 
 ![E-commerce Solution](https://microweber.com/cdn/2019_version/3.jpg "")
 
@@ -83,7 +83,7 @@ Perhaps the main focus of Microweber CMS is E-commerce. A rising number of peopl
 ### HTTP Server
 
 #### Apache
-The `mod_rewrite` module must be enabled in your Apache configuration. Microweber creates the necessary `.htaccess` files during installation, including one with `Deny All` directive in each folder to ensure no entry points other than `index.php`.
+The `mod_rewrite` module must be enabled in your Apache configuration. Microweber creates the necessary `.htaccess` files during installation, including one with `Deny All` directive in each folder to ensure that there are no entry points other than `index.php`.
 
 #### nginx
 Add this `location` directive to your `server` configuration block. The `root` directive must point to the base folder of your Microweber website (which by default is where this readme is located).
@@ -102,7 +102,7 @@ You can easily [import the `.htaccess` rewrite rules](http://www.iis.net/learn/e
 ### Database
 You have several choices for database engine: MySQL, SQLite, Microsoft SQL Server and PostgreSQL.
 For small websites we highly recommend SQLite.
-However, you can connect to more storage services (like [MongoDB](https://github.com/jenssegers/laravel-mongodb) or [Neo4j](https://github.com/Vinelab/NeoEloquent)) and really take advantage of the Laravel framework.
+However, you can connect to more storage services (like [MongoDB](https://github.com/jenssegers/laravel-mongodb) or [Neo4j](https://github.com/Vinelab/NeoEloquent)) and take advantage of the Laravel framework.
 
 On the installation screen you can only choose from databases enabled in your PHP configuration.
 If you don't see your server of choice in the list you have to enable the corresponding [PDO](http://php.net/manual/en/book.pdo.php) extension for your database server. [An example for Microsoft SQL Server](http://php.net/manual/en/mssql.installation.php). PHP usually comes with PDO enabled by default but you might have to uncomment or add `extension` directives to your `php.ini`.
@@ -137,7 +137,7 @@ See the [online guides](http://microweber.com/docs/guides/README.md) for develop
 ## Contribute
 We are looking for people who want to help us improve Microweber.
 
-If you are a developer, submitting fixes is easy. Just fork the Microweber repository, make your changes, submit a pull request and be sure all tests are passing.
+If you are a developer, submitting fixes is easy. Just fork the Microweber repository, make your changes, submit a pull request, and be sure all tests are passing.
 
 ## Build Status
 [![Build Status](https://ci.microweber.com/job/microweber/job/master/badge/icon)](https://ci.microweber.com/job/microweber/)
