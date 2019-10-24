@@ -392,8 +392,8 @@ img{
 
 <?php mw_var('plain_modules', false); ?>
 
-<span class="mw-plus-top">+</span>
-<span class="mw-plus-bottom">+</span>
+<span class="mw-plus-top"></span>
+<span class="mw-plus-bottom"></span>
 <div style="display: none" id="plus-modules-list">
 <input type="text" class="mw-ui-searchfield" />
     <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs pull-left">

@@ -49,6 +49,7 @@
 }
 
 .mw-dialog-skin-default{
+    visibility: hidden;
     .mw-dialog-header{
         min-height: 40px;
         background-color: #2b2b2b;
@@ -101,11 +102,20 @@
             transition: none;
         }
     }
+    .mw-dialog-overlay{
+        opacity: 0;
+        visibility: hidden;
+    }
     &.active{
+        visibility: visible;
         .mw-dialog-holder{
             visibility: visible;
             opacity: 1;
             transform: translateY(0);
+        }
+        .mw-dialog-overlay{
+            opacity: 1;
+            visibility: visible;
         }
     }
     .mw-dialog-close{

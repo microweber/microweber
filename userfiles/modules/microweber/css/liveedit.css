@@ -120,15 +120,16 @@ body.mw-live-edit .plain-text {
            Plus
 *****************************/
 
+
 [class*='mw-plus-'] {
     position: absolute;
     visibility: visible;
     z-index: 997;
     display: block;
-    width: 19px;
-    height: 19px;
+    width: 16px;
+    height: 16px;
     border-radius: 30px;
-    background-color: #CCCCCC;
+    background-color: #e0e0e0;
     cursor: pointer;
     left: -9999px;
     top: -9999px;
@@ -140,10 +141,13 @@ body.mw-live-edit .plain-text {
     -webkit-transition: opacity 0.3s;
     -moz-transition: opacity 0.3s;
     transition: opacity 0.3s;
-    border: 2px solid #999;
 
 }
-
+[class*='mw-plus-']:after {
+    content: '\002b';
+    font-family: Microweber !important;
+    text-transform: none !important;
+}
 .mw-plus-top {
     margin-top: -10px;
 }
@@ -156,7 +160,7 @@ body.mw-live-edit .plain-text {
 
 [class*='mw-plus-'].active,
 [class*='mw-plus-']:hover{
-    background-color: #434343;
+    background-color: #0086db;
 }
 
 [class*='mw-plus-']:active {
@@ -2292,7 +2296,7 @@ body.dragStart .empty-element {
 
 .mw-toolbar-right-content {
     float: right;
-    padding: 10px 3px 10px 0;
+    padding: 9px 3px 9px 0;
 }
 
 #toolbar-dropdown-actions {
@@ -3083,6 +3087,7 @@ div[id*='SSDIVEL'] {
     float: left;
     text-align: center;
     padding: 0px;
+    list-style: none;
 }
 
 .module-item-module .mw_module_hold {
@@ -4550,8 +4555,16 @@ section.element{
     min-height: 15px;
 }
 
+
 #mw-plus-tooltip-selector .mw-ui-searchfield{
     width: 100%;
+    height: auto;
+    border: 1px solid #E6E6E6;
+    -webkit-appearance: textfield;
+    appearance: textfield;
+}
+#mw-plus-tooltip-selector .mw-ui-searchfield:focus{
+    border-color: #c6c6c6;
 }
 #mw-plus-tooltip-selector .mw-ui-btn-nav{
     display: none;
