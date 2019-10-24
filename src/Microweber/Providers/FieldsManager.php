@@ -951,7 +951,6 @@ class FieldsManager
         }
 
         if (isset($data['name'])) {
-            $data['name'] = ucwords(str_replace('_', ' ', $data['name']));
             $field_data['name'] = $data['name'];
         }
 
