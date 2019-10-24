@@ -60,7 +60,6 @@ if ($data) {
     }
 }
 
-
 if (empty($data)) {
     return print lnotif(_e("Click here to edit Testimonials", true));
 }
