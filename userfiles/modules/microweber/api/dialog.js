@@ -1,7 +1,7 @@
 (function (mw) {
 
 
-    mw._dialogEncapsulate = function (content, scripts) {
+    var dialogEncapsulate = function (content, scripts) {
         scripts = $.merge(scripts || [], [
             mw.settings.site_url + 'apijs_settings?mwv=' + mw.version,
             mw.settings.site_url + 'apijs?mwv='+mw.version
@@ -84,11 +84,11 @@
                         if (mw.event.is.escape(e) && !mw.event.targetIsField(e)) {
                             if(frame.contentWindow.mw.__dialogs && frame.contentWindow.mw.__dialogs.length){
                                 var dlg = frame.contentWindow.mw.__dialogs;
-                                dlg[dlg.length - 1].remove();
+                                dlg[dlg.length - 1]._doCloseButton();
                             }
                             else {
                                 if (dialog.options.closeOnEscape) {
-                                    dialog.remove();
+                                    dialog._doCloseButton();
                                 }
                             }
                         }
@@ -118,6 +118,14 @@
             return parent_cont[0]._dialog;
         }
         else {
+             // deprecated
+            child_cont = el.querySelector('.mw_modal');
+            parent_cont = $el.parents(".mw_modal:first");
+            if(child_cont) {
+                return child_cont.modal;
+            } else if (parent_cont.length !== 0) {
+                return parent_cont[0].modal;
+            }
             return false;
         }
     };
@@ -145,6 +153,7 @@
             closeOnEscape: true,
             closeButton: true,
             closeButtonAppendTo: '.mw-dialog-header',
+            closeButtonAction: 'remove', // 'remove' | 'hide'
             draggable: true,
             scrollMode: 'inside', // 'inside' | 'window',
             centerMode: 'intuitive', // 'intuitive' | 'center'
@@ -179,7 +188,7 @@
                     for (var i = mw.__dialogs.length - 1; i >= 0; i--) {
                         var dlg = mw.__dialogs[i];
                         if (dlg.options.closeOnEscape) {
-                            dlg.remove();
+                            dlg._doCloseButton();
                             break;
                         }
                     }
@@ -265,7 +274,7 @@
             this.dialogContainer.className = 'mw-dialog-container';
             this.dialogHolder.className = 'mw-dialog-holder';
 
-            var cont = this.options.encapsulate ? mw._dialogEncapsulate(this.options.content) : this.options.content;
+            var cont = this.options.encapsulate ? dialogEncapsulate(this.options.content) : this.options.content;
 
             mw.$(this.dialogContainer).append(cont);
 
@@ -284,7 +293,7 @@
             this.closeButton.$scope = this;
 
             this.closeButton.onclick = function () {
-                this.$scope.remove();
+                this.$scope[this.$scope.options.closeButtonAction]();
             };
             this.main = mw.$(this.dialogContainer); // obsolete
             this.main.width = this.width;
@@ -303,6 +312,10 @@
             }
             this.dialogOverlay();
             return this;
+        };
+
+        this._doCloseButton = function() {
+            this[this.options.closeButtonAction]();
         };
 
         this.containmentManage = function () {
@@ -328,7 +341,7 @@
             }
             mw.$(this.overlay).on('click', function () {
                 if (this.$scope.options.overlayClose === true) {
-                    this.$scope.remove();
+                    this.$scope._doCloseButton();
                 }
             });
 
@@ -365,6 +378,9 @@
         this.hide = function () {
             if (!this._hideStart) {
                 this._hideStart = true;
+                setTimeout(function () {
+                    scope._hideStart = false;
+                }, 300)
                 mw.$(this.dialogMain).removeClass('active');
                 if(mw._iframeDetector) {
                     mw._iframeDetector.pause = false;
@@ -482,7 +498,7 @@
             }
             $(this).trigger('Result', [result]);
             if(doClose){
-                this.remove();
+                this._doCloseButton();
             }
         };
 

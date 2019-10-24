@@ -185,6 +185,11 @@ mw.tags = mw.chips = function(options){
                      tag_holder.className += ' disabled';
                  }
              }
+             if(typeof this.options.hideItem === 'function') {
+                 if(this.options.hideItem(config)){
+                     tag_holder.className += ' hidden';
+                 }
+             }
 
             var icon = this.createIcon(config);
 
