@@ -878,24 +878,7 @@ mw.tools = {
             return new mw.tools.modal._init(o);
         },
         get: function (selector) {
-            var el = mw.$(selector),
-                child_cont = el.find(".mw_modal_container:first"),
-                parent_cont = el.parents(".mw_modal_container:first");
-            if(!el[0]){
-                return false;
-            }
-            else if(el[0]._dialog){
-                return el[0]._dialog;
-            }
-            else if (child_cont.length !== 0) {
-                return child_cont.parent()[0].modal;
-            }
-            else if (parent_cont.length !== 0) {
-                return parent_cont.parent()[0].modal;
-            }
-            else {
-                return false;
-            }
+            return mw.dialog.get(selector);
         },
         minimize: function (id) {
             var doc = mwd;
