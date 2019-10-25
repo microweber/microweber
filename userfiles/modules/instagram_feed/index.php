@@ -2,13 +2,22 @@
 $template = get_option('data-template', $params['id']);
 
 $defaultUsername = 'bummer.frenchie.wild';
+
 $username = get_option('username', $params['id']);
-if (!isset($username) or $username == false or $username == '') {
+if ($username) {
+    $username = $username;
+} elseif (isset($params['data-instagram'])) {
+    $username = $params['data-instagram'];
+} else {
     $username = $defaultUsername;
 }
 
 $number_of_items = get_option('number_of_items', $params['id']);
-if (!isset($number_of_items) or $number_of_items == false or $number_of_items == '') {
+if ($number_of_items) {
+    $number_of_items = $number_of_items;
+} elseif (isset($params['data-items'])) {
+    $number_of_items = $params['data-items'];
+} else {
     $number_of_items = 3;
 }
 

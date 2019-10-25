@@ -140,7 +140,55 @@ class ZBackupV2Test extends TestCase
 			}
 		}
 	}
-	
+
+	public function testImportSampleCsvFile() {
+
+	    $sample = userfiles_path() . '/modules/admin/backup_v2/samples/sample.csv';
+        $sample = normalize_path($sample, false);
+
+        $manager = new BackupManager();
+        $manager->setImportFile($sample);
+        $manager->setImportBatch(false);
+
+        $importStatus = $manager->startImport();
+
+        $this->assertSame(true, $importStatus['done']);
+        $this->assertSame(100, $importStatus['precentage']);
+        $this->assertSame($importStatus['current_step'], $importStatus['total_steps']);
+    }
+
+    public function testImportSampleJsonFile() {
+
+        $sample = userfiles_path() . '/modules/admin/backup_v2/samples/sample.json';
+        $sample = normalize_path($sample, false);
+
+        $manager = new BackupManager();
+        $manager->setImportFile($sample);
+        $manager->setImportBatch(false);
+
+        $importStatus = $manager->startImport();
+
+        $this->assertSame(true, $importStatus['done']);
+        $this->assertSame(100, $importStatus['precentage']);
+        $this->assertSame($importStatus['current_step'], $importStatus['total_steps']);
+    }
+
+    public function testImportSampleXlsxFile() {
+
+        $sample = userfiles_path() . '/modules/admin/backup_v2/samples/sample.xlsx';
+        $sample = normalize_path($sample, false);
+
+        $manager = new BackupManager();
+        $manager->setImportFile($sample);
+        $manager->setImportBatch(false);
+
+        $importStatus = $manager->startImport();
+
+        $this->assertSame(true, $importStatus['done']);
+        $this->assertSame(100, $importStatus['precentage']);
+        $this->assertSame($importStatus['current_step'], $importStatus['total_steps']);
+    }
+
 	public function testImportWrongFile() {
 		
 		$manager = new BackupManager();

@@ -8,12 +8,15 @@ trait WordpressReader
 
 	protected function readWordpress()
 	{
+        libxml_use_internal_errors(true);
+
 		$urlManager = new UrlManager();
 
 		$xml = new \DOMDocument();
 		$xml->load($this->file);
 
 		$i = 0;
+        $content = array();
 		foreach ($xml->getElementsByTagName('item') as $item) {
 
 			$contentType = false;
@@ -103,7 +106,7 @@ trait WordpressReader
 			$content[] = $readyContent;
 			$i ++;
 		}
-		
+
 		return array(
 			'content' => $content
 		);

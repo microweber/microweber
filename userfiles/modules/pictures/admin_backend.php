@@ -133,11 +133,12 @@ if ($for_id != false) {
                 }
 
                 $('.admin-thumb-item-loading').remove();
+                $('[data-type="pictures/admin"]').trigger('change')
 
 
             }, 1300);
         }
-    }
+     }
 </script>
 
 

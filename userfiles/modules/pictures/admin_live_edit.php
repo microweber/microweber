@@ -101,6 +101,8 @@ if (isset($params['quick-add'])) {
         mw.module_pictures_upload_time = setTimeout(function () {
             mw.reload_module_parent("pictures");
             mw.reload_module("#mw-pics-list-live-ed");
+
+
         }, 1500)
 
 

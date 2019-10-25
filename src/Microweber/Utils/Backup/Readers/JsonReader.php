@@ -22,7 +22,11 @@ class JsonReader extends DefaultReader
 		foreach ($json as $jsonKey => $jsonValue) {
 			$readyJson[$jsonKey] = $jsonValue;
 		}
-		
+
+		if (isset($readyJson[0]['id'])) {
+		   return EncodingFix::decode(array("content"=>$readyJson));
+        }
+
 		return EncodingFix::decode($readyJson);
 	}
 }
