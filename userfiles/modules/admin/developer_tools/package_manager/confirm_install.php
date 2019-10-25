@@ -26,7 +26,6 @@ if (!$confirm_key) {
     return;
 }
 
-//d($confirm_key);
 $confirm_files_count =0;
 $get_existing_files_for_confirm = cache_get($confirm_key, 'composer');
 
@@ -43,10 +42,10 @@ if(is_array($get_existing_files_for_confirm)){
 
     $(document).ready(function () {
 
-        // $('body','.js-show-files').on('click', function () {
-        //
-        //     $('.js-files').toggleClass('hidden');
-        // });
+          $('.js-show-files').on('click', function () {
+
+             $('.js-files').toggleClass('hidden');
+         });
 
         $(function () {
             $(".js-show-files").click(function () {
@@ -102,7 +101,7 @@ if(is_array($get_existing_files_for_confirm)){
                             <a class="mw-ui-btn mw-ui-btn-important" onclick="mw.dialog.get(this).remove()">Cancel</a>
 
                             <?php if ($get_existing_files_for_confirm) { ?>
-                                <button type="button" onclick="$('.js-files').toggleClass('hidden');" class="js-show-files mw-ui-btn mw-ui-btn-info">Show files</button>
+                                <button type="button"  class="js-show-files mw-ui-btn mw-ui-btn-info">Show files</button>
                             <?php } ?>
 
                             <a class="mw-ui-btn mw-ui-btn-notification"
