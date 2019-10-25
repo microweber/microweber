@@ -99,6 +99,7 @@ $items_number = intval($items_number);
                             clearTimeout(scope[0].__time);
                             scope[0].__time = setTimeout(function () {
                                 var sdata = scope.data('__config') || [];
+                                console.log(sdata)
                                 scope.empty().justifiedImages(sdata);
                                 setTimeout(function () {
                                     $("#carousel-grid-<?php print $params['id']; ?> img.image-thumb").not('.gallery-ready').each(function (i) {

@@ -162,16 +162,23 @@ mw.drag.plus = {
         }
         return found;
     }
-}
+};
 
 InsertModule = function (module, cls) {
-    var id = 'mwemodule-' + mw.random(), el = '<div id="' + id + '"></div>';
-    if (mw.drag.plusActive == 'top') {
-        mw.$(mw.drag.plusTop.currentNode).before(el);
+    var id = 'mwemodule-' + mw.random(), el = '<div id="' + id + '"></div>', action;
+    if (mw.drag.plusActive === 'top') {
+        action = 'before';
+        if(mw.tools.hasClass(mw.drag.plusTop.currentNode, 'allow-drop')) {
+            action = 'prepend';
+        }
     }
-    else if (mw.drag.plusActive == 'bottom') {
-        mw.$(mw.drag.plusBottom.currentNode).after(el);
+    else if (mw.drag.plusActive === 'bottom') {
+        action = 'after';
+        if(mw.tools.hasClass(mw.drag.plusTop.currentNode, 'allow-drop')) {
+            action = 'append';
+        }
     }
+    mw.$(mw.drag.plusBottom.currentNode)[action](el);
 
     mw.load_module(module, '#' + id, function () {
         mw.wysiwyg.change(document.getElementById(id));
