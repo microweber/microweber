@@ -1,37 +1,33 @@
 <?php
 namespace Microweber\Utils\Backup\Readers;
 
-use Microweber\Utils\Backup\Readers\Vendors\WordpressReader;
-
 class CsvReader extends DefaultReader
 {
-	use WordpressReader;
-	
 	public function readData()
 	{
-		$csv = $this->readCsv($this->file); 
-		
-		if (isset($csv[0]['title']) && isset($csv[0]['content_body']) && isset($csv[0]['categories']) && isset($csv[0]['price'])) {
-			$csv = $this->readWordpress($csv);
-		}
-		
+		$csv = $this->readCsv($this->file);
+
+        if (isset($csv[0]['id'])) {
+            return array("content"=>$csv);
+        }
+
 		return $csv;
 	}
-	
+
 	public function uniqueColumns(array $columns):array {
 		$values = [];
-		
+
 		foreach ($columns as $value) {
 			$count = 0;
 			$value = $original = trim($value);
-			
+
 			while (in_array($value, $values)) {
 				$value = $original . '-' . ++$count;
 			}
-			
+
 			$values[] = $value;
 		}
-		
+
 		return $values;
 	}
 

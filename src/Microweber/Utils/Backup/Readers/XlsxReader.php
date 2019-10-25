@@ -8,7 +8,13 @@ class XlsxReader extends DefaultReader
 
 	public function readData()
 	{
-		return $this->_readSpreadsheet();
+		$data = $this->_readSpreadsheet();
+
+        if (isset($data[0]['id'])) {
+            return array("content"=>$data);
+        }
+
+        return $data;
 	}
 
 	private function _readSpreadsheet()
@@ -20,14 +26,20 @@ class XlsxReader extends DefaultReader
 		$dataHeader = $rows[0];
 		unset($rows[0]);
 
+		$i=0;
 		foreach ($rows as $row) {
 
-			$readyRow = array();
-			foreach ($row as $rowKey => $rowValue) {
-				$readyRow[$dataHeader[$rowKey]] = $rowValue;
-			}
+            $readyRow = array();
+            foreach ($row as $rowKey => $rowValue) {
+                $readyRow[$dataHeader[$rowKey]] = $rowValue;
+            }
+
+            if (!isset($readyRow['id'])) {
+                $readyRow['id'] = $i;
+            }
 
 			$data[] = $readyRow;
+            $i++;
 		}
 		
 		return $data;

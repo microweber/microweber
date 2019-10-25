@@ -15,8 +15,10 @@ class XmlReader extends DefaultReader
 		if (isset($xml['channel']['item'])) { 
 			$xml = $this->readWordpress();
 		}
-		
-		// var_dump($xml);	die(); 
+
+        if (isset($xml[0]['id'])) {
+            return array("content"=>$xml);
+        }
 		
 		return $xml;
 	}
