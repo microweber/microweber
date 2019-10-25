@@ -132,6 +132,7 @@
 
                                 download.on('click', function() {
                                     selectMediaImage($(this), val.id);
+                                    $(this).hide();
                                 });
 
                                 li.append(likes);
