@@ -5281,6 +5281,9 @@ mw.extradataForm = function (options, data) {
             content: form,
             title: data.error
         });
+        mw.$('script', form).each(function() {
+            eval($(this).text());
+        });
 
         if(data.form_data_required) {
             mw.$(form).on('submit', function (e) {
