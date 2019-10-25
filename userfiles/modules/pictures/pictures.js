@@ -63,6 +63,8 @@ mw.module_pictures = {
           if (confirm('Are you sure you want to delete this image?')) {
               $.post(mw.settings.api_url + 'delete_media', { id: id  }, function (data) {
                   $('.admin-thumb-item-' + id).fadeOut();
+                  setTimeout(function(){ $('[data-type="pictures/admin"]').trigger('change') }, 2000);
+
                   mw.module_pictures.after_change()
               });
           }
@@ -73,11 +75,19 @@ mw.module_pictures = {
                 $.each(id, function(){
                   $('.admin-thumb-item-' + this).fadeOut();
                 })
+                  setTimeout(function(){ $('[data-type="pictures/admin"]').trigger('change') }, 2000);
 
                   mw.module_pictures.after_change()
               });
           }
         }
+
+
+
+
+
+
+
 
     },
     time:null,

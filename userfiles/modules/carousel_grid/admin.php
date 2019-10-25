@@ -15,11 +15,11 @@ if (!$items_number) {
 <script>
     $(mwd).ready(function () {
         $('[data-type="pictures/admin"]').on('change', function () {
-             mw.reload_module_parent('#<?php print $params['id']; ?>')
+              mw.reload_module_everywhere('#<?php print $params['id']; ?>')
         });
         mw.on.moduleReload('pa<?php print $params['id']; ?>', function () {
             $('[data-type="pictures/admin"]').on('change', function () {
-                mw.reload_module_parent('#<?php print $params['id']; ?>')
+                mw.reload_module_everywhere('#<?php print $params['id']; ?>')
             });
         });
     });
