@@ -227,6 +227,9 @@ class InstallController extends Controller
                 if (!$install_step or $install_step == 4) {
                     $this->log('Setting up template');
                     $installer = new Install\TemplateInstaller();
+                    if (isset($input['site_lang'])) {
+                        $installer->setLanguage($input['site_lang']);
+                    }
                     $installer->logger = $this;
                     $installer->run();
                 }

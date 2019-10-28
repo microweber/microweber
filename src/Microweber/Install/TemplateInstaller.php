@@ -10,6 +10,11 @@ use Microweber\Utils\Backup\BackupManager;
 class TemplateInstaller
 {
     public $logger = null;
+    public $language = false;
+
+    public function setLanguage($abr) {
+        $this->language = $abr;
+    }
 
     public function run()
     {
@@ -77,14 +82,13 @@ class TemplateInstaller
         if (is_file($default_content_file)) {
         	
         	try {
-        		
         		$manager = new BackupManager();
         		$manager->setImportFile($default_content_file);
         		$manager->setImportBatch(false);
         		$manager->setImportOvewriteById(true);
         		$manager->setLogger($this->logger);
+        		$manager->setImportLanguage($this->language);
         		$manager->startImport();
-        		
         	} catch (\Exception $e) {
         		return false;
         	}
