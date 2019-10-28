@@ -9,7 +9,7 @@ class ZipReader extends DefaultReader
     public $language = false;
 
     public function setLanguage($abr) {
-        $this->language = 'bg';
+        $this->language = $abr; // 'bg';
     }
 
 	/**
@@ -101,7 +101,7 @@ class ZipReader extends DefaultReader
                 $filesForImporting[] = $selectedLanguageFile;
             }
         }
-        
+
 		// Decode files in zip
 		$readedData = array();
 		foreach ($filesForImporting as $file) {
