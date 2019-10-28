@@ -83,7 +83,8 @@ class ZipReader extends DefaultReader
                 $detectedLanguages[] = 'bg';
             }
         }
-        if ($this->language == false && !empty($detectedLanguages)) {
+
+        if (!$this->language && !empty($detectedLanguages)) {
             BackupImportLogger::setLogInfo('Its detected other languages in this import.');
             return array('must_choice_language' => true, 'detected_languages'=>$detectedLanguages);
         }
@@ -96,12 +97,24 @@ class ZipReader extends DefaultReader
                     break;
                 }
             }
+            // File for this language is found
             if ($selectedLanguageFile) {
                 unset($filesForImporting);
                 $filesForImporting[] = $selectedLanguageFile;
+            } else {
+                // Its not found this language
+                // Remove all other lang files
+                $newFilesForImporting = array();
+                foreach ($filesForImporting as $file) {
+                    if (strpos($file['file'], '_lang') !== false) {
+                        continue;
+                    }
+                    $newFilesForImporting[] = $file;
+                }
+                $filesForImporting = $newFilesForImporting;
             }
         }
-
+        
 		// Decode files in zip
 		$readedData = array();
 		foreach ($filesForImporting as $file) {
@@ -121,7 +134,7 @@ class ZipReader extends DefaultReader
 					}
 				}
 			}
-			
+
 		}
 		
 		if (empty($readedData)) {
