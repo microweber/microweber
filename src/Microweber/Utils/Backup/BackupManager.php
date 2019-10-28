@@ -14,6 +14,7 @@ class BackupManager
 	public $importFile = false;
 	public $importBatch = true;
 	public $importOvewriteById = false;
+	public $importLanguage = false;
 	
 	public function __construct()
 	{
@@ -97,6 +98,10 @@ class BackupManager
 		$this->importFile = $file;
 	}
 
+	public function setImportLanguage($abr) {
+	    $this->importLanguage = $abr;
+    }
+
 	/**
 	 * Start exporting
 	 * @return string[]
@@ -134,12 +139,17 @@ class BackupManager
 			$import = new Import();
 			$import->setType($this->importType);
 			$import->setFile($this->importFile);
-			
+			$import->setLanguage($this->importLanguage);
+
 			$content = $import->readContentWithCache();
 			
 			if (isset($content['error'])) {
 				return $content;
 			}
+
+            if (isset($content['must_choice_language']) && $content['must_choice_language']) {
+                return $content;
+            }
 			
 			$writer = new DatabaseWriter();
 			$writer->setContent($content['data']);
