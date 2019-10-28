@@ -52,6 +52,7 @@ mw.backup_import = {
 		'</label>'+
 		'<br /><span style="color:red;margin-left:26px;">Warning! If this option are marked, it will be replace all existing posts.</span>'+
 		'<hr />'+
+        '<div style="margin-bottom:20px;" class="js-backup-import-installation-language-wrapper"></div>'+
 		'<div><a class="mw-ui-btn mw-ui-btn-warn" onclick="mw.backup_import.start_import_button()">Start importing content</a></div>'+
 		'</div>'+
 		'<br /><br /><div class="backup-import-modal-log-progress"></div>'+
@@ -76,33 +77,58 @@ mw.backup_import = {
 	},
 	
 	start_import: function () {
-		
+
+		data.installation_language = $('.js-backup-import-installation-language').val();
 		data.overwrite_by_id = $('.js-backup-import-overwrite-by-id').is(":checked");
 		
 		$.ajax({
 		  dataType: "json",
 		  url: mw.settings.api_url+'Microweber/Utils/BackupV2/import',
 		  data: data,
-		  success: function(jsonData) {
-			if (jsonData.error) {
+		  success: function(json_data) {
+
+		  	if (json_data.must_choice_language) {
+		  		mw.backup_import.choice_language(json_data.detected_languages);
+                mw.backup_import.get_log_check('stop');
+		  		return;
+			}
+
+			if (json_data.error) {
 				$('#backup-import-progressbar').remove();
 				mw.backup_import.get_log_check('stop');
-				$('#mw_backup_import_modal').find('.backup-import-modal-log').before('<h3>Error!</h3><br />' + jsonData.error);
+				$('#mw_backup_import_modal').find('.backup-import-modal-log').before('<h3>Error!</h3><br />' + json_data.error);
 				return; 
 			}
-			if (jsonData.done) {
+			if (json_data.done) {
 				mw.backup_import.get_progress(100);
 				mw.backup_import.get_log_check('stop');
 				$('#mw_backup_import_modal').find('.backup-import-modal-log').before('<h3>All data is imported successfully!</h3>');
 				return; 
 			} else {
-				mw.backup_import.get_progress(jsonData.precentage);
+				mw.backup_import.get_progress(json_data.precentage);
 				mw.backup_import.start_import();
 			}
 		  }
 		});
 	},
-	
+
+    choice_language: function(languages) {
+
+		var select = '<p style="background: #009cff;color: #fff;padding: 7px;font-size: 15px;">Select installation language:</p><br />';
+
+		select += '<select class="mw-ui-field js-backup-import-installation-language" name="installation_language">';
+    	select += '<option value="en">EN</option>';
+
+        for (i = 0; i < languages.length; i++) {
+            select += '<option value="'+languages[i]+'">'+languages[i].toUpperCase()+'</option>';
+        }
+
+        select += '</select>';
+
+		$('.js-backup-import-installation-language-wrapper').html(select);
+		$('.backup-import-modal-log-progress').hide();
+	},
+
 	get_log_check: function(action = 'start') {
 		
 		var importLogInterval = setInterval(function() {
