@@ -38,6 +38,10 @@ mw.backup_import = {
 		if (src.lastIndexOf('mw_default_content') >= 0) {
 			checked = 'checked="checked"';
 		}
+
+        if (src.lastIndexOf('mw_content') >= 0) {
+            checked = 'checked="checked"';
+        }
 		
 		var importOptions = '<div>'+
 		'<h3>Import File Options</h3>'+
