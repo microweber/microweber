@@ -375,6 +375,16 @@ include('options.php');
                         </div>
 
 
+                        <div class="mw-flex-col-xs-6 js-option js-bxslider">
+                            <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label"><?php _e("Touch Enabled"); ?></label>
+                                <select name="touch_enabled" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>">
+                                    <option value="false" <?php if ($touchEnabled == 'false'): ?> selected="selected" <?php endif ?>><?php _e("No"); ?></option>
+                                    <option value="true" <?php if ($touchEnabled == 'true'): ?> selected="selected" <?php endif ?>><?php _e("Yes"); ?></option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="mw-flex-col-xs-6 js-option js-slickslider">
                             <div class="mw-ui-field-holder">
                                 <label class="mw-ui-label"><?php _e("Slides per row"); ?></label>

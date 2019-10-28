@@ -111,6 +111,7 @@ if (is_file($template_file)) {
                 nextText: '<?php print $nextText; ?>',
                 prevSelector: '<?php print $prevSelector; ?>',
                 nextSelector: '<?php print $nextSelector; ?>',
+                touchEnabled: <?php print $touchEnabled; ?>,
                 captions: true,
                 onSliderLoad: function () {
                     mw.trigger("mw.bxslider.onSliderLoad");

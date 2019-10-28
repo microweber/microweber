@@ -219,6 +219,15 @@ if ($focusOnSelect) {
     $focusOnSelect = 'true';
 }
 
+$touchEnabled = get_option('touch_enabled', $params['id']);
+if ($touchEnabled) {
+    $touchEnabled = $touchEnabled;
+} elseif (isset($params['touch_enabled'])) {
+    $touchEnabled = $params['touch_enabled'];
+} else {
+    $touchEnabled = false;
+}
+
 
 /*
  * 
@@ -249,6 +258,7 @@ if (isset($params['next_selector'])) {
 } else {
     $nextSelector = null;
 }
+
 
 if (isset($params['pager_custom'])) {
     $pagerCustom = $params['pager_custom'];
