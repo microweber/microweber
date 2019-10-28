@@ -78,6 +78,8 @@ mw.backup_import = {
 	
 	start_import: function () {
 
+        $('.backup-import-modal-log-progress').show();
+
 		data.installation_language = $('.js-backup-import-installation-language').val();
 		data.overwrite_by_id = $('.js-backup-import-overwrite-by-id').is(":checked");
 		
