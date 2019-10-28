@@ -26,6 +26,12 @@ class Import
 	 */
 	public $file;
 
+    /**
+     * The import language
+     * @var string
+     */
+	public $language = 'en';
+
 	/**
 	 * Set file type
 	 *
@@ -45,6 +51,10 @@ class Import
 	{
 		$this->file = $file;
 	}
+
+	public function setLanguage($abr) {
+	    $this->language = $abr;
+    }
 	
 	/**
 	 * Import data as type
