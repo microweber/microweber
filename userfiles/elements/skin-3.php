@@ -6,7 +6,9 @@
                 <div class="inner">
                     <h1>Our Services</h1>
                     <p>Be assured, our services and team members will support your business growth</p>
+                    <div class="element">
                     <module type="btn" text="Button" />
+                </div>
                 </div>
             </div>
         </div>
