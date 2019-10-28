@@ -6,6 +6,12 @@ use Microweber\Utils\Backup\Loggers\BackupImportLogger;
 
 class ZipReader extends DefaultReader
 {
+    public $language = false;
+
+    public function setLanguage($abr) {
+        $this->language = 'bg';
+    }
+
 	/**
 	 * Read data from file
 	 * @return \JsonMachine\JsonMachine[]
@@ -65,7 +71,7 @@ class ZipReader extends DefaultReader
 			}
 			
 		}
-		
+
 		if (empty($filesForImporting)) {
 			BackupImportLogger::setLogInfo('The zip file has no files to import.');
 			return;
@@ -77,11 +83,25 @@ class ZipReader extends DefaultReader
                 $detectedLanguages[] = 'bg';
             }
         }
-        if (!empty($detectedLanguages)) {
+        if ($this->language == false && !empty($detectedLanguages)) {
             BackupImportLogger::setLogInfo('Its detected other languages in this import.');
             return array('must_choice_language' => true, 'detected_languages'=>$detectedLanguages);
         }
-		
+
+        if ($this->language) {
+            $selectedLanguageFile = false;
+            foreach ($filesForImporting as $file) {
+                if (strpos($file['file'], $this->language . '_lang') !== false) {
+                    $selectedLanguageFile = $file;
+                    break;
+                }
+            }
+            if ($selectedLanguageFile) {
+                unset($filesForImporting);
+                $filesForImporting[] = $selectedLanguageFile;
+            }
+        }
+        
 		// Decode files in zip
 		$readedData = array();
 		foreach ($filesForImporting as $file) {

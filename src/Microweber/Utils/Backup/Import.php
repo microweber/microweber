@@ -195,6 +195,7 @@ class Import
 
 			case 'zip':
 				$reader = new ZipReader($data);
+				$reader->setLanguage($this->language);
 				break;
 
 			default:
