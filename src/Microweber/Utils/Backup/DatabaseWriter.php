@@ -107,7 +107,7 @@ class DatabaseWriter
 	
 	private function _saveItemDatabase($item) {
 		
-		if ($this->overwriteById) {
+		if ($this->overwriteById  && isset($item['id'])) {
 			
 			// We will overwrite content by id from our db structure
 			

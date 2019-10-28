@@ -57,7 +57,11 @@ class Import
 		$readedData = $this->_getReader($file);
 		if ($readedData) {
 
-			BackupImportLogger::setLogInfo('Reading data from file ' . basename($this->file));
+            if (isset($readedData['must_choice_language']) && $readedData['must_choice_language']) {
+                return $readedData;
+            }
+
+            BackupImportLogger::setLogInfo('Reading data from file ' . basename($this->file));
 
 			if (! empty($readedData)) {
 				$successMessages = count($readedData, COUNT_RECURSIVE) . ' items are readed.';
