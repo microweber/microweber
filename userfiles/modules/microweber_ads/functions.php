@@ -2,8 +2,8 @@
 
 function showMicroweberAdsBar() {
 
-    $showBar = false;
-    $showBarUrl = false;
+    $showBar = true;
+    $showBarUrl = 'https://members.microweber.bg/index.php?m=microweber_addon&function=show_ads_bar';
 
     $whmcsSettingsFile = modules_path() . 'whmcs_connector/settings.json';
     $whmcsSettingsFile = normalize_path($whmcsSettingsFile, false);
@@ -25,7 +25,7 @@ function showMicroweberAdsBar() {
             $checkDomain = json_decode($checkDomain, true);
 
             if (isset($checkDomain['free']) && $checkDomain['free'] == true && isset($checkDomain['ads_bar_url'])) {
-                $showBarUrl = $checkDomain['ads_bar_url'];
+                $showBarUrl = $whmcsUrl . $checkDomain['ads_bar_url'];
                 $showBar = true;
             }
         }
@@ -38,34 +38,22 @@ function showMicroweberAdsBar() {
 event_bind('mw.front', function () {
     $css = '
         <style>
+        body {
+            padding-top:60px;
+        }
         .js-microweber-add-iframe {
             background: #fff;
             z-index: 99999;
             padding: 7px;
             min-height: 20px;
             position: absolute;
-            height: 54px;
+            height: 65px;
             border: 0;
             left: 0;
             right: 0;
             top: 0;
             width: 100%;
             overflow: hidden;
-           border-bottom: 1px solid #f1f3f4;
-           color: #2d2d2d;
-        }
-        
-        .js-microweber-add-iframe .row{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }    
-        
-        .js-microweber-add-iframe .row .col{
-           width: 50%;
-        }
-        body {
-            padding-top:20px;
         }
         </style>
     ';
@@ -73,7 +61,7 @@ event_bind('mw.front', function () {
     $bar = showMicroweberAdsBar();
 
     if ($bar['show']) {
-       mw()->template->foot($css . '<iframe class="js-microweber-add-iframe" src="'.$bar['iframe_url'].'"></iframe>');
+       mw()->template->foot($css . '<iframe class="js-microweber-add-iframe" scrolling="no" frameborder="0" src="'.$bar['iframe_url'].'"></iframe>');
     }
 
 });
