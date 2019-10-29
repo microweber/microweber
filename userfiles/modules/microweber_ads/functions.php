@@ -43,9 +43,8 @@ event_bind('mw.front', function () {
         }
         .js-microweber-add-iframe {
             z-index: 99999;
-            min-height: 73px;
             position: absolute;
-            height: 73px;
+            height: 60px !important;
             border: 0;
             left: 0;
             right: 0;
