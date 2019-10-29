@@ -42,12 +42,11 @@ event_bind('mw.front', function () {
             padding-top:60px;
         }
         .js-microweber-add-iframe {
-            background: #fff;
             z-index: 99999;
             padding: 7px;
-            min-height: 20px;
+            min-height: 73px;
             position: absolute;
-            height: 65px;
+            height: 73px;
             border: 0;
             left: 0;
             right: 0;
