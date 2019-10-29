@@ -70,7 +70,6 @@ trait DatabaseMenusWriter
 
 	private function _saveMenuItem($menu)
 	{
-
 		// Save new menu
 		$saveNewMenu = $menu;
 

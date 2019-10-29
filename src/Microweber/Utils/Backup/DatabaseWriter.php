@@ -110,7 +110,6 @@ class DatabaseWriter
 		if ($this->overwriteById  && isset($item['id'])) {
 			
 			// We will overwrite content by id from our db structure
-			
 			$dbSelectParams = array();
 			$dbSelectParams['no_cache'] = true;
 			$dbSelectParams['limit'] = 1;
