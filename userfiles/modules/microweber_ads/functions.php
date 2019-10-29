@@ -2,8 +2,8 @@
 
 function showMicroweberAdsBar() {
 
-    $showBar = true;
-    $showBarUrl = 'https://members.microweber.bg/index.php?m=microweber_addon&function=show_ads_bar';
+    $showBar = false;
+    $showBarUrl = false;
 
     $whmcsSettingsFile = modules_path() . 'whmcs_connector/settings.json';
     $whmcsSettingsFile = normalize_path($whmcsSettingsFile, false);
