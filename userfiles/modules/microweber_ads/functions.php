@@ -1,11 +1,10 @@
 <?php
-
 event_bind('mw.front', function () {
     $css = '
         <style>
         .js-microweber-add-iframe {
             top: 0px;
-            background: #d91010;
+            background: #fff;
             z-index: 10000000;
             padding: 7px;
             min-height: 20px;
