@@ -1,20 +1,20 @@
-<div class="<?php echo $settings['class']; ?>">
-    <div class="form-group">
-        <label class="col-form-label">
-            <?php echo $data['name']; ?>
-            <?php if ($settings['required']): ?>
-                <span style="color: red;">*</span>
-            <?php endif; ?>
-        </label>
+<div class="col-<?php echo $settings['field_size']; ?>">
+	<div class="form-group">
+			<label class="col-form-label">
+				<?php echo $data['name']; ?>
+				<?php if ($settings['required']): ?>
+					<span style="color: red;">*</span>
+				<?php endif; ?>
+			</label>
 
-        <div class="mw-ui-controls">
-            <input type="text" class="form-control js-bootstrap4-timepicker" <?php if ($settings['required']): ?>required="true"<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name']; ?>" placeholder="<?php echo $data['placeholder']; ?>" autocomplete="off"/>
-        </div>
+			<div class="mw-ui-controls">
+				<input type="text" class="form-control js-bootstrap4-timepicker" <?php if ($settings['required']): ?>required="true"<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name']; ?>" placeholder="<?php echo $data['placeholder']; ?>" autocomplete="off"/>
+			</div>
 
-        <?php if ($data['help']): ?>
-            <small class="form-text text-muted"><?php echo $data['help']; ?></small>
-        <?php endif; ?>
-    </div>
+			<?php if ($data['help']): ?>
+				<small class="form-text text-muted"><?php echo $data['help']; ?></small>
+			<?php endif; ?>
+	</div>
 </div>
 
 <script>

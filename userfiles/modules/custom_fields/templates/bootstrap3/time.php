@@ -15,22 +15,23 @@
             <span class="help-block"><?php echo $data['help']; ?></span>
         <?php endif; ?>
     </div>
+</div>
 
-    <script>
-        mw.lib.require("bootstrap_datetimepicker");
-    </script>
+<script>
+	mw.lib.require("bootstrap_datetimepicker");
+</script>
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('.js-bootstrap3-timepicker').datetimepicker({
-                pickDate: false,
-                minuteStep: 15,
-                pickerPosition: 'bottom-right',
-                format: 'HH:ii p',
-                autoclose: true,
-                showMeridian: true,
-                startView: 1,
-                maxView: 1
-            });
-        });
-    </script>
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('.js-bootstrap3-timepicker').datetimepicker({
+			pickDate: false,
+			minuteStep: 15,
+			pickerPosition: 'bottom-right',
+			format: 'HH:ii p',
+			autoclose: true,
+			showMeridian: true,
+			startView: 1,
+			maxView: 1
+		});
+	});
+</script>
