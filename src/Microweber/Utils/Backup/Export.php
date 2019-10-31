@@ -152,12 +152,8 @@ class Export
 	private function _getReadyData() {
 		
 		$exportTables = new ExportTables();
-		
-		$readyContent = array();
-		$tables = $this->_getTablesForExport();
-		
-		foreach($tables as $table) {
-			
+
+		foreach($this->_getTablesForExport() as $table) {			
 			BackupExportLogger::setLogInfo('Exporting table: <b>' . $table. '</b>');
 			
 			$ids = array();
@@ -171,8 +167,10 @@ class Export
 				// Get all posts for this category
 				$contentForCategories = get_content(array(
 					"categories"=>$ids,
-					"no_limit"=>true
+					"no_limit"=>true,
+                    "do_not_replace_site_url"=>1
 				));
+
 				if (is_array($contentForCategories) && !empty($contentForCategories)) {
 					$exportTables->addItemsToTable('content', $contentForCategories);
 				}

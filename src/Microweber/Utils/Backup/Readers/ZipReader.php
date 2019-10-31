@@ -6,6 +6,12 @@ use Microweber\Utils\Backup\Loggers\BackupImportLogger;
 
 class ZipReader extends DefaultReader
 {
+    public $language = false;
+
+    public function setLanguage($abr) {
+        $this->language = $abr; // 'bg';
+    }
+
 	/**
 	 * Read data from file
 	 * @return \JsonMachine\JsonMachine[]
@@ -65,12 +71,50 @@ class ZipReader extends DefaultReader
 			}
 			
 		}
-		
+
 		if (empty($filesForImporting)) {
 			BackupImportLogger::setLogInfo('The zip file has no files to import.');
 			return;
 		}
-		
+
+        $detectedLanguages = array();
+        foreach ($filesForImporting as $file) {
+            if (strpos($file['file'], 'bg_lang') !== false) {
+                $detectedLanguages[] = 'bg';
+            }
+        }
+
+        if (!$this->language && !empty($detectedLanguages)) {
+            BackupImportLogger::setLogInfo('Its detected other languages in this import.');
+            return array('must_choice_language' => true, 'detected_languages'=>$detectedLanguages);
+        }
+
+        if ($this->language) {
+            $selectedLanguageFile = false;
+            foreach ($filesForImporting as $file) {
+                if (strpos($file['file'], $this->language . '_lang') !== false) {
+                    $selectedLanguageFile = $file;
+                    break;
+                }
+            }
+            // File for this language is found
+            if ($selectedLanguageFile) {
+                unset($filesForImporting);
+                $filesForImporting[] = $selectedLanguageFile;
+            } else {
+                // Its not found this language
+                // Remove all other lang files
+                $newFilesForImporting = array();
+                foreach ($filesForImporting as $file) {
+                    if (strpos($file['file'], '_lang') !== false) {
+                        continue;
+                    }
+                    $newFilesForImporting[] = $file;
+                }
+                $filesForImporting = $newFilesForImporting;
+            }
+        }
+        
 		// Decode files in zip
 		$readedData = array();
 		foreach ($filesForImporting as $file) {
@@ -90,7 +134,7 @@ class ZipReader extends DefaultReader
 					}
 				}
 			}
-			
+
 		}
 		
 		if (empty($readedData)) {

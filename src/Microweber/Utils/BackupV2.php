@@ -186,6 +186,10 @@ class BackupV2
 		if (isset($query['overwrite_by_id']) && $query['overwrite_by_id'] == 'true') {
 			$this->manager->setImportOvewriteById(true);
 		}
+
+        if (isset($query['installation_language']) && !empty($query['installation_language'])) {
+            $this->manager->setImportLanguage($query['installation_language']);
+        }
 		
 		if (!$fileId) {
 			return array('error' => 'You have not provided a file to import.');

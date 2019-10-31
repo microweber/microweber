@@ -48,6 +48,7 @@
 /* Skin 2 & Skin 4 */
 .mw-static-element.mw-vertical-centered-text-and-image {
     display: table;
+    width: 100%;
 }
 
 .mw-static-element.mw-vertical-centered-text-and-image .mw-image-holder-div {

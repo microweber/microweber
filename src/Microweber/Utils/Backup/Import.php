@@ -26,6 +26,12 @@ class Import
 	 */
 	public $file;
 
+    /**
+     * The import language
+     * @var string
+     */
+	public $language = 'en';
+
 	/**
 	 * Set file type
 	 *
@@ -45,6 +51,10 @@ class Import
 	{
 		$this->file = $file;
 	}
+
+	public function setLanguage($abr) {
+	    $this->language = $abr;
+    }
 	
 	/**
 	 * Import data as type
@@ -57,7 +67,11 @@ class Import
 		$readedData = $this->_getReader($file);
 		if ($readedData) {
 
-			BackupImportLogger::setLogInfo('Reading data from file ' . basename($this->file));
+            if (isset($readedData['must_choice_language']) && $readedData['must_choice_language']) {
+                return $readedData;
+            }
+
+            BackupImportLogger::setLogInfo('Reading data from file ' . basename($this->file));
 
 			if (! empty($readedData)) {
 				$successMessages = count($readedData, COUNT_RECURSIVE) . ' items are readed.';
@@ -181,6 +195,7 @@ class Import
 
 			case 'zip':
 				$reader = new ZipReader($data);
+				$reader->setLanguage($this->language);
 				break;
 
 			default:

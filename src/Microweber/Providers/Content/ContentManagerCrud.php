@@ -136,6 +136,11 @@ class ContentManagerCrud extends Crud
             $params['is_active'] = 1;
         }
 
+        $do_not_replace_site_url = false;
+        if (isset($params['do_not_replace_site_url'])) {
+            $do_not_replace_site_url = $params['do_not_replace_site_url'];
+        }
+
         $cache_group = 'content/global';
         if (isset($params['cache_group'])) {
             $cache_group = $params['cache_group'];
@@ -199,7 +204,9 @@ class ContentManagerCrud extends Crud
 
         if (isset($params['count']) or isset($params['single']) or isset($params['one']) or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
             if (isset($get['url'])) {
-                $get['full_url'] = $this->app->url_manager->site($get['url']);
+                if (!$do_not_replace_site_url) {
+                    $get['full_url'] = $this->app->url_manager->site($get['url']);
+                }
             }
 
             return $get;
@@ -209,7 +216,9 @@ class ContentManagerCrud extends Crud
             $data2 = array();
             foreach ($get as $item) {
                 if (isset($item['url'])) {
-                    $item['url'] = $this->app->url_manager->site($item['url']);
+                    if (!$do_not_replace_site_url) {
+                        $item['url'] = $this->app->url_manager->site($item['url']);
+                    }
                 }
                 if ($extra_data) {
                     $item['picture'] = get_picture($item['id']);

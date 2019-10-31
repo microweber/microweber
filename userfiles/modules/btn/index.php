@@ -42,10 +42,6 @@ if ($style == '') {
     $style = 'btn-default';
 }
 
-if (isset($params['button_style']) && !empty($params['button_style'])) {
-	$style = $params['button_style'];
-}
-
 if (isset($params['button_action']) && !empty($params['button_action'])) {
 	$action = $params['button_action'];
 }
