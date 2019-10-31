@@ -729,7 +729,7 @@ mw.wysiwyg = {
     prepare: function () {
         mw.wysiwyg.external = mw.wysiwyg._external();
         mw.$("#liveedit_wysiwyg").on("mousedown mouseup click", function (event) {
-            event.preventDefault()
+            event.preventDefault();
         });
         var items = mw.$(".element").not(".module");
         mw.$(".mw_editor").hover(function () {
@@ -1739,7 +1739,7 @@ mw.wysiwyg = {
             autoHeight: true
         }, function(result){
             console.log(result)
-            mw.iframecallbacks.insert_link(result.url, result.target, result.text);
+            mw.iframecallbacks.insert_link(result.url, (result.target || '_self') , result.text);
         });
 
 

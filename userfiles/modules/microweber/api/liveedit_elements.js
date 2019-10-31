@@ -197,14 +197,14 @@ mw.dropables = {
         return false;
     },
     _moduleRegister: null,
-    module: function(targetFrom){
-        targetFrom = targetFrom || mw.mm_target;
+    module: function(ev){
+        targetFrom = ev ? ev.target :  mw.mm_target;
         var module = mw.tools.firstMatchesOnNodeOrParent(targetFrom, '.module:not(.no-settings)');
         //var module = mw.tools.lastMatchesOnNodeOrParent(targetFrom, '.module:not(.no-settings)');
         var triggerTarget =  module.__disableModuleTrigger || module;
         if(module){
             //if(this.shouldTrigger('_moduleRegister', triggerTarget)) {
-                mw.trigger("moduleOver", triggerTarget);
+                mw.trigger("moduleOver", [triggerTarget, ev]);
             //}
         } else {
             if (
@@ -240,7 +240,7 @@ mw.dropables = {
         }
     },
     _elementRegister:null,
-    element: function() {
+    element: function(ev) {
         var element = mw.tools.firstParentOrCurrentWithClass(mw.mm_target, 'element');
         if(element && this._elementRegister !== element) {
             this._elementRegister = element;
@@ -248,7 +248,7 @@ mw.dropables = {
                 && (mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(element, ['edit', 'module'])
                     && mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(element, ['allow-drop', 'nodrop']))) {
 
-                mw.trigger("ElementOver", element);
+                mw.trigger("ElementOver", [element, ev]);
             }
             else /*if(this._elementRegister !== null)*/{
                 //if (!mw.tools.firstParentOrCurrentWithId(mw.mm_target, 'mw_handle_element')) {
@@ -298,10 +298,10 @@ mw.dropables = {
  };
  mw.liveEditHandlers = function(event){
     if ( /*mw.emouse.x % 2 === 0 && */ mw.drag.columns.resizing === false ) {
-        mw.triggerLiveEditHandlers.cloneable();
-        mw.triggerLiveEditHandlers.layout();
-        mw.triggerLiveEditHandlers.element();
-        mw.triggerLiveEditHandlers.module();
+        mw.triggerLiveEditHandlers.cloneable(event);
+        mw.triggerLiveEditHandlers.layout(event);
+        mw.triggerLiveEditHandlers.element(event);
+        mw.triggerLiveEditHandlers.module(event);
         if (mw.drag.columns.resizing === false && mw.tools.hasParentsWithClass(mw.mm_target, 'edit') && (!mw.tools.hasParentsWithClass(mw.mm_target, 'module') ||
             mw.tools.hasParentsWithClass(mw.mm_target, 'allow-drop'))) {
             mw.triggerLiveEditHandlers.row();

@@ -342,7 +342,7 @@ var init = function(){
 
 
 
-top.$(top.mw.liveEditSelector).on('select', function(e, nodes){
+mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
     if(nodes && nodes[0]){
         var css = mw.CSSParser(nodes[0]);
         populate(css);
@@ -356,7 +356,7 @@ top.$(top.mw.liveEditSelector).on('select', function(e, nodes){
                 clsdata.push({title: cls})
             }
         });
-        window.classes.setData(clsdata)
+        ( window.classes || initClasses() ).setData(clsdata)
     }
 });
 
@@ -419,25 +419,32 @@ top.$(top.mw.liveEditSelector).on('select', function(e, nodes){
     <script>
         mw.require('tags.js');
 
+        initClasses = function () {
+            if(!window.classes) {
+                window.classes = new mw.tags({
+                    element: '#classtags',
+                    data: [],
+                    inputField: true,
+                    wrap: true,
+                    hideItem: function(item) {
+                        return item.title.indexOf('module') !== -1 || item.title.indexOf('element') !== -1;
+                    }
+                });
+                $(classes).on('change', function(e, item, data){
+                    var cls = [];
+                    $.each(data, function(){
+                        cls.push(this.title);
+                    });
+                    ActiveNode.setAttribute('class', cls.join(' '))
+
+                });
+            }
+            return window.classes;
+        }
+
 
         $(window).on('load', function(){
-            window.classes = new mw.tags({
-                element: '#classtags',
-                data: [],
-                inputField: true,
-                wrap: true,
-                hideItem: function(item) {
-                    return item.title.indexOf('module') !== -1 || item.title.indexOf('element') !== -1;
-                }
-            });
-            $(classes).on('change', function(e, item, data){
-                var cls = [];
-                $.each(data, function(){
-                    cls.push(this.title);
-                });
-                ActiveNode.setAttribute('class', cls.join(' '))
-
-            });
+            initClasses()
         })
 
     </script>

@@ -1,5 +1,6 @@
 mw.liveedit.handleCustomEvents = function() {
-    mw.on('ElementOver ModuleOver', function(e, target){
+    mw.on('moduleOver ElementOver', function(e, etarget, oevent){
+        var target = mw.tools.firstParentOrCurrentWithAnyOfClasses(oevent.target, ['element', 'module']);
         if(target.id){
             mw.liveEditSelector.active(true);
             mw.liveEditSelector.setItem(target, mw.liveEditSelector.interactors);
@@ -159,11 +160,10 @@ mw.liveedit.handleCustomEvents = function() {
                 });
                 setTimeout(function(){
                     mw.$("#moduleinbetween").fadeOut(function(){
-                        mw.$(this).remove()
-                    })
-                }, 3000)
+                        mw.$(this).remove();
+                    });
+                }, 3000);
             }
-        }, 1000)
-
+        }, 1000);
     });
-}
+};

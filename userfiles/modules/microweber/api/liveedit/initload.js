@@ -90,7 +90,6 @@ mw.liveedit.initLoad = function() {
         }
     });
 
-    mw.tools.sidebar();
     mw.liveedit.toolbar.prepare();
     mw.liveedit.toolbar.fixPad();
     mw.liveedit.editors.prepare();

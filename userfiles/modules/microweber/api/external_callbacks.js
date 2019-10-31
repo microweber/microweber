@@ -120,6 +120,7 @@ mw.iframecallbacks = {
                 var sel = window.getSelection();
                 var range = sel.getRangeAt(0);
                 try {
+                    console.log(a)
                     range.surroundContents(a);
                 }
                 catch (e) {
@@ -128,7 +129,8 @@ mw.iframecallbacks = {
             }
             else {
 
-                var html = " <a "+ (url?href='" + url + "':'') +" target='" + target + "'>" + (link_inner_text?link_inner_text:url) + "</a> ";
+                var html = '<a href="' + url + '" target="' + target + '">' + (link_inner_text ? link_inner_text : url) + '</a>';
+                console.log(html);
                 mw.wysiwyg.insert_html(html);
             }
         }

@@ -1,10 +1,16 @@
 mw.require('selector.js');
 
+var dynamicModulesMenuTime = null;
 var dynamicModulesMenu = function(e, el) {
     if(!mw.inaccessibleModules){
         mw.inaccessibleModules = document.createElement('div');
         mw.inaccessibleModules.className = 'mw-ui-btn-nav mwInaccessibleModulesMenu';
         document.body.appendChild(mw.inaccessibleModules);
+        mw.$(mw.inaccessibleModules).on('mouseenter', function(){
+            this._hovered = true;
+        }).on('mouseleave', function(){
+            this._hovered = false;
+        });
     }
 
     var $el;
@@ -27,7 +33,7 @@ var dynamicModulesMenu = function(e, el) {
         }
     }
 
-    mw.inaccessibleModules.innerHTML = '';
+
     var modules = mw.$(".inaccessibleModule", el);
     if(modules.length === 0){
         var parent = mw.tools.firstParentWithClass(el, 'module');
@@ -38,6 +44,9 @@ var dynamicModulesMenu = function(e, el) {
                 $el = mw.$(el);
             }
         }
+    }
+    if(modules.length && !mw.inaccessibleModules._hovered) {
+        mw.inaccessibleModules.innerHTML = '';
     }
     modules.each(function(){
         var span = document.createElement('span');
@@ -62,10 +71,17 @@ var dynamicModulesMenu = function(e, el) {
         }
         mw.inaccessibleModules.style.top = off.top + 'px';
         mw.inaccessibleModules.style.left = off.left + 'px';
+        clearTimeout(dynamicModulesMenuTime)
         mw.$(mw.inaccessibleModules).show();
     }
     else{
-        mw.$(mw.inaccessibleModules).hide();
+        dynamicModulesMenuTime = setTimeout(function(){
+            if(!mw.inaccessibleModules._hovered) {
+                mw.$(mw.inaccessibleModules).hide();
+            }
+
+        }, 3000);
+
     }
 
 
@@ -470,6 +486,7 @@ mw._initHandles = {
                 }
             ]
         });
+        mw.handleModule._hideTime = null;
         mw.$(mw.handleModule.wrapper).draggable({
             handle: mw.handleModule.handleIcon,
             distance:20,
@@ -573,7 +590,7 @@ mw._initHandles = {
                 handleLeft = handleLeft + 10;
             }
 
-
+            clearTimeout(mw.handleModule._hideTime);
             mw.handleModule.show();
             mw.$(mw.handleModule.wrapper)
                 .removeClass('active')
@@ -622,9 +639,9 @@ mw._initHandles = {
 
             var mod_icon = mw.live_edit.getModuleIcon(module_type);
             var mod_handle_title = (title ? title : mw.msg.settings);
-            if(module_type === 'layouts'){
+            /*if(module_type === 'layouts'){
                 mod_handle_title = '';
-            }
+            }*/
 
             mw.handleModule.setTitle(mod_icon, mod_handle_title);
             if(!mw.handleModule){
@@ -798,7 +815,11 @@ mw._initHandles = {
             mw.handleElement.hide();
         });
         mw.on("ModuleLeave", function(e, target) {
-            mw.handleModule.hide();
+            clearTimeout(mw.handleModule._hideTime);
+            mw.handleModule._hideTime = setTimeout(function () {
+                mw.handleModule.hide();
+            }, 3000);
+
             //.removeClass('mw-active-item');
         });
         mw.on("RowLeave", function(e, target) {

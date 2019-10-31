@@ -926,25 +926,33 @@ mw.parent = function(){
     }
     return window.mw;
 };
+
 mw.top = function(){
+  if(!!mw.__top){
+      return mw.__top;
+  }
   var getLastParent = function() {
       var curr = window.parent;
       while(curr && mw.tools.canAccessWindow(curr) && curr.mw){
           parents.push(curr);
           curr = curr.parent;
       }
+      mw.__top = curr.mw;
       return curr.mw;
   };
   if(window === top){
+    mw.__top = window.mw;
     return window.mw;
   } else {
         if(mw.tools.canAccessWindow(top) && top.mw){
+            mw.__top = top.mw;
             return top.mw;
         } else{
             if(window.top !== window.parent){
                 return getLastParent();
             }
             else{
+                mw.__top = window.mw;
                 return window.mw;
             }
         }

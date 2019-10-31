@@ -21,8 +21,15 @@ mw.iconSelector = mw.iconSelector || {
        }
        mw.iconSelector.settingsUI(true);
     },
-
+    _parentSynced: false,
+    parentSync: function () {
+        if(!this._parentSynced && mw.top() !== mw && mw.top().iconSelector) {
+            this._parentSynced = true;
+            mw.iconSelector.iconFontClasses = $.merge( mw.iconSelector.iconFontClasses, mw.top().iconSelector.iconFontClasses );
+        }
+    },
     init: function () {
+        this.parentSync();
         if (mw.iconSelector.iconFontClasses.length == 0) {
             try {
                 var uicss = mwd.querySelector('link[href*="/ui.css"]'), icons;
@@ -502,4 +509,7 @@ mw.iconSelector = mw.iconSelector || {
 
 
     }
-}
+};
+$(document).ready(function () {
+    mw.iconSelector.init();
+});
