@@ -360,6 +360,11 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                         </a>
                     <?php endif; ?>
                 </div>
+
+                <div class="mw-ui-col pull-right">
+                   <module type="multilanguage/change_language"></module>
+                </div>
+
                 <div class="mw-ui-col">
 
                     <a href="<?php print $past_page ?>?editmode=y" class="mw-admin-go-live-now-btn mw-ui-btn mw-ui-btn-info toolbar-live-edit" target="_blank">

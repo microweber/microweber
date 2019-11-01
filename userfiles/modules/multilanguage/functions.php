@@ -1,5 +1,33 @@
 <?php
 
+function get_flag_icon($locale) {
+    if($locale == 'en'){
+        $icon_key = 'us';
+    }else{
+        $icon_key = $locale;
+    }
+    return $icon_key;
+}
+
+api_expose('change_language', function(){
+
+    $locale = $_POST['locale'];
+    $langs  = mw()->lang_helper->get_all_lang_codes();
+
+    if (!array_key_exists($locale, $langs)) {
+        return false;
+    }
+
+    $data = array();
+    $data['option_key'] = 'language';
+    $data['option_group'] = 'website';
+    $data['option_value'] = $locale;
+
+    $save = save_option($data);
+
+    return $save;
+});
+
 function get_current_locale()
 {
     $locale = get_option('language', 'website');
@@ -23,15 +51,13 @@ function translate_content($content_id, $locale = false) {
 event_bind('mw.crud.content.get', function($posts) {
     if (isset($posts[0])) {
         foreach ($posts as &$post) {
-            if (isset($post['content_type']) && $post['content_type'] == 'post') {
+            if (isset($post['id']) && isset($post['content_type']) && $post['content_type'] == 'post') {
 
                 $content = translate_content($post['id']);
 
                 if (!empty($content['title'])) {
                     $post['title'] = $content['title'];
                 }
-
-                
             }
         }
         return $posts;
