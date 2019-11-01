@@ -51,7 +51,7 @@ function translate_content($content_id, $locale = false) {
 event_bind('mw.crud.content.get', function($posts) {
     if (isset($posts[0])) {
         foreach ($posts as &$post) {
-            if (isset($post['id']) && isset($post['content_type']) && $post['content_type'] == 'post') {
+            if (isset($post['id']) && isset($post['title'])) {
 
                 $content = translate_content($post['id']);
 
@@ -65,8 +65,15 @@ event_bind('mw.crud.content.get', function($posts) {
 
 });
 
-event_bind('content.manager.after.save', function ($save) {
-    if (isset($save['content_type']) && $save['content_type'] == 'post') {
+event_bind('mw.database.extended_save', function ($save) {
+
+    if (isset($save['rel_type']) && $save['rel_type'] == 'module' && isset($save['value'])) {
+
+        var_dump($save);
+        die();
+    }
+
+    if (isset($save['table']) && $save['table'] == 'content' && isset($save['title'])) {
 
         $locale = get_current_locale();
 
