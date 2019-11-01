@@ -12,11 +12,19 @@ $config['tables'] = array(
     'content_translations' => array(
         'id' => 'integer',
         'locale' => 'string',
-        'content_id' => 'string',
+        'content_id' => 'integer',
         'url' => 'string',
         'title' => 'string',
         'description' => 'string',
         'content_meta_title' => 'string',
         'content_meta_keywords' => 'string'
+    ),
+    'content_fields_translations' => array(
+        'id' => 'integer',
+        'rel_id' => 'string',
+        'rel_type' => 'string',
+        'locale' => 'string',
+        'field' => 'string',
+        'value' => 'string',
     )
 );

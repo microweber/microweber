@@ -48,6 +48,19 @@ function translate_content($content_id, $locale = false) {
     ));
 }
 
+function translate_content_fields($field, $rel_type, $rel_id, $locale = false) {
+    if (!$locale) {
+        $locale = get_current_locale();
+    }
+    return db_get('content_fields_translations', array(
+        'locale'=> $locale,
+        'rel_type'=> $rel_type,
+        'rel_id'=> $rel_id,
+        'field' => $field,
+        'single'=>1
+    ));
+}
+
 event_bind('mw.crud.content.get', function($posts) {
     if (isset($posts[0])) {
         foreach ($posts as &$post) {
@@ -65,13 +78,37 @@ event_bind('mw.crud.content.get', function($posts) {
 
 });
 
-event_bind('mw.database.extended_save', function ($save) {
+event_bind('mw.content.save_edit', function ($save) {
 
-    if (isset($save['rel_type']) && $save['rel_type'] == 'module' && isset($save['value'])) {
+    if (isset($save['field']) && isset($save['rel_type']) && $save['rel_type'] == 'content' && isset($save['value'])) {
 
         var_dump($save);
         die();
+
+        $locale = get_current_locale();
+
+        $save_translations = array();
+        $save_translations['field'] = $save['field'];
+        $save_translations['rel_id'] = $save['rel_id'];
+        $save_translations['rel_type'] = $save['rel_type'];
+        $save_translations['locale'] = $locale;
+        $save_translations['value'] = trim($save['value']);
+
+        $find_translations = translate_content_fields($save['field'], $save['rel_type'], $save['rel_id'], $locale);
+        if ($find_translations) {
+            $save_translations['id'] = $find_translations['id'];
+        }
+
+        $save_translations['allow_html'] = 1;
+        $save_translations['allow_scripts'] = 1;
+
+        db_save('content_fields_translations', $save_translations);
+
     }
+
+});
+
+event_bind('mw.database.extended_save', function ($save) {
 
     if (isset($save['table']) && $save['table'] == 'content' && isset($save['title'])) {
 
