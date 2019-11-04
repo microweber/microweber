@@ -64,7 +64,7 @@ function translate_content_fields($field, $rel_type, $rel_id, $locale = false) {
     ));
 }
 */
-/*
+
 event_bind('mw.crud.content.get', function($posts) {
     if (isset($posts[0])) {
         foreach ($posts as &$post) {
@@ -80,13 +80,8 @@ event_bind('mw.crud.content.get', function($posts) {
         }
         return $posts;
     }
-});*/
-/*
-event_bind('content_fields.after.save', function($save) {
+});
 
-    var_dump($save);
-
-});*/
 
 event_bind('content.before.save', function ($save) {
 

@@ -2,6 +2,7 @@
 
 class TranslateTable {
 
+    protected $columns = array();
     protected $relId = false;
     protected $relType = false;
 
@@ -17,7 +18,7 @@ class TranslateTable {
                 $saveTranslation['field_name'] = $column;
                 $saveTranslation['field_value'] = $data[$column];
 
-                $findTranslation = $this->getTranslate($saveTranslation);
+                $findTranslation = $this->findTranslate($saveTranslation);
                 if ($findTranslation) {
                     $saveTranslation['id'] = $findTranslation['id'];
                 }
@@ -27,7 +28,7 @@ class TranslateTable {
         }
     }
 
-    public function getTranslate($filter) {
+    public function findTranslate($filter) {
 
         if (!isset($filter['locale']) || empty($filter['locale'])) {
             $filter['locale'] = $this->getCurrentLocale();
@@ -38,6 +39,26 @@ class TranslateTable {
         unset($filter['field_value']);
 
         return db_get('translations', $filter);
+    }
+
+    public function getTranslate($data) {
+
+        foreach ($this->columns as $column) {
+
+            $filter = array();
+            $filter['single'] = 1;
+            $filter['locale'] = $this->getCurrentLocale();
+            $filter['rel_type'] = $this->relType;
+            $filter['rel_id'] = $data[$this->relId];
+            $filter['field_name'] = $column;
+
+            $translate = db_get('translations', $filter);
+
+            $data[$column] = $translate['field_value'];
+
+        }
+
+        return $data;
     }
 
     public function getCurrentLocale()
