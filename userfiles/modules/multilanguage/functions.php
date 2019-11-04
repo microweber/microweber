@@ -73,8 +73,10 @@ event_bind('mw.crud.content.get', function($posts) {
                 $translate = new TranslateContent();
                 $translated = $translate->getTranslate($post);
 
-                if (!empty($translated['title'])) {
-                    $post['title'] = $translated['title'];
+                if (!empty($translated)) {
+                    foreach ($translated as $key => $value) {
+                        $post[$key] = $value;
+                    }
                 }
             }
         }
