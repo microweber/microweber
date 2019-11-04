@@ -63,88 +63,35 @@ function translate_content_fields($field, $rel_type, $rel_id, $locale = false) {
         'single'=>1
     ));
 }
-
+*/
+/*
 event_bind('mw.crud.content.get', function($posts) {
     if (isset($posts[0])) {
         foreach ($posts as &$post) {
             if (isset($post['id']) && isset($post['title'])) {
 
-                $content = translate_content($post['id']);
+                $translate = new TranslateContent();
+                $translated = $translate->getTranslate($post);
 
-                if (!empty($content['title'])) {
-                    $post['title'] = $content['title'];
+                if (!empty($translated['title'])) {
+                    $post['title'] = $translated['title'];
                 }
             }
         }
         return $posts;
     }
-
-});
-*/
-
+});*/
 /*
-event_bind('mw.content.save_edit', function ($save) {
+event_bind('content_fields.after.save', function($save) {
 
-    if (isset($save['field']) && isset($save['rel_type']) && $save['rel_type'] == 'content' && isset($save['value'])) {
+    var_dump($save);
 
-        var_dump($save);
-        die();
-
-        $locale = get_current_locale();
-
-        $save_translations = array();
-        $save_translations['field'] = $save['field'];
-        $save_translations['rel_id'] = $save['rel_id'];
-        $save_translations['rel_type'] = $save['rel_type'];
-        $save_translations['locale'] = $locale;
-        $save_translations['value'] = trim($save['value']);
-
-        $find_translations = translate_content_fields($save['field'], $save['rel_type'], $save['rel_id'], $locale);
-        if ($find_translations) {
-            $save_translations['id'] = $find_translations['id'];
-        }
-
-        $save_translations['allow_html'] = 1;
-        $save_translations['allow_scripts'] = 1;
-
-        db_save('content_fields_translations', $save_translations);
-
-    }
-
-});
-*/
-/*
-event_bind('mw.database.extended_save', function ($save) {
-
-    if (isset($save['table']) && $save['table'] == 'content' && isset($save['title'])) {
-
-        $locale = get_current_locale();
-
-        $save_translations = array();
-        $save_translations['content_id'] = $save['id'];
-        $save_translations['locale'] = $locale;
-       // $save_translations['url'] = $save['url'];
-        $save_translations['title'] = $save['title'];
-        $save_translations['description'] = $save['description'];
-        $save_translations['content_meta_title'] = $save['content_meta_title'];
-        $save_translations['content_meta_keywords'] = $save['content_meta_keywords'];
-
-        $find_translations = translate_content($save['id'], $locale);
-        if ($find_translations) {
-            $save_translations['id'] = $find_translations['id'];
-        }
-
-        db_save('content_translations', $save_translations);
-
-    }
 });*/
 
-event_bind('mw.database.extended_save', function ($save) {
+event_bind('content.before.save', function ($save) {
 
-    if (!isset($save['table']) && $save['table'] !== 'content') {
-        return;
+    if (isset($save['id']) && isset($save['title'])) {
+        $translate = new TranslateContent();
+        $translate->saveOrUpdate($save);
     }
-
-    $translate = new TranslateContent();
-    $translate->saveOrUpdate($save);
 });

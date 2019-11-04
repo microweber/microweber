@@ -2,53 +2,42 @@
 
 class TranslateTable {
 
-    protected $primaryId = false;
-    protected $recognitionIds = array();
-    protected $table = false;
-    protected $columns = array();
+    protected $relId = false;
+    protected $relType = false;
 
     public function saveOrUpdate($data) {
 
-        if (empty($this->columns) || empty($this->recognitionIds)) {
-            return;
-        }
-
-        $saveTranslations = array();
-        $saveTranslations['locale'] = $this->getCurrentLocale();
-        
         foreach ($this->columns as $column) {
             if (isset($data[$column])) {
-                $saveTranslations[$column] = $data[$column];
+
+                $saveTranslation = array();
+                $saveTranslation['locale'] = $this->getCurrentLocale();
+                $saveTranslation['rel_id'] = $data[$this->relId];
+                $saveTranslation['rel_type'] = $this->relType;
+                $saveTranslation['field_name'] = $column;
+                $saveTranslation['field_value'] = $data[$column];
+
+                $findTranslation = $this->getTranslate($saveTranslation);
+                if ($findTranslation) {
+                    $saveTranslation['id'] = $findTranslation['id'];
+                }
+
+                db_save('translations', $saveTranslation);
             }
         }
-
-        foreach ($this->recognitionIds as $primaryId=>$recognitionId) {
-            $saveTranslations[$recognitionId] = $data[$primaryId];
-        }
-
-        $findTranslations = $this->getTranslate($data);
-        if ($findTranslations) {
-            $saveTranslations['id'] = $findTranslations['id'];
-        }
-
-        db_save($this->_getTable(), $saveTranslations);
     }
 
-    public function getTranslate($data, $locale = false) {
+    public function getTranslate($filter) {
 
-        if (!$locale) {
-            $locale = $this->getCurrentLocale();
+        if (!isset($filter['locale']) || empty($filter['locale'])) {
+            $filter['locale'] = $this->getCurrentLocale();
         }
 
-        $filter = array();
-        $filter['locale'] = $locale;
         $filter['single'] = 1;
 
-        foreach ($this->recognitionIds as $primaryId=>$recognitionId) {
-           $filter[$recognitionId] = $data[$primaryId];
-        }
+        unset($filter['field_value']);
 
-        return db_get($this->_getTable(), $filter);
+        return db_get('translations', $filter);
     }
 
     public function getCurrentLocale()
@@ -59,9 +48,5 @@ class TranslateTable {
         }
 
         return $locale;
-    }
-
-    private function  _getTable() {
-        return $this->table . '_translations';
     }
 }
