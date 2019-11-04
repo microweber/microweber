@@ -14,6 +14,8 @@ class TranslateTable {
         }
 
         $saveTranslations = array();
+        $saveTranslations['locale'] = $this->getCurrentLocale();
+        
         foreach ($this->columns as $column) {
             if (isset($data[$column])) {
                 $saveTranslations[$column] = $data[$column];
@@ -24,7 +26,7 @@ class TranslateTable {
             $saveTranslations[$recognitionId] = $data[$primaryId];
         }
 
-        $findTranslations = $this->getTranslate($data, $this->getCurrentLocale());
+        $findTranslations = $this->getTranslate($data);
         if ($findTranslations) {
             $saveTranslations['id'] = $findTranslations['id'];
         }
@@ -55,6 +57,7 @@ class TranslateTable {
         if (empty($locale)) {
             $locale = 'en';
         }
+
         return $locale;
     }
 
