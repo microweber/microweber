@@ -1,4 +1,5 @@
 <?php
+require_once 'TranslateContent.php';
 
 function get_flag_icon($locale) {
     if($locale == 'en'){
@@ -37,6 +38,7 @@ function get_current_locale()
     return $locale;
 }
 
+/*
 function translate_content($content_id, $locale = false) {
     if (!$locale) {
         $locale = get_current_locale();
@@ -46,8 +48,9 @@ function translate_content($content_id, $locale = false) {
         'content_id' => $content_id,
         'single'=>1
     ));
-}
+}*/
 
+/*
 function translate_content_fields($field, $rel_type, $rel_id, $locale = false) {
     if (!$locale) {
         $locale = get_current_locale();
@@ -77,7 +80,9 @@ event_bind('mw.crud.content.get', function($posts) {
     }
 
 });
+*/
 
+/*
 event_bind('mw.content.save_edit', function ($save) {
 
     if (isset($save['field']) && isset($save['rel_type']) && $save['rel_type'] == 'content' && isset($save['value'])) {
@@ -107,7 +112,8 @@ event_bind('mw.content.save_edit', function ($save) {
     }
 
 });
-
+*/
+/*
 event_bind('mw.database.extended_save', function ($save) {
 
     if (isset($save['table']) && $save['table'] == 'content' && isset($save['title'])) {
@@ -131,5 +137,14 @@ event_bind('mw.database.extended_save', function ($save) {
         db_save('content_translations', $save_translations);
 
     }
-});
+});*/
 
+event_bind('mw.database.extended_save', function ($save) {
+
+    if (!isset($save['table']) && $save['table'] !== 'content') {
+        return;
+    }
+
+    $translate = new TranslateContent();
+    $translate->saveOrUpdate($save);
+});
