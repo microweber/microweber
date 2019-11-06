@@ -127,9 +127,7 @@ if (isset($_COOKIE['mw_exp'])) {
     <script>
         $(document).ready(function () {
 
-            mw.tools.module_slider.init();
             mw.tools.dropdown();
-            mw.tools.toolbar_slider.init();
             mw_save_draft_int = self.setInterval(function () {
                 mw.drag.saveDraft();
             }, 1000);

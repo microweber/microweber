@@ -61,7 +61,6 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
         $(document).ready(function () {
 
             mw.tools.dropdown();
-            mw.tools.toolbar_slider.init();
             mw_save_draft_int = self.setInterval(function () {
                 mw.drag.save(mwd.getElementById('main-save-btn'), false, true);
                 if (mw.askusertostay) {

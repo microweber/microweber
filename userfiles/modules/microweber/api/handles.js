@@ -14,7 +14,7 @@ var dynamicModulesMenu = function(e, el) {
     }
 
     var $el;
-    if(e.type === 'moduleOver'){
+    if(e.type === 'moduleOver' || e.type === 'ModuleClick'){
 
         var parentModule = mw.tools.lastParentWithClass(el, 'module');
         var childModule = mw.tools.firstChildWithClass(el, 'module');
@@ -445,7 +445,8 @@ mw._initHandles = {
 
     },
     modules: function () {
-        mw.handleModule = new mw.Handle({
+
+        var handlesModuleConfig = {
             id: 'mw-handle-item-module',
             menu:[
                 {
@@ -458,8 +459,7 @@ mw._initHandles = {
                 {
                     title: 'Move Up',
                     icon: 'mw-icon-arrow-up-b',
-                    className: '',
-                    id:'mw_handle_module_up',
+                    className:'mw_handle_module_up',
                     action: function () {
                         mw.drag.replace($(mw._activeModuleOver), 'prev');
                     }
@@ -467,7 +467,7 @@ mw._initHandles = {
                 {
                     title: 'Move Down',
                     icon: 'mw-icon-arrow-down-b',
-                    id:'mw_handle_module_down',
+                    className:'mw_handle_module_down',
                     action: function () {
                         mw.drag.replace($(mw._activeModuleOver), 'next');
                     }
@@ -485,58 +485,89 @@ mw._initHandles = {
                     }
                 }
             ]
-        });
-        mw.handleModule._hideTime = null;
-        mw.$(mw.handleModule.wrapper).draggable({
-            handle: mw.handleModule.handleIcon,
-            distance:20,
-            cursorAt: {
-                //top: -30
-            },
-            start: function() {
-                mw.isDrag = true;
-                mw.dragCurrent = mw._activeModuleOver;
-                if(!mw.dragCurrent.id){
-                    mw.dragCurrent.id = 'module_' + mw.random();
-                }
-                if(mw.letools.isLayout(mw.dragCurrent)){
-                    mw.$(mw.dragCurrent).css({
-                        opacity:0
-                    }).addClass("mw_drag_current");
-                } else {
-                    mw.$(mw.dragCurrent).invisible().addClass("mw_drag_current");
-                }
+        };
 
-                mw.trigger("AllLeave");
-                mw.drag.fix_placeholders();
-                mw.$(mwd.body).addClass("dragStart");
-                mw.image_resizer._hide();
-                mw.wysiwyg.change(mw.dragCurrent);
-                mw.smallEditor.css("visibility", "hidden");
-                mw.smallEditorCanceled = true;
-            },
-            stop: function() {
-                mw.$(mwd.body).removeClass("dragStart");
+        var getActiveDragCurrent = function () {
+            if(mw.liveEditSelector && mw.liveEditSelector.selected){
+                return mw.liveEditSelector.selected;
             }
-        })
+        };
+
+        var getDragCurrent = function () {
+            if(mw._activeModuleOver){
+                return mw._activeModuleOver;
+            }
+        };
+        var dragConfig = function (curr) {
+            return {
+                handle: mw.handleModule.handleIcon,
+                distance:20,
+                cursorAt: {
+                    //top: -30
+                },
+                start: function() {
+                    mw.isDrag = true;
+                    mw.dragCurrent = curr();
+                    if(!mw.dragCurrent.id){
+                        mw.dragCurrent.id = 'module_' + mw.random();
+                    }
+                    if(mw.liveEditTools.isLayout(mw.dragCurrent)){
+                        mw.$(mw.dragCurrent).css({
+                            opacity:0
+                        }).addClass("mw_drag_current");
+                    } else {
+                        mw.$(mw.dragCurrent).invisible().addClass("mw_drag_current");
+                    }
+
+                    mw.trigger("AllLeave");
+                    mw.drag.fix_placeholders();
+                    mw.$(mwd.body).addClass("dragStart");
+                    mw.image_resizer._hide();
+                    mw.wysiwyg.change(mw.dragCurrent);
+                    mw.smallEditor.css("visibility", "hidden");
+                    mw.smallEditorCanceled = true;
+                },
+                stop: function() {
+                    mw.$(mwd.body).removeClass("dragStart");
+                }
+            };
+        }
+
+        mw.handleModule = new mw.Handle(handlesModuleConfig);
+        mw.handleModuleActive = new mw.Handle(handlesModuleConfig);
+
+        mw.handleModule._hideTime = null;
+        mw
+            .$(mw.handleModule.wrapper)
+            .draggable(dragConfig(getDragCurrent))
             .on("mousedown", function(e){
                 mw.liveEditSelectMode = 'none';
             });
 
-        mw.on('moduleOver', function(e, pelement){
+
+        mw
+            .$(mw.handleModuleActive.wrapper)
+            .draggable(dragConfig(getActiveDragCurrent))
+            .on("mousedown", function(e){
+                mw.liveEditSelectMode = 'none';
+            });
+
+
+        var positionModuleHandle = function(e, pelement, handle){
             var element = dynamicModulesMenu(e, pelement) || pelement;
             mw._activeModuleOver = element;
-            mw.$(".mw-handle-menu-dynamic", mw.handleModule.wrapper).empty();
-            mw.$('#mw_handle_module_up,#mw_handle_module_down').hide();
+            mw.$(".mw-handle-menu-dynamic", handle.wrapper).empty();
+            mw.$('.mw_handle_module_up,.mw_handle_module_down').hide();
+            var $el, hasedit;
             if(mw._activeModuleOver && mw._activeModuleOver.getAttribute('data-type') === 'layouts'){
-                var $el = mw.$(mw._activeModuleOver);
-                var hasedit =  mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst($el[0],['edit', 'module']);
+                $el = mw.$(mw._activeModuleOver);
+                hasedit = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst($el[0],['edit', 'module']);
                 if(hasedit){
                     if($el.prev('[data-type="layouts"]').length !== 0){
-                        mw.$('#mw_handle_module_up').show();
+                        mw.$('.mw_handle_module_up').show();
                     }
                     if($el.next('[data-type="layouts"]').length !== 0){
-                        mw.$('#mw_handle_module_down').show();
+                        mw.$('.mw_handle_module_down').show();
                     }
                 }
             }
@@ -582,7 +613,7 @@ mw._initHandles = {
             var outheight = el.outerHeight();
 
             if(topPosFinal < ($leoff.top + $lebar.height())){
-                topPosFinal = (o.top + outheight) - (outheight > 100 ? 0 : mw.handleModule.wrapper.clientHeight);
+                topPosFinal = (o.top + outheight) - (outheight > 100 ? 0 : handle.wrapper.clientHeight);
             }
 
             if(el.attr('data-type') === 'layouts') {
@@ -590,9 +621,9 @@ mw._initHandles = {
                 handleLeft = handleLeft + 10;
             }
 
-            clearTimeout(mw.handleModule._hideTime);
-            mw.handleModule.show();
-            mw.$(mw.handleModule.wrapper)
+            clearTimeout(handle._hideTime);
+            handle.show();
+            mw.$(handle.wrapper)
                 .removeClass('active')
                 .css({
                     top: topPosFinal,
@@ -602,11 +633,11 @@ mw._initHandles = {
                 }).addClass('mw-active-item');
 
 
-            mw.$('#mw_handle_module_up, #mw_handle_module_down').hide();
+            mw.$('.mw_handle_module_up, .mw_handle_module_down').hide();
 
             if(element && element.getAttribute('data-type') === 'layouts'){
-                var $el = mw.$(element);
-                var hasedit =  mw.tools.hasParentsWithClass($el[0],'edit');
+                $el = mw.$(element);
+                hasedit =  mw.tools.hasParentsWithClass($el[0],'edit');
                 if(hasedit){
                     if($el.prev('[data-type="layouts"]').length !== 0){
                         mw.$('#mw_handle_module_up').show();
@@ -620,9 +651,9 @@ mw._initHandles = {
             var canDrag = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(element.parentNode, ['edit', 'module'])
                 && mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(element, ['allow-drop', 'nodrop']);
             if(canDrag){
-                mw.$(mw.handleModule.wrapper).removeClass('mw-handle-no-drag');
+                mw.$(handle.wrapper).removeClass('mw-handle-no-drag');
             } else {
-                mw.$(mw.handleModule.wrapper).addClass('mw-handle-no-drag');
+                mw.$(handle.wrapper).addClass('mw-handle-no-drag');
             }
 
             var title = el.dataset("mw-title");
@@ -643,13 +674,13 @@ mw._initHandles = {
                 mod_handle_title = '';
             }*/
 
-            mw.handleModule.setTitle(mod_icon, mod_handle_title);
-            if(!mw.handleModule){
+            handle.setTitle(mod_icon, mod_handle_title);
+            if(!handle){
                 return;
             }
 
-            mw.tools.classNamespaceDelete(mw.handleModule, 'module-active-');
-            mw.tools.addClass(mw.handleModule, 'module-active-' + module_type.replace(/\//g, '-'));
+            mw.tools.classNamespaceDelete(handle, 'module-active-');
+            mw.tools.addClass(handle, 'module-active-' + module_type.replace(/\//g, '-'));
 
             if (mw.live_edit_module_settings_array && mw.live_edit_module_settings_array[module_type]) {
 
@@ -676,7 +707,7 @@ mw._initHandles = {
                             icon = '<i class="mw-edit-module-settings-tooltip-icon ' + this.icon + '"></i>';
                         }
                         new_el.innerHTML =  (icon + '<span class="mw-edit-module-settings-tooltip-btn-title">' + this.title+'</span>');
-                        mw.$(".mw-handle-menu-dynamic", mw.handleModule.wrapper).append(new_el);
+                        mw.$(".mw-handle-menu-dynamic", handle.wrapper).append(new_el);
                     }
                 });
             } else {
@@ -690,6 +721,16 @@ mw._initHandles = {
                 element.id = "module_" + mw.random();
             }
             mw._initHandles.manageCollision();
+        };
+
+        mw.on('ModuleClick', function(e, pelement){
+            positionModuleHandle(e, pelement, mw.handleModule)
+        });
+
+
+
+        mw.on('moduleOver', function (e, pelement) {
+            positionModuleHandle(e, pelement, mw.handleModuleActive)
         });
     },
     columns:function(){

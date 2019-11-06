@@ -75,7 +75,7 @@ mw.admin.custom_fields.addValueButtons = function (root) {
 mw.admin.custom_fields.valueLiveEdit = function (span) {
     mw.$(span.parentNode).addClass('active');
     mw.tools.addClass(mw.tools.firstParentWithTag(span, 'tr'), 'active');
-    var input = mw.tools.liveEdit(span, true, function (el) {
+    var input = mw.tools.elementEdit(span, true, function (el) {
         var data;
         if (mw.tools.hasClass(el, 'mw-admin-custom-field-value-edit-inline')) {
             var vals = [],

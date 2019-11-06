@@ -15,7 +15,7 @@ mw.liveedit.initLoad = function() {
                 mw.$(".list-modules li").show();
                 return false;
             }
-            (val !== -1 && val !== "-1") ? mw.tools.toolbar_sorter(Modules_List_modules, val): '';
+            (val !== -1 && val !== "-1") ? mw.liveedit.toolbar_sorter(Modules_List_modules, val): '';
         });
         mw.$("#elements_category_selector").change(function() {
             var val = mw.$(this).getDropdownValue();
@@ -24,7 +24,7 @@ mw.liveedit.initLoad = function() {
                 mw.$(".list-elements li").show();
                 return false;
             }
-            (val !== -1 && val !== "-1") ? mw.tools.toolbar_sorter(Modules_List_elements, val): '';
+            (val !== -1 && val !== "-1") ? mw.liveedit.toolbar_sorter(Modules_List_elements, val): '';
         });
 
 

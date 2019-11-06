@@ -38,6 +38,7 @@ $files[] = 'liveedit/initready.js';
 $files[] = 'liveedit/widgets.js';
 $files[] = 'liveedit/beforeleave.js';
 $files[] = 'liveedit/initload.js';
+$files[] = 'liveedit/recommend.js';
 
 
 
@@ -106,8 +107,6 @@ $(window).on("load", function() {
 });
 
 $(window).on('resize', function() {
-    mw.tools.module_slider.scale();
-    mw.tools.toolbar_slider.ctrl_show_hide();
     mw.liveedit.toolbar.setEditor();
 });
 

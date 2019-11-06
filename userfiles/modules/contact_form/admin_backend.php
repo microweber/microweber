@@ -69,14 +69,14 @@
             if ($mod_action == 'integrations') {
             	$load_list = false;
             }
-            ?> 
- 
+            ?>
+
             <div>
 
 
 
 	             <div class="contact-head">
-	             	<h4>Your form lists</h4> 
+	             	<h4>Your form lists</h4>
                      <div class="mw-field" size="large">
                         <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);" style="margin-left:15px;width:200px;">
                         <option <?php if ($load_list === 'all_lists') { ?> selected="selected" <?php } ?> value="<?php print $config['url']; ?>"><?php _e('All lists'); ?></option>
@@ -91,7 +91,7 @@
                             <?php if(empty($item['title'])) { continue; } ?>
                             <option <?php if ($load_list == $item['id']) { ?> selected="selected" <?php } ?> value="<?php print $config['url']; ?>/load_list:<?php print $item['id']; ?>">
                             <?php print $item['title']; ?>
-								                            	
+
 								(<?php
 								echo mw()->forms_manager->get_entires('count=true&list_id=' . $item['id']);
 								?>)
@@ -135,7 +135,7 @@
                         });
                         $(document).ready(function () {
                             $("#form_field_title").click(function () {
-                                mw.tools.liveEdit(this, false, function () {
+                                mw.tools.elementEdit(this, false, function () {
                                     var new_title = this
                                     mw.forms_data_manager.rename_form_list('<?php print $load_list ?>', new_title);
                                 });
