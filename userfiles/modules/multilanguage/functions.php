@@ -39,6 +39,28 @@ function get_current_locale()
     return $locale;
 }
 
+event_bind('menu.after.get', function($menus) {
+
+    return $menus;
+
+    if (isset($menus[0])) {
+        foreach ($menus as &$menu) {
+            if (isset($menu['id']) && isset($menu['title'])) {
+
+                $translate = new TranslateMenu();
+                $translated = $translate->getTranslate($menu);
+
+                if (!empty($translated)) {
+                    foreach ($translated as $key => $value) {
+                        $menu[$key] = $value;
+                    }
+                }
+            }
+        }
+        return $menus;
+    }
+});
+
 event_bind('menu.after.save', function($save) {
     if (isset($save['id']) && isset($save['title'])) {
         $translate = new TranslateMenu();

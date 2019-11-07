@@ -196,6 +196,15 @@ class MenuManager
         $params['item_type'] = 'menu';
         //$params['debug'] = 'menu';
         $menus = $this->app->database_manager->get($params);
+        $override = $this->app->event_manager->trigger('menu.after.get', $menus);
+        if (is_array($override)) {
+            foreach ($override as $resp) {
+                if (is_array($resp) and !empty($resp)) {
+                    $menus = array_merge($menus, $resp);
+                }
+            }
+        }
+
         if (!empty($menus)) {
             return $menus;
         } else {
