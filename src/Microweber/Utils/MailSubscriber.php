@@ -139,7 +139,7 @@ class MailSubscriber
 				}
 				
 				$response = $flexmail->service("Contact")->create(array(
-					"mailingListId"    => 10000,
+					"mailingListId"    => $settings['mailing_list_id'],
 					"emailAddressType" => $contact
 				));
 				
