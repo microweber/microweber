@@ -69,6 +69,7 @@ event_bind('mw.crud.content.get', function($posts) {
     }
 });
 
+
 event_bind('content.before.save', function ($save) {
     if (isset($save['id']) && isset($save['title'])) {
         $translate = new TranslateContent();
