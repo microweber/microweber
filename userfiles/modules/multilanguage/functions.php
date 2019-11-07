@@ -1,4 +1,5 @@
 <?php
+require_once 'TranslateMenu.php';
 require_once 'TranslateContent.php';
 
 function get_flag_icon($locale) {
@@ -37,6 +38,13 @@ function get_current_locale()
     }
     return $locale;
 }
+
+event_bind('menu.after.save', function($save) {
+    if (isset($save['id']) && isset($save['title'])) {
+        $translate = new TranslateMenu();
+        $translate->saveOrUpdate($save);
+    }
+});
 
 event_bind('mw.content.save_edit', function ($data) {
     if (isset($data['rel_type']) && isset($data['rel_id'])) {
