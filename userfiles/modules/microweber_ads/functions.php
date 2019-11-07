@@ -39,7 +39,7 @@ event_bind('mw.front', function () {
     $css = '
         <style>
         body {
-            padding-top:60px;
+            padding-top:54px;
         }
         .js-microweber-add-iframe {
             z-index: 99999;
