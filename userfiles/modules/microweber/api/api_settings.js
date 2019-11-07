@@ -98,15 +98,15 @@ mw.settings.libs = {
     ],
     bxslider: [
         function () {
-            mw.require(mw.settings.libs_url + 'bxSlider' + '/jquery.bxslider.min.js', true);
-            mw.require(mw.settings.libs_url + 'bxSlider' + '/jquery.bxslider.css', true);
+            mw.require(mw.settings.libs_url + 'bxSlider/jquery.bxslider.min.js', true);
+            mw.require(mw.settings.libs_url + 'bxSlider/jquery.bxslider.css', true);
 
         }
     ],
     collapse_nav: [
         function () {
-            mw.require(mw.settings.libs_url + 'collapse-nav/dist' + '/collapseNav.js', true);
-            mw.require(mw.settings.libs_url + 'collapse-nav/dist' + '/collapseNav.css', true);
+            mw.require(mw.settings.libs_url + 'collapse-nav/dist/collapseNav.js', true);
+            mw.require(mw.settings.libs_url + 'collapse-nav/dist/collapseNav.css', true);
 
         }
     ],
@@ -247,7 +247,7 @@ mw.lib = {
             i = 0,
             c = 0;
         for (; i < l; i++) {
-            (typeof arr[i] === 'string') ? mw.require(path + arr[i], true) : (typeof arr[i] === 'function') ? arr[i].call() : '';
+            // (typeof arr[i] === 'string') ? mw.require(path + arr[i], true) : (typeof arr[i] === 'function') ? arr[i].call() : '';
         }
     },
     get: function (name, done, error) {
