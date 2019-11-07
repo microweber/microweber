@@ -38,8 +38,12 @@ function showMicroweberAdsBar() {
 event_bind('mw.front', function () {
     $css = '
         <style>
-        body {
-            padding-top:54px;
+        .js-microweber-add-iframe-wrapper {
+            height: 54px;
+            width: 100%;
+            min-height: 54px !important;
+            max-height: 54px !important;
+            position:relative;
         }
         .js-microweber-add-iframe {
             z-index: 99999;
@@ -61,7 +65,7 @@ event_bind('mw.front', function () {
     $bar = showMicroweberAdsBar();
 
     if ($bar['show'] && !is_live_edit()) {
-       mw()->template->foot($css . '<iframe class="js-microweber-add-iframe" scrolling="no" frameborder="0" src="'.$bar['iframe_url'].'"></iframe>');
+       mw()->template->foot($css . '<div class="js-microweber-add-iframe-wrapper"><iframe class="js-microweber-add-iframe" scrolling="no" frameborder="0" src="'.$bar['iframe_url'].'"></iframe></div>');
     }
 
 });
