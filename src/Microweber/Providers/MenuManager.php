@@ -153,6 +153,9 @@ class MenuManager
 
         $save = $this->app->database_manager->save($table, $data_to_save);
 
+        $data_to_save['id'] = $save;
+        $this->app->event_manager->trigger('menu.after.save', $data_to_save);
+
         $this->app->cache_manager->delete('menus/global');
 
         return $save;
