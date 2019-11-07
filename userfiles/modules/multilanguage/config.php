@@ -14,7 +14,7 @@ $config['tables'] = array(
         'rel_id' => 'string',
         'rel_type' => 'string',
         'field_name' => 'string',
-        'field_value' => 'string',
+        'field_value' => 'text',
         'locale' => 'string',
     )
 );

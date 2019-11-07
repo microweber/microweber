@@ -23,6 +23,9 @@ class TranslateTable {
                     $saveTranslation['id'] = $findTranslation['id'];
                 }
 
+                $saveTranslation['allow_html'] = 1;
+                $saveTranslation['allow_scripts'] = 1;
+
                 db_save('translations', $saveTranslation);
             }
         }
