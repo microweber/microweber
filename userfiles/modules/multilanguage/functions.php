@@ -40,9 +40,6 @@ function get_current_locale()
 }
 
 event_bind('menu.after.get', function($menus) {
-
-    return $menus;
-
     if (isset($menus[0])) {
         foreach ($menus as &$menu) {
             if (isset($menu['id']) && isset($menu['title'])) {
@@ -57,6 +54,7 @@ event_bind('menu.after.get', function($menus) {
                 }
             }
         }
+
         return $menus;
     }
 });
