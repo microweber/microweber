@@ -29,7 +29,7 @@ function get_flexmail_api_fields()
     $field['name'] = 'mailing_list_id';
     $field['title'] = 'Mailing List Id';
     $field['value'] = '10000';
-    if (isset($settings['mailing_list_id'])) {
+    if (isset($settings['mailing_list_id']) && !empty($settings['mailing_list_id'])) {
         $field['value'] = $settings['mailing_list_id'];
     }
 	$fields[] = $field;
