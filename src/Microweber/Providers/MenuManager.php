@@ -457,7 +457,7 @@ class MenuManager
         foreach ($q as $item) {
 
             $override = $this->app->event_manager->trigger('menu.after.get_item', $item);
-            if (is_array($override)) {
+            if (is_array($override) && isset($override[0])) {
                 $item = $override[0];
             }
 

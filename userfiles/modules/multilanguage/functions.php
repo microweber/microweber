@@ -40,9 +40,11 @@ function get_current_locale()
 }
 
 event_bind('menu.after.get_item', function($item) {
-    $translate = new TranslateMenu();
-    $translated = $translate->getTranslate($item);
-    return $translated;
+    if(!empty($item)) {
+        $translate = new TranslateMenu();
+        $translated = $translate->getTranslate($item);
+        return $translated;
+    }
 });
 
 event_bind('menu.after.save', function($save) {
