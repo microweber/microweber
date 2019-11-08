@@ -1234,6 +1234,8 @@ class ContentManagerHelpers extends ContentManagerCrud
         $find = $this->app->database_manager->get('content_fields', $filter);
         if (isset($find['id'])) {
             $data['id'] = $find['id'];
+
+            $this->app->event_manager->trigger('content_fields.after.save', $data);
         }
 
         $save = $this->app->database_manager->save($data);

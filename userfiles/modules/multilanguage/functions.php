@@ -1,6 +1,7 @@
 <?php
 require_once 'TranslateMenu.php';
 require_once 'TranslateContent.php';
+require_once 'TranslateContentFields.php';
 
 function get_flag_icon($locale) {
     if($locale == 'en'){
@@ -50,6 +51,13 @@ event_bind('menu.after.get_item', function($item) {
 event_bind('menu.after.save', function($save) {
     if (isset($save['id']) && isset($save['title'])) {
         $translate = new TranslateMenu();
+        $translate->saveOrUpdate($save);
+    }
+});
+
+event_bind('content_fields.after.save', function($save) {
+    if (isset($save['rel_type']) && isset($save['rel_id'])) {
+        $translate = new TranslateContentFields();
         $translate->saveOrUpdate($save);
     }
 });
