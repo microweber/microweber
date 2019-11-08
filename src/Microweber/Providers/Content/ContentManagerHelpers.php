@@ -1189,7 +1189,8 @@ class ContentManagerHelpers extends ContentManagerCrud
 
             if (!empty($del)) {
                 foreach ($del as $item) {
-                    $this->app->database_manager->delete_by_id($table, $item['id']);
+                    // TODO
+                    // $this->app->database_manager->delete_by_id($table, $item['id']);
                 }
             }
             $cache_group = guess_cache_group('content_fields/' . $data['rel_type'] . '/' . $data['rel_id']);
@@ -1220,6 +1221,20 @@ class ContentManagerHelpers extends ContentManagerCrud
         $this->app->cache_manager->delete('content_fields/global');
         $data['table'] = $table;
         $data['allow_html'] = 1;
+
+
+        // TODO
+        $filter = array();
+        $filter['field'] = $data['field'];
+        $filter['rel_type'] = $data['rel_type'];
+        //$filter['rel_id'] = $data['rel_id'];
+        $filter['one'] = 1;
+        $filter['no_cache'] = true;
+
+        $find = $this->app->database_manager->get('content_fields', $filter);
+        if (isset($find['id'])) {
+            $data['id'] = $find['id'];
+        }
 
         $save = $this->app->database_manager->save($data);
 
