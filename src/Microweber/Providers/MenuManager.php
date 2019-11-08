@@ -196,14 +196,6 @@ class MenuManager
         $params['item_type'] = 'menu';
         //$params['debug'] = 'menu';
         $menus = $this->app->database_manager->get($params);
-        $override = $this->app->event_manager->trigger('menu.after.get', $menus);
-        if (is_array($override)) {
-            foreach ($override as $resp) {
-                if (is_array($resp) and !empty($resp)) {
-                    $menus = array_merge($menus, $resp);
-                }
-            }
-        }
 
         if (!empty($menus)) {
             return $menus;
@@ -463,6 +455,11 @@ class MenuManager
         $res_count = 0;
 
         foreach ($q as $item) {
+
+            $override = $this->app->event_manager->trigger('menu.after.get_item', $item);
+            if (is_array($override)) {
+                $item = $override[0];
+            }
 
             $title = '';
             $url = '';

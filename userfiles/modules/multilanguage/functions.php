@@ -39,24 +39,10 @@ function get_current_locale()
     return $locale;
 }
 
-event_bind('menu.after.get', function($menus) {
-    if (isset($menus[0])) {
-        foreach ($menus as &$menu) {
-            if (isset($menu['id']) && isset($menu['title'])) {
-
-                $translate = new TranslateMenu();
-                $translated = $translate->getTranslate($menu);
-
-                if (!empty($translated)) {
-                    foreach ($translated as $key => $value) {
-                        $menu[$key] = $value;
-                    }
-                }
-            }
-        }
-
-        return $menus;
-    }
+event_bind('menu.after.get_item', function($item) {
+    $translate = new TranslateMenu();
+    $translated = $translate->getTranslate($item);
+    return $translated;
 });
 
 event_bind('menu.after.save', function($save) {
@@ -96,7 +82,6 @@ event_bind('mw.crud.content.get', function($posts) {
         return $posts;
     }
 });
-
 
 event_bind('content.before.save', function ($save) {
     if (isset($save['id']) && isset($save['title'])) {

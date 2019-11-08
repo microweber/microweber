@@ -57,7 +57,9 @@ class TranslateTable {
 
             $translate = db_get('translations', $filter);
 
-            $data[$column] = $translate['field_value'];
+            if (!empty($translate['field_value'])) {
+                $data[$column] = $translate['field_value'];
+            }
 
         }
 
