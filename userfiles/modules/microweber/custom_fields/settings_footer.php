@@ -5,6 +5,7 @@ if($data['type'] !== 'breakline'):
 <div class="custom-field-settings-show-label">
     <div class="mw-custom-field-form-controls">
         <label class="mw-ui-check">
+            <input type="hidden" value="n" name="custom_field_show_label">
             <input type="checkbox" class="mw-custom-field-option"  name="custom_field_show_label" id="custom_field_show_label<?php print $rand; ?>" value="y" <?php if ($settings['show_label']): ?> checked="checked"  <?php endif; ?> >
             <span></span><span><?php _e('Show Label'); ?></span>
         </label>
