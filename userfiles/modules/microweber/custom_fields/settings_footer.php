@@ -11,7 +11,6 @@ if($data['type'] !== 'breakline'):
     </div>
 </div>
 
-
 <?php 
 $fields = mw()->ui->custom_fields();
 ?>
