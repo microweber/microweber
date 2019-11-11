@@ -272,7 +272,7 @@ class FieldsManager
             return array('error' => 'You must set type');
         } else {
 
-            if (!isset($data_to_save['name'])) {
+            if (!isset($data_to_save['name']) || empty($data_to_save['name'])) {
                 return array('error' => 'You must set name');
             }
 
