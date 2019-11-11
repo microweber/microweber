@@ -254,6 +254,12 @@ class CategoryTreeData
             foreach ($fors as $cat) {
 
                 if (isset($cat['id'])) {
+
+                    $override = $this->app->event_manager->trigger('category.after.get', $cat);
+                    if (is_array($override) && isset($override[0])) {
+                        $cat = $override[0];
+                    }
+
                     $tree = $this->_build_children_array($cat['id'],
                         $remove_ids,
                         $add_ids,
@@ -276,6 +282,7 @@ class CategoryTreeData
                 }
             }
         }
+
         return $tree_data;
     }
 
@@ -393,6 +400,12 @@ class CategoryTreeData
             ++$depth_level_counter;
             $i = 0;
             foreach ($result as $item) {
+
+                $override = $this->app->event_manager->trigger('category.after.get', $item);
+                if (is_array($override) && isset($override[0])) {
+                    $item = $override[0];
+                }
+
                 $id = intval($item['id']);
                 $remove_ids[] = $id;
 

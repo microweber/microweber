@@ -59,8 +59,6 @@ class KnpCategoryTreeRenderer
 
     public function render($params, $tree_data = false)
     {
-
-
         $list_tag = 'ul';
         if (isset($params['list_tag'])) {
             $list_tag = $params['list_tag'];

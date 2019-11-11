@@ -210,6 +210,13 @@ class FieldsManager
         	$data['type'] = $data['options']['field_type'];
         }
 
+        $data['show_label'] = 0;
+        if (isset($data['custom_field_show_label'])) {
+            if ($data['custom_field_show_label'] == 'y') {
+                $data['show_label'] = 1;
+            }
+        }
+
         $data_to_save = ($data);
         $data_to_save = $this->unify_params($data_to_save);
 
@@ -271,12 +278,14 @@ class FieldsManager
         if (!isset($data_to_save['type']) or trim($data_to_save['type']) == '') {
             return array('error' => 'You must set type');
         } else {
-            
-            if (isset($data_to_save['name'])) {
-                $cf_k = $data_to_save['name'];
-                if ($cf_k != false and !isset($data_to_save['name_key'])) {
-                    $data_to_save['name_key'] = $this->app->url_manager->slug(strtolower($cf_k));
-                }
+
+            if (!isset($data_to_save['name']) || empty($data_to_save['name'])) {
+                return array('error' => 'You must set name');
+            }
+
+            $cf_k = $data_to_save['name'];
+            if ($cf_k != false and !isset($data_to_save['name_key'])) {
+                $data_to_save['name_key'] = $this->app->url_manager->slug(strtolower($cf_k));
             }
 
             $data_to_save['allow_html'] = true;
@@ -937,6 +946,7 @@ class FieldsManager
         $field_settings['rows'] = '5';
         $field_settings['make_select'] = false;
         $field_settings['options']['file_types'] = array();
+        $field_settings['show_label'] = true;
 
         if (isset($data['id'])) {
             $field_data['id'] = $data['id'];
@@ -983,6 +993,10 @@ class FieldsManager
 
         if (isset($data['options']['required'])) {
             $field_settings['required'] = true;
+        }
+
+        if (isset($data['show_label'])) {
+            $field_settings['show_label'] = $data['show_label'];
         }
 
         if (isset($data['params']['input_class'])) {

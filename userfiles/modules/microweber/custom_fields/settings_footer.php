@@ -2,12 +2,21 @@
 if($data['type'] !== 'breakline'):
 ?>
 
+<div class="custom-field-settings-show-label">
+    <div class="mw-custom-field-form-controls">
+        <label class="mw-ui-check">
+            <input type="checkbox" class="mw-custom-field-option"  name="custom_field_show_label" id="custom_field_show_label<?php print $rand; ?>" value="y" <?php if ($settings['show_label']): ?> checked="checked"  <?php endif; ?> >
+            <span></span><span><?php _e('Show Label'); ?></span>
+        </label>
+    </div>
+</div>
+
 <?php 
 $fields = mw()->ui->custom_fields();
 ?>
 <div class="mw-custom-field-group">
     <label class="mw-custom-field-label" for="custom_field_width_type<?php print $rand; ?>"><b><?php _e('Field Type'); ?></b></label>
-    <div class="mw-custom-field-form-controls">
+    <div class="mw-custom-field-form">
     	
        <select class="mw-ui-field mw-full-width" name="options[field_type]" onChange="$(this).addClass('mw-needs-reload');">
        
@@ -22,7 +31,7 @@ $fields = mw()->ui->custom_fields();
 
 <div class="mw-custom-field-group">
     <label class="mw-custom-field-label" for="custom_field_width_size<?php print $rand; ?>"><b><?php _e('Organaize in columns'); ?></b></label>
-    <div class="mw-custom-field-form-controls">
+    <div class="mw-custom-field-form">
     	
        <select class="mw-ui-field mw-full-width" name="options[field_size]">
        
@@ -36,7 +45,7 @@ $fields = mw()->ui->custom_fields();
 
 <div class="mw-custom-field-group<?php print $hidden_class ?>">
     <label class="mw-custom-field-label" for="custom_field_required<?php print $rand; ?>"><?php _e('Required'); ?></label>
-    <div class="mw-custom-field-form-controls">
+    <div class="mw-custom-field-form-controls mw-full-width">
         <label class="mw-ui-check">
 
 
@@ -47,7 +56,6 @@ $fields = mw()->ui->custom_fields();
             <?php _e('Is this field Required?'); ?>
     </div>
 </div>
-
 
 <div class="mw-custom-field-group<?php print $hidden_class ?>">
     <label class="mw-custom-field-label"><?php _e('Active'); ?></label>

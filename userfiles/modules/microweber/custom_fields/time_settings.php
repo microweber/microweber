@@ -13,9 +13,7 @@
     </div>
 </div>
 
-
 <div class="custom-field-settings-values">
-
 
     <label class="mw-ui-check">
     <input type="checkbox" class="mw-custom-field-option"

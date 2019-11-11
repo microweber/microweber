@@ -1,5 +1,6 @@
 <?php
 require_once 'TranslateMenu.php';
+require_once 'TranslateCategory.php';
 require_once 'TranslateContent.php';
 require_once 'TranslateContentFields.php';
 
@@ -39,6 +40,23 @@ function get_current_locale()
     }
     return $locale;
 }
+
+// $this->app->event_manager->trigger('category.after.get', $data_to_save);
+
+event_bind('category.after.get', function($item) {
+    if(!empty($item)) {
+        $translate = new TranslateCategory();
+        $translated = $translate->getTranslate($item);
+        return $translated;
+    }
+});
+
+event_bind('category.after.save', function($save) {
+    if (isset($save['rel_type']) && isset($save['rel_id'])) {
+        $translate = new TranslateCategory();
+        $translate->saveOrUpdate($save);
+    }
+});
 
 event_bind('menu.after.get_item', function($item) {
     if(!empty($item)) {

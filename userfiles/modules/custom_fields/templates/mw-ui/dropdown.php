@@ -12,12 +12,16 @@ $(document).ready(function () {
 <?php endif; ?>
 
 <div class="mw-ui-field-holder">
+
+    <?php if($settings['show_label']): ?>
 	<label class="mw-ui-label"> 
 	<?php echo $data['name']; ?>
 	<?php if ($settings['required']): ?>
 	<span style="color: red;">*</span>
 	<?php endif; ?>
-	</label>
+    </label>
+    <?php endif; ?>
+
 	 <?php if ($data['help']): ?>
         <small class="mw-custom-field-help"><?php echo $data['help']; ?></small>
     <?php endif; ?>
