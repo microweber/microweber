@@ -210,8 +210,11 @@ class FieldsManager
         	$data['type'] = $data['options']['field_type'];
         }
 
+        $data['show_label'] = 0;
         if (isset($data['custom_field_show_label'])) {
-            $data['show_label'] = $data['custom_field_show_label'];
+            if ($data['custom_field_show_label'] == 'y') {
+                $data['show_label'] = 1;
+            }
         }
 
         $data_to_save = ($data);
@@ -992,8 +995,8 @@ class FieldsManager
             $field_settings['required'] = true;
         }
 
-        if (isset($data['options']['show_label'])) {
-            $field_settings['show_label'] = true;
+        if (isset($data['show_label'])) {
+            $field_settings['show_label'] = $data['show_label'];
         }
 
         if (isset($data['params']['input_class'])) {
