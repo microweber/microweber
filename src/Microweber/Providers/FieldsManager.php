@@ -271,12 +271,14 @@ class FieldsManager
         if (!isset($data_to_save['type']) or trim($data_to_save['type']) == '') {
             return array('error' => 'You must set type');
         } else {
-            
-            if (isset($data_to_save['name'])) {
-                $cf_k = $data_to_save['name'];
-                if ($cf_k != false and !isset($data_to_save['name_key'])) {
-                    $data_to_save['name_key'] = $this->app->url_manager->slug(strtolower($cf_k));
-                }
+
+            if (!isset($data_to_save['name'])) {
+                return array('error' => 'You must set name');
+            }
+
+            $cf_k = $data_to_save['name'];
+            if ($cf_k != false and !isset($data_to_save['name_key'])) {
+                $data_to_save['name_key'] = $this->app->url_manager->slug(strtolower($cf_k));
             }
 
             $data_to_save['allow_html'] = true;
