@@ -211,7 +211,6 @@ class FieldsManager
         	$data['type'] = $data['options']['field_type'];
         }
 
-        $data['show_label'] = 1;
         if (isset($data['custom_field_show_label'])) {
             if ($data['custom_field_show_label'] == 'y') {
                 $data['show_label'] = 1;
