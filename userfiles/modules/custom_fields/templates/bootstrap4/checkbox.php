@@ -1,6 +1,10 @@
 <div class="col-<?php echo $settings['field_size']; ?>">
     <div class="mw-ui-field-holder custom-fields-type-checkbox">
+
+        <?php if($settings['show_label']): ?>
         <div class="col-form-label"><?php echo $data["name"]; ?></div>
+        <?php endif; ?>
+
         <div class="form-group">
             <?php $i = 0;
             foreach ($data['values'] as $key => $value): ?>

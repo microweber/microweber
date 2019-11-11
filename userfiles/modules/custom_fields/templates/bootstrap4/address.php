@@ -3,23 +3,29 @@
 ?>
 <div class="col-<?php echo $settings['field_size']; ?>">
     <div class="mw-ui-field-holder">
+
+        <?php if($settings['show_label']): ?>
         <label class="col-form-label">
             <?php echo $data['name']; ?>
             <?php if ($settings['required']): ?>
                 <span style="color: red;">*</span>
             <?php endif; ?>
         </label>
+        <?php endif; ?>
 
         <div class="mw-ui-controls">
 
             <?php foreach ($data['values'] as $key => $value): ?>
 
                 <div class="mw-ui-field-holder control-group">
+
+                    <?php if($settings['show_label']): ?>
                     <label class="mw-ui-label mw-ui-label-address-custom-field"><?php _e($value); ?>
                         <?php if ($settings['required']): ?>
                             <span style="color:red;">*</span>
                         <?php endif; ?>
                     </label>
+                    <?php endif; ?>
 
                     <?php if ($key == 'country')  : ?>
                         <?php if ($data['countries']) { ?>
