@@ -145,7 +145,7 @@ class Content
                 'session_id' => 'string',
 
                 'options' => 'longText',
-
+                'show_label' => 'integer',
                 'is_active' => 'integer',
                 'required' => 'integer',
                 'copy_of_field' => 'integer',

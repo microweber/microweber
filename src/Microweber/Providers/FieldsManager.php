@@ -210,6 +210,10 @@ class FieldsManager
         	$data['type'] = $data['options']['field_type'];
         }
 
+        if (isset($data['custom_field_show_label'])) {
+            $data['show_label'] = $data['custom_field_show_label'];
+        }
+
         $data_to_save = ($data);
         $data_to_save = $this->unify_params($data_to_save);
 
@@ -939,6 +943,7 @@ class FieldsManager
         $field_settings['rows'] = '5';
         $field_settings['make_select'] = false;
         $field_settings['options']['file_types'] = array();
+        $field_settings['show_label'] = true;
 
         if (isset($data['id'])) {
             $field_data['id'] = $data['id'];
@@ -985,6 +990,10 @@ class FieldsManager
 
         if (isset($data['options']['required'])) {
             $field_settings['required'] = true;
+        }
+
+        if (isset($data['options']['show_label'])) {
+            $field_settings['show_label'] = true;
         }
 
         if (isset($data['params']['input_class'])) {
