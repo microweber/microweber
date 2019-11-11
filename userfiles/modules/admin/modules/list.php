@@ -488,7 +488,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
   <?php endif; ?>
 
-                        <?php if ($module_item['icon']): ?>
+                        <?php if (isset($module_item['icon']) AND $module_item['icon']): ?>
                             <span class="mw_module_image">
         <span class="mw_module_image_holder">
             <img

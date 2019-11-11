@@ -36,7 +36,7 @@ try {
     preg_match('/_sharedData = ({.*);<\/script>/', $html, $matches);
 
 } catch (Exception $e) {
-    echo 'Caught exception: ', $e->getMessage(), "\n";
+    //echo 'Caught exception: ', $e->getMessage(), "\n";
     return;
 }
 if (!($matches)) {
