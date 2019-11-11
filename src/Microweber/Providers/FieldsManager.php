@@ -142,6 +142,7 @@ class FieldsManager
                         $make_field['position'] = $pos;
                         $make_field['name'] = ucfirst($field_name);
                         $make_field['value'] = '';
+                        $make_field['show_label'] = 1;
                         $make_field['type'] = $field_type;
                         $make_field['options']['field_type'] = $field_type;
 
@@ -210,10 +211,12 @@ class FieldsManager
         	$data['type'] = $data['options']['field_type'];
         }
 
-        $data['show_label'] = 0;
+        $data['show_label'] = 1;
         if (isset($data['custom_field_show_label'])) {
             if ($data['custom_field_show_label'] == 'y') {
                 $data['show_label'] = 1;
+            } else {
+                $data['show_label'] = 0;
             }
         }
 
