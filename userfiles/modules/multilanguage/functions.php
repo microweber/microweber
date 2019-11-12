@@ -1,5 +1,6 @@
 <?php
 require_once 'TranslateMenu.php';
+require_once 'TranslateOption.php';
 require_once 'TranslateCategory.php';
 require_once 'TranslateContent.php';
 require_once 'TranslateContentFields.php';
@@ -42,6 +43,27 @@ function get_current_locale()
 }
 
 // $this->app->event_manager->trigger('category.after.get', $data_to_save);
+
+event_bind('option.after.get', function($item) {
+    if (isset($item['option_key']) && $item['option_key'] == 'language') {
+        return $item;
+    }
+    if(!empty($item)) {
+        $translate = new TranslateOption();
+        $translated = $translate->getTranslate($item);
+        return $translated;
+    }
+});
+
+event_bind('option.after.save', function($save) {
+    if (isset($save['option_key']) && $save['option_key'] == 'language') {
+        return false;
+    }
+    if (isset($save['id']) && isset($save['option_value'])) {
+        $translate = new TranslateOption();
+        $translate->saveOrUpdate($save);
+    }
+});
 
 event_bind('category.after.get', function($item) {
     if(!empty($item)) {
