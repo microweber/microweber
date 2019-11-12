@@ -5,6 +5,11 @@ class TranslateTable {
     protected $columns = array();
     protected $relId = false;
     protected $relType = false;
+    protected $locale = false;
+
+    public function setLocale($locale) {
+        $this->locale = $locale;
+    }
 
     public function saveOrUpdate($data) {
 
@@ -12,7 +17,13 @@ class TranslateTable {
             if (isset($data[$column])) {
 
                 $saveTranslation = array();
-                $saveTranslation['locale'] = $this->getCurrentLocale();
+
+                if ($this->locale) {
+                    $saveTranslation['locale'] = $this->locale;
+                } else {
+                    $saveTranslation['locale'] = $this->getCurrentLocale();
+                }
+
                 $saveTranslation['rel_id'] = $data[$this->relId];
                 $saveTranslation['rel_type'] = $this->relType;
                 $saveTranslation['field_name'] = $column;
@@ -25,6 +36,8 @@ class TranslateTable {
 
                 $saveTranslation['allow_html'] = 1;
                 $saveTranslation['allow_scripts'] = 1;
+
+                var_dump($saveTranslation);
 
                 db_save('translations', $saveTranslation);
             }

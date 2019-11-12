@@ -55,6 +55,29 @@ event_bind('option.after.get', function($item) {
     }
 });
 
+event_bind('option.before.save', function($save) {
+
+    /*if (isset($save['option_key']) && $save['option_key'] == 'language') {
+        return false;
+    }
+
+    $translate = new TranslateOption();
+    $currentLocale = $translate->getCurrentLocale();
+
+    // Save old option to translate table
+    $defaultLocale = 'en';
+    if ($currentLocale !== $defaultLocale) {
+        $option = get_option($save['option_key'], $save['option_group']);
+        $oldOption = $save;
+        $oldOption['option_value'] = $option;
+
+        $translate->setLocale($defaultLocale);
+        $translate->saveOrUpdate($oldOption);
+    }*/
+
+
+});
+
 event_bind('option.after.save', function($save) {
     if (isset($save['option_key']) && $save['option_key'] == 'language') {
         return false;

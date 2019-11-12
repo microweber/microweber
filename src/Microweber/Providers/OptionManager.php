@@ -375,6 +375,8 @@ class OptionManager
                 $data['allow_scripts'] = true;
                 $data['table'] = $this->tables['options'];
 
+                $this->app->event_manager->trigger('option.before.save', $data);
+
                 $save = $this->app->database_manager->save($data);
 
                 $data['id'] = $save;
