@@ -242,9 +242,9 @@ class FieldsManager
                 if (isset($form_data_from_id['type']) and $form_data_from_id['type'] != '' and (!isset($data_to_save['type']) or ($data_to_save['type']) == '')) {
                     $data_to_save['type'] = $form_data_from_id['type'];
                 }
-               /* if (isset($form_data_from_id['name']) and $form_data_from_id['name'] != '' and (!isset($data_to_save['name']) or ($data_to_save['name']) == '')) {
+                if (isset($form_data_from_id['name']) and $form_data_from_id['name'] != '' and (!isset($data_to_save['name']) or ($data_to_save['name']) == '')) {
                     $data_to_save['name'] = $form_data_from_id['name'];
-                }*/
+                }
             }
 
             if (isset($data_to_save['copy_rel_id'])) {
@@ -281,13 +281,15 @@ class FieldsManager
             return array('error' => 'You must set type');
         } else {
 
-            if (!isset($data_to_save['name']) || empty($data_to_save['name'])) {
+            if (isset($data_to_save['name']) && empty($data_to_save['name'])) {
                 return array('error' => 'You must set name');
             }
 
-            $cf_k = $data_to_save['name'];
-            if ($cf_k != false and !isset($data_to_save['name_key'])) {
-                $data_to_save['name_key'] = $this->app->url_manager->slug(strtolower($cf_k));
+            if (isset($data_to_save['name'])) {
+                $cf_k = $data_to_save['name'];
+                if ($cf_k != false and !isset($data_to_save['name_key'])) {
+                    $data_to_save['name_key'] = $this->app->url_manager->slug(strtolower($cf_k));
+                }
             }
 
             $data_to_save['allow_html'] = true;
@@ -304,6 +306,14 @@ class FieldsManager
             }
 
             $save = $this->app->database_manager->save($data_to_save_parent);
+
+            if (!isset($data_to_save['value'])) {
+                if ($data_to_save['type'] == 'radio' || $data_to_save['type'] == 'checkbox' || $data_to_save['type'] == 'dropdown') {
+                    $data_to_save['value'][] = 'option 1';
+                    $data_to_save['value'][] = 'option 2';
+                    $data_to_save['value'][] = 'option 3';
+                }
+            }
 
             if (isset($data_to_save['value'])) {
                 $custom_field_id = $save;
