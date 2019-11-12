@@ -31,14 +31,6 @@ if (!isset($data['rows'])) {
 </div>
 
 
-<div class="mw-custom-field-group">
-    <label class="mw-ui-label" for="value<?php print $rand; ?>"><?php _e("Placeholder"); ?></label>
-    <div id="mw-custom-fields-text-holder">
-        <input type="text" class="mw-ui-field mw-full-width" name="placeholder" value="<?php echo $data['placeholder']; ?>" />
-    </div>
-</div>
-
-
    <div class="custom-field-settings-values">
    
     <div class="mw-custom-field-group">
@@ -58,4 +50,12 @@ if (!isset($data['rows'])) {
     <?php print $savebtn; ?>
     </div>
 
-    <?php include('settings_footer.php'); ?>
+
+<div class="mw-custom-field-group">
+    <label class="mw-ui-label" for="value<?php print $rand; ?>"><?php _e("Placeholder"); ?></label>
+    <div id="mw-custom-fields-text-holder">
+        <input type="text" class="mw-ui-field mw-full-width" name="placeholder" value="<?php echo $data['placeholder']; ?>" />
+    </div>
+</div>
+
+<?php include('settings_footer.php'); ?>
