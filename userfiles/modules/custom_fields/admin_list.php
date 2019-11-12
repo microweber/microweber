@@ -1,5 +1,4 @@
 <script>
-
 if(typeof __smart_field_opener !== 'function'){
       __smart_field_opener = function(e){
 		if(e === undefined){
@@ -11,10 +10,7 @@ if(typeof __smart_field_opener !== 'function'){
 
       }
 }
-
-
 </script>
-
 
 <?php
 
@@ -116,7 +112,6 @@ if(is_array( $diff) and is_array($more) ){
     <span onclick="mw.admin.custom_fields.del(<?php print $field['id'] ?>, this.parentNode);" class="mw-icon-close"></span>
 
     <?php print ($field['title']); ?>
-
 
 
   </a>

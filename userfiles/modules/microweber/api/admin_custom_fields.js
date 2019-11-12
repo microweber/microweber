@@ -6,7 +6,7 @@ mw.admin.custom_fields.initValues = function () {
     if ( master === null ) {
         return false;
     }
-    var all = master.querySelectorAll('.mw-admin-custom-field-name-edit-inline, .mw-admin-custom-field-value-edit-inline'),
+    var all = master.querySelectorAll('.mw-admin-custom-field-name-edit-inline, .mw-admin-custom-field-placeholder-edit-inline, .mw-admin-custom-field-value-edit-inline'),
         l = all.length,
         i = 0;
     for (; i < l; i++) {
@@ -91,6 +91,16 @@ mw.admin.custom_fields.valueLiveEdit = function (span) {
                 value: vals
             };
         }
+
+        else if (mw.tools.hasClass(el, 'mw-admin-custom-field-placeholder-edit-inline')) {
+
+            data = {
+                id: mw.$(el).dataset('id'),
+                placeholder: mw.$(el).text()
+            };
+
+        }
+
         else {
             data = {
                 id: mw.$(el).dataset('id'),
@@ -167,7 +177,7 @@ mw.admin.custom_fields.make_fields_sortable = function () {
             distance: 35,
             update: function (event, ui) {
                 var obj = {ids: []};
-                mw.$(this).find(".mw-admin-custom-field-name-edit-inline").each(function () {
+                mw.$(this).find(".mw-admin-custom-field-name-edit-inline, .mw-admin-custom-field-placeholder-edit-inline").each(function () {
                     var id = mw.$(this).dataset("id");
                     obj.ids.push(id);
                 });
