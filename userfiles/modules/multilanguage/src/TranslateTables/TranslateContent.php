@@ -1,5 +1,4 @@
 <?php
-require_once 'TranslateTable.php';
 
 class TranslateContent extends TranslateTable {
 

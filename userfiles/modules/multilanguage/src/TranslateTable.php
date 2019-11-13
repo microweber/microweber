@@ -7,6 +7,18 @@ class TranslateTable {
     protected $relType = false;
     protected $locale = false;
 
+    public function getRelType() {
+        return $this->relType;
+    }
+
+    public function getRelId() {
+        return $this->relId;
+    }
+
+    public function getColumns() {
+        return $this->columns;
+    }
+
     public function setLocale($locale) {
         $this->locale = $locale;
     }
