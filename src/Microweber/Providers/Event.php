@@ -65,17 +65,46 @@ class Event
         return self::$adapter->fire($event_name, $args);
     }
 
+    public function response($event_name, $criteria)
+    {
+        $override = $this->trigger($event_name, $criteria);
+
+        if (is_array($override) and !empty($override)) {
+            $original_criteria = $criteria;
+            foreach ($override as $resp) {
+                if (is_array($resp) and !empty($resp)) {
+                    $keys_diff = array_diff_key($original_criteria, $resp);
+                    if ($keys_diff) {
+                        foreach ($keys_diff as $keys_diff_orig_key => $keys_diff_orig_value) {
+                            if (!isset($resp[$keys_diff_orig_key])) {
+                                unset($criteria[$keys_diff_orig_key]);
+                            }
+                        }
+                    }
+
+                    foreach ($resp as $resp_key => $resp_value) {
+                        if (isset($original_criteria[$resp_key]) and ($original_criteria[$resp_key] != $resp_value)) {
+                            $criteria[$resp_key] = $resp_value;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $criteria;
+    }
+
     public function registerShutdownEvent()
     {
         $callback = func_get_args();
 
         if (empty($callback)) {
-            trigger_error('No callback passed to '.__FUNCTION__.' method', E_USER_ERROR);
+            trigger_error('No callback passed to ' . __FUNCTION__ . ' method', E_USER_ERROR);
 
             return false;
         }
         if (!is_callable($callback[0])) {
-            trigger_error('Invalid callback passed to the '.$callback[0].__FUNCTION__.' method', E_USER_ERROR);
+            trigger_error('Invalid callback passed to the ' . $callback[0] . __FUNCTION__ . ' method', E_USER_ERROR);
 
             return false;
         }

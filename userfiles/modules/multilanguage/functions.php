@@ -28,10 +28,22 @@ api_expose('change_language', function(){
 });
 
 
-event_bind('mw.database.options.get', function($save) {
+event_bind('mw.database.options.get', function($get) {
 
-    dd($save);
+    if (is_array($get) && !empty($get)) {
+        foreach ($get as &$item) {
 
+            if (isset($item['option_key']) && $item['option_key'] == 'language') {
+                continue;
+            }
+
+            $translate = new TranslateOption();
+            $item = $translate->getTranslate($item);
+
+        }
+    }
+
+    return $get;
 });
 
 event_bind('mw.database.options.save.params', function($save) {

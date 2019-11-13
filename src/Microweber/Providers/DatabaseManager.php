@@ -138,7 +138,7 @@ class DatabaseManager extends DbUtils
             $do_not_replace_site_url = $params['do_not_replace_site_url'];
         }
 
-$limit =  $this->default_limit;
+        $limit =  $this->default_limit;
         if (!isset($params['limit'])) {
             $limit = $params['limit'] = $this->default_limit;
         } else {
@@ -232,9 +232,6 @@ $limit =  $this->default_limit;
             }
         }
 
-
-
-
         if (isset($orig_params['count']) and ($orig_params['count'])) {
             if ($use_cache == false) {
                 $query = $query->count();
@@ -318,9 +315,10 @@ $limit =  $this->default_limit;
 
 
         if (!is_array($data)) {
-
             return $data;
         }
+
+        $data = $this->app->event_manager->response('mw.database.' . $table . '.get', $data);
 
         if (isset($orig_params['single']) || isset($orig_params['one'])) {
             if (!isset($data[0])) {
@@ -501,28 +499,7 @@ $limit =  $this->default_limit;
         }
         $criteria['id'] = intval($criteria['id']);
 
-        $override = $this->app->event_manager->trigger('mw.database.' . $table . '.save.params', $criteria);
-        if (is_array($override) and !empty($override)) {
-            $original_criteria = $criteria;
-            foreach ($override as $resp) {
-                if (is_array($resp) and !empty($resp)) {
-                    $keys_diff = array_diff_key($original_criteria, $resp);
-                    if ($keys_diff) {
-                        foreach ($keys_diff as $keys_diff_orig_key => $keys_diff_orig_value) {
-                            if (!isset($resp[$keys_diff_orig_key])) {
-                                unset($criteria[$keys_diff_orig_key]);
-                            }
-                        }
-                    }
-
-                    foreach ($resp as $resp_key => $resp_value) {
-                        if (isset($original_criteria[$resp_key]) and ($original_criteria[$resp_key] != $resp_value)) {
-                            $criteria[$resp_key] = $resp_value;
-                        }
-                    }
-                }
-            }
-        }
+        $criteria = $this->app->event_manager->response('mw.database.' . $table . '.save.params', $criteria);
 
         if (intval($criteria['id']) == 0) {
             unset($criteria['id']);
