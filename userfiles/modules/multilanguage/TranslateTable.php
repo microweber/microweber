@@ -81,11 +81,6 @@ class TranslateTable {
 
     public function getCurrentLocale()
     {
-        $locale = get_option('language', 'website');
-        if (empty($locale)) {
-            $locale = 'en';
-        }
-
-        return $locale;
+        return mw()->lang_helper->current_lang();
     }
 }

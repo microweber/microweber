@@ -4,11 +4,7 @@ $langs['bg'] = 'Bulgarian';
 $langs['en'] = 'English';
 $langs['ar'] = 'Arabian';
 
-$def_language = get_option('language', 'website');
-
-if ($def_language == false) {
-    $def_language = 'en';
-}
+$def_language = mw()->lang_helper->current_lang();
 ?>
 <script type="text/javascript">
     $(document).ready(function () {
