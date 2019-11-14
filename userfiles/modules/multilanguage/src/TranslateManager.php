@@ -50,18 +50,12 @@ class TranslateManager
                         }
 
                         if (!empty($providerInstance->getColumns())) {
-                            $dataForTranslate = array();
+                            $dataForTranslate = $saveData;
                             foreach ($providerInstance->getColumns() as $column) {
 
                                 if (!isset($saveData['id'])) {
                                     continue;
                                 }
-
-                                if (!isset($saveData[$column])) {
-                                    continue;
-                                }
-
-                                $dataForTranslate = $saveData;
 
                                 if (isset($saveData[$column])) {
                                     unset($saveData[$column]);
