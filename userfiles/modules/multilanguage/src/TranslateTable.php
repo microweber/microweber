@@ -49,8 +49,6 @@ class TranslateTable {
                 $saveTranslation['allow_html'] = 1;
                 $saveTranslation['allow_scripts'] = 1;
 
-                var_dump($saveTranslation);
-
                 db_save('translations', $saveTranslation);
             }
         }
