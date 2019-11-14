@@ -741,9 +741,9 @@ class CategoryManager
 
         // $this->app->cache_manager->clear('categories');
 
-        $data['id'] = $save;
+       /* $data['id'] = $save;
         $this->app->event_manager->trigger('category.after.save', $data);
-
+        */
         return $save;
     }
 
@@ -795,11 +795,11 @@ class CategoryManager
         $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
 
         if (($cache_content) != false and isset($cache_content[$id])) {
-
+/*
             $override = $this->app->event_manager->trigger('category.after.get', $cache_content[$id]);
             if (is_array($override) && isset($override[0])) {
                 $cache_content[$id] = $override[0];
-            }
+            }*/
 
             return $cache_content[$id];
         } else {
@@ -820,10 +820,10 @@ class CategoryManager
                 $q['category_subtype_settings'] = @json_decode($q['category_subtype_settings'], true);
             }
 
-            $override = $this->app->event_manager->trigger('category.after.get', $q);
+          /*  $override = $this->app->event_manager->trigger('category.after.get', $q);
             if (is_array($override) && isset($override[0])) {
                 $q = $override[0];
-            }
+            }*/
 
             $cache_content[$id] = $q;
             $this->app->cache_manager->save($cache_content, $function_cache_id, $cache_group);
