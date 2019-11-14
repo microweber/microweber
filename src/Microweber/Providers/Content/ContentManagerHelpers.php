@@ -1166,7 +1166,7 @@ class ContentManagerHelpers extends ContentManagerCrud
         if (!isset($data['rel_type']) or !isset($data['rel_id'])) {
             mw_error('Error: ' . __FUNCTION__ . ' rel and rel_id is required');
         }
-
+/*  
         if (isset($data['field']) and !isset($data['is_draft'])) {
             $fld = $this->app->database_manager->escape_string($data['field']);
             $fld_rel = $this->app->database_manager->escape_string($data['rel_type']);
@@ -1190,12 +1190,12 @@ class ContentManagerHelpers extends ContentManagerCrud
             if (!empty($del)) {
                 foreach ($del as $item) {
                     // TODO
-                    // $this->app->database_manager->delete_by_id($table, $item['id']);
+                    $this->app->database_manager->delete_by_id($table, $item['id']);
                 }
             }
             $cache_group = guess_cache_group('content_fields/' . $data['rel_type'] . '/' . $data['rel_id']);
             $this->app->cache_manager->delete($cache_group);
-        }
+        }*/
 
 
         if (isset($fld)) {
@@ -1223,19 +1223,17 @@ class ContentManagerHelpers extends ContentManagerCrud
         $data['allow_html'] = 1;
 
 
-        // TODO
+        // Find existing
         $filter = array();
         $filter['field'] = $data['field'];
         $filter['rel_type'] = $data['rel_type'];
-        //$filter['rel_id'] = $data['rel_id'];
+        $filter['rel_id'] = $data['rel_id'];
         $filter['one'] = 1;
         $filter['no_cache'] = true;
 
         $find = $this->app->database_manager->get('content_fields', $filter);
-        if (isset($find['id'])) {
+        if ($find and isset($find['id'])) {
             $data['id'] = $find['id'];
-
-            $this->app->event_manager->trigger('content_fields.after.save', $data);
         }
 
         $save = $this->app->database_manager->save($data);
