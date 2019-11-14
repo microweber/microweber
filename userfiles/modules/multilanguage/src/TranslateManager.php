@@ -19,8 +19,39 @@ class TranslateManager
         'TranslateTestimonials'
     ];
 
+
     public function run()
     {
+
+
+        //if ($currentLocale != $defaultLocale) {
+        event_bind('content.get_by_url.not_found', function ($params)  {
+
+            if (isset($params['url'])) {
+
+                $filter = array();
+                $filter['single'] = 1;
+                $filter['rel_type'] = 'content';
+                $filter['field_name'] = 'url';
+                $filter['field_value'] = $params['url'];
+
+                $findTranslate = db_get('translations', $filter);
+
+                if ($findTranslate) {
+                    $new_params = array();
+                    $new_params['id'] = $findTranslate['rel_id'];
+                    $new_params['single'] = 1;
+
+                    mw()->lang_helper->set_current_lang($findTranslate['locale']);
+
+                    return $new_params;
+
+                }
+
+
+            }
+        });
+
         $currentLocale = mw()->lang_helper->current_lang();
         $defaultLocale = mw()->lang_helper->default_lang();
 
@@ -31,7 +62,7 @@ class TranslateManager
                 $providerTable = $providerInstance->getRelType();
 
                 // BIND GET TABLES
-                event_bind('mw.database.'.$providerTable.'.get', function($get) use ($currentLocale, $defaultLocale, $providerInstance) {
+                event_bind('mw.database.' . $providerTable . '.get', function ($get) use ($currentLocale, $defaultLocale, $providerInstance) {
                     if (is_array($get) && !empty($get)) {
                         foreach ($get as &$item) {
                             if (isset($item['option_key']) && $item['option_key'] == 'language') {

@@ -7,6 +7,7 @@ class TranslateContent extends TranslateTable {
 
     protected $columns = [
         'title',
+        'url',
         'description',
         'content_meta_title',
         'content_meta_keywords'
