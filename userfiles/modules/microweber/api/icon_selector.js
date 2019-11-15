@@ -1,4 +1,327 @@
 
+mw._icons = mw._icons || [];
+
+(function () {
+    var icons = {
+        addFontIcons: function (options) {
+            if(!options) return;
+            if(!options.icons) return;
+            if(!options.name) return;
+            if(!options.render) return;
+            if(options.url) {
+                mw.moduleCSS(url);
+            }
+            options.exists = options.exists || function() {
+                return  mw.top()._icons.indexOf(options.icons[0]) !== -1;
+            };
+            if(options.exists()) return;
+            var toAdd = {
+                render: options.render,
+                icons: options.icons,
+                name: options.name
+            };
+            mw.top()._icons = mw.top()._icons.concat(toAdd);
+            mw._iconsCache = false;
+        },
+        searchGUI: function (list) {
+            var scope = this;
+            var nav = document.createElement('div');
+            nav.className = 'mw-ui-btn-nav';
+            nav.innerHTML = ''
+                /*+ '<div class="mw-dropdown mw-dropdown-default">'
+                    + '<span class="mw-dropdown-value mw-ui-btn mw-dropdown-val">All</span>'
+                    + '<div class="mw-dropdown-content">'
+                        + '<ul></ul>'
+                    + '</div>'
+                + '</div>'*/;
+            var ul = $('ul', list);
+            $.each(mw._icons, function(){
+               var li = document.createElement('li');
+               li.value = this.name;
+               li.innerHTML = this.name;
+                ul.append(li);
+            });
+            var input =  document.createElement('input');
+            input.type = 'mw-text';
+            input.className = 'mw-ui-field';
+            input.placeholder = 'Filter icons...';
+
+            nav.append(input);
+            input.oninput = function(){
+                scope.search(list, this.value);
+            };
+            return nav;
+        },
+        search: function (list, term) {
+            term = (term || '').trim().toLowerCase();
+            var all = list.querySelectorAll('.mw-icon-list-icon'), i = 0;
+            if(!term) {
+                for (  ; i<all.length; i++) {
+                    mw.tools.removeClass(all[i], 'mw-icon-list-icon-hidden');
+                }
+                return;
+            }
+            for (  ; i<all.length; i++) {
+                var has = all[i]._searchvalue.indexOf(term) !== -1;
+                mw.tools[has ? 'removeClass' : 'addClass'](all[i], 'mw-icon-list-icon-hidden');
+            }
+        },
+        list: function () {
+            var list = document.createElement('div');
+            list.className = 'mw-icon-list';
+            list.appendChild(this.searchGUI(list));
+            var fragment = document.createDocumentFragment();
+            var i, ic, ticons = mw.top()._icons;
+            for( i = 0; i < ticons.length; i++){
+                var set = ticons[i];
+                var title = document.createElement('h5');
+                var section = document.createElement('div');
+                section.className = 'mw-icon-list-section';
+                title.innerHTML = set.name;
+                fragment.appendChild(title);
+                for( ic = 0; ic < set.icons.length; ic++){
+                    var icon = document.createElement('span');
+                    var iconc = document.createElement('span');
+                    icon.className = 'mw-icon-list-icon mw-icon-list-' + set.name;
+                    icon._searchvalue = set.icons[ic].toLowerCase();
+                    icon._value = [set.icons[ic], set.render, icon];
+                    icon.appendChild(iconc)
+                    icon.onclick = function (ev) {
+                        $(list).trigger('_$select', this._value);
+                    };
+                    set.render(set.icons[ic], iconc);
+                    section.appendChild(icon);
+                }
+                fragment.appendChild(section);
+            }
+            list.appendChild(fragment);
+            return list;
+        },
+
+
+        listOptions: function ( options ) {
+            var def = {
+                color: true,
+                size: true
+            };
+
+            var holder = function () {
+                var holder = document.createElement('div');
+                holder.className = 'mw-icon-list-settings-section-block-item';
+                return holder;
+            };
+
+            options = typeof options === 'undefined' ? def : options;
+            if(!options) {
+                return;
+            }
+            var final = {
+              $e: $({})
+            };
+            if(options === true) {
+                options = def;
+            }
+            if(mw.tools.isEmptyObject(options)){ return; }
+            var accordion = document.createElement('div');
+            accordion.className = 'mw-tab-accordion';
+
+            var content = '' +
+                    '<div class="mw-accordion-item">' +
+                        '<div class="mw-ui-box-header mw-accordion-title">Icons</div>' +
+                        '<div class="mw-accordion-content mw-ui-box mw-ui-box-content mw-icon-list-settings-icons"></div>'+
+                    '</div>' +
+                    '<div class="mw-accordion-item">' +
+                        ' <div class="mw-ui-box-header mw-accordion-title">' +
+                        ' Settings' +
+                        ' </div>' +
+                        ' <div class="mw-accordion-content mw-ui-box mw-ui-box-content mw-icon-list-settings-section"></div>' +
+                    '</div>';
+
+            accordion.innerHTML = content;
+            var root = mw.$('.mw-icon-list-settings-section', accordion);
+            if(options.size) {
+                var size = document.createElement('div');
+                size.className = 'mw-field';
+                size.dataset.before = 'Icon size';
+                var cpinput = document.createElement('input');
+                cpinput.type = 'number';
+                cpinput.min = '8';
+                cpinput.placeholder = 'e.g.: 16';
+                size.appendChild(cpinput);
+                cpinput.oninput = function (ev) {
+                    final.$e.trigger('sizeChange', [parseFloat(this.value), this.value]);
+                };
+                var hsize = holder();
+                hsize.appendChild(size);
+                root.append(hsize);
+            }
+            if(options.color) {
+                var cp = document.createElement('div');
+                cp.className = 'mw-icon-list-settings-section-color-picker';
+                final.colorPicker = mw.colorPicker({
+                    element:cp,
+                    position:'bottom-center',
+                    method:'inline',
+                    onchange:function(color){
+                        final.$e.trigger('colorChange', [color]);
+                    }
+                });
+
+                var hcolor = holder();
+                hcolor.appendChild(cp);
+                root.append(hcolor);
+            }
+
+            final.element = accordion;
+            return final;
+
+        },
+
+        dialog: function (iconsSettings) {
+            var list = this.list();
+            var content = list;
+            if(iconsSettings) {
+                var listOptions = this.listOptions(iconsSettings);
+                mw.$('.mw-icon-list-settings-icons', listOptions.element).append(list);
+                content = listOptions.element;
+            }
+            var dialog = mw.top().dialog({
+                content: content,
+                height: 'auto',
+                autoHeight: true
+            });
+            $(list).on('_$select', function (e, icon, render) {
+                dialog.result({
+                    icon: icon,
+                    render: render
+                });
+            });
+            if(iconsSettings) {
+                listOptions.$e.on('sizeChange', function (val, originalValue) {
+                    dialog.result({
+                        fontSize: val,
+                        fontSizeOriginal: originalValue
+                    });
+                });
+                listOptions.$e.on('colorChange', function (color) {
+                    dialog.result({
+                        color: color
+                    });
+                });
+            }
+
+            mw.dropdown(list);
+            return dialog;
+        },
+
+        tooltip: function(config, iconsSettings) {
+            if(!config || !config.element) return;
+            var list = this.list();
+            var content = list, listOptions;
+            if(iconsSettings) {
+                listOptions = this.listOptions(iconsSettings);
+                mw.$('.mw-icon-list-settings-icons', listOptions.element).append(list);
+                content = listOptions.element;
+            }
+            var settings = $.extend({}, config, {content: content});
+            var tooltip = mw.tooltip(settings);
+
+            var res = {
+                $e: $({}),
+                tooltip: tooltip,
+                list: list,
+                content: content,
+                iconSettings: listOptions
+            };
+            $(list).on('_$select', function (e, icon, render) {
+                var result = {
+                    icon: icon,
+                    render: render
+                };
+                res.$e.trigger('Result', [result]);
+            });
+            if(iconsSettings) {
+                listOptions.$e.on('sizeChange', function (e, val, originalValue) {
+                    res.$e.trigger('sizeChange', [val, originalValue]);
+                });
+                listOptions.$e.on('colorChange', function (e, color) {
+                    res.$e.trigger('colorChange', [color]);
+                });
+            }
+
+            setTimeout(function () {
+                mw.components._init();
+            }, 78);
+
+            return res;
+        },
+        mindIconsInit: function(){
+            var mindIcons = [];
+            var faicons = mwd.querySelector('link[href*="/mw-icons-mind/"]');
+            if (faicons != null && faicons.sheet) {
+                try {
+                    var icons = faicons.sheet.cssRules;
+                    var l = icons.length, i = 0;
+                    for (; i < l; i++) {
+                        var sel = icons[i].selectorText;
+                        if (!!sel && sel.indexOf('.mw-micon-') === 0) {
+                            var cls = sel.replace(".", '').split(':')[0];
+                            mindIcons.push('mw-micon- ' + cls);
+                        }
+                    }
+                } catch (e) {
+                }
+            }
+            if(mindIcons.length) {
+                this.addFontIcons({
+                    icons: mindIcons,
+                    name: 'Icons Mind',
+                    render: function(icon, target) {
+                        mw.$(target)['attr']('class', 'mw-icon ' + icon);
+                    }
+                });
+            }
+        },
+        _defaultsPrepare: function(c) {
+            if(!mw.materialIcons){
+                $.getScript(mw.settings.modules_url + 'microweber/api/microweber.icons.js', function(data){
+                    $.getScript(mw.settings.modules_url + 'microweber/api/material.icons.js', function(data){
+                        c.call();
+                    });
+                });
+            } else {
+                c.call();
+            }
+        },
+        _defaults: function() {
+            var scope = this;
+            this._defaultsPrepare(function () {
+                icons.mindIconsInit();
+                icons.addFontIcons({
+                    icons: mw.materialIcons,
+                    name: 'Material Icons',
+                    render: function(icon, target) {
+                        mw.$(target)['attr']('class', 'mw-icon material-icons').html(icon);
+
+                    }
+                });
+                icons.addFontIcons({
+                    icons: mw.microweberIcons,
+                    name: 'Microweber Icons',
+                    render: function(icon, target) {
+                        mw.$(target)['attr']('class', 'mw-icon ' + icon).html('');
+                    }
+                });
+
+            });
+
+        }
+    };
+   $(window).on('load', function () {
+       icons._defaults();
+   })
+    mw.icons = icons;
+})();
 
 
 mw.iconSelector = mw.iconSelector || {
@@ -368,6 +691,28 @@ mw.iconSelector = mw.iconSelector || {
       mw.$(mw.iconSelector.searchelement).appendTo('.tooltip-icon-picker')
     },
     iconDropdown:function(selector, options){
+        var $el = mw.$(selector);
+        var el = $el[0];
+        if(!el) return;
+        options = options || {};
+        options.mode = options.mode || 'absolute';
+        var btn = mwd.createElement('span');
+        btn.className = 'mw-ui-btn';
+        btn.innerHTML = 'Choose icon';
+        btn.onclick = function(){
+            var dialog = mw.top().icons.dialog(false);
+            mw.top().$(dialog).on('Result', function(e, res){
+                if(options.onchange) {
+                    var elVal = document.createElement('span');
+                    res.render(res.icon, elVal);
+                    options.onchange.call(undefined, elVal.outerHTML, el)
+                }
+                dialog.remove();
+            });
+        };
+        $el.empty().append(btn);
+    },
+    _iconDropdown:function(selector, options){
         var el = mw.$(selector)[0];
         if(!el) return;
         options = options || {}

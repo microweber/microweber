@@ -203,16 +203,6 @@ if (!isset($data["thumbnail"])) {
 </div>
 
 
-<?php
-/*
-<div class="admin-thumbs-holder left  ">
-    <div class="relative post-thumb-uploader" id="backend_image_uploader">
-        <small id="backend_image_uploader_label"><?php _e("Upload"); ?></small>
-    </div>
-</div>
-*/
-
-?>
 
 <script>
     window.imageOptions = {};
@@ -426,7 +416,9 @@ if (!isset($data["thumbnail"])) {
             $(uploader).on("done", function (e, a) {
                 after_upld(undefined, 'done');
             });
+
             $(uploader).on("FileUploaded done", function (e, a) {
+                console.log(a)
                 if (a && a.ask_user_to_enable_auto_resizing) {
                     mw.module_pictures.open_image_upload_settings_modal();
                 }
@@ -439,6 +431,19 @@ if (!isset($data["thumbnail"])) {
 
 
             });
+
+
+            //$(uploader).remove();
+            /*mw.$("#backend_image_uploader").on('click', function () {
+                mw.fileWindow({
+                    types: 'images',
+                    change: function (url, b) {
+                        url = url.toString();
+                        console.log(url, b)
+                    }
+                });
+            });*/
+
             $(".image-tag-view").remove();
             $(".image-tags").each(function () {
                 $(".mw-post-media-img", mw.tools.firstParentWithClass(this, 'admin-thumb-item'))

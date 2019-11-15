@@ -412,7 +412,6 @@ mw.liveNodeSettings = {
         mw.$("#js-live-edit-image-settings-holder").append('<iframe src="' + url + '" frameborder="0" id="mw-live-edit-sidebar-image-frame"></iframe>');
     },
     icon: function () {
-        mw.iconSelector.settingsUI(true);
         mw.$('.mw-live-edit-component-options')
             .hide()
             .filter('#js-live-edit-icon-settings-holder')

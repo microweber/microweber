@@ -480,11 +480,11 @@
             if (typeof height !== 'undefined') {
                 this.height(height);
             }
-            this.center(width, height)
+            this.center(width, height);
         };
         this.content = function (content) {
             this.options.content = content || '';
-            this.dialogContainer.innerHTML = this.options.content;
+            $(this.dialogContainer).empty().append(this.options.content);
             return this;
         };
 

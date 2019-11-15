@@ -98,20 +98,20 @@ if (is_file($template_file)) {
     <script>
         $(document).ready(function () {
             $('.bxSlider', '#<?php print $params['id'] ?>').bxSlider({
-                pager: <?php print $pager; ?>,
-                controls: <?php print $controls; ?>,
-                infiniteLoop: <?php print $loop; ?>,
-                adaptiveHeight: <?php print $adaptiveHeight; ?>,
-                speed: '<?php print $speed; ?>',
-                auto: '<?php print $autoplay; ?>',
+                pager: <?php print $pager ? $pager : 'undefined'; ?>,
+                controls: <?php print $controls ? $controls : 'undefined'; ?>,
+                infiniteLoop: <?php print $loop ? $loop : 'undefined'; ?>,
+                adaptiveHeight: <?php print $adaptiveHeight ? $adaptiveHeight : 'undefined'; ?>,
+                speed: '<?php print $speed ? $speed : 'undefined'; ?>',
+                auto: '<?php print $autoplay ? $autoplay : 'undefined'; ?>',
 
-                hideControlOnEnd:  <?php print $hideControlOnEnd; ?>,
-                mode: '<?php print $mode; ?>',
-                prevText: '<?php print $prevText; ?>',
-                nextText: '<?php print $nextText; ?>',
-                prevSelector: '<?php print $prevSelector; ?>',
-                nextSelector: '<?php print $nextSelector; ?>',
-                touchEnabled: <?php print $touchEnabled; ?>,
+                hideControlOnEnd:  <?php print $hideControlOnEnd ? $hideControlOnEnd : 'undefined'; ?>,
+                mode: '<?php print $mode ? $mode : 'undefined'; ?>',
+                prevText: '<?php print $prevText ? $prevText : 'undefined'; ?>',
+                nextText: '<?php print $nextText ? $nextText : 'undefined'; ?>',
+                prevSelector: '<?php print $prevSelector ? $prevSelector : 'undefined'; ?>',
+                nextSelector: '<?php print $nextSelector ? $nextSelector : 'undefined'; ?>',
+                touchEnabled: <?php print $touchEnabled ? $touchEnabled : 'undefined'; ?>,
                 captions: true,
                 onSliderLoad: function () {
                     mw.trigger("mw.bxslider.onSliderLoad");

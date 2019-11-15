@@ -197,10 +197,10 @@ mw.components = {
                 });
             }
         });
-        el.trigger("postSearchReady")
+        el.trigger("postSearchReady");
     },
     _options: function (el) {
-        return mw.tools.elementOptions(el)
+        return mw.tools.elementOptions(el);
     },
     _init: function () {
         mw.$('[data-mwcomponent]').each(function () {
@@ -212,7 +212,7 @@ mw.components = {
         });
         $.each(this, function(key){
             if(key.indexOf('_') === -1){
-                mw.$('.mw-'+key+', '+key).not(".mw-component-ready").each(function () {
+                mw.$('.mw-'+key+', mw-'+key).not(".mw-component-ready").each(function () {
                     mw.$(this).addClass('mw-component-ready');
                     mw.components[key](this);
                 });
@@ -229,9 +229,15 @@ $(window).on('load', function () {
     mw.components._init();
 });
 
-mw.on('ComponentsLaunch', function () {
-    mw.components._init();
-});
+    mw.on('ComponentsLaunch', function () {
+        mw.components._init();
+    });
+
+    mw.on('mwDialogShow', function () {
+        setTimeout(function () {
+            mw.components._init();
+        }, 110);
+    });
 
 $(window).on('ajaxStop', function () {
     setTimeout(function () {

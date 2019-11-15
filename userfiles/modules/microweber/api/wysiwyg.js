@@ -2519,22 +2519,36 @@ mw.wysiwyg.dropdowns = function () {
                     var div = mw.wysiwyg.applier('div');
                     div.innerHTML = new_insert_html;
                 }
-            } else if (val == 'icon') {
-                var new_insert_html = '';
-                if (new_insert_html != null) {
-                    var div = mw.wysiwyg.applier('i');
-                    div.innerHTML = new_insert_html;
-                    div.className = "mw-icon mw-icon-noop";
+            } else if (val === 'icon') {
+
+                var icdiv = mw.wysiwyg.applier('i');
+                icdiv.className = "mw-icon mw-icon-noop";
+
+                var mode = 3;
+                if(mode === 3) {
+                    mw.liveedit.widgets.iconEditor(icdiv);
+                }
+                if(mode === 2) {
+                    var dialog = mw.icons.dialog();
+                    $(dialog).on('Result', function(e, res){
+                        res.render(res.icon, icdiv);
+                        dialog.remove();
+                    })
+                }
+                if(mode === 1) {
+
                     mw.iconSelector.uiHTML();
-                    mw.iconSelector._activeElement = div;
+                    mw.iconSelector._activeElement = icdiv;
                     mw.$(".mw-live-edit-component-options").hide();
                     setTimeout(function () {
                         mw.iconSelector.uiHTML();
                         mw.iconSelector.settingsUI();
                         mw.sidebarSettingsTabs.set(2)
-                    }, 10)
-
+                    }, 10);
                 }
+
+
+
             }
             else if (val === 'table') {
                 var el = mw.wysiwyg.applier('div', 'element', {width: "100%"});

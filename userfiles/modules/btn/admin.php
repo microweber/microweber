@@ -190,6 +190,7 @@ $icon = get_option('icon', $params['id']);
             $(document).ready(function () {
                 mw.iconSelector.iconDropdown("#icon-picker", {
                     onchange: function (iconClass) {
+                        console.log(iconClass)
 
                         $('[name="icon"]').val(iconClass).trigger('change')
                     },

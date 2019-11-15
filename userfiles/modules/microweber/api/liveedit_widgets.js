@@ -50,6 +50,6 @@ mw.liveEditWidgets = {
 
 mw.liveEditTools = {
     isLayout: function (node) {
-        return (node.getAttribute('data-module-name') === 'layouts' || node.getAttribute('data-type') === 'layouts');
+        return (!!node && !!node.getAttribute && (node.getAttribute('data-module-name') === 'layouts' || node.getAttribute('data-type') === 'layouts'));
     }
 };

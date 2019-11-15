@@ -1,24 +1,25 @@
 (function(){
     var tooltip = {
-            source: function (content, skin, position, id) {
-                if (skin == 'dark') {
-                    var skin = 'mw-tooltip-dark';
-                } else if (skin == 'warning') {
-                    var skin = 'mw-tooltip-default mw-tooltip-warning';
-                }
-                if (typeof content === 'object') {
-                    var content = mw.$(content).html();
-                }
-                if (typeof id === 'undefined') {
-                    id = 'mw-tooltip-' + mw.random();
-                }
-                var tooltip = mwd.createElement('div');
-                tooltip.className = 'mw-tooltip ' + position + ' ' + skin;
-                tooltip.id = id;
-                tooltip.innerHTML = '<div class="mw-tooltip-content">' + content + '</div><span class="mw-tooltip-arrow"></span>';
-                mwd.body.appendChild(tooltip);
-                return tooltip;
-            },
+        source: function (content, skin, position, id) {
+            if (skin == 'dark') {
+                var skin = 'mw-tooltip-dark';
+            } else if (skin == 'warning') {
+                var skin = 'mw-tooltip-default mw-tooltip-warning';
+            }
+
+            if (typeof id === 'undefined') {
+                id = 'mw-tooltip-' + mw.random();
+            }
+            var tooltip = mwd.createElement('div');
+            var tooltipc = mwd.createElement('div');
+            tooltip.className = 'mw-tooltip ' + position + ' ' + skin;
+            tooltipc.className = 'mw-tooltip-content';
+            tooltip.id = id;
+            $(tooltipc).append(content)
+            $(tooltip).append(tooltipc).append('<span class="mw-tooltip-arrow"></span>')
+            mwd.body.appendChild(tooltip);
+            return tooltip;
+        },
             setPosition: function (tooltip, el, position) {
                 el = mw.$(el);
                 if (el.length === 0) {

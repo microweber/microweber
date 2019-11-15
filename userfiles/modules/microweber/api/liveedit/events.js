@@ -74,11 +74,17 @@ mw.liveedit.handleEvents = function() {
     mw.$(mwd.body).on("mousedown mouseup touchstart touchend", function(e) {
 
         if (e.type === 'mousedown' || e.type === 'touchstart') {
-            if (mw.iconSelectorGUI
-                && !mw.wysiwyg.elementHasFontIconClass(e.target)
+            if (!mw.wysiwyg.elementHasFontIconClass(e.target)
                 && !mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['tooltip-icon-picker', 'mw-tooltip'])) {
                 mw.$(mw.iconSelectorGUI).hide();
+
                 mw.iconSelector.hide();
+                try{
+                    $(mw.liveedit.widgets._iconEditor.tooltip).hide();
+                }catch(e){
+
+                }
+
             }
             if (!mw.tools.hasClass(e.target, 'ui-resizable-handle') && !mw.tools.hasParentsWithClass(e.target, 'ui-resizable-handle')) {
                 mw.tools.addClass(mwd.body, 'state-element')

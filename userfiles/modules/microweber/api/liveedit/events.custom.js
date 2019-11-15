@@ -32,8 +32,7 @@ mw.liveedit.handleCustomEvents = function() {
         }
     });
     mw.on("IconElementClick", function(e, el) {
-        mw.iconSelector._activeElement = el;
-        mw.iconSelector.settingsUI();
+        mw.liveedit.widgets.iconEditor(el);
         setTimeout(function () {
             mw.wysiwyg.contentEditable(el, false);
         })
@@ -42,9 +41,7 @@ mw.liveedit.handleCustomEvents = function() {
     mw.on("ComponentClick", function(e, node, type){
 
         if (type === 'icon'){
-            mw.iconSelector._activeElement = node;
-            mw.iconSelector.uiHTML();
-            mw.iconSelector.settingsUI();
+            mw.liveedit.widgets.iconEditor(node);
             return;
 
         }

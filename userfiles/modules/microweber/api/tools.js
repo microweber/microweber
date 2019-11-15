@@ -453,16 +453,17 @@ mw.tools = {
             } else if (skin == 'warning') {
                 var skin = 'mw-tooltip-default mw-tooltip-warning';
             }
-            if (typeof content === 'object') {
-                var content = mw.$(content).html();
-            }
+
             if (typeof id === 'undefined') {
                 id = 'mw-tooltip-' + mw.random();
             }
             var tooltip = mwd.createElement('div');
+            var tooltipc = mwd.createElement('div');
             tooltip.className = 'mw-tooltip ' + position + ' ' + skin;
+            tooltipc.className = 'mw-tooltip-content';
             tooltip.id = id;
-            tooltip.innerHTML = '<div class="mw-tooltip-content">' + content + '</div><span class="mw-tooltip-arrow"></span>';
+            $(tooltipc).append(content)
+            $(tooltip).append(tooltipc).append('<span class="mw-tooltip-arrow"></span>')
             mwd.body.appendChild(tooltip);
             return tooltip;
         },
@@ -501,9 +502,9 @@ mw.tools = {
                 var space = 100;
 
                 if(elXCenter > wxCenter) {
-                    xPos = 'left'
+                    xPos = 'left';
                 } else {
-                    xPos = 'right'
+                    xPos = 'right';
                 }
 
                 yPos = 'top'
@@ -4058,9 +4059,6 @@ mw.which = function (str, arr_obj, func) {
     }
 }
 
-mw.isDragItem = mw.isBlockLevel = function (obj) {
-    return mw.ea.helpers.isBlockLevel(obj);
-};
 mw._JSPrefixes = ['Moz', 'Webkit', 'O', 'ms'];
 _Prefixtest = false;
 mw.JSPrefix = function (property) {

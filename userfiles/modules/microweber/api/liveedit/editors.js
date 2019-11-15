@@ -99,7 +99,8 @@ mw.liveedit.editors = {
               mw.smallEditorCanceled = true;
           }
       });
-      mw.$("#live_edit_toolbar, #mw_small_editor").on("mousedown", function(e) {
+      mw.$("#live_edit_toolbar, #mw_small_editor").on("mousedown touchstart", function(e) {
+          e.preventDefault();
           mw.$(".wysiwyg_external").empty()
           if (e.target.nodeName !== 'INPUT' && e.target.nodeName !== 'SELECT' && e.target.nodeName !== 'OPTION' && e.target.nodeName !== 'CHECKBOX') {
               e.preventDefault();

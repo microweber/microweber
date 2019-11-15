@@ -488,19 +488,22 @@ mw._initHandles = {
         };
 
         var getActiveDragCurrent = function () {
-            if(mw.liveEditSelector && mw.liveEditSelector.selected){
-                return mw.liveEditSelector.selected;
+            var el = mw.liveEditSelector && mw.liveEditSelector.selected ?  mw.liveEditSelector.selected[0] : null;
+            console.log(222, el)
+            if(el && el.nodeType === 1){
+                return el;
             }
         };
 
         var getDragCurrent = function () {
+            console.log(333, mw._activeModuleOver)
             if(mw._activeModuleOver){
                 return mw._activeModuleOver;
             }
         };
-        var dragConfig = function (curr) {
+        var dragConfig = function (curr, handle) {
             return {
-                handle: mw.handleModule.handleIcon,
+                handle: handle.handleIcon,
                 distance:20,
                 cursorAt: {
                     //top: -30
@@ -508,6 +511,7 @@ mw._initHandles = {
                 start: function() {
                     mw.isDrag = true;
                     mw.dragCurrent = curr();
+                    console.log(mw.dragCurrent)
                     if(!mw.dragCurrent.id){
                         mw.dragCurrent.id = 'module_' + mw.random();
                     }
@@ -539,7 +543,7 @@ mw._initHandles = {
         mw.handleModule._hideTime = null;
         mw
             .$(mw.handleModule.wrapper)
-            .draggable(dragConfig(getDragCurrent))
+            .draggable(dragConfig(getDragCurrent, mw.handleModule))
             .on("mousedown", function(e){
                 mw.liveEditSelectMode = 'none';
             });
@@ -547,7 +551,7 @@ mw._initHandles = {
 
         mw
             .$(mw.handleModuleActive.wrapper)
-            .draggable(dragConfig(getActiveDragCurrent))
+            .draggable(dragConfig(getActiveDragCurrent, mw.handleModuleActive))
             .on("mousedown", function(e){
                 mw.liveEditSelectMode = 'none';
             });
@@ -724,13 +728,13 @@ mw._initHandles = {
         };
 
         mw.on('ModuleClick', function(e, pelement){
-            positionModuleHandle(e, pelement, mw.handleModule)
+            positionModuleHandle(e, pelement, mw.handleModuleActive)
         });
 
 
 
         mw.on('moduleOver', function (e, pelement) {
-            positionModuleHandle(e, pelement, mw.handleModuleActive)
+            positionModuleHandle(e, pelement, mw.handleModule)
         });
     },
     columns:function(){
