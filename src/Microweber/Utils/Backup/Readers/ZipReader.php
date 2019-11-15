@@ -9,7 +9,7 @@ class ZipReader extends DefaultReader
     public $language = false;
 
     public function setLanguage($abr) {
-        $this->language = $abr; // 'bg';
+        $this->language = strtolower($abr); // 'bg';
     }
 
 	/**
@@ -61,6 +61,10 @@ class ZipReader extends DefaultReader
 			if (strpos($importToTable, 'backup_export') !== false) {
 				$addToImport = true;
 			}
+
+            if (strpos($importToTable, 'mw_content') !== false && strpos($importToTable, '_lang') !== false) {
+                $addToImport = true;
+            }
 			
 			if (in_array($fileExtension, $supportedReaders) && in_array($importToTable, $tables)) {
 				$addToImport = true;
