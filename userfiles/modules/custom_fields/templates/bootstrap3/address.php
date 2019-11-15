@@ -36,11 +36,11 @@
                                 <?php endforeach; ?>
                             </select>
                         <?php } else { ?>
-                            <input type="text" class="form-control" name="<?php echo $data['name'] ?>[<?php echo($key); ?>]" <?php if ($settings['required']) { ?> required <?php } ?> data-custom-field-id="<?php echo $data["id"]; ?>"/>
+                            <input type="text" class="form-control"  <?php if(!$settings['show_label']): ?>placeholder="<?php _e($value); ?>"<?php endif; ?> name="<?php echo $data['name'] ?>[<?php echo($key); ?>]" <?php if ($settings['required']) { ?> required <?php } ?> data-custom-field-id="<?php echo $data["id"]; ?>"/>
                         <?php } ?>
 
                     <?php else: ?>
-                        <input type="text" class="form-control" name="<?php echo $data['name'] ?>[<?php echo($key); ?>]" <?php if ($settings['required']) { ?> required <?php } ?>
+                        <input type="text" class="form-control" <?php if(!$settings['show_label']): ?>placeholder="<?php _e($value); ?>"<?php endif; ?> name="<?php echo $data['name'] ?>[<?php echo($key); ?>]" <?php if ($settings['required']) { ?> required <?php } ?>
                                data-custom-field-id="<?php echo $data["id"]; ?>"/>
                     <?php endif; ?>
 

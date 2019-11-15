@@ -62,6 +62,11 @@ class Lang
     }
 
 
+    function default_lang()
+    {
+        return get_option('language', 'website');
+    }
+
     function __store_lang_file_ns($lang = false)
     {
 

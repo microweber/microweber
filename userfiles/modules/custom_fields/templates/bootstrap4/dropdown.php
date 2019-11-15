@@ -23,6 +23,11 @@
 
         <div class="mw-ui-controls">
             <select <?php if ($settings['multiple']): ?>multiple="multiple"<?php endif; ?> class="form-control js-mw-select-<?php echo $data['id']; ?>" <?php if ($settings['required']): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name']; ?>"/>
+
+            <?php if (!empty($data['placeholder'])): ?>
+                <option><?php echo $data['placeholder']; ?></option>
+            <?php endif; ?>
+
             <?php foreach ($data['values'] as $key => $value): ?>
                 <option data-custom-field-id="<?php print $data["id"]; ?>" value="<?php echo $key; ?>">
                     <?php echo $value; ?>

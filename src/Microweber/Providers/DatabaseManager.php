@@ -138,7 +138,7 @@ class DatabaseManager extends DbUtils
             $do_not_replace_site_url = $params['do_not_replace_site_url'];
         }
 
-$limit =  $this->default_limit;
+        $limit =  $this->default_limit;
         if (!isset($params['limit'])) {
             $limit = $params['limit'] = $this->default_limit;
         } else {
@@ -232,9 +232,6 @@ $limit =  $this->default_limit;
             }
         }
 
-
-
-
         if (isset($orig_params['count']) and ($orig_params['count'])) {
             if ($use_cache == false) {
                 $query = $query->count();
@@ -318,9 +315,10 @@ $limit =  $this->default_limit;
 
 
         if (!is_array($data)) {
-
             return $data;
         }
+
+        $data = $this->app->event_manager->response('mw.database.' . $table . '.get', $data);
 
         if (isset($orig_params['single']) || isset($orig_params['one'])) {
             if (!isset($data[0])) {
@@ -380,7 +378,7 @@ $limit =  $this->default_limit;
 
         $skip_cache = isset($original_data['skip_cache']);
 
-        if (!isset($params['skip_timestamps'])) {
+        /*if (!isset($params['skip_timestamps'])) {
             if (!isset($params['id']) or (isset($params['id']) and $params['id'] == 0)) {
                 if (!isset($params['created_at'])) {
                     $params['created_at'] = date('Y-m-d H:i:s');
@@ -389,7 +387,7 @@ $limit =  $this->default_limit;
             if (!isset($params['updated_at'])) {
                 $params['updated_at'] = date('Y-m-d H:i:s');
             }
-        }
+        }*/
 
         if ($is_quick == false) {
             if (isset($data['updated_at']) == false) {
@@ -499,8 +497,10 @@ $limit =  $this->default_limit;
         if (!isset($criteria['id'])) {
             $criteria['id'] = 0;
         }
-
         $criteria['id'] = intval($criteria['id']);
+
+        $criteria = $this->app->event_manager->response('mw.database.' . $table . '.save.params', $criteria);
+
         if (intval($criteria['id']) == 0) {
             unset($criteria['id']);
             $engine = $this->get_sql_engine();
@@ -549,6 +549,8 @@ $limit =  $this->default_limit;
                 $this->app->cache_manager->delete($cache_group . '/' . intval($criteria['parent_id']));
             }
         }
+
+        $this->app->event_manager->trigger('mw.database.'.$table.'.save.after', $criteria);
 
         return $id_to_return;
     }

@@ -590,11 +590,14 @@ class ContentManager
             unset($get_params[$paging_param]);
         }
 
-        if ($get_params) {
+        if ($get_params and is_array($get_params)) {
+            $get_params = array_filter($get_params);
 
             $get_params_append = implode('&', array_map(
                 function ($v, $k) {
+                    if($k and $v and !is_array($v)){
                     return sprintf("%s=%s", $k, $v);
+                    }
                 },
                 $get_params,
                 array_keys($get_params)

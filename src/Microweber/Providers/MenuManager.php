@@ -153,8 +153,10 @@ class MenuManager
 
         $save = $this->app->database_manager->save($table, $data_to_save);
 
+        /*
         $data_to_save['id'] = $save;
         $this->app->event_manager->trigger('menu.after.save', $data_to_save);
+        */
 
         $this->app->cache_manager->delete('menus/global');
 
@@ -456,10 +458,10 @@ class MenuManager
 
         foreach ($q as $item) {
 
-            $override = $this->app->event_manager->trigger('menu.after.get_item', $item);
+         /*   $override = $this->app->event_manager->trigger('menu.after.get_item', $item);
             if (is_array($override) && isset($override[0])) {
                 $item = $override[0];
-            }
+            }*/
 
             $title = '';
             $url = '';

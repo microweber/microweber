@@ -165,6 +165,7 @@ if (isset($params['for_module_id'])): ?>
                 <tr>
                     <th width="40"><?php _e("Type"); ?></th>
                     <th><?php _e("Name"); ?></th>
+                    <th><?php _e("Placeholder"); ?></th>
                     <th><?php _e("Value"); ?></th>
                     <th width="80" style="text-align: center;"><?php _e("Settings"); ?></th>
                     <th width="80" style="text-align: center;"><?php _e("Delete"); ?></th>
@@ -182,6 +183,11 @@ if (isset($params['for_module_id'])): ?>
                             <span class="mobile-th"><?php _e("Name"); ?>: </span>
                             <span class="mw-admin-custom-field-name-edit-inline"
                                   data-id="<?php print $field['id']; ?>"><?php print $field['name']; ?></span>
+                        </td>
+                        <td data-id="<?php print $field['id']; ?>">
+                            <span class="mobile-th"><?php _e("Placeholder"); ?>: </span>
+                            <span class="mw-admin-custom-field-placeholder-edit-inline"
+                                  data-id="<?php print $field['id']; ?>"><?php print $field['placeholder']; ?></span>
                         </td>
                         <td data-id="<?php print $field['id']; ?>" width="100%">
 

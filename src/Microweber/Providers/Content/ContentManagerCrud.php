@@ -292,7 +292,15 @@ class ContentManagerCrud extends Crud
             $get = array();
             $get['url'] = $url;
             $get['single'] = true;
+
             $content = $this->get($get);
+
+            if(!$content){
+                $get = $this->app->event_manager->trigger('content.get_by_url.not_found', $get);
+                if (is_array($get) && isset($get[0])) {
+                    $content = $this->get($get[0]);
+                }
+            }
         }
         if (!empty($content)) {
             self::$precached_links[$link_hash] = $content;
