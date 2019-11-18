@@ -83,8 +83,8 @@ api_expose_admin('browser_redirect_save', function () {
 
 });
 
-/*
-event_bind('mw.front', function() {
+
+event_bind('mw.pageview', function() {
 
     $userAgent = false;
 
@@ -95,6 +95,6 @@ event_bind('mw.front', function() {
 
 
     var_dump($userAgent);
-    die();
+    
 
-});*/
+});
