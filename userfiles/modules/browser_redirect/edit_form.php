@@ -38,7 +38,6 @@ if (isset($_GET['id'])) {
 ?>
 <script type="text/javascript">
     $(function() {
-
         $(".js-browser-redirect-form").submit(function(e) {
             e.preventDefault();
             $.post("<?php echo api_url('browser_redirect_save');?>", $(this).serialize(), function(data){
@@ -47,9 +46,9 @@ if (isset($_GET['id'])) {
                }
                if (data.success) {
                    if (typeof(window.parent.editBrowserRedirectModal) != 'undefined') {
-                       mw.notification.success(data.success);
-                       window.parent.editBrowserRedirectModal.remove();
-
+                      window.parent.mw.notification.success(data.success);
+                      window.parent.mw.reload_module_everywhere('browser_redirect');
+                      window.parent.editBrowserRedirectModal.remove();
                    }
                }
             });

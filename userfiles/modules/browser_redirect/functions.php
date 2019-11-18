@@ -19,12 +19,6 @@ function get_browsers_options()
     return $browsers;
 }
 
-function redirect_if_not_supported()
-{
-    header('HTTP/1.1 301 Moved Permanently');
-    header('Location: http://www.example.com/');
-    exit();
-}
 function get_browser_redirects()
 {
     $filter = array();
@@ -86,6 +80,10 @@ api_expose_admin('browser_redirect_save', function () {
 
 event_bind('mw.pageview', function() {
 
+    $redirectCode = false;
+    $redirectUrl = false;
+    $redirect = false;
+    $currentUrl = mw()->url_manager->current();
     $userAgent = false;
 
     if (isset($_SERVER['HTTP_USER_AGENT'])) {
@@ -93,8 +91,15 @@ event_bind('mw.pageview', function() {
     }
 
 
-
+    var_dump($currentUrl);
     var_dump($userAgent);
-    
 
+
+    if ($redirect && $redirectUrl) {
+        if ($redirectCode) {
+            header('HTTP/1.1 ' . $redirectCode);
+        }
+        header('Location: ' . $redirectUrl);
+    }
+    exit;
 });
