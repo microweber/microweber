@@ -6,19 +6,28 @@ only_admin_access();
  * Date: 11/18/2019
  * Time: 10:26 AM
  */
+
+$redirect_from_url = '';
+$redirect_to_url = '';
+$redirect_code = '';
+$redirect_enabled = '';
+$redirect_browsers = array();
 ?>
 <div class="mw-ui-box mw-ui-box-content" data-view="">
     <div class="mw-flex-row">
-        <div class="mw-flex-col-xs-6">
+        <div class="mw-flex-col-xs-12">
             <div class="mw-ui-field-holder">
                 <label class="mw-ui-label">Redirect From URL Address</label>
-                <input type="text" value="<?php echo $redirect_from_url;?> " name="redirect_from_url" class="mw_option_field mw-ui-field mw-full-width" placeholder="<?php echo url(''); ?>">
+                <div class="mw-ui-btn-nav">
+                    <a href="javascript:;" class="mw-ui-btn"><?php echo url('');?>/</a>
+                    <input type="text" class="mw-ui-field" value="<?php echo $redirect_from_url;?>">
+                </div>
             </div>
         </div>
-        <div class="mw-flex-col-xs-6">
+        <div class="mw-flex-col-xs-12">
             <div class="mw-ui-field-holder">
                 <label class="mw-ui-label">Redirect To URL Address</label>
-                <input type="text" value="<?php echo $redirect_to_url;?> " name="redirect_t-Ourl" class="mw_option_field mw-ui-field mw-full-width" placeholder="<?php echo url('not-supported-browser'); ?>">
+                <input type="text" value="<?php echo $redirect_to_url;?> " name="redirect_to_url" class="mw-ui-field mw-full-width" placeholder="<?php echo url('not-supported-browser'); ?>">
             </div>
         </div>
     </div>
@@ -46,8 +55,8 @@ only_admin_access();
             <ul class="mw-ui-inline-list">
                 <?php foreach (get_browsers_options() as $key=>$value): ?>
                     <li>
-                        <label class="mw-ui-check">
-                            <input type="checkbox" class="mw_option_field" option-group="redirect" name="redirect_browsers" value="<?php echo $key; ?>" <?php if(array_key_exists($key, $redirect_browsers)): ?>checked=""<?php endif;?>>
+                        <label class="mw-ui-check" style="width:156px;margin-top: 5px;">
+                            <input type="checkbox" option-group="redirect" name="redirect_browsers" value="<?php echo $key; ?>" <?php if(array_key_exists($key, $redirect_browsers)): ?>checked=""<?php endif;?>>
                             <span></span><span><?php echo $value; ?></span>
                         </label>
                     </li>
@@ -61,5 +70,9 @@ only_admin_access();
             <input type="checkbox" value="y" name="active" <?php if ($redirect_enabled): ?>checked="checked"<?php endif; ?>>
             <span></span><span>Yes</span>
         </label>
+    </div>
+
+    <div class="text-left">
+        <button type="submit" class="mw-ui-btn" style="width: 100%;">Save</button>
     </div>
 </div>

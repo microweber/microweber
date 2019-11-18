@@ -32,7 +32,7 @@ function get_browser_redirects()
 
     return db_get('browser_redirects', $filter);
 }
-
+/*
 event_bind('mw.front', function() {
 
     $userAgent = false;
@@ -46,4 +46,4 @@ event_bind('mw.front', function() {
     var_dump($userAgent);
     die();
 
-});
+});*/

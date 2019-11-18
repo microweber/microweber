@@ -14,16 +14,34 @@ only_admin_access();
 <?php endif; ?>
 
 <script type="text/javascript">
-    $(document).ready(function () {
 
+    function editBrowserRedirect(id) {
+        var data = {};
+        data.id = id;
+        var module_id = 'edit-browser-redirect-' + id;
 
-    });
+        var opts = {};
+        opts.width = '460';
+        opts.height = '600';
+
+        var editEventModal = mw.top().tools.open_global_module_settings_modal('browser_redirect/edit_form', module_id, opts, data);
+    }
+
+    function deleteBrowserRedirect(id) {
+        $('.js-browser-redirect-tr-' + id).remove();
+    }
+
 </script>
 
 <div id="mw-admin-content" class="admin-side-content">
     <div class="mw_edit_page_default" id="mw_edit_page_left">
 
-        <div class="mw-ui-box mw-ui-box-content" data-view="">
+        <a href="javascript:;" onClick="editBrowserRedirect(false)" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification">
+            <i class="fa fa-plus"></i> &nbsp; <?php echo _e('Add new browser redirect');?>
+        </a>
+
+        <div class="mw-ui-box mw-ui-box-content" data-view="" style="margin-top: 15px;">
+
             <table class="mw-ui-table mw-full-width mw-ui-table-basic">
                 <thead>
                 <tr>
@@ -41,7 +59,7 @@ only_admin_access();
                 if (!empty($browserRedirects)):
                 foreach($browserRedirects as $browserRedirect):
                 ?>
-                <tr>
+                <tr class="js-browser-redirect-tr-<?php echo $browserRedirect['id']; ?>">
                     <td><?php echo $browserRedirect['redirect_from_url']; ?></td>
                     <td><?php echo $browserRedirect['redirect_to_url']; ?></td>
                     <td><?php echo $browserRedirect['redirect_browsers']; ?></td>
