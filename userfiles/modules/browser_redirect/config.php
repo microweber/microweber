@@ -7,7 +7,7 @@
  */
 
 $config = array();
-$config['name'] = "Redirect";
+$config['name'] = "Browser Redirect";
 $config['link'] = "https://microweber.com";
 $config['description'] = "Redirecting website by browser.";
 $config['author'] = "Bozhidar Slaveykov";
@@ -17,3 +17,16 @@ $config['ui_admin'] = true;
 // $config['categories'] = "other";
 $config['position'] = "100";
 $config['version'] = 0.01;
+
+$config['tables'] = array(
+    'browser_redirects' => array(
+        'id' => 'integer',
+        'redirect_from_url' => 'string',
+        'redirect_to_url' => 'string',
+        'error_code' => 'string',
+        'redirect_browsers' => 'text',
+        'active' => 'integer',
+        'created_by' => 'integer',
+        'created_at' => 'dateTime',
+    )
+);

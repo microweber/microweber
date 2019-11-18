@@ -4,9 +4,7 @@ if (isset($params['for-module'])) {
 }
 if (!isset($params['parent-module'])) {
     return;
-
 }
-
 
 $v_mod = $params['parent-module'];
 

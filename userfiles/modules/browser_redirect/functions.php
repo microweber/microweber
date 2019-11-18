@@ -25,10 +25,25 @@ function redirect_if_not_supported()
     header('Location: http://www.example.com/');
     exit();
 }
-function get_browsers_redirect()
+function get_browser_redirects()
 {
-    $browsers = get_option('browsers_redirect', 'redirect');
-    $browsers = explode(',', $browsers);
+    $filter = array();
+    $filter['limit'] = 100;
 
-    return $browsers;
+    return db_get('browser_redirects', $filter);
 }
+
+event_bind('mw.front', function() {
+
+    $userAgent = false;
+
+    if (isset($_SERVER['HTTP_USER_AGENT'])) {
+        $userAgent = htmlentities($_SERVER['HTTP_USER_AGENT'], ENT_QUOTES, 'UTF-8');
+    }
+
+
+
+    var_dump($userAgent);
+    die();
+
+});
