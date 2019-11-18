@@ -19,10 +19,13 @@ function get_browsers_options()
     return $browsers;
 }
 
-function get_browser_redirects()
+function get_browser_redirects($onlyActive = false)
 {
     $filter = array();
     $filter['limit'] = 100;
+    if ($onlyActive) {
+        $filter['active'] = 1;
+    }
 
     return db_get('browser_redirects', $filter);
 }
@@ -80,26 +83,77 @@ api_expose_admin('browser_redirect_save', function () {
 
 event_bind('mw.pageview', function() {
 
+    $redirectBrowsers = array();
     $redirectCode = false;
     $redirectUrl = false;
-    $redirect = false;
-    $currentUrl = mw()->url_manager->current();
+    $startRedirecting = false;
+    $urlSegment = mw()->url_manager->string();
     $userAgent = false;
+    $browserName = false;
+    $redirects = get_browser_redirects(true);
+
+    if (empty($redirects) && !is_array($redirects)) {
+        return;
+    }
 
     if (isset($_SERVER['HTTP_USER_AGENT'])) {
         $userAgent = htmlentities($_SERVER['HTTP_USER_AGENT'], ENT_QUOTES, 'UTF-8');
     }
+    if ($userAgent) {
+        $browserName = get_browser_name($userAgent);
+    }
 
+    foreach ($redirects as $redirect) {
 
-    var_dump($currentUrl);
-    var_dump($userAgent);
+        if($redirect['redirect_from_url'] == "/" && $urlSegment == '') {
+            break;
+        }
 
+        if("/" .$redirect['redirect_from_url'] == $urlSegment) {
+            break;
+        }
 
-    if ($redirect && $redirectUrl) {
+        if($redirect['redirect_from_url'] == $urlSegment) {
+            break;
+        }
+
+        $redirectCode = $redirect['redirect_code'];
+        $redirectUrl = $redirect['redirect_to_url'];
+        $redirectBrowsers = explode(',', $redirect['redirect_browsers']);
+    }
+
+    if (empty($redirectBrowsers) && !is_array($redirectBrowsers)) {
+        return;
+    }
+
+    if ($browserName && in_array($browserName, $redirectBrowsers)) {
+        $startRedirecting = true;
+    }
+
+    if ($startRedirecting && $redirectUrl) {
+        header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
+        header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
         if ($redirectCode) {
             header('HTTP/1.1 ' . $redirectCode);
         }
         header('Location: ' . $redirectUrl);
+        exit;
     }
-    exit;
+
+    return;
 });
+
+function get_browser_name($userAgent)
+{
+    $t = strtolower($userAgent);
+    $t = " " . $t;
+
+    if (strpos($t, 'opera') || strpos($t, 'opr/')) return 'opera';
+    elseif (strpos($t, 'edge')) return 'microsoft_edge';
+    elseif (strpos($t, 'chrome')) return 'chrome';
+    elseif (strpos($t, 'safari')) return 'safari';
+    elseif (strpos($t, 'firefox')) return 'firefox';
+    elseif (strpos($t, 'msie') || strpos($t, 'trident/7')) return 'internet_explorer';
+
+    return 'unknown';
+}
