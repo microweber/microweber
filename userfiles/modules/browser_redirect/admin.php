@@ -21,13 +21,18 @@ only_admin_access();
         var module_id = 'edit-browser-redirect-' + id;
 
         var opts = {};
-        opts.width = '460';
+        opts.width = '500';
         opts.height = '600';
 
-        var editEventModal = mw.top().tools.open_global_module_settings_modal('browser_redirect/edit_form', module_id, opts, data);
+        editBrowserRedirectModal = mw.tools.open_global_module_settings_modal('browser_redirect/edit_form', module_id, opts, data);
     }
 
     function deleteBrowserRedirect(id) {
+
+        $.post("<?php echo api_url('browser_redirect_delete');?>", {id:id}, function(data){
+           // Deleted
+        });
+
         $('.js-browser-redirect-tr-' + id).remove();
     }
 

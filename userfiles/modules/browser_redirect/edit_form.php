@@ -13,6 +13,27 @@ $redirect_code = '';
 $redirect_enabled = '';
 $redirect_browsers = array();
 ?>
+<script type="text/javascript">
+    $(function() {
+
+        $(".js-browser-redirect-form").submit(function(e) {
+            e.preventDefault();
+            $.post("<?php echo api_url('browser_redirect_save');?>", $(this).serialize(), function(data){
+               if (data.error) {
+                    mw.notification.error(data.error);
+               }
+               if (data.success) {
+                   if (typeof(window.parent.editBrowserRedirectModal) != 'undefined') {
+                       mw.notification.success(data.success);
+                       window.parent.editBrowserRedirectModal.remove();
+                   }
+               }
+            });
+        });
+    });
+</script>
+
+<form method="post" class="js-browser-redirect-form">
 <div class="mw-ui-box mw-ui-box-content" data-view="">
     <div class="mw-flex-row">
         <div class="mw-flex-col-xs-12">
@@ -20,7 +41,7 @@ $redirect_browsers = array();
                 <label class="mw-ui-label">Redirect From URL Address</label>
                 <div class="mw-ui-btn-nav">
                     <a href="javascript:;" class="mw-ui-btn"><?php echo url('');?>/</a>
-                    <input type="text" class="mw-ui-field" value="<?php echo $redirect_from_url;?>">
+                    <input type="text" name="redirect_from_url" class="mw-ui-field" value="<?php echo $redirect_from_url;?>">
                 </div>
             </div>
         </div>
@@ -43,7 +64,7 @@ $redirect_browsers = array();
             </li>
             <li>
                 <label class="mw-ui-check">
-                    <input type="radio" value="301" <?php if ($redirect_code=='301'):?>checked="checked"<?php endif; ?> name="error_code">
+                    <input type="radio" value="301" <?php if ($redirect_code=='301'):?>checked="checked"<?php endif; ?> name="error_code" checked="checked">
                     <span></span><span>301 Moved Permanently</span>
                 </label>
             </li>
@@ -76,3 +97,4 @@ $redirect_browsers = array();
         <button type="submit" class="mw-ui-btn" style="width: 100%;">Save</button>
     </div>
 </div>
+</form>

@@ -32,6 +32,50 @@ function get_browser_redirects()
 
     return db_get('browser_redirects', $filter);
 }
+
+api_expose_admin('browser_redirect_delete', function() {
+    if (isset($_POST['id'])) {
+        $id = (int) $_POST['id'];
+        db_delete('browser_redirects', $id);
+    }
+});
+
+api_expose_admin('browser_redirect_save', function () {
+
+    if (!isset($_POST['redirect_from_url']) || empty(trim($_POST['redirect_from_url']))) {
+        return array('error'=>'Redirect from url cannot be empty.');
+    }
+
+    if (!isset($_POST['redirect_to_url']) || empty(trim($_POST['redirect_to_url']))) {
+        return array('error'=>'Redirect to url cannot be empty.');
+    }
+
+    if (!isset($_POST['error_code']) || empty(trim($_POST['error_code']))) {
+        return array('error'=>'Select error code.');
+    }
+
+    if (!isset($_POST['redirect_browsers']) || empty(trim($_POST['redirect_browsers']))) {
+        return array('error'=>'Please select, redirect browsers.');
+    }
+
+    $save = array();
+    if (!empty($_POST['redirect_browsers']) && is_array($_POST['redirect_browsers'])) {
+        $save['redirect_browsers'] = implode(', ', $_POST['redirect_browsers']);
+    }
+    $save['error_code'] = trim($_POST['error_code']);
+    $save['redirect_to_url'] = trim($_POST['redirect_to_url']);
+    $save['redirect_from_url'] = trim($_POST['redirect_from_url']);
+
+    if (isset($_POST['id'])) {
+        $save['id'] = (int) trim($_POST['id']);
+    }
+
+    $id = db_save('browser_redirects', $save);
+
+    return array('success'=>'The browser redirect is saved.', 'id'=>$id);
+
+});
+
 /*
 event_bind('mw.front', function() {
 
