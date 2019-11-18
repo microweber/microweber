@@ -53,7 +53,7 @@ only_admin_access();
                     <th><?php echo _e('Redirect from URL');?></th>
                     <th><?php echo _e('Redirect to URL');?></th>
                     <th><?php echo _e('Redirect Browsers');?></th>
-                    <th><?php echo _e('Error code');?></th>
+                    <th><?php echo _e('Redirect code');?></th>
                     <th><?php echo _e('Enabled');?></th>
                     <th style="width:190px;"><?php echo _e('Action');?></th>
                 </tr>
@@ -68,7 +68,7 @@ only_admin_access();
                     <td><?php echo $browserRedirect['redirect_from_url']; ?></td>
                     <td><?php echo $browserRedirect['redirect_to_url']; ?></td>
                     <td><?php echo $browserRedirect['redirect_browsers']; ?></td>
-                    <td><?php echo $browserRedirect['error_code']; ?></td>
+                    <td><?php echo $browserRedirect['redirect_code']; ?></td>
                     <td>
                         <?php if ($browserRedirect['active']): ?>
                         <?php echo _e('Yes');?>

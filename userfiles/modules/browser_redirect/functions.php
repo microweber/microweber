@@ -50,19 +50,26 @@ api_expose_admin('browser_redirect_save', function () {
         return array('error'=>'Redirect to url cannot be empty.');
     }
 
-    if (!isset($_POST['error_code']) || empty(trim($_POST['error_code']))) {
-        return array('error'=>'Select error code.');
+    if (!isset($_POST['redirect_code']) || empty(trim($_POST['redirect_code']))) {
+        return array('error'=>'Select redirect code.');
     }
 
-    if (!isset($_POST['redirect_browsers']) || empty(trim($_POST['redirect_browsers']))) {
+    if (!isset($_POST['redirect_browsers']) || empty($_POST['redirect_browsers'])) {
         return array('error'=>'Please select, redirect browsers.');
     }
 
     $save = array();
     if (!empty($_POST['redirect_browsers']) && is_array($_POST['redirect_browsers'])) {
-        $save['redirect_browsers'] = implode(', ', $_POST['redirect_browsers']);
+        $save['redirect_browsers'] = implode(',', $_POST['redirect_browsers']);
     }
-    $save['error_code'] = trim($_POST['error_code']);
+
+    if (trim($_POST['active']) == 'y') {
+        $save['active'] = 1;
+    } else {
+        $save['active'] = 0;
+    }
+
+    $save['redirect_code'] = trim($_POST['redirect_code']);
     $save['redirect_to_url'] = trim($_POST['redirect_to_url']);
     $save['redirect_from_url'] = trim($_POST['redirect_from_url']);
 

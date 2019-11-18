@@ -7,11 +7,34 @@ only_admin_access();
  * Time: 10:26 AM
  */
 
+$id = false;
 $redirect_from_url = '';
 $redirect_to_url = '';
 $redirect_code = '';
 $redirect_enabled = '';
 $redirect_browsers = array();
+
+if (isset($_GET['id'])) {
+
+    $filter = array();
+    $filter['single'] = 1;
+    $filter['id'] = (int) $_GET['id'];
+
+    $browser_redirect = db_get('browser_redirects', $filter);
+
+    if ($browser_redirect) {
+
+        $id = $browser_redirect['id'];
+        $redirect_from_url = $browser_redirect['redirect_from_url'];
+        $redirect_to_url = $browser_redirect['redirect_to_url'];
+        $redirect_code = $browser_redirect['redirect_code'];
+        $redirect_enabled = $browser_redirect['active'];
+
+        $redirect_browsers = explode(',', $browser_redirect['redirect_browsers']);
+
+    }
+
+}
 ?>
 <script type="text/javascript">
     $(function() {
@@ -26,6 +49,7 @@ $redirect_browsers = array();
                    if (typeof(window.parent.editBrowserRedirectModal) != 'undefined') {
                        mw.notification.success(data.success);
                        window.parent.editBrowserRedirectModal.remove();
+
                    }
                }
             });
@@ -40,7 +64,7 @@ $redirect_browsers = array();
             <div class="mw-ui-field-holder">
                 <label class="mw-ui-label">Redirect From URL Address</label>
                 <div class="mw-ui-btn-nav">
-                    <a href="javascript:;" class="mw-ui-btn"><?php echo url('');?>/</a>
+                    <a href="javascript:;" class="mw-ui-btn"><?php echo url('');?></a>
                     <input type="text" name="redirect_from_url" class="mw-ui-field" value="<?php echo $redirect_from_url;?>">
                 </div>
             </div>
@@ -58,13 +82,13 @@ $redirect_browsers = array();
 
             <li>
                 <label class="mw-ui-check">
-                    <input type="radio" value="200" <?php if ($redirect_code=='200'):?>checked="checked"<?php endif; ?> name="error_code">
+                    <input type="radio" value="200" <?php if ($redirect_code=='200'):?>checked="checked"<?php endif; ?> name="redirect_code">
                     <span></span><span>200 OK</span>
                 </label>
             </li>
             <li>
                 <label class="mw-ui-check">
-                    <input type="radio" value="301" <?php if ($redirect_code=='301'):?>checked="checked"<?php endif; ?> name="error_code" checked="checked">
+                    <input type="radio" value="301" <?php if ($redirect_code=='301'):?>checked="checked"<?php endif; ?> name="redirect_code" checked="checked">
                     <span></span><span>301 Moved Permanently</span>
                 </label>
             </li>
@@ -77,7 +101,7 @@ $redirect_browsers = array();
                 <?php foreach (get_browsers_options() as $key=>$value): ?>
                     <li>
                         <label class="mw-ui-check" style="width:156px;margin-top: 5px;">
-                            <input type="checkbox" option-group="redirect" name="redirect_browsers" value="<?php echo $key; ?>" <?php if(array_key_exists($key, $redirect_browsers)): ?>checked=""<?php endif;?>>
+                            <input type="checkbox" name="redirect_browsers[]" value="<?php echo $key; ?>" <?php if(in_array($key, $redirect_browsers)): ?>checked="checked"<?php endif;?>>
                             <span></span><span><?php echo $value; ?></span>
                         </label>
                     </li>
@@ -94,6 +118,9 @@ $redirect_browsers = array();
     </div>
 
     <div class="text-left">
+        <?php if ($id): ?>
+        <input type="hidden" name="id" value="<?php echo $id; ?>" />
+        <?php endif; ?>
         <button type="submit" class="mw-ui-btn" style="width: 100%;">Save</button>
     </div>
 </div>
