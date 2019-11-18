@@ -105,21 +105,30 @@ event_bind('mw.pageview', function() {
 
     foreach ($redirects as $redirect) {
 
+        $detectedSegment = false;
+
         if($redirect['redirect_from_url'] == "/" && $urlSegment == '') {
-            break;
+            $detectedSegment = true;
         }
 
         if("/" .$redirect['redirect_from_url'] == $urlSegment) {
-            break;
+            $detectedSegment = true;
         }
 
         if($redirect['redirect_from_url'] == $urlSegment) {
-            break;
+            $detectedSegment = true;
         }
 
-        $redirectCode = $redirect['redirect_code'];
-        $redirectUrl = $redirect['redirect_to_url'];
-        $redirectBrowsers = explode(',', $redirect['redirect_browsers']);
+        if($redirect['redirect_from_url'] == "/".$urlSegment) {
+            $detectedSegment = true;
+        }
+
+        if ($detectedSegment) {
+            $redirectCode = $redirect['redirect_code'];
+            $redirectUrl = $redirect['redirect_to_url'];
+            $redirectBrowsers = explode(',', $redirect['redirect_browsers']);
+            break;
+        }
     }
 
     if (empty($redirectBrowsers) && !is_array($redirectBrowsers)) {
