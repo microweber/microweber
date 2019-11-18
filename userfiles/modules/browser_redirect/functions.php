@@ -60,7 +60,7 @@ api_expose_admin('browser_redirect_save', function () {
         $save['redirect_browsers'] = implode(',', $_POST['redirect_browsers']);
     }
 
-    if (trim($_POST['active']) == 'y') {
+    if (isset($_POST['active']) && trim($_POST['active']) == 'y') {
         $save['active'] = 1;
     } else {
         $save['active'] = 0;
