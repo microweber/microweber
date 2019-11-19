@@ -77,7 +77,7 @@ jQuery.ajax = function(url, options){
             }
         };
     }
-    $.extend(settings, options);
+    settings = $.extend({}, settings, options);
     var xhr = _jqxhr(settings);
     return xhr;
 };

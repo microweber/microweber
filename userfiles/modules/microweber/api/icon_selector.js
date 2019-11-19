@@ -1,18 +1,40 @@
 
-mw._icons = mw._icons || [];
+mw.top()._icons = mw.top()._icons || [];
 
 (function () {
     var icons = {
+        findByIcon: function (name) {
+            return  mw.top()._icons.some(function (font) {
+                return font.icons.some(function (icon) {
+                    return icon === name;
+                });
+            });
+        },
+        findByName: function (name) {
+            return  mw.top()._icons.some(function (font) {
+                return font.name === name;
+            });
+        },
+        availableIcons: function () {
+            for (var i = 0; i < mw.top()._icons.length; i++) {
+                var set = mw.top()._icons[i];
+                if (set.url) {
+                    mw.moduleCSS(url);
+                }
+            }
+        },
         addFontIcons: function (options) {
             if(!options) return;
             if(!options.icons) return;
             if(!options.name) return;
             if(!options.render) return;
             if(options.url) {
-                mw.moduleCSS(url);
+                mw.moduleCSS(options.url);
             }
             options.exists = options.exists || function() {
-                return  mw.top()._icons.indexOf(options.icons[0]) !== -1;
+                return  mw.top()._icons.some(function (font) {
+                    return font.name === options.name;
+                });
             };
             if(options.exists()) return;
             var toAdd = {
@@ -255,6 +277,40 @@ mw._icons = mw._icons || [];
 
             return res;
         },
+        faIconsInit: function(){
+            var faIconsArray = [];
+            var exc = ['fa-lg', 'fa-2x', 'fa-3x', 'fa-4x', 'fa-5x', 'fa-fw', 'fa-spin', 'fa-pule', 'fa-rotate-90', 'fa-rotate-180', 'fa-rotate-270', 'fa-flip-horizontal', 'fa-flip-vertical'];
+            var faicons = mwd.querySelector('link[href*="/font-awesome.min.css"]');
+            if (!faicons) {
+                faicons = mwd.querySelector('link[href*="/font-awesome.css"]');
+            }
+            if (faicons  && faicons.sheet) {
+                try {
+                    var icons = faicons.sheet.cssRules;
+                    var l = icons.length, i = 0, cls;
+                    for (; i < l; i++) {
+                        sel = icons[i].selectorText;
+                        if (!!sel && sel.indexOf('.fa-') === 0) {
+                            cls = sel.replace(".", '').split(':')[0];
+                            if(exc.indexOf(cls) === -1) {
+                                faIconsArray.push(cls);
+                            }
+
+                        }
+                    }
+                } catch (e) {
+                }
+            }
+            if(faIconsArray.length) {
+                this.addFontIcons({
+                    icons: faIconsArray,
+                    name: 'Font Awesome',
+                    render: function(icon, target) {
+                        mw.$(target)['attr']('class', 'fa ' + icon);
+                    }
+                });
+            }
+        },
         mindIconsInit: function(){
             var mindIcons = [];
             var faicons = mwd.querySelector('link[href*="/mw-icons-mind/"]');
@@ -297,6 +353,7 @@ mw._icons = mw._icons || [];
             var scope = this;
             this._defaultsPrepare(function () {
                 icons.mindIconsInit();
+                icons.faIconsInit();
                 icons.addFontIcons({
                     icons: mw.materialIcons,
                     name: 'Material Icons',
@@ -319,6 +376,8 @@ mw._icons = mw._icons || [];
     };
    $(window).on('load', function () {
        icons._defaults();
+       icons.availableIcons();
+
    })
     mw.icons = icons;
 })();
@@ -698,13 +757,17 @@ mw.iconSelector = mw.iconSelector || {
         options.mode = options.mode || 'absolute';
         var btn = mwd.createElement('span');
         btn.className = 'mw-ui-btn';
-        btn.innerHTML = 'Choose icon';
+        var btnIcon = mwd.createElement('span');
+        btn.appendChild(btnIcon);
+        btn.appendChild(mwd.createTextNode('Choose icon'));
+
         btn.onclick = function(){
             var dialog = mw.top().icons.dialog(false);
             mw.top().$(dialog).on('Result', function(e, res){
                 if(options.onchange) {
                     var elVal = document.createElement('span');
                     res.render(res.icon, elVal);
+                    res.render(res.icon, btnIcon);
                     options.onchange.call(undefined, elVal.outerHTML, el)
                 }
                 dialog.remove();

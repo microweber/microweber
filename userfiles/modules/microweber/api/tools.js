@@ -5151,7 +5151,7 @@ mw.extradataForm = function (options, data) {
                     options.data[i] = exdata[i];
                 }
 
-                console.log(options)
+
 
                 mw.ajax(options);
                 form.__modal.remove();

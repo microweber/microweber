@@ -176,10 +176,6 @@ $icon = get_option('icon', $params['id']);
             mw.$('#btn_url_holder').find('a, input').on('click', function(){
                 pickUrl();
             });
-            setTimeout(function () {
-                console.log( $('#btn_url_holder').find('a, input'));
-                console.log( $('#btn_url_holder'));
-            }, 3333)
         })
 
     </script>
@@ -190,14 +186,11 @@ $icon = get_option('icon', $params['id']);
             $(document).ready(function () {
                 mw.iconSelector.iconDropdown("#icon-picker", {
                     onchange: function (iconClass) {
-                        console.log(iconClass)
-
                         $('[name="icon"]').val(iconClass).trigger('change')
                     },
                     mode: 'absolute',
                     value: '<?php print $icon; ?>'
                 });
-                $("#icon-picker input").val($('[name="icon"]').val())
             })
         </script>
         <textarea name="icon" class="mw_option_field" style="display: none"><?php print $icon; ?></textarea>
