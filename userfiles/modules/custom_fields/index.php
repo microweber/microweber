@@ -22,9 +22,7 @@ if (isset($params['content-id'])) {
 
     if (isset($params['for_id'])) {
         $for_id = $params['for_id'];
-    } else  if (isset($params['for-id'])) {
-        $for_id = $params['for-id'];
-    }else if (isset($params['data-id'])) {
+    } else if (isset($params['data-id'])) {
         $for_id = $params['data-id'];
     } else if (isset($params['id'])) {
         $for_id = $params['id'];
