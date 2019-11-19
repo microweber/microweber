@@ -79,8 +79,6 @@ class MailSubscriber
 
 	public function subscribe() {
 
-	    var_dump($this->subscribeFrom);
-		
 		if (!empty($this->subscribeFrom)) {
 			
 			if (get_option('use_integration_with_flexmail', $this->subscribeFrom) == 'y') {
@@ -145,7 +143,7 @@ class MailSubscriber
 					"emailAddressType" => $contact
 				));
 
-				var_dump($response);
+				//var_dump($response);
 
 				save_mail_subscriber($this->email, $this->subscribeSource, $this->subscribeSourceId, 'flexmail');
 			
@@ -154,7 +152,7 @@ class MailSubscriber
 					save_mail_subscriber($this->email, $this->subscribeSource, $this->subscribeSourceId, 'flexmail');
 				}
 				// Error
-				 dd($e);
+				 //dd($e);
 			}
 		}
 	}
