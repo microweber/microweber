@@ -98,12 +98,12 @@ class MailSubscriber
 		
 		if (!empty($settings)) {
 
-			$checkSubscriber = get_mail_subscriber($this->email, $this->subscribeSource, $this->subscribeSourceId, 'flexmail');
+		/*	$checkSubscriber = get_mail_subscriber($this->email, $this->subscribeSource, $this->subscribeSourceId, 'flexmail');
 			
 			if (!empty($checkSubscriber)) {
 				echo 'Email '.$this->email.' allready subscribed for flexmail.';
 				return;
-			}
+			}*/
 			
 			try {
 				$config = new \Finlet\flexmail\Config\Config();
