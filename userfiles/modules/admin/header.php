@@ -361,9 +361,9 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                     <?php endif; ?>
                 </div>
 
-                <div class="mw-ui-col pull-right">
-                   <module type="multilanguage/change_language"></module>
-                </div>
+                <?php
+                event_trigger('mw.admin.header.toolbar');
+                ?>
 
                 <div class="mw-ui-col">
 

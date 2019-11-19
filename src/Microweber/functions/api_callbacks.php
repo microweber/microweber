@@ -224,10 +224,24 @@ api_expose_admin('content/get_admin_js_tree_json', function ($params) {
                                 $item['subtype'] = 'sub_category';
                                // $item['order_by'] = 'position asc';
 
-//                                $cats_sub1 = get_category_children($cat_sub['id']);
-//                                if ($cats_sub1) {
-//                                    $item['has_children'] = 1;
-//                                }
+                                $cats_sub1 = get_category_children($cat_sub['id']);
+                                if ($cats_sub1) {
+                                    foreach ($cats_sub1 as $cat_sub1_id) {
+                                        $cat_sub1 = get_category_by_id($cat_sub1_id);
+                                        if ($cat_sub1) {
+                                            $json[] = array(
+                                                'id'=>$cat_sub1['id'],
+                                                'type'=>'sub_category',
+                                                'title'=>$cat_sub1['title'],
+                                                'parent_id'=>$cat_sub1['id'],
+                                                'position'=>$cat_sub1['position'],
+                                                'parent_type'=> 'category',
+                                                'subtype' => 'sub_category'
+                                            );
+                                        }
+                                    }
+                                    //$item['has_children'] = 1;
+                                }
                                 //   $item['content_subtype'] = 'sub_category';
                                 $json[] = $item;
                             }
