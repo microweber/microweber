@@ -94,8 +94,6 @@ class MailSubscriber
 	
 	private function _flexmail() {
 
-	    var_dump($this);
-
 		$settings = get_mail_provider_settings('flexmail');
 		
 		if (!empty($settings)) {

@@ -51,8 +51,6 @@ event_bind('mw.mail_subscribe', function ($params) {
 		}
 	}
 
-	var_dump($email);
-
 	if ($email) {
 
 		$provider = new \Microweber\Utils\MailSubscriber();

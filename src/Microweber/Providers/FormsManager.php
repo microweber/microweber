@@ -383,9 +383,6 @@ class FormsManager
         }
 
 
-
-
-
         // if ($for=='module'){
         $list_id = $this->app->option_manager->get('list_id', $for_id);
         //  }
@@ -624,7 +621,7 @@ class FormsManager
 
         $params['option_group'] = $params['module_name'];
         $params['rel'] = $params['for'];
-        $params['rel_id'] = $params['for_id']; 
+        $params['rel_id'] = $params['for_id'];
 
         event_trigger('mw.mail_subscribe', $params);
 
