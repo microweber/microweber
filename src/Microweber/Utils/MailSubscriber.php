@@ -103,7 +103,7 @@ class MailSubscriber
 			if (!empty($checkSubscriber)) {
 				echo 'Email '.$this->email.' allready subscribed for flexmail.';
 				return;
-			}*/ 
+			}*/
 			
 			try {
 				$config = new \Finlet\flexmail\Config\Config();
