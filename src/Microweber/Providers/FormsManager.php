@@ -622,20 +622,6 @@ class FormsManager
             }
         }
 
-
-        if (!isset($email_from)) {
-            if (isset($params['email']) and (filter_var($params['email'], FILTER_VALIDATE_EMAIL))) {
-                $email_from = $params['email'];
-            }
-            if (!isset($email_from) || !$email_from) {
-                foreach ($params as $pKey => $pValue) {
-                    if (isset($params[$pKey]) && is_string($params[$pKey]) && (filter_var($params[$pKey], FILTER_VALIDATE_EMAIL))) {
-                        $email_from = $params[$pKey];
-                    }
-                }
-            }
-        }
-        
         $params['option_group'] = $params['module_name'];
         $params['rel'] = $params['for'];
         $params['rel_id'] = $params['for_id'];
