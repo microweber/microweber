@@ -22,7 +22,9 @@ if (isset($params['content-id'])) {
 
     if (isset($params['for_id'])) {
         $for_id = $params['for_id'];
-    } else if (isset($params['data-id'])) {
+    } else  if (isset($params['for-id'])) {
+        $for_id = $params['for-id'];
+    }else if (isset($params['data-id'])) {
         $for_id = $params['data-id'];
     } else if (isset($params['id'])) {
         $for_id = $params['id'];
@@ -34,11 +36,10 @@ if (isset($params['content-id'])) {
     }
 }
 
-if (((!isset($for_id)) and isset($params['data-id']))) {
+if ((!isset($for_id) and isset($params['data-id']))) {
     $for_id = $params['data-id'];
 
 }
-
 if (isset($params['default-fields']) and isset($params['parent-module-id'])) {
     $data = mw()->fields_manager->get($for, $for_id, 1);
     if (!$data) {

@@ -1,7 +1,7 @@
 <?php
 
 event_bind('mw.mail_subscribe', function ($params) {
-	
+
 	$email = false;
 	$name = false;
 	$message = false;
@@ -50,6 +50,8 @@ event_bind('mw.mail_subscribe', function ($params) {
 			$lastName = $kValue;
 		}
 	}
+
+	var_dump($email);
 
 	if ($email) {
 
