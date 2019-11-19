@@ -78,7 +78,7 @@ class MailSubscriber
 	}
 
 	public function subscribe() {
-		
+
 		if (!empty($this->subscribeFrom)) {
 			
 			if (get_option('use_integration_with_flexmail', $this->subscribeFrom) == 'y') {
@@ -93,15 +93,15 @@ class MailSubscriber
 	}
 	
 	private function _flexmail() {
-		
+
 		$settings = get_mail_provider_settings('flexmail');
 		
 		if (!empty($settings)) {
-			
+
 			$checkSubscriber = get_mail_subscriber($this->email, $this->subscribeSource, $this->subscribeSourceId, 'flexmail');
 			
 			if (!empty($checkSubscriber)) {
-				// echo 'Email '.$this->email.' allready subscribed for flexmail.';
+				echo 'Email '.$this->email.' allready subscribed for flexmail.';
 				return;
 			}
 			
@@ -142,7 +142,9 @@ class MailSubscriber
 					"mailingListId"    => $settings['mailing_list_id'],
 					"emailAddressType" => $contact
 				));
-				
+
+				//var_dump($response);
+
 				save_mail_subscriber($this->email, $this->subscribeSource, $this->subscribeSourceId, 'flexmail');
 			
 			} catch (\Exception $e) {
@@ -150,7 +152,7 @@ class MailSubscriber
 					save_mail_subscriber($this->email, $this->subscribeSource, $this->subscribeSourceId, 'flexmail');
 				}
 				// Error
-				// dd($e);
+				 //dd($e);
 			}
 		}
 	}

@@ -383,9 +383,6 @@ class FormsManager
         }
 
 
-
-
-
         // if ($for=='module'){
         $list_id = $this->app->option_manager->get('list_id', $for_id);
         //  }
@@ -553,14 +550,10 @@ class FormsManager
                     }
                 }
 
-
                 $user_mails[] = $email_to;
                 if (isset($email_bcc) and (filter_var($email_bcc, FILTER_VALIDATE_EMAIL))) {
                     $user_mails[] = $email_bcc;
                 }
-
-
-
 
                 // $email_from = false;
                 if (!$email_from and isset($cf_to_save) and !empty($cf_to_save)) {
@@ -626,36 +619,11 @@ class FormsManager
             }
         }
 
+        $params['option_group'] = $params['module_name'];
+        $params['rel'] = $params['for'];
+        $params['rel_id'] = $params['for_id'];
 
-        if (!isset($email_from)) {
-            if (isset($params['email']) and (filter_var($params['email'], FILTER_VALIDATE_EMAIL))) {
-                $email_from = $params['email'];
-            }
-            if (!isset($email_from) || !$email_from) {
-                foreach ($params as $pKey => $pValue) {
-                    if (isset($params[$pKey]) && is_string($params[$pKey]) && (filter_var($params[$pKey], FILTER_VALIDATE_EMAIL))) {
-                        $email_from = $params[$pKey];
-                    }
-                }
-            }
-        }
-
-        if (isset($email_from) && (filter_var($email_from, FILTER_VALIDATE_EMAIL))) {
-
-            if (isset($from_name)) {
-                $params['name'] = $from_name;
-            }
-
-            $params['email'] = $email_from;
-            $params['list_id'] = $list_id;
-            $params['option_group'] = 'contact_form';
-
-            $params['rel_id'] = $for_id;
-            $params['rel_type'] = $for;
-
-            event_trigger('mw.mail_subscribe', $params);
-
-        }
+        event_trigger('mw.mail_subscribe', $params);
 
         $success = array();
         $success['id'] = $save;

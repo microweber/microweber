@@ -1,7 +1,7 @@
 <?php
 
 event_bind('mw.mail_subscribe', function ($params) {
-	
+
 	$email = false;
 	$name = false;
 	$message = false;
@@ -50,8 +50,9 @@ event_bind('mw.mail_subscribe', function ($params) {
 			$lastName = $kValue;
 		}
 	}
-	
+
 	if ($email) {
+
 		$provider = new \Microweber\Utils\MailSubscriber();
 		
 		if (isset($params['list_id'])) {
@@ -104,7 +105,7 @@ event_bind('mw.mail_subscribe', function ($params) {
 				'value'=>$value
 			));
 		}
-		
+
 		$provider->subscribe();
 	}
 	

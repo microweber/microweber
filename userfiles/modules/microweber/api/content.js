@@ -18,6 +18,7 @@
                  if (callback) {
                      callback.call(data, data);
                  }
+                 mw.reload_module_everywhere('content/manager');
              });
          });
      },
