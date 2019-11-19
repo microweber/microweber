@@ -231,12 +231,13 @@ api_expose_admin('content/get_admin_js_tree_json', function ($params) {
                                         if ($cat_sub1) {
                                             $json[] = array(
                                                 'id'=>$cat_sub1['id'],
-                                                'type'=>'sub_category',
+                                                'type'=>'category',
                                                 'title'=>$cat_sub1['title'],
-                                                'parent_id'=>$cat_sub1['id'],
-                                                'position'=>$cat_sub1['position'],
+                                                'parent_id'=>intval($cat_sub1['parent_id']),
+                                                'position'=>intval($cat_sub1['position']),
                                                 'parent_type'=> 'category',
                                                 'subtype' => 'sub_category'
+
                                             );
                                         }
                                     }
