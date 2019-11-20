@@ -620,7 +620,7 @@ class FormsManager
         }
 
         if (isset($params['module_name'])) {
-            
+
             $params['option_group'] = $params['module_name'];
             $params['rel'] = $params['for'];
             $params['rel_id'] = $params['for_id'];
