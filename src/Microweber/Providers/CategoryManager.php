@@ -924,4 +924,119 @@ class CategoryManager
 
         return intval($cat_url);
     }
+
+    public function get_category_childrens($cat_id) {
+
+        $data = array();
+        $childrens = $this->get_category_children_recursive($cat_id);
+
+        if ($childrens) {
+            foreach ($childrens as $children) {
+                $data[] = array(
+                    'id' => $children['id'],
+                    'type' => 'category',
+                    'title' => $children['title'],
+                    'parent_id' => intval($children['parent_id']),
+                    'position' => intval($children['position']),
+                    'parent_type' => 'category',
+                    'subtype' => 'sub_category'
+
+                );
+            }
+        }
+
+        return $data;
+    }
+
+    public function get_category_children_recursive($cat_id)
+    {
+        $childrens = array();
+
+        $has_children = get_category_children($cat_id);
+        if ($has_children) {
+            if ($has_children) {
+                foreach ($has_children as $cat_sub_id) {
+                    $cat_sub = get_category_by_id($cat_sub_id);
+                    if ($cat_sub) {
+                        $childrens[] = $cat_sub;
+                        $cat_sub_has_children = $this->get_category_children_recursive($cat_sub_id);
+                        if ($cat_sub_has_children) {
+                            foreach($cat_sub_has_children as $cat_sub_children) {
+                                $childrens[] = $cat_sub_children;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $childrens;
+    }
+
+    public function get_admin_js_tree_json($params)
+    {
+        $json = array();
+
+        $pages_params = array();
+        $pages_params['no_limit'] = 1;
+        $pages_params['order_by'] = 'position desc';
+
+        if(isset($params['is_shop'])){
+            $pages_params['is_shop'] = intval($params['is_shop']);
+        }
+
+        $pages = get_pages($pages_params);
+        if ($pages) {
+            foreach ($pages as $page) {
+                $item = array();
+                $item['id'] = $page['id'];
+                $item['type'] = 'page';
+                $item['parent_id'] = intval($page['parent']);
+                $item['parent_type'] = 'page';
+                $item['title'] = $page['title'];
+                // $item['has_children'] = 0;
+
+                $item['subtype'] = $page['subtype'];
+                $item['order_by'] = 'position asc';
+
+                if ($page['is_shop']) {
+                    $item['subtype'] = 'shop';
+                }
+
+                if ($page['is_home']) {
+                    $item['subtype'] = 'home';
+                }
+                $item['position'] = intval($page['position']);
+                $json[] = $item;
+
+                $pages_cats = get_categories('parent_page=' . $page['id'] . '&no_limit=1&order_by=position asc');
+                if ($pages_cats) {
+                    foreach ($pages_cats as $cat) {
+
+                        $item = array();
+                        $item['id'] = intval($cat['id']);
+                        $item['type'] = 'category';
+                        $item['parent_id'] = intval($page['id']);
+                        $item['parent_type'] = 'page';
+                        $item['title'] = $cat['title'];
+                        $item['subtype'] = 'category';
+                        $item['position'] = intval($cat['position']);
+
+                        $json[] = $item;
+
+                        $childrens = $this->get_category_childrens($cat['id']);
+                        if ($childrens) {
+                            foreach ($childrens as $children) {
+                                $json[] = $children;
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+
+        return $json;
+    }
+
 }

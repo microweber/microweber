@@ -43,10 +43,10 @@ event_bind('mw.mail_subscribe', function ($params) {
 		if ($kParamLower == 'phone') {
 			$phone = $kValue;
 		}
-		if ($kParamLower == 'name' || $kParamLower == 'first_name') {
+		if ($kParamLower == 'name' || $kParamLower == 'firstname' || $kParamLower == 'first_name' || $kParamLower == 'firstName') {
 			$name = $kValue;
 		}
-		if ($kParamLower == 'last_name' || $kParamLower == 'lastname') {
+		if ($kParamLower == 'last_name' || $kParamLower == 'lastname' || $kParamLower == 'lastName') {
 			$lastName = $kValue;
 		}
 	}

@@ -116,7 +116,12 @@ api_expose_admin('media_library/download', function ($data) {
 	
 });
 
+
 api_expose_admin('content/get_admin_js_tree_json', function ($params) {
+   return mw()->category_manager->get_admin_js_tree_json($params);
+});
+
+api_expose_admin('content/get_admin_js_tree_json___', function ($params) {
 
 
 
@@ -201,6 +206,9 @@ api_expose_admin('content/get_admin_js_tree_json', function ($params) {
                     $item['subtype'] = 'category';
                     $item['position'] = intval($cat['position']);
 
+                    $json[] = $item;
+
+                    /*
 
                     $cats_sub = get_category_children($cat['id']);
                     if ($cats_sub) {
@@ -248,6 +256,7 @@ api_expose_admin('content/get_admin_js_tree_json', function ($params) {
                             }
                         }
                     }
+                    */
                 }
             }
         }

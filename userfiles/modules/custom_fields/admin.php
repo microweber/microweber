@@ -50,6 +50,16 @@
     } elseif (isset($params['rel_id'])) {
         $for_id = $module_id = $params['rel_id'];
 
+    } else if (isset($params['for_id'])) {
+        $for_id = $params['for_id'];
+    } else if (isset($params['for-id'])) {
+        $for_id = $params['for-id'];
+    }  else if (isset($params['parent-module-id'])) {
+        $for_id = $params['parent-module-id'];
+    }  else if (isset($params['data-id'])) {
+        $for_id = $params['data-id'];
+    } else if (isset($params['id'])) {
+        $for_id = $params['id'];
     } elseif (isset($params['data-id'])) {
         $for_id = $module_id = $params['data-id'];
 

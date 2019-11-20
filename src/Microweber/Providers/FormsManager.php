@@ -619,11 +619,14 @@ class FormsManager
             }
         }
 
-        $params['option_group'] = $params['module_name'];
-        $params['rel'] = $params['for'];
-        $params['rel_id'] = $params['for_id'];
+        if (isset($params['module_name'])) {
 
-        event_trigger('mw.mail_subscribe', $params);
+            $params['option_group'] = $params['module_name'];
+            $params['rel'] = $params['for'];
+            $params['rel_id'] = $params['for_id'];
+
+            event_trigger('mw.mail_subscribe', $params);
+        }
 
         $success = array();
         $success['id'] = $save;
