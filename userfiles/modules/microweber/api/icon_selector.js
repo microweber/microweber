@@ -23,11 +23,20 @@ mw.top()._icons = mw.top()._icons || [];
                 }
             }
         },
+        cleanIcon: function (node) {
+            for (var i = 0; i < mw.top()._icons.length; i++) {
+                var set = mw.top()._icons[i];
+                if (set.remove) {
+                    set.remove(node);
+                }
+            }
+        },
         addFontIcons: function (options) {
             if(!options) return;
             if(!options.icons) return;
             if(!options.name) return;
             if(!options.render) return;
+            if(!options.remove) return;
             if(options.url) {
                 mw.moduleCSS(options.url);
             }
@@ -38,7 +47,10 @@ mw.top()._icons = mw.top()._icons || [];
             };
             if(options.exists()) return;
             var toAdd = {
-                render: options.render,
+                render: function (icon, target) {
+                    mw.icons.cleanIcon(target);
+                    return options.render(icon, target);
+                },
                 icons: options.icons,
                 name: options.name
             };
@@ -305,6 +317,10 @@ mw.top()._icons = mw.top()._icons || [];
                 this.addFontIcons({
                     icons: faIconsArray,
                     name: 'Font Awesome',
+                    remove: function(target) {
+                        mw.tools.classNamespaceDelete(target, 'fa-');
+                        mw.tools.removeClass(target, 'fa');
+                    },
                     render: function(icon, target) {
                         mw.$(target)['attr']('class', 'fa ' + icon);
                     }
@@ -332,6 +348,10 @@ mw.top()._icons = mw.top()._icons || [];
                 this.addFontIcons({
                     icons: mindIcons,
                     name: 'Icons Mind',
+                    remove: function(target) {
+                        mw.tools.classNamespaceDelete(target, 'mw-micon-');
+                    },
+
                     render: function(icon, target) {
                         mw.$(target)['attr']('class', 'mw-icon ' + icon);
                     }
@@ -357,6 +377,10 @@ mw.top()._icons = mw.top()._icons || [];
                 icons.addFontIcons({
                     icons: mw.materialIcons,
                     name: 'Material Icons',
+                    remove: function(target) {
+                        mw.tools.removeClass(target, 'material-icons');
+                        target.innerHTML = '';
+                    },
                     render: function(icon, target) {
                         mw.$(target)['attr']('class', 'mw-icon material-icons').html(icon);
 
@@ -365,6 +389,9 @@ mw.top()._icons = mw.top()._icons || [];
                 icons.addFontIcons({
                     icons: mw.microweberIcons,
                     name: 'Microweber Icons',
+                    remove: function(target) {
+                        mw.tools.classNamespaceDelete(target, 'mw-icon-');
+                    },
                     render: function(icon, target) {
                         mw.$(target)['attr']('class', 'mw-icon ' + icon).html('');
                     }

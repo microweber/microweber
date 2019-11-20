@@ -1794,7 +1794,7 @@ body.dragStart .no-drop {
     cursor: not-allowed;
 }
 
-.sortable-placeholder, .ui-sortable-placeholder, .ui-state-highlight, .sortable-dragging {
+.sortable-placeholder, .ui-sortable-placeholder, .sortable-dragging {
     padding-top: 5px;
     padding-bottom: 5px;
     margin-top: 10px;

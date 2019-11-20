@@ -15,7 +15,7 @@ mw.liveedit.handleCustomEvents = function() {
             if(mw.liveEditSelector.selected && mw.liveEditSelector.selected[0] === el) {
                 return;
             }
-            mw.liveEditSelector.select(el);
+            // mw.liveEditSelector.select(el);
         }
     });
 

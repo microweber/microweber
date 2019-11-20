@@ -42,9 +42,14 @@ var dynamicModulesMenu = function(e, el) {
                 modules = mw.$([el]);
                 el = parent;
                 $el = mw.$(el);
+
             }
         }
     }
+    if (e.type === 'ModuleClick') {
+        mw.liveEditSelector.select(el);
+    }
+
     if(modules.length && !mw.inaccessibleModules._hovered) {
         mw.inaccessibleModules.innerHTML = '';
     }
@@ -71,7 +76,7 @@ var dynamicModulesMenu = function(e, el) {
         }
         mw.inaccessibleModules.style.top = off.top + 'px';
         mw.inaccessibleModules.style.left = off.left + 'px';
-        clearTimeout(dynamicModulesMenuTime)
+        clearTimeout(dynamicModulesMenuTime);
         mw.$(mw.inaccessibleModules).show();
     }
     else{
@@ -486,17 +491,55 @@ mw._initHandles = {
                 }
             ]
         };
+        var handlesModuleConfigActive = {
+            id: 'mw-handle-item-module-active',
+            menu:[
+                {
+                    title: 'Settings',
+                    icon: 'mw-icon-gear',
+                    action: function () {
+                        mw.drag.module_settings(getActiveDragCurrent(),"admin");
+                    }
+                },
+                {
+                    title: 'Move Up',
+                    icon: 'mw-icon-arrow-up-b',
+                    className:'mw_handle_module_up',
+                    action: function () {
+                        mw.drag.replace($(getActiveDragCurrent()), 'prev');
+                    }
+                },
+                {
+                    title: 'Move Down',
+                    icon: 'mw-icon-arrow-down-b',
+                    className:'mw_handle_module_down',
+                    action: function () {
+                        mw.drag.replace($(getActiveDragCurrent()), 'next');
+                    }
+                },
+                {
+                    title: '{dynamic}',
+                    icon: 'mw-icon-arrow-down-b'
+                },
+                {
+                    title: 'Remove',
+                    icon: 'mw-icon-bin',
+                    className:'mw-handle-remove',
+                    action: function () {
+                        mw.drag.delete_element(getActiveDragCurrent());
+                    }
+                }
+            ]
+        };
 
         var getActiveDragCurrent = function () {
             var el = mw.liveEditSelector && mw.liveEditSelector.selected ?  mw.liveEditSelector.selected[0] : null;
-            console.log(222, el)
             if(el && el.nodeType === 1){
                 return el;
             }
         };
 
         var getDragCurrent = function () {
-            console.log(333, mw._activeModuleOver)
             if(mw._activeModuleOver){
                 return mw._activeModuleOver;
             }
@@ -511,7 +554,6 @@ mw._initHandles = {
                 start: function() {
                     mw.isDrag = true;
                     mw.dragCurrent = curr();
-                    console.log(mw.dragCurrent)
                     if(!mw.dragCurrent.id){
                         mw.dragCurrent.id = 'module_' + mw.random();
                     }
@@ -538,7 +580,10 @@ mw._initHandles = {
         }
 
         mw.handleModule = new mw.Handle(handlesModuleConfig);
-        mw.handleModuleActive = new mw.Handle(handlesModuleConfig);
+        mw.handleModuleActive = new mw.Handle(handlesModuleConfigActive);
+
+        mw.handleModule.type = 'hover';
+        mw.handleModuleActive.type = 'active';
 
         mw.handleModule._hideTime = null;
         mw
@@ -558,13 +603,23 @@ mw._initHandles = {
 
 
         var positionModuleHandle = function(e, pelement, handle){
-            var element = dynamicModulesMenu(e, pelement) || pelement;
-            mw._activeModuleOver = element;
+
+            var element ;
+
+            if(handle.type === 'hover') {
+                element = dynamicModulesMenu(e, pelement) || pelement;
+                mw._activeModuleOver = element;
+            } else {
+                //pelement = mw.tools.lastMatchesOnNodeOrParent(pelement, ['.module']);
+
+                element = dynamicModulesMenu(e, pelement) || pelement;
+            }
+
             mw.$(".mw-handle-menu-dynamic", handle.wrapper).empty();
             mw.$('.mw_handle_module_up,.mw_handle_module_down').hide();
             var $el, hasedit;
-            if(mw._activeModuleOver && mw._activeModuleOver.getAttribute('data-type') === 'layouts'){
-                $el = mw.$(mw._activeModuleOver);
+            if(element && element.getAttribute('data-type') === 'layouts'){
+                $el = mw.$(element);
                 hasedit = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst($el[0],['edit', 'module']);
                 if(hasedit){
                     if($el.prev('[data-type="layouts"]').length !== 0){
@@ -728,13 +783,11 @@ mw._initHandles = {
         };
 
         mw.on('ModuleClick', function(e, pelement){
-            positionModuleHandle(e, pelement, mw.handleModuleActive)
+            positionModuleHandle(e, pelement, mw.handleModuleActive);
         });
 
-
-
         mw.on('moduleOver', function (e, pelement) {
-            positionModuleHandle(e, pelement, mw.handleModule)
+            positionModuleHandle(e, pelement, mw.handleModule);
         });
     },
     columns:function(){
