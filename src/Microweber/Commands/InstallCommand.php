@@ -56,7 +56,7 @@ class InstallCommand extends Command
             'with_default_content' => $this->option('default-content'),
             'default_template' => $this->option('template'),
             'config_only' => $this->option('config_only'),
-            'site_lang' => $this->option('language'),
+            'site_lang' => trim($this->option('language')),
         );
         $vals = array_filter($input);
         if (!$vals) {
