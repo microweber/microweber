@@ -1330,12 +1330,14 @@ class UserManager
         $data1['password_reset_hash'] = $this->app->database_manager->escape_string($params['password_reset_hash']);
         $table = $this->tables['users'];
 
-        $check = $this->get_all('single=true&password_reset_hash=[not_null]&password_reset_hash=' . $data1['password_reset_hash'] . '&id=' . $data1['id']);
-        if (!is_array($check)) {
+
+        $check = User::whereNotNull('password_reset_hash')->where('password_reset_hash', $data1['password_reset_hash'])->where('id', $data1['id'])->first();
+        if (!$check) {
             return array('error' => 'Invalid data or expired link!');
         } else {
             $data1['password_reset_hash'] = '';
         }
+
         $this->force_save = true;
         $save = $this->app->database_manager->save($table, $data1);
         $save_user = array();
@@ -1759,7 +1761,9 @@ class UserManager
             unset($data['username']);
         }
 
+
         $data['table'] = $table;
+        $data['exclude_shorthand'] = true;
         $get = $this->app->database_manager->get($data);
 
         return $get;

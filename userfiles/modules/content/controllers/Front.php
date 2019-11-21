@@ -45,7 +45,7 @@ class Front
 
     function index($params, $config)
     {
-
+        $params['exclude_shorthand'] = 'keyword, data-keyword';
 
         $current_page = $current_page = 1;
         $post_params = $params;

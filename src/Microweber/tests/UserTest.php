@@ -84,7 +84,6 @@ class UserTest extends TestCase
 
         $userManager = new UserManager();
         $registerStatus = $userManager->register($newUser);
-
         $this->assertArrayHasKey('success', $registerStatus);
 
         self::$_username = $newUser['username'];
@@ -214,6 +213,17 @@ class UserTest extends TestCase
         $this->assertEquals(true, $findIpAddress);
 
     }
+
+    public function testResetPassword()
+    {
+        $password_reset_hash = '[like]';
+
+        $check = mw()->user_manager->get_all('exclude_shorthand=password_reset_hash&single=true&password_reset_hash=[not_null]&password_reset_hash=' . $password_reset_hash . '&username=' . self::$_username);
+
+        $this->assertEquals(false, $check);
+
+    }
+
 
     public function testDisableUserRegistration()
     {
