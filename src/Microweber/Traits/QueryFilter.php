@@ -90,82 +90,104 @@ trait QueryFilter
 
         }
 
+        $exclude_shorthand = false;
+        if (isset($params['exclude_shorthand']) && $params['exclude_shorthand'] ) {
+            $exclude_shorthand = $params['exclude_shorthand'];
+            if(!is_array($exclude_shorthand) and is_string($exclude_shorthand)){
+                $exclude_shorthand = explode(',',$exclude_shorthand);
+                $exclude_shorthand = array_map('trim', $exclude_shorthand);
+            } else {
+                $exclude_shorthand = true;
+            }
+        }
 
         foreach ($params as $filter => $value) {
+
             $compare_sign = false;
             $compare_value = false;
 
             if (is_string($value)) {
-                if (stristr($value, '[lt]')) {
-                    $compare_sign = '<';
-                    $value = str_replace('[lt]', '', $value);
-                } elseif (stristr($value, '[lte]')) {
-                    $compare_sign = '<=';
-                    $value = str_replace('[lte]', '', $value);
-                } elseif (stristr($value, '[st]')) {
-                    $compare_sign = '<';
-                    $value = str_replace('[st]', '', $value);
-                } elseif (stristr($value, '[ste]')) {
-                    $compare_sign = '<=';
-                    $value = str_replace('[ste]', '', $value);
-                } elseif (stristr($value, '[gt]')) {
-                    $compare_sign = '>';
-                    $value = str_replace('[gt]', '', $value);
-                } elseif (stristr($value, '[gte]')) {
-                    $compare_sign = '>=';
-                    $value = str_replace('[gte]', '', $value);
-                } elseif (stristr($value, '[mt]')) {
-                    $compare_sign = '>';
-                    $value = str_replace('[mt]', '', $value);
-                } elseif (stristr($value, '[md]')) {
-                    $compare_sign = '>';
-                    $value = str_replace('[md]', '', $value);
-                } elseif (stristr($value, '[mte]')) {
-                    $compare_sign = '>=';
-                    $value = str_replace('[mte]', '', $value);
-                } elseif (stristr($value, '[mde]')) {
-                    $compare_sign = '>=';
-                    $value = str_replace('[mde]', '', $value);
-                } elseif (stristr($value, '[neq]')) {
-                    $compare_sign = '!=';
-                    $value = str_replace('[neq]', '', $value);
-                } elseif (stristr($value, '[eq]')) {
-                    $compare_sign = '=';
-                    $value = str_replace('[eq]', '', $value);
-                } elseif (stristr($value, '[int]')) {
-                    $value = str_replace('[int]', '', $value);
-                    $value = intval($value);
-                } elseif (stristr($value, '[is]')) {
-                    $compare_sign = '=';
-                    $value = str_replace('[is]', '', $value);
-                } elseif (stristr($value, '[like]')) {
-                    $compare_sign = 'LIKE';
-                    $value = str_replace('[like]', '', $value);
-                    $compare_value = '%' . $value . '%';
-                } elseif (stristr($value, '[not_like]')) {
-                    $value = str_replace('[not_like]', '', $value);
-                    $compare_sign = 'NOT LIKE';
-                    $compare_value = '%' . $value . '%';
-                } elseif (stristr($value, '[is_not]')) {
-                    $value = str_replace('[is_not]', '', $value);
-                    $compare_sign = 'NOT LIKE';
-                    $compare_value = '%' . $value . '%';
-                } elseif (stristr($value, '[in]')) {
-                    $value = str_replace('[in]', '', $value);
-                    $compare_sign = 'in';
-                } elseif (stristr($value, '[not_in]')) {
-                    $value = str_replace('[not_in]', '', $value);
-                    $compare_sign = 'not_in';
-                } elseif (strtolower($value) == '[null]') {
-                    $value = str_replace('[null]', '', $value);
-                    $compare_sign = 'null';
-                } elseif (strtolower($value) == '[not_null]') {
-                    $value = str_replace('[not_null]', '', $value);
-                    $compare_sign = 'not_null';
+
+                $use_shorthand = true;
+                if ($exclude_shorthand  and is_array($exclude_shorthand) and in_array($filter,$exclude_shorthand)) {
+                    $use_shorthand = false;
+                } else   if ($exclude_shorthand ) {
+                    $use_shorthand = false;
                 }
-                if ($filter == 'created_at' or $filter == 'updated_at') {
-                    $compare_value = date('Y-m-d H:i:s', strtotime($value));
+
+                if ($use_shorthand) {
+                    if (stristr($value, '[lt]')) {
+                        $compare_sign = '<';
+                        $value = str_replace('[lt]', '', $value);
+                    } elseif (stristr($value, '[lte]')) {
+                        $compare_sign = '<=';
+                        $value = str_replace('[lte]', '', $value);
+                    } elseif (stristr($value, '[st]')) {
+                        $compare_sign = '<';
+                        $value = str_replace('[st]', '', $value);
+                    } elseif (stristr($value, '[ste]')) {
+                        $compare_sign = '<=';
+                        $value = str_replace('[ste]', '', $value);
+                    } elseif (stristr($value, '[gt]')) {
+                        $compare_sign = '>';
+                        $value = str_replace('[gt]', '', $value);
+                    } elseif (stristr($value, '[gte]')) {
+                        $compare_sign = '>=';
+                        $value = str_replace('[gte]', '', $value);
+                    } elseif (stristr($value, '[mt]')) {
+                        $compare_sign = '>';
+                        $value = str_replace('[mt]', '', $value);
+                    } elseif (stristr($value, '[md]')) {
+                        $compare_sign = '>';
+                        $value = str_replace('[md]', '', $value);
+                    } elseif (stristr($value, '[mte]')) {
+                        $compare_sign = '>=';
+                        $value = str_replace('[mte]', '', $value);
+                    } elseif (stristr($value, '[mde]')) {
+                        $compare_sign = '>=';
+                        $value = str_replace('[mde]', '', $value);
+                    } elseif (stristr($value, '[neq]')) {
+                        $compare_sign = '!=';
+                        $value = str_replace('[neq]', '', $value);
+                    } elseif (stristr($value, '[eq]')) {
+                        $compare_sign = '=';
+                        $value = str_replace('[eq]', '', $value);
+                    } elseif (stristr($value, '[int]')) {
+                        $value = str_replace('[int]', '', $value);
+                        $value = intval($value);
+                    } elseif (stristr($value, '[is]')) {
+                        $compare_sign = '=';
+                        $value = str_replace('[is]', '', $value);
+                    } elseif (stristr($value, '[like]')) {
+                        $compare_sign = 'LIKE';
+                        $value = str_replace('[like]', '', $value);
+                        $compare_value = '%' . $value . '%';
+                    } elseif (stristr($value, '[not_like]')) {
+                        $value = str_replace('[not_like]', '', $value);
+                        $compare_sign = 'NOT LIKE';
+                        $compare_value = '%' . $value . '%';
+                    } elseif (stristr($value, '[is_not]')) {
+                        $value = str_replace('[is_not]', '', $value);
+                        $compare_sign = 'NOT LIKE';
+                        $compare_value = '%' . $value . '%';
+                    } elseif (stristr($value, '[in]')) {
+                        $value = str_replace('[in]', '', $value);
+                        $compare_sign = 'in';
+                    } elseif (stristr($value, '[not_in]')) {
+                        $value = str_replace('[not_in]', '', $value);
+                        $compare_sign = 'not_in';
+                    } elseif (strtolower($value) == '[null]') {
+                        $value = str_replace('[null]', '', $value);
+                        $compare_sign = 'null';
+                    } elseif (strtolower($value) == '[not_null]') {
+                        $value = str_replace('[not_null]', '', $value);
+                        $compare_sign = 'not_null';
+                    }
+                    if ($filter == 'created_at' or $filter == 'updated_at') {
+                        $compare_value = date('Y-m-d H:i:s', strtotime($value));
+                    }
                 }
+
             }
 
             switch ($filter) {

@@ -75,7 +75,7 @@
                         <div class="control-group form-group">
                             <div class="controls mw-ui-field-holder">
                                 <div class="input-prepend mw-ui-field mw-ico-field">
-                                   <module type="captacha" />
+                                   <module type="captcha" />
                                 </div>
                             </div>
                         </div>

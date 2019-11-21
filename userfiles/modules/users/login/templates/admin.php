@@ -170,7 +170,7 @@ $current_lang = current_lang();
     </div>
     <div id="login_foot"><a href="<?php print site_url() ?>" class="pull-left"><span class="mw-icon-back"></span>
             <?php _e("Back to My WebSite"); ?>
-        </a> <a href="javascript:mw.load_module('users/forgot_password', '#admin_login', false, {template:'admin'});" class="mw-ui-link pull-right">
+        </a> <a href="#" onClick="mw.load_module('users/forgot_password', '#admin_login', false, {template:'admin'});" class="mw-ui-link pull-right">
             <?php _e("Forgot my password"); ?>
             ?</a></div>
 <?php endif; ?>
