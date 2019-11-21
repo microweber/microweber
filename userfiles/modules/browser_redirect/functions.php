@@ -107,6 +107,10 @@ event_bind('mw.pageview', function() {
 
         $detectedSegment = false;
 
+        if($redirect['redirect_from_url'] == "*" && $urlSegment !== $redirect['redirect_to_url']) {
+            $detectedSegment = true;
+        }
+
         if($redirect['redirect_from_url'] == "/" && $urlSegment == '') {
             $detectedSegment = true;
         }
