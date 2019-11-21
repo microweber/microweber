@@ -107,6 +107,9 @@ event_bind('mw.pageview', function() {
 
         $detectedSegment = false;
 
+        $redirect['redirect_from_url'] = str_replace(site_url(), false, $redirect['redirect_from_url']);
+        $redirect['redirect_to_url'] = str_replace(site_url(), false, $redirect['redirect_to_url']);
+
         if($redirect['redirect_from_url'] == "*" && $urlSegment !== $redirect['redirect_to_url']) {
             $detectedSegment = true;
         }
