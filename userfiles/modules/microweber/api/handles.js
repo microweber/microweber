@@ -459,6 +459,7 @@ mw._initHandles = {
                     icon: 'mw-icon-gear',
                     action: function () {
                         mw.drag.module_settings(mw._activeModuleOver,"admin");
+                        mw.handleModule.hide()
                     }
                 },
                 {
@@ -467,6 +468,7 @@ mw._initHandles = {
                     className:'mw_handle_module_up',
                     action: function () {
                         mw.drag.replace($(mw._activeModuleOver), 'prev');
+                        mw.handleModule.hide()
                     }
                 },
                 {
@@ -475,6 +477,7 @@ mw._initHandles = {
                     className:'mw_handle_module_down',
                     action: function () {
                         mw.drag.replace($(mw._activeModuleOver), 'next');
+                        mw.handleModule.hide()
                     }
                 },
                 {
@@ -487,6 +490,7 @@ mw._initHandles = {
                     className:'mw-handle-remove',
                     action: function () {
                         mw.drag.delete_element(mw._activeModuleOver);
+                        mw.handleModule.hide()
                     }
                 }
             ]
@@ -499,6 +503,7 @@ mw._initHandles = {
                     icon: 'mw-icon-gear',
                     action: function () {
                         mw.drag.module_settings(getActiveDragCurrent(),"admin");
+                        $(mw.handleModuleActive.wrapper).removeClass('active')
                     }
                 },
                 {

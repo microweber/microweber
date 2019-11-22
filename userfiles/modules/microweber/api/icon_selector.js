@@ -51,6 +51,7 @@ mw.top()._icons = mw.top()._icons || [];
                     mw.icons.cleanIcon(target);
                     return options.render(icon, target);
                 },
+                remove: options.remove,
                 icons: options.icons,
                 name: options.name
             };
@@ -322,7 +323,7 @@ mw.top()._icons = mw.top()._icons || [];
                         mw.tools.removeClass(target, 'fa');
                     },
                     render: function(icon, target) {
-                        mw.$(target)['attr']('class', 'fa ' + icon);
+                        mw.$(target).addClass( 'fa ' + icon );
                     }
                 });
             }
@@ -353,7 +354,7 @@ mw.top()._icons = mw.top()._icons || [];
                     },
 
                     render: function(icon, target) {
-                        mw.$(target)['attr']('class', 'mw-icon ' + icon);
+                        mw.$(target).addClass('mw-icon ' + icon);
                     }
                 });
             }
@@ -382,7 +383,7 @@ mw.top()._icons = mw.top()._icons || [];
                         target.innerHTML = '';
                     },
                     render: function(icon, target) {
-                        mw.$(target)['attr']('class', 'mw-icon material-icons').html(icon);
+                        mw.$(target).addClass('mw-icon material-icons').html(icon);
 
                     }
                 });
@@ -393,7 +394,7 @@ mw.top()._icons = mw.top()._icons || [];
                         mw.tools.classNamespaceDelete(target, 'mw-icon-');
                     },
                     render: function(icon, target) {
-                        mw.$(target)['attr']('class', 'mw-icon ' + icon).html('');
+                        mw.$(target).addClass('mw-icon ' + icon);
                     }
                 });
 
@@ -784,8 +785,9 @@ mw.iconSelector = mw.iconSelector || {
         options.mode = options.mode || 'absolute';
         var btn = mwd.createElement('span');
         btn.className = 'mw-ui-btn';
-        var btnIcon = mwd.createElement('span');
-        btn.appendChild(btnIcon);
+        var btnIcon;
+        $(btn).append(options.value || '<span></span>');
+        btnIcon = btn.firstChild;
         btn.appendChild(mwd.createTextNode('Choose icon'));
 
         btn.onclick = function(){

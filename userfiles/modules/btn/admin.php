@@ -34,6 +34,9 @@ $icon = get_option('icon', $params['id']);
         text-align: center;
     }
 
+    #icon-picker .mw-ui-btn > *:first-child{
+        margin-right: 7px;
+    }
     #icon-picker input,
     #icon-picker {
         width: 250px;
@@ -139,12 +142,13 @@ $icon = get_option('icon', $params['id']);
                 class="mw_option_field mw-ui-field"/>
             <a href="javascript:;" class="mw-ui-btn"><span class="mw-icon-gear"></span></a>
         </div>
-        <div class="mw-ui-field-holder">
-            <label class="mw-ui-check">
-                <input type="checkbox" name="url_blank" value="y" class="mw_option_field"<?php if ($url_blank == 'y'): ?> checked="checked" <?php endif; ?>>
-                <span></span> <span><?php _e("Open in new window"); ?></span>
-            </label>
-        </div>
+
+    </div>
+    <div class="mw-ui-field-holder">
+        <label class="mw-ui-check">
+            <input type="checkbox" name="url_blank" value="y" class="mw_option_field"<?php if ($url_blank == 'y'): ?> checked="checked" <?php endif; ?>>
+            <span></span> <span><?php _e("Open in new window"); ?></span>
+        </label>
     </div>
 
 

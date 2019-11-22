@@ -1827,3 +1827,75 @@
 .mw-icon-customer:before {
   content: '\014d';
 }
+
+
+/* Icon pickers */
+
+.mw-icon-list{
+    width: 100%;
+    text-align: justify;
+}
+
+
+.mw-icon-list-icon:hover{
+    background-color: #efecec;
+}
+.mw-icon-list .mw-ui-btn-nav{
+    padding-bottom: 16px;
+}
+.mw-icon-list .mw-ui-btn-nav,
+.mw-icon-list .mw-ui-btn-nav input{
+    width: 100%;
+}
+.mw-icon-list h5{
+    font-size: 12px;
+    text-transform: uppercase;
+    padding-bottom: 5px;
+    opacity: .6;
+}
+.mw-icon-list-section + h5{
+    padding-top: 16px;
+}
+.mw-icon-list-icon{
+    transition: opacity .3s, transform .3s;
+    width: 40px;
+    height: 30px;
+    overflow: hidden;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    font-size: 22px;
+    border-radius:3px;
+    background-color: white;
+    padding: 3px 5px;
+    color: #939393;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.mw-icon-list-settings-section-block-item .mw-field{
+    width: 100%;
+}
+.mw-icon-list-settings-section-block-item{
+    display: block;
+}
+.mw-icon-list-settings-section-block-item + .mw-icon-list-settings-section-block-item{
+    padding-top: 16px;
+    margin-top: 16px;
+    border-top: 1px solid #efecec;
+}
+.mw-tooltip .mw-icon-list-section,
+.mw-icon-list-settings-section-block-item{
+    width: 360px;
+}
+.mw-icon-list-settings-section-block-item
+.mw-tooltip .mw-icon-list-section{
+    max-width: 95%;
+}
+.mw-icon-list-icon-hidden{
+    opacity: 0;
+    transform: translateY(-5px) scale(.5, .5);
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+}
