@@ -267,6 +267,10 @@ class ShopManager
         }
         $ord_data = $this->get_orders('limit=50');
 
+        if (!$ord_data) {
+            return array('error' => 'No orders found.');
+        }
+
         if (is_array($ord_data[0])) {
             shuffle($ord_data);
             $ord_test = $ord_data[0];
