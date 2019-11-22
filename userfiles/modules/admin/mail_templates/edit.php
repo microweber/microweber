@@ -133,14 +133,14 @@ if (!empty($template_id)) {
     </div>
 
     <div class="mw-flex-row m-b-20">
-        <div class="mw-flex-col-md-8">
+        <div class="mw-flex-col-md-12">
             <div class="box">
                 <label class="mw-ui-label">Subject</label>
                 <input type="text" name="subject" value="<?php echo $template['subject']; ?>" class="mw-ui-field" style="width:100%;">
             </div>
         </div>
 
-        <div class="mw-flex-col-md-4">
+        <div class="mw-flex-col-md-12" style="margin-top:15px;">
             <div class="box">
                 <label class="mw-ui-label"><?php _e("Email attachments"); ?></label>
                 <?php
