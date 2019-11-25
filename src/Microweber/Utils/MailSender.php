@@ -189,7 +189,9 @@ class MailSender
     )
     {
         if (empty($to)) {
-            $to = $this->email_to;
+            if (isset($this->email_to)) {
+                $to = $this->email_to;
+            }
         }
 
         if (empty($subject)) {
