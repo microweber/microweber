@@ -806,6 +806,13 @@ if ($action == 'posts') {
                                         mainTreeSetActiveItems()
 
 
+                                        $("#edit-content-row .tree-column").resizable({
+                                            handles: "e",
+                                            resize: function (e, ui) {
+                                                var root = mw.$(ui.element);
+                                                mw.$('.fixed-side-column', root).width(root.width())
+                                            }
+                                        })
 
                                     })
 
