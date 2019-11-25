@@ -100,7 +100,7 @@ if (!empty($cats)) {
             $cat['url'] = category_link($cat['id']);
 
             if ($cat['rel_type'] == 'content') {
-                $latest = get_content("order_by=position desc&limit=30&category=" . $cat['id']);
+                $latest = get_content("order_by=position desc&limit=30&is_active=1&category=" . $cat['id']);
                 if (!$cat['picture'] and isset($latest[0])) {
                     $latest_product = $latest[0];
                     $cat['picture'] = get_picture($latest_product['id']);
