@@ -21,16 +21,22 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
 <script>
     function del_this_order_and_return($ord) {
        var delconf =  mw_delete_shop_order($ord, false);
-      if(delconf){
-       window.location.href = '<?php print admin_url(); ?>view:shop/action:orders'
+       if(delconf){
+            window.location.href = '<?php print admin_url(); ?>view:shop/action:orders'
       }
     }
-
-   //
+    function export_this_order_and_return($ord) {
+        mw_export_shop_order($ord, false);
+    }
 </script>
 <div class="mw-ui-box mw-ui-box-order-info">
     <div class="mw-ui-box-header">
-        <a href="javascript:del_this_order_and_return('<?php print $show_ord_id ?>')" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small mw-ui-btn-outline pull-right"><span class="mai-bin"></span> Delete</a>
+        <a href="javascript:del_this_order_and_return('<?php print $show_ord_id ?>')" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small mw-ui-btn-outline pull-right">
+            <span class="mai-bin"></span> Delete
+        </a>
+        <a href="javascript:export_this_order_and_return('<?php print $show_ord_id ?>')" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small mw-ui-btn-outline pull-right" style="margin-right: 15px;">
+            <span class="mai-download"></span> Export Excel
+        </a>
         <span class=" bold"><?php _e("Order Information"); ?></span>
     </div>
     <div class="mw-ui-box-content p-0">

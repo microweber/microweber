@@ -25,7 +25,7 @@
         mw.require("<?php print mw_includes_url(); ?>api/libs/jquery_slimscroll/jquery.slimscroll.min.js");
 
         mw.require("liveadmin.js");
-        mw.require("jquery-ui.js");
+        mw.lib.require('jqueryui');
         mw.require("<?php print mw_includes_url(); ?>css/wysiwyg.css");
         mw.require("<?php print mw_includes_url(); ?>css/components.css");
         mw.require("<?php print mw_includes_url(); ?>css/admin.css");

@@ -111,11 +111,6 @@
 }
 
 .tree-column, .tree-column-menu {
-    -webkit-transition: width 0.2s;
-    -moz-transition: width 0.2s;
-    -o-transition: width 0.2s;
-    transition: width 0.2s;
-    /*width: 230px;*/
     width: 300px;
 }
 

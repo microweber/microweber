@@ -186,7 +186,12 @@ class OrderManager
 
     public function export_orders()
     {
-        $data = get_orders('no_limit=true&order_completed=1');
+        if (isset($_POST['id'])) {
+            $data = get_orders('no_limit=true&id='. intval($_POST['id']));
+        } else {
+            $data = get_orders('no_limit=true&order_completed=1');
+        }
+
         if (!$data) {
             return array('error' => 'You do not have any orders');
         }

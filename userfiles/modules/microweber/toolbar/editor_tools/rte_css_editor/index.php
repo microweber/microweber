@@ -77,10 +77,14 @@ var activeTree = function(){
                     .replace(/["']/g, '')
                     .replace(/\]/g, 'mw');
             }
+            var ttitle = curr.tagName.toLowerCase() + (curr.classList.length ? ('.' + curr.className.split(' ').join('.')) : '');
+            if(mw.tools.hasClass(curr, 'module')) {
+                ttitle = curr.dataset.mwTitle || curr.dataset.type;
+            }
             var item = {
                 id: selector,
                 type: 'page',
-                title: curr.tagName.toLowerCase() + (curr.classList.length ? ('.' + curr.className.split(' ').join('.')) : '') ,
+                title: ttitle ,
                 parent_id: parent_selector,
                 parent_type: 'page',
                 element: curr
