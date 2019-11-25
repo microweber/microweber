@@ -64,7 +64,7 @@ $current_lang = current_lang();
     <?php
 
     if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link == false) {
-        $link = "https://microweber.com";
+        $link = site_url();
 
     } else {
         $link = mw()->ui->admin_logo_login_link;

@@ -247,4 +247,3 @@ event_bind('mw.cart.confirm_email_send', function ($order_id) {
     return array('mail_template'=>$mail_template);
 
 });
-

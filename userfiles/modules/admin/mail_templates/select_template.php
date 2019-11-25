@@ -36,7 +36,7 @@ mw_admin_mail_templates_modal_opened = null;
  
 <div class="mw-flex-row">
 	<div class="mw-flex-col-md-5">
-	<select name="<?php echo $mail_template_type; ?>_email_template" class="mw-ui-field mw_option_field" data-option-group="<?php echo $option_group; ?>" option-group="<?php echo $option_group; ?>" style="width:330px;">
+	<select name="<?php echo $mail_template_type; ?>_mail_template" class="mw-ui-field mw_option_field" data-option-group="<?php echo $option_group; ?>" option-group="<?php echo $option_group; ?>" style="width:330px;">
 		<option>Select...</option>
 		<?php foreach(get_mail_templates_by_type($mail_template_type) as $template): ?>
 		<option value="<?php echo $template['id']; ?>" <?php if(get_option($mail_template_type . '_template', 'comments') == $template['id']): ?>selected="selected"<?php endif; ?>><?php echo $template['name']; ?></option>
