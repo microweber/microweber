@@ -390,15 +390,16 @@ class Parser
                         $replace_key = $key;
                         $replace_key2 = $parse_key . $key . $parser_mem_crc;
                         if (isset($this->mw_replaced_modules_values[$replace_key2])) {
-//dd($replace_key);
-                            //$layout = $this->_str_replace_first($key, $this->mw_replaced_modules_values[$replace_key2], $layout);
 
-                            //  dd($this->mw_replaced_modules_values);
+                            //$layout = $this->_str_replace_first($key, $this->mw_replaced_modules_values[$replace_key2], $layout);
                             continue;
                         }
-                        if ($value != '') {
-                            $mw_attrs_key_value_seperator = "__MW_PARSER_ATTR_VAL__";
+                        
 
+                        
+                        if ($value != '') {
+
+                            $mw_attrs_key_value_seperator = "__MW_PARSER_ATTR_VAL__";
 
 //                            if (isset($this->mw_replaced_modules_values[$replace_key])) {
 ////
@@ -866,8 +867,8 @@ class Parser
                                             define('MW_PLAIN_MODULES', true);
                                         }
                                     }
-
                                     foreach ($attrs as $nn => $nv) {
+
                                         if ($nn != 'class') {
                                             $pass = true;
                                             if ($mod_no_wrapper) {
@@ -878,7 +879,9 @@ class Parser
                                             }
 
                                             if ($pass /*and $nv*/) {
-                                                $module_html .= " {$nn}='{$nv}'  ";
+                                               // $module_html .= " {$nn}='{$nv}'  ";
+                                                $module_html .= " {$nn}=\"{$nv}\"  ";
+                                               // $module_html .= " {$nn}={$nv}  ";
                                             }
                                         }
                                     }

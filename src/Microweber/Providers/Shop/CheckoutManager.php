@@ -522,14 +522,23 @@ class CheckoutManager
         $ord_data = $this->app->shop_manager->get_order_by_id($order_id);
 
         if (is_array($ord_data)) {
+
             if ($skip_enabled_check == false) {
                 $order_email_enabled = $this->app->option_manager->get('order_email_enabled', 'orders');
             } else {
                 $order_email_enabled = $skip_enabled_check;
             }
 
+            $send_to_client = false;
+            $send_to_client_option = $this->app->option_manager->get('email_to', 'orders');
+            if (!empty($send_to_client_option)) {
+                $send_to_client_option = explode(',', $send_to_client_option);
+                if (in_array('client', $send_to_client_option)) {
+                    $send_to_client = true;
+                }
+            }
 
-            if ($order_email_enabled == true) {
+            if ($order_email_enabled && $send_to_client) {
 
                //  $order_email_subject = $this->app->option_manager->get('order_email_subject', 'orders');
                 // $order_email_content = $this->app->option_manager->get('order_email_content', 'orders');

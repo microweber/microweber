@@ -13,6 +13,7 @@ class Ui
     public $powered_by_link = false;
     public $disable_powered_by_link = false;
     public $disable_marketplace = false;
+    public $package_manager_urls = false;
     public $marketplace_provider_id = false;
     public $marketplace_access_code = false;
     public $enable_service_links = true;
