@@ -811,7 +811,8 @@ if ($action == 'posts') {
                                             resize: function (e, ui) {
                                                 var root = mw.$(ui.element);
                                                 mw.$('.fixed-side-column', root).width(root.width())
-                                            }
+                                            },
+                                            minWidth: 200
                                         })
 
                                     })

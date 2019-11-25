@@ -246,7 +246,9 @@ if (isset($params['live_edit'])) {
 
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label"><?php print _e('Parent'); ?>:</label>
-                    <span class="mw-ui-btn mw-dropdown-button" onclick="$('.mw-tree-selector').toggle()" id="category-dropdown-holder"><?php _e("Select Parent page or category"); ?></span>
+                    <span class="mw-ui-btn mw-dropdown-button" onclick="$('.mw-tree-selector').toggle()" id="category-dropdown-holder">
+                        <?php _e("Select Parent page or category"); ?>
+                    </span>
                     <?php $is_shop = ''; ?>
                     <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" style="display: none" id="edit_category_set_par">
                         <?php /*
@@ -291,7 +293,8 @@ if (isset($params['live_edit'])) {
                         selectedData.push({
                             id: parent_category,
                             type: 'category'
-                        })
+                        });
+
                     }
                     $(mwd).ready(function () {
 
@@ -305,6 +308,9 @@ if (isset($params['live_edit'])) {
                                 selectedData: selectedData,
                                 skip: skip
                             });
+                            if(selectedData.length){
+                                mw.$('#category-dropdown-holder').html(categoryParentSelector.selectedData[0].title)
+                            }
                             $(categoryParentSelector).on("selectionChange", function (e, selected) {
                                 var parent = selected[0];
                                 if (!parent) {
