@@ -15,6 +15,10 @@ if (get_option('icon', $params['id'])) {
     $icon = '';
 }
 
+if (isset($params['button_id'])) {
+    $btn_id = $params['button_id'];
+}
+
 $attributes = '';
 if (isset($params['button_onclick'])) {
     $attributes .= 'onclick="'.$params['button_onclick'].'"';
