@@ -3,6 +3,7 @@
 $style = get_option('button_style', $params['id']);
 $size = get_option('button_size', $params['id']);
 $action = get_option('button_action', $params['id']);
+$onclick = $params['button_onclick'];
 $url = get_option('url', $params['id']);
 $popupcontent = get_option('popupcontent', $params['id']);
 $text = get_option('text', $params['id']);
@@ -99,6 +100,8 @@ $icon = get_option('icon', $params['id']);
         <input type="text" name="text" class="mw_option_field mw-ui-field w100" value="<?php print $text; ?>" placeholder="<?php _e("Button"); ?>"/>
     </div>
 
+
+    <?php if (!$onclick): ?>
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e("Action"); ?></label>
         <select class="mw-ui-field mw_option_field w100" id="action" name="button_action">
@@ -124,12 +127,16 @@ $icon = get_option('icon', $params['id']);
 
         </select>
     </div>
+    <?php endif; ?>
 
+    <?php if (!$onclick): ?>
     <div id="editor_holder" class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e("Popup content"); ?></label>
         <textarea class="mw_option_field" name="popupcontent" id="popupcontent"><?php print $popupcontent; ?></textarea>
     </div>
+    <?php endif; ?>
 
+    <?php if (!$onclick): ?>
     <div id="btn_url_holder">
         <div class="mw-ui-btn-nav">
             <input
@@ -142,15 +149,17 @@ $icon = get_option('icon', $params['id']);
                 class="mw_option_field mw-ui-field"/>
             <a href="javascript:;" class="mw-ui-btn"><span class="mw-icon-gear"></span></a>
         </div>
-
     </div>
+    <?php endif; ?>
+
+    <?php if (!$onclick): ?>
     <div class="mw-ui-field-holder">
         <label class="mw-ui-check">
             <input type="checkbox" name="url_blank" value="y" class="mw_option_field"<?php if ($url_blank == 'y'): ?> checked="checked" <?php endif; ?>>
             <span></span> <span><?php _e("Open in new window"); ?></span>
         </label>
     </div>
-
+    <?php endif; ?>
 
     <script>
         mw.top().require('instruments.js');
