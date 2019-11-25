@@ -105,11 +105,6 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
 //        $repositoryManager->setRepositoryClass('package', 'Microweber\Utils\Adapters\Packages\Helpers\PackageRepository');
 //
 
-
-
-    //    dd($repositoryManager);
-
-
         $platformRepo = new PlatformRepository;
 
 
@@ -118,7 +113,6 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
             array($localRepository, $platformRepo)
         );
         $known_repos = $known_repos_orig = $repositoryManager->getRepositories();
-
 
 
 
@@ -172,7 +166,8 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
 
       //  } while (!$results_found or !$known_repos or !is_array($results));
 
-
+        
+ 
         if ($removed_repos and $known_repos != $known_repos_orig) {
             if ($this->_setDisableNonActiveReposInComposer) {
                 $f = $this->getConfigPathname();

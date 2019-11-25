@@ -735,7 +735,7 @@ class ComposerUpdate
         return $conf_items;
     }
 
-    public function _get_composer_workdir_path($package_name = '')
+    private function _get_composer_workdir_path($package_name = '')
     {
         $temp_folder = mw_cache_path() . 'composer/temp';
         if ($package_name) {
@@ -763,9 +763,13 @@ class ComposerUpdate
 //            mkdir_recursive($temp_folder);
 //        }
 //
-
-
         $temp_folder = $this->_get_composer_workdir_path($package_name . '-' . $version);
+
+        $custom_repos_urls_from_settings = mw()->ui->package_manager_urls;
+
+        if($custom_repos_urls_from_settings){
+            $temp_folder = $this->_get_composer_workdir_path($package_name . '-' . $version.'-'.md5(@json_encode($custom_repos_urls_from_settings)));
+        }
 
 
         $conf = $this->composer_home . '/composer.json';
@@ -806,8 +810,35 @@ class ComposerUpdate
         $system_repos[] = array("type" => "composer", "url" => "https://packages.microweberapi.com/");
         $system_repos[] = array("type" => "composer", "url" => "https://private-packages.microweberapi.com/");
 
-        $composer_orig['repositories'] = array_merge($composer_orig['repositories'], $system_repos);
-        $new_composer_config['repositories'] = $composer_orig['repositories'];
+        $system_repos_custom = array();
+
+        if($custom_repos_urls_from_settings){
+            $custom_repos_urls = array();
+            if(is_string($custom_repos_urls_from_settings)){
+                $custom_repos_urls_from_settings = explode(',',$custom_repos_urls_from_settings);
+            }
+            if(is_array($custom_repos_urls_from_settings)){
+              foreach ($custom_repos_urls_from_settings as $custom_repos_urls_from_setting){
+                  if(is_string($custom_repos_urls_from_setting)){
+                      $valid_host = parse_url($custom_repos_urls_from_setting);
+                      if(isset($valid_host['host']) and isset($valid_host['scheme'])){
+                          $system_repos_custom[] = array("type" => "composer", "url" => $valid_host['scheme']."://".$valid_host['host']."/");
+                      }
+                  }
+              }
+            }
+        }
+        if($system_repos_custom){
+            $system_repos = $system_repos_custom;
+            $composer_orig['repositories'] =$system_repos;
+            $new_composer_config['repositories'] = $composer_orig['repositories'];
+        } else {
+            $composer_orig['repositories'] = array_merge($composer_orig['repositories'], $system_repos);
+            $new_composer_config['repositories'] = $composer_orig['repositories'];
+        }
+
+
+
 
         $new_composer_config['repositories']['packagist'] = false;
 
