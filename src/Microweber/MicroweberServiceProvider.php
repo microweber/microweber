@@ -291,6 +291,7 @@ class MicroweberServiceProvider extends ServiceProvider
             if (is_cli()) {
             	$this->commands('Microweber\Commands\ResetCommand');
                 $this->commands('Microweber\Commands\UpdateCommand');
+                $this->commands('Microweber\Commands\ModuleCommand');
             }
         } else {
             // Otherwise register the install command
