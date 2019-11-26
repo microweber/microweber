@@ -436,7 +436,7 @@ mw._initHandles = {
             mw.$(mw.handleElement.wrapper).css({
                 top: o.top - 10,
                 left: left_spacing
-            });
+            }).removeClass('active');
 
             if(!element.id) {
                 element.id = "element_" + mw.random();
