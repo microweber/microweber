@@ -939,6 +939,7 @@ class CategoryManager
                     'parent_id' => intval($children['parent_id']),
                     'position' => intval($children['position']),
                     'parent_type' => 'category',
+                    'url' => category_link($children['id']),
                     'subtype' => 'sub_category'
 
                 );
@@ -994,6 +995,7 @@ class CategoryManager
                 $item['parent_id'] = intval($page['parent']);
                 $item['parent_type'] = 'page';
                 $item['title'] = $page['title'];
+                $item['url'] = content_link($page['id']);
                 // $item['has_children'] = 0;
 
                 $item['subtype'] = $page['subtype'];
@@ -1021,6 +1023,7 @@ class CategoryManager
                         $item['title'] = $cat['title'];
                         $item['subtype'] = 'category';
                         $item['position'] = intval($cat['position']);
+                        $item['url'] = category_link($cat['id']);
 
                         $json[] = $item;
 

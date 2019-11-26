@@ -1,6 +1,3 @@
-<script>
-    mw.lib.require('bootstrap3ns');
-</script>
 
 <div class="bootstrap3ns">
     <?php

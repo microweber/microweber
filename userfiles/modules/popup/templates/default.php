@@ -12,9 +12,7 @@ TODO: add option to show accept button instead of close
 
 */
 ?>
-<script>
-    mw.lib.require('bootstrap3ns');
-</script>
+
 
 <div class="bootstrap3ns">
     <?php if ($type == 'on_click'):
