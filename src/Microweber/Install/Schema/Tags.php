@@ -43,7 +43,7 @@ class Tags extends Migration
                 $table->string('name', 255);
             });
         }
-        if (!Schema::hasTable('tagging_tags')) {
+        if (Schema::hasTable('tagging_tags')) {
             Schema::table('tagging_tags', function ($table) {
 
                 try {
@@ -52,9 +52,6 @@ class Tags extends Migration
                 } catch (\Illuminate\Database\QueryException $e) {
 
                 }
-
-
-
             });
         }
 
@@ -62,13 +59,14 @@ class Tags extends Migration
 
     public function down()
     {
-        Schema::drop('tagging_tagged');
-        Schema::drop('tagging_tags');
-        Schema::drop('tagging_tag_groups');
         Schema::table('tagging_tags', function ($table) {
             $table->dropForeign('tagging_tags_tag_group_id_foreign');
             $table->dropColumn('tag_group_id');
         });
+        Schema::drop('tagging_tagged');
+        Schema::drop('tagging_tags');
+        Schema::drop('tagging_tag_groups');
+
 
 
     }
