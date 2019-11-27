@@ -201,9 +201,9 @@ var _prepare = {
                 var next = parent.next().find('select');
                 var val = $el.val().trim();
                 if(parseFloat(val) == val){
-                    output( parent.attr('data-prop'), val + next.val())
+                    output( parent.attr('data-prop'), val ? val + next.val() : '');
                 } else {
-                    output( parent.attr('data-prop'), val + next.val())
+                    output( parent.attr('data-prop'), val ? val + next.val() : '');
                 }
             })
         })
@@ -277,16 +277,20 @@ var output = function(property, value){
     }
 };
 
-var init = function(){
-    mw.$('.margin-top').on('input', function(){ output('marginTop', this.value + 'px') });
-    mw.$('.margin-right').on('input', function(){ output('marginRight', this.value+ 'px') });
-    mw.$('.margin-bottom').on('input', function(){ output('marginBottom', this.value+ 'px') });
-    mw.$('.margin-left').on('input', function(){ output('marginLeft', this.value+ 'px') });
+var numValue = function (value) {
+    return value ? value + 'px' : '';
+};
 
-    mw.$('.padding-top').on('input', function(){ output('paddingTop', this.value+ 'px') });
-    mw.$('.padding-right').on('input', function(){ output('paddingRight', this.value+ 'px') });
-    mw.$('.padding-bottom').on('input', function(){ output('paddingBottom', this.value+ 'px') });
-    mw.$('.padding-left').on('input', function(){ output('paddingrginLeft', this.value+ 'px') });
+var init = function(){
+    mw.$('.margin-top').on('input', function(){ output('marginTop', numValue(this.value)) });
+    mw.$('.margin-right').on('input', function(){ output('marginRight', numValue(this.value)) });
+    mw.$('.margin-bottom').on('input', function(){ output('marginBottom', numValue(this.value)) });
+    mw.$('.margin-left').on('input', function(){ output('marginLeft', numValue(this.value)) });
+
+    mw.$('.padding-top').on('input', function(){ output('paddingTop', numValue(this.value)) });
+    mw.$('.padding-right').on('input', function(){ output('paddingRight', numValue(this.value)) });
+    mw.$('.padding-bottom').on('input', function(){ output('paddingBottom', numValue(this.value)) });
+    mw.$('.padding-left').on('input', function(){ output('paddingrginLeft', numValue(this.value)) });
 
     $('.text-align > span').on('click', function(){
         output('textAlign', this.dataset.value);
@@ -431,7 +435,10 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                     inputField: true,
                     wrap: true,
                     hideItem: function(item) {
-                        return item.title.indexOf('module') !== -1 || item.title.indexOf('element') !== -1;
+                        return item.title.indexOf('module') !== -1
+                            || item.title.indexOf('element') !== -1
+                            || item.title.indexOf('allow-drop') !== -1
+                            || item.title.indexOf('nodrop') !== -1;
                     }
                 });
                 $(classes).on('change', function(e, item, data){
