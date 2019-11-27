@@ -2,6 +2,25 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.1.14] - 2019-11-27
+- Fix of category tree does not appear after 3 level
+- Ability to change url of package manager
+- $.ajax.done() was not avaible 
+- Sub module settings handle open setting on parent module
+- Change background picture does not work on old templates
+- Put scroll on deep category tree
+- Opening modal should close all handles submenus
+- Issue with reset password
+- Export orders to excel
+- Email on new order is not editable
+- Add page to menu is broken
+- Tooltip must close on element change
+- Added language choose method on install screen
+- Added admin url setting on install screen 
+- Added module install command from CLI 
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.1.13...1.1.14 "")
+
 
 ## [1.1.13] - 2019-10-25
 - Fixes on mw.dialog 
