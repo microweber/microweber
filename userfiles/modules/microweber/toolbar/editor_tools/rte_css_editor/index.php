@@ -65,7 +65,7 @@ var activeTree = function(){
         var custom = !!curr.className;
         if(curr.id || mw.tools.hasClass(curr, 'edit') || custom){
             count++;
-            if(count > 4) {
+            if (count > 4) {
                 break;
             }
             var parent = getParent(curr);
