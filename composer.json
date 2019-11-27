@@ -62,9 +62,8 @@
     "aws/aws-sdk-php": "^3.0",
     "mailerlite/mailerlite-api-v2-php-sdk": "*",
     "finlet/flexmail": "*",
-    "phpoffice/phpspreadsheet": "*",
-    "nwidart/laravel-modules": "^1.27"
-  },
+    "phpoffice/phpspreadsheet": "*"
+   },
   "require-dev": {
       "fzaninotto/faker": "^1.9"
   },
