@@ -1,14 +1,8 @@
 <?php only_admin_access(); ?>
 
-
-
-
 <script src="<?php print modules_url() ?>editor/html_editor/html_editor.js"></script>
 
-
 <script>
-
-
     $(document).ready(function () {
         var fields = mw.html_editor.get_edit_fields(true);
 
@@ -17,12 +11,8 @@
         var fields = mw.html_editor.get_edit_fields(true, '#<?php print $params['root_element_id'] ?>');
     <?php } ?>
 
-
-
-
         mw.html_editor.build_dropdown(fields, false);
         mw.html_editor.populate_editor();
-
 
     })
     mw.require('<?php print modules_url()?>editor/selector.css');
@@ -61,28 +51,17 @@
 <script>
     function handle_reset_content_btn_click() {
 
-
         var also_modules = $('#also_reset_modules').is(':checked');
 
-
-
-        var txt = "Are you sure you want to reset the content?";
+        var txt = "<?php _e('Are you sure you want to reset the content?');?>";
         if(also_modules){
-            var txt = "Are you sure you want to reset the content and modules?";
+            var txt = "<?php _e('Are you sure you want to reset the content and modules?');?>";
 
         }
         var r = confirm(txt);
         if (r == true) {
              mw.html_editor.reset_content(also_modules)
-
-
-
-        } else {
-
         }
-
-
-
 
     }
 </script>
@@ -91,8 +70,10 @@
 
 <div id="save-toolbar">
 
-    <label for="also_reset_modules">    <input type="checkbox" id="also_reset_modules" name="also_reset_modules" value="1">
-           Also reset modules?</label>
+    <label for="also_reset_modules">
+        <input type="checkbox" id="also_reset_modules" name="also_reset_modules" value="1">
+           <?php _e('Also reset modules?'); ?>
+    </label>
 
 
     <button onclick="handle_reset_content_btn_click();"
