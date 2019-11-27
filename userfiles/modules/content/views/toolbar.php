@@ -405,7 +405,7 @@ if ($last_page_front != false) {
                             <label class="mw-ui-check" id="posts-check">
                                 <input type="checkbox">
                                 <span></span>
-                                <span>Check all</span>
+                                <span><?php _e("Check all"); ?></span>
                             </label>
 
 

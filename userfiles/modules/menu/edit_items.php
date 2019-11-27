@@ -83,7 +83,7 @@ if( $id != 0){
                     $.post("<?php print api_link('content/menu_items_reorder'); ?>", obj,function(msg){
 
                         if(mw.notification != undefined){
-                            mw.notification.success('Menu changes are saved');
+                            mw.notification.success('<?php _e("Menu changes are saved"); ?>');
                         }
                         mw.menu_admin.after_save_item();
 
@@ -146,7 +146,7 @@ if( $id != 0){
 <?php if( $id != 0){ ?>
     <div class="mw-ui-box selected-box  ">
         <div class="mw-ui-box-content">
-            You have selected
+            <?php _e("You have selected"); ?>
             <em><?php print strtoupper(str_replace('_', ' ', $menu_title)); ?></em>
             <a href="javascript: mw.menu_delete('<?php print $id; ?>');" class="pull-right tip" data-tip="Delete">
                 <i class="mw-icon-app-trash-outline"></i>

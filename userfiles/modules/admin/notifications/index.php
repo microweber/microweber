@@ -118,7 +118,7 @@ if (isset($notif_params['quick'])) {
         });
 
         if (selectedNotificationIds.length < 1) {
-            mw.notification.error('<?php echo _e('First select notifications.'); ?>');
+            mw.notification.error('<?php _e('First select notifications.'); ?>');
             return [];
         }
 
@@ -129,7 +129,7 @@ if (isset($notif_params['quick'])) {
 
         var selectedNotificationIds = mw.notif_get_selected();
 
-        mw.tools.confirm('<?php echo _e('Are you sure you want to delete'); ?> ' + selectedNotificationIds.length + ' <?php echo _e(' notifications'); ?>?', function () {
+        mw.tools.confirm('<?php _e('Are you sure you want to delete'); ?> ' + selectedNotificationIds.length + ' <?php _e(' notifications'); ?>?', function () {
             $.post("<?php print api_link('notifications_manager/delete_selected'); ?>?ids=" + selectedNotificationIds, function () {
                 mw.reload_module('admin/notifications');
             });
@@ -141,7 +141,7 @@ if (isset($notif_params['quick'])) {
 
         var selectedNotificationIds = mw.notif_get_selected();
 
-        mw.tools.confirm('<?php echo _e('Are you sure you want to read'); ?> ' + selectedNotificationIds.length + ' <?php echo _e(' notifications'); ?>?', function () {
+        mw.tools.confirm('<?php _e('Are you sure you want to read'); ?> ' + selectedNotificationIds.length + ' <?php _e(' notifications'); ?>?', function () {
             $.post("<?php print api_link('notifications_manager/read_selected'); ?>?ids=" + selectedNotificationIds, function () {
                 mw.reload_module('admin/notifications');
             });
@@ -162,7 +162,7 @@ if (isset($notif_params['quick'])) {
 
         var selectedNotificationIds = mw.notif_get_selected();
 
-        mw.tools.confirm('<?php echo _e('Are you sure you want to unread'); ?> ' + selectedNotificationIds.length + ' <?php echo _e(' notifications'); ?>?', function () {
+        mw.tools.confirm('<?php _e('Are you sure you want to unread'); ?> ' + selectedNotificationIds.length + ' <?php _e(' notifications'); ?>?', function () {
             $.post("<?php print api_link('notifications_manager/reset_selected'); ?>?ids=" + selectedNotificationIds, function () {
                 mw.reload_module('admin/notifications');
             });
