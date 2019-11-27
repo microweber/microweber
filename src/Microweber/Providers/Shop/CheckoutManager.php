@@ -505,9 +505,9 @@ class CheckoutManager
             $notification['module'] = 'shop';
             $notification['rel_type'] = 'cart_orders';
             $notification['rel_id'] = $ord;
-            $notification['title'] = _e('You have new order');
-            $notification['description'] = _e('New order is placed from ') . $this->app->url_manager->current(1);
-            $notification['content'] = _e('New order in the online shop. Order id: ') . $ord;
+            $notification['title'] = _e('You have new order', true);
+            $notification['description'] = _e('New order is placed from ', true) . $this->app->url_manager->current(1);
+            $notification['content'] = _e('New order in the online shop. Order id: ', true) . $ord;
             $this->app->notifications_manager->save($notification);
             $this->app->log_manager->save($notification);
             $this->confirm_email_send($order_id);
