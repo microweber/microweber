@@ -15,18 +15,18 @@
             if ($('.stats-view-holder').hasClass('hidden')) {
                 $('.stats-view-holder').slideDown();
                 $('.stats-view-holder').removeClass('hidden');
-                $(this).text('show less');
+                $(this).text('<?php _e('show less'); ?>');
             } else {
                 $('.stats-view-holder').slideUp();
                 $('.stats-view-holder').addClass('hidden');
-                $(this).text('show more');
+                $(this).text('<?php _e('show more'); ?>');
             }
         });
     });
 </script>
 
 <div class="center m-b-20">
-    <button class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-ui-btn-outline show-more-stats">show more</button>
+    <button class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-ui-btn-outline show-more-stats"><?php _e('show more'); ?></button>
 </div>
 
 <div class="stats-view-holder hidden">

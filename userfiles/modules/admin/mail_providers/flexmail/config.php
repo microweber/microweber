@@ -1,6 +1,6 @@
 <?php
 $config = array();
-$config['name'] = "FlexMail";
+$config['name'] = _e("FlexMail", TRUE);
 $config['author'] = "Microweber";
 $config['ui'] = false;
 $config['position'] = 100;

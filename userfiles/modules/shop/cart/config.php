@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = "Shopping Cart";
+$config['name'] = _e("Shopping Cart", TRUE);
 $config['author'] = "Microweber";
 $config['no_cache'] = true;
 

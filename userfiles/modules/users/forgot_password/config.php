@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = "Forgot password";
+$config['name'] = _e("Forgot password", TRUE);
 $config['author'] = "Microweber";
 $config['description'] = "Microweber";
 $config['website'] = "http://microweber.com/"; 

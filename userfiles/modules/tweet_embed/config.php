@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = "Tweet Embed";
+$config['name'] = _e("Tweet Embed", TRUE);
 $config['author'] = "Microweber";
 $config['no_cache'] = false;
 $config['ui'] = true;

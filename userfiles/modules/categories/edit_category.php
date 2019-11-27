@@ -405,7 +405,7 @@ if (isset($params['live_edit'])) {
                                 <div class="mw-ui-check-selector">
                                     <div class="mw-ui-label left" style="width: 230px">
                                         <?php _e("Can users create content"); ?>
-                                        <small class="mw-help" data-help="If you set this to YES the website users will be able to add content under this category">(?)</small>
+                                        <small class="mw-help" data-help="<?php _e("If you set this to YES the website users will be able to add content under this category"); ?>">(?)</small>
                                     </div>
 
                                     <label class="mw-ui-check">
@@ -452,8 +452,8 @@ if (isset($params['live_edit'])) {
                                     <div class="mw-dropdown mw-dropdown-default edit-category-choose-subtype-dd"><span class="mw-dropdown-value mw-ui-btn mw-ui-btn-small mw-dropdown-val"> <?php print ucwords($data['category_subtype']); ?> </span>
                                         <div class="mw-dropdown-content" style="display: none;">
                                             <ul>
-                                                <li value="default">Default</li>
-                                                <li value="content_filter">Content filter</li>
+                                                <li value="default"><?php _e("Default"); ?></li>
+                                                <li value="content_filter"><?php _e("Content filter"); ?></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -466,7 +466,7 @@ if (isset($params['live_edit'])) {
 
                 <div class="text-center m-t-10">
                     <div class="mw-ui-btn mw-ui-btn-small mw-ui-btn-outline mw-ui-btn-info js-category-advanced-seetings-button">
-                        <?php print _e('show more'); ?>
+                        <?php _e('show more'); ?>
                     </div>
                 </div>
             </form>

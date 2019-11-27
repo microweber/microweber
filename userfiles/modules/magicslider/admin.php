@@ -322,7 +322,7 @@
 
                         </ul>
 
-                        <span class="mw-ui-btn mw-ui-btn-invert magic-uploader"><span class="mw-icon-upload"></span>Add Image</span>
+                        <span class="mw-ui-btn mw-ui-btn-invert magic-uploader"><span class="mw-icon-upload"></span><?php _e('Add Image'); ?></span>
 
                     </div>
 
