@@ -274,8 +274,9 @@ mw.tools = {
 
             insertDetector();
         });
+        frame._intPause = false;
         frame._int = setInterval(function(){
-            if(frame.parentNode && frame.contentWindow  && frame.contentWindow.$){
+            if(!frame._intPause && frame.parentNode && frame.contentWindow  && frame.contentWindow.$){
                 var offTop = frame.contentWindow.$(_detector).offset().top;
                 var calc = offTop + _detector.offsetHeight;
                 //calc = Math.max(calc, mw.tools.nestedFramesHeight(frame));
