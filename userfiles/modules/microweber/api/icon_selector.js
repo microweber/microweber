@@ -351,6 +351,8 @@ mw.top()._icons = mw.top()._icons || [];
                     name: 'Icons Mind',
                     remove: function(target) {
                         mw.tools.classNamespaceDelete(target, 'mw-micon-');
+                        mw.tools.classNamespaceDelete(target, 'icon-');
+                        mw.tools.removeClass(target, 'icon');
                     },
 
                     render: function(icon, target) {
