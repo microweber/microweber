@@ -1,7 +1,7 @@
 <?php
 $option_group = 'file_append';
 if(!isset($params['option_group'])) {
-	echo _e('First you need to set option group.');
+	_e('First you need to set option group.');
 	return;
 }
 $option_group = $params['option_group'];

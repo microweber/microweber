@@ -217,7 +217,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                         <?php _e("OG Images"); ?>
                         <small class="mw-help" data-help="Those images will be shown as a post image at facebook shares."> (?)</small>
                     </label>
-                    <small>If you want to attach a og images, you must upload them to gallery from "Add images" tab.</small>
+                    <small><?php _e('If you want to attach a og images, you must upload them to gallery from "Add images" tab.'); ?></small>
                 </div>
 
             </div>

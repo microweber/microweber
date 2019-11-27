@@ -11,20 +11,20 @@ $loginAttempts = \Microweber\App\LoginAttempt::where('user_id', $user_id)
     <table class="mw-ui-table mw-full-width mw-ui-table-basic">
         <thead>
         <tr>
-            <th><?php echo _e('Username'); ?></th>
-            <th><?php echo _e('E-mail'); ?></th>
-            <th><?php echo _e('IP'); ?></th>
-            <th><?php echo _e('Date'); ?></th>
-            <th><?php echo _e('Status'); ?></th>
+            <th><?php _e('Username'); ?></th>
+            <th><?php _e('E-mail'); ?></th>
+            <th><?php _e('IP'); ?></th>
+            <th><?php _e('Date'); ?></th>
+            <th><?php _e('Status'); ?></th>
         </tr>
         </thead>
         <tfoot>
         <tr>
-            <td><?php echo _e('Username'); ?></td>
-            <td><?php echo _e('E-mail'); ?></td>
-            <td><?php echo _e('IP'); ?></td>
-            <td><?php echo _e('Date'); ?></td>
-            <td><?php echo _e('Status'); ?></td>
+            <td><?php _e('Username'); ?></td>
+            <td><?php _e('E-mail'); ?></td>
+            <td><?php _e('IP'); ?></td>
+            <td><?php _e('Date'); ?></td>
+            <td><?php _e('Status'); ?></td>
         </tr>
         </tfoot>
         <tbody>
@@ -39,15 +39,15 @@ $loginAttempts = \Microweber\App\LoginAttempt::where('user_id', $user_id)
             <td><?php echo date("Y-m-d H:i:s", $attempt->time); ?></td>
             <td>
                 <?php if($attempt->success):?>
-                    <?php echo _e('Success login'); ?>
+                    <?php _e('Success login'); ?>
                 <?php else: ?>
-                    <?php echo _e('Failed login'); ?>
+                    <?php _e('Failed login'); ?>
                 <?php endif; ?>
             </td>
         </tr>
         <?php endforeach; ?>
         <?php else: ?>
-        <tr><td rowspan="5"><?php echo _e('No login attempts found for this user.'); ?></td></tr>
+        <tr><td rowspan="5"><?php _e('No login attempts found for this user.'); ?></td></tr>
         <?php endif; ?>
         </tbody>
     </table>
