@@ -582,6 +582,18 @@ div.mw-ui-field:after {
         }
     }
 
+    .mw-field-prepend{
+        & + input{
+            border-radius: 0 @radius @radius 0;
+        }
+    }
+
+    .mw-field-append,
+    .mw-field-prepend{
+        [class*="mw-icon-"]{
+            font-size: 1.4rem;
+        }
+    }
 
     .mw-field-append,
     .mw-field-prepend,
@@ -589,6 +601,7 @@ div.mw-ui-field:after {
     &[data-after]:after{
         display: block;
         white-space: nowrap;
+
     }
     [class="mw-field-append"],
     [class="mw-field-prepend"],

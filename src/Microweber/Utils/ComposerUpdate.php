@@ -893,7 +893,7 @@ class ComposerUpdate
                 "username" => @gethostname(),
                 "password" => $lic
             );
-            file_put_contents($auth_new, json_encode($composer_auth_temp));
+            @file_put_contents($auth_new, json_encode($composer_auth_temp));
         }
 
 

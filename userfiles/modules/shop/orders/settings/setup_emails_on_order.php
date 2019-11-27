@@ -28,32 +28,18 @@
 </div>
 
 <?php
-$email_to = get_option('email_to', 'orders');
-$email_to = explode(',', $email_to);
+$send_email_on_new_order = get_option('send_email_on_new_order', 'orders');
 ?>
-
 <div class="mw-ui-row m-b-20">
     <div class="mw-ui-col">
         <label class="mw-ui-label bold"><?php _e("Send email to"); ?></label>
-        <div class="mw-ui-box mw-ui-box-content">
-            <ul class="mw-ui-inline-list">
-                <li>
-                    <label class="mw-ui-check">
-                        <input type="checkbox" class="mw_option_field" data-option-group="orders" name="email_to" value="admin" <?php if (in_array('admin', $email_to)): ?> checked="checked" <?php endif; ?> >
-                        <span></span><span>Admin</span>
-                    </label>
-                </li>
-                <li>
-                    <label class="mw-ui-check">
-                        <input type="checkbox" class="mw_option_field" data-option-group="orders" name="email_to" value="client" <?php if (in_array('client', $email_to)): ?> checked="checked" <?php endif; ?> >
-                        <span></span><span>Client</span>
-                    </label>
-                </li>
-            </ul>
-        </div>
+        <select class="mw-ui-field mw-full-width mw_option_field"  data-option-group="orders" name="send_email_on_new_order">
+            <option value="" <?php if ($send_email_on_new_order == ''): ?>selected="selected"<?php endif; ?>>Default (Admins & Client)</option>
+            <option value="admins" <?php if ($send_email_on_new_order == 'admins'): ?>selected="selected"<?php endif; ?>>Only Admins</option>
+            <option value="client" <?php if ($send_email_on_new_order == 'client'): ?>selected="selected"<?php endif; ?>>Only Client</option>
+        </select>
     </div>
 </div>
-
 
 <div class="mw-ui-row m-b-20">
     <div class="mw-ui-col">

@@ -131,11 +131,17 @@
         ],
         bootstrap3ns: [
             function () {
+
+                //var bootstrap_enabled = (typeof $().modal == 'function');
+                var bootstrap_enabled = (typeof $ != 'undefined' && typeof $.fn != 'undefined' && typeof $.fn.emulateTransitionEnd != 'undefined');
+
+                if(!bootstrap_enabled){
+                mw.require(mw.settings.libs_url + 'bootstrap3' + '/js/bootstrap.min.js');
                 //var bootstrap_enabled = (typeof $().modal == 'function');
                 //if (bootstrap_enabled == false) {
-                mw.require(mw.settings.libs_url + 'bootstrap3' + '/js/bootstrap.min.js');
                 mw.require(mw.settings.libs_url + 'bootstrap3ns' + '/bootstrap.min.css');
                 mw.require(mw.settings.libs_url + 'fontawesome-4.7.0' + '/css/font-awesome.min.css');
+                }
                 // }
             }
         ],

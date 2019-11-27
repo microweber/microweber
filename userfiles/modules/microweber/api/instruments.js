@@ -106,7 +106,7 @@ mw.instruments = {
               url:' link_editor',
               height: 'auto',
               autoHeight: true,
-              width: 700
+              width: 800
           });
           frame = dialog.iframe;
         } else {

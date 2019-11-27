@@ -39,8 +39,7 @@ function get_white_label_config()
     }
 }
 
-event_bind('mw_frontend', 'make_white_label');
-event_bind('mw_backend', 'make_white_label');
+event_bind('mw.init', 'make_white_label');
 
 function make_white_label()
 {

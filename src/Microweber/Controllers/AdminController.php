@@ -22,6 +22,8 @@ class AdminController extends Controller
         } else {
             $this->app = mw();
         }
+        event_trigger('mw.init');
+
     }
 
     public function index()

@@ -229,9 +229,11 @@ if (isset($params['data-alt-logo'])) {
 
         mw.editor({
             element: '#text',
-            height: 200,
             width: '100%',
-            hideControls: ['format', 'ol', 'ul', 'div', 'justifyleft', 'justifycenter', 'justifyright', 'justifyfull', 'link', 'unlink', 'remove_formatting']
+            hideControls: [
+                'format', 'ol', 'ul', 'div', 'justifyleft', 'justifycenter',
+                'justifyright', 'justifyfull', 'link', 'unlink', 'remove_formatting'
+            ]
         })
     });
 </script>
@@ -254,10 +256,10 @@ if (isset($params['data-alt-logo'])) {
 
 
         $size_slider.on('input change', function () {
-            $size.val(this.value)
+            $size.val(this.value);
             $("#order_status1")[0].checked = false;
             $imagesizeval.html(this.value + 'px');
-            $size.trigger('change')
+            $size.trigger('change');
         });
 
         $("#order_status1").on('change', function () {
