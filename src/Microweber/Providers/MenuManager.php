@@ -108,7 +108,7 @@ class MenuManager
             $url_from_content = 1;
         }
         if (isset($data_to_save['content_id']) and intval($data_to_save['content_id']) == 0) {
-            unset($data_to_save['content_id']);
+            //unset($data_to_save['content_id']);
         }
 
         if (isset($data_to_save['url_target'])) {
@@ -116,7 +116,7 @@ class MenuManager
         }
 
         if (isset($data_to_save['categories_id']) and intval($data_to_save['categories_id']) == 0) {
-            unset($data_to_save['categories_id']);
+            //unset($data_to_save['categories_id']);
             //$url_from_content = 1;
         }
 
@@ -150,6 +150,7 @@ class MenuManager
 
         $data_to_save['table'] = $table;
         $data_to_save['item_type'] = 'menu_item';
+
 
         $save = $this->app->database_manager->save($table, $data_to_save);
 

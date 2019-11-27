@@ -59,6 +59,10 @@
     .page-layout-tab .mw-field{
         width: 100%;
     }
+    .mw-modules-admin .change-url-box {
+        width: 80%;
+
+    }
     .admin-side-content .mw-ui-btn + .mw-ui-btn{
         margin-left: 10px;
     }
