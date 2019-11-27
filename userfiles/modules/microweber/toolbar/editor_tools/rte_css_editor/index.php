@@ -438,6 +438,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                         return item.title.indexOf('module') !== -1
                             || item.title.indexOf('element') !== -1
                             || item.title.indexOf('allow-drop') !== -1
+                            || item.title.indexOf('cloneable') !== -1
                             || item.title.indexOf('nodrop') !== -1;
                     }
                 });
