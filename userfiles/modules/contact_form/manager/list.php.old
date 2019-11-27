@@ -212,7 +212,7 @@ if (is_array($data)) {
                                         <?php print $values_plain; ?>
                                         <br/>
                                         <button class="js-toggle-full mw-ui-btn mw-ui-btn-info mw-ui-btn-small mw-ui-btn-outline">
-                                            <span>show more</span><span>show less</span></button>
+                                            <span><?php _e('show more'); ?></span><span><?php _e('show less'); ?></span></button>
                                     </div>
                                 <?php else: ?>
                                     <?php print $values_plain; ?>

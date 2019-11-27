@@ -1,6 +1,6 @@
 <?php
 $config = array();
-$config['name'] = "Cookie Notice";
+$config['name'] = _e("Cookie Notice", TRUE);
 $config['author'] = "Ezyweb.uk";
 $config['ui'] = false; //if set to true, module will be visible in the toolbar
 $config['ui_admin'] = true; //if set to true, module will be visible in the admin panel

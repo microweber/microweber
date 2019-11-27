@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = "White label";
+$config['name'] = _e("White label", TRUE);
 $config['author'] = "Microweber";
 $config['categories'] = "advanced";
 $config['position'] = "500";

@@ -14,7 +14,7 @@
         <div>
             <div class="mw-searchbox">
                 <div class="mw-sb-item">
-                    <div class="mw-sb-item-input"><input type="text" class="mw-ui-field" placeholder="Search" oninput="categorySearch(this)"/></div>
+                    <div class="mw-sb-item-input"><input type="text" class="mw-ui-field" placeholder="<?php _e("Search"); ?>" oninput="categorySearch(this)"/></div>
                 </div>
             </div>
 

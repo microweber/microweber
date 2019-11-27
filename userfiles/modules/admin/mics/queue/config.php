@@ -1,6 +1,6 @@
 <?php
 $config = array();
-$config['name'] = "Queue";
+$config['name'] = _e("Queue", TRUE);
 $config['author'] = "Microweber";
 
 $config['categories'] = "admin";

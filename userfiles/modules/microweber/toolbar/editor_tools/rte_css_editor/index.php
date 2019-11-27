@@ -468,24 +468,22 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
     </script>
 
     <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
-        <div class="mw-ui-box-header mw-accordion-title">Attributes</div>
+        <div class="mw-ui-box-header mw-accordion-title"><?php _e("Attributes"); ?></div>
         <div class="mw-accordion-content mw-ui-box-content">
             <div class="mw-ui-field-holder">
-                <label class="mw-ui-label">Classes</label>
+                <label class="mw-ui-label"><?php _e("Classes"); ?></label>
                 <div class="mw-ui-field w100" id="classtags"></div>
             </div>
-
-
 
         </div>
     </div>
 
 
 <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
-    <div class="mw-ui-box-header mw-accordion-title">Typography</div>
+    <div class="mw-ui-box-header mw-accordion-title"><?php _e("Typography"); ?></div>
     <div class="mw-accordion-content mw-ui-box-content">
         <div class="s-field">
-            <label>Text align</label>
+            <label><?php _e("Text align"); ?></label>
             <div class="s-field-content">
                 <div class="text-align">
                     <span class="ta-left" data-value="left"><i></i><i></i><i></i></span>
@@ -496,7 +494,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             </div>
         </div>
         <div class="s-field">
-            <label>Size</label>
+            <label><?php _e("Size"); ?></label>
             <div class="s-field-content">
                 <div class="mw-multiple-fields">
                     <div class="mw-field unit" data-prop="fontSize" data-size="medium"><input type="text"></div>
@@ -504,7 +502,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             </div>
         </div>
         <div class="s-field">
-            <label>Color</label>
+            <label><?php _e("Color"); ?></label>
             <div class="s-field-content">
                 <div class="mw-multiple-fields">
                     <div class="mw-field" data-size="medium"><input type="text" class="colorField" data-prop="color"></div>
@@ -512,29 +510,29 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             </div>
         </div>
         <div class="s-field">
-            <label>Style</label>
+            <label><?php _e("Style"); ?></label>
             <div class="s-field-content">
                 <div class="mw-multiple-fields">
                     <div class="mw-field" data-size="medium">
                         <select class="regular" data-prop="fontStyle">
-                            <option value="normal">normal</option>
-                            <option value="italic">italic</option>
-                            <option value="oblique">oblique</option>
+                            <option value="normal"><?php _e("normal"); ?></option>
+                            <option value="italic"><?php _e("italic"); ?></option>
+                            <option value="oblique"><?php _e("oblique"); ?></option>
                         </select>
                     </div>
                 </div>
             </div>
         </div>
         <div class="s-field">
-            <label>Weight</label>
+            <label><?php _e("Weight"); ?></label>
             <div class="s-field-content">
                 <div class="mw-multiple-fields">
                     <div class="mw-field" data-size="medium">
                         <select class="regular" data-prop="fontWeight">
-                            <option value="normal">normal</option>
-                            <option value="bold">bold</option>
-                            <option value="bolder">bolder</option>
-                            <option value="lighter">lighter</option>
+                            <option value="normal"><?php _e("normal"); ?></option>
+                            <option value="bold"><?php _e("bold"); ?></option>
+                            <option value="bolder"><?php _e("bolder"); ?></option>
+                            <option value="lighter"><?php _e("lighter"); ?></option>
                             <option value="100">100</option>
                             <option value="200">200</option>
                             <option value="300">300</option>
@@ -550,22 +548,22 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             </div>
         </div>
         <div class="s-field">
-            <label>Text transform</label>
+            <label><?php _e("Text transform"); ?></label>
             <div class="s-field-content">
                 <div class="mw-multiple-fields">
                     <div class="mw-field" data-size="medium">
                         <select class="regular" data-prop="textTransform">
-                            <option value="none">none</option>
-                            <option value="capitalize">capitalize</option>
-                            <option value="uppercase">uppercase</option>
-                            <option value="lowercase">lowercase</option>
+                            <option value="none"><?php _e("none"); ?></option>
+                            <option value="capitalize"><?php _e("capitalize"); ?></option>
+                            <option value="uppercase"><?php _e("uppercase"); ?></option>
+                            <option value="lowercase"><?php _e("lowercase"); ?></option>
                         </select>
                     </div>
                 </div>
             </div>
         </div>
         <div class="s-field">
-            <label>Word Spacing</label>
+            <label><?php _e("Word Spacing"); ?></label>
             <div class="s-field-content">
                 <div class="mw-multiple-fields">
                     <div class="mw-field unit" data-prop="wordSpacing" data-size="medium"><input type="text"></div>
@@ -573,7 +571,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             </div>
         </div>
         <div class="s-field">
-            <label>Letter Spacing</label>
+            <label><?php _e("Letter Spacing"); ?></label>
             <div class="s-field-content">
                 <div class="mw-multiple-fields">
                     <div class="mw-field unit" data-prop="letterSpacing" data-size="medium"><input type="text"></div>
@@ -587,18 +585,18 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
 </div>
 
 <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
-    <div class="mw-ui-box-header mw-accordion-title">Background</div>
+    <div class="mw-ui-box-header mw-accordion-title"><?php _e("Background"); ?></div>
     <div class="mw-accordion-content mw-ui-box-content">
         <div class="s-field">
-            <label>Image</label>
+            <label><?php _e("Image"); ?></label>
             <div class="s-field-content">
                 <span class="background-preview"></span>
-                <span class="mw-ui-btn mw-ui-btn-medium" id="background-select-item">Image</span>
+                <span class="mw-ui-btn mw-ui-btn-medium" id="background-select-item"><?php _e("Image"); ?></span>
                 <span id="background-remove"><span class="mw-icon-close"></span></span>
             </div>
         </div>
         <div class="s-field">
-            <label>Color</label>
+            <label><?php _e("Color"); ?></label>
             <div class="s-field-content">
                 <div class="mw-field" data-size="medium">
                     <input type="text" class="colorField" data-prop="backgroundColor">
@@ -607,47 +605,47 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         </div>
 
         <div class="s-field">
-            <label>Size</label>
+            <label><?php _e("Size"); ?></label>
             <div class="s-field-content">
                 <div class="mw-field" data-size="medium">
                     <select type="text" class="regular" data-prop="backgroundSize">
-                        <option value="auto">Auto</option>
-                        <option value="contain">Fit</option>
-                        <option value="cover">Cover</option>
-                        <option value="100% 100%">Scale</option>
+                        <option value="auto"><?php _e("Auto"); ?></option>
+                        <option value="contain"><?php _e("Fit"); ?></option>
+                        <option value="cover"><?php _e("Cover"); ?></option>
+                        <option value="100% 100%"><?php _e("Scale"); ?></option>
                     </select>
                 </div>
             </div>
         </div>
         <div class="s-field">
-            <label>Repeat</label>
+            <label><?php _e("Repeat"); ?></label>
             <div class="s-field-content">
                 <div class="mw-field" data-size="medium">
                     <select type="text" class="regular" data-prop="backgroundRepeat">
-                        <option value="repeat">repeat</option>
-                        <option value="no-repeat">no-repeat</option>
-                        <option value="repeat-x">repeat horizontally</option>
-                        <option value="repeat-y">repeat vertically </option>
+                        <option value="repeat"><?php _e("repeat"); ?></option>
+                        <option value="no-repeat"><?php _e("no-repeat"); ?></option>
+                        <option value="repeat-x"><?php _e("repeat horizontally"); ?></option>
+                        <option value="repeat-y"><?php _e("repeat vertically "); ?></option>
                     </select>
                 </div>
             </div>
         </div>
         <div class="s-field">
-            <label>Position</label>
+            <label><?php _e("Position"); ?></label>
             <div class="s-field-content">
                 <div class="mw-field" data-size="medium">
                     <select type="text" class="regular" data-prop="backgroundPosition">
-                        <option value="0% 0%">Left Top</option>
-                        <option value="50% 0%">Center Top</option>
-                        <option value="100% 0%">Right Top</option>
+                        <option value="0% 0%"><?php _e("Left Top"); ?></option>
+                        <option value="50% 0%"><?php _e("Center Top"); ?></option>
+                        <option value="100% 0%"><?php _e("Right Top"); ?></option>
 
-                        <option value="0% 50%">Left Center</option>
-                        <option value="50% 50%">Center Center</option>
-                        <option value="100% 50%">Right Center</option>
+                        <option value="0% 50%"><?php _e("Left Center"); ?></option>
+                        <option value="50% 50%"><?php _e("Center Center"); ?></option>
+                        <option value="100% 50%"><?php _e("Right Center"); ?></option>
 
-                        <option value="0% 100%">Left Bottom</option>
-                        <option value="50% 100%">Center Bottom</option>
-                        <option value="100% 100%">Right Bottom</option>
+                        <option value="0% 100%"><?php _e("Left Bottom"); ?></option>
+                        <option value="50% 100%"><?php _e("Center Bottom"); ?></option>
+                        <option value="100% 100%"><?php _e("Right Bottom"); ?></option>
                     </select>
                 </div>
             </div>
@@ -658,17 +656,17 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
 
 
     <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
-        <div class="mw-ui-box-header mw-accordion-title">Size</div>
+        <div class="mw-ui-box-header mw-accordion-title"><?php _e("Size"); ?></div>
         <div class="mw-accordion-content mw-ui-box-content">
             <div class="mw-esr">
                 <div class="mw-esc">
-                    <label>Width</label>
+                    <label><?php _e("Width"); ?></label>
                     <div class="mw-multiple-fields">
                         <div class="mw-field unit" data-prop="width" data-size="medium"><input type="text"></div>
                     </div>
                 </div>
                 <div class="mw-esc">
-                    <label>Height</label>
+                    <label><?php _e("Height"); ?></label>
                     <div class="mw-multiple-fields">
                         <div class="mw-field unit" data-prop="height" data-size="medium"><input type="text"></div>
                     </div>
@@ -676,13 +674,13 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             </div>
             <div class="mw-esr">
                 <div class="mw-esc">
-                    <label>Min Width</label>
+                    <label><?php _e("Min Width"); ?></label>
                     <div class="mw-multiple-fields">
                         <div class="mw-field unit" data-prop="minWidth" data-size="medium"><input type="text"></div>
                     </div>
                 </div>
                 <div class="mw-esc">
-                    <label>Min Height</label>
+                    <label><?php _e("Min Height"); ?></label>
                     <div class="mw-multiple-fields">
                         <div class="mw-field unit" data-prop="minHeight" data-size="medium"><input type="text"></div>
                     </div>
@@ -691,13 +689,13 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             </div>
             <div class="mw-esr">
                 <div class="mw-esc">
-                    <label>Max Width</label>
+                    <label><?php _e("Max Width"); ?></label>
                     <div class="mw-multiple-fields">
                         <div class="mw-field unit" data-prop="maxWidth" data-size="medium"><input type="text"></div>
                     </div>
                 </div>
                 <div class="mw-esc">
-                    <label>Max Height</label>
+                    <label><?php _e("Max Height"); ?></label>
                     <div class="mw-multiple-fields">
                         <div class="mw-field unit" data-prop="maxHeight" data-size="medium"><input type="text"></div>
                     </div>
@@ -707,10 +705,10 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
     </div>
 
     <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
-        <div class="mw-ui-box-header mw-accordion-title">Spacing</div>
+        <div class="mw-ui-box-header mw-accordion-title"><?php _e("Spacing"); ?></div>
         <div class="mw-accordion-content mw-ui-box-content">
             <div class="mw-element-spacing-editor">
-                <span class="mw-ese-label">Margin</span>
+                <span class="mw-ese-label"><?php _e("Margin"); ?></span>
                 <div class="mw-ese-holder mw-ese-margin">
                     <input class="mw-ese-top margin-top">
                     <input class="mw-ese-right margin-right">
@@ -721,7 +719,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                         <input class="mw-ese-right padding-right">
                         <input class="mw-ese-bottom padding-bottom">
                         <input class="mw-ese-left padding-left">
-                        <span class="mw-ese-label">Padding</span>
+                        <span class="mw-ese-label"><?php _e("Padding"); ?></span>
                     </div>
                 </div>
 
@@ -731,24 +729,24 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
 
 
 <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
-    <div class="mw-ui-box-header mw-accordion-title">Border</div>
+    <div class="mw-ui-box-header mw-accordion-title"><?php _e("Border"); ?></div>
     <div class="mw-accordion-content mw-ui-box-content">
         <div class="s-field">
-            <label>Position</label>
+            <label><?php _e("Position"); ?></label>
             <div class="s-field-content">
                 <div class="mw-field" data-size="medium">
                     <select type="text" id="border-position">
-                        <option value="all" selected>All</option>
-                        <option value="Top">Top</option>
-                        <option value="Right">Right</option>
-                        <option value="Bottom">Bottom</option>
-                        <option value="Left">Left</option>
+                        <option value="all" selected><?php _e("All"); ?></option>
+                        <option value="Top"><?php _e("Top"); ?></option>
+                        <option value="Right"><?php _e("Right"); ?></option>
+                        <option value="Bottom"><?php _e("Bottom"); ?></option>
+                        <option value="Left"><?php _e("Left"); ?></option>
                     </select>
                 </div>
             </div>
         </div>
         <div class="s-field">
-            <label>Size</label>
+            <label><?php _e("Size"); ?></label>
             <div class="s-field-content">
                 <div class="mw-multiple-fields">
                     <div class="mw-field" data-size="medium"><input type="text" id="border-size"></div>
@@ -756,7 +754,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             </div>
         </div>
         <div class="s-field">
-            <label>Color</label>
+            <label><?php _e("Color"); ?></label>
             <div class="s-field-content">
                 <div class="mw-field" data-size="medium">
                     <input type="text" class="colorField" id="border-color">
@@ -768,16 +766,16 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             <div class="s-field-content">
                 <div class="mw-field" data-size="medium">
                     <select type="text" id="border-type">
-                        <option value="" disabled selected>choose</option>
-                        <option value="none">none</option>
-                        <option value="solid">solid</option>
-                        <option value="dotted">dotted</option>
-                        <option value="dashed">dashed</option>
-                        <option value="double">double</option>
-                        <option value="groove">groove</option>
-                        <option value="ridge">ridge</option>
-                        <option value="inset">inset</option>
-                        <option value="outset">outset</option>
+                        <option value="" disabled selected>choose"); ?></option>
+                        <option value="none"><?php _e("none"); ?></option>
+                        <option value="solid"><?php _e("solid"); ?></option>
+                        <option value="dotted"><?php _e("dotted"); ?></option>
+                        <option value="dashed"><?php _e("dashed"); ?></option>
+                        <option value="double"><?php _e("double"); ?></option>
+                        <option value="groove"><?php _e("groove"); ?></option>
+                        <option value="ridge"><?php _e("ridge"); ?></option>
+                        <option value="inset"><?php _e("inset"); ?></option>
+                        <option value="outset"><?php _e("outset"); ?></option>
                     </select>
                 </div>
             </div>
@@ -785,10 +783,10 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
     </div>
 </div>
 <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
-    <div class="mw-ui-box-header mw-accordion-title">Miscellaneous</div>
+    <div class="mw-ui-box-header mw-accordion-title"><?php _e("Miscellaneous"); ?></div>
     <div class="mw-accordion-content mw-ui-box-content">
         <div class="rouded-corners" >
-            <label>Rounded Corners</label>
+            <label><?php _e("Rounded Corners"); ?></label>
             <div class="s-field-content">
                 <div class="mw-field" data-size="medium">
                     <div class="mw-multiple-fields">
@@ -816,7 +814,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                 </div>
             </div>
         </div>
-        <label>Element shadow</label>
+        <label><?php _e("Element shadow"); ?></label>
         <div id="shadow"></div>
 
     </div>

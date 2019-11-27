@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = "Pop-Up";
+$config['name'] = _e("Pop-Up", TRUE);
 $config['author'] = "Microweber";
 $config['no_cache'] = false;
 $config['ui'] = true;

@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = "Inline Table";
+$config['name'] = _e("Inline Table", true);
 $config['author'] = "Microweber";
 $config['description'] = "Microweber";
 $config['website'] = "http://microweber.com/";

@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = "Rating";
+$config['name'] = _e("Rating", TRUE);
 $config['author'] = "Microweber";
 $config['description'] = "Microweber";
 $config['website'] = "http://microweber.com/"; 

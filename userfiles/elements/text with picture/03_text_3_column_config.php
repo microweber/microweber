@@ -1,9 +1,9 @@
 <?php
 
 $config = array();
-$config['name'] = "Three Columns with Pictures";
+$config['name'] = _e("Three Columns with Pictures", TRUE);
 $config['author'] = "Microweber";
-$config['description'] = "Text and pictures 3 column";
+$config['description'] = _e("Text and pictures 3 column", TRUE);
 $config['website'] = "http://microweber.com";
 $config['no_cache'] = true;
 $config['as_element'] = true;

@@ -1,9 +1,9 @@
 <?php
 
 $config = array();
-$config['name'] = "Tags";
+$config['name'] = _e("Tags", TRUE);
 $config['link'] = "https://microweber.com";
-$config['description'] = "Tags module for your posts!";
+$config['description'] = _e("Tags module for your posts!", TRUE);
 $config['author'] = "";
 $config['author_website'] = "";
 $config['ui'] = true;

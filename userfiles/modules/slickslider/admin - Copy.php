@@ -321,7 +321,7 @@ $count = 0;
                                 </ul>
 
                                 <div class="mw-ui-field-holder">
-                                    <span class="mw-ui-btn mw-ui-btn-info slickslider-uploader"><span class="mw-icon-upload"></span> &nbsp; Add Image</span>
+                                    <span class="mw-ui-btn mw-ui-btn-info slickslider-uploader"><span class="mw-icon-upload"></span> &nbsp; <?php _e('Add Image'); ?></span>
                                 </div>
                             </div>
                         </div>

@@ -3,7 +3,7 @@
 
 $config = array();
 
-$config['name'] = "Slick Slider";
+$config['name'] = _e("Slick Slider", TRUE);
 
 $config['author'] = "Microweber";
 

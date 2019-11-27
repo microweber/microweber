@@ -1,8 +1,8 @@
 <?php
 
 $config = array();
-$config['name'] = "Global Styles";
-$config['description'] = " Theme styles configurator";
+$config['name'] = _e("Global Styles", TRUE);
+$config['description'] = _e("Theme styles configurator", TRUE);
 $config['author'] = "Microweber";
 
 $config['ui_admin'] = false;

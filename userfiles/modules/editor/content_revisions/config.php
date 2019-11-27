@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = "Content Revisions";
+$config['name'] = _e("Content Revisions", TRUE);
 $config['ui'] = false;
 $config['ui_admin'] = false;
 $config['categories'] = "other";

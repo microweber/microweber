@@ -1,6 +1,6 @@
 <?php
 $config = array();
-$config['name'] = "Calendar";
+$config['name'] = _e("Calendar", TRUE);
 $config['author'] = "selfworksbg@gmail.com"; // Bozhidar Slaveykov
 $config['ui'] = true; // if set to true, module will be visible in the toolbar
 $config['ui_admin'] = true; // if set to true, module will be visible in the admin panel

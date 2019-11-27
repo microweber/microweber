@@ -11,7 +11,7 @@
 
 
 $config = array();
-$config['name'] = "Coupons";
+$config['name'] = _e("Coupons", TRUE);
 $config['author'] = "Bozhidar Slaveykov";
 
 $config['ui'] = false;

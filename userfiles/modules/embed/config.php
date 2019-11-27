@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = "Embed Code";
+$config['name'] = _e("Embed Code", TRUE);
 $config['author'] = "Microweber";
 $config['no_cache'] = false;
 $config['ui'] = true;
