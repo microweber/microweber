@@ -34,9 +34,9 @@ $send_email_on_new_order = get_option('send_email_on_new_order', 'orders');
     <div class="mw-ui-col">
         <label class="mw-ui-label bold"><?php _e("Send email to"); ?></label>
         <select class="mw-ui-field mw-full-width mw_option_field"  data-option-group="orders" name="send_email_on_new_order">
-            <option value="" <?php if ($send_email_on_new_order == ''): ?>selected="selected"<?php endif; ?>>Default (Admins & Client)</option>
-            <option value="admins" <?php if ($send_email_on_new_order == 'admins'): ?>selected="selected"<?php endif; ?>>Only Admins</option>
-            <option value="client" <?php if ($send_email_on_new_order == 'client'): ?>selected="selected"<?php endif; ?>>Only Client</option>
+            <option value="" <?php if ($send_email_on_new_order == ''): ?>selected="selected"<?php endif; ?>><?php _e('Default (Admins & Client)');?></option>
+            <option value="admins" <?php if ($send_email_on_new_order == 'admins'): ?>selected="selected"<?php endif; ?>><?php _e('Only Admins');?></option>
+            <option value="client" <?php if ($send_email_on_new_order == 'client'): ?>selected="selected"<?php endif; ?>><?php _e('Only Client');?></option>
         </select>
     </div>
 </div>
@@ -48,12 +48,12 @@ $send_email_on_new_order = get_option('send_email_on_new_order', 'orders');
         <label class="mw-ui-check" style="margin-right: 15px;">
             <input name="order_email_send_when" class="mw_option_field" data-option-group="orders" value="order_received"
                    type="radio" <?php if (get_option('order_email_send_when', 'orders') == 'order_received' || get_option('order_email_send_when', 'orders') == ''): ?> checked="checked" <?php endif; ?> >
-            <span></span><span>Order is received</span>
+            <span></span><span><?php _e('Order is received');?></span>
         </label>
 
         <label class="mw-ui-check">
             <input name="order_email_send_when" class="mw_option_field" data-option-group="orders" value="order_paid" type="radio" <?php if (get_option('order_email_send_when', 'orders') == 'order_paid'): ?> checked="checked" <?php endif; ?> >
-            <span></span><span>Order is paid</span>
+            <span></span><span><?php _e('Order is paid');?></span>
         </label>
     </div>
 </div>

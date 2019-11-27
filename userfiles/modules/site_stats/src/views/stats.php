@@ -43,7 +43,7 @@
 
             <div class="demobox" id="demotabsnav">
                 <div class="heading  mw-ui-box">
-                    <div>Referrers</div>
+                    <div><?php _e("Referrers"); ?></div>
                     <!--<div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
                         <a href="javascript:;" class="mw-ui-btn"><span class="number">726</span>
                             <small>Sites</small>
@@ -76,7 +76,7 @@
 
         <div class="mw-ui-flex-item">
             <div class="heading  mw-ui-box">
-                <?php print _e('Content'); ?>
+                <?php _e('Content'); ?>
             </div>
             <div class="contents mw-ui-box">
                 <module type="site_stats/admin" view="content_list" period="<?php print $period; ?>"/>
@@ -85,7 +85,7 @@
 
         <div class="mw-ui-flex-item">
             <div class="heading  mw-ui-box">
-                <?php print _e('Visitors'); ?>
+                <?php _e('Visitors'); ?>
             </div>
             <div class="visitors mw-ui-box">
                 <module type="site_stats/admin" view="visitors_list" period="<?php print $period; ?>"/>
@@ -94,7 +94,7 @@
 
         <div class="mw-ui-flex-item">
             <div class="heading  mw-ui-box">
-                <?php print _e('Locations'); ?>
+                <?php _e('Locations'); ?>
             </div>
             <div class="locations mw-ui-box">
                 <module type="site_stats/admin" view="locations_list" period="<?php print $period; ?>"/>
@@ -103,7 +103,7 @@
 
         <div class="mw-ui-flex-item">
             <div class="heading  mw-ui-box">
-                <?php print _e('Browser language'); ?>
+                <?php _e('Browser language'); ?>
             </div>
             <div class="locations mw-ui-box">
                 <module type="site_stats/admin" view="languages_list" period="<?php print $period; ?>"/>
