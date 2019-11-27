@@ -206,8 +206,8 @@
     </div>
     <div class="">
         <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
-            <a class="mw-ui-btn active" href="javascript:;"><?php _e("Website URL"); ?></a>
             <a class="mw-ui-btn" href="javascript:;"><?php _e("Page from My Website"); ?></a>
+            <a class="mw-ui-btn active" href="javascript:;"><?php _e("Website URL"); ?></a>
             <a class="mw-ui-btn" href="javascript:;"><?php _e("Post"); ?>, <?php _e("Category"); ?></a>
             <a class="mw-ui-btn" href="javascript:;"><?php _e("File"); ?></a>
             <a class="mw-ui-btn" href="javascript:;"><?php _e("Email"); ?></a>
@@ -215,20 +215,9 @@
             <a class="mw-ui-btn page-layout-btn" style="display: none;" href="javascript:;"><?php _e("Page Layout"); ?></a>
         </div>
         <div class="mw-ui-box mw-ui-box-content" id="tabs">
-            <div class="tab" style="display: block">
-                <div class="media-search-holder">
-                    <div class="mw-ui-field-holder">
-                        <label class="mw-ui-label"><?php _e("URL"); ?></label>
-                        <input type="text" class="mw-ui-field" id="customweburl" autofocus=""/>
-                        <span class="mw-ui-btn mw-ui-btn-notification" id="insert_url"><?php _e("Insert"); ?></span>
-
-                    </div>
-
-                </div>
-            </div>
             <div class="tab">
                 <?php
-                    $unique = uniqid('link-tree-');
+                $unique = uniqid('link-tree-');
                 ?>
                 <div class="mw-field">
                     <span class="mw-field-prepend"><i class="mw-icon-magnify"></i></span>
@@ -278,6 +267,18 @@
 
                 </script>
             </div>
+            <div class="tab" style="display: block">
+                <div class="media-search-holder">
+                    <div class="mw-ui-field-holder">
+                        <label class="mw-ui-label"><?php _e("URL"); ?></label>
+                        <input type="text" class="mw-ui-field" id="customweburl" autofocus=""/>
+                        <span class="mw-ui-btn mw-ui-btn-notification" id="insert_url"><?php _e("Insert"); ?></span>
+
+                    </div>
+
+                </div>
+            </div>
+
             <div class="tab">
                 <div class="media-search-holder">
                     <div data-value="<?php print site_url(); ?>" id="insert_link_list" class="mw-dropdown mw-dropdown-default active">
