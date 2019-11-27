@@ -60,10 +60,14 @@ var activeTree = function(){
             return getParent(node.parentNode);
         }
     };
-    var data = [], curr = ActiveNode;
+    var data = [], curr = ActiveNode, count = 0;
     while(curr && curr !== document.body){
         var custom = !!curr.className;
         if(curr.id || mw.tools.hasClass(curr, 'edit') || custom){
+            count++;
+            if(count > 4) {
+                break;
+            }
             var parent = getParent(curr);
             var selector = mw.tools.generateSelectorForNode(curr)
                 .replace(/\[/g, 'mw')
@@ -439,6 +443,8 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                             || item.title.indexOf('element') !== -1
                             || item.title.indexOf('allow-drop') !== -1
                             || item.title.indexOf('cloneable') !== -1
+                            || item.title.indexOf('ui-draggable') !== -1
+                            || item.title.indexOf('ui-draggable-handle') !== -1
                             || item.title.indexOf('nodrop') !== -1;
                     }
                 });
