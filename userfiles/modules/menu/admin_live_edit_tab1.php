@@ -272,6 +272,11 @@ if ($menu_data) {
         $menu_data = $menu_data['id'];
     }
     ?>
+    <div>
+        <br>
+
+        <span class="mw-ui-btn mw-ui-btn-info pull-right" onclick="addMenuItem()"><span class="mw-icon-plus"></span> <?php _e("Add menu item"); ?></span>
+    </div>
 
     <div class="<?php print $config['module_class']; ?> menu_items order-has-link" id="items_list_<?php print $rand ?>">
         <?php if ($active_menu != false): ?>
@@ -285,7 +290,6 @@ if ($menu_data) {
         <?php endif; ?>
     </div>
     <br>
-    <span class="mw-ui-btn mw-ui-btn-info pull-right" onclick="addMenuItem()"><span class="mw-icon-plus"></span> <?php _e("Add menu item"); ?></span>
     <div id="link-selector-holder" style="display: none"></div>
 </div>
 <script><?php include('menu_admin.js'); ?></script>

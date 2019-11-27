@@ -76,7 +76,7 @@
 
 
 	             <div class="contact-head">
-	             	<h4>Your form lists</h4>
+	             	<h4><?php _e("Your form lists"); ?></h4>
                      <div class="mw-field" size="large">
                         <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);" style="margin-left:15px;width:200px;">
                         <option <?php if ($load_list === 'all_lists') { ?> selected="selected" <?php } ?> value="<?php print $config['url']; ?>"><?php _e('All lists'); ?></option>
