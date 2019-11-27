@@ -917,10 +917,7 @@ $replace_paths = array();
         return $checked[$module_name];
     }
 
-    public function set_module_installed($module_name,$installed)
-    {
 
-    }
     public function is_installed($module_name)
     {
         $module_name = trim($module_name);
