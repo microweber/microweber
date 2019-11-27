@@ -11,12 +11,12 @@ mw.liveedit.handleCustomEvents = function() {
         if(originalEvent) {
             el = mw.tools.firstParentOrCurrentWithAnyOfClasses(originalEvent.target, ['element', 'module'])
         }
-        if(el.id) {
+        //if(el.id) {
             if(mw.liveEditSelector.selected && mw.liveEditSelector.selected[0] === el) {
                 return;
             }
-            // mw.liveEditSelector.select(el);
-        }
+             mw.liveEditSelector.select(el);
+        //}
     });
 
     mw.on("DragHoverOnEmpty", function(e, el) {
