@@ -290,7 +290,7 @@ mw.tools = {
             else {
                 //clearInterval(frame._int);
             }
-        }, 77);
+        }, 777);
 
     },
 
