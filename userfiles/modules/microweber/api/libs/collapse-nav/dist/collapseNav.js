@@ -178,9 +178,6 @@ function collapseNav(selector, config) {
         init(navigation, configuration);
     }, false);
 
-    // init(selector, config);
-
-    // $(navigation).html(original_navigation);
     init(navigation, configuration);
 }
 
@@ -201,7 +198,7 @@ $.fn.collapseNav = function (config) {
     var settings = $.extend({}, defaults, config)
 
     return this.each(function () {
-        setTimeout(function(scope){
+        setTimeout(function (scope) {
             collapseNav(scope, settings);
         }, 700, this);
     })
