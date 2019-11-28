@@ -163,18 +163,24 @@ function collapseNav(selector, config) {
     }
 
     $(window).on('load', function () {
-        $(navigation).html(original_navigation);
+        if ($(window).width() >= configuration.mobile_break) {
+            $(navigation).html(original_navigation);
+        }
         init(navigation, configuration);
         // init(selector, config);
     });
 
     $(window).on('resize collapseNavReInit', function () {
-        $(navigation).html(original_navigation);
+        if ($(window).width() >= configuration.mobile_break) {
+            $(navigation).html(original_navigation);
+        }
         init(navigation, configuration);
     });
 
     window.addEventListener("orientationchange", function () {
-        $(navigation).html(original_navigation);
+        if ($(window).width() >= configuration.mobile_break) {
+            $(navigation).html(original_navigation);
+        }
         init(navigation, configuration);
     }, false);
 
