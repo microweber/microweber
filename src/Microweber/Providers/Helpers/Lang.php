@@ -1,4 +1,5 @@
 <?php
+
 namespace Microweber\Providers\Helpers;
 
 use \Microweber\Utils\URLify;
@@ -279,6 +280,10 @@ class Lang
 
     private function __make_lang_key_suffix($str)
     {
+       if(function_exists('iconv')){
+           $str = $this->__convert_to_utf($str);
+       }
+
         $hash = array();
         $all_words = explode(' ', $str);
         foreach ($all_words as $word) {
@@ -291,6 +296,22 @@ class Lang
         $hash[] = $count_chars;
         return implode('', $hash);
 
+    }
+
+    private function __convert_to_utf($text)
+    {
+
+        $encoding = mb_detect_encoding($text, mb_detect_order(), false);
+
+        if ($encoding == "UTF-8") {
+            $text = mb_convert_encoding($text, 'UTF-8', 'UTF-8');
+        }
+
+
+        $out = iconv(mb_detect_encoding($text, mb_detect_order(), false), "UTF-8//IGNORE", $text);
+
+
+        return $out;
     }
 
     function lang($title, $namespace = false)
@@ -404,16 +425,16 @@ class Lang
             foreach ($list as $l) {
                 $dir = dirname($l);
                 if ($dir and stristr($dir, $lang_files_dir) and is_dir($dir)) {
-                	$dir =  str_replace($lang_files_dir, '', $dir);
-                	$namespace = str_replace(' ', '', $dir);
-                	$namespace = str_replace('..', '', $namespace);
-                	$namespace = str_replace('\\', '/', $namespace);
-                	$ns[] = $namespace;
+                    $dir = str_replace($lang_files_dir, '', $dir);
+                    $namespace = str_replace(' ', '', $dir);
+                    $namespace = str_replace('..', '', $namespace);
+                    $namespace = str_replace('\\', '/', $namespace);
+                    $ns[] = $namespace;
 
                 }
             }
         }
-        if($ns){
+        if ($ns) {
             $ns = array_unique($ns);
         }
         return $ns;
@@ -427,7 +448,7 @@ class Lang
         if (isset($mw_language_content[$lang]) and !empty($mw_language_content[$lang])) {
             return $mw_language_content[$lang];
         }
-        if (!isset($mw_language_content[$lang])){
+        if (!isset($mw_language_content[$lang])) {
             $mw_language_content[$lang] = array();
         }
 
@@ -489,15 +510,9 @@ class Lang
         }
 
 
-
-        if (!isset($mw_language_content_namespace[$lang])){
+        if (!isset($mw_language_content_namespace[$lang])) {
             $mw_language_content_namespace[$lang] = array();
         }
-
-
-
-
-
 
 
 //    $lang_file = userfiles_path() . $namespace . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.json';
@@ -588,18 +603,18 @@ class Lang
 
     function save_language_file_content($data)
     {
-    	// Decode json from post
-    	if (isset($data['lines']) && is_string($data['lines'])) {
-    		$jsonDecode = json_decode($data['lines'], true);
-    		if ($jsonDecode && is_array($jsonDecode)) {
-    			$readyData = array();
-    			foreach($jsonDecode as $dataExplode) {
-    				$readyData[$dataExplode['name']] = $dataExplode['value'];
-    			}
-    			$data = $readyData;
-    		}
-    	}
-    	
+        // Decode json from post
+        if (isset($data['lines']) && is_string($data['lines'])) {
+            $jsonDecode = json_decode($data['lines'], true);
+            if ($jsonDecode && is_array($jsonDecode)) {
+                $readyData = array();
+                foreach ($jsonDecode as $dataExplode) {
+                    $readyData[$dataExplode['name']] = $dataExplode['value'];
+                }
+                $data = $readyData;
+            }
+        }
+
         if (is_admin() == true) {
             if (isset($data['unicode_temp_remove'])) {
                 unset($data['unicode_temp_remove']);
@@ -616,10 +631,10 @@ class Lang
                 unset($data['___lang']);
             }
 
-            if(!$lang){
+            if (!$lang) {
                 $lang = current_lang();
             }
-            if(!$lang){
+            if (!$lang) {
                 return;
             }
             $lang = str_replace('.', '', $lang);
