@@ -18,7 +18,7 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
         <?php endif; ?>
 
 
-        <a href="javascript:;" class="mw-ui-btn"><i class="mai-image"></i> &nbsp; Add images</a>
+        <a href="javascript:;" class="mw-ui-btn"><i class="mai-image"></i> &nbsp; <?php _e('Add images'); ?></a>
 
         <?php if ($data['content_type'] == 'page'): ?>
             <a href="javascript:;" class="mw-ui-btn " data-tip="<?php _e('Add to navigation'); ?>"><i class="mw-icon-menuadd"></i> &nbsp; <?php _e('Add to Menus'); ?></a>
@@ -71,7 +71,7 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
                 </div>
             <?php else: ?>
                 <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label">Select Category</label>
+                    <label class="mw-ui-label"><?php _e('Select Category'); ?></label>
                 </div>
             <?php endif; ?>
 

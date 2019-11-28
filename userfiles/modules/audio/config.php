@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = "Audio";
+$config['name'] = _e("Audio", TRUE);
 $config['author'] = "Microweber";
 $config['description'] = "Microweber";
 $config['website'] = "http://microweber.com/";

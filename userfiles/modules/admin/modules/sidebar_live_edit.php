@@ -45,12 +45,12 @@
         <div class="mw-ui-box mw-scroll-box" id="mw-sidebar-modules-and-layouts-holder">
             <div class="tabitem mw-normalize-css">
                 <div class="mw-live-edit-tab-title layouts">
-                    <h6>Layouts</h6>
+                    <h6><?php _e('Layouts'); ?></h6>
                     <div class="mw-liveedit-sidebar-search-wrapper">
                         <label for="search-input">
                             <i class="mw-icon-search" aria-hidden="true"></i>
                         </label>
-                        <input onkeyup="mwSidebarSearchItems(this.value, 'layouts')" placeholder="Search for Layouts" autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1" data-id="mw-sidebar-search-input-for-modules-and-layouts">
+                        <input onkeyup="mwSidebarSearchItems(this.value, 'layouts')" placeholder="<?php _e('Search for Layouts'); ?>" autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1" data-id="mw-sidebar-search-input-for-modules-and-layouts">
                         <a href="javascript:mwSidebarSearchClear('layouts');" class="mw-sidebar-search-clear-x-btn mw-icon-close" aria-hidden="true" style="display: none;"></a>
                     </div>
                     <p class="mw-search-no-results" ><?php _e("No results were found"); ?></p>
@@ -66,7 +66,7 @@
 
             <div class="tabitem mw-normalize-css" style="display: none">
                 <div class="mw-live-edit-tab-title modules">
-                    <h6>Modules</h6>
+                    <h6><?php _e("Modules");?></h6>
                     <div class="mw-liveedit-sidebar-search-wrapper">
                         <label for="search-input">
                             <i class="mw-icon-search" aria-hidden="true"></i>
@@ -87,7 +87,7 @@
             </div>
             <div class="tabitem mw-normalize-css" style="display: none;">
                 <div class="mw-live-edit-tab-title">
-                    <h6>Template settings</h6>
+                    <h6><?php _e("Template settings"); ?></h6>
                 </div>
 
                 <?php if (file_exists(TEMPLATE_DIR . 'template_settings.php')) { ?>
@@ -97,7 +97,7 @@
             </div>
             <div class="tabitem ">
                 <div class="mw-live-edit-tab-title">
-                    <h6>Visual editor</h6>
+                    <h6><?php _e("Visual editor"); ?></h6>
                 </div>
                 <div id="mw-css-editor-sidebar-iframe-holder" class="  mw-live-edit-sidebar-iframe-holder"></div>
             </div>

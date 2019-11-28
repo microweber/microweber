@@ -146,7 +146,7 @@ mw.live_edit.showSettings = function (a, opts) {
             id: modal_name,
             title:'',
             className: 'mw-dialog-module-settings',
-            closeButtonAction: 'hide'
+            closeButtonAction: 'remove'
         });
 
         nmodal.iframe.contentWindow.thismodal = nmodal;

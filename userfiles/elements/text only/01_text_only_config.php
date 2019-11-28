@@ -1,6 +1,6 @@
 <?php
 $config = array();
-$config['name'] = "Simple Text";
+$config['name'] = _e("Simple Text", TRUE);
 $config['author'] = "Microweber";
 $config['description'] = "Text 1 column full width";
 $config['website'] = "http://microweber.com";

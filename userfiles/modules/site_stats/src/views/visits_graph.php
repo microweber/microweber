@@ -252,9 +252,9 @@ if ($params['period']) {
                 </span>
             <span class="sbf-item">
                     <span class="mai-comment"></span>
-                    Comments
+                    <?php _e('Comments'); ?>
                     <span class="sbf-item-n"><?php print $comments_count; ?></span>
-                </span>
+            </span>
         </div>
     </div>
 </div>

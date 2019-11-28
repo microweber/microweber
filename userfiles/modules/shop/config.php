@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = "Online shop";
+$config['name'] = _e("Online shop", TRUE);
 $config['author'] = "Microweber";
 $config['ui_admin'] = false;
 $config['ui'] = false;

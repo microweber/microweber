@@ -632,7 +632,7 @@
                                         <div style="color:#D2687F;font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;line-height:120%; padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 20px;">
                                             <div style="font-size:12px;line-height:14px;font-family:Montserrat, 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;color:#D2687F;text-align:left;"><p
                                                         style="margin: 0;font-size: 14px;line-height: 17px;text-align: center"><span style="font-size: 18px; line-height: 21px;"><a style="color:#D2687F" href="https://beefree.io" data-mce-selected="1"><span
-                                                                    style="text-decoration: underline; line-height: 21px; font-size: 18px;"><strong>Show more</strong></span></a> ?</span></p></div>
+                                                                    style="text-decoration: underline; line-height: 21px; font-size: 18px;"><strong><?php _e('show more'); ?></strong></span></a> ?</span></p></div>
                                         </div>
                                         <!--[if mso]></td></tr></table><![endif]-->
                                     </div>
@@ -697,7 +697,7 @@
                                         <div style="color:#D2687F;font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;line-height:120%; padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 20px;">
                                             <div style="font-size:12px;line-height:14px;font-family:Montserrat, 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;color:#D2687F;text-align:left;"><p
                                                         style="margin: 0;font-size: 14px;line-height: 17px;text-align: center"><span style="font-size: 18px; line-height: 21px;"><a style="color:#D2687F" href="https://beefree.io" data-mce-selected="1"><span
-                                                                    style="text-decoration: underline; line-height: 21px; font-size: 18px;"><strong>Show more</strong></span></a> ?</span></p></div>
+                                                                    style="text-decoration: underline; line-height: 21px; font-size: 18px;"><strong><?php _e('show more'); ?></strong></span></a> ?</span></p></div>
                                         </div>
                                         <!--[if mso]></td></tr></table><![endif]-->
                                     </div>
@@ -786,7 +786,11 @@
                                                         <v:textbox inset="0,0,0,0">
                                                             <center style="color:#ffffff; font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif; font-size:18px;"><![endif]-->
                                         <div style="color: #ffffff; background-color: #D2687F; border-radius: 25px; -webkit-border-radius: 25px; -moz-border-radius: 25px; max-width: 635px; width: 30%; border-top: 0px solid transparent; border-right: 0px solid transparent; border-bottom: 0px solid transparent; border-left: 0px solid transparent; padding-top: 5px; padding-right: 20px; padding-bottom: 5px; padding-left: 20px; font-family: 'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif; text-align: center; mso-border-alt: none;">
-                                            <span style="font-size:16px;line-height:32px;"><span style="font-size: 18px; line-height: 36px;" data-mce-style="font-size: 18px; line-height: 28px;">SHOW MORE</span></span>
+                                            <span style="font-size:16px;line-height:32px;"><span style="font-size: 18px; line-height: 36px;" data-mce-style="font-size: 18px; line-height: 28px;">
+
+                                                    <?php _e('show more'); ?>
+
+                                                </span></span>
                                         </div>
                                         <!--[if mso]></center></v:textbox></v:roundrect></td></tr></table><![endif]-->
                                     </div>

@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = "Google Maps";
+$config['name'] = _e("Google Maps", TRUE);
 $config['author'] = "Microweber";
 $config['no_cache'] = false;
 $config['ui'] = true;

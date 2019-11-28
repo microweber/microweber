@@ -1,9 +1,9 @@
 <?php
 
 $config = array();
-$config['name'] = "Parallax";
+$config['name'] = _e("Parallax", TRUE);
 $config['link'] = "https://microweber.com";
-$config['description'] = "Free parallax module for your website!";
+$config['description'] = _e("Free parallax module for your website!", TRUE);
 $config['author'] = "Petko Yovchevski";
 $config['author_website'] = "http://yovchevski.com/";
 $config['ui'] = true;

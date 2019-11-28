@@ -164,6 +164,15 @@ if ($last_page_front != false) {
 
 $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 
+if(!$shop_disabled){
+    if(!mw()->modules->is_installed('shop')){
+        $shop_disabled = true;
+    }
+}
+
+
+
+
 
 ?>
 <?php /*<div id="admin-user-nav">
@@ -435,7 +444,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                     <strong><?php _e("Posts"); ?></strong>
                                     <span class="mw-admin-main-menu-mini tip" data-tip="<?php _e("Add new post") ?>" data-href="<?php print admin_url('view:content#action=new:post'); ?>"><?php _e("Add"); ?></span>
                                 </a></li>
-                            <?php if ($shop_disabled == false AND is_module('shop') == true): ?>
+                            <?php if ($shop_disabled == false AND mw()->modules->is_installed('shop') == true): ?>
                                 <li <?php if ($action == 'products'): ?> class="active" <?php endif; ?>>
                                     <a href="<?php print admin_url(); ?>view:content/action:products">
                                         <span class="mai-product"></span>
@@ -452,7 +461,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                         </ul>
                     </li>
 
-                    <?php if ($shop_disabled == false AND is_module('shop') == true): ?>
+                    <?php if ($shop_disabled == false AND mw()->modules->is_installed('shop') == true): ?>
 
                         <li
                             <?php if ($view == 'shop' and $action == false): ?> class="active"

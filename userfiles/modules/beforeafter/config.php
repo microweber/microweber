@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = "Before/After";
+$config['name'] = _e("Before/After", TRUE);
 $config['author'] = "Microweber";
 $config['no_cache'] = false;
 $config['ui'] = true;

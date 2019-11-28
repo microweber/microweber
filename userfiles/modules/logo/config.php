@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = "Logo";
+$config['name'] = _e("Logo", TRUE);
 $config['author'] = "Microweber";
 $config['no_cache'] = false;
 $config['ui'] = true;

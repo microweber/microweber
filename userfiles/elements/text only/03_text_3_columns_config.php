@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = "Three Columns";
+$config['name'] = _e("Three Columns", TRUE);
 $config['author'] = "Microweber";
 $config['description'] = "Text 3 columns";
 $config['website'] = "http://microweber.com";

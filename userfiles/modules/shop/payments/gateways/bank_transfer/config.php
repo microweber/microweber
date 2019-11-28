@@ -1,8 +1,8 @@
 <?php
 
 $config = array();
-$config['name'] = "Bank Transfer";
-$config['author'] = "Bozhidar Slaveykov (microweber.com)";
+$config['name'] = _e("Bank Transfer", TRUE);
+$config['author'] = "Bozhidar Slaveykov (microweber.bg)";
 $config['author.2'] = "Microweber";
 $config['ui'] = false;
 $config['categories'] = "online shop";

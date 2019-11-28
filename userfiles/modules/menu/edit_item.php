@@ -122,7 +122,7 @@ if ($id != 0) {
                 <?php endif; ?>
 
                 <div class="mw-field change-url-box">
-                    <input type="text" id="id-<?php print $data['id'] ?>" readonly placeholder="<?php _e("URL"); ?>" class="mw-ui-field w100" autocomplete="off" name="url" value="<?php print $data['url'] ?>"/>
+                    <input type="text" id="id-<?php print $data['id'] ?>" placeholder="<?php _e("URL"); ?>" readonly class="mw-ui-field w100" autocomplete="off" name="url" value="<?php print $data['url'] ?>"/>
                     <span class="mw-ui-btn mw-field-append" data-for="id-<?php print $data['id'] ?>"><span class="mw-icon-gear"></span></span>
                 </div>
 
@@ -245,6 +245,9 @@ if ($id != 0) {
     };
     $(document).ready(function () {
 
+//         $('.change-url-box input').on('change', function(){
+// alert(3333)
+//         })
         $('.change-url-box .mw-ui-btn, .change-url-box input').on('click', function(){
             var scope = this;
             var link = mw.top().instruments.link({

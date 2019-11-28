@@ -114,7 +114,7 @@
                 $.getJSON(mw.settings.api_url + "media_library/search?keyword=" + search + "&page=" + page, function(data) {
 
 				   if (page == 1) {
-                   		root.html('<?php echo _e('Searching'); ?>...');
+                   		root.html('<?php _e('Searching'); ?>...');
 				   }
 
                     if (data.success) {

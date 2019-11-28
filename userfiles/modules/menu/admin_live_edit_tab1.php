@@ -15,8 +15,6 @@
 
 <script>
 
-
-
     $(window).on('load', function(){
 
         if(window.thismodal) {
@@ -61,6 +59,10 @@
     .page-layout-tab .mw-field{
         width: 100%;
     }
+    .mw-modules-admin .change-url-box {
+        width: 80%;
+
+    }
     .admin-side-content .mw-ui-btn + .mw-ui-btn{
         margin-left: 10px;
     }
@@ -73,8 +75,6 @@
     $rand = uniqid();
 } ?>
 <script type="text/javascript">
-
-
 
 
     mw.menu_add_new = function () {
@@ -91,8 +91,6 @@
             window.location.href = window.location.href;
         });
     };
-
-
 
 
     add_new_menu = function () {
@@ -115,22 +113,12 @@
         }
     }
 
-
     mw.menu_edit_items = function ($menu_name, $selector) {
 
         mw.$($selector).attr('menu-name', $menu_name);
-
-
         mw.load_module('menu/edit_items', $selector);
 
-
     };
-
-
-
-
-
-
 
 
     $(document).ready(function () {
@@ -287,13 +275,16 @@ if ($menu_data) {
     if (isset($menu_data) and is_array($menu_data) and isset($menu_data['id'])) {
         $menu_data = $menu_data['id'];
     }
-
-
     ?>
+    <div>
+        <br>
+
+        <span class="mw-ui-btn mw-ui-btn-info pull-right" onclick="addMenuItem()"><span class="mw-icon-plus"></span> <?php _e("Add menu item"); ?></span>
+    </div>
 
     <div class="<?php print $config['module_class']; ?> menu_items order-has-link" id="items_list_<?php print $rand ?>">
         <?php if ($active_menu != false): ?>
-            <h4>Menu structure</h4>
+            <h4><?php _e("Menu structure"); ?></h4>
             <label class="mw-ui-label">
                 <small>
                     <?php _e("Here you can edit your menu links. You can also drag and drop to reorder them."); ?>
@@ -303,7 +294,6 @@ if ($menu_data) {
         <?php endif; ?>
     </div>
     <br>
-    <span class="mw-ui-btn mw-ui-btn-info pull-right" onclick="addMenuItem()"><span class="mw-icon-plus"></span> Add menu item</span>
     <div id="link-selector-holder" style="display: none"></div>
 </div>
 <script><?php include('menu_admin.js'); ?></script>

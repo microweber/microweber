@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = "Posts List";
+$config['name'] = _e("Posts List", TRUE);
 $config['author'] = "Microweber";
 $config['no_cache'] = false;
 $config['ui'] = true;

@@ -19,7 +19,7 @@ if (isset($params['hide-controlls']) and $params['hide-controlls']) {
 
 
                     <div class="mw-ui-box mw-ui-box-content mw-ui-box-notification new-notification m-b-10 m-t-10"><span
-                                class="mai-shop"></span> <strong>You have <?php //print $notif_html; ?> new orders</strong>
+                                class="mai-shop"></span> <strong><?php _e("You have new orders"); ?></strong>
                         <button class="close-alert"><i class="mw-icon-close"></i></button>
                     </div>
 
@@ -31,7 +31,7 @@ if (isset($params['hide-controlls']) and $params['hide-controlls']) {
                     $view->assign('params', $params);
 
                     $view->assign('orders', $new_orders);
-                    print    $view->display();
+                    print $view->display();
 
                     ?>
                 </div>
@@ -39,7 +39,7 @@ if (isset($params['hide-controlls']) and $params['hide-controlls']) {
 
             <?php if (!$has_new and !$current_page and !$hide_ctrls): ?>
                 <div class="mw-ui-box mw-ui-box-content mw-ui-box-warn new-warn m-t-10 p-b-10 p-t-10"><span class="mai-shop"></span>
-                    <strong>No new orders</strong>
+                    <strong><?php _e("No new orders");?></strong>
                     <button class="close-alert"><i class="mw-icon-close"></i></button>
                 </div>
             <?php endif; ?>

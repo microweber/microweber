@@ -1,6 +1,6 @@
 <?php
 $config = array();
-$config['name'] = "Table";
+$config['name'] = _e("Table", TRUE);
 $config['author'] = "Ezyweb.uk";
 $config['description'] = "Table builder";
 $config['ui'] = true; //if set to true, module will be visible in the toolbar

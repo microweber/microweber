@@ -123,7 +123,7 @@ $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
     </div>
     <div class="mw-ui-field-holder">
 
-        <label class="mw-ui-label"> Force HTTPS </label>
+        <label class="mw-ui-label"> <?php _e('Force HTTPS'); ?>  </label>
         <select name="microweber[force_https]" class="mw-ui-field">
             <option value="0" <?php if ($force_https == 0): ?> selected <?php endif; ?> > <?php _e('No'); ?></option>
             <option value="1" <?php if ($force_https == 1): ?> selected <?php endif; ?> > <?php _e('Yes'); ?></option>
@@ -132,17 +132,17 @@ $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
     </div>
     <div class="mw-ui-field-holder">
 
-        <label class="mw-ui-label"> Update Channel </label>
+        <label class="mw-ui-label"> <?php _e('Update Channel'); ?> </label>
         <select name="microweber[update_channel]" class="mw-ui-field">
             <option value="stable" <?php if ($update_channel == 'stable'): ?> selected <?php endif; ?> > <?php _e('Stable'); ?></option>
             <option value="beta" <?php if ($update_channel == 'beta'): ?> selected <?php endif; ?> > <?php _e('Beta'); ?></option>
-            <option value="dev" <?php if ($update_channel == 'dev'): ?> selected <?php endif; ?> > Dev</option>
+            <option value="dev" <?php if ($update_channel == 'dev'): ?> selected <?php endif; ?> > <?php _e('Dev'); ?></option>
             <option value="disabled" <?php if ($update_channel == 'disabled'): ?> selected <?php endif; ?> > <?php _e('Disable'); ?></option>
         </select>
         
          <br />
         <br />
-         <label class="mw-ui-label"> Developer Mode </label>   
+         <label class="mw-ui-label"> <?php _e('Developer Mode'); ?> </label>
         <select name="microweber[developer_mode]" class="mw-ui-field">
             <option value="0" <?php if ($developer_mode == '0'): ?> selected <?php endif; ?> > <?php _e('Disabled'); ?></option>
             <option value="1" <?php if ($developer_mode == '1'): ?> selected <?php endif; ?> > <?php _e('Enabled'); ?></option>

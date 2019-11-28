@@ -85,13 +85,13 @@ if (!empty($template_id)) {
 </div>
 
 <form id="edit-mail-template-form">
-    <h3>Edit mail template</h3>
+    <h3><?php e_("Edit mail template"); ?></h3>
     <br/>
 
     <div class="mw-flex-row m-b-20">
         <div class="mw-flex-col-md-6">
             <div class="box">
-                <label class="mw-ui-label">Template Name</label>
+                <label class="mw-ui-label"><?php e_("Template Name"); ?></label>
                 <input type="text" name="name" value="<?php echo $template['name']; ?>" class="mw-ui-field" style="width:100%;">
             </div>
         </div>
@@ -99,7 +99,7 @@ if (!empty($template_id)) {
 
         <div class="mw-flex-col-md-6">
             <div class="box">
-                <label class="mw-ui-label">Template Type</label>
+                <label class="mw-ui-label"><?php e_("Template Type"); ?></label>
                 <select name="type" class="mw-ui-field js-template-type" style="width:100%;">
                     <?php foreach (get_mail_template_types() as $type): ?>
                         <option value="<?php echo $type; ?>" <?php if ($type == $template['type']): ?>selected="selected"<?php endif; ?>><?php echo $type; ?></option>
@@ -112,21 +112,21 @@ if (!empty($template_id)) {
     <div class="mw-flex-row m-b-20">
         <div class="mw-flex-col-md-4">
             <div class="box">
-                <label class="mw-ui-label">From Name</label>
+                <label class="mw-ui-label"><?php e_("From Name"); ?></label>
                 <input type="text" name="from_name" value="<?php echo $template['from_name']; ?>" class="mw-ui-field" style="width:100%;">
             </div>
         </div>
 
         <div class="mw-flex-col-md-4">
             <div class="box">
-                <label class="mw-ui-label">From Email</label>
+                <label class="mw-ui-label"><?php e_("From Email"); ?></label>
                 <input type="text" name="from_email" value="<?php echo $template['from_email']; ?>" class="mw-ui-field" style="width:100%;">
             </div>
         </div>
 
         <div class="mw-flex-col-md-4">
             <div class="box">
-                <label class="mw-ui-label">Copy To</label>
+                <label class="mw-ui-label"><?php e_("Copy To"); ?></label>
                 <input type="text" name="copy_to" class="mw-ui-field" value="<?php echo $template['copy_to']; ?>" style="width:100%;">
             </div>
         </div>
@@ -135,7 +135,7 @@ if (!empty($template_id)) {
     <div class="mw-flex-row m-b-20">
         <div class="mw-flex-col-md-12">
             <div class="box">
-                <label class="mw-ui-label">Subject</label>
+                <label class="mw-ui-label"><?php e_("Subject"); ?></label>
                 <input type="text" name="subject" value="<?php echo $template['subject']; ?>" class="mw-ui-field" style="width:100%;">
             </div>
         </div>
@@ -164,12 +164,12 @@ if (!empty($template_id)) {
 
     <div class="mw-flex-row">
         <div class="mw-flex-col-md-6">
-            <button type="button" onClick="cancelTemplateEdit();" class="mw-ui-btn mw-ui-btn-important">Cancel</button>
+            <button type="button" onClick="cancelTemplateEdit();" class="mw-ui-btn mw-ui-btn-important"><?php e_("Cancel"); ?></button>
         </div>
 
         <div class="mw-flex-col-md-6 text-right">
             <input type="hidden" name="id" value="<?php echo $template['id']; ?>">
-            <button type="submit" name="submit" class="mw-ui-btn mw-ui-btn-notification">Save changes</button>
+            <button type="submit" name="submit" class="mw-ui-btn mw-ui-btn-notification"><?php e_("Save changes"); ?></button>
         </div>
     </div>
 </form>

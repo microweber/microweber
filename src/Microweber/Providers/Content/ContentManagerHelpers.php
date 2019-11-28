@@ -359,7 +359,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                     $add_page['parent'] = 0;
                     $add_page['is_active'] = 1;
 
-                    $add_page['title'] = 'Online shop';
+                    $add_page['title'] = _e('Online shop', true);
                     $add_page['url'] = 'shop';
                     $add_page['content_type'] = 'page';
                     $add_page['subtype'] = 'dynamic';
@@ -414,7 +414,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                     $add_page['id'] = 0;
                     $add_page['parent'] = 0;
                     $add_page['is_active'] = 1;
-                    $add_page['title'] = 'Blog';
+                    $add_page['title'] = _e('Blog', true);
                     $add_page['url'] = 'blog';
                     $add_page['content_type'] = 'page';
                     $add_page['subtype'] = 'dynamic';

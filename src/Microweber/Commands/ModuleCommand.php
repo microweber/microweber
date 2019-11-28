@@ -25,30 +25,27 @@ class ModuleCommand extends Command
     {
         $input = array(
             'module' => $this->argument('module'),
-            'install' => $this->argument('install'),
-         );
+            'module_action' => $this->argument('module_action'),
+        );
 
         $this->info('Setting module...');
 
-        if($input['install']){
-            mw()->modules->set_installed(array('for_module'=>$input['module']));
-            $this->info($input['module'].  ' is installed');
-
-        } else {
-
-            mw()->modules->uninstall(array('for_module'=>$input['module']));
-            $this->info($input['module'].  ' is uninstalled');
-
+        if (isset($input['module_action'])) {
+            if (trim($input['module_action']) == 'install' or intval($input['module_action']) == 1) {
+                mw()->modules->set_installed(array('for_module' => $input['module']));
+                $this->info($input['module'] . ' is installed');
+            } else if (trim($input['module_action']) == 'uninstall' or intval($input['module_action']) == 0) {
+                mw()->modules->uninstall(array('for_module' => $input['module']));
+                $this->info($input['module'] . ' is uninstalled');
+            }
         }
-
-   //     $result = mw()->option_manager->save($input);
     }
 
     protected function getArguments()
     {
         return [
             ['module', InputArgument::REQUIRED, 'The module type'],
-            ['install', InputArgument::REQUIRED, 'Should module be installed , 1 for install 0 for uninstall'],
-         ];
+            ['module_action', InputArgument::REQUIRED, 'Should module be installed , install or uninstall'],
+        ];
     }
 }

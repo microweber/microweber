@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = "Picture";
+$config['name'] = _e("Picture", TRUE);
 $config['author'] = "Microweber";
 $config['description'] = "Picture";
 $config['version'] = 0.24;
