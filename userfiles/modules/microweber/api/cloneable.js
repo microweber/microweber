@@ -75,7 +75,7 @@ mw.drag.onCloneableControl = function(target, isOverControl){
         });
     }
     var clc = $(this._onCloneableControl);
-    if(target == 'hide'){
+    if(target === 'hide'){
         clc.hide();
     }
     else{
@@ -87,13 +87,13 @@ mw.drag.onCloneableControl = function(target, isOverControl){
         var el = $(target), off = el.offset();
 
 
-        if(next.length == 0){
+        if(next.length === 0){
             $('.mw-cloneable-control-next', clc).hide();
         }
         else{
             $('.mw-cloneable-control-next', clc).show();
         }
-        if(prev.length == 0){
+        if(prev.length === 0){
             $('.mw-cloneable-control-prev', clc).hide();
         }
         else{

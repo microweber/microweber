@@ -187,9 +187,19 @@ var _prepare = {
         var units = [
             'px', '%', 'rem', 'em', 'vh', 'vw'
         ];
+        units = [];
         $('.unit').each(function(){
-            var select = $('<select style="width: 60px"/>');
-            var selectHolder = $('<div class="mw-field" data-prop="width" data-size="medium"></div>');
+            // var select = $('<select style="width: 60px"/>');
+            var select = $('<span class="mw-ui-btn mw-ui-btn-medium"><i class="mw-icon-refresh"></i></span>');
+            select.on('click', function () {
+                output( $(this).parent().prev().attr('data-prop'), '');
+            })
+            var selectHolder = $('<div class="mw-field" data-size="medium"></div>');
+            $('input', this)
+                .attr('type', 'range')
+                .attr('min', '5')
+                .attr('max', '100')
+                .after('<input>')
             $.each(units, function(){
                 select.append('<option value="'+this+'">'+this+'</option>');
             });
@@ -205,9 +215,9 @@ var _prepare = {
                 var next = parent.next().find('select');
                 var val = $el.val().trim();
                 if(parseFloat(val) == val){
-                    output( parent.attr('data-prop'), val ? val + next.val() : '');
+                    output( parent.attr('data-prop'), val ? val + 'px' : '');
                 } else {
-                    output( parent.attr('data-prop'), val ? val + next.val() : '');
+                    output( parent.attr('data-prop'), val ? val + 'px' : '');
                 }
             })
         })
@@ -249,7 +259,7 @@ var _populate = {
                 var color = css.css[this.dataset.prop];
                 this.style.backgroundColor = color;
                 this.style.color = mw.color.isDark(color) ? 'white' : 'black';
-                this.value = color.indexOf('rgb(') === 0 ? mw.color.rgbToHex(color) : color;
+                this.value = color // color.indexOf('rgb(') === 0 ? mw.color.rgbToHex(color) : color;
             }
         });
         $(".background-preview").css('backgroundImage', css.css.backgroundImage)
@@ -273,6 +283,9 @@ var populate = function(css){
 };
 
 var output = function(property, value){
+    if(!ActiveNode) {
+        ActiveNode = mw.top().liveEditSelector.selected
+    }
     if(ActiveNode) {
           ActiveNode.style[property] = value;
           ActiveNode.setAttribute('staticdesign', true);
@@ -498,6 +511,14 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             <div class="s-field-content">
                 <div class="mw-multiple-fields">
                     <div class="mw-field unit" data-prop="fontSize" data-size="medium"><input type="text"></div>
+                </div>
+            </div>
+        </div>
+        <div class="s-field">
+            <label><?php _e("Line height"); ?></label>
+            <div class="s-field-content">
+                <div class="mw-multiple-fields">
+                    <div class="mw-field unit" data-prop="lineHeight" data-size="medium"><input type="text"></div>
                 </div>
             </div>
         </div>
@@ -766,7 +787,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             <div class="s-field-content">
                 <div class="mw-field" data-size="medium">
                     <select type="text" id="border-type">
-                        <option value="" disabled selected>choose"); ?></option>
+                        <option value="" disabled selected><?php _e("Choose"); ?></option>
                         <option value="none"><?php _e("none"); ?></option>
                         <option value="solid"><?php _e("solid"); ?></option>
                         <option value="dotted"><?php _e("dotted"); ?></option>

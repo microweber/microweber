@@ -18,12 +18,17 @@ Paging
 
 .mw-paging a {
   display: inline-block;
-  padding: 9px 15px;
+  padding: 0px 15px;
   height: 36px;
+  line-height: 34px;
   background: @default;
   border-color: @defaultBorderColor;
   border-width: 1px 0 1px 1px;
-  border-style: solid
+  border-style: solid;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .mw-paging-big {
@@ -32,8 +37,9 @@ Paging
 
 .mw-paging-big a {
   height: 46px;
-  padding: 10px 20px;
-  font-size: 140%
+  padding: 0 20px;
+  font-size: 140%;
+    line-height: 44px;
 }
 
 .mw-paging-small {
@@ -42,8 +48,9 @@ Paging
 
 .mw-paging-small a {
   height: 20px;
-  padding: 2px 8px;
-  font-size: 11px
+  padding: 0px 8px;
+  font-size: 11px;
+  line-height: 18px;
 }
 
 .mw-paging-medium {
@@ -52,7 +59,8 @@ Paging
 
 .mw-paging-medium a {
   height: 31px;
-  padding: 6px 9px
+  padding: 0 9px;
+    line-height: 31px;
 }
 
 .mw-paging a:focus,

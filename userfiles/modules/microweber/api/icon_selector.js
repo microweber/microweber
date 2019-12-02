@@ -83,11 +83,12 @@ mw.top()._icons = mw.top()._icons || [];
 
             nav.append(input);
             input.oninput = function(){
-                scope.search(list, this.value);
+                // scope.search(list, this.value);
+                scope.search(this.value, list);
             };
             return nav;
         },
-        search: function (list, term) {
+        _search: function (list, term) {
             term = (term || '').trim().toLowerCase();
             var all = list.querySelectorAll('.mw-icon-list-icon'), i = 0;
             if(!term) {
@@ -101,6 +102,90 @@ mw.top()._icons = mw.top()._icons || [];
                 mw.tools[has ? 'removeClass' : 'addClass'](all[i], 'mw-icon-list-icon-hidden');
             }
         },
+        search: function (term, list) {
+            mw.$('.mw-icon-list-section', list).each(function () {
+                icons.setRender(this._iconSet, this, 1, term) ;
+            });
+        },
+        createPaging:function(perPage, length, page){
+            page = page || 1;
+            var max = 999;
+            var pages = Math.min(Math.ceil(length/perPage), max);
+            var paging = document.createElement('div');
+            paging.className = 'mw-paging mw-paging-small';
+            if(perPage >= length ) {
+                return paging;
+            }
+            var active = false;
+            for ( var i = 1; i <= pages; i++) {
+                var el = document.createElement('a');
+                el.innerHTML = i;
+                el._value = i;
+                if(page === i) {
+                    el.className = 'active';
+                    active = i;
+                }
+                paging.appendChild(el);
+            }
+            var all = paging.querySelectorAll('a');
+            for (var i = active - 3; i < active + 2; i++){
+                if(all[i]) {
+                    all[i].className += ' mw-paging-visible-range';
+                }
+            }
+
+
+            if(active < pages) {
+                var next = document.createElement('a');
+                next.innerHTML = '&raquo;';
+                next._value = active+1;
+                next.className = 'mw-paging-visible-range mw-paging-next';
+                next.innerHTML = '&raquo;';
+                $(paging).append(next)
+            }
+            if(active > 1) {
+                var prev = document.createElement('a');
+                prev.className = 'mw-paging-visible-range mw-paging-prev';
+                prev.innerHTML = '&laquo;';
+                prev._value = active-1;
+                $(paging).prepend(prev);
+            }
+
+            return paging;
+        },
+        setRender: function(set, section, page, search){
+            var perPage = 70;
+            page = page || 1;
+            search = (search || '').trim().toLowerCase();
+            $(section).empty( );
+            var off = perPage * (page - 1);
+            var icons = set.icons;
+            if(search) {
+                icons = set.icons.filter(function (icon) {
+                    return icon.indexOf(search) !== -1;
+                });
+            }
+            var to = off + Math.min(icons.length - off, perPage);
+            for ( var i = off; i < to; i++ ) {
+                var icon = document.createElement('span');
+                var iconc = document.createElement('span');
+                icon.className = 'mw-icon-list-icon mw-icon-list-' + set.name;
+                icon._searchvalue = icons[i].toLowerCase();
+                icon._value = [icons[i], set.render, icon];
+                icon.appendChild(iconc);
+                icon.onclick = function () {
+                    $(section.parentNode).trigger('_$select', this._value);
+                };
+                set.render(icons[i], iconc);
+                section.appendChild(icon);
+            }
+            var pg = this.createPaging(perPage, icons.length, page);
+            section.appendChild(pg);
+            var scope = this;
+            mw.$('a', pg).on('click', function () {
+                scope.setRender(set, section, this._value, search);
+            });
+        },
         list: function () {
             var list = document.createElement('div');
             list.className = 'mw-icon-list';
@@ -112,21 +197,10 @@ mw.top()._icons = mw.top()._icons || [];
                 var title = document.createElement('h5');
                 var section = document.createElement('div');
                 section.className = 'mw-icon-list-section';
+                section._iconSet = set;
                 title.innerHTML = set.name;
                 fragment.appendChild(title);
-                for( ic = 0; ic < set.icons.length; ic++){
-                    var icon = document.createElement('span');
-                    var iconc = document.createElement('span');
-                    icon.className = 'mw-icon-list-icon mw-icon-list-' + set.name;
-                    icon._searchvalue = set.icons[ic].toLowerCase();
-                    icon._value = [set.icons[ic], set.render, icon];
-                    icon.appendChild(iconc)
-                    icon.onclick = function (ev) {
-                        $(list).trigger('_$select', this._value);
-                    };
-                    set.render(set.icons[ic], iconc);
-                    section.appendChild(icon);
-                }
+                this.setRender(set, section);
                 fragment.appendChild(section);
             }
             list.appendChild(fragment);
@@ -798,13 +872,18 @@ mw.iconSelector = mw.iconSelector || {
                 if(options.onchange) {
                     var elVal = document.createElement('span');
                     res.render(res.icon, elVal);
-                    res.render(res.icon, btnIcon);
+                    res.render(res.icon, btn.firstChild);
                     options.onchange.call(undefined, elVal.outerHTML, el)
                 }
                 dialog.remove();
             });
         };
         $el.empty().append(btn);
+        return {
+            value: function (val) {
+                mw.$(btn.firstChild).replaceWith(val);
+            }
+        }
     },
     _iconDropdown:function(selector, options){
         var el = mw.$(selector)[0];
