@@ -57,7 +57,7 @@ if (isset($template_file) and is_file($template_file) != false) {
            });
        };
         $(document).ready(function () {
-            init_newsletter_form('<?php print md5($params['id']) ?>', '<?php print api_link('newsletter_subscribe'); ?>');
+            init_newsletter_form('<?php print $params['id'] ?>', '<?php print api_link('newsletter_subscribe'); ?>');
         });
     })();
 
