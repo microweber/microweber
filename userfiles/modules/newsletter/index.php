@@ -48,6 +48,7 @@ if (isset($template_file) and is_file($template_file) != false) {
                        mw.response(mw.$('form#newsletters-form-', id), resp);
                        if (typeof(this.success) != 'undefined') {
                            mw.$('form#newsletters-form-' + id + ' .hide-on-success').hide();
+                           mw.$('form#newsletters-form-' + id + ' .show-on-success').show();
                        }
                        if (!!this.redirect) {
                            window.location.href = resp.redirect;
