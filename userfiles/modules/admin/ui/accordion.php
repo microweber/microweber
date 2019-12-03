@@ -308,6 +308,9 @@
             <option>Option 2</option>
         </select>
     </div>
+    <br>
+    <br>
+    <div type="range" class="mw-range"></div>
 </div>
 
 <div class="ui_section">

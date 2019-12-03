@@ -10,6 +10,22 @@ input,select{
 .mw-field{
     width: 100%;
 }
+.mw-field.unit input + input{
+    width: 40px;
+    padding-left: 0;
+    padding-right: 0;
+    text-align: center;
+}
+
+.mw-field.unit .mw-field .mw-ui-btn i{
+    font-size: 14px;
+}
+.mw-field.unit + .mw-field .mw-ui-btn{
+    padding: 0;
+    width: 25px;
+}
+
+
 
 .mw-ese-holder{
     background-color: #f5f5f5;
@@ -272,7 +288,20 @@ input,select{
         pointer-events: none;
     }
     .mw-field.unit + .mw-field{
-        width:60px;
+        width: 30px;
+
+    }
+
+    .mw-field.unit .mw-range{
+        top: 12px !important;
+    }
+    .mw-field.unit .mw-range .ui-slider-handle{
+        top: -6px;
+    }
+    .mw-field.unit .mw-range + input{
+        width: 45px;
+        text-align: center;
+        margin-left: 10px;
     }
 
     #background-remove{

@@ -26,42 +26,40 @@
 
     };
 
-    is_searching = false;
+    var is_searching = false;
 
     var hash = location.hash.replace(/#/g, "") || 'insert_link';
     mw.dd_autocomplete = function (id) {
         var el = $(id);
 
-        el.on("change keyup paste focus", function (event) {
-            if (!is_searching) {
-                var val = el.val();
-                if (event.type === 'focus') {
-                    if (el.hasClass('inactive')) {
-                        el.removeClass('inactive')
-                    }
-                    else {
-                        return false;
+        el.on("input", function (event) {
+            if (is_searching) {
+                is_searching.abort()
+            }
+            var ul = el.parent().find("ul");
+            ul.find("li:gt(0)").remove();
+            var val = el.val().trim();
+            if(!val){
+                ul.hide();
+                return;
+            }
+            is_searching = mw.tools.ajaxSearch({keyword: val, limit: 20}, function () {
+                var lis = "";
+                var json = this;
+                for (var item in json) {
+                    var obj = json[item];
+                    if (typeof obj === 'object') {
+                        var title = obj.title;
+                        var url = obj.url;
+                        lis += "<li class='mw-dd-list-result' value='" + url + "' onclick='setACValue(hash, \"" + url + "\")'><a href='javascript:;'>" + title + "</a></li>";
                     }
                 }
-                // param is_active:'y' breaks search + is a limit required?
-                mw.tools.ajaxSearch({keyword: val, limit: 20}, function () {
-                    var lis = "";
-                    var json = this;
-                    for (var item in json) {
-                        var obj = json[item];
-                        if (typeof obj === 'object') {
-                            var title = obj.title;
-                            var url = obj.url;
-                            lis += "<li class='mw-dd-list-result' value='" + url + "' onclick='setACValue(hash, \"" + url + "\")'><a href='javascript:;'>" + title + "</a></li>";
-                        }
-                    }
-                    var ul = el.parent().find("ul");
-                    ul.find("li:gt(0)").remove();
-                    ul.append(lis);
-                });
-            }
+
+                ul.append(lis).show();
+            });
+
         });
-    }
+    };
 
 
     setACValue = function (hash, val) {

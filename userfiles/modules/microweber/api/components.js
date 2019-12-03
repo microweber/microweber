@@ -1,16 +1,39 @@
 mw.components = {
     _rangeOnce: false,
     'range': function(el){
+        mw.lib.require('jqueryui');
         var options = this._options(el);
         var defaults = {
-            range: 'min'
+            range: 'min',
+            animate: "fast"
         };
-        var settings = $.extend({}, defaults, options);
-        mw.$(el)
+        var ex = {}, render = el;
+        if(el.nodeName === 'INPUT'){
+            el._pauseChange = false;
+            el.type = 'hidden';
+            render = document.createElement('div');
+            $(render).addClass('mw-range');
+            $(el).after(render);
+            ex = {
+                slide: function( event, ui ) {
+                    el._pauseChange = true;
+                   $(el).val(ui.value).trigger('change').trigger('input');
+                    setTimeout(function () {
+                        el._pauseChange = false;
+                    }, 78);
+                }
+            };
+
+        }
+        var settings = $.extend({}, defaults, options, ex);
+        mw.$(render)
             .slider(settings)
             .on('mousedown touchstart', function(){
                 mw.$(this).addClass('active');
             });
+        $(el).on('input', function(){
+            mw.$(render).slider( "value", this.value );
+        });
         if(!mw.components._rangeOnce) {
             mw.components._rangeOnce = true;
             mw.$(document.body).on('mouseup touchend', function(){
@@ -203,6 +226,7 @@ mw.components = {
         return mw.tools.elementOptions(el);
     },
     _init: function () {
+        mw.$('.mw-field input[type="range"]').addClass('mw-range');
         mw.$('[data-mwcomponent]').each(function () {
             var component = mw.$(this).attr("data-mwcomponent");
             if (mw.components[component]) {

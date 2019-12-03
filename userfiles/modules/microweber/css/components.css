@@ -872,9 +872,14 @@ body.mw-external-loading:after {
 
 .mw-range {
     position: relative;
+    border: none;
+}
+.mw-range.ui-widget.ui-widget-content {
+    border: none;
 }
 
-.mw-range {
+.mw-range,
+.mw-range.ui-widget {
     height: 3px;
     display: inline-block;
     position: relative;
@@ -889,6 +894,7 @@ body.mw-external-loading:after {
     height: 100%;
     width: 0;
     background-color: #0086db;
+    border: none;
 }
 
 .mw-range .ui-slider-handle {
