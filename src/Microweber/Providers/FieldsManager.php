@@ -174,8 +174,8 @@ class FieldsManager
 
                     $field_name = $field['name'];
 
-                    $show_placeholder = 0;
-                    $show_label = 1;
+                    $show_placeholder = false;
+                    $show_label = true;
                     $existing = array();
                     $as_text_area = false;
                     $field_type = 'text';
@@ -199,16 +199,20 @@ class FieldsManager
                     }
 
                     if (isset($field['settings']['show_label'])) {
-                        $show_label = $field['settings']['show_label'];
-                        if ($show_label == 'false' || $show_label == 0 || $show_label == '0') {
+                        if ($field['settings']['show_label'] == 'false' || $field['settings']['show_label'] == 0 || $field['settings']['show_label'] == '0') {
                             $show_label = false;
+                        }
+                        if ($field['settings']['show_label'] == 'true' || $field['settings']['show_label'] == 1 || $field['settings']['show_label'] == '1') {
+                            $show_label = true;
                         }
                     }
 
                     if (isset($field['settings']['show_placeholder'])) {
-                        $show_placeholder = $field['settings']['show_placeholder'];
-                        if ($show_placeholder == 'false' || $show_placeholder == 0 || $show_placeholder == '0') {
+                        if ($field['settings']['show_placeholder'] == 'false' || $field['settings']['show_placeholder'] == 0 || $field['settings']['show_placeholder'] == '0') {
                             $show_placeholder = false;
+                        }
+                        if ($field['settings']['show_placeholder'] == 'true' || $field['settings']['show_placeholder'] == 1 || $field['settings']['show_placeholder'] == '1') {
+                            $show_placeholder = true;
                         }
                     }
 
@@ -227,7 +231,12 @@ class FieldsManager
                         $make_field['name'] = ucfirst($field_name);
                         $make_field['value'] = '';
                         $make_field['show_label'] = $show_label;
+
                         $make_field['show_placeholder'] = $show_placeholder;
+                        if ($show_placeholder) {
+                            $make_field['placeholder'] = ucfirst($field_name);
+                        }
+
                         $make_field['type'] = $field_type;
                         $make_field['options']['field_type'] = $field_type;
 
@@ -291,9 +300,9 @@ class FieldsManager
         if (isset($data['rel']) and !isset($data['rel_type'])) {
             $data['rel_type'] = $data['rel'];
         }
-        
+
         if (isset($data['options']['field_type']) && !empty($data['options']['field_type'])) {
-        	$data['type'] = $data['options']['field_type'];
+            $data['type'] = $data['options']['field_type'];
         }
 
         if (isset($data['custom_field_show_label'])) {
@@ -304,6 +313,24 @@ class FieldsManager
             }
         }
 
+        if (isset($data['show_label'])) {
+            if ($data['show_label'] == true) {
+                $data['show_label'] = 1;
+            }
+            if ($data['show_label'] == false) {
+                $data['show_label'] = 0;
+            }
+        }
+
+        if (isset($data['show_placeholder'])) {
+            if ($data['show_placeholder'] == true) {
+                $data['show_placeholder'] = 1;
+            }
+            if ($data['show_placeholder'] == false) {
+                $data['show_placeholder'] = 0;
+            }
+        }
+        
         $data_to_save = ($data);
         $data_to_save = $this->unify_params($data_to_save);
 
@@ -944,7 +971,7 @@ class FieldsManager
         	$data['field_id'] = $_REQUEST['field_id'];
         }
 
-  		// d($data);
+  		 //d($data);
         //input_class
         
         if (isset($data['copy_from'])) {
