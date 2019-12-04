@@ -43,6 +43,74 @@ class FieldsManager
         }
     }
 
+
+    public function parse_field_settings($fieldParse) {
+
+        preg_match_all(
+            '/(\[.*\])/',
+            $fieldParse,
+            $fieldParseMatches,
+            PREG_PATTERN_ORDER
+        );
+
+        if (isset($fieldParseMatches[0][0])) {
+            $fieldParse = $fieldParseMatches[0][0];
+            $fieldParse = str_replace('[', false, $fieldParse);
+            $fieldParse = str_replace(']', false, $fieldParse);
+            $fieldParse = str_replace(',', '&', $fieldParse);
+            $fieldParse = str_replace(' ', false, $fieldParse);
+            parse_str($fieldParse, $fieldParseQuery);
+
+            return $fieldParseQuery;
+        }
+
+        return false;
+    }
+
+    public function parse_fields_html($fieldParseInput) {
+
+        if (is_array($fieldParseInput)) {
+            return $fieldParseInput;
+        }
+
+        preg_match_all(
+            '/(\[.*?\])/',
+            $fieldParseInput,
+            $fieldParseMatches,
+            PREG_PATTERN_ORDER
+        );
+
+        // Clear comas from settings
+        if (isset($fieldParseMatches[0])) {
+            foreach ($fieldParseMatches[0] as $fieldParseMatch) {
+
+                $fieldParseReady = str_replace(',', '&', $fieldParseMatch);
+                $fieldParseReady = str_replace(' ', false, $fieldParseReady);
+
+                $fieldParseInput = str_replace($fieldParseMatch, $fieldParseReady, $fieldParseInput);
+            }
+        }
+
+        $readyFields = array();
+
+        $explodeFields = explode(',', $fieldParseInput);
+        $explodeFields = array_trim($explodeFields);
+
+        if (is_array($explodeFields) && !empty($explodeFields)) {
+            foreach ($explodeFields as $field) {
+
+                $fieldsSettings = $this->parse_field_settings($field);
+                $fieldName = preg_replace('/(\[.*?\])/', false, $field);
+                $readyFields[] = array(
+                    'name' => $fieldName,
+                    'settings' => $fieldsSettings
+                );
+            }
+        }
+
+        return $readyFields;
+    }
+
     public function make_default($rel, $rel_id, $fields_csv_str)
     {
         global $_mw_made_default_fields_register;
@@ -98,19 +166,17 @@ class FieldsManager
             $rel = $this->app->database_manager->assoc_table_name($rel);
             $rel_id = $this->app->database_manager->escape_string($rel_id);
 
-            if (strstr($fields_csv_str, ',')) {
-                $fields_csv_str = explode(',', $fields_csv_str);
-                $fields_csv_str = array_trim($fields_csv_str);
-            } else {
-                $fields_csv_str = array($fields_csv_str);
-            }
+            $fields_csv_str = $this->parse_fields_html($fields_csv_str);
 
             $pos = 0;
             if (is_array($fields_csv_str)) {
-                foreach ($fields_csv_str as $field_name) {
+                foreach ($fields_csv_str as $field) {
 
-                    $ex = array();
+                    $field_name = $field['name'];
 
+                    $show_placeholder = 0;
+                    $show_label = 1;
+                    $existing = array();
                     $as_text_area = false;
                     $field_type = 'text';
                     $field_name_lower = strtolower($field_name);
@@ -128,21 +194,40 @@ class FieldsManager
                         $field_type = $field_name;
                     }
 
-                    $ex['name'] = $field_name;
-                    $ex['type'] = $field_type;
-                    $ex['rel_type'] = $rel;
-                    $ex['rel_id'] = $rel_id;
-                   // $ex['no_cache'] = $rel_id;
-                    $ex = $this->get_all($ex);
-                    if ($ex == false or is_array($ex) == false) {
-                        $make_field = array();
+                    if (isset($field['settings']['type'])) {
+                        $field_type = $field['settings']['type'];
+                    }
 
+                    if (isset($field['settings']['show_label'])) {
+                        $show_label = $field['settings']['show_label'];
+                        if ($show_label == 'false' || $show_label == 0 || $show_label == '0') {
+                            $show_label = false;
+                        }
+                    }
+
+                    if (isset($field['settings']['show_placeholder'])) {
+                        $show_placeholder = $field['settings']['show_placeholder'];
+                        if ($show_placeholder == 'false' || $show_placeholder == 0 || $show_placeholder == '0') {
+                            $show_placeholder = false;
+                        }
+                    }
+
+                    $existing['name'] = $field_name;
+                    $existing['type'] = $field_type;
+                    $existing['rel_type'] = $rel;
+                    $existing['rel_id'] = $rel_id;
+                   // $existing['no_cache'] = $rel_id;
+                    $existing = $this->get_all($existing);
+                    if ($existing == false or is_array($existing) == false) {
+
+                        $make_field = array();
                         $make_field['rel_type'] = $rel;
                         $make_field['rel_id'] = $rel_id;
                         $make_field['position'] = $pos;
                         $make_field['name'] = ucfirst($field_name);
                         $make_field['value'] = '';
-                        $make_field['show_label'] = 1;
+                        $make_field['show_label'] = $show_label;
+                        $make_field['show_placeholder'] = $show_placeholder;
                         $make_field['type'] = $field_type;
                         $make_field['options']['field_type'] = $field_type;
 
@@ -151,7 +236,6 @@ class FieldsManager
                         }
 
                         $saved_fields[] = $this->save($make_field);
-
                         ++$pos;
                     }
                 }
@@ -160,6 +244,7 @@ class FieldsManager
                 $option['option_value'] = true;
                 $option['option_key'] = $function_cache_id;
                 $option['option_group'] = 'make_default_custom_fields';
+
                 $this->app->option_manager->save($option);
                 if ($pos > 0) {
                     $this->app->cache_manager->delete('custom_fields/global');
