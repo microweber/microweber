@@ -179,6 +179,7 @@ class FieldsManager
                     $existing = array();
                     $as_text_area = false;
                     $field_type = 'text';
+                    $field_size = 12;
                     $field_name_lower = strtolower($field_name);
 
                     if (strpos($field_name_lower, 'message') !== false) {
@@ -195,7 +196,12 @@ class FieldsManager
                     }
 
                     if (isset($field['settings']['type'])) {
-                        $field_type = $field['settings']['type'];
+                        if ($field['settings']['type'] == 'textarea') {
+                            $as_text_area = true;
+                            $field_type = 'text';
+                        } else {
+                            $field_type = $field['settings']['type'];
+                        }
                     }
 
                     if (isset($field['settings']['show_label'])) {
@@ -213,7 +219,12 @@ class FieldsManager
                         }
                         if ($field['settings']['show_placeholder'] == 'true' || $field['settings']['show_placeholder'] == 1 || $field['settings']['show_placeholder'] == '1') {
                             $show_placeholder = true;
+                            $show_label = false;
                         }
+                    }
+
+                    if (isset($field['settings']['field_size'])) {
+                        $field_size = $field['settings']['field_size'];
                     }
 
                     $existing['name'] = $field_name;
@@ -239,6 +250,7 @@ class FieldsManager
 
                         $make_field['type'] = $field_type;
                         $make_field['options']['field_type'] = $field_type;
+                        $make_field['options']['field_size'] = $field_size;
 
                         if ($as_text_area) {
                             $make_field['options']['as_text_area'] = $as_text_area;
@@ -330,7 +342,7 @@ class FieldsManager
                 $data['show_placeholder'] = 0;
             }
         }
-        
+
         $data_to_save = ($data);
         $data_to_save = $this->unify_params($data_to_save);
 
