@@ -4563,8 +4563,7 @@ h4.element,
 h5.element,
 h6.element,
 p.element,
-div.element,
-section.element{
+div.element{
     min-height: 15px;
 }
 
