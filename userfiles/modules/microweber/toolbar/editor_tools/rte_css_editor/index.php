@@ -449,6 +449,11 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
 <style>
 
     <?php include "style.css";  ?>
+    <?php
+        if (_lang_is_rtl()) {
+            include "rtl.css";
+        }
+    ?>
 </style>
 <div id="css-editor-root">
 
@@ -477,6 +482,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                             || item.title === 'left'
                             || item.title === 'right'
                             || item.title === 'pull-right'
+                            || item.title === 'mw-bg-mask'
                             || item.title === 'lipsum'
                             || item.title.indexOf('nodrop') !== -1;
                     }

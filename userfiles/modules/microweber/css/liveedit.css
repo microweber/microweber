@@ -4583,4 +4583,10 @@ div.element{
 }
 
 
+.mw-tooltip .mw-field input,
+.mw-tooltip .mw-ui-field,
+.mw-defaults .mw-field input,
+.mw-defaults .mw-ui-field{
+    border-radius: 2px;
+}
 
