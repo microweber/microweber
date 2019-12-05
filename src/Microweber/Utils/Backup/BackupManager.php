@@ -99,7 +99,7 @@ class BackupManager
 	}
 
 	public function setImportLanguage($abr) {
-	    $this->importLanguage = $abr;
+	    $this->importLanguage = trim($abr);
     }
 
 	/**
