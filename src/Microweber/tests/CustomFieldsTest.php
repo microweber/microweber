@@ -12,6 +12,67 @@ class CustomFieldsTest extends TestCase
         // set permission to save custom fields (normally available to admin users)
         mw()->database_manager->extended_save_set_permission(true); 
     }
+
+    public function testMakeDefaultFields() {
+
+
+        for ($i = 1; $i <= 10; $i++) {
+
+            $rel = 'module';
+            $rel_id = 'layouts-'.rand(1111,9999).'-contact-form';
+            $fields_csv_str = 'PersonName[type=text,field_size=6,show_placeholder=true],';
+            $fields_csv_str .= 'PersonTelephone[type=phone,field_size=6,show_placeholder=true],';
+            $fields_csv_str .= 'PersonMessage[type=textarea,field_size=12,show_placeholder=true]';
+
+            $fields = mw()->fields_manager->make_default($rel, $rel_id, $fields_csv_str);
+
+            $this->assertTrue((count($fields) == 3), true);
+
+            $field1 = mw()->fields_manager->make($fields[0]);
+            $field2 = mw()->fields_manager->make($fields[1]);
+            $field3 = mw()->fields_manager->make($fields[2]);
+
+            // Check person name
+            $check_input_if_exists = false;
+            if (strpos($field1, 'placeholder="PersonName"') !== false) {
+                $check_input_if_exists = true;
+            }
+            $this->assertEquals($check_input_if_exists, true);
+
+            $check_input_if_exists = false;
+            if (strpos($field1, 'class="mw-flex-col-md-6"') !== false) {
+                $check_input_if_exists = true;
+            }
+            $this->assertEquals($check_input_if_exists, true);
+
+            // Check person telephone
+            $check_input_if_exists = false;
+            if (strpos($field2, 'name="PersonTelephone"') !== false) {
+                $check_input_if_exists = true;
+            }
+            $this->assertEquals($check_input_if_exists, true);
+
+            $check_input_if_exists = false;
+            if (strpos($field2, 'class="mw-flex-col-md-6"') !== false) {
+                $check_input_if_exists = true;
+            }
+            $this->assertEquals($check_input_if_exists, true);
+
+            // Check person message
+            $check_input_if_exists = false;
+            if (strpos($field3, 'placeholder="PersonMessage"') !== false) {
+                $check_input_if_exists = true;
+            }
+            $this->assertEquals($check_input_if_exists, true);
+
+            $check_input_if_exists = false;
+            if (strpos($field3, 'class="mw-flex-col-md-12"') !== false) {
+                $check_input_if_exists = true;
+            }
+            $this->assertEquals($check_input_if_exists, true);
+
+        }
+    }
     
     public function testCustomFieldsPost() {
     	
@@ -171,31 +232,7 @@ class CustomFieldsTest extends TestCase
     		
     	}
     }
-    
-    public function testMakeDefaultFields() {
-    	
-    	
-    	for ($i = 1; $i <= 10; $i++) {
-		    		
-	    	$rel = 'module';
-	    	$rel_id = 'layouts-'.rand(1111,9999).'-contact-form';
-	    	$fields_csv_str = 'name,email,message';
-	    	
-	    	$fields = mw()->fields_manager->make_default($rel, $rel_id, $fields_csv_str);
-	    	
-	    	$this->assertTrue((count($fields) == 3), true);
-    	
-	    	/* 	
-	    	var_dump(mw()->fields_manager->get_by_id($fields[0]));
-	    	
-	    	var_dump(mw()->fields_manager->get_by_id($fields[1]));
-	    	
-	    	var_dump(mw()->fields_manager->get_by_id($fields[2]));
-	    	 */
-    	}
-    }
-    
-    
+
     public function testSaveCustomFields()
     {
         $my_product_id = 3;

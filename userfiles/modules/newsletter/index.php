@@ -3,8 +3,8 @@
 $require_terms = get_option('require_terms', $params['module']);
 
 if ($params['id'] == 'edit_template_iframe') {
-	include 'edit_template_iframe.php';
-	return;
+    include 'edit_template_iframe.php';
+    return;
 }
 
 $module_template = get_option('data-template', $params['id']);
@@ -27,38 +27,51 @@ if (isset($template_file) and is_file($template_file) != false) {
     include($template_file);
 }
 ?>
-<script>
+
+<script type="text/javascript">
 
 
-    (function () {
-       var init_newsletter_form = function (id, url) {
-           mw.newsletters_is_saving = false;
-           var form = mw.$('form#newsletters-form-' + id);
-           if(form.length){
-               form.append('<input type="hidden" name="mod_id" value="' + id + '" />');
-           }
-           form.submit(function () {
-               if (mw.newsletters_is_saving === true) {
-                   return false;
-               }
-               mw.newsletters_is_saving = true;
-               mw.form.post('form#newsletters-form-' + id, url,
-                   function (msg) {
-                       mw.newsletters_is_saving = false;
-                       mw.response(mw.$('form#newsletters-form-', id), resp);
-                       if (typeof(this.success) != 'undefined') {
-                           mw.$('form#newsletters-form-' + id + ' .hide-on-success').hide();
-                       }
-                       if (!!this.redirect) {
-                           window.location.href = resp.redirect;
-                       }
-                   });
-               return false;
-           });
-       };
-        $(document).ready(function () {
-            init_newsletter_form('<?php print md5($params['id']) ?>', '<?php print api_link('newsletter_subscribe'); ?>');
+    mw.init_newsletter_form<?php print md5($params['id']) ?> = function () {
+
+
+        mw.newsletters_is_saving = false;
+
+        if (mw.$('form#newsletters-form-<?php print $params['id'] ?>').length) {
+            mw.$('form#newsletters-form-<?php print $params['id'] ?>').append('<input type="hidden" name="mod_id" value="<?php print $params['id'] ?>" />');
+        }
+
+        mw.$('form#newsletters-form-<?php print $params['id'] ?>').submit(function () {
+
+            if (mw.newsletters_is_saving == true) {
+                return false;
+            }
+
+            mw.newsletters_is_saving = true;
+            mw.form.post('form#newsletters-form-<?php print $params['id'] ?>', '<?php print api_link('newsletter_subscribe'); ?>',
+                function (msg) {
+                    mw.newsletters_is_saving = false;
+                    var resp = this;
+
+                    mw.response(mw.$('form#newsletters-form-<?php print $params['id'] ?>'), resp);
+                    if (typeof(resp.success) != 'undefined') {
+                        mw.$('form#newsletters-form-' + id + ' .hide-on-success').hide();
+                        mw.$('form#newsletters-form-' + id + ' .show-on-success').show();
+                    }
+                    if (typeof(resp.redirect) != 'undefined') {
+                        window.location.href = resp.redirect;
+                    }
+
+
+                });
+            return false;
         });
-    })();
+    }
+
+
+    $(document).ready(function () {
+        mw.init_newsletter_form<?php print md5($params['id']) ?>();
+    });
 
 </script>
+
+
