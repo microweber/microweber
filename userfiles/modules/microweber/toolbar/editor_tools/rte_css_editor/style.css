@@ -111,6 +111,10 @@ input,select{
     .mw-esr + .mw-esr{
         padding-top: 12px;
     }
+    .mw-esr-col{
+        padding-bottom: 12px;
+    }
+
     .mw-esr > div{
         width: 48%;
     }
@@ -287,9 +291,10 @@ input,select{
     #css-editor-root.disabled{
         pointer-events: none;
     }
-    .mw-field.unit + .mw-field{
-        width: 30px;
-
+    .mw-field.unit [type='text']{
+        width: 45px;
+        text-align: center;
+        margin-left: 10px;
     }
 
     .mw-field.unit .mw-range{
@@ -299,7 +304,6 @@ input,select{
         top: -6px;
     }
     .mw-field.unit .mw-range + input{
-        width: 45px;
         text-align: center;
         margin-left: 10px;
     }
@@ -342,6 +346,10 @@ input,select{
         border-bottom-right-radius: 7px;
         border-right: 1px solid #000;
         border-bottom: 1px solid #000;
+    }
+
+    #size-box .mw-field.unit .mw-range{
+        width: 100px;
     }
 
 

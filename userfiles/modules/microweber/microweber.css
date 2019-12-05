@@ -789,3 +789,9 @@ span.mw-powered-by {
     margin-left: 0 !important;
     font-size: 20px;
 }
+
+.mw-bg-mask{
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: rgba(0,0,0,0) !important;
+}

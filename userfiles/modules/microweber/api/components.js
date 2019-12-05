@@ -10,8 +10,9 @@ mw.components = {
         var ex = {}, render = el;
         if(el.nodeName === 'INPUT'){
             el._pauseChange = false;
-            el.type = 'hidden';
+            el.type = 'text';
             render = document.createElement('div');
+            $(el).removeClass('mw-range');
             $(render).addClass('mw-range');
             $(el).after(render);
             ex = {
@@ -26,6 +27,15 @@ mw.components = {
 
         }
         var settings = $.extend({}, defaults, options, ex);
+        if(el.min){
+            settings.min = parseFloat(el.min);
+        }
+        if(el.max){
+            settings.max = parseFloat(el.max);
+        }
+        if(el.value){
+            settings.value = parseFloat(el.value);
+        }
         mw.$(render)
             .slider(settings)
             .on('mousedown touchstart', function(){

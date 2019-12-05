@@ -190,16 +190,15 @@ var _prepare = {
         units = [];
         $('.unit').each(function(){
             // var select = $('<select style="width: 60px"/>');
-            var select = $('<span class="mw-ui-btn mw-ui-btn-medium"><i class="mw-icon-refresh"></i></span>');
+            var select = $('<span class="mw-ui-btn mw-ui-btn-medium tip" data-tipposition="top-right" data-tip="Restore default value"><i class="mw-icon-refresh"></i></span>');
             select.on('click', function () {
                 output( $(this).parent().prev().attr('data-prop'), '');
-            })
+            });
             var selectHolder = $('<div class="mw-field" data-size="medium"></div>');
             $('input', this)
                 .attr('type', 'range')
-                .attr('min', '5')
-                .attr('max', '100')
-                .after('<input>')
+
+                //.after('<input>')
             $.each(units, function(){
                 select.append('<option value="'+this+'">'+this+'</option>');
             });
@@ -250,7 +249,8 @@ var _populate = {
 
                     $(this).next().find('select').val(unit)
                 }
-                $('input', this).val(val)
+                $('input', this).val(val);
+                $('.mw-range.ui-slider', this).slider('value', isn ? nval : 0)
             }
 
         });
@@ -340,13 +340,13 @@ var init = function(){
     $("#background-remove").on("click", function () {
         $('.background-preview').css('backgroundImage', 'none');
         output('backgroundImage', 'none')
-    })
+    });
     $("#background-select-item").on("click", function () {
         mw.fileWindow({
             types: 'images',
             change: function (url) {
                 url = url.toString();
-                output('backgroundImage', 'url(' + url + ')')
+                output('backgroundImage', 'url(' + url + ')');
                 $('.background-preview').css('backgroundImage', 'url(' + url + ')')
             }
         });
@@ -382,6 +382,11 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             }
         });
         ( window.classes || initClasses() ).setData(clsdata)
+    }
+    if(ActiveNode){
+        var can = ActiveNode.innerText === ActiveNode.innerHTML;
+        mw.$('#text-mask')[can ? 'show' : 'hide']();
+        mw.$('#text-mask-field')[0].checked = mw.tools.hasClass(ActiveNode, 'mw-bg-mask');
     }
 });
 
@@ -425,8 +430,14 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             var css = mw.CSSParser(ActiveNode);
             populate(css);
             activeTree();
+            if(ActiveNode){
+                var can = ActiveNode.innerText === ActiveNode.innerHTML;
+                mw.$('#text-mask')[can ? 'show' : 'hide']();
+
+                mw.$('#text-mask-field')[0].checked = mw.tools.hasClass(ActiveNode, 'mw-bg-mask');
+            }
         }
-        top.mw.liveEditSelector.positionSelected()
+        top.mw.liveEditSelector.positionSelected();
         setTimeout(function(){
             $(document.body).trigger('click')
         }, 400)
@@ -458,6 +469,15 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                             || item.title.indexOf('cloneable') !== -1
                             || item.title.indexOf('ui-draggable') !== -1
                             || item.title.indexOf('ui-draggable-handle') !== -1
+                            || item.title === 'edit'
+                            || item.title === 'safe-mode'
+                            || item.title === 'parallax'
+                            || item.title === 'changed'
+                            || item.title === 'pull-left'
+                            || item.title === 'left'
+                            || item.title === 'right'
+                            || item.title === 'pull-right'
+                            || item.title === 'lipsum'
                             || item.title.indexOf('nodrop') !== -1;
                     }
                 });
@@ -471,7 +491,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                 });
             }
             return window.classes;
-        }
+        };
 
 
         $(window).on('load', function(){
@@ -651,6 +671,22 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                 </div>
             </div>
         </div>
+        <div class="s-field" id="text-mask">
+            <label>Text mask</label>
+            <script>
+                mask = function (val) {
+                    var $node = $(ActiveNode);
+                    var action = val ? 'addClass' : 'removeClass';
+                    $node[action]('mw-bg-mask');
+                }
+            </script>
+            <div class="s-field-content">
+                <label class="mw-ui-check">
+                    <input type="checkbox" id="text-mask-field"  onchange="mask(this.checked)">
+                    <span></span><span></span>
+                </label>
+            </div>
+        </div>
         <div class="s-field">
             <label><?php _e("Position"); ?></label>
             <div class="s-field-content">
@@ -676,52 +712,73 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
 
 
 
-    <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
+    <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion" id="size-box">
         <div class="mw-ui-box-header mw-accordion-title"><?php _e("Size"); ?></div>
         <div class="mw-accordion-content mw-ui-box-content">
-            <div class="mw-esr">
+            <div class="mw-esr-col">
                 <div class="mw-esc">
                     <label><?php _e("Width"); ?></label>
                     <div class="mw-multiple-fields">
-                        <div class="mw-field unit" data-prop="width" data-size="medium"><input type="text"></div>
+                        <div
+                            class="mw-field unit"
+                            data-prop="width"
+                            data-size="medium"
+                            >
+                            <input type="text" data-options="min: 50, max: 2000">
+                        </div>
+                        <span class="mw-ui-btn mw-ui-btn-medium" onclick="output('width', 'auto')">Auto</span>
                     </div>
                 </div>
                 <div class="mw-esc">
                     <label><?php _e("Height"); ?></label>
                     <div class="mw-multiple-fields">
-                        <div class="mw-field unit" data-prop="height" data-size="medium"><input type="text"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="mw-esr">
-                <div class="mw-esc">
-                    <label><?php _e("Min Width"); ?></label>
-                    <div class="mw-multiple-fields">
-                        <div class="mw-field unit" data-prop="minWidth" data-size="medium"><input type="text"></div>
-                    </div>
-                </div>
-                <div class="mw-esc">
-                    <label><?php _e("Min Height"); ?></label>
-                    <div class="mw-multiple-fields">
-                        <div class="mw-field unit" data-prop="minHeight" data-size="medium"><input type="text"></div>
-                    </div>
-                </div>
+                        <div class="mw-field unit" data-prop="height" data-size="medium">
+                            <input type="text" data-options="min: 50, max: 2000">
 
-            </div>
-            <div class="mw-esr">
-                <div class="mw-esc">
-                    <label><?php _e("Max Width"); ?></label>
-                    <div class="mw-multiple-fields">
-                        <div class="mw-field unit" data-prop="maxWidth" data-size="medium"><input type="text"></div>
-                    </div>
-                </div>
-                <div class="mw-esc">
-                    <label><?php _e("Max Height"); ?></label>
-                    <div class="mw-multiple-fields">
-                        <div class="mw-field unit" data-prop="maxHeight" data-size="medium"><input type="text"></div>
+                        </div>
+                        <span class="mw-ui-btn mw-ui-btn-medium" onclick="output('height', 'auto')">Auto</span>
+
                     </div>
                 </div>
             </div>
+            <div class="size-advanced" style="display: none;">
+                <div class="mw-esr-col">
+                    <div class="mw-esc">
+                        <label><?php _e("Min Width"); ?></label>
+                        <div class="mw-multiple-fields">
+                            <div class="mw-field unit" data-prop="minWidth" data-size="medium"><input type="text" data-options="min: 50, max: 2000"></div>
+                            <span class="mw-ui-btn mw-ui-btn-medium" onclick="output('minWidth', '0')">None</span>
+
+                        </div>
+                    </div>
+                    <div class="mw-esc">
+                        <label><?php _e("Min Height"); ?></label>
+                        <div class="mw-multiple-fields">
+                            <div class="mw-field unit" data-prop="minHeight" data-size="medium"><input type="text" data-options="min: 50, max: 2000"></div>
+                            <span class="mw-ui-btn mw-ui-btn-medium" onclick="output('minHeight', '0')">None</span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="mw-esr-col">
+                    <div class="mw-esc">
+                        <label><?php _e("Max Width"); ?></label>
+                        <div class="mw-multiple-fields">
+                            <div class="mw-field unit" data-prop="maxWidth" data-size="medium"><input type="text" data-options="min: 50, max: 2000"></div>
+                            <span class="mw-ui-btn mw-ui-btn-medium" onclick="output('maxWidth', 'none')">None</span>
+                        </div>
+
+                    </div>
+                    <div class="mw-esc">
+                        <label><?php _e("Max Height"); ?></label>
+                        <div class="mw-multiple-fields">
+                            <div class="mw-field unit" data-prop="maxHeight" data-size="medium"><input type="text"></div>
+                            <span class="mw-ui-btn mw-ui-btn-medium" onclick="output('maxHeight', 'none')">None</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <span class="mw-ui-link" onclick="mw.$('.size-advanced').slideToggle()">Advanced</span>
         </div>
     </div>
 
