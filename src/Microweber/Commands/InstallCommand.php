@@ -42,6 +42,11 @@ class InstallCommand extends Command
 
         */
 
+        $language = $this->option('language');
+        $language = trim($language);
+        if (empty($language)) {
+            $language = 'en';
+        }
 
         $input = array(
             'db_host' => $this->argument('db_host'),
@@ -56,7 +61,7 @@ class InstallCommand extends Command
             'with_default_content' => $this->option('default-content'),
             'default_template' => $this->option('template'),
             'config_only' => $this->option('config_only'),
-            'site_lang' => trim($this->option('language')),
+            'site_lang' => $language,
         );
         $vals = array_filter($input);
         if (!$vals) {
