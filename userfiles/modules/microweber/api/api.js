@@ -949,13 +949,15 @@ mw.top = function(){
       return mw.__top;
   }
   var getLastParent = function() {
-      var curr = window.parent;
+      var result = window;
+      var curr = window;
       while(curr && mw.tools.canAccessWindow(curr) && curr.mw){
-          parents.push(curr);
+          result = curr;
           curr = curr.parent;
+
       }
       mw.__top = curr.mw;
-      return curr.mw;
+      return result.mw;
   };
   if(window === top){
     mw.__top = window.mw;

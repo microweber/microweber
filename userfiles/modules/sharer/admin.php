@@ -17,8 +17,13 @@ $linkedin_enabled = get_option('linkedin_enabled', $params['id']) == 'y';
         display: inline-block;
         /* float: left; */
         margin: 0 10px 0 5px;
-        width: 14px;
+        width: 20px;
         text-align: center;
+    }
+
+    html[dir="rtl"] .module-social-links-settings [class*='mw-icon-'],
+    html[dir="rtl"] .module-social-links-settings [class*='fa-'] {
+        margin: 0 5px 0 10px;
     }
 
     .module-social-links-settings tr.active {

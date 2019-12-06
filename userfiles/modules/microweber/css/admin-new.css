@@ -554,6 +554,10 @@
     margin-right: 5px;
     vertical-align: middle;
 }
+html[dir="rtl"] .dashboard-recent .dr-head .mw-ui-btn strong{
+    margin-right: 0px;
+    margin-left: 5px;
+}
 
 .mw-ui-box.quick-lists {
     border: 0;
