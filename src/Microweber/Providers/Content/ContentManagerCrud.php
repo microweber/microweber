@@ -289,7 +289,7 @@ class ContentManagerCrud extends Crud
         if ($url == '') {
             $content = $this->app->content_manager->homepage();
         } else {
-            $get = array();
+           /* $get = array();
             $get['url'] = $url;
             $get['single'] = true;
 
@@ -300,11 +300,20 @@ class ContentManagerCrud extends Crud
                 if (is_array($get) && isset($get[0])) {
                     $content = $this->get($get[0]);
                 }
+            }*/
+
+            $get = $this->app->event_manager->trigger('content.get_by_url', $url);
+            if (is_array($get) && isset($get[0])) {
+                $content = $get[0];
+            } else {
+                $get = array();
+                $get['url'] = $url;
+                $get['single'] = true;
+                $content = $this->get($get);
             }
         }
         if (!empty($content)) {
             self::$precached_links[$link_hash] = $content;
-
             return $content;
         }
         if ($no_recursive == false) {

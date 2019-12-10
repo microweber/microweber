@@ -116,6 +116,11 @@ class DatabaseManager extends DbUtils
             return false;
         }
 
+        $enable_trigers = true;
+        if (isset($params['enable_trigers'])) {
+            $enable_trigers = $params['enable_trigers'];
+        }
+
         $use_connection = false;
 
         if (isset($params['connection_name']) and !isset($_REQUEST['connection_name'])) {
@@ -138,7 +143,7 @@ class DatabaseManager extends DbUtils
             $do_not_replace_site_url = $params['do_not_replace_site_url'];
         }
 
-        $limit =  $this->default_limit;
+        $limit = $this->default_limit;
         if (!isset($params['limit'])) {
             $limit = $params['limit'] = $this->default_limit;
         } else {
@@ -206,7 +211,7 @@ class DatabaseManager extends DbUtils
         $ttl = $this->table_cache_ttl;
 
 
-        if(!$query){
+        if (!$query) {
             return;
         }
 
@@ -220,7 +225,7 @@ class DatabaseManager extends DbUtils
         }
 
         if (!isset($params['no_limit'])) {
-            $cache_key = $table . crc32(json_encode($orig_params) .$limit. $this->default_limit . $cache_key_closures);
+            $cache_key = $table . crc32(json_encode($orig_params) . $limit . $this->default_limit . $cache_key_closures);
         } else {
             $cache_key = $table . crc32(json_encode($params) . $cache_key_closures);
         }
@@ -318,7 +323,9 @@ class DatabaseManager extends DbUtils
             return $data;
         }
 
-        $data = $this->app->event_manager->response('mw.database.' . $table . '.get', $data);
+        if ($enable_trigers) {
+            $data = $this->app->event_manager->response('mw.database.' . $table . '.get', $data);
+        }
 
         if (isset($orig_params['single']) || isset($orig_params['one'])) {
             if (!isset($data[0])) {
