@@ -1,10 +1,20 @@
 <?php
-$logotype = get_option('logotype', $params['id']);
-$logoimage = get_option('logoimage', $params['id']);
-$logoimage_inverse = get_option('logoimage_inverse', $params['id']);
-$text = get_option('text', $params['id']);
-$font_family = get_option('font_family', $params['id']);
-$font_size = get_option('font_size', $params['id']);
+
+
+$logo_name =  $params['id'];
+
+if(isset($params['logo-name'])){
+    $logo_name = $params['logo-name'];
+} else if(isset($params['logo_name'])){
+    $logo_name = $params['logo_name'];
+}
+
+$logotype = get_option('logotype', $logo_name);
+$logoimage = get_option('logoimage', $logo_name);
+$logoimage_inverse = get_option('logoimage_inverse', $logo_name);
+$text = get_option('text', $logo_name);
+$font_family = get_option('font_family', $logo_name);
+$font_size = get_option('font_size', $logo_name);
 
 
 $default = '';
@@ -54,7 +64,7 @@ if ($font_family_safe == '') {
     $font_family_safe = 'inherit';
 }
 
-$size = get_option('size', $params['id']);
+$size = get_option('size', $logo_name);
 if ($size == false or $size == '') {
     if (isset($params['size'])) {
         $size = $params['size'];
@@ -87,13 +97,13 @@ if ($size == false or $size == '') {
 
 <?php
 
-$module_template = get_option('data-template', $params['id']);
+$module_template = get_option('data-template', $logo_name);
 if ($module_template == false and isset($params['template'])) {
     $module_template = $params['template'];
 }
 
 
-$module_template = get_option('data-template', $params['id']);
+$module_template = get_option('data-template', $logo_name);
 if ($module_template == false and isset($params['template'])) {
     $module_template = $params['template'];
 }
