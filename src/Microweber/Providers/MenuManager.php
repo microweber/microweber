@@ -632,6 +632,11 @@ class MenuManager
 
                 }
 
+                $override = $this->app->event_manager->trigger('menu.after.get_item', $item);
+                if (is_array($override) && isset($override[0])) {
+                    $item = $override[0];
+                }
+
                 $to_print .= '<' . $li_tag . '  class="{li_class}' . ' ' . $active_class . '  ' . $has_childs_class . ' {nest_level}" data-item-id="' . $item['id'] . '" >';
 
 

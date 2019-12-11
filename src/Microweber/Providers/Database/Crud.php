@@ -30,11 +30,18 @@ class Crud
         $table = $this->table;
         $params['table'] = $table;
 
-        $override = $this->app->event_manager->trigger('mw.crud.' . $table . '.get.params', $params);
-        if (is_array($override)) {
-            foreach ($override as $resp) {
-                if (is_array($resp) and !empty($resp)) {
-                    $params = array_merge($params, $resp);
+        $enable_trigers = true;
+        if (isset($params['enable_trigers'])) {
+            $enable_trigers = $params['enable_trigers'];
+        }
+
+        if ($enable_trigers) {
+            $override = $this->app->event_manager->trigger('mw.crud.' . $table . '.get.params', $params);
+            if (is_array($override)) {
+                foreach ($override as $resp) {
+                    if (is_array($resp) and !empty($resp)) {
+                        $params = array_merge($params, $resp);
+                    }
                 }
             }
         }

@@ -2073,6 +2073,11 @@ class ContentManager
             $link = ($link['url']);
         }
 
+        $override = $this->app->event_manager->trigger('content.link.after', $link);
+        if (is_array($override) && isset($override[0])) {
+            $link = $override[0];
+        }
+
         return $link;
     }
 

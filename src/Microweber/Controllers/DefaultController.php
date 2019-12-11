@@ -1718,11 +1718,18 @@ class DefaultController extends Controller
 
         $this->app->content_manager->define_constants($content);
 
+
         event_trigger('mw.front', $content);
+
+        $overwrite = mw()->event_manager->trigger('mw.front.content_data', $content);
+        if (isset($overwrite[0])) {
+            $content = $overwrite[0];
+        }
+//        $override = $this->app->event_manager->trigger('content.link.after', $link);
+//        if (is_array($override) && isset($override[0])) {
+//            $link = $override[0];
+//        }
         event_trigger('mw_frontend', $content);
-
-
-
 
         $render_file = $this->app->template->get_layout($content);
 

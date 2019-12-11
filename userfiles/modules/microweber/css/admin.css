@@ -4102,16 +4102,16 @@ body.grabbing, body.grabbing * {
 }
 
 .quick-lists .mw-ui-navigation a span .mw-notification-count {
-
-}
-
-.quick-lists .mw-ui-navigation a span .mw-notification-count {
     top: 5px;
     margin-left: 10px;
     left: auto;
     right: auto;
     float: none;
     display: inline-block;
+}
+html[dir="rtl"] .quick-lists .mw-ui-navigation a span .mw-notification-count{
+    margin-left: 0px;
+    margin-right: 10px;
 }
 
 .quick-lists .mw-ui-navigation a span {
@@ -7219,7 +7219,12 @@ select.silver-field {
 }
 
 #white_label_settings_holder .mw-ui-field {
-    max-width: 90%;
+    max-width: 100%;
+}
+
+html[dir="rtl"] .inline-switch {
+    margin-left: 0;
+    margin-right: 20px;
 }
 
 #white_label_settings_holder .mw-iframe-editor {

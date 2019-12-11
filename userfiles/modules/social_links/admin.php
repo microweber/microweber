@@ -43,6 +43,14 @@ $medium_url = get_option('medium_url', $option_group);
             text-align: center;
         }
 
+        .mw-ui-table .mw-ui-field-holder{
+            text-align: left;
+        }
+        html[dir="rtl"] .mw-ui-table,
+        html[dir="rtl"] .mw-ui-table *{
+            direction: ltr;
+        }
+
         .module-social-links-settings tr.active {
             background: #FFF;
         }
@@ -51,7 +59,7 @@ $medium_url = get_option('medium_url', $option_group);
 
     <script>
         $(document).ready(function () {
-            $()
+
             $('.module-social-links-settings input[type="checkbox"]:checked').each(function () {
                 $(this).parent().parent().parent().addClass('active');
             });

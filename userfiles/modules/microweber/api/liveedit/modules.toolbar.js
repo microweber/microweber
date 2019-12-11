@@ -38,7 +38,7 @@ mw.liveedit.modulesToolbar = {
                 return clone[0];
             });
         });
-        $items.on("click mousedown mouseup", function(e) {
+       /* $items.on("click mousedown mouseup", function(e) {
             e.preventDefault();
             if (e.type === 'click') {
                 return false;
@@ -56,6 +56,6 @@ mw.liveedit.modulesToolbar = {
                     mw.drag.load_new_modules();
                 }
             }
-        });
+        });*/
     }
 };

@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html>
+<html <?php print lang_attributes(); ?>>
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <?php $module_info = false;
@@ -53,29 +53,6 @@
 
     <script type="text/javascript">
         liveEditSettings = true;
-        /*
-         mw.require('<?php print mw_includes_url(); ?>default.css');
-         mw.require('<?php print mw_includes_url(); ?>css/components.css');
-         mw.require('<?php print mw_includes_url(); ?>css/admin.css');
-         mw.require('<?php print mw_includes_url(); ?>css/admin-new.css');
-         mw.require('<?php print mw_includes_url(); ?>css/fade-window.css');
-         mw.require('<?php print mw_includes_url(); ?>css/popup.css');
-
-
-
-
-         mw.require("events.js");
-         mw.require("url.js");
-         mw.require("tools.js");
-         mw.require('admin.js');
-         mw.require('dialog.js');
-
-
-         mw.require("liveadmin.js");
-         mw.require("forms.js");
-         mw.require('wysiwyg.js');
-         mw.require("wysiwyg.css")
-         mw.require('options.js');    */
 
         <?php if(_lang_is_rtl()){ ?>
         mw.require('<?php print mw_includes_url(); ?>css/rtl.css');
@@ -516,6 +493,5 @@
 
 
 </script>
-
 </body>
 </html>

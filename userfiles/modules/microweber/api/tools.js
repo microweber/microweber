@@ -4898,7 +4898,7 @@ mw._colorPicker = function (options) {
 
         if ($el[0].nodeName === 'INPUT') {
             $el.on('focus', function (e) {
-                if(this.value){
+                if(this.value ){
                     frame.color = this.value;
                 }
                 mw.$(tip).show();

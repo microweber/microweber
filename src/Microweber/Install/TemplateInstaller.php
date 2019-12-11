@@ -10,7 +10,7 @@ use Microweber\Utils\Backup\BackupManager;
 class TemplateInstaller
 {
     public $logger = null;
-    public $language = false;
+    public $language = 'en';
 
     public function setLanguage($abr) {
         $this->language = $abr;
