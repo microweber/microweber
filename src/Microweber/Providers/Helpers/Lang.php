@@ -390,10 +390,14 @@ class Lang
             }
 
 
-            return $title_value;
+            return $this->__encode_quotes($title_value);
         } else {
-            return $mw_language_content_file[$k1];
+            return $this->__encode_quotes($mw_language_content_file[$k1]);
         }
+    }
+
+    private function __encode_quotes($str){
+        return  htmlspecialchars($str, ENT_QUOTES);
     }
 
 
