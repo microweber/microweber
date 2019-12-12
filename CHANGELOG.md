@@ -2,6 +2,19 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [1.1.15] - 2019-12-12
+- Upload image does not work
+- Custom fields module settings popup
+- Modal is always moving to center
+- Various RTL text issues
+- Presets on module inside module
+- Icon picker size was not removed from html element 
+- Language entries with quotes was breaking JS messages
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.1.14...1.1.15 "")
+
+
 ## [1.1.14] - 2019-11-27
 - Fix of category tree does not appear after 3 level
 - Ability to change url of package manager
