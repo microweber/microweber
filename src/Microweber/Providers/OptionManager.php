@@ -312,8 +312,7 @@ class OptionManager
             $data = parse_params($data);
         }
 
-        $this->options_memory = array();
-        $this->override_memory = array();
+        $this->clear_memory();
         
         $option_group = false;
         if (is_array($data)) {
@@ -470,5 +469,11 @@ class OptionManager
             $this->override_memory[$option_group] = array();
         }
         $this->override_memory[$option_group][$key] = $value;
+    }
+
+    public function clear_memory()
+    {
+        $this->options_memory = array();
+        $this->override_memory = array();
     }
 }
