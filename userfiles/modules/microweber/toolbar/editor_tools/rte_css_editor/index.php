@@ -192,11 +192,14 @@ var _prepare = {
             // var select = $('<select style="width: 60px"/>');
             var select = $('<span class="mw-ui-btn mw-ui-btn-medium tip" data-tipposition="top-right" data-tip="Restore default value"><i class="mw-icon-refresh"></i></span>');
             select.on('click', function () {
-                output( $(this).parent().prev().attr('data-prop'), '');
+                var prev = $(this).parent().prev();
+                output( prev.attr('data-prop'), '');
+                prev.find('input').val(this._defaultValue);
+                $('.mw-range.ui-slider', prev).slider('value', this._defaultValue || 0)
             });
             var selectHolder = $('<div class="mw-field" data-size="medium"></div>');
             $('input', this)
-                .attr('type', 'range')
+                .attr('type', 'range');
 
                 //.after('<input>')
             $.each(units, function(){
@@ -240,14 +243,18 @@ var _populate = {
     common: function(css){
         $('.unit').each(function(){
             var val = css.css[this.dataset.prop];
+            var btn = $('.mw-ui-btn', this.parentNode)[0];
+            if(btn) {
+                btn._defaultValue = '';
+            }
+
             if(val) {
                 var nval = parseFloat(val);
                 var isn = !isNaN(nval);
                 var unit = val.replace(/[0-9]/g, '').replace(/\./g, '');
                 val = isn ? nval : val;
-                if(isn){
-
-                    $(this).next().find('select').val(unit)
+                if(btn) {
+                    btn._defaultValue = val;
                 }
                 $('input', this).val(val);
                 $('.mw-range.ui-slider', this).slider('value', isn ? nval : 0)

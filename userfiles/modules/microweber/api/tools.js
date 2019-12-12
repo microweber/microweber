@@ -4290,10 +4290,10 @@ $(document).ready(function () {
         }
     });
 
-    mw.$(".mw-ui-dropdown").on('touchstart mousedown', function(){
+    mw.$(".mw-ui-dropdown").on('click', function(){
         mw.$(this).toggleClass('active')
     });
-    mw.$(document.body).on('touchend', function(e){
+    mw.$(document.body).on('click', function(e){
         if(!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['mw-ui-dropdown'])){
             mw.$(".mw-ui-dropdown.active").removeClass('active')
         }
