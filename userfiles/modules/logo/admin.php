@@ -1,21 +1,33 @@
 <?php only_admin_access(); ?>
 
 <?php
-$logoimage = get_option('logoimage', $params['id']);
-$logoimage_inverse = get_option('logoimage_inverse', $params['id']);
-$text = get_option('text', $params['id']);
-$font_family = get_option('font_family', $params['id']);
-$font_size = get_option('font_size', $params['id']);
+
+
+
+$logo_name =  $params['id'];
+
+if(isset($params['logo-name'])){
+    $logo_name = $params['logo-name'];
+} else if(isset($params['logo_name'])){
+    $logo_name = $params['logo_name'];
+}
+
+
+$logoimage = get_option('logoimage', $logo_name);
+$logoimage_inverse = get_option('logoimage_inverse', $logo_name);
+$text = get_option('text', $logo_name);
+$font_family = get_option('font_family', $logo_name);
+$font_size = get_option('font_size', $logo_name);
 if ($font_size == false) {
     $font_size = 30;
 }
-$logotype = get_option('logotype', $params['id']);
+$logotype = get_option('logotype', $logo_name);
 
 if (!$logotype) {
     $logotype = 'image';
 }
 
-$size = get_option('size', $params['id']);
+$size = get_option('size', $logo_name);
 if ($size == false or $size == '') {
     $size = 60;
 }
@@ -180,9 +192,9 @@ if (isset($params['data-alt-logo'])) {
     }
 
     var mw_admin_logo_upload_browse_existing = function (inverse = false) {
-        var modal_id = 'mw_admin_logo_upload_browse_existing_modal<?php print $params['id'] ?>' + (inverse ? '_inverse' : '');
+        var modal_id = 'mw_admin_logo_upload_browse_existing_modal<?php print $logo_name ?>' + (inverse ? '_inverse' : '');
         var dialog = mw.top().dialogIframe({
-            url: '<?php print site_url() ?>module/?type=files/admin&live_edit=true&remeber_path=true&ui=basic&start_path=media_host_base&from_admin=true&file_types=images&id=mw_admin_logo_upload_browse_existing_modal<?php print $params['id'] ?>&from_url=<?php print site_url() ?>',
+            url: '<?php print site_url() ?>module/?type=files/admin&live_edit=true&remeber_path=true&ui=basic&start_path=media_host_base&from_admin=true&file_types=images&id=mw_admin_logo_upload_browse_existing_modal<?php print $logo_name ?>&from_url=<?php print site_url() ?>',
             title: "Browse pictures",
             id: modal_id,
             onload: function () {
@@ -229,11 +241,9 @@ if (isset($params['data-alt-logo'])) {
 
         mw.editor({
             element: '#text',
+            height: 200,
             width: '100%',
-            hideControls: [
-                'format', 'ol', 'ul', 'div', 'justifyleft', 'justifycenter',
-                'justifyright', 'justifyfull', 'link', 'unlink', 'remove_formatting'
-            ]
+            hideControls: ['format', 'ol', 'ul', 'div', 'justifyleft', 'justifycenter', 'justifyright', 'justifyfull', 'link', 'unlink', 'remove_formatting']
         })
     });
 </script>
@@ -256,10 +266,10 @@ if (isset($params['data-alt-logo'])) {
 
 
         $size_slider.on('input change', function () {
-            $size.val(this.value);
+            $size.val(this.value)
             $("#order_status1")[0].checked = false;
             $imagesizeval.html(this.value + 'px');
-            $size.trigger('change');
+            $size.trigger('change')
         });
 
         $("#order_status1").on('change', function () {
