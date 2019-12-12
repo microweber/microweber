@@ -312,6 +312,9 @@ class OptionManager
             $data = parse_params($data);
         }
 
+        $this->options_memory = array();
+        $this->override_memory = array();
+        
         $option_group = false;
         if (is_array($data)) {
             if (strval($data['option_key']) != '') {
