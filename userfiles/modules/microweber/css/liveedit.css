@@ -183,9 +183,15 @@ body.mw-live-edit .plain-text {
     overflow: auto;
     max-height: 260px;
 }
-
+.mw-live-edit-tab-title h4,
+.mw-live-edit-tab-title h6,
 .modules-list li,
-.modules-list h4{
+.modules-list h1,
+.modules-list h2,
+.modules-list h3,
+.modules-list h4,
+.modules-list h5,
+.modules-list h6{
     color: #333;
 }
 
