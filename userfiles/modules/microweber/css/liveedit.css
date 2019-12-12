@@ -184,6 +184,11 @@ body.mw-live-edit .plain-text {
     max-height: 260px;
 }
 
+.modules-list li,
+.modules-list h4{
+    color: #333;
+}
+
 
 
 /****************************
