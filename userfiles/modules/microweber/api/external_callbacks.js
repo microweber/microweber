@@ -20,7 +20,7 @@ mw.iframecallbacks = {
         if (!contains && !!url) {
             //url = url.indexOf("http") === 0 ? url : (location.protocol + "//" + url);
         }
-        var target = target || '_self';
+        target = target || '_self';
 
         var link_inner_text = false
         if(link_content){

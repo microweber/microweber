@@ -12,10 +12,11 @@ mw.liveedit.handleCustomEvents = function() {
             el = mw.tools.firstParentOrCurrentWithAnyOfClasses(originalEvent.target, ['element', 'module'])
         }
         //if(el.id) {
-            if(mw.liveEditSelector.selected && mw.liveEditSelector.selected[0] === el) {
-                return;
+        mw.liveEditSelector.select(el);
+            if(mw.tools.hasClass(el, 'module')){
+                mw.liveEditSelector.activeModule = el;
             }
-             mw.liveEditSelector.select(el);
+
         //}
     });
 

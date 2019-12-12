@@ -63,10 +63,16 @@
         dialog.iframe = dialog.dialogContainer.querySelector('iframe');
         mw.tools.loading(dialog.dialogContainer, 90);
 
+
+
         setTimeout(function () {
             var frame = dialog.dialogContainer.querySelector('iframe');
+            frame.style.minHeight = 0; // reset in case of conflicts
             if (options.autoHeight) {
                 mw.tools.iframeAutoHeight(frame);
+            } else{
+                $(frame).height(options.height - 60);
+                frame.style.position = 'relative';
             }
             mw.$(frame).on('load', function () {
                 mw.tools.loading(dialog.dialogContainer, false);
@@ -77,7 +83,9 @@
                     });
                     dialog.dialogMain.classList.remove('mw-dialog-iframe-loading');
                     frame.contentWindow.thismodal = dialog;
-                    mw.tools.iframeAutoHeight(frame, 'now');
+                    if (options.autoHeight) {
+                        mw.tools.iframeAutoHeight(frame, 'now');
+                    }
                 }, 78);
                 if (mw.tools.canAccessIFrame(frame)) {
                     mw.$(frame.contentWindow.document).on('keydown', function (e) {
@@ -95,11 +103,11 @@
                     });
                 }
                 if(typeof options.onload === 'function') {
-                    options.onload.call(dialog)
+                    options.onload.call(dialog);
                 }
             });
         }, 12);
-        return dialog
+        return dialog;
     };
 
     mw.dialog.get = function (selector) {
@@ -429,11 +437,15 @@
             } else if (this.options.centerMode === 'center') {
                 dtop = $window.height() / 2 - holderHeight / 2;
             }
-            if (width) {
-                scope._dragged = false;
-            }
+
             if (!scope._dragged) {
                 css.left = $window.outerWidth() / 2 - holderWidth / 2;
+            } else {
+                css.left = parseFloat($holder.css('left'));
+            }
+
+            if(css.left + holderWidth > $window.width()){
+                css.left = css.left - ((css.left + holderWidth) - $window.width());
             }
 
             if (dtop) {

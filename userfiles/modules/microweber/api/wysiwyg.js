@@ -312,18 +312,6 @@ mw.wysiwyg = {
             mw.$(".edit [contenteditable='true'], .edit").removeAttr('contenteditable');
         }
     },
-    validateEditForIE: function (target) {
-        if ($(target).hasClass("edit")) {
-            return true;
-        }
-        var arr = [];
-        mw.tools.foreachParents(target, function (loop) {
-            arr.push(this.className);
-            if ($(this).hasClass("module")) {
-                mw.tools.stopLoop(loop);
-            }
-        });
-    },
     _lastCopy: null,
     handleCopyEvent: function (event) {
         this._lastCopy = event.target;
@@ -1820,7 +1808,7 @@ mw.wysiwyg = {
         var url = !!types ? "rte_image_editor?types=" + types + '' + hash : "rte_image_editor" + hash;
 
         url = mw.settings.site_url + 'editor_tools/' + url;
-        var sel = mw.wysiwyg.save_selection()
+        var sel = mw.wysiwyg.save_selection();
         var modal = mw.top().dialogIframe({
             url: url,
             name: "mw_rte_image",

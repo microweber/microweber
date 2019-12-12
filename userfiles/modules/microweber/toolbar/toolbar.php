@@ -685,19 +685,22 @@ if (isset($_COOKIE['mw_exp'])) {
 <span class="mw-plus-bottom mw-wyswyg-plus-element"></span>
 
 <div style="display: none" id="plus-modules-list">
-    <input type="text" class="mw-ui-searchfield" placeholder="<?php _e('Search') ?>"/>
-    <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs pull-left">
-        <span class="mw-ui-btn mw-ui-btn-medium active"><i class="mw-icon-module"></i> <?php _e("Modules"); ?></span>
-        <span class="mw-ui-btn mw-ui-btn-medium"><i class="mw-icon-template"></i> <?php _e("Layouts"); ?></span>
-    </div>
-
-    <div class="mw-ui-box">
-        <div class="module-bubble-tab" style="display: block">
+    <div class="plus-modules-list" >
+        <input type="text" class="mw-ui-searchfield" placeholder="<?php _e('Search') ?>"/>
+        <div class="mw-ui-box">
             <module type="admin/modules/list" data-clean="true" class="modules-list-init module-as-element">
         </div>
-        <div class="module-bubble-tab">
-            <module type="admin/modules/list_layouts" data-clean="true" class="modules-list-init module-as-element">
-        </div>
-        <div class="module-bubble-tab-not-found-message"></div>
     </div>
 </div>
+
+<div style="display: none" id="plus-layouts-list">
+    <div class="plus-modules-list" >
+        <input type="text" class="mw-ui-searchfield" placeholder="<?php _e('Search') ?>"/>
+        <div class="mw-ui-box">
+            <module type="admin/modules/list_layouts" data-clean="true" class="modules-list-init module-as-element">
+        </div>
+    </div>
+</div>
+
+
+

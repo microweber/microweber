@@ -33,7 +33,7 @@ mw.liveedit.widgets = {
                 mw.wysiwyg.change(mw.liveedit.widgets._iconEditorTarget);
             });
             this._iconEditor.$e.on('sizeChange', function(e, size){
-                mw.liveedit.widgets._iconEditorTarget.style.fontSize = size + 'px';
+                mw.liveedit.widgets._iconEditorTarget.style.fontSize = size ? size + 'px' : '';
                 mw.tools.tooltip.setPosition(mw.liveedit.widgets._iconEditor.tooltip, mw.liveedit.widgets._iconEditorTarget, 'bottom-center');
                 mw.wysiwyg.change(mw.liveedit.widgets._iconEditorTarget);
             });
@@ -46,5 +46,62 @@ mw.liveedit.widgets = {
         mw.$('.mw-field [type="number"]', mw.liveedit.widgets._iconEditor.content).val(parseFloat(target.style.fontSize))
         $(mw.liveedit.widgets._iconEditor.tooltip).show();
         mw.tools.tooltip.setPosition(this._iconEditor.tooltip, mw.liveedit.widgets._iconEditorTarget, 'bottom-center');
+    },
+    _linkEditor: function (options) {
+        var scope = this;
+        options = options || {};
+        var allSources = [
+            'page',
+            'content',
+            'custom',
+            'file',
+            'email',
+            'layout',
+            'title'
+        ];
+
+        var defaults = {
+            sources: 'all',
+            target: true,
+            content: true,
+            title: true,
+            dialogTitle: mw.lang('Edit link'),
+            mode: 'dialog'
+        };
+
+        this.settings = $.extend({}, defaults, options);
+        if(this.settings.sources === 'all') {
+            this.settings.sources = allSources;
+        }
+        this._result = null;
+        this.result = function (result, trigger) {
+            if(!result){
+                return this._result;
+            }
+            this._result = result;
+            if(trigger) {
+                $(this).trigger('Result');
+            }
+        };
+        this.create = function () {
+            if(this.settings.mode === 'dialog') {
+                var footer = $('<div>some footer</div>');
+                scope.dialog = mw.dialogIframe({
+                    url: mw.external_tool('link_editor_v2'),
+                    autoHeight: true,
+                    height: 'auto',
+                    width: 700,
+                    title: this.settings.dialogTitle,
+                    footer: footer
+                });
+            }
+        };
+        this.init = function(){
+            this.create();
+        };
+        this.init();
+    },
+    linkEditor: function (options) {
+        return new this._linkEditor(options);
     }
 };

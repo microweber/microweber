@@ -50,7 +50,6 @@ if (array_key_exists('types', $_GET)) {
 
         if (url == false) {
             if (eventType == 'done') {
-                /* parent.mw.iframecallbacks[hash](url, eventType); */
             }
             if (window.thismodal) {
                 thismodal.remove();
@@ -79,7 +78,10 @@ if (array_key_exists('types', $_GET)) {
                     if (typeof parent[hash] === 'function') {
                         parent[hash](url, eventType);
                     } else {
-                        parent.mw.iframecallbacks['insert_image'](url, eventType);
+                        if(parent.mw.iframecallbacks['insert_image']) {
+                            parent.mw.iframecallbacks['insert_image'](url, eventType);
+                        }
+
                     }
                 }
             } else {

@@ -351,6 +351,7 @@ mw._initHandles = {
                     className:'mw-handle-remove',
                     action: function () {
                         mw.drag.delete_element(mw._activeElementOver);
+                        mw.handleElement.hide()
                     }
                 }
             ]
@@ -490,7 +491,7 @@ mw._initHandles = {
                     className:'mw-handle-remove',
                     action: function () {
                         mw.drag.delete_element(mw._activeModuleOver);
-                        mw.handleModule.hide()
+                        mw.handleModule.hide();
                     }
                 }
             ]
@@ -503,7 +504,7 @@ mw._initHandles = {
                     icon: 'mw-icon-gear',
                     action: function () {
                         mw.drag.module_settings(getActiveDragCurrent(),"admin");
-                        $(mw.handleModuleActive.wrapper).removeClass('active')
+                        $(mw.handleModuleActive.wrapper).removeClass('active');
                     }
                 },
                 {
@@ -532,13 +533,15 @@ mw._initHandles = {
                     className:'mw-handle-remove',
                     action: function () {
                         mw.drag.delete_element(getActiveDragCurrent());
+                        mw.handleModuleActive.hide();
                     }
                 }
             ]
         };
 
         var getActiveDragCurrent = function () {
-            var el = mw.liveEditSelector && mw.liveEditSelector.selected ?  mw.liveEditSelector.selected[0] : null;
+            //var el = mw.liveEditSelector && mw.liveEditSelector.selected ?  mw.liveEditSelector.selected[0] : null;
+            var el = mw.liveEditSelector.activeModule;
             if(el && el.nodeType === 1){
                 return el;
             }

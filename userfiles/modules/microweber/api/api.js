@@ -561,14 +561,14 @@ mw.getScripts = function (array, callback) {
     }
     var url = typeof obj.url !== 'undefined' ? obj.url : mw.settings.site_url+'module/';
     var selector = typeof obj.selector !== 'undefined' ? obj.selector : '';
-    var params =  typeof obj.params !=='undefined' ? obj.params : {};
+    var params =  typeof obj.params !== 'undefined' ? obj.params : {};
     var to_send = params;
     if(typeof $(obj.selector)[0] === 'undefined') {
         mw.pauseSave = false;
         mw.on.DOMChangePause = false;
         return false;
     }
-    if(mw.session != undefined){
+    if(mw.session){
         mw.session.checkPause = true;
     }
     var $node = $(obj.selector);
@@ -579,7 +579,7 @@ mw.getScripts = function (array, callback) {
 
      // wait between many reloads
       if (node.id) {
-          if ( mw.temp_reload_module_queue_holder.indexOf(node.id) == -1){
+          if ( mw.temp_reload_module_queue_holder.indexOf(node.id) === -1){
           mw.temp_reload_module_queue_holder.push(node.id);
               setTimeout(function() {
                   var reload_index = mw.temp_reload_module_queue_holder.indexOf(node.id);
@@ -686,7 +686,7 @@ mw.getScripts = function (array, callback) {
         mw.on.moduleReload(id, "", true);
         mw.trigger('moduleLoaded');
       }
-      if (mw.on != undefined) {
+      if (mw.on) {
         mw.on.DOMChangePause = false;
       }
       mw.tools.removeClass(mwd.body, 'loading');
@@ -701,17 +701,18 @@ mw.getScripts = function (array, callback) {
         mw.pauseSave = false;
     });
     return xhr;
-  }
+  };
 
 
   api = function(action, params, callback){
+      var obj;
     var url = mw.settings.api_url + action;
     var type = typeof params;
     if(type === 'string'){
-        var obj = mw.serializeFields(params);
+        obj = mw.serializeFields(params);
     }
     else if(type === 'object' && !jQuery.isArray(params)){
-        var obj = params;
+        obj = params;
     }
     else{
       obj = {};
@@ -755,7 +756,7 @@ mw.getScripts = function (array, callback) {
 
   mw.$ = function(selector, context) {
     if(typeof selector === 'object'){ return jQuery(selector); }
-    var context = context || mwd;
+    context = context || mwd;
     if (typeof mwd.querySelector !== 'undefined') {
       if (typeof selector === 'string') {
         try {
@@ -772,16 +773,17 @@ mw.getScripts = function (array, callback) {
   };
 
   mw.get = function(action, params, callback){
+      var obj;
     var url = mw.settings.api_url + action;
     var type = typeof params;
     if(type === 'string'){
-        var obj = mw.serializeFields(params);
+        obj = mw.serializeFields(params);
     }
     else if(type.constructor === {}.constructor ){
-        var obj = params;
+        obj = params;
     }
     else{
-      var obj = {};
+      obj = {};
     }
     $.post(url, obj)
         .success(function(data) { return typeof callback === 'function' ? callback.call(data) : data;   })
@@ -809,7 +811,7 @@ mw.getScripts = function (array, callback) {
                     + "input[type='password'], input[type='hidden'], input[type='datetime'], input[type='date'], input[type='time'], "
                     +"input[type='email'],  textarea, select, input[type='checkbox']:checked, input[type='radio']:checked, "
                     +"input[type='checkbox'][data-value-checked][data-value-unchecked]";
-        var data = {}
+        var data = {};
         $(fields, el).each(function(){
             if(!this.name){
                 console.warn('Name attribute missing on ' + this.outerHTML);
@@ -839,7 +841,7 @@ mw.response = function(form, data, messages_at_the_bottom){
       return false;
     }
 
-    var data = mw.tools.toJSON(data);
+    data = mw.tools.toJSON(data);
     if(typeof data === 'undefined'){
           return false;
       }
@@ -859,41 +861,41 @@ mw.response = function(form, data, messages_at_the_bottom){
     else{
         return false;
     }
-}
+};
 
 mw._response = {
   error:function(form, data, _msg){
-    var form = mw.$(form);
+    form = mw.$(form);
     var err_holder = mw._response.msgHolder(form, 'error');
     mw._response.createHTML(data.error, err_holder);
   },
   success:function(form, data, _msg){
-    var form = mw.$(form);
+    form = mw.$(form);
     var err_holder = mw._response.msgHolder(form, 'success');
     mw._response.createHTML(data.success, err_holder);
   },
   warning:function(form, data, _msg){
-    var form = mw.$(form);
+    form = mw.$(form);
     var err_holder = mw._response.msgHolder(form, 'warning');
     mw._response.createHTML(data.warning, err_holder);
   },
   msgHolder : function(form, type, method){
-    var method = method || 'append';
+    method = method || 'append';
     var err_holder = form.find(".mw-checkout-response:first");
     var err_holder2 = form.find(".alert:first");
-    if(err_holder.length==0){
+    if(err_holder.length === 0){
         err_holder = err_holder2;
     }
-    if(err_holder.length==0){
-    var err_holder = mwd.createElement('div');
-    form[method](err_holder);
+    if(err_holder.length === 0){
+        err_holder = mwd.createElement('div');
+        form[method](err_holder);
     }
 
     var bootrap_error_type = 'default';
-    if(type == 'error'){
-    bootrap_error_type = 'danger';
-    } else if(type == 'done'){
-    bootrap_error_type = 'info';
+    if(type === 'error'){
+        bootrap_error_type = 'danger';
+    } else if(type === 'done'){
+        bootrap_error_type = 'info';
     }
 
 
@@ -928,7 +930,7 @@ mw._response = {
 mw.user = {
   isLogged:function(callback){
     $.post(mw.settings.api_url + 'is_logged', function(data){
-        var isLogged =  (data == 'true');
+        var isLogged =  (data === 'true');
         callback.call(isLogged, isLogged);
     });
   }

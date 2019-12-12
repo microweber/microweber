@@ -10,10 +10,10 @@ mw.drag.plus = {
         mw.drag.plusTop = mwd.querySelector('.mw-plus-top');
         mw.drag.plusBottom = mwd.querySelector('.mw-plus-bottom');
 
-        if(typeof(mw.drag.plusTop) != 'undefined'){
+        if(mw.drag.plusTop) {
             mw.drag.plusTop.style.top = -9999 + 'px';
         }
-        if(typeof(mw.drag.plusBottom) != 'undefined'){
+        if(mw.drag.plusBottom) {
             mw.drag.plusBottom.style.top = -9999 + 'px';
         }
         mw.$(holder).on('mousemove touchmove click', function (e) {
@@ -123,7 +123,7 @@ mw.drag.plus = {
                 });
 
                 mw.$('.mw-ui-searchfield', tip).on('keyup paste', function () {
-                    var resultsLength = mw.drag.plus.search(this.value, mw.$('.module-bubble-tab:visible', tip)[0]);
+                    var resultsLength = mw.drag.plus.search(this.value, tip);
                     if (resultsLength === 0) {
                         mw.$('.module-bubble-tab-not-found-message').html(mw.msg.no_results_for + ': <em>' + this.value + '</em>').show();
                     }
@@ -190,6 +190,6 @@ InsertModule = function (module, cls) {
         mw.dropable.hide();
     }, cls);
     mw.$('.mw-tooltip').hide();
-}
+};
 
 

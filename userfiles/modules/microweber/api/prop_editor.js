@@ -702,7 +702,10 @@ mw.propEditor = {
 
             this.node = holder;
             this.setValue = function(value){
-                selector.value(value);
+                if(selector && selector.value) {
+                    selector.value(value);
+
+                }
                 proto._valSchema[config.id] = value;
             };
             this.id = config.id;
