@@ -18,8 +18,6 @@ $path = media_uploads_path(); // the path the script should access
 $path_restirct = media_uploads_path(); // the path the script should access
 
 
-
-
 //$environment = App::environment();
 
 
@@ -38,7 +36,7 @@ $path = str_replace($path_restirct, '', $path);
 //$data = rglob($path);
 $params_get_files = array();
 $params_get_files['directory'] = $path_restirct . $path;
-$params_get_files['restrict_path'] = $path_restirct ;
+$params_get_files['restrict_path'] = $path_restirct;
 
 if (isset($params['search'])) {
     $params_get_files['search'] = $params['search'];
@@ -67,19 +65,21 @@ $data = mw('Microweber\Utils\Files')->get($params_get_files);
 $path_nav = explode(DS, $path);
 
 
-
-
 $tn_size = 150;
 $image_item_class = 'image-item';
 $browser_list_holder_class = 'mw-browser-list';
 
-if(isset($params['viewsize'])){
-   if($params['viewsize']=='big'){
-       $tn_size = 260;
-       $image_item_class = 'image-item-big';
-       $browser_list_holder_class = 'mw-browser-list mw-browser-list-big';
+$viewsize_param = '';
 
-   }
+if (isset($params['viewsize'])) {
+    $viewsize_param = $params['viewsize'];
+
+    if ($params['viewsize'] == 'big') {
+        $tn_size = 260;
+        $image_item_class = 'image-item-big';
+        $browser_list_holder_class = 'mw-browser-list mw-browser-list-big';
+
+    }
 }
 
 ?>
@@ -96,17 +96,71 @@ if(isset($params['viewsize'])){
 
 <span class="pull-right">
 
+
+
+
+    <?php
+
+
+    $sortby_param = '';
+    $sortby_param_ord = '';
+
+
+    if (isset($params['sort_by'])) {
+        $sort_params = explode(' ', $params['sort_by']);
+        if (isset($sort_params[1])) {
+            $sortby_param = $sort_params[0];
+            $sortby_param_ord = $sort_params[1];
+        }
+    }
+
+
+
+
+
+    ?>
+
+<script>
+    $(document).ready(function () {
+        $('#file_browser_sort_by').on('change', function () {
+            var val = ($(this).find('option:selected').val());
+            if(!val){
+                mw.url.windowHashParam('sort_by', '');
+            } else {
+                mw.url.windowHashParam('sort_by', val);
+            }
+        })
+
+
+
+
+    });
+</script>
+
+    <select name="file_browser_sort_by" id="file_browser_sort_by">
+        <option value="" onmousedown="mw.url.windowHashParam('sort_by', '');">Sort by</option>
+        <option value="basename ASC"  <?php if ($sortby_param == 'basename' and $sortby_param_ord == 'ASC'): ?> selected <?php endif; ?> >File name &#8593;</option>
+        <option value="basename DESC"  <?php if ($sortby_param == 'basename' and $sortby_param_ord == 'DESC'): ?> selected <?php endif; ?> >File name &#8595;</option>
+        <option value="filemtime ASC"  <?php if ($sortby_param == 'filemtime' and $sortby_param_ord == 'ASC'): ?> selected <?php endif; ?> >Modified time &#8593;</option>
+        <option value="filemtime DESC"  <?php if ($sortby_param == 'filemtime' and $sortby_param_ord == 'DESC'): ?> selected <?php endif; ?> >Modified time &#8595;</option>
+        <option value="filesize ASC"  <?php if ($sortby_param == 'filesize' and $sortby_param_ord == 'ASC'): ?> selected <?php endif; ?> >File size &#8593;</option>
+        <option value="filesize DESC"  <?php if ($sortby_param == 'filesize' and $sortby_param_ord == 'DESC'): ?> selected <?php endif; ?> >File size &#8595;</option>
+    </select>
+
+
+
+
 Thumbnail size:
         <a href="javascript:;" onclick="mw.url.windowHashParam('viewsize', '');"
-        class="mw-ui-btn mw-ui-btn-small  ">
+           class="mw-ui-btn mw-ui-btn-small  ">
           <?php _e("Small"); ?>
         </a>
         <a href="javascript:;" onclick="mw.url.windowHashParam('viewsize', 'big');"
-            class="mw-ui-btn mw-ui-btn-small  "><?php _e("Big"); ?>
+           class="mw-ui-btn mw-ui-btn-small  "><?php _e("Big"); ?>
 
         </a>
         <a href="javascript:;" onclick="mw.url.windowHashParam('path', PreviousFolder);"
-                                     class="mw-ui-btn mw-ui-btn-small  mw-ui-btn-invert">
+           class="mw-ui-btn mw-ui-btn-small  mw-ui-btn-invert">
 
 
 
@@ -123,27 +177,27 @@ Thumbnail size:
                           class="<?php print $config['module_class']; ?> path-item"><?php _e('Main') ?></span></a>&raquo;
 
 
-    <?php if (is_array($path_nav)): ?>
-        <?php
+            <?php if (is_array($path_nav)): ?>
+                <?php
 
-        $path_nav_pop = false;
-        foreach ($path_nav as $item): ?>
-            <?php
+                $path_nav_pop = false;
+                foreach ($path_nav as $item): ?>
+                    <?php
 
-            if ($path_nav_pop == false) {
-                $path_nav_pop = $item;
-            } else {
+                    if ($path_nav_pop == false) {
+                        $path_nav_pop = $item;
+                    } else {
 
-                $path_nav_pop = $path_nav_pop . DS . $item;
+                        $path_nav_pop = $path_nav_pop . DS . $item;
 
-            }
-            if (strlen($item) > 0):
-                ?>
-                <script>PreviousFolder.push('<?php print urlencode($path_nav_pop) ?>');</script>
-                <a href="#path=<?php print urlencode($path_nav_pop) ?>" style="color: #212121;"><span
-                            class="<?php print $config['module_class']; ?> path-item"><?php print ($item) ?></span></a>&raquo;
-            <?php endif; endforeach; ?>
-    <?php endif; ?>
+                    }
+                    if (strlen($item) > 0):
+                        ?>
+                        <script>PreviousFolder.push('<?php print urlencode($path_nav_pop) ?>');</script>
+                        <a href="#path=<?php print urlencode($path_nav_pop) ?>" style="color: #212121;"><span
+                                    class="<?php print $config['module_class']; ?> path-item"><?php print ($item) ?></span></a>&raquo;
+                    <?php endif; endforeach; ?>
+            <?php endif; ?>
     </span></div>
     <?php // } ?>
     <script>
@@ -154,7 +208,7 @@ Thumbnail size:
         <?php if (isset($data['dirs'])): ?>
             <ul class="mw-browser-list">
                 <?php foreach ($data['dirs'] as $item): ?>
-                    <?php $dir_link =  $item; ?>
+                    <?php $dir_link = $item; ?>
                     <?php $dir_link = str_replace($path_restirct, '', $dir_link); ?>
                     <li>
 
@@ -181,10 +235,11 @@ Thumbnail size:
                            onclick="mw.url.windowHashParam('select-file', '<?php print mw()->url_manager->link_to_file($item) ?>'); return false;">
                             <?php $ext = strtolower(get_file_extension($item)); ?>
                             <?php if ($ext == 'jpg' or $ext == 'png' or $ext == 'gif' or $ext == 'jpeg' or $ext == 'bmp'): ?>
-                            <span data-src="<?php print thumbnail(mw()->url_manager->link_to_file($item), $tn_size, $tn_size,true); ?>"
-                                  class="<?php print basename($item) ?> as-image image-item-not-ready"></span>
+                                <span data-src="<?php print thumbnail(mw()->url_manager->link_to_file($item), $tn_size, $tn_size, true); ?>"
+                                      class="<?php print basename($item) ?> as-image image-item-not-ready"></span>
                             <?php else: ?>
-                                <div class="mw-fileico mw-fileico-<?php print $ext; ?>"><span><?php print $ext; ?></span></div>
+                                <div class="mw-fileico mw-fileico-<?php print $ext; ?>">
+                                    <span><?php print $ext; ?></span></div>
                             <?php endif; ?>
                             <span class="mw-browser-list-name"><?php print basename($item) ?></span>
                         </a>
@@ -201,20 +256,21 @@ Thumbnail size:
                     </li>
                 <?php endforeach; ?>
             </ul>
-        <style>
+            <style>
 
-            .as-image{
-                display: block;
-                height: 60px;
-                width: 100%;
-                background-repeat: no-repeat;
-                background-size: cover;
-                background-position: center;
-            }
-            .mw-browser-list-big .as-image{
-                height: 150px;
-            }
-        </style>
+                .as-image {
+                    display: block;
+                    height: 60px;
+                    width: 100%;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                    background-position: center;
+                }
+
+                .mw-browser-list-big .as-image {
+                    height: 150px;
+                }
+            </style>
             <script>
                 rendImages = window.rendImages || function () {
                     var all = mwd.querySelectorAll('.image-item-not-ready'),
@@ -224,7 +280,7 @@ Thumbnail size:
                         var item = all[i];
                         var datasrc = item.getAttribute("data-src");
                         if (mw.tools.inview(item) && datasrc !== null) {
-                            if(item.nodeName === 'IMG'){
+                            if (item.nodeName === 'IMG') {
                                 $(item).attr('src', datasrc).removeClass('image-item-not-ready');
                             } else {
                                 $(item).css('backgroundImage', 'url(' + datasrc + ')').removeClass('image-item-not-ready');
@@ -238,9 +294,9 @@ Thumbnail size:
                     rendImages();
                 });
                 $(window).on('load', function () {
-                    if(window.thismodal) {
-                        $(thismodal).on('dialogCenter', function(){
-                            setTimeout(function(){
+                    if (window.thismodal) {
+                        $(thismodal).on('dialogCenter', function () {
+                            setTimeout(function () {
                                 rendImages();
                             }, 333);
                         })
@@ -248,7 +304,7 @@ Thumbnail size:
                     $()
                 });
                 $(window).on('load ajaxStop resize', function () {
-                    setTimeout(function(){
+                    setTimeout(function () {
                         rendImages();
                     }, 333);
 
