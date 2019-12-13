@@ -252,11 +252,11 @@ if(!isset($box_class)){
             <?php endif; ?>
 
             <?php if ($has_update): ?>
-                <a vkey="<?php print $vkey; ?>" href="javascript:;" onClick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).data('vkey'))"  class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-warn js-package-install-btn">
+                <a vkey="<?php print $vkey; ?>" href="javascript:;" onClick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'))"  class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-warn js-package-install-btn">
                     <?php _e('Update'); ?>
                 </a>
             <?php else: ?>
-                <a vkey="<?php print $vkey; ?>" href="javascript:;"   onClick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).data('vkey'))" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification js-package-install-btn">
+                <a vkey="<?php print $vkey; ?>" href="javascript:;"   onClick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'))" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification js-package-install-btn">
                     <?php _e('Install'); ?>
                 </a>
             <?php endif; ?>
