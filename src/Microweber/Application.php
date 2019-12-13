@@ -14,6 +14,7 @@ namespace Microweber;
  * @property \Microweber\Utils\Format                            $format
  * @property \Microweber\Providers\ContentManager                $content_manager
  * @property \Microweber\Providers\CategoryManager               $category_manager
+ * @property \Microweber\Providers\MenuManager                   $menu_manager
  * @property \Microweber\Providers\MediaManager                  $media_manager
  * @property \Microweber\Providers\ShopManager                   $shop_manager
  * @property \Microweber\Providers\Shop\CartManager              $cart_manager
