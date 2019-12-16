@@ -10,13 +10,11 @@
 			</label>
         <?php endif; ?>
 
-			<div class="mw-ui-controls">
-				<input type="text" class="form-control js-bootstrap4-timepicker" <?php if ($settings['required']): ?>required="true"<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name']; ?>" value="<?php echo $data['value']; ?>" placeholder="<?php echo $data['placeholder']; ?>" autocomplete="off"/>
-			</div>
+        <input type="text" class="form-control js-bootstrap4-timepicker" <?php if ($settings['required']): ?>required="true"<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name']; ?>" value="<?php echo $data['value']; ?>" placeholder="<?php echo $data['placeholder']; ?>" autocomplete="off"/>
 
-			<?php if ($data['help']): ?>
-				<small class="form-text text-muted"><?php echo $data['help']; ?></small>
-			<?php endif; ?>
+        <?php if ($data['help']): ?>
+            <small class="form-text text-muted"><?php echo $data['help']; ?></small>
+        <?php endif; ?>
 	</div>
 </div>
 
