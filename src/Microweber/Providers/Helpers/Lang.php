@@ -268,7 +268,6 @@ class Lang
      */
     function e($k, $to_return = false)
     {
-
         $string = $this->lang($k);
 
         if ($to_return == true) {
@@ -277,9 +276,20 @@ class Lang
         echo $string;
 
         return;
-
     }
 
+    function ejs($k, $to_return = false)
+    {
+        $string = $this->lang($k);
+        $string = htmlspecialchars($string, ENT_QUOTES);
+
+        if ($to_return == true) {
+            return $string;
+        }
+        echo $string;
+
+        return;
+    }
 
     private function __make_lang_key_suffix($str)
     {
@@ -393,16 +403,11 @@ class Lang
             }
 
 
-            return $this->__encode_quotes($title_value);
+            return $title_value;
         } else {
-            return $this->__encode_quotes($mw_language_content_file[$k1]);
+            return $mw_language_content_file[$k1];
         }
     }
-
-    private function __encode_quotes($str){
-        return  htmlspecialchars($str, ENT_QUOTES);
-    }
-
 
     /**
      * Gets all the language file contents.
