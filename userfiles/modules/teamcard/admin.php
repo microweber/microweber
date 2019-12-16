@@ -76,7 +76,7 @@ if (isset($json) == false or count($json) == 0) {
         },
 
         remove: function (element) {
-            if (confirm("<?php _e('Are you sure?'); ?>")) {
+            if (confirm("<?php _ejs('Are you sure?'); ?>")) {
                 $(element).remove();
                 teamcards.save();
             }

@@ -139,14 +139,14 @@ mw.askusertostay = false;
   if (top === self){
     window.onbeforeunload = function() {
       if(mw.askusertostay){
-        mw.notification.warning("<?php _e("You have unsaved changes"); ?>!");
+        mw.notification.warning("<?php _ejs("You have unsaved changes"); ?>!");
         return "<?php _e("You have unsaved changes"); ?>!";
       }
     }
   }
 
   warnOnLeave = function(){
-     mw.tools.confirm("<?php _e("You have unsaved changes! Are you sure"); ?>?");
+     mw.tools.confirm("<?php _ejs("You have unsaved changes! Are you sure"); ?>?");
   };
 
   mw.module = {}

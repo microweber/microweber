@@ -175,12 +175,12 @@ if ($weight_units == false) {
                     if (typeof(mw_admin_edit_country_item_popup_modal_opened) != "undefined") {
                         mw_admin_edit_country_item_popup_modal_opened.remove();
                     }
-                    mw.notification.success("<?php _e("Shipping changes are saved"); ?>");
+                    mw.notification.success("<?php _ejs("Shipping changes are saved"); ?>");
 
                 }
                 else {
                     /*      mw.reload_module(dataType, function () {
-                     mw.notification.success("<?php _e("Shipping changes are saved"); ?>");
+                     mw.notification.success("<?php _ejs("Shipping changes are saved"); ?>");
                      });*/
                 }
             mw.reload_module_everywhere('shop/shipping/gateways/country/admin_backend');

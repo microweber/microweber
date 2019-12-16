@@ -10,7 +10,7 @@ mw.require('options.js', true);
 $(document).ready(function(){
 
   mw.options.form('.<?php print $config['module_class'] ?>', function(){
-      mw.notification.success("<?php _e("Template styles are saved"); ?>.");
+      mw.notification.success("<?php _ejs("Template styles are saved"); ?>.");
 
 
 

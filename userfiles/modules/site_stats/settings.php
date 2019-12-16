@@ -12,7 +12,7 @@ only_admin_access();
     $(document).ready(function () {
 
         mw.options.form('#stats-units-setup', function () {
-            mw.notification.success("<?php _e("Saved"); ?>");
+            mw.notification.success("<?php _ejs("Saved"); ?>");
         });
     });
 </script>

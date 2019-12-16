@@ -75,7 +75,7 @@ if ($stylesheet_settings) {
     });
 
     function reloadTemplate() {
-        parent.mw.notification.success("<?php _e("Template settings are saved"); ?>.");
+        parent.mw.notification.success("<?php _ejs("Template settings are saved"); ?>.");
         parent.$("#theme-style").attr('href', '<?php print mw()->template->get_stylesheet($template_settings['stylesheet_compiler']['source_file'], false, false); ?>&t=' + mw.random());
         mw.tools.refresh(parent.$("#theme-style"));
     }

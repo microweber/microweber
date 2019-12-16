@@ -52,7 +52,7 @@ mw()->notifications_manager->delete_for_module('updates');
                     url: '<?php print api_link(); ?>mw_set_updates_queue',
                     error: function () {
                         mw.tools.enable(mwd.getElementById('installsubmit'));
-                        Alert("<?php _e("There was a Problem connecting to the Server"); ?>");
+                        Alert("<?php _ejs("There was a Problem connecting to the Server"); ?>");
                     },
                     done: function () {
 

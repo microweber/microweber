@@ -9,7 +9,7 @@
     }
 
     function delete_subscriber(id) {
-        var ask = confirm("<?php _e('Are you sure you want to delete this subscriber?'); ?>");
+        var ask = confirm("<?php _ejs('Are you sure you want to delete this subscriber?'); ?>");
         if (ask == true) {
             var data = {};
             data.id = id;

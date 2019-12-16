@@ -35,7 +35,7 @@
 
         $(modal.container).find('.mw-small').remove()
         mw.options.form($(modal.container), function () {
-            mw.notification.success("<?php _e("Shop settings are saved"); ?>.");
+            mw.notification.success("<?php _ejs("Shop settings are saved"); ?>.");
             mw.reload_module_everywhere("shop/settings");
         });
     }
@@ -88,7 +88,7 @@
                 });
             },
             stop: function () {
-                //  Alert("<?php _e("Saving"); ?> ... ");
+                //  Alert("<?php _ejs("Saving"); ?> ... ");
             }
         })
     });

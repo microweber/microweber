@@ -122,12 +122,12 @@
                 if (dataType == 'new') {
                     alert(1);
                     mw.reload_module('<?php print $config['the_module']; ?>', function () {
-                        mw.notification.success("<?php _e("Shipping changes are saved"); ?>");
+                        mw.notification.success("<?php _ejs("Shipping changes are saved"); ?>");
                     });
                 }
                 else {
                     mw.reload_module(dataType, function () {
-                        mw.notification.success("<?php _e("Shipping changes are saved"); ?>");
+                        mw.notification.success("<?php _ejs("Shipping changes are saved"); ?>");
                     });
                 }
                 if (window.parent != undefined && window.parent.mw != undefined) {

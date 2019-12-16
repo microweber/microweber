@@ -22,7 +22,7 @@
 $(document).ready(function(){
 
   mw.options.form('.<?php print $config['module_class'] ?>', function(){
-    mw.notification.success("<?php _e("Default template saved"); ?>.");
+    mw.notification.success("<?php _ejs("Default template saved"); ?>.");
   });
 
 

@@ -56,7 +56,7 @@
                         mw.$("#upload_backup_info").html(file.percent + "%");
                     });
                     $(uploader).bind('error', function (up, file) {
-                        mw.notification.error("<?php _e("The backup must be sql or zip"); ?>.");
+                        mw.notification.error("<?php _ejs("The backup must be sql or zip"); ?>.");
 
                     });
                 });

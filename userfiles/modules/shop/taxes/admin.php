@@ -28,7 +28,7 @@ only_admin_access();
 
     function mw_admin_delete_tax_item_confirm(tax_item_id) {
 
-        var r = confirm("<?php _e('Are you sure you want to delete this tax?'); ?>");
+        var r = confirm("<?php _ejs('Are you sure you want to delete this tax?'); ?>");
         if (r == true) {
             var url = mw.settings.api_url + 'shop/delete_tax_item';
             $.post(url, {id: tax_item_id})
@@ -41,7 +41,7 @@ only_admin_access();
     }
 
     function mw_admin_after_changed_tax_item() {
-        mw.notification.success("<?php _e('Taxes are updated'); ?>");
+        mw.notification.success("<?php _ejs('Taxes are updated'); ?>");
         // mw.reload_module('#mw_admin_shop_taxes_items_list');
         mw.reload_module('shop/taxes');
     }
@@ -63,7 +63,7 @@ only_admin_access();
     $(document).ready(function () {
 
         mw.options.form('.<?php print $config['module_class'] ?>', function () {
-            mw.notification.success("<?php _e("Saved"); ?>.");
+            mw.notification.success("<?php _ejs("Saved"); ?>.");
         });
 
 

@@ -8,7 +8,7 @@ $pages_count = intval($pages);
 </script>
 <script type="text/javascript">
     delete_selected_posts = function () {
-        mw.tools.confirm("<?php _e("Are you sure you want to delete the selected posts"); ?>?", function () {
+        mw.tools.confirm("<?php _ejs("Are you sure you want to delete the selected posts"); ?>?", function () {
             var master = mwd.getElementById('<?php print $params['id']; ?>');
             var arr = mw.check.collectChecked(master);
             mw.post.del(arr, function () {
@@ -82,7 +82,7 @@ $pages_count = intval($pages);
     };
 
     mw.delete_single_post = function (id) {
-        mw.tools.confirm("<?php _e("Do you want to delete this post"); ?>?", function () {
+        mw.tools.confirm("<?php _ejs("Do you want to delete this post"); ?>?", function () {
             var arr = id;
             mw.post.del(arr, function () {
                 mw.$(".manage-post-item-" + id).fadeOut(function () {

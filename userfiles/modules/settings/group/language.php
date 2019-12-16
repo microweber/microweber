@@ -2,7 +2,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         mw.options.form('.<?php print $config['module_class'] ?>', function () {
-            mw.notification.success("<?php _e("Language settings are saved"); ?>.");
+            mw.notification.success("<?php _ejs("Language settings are saved"); ?>.");
             mw.reload_module('#mw_lang_file_edit');
 
 

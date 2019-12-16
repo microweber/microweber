@@ -41,7 +41,7 @@
 	}
     
     function delete_template(id) {
-        var ask = confirm("<?php _e('Are you sure you want to delete this template?'); ?>");
+        var ask = confirm("<?php _ejs('Are you sure you want to delete this template?'); ?>");
         if (ask == true) {
             var data = {};
             data.id = id;

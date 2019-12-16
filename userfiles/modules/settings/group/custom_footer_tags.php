@@ -3,7 +3,7 @@
     function saveFooterTags() {
     	$("input, select, textarea", $('.<?php print $config['module_class'] ?>')).each(function () {
 	        mw.options.save(this, function () {
-	            mw.notification.success("<?php _e("Saved"); ?>.");
+	            mw.notification.success("<?php _ejs("Saved"); ?>.");
 	        });
     	});
     }

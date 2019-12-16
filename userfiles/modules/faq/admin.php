@@ -81,7 +81,7 @@ if (isset($json) == false or count($json) == 0) {
 
         remove: function (element) {
             var txt;
-            var r = confirm("<?php _e('Are you sure?'); ?>");
+            var r = confirm("<?php _ejs('Are you sure?'); ?>");
             if (r == true) {
                 $(element).remove();
                 faqs.save();

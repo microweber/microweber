@@ -249,7 +249,7 @@ $paging_links = false;
         delete_selected_posts_forever = function () {
 
 
-            mw.tools.confirm("<?php _e("Are you sure you want to delete those pages forever"); ?>?", function () {
+            mw.tools.confirm("<?php _ejs("Are you sure you want to delete those pages forever"); ?>?", function () {
                 var master = mwd.getElementById('pages_delete_container');
                 var arr = mw.check.collectChecked(master);
                 arr.forever = true;
@@ -265,21 +265,21 @@ $paging_links = false;
 
 
         delete_single_post_forever = function (id) {
-            mw.tools.confirm("<?php _e("Do you want to delete this content forever"); ?>?", function () {
+            mw.tools.confirm("<?php _ejs("Do you want to delete this content forever"); ?>?", function () {
                 var arr = id;
                 arr.forever = true;
                 mw.post_del_forever(arr, function () {
                     mw.$(".manage-post-item-" + id).fadeOut(function () {
                         $(this).remove()
                     });
-                    mw.notification.success("<?php _e('Content is deleted!'); ?>");
+                    mw.notification.success("<?php _ejs('Content is deleted!'); ?>");
                 });
             });
         }
 
         restore_selected_posts = function () {
 
-            mw.tools.confirm("<?php _e("Are you sure you want restore the selected content"); ?>?", function () {
+            mw.tools.confirm("<?php _ejs("Are you sure you want restore the selected content"); ?>?", function () {
                 var master = mwd.getElementById('pages_delete_container');
                 var arr = mw.check.collectChecked(master);
                 arr.forever = true;
@@ -288,14 +288,14 @@ $paging_links = false;
 
                     });
                     mw.reload_module('#<?php print $params['id'] ?>', function () {
-                        mw.notification.success("<?php _e('Content is restored!'); ?>");
+                        mw.notification.success("<?php _ejs('Content is restored!'); ?>");
                     });
                 });
             });
         }
 
         restore_single_post_from_deletion = function (id) {
-            mw.tools.confirm("<?php _e("Restore this content"); ?>?", function () {
+            mw.tools.confirm("<?php _ejs("Restore this content"); ?>?", function () {
                 var arr = id;
                 arr.forever = true;
                 mw.post_undelete(arr, function () {
@@ -303,7 +303,7 @@ $paging_links = false;
 
                     mw.reload_module("pages", function () {
                         mw.$(".mw_pages_posts_tree").removeClass("activated");
-                        mw.notification.success("<?php _e('Content is restored!'); ?>");
+                        mw.notification.success("<?php _ejs('Content is restored!'); ?>");
                         mw.reload_module('#<?php print $params['id'] ?>', function () {
 
                         });
