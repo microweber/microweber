@@ -118,7 +118,7 @@ if (isset($notif_params['quick'])) {
         });
 
         if (selectedNotificationIds.length < 1) {
-            mw.notification.error('<?php _e('First select notifications.'); ?>');
+            mw.notification.error('<?php _ejs('First select notifications.'); ?>');
             return [];
         }
 

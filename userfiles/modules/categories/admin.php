@@ -13,7 +13,7 @@
 
         mw.options.form('#<?php print $params['id']; ?>', function () {
             if (mw.notification) {
-                mw.notification.success('<?php _e('Settings are saved') ?>');
+                mw.notification.success('<?php _ejs('Settings are saved') ?>');
             }
         });
 

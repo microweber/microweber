@@ -18,7 +18,7 @@
                 type: 'POST',
                 data: data,
                 success: function (result) {
-                    mw.notification.success('<?php _e('List deleted'); ?>');
+                    mw.notification.success('<?php _ejs('List deleted'); ?>');
 
                     // Reload the modules
                     mw.reload_module('newsletter/lists_list')

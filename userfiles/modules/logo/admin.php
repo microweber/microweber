@@ -199,7 +199,7 @@ if (isset($params['data-alt-logo'])) {
             id: modal_id,
             onload: function () {
                 this.iframe.contentWindow.mw.on.hashParam('select-file', function () {
-                    mw.notification.success('<?php _e('Logo image selected') ?>');
+                    mw.notification.success('<?php _ejs('Logo image selected') ?>');
                     if (inverse) {
                         setNewImageInv(this);
                     } else {

@@ -18,7 +18,7 @@
                 type: 'POST',
                 data: data,
                 success: function (result) {
-                    mw.notification.success('<?php _e('Subscriber deleted'); ?>');
+                    mw.notification.success('<?php _ejs('Subscriber deleted'); ?>');
 
                     // Reload the modules
                     mw.reload_module('newsletter/subscribers_list')

@@ -12,7 +12,7 @@
 		var data = {};
 		data.id = id;
 
-		mw.notification.success('<?php _e('Loading...'); ?>');
+		mw.notification.success('<?php _ejs('Loading...'); ?>');
 
 		if (data.id > 0) {
     		 $.ajax({
@@ -50,7 +50,7 @@
                 type: 'POST',
                 data: data,
                 success: function (result) {
-                    mw.notification.success('<?php _e('Template deleted'); ?>');
+                    mw.notification.success('<?php _ejs('Template deleted'); ?>');
 
 					// Back to old templates
                     list_templates();

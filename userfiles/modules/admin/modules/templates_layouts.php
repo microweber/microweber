@@ -108,7 +108,7 @@ if ($screenshots) {
             var selected_skin =  $('#mw-module-skin-select-dropdown :selected').val();
 
             if (mw.notification != undefined) {
-                mw.notification.success('<?php _e("Module template is changed"); ?>');
+                mw.notification.success('<?php _ejs("Module template is changed"); ?>');
             }
 
             <?php if ($screenshots): ?>

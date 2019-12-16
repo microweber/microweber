@@ -413,7 +413,7 @@
             var settings_container_mod_el = $('#settings-container');
             mw.options.form(settings_container_mod_el, function () {
                 if (mw.notification) {
-                    mw.notification.success('<?php _e('Settings are saved') ?>');
+                    mw.notification.success('<?php _ejs('Settings are saved') ?>');
                 }
                 mw.reload_module_parent('#<?php print $params['id']  ?>')
 
