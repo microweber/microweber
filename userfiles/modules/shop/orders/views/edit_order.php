@@ -65,9 +65,9 @@
                                 var val = this.value;
                                 obj.is_paid = val;
                                 $.post(mw.settings.site_url + "api/shop/update_order", obj, function () {
-                                    var upd_msg = "<?php _e("Order is marked as un-paid"); ?>"
+                                    var upd_msg = "<?php _ejs("Order is marked as un-paid"); ?>"
                                     if (obj.is_paid == 'y') {
-                                        var upd_msg = "<?php _e("Order is marked as paid"); ?>";
+                                        var upd_msg = "<?php _ejs("Order is marked as paid"); ?>";
                                     }
                                     mw.notification.success(upd_msg);
                                     mw.reload_module('shop/orders');

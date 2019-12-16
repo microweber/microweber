@@ -22,11 +22,11 @@ if ($params['coupon_id'] !== 'false') {
 
 <script>
     // SET GLOBAL MULTILANGUAGE TEXTS
-    var TEXT_FIELD_MUST_BE_FLOAT_NUMBER = "<?php _e('The field must be float number.');?>";
-    var TEXT_FIELD_MUST_BE_NUMBER = "<?php _e('The field must be number.');?>";
-    var TEXT_SUCCESS_SAVE = "<?php _e('Coupon are saved success!');?>";
-    var TEXT_FIELD_CANNOT_BE_EMPTY = "<?php _e('This field cannot be empty.');?>";
-    var TEXT_FILL_ALL_FIELDS = "<?php _e('Please fill all fields correct.');?>";
+    var TEXT_FIELD_MUST_BE_FLOAT_NUMBER = "<?php _ejs('The field must be float number.');?>";
+    var TEXT_FIELD_MUST_BE_NUMBER = "<?php _ejs('The field must be number.');?>";
+    var TEXT_SUCCESS_SAVE = "<?php _ejs('Coupon are saved success!');?>";
+    var TEXT_FIELD_CANNOT_BE_EMPTY = "<?php _ejs('This field cannot be empty.');?>";
+    var TEXT_FILL_ALL_FIELDS = "<?php _ejs('Please fill all fields correct.');?>";
 </script>
 
 <div class="js-validation-messages"></div>

@@ -53,9 +53,9 @@
 
         var also_modules = $('#also_reset_modules').is(':checked');
 
-        var txt = "<?php _e('Are you sure you want to reset the content?');?>";
+        var txt = "<?php _ejs('Are you sure you want to reset the content?');?>";
         if(also_modules){
-            var txt = "<?php _e('Are you sure you want to reset the content and modules?');?>";
+            var txt = "<?php _ejs('Are you sure you want to reset the content and modules?');?>";
 
         }
         var r = confirm(txt);

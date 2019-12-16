@@ -157,7 +157,7 @@
         if (typeof thismodal != 'undefined' && thismodal != false) {
             var modal_title_str = '';
             if (typeof(mw_module_settings_info.name) == "undefined") {
-                modal_title_str = "<?php _e("Settings"); ?>"
+                modal_title_str = "<?php _ejs("Settings"); ?>"
             } else {
                 modal_title_str = mw_module_settings_info.name;
             }

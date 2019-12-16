@@ -36,11 +36,11 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
 
 <script>
     // SET GLOBAL MULTILANGUAGE TEXTS
-    var TEXT_FIELD_MUST_BE_FLOAT_NUMBER = "<?php _e('The field must be float number.');?>";
-    var TEXT_FIELD_MUST_BE_NUMBER = "<?php _e('The field must be number.');?>";
-    var TEXT_SUCCESS_SAVE = "<?php _e('Offer is saved!');?>";
-    var TEXT_FIELD_CANNOT_BE_EMPTY = "<?php _e('This field cannot be empty.');?>";
-    var TEXT_FILL_ALL_FIELDS = "<?php _e('Please fill in all fields correctly.');?>";
+    var TEXT_FIELD_MUST_BE_FLOAT_NUMBER = "<?php _ejs('The field must be float number.');?>";
+    var TEXT_FIELD_MUST_BE_NUMBER = "<?php _ejs('The field must be number.');?>";
+    var TEXT_SUCCESS_SAVE = "<?php _ejs('Offer is saved!');?>";
+    var TEXT_FIELD_CANNOT_BE_EMPTY = "<?php _ejs('This field cannot be empty.');?>";
+    var TEXT_FILL_ALL_FIELDS = "<?php _ejs('Please fill in all fields correctly.');?>";
 
     var today = new Date();
 
