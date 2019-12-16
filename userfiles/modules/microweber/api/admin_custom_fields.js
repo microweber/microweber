@@ -108,7 +108,7 @@ mw.admin.custom_fields.valueLiveEdit = function (span) {
             };
         }
         mw.tools.removeClass(mw.tools.firstParentWithTag(this, 'tr'), 'active');
-        $.post(mw.settings.api_url + 'fields/save', data, function (adata) {
+        $.post(mw.settings.api_url + 'fields/save', data, function (data) {
 
         	if (mwd.getElementById('mw-custom-fields-list-settings-' + data.id) != null) {
 
@@ -215,8 +215,62 @@ mw.admin.custom_fields.del = function (id, toremove) {
         });
     });
 };
-mw.admin.custom_fields.deleteFieldValue = function (el) {
-    mw.$(el.parentNode).remove();
+mw.admin.custom_fields.deleteFieldValue = function (xel){
+    var data;
+    var vals = [];
+        var el = xel.parentNode
+
+
+       mw.log(el)
+  //  if (mw.tools.hasClass(el, 'mw-admin-custom-field-value-edit-inline')) {
+        var vals = [],
+            all = mw.tools.firstParentWithClass(xel, 'custom-fields-values-holder').parentNode.querySelectorAll('.mw-admin-custom-field-value-edit-inline'),
+            l = all.length,
+            i = 0;
+        for (; i < l; i++) {
+
+
+            if(all[i].parentNode != xel.parentNode){
+mw.log(all[i])
+                mw.log(xel.parentNode)
+            vals.push(all[i].textContent);
+            }
+        }
+
+        data = {
+            id: mw.$(el).dataset('id'),
+            value: vals
+        };
+
+
+
+
+
+        $.post(mw.settings.api_url + 'fields/save', data, function (data) {
+
+            if (mwd.getElementById('mw-custom-fields-list-settings-' + data.id) != null) {
+
+                var rstr = mwd.getElementById('mw-custom-fields-list-settings-' + data.id).innerHTML.replace(/\s+/g, '');
+
+                if (rstr && !!data.value) {
+                    mw.reload_module('#mw-custom-fields-list-settings-' + data.id);
+                }
+            }
+
+            mw.custom_fields.after_save();
+
+        });
+
+
+
+    //}
+
+
+
+
+
+
+
 };
 mw.admin.custom_fields.edit_custom_field_item = function ($selector, id, callback, event) {
 
