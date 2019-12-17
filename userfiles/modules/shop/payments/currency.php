@@ -9,7 +9,7 @@ $curencies = mw()->shop_manager->currency_get();
     $(document).ready(function () {
 
         mw.options.form('.<?php print $config['module_class'] ?>', function () {
-            mw.notification.success("<?php _e("Currency settings are saved."); ?>");
+            mw.notification.success("<?php _ejs("Currency settings are saved."); ?>");
             mw.reload_module('shop/payments/currency_render')
         });
     });

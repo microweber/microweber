@@ -320,11 +320,11 @@
             if (typeof url === 'string') {
                 var obj = {path: [url]};
                 var name = name || 'this';
-                var msg = "<?php _e("Are you sure you want to delete"); ?> " + name + "?";
+                var msg = "<?php _ejs("Are you sure you want to delete"); ?> " + name + "?";
             }
             else if (url.constructor === [].constructor) {
                 var obj = {path: url}
-                var msg = "<?php _e("Are you sure you want to delete these files"); ?>?";
+                var msg = "<?php _ejs("Are you sure you want to delete these files"); ?>?";
             }
             else {
                 return false;

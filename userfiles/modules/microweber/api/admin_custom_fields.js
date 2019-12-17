@@ -108,7 +108,7 @@ mw.admin.custom_fields.valueLiveEdit = function (span) {
             };
         }
         mw.tools.removeClass(mw.tools.firstParentWithTag(this, 'tr'), 'active');
-        $.post(mw.settings.api_url + 'fields/save', data, function (adata) {
+        $.post(mw.settings.api_url + 'fields/save', data, function (data) {
 
         	if (mwd.getElementById('mw-custom-fields-list-settings-' + data.id) != null) {
 
@@ -216,8 +216,16 @@ mw.admin.custom_fields.del = function (id, toremove) {
     });
 };
 mw.admin.custom_fields.deleteFieldValue = function (el) {
+    var xel  = el.parentNode.parentNode
     mw.$(el.parentNode).remove();
+    mw.admin.custom_fields.valueLiveEdit(xel.querySelector('.mw-admin-custom-field-value-edit-inline'));
+
+
+
 };
+
+
+
 mw.admin.custom_fields.edit_custom_field_item = function ($selector, id, callback, event) {
 
     var mTitle = (id ? 'Edit custom field' : 'Add new custom field');

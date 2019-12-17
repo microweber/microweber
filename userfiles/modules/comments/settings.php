@@ -112,7 +112,7 @@
         $(document).ready(function () {
 
             mw.options.form('.<?php print $config['module_class'] ?>', function () {
-                mw.notification.success("<?php _e("All changes are saved"); ?>.");
+                mw.notification.success("<?php _ejs("All changes are saved"); ?>.");
             });
 
             mw.$("[name='enable_comments']").commuter(function () {

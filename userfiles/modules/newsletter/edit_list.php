@@ -72,7 +72,7 @@ $senders = newsletter_get_senders($senders_params);
 		            data: data,
 		            success: function (result) {
 						
-		                mw.notification.success('<?php _e('List saved'); ?>');
+		                mw.notification.success('<?php _ejs('List saved'); ?>');
 		
 		                // Remove modal
 		                if (typeof(edit_list_modal) != 'undefined' && edit_list_modal.modal) {
@@ -90,7 +90,7 @@ $senders = newsletter_get_senders($senders_params);
 					}
 		        });
 	        } else {
-	       		mw.notification.error('<?php _e('Please fill correct data.'); ?>');
+	       		mw.notification.error('<?php _ejs('Please fill correct data.'); ?>');
 	        }
 		});
 		

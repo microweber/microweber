@@ -4,7 +4,7 @@
 
         mw.options.form('.<?php print $config['module_class'] ?>', function(){
             mw.clear_cache();
-            mw.notification.success("<?php _e("All changes are saved"); ?>.");
+            mw.notification.success("<?php _ejs("All changes are saved"); ?>.");
 
         });
     });

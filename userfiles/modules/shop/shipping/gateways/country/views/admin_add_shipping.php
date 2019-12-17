@@ -109,25 +109,25 @@
     SaveShippingData = function (data) {
         return $.post('<?php print $config['module_api']; ?>/shipping_to_country/save', data)
             .done(function () {
-                mw.notification.success('<?php _e("Saved"); ?>')
+                mw.notification.success('<?php _ejs("Saved"); ?>')
             })
     }
     SaveShipping = function (form, dataType) {
         var country = mw.$('[name="shipping_country"]', form).val();
         if (country == 'none') {
-            mw.notification.warning('<?php _e("Please choose country"); ?>')
+            mw.notification.warning('<?php _ejs("Please choose country"); ?>')
             return false;
         }
         mw.form.post($(form), '<?php print $config['module_api']; ?>/shipping_to_country/save', function () {
                 if (dataType == 'new') {
                     alert(1);
                     mw.reload_module('<?php print $config['the_module']; ?>', function () {
-                        mw.notification.success("<?php _e("Shipping changes are saved"); ?>");
+                        mw.notification.success("<?php _ejs("Shipping changes are saved"); ?>");
                     });
                 }
                 else {
                     mw.reload_module(dataType, function () {
-                        mw.notification.success("<?php _e("Shipping changes are saved"); ?>");
+                        mw.notification.success("<?php _ejs("Shipping changes are saved"); ?>");
                     });
                 }
                 if (window.parent != undefined && window.parent.mw != undefined) {

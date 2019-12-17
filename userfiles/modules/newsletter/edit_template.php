@@ -60,7 +60,7 @@
                 data: data,
                 success: function (result) {
 
-                    mw.notification.success('<?php _e('Template saved'); ?>');
+                    mw.notification.success('<?php _ejs('Template saved'); ?>');
 
                     // Reload the modules
                     mw.reload_module('newsletter/templates_list')

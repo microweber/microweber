@@ -755,7 +755,7 @@ if ($action == 'posts') {
                                         }
                                         $.post(url, obj, function () {
                                             mw.reload_module('#mw_page_layout_preview');
-                                            mw.notification.success('<?php _e("Changes are saved"); ?>')
+                                            mw.notification.success('<?php _ejs("Changes are saved"); ?>')
                                         });
                                     });
                                     $(pagesTree).on("ready", function(){

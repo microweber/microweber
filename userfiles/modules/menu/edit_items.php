@@ -83,7 +83,7 @@ if( $id != 0){
                     $.post("<?php print api_link('content/menu_items_reorder'); ?>", obj,function(msg){
 
                         if(mw.notification != undefined){
-                            mw.notification.success('<?php _e("Menu changes are saved"); ?>');
+                            mw.notification.success('<?php _ejs("Menu changes are saved"); ?>');
                         }
                         mw.menu_admin.after_save_item();
 

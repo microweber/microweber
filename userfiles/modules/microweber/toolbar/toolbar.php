@@ -81,7 +81,7 @@ if (isset($_COOKIE['mw_exp'])) {
             });
             $(window).bind('saveEnd', function () {
                 mw.$("#main-save-btn").html('<?php _e("Save"); ?>');
-                mw.notification.success('<?php _e("All changes are saved"); ?>.')
+                mw.notification.success('<?php _ejs("All changes are saved"); ?>.')
             });
 
 

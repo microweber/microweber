@@ -52,7 +52,7 @@ if (isset($params['id'])) {
 		            data: data,
 		            success: function (result) {
 			            
-		                mw.notification.success('<?php _e('Subscriber saved'); ?>');
+		                mw.notification.success('<?php _ejs('Subscriber saved'); ?>');
 		
 		                // Remove modal
 		                if (typeof(edit_subscriber_modal) != 'undefined' && edit_subscriber_modal.modal) {
@@ -70,7 +70,7 @@ if (isset($params['id'])) {
 		        });
 	        } else {
 		        console.log(errors);
-	       		mw.notification.error('<?php _e('Please fill correct data.'); ?>');
+	       		mw.notification.error('<?php _ejs('Please fill correct data.'); ?>');
 	        }
 		});
 		

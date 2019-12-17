@@ -2,10 +2,10 @@
 <script type="text/javascript">
     $(document).ready(function () {
         mw.options.form('.<?php print $config['module_class'] ?>,.mw_adm_cont_head_change_holder', function () {
-            mw.notification.success("<?php _e("Advanced settings updated"); ?>.");
+            mw.notification.success("<?php _ejs("Advanced settings updated"); ?>.");
         });
         mw.options.form('.<?php print $config['module_class'] ?>,.mw_adm_robots_txt_change_holder', function () {
-            mw.notification.success("<?php _e("Advanced settings updated"); ?>.");
+            mw.notification.success("<?php _ejs("Advanced settings updated"); ?>.");
         });
     });
 
@@ -30,11 +30,11 @@
 
     function clearMwCache() {
         mw.clear_cache();
-        mw.notification.success("<?php _e("The cache was cleared"); ?>.");
+        mw.notification.success("<?php _ejs("The cache was cleared"); ?>.");
     }
     function reloadMwDB() {
         api('mw_post_update');
-        mw.notification.success("<?php _e("The DB was reloaded"); ?>.");
+        mw.notification.success("<?php _ejs("The DB was reloaded"); ?>.");
     }
 
 </script>

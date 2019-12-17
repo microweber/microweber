@@ -67,6 +67,27 @@ function _e($k, $to_return = false)
     return mw()->lang_helper->e($k, $to_return);
 }
 
+/**
+ * Prints a string in the current language for javascript.
+ *
+ * @example
+ * <code>
+ *   //print something in the user language
+ *  _e('Pages');
+ * </code>
+ * @example
+ * <code>
+ *   //get a string in the user language
+ *  $pages_string = _e('Pages',1);
+ * print $pages_string;
+ * </code>
+ *
+ * @use current_lang()
+ */
+function _ejs($k, $to_return = false)
+{
+    return mw()->lang_helper->ejs($k, $to_return);
+}
 
 /**
  * Get all available languages as array.

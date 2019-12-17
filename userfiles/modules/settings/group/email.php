@@ -14,7 +14,7 @@ function saveEmailOptions(notification) {
 	});
 	
 	if (notification) {
-		mw.notification.success("<?php _e("Email settings are saved"); ?>.");
+		mw.notification.success("<?php _ejs("Email settings are saved"); ?>.");
 	}
 
 	mw.reload_module("<?php print $config['module'] ?>");
@@ -30,7 +30,7 @@ $(document).ready(function(){
 /*
 $(document).ready(function(){
     mw.options.form(".<?php print $config['module_class'] ?>", function () {
-        mw.notification.success("<?php _e("Email settings are saved"); ?>.");
+        mw.notification.success("<?php _ejs("Email settings are saved"); ?>.");
         mw.reload_module("<?php print $config['module'] ?>");
     });
 });

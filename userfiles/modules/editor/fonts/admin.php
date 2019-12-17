@@ -11,7 +11,7 @@
 
 
                 if (mw.notification != undefined) {
-                    mw.notification.success('<?php _e('Fonts updated'); ?>');
+                    mw.notification.success('<?php _ejs('Fonts updated'); ?>');
                 }
 
 

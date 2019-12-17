@@ -55,7 +55,7 @@ mw.$("#pop-up-login").submit(function(){
 			 if(typeof this.success === 'string'){
 				 mw.$("#session_modal").remove();
                  mw.$(".mw_overlay").remove();
-                 mw.notification.success("<?php _e("You are now logged in"); ?>.");
+                 mw.notification.success("<?php _ejs("You are now logged in"); ?>.");
                  return false;
 			 }
              mw.notification.msg(this, 5000);

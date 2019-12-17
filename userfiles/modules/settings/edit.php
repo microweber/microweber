@@ -51,7 +51,7 @@ $(document).ready(function(){
 	  
       <?php else : ?> 
  mw.options.form('#opt_form_{rand}', function(){
-      mw.notification.success("<?php _e("All changes are saved"); ?>.");
+      mw.notification.success("<?php _ejs("All changes are saved"); ?>.");
     });
       <?php endif; ?> 
 });

@@ -154,7 +154,7 @@ if (array_key_exists('types', $_GET)) {
 
             parent.mw.tools.modal.remove('mw_rte_image');
 
-            mw.notification.success('<?php _e('The image is changed') ?>');
+            mw.notification.success('<?php _ejs('The image is changed') ?>');
 
 
         });
