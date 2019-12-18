@@ -52,7 +52,7 @@ if (isset($params['id'])) {
 		            data: data,
 		            success: function (result) {
 			            
-		                mw.notification.success('<?php _e('Sender saved'); ?>');
+		                mw.notification.success('<?php _ejs('Sender saved'); ?>');
 		
 		                // Remove modal
 		                if (typeof(edit_campaign_modal) != 'undefined' && edit_campaign_modal.modal) {
@@ -69,7 +69,7 @@ if (isset($params['id'])) {
 					}
 		        });
 	        } else {
-	       		mw.notification.error('<?php _e('Please fill correct data.'); ?>');
+	       		mw.notification.error('<?php _ejs('Please fill correct data.'); ?>');
 	        }
 		});
 		

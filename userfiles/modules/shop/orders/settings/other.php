@@ -1,7 +1,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         mw.options.form('.<?php print $config['module_class'] ?>', function () {
-            mw.notification.success("<?php _e("Saved"); ?>.");
+            mw.notification.success("<?php _ejs("Saved"); ?>.");
         });
     });
 </script>

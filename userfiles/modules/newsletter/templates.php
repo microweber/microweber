@@ -12,7 +12,7 @@
 		var data = {};
 		data.id = id;
 
-		mw.notification.success('<?php _e('Loading...'); ?>');
+		mw.notification.success('<?php _ejs('Loading...'); ?>');
 
 		if (data.id > 0) {
     		 $.ajax({
@@ -41,7 +41,7 @@
 	}
     
     function delete_template(id) {
-        var ask = confirm("<?php _e('Are you sure you want to delete this template?'); ?>");
+        var ask = confirm("<?php _ejs('Are you sure you want to delete this template?'); ?>");
         if (ask == true) {
             var data = {};
             data.id = id;
@@ -50,7 +50,7 @@
                 type: 'POST',
                 data: data,
                 success: function (result) {
-                    mw.notification.success('<?php _e('Template deleted'); ?>');
+                    mw.notification.success('<?php _ejs('Template deleted'); ?>');
 
 					// Back to old templates
                     list_templates();

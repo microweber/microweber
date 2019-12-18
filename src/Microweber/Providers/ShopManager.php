@@ -410,6 +410,10 @@ class ShopManager
 
     public function currency_format($amount, $curr = false)
     {
+        if(is_array($amount)){
+            return;
+        }
+
         if ($curr == false) {
             $curr = $this->app->option_manager->get('currency', 'payments');
         }

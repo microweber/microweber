@@ -107,7 +107,7 @@
             <?php endif; ?>
         }
         if (mw.notification != undefined) {
-            mw.notification.success('<?php _e('Content saved!'); ?>');
+            mw.notification.success('<?php _ejs('Content saved!'); ?>');
         }
         if (parent !== self && !!parent.mw) {
 
@@ -306,7 +306,7 @@
                 $(window).trigger('adminSaveFailed');
                 module.removeClass('loading');
                 if (typeof this.title !== 'undefined') {
-                    mw.notification.error('<?php _e('Please enter title'); ?>');
+                    mw.notification.error('<?php _ejs('Please enter title'); ?>');
 
                     $('#content-title-field-row').animate({
                         backgroundColor: "red"
@@ -318,7 +318,7 @@
 
                 }
                 if (typeof this.content !== 'undefined') {
-                    mw.notification.error('<?php _e('Please enter content'); ?>');
+                    mw.notification.error('<?php _ejs('Please enter content'); ?>');
                 }
                 if (typeof this.error !== 'undefined') {
                     mw.session.checkPause = false;

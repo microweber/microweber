@@ -13,7 +13,7 @@
     $(document).ready(function () {
 
         mw.options.form('.<?php print $config['module_class'] ?>', function () {
-            mw.notification.success("<?php _e("All changes are saved"); ?>.");
+            mw.notification.success("<?php _ejs("All changes are saved"); ?>.");
         });
     });
 </script>
@@ -40,7 +40,7 @@
         function mw_set_default_template() {
             var el1 = mw.$('.mw-site-theme-selector').find("[name='<?php print  $data['option_key']; ?>']")[0];
             mw.options.save(el1, function () {
-                mw.notification.success("<?php _e("Template settings are saved"); ?>.");
+                mw.notification.success("<?php _ejs("Template settings are saved"); ?>.");
             });
         }
 

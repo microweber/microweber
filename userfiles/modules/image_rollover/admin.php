@@ -111,7 +111,7 @@ if ($size == false or $size == '') {
             onload: function () {
                 this.iframe.contentWindow.mw.on.hashParam('select-file', function () {
                     mw_admin_image_rollover_upload_browse_existing_modal.hide();
-                    mw.notification.success('<?php _e('Image selected') ?>');
+                    mw.notification.success('<?php _ejs('Image selected') ?>');
                     if (rollover) {
                         setNewImageRollover(this);
                     } else {

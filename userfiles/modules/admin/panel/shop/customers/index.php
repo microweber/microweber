@@ -4,10 +4,10 @@ only_admin_access();
 ?>
 <script  type="text/javascript">
 function mw_delete_shop_client($email){
-	 var r=confirm("<?php _e("Are you sure you want to delete this client"); ?>?");
+	 var r=confirm("<?php _ejs("Are you sure you want to delete this client"); ?>?");
 if (r==true){
 
-  var r1=confirm("<?php _e("ATTENTION"); ?>!!!!!!\n<?php _e("ALL ORDERS FROM THIS CLIENT WILL BE DELETED"); ?>!\n\n<?php _e("CLICK CANCEL NOW"); ?>\n<?php _e("OR"); ?>\n<?php _e("THERE IS NO TURNING BACK"); ?>!")
+  var r1=confirm("<?php _ejs("ATTENTION"); ?>!!!!!!\n<?php _ejs("ALL ORDERS FROM THIS CLIENT WILL BE DELETED"); ?>!\n\n<?php _ejs("CLICK CANCEL NOW"); ?>\n<?php _ejs("OR"); ?>\n<?php _ejs("THERE IS NO TURNING BACK"); ?>!")
 if (r1==true){
 	 $.post("<?php print api_link('delete_client') ?>", { email: $email } ,function(data) {
 		mw.reload_module('shop/orders/clients');

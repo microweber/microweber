@@ -53,7 +53,7 @@
             $('#form_<?php print $rand; ?>').submit(function () {
 
                 if (this.elements["admin_password"].value != this.elements["admin_password2"].value) {
-                    alert("<?php _e("Passwords don't match."); ?>");
+                    alert("<?php _ejs("Passwords don't match."); ?>");
                     return false;
                 }
                 $('#mw_log').hide();

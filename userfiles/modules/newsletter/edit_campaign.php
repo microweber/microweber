@@ -57,7 +57,7 @@ $senders = newsletter_get_senders($senders_params);
 		            data: data,
 		            success: function (result) {
 			            
-		                mw.notification.success('<?php _e('Campaign saved'); ?>');
+		                mw.notification.success('<?php _ejs('Campaign saved'); ?>');
 		
 		                // Remove modal
 		                if (typeof(edit_campaign_modal) != 'undefined' && edit_campaign_modal.modal) {
@@ -74,7 +74,7 @@ $senders = newsletter_get_senders($senders_params);
 					}
 		        });
 	        } else {
-	       		mw.notification.error('<?php _e('Please fill correct data.'); ?>');
+	       		mw.notification.error('<?php _ejs('Please fill correct data.'); ?>');
 	        }
 		});
 		

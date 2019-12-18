@@ -1299,12 +1299,34 @@ class FieldsManager
     public function get_template_name($data)
     {
         $template_name = false;
+        $template_from_option = false;
+        $template_from_html_option = false;
 
         if (isset($data['params']['id'])) {
-            $template_name = get_option('data-template', $data['params']['id']);
-        } else {
-            $template_name = get_option('data-template', $data['id']);
+            if (get_option('data-template', $data['params']['id'])) {
+                $template_from_option = get_option('data-template', $data['params']['id']);
+            }
         }
+
+        if (isset($data['id'])) {
+            if (get_option('data-template', $data['id'])) {
+                $template_from_option = get_option('data-template', $data['id']);
+            }
+        }
+
+        if (isset($data['params']['template']) && $data['params']['template']) {
+            $template_from_html_option = $data['params']['template'];
+        }
+
+        // Get from html option
+        if (!$template_from_option && $template_from_html_option) {
+            $template_name = $template_from_html_option;
+        }
+
+        if ($template_from_option) {
+            $template_name = $template_from_option;
+        }
+
         if ($template_name) {
             $template_name_exp = explode('/', $template_name);
             if (!empty($template_name_exp[0])) {

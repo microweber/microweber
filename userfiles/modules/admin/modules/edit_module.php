@@ -37,7 +37,7 @@ if ($id != false) {
             mw.$('#module_uninstall_<?php print $params['id']; ?>').click(function () {
 
 
-                var r = confirm("<?php _e('Are you sure you want to UNINSTALL this module?'); ?>");
+                var r = confirm("<?php _ejs('Are you sure you want to UNINSTALL this module?'); ?>");
                 if (r == true) {
 
                     var for_module = {}

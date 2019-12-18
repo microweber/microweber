@@ -41,7 +41,7 @@ Import
             	});
 
                 $(uploader).bind('error', function(up, file) {
-                   mw.notification.error("<?php _e("The file must be"); ?> xml, sql, csv or zip.");
+                   mw.notification.error("<?php _ejs("The file must be"); ?> xml, sql, csv or zip.");
 
             	});
 

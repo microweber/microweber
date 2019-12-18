@@ -187,17 +187,7 @@ class Files
         }
 
         if (!empty($arrayItems_search)) {
-            if (isset($params['sort_by']) and strval($params['sort_by']) != '') {
-                if (isset($params['sort_order']) and strval($params['sort_order']) != '') {
-                    $ord = SORT_DESC;
-                    if (strtolower($params['sort_order']) == 'asc') {
-                        $ord = SORT_ASC;
-                    }
-
-                    array_multisort(array_map($params['sort_by'], $arrayItems_search), SORT_NUMERIC, $ord, $arrayItems_search);
-                    //	d($arrayItems_search);
-                }
-            }
+//
             //usort($myarray, create_function('$a,$b', 'return filemtime($a) - filemtime($b);'));
 
             $arrayItems_f = array();
@@ -249,9 +239,37 @@ class Files
             */
 
 
+
+
+
+
+            if (isset($params['sort_by']) and strval($params['sort_by']) != '') {
+                if (!isset($params['sort_order'])) {
+                    $sort_params = explode(' ', $params['sort_by']);
+                    if(isset($sort_params[1])){
+                        $params['sort_by'] =$sort_params[0];
+                        $params['sort_order'] =$sort_params[1];
+                    }
+                }
+
+
+                if (isset($params['sort_order']) and strval($params['sort_order']) != '') {
+                    $ord = SORT_DESC;
+                    if (strtolower($params['sort_order']) == 'asc') {
+                        $ord = SORT_ASC;
+                    }
+
+                    //d($arrayItems_search);
+                    array_multisort(array_map($params['sort_by'], $arrayItems_f), SORT_NUMERIC, $ord, $arrayItems_f);
+                 }
+            }
+
             $arrayItems['files'] = $arrayItems_f;
             $arrayItems['dirs'] = $arrayItems_d;
         }
+
+
+
 
         return $arrayItems;
     }

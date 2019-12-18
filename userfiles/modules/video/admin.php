@@ -40,7 +40,7 @@
         all.push(upThumb);
 
         all.on("error", function () {
-            mw.notification.warning("<?php _e("Unsupported format"); ?>.")
+            mw.notification.warning("<?php _ejs("Unsupported format"); ?>.")
         });
 
         $(upVideo).on("FileUploaded", function (a, b) {
@@ -69,7 +69,7 @@
         });
 
         all.on("FileUploaded", function (a, b) {
-            mw.notification.success("<?php _e("File Uploaded"); ?>");
+            mw.notification.success("<?php _ejs("File Uploaded"); ?>");
 
             $(status).hide();
         });

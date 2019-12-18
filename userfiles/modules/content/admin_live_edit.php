@@ -231,13 +231,13 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
     }
 
     mw.delete_content_live_edit = function (a, callback) {
-        mw.tools.confirm("<?php _e("Do you want to delete this post"); ?>?", function () {
+        mw.tools.confirm("<?php _ejs("Do you want to delete this post"); ?>?", function () {
             var arr = $.isArray(a) ? a : [a];
             var obj = {ids: arr}
             $.post(mw.settings.site_url + "api/content/delete", obj, function (data) {
                 typeof callback === 'function' ? callback.call(data) : '';
                 $('.manage-post-item-' + a).fadeOut();
-                mw.notification.warning("<?php _e('Content was sent to Trash'); ?>.");
+                mw.notification.warning("<?php _ejs('Content was sent to Trash'); ?>.");
                 mw.reload_module_parent('posts')
                 mw.reload_module_parent('shop/products')
                 mw.reload_module_parent('content')

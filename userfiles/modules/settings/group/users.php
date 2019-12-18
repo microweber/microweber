@@ -59,7 +59,7 @@ if ($registration_approval_required == false) {
     $(document).ready(function () {
 
         mw.options.form('.<?php print $config['module_class'] ?>', function () {
-            mw.notification.success("<?php _e("User settings updated"); ?>.");
+            mw.notification.success("<?php _ejs("User settings updated"); ?>.");
         });
 
         mw.$('.optional-fields .mw-ui-check').bind('click', function () {

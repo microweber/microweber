@@ -51,7 +51,7 @@ if (!empty($template_config)) {
                         <?php if ($type == 'textarea') { ?>
                             <textarea name="data_<?php print $name; ?>" class="mw-ui-field w100" placeholder="<?php print $default_value ?>"><?php print $value ?></textarea>
                         <?php } else if ($type == 'color') { ?>
-                            <input name="data_<?php print $name; ?>" class="mw-ui-field mw-ui-color-picker w100" type="text" placeholder="<?php print $default_value ?>" value="<?php print $value ?>">
+                        <input name="data_<?php print $name; ?>" class="mw-ui-field mw-ui-color-picker w100" type="text" placeholder="<?php print $default_value ?>" value="<?php print $value ?>">
                         <?php } else if ($type == 'select') { ?>
                             <select name="data_<?php print $name; ?>" class="mw-ui-field w100" placeholder="<?php print $default_value ?>">
                                 <?php if ($select_options): ?>
@@ -60,8 +60,42 @@ if (!empty($template_config)) {
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </select>
+                        <?php } else if ($type == 'upload') { ?>
+                        <input name="data_<?php print $name; ?>" class="mw-ui-field w100" type="text" placeholder="<?php print $default_value ?>" value="<?php print $value ?>">
+
+                            <script type="text/javascript">
+
+                                $(document).ready(function () {
+
+                                    var uploader = mw.uploader({
+                                        filetypes: "images",
+                                        multiple: false,
+                                        element: "#data_<?php print $name; ?>"
+                                    });
+
+                                    $(uploader).bind("FileUploaded", function (event, data) {
+                                        mw.$("#data_<?php print $name; ?>_loading").hide();
+                                        mw.$("#data_<?php print $name; ?>").show();
+                                        mw.$("#data_<?php print $name; ?>_upload_info").html("");
+//                                        alert(data.src);
+                                        mw.$('input[name="data_<?php print $name; ?>"]').val(data.src);
+                                    });
+
+                                    $(uploader).bind('progress', function (up, file) {
+                                        mw.$("#data_<?php print $name; ?>").hide();
+                                        mw.$("#data_<?php print $name; ?>_loading").show();
+                                        mw.$("#data_<?php print $name; ?>_upload_info").html(file.percent + "%");
+                                    });
+
+                                    $(uploader).bind('error', function (up, file) {
+                                        mw.notification.error("The file is not uploaded.");
+                                    });
+
+                                });
+                            </script>
+                            <span id="data_<?php print $name; ?>" class="mw-ui-btn"><span class="ico iupload"></span><span>Upload file<span id="data_<?php print $name; ?>_upload_info"></span></span></span>
                         <?php } else { ?>
-                            <input name="data_<?php print $name; ?>" class="mw-ui-field w100" type="text" placeholder="<?php print $default_value ?>" value="<?php print $value ?>">
+                        <input name="data_<?php print $name; ?>" class="mw-ui-field w100" type="text" placeholder="<?php print $default_value ?>" value="<?php print $value ?>">
                         <?php } ?>
                     </div>
                 <?php endforeach; ?>
