@@ -136,13 +136,17 @@ mw.instruments = {
         };
         var settings = $.extend({}, defaults, config);
         var frame, dialog;
+        var url = 'file_picker';
+        if(config.types) {
+            url += '?types=' + config.types
+        }
         if(settings.mode === 'inline'){
             frame = this._create({
-                url: 'file_picker'
+                url: url
             });
         } else if(settings.mode === 'dialog') {
             dialog = mw.dialogIframe({
-                url:' file_picker',
+                url:url,
                 height: 'auto',
                 autoHeight: true
             });

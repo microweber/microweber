@@ -1,21 +1,21 @@
 mw.tools.createAutoHeight = function() {
     if(window.thismodal && thismodal.iframe) {
-        mw.tools.iframeAutoHeight(thismodal.iframe, 'now');
+        mw.tools.iframeAutoHeight(thismodal.iframe);
     }
     else if(window.top.frameElement && window.top.frameElement.contentWindow === window) {
-        mw.tools.iframeAutoHeight(window.top.frameElement, 'now');
+        mw.tools.iframeAutoHeight(window.top.frameElement);
     } else if(window.top !== window) {
         top.mw.$('iframe').each(function(){
             try{
                 if(this.contentWindow === window) {
-                    mw.tools.iframeAutoHeight(this, 'now');
+                    mw.tools.iframeAutoHeight(this);
                 }
             } catch(e){}
         })
     }
 };
 
-mw.tools.iframeAutoHeight = function(frame){
+mw.tools.iframeAutoHeight = function(frame, opt){
 
     frame = mw.$(frame)[0];
     if(!frame) return;
@@ -37,8 +37,9 @@ mw.tools.iframeAutoHeight = function(frame){
             }
 
         }
-
     };
+
+
 
     setTimeout(function(){
         insertDetector();
@@ -68,6 +69,7 @@ mw.tools.iframeAutoHeight = function(frame){
             //calc = Math.max(calc, mw.tools.nestedFramesHeight(frame));
             frame._currHeight = frame._currHeight || 0;
             if(calc && calc !== frame._currHeight ){
+
                 frame._currHeight = calc;
                 frame.style.height = calc + 'px';
                 mw.$(frame).trigger('bodyResize');

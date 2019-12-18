@@ -139,7 +139,7 @@ if (array_key_exists('types', $_GET)) {
             nav: selector,
             tabs: '.tab',
             onclick: function (tab, e, i) {
-                if (this.id == 'browseTab') {
+                if (this.id === 'browseTab') {
 
                     if (!window.fileBrowserLoaded) {
                         window.fileBrowserLoaded = true;

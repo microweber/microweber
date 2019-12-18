@@ -82,7 +82,7 @@ Alert = mw.tools.alert;
 
 Array.prototype.remove = Array.prototype.remove || function (what) {
     var i = 0, l = this.length;
-    for (; i < l; i++) {
+    for ( ; i < l; i++) {
         this[i] === what ? this.splice(i, 1) : '';
     }
 };
@@ -158,13 +158,7 @@ mw.uploader = function (o) {
     }
     return uploader;
 };
-mw.dropdown = mw.tools.dropdown;
-mw.confirm = mw.tools.confirm;
-mw.tabs = mw.tools.tabGroup;
-mw.progress = mw.tools.progress;
-mw.external = function (o) {
-    return mw.tools._external(o);
-};
+
 mw.fileWindow = function (config) {
     config = config || {};
     var url = config.types ? ("rte_image_editor?types=" + config.types + '#fileWindow') : ("rte_image_editor#fileWindow");

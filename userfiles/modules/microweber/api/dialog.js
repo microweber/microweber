@@ -69,7 +69,7 @@
             var frame = dialog.dialogContainer.querySelector('iframe');
             frame.style.minHeight = 0; // reset in case of conflicts
             if (options.autoHeight) {
-                mw.tools.iframeAutoHeight(frame);
+                mw.tools.iframeAutoHeight(frame, {dialog: dialog});
             } else{
                 $(frame).height(options.height - 60);
                 frame.style.position = 'relative';
@@ -84,7 +84,7 @@
                     dialog.dialogMain.classList.remove('mw-dialog-iframe-loading');
                     frame.contentWindow.thismodal = dialog;
                     if (options.autoHeight) {
-                        mw.tools.iframeAutoHeight(frame, 'now');
+                        mw.tools.iframeAutoHeight(frame, {dialog: dialog});
                     }
                 }, 78);
                 if (mw.tools.canAccessIFrame(frame)) {
@@ -566,5 +566,29 @@
 
 
 })(window.mw);
+
+
+(function () {
+    function scoped() {
+        var all = document.querySelectorAll('style[scoped]'), i = 0;
+        for( ; i < all.length; i++ ) {
+            var parent = all[i].parentNode;
+            parent.id = parent.id || mw.id('scoped-id-');
+            var prefix = '#' + parent.id + ' ';
+            var rules = all[i].sheet.rules;
+            var r = 0;
+            for ( ; r < rules.length; r++) {
+                var newRule = prefix + rules[r].cssText;
+                all[i].sheet.deleteRule(r);
+                all[i].sheet.insertRule(newRule, r);
+            }
+            all[i].removeAttribute('scoped');
+        }
+    }
+    scoped();
+    $(window).on('load', function () {
+        scoped();
+    });
+})();
 
 

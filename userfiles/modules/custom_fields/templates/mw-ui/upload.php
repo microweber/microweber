@@ -20,9 +20,9 @@
         <span class="mw-icon-upload"></span>&nbsp; <?php _e("Browse"); ?>
         </span>
         <input type="hidden" class="mw-ui-invisible-field" id="file_name<?php echo $data["name"]; ?>" autocomplete="off"  />
-        
+
          <input type="hidden" <?php if ($settings['required']){ ?> required <?php } ?> class="mw-ui-invisible-field" id="uploaded_file_src<?php echo($rand); ?>" name="<?php echo $data["name"]; ?>" autocomplete="off"  />
-         
+
          <span class="ellipsis" id="val_<?php echo $rand; ?>" style="font-size: small; opacity: 0.66; max-width: 200px; margin-left: 12px;"></span>
 
       </div>
@@ -33,9 +33,8 @@
 
 <div class="alert alert-error" id="upload_err<?php echo($rand); ?>"  style="display:none;"> </div>
 <script>
-    mw.require('tools.js');
     mw.require('files.js');
-</script> 
+</script>
 <script>
 formHasUploader = true;
 
@@ -58,8 +57,8 @@ var local_id = '<?php echo($rand); ?>';
 
     $(<?php echo $up; ?>).bind('progress', function(frame, file){
         mw.$("#upload_progress_"+local_id+" .bar").width(file.percent + '%')
-        mw.$("#upload_progress_"+local_id).show();  
-		
+        mw.$("#upload_progress_"+local_id).show();
+
 	    mw.log(file)
     });
 

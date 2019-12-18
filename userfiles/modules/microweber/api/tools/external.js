@@ -21,7 +21,7 @@
             frame.frameBorder = 0;
             frame.onload = function () {
                 frame.contentWindow.thisframe = frame;
-            }
+            };
             return frame;
         },
         init: function (name, callback, holder, params) {
@@ -52,4 +52,98 @@
 
     mw.tools._external = function (o) {
         return mw.tools.external(o.name, o.callback, o.holder, o.params);
+    };
+
+    mw.component = function (options) {
+        return new mw.Component(options);
+    };
+
+    mw.Component = function (options) {
+
+        options = options || {};
+        var scope = this;
+
+        var defaults = {
+            mode: 'iframe',
+            value: null,
+            options: {},
+            title: mw.lang('Settings')
+        };
+
+        this.settings = $.extend({}, defaults, options);
+
+        this.value = function (data) {
+          if(typeof data === 'undefined'){
+              return this._value;
+          }
+          this._value = data;
+          mw.tools[!!scope.value() ? 'removeClass' : 'addClass'](scope.btnok, 'disabled');
+
+          if(this.container
+              && this.container.contentWindow
+              && this.container.contentWindow.mw
+              && this.container.contentWindow.mw.ComponentInput){
+              this.container.contentWindow.mw.ComponentInput(data);
+          }
+        };
+
+        this.config = function (options) {
+            if(this.container
+                && this.container.contentWindow
+                && this.container.contentWindow.mw
+                && this.container.contentWindow.mw.ComponentConfig){
+                this.container.contentWindow.mw.ComponentConfig(options);
+            }
+        };
+
+        if(!this.settings.url) {
+            return;
+        }
+
+        this.createIframe = function () {
+            if(this.settings.mode === 'iframe') {
+                this.container = document.createElement('iframe');
+                this.container.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+                this.container.allowFullscreen = true;
+                this.container.scrolling = "no";
+                this.container.width = "100%";
+                this.container.frameBorder = "0";
+                this.container.src = mw.external_tool(this.settings.url);
+                this.container.onload = function () {
+                    scope.config(scope.settings.options);
+                    scope.value(scope.settings.value);
+                    if(this.contentWindow.mw && this.contentWindow.mw.trigger){
+                        this.contentWindow.mw.ComponentOutput = function(data) {
+                            console.log(data)
+                            scope._value = data;
+                            mw.tools[!!scope.value() ? 'removeClass' : 'addClass'](scope.btnok, 'disabled');
+                            $(scope).trigger('ValueChange', data);
+                        };
+                        this.contentWindow.mw.trigger('ComponentReady');
+                    }
+                };
+                mw.tools.iframeAutoHeight(this.container);
+            }
+        };
+
+
+        this.create = function () {
+            if(this.settings.mode === 'iframe') {
+                this.createIframe();
+            }
+            var footer = document.createElement('div');
+            scope.btnok = document.createElement('span');
+            var cancel = document.createElement('span');
+            scope.btnok.className = 'mw-ui-btn mw-ui-btn-medium mw-ui-btn-info';
+            scope.btnok.innerHTML = mw.lang('OK');
+            mw.tools.addClass(scope.btnok, 'disabled');
+            cancel.innerHTML = mw.lang('Cancel');
+            cancel.className = 'mw-ui-btn mw-ui-btn-medium';
+            footer.appendChild(cancel);
+            footer.appendChild(scope.btnok);
+            this.dialog = mw.top().dialog({ width: 700, footer: footer, title: this.settings.title });
+            this.dialog.dialogContainer.appendChild(this.container);
+        };
+
+        this.create();
     };

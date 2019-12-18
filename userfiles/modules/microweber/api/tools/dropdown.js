@@ -1,5 +1,5 @@
-mw.tools.dropdown: function (root) {
-    var root = root || mwd.body;
+mw.tools.dropdown = function (root) {
+    root = root || mwd.body;
     if (root === null) {
         return;
     }

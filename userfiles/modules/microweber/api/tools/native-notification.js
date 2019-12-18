@@ -1,4 +1,4 @@
-mw.tools.notification: function (body, tag, icon) {
+mw.tools.notification = function (body, tag, icon) {
     if (!body) return;
     var n = window.Notification || window.webkitNotification || window.mozNotification;
     if (typeof n == 'undefined') {

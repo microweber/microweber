@@ -85,7 +85,17 @@ mw.liveedit.widgets = {
         };
         this.create = function () {
             if(this.settings.mode === 'dialog') {
-                var footer = $('<div>some footer</div>');
+                var footer = $('<div></div>');
+                var ok = $('<span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info">' + mw.lang('OK') + '</span>');
+                var cancel = $('<span class="mw-ui-btn mw-ui-btn-medium">' + mw.lang('Cancel') + '</span>');
+                footer.append(cancel);
+                footer.append(ok);
+                cancel.on('click', function () {
+                    scope.dialog.remove();
+                });
+                ok.on('click', function () {
+                    scope.dialog.remove();
+                });
                 scope.dialog = mw.dialogIframe({
                     url: mw.external_tool('link_editor_v2'),
                     autoHeight: true,

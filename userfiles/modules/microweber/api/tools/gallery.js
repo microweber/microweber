@@ -256,9 +256,6 @@
             }
         }
 
-    }
-    mw.tools.gallery = gallery;
-    mw.gallery = function (arr, start, modal) {
-        return mw.tools.gallery.init(arr, start, modal)
     };
+    mw.tools.gallery = gallery;
 })();

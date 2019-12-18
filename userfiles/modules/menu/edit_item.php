@@ -250,10 +250,22 @@ if ($id != 0) {
 //         })
         $('.change-url-box .mw-ui-btn, .change-url-box input').on('click', function(){
             var scope = this;
-            var link = mw.top().instruments.link({
+            /*var link = mw.top().instruments.link({
                 mode: 'dialog'
-            });
-            link.handler.on('change', function(e, url, target, name, data){
+            });*/
+
+            //link.handler.on('change', function(e, url, target, name, data){
+            var picker = mw.component({url: 'link_editor_v2'});
+            $(picker).on('ValueChange', function(e, ldata){
+                console.log(ldata)
+                if(!ldata) {
+                    return
+                }
+                var url = ldata.url,
+                    target = ldata.target,
+                    name = ldata.text,
+                    data = ldata.object;
+
                 if(scope.nodeName === 'INPUT'){
                     scope.value = url;
                     $(scope).trigger('change')
@@ -274,11 +286,13 @@ if ($id != 0) {
                         field.trigger('change')
                     }
                 }
-                link.dialog.remove();
-            })
-            $(link.frame).on('load', function () {
+                //link.dialog.remove();
+            });
+
+            //})
+            /*$(link.frame).on('load', function () {
                 $('#customweburl_text_field_holder', this.contentWindow.document).hide()
-            })
+            })*/
         })
     })
 </script>

@@ -1,11 +1,58 @@
 <script>
     mw.require("forms.js");
     mw.require("files.js");
-    mw.require("tools.js");
     mw.require("instruments.js");
 </script>
 
 <script>
+    var currentValue = {};
+
+    mw.ComponentInput = function (data) {
+        currentValue = data;
+        if(data && data.targetBlank) {
+            $('#url_target').attr('checked', data.targetBlank);
+        }
+        if(data && data.text) {
+            mw.$('#link-text').val(data.text);
+        }
+        if(data && data.url) {
+            mw.$('#customweburl').val(data.url);
+        }
+
+    };
+
+    function Output(data) {
+        var val = $.extend({}, currentValue, data);
+        currentValue = val;
+        if(data.text) {
+            mw.$('#link-text').val(data.text);
+        }
+        if(mw.ComponentOutput) {
+            mw.ComponentOutput(data.url ? val : null);
+        }
+    }
+
+    mw.ComponentConfig = function (options) {
+        if(options.controllers){
+            var all = mw.$('.mw-ui-btn-vertical-nav [data-ctype]').hide();
+            options.controllers = options.controllers.split(',');
+            $.each(options.controllers, function () {
+                all.filter('[data-ctype="'+this.trim()+'"]').show();
+            });
+            all.filter(':visible:first').click();
+        }
+    };
+
+    var defaults = {
+        // controllers: 'page, custom, content, file, email, section, layout'
+        controllers: 'page, custom, content, file, section, layout'
+
+    };
+
+
+    mw.on('ComponentReady', function () {
+        mw.ComponentConfig(defaults)
+    });
 
 
     var _created = false;
@@ -13,12 +60,17 @@
         if(!_created){
             _created = true;
             var filepicker = mw.instruments.file({
-                mode: 'inline'
+                mode: 'inline',
+                types: 'files'
             });
             mw.$('#file_section').append(filepicker.frame);
             filepicker.handler.on('change', function (e, url) {
                 var filename = url.split('/').pop();
-                setACValue(url, '_self', filename)
+                delete currentValue.object;
+                Output({
+                    url: url,
+                    text: filename
+                });
             })
         }
     };
@@ -46,7 +98,11 @@
                         var li = document.createElement('li');
                         li.className = 'mw-dd-list-result';
                         li.onclick = function (ev) {
-                            setACValue(obj.url, '_self', obj.title, obj)
+                            Output({
+                                url: obj.url,
+                                text: obj.title,
+                                object: obj
+                            });
                         };
                         li.innerHTML = "<a href='javascript:;'>" + obj.title + "</a>";
                         return li;
@@ -65,40 +121,19 @@
         });
     };
 
-    setACValue = function () {
-        mw.instrumentData.handler.trigger('change', Array.prototype.slice.call(arguments));
-    };
-
     $(document).ready(function () {
 
         mw.tools.dropdown();
 
         dd_autocomplete('#dd_pages_search');
 
-        mw.$("#insert_email").on('click', function () {
-            var val = mwd.getElementById('email_field').value;
-            if (!val.contains('mailto:')) {
-                val = 'mailto:' + val;
-            }
-            setACValue(val);
-            return false;
-        });
-        mw.$("#insert_url").click(function () {
-            var val = mwd.getElementById('customweburl').value;
-            var target = '_self';
-            if (hash === 'insert_link') {
-                if (mwd.getElementById('url_target').checked == true) {
-                    target = '_blank';
-                }
-            }
-            var link_text_val = mwd.getElementById('customweburl_text').value;
-            setACValue(val, target, link_text_val);
 
-            return false;
-        });
+
         $("#insert_from_dropdown").click(function () {
             var val = mw.$("#insert_link_list").getDropdownValue();
-            setACValue(val);
+            Output({
+                url: val
+            });
             return false;
         });
         LinkTabs = mw.tabs({
@@ -116,6 +151,10 @@
 
 <style type="text/css">
 
+    [data-ctype]{
+        display: none;
+    }
+
     #insert_link_list .mw-dropdown-content{
         position: relative;
     }
@@ -125,12 +164,10 @@
     }
 
     #mw-popup-insertlink {
-        overflow:auto;
+        overflow:hidden;
     }
 
-    .mw-ui-row-nodrop, .media-search-holder {
-        margin-bottom: 12px;
-    }
+
     .media-search-holder .mw-dropdown-content { position: relative; }
 
     .mw-ui-box-content {
@@ -141,11 +178,6 @@
         width: 100%;
     }
 
-    #email_field, #customweburl {
-        width: 275px;
-        margin-right: 15px;
-        margin-bottom: 15px;
-    }
 
     #available_elements {
         max-height: 400px;
@@ -178,25 +210,32 @@
 
 
 <div id="mw-popup-insertlink">
-    <div class="mw-ui-field-holder" id="customweburl_text_field_holder" style="display: none">
-        <label class="mw-ui-label"><?php _e("Link text"); ?></label>
-        <textarea type="text" class="mw-ui-field w100" id="customweburl_text" placeholder="Link text"></textarea>
+
+    <div class="mw-ui-field-holder">
+        <div class="mw-field w100" size="large">
+            <input type="text" placeholder="Link text" id="link-text" oninput="Output({text: this.value.trim()})">
+        </div>
     </div>
-    <div class="mw-full-width m-t-20" style="display: none">
-        <label class="mw-ui-check mw-clear"><input type="checkbox" id="url_target"><span></span><span><?php _e("Open link in new window"); ?></span></label>
+    <div class="mw-ui-field-holder">
+        <div class="mw-full-width">
+            <label class="mw-ui-check mw-clear">
+                <input type="checkbox" id="url_target"><span></span><span><?php _e("Open link in new window"); ?></span>
+            </label>
+        </div>
     </div>
+
     <div class="mw-flex-row">
         <div class="mw-flex-col-xs-4 mw-ui-btn-vertical-nav">
-            <a class="mw-ui-btn" href="javascript:;"><?php _e("Page from My Website"); ?></a>
-            <a class="mw-ui-btn" href="javascript:;"><?php _e("Website URL"); ?></a>
-            <a class="mw-ui-btn" href="javascript:;"><?php _e("Post"); ?>, <?php _e("Category"); ?></a>
-            <a class="mw-ui-btn" href="javascript:;"><?php _e("File"); ?></a>
-            <a class="mw-ui-btn" href="javascript:;"><?php _e("Email"); ?></a>
-            <a class="mw-ui-btn available_elements_tab_show_hide_ctrl" href="javascript:;"><?php _e("Page Section"); ?></a>
-            <a class="mw-ui-btn page-layout-btn" style="display: none;" href="javascript:;"><?php _e("Page Layout"); ?></a>
+            <a class="mw-ui-btn" href="javascript:;" data-ctype="page"><?php _e("Page from My Website"); ?></a>
+            <a class="mw-ui-btn" href="javascript:;" data-ctype="custom"><?php _e("Website URL"); ?></a>
+            <a class="mw-ui-btn" href="javascript:;" data-ctype="content"><?php _e("Post"); ?>, <?php _e("Category"); ?></a>
+            <a class="mw-ui-btn" href="javascript:;" data-ctype="file"><?php _e("File"); ?></a>
+            <a class="mw-ui-btn" href="javascript:;" data-ctype="email"><?php _e("Email"); ?></a>
+            <a class="mw-ui-btn available_elements_tab_show_hide_ctrl" href="javascript:;" data-ctype="section"><?php _e("Page Section"); ?></a>
+            <a class="mw-ui-btn page-layout-btn" style="display: none;" href="javascript:;" data-ctype="layout"><?php _e("Page Layout"); ?></a>
         </div>
         <div class="mw-flex-col-xs-8 mw-ui-box mw-ui-box-content" id="tabs">
-            <div class="tab">
+            <div class="tab" data-ctype="page">
                 <?php
                 $unique = uniqid('link-tree-');
                 ?>
@@ -220,7 +259,14 @@
                             });
                             $(pagesTree).on("selectionChange", function(e, selection){
                                 var obj = selection[0];
-                                setACValue(obj.url, '_self', obj.title, obj)
+                                if(obj) {
+                                    Output({
+                                        url: obj.url,
+                                        text: obj.title,
+                                        object: obj
+                                    });
+                                }
+
                             });
                             $(pagesTree).on("ready", function(){
                                 $('#link-tree-search').on('input', function(){
@@ -244,23 +290,25 @@
 
                     mw.$(document).ready(function () {
                         pagesTreeRefresh();
+                        mw.$('#customweburl').on('input', function () {
+                            delete currentValue.object;
+                            Output({
+                                url: this.value.trim()
+                            })
+                        })
                     });
 
                 </script>
             </div>
-            <div class="tab" style="display: block">
+            <div class="tab" style="display: block" data-ctype="custom">
                 <div class="media-search-holder">
-                    <div class="mw-ui-field-holder">
-                        <label class="mw-ui-label"><?php _e("URL"); ?></label>
-                        <input type="text" class="mw-ui-field" id="customweburl" autofocus=""/>
-                        <span class="mw-ui-btn mw-ui-btn-notification" id="insert_url"><?php _e("Insert"); ?></span>
-
+                    <div class="mw-field w100" data-before="URL">
+                        <input type="text" id="customweburl"  placeholder="http://..."/>
                     </div>
-
                 </div>
             </div>
 
-            <div class="tab">
+            <div class="tab" data-ctype="content">
                 <div class="media-search-holder">
                     <div data-value="<?php print site_url(); ?>" id="insert_link_list" class="mw-dropdown mw-dropdown-default active">
                         <input type="text" class="mw-ui-field inactive" id="dd_pages_search" autocomplete="off" placeholder="<?php _e("Click to select"); ?>"/>
@@ -273,18 +321,19 @@
                     </div>
                 </div>
             </div>
-            <div class="tab">
+            <div class="tab" data-ctype="file">
                 <div class="media-search-holder">
                     <div id="file_section"></div>
                 </div>
             </div>
-            <div class="tab">
+            <div class="tab" data-ctype="email">
                 <div class="media-search-holder">
-                    <input type="text" class="mw-ui-field" id="email_field" placeholder="mail@example.com"/>
-                    <span class="mw-ui-btn mw-ui-btn-info right insert_the_link" id="insert_email"><?php _e("Insert"); ?></span>
+                    <div class="mw-field w100" data-before="Email">
+                        <input type="text" class="mw-ui-field" id="email_field" placeholder="mail@example.com"/>
+                    </div>
                 </div>
             </div>
-            <div class="tab available_elements_tab_show_hide_ctrl">
+            <div class="tab available_elements_tab_show_hide_ctrl" data-ctype="section">
 
                 <div id="available_elements"></div>
                 <script>
@@ -297,7 +346,9 @@
                             mw.$('#available_elements').append('<a data-href="#' + this.id + '"><strong>' + this.nodeName + '</strong> - ' + this.textContent + '</a>')
                         });
                         mw.$('#available_elements a').on('click', function () {
-                            setACValue(top.location.href.split('#')[0] + $(this).dataset('href'));
+                            Output({
+                                url: mw.top().win.location.href.split('#')[0] + $(this).dataset('href')
+                            })
                         });
                         if (!available_elements_tab_show_hide_ctrl_counter) {
                             mw.$('.available_elements_tab_show_hide_ctrl').hide();
@@ -305,21 +356,18 @@
                     })
                 </script>
             </div>
-            <div class="tab page-layout-tab">
-                <label class="mw-ui-label"><?php _e('Link text'); ?></label>
-                <div class="mw-field">
+            <div class="tab page-layout-tab" data-ctype="layout">
 
-                    <input type="text" id="ltext">
-                </div>
                 <ul class="mw-ui-box mw-ui-box-content mw-ui-navigation" id="layouts-selector">
 
                 </ul>
-                <hr>
                 <script>
                     submitLayoutLink = function(){
-                        var selected = $('#layouts-selector input:checked');
+                        var selected = mw.$('#layouts-selector input:checked');
                         var val = top.location.href.split('#')[0] + '#mw@' + selected[0].id;
-                        setACValue(val, '_self', mw.$('#ltext').val() || selected[0].id);
+                        Output({
+                            url: val
+                        });
                     };
                     $(document).ready(function () {
                         var layoutsData = [];
