@@ -22,7 +22,8 @@
     };
 
     function Output(data) {
-        var val = $.extend({}, currentValue, data);
+        var val = $.extend({}, currentValue, data );
+        val.targetBlank = document.getElementById('url_target').checked;
         currentValue = val;
         if(data.text) {
             mw.$('#link-text').val(data.text);
@@ -32,7 +33,15 @@
         }
     }
 
+    mw.ComponentConfigInitial = false;
     mw.ComponentConfig = function (options) {
+        mw.ComponentConfigInitial = true;
+        if(typeof options.target !== 'undefined'){
+            document.getElementById('target-holder').style.display = options.target ? 'block' : 'none';
+        }
+        if(typeof options.text !== 'undefined'){
+            document.getElementById('link-text-holder').style.display = options.text ? 'block' : 'none';
+        }
         if(options.controllers){
             var all = mw.$('.mw-ui-btn-vertical-nav [data-ctype]').hide();
             options.controllers = options.controllers.split(',');
@@ -51,7 +60,12 @@
 
 
     mw.on('ComponentReady', function () {
-        mw.ComponentConfig(defaults)
+        setTimeout(function () {
+            if(!mw.ComponentConfigInitial) {
+                mw.ComponentConfig(defaults)
+            }
+        }, 333);
+
     });
 
 
@@ -66,11 +80,12 @@
             mw.$('#file_section').append(filepicker.frame);
             filepicker.handler.on('change', function (e, url) {
                 var filename = url.split('/').pop();
-                delete currentValue.object;
+
                 Output({
                     url: url,
                     text: filename
                 });
+                delete currentValue.object;
             })
         }
     };
@@ -79,7 +94,7 @@
     var hash = location.hash.replace(/#/g, "") || 'insert_link';
     var dd_autocomplete = function (id) {
         var el = $(id);
-        el.on("change keyup paste focus", function (event) {
+        el.on("change input focus", function (event) {
             if (!is_searching) {
                 var val = el.val();
                 if (event.type === 'focus') {
@@ -139,9 +154,13 @@
         LinkTabs = mw.tabs({
             nav: ".mw-ui-btn-vertical-nav a",
             tabs: ".tab",
-            onclick: function(){
-                createFilePicker()
+            onclick: function(tab){
+                createFilePicker();
+                $(tab).find('input:first').focus();
             }
+        });
+        $('#url_target').on('input', function () {
+            Output(currentValue);
         });
     });
 
@@ -179,6 +198,7 @@
     }
 
 
+
     #available_elements {
         max-height: 400px;
         overflow: auto;
@@ -198,6 +218,10 @@
     #available_elements a + a {
         border-top: 1px solid #eee;
     }
+    #available_elements a.active{
+        background-color: #009cff;
+        color:#fff
+    }
 
     #insert_link .mw-dropdown-content{
         position: relative;
@@ -211,12 +235,12 @@
 
 <div id="mw-popup-insertlink">
 
-    <div class="mw-ui-field-holder">
+    <div class="mw-ui-field-holder" id="link-text-holder">
         <div class="mw-field w100" size="large">
             <input type="text" placeholder="Link text" id="link-text" oninput="Output({text: this.value.trim()})">
         </div>
     </div>
-    <div class="mw-ui-field-holder">
+    <div class="mw-ui-field-holder" id="target-holder">
         <div class="mw-full-width">
             <label class="mw-ui-check mw-clear">
                 <input type="checkbox" id="url_target"><span></span><span><?php _e("Open link in new window"); ?></span>
@@ -291,10 +315,11 @@
                     mw.$(document).ready(function () {
                         pagesTreeRefresh();
                         mw.$('#customweburl').on('input', function () {
-                            delete currentValue.object;
+
                             Output({
                                 url: this.value.trim()
-                            })
+                            });
+                            delete currentValue.object;
                         })
                     });
 
@@ -349,6 +374,8 @@
                             Output({
                                 url: mw.top().win.location.href.split('#')[0] + $(this).dataset('href')
                             })
+                            mw.$('#available_elements a').removeClass('active')
+                            mw.$(this).addClass('active')
                         });
                         if (!available_elements_tab_show_hide_ctrl_counter) {
                             mw.$('.available_elements_tab_show_hide_ctrl').hide();
@@ -364,9 +391,9 @@
                 <script>
                     submitLayoutLink = function(){
                         var selected = mw.$('#layouts-selector input:checked');
-                        var val = top.location.href.split('#')[0] + '#mw@' + selected[0].id;
+                        var val = mw.top().win.location.href.split('#')[0] + '#mw@' + selected[0].id;
                         Output({
-                            url: val
+                            url: val.trim()
                         });
                     };
                     $(document).ready(function () {
@@ -384,8 +411,9 @@
                             var radio = '<input type="radio" name="layoutradio" id="' + this.id +' "><span></span>';
                             var li = $('<li><label class="mw-ui-check">' + radio + ' ' + this.name + '</label></li>');
                             var el = this.element;
-                            li.on('click', function(){
+                            li.find('input').on('click', function(){
                                 top.mw.tools.scrollTo(el);
+                                submitLayoutLink()
                             });
                             list.append(li);
                         });

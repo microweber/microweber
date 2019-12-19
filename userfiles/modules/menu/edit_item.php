@@ -255,9 +255,15 @@ if ($id != 0) {
             });*/
 
             //link.handler.on('change', function(e, url, target, name, data){
-            var picker = mw.component({url: 'link_editor_v2'});
-            $(picker).on('ValueChange', function(e, ldata){
-                console.log(ldata)
+            var picker = mw.component({
+                url: 'link_editor_v2',
+                options: {
+                    target: false,
+                    text: false,
+                    controllers: 'page, custom, content, section, layout'
+                }
+            });
+            $(picker).on('Result', function(e, ldata){
                 if(!ldata) {
                     return
                 }

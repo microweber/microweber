@@ -143,6 +143,16 @@
             footer.appendChild(scope.btnok);
             this.dialog = mw.top().dialog({ width: 700, footer: footer, title: this.settings.title });
             this.dialog.dialogContainer.appendChild(this.container);
+            cancel.onclick = function (ev) {
+                scope.dialog.remove();
+            };
+            scope.btnok.onclick = function (ev) {
+                if(scope.value()) {
+                    $(scope).trigger('Result', scope.value());
+                    scope.dialog.remove();
+                }
+
+            };
         };
 
         this.create();
