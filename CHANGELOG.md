@@ -3,9 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [1.1.16] - 2019-12-18
+## [1.1.16] - 2019-12-19
 - Fixes on multi language strings
+- Fixes on mail templates
 - Added uploader type field on template settings 
+- Added support for php 7.4
 - [see all changes....](https://github.com/microweber/microweber/compare/1.1.15...1.1.16 "")
 
 ## [1.1.15] - 2019-12-12
