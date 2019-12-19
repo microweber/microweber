@@ -39,6 +39,7 @@ function get_mail_templates_by_type($type = '')
     $templates = array();
 
     foreach (get_mail_templates() as $template) {
+
         if ($template['type'] == $type) {
 
             if (isset($template['is_default'])) {

@@ -1485,7 +1485,7 @@ class ContentManager
                         define('POST_ID', intval($content['id']));
                     }
 
-                    if ($page['content_type'] == 'product') {
+                    if (is_array($page) and $page['content_type'] == 'product') {
                         if (defined('PRODUCT_ID') == false) {
                             define('PRODUCT_ID', intval($content['id']));
                         }

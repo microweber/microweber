@@ -241,6 +241,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                 $data = $data['reset'];
             }
 
+            $this->app->event_manager->trigger('content.reset_edit_field.before', $data);
 
             foreach ($data as $item) {
                 if (isset($item['rel']) and ($item['rel'])) {
@@ -258,58 +259,15 @@ class ContentManagerHelpers extends ContentManagerCrud
                     }
                 }
             }
+
+            $this->app->event_manager->trigger('content.reset_edit_field.after', $data);
+
         }
         $this->app->cache_manager->delete('content');
         $this->app->cache_manager->delete('content_fields');
+
         return true;
-        if (isset($data['id'])) {
-            $cont = get_content_by_id($data['id']);
-            if (isset($cont['id']) and $cont['id'] != 0) {
-                $id = intval($cont['id']);
-                $cont['content'] = false;
-                $cont['content_body'] = false;
-                $save = $this->save($cont);
 
-                //  $table_fields = $this->app->database_manager->real_table_name($this->tables['content_fields']);
-
-
-                \DB::table($this->tables['content_fields'])->where('rel_id', '=', $id)->where('rel_type', '=', 'content')->delete();
-
-
-//                $del = "DELETE FROM {$table_fields} WHERE rel_type='content' AND rel_id='{$id}' ";
-                // $this->app->database_manager->query($del);
-                $this->app->cache_manager->delete('content');
-                $this->app->cache_manager->delete('content_fields');
-
-                return $save;
-            }
-        } else {
-            if (isset($data['rel'])
-                and ($data['rel'] == 'content'
-                    or $data['rel'] == 'page'
-                    or $data['rel'] == 'category'
-                    or $data['rel'] == 'inherit')
-            ) {
-
-            }
-
-            if (!isset($data['content_id'])) {
-                if ($this->app->url_manager->is_ajax() == true) {
-                    $page_url = $this->app->url_manager->string();
-                }
-
-
-            }
-            if (isset($data['content_id'])) {
-//                if ($this->render_this_url == false and $this->app->url_manager->is_ajax() == true) {
-//                    //  $page_url = $this->app->url_manager->string(1);
-//                    $page_url = $this->app->url_manager->string();
-//
-//                }
-
-
-            }
-        }
 
 
     }

@@ -219,7 +219,7 @@ if(!isset($box_class)){
                 <td><?php _e('Keywords');?></td>
                 <td>
                     <?php if (isset($item['keywords'])): ?>
-                        <?php print implode($item['keywords'], ", "); ?>
+                        <?php print implode(", ",$item['keywords']); ?>
                     <?php endif; ?>
                 </td>
             </tr>

@@ -23,17 +23,21 @@ mw_admin_mail_templates_modal_opened = null;
         });
     }
     
-    function mw_admin_add_mail_template() {
+    function mw_admin_add_mail_template($mail_template_type) {
     	mw_admin_mail_templates_modal();
+
+        $('#mw_admin_mail_templates_manage').attr('mail_template_type',$mail_template_type);
     	mw.load_module('admin/mail_templates/edit', '#mw_admin_mail_templates_manage', null, null);
     }
 
-    function mw_admin_edit_mail_templates() {
+    function mw_admin_edit_mail_templates($mail_template_type) {
     	mw_admin_mail_templates_modal();
-    	mw.load_module('admin/mail_templates/admin', '#mw_admin_mail_templates_manage', null, null);
+        $('#mw_admin_mail_templates_manage').attr('mail_template_type',$mail_template_type);
+
+        mw.load_module('admin/mail_templates/admin', '#mw_admin_mail_templates_manage', null, null);
     }
 </script>
- 
+
 <div class="mw-flex-row">
 	<div class="mw-flex-col-md-5">
 	<select name="<?php echo $mail_template_type; ?>_mail_template" class="mw-ui-field mw_option_field" data-option-group="<?php echo $option_group; ?>" option-group="<?php echo $option_group; ?>" style="width:330px;">
@@ -44,9 +48,9 @@ mw_admin_mail_templates_modal_opened = null;
 	<select>
  	</div>
  	<div class="mw-flex-col-md-4">   
-	<button onclick="mw_admin_add_mail_template()" class="mw-ui-btn mw-ui-btn-success" style="width:100%;" title="<?php print _e('Add New Template'); ?>"><?php print _e('Add New Template'); ?></button>
+	<button onclick="mw_admin_add_mail_template('<?php echo $mail_template_type; ?>')" class="mw-ui-btn mw-ui-btn-success" style="width:100%;" title="<?php print _e('Add New Template'); ?>"><?php print _e('Add New Template'); ?></button>
 	</div>
  	<div class="mw-flex-col-md-3">
-	<button onclick="mw_admin_edit_mail_templates()" class="mw-ui-btn mw-ui-btn-info" style="width:100%;" title="<?php print _e('Edit Templates'); ?>"><?php print _e('Edit Templates'); ?></button>
+	<button onclick="mw_admin_edit_mail_templates('<?php echo $mail_template_type; ?>')" class="mw-ui-btn mw-ui-btn-info" style="width:100%;" title="<?php print _e('Edit Templates'); ?>"><?php print _e('Edit Templates'); ?></button>
 	</div>
 </div>

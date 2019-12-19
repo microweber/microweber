@@ -495,7 +495,7 @@ class DatabaseManager extends DbUtils
 
         $criteria = $this->app->url_manager->replace_site_url($criteria);
 
-        if ($data_to_save_options['use_this_field_for_id'] != false) {
+        if (is_array($data_to_save_options) and $data_to_save_options['use_this_field_for_id'] != false) {
             $criteria['id'] = $criteria_orig[$data_to_save_options['use_this_field_for_id']];
         }
 

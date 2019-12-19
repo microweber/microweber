@@ -178,7 +178,12 @@ function get_mail_provider_settings($providerName)
 	only_admin_access();
 	
 	$mailProvider = get_mail_provider($providerName);
-	return json_decode($mailProvider['provider_settings'], TRUE);
+
+	if(is_array($mailProvider ) and isset($mailProvider['provider_settings'])){
+        return json_decode($mailProvider['provider_settings'], TRUE);
+
+    }
+
 }
 
 

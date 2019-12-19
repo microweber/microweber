@@ -142,7 +142,12 @@ class JsCompileController extends Controller
             $ref_page = $_SERVER['HTTP_REFERER'];
             if ($ref_page != '') {
                 $ref_page = $this->app->content_manager->get_by_url($ref_page);
-                $page_id = $ref_page['id'];
+                if(is_array($ref_page)){
+                    $page_id = $ref_page['id'];
+
+                } else {
+                    $page_id = 0;
+                }
             }
         }
 

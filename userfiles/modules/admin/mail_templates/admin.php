@@ -26,7 +26,17 @@
                     </a>
                     <br/>
                     <br/>-->
-                    <module type="admin/mail_templates/list" id="list-mail-templates"/>
+
+
+                    <?php
+$mail_template_type = '';
+                    if(isset($params['mail_template_type'])){
+                        $mail_template_type  =$params['mail_template_type'];
+                    }
+                    ?>
+
+
+                    <module type="admin/mail_templates/list" mail_template_type="<?php print $mail_template_type ?>" id="list-mail-templates"/>
 
                 </div>
             </div>

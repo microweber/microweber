@@ -16,7 +16,16 @@
     }
 </script>
 
-<?php $data = get_mail_templates("no_limit=true"); ?>
+<?php
+
+$get_params = array();
+$get_params['no_limit'] = true;
+if(isset($params['mail_template_type'])){
+    $get_params['type'] = $params['mail_template_type'];
+}
+
+
+$data = get_mail_templates($get_params); ?>
 
 <?php if ($data): ?>
     <table width="100%" class="mw-ui-table">
