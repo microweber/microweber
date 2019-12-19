@@ -571,19 +571,27 @@
 (function () {
     function scoped() {
         var all = document.querySelectorAll('style[scoped]'), i = 0;
-        for( ; i < all.length; i++ ) {
-            var parent = all[i].parentNode;
-            parent.id = parent.id || mw.id('scoped-id-');
-            var prefix = '#' + parent.id + ' ';
-            var rules = all[i].sheet.rules;
-            var r = 0;
-            for ( ; r < rules.length; r++) {
-                var newRule = prefix + rules[r].cssText;
-                all[i].sheet.deleteRule(r);
-                all[i].sheet.insertRule(newRule, r);
+
+        try {
+            for( ; i < all.length; i++ ) {
+                var parent = all[i].parentNode;
+                parent.id = parent.id || mw.id('scoped-id-');
+                var prefix = '#' + parent.id + ' ';
+                var rules = all[i].sheet.rules;
+                var r = 0;
+                for ( ; r < rules.length; r++) {
+                    var newRule = prefix + rules[r].cssText;
+                    all[i].sheet.deleteRule(r);
+                    all[i].sheet.insertRule(newRule, r);
+                }
+                all[i].removeAttribute('scoped');
             }
-            all[i].removeAttribute('scoped');
         }
+        catch(error) {
+
+        }
+
+
     }
     scoped();
     $(window).on('load', function () {
