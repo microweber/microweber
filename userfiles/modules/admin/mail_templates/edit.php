@@ -14,6 +14,12 @@ if (!empty($template_id)) {
     $template['subject'] = '';
     $template['message'] = '';
     $template['id'] = '';
+    $template['is_active'] = 1;
+
+    if(isset($params['mail_template_type'])){
+        $template['type'] =$params['mail_template_type'];
+    }
+
 }
 ?>
 
@@ -97,7 +103,29 @@ if (!empty($template_id)) {
         </div>
 
 
-        <div class="mw-flex-col-md-6">
+        <div class="mw-flex-col-md-2">
+            <div class="box">
+                <label class="mw-ui-label"><?php _e("Is Active?"); ?></label>
+
+
+
+
+                <div class="mw-ui-field-holder">
+                    <label class="mw-ui-check" style="margin-right: 15px;">
+                        <input name="is_active"  value="1" type="radio" <?php if( $template['is_active']): ?> checked="checked" <?php endif; ?>  ><span></span><span>Yes</span>
+                    </label>
+                    <label class="mw-ui-check">
+                        <input name="is_active"  value="0" type="radio" <?php if( !$template['is_active']): ?> checked="checked" <?php endif; ?> >
+                        <span></span><span>No</span>
+                    </label>
+                </div>
+
+
+
+            </div>
+        </div>
+
+        <div class="mw-flex-col-md-4">
             <div class="box">
                 <label class="mw-ui-label"><?php _e("Template Type"); ?></label>
                 <select name="type" class="mw-ui-field js-template-type" style="width:100%;">

@@ -259,7 +259,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                     }
                 }
             }
-            
+
             $this->app->event_manager->trigger('content.reset_edit_field.after', $data);
 
         }
