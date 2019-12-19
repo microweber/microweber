@@ -116,7 +116,9 @@
             if (window.thismodal && thismodal.main) {
                 var holder = $(".mw_modal_toolbar", thismodal.main);
                 if ($('.mw_modal_icon', holder).length === 0) {
+                    <?php if(is_array($module_info) and isset($module_info['icon'])) :  ?>
                     holder.prepend('<span class="mw_modal_icon"><img src="<?php print $module_info['icon']; ?>"></span>')
+                    <?php endif; ?>
                 }
             }
         };

@@ -244,7 +244,7 @@ class Files
 
 
             if (isset($params['sort_by']) and strval($params['sort_by']) != '') {
-                if (!isset($params['sort_order'])) {
+                 if (!isset($params['sort_order'])) {
                     $sort_params = explode(' ', $params['sort_by']);
                     if(isset($sort_params[1])){
                         $params['sort_by'] =$sort_params[0];
@@ -258,9 +258,10 @@ class Files
                     if (strtolower($params['sort_order']) == 'asc') {
                         $ord = SORT_ASC;
                     }
-
-                    //d($arrayItems_search);
-                    array_multisort(array_map($params['sort_by'], $arrayItems_f), SORT_NUMERIC, $ord, $arrayItems_f);
+                    $allowed_sort = array('basename','filemtime','filesize');
+                    if(in_array($params['sort_by'],$allowed_sort)){
+                        array_multisort(array_map($params['sort_by'], $arrayItems_f), SORT_NUMERIC, $ord, $arrayItems_f);
+                    }
                  }
             }
 
