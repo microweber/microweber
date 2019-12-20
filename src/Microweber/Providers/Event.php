@@ -81,11 +81,16 @@ class Event
                             }
                         }
                     }
-
                     foreach ($resp as $resp_key => $resp_value) {
-                        if (isset($original_criteria[$resp_key]) and ($original_criteria[$resp_key] != $resp_value)) {
-                            $criteria[$resp_key] = $resp_value;
+                        if (is_string($resp_key) || is_numeric($resp_key)) {
+                            if (substr($resp_key, 0, 2) == '__') {
+                                $criteria[$resp_key] = $resp_value;
+                            }
+                            if (isset($original_criteria[$resp_key]) and ($original_criteria[$resp_key] != $resp_value)) {
+                                $criteria[$resp_key] = $resp_value;
+                            }
                         }
+
                     }
                 }
             }

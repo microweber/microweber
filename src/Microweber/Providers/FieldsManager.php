@@ -155,7 +155,6 @@ class FieldsManager
             return;
         }
         */
-        $_mw_made_default_fields_register[$function_cache_id] = true;
 
         $table_custom_field = $this->table;
 
@@ -272,6 +271,7 @@ class FieldsManager
                 }
             }
         }
+        $_mw_made_default_fields_register[$function_cache_id] = $saved_fields;
 
         return $saved_fields;
     }

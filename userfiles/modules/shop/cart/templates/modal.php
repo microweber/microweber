@@ -81,8 +81,9 @@ description: Small Modal
     <?php endif; ?>
     </div>
     <div class="col-sm-6 checkout-modal-total-holder">
-        <p><strong>Total Amount: <?php print currency_format($total); ?></strong></p>
-        <a href="#" class="btn btn-default btn-block btn-lg js-show-step"   data-step="delivery-address">Checkout</a>
+        <p><strong><?php _e('Tax Amount:'); ?> <?php print currency_format(cart_get_tax()); ?></strong></p>
+        <p><strong><?php _e('Total Amount:'); ?> <?php print currency_format($total); ?></strong></p>
+        <a href="#" class="btn btn-default btn-block btn-lg js-show-step"   data-step="delivery-address"><?php _e('Checkout'); ?></a>
     </div>
 </div>
 <?php endif; ?>
