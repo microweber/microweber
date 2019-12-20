@@ -995,7 +995,7 @@ mw.wysiwyg = {
     },
     init: function (selector) {
 
-        var selector = selector || ".mw_editor_btn";
+        selector = selector || ".mw_editor_btn";
         var mw_editor_btns = mw.$(selector).not('.ready');
         mw_editor_btns
             .addClass('ready')
@@ -1024,12 +1024,17 @@ mw.wysiwyg = {
                     }
                     else {
                         var name = command.replace('custom-', "");
-                        mw.wysiwyg[name]();
+                        if(name === 'link') {
+                            mw.wysiwyg.link(undefined, undefined, getSelection().toString());
+                        } else {
+                            mw.wysiwyg[name]();
+                        }
+
                     }
                     if(mw.liveEditState){
                         mw.liveEditState.record({
                             target: rectarget,
-                            value: rectarget.innerHTML,
+                            value: rectarget.innerHTML
                         });
                     }
 
@@ -1037,7 +1042,7 @@ mw.wysiwyg = {
                     mw.wysiwyg.check_selection(event.target);
 
                 }
-                if (event.type == 'mousedown' && !$(this).hasClass('disabled')) {
+                if (event.type === 'mousedown' && !$(this).hasClass('disabled')) {
                     mw.$(this).addClass("mw_editor_btn_mousedown");
                 }
             });
@@ -1711,10 +1716,13 @@ mw.wysiwyg = {
             mw.wysiwyg.started_checking = false;
         }
     },
-    link: function (url, node_id) {
+    link: function (url, node_id, text) {
         mw.require('external_callbacks.js');
         mw.wysiwyg.save_selection();
         var el = document.getElementById(node_id);
+        if(el) {
+            text = el.innerHTML;
+        }
         var picker = mw.component({
             url: 'link_editor_v2',
             options: {
@@ -1723,7 +1731,7 @@ mw.wysiwyg = {
                 controllers: 'page, custom, content, section, layout, email',
                 values: {
                     url: url,
-                    text: el ? el.innerHTML : '',
+                    text: text,
                     targetBlank: el ? el.target === '_blank' : ''
                 }
             }
