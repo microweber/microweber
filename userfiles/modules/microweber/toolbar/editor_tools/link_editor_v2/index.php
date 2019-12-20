@@ -9,27 +9,38 @@
 
     mw.ComponentInput = function (data) {
         currentValue = data;
-        if(data && data.targetBlank) {
+        if(!data) return;
+        if(data.targetBlank) {
             $('#url_target').attr('checked', data.targetBlank);
         }
-        if(data && data.text) {
-            mw.$('#link-text').val(data.text);
-        }
-        if(data && data.url) {
+        if(data.url) {
             mw.$('#customweburl').val(data.url);
         }
+        if(data.text){
+            mw.$('#link-text').val(data.text)
+        }
+        if(data.targetBlank){
+            mw.$('#url_target')[0].checked = data.targetBlank;
+        }
 
+        if(data.url){
+            Output(currentValue)
+        }
     };
 
     function Output(data) {
         var val = $.extend({}, currentValue, data );
         val.targetBlank = document.getElementById('url_target').checked;
         currentValue = val;
-        if(data.text) {
+        if(data && data.text) {
             mw.$('#link-text').val(data.text);
         }
         if(mw.ComponentOutput) {
-            mw.ComponentOutput(data.url ? val : null);
+            mw.ComponentOutput(val.url ? val : null);
+        } else {
+            setTimeout(function (val) {
+                mw.ComponentOutput(val.url ? val : null);
+            }, 333, val)
         }
     }
 
@@ -50,6 +61,9 @@
             });
             all.filter(':visible:first').click();
         }
+        if(options.values){
+            mw.ComponentInput(options.values);
+        }
     };
 
     var defaults = {
@@ -65,7 +79,6 @@
                 mw.ComponentConfig(defaults)
             }
         }, 333);
-
     });
 
 
@@ -144,6 +157,15 @@
 
 
 
+        $("#email_field").on('input', function () {
+            var val = this.value.replace(/\s/g, '');
+            if ( val.indexOf('mailto:') === -1 ){
+                val = 'mailto:' + val;
+            }
+            Output({
+                url: val
+            });
+        });
         $("#insert_from_dropdown").click(function () {
             var val = mw.$("#insert_link_list").getDropdownValue();
             Output({

@@ -418,7 +418,6 @@ if (!isset($data["thumbnail"])) {
             });
 
             $(uploader).on("FileUploaded done", function (e, a) {
-                console.log(a)
                 if (a && a.ask_user_to_enable_auto_resizing) {
                     mw.module_pictures.open_image_upload_settings_modal();
                 }

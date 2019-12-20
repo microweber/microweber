@@ -168,25 +168,20 @@ $icon = get_option('icon', $params['id']);
 
     <script>
         mw.top().require('instruments.js');
-        var _pickUrl = false;
         var pickUrl = function(){
-            var conf = {
-                instrument: 'link',
-                id: 'pick-link'
-            };
-            if(!_pickUrl) {
-                _pickUrl = mw.top().instruments.run(conf);
-                _pickUrl.handler.on('change', function(e, val){
-                    mw.$('#btn-default_url').val(val).trigger('change');
-                    var dialog = mw.top().dialog.get('#pick-link');
-                    if(dialog){
-                        dialog.remove();
-                    }
-
-                });
-            } else{
-                mw.top().instruments.run(conf);
-            }
+            var picker = mw.component({
+                url: 'link_editor_v2',
+                options: {
+                    target: false,
+                    text: false,
+                    controllers: 'page, custom, content, section, layout, emial'
+                }
+            });
+            $(picker).on('Result', function(e, ldata){
+                if(ldata){
+                    mw.$('#btn-default_url').val(ldata.url).trigger('change');
+                }
+            });
         };
 
 

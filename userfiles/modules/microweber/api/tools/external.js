@@ -114,7 +114,6 @@
                     scope.value(scope.settings.value);
                     if(this.contentWindow.mw && this.contentWindow.mw.trigger){
                         this.contentWindow.mw.ComponentOutput = function(data) {
-                            console.log(data)
                             scope._value = data;
                             mw.tools[!!scope.value() ? 'removeClass' : 'addClass'](scope.btnok, 'disabled');
                             $(scope).trigger('ValueChange', data);
@@ -143,10 +142,12 @@
             footer.appendChild(scope.btnok);
             this.dialog = mw.top().dialog({ width: 700, footer: footer, title: this.settings.title });
             this.dialog.dialogContainer.appendChild(this.container);
-            cancel.onclick = function (ev) {
+            cancel.onclick = function (e) {
+                e.preventDefault();
                 scope.dialog.remove();
             };
-            scope.btnok.onclick = function (ev) {
+            scope.btnok.onclick = function (e) {
+                e.preventDefault();
                 if(scope.value()) {
                     $(scope).trigger('Result', scope.value());
                     scope.dialog.remove();

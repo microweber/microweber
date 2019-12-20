@@ -12,7 +12,7 @@ mw.iframecallbacks = {
         var contains = false;
         var arr = ['mailto:', 'tel:', 'skype:', 'sms:', 'geopoint:', 'whatsapp:'],
             i = 0;
-        for( ; i < arr.length; i++){
+        for( ; i < arr.length; i++ ){
             if(url.indexOf(arr[i]) === 0){
                 contains = true;
             }
@@ -120,7 +120,6 @@ mw.iframecallbacks = {
                 var sel = window.getSelection();
                 var range = sel.getRangeAt(0);
                 try {
-                    console.log(a)
                     range.surroundContents(a);
                 }
                 catch (e) {
