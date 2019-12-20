@@ -506,7 +506,7 @@ class DatabaseManager extends DbUtils
         }
         $criteria['id'] = intval($criteria['id']);
 
-        $criteria = $criteriaOverwrite = $this->app->event_manager->response('mw.database.' . $table . '.save.params', $criteria);
+        $criteria = $criteria_overwrite = $this->app->event_manager->response('mw.database.' . $table . '.save.params', $criteria);
         $criteria = $this->map_array_to_table($table, $criteria);
 
         if (intval($criteria['id']) == 0) {
@@ -558,8 +558,8 @@ class DatabaseManager extends DbUtils
             }
         }
 
-        $criteriaOverwrite['id'] = $id_to_return;
-        $this->app->event_manager->trigger('mw.database.'.$table.'.save.after', $criteriaOverwrite);
+        $criteria_overwrite['id'] = $id_to_return;
+        $this->app->event_manager->trigger('mw.database.'.$table.'.save.after', $criteria_overwrite);
 
         return $id_to_return;
     }
