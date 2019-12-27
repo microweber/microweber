@@ -172,27 +172,27 @@ pipeline {
 	   //         }
 	   //     }
        // }
-       // stage('PHPUnit 7.4') {
-       //   agent {
-       //     kubernetes {
-       //         label "${getKubeLabel(7, BRANCH_NAME, BUILD_NUMBER)}"
-       //         defaultContainer 'app'
-       //         yamlFile 'build/pods/php74-phpunit.yaml'
-       //         nodeSelector "${getKubeNodeSelector(7)}"
-       //     }
-       //   }
-       //   steps {
-       //     sh 'pwd'
-       //     sh 'composer install -o --no-progress'
-       //     sh 'phpunit --version'
-       //     sh 'phpunit --log-junit "reports/unitreport-php74.xml"'
-       //   }
-	   //     post {
-	   //         always {
-	   //             junit 'reports/unitreport-php74.xml'
-	   //         }
-	   //     }
-       // }
+        stage('PHPUnit 7.4') {
+          agent {
+            kubernetes {
+                label "${getKubeLabel(7, BRANCH_NAME, BUILD_NUMBER)}"
+                defaultContainer 'app'
+                yamlFile 'build/pods/php74-phpunit.yaml'
+                nodeSelector "${getKubeNodeSelector(7)}"
+            }
+          }
+          steps {
+            sh 'pwd'
+            sh 'composer install -o --no-progress'
+            sh 'phpunit --version'
+            sh 'phpunit --log-junit "reports/unitreport-php74.xml"'
+          }
+	        post {
+	            always {
+	                junit 'reports/unitreport-php74.xml'
+	            }
+	        }
+        }
       }
     }
 
