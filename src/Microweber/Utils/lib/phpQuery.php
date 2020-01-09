@@ -2452,7 +2452,7 @@ class phpQueryObject implements Iterator, Countable, ArrayAccess
                     break;
                 }
                 // nth-child(n+b) to nth-child(1n+b)
-                if ($param{0} == 'n') {
+                if ($param[0] == 'n') {
                     $param = '1'.$param;
                 }
                 // :nth-child(index/even/odd/equation)
@@ -2466,7 +2466,7 @@ class phpQueryObject implements Iterator, Countable, ArrayAccess
 					else
 						return null;'), new CallbackParam(), $param
                     );
-                } elseif (mb_strlen($param) > 1 && $param{1} == 'n') {
+                } elseif (mb_strlen($param) > 1 && $param[1] == 'n') {
                     // an+b
                     $mapped = $this->map(
                             create_function('$node, $param', '$prevs = pq($node)->prevAll()->size();
