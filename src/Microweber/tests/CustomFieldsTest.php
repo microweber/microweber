@@ -309,9 +309,12 @@ class CustomFieldsTest extends TestCase
         $saved_id = save_content($params);
         $get = get_content_by_id($saved_id);
 
-        $this->assertEquals($saved_id, ($get['id']));
+        $this->assertEquals($saved_id, $get['id']);
 
         $get_custom_fields = content_custom_fields($saved_id);
+        $this->assertEquals(count($get_custom_fields), 2);
+
+        
         
     }
   
