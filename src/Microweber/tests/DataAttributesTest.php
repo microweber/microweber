@@ -26,7 +26,6 @@ class DataAttributesTest extends TestCase
         $attributes = content_attributes($id);
         $this->assertEquals(intval($id) > 0, true);
 
-        dd($id,$attributes);
 
         $this->assertEquals($attributes['something'], 'hello there');
         $this->assertEquals($attributes['something_else'], 'hello there 2');
