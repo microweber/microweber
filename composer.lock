@@ -1338,16 +1338,16 @@
         },
         {
             "name": "ezyang/htmlpurifier",
-            "version": "v4.11.0",
+            "version": "v4.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ezyang/htmlpurifier.git",
-                "reference": "83ab08bc1af7d808a9e0fbf024f1c24bfd73c0a7"
+                "reference": "a617e55bc62a87eec73bd456d146d134ad716f03"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/83ab08bc1af7d808a9e0fbf024f1c24bfd73c0a7",
-                "reference": "83ab08bc1af7d808a9e0fbf024f1c24bfd73c0a7",
+                "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/a617e55bc62a87eec73bd456d146d134ad716f03",
+                "reference": "a617e55bc62a87eec73bd456d146d134ad716f03",
                 "shasum": ""
             },
             "require": {
@@ -1381,7 +1381,7 @@
             "keywords": [
                 "html"
             ],
-            "time": "2019-07-14T18:58:38+00:00"
+            "time": "2019-10-28T03:44:26+00:00"
         },
         {
             "name": "finlet/flexmail",
@@ -3533,12 +3533,12 @@
             "target-dir": "liteness",
             "source": {
                 "type": "git",
-                "url": "https://github.com/microweber-templates/liteness.git",
+                "url": "https://gitlab.com/mw-internal/template-liteness.git",
                 "reference": "596d1c63ac89e310a1fa1c5653a3e347029c97cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-templates/liteness/zipball/596d1c63ac89e310a1fa1c5653a3e347029c97cc",
+                "url": "https://gitlab.com/api/v4/projects/mw-internal%2Ftemplate-liteness/repository/archive.zip?sha=596d1c63ac89e310a1fa1c5653a3e347029c97cc",
                 "reference": "596d1c63ac89e310a1fa1c5653a3e347029c97cc",
                 "shasum": ""
             },
