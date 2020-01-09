@@ -35,7 +35,7 @@ if ($for_id != false) {
 
 $init_image_options = array();
 $default_image_options = 'Link, Caption, Author, Source, Tags';
-$image_options = isset($params['image-options']) ? $params['image-options'] : isset($params['data-image-options']) ? $params['data-image-options'] : $default_image_options;
+$image_options = (isset($params['image-options']) ? $params['image-options'] : (isset($params['data-image-options']) ? $params['data-image-options'] : $default_image_options));
 
 
 $temp = explode(',', $image_options);
