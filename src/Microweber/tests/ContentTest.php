@@ -301,7 +301,7 @@ class ContentTest extends TestCase
 
 
         event_bind('mw.crud.content.get.params', function ($original_params) use ($saved_id,$phpunit) {
-            if(isset($original_params['id']) and $original_params['id'] == $saved_id) {
+            if(is_array($original_params) and isset($original_params['id']) and $original_params['id'] == $saved_id) {
                 $new_params = $original_params;
                 $new_params['is_deleted'] = 0;
 
@@ -316,7 +316,7 @@ class ContentTest extends TestCase
         event_bind('mw.crud.content.get', function ($items) use ($saved_id) {
             if($items){
                 foreach ($items as $k=> $item){
-                    if($item['id'] == $saved_id){
+                    if(is_array($item) and $item['id'] == $saved_id){
                         $item['title'] = 'I just changed the title from a filter';
                     }
                     $items[$k] = $item;
