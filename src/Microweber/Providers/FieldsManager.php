@@ -144,7 +144,7 @@ class FieldsManager
       //  $is_made = $this->get_all($make_field);
 
         if (isset($_mw_made_default_fields_register[$function_cache_id])) {
-            return;
+            return $_mw_made_default_fields_register[$function_cache_id];
         }
 
         if ($is_made) {
