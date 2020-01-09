@@ -995,7 +995,7 @@ mw.wysiwyg = {
     },
     init: function (selector) {
 
-        var selector = selector || ".mw_editor_btn";
+        selector = selector || ".mw_editor_btn";
         var mw_editor_btns = mw.$(selector).not('.ready');
         mw_editor_btns
             .addClass('ready')
@@ -1024,12 +1024,17 @@ mw.wysiwyg = {
                     }
                     else {
                         var name = command.replace('custom-', "");
-                        mw.wysiwyg[name]();
+                        if(name === 'link') {
+                            mw.wysiwyg.link(undefined, undefined, getSelection().toString());
+                        } else {
+                            mw.wysiwyg[name]();
+                        }
+
                     }
                     if(mw.liveEditState){
                         mw.liveEditState.record({
                             target: rectarget,
-                            value: rectarget.innerHTML,
+                            value: rectarget.innerHTML
                         });
                     }
 
@@ -1037,7 +1042,7 @@ mw.wysiwyg = {
                     mw.wysiwyg.check_selection(event.target);
 
                 }
-                if (event.type == 'mousedown' && !$(this).hasClass('disabled')) {
+                if (event.type === 'mousedown' && !$(this).hasClass('disabled')) {
                     mw.$(this).addClass("mw_editor_btn_mousedown");
                 }
             });
@@ -1711,49 +1716,32 @@ mw.wysiwyg = {
             mw.wysiwyg.started_checking = false;
         }
     },
-    link: function (prepolulate, node_id) {
-        // mw.wysiwyg.save_selection();
-        //var modal = mw.tools.modal.frame({
+    link: function (url, node_id, text) {
         mw.require('external_callbacks.js');
-        var modal = mw.top().dialogIframe({
-            url: "rte_link_editor",
-            title: "Edit link",
-            name: "mw_rte_link",
-            id: "mw_rte_link",
-            //template: 'basic',
-            width: 700,
-            height: 'auto',
-            autoHeight: true
-        }, function(result){
-            mw.iframecallbacks.insert_link(result.url, (result.target || '_self') , result.text);
-        });
-
-
-        var link = false;
-        if (typeof(prepolulate) != 'undefined') {
-            link = prepolulate;
+        mw.wysiwyg.save_selection();
+        var el = document.getElementById(node_id);
+        if(el) {
+            text = el.innerHTML;
         }
-
-        if (!!link) {
-            modal.main.find("iframe").load(function () {
-
-                mw.$(this).contents().find("#customweburl").val(link);
-                if (typeof(node_id) != 'undefined') {
-                    var node = mw.$('#' + node_id);
-                    if (node[0] && node[0].target == '_blank') {
-                        mw.$(this).contents().find("#url_target")[0].checked = true;
-                    }
-                    var link_text_value = node.html();
-                    link_text_value = $.trim(link_text_value);
-                    if (link_text_value != '') {
-                        mw.$(this).contents().find("#customweburl_text").val(link_text_value);
-                        mw.$(this).contents().find("#customweburl_text_field_holder").show();
-                    }
+        var picker = mw.component({
+            url: 'link_editor_v2',
+            options: {
+                target: true,
+                text: true,
+                controllers: 'page, custom, content, section, layout, email',
+                values: {
+                    url: url,
+                    text: text,
+                    targetBlank: el ? el.target === '_blank' : ''
                 }
-
-            })
-        }
+            }
+        });
+        $(picker).on('Result', function(e, result){
+            mw.wysiwyg.restore_selection();
+            mw.iframecallbacks.insert_link(result.url, (result.targetBlank ? '_blank' : '_self') , result.text);
+        });
     },
+
     unlink: function () {
         var sel = window.getSelection();
         if (!sel.isCollapsed) {
@@ -2754,7 +2742,6 @@ mw.linkTip = {
                 } else {
                     prepolulate = mw.$(this).attr('href');
                     node_id = mw.$(this).attr('edit-id');
-
                 }
 
                 mw.wysiwyg.link(prepolulate, node_id);

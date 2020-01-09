@@ -104,7 +104,7 @@ if (is_file($template_file)) {
                 adaptiveHeight: <?php print $adaptiveHeight ? $adaptiveHeight : 'undefined'; ?>,
                 speed: '<?php print $speed ? $speed : 'undefined'; ?>',
                 auto: '<?php print $autoplay ? $autoplay : 'undefined'; ?>',
-
+                autoHover: '<?php print $pauseOnHover ? $pauseOnHover : 'undefined'; ?>',
                 hideControlOnEnd:  <?php print $hideControlOnEnd ? $hideControlOnEnd : 'undefined'; ?>,
                 mode: '<?php print $mode ? $mode : 'undefined'; ?>',
                 prevText: '<?php print $prevText ? $prevText : 'undefined'; ?>',

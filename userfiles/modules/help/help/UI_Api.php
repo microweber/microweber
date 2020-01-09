@@ -817,13 +817,7 @@ mw.tools.modal.frame({
   <script>
 
 testlink = function(){
-mw.tools.modal.frame({
-          url:"rte_link_editor#someFUNC2",
-          name:"qwet",
-          width:430,
-          height:230,
-          template:'mw_modal_simple'
-        });
+
 
 }
 

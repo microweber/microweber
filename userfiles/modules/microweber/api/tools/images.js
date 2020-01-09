@@ -116,21 +116,7 @@ mw.image = {
             })
         }
     },
-    linkIt: function (img_object) {
-        var img_object = img_object || mwd.querySelector("img.element-current");
-        if (img_object.parentNode.tagName === 'A') {
-            mw.$(img_object.parentNode).replaceWith(img_object);
-        }
-        else {
-            mw.tools.modal.frame({
-                url: "rte_link_editor#image_link",
-                title: "Add/Edit Link",
-                name: "mw_rte_link",
-                width: 600,
-                height: 535
-            });
-        }
-    },
+
     _isrotating: false,
     rotate: function (img_object, angle) {
         if (!mw.image.Rotator) {
