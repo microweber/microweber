@@ -16,7 +16,7 @@ mw.tools.dropdown = function (root) {
             var input = el.querySelector('input.mw-dropdown-field');
             input.dropdown = el;
             input.onkeydown = function (e) {
-                if (e.keyCode == 13) {
+                if (e.keyCode === 13) {
                     e.preventDefault()
                     mw.$(this.dropdown).removeClass("active");
                     mw.$('.mw-dropdown-content', this.dropdown).hide();
@@ -46,7 +46,7 @@ mw.tools.dropdown = function (root) {
                 }
                 mw.$(this).toggleClass("active");
                 mw.$(".mw-dropdown").not(this).removeClass("active").find(".mw-dropdown-content").hide();
-                if (mw.$(".other-action-hover", this).length == 0) {
+                if (mw.$(".other-action-hover", this).length === 0) {
                     var item = mw.$(".mw-dropdown-content", this);
                     if (item.is(":visible")) {
                         item.hide();
@@ -54,7 +54,7 @@ mw.tools.dropdown = function (root) {
                     }
                     else {
                         item.show();
-                        if (event.target.type != 'text') {
+                        if (event.target.type !== 'text') {
                             try {
                                 this.querySelector("input.dd_search").focus();
                             } catch (e) {

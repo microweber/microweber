@@ -52,15 +52,11 @@ mw.liveedit.editors = {
                   }, 33);
               }
           } else {
-              if (!mw.tools.hasParentsWithClass(e.target, 'mw_small_editor')) {
-
-                  if (typeof(mw.smallEditor) != 'undefined') {
-
+              if (mw.smallEditor && !mw.tools.hasParentsWithClass(e.target, 'mw_small_editor')) {
                       mw.smallEditorCanceled = true;
                       mw.smallEditor.css({
                           visibility: "hidden"
                       });
-                  }
               }
           }
           setTimeout(function() {

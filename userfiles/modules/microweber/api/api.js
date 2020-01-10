@@ -122,14 +122,6 @@ jQuery.cachedScript = function( url, options ) {
 };
 
 
-
-if(typeof mw === 'undefined'){
-    mw = {}
-}
-
-
-
-
 mw.version = "<?php print MW_VERSION; ?>";
 
 mw.pauseSave = false;

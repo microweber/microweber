@@ -151,3 +151,5 @@
         }
         return frame;
     }
+
+    mw.editor = mw.tools.richtextEditor;

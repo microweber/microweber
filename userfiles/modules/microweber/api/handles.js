@@ -628,12 +628,13 @@ mw._initHandles = {
             var $el, hasedit;
             if(element && element.getAttribute('data-type') === 'layouts'){
                 $el = mw.$(element);
-                hasedit = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst($el[0],['edit', 'module']);
+                hasedit = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst($el[0].parentNode,['edit', 'module']);
+
                 if(hasedit){
-                    if($el.prev('[data-type="layouts"]').length !== 0){
+                    if($el.prev('[data-type="layouts"]')[0]){
                         mw.$('.mw_handle_module_up').show();
                     }
-                    if($el.next('[data-type="layouts"]').length !== 0){
+                    if($el.next('[data-type="layouts"]')[0]){
                         mw.$('.mw_handle_module_down').show();
                     }
                 }
@@ -700,20 +701,7 @@ mw._initHandles = {
                 }).addClass('mw-active-item');
 
 
-            mw.$('.mw_handle_module_up, .mw_handle_module_down').hide();
 
-            if(element && element.getAttribute('data-type') === 'layouts'){
-                $el = mw.$(element);
-                hasedit =  mw.tools.hasParentsWithClass($el[0],'edit');
-                if(hasedit){
-                    if($el.prev('[data-type="layouts"]').length !== 0){
-                        mw.$('#mw_handle_module_up').show();
-                    }
-                    if($el.next('[data-type="layouts"]').length !== 0){
-                        mw.$('#mw_handle_module_down').show();
-                    }
-                }
-            }
 
             var canDrag = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(element.parentNode, ['edit', 'module'])
                 && mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(element, ['allow-drop', 'nodrop']);

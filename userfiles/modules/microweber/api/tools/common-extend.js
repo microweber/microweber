@@ -78,7 +78,7 @@ if (!window.escape) {
 
 
 
-Alert = mw.tools.alert;
+window.Alert = mw.tools.alert;
 
 Array.prototype.remove = Array.prototype.remove || function (what) {
     var i = 0, l = this.length;
@@ -183,7 +183,8 @@ mw.fileWindow = function (config) {
     };
 };
 
-mw.editor = mw.tools.richtextEditor;
+
+
 
 mw.accordion = function (el, callback) {
     return mw.tools.accordion(mw.$(el)[0], callback);

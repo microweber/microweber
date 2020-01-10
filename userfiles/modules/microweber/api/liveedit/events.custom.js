@@ -7,18 +7,26 @@ mw.liveedit.handleCustomEvents = function() {
         }
     });
 
-    mw.on("ImageClick ElementClick ModuleClick", function(e, el, originalEvent){
+    /*mw.on("ImageClick ElementClick ModuleClick", function(e, el, originalEvent){
         if(originalEvent) {
             el = mw.tools.firstParentOrCurrentWithAnyOfClasses(originalEvent.target, ['element', 'module'])
         }
-        //if(el.id) {
         mw.liveEditSelector.select(el);
-            if(mw.tools.hasClass(el, 'module')){
-                mw.liveEditSelector.activeModule = el;
-            }
+        if(mw.tools.hasClass(el, 'module')){
+            mw.liveEditSelector.activeModule = el;
+        }
+    });*/
 
-        //}
+    mw.$(document.body).on('click', function (e) {
+        var target = e.target;
+        var can = mw.tools.firstParentOrCurrentWithAnyOfClasses(target, [
+           'edit', 'module', 'element'
+        ]);
+        var toSelect = mw.tools.firstBlockLevel(target);
+
+        mw.liveEditSelector.select(toSelect);
     });
+
 
     mw.on("DragHoverOnEmpty", function(e, el) {
         if ($.browser.webkit) {

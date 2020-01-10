@@ -80,7 +80,7 @@ if (typeof Range.prototype.querySelectorAll === 'undefined') {
 }
 mw.wysiwyg = {
     html2text:function(html){
-        return $(mw.tools.parseHtml(html).body).text()
+        return $(mw.tools.parseHtml(html).body).text();
     },
     isTargetEditable: function(target){
         var curr = target;
@@ -219,7 +219,7 @@ mw.wysiwyg = {
             if (typeof module !== 'undefined') {
                 mw.wysiwyg.contentEditable(module, false);
                 mw.$(module.querySelectorAll(".edit")).each(function () {
-                    mw.wysiwyg.contentEditable(this, true)
+                    mw.wysiwyg.contentEditable(this, true);
                     mw.on.DOMChange(this, function () {
                         mw.wysiwyg.change(this);
                     });
@@ -251,7 +251,7 @@ mw.wysiwyg = {
                                 }
                             });
                         }
-                    })
+                    });
                 });
                 mw.$(".empty-element, .ui-resizable-handle").each(function () {
                     mw.wysiwyg.contentEditable(this, false);
@@ -265,7 +265,7 @@ mw.wysiwyg = {
     modify: function (el, callback) {
         var curr = mw.askusertostay;
         if (typeof el === 'function') {
-            var callback = el;
+            callback = el;
             callback.call();
         }
         else {
@@ -277,9 +277,8 @@ mw.wysiwyg = {
         var a = parent.querySelectorAll(".element"), l = a.length;
         i = 0;
         for (; i < l; i++) {
-            if (a[i].innerHTML == '' || a[i].innerHTML.replace(/\s+/g, '') == '') {
+            if (a[i].innerHTML === '' || a[i].innerHTML.replace(/\s+/g, '') === '') {
                 a[i].innerHTML = '&zwj;&nbsp;&zwj;';
-
             }
         }
     },
@@ -2580,7 +2579,7 @@ $(mwd).ready(function () {
     mw.smallEditor = mw.$("#mw_small_editor");
     mw.smallEditorCanceled = true;
     mw.bigEditor = mw.$("#mw-text-editor");
-    mw.$(mwd.body).mousedown(function (event) {
+    mw.$(mwd.body).on('mousedown touchstart', function (event) {
         var target = event.target;
         if ($(target).hasClass("element")) {
             mw.trigger("ElementMouseDown", target);

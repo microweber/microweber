@@ -3,7 +3,7 @@ mw.storage = {
         if (window.location.href.indexOf('data:') === 0 || !('localStorage' in mww) || /* IE Security configurations */ typeof mww['localStorage'] === 'undefined') return false;
         var lsmw = localStorage.getItem("mw");
         if (typeof lsmw === 'undefined' || lsmw === null) {
-            var lsmw = localStorage.setItem("mw", "{}")
+            lsmw = localStorage.setItem("mw", "{}");
         }
         this.change("INIT");
         return lsmw;
@@ -12,7 +12,7 @@ mw.storage = {
         if (!('localStorage' in mww)) return false;
         var curr = JSON.parse(localStorage.getItem("mw"));
         curr[key] = val;
-        var a = localStorage.setItem("mw", JSON.stringify(curr))
+        var a = localStorage.setItem("mw", JSON.stringify(curr));
         mw.storage.change("CALL", key, val);
         return a;
     },
@@ -58,5 +58,5 @@ mw.storage = {
             }
         }
     }
-}
+};
 mw.storage.init();

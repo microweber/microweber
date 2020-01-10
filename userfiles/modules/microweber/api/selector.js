@@ -9,7 +9,8 @@ mw.Selector = function(options) {
 
     var defaults = {
         autoSelect: true,
-        document: document
+        document: document,
+        strict: false // only match elements that have id
     };
 
     this.options = $.extend({}, defaults, options);
@@ -156,7 +157,9 @@ mw.Selector = function(options) {
     this.setItem = function(e, item, select, extend){
         if(!this.active()) return;
         var target = e.target ? e.target : e;
-        target = mw.tools.firstMatchesOnNodeOrParent(target, ['[id]', '.edit']);
+        if (this.options.strict) {
+            target = mw.tools.firstMatchesOnNodeOrParent(target, ['[id]', '.edit']);
+        }
         var validateTarget = !mw.tools.firstMatchesOnNodeOrParent(target, ['.mw-control-box', '.mw-defaults']);
         if(!target || !validateTarget) return;
         if($(target).hasClass('mw-select-skip')){

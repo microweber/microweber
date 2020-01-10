@@ -36,7 +36,7 @@ mw.iframecallbacks = {
 
         range = sel.getRangeAt(0);
         var jqAction = url ? 'attr' : 'removeAttr';
-        
+
         mw.wysiwyg.change(range.startContainer);
 
         if (!!mw.current_element && mw.current_element.nodeName === 'IMG') {
