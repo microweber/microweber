@@ -42,7 +42,9 @@ class JsCompileController extends Controller
             $ref_page = $_SERVER['HTTP_REFERER'];
             if ($ref_page != '') {
                 $ref_page = $this->app->content_manager->get_by_url($ref_page);
-                $page_id = $ref_page['id'];
+                if (is_array($ref_page)) {
+                    $page_id = $ref_page['id'];
+                }
             }
         }
         if (isset($_SERVER['HTTP_REFERER'])) {
@@ -72,7 +74,6 @@ class JsCompileController extends Controller
         $l = str_replace('{SITE_URL}', $this->app->url_manager->site(), $l);
         $l = str_replace('{MW_SITE_URL}', $this->app->url_manager->site(), $l);
         $l = str_replace('%7BSITE_URL%7D', $this->app->url_manager->site(), $l);
-
 
 
         $compile_assets = \Config::get('microweber.compile_assets');
@@ -142,7 +143,7 @@ class JsCompileController extends Controller
             $ref_page = $_SERVER['HTTP_REFERER'];
             if ($ref_page != '') {
                 $ref_page = $this->app->content_manager->get_by_url($ref_page);
-                if(is_array($ref_page)){
+                if (is_array($ref_page)) {
                     $page_id = $ref_page['id'];
 
                 } else {
@@ -230,10 +231,6 @@ class JsCompileController extends Controller
         $l = str_replace('{SITE_URL}', $this->app->url_manager->site(), $l);
         $l = str_replace('{MW_SITE_URL}', $this->app->url_manager->site(), $l);
         $l = str_replace('%7BSITE_URL%7D', $this->app->url_manager->site(), $l);
-
-
-
-
 
 
         $compile_assets = \Config::get('microweber.compile_assets');

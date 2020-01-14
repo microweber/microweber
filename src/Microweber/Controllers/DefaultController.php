@@ -1357,8 +1357,8 @@ class DefaultController extends Controller
             event_trigger('recover_shopping_cart', $_REQUEST['recart']);
         }
 
-        if ($output_cache_timeout != false) {
-            $output_cache_id = __FUNCTION__ . crc32($_SERVER['REQUEST_URI']);
+        if ($output_cache_timeout != false and isset($_SERVER['REQUEST_URI']) and $_SERVER['REQUEST_URI']) {
+            $output_cache_id = __FUNCTION__ . crc32(MW_VERSION.$_SERVER['REQUEST_URI']);
             $output_cache_group = 'global/full_page_cache';
             $output_cache_content = $this->app->cache_manager->get($output_cache_id, $output_cache_group, $output_cache_timeout);
 

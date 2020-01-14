@@ -142,8 +142,7 @@ class BackupManager
 			$import->setLanguage($this->importLanguage);
 
 			$content = $import->readContentWithCache();
-			
-			if (isset($content['error'])) {
+ 			if (isset($content['error'])) {
 				return $content;
 			}
 
