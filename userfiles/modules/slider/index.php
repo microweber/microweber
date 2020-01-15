@@ -109,8 +109,6 @@ if (is_file($template_file)) {
                 mode: '<?php print $mode ? $mode : 'undefined'; ?>',
                 prevText: '<?php print $prevText ? $prevText : 'undefined'; ?>',
                 nextText: '<?php print $nextText ? $nextText : 'undefined'; ?>',
-                prevSelector: '<?php print $prevSelector ? $prevSelector : 'undefined'; ?>',
-                nextSelector: '<?php print $nextSelector ? $nextSelector : 'undefined'; ?>',
                 touchEnabled: <?php print $touchEnabled ? $touchEnabled : 'undefined'; ?>,
                 captions: true,
                 onSliderLoad: function () {

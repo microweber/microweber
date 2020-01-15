@@ -639,4 +639,4 @@ if (isset($params['data-alt-logo'])) {
     </div>
 </div>
 
-<module type="admin/modules/templates" simple=true/>
+<module type="admin/modules/templates" simple="true"/>
