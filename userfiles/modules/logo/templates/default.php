@@ -1,5 +1,20 @@
 <?php
 
+/*
+
+  type: layout
+
+  name: Default
+
+  description: Default logo skin
+
+
+*/
+
+?>
+
+<?php
+
 
 $size = $size . 'px';
 
