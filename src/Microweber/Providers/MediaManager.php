@@ -311,7 +311,7 @@ class MediaManager
             $ids_to_delete[] = intval($data['id']);
         } elseif (isset($data['ids']) and is_array($data['ids'])) {
             $ids_to_delete = $data['ids'];
-        }elseif (isset($data['ids']) and !is_array($data['ids'])) {
+        } elseif (isset($data['ids']) and !is_array($data['ids'])) {
             $ids_to_delete = explode(',', $data['ids']);
         }
         if ($ids_to_delete) {
@@ -727,20 +727,20 @@ class MediaManager
 
         $cache_path = $cd . $cache;
         if (file_exists($cache_path)) {
-        	if(!isset($return_cache_path)){
-        		if (!headers_sent()) {
-        			if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
-        				$if_modified_since = preg_replace('/;.*$/', '', $_SERVER['HTTP_IF_MODIFIED_SINCE']);
-        			} else {
-        				$if_modified_since = '';
-        			}
-        			$mtime = filemtime($src);
-        			$gmdate_mod = gmdate('D, d M Y H:i:s', $mtime) . ' GMT';
-        			if ($if_modified_since == $gmdate_mod) {
-        				header('HTTP/1.0 304 Not Modified');
-        			}
-        		}
-        	}
+            if (!isset($return_cache_path)) {
+                if (!headers_sent()) {
+                    if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
+                        $if_modified_since = preg_replace('/;.*$/', '', $_SERVER['HTTP_IF_MODIFIED_SINCE']);
+                    } else {
+                        $if_modified_since = '';
+                    }
+                    $mtime = filemtime($src);
+                    $gmdate_mod = gmdate('D, d M Y H:i:s', $mtime) . ' GMT';
+                    if ($if_modified_since == $gmdate_mod) {
+                        header('HTTP/1.0 304 Not Modified');
+                    }
+                }
+            }
 
         } else {
             $src = $this->app->url_manager->clean_url_wrappers($src);
@@ -839,12 +839,12 @@ class MediaManager
         if ($ext == 'jpg') {
             $ext = 'jpeg';
         }
-        
-        
-        if(isset($return_cache_path)){
-        	return $cache_path;
+
+
+        if (isset($return_cache_path)) {
+            return $cache_path;
         }
-        
+
         header('Content-Type: image/' . $ext);
         header('Content-Length: ' . filesize($cache_path));
         readfile($cache_path);
@@ -1073,7 +1073,7 @@ class MediaManager
         }
         $cache_id = 'tn-' . md5(serialize($cache_id)) . '.' . $ext;
         $cache_path = $cd . $cache_id;
-      //  d($cache_path);
+        //  d($cache_path);
 
         if ($is_remote) {
             return $src;
@@ -1084,6 +1084,10 @@ class MediaManager
         } else {
             if (stristr($base_src, 'pixum_img')) {
                 return $this->pixum($width, $height);
+            }
+
+            if (!defined('MW_NO_OUTPUT_CACHE')) {
+                define('MW_NO_OUTPUT_CACHE', true);
             }
             $tn_img_url = $this->app->url_manager->site('api_html/thumbnail_img') . '?&src=' . $base_src . '&width=' . $width . '&height=' . $height . '&crop=' . $crop . '&cache_id=' . $cache_id;
             $tn_img_url = str_replace('(', '&#40;', $tn_img_url);

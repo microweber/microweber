@@ -158,8 +158,9 @@ class Minifier
     {
         $this->options = array_merge(static::$defaultOptions, $options);
         $js = str_replace("\r\n", "\n", $js);
-        $js = str_replace('/**/', '', $js);
-        $this->input = str_replace("\r", "\n", $js);
+         $js = str_replace('/**/', '', $js);
+          $this->input = str_replace("\n", " ", $js);
+       //  $this->input = $js;
 
         // We add a newline to the end of the script to make it easier to deal
         // with comments at the bottom of the script- this prevents the unclosed
