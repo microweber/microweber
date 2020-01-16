@@ -195,6 +195,42 @@ pipeline {
         }
       }
     }
+//
+    stage('Components testing') {
+	  def components = ['microweber-modules/multilanguage', 'PYovchevski/MW-Module-Videos-Playlist']
+	  script {
+		parallel {
+			agent {
+            kubernetes {
+                label "${getKubeLabel(0, BRANCH_NAME, BUILD_NUMBER)}"
+                defaultContainer 'app'
+                yamlFile 'build/pods/php71-phpunit.yaml'
+                nodeSelector "${getKubeNodeSelector(0)}"
+				}
+			}
+			script {
+				for (int i = 0; i < components.size(); ++i) {
+					stage('Component Test' ) {
+						steps {
+							sh 'pwd'
+							sh 'composer install -o --no-progress'
+							sh "composer require ${components[i]}"
+							sh 'phpunit --version'
+							sh 'phpunit --log-junit "reports/unitreport-php71.xml"'
+						}
+						
+					}
+				}
+			}
+	        post {
+	            always {
+	                junit 'reports/components.tests.xml'
+	            }
+	        }
+		}
+	  }
+	}
+//
 
     stage('UI Testing') {
       parallel {
