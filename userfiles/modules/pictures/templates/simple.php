@@ -15,7 +15,6 @@ description: Simple Pictures List Template
 
     <?php $rand = uniqid(); ?>
 
-    <script>mw.require("tools.js", true); </script>
     <script>mw.moduleCSS("<?php print $config['url_to_module']; ?>css/style.css"); </script>
     <div class="mw-module-images<?php if ($no_img) { ?> no-image<?php } ?>">
         <div class="mw-pictures-list mw-images-template-default-grid" id="mw-gallery-<?php print $rand; ?>">

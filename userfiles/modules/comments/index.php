@@ -256,7 +256,6 @@ if (get_option('enable_comments', 'comments') == 'y') {
 
     <script type="text/javascript">
         mw.require("url.js", true);
-        mw.require("tools.js", true);
         mw.require("forms.js", true);
     </script>
     

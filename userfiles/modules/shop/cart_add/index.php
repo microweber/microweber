@@ -1,5 +1,4 @@
 <script type="text/javascript">
-    mw.require("tools.js", true);
     mw.require("shop.js", true);
     mw.require("events.js", true);
 </script>

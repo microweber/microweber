@@ -37,7 +37,6 @@ description: Product Gallery
         mw.moduleCSS("<?php print mw_includes_url() ?>css/ui.css");
         mw.moduleCSS("<?php print $config['url_to_module']; ?>css/style.css");
         mw.require("<?php print $config['url_to_module']; ?>js/api.js", true);
-        mw.require("tools.js", true);
     </script>
 <script type="text/javascript">
 

@@ -13,7 +13,6 @@ description: Masonry
 ?>
 <?php if (is_array($data)): ?>
     <?php $rand = uniqid(); ?>
-    <script>mw.require("tools.js", true);</script>
     <script>mw.require("<?php print $config['url_to_module']; ?>js/masonry.pkgd.min.js", true); </script>
     <script>mw.moduleCSS("<?php print $config['url_to_module']; ?>css/style.css"); </script>
     <script>

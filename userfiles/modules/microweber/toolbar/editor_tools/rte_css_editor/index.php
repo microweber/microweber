@@ -8,7 +8,6 @@
     mw.require("events.js");
     mw.require("forms.js");
     mw.require("files.js");
-    mw.require("tools.js");
     mw.require("url.js");
     mw.require('prop_editor.js');
     mw.require('color.js');

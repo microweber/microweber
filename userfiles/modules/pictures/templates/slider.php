@@ -22,7 +22,6 @@ description: Pictures slider
     </div>
 
     <script type="text/javascript">
-        mw.require("tools.js", true);
         mw.moduleCSS("<?php print $config['url_to_module']; ?>css/slider.css");
         mw.moduleCSS("<?php print $config['url_to_module']; ?>css/style.css");
         mw.require("<?php print $config['url_to_module']; ?>js/api.js", true);

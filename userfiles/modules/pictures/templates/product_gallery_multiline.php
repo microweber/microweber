@@ -60,7 +60,6 @@ description: Product Gallery Multiline
                     next: true,
                     prev: true
                 });
-                mw.require("tools.js", true);
             }
 
             mw.$('#<?php print $id; ?> span.mw-slider-zoomholder').each(function () {

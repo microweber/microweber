@@ -31,7 +31,7 @@
     template_stack_add(mw_includes_url() . 'api/instruments.js');
     template_stack_add(mw_includes_url() . 'api/events.js');
     template_stack_add(mw_includes_url() . 'api/url.js');
-    template_stack_add(mw_includes_url() . 'api/tools.js');
+
     template_stack_add(mw_includes_url() . 'api/admin.js');
     template_stack_add(mw_includes_url() . 'api/dialog.js');
     template_stack_add(mw_includes_url() . 'api/liveadmin.js');
