@@ -3495,12 +3495,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-templates/dream.git",
-                "reference": "ad6ee983ebdc55b24ffcb44adc58ca4e31074694"
+                "reference": "da7137ff55837ed0cdc6ba8e20a64a8d7c07483f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-templates/dream/zipball/ad6ee983ebdc55b24ffcb44adc58ca4e31074694",
-                "reference": "ad6ee983ebdc55b24ffcb44adc58ca4e31074694",
+                "url": "https://api.github.com/repos/microweber-templates/dream/zipball/da7137ff55837ed0cdc6ba8e20a64a8d7c07483f",
+                "reference": "da7137ff55837ed0cdc6ba8e20a64a8d7c07483f",
                 "shasum": ""
             },
             "type": "microweber-template",
@@ -3521,10 +3521,10 @@
                 "microweber"
             ],
             "support": {
-                "source": "https://github.com/microweber-templates/dream/tree/3.0",
+                "source": "https://github.com/microweber-templates/dream/tree/3.1",
                 "issues": "https://github.com/microweber-templates/dream/issues"
             },
-            "time": "2019-12-20T09:26:48+00:00"
+            "time": "2020-01-17T13:21:45+00:00"
         },
         {
             "name": "microweber-templates/liteness",
@@ -3739,6 +3739,7 @@
                 "cron",
                 "schedule"
             ],
+            "abandoned": "dragonmantank/cron-expression",
             "time": "2017-01-23T04:29:33+00:00"
         },
         {
