@@ -112,12 +112,15 @@
 </style>
 <?php
 
-$lang = get_option('language', 'website');
 
+/*
+ * $lang = get_option('language', 'website');
 if (!$lang) {
     $lang = 'en';
 }
 set_current_lang($lang);
+*/
+$lang = mw()->lang_helper->current_lang();
 
 $cont = mw()->lang_helper->get_language_file_content();
 $namespaces = mw()->lang_helper->get_all_language_file_namespaces();

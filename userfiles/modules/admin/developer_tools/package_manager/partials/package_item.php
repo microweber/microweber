@@ -12,6 +12,11 @@
         margin: 10px auto 10px auto !important;
     }
 
+    .package-microweber-module {
+        width: 100%;
+        background-size: contain;
+    }
+
     .package-ext-link {
 
         /* These are technically the same, but use both */
@@ -125,7 +130,7 @@ if(!isset($box_class)){
 
 
         <?php if ($screenshot): ?>
-            <div class="package-image" style="background-image: url('<?php print $screenshot; ?>')"></div>
+            <div class="package-image package-<?php print $item['type'] ?>" style="background-image: url('<?php print $screenshot; ?>')"></div>
 
         <?php else: ?>
             <?php if (!isset($no_img)): ?>

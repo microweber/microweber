@@ -362,6 +362,16 @@ class Lang
 
 
         if (isset($mw_language_content_file[$k1]) == false) {
+
+            $current_language = mw()->lang_helper->current_lang();
+            $default_language = get_option('language', 'website');
+
+            $to_save = false;
+            if ($current_language == $default_language) {
+                $to_save = true;
+            }
+
+
             if (!$namespace) {
                 $k2 = ($title_value);
                 $mw_new_language_entries[$k1] = $k2;
@@ -371,7 +381,7 @@ class Lang
                     define('MW_LANG_STORE_ON_EXIT_EVENT_BINDED', 1);
                     $scheduler = new \Microweber\Providers\Event();
                     // schedule a global scope function:
-                    if ($environment != 'testing') {
+                    if ($to_save and $environment != 'testing') {
                         $scheduler->registerShutdownEvent('__store_lang_file', $lang);
                     }
                     // $scheduler->registerShutdownEvent('__store_lang_file');
@@ -393,7 +403,7 @@ class Lang
                     if (!defined('MW_LANG_STORE_ON_EXIT_EVENT_BINDED_NS')) {
                         define('MW_LANG_STORE_ON_EXIT_EVENT_BINDED_NS', 1);
                         $scheduler = new \Microweber\Providers\Event();
-                        if ($environment != 'testing') {
+                        if ($to_save and $environment != 'testing') {
                             $scheduler->registerShutdownEvent('__store_lang_file_ns', $lang);
                         }
                     }

@@ -115,11 +115,12 @@ class CategoryManager
         $id = intval($id);
         $cache_group = 'categories';
 
-        $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
-
+       // $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
+        $cache_content = false;
         if (($cache_content) != false and isset($cache_content[$id])) {
             return $cache_content[$id];
         } else {
+
             if ($cache_content == false) {
                 $cache_content = array();
             }
@@ -151,8 +152,8 @@ class CategoryManager
                 } else {
                     $url = $url . '/category:' . $id;
                 }
-                $cache_content[$id] = $url;
-                $this->app->cache_manager->save($cache_content, $function_cache_id, $cache_group);
+             //   $cache_content[$id] = $url;
+            //    $this->app->cache_manager->save($cache_content, $function_cache_id, $cache_group);
 
                 return $url;
             }
@@ -780,56 +781,27 @@ class CategoryManager
         if ($by_field_name == 'id' and intval($id) == 0) {
             return false;
         }
+
         if (is_numeric($id)) {
             $id = intval($id);
-            $cache_group_suffix = ceil($id / 50) * 50;
         } else {
             $id = trim($id);
-            $cache_group_suffix = substr($id, 0, 1);
         }
 
-        $function_cache_id = __FUNCTION__ . '-' . $by_field_name . '-' . $cache_group_suffix;
+        $table = $this->tables['categories'];
 
-        $cache_group = 'categories';
+        $get = array();
+        $get[$by_field_name] = $id;
+        $get['no_cache'] = true;
+        $get['single'] = true;
+        $q = $this->app->database_manager->get($table, $get);
 
-        $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
-
-        if (($cache_content) != false and isset($cache_content[$id])) {
-/*
-            $override = $this->app->event_manager->trigger('category.after.get', $cache_content[$id]);
-            if (is_array($override) && isset($override[0])) {
-                $cache_content[$id] = $override[0];
-            }*/
-
-            return $cache_content[$id];
-        } else {
-            if ($cache_content == false) {
-                $cache_content = array();
-            }
-
-            $table = $this->tables['categories'];
-
-            $get = array();
-
-            $get[$by_field_name] = $id;
-            $get['no_cache'] = true;
-            $get['single'] = true;
-            $q = $this->app->database_manager->get($table, $get);
-
-            if (isset($q['category_subtype_settings'])) {
-                $q['category_subtype_settings'] = @json_decode($q['category_subtype_settings'], true);
-            }
-
-          /*  $override = $this->app->event_manager->trigger('category.after.get', $q);
-            if (is_array($override) && isset($override[0])) {
-                $q = $override[0];
-            }*/
-
-            $cache_content[$id] = $q;
-            $this->app->cache_manager->save($cache_content, $function_cache_id, $cache_group);
-
-            return $q;
+        if (isset($q['category_subtype_settings'])) {
+            $q['category_subtype_settings'] = @json_decode($q['category_subtype_settings'], true);
         }
+
+        return $q;
+
     }
 
     public function get_by_slug($slug)

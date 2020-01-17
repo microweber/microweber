@@ -26,12 +26,19 @@
                     class="tabnav tip tab mw-lsmodules-tab"
                     data-tip="<?php _e("Modules"); ?>"
                     data-tipposition="left-center"><i class="mw-liveedit-cbar-icon"> </i></a>
+
+                <?php if (file_exists(TEMPLATE_DIR . 'template_settings.php')) { ?>
+
                 <a
                     href="javascript:;"
                    class="tabnav tip mw-lstemplatee-tab"
                    onclick="mw.liveEditWidgets.loadTemplateSettings('<?php print api_url() ?>module?id=template_settings_admin&live_edit=true&module_settings=true&type=settings/template&autosize=false&content_id=<?php print CONTENT_ID ?>')"
                     data-tip="<?php _e("Template Settings"); ?>"
                     data-tipposition="left-center"><i class="mw-liveedit-cbar-icon"> </i></a>
+
+                <?php } ?>
+
+
                 <a href="javascript:;" class="tabnav tip mw-lscsse-tab"
                    onclick="mw.liveEditWidgets.cssEditorInSidebarAccordion()"
                    data-tip="<?php _e("Visual Editor"); ?>"
@@ -85,16 +92,18 @@
                     <div data-xmodule type="admin/modules/list" id="mw-sidebar-modules-list"></div>
                 </div>
             </div>
+            <?php if (file_exists(TEMPLATE_DIR . 'template_settings.php')) { ?>
+
             <div class="tabitem mw-normalize-css" style="display: none;">
                 <div class="mw-live-edit-tab-title">
                     <h6><?php _e("Template settings"); ?></h6>
                 </div>
 
-                <?php if (file_exists(TEMPLATE_DIR . 'template_settings.php')) { ?>
                     <div id="mw-live-edit-sidebar-settings-iframe-holder-template-settings" class="mw-live-edit-sidebar-iframe-holder"></div>
-                <?php } ?>
+
 
             </div>
+            <?php } ?>
             <div class="tabitem ">
                 <div class="mw-live-edit-tab-title">
                     <h6><?php _e("Visual editor"); ?></h6>

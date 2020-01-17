@@ -14,7 +14,6 @@ if(user_id() == 0){
   mw.settings.liveEdit = true;
 
   mw.require("<?php print( mw_includes_url());  ?>js/jquery-ui-1.10.0.custom.min.js");
-  mw.require("tools.js");
 
   mw.require("liveadmin.js");
   mw.require("events.js");

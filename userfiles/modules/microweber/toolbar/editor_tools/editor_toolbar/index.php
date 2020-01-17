@@ -10,7 +10,6 @@
 <script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-selectionsaverestore.js"></script>
 <script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-serializer.js"></script>
 
-<script>mw.require("tools.js");</script>
 <script>mw.require("url.js");</script>
 <script>mw.require("events.js");</script>
 <script>mw.require("wysiwyg.js");</script>

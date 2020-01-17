@@ -210,6 +210,6 @@ $icon = get_option('icon', $params['id']);
         <div id="icon-picker"></div>
     </div>
     <div class="mw-ui-field-holder">
-        <module type="admin/modules/templates" simple=true/>
+        <module type="admin/modules/templates" simple="true"/>
     </div>
 </div>

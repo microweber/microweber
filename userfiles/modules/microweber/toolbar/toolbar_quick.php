@@ -5,7 +5,6 @@
         mw.require("<?php print( mw_includes_url());  ?>js/jquery-ui-1.10.0.custom.min.js");
         mw.require("events.js");
         mw.require("url.js");
-        mw.require("tools.js");
         mw.require("wysiwyg.js");
         mw.require("css_parser.js");
 

@@ -5,7 +5,6 @@
     mw.require("events.js");
     mw.require("forms.js");
     mw.require("files.js");
-    mw.require("tools.js");
     mw.require("url.js");
 </script>
 

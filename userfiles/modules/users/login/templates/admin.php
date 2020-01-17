@@ -28,7 +28,6 @@ $current_lang = current_lang();
 ?>
 
 <div id="mw-login">
-    <script>mw.require("tools.js");</script>
     <script>mw.require("session.js");</script>
     <script>
 

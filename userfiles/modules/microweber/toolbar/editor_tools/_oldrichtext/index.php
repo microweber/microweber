@@ -12,7 +12,6 @@
     </script>
     <script>mw.require("jquery-ui.js");</script>
     <script>mw.require("<?php print mw_includes_url(); ?>css/admin.css");</script>
-    <script>mw.require("tools.js");</script>
     <script>mw.require("url.js");</script>
     <script>mw.require("events.js");</script>
     <script>mw.require("wysiwyg.js");</script>

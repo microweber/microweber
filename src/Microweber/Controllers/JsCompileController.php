@@ -42,7 +42,9 @@ class JsCompileController extends Controller
             $ref_page = $_SERVER['HTTP_REFERER'];
             if ($ref_page != '') {
                 $ref_page = $this->app->content_manager->get_by_url($ref_page);
-                $page_id = $ref_page['id'];
+                if (is_array($ref_page)) {
+                    $page_id = $ref_page['id'];
+                }
             }
         }
         if (isset($_SERVER['HTTP_REFERER'])) {
@@ -74,10 +76,10 @@ class JsCompileController extends Controller
         $l = str_replace('%7BSITE_URL%7D', $this->app->url_manager->site(), $l);
 
 
-
         $compile_assets = \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
-            $l = $this->minify_js($l);
+             // it makes an error
+           $l = $this->minify_js($l);
 
             $userfiles_dir = userfiles_path();
             $hash = md5(site_url());
@@ -142,7 +144,7 @@ class JsCompileController extends Controller
             $ref_page = $_SERVER['HTTP_REFERER'];
             if ($ref_page != '') {
                 $ref_page = $this->app->content_manager->get_by_url($ref_page);
-                if(is_array($ref_page)){
+                if (is_array($ref_page)) {
                     $page_id = $ref_page['id'];
 
                 } else {
@@ -232,10 +234,6 @@ class JsCompileController extends Controller
         $l = str_replace('%7BSITE_URL%7D', $this->app->url_manager->site(), $l);
 
 
-
-
-
-
         $compile_assets = \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
             $l = $this->minify_js($l);
@@ -245,6 +243,9 @@ class JsCompileController extends Controller
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs');
             $userfiles_cache_filename = $userfiles_cache_dir . 'api.liveedit.' . $hash . '.' . MW_VERSION . '.js';
             if (!is_file($userfiles_cache_filename)) {
+                if (!defined('MW_NO_OUTPUT_CACHE')) {
+                    define('MW_NO_OUTPUT_CACHE', true);
+                }
                 if (!is_dir($userfiles_cache_dir)) {
                     mkdir_recursive($userfiles_cache_dir);
                 }
@@ -347,6 +348,9 @@ class JsCompileController extends Controller
 
     public function minify_js($layout)
     {
+        return $layout;
+
+       // has error on minifier
         $optimize_asset_loading = get_option('optimize_asset_loading', 'website');
         if ($optimize_asset_loading == 'y') {
             $minifier = normalize_path(MW_PATH . 'Utils/lib/JShrink/Minifier.php', false);

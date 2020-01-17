@@ -244,21 +244,23 @@ $pages_count = intval($pages);
 
 
                                     <?php $cats = content_categories($item['id']); ?>
-
+                                    <?php $tags = content_tags($item['id'], true); ?>
                                     <?php if ($cats) { ?>
                                         <span class="manage-post-item-cats-inline-list">
                                               <span class="mw-icon-category"></span>
                                             <?php foreach ($cats as $ck => $cat): ?>
-                                                <a href="#action=showpostscat:<?php print ($cat['id']); ?>" class=" label label-primary">
+                                            <a href="#action=showpostscat:<?php print ($cat['id']); ?>" class=" label label-primary">
+                                                <?php print $cat['title']; ?></a><?php if (isset($cats[$ck + 1])): ?>,<?php endif; ?>
 
 
-
-
-                                                    <?php print $cat['title']; ?></a><?php if (isset($cats[$ck + 1])): ?>,<?php endif; ?>
                                             <?php endforeach; ?>
                                       </span>
                                         <br />
                                     <?php } ?>
+                                     <?php if ($tags) { ?>
+
+
+                                      <?php } ?>
 
                                     <a class="manage-post-item-link-small mw-medium" target="_top" href="<?php print content_link($item['id']); ?>?editmode:y"><?php print content_link($item['id']); ?></a>
                                 </div>

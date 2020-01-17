@@ -951,8 +951,8 @@ class DefaultController extends Controller
 
             unset($data['ondrop']);
         }
-      //  d($data);
-     //   d($mod_n);
+        //  d($data);
+        //   d($mod_n);
         if ($mod_n == 'element-from-template' && isset($data['template'])) {
             $t = str_replace('..', '', $data['template']);
             $possible_layout = TEMPLATE_DIR . $t;
@@ -1166,8 +1166,8 @@ class DefaultController extends Controller
         $is_no_editmode = $this->app->url_manager->param('no_editmode');
         $is_quick_edit = $this->app->url_manager->param('mw_quick_edit');
         $back_to_editmode = $this->app->user_manager->session_get('back_to_editmode');
-        if(!$back_to_editmode){
-            if(isset($_COOKIE['mw-back-to-live-edit']) and $is_admin){
+        if (!$back_to_editmode) {
+            if (isset($_COOKIE['mw-back-to-live-edit']) and $is_admin) {
                 $back_to_editmode = $_COOKIE['mw-back-to-live-edit'];
             }
         }
@@ -1226,8 +1226,6 @@ class DefaultController extends Controller
         if ($is_quick_edit == true) {
             $is_editmode = true;
         }
-
-
 
 
         $preview_module = false;
@@ -1356,19 +1354,19 @@ class DefaultController extends Controller
         if (isset($_REQUEST['recart']) and $_REQUEST['recart'] != false) {
             event_trigger('recover_shopping_cart', $_REQUEST['recart']);
         }
+        if (!defined('MW_NO_OUTPUT_CACHE')) {
+            if ($output_cache_timeout != false and isset($_SERVER['REQUEST_URI']) and $_SERVER['REQUEST_URI']) {
+                $compile_assets = \Config::get('microweber.compile_assets');
 
-        if ($output_cache_timeout != false) {
-            $output_cache_id = __FUNCTION__ . crc32($_SERVER['REQUEST_URI']);
-            $output_cache_group = 'global/full_page_cache';
-            $output_cache_content = $this->app->cache_manager->get($output_cache_id, $output_cache_group, $output_cache_timeout);
-
-            if ($output_cache_content != false) {
-                echo $output_cache_content;
-
-                return;
+                $output_cache_id = __FUNCTION__ . crc32(MW_VERSION . intval($compile_assets) . $_SERVER['REQUEST_URI']);
+                $output_cache_group = 'global/full_page_cache';
+                $output_cache_content = $this->app->cache_manager->get($output_cache_id, $output_cache_group, $output_cache_timeout);
+                if ($output_cache_content != false) {
+                    echo $output_cache_content;
+                    return;
+                }
             }
         }
-
         $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
 
         $date_format = $this->app->option_manager->get('date_format', 'website');
@@ -1386,7 +1384,7 @@ class DefaultController extends Controller
                 $found_mod = false;
                 $page = $this->app->content_manager->get_by_url($page_url);
                 $page_exact = $this->app->content_manager->get_by_url($page_url, true);
-           //dd($page,$page_exact,$page_url);
+                //dd($page,$page_exact,$page_url);
                 $page_url_segment_1 = $this->app->url_manager->segment(0, $page_url);
                 if ($preview_module != false) {
                     $page_url = $preview_module;
@@ -1399,12 +1397,12 @@ class DefaultController extends Controller
                     $found_mod = true;
                 }
 
-                if(!$page_exact and !$page and stristr($page_url,'index.php')){
-                        // prevent loading of non exisitng page at index.php/somepage
+                if (!$page_exact and !$page and stristr($page_url, 'index.php')) {
+                    // prevent loading of non exisitng page at index.php/somepage
                     $response = \Response::make('Error 404 The webpage cannot be found');
                     $response->setStatusCode(404);
                     return $response;
-                 }
+                }
 
                 // if ($found_mod == false) {
                 if (empty($page)) {
@@ -1843,7 +1841,6 @@ class DefaultController extends Controller
             $modify_content = event_trigger('on_load', $content);
 
 
-
             $l = $this->app->parser->process($l, $options = false);
 
             if ($preview_module_id != false) {
@@ -2000,10 +1997,10 @@ class DefaultController extends Controller
                 //editmode fix
                 $back_to_editmode = $this->app->user_manager->session_get('back_to_editmode');
 
-                if(!$back_to_editmode){
-                    if(isset($_COOKIE['mw-back-to-live-edit']) and $_COOKIE['mw-back-to-live-edit']){
-                        if($is_admin){
-                        $is_editmode = true;
+                if (!$back_to_editmode) {
+                    if (isset($_COOKIE['mw-back-to-live-edit']) and $_COOKIE['mw-back-to-live-edit']) {
+                        if ($is_admin) {
+                            $is_editmode = true;
                         }
                     }
                 }
@@ -2101,9 +2098,10 @@ class DefaultController extends Controller
 
             if ($output_cache_timeout != false) {
 
-
-                $l = $this->app->parser->replace_non_cached_modules_with_placeholders($l);
-                $this->app->cache_manager->save($l, $output_cache_id, $output_cache_group, $output_cache_timeout);
+                if (!defined('MW_NO_OUTPUT_CACHE')) {
+                    $l = $this->app->parser->replace_non_cached_modules_with_placeholders($l);
+                    $this->app->cache_manager->save($l, $output_cache_id, $output_cache_group, $output_cache_timeout);
+                }
             }
 
             if (isset($_REQUEST['debug'])) {

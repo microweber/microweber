@@ -9,6 +9,7 @@
         }, function () {
             var cooklie_lang = $("#user_lang").val();
             mw.cookie.set('lang', cooklie_lang);
+            window.location.reload();
         });
     });
 </script>
@@ -30,16 +31,8 @@
         </label>
 
         <?php
-
         $langs  = mw()->lang_helper->get_all_lang_codes();
-
-
-
-
-
-
         $def_language = get_option('language', 'website');
-
 
         if ($def_language == false) {
             $def_language = 'en';
