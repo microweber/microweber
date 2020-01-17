@@ -38,6 +38,7 @@ namespace Microweber;
  * @property \Microweber\Providers\TemplateManager               $template_manager
  * @property \Microweber\Providers\Ui                            $ui
  * @property \Microweber\Utils\Captcha                           $captcha
+ * @property \Microweber\Utils\Http                              $http
  * @property \Microweber\Providers\FormsManager                  $forms_manager
  * @property \Microweber\Providers\Content\DataFieldsManager     $data_fields_manager
  * @property \Microweber\Providers\Content\TagsManager           $tags_manager
