@@ -1,6 +1,7 @@
 
 
-<div id="tree"></div>
+<div id="Xtree"></div>
+<div id="domtree"></div>
 
 <script type="text/javascript">
     //parent.mw.require("external_callbacks.js");
@@ -14,6 +15,30 @@
     mw.require('color.js');
     mw.require('selector.js')
     mw.require('tree.js')
+
+    mw.require('domtree.js')
+    $(window).on('load', function () {
+
+
+        setTimeout(function() {
+
+            mw.top().liveEditDomTree = new mw.DomTree({
+                element: '#domtree',
+                targetDocument: mw.top().win.document,
+                onHover: function (e, target, node, element) {
+                    mw.top().liveEditSelector.setItem(node, mw.top().liveEditSelector.interactors, true);
+                },
+                onSelect: function (e, target, node, element) {
+                    setTimeout(function () {
+
+                        mw.top().liveEditSelector.select(node);
+                    })
+                }
+            });
+        }, 2111);
+
+    })
+
 </script>
 <script>
 

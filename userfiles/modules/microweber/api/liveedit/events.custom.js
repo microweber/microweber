@@ -24,7 +24,13 @@ mw.liveedit.handleCustomEvents = function() {
         ]);
         var toSelect = mw.tools.firstBlockLevel(target);
 
+
+
         mw.liveEditSelector.select(toSelect);
+
+        mw.liveEditDomTree.select(toSelect);
+
+
     });
 
 

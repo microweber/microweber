@@ -4,6 +4,9 @@ mw.require("components.js");
 mw.require("color.js");
 mw.lib.require("acolorpicker");
 
+
+
+
 mw.tools = {};
 
 <?php
@@ -32,3 +35,7 @@ mw.tooltip = mw.tools.tip;
 mw.gallery = function (arr, start, modal) {
     return mw.tools.gallery.init(arr, start, modal)
 };
+
+
+
+

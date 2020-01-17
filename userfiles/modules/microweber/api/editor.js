@@ -92,6 +92,7 @@ mw.Editor.core = {
         * */
 
         options = options || {};
+        var scope = this;
 
         if (!options.data) {
             options.data = [];
@@ -99,7 +100,7 @@ mw.Editor.core = {
 
         var defaults = {
             placeholder: mw.lang('Select')
-        }
+        };
 
         this.settings = $.extend({}, defaults, options);
 
@@ -121,16 +122,51 @@ mw.Editor.core = {
                 tag: 'span',
                 props: { className: 'mw-dropdown-value mw-ui-btn mw-dropdown-val', innerHTML: options.innerHTML }
             });
+            this.contentNode.node.appendChild(this.listNode.node);
+            this.rootNode.node.appendChild(this.valueNode.node);
+            this.rootNode.node.appendChild(this.contentNode.node);
         };
 
         this.nodes = function () {
             for (var i =0; i < this.settings.data.length; i++) {
                 var item = this.settings.data[i];
-                var node = mw.element({
+                var li = mw.element({
                     tag: 'li',
-                    props: { innerHTML: options.innerHTML, value: item.value  }
+                    props: { innerHTML: item.label, value: item.value  }
                 });
+                (function (item) {
+                    li.$node.on('click', function () {
+                        scope.select(item);
+                    });
+                })(item);
+                this.listNode.node.appendChild(li.node);
             }
+        };
+
+        this.getAsItem = function (item) {
+            var all = this.settings.data;
+            if(all.indexOf(item) !== -1) {
+                return item;
+            }
+            for (var i = 0; i<all.length; i++){
+                if( item.value && all[i].value === item.value ) {
+                    return all[i];
+                } else if (item === all[i].value) {
+                    return all[i];
+                }
+            }
+        };
+
+        this.value = function (val) {
+            if(typeof val === 'undefined') {
+                return this._value;
+            }
+            var item = this.getAsItem(val);
+            if(item) {
+                this.valueNode.node.innerHTML = item.value;
+                this._value = item;
+            }
+
         };
 
 

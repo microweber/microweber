@@ -428,25 +428,7 @@ mw.drag = {
         if (!$(mwd.body).hasClass("bup")) {
             mw.$(mwd.body).addClass("bup");
 
-           $(document.body).on('drop', function(e){
-               var ev = e.originalEvent || e;
-               if(mw.wysiwyg.isTargetEditable(ev.target)) {
-                   ev.preventDefault();
-               }
 
-                /*
-                    // todo:
-
-                if(mw.wysiwyg.isTargetEditable(ev.target)){
-                    var items = ev.dataTransfer.items;
-                    for(var i=0; i< items.length; i++){
-                        items[i].getAsString(function(a){
-                            mw.wysiwyg.insert_html(mw.wysiwyg.html2text(a))
-                        })
-                    }
-
-                }*/
-            });
 
             mw.$(mwd.body).on("mouseup touchend", function(event) {
                 mw.image._dragcurrent = null;
