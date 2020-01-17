@@ -115,11 +115,12 @@ class CategoryManager
         $id = intval($id);
         $cache_group = 'categories';
 
-        $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
-
+       // $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
+        $cache_content = false;
         if (($cache_content) != false and isset($cache_content[$id])) {
             return $cache_content[$id];
         } else {
+
             if ($cache_content == false) {
                 $cache_content = array();
             }
@@ -151,8 +152,8 @@ class CategoryManager
                 } else {
                     $url = $url . '/category:' . $id;
                 }
-                $cache_content[$id] = $url;
-                $this->app->cache_manager->save($cache_content, $function_cache_id, $cache_group);
+             //   $cache_content[$id] = $url;
+            //    $this->app->cache_manager->save($cache_content, $function_cache_id, $cache_group);
 
                 return $url;
             }
