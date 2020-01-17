@@ -7,8 +7,8 @@
 
 
         }, function () {
-            var cooklie_lang = $("#user_lang").val();
-            mw.cookie.set('lang', cooklie_lang);
+           /* var cooklie_lang = $("#user_lang").val();
+            mw.cookie.set('lang', cooklie_lang);*/
         });
     });
 </script>
