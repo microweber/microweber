@@ -173,16 +173,18 @@ class MailSubscriber
 			try {
 				$groupsApi = (new MailerLite($settings['api_key']))->groups();
 				$allGroups = $groupsApi->get();
-				
-				$groupNames = array();
+
+                $groupId = false;
 				foreach($allGroups as $group) {
-					$groupNames[] = $group->name;
-					$groupId = $group->id;
-				}
+                    if ($group->name == $this->listTitle) {
+                        $groupId = $group->id;
+                        break;
+                    }
+                }
 				
-				if (!in_array($this->listTitle, $groupNames)) {
-					$newGroup = $groupsApi->create(['name' => $this->listTitle]);
-					$groupId = $newGroup->id;
+				if (!$groupId) {
+					$createNewGroup = $groupsApi->create(['name' => $this->listTitle]);
+					$groupId = $createNewGroup->id;
 				}
 				
 				$subscriber = [
