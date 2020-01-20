@@ -416,25 +416,29 @@
         mw.image.current_original = src;
 
         mw.image.current = mwd.querySelector("#mwimagecurrent");
-        if(!!title)mw.$("#image-title").val(title);
-        if(!!alt)mw.$("#image-alt").val(alt);
+        if (typeof title !== "undefined") mw.$("#image-title").val(title);
+        if (typeof alt !== "undefined") mw.$("#image-alt").val(alt);
+        //if(!!title)mw.$("#image-title").val(title);
+        //if(!!alt)mw.$("#image-alt").val(alt);
 
         mw.$(".mw-ui-btn-savetheimage").on('click', function () {
 
 
-            console.log(SelectedImage, isBG)
+            console.log(SelectedImage, isBG);
             if(isBG) {
-                $(SelectedImage).css(isBG)
-
+                $(SelectedImage).css(isBG);
             }
-            CurrSRC(mw.image.current.src)
-            if(!!mw.image.current_align){
+            CurrSRC(mw.image.current.src);
+            if (typeof mw.image.current_align !== "undefined"){
+            //if(!!mw.image.current_align){
                 SelectedImage.align = mw.image.current_align;
             }
-            if(!!SelectedImage.title){
+            if (typeof SelectedImage.title !== "undefined"){
+            //if(!!SelectedImage.title){
                 SelectedImage.title = mw.$("#image-title").val();
             }
-            if(!!SelectedImage.alt){
+            if (typeof SelectedImage.alt !== "undefined"){
+            //if(!!SelectedImage.alt){
                 SelectedImage.alt = mw.$("#image-alt").val();
             }
 
@@ -452,8 +456,10 @@
 
             parent.mw.wysiwyg.normalizeBase64Image(SelectedImage);
 
-            var link_url = $("#link").val()
-            if (!!link_url ) {
+            var link_url = $("#link").val();
+            if (link_url == ""){
+                $(SelectedImage).unwrap('a');
+            } else {
                 link_url = link_url.trim();
                 if (mw.tools.hasParentsWithTag(SelectedImage, 'a')) {
                     $(mw.tools.firstParentWithTag(SelectedImage, 'a')).attr("href", link_url);
