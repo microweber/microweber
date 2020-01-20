@@ -136,6 +136,10 @@ if (isset($params['data-alt-logo'])) {
 </style>
 
 <script>
+    mw.require('tools/images.js');
+</script>
+
+<script>
 
     $(document).ready(function () {
         UP = mw.uploader({
@@ -334,28 +338,56 @@ if (isset($params['data-alt-logo'])) {
         </div>
     </div>
 
+
     <hr/>
 
+
+    <script>
+
+
+
+        $(document).ready(function(){
+
+
+            window.top.mw.on('imageSrcChanged', function(e, node, url){
+                setNewImage(url);
+                setAuto();
+            });
+
+        });
+
+        mw.edit_logo_image_crop = function () {
+            window.top.mw.image.currentResizing = $('#logo-image-edit');
+            window.top.mw.image.settings();
+            return false;
+
+        }
+
+    </script>
     <div class="js-logo-image-holder">
         <div class="mw-ui-field-holder p-t-0">
-            <label class="mw-ui-label">Main Logo</label>
+            <label class="mw-ui-label">Main Logo
+            </label>
         </div>
 
         <div class="mw-ui-row image-row">
             <div class="mw-ui-col">
                 <div class="the-image-holder">
+
+                    <img style="display: none;" src="<?php print $logoimage ?>" id="logo-image-edit">
+
                     <img src="<?php if ($logoimage) {
                         echo thumbnail($logoimage, 200);
                     } else {
                         echo thumbnail('', 200);
-                    } ?>" class="the-image" alt="" <?php if ($logoimage != '' and $logoimage != false) { ?><?php } else { ?> style="display:block;" <?php } ?> />
+                    } ?>" class="the-image"  alt="" <?php if ($logoimage != '' and $logoimage != false) { ?><?php } else { ?> style="display:block;" <?php } ?> />
                 </div>
             </div>
 
             <div class="mw-ui-col m-t-15">
                 <span class="mw-ui-btn mw-ui-btn-info mw-ui-btn-medium mw-ui-btn-rounded" id="upload-image">Upload Image</span>
                 <a href="javascript:mw_admin_logo_upload_browse_existing()" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded"><?php _e('Browse Uploaded'); ?></a>
-            </div>
+                <?php if ($logotype == 'both' or $logotype == 'image' or $logotype == false){ ?> <a    class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded" onclick="mw.edit_logo_image_crop()" href="javascript:void(0);"  >Edit image</a> <?php } ?>            </div>
         </div>
         <hr/>
 
