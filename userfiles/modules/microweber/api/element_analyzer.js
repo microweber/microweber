@@ -13,8 +13,10 @@ mw.AfterDrop = function(){
                         mw.drag.fancynateLoading(module);
                         mw.pauseSave = false;
                         mw.wysiwyg.init_editables();
-                        console.log(el)
-                        mw.liveEditDomTree.addNode(el);
+                        if(mw.liveEditDomTree){
+                            mw.liveEditDomTree.addNode(el);
+                        }
+
                     },
                     fail:function () {
                         mw.$(this).remove();

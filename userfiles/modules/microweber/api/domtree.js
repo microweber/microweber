@@ -32,7 +32,6 @@ mw.DomTree = function (options) {
         var el = this.items.find(function (li) {
             return li._value === node;
         });
-        console.log(el, node)
         if (el) {
             this.selected(el);
             this.openParents(el);
