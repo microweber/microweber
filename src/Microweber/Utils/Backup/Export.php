@@ -36,31 +36,39 @@ class Export
 	
 	public function exportAsType($data)
 	{
+        $backupManager = new BackupManager();
+        $exportCacheLocation = $backupManager->getBackupCacheLocation();
+
 		$exportWithZip = false;
 		$exportMediaUserFiles = false;
-		
+
 		if (array_key_exists('media', $data)) {
 			$exportMediaUserFiles = true;
 		}
 		
 		$export = $this->_getExporter($data);
-		
+
 		if (isset($export['files']) && count($export['files']) > 1) {
 			$exportWithZip = true;
 		}
 		
 		if ($exportWithZip || $exportMediaUserFiles) {
-			
+
 			// Make Zip
 			$zipExport = new ZipExport();
-			
-			// Add exported files
-			if (isset($export['files'])) {
-				foreach ($export['files'] as $file) {
-					$zipExport->addFile($file);
-				}
-			}
-			
+
+            // Move files to zip temp
+            if (isset($export['files'])) {
+                foreach ($export['files'] as $file) {
+
+                    $newFilePath = $exportCacheLocation  . $file['filename'];
+                    rename($file['filepath'], $newFilePath);
+
+                    // Add exported files
+                    $zipExport->addFile(array('filepath'=>$newFilePath, 'filename'=>$file['filename']));
+                }
+            }
+
 			if ($exportMediaUserFiles) {
 				$zipExport->setExportMedia(true);
 			}
@@ -68,18 +76,15 @@ class Export
 			if ($this->includeMedia == false) {
 				$zipExport->setExportMedia(false);
 			}
-			
+
 			$zipExportReady = $zipExport->start();
-			
+
 			if (isset($zipExportReady['download']) && !empty($zipExportReady['download'])) {
-				
-				// Delete unused ziped files
-				if (isset($export['files'])) {
-					foreach ($export['files'] as $file) {
-						@unlink($file['filepath']);
-					}
-				}
-				
+
+                // Delete unused ziped files
+                array_map('unlink', glob("$exportCacheLocation/*.*"));
+                rmdir($exportCacheLocation);
+
 				return array(
 					'success' => 'Items are exported',
 					'export_type' => $this->type,

@@ -186,4 +186,15 @@ class BackupManager
 
 		return $backupContent;
 	}
+
+	public function getBackupCacheLocation()
+    {
+        $backupContent = $this->getBackupLocation() . '/cache_export_zip/';
+
+        if (! is_dir($backupContent)) {
+            mkdir_recursive($backupContent);
+        }
+
+        return $backupContent;
+    }
 }
