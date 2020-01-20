@@ -909,8 +909,8 @@ function array_unique_recursive($array)
  * @param string $data Binary data to encode
  * @return string Base-62 encoded text (not chunked or split)
  */
-if (!function_exists('base62encode')) {
-    function base62encode($data) {
+if (!function_exists('base62_encode')) {
+    function base62_encode($data) {
         $outstring = '';
         $l = strlen($data);
         for ($i = 0; $i < $l; $i += 8) {
@@ -938,8 +938,8 @@ if (!function_exists('base62encode')) {
  * @param string $data Base-62 encoded text (not chunked or split)
  * @return string Decoded binary data
  */
-if (!function_exists('base62decode')) {
-    function base62decode($data) {
+if (!function_exists('base62_decode')) {
+    function base62_decode($data) {
         $outstring = '';
         $l = strlen($data);
         for ($i = 0; $i < $l; $i += 11) {
