@@ -453,8 +453,13 @@
             }
 
             setColor(true);
-            parent.mw.wysiwyg.change(mw.tools.firstParentWithClass(SelectedImage, 'edit'));
 
+           // alert(parent.mw.tools.firstParentWithClass(SelectedImage, 'edit'));
+
+
+            if(parent.mw.tools.hasParentsWithClass(SelectedImage, 'edit')){
+            parent.mw.wysiwyg.change(parent.mw.tools.firstParentWithClass(SelectedImage, 'edit'));
+            }
             window.top.$(window.top).trigger('imageSrcChanged', [SelectedImage, CurrSRC()])
 
             if(window.thismodal){

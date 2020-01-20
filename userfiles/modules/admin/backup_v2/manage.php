@@ -12,7 +12,7 @@
   <table   cellspacing="0" cellpadding="0" class="mw-ui-table">
     <thead>
       <tr>
-        <th><?php _e("Filename"); ?> </th>
+        <th style="width:300px;"><?php _e("Filename"); ?> </th>
         <th><?php _e("Date"); ?></th>
         <th><?php _e("Time"); ?></th>
         <th><?php _e("Size"); ?></th>
