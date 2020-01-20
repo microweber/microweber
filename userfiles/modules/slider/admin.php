@@ -346,6 +346,13 @@ include('options.php');
 
                         <div class="mw-flex-col-xs-6 js-option js-bxslider js-slickslider">
                             <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label"><?php _e("Autoplay Speed"); ?></label>
+                                <input type="text" value="<?php print $autoplaySpeed; ?>" name="autoplay_speed" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>"/>
+                            </div>
+                        </div>
+
+                        <div class="mw-flex-col-xs-6 js-option js-bxslider js-slickslider">
+                            <div class="mw-ui-field-holder">
                                 <label class="mw-ui-label"><?php _e("Pause on hover"); ?></label>
                                 <select name="pause_on_hover" class="mw-ui-field mw_option_field mw-full-width" option_group="<?php print $params['id'] ?>">
                                     <option value="false" <?php if ($pauseOnHover == 'false'): ?> selected="selected" <?php endif ?>><?php _e("No"); ?></option>

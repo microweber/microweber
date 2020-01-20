@@ -28,7 +28,11 @@ mw.liveedit.handleCustomEvents = function() {
 
         mw.liveEditSelector.select(toSelect);
 
-        mw.liveEditDomTree.select(toSelect);
+        if(mw.liveEditDomTree) {
+            mw.liveEditDomTree.select(toSelect);
+
+        }
+
 
 
     });

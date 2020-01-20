@@ -87,17 +87,18 @@
                     <span class="mw-ui-btn mw-ui-btn-medium" onclick="cropcancel()"><?php _e("Cancel"); ?></span>
                 </div>
             </div>
+            <div class="mw-ui-field-holder" id="edititems">
             <div class="mw-ui-field-holder" style="padding-bottom: 20px;" id="editmenu">
                 <div class="mw-ui-btn-nav pull-left" style="margin-right:12px">
 
 
-          <span class="mw-ui-btn" onclick="mw.createCropTool();">
-            <span class="mw-icon-crop"></span> &nbsp;<?php _e('Crop') ?>
-          </span>
-          <span class="mw-ui-btn mw-ui-btn-icon"
-                onclick="mw.image.rotate(mw.image.current);mw.image.current_need_resize = true;mw.$('#mw_image_reset').removeClass('disabled')">
-            <span class="mw-icon-app-refresh-empty"></span> &nbsp; <?php _e('Rotate'); ?>
-          </span>
+                  <span class="mw-ui-btn" onclick="createCropTool();">
+                    <span class="mw-icon-crop"></span> &nbsp;<?php _e('Crop') ?>
+                  </span>
+                  <span class="mw-ui-btn mw-ui-btn-icon"
+                        onclick="mw.image.rotate(mw.image.current);mw.image.current_need_resize = true;mw.$('#mw_image_reset').removeClass('disabled')">
+                    <span class="mw-icon-app-refresh-empty"></span> &nbsp; <?php _e('Rotate'); ?>
+                  </span>
 
                 </div>
 
@@ -304,6 +305,7 @@
                     </div>
                 </div>
             </div>
+            </div>
             <div class="mw-ui-btn-nav nav-actions">
 
 
@@ -326,7 +328,7 @@
   }
 
 
-    mw.createCropTool = function () {
+    var createCropTool = function () {
         mw.$('#cropmenu').show();
         mw.$('#editmenu').hide();
         cropImage = $('#mwimagecurrent');
@@ -337,6 +339,8 @@
               });
             }
         });
+        $('.mw-ui-btn-nav.nav-actions').hide();
+        $('#edititems').hide()
     }
 
 
@@ -357,6 +361,9 @@
         mw.$('#cropmenu').hide();
         mw.$('#editmenu').show();
 
+        $('.mw-ui-btn-nav.nav-actions').show();
+        $('#edititems').show()
+
     }
     cropcancel = function () {
 
@@ -367,6 +374,10 @@
         newimg.src = cropImage.attr('src');
         newimg.id = 'mwimagecurrent';
         cropImage.replaceWith(newimg);
+
+        $('.mw-ui-btn-nav.nav-actions').show();
+        $('#edititems').show()
+
     }
 
     $(mwd).ready(function () {

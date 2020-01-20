@@ -128,6 +128,15 @@ if ($autoplay) {
     $autoplay = 'true';
 }
 
+$autoplaySpeed = get_option('autoplay_speed', $params['id']);
+if ($autoplaySpeed) {
+    $autoplaySpeed = $autoplaySpeed;
+} elseif (isset($params['autoplay_speed'])) {
+    $autoplaySpeed = $params['autoplay_speed'];
+} else {
+    $autoplaySpeed = '2000';
+}
+
 $pauseOnHover = get_option('pauseOnHover', $params['id']);
 if ($pauseOnHover) {
     $pauseOnHover = $pauseOnHover;
