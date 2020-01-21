@@ -12,6 +12,8 @@ def getImageTag = { String gitBranch, String buildNumber ->
     return "${gitBranch}-${buildNumber}"
 }
 
+def components = ['microweber-modules/multilanguage', 'PYovchevski/MW-Module-Videos-Playlist']
+
 pipeline {
   //environment {
     //registryCredential = 'microweber-dockerhub'
