@@ -196,6 +196,37 @@ pipeline {
       }
     }
 
+    stage('Components Unit Testing') {
+      parallel {
+        stage('Component Unit test - PHP 7.1') {
+    			agent {
+              kubernetes {
+                  label "${getKubeLabel(0, BRANCH_NAME, BUILD_NUMBER)}"
+                  defaultContainer 'app'
+                  yamlFile 'build/pods/php71-phpunit.yaml'
+                  nodeSelector "${getKubeNodeSelector(0)}"
+  				}
+  			}
+          steps {
+            sh 'pwd'
+            sh 'composer install -o --no-progress'
+            script {
+              for (int i = 0; i < components.size(); ++i) {
+  							sh "composer require ${components[i]}"
+  						}
+  				  }
+            sh 'phpunit --version'
+            sh 'phpunit --log-junit "reports/components-tests-php71.xml"'
+  			}
+  	        post {
+  	            always {
+  	                junit 'reports/components-tests-php71.xml'
+  	            }
+              }
+            }
+          }
+        }
+
     stage('UI Testing') {
       parallel {
         stage('PHP 7.3 Nginx-fpm') {
