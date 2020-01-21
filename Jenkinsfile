@@ -209,19 +209,16 @@ pipeline {
                 nodeSelector "${getKubeNodeSelector(0)}"
 				}
 			}
+        steps {
+      sh 'pwd'
+      sh 'composer install -o --no-progress'
 			script {
         def components = ['microweber-modules/multilanguage', 'PYovchevski/MW-Module-Videos-Playlist']
 				for (int i = 0; i < components.size(); ++i) {
-					stage('Component Test' ) {
-						steps {
-							sh 'pwd'
-							sh 'composer install -o --no-progress'
 							sh "composer require ${components[i]}"
-							sh 'phpunit --version'
-							sh 'phpunit --log-junit "reports/unitreport-php71.xml"'
 						}
-
-					}
+            sh 'phpunit --version'
+            sh 'phpunit --log-junit "reports/unitreport-php71.xml"'
 				}
 			}
 	        post {
