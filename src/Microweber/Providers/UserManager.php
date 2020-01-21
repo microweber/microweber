@@ -153,10 +153,21 @@ class UserManager
 
         // So we use second parameter
         if (!isset($params['username']) and isset($params['username_encoded']) and $params['username_encoded']) {
-            $params['username'] = @base62_decode($params['username_encoded']);
+            $decoded_username = @base64_decode($params['username_encoded']);
+            if (!empty($decoded_username)) {
+                $params['username'] = $decoded_username;
+            } else {
+                $params['username'] = @base62_decode($params['username_encoded']);
+            }
         }
+
         if (!isset($params['password']) and isset($params['password_encoded']) and $params['password_encoded']) {
-            $params['password'] = @base62_decode($params['password_encoded']);
+            $decoded_password = @base64_decode($params['password_encoded']);
+            if (!empty($decoded_password)) {
+                $params['password'] = $decoded_password;
+            } else {
+                $params['password'] = @base62_decode($params['password_encoded']);
+            }
         }
 
         $override = $this->app->event_manager->trigger('mw.user.before_login', $params);

@@ -8,7 +8,7 @@ use Composer\Command\InstallCommand;
 use Composer\Command\SearchCommand;
 use Composer\Config;
 use Symfony\Component\Console\Input\ArrayInput;
-use Composer\Factory;
+use Microweber\Utils\Adapters\Packages\ComposerFactory as Factory;
 use Composer\IO\ConsoleIO;
 use Composer\IO\BufferIO;
 use Symfony\Component\Console\Input\ArgvInput;
