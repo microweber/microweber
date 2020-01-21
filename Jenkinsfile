@@ -14,6 +14,8 @@ def getImageTag = { String gitBranch, String buildNumber ->
     return "${gitBranch}-${buildNumber}"
 }
 
+def components = ['microweber-modules/multilanguage', 'PYovchevski/MW-Module-Videos-Playlist']
+
 pipeline {
   //environment {
     //registryCredential = 'microweber-dockerhub'
@@ -213,7 +215,6 @@ pipeline {
       sh 'pwd'
       sh 'composer install -o --no-progress'
 			script {
-        def components = ['microweber-modules/multilanguage', 'PYovchevski/MW-Module-Videos-Playlist']
 				for (int i = 0; i < components.size(); ++i) {
 							sh "composer require ${components[i]}"
 						}
