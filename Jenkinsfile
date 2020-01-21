@@ -212,7 +212,7 @@ pipeline {
             sh 'composer install -o --no-progress'
             script {
               for (int i = 0; i < components.size(); ++i) {
-  							sh "composer require ${components[i]}"
+  							sh 'composer require ${components[i]}'
   						}
   				  }
             sh 'phpunit --version'
