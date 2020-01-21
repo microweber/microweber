@@ -124,7 +124,6 @@ mw.liveedit.handleCustomEvents = function() {
         if (mw.liveedit && mw.liveedit.inline) {
             mw.liveedit.inline.setActiveCell(el, e);
             var td_parent_table = mw.tools.firstParentWithTag(el, 'table');
-            console.log(td_parent_table)
             if (td_parent_table) {
                 mw.liveedit.inline.tableController(td_parent_table);
             }

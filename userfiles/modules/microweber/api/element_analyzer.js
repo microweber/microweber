@@ -1,12 +1,14 @@
 mw.AfterDrop = function(){
 
 
+
     this.loadNewModules = function(){
         mw.pauseSave = true;
         var need_re_init = false;
         var all = mw.$(".edit .module-item"), count = 0;
         all.each(function(c) {
             (function (el) {
+                var parent = el.parentNode
                 var xhr = mw._({
                     selector: el,
                     done: function(module) {
@@ -14,8 +16,10 @@ mw.AfterDrop = function(){
                         mw.pauseSave = false;
                         mw.wysiwyg.init_editables();
                         if(mw.liveEditDomTree){
-                            mw.liveEditDomTree.addNode(el);
+                            console.log(parent)
+                            mw.liveEditDomTree.sync(parent);
                         }
+
 
                     },
                     fail:function () {

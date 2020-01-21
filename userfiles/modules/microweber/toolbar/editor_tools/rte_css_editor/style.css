@@ -355,7 +355,7 @@ input,select{
 
 
 #domtree{
-    height: 320px;
+    max-height: 220px;
     overflow-x: hidden;
     overflow-y: auto;
 }

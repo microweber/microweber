@@ -180,12 +180,16 @@ InsertModule = function (module, cls) {
     }
     mw.$(mw.drag.plusBottom.currentNode)[action](el);
 
+    var el = $('#' + id).parent()[0];
     mw.load_module(module, '#' + id, function () {
         mw.wysiwyg.change(document.getElementById(id));
         mw.drag.plus.locked = false;
         mw.drag.fixes();
         setTimeout(function () {
             mw.drag.fix_placeholders();
+            if(mw.liveEditDomTree) {
+                mw.liveEditDomTree.sync(el);
+            }
         }, 40);
         mw.dropable.hide();
     }, cls);

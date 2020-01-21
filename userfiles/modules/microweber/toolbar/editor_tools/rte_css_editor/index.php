@@ -1,7 +1,8 @@
 
 
+
 <div id="tree"></div>
-<div id="domtree" style="display: none;"></div>
+<div id="domtree"></div>
 
 <script type="text/javascript">
     //parent.mw.require("external_callbacks.js");
@@ -12,10 +13,10 @@
     mw.require("url.js");
     mw.require('prop_editor.js');
     mw.require('color.js');
-    mw.require('selector.js')
-    mw.require('tree.js')
+    mw.require('selector.js');
+    mw.require('tree.js');
 
-    mw.require('domtree.js')
+    mw.require('domtree.js');
     $(window).on('load', function () {
 
 
@@ -25,16 +26,15 @@
                 element: '#domtree',
                 targetDocument: mw.top().win.document,
                 onHover: function (e, target, node, element) {
-                    mw.top().liveEditSelector.setItem(node, mw.top().liveEditSelector.interactors, true);
+                    mw.top().liveEditSelector.setItem(node, mw.top().liveEditSelector.interactors, false);
                 },
                 onSelect: function (e, target, node, element) {
                     setTimeout(function () {
-
                         mw.top().liveEditSelector.select(node);
                     })
                 }
             });
-        }, 2111);*/
+        }, 1111)*/
 
     })
 

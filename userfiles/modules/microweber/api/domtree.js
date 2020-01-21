@@ -14,6 +14,14 @@ mw.DomTree = function (options) {
                 },
                 test: function (node) { return true; }
             }
+        ],
+        componentTypes: [
+            {
+                label: 'SafeMode',
+                test: function (node) {
+                    return mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node, [ 'safe-mode', 'regular-mode']);
+                }
+            }
         ]
     };
     options = options || {};
@@ -22,10 +30,27 @@ mw.DomTree = function (options) {
 
     this.settings = $.extend({}, defaults, options);
 
+    this.$holder = $(this.settings.element);
+
     this.document = this.settings.document;
     this.targetDocument = this.settings.targetDocument;
 
     this._selectedDomNode = null;
+
+    this._scrollTo = function (el) {
+        setTimeout(function () {
+
+
+            // el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            var a1 =  scope.$holder.offset().top;
+            var a2 =  $(el).offset().top;
+
+            var to = a1 > a2 ? a1 - a1 : a2 - a1;
+
+            scope.$holder.stop().animate({scrollTop: to });
+        }, 55);
+    };
 
 
     this.select = function (node) {
@@ -35,7 +60,7 @@ mw.DomTree = function (options) {
         if (el) {
             this.selected(el);
             this.openParents(el);
-            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            this._scrollTo(el);
         }
     };
     this.selected = function (node) {
@@ -212,6 +237,7 @@ mw.DomTree = function (options) {
     };
 
     this.createChildren = function (node, parent) {
+        if(!parent) return;
         var list = this.createList();
         var curr = node.children[0];
         while (curr) {
