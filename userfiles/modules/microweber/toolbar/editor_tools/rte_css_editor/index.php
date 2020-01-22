@@ -1,7 +1,7 @@
 
 
 
-<div id="tree"></div>
+
 <div id="domtree"></div>
 
 <script type="text/javascript">
@@ -20,7 +20,7 @@
     $(window).on('load', function () {
 
 
-        /*setTimeout(function() {
+        setTimeout(function() {
 
             mw.top().liveEditDomTree = new mw.DomTree({
                 element: '#domtree',
@@ -34,7 +34,7 @@
                     })
                 }
             });
-        }, 1111)*/
+        }, 1111)
 
     })
 
