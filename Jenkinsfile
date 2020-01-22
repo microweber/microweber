@@ -198,9 +198,9 @@ pipeline {
       }
     }
 
-    stage('Components Unit Testing') {
+    stage('Unit testing - Components') {
       parallel {
-        stage('Component Unit test - PHP 7.1') {
+        stage('PHPUnit 7.1 - Components') {
     			agent {
               kubernetes {
                   label "${getKubeLabel(0, BRANCH_NAME, BUILD_NUMBER)}"
@@ -218,11 +218,11 @@ pipeline {
   						}
   				  }
             sh 'phpunit --version'
-            sh 'phpunit --log-junit "reports/components-tests-php71.xml"'
+            sh 'phpunit --log-junit "reports/unitreport-php71-components.xml"'
   			}
   	        post {
   	            always {
-  	                junit 'reports/components-tests-php71.xml'
+  	                junit 'reports/unitreport-php71-components.xml'
   	            }
               }
             }
