@@ -22,17 +22,16 @@ mw.liveedit.handleCustomEvents = function() {
         var can = mw.tools.firstParentOrCurrentWithAnyOfClasses(target, [
            'edit', 'module', 'element'
         ]);
-        var toSelect = mw.tools.firstBlockLevel(target);
+        if(can) {
+            var toSelect = mw.tools.firstNotInlineLevel(target);
 
+            mw.liveEditSelector.select(toSelect);
 
+            if(mw.liveEditDomTree) {
+                mw.liveEditDomTree.select(mw.wysiwyg.validateCommonAncestorContainer(target));
 
-        mw.liveEditSelector.select(toSelect);
-
-        if(mw.liveEditDomTree) {
-            mw.liveEditDomTree.select(toSelect);
-
+            }
         }
-
 
 
     });
