@@ -119,6 +119,10 @@ class TemplateCssParser
 
             $cssContent = $parser->getCss();
 
+            if (strpos($outputFileLocations['lessFilePath'], '/css/less/') !== false) {
+                $cssContent = str_replace('/css/img/', '/img/', $cssContent);
+            }
+
         } catch (\Exception $e) {
             // dd($e);
             return $e->getMessage();
