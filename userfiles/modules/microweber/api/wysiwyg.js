@@ -1075,10 +1075,9 @@ mw.wysiwyg = {
                         var isList = mw.tools.firstMatchesOnNodeOrParent(event.target, ['li', 'ul', 'ol'])
                         if (!isList) {
                             event.preventDefault();
-                            mw.wysiwyg.insert_html(' <br>');
+                            var id = mw.id('mw-br-');
+                            mw.wysiwyg.insert_html(' <br id="'+id+'">');
                             if(sel.focusNode.nextSibling && sel.focusNode.nextSibling.nodeName === 'BR' && sel.focusNode.nextSibling === sel.focusNode.parentNode.lastChild){
-                                var id = mw.id('mw-br-');
-                                mw.wysiwyg.insert_html(' <br><br id="'+id+'">');
 
                                 mw.wysiwyg.cursorToElement(mwd.getElementById(id), 'after');
                             }
@@ -1262,6 +1261,13 @@ mw.wysiwyg = {
         var el = mw.wysiwyg.validateCommonAncestorContainer(el);
         return el.isContentEditable && ['SELECT', 'INPUT', 'TEXTAREA'].indexOf(el.nodeName) === -1;
     },
+    getNextNode: function (node) {
+        if (node.nextSibling) {
+            return node.nextSibling
+        } else {
+            return this.getNextNode(node.parentNode);
+        }
+    },
     cursorToElement: function (node, a) {
 
         if (!node) {
@@ -1287,14 +1293,16 @@ mw.wysiwyg = {
         }
         else if (a === 'before') {
             r.selectNode(node);
-            r.collapse(true);
-            sel.addRange(r);
-        }
-        else if (a === 'after') {
-            r.selectNode(node);
             r.collapse(false);
             sel.addRange(r);
+
         }
+        else if (a === 'after') {
+            r.setStart(this.getNextNode(node).childNodes[0], 1);
+            r.setEnd(this.getNextNode(node).childNodes[0], 1);
+            sel.addRange(r);
+        }
+
     },
     rfapplier: function (tag, classname, style_object) {
         // var el = mw.wysiwyg.applier('div', 'element', {width: "100%"});

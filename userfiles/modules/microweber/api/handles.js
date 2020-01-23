@@ -367,7 +367,7 @@ mw._initHandles = {
                 mw.dragCurrent = mw.ea.data.currentGrabbed = mw._activeElementOver;
 
                 if(!mw.dragCurrent.id){
-                    mw.dragCurrent.id = 'element_' + mw.random()
+                    mw.dragCurrent.id = 'element_' + mw.random();
                 }
                 mw.$(mw.dragCurrent).invisible().addClass("mw_drag_current");
                 mw.trigger("AllLeave");
@@ -378,7 +378,7 @@ mw._initHandles = {
                 mw.smallEditor.css("visibility", "hidden");
                 mw.smallEditorCanceled = true;
             },
-            stop: function() {
+            stop: function(a,b,c) {
                 mw.$(mwd.body).removeClass("dragStart");
             }
         });
@@ -545,6 +545,9 @@ mw._initHandles = {
             if(el && el.nodeType === 1){
                 return el;
             }
+            if(mw.handleModuleActive._target) {
+                return mw.handleModuleActive._target;
+            }
         };
 
         var getDragCurrent = function () {
@@ -612,6 +615,7 @@ mw._initHandles = {
 
         var positionModuleHandle = function(e, pelement, handle){
 
+
             var element ;
 
             if(handle.type === 'hover') {
@@ -621,6 +625,7 @@ mw._initHandles = {
                 //pelement = mw.tools.lastMatchesOnNodeOrParent(pelement, ['.module']);
 
                 element = dynamicModulesMenu(e, pelement) || pelement;
+                handle._target = pelement;
             }
 
             mw.$(".mw-handle-menu-dynamic", handle.wrapper).empty();

@@ -186,23 +186,77 @@ mw.top()._icons = mw.top()._icons || [];
                 scope.setRender(set, section, this._value, search);
             });
         },
-        list: function () {
+        list: function (options) {
+            options = options || {};
+            var defaults = {
+                showAll: false
+            };
+            var settings = $.extend({}, defaults, options);
             var list = document.createElement('div');
             list.className = 'mw-icon-list';
             list.appendChild(this.searchGUI(list));
             var fragment = document.createDocumentFragment();
+
+            var select;
+            var containers = [];
+            if (!settings.showAll) {
+                var selectHolder = document.createElement('div');
+                selectHolder.className = 'mw-ui-btn-nav';
+
+                var prev = $('<span class="mw-ui-btn"><span class="mw-icon-arrowleft"></span></span>');
+                var next = $('<span class="mw-ui-btn"><span class="mw-icon-arrowright"></span></span>');
+
+                select = document.createElement('select');
+                select.className = 'mw-ui-field';
+                (function (containers) {
+                    $(select).on('change', function () {
+                        var curr = this.options[this.options.selectedIndex]._for;
+                        $(containers).hide().filter(curr).show();
+                    });
+                })(containers);
+
+                prev.on('click', function () {
+                    select.selectedIndex = select.options.selectedIndex >= 1 ? select.options.selectedIndex - 1 : select.options.length - 1;
+                    $(select).trigger('change')
+                });
+                next.on('click', function () {
+                    select.selectedIndex = select.options.selectedIndex <  select.options.length - 1 ? select.options.selectedIndex + 1 : 0;
+                    $(select).trigger('change')
+                });
+
+                $(selectHolder)
+                    .append(prev)
+                    .append(select)
+                    .append(next);
+            }
+
+
+
             var i, ic, ticons = mw.top()._icons;
-            for( i = 0; i < ticons.length; i++){
+            for( i = 0; i < ticons.length; i++ ){
                 var set = ticons[i];
                 var title = document.createElement('h5');
                 var section = document.createElement('div');
+                var wrapper = document.createElement('div');
+                containers.push(wrapper)
+                wrapper.className = 'mw-icon-list-section-wrapper';
+                wrapper.style.display = i === 0 ? 'block' : 'none';
                 section.className = 'mw-icon-list-section';
                 section._iconSet = set;
                 title.innerHTML = set.name;
-                fragment.appendChild(title);
+                wrapper.appendChild(title);
                 this.setRender(set, section);
-                fragment.appendChild(section);
+                wrapper.appendChild(section);
+                if (!settings.showAll) {
+                    var option = document.createElement('option');
+                    option.innerHTML = set.name;
+                    option._for = wrapper;
+                    select.appendChild(option);
+                }
+
+                fragment.appendChild(wrapper);
             }
+            list.appendChild(selectHolder);
             list.appendChild(fragment);
             return list;
         },

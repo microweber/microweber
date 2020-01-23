@@ -1,4 +1,4 @@
-(function(){
+(function(expose){
    var fullscreen = {
     fullscreen: function (el) {
         if (el.requestFullScreen) {
@@ -55,4 +55,6 @@
         }
     }
    };
-})()
+    Object.assign(expose, fullscreen);
+
+})(mw.tools);
