@@ -61,7 +61,7 @@ The main focus of Microweber CMS is E-commerce. A rising number of people have g
 
 ![E-commerce Solution](https://microweber.com/cdn/2019_version/3.jpg "")
 
-
+![Give a star to Microweber](https://microweber.com/cdn/2019_version/Star-Microweber.gif "")
 
 
 ## See it in action
