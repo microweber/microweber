@@ -2,6 +2,7 @@
 
 namespace Microweber\Controllers;
 
+use function GuzzleHttp\Psr7\parse_query;
 use Microweber\View;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
@@ -656,7 +657,14 @@ class DefaultController extends Controller
             $from_url = $request_data['from_url'];
         } elseif (isset($_SERVER['HTTP_REFERER'])) {
             $from_url = $_SERVER['HTTP_REFERER'];
-        }
+            $from_url_p= @parse_url($from_url);
+            if(is_array($from_url_p) and isset($from_url_p['query'])){
+                $from_url_p =  parse_query($from_url_p['query']);
+                if(is_array($from_url_p) and isset($from_url_p['from_url'])){
+                    $from_url = $from_url_p['from_url'];
+                }
+            }
+         }
 
         if (isset($from_url) and $from_url != false) {
             if (stristr($from_url, 'editor_tools/wysiwyg') && !defined('IN_EDITOR_TOOLS')) {
