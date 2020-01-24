@@ -63,11 +63,10 @@ if (isset($params['data-hide-skin-settings'])) {
     $hide_skin_settings = $params['data-hide-skin-settings'];
 }
 
-$show_skin_setting_in_first_tab = 1;
-$hide_skin_settings = true;
+$show_skin_setting_in_first_tab = false;
 
 
- if (isset($params['data-show-skin-settings-on-first-tab'])) {
+if (isset($params['data-show-skin-settings-on-first-tab'])) {
     $show_skin_setting_in_first_tab = $params['data-show-skin-settings-on-first-tab'];
     $hide_skin_settings = true;
 }
