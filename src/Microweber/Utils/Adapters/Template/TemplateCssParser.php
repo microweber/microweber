@@ -32,32 +32,52 @@ class TemplateCssParser
             $defaultCssFilePath = normalize_path($templatePath . '/' . $defaultCssFile, false);
             $defaultCssFileUrl = templates_url() . $themeFolderName;
             $defaultCssFileUrl = $defaultCssFileUrl . '/' . $defaultCssFile;
-            
             if (is_file($defaultCssFilePath) and !$user_has_settings) {
                 return $defaultCssFileUrl;
             }
         }
-        
+
+
         $token = md5(mw()->user_manager->session_id());
-        
-        if ($cache == false || !is_file($outputFileLocations['output']['file'])) { 
-            $returnUrl = api_url('template/compile_css?path=' . $lessFilePath . '&option_group=' . $optionGroupName . '&template_folder=' . $themeFolderName . '&token=' . $token);
-        } else {
-        	$returnUrl = $outputFileLocations['output']['fileUrl'];
+
+
+        $to_generate_css_file = false;
+
+        if (isset($outputFileLocations['cssFilePath']) and isset($outputFileLocations['output']['fileCss']) and !is_file($outputFileLocations['output']['fileCss'])) {
+
+            $to_generate_css_file = $returnUrl = api_url('template/compile_css?path=' . $lessFilePath . '&option_group=' . $optionGroupName . '&css_path=' . $outputFileLocations['cssFilePath'] . '&template_folder=' . $themeFolderName . '&token=' . $token);
+        } else if (isset($outputFileLocations['output']['file']) and !is_file($outputFileLocations['output']['file'])) {
+            $to_generate_css_file = $returnUrl = api_url('template/compile_css?path=' . $lessFilePath . '&option_group=' . $optionGroupName . '&template_folder=' . $themeFolderName . '&token=' . $token);
         }
-    	
+
+
+        if ($cache == false and $to_generate_css_file) {
+            $returnUrl = $to_generate_css_file;
+
+        } else {
+            if ($to_generate_css_file and isset($outputFileLocations['cssFilePath']) and isset($outputFileLocations['output']['fileCss']) and !is_file($outputFileLocations['output']['fileCss'])) {
+                $returnUrl = $to_generate_css_file;
+            } else if (isset($outputFileLocations['output']['fileCssUrl'])) {
+                $returnUrl = $outputFileLocations['output']['fileCssUrl'];
+            } else {
+                $returnUrl = $outputFileLocations['output']['fileUrl'];
+            }
+
+        }
+
         return $returnUrl;
 
     }
 
     public function compile($options)
     {
-    	$token = md5(mw()->user_manager->session_id());
-    	
-    	if ($options['token'] !== $token) {
-    		return;
-    	}
-    	
+        $token = md5(mw()->user_manager->session_id());
+
+
+        if ($options['token'] !== $token) {
+            return;
+        }
+
         $compileFile = $this->_getOutputDir($options['path']);
         $extension = get_file_extension($compileFile);
 
@@ -100,7 +120,7 @@ class TemplateCssParser
         $lessFilePath = array_get($params, 'path', false);
         $optionGroupName = array_get($params, 'option_group', false);
         $templateFolder = array_get($params, 'template_folder', false);
-
+        $cssPath = array_get($params, 'css_path', false);
         $outputFileLocations = $this->_getOutputFileLocations($lessFilePath, $templateFolder);
 
         $parserOptions = array(
@@ -114,14 +134,26 @@ class TemplateCssParser
         $cssContent = '';
         try {
             $parser = new \Less_Parser($parserOptions);
-            $parser->parseFile($outputFileLocations['styleFilePath'], $outputFileLocations['templateUrlWithPath']);
+
+            if (isset($outputFileLocations['templateUrlWithPathCss']) and $outputFileLocations['templateUrlWithPathCss']) {
+//templateUrlWithPathCss
+                $parser->parseFile($outputFileLocations['styleFilePath'], $outputFileLocations['templateUrlWithPathCss']);
+
+            } else {
+                $parser->parseFile($outputFileLocations['styleFilePath'], $outputFileLocations['templateUrlWithPath']);
+
+            }
+
+
+            //templateUrlWithPathCss
+
             $parser->ModifyVars($this->_getOptionVariables($optionGroupName));
 
             $cssContent = $parser->getCss();
 
-            if (strpos($outputFileLocations['lessFilePath'], '/css/less/') !== false) {
-                $cssContent = str_replace('/css/img/', '/img/', $cssContent);
-            }
+//            if (strpos($outputFileLocations['lessFilePath'], '/css/less/') !== false) {
+//                $cssContent = str_replace('/css/img/', '/img/', $cssContent);
+//            }
 
         } catch (\Exception $e) {
             // dd($e);
@@ -139,58 +171,87 @@ class TemplateCssParser
 
     private function _getOutputFileLocations($lessFilePath, $templateFolder)
     {
-    	
-    	$lessFilePath = str_replace('\\', '/', $lessFilePath);
-    	
-    	$templateConfig = mw()->template->get_config();
-    	
-    	if(isset($templateConfig['version'])){
-    		$lessFilePathWithVersion = $lessFilePath .'.'. MW_VERSION . '-'.$templateConfig['version'];
-    	} else {
-    		$lessFilePathWithVersion = $lessFilePath .'.'. MW_VERSION;
-    	}
-    	
-    	$lessDirPath = dirname($lessFilePathWithVersion);
-    	$templateUrlWithPath = templates_url() . $templateFolder . '/' . $lessDirPath . '/';
-    	$templatePath = templates_path() . $templateFolder;
-    	
-    	
-    	// Output dirs
-    	$outputDir = media_uploads_path() . 'css/';
-    	$outputUrl = media_uploads_url() . 'css/';
-    	
-    	$outputFile = $outputDir . $lessFilePathWithVersion . '.css';
-    	
-    	$mtime = false;
-    	if (is_file($outputFile)) {
-    		$mtime = filemtime($outputFile);
-    	}
-    	
-    	$outputFileUrl = $outputUrl . $lessFilePathWithVersion . '.css';
-    	if ($mtime) {
-    		$outputFileUrl = $outputUrl . $lessFilePathWithVersion . '.css?t=' . $mtime;
-    	}
-    	$outputFileMap = $outputDir . $lessFilePathWithVersion . '.map';
-    	$outputFileMapUrl = $outputUrl . $lessFilePathWithVersion . '.map';
-    	
-    	$styleFilePath = normalize_path($templatePath . '/' . $lessFilePath, false);
-    	$styleFilePath = str_replace('..', '', $styleFilePath);
-    	
-    	return array(
-    		'lessFilePath' => $lessFilePath,
-    		'lessDirPath' => $lessDirPath,
-    		'styleFilePath' => $styleFilePath,
-    		'templatePath' => $templatePath,
-    		'templateUrlWithPath' => $templateUrlWithPath,
-    		'output' => array(
-    			'url' => $outputUrl,
-    			'dir' => $outputDir,
-    			'file' => $outputFile,
-    			'fileUrl' => $outputFileUrl,
-    			'fileMap' => $outputFileMap,
-    			'fileMapUrl' => $outputFileMapUrl
-    		)
-    	);
+
+        $lessFilePath = str_replace('\\', '/', $lessFilePath);
+
+        $templateConfig = mw()->template->get_config();
+
+
+        if (isset($templateConfig['version'])) {
+            $lessFilePathWithVersion = $lessFilePath . '.' . MW_VERSION . '-' . $templateConfig['version'];
+        } else {
+            $lessFilePathWithVersion = $lessFilePath . '.' . MW_VERSION;
+        }
+
+        $lessDirPath = dirname($lessFilePathWithVersion);
+        $templateUrlWithPathBase = templates_url() . $templateFolder . '/';
+        $templateUrlWithPath = $templateUrlWithPathBase . $lessDirPath . '/';
+        $templatePath = templates_path() . $templateFolder;
+
+
+        // Output dirs
+        $outputDir = media_uploads_path() . 'css/';
+        $outputUrl = media_uploads_url() . 'css/';
+
+        $outputFile = $outputDir . $lessFilePathWithVersion . '.css';
+
+        $mtime = false;
+        if (is_file($outputFile)) {
+            $mtime = filemtime($outputFile);
+        }
+
+        $outputFileUrl = $outputUrl . $lessFilePathWithVersion . '.css';
+        if ($mtime) {
+            $outputFileUrl = $outputUrl . $lessFilePathWithVersion . '.css?t=' . $mtime;
+        }
+        $outputFileMap = $outputDir . $lessFilePathWithVersion . '.map';
+        $outputFileMapUrl = $outputUrl . $lessFilePathWithVersion . '.map';
+
+        $styleFilePath = normalize_path($templatePath . '/' . $lessFilePath, false);
+        $cssfilepath = false;
+        $templateUrlWithPathCss = false;
+        $outputFileCss = false;
+        $outputFileCssUrl = false;
+        if (is_array($templateConfig) and isset($templateConfig['stylesheet_compiler']) and isset($templateConfig['stylesheet_compiler']['css_file']) and $templateConfig['stylesheet_compiler']['css_file']) {
+            $cssfilepath = $templateConfig['stylesheet_compiler']['css_file'];
+            $templateUrlWithPathCss = $templateUrlWithPathBase . dirname($cssfilepath) . '/';
+            $outputFileCss = $templateUrlWithPathBase . dirname($cssfilepath) . '/';
+            $outputFileCss = $outputDir . $cssfilepath;
+
+            //  $outputFileCss
+            $mtime2 = false;
+            $outputFileCssUrl = $outputUrl . $cssfilepath . '';
+
+            if (is_file($outputFileCss)) {
+                $mtime2 = filemtime($outputFileCss);
+                $outputFileCssUrl = $outputUrl . $cssfilepath . '?t=' . $mtime2;
+
+            }
+
+            //   $styleFilePath = normalize_path($templatePath . '/' . $templateConfig['stylesheet_compiler']['css_file'], false);
+        }
+        $styleFilePath = str_replace('..', '', $styleFilePath);
+
+        return array(
+            'lessFilePath' => $lessFilePath,
+            'lessDirPath' => $lessDirPath,
+            'styleFilePath' => $styleFilePath,
+            'cssFilePath' => $cssfilepath,
+            'templateUrlWithPathCss' => $templateUrlWithPathCss,
+            //'templatePath' => $templatePath,
+            'templateUrlWithPath' => $templateUrlWithPath,
+            'output' => array(
+                'url' => $outputUrl,
+                'dir' => $outputDir,
+                'file' => $outputFile,
+
+                'fileUrl' => $outputFileUrl,
+                'fileMap' => $outputFileMap,
+                'fileMapUrl' => $outputFileMapUrl,
+                'fileCss' => $outputFileCss,
+                'fileCssUrl' => $outputFileCssUrl,
+            )
+        );
     }
 
     private function _saveCompiledCss($outputFile, $cssContent)
