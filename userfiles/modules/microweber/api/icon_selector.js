@@ -83,7 +83,6 @@ mw.top()._icons = mw.top()._icons || [];
 
             nav.append(input);
             input.oninput = function(){
-                // scope.search(list, this.value);
                 scope.search(this.value, list);
             };
             return nav;
@@ -162,7 +161,7 @@ mw.top()._icons = mw.top()._icons || [];
             var icons = set.icons;
             if(search) {
                 icons = set.icons.filter(function (icon) {
-                    return icon.indexOf(search) !== -1;
+                    return icon.toLowerCase().indexOf(search) !== -1;
                 });
             }
             var to = off + Math.min(icons.length - off, perPage);

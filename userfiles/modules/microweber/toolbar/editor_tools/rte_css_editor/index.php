@@ -2,7 +2,7 @@
 
 
 
-<div id="domtree"></div>
+<div id="tree"></div>
 
 <script type="text/javascript">
     //parent.mw.require("external_callbacks.js");
@@ -20,7 +20,7 @@
     $(window).on('load', function () {
 
 
-        setTimeout(function() {
+      /*  setTimeout(function() {
 
             mw.top().liveEditDomTree = new mw.DomTree({
                 element: '#domtree',
@@ -34,7 +34,7 @@
                     })
                 }
             });
-        }, 1111)
+        }, 1111)*/
 
     })
 
