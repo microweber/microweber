@@ -15,12 +15,6 @@ mw.AfterDrop = function(){
                         mw.drag.fancynateLoading(module);
                         mw.pauseSave = false;
                         mw.wysiwyg.init_editables();
-                        if(mw.liveEditDomTree){
-                            console.log(parent)
-                            mw.liveEditDomTree.sync(parent);
-                        }
-
-
                     },
                     fail:function () {
                         mw.$(this).remove();

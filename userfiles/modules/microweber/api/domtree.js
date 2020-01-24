@@ -277,6 +277,7 @@ mw.DomTree = function (options) {
     };
 
     this._empty = function (parent) {
+        var intree  = this.findElementInTree(parent);
         var all = parent.querySelectorAll('*');
         var i = 0;
         for (  ; i < all.length; i++ ) {
@@ -287,15 +288,37 @@ mw.DomTree = function (options) {
                 li.parentNode.removeChild(li);
             }
         }
-        mw.$(':empty', this.root).remove()
+        mw.$(':empty', intree).remove();
     };
 
-    this.sync = function (parent) {
+    this.sync = function (parent, focusTo) {
+        parent = parent.nodeType === 1 ? parent : parent.parentNode;
+        if(focusTo) {
+            focusTo = focusTo.nodeType === 1 ? focusTo : focusTo.parentNode;
+        }
         this._empty(parent);
         var treeItem = this.findElementInTree(parent);
-
+        if(!treeItem) {
+            console.warn('Parent element is not present in tree instance: ', parent)
+            return;
+        }
         this.createChildren(parent, treeItem);
-        this.refactorItemDecoration(treeItem);
+        setTimeout(function () {
+            scope.refactorItemDecoration(treeItem);
+            if(focusTo && scope.selected() !== focusTo) {
+                scope.select(focusTo);
+            }
+        });
+    };
+
+
+
+    this._autoSync = null;
+    this.autoSync = function (node, focus) {
+        clearTimeout(this._autoSync);
+        this._autoSync = setTimeout(function () {
+            scope.sync(node, focus);
+        }, 1000);
     };
 
     this.create = function () {

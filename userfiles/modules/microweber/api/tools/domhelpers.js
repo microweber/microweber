@@ -550,7 +550,21 @@ var domHelp = {
     },
     firstBlockLevel: function (el) {
         while(el && el !== document.body) {
-            if(mw.ea.helpers.isBlockLevel(el)) {
+            if(mw.tools.isBlockLevel(el)) {
+                return el;
+            }
+            el = el.parentNode;
+        }
+    },
+    firstNotInlineLevel: function (el) {
+        if(el.nodeType !== 1) {
+            el = el.parentNode
+        }
+        if(!el) {
+            return;
+        }
+        while(el && el !== document.body) {
+            if(!mw.tools.isInlineLevel(el)) {
                 return el;
             }
             el = el.parentNode;
