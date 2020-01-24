@@ -11,6 +11,11 @@ class AuthCommand extends Command
 
     public function fire()
     {
+        $login_allow_by_temp_token = get_option('login_allow_by_temp_token', 'users') == 'y';
+        if (!$login_allow_by_temp_token) {
+            return false;
+        }
+
         // Generate token
         $generateToken = str_random(123);
 
