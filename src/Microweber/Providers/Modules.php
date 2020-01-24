@@ -683,7 +683,7 @@ $replace_paths = array();
 
         $module_name_l_theme = ACTIVE_TEMPLATE_DIR . 'modules' . DS . $module_name . DS . 'templates' . DS;
         $module_name_l_theme = normalize_path($module_name_l_theme, 1);
-
+//d(ACTIVE_TEMPLATE_DIR);
         $replace_paths[] = $module_name_l_theme;
         $replace_paths[] =         normalize_path(    'modules' . '/' . $module_name .'/' .'templates' . '/', 1);
 
@@ -780,15 +780,18 @@ $replace_paths = array();
                 if ($is_dot_php != false and $is_dot_php != 'php') {
                     $template_name = $template_name . '.php';
                 }
+
+
+
                 $tf_mw_default = $module_name_l . 'default.php';
-                $tf = $module_name_l . $template_name;
+                $tf = normalize_path($module_name_l . $template_name,false);
                 $tf_theme = $module_name_l_theme . $template_name;
                 $tf_from_other_theme = templates_path() . $template_name;
                 $tf_from_other_theme = normalize_path($tf_from_other_theme, false);
 
                 $tf_other_module = modules_path() . $template_name;
                 $tf_other_module = normalize_path($tf_other_module, false);
-                // ;
+
 
 
                 if ($template_name == 'mw_default.php' and is_file($tf)) {

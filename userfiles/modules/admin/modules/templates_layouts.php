@@ -63,8 +63,11 @@ if (isset($params['data-hide-skin-settings'])) {
     $hide_skin_settings = $params['data-hide-skin-settings'];
 }
 
-$show_skin_setting_in_first_tab = false;
-if (isset($params['data-show-skin-settings-on-first-tab'])) {
+$show_skin_setting_in_first_tab = 1;
+$hide_skin_settings = true;
+
+
+ if (isset($params['data-show-skin-settings-on-first-tab'])) {
     $show_skin_setting_in_first_tab = $params['data-show-skin-settings-on-first-tab'];
     $hide_skin_settings = true;
 }
@@ -111,16 +114,20 @@ if ($screenshots) {
                 mw.notification.success('<?php _ejs("Module template is changed"); ?>');
             }
 
+
+
+
+            if(selected_skin){
+                $('#mw-module-skin-settings-module').attr('parent-template', selected_skin).reload_module();
+              //  $('.module-admin-modules-templates-settings').attr('parent-template', selected_skin).reload_module();
+            }
+
+
             <?php if ($screenshots): ?>
             setTimeout(function () {
                 mw_admin_layouts_list_inner_modules_btns();
             }, 999);
             <?php endif; ?>
-
-
-            if(selected_skin){
-                $('#mw-module-skin-settings-module').attr('parent-template', selected_skin).reload_module();
-            }
 
         });
     });
@@ -349,7 +356,9 @@ if ($screenshots) {
                                     $('.module-layouts-viewer .js-apply-template .screenshot').removeClass('active');
                                     $(this).find('.screenshot').addClass('active');
                                     $('select[name="data-template"] option:selected').removeAttr('selected');
-                                    $('select[name="data-template"] option[value="' + option + '"]').attr('selected', 'selected').trigger('change');
+                                    $('select[name="data-template"] option[value="' + option + '"]').attr('selected', 'selected');
+                                    $('select[name="data-template"] option[value="' + option + '"]').prop('selected', true).trigger('change');
+
                                 });
                             });
                         </script>
@@ -463,6 +472,7 @@ if ($screenshots) {
 
 
                 <?php if (!$hide_skin_settings): ?>
+
                 <module type="admin/modules/templates_settings" id="mw-module-skin-settings-module"
                         parent-module-id="<?php print $params['parent-module-id'] ?>" parent-module="layouts"
                         parent-template="<?php print $cur_template ?>"/>
