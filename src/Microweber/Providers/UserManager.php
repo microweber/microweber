@@ -2,6 +2,7 @@
 
 namespace Microweber\Providers;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use Laravel\Socialite\SocialiteManager;
@@ -167,6 +168,30 @@ class UserManager
                 $params['password'] = $decoded_password;
             } else {
                 $params['password'] = @base62_decode($params['password_encoded']);
+            }
+        }
+
+        if (isset($params['secret_key'])) {
+
+            $secret_key = $params['secret_key'];
+            $get_temp_token = db_get('users_temporarily_tokens', 'single=1&token=' . $secret_key);
+            if ($get_temp_token && $get_temp_token['user_id']) {
+
+                $temp_token_created_at = new Carbon($get_temp_token['created_at']);
+
+                if (Carbon::now()->diffInMinutes($temp_token_created_at) >= 30) {
+                    return array('error' => 'User token expired.');
+                }
+
+                $update_temp = array();
+                $update_temp['id'] = $get_temp_token['id'];
+                $update_temp['login_ip'] = user_ip();
+                $update_temp['login_at'] = date('Y-m-d H:i:s');
+                $save_update_temp = db_save('users_temporarily_tokens', $update_temp);
+                if ($save_update_temp) {
+                    $this->make_logged($get_temp_token['user_id']);
+                    $ok = true;
+                }
             }
         }
 
