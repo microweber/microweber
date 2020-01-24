@@ -423,8 +423,7 @@
 
         mw.$(".mw-ui-btn-savetheimage").on('click', function () {
 
-
-            console.log(SelectedImage, isBG);
+            mw.top().wysiwyg.change(SelectedImage);
             if(isBG) {
                 $(SelectedImage).css(isBG);
             }
@@ -442,7 +441,7 @@
                 SelectedImage.alt = mw.$("#image-alt").val();
             }
 
-            if (mw.image.current_need_resize && SelectedImage.nodeName == 'IMG') {
+            if (mw.image.current_need_resize && SelectedImage.nodeName === 'IMG') {
                 mw.image.preload(mw.image.current.src, function (w, h) {
                     SelectedImage.style.width = w + 'px';
                     SelectedImage.style.height = 'auto';

@@ -74,7 +74,7 @@ mw._colorPicker = function (options) {
     }
 
     var frame;
-    if (settings.method == 'inline') {
+    if (settings.method === 'inline') {
 
         sett.attachTo = $el[0];
 
@@ -85,8 +85,8 @@ mw._colorPicker = function (options) {
                 proto.settings.onchange(data.color);
             }
 
-            if ($el[0].nodeName == 'INPUT') {
-                var val = val == 'transparent' ? val : '#' + val;
+            if ($el[0].nodeName === 'INPUT') {
+                var val = val === 'transparent' ? val : '#' + val;
                 $el.val(val);
             }
         }
@@ -104,6 +104,10 @@ mw._colorPicker = function (options) {
 
         frame.onchange = function (data) {
 
+            if(frame.pause) {
+                return;
+            }
+
             if (proto.settings.onchange) {
                 proto.settings.onchange(data.color);
             }
@@ -115,8 +119,12 @@ mw._colorPicker = function (options) {
 
         if ($el[0].nodeName === 'INPUT') {
             $el.on('focus', function (e) {
-                if(this.value){
+                if(this.value.trim()){
+                    frame.pause = true;
                     frame.color = this.value;
+                    setTimeout(function () {
+                        frame.pause = false;
+                    })
                 }
                 mw.$(tip).show();
 
