@@ -121,7 +121,7 @@ class Base
                 'data_raw' => 'string',
             ],
 
-            'users_temporarily_tokens' => [
+            'users_temp_login_tokens' => [
                 'user_id' => 'integer',
                 'token' => 'text',
                 'server_ip' => 'string',

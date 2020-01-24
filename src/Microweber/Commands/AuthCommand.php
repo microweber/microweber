@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 class AuthCommand extends Command
 {
     protected $name = 'microweber:generate-admin-login-token';
-    protected $description = 'Temporaly login link generator.';
+    protected $description = 'Temporary login link generator.';
 
     public function fire()
     {
@@ -27,7 +27,7 @@ class AuthCommand extends Command
         $saveToken['server_ip'] = user_ip();
 
         // Save temp token
-        $save = db_save('users_temporarily_tokens', $saveToken);
+        $save = db_save('users_temp_login_tokens', $saveToken);
         if ($save) {
             echo $generateToken;
         }
