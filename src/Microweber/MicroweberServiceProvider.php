@@ -289,11 +289,15 @@ class MicroweberServiceProvider extends ServiceProvider
             }
 			
             if (is_cli()) {
-            	$this->commands('Microweber\Commands\ResetCommand');
+
+                $this->commands('Microweber\Commands\ResetCommand');
                 $this->commands('Microweber\Commands\UpdateCommand');
                 $this->commands('Microweber\Commands\ModuleCommand');
                 $this->commands('Microweber\Commands\PackageInstallCommand');
-                $this->commands('Microweber\Commands\AuthCommand');
+               // $login_allow_by_temp_token = get_option('login_allow_by_temp_token', 'users') == 'y';
+               // if($login_allow_by_temp_token){
+               // $this->commands('Microweber\Commands\AuthCommand');
+               // }
             }
         } else {
             // Otherwise register the install command
