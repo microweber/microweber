@@ -92,7 +92,7 @@
         ],
         font_awesome5: [
             function () {
-                mw.require(mw.settings.libs_url + 'fontawesome-free-5.4.1' + '/css/all.min.css');
+                mw.require(mw.settings.libs_url + 'fontawesoe-free-5.12.0' + '/css/all.min.css');
 
             }
         ],
