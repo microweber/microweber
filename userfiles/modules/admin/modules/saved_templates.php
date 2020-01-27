@@ -66,7 +66,9 @@ return;
                 window.parent.mw.$('#' + mod_id_for_presets).removeAttr("data-module-original-id");
                 window.parent.mw.$('#' + mod_id_for_presets).removeAttr("data-module-original-attrs");
                 if (orig_attr) {
-                    var orig_attrs_decoded = JSON.parse(window.atob(orig_attr));
+
+
+                    var orig_attrs_decoded = JSON.parse(decodeURIComponent(window.atob(orig_attr)));
                     if (orig_attrs_decoded) {
                         window.parent.mw.$('#' + mod_id_for_presets).attr(orig_attrs_decoded);
 
@@ -91,7 +93,7 @@ return;
             if (parent_el != null) {
                 var orig_attrs = window.parent.mw.tools.getAttrs(parent_el);
                 if (orig_attrs) {
-                    var orig_attrs_encoded = window.btoa(JSON.stringify(orig_attrs));
+                    var orig_attrs_encoded = window.btoa(encodeURIComponent(JSON.stringify(orig_attrs)));
                 }
             }
 
