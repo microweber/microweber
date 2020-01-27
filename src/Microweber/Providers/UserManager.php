@@ -172,33 +172,6 @@ class UserManager
             }
         }
 
-        if (isset($params['secret_key']) and $params['secret_key']) {
-//            $login_allow_by_temp_token = get_option('login_allow_by_temp_token', 'users') == 'y';
-//            if($login_allow_by_temp_token){
-//                $secret_key = $params['secret_key'];
-//                $get_temp_token = db_get('users_temp_login_tokens', 'single=1&token=' . $secret_key);
-//                if ($get_temp_token && $get_temp_token['user_id']) {
-//
-//                    $temp_token_created_at = new Carbon($get_temp_token['created_at']);
-//
-//                    if (Carbon::now()->diffInMinutes($temp_token_created_at) >= 30) {
-//                        db_delete('users_temp_login_tokens',$get_temp_token['id']);
-//                        return array('error' => 'User token expired.');
-//                    }
-//
-//                    $update_temp = array();
-//                    $update_temp['id'] = $get_temp_token['id'];
-//                    $update_temp['login_ip'] = user_ip();
-//                    $update_temp['login_at'] = date('Y-m-d H:i:s');
-//                    $save_update_temp = db_save('users_temp_login_tokens', $update_temp);
-//                    if ($save_update_temp) {
-//                        $this->make_logged($get_temp_token['user_id']);
-//                        $ok = true;
-//                    }
-//                }
-//            }
-        }
-
         $override = $this->app->event_manager->trigger('mw.user.before_login', $params);
 
         $redirect_after = isset($params['redirect']) ? $params['redirect'] : false;
@@ -207,6 +180,9 @@ class UserManager
         if (is_array($override)) {
             foreach ($override as $resp) {
                 if (isset($resp['error']) or isset($resp['success'])) {
+                    if (isset($resp['success']) and isset($resp['redirect']) ) {
+                        $redirect_after = $resp['redirect'];
+                    }
                     $return_resp = $resp;
                     $overiden = true;
                 }

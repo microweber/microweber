@@ -121,14 +121,14 @@ class Base
                 'data_raw' => 'string',
             ],
 
-            'users_temp_login_tokens' => [
-                'user_id' => 'integer',
-                'token' => 'text',
-                'server_ip' => 'string',
-                'login_ip' => 'string',
-                'login_at' => 'dateTime',
-                'created_at' => 'dateTime'
-            ],
+//            'users_temp_login_tokens' => [
+//                'user_id' => 'integer',
+//                'token' => 'text',
+//                'server_ip' => 'string',
+//                'login_ip' => 'string',
+//                'login_at' => 'dateTime',
+//                'created_at' => 'dateTime'
+//            ],
 
             'login_attempts' => [
                 'user_id' => 'integer',
