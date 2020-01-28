@@ -26,8 +26,6 @@ if (!isset($params['parent-module-id'])) {
 $params['id'] = $params['data-id'] = $params['parent-module-id'];
 
 
-
-
 $module_template = get_option('data-template', $params['parent-module-id']);
 
 if (!$module_template) {
@@ -52,17 +50,20 @@ if ($module_template != false) {
 ?>
 
 <div for-module-id="<?php print $params['id'] ?>" class="module">
-
-    <?php
-
-
-    if (isset($template_file) and $template_file != false and is_file($template_file)) {
-
-        include($template_file);
-    }
-
-
-    ?>
-
+    <?php if (isset($template_file) and $template_file != false and is_file($template_file)): ?>
+        <div class="mw-ui-box m-t-20">
+            <div class="mw-ui-box-header">
+                <span class="mw-icon-gear"></span><span>Skin settings</span>
+            </div>
+            <div class="mw-ui-box-content">
+                <style>
+                    #settings-holder h5 {
+                        display: none !important;
+                    }
+                </style>
+                <?php include($template_file); ?>
+            </div>
+        </div>
+    <?php endif; ?>
 </div>
 
