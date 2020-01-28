@@ -34,7 +34,7 @@
 </div>
 
 <script>
-    mw.require('tools.js');
+    // mw.require('tools.js');
     mw.require('files.js');
 </script>
 <script>

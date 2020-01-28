@@ -318,7 +318,7 @@ class InstallController extends Controller
         if (extension_loaded('pdo_sqlite')) {
             $defaultDbEngine = 'sqlite';
         }
-        
+
         if (!$defaultDbEngine) {
             $defaultDbEngine = 'mysql';
         }
