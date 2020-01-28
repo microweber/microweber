@@ -97,9 +97,7 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
         }
 
 
-
-
-         $repositoryManager = $this->getRepositoryManager();
+        $repositoryManager = $this->getRepositoryManager();
 
 //        $repositoryManager->setRepositoryClass('composer', 'Microweber\Utils\Adapters\Packages\Helpers\ComposerRepository');
 //        $repositoryManager->setRepositoryClass('package', 'Microweber\Utils\Adapters\Packages\Helpers\PackageRepository');
@@ -115,10 +113,6 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
         $known_repos = $known_repos_orig = $repositoryManager->getRepositories();
 
 
-
-
-
-
         $errors = array();
         $removed_repos = array();
         $has_error = false;
@@ -126,48 +120,47 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
         $results_found = array();
 
         //do {
-            try {
+        try {
 
 
-                $repositories = new CompositeRepository(
-                    array_merge(
-                        array($localRepository, $platformRepo),
-                        $known_repos
-                    )
-                );
+            $repositories = new CompositeRepository(
+                array_merge(
+                    array($localRepository, $platformRepo),
+                    $known_repos
+                )
+            );
 
 
-                $results = $this->_trySearch($repositories, $tokens, $searchIn);
+            $results = $this->_trySearch($repositories, $tokens, $searchIn);
 
 
-                if ($results) {
-                    $results_found = $results;
-                }
-
-
-            } catch (\Composer\Downloader\TransportException $e) {
-                $err_msg = $e->getMessage();
-                $err_code = $e->getCode();
-                $has_error = true;
-                foreach ($known_repos as $rk => $known_repo) {
-                    $u = $known_repo->getRepoConfig();
-                    $u = $u['url'];
-
-                    if (stristr($err_msg, $u)) {
-                        unset($known_repos[$rk]);
-                        $removed_repos[] = $known_repo;
-                    }
-
-                }
-                $errors[$err_code] = $err_msg;
-
+            if ($results) {
+                $results_found = $results;
             }
 
 
-      //  } while (!$results_found or !$known_repos or !is_array($results));
+        } catch (\Composer\Downloader\TransportException $e) {
+            $err_msg = $e->getMessage();
+            $err_code = $e->getCode();
+            $has_error = true;
+            foreach ($known_repos as $rk => $known_repo) {
+                $u = $known_repo->getRepoConfig();
+                $u = $u['url'];
 
-        
- 
+                if (stristr($err_msg, $u)) {
+                    unset($known_repos[$rk]);
+                    $removed_repos[] = $known_repo;
+                }
+
+            }
+            $errors[$err_code] = $err_msg;
+
+        }
+
+
+        //  } while (!$results_found or !$known_repos or !is_array($results));
+
+
         if ($removed_repos and $known_repos != $known_repos_orig) {
             if ($this->_setDisableNonActiveReposInComposer) {
                 $f = $this->getConfigPathname();
@@ -235,11 +228,11 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
                 $packages[$result['name']] = $result;
 
                 if (count($versions)) {
-                    
-                    
+
+
                     $last_v = $versions;
                     $last_v = array_pop($last_v);
-                    
+
                     $packages[$result['name']]['type'] = $last_v->getType();
                     $packages[$result['name']]['description'] = $last_v instanceof CompletePackageInterface
                         ? $last_v->getDescription()
@@ -314,8 +307,8 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
                             $version_info['dist_type'] = $version->getDistType();
 
                             if ($version_info['dist']) {
-                                if( $version_info['version'] and !stristr($version_info['version'],'-dev') and !stristr($version_info['version'],'dev-')) {
-                                  //  if (!$latestVersion || $version->getReleaseDate() > $latestVersion->getReleaseDate()) {
+                                if ($version_info['version'] and !stristr($version_info['version'], '-dev') and !stristr($version_info['version'], 'dev-')) {
+                                    //  if (!$latestVersion || $version->getReleaseDate() > $latestVersion->getReleaseDate()) {
                                     if (!$latestVersion || version_compare($version->getVersion(), $latestVersion->getVersion())) {
                                         $latestVersion = $version;
                                         $latestVersionInfo = $version_info;
@@ -360,7 +353,7 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
             }
         }
 
-
+        $packages = $this->_removeNonInstallablePackages($packages);
         return $packages;
     }
 
@@ -379,5 +372,60 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
 
     }
 
+    private function _removeNonInstallablePackages($packages)
+    {
 
+        $modules_dir = normalize_path(modules_path(), true);
+        $templates_dir = normalize_path(templates_path(), true);;
+        $includes_path = normalize_path(mw_includes_path(), true);;
+        $vendor_base_path = normalize_path(base_path() . '/vendor/', true);
+        $mw_path = normalize_path(MW_PATH, true);
+
+
+        if (is_array($packages) and !empty($packages)) {
+            foreach ($packages as $pk => $package) {
+                if (isset($package['latest_version']) and isset($package['latest_version']['type'])) {
+                    $unset = false;
+                    $type = $package['latest_version']['type'];
+
+                    if ($type == 'microweber-core-update') {
+                        if (is_link($vendor_base_path) or !is_writable($vendor_base_path)) {
+                            $unset = true;
+                        }
+                        if (is_link($mw_path) or !is_writable($mw_path)) {
+                            $unset = true;
+                        }
+                    }
+
+                    if (isset($package['latest_version']['folder']) and $package['latest_version']['folder']) {
+                        $folder_name = $package['latest_version']['folder'];
+                        $folder = false;
+                        if ($type == 'microweber-template') {
+                            $folder = normalize_path($templates_dir . $folder_name, true);
+                        }
+                        if ($type == 'microweber-module') {
+                            $folder = normalize_path($modules_dir . $folder_name, true);
+                        }
+
+                        if ($folder) {
+                            if (!is_dir($folder)) {
+                                $unset = false;
+                            } else if (is_link($folder) or !is_writable($folder)) {
+                                $unset = true;
+                            }
+                        }
+                    }
+
+
+                    if ($unset) {
+                        unset($packages[$pk]);
+                    }
+
+
+                }
+            }
+        }
+
+        return $packages;
+    }
 }
