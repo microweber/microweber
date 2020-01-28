@@ -49,6 +49,36 @@
                             </select>
                         </div>
                     </div>
+                <?php elseif ($setting['type'] == 'font_selector'): ?>
+                    <?php
+                    $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
+
+                    if (is_string($enabled_custom_fonts)) {
+                        $enabled_custom_fonts_array = explode(',', $enabled_custom_fonts);
+                        if (is_array($enabled_custom_fonts_array)) {
+                            foreach ($enabled_custom_fonts_array as $font1) {
+                                $setting['options'][$font1] = $font1;
+
+                            }
+
+                        }
+                    }
+                    ?>
+                    <div class="form-group">
+                        <label for="<?php echo $key; ?>" class="control-label"><?php echo $setting['label']; ?> <?php if (isset($setting['help'])): ?><span class="tip" data-tip="<?php echo $setting['help']; ?>">(<span class="red">?</span>)</span><?php endif; ?></label>
+                        <div>
+                            <select name="<?php echo $key; ?>" id="<?php echo $key; ?>" class="mw_option_field form-control" data-option-group="<?php print $option_group; ?>">
+                                <?php if (isset($setting['options'])): ?>
+                                    <?php foreach ($setting['options'] as $option_key => $option): ?>
+                                        <option value="<?php echo $option_key; ?>" <?php if (isset($option_key) AND isset($$key) AND $option_key == $$key) {
+                                            echo 'selected';
+                                        } ?>><?php echo $option; ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </select>
+                        </div>
+                    </div>
                 <?php endif; ?>
             <?php endforeach; ?>
         <?php endif; ?>
