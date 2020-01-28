@@ -1,6 +1,6 @@
 <?php
 
- if (!isset($params['parent-module']) and isset($params['root-module'])) {
+if (!isset($params['parent-module']) and isset($params['root-module'])) {
     $params['parent-module'] = $params['root-module'];
 }
 if (!isset($params['parent-module-id']) and isset($params['root-module-id'])) {
@@ -23,23 +23,23 @@ if (!isset($params['parent-module-id'])) {
 
 //d($params['parent-module']);
 
-$params['id'] = $params['parent-module-id'];
+$params['id'] = $params['data-id'] = $params['parent-module-id'];
+
 
 
 
 $module_template = get_option('data-template', $params['parent-module-id']);
 
- if(!$module_template){
+if (!$module_template) {
 
-     if (isset($params['parent-template'])) {
-         $module_template = $params['parent-template'];
-     }
- }
+    if (isset($params['parent-template'])) {
+        $module_template = $params['parent-template'];
+    }
+}
 
 if ($module_template == false) {
     $module_template = 'default';
 }
-
 
 
 if ($module_template != false) {
@@ -49,12 +49,20 @@ if ($module_template != false) {
 }
 
 
+?>
+
+<div for-module-id="<?php print $params['id'] ?>" class="module">
+
+    <?php
 
 
-if (isset($template_file) and $template_file != false and is_file($template_file)) {
+    if (isset($template_file) and $template_file != false and is_file($template_file)) {
 
-    include($template_file);
-}
+        include($template_file);
+    }
 
 
+    ?>
+
+</div>
 
