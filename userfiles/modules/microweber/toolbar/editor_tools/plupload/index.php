@@ -3,7 +3,7 @@ $uid = uniqid();
 $here = mw_includes_url() . 'toolbar/editor_tools/plupload/';
 ?>
 
-<script>mw.require('tools.js');</script>
+<script>// mw.require('tools.js');</script>
 <script>mw.require('url.js');</script>
 <script>mw.require('events.js');</script>
 <style type="text/css">

@@ -4,7 +4,7 @@ $here = mw_includes_url() . 'toolbar/editor_tools/uppy/';
 ?>
 
 <script>
-    mw.require('tools.js');
+    // mw.require('tools.js');
     mw.require('url.js');
     mw.require('events.js');
     mw.lib.require('uppy');

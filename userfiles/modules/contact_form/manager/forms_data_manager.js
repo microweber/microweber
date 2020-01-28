@@ -1,6 +1,6 @@
 // JavaScript Document
 mw.require('forms.js');
-mw.require('tools.js');
+// mw.require('tools.js');
 
 mw.forms_data_manager = {
   delete : function(id, selector){

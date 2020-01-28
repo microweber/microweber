@@ -1,6 +1,6 @@
 // JavaScript Document
 mw.require('forms.js');
-mw.require('tools.js');
+// mw.require('tools.js');
  
 mw.admin_backup = {
 	create : function(selector){
