@@ -17,6 +17,7 @@ if (isset($params['require_version'])) {
     $require_version = $params['require_version'];
 }
 
+ 
 
 if (isset($params['rel_type'])) {
     $rel_type = $params['rel_type'];
@@ -31,6 +32,8 @@ $get_existing_files_for_confirm = cache_get($confirm_key, 'composer');
 
 if(is_array($get_existing_files_for_confirm)){
     $confirm_files_count =count($get_existing_files_for_confirm);
+} else {
+    return;
 }
 
 
@@ -88,11 +91,21 @@ if(is_array($get_existing_files_for_confirm)){
 
                                     </thead>
 
-                                    <?php foreach ($get_existing_files_for_confirm as $file) { ?>
+                                    <?php
+                                    $i = 0;
+
+                                    foreach ($get_existing_files_for_confirm as $file) { ?>
                                         <tr>
                                             <td><?php print ($file) ?></td>
                                         </tr>
-                                    <?php } ?>
+                                    <?php
+
+                                        if($i > 1000){
+                                            break;
+                                        }
+
+                                        $i++;
+                                    } ?>
                                     </tbody>
                                 </table>
                             </div>

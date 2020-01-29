@@ -117,6 +117,13 @@ class ComposerUpdate
 
     public function search_packages($params)
     {
+
+        $update_channel = \Config::get('microweber.update_channel');
+        if ('disabled' == $update_channel) {
+            return;
+        }
+
+
         $params = parse_params($params);
 
         $version = 'latest';
@@ -364,7 +371,10 @@ class ComposerUpdate
 
     public function install_package_by_name($params)
     {
-
+        $update_channel = \Config::get('microweber.update_channel');
+        if ('disabled' == $update_channel) {
+            return;
+        }
 
         $params = parse_params($params);
         $install_core_update = false;
@@ -513,6 +523,9 @@ class ComposerUpdate
 
             $composer = Factory::create($io);
 
+
+
+
             //       $input->setOption('no-plugins',true);
 
 
@@ -542,6 +555,10 @@ class ComposerUpdate
                 $from_folder = normalize_path($from_folder, true);
 
             }
+
+
+
+            return "asdasdasdasdas";
 
 
             if ($out === 0) {
@@ -585,7 +602,6 @@ class ComposerUpdate
 
 
                 if ($need_confirm) {
-
                     cache_save($cp_files, $confirm_key, 'composer');
 
                     return array(
@@ -632,8 +648,10 @@ class ComposerUpdate
                 }
                 if (copy($src, $dest)) {
                     //ok
+                    @unlink($src);
                 } else {
                     $cp_files_fails[] = $f;
+                    @unlink($src);
                 }
             }
             $resp = array();
@@ -752,6 +770,14 @@ class ComposerUpdate
 
     public function _prepare_composer_workdir($package_name = '', $version = false)
     {
+
+        $update_channel = \Config::get('microweber.update_channel');
+        if ('disabled' == $update_channel) {
+            return;
+        }
+
+
+
         $cache_folder = mw_cache_path() . 'composer/cache';
         $data_folder = mw_cache_path() . 'composer/data';
 
@@ -807,8 +833,15 @@ class ComposerUpdate
         }
 
         $system_repos = array();
-        $system_repos[] = array("type" => "composer", "url" => "https://packages.microweberapi.com/");
-        $system_repos[] = array("type" => "composer", "url" => "https://private-packages.microweberapi.com/");
+
+        if($update_channel == 'dev'){
+            $system_repos[] = array("type" => "composer", "url" => "https://packages-dev.microweberapi.com/");
+
+        } else {
+            $system_repos[] = array("type" => "composer", "url" => "https://packages.microweberapi.com/");
+            $system_repos[] = array("type" => "composer", "url" => "https://private-packages.microweberapi.com/");
+        }
+
 
         $system_repos_custom = array();
 
@@ -854,7 +887,7 @@ class ComposerUpdate
         $new_composer_config['config']['cache-dir'] = $cache_folder;
         $new_composer_config['config']['data-dir'] = $data_folder;
         $new_composer_config['config']['preferred-install'] = 'dist';
-        $new_composer_config['config']['discard-changes'] = true;
+     //   $new_composer_config['config']['discard-changes'] = true;
         $new_composer_config['config']['htaccess-protect'] = true;
         $new_composer_config['config']['store-auths'] = false;
         $new_composer_config['config']['use-include-path'] = false;
