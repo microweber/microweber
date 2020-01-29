@@ -557,8 +557,7 @@ class ComposerUpdate
             }
 
 
-
-            return "asdasdasdasdas";
+ 
 
 
             if ($out === 0) {
