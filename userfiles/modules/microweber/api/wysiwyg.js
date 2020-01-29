@@ -2081,7 +2081,7 @@ mw.wysiwyg = {
             }
         });
     },
-    fontIconFamilies: ['fa', 'mw-ui-icon', 'mw-icon', 'material-icons', 'mw-wysiwyg-custom-icon', 'icon'],
+    fontIconFamilies: ['fas', 'fab', 'far', 'fa', 'mw-ui-icon', 'mw-icon', 'material-icons', 'mw-wysiwyg-custom-icon', 'icon'],
 
     elementHasFontIconClass: function (el) {
         var icon_classes = mw.wysiwyg.fontIconFamilies;
