@@ -4,9 +4,7 @@ mw._colorPickerDefaults = {
     onchange: false
 }
 mw._colorPicker = function (options) {
-    if(options.element === '#theme-color-5') {
-        console.log('edno', options)
-    }
+
     if (!mw.tools.colorPickerColors) {
         mw.tools.colorPickerColors = [];
         var w = window;
@@ -33,19 +31,13 @@ mw._colorPicker = function (options) {
     if (!options) {
         return false;
     }
-    if(options.element === '#theme-color-5') {
-        console.log('2', options);
-    }
+
     var settings = $.extend({}, mw._colorPickerDefaults, options);
-    if(options.element === '#theme-color-5') {
-        console.log(5555, settings, options);
-    }
+
     if (settings.element === undefined || settings.element === null) {
         return false;
     }
-    if(options.element === '#theme-color-5') {
-        console.log('3', settings)
-    }
+
 
 
     var $el = mw.$(settings.element);
@@ -53,12 +45,9 @@ mw._colorPicker = function (options) {
         return false;
     }
     if($el[0].mwcolorPicker) {
-        console.log('pak se vika')
         return $el[0].mwcolorPicker;
     }
-    if(options.element === '#theme-color-5') {
-        console.log('0909', settings)
-    }
+
 
     $el[0].mwcolorPicker = this;
     this.element = $el[0];
@@ -71,11 +60,8 @@ mw._colorPicker = function (options) {
         }
     }
     this.settings = settings;
-    if(options.element === '#theme-color-5') {
-        console.log('44', this.settings)
-    }
+
     $el[0].mwToolTipBinded = true;
-    if($el[0].id === 'theme-color-5') console.log(2, settings)
     var sett = {
         showAlpha: true,
         showHSL: false,
@@ -97,7 +83,6 @@ mw._colorPicker = function (options) {
     if(typeof settings.showHSL !== 'undefined') {
         sett.showHSL = settings.showHSL
     }
-    if($el[0].id === 'theme-color-5') console.log(3, settings)
     var frame;
     if (settings.method === 'inline') {
 

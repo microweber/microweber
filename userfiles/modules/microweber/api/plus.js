@@ -182,13 +182,15 @@ InsertModule = function (module, cls) {
 
     var el = $('#' + id).parent()[0];
     mw.load_module(module, '#' + id, function () {
-        mw.wysiwyg.change(document.getElementById(id));
+        var node = document.getElementById(id)
+        mw.wysiwyg.change(node);
+
         mw.drag.plus.locked = false;
         mw.drag.fixes();
         setTimeout(function () {
             mw.drag.fix_placeholders();
-            if(mw.liveEditDomTree) {
-                mw.liveEditDomTree.sync(el);
+            if(mw.liveEditDomTree){
+                mw.liveEditDomTree.autoSync(node.parentNode, node);
             }
         }, 40);
         mw.dropable.hide();

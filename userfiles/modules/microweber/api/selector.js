@@ -155,7 +155,7 @@ mw.Selector = function(options) {
     };
 
     this.setItem = function(e, item, select, extend){
-        if(!this.active()) return;
+        if(!e || !this.active()) return;
         var target = e.target ? e.target : e;
         if (this.options.strict) {
             target = mw.tools.firstMatchesOnNodeOrParent(target, ['[id]', '.edit']);

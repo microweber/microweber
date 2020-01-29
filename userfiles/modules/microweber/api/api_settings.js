@@ -46,7 +46,7 @@
             function () {
                 var v = mwd.querySelector('meta[name="viewport"]');
                 if (v === null) {
-                    var v = mwd.createElement('meta');
+                    v = mwd.createElement('meta');
                     v.name = "viewport";
                 }
                 v.content = "width=device-width, initial-scale=1.0";

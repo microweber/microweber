@@ -1198,6 +1198,9 @@ mw.wysiwyg = {
             if(e && e.target) {
                 mw.wysiwyg.check_selection(e.target);
             }
+            if(mw.liveEditDomTree){
+                mw.liveEditDomTree.autoSync(e.target, e.target)
+            }
 
         });
     },
@@ -1237,7 +1240,7 @@ mw.wysiwyg = {
             if(mw.tools.hasClass(el, 'edit') || mw.tools.hasClass(parent, 'edit')) {
 
             } else {
-                mw.liveEditDomTree.autoSync(parent, el);
+
 
             }
 
