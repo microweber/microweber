@@ -53,7 +53,13 @@ class DatabaseWriter
 	 * @var string
 	 */
 	public $overwriteById = false;
-	
+
+    /**
+     * Delete old content
+     * @var bool
+     */
+	public $deleteOldContent = false;
+
 	/**
 	 * The content from backup file
 	 * @var string
@@ -91,7 +97,12 @@ class DatabaseWriter
 	public function setOverwriteById($overwrite) {
 		$this->overwriteById = $overwrite;
 	}
-	
+
+
+	public function setDeleteOldContent($delete) {
+	    $this->deleteOldContent = $delete;
+    }
+
 	/**
 	 * Unset item fields
 	 * @param array $item
@@ -276,7 +287,7 @@ class DatabaseWriter
 		
 		var_dump($items);
 		return; */
-		
+
 		foreach ($this->content as $table=>$items) {
 			if (!empty($items)) {
 				foreach($items as $item) {
@@ -295,8 +306,9 @@ class DatabaseWriter
 	{
 		if ($this->getCurrentStep() == 0) {
 			BackupImportLogger::clearLog();
+			$this->_deleteOldContent(); 
 		}
-		
+
 		BackupImportLogger::setLogInfo('Importing database batch: ' . ($this->getCurrentStep() + 1) . '/' . $this->totalSteps);
 		
 		if (empty($this->content)) {
@@ -382,6 +394,16 @@ class DatabaseWriter
 		
 		return $log;
 	}
+
+	private function _deleteOldContent()
+    {
+        // Delete old content
+        if (!empty($this->content) && $this->deleteOldContent) {
+            foreach ($this->content as $table=>$items) {
+                \DB::table($table)->truncate();
+            }
+        }
+    }
 	
 	/**
 	 * Clear all cache on framework

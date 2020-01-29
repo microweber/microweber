@@ -46,12 +46,36 @@ mw.backup_import = {
 		var importOptions = '<div>'+
 		'<h3>Import File Options</h3>'+
 		'<br />'+
-		'<label class="mw-ui-check" style="height: 26px;">'+ 
-		'<input type="checkbox" class="js-backup-import-overwrite-by-id" value="1" '+checked+' />'+
-		'<span style="margin-top:18px;" ></span><span>Overwrite existing content by ID.</span>'+
+
+
+		'<div style="height: 50px;background: #737373;color: #fff;padding-left: 15px;">' +
+		'<label class="mw-ui-check" style="height: 26px;">'+
+		'<input type="radio" name="import_by_type" value="1" '+checked+' />'+
+		'<span style="margin-top:18px;" ></span><span>1. Delete all website content & import fresh backup</span>'+
 		'</label>'+
-		'<br /><span style="color:red;margin-left:26px;">Warning! If this option are marked, it will be replace all existing posts.</span>'+
-		'<hr />'+
+		'<br /><span style="margin-left:26px;">If this option are marked, it will be delete all data from your website.</span>'+
+		'</div>' +
+
+
+
+		'<div style="height: 50px;background: #e15454;color: #fff;padding-left: 15px;margin-top:15px;">' +
+		'<label class="mw-ui-check" style="height: 26px;">'+
+		'<input type="radio" name="import_by_type" value="1" />'+
+		'<span style="margin-top:18px;" ></span><span>2. Overwrite the website content from backup</span>'+
+		'</label>'+
+		'<br /><span style="margin-left:26px;">If this option are marked, it will be replace all existing data by ID.</span>'+
+		'</div>' +
+
+
+
+		'<div style="height: 50px;background: #e18f54;color: #fff;padding-left: 15px;margin-top:15px;">' +
+		'<label class="mw-ui-check" style="height: 26px;">'+
+		'<input type="radio" name="import_by_type" value="1" />'+
+		'<span style="margin-top:18px;" ></span><span>3. Try to overwrite content by Names & Titles</span>'+
+		'</label>'+
+		'</div>' +
+
+
         '<div style="margin-bottom:20px;" class="js-backup-import-installation-language-wrapper"></div>'+
 		'<div><a class="mw-ui-btn mw-ui-btn-warn" onclick="mw.backup_import.start_import_button()">Start importing content</a></div>'+
 		'</div>'+
