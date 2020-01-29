@@ -457,10 +457,12 @@ mw.top()._icons = mw.top()._icons || [];
         },
         mindIconsInit: function(){
             var mindIcons = [];
-            var faicons = mwd.querySelector('link[href*="/mw-icons-mind/"]');
-            if (faicons != null && faicons.sheet) {
+            var mindIconsSolid = [];
+            var mindLink = mwd.querySelector('link[href*="/mw-icons-mind/line/"]');
+            var mindLinkSolid = mwd.querySelector('link[href*="/mw-icons-mind/solid/"]');
+            if (mindLink != null && mindLink.sheet) {
                 try {
-                    var icons = faicons.sheet.cssRules;
+                    var icons = mindLink.sheet.cssRules;
                     var l = icons.length, i = 0;
                     for (; i < l; i++) {
                         var sel = icons[i].selectorText;
@@ -472,10 +474,40 @@ mw.top()._icons = mw.top()._icons || [];
                 } catch (e) {
                 }
             }
+            if (mindLinkSolid != null && mindLinkSolid.sheet) {
+                try {
+                    var icons = mindLinkSolid.sheet.cssRules;
+                    var l = icons.length, i = 0;
+                    for (; i < l; i++) {
+                        var sel = icons[i].selectorText;
+                        if (!!sel && sel.indexOf('.mw-micon-solid-') === 0) {
+                            var cls = sel.replace(".", '').split(':')[0];
+                            mindIconsSolid.push('mw-micon- ' + cls);
+                        }
+                    }
+                } catch (e) {
+                }
+            }
+            console.log(mindLinkSolid)
             if(mindIcons.length) {
                 this.addFontIcons({
                     icons: mindIcons,
                     name: 'Icons Mind',
+                    remove: function(target) {
+                        mw.tools.classNamespaceDelete(target, 'mw-micon-');
+                        mw.tools.classNamespaceDelete(target, 'icon-');
+                        mw.tools.removeClass(target, 'icon');
+                    },
+
+                    render: function(icon, target) {
+                        mw.$(target).addClass('mw-icon ' + icon);
+                    }
+                });
+            }
+            if(mindIconsSolid.length) {
+                this.addFontIcons({
+                    icons: mindIconsSolid,
+                    name: 'Icons Mind Solid',
                     remove: function(target) {
                         mw.tools.classNamespaceDelete(target, 'mw-micon-');
                         mw.tools.classNamespaceDelete(target, 'icon-');
