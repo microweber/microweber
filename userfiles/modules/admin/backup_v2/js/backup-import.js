@@ -43,51 +43,61 @@ mw.backup_import = {
             checked = 'checked="checked"';
         }
 		
-		var importOptions = '<div>'+
-		'<h3>Import File Options</h3>'+
+		var importOptions = '<div class="mw-backup-v2-import">'+
+
+		'<img src="'+moduleImagesUrl+'1.png" class="import-image import-image-1" />'+
+		'<img src="'+moduleImagesUrl+'2.png" class="import-image import-image-2" />'+
+		'<img src="'+moduleImagesUrl+'3.png" class="import-image import-image-3" />'+
+
+		'<h2 style="font-weight: bold">How do you like to import the backup content?</h2>'+
 		'<br />'+
 
-
-		'<div style="height: 50px;background: #737373;color: #fff;padding-left: 15px;">' +
-		'<label class="mw-ui-check" style="height: 26px;">'+
-		'<input type="radio" name="import_by_type" value="1" '+checked+' />'+
-		'<span style="margin-top:18px;" ></span><span>1. Delete all website content & import fresh backup</span>'+
-		'</label>'+
-		'<br /><span style="margin-left:26px;">If this option are marked, it will be delete all data from your website.</span>'+
-		'</div>' +
-
-
-
-		'<div style="height: 50px;background: #e15454;color: #fff;padding-left: 15px;margin-top:15px;">' +
-		'<label class="mw-ui-check" style="height: 26px;">'+
+		'<label class="mw-ui-check mw-backup-v2-import-option">' +
+		'<div class="option-radio">'+
 		'<input type="radio" name="import_by_type" value="1" />'+
-		'<span style="margin-top:18px;" ></span><span>2. Overwrite the website content from backup</span>'+
-		'</label>'+
-		'<br /><span style="margin-left:26px;">If this option are marked, it will be replace all existing data by ID.</span>'+
-		'</div>' +
-
-
-
-		'<div style="height: 50px;background: #e18f54;color: #fff;padding-left: 15px;margin-top:15px;">' +
-		'<label class="mw-ui-check" style="height: 26px;">'+
-		'<input type="radio" name="import_by_type" value="1" />'+
-		'<span style="margin-top:18px;" ></span><span>3. Try to overwrite content by Names & Titles</span>'+
-		'</label>'+
-		'</div>' +
-
-
-        '<div style="margin-bottom:20px;" class="js-backup-import-installation-language-wrapper"></div>'+
-		'<div><a class="mw-ui-btn mw-ui-btn-warn" onclick="mw.backup_import.start_import_button()">Start importing content</a></div>'+
+		'<span></span>'+
 		'</div>'+
-		'<br /><br /><div class="backup-import-modal-log-progress"></div>'+
-		'';
+		'<h3>Delete all website content & import fresh backup</h3>'+
+		'<p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>'+
+		'</label>'+
+
+
+        '<label class="mw-ui-check mw-backup-v2-import-option active">' +
+        '<div class="option-radio">'+
+        '<input type="radio" name="import_by_type" checked="checked" value="2" />'+
+        '<span></span>'+
+        '</div>'+
+        '<h3>Overwrite the website content from backup</h3>'+
+        '<p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>'+
+        '</label>'+
+
+        '<label class="mw-ui-check mw-backup-v2-import-option">' +
+        '<div class="option-radio">'+
+        '<input type="radio" name="import_by_type" value="3" />'+
+        '<span></span>'+
+        '</div>'+
+        '<h3>Try to overwrite content by Names & Titles</h3>'+
+        '<p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>'+
+        '</label>'+
+
+
+		'<div class="mw-backup-v2-import-buttons">'+
+		'<a onClick="" class="button-cancel">Cancel</a>'+
+		'<button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-rounded button-start" type="submit">Start Importing</button>'+
+		'</div>'+
+
+		'</div>'
+		;
 		
 		mw.modal({
-			height: 570,
+			height: 650,
 		    content: importOptions,
 		    title: importContentFromFileText,
 		    id: 'mw_backup_import_modal' 
 		});
+
+        var importType = $('input[name*="import_by_type"]').val();
+        changeImportImages(importType);
 		
 		data = {};
 		data.id = src;
@@ -199,3 +209,37 @@ mw.backup_import = {
 		});
 	}
 }
+
+function changeImportImages(importType)
+{
+	if (importType == '1') {
+		$('.import-image-1').fadeIn();
+		$('.import-image-2').hide();
+		$('.import-image-3').hide();
+	}
+
+	if (importType == '2') {
+		$('.import-image-1').hide();
+		$('.import-image-2').fadeIn();
+		$('.import-image-3').hide();
+	}
+
+	if (importType == '3') {
+		$('.import-image-1').hide();
+		$('.import-image-2').hide();
+		$('.import-image-3').fadeIn();
+	}
+}
+
+$(document).ready(function () {
+
+    $(document).on('change', 'input[name*="import_by_type"]', function() {
+        var importType = $(this).val();
+
+        $('.mw-backup-v2-import-option').removeClass('active');
+        $(this).parent().parent().addClass('active');
+
+        changeImportImages(importType);
+    });
+
+});

@@ -306,7 +306,7 @@ class DatabaseWriter
 	{
 		if ($this->getCurrentStep() == 0) {
 			BackupImportLogger::clearLog();
-			$this->_deleteOldContent(); 
+			$this->_deleteOldContent();
 		}
 
 		BackupImportLogger::setLogInfo('Importing database batch: ' . ($this->getCurrentStep() + 1) . '/' . $this->totalSteps);
