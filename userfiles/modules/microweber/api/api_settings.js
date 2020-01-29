@@ -75,7 +75,7 @@
                 mw.require(mw.settings.libs_url + 'bootstrap-4.3.1' + '/css/bootstrap.min.css');
                 mw.require(mw.settings.libs_url + 'bootstrap-4.3.1' + '/js/popper.min.js');
                 mw.require(mw.settings.libs_url + 'bootstrap-4.3.1' + '/js/bootstrap.min.js');
-                mw.require(mw.settings.libs_url + 'fontawesome-free-5.4.1' + '/css/all.min.css');
+                mw.require(mw.settings.libs_url + 'fontawesome-free-5.12.0' + '/css/all.min.css');
             }
         ],
         flag_icons: [
@@ -92,7 +92,7 @@
         ],
         font_awesome5: [
             function () {
-                mw.require(mw.settings.libs_url + 'fontawesome-free-5.4.1' + '/css/all.min.css');
+                mw.require(mw.settings.libs_url + 'fontawesome-free-5.12.0' + '/css/all.min.css');
 
             }
         ],
