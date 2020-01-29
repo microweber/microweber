@@ -4,6 +4,7 @@ mw._colorPickerDefaults = {
     onchange: false
 }
 mw._colorPicker = function (options) {
+
     if (!mw.tools.colorPickerColors) {
         mw.tools.colorPickerColors = [];
         var w = window;
@@ -30,15 +31,25 @@ mw._colorPicker = function (options) {
     if (!options) {
         return false;
     }
+
     var settings = $.extend({}, mw._colorPickerDefaults, options);
+
     if (settings.element === undefined || settings.element === null) {
         return false;
     }
+
+
 
     var $el = mw.$(settings.element);
     if ($el[0] === undefined) {
         return false;
     }
+    if($el[0].mwcolorPicker) {
+        return $el[0].mwcolorPicker;
+    }
+
+
+    $el[0].mwcolorPicker = this;
     this.element = $el[0];
     if ($el[0].mwToolTipBinded !== undefined) {
         return false;
@@ -49,8 +60,8 @@ mw._colorPicker = function (options) {
         }
     }
     this.settings = settings;
-    $el[0].mwToolTipBinded = true;
 
+    $el[0].mwToolTipBinded = true;
     var sett = {
         showAlpha: true,
         showHSL: false,
@@ -72,7 +83,6 @@ mw._colorPicker = function (options) {
     if(typeof settings.showHSL !== 'undefined') {
         sett.showHSL = settings.showHSL
     }
-
     var frame;
     if (settings.method === 'inline') {
 
@@ -93,7 +103,6 @@ mw._colorPicker = function (options) {
 
     }
     else {
-
         var tip = mw.tooltip(settings), $tip = mw.$(tip).hide();
         this.tip = tip;
 
@@ -116,7 +125,6 @@ mw._colorPicker = function (options) {
                 $el.val(data.color);
             }
         };
-
         if ($el[0].nodeName === 'INPUT') {
             $el.on('focus', function (e) {
                 if(this.value.trim()){
@@ -124,10 +132,9 @@ mw._colorPicker = function (options) {
                     frame.color = this.value;
                     setTimeout(function () {
                         frame.pause = false;
-                    })
+                    });
                 }
                 mw.$(tip).show();
-
                 mw.tools.tooltip.setPosition(tip, $el[0], settings.position)
             });
         }

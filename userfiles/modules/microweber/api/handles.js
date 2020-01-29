@@ -94,6 +94,7 @@ var dynamicModulesMenu = function(e, el) {
 
 };
 
+var handleDomtreeSync = {};
 
 mw.Handle = function(options) {
 
@@ -366,6 +367,8 @@ mw._initHandles = {
                 mw.isDrag = true;
                 mw.dragCurrent = mw.ea.data.currentGrabbed = mw._activeElementOver;
 
+                handleDomtreeSync.start = mw.dragCurrent.parentNode;
+
                 if(!mw.dragCurrent.id){
                     mw.dragCurrent.id = 'element_' + mw.random();
                 }
@@ -565,6 +568,7 @@ mw._initHandles = {
                 start: function() {
                     mw.isDrag = true;
                     mw.dragCurrent = curr();
+                    handleDomtreeSync.start = mw.dragCurrent.parentNode;
                     if(!mw.dragCurrent.id){
                         mw.dragCurrent.id = 'module_' + mw.random();
                     }
@@ -850,6 +854,7 @@ mw._initHandles = {
                 mw.isDrag = true;
                 var curr = mw._activeRowOver ;
                 mw.dragCurrent = mw.ea.data.currentGrabbed = curr;
+                handleDomtreeSync.start = mw.dragCurrent.parentNode;
                 mw.dragCurrent.id == "" ? mw.dragCurrent.id = 'element_' + mw.random() : '';
                 mw.$(mw.dragCurrent).invisible().addClass("mw_drag_current");
                 mw.trigger("AllLeave");

@@ -40,15 +40,9 @@ mw.DomTree = function (options) {
     this._scrollTo = function (el) {
         setTimeout(function () {
 
-
-            // el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-            var a1 =  scope.$holder.offset().top;
-            var a2 =  $(el).offset().top;
-
-            var to = a1 > a2 ? a1 - a1 : a2 - a1;
-
-            scope.$holder.stop().animate({scrollTop: to });
+            scope.$holder.stop().animate({
+                scrollTop: (scope.$holder.scrollTop() + ($(el).offset().top - scope.$holder.offset().top)) - (scope.$holder.height()/2 - 10)
+            });
         }, 55);
     };
 
@@ -135,6 +129,7 @@ mw.DomTree = function (options) {
                     scope.items[i].classList.remove('hover');
                 }
                 target.classList.add('hover');
+
                 if(scope.settings.onHover) {
                     scope.settings.onHover.call(scope, e, target, target._value);
                 }
@@ -148,10 +143,9 @@ mw.DomTree = function (options) {
         .on('click', function (e) {
             var target = e.target;
 
-            if(target.nodeName === 'I') {
-                scope.toggle(target.parentNode)
-            } else if(target.nodeName !== 'LI') {
-                target = target.parentNode;
+            if(target.nodeName !== 'LI') {
+                target = mw.tools.firstParentWithTag(target, 'li')
+                scope.toggle(target);
             }
             scope.selected(target);
             if(target.nodeName === 'LI' && scope.settings.onSelect) {
@@ -277,6 +271,7 @@ mw.DomTree = function (options) {
     };
 
     this._empty = function (parent) {
+
         var intree  = this.findElementInTree(parent);
         var all = parent.querySelectorAll('*');
         var i = 0;
@@ -284,14 +279,13 @@ mw.DomTree = function (options) {
             var li = this.findElementInTree(all[i]);
             this.items.splice(this.items.indexOf(li), 1);
             this.register.splice(this.register.indexOf(all[i]), 1);
-            if(li) {
-                li.parentNode.removeChild(li);
-            }
         }
-        mw.$(':empty', intree).remove();
+        mw.$(intree).empty();
     };
 
     this.sync = function (parent, focusTo) {
+        console.log(parent);
+        return;
         parent = parent.nodeType === 1 ? parent : parent.parentNode;
         if(focusTo) {
             focusTo = focusTo.nodeType === 1 ? focusTo : focusTo.parentNode;
