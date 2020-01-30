@@ -237,7 +237,7 @@ $(document).ready(function () {
         var importType = $(this).val();
 
         $('.mw-backup-v2-import-option').removeClass('active');
-        $(this).parent().parent().addClass('active');
+        $(this).parent().parent().addClass('active'); 
 
         changeImportImages(importType);
     });
