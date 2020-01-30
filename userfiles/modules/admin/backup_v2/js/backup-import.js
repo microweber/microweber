@@ -29,7 +29,7 @@ mw.backup_import = {
 	
 	import: function(src) {
 		
-		var checked = '';
+	/*	var checked = '';
 		
 		if (src.lastIndexOf('backup') >= 0) {
 			checked = 'checked="checked"';
@@ -41,15 +41,16 @@ mw.backup_import = {
 
         if (src.lastIndexOf('mw_content') >= 0) {
             checked = 'checked="checked"';
-        }
+        }*/
 		
 		var importOptions = '<div class="mw-backup-v2-import">'+
 
+		'<div class="mw-backup-v2-import-options">'+
 		'<img src="'+moduleImagesUrl+'1.png" class="import-image import-image-1" />'+
 		'<img src="'+moduleImagesUrl+'2.png" class="import-image import-image-2" />'+
 		'<img src="'+moduleImagesUrl+'3.png" class="import-image import-image-3" />'+
 
-		'<h2 style="font-weight: bold">How do you like to import the backup content?</h2>'+
+		'<h2 style="font-weight: bold">' + ejs('How do you like to import the backup content?') + '</h2>'+
 		'<br />'+
 
 		'<label class="mw-ui-check mw-backup-v2-import-option">' +
@@ -71,6 +72,7 @@ mw.backup_import = {
         '<p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>'+
         '</label>'+
 
+
         '<label class="mw-ui-check mw-backup-v2-import-option">' +
         '<div class="option-radio">'+
         '<input type="radio" name="import_by_type" value="3" />'+
@@ -80,31 +82,42 @@ mw.backup_import = {
         '<p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>'+
         '</label>'+
 
+		'</div>' +
+
+		'<div style="margin-bottom:20px;" class="js-backup-import-installation-language-wrapper"></div>'+
+		'<div class="backup-import-modal-log-progress"></div>'+
 
 		'<div class="mw-backup-v2-import-buttons">'+
-		'<a onClick="" class="button-cancel">Cancel</a>'+
-		'<button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-rounded button-start" type="submit">Start Importing</button>'+
+		'<a class="button-cancel" onClick="mw.backup_import.close_import_modal();">Close</a>'+
+		'<button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-rounded button-start" onclick="mw.backup_import.start_import_button()" type="submit">Start Importing</button>'+
 		'</div>'+
 
 		'</div>'
 		;
 		
-		mw.modal({
-			height: 650,
+		importModal = mw.modal({
+			height: 700,
+			width: 680,
 		    content: importOptions,
 		    title: importContentFromFileText,
 		    id: 'mw_backup_import_modal' 
 		});
 
-        var importType = $('input[name*="import_by_type"]').val();
-        changeImportImages(importType);
+        changeImportImages(2);
 		
 		data = {};
 		data.id = src;
 	},
-	
+
+	close_import_modal: function() {
+        importModal.remove();
+	},
+
 	start_import_button: function (src) {
+
 		$('#mw_backup_import_modal').find('.backup-import-modal-log-progress').html('Loading file...');
+		$('#mw_backup_import_modal').find('.mw-backup-v2-import-options').slideUp();
+
 		mw.backup_import.init_progress(1);
 		mw.backup_import.start_import();
 		mw.backup_import.get_log_check('start');
@@ -139,7 +152,9 @@ mw.backup_import = {
 				mw.backup_import.get_progress(100);
 				mw.backup_import.get_log_check('stop');
 				$('#mw_backup_import_modal').find('.backup-import-modal-log').before('<h3>All data is imported successfully!</h3>');
-				return; 
+                $('#mw_backup_import_modal').find('.button-start').html('Done');
+                $('#mw_backup_import_modal').find('.button-start').attr('onClick', 'mw.backup_import.close_import_modal();').html('Done!');
+				return;
 			} else {
 				mw.backup_import.get_progress(json_data.precentage);
 				mw.backup_import.start_import();
@@ -150,9 +165,11 @@ mw.backup_import = {
 
     choice_language: function(languages) {
 
-		var select = '<p style="background: #009cff;color: #fff;padding: 7px;font-size: 15px;">Select installation language:</p><br />';
+		var select = '<h2 style="font-weight: bold">Select installation language:</h2>';
+		select += '<p>We are detecting a multiple language content.</p>';
+		select += '<p>Please choose wich one you want to import.</p><br /><br />';
 
-		select += '<select class="mw-ui-field js-backup-import-installation-language" name="installation_language">';
+		select += '<select class="mw-ui-field js-backup-import-installation-language" style="width:100%;" name="installation_language">';
     	select += '<option value="en">EN</option>';
 
         for (i = 0; i < languages.length; i++) {
@@ -237,7 +254,7 @@ $(document).ready(function () {
         var importType = $(this).val();
 
         $('.mw-backup-v2-import-option').removeClass('active');
-        $(this).parent().parent().addClass('active'); 
+        $(this).parent().parent().addClass('active');
 
         changeImportImages(importType);
     });

@@ -2,6 +2,11 @@
     padding-right:40px;
     padding-left:40px;
     text-align: center;
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
 }
 .mw-backup-v2-import > .import-image {
     display: none;
@@ -42,4 +47,22 @@
     font-weight: bold;
     cursor: pointer;
     padding: 15px;
+}
+.backup-import-modal-log {
+    text-align: left;
+    color: #fff;
+    background: #575757;
+    padding-top: 15px;
+    padding-left: 15px;
+    padding-bottom: 15px;
+    font-family: monospace;
+    border-radius: 4px;
+    margin-top:15px;
+    margin-bottom:15px;
+}
+#backup-import-progressbar h3 {
+    color: #469a36;
+}
+.backup-import-modal-log-progress {
+    width:80%;
 }
