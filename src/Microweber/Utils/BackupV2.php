@@ -183,8 +183,12 @@ class BackupV2
 			$fileId = $query['file'];
 		}
 		
-		if (isset($query['overwrite_by_id']) && $query['overwrite_by_id'] == 'true') {
+		if (isset($query['import_by_type']) && $query['import_by_type'] == 'overwrite_by_id') {
 			$this->manager->setImportOvewriteById(true);
+		}
+
+		if (isset($query['import_by_type']) && $query['import_by_type'] == 'delete_all') {
+            $this->manager->setToDeleteOldContent(true);
 		}
 
         if (isset($query['installation_language']) && !empty($query['installation_language'])) {

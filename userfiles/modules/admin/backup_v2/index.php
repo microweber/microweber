@@ -1,7 +1,9 @@
 <?php only_admin_access(); ?>
+<link rel="stylesheet" href="<?php echo modules_url() . '/admin/backup_v2/css/style.css' ?>" type="text/css" />
 <script  type="text/javascript">
 	var importContentFromFileText = '<?php _e("Importing content from file"); ?>';
 	var userfilesUrl = '<?php echo userfiles_url() ?>';
+	var moduleImagesUrl = '<?php echo modules_url() . '/admin/backup_v2/images/' ?>';
 	mw.require("<?php print $config['url_to_module']; ?>js/upload-file.js");
     mw.require("<?php print $config['url_to_module']; ?>js/backup-import.js?v=10");
     mw.require("<?php print $config['url_to_module']; ?>js/backup-export.js?v=10");

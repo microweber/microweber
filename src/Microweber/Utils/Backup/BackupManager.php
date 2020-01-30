@@ -15,7 +15,8 @@ class BackupManager
 	public $importBatch = true;
 	public $importOvewriteById = false;
 	public $importLanguage = false;
-	
+	public $deleteOldContent = false;
+
 	public function __construct()
 	{
 		if (php_can_use_func('ini_set')) {
@@ -83,6 +84,10 @@ class BackupManager
 	public function setImportOvewriteById($overwrite) {
 		$this->importOvewriteById = $overwrite;
 	}
+
+	public function setToDeleteOldContent($delete) {
+	    $this->deleteOldContent = $delete;
+    }
 
 	/**
 	 * Set import file path
@@ -153,7 +158,8 @@ class BackupManager
 			$writer = new DatabaseWriter();
 			$writer->setContent($content['data']);
 			$writer->setOverwriteById($this->importOvewriteById);
-			
+			$writer->setDeleteOldContent($this->deleteOldContent);
+
 			if ($this->importBatch) {
 				$writer->runWriterWithBatch();
 			} else {

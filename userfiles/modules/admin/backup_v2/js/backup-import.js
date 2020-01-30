@@ -29,7 +29,7 @@ mw.backup_import = {
 	
 	import: function(src) {
 		
-		var checked = '';
+	/*	var checked = '';
 		
 		if (src.lastIndexOf('backup') >= 0) {
 			checked = 'checked="checked"';
@@ -41,36 +41,83 @@ mw.backup_import = {
 
         if (src.lastIndexOf('mw_content') >= 0) {
             checked = 'checked="checked"';
-        }
+        }*/
 		
-		var importOptions = '<div>'+
-		'<h3>Import File Options</h3>'+
+		var importOptions = '<div class="mw-backup-v2-import">'+
+
+		'<div class="mw-backup-v2-import-options">'+
+		'<img src="'+moduleImagesUrl+'1.png" class="import-image import-image-1" />'+
+		'<img src="'+moduleImagesUrl+'2.png" class="import-image import-image-2" />'+
+		'<img src="'+moduleImagesUrl+'3.png" class="import-image import-image-3" />'+
+
+		'<h2 style="font-weight: bold">How do you like to import the backup content?</h2>'+
 		'<br />'+
-		'<label class="mw-ui-check" style="height: 26px;">'+ 
-		'<input type="checkbox" class="js-backup-import-overwrite-by-id" value="1" '+checked+' />'+
-		'<span style="margin-top:18px;" ></span><span>Overwrite existing content by ID.</span>'+
-		'</label>'+
-		'<br /><span style="color:red;margin-left:26px;">Warning! If this option are marked, it will be replace all existing posts.</span>'+
-		'<hr />'+
-        '<div style="margin-bottom:20px;" class="js-backup-import-installation-language-wrapper"></div>'+
-		'<div><a class="mw-ui-btn mw-ui-btn-warn" onclick="mw.backup_import.start_import_button()">Start importing content</a></div>'+
+
+		'<label class="mw-ui-check mw-backup-v2-import-option">' +
+		'<div class="option-radio">'+
+		'<input type="radio" name="import_by_type" value="1" />'+
+		'<span></span>'+
 		'</div>'+
-		'<br /><br /><div class="backup-import-modal-log-progress"></div>'+
-		'';
+		'<h3>Delete all website content & import fresh backup</h3>'+
+		'<p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>'+
+		'</label>'+
+
+
+        '<label class="mw-ui-check mw-backup-v2-import-option active">' +
+        '<div class="option-radio">'+
+        '<input type="radio" name="import_by_type" checked="checked" value="2" />'+
+        '<span></span>'+
+        '</div>'+
+        '<h3>Overwrite the website content from backup</h3>'+
+        '<p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>'+
+        '</label>'+
+
+
+        '<label class="mw-ui-check mw-backup-v2-import-option">' +
+        '<div class="option-radio">'+
+        '<input type="radio" name="import_by_type" value="3" />'+
+        '<span></span>'+
+        '</div>'+
+        '<h3>Try to overwrite content by Names & Titles</h3>'+
+        '<p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>'+
+        '</label>'+
+
+		'</div>' +
+
+		'<div style="margin-bottom:20px;" class="js-backup-import-installation-language-wrapper"></div>'+
+		'<div class="backup-import-modal-log-progress"></div>'+
+
+		'<div class="mw-backup-v2-import-buttons">'+
+		'<a class="button-cancel" onClick="mw.backup_import.close_import_modal();">Close</a>'+
+		'<button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-rounded button-start" onclick="mw.backup_import.start_import_button()" type="submit">Start Importing</button>'+
+		'</div>'+
+
+		'</div>'
+		;
 		
-		mw.modal({
-			height: 570,
+		importModal = mw.modal({
+			height: 700,
+			width: 680,
 		    content: importOptions,
 		    title: importContentFromFileText,
 		    id: 'mw_backup_import_modal' 
 		});
+
+        changeImportImages(2);
 		
 		data = {};
 		data.id = src;
 	},
-	
+
+	close_import_modal: function() {
+        importModal.remove();
+	},
+
 	start_import_button: function (src) {
+
 		$('#mw_backup_import_modal').find('.backup-import-modal-log-progress').html('Loading file...');
+		$('#mw_backup_import_modal').find('.mw-backup-v2-import-options').slideUp();
+
 		mw.backup_import.init_progress(1);
 		mw.backup_import.start_import();
 		mw.backup_import.get_log_check('start');
@@ -80,9 +127,20 @@ mw.backup_import = {
 
         $('.backup-import-modal-log-progress').show();
 
+        var import_by_type = $('input[name="import_by_type"]:checked').val();
+
 		data.installation_language = $('.js-backup-import-installation-language').val();
-		data.overwrite_by_id = $('.js-backup-import-overwrite-by-id').is(":checked");
-		
+
+		if (import_by_type == '1') {
+            data.import_by_type = 'delete_all';
+        }
+        if (import_by_type == '2') {
+            data.import_by_type = 'overwrite_by_id';
+        }
+        if (import_by_type == '3') {
+            data.import_by_type = 'overwrite_by_titles';
+        }
+
 		$.ajax({
 		  dataType: "json",
 		  url: mw.settings.api_url+'Microweber/Utils/BackupV2/import',
@@ -105,7 +163,9 @@ mw.backup_import = {
 				mw.backup_import.get_progress(100);
 				mw.backup_import.get_log_check('stop');
 				$('#mw_backup_import_modal').find('.backup-import-modal-log').before('<h3>All data is imported successfully!</h3>');
-				return; 
+                $('#mw_backup_import_modal').find('.button-start').html('Done');
+                $('#mw_backup_import_modal').find('.button-start').attr('onClick', 'mw.backup_import.close_import_modal();').html('Done!');
+				return;
 			} else {
 				mw.backup_import.get_progress(json_data.precentage);
 				mw.backup_import.start_import();
@@ -116,9 +176,11 @@ mw.backup_import = {
 
     choice_language: function(languages) {
 
-		var select = '<p style="background: #009cff;color: #fff;padding: 7px;font-size: 15px;">Select installation language:</p><br />';
+		var select = '<h2 style="font-weight: bold">Select installation language:</h2>';
+		select += '<p>We are detecting a multiple language content.</p>';
+		select += '<p>Please choose wich one you want to import.</p><br /><br />';
 
-		select += '<select class="mw-ui-field js-backup-import-installation-language" name="installation_language">';
+		select += '<select class="mw-ui-field js-backup-import-installation-language" style="width:100%;" name="installation_language">';
     	select += '<option value="en">EN</option>';
 
         for (i = 0; i < languages.length; i++) {
@@ -175,3 +237,37 @@ mw.backup_import = {
 		});
 	}
 }
+
+function changeImportImages(importType)
+{
+	if (importType == '1') {
+		$('.import-image-1').fadeIn();
+		$('.import-image-2').hide();
+		$('.import-image-3').hide();
+	}
+
+	if (importType == '2') {
+		$('.import-image-1').hide();
+		$('.import-image-2').fadeIn();
+		$('.import-image-3').hide();
+	}
+
+	if (importType == '3') {
+		$('.import-image-1').hide();
+		$('.import-image-2').hide();
+		$('.import-image-3').fadeIn();
+	}
+}
+
+$(document).ready(function () {
+
+    $(document).on('change', 'input[name*="import_by_type"]', function() {
+        var importType = $(this).val();
+
+        $('.mw-backup-v2-import-option').removeClass('active');
+        $(this).parent().parent().addClass('active');
+
+        changeImportImages(importType);
+    });
+
+});
