@@ -127,9 +127,20 @@ mw.backup_import = {
 
         $('.backup-import-modal-log-progress').show();
 
+        var import_by_type = $('input[name="import_by_type"]:checked').val();
+
 		data.installation_language = $('.js-backup-import-installation-language').val();
-		data.overwrite_by_id = $('.js-backup-import-overwrite-by-id').is(":checked");
-		
+
+		if (import_by_type == '1') {
+            data.import_by_type = 'delete_all';
+        }
+        if (import_by_type == '2') {
+            data.import_by_type = 'overwrite_by_id';
+        }
+        if (import_by_type == '3') {
+            data.import_by_type = 'overwrite_by_titles';
+        }
+
 		$.ajax({
 		  dataType: "json",
 		  url: mw.settings.api_url+'Microweber/Utils/BackupV2/import',
@@ -170,7 +181,7 @@ mw.backup_import = {
 		select += '<p>Please choose wich one you want to import.</p><br /><br />';
 
 		select += '<select class="mw-ui-field js-backup-import-installation-language" style="width:100%;" name="installation_language">';
-    	select += '<option value="en">EN</option>'; 
+    	select += '<option value="en">EN</option>';
 
         for (i = 0; i < languages.length; i++) {
             select += '<option value="'+languages[i]+'">'+languages[i].toUpperCase()+'</option>';
