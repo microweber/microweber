@@ -50,7 +50,7 @@ mw.backup_import = {
 		'<img src="'+moduleImagesUrl+'2.png" class="import-image import-image-2" />'+
 		'<img src="'+moduleImagesUrl+'3.png" class="import-image import-image-3" />'+
 
-		'<h2 style="font-weight: bold">' + ejs('How do you like to import the backup content?') + '</h2>'+
+		'<h2 style="font-weight: bold">How do you like to import the backup content?</h2>'+
 		'<br />'+
 
 		'<label class="mw-ui-check mw-backup-v2-import-option">' +
@@ -170,7 +170,7 @@ mw.backup_import = {
 		select += '<p>Please choose wich one you want to import.</p><br /><br />';
 
 		select += '<select class="mw-ui-field js-backup-import-installation-language" style="width:100%;" name="installation_language">';
-    	select += '<option value="en">EN</option>';
+    	select += '<option value="en">EN</option>'; 
 
         for (i = 0; i < languages.length; i++) {
             select += '<option value="'+languages[i]+'">'+languages[i].toUpperCase()+'</option>';
