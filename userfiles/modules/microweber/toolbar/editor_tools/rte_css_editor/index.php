@@ -20,7 +20,7 @@
     $(window).on('load', function () {
 
 
-        /*setTimeout(function() {
+       /* setTimeout(function() {
 
             mw.top().liveEditDomTree = new mw.DomTree({
                 element: '#domtree',

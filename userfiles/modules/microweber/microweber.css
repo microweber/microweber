@@ -795,3 +795,22 @@ span.mw-powered-by {
     -webkit-background-clip: text;
     color: rgba(0,0,0,0) !important;
 }
+
+
+.mw-template-document-preview *, .mw-template-document-preview{
+    pointer-events: none !important;
+}
+.mw-template-document-preview:after, .mw-template-document-preview:before{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    content: '';
+    z-index: 99999;
+    pointer-events: all !important;
+}
+.mw-template-document-preview:before{
+    position: fixed;
+
+}

@@ -284,8 +284,7 @@ mw.DomTree = function (options) {
     };
 
     this.sync = function (parent, focusTo) {
-        console.log(parent);
-        return;
+
         parent = parent.nodeType === 1 ? parent : parent.parentNode;
         if(focusTo) {
             focusTo = focusTo.nodeType === 1 ? focusTo : focusTo.parentNode;

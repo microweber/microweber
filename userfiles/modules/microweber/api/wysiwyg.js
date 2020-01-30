@@ -1744,7 +1744,7 @@ mw.wysiwyg = {
             options: {
                 target: true,
                 text: true,
-                controllers: 'page, custom, content, section, layout, email',
+                controllers: 'page, custom, content, section, layout, email, file',
                 values: {
                     url: url,
                     text: text,
