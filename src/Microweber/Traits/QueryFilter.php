@@ -276,7 +276,7 @@ trait QueryFilter
                                                         $query = $query->orWhere($to_search_in_field, 'LIKE', '%'.$to_search_keyword);
                                                         $query = $query->orWhere($to_search_in_field, 'LIKE', '.'.$to_search_keyword);
                                                         $query = $query->orWhere($to_search_in_field, 'LIKE', $to_search_keyword.'%');
-                                                        $query = $query->orWhereRaw('LOWER(`'.$to_search_in_field.'`) LIKE ? ',['%'.trim(strtolower($to_search_keyword)).'%']);
+                                                        //$query = $query->orWhereRaw('LOWER(`'.$to_search_in_field.'`) LIKE ? ',['%'.trim(strtolower($to_search_keyword)).'%']);
 
 
                                                     }
