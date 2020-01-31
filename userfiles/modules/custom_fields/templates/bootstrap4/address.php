@@ -1,6 +1,6 @@
 <div class="col-<?php echo $settings['field_size']; ?>">
     <?php if($settings['show_label']): ?>
-    <label class="col-form-label">
+    <label class="control-label">
         <?php echo $data['name']; ?>
         <?php if ($settings['required']): ?>
             <span style="color: red;">*</span>
@@ -13,7 +13,7 @@
         <div class="control-group">
 
             <?php if($settings['show_label']): ?>
-            <label class="col-form-label"><?php _e($value); ?>
+            <label class="control-label"><?php _e($value); ?>
                 <?php if ($settings['required']): ?>
                     <span style="color:red;">*</span>
                 <?php endif; ?>

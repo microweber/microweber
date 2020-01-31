@@ -306,7 +306,7 @@ class DatabaseWriter
 	{
 		if ($this->getCurrentStep() == 0) {
 			BackupImportLogger::clearLog();
-			$this->_deleteOldContent(); 
+			$this->_deleteOldContent();
 		}
 
 		BackupImportLogger::setLogInfo('Importing database batch: ' . ($this->getCurrentStep() + 1) . '/' . $this->totalSteps);
@@ -400,6 +400,9 @@ class DatabaseWriter
         // Delete old content
         if (!empty($this->content) && $this->deleteOldContent) {
             foreach ($this->content as $table=>$items) {
+                if ($table == 'users' || $table == 'users_oauth' || $table == 'system_licenses') {
+                    continue;
+                }
                 \DB::table($table)->truncate();
             }
         }

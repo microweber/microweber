@@ -1,18 +1,17 @@
 <div class="col-<?php echo $settings['field_size']; ?>">
     <div class="form-group">
 
-        <?php if($settings['show_label']): ?>
-        <div class="form-check-label"><?php echo $data["name"]; ?></div>
+        <?php if ($settings['show_label']): ?>
+            <div class="form-check-label"><?php echo $data["name"]; ?></div>
         <?php endif; ?>
 
         <?php $i = 0;
         foreach ($data['values'] as $key => $value): ?>
             <?php $i++; ?>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="<?php echo $data["name"]; ?>[]" id="field-<?php echo $i; ?>-<?php echo $data["id"]; ?>" data-custom-field-id="<?php echo $data["id"]; ?>" value="<?php echo $value; ?>"/>
-                <label class="form-check-label" for="field-<?php echo $i; ?>-<?php echo $data["id"]; ?>"><?php echo $value; ?></label>
+            <div class="custom-control custom-checkbox">
+                <input class="custom-control-input" type="checkbox" name="<?php echo $data["name"]; ?>[]" id="field-<?php echo $i; ?>-<?php echo $data["id"]; ?>" data-custom-field-id="<?php echo $data["id"]; ?>" value="<?php echo $value; ?>"/>
+                <label class="custom-control-label" for="field-<?php echo $i; ?>-<?php echo $data["id"]; ?>"><?php echo $value; ?></label>
             </div>
         <?php endforeach; ?>
-
     </div>
 </div>

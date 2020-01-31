@@ -74,14 +74,14 @@ class Unzip
         $this->_target_dir = $target_dir ? $target_dir : dirname($this->_zip_file);
 
         if (function_exists('zip_open')) {
+			
             $is_any = $this->native_unzip($zip_file, $target_dir, $preserve_filepath);
 
             if (!empty($is_any)) {
                 return $is_any;
             }
-        }
-
-        if (function_exists('gzinflate')) {
+			
+        } else if (function_exists('gzinflate')) {
             if (!$files = $this->_list_files()) {
                 $this->set_error('ZIP folder was empty.');
 
@@ -238,6 +238,17 @@ class Unzip
                     $size = zip_entry_filesize($entry);
                     $name = zip_entry_name($entry);
                     $target_file_to_save = normalize_path($target_dir . $name, false);
+                    $target_file_to_save_dir = dirname($target_file_to_save);
+                    if(!is_dir($target_file_to_save_dir)){
+                        mkdir_recursive($target_file_to_save_dir);
+                    }
+//
+                   //  var_dump($entry);
+//                    var_dump($name);
+//                    var_dump($target_file_to_save);
+//                    echo '________________' . PHP_EOL;
+//                    continue;
+
                     $unzipped = @fopen($target_file_to_save, 'wb');
                     while ($size > 0) {
                         $chunkSize = ($size > 10240) ? 10240 : $size;
