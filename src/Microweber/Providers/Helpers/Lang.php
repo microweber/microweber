@@ -454,6 +454,11 @@ class Lang
 
 
         $lang_files_dir = userfiles_path() . 'language' . DIRECTORY_SEPARATOR;
+
+        if(!is_dir($lang_files_dir)){
+            @mkdir_recursive($lang_files_dir);
+        }
+
         $list = $this->_rsearch($lang_files_dir, '.json');
         $ns = array();
         if ($list) {
