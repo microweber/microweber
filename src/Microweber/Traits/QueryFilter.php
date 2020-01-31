@@ -271,7 +271,7 @@ trait QueryFilter
                                                 $query->{$where_or_where}(function ($query) use ($to_search_in_fields, $to_search_keyword, $params, $table) {
                                                     foreach ($to_search_in_fields as $to_search_in_field) {
                                                         $to_search_keyword = str_replace('.', ' ', $to_search_keyword);
-                                                        $query = $query->orWhere($to_search_in_field, 'REGEXP', $to_search_keyword);
+                                                        // $query = $query->orWhere($to_search_in_field, 'REGEXP', $to_search_keyword);
                                                         $query = $query->orWhere($to_search_in_field, 'LIKE', '%'.$to_search_keyword.'%');
                                                         $query = $query->orWhere($to_search_in_field, 'LIKE', '%'.$to_search_keyword);
                                                         $query = $query->orWhere($to_search_in_field, 'LIKE', '.'.$to_search_keyword);
