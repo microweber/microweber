@@ -4,7 +4,6 @@ event_bind('mw.admin.dashboard.content.before', function ($params = false) {
 //    print '<div type="site_stats/admin" class="mw-lazy-load-module" id="site_stats_admin"></div>';
 
 
-
     if (isset($_GET['install_done']) and mw()->ui->disable_marketplace != true) {
         print '<h1 style="font-size: 24px; color: #555555;">Welcome to Microweber ' . MW_VERSION . '</h1>';
         print '<p style="font-size: 13px; color: #999999; line-height: 1.6;">Use Microweber to build your website, online shop or blog.</p>';
@@ -80,34 +79,44 @@ function __mw_check_core_system_update()
         return;
     }
 
+
     if (!$last_check) {
-        $search_params = array('return_only_updates' => true, 'keyword' => 'microweber/update');
-        //$search_params = array('return_only_updates' => true, 'keyword' => 'microweber');
+
+        try {
+            $search_params = array('return_only_updates' => true, 'keyword' => 'microweber/update');
+
+            $last_check = mw()->update->composer_search_packages($search_params);
 
 
-        $last_check = mw()->update->composer_search_packages($search_params);
+            if (!$last_check) {
+                $last_check = 'noupdate';
+            } else {
+                $count = count($last_check);
+                if ($count > 0) {
+                    $notif = array();
+                    $notif['replace'] = true;
+                    $notif['module'] = 'updates';
+                    $notif['rel_type'] = 'update_check';
+                    $notif['rel_id'] = 'updates_core';
+                    $notif['title'] = 'New system update is available';
+                    $notif['description'] = "There is new system update available";
+                    // $notif['notification_data'] = @json_encode($last_check);
 
-
-        if (!$last_check) {
-            $last_check = 'noupdate';
-        } else {
-            $count = count($last_check);
-            if ($count > 0) {
-                $notif = array();
-                $notif['replace'] = true;
-                $notif['module'] = 'updates';
-                $notif['rel_type'] = 'update_check';
-                $notif['rel_id'] = 'updates_core';
-                $notif['title'] = 'New system update is available';
-                $notif['description'] = "There is new system update available";
-                // $notif['notification_data'] = @json_encode($last_check);
-
-                mw()->app->notifications_manager->save($notif);
+                    mw()->app->notifications_manager->save($notif);
+                }
             }
+
+
+            cache_save($last_check, $cache_id, $cache_group);
+
+
+        } catch (Exception $e) {
+            $last_check = 'noupdate';
+
+            cache_save($last_check, $cache_id, $cache_group);
         }
 
 
-        cache_save($last_check, $cache_id, $cache_group);
     }
 
     if ($last_check and $last_check == 'noupdate') {
