@@ -1,9 +1,11 @@
 // JavaScript Document
 mw.require('forms.js');
 // mw.require('tools.js');
- 
+
 mw.admin_import = {
     export : function(manifest){
+        console.log(manifest);
+        return;
 	 mw.notification.success("Export started...");
 	 $.post(mw.settings.api_url+'Microweber/Utils/Import/export', manifest ,
 	 	function(msg) {
@@ -55,13 +57,13 @@ mw.admin_import = {
 	create_full : function(selector){
 		mw.admin_import.start_batch_process();
 		mw.load_module( 'admin/import/log',"#mw_import_log");
-	 
+
         mw.reload_module_interval("#mw_import_log", 5000);
-            
-			
-			
+
+
+
 		mw.notification.success("FULL Import is started...");
-	 
+
 		$.post(mw.settings.api_url+'Microweber/Utils/Import/create_full', false ,
 			function(msg) {
 				mw.reload_module('admin/import/manage');
@@ -86,49 +88,49 @@ mw.admin_import = {
       			 if($selector_to_hide != undefined){
       			 	$($selector_to_hide).fadeOut().remove();
 
-      			 }                
+      			 }
       			}
       			);
         })
 	},
-	
-	
+
+
 	start_batch_process : function(){
-	 
+
 		$.post(mw.settings.api_url+'Microweber/Utils/Import/batch_process', {process:true} ,
-		
+
 			function(msg) {
 
 
-				
-				
-				if(typeof(msg.percent) != 'undefined'){
-				$('#import-progress-log-holder:hidden').show();	
-				 if(typeof(msg.total) != 'undefined' && typeof(msg.remaining) != 'undefined'){
-					 
-				$('#import-progress-log-holder-values').html(msg.remaining+'/'+msg.total);		 
-				 }
-				 
-	 
-	 
-	 
-				$('#import-progress-log-meter').attr('value',msg.percent);	
-			 
-				} else {
-				$('#import-progress-log-holder:visible').hide();	
-	
-				}
-				
-				 
-				
-				//mw.reload_module('admin/import/process');
-				setTimeout(function(){ 
-				mw.admin_import.start_batch_process();
-				
-				 }, 5000);
- 
 
-			
+
+				if(typeof(msg.percent) != 'undefined'){
+				$('#import-progress-log-holder:hidden').show();
+				 if(typeof(msg.total) != 'undefined' && typeof(msg.remaining) != 'undefined'){
+
+				$('#import-progress-log-holder-values').html(msg.remaining+'/'+msg.total);
+				 }
+
+
+
+
+				$('#import-progress-log-meter').attr('value',msg.percent);
+
+				} else {
+				$('#import-progress-log-holder:visible').hide();
+
+				}
+
+
+
+				//mw.reload_module('admin/import/process');
+				setTimeout(function(){
+				mw.admin_import.start_batch_process();
+
+				 }, 5000);
+
+
+
 			}).error(function(){
 								mw.admin_import.start_batch_process();
 
@@ -140,19 +142,19 @@ mw.admin_import = {
 		if (r == true) {
 		$.post(mw.settings.api_url+'Microweber/Utils/Import/batch_process', {cancel:true} ,
 			function(msg) {
-				
-				
+
+
 			});
-		} 
+		}
 
 
-		
+
 
 	},
-			
-	
-	
-	
-	
-	
+
+
+
+
+
+
 }

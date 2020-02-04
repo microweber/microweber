@@ -198,7 +198,7 @@ if (isset($params['for_module_id'])): ?>
                                 <module type="custom_fields/values_preview" field-id="<?php print $field['id']; ?>"
                                         id="mw-admin-custom-field-edit-item-preview-<?php print $field['id']; ?>"/>
                             </div>
-                            
+
                         </td>
                         <td class="custom-fields-cell-settings">
                             <a style="color:#0086db;" href="javascript:mw.admin.custom_fields.edit_custom_field_item('#mw-custom-fields-list-settings-<?php print $field['id']; ?>',<?php print $field['id']; ?>);">
@@ -226,6 +226,9 @@ if (isset($params['for_module_id'])): ?>
                     }
 
 
+                    mw.response.table('#custom-fields-post-table', {
+                        minWidth: 600
+                    });
                     mw.$("#custom-fields-post-table tbody").sortable({
                         handle: "td.custom-field-icon",
                         axis: 'y',

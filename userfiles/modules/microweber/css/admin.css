@@ -1575,44 +1575,7 @@ a:hover .mw_del_tree_content, a:hover .mw_ed_tree_show_posts, a:hover .mw_tree_s
     font-weight: bold;
 }
 
-@media (max-width: 600px) {
-    #custom-fields-post-table thead {
-        display: none;
-    }
 
-    #custom-fields-post-table .mobile-th {
-        display: block;
-        text-align: left;
-    }
-
-    #custom-fields-post-table tr {
-        padding-bottom: 20px;
-        border-bottom: 1px solid;
-        overflow: hidden;
-    }
-
-    #custom-fields-post-table tr,
-    #custom-fields-post-table td {
-        display: block !important;
-        text-align: left;
-    }
-
-    #custom-fields-post-table td {
-
-        border: none
-    }
-
-    #custom-fields-post-table td.custom-fields-cell-settings,
-    #custom-fields-post-table td.custom-fields-cell-delete {
-        float: left;
-        width: 20%;
-    }
-
-    #custom-fields-post-table td + td {
-        border-top: none
-    }
-
-}
 
 .custom-fields-cell-settings, .custom-fields-cell-delete {
     text-align: center;

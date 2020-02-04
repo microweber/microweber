@@ -166,8 +166,8 @@ mw.top()._icons = mw.top()._icons || [];
             }
             var to = off + Math.min(icons.length - off, perPage);
             for ( var i = off; i < to; i++ ) {
-                var icon = document.createElement('span');
-                var iconc = document.createElement('span');
+                var icon = document.createElement('i');
+                var iconc = document.createElement('i');
                 icon.className = 'mw-icon-list-icon mw-icon-list-' + set.name;
                 icon._searchvalue = icons[i].toLowerCase();
                 icon._value = [icons[i], set.render, icon];

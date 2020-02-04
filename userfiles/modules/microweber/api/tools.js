@@ -30,6 +30,8 @@ mw.gallery = function (arr, start, modal) {
     return mw.tools.gallery.init(arr, start, modal)
 
 };
+
+window.Alert = mw.tools.alert;
 mw.tooltip = mw.tools.tip;
 
 mw.gallery = function (arr, start, modal) {
