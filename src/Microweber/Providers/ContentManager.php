@@ -1900,6 +1900,32 @@ class ContentManager
 
         if ($cur_page != false) {
             if ($start_from != 'category') {
+
+                $content = $this->get_by_id($cur_page);
+                if (isset($content['id'])) {
+                    $result_item = array();
+                    $result_item['title'] = $content['title'];
+                    $result_item['url'] = $this->link($content['id']);
+                    $result_item['description'] = $content['description'];
+                    $result_item['is_active'] = false;
+
+                    if ($cur_content == $content['id']) {
+                        $result_item['is_active'] = true;
+                    } elseif ($cur_content != false and $cur_page == $content['id']) {
+                        $result_item['is_active_as_parent'] = true;
+                        $result_item['is_active'] = false;
+                    } elseif ($cur_category == false and $cur_content == false and $cur_page == $content['id']) {
+                        $result_item['is_active'] = true;
+                    } else {
+                        $result_item['is_active'] = false;
+                    }
+                    $result_item['parent_content_id'] = $content['parent'];
+                    $result_item['content_type'] = $content['content_type'];
+                    $result_item['subtype'] = $content['subtype'];
+                    $result[] = $result_item;
+                }
+
+
                 $content_parents = $this->get_parents($cur_page);
                 if (!empty($content_parents)) {
                     foreach (($content_parents) as $item) {
@@ -1924,28 +1950,9 @@ class ContentManager
                         }
                     }
                 }
-                $content = $this->get_by_id($cur_page);
-                if (isset($content['id'])) {
-                    $result_item = array();
-                    $result_item['title'] = $content['title'];
-                    $result_item['url'] = $this->link($content['id']);
-                    $result_item['description'] = $content['description'];
-                    $result_item['is_active'] = false;
 
-                    if ($cur_content == $content['id']) {
-                        $result_item['is_active'] = true;
-                    } elseif ($cur_content != false and $cur_page == $content['id']) {
-                        $result_item['is_active_as_parent'] = true;
-                        $result_item['is_active'] = false;
-                    } elseif ($cur_category == false and $cur_content == false and $cur_page == $content['id']) {
-                        $result_item['is_active'] = true;
-                    } else {
-                        $result_item['is_active'] = false;
-                    }
-                    $result_item['parent_content_id'] = $content['parent'];
-                    $result_item['content_type'] = $content['content_type'];
-                    $result_item['subtype'] = $content['subtype'];
-                    $result[] = $result_item;
+                if($result){
+                    $result = array_reverse($result);
                 }
             }
         }
@@ -2018,6 +2025,8 @@ class ContentManager
                 $result[] = $result_item;
             }
         }
+
+
 
         return $result;
     }
