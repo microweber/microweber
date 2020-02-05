@@ -138,6 +138,7 @@
         }
     };
 
+
     mw.Dialog = function (options, cres) {
 
         var scope = this;
@@ -562,6 +563,10 @@
         };
         this.init();
 
+    };
+
+    mw.Dialog.elementIsInDialog = function (node) {
+        return mw.tools.firstParentWithClass(node, 'mw-dialog');
     };
 
 

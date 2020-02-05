@@ -11,7 +11,9 @@
     padding: 0;
     -webkit-overflow-scrolling: touch;
 }
-
+template{
+    display: none !important;
+}
 
 body {
     font-feature-settings: 'liga';
@@ -813,4 +815,9 @@ span.mw-powered-by {
 .mw-template-document-preview:before{
     position: fixed;
 
+}
+
+.mw-responsive-table-wrapper{
+    max-width: 100%;
+    overflow: auto;
 }
