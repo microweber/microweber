@@ -25,7 +25,12 @@ only_admin_access();
 
     function mw_apply_upd_set_log_display() {
 
+        if (typeof mw_apply_upd_ajax == 'object') {
+            mw_apply_upd_ajax.onreadystatechange = null;
 
+            mw_apply_upd_ajax.abort();
+
+        }
         if ($("#mw-update-res-log").is(":visible")) {
             mw_apply_upd_ajax = $.get('<?php print $get_log_file_url ?>', function (data) {
 

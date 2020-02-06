@@ -14,7 +14,7 @@ mw.admin.admin_package_manager.set_loading = function (is_loading) {
 mw.admin.admin_package_manager.reload_packages_list = function () {
     mw.admin.admin_package_manager.set_loading(true)
     setTimeout(function () {
-    mw.notification.success('Reloading packages',15000);
+        mw.notification.success('Reloading packages', 15000);
     }, 1000);
     //mw.clear_cache();
     mw.admin.admin_package_manager.set_loading(true)
@@ -66,21 +66,45 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name = functi
     var values = {require_name: $key, require_version: $version};
 
 
+    mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax(values);
+
+
+}
+
+mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax = function (values) {
     $.ajax({
         url: mw.settings.api_url + "mw_composer_install_package_by_name",
         type: "post",
         data: values,
         success: function (msg) {
 
+            if (typeof msg == 'object' && msg.try_again) {
+                if (msg.try_again) {
+                    values.try_again_step = true;
 
-            mw.notification.msg(msg);
-            mw.admin.admin_package_manager.set_loading(false)
+                    setTimeout(function(){
+
+                        mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax(values);
+
+                    }, 500);
 
 
-            if (msg.success) {
+
+                    return;
+                }
+            } else {
+                mw.notification.msg(msg);
+                mw.admin.admin_package_manager.set_loading(false)
+
+
+
+                mw.admin.admin_package_manager.reload_packages_list();
+                mw.admin.admin_package_manager.set_loading(false);
+
+                mw.$('#update_queue_set_modal').remove();
             }
 
-            mw.admin.admin_package_manager.reload_packages_list();
+
 
         },
 
@@ -89,11 +113,8 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name = functi
         }
 
     }).always(function (jqXHR, textStatus) {
-        mw.admin.admin_package_manager.set_loading(false);
 
-        mw.$('#update_queue_set_modal').remove();
     })
 
 }
-
 
