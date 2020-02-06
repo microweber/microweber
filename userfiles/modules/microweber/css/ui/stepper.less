@@ -32,35 +32,47 @@
     -ms-user-select: none;
     user-select: none;
     display: table;
+    width: 100%;
     &>label{
         cursor: pointer;
         padding: 15px;
         display: table-row;
         border: 1px solid #fff;
         background-color: #fff;
-        transition: background-color .3s;
+        transition: background-color .3s, box-shadow .3s;
         &>*{
             display: table-cell;
             vertical-align: top;
             padding: 12px 0;
+            border-top: 1px solid #fff;
+            border-bottom: 1px solid #fff;
+
             &+*{
                 padding-left: 12px;
             }
             &:first-child{
                 padding-left: 12px;
+                border-left: 1px solid #fff;
             }
             &:last-child{
                 padding-right: 12px;
+                border-right: 1px solid #fff;
             }
         }
         &:hover{
             box-shadow: 0 0 6px rgba(0,0,0,.2);
             z-index: 2;
+            transform: translateZ(1px);
         }
         &.active, &.active:hover{
             background-color: #f5f5f5;
             box-shadow: none;
             z-index: 0;
+        }
+        &+label{
+            &>*{
+                border-top: none;
+            }
         }
     }
     .mw-selectable-list-content{
@@ -86,8 +98,8 @@
         }
     }
     .mw-selectable-list-icon{
-        color:#1d1d1d;
-        font-size: 32px;
+        color:#000;
+        font-size: 35px;
         text-align: center;
     }
 }
@@ -95,9 +107,10 @@
 .mw-construct-itd{
     display: inline-flex;
     .mw-construct-itd-icon{
-        font-size: 33px;
+        font-size: 37px;
         padding-right: 12px;
         padding-top: 4px;
+        color: #000;
     }
     .mw-construct-itd-content{
         &>*:first-child{

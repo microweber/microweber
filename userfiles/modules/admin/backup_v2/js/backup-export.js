@@ -27,7 +27,6 @@ mw.SelectableList = function (options) {
             '<span class="mw-selectable-list-content">' +
             '    <span class="mw-selectable-list-content-title"></span>' +
             '    <span class="mw-selectable-list-content-description">' +
-
             '    </span>' +
             '</span>' +
             '</label>';
@@ -48,12 +47,12 @@ mw.SelectableList = function (options) {
             }
             inp[0].checked = item.input.checked === true;
         } else {
-            $tpl.find('.mw-selectable-list-input').remove()
+            $tpl.find('.mw-selectable-list-input').remove();
         }
         if(item.title) {
             $tpl.find('.mw-selectable-list-content-title').html(item.title);
         } else {
-            $tpl.find('.mw-selectable-list-content-title').remove()
+            $tpl.find('.mw-selectable-list-content-title').remove();
         }
         if(item.description) {
             $tpl.find('.mw-selectable-list-content-description').html(item.description);
@@ -74,10 +73,9 @@ mw.SelectableList = function (options) {
     this.states = function () {
         $('input', this.root).each(function () {
             if(this.checked) {
-                mw.tools.addClass(mw.tools.firstParentWithTag(this, 'label'), 'active')
+                mw.tools.addClass(mw.tools.firstParentWithTag(this, 'label'), 'active');
             } else {
-                mw.tools.removeClass(mw.tools.firstParentWithTag(this, 'label'), 'active')
-
+                mw.tools.removeClass(mw.tools.firstParentWithTag(this, 'label'), 'active');
             }
         });
     };
@@ -156,6 +154,14 @@ mw.Stepper = function (options) {
             return;
         }
         this.step(next);
+    };
+
+    this.first = function () {
+        this.step(0);
+    };
+    this.last = function () {
+        var items = this.getItems();
+        this.step(items.length);
     };
 
     this.back = this.prev;
@@ -237,15 +243,15 @@ mw.backup_export = {
 
 	choice: function(template_holder) {
 
-		var dialog = mw.dialog({
+		this.dialog = mw.dialog({
 		    title: 'Select data wich want to export',
 		    id: 'mw_backup_export_modal',
             content: mw.$(template_holder).html(),
             width: 595
 		});
 
-        mw.stepper({
-            element: dialog.dialogContainer.querySelector('.export-stepper')
+        mw.backup_export.stepper = mw.stepper({
+            element: this.dialog.dialogContainer.querySelector('.export-stepper')
         });
 
         mw.backup_export.typesSelector = new mw.SelectableList({
@@ -298,64 +304,78 @@ mw.backup_export = {
                 data: treeData,
                 selectable: true,
                 multiPageSelect: true,
-                element: dialog.dialogContainer.querySelector('#quick-parent-selector-tree'),
+                element: mw.backup_export.dialog.dialogContainer.querySelector('#quick-parent-selector-tree'),
                 saveState:false
             });
 
         });
+        var all = mw.$('.js-export-format', mw.backup_export.dialog.dialogContainer);
+        all.on('input', function () {
+            all.not(this).val($(this).val())
+        })
 	},
 
 	export_selected: function(manifest) {
-
+	    var scope = this;
 		mw.backup_export.get_log_check('start');
-
 		manifest.format = $('.js-export-format').val();
-
 		$.get(mw.settings.api_url+'Microweber/Utils/BackupV2/export', manifest , function(exportData) {
-
-			if (typeof(exportData.data.download) !== 'undefined') {
+			if (exportData.data.download) {
 				mw.backup_export.get_log_check('stop');
-				$('.js-export-log').html('<a href="'+exportData.data.download+'" class="mw-ui-link" style="font-size:14px;font-weight:bold;"><i class="mw-icon-download"></i> Download your backup</a>');
+                scope.exportLog('<a href="'+exportData.data.download+'" class="mw-ui-link" style="font-size:14px;font-weight:bold;"><i class="mw-icon-download"></i> Download your backup</a>');
 			 	mw.notification.success(exportData.success);
 			} else {
 				mw.backup_export.export_selected(manifest);
 			}
-			// console.log(exportData.data.download);
+			if(exportData.precentage){
+			    mw.progress({
+                    element:'.js-export-log',
+                    action:''
+                }).set(exportData.precentage);
+            }
 		 });
 	},
-
-	get_log_check: function(action = 'start') {
-
-		// mw.notification.success("Export started...");
-
-		var importLogInterval = setInterval(function() {
-			mw.backup_export.get_log();
-		}, 5000);
-
-		if (action == 'stop') {
-			for(i=0; i<10000; i++) {
-		        window.clearInterval(i);
-		    }
-		}
-
+    exportLogNode: null,
+    exportLogContent: null,
+    exportLog: function (string) {
+        if(!this.exportLogNode) {
+            this.exportLogNode = $('.js-export-log');
+            this.exportLogContent = $('<div class="js-export-log-content"></div>');
+            this.exportLogNode.append(this.exportLogContent);
+        }
+        this.exportLogContent.html(string);
+    },
+	get_log_check: function(action) {
+        mw.backup_export.get_log();
 	},
-
-	get_log: function() {
+    canGet: true,
+	get_log: function(c) {
+	    if(!this.canGet) return;
+        this.canGet = false;
+        var scope = this;
 		$.ajax({
 		    url: userfilesUrl + 'backup-export-session.log',
 		    success: function (data) {
 		    	data = data.replace(/\n/g, "<br />");
-		    	$('.js-export-log').html('<br />' + data + '<br /><br />');
+                scope.exportLog(data);
+                setTimeout(function () {
+                    scope.canGet = true;
+                    scope.get_log();
+                }, 2222);
 		    },
 		    error: function() {
-		    	$('.js-export-log').html('Error opening log file.');
-		    }
+                scope.exportLog('Error opening log file.');
+		    },
+            always: function () {
+
+            }
 		});
 	},
 
 	export_fullbackup_start: function() {
-		$('.js-export-log').html('Generating full backup...');
+        this.exportLog('Generating full backup...');
         mw.backup_export.export_selected('all&format=' + $('.js-export-format').val() + '&include_media=true');
+        mw.backup_export.stepper.last();
 	},
 
 	export_start: function () {
@@ -372,7 +392,7 @@ mw.backup_export = {
         var selected;
         selected = selected_export_items.join(',') ;
 
-        if(selected.length == 0 && selected_content.length == 0){
+        if(!selected.length && !selected_content.length){
             Alert("Please check at least one of the checkboxes");
             return;
         }
@@ -382,8 +402,6 @@ mw.backup_export = {
         export_manifest.categories_ids = [];
         export_manifest.items = selected;
 
-        console.log(export_manifest.items)
-
         selected_content.forEach(function(item, i){
             if(item.type === 'category' ){
                 export_manifest.categories_ids.push(item.id);
@@ -392,9 +410,9 @@ mw.backup_export = {
             }
         });
 
-        $('.js-export-log').html('Generating backup...');
+        this.exportLog('Generating backup...');
 
         mw.backup_export.export_selected(export_manifest);
-        mw.log(export_manifest);
+        mw.backup_export.stepper.last();
     }
 }
