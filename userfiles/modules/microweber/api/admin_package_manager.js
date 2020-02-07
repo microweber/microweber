@@ -16,7 +16,7 @@ mw.admin.admin_package_manager.reload_packages_list = function () {
     setTimeout(function () {
         mw.notification.success('Reloading packages', 15000);
     }, 1000);
-    //mw.clear_cache();
+   //mw.clear_cache();
     mw.admin.admin_package_manager.set_loading(true)
 
     setTimeout(function () {
@@ -71,6 +71,10 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name = functi
 
 }
 
+
+mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax_last_step_vals = null;
+
+
 mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax = function (values) {
     $.ajax({
         url: mw.settings.api_url + "mw_composer_install_package_by_name",
@@ -78,12 +82,12 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax 
         data: values,
         success: function (msg) {
 
-            if (typeof msg == 'object' && msg.try_again) {
+            if (typeof msg == 'object' && msg.try_again  && msg.unzip_cache_key) {
                 if (msg.try_again) {
                     values.try_again_step = true;
-
+                    values.unzip_cache_key =  msg.unzip_cache_key;
+                    mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax_last_step_vals = values;
                     setTimeout(function(){
-
                         mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax(values);
 
                     }, 500);
@@ -109,7 +113,10 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax 
         },
 
         error: function (jqXHR, textStatus, errorThrown) {
+            setTimeout(function(){
+                mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax(mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax_last_step_vals);
 
+            }, 500);
         }
 
     }).always(function (jqXHR, textStatus) {

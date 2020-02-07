@@ -35,6 +35,14 @@ only_admin_access();
             mw_apply_upd_ajax = $.get('<?php print $get_log_file_url ?>', function (data) {
 
                 $('#mw-update-res-log').html(data);
+
+                var height =  $('#mw-update-res-log').get(0).scrollHeight;
+                $('.mw_modal_container', '#update_queue_set_modal').animate({
+                    scrollTop: height
+                }, 500);
+
+
+
             });
         } else {
             if (typeof mw_apply_upd_ajax == 'object') {

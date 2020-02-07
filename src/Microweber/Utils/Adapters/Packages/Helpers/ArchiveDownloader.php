@@ -38,10 +38,8 @@ abstract class ArchiveDownloader extends FileDownloader
 
     public function download(PackageInterface $package, $path, $output = true)
     {
-        $temporaryDir = $this->config->get('vendor-dir').'/composer/'.$package->getDistSha1Checksum().'/';
-
-
-
+       $temporaryDir = $this->config->get('vendor-dir').'/composer/'.$package->getDistSha1Checksum().'/';
+      //  $temporaryDir = $this->config->get('vendor-dir').'/'.'aaaa'.'/';
 
 
 

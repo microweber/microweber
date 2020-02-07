@@ -113,18 +113,23 @@ class ZipDownloader extends ArchiveDownloader
             $chunks = array();
 
             if ($filez) {
-                $chunks = array_chunk($filez, 10);
+                $chunks = array_chunk($filez, 50);
             }
 
             file_put_contents($cache_file, json_encode($chunks));
 
 
-
-
         }
 
         if ($chunks) {
-            $cache_save = array('file' => $file, 'path' => $path, 'chunks_file' => $cache_file);
+            $str = substr($file, 2);
+
+            $f = getcwd() . DS . $str;
+            $f = normalize_path($f, false);
+            //  $p = __DIR__.DS.$path;
+
+            //  $cache_save = array('file' => $file, 'path' => $path, 'chunks_file' => $cache_file);
+            $cache_save = array('file' => $f, 'path' => $path, 'chunks_file' => $cache_file);
             cache_save($cache_save, $cache_key, 'composer-unzip');
 
             throw new PackageManagerUnzipOnChunksException($cache_key, 100);
@@ -191,7 +196,20 @@ class ZipDownloader extends ArchiveDownloader
     public function extract($file, $path)
     {
 
-        $this->extractWithZipArchive($file, $path, false);
+        set_time_limit(1200);
+        ini_set('memory_limit', '1024M');
+
+
+        $path = normalize_path($path,true);
+
+        $zip = new \ZipArchive();
+        $zip->open($file);
+        $extractResult = $zip->extractTo($path);
+//        print $path;
+//        dd($extractResult);
+
+
+        //   $this->extractWithZipArchive($file, $path, false);
 
 
     }
