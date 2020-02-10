@@ -10,6 +10,7 @@ mw.tools.progress = function (obj) {
     }
     if (obj.element === null || !obj.element) return false;
     if (obj.element.querySelector('.mw-ui-progress-bar')) {
+        obj.element.progressOptions.show()
         return obj.element.progressOptions;
     }
     obj = $.extend({}, mw.tools.progressDefaults, obj);
@@ -45,6 +46,7 @@ mw.tools.progress = function (obj) {
             action = action || this.progress.progressInfo.action;
             mw.$('.mw-ui-progress-bar', this.progress).css('width', v + '%');
             mw.$('.mw-ui-progress-percent', this.progress).html(v + '%');
+            progress.progressInfo.element.progressOptions.show()
         }
     };
     progress.progressOptions = obj.element.progressOptions = options;

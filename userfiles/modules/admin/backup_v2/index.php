@@ -254,6 +254,7 @@
                     </div>
                 </div>
                 <div class="export-stepper-4">
+                    <h3 class="export-step-4-action">Exporting your content</h3>
                     <div class="export-stepper-content">
                         <div class="js-export-log"></div>
                     </div>

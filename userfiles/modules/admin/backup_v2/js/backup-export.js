@@ -247,7 +247,9 @@ mw.backup_export = {
 		    title: 'Select data wich want to export',
 		    id: 'mw_backup_export_modal',
             content: mw.$(template_holder).html(),
-            width: 595
+            width: 595,
+            closeButton: false,
+            closeOnEscape: false,
 		});
 
         mw.backup_export.stepper = mw.stepper({
@@ -321,9 +323,15 @@ mw.backup_export = {
 		manifest.format = $('.js-export-format').val();
 		$.get(mw.settings.api_url+'Microweber/Utils/BackupV2/export', manifest , function(exportData) {
 			if (exportData.data.download) {
+			    scope.done = true;
 				mw.backup_export.get_log_check('stop');
-                scope.exportLog('<a href="'+exportData.data.download+'" class="mw-ui-link" style="font-size:14px;font-weight:bold;"><i class="mw-icon-download"></i> Download your backup</a>');
+                scope.exportLog('<a href="'+exportData.data.download+'" class="mw-ui-btn" style="font-weight:bold;"><i class="mw-icon-download"></i> &nbsp;Download your backup</a>');
 			 	mw.notification.success(exportData.success);
+                mw.progress({
+                    element:'.js-export-log',
+                    action:''
+                }).hide();
+                $('.export-step-4-action').html('Export completed!')
 			} else {
 				mw.backup_export.export_selected(manifest);
 			}
@@ -348,6 +356,7 @@ mw.backup_export = {
 	get_log_check: function(action) {
         mw.backup_export.get_log();
 	},
+    done:false,
     canGet: true,
 	get_log: function(c) {
 	    if(!this.canGet) return;
@@ -356,12 +365,18 @@ mw.backup_export = {
 		$.ajax({
 		    url: userfilesUrl + 'backup-export-session.log',
 		    success: function (data) {
-		    	data = data.replace(/\n/g, "<br />");
-                scope.exportLog(data);
-                setTimeout(function () {
-                    scope.canGet = true;
-                    scope.get_log();
-                }, 2222);
+		        if(scope.done) {
+                    scope.done = false;
+                }
+                else {
+                    data = data.replace(/\n/g, "<br />");
+                    scope.exportLog(data);
+                    setTimeout(function () {
+                        scope.canGet = true;
+                        scope.get_log();
+                    }, 2222);
+                }
+
 		    },
 		    error: function() {
                 scope.exportLog('Error opening log file.');
@@ -376,6 +391,7 @@ mw.backup_export = {
         this.exportLog('Generating full backup...');
         mw.backup_export.export_selected('all&format=' + $('.js-export-format').val() + '&include_media=true');
         mw.backup_export.stepper.last();
+        $('.export-step-4-action').html('Exporting your content')
 	},
 
 	export_start: function () {
@@ -414,5 +430,6 @@ mw.backup_export = {
 
         mw.backup_export.export_selected(export_manifest);
         mw.backup_export.stepper.last();
+        $('.export-step-4-action').html('Exporting your content')
     }
 }

@@ -44,7 +44,12 @@ mw.admin.admin_package_manager.show_licenses_modal = function () {
 }
 
 
-mw.admin.admin_package_manager.install_composer_package_by_package_name = function ($key, $version) {
+mw.admin.admin_package_manager.install_composer_package_by_package_name = function ($key, $version, context) {
+
+    if(context) {
+        mw.spinner({element: $(context).next()}).show();
+        $(context).hide()
+    }
 
     mw.notification.success('Loading...', 25000);
     //mw.load_module('updates/worker', '#mw-updates-queue');
@@ -90,6 +95,11 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name = functi
 
     }).always(function (jqXHR, textStatus) {
         mw.admin.admin_package_manager.set_loading(false);
+
+        if(context) {
+            mw.spinner({ element: $(context).next() }).hide();
+            $(context).show();
+        }
 
         mw.$('#update_queue_set_modal').remove();
     })
