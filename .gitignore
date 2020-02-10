@@ -38,3 +38,4 @@ node_modules/
 /userfiles/mw_content.json
 /.settings
 /.project
+*.log
