@@ -318,7 +318,7 @@ var output = function(property, value){
         ActiveNode = mw.top().liveEditSelector.selected
     }
     if(ActiveNode) {
-          ActiveNode.style[property] = value;
+          ActiveNode.style[property] = value + '!important';
           ActiveNode.setAttribute('staticdesign', true);
           top.mw.wysiwyg.change(ActiveNode);
           top.mw.liveEditSelector.positionSelected();

@@ -88,6 +88,20 @@ li:hover > .show-on-hover {
     border-right: none;
     border-left: none;
 }
+.mw-ui-table-basic tbody:first-child > tr:first-child td{
+    border-top: none;
+}
+
+.mw-ui-table-basic tbody:first-child > tr:last-child td{
+    border-bottom: none;
+}
+
+.mw-ui-table-basic td,
+.mw-ui-table-basic thead th,
+.mw-ui-table-basic tfoot td {
+    border-right: none;
+    border-left: none;
+}
 
 .mw-ui-table-basic > thead > tr > th,
 .mw-ui-table-basic > tfoot > tr > td {
@@ -134,4 +148,12 @@ li:hover > .show-on-hover {
     width: 100%;
     table-layout: fixed;
     position: relative;
+}
+
+.mw-tooltip-dark{
+    .mw-ui-table{
+        td{
+            border-color: rgba(255,255,255,.2);
+        }
+    }
 }

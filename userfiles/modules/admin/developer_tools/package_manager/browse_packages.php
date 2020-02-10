@@ -133,6 +133,149 @@ if (isset($packages_by_type['microweber-core-update']) and !empty($packages_by_t
     });
 </script>
 
+<style>
+    .package-image {
+        display: block;
+        width: 150px;
+        height: 150px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center top;
+        margin: 10px auto 10px auto !important;
+        overflow: hidden;
+    }
+    .package-image.package-microweber-template{
+        width: 100%;
+        height: 475px;
+        cursor: -webkit-grab;
+        cursor: -moz-grab;
+        cursor: grab;
+    }
+
+    .package-image img {
+        width: 100%;
+    }
+
+
+    html.has-scroll-hover .package-image{
+        cursor: grabbing;
+    }
+    .mw-scroll-hover{
+        width: 300px;
+        height: 400px;
+        overflow: hidden;
+        cursor: grab;
+    }
+
+    .package-microweber-module {
+        width: 100%;
+        background-size: contain;
+    }
+
+    .package-ext-link {
+
+        /* These are technically the same, but use both */
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+
+        -ms-word-break: break-all;
+        /* This is the dangerous one in WebKit, as it breaks things wherever */
+        word-break: break-all;
+        /* Instead use this non-standard one: */
+        word-break: break-word;
+
+        /* Adds a hyphen where the word breaks, if supported (No Blink) */
+        -ms-hyphens: auto;
+        -moz-hyphens: auto;
+        -webkit-hyphens: auto;
+        hyphens: auto;
+        overflow: hidden;
+
+
+    }
+    .package-item-footer{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+    }
+    .package-item-footer div + div{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .package-item-footer strong{
+         font-size: 16px;
+    }
+
+    .package-item-footer >div:first-child a{
+        font-size: 16px;
+        font-weight: bold;
+    }
+    .package-col-microweber-module .package-item-footer{
+        display: block;
+    }
+    .package-col-microweber-module .package-item-footer div + div{
+        text-align: right;
+        flex-direction: row;
+    }
+</style>
+<script>
+
+    $(document).ready(function(){
+
+        $('.package-microweber-template').each(function(){
+            $(this)
+                .on('mouseenter', function(){
+                    var el = $(this);
+                    el.stop();
+                    this._hoverInterval = setInterval(function(node){
+                        node[0].scrollTop = node[0].scrollTop + 4
+                    }, 10, el);
+                })
+                .on('mouseleave', function(){
+                    clearInterval(this._hoverInterval);
+                    if(!mw.scrollHoverPageY) {
+                        $(this).stop().animate({scrollTop: 0}, 200);
+                    }
+
+                })
+                .on('mousedown touchstart', function(e){
+                    e.preventDefault()
+                    clearInterval(this._hoverInterval);
+                    $(this).stop();
+                    mw.scrollHover$ = $(this);
+                    $(document.documentElement).addClass('has-scroll-hover')
+                });
+        });
+
+        $(document).on('mouseup touchend', function(){
+            mw.scrollHover$ = null;
+            mw.scrollHoverY = null;
+            mw.scrollHoverPageY = null;
+            $(document.documentElement).removeClass('has-scroll-hover')
+        }).on('mousemove touchmove', function(e){
+            if (mw.scrollHover$ ) {
+                var state;
+                state =  (mw.scrollHoverPageY > e.pageY ? mw.scrollHoverPageY - e.pageY  : -(e.pageY-mw.scrollHoverPageY));
+                if(isNaN(state)) {
+                    state = 0;
+                }
+                if(Math.abs(state)>20){
+                    state = state < 0 ? -2 : 2;
+                }
+                mw.scrollHover$[0].scrollTop = mw.scrollHover$[0].scrollTop +  state;
+
+                mw.scrollHoverPageY = e.pageY;
+                mw.scrollHoverY = state;
+            }
+        })
+
+
+    });
+
+</script>
 
 <script>
 
@@ -170,7 +313,7 @@ if (isset($packages_by_type['microweber-core-update']) and !empty($packages_by_t
 
             <div class="mw-flex-col-xs-12 mw-flex-col-md-4 mw-flex-col-lg-2">
                 <div class="mw-ui-col-container">
-                    <ul class="mw-ui-box mw-ui-navigation" id="nav">
+                    <ul class="mw-ui-box mw-ui-navigation mw-ui-navigation-menu" id="nav">
 
                         <?php foreach ($packages_by_type as $pkkey => $pkitems): ?>
                             <?php
@@ -184,6 +327,14 @@ if (isset($packages_by_type['microweber-core-update']) and !empty($packages_by_t
                             <li><a href="javascript:;"><?php print titlelize($pkkeys) ?></a></li>
 
                         <?php endforeach; ?>
+                        <li class="opened">
+                            <a href="">Updates</a>
+                            <ul>
+                                <li><a href="">Version updates</a> </li>
+                                <li><a href="">Templates updates</a> </li>
+                                <li><a href="">Modules updates</a> </li>
+                            </ul>
+                        </li>
 
 
                     </ul>
@@ -227,16 +378,17 @@ if (isset($packages_by_type['microweber-core-update']) and !empty($packages_by_t
             <div class="mw-ui-col-container">
 
 
-                <div class="mw-ui-box" style="width: 100%; padding: 12px 0;">
+                <div >
 
 
 
                         <?php foreach ($packages_by_type as $pkkey => $pkitems): ?>
-                            <div class="mw-ui-box-content tab">
+                            <div class="tab">
                                 <?php if ($pkitems) : ?>
                                     <div class="mw-flex-row">
                                         <?php foreach ($pkitems as $key => $item): ?>
-                                            <div class="mw-flex-col-xs-12 mw-flex-col-sm-6 mw-flex-col-md-12 mw-flex-col-lg-4  m-b-20">
+                                            <div
+                                                class="mw-flex-col-xs-12 mw-flex-col-sm-6 mw-flex-col-md-12 mw-flex-col-lg-<?php print $item['type'] === 'microweber-module' ? '3' : '4';  ?>  m-b-20 package-col-<?php print $item['type'];  ?>">
                                                 <?php
                                                 $view_file = __DIR__ . '/partials/package_item.php';
 
@@ -246,6 +398,7 @@ if (isset($packages_by_type['microweber-core-update']) and !empty($packages_by_t
                                                 print    $view->display();
                                                 ?>
                                             </div>
+
                                         <?php endforeach; ?>
                                     </div>
                                 <?php endif; ?>

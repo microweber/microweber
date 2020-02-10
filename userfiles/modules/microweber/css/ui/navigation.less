@@ -121,14 +121,40 @@
 .mw-ui-navigation li ul a {
     border-width: 0;
     border-radius: 0;
+    border-bottom: 1px solid @borderColor;
 }
 
-.mw-ui-box.mw-ui-navigation > li:first-child > a {
-    border-top-width: 0;
+
+.mw-ui-navigation > li:first-child:not(:only-child) > a {
+    border-bottom-width: 0;
 }
 
+.mw-ui-navigation li.opened > ul,
+.mw-ui-navigation li.active > ul,
 .mw-ui-navigation li:hover > ul {
     display: block;
+}
+
+.mw-ui-navigation li.active,
+.mw-ui-navigation li.opened{
+    & > ul{
+        border-width: 0;
+        li{
+            &>a{
+                padding-left: 20px;
+            }
+            &>li>a{
+                padding-left: 30px;
+            }
+            &>li>li>a{
+                padding-left: 40px;
+            }
+
+        }
+        position: relative;
+        top: 0;
+        left: 0;
+    }
 }
 
 .mw-paging {
@@ -137,7 +163,6 @@
     text-align: center;
     list-style: none;
 }
-
 
 .mw-paging > *{
     border-radius: 0;
@@ -150,4 +175,6 @@
 .mw-paging > *:last-child {
     border-radius: 0 @radius @radius 0;
 }
+
+
 

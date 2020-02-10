@@ -121,6 +121,16 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax 
 
     }).always(function (jqXHR, textStatus) {
 
+
+        if(context) {
+            mw.spinner({ element: $(context).next() }).hide();
+            $(context).show();
+        }
+
+        mw.$('#update_queue_set_modal').remove();
+
+
+
     })
 
 }

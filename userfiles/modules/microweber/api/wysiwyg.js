@@ -333,7 +333,6 @@ mw.wysiwyg = {
         }
         if (state) {
             mw.on.DOMChangePause = true;
-            el.setAttribute('data-gramm', 'false');
             if (!el._handleCopy) {
                 el._handleCopy = true;
                 mw.$(el).on('copy', function(ev){

@@ -19,6 +19,7 @@ phpinfo.php
 .env
 dwsync.xml
 /userfiles/backup
+/userfiles/*.log
 /config/app.php
 /config/database.php
 /storage
@@ -38,3 +39,5 @@ node_modules/
 /userfiles/mw_content.json
 /.settings
 /.project
+/userfiles/*.log
+/userfiles/*.json

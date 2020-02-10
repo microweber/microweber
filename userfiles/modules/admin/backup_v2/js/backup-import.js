@@ -3,7 +3,7 @@ mw.require('forms.js');
 // mw.require('tools.js');
 
 mw.backup_import = {
-	
+
 	upload: function(src) {
 		data = {}
 		data.src=src;
@@ -26,15 +26,15 @@ mw.backup_import = {
 			});
 		});
 	},
-	
+
 	import: function(src) {
-		
+
 	/*	var checked = '';
-		
+
 		if (src.lastIndexOf('backup') >= 0) {
 			checked = 'checked="checked"';
 		}
-		
+
 		if (src.lastIndexOf('mw_default_content') >= 0) {
 			checked = 'checked="checked"';
 		}
@@ -42,7 +42,7 @@ mw.backup_import = {
         if (src.lastIndexOf('mw_content') >= 0) {
             checked = 'checked="checked"';
         }*/
-		
+
 		var importOptions = '<div class="mw-backup-v2-import">'+
 
 		'<div class="mw-backup-v2-import-options">'+
@@ -94,17 +94,16 @@ mw.backup_import = {
 
 		'</div>'
 		;
-		
-		importModal = mw.modal({
-			height: 700,
+
+		importModal = mw.dialog({
 			width: 680,
 		    content: importOptions,
 		    title: importContentFromFileText,
-		    id: 'mw_backup_import_modal' 
+		    id: 'mw_backup_import_modal'
 		});
 
         changeImportImages(2);
-		
+
 		data = {};
 		data.id = src;
 	},
@@ -122,7 +121,7 @@ mw.backup_import = {
 		mw.backup_import.start_import();
 		mw.backup_import.get_log_check('start');
 	},
-	
+
 	start_import: function () {
 
         $('.backup-import-modal-log-progress').show();
@@ -157,7 +156,7 @@ mw.backup_import = {
 				$('#backup-import-progressbar').remove();
 				mw.backup_import.get_log_check('stop');
 				$('#mw_backup_import_modal').find('.backup-import-modal-log').before('<h3>Error!</h3><br />' + json_data.error);
-				return; 
+				return;
 			}
 			if (json_data.done) {
 				mw.backup_import.get_progress(100);
@@ -194,24 +193,24 @@ mw.backup_import = {
 	},
 
 	get_log_check: function(action = 'start') {
-		
+
 		var importLogInterval = setInterval(function() {
 			mw.backup_import.get_log();
 		}, 2000);
-		
+
 		if (action == 'stop') {
 			for(i=0; i<10000; i++) {
 		        window.clearInterval(i);
 		    }
 		}
-		
+
 	},
-	
+
 	get_progress: function(precent) {
 		$('.mw-ui-progress-bar').css('width', precent+'%');
 		$('.mw-ui-progress-percent').html(precent);
 	},
-	
+
 	init_progress: function(precent) {
 		var progressbar = '<div class="mw_install_progress">'+
 	        '<div class="mw-ui-progress" id="backup-import-progressbar">'+
@@ -223,14 +222,14 @@ mw.backup_import = {
 	    '</div>';
 		$('#mw_backup_import_modal').find('.backup-import-modal-log-progress').html(progressbar);
 	},
-	
+
 	get_log: function() {
 		$.ajax({
 		    url: userfilesUrl + 'backup-import-session.log',
 		    success: function (data) {
 		    	data = data.replace(/\n/g, "<br />");
 		    	$('#mw_backup_import_modal').find('.backup-import-modal-log').html(data);
-		    },  
+		    },
 		    error: function() {
 		    	$('#mw_backup_import_modal').find('.backup-import-modal-log').html('Loading...');
 		    }

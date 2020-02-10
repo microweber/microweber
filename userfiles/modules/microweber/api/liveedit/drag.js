@@ -929,6 +929,9 @@ mw.drag = {
         mw.$("[data-gramm_id]", data).removeAttr('data-gramm_id');
         mw.$("[data-gramm]", data).removeAttr('data-gramm');
         mw.$("[data-gramm_id]", data).removeAttr('data-gramm_id');
+        mw.$("grammarly-card", data).remove();
+        mw.$("grammarly-inline-cards", data).remove();
+        mw.$("grammarly-popups", data).remove();
         return data.innerHTML;
     },
     saving: false,
@@ -1086,10 +1089,10 @@ mw.drag = {
             saveStaticElementsStyles();
         }
         if (mw.drag.saveDisabled) return false;
-        if(typeof(data) == 'undefined'){
+        if(!data){
             var body = mw.drag.parseContent().body,
-                edits = body.querySelectorAll('.edit.changed'),
-                data = mw.drag.collectData(edits);
+                edits = body.querySelectorAll('.edit.changed');
+            data = mw.drag.collectData(edits);
         }
 
 

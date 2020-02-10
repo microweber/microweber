@@ -1,6 +1,7 @@
 mw.tools.progressDefaults = {
     skin: 'mw-ui-progress',
     action: mw.msg.loading + '...',
+    progress: 0
 };
 
 mw.tools.progress = function (obj) {
@@ -8,13 +9,20 @@ mw.tools.progress = function (obj) {
         obj.element = mw.$(obj.element)[0];
     }
     if (obj.element === null || !obj.element) return false;
-    if (!!obj.element.progressOptions) {
+    if (obj.element.querySelector('.mw-ui-progress-bar')) {
+        obj.element.progressOptions.show()
         return obj.element.progressOptions;
     }
-    var obj = $.extend({}, mw.tools.progressDefaults, obj);
+    obj = $.extend({}, mw.tools.progressDefaults, obj);
+    if(obj.progress > 100 ) {
+        obj.progress = 100;
+    }
+    if(obj.progress < 0 ) {
+        obj.progress = 0;
+    }
     var progress = mwd.createElement('div');
     progress.className = obj.skin;
-    progress.innerHTML = '<div class="mw-ui-progress-bar" style="width: 0%;"></div><div class="mw-ui-progress-info">' + mw.tools.progressDefaults.action + '</div><span class="mw-ui-progress-percent">0%</span>';
+    progress.innerHTML = '<div class="mw-ui-progress-bar" style="width: ' + obj.progress + '%;"></div><div class="mw-ui-progress-info">' + obj.action + '</div><span class="mw-ui-progress-percent">'+obj.progress+'%</span>';
     progress.progressInfo = obj;
     var options = {
         progress: progress,
@@ -22,7 +30,7 @@ mw.tools.progress = function (obj) {
             this.progress.style.display = 'block';
         },
         hide: function () {
-            this.progress.style.display = 'none'
+            this.progress.style.display = 'none';
         },
         remove: function () {
             progress.progressInfo.element.progressOptions = undefined;
@@ -38,6 +46,7 @@ mw.tools.progress = function (obj) {
             action = action || this.progress.progressInfo.action;
             mw.$('.mw-ui-progress-bar', this.progress).css('width', v + '%');
             mw.$('.mw-ui-progress-percent', this.progress).html(v + '%');
+            progress.progressInfo.element.progressOptions.show()
         }
     };
     progress.progressOptions = obj.element.progressOptions = options;
