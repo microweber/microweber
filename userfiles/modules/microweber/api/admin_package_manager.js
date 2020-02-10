@@ -16,7 +16,7 @@ mw.admin.admin_package_manager.reload_packages_list = function () {
     setTimeout(function () {
         mw.notification.success('Reloading packages', 15000);
     }, 1000);
-   //mw.clear_cache();
+    mw.clear_cache();
     mw.admin.admin_package_manager.set_loading(true)
 
     setTimeout(function () {

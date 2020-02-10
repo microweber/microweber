@@ -38,16 +38,15 @@ abstract class ArchiveDownloader extends FileDownloader
 
     public function download(PackageInterface $package, $path, $output = true)
     {
-       $temporaryDir = $this->config->get('vendor-dir').'/composer/'.$package->getDistSha1Checksum().'/';
-      //  $temporaryDir = $this->config->get('vendor-dir').'/'.'aaaa'.'/';
-
+        $temporaryDir = $this->config->get('vendor-dir') . '/composer/' . $package->getDistSha1Checksum() . '/';
+      //  $temporaryDir = $this->config->get('vendor-dir') . '/c/' . substr($package->getDistSha1Checksum(), -5). '/';
 
 
 
         while ($this->retry_count--) {
 
             $fileName = $this->getFileName($package, $path);
-            if(is_file($fileName)){
+            if (is_file($fileName)) {
 
                 $this->io->writeError('DownLoading from cache', false);
 
@@ -56,7 +55,6 @@ abstract class ArchiveDownloader extends FileDownloader
                 $fileName = parent::download($package, $path, $output);
 
             }
-
 
 
             if ($output) {
@@ -69,7 +67,6 @@ abstract class ArchiveDownloader extends FileDownloader
                 try {
 
 
-
                     $this->extract($fileName, $temporaryDir);
 
 
@@ -80,38 +77,38 @@ abstract class ArchiveDownloader extends FileDownloader
                     throw $e;
                 }
 
-               // $this->filesystem->unlink($fileName);
+                $this->filesystem->unlink($fileName);
 
                 $contentDir = $this->getFolderContent($temporaryDir);
 
                 // only one dir in the archive, extract its contents out of it
                 if (1 === count($contentDir) && is_dir(reset($contentDir))) {
-                 //   $contentDir = $this->getFolderContent((string) reset($contentDir));
+                    $contentDir = $this->getFolderContent((string)reset($contentDir));
                 }
 
                 // move files back out of the temp dir
                 foreach ($contentDir as $file) {
-                    $file = (string) $file;
+                    $file = (string)$file;
                     $this->filesystem->rename($file, $path . '/' . basename($file));
                 }
 
                 $this->filesystem->removeDirectory($temporaryDir);
-                if ($this->filesystem->isDirEmpty($this->config->get('vendor-dir').'/composer/')) {
-                 //   $this->filesystem->removeDirectory($this->config->get('vendor-dir').'/composer/');
+                if ($this->filesystem->isDirEmpty($this->config->get('vendor-dir') . '/composer/')) {
+                    $this->filesystem->removeDirectory($this->config->get('vendor-dir') . '/composer/');
                 }
                 if ($this->filesystem->isDirEmpty($this->config->get('vendor-dir'))) {
-                  //  $this->filesystem->removeDirectory($this->config->get('vendor-dir'));
+                    $this->filesystem->removeDirectory($this->config->get('vendor-dir'));
                 }
             } catch (\Exception $e) {
                 // clean up
-              //$this->filesystem->removeDirectory($path);
-              // $this->filesystem->removeDirectory($temporaryDir);
+                $this->filesystem->removeDirectory($path);
+                $this->filesystem->removeDirectory($temporaryDir);
 
                 // retry downloading if we have an invalid zip file
                 if ($this->retry_count && $e instanceof \UnexpectedValueException && class_exists('ZipArchive') && $e->getCode() === \ZipArchive::ER_NOZIP) {
                     $this->io->writeError('');
                     if ($this->io->isDebug()) {
-                        $this->io->writeError('    Invalid zip file ('.$e->getMessage().'), retrying...');
+                        $this->io->writeError('    Invalid zip file (' . $e->getMessage() . '), retrying...');
                     } else {
                         $this->io->writeError('    Invalid zip file, retrying...');
                     }
@@ -127,7 +124,6 @@ abstract class ArchiveDownloader extends FileDownloader
     }
 
 
-
     /**
      * Extract file to directory
      *
@@ -141,7 +137,7 @@ abstract class ArchiveDownloader extends FileDownloader
     /**
      * Returns the folder content, excluding dotfiles
      *
-     * @param  string         $dir Directory
+     * @param  string $dir Directory
      * @return \SplFileInfo[]
      */
     private function getFolderContent($dir)

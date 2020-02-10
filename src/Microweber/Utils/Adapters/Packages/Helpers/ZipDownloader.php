@@ -61,8 +61,7 @@ class ZipDownloader extends ArchiveDownloader
      */
     protected function extractWithZipArchive($file, $path, $isLastChance)
     {
-
-        $path = normalize_path($path, true);
+         $path = normalize_path($path, true);
 
         $temporaryDir = $this->config->get('vendor-dir') . '/composer-unzip/';
         $temporaryDir = normalize_path($temporaryDir, true);
@@ -187,25 +186,92 @@ class ZipDownloader extends ArchiveDownloader
 
     }
 
+    private function __extractChunked($file, $path)
+    {
+
+        if (!is_dir($path)) {
+            mkdir_recursive($path);
+        }
+
+        set_time_limit(1200);
+        ini_set('memory_limit', '1024M');
+
+
+        $filez = array();
+
+        $zip = new \ZipArchive();
+        $zip->open($file, \ZipArchive::CHECKCONS);
+        $file_count = $zip->numFiles;
+
+        for ($i = 0; $i < $file_count; $i++) {
+            $file_name = $zip->getNameIndex($i);
+            $filez[$i] = $file_name;
+        }
+
+        $zip->close();
+        unset($zip);
+
+        $chunks = array();
+
+        if ($filez) {
+            $chunks = array_chunk($filez, 500);
+        }
+
+
+        if ($chunks) {
+            $chunks_count = count($chunks);
+
+
+            foreach ($chunks as $chunks_key => $chunks_part) {
+                $try_again = false;
+                $this->io->writeError('    Unzip part ' . $chunks_key . ' of ' . $chunks_count);
+
+
+                set_time_limit(1200);
+                ini_set('memory_limit', '-1');
+
+
+                $zip = new ZipArchive();
+                $zip->open($file);
+
+                $extractResult = $zip->extractTo($path, $chunks_part);
+                $zip->close();
+                unset($zip);
+                unset($chunks[$chunks_key]);
+
+
+            }
+        }
+
+
+    }
+
+
     /**
      * extract $file to $path
      *
      * @param string $file File to extract
      * @param string $path Path where to extract file
      */
-    public function extract($file, $path)
+    public    function extract($file, $path)
     {
 
         set_time_limit(1200);
         ini_set('memory_limit', '1024M');
 
 
-        $path = normalize_path($path,true);
+        $path = normalize_path($path, true);
+    //    $this->__extractChunked($file, $path);
 
         $zip = new \ZipArchive();
         $zip->open($file);
         $extractResult = $zip->extractTo($path);
-//        print $path;
+        $zip->close();
+
+
+
+
+        //        print $path;
 //        dd($extractResult);
 
 
@@ -221,7 +287,7 @@ class ZipDownloader extends ArchiveDownloader
      * @param  string $file
      * @return string
      */
-    protected function getErrorMessage($retval, $file)
+    protected    function getErrorMessage($retval, $file)
     {
         switch ($retval) {
             case ZipArchive::ER_EXISTS:

@@ -133,7 +133,6 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
 
             $results = $this->_trySearch($repositories, $tokens, $searchIn);
 
-
             if ($results) {
                 $results_found = $results;
             }
@@ -142,6 +141,8 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
         } catch (\Composer\Downloader\TransportException $e) {
             $err_msg = $e->getMessage();
             $err_code = $e->getCode();
+
+
             $has_error = true;
             foreach ($known_repos as $rk => $known_repo) {
                 $u = $known_repo->getRepoConfig();
@@ -210,6 +211,8 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
 
         }
 
+
+
         //  $constraint = $this->createConstraint('=', $mwVersion);
 
         //$constraint->setPrettyString($mwVersion);
@@ -219,6 +222,9 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
             if (!isset($packages[$result['name']])) {
                 /** @var PackageInterface[] $versions */
                 $versions = $repositories->findPackages($result['name']);
+
+
+
 
 
                 /** @var PackageInterface|CompletePackageInterface $latestVersion */
@@ -270,13 +276,15 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
                     $packages[$result['name']]['mw-compatible'] = null;
                     $packages[$result['name']]['versions'] = array();
 
-
                     foreach ($versions as $version) {
                         $version_requires = $version->getRequires();
 
                         $version_type = $version->getType();
                         $version_repo_raw = $version->getVersion();
                         $version_repo = $version->getPrettyVersion();
+
+
+
 
 
                         $package_is_allowed = false;
@@ -293,6 +301,10 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
                         }
 
 
+
+
+
+
                         if ($package_is_allowed) {
 
                             $version_info = array();
@@ -305,7 +317,6 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
                             $version_info['folder'] = $version->getTargetDir();
                             $version_info['dist'] = $version->getDistUrls();
                             $version_info['dist_type'] = $version->getDistType();
-
                             if ($version_info['dist']) {
                                 if ($version_info['version'] and !stristr($version_info['version'], '-dev') and !stristr($version_info['version'], 'dev-')) {
                                     //  if (!$latestVersion || $version->getReleaseDate() > $latestVersion->getReleaseDate()) {
@@ -347,6 +358,8 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
                 }
 
                 if (!$packages[$result['name']]['mw-compatible']) {
+
+
                     unset($packages[$result['name']]);
                 }
 
@@ -354,6 +367,10 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
         }
 
         $packages = $this->_removeNonInstallablePackages($packages);
+
+
+
+
         return $packages;
     }
 

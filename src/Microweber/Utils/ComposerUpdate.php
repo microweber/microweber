@@ -149,8 +149,9 @@ class ComposerUpdate
         $keyword = strip_tags($keyword);
         $keyword = trim($keyword);
 
-        // $conf = $this->composer_home . '/composer.json';
+
         $temp_folder = $this->_prepare_composer_workdir($keyword, $version);
+
 
         if (!$temp_folder) {
             return array('error' => 'Error preparing installation for ' . $keyword);
@@ -186,17 +187,6 @@ class ComposerUpdate
 
         $repositoryManager = $composer->getRepositoryManager();
 
-        // dd($repositoryManager);
-//
-//
-//        $repositoryManager->setRepositoryClass('composer', 'Microweber\Utils\Adapters\Packages\Helpers\ComposerRepository');
-//        $repositoryManager->setRepositoryClass('package', 'Microweber\Utils\Adapters\Packages\Helpers\PackageRepository');
-//
-//
-//
-//
-//
-
 
         $packages = new ComposerPackagesSearchCommandController();
         $packages->setIo($io);
@@ -207,8 +197,6 @@ class ComposerUpdate
 
 
         $return = $packages->handle($keyword);
-
-
         $return_found = array();
         $return_packages_with_updates = array();
 
@@ -310,12 +298,6 @@ class ComposerUpdate
                                         }
 
 
-//                                        $local_package_item['package'] = $package;
-//
-//                                        if(!isset( $local_packages_found[$local_packages_type])){
-//                                            $local_packages_found[$local_packages_type] = array();
-//                                        }
-//                                        $local_packages_found[$local_packages_type][$lpk] = $local_package_item;
                                     }
 
 
@@ -346,11 +328,6 @@ class ComposerUpdate
         }
 
 
-//        if(isset($params['return_found_local_packages']) and $params['return_found_local_packages']){
-//            return $local_packages_found;
-//        }
-
-
         return $return;
 
     }
@@ -373,116 +350,106 @@ class ComposerUpdate
         $cp_files_fails = array();
 
 
+        /*
+        //  Unzip on chunks
+
         if (isset($params['unzip_cache_key'])) {
-            $cache_key_for_unzip_on_chunks = $params['unzip_cache_key'];
-            $unzip_chunks_cache_data = cache_get($cache_key_for_unzip_on_chunks, 'composer-unzip');
-            if ($unzip_chunks_cache_data and isset($unzip_chunks_cache_data['chunks_file'])) {
-                $cache_file = $unzip_chunks_cache_data['chunks_file'];
+              $cache_key_for_unzip_on_chunks = $params['unzip_cache_key'];
+              $unzip_chunks_cache_data = cache_get($cache_key_for_unzip_on_chunks, 'composer-unzip');
+              if ($unzip_chunks_cache_data and isset($unzip_chunks_cache_data['chunks_file'])) {
+                  $cache_file = $unzip_chunks_cache_data['chunks_file'];
 
-                if (is_file($cache_file)) {
-                    $cache_file_content = @json_decode(@file_get_contents($cache_file), true);
-                    $file = $unzip_chunks_cache_data['file'];
-                    $path = $unzip_chunks_cache_data['path'];
-                    if ($cache_file_content == 'done') {
-                        return;
-                    }
+                  if (is_file($cache_file)) {
+                      $cache_file_content = @json_decode(@file_get_contents($cache_file), true);
+                      $file = $unzip_chunks_cache_data['file'];
+                      $path = $unzip_chunks_cache_data['path'];
+                      if ($cache_file_content == 'done') {
+                          return;
+                      }
 
-                    if ($cache_file_content) {
-                        $chunks = $cache_file_content;
-
-
-                        if ($chunks) {
-                            $chunks_count = count($chunks);
+                      if ($cache_file_content) {
+                          $chunks = $cache_file_content;
 
 
-                            foreach ($chunks as $chunks_key => $chunks_part) {
-                                $try_again = false;
-                                // $this->io->writeError('    Unzip chunk ' . $chunks_key . ' of ' . $chunks_count);
+                          if ($chunks) {
+                              $chunks_count = count($chunks);
 
 
-                                set_time_limit(1200);
-                                //ini_set('memory_limit', '1024M');
-                                ini_set('memory_limit', '-1');
+                              foreach ($chunks as $chunks_key => $chunks_part) {
+                                  $try_again = false;
+                                  // $this->io->writeError('    Unzip chunk ' . $chunks_key . ' of ' . $chunks_count);
 
 
-                                $zip = new ZipArchive();
-                                $zip->open($file, ZipArchive::CHECKCONS);
+                                  set_time_limit(1200);
+                                  //ini_set('memory_limit', '1024M');
+                                  ini_set('memory_limit', '-1');
 
 
-                                //  $extractResult = $zip->extractTo($path, $chunks_part);
-
-                                foreach ($chunks_part as $chunk_part_name_k=> $chunk_part_name) {
-
-//                                    if ($file_data = $zip->getFromName($chunk_part_name)) {
-//                                        $file_to_save = $path . DS . $chunk_part_name;
-//                                        $file_to_save = normalize_path($file_to_save, false);
-//                                        $file_to_save_dn = dirname($file_to_save);
-//                                        if (!is_dir($file_to_save_dn)) {
-//                                            mkdir_recursive($file_to_save_dn);
-//                                        }
-//                                        file_put_contents($file_to_save, $file_data);
-//                                    }
+                                  $zip = new ZipArchive();
+                                  $zip->open($file, ZipArchive::CHECKCONS);
 
 
+                                  //  $extractResult = $zip->extractTo($path, $chunks_part);
+
+                                  foreach ($chunks_part as $chunk_part_name_k=> $chunk_part_name) {
+
+                                      $file_to_save = $path . DS . $chunk_part_name;
+                                      $file_to_save = normalize_path($file_to_save, false);
+                                      $file_to_save_dn = dirname($file_to_save);
+                                      if (!is_dir($file_to_save_dn)) {
+                                          mkdir_recursive($file_to_save_dn);
+                                      }
 
 
-                                    $file_to_save = $path . DS . $chunk_part_name;
-                                    $file_to_save = normalize_path($file_to_save, false);
-                                    $file_to_save_dn = dirname($file_to_save);
-                                    if (!is_dir($file_to_save_dn)) {
-                                        mkdir_recursive($file_to_save_dn);
-                                    }
-
-
-                                    $s = $zip->getStream($chunk_part_name);
+                                      $s = $zip->getStream($chunk_part_name);
 
 
 
-                                    $file_data = stream_get_contents($s);
-                                    file_put_contents($file_to_save, $file_data);
+                                      $file_data = stream_get_contents($s);
+                                      file_put_contents($file_to_save, $file_data);
 
 
-                                }
-                                $zip->close();
-                                unset($zip);
-                                unset($chunks[$chunks_key]);
+                                  }
+                                  $zip->close();
+                                  unset($zip);
+                                  unset($chunks[$chunks_key]);
 
-                                if ($chunks) {
-                                    $json = json_encode($chunks, JSON_UNESCAPED_SLASHES);
-                                    $try_again = true;
-
-
-                                } else {
-                                    $try_again = false;
-
-                                    $json = 'done';
-                                }
-                                file_put_contents($cache_file, $json);
-                                //   print $chunks_key;
-                                mw()->update->log_msg('unzup chunk ' . $chunks_key);
-                                //   mw()->update->log_msg('unzup chunk ' . reset($chunks_part));
-                                //  mw()->update->log_msg('unzup chunk ' . print_r($chunks_part, 1));
-                                mw()->update->log_msg(' ' . print_r($chunks_part, true));
-                                //    mw()->update->log_msg('unzup chunk ' . var_dump($chunks_part));
-
-                                return array(
-                                    'try_again' => true,
-                                    'unzip_cache_key' => $cache_key_for_unzip_on_chunks
-                                );
+                                  if ($chunks) {
+                                      $json = json_encode($chunks, JSON_UNESCAPED_SLASHES);
+                                      $try_again = true;
 
 
-                                break;
+                                  } else {
+                                      $try_again = false;
 
-                            }
+                                      $json = 'done';
+                                  }
+                                  file_put_contents($cache_file, $json);
+                                  //   print $chunks_key;
+                                  mw()->update->log_msg('unzup chunk ' . $chunks_key);
+                                  //   mw()->update->log_msg('unzup chunk ' . reset($chunks_part));
+                                  //  mw()->update->log_msg('unzup chunk ' . print_r($chunks_part, 1));
+                                  mw()->update->log_msg(' ' . print_r($chunks_part, true));
+                                  //    mw()->update->log_msg('unzup chunk ' . var_dump($chunks_part));
+
+                                  return array(
+                                      'try_again' => true,
+                                      'unzip_cache_key' => $cache_key_for_unzip_on_chunks
+                                  );
 
 
-                        }
-                    }
-                }
-            }
+                                  break;
+
+                              }
 
 
-        }
+                          }
+                      }
+                  }
+              }
+
+
+          }*/
         $confirm_key = 'composer-confirm-key-' . rand();
 
         if (isset($params['confirm_key'])) {
@@ -651,7 +618,8 @@ class ComposerUpdate
 
                 return array(
                     'try_again' => true,
-                    'unzip_cache_key' => $cache_key_for_unzip_on_chunks
+                    'error' => 'There was error with unzip',
+                    // 'unzip_cache_key' => $cache_key_for_unzip_on_chunks
                 );
             }
 
@@ -671,7 +639,13 @@ class ComposerUpdate
                 });
                 $allFiles = array_keys($allFiles);
 
-                $skip_files = array('composer.json', 'auth.json', 'composer.lock', 'veeeeendor');
+                if (!$install_core_update) {
+                    $skip_files = array('composer.json', 'auth.json', 'composer.lock', 'vendor');
+
+                } else {
+                    $skip_files = array('composer.json', 'auth.json', 'composer.lock');
+
+                }
 
 
                 $from_folder2 = normalize_path($from_folder, true);
@@ -736,6 +710,7 @@ class ComposerUpdate
                     $from_folder = $from_folder_cp;
                     $from_folder = normalize_path($from_folder, true);
                 }
+
 
             }
 
@@ -890,8 +865,9 @@ class ComposerUpdate
 //            mkdir_recursive($temp_folder);
 //        }
 //
-        $temp_folder = $this->_get_composer_workdir_path($package_name . '-' . $version);
 
+
+        $temp_folder = $this->_get_composer_workdir_path($package_name . '-' . $version);
         $custom_repos_urls_from_settings = mw()->ui->package_manager_urls;
 
         if ($custom_repos_urls_from_settings) {
@@ -937,11 +913,18 @@ class ComposerUpdate
 
         if ($update_channel == 'dev') {
             $system_repos[] = array("type" => "composer", "url" => "https://packages-dev.microweberapi.com/");
+            $system_repos[] = array("type" => "composer", "url" => "https://packages-satis.microweberapi.com/");
+
 
         } else {
             $system_repos[] = array("type" => "composer", "url" => "https://packages.microweberapi.com/");
             $system_repos[] = array("type" => "composer", "url" => "https://private-packages.microweberapi.com/");
         }
+
+
+        // $system_repos = array();
+
+        //  $system_repos[] = array("type" => "composer", "url" => "https://packages-satis.microweberapi.com/");
 
 
         $system_repos_custom = array();
@@ -962,15 +945,17 @@ class ComposerUpdate
                 }
             }
         }
+
+
         if ($system_repos_custom) {
             $system_repos = $system_repos_custom;
             $composer_orig['repositories'] = $system_repos;
             $new_composer_config['repositories'] = $composer_orig['repositories'];
         } else {
-            $composer_orig['repositories'] = array_merge($composer_orig['repositories'], $system_repos);
+            //   $composer_orig['repositories'] = array_merge($composer_orig['repositories'], $system_repos);
+            $composer_orig['repositories'] = $system_repos;
             $new_composer_config['repositories'] = $composer_orig['repositories'];
         }
-
 
         $new_composer_config['repositories']['packagist'] = false;
 
@@ -997,7 +982,9 @@ class ComposerUpdate
         $new_composer_config['notify-batch'] = 'https://installreport.services.microweberapi.com/';
 
         //  $new_composer_config['notification-url'] = 'https://installreport.services.microweberapi.com/';
-//dd($new_composer_config);
+
+
+        //  dd($new_composer_config);
 
         file_put_contents($conf_new, json_encode($new_composer_config));
 
@@ -1024,10 +1011,25 @@ class ComposerUpdate
         $lic = base64_encode($lic);
 
         if (isset($composer_auth_temp['http-basic'])) {
-            $composer_auth_temp['http-basic']["private-packages.microweberapi.com"] = array(
-                "username" => @gethostname(),
-                "password" => $lic
-            );
+//                    $composer_auth_temp['http-basic']["packages.microweberapi.com"] = array(
+//                "username" => @gethostname(),
+//                "password" => $lic
+//            );
+
+
+            foreach ($new_composer_config['repositories'] as $repo_auth) {
+                if (isset($repo_auth['url'])) {
+                    $host = parse_url($repo_auth['url'], PHP_URL_HOST);
+                    if ($host) {
+                        $composer_auth_temp['http-basic'][$host] = array(
+                            "username" => 'license',
+                            "password" => $lic
+                        );
+
+                    }
+                }
+            }
+
             @file_put_contents($auth_new, json_encode($composer_auth_temp));
         }
 
