@@ -190,6 +190,7 @@ mw.Handle = function(options) {
                 data.action.call(scope, e, this, data);
             };
         }
+        console.log(99, btn)
         return btn;
     };
 
@@ -206,8 +207,7 @@ mw.Handle = function(options) {
         this.menu = mwd.createElement('div');
         this.menu.className = 'mw-handle-menu ' + (this.options.menuClass ? this.options.menuClass : 'mw-handle-menu-default');
         if (this.options.menu) {
-            for (var i=0; i<this.options.menu.length; i++) {
-                if(this.options.menu[i].type)
+            for (var i = 0; i < this.options.menu.length; i++) {
                 if(this.options.menu[i].title !== '{dynamic}') {
                     this.menu.appendChild(this.menuButton(this.options.menu[i])) ;
                 }
@@ -218,6 +218,7 @@ mw.Handle = function(options) {
             }
         }
         this.wrapper.appendChild(this.menu);
+        console.log(this.menu, this.options.menu)
     };
     this.create();
     this.hide();

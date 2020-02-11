@@ -6,8 +6,8 @@ mw.content_revisions_control = {
         $.get(url, data)
             .done(function (data) {
                 if (data) {
-                    if (typeof window.top.mweditor !== 'undefined') {
-                        var ed = window.top.mweditor;
+                    if (typeof mw.top().win.mweditor !== 'undefined') {
+                        var ed = mw.top().win.mweditor;
                         $(ed).contents().find("#mw-iframe-editor-area").find('.edit').first().html(data);
                        // ed.contentWindow.mw.reload_module('.module');
                         mw.notification.warning('Revision content is loaded in the editor',5000);

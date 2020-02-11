@@ -214,7 +214,7 @@ mw.options = {
                     which_module_to_reload = refresh_modules12;
                 }
 
-                if ((typeof(liveEditSettings) != 'undefined' && liveEditSettings) || window.top.liveEditSettings) {
+                if ((typeof(liveEditSettings) != 'undefined' && liveEditSettings) || mw.top().win.liveEditSettings) {
                     if (!og1 && og_parent) {
                         which_module_to_reload = og_parent;
                     }

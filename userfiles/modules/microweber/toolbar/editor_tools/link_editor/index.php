@@ -308,7 +308,7 @@
                     $(document).ready(function () {
                         var available_elements_tab_show_hide_ctrl_counter = 0;
                         var html = [];
-                        top.$("h1[id],h12[id],h3[id],h4[id],h5[id],h6[id]", top.document.body).each(function () {
+                        mw.top().$("h1[id],h12[id],h3[id],h4[id],h5[id],h6[id]", top.document.body).each(function () {
                             available_elements_tab_show_hide_ctrl_counter++;
                             html.push({id: this.id, text: this.textContent});
                             mw.$('#available_elements').append('<a data-href="#' + this.id + '"><strong>' + this.nodeName + '</strong> - ' + this.textContent + '</a>')
@@ -341,7 +341,7 @@
                     };
                     $(document).ready(function () {
                         var layoutsData = [];
-                        var layouts = top.mw.$('.module[data-type="layouts"]');
+                        var layouts = mw.top().$('.module[data-type="layouts"]');
                         layouts.each(function () {
                             layoutsData.push({
                                 name: this.getAttribute('template').split('.')[0],
@@ -355,7 +355,7 @@
                             var li = $('<li><label class="mw-ui-check">' + radio + ' ' + this.name + '</label></li>');
                             var el = this.element;
                             li.on('click', function(){
-                                top.mw.tools.scrollTo(el);
+                                mw.top().tools.scrollTo(el);
                             });
                             list.append(li);
                         });

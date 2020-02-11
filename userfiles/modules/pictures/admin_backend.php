@@ -136,8 +136,8 @@ if ($for_id != false) {
     mw_admin_pictures_upload_browse_existing = function () {
 
 
-        // var dialog = window.top.mw.dialogIframe({
-        var dialog = window.top.mw.dialogIframe({
+        // var dialog = mw.top().dialogIframe({
+        var dialog = mw.top().dialogIframe({
             url: '<?php print site_url() ?>module/?type=files/admin&live_edit=true&remeber_path=true&ui=basic&start_path=media_host_base&from_admin=true&file_types=images&id=mw_admin_pictures_upload_browse_existing_modal<?php print $params['id'] ?>&from_url=<?php print site_url() ?>',
             title: "Browse pictures",
             id: 'mw_admin_pictures_upload_browse_existing_modal<?php print $params['id'] ?>',
@@ -320,7 +320,7 @@ if (!isset($data["thumbnail"])) {
             mw.module_pictures.save_options(id, data);
             mw.reload_module('#<?php print $params['id'] ?>');
             mw.reload_module('pictures/admin')
-            top.mw.reload_module('pictures')
+            mw.top().reload_module('pictures')
         }
 
 
@@ -412,7 +412,7 @@ if (!isset($data["thumbnail"])) {
                     mw.module_pictures.open_image_upload_settings_modal();
                 }
                 if (a &&  a.image_was_auto_resized_msg) {
-                    window.top.mw.notification.warning(a.image_was_auto_resized_msg, 5200);
+                    mw.top().notification.warning(a.image_was_auto_resized_msg, 5200);
                 }
                 if(a){
                     after_upld(a.src, e.type, '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');

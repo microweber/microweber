@@ -2,10 +2,10 @@ mw.tools.createAutoHeight = function() {
     if(window.thismodal && thismodal.iframe) {
         mw.tools.iframeAutoHeight(thismodal.iframe);
     }
-    else if(window.top.frameElement && window.top.frameElement.contentWindow === window) {
-        mw.tools.iframeAutoHeight(window.top.frameElement);
+    else if(mw.top().win.frameElement && mw.top().win.frameElement.contentWindow === window) {
+        mw.tools.iframeAutoHeight(mw.top().win.frameElement);
     } else if(window.top !== window) {
-        top.mw.$('iframe').each(function(){
+        mw.top().$('iframe').each(function(){
             try{
                 if(this.contentWindow === window) {
                     mw.tools.iframeAutoHeight(this);

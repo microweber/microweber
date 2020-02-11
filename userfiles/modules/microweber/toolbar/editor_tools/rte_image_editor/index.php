@@ -33,7 +33,7 @@ if (array_key_exists('types', $_GET)) {
             }
             else {
                 parent.mw.image.currentResizing.css("backgroundImage", 'url(' + mw.files.safeFilename(url) + ')');
-                top.mw.wysiwyg.bgQuotesFix(parent.mw.image.currentResizing[0])
+                mw.top().wysiwyg.bgQuotesFix(parent.mw.image.currentResizing[0])
             }
         }
         if(window.thismodal) {

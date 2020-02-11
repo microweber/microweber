@@ -64,10 +64,10 @@
             if(window.thismodal && thismodal.iframe) {
                 mw.tools.iframeAutoHeight(thismodal.iframe, 'now');
             }
-            else if(window.top.frameElement && window.top.frameElement.contentWindow === window) {
-                mw.tools.iframeAutoHeight(window.top.frameElement, 'now');
+            else if(mw.top().win.frameElement && mw.top().win.frameElement.contentWindow === window) {
+                mw.tools.iframeAutoHeight(mw.top().win.frameElement, 'now');
             } else if(window.top !== window) {
-                top.mw.$('iframe').each(function(){
+                mw.top().$('iframe').each(function(){
                     try{
                         if(this.contentWindow === window) {
                             mw.tools.iframeAutoHeight(this, 'now');

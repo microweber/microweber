@@ -55,7 +55,7 @@ var reset = function(){
         value: "reset"
     };
 
-    top.$.post(mw.settings.api_url + "current_template_save_custom_css", data, function(data){
+    mw.top().$.post(mw.settings.api_url + "current_template_save_custom_css", data, function(data){
         mw.notification.success('Element styles restored');
         mw.tools.refresh(top.document.querySelector('link[href*="live_edit.css"]'))
     }).fail(function(){
@@ -160,7 +160,7 @@ var activeTree = function(){
     $(_activeTree).on('selectionChange', function(e, data){
         _pauseActiveTree = true;
         if(data[0]){
-            top.mw.liveEditSelector.select(data[0].element);
+            mw.top().liveEditSelector.select(data[0].element);
         }
         setTimeout(function(){
             _pauseActiveTree = false;
@@ -320,8 +320,8 @@ var output = function(property, value){
     if(ActiveNode) {
           ActiveNode.style[property] = value + '!important';
           ActiveNode.setAttribute('staticdesign', true);
-          top.mw.wysiwyg.change(ActiveNode);
-          top.mw.liveEditSelector.positionSelected();
+          mw.top().wysiwyg.change(ActiveNode);
+          mw.top().liveEditSelector.positionSelected();
     }
 };
 
@@ -427,7 +427,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
 
         mw.$('.mw-field input').attr('autocomplete', 'off')
 
-        top.$(top.mwd.body).on('mousedown touchstart', function(e){
+        mw.top().$(top.mwd.body).on('mousedown touchstart', function(e){
             var node = mw.tools.firstMatchesOnNodeOrParent(e.target, ['.element', '.module']);
             if( !node && !mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target, ['mw-control-box', 'mw-defaults']) ){
                 ActiveNode = null;
@@ -455,8 +455,8 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
     });
 
     $(window).on('load', function () {
-        if(top.mw.liveEditSelector.selected[0]){
-            ActiveNode = top.mw.liveEditSelector.selected[0];
+        if(mw.top().liveEditSelector.selected[0]){
+            ActiveNode = mw.top().liveEditSelector.selected[0];
 
             var css = mw.CSSParser(ActiveNode);
             populate(css);
@@ -468,7 +468,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                 mw.$('#text-mask-field')[0].checked = mw.tools.hasClass(ActiveNode, 'mw-bg-mask');
             }
         }
-        top.mw.liveEditSelector.positionSelected();
+        mw.top().liveEditSelector.positionSelected();
         setTimeout(function(){
             $(document.body).trigger('click')
         }, 400)

@@ -11,8 +11,8 @@
                     mw.$('#'+module_id).removeAttr('data-module-original-attrs');
                     mw.$('#'+module_id).attr(orig_attrs_decoded).reload_module();
 
-                    if(  window.top.module_settings_modal_reference_preset_editor_thismodal ){
-                        window.top.module_settings_modal_reference_preset_editor_thismodal.remove();
+                    if(  mw.top().win.module_settings_modal_reference_preset_editor_thismodal ){
+                        mw.top().win.module_settings_modal_reference_preset_editor_thismodal.remove();
                     }
                  }
                  return;
@@ -188,6 +188,6 @@
     };
 
     for (var i in systemDialogs) {
-        mw.tools[i] = systemDialogs[i];  
+        mw.tools[i] = systemDialogs[i];
     }
 })()

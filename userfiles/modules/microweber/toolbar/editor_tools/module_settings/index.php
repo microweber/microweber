@@ -212,8 +212,8 @@
             // add dropdown
 
 
-            if (!window.thismodal && window.top.module_settings_modal_reference_preset_editor_thismodal) {
-                window.thismodal = window.top.module_settings_modal_reference_preset_editor_thismodal
+            if (!window.thismodal && mw.top().win.module_settings_modal_reference_preset_editor_thismodal) {
+                window.thismodal = mw.top().win.module_settings_modal_reference_preset_editor_thismodal
 
             }
 
@@ -252,7 +252,7 @@
                 $(document).ready(function () {
 
 
-                    //   window.top.module_settings_modal_reference = thismodal;
+                    //   mw.top().win.module_settings_modal_reference = thismodal;
                     <?php if(is_array($module_info)): ?>
 
                     <?php $mod_adm = admin_url('load_module:') . module_name_encode($module_info['module']); ?>
@@ -283,9 +283,9 @@
                             // window.parent.module_settings_modal_reference_preset_editor_modal_id = presetsthismodalid;
                             // window.parent.module_settings_modal_reference_window = top;
 
-                            window.top.module_settings_modal_reference_preset_editor_modal_id = presetsthismodalid;
-                            window.top.module_settings_modal_reference_preset_editor_thismodal = window.thismodal;
-                            window.top.module_settings_modal_reference_window = window;
+                            mw.top().win.module_settings_modal_reference_preset_editor_modal_id = presetsthismodalid;
+                            mw.top().win.module_settings_modal_reference_preset_editor_thismodal = window.thismodal;
+                            mw.top().win.module_settings_modal_reference_window = window;
 
 
                             //  alert(presetsthismodalid);
@@ -362,7 +362,7 @@
                              element: parent.mw.$('#module-modal-settings-menu-items-presets-holder<?php print $params['id'] ?>')[0]
                              });*/
 
-                            presetsDialogModal = top.mw.dialog({
+                            presetsDialogModal = mw.top().dialog({
                                 content: holder,
                                 width: 400,
                                 height: 'auto',
@@ -374,7 +374,7 @@
 
 
                             $(presetsDialogModal.dialogContainer).html(mod_presets_iframe_html_fr);
-                            top.$(".mw-presets-dropdown .module").removeClass('module');
+                            mw.top().$(".mw-presets-dropdown .module").removeClass('module');
                             var frame = presetsDialogModal.dialogContainer.querySelector('iframe');
                             mw.tools.iframeAutoHeight(frame);
                             $(frame).on('load', function () {
@@ -428,10 +428,10 @@
             if (window.thismodal && thismodal.iframe) {
                 mw.tools.iframeAutoHeight(thismodal.iframe, 'now');
             }
-            else if (window.top.frameElement && window.top.frameElement.contentWindow === window) {
-                mw.tools.iframeAutoHeight(window.top.frameElement, 'now');
+            else if (mw.top().win.frameElement && mw.top().win.frameElement.contentWindow === window) {
+                mw.tools.iframeAutoHeight(mw.top().win.frameElement, 'now');
             } else if (window.top !== window) {
-                top.mw.$('iframe').each(function () {
+                mw.top().$('iframe').each(function () {
                     try {
                         if (this.contentWindow === window) {
                             mw.tools.iframeAutoHeight(this, 'now');

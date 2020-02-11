@@ -415,9 +415,9 @@ mw.getScripts = function (array, callback) {
        parent.mw.reload_module(module, callback)
 	   if(typeof(top.mweditor) != 'undefined'  && typeof(top.mweditor) == 'object'   && typeof(top.mweditor.contentWindow) != 'undefined'){
 		 top.mweditor.contentWindow.mw.reload_module(module, callback)
-		} else if(typeof(window.top.iframe_editor_window) != 'undefined'  && typeof(window.top.iframe_editor_window) == 'object'   && typeof(window.top.iframe_editor_window.mw) != 'undefined'){
+		} else if(typeof(mw.top().win.iframe_editor_window) != 'undefined'  && typeof(mw.top().win.iframe_editor_window) == 'object'   && typeof(mw.top().win.iframe_editor_window.mw) != 'undefined'){
 
-		window.top.iframe_editor_window.mw.reload_module(module, callback)
+		mw.top().win.iframe_editor_window.mw.reload_module(module, callback)
 		}
 
         if(typeof(parent.mw_preview_frame_object) != 'undefined'  && typeof(parent.mw_preview_frame_object) == 'object'   && typeof(parent.mw_preview_frame_object.contentWindow) != 'undefined'){

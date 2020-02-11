@@ -91,8 +91,8 @@ mw.tools.dropdown = function (root) {
                 mw.$(".mw-dropdown-content").hide();
                 if(self !== top) {
                     try {
-                        top.mw.$(".mw-dropdown").removeClass("active");
-                        top.mw.$(".mw-dropdown-content").hide();
+                        mw.top().$(".mw-dropdown").removeClass("active");
+                        mw.top().$(".mw-dropdown-content").hide();
                     } catch(e){
 
                     }

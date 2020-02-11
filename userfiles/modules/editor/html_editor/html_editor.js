@@ -65,7 +65,7 @@ mw.html_editor.createItemContent = function (option) {
         frame.scrolling = 'no';
         setTimeout(function () {
             frame.contentDocument.body.innerHTML = option.el.innerHTML;
-            var root = window.top.opener ? window.top.opener.document.documentElement : window.top.document.documentElement;
+            var root = mw.top().win.opener ? mw.top().win.opener.document.documentElement : mw.top().win.document.documentElement;
             $('link', root).each(function () {
                 $(this).clone(true).appendTo(frame.contentDocument.body);
             });

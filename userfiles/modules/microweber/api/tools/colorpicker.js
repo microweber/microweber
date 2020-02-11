@@ -2,25 +2,23 @@ mw._colorPickerDefaults = {
     skin: 'mw-tooltip-default',
     position: 'bottom-center',
     onchange: false
-}
+};
+
 mw._colorPicker = function (options) {
 
     if (!mw.tools.colorPickerColors) {
         mw.tools.colorPickerColors = [];
-        var w = window;
-        if(self != top){
-            w = top;
-        }
-        var colorpicker_els = w.mw.$("body *");
-        if(typeof colorpicker_els != 'undefined' && colorpicker_els.length > 0){
+
+        var colorpicker_els = mw.top().$("body *");
+        if(colorpicker_els.length > 0){
             colorpicker_els.each(function () {
                 var css = parent.getComputedStyle(this, null);
                 if (css !== null) {
                     if (mw.tools.colorPickerColors.indexOf(css.color) === -1) {
-                        mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.color))
+                        mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.color));
                     }
                     if (mw.tools.colorPickerColors.indexOf(css.backgroundColor) === -1) {
-                        mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.backgroundColor))
+                        mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.backgroundColor));
                     }
                 }
             });
