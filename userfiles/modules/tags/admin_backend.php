@@ -44,8 +44,46 @@
             </div>
             <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
 
-
                 <button type="button" onclick="editTag(false);" class="mw-ui-btn mw-ui-btn-info"> <i class="mw-icon-web-promotion"></i> &nbsp; Add New Tag</button>
+
+                <br />
+                <br />
+
+                <table class="mw-ui-table table-style-2" width="100%" cellspacing="0" cellpadding="0">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Slug</th>
+                        <th>Count</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <?php
+                    $filter = [
+
+                    ];
+                    $content_tags = db_get('tagging_tags', $filter);
+                    foreach ($content_tags as $tag):
+                    ?>
+                    <tr>
+                        <td><?php echo $tag['name']; ?></td>
+                        <td>
+                            <?php if (isset($tag['description'])) : ?>
+                            <?php echo $tag['description']; ?>
+                            <?php endif; ?>
+                        </td>
+                        <td><?php echo $tag['slug']; ?></td>
+                        <td><?php echo $tag['count']; ?></td>
+                        <td><button onclick="editTag(<?php echo $tag['id']; ?>);" class="mw-ui-btn"><span class="mw-icon-edit"></span></button></td>
+                    </tr>
+                    <?php endforeach; ?>
+
+                    </tbody>
+                </table>
+
 
 
             </div>
