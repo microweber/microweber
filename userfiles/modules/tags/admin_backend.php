@@ -31,6 +31,19 @@
         mw.load_module('tags/edit', '#mw_admin_edit_tag_item_module', null, params);
 
     }
+
+    function deleteTag(tag_id) {
+        $.ajax({
+            url: mw.settings.api_url + 'tag/delete',
+            type: 'post',
+            data: {
+                tag_id: tag_id
+            },
+            success: function(data) {
+                mw.load_module('tags');
+            }
+        });
+    }
 </script>
 
 <div id="mw-admin-content" class="admin-side-content">
@@ -77,7 +90,10 @@
                         </td>
                         <td><?php echo $tag['slug']; ?></td>
                         <td><?php echo $tag['count']; ?></td>
-                        <td><button onclick="editTag(<?php echo $tag['id']; ?>);" class="mw-ui-btn"><span class="mw-icon-edit"></span></button></td>
+                        <td>
+                            <button onclick="editTag(<?php echo $tag['id']; ?>);" class="mw-ui-btn"><span class="mw-icon-edit"></span></button>
+                            <button onclick="deleteTag(<?php echo $tag['id']; ?>);" class="mw-ui-btn"><span class="mw-icon-bin"></span></button>
+                        </td>
                     </tr>
                     <?php endforeach; ?>
 
