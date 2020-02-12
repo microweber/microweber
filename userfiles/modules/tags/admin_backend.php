@@ -40,7 +40,8 @@
                 tag_id: tag_id
             },
             success: function(data) {
-                mw.load_module('tags');
+                mw.reload_module_everywhere('tags');
+                mw.notification.error('<?php _e('Tag is deleted!');?>');
             }
         });
     }
@@ -74,11 +75,11 @@
                     <tbody>
 
                     <?php
-                    $filter = [
-
-                    ];
-                    $content_tags = db_get('tagging_tags', $filter);
-                    foreach ($content_tags as $tag):
+                    $tagging_tags = db_get('tagging_tags',[
+                            'no_cache'=>false
+                    ]);
+                    if ($tagging_tags):
+                    foreach ($tagging_tags as $tag):
                     ?>
                     <tr>
                         <td><?php echo $tag['name']; ?></td>
@@ -91,9 +92,12 @@
                     </tr>
                     <?php endforeach; ?>
 
+                    <?php else: ?>
+
+                    <?php endif; ?>
+
                     </tbody>
                 </table>
-
 
 
             </div>

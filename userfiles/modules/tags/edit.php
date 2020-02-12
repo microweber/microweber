@@ -22,8 +22,8 @@
                 type: 'post',
                 data: $(this).serialize(),
                 success: function(data) {
-                    mw.load_module('tags');
-
+                    mw.reload_module_everywhere('tags');
+                    mw.notification.success('<?php _e('Tag is saved!');?>');
                 }
             });
 
@@ -35,7 +35,7 @@
 <?php
 $name = '';
 $slug = '';
-$description = '';
+//$description = '';
 
 $tag_id = $params['tag_id'];
 $filter = [
@@ -63,11 +63,11 @@ if ($tag) {
         <div class="helptext"><?php _e('The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.');?></div>
     </div>
 
-    <div class="demobox">
-        <label class="mw-ui-label"><?php _e('Description');?></label>
+    <!--<div class="demobox">
+        <label class="mw-ui-label"><?php /*_e('Description');*/?></label>
         <textarea name="description" class="mw-ui-field"></textarea>
-        <div class="helptext"><?php _e('The description is not prominent by default; however, some themes may show it.');?></div>
-    </div>
+        <div class="helptext"><?php /*_e('The description is not prominent by default; however, some themes may show it.');*/?></div>
+    </div>-->
 
     <?php if ($tag): ?>
         <input type="hidden" name="tag_id" value="<?php echo $tag['id']; ?>" />
