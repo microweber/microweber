@@ -66,7 +66,6 @@
                     <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Description</th>
                         <th>Slug</th>
                         <th>Count</th>
                         <th>Action</th>
@@ -83,11 +82,6 @@
                     ?>
                     <tr>
                         <td><?php echo $tag['name']; ?></td>
-                        <td>
-                            <?php if (isset($tag['description'])) : ?>
-                            <?php echo $tag['description']; ?>
-                            <?php endif; ?>
-                        </td>
                         <td><?php echo $tag['slug']; ?></td>
                         <td><?php echo $tag['count']; ?></td>
                         <td>
