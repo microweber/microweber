@@ -154,6 +154,19 @@ $pages_count = intval($pages);
 
 </script>
 
+<style>
+    .mw-post-item-tag {
+        border-radius: 14px;
+        color: #3b3b3b;
+        background: #f5f5f5;
+        padding-left: 10px;
+        padding-right: 10px;
+        margin-right: 5px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+    }
+</style>
+
 
 <?php if (!isset($params['no_toolbar']) and isset($toolbar)): ?>
     <?php print $toolbar; ?>
@@ -244,7 +257,7 @@ $pages_count = intval($pages);
 
 
                                     <?php $cats = content_categories($item['id']); ?>
-                                    <?php $tags = content_tags($item['id'], true); ?>
+                                    <?php $tags = content_tags($item['id'], false); ?>
                                     <?php if ($cats) { ?>
                                         <span class="manage-post-item-cats-inline-list">
                                               <span class="mw-icon-category"></span>
@@ -255,12 +268,14 @@ $pages_count = intval($pages);
 
                                             <?php endforeach; ?>
                                       </span>
-                                        <br />
                                     <?php } ?>
+
                                      <?php if ($tags) { ?>
-
-
+                                         <?php foreach ($tags as $tag): ?>
+                                            <span class="mw-post-item-tag"># <?php echo $tag; ?></span>
+                                         <?php endforeach; ?>
                                       <?php } ?>
+                                    <div></div>
 
                                     <a class="manage-post-item-link-small mw-medium" target="_top" href="<?php print content_link($item['id']); ?>?editmode:y"><?php print content_link($item['id']); ?></a>
                                 </div>

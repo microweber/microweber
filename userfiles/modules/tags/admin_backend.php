@@ -75,6 +75,19 @@
                     <tbody>
 
                     <?php
+
+               /*     for ($i = 1; $i <= 5000; $i++) {
+
+                        $save = db_save('content', [
+                            'content_type'=>'post',
+                            'sub_type'=>'post',
+                            'title'=>'BLOG POST TITLE: ' . $i,
+                            'parent'=>6,
+                            'is_active'=>1
+                        ]);
+
+                    }*/
+
                     $tagging_tags = db_get('tagging_tags',[
                             'no_cache'=>false
                     ]);

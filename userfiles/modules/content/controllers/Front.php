@@ -755,6 +755,16 @@ if($posts_list_show_sub_pages){
             $add_cart_text = _e("Add to cart", true);
         }
 
+        if (isset($params['return_as_array'])) {
+            return ['data'=>$data];
+        }
+
+        if (isset($_GET['return_as_json'])) {
+            header("Content-Type: application/json;charset=utf-8");
+            echo json_encode(['data'=>$data]);
+            exit;
+        }
+
         if (!isset($params['return'])) {
 
             $module_template = get_option('data-template', $params['id']);
@@ -782,6 +792,7 @@ if($posts_list_show_sub_pages){
             if (isset($template_file) and is_file($template_file) != false) {
                 include($template_file);
 
+                $params['ajax_paging'] = true;
                 ?>
                 <?php if (isset($params['ajax_paging']) or isset($params['ajax-paging'])): ?>
                     <script type="text/javascript">

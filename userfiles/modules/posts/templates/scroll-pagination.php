@@ -4,9 +4,9 @@
 
 type: layout
 
-name: ScrollPagination
+name: Scroll Pagination
 
-description: ScrollPagination
+description: Scroll Pagination
 
 */
 
@@ -36,15 +36,18 @@ $postDataRequest = json_encode($params);
                 ajaxRequestIsSended = 1;
 
                 postsDataRequest.page = nextPageNumber;
+                postsDataRequest.current_page = nextPageNumber;
+                postsDataRequest.return_as_json = 1;
 
                 $.ajax({
-                    url: mw.settings.api_url + 'posts/get',
+                   // url: mw.settings.api_url + 'posts/get',
+                    url: window.location.href,
                     data: postsDataRequest,
                     success: function(json) {
                         ajaxRequestIsSended = 0;
                         nextPageNumber = nextPageNumber + 1;
-                        var html = '';
 
+                        var html = '';
                         for (i = 0; i < json.data.length; i++) {
                             html += '<div class="js-blog-post-wrapper">' + json.data[i].title + '</div>';
                         }

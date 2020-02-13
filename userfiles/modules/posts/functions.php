@@ -6,10 +6,11 @@
  * Time: 11:22 AM
  */
 
-api_expose('posts/get', function($params) {
+/*api_expose('posts/get', function($params) {
 
     $limit = 5;
 
+    // $params['tags'] = 'hrdhrdhrd';
     $params['id'] = 'blog';
     $params['paging_param'] = 'pg';
     $params['pg'] = $params['page'];
@@ -30,4 +31,4 @@ api_expose('posts/get', function($params) {
 
     return $output;
 
-});
+});*/
