@@ -6,29 +6,26 @@
  * Time: 11:22 AM
  */
 
-/*api_expose('posts/get', function($params) {
+api_expose('posts/get', function($params) {
 
-    $limit = 5;
+    $request = array();
 
-    // $params['tags'] = 'hrdhrdhrd';
-    $params['id'] = 'blog';
-    $params['paging_param'] = 'pg';
-    $params['pg'] = $params['page'];
-
-    if (!isset($params['limit'])) {
-        $params['limit'] = $limit;
+    if (isset($params['tags']) && !empty($params['tags'])) {
+      $request['tags'] = $params['tags'];
     }
 
-    $params['return_as_array'] = 1;
-    $params['order_by'] = 'id asc';
+    $request['id'] = 'blog';
+    $request['paging_param'] = 'paging_number_page';
+    $request['paging_number_page'] = $params['page'];
+    $request['limit'] = get_option('data-limit', $params['data-id']);
+    $request['return_as_array'] = 1;
+    $request['order_by'] = get_option('data-order-by', $params['data-id']);
 
     $controller = new content\controllers\Front();
-    $output = $controller->index($params, [
+    $output = $controller->index($request, [
         'module'=>'posts'
     ]);
 
-    header("Content-Type: application/json;charset=utf-8");
-
     return $output;
 
-});*/
+});

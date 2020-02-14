@@ -9,7 +9,10 @@ name: Scroll Pagination
 description: Scroll Pagination
 
 */
-
+$currentTags = url_param('tags');
+if ($currentTags == 'false') {
+    $currentTags = false;
+}
 $postDataRequest = json_encode($params);
 ?>
 
@@ -30,6 +33,7 @@ $postDataRequest = json_encode($params);
     $(window).on('scroll', function () {
 
         if ($(window).scrollTop() >= $('.js-blog-post-wrapper').last().offset().top - $('.js-blog-post-wrapper').outerHeight()) {
+
             if (ajaxRequestIsSended == 0) {
 
                 ajaxCount = ajaxCount + 1;
@@ -37,23 +41,30 @@ $postDataRequest = json_encode($params);
 
                 postsDataRequest.page = nextPageNumber;
                 postsDataRequest.current_page = nextPageNumber;
-                postsDataRequest.return_as_json = 1;
+
+                <?php if ($currentTags): ?>
+                postsDataRequest.tags = '<?php echo $currentTags; ?>';
+                <?php endif; ?>
 
                 $.ajax({
-                   // url: mw.settings.api_url + 'posts/get',
-                    url: window.location.href,
+                    url: mw.settings.api_url + 'posts/get',
                     data: postsDataRequest,
                     success: function(json) {
-                        ajaxRequestIsSended = 0;
-                        nextPageNumber = nextPageNumber + 1;
 
-                        var html = '';
-                        for (i = 0; i < json.data.length; i++) {
-                            html += '<div class="js-blog-post-wrapper">' + json.data[i].title + '</div>';
+                        if (json.data) {
+                            ajaxRequestIsSended = 0;
+                            nextPageNumber = nextPageNumber + 1;
+
+                            var html = '';
+                            for (i = 0; i < json.data.length; i++) {
+                                html += '<div class="js-blog-post-wrapper">' + json.data[i].title + '</div>';
+                            }
+
+                            $('.js-blog-post-wrapper').last().after(html);
+                            $('.js-blog-post-wrapper').last().hide().fadeIn();
+                        } else {
+                            $('.js-blog-post-wrapper').last().after('<br />No more posts.');
                         }
-
-                       $('.js-blog-post-wrapper').last().after(html);
-                       $('.js-blog-post-wrapper').last().hide().fadeIn();
                     }
                 });
 

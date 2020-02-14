@@ -710,6 +710,17 @@ if($posts_list_show_sub_pages){
                 $data[] = $item;
             }
         } else {
+
+            if (isset($params['return_as_array'])) {
+                if (isset($params['is_shop'])) {
+                    return ['error'=>lnotif('Your products module is empty')];
+                } elseif (isset($params['global'])) {
+                    return ['error'=>lnotif('Your content module is empty')];
+                } else {
+                    return ['error'=>lnotif('Your posts module is empty')];
+                }
+            }
+
             if (isset($params['is_shop'])) {
                 print lnotif('Your products module is empty');
             } elseif (isset($params['global'])) {
@@ -757,12 +768,6 @@ if($posts_list_show_sub_pages){
 
         if (isset($params['return_as_array'])) {
             return ['data'=>$data];
-        }
-
-        if (isset($_GET['return_as_json'])) {
-            header("Content-Type: application/json;charset=utf-8");
-            echo json_encode(['data'=>$data]);
-            exit;
         }
 
         if (!isset($params['return'])) {
