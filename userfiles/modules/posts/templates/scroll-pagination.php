@@ -9,7 +9,8 @@ name: Scroll Pagination
 description: Scroll Pagination
 
 */
-$currentTags = url_param('tags');
+$currentTags = url_param('tags',true);
+// d($currentTags);
 if ($currentTags == 'false') {
     $currentTags = false;
 }
@@ -25,61 +26,62 @@ $postDataRequest = json_encode($params);
     }
 </style>
 <script>
-    var nextPageNumber = 2;
-    var ajaxCount = 0;
-    var ajaxRequestIsSended = 0;
-    var postsDataRequest = JSON.parse(<?php echo json_encode($postDataRequest); ?>);
+    nextPageNumber = 1;
+    ajaxRequestIsSended = 0;
+    postsDataRequest = JSON.parse(<?php echo json_encode($postDataRequest); ?>);
+
+    <?php if ($currentTags): ?>
+    postsDataRequest.tags = '<?php echo $currentTags; ?>';
+    <?php endif; ?>
 
     $(window).on('scroll', function () {
 
         if ($(window).scrollTop() >= $('.js-blog-post-wrapper').last().offset().top - $('.js-blog-post-wrapper').outerHeight()) {
 
             if (ajaxRequestIsSended == 0) {
-
-                ajaxCount = ajaxCount + 1;
-                ajaxRequestIsSended = 1;
-
-                postsDataRequest.page = nextPageNumber;
-                postsDataRequest.current_page = nextPageNumber;
-
-                <?php if ($currentTags): ?>
-                postsDataRequest.tags = '<?php echo $currentTags; ?>';
-                <?php endif; ?>
-
-                $.ajax({
-                    url: mw.settings.api_url + 'posts/get',
-                    data: postsDataRequest,
-                    success: function(json) {
-
-                        if (json.data) {
-                            ajaxRequestIsSended = 0;
-                            nextPageNumber = nextPageNumber + 1;
-
-                            var html = '';
-                            for (i = 0; i < json.data.length; i++) {
-                                html += '<div class="js-blog-post-wrapper">' + json.data[i].title + '</div>';
-                            }
-
-                            $('.js-blog-post-wrapper').last().after(html);
-                            $('.js-blog-post-wrapper').last().hide().fadeIn();
-                        } else {
-                            $('.js-blog-post-wrapper').last().after('<br />No more posts.');
-                        }
-                    }
-                });
-
+                loadBlogPosts(nextPageNumber);
             }
         }
     });
+
+    $(document).ready(function () {
+        loadBlogPosts(nextPageNumber);
+    });
+
+    function loadBlogPosts(page)
+    {
+        ajaxRequestIsSended = 1;
+
+        postsDataRequest.page = page;
+        postsDataRequest.current_page = page;
+
+        $.ajax({
+            url: mw.settings.api_url + 'posts/get',
+            data: postsDataRequest,
+            success: function(json) {
+
+                if (json.data) {
+                    ajaxRequestIsSended = 0;
+                    nextPageNumber = page + 1;
+
+                    var html = '';
+                    for (i = 0; i < json.data.length; i++) {
+                        html += '<div class="js-blog-post-wrapper">' + json.data[i].title + '</div>';
+                    }
+
+                    if ($('.js-blog-post-wrapper').length == 0) {
+                        $('.js-blog-posts-holder').append(html);
+                    } else {
+                        // append after post wrapper
+                        $('.js-blog-post-wrapper').last().after(html);
+                    }
+
+                    $('.js-blog-post-wrapper').last().hide().fadeIn();
+                }
+
+            }
+        });
+    }
 </script>
-<?php
-foreach ($data as $post):
-?>
-<div class="js-blog-post-wrapper">
-    <?php echo $post['title']; ?>
-</div>
-<?php
-endforeach;
-?>
 
-
+<div class="js-blog-posts-holder"></div>

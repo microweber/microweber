@@ -62,15 +62,43 @@ class TagsManager
             if ($id) {
                 $article = $model->whereId($id)->first();
                 if ($article) {
+                    $article_data = $article->toArray();
 
-                    if ($return_full) {
-                        return $article->toArray();
-                    }
-                    foreach ($article->tags as $tag) {
-                        if (is_object($tag)) {
-                            $tags_return[] = $tag->name;
+                    if (isset($article_data['content_type']) and $article_data['content_type'] == 'page') {
+
+                        $childs = get_content_children($article_data['id']);
+                        if ($childs) {
+                            $model = $this->app->database_manager->table($params['table']);
+
+                            $articles = $model->whereIn('id', array_values($childs), false)->get();
+                            if ($return_full) {
+                                return $articles->toArray();
+                            }
+
+
+                            foreach ($articles as $article) {
+
+                                foreach ($article->tags as $tag) {
+                                    if (is_object($tag)) {
+                                        $tags_return[] = $tag->name;
+                                    }
+                                }
+                            }
+
+                        }
+
+                    } else {
+                        if ($return_full) {
+                            return $article->toArray();
+                        }
+                        foreach ($article->tags as $tag) {
+                            if (is_object($tag)) {
+                                $tags_return[] = $tag->name;
+                            }
                         }
                     }
+
+
                 }
 
             } else {
