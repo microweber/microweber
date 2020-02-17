@@ -436,6 +436,11 @@ class MenuManager
 
         }
 
+        $cur_content_id_data = get_content_by_id(CONTENT_ID);
+
+
+
+
 //        if (isset($params_o['li_submenu_a_class']) != false) {
 //            $li_submenu_a_class = $params_o['li_submenu_a_class'];
 //        }
@@ -456,6 +461,8 @@ class MenuManager
 
         $cur_depth = 0;
         $res_count = 0;
+ 
+
 
         foreach ($q as $item) {
 
@@ -483,6 +490,7 @@ class MenuManager
                 $full_item = $item;
               //
                 if (is_array($cont) and !empty($cont)) {
+
                     $title = $cont['title'];
                        $url = $this->app->content_manager->link($cont['id']);
                    // dd($item);
@@ -533,6 +541,9 @@ class MenuManager
                 } else {
                     $active_class = '';
                 }
+            } elseif (trim($item['url'] == '') and $cur_content_id_data and isset($cur_content_id_data['parent']) and $cur_content_id_data['parent'] and $item['content_id'] == $cur_content_id_data['parent']) {
+                $active_class = 'active';
+                 // $active_class = 'active-parent';
             } elseif (trim($item['url'] == '') and defined('CONTENT_ID') and CONTENT_ID != 0 and $item['content_id'] == CONTENT_ID) {
                 $active_class = 'active';
              } elseif (trim($item['url'] == '') and defined('PAGE_ID') and PAGE_ID != 0 and $item['content_id'] == PAGE_ID) {
@@ -551,8 +562,7 @@ class MenuManager
                 $active_class = 'active-parent';
             } elseif (trim($item['url'] == '') and $item['content_id'] != 0 and defined('PAGE_ID') and PAGE_ID != 0) {
                  $cont_link = $this->app->content_manager->link(PAGE_ID);
-
-                if ($item['content_id'] == PAGE_ID and $cont_link == $item['url']) {
+                 if ($item['content_id'] == PAGE_ID and $cont_link == $item['url']) {
                     $active_class = 'active';
                 } elseif ($cont_link == $item['url']) {
                     $active_class = 'active';
