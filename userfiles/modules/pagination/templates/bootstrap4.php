@@ -5,16 +5,33 @@ name: Bootstrap 4
 description: Bootstrap 4
 */
 ?>
-<nav aria-label="Page navigation example">
+
+<nav aria-label="...">
     <ul class="pagination justify-content-center">
-        <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-            <a class="page-link" href="#">Next</a>
-        </li>
+
+        <?php
+        foreach ($pagination_links as $pagination_link):
+            ?>
+
+            <?php if ($pagination_link['attributes']['current']): ?>
+            <li class="page-item active">
+                <span class="page-link">
+                     <?php echo $pagination_link['title']; ?>
+                    <span class="sr-only"><?php _e('Current'); ?></span>
+                </span>
+            </li>
+        <?php else: ?>
+            <li class="page-item">
+                <a class="page-link" data-page-number-dont-copy="<?php echo $pagination_link['attributes']['data-page-number']; ?>"
+                   href="<?php echo $pagination_link['attributes']['href']; ?>">
+                    <?php echo $pagination_link['title']; ?>
+                </a>
+            </li>
+        <?php endif; ?>
+
+        <?php
+        endforeach;
+        ?>
+
     </ul>
 </nav>
