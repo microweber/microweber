@@ -468,6 +468,7 @@ class ContentManager
         }
 
 
+        $ready_paging_links = [];
         $data = $this->paging_links($base_url, $pages_count, $paging_param, $keyword_param);
         if (is_array($data)) {
 
@@ -478,14 +479,23 @@ class ContentManager
             }
 
             if ($current_page_from_url > 1 && isset($params['show_first_last'])) {
-                $to_print = '<a data-page-number="' . $data[1] . '" href="' . $data[1] . '">First</a>';
+                $to_print = '<a data-page-number="' . $data[1] . '" href="' . $data[1] . '">'._e('First', true).'</a>';
+                $ready_paging_links[] = [
+                    'attributes'=>[
+                        'class'=>false,
+                        'current'=>false,
+                        'data-page-number'=>$data[1],
+                        'href'=> $data[1]
+                    ],
+                    'title'=>_e('First', true)
+                ];
             }
 
             $paging_items = array();
             $active_item = 1;
             foreach ($data as $key => $value) {
                 $skip = false;
-                $act_class = '';
+                $act_class = false;
                 if ($current_page_from_url != false) {
                     if (intval($current_page_from_url) == intval($key)) {
                         $act_class = ' active ';
@@ -498,6 +508,16 @@ class ContentManager
                 $item_to_print .= "<a class=\"{$act_class}\" href=\"$value\" data-page-number=\"$key\">$key</a> ";
                 $item_to_print .= '';
                 $paging_items[$key] = $item_to_print;
+
+                $ready_paging_links[] = [
+                    'attributes'=>[
+                        'class'=> $act_class,
+                        'current'=>$act_class,
+                        'data-page-number'=>$key,
+                        'href'=> $value
+                    ],
+                    'title'=>$key
+                ];
             }
 
             if ($limit != false and count($paging_items) > $limit) {
@@ -530,6 +550,17 @@ class ContentManager
                 if (isset($data[$active_item - 10])) {
                     $prev_link = $data[$active_item - 10];
                     $limited_paging_begin[] = '<a data-page-number="' . ($active_item - 10) . '" href="' . $prev_link . '">&laquo;</a>';
+
+                    $ready_paging_links[] = [
+                        'attributes'=>[
+                            'class'=> false,
+                            'current'=>false,
+                            'data-page-number'=>($active_item - 10),
+                            'href'=> $prev_link
+                        ],
+                        'title'=>'&laquo;'
+                    ];
+
                 }
 
                 $limited_paging_begin = array_reverse($limited_paging_begin);
@@ -539,18 +570,45 @@ class ContentManager
                 if (isset($data[$active_item + 10])) {
                     $next_link = $data[$active_item + 10];
                     $limited_paging[] = '<a data-page-number="' . ($active_item + 10) . '" href="' . $next_link . '">&raquo;</a>';
+
+
+                    $ready_paging_links[] = [
+                        'attributes'=>[
+                            'class'=> false,
+                            'current'=>false,
+                            'data-page-number'=>($active_item + 10),
+                            'href'=> $next_link
+                        ],
+                        'title'=>'&raquo;'
+                    ];
+
                 }
 
                 if (isset($params['show_first_last'])) {
-                    $limited_paging[] = '<a data-page-number="' . end($data) . '" href="' . end($data) . '">Last</a>';
+                    $limited_paging[] = '<a data-page-number="' . end($data) . '" href="' . end($data) . '">'._e('Last', true).'</a>';
+
+                    $ready_paging_links[] = [
+                        'attributes'=>[
+                            'class'=> false,
+                            'current'=>false,
+                            'data-page-number'=>end($data),
+                            'href'=> end($data)
+                        ],
+                        'title'=>_e('Last', true)
+                    ];
+
                 }
 
                 if (count($limited_paging) > 2) {
                     $paging_items = $limited_paging;
                 }
             }
-            $to_print .= implode("\n", $paging_items);
 
+            if (isset($params['return_as_array']) && $params['return_as_array']) {
+                return $ready_paging_links;
+            }
+
+            $to_print .= implode("\n", $paging_items);
 
             if ($no_wrap) {
                 $to_print .= '';

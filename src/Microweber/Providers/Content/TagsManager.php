@@ -118,6 +118,7 @@ class TagsManager
 
 
             if (!empty($tags_return)) {
+                $tags_return = array_unique($tags_return); 
                 return $tags_return;
             }
 
