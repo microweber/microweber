@@ -557,7 +557,7 @@ if(!$shop_disabled){
 
 
                     <li <?php if (
-                          (  $view == 'modules' AND $load_module != 'users' AND $load_module != 'shop__coupons') or $view == 'packages'
+                          (  $view == 'modules' AND $load_module != 'users' AND $load_module != 'shop__coupons')
                         ): ?> class="active" <?php endif; ?>><a class="item-admin__modules" href="<?php print admin_url(); ?>view:modules">
                             <span class="mai-modules"></span><strong><?php _e("Modules"); ?></strong>
                         </a>
@@ -565,24 +565,25 @@ if(!$shop_disabled){
 
 
                         <ul class="mw-ui-sidenav">
-                            <li <?php if (
+                            <!--
+                            <li <?php /*if (
                                 $view == 'modules' AND $load_module != 'users' AND $load_module != 'shop__coupons'
-                            ): ?> class="active" <?php endif; ?>  ><a class="item-admin__modules" href="<?php print admin_url(); ?>view:modules">
-                                    <span class="mai-modules"></span><strong><?php _e("My Modules"); ?></strong>
+                            ): */?> class="active" <?php /*endif; */?>  ><a class="item-admin__modules" href="<?php /*print admin_url(); */?>view:modules">
+                                    <span class="mai-modules"></span><strong><?php /*_e("My Modules"); */?></strong>
                                 </a>
                             </li>
-
+-->
 
 
 
                             <?php if (mw()->ui->disable_marketplace != true): ?>
-                                <li <?php if ($view == 'packages'): ?> class="active" <?php endif; ?>>
-                                    <a href="<?php print admin_url(); ?>view:packages">
+                             <!--   <li <?php /*if ($view == 'packages'): */?> class="active" <?php /*endif; */?>>
+                                    <a href="<?php /*print admin_url(); */?>view:packages">
                                         <span class="mai-market"></span> <strong>
-                                            <?php _e("Marketplace"); ?>
+                                            <?php /*_e("Marketplace"); */?>
                                         </strong>
                                     </a>
-                                </li>
+                                </li>-->
 
                             <?php endif; ?>
 
@@ -594,14 +595,13 @@ if(!$shop_disabled){
                     </li>
 
 
-
-
-
-
-
-
-
-
+                    <!-- NE BARAI ROKER! -->
+                    <?php if (mw()->ui->disable_marketplace != true): ?>
+                    <li class="mw-admin-menu-sidebar-marketplace-desktop <?php if ($view == 'packages'): ?>active<?php endif; ?>">
+                        <a href="<?php print admin_url(); ?>view:packages"><i class="mai-market"></i><strong><?php _e("Marketplace"); ?></strong></a>
+                    </li>
+                    <?php endif; ?>
+                    <!-- NE BARAI ROKER! -->
 
                     <li <?php if (!url_param('has_core_update') and ($view == 'settings' ) /*or ($load_module AND $load_module != 'users')*/): ?> class="active" <?php endif; ?>>
                         <a href="<?php print admin_url(); ?>view:settings#option_group=website"> <span class="mai-setting"></span>

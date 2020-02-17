@@ -710,6 +710,17 @@ if($posts_list_show_sub_pages){
                 $data[] = $item;
             }
         } else {
+
+            if (isset($params['return_as_array'])) {
+                if (isset($params['is_shop'])) {
+                    return ['error'=>lnotif('Your products module is empty')];
+                } elseif (isset($params['global'])) {
+                    return ['error'=>lnotif('Your content module is empty')];
+                } else {
+                    return ['error'=>lnotif('Your posts module is empty')];
+                }
+            }
+
             if (isset($params['is_shop'])) {
                 print lnotif('Your products module is empty');
             } elseif (isset($params['global'])) {
@@ -755,6 +766,10 @@ if($posts_list_show_sub_pages){
             $add_cart_text = _e("Add to cart", true);
         }
 
+        if (isset($params['return_as_array'])) {
+            return ['data'=>$data];
+        }
+
         if (!isset($params['return'])) {
 
             $module_template = get_option('data-template', $params['id']);
@@ -782,6 +797,7 @@ if($posts_list_show_sub_pages){
             if (isset($template_file) and is_file($template_file) != false) {
                 include($template_file);
 
+                $params['ajax_paging'] = true;
                 ?>
                 <?php if (isset($params['ajax_paging']) or isset($params['ajax-paging'])): ?>
                     <script type="text/javascript">
