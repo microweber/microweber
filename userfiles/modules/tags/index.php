@@ -6,8 +6,22 @@ if (isset($params['content_id'])) {
 } elseif (isset($params['content-id'])) {
     $cont_id = $params['content-id'];
 }
+$root_page_id = get_option('data-root-page-id', $params['id']);
+
+if(!$cont_id and $root_page_id){
+    $cont_id   = $root_page_id;
+}
+
+
+
 $content_tags = false;
-$tags_url_base = content_link(MAIN_PAGE_ID);
+if($root_page_id){
+    $tags_url_base = content_link($root_page_id);
+
+} else {
+
+    $tags_url_base = content_link(MAIN_PAGE_ID);
+}
 
 if ($cont_id) {
     $tags_url_base = content_link($cont_id);

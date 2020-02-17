@@ -11,7 +11,40 @@
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
+<?php
+$multipleSelectPosts = [];
+$posts = get_products();
+foreach ($posts as $post) {
+    $multipleSelectPosts[] = [
+            'id'=>$post['id'],
+            'title'=>$post['title']
+    ];
+}
+?>
+
+<style>
+    .mw-select {
+        width: 500px;
+    }
+    .select-posts {
+        width: 500px;
+    }
+</style>
+
 <script>
+    $(document).ready(function () {
+        var mySelect = mw.select({
+            data: <?php echo json_encode($multipleSelectPosts); ?>,
+            element: '.select-posts',
+            multiple: true,
+            autocomplete: true,
+            tags: true
+        });
+
+        $(mySelect).on('change', function (event, value) {
+            console.log(vaule)
+        });
+    });
 
     function editTag(tag_id) {
 
@@ -111,6 +144,20 @@
 
                     </tbody>
                 </table>
+
+
+            </div>
+        </div>
+
+        <div class="mw-accordion-item">
+            <div class="mw-ui-box-header mw-accordion-title">
+                <div class="header-holder">
+                    <i class="mw-icon-navicon-round"></i> <?php _e('Posts'); ?>
+                </div>
+            </div>
+            <div class="mw-accordion-content mw-ui-box mw-ui-box-content" style="min-height: 500px">
+
+                <div class="select-posts"></div>
 
 
             </div>
