@@ -23,7 +23,8 @@ mw.tools.dropdown = function (root) {
                     mw.$(this.dropdown).setDropdownValue(this.value, true, true);
                     return false;
                 }
-            }
+            };
+
             input.onkeyup = function (e) {
                 if (e.keyCode == 13) {
                     return false;

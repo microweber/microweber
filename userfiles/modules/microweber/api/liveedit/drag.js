@@ -932,6 +932,7 @@ mw.drag = {
         mw.$("grammarly-card", data).remove();
         mw.$("grammarly-inline-cards", data).remove();
         mw.$("grammarly-popups", data).remove();
+        mw.$("grammarly-extension", data).remove();
         return data.innerHTML;
     },
     saving: false,

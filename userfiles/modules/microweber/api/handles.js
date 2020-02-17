@@ -190,7 +190,6 @@ mw.Handle = function(options) {
                 data.action.call(scope, e, this, data);
             };
         }
-        console.log(99, btn)
         return btn;
     };
 
@@ -198,9 +197,9 @@ mw.Handle = function(options) {
 
     ];
 
-    this.createMenuDynamicHolder = function(){
+    this.createMenuDynamicHolder = function(item){
         var dn = mwd.createElement('div');
-        dn.className = 'mw-handle-menu-dynamic';
+        dn.className = 'mw-handle-menu-dynamic' + (item.className ? ' ' + item.className : '');
         return dn;
     };
     this.createMenu = function(){
@@ -212,13 +211,12 @@ mw.Handle = function(options) {
                     this.menu.appendChild(this.menuButton(this.options.menu[i])) ;
                 }
                 else {
-                    this.menu.appendChild(this.createMenuDynamicHolder()) ;
+                    this.menu.appendChild(this.createMenuDynamicHolder(this.options.menu[i])) ;
                 }
 
             }
         }
         this.wrapper.appendChild(this.menu);
-        console.log(this.menu, this.options.menu)
     };
     this.create();
     this.hide();
@@ -488,7 +486,7 @@ mw._initHandles = {
                 },
                 {
                     title: '{dynamic}',
-                    icon: 'mw-icon-arrow-down-b'
+                    className:'mw_handle_module_submodules'
                 },
                 {
                     title: 'Remove',
@@ -530,7 +528,7 @@ mw._initHandles = {
                 },
                 {
                     title: '{dynamic}',
-                    icon: 'mw-icon-arrow-down-b'
+                    className:'mw_handle_module_submodules'
                 },
                 {
                     title: 'Remove',
@@ -633,6 +631,8 @@ mw._initHandles = {
                 element = dynamicModulesMenu(e, pelement) || pelement;
                 handle._target = pelement;
             }
+
+
 
             mw.$(".mw-handle-menu-dynamic", handle.wrapper).empty();
             mw.$('.mw_handle_module_up,.mw_handle_module_down').hide();
@@ -795,6 +795,22 @@ mw._initHandles = {
 
         mw.on('moduleOver', function (e, pelement) {
             positionModuleHandle(e, pelement, mw.handleModule);
+            if(mw._activeModuleOver === mw.handleModuleActive._target) {
+                mw.handleModule.hide();
+            }
+
+            var nodes = [];
+            mw.$('.module', pelement).each(function () {
+                var menuitem = '<span class="mw-handle-menu-item dynamic-submodule-handle" data-module="'+this.id+'">'
+                    + '<span class="mw-icon-gear mw-handle-menu-item-icon"></span>'
+                    + (this.getAttribute('data-mw-title') || (this.getAttribute('data-type') || '').replace(/_/g, ' '))
+                    + '</span>';
+                nodes.push(menuitem);
+            });
+            $('.mw_handle_module_submodules').html(nodes.join(''));
+            mw.$('.dynamic-submodule-handle').on('click', function () {
+                mw.tools.module_settings('#' + this.dataset.module);
+            });
         });
     },
     columns:function(){

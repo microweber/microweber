@@ -1140,7 +1140,7 @@ mw.top()._icons = mw.top()._icons || [];
                 } catch (e) {
                 }
             }
-            console.log(mindLinkSolid)
+
             if(mindIcons.length) {
                 this.addFontIcons({
                     icons: mindIcons,

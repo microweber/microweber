@@ -226,7 +226,7 @@ if (isset($params['for_module_id'])): ?>
                     }
 
 
-                    mw.response.table('#custom-fields-post-table', {
+                    mw.responsive.table('#custom-fields-post-table', {
                         minWidth: 600
                     });
                     mw.$("#custom-fields-post-table tbody").sortable({

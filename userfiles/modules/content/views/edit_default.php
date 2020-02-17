@@ -240,14 +240,19 @@ if (isset($params['quick_edit'])) {
                                                        id="content-title-field" <?php if ($edit_page_info['title'] == false): ?> placeholder="<?php print $action_text ?>"  <?php endif; ?> />
                                             </div>
 
+
                                             <script>
+
                                                 $(document).ready(function () {
-                                                    $(document).ready(function () {
-                                                        setTimeout(function () {
-                                                            $('#content-title-field').focus();
-                                                        }, 100);
-                                                    });
+                                                    setTimeout(function () {
+                                                        $('#content-title-field').focus();
+                                                        mw.adminPagesTree.select({
+                                                            id:<?php print $edit_page_info['id']  ?>,
+                                                            type:'page'
+                                                        })
+                                                    }, 100);
                                                 });
+
                                             </script>
 
                                             <?php event_trigger('content.edit.title.after'); ?>

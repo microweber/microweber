@@ -242,6 +242,7 @@ mw.lib.require('nestedsortable');
 
         this.analizeLi = function(li){
             if(typeof li === 'string'){
+                li = decodeURIComponent(li).trim();
                 if(/^\d+$/.test(li)){
                     li = parseInt(li, 10);
                 }

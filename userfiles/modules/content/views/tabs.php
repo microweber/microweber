@@ -64,7 +64,13 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
                     <div class="mw-ui-field-holder">
                         <label class="mw-ui-label"><?php _e("Select parent page"); ?></label>
                         <div class="quick-parent-selector">
-                            <module type="content/views/selector" no-parent-title="<?php _e('No parent page'); ?>" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>" remove_ids="<?php print $data['id']; ?>"
+                            <module
+                                type="content/views/selector"
+                                no-parent-title="<?php _e('No parent page'); ?>"
+                                field-name="parent_id_selector"
+                                change-field="parent"
+                                selected-id="<?php print $data['parent']; ?>"
+                                remove_ids="<?php print $data['id']; ?>"
                                     recommended-id="<?php print $recommended_parent; ?>"/>
                         </div>
                     </div>
@@ -77,7 +83,7 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
 
             <?php if ($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
                 <div class="mw-admin-edit-page-primary-settings content-category-selector">
-                    <div class="mw-ui-field-holder" style="padding-top: 0">
+                    <div class="mw-ui-field-holder">
 
 
                         <script>
@@ -86,7 +92,8 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
                                     $('.mw-ui-category-selector').toggle();
 
                                 }
-                            }
+                            };
+
                             $(document).ready(function(){
                                 $('#mw-post-added-<?php print $rand; ?>').on('mousedown touchstart', function(e){
                                     if(e.target.nodeName === 'DIV') {
@@ -94,7 +101,21 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
                                             $('.mw-ui-invisible-field', e.target).focus()
                                         },78)
                                     }
-                                })
+                                });
+
+                                var all = [{type: 'page', id: <?php print $data['parent']; ?>}];
+
+                                var cats = [<?php print $categories_active_ids; ?>];
+
+                                $.each(cats, function () {
+                                    all.push({
+                                        type:'category',
+                                        id: this
+                                    })
+                                });
+
+                                mw.adminPagesTree.select(all);
+
                             })
                         </script>
 

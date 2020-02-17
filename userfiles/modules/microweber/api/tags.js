@@ -88,7 +88,7 @@ mw.tags = mw.chips = function(options){
             return data;
         }
         else{
-            return data[this.map.title]
+            return data[this.map.title];
         }
     };
 
