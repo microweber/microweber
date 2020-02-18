@@ -33,7 +33,7 @@ class TagsManager
 
     public function get_values($params, $return_full = false)
     {
-
+return;
         if (is_string($params)) {
             $params = parse_params($params);
         }
@@ -68,7 +68,10 @@ class TagsManager
 
                         $childs = get_content_children($article_data['id']);
                         if ($childs) {
-                            $model = $this->app->database_manager->table($params['table']);
+
+
+                             $model = $this->app->database_manager->table($params['table']);
+
 
                             $articles = $model->whereIn('id', array_values($childs), false)->get();
                             if ($return_full) {
