@@ -78,6 +78,26 @@ foreach ($posts as $post) {
             }
         });
     }
+
+
+
+
+    function showPostsWithTags($slug){
+        mw.modal({
+            content: '<div id="mw_admin_preview_module_content_with_tags"></div>',
+            title: 'Preview Notification',
+            width: 800,
+            height: 600,
+            id: 'mw_admin_preview_module_modal'
+        });
+
+        var params = {}
+  //      params.tag_id = $id;
+        params.tags = $slug;
+        params.no_toolbar = 1;
+
+        mw.load_module('content/manager', '#mw_admin_preview_module_content_with_tags', null, params);
+    }
 </script>
 
 <div id="mw-admin-content" class="admin-side-content">
@@ -130,7 +150,7 @@ foreach ($posts as $post) {
                     <tr>
                         <td><?php echo $tag['name']; ?></td>
                         <td><?php echo $tag['slug']; ?></td>
-                        <td><?php echo $tag['count']; ?></td>
+                        <td><a href="javascript:void();" onclick="showPostsWithTags('<?php echo $tag['slug']; ?>')"><?php echo $tag['count']; ?></a></td>
                         <td>
                             <button onclick="editTag(<?php echo $tag['id']; ?>);" class="mw-ui-btn"><span class="mw-icon-edit"></span></button>
                             <button onclick="deleteTag(<?php echo $tag['id']; ?>);" class="mw-ui-btn"><span class="mw-icon-bin"></span></button>
