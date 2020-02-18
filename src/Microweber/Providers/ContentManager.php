@@ -307,7 +307,7 @@ class ContentManager
 
         $table = $this->tables['content'];
 
-        $content_ids = $this->get('no_limit=1&parent='.$id);
+        $content_ids = $this->get('fields=id&no_limit=1&parent='.$id);
 
         $ids = array();
 

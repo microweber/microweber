@@ -33,7 +33,6 @@ class TagsManager
 
     public function get_values($params, $return_full = false)
     {
-return;
         if (is_string($params)) {
             $params = parse_params($params);
         }
@@ -65,31 +64,33 @@ return;
                     $article_data = $article->toArray();
 
                     if (isset($article_data['content_type']) and $article_data['content_type'] == 'page') {
-
                         $childs = get_content_children($article_data['id']);
+
                         if ($childs) {
-
-
-                             $model = $this->app->database_manager->table($params['table']);
-
-
-                            $articles = $model->whereIn('id', array_values($childs), false)->get();
+                            $article_tags = [];
+                            $childs_chunk = array_chunk($childs, 3000);
+                            foreach ($childs_chunk as $child_chunk) {
+                                $get_content_tags = db_get('tagging_tagged',[
+                                   'taggable_id'=>'[in]'.implode(',',$child_chunk),
+                                    'no_limit'=>1,
+                                    'no_cache'=>1
+                                ]);
+                                if ($get_content_tags) {
+                                    $article_tags = array_merge($article_tags, $get_content_tags);
+                                }
+                            }
                             if ($return_full) {
-                                return $articles->toArray();
+                                return $article_tags;
                             }
 
-
-                            foreach ($articles as $article) {
-
-                                foreach ($article->tags as $tag) {
-                                    if (is_object($tag)) {
-                                        $tags_return[] = $tag->name;
+                            if (!empty($article_tags)) {
+                                foreach ($article_tags as $tag) {
+                                    if (isset($tag['tag_name'])) {
+                                        $tags_return[] = $tag['tag_name'];
                                     }
                                 }
                             }
-
                         }
-
                     } else {
                         if ($return_full) {
                             return $article->toArray();
