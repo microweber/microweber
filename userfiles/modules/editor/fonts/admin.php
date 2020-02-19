@@ -92,8 +92,6 @@
         <?php endforeach; ?>
     </div>
     <script>
-
-
         function load_font_css_async(t) {
             $('link', "div.async-css").each(function () {
                 var $family = $(this).attr("family");
@@ -110,14 +108,9 @@
 
 
         $(document).ready(function () {
-
             var load_font_init_temp = setTimeout(function () {
-
                 load_font_css_async(3000);
-
-
             }, 1000);
-
 
             $("#search").on('input', function () {
                 var val = this.value.toLowerCase().trim();
@@ -125,35 +118,26 @@
                     $("[data-fname]").show()
                     return;
                 }
+
                 $("[data-fname]").each(function () {
                     var name = this.dataset.fname;
                     if (name.indexOf(val) !== -1) {
                         $(this).show()
-                    }
-                    else {
-                        $(this)
-                            .hide()
+                    } else {
+                        $(this).hide()
                     }
                 });
             });
-
-
         });
-
     </script>
 
-
     <script>
-
         $(document).ready(function () {
-
-
             $('input[type="checkbox"]', '#<?php print $params['id'] ?>').change(function (event) {
                 var checked_fonts_arr = [];
                 $('input[type="checkbox"]:checked', '#<?php print $params['id'] ?>').each(function () {
                     checked_fonts_arr.push($(this).val());
                 });
-
 
                 var s = checked_fonts_arr;
                 if (s.length > 0) {
@@ -162,11 +146,10 @@
                     s = '';
                 }
                 $('#enabled_custom_fonts_arr_impode').val(s).trigger('change');
+                mw.reload_module_everywhere("settings/template")
                 //    window.parent.mw.wysiwyg.initExtendedFontFamilies(s)
 
             });
-
-
         });
 
     </script>
