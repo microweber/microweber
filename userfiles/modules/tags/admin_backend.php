@@ -51,7 +51,7 @@ foreach ($posts as $post) {
         */
     });
 
-    function editTag(tag_id) {
+    function editTag(tag_id, post_id) {
 
         var modal_title = 'Add new tag';
         if (tag_id) {
@@ -70,15 +70,17 @@ foreach ($posts as $post) {
 
     }
 
-    function deleteTag(tag_id) {
+    function deleteTag(tag_id, post_id = false) {
         $.ajax({
             url: mw.settings.api_url + 'tag/delete',
             type: 'post',
             data: {
-                tag_id: tag_id
+                tag_id: tag_id,
+                post_id: post_id,
             },
             success: function(data) {
-                mw.reload_module_everywhere('tags');
+                $('.btn-tag-id-' + tag_id).remove();
+                //mw.reload_module_everywhere('tags');
                 mw.notification.error('<?php _e('Tag is deleted!');?>');
             }
         });

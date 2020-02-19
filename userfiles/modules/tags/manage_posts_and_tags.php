@@ -1,4 +1,7 @@
 <style>
+    .btn.disabled, .btn:disabled {
+        opacity: 0.25;
+    }
     .js-post-box {
        margin-top:5px;
         transition: 0.3s;
@@ -11,6 +14,11 @@
         border: 1px solid #7fb4ff;
         background: #e1f1fd;
     }
+
+    .btn-tag {
+        margin-top: 5px;
+        margin-right: 5px;
+    }
 </style>
 
 <script>
@@ -19,6 +27,14 @@ $(document).ready(function () {
     searchPostsByKeyowrd();
 
     $(document).on('change', '.js-post-checkbox', function() {
+
+        selected_posts = getSelectedPosts();
+        if (selected_posts.length > 0) {
+            $('.js-add-tags-to-posts').removeAttr('disabled');
+        } else {
+            $('.js-add-tags-to-posts').attr('disabled','disabled');
+        }
+
         if ($(this).is(':checked')) {
             $(this).parent().parent().addClass('js-post-box-active');
             getPostTags($(this).parent().find('.js-post-checkbox-id').val());
@@ -33,6 +49,12 @@ $(document).ready(function () {
     });
 */
 
+    $('.js-add-tags-to-posts').click(function () {
+
+
+
+    });
+
     $('.js-search-posts-submit').click(function () {
         searchPostsByKeyowrd();
     });
@@ -43,13 +65,22 @@ $(document).ready(function () {
 
 });
 
+function getTagPostsButtonHtml(id,name,slug, post_id) {
 
+    var html = '<div class="btn-group btn-tag btn-tag-id-'+id+'" role="group">' +
+        '    <button type="button" class="btn btn-secondary" onClick="editTag('+id+','+ post_id+')"><i class="fa fa-tag"></i> ' + name + '</button>' +
+        '    <button type="button" class="btn btn-secondary" onClick="editTag('+id+','+ post_id+')"><i class="fa fa-pen"></i></button>' +
+        '    <button type="button" class="btn btn-secondary" onClick="deleteTag('+id+','+ post_id+')"><i class="fa fa-times"></i></button>' +
+        '</div>';
+
+    return html;
+}
 
 function removePostTags(post_id) {
     $('.js-post-tag-' + post_id).remove();
 }
 
-function getPostTags(post_id) {
+function getSelectedPosts() {
 
     selected_posts = [];
     $('.js-post-box').each(function (e) {
@@ -60,6 +91,12 @@ function getPostTags(post_id) {
         }
     });
 
+    return selected_posts;
+}
+
+function getPostTags(post_id) {
+
+    selected_posts = getSelectedPosts();
     if (selected_posts.length == 1) {
         $('.js-posts-tags').html('');
     }
@@ -67,7 +104,18 @@ function getPostTags(post_id) {
     $.get(mw.settings.api_url + 'get_post_tags', {
             post_id: post_id
         }, function(data) {
-            $('.js-posts-tags').append('<div class="js-post-tag-' + post_id + '">' + data.title + '</div>');
+
+            var tags = '';
+
+            for (i = 0; i < data.tags.length; i++) {
+                tags += getTagPostsButtonHtml(data.tags[i].id,data.tags[i].tag_name,data.tags[i].tag_slug, post_id);
+            }
+
+            $('.js-posts-tags').append('' +
+                '<div class="js-post-tag-' + post_id + '">' +
+                '<p>' + data.title + '</p>' +
+                '<div>' + tags + '</div>' +
+                '</div>');
     });
 }
 
@@ -138,10 +186,12 @@ function searchPostsByKeyowrd() {
                         Listd of all posts
                     </h5>
 
+                    <button class="btn btn-primary pull-right js-add-tags-to-posts" disabled="disabled">Add tags to posts</button>
+
                     <p class="card-text">Select the posts you want to add or edit tags.</p>
 
                     <b>Post lists</b>
-                    <div class="js-select-posts" style="max-height: 350px;overflow-y: scroll;">
+                    <div class="js-select-posts" style="width:100%;max-height: 350px;overflow-y: scroll;">
 
                     </div>
                 </div>
@@ -166,7 +216,7 @@ function searchPostsByKeyowrd() {
             <div class="card">
                 <div class="card-header">
                     Tags
-                    <button class="btn btn-sm btn-success pull-right" onclick="editTag(false);"><i class="fa fa-plus"></i> Add Tag</button>
+                    <button class="btn btn-sm btn-success pull-right" onclick="editTag(false);"><i class="fa fa-plus"></i> Create new tag</button>
                 </div>
                 <div class="card-body">
                     <div class="js-posts-tags">
