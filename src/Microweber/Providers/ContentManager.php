@@ -307,6 +307,8 @@ class ContentManager
 
         $table = $this->tables['content'];
 
+        $content_ids = $this->get('fields=id&no_limit=1&parent='.$id);
+
         $ids = array();
 
         $data = array();
@@ -320,6 +322,16 @@ class ContentManager
         if (isset($without_main_parrent) and $without_main_parrent == true) {
             $get['parent'] = '[neq]0';
         }
+
+
+        if ($content_ids and !empty($content_ids)) {
+            foreach ($content_ids as $n) {
+                if ($n and isset($n['id'])) {
+                    $ids[] = $n['id'];
+                }
+            }
+        }
+
 
         // $q = " SELECT id, parent FROM $table WHERE parent={$id} " . $with_main_parrent_q;
         // $taxonomies = $this->app->database_manager->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
@@ -361,6 +373,8 @@ class ContentManager
                 }
             }
         }
+
+
 
         if (!empty($ids)) {
             $ids = array_unique($ids);
@@ -468,7 +482,9 @@ class ContentManager
         }
 
 
-        $ready_paging_links = [];
+        $ready_paging_first_links = [];
+        $ready_paging_last_links = [];
+        $ready_paging_number_links = [];
         $data = $this->paging_links($base_url, $pages_count, $paging_param, $keyword_param);
         if (is_array($data)) {
 
@@ -480,7 +496,7 @@ class ContentManager
 
             if ($current_page_from_url > 1 && isset($params['show_first_last'])) {
                 $to_print = '<a data-page-number="' . $data[1] . '" href="' . $data[1] . '">'._e('First', true).'</a>';
-                $ready_paging_links[] = [
+                $ready_paging_first_links[] = [
                     'attributes'=>[
                         'class'=>false,
                         'current'=>false,
@@ -509,7 +525,11 @@ class ContentManager
                 $item_to_print .= '';
                 $paging_items[$key] = $item_to_print;
 
-                $ready_paging_links[] = [
+                if (count($ready_paging_number_links) > $limit) {
+                    continue;
+                }
+
+                $ready_paging_number_links[] = [
                     'attributes'=>[
                         'class'=> $act_class,
                         'current'=>$act_class,
@@ -547,39 +567,37 @@ class ContentManager
                 }
                 $prev_link = '#';
                 $next_link = '#';
-                if (isset($data[$active_item - 10])) {
-                    $prev_link = $data[$active_item - 10];
-                    $limited_paging_begin[] = '<a data-page-number="' . ($active_item - 10) . '" href="' . $prev_link . '">&laquo;</a>';
+                if (isset($data[$active_item - 1])) {
+                    $prev_link = $data[$active_item - 1];
+                    $limited_paging_begin[] = '<a data-page-number="' . ($active_item - 1) . '" href="' . $prev_link . '">&laquo;</a>';
 
-                    $ready_paging_links[] = [
+                    $ready_paging_first_links[] = [
                         'attributes'=>[
                             'class'=> false,
                             'current'=>false,
-                            'data-page-number'=>($active_item - 10),
+                            'data-page-number'=>($active_item - 1),
                             'href'=> $prev_link
                         ],
-                        'title'=>'&laquo;'
+                        'title'=>'Previous'
                     ];
 
                 }
 
                 $limited_paging_begin = array_reverse($limited_paging_begin);
-
                 $limited_paging = array_merge($limited_paging_begin, $limited_paging);
 
-                if (isset($data[$active_item + 10])) {
-                    $next_link = $data[$active_item + 10];
-                    $limited_paging[] = '<a data-page-number="' . ($active_item + 10) . '" href="' . $next_link . '">&raquo;</a>';
+                if (isset($data[$active_item + 1])) {
+                    $next_link = $data[$active_item + 1];
+                    $limited_paging[] = '<a data-page-number="' . ($active_item + 1) . '" href="' . $next_link . '">&raquo;</a>';
 
-
-                    $ready_paging_links[] = [
+                    $ready_paging_last_links[] = [
                         'attributes'=>[
                             'class'=> false,
                             'current'=>false,
-                            'data-page-number'=>($active_item + 10),
+                            'data-page-number'=>($active_item + 1),
                             'href'=> $next_link
                         ],
-                        'title'=>'&raquo;'
+                        'title'=>'Next'
                     ];
 
                 }
@@ -587,7 +605,7 @@ class ContentManager
                 if (isset($params['show_first_last'])) {
                     $limited_paging[] = '<a data-page-number="' . end($data) . '" href="' . end($data) . '">'._e('Last', true).'</a>';
 
-                    $ready_paging_links[] = [
+                    $ready_paging_last_links[] = [
                         'attributes'=>[
                             'class'=> false,
                             'current'=>false,
@@ -605,6 +623,10 @@ class ContentManager
             }
 
             if (isset($params['return_as_array']) && $params['return_as_array']) {
+
+                $ready_paging_links = array_merge($ready_paging_first_links, $ready_paging_number_links);
+                $ready_paging_links = array_merge($ready_paging_links, $ready_paging_last_links);
+
                 return $ready_paging_links;
             }
 

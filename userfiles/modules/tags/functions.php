@@ -1,5 +1,17 @@
 <?php
 
+api_expose_admin('get_post_tags', function($params) {
+
+    $post = get_content([
+        'id'=>$params['post_id'],
+        'single'=> '1'
+    ]);
+
+    $tags = [];
+
+    return array('title'=>$post['title'], 'tags'=>$tags);
+});
+
 api_expose_admin('tag/edit', function($params) {
 
     if (empty(trim($params['name'])) || empty(trim($params['slug']))) {

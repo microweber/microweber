@@ -29,5 +29,4 @@ class Content extends BaseModel
         return $this->belongsToMany('Tag');
     }
 
-
 }
