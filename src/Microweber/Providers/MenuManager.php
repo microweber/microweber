@@ -461,7 +461,7 @@ class MenuManager
 
         $cur_depth = 0;
         $res_count = 0;
- 
+
 
 
         foreach ($q as $item) {
