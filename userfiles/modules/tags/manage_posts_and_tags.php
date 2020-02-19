@@ -19,38 +19,19 @@ $(document).ready(function () {
     searchPostsByKeyowrd();
 
     $(document).on('change', '.js-post-checkbox', function() {
-
         if ($(this).is(':checked')) {
             $(this).parent().parent().addClass('js-post-box-active');
+            getPostTags($(this).parent().find('.js-post-checkbox-id').val());
         } else {
+             removePostTags($(this).parent().find('.js-post-checkbox-id').val());
             $(this).parent().parent().removeClass('js-post-box-active');
         }
-
-
-        var selected_posts = [];
-        $('.js-post-box').each(function (e) {
-            if ($(this).find('.js-post-checkbox').is(':checked')) {
-
-                selected_posts.push({
-                   'post_id':1,
-                   'post_title':$(this).find('.js-post-checkbox-title').val()
-                });
-            }
-
-        });
-
-        var posts_tags_html = '';
-        for (i = 0; i < selected_posts.length; i++) {
-            posts_tags_html += '<div style="font-weight:bold;">'+selected_posts[i].post_title+'</div>';
-        }
-
-        $('.js-posts-tags').html(posts_tags_html);
-
     });
-
-    $(document).on('click', '.js-post-box', function() {
+/*
+    $(document).on('click', '.js-post-box', function(e) {
         $(this).find('.js-post-checkbox').click();
     });
+*/
 
     $('.js-search-posts-submit').click(function () {
         searchPostsByKeyowrd();
@@ -61,6 +42,36 @@ $(document).ready(function () {
     });
 
 });
+
+
+
+function removePostTags(post_id) {
+    $('.js-post-tag-' + post_id).remove();
+}
+
+function getPostTags(post_id) {
+
+    selected_posts = [];
+    $('.js-post-box').each(function (e) {
+        if ($(this).find('.js-post-checkbox').is(':checked')) {
+            selected_posts.push({
+                'post_title':$(this).find('.js-post-checkbox-title').val()
+            });
+        }
+    });
+
+    if (selected_posts.length == 1) {
+        $('.js-posts-tags').html('');
+    }
+
+    $.get(mw.settings.api_url + 'get_post_tags', {
+            post_id: post_id
+        }, function(data) {
+            $('.js-posts-tags').append('<div class="js-post-tag-' + post_id + '">' + data.title + '</div>');
+    });
+}
+
+
 function searchPostsByKeyowrd() {
 
     var posts = '';
@@ -77,6 +88,7 @@ function searchPostsByKeyowrd() {
         for (i = 0; i < data.length; i++) {
             posts += '<div class="mw-ui-box mw-ui-box-content js-post-box">\n' +
                 '                            <label class="mw-ui-check">\n' +
+                '                                <input type="hidden" class="js-post-checkbox-id" value="'+ data[i].id +'">\n' +
                 '                                <input type="hidden" class="js-post-checkbox-title" value="'+ data[i].title +'">\n' +
                 '                                <input type="checkbox" class="js-post-checkbox" value="1">\n' +
                 '                                <span></span><span>\n'
@@ -105,6 +117,13 @@ function searchPostsByKeyowrd() {
 
     <div class="mw-flex-col-xs-6 last-xs">
         <!-- tags search -->
+        <div style="font-weight: bold;">Search tags</div>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control js-search-tags-keyword" placeholder="Keyword...">
+            <div class="input-group-append">
+                <button class="btn btn-success js-search-posts-submit" type="button">Search</button>
+            </div>
+        </div>
     </div>
 
     <div class="mw-flex-col-xs-6 last-xs">
@@ -112,9 +131,13 @@ function searchPostsByKeyowrd() {
             <div class="card">
                 <div class="card-header">
                     Posts list
+                    <button class="btn btn-sm btn-default pull-right">&nbsp;</button>
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">Listd of all posts</h5>
+                    <h5 class="card-title">
+                        Listd of all posts
+                    </h5>
+
                     <p class="card-text">Select the posts you want to add or edit tags.</p>
 
                     <b>Post lists</b>
@@ -143,22 +166,25 @@ function searchPostsByKeyowrd() {
             <div class="card">
                 <div class="card-header">
                     Tags
+                    <button class="btn btn-sm btn-success pull-right" onclick="editTag(false);"><i class="fa fa-plus"></i> Add Tag</button>
                 </div>
-                <div class="card-body js-posts-tags">
-                    <?php
-                    $tagging_tags = db_get('tagging_tags', []);
-                    if ($tagging_tags):
-                        foreach ($tagging_tags as $tag):
-                            ?>
-                            <a href="#" class="badge badge-dark">
-                                <i class="mw-icon-web-promotion"></i> <?php echo $tag['name']; ?>  <span class="mw-icon-close"></span>
-                            </a>
+                <div class="card-body">
+                    <div class="js-posts-tags">
                         <?php
-                        endforeach;
+                        $tagging_tags = db_get('tagging_tags', []);
+                        if ($tagging_tags):
+                            foreach ($tagging_tags as $tag):
+                                ?>
+                                <a href="#" class="badge badge-dark">
+                                    <i class="mw-icon-web-promotion"></i> <?php echo $tag['name']; ?>  <span class="mw-icon-close"></span>
+                                </a>
+                            <?php
+                            endforeach;
+                            ?>
+                        <?php
+                        endif;
                         ?>
-                    <?php
-                    endif;
-                    ?>
+                    </div>
                 </div>
             </div>
 
