@@ -28,6 +28,7 @@ mw.tags = mw.chips = function(options){
         ]
     */
 
+
     this.refresh = function(){
         mw.$(scope.options.element).empty();
         this.rend();

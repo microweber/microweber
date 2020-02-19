@@ -63,7 +63,7 @@ jQuery.ajax = function(url, options){
         settings._success = settings.success;
         delete settings.success;
         settings.success = function (data, status, xhr) {
-            if(xhr.status === 200){
+            if(xhr.status === 200) {
                 if (data && (data.form_data_required || data.form_data_module)) {
                     mw.extradataForm(settings, data);
                 }
@@ -176,18 +176,18 @@ mw.askusertostay = false;
     else{
       return 0;
     }
-  }
+  };
 
   mw.onLive = function(callback) {
     if (typeof mw.settings.liveEdit === 'boolean' && mw.settings.liveEdit) {
       callback.call(this)
     }
-  }
+  };
   mw.onAdmin = function(callback) {
     if ( window['mwAdmin'] ) {
       callback.call(this);
     }
-  }
+  };
     if (!Array.isArray) {
         Array.isArray = function(arg) {
             return Object.prototype.toString.call(arg) === '[object Array]';
@@ -303,7 +303,7 @@ mw.getScripts = function (array, callback) {
     window[a] === undefined ? setTimeout(function() {
       mw.wait(a, b), 52
     }) : b.call(a);
-  }
+  };
 
   mw.target = {}
 
@@ -1106,10 +1106,20 @@ mw.Select = function(options) {
         color: 'default',
         dropMode: 'over', // 'over' | 'push'
         placeholder: mw.lang('Select'),
-        tags: false // only if multiple is set to true
+        tags: false, // only if multiple is set to true,
+        ajaxMode: {
+            paginationParam: 'page',
+            searchParam: 'keyword',
+            endpoint: null,
+            method: 'get'
+        }
     };
     options  = options || {};
     this.settings = $.extend({}, defaults, options);
+
+    if(this.settings.ajaxMode && !this.settings.ajaxMode.endpoint){
+        this.settings.ajaxMode = false;
+    }
 
     this.$element = $(this.settings.element).eq(0);
     this.element = this.$element[0];
@@ -1132,21 +1142,101 @@ mw.Select = function(options) {
         return item.title || item.name || item.label || item.value;
     };
 
+    this._loading = false;
+
+    this._page = 1;
+
+    this.nextPage = function () {
+        this._page++;
+    };
+
+    this.page = function (state) {
+        if (typeof state === 'undefined') {
+            return this._page;
+        }
+        this._page = state;
+    };
+
+    this.loading = function (state) {
+        if (typeof state === 'undefined') {
+            return this._state;
+        }
+        this._state = state;
+        mw.tools.classNamespaceDelete(this.root, 'mw-select-loading-');
+        mw.tools.addClass(this.root, 'mw-select-loading-' + state);
+    };
+
+    this.xhr = null;
+
+    this.ajaxFilter = function (val, callback) {
+        if (this.xhr) {
+            this.xhr.abort();
+        }
+        val = (val || '').trim().toLowerCase();
+        var params = { };
+        params[this.settings.ajaxMode.searchParam] = val;
+        params = (this.settings.ajaxMode.endpoint.indexOf('?') === -1 ? '?' : '&' ) + $.param(params);
+        this.xhr = $[this.settings.ajaxMode.method](this.settings.ajaxMode.endpoint + params, function (data) {
+            callback.call(this, data);
+            scope.xhr = null;
+        });
+    };
+
     this.filter = function (val) {
         val = (val || '').trim().toLowerCase();
-        var all = this.root.querySelectorAll('.mw-select-option'), i = 0;
-        if(!val) {
-            for( ; i< all.length; i++) {
-                all[i].style.display = '';
-            }
+        if (this.settings.ajaxMode) {
+            this.loading(true);
+            this.ajaxFilter(val, function (data) {
+                scope.setData(data.data);
+                scope.loading(false);
+            });
         } else {
-            for( ; i< all.length; i++) {
-                all[i].style.display = this.getLabel(all[i].$value).toLowerCase().indexOf(val) !== -1 ? '' : 'none';
+            var all = this.root.querySelectorAll('.mw-select-option'), i = 0;
+            if (!val) {
+                for( ; i< all.length; i++) {
+                    all[i].style.display = '';
+                }
+            } else {
+                for( ; i< all.length; i++) {
+                    all[i].style.display = this.getLabel(all[i].$value).toLowerCase().indexOf(val) !== -1 ? '' : 'none';
+                }
             }
         }
     };
 
+    this.setPlaceholder = function (plval) {
+        /*plval = plval || this.settings.placeholder;
+        if(scope.settings.autocomplete){
+            $('.mw-ui-invisible-field', this.root).attr('placeholder', plval);
+        } else {
+            $('.mw-ui-btn-content', this.root).html(plval);
+        }*/
+        return this.displayValue(plval)
+    };
+    this.displayValue = function(plval){
+        console.log(this.value())
+        if(!plval && !this.settings.multiple && this.value()) {
+            plval = scope.getLabel(this.value())
+        }
+        plval = plval || this.settings.placeholder;
+        if(!scope._displayValue) {
+            scope._displayValue = scope.document.createElement('span');
+            scope._displayValue.className = 'mw-select-display-value';
+            $('.mw-select-value', this.root).append(scope._displayValue)
+        }
+        scope._displayValue.innerHTML = plval + this.__indicateNumber();
+    };
+
+    this.__indicateNumber = function () {
+        if(this.settings.multiple && this.value() && this.value().length){
+            return "<span class='mw-select-indicate-number'>" + this.value().length + "</span>";
+        } else {
+            return '';
+        }
+    };
+
     this.rend = {
+
         option: function(item){
             var oh = scope.document.createElement('label');
             oh.$value = item;
@@ -1170,41 +1260,48 @@ mw.Select = function(options) {
         value: function() {
             var tag = 'span', cls = 'mw-ui-btn';
             if(scope.settings.autocomplete){
-                tag = 'input';
+                tag = 'span';
                 cls = 'mw-ui-field'
             }
             var oh = scope.document.createElement(tag);
             oh.className = cls + ' mw-ui-size-' + scope.settings.size + ' mw-ui-bg-' + scope.settings.color + ' mw-select-value';
-            oh.innerHTML =  scope.settings.placeholder;
+
 
             if(scope.settings.autocomplete){
-                oh.oninput = function () {
+                oh.innerHTML = '<input class="mw-ui-invisible-field">';
+            } else {
+                oh.innerHTML = '<span class="mw-ui-btn-content"></span>';
+            }
+
+            if(scope.settings.autocomplete){
+                $('input', oh).on('input', function () {
                     scope.filter(this.value)
-                };
-                oh.onfocus = function () {
-                    scope.open();
-                };
+                }).on('focus', function () {
+                    if(scope.settings.data && scope.settings.data.length) {
+                        scope.open();
+                    }
+
+                });
             } else {
                 oh.onclick = function () {
                     scope.toggle();
                 };
             }
-
-
-
             return oh;
         },
         options: function(){
+            scope.optionsHolder = scope.document.createElement('div');
             scope.holder = scope.document.createElement('div');
-            scope.holder.className = 'mw-select-options';
+            scope.optionsHolder.className = 'mw-select-options';
             $.each(scope.settings.data, function(){
                 scope.holder.appendChild(scope.rend.option(this))
             });
-            return scope.holder;
+            scope.optionsHolder.appendChild(scope.holder);
+            return scope.optionsHolder;
         },
         root: function () {
             scope.root = scope.document.createElement('div');
-            scope.root.className = 'mw-select mw-select-dropmode-' + scope.settings.dropMode;
+            scope.root.className = 'mw-select mw-select-dropmode-' + scope.settings.dropMode + ' mw-select-multiple-' + scope.settings.multiple;
 
             return scope.root;
         }
@@ -1232,8 +1329,8 @@ mw.Select = function(options) {
             if(this.settings.multiple && this.settings.tags) {
                 var holder = scope.document.createElement('div');
                 holder.className = 'mw-select-tags';
-                this._tags = new mw.tags({element:holder, data:scope._value || []})
-                $(this.holder).prepend(holder);
+                this._tags = new mw.tags({element:holder, data:scope._value || [], color: this.settings.tagsColor, size: this.settings.tagsSize || 'small'})
+                $(this.optionsHolder).prepend(holder);
                 mw.$(this._tags).on('tagRemoved', function (e, tag) {
                     scope.valueRemove(tag)
                 })
@@ -1241,7 +1338,7 @@ mw.Select = function(options) {
         } else {
             this._tags.setData(scope._value)
         }
-        console.log( this._tags)
+        this.displayValue()
     };
 
 
@@ -1337,7 +1434,25 @@ mw.Select = function(options) {
             this._value = val;
             this.close()
         }
+        this.displayValue()
         $(this).trigger('change', [this._value])
+    };
+
+    this.setData = function (data) {
+        $(scope.holder).empty();
+        scope.settings.data = data;
+        $.each(scope.settings.data, function(){
+            scope.holder.appendChild(scope.rend.option(this))
+        });
+        return scope.holder;
+    };
+
+    this.addData = function (data) {
+        $.each(data, function(){
+            scope.settings.data.push(this);
+            scope.holder.appendChild(scope.rend.option(this))
+        });
+        return scope.holder;
     };
 
     this.build = function () {
@@ -1345,6 +1460,7 @@ mw.Select = function(options) {
         this.root.appendChild(this.rend.value());
         this.root.appendChild(this.rend.options());
         this.$element.html(this.root);
+        this.setPlaceholder()
         mw.Select._register.push(this)
     };
 
@@ -1364,10 +1480,10 @@ mw.Select._register = [];
 
 
 $(document).ready(function () {
-    $(document).on('click', function (e) {
+    $(document).on('mousedown touchstart', function (e) {
         if(!mw.tools.firstParentOrCurrentWithClass(e.target, 'mw-select')){
             mw.Select._register.forEach(function (item) {
-                item.close()
+                item.close();
             })
         }
     });
@@ -1377,4 +1493,8 @@ $(document).ready(function () {
 mw.select = function(options) {
     return new mw.Select(options);
 };
+
+
+
+
 

@@ -215,6 +215,19 @@
     position: relative;
     z-index: 20;
     display: inline-block;
+    ::-webkit-scrollbar {
+        width: 5px;
+    }
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #2b2b2b;
+        border-radius: 55px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #222;
+    }
     .mw-select-options{
         visibility: hidden;
         opacity: 0;
@@ -228,6 +241,10 @@
         border-radius: 0 0 @radius @radius;
         overflow: auto;
         max-height: 300px;
+        padding-bottom: 1px;
+        border-left: 1px solid #4592ff;
+        border-right: 1px solid #4592ff;
+        border-bottom: 1px solid #4592ff;
         .mw-select-option{
             display: block;
             padding: 10px;
@@ -235,9 +252,15 @@
             color: @defaultTextColor;
             cursor: pointer;
             text-align: left;
-
+            white-space: nowrap;
+            border-top: 1px solid #dbdcdd;
+            border-bottom: 1px solid #dbdcdd;
+            margin-bottom: -1px;
+            position: relative;
             &:hover{
-                background-color: #eee;
+                background-color: #e1f1fd;
+                border-color: #4592ff;
+                z-index: 1;
             }
         }
     }
@@ -251,15 +274,60 @@
     }
     .mw-select-value{
         position: relative;
+        padding-right: 35px;
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        text-align: left;
+        justify-content: flex-start;
         &:after{
             position: absolute;
-            right: 10px;
+            right: 15px;
             top: 50%;
             transform: translateY(-50%);
             content: "\0136";
             font-family: Microweber !important;
-            color: #999999;
+            color: #c5c5c5;
+            font-size: 10px;
+            z-index: 2;
         }
+    }
+    .mw-select-tags {
+        padding: 5px;
+        .mw-ui-btn{
+            margin: 5px;
+        }
+    }
+    .mw-select-display-value{
+        pointer-events: none;
+        position: relative;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        * {
+            vertical-align: middle;
+        }
+        .mw-select-indicate-number{
+            display: inline-block;
+            min-width: 20px;
+            height: 20px;
+            line-height: 20px;
+            border-radius: 20px;
+            background-color: #c5e4fc;
+            text-align: center;
+            font-size: 12px;
+            color: #4592ff;
+            margin-left: 10px;
+        }
+    }
+    &.mw-select-multiple-false{
+
     }
 }
 

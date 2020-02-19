@@ -21,15 +21,15 @@ var domHelp = {
             }
             return;
         }
-        if (!!el.className && el.className != '' && el.className != null && typeof(el.className.split) == 'function') {
+        if (!!el.className && typeof(el.className.split) === 'function') {
             var cls = el.className.split(" "), l = cls.length, i = 0, final = [];
             for (; i < l; i++) {
-                if (namespacePosition == 'contains') {
+                if (namespacePosition === 'contains') {
                     if (!cls[i].contains(namespace) || exceptions.indexOf(cls[i]) !== -1) {
                         final.push(cls[i]);
                     }
                 }
-                else if (namespacePosition == 'starts') {
+                else if (namespacePosition === 'starts') {
                     if (cls[i].indexOf(namespace) !== 0) {
                         final.push(cls[i]);
                     }
