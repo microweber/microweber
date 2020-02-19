@@ -15,6 +15,15 @@
         background: #e1f1fd;
     }
 
+    .js-post-tag-box {
+        border-bottom: 1px solid #d9d9d9;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    .js-post-tag-box p {
+        font-size:14px;
+        font-weight: bold;
+    }
     .btn-tag {
         margin-top: 5px;
         margin-right: 5px;
@@ -112,9 +121,9 @@ function getPostTags(post_id) {
             }
 
             $('.js-posts-tags').append('' +
-                '<div class="js-post-tag-' + post_id + '">' +
+                '<div class="js-post-tag-box js-post-tag-' + post_id + '">' +
                 '<p>' + data.title + '</p>' +
-                '<div>' + tags + '</div>' +
+                '<div>Tags: <br />' + tags + '<button class="btn btn-success js-post-tag-add-new" onClick="editPostTag(false, '+post_id+')" style="margin-top:5px;margin-right:5px;"><i class="fa fa-plus"></i></button></div>' +
                 '</div>');
     });
 }

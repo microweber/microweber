@@ -90,12 +90,18 @@ api_expose_admin('post_tag/edit', function($params) {
         return ['status'=>false];
     }
 
-    return db_save('tagging_tagged', [
+    $save = db_save('tagging_tagged', [
        'id'=>$params['id'],
+       'taggable_id'=>$params['post_id'],
        'tag_name'=>$params['tag_name'],
        'tag_slug'=>$params['tag_slug'],
     ]);
 
+    if (!isset($params['id']) || empty($params['id'])) {
+        $params['id'] = $save;
+    }
+
+    return $params;
 });
 
 api_expose_admin('post_tag/delete', function($params) {

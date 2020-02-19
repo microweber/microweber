@@ -86,7 +86,7 @@ foreach ($posts as $post) {
         });
     }
 
-    function editPostTag(post_tag_id) {
+    function editPostTag(post_tag_id, post_id = false) {
 
         var modal_title = 'Add new post tag';
         if (post_tag_id) {
@@ -101,6 +101,7 @@ foreach ($posts as $post) {
 
         var params = {}
         params.post_tag_id = post_tag_id;
+        params.post_id = post_id;
         mw.load_module('tags/edit_post_tag', '#mw_admin_edit_tag_item_module', null, params);
 
     }
