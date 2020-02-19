@@ -34,18 +34,15 @@ $packages_by_type_with_update = array();
 if ($search_packages and is_array($search_packages)) {
     foreach ($search_packages as $key => $item) {
         $package_has_update = false;
-        if (!isset($packages_by_type[$item['type']])) {
-            $packages_by_type[$item['type']] = array();
-        }
 
 
-        if ($item['type'] != 'microweber-core-update') {
+        if ($item['type'] != 'asdmicroweber-core-update') {
             if (isset($item['has_update']) and $item['has_update']) {
                 $package_has_update = true;
             }
 
             if ($package_has_update) {
-                $package_has_update_key = $item['type'] . ' updates';
+                $package_has_update_key = $item['type'];
                 if (!isset($packages_by_type_with_update[$package_has_update_key])) {
                     $packages_by_type_with_update[$package_has_update_key] = array();
                 }
@@ -53,20 +50,27 @@ if ($search_packages and is_array($search_packages)) {
 
             }
         }
-
-        $packages_by_type[$item['type']][] = $item;
+        if ($item['type'] != 'microweber-core-update') {
+            if (!isset($packages_by_type[$item['type']])) {
+                $packages_by_type[$item['type']] = array();
+            }
+            $packages_by_type[$item['type']][] = $item;
+        }
     }
 }
 
-if (isset($packages_by_type['microweber-core-update']) and !empty($packages_by_type['microweber-core-update'])) {
-   $core_update = $packages_by_type['microweber-core-update'];
-    unset($packages_by_type['microweber-core-update']);
+if (isset($packages_by_type_with_update['microweber-core-update']) and !empty($packages_by_type_with_update['microweber-core-update'])) {
+    $core_update = $packages_by_type_with_update['microweber-core-update'];
+    // unset($packages_by_type_with_update['microweber-core-update']);
+    //$packages_by_type_with_update['microweber-core-update'] = array();
+    //$packages_by_type_with_update['microweber-core-update'][] = $core_update;
 
 }
 
 
 $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_update);
 
+//dd($packages_by_type_all);
 ?>
 <script>
     mw.install_composer_package_confirm_by_key = function ($confirm_key, $require_name, $require_version) {
@@ -345,6 +349,12 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
 </style>
 
 <div class="admin-side-content" style="max-width: 90%">
+    <?php if (!$is_update_mode) : ?>
+    <h2>Marketplace</h2>
+    <p>Welcome to the marketplace. Here you will find new modules, templates and updates.</p>
+    <?php endif; ?>
+
+
     <div id="mw-packages-browser-nav-tabs-nav" class="mw-flex-row">
 
 
@@ -388,6 +398,15 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                                     array_shift($pkkeys);
                                     $pkkeys = implode('-', $pkkeys);
 
+
+                                    if ($pkkeys == 'core-update') {
+                                        $pkkeys = 'Version update';
+                                    } else {
+                                        $pkkeys = $pkkeys . ' updates';
+
+                                    }
+
+
                                     ?>
                                     <li><a class="tablink" href="javascript::void(0);"><?php print titlelize($pkkeys) ?>
                                             <sup
@@ -427,6 +446,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                             print    $view->display();
                             ?>
                         </div>
+                    <hr>
                     <?php endforeach; ?>
 
 
@@ -443,7 +463,29 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                 <div >
 
 
-                <?php foreach ($packages_by_type_all as $pkkey => $pkitems): ?>
+                <?php foreach ($packages_by_type as $pkkey => $pkitems): ?>
+                    <div class="tab">
+                        <?php if ($pkitems) : ?>
+                            <div class="mw-flex-row">
+                                <?php foreach ($pkitems as $key => $item): ?>
+                                    <div
+                                            class="mw-flex-col-xs-12 mw-flex-col-sm-6 mw-flex-col-md-12 mw-flex-col-lg-<?php print $item['type'] === 'microweber-module' ? '3' : '4'; ?>  m-b-20 package-col-<?php print $item['type']; ?>">
+                                        <?php
+                                        $view_file = __DIR__ . '/partials/package_item.php';
+
+                                        $view = new \Microweber\View($view_file);
+                                        $view->assign('item', $item);
+
+                                        print    $view->display();
+                                        ?>
+                                    </div>
+
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
+                <?php foreach ($packages_by_type_with_update as $pkkey => $pkitems): ?>
                     <div class="tab">
                         <?php if ($pkitems) : ?>
                             <div class="mw-flex-row">
