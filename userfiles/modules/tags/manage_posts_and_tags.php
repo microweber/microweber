@@ -68,9 +68,9 @@ $(document).ready(function () {
 function getTagPostsButtonHtml(id,name,slug, post_id) {
 
     var html = '<div class="btn-group btn-tag btn-tag-id-'+id+'" role="group">' +
-        '    <button type="button" class="btn btn-secondary" onClick="editTag('+id+','+ post_id+')"><i class="fa fa-tag"></i> ' + name + '</button>' +
-        '    <button type="button" class="btn btn-secondary" onClick="editTag('+id+','+ post_id+')"><i class="fa fa-pen"></i></button>' +
-        '    <button type="button" class="btn btn-secondary" onClick="deleteTag('+id+','+ post_id+')"><i class="fa fa-times"></i></button>' +
+        '    <button type="button" class="btn btn-secondary" onClick="editPostTag('+id+')"><i class="fa fa-tag"></i> ' + name + '</button>' +
+        '    <button type="button" class="btn btn-secondary" onClick="editPostTag('+id+')"><i class="fa fa-pen"></i></button>' +
+        '    <button type="button" class="btn btn-secondary" onClick="deletePostTag('+id+')"><i class="fa fa-times"></i></button>' +
         '</div>';
 
     return html;
