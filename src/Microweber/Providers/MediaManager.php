@@ -54,7 +54,7 @@ class MediaManager
             if ($for == 'content') {
                 $cont_id = $this->app->content_manager->get_by_id($content_id);
 
-                if (isset($cont_id['content'])) {
+                /*if (isset($cont_id['content'])) {
                     $img = $this->get_first_image_from_html(html_entity_decode($cont_id['content']));
 
                     if ($img != false) {
@@ -70,7 +70,7 @@ class MediaManager
                             return false;
                         }
                     }
-                }
+                }*/
             }
         }
 

@@ -338,6 +338,7 @@ class LayoutsManager
             if (!empty($configs)) {
                 $sorted_by_pos = array();
                 $sorted_by_pos_items = array();
+                $sorted_by_pos_in_folder_items = array();
                 $pos = 9999;
                 foreach ($configs as $item) {
                     if (isset($item['position'])) {
@@ -347,6 +348,42 @@ class LayoutsManager
                     }
                     ++$pos;
                 }
+
+
+                $pos = 9999;
+                foreach ($configs as $item) {
+                    $item_folder_name = false;
+                    if(isset($item['layout_file'])){
+                        $item_folder_name = dirname($item['layout_file']);
+
+                    }
+                    if (!$item_folder_name or $item_folder_name == '.') {
+                        $item_folder_name = 'default';
+                    }
+
+                    if (!isset($sorted_by_pos_in_folder_items[$item_folder_name])) {
+                        $sorted_by_pos_in_folder_items[$item_folder_name] = array();
+                    }
+
+                    if (isset($item['position'])) {
+                        $sorted_by_pos_in_folder_items[$item_folder_name][$item['position']][] = $item;
+                    } else {
+                        $sorted_by_pos_in_folder_items[$item_folder_name][$pos] = $item;
+                    }
+
+
+                    ++$pos;
+                }
+
+                if ($sorted_by_pos_in_folder_items) {
+                    foreach ($sorted_by_pos_in_folder_items as $k => $v) {
+                        if(is_array($v)){
+                            ksort($v);
+                            $sorted_by_pos_in_folder_items[$k] = $v;
+                        }
+                    }
+                }
+
 
                 if (!empty($sorted_by_pos_items)) {
                     ksort($sorted_by_pos_items);
@@ -358,8 +395,22 @@ class LayoutsManager
                         }
                     }
                 }
+
+
                 if (!empty($sorted_by_pos)) {
                     $configs = $sorted_by_pos;
+                }
+
+                if ($sorted_by_pos_in_folder_items and !empty($sorted_by_pos_in_folder_items)) {
+                    // sort by inner folders position
+                    $configs = array();
+                    foreach ($sorted_by_pos_in_folder_items as $sort) {
+                        foreach ($sort as $item) {
+                            foreach ($item as $item1) {
+                                $configs[] = $item1;
+                            }
+                        }
+                    }
                 }
                 if (!isset($options['no_cache'])) {
                     $this->app->cache_manager->save($configs, $function_cache_id, $cache_group);

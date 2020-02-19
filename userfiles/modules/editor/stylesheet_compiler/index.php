@@ -223,6 +223,8 @@ if ($stylesheet_settings) {
                             </select>
                         </div>
                     </div>
+
+                    <button type="button" class="btn btn-primary btn-sm btn-block m-b-20" onclick="window.parent.mw.drag.module_settings('#font_family_selector_main','admin');">Load more fonts</button>
                 <?php endif; ?>
             <?php endforeach; ?>
         <?php endif; ?>

@@ -49,6 +49,7 @@ class Manager
 
         $no_page_edit = false;
         $posts_mod = array();
+        $posts_mod = array();
         // $posts_mod['type'] = 'content/admin_posts_list';
         if (isset($params['data-page-id'])) {
             $posts_mod['page-id'] = $params['data-page-id'];
@@ -138,6 +139,9 @@ class Manager
 
         if (isset($params['pg'])) {
             $posts_mod['pg'] = $params['pg'];
+        }
+        if (isset($params['tags'])) {
+            $posts_mod['tags'] = $params['tags'];
         }
 
         if (isset($params['data-category-id'])) {

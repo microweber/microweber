@@ -1,10 +1,37 @@
 <?php
 
+api_expose_admin('get_post_tags', function($params) {
+
+    $post = get_content([
+        'id'=>$params['post_id'],
+        'single'=> '1'
+    ]);
+
+    $tags = db_get('tagging_tagged', [
+        'taggable_id'=>$post['id']
+    ]);
+
+    return array('title'=>$post['title'], 'tags'=>$tags);
+});
+
+api_expose_admin('tag/view', function($params) {
+
+    $tag_id = $params['tag_id'];
+    $filter = [
+        'no_cache'=>false,
+        'id'=>$tag_id,
+        'single'=>1
+    ];
+    $tag = db_get('tagging_tags', $filter);
+
+    return $tag;
+
+});
+
 api_expose_admin('tag/edit', function($params) {
 
     if (empty(trim($params['name'])) || empty(trim($params['slug']))) {
-        echo json_encode(['status'=>false]);
-        exit;
+        return ['status'=>false];
     }
 
     $newData = [];
@@ -23,13 +50,17 @@ api_expose_admin('tag/edit', function($params) {
         }
     }
 
-    if (db_save('tagging_tags',$newData)) {
-        echo json_encode(['status'=>true]);
-        exit;
+    $tagSaved = db_save('tagging_tags',$newData);
+
+    if ($tagSaved) {
+        if (!isset($newData['id'])) {
+            $newData['id'] = $tagSaved;
+        }
+
+        return $newData;
     }
 
-    echo json_encode(['status'=>false]);
-    exit;
+    return ['status'=>false];
 
 });
 

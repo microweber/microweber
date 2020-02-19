@@ -11,9 +11,47 @@
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
-<script>
+<?php
+$multipleSelectPosts = [];
+$posts = get_products();
+foreach ($posts as $post) {
+    $multipleSelectPosts[] = [
+            'id'=>$post['id'],
+            'title'=>$post['title']
+    ];
+}
+?>
 
-    function editTag(tag_id) {
+<style>
+    .mw-select {
+        width: 500px;
+    }
+    .select-posts {
+        width: 500px;
+    }
+</style>
+
+<script>
+    mw.lib.require('bootstrap4');
+
+    $(document).ready(function () {
+      /*  var mySelect = mw.select({
+            data: <?php echo json_encode($multipleSelectPosts); ?>,
+            element: '.select-posts',
+            multiple: true,
+            autocomplete: true,
+            tags: true
+        });
+
+        $(mySelect).on('change', function (event, value) {
+            console.log(vaule)
+        });
+
+
+        */
+    });
+
+    function editTag(tag_id, post_id) {
 
         var modal_title = 'Add new tag';
         if (tag_id) {
@@ -32,23 +70,56 @@
 
     }
 
-    function deleteTag(tag_id) {
+    function deleteTag(tag_id, post_id = false) {
         $.ajax({
             url: mw.settings.api_url + 'tag/delete',
             type: 'post',
             data: {
-                tag_id: tag_id
+                tag_id: tag_id,
+                post_id: post_id,
             },
             success: function(data) {
-                mw.reload_module_everywhere('tags');
+                $('.btn-tag-id-' + tag_id).remove();
+                //mw.reload_module_everywhere('tags');
                 mw.notification.error('<?php _e('Tag is deleted!');?>');
             }
         });
+    }
+
+    function showPostsWithTags($slug){
+        mw.modal({
+            content: '<div id="mw_admin_preview_module_content_with_tags"></div>',
+            title: 'View content with tags',
+            width: 1000,
+            height: 600,
+            id: 'mw_admin_preview_module_modal'
+        });
+
+        var params = {}
+  //      params.tag_id = $id;
+        params.tags = $slug;
+        params.no_toolbar = 1;
+
+        mw.load_module('content/manager', '#mw_admin_preview_module_content_with_tags', null, params);
     }
 </script>
 
 <div id="mw-admin-content" class="admin-side-content">
     <div class="mw-modules-tabs">
+
+        <div class="mw-accordion-item">
+            <div class="mw-ui-box-header mw-accordion-title">
+                <div class="header-holder">
+                    <i class="mw-icon-navicon-round"></i> <?php _e('Posts'); ?>
+                </div>
+            </div>
+            <div class="mw-accordion-content mw-ui-box mw-ui-box-content" style="min-height: 500px">
+
+                <module type="tags/manage_posts_and_tags" />
+
+            </div>
+        </div>
+
 
         <div class="mw-accordion-item">
             <div class="mw-ui-box-header mw-accordion-title">
@@ -75,29 +146,44 @@
                     <tbody>
 
                     <?php
+                    $paging_param = 'tags_current_page';
 
-               /*     for ($i = 1; $i <= 5000; $i++) {
+                   $tagging_tags_pages = db_get('tagging_tags', [
+                        'page_count'=>1
+                   ]);
 
-                        $save = db_save('content', [
-                            'content_type'=>'post',
-                            'sub_type'=>'post',
-                            'title'=>'BLOG POST TITLE: ' . $i,
-                            'parent'=>6,
-                            'is_active'=>1
-                        ]);
+                   $cur_page = 1;
+                   $cur_page_url = url_param($paging_param, true);
+                   if($cur_page_url){
+                       $cur_page = intval($cur_page_url);
+                   }
+                    $tagging_tags = db_get('tagging_tags', [
+                        'current_page'=>$cur_page,
+                        'paging_param'=>$paging_param,
+                     ]);
 
-                    }*/
 
-                    $tagging_tags = db_get('tagging_tags',[
-                            'no_cache'=>false
-                    ]);
                     if ($tagging_tags):
                     foreach ($tagging_tags as $tag):
+                    $tag['content_count'] = 0;
+
+
+                    $count =   db_get('tagging_tagged', [
+                        'tag_slug'=>$tag['slug'],
+                        'count'=>1
+                    ]);
+
+                    if($count){
+                        $tag['content_count'] = $count;
+
+                    }
+
                     ?>
                     <tr>
                         <td><?php echo $tag['name']; ?></td>
                         <td><?php echo $tag['slug']; ?></td>
-                        <td><?php echo $tag['count']; ?></td>
+
+                        <td><a href="javascript:void();" onclick="showPostsWithTags('<?php echo $tag['slug']; ?>')"><?php echo $tag['content_count']; ?></a></td>
                         <td>
                             <button onclick="editTag(<?php echo $tag['id']; ?>);" class="mw-ui-btn"><span class="mw-icon-edit"></span></button>
                             <button onclick="deleteTag(<?php echo $tag['id']; ?>);" class="mw-ui-btn"><span class="mw-icon-bin"></span></button>
@@ -112,6 +198,11 @@
                     </tbody>
                 </table>
 
+                <br />
+
+                <?php if (isset($tagging_tags_pages) and $tagging_tags_pages > 1 and isset($paging_param)): ?>
+                    <module type="pagination" template="mw" pages_count="<?php echo $tagging_tags_pages; ?>" paging_param="<?php echo $paging_param; ?>" />
+                <?php endif; ?>
 
             </div>
         </div>

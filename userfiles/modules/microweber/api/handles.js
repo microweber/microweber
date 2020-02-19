@@ -801,11 +801,18 @@ mw._initHandles = {
 
             var nodes = [];
             mw.$('.module', pelement).each(function () {
-                var menuitem = '<span class="mw-handle-menu-item dynamic-submodule-handle" data-module="'+this.id+'">'
-                    + '<span class="mw-icon-gear mw-handle-menu-item-icon"></span>'
-                    + (this.getAttribute('data-mw-title') || (this.getAttribute('data-type') || '').replace(/_/g, ' '))
-                    + '</span>';
-                nodes.push(menuitem);
+
+                var type = this.getAttribute('data-type');
+
+                var hastitle = mw.live_edit.registry[type] ? mw.live_edit.registry[type].title : false;
+                if(hastitle){
+                    var menuitem = '<span class="mw-handle-menu-item dynamic-submodule-handle" data-module="'+this.id+'">'
+                        + '<span class="mw-icon-gear mw-handle-menu-item-icon"></span>'
+                        + hastitle.replace(/_/g, ' ')
+                        + '</span>';
+                    nodes.push(menuitem);
+                 }
+
             });
             $('.mw_handle_module_submodules').html(nodes.join(''));
             mw.$('.dynamic-submodule-handle').on('click', function () {

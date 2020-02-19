@@ -13,13 +13,15 @@ api_expose('posts/get', function($params) {
     if (isset($params['tags']) && !empty($params['tags'])) {
       $request['tags'] = $params['tags'];
     }
-
-    $request['id'] = 'blog';
+    $request['id'] = $params['id'];
     $request['paging_param'] = 'paging_number_page';
     $request['paging_number_page'] = $params['page'];
     $request['limit'] = get_option('data-limit', $params['data-id']);
     $request['return_as_array'] = 1;
-    $request['order_by'] = get_option('data-order-by', $params['data-id']);
+    $orderBy = get_option('data-order-by', $params['data-id']);
+    if ($orderBy) {
+        $request['order_by'] = $orderBy;
+    }
 
     $controller = new content\controllers\Front();
     $output = $controller->index($request, [

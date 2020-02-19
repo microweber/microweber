@@ -670,7 +670,7 @@ class Modules
 
         $module_name = str_replace('admin', '', $module_name);
         $module_name_l = $this->locate($module_name);
-$replace_paths = array();
+        $replace_paths = array();
         if ($module_name_l == false) {
             $module_name_l = modules_path() . DS . $module_name . DS;
             $module_name_l = normalize_path($module_name_l, 1);
@@ -683,9 +683,9 @@ $replace_paths = array();
 
         $module_name_l_theme = ACTIVE_TEMPLATE_DIR . 'modules' . DS . $module_name . DS . 'templates' . DS;
         $module_name_l_theme = normalize_path($module_name_l_theme, 1);
-//d(ACTIVE_TEMPLATE_DIR);
+
         $replace_paths[] = $module_name_l_theme;
-        $replace_paths[] =         normalize_path(    'modules' . '/' . $module_name .'/' .'templates' . '/', 1);
+        $replace_paths[] = normalize_path('modules' . '/' . $module_name . '/' . 'templates' . '/', 1);
 
         $template_config = mw()->template->get_config();
 
@@ -782,16 +782,14 @@ $replace_paths = array();
                 }
 
 
-
                 $tf_mw_default = $module_name_l . 'default.php';
-                $tf = normalize_path($module_name_l . $template_name,false);
+                $tf = normalize_path($module_name_l . $template_name, false);
                 $tf_theme = $module_name_l_theme . $template_name;
                 $tf_from_other_theme = templates_path() . $template_name;
                 $tf_from_other_theme = normalize_path($tf_from_other_theme, false);
 
                 $tf_other_module = modules_path() . $template_name;
                 $tf_other_module = normalize_path($tf_other_module, false);
-
 
 
                 if ($template_name == 'mw_default.php' and is_file($tf)) {
@@ -932,8 +930,8 @@ $replace_paths = array();
         $uninstall_lock = $this->get('one=1&ui=any&module=' . $module_namei);
 
         if (!$uninstall_lock or empty($uninstall_lock) or (isset($uninstall_lock['installed']) and $uninstall_lock['installed'] != '' and intval($uninstall_lock['installed']) != 1)) {
-            $root_mod= $this->locate_root_module($module_name);
-            if($root_mod){
+            $root_mod = $this->locate_root_module($module_name);
+            if ($root_mod) {
                 $uninstall_lock = $this->get('one=1&ui=any&module=' . $root_mod);
                 if (empty($uninstall_lock) or (isset($uninstall_lock['installed']) and $uninstall_lock['installed'] != '' and intval($uninstall_lock['installed']) != 1)) {
                     return false;
@@ -1029,7 +1027,7 @@ $replace_paths = array();
                 $params['id'] = $this_module['id'];
             }
         }
-        
+
 
         if (isset($params['id'])) {
             $id = intval($params['id']);
@@ -1065,7 +1063,7 @@ $replace_paths = array();
                     }
                 }
                 $to_save = array();
-                $this->_install_mode  = true;
+                $this->_install_mode = true;
                 $to_save['id'] = $id;
                 $to_save['installed'] = '0';
                 $this->save($to_save);
@@ -1124,7 +1122,7 @@ $replace_paths = array();
                 $to_save = array();
                 $to_save['id'] = $id;
                 $to_save['installed'] = 1;
-                $this->_install_mode  = true;
+                $this->_install_mode = true;
                 $this->save($to_save);
             }
         }

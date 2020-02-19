@@ -1,4 +1,18 @@
 <?php
+
+/*
+
+  type: layout
+
+  name: Default
+
+  description: Default template
+
+
+*/
+
+?>
+<?php
 if ($json == false) {
     print lnotif(_e('Click to edit accordion', true));
 

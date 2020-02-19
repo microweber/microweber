@@ -49,6 +49,19 @@ class TemplateMetaTagsRenderer
                     $meta['content_image'] = $content_image;
                 } else {
                     $meta['content_image'] = '';
+                    $cont_id = get_content_by_id($meta_content_id);
+
+                    if ($cont_id and isset($cont_id['content'])) {
+                        $img = $this->app->media_manager->get_first_image_from_html(html_entity_decode($cont_id['content']));
+
+                        if ($img != false) {
+                            $surl = $this->app->url_manager->site();
+                            $img = $this->app->format->replace_once('{SITE_URL}', $surl, $img);
+                            $meta['content_image'] = $img;
+                        }
+                    }
+
+
                 }
                 $meta['content_url'] = $this->app->content_manager->link($meta_content_id);
                 if (isset($meta['content_type'])) {
