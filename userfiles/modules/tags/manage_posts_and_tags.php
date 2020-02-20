@@ -52,6 +52,7 @@ $(document).ready(function () {
         if (selected_posts.length > 0) {
             $('.js-add-tags-to-posts').removeAttr('disabled');
         } else {
+            $('.js-posts-tags').html('<h5>Select posts to see tags.</h5>');
             $('.js-add-tags-to-posts').attr('disabled','disabled');
         }
 
@@ -157,7 +158,7 @@ function getPostTags(post_id) {
             var postTagBoxHtml = '' +
                 '<div class="js-post-tag-box js-post-tag-' + post_id + '">' +
                 '<p>' + data.title + '</p>' +
-                '<div>Tags: <br />' + tags + '<button class="btn btn-success js-post-tag-add-new" onClick="editPostTag(false, ' + post_id + ')" style="margin-top:5px;margin-right:5px;"><i class="fa fa-plus"></i></button></div>' +
+                '<div>Tags: ' + tags + '<button class="btn btn-success js-post-tag-add-new" onClick="editPostTag(false, ' + post_id + ')" style="margin-top:5px;margin-right:5px;"><i class="fa fa-plus"></i></button></div>' +
                 '</div>';
 
             var postTagBox = $('.js-post-tag-' + post_id);
@@ -298,15 +299,19 @@ function searchPostsByKeyowrd() {
                 <div class="card-header">
                     Tags for <span class="js-filter-by-text">Post</span>
                 </div>
-                <div class="card-body" style="min-height: 525px;">
+                <div class="card-body" style="height: 525px;overflow-y: scroll;">
 
                     <h5 class="card-title">
                         List of all tags for selected <span class="js-filter-by-text">Posts</span>
                     </h5>
 
                     <p class="card-text">Select the <span class="js-filter-by-text">tags</span> you want to add or edit for posts.</p>
+                    <hr />
+                    <div class="js-posts-tags">
 
-                    <div class="js-posts-tags"></div>
+                        <h5>Select posts to see tags.</h5>
+
+                    </div>
                 </div>
             </div>
 
