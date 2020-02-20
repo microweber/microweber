@@ -11,6 +11,18 @@ api_expose_admin('tag/delete', 'tag_delete');
 api_expose_admin('post_tag/edit', 'post_tag_edit');
 api_expose_admin('post_tag/delete', 'post_tag_delete');
 
+
+api_expose_admin('tag/edit/autocomplete', function($params) {
+
+    return [
+      [
+          'id'=>0,
+          'title'=>' ebasi'
+      ]
+    ];
+
+});
+
 function get_post_tags($params) {
 
     $post = get_content([
@@ -33,6 +45,12 @@ function tags_get($params) {
 
     $tagging_tags = db_get('tagging_tags', $filter);
     if ($tagging_tags) {
+        foreach ($tagging_tags as &$tag) {
+            $tag['posts_count'] = db_get('tagging_tagged', [
+                'tag_slug'=>$tag['slug'],
+                'count'=>1
+            ]);
+        }
         return $tagging_tags;
     }
 

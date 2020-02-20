@@ -56,34 +56,36 @@ foreach ($posts as $post) {
     }
 
     function deleteTag(tag_id, post_id = false) {
-        $.ajax({
-            url: mw.settings.api_url + 'tag/delete',
-            type: 'post',
-            data: {
-                tag_id: tag_id,
-                post_id: post_id,
-            },
-            success: function(data) {
-                $('.btn-tag-id-' + tag_id).remove();
-                //mw.reload_module_everywhere('tags');
+        mw.tools.confirm(mw.msg.del, function () {
+            $.ajax({
+                url: mw.settings.api_url + 'tag/delete',
+                type: 'post',
+                data: {
+                    tag_id: tag_id,
+                    post_id: post_id,
+                },
+                success: function (data) {
+                    $('.btn-tag-id-' + tag_id).remove();
+                    //mw.reload_module_everywhere('tags');
 
-                selected_posts = getSelectedPosts();
-                if (selected_posts) {
-                    for (i = 0; i < selected_posts.length; i++) {
-                        getPostTags(selected_posts[i].post_id);
+                    selected_posts = getSelectedPosts();
+                    if (selected_posts) {
+                        for (i = 0; i < selected_posts.length; i++) {
+                            getPostTags(selected_posts[i].post_id);
+                        }
                     }
-                }
 
-                mw.notification.error('<?php _e('Tag is deleted!');?>');
-            }
+                    mw.notification.error('<?php _e('Tag is deleted!');?>');
+                }
+            });
         });
     }
 
     function editPostTag(post_tag_id, post_id = false) {
 
-        var modal_title = 'Add new post tag';
+        var modal_title = 'Add new tag';
         if (post_tag_id) {
-            modal_title = 'Edit post tag';
+            modal_title = 'Edit tag';
         }
 
         mw_admin_edit_tag_modal = mw.modal({
@@ -100,21 +102,23 @@ foreach ($posts as $post) {
     }
 
     function deletePostTag(post_tag_id) {
-        $.ajax({
-            url: mw.settings.api_url + 'post_tag/delete',
-            type: 'post',
-            data: {
-                post_tag_id: post_tag_id,
-            },
-            success: function(data) {
-                $('.btn-tag-id-' + post_tag_id).remove();
-                //mw.reload_module_everywhere('tags');
-                mw.notification.error('<?php _e('Post tag is deleted!');?>');
-            }
+        mw.tools.confirm(mw.msg.del, function () {
+            $.ajax({
+                url: mw.settings.api_url + 'post_tag/delete',
+                type: 'post',
+                data: {
+                    post_tag_id: post_tag_id,
+                },
+                success: function (data) {
+                    $('.btn-tag-id-' + post_tag_id).remove();
+                    //mw.reload_module_everywhere('tags');
+                    mw.notification.error('<?php _e('Post tag is deleted!');?>');
+                }
+            });
         });
     }
 
-    function showPostsWithTags($slug){
+    function showPostsWithTags(instance){
         mw.modal({
             content: '<div id="mw_admin_preview_module_content_with_tags"></div>',
             title: 'View content with tags',
@@ -125,7 +129,7 @@ foreach ($posts as $post) {
 
         var params = {}
   //      params.tag_id = $id;
-        params.tags = $slug;
+        params.tags = $(instance).attr('data-slug');
         params.no_toolbar = 1;
 
         mw.load_module('content/manager', '#mw_admin_preview_module_content_with_tags', null, params);

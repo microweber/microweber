@@ -71,7 +71,26 @@ if (!$tag) {
         });
 
     });
+
+    var mySelectXXX = mw.select({
+        element: '.js-admin-post-tag-edit-form-tag-name',
+        multiple: false,
+        autocomplete: true,
+        tags: false,
+        ajaxMode: {
+            paginationParam: 'page',
+            searchParam: 'keyword',
+            endpoint: mw.settings.api_url + 'tag/edit/autocomplete',
+            method: 'get'
+        }
+    }); 
+
+    $(mySelectXXX).on("change", function(event, val){
+        console.log(val)
+    })
 </script>
+
+<select class="ebasi-gazo"><option>Select</option></select>
 
 <form method="post" class="js-admin-post-tag-edit-form">
 

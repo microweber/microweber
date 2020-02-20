@@ -95,10 +95,11 @@ function changeFilterText() {
         $('.js-filter-by-text').html('Posts');
     }
 }
-function getTagButtonHtml(id,name,slug) {
+function getTagButtonHtml(id,name,slug, posts_count =0) {
 
     var html = '<div class="btn-group btn-tag btn-tag-id-'+id+'" role="group">' +
         '    <button type="button" class="btn btn-secondary" onClick="editTag('+id+')"><i class="fa fa-tag"></i> ' + name + '</button>' +
+        '    <button type="button" class="btn btn-secondary" data-slug="'+slug+'" onClick="showPostsWithTags(this)">('+posts_count+')</button>' +
         '    <button type="button" class="btn btn-secondary" onClick="editTag('+id+')"><i class="fa fa-pen"></i></button>' +
         '    <button type="button" class="btn btn-secondary" onClick="deleteTag('+id+')"><i class="fa fa-times"></i></button>' +
         '</div>';
@@ -181,7 +182,7 @@ function searchTagsByKeyowrd() {
         if (data.length > 0) {
             for (i = 0; i < data.length; i++) {
                 if (data[i].id) {
-                    tags += getTagButtonHtml(data[i].id, data[i].name, data[i].slug);
+                    tags += getTagButtonHtml(data[i].id, data[i].name, data[i].slug, data[i].posts_count);
                 }
             }
         } else {
