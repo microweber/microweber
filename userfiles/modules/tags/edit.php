@@ -23,22 +23,28 @@
                 data: $(this).serialize(),
                 success: function(data) {
 
-                    if (!data.name) {
-                        return;
-                    }
+                    if (data.name) {
+                        if ($('.btn-tag-id-' + data.id).length == 0) {
+                            $('.js-admin-tags').append(getTagButtonHtmlInForm(data.id, data.name, data.slug));
+                        } else {
+                            $('.btn-tag-id-' + data.id).replaceWith(getTagButtonHtmlInForm(data.id, data.name, data.slug));
+                        }
 
-                    if ($('.btn-tag-id-'+data.id).length == 0) {
-                        $('.js-admin-tags').append(getTagButtonHtmlInForm(data.id,data.name,data.slug));
+                        $('.js-admin-tag-edit-form').find('.js-clear-after-save').each(function (e) {
+                            $(this).val('');
+                        });
+
+                        <?php if (isset($_POST['post_ids'])): ?>
+                        <?php foreach ($_POST['post_ids'] as $post_id): ?>
+                        getPostTags(<?php echo $post_id['post_id']; ?>);
+                        <?php endforeach; ?>
+                        <?php endif; ?>
+
+                        //  mw.reload_module_everywhere('tags');
+                        mw.notification.success('<?php _e('Tag is saved!');?>');
                     } else {
-                        $('.btn-tag-id-'+data.id).replaceWith(getTagButtonHtmlInForm(data.id,data.name,data.slug));
+                        mw.notification.error('<?php _e('Please, fill all fields.');?>');
                     }
-
-                    $('.js-admin-tag-edit-form').find('input, textarea').each(function(e) {
-                       $(this).val('');
-                    });
-
-                  //  mw.reload_module_everywhere('tags');
-                    mw.notification.success('<?php _e('Tag is saved!');?>');
                 }
             });
 
@@ -99,21 +105,27 @@ if ($tag) {
 
     <div class="demobox">
         <label class="mw-ui-label"><?php _e('Tag Name');?></label>
-        <input type="text" name="name" value="<?php echo $name; ?>" class="form-control js-admin-tag-edit-form-tag-name">
+        <input type="text" name="name" value="<?php echo $name; ?>" class="form-control js-admin-tag-edit-form-tag-name js-clear-after-save">
         <div class="helptext"><?php _e('The name is how it appears on your site.');?></div>
     </div>
 
     <div class="demobox">
         <label class="mw-ui-label"><?php _e('Tag Slug');?></label>
-        <input type="text" name="slug" value="<?php echo $slug; ?>" class="form-control js-admin-tag-edit-form-tag-slug">
+        <input type="text" name="slug" value="<?php echo $slug; ?>" class="form-control js-admin-tag-edit-form-tag-slug js-clear-after-save">
         <div class="helptext"><?php _e('The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.');?></div>
     </div>
 
     <div class="demobox">
         <label class="mw-ui-label"><?php _e('Tag Description'); ?></label>
-        <textarea name="description" class="form-control js-admin-tag-edit-form-tag-description"></textarea>
+        <textarea name="description" class="form-control js-admin-tag-edit-form-tag-description js-clear-after-save"></textarea>
         <div class="helptext"><?php _e('The description is not prominent by default; however, some themes may show it.'); ?></div>
     </div>
+
+    <?php if (isset($_POST['post_ids'])): ?>
+    <?php foreach ($_POST['post_ids'] as $post_id): ?>
+    <input type="hidden" name="post_ids[]" value="<?php echo $post_id['post_id']; ?>" />
+    <?php endforeach; ?>
+    <?php endif; ?>
 
     <input type="hidden" name="tag_id" class="js-admin-tag-edit-form-tag-id" value="<?php if ($tag): echo $tag['id']; endif; ?>" />
 

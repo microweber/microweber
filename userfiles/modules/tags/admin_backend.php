@@ -34,24 +34,8 @@ foreach ($posts as $post) {
 <script>
     mw.lib.require('bootstrap4');
 
-    $(document).ready(function () {
-      /*  var mySelect = mw.select({
-            data: <?php echo json_encode($multipleSelectPosts); ?>,
-            element: '.select-posts',
-            multiple: true,
-            autocomplete: true,
-            tags: true
-        });
 
-        $(mySelect).on('change', function (event, value) {
-            console.log(vaule)
-        });
-
-
-        */
-    });
-
-    function editTag(tag_id) {
+    function editTag(tag_id, post_ids) {
 
         var modal_title = 'Add new tag';
         if (tag_id) {
@@ -66,6 +50,7 @@ foreach ($posts as $post) {
 
         var params = {}
         params.tag_id = tag_id;
+        params.post_ids = post_ids;
         mw.load_module('tags/edit', '#mw_admin_edit_tag_item_module', null, params);
 
     }
@@ -81,6 +66,14 @@ foreach ($posts as $post) {
             success: function(data) {
                 $('.btn-tag-id-' + tag_id).remove();
                 //mw.reload_module_everywhere('tags');
+
+                selected_posts = getSelectedPosts();
+                if (selected_posts) {
+                    for (i = 0; i < selected_posts.length; i++) {
+                        getPostTags(selected_posts[i].post_id);
+                    }
+                }
+
                 mw.notification.error('<?php _e('Tag is deleted!');?>');
             }
         });
