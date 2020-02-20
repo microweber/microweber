@@ -51,7 +51,7 @@ foreach ($posts as $post) {
         */
     });
 
-    function editTag(tag_id, post_id) {
+    function editTag(tag_id) {
 
         var modal_title = 'Add new tag';
         if (tag_id) {
@@ -82,6 +82,41 @@ foreach ($posts as $post) {
                 $('.btn-tag-id-' + tag_id).remove();
                 //mw.reload_module_everywhere('tags');
                 mw.notification.error('<?php _e('Tag is deleted!');?>');
+            }
+        });
+    }
+
+    function editPostTag(post_tag_id, post_id = false) {
+
+        var modal_title = 'Add new post tag';
+        if (post_tag_id) {
+            modal_title = 'Edit post tag';
+        }
+
+        mw_admin_edit_tag_modal = mw.modal({
+            content: '<div id="mw_admin_edit_tag_item_module">Loading...</div>',
+            title: modal_title,
+            id: 'mw_admin_edit_tag_item_popup_modal'
+        });
+
+        var params = {}
+        params.post_tag_id = post_tag_id;
+        params.post_id = post_id;
+        mw.load_module('tags/edit_post_tag', '#mw_admin_edit_tag_item_module', null, params);
+
+    }
+
+    function deletePostTag(post_tag_id) {
+        $.ajax({
+            url: mw.settings.api_url + 'post_tag/delete',
+            type: 'post',
+            data: {
+                post_tag_id: post_tag_id,
+            },
+            success: function(data) {
+                $('.btn-tag-id-' + post_tag_id).remove();
+                //mw.reload_module_everywhere('tags');
+                mw.notification.error('<?php _e('Post tag is deleted!');?>');
             }
         });
     }

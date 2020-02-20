@@ -15,6 +15,15 @@
         background: #e1f1fd;
     }
 
+    .js-post-tag-box {
+        border-bottom: 1px solid #d9d9d9;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    .js-post-tag-box p {
+        font-size:14px;
+        font-weight: bold;
+    }
     .btn-tag {
         margin-top: 5px;
         margin-right: 5px;
@@ -68,9 +77,9 @@ $(document).ready(function () {
 function getTagPostsButtonHtml(id,name,slug, post_id) {
 
     var html = '<div class="btn-group btn-tag btn-tag-id-'+id+'" role="group">' +
-        '    <button type="button" class="btn btn-secondary" onClick="editTag('+id+','+ post_id+')"><i class="fa fa-tag"></i> ' + name + '</button>' +
-        '    <button type="button" class="btn btn-secondary" onClick="editTag('+id+','+ post_id+')"><i class="fa fa-pen"></i></button>' +
-        '    <button type="button" class="btn btn-secondary" onClick="deleteTag('+id+','+ post_id+')"><i class="fa fa-times"></i></button>' +
+        '    <button type="button" class="btn btn-secondary" onClick="editPostTag('+id+')"><i class="fa fa-tag"></i> ' + name + '</button>' +
+        '    <button type="button" class="btn btn-secondary" onClick="editPostTag('+id+')"><i class="fa fa-pen"></i></button>' +
+        '    <button type="button" class="btn btn-secondary" onClick="deletePostTag('+id+')"><i class="fa fa-times"></i></button>' +
         '</div>';
 
     return html;
@@ -112,9 +121,9 @@ function getPostTags(post_id) {
             }
 
             $('.js-posts-tags').append('' +
-                '<div class="js-post-tag-' + post_id + '">' +
+                '<div class="js-post-tag-box js-post-tag-' + post_id + '">' +
                 '<p>' + data.title + '</p>' +
-                '<div>' + tags + '</div>' +
+                '<div>Tags: <br />' + tags + '<button class="btn btn-success js-post-tag-add-new" onClick="editPostTag(false, '+post_id+')" style="margin-top:5px;margin-right:5px;"><i class="fa fa-plus"></i></button></div>' +
                 '</div>');
     });
 }

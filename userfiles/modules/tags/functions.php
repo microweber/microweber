@@ -83,3 +83,43 @@ api_expose_admin('tag/delete', function($params) {
     echo json_encode(['status'=>false]);
     exit;
 });
+
+api_expose_admin('post_tag/edit', function($params) {
+
+    if (empty(trim($params['tag_name'])) || empty(trim($params['tag_slug']))) {
+        return ['status'=>false];
+    }
+
+    $save = db_save('tagging_tagged', [
+       'id'=>$params['id'],
+       'taggable_id'=>$params['post_id'],
+       'tag_name'=>$params['tag_name'],
+       'tag_slug'=>$params['tag_slug'],
+    ]);
+
+    if (!isset($params['id']) || empty($params['id'])) {
+        $params['id'] = $save;
+    }
+
+    return $params;
+});
+
+api_expose_admin('post_tag/delete', function($params) {
+
+    $post_tag_id = $params['post_tag_id'];
+    $filter = [
+        'no_cache'=>false,
+        'id'=>$post_tag_id,
+        'single'=>1
+    ];
+    $tag = db_get('tagging_tagged', $filter);
+    if ($tag) {
+        if (db_delete('tagging_tagged', $post_tag_id)) {
+            echo json_encode(['status'=>true]);
+            exit;
+        }
+    }
+
+    echo json_encode(['status'=>false]);
+    exit;
+});

@@ -488,6 +488,18 @@ mw._initHandles = {
                     title: '{dynamic}',
                     className:'mw_handle_module_submodules'
                 },
+
+
+                {
+                    title: 'Reset',
+                    icon: 'mw-icon-reload',
+                    className:'mw-handle-remove',
+                    action: function () {
+                        if(mw._activeModuleOver && mw._activeModuleOver.id){
+                            mw.tools.confirm_reset_module_by_id(mw._activeModuleOver.id)
+                        }
+                    }
+                },
                 {
                     title: 'Remove',
                     icon: 'mw-icon-bin',
@@ -529,6 +541,16 @@ mw._initHandles = {
                 {
                     title: '{dynamic}',
                     className:'mw_handle_module_submodules'
+                },
+                {
+                    title: 'Reset',
+                    icon: 'mw-icon-reload',
+                    className:'mw-handle-remove',
+                    action: function () {
+                        if(mw._activeModuleOver && mw._activeModuleOver.id){
+                            mw.tools.confirm_reset_module_by_id(mw._activeModuleOver.id)
+                        }
+                    }
                 },
                 {
                     title: 'Remove',
