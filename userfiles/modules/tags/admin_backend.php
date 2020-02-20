@@ -152,85 +152,40 @@ foreach ($posts as $post) {
         <div class="mw-accordion-item">
             <div class="mw-ui-box-header mw-accordion-title">
                 <div class="header-holder">
-                    <i class="mw-icon-navicon-round"></i> <?php _e('Tags'); ?>
+                    <i class="mw-icon-navicon-round"></i> <?php _e('Global Tags'); ?>
                 </div>
             </div>
             <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
 
-                <button type="button" onclick="editTag(false);" class="mw-ui-btn mw-ui-btn-info"> <i class="mw-icon-web-promotion"></i> &nbsp; Add New Tag</button>
+                <div class="mw-flex-col-xs-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div style="font-weight: bold;">Search tags</div>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control js-search-tags-keyword" placeholder="Keyword...">
+                                <div class="input-group-append">
+                                    <button class="btn btn-success js-search-posts-submit" type="button">Search</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6" style="padding-top: 17px">
+                            <button class="btn btn-success pull-right" onclick="editTag(false);"><i class="fa fa-plus"></i> Create new global tag</button>
 
-                <br />
-                <br />
+                        </div>
 
-                <table class="mw-ui-table table-style-2" width="100%" cellspacing="0" cellpadding="0">
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Slug</th>
-                        <th>Count</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
+                        <div class="col-md-12">
+                        <div class="card" style="margin-top:15px">
+                            <div class="card-header">
+                                Global tags
+                            </div>
+                            <div class="card-body">
+                                <div class="js-all-tags"></div>
+                            </div>
+                        </div>
+                    </div>
 
-                    <?php
-                    $paging_param = 'tags_current_page';
-
-                   $tagging_tags_pages = db_get('tagging_tags', [
-                        'page_count'=>1
-                   ]);
-
-                   $cur_page = 1;
-                   $cur_page_url = url_param($paging_param, true);
-                   if($cur_page_url){
-                       $cur_page = intval($cur_page_url);
-                   }
-                    $tagging_tags = db_get('tagging_tags', [
-                        'current_page'=>$cur_page,
-                        'paging_param'=>$paging_param,
-                     ]);
-
-
-                    if ($tagging_tags):
-                    foreach ($tagging_tags as $tag):
-                    $tag['content_count'] = 0;
-
-
-                    $count =   db_get('tagging_tagged', [
-                        'tag_slug'=>$tag['slug'],
-                        'count'=>1
-                    ]);
-
-                    if($count){
-                        $tag['content_count'] = $count;
-
-                    }
-
-                    ?>
-                    <tr>
-                        <td><?php echo $tag['name']; ?></td>
-                        <td><?php echo $tag['slug']; ?></td>
-
-                        <td><a href="javascript:void();" onclick="showPostsWithTags('<?php echo $tag['slug']; ?>')"><?php echo $tag['content_count']; ?></a></td>
-                        <td>
-                            <button onclick="editTag(<?php echo $tag['id']; ?>);" class="mw-ui-btn"><span class="mw-icon-edit"></span></button>
-                            <button onclick="deleteTag(<?php echo $tag['id']; ?>);" class="mw-ui-btn"><span class="mw-icon-bin"></span></button>
-                        </td>
-                    </tr>
-                    <?php endforeach; ?>
-
-                    <?php else: ?>
-
-                    <?php endif; ?>
-
-                    </tbody>
-                </table>
-
-                <br />
-
-                <?php if (isset($tagging_tags_pages) and $tagging_tags_pages > 1 and isset($paging_param)): ?>
-                    <module type="pagination" template="mw" pages_count="<?php echo $tagging_tags_pages; ?>" paging_param="<?php echo $paging_param; ?>" />
-                <?php endif; ?>
+                    </div>
+                </div>
 
             </div>
         </div>

@@ -247,13 +247,6 @@ function searchPostsByKeyowrd() {
 
     <div class="mw-flex-col-xs-6 last-xs">
         <!-- tags search -->
-        <div style="font-weight: bold;">Search tags</div>
-        <div class="input-group mb-3">
-            <input type="text" class="form-control js-search-tags-keyword" placeholder="Keyword...">
-            <div class="input-group-append">
-                <button class="btn btn-success js-search-posts-submit" type="button">Search</button>
-            </div>
-        </div>
     </div>
 
     <div class="mw-flex-col-xs-6 last-xs">
@@ -265,7 +258,7 @@ function searchPostsByKeyowrd() {
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">
-                        Listd of all <span class="js-filter-by-text">Posts</span>
+                        List of all <span class="js-filter-by-text">Posts</span>
                     </h5>
                     <button class="btn btn-primary pull-right js-add-tags-to-posts" disabled="disabled">Add tags to <span class="js-filter-by-text">Posts</span></button>
 
@@ -298,23 +291,20 @@ function searchPostsByKeyowrd() {
                     font-weight: normal;
                     padding: 10px;
                 }
-                .js-posts-tags {
-                    margin-top: 15px;
-                }
-                .js-all-tags {
-                    margin-bottom: 15px;
-                }
             </style>
 
             <div class="card">
                 <div class="card-header">
-                    Tags
-                    <button class="btn btn-sm btn-success pull-right" onclick="editTag(false);"><i class="fa fa-plus"></i> Create new tag</button>
+                    Tags for <span class="js-filter-by-text">Post</span>
                 </div>
-                <div class="card-body">
-                    <p>Global tags</p>
-                    <div class="js-all-tags"></div>
-                    <div>Tags for <span class="js-filter-by-text">Post</span></div>
+                <div class="card-body" style="min-height: 525px;">
+
+                    <h5 class="card-title">
+                        List of all tags for selected <span class="js-filter-by-text">Posts</span>
+                    </h5>
+
+                    <p class="card-text">Select the <span class="js-filter-by-text">tags</span> you want to add or edit for posts.</p>
+
                     <div class="js-posts-tags"></div>
                 </div>
             </div>
