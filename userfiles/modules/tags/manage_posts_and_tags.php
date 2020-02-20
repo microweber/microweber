@@ -72,7 +72,22 @@ $(document).ready(function () {
         searchPostsByKeyowrd();
     });
 
+    $('.js-search-tags-keyword').keyup(function () {
+        searchTagsByKeyowrd();
+    });
+
 });
+
+function getTagButtonHtml(id,name,slug) {
+
+    var html = '<div class="btn-group btn-tag btn-tag-id-'+id+'" role="group">' +
+        '    <button type="button" class="btn btn-secondary" onClick="editTag('+id+')"><i class="fa fa-tag"></i> ' + name + '</button>' +
+        '    <button type="button" class="btn btn-secondary" onClick="editTag('+id+')"><i class="fa fa-pen"></i></button>' +
+        '    <button type="button" class="btn btn-secondary" onClick="deleteTag('+id+')"><i class="fa fa-times"></i></button>' +
+        '</div>';
+
+    return html;
+}
 
 function getTagPostsButtonHtml(id,name,slug, post_id) {
 
@@ -128,6 +143,29 @@ function getPostTags(post_id) {
     });
 }
 
+function searchTagsByKeyowrd() {
+
+    var tags = '';
+    var keyword = $('.js-search-tags-keyword').val();
+
+    $('.js-posts-tags').html('Searching for: ' + keyword);
+
+    $.get(mw.settings.api_url + 'tags/get', {
+        keyword: keyword,
+    }, function(data) {
+        if (data.length > 0) {
+            for (i = 0; i < data.length; i++) {
+                if (data[i].id) {
+                    tags += getTagButtonHtml(data[i].id, data[i].name, data[i].slug);
+                }
+            }
+        } else {
+            tags = 'No tags found.';
+        }
+        $('.js-posts-tags').html(tags);
+    });
+
+}
 
 function searchPostsByKeyowrd() {
 

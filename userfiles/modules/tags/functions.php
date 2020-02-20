@@ -16,9 +16,12 @@ api_expose_admin('get_post_tags', function($params) {
 
 api_expose_admin('tags/get', function($params) {
 
-    $tagging_tags = db_get('tagging_tags', []);
+    $tagging_tags = db_get('tagging_tags', 'keyword=' . $params['keyword'].'&search_in_fields=name,slug');
+    if ($tagging_tags) {
+        return $tagging_tags;
+    }
 
-    return $tagging_tags;
+    return ['error'=>true];
 });
 
 api_expose_admin('tag/view', function($params) {
