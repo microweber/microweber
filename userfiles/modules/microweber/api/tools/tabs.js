@@ -61,7 +61,7 @@ mw.tools.tabGroup = function (obj, element, model) {
             $(window).on('load hashchange', function () {
                 var param = mw.url.windowHashParam(obj.linkable);
                 if(param) {
-                    $('[data-' + obj.linkable + '="' + param + '"]').click()
+                    var el = $('[data-' + obj.linkable + '="' + param + '"]');
                 }
             });
             $(obj.nav).each(function (i) {

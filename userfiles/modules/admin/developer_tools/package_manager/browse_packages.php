@@ -164,7 +164,8 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
     $(document).ready(function () {
         mw.tabs({
             nav: '#mw-packages-browser-nav-tabs-nav .mw-ui-navigation a.tablink',
-            tabs: '#mw-packages-browser-nav-tabs-nav .tab'
+            tabs: '#mw-packages-browser-nav-tabs-nav .tab',
+            linkable: 'section'
         });
     });
 </script>

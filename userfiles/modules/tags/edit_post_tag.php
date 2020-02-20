@@ -72,8 +72,8 @@ if (!$tag) {
 
     });
 
-    var mySelectXXX = mw.select({
-        element: '.ebasi-gazo',
+    var tagsSelect = mw.select({
+        element: '[name="tag_name"]',
         multiple: false,
         autocomplete: true,
         tags: false,
@@ -83,14 +83,13 @@ if (!$tag) {
             endpoint: mw.settings.api_url + '/tag/edit/autocomplete',
             method: 'get'
         }
-    }); 
+    });
 
-    $(mySelectXXX).on("change", function(event, val){
+    $(tagsSelect).on("change", function(event, val){
         console.log(val)
     })
 </script>
 
-<div class="ebasi-gazo"></div>
 
 <form method="post" class="js-admin-post-tag-edit-form">
 

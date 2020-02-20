@@ -24,7 +24,7 @@ foreach ($posts as $post) {
 
 <style>
     .mw-select {
-        width: 500px;
+        width: 100%;
     }
     .select-posts {
         width: 500px;
@@ -42,7 +42,7 @@ foreach ($posts as $post) {
             modal_title = 'Edit tag';
         }
 
-        mw_admin_edit_tag_modal = mw.modal({
+        mw_admin_edit_tag_modal = mw.dialog({
             content: '<div id="mw_admin_edit_tag_item_module">Loading...</div>',
             title: modal_title,
             id: 'mw_admin_edit_tag_item_popup_modal'
@@ -88,7 +88,7 @@ foreach ($posts as $post) {
             modal_title = 'Edit tag';
         }
 
-        mw_admin_edit_tag_modal = mw.modal({
+        mw_admin_edit_tag_modal = mw.dialog({
             content: '<div id="mw_admin_edit_tag_item_module">Loading...</div>',
             title: modal_title,
             id: 'mw_admin_edit_tag_item_popup_modal'
