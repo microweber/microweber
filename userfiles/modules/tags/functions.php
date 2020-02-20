@@ -14,12 +14,24 @@ api_expose_admin('post_tag/delete', 'post_tag_delete');
 
 api_expose_admin('tag/edit/autocomplete', function($params) {
 
-    return [
-      [
-          'id'=>0,
-          'title'=>' ebasi'
-      ]
-    ];
+    $founded_tags = [];
+
+    $filter = '';
+    if (isset($params['keyword'])) {
+        $filter = 'keyword=' . $params['keyword'].'&search_in_fields=name,slug';
+    }
+
+    $tagging_tags = db_get('tagging_tags', $filter);
+    if ($tagging_tags) {
+        foreach ($tagging_tags as $tagging_tag) {
+            $founded_tags[] = [
+                'id' => $tagging_tag['id'],
+                'title' => $tagging_tag['name'],
+            ];
+        }
+    }
+
+    return $founded_tags;
 
 });
 
