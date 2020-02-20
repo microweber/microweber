@@ -35,6 +35,10 @@ $(document).ready(function () {
 
     searchPostsByKeyowrd();
 
+    $(document).on('change', '.js-posts-filter-by', function() {
+        searchPostsByKeyowrd();
+    });
+
     $(document).on('change', '.js-post-checkbox', function() {
 
         selected_posts = getSelectedPosts();
@@ -59,8 +63,6 @@ $(document).ready(function () {
 */
 
     $('.js-add-tags-to-posts').click(function () {
-
-
 
     });
 
@@ -166,18 +168,28 @@ function searchTagsByKeyowrd() {
     });
 
 }
+searchTagsByKeyowrd();
 
 function searchPostsByKeyowrd() {
 
     var posts = '';
     var keyword = $('.js-search-posts-keyword').val();
+    var filter = $('.js-posts-filter-by').val();
 
     $('.js-select-posts').html('Searching for: ' + keyword);
+
+    var content_type = '[neq]page';
+    if (filter == 'products') {
+        content_type = 'product';
+    }
+    if (filter == 'posts') {
+        content_type = 'post';
+    }
 
     $.get(mw.settings.api_url + 'get_content_admin', {
             keyword: keyword,
             order_by: 'updated_at+desc',
-            content_type: '[neq]page',
+            content_type: content_type,
             search_in_fields: 'title'
         }, function(data) {
         for (i = 0; i < data.length; i++) {
@@ -232,11 +244,16 @@ function searchPostsByKeyowrd() {
                     <h5 class="card-title">
                         Listd of all posts
                     </h5>
-
                     <button class="btn btn-primary pull-right js-add-tags-to-posts" disabled="disabled">Add tags to posts</button>
 
                     <p class="card-text">Select the posts you want to add or edit tags.</p>
 
+                    Filter:
+                    <select class="form-control js-posts-filter-by">
+                        <option value="posts">Posts</option>
+                        <option value="products">Products</option>
+                    </select>
+                    <br />
                     <b>Post lists</b>
                     <div class="js-select-posts" style="width:100%;max-height: 350px;overflow-y: scroll;">
 
