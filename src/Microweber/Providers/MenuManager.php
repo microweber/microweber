@@ -599,17 +599,38 @@ class MenuManager
                 $sub_menu_params = array();
                 $sub_menu_params['parent_id'] = $item['id'];
                 $sub_menu_params['table'] = $menus;
-                $sub_menu_params['count'] = true;
+                $sub_menu_params['item_type'] = 'menu_item';
+               // $sub_menu_params['count'] = true;
                 $sub_menu_q = $this->app->database_manager->get($sub_menu_params);
                 if ($sub_menu_q) {
-                    $has_childs = true;
+
+
+                    foreach ($sub_menu_q as $ik=> $sub_menu_q_item_inner){
+                        $check_if_content_exists = true;
+                         if(isset($sub_menu_q_item_inner['content_id']) and $sub_menu_q_item_inner['content_id']){
+                            $check_if_content_exists_by_id = $this->app->content_manager->get_by_id($sub_menu_q_item_inner['content_id']);
+                             if(!$check_if_content_exists_by_id){
+                                $check_if_content_exists = false;
+                            } else{
+                                 if(isset($check_if_content_exists_by_id['content_id']) and intval($check_if_content_exists_by_id['is_deleted']) == 1) {
+                                     $check_if_content_exists = false;
+                                 }
+                             }
+                        }
+                        if(!$check_if_content_exists){
+                           unset($sub_menu_q[$ik]) ;
+                        }
+                    }
+
+
                     //  $has_childs_class = 'have-submenu';
-                    $has_childs_class = $li_submenu_class;
+                    if($sub_menu_q){
+                        $has_childs = true;
+                     $has_childs_class = $li_submenu_class;
+                    }
                 }
 
-
-
-          $item['url'] = $url;
+                $item['url'] = $url;
 
 
                 $ext_classes = '';
