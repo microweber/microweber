@@ -14,6 +14,13 @@ api_expose_admin('get_post_tags', function($params) {
     return array('title'=>$post['title'], 'tags'=>$tags);
 });
 
+api_expose_admin('tags/get', function($params) {
+
+    $tagging_tags = db_get('tagging_tags', []);
+
+    return $tagging_tags;
+});
+
 api_expose_admin('tag/view', function($params) {
 
     $tag_id = $params['tag_id'];

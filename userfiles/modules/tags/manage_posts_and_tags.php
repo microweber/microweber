@@ -229,20 +229,7 @@ function searchPostsByKeyowrd() {
                 </div>
                 <div class="card-body">
                     <div class="js-posts-tags">
-                        <?php
-                        $tagging_tags = db_get('tagging_tags', []);
-                        if ($tagging_tags):
-                            foreach ($tagging_tags as $tag):
-                                ?>
-                                <a href="#" class="badge badge-dark">
-                                    <i class="mw-icon-web-promotion"></i> <?php echo $tag['name']; ?>  <span class="mw-icon-close"></span>
-                                </a>
-                            <?php
-                            endforeach;
-                            ?>
-                        <?php
-                        endif;
-                        ?>
+
                     </div>
                 </div>
             </div>

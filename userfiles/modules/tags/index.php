@@ -35,7 +35,9 @@ if ($cont_id) {
 $content_tags = []; // ALLWAYS MUST BE ARRAY WITH STRING
 if ($content_tags_data) {
     foreach ($content_tags_data as $content_tag_data_item) {
-        $content_tags[] = $content_tag_data_item['tag_name'];
+        if (isset($content_tag_data_item['tag_name'])) {
+            $content_tags[] = $content_tag_data_item['tag_name'];
+        }
     }
 }
 ?>

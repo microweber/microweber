@@ -56,6 +56,8 @@ if (!$tag) {
                     $('.js-admin-post-tag-edit-form-id').val(data.id);
                     $('.js-admin-post-tag-edit-form-post-id').val(data.post_id);
 
+                    $('.js-admin-post-tag-messages').html('<div class="mw-ui-box mw-ui-box-content mw-ui-box-notification"><i class="fa fa-check"></i> <?php _e('Tag is saved!'); ?></div>');
+
                     //  mw.reload_module_everywhere('tags');
                     mw.notification.success('<?php _e('Tag is saved!');?>');
                 }
@@ -89,14 +91,19 @@ if (!$tag) {
     <input type="hidden" name="id" class="js-admin-post-tag-edit-form-id" value="<?php echo $tag['id']; ?>" />
     <input type="hidden" name="post_id" class="js-admin-post-tag-edit-form-post-id" value="<?php echo $post_id; ?>" />
 
-    <button class="btn btn-success" type="submit"><i class="mw-icon-web-checkmark"></i> &nbsp; <?php _e('Save Tag');?></button>
+    <button class="btn btn-success" type="submit"><i class="fa fa-pen"></i> &nbsp; <?php _e('Edit Tag');?></button>
 
 </form>
 
 <style>
+    .js-admin-post-tag-messages {
+        margin-top: 15px;
+    }
     .js-admin-post-tags {
         margin-top:20px;
     }
 </style>
+
+<div class="js-admin-post-tag-messages"></div>
 
 <div class="js-admin-post-tags"></div>
