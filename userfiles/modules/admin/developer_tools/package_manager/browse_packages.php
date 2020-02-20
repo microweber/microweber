@@ -232,15 +232,12 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
     }
 
     .package-item-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         padding: 12px 0;
     }
 
-    .package-item-footer div + div {
-        display: flex;
-        flex-direction: column;
+    .package-item-footer .mw-ui-row {
+        display: flex !important;
+        flex-direction: row;
         justify-content: space-between;
         align-items: center;
     }
@@ -249,7 +246,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
         font-size: 16px;
     }
 
-    .package-item-footer > div:first-child a {
+    .package-item-footer .title a {
         font-size: 16px;
         font-weight: bold;
     }
@@ -261,6 +258,10 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
     .package-col-microweber-module .package-item-footer div + div {
         text-align: right;
         flex-direction: row;
+    }
+
+    .mw-ui-box {
+        height: 100%;
     }
 </style>
 
@@ -350,8 +351,14 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
 
 <div class="admin-side-content" style="max-width: 90%">
     <?php if (!$is_update_mode) : ?>
-    <h2>Marketplace</h2>
-    <p>Welcome to the marketplace. Here you will find new modules, templates and updates.</p>
+        <div class="mw-flex-row m-b-20">
+            <div class="mw-flex-col-xs-12 mw-flex-col-md-12 mw-flex-col-lg-12">
+                <div class="mw-ui-col-container">
+                    <h1 class="bold">Marketplace</h1>
+                    <p>Welcome to the marketplace. Here you will find new modules, templates and updates.</p>
+                </div>
+            </div>
+        </div>
     <?php endif; ?>
 
 
@@ -374,7 +381,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
 
 
                             ?>
-                            <li><a class="tablink" href="javascript:void(0);"><?php print titlelize($pkkeys) ?></a></li>
+                            <li class="m-0"><a class="tablink" href="javascript:void(0);"><?php print titlelize($pkkeys) ?></a></li>
 
                         <?php endforeach; ?>
 
@@ -409,8 +416,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
 
                                     ?>
                                     <li><a class="tablink" href="javascript::void(0);"><?php print titlelize($pkkeys) ?>
-                                            <sup
-                                                    class="mw-notification-count"><?php print count($pkitems) ?></sup></a>
+                                            <sup class="mw-notification-count"><?php print count($pkitems) ?></sup></a>
                                     </li>
 
                                 <?php endforeach; ?>
@@ -446,7 +452,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                             print    $view->display();
                             ?>
                         </div>
-                    <hr>
+                        <hr>
                     <?php endforeach; ?>
 
 
@@ -509,17 +515,11 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                 <?php endforeach; ?>
 
             <?php else: ?>
-
-
                 <?php if (!$core_update) : ?>
                     <div class="mw-ui-box-content tab">
                         No packages found.
-
                     </div>
-
                 <?php endif; ?>
-
-
                 </div>
                 </div>
 
