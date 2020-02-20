@@ -1,6 +1,17 @@
 <?php
 
-api_expose_admin('get_post_tags', function($params) {
+api_expose_admin('get_post_tags', 'get_post_tags');
+
+api_expose_admin('tag/get', 'tag_get');
+api_expose_admin('tags/get', 'tags_get');
+api_expose_admin('tag/view', 'tag_view');
+api_expose_admin('tag/edit', 'tag_edit');
+api_expose_admin('tag/delete', 'tag_delete');
+
+api_expose_admin('post_tag/edit', 'post_tag_edit');
+api_expose_admin('post_tag/delete', 'post_tag_delete');
+
+function get_post_tags($params) {
 
     $post = get_content([
         'id'=>$params['post_id'],
@@ -12,9 +23,8 @@ api_expose_admin('get_post_tags', function($params) {
     ]);
 
     return array('title'=>$post['title'], 'tags'=>$tags);
-});
-
-api_expose_admin('tags/get', function($params) {
+}
+function tags_get($params) {
 
     $filter = '';
     if (isset($params['keyword'])) {
@@ -27,9 +37,9 @@ api_expose_admin('tags/get', function($params) {
     }
 
     return ['error'=>true];
-});
+}
 
-api_expose_admin('tag/view', function($params) {
+function tag_view($params) {
 
     $tag_id = $params['tag_id'];
     $filter = [
@@ -40,10 +50,9 @@ api_expose_admin('tag/view', function($params) {
     $tag = db_get('tagging_tags', $filter);
 
     return $tag;
+}
 
-});
-
-api_expose_admin('tag/edit', function($params) {
+function tag_edit($params) {
 
     if (empty(trim($params['name'])) || empty(trim($params['slug']))) {
         return ['status'=>false];
@@ -66,10 +75,19 @@ api_expose_admin('tag/edit', function($params) {
     }
 
     $tagSaved = db_save('tagging_tags',$newData);
-
     if ($tagSaved) {
         if (!isset($newData['id'])) {
             $newData['id'] = $tagSaved;
+        }
+
+        if (isset($_POST['post_ids']) && is_array($_POST['post_ids'])) {
+            foreach ($_POST['post_ids'] as  $post_id) {
+                post_tag_edit([
+                    'post_id'=>$post_id,
+                    'tag_name'=>$newData['name'],
+                    'tag_slug'=>$newData['slug'],
+                ]);
+            }
         }
 
         return $newData;
@@ -77,9 +95,9 @@ api_expose_admin('tag/edit', function($params) {
 
     return ['status'=>false];
 
-});
+}
 
-api_expose_admin('tag/delete', function($params) {
+function tag_delete($params) {
 
     $tag_id = $params['tag_id'];
     $filter = [
@@ -101,9 +119,9 @@ api_expose_admin('tag/delete', function($params) {
 
     echo json_encode(['status'=>false]);
     exit;
-});
+}
 
-api_expose_admin('post_tag/edit', function($params) {
+function post_tag_edit($params) {
 
     if (empty(trim($params['tag_name']))) {
         return ['status'=>false, 'message'=>_e('Please, fill the tag name.', true)];
@@ -126,6 +144,10 @@ api_expose_admin('post_tag/edit', function($params) {
         ]);
     }
 
+    if (!isset($params['id'])) {
+        $params['id'] = false;
+    }
+
     // Save tag post
     $save = db_save('tagging_tagged', [
        'id'=>$params['id'],
@@ -140,9 +162,9 @@ api_expose_admin('post_tag/edit', function($params) {
     }
 
     return $params;
-});
+}
 
-api_expose_admin('post_tag/delete', function($params) {
+function post_tag_delete($params) {
 
     $post_tag_id = $params['post_tag_id'];
     $filter = [
@@ -153,11 +175,10 @@ api_expose_admin('post_tag/delete', function($params) {
     $tag = db_get('tagging_tagged', $filter);
     if ($tag) {
         if (db_delete('tagging_tagged', $post_tag_id)) {
-            echo json_encode(['status'=>true]);
-            exit;
+            return ['status'=>true];
         }
     }
 
-    echo json_encode(['status'=>false]);
-    exit;
-});
+    return ['status'=>false];
+
+}

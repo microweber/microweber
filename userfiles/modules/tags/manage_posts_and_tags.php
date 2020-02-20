@@ -70,7 +70,8 @@ $(document).ready(function () {
 */
 
     $('.js-add-tags-to-posts').click(function () {
-
+        var post_ids = getSelectedPosts();
+        editTag(false, post_ids);
     });
 
     $('.js-search-posts-submit').click(function () {
@@ -126,6 +127,7 @@ function getSelectedPosts() {
     $('.js-post-box').each(function (e) {
         if ($(this).find('.js-post-checkbox').is(':checked')) {
             selected_posts.push({
+                'post_id':$(this).find('.js-post-checkbox-id').val(),
                 'post_title':$(this).find('.js-post-checkbox-title').val()
             });
         }
@@ -151,11 +153,18 @@ function getPostTags(post_id) {
                 tags += getTagPostsButtonHtml(data.tags[i].id,data.tags[i].tag_name,data.tags[i].tag_slug, post_id);
             }
 
-            $('.js-posts-tags').append('' +
+            var postTagBoxHtml = '' +
                 '<div class="js-post-tag-box js-post-tag-' + post_id + '">' +
                 '<p>' + data.title + '</p>' +
-                '<div>Tags: <br />' + tags + '<button class="btn btn-success js-post-tag-add-new" onClick="editPostTag(false, '+post_id+')" style="margin-top:5px;margin-right:5px;"><i class="fa fa-plus"></i></button></div>' +
-                '</div>');
+                '<div>Tags: <br />' + tags + '<button class="btn btn-success js-post-tag-add-new" onClick="editPostTag(false, ' + post_id + ')" style="margin-top:5px;margin-right:5px;"><i class="fa fa-plus"></i></button></div>' +
+                '</div>';
+
+            var postTagBox = $('.js-post-tag-' + post_id);
+            if (postTagBox.length > 0) {
+                postTagBox.replaceWith(postTagBoxHtml);
+            } else {
+                $('.js-posts-tags').append(postTagBoxHtml);
+            }
     });
 }
 
@@ -164,7 +173,7 @@ function searchTagsByKeyowrd() {
     var tags = '';
     var keyword = $('.js-search-tags-keyword').val();
 
-    $('.js-posts-tags').html('Searching for: ' + keyword);
+    $('.js-all-tags').html('Searching for: ' + keyword);
 
     $.get(mw.settings.api_url + 'tags/get', {
         keyword: keyword,
@@ -176,9 +185,9 @@ function searchTagsByKeyowrd() {
                 }
             }
         } else {
-            tags = 'No tags found.';
+            tags = 'No tags found for <b>' + keyword + '</b>.';
         }
-        $('.js-posts-tags').html(tags);
+        $('.js-all-tags').html(tags);
     });
 
 }
@@ -289,6 +298,12 @@ function searchPostsByKeyowrd() {
                     font-weight: normal;
                     padding: 10px;
                 }
+                .js-posts-tags {
+                    margin-top: 15px;
+                }
+                .js-all-tags {
+                    margin-bottom: 15px;
+                }
             </style>
 
             <div class="card">
@@ -297,9 +312,10 @@ function searchPostsByKeyowrd() {
                     <button class="btn btn-sm btn-success pull-right" onclick="editTag(false);"><i class="fa fa-plus"></i> Create new tag</button>
                 </div>
                 <div class="card-body">
-                    <div class="js-posts-tags">
-
-                    </div>
+                    <p>Global tags</p>
+                    <div class="js-all-tags"></div>
+                    <div>Tags for <span class="js-filter-by-text">Post</span></div>
+                    <div class="js-posts-tags"></div>
                 </div>
             </div>
 
