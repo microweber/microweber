@@ -35,8 +35,15 @@ $(document).ready(function () {
 
     searchPostsByKeyowrd();
 
+    $('.js-posts-filter-by option').each(function() {
+        if($(this).val() == 'posts') {
+          $(this).prop("selected", true);
+        }
+    });
+
     $(document).on('change', '.js-posts-filter-by', function() {
         searchPostsByKeyowrd();
+        changeFilterText();
     });
 
     $(document).on('change', '.js-post-checkbox', function() {
@@ -80,6 +87,13 @@ $(document).ready(function () {
 
 });
 
+function changeFilterText() {
+    if ($('.js-posts-filter-by').val() == 'products') {
+        $('.js-filter-by-text').html('Products');
+    } else {
+        $('.js-filter-by-text').html('Posts');
+    }
+}
 function getTagButtonHtml(id,name,slug) {
 
     var html = '<div class="btn-group btn-tag btn-tag-id-'+id+'" role="group">' +
@@ -213,7 +227,7 @@ function searchPostsByKeyowrd() {
 <div class="mw-flex-row">
 
     <div class="mw-flex-col-xs-6 last-xs">
-        <div style="font-weight: bold;">Search posts</div>
+        <div style="font-weight: bold;">Search <span class="js-filter-by-text">posts</span></div>
         <div class="input-group mb-3">
             <input type="text" class="form-control js-search-posts-keyword" placeholder="Keyword...">
             <div class="input-group-append">
@@ -237,16 +251,16 @@ function searchPostsByKeyowrd() {
         <div class="box">
             <div class="card">
                 <div class="card-header">
-                    Posts list
+                    <span class="js-filter-by-text">Posts</span> list
                     <button class="btn btn-sm btn-default pull-right">&nbsp;</button>
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">
-                        Listd of all posts
+                        Listd of all <span class="js-filter-by-text">Posts</span>
                     </h5>
-                    <button class="btn btn-primary pull-right js-add-tags-to-posts" disabled="disabled">Add tags to posts</button>
+                    <button class="btn btn-primary pull-right js-add-tags-to-posts" disabled="disabled">Add tags to <span class="js-filter-by-text">Posts</span></button>
 
-                    <p class="card-text">Select the posts you want to add or edit tags.</p>
+                    <p class="card-text">Select the <span class="js-filter-by-text">Posts</span> you want to add or edit tags.</p>
 
                     Filter:
                     <select class="form-control js-posts-filter-by">
@@ -254,7 +268,7 @@ function searchPostsByKeyowrd() {
                         <option value="products">Products</option>
                     </select>
                     <br />
-                    <b>Post lists</b>
+                    <b><span class="js-filter-by-text">Post</span> lists</b>
                     <div class="js-select-posts" style="width:100%;max-height: 350px;overflow-y: scroll;">
 
                     </div>
