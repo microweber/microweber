@@ -35,6 +35,10 @@ $(document).ready(function () {
 
     searchPostsByKeyowrd();
 
+    $(document).on('change', '.js-posts-filter-by', function() {
+        searchPostsByKeyowrd();
+    });
+
     $(document).on('change', '.js-post-checkbox', function() {
 
         selected_posts = getSelectedPosts();
@@ -60,8 +64,6 @@ $(document).ready(function () {
 
     $('.js-add-tags-to-posts').click(function () {
 
-
-
     });
 
     $('.js-search-posts-submit').click(function () {
@@ -72,7 +74,22 @@ $(document).ready(function () {
         searchPostsByKeyowrd();
     });
 
+    $('.js-search-tags-keyword').keyup(function () {
+        searchTagsByKeyowrd();
+    });
+
 });
+
+function getTagButtonHtml(id,name,slug) {
+
+    var html = '<div class="btn-group btn-tag btn-tag-id-'+id+'" role="group">' +
+        '    <button type="button" class="btn btn-secondary" onClick="editTag('+id+')"><i class="fa fa-tag"></i> ' + name + '</button>' +
+        '    <button type="button" class="btn btn-secondary" onClick="editTag('+id+')"><i class="fa fa-pen"></i></button>' +
+        '    <button type="button" class="btn btn-secondary" onClick="deleteTag('+id+')"><i class="fa fa-times"></i></button>' +
+        '</div>';
+
+    return html;
+}
 
 function getTagPostsButtonHtml(id,name,slug, post_id) {
 
@@ -128,18 +145,51 @@ function getPostTags(post_id) {
     });
 }
 
+function searchTagsByKeyowrd() {
+
+    var tags = '';
+    var keyword = $('.js-search-tags-keyword').val();
+
+    $('.js-posts-tags').html('Searching for: ' + keyword);
+
+    $.get(mw.settings.api_url + 'tags/get', {
+        keyword: keyword,
+    }, function(data) {
+        if (data.length > 0) {
+            for (i = 0; i < data.length; i++) {
+                if (data[i].id) {
+                    tags += getTagButtonHtml(data[i].id, data[i].name, data[i].slug);
+                }
+            }
+        } else {
+            tags = 'No tags found.';
+        }
+        $('.js-posts-tags').html(tags);
+    });
+
+}
+searchTagsByKeyowrd();
 
 function searchPostsByKeyowrd() {
 
     var posts = '';
     var keyword = $('.js-search-posts-keyword').val();
+    var filter = $('.js-posts-filter-by').val();
 
     $('.js-select-posts').html('Searching for: ' + keyword);
+
+    var content_type = '[neq]page';
+    if (filter == 'products') {
+        content_type = 'product';
+    }
+    if (filter == 'posts') {
+        content_type = 'post';
+    }
 
     $.get(mw.settings.api_url + 'get_content_admin', {
             keyword: keyword,
             order_by: 'updated_at+desc',
-            content_type: '[neq]page',
+            content_type: content_type,
             search_in_fields: 'title'
         }, function(data) {
         for (i = 0; i < data.length; i++) {
@@ -194,11 +244,16 @@ function searchPostsByKeyowrd() {
                     <h5 class="card-title">
                         Listd of all posts
                     </h5>
-
                     <button class="btn btn-primary pull-right js-add-tags-to-posts" disabled="disabled">Add tags to posts</button>
 
                     <p class="card-text">Select the posts you want to add or edit tags.</p>
 
+                    Filter:
+                    <select class="form-control js-posts-filter-by">
+                        <option value="posts">Posts</option>
+                        <option value="products">Products</option>
+                    </select>
+                    <br />
                     <b>Post lists</b>
                     <div class="js-select-posts" style="width:100%;max-height: 350px;overflow-y: scroll;">
 
@@ -229,20 +284,7 @@ function searchPostsByKeyowrd() {
                 </div>
                 <div class="card-body">
                     <div class="js-posts-tags">
-                        <?php
-                        $tagging_tags = db_get('tagging_tags', []);
-                        if ($tagging_tags):
-                            foreach ($tagging_tags as $tag):
-                                ?>
-                                <a href="#" class="badge badge-dark">
-                                    <i class="mw-icon-web-promotion"></i> <?php echo $tag['name']; ?>  <span class="mw-icon-close"></span>
-                                </a>
-                            <?php
-                            endforeach;
-                            ?>
-                        <?php
-                        endif;
-                        ?>
+
                     </div>
                 </div>
             </div>

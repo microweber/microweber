@@ -28,9 +28,9 @@
                     }
 
                     if ($('.btn-tag-id-'+data.id).length == 0) {
-                        $('.js-admin-tags').append(getTagButtonHtml(data.id,data.name,data.slug));
+                        $('.js-admin-tags').append(getTagButtonHtmlInForm(data.id,data.name,data.slug));
                     } else {
-                        $('.btn-tag-id-'+data.id).replaceWith(getTagButtonHtml(data.id,data.name,data.slug));
+                        $('.btn-tag-id-'+data.id).replaceWith(getTagButtonHtmlInForm(data.id,data.name,data.slug));
                     }
 
                     $('.js-admin-tag-edit-form').find('input, textarea').each(function(e) {
@@ -46,7 +46,7 @@
 
     });
 
-    function getTagButtonHtml(id,name,slug) {
+    function getTagButtonHtmlInForm(id,name,slug) {
 
         var html = '<div class="btn-group btn-tag btn-tag-id-'+id+'" role="group">' +
             '    <button type="button" class="btn btn-secondary" onClick="editTagReplaceForm('+id+')"><i class="fa fa-tag"></i> ' + name + '</button>' +

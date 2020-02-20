@@ -14,6 +14,21 @@ api_expose_admin('get_post_tags', function($params) {
     return array('title'=>$post['title'], 'tags'=>$tags);
 });
 
+api_expose_admin('tags/get', function($params) {
+
+    $filter = '';
+    if (isset($params['keyword'])) {
+        $filter = 'keyword=' . $params['keyword'].'&search_in_fields=name,slug';
+    }
+
+    $tagging_tags = db_get('tagging_tags', $filter);
+    if ($tagging_tags) {
+        return $tagging_tags;
+    }
+
+    return ['error'=>true];
+});
+
 api_expose_admin('tag/view', function($params) {
 
     $tag_id = $params['tag_id'];
@@ -75,6 +90,10 @@ api_expose_admin('tag/delete', function($params) {
     $tag = db_get('tagging_tags', $filter);
     if ($tag) {
         if (db_delete('tagging_tags', $tag_id)) {
+
+            // Delete this tag for all posts
+            db_delete('tagging_tagged', $tag['slug'], 'tag_slug');
+
             echo json_encode(['status'=>true]);
             exit;
         }
@@ -86,13 +105,32 @@ api_expose_admin('tag/delete', function($params) {
 
 api_expose_admin('post_tag/edit', function($params) {
 
-    if (empty(trim($params['tag_name'])) || empty(trim($params['tag_slug']))) {
-        return ['status'=>false];
+    if (empty(trim($params['tag_name']))) {
+        return ['status'=>false, 'message'=>_e('Please, fill the tag name.', true)];
     }
 
+    if (empty(trim($params['tag_slug']))) {
+        return ['status'=>false, 'message'=>_e('Please, fill the tag slug.', true)];
+    }
+
+    if (empty($params['post_id'])) {
+        return ['status'=>false, 'message'=>_e('Post cant be identicated.', true)];
+    }
+
+    // Save global tag
+    $check_global_tag = db_get('tagging_tags',['slug'=>$params['tag_slug'], 'single'=>1]);
+    if (!$check_global_tag) {
+        db_save('tagging_tags', [
+            'name' => $params['tag_name'],
+            'slug' => $params['tag_slug'],
+        ]);
+    }
+
+    // Save tag post
     $save = db_save('tagging_tagged', [
        'id'=>$params['id'],
        'taggable_id'=>$params['post_id'],
+       'taggable_type'=> 'Content',
        'tag_name'=>$params['tag_name'],
        'tag_slug'=>$params['tag_slug'],
     ]);
