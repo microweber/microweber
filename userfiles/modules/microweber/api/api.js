@@ -1188,6 +1188,11 @@ mw.Select = function(options) {
             this.loading(true);
             this.ajaxFilter(val, function (data) {
                 scope.setData(data.data);
+                if(data.data && data.data.length){
+                    scope.open()
+                } else {
+                    scope.close()
+                }
                 scope.loading(false);
             });
         } else {
@@ -1214,14 +1219,13 @@ mw.Select = function(options) {
         return this.displayValue(plval)
     };
     this.displayValue = function(plval){
-        console.log(this.value())
         if(!plval && !this.settings.multiple && this.value()) {
             plval = scope.getLabel(this.value())
         }
         plval = plval || this.settings.placeholder;
         if(!scope._displayValue) {
             scope._displayValue = scope.document.createElement('span');
-            scope._displayValue.className = 'mw-select-display-value';
+            scope._displayValue.className = 'mw-select-display-value mw-ui-size-' + this.settings.size;
             $('.mw-select-value', this.root).append(scope._displayValue)
         }
         scope._displayValue.innerHTML = plval + this.__indicateNumber();
@@ -1231,7 +1235,7 @@ mw.Select = function(options) {
         if(this.settings.multiple && this.value() && this.value().length){
             return "<span class='mw-select-indicate-number'>" + this.value().length + "</span>";
         } else {
-            return '';
+            return "<span class='mw-select-indicate-number mw-select-indicate-number-empty'>" + 0 + "</span>";
         }
     };
 
@@ -1266,21 +1270,24 @@ mw.Select = function(options) {
             var oh = scope.document.createElement(tag);
             oh.className = cls + ' mw-ui-size-' + scope.settings.size + ' mw-ui-bg-' + scope.settings.color + ' mw-select-value';
 
-
             if(scope.settings.autocomplete){
-                oh.innerHTML = '<input class="mw-ui-invisible-field">';
+                oh.innerHTML = '<input class="mw-ui-invisible-field mw-ui-field-' + scope.settings.size + '">';
             } else {
                 oh.innerHTML = '<span class="mw-ui-btn-content"></span>';
             }
 
             if(scope.settings.autocomplete){
-                $('input', oh).on('input', function () {
+                $('input', oh)
+                    .on('input', function () {
                     scope.filter(this.value)
-                }).on('focus', function () {
+                })
+                .on('focus', function () {
                     if(scope.settings.data && scope.settings.data.length) {
                         scope.open();
                     }
-
+                }).on('focus blur input', function () {
+                    var hasVal = !!this.value.trim();
+                    mw.tools[hasVal ? 'addClass' : 'removeClass'](scope.root, 'mw-select-has-value')
                 });
             } else {
                 oh.onclick = function () {
@@ -1380,9 +1387,27 @@ mw.Select = function(options) {
                 }
             });
         }
-        this.tags();
-        $(this).trigger('change', [this._value])
 
+        this.afterChange();
+    };
+
+    this.afterChange = function () {
+        this.tags();
+        this.displayValue();
+        if($.isArray(this._value)) {
+            $.each(this._value, function () {
+
+            });
+            $(this.root.querySelectorAll('.mw-select-option')).each(function () {
+                if(scope._value.indexOf(this.$value) !== -1) {
+                    mw.tools.addClass(this, 'active')
+                }
+                else {
+                    mw.tools.removeClass(this, 'active')
+                }
+            });
+        }
+        $(this).trigger('change', [this._value]);
     };
 
     this.valueRemove = function(val) {
@@ -1390,7 +1415,7 @@ mw.Select = function(options) {
         val = this._valueGet(val);
         if (!val) return;
         if (!this._value) {
-            this._value = []
+            this._value = [];
         }
         var exists = this._value.find(function (item) {
             return item.id === val.id;
@@ -1398,13 +1423,12 @@ mw.Select = function(options) {
         if (exists) {
             this._value.splice(this._value.indexOf(exists), 1);
         }
-        this.tags();
         $(this.root.querySelectorAll('.mw-select-option')).each(function () {
             if(this.$value === val) {
                 this.querySelector('input').checked = false;
             }
         });
-        $(this).trigger('change', [this._value])
+        this.afterChange()
     };
 
     this._valueToggle = function(val){
@@ -1420,7 +1444,7 @@ mw.Select = function(options) {
         } else {
             this._value.push(val);
         }
-        this.tags()
+        this.afterChange()
     };
 
     this.value = function(val){
@@ -1434,8 +1458,8 @@ mw.Select = function(options) {
             this._value = val;
             this.close()
         }
-        this.displayValue()
-        $(this).trigger('change', [this._value])
+
+        this.afterChange()
     };
 
     this.setData = function (data) {
@@ -1493,8 +1517,4 @@ $(document).ready(function () {
 mw.select = function(options) {
     return new mw.Select(options);
 };
-
-
-
-
 

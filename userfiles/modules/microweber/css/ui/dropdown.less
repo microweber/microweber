@@ -257,6 +257,7 @@
             border-bottom: 1px solid #dbdcdd;
             margin-bottom: -1px;
             position: relative;
+            &.active,
             &:hover{
                 background-color: #e1f1fd;
                 border-color: #4592ff;
@@ -272,8 +273,14 @@
             transform: scale(1);
         }
     }
+    &.mw-select-has-value{
+        .mw-select-display-value{
+            opacity: 0;
+        }
+    }
     .mw-select-value{
         position: relative;
+        display: block;
         padding-right: 35px;
         width: 100%;
         max-width: 100%;
@@ -282,6 +289,18 @@
         white-space: nowrap;
         text-align: left;
         justify-content: flex-start;
+
+        input{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 8px;
+            &+.mw-select-display-value{
+                color: @textColor;
+            }
+        }
         &:after{
             position: absolute;
             right: 15px;
@@ -296,6 +315,9 @@
     }
     .mw-select-tags {
         padding: 5px;
+        &:empty{
+            display: none;
+        }
         .mw-ui-btn{
             margin: 5px;
         }
@@ -310,6 +332,8 @@
         height: 100%;
         display: flex;
         align-items: center;
+        transition: opacity .17s;
+        padding-left: 0;
         * {
             vertical-align: middle;
         }
@@ -324,6 +348,9 @@
             font-size: 12px;
             color: #4592ff;
             margin-left: 10px;
+            &.mw-select-indicate-number-empty{
+                opacity: 0;
+            }
         }
     }
     &.mw-select-multiple-false{

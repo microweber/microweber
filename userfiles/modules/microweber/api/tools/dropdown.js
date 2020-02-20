@@ -17,7 +17,7 @@ mw.tools.dropdown = function (root) {
             input.dropdown = el;
             input.onkeydown = function (e) {
                 if (e.keyCode === 13) {
-                    e.preventDefault()
+                    e.preventDefault();
                     mw.$(this.dropdown).removeClass("active");
                     mw.$('.mw-dropdown-content', this.dropdown).hide();
                     mw.$(this.dropdown).setDropdownValue(this.value, true, true);

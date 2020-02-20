@@ -140,7 +140,6 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                         <li>
                             <a href="<?php print admin_url() ?>view:settings#option_group=updates"><?php _e("Show updates"); ?></a>
                         </li>
-                        `
                     <?php } ?>
                     <li><a href="javascript:;"
                            onclick="mw.admin.admin_package_manager.reload_packages_list();"><?php _e("Reload packages"); ?></a>
@@ -346,12 +345,21 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
     .mw-sel-item-key-install {
         border: none;
     }
+    .marketplace-title{
+        padding-bottom: 40px;
+    }
+    #mw-packages-browser-nav-tabs-nav .mw-ui-col-container{
+        padding-left: 0;
+    }
 </style>
 
 <div class="admin-side-content" style="max-width: 90%">
     <?php if (!$is_update_mode) : ?>
-    <h2>Marketplace</h2>
-    <p>Welcome to the marketplace. Here you will find new modules, templates and updates.</p>
+    <div class="marketplace-title">
+        <h2><b>Marketplace</b></h2>
+        <p>Welcome to the marketplace. Here you will find new modules, templates and updates.</p>
+    </div>
+
     <?php endif; ?>
 
 

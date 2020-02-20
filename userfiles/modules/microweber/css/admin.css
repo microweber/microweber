@@ -2766,8 +2766,8 @@ input#edit-content-url:focus, input#edit-content-url.active {
     text-align: center;
     position: relative;
     float: right;
-    top: 22px;
-    right: 28px;
+    /*top: 22px;
+    right: 28px;*/
 }
 
 .mw-ui-navigation a .relative .mw-notification-count {
