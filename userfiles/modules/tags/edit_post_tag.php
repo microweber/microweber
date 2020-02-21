@@ -71,7 +71,26 @@ if (!$tag) {
         });
 
     });
+
+    var mySelectXXX = mw.select({
+        element: '.ebasi-gazo',
+        multiple: false,
+        autocomplete: true,
+        tags: false,
+        ajaxMode: {
+            paginationParam: 'page',
+            searchParam: 'keyword',
+            endpoint: mw.settings.api_url + '/tag/edit/autocomplete',
+            method: 'get'
+        }
+    }); 
+
+    $(mySelectXXX).on("change", function(event, val){
+        console.log(val)
+    })
 </script>
+
+<div class="ebasi-gazo"></div>
 
 <form method="post" class="js-admin-post-tag-edit-form">
 

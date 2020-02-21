@@ -52,6 +52,7 @@ $(document).ready(function () {
         if (selected_posts.length > 0) {
             $('.js-add-tags-to-posts').removeAttr('disabled');
         } else {
+            $('.js-posts-tags').html('<h5>Select posts to see tags.</h5>');
             $('.js-add-tags-to-posts').attr('disabled','disabled');
         }
 
@@ -95,10 +96,11 @@ function changeFilterText() {
         $('.js-filter-by-text').html('Posts');
     }
 }
-function getTagButtonHtml(id,name,slug) {
+function getTagButtonHtml(id,name,slug, posts_count =0) {
 
     var html = '<div class="btn-group btn-tag btn-tag-id-'+id+'" role="group">' +
         '    <button type="button" class="btn btn-secondary" onClick="editTag('+id+')"><i class="fa fa-tag"></i> ' + name + '</button>' +
+        '    <button type="button" class="btn btn-secondary" data-slug="'+slug+'" onClick="showPostsWithTags(this)">('+posts_count+')</button>' +
         '    <button type="button" class="btn btn-secondary" onClick="editTag('+id+')"><i class="fa fa-pen"></i></button>' +
         '    <button type="button" class="btn btn-secondary" onClick="deleteTag('+id+')"><i class="fa fa-times"></i></button>' +
         '</div>';
@@ -156,7 +158,7 @@ function getPostTags(post_id) {
             var postTagBoxHtml = '' +
                 '<div class="js-post-tag-box js-post-tag-' + post_id + '">' +
                 '<p>' + data.title + '</p>' +
-                '<div>Tags: <br />' + tags + '<button class="btn btn-success js-post-tag-add-new" onClick="editPostTag(false, ' + post_id + ')" style="margin-top:5px;margin-right:5px;"><i class="fa fa-plus"></i></button></div>' +
+                '<div>Tags: ' + tags + '<button class="btn btn-success js-post-tag-add-new" onClick="editPostTag(false, ' + post_id + ')" style="margin-top:5px;margin-right:5px;"><i class="fa fa-plus"></i></button></div>' +
                 '</div>';
 
             var postTagBox = $('.js-post-tag-' + post_id);
@@ -181,7 +183,7 @@ function searchTagsByKeyowrd() {
         if (data.length > 0) {
             for (i = 0; i < data.length; i++) {
                 if (data[i].id) {
-                    tags += getTagButtonHtml(data[i].id, data[i].name, data[i].slug);
+                    tags += getTagButtonHtml(data[i].id, data[i].name, data[i].slug, data[i].posts_count);
                 }
             }
         } else {
@@ -297,15 +299,19 @@ function searchPostsByKeyowrd() {
                 <div class="card-header">
                     Tags for <span class="js-filter-by-text">Post</span>
                 </div>
-                <div class="card-body" style="min-height: 525px;">
+                <div class="card-body" style="height: 525px;overflow-y: scroll;">
 
                     <h5 class="card-title">
                         List of all tags for selected <span class="js-filter-by-text">Posts</span>
                     </h5>
 
                     <p class="card-text">Select the <span class="js-filter-by-text">tags</span> you want to add or edit for posts.</p>
+                    <hr />
+                    <div class="js-posts-tags">
 
-                    <div class="js-posts-tags"></div>
+                        <h5>Select posts to see tags.</h5>
+
+                    </div>
                 </div>
             </div>
 
