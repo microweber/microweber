@@ -249,8 +249,8 @@ trait QueryFilter
                                         if ($to_search_keyword != '') {
 
                                             // Search in tags
-                                            if ($this->supports($table, 'tag')) {
-                                                $query = $query->join('tagging_tagged', 'tagging_tagged.taggable_id', '=', $table . '.id')->distinct();
+                                            if ($this->supports($table, 'tag') and $table != 'tagging_tags' and $table != 'tagging_tagged') {
+                                                 $query = $query->join('tagging_tagged', 'tagging_tagged.taggable_id', '=', $table . '.id')->distinct();
                                                 if ($dbDriver == 'pgsql') {
                                                     $query = $query->orWhere('tagging_tagged.tag_name', 'ILIKE', '%'.$to_search_keyword.'%');
                                                 } else {

@@ -18,7 +18,7 @@ api_expose_admin('tag/edit/autocomplete', function($params) {
 
     $filter = '';
     if (isset($params['keyword'])) {
-        $filter = 'keyword=' . $params['keyword'].'&search_in_fields=name,slug';
+        $filter = 'keyword=' . $params['keyword'].'&search_in_fields=name,slug&no_cache=1';
     }
 
     $tagging_tags = db_get('tagging_tags', $filter);
