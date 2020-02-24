@@ -213,6 +213,7 @@ function searchPostsByKeyowrd() {
 
     $.get(mw.settings.api_url + 'get_content_admin', {
             keyword: keyword,
+            search_in_tags: 1,
             order_by: 'updated_at+desc',
             content_type: content_type,
             search_in_fields: 'title'

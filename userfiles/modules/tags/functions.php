@@ -31,7 +31,7 @@ api_expose_admin('tag/edit/autocomplete', function($params) {
         }
     }
 
-    return $founded_tags;
+    return ['data'=>$founded_tags];
 
 });
 
