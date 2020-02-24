@@ -89,7 +89,7 @@
 <?php
 $name = '';
 $slug = '';
-//$description = '';
+$description = '';
 
 $tag_id = $params['tag_id'];
 $filter = [
@@ -100,6 +100,7 @@ $tag = db_get('tagging_tags', $filter);
 if ($tag) {
     $name = $tag['name'];
     $slug = $tag['slug'];
+    $description = $tag['description'];
 }
 ?>
 
@@ -119,7 +120,7 @@ if ($tag) {
 
     <div class="demobox">
         <label class="mw-ui-label"><?php _e('Tag Description'); ?></label>
-        <textarea name="description" class="form-control js-admin-tag-edit-form-tag-description js-clear-after-save"></textarea>
+        <textarea name="description" class="form-control js-admin-tag-edit-form-tag-description js-clear-after-save"><?php echo $description; ?></textarea>
         <div class="helptext"><?php _e('The description is not prominent by default; however, some themes may show it.'); ?></div>
     </div>
 
