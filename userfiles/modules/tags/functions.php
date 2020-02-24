@@ -50,9 +50,9 @@ function get_post_tags($params) {
 }
 function tags_get($params) {
 
-    $filter = '';
+    $filter = 'order_by=id desc';
     if (isset($params['keyword'])) {
-        $filter = 'keyword=' . $params['keyword'].'&search_in_fields=name,slug';
+        $filter .= '&keyword=' . $params['keyword'].'&search_in_fields=name,slug';
     }
 
     $tagging_tags = db_get('tagging_tags', $filter);
