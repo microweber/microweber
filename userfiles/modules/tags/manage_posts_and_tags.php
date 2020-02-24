@@ -239,12 +239,15 @@ function searchPostsByKeyowrd() {
 
     <div class="mw-flex-col-xs-6 last-xs">
         <div style="font-weight: bold;">Search <span class="js-filter-by-text">posts</span></div>
-        <div class="input-group mb-3">
+        <div class="input-group">
             <input type="text" class="form-control js-search-posts-keyword" placeholder="Keyword...">
             <div class="input-group-append">
                 <button class="btn btn-success js-search-posts-submit" type="button">Search</button>
             </div>
         </div>
+        <span>You can search posts by title & tags.</span>
+        <br />
+        <br />
     </div>
 
     <div class="mw-flex-col-xs-6 last-xs">

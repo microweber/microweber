@@ -247,6 +247,17 @@ trait QueryFilter
                                         $to_search_keyword = str_replace('*', '', $to_search_keyword);
                                         $to_search_keyword = str_replace(';', '', $to_search_keyword);
                                         if ($to_search_keyword != '') {
+
+                                            // Search in tags
+                                            if ($this->supports($table, 'tag')) {
+                                                $query = $query->join('tagging_tagged', 'tagging_tagged.taggable_id', '=', $table . '.id')->distinct();
+                                                if ($dbDriver == 'pgsql') {
+                                                    $query = $query->orWhere('tagging_tagged.tag_name', 'ILIKE', '%'.$to_search_keyword.'%');
+                                                } else {
+                                                    $query = $query->orWhere('tagging_tagged.tag_name', 'LIKE', '%'.$to_search_keyword.'%');
+                                                }
+                                            }
+
                                             if (!empty($to_search_in_fields)) {
                                                 $where_or_where = 'orWhere';
                                                 if (isset($params['keywords_exact_match'])) {

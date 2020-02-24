@@ -165,12 +165,13 @@ foreach ($posts as $post) {
                     <div class="row">
                         <div class="col-md-6">
                             <div style="font-weight: bold;">Search tags</div>
-                            <div class="input-group mb-3">
+                            <div class="input-group">
                                 <input type="text" class="form-control js-search-tags-keyword" placeholder="Keyword...">
                                 <div class="input-group-append">
                                     <button class="btn btn-success js-search-posts-submit" type="button">Search</button>
                                 </div>
                             </div>
+                            <span class="mb-3">You can search multiple tags seperated by coma.</span>
                         </div>
                         <div class="col-md-6" style="padding-top: 17px">
                             <button class="btn btn-success pull-right" onclick="editTag(false);"><i class="fa fa-plus"></i> Create new global tag</button>
