@@ -212,8 +212,9 @@ function searchPostsByKeyowrd() {
     }
 
     $.get(mw.settings.api_url + 'get_content_admin', {
+            search_in_tags_keyword: keyword,
+            search_in_tags: true,
             keyword: keyword,
-            search_in_tags: 1,
             order_by: 'updated_at+desc',
             content_type: content_type,
             search_in_fields: 'title'

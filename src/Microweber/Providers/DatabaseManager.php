@@ -202,7 +202,7 @@ class DatabaseManager extends DbUtils
         } else {
             $use_cache = $this->use_cache;
         }
-
+        $use_cache = false;
         // $this->use_cache = false;
         $query = $this->map_filters($query, $params, $table);
         $params = $this->map_array_to_table($table, $params);
