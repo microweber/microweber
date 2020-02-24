@@ -77,6 +77,7 @@ if (!$tag) {
         multiple: false,
         autocomplete: true,
         tags: false,
+        placeholder: '',
         ajaxMode: {
             paginationParam: 'page',
             searchParam: 'keyword',
@@ -85,8 +86,21 @@ if (!$tag) {
         }
     });
 
-    $(tagsSelect).on("change", function(event, val){
-        console.log(val)
+    $(tagsSelect).on("change", function(event, tag){
+        if (tag.id) {
+            $.ajax({
+                url: mw.settings.api_url + 'tag/view',
+                type: 'post',
+                data: {tag_id: tag.id},
+                success: function (data) {
+                    if (data.name) { 
+                        $('.js-admin-post-tag-edit-form-tag-name').val(data.name);
+                        $('.js-admin-post-tag-edit-form-tag-slug').val(data.slug);
+                        $('.js-admin-post-tag-edit-form-tag-description').html(data.description);
+                    }
+                }
+            });
+        }
     })
 </script>
 

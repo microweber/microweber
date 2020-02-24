@@ -91,6 +91,7 @@ function tag_edit($params) {
     $newData = [];
     $newData['name'] = $params['name'];
     $newData['slug'] = $params['slug'];
+    $newData['description'] = $params['description'];
 
     if (isset($params['tag_id'])) {
         $tag_id = $params['tag_id'];
@@ -122,6 +123,7 @@ function tag_edit($params) {
                     'post_id'=>$post_id,
                     'tag_name'=>$newData['name'],
                     'tag_slug'=>$newData['slug'],
+                    'tag_description'=>$newData['description'],
                 ]);
             }
         }
@@ -179,6 +181,7 @@ function post_tag_edit($params) {
         db_save('tagging_tags', [
             'name' => $params['tag_name'],
             'slug' => $params['tag_slug'],
+            'description' => $params['tag_description'],
         ]);
     }
 
@@ -193,6 +196,7 @@ function post_tag_edit($params) {
        'taggable_type'=> 'Content',
        'tag_name'=>$params['tag_name'],
        'tag_slug'=>$params['tag_slug'],
+       'tag_description'=>$params['tag_description'],
     ]);
 
     if (!isset($params['id']) || empty($params['id'])) {
