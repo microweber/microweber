@@ -40,6 +40,8 @@
                         <?php endforeach; ?>
                         <?php endif; ?>
 
+                        searchTagsByKeyowrd();
+
                         //  mw.reload_module_everywhere('tags');
                         mw.notification.success('<?php _e('Tag is saved!');?>');
                     } else {

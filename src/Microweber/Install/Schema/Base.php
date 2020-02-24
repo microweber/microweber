@@ -185,6 +185,23 @@ class Base
                 'user_id' => 'integer',
                 'user_ip' => 'text',
              ],
+
+            'tagging_tagged'=> [
+                'taggable_id'=>'integer',
+                'taggable_type'=>'string',
+                'tag_name'=>'string',
+                'tag_slug'=>'string',
+                'tag_description'=>'text',
+            ],
+
+            'tagging_tags'=> [
+                'tag_group_id'=>'integer',
+                'slug'=>'string',
+                'name'=>'string',
+                'description'=>'text',
+                'suggest'=>'integer',
+                'count'=>'integer',
+            ]
         ];
     }
 }

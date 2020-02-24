@@ -18,7 +18,7 @@ api_expose_admin('tag/edit/autocomplete', function($params) {
 
     $filter = '';
     if (isset($params['keyword'])) {
-        $filter = 'keyword=' . $params['keyword'].'&search_in_fields=name,slug';
+        $filter = 'keyword=' . $params['keyword'].'&search_in_fields=name,slug&no_cache=1';
     }
 
     $tagging_tags = db_get('tagging_tags', $filter);
@@ -31,7 +31,7 @@ api_expose_admin('tag/edit/autocomplete', function($params) {
         }
     }
 
-    return $founded_tags;
+    return ['data'=>$founded_tags];
 
 });
 
@@ -84,7 +84,7 @@ function tag_view($params) {
 
 function tag_edit($params) {
 
-    if (empty(trim($params['name'])) || empty(trim($params['slug']))) {
+    if (empty(trim($params['name']))) {
         return ['status'=>false];
     }
 
@@ -102,6 +102,12 @@ function tag_edit($params) {
         if ($tag) {
             $newData['id'] = $tag['id'];
         }
+    }
+
+    if (empty($newData['slug'])) {
+        $newData['slug'] = mw()->url_manager->slug($newData['name']);
+    } else {
+        $newData['slug'] = mw()->url_manager->slug($newData['slug']);
     }
 
     $tagSaved = db_save('tagging_tags',$newData);
@@ -157,12 +163,14 @@ function post_tag_edit($params) {
         return ['status'=>false, 'message'=>_e('Please, fill the tag name.', true)];
     }
 
-    if (empty(trim($params['tag_slug']))) {
-        return ['status'=>false, 'message'=>_e('Please, fill the tag slug.', true)];
-    }
-
     if (empty($params['post_id'])) {
         return ['status'=>false, 'message'=>_e('Post cant be identicated.', true)];
+    }
+
+    if (empty($params['tag_slug'])) {
+        $params['tag_slug'] = mw()->url_manager->slug($params['tag_name']);
+    } else {
+        $params['tag_slug'] = mw()->url_manager->slug($params['tag_slug']);
     }
 
     // Save global tag

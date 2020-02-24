@@ -80,7 +80,7 @@ if (!$tag) {
         ajaxMode: {
             paginationParam: 'page',
             searchParam: 'keyword',
-            endpoint: mw.settings.api_url + '/tag/edit/autocomplete',
+            endpoint: mw.settings.api_url + 'tag/edit/autocomplete',
             method: 'get'
         }
     });
