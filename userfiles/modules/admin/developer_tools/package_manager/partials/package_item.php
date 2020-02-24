@@ -12,11 +12,11 @@ include(__DIR__ . '/package_data.php');
     <div class="mw-ui-box-content js-package-install-content">
         <?php if ($screenshot): ?>
             <?php if ($item['type'] == 'microweber-template'): ?>
-                <div class="package-image package-<?php print $item['type'] ?>" style="width: calc(100% + 24px); margin: -12px -12px 0 -12px !important;">
+                <a href="<?php print $item['homepage']; ?>" class="package-image package-<?php print $item['type'] ?>" style="width: calc(100% + 24px); margin: -12px -12px 0 -12px !important;">
                     <img src="<?php print $screenshot; ?>" alt="">
-                </div>
+                </a>
             <?php else: ?>
-                <div class="package-image package-<?php print $item['type'] ?>" style="background-image: url('<?php print $screenshot; ?>')"></div>
+                <a href="<?php print $item['homepage']; ?>" class="package-image package-<?php print $item['type'] ?>" style="background-image: url('<?php print $screenshot; ?>')"></a>
             <?php endif; ?>
         <?php else: ?>
             <?php if (!isset($no_img)): ?>
@@ -58,7 +58,7 @@ include(__DIR__ . '/package_data.php');
 
 
                     <?php $tooltipid = uniqid('tooltip'); ?>
-                    <span class="mw-ui-link tip" data-tip="#<?php print $tooltipid ?>">Information</span>
+                    <span class="mw-ui-link tip" data-tip="#<?php print $tooltipid ?>" data-trigger="click">Information</span>
                     <div id="<?php print $tooltipid ?>" style="display: none">
                         <?php include(__DIR__ . '/package_data_tooltip.php'); ?>
                     </div>

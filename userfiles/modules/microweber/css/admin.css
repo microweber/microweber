@@ -7456,6 +7456,15 @@ html[dir="rtl"] .inline-switch {
 }
 
 
+#mw-admin-main-menu .mw-notification-count{
+    position: absolute;
+    right: 30px;
+    top: 22px;
+}
+#mw-admin-main-menu li li .mw-notification-count{
+    top: 16px;
+}
+
 .fixed-side-column-container,
 #mw-admin-main-menu{
     overflow: hidden;

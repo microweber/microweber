@@ -203,6 +203,7 @@ mw.Select = function(options) {
                         scope.filter(this.value);
                         if(scope._rootInputMode) {
                             scope.element.value = this.value;
+                            $(scope.element).trigger('input change')
                         }
                     })
                     .on('focus', function () {

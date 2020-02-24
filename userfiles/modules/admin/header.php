@@ -233,7 +233,6 @@ if(!$shop_disabled){
     $new_orders_count = mw()->order_manager->get_count_of_new_orders();
     if ($new_orders_count) {
         $order_notif_html = '<sup class="mw-notification-count">' . $new_orders_count . '</sup>';
-
     }
 
     ?>
@@ -468,9 +467,13 @@ if(!$shop_disabled){
                             <?php elseif ($view == 'shop' and $action != false): ?> class="active-parent"
                             <?php elseif ($view == 'modules' and $load_module == 'shop__coupons'): ?> class="active"
                             <?php endif; ?> >
-                            <a href="<?php print admin_url(); ?>view:shop" title=""><span class="mai-market2"><?php if ($view != 'shop' and $notif_count > 0) {
-                                        print $order_notif_html;
-                                    }; ?></span> <strong><?php _e("Shop"); ?></strong></a>
+                            <a href="<?php print admin_url(); ?>view:shop" title="">
+                                <span class="mai-market2"></span>
+                                <strong><?php _e("Shop"); ?></strong>
+                                <?php if ($view != 'shop' and $notif_count > 0) {
+                                    print $order_notif_html;
+                                }; ?>
+                            </a>
                             <ul>
 
 
@@ -484,11 +487,11 @@ if(!$shop_disabled){
                                 <li <?php if ($action == 'orders'): ?> class="active" <?php endif; ?>>
                                     <a href="<?php print admin_url(); ?>view:shop/action:orders">
                                         <span class="mai-shop"></span>
-                                        <span class="relative"><?php _e("Orders"); ?>
+                                        <?php _e("Orders"); ?>
                                             <?php if ($view == 'shop') {
                                                 print $order_notif_html;
                                             } ?>
-                    </span>
+
                                     </a>
                                 </li>
 

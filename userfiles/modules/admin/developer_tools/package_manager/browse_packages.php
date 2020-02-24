@@ -284,15 +284,14 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                     if (!mw.scrollHoverPageY) {
                         $(this).stop().animate({scrollTop: 0}, 200);
                     }
-
                 })
-                .on('mousedown touchstart', function (e) {
-                    e.preventDefault()
+                /*.on('mousedown touchstart', function (e) {
+                    e.preventDefault();
                     clearInterval(this._hoverInterval);
                     $(this).stop();
                     mw.scrollHover$ = $(this);
                     $(document.documentElement).addClass('has-scroll-hover')
-                });
+                })*/
         });
 
         $(document).on('mouseup touchend', function () {
@@ -391,42 +390,30 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
 
                         <?php endforeach; ?>
 
-
-
-
-
-
                         <?php if ($packages_by_type_with_update): ?>
 
 
                         <li class="opened">
-                            <a href="javascript::void(0);">Updates</a>
-                            <ul>
-
-
-                                <?php foreach ($packages_by_type_with_update as $pkkey => $pkitems): ?>
-                                    <?php
-
+                            <?php
+                                $total = 0;
+                                $items = '';
+                                foreach ($packages_by_type_with_update as $pkkey => $pkitems):
                                     $pkkeys = explode('-', $pkkey);
                                     array_shift($pkkeys);
                                     $pkkeys = implode('-', $pkkeys);
-
 
                                     if ($pkkeys == 'core-update') {
                                         $pkkeys = 'Version update';
                                     } else {
                                         $pkkeys = $pkkeys . ' updates';
-
                                     }
+                                    $count = count($pkitems);
+                                    $total += $count;
+                                    $items .= '<li><a class="tablink" href="javascript:;">'. titlelize($pkkeys) .'<sup class="mw-notification-count">' . $count . '</sup></a></li>';
+                                endforeach;
 
-
-                                    ?>
-                                    <li><a class="tablink" href="javascript::void(0);"><?php print titlelize($pkkeys) ?>
-                                            <sup class="mw-notification-count"><?php print count($pkitems) ?></sup></a>
-                                    </li>
-
-                                <?php endforeach; ?>
-                            </ul>
+                                ?>
+                            <a href="javascript:;" onclick="$(this.nextSibling).stop().slideToggle()">Updates <sup class="mw-notification-count"><?php print $total; ?></sup></a><ul style="display: none;"><?php print $items; ?></ul>
                             <?php endif; ?>
 
 

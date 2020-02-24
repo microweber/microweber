@@ -28,15 +28,21 @@ $(mwd).ready(function () {
     mw.on('mwDialogHide', function(){
         mw.$(document.documentElement).removeClass('mw-dialog-opened');
     });
-    mw.$(mwd.body).bind('mousemove touchmove touchstart', function (event) {
-        if (mw.tools.hasClass(event.target, 'tip')) {
-            mw.tools.titleTip(event.target);
-        }
-        else if (mw.tools.hasParentsWithClass(event.target, 'tip')) {
-            mw.tools.titleTip(mw.tools.firstParentWithClass(event.target, 'tip'));
+    mw.$(mwd.body).on('mousemove touchmove touchstart', function (event) {
+        var has = mw.tools.firstParentOrCurrentWithClass(event.target, 'tip');
+        if (has && (!has.dataset.trigger || has.dataset.trigger === 'move')) {
+            mw.tools.titleTip(has);
         }
         else {
             mw.$(mw.tools._titleTip).hide();
+        }
+    }).on('click', function (event) {
+        var has = mw.tools.firstParentOrCurrentWithClass(event.target, 'tip');
+        if (has && has.dataset.trigger === 'click') {
+            mw.tools.titleTip(has, '_titleTipClick');
+        }
+        else {
+            mw.$(mw.tools._titleTipClick).hide();
         }
     });
     mw.$(".mw-onoff").each(function () {
@@ -97,7 +103,7 @@ $(mwd).ready(function () {
         $.noop();
         _mwoldww = mw.$(window).width();
     });
-    mw.$(mwd.body).bind("keydown", function (e) {
+    mw.$(mwd.body).on("keydown", function (e) {
         var isgal = mwd.querySelector('.mw_modal_gallery') !== null;
         if (isgal) {
             if (e.keyCode === 27) {  /* escape */
