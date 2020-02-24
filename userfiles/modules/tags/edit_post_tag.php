@@ -121,7 +121,7 @@ if (!$tag) {
 
     <div class="demobox">
         <label class="mw-ui-label"><?php _e('Tag Description'); ?></label>
-        <textarea name="description" class="form-control js-admin-post-tag-edit-form-tag-description"></textarea>
+        <textarea name="tag_description" class="form-control js-admin-post-tag-edit-form-tag-description"></textarea>
         <div class="helptext"><?php _e('The description is not prominent by default; however, some themes may show it.'); ?></div>
     </div>
 
