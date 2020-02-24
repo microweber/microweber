@@ -10,10 +10,6 @@ description: Default
 
 */
 ?>
-<script>
-    mw.require('tools.js', true);
-    mw.require('ui.css', true);
-</script>
 
 <?php if($action == 'submit'): ?>
 <button type="submit" id="<?php print $btn_id ?>" class="btn <?php print $style . ' ' . $size; ?>" <?php print $attributes ?>>
