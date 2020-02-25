@@ -85,8 +85,10 @@ if (!$tag) {
             method: 'get'
         }
     });
+    <?php if (!empty($tag['id'])) : ?>
     tagsSelect.value({id:<?php echo $tag['id']; ?>, title:'<?php echo $tag['tag_name']; ?>'});
-
+    <?php endif; ?>
+    
     $(tagsSelect).on("change", function(event, tag){
         if (tag.id) {
             $.ajax({
