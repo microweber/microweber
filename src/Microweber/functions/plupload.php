@@ -44,7 +44,9 @@ $fileName_ext = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
 $is_ext = get_file_extension($fileName_ext);
 $is_ext = strtolower($is_ext);
 
-if (in_array($is_ext, $dangerous)) {
+$is_dangerous_file = $files_utils->is_dangerous_file($fileName_ext);
+
+if ($is_dangerous_file) {
     die('{"jsonrpc" : "2.0", "error" : {"code":100, "message": "You cannot upload scripts or executable files"}}');
 }
 

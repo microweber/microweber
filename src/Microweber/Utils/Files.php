@@ -239,16 +239,12 @@ class Files
             */
 
 
-
-
-
-
             if (isset($params['sort_by']) and strval($params['sort_by']) != '') {
-                 if (!isset($params['sort_order'])) {
+                if (!isset($params['sort_order'])) {
                     $sort_params = explode(' ', $params['sort_by']);
-                    if(isset($sort_params[1])){
-                        $params['sort_by'] =$sort_params[0];
-                        $params['sort_order'] =$sort_params[1];
+                    if (isset($sort_params[1])) {
+                        $params['sort_by'] = $sort_params[0];
+                        $params['sort_order'] = $sort_params[1];
                     }
                 }
 
@@ -258,18 +254,16 @@ class Files
                     if (strtolower($params['sort_order']) == 'asc') {
                         $ord = SORT_ASC;
                     }
-                    $allowed_sort = array('basename','filemtime','filesize');
-                    if(in_array($params['sort_by'],$allowed_sort)){
+                    $allowed_sort = array('basename', 'filemtime', 'filesize');
+                    if (in_array($params['sort_by'], $allowed_sort)) {
                         array_multisort(array_map($params['sort_by'], $arrayItems_f), SORT_NUMERIC, $ord, $arrayItems_f);
                     }
-                 }
+                }
             }
 
             $arrayItems['files'] = $arrayItems_f;
             $arrayItems['dirs'] = $arrayItems_d;
         }
-
-
 
 
         return $arrayItems;
@@ -818,5 +812,18 @@ class Files
 
 
         return $dangerous;
+    }
+
+
+    public function is_dangerous_file($file_name)
+    {
+        $dangerous = $this->get_dangerous_files_extentions();
+        $is_ext = get_file_extension($file_name);
+        $is_ext = strtolower($is_ext);
+
+        if (in_array($is_ext, $dangerous)) {
+            return true;
+        }
+
     }
 }
