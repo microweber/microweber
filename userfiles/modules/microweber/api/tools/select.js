@@ -381,7 +381,8 @@ mw.Select = function(options) {
         }
         else {
             this._value = val;
-            this.close()
+            $('.mw-ui-invisible-field', this.root).val(this.getLabel(val))
+            this.close();
         }
 
         this.afterChange()
