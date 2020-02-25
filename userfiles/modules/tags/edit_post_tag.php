@@ -85,6 +85,7 @@ if (!$tag) {
             method: 'get'
         }
     });
+    tagsSelect.value({id:<?php echo $tag['id']; ?>, title:'<?php echo $tag['tag_name']; ?>'});
 
     $(tagsSelect).on("change", function(event, tag){
         if (tag.id) {
