@@ -141,7 +141,7 @@ mw.Select = function(options) {
     };
     this.displayValue = function(plval){
         if(!plval && !this.settings.multiple && this.value()) {
-            plval = scope.getLabel(this.value())
+            plval = scope.getLabel(this.value());
         }
         plval = plval || this.settings.placeholder;
         if(!scope._displayValue) {
@@ -149,7 +149,14 @@ mw.Select = function(options) {
             scope._displayValue.className = 'mw-select-display-value mw-ui-size-' + this.settings.size;
             $('.mw-select-value', this.root).append(scope._displayValue)
         }
-        scope._displayValue.innerHTML = plval + this.__indicateNumber();
+        if(this._rootInputMode){
+            scope._displayValue.innerHTML = '&nbsp';
+            $('input.mw-ui-invisible-field', this.root).val(plval);
+
+        } else {
+            scope._displayValue.innerHTML = plval + this.__indicateNumber();
+
+        }
     };
 
     this.__indicateNumber = function () {
