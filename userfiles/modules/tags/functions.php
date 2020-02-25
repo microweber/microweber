@@ -93,7 +93,7 @@ function tag_edit($params) {
     $newData['slug'] = $params['slug'];
     $newData['description'] = $params['description'];
 
-    if (isset($params['tag_id'])) {
+    if (isset($params['tag_id']) && !empty($params['tag_id'])) {
         $tag_id = $params['tag_id'];
         $tag = db_get('tagging_tags', [
             'no_cache'=>false,
@@ -110,6 +110,14 @@ function tag_edit($params) {
     } else {
         $newData['slug'] = mw()->url_manager->slug($newData['slug']);
     }
+
+    if (!isset($newData['id'])) {
+        $findTaggingTag = db_get('tagging_tags', 'name=' . $newData['name'].'&single=1');
+        if ($findTaggingTag) {
+            $newData['id'] = $findTaggingTag['id'];
+        }
+    }
+
 
     $tagSaved = db_save('tagging_tags',$newData);
     if ($tagSaved) {
@@ -176,7 +184,7 @@ function post_tag_edit($params) {
     }
 
     // Save global tag
-    $check_global_tag = db_get('tagging_tags',['slug'=>$params['tag_slug'], 'single'=>1]);
+    $check_global_tag = db_get('tagging_tags',['name'=>$params['tag_name'], 'single'=>1]);
     if (!$check_global_tag) {
         db_save('tagging_tags', [
             'name' => $params['tag_name'],

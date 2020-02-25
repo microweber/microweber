@@ -1,3 +1,21 @@
+<?php
+$name = '';
+$slug = '';
+$description = '';
+
+$tag_id = $params['tag_id'];
+$filter = [
+    'id'=>$tag_id,
+    'single'=>1
+];
+$tag = db_get('tagging_tags', $filter);
+if ($tag) {
+    $name = $tag['name'];
+    $slug = $tag['slug'];
+    $description = $tag['description'];
+}
+?>
+
 <style>
     .demobox {
         position: relative;
@@ -42,6 +60,8 @@
 
                         searchTagsByKeyowrd();
 
+                        tagsSelect.value({});
+
                         //  mw.reload_module_everywhere('tags');
                         mw.notification.success('<?php _e('Tag is saved!');?>');
                     } else {
@@ -84,25 +104,43 @@
             }
         });
     }
+    <?php if (isset($_POST['post_ids'])): ?>
+    var tagsSelect = mw.select({
+        element: '.js-admin-tag-edit-form-tag-name',
+        multiple: false,
+        autocomplete: true,
+        tags: false,
+        placeholder: '',
+        ajaxMode: {
+            paginationParam: 'page',
+            searchParam: 'keyword',
+            endpoint: mw.settings.api_url + 'tag/edit/autocomplete',
+            method: 'get'
+        }
+    });
+    <?php if (!empty($tag['id'])) : ?>
+    tagsSelect.value({id:<?php echo $tag['id']; ?>, title:'<?php echo $tag['tag_name']; ?>'});
+    <?php endif; ?>
+
+    $(tagsSelect).on("change", function(event, tag){
+        if (tag.id) {
+            $.ajax({
+                url: mw.settings.api_url + 'tag/view',
+                type: 'post',
+                data: {tag_id: tag.id},
+                success: function (data) {
+                    if (data.name) {
+                        $('.js-admin-tag-edit-form-tag-name').val(data.name);
+                        $('.js-admin-tag-edit-form-tag-slug').val(data.slug);
+                        $('.js-admin-tag-edit-form-tag-description').html(data.description);
+                    }
+                }
+            });
+        }
+    });
+    <?php endif; ?>
 </script>
 
-<?php
-$name = '';
-$slug = '';
-$description = '';
-
-$tag_id = $params['tag_id'];
-$filter = [
-    'id'=>$tag_id,
-    'single'=>1
-];
-$tag = db_get('tagging_tags', $filter);
-if ($tag) {
-    $name = $tag['name'];
-    $slug = $tag['slug'];
-    $description = $tag['description'];
-}
-?>
 
 <form method="post" class="js-admin-tag-edit-form">
 
