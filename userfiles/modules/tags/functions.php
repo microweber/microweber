@@ -114,7 +114,7 @@ function tag_edit($params) {
     if (!isset($newData['id'])) {
         $findTaggingTag = db_get('tagging_tags', 'name=' . $newData['name'].'&single=1');
         if ($findTaggingTag) {
-            $newData['id'] = $findTaggingTag['id'];
+            return ['status'=>false,'message'=>'The global tag is allready exists.'];
         }
     }
 

@@ -64,6 +64,8 @@ if ($tag) {
 
                         //  mw.reload_module_everywhere('tags');
                         mw.notification.success('<?php _e('Tag is saved!');?>');
+                    } else if (data.message) {
+                        mw.notification.error(data.message);
                     } else {
                         mw.notification.error('<?php _e('Please, fill all fields.');?>');
                     }
