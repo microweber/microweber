@@ -43,11 +43,13 @@ if ($tag) {
 
                     if (data.name) {
 
+                        <?php if (!isset($_POST['post_ids'])): ?>
                         if ($('.js-admin-tags').find('.btn-tag-id-' + data.id).length == 0) {
                             $('.js-admin-tags').append(getTagButtonHtmlInForm(data.id, data.name, data.slug));
                         } else {
                             $('.btn-tag-id-' + data.id).replaceWith(getTagButtonHtmlInForm(data.id, data.name, data.slug));
                         }
+                        <?php endif; ?>
 
                         $('.js-admin-tag-edit-form').find('.js-clear-after-save').each(function (e) {
                             $(this).val('');
