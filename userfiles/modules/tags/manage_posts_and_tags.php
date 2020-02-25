@@ -64,6 +64,7 @@ $(document).ready(function () {
             $(this).parent().parent().removeClass('js-post-box-active');
         }
     });
+    // $('.js-add-tags-to-posts').attr('disabled','disabled');
 /*
     $(document).on('click', '.js-post-box', function(e) {
         $(this).find('.js-post-checkbox').click();
