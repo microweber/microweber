@@ -114,7 +114,8 @@ function tag_edit($params) {
     if (!isset($newData['id'])) {
         $findTaggingTag = db_get('tagging_tags', 'name=' . $newData['name'].'&single=1');
         if ($findTaggingTag) {
-            return ['status'=>false,'message'=>'The global tag is allready exists.'];
+            $newData['id'] = $findTaggingTag['id'];
+            // return ['status'=>false,'message'=>'The global tag is allready exists.'];
         }
     }
 
@@ -156,7 +157,7 @@ function tag_delete($params) {
         if (db_delete('tagging_tags', $tag_id)) {
 
             // Delete this tag for all posts
-            db_delete('tagging_tagged', $tag['slug'], 'tag_slug');
+            db_delete('tagging_tagged', $tag['name'], 'tag_name');
 
             echo json_encode(['status'=>true]);
             exit;
@@ -195,6 +196,10 @@ function post_tag_edit($params) {
 
     if (!isset($params['id'])) {
         $params['id'] = false;
+        $findTaggingTagged = db_get('tagging_tagged', 'tag_name='. $params['tag_name'].'&single=1');
+        if ($findTaggingTagged) {
+            $params['id'] = $findTaggingTagged['id'];
+        }
     }
 
     // Save tag post

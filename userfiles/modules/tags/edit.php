@@ -42,7 +42,8 @@ if ($tag) {
                 success: function(data) {
 
                     if (data.name) {
-                        if ($('.btn-tag-id-' + data.id).length == 0) {
+
+                        if ($('.js-admin-tags').find('.btn-tag-id-' + data.id).length == 0) {
                             $('.js-admin-tags').append(getTagButtonHtmlInForm(data.id, data.name, data.slug));
                         } else {
                             $('.btn-tag-id-' + data.id).replaceWith(getTagButtonHtmlInForm(data.id, data.name, data.slug));
@@ -97,9 +98,12 @@ if ($tag) {
             success: function (data) {
 
                 if (data.name) {
+
+                    tagsSelect.value({id:data.id, title:data.name});
+
                     $('.js-admin-tag-edit-form-tag-name').val(data.name);
                     $('.js-admin-tag-edit-form-tag-slug').val(data.slug);
-                  //  $('.js-admin-tag-edit-form-tag-description').val(data.description);
+                    $('.js-admin-tag-edit-form-tag-description').val(data.description);
                     $('.js-admin-tag-edit-form-tag-id').val(data.id);
                 }
 
