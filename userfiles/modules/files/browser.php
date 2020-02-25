@@ -96,29 +96,19 @@ if (isset($params['viewsize'])) {
 
 <span class="pull-right">
 
+<?php
+$sortby_param = '';
+$sortby_param_ord = '';
 
 
-
-    <?php
-
-
-    $sortby_param = '';
-    $sortby_param_ord = '';
-
-
-    if (isset($params['sort_by'])) {
-        $sort_params = explode(' ', $params['sort_by']);
-        if (isset($sort_params[1])) {
-            $sortby_param = $sort_params[0];
-            $sortby_param_ord = $sort_params[1];
-        }
+if (isset($params['sort_by'])) {
+    $sort_params = explode(' ', $params['sort_by']);
+    if (isset($sort_params[1])) {
+        $sortby_param = $sort_params[0];
+        $sortby_param_ord = $sort_params[1];
     }
-
-
-
-
-
-    ?>
+}
+?>
 
 <script>
     $(document).ready(function () {
@@ -129,15 +119,11 @@ if (isset($params['viewsize'])) {
             } else {
                 mw.url.windowHashParam('sort_by', val);
             }
-        })
-
-
-
-
+        });
     });
 </script>
 
-    <select name="file_browser_sort_by" id="file_browser_sort_by">
+    <select name="file_browser_sort_by" id="file_browser_sort_by" class="mw-ui-field">
         <option value="" onmousedown="mw.url.windowHashParam('sort_by', '');">Sort by</option>
         <option value="basename ASC"  <?php if ($sortby_param == 'basename' and $sortby_param_ord == 'ASC'): ?> selected <?php endif; ?> >File name &#8593;</option>
         <option value="basename DESC"  <?php if ($sortby_param == 'basename' and $sortby_param_ord == 'DESC'): ?> selected <?php endif; ?> >File name &#8595;</option>
@@ -146,9 +132,6 @@ if (isset($params['viewsize'])) {
         <option value="filesize ASC"  <?php if ($sortby_param == 'filesize' and $sortby_param_ord == 'ASC'): ?> selected <?php endif; ?> >File size &#8593;</option>
         <option value="filesize DESC"  <?php if ($sortby_param == 'filesize' and $sortby_param_ord == 'DESC'): ?> selected <?php endif; ?> >File size &#8595;</option>
     </select>
-
-
-
 
 Thumbnail size:
         <a href="javascript:;" onclick="mw.url.windowHashParam('viewsize', '');"
@@ -173,8 +156,7 @@ Thumbnail size:
         <span class="mw-browser-uploader-path">
 
 
-              <a href="#path=" style="color: #212121;"><span
-                          class="<?php print $config['module_class']; ?> path-item"><?php _e('Main') ?></span></a>&raquo;
+            <a href="#path=" style="color: #212121;"><span class="<?php print $config['module_class']; ?> path-item"><?php _e('Main') ?></span></a>&raquo;
 
 
             <?php if (is_array($path_nav)): ?>

@@ -1589,13 +1589,32 @@ mw.wysiwyg = {
             }
         }
     },
-    setActiveFontSize: function (node) {
-        var size = Math.round(parseFloat(mw.CSSParser(node).get.font().size));
-        var ddval = mw.$(".mw_dropdown_action_font_size");
-        if (ddval.length != 0 && ddval.setDropdownValue != undefined) {
+    setActiveFontSize: function () {
+        var sel = getSelection();
+        var range = sel.getRangeAt(0);
+        if(range.collapsed) {
+            var node = mw.wysiwyg.validateCommonAncestorContainer(sel.focusNode);
+            var size = Math.round(parseFloat(mw.CSSParser(node).get.font().size));
             mw.$(".mw_dropdown_action_font_size .mw-dropdown-val").html(size + 'px')
+        } else {
+            var curr = range.startContainer;
+            var end = range.endContainer;
+            var common = mw.wysiwyg.validateCommonAncestorContainer(range.commonAncestorContainer);
+            var size = Math.round(parseFloat(mw.CSSParser(common).get.font().size));
+            while (curr && curr !== end) {
+                var node = mw.wysiwyg.validateCommonAncestorContainer(curr);
+                curr = curr.nextElementSibling;
+                var sizec = Math.round(parseFloat(mw.CSSParser(node).get.font().size));
+                if (sizec !== size) {
+                    mw.$(".mw_dropdown_action_font_size .mw-dropdown-val").html(mw.lang('Size'));
+                    return;
+                }
+            }
+            mw.$(".mw_dropdown_action_font_size .mw-dropdown-val").html(size + 'px')
+
         }
     },
+
     listSplit: function (list, index) {
         if (!list || typeof index == 'undefined') return;
         var curr = list.children[index];
@@ -1683,7 +1702,7 @@ mw.wysiwyg = {
                         mw.wysiwyg.setActiveButtons(children[i]);
                         }
                     }
-                    mw.wysiwyg.setActiveFontSize(common);
+
                 }
                 else {
                     if (typeof common.parentElement !== 'undefined' && common.parentElement !== null) {
@@ -1691,7 +1710,6 @@ mw.wysiwyg = {
                         mw.$(".mw_editor_alignment").removeClass('mw_editor_btn_active');
                         mw.$(".mw-align-" + align).addClass('mw_editor_btn_active');
                         mw.wysiwyg.setActiveButtons(common.parentElement);
-                        mw.wysiwyg.setActiveFontSize(common.parentElement);
                     }
                 }
                 if (mw.wysiwyg.isFormatElement(common)) {
@@ -1713,6 +1731,7 @@ mw.wysiwyg = {
                         }
                     });
                 }
+                mw.wysiwyg.setActiveFontSize();
                 mw.wysiwyg.setDecorators(selection)
             }
 

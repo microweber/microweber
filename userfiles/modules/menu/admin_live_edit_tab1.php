@@ -16,31 +16,36 @@
 <script>
 
     $(window).on('load', function(){
-
         if(window.thismodal) {
             thismodal.width(700);
             thismodal.center(700);
         }
-    })
-
+    });
     var addMenuItem = function() {
-        //$('#link-selector-holder').mwDialog({width: '90%', document: top.document})
-        var inst = mw.top()
-        .instruments.link({
-            mode: 'dialog'
+        var picker = mw.component({
+            url: 'link_editor_v2',
+            options: {
+                target: false,
+                text: true,
+                controllers: 'page, custom, content, section, layout'
+            }
         });
-
-        inst.handler.on('change', function(e, url, target, text){
-            mw.menu_admin.save_item({
-                title: text || url.split('/').pop(),
-                url: url,
+        $(picker).on('Result', function(e, res){
+            var data = {
+                title: res.text || res.url.split('/').pop(),
+                url: res.url,
                 parent_id: currentMenuId
-            });
-            mw.$('#link-selector-holder').mwDialog('close');
+            };
 
-        });
-        $(inst.frame).on('load', function () {
-            $('#customweburl_text_field_holder', this.contentWindow.document).show()
+            if(res.object){
+                if(res.object.type === 'page'){
+                    data.content_id = res.object.id;
+                } else if(res.object.type === 'category') {
+                    data.categories_id = res.object.id;
+                }
+            }
+
+            mw.menu_admin.save_item(data);
         })
     }
 
