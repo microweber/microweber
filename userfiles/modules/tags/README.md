@@ -12,8 +12,15 @@ You can add custom slug and descriptions to every tag & see how count of posts u
  
 # How to use Tags Module?
 
+ - Advanced search tags?
 [![N|Advanced search tags](screenshots/advanced-search-tags.gif)]()
+
+ - Add multiple tag for posts?
 [![N|Add multiple tag for posts](screenshots/add-multiple-tags-for-posts.gif)]()
+
+ - Global tags adding?
 [![N|Global tags adding](screenshots/global-tags-adding.gif)]()
+
+ - How to search posts by tags?
 [![N|How to search posts by tags](screenshots/how-to-search-posts-by-tags.gif)]()
 
