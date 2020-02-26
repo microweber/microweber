@@ -24,7 +24,8 @@ if (isset($params['show_only_updates']) and $params['show_only_updates']) {
 
 
 $search_packages = mw()->update->composer_search_packages($search_packages_params);
-//$search_packages_update = mw()->update->composer_search_packages($search_packages_params2);
+
+ //$search_packages_update = mw()->update->composer_search_packages($search_packages_params2);
 //$search_packages = mw()->update->composer_search_packages();
 
 
@@ -36,7 +37,7 @@ if ($search_packages and is_array($search_packages)) {
         $package_has_update = false;
 
 
-        if ($item['type'] != 'asdmicroweber-core-update') {
+        //if ($item['type'] != 'microweber-core-update') {
             if (isset($item['has_update']) and $item['has_update']) {
                 $package_has_update = true;
             }
@@ -49,7 +50,7 @@ if ($search_packages and is_array($search_packages)) {
                 $packages_by_type_with_update[$package_has_update_key][] = $item;
 
             }
-        }
+        //}
         if ($item['type'] != 'microweber-core-update') {
             if (!isset($packages_by_type[$item['type']])) {
                 $packages_by_type[$item['type']] = array();
@@ -59,9 +60,10 @@ if ($search_packages and is_array($search_packages)) {
     }
 }
 
-if (isset($packages_by_type_with_update['microweber-core-update']) and !empty($packages_by_type_with_update['microweber-core-update'])) {
-    $core_update = $packages_by_type_with_update['microweber-core-update'];
-    // unset($packages_by_type_with_update['microweber-core-update']);
+
+if ($is_update_mode and isset($packages_by_type_with_update['microweber-core-update']) and !empty($packages_by_type_with_update['microweber-core-update'])) {
+     $core_update = $packages_by_type_with_update['microweber-core-update'];
+     unset($packages_by_type_with_update['microweber-core-update']);
     //$packages_by_type_with_update['microweber-core-update'] = array();
     //$packages_by_type_with_update['microweber-core-update'][] = $core_update;
 
@@ -70,7 +72,7 @@ if (isset($packages_by_type_with_update['microweber-core-update']) and !empty($p
 
 $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_update);
 
-//dd($packages_by_type_all);
+// dd($packages_by_type_all,$packages_by_type_with_update);
 ?>
 <script>
     mw.install_composer_package_confirm_by_key = function ($confirm_key, $require_name, $require_version) {
@@ -164,8 +166,8 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
     $(document).ready(function () {
         mw.tabs({
             nav: '#mw-packages-browser-nav-tabs-nav .mw-ui-navigation a.tablink',
-            tabs: '#mw-packages-browser-nav-tabs-nav .tab',
-            linkable: 'section'
+            tabs: '#mw-packages-browser-nav-tabs-nav .tab'
+            //linkable: 'section'
         });
     });
 </script>
@@ -285,13 +287,13 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                         $(this).stop().animate({scrollTop: 0}, 200);
                     }
                 })
-                /*.on('mousedown touchstart', function (e) {
-                    e.preventDefault();
-                    clearInterval(this._hoverInterval);
-                    $(this).stop();
-                    mw.scrollHover$ = $(this);
-                    $(document.documentElement).addClass('has-scroll-hover')
-                })*/
+            /*.on('mousedown touchstart', function (e) {
+                e.preventDefault();
+                clearInterval(this._hoverInterval);
+                $(this).stop();
+                mw.scrollHover$ = $(this);
+                $(document.documentElement).addClass('has-scroll-hover')
+            })*/
         });
 
         $(document).on('mouseup touchend', function () {
@@ -346,10 +348,12 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
     .mw-sel-item-key-install {
         border: none;
     }
-    .marketplace-title{
+
+    .marketplace-title {
         padding-bottom: 40px;
     }
-    #mw-packages-browser-nav-tabs-nav .mw-ui-col-container{
+
+    #mw-packages-browser-nav-tabs-nav .mw-ui-col-container {
         padding-left: 0;
     }
 </style>
@@ -370,12 +374,13 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
     <div id="mw-packages-browser-nav-tabs-nav" class="mw-flex-row">
 
 
-        <?php if ($packages_by_type) : ?>
+        <?php if ($packages_by_type_all) : ?>
 
 
             <div class="mw-flex-col-xs-12 mw-flex-col-md-4 mw-flex-col-lg-2">
                 <div class="mw-ui-col-container">
                     <ul class="mw-ui-box mw-ui-navigation mw-ui-navigation-menu" id="packages-browser-nav">
+                        <?php if ($packages_by_type_all) : ?>
 
                         <?php foreach ($packages_by_type as $pkkey => $pkitems): ?>
                             <?php
@@ -386,34 +391,38 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
 
 
                             ?>
-                            <li class="m-0"><a class="tablink" href="javascript:void(0);"><?php print titlelize($pkkeys) ?></a></li>
+                            <li class="m-0"><a class="tablink"
+                                               href="javascript:void(0);"><?php print titlelize($pkkeys) ?></a></li>
 
                         <?php endforeach; ?>
+                        <?php endif; ?>
 
                         <?php if ($packages_by_type_with_update): ?>
 
 
                         <li class="opened">
                             <?php
-                                $total = 0;
-                                $items = '';
-                                foreach ($packages_by_type_with_update as $pkkey => $pkitems):
-                                    $pkkeys = explode('-', $pkkey);
-                                    array_shift($pkkeys);
-                                    $pkkeys = implode('-', $pkkeys);
+                            $total = 0;
+                            $items = '';
+                            foreach ($packages_by_type_with_update as $pkkey => $pkitems):
+                                $pkkeys = explode('-', $pkkey);
+                                array_shift($pkkeys);
+                                $pkkeys = implode('-', $pkkeys);
 
-                                    if ($pkkeys == 'core-update') {
-                                        $pkkeys = 'Version update';
-                                    } else {
-                                        $pkkeys = $pkkeys . ' updates';
-                                    }
-                                    $count = count($pkitems);
-                                    $total += $count;
-                                    $items .= '<li><a class="tablink" href="javascript:;">'. titlelize($pkkeys) .'<sup class="mw-notification-count">' . $count . '</sup></a></li>';
-                                endforeach;
+                                if ($pkkeys == 'core-update') {
+                                    $pkkeys = 'Version update';
+                                } else {
+                                    $pkkeys = $pkkeys . ' updates';
+                                }
+                                $count = count($pkitems);
+                                $total += $count;
+                                $items .= '<li><a class="tablink" href="javascript:;">' . titlelize($pkkeys) . '<sup class="mw-notification-count">' . $count . '</sup></a></li>';
+                            endforeach;
 
-                                ?>
-                            <a href="javascript:;" onclick="$(this.nextSibling).stop().slideToggle()">Updates <sup class="mw-notification-count"><?php print $total; ?></sup></a><ul style="display: none;"><?php print $items; ?></ul>
+                            ?>
+                            <a href="javascript:;" xonclick="$(this.nextSibling).stop().slideToggle()">Updates <sup
+                                        style="display: none" class="mw-notification-count"><?php print $total; ?></sup></a>
+                            <ul xstyle="display: none;"><?php print $items; ?></ul>
                             <?php endif; ?>
 
 
@@ -459,7 +468,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                 <div class="mw-ui-col-container">
 
 
-                <div >
+                <div>
 
 
                 <?php foreach ($packages_by_type as $pkkey => $pkitems): ?>
@@ -489,8 +498,17 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                         <?php if ($pkitems) : ?>
                             <div class="mw-flex-row">
                                 <?php foreach ($pkitems as $key => $item): ?>
-                                    <div
-                                            class="mw-flex-col-xs-12 mw-flex-col-sm-6 mw-flex-col-md-12 mw-flex-col-lg-<?php print $item['type'] === 'microweber-module' ? '3' : '4'; ?>  m-b-20 package-col-<?php print $item['type']; ?>">
+                                    <?php
+
+                                    $holder_class = 'mw-flex-col-lg-4';
+                                    if ($item['type'] == 'microweber-module') {
+                                        $holder_class = 'mw-flex-col-lg-3';
+                                    }
+                                    if ($item['type'] == 'microweber-core-update') {
+                                        $holder_class = 'mw-flex-col-lg-6  ';
+                                    }
+                                    ?>
+                                    <div class="mw-flex-col-xs-12 mw-flex-col-sm-6 mw-flex-col-md-12  <?php print $holder_class; ?>  m-b-20 package-col-<?php print $item['type']; ?>">
                                         <?php
                                         $view_file = __DIR__ . '/partials/package_item.php';
 
