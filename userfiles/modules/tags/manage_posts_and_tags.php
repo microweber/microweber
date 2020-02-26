@@ -33,6 +33,8 @@
 <script>
 $(document).ready(function () {
 
+    $('.js-add-tags-to-posts').attr('disabled','disabled');
+
     searchPostsByKeyowrd();
 
     $('.js-posts-filter-by option').each(function() {
