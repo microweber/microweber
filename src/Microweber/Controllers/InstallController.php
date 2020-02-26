@@ -30,12 +30,19 @@ class InstallController extends Controller
 
     public function index($input = null)
     {
+
+
         if (!is_array($input) || empty($input)) {
             $input = Input::all();
         }
         $is_installed = mw_is_installed();
         if ($is_installed) {
             return 'Microweber is already installed!';
+        }
+
+
+        if (isset($input['get_templates_for_install_screen'])) {
+            return $this->get_templates_for_install_screen();
         }
 
         $allowed_configs = array('database', 'microweber');
@@ -138,13 +145,13 @@ class InstallController extends Controller
                 Config::set('microweber.pre_configured', null);
                 Config::set('microweber.pre_configured_input', null);
             }
-            
+
             if (isset($input['admin_url'])) {
-            	Config::set('microweber.admin_url', $input['admin_url']);
+                Config::set('microweber.admin_url', $input['admin_url']);
             }
-            
+
             if (isset($input['site_lang'])) {
-            	Config::set('microweber.site_lang', $input['site_lang']);
+                Config::set('microweber.site_lang', $input['site_lang']);
             }
 
             if (Config::get('app.key') == 'YourSecretKey!!!') {
@@ -433,6 +440,23 @@ class InstallController extends Controller
         }
     }
 
+    public function get_templates_for_install_screen()
+    {
+        return;
+        $ready = array();
+        $runner = new \Microweber\Utils\ComposerUpdate();
+        $results = $runner->search_packages(['search_by_type' => 'microweber-template']);
+        if ($results) {
+            foreach ($results as $k => $result) {
+                if (isset($result['latest_version'])) {
+                    if (isset($result['latest_version']['dist_type']) and $result['latest_version']['dist_type'] == 'zip') {
+                        $ready[$k] = $result;
+                    }
+                }
+            }
+        }
+        return $ready;
+    }
 
     private function _can_i_use_artisan_key_generate_command()
     {

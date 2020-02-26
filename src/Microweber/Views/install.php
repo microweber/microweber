@@ -59,6 +59,16 @@
             return false;
         }
 
+    /*    $(document).ready(function () {
+            getTemplatesFromPackageManagerBeforeInstall();
+
+        });
+        function getTemplatesFromPackageManagerBeforeInstall() {
+            $.post( "<?php print site_url() ?>?get_templates_for_install_screen=1", function( data ) {
+                //$( "#demo-one" ).html( data );
+            });
+        }*/
+
         $(document).ready(function () {
             $("input[name='table_prefix']").bind('keydown', function (e) {
                 if ((e.keycode || e.which) == 32) {
