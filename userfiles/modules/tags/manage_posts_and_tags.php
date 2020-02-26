@@ -190,7 +190,13 @@ function searchTagsByKeyowrd() {
                 }
             }
         } else {
-            tags = 'No tags found for <b>' + keyword + '</b>.';
+            if (typeof(keyword) == 'undefined') {
+                tags = 'No tags found.';
+            } else if (keyword == '') {
+                tags = 'No tags found.';
+            } else {
+                tags = 'No tags found for <b>' + keyword + '</b>.';
+            }
         }
         $('.js-all-tags').html(tags);
     });
