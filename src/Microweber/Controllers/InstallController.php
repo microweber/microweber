@@ -42,8 +42,17 @@ class InstallController extends Controller
 
 
         if (isset($input['get_templates_for_install_screen'])) {
-            return $this->get_templates_for_install_screen();
+            return $this->_get_templates_for_install_screen();
         }
+
+        if (isset($input['get_market_templates_for_install_screen'])) {
+            return $this->_get_market_templates_for_install_screen();
+        }
+
+        if (isset($input['install_package_by_name'])) {
+            return $this->_install_package_by_name($input['install_package_by_name']);
+        }
+
 
         $allowed_configs = array('database', 'microweber');
 
@@ -439,16 +448,24 @@ class InstallController extends Controller
             }
         }
     }
-
-    public function get_templates_for_install_screen()
+    private function _get_templates_for_install_screen()
     {
-        return;
+        //used in ajax
+        $templates_opts = array('remove_hidden_from_install_screen' => true);
+        $templates = site_templates($templates_opts);
+        return $templates;
+    }
+
+    private function _get_market_templates_for_install_screen()
+    {
+
+
         $ready = array();
         $runner = new \Microweber\Utils\ComposerUpdate();
         $results = $runner->search_packages(['search_by_type' => 'microweber-template']);
         if ($results) {
             foreach ($results as $k => $result) {
-                if (isset($result['latest_version'])) {
+                if (isset($result['latest_version']) and !isset($result['current_install'])) {
                     if (isset($result['latest_version']['dist_type']) and $result['latest_version']['dist_type'] == 'zip') {
                         $ready[$k] = $result;
                     }
@@ -456,6 +473,13 @@ class InstallController extends Controller
             }
         }
         return $ready;
+    }
+    private function _install_package_by_name($package_name)
+    {
+        $runner = new \Microweber\Utils\ComposerUpdate();
+        $results = $runner->install_package_by_name(['require_name' => $package_name]);
+        return $results;
+
     }
 
     private function _can_i_use_artisan_key_generate_command()

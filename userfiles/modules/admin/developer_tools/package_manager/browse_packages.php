@@ -74,40 +74,6 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
 
 // dd($packages_by_type_all,$packages_by_type_with_update);
 ?>
-<script>
-    mw.install_composer_package_confirm_by_key = function ($confirm_key, $require_name, $require_version) {
-        mw.notification.success('Installing...', 6000);
-
-        $('#js-buttons-confirm-install-link').addClass('disabled');
-
-        mw.admin.admin_package_manager.set_loading(true)
-
-
-        var values = {confirm_key: $confirm_key, require_version: $require_version, require_name: $require_name};
-        $.ajax({
-            url: "<?php print api_link('mw_composer_install_package_by_name'); ?>",
-            type: "post",
-            data: values,
-            success: function (msg) {
-                mw.notification.msg(msg, 3000);
-                if (msg.success) {
-                    mw.tools.modal.get('#js-buttons-confirm-install').remove()
-                }
-
-                mw.admin.admin_package_manager.set_loading(false)
-                mw.admin.admin_package_manager.reload_packages_list();
-
-
-            },
-            always: function () {
-
-                $('#js-buttons-confirm-install-link').removeClass('disabled');
-
-            }
-        })
-
-    }
-</script>
 <div class="section-header">
     <?php if ($is_update_mode) { ?>
         <h2 class="pull-left"><span class="mw-icon-updates"></span> <?php _e("Updates"); ?></h2>
