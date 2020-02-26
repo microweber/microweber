@@ -63,7 +63,9 @@ if ($tag) {
 
                         searchTagsByKeyowrd();
 
-                        tagsSelect.value({});
+                        if (typeof(tagsSelect) != "undefined") {
+                            tagsSelect.value({});
+                        }
 
                         //  mw.reload_module_everywhere('tags');
                         mw.notification.success('<?php _e('Tag is saved!');?>');
@@ -104,7 +106,9 @@ if ($tag) {
 
                 if (data.name) {
 
-                    tagsSelect.value({id:data.id, title:data.name});
+                    if (typeof(tagsSelect) != "undefined") {
+                        tagsSelect.value({id: data.id, title: data.name});
+                    }
 
                     $('.js-admin-tag-edit-form-tag-name').val(data.name);
                     $('.js-admin-tag-edit-form-tag-slug').val(data.slug);
