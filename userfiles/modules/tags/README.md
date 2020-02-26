@@ -12,7 +12,7 @@ You can add custom slug and descriptions to every tag & see how count of posts u
  
 # How to use Tags Module?
 
- - Advanced search tags?
+ - Advanced search tags? 
 [![N|Advanced search tags](screenshots/advanced-search-tags.gif)]()
 
  - Add multiple tag for posts?
