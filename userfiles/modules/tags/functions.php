@@ -128,7 +128,7 @@ function tag_edit($params) {
 
         if (isset($_POST['post_ids']) && is_array($_POST['post_ids'])) {
             foreach ($_POST['post_ids'] as  $post_id) {
-                post_tag_edit([
+                $x = post_tag_edit([
                     'post_id'=>$post_id,
                     'tag_name'=>$newData['name'],
                     'tag_slug'=>$newData['slug'],
@@ -196,7 +196,7 @@ function post_tag_edit($params) {
 
     if (!isset($params['id'])) {
         $params['id'] = false;
-        $findTaggingTagged = db_get('tagging_tagged', 'tag_name='. $params['tag_name'].'&single=1');
+        $findTaggingTagged = db_get('tagging_tagged', 'tag_name='. $params['tag_name'].'&taggable_id='.$params['post_id'].'&single=1');
         if ($findTaggingTagged) {
             $params['id'] = $findTaggingTagged['id'];
         }

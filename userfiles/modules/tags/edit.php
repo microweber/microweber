@@ -43,11 +43,13 @@ if ($tag) {
 
                     if (data.name) {
 
+                        <?php if (!isset($_POST['post_ids'])): ?>
                         if ($('.js-admin-tags').find('.btn-tag-id-' + data.id).length == 0) {
                             $('.js-admin-tags').append(getTagButtonHtmlInForm(data.id, data.name, data.slug));
                         } else {
                             $('.btn-tag-id-' + data.id).replaceWith(getTagButtonHtmlInForm(data.id, data.name, data.slug));
                         }
+                        <?php endif; ?>
 
                         $('.js-admin-tag-edit-form').find('.js-clear-after-save').each(function (e) {
                             $(this).val('');
@@ -61,14 +63,19 @@ if ($tag) {
 
                         searchTagsByKeyowrd();
 
-                        tagsSelect.value({});
+                        if (typeof(tagsSelect) != "undefined") {
+                            tagsSelect.value({});
+                        }
 
                         //  mw.reload_module_everywhere('tags');
                         mw.notification.success('<?php _e('Tag is saved!');?>');
+                        $('.js-admin-tag-edit-messages').html('<div class="alert alert-success"><?php _e('Tag is saved!'); ?></div>');
                     } else if (data.message) {
                         mw.notification.error(data.message);
+                        $('.js-admin-tag-edit-messages').html('<div class="alert alert-danger">' + data.message + '</div>');
                     } else {
-                        mw.notification.error('<?php _e('Please, fill all fields.');?>');
+                        mw.notification.error('<?php _e('Please, fill all fields.'); ?>');
+                        $('.js-admin-tag-edit-messages').html('<div class="alert alert-danger"><?php _e('Please, fill all fields.'); ?></div>');
                     }
                 }
             });
@@ -99,7 +106,9 @@ if ($tag) {
 
                 if (data.name) {
 
-                    tagsSelect.value({id:data.id, title:data.name});
+                    if (typeof(tagsSelect) != "undefined") {
+                        tagsSelect.value({id: data.id, title: data.name});
+                    }
 
                     $('.js-admin-tag-edit-form-tag-name').val(data.name);
                     $('.js-admin-tag-edit-form-tag-slug').val(data.slug);
@@ -179,6 +188,7 @@ if ($tag) {
     <button class="btn btn-success" type="submit"><i class="mw-icon-web-checkmark"></i> &nbsp; <?php _e('Save Tag');?></button>
 
 </form>
+<div class="js-admin-tag-edit-messages" style="padding-top: 15px"></div>
 
 <style>
     .js-admin-tags {
