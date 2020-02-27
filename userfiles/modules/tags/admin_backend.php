@@ -14,11 +14,13 @@
 <?php
 $multipleSelectPosts = [];
 $posts = get_products();
-foreach ($posts as $post) {
-    $multipleSelectPosts[] = [
-            'id'=>$post['id'],
-            'title'=>$post['title']
-    ];
+if ($posts) {
+    foreach ($posts as $post) {
+        $multipleSelectPosts[] = [
+            'id' => $post['id'],
+            'title' => $post['title']
+        ];
+    }
 }
 ?>
 
