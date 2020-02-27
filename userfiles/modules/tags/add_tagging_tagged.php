@@ -42,6 +42,14 @@ if (isset($params['taggable_id'])) {
 
                         $('.js-admin-post-tag-messages').html('<div class="mw-ui-box mw-ui-box-content mw-ui-box-notification"><i class="fa fa-check"></i> <?php _e('Tag is added!'); ?></div>');
 
+
+                        $('.js-admin-post-tag-add-form-global-tag-id').val('');
+                        $('.js-admin-post-tag-add-form-tag-name').val('');
+
+                        if (typeof(tagsSelect) !== 'undefined') {
+                            tagsSelect.value({id:'', title:''});
+                        }
+
                         //  mw.reload_module_everywhere('tags');
                         mw.notification.success('<?php _e('Tag is added!');?>');
                     } else {

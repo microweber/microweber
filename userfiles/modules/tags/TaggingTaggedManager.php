@@ -39,7 +39,7 @@ function tagging_tagged_add($params) {
         $saveTaggingTag = tagging_tag_edit([
             'name'=>$params['tag_name']
         ]);
-
+        
         $params['tagging_tag_id'] = $saveTaggingTag['id'];
         
         // return ['status'=>false, 'message'=>_e('Global tag can\'t be identicated.', true)];
@@ -48,7 +48,7 @@ function tagging_tagged_add($params) {
     $getGlobalTag = db_get('tagging_tags',['id'=>$params['tagging_tag_id'], 'single'=>1]);
     if ($getGlobalTag) {
 
-        $checkTaggingTagged = db_get('tagging_tagged', 'tag_slug='.$getGlobalTag['slug'].'&single=1');
+        $checkTaggingTagged = db_get('tagging_tagged', 'taggable_id='.$params['taggable_id'].'&tag_slug='.$getGlobalTag['slug'].'&single=1');
         if ($checkTaggingTagged) {
             return ['status'=>false, 'message'=>_e('Tag is allready added.', true)];
         }

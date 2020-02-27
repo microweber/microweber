@@ -178,7 +178,7 @@ if ($tag) {
 
     <?php if (isset($_POST['post_ids'])): ?>
     <?php foreach ($_POST['post_ids'] as $post_id): ?>
-    <input type="hidden" name="post_ids[]" value="<?php echo $post_id['post_id']; ?>" />
+    <input type="text" name="post_ids[]" value="<?php echo $post_id['post_id']; ?>" />
     <?php endforeach; ?>
     <?php endif; ?>
 

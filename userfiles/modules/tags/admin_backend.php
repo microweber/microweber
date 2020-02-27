@@ -57,10 +57,10 @@
                     $('.btn-tag-id-' + tagging_tag_id).remove();
                     //mw.reload_module_everywhere('tags');
 
-                    selected_posts = getSelectedPosts();
-                    if (selected_posts) {
-                        for (i = 0; i < selected_posts.length; i++) {
-                            getPostTags(selected_posts[i].post_id);
+                    selected_taggable_items = getSelectedTaggableItems();
+                    if (selected_taggable_items) {
+                        for (i = 0; i < selected_taggable_items.length; i++) {
+                            getPostTags(selected_taggable_items[i].post_id);
                         }
                     }
 

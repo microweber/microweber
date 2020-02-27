@@ -50,8 +50,8 @@ $(document).ready(function () {
 
     $(document).on('change', '.js-post-checkbox', function() {
 
-        selected_posts = getSelectedPosts();
-        if (selected_posts.length > 0) {
+        selected_taggable_items = getSelectedTaggableItems();
+        if (selected_taggable_items.length > 0) {
             $('.js-add-tags-to-posts').removeAttr('disabled');
         } else {
             $('.js-posts-tags').html('<h5>Select posts to see tags.</h5>');
@@ -74,8 +74,8 @@ $(document).ready(function () {
 */
 
     $('.js-add-tags-to-posts').click(function () {
-        var post_ids = getSelectedPosts();
-        editTag(false, post_ids);
+        var post_ids = getSelectedTaggableItems();
+        editTaggingTag(false, post_ids);
     });
 
     $('.js-search-posts-submit').click(function () {
@@ -125,25 +125,25 @@ function removePostTags(post_id) {
     $('.js-post-tag-' + post_id).remove();
 }
 
-function getSelectedPosts() {
+function getSelectedTaggableItems() {
 
-    selected_posts = [];
+    selected_taggable_items = [];
     $('.js-post-box').each(function (e) {
         if ($(this).find('.js-post-checkbox').is(':checked')) {
-            selected_posts.push({
-                'post_id':$(this).find('.js-post-checkbox-id').val(),
-                'post_title':$(this).find('.js-post-checkbox-title').val()
+            selected_taggable_items.push({
+                'taggable_id':$(this).find('.js-post-checkbox-id').val(),
+                'taggable_title':$(this).find('.js-post-checkbox-title').val()
             });
         }
     });
 
-    return selected_posts;
+    return selected_taggable_items;
 }
 
 function getPostTags(taggable_id) {
 
-    selected_posts = getSelectedPosts();
-    if (selected_posts.length == 1) {
+    selected_taggable_items = getSelectedTaggableItems();
+    if (selected_taggable_items.length == 1) {
         $('.js-posts-tags').html('');
     }
 

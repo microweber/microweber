@@ -85,7 +85,7 @@ function tagging_tag_edit($params) {
         $findTaggingTag = db_get('tagging_tags', 'slug=' . $newData['slug'].'&single=1');
         if ($findTaggingTag) {
             $newData['id'] = $findTaggingTag['id'];
-            // return ['status'=>false,'message'=>'The global tag is allready exists.'];
+            return ['status'=>false,'message'=>'The tag slug is allready exists.', 'id'=> $newData['id']];
         }
     }
 
@@ -107,7 +107,7 @@ function tagging_tag_edit($params) {
             }
         }
 
-        return $newData;  
+        return $newData;
     } 
 
     return ['status'=>false];
