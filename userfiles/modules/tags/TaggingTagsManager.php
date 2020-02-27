@@ -108,7 +108,7 @@ function tagging_tag_edit($params) {
         }
 
         return $newData;
-    }
+    } 
 
     return ['status'=>false];
 
