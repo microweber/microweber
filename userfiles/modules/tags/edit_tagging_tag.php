@@ -3,9 +3,9 @@ $name = '';
 $slug = '';
 $description = '';
 
-$tag_id = $params['tag_id'];
+$tagging_tag_id = $params['tagging_tag_id'];
 $filter = [
-    'id'=>$tag_id,
+    'id'=>$tagging_tag_id,
     'single'=>1
 ];
 $tag = db_get('tagging_tags', $filter);
@@ -36,7 +36,7 @@ if ($tag) {
             e.preventDefault();
 
             $.ajax({
-                url: mw.settings.api_url + 'tag/edit',
+                url: mw.settings.api_url + 'tagging_tag/edit',
                 type: 'post',
                 data: $(this).serialize(),
                 success: function(data) {
@@ -87,23 +87,22 @@ if ($tag) {
     function getTagButtonHtmlInForm(id,name,slug) {
 
         var html = '<div class="btn-group btn-tag btn-tag-id-'+id+'" role="group">' +
-            '    <button type="button" class="btn btn-secondary" onClick="editTagReplaceForm('+id+')"><i class="fa fa-tag"></i> ' + name + '</button>' +
-            '    <button type="button" class="btn btn-secondary" onClick="editTagReplaceForm('+id+')"><i class="fa fa-pen"></i></button>' +
-            '    <button type="button" class="btn btn-secondary" onClick="deleteTag('+id+')"><i class="fa fa-times"></i></button>' +
+            '    <button type="button" class="btn btn-secondary" onClick="editTaggingTagReplaceForm('+id+')"><i class="fa fa-tag"></i> ' + name + '</button>' +
+            '    <button type="button" class="btn btn-secondary" onClick="editTaggingTagReplaceForm('+id+')"><i class="fa fa-pen"></i></button>' +
+            '    <button type="button" class="btn btn-secondary" onClick="deleteTaggingTag('+id+')"><i class="fa fa-times"></i></button>' +
             '</div>';
 
         return html;
     }
 
-    function editTagReplaceForm(tag_id) {
+    function editTaggingTagReplaceForm(tagging_tag_id) {
         $.ajax({
-            url: mw.settings.api_url + 'tag/view',
+            url: mw.settings.api_url + 'tagging_tag/view',
             type: 'get',
             data: {
-                tag_id:tag_id
+                tagging_tag_id:tagging_tag_id
             },
             success: function (data) {
-
                 if (data.name) {
 
                     if (typeof(tagsSelect) != "undefined") {
@@ -140,9 +139,9 @@ if ($tag) {
     $(tagsSelect).on("change", function(event, tag){
         if (tag.id) {
             $.ajax({
-                url: mw.settings.api_url + 'tag/view',
+                url: mw.settings.api_url + 'tagging_tag/view',
                 type: 'post',
-                data: {tag_id: tag.id},
+                data: {tagging_tag_id: tag.id},
                 success: function (data) {
                     if (data.name) {
                         $('.js-admin-tag-edit-form-tag-name').val(data.name);
@@ -183,7 +182,7 @@ if ($tag) {
     <?php endforeach; ?>
     <?php endif; ?>
 
-    <input type="hidden" name="tag_id" class="js-admin-tag-edit-form-tag-id" value="<?php if ($tag): echo $tag['id']; endif; ?>" />
+    <input type="hidden" name="tagging_tag_id" class="js-admin-tag-edit-form-tag-id" value="<?php if ($tag): echo $tag['id']; endif; ?>" />
 
     <button class="btn btn-success" type="submit"><i class="mw-icon-web-checkmark"></i> &nbsp; <?php _e('Save Tag');?></button>
 

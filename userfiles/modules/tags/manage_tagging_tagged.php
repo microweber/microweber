@@ -99,24 +99,23 @@ function changeFilterText() {
         $('.js-filter-by-text').html('Posts');
     }
 }
-function getTagButtonHtml(id,name,slug, posts_count =0) {
+function getTaggingTagButtonHtml(id,name,slug, posts_count =0) {
 
     var html = '<div class="btn-group btn-tag btn-tag-id-'+id+'" role="group">' +
-        '    <button type="button" class="btn btn-secondary" onClick="editTag('+id+')"><i class="fa fa-tag"></i> ' + name + '</button>' +
+        '    <button type="button" class="btn btn-secondary" onClick="editTaggingTag('+id+')"><i class="fa fa-tag"></i> ' + name + '</button>' +
         '    <button type="button" class="btn btn-secondary" data-slug="'+slug+'" onClick="showPostsWithTags(this)">('+posts_count+')</button>' +
-        '    <button type="button" class="btn btn-secondary" onClick="editTag('+id+')"><i class="fa fa-pen"></i></button>' +
-        '    <button type="button" class="btn btn-secondary" onClick="deleteTag('+id+')"><i class="fa fa-times"></i></button>' +
+        '    <button type="button" class="btn btn-secondary" onClick="editTaggingTag('+id+')"><i class="fa fa-pen"></i></button>' +
+        '    <button type="button" class="btn btn-secondary" onClick="deleteTaggingTag('+id+')"><i class="fa fa-times"></i></button>' +
         '</div>';
 
     return html;
 }
 
-function getTagPostsButtonHtml(id,name,slug, post_id) {
+function getTaggingTaggedButtonHtml(taggable_id, tag_name) {
 
-    var html = '<div class="btn-group btn-tag btn-tag-id-'+id+'" role="group">' +
-        '    <button type="button" class="btn btn-secondary" onClick="editPostTag('+id+')"><i class="fa fa-tag"></i> ' + name + '</button>' +
-        '    <button type="button" class="btn btn-secondary" onClick="editPostTag('+id+')"><i class="fa fa-pen"></i></button>' +
-        '    <button type="button" class="btn btn-secondary" onClick="deletePostTag('+id+')"><i class="fa fa-times"></i></button>' +
+    var html = '<div class="btn-group btn-tag btn-tag-id-'+taggable_id+'" role="group">' +
+        '    <button type="button" class="btn btn-secondary"><i class="fa fa-tag"></i> ' + tag_name + '</button>' +
+        '    <button type="button" class="btn btn-secondary" onClick="deleteTaggingTagged('+taggable_id+')"><i class="fa fa-times"></i></button>' +
         '</div>';
 
     return html;
@@ -141,30 +140,30 @@ function getSelectedPosts() {
     return selected_posts;
 }
 
-function getPostTags(post_id) {
+function getPostTags(taggable_id) {
 
     selected_posts = getSelectedPosts();
     if (selected_posts.length == 1) {
         $('.js-posts-tags').html('');
     }
 
-    $.get(mw.settings.api_url + 'get_post_tags', {
-            post_id: post_id
+    $.get(mw.settings.api_url + 'tagging_tagged/get_by_taggable_id', {
+           taggable_id: taggable_id
         }, function(data) {
 
             var tags = '';
 
             for (i = 0; i < data.tags.length; i++) {
-                tags += getTagPostsButtonHtml(data.tags[i].id,data.tags[i].tag_name,data.tags[i].tag_slug, post_id);
+                tags += getTaggingTaggedButtonHtml(data.tags[i].id, data.tags[i].tag_name);
             }
 
             var postTagBoxHtml = '' +
-                '<div class="js-post-tag-box js-post-tag-' + post_id + '">' +
+                '<div class="js-post-tag-box js-post-tag-' + taggable_id + '">' +
                 '<p>' + data.title + '</p>' +
-                '<div>Tags: ' + tags + '<button class="btn btn-success js-post-tag-add-new" onClick="editPostTag(false, ' + post_id + ')" style="margin-top:5px;margin-right:5px;"><i class="fa fa-plus"></i></button></div>' +
+                '<div>Tags: ' + tags + '<button class="btn btn-success js-post-tag-add-new" onClick="addTaggingTagged('+taggable_id+')" style="margin-top:5px;margin-right:5px;"><i class="fa fa-plus"></i></button></div>' +
                 '</div>';
 
-            var postTagBox = $('.js-post-tag-' + post_id);
+            var postTagBox = $('.js-post-tag-' + taggable_id);
             if (postTagBox.length > 0) {
                 postTagBox.replaceWith(postTagBoxHtml);
             } else {
@@ -180,13 +179,13 @@ function searchTagsByKeyowrd() {
 
     $('.js-all-tags').html('Searching for: ' + keyword);
 
-    $.get(mw.settings.api_url + 'tags/get', {
+    $.get(mw.settings.api_url + 'tagging_tag/get', {
         keyword: keyword,
     }, function(data) {
         if (data.length > 0) {
             for (i = 0; i < data.length; i++) {
                 if (data[i].id) {
-                    tags += getTagButtonHtml(data[i].id, data[i].name, data[i].slug, data[i].posts_count);
+                    tags += getTaggingTagButtonHtml(data[i].id, data[i].name, data[i].slug, data[i].posts_count);
                 }
             }
         } else {
