@@ -2,7 +2,7 @@
 
 
 $config = array();
-$config['name'] = _e("Checkout", TRUE);
+$config['name'] = "Checkout";
 $config['author'] = "Microweber";
 $config['no_cache'] = true;
 $config['ui'] = true;

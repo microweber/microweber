@@ -3,7 +3,7 @@
 
 $config = array();
 
-$config['name'] = _e("bxSlider", TRUE);
+$config['name'] = "bxSlider";
 
 $config['author'] = "Microweber";
 

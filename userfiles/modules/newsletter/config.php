@@ -1,6 +1,6 @@
 <?php
 $config = array();
-$config['name'] = _e('Newsletter', TRUE);
+$config['name'] = 'Newsletter';
 $config['author'] = 'Microweber';
 $config['ui'] = true;
 $config['ui_admin'] = true;

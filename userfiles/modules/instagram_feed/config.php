@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = _e("Instagram feed", TRUE);
+$config['name'] = "Instagram feed";
 $config['link'] = "https://microweber.com";
 $config['description'] = "Feed of instagram images";
 $config['author'] = "Petko Yovchevski";

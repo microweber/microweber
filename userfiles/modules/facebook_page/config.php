@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = _e("Facebook page", TRUE);
+$config['name'] = "Facebook page";
 $config['link'] = "https://microweber.com";
 $config['description'] = "Facebook page integration for your website!";
 $config['author'] = "";

@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = _e("Contact form", TRUE);
+$config['name'] = "Contact form";
 $config['author'] = "Microweber";
 $config['no_cache'] = false;
 $config['ui'] = true;

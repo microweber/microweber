@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = _e("Search", TRUE);
+$config['name'] = "Search";
 $config['author'] = "Microweber";
 $config['description'] = "Module to search for content";
 $config['website'] = "http://microweber.com/"; 

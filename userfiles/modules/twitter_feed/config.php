@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = _e("Twitter feed", TRUE);
+$config['name'] = "Twitter feed";
 $config['link'] = "https://microweber.com";
 $config['description'] = "Feed of tweets";
 $config['author'] = "Peter Ivanov";

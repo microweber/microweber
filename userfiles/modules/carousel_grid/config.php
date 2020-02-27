@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = _e("Carousel Grid", TRUE);
+$config['name'] = "Carousel Grid";
 $config['author'] = "Microweber";
 $config['description'] = "Microweber Carousel Grid";
 $config['website'] = "http://microweber.com/";

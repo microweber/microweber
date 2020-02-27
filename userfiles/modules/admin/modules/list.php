@@ -91,7 +91,7 @@ if (isset($is_elements) and $is_elements == true) {
 } else {
     $modules = mw()->modules->get('installed=1&ui=1');
     $module_layouts = mw()->modules->get('installed=1&module=layouts');
-
+ 
 
     $hide_from_display_list = array('layouts','template_settings');
 

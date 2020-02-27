@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = _e("Grid", TRUE);
+$config['name'] ="Grid";
 $config['link'] = "https://github.com/Frontwise/grid-editor";
 $config['description'] = "Bootstrap Grid";
 $config['author'] = "Petko Yovchevski";

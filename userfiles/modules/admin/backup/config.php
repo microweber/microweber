@@ -1,6 +1,6 @@
 <?php
 $config = array();
-$config['name'] = _e("Backup", TRUE);
+$config['name'] ="Backup";
 $config['author'] = "Microweber";
  
 $config['categories'] = "admin"; 

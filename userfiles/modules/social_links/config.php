@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = _e("Social Links", TRUE);
+$config['name'] = "Social Links";
 $config['author'] = "Microweber";
 $config['no_cache'] = false;
 $config['ui'] = true;

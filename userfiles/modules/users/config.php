@@ -1,6 +1,6 @@
 <?php
 $config = array();
-$config['name'] = _e("Users", TRUE);
+$config['name'] = "Users";
 $config['author'] = "Microweber";
 $config['ui'] = '0';
 $config['ui_admin'] = '1';

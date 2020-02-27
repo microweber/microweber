@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = _e("highlight_code", TRUE);
+$config['name'] = "highlight_code";
 $config['author'] = "Microweber";
 $config['ui'] = true;
 $config['categories'] = "other";

@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = _e("Comments", TRUE);
+$config['name'] = "Comments";
 $config['author'] = "Microweber";
 $config['ui_admin'] = true;
 $config['ui_admin_iframe'] = true;
