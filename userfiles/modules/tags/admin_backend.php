@@ -70,7 +70,7 @@
         });
     }
 
-    function addTaggingTagged(taggable_id = false) {
+    function addTaggingTagged(taggable_id = false, taggable_ids = false) {
 
         var modal_title = 'Add new tag';
 
@@ -82,6 +82,7 @@
 
         var params = {}
         params.taggable_id = taggable_id;
+        params.taggable_ids = taggable_ids;
 
         mw.load_module('tags/add_tagging_tagged', '#mw_admin_add_tagging_tagged_item_module', null, params);
 

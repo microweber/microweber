@@ -26,12 +26,20 @@ function tagging_tagged_get_by_taggable_id($params) {
 api_expose_admin('tagging_tagged/add', 'tagging_tagged_add');
 function tagging_tagged_add($params) {
 
-    if (empty(trim($params['tag_name']))) {
-        return ['status'=>false, 'message'=>_e('Please, fill the tag name.', true)];
+    $taggableIds = [];
+    if (isset($_POST['taggable_ids']) && is_array($_POST['taggable_ids'])){
+        $taggableIds = $_POST['taggable_ids'];
     }
 
-    if (empty($params['taggable_id'])) {
-        return ['status'=>false, 'message'=>_e('Post can\'t be identicated.', true)];
+    if (empty($taggableIds)) {
+        if (!isset($params['taggable_id']) || empty($params['taggable_id'])) {
+            return ['status'=>false, 'message'=>_e('Post can\'t be identicated.', true)];
+        }
+        $taggableIds[] = $_POST['taggable_id'];
+    }
+
+    if (empty(trim($params['tag_name']))) {
+        return ['status'=>false, 'message'=>_e('Please, fill the tag name.', true)];
     }
 
     if (empty($params['tagging_tag_id'])) {
@@ -48,23 +56,31 @@ function tagging_tagged_add($params) {
     $getGlobalTag = db_get('tagging_tags',['id'=>$params['tagging_tag_id'], 'single'=>1]);
     if ($getGlobalTag) {
 
-        $checkTaggingTagged = db_get('tagging_tagged', 'taggable_id='.$params['taggable_id'].'&tag_slug='.$getGlobalTag['slug'].'&single=1');
-        if ($checkTaggingTagged) {
-            return ['status'=>false, 'message'=>_e('Tag is allready added.', true)];
+        $savedIds = [];
+        $errors = [];
+        foreach ($taggableIds as $taggableId) {
+
+            $checkTaggingTagged = db_get('tagging_tagged', 'taggable_id=' . $taggableId . '&tag_slug=' . $getGlobalTag['slug'] . '&single=1');
+            if ($checkTaggingTagged) {
+                $errors[] = ['status' => false, 'message' => _e('Tag is allready added.', true)];
+                continue;
+            }
+
+            // Save tag post
+            $saveTaggingTagged = db_save('tagging_tagged', [
+                'taggable_id' => $taggableId,
+                'taggable_type' => 'Content',
+                'tag_name' => $getGlobalTag['name'],
+                'tag_slug' => $getGlobalTag['slug'],
+                'tag_description' => $getGlobalTag['description'],
+            ]);
+
+            if ($saveTaggingTagged) {
+                $savedIds[] = db_get('tagging_tagged', 'id=' . $saveTaggingTagged . '&single=1');
+            }
         }
 
-        // Save tag post
-        $saveTaggingTagged = db_save('tagging_tagged', [
-            'taggable_id'=>$params['taggable_id'],
-            'taggable_type'=> 'Content',
-            'tag_name'=>$getGlobalTag['name'],
-            'tag_slug'=>$getGlobalTag['slug'],
-            'tag_description'=>$getGlobalTag['description'],
-        ]);
-
-        if ($saveTaggingTagged) {
-            return db_get('tagging_tagged', 'id=' . $saveTaggingTagged.'&single=1');
-        }
+        return ['status'=>true, 'ids'=>$savedIds, 'errors'=>$errors];
     }
 
     return ['status'=>false];

@@ -92,19 +92,9 @@ function tagging_tag_edit($params) {
 
     $tagSaved = db_save('tagging_tags',$newData);
     if ($tagSaved) {
+
         if (!isset($newData['id'])) {
             $newData['id'] = $tagSaved;
-        }
-
-        if (isset($_POST['post_ids']) && is_array($_POST['post_ids'])) {
-            foreach ($_POST['post_ids'] as  $post_id) {
-                $x = post_tag_edit([
-                    'post_id'=>$post_id,
-                    'tag_name'=>$newData['name'],
-                    'tag_slug'=>$newData['slug'],
-                    'tag_description'=>$newData['description'],
-                ]);
-            }
         }
 
         return $newData;

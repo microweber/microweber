@@ -1,7 +1,12 @@
 <?php
 $taggable_id = false;
-if (isset($params['taggable_id'])) {
-    $taggable_id = $params['taggable_id'];
+if (isset($_POST['taggable_id']) && $_POST['taggable_id'] !== 'false') {
+    $taggable_id = $_POST['taggable_id'];
+}
+
+$taggable_ids = false;
+if (isset($_POST['taggable_ids']) && !empty($_POST['taggable_ids']) && $_POST['taggable_ids'] !== 'false') {
+    $taggable_ids = $_POST['taggable_ids'];
 }
 ?>
 <style>
@@ -28,7 +33,7 @@ if (isset($params['taggable_id'])) {
                 type: 'post',
                 data: $(this).serialize(),
                 success: function(data) {
-                    if (data.id) {
+                    if (data.status == true) {
                         var postTagCloud = $('.js-post-tag-' + $('.js-admin-post-tag-add-form-post-id').val());
 
                         if (postTagCloud.find('.btn-tag-id-' + data.id).length == 0) {
@@ -38,7 +43,7 @@ if (isset($params['taggable_id'])) {
                         }
 
                         $('.js-admin-post-tag-add-form-id').val(data.id);
-                        $('.js-admin-post-tag-add-form-taggable-id').val(data.taggable_id);
+                        // $('.js-admin-post-tag-add-form-taggable-id').val(data.taggable_id);
 
                         $('.js-admin-post-tag-messages').html('<div class="mw-ui-box mw-ui-box-content mw-ui-box-notification"><i class="fa fa-check"></i> <?php _e('Tag is added!'); ?></div>');
 
@@ -49,6 +54,17 @@ if (isset($params['taggable_id'])) {
                         if (typeof(tagsSelect) !== 'undefined') {
                             tagsSelect.value({id:'', title:''});
                         }
+
+                        var i_ids;
+                        for (i_ids = 0; i_ids < data.ids.length; i_ids++) {
+                            getPostTags(data.ids[i_ids].taggable_id);
+                        }
+
+                    <?php if ($taggable_ids): ?>
+                        <?php foreach ($taggable_ids as $taggable_id_data): ?>
+                        getPostTags(<?php echo $taggable_id_data['taggable_id']; ?>);
+                        <?php endforeach; ?>
+                        <?php endif; ?>
 
                         //  mw.reload_module_everywhere('tags');
                         mw.notification.success('<?php _e('Tag is added!');?>');
@@ -107,10 +123,18 @@ if (isset($params['taggable_id'])) {
     </div>
 
 
-    <input type="hidden" name="taggable_id" class="js-admin-post-tag-add-form-taggable-id" value="<?php echo $taggable_id; ?>" />
+    <?php if ($taggable_id): ?>
+      <input type="text" name="taggable_id" class="js-admin-post-tag-add-form-taggable-id" value="<?php echo $taggable_id; ?>" />
+    <?php endif; ?>
+
+    <?php if ($taggable_ids): ?>
+    <?php foreach ($taggable_ids as $taggable_id_data): ?>
+            <input type="text" name="taggable_ids[]" value="<?php echo $taggable_id_data['taggable_id']; ?>" />
+    <?php endforeach; ?>
+    <?php endif; ?>
 
     <!-- this will be filled automaticly -->
-    <input type="hidden" name="tagging_tag_id" class="js-admin-post-tag-add-form-global-tag-id" value="" />
+    <input type="text" name="tagging_tag_id" class="js-admin-post-tag-add-form-global-tag-id" value="" />
 
 
     <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> &nbsp; <?php _e('Add tag');?></button>
