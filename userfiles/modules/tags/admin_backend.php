@@ -124,6 +124,8 @@
 </script>
 
 <div id="mw-admin-content" class="admin-side-content">
+
+
     <div class="mw-modules-tabs">
 
         <div class="mw-accordion-item">
@@ -182,5 +184,12 @@
             </div>
         </div>
 
+        <div class="mw-accordion-item" style="float:right">
+            <div class="mw-ui-box-header mw-accordion-title">
+                <a href="#"><i class="fa fa-info-circle"></i> <?php _e('How to use this module?'); ?></a>
+            </div>
+        </div>
+
     </div>
+
 </div>
