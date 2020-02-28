@@ -18,6 +18,14 @@
     .select-posts {
         width: 500px;
     }
+    .mw-ui-btn-nav-tabs > .mw-ui-btn:last-child{
+        float: right;
+        border-left-width: 1px;
+    }
+    .mw-ui-btn-nav-tabs{
+        width: 100%;
+    }
+
 </style>
 
 <script>
@@ -184,9 +192,14 @@
             </div>
         </div>
 
-        <div class="mw-accordion-item" style="float:right">
+        <div class="mw-accordion-item">
             <div class="mw-ui-box-header mw-accordion-title">
                 <a href="#"><i class="fa fa-info-circle"></i> <?php _e('How to use this module?'); ?></a>
+            </div>
+            <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+
+                How to  ?
+
             </div>
         </div>
 
