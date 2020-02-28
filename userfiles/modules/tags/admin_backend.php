@@ -24,7 +24,7 @@
     mw.lib.require('bootstrap4');
 
 
-    function editTaggingTag(tagging_tag_id, post_ids) {
+    function editTaggingTag(tagging_tag_id, taggable_ids) {
 
         var modal_title = 'Add new tag';
         if (tagging_tag_id) {
@@ -37,9 +37,9 @@
             id: 'mw_admin_edit_tagging_tag_item_popup_modal'
         });
 
-        var params = {}
+        var params = {};
         params.tagging_tag_id = tagging_tag_id;
-        params.post_ids = post_ids;
+        params.taggable_ids = taggable_ids;
 
         mw.load_module('tags/edit_tagging_tag', '#mw_admin_edit_tagging_tag_item_module', null, params);
 

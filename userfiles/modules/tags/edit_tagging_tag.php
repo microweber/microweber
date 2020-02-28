@@ -43,7 +43,7 @@ if ($tag) {
 
                     if (data.name) {
 
-                        <?php if (!isset($_POST['post_ids'])): ?>
+                        <?php if (!isset($_POST['taggable_ids'])): ?>
                         if ($('.js-admin-tags').find('.btn-tag-id-' + data.id).length == 0) {
                             $('.js-admin-tags').append(getTagButtonHtmlInForm(data.id, data.name, data.slug));
                         } else {
@@ -55,9 +55,9 @@ if ($tag) {
                             $(this).val('');
                         });
 
-                        <?php if (isset($_POST['post_ids'])): ?>
-                        <?php foreach ($_POST['post_ids'] as $post_id): ?>
-                        getPostTags(<?php echo $post_id['post_id']; ?>);
+                        <?php if (isset($_POST['taggable_ids'])): ?>
+                        <?php foreach ($_POST['taggable_ids'] as $taggable_id): ?>
+                        getPostTags(<?php echo $taggable_id['taggable_id']; ?>);
                         <?php endforeach; ?>
                         <?php endif; ?>
 
@@ -118,7 +118,7 @@ if ($tag) {
             }
         });
     }
-    <?php if (isset($_POST['post_ids'])): ?>
+    <?php if (isset($_POST['taggable_ids'])): ?>
     var tagsSelect = mw.select({
         element: '.js-admin-tag-edit-form-tag-name',
         multiple: false,
@@ -128,7 +128,7 @@ if ($tag) {
         ajaxMode: {
             paginationParam: 'page',
             searchParam: 'keyword',
-            endpoint: mw.settings.api_url + 'tag/edit/autocomplete',
+            endpoint: mw.settings.api_url + 'tagging_tag/autocomplete',
             method: 'get'
         }
     });
@@ -155,7 +155,6 @@ if ($tag) {
     <?php endif; ?>
 </script>
 
-
 <form method="post" class="js-admin-tag-edit-form">
 
     <div class="demobox">
@@ -176,9 +175,9 @@ if ($tag) {
         <div class="helptext"><?php _e('The description is not prominent by default; however, some themes may show it.'); ?></div>
     </div>
 
-    <?php if (isset($_POST['post_ids'])): ?>
-    <?php foreach ($_POST['post_ids'] as $post_id): ?>
-    <input type="text" name="post_ids[]" value="<?php echo $post_id['post_id']; ?>" />
+    <?php if (isset($_POST['taggable_ids'])): ?>
+    <?php foreach ($_POST['taggable_ids'] as $taggable_id): ?>
+    <input type="text" name="taggable_ids[]" value="<?php echo $taggable_id['taggable_id']; ?>" />
     <?php endforeach; ?>
     <?php endif; ?>
 

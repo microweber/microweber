@@ -74,8 +74,8 @@ $(document).ready(function () {
 */
 
     $('.js-add-tags-to-posts').click(function () {
-        var post_ids = getSelectedTaggableItems();
-        editTaggingTag(false, post_ids);
+        var selected_taggable_items = getSelectedTaggableItems();
+        editTaggingTag(false, selected_taggable_items);
     });
 
     $('.js-search-posts-submit').click(function () {
@@ -121,8 +121,8 @@ function getTaggingTaggedButtonHtml(taggable_id, tag_name) {
     return html;
 }
 
-function removePostTags(post_id) {
-    $('.js-post-tag-' + post_id).remove();
+function removePostTags(taggable_id) {
+    $('.js-post-tag-' + taggable_id).remove();
 }
 
 function getSelectedTaggableItems() {
