@@ -120,11 +120,12 @@ if ($tag) {
         <div class="helptext"><?php _e('The name is how it appears on your site.');?></div>
     </div>
 
-    <div class="demobox">
+    <div class="demobox" <?php if ($tag): ?> style="display: none;" <?php endif; ?>>
         <label class="mw-ui-label"><?php _e('Tag Slug');?></label>
         <input type="text" name="slug" value="<?php echo $slug; ?>" class="form-control js-admin-tag-edit-form-tag-slug js-clear-after-save">
         <div class="helptext"><?php _e('The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.');?></div>
     </div>
+
 
     <div class="demobox">
         <label class="mw-ui-label"><?php _e('Tag Description'); ?></label>

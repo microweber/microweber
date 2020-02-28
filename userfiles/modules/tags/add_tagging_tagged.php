@@ -60,11 +60,13 @@ if (isset($_POST['taggable_ids']) && !empty($_POST['taggable_ids']) && $_POST['t
                             getPostTags(data.ids[i_ids].taggable_id);
                         }
 
-                    <?php if ($taggable_ids): ?>
+                        <?php if ($taggable_ids): ?>
                         <?php foreach ($taggable_ids as $taggable_id_data): ?>
                         getPostTags(<?php echo $taggable_id_data['taggable_id']; ?>);
                         <?php endforeach; ?>
                         <?php endif; ?>
+
+                        searchTagsByKeyowrd();
 
                         //  mw.reload_module_everywhere('tags');
                         mw.notification.success('<?php _e('Tag is added!');?>');
