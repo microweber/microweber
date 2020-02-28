@@ -126,17 +126,17 @@ if (isset($_POST['taggable_ids']) && !empty($_POST['taggable_ids']) && $_POST['t
 
 
     <?php if ($taggable_id): ?>
-      <input type="text" name="taggable_id" class="js-admin-post-tag-add-form-taggable-id" value="<?php echo $taggable_id; ?>" />
+      <input type="hidden" name="taggable_id" class="js-admin-post-tag-add-form-taggable-id" value="<?php echo $taggable_id; ?>" />
     <?php endif; ?>
 
     <?php if ($taggable_ids): ?>
     <?php foreach ($taggable_ids as $taggable_id_data): ?>
-            <input type="text" name="taggable_ids[]" value="<?php echo $taggable_id_data['taggable_id']; ?>" />
+            <input type="hidden" name="taggable_ids[]" value="<?php echo $taggable_id_data['taggable_id']; ?>" />
     <?php endforeach; ?>
     <?php endif; ?>
 
     <!-- this will be filled automaticly -->
-    <input type="text" name="tagging_tag_id" class="js-admin-post-tag-add-form-global-tag-id" value="" />
+    <input type="hidden" name="tagging_tag_id" class="js-admin-post-tag-add-form-global-tag-id" value="" />
 
 
     <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> &nbsp; <?php _e('Add tag');?></button>
