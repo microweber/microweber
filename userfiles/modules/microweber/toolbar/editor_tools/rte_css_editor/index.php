@@ -61,6 +61,7 @@ var reset = function(){
     }).fail(function(){
 
     });
+    mw.top().wysiwyg.change(ActiveNode)
 };
 
 
@@ -524,7 +525,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                         cls.push(this.title);
                     });
                     ActiveNode.setAttribute('class', cls.join(' '))
-
+                    mw.top().wysiwyg.change(ActiveNode);
                 });
             }
             return window.classes;
@@ -715,6 +716,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                     var $node = $(ActiveNode);
                     var action = val ? 'addClass' : 'removeClass';
                     $node[action]('mw-bg-mask');
+                    mw.top().wysiwyg.change($node[0]);
                 }
             </script>
             <div class="s-field-content">

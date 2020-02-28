@@ -43,12 +43,11 @@ if (array_key_exists('types', $_GET)) {
 
     afterMediaIsInserted = function (url, todo, eventType) { /* what to do after image is uploaded (depending on the hash in the url)    */
 
-        if (typeof todo == 'undefined') {
-            var todo = false;
-        }
+        todo = todo || false;
 
-        if (url == false) {
-            if (eventType == 'done') {
+        if (url === false) {
+            if (eventType === 'done') {
+
             }
             if (window.thismodal) {
                 thismodal.remove();
@@ -56,27 +55,28 @@ if (array_key_exists('types', $_GET)) {
             return false;
         }
 
-        if (hash == 'fileWindow') {
+        if (hash === 'fileWindow') {
             $('body').trigger('change', [url]);
             return false;
         }
+        console.log(hash)
         if (!todo) {
             if (hash !== '') {
-                if (hash == 'editimage') {
-                    UpdateImage(url)
+                if (hash === 'editimage') {console.log(2)
+                    UpdateImage(url);
                     if(parent.mw.image.currentResizing){
                         parent.mw.wysiwyg.change(parent.mw.image.currentResizing[0])
                         parent.mw.image.resize.resizerSet(parent.mw.image.currentResizing[0]);
                         parent.mw.trigger('imageSrcChanged', [parent.mw.image.currentResizing[0], url])
                     }
-                } else if (hash == 'set_bg_image') {
+                } else if (hash === 'set_bg_image') {console.log(3)
                     parent.mw.wysiwyg.set_bg_image(url);
                     parent.mw.wysiwyg.change(parent.mw.current_element);
                     parent.mw.askusertostay = true;
                 } else {
-                    if (typeof parent[hash] === 'function') {
+                    if (typeof parent[hash] === 'function') {console.log(4)
                         parent[hash](url, eventType);
-                    } else {
+                    } else {console.log(5)
                         if(parent.mw.iframecallbacks['insert_image']) {
                             parent.mw.iframecallbacks['insert_image'](url, eventType);
                         }
@@ -84,21 +84,11 @@ if (array_key_exists('types', $_GET)) {
                     }
                 }
             } else {
-
+                console.log(6)
                 parent.mw.wysiwyg.restore_selection();
                 parent.mw.wysiwyg.insert_image(url, true);
 
 
-            }
-        } else {
-            if (todo == 'video') {
-                parent.mw.wysiwyg.insert_html('<div class="element mw-embed-embed"><embed controller="true" wmode="transparent" windowlessVideo="true" loop="false" autoplay="false" width="560" height="315" src="' + url + '"></embed></div>');
-            }
-            else if (todo == 'files') {
-                var name = mw.tools.get_filename(url);
-                var extension = url.split(".").pop();
-                var html = "<a class='mw-uploaded-file mw-filetype-" + extension + "' href='" + url + "'><span></span>" + name + "." + extension + "</a>";
-                parent.mw.wysiwyg.insert_html(html);
             }
         }
     };

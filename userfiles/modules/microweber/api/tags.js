@@ -222,6 +222,11 @@ mw.tags = mw.chips = function(options){
 
      this.init = function () {
          this.rend();
+         $(this.options.element).on('click', function (e) {
+             if(e.target === scope.options.element){
+                 $('input', this).focus();
+             }
+         })
      };
     this.init();
 };

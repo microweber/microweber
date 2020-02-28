@@ -237,7 +237,7 @@ mw.top()._icons = mw.top()._icons || [];
                 var title = document.createElement('h5');
                 var section = document.createElement('div');
                 var wrapper = document.createElement('div');
-                containers.push(wrapper)
+                containers.push(wrapper);
                 wrapper.className = 'mw-icon-list-section-wrapper';
                 wrapper.style.display = i === 0 ? 'block' : 'none';
                 section.className = 'mw-icon-list-section';

@@ -140,7 +140,7 @@
             cancel.className = 'mw-ui-btn mw-ui-btn-medium';
             footer.appendChild(cancel);
             footer.appendChild(scope.btnok);
-            this.dialog = mw.top().dialog({ width: 700, footer: footer, title: this.settings.title });
+            this.dialog = mw.top().dialog({ width: this.settings.width || 870, footer: footer, title: this.settings.title });
             this.dialog.dialogContainer.appendChild(this.container);
             cancel.onclick = function (e) {
                 e.preventDefault();

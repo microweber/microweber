@@ -257,6 +257,7 @@ if(!$shop_disabled){
         $notif_html = '<sup class="mw-notification-count">' . $notif_count . '</sup>';
     }
 
+
     ?>
 
     <div id="mw-admin-mobile-header">
