@@ -701,9 +701,16 @@ function mw_composer_run_update($params)
 }
 
 
-api_expose_admin('mw_composer_install_package_by_name');
+api_expose('mw_composer_install_package_by_name');
 function mw_composer_install_package_by_name($params)
 {
+    if (!mw_is_installed()) {
+
+    } else {
+        only_admin_access();
+
+    }
+
     $update_api = mw('update');
 
     return $update_api->composer_install_package_by_name($params);

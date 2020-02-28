@@ -8,7 +8,7 @@ if ($check and is_array($check) and !isset($_COOKIE['mw_dont_show_update_notif']
     ?>
 
     <a class="active" href="<?php print admin_url(); ?>view:settings#option_group=updates">
-        <span class="mai-notification"><sup class="mw-notification-count">1</sup></span> <strong>
+        <span class="mai-thunder"></span> <sup class="mw-notification-count">1</sup> <strong>
             <?php _e("Updates"); ?>
         </strong>
     </a>

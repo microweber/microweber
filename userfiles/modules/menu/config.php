@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = _e("Menu", TRUE);
+$config['name'] = "Menu";
 $config['description'] = _e("Navigation menu for pages and links.", TRUE);
 $config['author'] = "Microweber";
 $config['ui'] = true;

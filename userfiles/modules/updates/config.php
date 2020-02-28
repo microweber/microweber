@@ -1,6 +1,6 @@
 <?php
 $config = array();
-$config['name'] = _e("Updates", TRUE);
+$config['name'] = "Updates";
 $config['author'] = "Microweber";
 
 $config['categories'] = "admin";

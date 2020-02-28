@@ -131,6 +131,7 @@ class ComposerUpdate
         $version = 'latest';
         $keyword = '';
         $return_only_updates = false;
+        $search_by_type = false;
 
         if (isset($params['require_name']) and $params['require_name']) {
             $keyword = trim($params['require_name']);
@@ -143,6 +144,11 @@ class ComposerUpdate
         }
         if (isset($params['return_only_updates']) and $params['return_only_updates']) {
             $return_only_updates = $params['return_only_updates'];
+        }
+
+
+        if (isset($params['search_by_type']) and $params['search_by_type']) {
+            $search_by_type = $params['search_by_type'];
         }
 
 
@@ -212,6 +218,13 @@ class ComposerUpdate
 
                 ) {
                     $package_type = $package['type'];
+
+                    if($search_by_type){
+                         if($search_by_type != $package_type){
+                            unset($return[$pk]);
+                            continue;
+                        }
+                    }
 
                     $package_folder = false;
                     if (!$package_folder and isset($package['latest_version']) and isset($package['latest_version']) and isset($package['latest_version']['folder'])) {

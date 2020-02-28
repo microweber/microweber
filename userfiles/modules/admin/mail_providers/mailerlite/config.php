@@ -1,6 +1,6 @@
 <?php
 $config = array();
-$config['name'] = _e("MailerLite", TRUE);
+$config['name'] = "MailerLite";
 $config['author'] = "Microweber";
 $config['ui'] = false;
 $config['position'] = 100;

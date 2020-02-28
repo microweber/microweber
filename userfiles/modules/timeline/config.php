@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = _e("Timeline", TRUE);
+$config['name'] = "Timeline";
 $config['author'] = "Microweber";
 $config['ui'] = false;
 $config['version'] = 0.01;

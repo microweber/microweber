@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = _e("Pricing Table", TRUE);
+$config['name'] = "Pricing Table";
 $config['link'] = "https://microweber.com";
 $config['description'] = "Free pricing table module for your website!";
 $config['author'] = "Petko Yovchevski";

@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = _e("Pagination", TRUE);
+$config['name'] = "Pagination";
 $config['link'] = "https://microweber.com";
 $config['description'] = _e("Pagination module for your posts!", TRUE);
 $config['author'] = "Bozhidar Slaveykov";

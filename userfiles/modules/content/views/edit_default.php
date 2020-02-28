@@ -52,7 +52,7 @@ if (isset($data['id']) and intval($data['id']) == 0 and isset($data['parent']) a
 if ($edit_page_info['is_shop'] == 1) {
     $type = 'Shop';
 } elseif ($edit_page_info['subtype'] == 'dynamic') {
-    $type = 'Dynamicpage';
+    $type = 'Dynamic page';
 } elseif ($edit_page_info['subtype'] == 'post') {
     $type = 'Post';
 } elseif ($edit_page_info['content_type'] == 'product') {

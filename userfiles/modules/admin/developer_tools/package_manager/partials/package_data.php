@@ -72,9 +72,7 @@ if (!isset($box_class)) {
 }
 
 
-
-
 $is_commercial = false;
-if(isset($item['latest_version']) AND isset($item['latest_version']['dist_type']) AND $item['latest_version']['dist_type'] == 'license_key'){
+if (isset($item['latest_version']) AND isset($item['latest_version']['dist_type']) AND $item['latest_version']['dist_type'] == 'license_key') {
     $is_commercial = true;
 }

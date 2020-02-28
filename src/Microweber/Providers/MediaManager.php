@@ -161,6 +161,9 @@ class MediaManager
         if ($this->app->user_manager->is_admin() == false) {
             mw_error('not logged in as admin');
         }
+        $files_utils = new \Microweber\Utils\Files();
+
+
         ini_set('upload_max_filesize', '2500M');
         ini_set('memory_limit', '256M');
         ini_set('max_execution_time', 0);
@@ -189,6 +192,12 @@ class MediaManager
             if (isset($data['name'])) {
                 $data['name'] = mw()->url_manager->clean_url_wrappers($data['name']);
 
+                $is_dangerous_file = $files_utils->is_dangerous_file($data['name']);
+                if ($is_dangerous_file) {
+                    return;
+                }
+
+
                 $f = $target_path . $data['name'];
                 if (is_file($f)) {
                     $f = $target_path . date('YmdHis') . $data['name'];
@@ -216,6 +225,12 @@ class MediaManager
             foreach ($_FILES as $item) {
                 $item['name'] = mw()->url_manager->clean_url_wrappers($item['name']);
                 $extension = end(explode('.', $item['name']));
+
+                $is_dangerous_file = $files_utils->is_dangerous_file($data['name']);
+                if ($is_dangerous_file) {
+                    return;
+                }
+
                 if (in_array($extension, $allowedExts)) {
                     if ($item['error'] > 0) {
                         mw_error('Error: ' . $item['error']);

@@ -10,23 +10,36 @@ include(__DIR__ . '/package_data.php');
 
 <div class="mw-ui-box ">
     <div class="mw-ui-box-content js-package-install-content">
-        <?php if ($screenshot): ?>
-            <?php if ($item['type'] == 'microweber-template'): ?>
-                <a href="<?php print $item['homepage']; ?>" class="package-image package-<?php print $item['type'] ?>" style="width: calc(100% + 24px); margin: -12px -12px 0 -12px !important;">
-                    <img src="<?php print $screenshot; ?>" alt="">
-                </a>
+
+        <?php if ($item['type'] != 'microweber-core-update'): ?>
+
+
+            <?php if ($screenshot): ?>
+                <?php if ($item['type'] == 'microweber-template'): ?>
+                    <a href="<?php print $item['homepage']; ?>"
+                       class="package-image package-<?php print $item['type'] ?>"
+                       style="width: calc(100% + 24px); margin: -12px -12px 0 -12px !important;">
+                        <img src="<?php print $screenshot; ?>" alt="">
+                    </a>
+                <?php else: ?>
+                    <a href="<?php print $item['homepage']; ?>"
+                       class="package-image package-<?php print $item['type'] ?>"
+                       style="background-image: url('<?php print $screenshot; ?>')"></a>
+                <?php endif; ?>
             <?php else: ?>
-                <a href="<?php print $item['homepage']; ?>" class="package-image package-<?php print $item['type'] ?>" style="background-image: url('<?php print $screenshot; ?>')"></a>
+                <?php if (!isset($no_img)): ?>
+                    <div class="package-image" style="  background-image: none"></div>
+                <?php endif; ?>
             <?php endif; ?>
-        <?php else: ?>
-            <?php if (!isset($no_img)): ?>
-                <div class="package-image" style="  background-image: none"></div>
-            <?php endif; ?>
+
         <?php endif; ?>
+
 
         <div class="package-item-footer">
             <div class="mw-ui-row">
-                <div class="mw-ui-col title"><a <?php print (isset($item['homepage']) ? 'href="' . $item['homepage'] . '"' : ''); ?> ><?php print $item['description'] ?></a></div>
+                <div class="mw-ui-col title">
+                    <a <?php print (isset($item['homepage']) ? 'href="' . $item['homepage'] . '"' : ''); ?> ><?php print $item['description'] ?></a>
+                </div>
                 <div class="mw-ui-col text-right" style="align-items: flex-end;">
                     <div>
                         <?php _e('Version'); ?>
@@ -58,7 +71,8 @@ include(__DIR__ . '/package_data.php');
 
 
                     <?php $tooltipid = uniqid('tooltip'); ?>
-                    <span class="mw-ui-link tip" data-tip="#<?php print $tooltipid ?>" data-trigger="click">Information</span>
+                    <span class="mw-ui-link tip" data-tip="#<?php print $tooltipid ?>"
+                          data-trigger="click">Information</span>
                     <div id="<?php print $tooltipid ?>" style="display: none">
                         <?php include(__DIR__ . '/package_data_tooltip.php'); ?>
                     </div>
@@ -68,14 +82,17 @@ include(__DIR__ . '/package_data.php');
                 <div class="mw-ui-col" style="align-items: flex-end;">
                     <div class="text-center">
                         <?php if ($has_update): ?>
-                            <a vkey="<?php print $vkey; ?>" href="javascript:;" onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'), this)"
+                            <a vkey="<?php print $vkey; ?>" href="javascript:;"
+                               onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'), this)"
                                class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-warn js-package-install-btn"><?php _e('Update'); ?></a>
 
                         <?php elseif (!$has_update AND isset($item['current_install']) and $item['current_install']): ?>
                             <div class="text-success">Installed</div>
 
                         <?php else: ?>
-                            <a vkey="<?php print $vkey; ?>" href="javascript:;" onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'), this)" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification js-package-install-btn">
+                            <a vkey="<?php print $vkey; ?>" href="javascript:;"
+                               onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'), this)"
+                               class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification js-package-install-btn">
                                 <?php if ($is_commercial): ?>Buy & <?php endif; ?> <?php _e('Install'); ?>
                             </a>
                         <?php endif; ?>

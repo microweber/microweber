@@ -4,7 +4,7 @@
 
 $config = array();
 
-$config['name'] = _e("Magic Slider", TRUE);
+$config['name'] = "Magic Slider";
 
 $config['author'] = "Microweber";
 

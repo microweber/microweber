@@ -30,6 +30,8 @@ class InstallController extends Controller
 
     public function index($input = null)
     {
+
+
         if (!is_array($input) || empty($input)) {
             $input = Input::all();
         }
@@ -37,6 +39,20 @@ class InstallController extends Controller
         if ($is_installed) {
             return 'Microweber is already installed!';
         }
+
+
+        if (isset($input['get_templates_for_install_screen'])) {
+            return $this->_get_templates_for_install_screen();
+        }
+
+        if (isset($input['get_market_templates_for_install_screen'])) {
+            return $this->_get_market_templates_for_install_screen();
+        }
+
+        if (isset($input['install_package_by_name'])) {
+            return $this->_install_package_by_name($input['install_package_by_name']);
+        }
+
 
         $allowed_configs = array('database', 'microweber');
 
@@ -138,13 +154,13 @@ class InstallController extends Controller
                 Config::set('microweber.pre_configured', null);
                 Config::set('microweber.pre_configured_input', null);
             }
-            
+
             if (isset($input['admin_url'])) {
-            	Config::set('microweber.admin_url', $input['admin_url']);
+                Config::set('microweber.admin_url', $input['admin_url']);
             }
-            
+
             if (isset($input['site_lang'])) {
-            	Config::set('microweber.site_lang', $input['site_lang']);
+                Config::set('microweber.site_lang', $input['site_lang']);
             }
 
             if (Config::get('app.key') == 'YourSecretKey!!!') {
@@ -432,7 +448,39 @@ class InstallController extends Controller
             }
         }
     }
+    private function _get_templates_for_install_screen()
+    {
+        //used in ajax
+        $templates_opts = array('remove_hidden_from_install_screen' => true);
+        $templates = site_templates($templates_opts);
+        return $templates;
+    }
 
+    private function _get_market_templates_for_install_screen()
+    {
+
+
+        $ready = array();
+        $runner = new \Microweber\Utils\ComposerUpdate();
+        $results = $runner->search_packages(['search_by_type' => 'microweber-template']);
+        if ($results) {
+            foreach ($results as $k => $result) {
+                if (isset($result['latest_version']) and !isset($result['current_install'])) {
+                    if (isset($result['latest_version']['dist_type']) and $result['latest_version']['dist_type'] == 'zip') {
+                        $ready[$k] = $result;
+                    }
+                }
+            }
+        }
+        return $ready;
+    }
+    private function _install_package_by_name($package_name)
+    {
+        $runner = new \Microweber\Utils\ComposerUpdate();
+        $results = $runner->install_package_by_name(['require_name' => $package_name]);
+        return $results;
+
+    }
 
     private function _can_i_use_artisan_key_generate_command()
     {

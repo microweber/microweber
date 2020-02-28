@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = _e("Image Rollover", TRUE);
+$config['name'] = "Image Rollover";
 $config['author'] = "Microweber";
 $config['no_cache'] = false;
 $config['ui'] = true;

@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = _e("Pages Menu", TRUE);
+$config['name'] = "Pages Menu";
 $config['author'] = "Microweber";
 $config['no_cache'] = false;
 $config['ui'] = true;

@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = _e("Include", TRUE);
+$config['name'] = "Include";
 $config['author'] = "Microweber";
 $config['no_cache'] = false;
 $config['ui'] = false;

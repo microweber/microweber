@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = _e("Help", TRUE);
+$config['name'] ="Help";
 $config['author'] = "Microweber";
 $config['no_cache'] = false;
 $config['ui'] = false;

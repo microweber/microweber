@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = _e("Ants", TRUE);
+$config['name'] = "Ants";
 $config['link'] = "https://github.com/tomphp/jquery.insects";
 $config['description'] = _e("Ferocious ants for your website!", TRUE);
 $config['author'] = "Tom Oram";
