@@ -205,4 +205,7 @@
 
     </div>
 
+    <module type="help/modal_with_button" for_module="tags" />
+
 </div>
+
