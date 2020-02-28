@@ -1867,7 +1867,7 @@ mw.wysiwyg = {
                 if(res.indexOf('<') !== -1) {
                     mw.wysiwyg.insert_html(res);
                 } else {
-                    mw.wysiwyg.insert_image(res);
+                    mw.wysiwyg.insertMedia(res);
                 }
             }
 
@@ -1909,7 +1909,7 @@ mw.wysiwyg = {
         if (isembed) {
             var id = 'frame-' + mw.random();
             var frame = html;
-            var html = '<span id="' + id + '"></span>';
+            html = '<span id="' + id + '"></span>';
         }
         if (!!window.MSStream) {
             mw.wysiwyg.restore_selection();
@@ -1948,13 +1948,36 @@ mw.wysiwyg = {
         for (; i < l; i++) {
             var item = n[i];
             if (item.nodeType === 1) {
-                var final = final + item.textContent.length;
+                final = final + item.textContent.length;
             }
             else if (item.nodeType === 3) {
-                var final = final + item.nodeValue.length;
+                final = final + item.nodeValue.length;
             }
         }
         return final;
+    },
+    insertMedia: function (url, type) {
+        var ext = url.split('.').pop().toLowerCase();
+        var name = url.split('/').pop()
+        if(!type) {
+            if(['png','gif','jpg','jpeg','tiff','bmp','svg'].indexOf(ext) !== -1) {
+                type = 'image';
+            }
+            if(['mp4','ogg'].indexOf(ext) !== -1) {
+                type = 'video';
+            }
+        }
+        if(type === 'image') {
+            return this.insert_image(url);
+        } else if(type === 'video') {
+            var id = 'image_' + mw.random();
+            var img = '<span class="mwembed"><video id="' + id + '" contentEditable="false" src="' + url + '" controls></video></span>';
+            mw.wysiwyg.insert_html(img);
+        } else {
+            var id = 'image_' + mw.random();
+            var img = '<a id="' + id + '" contentEditable="true" src="' + url + '">'+name+'</a>';
+            mw.wysiwyg.insert_html(img);
+        }
     },
     insert_image: function (url) {
         var id = 'image_' + mw.random();
@@ -2068,7 +2091,7 @@ mw.wysiwyg = {
             mw.wysiwyg.fontFamilies.push(body_font);
         }
 
-        var scan_for_fonts = ['h1', 'h2', 'h3', 'h4', 'h5', 'p', 'a[class]'];
+        var scan_for_fonts = ['body', 'html', 'h1', 'h2', 'h3', 'h4', 'h5', 'p', 'a[class]'];
 
         $.each(scan_for_fonts, function (index, value) {
             var sel = mw.$(document.querySelector(value));
@@ -2463,6 +2486,17 @@ mw.wysiwyg = {
                 mw.wysiwyg.normalizeBase64Image(all[i]);
             }
         }
+    },
+    documentCommonFonts: function () {
+      var checkNodes = $('html, body, h1:first, h2:first, p:first');
+      var result = [];
+        checkNodes.each(function () {
+            var font = $(this).css('fontFamily').split(',')[0].trim();
+            if(result.indexOf(font) === -1) {
+                result.push(font)
+            }
+        });
+        return result;
     }
 }
 mw.disable_selection = function (element) {

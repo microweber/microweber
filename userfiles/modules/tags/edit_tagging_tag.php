@@ -43,23 +43,15 @@ if ($tag) {
 
                     if (data.name) {
 
-                        <?php if (!isset($_POST['taggable_ids'])): ?>
                         if ($('.js-admin-tags').find('.btn-tag-id-' + data.id).length == 0) {
                             $('.js-admin-tags').append(getTagButtonHtmlInForm(data.id, data.name, data.slug));
                         } else {
                             $('.btn-tag-id-' + data.id).replaceWith(getTagButtonHtmlInForm(data.id, data.name, data.slug));
                         }
-                        <?php endif; ?>
 
                         $('.js-admin-tag-edit-form').find('.js-clear-after-save').each(function (e) {
                             $(this).val('');
                         });
-
-                        <?php if (isset($_POST['taggable_ids'])): ?>
-                        <?php foreach ($_POST['taggable_ids'] as $taggable_id): ?>
-                        getPostTags(<?php echo $taggable_id['taggable_id']; ?>);
-                        <?php endforeach; ?>
-                        <?php endif; ?>
 
                         searchTagsByKeyowrd();
 
@@ -118,41 +110,6 @@ if ($tag) {
             }
         });
     }
-    <?php if (isset($_POST['taggable_ids'])): ?>
-    var tagsSelect = mw.select({
-        element: '.js-admin-tag-edit-form-tag-name',
-        multiple: false,
-        autocomplete: true,
-        tags: false,
-        placeholder: '',
-        ajaxMode: {
-            paginationParam: 'page',
-            searchParam: 'keyword',
-            endpoint: mw.settings.api_url + 'tagging_tag/autocomplete',
-            method: 'get'
-        }
-    });
-    <?php if (!empty($tag['id'])) : ?>
-    tagsSelect.value({id:<?php echo $tag['id']; ?>, title:'<?php echo $tag['tag_name']; ?>'});
-    <?php endif; ?>
-
-    $(tagsSelect).on("change", function(event, tag){
-        if (tag.id) {
-            $.ajax({
-                url: mw.settings.api_url + 'tagging_tag/view',
-                type: 'post',
-                data: {tagging_tag_id: tag.id},
-                success: function (data) {
-                    if (data.name) {
-                        $('.js-admin-tag-edit-form-tag-name').val(data.name);
-                        $('.js-admin-tag-edit-form-tag-slug').val(data.slug);
-                        $('.js-admin-tag-edit-form-tag-description').html(data.description);
-                    }
-                }
-            });
-        }
-    });
-    <?php endif; ?>
 </script>
 
 <form method="post" class="js-admin-tag-edit-form">
@@ -163,23 +120,18 @@ if ($tag) {
         <div class="helptext"><?php _e('The name is how it appears on your site.');?></div>
     </div>
 
-    <div class="demobox">
+    <div class="demobox" <?php if ($tag): ?> style="display: none;" <?php endif; ?>>
         <label class="mw-ui-label"><?php _e('Tag Slug');?></label>
         <input type="text" name="slug" value="<?php echo $slug; ?>" class="form-control js-admin-tag-edit-form-tag-slug js-clear-after-save">
         <div class="helptext"><?php _e('The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.');?></div>
     </div>
+
 
     <div class="demobox">
         <label class="mw-ui-label"><?php _e('Tag Description'); ?></label>
         <textarea name="description" class="form-control js-admin-tag-edit-form-tag-description js-clear-after-save"><?php echo $description; ?></textarea>
         <div class="helptext"><?php _e('The description is not prominent by default; however, some themes may show it.'); ?></div>
     </div>
-
-    <?php if (isset($_POST['taggable_ids'])): ?>
-    <?php foreach ($_POST['taggable_ids'] as $taggable_id): ?>
-    <input type="text" name="taggable_ids[]" value="<?php echo $taggable_id['taggable_id']; ?>" />
-    <?php endforeach; ?>
-    <?php endif; ?>
 
     <input type="hidden" name="tagging_tag_id" class="js-admin-tag-edit-form-tag-id" value="<?php if ($tag): echo $tag['id']; endif; ?>" />
 

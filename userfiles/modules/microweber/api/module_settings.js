@@ -46,22 +46,36 @@ mw.moduleSettings = function(options){
             scope.remove(i);
         });
     };
-    this.createItemHolder = function(){
+    this.createItemHolder = function(i){
+        i = i || 0;
         var holder = document.createElement('div');
         var holderin = document.createElement('div');
         holder.className = 'mw-ui-box mw-module-settings-box';
         holderin.className = 'mw-ui-box-content mw-module-settings-box-content';
         holderin.style.display = 'none';
-        this.options.element.appendChild(holder);
         holder.appendChild(holderin);
+        if(!this.options.element.children) {
+            this.options.element.appendChild(holder);
+        } else if (!this.options.element.children[i]){
+            this.options.element.appendChild(holder);
+        } else if (this.options.element.children[i]){
+            $(this.options.element.children[i]).before(holder);
+        }
+
+
         return holder;
     };
 
-    this.addNew = function(method){
+    this.addNew = function(pos, method){
         method = method || 'new';
-        var pos = this.value.length;
+        pos = pos || 0;
         var _new;
         _new = mw.tools.cloneObject(JSON.parse(JSON.stringify(this.value[0])));
+        if(_new.title) {
+            _new.title += ' - new';
+        } else if(_new.name) {
+            _new.name += ' - new';
+        }
         if(method === 'new'){
             $.each(this.options.schema, function(){
                 if(this.value) {
@@ -88,7 +102,7 @@ mw.moduleSettings = function(options){
     };
 
     this.createItem = function(curr, i){
-        var box = this.createItemHolder();
+        var box = this.createItemHolder(i);
         var header = this.createItemHolderHeader(i);
         var item = new mw.propEditor.schema({
             schema: this.options.schema,
@@ -105,7 +119,24 @@ mw.moduleSettings = function(options){
                 var index = mw.$(box).parent().children('.mw-module-settings-box').index(box);
                 scope.value[index][a] = b;
             });
+            $('[data-bind]', header).each(function () {
+                var val = item.getValue();
+                var bind = this.dataset.bind;
+                if(val[bind]){
+                    this.innerHTML = val[bind];
+                } else {
+                    this.innerHTML = this.dataset.orig;
+                }
+            });
             mw.$(scope).trigger('change', [scope.value/*, scope.value[i]*/]);
+        });
+        $('[data-bind]', header).each(function () {
+            var val = item.getValue();
+            var bind = this.dataset.bind;
+            this.dataset.orig = this.innerHTML;
+            if(val[bind]){
+                this.innerHTML = val[bind];
+            }
         });
     };
 
@@ -144,7 +175,8 @@ mw.moduleSettings = function(options){
                         scope.autoSave();
                     }, 10)
                 },
-                handle:this.options.header ? '.mw-ui-box-header' : undefined
+                handle:this.options.header ? '.mw-ui-box-header' : undefined,
+                axis:'y'
             };
             if(typeof this.options.sortable === 'object'){
                 conf = $.extend({}, conf, this.options.sortable);

@@ -75,7 +75,7 @@ $(document).ready(function () {
 
     $('.js-add-tags-to-posts').click(function () {
         var selected_taggable_items = getSelectedTaggableItems();
-        editTaggingTag(false, selected_taggable_items);
+        addTaggingTagged(false, selected_taggable_items);
     });
 
     $('.js-search-posts-submit').click(function () {
@@ -102,7 +102,7 @@ function changeFilterText() {
 function getTaggingTagButtonHtml(id,name,slug, posts_count =0) {
 
     var html = '<div class="btn-group btn-tag btn-tag-id-'+id+'" role="group">' +
-        '    <button type="button" class="btn btn-secondary" onClick="editTaggingTag('+id+')"><i class="fa fa-tag"></i> ' + name + '</button>' +
+        '    <button type="button" class="btn btn-secondary"><i class="fa fa-tag"></i> ' + name + '</button>' +
         '    <button type="button" class="btn btn-secondary" data-slug="'+slug+'" onClick="showPostsWithTags(this)">('+posts_count+')</button>' +
         '    <button type="button" class="btn btn-secondary" onClick="editTaggingTag('+id+')"><i class="fa fa-pen"></i></button>' +
         '    <button type="button" class="btn btn-secondary" onClick="deleteTaggingTag('+id+')"><i class="fa fa-times"></i></button>' +

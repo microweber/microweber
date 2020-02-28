@@ -206,7 +206,7 @@ mw.Select = function(options) {
 
             if(scope.settings.autocomplete){
                 $('input', oh)
-                    .on('input', function () {
+                    .on('input focus', function () {
                         scope.filter(this.value);
                         if(scope._rootInputMode) {
                             scope.element.value = this.value;
@@ -434,7 +434,7 @@ mw.Select = function(options) {
 
 
 
-    this.init()
+    this.init();
 
 
 };
