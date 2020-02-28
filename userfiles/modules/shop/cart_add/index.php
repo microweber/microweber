@@ -11,7 +11,14 @@
 
 </script>
 
-<script>mw.moduleCSS("<?php print modules_url(); ?>shop/cart_add/styles.css"); </script>
+<?php
+
+
+/*<script>mw.moduleCSS("<?php print modules_url(); ?>shop/cart_add/styles.css"); </script>
+*/
+template_stack_add(modules_url()."shop/cart_add/styles.css");
+
+?>
 
 <?php
 $for_id = false;

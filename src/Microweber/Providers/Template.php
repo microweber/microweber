@@ -594,9 +594,9 @@ class Template
         return $this->stack_compiler_adapter->add($src, $group);
     }
 
-    public function stack_display($group = 'default')
+    public function stack_display($group = 'default',$to_return = false)
     {
-        return $this->stack_compiler_adapter->display($group);
+        return $this->stack_compiler_adapter->display($group,$to_return);
     }
 
 

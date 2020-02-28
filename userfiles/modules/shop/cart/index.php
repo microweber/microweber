@@ -1,6 +1,17 @@
 <script>mw.require("shop.js", true);</script>
 
-<script>mw.moduleCSS("<?php print modules_url(); ?>shop/cart/styles.css"); </script>
+
+
+<?php
+
+/*<script>mw.moduleCSS("<?php print modules_url(); ?>shop/cart/styles.css"); </script>
+*/
+
+template_stack_add(modules_url()."shop/cart/styles.css");
+
+
+?>
+
 
 <?php
 

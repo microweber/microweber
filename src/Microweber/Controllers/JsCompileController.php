@@ -322,7 +322,7 @@ class JsCompileController extends Controller
 
     public function get_liveeditjs_url()
     {
-        $url = $this->app->url_manager->site('apijs_liveedit') . '?mwv=' . MW_VERSION;;
+        $url = $this->app->url_manager->site('apijs_liveedit') . '?mwv=' . MW_VERSION; 
         $compile_assets = \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
             $userfiles_dir = userfiles_path();

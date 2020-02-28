@@ -606,7 +606,7 @@ function template_headers_src()
 
 function template_stack_add($src, $group='default')
 {
-    return mw()->template->stack_add($src, $group='default');
+    return mw()->template->stack_add($src, $group);
 }
 
 function template_stack_display($group='default')
