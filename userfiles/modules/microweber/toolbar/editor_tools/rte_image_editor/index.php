@@ -59,24 +59,23 @@ if (array_key_exists('types', $_GET)) {
             $('body').trigger('change', [url]);
             return false;
         }
-        console.log(hash)
         if (!todo) {
             if (hash !== '') {
-                if (hash === 'editimage') {console.log(2)
+                if (hash === 'editimage') {
                     UpdateImage(url);
                     if(parent.mw.image.currentResizing){
                         parent.mw.wysiwyg.change(parent.mw.image.currentResizing[0])
                         parent.mw.image.resize.resizerSet(parent.mw.image.currentResizing[0]);
                         parent.mw.trigger('imageSrcChanged', [parent.mw.image.currentResizing[0], url])
                     }
-                } else if (hash === 'set_bg_image') {console.log(3)
+                } else if (hash === 'set_bg_image') {
                     parent.mw.wysiwyg.set_bg_image(url);
                     parent.mw.wysiwyg.change(parent.mw.current_element);
                     parent.mw.askusertostay = true;
                 } else {
-                    if (typeof parent[hash] === 'function') {console.log(4)
+                    if (typeof parent[hash] === 'function') {
                         parent[hash](url, eventType);
-                    } else {console.log(5)
+                    } else {
                         if(parent.mw.iframecallbacks['insert_image']) {
                             parent.mw.iframecallbacks['insert_image'](url, eventType);
                         }
@@ -84,7 +83,6 @@ if (array_key_exists('types', $_GET)) {
                     }
                 }
             } else {
-                console.log(6)
                 parent.mw.wysiwyg.restore_selection();
                 parent.mw.wysiwyg.insert_image(url, true);
 
