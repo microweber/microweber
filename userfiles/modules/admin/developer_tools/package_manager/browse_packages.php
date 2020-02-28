@@ -335,9 +335,10 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
             </div>
         </div>
     <?php endif; ?>
-    <div class="mw-flex-row p-l-20  m-b-20">
 
-    <ul class="mw-ui-btn-nav mw-ui-btn-nav pull-right">
+
+    <div class="mw-flex-row p-l-20  m-b-20" style="text-align: right">
+    <ul class="mw-ui-btn-nav mw-ui-btn-nav" style="float:right">
         <?php if ($is_update_mode) { ?>
 
             <li><a  class="mw-ui-btn mw-ui-btn-notification" href="<?php print admin_url() ?>view:packages"><?php _e("Show all packages"); ?></a></li>
@@ -354,8 +355,6 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
         <li><a href="javascript:;" onclick="mw.admin.admin_package_manager.reload_packages_list();" class="mw-ui-btn-info mw-ui-btn"><?php _e("Reload packages"); ?></a></li>
         <li><a href="javascript:;" onclick="mw.admin.admin_package_manager.show_licenses_modal ();" class="mw-ui-btn"><?php _e("Licenses"); ?></a></li>
     </ul>
-
-
     </div>
 
 

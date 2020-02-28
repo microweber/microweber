@@ -16,13 +16,13 @@ include(__DIR__ . '/package_data.php');
 
             <?php if ($screenshot): ?>
                 <?php if ($item['type'] == 'microweber-template'): ?>
-                    <a href="<?php print $item['homepage']; ?>"
+                    <a target="_blank" href="<?php print $item['homepage']; ?>"
                        class="package-image package-<?php print $item['type'] ?>"
                        style="width: calc(100% + 24px); margin: -12px -12px 0 -12px !important;">
                         <img src="<?php print $screenshot; ?>" alt="">
                     </a>
                 <?php else: ?>
-                    <a href="<?php print $item['homepage']; ?>"
+                    <a target="_blank" href="<?php print $item['homepage']; ?>"
                        class="package-image package-<?php print $item['type'] ?>"
                        style="background-image: url('<?php print $screenshot; ?>')"></a>
                 <?php endif; ?>
