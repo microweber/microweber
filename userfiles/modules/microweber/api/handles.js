@@ -743,10 +743,19 @@ mw._initHandles = {
             } else {
                 mw.$(handle.wrapper).addClass('mw-handle-no-drag');
             }
-
+            if(typeof(el) == 'undefined'){
+                return;
+            }
             var title = el.dataset("mw-title");
             var id = el.attr("id");
-            var module_type = (el.dataset("type") || el.attr("type")).trim();
+
+
+
+            var module_type = (el.dataset("type") || el.attr("type"));
+            if(typeof(module_type) == 'undefined'){
+                return;
+            }
+
             var cln = el[0].querySelector('.cloneable');
             if(cln || mw.tools.hasClass(el[0], 'cloneable')){
                 if(($(cln).offset().top - el.offset().top) < 20){

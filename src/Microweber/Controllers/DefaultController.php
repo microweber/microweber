@@ -657,10 +657,10 @@ class DefaultController extends Controller
             $from_url = $request_data['from_url'];
         } elseif (isset($_SERVER['HTTP_REFERER'])) {
             $from_url = $_SERVER['HTTP_REFERER'];
-            $from_url_p = @parse_url($from_url);
-            if (is_array($from_url_p) and isset($from_url_p['query'])) {
-                $from_url_p = parse_query($from_url_p['query']);
-                if (is_array($from_url_p) and isset($from_url_p['from_url'])) {
+            $from_url_p= @parse_url($from_url);
+            if(is_array($from_url_p) and isset($from_url_p['query'])){
+                $from_url_p =  parse_query($from_url_p['query']);
+                if(is_array($from_url_p) and isset($from_url_p['from_url'])){
                     $from_url = $from_url_p['from_url'];
                 }
             }
@@ -1080,15 +1080,7 @@ class DefaultController extends Controller
             $res = $this->app->parser->process($res, $options = false);
         }
 
-
-
-        $one = 1;
-        //  $append_stack_replace_str = '<!-- [template-stack-display-default] -->';
-        // if(!strtok($l, $append_stack_replace_str)){
-        $append_stack_replace_str = mw()->template->stack_display('default', true);
-         //   $l = str_ireplace('</head>', $append_stack_replace_str . '</head>', $l, $one);
-        $res = str_ireplace('<head>', '<head>' . $append_stack_replace_str, $res, $one);
-         $res = mw()->template->process_stacks($res);
+        $res = mw()->template->process_stacks($res);
 
         $res = execute_document_ready($res);
         if (!defined('MW_NO_OUTPUT')) {
@@ -1899,23 +1891,8 @@ class DefaultController extends Controller
                 }
             }
 
-
-            if ($l != false and $l != '') {
-                $one = 1;
-                //  $append_stack_replace_str = '<!-- [template-stack-display-default] -->';
-                // if(!strtok($l, $append_stack_replace_str)){
-                $append_stack_replace_str = mw()->template->stack_display('default', true);
-                // dd($append_stack_replace_str);
-                //   $l = str_ireplace('</head>', $append_stack_replace_str . '</head>', $l, $one);
-                $l = str_ireplace('<head>', '<head>' . $append_stack_replace_str, $l, $one);
-
-                // }
-                $l = mw()->template->process_stacks($l);
-            }
-
-
             $template_headers_src = $this->app->template->head(true);
-            //  $template_footer_src = $this->app->template->foot(true);
+            $template_footer_src = $this->app->template->foot(true);
 
             $template_headers_src_callback = $this->app->template->head_callback($page);
             if (is_array($template_headers_src_callback) and !empty($template_headers_src_callback)) {
@@ -1958,11 +1935,6 @@ class DefaultController extends Controller
             if ($template_footer_src != false and is_string($template_footer_src)) {
                 $l = str_ireplace('</body>', $template_footer_src . '</body>', $l, $one);
             }
-//             if ($is_editmode) {
-//                $apijs_live_edit_loaded = $this->app->template->get_liveeditjs_url();
-//                $apijs_live_edit_loaded = "\r\n" . '<script src="' . $apijs_live_edit_loaded . '"></script>' . "\r\n";
-//                $l = str_ireplace('<head>', '<head>' . $apijs_live_edit_loaded, $l);
-//            }
 
             $l = str_ireplace('<head>', '<head>' . $default_css, $l);
             //   if (!stristr($l, $apijs_loaded)) {
@@ -1971,11 +1943,6 @@ class DefaultController extends Controller
             $apijs_settings_script = "\r\n" . '<script src="' . $apijs_settings_loaded . '"></script>' . "\r\n";
             $apijs_settings_script .= '<script src="' . $apijs_loaded . '"></script>' . "\r\n";
             $l = str_ireplace('<head>', '<head>' . $apijs_settings_script, $l);
-
-
-
-
-
             //  }
 
             if (isset($content['active_site_template']) and $content['active_site_template'] == 'default' and $the_active_site_template != 'default' and $the_active_site_template != 'mw_default') {
@@ -2006,8 +1973,6 @@ class DefaultController extends Controller
                 $live_edit_url_folder = userfiles_url() . 'css/' . $the_active_site_template . '/';
                 $custom_live_edit = $live_edit_css_folder . 'live_edit.css';
             }
-
-
             $custom_live_edit = normalize_path($custom_live_edit, false);
 
             if (is_file($custom_live_edit)) {
@@ -2029,7 +1994,6 @@ class DefaultController extends Controller
             if ($website_head_tags != false) {
                 $l = str_ireplace('</head>', $website_head_tags . '</head>', $l, $rep_count);
             }
-
 
             if (defined('MW_VERSION')) {
                 $generator_tag = "\n" . '<meta name="generator" content="Microweber" />' . "\n";
