@@ -183,6 +183,7 @@ class JsCompileController extends Controller
             $userfiles_dir = userfiles_path();
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs');
             $userfiles_cache_filename = $userfiles_cache_dir . 'api_settings.' . md5(site_url() . template_dir()) . '.' . MW_VERSION . '.js';
+
             if (!is_file($userfiles_cache_filename)) {
                 if (!is_dir($userfiles_cache_dir)) {
                     mkdir_recursive($userfiles_cache_dir);
@@ -197,6 +198,7 @@ class JsCompileController extends Controller
                     @file_put_contents($userfiles_cache_filename, $l);
                 }
             }
+
         }
 
         $response = \Response::make($l);
@@ -298,6 +300,8 @@ class JsCompileController extends Controller
     {
         $url = $this->app->url_manager->site('apijs_settings') . '?mwv=' . MW_VERSION;;
         $compile_assets = \Config::get('microweber.compile_assets');
+
+
         if ($compile_assets and defined('MW_VERSION')) {
             $userfiles_dir = userfiles_path();
             $file = mw_includes_path() . 'api' . DS . 'api_settings.js';
@@ -306,17 +310,18 @@ class JsCompileController extends Controller
                 $mtime = filemtime($file);
             }
 
-            $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs' . DS);
-            $fn = 'api_settings.' . md5(site_url() . template_dir() . $mtime) . '.' . MW_VERSION . '.js';
-            $userfiles_cache_filename = $userfiles_cache_dir . $fn;
-            if (is_file($userfiles_cache_filename)) {
-                if (is_file($userfiles_cache_filename)) {
-                    $url = userfiles_url() . 'cache/apijs/' . $fn;
-                }
-            }
-        }
 
-        return $url;
+            $userfiles_dir = userfiles_path();
+            $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs');
+            $userfiles_cache_filename = $userfiles_cache_dir . 'api_settings.' . md5(site_url() . template_dir()) . '.' . MW_VERSION . '.js';
+
+
+
+            if (is_file($userfiles_cache_filename)) {
+                $url = dir2url($userfiles_cache_filename);
+             }
+        }
+         return $url;
     }
 
 

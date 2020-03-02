@@ -333,6 +333,15 @@ class Template
         return $url;
     }
 
+
+    public function get_default_system_ui_css_url()
+    {
+
+        $url = mw_includes_url().'css/ui.css?v='. MW_VERSION ;
+
+        return $url;
+    }
+
     public function clear_cached_custom_css()
     {
         $url = api_nosession_url('template/print_custom_css');

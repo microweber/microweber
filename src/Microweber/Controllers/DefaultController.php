@@ -1876,7 +1876,13 @@ class DefaultController extends Controller
             //$apijs_loaded = $this->app->template->get_apijs_url() . '?id=' . CONTENT_ID;
 
             $is_admin = $this->app->user_manager->is_admin();
-            $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css?v=' . MW_VERSION . '" type="text/css" />';
+           // $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css?v=' . MW_VERSION . '" type="text/css" />';
+
+            $default_css_url = $this->app->template->get_default_system_ui_css_url();
+            $default_css = '<link rel="stylesheet" href="' . $default_css_url .  '" type="text/css" />';
+
+
+
             $headers = event_trigger('site_header', TEMPLATE_NAME);
             $template_headers_append = '';
             $one = 1;
@@ -2426,9 +2432,15 @@ class DefaultController extends Controller
             $apijs_loaded = $this->app->template->get_apijs_url();
             // $apijs_settings_loaded = $this->app->template->get_apijs_settings_url() . '?id=' . CONTENT_ID . '&category_id=' . CATEGORY_ID;
             $apijs_settings_loaded = $this->app->template->get_apijs_settings_url();
+            $default_css_url = $this->app->template->get_default_system_ui_css_url();
+
 
             // $is_admin = $this->app->user_manager->is_admin();
             $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css?v=' . MW_VERSION . '" type="text/css" />';
+            $default_css = '<link rel="stylesheet" href="' . $default_css_url .  '" type="text/css" />';
+
+
+
             $headers = event_trigger('site_header', TEMPLATE_NAME);
             $template_headers_append = '';
             $one = 1;

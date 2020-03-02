@@ -20,6 +20,7 @@ $files[] = 'live_edit.js';
 $files[] = 'liveedit_widgets.js';
 $files[] = 'state.js';
 $files[] = 'selector.js';
+$files[] = 'icon_selector.js';
 
 // Liveedit
 
