@@ -338,6 +338,9 @@ if ($last_page_front != false) {
                                     <?php endif; ?>
 
                                     <div class="pull-right relative m-r-10">
+
+
+
                                         <div class="mw-field top-search">
                                             <input value="<?php if (isset($params['keyword']) and $params['keyword'] != false): ?><?php print $params['keyword'] ?><?php endif; ?>"
                                                 <?php if (isset($params['keyword']) and $params['keyword'] != false): ?> autofocus="autofocus"
@@ -359,6 +362,13 @@ if ($last_page_front != false) {
                                             })
                                         </script>
                                     </div>
+
+
+                                    <div style="margin-left:35px;position: relative;display: inline-block;" id="posts-select-tags">
+                                        -
+                                    </div>
+
+
 
                                     <?php mw()->event_manager->trigger('module.content.manager.toolbar.end', $page_info); ?>
                                 </div>
@@ -422,6 +432,33 @@ if ($last_page_front != false) {
                                 </div>
                             </div>
 
+                            <div class="mw-table-sorting mw-admin-order-sort-completed pull-right" style="margin-left: 20px;">
+                                <div class="mw-ui-btn-nav unselectable pull-right" style="margin-left: 10px;">
+
+                                    <?php
+                                    $order_by_field = '';
+                                    $order_by_type = '';
+                                    if (isset($params['data-order'])) {
+                                        $explode_date_order = explode(' ', $params['data-order']);
+                                        if (isset($explode_date_order[1])) {
+                                            $order_by_field = $explode_date_order[0];
+                                            $order_by_type = $explode_date_order[1];
+                                        }
+                                    }
+                                    ?>
+
+                                <span class="mw-ui-btn mw-ui-btn-medium" data-state="<?php if ($order_by_field=='created_at'): ?><?php echo $order_by_type; ?><?php endif; ?>" data-sort-type="created_at" onclick="postsSort({id:'pages_edit_container_content_list', el:this});">
+                                    <?php _e("Date"); ?>
+                                </span>
+
+                                <span class="mw-ui-btn mw-ui-btn-medium" data-state="<?php if ($order_by_field=='title'): ?><?php echo $order_by_type; ?><?php endif; ?>" data-sort-type="title" onclick="postsSort({id:'pages_edit_container_content_list', el:this});">
+                                    <?php _e("Title"); ?>
+                                </span>
+
+                                </div>
+                                <label class="pull-right" style="margin-top: 10px;"><?php _e("Sort By"); ?>:</label>
+                            </div>
+
 
                         </div>
                     </div>
@@ -452,5 +489,91 @@ if ($last_page_front != false) {
         });
     });
 </script>
+
+<script>
+    mw.require('forms.js', true);
+
+
+
+    $(document).ready(function () {
+        var postsSelectTags = mw.select({
+            element: '#posts-select-tags',
+            placeholder: 'Filter by tag',
+            multiple: true,
+            autocomplete: true,
+            tags: false,
+            ajaxMode: {
+                paginationParam: 'page',
+                searchParam: 'keyword',
+                endpoint: mw.settings.api_url + 'tagging_tag/autocomplete',
+                method: 'get'
+            }
+        });
+
+        $(postsSelectTags).on("change", function (event, val) {
+            var parent_mod = mwd.getElementById('pages_edit_container_content_list');
+            parent_mod.setAttribute('tags', '');
+            if (val.length > 0) {
+
+                var tagSeperated = '';
+                for (i = 0; i < val.length; i++) {
+                    tagSeperated += val[i].title + ',';
+                }
+
+                parent_mod.setAttribute('tags', tagSeperated);
+            }
+            mw.reload_module(parent_mod);
+        });
+    });
+
+    postsSort = function(obj){
+
+        var group = mw.tools.firstParentWithClass(obj.el, 'mw-table-sorting');
+        var parent_mod = mwd.getElementById('pages_edit_container_content_list');;
+
+        var others = group.querySelectorAll('.mw-ui-btn'), i=0, len = others.length;
+        for( ; i<len; i++ ){
+            var curr = others[i];
+            if(curr !== obj.el){
+                $(curr).removeClass('ASC DESC active');
+            }
+        }
+        obj.el.attributes['data-state'] === undefined ? obj.el.setAttribute('data-state', 0) : '';
+        var state = obj.el.attributes['data-state'].nodeValue;
+
+
+        console.log(state);
+
+        var tosend = {}
+        tosend.type = obj.el.attributes['data-sort-type'].nodeValue;
+        if(state === '0'){
+            tosend.state = 'ASC';
+            obj.el.className = 'mw-ui-btn mw-ui-btn-medium active ASC';
+            obj.el.setAttribute('data-state', 'ASC');
+        }
+        else if(state==='ASC'){
+            tosend.state = 'DESC';
+            obj.el.className = 'mw-ui-btn mw-ui-btn-medium active DESC';
+            obj.el.setAttribute('data-state', 'DESC');
+        }
+        else if(state==='DESC'){
+            tosend.state = 'ASC';
+            obj.el.className = 'mw-ui-btn mw-ui-btn-medium active ASC';
+            obj.el.setAttribute('data-state', 'ASC');
+        }
+        else{
+            tosend.state = 'ASC';
+            obj.el.className = 'mw-ui-btn mw-ui-btn-medium active ASC';
+            obj.el.setAttribute('data-state', 'ASC');
+        }
+
+        if(parent_mod !== undefined){
+            parent_mod.setAttribute('data-order', tosend.type +' '+ tosend.state);
+            mw.reload_module(parent_mod);
+        }
+    }
+
+</script>
+
 
 

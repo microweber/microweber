@@ -893,8 +893,7 @@ if ($action == 'posts') {
                 });
             </script>
 
-
-            <div id="pages_edit_container" <?php print $pages_container_params_str; ?>></div>
+             <div id="pages_edit_container" <?php print $pages_container_params_str; ?>></div>
         </div>
     </div>
 </div>
