@@ -1,7 +1,5 @@
 <?php
-
 namespace Microweber\SiteStats;
-
 
 use Microweber\SiteStats\Models\Browsers;
 use Microweber\SiteStats\Models\Comments;
@@ -18,8 +16,13 @@ use Microweber\App\Providers\Illuminate\Support\Facades\DB;
 class Stats
 {
 
+    public $cache_exp = 5;
+    public $cache = true;
+
     function get_stats_items($params)
     {
+
+
         if (!is_array($params)) {
             $params = parse_params($params);
         }
@@ -37,8 +40,16 @@ class Stats
             $return = $params['return'];
         }
         $orig_return = $return;
-        switch ($return) {
 
+        $cache_name = 'period_' . $params['period'] . '_' . $return;
+        if ($this->cache) {
+            $cache_get = cache_get($cache_name, 'site_stats');
+            if ($cache_get) {
+               return $cache_get;
+            }
+        }
+
+        switch ($return) {
 
             case 'content_list':
 
@@ -143,6 +154,9 @@ class Stats
 
                 }
 
+                if ($this->cache) {
+                    cache_save($return, $cache_name, 'site_stats',$this->cache_exp);
+                }
 
                 return $return;
 
@@ -288,6 +302,11 @@ class Stats
 
                     }
                 }
+
+                if ($this->cache) {
+                    cache_save($return, $cache_name, 'site_stats',$this->cache_exp);
+                }
+
                 return $return;
 
                 break;
@@ -354,6 +373,10 @@ class Stats
                     $return[] = $item_array;
 
                 }
+
+            if ($this->cache) {
+                cache_save($return, $cache_name, 'site_stats',$this->cache_exp);
+            }
 
                 return $return;
                 break;
@@ -479,6 +502,11 @@ class Stats
                         }
                     }
                     array_multisort($sort, SORT_DESC, $return);
+
+
+                    if ($this->cache) {
+                        cache_save($return, $cache_name, 'site_stats',$this->cache_exp);
+                    }
 
                     return $return;
                 }

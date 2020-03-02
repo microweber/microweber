@@ -1,6 +1,4 @@
 <?php
-
-//
 //d($visits_daily);
 //d($visits_weekly);
 //d($visits_monthly);
@@ -10,29 +8,21 @@ $period = 'daily';
 
 if ($params['period']) {
     $period = $params['period'];
-
 }
-
-
 ?>
 
 
 <script>
-    mw.admin.__statdata = <?php print json_encode($graph_data);   ?>;
-
+    mw.admin.__statdata = <?php print json_encode($graph_data); ?>;
 </script>
 
 <script>
-
-
     Date.prototype.getWeekNumber = function () {
         var d = new Date(Date.UTC(this.getFullYear(), this.getMonth(), this.getDate()));
         d.setUTCDate(d.getUTCDate() - d.getUTCDay());
         var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
         return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
     };
-
-
 </script>
 
 

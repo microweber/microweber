@@ -97,7 +97,7 @@
                 <?php _e('Locations'); ?>
             </div>
             <div class="locations mw-ui-box">
-                <module type="site_stats/admin" view="locations_list" period="<?php print $period; ?>"/>
+                <module type="site_stats/admin2" view="locations_list" period="<?php print $period; ?>"/>
             </div>
         </div>
 
@@ -106,7 +106,7 @@
                 <?php _e('Browser language'); ?>
             </div>
             <div class="locations mw-ui-box">
-                <module type="site_stats/admin" view="languages_list" period="<?php print $period; ?>"/>
+                <module type="site_stats/admin2" view="languages_list" period="<?php print $period; ?>"/>
             </div>
         </div>
     </div>
