@@ -259,7 +259,7 @@
 
     <div class="mw-ui-field-holder" id="link-text-holder">
         <div class="mw-field w100" size="large">
-            <input type="text" placeholder="Link text" id="link-text" oninput="Output({text: this.value.trim()})">
+            <input type="text" placeholder="Link text" id="link-text" oninput="Output({text: this.value})">
         </div>
     </div>
     <div class="mw-ui-field-holder" id="target-holder">

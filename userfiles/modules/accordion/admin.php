@@ -43,7 +43,7 @@ foreach ($json as $slide) {
     $(window).on('load', function(){
         this.accordionSettings = new mw.moduleSettings({
             element:'#accordion-settings',
-            header:'<i class="mw-icon-drag"></i> Move <a class="pull-right" data-action="remove"><i class="mw-icon-close"></i></a>',
+            header:'<i class="mw-icon-drag"></i> <span data-bind="title">Move</span> <a class="pull-right" data-action="remove"><i class="mw-icon-close"></i></a>',
             data: <?php print json_encode($data); ?>,
             schema:[
                 {

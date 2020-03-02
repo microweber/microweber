@@ -11,17 +11,17 @@ mw.session = {
                 if (data === null) {
                     return;
                 }
-                if (data != false) {
+                if (data !== false) {
                     if (typeof callback === 'function') {
-                        callback.call(undefined, true)
+                        callback.call(undefined, true);
                     }
-                    ;
+
                 }
                 else {
                     if (typeof callback === 'function') {
                         callback.call(undefined, false)
                     }
-                    ;
+
                 }
                 mw.session.checkPause = false;
             });
@@ -48,7 +48,7 @@ mw.session = {
         setInterval(function () {
             mw.session.check(function (is_logged) {
                 if (is_logged) {
-                    var m = mw.tools.modal.get("#session_modal")
+                    var m = mw.tools.modal.get("#session_modal");
                     if (m) {
                         mw.$(m.overlay).remove();
                         mw.$(m.main).remove();
@@ -63,7 +63,7 @@ mw.session = {
 }
 $(document).ready(function () {
 
-    mw.$(document).bind("ajaxSend",function () {
+    mw.$(document).on("ajaxSend",function () {
 
         mw.session.checkPause = true;
     }).bind("ajaxComplete", function () {
