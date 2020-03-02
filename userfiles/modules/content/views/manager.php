@@ -2,62 +2,7 @@
 $paging_links = false;
 $pages_count = intval($pages);
 
-$params_module  =$params;
-
-// for toolbar
-
-$cat_page = false;
-if (isset($params['category-id']) and $params['category-id']) {
-    $cat_page = get_page_for_category($params['category-id']);
-}
-
-$url_param_action = url_param('action', true);
-$url_param_view = url_param('view', true);
-
-
-$type = 'page';
-if (isset($page_info)){
-    if (is_array($page_info)){
-        if ($page_info['is_shop'] == 1) {
-            $type = 'shop';
-        } elseif ($page_info['subtype'] == 'dynamic') {
-            $type = 'dynamicpage';
-        } else if (isset($page_info ['layout_file']) and stristr($page_info ['layout_file'], 'blog')) {
-            $type .= 'blog';
-        } else {
-            $type = 'page';
-        }
-    }
-}
-
-$url_param_type = 'page';
-
-
-if ($type == 'shop' or $url_param_view == 'shop' or $url_param_action == 'products') {
-    $url_param_type = 'product';
-} else if ($cat_page and isset($cat_page['is_shop']) and intval($cat_page['is_shop']) != 0) {
-    $url_param_type = 'product';
-} else if ($url_param_action == 'categories' or $url_param_view == 'category') {
-    $url_param_type = 'category';
-} else if ($url_param_action == 'showposts' or $url_param_action == 'posts' or $type == 'dynamicpage') {
-    $url_param_type = 'post';
-} else if ($cat_page and isset($cat_page['subtype']) and ($cat_page['subtype'])  == 'dynamic') {
-    $url_param_type = 'product';
-}
-$add_new_btn_url = admin_url('view:content#action=new:') . $url_param_type;
-
-// end of for toolbar
-
-
-
-/* js-toolbar-add-new-content-button
- *    <a href="<?php print $add_new_btn_url ?>"
-                                   class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-medium pull-left m-l-10"
-                                   style="margin-top: 2px;">
-                                    <?php print _e('Add new ' . $url_param_type); ?>
-                                </a>
- */
-
+$params_module  = $params;
 ?>
 <script type="text/javascript">
     mw.require('forms.js', true);

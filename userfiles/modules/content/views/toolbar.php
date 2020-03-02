@@ -253,9 +253,11 @@ if ($last_page_front != false) {
 
                                 ?>
 
-                                <div class="js-toolbar-add-new-content-button pull-left m-l-10">
-                                    <!-- Add new button -->
-                                </div>
+                                <a href="<?php print $add_new_btn_url ?>"
+                                   class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-medium pull-left m-l-10"
+                                   style="margin-top: 2px;">
+                                    <?php print _e('Add new ' . $url_param_type); ?>
+                                </a>
 
 
                                 <div class="pull-right">
@@ -509,10 +511,19 @@ if ($last_page_front != false) {
         });
 
         $(postsSelectTags).on("change", function (event, val) {
-            var parent_mod = mwd.getElementById('pages_edit_container_content_list');;
-            parent_mod.setAttribute('data-filter-tags', val);
+            var parent_mod = mwd.getElementById('pages_edit_container_content_list');
+            parent_mod.setAttribute('tags', '');
+            if (val.length > 0) {
+
+                var tagSeperated = '';
+                for (i = 0; i < val.length; i++) {
+                    tagSeperated += val[i].title + ',';
+                }
+
+                parent_mod.setAttribute('tags', tagSeperated);
+            }
             mw.reload_module(parent_mod);
-        }); 
+        });
     });
 
     postsSort = function(obj){
