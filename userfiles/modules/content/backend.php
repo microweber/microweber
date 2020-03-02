@@ -37,7 +37,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
 
     var mainTreeSetActiveItems = function(){
-        if(mw.adminPagesTree){
+        if(typeof(mw.adminPagesTree) != 'undefined'){
 
             var hp = mw.url.getHashParams(location.hash);
 

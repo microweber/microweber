@@ -246,11 +246,14 @@ if (isset($params['quick_edit'])) {
                                                 $(document).ready(function () {
                                                     setTimeout(function () {
                                                         $('#content-title-field').focus();
-                                                        mw.adminPagesTree.select({
-                                                            id:<?php print $edit_page_info['id']  ?>,
-                                                            type:'page'
-                                                        })
+                                                        if(typeof(mw.adminPagesTree) != 'undefined') {
+                                                            mw.adminPagesTree.select({
+                                                                id:<?php print $edit_page_info['id']  ?>,
+                                                                type: 'page'
+                                                            })
+                                                        }
                                                     }, 100);
+
                                                 });
 
                                             </script>

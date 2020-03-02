@@ -113,8 +113,10 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
                                         id: this
                                     })
                                 });
+                                if(typeof(mw.adminPagesTree) != 'undefined') {
 
-                                mw.adminPagesTree.select(all);
+                                    mw.adminPagesTree.select(all);
+                                }
 
                             })
                         </script>
