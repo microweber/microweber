@@ -253,11 +253,9 @@ if ($last_page_front != false) {
 
                                 ?>
 
-                                <a href="<?php print $add_new_btn_url ?>"
-                                   class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-medium pull-left m-l-10"
-                                   style="margin-top: 2px;">
-                                    <?php print _e('Add new ' . $url_param_type); ?>
-                                </a>
+                                <div class="js-toolbar-add-new-content-button pull-left m-l-10">
+                                    <!-- Add new button -->
+                                </div>
 
 
                                 <div class="pull-right">
@@ -338,6 +336,9 @@ if ($last_page_front != false) {
                                     <?php endif; ?>
 
                                     <div class="pull-right relative m-r-10">
+
+
+
                                         <div class="mw-field top-search">
                                             <input value="<?php if (isset($params['keyword']) and $params['keyword'] != false): ?><?php print $params['keyword'] ?><?php endif; ?>"
                                                 <?php if (isset($params['keyword']) and $params['keyword'] != false): ?> autofocus="autofocus"
@@ -359,6 +360,13 @@ if ($last_page_front != false) {
                                             })
                                         </script>
                                     </div>
+
+
+                                    <div style="margin-left:35px;position: relative;display: inline-block;" id="posts-select-tags">
+                                        -
+                                    </div>
+
+
 
                                     <?php mw()->event_manager->trigger('module.content.manager.toolbar.end', $page_info); ?>
                                 </div>
@@ -422,10 +430,6 @@ if ($last_page_front != false) {
                                 </div>
                             </div>
 
-                            <div style="margin-left:35px;position: relative;display: inline-block;" id="posts-select-tags">
-
-                            </div>
-
                             <div class="mw-table-sorting mw-admin-order-sort-completed pull-right" style="margin-left: 20px;">
                                 <div class="mw-ui-btn-nav unselectable pull-right" style="margin-left: 10px;">
 
@@ -441,11 +445,11 @@ if ($last_page_front != false) {
                                     }
                                     ?>
 
-                                <span class="mw-ui-btn mw-ui-btn-medium" data-state="<?php if ($order_by_field=='created_at'): ?><?php echo $order_by_type; ?><?php endif; ?>" data-sort-type="created_at" onclick="postsSort({id:'mw_admin_posts_sortable', el:this});">
+                                <span class="mw-ui-btn mw-ui-btn-medium" data-state="<?php if ($order_by_field=='created_at'): ?><?php echo $order_by_type; ?><?php endif; ?>" data-sort-type="created_at" onclick="postsSort({id:'pages_edit_container_content_list', el:this});">
                                     <?php _e("Date"); ?>
                                 </span>
 
-                                <span class="mw-ui-btn mw-ui-btn-medium" data-state="<?php if ($order_by_field=='title'): ?><?php echo $order_by_type; ?><?php endif; ?>" data-sort-type="title" onclick="postsSort({id:'mw_admin_posts_sortable', el:this});">
+                                <span class="mw-ui-btn mw-ui-btn-medium" data-state="<?php if ($order_by_field=='title'): ?><?php echo $order_by_type; ?><?php endif; ?>" data-sort-type="title" onclick="postsSort({id:'pages_edit_container_content_list', el:this});">
                                     <?php _e("Title"); ?>
                                 </span>
 
@@ -487,32 +491,34 @@ if ($last_page_front != false) {
 <script>
     mw.require('forms.js', true);
 
-    var postsSelectTags = mw.select({
-        element: '#posts-select-tags',
-        multiple: true,
-        autocomplete: true,
-        tags: false,
-        ajaxMode: {
-            paginationParam: 'page',
-            searchParam: 'keyword',
-            endpoint: mw.settings.api_url + 'tagging_tag/autocomplete',
-            method: 'get'
-        }
-    });
 
-    $(postsSelectTags).on("change", function(event, val){
-        var table = mwd.getElementById('mw_admin_posts_sortable');
-        var parent_mod = mw.tools.firstParentWithClass(table, 'module');
-        parent_mod.setAttribute('data-filter-tags', val);
-        mw.reload_module(parent_mod);
+
+    $(document).ready(function () {
+        var postsSelectTags = mw.select({
+            element: '#posts-select-tags',
+            placeholder: 'Filter by tag',
+            multiple: true,
+            autocomplete: true,
+            tags: false,
+            ajaxMode: {
+                paginationParam: 'page',
+                searchParam: 'keyword',
+                endpoint: mw.settings.api_url + 'tagging_tag/autocomplete',
+                method: 'get'
+            }
+        });
+
+        $(postsSelectTags).on("change", function (event, val) {
+            var parent_mod = mwd.getElementById('pages_edit_container_content_list');;
+            parent_mod.setAttribute('data-filter-tags', val);
+            mw.reload_module(parent_mod);
+        }); 
     });
 
     postsSort = function(obj){
+
         var group = mw.tools.firstParentWithClass(obj.el, 'mw-table-sorting');
-
-        var table = mwd.getElementById(obj.id);
-
-        var parent_mod = mw.tools.firstParentWithClass(table, 'module');
+        var parent_mod = mwd.getElementById('pages_edit_container_content_list');;
 
         var others = group.querySelectorAll('.mw-ui-btn'), i=0, len = others.length;
         for( ; i<len; i++ ){
@@ -555,6 +561,7 @@ if ($last_page_front != false) {
             mw.reload_module(parent_mod);
         }
     }
+
 </script>
 
 

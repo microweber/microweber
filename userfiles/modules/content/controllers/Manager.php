@@ -195,7 +195,15 @@ class Manager
         $toolbar->assign('params', $params);
         $toolbar->assign('pages', $pages);
 
-        $post_list_view = $this->views_dir . 'manager.php';
+        if(isset($params['show_only_content'])){
+            $post_list_view = $this->views_dir . 'manager_content.php';
+
+        } else {
+            $post_list_view = $this->views_dir . 'manager.php';
+
+        }
+
+
 
 
         if ($no_page_edit == false) {
