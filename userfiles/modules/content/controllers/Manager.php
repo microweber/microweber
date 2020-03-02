@@ -130,9 +130,13 @@ class Manager
             }
         }
 
-
         $posts_mod['paging_param'] = 'pg';
+
         $posts_mod['orderby'] = 'position desc';
+        if (isset($params['data-order'])) {
+            $posts_mod['orderby'] = $params['data-order'];
+        }
+
         if (isset($posts_mod['page-id'])) {
             $posts_mod['parent'] = $posts_mod['page-id'];
         }
@@ -234,6 +238,7 @@ class Manager
         $view->assign('keyword', $keyword);
         $view->assign('post_params', $posts_mod);
         $view->assign('paging_param', $posts_mod['paging_param']);
+
         return $view->display();
     }
 }
