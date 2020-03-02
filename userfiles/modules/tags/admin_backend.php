@@ -21,6 +21,7 @@
     .mw-ui-btn-nav-tabs > .mw-ui-btn:last-child{
         float: right;
         border-left-width: 1px;
+        display: none;
     }
     .mw-ui-btn-nav-tabs{
         width: 100%;
@@ -204,6 +205,8 @@
         </div>
 
     </div>
+
+    <br />
 
     <module type="help/modal_with_button" for_module="tags" />
 
