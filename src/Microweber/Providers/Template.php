@@ -35,6 +35,7 @@ class Template
     public $adapter_current = null;
     public $adapter_default = null;
     public $stylesheet_adapter = null;
+    public $js_adapter = null;
     public $stack_compiler_adapter = null;
 
 
@@ -49,6 +50,7 @@ class Template
         }
 
         $this->stylesheet_adapter = new TemplateCssParser($app);
+        $this->js_adapter =  new JsCompileController($app);
         $this->stack_compiler_adapter = new TemplateStackRenderer($app);
         $this->adapter_current = $this->adapter_default = new MicroweberTemplate($app);
     }
@@ -74,7 +76,7 @@ class Template
     public function get_apijs_url()
     {
 
-        return (new JsCompileController())->get_apijs_url();
+        return $this->js_adapter->get_apijs_url();
 
 
     }
@@ -82,14 +84,14 @@ class Template
 
     public function get_apijs_settings_url()
     {
-        return (new JsCompileController())->get_apijs_settings_url();
+        return $this->js_adapter->get_apijs_settings_url();
 
     }
 
 
     public function get_liveeditjs_url()
     {
-        return (new JsCompileController())->get_liveeditjs_url();
+        return $this->js_adapter->get_liveeditjs_url();
     }
 
     public function clear_cached_apijs_assets()

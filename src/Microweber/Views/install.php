@@ -152,7 +152,7 @@
 
                 });
 
-                option += '<option onclick="event.stopPropagation(); event.preventDefault(); showMarketplaceItemsInstallScreen()">get more...</option>';
+              //  option += '<option onclick="event.stopPropagation(); event.preventDefault(); showMarketplaceItemsInstallScreen()">get more...</option>';
 
 
                 $("#default_template").html('');
