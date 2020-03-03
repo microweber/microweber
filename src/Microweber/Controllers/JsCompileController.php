@@ -35,26 +35,7 @@ class JsCompileController extends Controller
             define('MW_NO_SESSION', 1);
         }
 
-        $ref_page = false;
-        if (isset($_REQUEST['id'])) {
-            $ref_page = $this->app->content_manager->get_by_id($_REQUEST['id']);
-        } elseif (isset($_SERVER['HTTP_REFERER'])) {
-            $ref_page = $_SERVER['HTTP_REFERER'];
-            if ($ref_page != '') {
-                $ref_page = $this->app->content_manager->get_by_url($ref_page);
-                if (is_array($ref_page)) {
-                    $page_id = $ref_page['id'];
-                }
-            }
-        }
-        if (isset($_SERVER['HTTP_REFERER'])) {
-            $cat_url = mw()->category_manager->get_category_id_from_url($_SERVER['HTTP_REFERER']);
-            if ($cat_url != false) {
-                if (!defined('CATEGORY_ID')) {
-                    define('CATEGORY_ID', intval($cat_url));
-                }
-            }
-        }
+
         $file = mw_includes_path() . 'api' . DS . 'api.js';
 
         $last_modified_time = $lastModified = filemtime($file);
@@ -67,8 +48,7 @@ class JsCompileController extends Controller
             $etag = filemtime($file);
         }
 
-        $this->app->content_manager->define_constants($ref_page);
-        $l = new \Microweber\View($file);
+         $l = new \Microweber\View($file);
 
         $l = $l->__toString();
         $l = str_replace('{SITE_URL}', $this->app->url_manager->site(), $l);
@@ -78,8 +58,8 @@ class JsCompileController extends Controller
 
         $compile_assets = \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
-             // it makes an error
-           $l = $this->minify_js($l);
+            // it makes an error
+            $l = $this->minify_js($l);
 
             $userfiles_dir = userfiles_path();
             $hash = md5(site_url());
@@ -136,42 +116,47 @@ class JsCompileController extends Controller
             // exit;
         }
 
-        $ref_page = false;
 
-        if (isset($_REQUEST['id'])) {
-            $ref_page = $this->app->content_manager->get_by_id($_REQUEST['id']);
-        } elseif (isset($_SERVER['HTTP_REFERER'])) {
-            $ref_page = $_SERVER['HTTP_REFERER'];
-            if ($ref_page != '') {
-                $ref_page = $this->app->content_manager->get_by_url($ref_page);
-                if (is_array($ref_page)) {
-                    $page_id = $ref_page['id'];
-
-                } else {
-                    $page_id = 0;
-                }
-            }
-        }
-
-        $cat_url = false;
-        if (isset($_REQUEST['category_id'])) {
-            $cat_url = intval($_REQUEST['category_id']);
-        } elseif (isset($_SERVER['HTTP_REFERER'])) {
-            $cat_url = mw()->category_manager->get_category_id_from_url($_SERVER['HTTP_REFERER']);
-            $cat_url = intval($cat_url);
-        }
-
-        if ($cat_url != false) {
-            if (!defined('CATEGORY_ID')) {
-                define('CATEGORY_ID', intval($cat_url));
-            }
-        }
 
         // header("Content-type: text/javascript");
 
         $file = mw_includes_path() . 'api' . DS . 'api_settings.js';
+        if (mw_is_installed()) {
+            $ref_page = false;
 
-        $this->app->content_manager->define_constants($ref_page);
+            if (isset($_REQUEST['id'])) {
+                $ref_page = $this->app->content_manager->get_by_id($_REQUEST['id']);
+            } elseif (isset($_SERVER['HTTP_REFERER'])) {
+                $ref_page = $_SERVER['HTTP_REFERER'];
+                if ($ref_page != '') {
+                    $ref_page = $this->app->content_manager->get_by_url($ref_page);
+                    if (is_array($ref_page)) {
+                        $page_id = $ref_page['id'];
+
+                    } else {
+                        $page_id = 0;
+                    }
+                }
+            }
+
+            $cat_url = false;
+            if (isset($_REQUEST['category_id'])) {
+                $cat_url = intval($_REQUEST['category_id']);
+            } elseif (isset($_SERVER['HTTP_REFERER'])) {
+                $cat_url = mw()->category_manager->get_category_id_from_url($_SERVER['HTTP_REFERER']);
+                $cat_url = intval($cat_url);
+            }
+
+            if ($cat_url != false) {
+                if (!defined('CATEGORY_ID')) {
+                    define('CATEGORY_ID', intval($cat_url));
+                }
+            }
+            $this->app->content_manager->define_constants($ref_page);
+        }
+        if (!defined('TEMPLATE_URL')) {
+            define('TEMPLATE_URL', '');
+        }
         $l = new \Microweber\View($file);
 
         $l = $l->__toString();
@@ -316,18 +301,17 @@ class JsCompileController extends Controller
             $userfiles_cache_filename = $userfiles_cache_dir . 'api_settings.' . md5(site_url() . template_dir()) . '.' . MW_VERSION . '.js';
 
 
-
             if (is_file($userfiles_cache_filename)) {
                 $url = dir2url($userfiles_cache_filename);
-             }
+            }
         }
-         return $url;
+        return $url;
     }
 
 
     public function get_liveeditjs_url()
     {
-        $url = $this->app->url_manager->site('apijs_liveedit') . '?mwv=' . MW_VERSION; 
+        $url = $this->app->url_manager->site('apijs_liveedit') . '?mwv=' . MW_VERSION;
         $compile_assets = \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
             $userfiles_dir = userfiles_path();
@@ -355,7 +339,7 @@ class JsCompileController extends Controller
     {
         return $layout;
 
-       // has error on minifier
+        // has error on minifier
         $optimize_asset_loading = get_option('optimize_asset_loading', 'website');
         if ($optimize_asset_loading == 'y') {
             $minifier = normalize_path(MW_PATH . 'Utils/lib/JShrink/Minifier.php', false);
