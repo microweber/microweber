@@ -668,6 +668,7 @@ class Stats
 
 
             case 'users_online':
+                
                 $log = new Log();
                 $log = $log->period('-15 minutes');
                 $log = $log->select('session_id_key');

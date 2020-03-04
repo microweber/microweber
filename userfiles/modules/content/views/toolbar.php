@@ -425,9 +425,25 @@ if ($last_page_front != false) {
                                 <div class="mw-dropdown-content">
                                     <ul>
                                         <li>
-                                            <a onclick="assign_selected_posts_to_category();"><?php _e("Move to category"); ?></a>
+                                            <a href="#" onclick="assign_selected_posts_to_category();">
+                                                <?php _e("Move to category"); ?>
+                                            </a>
                                         </li>
-                                        <li><a onclick="delete_selected_posts();"><?php _e("Delete"); ?></a></li>
+                                        <li>
+                                            <a href="#" onclick="publish_selected_posts();">
+                                               <?php _e("Published"); ?>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" onclick="unpublish_selected_posts();">
+                                                <?php _e("Unpublish"); ?>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" onclick="delete_selected_posts();">
+                                                <?php _e("Delete"); ?>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
