@@ -91,6 +91,8 @@ mw.tools.loading = function (element, progress, speed) {
     if (element.__loadingTime) {
         clearTimeout(element.__loadingTime)
     }
+    mw.require('css_parser.js')
+
     var isLoading = mw.tools.hasClass(element, 'mw-loading');
     var el = element.querySelector('.mw-progress');
     if (!el) {

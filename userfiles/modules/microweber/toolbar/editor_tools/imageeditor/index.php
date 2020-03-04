@@ -159,7 +159,7 @@
                 <label class="mw-ui-label"><?php _e('Overlay color'); ?></label>
                 <input type="text" class="mw-ui-field w100" id="overlaycolor" placeholder="Enter color"/>
                 <script>
-                  mw.require('css_parser.js', 'css_parser');
+                  mw.require('css_parser.js');
                  // mw.require('color.js', 'color_js');
                   // mw.require('color.js');
                   mw.lib.require('colorpicker');

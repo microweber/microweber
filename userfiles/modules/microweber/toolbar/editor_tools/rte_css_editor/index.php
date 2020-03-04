@@ -21,6 +21,7 @@
 
 
 
+    mw.require('css_parser.js');
     mw.lib.require('colorpicker');
 
 

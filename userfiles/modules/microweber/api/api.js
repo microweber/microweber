@@ -984,7 +984,7 @@ mw.required.push("<?php print mw_includes_url(); ?>api/jquery.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/tools.js");
 
 
-mw.required.push("<?php print mw_includes_url(); ?>api/css_parser.js");
+//mw.required.push("<?php print mw_includes_url(); ?>api/css_parser.js");
 
 mw.required.push("<?php print mw_includes_url(); ?>api/files.js");
 
@@ -1024,7 +1024,7 @@ mw.required.push("<?php print mw_includes_url(); ?>api/content.js");
 
 
 
-<?php  include  __DIR__.DS."css_parser.js"; ?>
+<?php  //include  __DIR__.DS."css_parser.js"; ?>
 
 
 <?php  include  __DIR__.DS."files.js"; ?>

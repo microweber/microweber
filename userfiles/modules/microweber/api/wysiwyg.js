@@ -1569,6 +1569,8 @@ mw.wysiwyg = {
         mw.$('.mw_editor_btn_active').removeClass('mw_editor_btn_active');
     },
     setActiveButtons: function (node) {
+        mw.require('css_parser.js');
+
         var css = mw.CSSParser(node);
         if (css && css.get) {
             var font = css.get.font();
@@ -1590,6 +1592,8 @@ mw.wysiwyg = {
         }
     },
     setActiveFontSize: function () {
+        mw.require('css_parser.js');
+
         var sel = getSelection();
         var range = sel.getRangeAt(0);
         if(range.collapsed) {
@@ -1668,6 +1672,8 @@ mw.wysiwyg = {
     started_checking: false,
     check_selection: function (target) {
         target = target || false;
+
+        mw.require('css_parser.js');
 
 
         if (!mw.wysiwyg.started_checking) {
