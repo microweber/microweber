@@ -172,7 +172,7 @@ mw.post = mw.post || {
         var obj = {
             id: id
         }
-        $.post(mw.settings.api_url + 'content_set_unpublished', obj, function (data) {
+        $.post(mw.settings.api_url + 'content/set_unpublished', obj, function (data) {
             if (typeof c === 'function') {
                 c.call(id, data);
             }
