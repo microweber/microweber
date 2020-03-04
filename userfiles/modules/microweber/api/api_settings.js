@@ -231,8 +231,11 @@
         ],
         mw_icons_mind: [
             function () {
-                mw.require(mw.settings.libs_url + 'mw-icons-mind' + '/line/style.css');
-                mw.require(mw.settings.libs_url + 'mw-icons-mind' + '/solid/style.css');
+                if (!mw.is.ie) {
+                    mw.require(mw.settings.libs_url + 'mw-icons-mind' + '/mw-icons-mind.css');
+                } else {
+                    mw.require(mw.settings.libs_url + 'mw-icons-mind' + '/mw-icons-mind-ie.css');
+                }
             }
         ],
         uppy: [
