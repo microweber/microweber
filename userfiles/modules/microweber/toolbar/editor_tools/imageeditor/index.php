@@ -76,6 +76,15 @@
 
     </style>
 
+    <script>
+        mw.require('css_parser.js');
+        // mw.require('color.js', 'color_js');
+        // mw.require('color.js');
+        mw.lib.require('colorpicker');
+
+        mw.require("files.js");
+    </script>
+
     <div class='image_settings_modal'>
 
 
@@ -158,13 +167,7 @@
             <div class="mw-ui-field-holder" style="padding-bottom: 20px;display: none" id="overlayholder">
                 <label class="mw-ui-label"><?php _e('Overlay color'); ?></label>
                 <input type="text" class="mw-ui-field w100" id="overlaycolor" placeholder="Enter color"/>
-                <script>
-                  mw.require('css_parser.js');
-                 // mw.require('color.js', 'color_js');
-                  // mw.require('color.js');
-                  mw.lib.require('colorpicker');
 
-                </script>
                 <script>
 
                     isBG = false;

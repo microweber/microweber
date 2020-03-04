@@ -986,7 +986,7 @@ mw.required.push("<?php print mw_includes_url(); ?>api/tools.js");
 
 //mw.required.push("<?php print mw_includes_url(); ?>api/css_parser.js");
 
-mw.required.push("<?php print mw_includes_url(); ?>api/files.js");
+//mw.required.push("<?php print mw_includes_url(); ?>api/files.js");
 
 mw.required.push("<?php print mw_includes_url(); ?>api/forms.js");
 
@@ -1006,7 +1006,7 @@ mw.required.push("<?php print mw_includes_url(); ?>api/components.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/dialog.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/instruments.js");
 
-mw.required.push("<?php print mw_includes_url(); ?>api/content.js");
+//mw.required.push("<?php print mw_includes_url(); ?>api/content.js");
 
 
 
@@ -1027,7 +1027,7 @@ mw.required.push("<?php print mw_includes_url(); ?>api/content.js");
 <?php  //include  __DIR__.DS."css_parser.js"; ?>
 
 
-<?php  include  __DIR__.DS."files.js"; ?>
+<?php // include  __DIR__.DS."files.js"; ?>
 
 
 <?php  include  __DIR__.DS."forms.js"; ?>
@@ -1052,7 +1052,7 @@ mw.required.push("<?php print mw_includes_url(); ?>api/content.js");
 
 <?php  include __DIR__.DS."instruments.js"; ?>
 
-<?php  include __DIR__.DS."content.js"; ?>
+<?php  //include __DIR__.DS."content.js"; ?>
 
 
 

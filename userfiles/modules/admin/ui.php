@@ -1607,6 +1607,9 @@
             <h2>Upload demo</h2>
 
 
+            <script>
+                mw.require("files.js");
+            </script>
             <style>
              #pl,#uppy{
                  position: relative;

@@ -39,6 +39,10 @@ if (isset($data[0]) == false) {
 }
 
 ?>
+
+<script>
+     mw.require("files.js");
+</script>
 <?php if (is_array($data)): ?>
     <?php event_trigger('mw.admin.user.edit', $data); ?>
     <?php $custom_ui = mw()->modules->ui('mw.admin.user.edit'); ?>

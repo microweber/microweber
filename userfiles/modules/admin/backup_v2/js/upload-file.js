@@ -1,3 +1,6 @@
+
+mw.require("files.js");
+
 var uploader = mw.files.uploader({
     filetypes: "zip, sql, json, csv, xls, xlsx, xml",
     multiple: false

@@ -80,6 +80,11 @@ if ($for_id != false) {
 
 ?>
 
+
+<script>
+      mw.require("files.js");
+</script>
+
 <script type="text/javascript">
     after_upld = function (a, e, f, id, module_id) {
         if (e !== 'done') {

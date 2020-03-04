@@ -145,6 +145,9 @@ mw.postMsg = function (w, obj) {
 };
 
 mw.uploader = function (o) {
+
+    mw.require("files.js");
+
     var uploader = mw.files.uploader(o);
     var el = mw.$(o.element)[0];
     if (typeof el !== 'undefined') {
