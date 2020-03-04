@@ -5,6 +5,7 @@ mw._colorPickerDefaults = {
 };
 
 mw._colorPicker = function (options) {
+    mw.lib.require('colorpicker');
 
     if (!mw.tools.colorPickerColors) {
         mw.tools.colorPickerColors = [];
@@ -179,5 +180,6 @@ mw._colorPicker = function (options) {
 
 };
 mw.colorPicker = mw.colourPicker = function (o) {
+
     return new mw._colorPicker(o);
 };

@@ -1,5 +1,7 @@
 <?php include 'generated_vars.php'; ?>
-
+<script>
+    mw.lib.require('colorpicker');
+</script>
 <script>mw.lib.require('bootstrap3ns');</script>
 <script>
     function resetToDefault() {

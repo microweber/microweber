@@ -4,6 +4,10 @@
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
+<script>
+    mw.lib.require('colorpicker');
+</script>
+
 <div class="admin-side-content">
 
     <script type="text/javascript">

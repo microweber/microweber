@@ -218,8 +218,11 @@
         nestedSortable: [
             'jquery.mjs.nestedSortable.js'
         ],
-        acolorpicker: [
-            'acolorpicker.js'
+        colorpicker: [
+            function () {
+                mw.require(mw.settings.includes_url + 'api' + '/color.js');
+                mw.require(mw.settings.libs_url + 'acolorpicker' + '/acolorpicker.js');
+            }
         ],
         material_icons: [
             function () {

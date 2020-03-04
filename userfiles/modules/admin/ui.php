@@ -1,5 +1,6 @@
 <script>
     mw.require("<?php print mw_includes_url(); ?>css/ui.css");
+    mw.lib.require('colorpicker');
 </script>
 
 <style scoped="scoped">
@@ -1550,6 +1551,9 @@
         <td colspan="2">
 
             <h2>Color Picker</h2>
+
+
+
 
 
             <script>

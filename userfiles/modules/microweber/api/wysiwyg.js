@@ -2615,6 +2615,7 @@ $(mwd).ready(function () {
     mw.wysiwyg.dropdowns();
 
     if (!mw.wysiwyg._fontcolorpicker) {
+        mw.lib.require('colorpicker');
         mw.wysiwyg._fontcolorpicker = mw.colorPicker({
             element: document.querySelector('#mw_editor_font_color'),
             tip: true,

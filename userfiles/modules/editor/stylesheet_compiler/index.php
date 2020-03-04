@@ -28,7 +28,9 @@ if ($stylesheet_settings) {
 }
 
 ?>
-
+<script>
+     mw.lib.require('colorpicker');
+</script>
 
 <style>
     #color-scheme {

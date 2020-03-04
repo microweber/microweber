@@ -6,6 +6,9 @@
 $custom_tabs = mw()->modules->ui('content.edit.tabs');
 
 ?>
+<script>
+    mw.lib.require('colorpicker');
+</script>
 <div id="settings-tabs">
     <!-- TABS BUTTONS -->
     <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">

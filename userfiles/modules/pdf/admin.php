@@ -6,7 +6,10 @@ $download = get_option('download', $params['id']);
 $border = get_option('border', $params['id']);
 ?>
 
-<script>mw.lib.require('font_awesome5');</script>
+<script>
+    mw.lib.require('font_awesome5');
+    mw.lib.require('colorpicker');
+</script>
 
 <div class="module-live-edit-settings module-pdf-settings">
 
