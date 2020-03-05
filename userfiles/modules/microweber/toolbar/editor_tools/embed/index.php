@@ -14,7 +14,7 @@
 
   typeof jQuery === 'undefined' ? mw.require("<?php print mw_includes_url(); ?>js/jquery-1.9.1.js") : '' ;
   mw.require("liveadmin.js");
-  mw.require("<?php print( mw_includes_url());  ?>js/jquery-ui-1.10.0.custom.min.js");
+  mw.lib.require("jqueryui");
 mw.require("events.js");
   mw.require("url.js");
   mw.require("tools.js");

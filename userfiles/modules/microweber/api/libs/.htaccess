@@ -4,6 +4,6 @@ AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css a
 <ifmodule mod_expires.c>
 <Filesmatch "\.(jpg|jpeg|png|gif|js|css|swf|ico|woff|woff2|eot|ttf|svg|mp3)$">
     ExpiresActive on
-    ExpiresDefault "access plus 1 days"
+    ExpiresDefault "access plus 30 days"
 </Filesmatch>
 </ifmodule>

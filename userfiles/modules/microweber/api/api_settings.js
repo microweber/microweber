@@ -33,7 +33,10 @@
     }
 
     mw.settings.libs = {
-        jqueryui: ['jquery-ui.min.css', 'jquery-ui.min.js'],
+        jqueryui:  function () {
+            mw.require(mw.settings.libs_url + 'jqueryui' + '/jquery-ui-min.js');
+            mw.require(mw.settings.libs_url + 'jqueryui' + '/jquery-ui-min.css');
+        },
         morris: ['morris.css', 'raphael.js', 'morris.js'],
         rangy: ['rangy-core.js', 'rangy-cssclassapplier.js', 'rangy-selectionsaverestore.js', 'rangy-serializer.js'],
         highlight: [
