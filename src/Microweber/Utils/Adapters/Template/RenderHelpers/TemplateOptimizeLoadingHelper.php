@@ -29,6 +29,8 @@ class TemplateOptimizeLoadingHelper
 
         $skip = array('gtm-', 'ua-', 'aw-', 'fbevents.js');
         $replaced = array();
+        $preload = array();
+        $dns_prefetch = array();
         $pq = \phpQuery::newDocument($layout);
         $srcs = array();
         $srcs_css = array();
@@ -36,22 +38,22 @@ class TemplateOptimizeLoadingHelper
         foreach ($pq ['link'] as $elem) {
             $type = pq($elem)->attr('type');
             $rel = pq($elem)->attr('rel');
-
+            $src = pq($elem)->attr('href');
             if ($type == "text/css" or $rel == 'stylesheet') {
                 $replaced[] = pq($elem)->htmlOuter();
                 pq($elem)->replaceWith('');
             }
 
+            if($src){
+                $preload[] = '<link rel="preload" href="'.$src.'" as="style" />';
+            }
 
         }
         foreach ($pq ['script'] as $elem) {
 
             $src = pq($elem)->attr('src');
-
-            if ($src) {
-
-            } else {
-
+            if($src){
+                $preload[] = '<link rel="preload" href="'.$src.'" as="script" />';
             }
 
             $script = pq($elem)->htmlOuter();
@@ -71,10 +73,16 @@ class TemplateOptimizeLoadingHelper
         $l = $pq->html();
         if ($replaced) {
             $c = 1;
-            $inject_before_html_closing_tag_str = implode("\n", $replaced);
-
-            $layout = str_ireplace('</body>', $inject_before_html_closing_tag_str . '</body>', $l, $c);
+            $inject = implode("\n", $replaced);
+            $layout = str_ireplace('</body>', $inject . '</body>', $l, $c);
         }
+        if ($preload) {
+            $c = 1;
+            $inject = implode("\n", $preload);
+            $layout = str_ireplace('</head>', $inject . '</head>', $layout, $c);
+        }
+
+
         return $layout;
 
     }
