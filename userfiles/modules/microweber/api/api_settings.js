@@ -34,7 +34,6 @@
 
     mw.settings.libs = {
         jqueryui:  function () {
-            alert('asdas');
             mw.require(mw.settings.libs_url + 'jqueryui' + '/jquery-ui-min.js');
             mw.require(mw.settings.libs_url + 'jqueryui' + '/jquery-ui-min.css');
         },
@@ -224,7 +223,6 @@
         ],
         nestedSortable: [
             function () {
-                alert('asdas');
                  mw.lib.require('jqueryui');
                  mw.require(mw.settings.libs_url + 'nestedsortable' + '/jquery.mjs.nestedSortable.js');
             }
