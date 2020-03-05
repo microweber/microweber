@@ -33,10 +33,12 @@
     }
 
     mw.settings.libs = {
-        jqueryui:  function () {
-            mw.require(mw.settings.libs_url + 'jqueryui' + '/jquery-ui-min.js');
-            mw.require(mw.settings.libs_url + 'jqueryui' + '/jquery-ui-min.css');
-        },
+            jqueryui:  [
+                function () {
+                mw.require(mw.settings.libs_url + 'jqueryui' + '/jquery-ui.min.js');
+                mw.require(mw.settings.libs_url + 'jqueryui' + '/jquery-ui.min.css');
+            }
+        ],
         morris: ['morris.css', 'raphael.js', 'morris.js'],
         rangy: ['rangy-core.js', 'rangy-cssclassapplier.js', 'rangy-selectionsaverestore.js', 'rangy-serializer.js'],
         highlight: [
@@ -223,7 +225,6 @@
         ],
         nestedSortable: [
             function () {
-                 mw.lib.require('jqueryui');
                  mw.require(mw.settings.libs_url + 'nestedsortable' + '/jquery.mjs.nestedSortable.js');
             }
         ],
