@@ -38,6 +38,9 @@
                        data-custom-field-id="<?php echo $data["id"]; ?>"/>
             <?php endif; ?>
 
+            <div class="valid-feedback"><?php _e('Success! You\'ve done it.'); ?></div>
+            <div class="invalid-feedback"><?php _e('Error! The value is not valid.'); ?></div>
+
         </div>
 
     <?php endforeach; ?>

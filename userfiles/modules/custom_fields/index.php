@@ -130,6 +130,9 @@ foreach ($fields_group as $field_group_key => $fields) {
 $fields_group = $ready_fields_group;
 
 $template_file = get_option('data-template', $params['id']);
+if (!$template_file) {
+    $template_file = template_framework() . '/index.php';
+}
 
 if (isset($params['template'])) {
     $module_template = $params['template'];
