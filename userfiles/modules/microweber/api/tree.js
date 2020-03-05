@@ -12,9 +12,13 @@
 
 
 
-mw.lib.require('nestedsortable');
-
 (function(){
+
+    mw.lib.require('jqueryui');
+    mw.lib.require('nestedsortable');
+
+
+
     var mwtree = function(config){
 
         var scope = this;

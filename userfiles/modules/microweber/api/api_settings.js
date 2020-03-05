@@ -34,6 +34,7 @@
 
     mw.settings.libs = {
         jqueryui:  function () {
+            alert('asdas');
             mw.require(mw.settings.libs_url + 'jqueryui' + '/jquery-ui-min.js');
             mw.require(mw.settings.libs_url + 'jqueryui' + '/jquery-ui-min.css');
         },
@@ -218,8 +219,15 @@
             'jquery.datetimepicker.full.min.js',
             'jquery.datetimepicker.min.css'
         ],
-        nestedSortable: [
+        nzzestedSortable: [
             'jquery.mjs.nestedSortable.js'
+        ],
+        nestedSortable: [
+            function () {
+                alert('asdas');
+                 mw.lib.require('jqueryui');
+                 mw.require(mw.settings.libs_url + 'nestedsortable' + '/jquery.mjs.nestedSortable.js');
+            }
         ],
         colorpicker: [
             function () {
