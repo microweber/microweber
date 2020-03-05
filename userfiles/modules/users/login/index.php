@@ -3,7 +3,6 @@
 <?php else: ?>
 
     <script type="text/javascript">
-        mw.require('tools.js', true);
         mw.require('forms.js', true);
     </script>
     <script type="text/javascript">

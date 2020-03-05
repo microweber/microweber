@@ -48,7 +48,6 @@ include('options.php');
 <script>mw.require('prop_editor.js')</script>
 <script>mw.require('module_settings.js')</script>
 <script>mw.require('icon_selector.js')</script>
-<script>mw.require('ui.css')</script>
 <script>mw.require('wysiwyg.css')</script>
 <script>
     $(document).ready(function () {

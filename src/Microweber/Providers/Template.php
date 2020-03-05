@@ -4,6 +4,7 @@
 namespace Microweber\Providers;
 
 use Microweber\Utils\Adapters\Template\MicroweberTemplate;
+use Microweber\Utils\Adapters\Template\RenderHelpers\TemplateOptimizeLoadingHelper;
 use Microweber\Utils\Adapters\Template\TemplateCssParser;
 use Microweber\Utils\Adapters\Template\TemplateStackRenderer;
 use Microweber\Controllers\JsCompileController;
@@ -258,8 +259,11 @@ class Template
     public function optimize_page_loading($layout)
     {
         $optimize_asset_loading = get_option('optimize_asset_loading', 'website');
-        if ($optimize_asset_loading == 'y') {
-            $layout = $this->app->parser->optimize_asset_loading_order($layout);
+         if ($optimize_asset_loading == 'y') {
+
+            $asset_loading_order = new TemplateOptimizeLoadingHelper($this->app);
+            $layout = $asset_loading_order->render($layout);
+         //   $layout = $this->app->parser->optimize_asset_loading_order($layout);
 
         }
 
