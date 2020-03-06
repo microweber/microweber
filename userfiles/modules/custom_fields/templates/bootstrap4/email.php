@@ -11,6 +11,8 @@
         <?php endif; ?>
 
         <input type="email" class="form-control" <?php if ($settings['required']): ?>required="true"<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name']; ?>" value="<?php echo $data['value']; ?>" placeholder="<?php echo $data['placeholder']; ?>" />
+        <div class="valid-feedback"><?php _e('Success! You\'ve done it.'); ?></div>
+        <div class="invalid-feedback"><?php _e('Error! The value is not valid.'); ?></div>
 
         <?php if ($data['help']): ?>
             <small class="form-text text-muted"><?php echo $data['help']; ?></small>

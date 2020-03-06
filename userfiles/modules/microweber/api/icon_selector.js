@@ -1,6 +1,9 @@
 
 mw.top()._icons = mw.top()._icons || [];
 
+
+mw.lib.require('colorpicker');
+
 (function () {
     var icons = {
         findByIcon: function (name) {

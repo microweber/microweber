@@ -1,5 +1,6 @@
 <script>
     mw.require("<?php print mw_includes_url(); ?>css/ui.css");
+    mw.lib.require('colorpicker');
 </script>
 
 <style scoped="scoped">
@@ -1552,6 +1553,9 @@
             <h2>Color Picker</h2>
 
 
+
+
+
             <script>
 
                 $(window).load(function () {
@@ -1603,6 +1607,9 @@
             <h2>Upload demo</h2>
 
 
+            <script>
+                mw.require("files.js");
+            </script>
             <style>
              #pl,#uppy{
                  position: relative;

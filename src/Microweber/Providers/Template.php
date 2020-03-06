@@ -4,6 +4,7 @@
 namespace Microweber\Providers;
 
 use Microweber\Utils\Adapters\Template\MicroweberTemplate;
+use Microweber\Utils\Adapters\Template\RenderHelpers\TemplateOptimizeLoadingHelper;
 use Microweber\Utils\Adapters\Template\TemplateCssParser;
 use Microweber\Utils\Adapters\Template\TemplateStackRenderer;
 use Microweber\Controllers\JsCompileController;
@@ -35,6 +36,7 @@ class Template
     public $adapter_current = null;
     public $adapter_default = null;
     public $stylesheet_adapter = null;
+    public $js_adapter = null;
     public $stack_compiler_adapter = null;
 
 
@@ -49,6 +51,7 @@ class Template
         }
 
         $this->stylesheet_adapter = new TemplateCssParser($app);
+        $this->js_adapter =  new JsCompileController($app);
         $this->stack_compiler_adapter = new TemplateStackRenderer($app);
         $this->adapter_current = $this->adapter_default = new MicroweberTemplate($app);
     }
@@ -74,7 +77,7 @@ class Template
     public function get_apijs_url()
     {
 
-        return (new JsCompileController())->get_apijs_url();
+        return $this->js_adapter->get_apijs_url();
 
 
     }
@@ -82,14 +85,14 @@ class Template
 
     public function get_apijs_settings_url()
     {
-        return (new JsCompileController())->get_apijs_settings_url();
+        return $this->js_adapter->get_apijs_settings_url();
 
     }
 
 
     public function get_liveeditjs_url()
     {
-        return (new JsCompileController())->get_liveeditjs_url();
+        return $this->js_adapter->get_liveeditjs_url();
     }
 
     public function clear_cached_apijs_assets()
@@ -256,8 +259,11 @@ class Template
     public function optimize_page_loading($layout)
     {
         $optimize_asset_loading = get_option('optimize_asset_loading', 'website');
-        if ($optimize_asset_loading == 'y') {
-            $layout = $this->app->parser->optimize_asset_loading_order($layout);
+         if ($optimize_asset_loading == 'y') {
+
+            $asset_loading_order = new TemplateOptimizeLoadingHelper($this->app);
+            $layout = $asset_loading_order->render($layout);
+         //   $layout = $this->app->parser->optimize_asset_loading_order($layout);
 
         }
 

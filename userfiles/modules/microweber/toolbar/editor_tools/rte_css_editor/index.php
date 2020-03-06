@@ -17,6 +17,14 @@
     mw.require('tree.js');
 
     mw.require('domtree.js');
+
+
+
+
+    mw.require('css_parser.js');
+    mw.lib.require('colorpicker');
+
+
     $(window).on('load', function () {
 
 

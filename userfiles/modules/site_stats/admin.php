@@ -1,7 +1,6 @@
 <?php
 only_admin_access();
 
-
 $display = new \Microweber\SiteStats\Controllers\Admin();
 
 if (isset($params['view']) and method_exists($display, $params['view'])) {

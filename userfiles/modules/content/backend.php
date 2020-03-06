@@ -10,7 +10,9 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 }
 
 ?>
-
+<script type="text/javascript">
+    mw.require("content.js");
+</script>
 <script type="text/javascript">
 
     mw.on.hashParam("search", function () {

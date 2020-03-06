@@ -18,7 +18,7 @@ if (isset($_COOKIE['mw_exp'])) {
     <script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-cssclassapplier.js"></script>
     <script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-selectionsaverestore.js"></script>
     <script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-serializer.js"></script>
-    <script src="<?php print(mw_includes_url()); ?>api/jquery-ui.js"></script>
+    <script type="text/javascript">mw.lib.require("jqueryui");</script>
 
     <script type="text/javascript">
         mw.settings.liveEdit = true;

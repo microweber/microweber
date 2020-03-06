@@ -1,8 +1,8 @@
-mw.require("files.js");
-mw.require("css_parser.js");
-mw.require("components.js");
-mw.require("color.js");
-mw.lib.require("acolorpicker");
+//mw.require("files.js");
+//mw.require("css_parser.js");
+//mw.require("components.js");
+//mw.require("color.js");
+//mw.lib.require("acolorpicker");
 
 
 

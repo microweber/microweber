@@ -9,6 +9,31 @@ $params_module  = $params;
     mw.require('content.js', true);
 </script>
 <script type="text/javascript">
+
+    publish_selected_posts = function() {
+
+        var master = mwd.getElementById('<?php print $params['id']; ?>');
+        var arr = mw.check.collectChecked(master);
+
+        arr.forEach(function(item) {
+            mw.post.publish(item);
+        });
+
+        mw.notification.success(mw.msg.contentpublished);
+    }
+
+    unpublish_selected_posts = function() {
+
+        var master = mwd.getElementById('<?php print $params['id']; ?>');
+        var arr = mw.check.collectChecked(master);
+
+        arr.forEach(function(item) {
+            mw.post.unpublish(item);
+        });
+
+        mw.notification.warning(mw.msg.contentunpublished);
+    }
+
     delete_selected_posts = function () {
         mw.tools.confirm("<?php _ejs("Are you sure you want to delete the selected posts"); ?>?", function () {
             var master = mwd.getElementById('<?php print $params['id']; ?>');

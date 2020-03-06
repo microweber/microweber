@@ -282,6 +282,8 @@
             });
         },
         accordion: function (el, callback) {
+            mw.require('css_parser.js')
+
             var speed = 200;
             var container = el.querySelector('.mw-accordion-content');
             if (container === null) return false;

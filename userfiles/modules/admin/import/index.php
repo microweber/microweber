@@ -2,6 +2,10 @@
 <script  type="text/javascript">
     mw.require("<?php print $config['url_to_module']; ?>import.js");
 </script>
+
+<script>
+    mw.require("files.js");
+</script>
 <script type="text/javascript">
 		var uploader = mw.files.uploader({
 			filetypes:"all",

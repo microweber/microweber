@@ -33,7 +33,12 @@
     }
 
     mw.settings.libs = {
-        jqueryui: ['jquery-ui.min.css', 'jquery-ui.min.js'],
+            jqueryui:  [
+                function () {
+                mw.require(mw.settings.libs_url + 'jqueryui' + '/jquery-ui.min.js');
+                mw.require(mw.settings.libs_url + 'jqueryui' + '/jquery-ui.min.css');
+            }
+        ],
         morris: ['morris.css', 'raphael.js', 'morris.js'],
         rangy: ['rangy-core.js', 'rangy-cssclassapplier.js', 'rangy-selectionsaverestore.js', 'rangy-serializer.js'],
         highlight: [
@@ -215,11 +220,19 @@
             'jquery.datetimepicker.full.min.js',
             'jquery.datetimepicker.min.css'
         ],
-        nestedSortable: [
+        nzzestedSortable: [
             'jquery.mjs.nestedSortable.js'
         ],
-        acolorpicker: [
-            'acolorpicker.js'
+        nestedSortable: [
+            function () {
+                 mw.require(mw.settings.libs_url + 'nestedsortable' + '/jquery.mjs.nestedSortable.js');
+            }
+        ],
+        colorpicker: [
+            function () {
+                mw.require(mw.settings.includes_url + 'api' + '/color.js');
+                mw.require(mw.settings.libs_url + 'acolorpicker' + '/acolorpicker.js');
+            }
         ],
         material_icons: [
             function () {
@@ -228,8 +241,11 @@
         ],
         mw_icons_mind: [
             function () {
-                mw.require(mw.settings.libs_url + 'mw-icons-mind' + '/line/style.css');
-                mw.require(mw.settings.libs_url + 'mw-icons-mind' + '/solid/style.css');
+                if (!mw.is.ie) {
+                    mw.require(mw.settings.libs_url + 'mw-icons-mind' + '/mw-icons-mind.css');
+                } else {
+                    mw.require(mw.settings.libs_url + 'mw-icons-mind' + '/mw-icons-mind-ie.css');
+                }
             }
         ],
         uppy: [

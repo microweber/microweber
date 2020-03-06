@@ -1571,6 +1571,8 @@ mw.wysiwyg = {
         mw.$('.mw_editor_btn_active').removeClass('mw_editor_btn_active');
     },
     setActiveButtons: function (node) {
+        mw.require('css_parser.js');
+
         var css = mw.CSSParser(node);
         if (css && css.get) {
             var font = css.get.font();
@@ -1592,6 +1594,8 @@ mw.wysiwyg = {
         }
     },
     setActiveFontSize: function () {
+        mw.require('css_parser.js');
+
         var sel = getSelection();
         var range = sel.getRangeAt(0);
         if(range.collapsed) {
@@ -1670,6 +1674,8 @@ mw.wysiwyg = {
     started_checking: false,
     check_selection: function (target) {
         target = target || false;
+
+        mw.require('css_parser.js');
 
 
         if (!mw.wysiwyg.started_checking) {
@@ -1847,6 +1853,7 @@ mw.wysiwyg = {
             }
 
             mw.wysiwyg.restore_selection();
+            mw.require("files.js");
 
             if(hash === '#editimage') {
                 if(mw.image.currentResizing) {
@@ -2617,6 +2624,7 @@ $(mwd).ready(function () {
     mw.wysiwyg.dropdowns();
 
     if (!mw.wysiwyg._fontcolorpicker) {
+        mw.lib.require('colorpicker');
         mw.wysiwyg._fontcolorpicker = mw.colorPicker({
             element: document.querySelector('#mw_editor_font_color'),
             tip: true,
@@ -2680,6 +2688,8 @@ $(mwd).ready(function () {
 $(window).on('load', function () {
 
     mw.$(this).on('imageSrcChanged', function (e, el, url) {
+        mw.require("files.js");
+
         var node = mw.tools.firstParentOrCurrentWithAnyOfClasses(el, ['mw-image-holder']);
         if (node) {
             url = mw.files.safeFilename(url);
