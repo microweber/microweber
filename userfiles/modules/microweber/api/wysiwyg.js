@@ -616,34 +616,36 @@ mw.wysiwyg = {
         if (mw.wysiwyg.isSafeMode(e.target)) {
             if (typeof clipboard !== 'undefined' && typeof clipboard.getData === 'function' && mw.wysiwyg.editable(e.target)) {
                 var text = clipboard.getData('text');
-                mw.wysiwyg.insert_html(text);
-                e.preventDefault()
-                return false;
+                if(text) {
+                    mw.wysiwyg.insert_html(text);
+                }
+                e.preventDefault();
+                return '';
             }
-
         }
-        if (mw.wysiwyg.isLocalPaste(clipboard)) {
+        if (mw.wysiwyg.isLocalPaste(clipboard)) {console.log(2)
             mw.wysiwyg.doLocalPaste(clipboard);
             e.preventDefault();
-            return false;
+            return '';
         }
 
 
-        if (mw.wysiwyg.pastedFromExcel(clipboard)) {
+        if (mw.wysiwyg.pastedFromExcel(clipboard)) {console.log(3)
             html = mw.wysiwyg.cleanExcel(clipboard)
             mw.wysiwyg.insert_html(html);
             e.preventDefault();
-            return false;
+            return '';
         }
 
 
-        if (clipboard.files.length > 0) {
+        if (clipboard.files.length > 0) {console.log(4)
             var i = 0;
             for (; i < clipboard.files.length; i++) {
                 var item = clipboard.files[i];
                 if (item.type.indexOf('image/') != -1) {
                     var reader = new FileReader();
                     reader.onload = function (e) {
+                        console.log(e.target)
                         mw.wysiwyg.insert_html('<img src="' + (e.target.result) + '">');
                         mw.wysiwyg.normalizeBase64Images();
                     }
@@ -652,7 +654,7 @@ mw.wysiwyg = {
             }
             e.preventDefault();
         }
-        else {
+        else {console.log(5)
             if (typeof clipboard !== 'undefined' && typeof clipboard.getData === 'function' && mw.wysiwyg.editable(e.target)) {
                 if (!mw.is.ie) {
                     html = clipboard.getData('text/html');
@@ -676,7 +678,7 @@ mw.wysiwyg = {
                     html = clipboard.getData('text');
                 }
                 if (!!html) {
-                    if (typeof mw.form != 'undefined') {
+                    if (mw.form) {
                         var is_link = mw.form.validate.url(html);
                         if (is_link) {
                             var html = "<a href='" + html + "'>" + html + "</a>";

@@ -1493,6 +1493,11 @@ mw.iconSelector = mw.iconSelector || {
 
 
             mw.tools.tooltip.setPosition(mw.iconSelectorGUI, mw.iconSelector._activeElement, 'bottom-center');
+            var $el = $(mw.iconSelectorGUI);
+
+            if(($el.offset().top + $el.height()) > Math.max(document.body.scrollHeight, document.documentElement.scrollHeight)){
+                mw.iconSelectorGUI.scrollIntoView()
+            }
           }
           else{
 

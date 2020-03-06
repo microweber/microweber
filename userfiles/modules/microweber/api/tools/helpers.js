@@ -101,6 +101,7 @@
             tempInput.select();
             document.execCommand("copy");
             document.body.removeChild(tempInput);
+            mw.notification.success(mw.lang('Copied') + ': "' + value + '"');
         },
         cloneObject: function (object) {
             return jQuery.extend(true, {}, object);

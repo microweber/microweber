@@ -503,6 +503,12 @@ mw.ElementAnalyzer = function(options){
             var el = mw.$(scope.data.target);
             mw.currentDragMouseOver = scope.data.target;
 
+            var edit = mw.tools.firstParentOrCurrentWithClass(mw.currentDragMouseOver, 'edit');
+            mw.tools.classNamespaceDelete(mw.dropable[0], 'mw-dropable-tagret-rel-');
+            if(edit) {
+                mw.tools.addClass(mw.dropable[0], 'mw-dropable-tagret-rel-' + edit.getAttribute('rel'));
+            }
+
             mw.dropables.set(scope.data.dropablePosition, el.offset(), el.height(), el.width());
 
             if(el[0] && !mw.tools.hasAnyOfClasses(el[0], ['mw-drag-current-'+scope.data.dropablePosition])){

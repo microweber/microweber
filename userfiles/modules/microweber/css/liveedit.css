@@ -432,6 +432,10 @@ body.mw-column-resizing * {
     visibility: visible;
     transition: all .2s cubic-bezier(.73, 1.06, .58, .84);
 }
+.mw_dropable.mw-dropable-tagret-rel-global{
+    background-color: #b52e4e !important;
+}
+
 
 .mw_dropable_hidden {
     visibility: hidden;

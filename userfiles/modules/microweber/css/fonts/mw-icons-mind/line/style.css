@@ -2,6 +2,7 @@
 	font-family: 'icomoon';
 	src:url('fonts/icomoon.eot?-rdmvgc');
 	src:url('fonts/icomoon.eot?#iefix-rdmvgc') format('embedded-opentype'),
+		url('fonts/icomoon.woff2?-rdmvgc') format('woff2'),
 		url('fonts/icomoon.woff?-rdmvgc') format('woff'),
 		url('fonts/icomoon.ttf?-rdmvgc') format('truetype'),
 		url('fonts/icomoon.svg?-rdmvgc#icomoon') format('svg');

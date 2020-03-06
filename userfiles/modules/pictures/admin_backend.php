@@ -422,17 +422,6 @@ if (!isset($data["thumbnail"])) {
             });
 
 
-            //$(uploader).remove();
-            /*mw.$("#backend_image_uploader").on('click', function () {
-                mw.fileWindow({
-                    types: 'images',
-                    change: function (url, b) {
-                        url = url.toString();
-                        console.log(url, b)
-                    }
-                });
-            });*/
-
             $(".image-tag-view").remove();
             $(".image-tags").each(function () {
                 $(".mw-post-media-img", mw.tools.firstParentWithClass(this, 'admin-thumb-item'))

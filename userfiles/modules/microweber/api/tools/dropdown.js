@@ -101,4 +101,7 @@ mw.tools.dropdown = function (root) {
             }
         });
     }
-}
+};
+
+
+mw.dropdown = mw.tools.dropdown;

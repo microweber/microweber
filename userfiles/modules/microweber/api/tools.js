@@ -9,15 +9,20 @@ mw.lib.require("acolorpicker");
 
 mw.tools = {};
 
+mw.require('tools/dropdown.js')
+
 <?php
     $files = glob(__DIR__.DS.'tools'.DS.'*.js');
     foreach($files as $file) {
         include $file;
+        //$arr = explode(DS, $file);
+
+        //echo "mw.require('tools/" . array_pop($arr) . "')";
         echo ";\n";
     }
 ?>
 
-mw.dropdown = mw.tools.dropdown;
+
 mw.confirm = mw.tools.confirm;
 mw.tabs = mw.tools.tabGroup;
 mw.progress = mw.tools.progress;
