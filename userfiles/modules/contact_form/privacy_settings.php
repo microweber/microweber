@@ -21,7 +21,15 @@ if (isset($params['for_module_id'])) {
 }
 ?>
 
-<div class="mw-ui-field-holder">
+
+<module type="users/terms/set_for_module" for_module="<?php print $mod_id ?>" />
+
+
+
+
+<?php
+
+/*<div class="mw-ui-field-holder">
     <label class="mw-ui-check">
         <input type="checkbox" parent-reload="true" name="require_terms" value="y" data-value-unchecked="n" data-value-checked="y" class="mw_option_field" option-group="<?php print $mod_id ?>"
             <?php if (get_option('require_terms', $mod_id) == 'y'): ?> checked="checked" <?php endif; ?> />
@@ -47,7 +55,9 @@ if (isset($params['for_module_id'])) {
         </label>
     </li>
 </ul>
-</div>
+</div>*/
+
+?>
 
 <div class="mw-ui-field-holder">
     <label class="mw-ui-check">

@@ -303,7 +303,6 @@ class FormsManager
             $user_require_terms = $this->app->option_manager->get('require_terms', $default_mod_id);
         }
 
-
         if ($user_require_terms) {
 
             if (!$user_id_or_email) {
