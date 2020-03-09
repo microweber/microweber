@@ -54,8 +54,8 @@ if (isset($template_file) and is_file($template_file) != false) {
 
                     mw.response(mw.$('form#newsletters-form-<?php print $params['id'] ?>'), resp);
                     if (typeof(resp.success) != 'undefined') {
-                        mw.$('form#newsletters-form-' + id + ' .hide-on-success').hide();
-                        mw.$('form#newsletters-form-' + id + ' .show-on-success').show();
+                        mw.$('form#newsletters-form-<?php print $params['id'] ?>' + ' .hide-on-success').hide();
+                        mw.$('form#newsletters-form-<?php print $params['id'] ?>' + ' .show-on-success').show();
                     }
                     if (typeof(resp.redirect) != 'undefined') {
                         window.location.href = resp.redirect;
