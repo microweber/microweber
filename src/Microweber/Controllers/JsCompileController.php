@@ -48,7 +48,7 @@ class JsCompileController extends Controller
             $etag = filemtime($file);
         }
 
-         $l = new \Microweber\View($file);
+        $l = new \Microweber\View($file);
 
         $l = $l->__toString();
         $l = str_replace('{SITE_URL}', $this->app->url_manager->site(), $l);
@@ -70,13 +70,17 @@ class JsCompileController extends Controller
                     mkdir_recursive($userfiles_cache_dir);
                 }
                 if (is_dir($userfiles_cache_dir)) {
-                    @file_put_contents($userfiles_cache_filename, $l);
+                    if (is_writable($userfiles_cache_filename)) {
+                        @file_put_contents($userfiles_cache_filename, $l);
+                    }
                 }
             } else {
                 $fmd5 = md5_file($userfiles_cache_filename);
                 $fmd = md5($l);
                 if ($fmd5 != $fmd) {
-                    @file_put_contents($userfiles_cache_filename, $l);
+                    if (is_writable($userfiles_cache_filename)) {
+                        @file_put_contents($userfiles_cache_filename, $l);
+                    }
                 }
             }
         }
@@ -115,7 +119,6 @@ class JsCompileController extends Controller
             // return;
             // exit;
         }
-
 
 
         // header("Content-type: text/javascript");
@@ -174,13 +177,17 @@ class JsCompileController extends Controller
                     mkdir_recursive($userfiles_cache_dir);
                 }
                 if (is_dir($userfiles_cache_dir)) {
-                    @file_put_contents($userfiles_cache_filename, $l);
+                    if (is_writable($userfiles_cache_filename)) {
+                        @file_put_contents($userfiles_cache_filename, $l);
+                    }
                 }
             } else {
                 $fmd5 = md5_file($userfiles_cache_filename);
                 $fmd = md5($l);
                 if ($fmd5 != $fmd) {
-                    @file_put_contents($userfiles_cache_filename, $l);
+                    if (is_writable($userfiles_cache_filename)) {
+                        @file_put_contents($userfiles_cache_filename, $l);
+                    }
                 }
             }
 
@@ -237,14 +244,18 @@ class JsCompileController extends Controller
                     mkdir_recursive($userfiles_cache_dir);
                 }
                 if (is_dir($userfiles_cache_dir)) {
-                    @file_put_contents($userfiles_cache_filename, $l);
-                }
+                    if (is_writable($userfiles_cache_filename)) {
+                        @file_put_contents($userfiles_cache_filename, $l);
+                    }
+                 }
             } else {
                 $fmd5 = md5_file($userfiles_cache_filename);
                 $fmd = md5($l);
                 if ($fmd5 != $fmd) {
-                    @file_put_contents($userfiles_cache_filename, $l);
-                }
+                    if (is_writable($userfiles_cache_filename)) {
+                        @file_put_contents($userfiles_cache_filename, $l);
+                    }
+                 }
             }
         }
 
