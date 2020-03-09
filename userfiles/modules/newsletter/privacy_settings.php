@@ -10,15 +10,33 @@
 
 <?php
 $mod_id = 'newsletter';
-if (isset($params['for_module_id'])) {
-    $mod_id = $params['for_module_id'];
-}
+
 ?>
+
+<script>
+
+    function mw_admin_newsletter_module_edit_tos(module_name) {
+
+        var modalTitle = '<?php _e("Terms and Conditions"); ?>';
+
+        mw_admin_edit_tos_item_popup_modal_opened = mw.modal({
+            content: '<div id="mw_admin_edit_tos_item_module"></div>',
+            title: modalTitle,
+            id: 'mw_admin_edit_tos_item_popup_modal'
+        });
+
+        var params = {}
+        params.for_module = module_name;
+        mw.load_module('users/terms/edit', '#mw_admin_edit_tos_item_module', null, params);
+    }
+
+</script>
 
 <div class="mw-ui-field-holder">
     <label class="mw-ui-check">
         <input type="checkbox" parent-reload="true" name="require_terms" value="y" data-value-unchecked="n" data-value-checked="y" class="mw_option_field" option-group="<?php print $mod_id ?>"
             <?php if (get_option('require_terms', $mod_id) == 'y'): ?>   checked="checked"  <?php endif; ?>
         />
-        <span></span><span><?php _e("Users must agree to the Terms and Conditions"); ?></span> </label>
+        <span></span><span><?php _e("Users must agree to the Terms and Conditions"); ?>     </span> </label>
+     <a href="#" onclick="mw_admin_newsletter_module_edit_tos('<?php print $mod_id ?>')" class="mw-ui-btn mw-ui-btn-small"><span class="mw-icon-pen"></span>edit</a>
 </div>
