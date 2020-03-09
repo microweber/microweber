@@ -19,7 +19,6 @@ if (!defined('MW_USER_IP')) {
 event_bind('mw.admin.dashboard.content', function ($params = false) {
     print '<div type="site_stats/admin" class="mw-lazy-load-module" id="site_stats_admin"></div>';
 
-   // print '  <module type="site_stats/admin" id="site_stats_admin" />';
 
 });
 
@@ -33,87 +32,39 @@ function mw_print_quick_stats_by_session($sid = false)
     print '<module type="site_stats/admin" view="quick_stats_by_session" class="mw-site-stats-quick-view-table" data-subtype="quick" data-user-sid="' . $sid . '" />';
 }
 
-//function mw_print_stats_on_dashboard()
-//{
-//
-//
-//    $active = url_param('view');
-//    $cls = '';
-//    if ($active == 'shop') {
-//        //   $cls = ' class="active" ';
-//    }
-//    //print '<microweber module="site_stats" view="admin" />';
-//}
 
-//
-//event_bind('mw.pageviewffffff', function ($params = false) {
-//
-//
-//        if (defined('MW_FRONTEND') and !isset($_REQUEST['isolate_content_field'])
-//            and !is_ajax()
-//            and !is_cli()
-//
-//        ) {
-//
-//
-//
-//            $tracker = new Microweber\SiteStats\Tracker(); ;
-//            $tracker->track();
-//           // $tracker->track_visit();
-//          //  $tracker->track_pageview();
-//
-//        }
-//
-//});
 event_bind('mw.pageview', function ($params = false) {
     template_foot(function () {
-
         if (get_option('stats_disabled', 'site_stats') == 1) {
             return;
         }
 
 
-        //$track_src = modules_url().'site_stats/track.js';
-        //$link = '<script type="text/javascript" src="'.$track_src.'"></script>';
-
-        $track_url = api_url('pingstats');
-
-        $link = '<script defer type="text/javascript">
-    $( document ).ready(function() {
-           setTimeout(function(){
-            var track = { _token :"' . csrf_token() . '", referrer : document.referrer }
-            $.ajax({
-                url: "' . $track_url . '",
-                data: track,
-                type: "POST",
-                dataType: "json"
-            });
-            }, 1337);
-     });
-    </script>';
-        return $link;
+        $traker_url = modules_url() . 'site_stats/pingstats.js';
+        return '<script defer type="text/javascript" src="' . $traker_url . '"></script>';
 
     });
 });
-api_expose('pingstats', function ($params = false) {
 
+api_expose('pingstats', function ($params = false) {
+    $to_track = false;
     if (get_option('stats_disabled', 'site_stats') == 1) {
         return;
     }
 
-    if (!is_ajax()) {
-        return;
-    }
-    if (!isset($_POST['_token'])) {
-        return;
-    }
-    if (isset($_POST['_token'])) {
-        $validate = mw()->user_manager->csrf_validate($_POST);
-        if (!$validate) {
-            return;
+
+    if (isset($_SERVER['HTTP_REFERER'])) {
+        $ref_page = $_SERVER['HTTP_REFERER'];
+        if (stristr(site_url(), $ref_page)) {
+            if (is_ajax()) {
+                $to_track = true;
+            }
         }
     }
 
+    if (!$to_track) {
+        return;
+    }
 
     $tracker = new Microweber\SiteStats\Tracker();
 
@@ -455,3 +406,5 @@ function get_visits($range = 'daily')
 
     return $results;
 }
+
+
