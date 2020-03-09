@@ -241,9 +241,11 @@
         ],
         mw_icons_mind: [
             function () {
-                if (!mw.is.ie) {
+                if (!window.document.documentMode) {
+                    // no ie
                     mw.require(mw.settings.libs_url + 'mw-icons-mind' + '/mw-icons-mind.css');
                 } else {
+                    // ie
                     mw.require(mw.settings.libs_url + 'mw-icons-mind' + '/mw-icons-mind-ie.css');
                 }
             }
