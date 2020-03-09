@@ -32,44 +32,84 @@ class TemplateOptimizeLoadingHelper
         $preload = array();
         $dns_prefetch = array();
         $pq = \phpQuery::newDocument($layout);
-        $srcs = array();
-        $srcs_css = array();
 
-        foreach ($pq ['link'] as $elem) {
+        foreach ($pq->find('*') as $elem) {
+
+
             $type = pq($elem)->attr('type');
             $rel = pq($elem)->attr('rel');
             $src = pq($elem)->attr('href');
-            if ($type == "text/css" or $rel == 'stylesheet') {
+
+            $tag = $elem->tagName;
+
+            if ($tag == 'link' and ($type == "text/css" or $rel == 'stylesheet')) {
                 $replaced[] = pq($elem)->htmlOuter();
                 pq($elem)->replaceWith('');
-            }
+                if ($src) {
+                    $preload[] = '<link rel="preload" href="' . $src . '" as="style" />';
+                }
+            } elseif ($tag == 'script') {
 
-            if($src){
-                $preload[] = '<link rel="preload" href="'.$src.'" as="style" />';
-            }
+                $src = pq($elem)->attr('src');
+                if ($src) {
+                    $preload[] = '<link rel="preload" href="' . $src . '" as="script" />';
+                }
 
-        }
-        foreach ($pq ['script'] as $elem) {
+                $script = pq($elem)->htmlOuter();
+                $is_skip = false;
+                foreach ($skip as $skip_str) {
+                    if (stristr($skip_str, $script)) {
+                        $is_skip = true;
+                    }
+                }
 
-            $src = pq($elem)->attr('src');
-            if($src){
-                $preload[] = '<link rel="preload" href="'.$src.'" as="script" />';
-            }
-
-            $script = pq($elem)->htmlOuter();
-            $is_skip = false;
-            foreach ($skip as $skip_str) {
-                if (stristr($skip_str, $script)) {
-                    $is_skip = true;
+                if (!$is_skip) {
+                    $replaced[] = pq($elem)->htmlOuter();
+                    pq($elem)->replaceWith('');
                 }
             }
-
-            if (!$is_skip) {
-                $replaced[] = pq($elem)->htmlOuter();
-                pq($elem)->replaceWith('');
-            }
-
         }
+
+
+//        foreach ($pq ['link'] as $elem) {
+//            $type = pq($elem)->attr('type');
+//            $rel = pq($elem)->attr('rel');
+//            $src = pq($elem)->attr('href');
+//
+//
+//            if ($tag == 'link' and ($type == "text/css" or $rel == 'stylesheet')) {
+//
+//                $replace_key = '<!-- replaced-asset -->' . $replace_num++;
+//                $replaced[] = pq($elem)->htmlOuter();
+//                pq($elem)->replaceWith('');
+//            }
+//
+//            if ($src) {
+//                $preload[] = '<link rel="preload" href="' . $src . '" as="style" />';
+//            }
+//
+//        }
+//        foreach ($pq ['script'] as $elem) {
+//
+//            $src = pq($elem)->attr('src');
+//            if ($src) {
+//                $preload[] = '<link rel="preload" href="' . $src . '" as="script" />';
+//            }
+//
+//            $script = pq($elem)->htmlOuter();
+//            $is_skip = false;
+//            foreach ($skip as $skip_str) {
+//                if (stristr($skip_str, $script)) {
+//                    $is_skip = true;
+//                }
+//            }
+//
+//            if (!$is_skip) {
+//                $replaced[] = pq($elem)->htmlOuter();
+//                pq($elem)->replaceWith('');
+//            }
+//
+//        }
         $l = $pq->html();
         if ($replaced) {
             $c = 1;
