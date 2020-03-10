@@ -12,8 +12,8 @@
     <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/components.css"/>
     <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/install.css"/>
     <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/install.css"/>
-     <script type="text/javascript" src="<?php print mw()->template->get_apijs_settings_url(); ?>"></script>
-     <script type="text/javascript" src="<?php print mw()->template->get_apijs_url(); ?>"></script>
+    <script type="text/javascript" src="<?php print mw()->template->get_apijs_settings_url(); ?>"></script>
+    <script type="text/javascript" src="<?php print mw()->template->get_apijs_url(); ?>"></script>
     <script type="text/javascript" src="<?php print mw_includes_url(); ?>api/libs/jqueryui/jquery-ui.js"></script>
     <link type="text/css" rel="stylesheet" media="all"
           href="<?php print mw_includes_url(); ?>api/libs/jqueryui/jquery-ui.css"/>
@@ -73,8 +73,8 @@
 
         function installMarketplaceItemByPackageName($name) {
 
-          //  mw.spinner({element: "#dialog-message-marketplace", size: 30, color: 'white'}).show();
-            mw.notification.success('Installing... '+ $name, 6000);
+            //  mw.spinner({element: "#dialog-message-marketplace", size: 30, color: 'white'}).show();
+            mw.notification.success('Installing... ' + $name, 6000);
 
             if (typeof(mw.marketplace_dialog_jquery_ui) != 'undefined') {
                 mw.marketplace_dialog_jquery_ui.dialog('close');
@@ -84,15 +84,26 @@
             $.post("<?php print site_url() ?>", {install_package_by_name: $name}, function (data) {
 
 
-            }).always(function() {
+            }).always(function () {
             });
 
 
         }
 
+
+        function selectChange() {
+            var selectBox = document.getElementById("default_template");
+
+            var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+
+            if (selectedValue == '_get_more') {
+                showMarketplaceItemsInstallScreen()
+            }
+        }
+
         function showMarketplaceItemsInstallScreen() {
 
-            $("#default_template option:first").attr('selected','selected');
+            $("#default_template option:first").attr('selected', 'selected');
             $("#default_template").prop("selectedIndex", 0).change();
 
             var html = '';
@@ -108,6 +119,8 @@
                         if (value.screenshot) {
                             var screenshot = value.screenshot;
                         }
+
+
                         html += '<button type="button" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline"  data-screenshot="' + screenshot + '" onclick="installMarketplaceItemByPackageName(' + '\'' + value.name + '\'' + ')">' + value.description + '</button>';
 
                     }
@@ -152,9 +165,11 @@
 
                 });
 
-              //  option += '<option onclick="event.stopPropagation(); event.preventDefault(); showMarketplaceItemsInstallScreen()">get more...</option>';
+                if (window.navigator.onLine) {
+                    //    option += '<option value="_get_more">get more...</option>';
+                }
 
-
+              
                 $("#default_template").html('');
                 $("#default_template").append(option);
 
@@ -352,6 +367,7 @@
 
             $("#default_template").on('change', function () {
                 setscreenshot()
+                selectChange();
             });
         })
     </script>

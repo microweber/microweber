@@ -164,12 +164,7 @@ if ($for_id != false) {
     };
 
     var getMediaImage = function () {
-        var dialog = mw.top().dialog({
-            url: '<?php print site_url() ?>module/?type=pictures/media_library&live_edit=true&remeber_path=true&ui=basic&start_path=media_host_base&from_admin=true&file_types=images&from_url=<?php print site_url() ?>',
-            title: "Browse pictures",
-            height: 'auto',
-            autoHeight: true
-        });
+        var dialog = mw.top().tools.moduleFrame('pictures/media_library');
         $(dialog.iframe).on('load', function(){
             this.contentWindow.mw.on.hashParam('select-file', function () {
                 after_upld(this, 'save', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
