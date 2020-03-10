@@ -61,11 +61,10 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name = functi
     mw.reload_module('#update_queue_process_alert');
 
 
-    mw.admin.admin_package_manager.set_loading(true)
+    mw.admin.admin_package_manager.set_loading(50)
 
 
     var values = {require_name: $key, require_version: $version};
-
 
     mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax(values);
 
@@ -82,6 +81,7 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax 
         type: "post",
         data: values,
         success: function (msg) {
+            mw.admin.admin_package_manager.set_loading(true);
 
             if (typeof msg == 'object' && msg.try_again  && msg.unzip_cache_key) {
                 if (msg.try_again) {
@@ -114,6 +114,8 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax 
         },
 
         error: function (jqXHR, textStatus, errorThrown) {
+            mw.admin.admin_package_manager.set_loading(false);
+
             setTimeout(function(){
                 mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax(mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax_last_step_vals);
 
@@ -130,6 +132,7 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax 
 
         mw.$('#update_queue_set_modal').remove();
 
+        mw.admin.admin_package_manager.set_loading(false);
 
 
     })
