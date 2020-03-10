@@ -87,8 +87,12 @@ include(__DIR__ . '/package_data.php');
                                class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-warn js-package-install-btn"><?php _e('Update'); ?></a>
 
                         <?php elseif (!$has_update AND isset($item['current_install']) and $item['current_install']): ?>
-                            <div class="text-success">Installed</div>
-
+                            <div class="text-success js-package-install-btn-help-text">Installed</div>
+                            <a vkey="<?php print $vkey; ?>" href="javascript:;"
+                               onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'), this)"
+                               class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification js-package-install-btn" style="display: none">
+                                <?php if ($is_commercial): ?>Buy & <?php endif; ?> <?php _e('Install'); ?>
+                            </a>
                         <?php else: ?>
                             <a vkey="<?php print $vkey; ?>" href="javascript:;"
                                onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'), this)"
