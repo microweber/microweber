@@ -9,7 +9,9 @@ mw.tools = {};
 
 
 foreach($files as $file) {
-    print("mw.require('".mw_includes_url()."api/tools/".basename($file)."');");
+ //   print("mw.require('".mw_includes_url()."api/tools/".basename($file)."');");
+    echo "\n";
+    print("mw.required.push('".mw_includes_url()."api/tools/".basename($file)."');");
     echo "\n";
     echo "\n";
     include $file;
