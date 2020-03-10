@@ -19,7 +19,7 @@ if (isset($params['data-search-type'])) {
     </script>
     <script type="text/javascript">
         mw.require("url.js", true);
-        mw.require("tools.js", true);
+        //mw.require("tools.js", true);
         mw.require("forms.js", true);
     </script>
     <script type="text/javascript">

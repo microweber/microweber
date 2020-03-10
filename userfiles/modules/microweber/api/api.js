@@ -1005,6 +1005,7 @@ mw.required.push("<?php print mw_includes_url(); ?>api/components.js");
 
 mw.required.push("<?php print mw_includes_url(); ?>api/dialog.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/instruments.js");
+mw.required.push("<?php print mw_includes_url(); ?>api/forms.js");
 
 //mw.required.push("<?php print mw_includes_url(); ?>api/content.js");
 
@@ -1019,6 +1020,7 @@ mw.required.push("<?php print mw_includes_url(); ?>api/instruments.js");
 
 
 <?php  include __DIR__.DS."tools.js"; ?>
+
 
 
 

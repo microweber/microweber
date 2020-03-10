@@ -27,7 +27,7 @@ class TemplateOptimizeLoadingHelper
     private function _move_scripts_to_bottom_of_page($layout)
     {
 
-        $skip = array('gtm-', 'ua-', 'aw-', 'fbevents.js');
+        $skip = array('gtm-', 'ua-', 'aw-', 'sdk-', 'fbevents.js','analytics');
         $replaced = array();
         $preload = array();
         $dns_prefetch = array();
@@ -58,7 +58,7 @@ class TemplateOptimizeLoadingHelper
                 $script = pq($elem)->htmlOuter();
                 $is_skip = false;
                 foreach ($skip as $skip_str) {
-                    if (stristr($skip_str, $script)) {
+                    if (strpos($script,$skip_str)) {
                         $is_skip = true;
                     }
                 }

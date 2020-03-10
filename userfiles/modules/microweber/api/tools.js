@@ -1,25 +1,26 @@
-//mw.require("files.js");
-//mw.require("css_parser.js");
-//mw.require("components.js");
-//mw.require("color.js");
-//mw.lib.require("acolorpicker");
-
-
 
 
 mw.tools = {};
 
-mw.require('tools/dropdown.js')
 
 <?php
     $files = glob(__DIR__.DS.'tools'.DS.'*.js');
-    foreach($files as $file) {
-        include $file;
-        //$arr = explode(DS, $file);
 
-        //echo "mw.require('tools/" . array_pop($arr) . "')";
-        echo ";\n";
-    }
+
+
+foreach($files as $file) {
+    print("mw.require('".mw_includes_url()."api/tools/".basename($file)."');");
+    echo "\n";
+    echo "\n";
+    include $file;
+    echo "\n";
+}
+
+
+echo "\n";
+echo "\n";
+
+
 ?>
 
 
@@ -42,7 +43,6 @@ mw.tooltip = mw.tools.tip;
 mw.gallery = function (arr, start, modal) {
     return mw.tools.gallery.init(arr, start, modal)
 };
-
 
 
 
