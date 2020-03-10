@@ -15,6 +15,19 @@ mw.tools.createAutoHeight = function() {
     }
 };
 
+mw.tools.moduleFrame = function(type, template){
+    return mw.dialogIframe({
+        url: mw.external_tool('module_dialog') + '?module=' + type + (template ? ('&template=' + template) : ''),
+        width: 532,
+        height: 'auto',
+        autoHeight:true,
+        title: type,
+        className: 'mw-dialog-module-settings',
+        closeButtonAction: 'remove'
+    });
+};
+
+
 mw.tools.iframeAutoHeight = function(frame, opt){
 
     frame = mw.$(frame)[0];

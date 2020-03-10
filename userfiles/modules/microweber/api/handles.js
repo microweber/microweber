@@ -687,7 +687,7 @@ mw._initHandles = {
                 }
             }
 
-            var marginTop =  -30;
+            var marginTop =  30;
             var topPos = o.top;
 
             if(topPos<minTop){

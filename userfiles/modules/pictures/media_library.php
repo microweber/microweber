@@ -168,11 +168,11 @@
         </script>
 
 
-         <center>
+         <div style="text-align: center">
          <h2 style="margin-top:0px;">Search Unsplash</h2>
 		  <p><b>Enter a search term above to begin searching images from <a href="http://unsplash.com" target="_new" style="color:#009cff;">Unsplash.com</a>. <br />You can use free stock images.</b></p>
 			<br />
-		</center>
+		</div>
 
         <div class="mw-field stock-field">
             <input type="text" placeholder="Search for cars, cats and evrything you want..." onkeyup="mw.on.stopWriting(this,function(){searchMediaLibrary(this.value, 1)})" >

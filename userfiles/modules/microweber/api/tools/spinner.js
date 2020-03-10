@@ -13,6 +13,7 @@ mw.Spinner = function(options){
 
     this.options.size = this.options.size || 20;
     this.options.color = this.options.color || '#394cb0';
+    this.options.insertMode = this.options.insertMode || 'append';
 
     this.color = function(val){
         if(!val) {
@@ -36,10 +37,10 @@ mw.Spinner = function(options){
     };
 
     this.create = function(){
-        this.$spinner = $('<div class="mw-spinner"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg></div>');
+        this.$spinner = $('<div class="mw-spinner mw-spinner-mode-' + this.options.insertMode + '"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg></div>');
         this.size(this.options.size);
         this.color(this.options.color);
-        this.$element.append(this.$spinner);
+        this.$element[this.options.insertMode](this.$spinner);
         return this;
     };
 

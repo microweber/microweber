@@ -322,6 +322,18 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
     #mw-packages-browser-nav-tabs-nav .mw-ui-col-container {
         padding-left: 0;
     }
+
+    #packages-browser-nav li .mw-notification-count{
+        position: absolute;
+        right: 8px;
+        top: 8px;
+    }
+    #packages-browser-nav li a{
+        white-space: normal;
+        padding-right: 30px;
+        position: relative;
+        height: auto;
+    }
 </style>
 
 <div class="admin-side-content" style="max-width: 90%">
@@ -411,9 +423,8 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                             endforeach;
 
                             ?>
-                            <a href="javascript:;" xonclick="$(this.nextSibling).stop().slideToggle()">Updates <sup
-                                        style="display: none" class="mw-notification-count"><?php print $total; ?></sup></a>
-                            <ul xstyle="display: none;"><?php print $items; ?></ul>
+                            <a href="javascript:;">Updates <sup style="display: none" class="mw-notification-count"><?php print $total; ?></sup></a>
+                            <ul><?php print $items; ?></ul>
                             <?php endif; ?>
 
 

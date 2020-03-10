@@ -432,6 +432,17 @@ body.mw-column-resizing * {
     visibility: visible;
     transition: all .2s cubic-bezier(.73, 1.06, .58, .84);
 }
+.mw_dropable:before{
+    position: absolute;
+    top: -20px;
+    font-size: 11px;
+    font-weight: bold;
+    right: 0;
+}
+.mw_dropable.mw-dropable-tagret-rel-global:before{
+    content: 'Global region';
+    color: #b52e4e;
+}
 .mw_dropable.mw-dropable-tagret-rel-global{
     background-color: #b52e4e !important;
 }

@@ -63,8 +63,7 @@ if (isset($data[0]) == false) {
         }
 
         LoginAsUserFromAdmin<?php  print $data['id']; ?> = function ($user_id) {
-            var r = confirm("Are you sure you want to login as this user?");
-            if (r == true) {
+            if (confirm("Are you sure you want to login as this user?")) {
                 $.post("<?php print api_url('user_make_logged') ?>", {id: $user_id}).done(function (data) {
                     window.location.reload()
                 });
@@ -72,19 +71,21 @@ if (isset($data[0]) == false) {
         }
 
         SaveAdminUserForm<?php  print $data['id']; ?> = function () {
-            if (mwd.getElementById("reset_password").value == '') {
+            var val = mwd.getElementById("reset_password").value.trim();
+            if (!val) {
                 mwd.getElementById("reset_password").disabled = true;
             }
-            mw.tools.loading('.mw-module-admin-wrap');
+            var el = document.getElementById('user-save-button');
+            el.disabled = true;
+            mw.spinner({element: el, color: 'white'});
             mw.form.post(mw.$('#users_edit_{rand}'), '<?php print api_link('save_user') ?>', function (el) {
-                if (typeof (this.error) != 'undefined') {
-                    mw.notification.msg(this);
-                    return;
-                }
+                mw.notification.success(mw.lang('All changes saved'));
 
-                UserId = this;
+                var UserId = this;
                 mw.tools.loading('.mw-module-admin-wrap', false);
                 mw.reload_module('[data-type="users/manage"]', function () {
+                    el.disabled = false;
+                    mw.spinner({element: el}).hide().remove();
                     mw.hash('#sortby=created_at desc');
                     setTimeout(function () {
                         mw.tools.highlight(mwd.getElementById('mw-admin-user-' + UserId));
@@ -346,12 +347,17 @@ if (isset($data[0]) == false) {
                                class="mw-ui-btn mw-ui-btn-small pull-left"><?php _e('Delete user'); ?></a>
 
                         <?php endif; ?></td>
-                    <td><span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right"
-                              onclick="SaveAdminUserForm<?php print $data['id']; ?>()">
-          <?php _e("Save"); ?>
-          </span> <a class="mw-ui-btn mw-ui-btn-medium pull-right" href="#sortby=created_at desc">
+                    <td>
+                        <button
+                            id="user-save-button"
+                            class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right"
+                            onclick="SaveAdminUserForm<?php print $data['id']; ?>()">
+                            <?php _e("Save"); ?>
+                        </button>
+                        <a class="mw-ui-btn mw-ui-btn-medium pull-right" href="#sortby=created_at desc">
                             <?php _e("Cancel"); ?>
-                        </a></td>
+                        </a>
+                    </td>
                 </tr>
             </table>
             <?php if (!empty($custom_ui)): ?>

@@ -45,39 +45,44 @@ mw.form = {
         mw.$(target).addClass('loading');
     }
   },
-  post:function(selector, url_to_post, callback, ignorenopost, callback_error){
+  post:function(selector, url_to_post, callback, ignorenopost, callback_error, callback_user_cancel){
     mw.session.checkPause = true;
     if(selector.constructor === {}.constructor){
       return mw.form._post(selector);
     }
 
-    var callback_error = callback_error || false;
-    var ignorenopost = ignorenopost || false;
+    callback_error = callback_error || false;
+    ignorenopost = ignorenopost || false;
     var is_form_valid = mw.form.validate.init(selector);
 
-	if(typeof url_to_post == 'undefined'){
+	if(!url_to_post){
 
-		url_to_post = mw.settings.site_url+'api/post_form';
+		url_to_post = mw.settings.site_url + 'api/post_form';
 
-	} else {
-		url_to_post = url_to_post;
 	}
 
  // var is_form_valid = true;
 
 
     if(is_form_valid){
-
         var obj = mw.form.serialize(selector, ignorenopost);
-      	var xhr = mw.xhrPost(url_to_post, obj, function(data){
-      	    mw.session.checkPause = false;
-			if(typeof callback === 'function'){
-				callback.call(data, mw.$(selector)[0]);
-			} else {
-				return data;
-			}
-
-        });
+      	var xhr = $.ajax({
+            url: url_to_post,
+            data: obj,
+            success: function(data){
+                mw.session.checkPause = false;
+                if(typeof callback === 'function'){
+                    callback.call(data, mw.$(selector)[0]);
+                } else {
+                    return data;
+                }
+            },
+            onExternalDataDialogClose: function() {
+                if(callback_user_cancel) {
+                    callback_user_cancel.call();
+                }
+            }
+      	});
         xhr.fail(function(a,b) {
            mw.session.checkPause = false;
            if(typeof callback_error === 'function'){
