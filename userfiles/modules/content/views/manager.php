@@ -12,26 +12,43 @@ $params_module  = $params;
 
     publish_selected_posts = function() {
 
-        var master = mwd.getElementById('<?php print $params['id']; ?>');
+        mw.tools.confirm('<?php _e('Are you sure you want to publish this content?'); ?>', function () {
+
+            var master = mwd.getElementById('<?php print $params['id']; ?>');
         var arr = mw.check.collectChecked(master);
 
         arr.forEach(function(item) {
             mw.post.publish(item);
         });
 
+        mw.reload_module('#pages_edit_container_content_list');
+
         mw.notification.success(mw.msg.contentpublished);
+        });
     }
 
     unpublish_selected_posts = function() {
 
-        var master = mwd.getElementById('<?php print $params['id']; ?>');
-        var arr = mw.check.collectChecked(master);
+        mw.tools.confirm('<?php _e('Are you sure you want to unpublish this content?'); ?>', function () {
+            var master = mwd.getElementById('<?php print $params['id']; ?>');
+            var arr = mw.check.collectChecked(master);
 
-        arr.forEach(function(item) {
-            mw.post.unpublish(item);
+            arr.forEach(function(item) {
+                mw.post.unpublish(item);
+            });
+
+
+            mw.reload_module('#pages_edit_container_content_list');
+            mw.notification.warning(mw.msg.contentunpublished);
+
         });
 
-        mw.notification.warning(mw.msg.contentunpublished);
+
+
+
+
+
+
     }
 
     delete_selected_posts = function () {
