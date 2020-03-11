@@ -54,7 +54,9 @@ $border = get_option('border', $params['id']);
     $(document).ready(function () {
         pickBorder = mw.colorPicker({
             element: '#border',
-            position: 'bottom-left',
+            method:'inline',
+
+            position: 'top-right',
             onchange: function (color) {
                 clearTimeout(myBorderTimeout);
                 myBorderTimeout = setTimeout(function () {
