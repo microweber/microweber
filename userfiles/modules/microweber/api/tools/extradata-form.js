@@ -26,10 +26,18 @@ mw.extradataForm = function (options, data) {
         form.method = options.type;
         form.__modal = mw.dialog({
             content: form,
-            title: data.error
+            title: data.error,
+            closeButton: false,
+            closeOnEscape: false
         });
         mw.$('script', form).each(function() {
             eval($(this).text());
+        });
+
+        $(form.__modal).on('closedByUser', function () {
+            if(options.onExternalDataDialogClose) {
+                options.onExternalDataDialogClose.call();
+            }
         });
 
         if(data.form_data_required) {
@@ -49,11 +57,9 @@ mw.extradataForm = function (options, data) {
                     options.data[i] = exdata[i];
                 }
 
-                console.log(options)
-
                 mw.ajax(options);
                 form.__modal.remove();
-            })
+            });
         }
     });
 };

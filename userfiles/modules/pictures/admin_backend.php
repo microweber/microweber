@@ -137,7 +137,7 @@ if ($for_id != false) {
 </script>
 
 
-<script type="text/javascript">
+<script>
     mw_admin_pictures_upload_browse_existing = function () {
 
 
@@ -148,7 +148,7 @@ if ($for_id != false) {
             id: 'mw_admin_pictures_upload_browse_existing_modal<?php print $params['id'] ?>',
             height: 'auto',
             autoHeight: true
-        })
+        });
         $(dialog.iframe).on('load', function(){
             this.contentWindow.mw.on.hashParam('select-file', function () {
                 after_upld(this, 'save', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
@@ -161,7 +161,19 @@ if ($for_id != false) {
             })
         })
 
-    }
+    };
+
+    var getMediaImage = function () {
+        var dialog = mw.top().tools.moduleFrame('pictures/media_library');
+        $(dialog.iframe).on('load', function(){
+            this.contentWindow.mw.on.hashParam('select-file', function () {
+                after_upld(this, 'save', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
+                after_upld(this, 'done', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
+                mw.notification.success('<?php _ejs('The image is added to the gallery') ?>');
+                dialog.remove();
+            });
+        });
+    };
 </script>
 <?php
 if (!isset($data["thumbnail"])) {
@@ -173,6 +185,7 @@ if (!isset($data["thumbnail"])) {
 <input name="thumbnail" type="hidden" value="<?php print ($data['thumbnail']) ?>"/>
 <div style="text-align: right; margin-bottom: 15px;">
     <a href="javascript:mw_admin_pictures_upload_browse_existing()" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-ui-btn-outline btn-rounded"> <?php _e('Browse uploaded'); ?></a>
+    <a href="javascript:getMediaImage()" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-ui-btn-outline btn-rounded"> <?php _e('Media library'); ?></a>
     <div class="clearfix"></div>
 </div>
 

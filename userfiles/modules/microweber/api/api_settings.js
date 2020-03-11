@@ -1,4 +1,10 @@
 (function () {
+
+    if(window.mw) {
+        console.log('%c !!! mw already defined !!! ', 'background: #009cff; color: #fff; font-size:16px;');
+        return;
+    }
+
     var mw = { };
 
     mw.settings = {
@@ -414,8 +420,6 @@
 
     if(!window.mw) {
         window.mw = mw;
-    } else {
-        console.log('%c !!! mw already defined !!! ', 'background: #009cff; color: #fff; font-size:16px;');
     }
 })();
 

@@ -507,6 +507,8 @@ mw.ElementAnalyzer = function(options){
             mw.tools.classNamespaceDelete(mw.dropable[0], 'mw-dropable-tagret-rel-');
             if(edit) {
                 mw.tools.addClass(mw.dropable[0], 'mw-dropable-tagret-rel-' + edit.getAttribute('rel'));
+                var rel = edit.getAttribute('rel');
+                mw.tools.addClass(mw.dropable[0], 'mw-dropable-tagret-rel-' + rel);
             }
 
             mw.dropables.set(scope.data.dropablePosition, el.offset(), el.height(), el.width());
