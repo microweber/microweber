@@ -165,6 +165,7 @@ if ($for_id != false) {
 
     var getMediaImage = function () {
         var dialog = mw.top().tools.moduleFrame('pictures/media_library');
+        dialog.title('Media library');
         $(dialog.iframe).on('load', function(){
             this.contentWindow.mw.on.hashParam('select-file', function () {
                 after_upld(this, 'save', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');

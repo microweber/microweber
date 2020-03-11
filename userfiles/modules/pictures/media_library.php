@@ -89,6 +89,8 @@
         <script>
             function selectMediaImage(imageElement, photoId) {
 
+
+                mw.notification.success('<?php _e('Downloading'); ?>',4000)
             	$(imageElement).parent().find('.image-item-thumbnail').css('opacity', ' 0.6');
             	$(imageElement).parent().find('.image-item-thumbnail').before('<span class="mw-icon-checkmark-circled image-item-is-downloaded"></span>');
 
@@ -96,7 +98,11 @@
 
             	$.get(getMediaImageUrl, function(imageUrl) {
 					 mw.url.windowHashParam('select-file', encodeURIComponent(imageUrl));
-            	});
+                     mw.top().notification.success('<?php _e('Image selected'); ?>',3000)
+
+                });
+
+
 
             	mw.reload_module('files/browser');
             }
