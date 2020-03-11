@@ -79,7 +79,10 @@
 .checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item {
     font-size: 14px;
     border-bottom: 1px solid #c3c3c3;
-    padding: 10px 0
+    padding: 10px 0;
+    align-items: center;
+    justify-content: center;
+
 }
 
 @media screen and (max-width: 767px) {
@@ -120,7 +123,7 @@
 }
 
 .checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-action, .checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-price, .checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-title {
-    padding-top: 35px;
+    /*padding-top: 35px;*/
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis
@@ -131,7 +134,7 @@
 }
 
 .checkout-modal .js-shopping-cart .checkout-modal-amount-holder .checkout-modal-promocode-holder, .checkout-modal .js-shopping-cart .checkout-modal-amount-holder .checkout-modal-total-holder {
-    padding-top: 35px
+    /*padding-top: 35px*/
 }
 
 .checkout-modal .js-shopping-cart .checkout-modal-amount-holder .checkout-modal-promocode-holder .form-control {
