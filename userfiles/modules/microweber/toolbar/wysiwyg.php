@@ -69,6 +69,10 @@
                 </span> </span>
                 <div class="mw-dropdown-content">
                   <ul>
+                      <li value="table"><a href="javascript:;" style="font-size: 10px">
+                              <?php _e("Table"); ?>
+                          </a>
+                      </li>
                     <li value="hr"><a href="javascript:;" style="font-size: 10px">
                       <?php _e("Horizontal Rule"); ?>
                       </a>
@@ -87,6 +91,9 @@
                         <?php _e("HTML"); ?>
                     </a>
                     </li>
+
+
+
 
                     <?php /*<li value="quote"><a href="#" style="font-size: 10px"><?php _e("Quote"); ?></a></li>*/ ?>
                   </ul>
