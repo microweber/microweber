@@ -71,10 +71,33 @@
         }
     }
 
+
+    function load_more_fonts() {
+        $('#<?php print $params['id'] ?>').attr('load-more',1)
+        mw.reload_module('#<?php print $params['id'] ?>');
+
+    }
+
 </script>
 
 
-<?php $fonts = json_decode(file_get_contents(__DIR__ . DS . 'fonts.json'), true); ?>
+<?php
+$is_load_more = false;
+
+if(isset($params['load-more'])){
+    $is_load_more = $params['load-more'];
+}
+
+if ($is_load_more) {
+    $fonts = json_decode(file_get_contents(__DIR__ . DS . 'fonts-more.json'), true);
+
+} else {
+    $fonts = json_decode(file_get_contents(__DIR__ . DS . 'fonts.json'), true);
+
+
+}
+
+?>
 <?php if (isset($fonts['items'])): ?>
     <?php $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
 
@@ -163,7 +186,9 @@
 
     </style>
     <div id="enabled_custom_fonts_settings_holder">
-        <input autocomplete="off" type="hidden" name="enabled_custom_fonts" class="mw_option_field" option-group="template" id="enabled_custom_fonts_arr_impode" value="<?php print $enabled_custom_fonts ?>"/>
+        <input autocomplete="off" type="hidden" name="enabled_custom_fonts" class="mw_option_field"
+               option-group="template" id="enabled_custom_fonts_arr_impode"
+               value="<?php print $enabled_custom_fonts ?>"/>
     </div>
     <div class="module-live-edit-settings enabled_custom_fonts_table">
         <table width="100%" cellspacing="0" cellpadding="0" class="mw-ui-table">
@@ -187,13 +212,17 @@
                             onmouseenter="mw_fonts_preview_load_stylesheet('<?php print $font['family']; ?>')">
                         <td width="30">
                             <label class="mw-ui-check">
-                                <input id="custom-font-select-<?php print $i; ?>" type="checkbox" name="REMOVE_____enabled_custom_fonts" <?php if (in_array($font['family'], $enabled_custom_fonts_array)): ?> checked <?php endif; ?> class="REMOVE___mw_option_field" option-group="REMOVE___template"
+                                <input id="custom-font-select-<?php print $i; ?>" type="checkbox"
+                                       name="REMOVE_____enabled_custom_fonts" <?php if (in_array($font['family'], $enabled_custom_fonts_array)): ?> checked <?php endif; ?>
+                                       class="REMOVE___mw_option_field" option-group="REMOVE___template"
                                        value="<?php print $font['family']; ?>"/>
                                 <span></span>
                             </label>
                         </td>
-                        <td onmouseenter="mw_fonts_preview_load_stylesheet('<?php print $font['family']; ?>')" onMouseOver="mw_fonts_preview_load_stylesheet('<?php print $font['family']; ?>')"><label for="custom-font-select-<?php print $i; ?>"
-                                                                                                                                                                                                        style="font-size:14px; font-family:'<?php print $font['family']; ?>',sans-serif;"><?php print $font['family']; ?></label>
+                        <td onmouseenter="mw_fonts_preview_load_stylesheet('<?php print $font['family']; ?>')"
+                            onMouseOver="mw_fonts_preview_load_stylesheet('<?php print $font['family']; ?>')"><label
+                                    for="custom-font-select-<?php print $i; ?>"
+                                    style="font-size:14px; font-family:'<?php print $font['family']; ?>',sans-serif;"><?php print $font['family']; ?></label>
                         </td>
                     </tr>
                     <?php $i++; ?>
@@ -203,5 +232,10 @@
 
             </tbody>
         </table>
+        <?php if (!$is_load_more): ?>
+
+        <a onclick="load_more_fonts();" class="mw-ui-btn mw-ui-btn-primary" href="#">Load more</a>
+        <?php endif; ?>
+
     </div>
 <?php endif; ?>
