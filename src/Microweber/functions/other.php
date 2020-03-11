@@ -363,9 +363,11 @@ function array_trim($Input)
     return array_map('array_trim', $Input);
 }
 
-function strleft($s1, $s2)
-{
-    return substr($s1, 0, strpos($s1, $s2));
+if (!function_exists('strleft')) {
+    function strleft($s1, $s2)
+    {
+        return substr($s1, 0, strpos($s1, $s2));
+    }
 }
 
 $ex_fields_static = array();
