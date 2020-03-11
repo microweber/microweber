@@ -222,7 +222,7 @@ if ($is_load_more) {
                         <td onmouseenter="mw_fonts_preview_load_stylesheet('<?php print $font['family']; ?>')"
                             onMouseOver="mw_fonts_preview_load_stylesheet('<?php print $font['family']; ?>')"><label
                                     for="custom-font-select-<?php print $i; ?>"
-                                    style="font-size:14px; font-family:'<?php print $font['family']; ?>',sans-serif;"><?php print $font['family']; ?></label>
+                                    style="font-size:14px; font-display: swap; font-family:'<?php print $font['family']; ?>',sans-serif;"><?php print $font['family']; ?></label>
                         </td>
                     </tr>
                     <?php $i++; ?>
@@ -234,7 +234,7 @@ if ($is_load_more) {
         </table>
         <?php if (!$is_load_more): ?>
 
-        <a onclick="load_more_fonts();" class="mw-ui-btn mw-ui-btn-primary" href="#">Load more</a>
+        <a onclick="load_more_fonts();" class="mw-ui-btn mw-ui-btn-primary m-t-20" href="#">Load more</a>
         <?php endif; ?>
 
     </div>
