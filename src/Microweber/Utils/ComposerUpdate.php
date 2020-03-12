@@ -358,7 +358,12 @@ class ComposerUpdate
         $install_core_update = false;
 
         $need_confirm = true;
-        $need_confirm = true;
+
+
+        if (defined('MW_INSTALL_CONTROLLER')) {
+            $need_confirm = false;
+        }
+            // $need_confirm = true;
         $cp_files = array();
         $cp_files_fails = array();
 

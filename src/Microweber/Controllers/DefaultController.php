@@ -773,6 +773,8 @@ class DefaultController extends Controller
             }
         }
 
+
+        if(mw_is_installed()){
         if ($page == false) {
             if (!isset($content_id)) {
                 return;
@@ -782,6 +784,8 @@ class DefaultController extends Controller
         } else {
             $this->app->content_manager->define_constants($page);
         }
+        }
+
         if (defined('TEMPLATE_DIR')) {
             $load_template_functions = TEMPLATE_DIR . 'functions.php';
             if (is_file($load_template_functions)) {
@@ -799,6 +803,9 @@ class DefaultController extends Controller
 
 
         }
+
+
+
         $url_last = false;
         if (!isset($request_data['module'])) {
             $url = $this->app->url_manager->string(0);

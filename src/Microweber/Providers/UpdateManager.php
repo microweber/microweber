@@ -719,35 +719,37 @@ class UpdateManager
 
     public function post_update($version = false)
     {
-        $this->log_msg('Applying post update actions');
-        $system_refresh = new \Microweber\Install\DbInstaller();
-        $system_refresh->createSchema();
-        //$system_refresh->run();
 
-        $this->_set_time_limit();
+        if (mw_is_installed()) {
+            $this->log_msg('Applying post update actions');
+            $system_refresh = new \Microweber\Install\DbInstaller();
+            $system_refresh->createSchema();
+            //$system_refresh->run();
 
-        mw()->cache_manager->delete('db');
-        mw()->cache_manager->delete('update/global');
-        mw()->cache_manager->delete('elements/global');
+            $this->_set_time_limit();
 
-        mw()->cache_manager->delete('templates');
-        mw()->cache_manager->delete('modules/global');
-        mw()->cache_manager->clear();
-        scan_for_modules();
-        scan_for_elements();
-        mw()->layouts_manager->scan();
-        mw()->template->clear_cached_custom_css();
-        mw()->template->clear_cached_apijs_assets();
-        event_trigger('mw_db_init_default');
-        event_trigger('mw_db_init_modules');
-        event_trigger('mw_db_init');
+            mw()->cache_manager->delete('db');
+            mw()->cache_manager->delete('update/global');
+            mw()->cache_manager->delete('elements/global');
 
-        if ($version != false) {
-            Config::set('microweber.version', $version);
-            Config::set('microweber.updated_at', @date("Y-m-d H:i:s"));
-            Config::save('microweber');
+            mw()->cache_manager->delete('templates');
+            mw()->cache_manager->delete('modules/global');
+            mw()->cache_manager->clear();
+            scan_for_modules();
+            scan_for_elements();
+            mw()->layouts_manager->scan();
+            mw()->template->clear_cached_custom_css();
+            mw()->template->clear_cached_apijs_assets();
+            event_trigger('mw_db_init_default');
+            event_trigger('mw_db_init_modules');
+            event_trigger('mw_db_init');
+
+            if ($version != false) {
+                Config::set('microweber.version', $version);
+                Config::set('microweber.updated_at', @date("Y-m-d H:i:s"));
+                Config::save('microweber');
+            }
         }
-
         return true;
     }
 

@@ -921,6 +921,10 @@ class Modules
 
     public function is_installed($module_name)
     {
+
+        if(!mw_is_installed()){
+            return true;
+        }
         $module_name = trim($module_name);
         $module_namei = $module_name;
         if (strstr($module_name, 'admin')) {

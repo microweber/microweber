@@ -30,6 +30,9 @@ class InstallController extends Controller
 
     public function index($input = null)
     {
+        if (!defined('MW_INSTALL_CONTROLLER')) {
+          define('MW_INSTALL_CONTROLLER', true);
+        }
 
 
         if (!is_array($input) || empty($input)) {

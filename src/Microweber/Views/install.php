@@ -73,8 +73,7 @@
 
         function installMarketplaceItemByPackageName($name) {
 
-            //  mw.spinner({element: "#dialog-message-marketplace", size: 30, color: 'white'}).show();
-            mw.notification.success('Installing... ' + $name, 6000);
+            mw.notification.success('Please wait... Installing... ' + $name, 16000);
 
             if (typeof(mw.marketplace_dialog_jquery_ui) != 'undefined') {
                 mw.marketplace_dialog_jquery_ui.dialog('close');
@@ -82,8 +81,8 @@
 
 
             $.post("<?php print site_url() ?>", {install_package_by_name: $name}, function (data) {
-
-
+                mw.notification.success('Template is installed... ' + $name, 16000);
+                getTemplateForInstallScreen()
             }).always(function () {
             });
 
@@ -106,7 +105,7 @@
             $("#default_template option:first").attr('selected', 'selected');
             $("#default_template").prop("selectedIndex", 0).change();
 
-            var html = '';
+            var html = '<div class="mw-flex-row">';
 
             $.post("<?php print site_url() ?>?get_market_templates_for_install_screen=1", function (data) {
                 $.each(data, function (index, value) {
@@ -119,17 +118,22 @@
                         if (value.screenshot) {
                             var screenshot = value.screenshot;
                         }
+                        if (value.latest_version &&  value.latest_version.extra && value.latest_version.extra._meta && value.latest_version.extra._meta.screenshot) {
+                            var screenshot = value.latest_version.extra._meta.screenshot;
+                        }
 
 
-                        html += '<button type="button" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline"  data-screenshot="' + screenshot + '" onclick="installMarketplaceItemByPackageName(' + '\'' + value.name + '\'' + ')">' + value.description + '</button>';
+                        html += '<div class="m-b-20  m-l-10 m-r-10 mw-flex-col-md-6"><div style="width: 100%; height: 120px; background-image: url('+screenshot+'); background-size: cover; background-position: top center;"></div><br /><button type="button" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline" style="width: 100%;"  data-screenshot="' + screenshot + '" onclick="installMarketplaceItemByPackageName(' + '\'' + value.name + '\'' + ')">Install ' + value.description + '</button><br /></div>';
 
                     }
 
 
                 });
+                html += '</div>';
                 $("#dialog-message-marketplace").html(html);
                 mw.marketplace_dialog_jquery_ui = $("#dialog-message-marketplace").dialog({
                     modal: true,
+                    width: 800,
                     buttons: {
                         Ok: function () {
                             $(this).dialog("close");
