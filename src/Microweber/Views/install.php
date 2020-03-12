@@ -72,8 +72,11 @@
         });
 
         function installMarketplaceItemByPackageName($name) {
+            mw.tools.loading('#demo-one', true,16000);
+            mw.tools.loading('#screenshot_preview', true,16000);
 
             mw.notification.success('Please wait... Installing... ' + $name, 16000);
+            mw.tools.scrollTo('#demo-one');
 
             if (typeof(mw.marketplace_dialog_jquery_ui) != 'undefined') {
                 mw.marketplace_dialog_jquery_ui.dialog('close');
@@ -83,7 +86,11 @@
             $.post("<?php print site_url() ?>", {install_package_by_name: $name}, function (data) {
                 mw.notification.success('Template is installed... ' + $name, 16000);
                 getTemplateForInstallScreen()
+                mw.tools.loading('#demo-one', false);
+                mw.tools.loading('#screenshot_preview', false);
+                mw.tools.scrollTo('#default_template');
             }).always(function () {
+
             });
 
 
@@ -123,7 +130,7 @@
                         }
 
 
-                        html += '<div class="m-b-20  m-l-10 m-r-10 mw-flex-col-md-6"><div style="width: 100%; height: 120px; background-image: url('+screenshot+'); background-size: cover; background-position: top center;"></div><br /><button type="button" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline" style="width: 100%;"  data-screenshot="' + screenshot + '" onclick="installMarketplaceItemByPackageName(' + '\'' + value.name + '\'' + ')">Install ' + value.description + '</button><br /></div>';
+                        html += '<div class="m-b-20  m-l-10   mw-flex-col-md-5" style="padding:10px;"><div style="width: 100%; height: 120px; background-image: url('+screenshot+'); background-size: cover; background-position: top center;"></div><br /><button type="button" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline" style="width: 100%;"  data-screenshot="' + screenshot + '" onclick="installMarketplaceItemByPackageName(' + '\'' + value.name + '\'' + ')">Install ' + value.description + '</button><br /></div>';
 
                     }
 
