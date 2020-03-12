@@ -40,22 +40,14 @@ class JsCompileController extends Controller
 
         $last_modified_time = $lastModified = filemtime($file);
 
-        $ifModifiedSince = (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ? $_SERVER['HTTP_IF_MODIFIED_SINCE'] : false);
-        $etagHeader = (isset($_SERVER['HTTP_IF_NONE_MATCH']) ? trim($_SERVER['HTTP_IF_NONE_MATCH']) : false);
+
         if (defined('MW_VERSION')) {
             $etag = md5(filemtime($file) . MW_VERSION);
         } else {
             $etag = filemtime($file);
         }
 
-        $l = new \Microweber\View($file);
-
-        $l = $l->__toString();
-        $l = str_replace('{SITE_URL}', $this->app->url_manager->site(), $l);
-        $l = str_replace('{MW_SITE_URL}', $this->app->url_manager->site(), $l);
-        $l = str_replace('%7BSITE_URL%7D', $this->app->url_manager->site(), $l);
-
-
+        $l = $this->_load_apijs();
         $compile_assets = \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
             // it makes an error
@@ -102,67 +94,8 @@ class JsCompileController extends Controller
         if (!defined('MW_NO_SESSION')) {
             define('MW_NO_SESSION', 1);
         }
-        $lastModified = time() - 120;
-        $etagFile = md5(serialize($_REQUEST));
-        $ifModifiedSince = (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ? $_SERVER['HTTP_IF_MODIFIED_SINCE'] : false);
 
-        //get the HTTP_IF_NONE_MATCH header if set (etag: unique file hash)
-        $etagHeader = (isset($_SERVER['HTTP_IF_NONE_MATCH']) ? trim($_SERVER['HTTP_IF_NONE_MATCH']) : false);
-
-        //set last-modified header
-        // header("Last-Modified: " . gmdate("D, d M Y H:i:s", $lastModified) . " GMT");
-        // header('Cache-Control: public');
-        // header("Etag: $etagFile");
-
-        if (@strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $lastModified || $etagHeader == $etagFile) {
-            // header("HTTP/1.1 304 Not Modified");
-            // return;
-            // exit;
-        }
-
-
-        // header("Content-type: text/javascript");
-
-        $file = mw_includes_path() . 'api' . DS . 'api_settings.js';
-        if (mw_is_installed()) {
-            $ref_page = false;
-
-            if (isset($_REQUEST['id'])) {
-                $ref_page = $this->app->content_manager->get_by_id($_REQUEST['id']);
-            } elseif (isset($_SERVER['HTTP_REFERER'])) {
-                $ref_page = $_SERVER['HTTP_REFERER'];
-                if ($ref_page != '') {
-                    $ref_page = $this->app->content_manager->get_by_url($ref_page);
-                    if (is_array($ref_page)) {
-                        $page_id = $ref_page['id'];
-
-                    } else {
-                        $page_id = 0;
-                    }
-                }
-            }
-
-            $cat_url = false;
-            if (isset($_REQUEST['category_id'])) {
-                $cat_url = intval($_REQUEST['category_id']);
-            } elseif (isset($_SERVER['HTTP_REFERER'])) {
-                $cat_url = mw()->category_manager->get_category_id_from_url($_SERVER['HTTP_REFERER']);
-                $cat_url = intval($cat_url);
-            }
-
-            if ($cat_url != false) {
-                if (!defined('CATEGORY_ID')) {
-                    define('CATEGORY_ID', intval($cat_url));
-                }
-            }
-            $this->app->content_manager->define_constants($ref_page);
-        }
-        if (!defined('TEMPLATE_URL')) {
-            define('TEMPLATE_URL', '');
-        }
-        $l = new \Microweber\View($file);
-
-        $l = $l->__toString();
+        $l = $this->_load_apijs_settings();
 
         $compile_assets = \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
@@ -200,6 +133,65 @@ class JsCompileController extends Controller
 
     }
 
+
+    public function apijs_combined()
+    {
+
+
+        $userfiles_dir = userfiles_path();
+        $hash = md5(site_url());
+        $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs_combined');
+        $userfiles_cache_filename = $userfiles_cache_dir . 'api.combined.' . $hash . '.' . MW_VERSION . '.js';
+
+
+        $layout = [];
+
+        $layout[] = $this->_load_apijs_settings();
+
+
+        $layout[] = $this->_load_apijs();
+
+        $layout = implode("\n\n", $layout);
+
+
+        $layout = str_replace('{SITE_URL}', $this->app->url_manager->site(), $layout);
+        $layout = str_replace('{MW_SITE_URL}', $this->app->url_manager->site(), $layout);
+        $layout = str_replace('%7BSITE_URL%7D', $this->app->url_manager->site(), $layout);
+
+
+        $compile_assets = \Config::get('microweber.compile_assets');
+        if ($compile_assets and defined('MW_VERSION')) {
+
+/*
+            $minifier = normalize_path(MW_PATH . 'Utils/lib/JShrink/Minifier.php', false);
+            if (is_file($minifier)) {
+                $pattern = '/(?:(?:\/\*(?:[^*]|(?:\*+[^*\/]))*\*+\/)|(?:(?<!\:|\\\|\'|\")\/\/.*))/';
+                $layout = preg_replace($pattern, '', $layout);
+                include_once $minifier;
+                $layout = \JShrink\Minifier::minify($layout, ['flaggedComments' => false]);
+            }*/
+
+
+            if (!is_dir($userfiles_cache_dir)) {
+                mkdir_recursive($userfiles_cache_dir);
+            }
+            if (is_dir($userfiles_cache_dir)) {
+                if (is_writable($userfiles_cache_filename)) {
+                    @file_put_contents($userfiles_cache_filename, $layout);
+                }
+            }
+
+
+        }
+
+        $response = \Response::make($layout);
+
+        $response->header('Content-Type', 'application/javascript');
+
+        return $response;
+
+
+    }
 
     public function apijs_liveedit()
     {
@@ -247,7 +239,7 @@ class JsCompileController extends Controller
                     if (is_writable($userfiles_cache_filename)) {
                         @file_put_contents($userfiles_cache_filename, $l);
                     }
-                 }
+                }
             } else {
                 $fmd5 = md5_file($userfiles_cache_filename);
                 $fmd = md5($l);
@@ -255,7 +247,7 @@ class JsCompileController extends Controller
                     if (is_writable($userfiles_cache_filename)) {
                         @file_put_contents($userfiles_cache_filename, $l);
                     }
-                 }
+                }
             }
         }
 
@@ -319,6 +311,24 @@ class JsCompileController extends Controller
         return $url;
     }
 
+    public function get_apijs_combined_url()
+    {
+
+        $url = $this->app->url_manager->site('apijs_combined') . '?mwv=' . MW_VERSION;
+
+
+        $userfiles_dir = userfiles_path();
+        $hash = md5(site_url());
+        $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs_combined');
+        $fn = 'api.combined.' . $hash . '.' . MW_VERSION . '.js';
+        $userfiles_cache_filename = $userfiles_cache_dir . $fn;
+        if (is_file($userfiles_cache_filename)) {
+            $url = userfiles_url() . 'cache/apijs_combined/' . $fn;
+        }
+        return $url;
+
+
+    }
 
     public function get_liveeditjs_url()
     {
@@ -336,9 +346,7 @@ class JsCompileController extends Controller
             $fn = 'api.liveedit.' . md5(site_url() . template_dir() . $mtime) . '.' . MW_VERSION . '.js';
             $userfiles_cache_filename = $userfiles_cache_dir . $fn;
             if (is_file($userfiles_cache_filename)) {
-                if (is_file($userfiles_cache_filename)) {
-                    $url = userfiles_url() . 'cache/apijs/' . $fn;
-                }
+                $url = userfiles_url() . 'cache/apijs/' . $fn;
             }
         }
 
@@ -365,4 +373,61 @@ class JsCompileController extends Controller
         return $layout;
     }
 
+
+    private function _load_apijs()
+    {
+        $file = mw_includes_path() . 'api' . DS . 'api.js';
+        $l = new \Microweber\View($file);
+
+        $l = $l->__toString();
+        $l = str_replace('{SITE_URL}', $this->app->url_manager->site(), $l);
+        $l = str_replace('{MW_SITE_URL}', $this->app->url_manager->site(), $l);
+        $l = str_replace('%7BSITE_URL%7D', $this->app->url_manager->site(), $l);
+        return $l;
+    }
+
+    private function _load_apijs_settings()
+    {
+        $file = mw_includes_path() . 'api' . DS . 'api_settings.js';
+        if (mw_is_installed()) {
+            $ref_page = false;
+
+            if (isset($_REQUEST['id'])) {
+                $ref_page = $this->app->content_manager->get_by_id($_REQUEST['id']);
+            } elseif (isset($_SERVER['HTTP_REFERER'])) {
+                $ref_page = $_SERVER['HTTP_REFERER'];
+                if ($ref_page != '') {
+                    $ref_page = $this->app->content_manager->get_by_url($ref_page);
+                    if (is_array($ref_page)) {
+                        $page_id = $ref_page['id'];
+
+                    } else {
+                        $page_id = 0;
+                    }
+                }
+            }
+
+            $cat_url = false;
+            if (isset($_REQUEST['category_id'])) {
+                $cat_url = intval($_REQUEST['category_id']);
+            } elseif (isset($_SERVER['HTTP_REFERER'])) {
+                $cat_url = mw()->category_manager->get_category_id_from_url($_SERVER['HTTP_REFERER']);
+                $cat_url = intval($cat_url);
+            }
+
+            if ($cat_url != false) {
+                if (!defined('CATEGORY_ID')) {
+                    define('CATEGORY_ID', intval($cat_url));
+                }
+            }
+            $this->app->content_manager->define_constants($ref_page);
+        }
+        if (!defined('TEMPLATE_URL')) {
+            define('TEMPLATE_URL', '');
+        }
+        $l = new \Microweber\View($file);
+
+        $l = $l->__toString();
+        return $l;
+    }
 }

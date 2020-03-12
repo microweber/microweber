@@ -4,6 +4,7 @@ Route::group(['middleware' => '\Microweber\App\Http\Middleware\SessionlessMiddle
     Route::any('/apijs', 'JsCompileController@apijs');
     Route::any('apijs/{all}', array('as' => 'apijs', 'uses' => 'JsCompileController@apijs'))->where('all', '.*');
     Route::any('/apijs_settings', 'JsCompileController@apijs_settings');
+    Route::any('/apijs_combined', 'JsCompileController@apijs_combined');
     Route::any('/apijs_liveedit', 'JsCompileController@apijs_liveedit');
 
     Route::any('api_nosession/{all}', array('as' => 'api', 'uses' => 'DefaultController@api'))->where('all', '.*');
