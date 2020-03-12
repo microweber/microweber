@@ -105,9 +105,11 @@ $(document).ready(function() {
     mw.liveedit.handleEvents();
     mw.liveedit.handleCustomEvents();
 
+    mw.liveedit.cssEditor = new mw.liveeditCSSEditor();
+
 });
 
-
+mw.require('stylesheet.editor.js');
 $(window).on("load", function() {
     mw.liveedit.initLoad();
 });
@@ -115,5 +117,7 @@ $(window).on("load", function() {
 $(window).on('resize', function() {
     mw.liveedit.toolbar.setEditor();
 });
+
+
 
 

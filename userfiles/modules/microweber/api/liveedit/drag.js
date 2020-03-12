@@ -1086,8 +1086,8 @@ mw.drag = {
     draftDisabled: false,
     save: function(data, success, fail) {
         mw.trigger('beforeSaveStart', data);
-        if (typeof saveStaticElementsStyles === 'function') {
-            saveStaticElementsStyles();
+        if (mw.liveedit.cssEditor) {
+            mw.liveedit.cssEditor.publishIfChanged();
         }
         if (mw.drag.saveDisabled) return false;
         if(!data){

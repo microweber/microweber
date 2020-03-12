@@ -247,13 +247,8 @@
         ],
         mw_icons_mind: [
             function () {
-                if (!window.document.documentMode) {
-                    // no ie
-                    mw.require(mw.settings.libs_url + 'mw-icons-mind' + '/mw-icons-mind.css');
-                } else {
-                    // ie
-                    mw.require(mw.settings.libs_url + 'mw-icons-mind' + '/mw-icons-mind-ie.css');
-                }
+                mw.require('fonts/mw-icons-mind/line/style.css');
+                mw.require('fonts/mw-icons-mind/solid/style.css');
             }
         ],
         uppy: [

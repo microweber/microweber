@@ -2,7 +2,7 @@
 
 
 
-<div id="tree"></div>
+<div id="dom-tree"></div>
 
 <script type="text/javascript">
     //parent.mw.require("external_callbacks.js");
@@ -27,11 +27,9 @@
 
     $(window).on('load', function () {
 
-
-       /* setTimeout(function() {
-
+       setTimeout(function() {
             mw.top().liveEditDomTree = new mw.DomTree({
-                element: '#domtree',
+                element: '#dom-tree',
                 targetDocument: mw.top().win.document,
                 onHover: function (e, target, node, element) {
                     mw.top().liveEditSelector.setItem(node, mw.top().liveEditSelector.interactors, false);
@@ -42,8 +40,7 @@
                     })
                 }
             });
-        }, 1111)*/
-
+        }, 700);
     })
 
 </script>
@@ -327,7 +324,8 @@ var output = function(property, value){
         ActiveNode = mw.top().liveEditSelector.selected
     }
     if(ActiveNode) {
-          ActiveNode.style[property] = value;
+          // ActiveNode.style[property] = value;
+        mw.top().liveedit.cssEditor.temp(ActiveNode, property.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase(), value)
           //ActiveNode.style.setProperty(property, value);
           ActiveNode.setAttribute('staticdesign', true);
           mw.top().wysiwyg.change(ActiveNode);
@@ -348,11 +346,11 @@ var init = function(){
     mw.$('.padding-top').on('input', function(){ output('paddingTop', numValue(this.value)) });
     mw.$('.padding-right').on('input', function(){ output('paddingRight', numValue(this.value)) });
     mw.$('.padding-bottom').on('input', function(){ output('paddingBottom', numValue(this.value)) });
-    mw.$('.padding-left').on('input', function(){ output('paddingrginLeft', numValue(this.value)) });
+    mw.$('.padding-left').on('input', function(){ output('paddingLeft', numValue(this.value)) });
 
     $('.text-align > span').on('click', function(){
         output('textAlign', this.dataset.value);
-        $('.text-align > .active').removeClass('active')
+        $('.text-align > .active').removeClass('active');
         $(this).addClass('active')
     });
     $(".colorField").each(function(){

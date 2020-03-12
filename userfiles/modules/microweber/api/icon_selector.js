@@ -1220,10 +1220,11 @@ mw.lib.require('colorpicker');
         }
     };
    $(window).on('load', function () {
+
        icons._defaults();
        icons.availableIcons();
 
-   })
+   });
     mw.icons = icons;
 })();
 
@@ -1453,7 +1454,7 @@ mw.iconSelector = mw.iconSelector || {
                 tabs:'.live-edit-icon-pick-tab'
             });
 
-            tabs.set(0)
+            tabs.set(0);
 
             mw.colorPicker({
                 element:'#icon-color-pick',
@@ -1774,6 +1775,6 @@ mw.iconSelector = mw.iconSelector || {
 
     }
 };
-$(document).ready(function () {
+$(window).on('load', function () {
     mw.iconSelector.init();
 });

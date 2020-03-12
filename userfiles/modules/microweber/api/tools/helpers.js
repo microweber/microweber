@@ -185,6 +185,7 @@
                 ins.appendChild(style);
             }
             style.innerHTML = css;
+            return style;
         },
         cssNumber: function (val) {
             var units = ["px", "%", "in", "cm", "mm", "em", "ex", "pt", "pc"];

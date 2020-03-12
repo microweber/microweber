@@ -666,7 +666,7 @@ var domHelp = {
             }
             _final = n + ' > ' + _final;
         });
-        return _final;
+        return _final.replace(/.changed/g, '');
     }
 };
 
