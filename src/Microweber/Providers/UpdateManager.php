@@ -75,6 +75,11 @@ class UpdateManager
 
     public function collect_local_data()
     {
+
+        if (!mw_is_installed()) {
+            return;
+        }
+
         $data = array();
         $data['php_version'] = phpversion();
         $data['mw_version'] = MW_VERSION;

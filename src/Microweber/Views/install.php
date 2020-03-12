@@ -166,10 +166,10 @@
                 });
 
                 if (window.navigator.onLine) {
-                    //    option += '<option value="_get_more">get more...</option>';
+                     option += '<option value="_get_more">get more...</option>';
                 }
 
-              
+
                 $("#default_template").html('');
                 $("#default_template").append(option);
 
