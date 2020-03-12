@@ -1006,6 +1006,7 @@ mw.required.push("<?php print mw_includes_url(); ?>api/components.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/dialog.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/instruments.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/forms.js");
+mw.required.push("<?php print mw_includes_url(); ?>api/fonts.js");
 
 //mw.required.push("<?php print mw_includes_url(); ?>api/content.js");
 
@@ -1053,6 +1054,8 @@ mw.required.push("<?php print mw_includes_url(); ?>api/forms.js");
 <?php  include __DIR__.DS."dialog.js"; ?>
 
 <?php  include __DIR__.DS."instruments.js"; ?>
+
+<?php  include __DIR__.DS."fonts.js"; ?>
 
 <?php  //include __DIR__.DS."content.js"; ?>
 

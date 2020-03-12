@@ -167,14 +167,14 @@ class JsCompileController extends Controller
         $compile_assets = \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
 
-/*
-            $minifier = normalize_path(MW_PATH . 'Utils/lib/JShrink/Minifier.php', false);
-            if (is_file($minifier)) {
-                $pattern = '/(?:(?:\/\*(?:[^*]|(?:\*+[^*\/]))*\*+\/)|(?:(?<!\:|\\\|\'|\")\/\/.*))/';
-                $layout = preg_replace($pattern, '', $layout);
-                include_once $minifier;
-                $layout = \JShrink\Minifier::minify($layout, ['flaggedComments' => false]);
-            }*/
+//
+//            $minifier = normalize_path(MW_PATH . 'Utils/lib/JShrink/Minifier.php', false);
+//            if (is_file($minifier)) {
+//                $pattern = '/(?:(?:\/\*(?:[^*]|(?:\*+[^*\/]))*\*+\/)|(?:(?<!\:|\\\|\'|\")\/\/.*))/';
+//                $layout = preg_replace($pattern, '', $layout);
+//                include_once $minifier;
+//                $layout = \JShrink\Minifier::minify($layout);
+//            }
 
 
             if (!is_dir($userfiles_cache_dir)) {
