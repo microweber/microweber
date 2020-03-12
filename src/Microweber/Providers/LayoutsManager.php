@@ -753,7 +753,7 @@ class LayoutsManager
 
                 $live_edit_css = $template_folder . 'live_edit.css';
 
-
+                $css_cont = false;
                 if (isset($params['css_file_content'])) {
                     $css_cont_new = $params['css_file_content'];
                 } else {
