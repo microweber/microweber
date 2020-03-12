@@ -658,7 +658,7 @@ class ModuleController extends Controller
 
         if ($layout != false) {
             //$apijs_loaded = mw()->template->get_apijs_url() . '?id=' . CONTENT_ID;
-            $apijs_loaded = mw()->template->get_apijs_url();
+           // $apijs_loaded = mw()->template->get_apijs_url();
             $apijs_settings_loaded = mw()->template->get_apijs_settings_url();
 
             // $is_admin = $this->app->user_manager->is_admin();
@@ -781,13 +781,15 @@ class ModuleController extends Controller
             }
 
 
-        if (!stristr($layout, $apijs_loaded)) {
-            $rep = 0;
 
-            $default_css = $default_css."\r\n".'<script src="'.$apijs_settings_loaded.'"></script>'."\r\n";
-            $default_css = $default_css."\r\n".'<script src="'.$apijs_loaded.'"></script>'."\r\n";
-            $layout = str_ireplace('<head>', '<head>'.$default_css, $layout, $rep);
-        }
+        $rep = 0;
+
+        $layout = str_ireplace('<head>', '<head>'.$default_css, $layout, $rep);
+
+        $layout = $this->app->template->append_api_js_to_layout($layout);
+
+
+
         if (isset($page['content'])) {
             if ($standalone_edit && !isset($render_file)) {
                     if (stristr($page['content'], 'field="content"') or stristr($page['content'], 'field=\'content\'')) {

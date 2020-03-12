@@ -8,6 +8,7 @@ use Microweber\Utils\Adapters\Template\RenderHelpers\TemplateOptimizeLoadingHelp
 use Microweber\Utils\Adapters\Template\TemplateCssParser;
 use Microweber\Utils\Adapters\Template\TemplateStackRenderer;
 use Microweber\Controllers\JsCompileController;
+
 /**
  * Content class is used to get and save content in the database.
  *
@@ -51,7 +52,7 @@ class Template
         }
 
         $this->stylesheet_adapter = new TemplateCssParser($app);
-        $this->js_adapter =  new JsCompileController($app);
+        $this->js_adapter = new JsCompileController($app);
         $this->stack_compiler_adapter = new TemplateStackRenderer($app);
         $this->adapter_current = $this->adapter_default = new MicroweberTemplate($app);
     }
@@ -93,6 +94,31 @@ class Template
     public function get_liveeditjs_url()
     {
         return $this->js_adapter->get_liveeditjs_url();
+    }
+
+
+    public function get_apijs_combined_url()
+    {
+        return $this->js_adapter->get_apijs_combined_url();
+    }
+
+    public function append_api_js_to_layout($layout)
+    {
+
+
+        $apijs_combined_loaded = $this->get_apijs_combined_url();
+        $append_html = '';
+
+
+        if (!stristr($layout, $apijs_combined_loaded)) {
+            $append_html = $append_html . "\r\n" . '<script src="' . $apijs_combined_loaded . '"></script>' . "\r\n";
+        }
+        if ($append_html) {
+            $rep = 0;
+            $layout = str_ireplace('<head>', '<head>' . $append_html, $layout, $rep);
+        }
+
+        return $layout;
     }
 
     public function clear_cached_apijs_assets()
@@ -259,11 +285,11 @@ class Template
     public function optimize_page_loading($layout)
     {
         $optimize_asset_loading = get_option('optimize_asset_loading', 'website');
-         if ($optimize_asset_loading == 'y') {
+        if ($optimize_asset_loading == 'y') {
 
             $asset_loading_order = new TemplateOptimizeLoadingHelper($this->app);
             $layout = $asset_loading_order->render($layout);
-         //   $layout = $this->app->parser->optimize_asset_loading_order($layout);
+            //   $layout = $this->app->parser->optimize_asset_loading_order($layout);
 
         }
 
@@ -343,7 +369,7 @@ class Template
     public function get_default_system_ui_css_url()
     {
 
-        $url = mw_includes_url().'css/ui.css?v='. MW_VERSION ;
+        $url = mw_includes_url() . 'css/ui.css?v=' . MW_VERSION;
 
         return $url;
     }
@@ -609,9 +635,9 @@ class Template
         return $this->stack_compiler_adapter->add($src, $group);
     }
 
-    public function stack_display($group = 'default',$to_return = false)
+    public function stack_display($group = 'default', $to_return = false)
     {
-        return $this->stack_compiler_adapter->display($group,$to_return);
+        return $this->stack_compiler_adapter->display($group, $to_return);
     }
 
 

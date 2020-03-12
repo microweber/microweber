@@ -1,6 +1,5 @@
-<script type="text/javascript" src="<?php   print(site_url());  ?>apijs_settings?id=<?php print CONTENT_ID; ?>"></script>
+<script type="text/javascript" src="<?php print(mw()->template->get_apijs_combined_url()); ?>"></script>
 
-<script src="<?php print site_url('apijs') ?>" type="text/javascript"></script>
 
 <script src="<?php   print( mw_includes_url());  ?>js/sortable.js" type="text/javascript"></script>
 
