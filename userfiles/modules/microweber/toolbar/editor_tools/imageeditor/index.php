@@ -124,13 +124,13 @@
 
                 <div id="background-properties" style="display: none;">
                         <div class="s-field">
-                            <label>Size</label>
+                            <label><?php _e("Size"); ?></label>
                             <div class="s-field-content">
                                 <div class="mw-field" data-size="medium">
                                     <select type="text" class="regular" data-prop="backgroundSize">
-                                        <option value="auto">Auto</option>
-                                        <option value="contain">Fit</option>
-                                        <option value="cover">Cover</option>
+                                        <option value="auto"><?php _e("Auto"); ?></option>
+                                        <option value="contain"><?php _e("Fit"); ?></option>
+                                        <option value="cover"><?php _e("Cover"); ?></option>
                                         <option value="100% 100%">Scale</option>
                                     </select>
                                 </div>
@@ -138,21 +138,21 @@
                         </div>
 
                         <div class="s-field">
-                            <label>Position</label>
+                            <label><?php _e("Position"); ?></label>
                             <div class="s-field-content">
                                 <div class="mw-field" data-size="medium">
                                     <select type="text" class="regular" data-prop="backgroundPosition">
-                                        <option value="0% 0%">Left Top</option>
-                                        <option value="50% 0%">Center Top</option>
-                                        <option value="100% 0%">Right Top</option>
+                                        <option value="0% 0%"><?php _e("Left Top"); ?></option>
+                                        <option value="50% 0%"><?php _e("Center Top"); ?></option>
+                                        <option value="100% 0%"><?php _e("Right Top"); ?></option>
 
-                                        <option value="0% 50%">Left Center</option>
-                                        <option value="50% 50%">Center Center</option>
-                                        <option value="100% 50%">Right Center</option>
+                                        <option value="0% 50%"><?php _e("Left Center"); ?></option>
+                                        <option value="50% 50%"><?php _e("Center Center"); ?></option>
+                                        <option value="100% 50%"><?php _e("Right Center"); ?></option>
 
-                                        <option value="0% 100%">Left Bottom</option>
-                                        <option value="50% 100%">Center Bottom</option>
-                                        <option value="100% 100%">Right Bottom</option>
+                                        <option value="0% 100%"><?php _e("Left Bottom"); ?></option>
+                                        <option value="50% 100%"><?php _e("Center Bottom"); ?></option>
+                                        <option value="100% 100%"><?php _e("Right Bottom"); ?></option>
                                     </select>
                                 </div>
                             </div>

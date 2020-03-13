@@ -4,6 +4,21 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [1.1.18] - 2019-03-13
+- Update installation screen
+- Update for Backup module
+- Update for Visual editor module
+- Update for Pictures module to be able to use media library
+- Update for Acordion and Tabs module
+- Update for Link editor
+- Update for PDF module
+- Update for Newsletter module
+- Verious speed optimizations
+- Many fixes on the live edit
+- [see all changes....](https://github.com/microweber/microweber/compare/1.1.17...1.1.18 "")
+
+
+
 ## [1.1.17] - 2019-01-24
 - Added support for php 7.4
 - Link editor is broken
