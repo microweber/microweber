@@ -60,8 +60,9 @@
     "aws/aws-sdk-php": "^3.0",
     "mailerlite/mailerlite-api-v2-php-sdk": "*",
     "finlet/flexmail": "*",
-    "microweber-templates/dream": "dev-master",
-    "microweber-templates/liteness": "dev-master",
+    "microweber-templates/dream": "*",
+    "microweber-templates/liteness": "*",
+    "microweber-templates/new-world": "*",
     "phpoffice/phpspreadsheet": "1.10.1"
    },
   "require-dev": {

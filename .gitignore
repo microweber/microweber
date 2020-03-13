@@ -9,6 +9,7 @@ userfiles/cache/*
 userfiles/templates/liteness
 userfiles/templates/dream
 userfiles/templates/bricksite
+userfiles/templates/new-world
 storage/cache/*
 cache/.htaccess
 cache/*
