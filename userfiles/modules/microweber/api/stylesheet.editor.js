@@ -21,11 +21,18 @@ mw.liveeditCSSEditor = function (config) {
     };
 
     this.getLiveeditCSS = function () {
-        this.getByUrl( this.settings.cssUrl, function (css) {
-            scope.json = CSSJSON.toJSON(css);
-            scope._css = css;
+        if( this.settings.cssUrl ) {
+            this.getByUrl( this.settings.cssUrl, function (css) {
+                scope.json = CSSJSON.toJSON(css);
+                scope._css = css;
+                $(scope).trigger('ready');
+            });
+        }
+        else {
+            scope.json = {};
+            scope._css = '';
             $(scope).trigger('ready');
-        });
+        }
     };
 
 
