@@ -124,16 +124,19 @@ if (isset($params['sort_by'])) {
 </script>
 
     <select name="file_browser_sort_by" id="file_browser_sort_by" class="mw-ui-field">
-        <option value="" onmousedown="mw.url.windowHashParam('sort_by', '');">Sort by</option>
-        <option value="basename ASC"  <?php if ($sortby_param == 'basename' and $sortby_param_ord == 'ASC'): ?> selected <?php endif; ?> >File name &#8593;</option>
-        <option value="basename DESC"  <?php if ($sortby_param == 'basename' and $sortby_param_ord == 'DESC'): ?> selected <?php endif; ?> >File name &#8595;</option>
-        <option value="filemtime ASC"  <?php if ($sortby_param == 'filemtime' and $sortby_param_ord == 'ASC'): ?> selected <?php endif; ?> >Modified time &#8593;</option>
-        <option value="filemtime DESC"  <?php if ($sortby_param == 'filemtime' and $sortby_param_ord == 'DESC'): ?> selected <?php endif; ?> >Modified time &#8595;</option>
-        <option value="filesize ASC"  <?php if ($sortby_param == 'filesize' and $sortby_param_ord == 'ASC'): ?> selected <?php endif; ?> >File size &#8593;</option>
-        <option value="filesize DESC"  <?php if ($sortby_param == 'filesize' and $sortby_param_ord == 'DESC'): ?> selected <?php endif; ?> >File size &#8595;</option>
+        <option value="" onmousedown="mw.url.windowHashParam('sort_by', '');"><?php _e("Sort by"); ?></option>
+        <option value="basename ASC"  <?php if ($sortby_param == 'basename' and $sortby_param_ord == 'ASC'): ?> selected <?php endif; ?> ><?php _e("File name"); ?> &#8593;</option>
+        <option value="basename DESC"  <?php if ($sortby_param == 'basename' and $sortby_param_ord == 'DESC'): ?> selected <?php endif; ?> ><?php _e("File name"); ?> &#8595;</option>
+        <option value="filemtime ASC"  <?php if ($sortby_param == 'filemtime' and $sortby_param_ord == 'ASC'): ?> selected <?php endif; ?> ><?php _e("Modified time"); ?> &#8593;</option>
+        <option value="filemtime DESC"  <?php if ($sortby_param == 'filemtime' and $sortby_param_ord == 'DESC'): ?> selected <?php endif; ?> ><?php _e("Modified time"); ?> &#8595;</option>
+        <option value="filesize ASC"  <?php if ($sortby_param == 'filesize' and $sortby_param_ord == 'ASC'): ?> selected <?php endif; ?> ><?php _e("File size"); ?> &#8593;</option>
+        <option value="filesize DESC"  <?php if ($sortby_param == 'filesize' and $sortby_param_ord == 'DESC'): ?> selected <?php endif; ?> ><?php _e("File size"); ?> &#8595;</option>
     </select>
 
-Thumbnail size:
+
+
+
+<?php _e("Thumbnail size"); ?>:
         <a href="javascript:;" onclick="mw.url.windowHashParam('viewsize', '');"
            class="mw-ui-btn mw-ui-btn-small  ">
           <?php _e("Small"); ?>
