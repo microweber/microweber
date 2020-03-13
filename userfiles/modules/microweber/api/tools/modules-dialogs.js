@@ -81,7 +81,8 @@
             var src = src + '&root_element_id='+root_element_id;
         }
 
-        var modal = mw.tools.modal.frame({
+        // mw.tools.modal.frame({
+        var modal = mw.dialogIframe({
             url: src,
             // width: 500,
             // height: mw.$(window).height() - (2.5 * mw.tools.TemplateSettingsModalDefaults.top),
@@ -90,6 +91,8 @@
             template: 'default',
             center: false,
             resize: true,
+            autosize: true,
+            autoHeight: true,
             draggable: true
         });
     },
