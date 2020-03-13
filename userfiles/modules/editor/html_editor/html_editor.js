@@ -46,6 +46,8 @@ mw.html_editor.get_edit_fields = function (also_in_modules, root_element_selecto
             fields_arr.push(this);
         }
     });
+
+
     return fields_arr;
 };
 
@@ -79,7 +81,8 @@ mw.html_editor.build_dropdown = function (fields_array, screenShot) {
     $(fields_array).each(function () {
         var dd_grp = $(this).attr('rel');
         var dd_field = $(this).attr('field');
-        if (dd_grp && dd_grp) {
+
+        if (dd_grp) {
             if (typeof(html_dd[dd_grp]) == 'undefined') {
                 html_dd[dd_grp] = [];
             }
