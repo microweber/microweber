@@ -62,8 +62,9 @@
     "finlet/flexmail": "*",
     "microweber-templates/liteness": "dev-master",
     "phpoffice/phpspreadsheet": "1.10.1",
-    "microweber-templates/dream": "dev-master",
-    "microweber-templates/new-world": "dev-master"
+	"microweber-templates/new-world": "dev-master",
+
+    "microweber-templates/dream": "dev-master"
    },
   "require-dev": {
       "fzaninotto/faker": "^1.9"
