@@ -23,8 +23,13 @@ mw.liveeditCSSEditor = function (config) {
     this.getLiveeditCSS = function () {
         if( this.settings.cssUrl ) {
             this.getByUrl( this.settings.cssUrl, function (css) {
-                scope.json = CSSJSON.toJSON(css);
-                scope._css = css;
+                if(/<\/?[a-z][\s\S]*>/i.test(css)) {
+                    scope.json = {};
+                    scope._css = '';
+                } else {
+                    scope.json = CSSJSON.toJSON(css);
+                    scope._css = css;
+                }
                 $(scope).trigger('ready');
             });
         }
