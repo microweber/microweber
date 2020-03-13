@@ -1863,10 +1863,13 @@ mw.wysiwyg = {
                     }
                     else {
                         mw.image.currentResizing.css("backgroundImage", 'url(' + mw.files.safeFilename(res) + ')');
+                        if(parent.mw.image.currentResizing) {
                         mw.wysiwyg.bgQuotesFix(parent.mw.image.currentResizing[0])
+                        }
                     }
-
-                    mw.wysiwyg.change(mw.image.currentResizing[0]);
+                    if(mw.image.currentResizing) {
+                        mw.wysiwyg.change(mw.image.currentResizing[0]);
+                    }
                     mw.image.currentResizing.load(function () {
                         mw.image.resize.resizerSet(this);
                     });
