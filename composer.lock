@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6879ad25ef9e541de2a838b6ed73de8b",
+    "content-hash": "cffd78ee1d68eaa0fa52b98490567d4e",
     "packages": [
         {
             "name": "arcanedev/seo-helper",
@@ -3611,7 +3611,7 @@
                 "forum": "https://microweber.org/community",
                 "irc": "https://webchat.freenode.net/?embed=1&channels=#microweber",
                 "docs": "http://docs.microweber.org",
-                "source": "https://github.com/microweber-templates/new-world/tree/1.0",
+                "source": "https://github.com/microweber-templates/new-world/tree/master",
                 "issues": "https://github.com/microweber-templates/new-world/issues"
             },
             "time": "2020-03-13T13:51:32+00:00"
@@ -8111,7 +8111,10 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "graham-campbell/markdown": 20
+        "graham-campbell/markdown": 20,
+        "microweber-templates/liteness": 20,
+        "microweber-templates/dream": 20,
+        "microweber-templates/new-world": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
