@@ -6,13 +6,13 @@ if(isset($data['content-id'])){
 } else if(isset($data['page-id'])){
 	$data['content_id'] = $data['page-id'];
 }
- 
-?> 
+
+?>
 <script>
     mw.load_editor_internal = function (element_id) {
         var element_id = element_id || 'mw-admin-content-iframe-editor';
         var area = mwd.getElementById(element_id);
- 
+
 
         if (area !== null) {
             var params = {};
@@ -42,11 +42,11 @@ if(isset($data['content-id'])){
                 $(mweditor).remove();
                 delete window.mweditor;
             }
-			
-			
-			 
-			
-			
+
+
+
+
+
             mweditor = mw.admin.editor.init(area, params);
 
 
@@ -70,17 +70,17 @@ if(isset($data['content-id'])){
             }
 
 
-		   mw_preview_frame_object = window.top.mw_preview_frame_object = mweditor;
+		   mw_preview_frame_object = mw.top().win.mw_preview_frame_object = mweditor;
 
-			 
 
-			 
-			
+
+
+
  //
 //			 mweditor.onbeforeunload = function(e) {
 //			//  alert( 'Dialog text here.');
 //			};
-			
+
 
         }
 
@@ -101,7 +101,7 @@ if(isset($data['content-id'])){
 <?php $content_edit_modules = mw('ui')->module('admin.content.edit.text'); ?>
 <?php $modules = array(); ?>
 <?php if (!empty($content_edit_modules) and !empty($data)) {
-   	
+
     foreach ($content_edit_modules as $k1=>$content_edit_module) {
 		foreach ($data as $k=>$v) {
 			if(isset($content_edit_module[$k])){
@@ -111,28 +111,28 @@ if(isset($data['content-id'])){
 				 $modules[] = $content_edit_module['module'];
 				}
 			}
-			
+
 		}
     }
 	$modules = array_unique($modules);
 }
- 
- 
+
+
 ?>
 
 <div class="mw-ui-field-holder" id="mw-edit-page-editor-holder">
   <?php event_trigger('content.edit.richtext',$data); ?>
   <?php $content_edit_modules = mw()->ui->module('content.edit.richtext'); ?>
   <?php $modules = array(); ?>
-  <?php 
- 
+  <?php
+
 if (!empty($content_edit_modules) and !empty($data)) {
     foreach ($content_edit_modules as $k1=>$content_edit_module) {
 		if(isset($content_edit_module['module'])){
-			 
+
 		  $modules[] = $content_edit_module['module'];
-						 
-					 
+
+
 		}
      }
 	$modules = array_unique($modules);

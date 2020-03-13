@@ -145,11 +145,16 @@ if($require_terms) {
 		$require_terms_when = get_option('require_terms_when', $params['module'] . '_default');
 		if($require_terms_when == 'b') {
 			$terms_label = get_option('terms_label', 'users');
-			$terms_label_cleared = str_replace('&nbsp;', '', $terms_label);
+            $terms_url = get_option('terms_url', 'users');
+            if(!$terms_url){
+                $terms_url = site_url(). 'terms';
+            }
+
+            $terms_label_cleared = str_replace('&nbsp;', '', $terms_label);
 			$terms_label_cleared = strip_tags($terms_label_cleared);
 			$terms_label_cleared = mb_trim($terms_label_cleared);
 			if ($terms_label_cleared == '') {
-				$terms_label = 'I agree with the <a href="' . site_url() . 'terms" target="_blank">Terms and Conditions</a>';
+				$terms_label = 'I agree with the <a href="' . $terms_url . '" target="_blank">Terms and Conditions</a>';
 			}
 		}
 	}

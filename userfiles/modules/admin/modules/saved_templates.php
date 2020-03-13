@@ -48,7 +48,7 @@ return;
             window.parent.mw.reload_module_parent("#" + id);
 
 
-            window.top.mw.reload_module("#" + id);
+            mw.top().reload_module("#" + id);
             if (parent_el) {
                 var ed_field = window.parent.mw.tools.firstParentWithClass(parent_el, 'edit');
                 if (ed_field) {
@@ -77,7 +77,7 @@ return;
                 window.parent.mw.$('#' + mod_id_for_presets).removeAttr("data-module-original-id");
                 window.parent.mw.$('#' + mod_id_for_presets).removeAttr("data-module-original-attrs");
                 window.parent.mw.$('#' + mod_id_for_presets).attr("id", orig_id);
-                window.top.mw.$('#' + mod_id_for_presets).attr("id", orig_id);
+                mw.top().$('#' + mod_id_for_presets).attr("id", orig_id);
                 mod_id_for_presets = orig_id;
                 mw.module_preset_apply_actions_after_id_change(mod_id_for_presets)
 

@@ -85,9 +85,12 @@ function newsletter_subscribe($params)
     }
 
 
+    $needs_terms_default = get_option('require_terms', 'newsletter') == 'y';
     $needs_terms = get_option('require_terms', $mod_id) == 'y';
     $enable_captcha = get_option('enable_captcha', $mod_id) == 'y';
-
+    if(!$needs_terms and $needs_terms_default){
+        $needs_terms = $needs_terms_default;
+    }
 
     if ($needs_terms) {
         $user_id_or_email = mw()->user_manager->id();

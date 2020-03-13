@@ -1,6 +1,6 @@
 <?php
 $config = array();
-$config['name'] = _e("Mail Providers", TRUE);
+$config['name'] ="Mail Providers";
 $config['author'] = "Microweber";
 $config['ui'] = false;
 $config['position'] = 100;

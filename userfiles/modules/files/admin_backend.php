@@ -290,36 +290,58 @@
 
         });
 
-        createPopHTML = function (img, type) {
-            var type = type || 'image';
-            if (type == 'image') {
-                var h = ""
+        createPopHTML = function (sourceUrl, type) {
+            type = type || 'image';
+            var h;
+            if (type === 'image') {
+                h = ""
                     + "<div class='file-preview-holder'>"
-                    + "<img src='" + img + "' />"
-                    + "<div class='mw-ui-row'><div class='mw-ui-col' style='width:80%'><input type='text' class='mw-ui-field' value='" + img + "' onfocus='this.select()' readonly></div><div class='mw-ui-col'>"
+                    + "<img src='" + sourceUrl + "' />"
+                    + "<div class='mw-ui-row'><div class='mw-ui-col' style='width:80%'><input type='text' class='mw-ui-field' value='" + sourceUrl + "' onfocus='this.select()' readonly></div><div class='mw-ui-col'>"
                     //   + "<span class='mw-ui-btn' onclick='deleteItem(\""+img+"\", false, true)'><?php _e("Delete"); ?></span></div></div>"
-                    + "<span class='mw-ui-btn' onclick='mw.tools.copy(\"" + img + "\")'><?php _e("Copy"); ?></span></div></div>"
+                    + "<span class='mw-ui-btn' onclick='mw.tools.copy(\"" + sourceUrl + "\")'><?php _e("Copy"); ?></span></div></div>"
                     + "</div>";
             }
-            else if (type == 'media') {
-                var h = ""
+            else if (type === 'media') {
+                h = ""
                     + "<div class='file-preview-holder'>"
-                    + '<video autoplay="true" class="w100" src="' + img + '" controls></video>'
-                    + "<div class='mw-ui-row'><div class='mw-ui-col' style='width:80%'><input type='text' class='mw-ui-field' value='" + img + "' onfocus='this.select()' readonly></div><div class='mw-ui-col'>"
+                    + '<video autoplay="true" class="w100" src="' + sourceUrl + '" controls></video>'
+                    + "<div class='mw-ui-row'><div class='mw-ui-col' style='width:80%'><input type='text' class='mw-ui-field' value='" + sourceUrl + "' onfocus='this.select()' readonly></div><div class='mw-ui-col'>"
                     //    + "<span class='mw-ui-btn' onclick='deleteItem(\""+img+"\", false, true)'><?php _e("Delete"); ?></span></div></div>"
-                    + "<span class='mw-ui-btn' onclick='mw.tools.copy(\"" + img + "\")'><?php _e("Copy"); ?></span></div></div>"
+                    + "<span class='mw-ui-btn' onclick='mw.tools.copy(\"" + sourceUrl + "\")'><?php _e("Copy"); ?></span></div></div>"
+                    + "</div>";
+            }
+            else if (type === 'pdf') {
+                h = ""
+                    + "<div class='file-preview-holder'>"
+                    + '<iframe style="height:700px;width:100%;border:0px;" src="' + sourceUrl + '"></iframe>'
+                    + "<div class='mw-ui-row'><div class='mw-ui-col' style='width:80%'><input type='text' class='mw-ui-field' value='" + sourceUrl + "' onfocus='this.select()' readonly></div><div class='mw-ui-col'>"
+                    //    + "<span class='mw-ui-btn' onclick='deleteItem(\""+img+"\", false, true)'><?php _e("Delete"); ?></span></div></div>"
+                    + "<span class='mw-ui-btn' onclick='mw.tools.copy(\"" + sourceUrl + "\")'><?php _e("Copy"); ?></span></div></div>"
+                    + "</div>";
+            }
+            else if (type === 'nopreview') {
+                h = ""
+                    + "<div class='file-preview-holder'>"
+                    + '<h2>' + mw.tools.get_filename(sourceUrl) + '</h2>'
+                    + '<div class="mw-field" style="width:100%">'
+
+                    + "<input type='text' value='" + sourceUrl + "' onfocus='this.select()' readonly>"
+                    + "<span class='mw-ui-btn mw-field-append' onclick='mw.tools.copy(\"" + sourceUrl + "\")'><?php _e("Copy"); ?></span>"
+                    + '<a class="mw-ui-btn mw-ui-btn-info mw-field-append" href="' + sourceUrl + '"><?php _e("Download"); ?></a>'
+                    + "</div>"
                     + "</div>";
             }
 
 
             return h;
-        }
+        };
 
         deleteItem = function (url, name, frommodal) {
 
             if (typeof url === 'string') {
                 var obj = {path: [url]};
-                var name = name || 'this';
+                name = name || 'this';
                 var msg = "<?php _ejs("Are you sure you want to delete"); ?> " + name + "?";
             }
             else if (url.constructor === [].constructor) {
@@ -332,7 +354,7 @@
 
             mw.tools.confirm(msg, function () {
                 $(mwd.body).addClass("loading");
-                if (frommodal == true) {
+                if (frommodal === true) {
                     mw.$("#prfile").remove()
                 }
                 $.post(mw.settings.api_url + "media/delete_media_file", obj, function (a) {
@@ -363,8 +385,15 @@
                         || is('gif')
                         || this.indexOf('images.unsplash.com') !== -1;
 
+                    var isText = is('txt')
+                        || is('xml')
+                        || is('html')
+                        || is('htm')
+                        || is('xhtml')
+                        || is('log')
+
                     if (isImage) {
-                        if (mw.$("#prfile").length == 0) {
+                        if (mw.$("#prfile").length === 0) {
                             var dialog = mw.dialog({
                                 html: createPopHTML(this),
                                 width: 500,
@@ -378,12 +407,12 @@
                             })
                         }
                         else {
-                            mw.$("#prfile .mw_modal_container").html(createPopHTML(this))
+                            mw.$("#prfile .mw_modal_container").html(createPopHTML(this));
                             mw.$("#prfile .mw_modal_title").html(this.split("/").pop())
                         }
                     }
-                    else if (type == 'mp3' || type == 'avi' || type == 'mp4' || type == 'wmv' || type == 'swf') {
-                        var dialog = mw.dialog({
+                    else if (type === 'mp3' || type === 'avi' || type === 'mp4' || type === 'wmv' || type === 'swf') {
+                        dialog = mw.dialog({
                             html: createPopHTML(this, 'media'),
                             width: 500,
                             height: 'auto',
@@ -400,13 +429,33 @@
                             mw.$("#prfile").remove()
                         }
 
-                        mw.modalFrame({
-                            url: this,
-                            width: 500,
-                            height: 460,
-                            name: "prfile",
-                            title: this.split("/").pop()
-                        });
+                        if (type === 'pdf') {
+                            dialog = mw.dialog({
+                                html: createPopHTML(this, 'pdf'),
+                                width: 500,
+                                height: 'auto',
+                                autoHeight: true,
+                                name: "prfile",
+                                title: this.split("/").pop()
+                            });
+                        } else if(isText){
+                            dialog = mw.dialogIframe({
+                                url: this,
+                                width: 500,
+                                height: 'auto',
+                                name: "prfile",
+                                title: this.split("/").pop()
+                            });
+                        } else {
+                            dialog = mw.dialog({
+                                html: createPopHTML(this, 'nopreview'),
+                                width: 500,
+                                height: 'auto',
+                                autoHeight: true,
+                                name: "prfile",
+                                title: this.split("/").pop()
+                            });
+                        }
 
                         /*mw.tools.modal.init({
                               html:createPopHTML(this, 'media'),

@@ -8,7 +8,7 @@
 
     if (self !== parent && !!parent.mw) {
 
-        window.top.iframe_editor_window = window.self;
+        mw.top().win.iframe_editor_window = window.self;
     }
 
 
@@ -261,7 +261,7 @@
                         window.parent.mw.askusertostay = false;
                     }
                     $.get('<?php print site_url('api_html/content_link/?id=') ?>' + this, function (data) {
-                        window.top.location.href = data + '?editmode=y';
+                        mw.top().win.location.href = data + '?editmode=y';
                     });
                 }
                 else {

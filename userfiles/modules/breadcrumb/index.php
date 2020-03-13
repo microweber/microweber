@@ -14,6 +14,21 @@ if ($selected_start_depth) {
 //dd($breacrumb_params);
 $data = breadcrumb($breacrumb_params);
 
+$homepage = array(
+    'url'=>site_url(),
+    'title'=> _e('Home',true)
+
+);
+
+$homepage_get = mw()->content_manager->homepage();
+if($homepage_get){
+    $homepage = array(
+        'url'=>content_link($homepage_get['id']),
+        'title'=>$homepage_get['title']
+    );
+
+}
+
 
 $module_template = get_option('data-template', $params['id']);
 

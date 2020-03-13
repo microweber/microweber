@@ -329,6 +329,8 @@ Use mw.dialog() instead
             }
         },
         containerHeight: function (container) {
+            mw.require('css_parser.js')
+
             if (!container || container === null) return false;
             if (container.parentNode.parentNode === null /* if modal is removed from DOM  */) {
                 if (!!container.modalContainerInt) {

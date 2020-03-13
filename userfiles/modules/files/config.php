@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = _e("Files", TRUE);
+$config['name'] = "Files";
 $config['author'] = "Microweber";
 $config['no_cache'] = false;
 $config['ui'] = false;

@@ -44,7 +44,9 @@ $fileName_ext = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
 $is_ext = get_file_extension($fileName_ext);
 $is_ext = strtolower($is_ext);
 
-if (in_array($is_ext, $dangerous)) {
+$is_dangerous_file = $files_utils->is_dangerous_file($fileName_ext);
+
+if ($is_dangerous_file) {
     die('{"jsonrpc" : "2.0", "error" : {"code":100, "message": "You cannot upload scripts or executable files"}}');
 }
 
@@ -288,19 +290,22 @@ $chunks = isset($_REQUEST['chunks']) ? intval($_REQUEST['chunks']) : 0;
 $fileName = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
 
 // Clean the fileName for security reasons
+$fileNameExtension = get_file_extension($fileName);
+$fileName = \Microweber\Utils\URLify::filter($fileName);
 //$fileName = url_title($fileName);
 //$fileName = preg_replace('/[\p{P}\p{Zs}\w\._]+/u', "", $fileName);
-
 // $fileName = preg_replace('/[^\w\._]+/', '_', $fileName);
 $fileName = preg_replace('/\s+\d+%|\)/', '', $fileName);
 $fileName = preg_replace("/[\/\&%#\$]/", "_", $fileName);
 $fileName = preg_replace("/[\"\']/", " ", $fileName);
 $fileName = str_replace(array('(', ')', "'", "!", "`", "*", "#"), '_', $fileName);
 $fileName = str_replace(' ', '_', $fileName);
-
 $fileName = str_replace('..', '.', $fileName);
 $fileName = strtolower($fileName);
 $fileName = mw()->url_manager->clean_url_wrappers($fileName);
+$fileName = substr($fileName, 0, - (strlen($fileNameExtension)+1));
+$fileName = $fileName . '.'. $fileNameExtension;
+
 
 $fileName_uniq = date('ymdhis') . uniqid() . $fileName;
 // Make sure the fileName is unique but only if chunking is disabled

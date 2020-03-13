@@ -664,7 +664,7 @@ class DefaultController extends Controller
                     $from_url = $from_url_p['from_url'];
                 }
             }
-         }
+        }
 
         if (isset($from_url) and $from_url != false) {
             if (stristr($from_url, 'editor_tools/wysiwyg') && !defined('IN_EDITOR_TOOLS')) {
@@ -773,6 +773,8 @@ class DefaultController extends Controller
             }
         }
 
+
+        if(mw_is_installed()){
         if ($page == false) {
             if (!isset($content_id)) {
                 return;
@@ -782,6 +784,8 @@ class DefaultController extends Controller
         } else {
             $this->app->content_manager->define_constants($page);
         }
+        }
+
         if (defined('TEMPLATE_DIR')) {
             $load_template_functions = TEMPLATE_DIR . 'functions.php';
             if (is_file($load_template_functions)) {
@@ -799,6 +803,9 @@ class DefaultController extends Controller
 
 
         }
+
+
+
         $url_last = false;
         if (!isset($request_data['module'])) {
             $url = $this->app->url_manager->string(0);
@@ -1871,12 +1878,18 @@ class DefaultController extends Controller
                 event_trigger('mw.pageview');
             }
 
-            $apijs_loaded = $this->app->template->get_apijs_url();
+            //$apijs_loaded = $this->app->template->get_apijs_url();
 
             //$apijs_loaded = $this->app->template->get_apijs_url() . '?id=' . CONTENT_ID;
 
             $is_admin = $this->app->user_manager->is_admin();
-            $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css?v=' . MW_VERSION . '" type="text/css" />';
+           // $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css?v=' . MW_VERSION . '" type="text/css" />';
+
+            $default_css_url = $this->app->template->get_default_system_ui_css_url();
+            $default_css = '<link rel="stylesheet" href="' . $default_css_url .  '" type="text/css" />';
+
+
+
             $headers = event_trigger('site_header', TEMPLATE_NAME);
             $template_headers_append = '';
             $one = 1;
@@ -1937,12 +1950,17 @@ class DefaultController extends Controller
             }
 
             $l = str_ireplace('<head>', '<head>' . $default_css, $l);
+
+
+            $l = $this->app->template->append_api_js_to_layout($l);
+
+
             //   if (!stristr($l, $apijs_loaded)) {
             //$apijs_settings_loaded = $this->app->template->get_apijs_settings_url() . '?id=' . CONTENT_ID . '&category_id=' . CATEGORY_ID;
-            $apijs_settings_loaded = $this->app->template->get_apijs_settings_url();
-            $apijs_settings_script = "\r\n" . '<script src="' . $apijs_settings_loaded . '"></script>' . "\r\n";
-            $apijs_settings_script .= '<script src="' . $apijs_loaded . '"></script>' . "\r\n";
-            $l = str_ireplace('<head>', '<head>' . $apijs_settings_script, $l);
+//            $apijs_settings_loaded = $this->app->template->get_apijs_settings_url();
+//            $apijs_settings_script = "\r\n" . '<script src="' . $apijs_settings_loaded . '"></script>' . "\r\n";
+//            $apijs_settings_script .= '<script src="' . $apijs_loaded . '"></script>' . "\r\n";
+//            $l = str_ireplace('<head>', '<head>' . $apijs_settings_script, $l);
             //  }
 
             if (isset($content['active_site_template']) and $content['active_site_template'] == 'default' and $the_active_site_template != 'default' and $the_active_site_template != 'mw_default') {
@@ -2423,12 +2441,18 @@ class DefaultController extends Controller
         if ($layout != false) {
 
             //$apijs_loaded = $this->app->template->get_apijs_url() . '?id=' . CONTENT_ID;
-            $apijs_loaded = $this->app->template->get_apijs_url();
+            //$apijs_loaded = $this->app->template->get_apijs_url();
             // $apijs_settings_loaded = $this->app->template->get_apijs_settings_url() . '?id=' . CONTENT_ID . '&category_id=' . CATEGORY_ID;
-            $apijs_settings_loaded = $this->app->template->get_apijs_settings_url();
+          //  $apijs_settings_loaded = $this->app->template->get_apijs_settings_url();
+            $default_css_url = $this->app->template->get_default_system_ui_css_url();
+
 
             // $is_admin = $this->app->user_manager->is_admin();
             $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css?v=' . MW_VERSION . '" type="text/css" />';
+            $default_css = '<link rel="stylesheet" href="' . $default_css_url .  '" type="text/css" />';
+
+
+
             $headers = event_trigger('site_header', TEMPLATE_NAME);
             $template_headers_append = '';
             $one = 1;
@@ -2560,13 +2584,19 @@ class DefaultController extends Controller
             }
         }
 
-        if (!stristr($layout, $apijs_loaded)) {
+       /* if (!stristr($layout, $apijs_loaded)) {
             $rep = 0;
 
             $default_css = $default_css . "\r\n" . '<script src="' . $apijs_settings_loaded . '"></script>' . "\r\n";
             $default_css = $default_css . "\r\n" . '<script src="' . $apijs_loaded . '"></script>' . "\r\n";
             $layout = str_ireplace('<head>', '<head>' . $default_css, $layout, $rep);
-        }
+        }*/
+
+        $layout = str_ireplace('<head>', '<head>' . $default_css, $layout, $rep);
+
+
+
+        $layout = $this->app->template->append_api_js_to_layout($layout);
         if (isset($page['content'])) {
             if ($standalone_edit) {
                 if (!isset($render_file)) {

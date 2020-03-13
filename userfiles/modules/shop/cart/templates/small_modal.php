@@ -68,7 +68,7 @@
 
 <div class="products-amount">
     <div class="form-row align-items-center">
-        <?php if (cart_sum(true)): ?>
+        <?php if (is_array($data)): ?>
             <div class="col-12 col-sm-6 total">
                 <p><strong><?php _e("Total Amount: "); ?> <br class="d-none d-sm-block"> <?php print currency_format($total); ?></strong></p>
             </div>

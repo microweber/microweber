@@ -100,6 +100,10 @@ if(typeof mw.rotator === 'undefined'){
             well.className = 'mw-rotator-thumbnail-scroller';
 
             if(!reflection){
+
+
+                mw.require("files.js");
+
                 for( ; i<l; i++){
                   var a = mwd.createElement('a');
                   var cls = 'notransition thumbnail rotator-paging-item rotator-paging-item-thumbnail' + (i===0? ' active':'');

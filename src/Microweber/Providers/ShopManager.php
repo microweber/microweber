@@ -215,6 +215,7 @@ class ShopManager
         $custom_field_items = $prices;
         $override = $this->app->event_manager->trigger('mw.shop.get_product_prices', $custom_field_items);
         if (is_array($override)) {
+         
             foreach ($override as $resp) {
                 if (is_array($resp) and !empty($resp)) {
                     foreach ($resp as $price_index => $price_item) {

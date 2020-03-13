@@ -9,6 +9,7 @@ userfiles/cache/*
 userfiles/templates/liteness
 userfiles/templates/dream
 userfiles/templates/bricksite
+userfiles/templates/new-world
 storage/cache/*
 cache/.htaccess
 cache/*
@@ -19,6 +20,7 @@ phpinfo.php
 .env
 dwsync.xml
 /userfiles/backup
+/userfiles/*.log
 /config/app.php
 /config/database.php
 /storage
@@ -38,3 +40,5 @@ node_modules/
 /userfiles/mw_content.json
 /.settings
 /.project
+/userfiles/*.log
+/userfiles/*.json

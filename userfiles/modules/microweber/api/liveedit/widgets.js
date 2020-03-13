@@ -46,6 +46,11 @@ mw.liveedit.widgets = {
         mw.$('.mw-field [type="number"]', mw.liveedit.widgets._iconEditor.content).val(parseFloat(target.style.fontSize))
         $(mw.liveedit.widgets._iconEditor.tooltip).show();
         mw.tools.tooltip.setPosition(this._iconEditor.tooltip, mw.liveedit.widgets._iconEditorTarget, 'bottom-center');
+        var $el = $(this._iconEditor.tooltip);
+
+        if(($el.offset().top + $el.height() + 10) > Math.max(document.body.scrollHeight, document.documentElement.scrollHeight)){
+            this._iconEditor.tooltip.scrollIntoView()
+        }
     },
     _linkEditor: function (options) {
         var scope = this;

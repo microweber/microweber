@@ -417,7 +417,7 @@
 }
 
 .mw_dropdown_action_font_size {
-    width: 65px;
+    min-width: 75px;
 }
 
 .mw_dropdown_action_font_size .mw-dropdown-content ul {

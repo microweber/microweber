@@ -424,7 +424,7 @@ class CategoryManager
 
         $data['table'] = $table_items;
         if (!isset($params['limit'])) {
-            //$data['no_limit'] =true;
+           $data['no_limit'] =true;
         }
 
         $data = $this->app->database_manager->get($data);

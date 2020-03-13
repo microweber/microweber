@@ -63,7 +63,7 @@ jQuery.ajax = function(url, options){
         settings._success = settings.success;
         delete settings.success;
         settings.success = function (data, status, xhr) {
-            if(xhr.status === 200){
+            if(xhr.status === 200) {
                 if (data && (data.form_data_required || data.form_data_module)) {
                     mw.extradataForm(settings, data);
                 }
@@ -176,18 +176,18 @@ mw.askusertostay = false;
     else{
       return 0;
     }
-  }
+  };
 
   mw.onLive = function(callback) {
     if (typeof mw.settings.liveEdit === 'boolean' && mw.settings.liveEdit) {
       callback.call(this)
     }
-  }
+  };
   mw.onAdmin = function(callback) {
     if ( window['mwAdmin'] ) {
       callback.call(this);
     }
-  }
+  };
     if (!Array.isArray) {
         Array.isArray = function(arg) {
             return Object.prototype.toString.call(arg) === '[object Array]';
@@ -303,7 +303,7 @@ mw.getScripts = function (array, callback) {
     window[a] === undefined ? setTimeout(function() {
       mw.wait(a, b), 52
     }) : b.call(a);
-  }
+  };
 
   mw.target = {}
 
@@ -415,9 +415,9 @@ mw.getScripts = function (array, callback) {
        parent.mw.reload_module(module, callback)
 	   if(typeof(top.mweditor) != 'undefined'  && typeof(top.mweditor) == 'object'   && typeof(top.mweditor.contentWindow) != 'undefined'){
 		 top.mweditor.contentWindow.mw.reload_module(module, callback)
-		} else if(typeof(window.top.iframe_editor_window) != 'undefined'  && typeof(window.top.iframe_editor_window) == 'object'   && typeof(window.top.iframe_editor_window.mw) != 'undefined'){
+		} else if(typeof(mw.top().win.iframe_editor_window) != 'undefined'  && typeof(mw.top().win.iframe_editor_window) == 'object'   && typeof(mw.top().win.iframe_editor_window.mw) != 'undefined'){
 
-		window.top.iframe_editor_window.mw.reload_module(module, callback)
+		mw.top().win.iframe_editor_window.mw.reload_module(module, callback)
 		}
 
         if(typeof(parent.mw_preview_frame_object) != 'undefined'  && typeof(parent.mw_preview_frame_object) == 'object'   && typeof(parent.mw_preview_frame_object.contentWindow) != 'undefined'){
@@ -978,15 +978,15 @@ mw.top = function(){
 mw.required.push("<?php print mw_includes_url(); ?>api/jquery.js");
 
 
-mw.required.push("<?php print mw_includes_url(); ?>api/libs/acolorpicker/acolorpicker.js");
-mw.required.push("<?php print mw_includes_url(); ?>api/color.js");
+//mw.required.push("<?php print mw_includes_url(); ?>api/libs/acolorpicker/acolorpicker.js");
+//mw.required.push("<?php print mw_includes_url(); ?>api/color.js");
 
 mw.required.push("<?php print mw_includes_url(); ?>api/tools.js");
 
 
-mw.required.push("<?php print mw_includes_url(); ?>api/css_parser.js");
+//mw.required.push("<?php print mw_includes_url(); ?>api/css_parser.js");
 
-mw.required.push("<?php print mw_includes_url(); ?>api/files.js");
+//mw.required.push("<?php print mw_includes_url(); ?>api/files.js");
 
 mw.required.push("<?php print mw_includes_url(); ?>api/forms.js");
 
@@ -1005,17 +1005,19 @@ mw.required.push("<?php print mw_includes_url(); ?>api/components.js");
 
 mw.required.push("<?php print mw_includes_url(); ?>api/dialog.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/instruments.js");
+mw.required.push("<?php print mw_includes_url(); ?>api/forms.js");
+mw.required.push("<?php print mw_includes_url(); ?>api/fonts.js");
 
-mw.required.push("<?php print mw_includes_url(); ?>api/content.js");
+//mw.required.push("<?php print mw_includes_url(); ?>api/content.js");
 
 
 
 <?php  // include "jquery.js";  ?>
 
 
-<?php  include  __DIR__.DS."color.js"; ?>
+<?php  // include  __DIR__.DS."color.js"; ?>
 
-<?php  include  __DIR__.DS."libs/acolorpicker/acolorpicker.js"; ?>
+<?php  // include  __DIR__.DS."libs/acolorpicker/acolorpicker.js"; ?>
 
 
 <?php  include __DIR__.DS."tools.js"; ?>
@@ -1024,10 +1026,11 @@ mw.required.push("<?php print mw_includes_url(); ?>api/content.js");
 
 
 
-<?php  include  __DIR__.DS."css_parser.js"; ?>
+
+<?php  //include  __DIR__.DS."css_parser.js"; ?>
 
 
-<?php  include  __DIR__.DS."files.js"; ?>
+<?php // include  __DIR__.DS."files.js"; ?>
 
 
 <?php  include  __DIR__.DS."forms.js"; ?>
@@ -1052,7 +1055,9 @@ mw.required.push("<?php print mw_includes_url(); ?>api/content.js");
 
 <?php  include __DIR__.DS."instruments.js"; ?>
 
-<?php  include __DIR__.DS."content.js"; ?>
+<?php  include __DIR__.DS."fonts.js"; ?>
+
+<?php  //include __DIR__.DS."content.js"; ?>
 
 
 
@@ -1077,62 +1082,3 @@ $(window).on('load', function(){
 <?php  //include "upgrades.js"; ?>
 
 <?php  include  __DIR__.DS."session.js"; ?>
-
-
-
-/*
-    options.data = [
-        {
-            title: string,
-            value: any,
-            icon?: string,
-            selected?: boolean
-        }
-    ]
-
- */
-
-mw.Select = function(options) {
-    var defaults = {
-        data: [],
-        skin: 'default'
-    };
-    options  = options || {};
-    this.settings = $.extend({}, defaults, options);
-    var scope = this;
-
-    this.rendOption = function(item){
-        var oh = document.createElement('div');
-        oh.$value = item.value;
-        oh.$data = item;
-        oh.className = 'mw-select-option';
-        oh.onclick = function () {
-            scope.setValue(oh.$value)
-        };
-        return oh;
-    };
-
-    this.rendValueholder = function(item){
-        var oh = document.createElement('div');
-        oh.className = 'mw-select-value';
-        oh.onclick = function () {
-            scope.setValue(oh.$value)
-        };
-        return oh;
-    };
-
-    this.setValue = function(val){
-        if(!val) return;
-    };
-
-    this.rendOptions = function(){
-        var oh = document.createElement('div');
-        oh.className = 'mw-select';
-        $.each(this.settings.data, function(){
-            oh.appendChild(this.rendOption(this))
-        });
-        return oh;
-    }
-
-};
-

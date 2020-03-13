@@ -2,10 +2,10 @@ mw.tools.createAutoHeight = function() {
     if(window.thismodal && thismodal.iframe) {
         mw.tools.iframeAutoHeight(thismodal.iframe);
     }
-    else if(window.top.frameElement && window.top.frameElement.contentWindow === window) {
-        mw.tools.iframeAutoHeight(window.top.frameElement);
+    else if(mw.top().win.frameElement && mw.top().win.frameElement.contentWindow === window) {
+        mw.tools.iframeAutoHeight(mw.top().win.frameElement);
     } else if(window.top !== window) {
-        top.mw.$('iframe').each(function(){
+        mw.top().$('iframe').each(function(){
             try{
                 if(this.contentWindow === window) {
                     mw.tools.iframeAutoHeight(this);
@@ -14,6 +14,19 @@ mw.tools.createAutoHeight = function() {
         })
     }
 };
+
+mw.tools.moduleFrame = function(type, template){
+    return mw.dialogIframe({
+        url: mw.external_tool('module_dialog') + '?module=' + type + (template ? ('&template=' + template) : ''),
+        width: 532,
+        height: 'auto',
+        autoHeight:true,
+        title: type,
+        className: 'mw-dialog-module-settings',
+        closeButtonAction: 'remove'
+    });
+};
+
 
 mw.tools.iframeAutoHeight = function(frame, opt){
 

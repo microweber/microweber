@@ -126,6 +126,7 @@ if (!function_exists('site_url')) {
  *
  * @return string The formatted string
  */
+if (!function_exists('normalize_path')) {
 function normalize_path($path, $slash_it = true)
 {
     $path_original = $path;
@@ -152,6 +153,7 @@ function normalize_path($path, $slash_it = true)
 
     return $path;
 }
+}
 
 if (!function_exists('reduce_double_slashes')) {
     /**
@@ -167,6 +169,7 @@ if (!function_exists('reduce_double_slashes')) {
     }
 }
 
+if (!function_exists('lipsum')) {
 function lipsum($number_of_characters = false)
 {
     if ($number_of_characters == false) {
@@ -191,6 +194,7 @@ function lipsum($number_of_characters = false)
 
     return character_limiter($lipsum, $number_of_characters, '');
 }
+}
 
 /**
  * Returns the current microtime.
@@ -201,12 +205,14 @@ function lipsum($number_of_characters = false)
  *
  * @link     http://www.webdesign.org/web-programming/php/script-execution-time.8722.html#ixzz2QKEAC7PG
  */
+if (!function_exists('microtime_float')) {
 function microtime_float()
 {
     list($msec, $sec) = explode(' ', microtime());
     $microtime = (float)$msec + (float)$sec;
 
     return $microtime;
+}
 }
 
 /**
@@ -220,6 +226,7 @@ function microtime_float()
  *
  * @category Strings
  */
+if (!function_exists('character_limiter')) {
 function character_limiter($str, $n = 500, $end_char = '&#8230;')
 {
     if (strlen($str) < $n) {
@@ -243,6 +250,8 @@ function character_limiter($str, $n = 500, $end_char = '&#8230;')
         }
     }
 }
+}
+
 
 
 function api_url($str = '')
@@ -288,19 +297,23 @@ function array_search_multidimensional($array, $column, $key)
     return (array_search($key, array_column($array, $column)));
 }
 
-function is_ajax()
-{
-    return mw()->url_manager->is_ajax();
+if (!function_exists('is_ajax')) {
+    function is_ajax()
+    {
+        return mw()->url_manager->is_ajax();
+    }
 }
-
-function url_current($skip_ajax = false, $no_get = false)
-{
-    return mw()->url_manager->current($skip_ajax, $no_get);
+if (!function_exists('url_current')) {
+    function url_current($skip_ajax = false, $no_get = false)
+    {
+        return mw()->url_manager->current($skip_ajax, $no_get);
+    }
 }
-
-function url_segment($k = -1, $page_url = false)
-{
-    return mw()->url_manager->segment($k, $page_url);
+if (!function_exists('url_segment')) {
+    function url_segment($k = -1, $page_url = false)
+    {
+        return mw()->url_manager->segment($k, $page_url);
+    }
 }
 
 /**

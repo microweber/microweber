@@ -19,7 +19,6 @@
         <script type="text/javascript">
 
             mw.require('forms.js', true);
-            mw.require('tools.js', true);
             mw.require('url.js', true);
 
             formenabled = true;

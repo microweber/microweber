@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = _e("Video", TRUE);
+$config['name'] = "Video";
 $config['author'] = "Microweber";
 $config['categories'] = "recommended,media";
 $config['position'] = 6;

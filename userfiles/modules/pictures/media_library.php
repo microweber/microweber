@@ -89,6 +89,8 @@
         <script>
             function selectMediaImage(imageElement, photoId) {
 
+
+                mw.notification.success('<?php _e('Downloading'); ?>',4000)
             	$(imageElement).parent().find('.image-item-thumbnail').css('opacity', ' 0.6');
             	$(imageElement).parent().find('.image-item-thumbnail').before('<span class="mw-icon-checkmark-circled image-item-is-downloaded"></span>');
 
@@ -96,7 +98,11 @@
 
             	$.get(getMediaImageUrl, function(imageUrl) {
 					 mw.url.windowHashParam('select-file', encodeURIComponent(imageUrl));
-            	});
+                     mw.top().notification.success('<?php _e('Image selected'); ?>',3000)
+
+                });
+
+
 
             	mw.reload_module('files/browser');
             }
@@ -168,11 +174,12 @@
         </script>
 
 
-         <center>
+          <div style="text-align: center">
          <h2 style="margin-top:0px;"><?php _e("Search Unsplash"); ?></h2>
 		  <p><b><?php _e("Enter a search term above to begin searching images from "); ?><a href="http://unsplash.com" target="_new" style="color:#009cff;">Unsplash.com</a>. <br /><?php _e("You can use free stock images."); ?></b></p>
+
 			<br />
-		</center>
+		</div>
 
         <div class="mw-field stock-field">
             <input type="text" placeholder="<?php _e("Search for cars, cats and everything you want..."); ?>" onkeyup="mw.on.stopWriting(this,function(){searchMediaLibrary(this.value, 1)})" >

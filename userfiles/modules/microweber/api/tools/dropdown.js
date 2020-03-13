@@ -17,13 +17,14 @@ mw.tools.dropdown = function (root) {
             input.dropdown = el;
             input.onkeydown = function (e) {
                 if (e.keyCode === 13) {
-                    e.preventDefault()
+                    e.preventDefault();
                     mw.$(this.dropdown).removeClass("active");
                     mw.$('.mw-dropdown-content', this.dropdown).hide();
                     mw.$(this.dropdown).setDropdownValue(this.value, true, true);
                     return false;
                 }
-            }
+            };
+
             input.onkeyup = function (e) {
                 if (e.keyCode == 13) {
                     return false;
@@ -91,8 +92,8 @@ mw.tools.dropdown = function (root) {
                 mw.$(".mw-dropdown-content").hide();
                 if(self !== top) {
                     try {
-                        top.mw.$(".mw-dropdown").removeClass("active");
-                        top.mw.$(".mw-dropdown-content").hide();
+                        mw.top().$(".mw-dropdown").removeClass("active");
+                        mw.top().$(".mw-dropdown-content").hide();
                     } catch(e){
 
                     }
@@ -100,4 +101,7 @@ mw.tools.dropdown = function (root) {
             }
         });
     }
-}
+};
+
+
+mw.dropdown = mw.tools.dropdown;

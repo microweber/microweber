@@ -6,17 +6,18 @@ only_admin_access();
 
 <script>
     var mw_apply_upd_timeout = false;
+    var mw_apply_upd_ajax = false;
     var timeout = 3000;
 
     $(document).ready(function () {
 
         mw_apply_upd_set_log_display();
 
-       var $sel =  mw.$('.mw-select-updates-list');
+        var $sel = mw.$('.mw-select-updates-list');
 
-        if($sel.length){
-       //     mw_apply_upd();
-        //    move_loading_bar();
+        if ($sel.length) {
+            //     mw_apply_upd();
+            //    move_loading_bar();
         }
 
 
@@ -24,11 +25,43 @@ only_admin_access();
 
     function mw_apply_upd_set_log_display() {
 
-        $.get('<?php print $get_log_file_url ?>', function (data) {
+        if (typeof mw_apply_upd_ajax == 'object') {
+            mw_apply_upd_ajax.onreadystatechange = null;
 
-            $('#mw-update-res-log').html(data);
-        });
+            mw_apply_upd_ajax.abort();
+
+        }
+        if ($("#mw-update-res-log").is(":visible")) {
+            mw_apply_upd_ajax = $.get('<?php print $get_log_file_url ?>', function (data) {
+
+                $('#mw-update-res-log').html(data);
+
+                var height =  $('#mw-update-res-log').get(0).scrollHeight;
+                $('.mw_modal_container', '#update_queue_set_modal').animate({
+                    scrollTop: height
+                }, 500);
+
+
+
+            });
+        } else {
+            if (typeof mw_apply_upd_ajax == 'object') {
+
+                try {
+                    mw_apply_upd_ajax.onreadystatechange = null;
+
+                    mw_apply_upd_ajax.abort();
+                }
+                catch(error) {
+
+                }
+
+            }
+        }
+
+
     }
+
     var mw_apply_upd_timeout = setInterval(function () {
         mw_apply_upd_set_log_display()
     }, 1000);
@@ -40,6 +73,7 @@ only_admin_access();
         var elem = document.getElementById("myBar");
         var width = 1;
         var id = setInterval(frame, 200);
+
         function frame() {
             if (width >= 100) {
                 clearInterval(id);
@@ -60,7 +94,7 @@ only_admin_access();
         $.ajax({
             url: '<?php print api_link(); ?>mw_apply_updates_queue',
             type: "post",
-            data : { step : mw_apply_upd_step},
+            data: {step: mw_apply_upd_step},
 
             error: function (request, status, error) {
                 $('#mw-update-res-log').append('<?php _e('Working...'); ?>');
@@ -86,7 +120,6 @@ only_admin_access();
                 if (typeof (resp.message) != 'undefined') {
                     var msg = resp.message;
                 }
-
 
 
                 //   alert(typeof (resp.message));
@@ -131,6 +164,7 @@ only_admin_access();
     .show-on-install-complete.done {
         display: block;
     }
+
     #myBar {
         width: 10%;
         height: 30px;
@@ -139,6 +173,7 @@ only_admin_access();
         line-height: 30px; /* To center it vertically */
         color: white;
     }
+
     #myProgress {
         display: none;
     }

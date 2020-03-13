@@ -3,7 +3,7 @@
 
 $config = array();
 
-$config['name'] = _e("Slider", TRUE);
+$config['name'] ="Slider";
 
 $config['author'] = "Petko Yovchevski";
 

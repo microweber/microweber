@@ -349,7 +349,7 @@ if (isset($params['data-alt-logo'])) {
         $(document).ready(function(){
 
 
-            window.top.mw.on('imageSrcChanged', function(e, node, url){
+            mw.top().on('imageSrcChanged', function(e, node, url){
                 setNewImage(url);
                 setAuto();
             });
@@ -357,8 +357,8 @@ if (isset($params['data-alt-logo'])) {
         });
 
         mw.edit_logo_image_crop = function () {
-            window.top.mw.image.currentResizing = $('#logo-image-edit');
-            window.top.mw.image.settings();
+            mw.top().image.currentResizing = $('#logo-image-edit');
+            mw.top().image.settings();
             return false;
 
         }

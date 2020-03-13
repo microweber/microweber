@@ -363,9 +363,11 @@ function array_trim($Input)
     return array_map('array_trim', $Input);
 }
 
-function strleft($s1, $s2)
-{
-    return substr($s1, 0, strpos($s1, $s2));
+if (!function_exists('strleft')) {
+    function strleft($s1, $s2)
+    {
+        return substr($s1, 0, strpos($s1, $s2));
+    }
 }
 
 $ex_fields_static = array();
@@ -606,7 +608,7 @@ function template_headers_src()
 
 function template_stack_add($src, $group='default')
 {
-    return mw()->template->stack_add($src, $group='default');
+    return mw()->template->stack_add($src, $group);
 }
 
 function template_stack_display($group='default')
@@ -701,9 +703,16 @@ function mw_composer_run_update($params)
 }
 
 
-api_expose_admin('mw_composer_install_package_by_name');
+api_expose('mw_composer_install_package_by_name');
 function mw_composer_install_package_by_name($params)
 {
+    if (!mw_is_installed()) {
+
+    } else {
+        only_admin_access();
+
+    }
+
     $update_api = mw('update');
 
     return $update_api->composer_install_package_by_name($params);

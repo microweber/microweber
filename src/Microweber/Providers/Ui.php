@@ -24,7 +24,9 @@ class Ui
     public function __construct()
     {
         $this->admin_logo_login = mw_includes_url().'images/logo-login.svg';
-        $this->defaults();
+        if (mw_is_installed()) {
+             $this->defaults();
+        }
     }
 
     public function defaults()

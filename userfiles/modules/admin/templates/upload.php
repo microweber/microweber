@@ -1,3 +1,7 @@
+
+<script>
+    mw.require("files.js");
+</script>
 <script>
 var uploader = mw.files.uploader({
     filetypes: "zip",

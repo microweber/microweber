@@ -12,18 +12,21 @@
  *
  * @link        http://www.jonasjohn.de/snippets/php/readable-filesize.htm
  */
-function file_size_nice($size)
-{
-    // Adapted from: http://www.php.net/manual/en/function.filesize.php
 
-    $mod = 1024;
+if (!function_exists('file_size_nice')) {
+    function file_size_nice($size)
+    {
+        // Adapted from: http://www.php.net/manual/en/function.filesize.php
 
-    $units = explode(' ', 'B KB MB GB TB PB');
-    for ($i = 0; $size > $mod; ++$i) {
-        $size /= $mod;
+        $mod = 1024;
+
+        $units = explode(' ', 'B KB MB GB TB PB');
+        for ($i = 0; $size > $mod; ++$i) {
+            $size /= $mod;
+        }
+
+        return round($size, 2) . ' ' . $units[$i];
     }
-
-    return round($size, 2).' '.$units[$i];
 }
 
 /**
@@ -43,34 +46,37 @@ function file_size_nice($size)
  * @return mixed
  *               an array of files in the given path matching the pattern.
  */
-function rglob($pattern = '*', $flags = 0, $path = '')
-{
-    if (!$path && ($dir = dirname($pattern)) != '.') {
-        if ($dir == '\\' || $dir == '/') {
-            $dir = '';
+if (!function_exists('rglob')) {
+    function rglob($pattern = '*', $flags = 0, $path = '')
+    {
+        if (!$path && ($dir = dirname($pattern)) != '.') {
+            if ($dir == '\\' || $dir == '/') {
+                $dir = '';
+            }
+
+            return rglob(basename($pattern), $flags, $dir . DS);
         }
 
-        return rglob(basename($pattern), $flags, $dir.DS);
-    }
+        $path = normalize_path($path, 1);
+        $paths = glob($path . '*', GLOB_ONLYDIR | GLOB_NOSORT);
+        $files = glob($path . $pattern, $flags);
 
-    $path = normalize_path($path, 1);
-    $paths = glob($path.'*', GLOB_ONLYDIR | GLOB_NOSORT);
-    $files = glob($path.$pattern, $flags);
-
-    if (is_array($paths)) {
-        foreach ($paths as $p) {
-            $temp = rglob($pattern, false, $p.DS);
-            if (is_array($temp) and is_array($files) and !empty($files)) {
-                $files = array_merge($files, $temp);
-            } elseif (is_array($temp) and !empty($temp)) {
-                $files = $temp;
+        if (is_array($paths)) {
+            foreach ($paths as $p) {
+                $temp = rglob($pattern, false, $p . DS);
+                if (is_array($temp) and is_array($files) and !empty($files)) {
+                    $files = array_merge($files, $temp);
+                } elseif (is_array($temp) and !empty($temp)) {
+                    $files = $temp;
+                }
             }
         }
-    }
 
-    return $files;
+        return $files;
+    }
 }
 
+if (!function_exists('get_file_extension')) {
 /**
  * Returns extension from a filename.
  *
@@ -80,55 +86,63 @@ function rglob($pattern = '*', $flags = 0, $path = '')
  *
  * @category Files
  */
-function get_file_extension($LoSFileName)
-{
-    $LoSFileName = rtrim($LoSFileName, '.');
-    $LoSFileExtensions = substr($LoSFileName, strrpos($LoSFileName, '.') + 1);
+    function get_file_extension($LoSFileName)
+    {
+        $LoSFileName = rtrim($LoSFileName, '.');
+        $LoSFileExtensions = substr($LoSFileName, strrpos($LoSFileName, '.') + 1);
 
-    return $LoSFileExtensions;
-}
-
-/**
- * Returns a filename without extension.
- *
- * @param $filename The filename
- *
- * @return string $filename without extension
- *
- * @category Files
- */
-function no_ext($filename)
-{
-    $filename = rtrim($filename, '.');
-    $filebroken = explode('.', $filename);
-    array_pop($filebroken);
-
-    return implode('.', $filebroken);
-}
-
-function url2dir($path)
-{
-    if (trim($path) == '') {
-        return false;
+        return $LoSFileExtensions;
     }
-
-    $path = str_ireplace(site_url(), MW_ROOTPATH, $path);
-    $path = str_replace('\\', '/', $path);
-    $path = str_replace('//', '/', $path);
-
-    return normalize_path($path, false);
 }
 
-function dir2url($path)
-{
-    $path = str_ireplace(MW_ROOTPATH, '', $path);
-    $path = str_replace('\\', '/', $path);
-    $path = str_replace('//', '/', $path);
+if (!function_exists('no_ext')) {
+    /**
+     * Returns a filename without extension.
+     *
+     * @param $filename The filename
+     *
+     * @return string $filename without extension
+     *
+     * @category Files
+     */
+    function no_ext($filename)
+    {
+        $filename = rtrim($filename, '.');
+        $filebroken = explode('.', $filename);
+        array_pop($filebroken);
 
-    //var_dump($path);
-    return site_url($path);
+        return implode('.', $filebroken);
+    }
 }
 
+if (!function_exists('url2dir')) {
+    function url2dir($path)
+    {
+        if (trim($path) == '') {
+            return false;
+        }
+
+        $path = str_ireplace(site_url(), MW_ROOTPATH, $path);
+        $path = str_replace('\\', '/', $path);
+        $path = str_replace('//', '/', $path);
+
+        return normalize_path($path, false);
+    }
+}
+
+if (!function_exists('dir2url')) {
+    function dir2url($path)
+    {
+        $path = str_ireplace(MW_ROOTPATH, '', $path);
+        $path = str_replace('\\', '/', $path);
+        $path = str_replace('//', '/', $path);
+
+        //var_dump($path);
+        return site_url($path);
+    }
+}
+
+if (!function_exists('mkdir_recursive')) {
 /**
  * Makes directory recursive, returns TRUE if exists or made and false on error.
  *
@@ -149,10 +163,9 @@ function mkdir_recursive($pathname)
 
     return is_dir($pathname) || @mkdir($pathname);
 }
+}
 
-
-
-
+if (!function_exists('rmdir_recursive')) {
 function rmdir_recursive($directory, $empty = true)
 {
     // if the path has a slash at the end we remove it here
@@ -209,4 +222,5 @@ function rmdir_recursive($directory, $empty = true)
         // return success
         return true;
     }
+}
 }

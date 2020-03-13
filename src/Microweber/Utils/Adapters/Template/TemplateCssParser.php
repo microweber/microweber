@@ -14,7 +14,6 @@ class TemplateCssParser
 
     public function getStylesheet($lessFilePath, $defaultCssFile = false, $cache = true)
     {
-
         if (config('microweber.developer_mode') == 1) {
             $cache = false;
         }
@@ -55,7 +54,9 @@ class TemplateCssParser
             $returnUrl = $to_generate_css_file;
 
         } else {
-            if ($to_generate_css_file and isset($outputFileLocations['cssFilePath']) and isset($outputFileLocations['output']['fileCss']) and !is_file($outputFileLocations['output']['fileCss'])) {
+            if (isset($outputFileLocations['output']['file']) && is_file($outputFileLocations['output']['file'])) {
+                $returnUrl = $outputFileLocations['output']['fileUrl'];
+            } else if ($to_generate_css_file and isset($outputFileLocations['cssFilePath']) and isset($outputFileLocations['output']['fileCss']) and !is_file($outputFileLocations['output']['fileCss'])) {
                 $returnUrl = $to_generate_css_file;
             } else if (isset($outputFileLocations['output']['fileCssUrl'])) {
                 $returnUrl = $outputFileLocations['output']['fileCssUrl'];
@@ -73,12 +74,12 @@ class TemplateCssParser
     {
         $token = md5(mw()->user_manager->session_id());
 
-
         if ($options['token'] !== $token) {
             return;
         }
 
         $compileFile = $this->_getOutputDir($options['path']);
+        $compileFile = normalize_path($compileFile, false);
         $extension = get_file_extension($compileFile);
 
         if ($extension == 'less') {
@@ -111,7 +112,7 @@ class TemplateCssParser
 
     public function compileSaas()
     {
-
+        // Saas not supported
     }
 
     public function compileLess($params)
@@ -256,6 +257,9 @@ class TemplateCssParser
 
     private function _saveCompiledCss($outputFile, $cssContent)
     {
+
+        $outputFile = normalize_path($outputFile, false);
+
         file_put_contents($outputFile, $cssContent);
 
     }

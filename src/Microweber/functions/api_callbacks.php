@@ -361,13 +361,13 @@ api_expose('pixum_img');
 api_expose('thumbnail_img');
 api_expose('create_media_dir');
 
-api_expose('media/upload');
 api_expose('media/delete_media_file');
 
 
 // queue
 
 api_expose('queue_dispatch', function () {
+    return;
     mw()->event_manager->trigger('mw.queue.dispatch');
 
     $all_queue = Jobs::whereNull('mw_processed')->get();

@@ -2,24 +2,23 @@ mw._colorPickerDefaults = {
     skin: 'mw-tooltip-default',
     position: 'bottom-center',
     onchange: false
-}
+};
+
 mw._colorPicker = function (options) {
+    mw.lib.require('colorpicker');
     if (!mw.tools.colorPickerColors) {
         mw.tools.colorPickerColors = [];
-        var w = window;
-        if(self != top){
-            w = top;
-        }
-        var colorpicker_els = w.mw.$("body *");
-        if(typeof colorpicker_els != 'undefined' && colorpicker_els.length > 0){
+
+        var colorpicker_els = mw.top().$("body *");
+        if(colorpicker_els.length > 0){
             colorpicker_els.each(function () {
                 var css = parent.getComputedStyle(this, null);
                 if (css !== null) {
                     if (mw.tools.colorPickerColors.indexOf(css.color) === -1) {
-                        mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.color))
+                        mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.color));
                     }
                     if (mw.tools.colorPickerColors.indexOf(css.backgroundColor) === -1) {
-                        mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.backgroundColor))
+                        mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.backgroundColor));
                     }
                 }
             });
@@ -30,15 +29,25 @@ mw._colorPicker = function (options) {
     if (!options) {
         return false;
     }
+
     var settings = $.extend({}, mw._colorPickerDefaults, options);
+
     if (settings.element === undefined || settings.element === null) {
         return false;
     }
+
+
 
     var $el = mw.$(settings.element);
     if ($el[0] === undefined) {
         return false;
     }
+    if($el[0].mwcolorPicker) {
+        return $el[0].mwcolorPicker;
+    }
+
+
+    $el[0].mwcolorPicker = this;
     this.element = $el[0];
     if ($el[0].mwToolTipBinded !== undefined) {
         return false;
@@ -49,8 +58,8 @@ mw._colorPicker = function (options) {
         }
     }
     this.settings = settings;
-    $el[0].mwToolTipBinded = true;
 
+    $el[0].mwToolTipBinded = true;
     var sett = {
         showAlpha: true,
         showHSL: false,
@@ -72,7 +81,6 @@ mw._colorPicker = function (options) {
     if(typeof settings.showHSL !== 'undefined') {
         sett.showHSL = settings.showHSL
     }
-
     var frame;
     if (settings.method === 'inline') {
 
@@ -93,7 +101,6 @@ mw._colorPicker = function (options) {
 
     }
     else {
-
         var tip = mw.tooltip(settings), $tip = mw.$(tip).hide();
         this.tip = tip;
 
@@ -116,7 +123,6 @@ mw._colorPicker = function (options) {
                 $el.val(data.color);
             }
         };
-
         if ($el[0].nodeName === 'INPUT') {
             $el.on('focus', function (e) {
                 if(this.value.trim()){
@@ -124,10 +130,9 @@ mw._colorPicker = function (options) {
                     frame.color = this.value;
                     setTimeout(function () {
                         frame.pause = false;
-                    })
+                    });
                 }
                 mw.$(tip).show();
-
                 mw.tools.tooltip.setPosition(tip, $el[0], settings.position)
             });
         }
@@ -174,5 +179,6 @@ mw._colorPicker = function (options) {
 
 };
 mw.colorPicker = mw.colourPicker = function (o) {
+
     return new mw._colorPicker(o);
 };

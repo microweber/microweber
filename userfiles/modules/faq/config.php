@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = _e("FAQ", TRUE);
+$config['name'] = "FAQ";
 $config['author'] = "Microweber";
 $config['ui'] = true;
 $config['version'] = 0.01;

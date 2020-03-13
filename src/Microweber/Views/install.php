@@ -11,7 +11,13 @@
     <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/admin.css"/>
     <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/components.css"/>
     <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/install.css"/>
-    <script type="text/javascript" src="<?php print mw_includes_url(); ?>api/jquery.js"></script>
+    <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/install.css"/>
+    <script type="text/javascript" src="<?php print mw()->template->get_apijs_settings_url(); ?>"></script>
+    <script type="text/javascript" src="<?php print mw()->template->get_apijs_url(); ?>"></script>
+    <script type="text/javascript" src="<?php print mw_includes_url(); ?>api/libs/jqueryui/jquery-ui.js"></script>
+    <link type="text/css" rel="stylesheet" media="all"
+          href="<?php print mw_includes_url(); ?>api/libs/jqueryui/jquery-ui.css"/>
+
     <?php
     $rand = uniqid();
     $ua = $_SERVER['HTTP_USER_AGENT'];
@@ -57,6 +63,136 @@
                 return show;
             }
             return false;
+        }
+
+        $(document).ready(function () {
+            getTemplateForInstallScreen()
+            //  getTemplatesFromPackageManagerBeforeInstall();
+
+        });
+
+        function installMarketplaceItemByPackageName($name) {
+            mw.tools.loading('#demo-one', true,16000);
+            mw.tools.loading('#screenshot_preview', true,16000);
+
+            mw.notification.success('Please wait... Installing... ' + $name, 16000);
+            mw.tools.scrollTo('#demo-one');
+
+            if (typeof(mw.marketplace_dialog_jquery_ui) != 'undefined') {
+                mw.marketplace_dialog_jquery_ui.dialog('close');
+            }
+
+
+            $.post("<?php print site_url() ?>", {install_package_by_name: $name}, function (data) {
+                mw.notification.success('Template is installed... ' + $name, 16000);
+                getTemplateForInstallScreen()
+                mw.tools.loading('#demo-one', false);
+                mw.tools.loading('#screenshot_preview', false);
+                mw.tools.scrollTo('#default_template');
+            }).always(function () {
+
+            });
+
+
+        }
+
+
+        function selectChange() {
+            var selectBox = document.getElementById("default_template");
+
+            var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+
+            if (selectedValue == '_get_more') {
+                showMarketplaceItemsInstallScreen()
+            }
+        }
+
+        function showMarketplaceItemsInstallScreen() {
+
+            $("#default_template option:first").attr('selected', 'selected');
+            $("#default_template").prop("selectedIndex", 0).change();
+
+            var html = '<div class="mw-flex-row">';
+
+            $.post("<?php print site_url() ?>?get_market_templates_for_install_screen=1", function (data) {
+                $.each(data, function (index, value) {
+                    if (value.name && value.description) {
+                        var is_default = false;
+                        var screenshot = '';
+                        if (value.is_default && value.is_default == 1) {
+                            var is_default = true;
+                        }
+                        if (value.screenshot) {
+                            var screenshot = value.screenshot;
+                        }
+                        if (value.latest_version &&  value.latest_version.extra && value.latest_version.extra._meta && value.latest_version.extra._meta.screenshot) {
+                            var screenshot = value.latest_version.extra._meta.screenshot;
+                        }
+
+
+                        html += '<div class="m-b-20  m-l-10   mw-flex-col-md-5" style="padding:10px;"><div style="width: 100%; height: 120px; background-image: url('+screenshot+'); background-size: cover; background-position: top center;"></div><br /><button type="button" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline" style="width: 100%;"  data-screenshot="' + screenshot + '" onclick="installMarketplaceItemByPackageName(' + '\'' + value.name + '\'' + ')">Install ' + value.description + '</button><br /></div>';
+
+                    }
+
+
+                });
+                html += '</div>';
+                $("#dialog-message-marketplace").html(html);
+                mw.marketplace_dialog_jquery_ui = $("#dialog-message-marketplace").dialog({
+                    modal: true,
+                    width: 800,
+                    buttons: {
+                        Ok: function () {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+
+            });
+
+        }
+
+        function getTemplateForInstallScreen() {
+            var option = '';
+
+            $.post("<?php print site_url() ?>?get_templates_for_install_screen=1", function (data) {
+                $.each(data, function (index, value) {
+                    if (value.name && value.dir_name) {
+                        var is_default = false;
+                        var screenshot = '';
+                        if (value.is_default && value.is_default == 1) {
+                            var is_default = true;
+                        }
+                        if (value.screenshot) {
+                            var screenshot = value.screenshot;
+                        }
+                        if (is_default) {
+                            option += '<option selected="selected"   data-screenshot="' + screenshot + '" value="' + value.dir_name + '">' + value.name + '</option>';
+                        } else {
+                            option += '<option  data-screenshot="' + screenshot + '" value="' + value.dir_name + '">' + value.name + '</option>';
+                        }
+                    }
+
+
+                });
+
+                if (window.navigator.onLine) {
+                     option += '<option value="_get_more">get more...</option>';
+                }
+
+
+                $("#default_template").html('');
+                $("#default_template").append(option);
+
+
+                setscreenshot()
+            });
+        }
+
+        function getTemplatesFromPackageManagerBeforeInstall() {
+            $.post("<?php print site_url() ?>?get_templates_from_marketplace_for_install_screen=1", function (data) {
+                //$( "#demo-one" ).html( data );
+            });
         }
 
         $(document).ready(function () {
@@ -125,11 +261,11 @@
 
                                     var adminurlval = $('#admin_url').val().trim();
 
-                                    if(adminurlval != ''){
-                                        var redirect_after_install_url = "<?php print site_url(); ?>"+adminurlval+"?install_done=1";
+                                    if (adminurlval != '') {
+                                        var redirect_after_install_url = "<?php print site_url(); ?>" + adminurlval + "?install_done=1";
                                     }
 
-                                    window.location.href =redirect_after_install_url ;
+                                    window.location.href = redirect_after_install_url;
 
                                 }, 3000);
 
@@ -242,12 +378,13 @@
 
             $("#default_template").on('change', function () {
                 setscreenshot()
+                selectChange();
             });
         })
     </script>
 
     <style>
-        .mw-ui-btn:not(:active):not(:hover):not(.active):not([class*=active-]):focus{
+        .mw-ui-btn:not(:active):not(:hover):not(.active):not([class*=active-]):focus {
             outline: 1px solid;
         }
     </style>
@@ -512,8 +649,10 @@
 
                                                 <div>
                                                     <?php
-                                                    $templates_opts = array('remove_hidden_from_install_screen' => true);
-                                                    $templates = site_templates($templates_opts);
+                                                    // $templates_opts = array('remove_hidden_from_install_screen' => true);
+                                                    // $templates = site_templates($templates_opts);
+                                                    // moved by ajax
+                                                    $templates = [['dir_name' => 'default', 'name' => 'Default']]
                                                     ?>
                                                     <?php if (is_array($templates) and !empty($templates)): ?>
                                                         <div class="mw-ui-field-holder">
@@ -531,6 +670,7 @@
                                                                 <div class="mw-ui-col">
                                                                     <select class="mw-ui-field" name="default_template"
                                                                             id="default_template" tabindex="6">
+
                                                                         <?php foreach ($templates as $template): ?>
                                                                             <?php if (isset($template['dir_name']) and isset($template['name'])): ?>
                                                                                 <option <?php if (isset($template['is_default']) and ($template['is_default']) != false): ?> selected="selected" <?php endif; ?>
@@ -688,7 +828,7 @@
                                                         <?php _e('Admin URL'); ?>
                                                     </label>
                                                     <input type="text" class="mw-ui-field"
-                                                           name="admin_url" value="admin"  id="admin_url"  tabindex="15"/>
+                                                           name="admin_url" value="admin" id="admin_url" tabindex="15"/>
                                                 </div>
 
 
@@ -706,7 +846,9 @@
                                     <input type="hidden" name="make_install" value="1"
                                            id="is_installed_<?php print $rand; ?>">
                                     <input type="hidden" value="UTC" name="default_timezone"/>
-                                    <button type="submit" name="submit" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-info pull-right" tabindex="16"><?php _e('Install'); ?></button>
+                                    <button type="submit" name="submit"
+                                            class="mw-ui-btn mw-ui-btn-big mw-ui-btn-info pull-right"
+                                            tabindex="16"><?php _e('Install'); ?></button>
 
 
                                 </form>
@@ -741,5 +883,11 @@
         </div>
     </div>
 </div>
+
+<div id="dialog-message-marketplace" title="Marketplace items" style="display: none">
+
+</div>
+
+
 </body>
 </html>

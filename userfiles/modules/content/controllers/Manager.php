@@ -49,6 +49,7 @@ class Manager
 
         $no_page_edit = false;
         $posts_mod = array();
+        $posts_mod = array();
         // $posts_mod['type'] = 'content/admin_posts_list';
         if (isset($params['data-page-id'])) {
             $posts_mod['page-id'] = $params['data-page-id'];
@@ -129,15 +130,22 @@ class Manager
             }
         }
 
-
         $posts_mod['paging_param'] = 'pg';
+
         $posts_mod['orderby'] = 'position desc';
+        if (isset($params['data-order'])) {
+            $posts_mod['orderby'] = $params['data-order'];
+        }
+
         if (isset($posts_mod['page-id'])) {
             $posts_mod['parent'] = $posts_mod['page-id'];
         }
 
         if (isset($params['pg'])) {
             $posts_mod['pg'] = $params['pg'];
+        }
+        if (isset($params['tags'])) {
+            $posts_mod['tags'] = $params['tags'];
         }
 
         if (isset($params['data-category-id'])) {
@@ -187,7 +195,15 @@ class Manager
         $toolbar->assign('params', $params);
         $toolbar->assign('pages', $pages);
 
-        $post_list_view = $this->views_dir . 'manager.php';
+        if(isset($params['show_only_content'])){
+            $post_list_view = $this->views_dir . 'manager_content.php';
+
+        } else {
+            $post_list_view = $this->views_dir . 'manager.php';
+
+        }
+
+
 
 
         if ($no_page_edit == false) {
@@ -230,6 +246,7 @@ class Manager
         $view->assign('keyword', $keyword);
         $view->assign('post_params', $posts_mod);
         $view->assign('paging_param', $posts_mod['paging_param']);
+
         return $view->display();
     }
 }

@@ -194,6 +194,10 @@ class ContentManagerHelpers extends ContentManagerCrud
                         if (isset($this->tables['content_data'])) {
                             DB::table('content_data')->where('content_id', '=', $c_id)->delete();
                         }
+
+                        if (isset($this->tables['menus'])) {
+                            DB::table('menus')->where('content_id', '=', $c_id)->delete();
+                        }
                     } else {
                         DB::table($this->tables['content'])->whereId($c_id)->update(['is_deleted' => 1]);
                         DB::table($this->tables['content'])->whereParent($c_id)->update(['is_deleted' => 1]);

@@ -322,7 +322,7 @@ class VideoEmbed
         $urlParse = ltrim($urlParse['path'], '/');
 
         //$videoUrl = $this->_getPortocol() . 'player.vimeo.com/video/' . $urlParse . '?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;color=bc9b6a&wmode=transparent&autoplay=' . $this->isAutoplay();
-        return  '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/' . $urlParse . '?title=0&byline=0&portrait=0&autoplay=' . $this->isAutoplay() . '" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>';
+        return  '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/' . $urlParse . '?title=0&byline=0&portrait=0&autoplay=' . $this->isAutoplay() . '" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe></div><script async src="https://player.vimeo.com/api/player.js"></script>';
         //return $this->_getVideoIframe($videoUrl);
     }
 

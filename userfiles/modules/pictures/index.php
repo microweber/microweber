@@ -1,5 +1,17 @@
 <script>mw.lib.require('material_icons');</script>
-<script>mw.moduleCSS("<?php print modules_url(); ?>pictures/styles.css"); </script>
+
+
+
+
+<?php
+
+/*
+ * <script>mw.moduleCSS("<?php print modules_url(); ?>pictures/styles.css"); </script>
+*/
+template_stack_add(modules_url()."pictures/styles.css");
+
+
+?>
 
 <?php
 

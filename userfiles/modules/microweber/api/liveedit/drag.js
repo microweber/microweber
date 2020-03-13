@@ -578,6 +578,14 @@ mw.drag = {
                                 mw.liveEditState.record(rec);
                                 mw.$(mw.ea.data.target)[mw.ea.data.dropableAction](mw.ea.data.currentGrabbed);
 
+                                if(mw.liveEditDomTree){
+                                    mw.liveEditDomTree.sync(handleDomtreeSync.start.parentNode);
+                                    console.log(handleDomtreeSync.start.parentNode)
+                                    mw.liveEditDomTree.autoSync(mw.ea.data.target.parentNode, mw.ea.data.target);
+                                    handleDomtreeSync.start = null;
+                                }
+
+
                                 setTimeout(function(ed) {
                                     var nrec = {
                                         target: ed,
@@ -835,7 +843,7 @@ mw.drag = {
         var src = mw.settings.site_url + "api/module?" + json2url(data1);
 
         if (type === 'modal') {
-            var modal = top.mw.tools.modal.frame({
+            var modal = mw.top().tools.modal.frame({
                 url: src,
                 width: 532,
                 height: 150,
@@ -921,6 +929,10 @@ mw.drag = {
         mw.$("[data-gramm_id]", data).removeAttr('data-gramm_id');
         mw.$("[data-gramm]", data).removeAttr('data-gramm');
         mw.$("[data-gramm_id]", data).removeAttr('data-gramm_id');
+        mw.$("grammarly-card", data).remove();
+        mw.$("grammarly-inline-cards", data).remove();
+        mw.$("grammarly-popups", data).remove();
+        mw.$("grammarly-extension", data).remove();
         return data.innerHTML;
     },
     saving: false,
@@ -1074,14 +1086,14 @@ mw.drag = {
     draftDisabled: false,
     save: function(data, success, fail) {
         mw.trigger('beforeSaveStart', data);
-        if (typeof saveStaticElementsStyles === 'function') {
-            saveStaticElementsStyles();
+        if (mw.liveedit.cssEditor) {
+            mw.liveedit.cssEditor.publishIfChanged();
         }
         if (mw.drag.saveDisabled) return false;
-        if(typeof(data) == 'undefined'){
+        if(!data){
             var body = mw.drag.parseContent().body,
-                edits = body.querySelectorAll('.edit.changed'),
-                data = mw.drag.collectData(edits);
+                edits = body.querySelectorAll('.edit.changed');
+            data = mw.drag.collectData(edits);
         }
 
 

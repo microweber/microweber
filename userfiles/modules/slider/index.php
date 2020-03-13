@@ -97,8 +97,13 @@ if (is_file($template_file)) {
 
     <script>
         $(document).ready(function () {
+            console.log();
+            var bxPager = '<?php print $pager ? $pager : 'undefined'; ?>';
+            if ($('.bxSlider', '#<?php print $params['id'] ?>').children().length > 1) {
+                bxPager = 'false';
+            }
             $('.bxSlider', '#<?php print $params['id'] ?>').bxSlider({
-                pager: <?php print $pager ? $pager : 'undefined'; ?>,
+                pager: bxPager,
                 controls: <?php print $controls ? $controls : 'undefined'; ?>,
                 infiniteLoop: <?php print $loop ? $loop : 'undefined'; ?>,
                 adaptiveHeight: <?php print $adaptiveHeight ? $adaptiveHeight : 'undefined'; ?>,

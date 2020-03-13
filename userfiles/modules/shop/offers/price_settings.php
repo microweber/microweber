@@ -42,12 +42,13 @@ $offers_enabled = (mw()->modules->is_installed('shop/offers') ? true : false);
                 url: '<?php print api_url('offer_save'); ?>',
                 data: data,
                 success: function (data) {
+                    mw.notification.success('Price is saved')
                     if (typeof(data.error_message) !== "undefined") {
                         mw.notification.error(data.error_message);
                     }
+
+
                     $input.data('offer-id', data.offer_id);
-
-
                     mw.reload_module_parent('custom_fields')
 
                 }
@@ -63,11 +64,12 @@ $offers_enabled = (mw()->modules->is_installed('shop/offers') ? true : false);
                     type: 'POST',
                     dataType: 'json',
                     success: function (response) {
+                        mw.notification.success('Price is deleted')
                         if (typeof(reload_offer_after_save) != 'undefined') {
                             reload_offer_after_save();
                         }
-                       mw.reload_module('#<?php print $params['id'] ?>')
-                       mw.reload_module_parent('custom_fields')
+                        mw.reload_module('#<?php print $params['id'] ?>')
+                        mw.reload_module_parent('custom_fields')
 
                     }
                 });

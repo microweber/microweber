@@ -1,6 +1,6 @@
 <?php
 $config = array();
-$config['name'] = _e("Site stats", TRUE);
+$config['name'] = "Site stats";
 $config['author'] = "Microweber";
 $config['ui_admin'] = false;
 

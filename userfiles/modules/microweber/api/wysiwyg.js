@@ -333,7 +333,6 @@ mw.wysiwyg = {
         }
         if (state) {
             mw.on.DOMChangePause = true;
-            el.setAttribute('data-gramm', 'false');
             if (!el._handleCopy) {
                 el._handleCopy = true;
                 mw.$(el).on('copy', function(ev){
@@ -617,34 +616,36 @@ mw.wysiwyg = {
         if (mw.wysiwyg.isSafeMode(e.target)) {
             if (typeof clipboard !== 'undefined' && typeof clipboard.getData === 'function' && mw.wysiwyg.editable(e.target)) {
                 var text = clipboard.getData('text');
-                mw.wysiwyg.insert_html(text);
-                e.preventDefault()
-                return false;
+                if(text) {
+                    mw.wysiwyg.insert_html(text);
+                }
+                e.preventDefault();
+                return '';
             }
-
         }
-        if (mw.wysiwyg.isLocalPaste(clipboard)) {
+        if (mw.wysiwyg.isLocalPaste(clipboard)) {console.log(2)
             mw.wysiwyg.doLocalPaste(clipboard);
             e.preventDefault();
-            return false;
+            return '';
         }
 
 
-        if (mw.wysiwyg.pastedFromExcel(clipboard)) {
+        if (mw.wysiwyg.pastedFromExcel(clipboard)) {console.log(3)
             html = mw.wysiwyg.cleanExcel(clipboard)
             mw.wysiwyg.insert_html(html);
             e.preventDefault();
-            return false;
+            return '';
         }
 
 
-        if (clipboard.files.length > 0) {
+        if (clipboard.files.length > 0) {console.log(4)
             var i = 0;
             for (; i < clipboard.files.length; i++) {
                 var item = clipboard.files[i];
                 if (item.type.indexOf('image/') != -1) {
                     var reader = new FileReader();
                     reader.onload = function (e) {
+                        console.log(e.target)
                         mw.wysiwyg.insert_html('<img src="' + (e.target.result) + '">');
                         mw.wysiwyg.normalizeBase64Images();
                     }
@@ -653,7 +654,7 @@ mw.wysiwyg = {
             }
             e.preventDefault();
         }
-        else {
+        else {console.log(5)
             if (typeof clipboard !== 'undefined' && typeof clipboard.getData === 'function' && mw.wysiwyg.editable(e.target)) {
                 if (!mw.is.ie) {
                     html = clipboard.getData('text/html');
@@ -677,7 +678,7 @@ mw.wysiwyg = {
                     html = clipboard.getData('text');
                 }
                 if (!!html) {
-                    if (typeof mw.form != 'undefined') {
+                    if (mw.form) {
                         var is_link = mw.form.validate.url(html);
                         if (is_link) {
                             var html = "<a href='" + html + "'>" + html + "</a>";
@@ -1198,6 +1199,9 @@ mw.wysiwyg = {
             if(e && e.target) {
                 mw.wysiwyg.check_selection(e.target);
             }
+            if(mw.liveEditDomTree){
+                mw.liveEditDomTree.autoSync(e.target, e.target)
+            }
 
         });
     },
@@ -1237,7 +1241,7 @@ mw.wysiwyg = {
             if(mw.tools.hasClass(el, 'edit') || mw.tools.hasClass(parent, 'edit')) {
 
             } else {
-                mw.liveEditDomTree.autoSync(parent, el);
+
 
             }
 
@@ -1567,6 +1571,8 @@ mw.wysiwyg = {
         mw.$('.mw_editor_btn_active').removeClass('mw_editor_btn_active');
     },
     setActiveButtons: function (node) {
+        mw.require('css_parser.js');
+
         var css = mw.CSSParser(node);
         if (css && css.get) {
             var font = css.get.font();
@@ -1587,13 +1593,34 @@ mw.wysiwyg = {
             }
         }
     },
-    setActiveFontSize: function (node) {
-        var size = Math.round(parseFloat(mw.CSSParser(node).get.font().size));
-        var ddval = mw.$(".mw_dropdown_action_font_size");
-        if (ddval.length != 0 && ddval.setDropdownValue != undefined) {
+    setActiveFontSize: function () {
+        mw.require('css_parser.js');
+
+        var sel = getSelection();
+        var range = sel.getRangeAt(0);
+        if(range.collapsed) {
+            var node = mw.wysiwyg.validateCommonAncestorContainer(sel.focusNode);
+            var size = Math.round(parseFloat(mw.CSSParser(node).get.font().size));
             mw.$(".mw_dropdown_action_font_size .mw-dropdown-val").html(size + 'px')
+        } else {
+            var curr = range.startContainer;
+            var end = range.endContainer;
+            var common = mw.wysiwyg.validateCommonAncestorContainer(range.commonAncestorContainer);
+            var size = Math.round(parseFloat(mw.CSSParser(common).get.font().size));
+            while (curr && curr !== end) {
+                var node = mw.wysiwyg.validateCommonAncestorContainer(curr);
+                curr = curr.nextElementSibling;
+                var sizec = Math.round(parseFloat(mw.CSSParser(node).get.font().size));
+                if (sizec !== size) {
+                    mw.$(".mw_dropdown_action_font_size .mw-dropdown-val").html(mw.lang('Size'));
+                    return;
+                }
+            }
+            mw.$(".mw_dropdown_action_font_size .mw-dropdown-val").html(size + 'px')
+
         }
     },
+
     listSplit: function (list, index) {
         if (!list || typeof index == 'undefined') return;
         var curr = list.children[index];
@@ -1648,6 +1675,8 @@ mw.wysiwyg = {
     check_selection: function (target) {
         target = target || false;
 
+        mw.require('css_parser.js');
+
 
         if (!mw.wysiwyg.started_checking) {
             mw.wysiwyg.started_checking = true;
@@ -1681,7 +1710,7 @@ mw.wysiwyg = {
                         mw.wysiwyg.setActiveButtons(children[i]);
                         }
                     }
-                    mw.wysiwyg.setActiveFontSize(common);
+
                 }
                 else {
                     if (typeof common.parentElement !== 'undefined' && common.parentElement !== null) {
@@ -1689,7 +1718,6 @@ mw.wysiwyg = {
                         mw.$(".mw_editor_alignment").removeClass('mw_editor_btn_active');
                         mw.$(".mw-align-" + align).addClass('mw_editor_btn_active');
                         mw.wysiwyg.setActiveButtons(common.parentElement);
-                        mw.wysiwyg.setActiveFontSize(common.parentElement);
                     }
                 }
                 if (mw.wysiwyg.isFormatElement(common)) {
@@ -1711,6 +1739,7 @@ mw.wysiwyg = {
                         }
                     });
                 }
+                mw.wysiwyg.setActiveFontSize();
                 mw.wysiwyg.setDecorators(selection)
             }
 
@@ -1741,7 +1770,7 @@ mw.wysiwyg = {
             options: {
                 target: true,
                 text: true,
-                controllers: 'page, custom, content, section, layout, email',
+                controllers: 'page, custom, content, section, layout, email, file',
                 values: {
                     url: url,
                     text: text,
@@ -1824,6 +1853,7 @@ mw.wysiwyg = {
             }
 
             mw.wysiwyg.restore_selection();
+            mw.require("files.js");
 
             if(hash === '#editimage') {
                 if(mw.image.currentResizing) {
@@ -1833,10 +1863,13 @@ mw.wysiwyg = {
                     }
                     else {
                         mw.image.currentResizing.css("backgroundImage", 'url(' + mw.files.safeFilename(res) + ')');
+                        if(parent.mw.image.currentResizing) {
                         mw.wysiwyg.bgQuotesFix(parent.mw.image.currentResizing[0])
+                        }
                     }
-
-                    mw.wysiwyg.change(mw.image.currentResizing[0]);
+                    if(mw.image.currentResizing) {
+                        mw.wysiwyg.change(mw.image.currentResizing[0]);
+                    }
                     mw.image.currentResizing.load(function () {
                         mw.image.resize.resizerSet(this);
                     });
@@ -1846,7 +1879,7 @@ mw.wysiwyg = {
                 if(res.indexOf('<') !== -1) {
                     mw.wysiwyg.insert_html(res);
                 } else {
-                    mw.wysiwyg.insert_image(res);
+                    mw.wysiwyg.insertMedia(res);
                 }
             }
 
@@ -1888,7 +1921,7 @@ mw.wysiwyg = {
         if (isembed) {
             var id = 'frame-' + mw.random();
             var frame = html;
-            var html = '<span id="' + id + '"></span>';
+            html = '<span id="' + id + '"></span>';
         }
         if (!!window.MSStream) {
             mw.wysiwyg.restore_selection();
@@ -1927,13 +1960,36 @@ mw.wysiwyg = {
         for (; i < l; i++) {
             var item = n[i];
             if (item.nodeType === 1) {
-                var final = final + item.textContent.length;
+                final = final + item.textContent.length;
             }
             else if (item.nodeType === 3) {
-                var final = final + item.nodeValue.length;
+                final = final + item.nodeValue.length;
             }
         }
         return final;
+    },
+    insertMedia: function (url, type) {
+        var ext = url.split('.').pop().toLowerCase();
+        var name = url.split('/').pop()
+        if(!type) {
+            if(['png','gif','jpg','jpeg','tiff','bmp','svg'].indexOf(ext) !== -1) {
+                type = 'image';
+            }
+            if(['mp4','ogg'].indexOf(ext) !== -1) {
+                type = 'video';
+            }
+        }
+        if(type === 'image') {
+            return this.insert_image(url);
+        } else if(type === 'video') {
+            var id = 'image_' + mw.random();
+            var img = '<span class="mwembed"><video id="' + id + '" contentEditable="false" src="' + url + '" controls></video></span>';
+            mw.wysiwyg.insert_html(img);
+        } else {
+            var id = 'image_' + mw.random();
+            var img = '<a id="' + id + '" contentEditable="true" src="' + url + '">'+name+'</a>';
+            mw.wysiwyg.insert_html(img);
+        }
     },
     insert_image: function (url) {
         var id = 'image_' + mw.random();
@@ -2047,7 +2103,7 @@ mw.wysiwyg = {
             mw.wysiwyg.fontFamilies.push(body_font);
         }
 
-        var scan_for_fonts = ['h1', 'h2', 'h3', 'h4', 'h5', 'p', 'a[class]'];
+        var scan_for_fonts = ['body', 'html', 'h1', 'h2', 'h3', 'h4', 'h5', 'p', 'a[class]'];
 
         $.each(scan_for_fonts, function (index, value) {
             var sel = mw.$(document.querySelector(value));
@@ -2078,7 +2134,7 @@ mw.wysiwyg = {
             }
         });
     },
-    fontIconFamilies: ['fa', 'mw-ui-icon', 'mw-icon', 'material-icons', 'mw-wysiwyg-custom-icon', 'icon'],
+    fontIconFamilies: ['fas', 'fab', 'far', 'fa', 'mw-ui-icon', 'mw-icon', 'material-icons', 'mw-wysiwyg-custom-icon', 'icon'],
 
     elementHasFontIconClass: function (el) {
         var icon_classes = mw.wysiwyg.fontIconFamilies;
@@ -2442,6 +2498,17 @@ mw.wysiwyg = {
                 mw.wysiwyg.normalizeBase64Image(all[i]);
             }
         }
+    },
+    documentCommonFonts: function () {
+      var checkNodes = $('html, body, h1:first, h2:first, p:first');
+      var result = [];
+        checkNodes.each(function () {
+            var font = $(this).css('fontFamily').split(',')[0].trim();
+            if(result.indexOf(font) === -1) {
+                result.push(font)
+            }
+        });
+        return result;
     }
 }
 mw.disable_selection = function (element) {
@@ -2560,6 +2627,7 @@ $(mwd).ready(function () {
     mw.wysiwyg.dropdowns();
 
     if (!mw.wysiwyg._fontcolorpicker) {
+        mw.lib.require('colorpicker');
         mw.wysiwyg._fontcolorpicker = mw.colorPicker({
             element: document.querySelector('#mw_editor_font_color'),
             tip: true,
@@ -2623,6 +2691,8 @@ $(mwd).ready(function () {
 $(window).on('load', function () {
 
     mw.$(this).on('imageSrcChanged', function (e, el, url) {
+        mw.require("files.js");
+
         var node = mw.tools.firstParentOrCurrentWithAnyOfClasses(el, ['mw-image-holder']);
         if (node) {
             url = mw.files.safeFilename(url);

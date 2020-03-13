@@ -64,10 +64,10 @@
             if(window.thismodal && thismodal.iframe) {
                 mw.tools.iframeAutoHeight(thismodal.iframe, 'now');
             }
-            else if(window.top.frameElement && window.top.frameElement.contentWindow === window) {
-                mw.tools.iframeAutoHeight(window.top.frameElement, 'now');
+            else if(mw.top().win.frameElement && mw.top().win.frameElement.contentWindow === window) {
+                mw.tools.iframeAutoHeight(mw.top().win.frameElement, 'now');
             } else if(window.top !== window) {
-                top.mw.$('iframe').each(function(){
+                mw.top().$('iframe').each(function(){
                     try{
                         if(this.contentWindow === window) {
                             mw.tools.iframeAutoHeight(this, 'now');
@@ -101,6 +101,7 @@
             tempInput.select();
             document.execCommand("copy");
             document.body.removeChild(tempInput);
+            mw.notification.success(mw.lang('Copied') + ': "' + value + '"');
         },
         cloneObject: function (object) {
             return jQuery.extend(true, {}, object);
@@ -184,6 +185,7 @@
                 ins.appendChild(style);
             }
             style.innerHTML = css;
+            return style;
         },
         cssNumber: function (val) {
             var units = ["px", "%", "in", "cm", "mm", "em", "ex", "pt", "pc"];
@@ -281,6 +283,8 @@
             });
         },
         accordion: function (el, callback) {
+            mw.require('css_parser.js')
+
             var speed = 200;
             var container = el.querySelector('.mw-accordion-content');
             if (container === null) return false;

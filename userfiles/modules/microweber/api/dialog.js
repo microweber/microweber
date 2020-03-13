@@ -93,10 +93,12 @@
                             if(frame.contentWindow.mw.__dialogs && frame.contentWindow.mw.__dialogs.length){
                                 var dlg = frame.contentWindow.mw.__dialogs;
                                 dlg[dlg.length - 1]._doCloseButton();
+                                $(dlg[dlg.length - 1]).trigger('closedByUser');
                             }
                             else {
                                 if (dialog.options.closeOnEscape) {
                                     dialog._doCloseButton();
+                                    $(dialog).trigger('closedByUser');
                                 }
                             }
                         }
@@ -137,6 +139,7 @@
             return false;
         }
     };
+
 
     mw.Dialog = function (options, cres) {
 
@@ -302,6 +305,7 @@
 
             this.closeButton.onclick = function () {
                 this.$scope[this.$scope.options.closeButtonAction]();
+                $(this.$scope).trigger('closedByUser');
             };
             this.main = mw.$(this.dialogContainer); // obsolete
             this.main.width = this.width;
@@ -350,6 +354,7 @@
             mw.$(this.overlay).on('click', function () {
                 if (this.$scope.options.overlayClose === true) {
                     this.$scope._doCloseButton();
+                    $(this.$scope).trigger('closedByUser');
                 }
             });
 
@@ -562,6 +567,10 @@
         };
         this.init();
 
+    };
+
+    mw.Dialog.elementIsInDialog = function (node) {
+        return mw.tools.firstParentWithClass(node, 'mw-dialog');
     };
 
 

@@ -10,7 +10,9 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 }
 
 ?>
-
+<script type="text/javascript">
+    mw.require("content.js");
+</script>
 <script type="text/javascript">
 
     mw.on.hashParam("search", function () {
@@ -37,7 +39,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
 
     var mainTreeSetActiveItems = function(){
-        if(mw.adminPagesTree){
+        if(typeof(mw.adminPagesTree) != 'undefined'){
 
             var hp = mw.url.getHashParams(location.hash);
 
@@ -702,6 +704,10 @@ if ($action == 'posts') {
                                             }
                                         }
                                     ];
+
+
+
+
                                     pagesTree = new mw.tree({
                                         data:data,
                                         element:$("#pages_tree_container_<?php print $my_tree_id; ?>")[0],
@@ -889,8 +895,7 @@ if ($action == 'posts') {
                 });
             </script>
 
-
-            <div id="pages_edit_container" <?php print $pages_container_params_str; ?>></div>
+             <div id="pages_edit_container" <?php print $pages_container_params_str; ?>></div>
         </div>
     </div>
 </div>

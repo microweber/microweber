@@ -162,7 +162,7 @@
                 + loader
                 + (mw.tools.isFullscreenAvailable() ? '<span class="mwf-fullscreen"></span>' : '')
                 + '</div>';
-            var modal = modal || top.mw.tools.modal.init({
+            var modal = modal || mw.top().tools.modal.init({
                     width: "100%",
                     height: "100%",
                     html: '',

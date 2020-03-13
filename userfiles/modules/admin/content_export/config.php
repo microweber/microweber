@@ -1,6 +1,6 @@
 <?php
 $config = array();
-$config['name'] = _e("Content Export", TRUE);
+$config['name'] = "Content Export";
 $config['author'] = "Microweber";
  
 $config['categories'] = "admin"; 

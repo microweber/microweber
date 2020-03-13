@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = _e("Team Card", TRUE);
+$config['name'] = "Team Card";
 $config['author'] = "Microweber";
 $config['ui'] = true;
 $config['version'] = 0.01;

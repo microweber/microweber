@@ -48,7 +48,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     </script>
 
     <script>
-        mw.require('ui.css');
         mw.lib.require('jqueryui');
         mw.require("<?php print $config['url_to_module'];?>css/main.css");
         mw.lib.require('font_awesome5');

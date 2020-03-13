@@ -113,7 +113,7 @@ mw.live_edit.showSettings = function (a, opts) {
         data1.view = 'admin';
     }
     if (data1.from_url == undefined) {
-        //data1.from_url = window.top.location;
+        //data1.from_url = mw.top().win.location;
         data1.from_url = window.parent.location;
     }
     var modal_name = 'module-settings-' + curr.id;

@@ -1,20 +1,20 @@
 mw.notification = {
-    msg: function (data, timeout, _alert) {
-        var timeout = timeout || 1000;
-        var _alert = _alert || false;
-        if (data != undefined) {
-            if (data.success != undefined) {
-                if (!_alert) {
+    msg: function (data, timeout, alert) {
+        timeout = timeout || 1000;
+        alert = alert || false;
+        if (data) {
+            if (data.success) {
+                if (alert) {
                     mw.notification.success(data.success, timeout);
                 }
                 else {
                     Alert(data.success);
                 }
             }
-            if (data.error != undefined) {
+            if (data.error) {
                 mw.notification.error(data.error, timeout);
             }
-            if (data.warning != undefined) {
+            if (data.warning) {
                 mw.notification.warning(data.warning, timeout);
             }
         }
@@ -22,11 +22,11 @@ mw.notification = {
     build: function (type, text) {
         var div = mwd.createElement('div');
         div.className = 'mw-notification mw-' + type;
-        div.innerHTML = '<div>' + text + '</div>'
+        div.innerHTML = '<div>' + text + '</div>';
         return div;
     },
     append: function (type, text, timeout) {
-        var timeout = timeout || 1000;
+        timeout = timeout || 1000;
         var div = mw.notification.build(type, text);
         if (typeof mw.notification._holder === 'undefined') {
             mw.notification._holder = mwd.createElement('div');
@@ -44,15 +44,15 @@ mw.notification = {
         }, timeout);
     },
     success: function (text, timeout) {
-        var timeout = timeout || 1000;
+        timeout = timeout || 1000;
         mw.notification.append('success', text, timeout);
     },
     error: function (text, timeout) {
-        var timeout = timeout || 1000;
+        timeout = timeout || 1000;
         mw.notification.append('error', text, timeout);
     },
     warning: function (text, timeout) {
-        var timeout = timeout || 1000;
+        timeout = timeout || 1000;
         mw.notification.append('warning', text, timeout);
     }
 };

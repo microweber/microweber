@@ -80,6 +80,11 @@ if ($for_id != false) {
 
 ?>
 
+
+<script>
+      mw.require("files.js");
+</script>
+
 <script type="text/javascript">
     after_upld = function (a, e, f, id, module_id) {
         if (e !== 'done') {
@@ -132,18 +137,18 @@ if ($for_id != false) {
 </script>
 
 
-<script type="text/javascript">
+<script>
     mw_admin_pictures_upload_browse_existing = function () {
 
 
-        // var dialog = window.top.mw.dialogIframe({
-        var dialog = window.top.mw.dialogIframe({
+        // var dialog = mw.top().dialogIframe({
+        var dialog = mw.top().dialogIframe({
             url: '<?php print site_url() ?>module/?type=files/admin&live_edit=true&remeber_path=true&ui=basic&start_path=media_host_base&from_admin=true&file_types=images&id=mw_admin_pictures_upload_browse_existing_modal<?php print $params['id'] ?>&from_url=<?php print site_url() ?>',
             title: "Browse pictures",
             id: 'mw_admin_pictures_upload_browse_existing_modal<?php print $params['id'] ?>',
             height: 'auto',
             autoHeight: true
-        })
+        });
         $(dialog.iframe).on('load', function(){
             this.contentWindow.mw.on.hashParam('select-file', function () {
                 after_upld(this, 'save', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
@@ -156,7 +161,20 @@ if ($for_id != false) {
             })
         })
 
-    }
+    };
+
+    var getMediaImage = function () {
+        var dialog = mw.top().tools.moduleFrame('pictures/media_library');
+        dialog.title('Media library');
+        $(dialog.iframe).on('load', function(){
+            this.contentWindow.mw.on.hashParam('select-file', function () {
+                after_upld(this, 'save', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
+                after_upld(this, 'done', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
+                mw.notification.success('<?php _ejs('The image is added to the gallery') ?>');
+                dialog.remove();
+            });
+        });
+    };
 </script>
 <?php
 if (!isset($data["thumbnail"])) {
@@ -168,6 +186,7 @@ if (!isset($data["thumbnail"])) {
 <input name="thumbnail" type="hidden" value="<?php print ($data['thumbnail']) ?>"/>
 <div style="text-align: right; margin-bottom: 15px;">
     <a href="javascript:mw_admin_pictures_upload_browse_existing()" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-ui-btn-outline btn-rounded"> <?php _e('Browse uploaded'); ?></a>
+    <a href="javascript:getMediaImage()" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-ui-btn-outline btn-rounded"> <?php _e('Media library'); ?></a>
     <div class="clearfix"></div>
 </div>
 
@@ -320,7 +339,7 @@ if (!isset($data["thumbnail"])) {
             mw.module_pictures.save_options(id, data);
             mw.reload_module('#<?php print $params['id'] ?>');
             mw.reload_module('pictures/admin')
-            top.mw.reload_module('pictures')
+            mw.top().reload_module('pictures')
         }
 
 
@@ -412,7 +431,7 @@ if (!isset($data["thumbnail"])) {
                     mw.module_pictures.open_image_upload_settings_modal();
                 }
                 if (a &&  a.image_was_auto_resized_msg) {
-                    window.top.mw.notification.warning(a.image_was_auto_resized_msg, 5200);
+                    mw.top().notification.warning(a.image_was_auto_resized_msg, 5200);
                 }
                 if(a){
                     after_upld(a.src, e.type, '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
@@ -421,17 +440,6 @@ if (!isset($data["thumbnail"])) {
 
             });
 
-
-            //$(uploader).remove();
-            /*mw.$("#backend_image_uploader").on('click', function () {
-                mw.fileWindow({
-                    types: 'images',
-                    change: function (url, b) {
-                        url = url.toString();
-                        console.log(url, b)
-                    }
-                });
-            });*/
 
             $(".image-tag-view").remove();
             $(".image-tags").each(function () {

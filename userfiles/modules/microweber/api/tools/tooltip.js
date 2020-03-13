@@ -248,15 +248,16 @@
     mw.tools.tip = function (o) {
         return mw.tools.tooltip.init(o);
     };
-    mw.tools.titleTip = function (el) {
+    mw.tools.titleTip = function (el, _titleTip) {
+        _titleTip = _titleTip || '_titleTip';
         if (mw.tools.hasClass(el, 'tip-disabled')) {
-            mw.$(mw.tools._titleTip).hide();
+            mw.$(mw.tools[_titleTip]).hide();
             return false;
         }
         var skin = mw.$(el).attr('data-tipskin');
         skin = (skin) ? skin : 'mw-tooltip-dark';
         var pos = mw.$(el).attr('data-tipposition');
-        var iscircle = mw.$(el).attr('data-tipcircle') == 'true';
+        var iscircle = mw.$(el).attr('data-tipcircle') === 'true';
         if (!pos) {
             pos = 'top-center';
         }
@@ -284,22 +285,22 @@
         if (showon) {
             el = mw.$(showon)[0];
         }
-        if (!mw.tools._titleTip) {
-            mw.tools._titleTip = mw.tooltip({skin: skin, element: el, position: pos, content: text});
-            mw.$(mw.tools._titleTip).addClass('mw-universal-tooltip');
+        if (!mw.tools[_titleTip]) {
+            mw.tools[_titleTip] = mw.tooltip({skin: skin, element: el, position: pos, content: text});
+            mw.$(mw.tools[_titleTip]).addClass('mw-universal-tooltip');
         }
         else {
-            mw.tools._titleTip.className = 'mw-tooltip ' + pos + ' ' + skin + ' mw-universal-tooltip';
-            mw.$('.mw-tooltip-content', mw.tools._titleTip).html(text);
-            mw.tools.tooltip.setPosition(mw.tools._titleTip, el, pos);
+            mw.tools[_titleTip].className = 'mw-tooltip ' + pos + ' ' + skin + ' mw-universal-tooltip';
+            mw.$('.mw-tooltip-content', mw.tools[_titleTip]).html(text);
+            mw.tools.tooltip.setPosition(mw.tools[_titleTip], el, pos);
         }
         if (iscircle) {
-            mw.$(mw.tools._titleTip).addClass('mw-tooltip-circle');
+            mw.$(mw.tools[_titleTip]).addClass('mw-tooltip-circle');
         }
         else {
-            mw.$(mw.tools._titleTip).removeClass('mw-tooltip-circle');
+            mw.$(mw.tools[_titleTip]).removeClass('mw-tooltip-circle');
         }
-        mw.$(mw.tools._titleTip).show();
+        mw.$(mw.tools[_titleTip]).show();
     }
 
 })();

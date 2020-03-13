@@ -74,12 +74,6 @@ if (!window.escape) {
 }
 
 
-
-
-
-
-window.Alert = mw.tools.alert;
-
 Array.prototype.remove = Array.prototype.remove || function (what) {
     var i = 0, l = this.length;
     for ( ; i < l; i++) {
@@ -151,6 +145,9 @@ mw.postMsg = function (w, obj) {
 };
 
 mw.uploader = function (o) {
+
+    mw.require("files.js");
+
     var uploader = mw.files.uploader(o);
     var el = mw.$(o.element)[0];
     if (typeof el !== 'undefined') {

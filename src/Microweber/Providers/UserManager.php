@@ -714,7 +714,9 @@ class UserManager
                     return array('error' => 'Password confirm does not mach password!');
                 }
             }
-
+            if ($email == false and $user != false) {
+                $email = $user;
+            }
             if ($email != false) {
 
 

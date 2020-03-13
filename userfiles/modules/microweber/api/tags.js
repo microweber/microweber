@@ -28,6 +28,7 @@ mw.tags = mw.chips = function(options){
         ]
     */
 
+
     this.refresh = function(){
         mw.$(scope.options.element).empty();
         this.rend();
@@ -88,7 +89,7 @@ mw.tags = mw.chips = function(options){
             return data;
         }
         else{
-            return data[this.map.title]
+            return data[this.map.title];
         }
     };
 
@@ -221,6 +222,11 @@ mw.tags = mw.chips = function(options){
 
      this.init = function () {
          this.rend();
+         $(this.options.element).on('click', function (e) {
+             if(e.target === scope.options.element){
+                 $('input', this).focus();
+             }
+         })
      };
     this.init();
 };

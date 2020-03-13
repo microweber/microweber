@@ -94,6 +94,7 @@ var dynamicModulesMenu = function(e, el) {
 
 };
 
+var handleDomtreeSync = {};
 
 mw.Handle = function(options) {
 
@@ -196,21 +197,21 @@ mw.Handle = function(options) {
 
     ];
 
-    this.createMenuDynamicHolder = function(){
+    this.createMenuDynamicHolder = function(item){
         var dn = mwd.createElement('div');
-        dn.className = 'mw-handle-menu-dynamic';
+        dn.className = 'mw-handle-menu-dynamic' + (item.className ? ' ' + item.className : '');
         return dn;
     };
     this.createMenu = function(){
         this.menu = mwd.createElement('div');
         this.menu.className = 'mw-handle-menu ' + (this.options.menuClass ? this.options.menuClass : 'mw-handle-menu-default');
         if (this.options.menu) {
-            for (var i=0; i<this.options.menu.length; i++) {
+            for (var i = 0; i < this.options.menu.length; i++) {
                 if(this.options.menu[i].title !== '{dynamic}') {
                     this.menu.appendChild(this.menuButton(this.options.menu[i])) ;
                 }
                 else {
-                    this.menu.appendChild(this.createMenuDynamicHolder()) ;
+                    this.menu.appendChild(this.createMenuDynamicHolder(this.options.menu[i])) ;
                 }
 
             }
@@ -366,6 +367,8 @@ mw._initHandles = {
                 mw.isDrag = true;
                 mw.dragCurrent = mw.ea.data.currentGrabbed = mw._activeElementOver;
 
+                handleDomtreeSync.start = mw.dragCurrent.parentNode;
+
                 if(!mw.dragCurrent.id){
                     mw.dragCurrent.id = 'element_' + mw.random();
                 }
@@ -483,7 +486,19 @@ mw._initHandles = {
                 },
                 {
                     title: '{dynamic}',
-                    icon: 'mw-icon-arrow-down-b'
+                    className:'mw_handle_module_submodules'
+                },
+
+
+                {
+                    title: 'Reset',
+                    icon: 'mw-icon-reload',
+                    className:'mw-handle-remove',
+                    action: function () {
+                        if(mw._activeModuleOver && mw._activeModuleOver.id){
+                            mw.tools.confirm_reset_module_by_id(mw._activeModuleOver.id)
+                        }
+                    }
                 },
                 {
                     title: 'Remove',
@@ -525,7 +540,17 @@ mw._initHandles = {
                 },
                 {
                     title: '{dynamic}',
-                    icon: 'mw-icon-arrow-down-b'
+                    className:'mw_handle_module_submodules'
+                },
+                {
+                    title: 'Reset',
+                    icon: 'mw-icon-reload',
+                    className:'mw-handle-remove',
+                    action: function () {
+                        if(mw._activeModuleOver && mw._activeModuleOver.id){
+                            mw.tools.confirm_reset_module_by_id(mw._activeModuleOver.id)
+                        }
+                    }
                 },
                 {
                     title: 'Remove',
@@ -565,6 +590,7 @@ mw._initHandles = {
                 start: function() {
                     mw.isDrag = true;
                     mw.dragCurrent = curr();
+                    handleDomtreeSync.start = mw.dragCurrent.parentNode;
                     if(!mw.dragCurrent.id){
                         mw.dragCurrent.id = 'module_' + mw.random();
                     }
@@ -628,6 +654,8 @@ mw._initHandles = {
                 handle._target = pelement;
             }
 
+
+
             mw.$(".mw-handle-menu-dynamic", handle.wrapper).empty();
             mw.$('.mw_handle_module_up,.mw_handle_module_down').hide();
             var $el, hasedit;
@@ -659,7 +687,7 @@ mw._initHandles = {
                 }
             }
 
-            var marginTop =  -30;
+            var marginTop =  30;
             var topPos = o.top;
 
             if(topPos<minTop){
@@ -715,10 +743,19 @@ mw._initHandles = {
             } else {
                 mw.$(handle.wrapper).addClass('mw-handle-no-drag');
             }
-
+            if(typeof(el) == 'undefined'){
+                return;
+            }
             var title = el.dataset("mw-title");
             var id = el.attr("id");
-            var module_type = (el.dataset("type") || el.attr("type")).trim();
+
+
+
+            var module_type = (el.dataset("type") || el.attr("type"));
+            if(typeof(module_type) == 'undefined'){
+                return;
+            }
+
             var cln = el[0].querySelector('.cloneable');
             if(cln || mw.tools.hasClass(el[0], 'cloneable')){
                 if(($(cln).offset().top - el.offset().top) < 20){
@@ -789,6 +826,29 @@ mw._initHandles = {
 
         mw.on('moduleOver', function (e, pelement) {
             positionModuleHandle(e, pelement, mw.handleModule);
+            if(mw._activeModuleOver === mw.handleModuleActive._target) {
+                mw.handleModule.hide();
+            }
+
+            var nodes = [];
+            mw.$('.module', pelement).each(function () {
+
+                var type = this.getAttribute('data-type');
+
+                var hastitle = mw.live_edit.registry[type] ? mw.live_edit.registry[type].title : false;
+                if(hastitle){
+                    var menuitem = '<span class="mw-handle-menu-item dynamic-submodule-handle" data-module="'+this.id+'">'
+                        + '<span class="mw-icon-gear mw-handle-menu-item-icon"></span>'
+                        + hastitle.replace(/_/g, ' ')
+                        + '</span>';
+                    nodes.push(menuitem);
+                 }
+
+            });
+            $('.mw_handle_module_submodules').html(nodes.join(''));
+            mw.$('.dynamic-submodule-handle').on('click', function () {
+                mw.tools.module_settings('#' + this.dataset.module);
+            });
         });
     },
     columns:function(){
@@ -850,6 +910,7 @@ mw._initHandles = {
                 mw.isDrag = true;
                 var curr = mw._activeRowOver ;
                 mw.dragCurrent = mw.ea.data.currentGrabbed = curr;
+                handleDomtreeSync.start = mw.dragCurrent.parentNode;
                 mw.dragCurrent.id == "" ? mw.dragCurrent.id = 'element_' + mw.random() : '';
                 mw.$(mw.dragCurrent).invisible().addClass("mw_drag_current");
                 mw.trigger("AllLeave");

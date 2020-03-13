@@ -58,6 +58,9 @@ if (!isset($params['prefix'])) {
             mw.form.post(mw.$('#activate-form-<?php print $params['id']; ?>'), '<?php print site_url('api') ?>/mw_save_license', function () {
                 mw.notification.msg(this);
                 mw.reload_module('<?php print $params['parent-module']; ?>');
+                if(window.licensemodal){
+                    licensemodal.remove()
+                }
             });
 
             return false;

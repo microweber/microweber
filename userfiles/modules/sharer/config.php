@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = _e("Sharer", TRUE);
+$config['name'] = "Sharer";
 $config['author'] = "Microweber";
 $config['no_cache'] = false;
 $config['ui'] = true;

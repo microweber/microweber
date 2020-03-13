@@ -4,7 +4,7 @@
     mw.require("events.js");
     mw.require("forms.js");
     mw.require("files.js");
-    mw.require("tools.js");
+   // mw.require("tools.js");
     mw.require("url.js");
 </script>
 
@@ -275,7 +275,7 @@ if (array_key_exists('types', $_GET)) {
                                 <span class="mw-ui-btn mw-ui-btn mw-ui-btn-small"><?php _e("Upload Media"); ?></span></li>
                         <?php }
                         if (in_array('files', $types)) { ?>
-                            <li class="mw-upload-filetype-file" data-type="files">
+                            <li class="mw-upload-filetype-file">
                                 <div class="mw-icon-file"></div>
                                 <span class="mw-ui-btn mw-ui-btn mw-ui-btn-small"><?php _e("Upload File"); ?></span>
                             </li>

@@ -48,19 +48,19 @@
 
 
         mw.module_preset_apply_actions_after_id_change = function (id, attrs) {
-            var parent_el = window.top.document.getElementById(mod_id_for_presets);
+            var parent_el = mw.top().win.document.getElementById(mod_id_for_presets);
 
 
             if (parent_el) {
-                var ed_field = window.top.mw.tools.firstParentWithClass(parent_el, 'edit');
+                var ed_field = mw.top().tools.firstParentWithClass(parent_el, 'edit');
                 if (ed_field) {
-                    window.top.mw.$(ed_field).addClass('changed');
-                    if (parent !== self && !!window.top.mw) {
-                        if (window.top.mw.drag != undefined && window.top.mw.drag.save != undefined) {
-                            //   window.top.mw.drag.save();
+                    mw.top().$(ed_field).addClass('changed');
+                    if (parent !== self && !!mw.top().win.mw) {
+                        if (mw.top().drag != undefined && mw.top().drag.save != undefined) {
+                            //   mw.top().drag.save();
                         }
-                        //  window.top.mw.askusertostay = false;
-                        window.top.mw.askusertostay = true;
+                        //  mw.top().askusertostay = false;
+                        mw.top().askusertostay = true;
                     }
                 }
             }
@@ -70,21 +70,21 @@
             window.parent.mw.reload_module_parent("#" + id);
 
 
-            window.top.mw.reload_module("#" + id);
+            mw.top().reload_module("#" + id);
 
 
             //mw.reload_module("#<?php print $params['id'] ?>")
             window.parent.mw.reload_module("#" + id);
             window.parent.mw.reload_module("#" + mod_id_for_presets);
-            // window.top.mw.reload_module("#" + mod_id_for_presets);
+            // mw.top().reload_module("#" + mod_id_for_presets);
 
 
             // reloading of iframe
 
             if (
-                typeof(window.top.module_settings_modal_reference_window) != 'undefined'
-                && typeof(window.top.module_settings_modal_reference_preset_editor_modal_id) != 'undefined'
-                && window.top.module_settings_modal_reference_preset_editor_modal_id
+                typeof(mw.top().win.module_settings_modal_reference_window) != 'undefined'
+                && typeof(mw.top().win.module_settings_modal_reference_preset_editor_modal_id) != 'undefined'
+                && mw.top().win.module_settings_modal_reference_preset_editor_modal_id
             ) {
                 var orig_attrs_str = '';
                 var parent_el = window.parent.document.getElementById(id);
@@ -96,7 +96,7 @@
 
 
                 if (window.URL) {
-                    var url = new URL(window.top.module_settings_modal_reference_window.location.href);
+                    var url = new URL(mw.top().win.module_settings_modal_reference_window.location.href);
 
                     var query_string = url.search;
 
@@ -113,36 +113,36 @@
                 }
 
 
-                window.top.module_settings_modal_reference_window.location.href = src_new_modal_settings
+                mw.top().win.module_settings_modal_reference_window.location.href = src_new_modal_settings
             }
 
         }
         mw.module_preset_set_release = function (id) {
 
-            var orig_id = window.top.mw.$('#' + mod_id_for_presets).attr("data-module-original-id");
+            var orig_id = mw.top().$('#' + mod_id_for_presets).attr("data-module-original-id");
             //  var orig_id = mod_id_orig;
-            var orig_attr = window.top.mw.$('#' + mod_id_for_presets).attr("data-module-original-attrs");
+            var orig_attr = mw.top().$('#' + mod_id_for_presets).attr("data-module-original-attrs");
             //    var orig_id = id;
             // var orig_id = mod_id_for_presets;
 
 
             if (orig_id) {
 
-                window.top.mw.$('#' + mod_id_for_presets).removeAttr("data-module-original-id");
-                window.top.mw.$('#' + mod_id_for_presets).removeAttr("data-module-original-attrs");
+                mw.top().$('#' + mod_id_for_presets).removeAttr("data-module-original-id");
+                mw.top().$('#' + mod_id_for_presets).removeAttr("data-module-original-attrs");
                 if (orig_attr) {
                     var orig_attrs_decoded = JSON.parse(window.atob(orig_attr));
                     if (orig_attrs_decoded) {
-                        window.top.mw.$('#' + mod_id_for_presets).attr(orig_attrs_decoded);
+                        mw.top().$('#' + mod_id_for_presets).attr(orig_attrs_decoded);
 
                     }
                 }
-                window.top.mw.$('#' + mod_id_for_presets).removeAttr("data-module-original-id");
-                window.top.mw.$('#' + mod_id_for_presets).removeAttr("data-module-original-attrs");
-                window.top.mw.$('#' + mod_id_for_presets).attr("id", orig_id);
-                window.top.mw.$('#' + mod_id_for_presets).attr("id", orig_id);
+                mw.top().$('#' + mod_id_for_presets).removeAttr("data-module-original-id");
+                mw.top().$('#' + mod_id_for_presets).removeAttr("data-module-original-attrs");
+                mw.top().$('#' + mod_id_for_presets).attr("id", orig_id);
+                mw.top().$('#' + mod_id_for_presets).attr("id", orig_id);
 
-                window.top.mw.reload_module("#" + orig_id);
+                mw.top().reload_module("#" + orig_id);
                 mod_id_for_presets = orig_id;
                 mw.module_preset_apply_actions_after_id_change(mod_id_for_presets)
 
@@ -154,32 +154,32 @@
 
             var orig_attrs;
             var orig_attrs_encoded;
-            var parent_el = window.top.document.getElementById(mod_id_for_presets);
+            var parent_el = mw.top().win.document.getElementById(mod_id_for_presets);
             var parent_el2 = null;
             var parent_el2_window = window;
 
 
             if (
-                typeof(window.top.module_settings_modal_reference_window) != 'undefined'
-                && typeof(window.top.module_settings_modal_reference_preset_editor_modal_id) != 'undefined'
-                && window.top.module_settings_modal_reference_preset_editor_modal_id
+                typeof(mw.top().win.module_settings_modal_reference_window) != 'undefined'
+                && typeof(mw.top().win.module_settings_modal_reference_preset_editor_modal_id) != 'undefined'
+                && mw.top().win.module_settings_modal_reference_preset_editor_modal_id
             ) {
-                var parent_el2_window = window.top.module_settings_modal_reference_window;
+                var parent_el2_window = mw.top().win.module_settings_modal_reference_window;
 
                 var parent_el2 = parent_el2_window.document.getElementById(mod_id_for_presets);
             }
 
 
             if (parent_el != null) {
-                var orig_attrs = window.top.mw.tools.getAttrs(parent_el);
+                var orig_attrs = mw.top().tools.getAttrs(parent_el);
                 if (orig_attrs) {
-                    var orig_attrs_encoded = window.top.btoa(JSON.stringify(orig_attrs));
+                    var orig_attrs_encoded = mw.top().win.btoa(JSON.stringify(orig_attrs));
                 }
             }
 
-            var set_orig_id = window.top.mw.$(parent_el).attr("id");
-            var have_orig_id = window.top.mw.$(parent_el).attr("data-module-original-id");
-            var have_orig_attr = window.top.mw.$(parent_el).attr("data-module-original-attrs");
+            var set_orig_id = mw.top().$(parent_el).attr("id");
+            var have_orig_id = mw.top().$(parent_el).attr("data-module-original-id");
+            var have_orig_attr = mw.top().$(parent_el).attr("data-module-original-attrs");
 
 
             // if(typeof(use_attrs.module_settings) != 'undefined'){
@@ -190,16 +190,16 @@
             //     delete(use_attrs.live_edit);
             // }
             if (use_attrs) {
-                window.top.mw.$(parent_el).attr(use_attrs);
+                mw.top().$(parent_el).attr(use_attrs);
             }
             if (!have_orig_attr && orig_attrs_encoded) {
-                window.top.mw.$(parent_el).attr("data-module-original-attrs", orig_attrs_encoded);
+                mw.top().$(parent_el).attr("data-module-original-attrs", orig_attrs_encoded);
             }
             if (!have_orig_id) {
                 ///   alert(set_orig_id);
-                window.top.mw.$(parent_el).attr("data-module-original-id", set_orig_id);
+                mw.top().$(parent_el).attr("data-module-original-id", set_orig_id);
             }
-            window.top.mw.$(parent_el).attr("id", is_use);
+            mw.top().$(parent_el).attr("id", is_use);
             if (parent_el2) {
                 parent_el2_window.mw.$(parent_el2).attr("id", is_use);
                 if (use_attrs) {
@@ -215,7 +215,7 @@
             }
 
 
-            // window.top.mw.$(parent_el).css("background", 'red');
+            // mw.top().$(parent_el).css("background", 'red');
             mod_id_for_presets = is_use;
             mw.module_preset_apply_actions_after_id_change(mod_id_for_presets)
 
@@ -238,11 +238,11 @@
 
 
                 var attrs;
-                var parent_el = window.top.document.getElementById(btn_mod_id);
+                var parent_el = mw.top().win.document.getElementById(btn_mod_id);
 
 
                 if (parent_el != null) {
-                    attrs = window.top.mw.tools.getAttrs(parent_el);
+                    attrs = mw.top().tools.getAttrs(parent_el);
                 }
 
 
@@ -337,7 +337,7 @@
             if (mw_existing_modules_presets_ids.length > 0) {
                 $(mw_existing_modules_presets_ids).each(function (index, element) {
                     if (selected_module_id != element) {
-                        var is_element_exists = window.top.document.getElementById(element);
+                        var is_element_exists = mw.top().win.document.getElementById(element);
                         if (is_element_exists) {
 
                             $('.mw-presets-list[js-mod-id=' + element + ']').addClass('disabled');

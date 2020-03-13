@@ -15,7 +15,7 @@ description: Default
 ?>
 <?php if (isset($data) and is_array($data)): ?>
     <div class="mw-breadcrumb">
-        <a href="<?php print(site_url()); ?>"><?php print _e('Home'); ?></a>
+        <a href="<?php print  $homepage['url']; ?>"><?php print $homepage['title']; ?></a>
 
         <?php foreach ($data as $item): ?>
             <?php if (!($item['is_active'])): ?>

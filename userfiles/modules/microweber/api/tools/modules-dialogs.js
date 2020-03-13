@@ -11,8 +11,8 @@
                     mw.$('#'+module_id).removeAttr('data-module-original-attrs');
                     mw.$('#'+module_id).attr(orig_attrs_decoded).reload_module();
 
-                    if(  window.top.module_settings_modal_reference_preset_editor_thismodal ){
-                        window.top.module_settings_modal_reference_preset_editor_thismodal.remove();
+                    if(  mw.top().win.module_settings_modal_reference_preset_editor_thismodal ){
+                        mw.top().win.module_settings_modal_reference_preset_editor_thismodal.remove();
                     }
                  }
                  return;
@@ -81,7 +81,8 @@
             var src = src + '&root_element_id='+root_element_id;
         }
 
-        var modal = mw.tools.modal.frame({
+        // mw.tools.modal.frame({
+        var modal = mw.dialogIframe({
             url: src,
             // width: 500,
             // height: mw.$(window).height() - (2.5 * mw.tools.TemplateSettingsModalDefaults.top),
@@ -90,6 +91,8 @@
             template: 'default',
             center: false,
             resize: true,
+            autosize: true,
+            autoHeight: true,
             draggable: true
         });
     },
@@ -188,6 +191,6 @@
     };
 
     for (var i in systemDialogs) {
-        mw.tools[i] = systemDialogs[i];  
+        mw.tools[i] = systemDialogs[i];
     }
 })()

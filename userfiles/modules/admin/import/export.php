@@ -52,7 +52,7 @@
         var selected_export_items = [];
 
         /* look for all checkboes that have a class 'chk' attached to it and check if it was checked */
-        $(".js-export-items:checked").each(function() {
+        $("[name='export_items']:checked").each(function() {
             selected_export_items.push($(this).val());
         });
 

@@ -46,6 +46,8 @@ mw.html_editor.get_edit_fields = function (also_in_modules, root_element_selecto
             fields_arr.push(this);
         }
     });
+
+
     return fields_arr;
 };
 
@@ -65,7 +67,7 @@ mw.html_editor.createItemContent = function (option) {
         frame.scrolling = 'no';
         setTimeout(function () {
             frame.contentDocument.body.innerHTML = option.el.innerHTML;
-            var root = window.top.opener ? window.top.opener.document.documentElement : window.top.document.documentElement;
+            var root = mw.top().win.opener ? mw.top().win.opener.document.documentElement : mw.top().win.document.documentElement;
             $('link', root).each(function () {
                 $(this).clone(true).appendTo(frame.contentDocument.body);
             });
@@ -79,7 +81,8 @@ mw.html_editor.build_dropdown = function (fields_array, screenShot) {
     $(fields_array).each(function () {
         var dd_grp = $(this).attr('rel');
         var dd_field = $(this).attr('field');
-        if (dd_grp && dd_grp) {
+
+        if (dd_grp) {
             if (typeof(html_dd[dd_grp]) == 'undefined') {
                 html_dd[dd_grp] = [];
             }

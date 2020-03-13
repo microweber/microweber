@@ -1,6 +1,5 @@
-<script type="text/javascript" src="<?php   print(site_url());  ?>apijs_settings?id=<?php print CONTENT_ID; ?>"></script>
+<script type="text/javascript" src="<?php print(mw()->template->get_apijs_combined_url()); ?>"></script>
 
-<script src="<?php print site_url('apijs') ?>" type="text/javascript"></script>
 
 <script src="<?php   print( mw_includes_url());  ?>js/sortable.js" type="text/javascript"></script>
 
@@ -14,10 +13,10 @@
 
   typeof jQuery === 'undefined' ? mw.require("<?php print mw_includes_url(); ?>js/jquery-1.9.1.js") : '' ;
   mw.require("liveadmin.js");
-  mw.require("<?php print( mw_includes_url());  ?>js/jquery-ui-1.10.0.custom.min.js");
+  mw.lib.require("jqueryui");
 mw.require("events.js");
   mw.require("url.js");
-  mw.require("tools.js");
+ // mw.require("tools.js");
   mw.require("wysiwyg.js");
   mw.require("css_parser.js");
   

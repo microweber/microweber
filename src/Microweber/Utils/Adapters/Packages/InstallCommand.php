@@ -14,6 +14,7 @@ namespace Microweber\Utils\Adapters\Packages;
 
 use Composer\Installer;
 use Composer\Installer\InstallationManager;
+use Composer\IO\NullIO;
 use Composer\Plugin\CommandEvent;
 use Composer\Plugin\PluginEvents;
 use Symfony\Component\Console\Input\InputInterface;
@@ -77,6 +78,8 @@ EOT
 
         $composer = $this->getComposer(true, true);
         $composer->getDownloadManager()->setOutputProgress(false);
+        $composer->getDownloadManager()->setPreferDist(true);
+        $composer->getDownloadManager()->setPreferSource(false);
 
         $commandEvent = new CommandEvent(PluginEvents::COMMAND, 'install', $input, $output);
         $composer->getEventDispatcher()->dispatch($commandEvent->getName(), $commandEvent);
@@ -98,7 +101,7 @@ EOT
         $install
             //  ->setDryRun(0)
             ->setVerbose(1)
-            //    ->setPreferSource(0)
+            ->setPreferSource(0)
             ->setPreferDist(1)
             ->setDevMode(false)
             ->setDumpAutoloader(false)

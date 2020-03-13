@@ -4,9 +4,11 @@
 namespace Microweber\Providers;
 
 use Microweber\Utils\Adapters\Template\MicroweberTemplate;
+use Microweber\Utils\Adapters\Template\RenderHelpers\TemplateOptimizeLoadingHelper;
 use Microweber\Utils\Adapters\Template\TemplateCssParser;
 use Microweber\Utils\Adapters\Template\TemplateStackRenderer;
 use Microweber\Controllers\JsCompileController;
+
 /**
  * Content class is used to get and save content in the database.
  *
@@ -35,6 +37,7 @@ class Template
     public $adapter_current = null;
     public $adapter_default = null;
     public $stylesheet_adapter = null;
+    public $js_adapter = null;
     public $stack_compiler_adapter = null;
 
 
@@ -49,6 +52,7 @@ class Template
         }
 
         $this->stylesheet_adapter = new TemplateCssParser($app);
+        $this->js_adapter = new JsCompileController($app);
         $this->stack_compiler_adapter = new TemplateStackRenderer($app);
         $this->adapter_current = $this->adapter_default = new MicroweberTemplate($app);
     }
@@ -74,7 +78,7 @@ class Template
     public function get_apijs_url()
     {
 
-        return (new JsCompileController())->get_apijs_url();
+        return $this->js_adapter->get_apijs_url();
 
 
     }
@@ -82,14 +86,39 @@ class Template
 
     public function get_apijs_settings_url()
     {
-        return (new JsCompileController())->get_apijs_settings_url();
+        return $this->js_adapter->get_apijs_settings_url();
 
     }
 
 
     public function get_liveeditjs_url()
     {
-        return (new JsCompileController())->get_liveeditjs_url();
+        return $this->js_adapter->get_liveeditjs_url();
+    }
+
+
+    public function get_apijs_combined_url()
+    {
+        return $this->js_adapter->get_apijs_combined_url();
+    }
+
+    public function append_api_js_to_layout($layout)
+    {
+
+
+        $apijs_combined_loaded = $this->get_apijs_combined_url();
+        $append_html = '';
+
+
+        if (!stristr($layout, $apijs_combined_loaded)) {
+            $append_html = $append_html . "\r\n" . '<script src="' . $apijs_combined_loaded . '"></script>' . "\r\n";
+        }
+        if ($append_html) {
+            $rep = 0;
+            $layout = str_ireplace('<head>', '<head>' . $append_html, $layout, $rep);
+        }
+
+        return $layout;
     }
 
     public function clear_cached_apijs_assets()
@@ -257,7 +286,10 @@ class Template
     {
         $optimize_asset_loading = get_option('optimize_asset_loading', 'website');
         if ($optimize_asset_loading == 'y') {
-            $layout = $this->app->parser->optimize_asset_loading_order($layout);
+
+            $asset_loading_order = new TemplateOptimizeLoadingHelper($this->app);
+            $layout = $asset_loading_order->render($layout);
+            //   $layout = $this->app->parser->optimize_asset_loading_order($layout);
 
         }
 
@@ -329,6 +361,15 @@ class Template
                 $url = userfiles_url() . 'cache/' . 'custom_css.' . md5(site_url()) . '.' . MW_VERSION . '.css?ver=' . $custom_live_editmtime;
             }
         }
+
+        return $url;
+    }
+
+
+    public function get_default_system_ui_css_url()
+    {
+
+        $url = mw_includes_url() . 'css/ui.css?v=' . MW_VERSION;
 
         return $url;
     }
@@ -594,9 +635,9 @@ class Template
         return $this->stack_compiler_adapter->add($src, $group);
     }
 
-    public function stack_display($group = 'default')
+    public function stack_display($group = 'default', $to_return = false)
     {
-        return $this->stack_compiler_adapter->display($group);
+        return $this->stack_compiler_adapter->display($group, $to_return);
     }
 
 

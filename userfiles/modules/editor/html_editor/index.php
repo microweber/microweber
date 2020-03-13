@@ -73,17 +73,24 @@
             'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/php/php.min.js',
             'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/display/autorefresh.js',
             'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/selection/selection-pointer.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/fold/xml-fold.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/addon/edit/matchtags.js',
             'https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify.min.js',
             'https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify-css.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify-html.min.js'
+            'https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.7.4/beautify-html.min.js',
+
             ], function(){
                 html_code_area_editor = CodeMirror.fromTextArea(document.getElementById("custom_html_code_mirror"), {
                     lineNumbers: true,
                     lineWrapping: true,
-
+                    matchTags: {bothTags: true},
                     indentWithTabs: true,
                     matchBrackets: true,
-                    extraKeys: {"Ctrl-Space": "autocomplete", "Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
+                    extraKeys: {
+                        "Ctrl-Space": "autocomplete",
+                        "Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); },
+                        "Ctrl-J": "toMatchingTag"
+                    },
                     mode: {
                         name: "htmlmixed",
                         scriptTypes: [{matches: /\/x-handlebars-template|\/x-mustache/i,

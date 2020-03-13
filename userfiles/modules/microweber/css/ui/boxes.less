@@ -3,6 +3,19 @@
 *****************************/
 @import "var";
 
+.mw-ui-box2 {
+    border: 1px solid @borderColor;
+    background-color: @buttonColor;
+    position: relative;
+    z-index: 1;
+    clear: both;
+    padding: 20px;
+    transition: box-shadow .3s;
+    &:hover,&.active{
+        box-shadow: 0 0 8px rgba(0,0,0,.16) !important
+    }
+}
+
 .mw-ui-box {
     border: 1px solid @borderColor;
     border-radius: @radius;

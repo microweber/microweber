@@ -76,6 +76,15 @@
 
     </style>
 
+    <script>
+        mw.require('css_parser.js');
+        // mw.require('color.js', 'color_js');
+        // mw.require('color.js');
+        mw.lib.require('colorpicker');
+
+        mw.require("files.js");
+    </script>
+
     <div class='image_settings_modal'>
 
 
@@ -158,10 +167,7 @@
             <div class="mw-ui-field-holder" style="padding-bottom: 20px;display: none" id="overlayholder">
                 <label class="mw-ui-label"><?php _e('Overlay color'); ?></label>
                 <input type="text" class="mw-ui-field w100" id="overlaycolor" placeholder="Enter color"/>
-                <script>
-                  mw.require('css_parser.js', 'css_parser');
-                  mw.require('color.js', 'color_js');
-                </script>
+
                 <script>
 
                     isBG = false;
@@ -195,8 +201,8 @@
                       else{
 
                         curr.style.backgroundImage = 'url('+mw.files.safeFilename(b)+')';
-                        top.mw.wysiwyg.bgQuotesFix(curr);
-                        //top.mw.trigger('nodeBackgroundChanged', [curr, b])
+                        mw.top().wysiwyg.bgQuotesFix(curr);
+                        //mw.top().trigger('nodeBackgroundChanged', [curr, b])
                       }
                     }
                   }
@@ -218,7 +224,7 @@
 
                   $(document).ready(function(){
 
-                      window.top.mw.on('imageSrcChanged', function(e, node, url){
+                      mw.top().on('imageSrcChanged', function(e, node, url){
                         if(url != $('#mwimagecurrent')[0].src){
                             $('#mwimagecurrent')[0].src = url;
                         }
@@ -264,7 +270,7 @@
                     });
 
                     $(".mw-ui-btn-change-image").on('click', function(e){
-                      top.mw.wysiwyg.media('#editimage', e.target);
+                      mw.top().wysiwyg.media('#editimage', e.target);
                       if(window.thismodal){
                           thismodal.remove()
                       }
@@ -476,7 +482,7 @@
             if(parent.mw.tools.hasParentsWithClass(SelectedImage, 'edit')){
             parent.mw.wysiwyg.change(parent.mw.tools.firstParentWithClass(SelectedImage, 'edit'));
             }
-            window.top.$(window.top).trigger('imageSrcChanged', [SelectedImage, CurrSRC()])
+            mw.top().$(window.top).trigger('imageSrcChanged', [SelectedImage, CurrSRC()])
 
             if(window.thismodal){
                 thismodal.remove()
@@ -489,7 +495,7 @@
         mw.$("#mw_image_reset").click(function () {
             if (!$(this).hasClass("disabled")) {
                 mw.image.current.src = mw.image.current_original;
-                window.top.mw.trigger('imageSrcChanged', [mw.image.current, mw.image.current_original])
+                mw.top().trigger('imageSrcChanged', [mw.image.current, mw.image.current_original])
                 mw.image.current_need_resize = true;
             }
         });

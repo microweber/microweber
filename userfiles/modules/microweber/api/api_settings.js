@@ -1,4 +1,10 @@
 (function () {
+
+    if(window.mw) {
+        console.log('%c !!! mw already defined !!! ', 'background: #009cff; color: #fff; font-size:16px;');
+        return;
+    }
+
     var mw = { };
 
     mw.settings = {
@@ -33,7 +39,12 @@
     }
 
     mw.settings.libs = {
-        jqueryui: ['jquery-ui.min.css', 'jquery-ui.min.js'],
+            jqueryui:  [
+                function () {
+                mw.require(mw.settings.libs_url + 'jqueryui' + '/jquery-ui.min.js');
+                mw.require(mw.settings.libs_url + 'jqueryui' + '/jquery-ui.min.css');
+            }
+        ],
         morris: ['morris.css', 'raphael.js', 'morris.js'],
         rangy: ['rangy-core.js', 'rangy-cssclassapplier.js', 'rangy-selectionsaverestore.js', 'rangy-serializer.js'],
         highlight: [
@@ -46,7 +57,7 @@
             function () {
                 var v = mwd.querySelector('meta[name="viewport"]');
                 if (v === null) {
-                    var v = mwd.createElement('meta');
+                    v = mwd.createElement('meta');
                     v.name = "viewport";
                 }
                 v.content = "width=device-width, initial-scale=1.0";
@@ -75,7 +86,7 @@
                 mw.require(mw.settings.libs_url + 'bootstrap-4.3.1' + '/css/bootstrap.min.css');
                 mw.require(mw.settings.libs_url + 'bootstrap-4.3.1' + '/js/popper.min.js');
                 mw.require(mw.settings.libs_url + 'bootstrap-4.3.1' + '/js/bootstrap.min.js');
-                mw.require(mw.settings.libs_url + 'fontawesome-free-5.4.1' + '/css/all.min.css');
+                mw.require(mw.settings.libs_url + 'fontawesome-free-5.12.0' + '/css/all.min.css');
             }
         ],
         flag_icons: [
@@ -92,7 +103,7 @@
         ],
         font_awesome5: [
             function () {
-                mw.require(mw.settings.libs_url + 'fontawesome-free-5.4.1' + '/css/all.min.css');
+                mw.require(mw.settings.libs_url + 'fontawesome-free-5.12.0' + '/css/all.min.css');
 
             }
         ],
@@ -215,11 +226,19 @@
             'jquery.datetimepicker.full.min.js',
             'jquery.datetimepicker.min.css'
         ],
-        nestedSortable: [
+        nzzestedSortable: [
             'jquery.mjs.nestedSortable.js'
         ],
-        acolorpicker: [
-            'acolorpicker.js'
+        nestedSortable: [
+            function () {
+                 mw.require(mw.settings.libs_url + 'nestedsortable' + '/jquery.mjs.nestedSortable.js');
+            }
+        ],
+        colorpicker: [
+            function () {
+                mw.require(mw.settings.includes_url + 'api' + '/color.js');
+                mw.require(mw.settings.libs_url + 'acolorpicker' + '/acolorpicker.js');
+            }
         ],
         material_icons: [
             function () {
@@ -228,8 +247,8 @@
         ],
         mw_icons_mind: [
             function () {
-                mw.require(mw.settings.libs_url + 'mw-icons-mind' + '/line/style.css');
-                mw.require(mw.settings.libs_url + 'mw-icons-mind' + '/solid/style.css');
+                mw.require('fonts/mw-icons-mind/line/style.css');
+                mw.require('fonts/mw-icons-mind/solid/style.css');
             }
         ],
         uppy: [
@@ -396,8 +415,6 @@
 
     if(!window.mw) {
         window.mw = mw;
-    } else {
-        console.log('%c !!! mw already defined !!! ', 'background: #009cff; color: #fff; font-size:16px;');
     }
 })();
 

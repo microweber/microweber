@@ -304,14 +304,15 @@ trait ExtendedSave
                         	$save_cat_item['rel_type'] = $data_to_save['table'];
                         	$save_cat_item['title'] = $category;
 							
-							if (isset($data_to_save['parent'])) {
-								$save_cat_item['rel_id'] = $data_to_save['parent'];
-							} else {
-								$save_cat_item['rel_id'] = $data_to_save['id'];
-							}
+
 							
                         	$check = $this->app->category_manager->get($save_cat_item);
                         	if (!$check) {
+                                if (isset($data_to_save['parent'])) {
+                                    $save_cat_item['rel_id'] = $data_to_save['parent'];
+                                } else {
+                                    $save_cat_item['rel_id'] = $data_to_save['id'];
+                                }
                         		$cat_id = $this->app->category_manager->save($save_cat_item);
                         	} else {
                         		$cat_id = $check['id'];

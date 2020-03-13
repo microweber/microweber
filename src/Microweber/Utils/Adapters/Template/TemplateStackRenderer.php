@@ -30,7 +30,7 @@ class TemplateStackRenderer
     }
 
 
-    public function display($group = 'default')
+    public function display($group = 'default', $to_return = false)
     {
         if (!isset($this->_stacks_for_display[$group])) {
             $this->_stacks_for_display[$group] = true;
@@ -38,7 +38,11 @@ class TemplateStackRenderer
             if (!isset($this->_printer[$group])) {
                 $replace_later = '<!-- [template-stack-display-' . $group . '] -->';
                 $this->_printer[$group] = $replace_later;
-                print $replace_later;
+                if($to_return){
+                    return $replace_later;
+                } else {
+                    print $replace_later;
+                }
             }
         }
     }
@@ -61,7 +65,6 @@ class TemplateStackRenderer
                         $stack_html = $this->__buildHTML($stack, $compile_assets);
 
                         $layout = str_replace_first($replace_key, $stack_html, $layout);
-
                     }
                 }
 

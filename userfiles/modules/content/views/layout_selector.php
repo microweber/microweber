@@ -205,7 +205,18 @@ if (!empty($recomended_layouts)) {
         rend: function (url) {
             var holder = mw.$('.preview_frame_container');
             var wrapper = mw.$('.preview_frame_wrapper');
-            var frame = '<iframe src="' + url + '" class="preview_frame_small" tabindex="-1" onload="mw.templatePreview<?php print $rand; ?>.set();" frameborder="0"></iframe>';
+
+            var frame = document.createElement('iframe');
+            frame.src = url;
+            frame.className = 'preview_frame_small';
+            frame.tabIndex = -1;
+            frame.frameborder = 0;
+            frame.onload = function (ev) {
+                mw.templatePreview<?php print $rand; ?>.set();
+                this.contentWindow.document.documentElement.className = 'mw-template-document-preview';
+            };
+
+
             holder.html(frame);
         },
         next: function () {
@@ -697,9 +708,9 @@ if (!empty($recomended_layouts)) {
                         </div>
                     </div>
                 <?php endif; ?>
-                
 
-                
+
+
             </div>
         </div>
     <?php endif; ?>
@@ -715,38 +726,13 @@ if (!empty($recomended_layouts)) {
 
 
             <?php else : ?>
-                <div class="preview_frame_ctrls" style="display:none;">
-                    <h2>
-                        <span class="mw-icon-<?php print $data['content_type']; ?>"></span><?php print $data['title']; ?>
-                    </h2>
-                    <a class="mw-ui-btn mw-ui-btn-medium" target="_top"
-                       href="#action=editpage:<?php print $params["edit_page_id"]; ?>">
-                        <?php _e("Edit Page"); ?>
-                    </a>
-                    <a class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-blue" target="_top"
-                       href="<?php print content_link($params["edit_page_id"]); ?>/editmode:y">
-                        <?php _e("Go Live Edit"); ?>
-                    </a>
-                    <span class="mw-icon-close" title="<?php _e('Close'); ?>"
-                          onclick="mw.templatePreview<?php print $rand; ?>.zoom();mw.$('.mw_overlay').remove();"></span>
-                </div>
+
             <?php endif; ?>
             <div class="preview_frame_container"></div>
             <?php if (!isset($params['edit_page_id'])): ?>
                 <?php /* <div class="mw-overlay" onclick="mw.templatePreview<?php print $rand; ?>.zoom();">&nbsp;</div> */ ?>
             <?php else: ?>
-                <div class="mw-overlay mw-overlay-quick-link" onclick="mw.templatePreview<?php print $rand; ?>.zoom();"
-                     ondblclick="mw.url.windowHashParam('action', 'editpage:<?php print $params["edit_page_id"]; ?>')">
 
-
-                    <a class="live-block-btn" target="_top"
-                       href="javascript:;"
-                       onclick="window.top.mw.edit_content.handle_form_submit(true);event.stopPropagation()">
-
-                        <?php _e("Go Live Edit"); ?>
-                    </a>
-
-                </div>
             <?php endif; ?>
         </div>
     </div>

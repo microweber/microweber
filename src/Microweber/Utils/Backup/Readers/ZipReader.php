@@ -32,6 +32,7 @@ class ZipReader extends DefaultReader
 		
 		$unzip = new \Microweber\Utils\Unzip();
 		$unzip->extract($this->file, $backupLocation, true);
+
 		
 		if ($backupLocation != false and is_dir($backupLocation)) {
 			BackupImportLogger::setLogInfo('Media restored!');

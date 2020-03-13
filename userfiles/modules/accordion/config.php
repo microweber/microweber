@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = _e("Accordion", TRUE);
+$config['name'] = "Accordion";
 $config['author'] = "Microweber";
 $config['ui'] = true;
 $config['version'] = 0.01;

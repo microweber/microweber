@@ -33,9 +33,6 @@ if (isset($json) == false or count($json) == 0) {
 
 <style>
 
-    .mw-ui-box {
-        margin: -12px -12px 6px ;
-    }
     .mw-ui-box + .mw-ui-box{
         margin-top: 20px;
     }
@@ -52,7 +49,7 @@ if (isset($json) == false or count($json) == 0) {
     $(window).on("load", function () {
         this.tabSettings = new mw.moduleSettings({
             element:'#settings-box',
-            header:'<i class="mw-icon-drag"></i> Move <a class="pull-right" data-action="remove"><i class="mw-icon-close"></i></a>',
+            header:'<i class="mw-icon-drag"></i> <span data-bind="title">Move</span> <a class="pull-right" data-action="remove"><i class="mw-icon-close"></i></a>',
             data: <?php print json_encode($json); ?>,
             schema:[
                 {
