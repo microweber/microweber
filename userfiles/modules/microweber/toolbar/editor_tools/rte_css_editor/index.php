@@ -29,7 +29,7 @@
 
      /*  setTimeout(function() {
             mw.top().liveEditDomTree = new mw.DomTree({
-                element: '#dom-tree',
+                element: '#domtree',
                 targetDocument: mw.top().win.document,
                 onHover: function (e, target, node, element) {
                     mw.top().liveEditSelector.setItem(node, mw.top().liveEditSelector.interactors, false);

@@ -580,7 +580,6 @@ mw.drag = {
 
                                 if(mw.liveEditDomTree){
                                     mw.liveEditDomTree.sync(handleDomtreeSync.start.parentNode);
-                                    console.log(handleDomtreeSync.start.parentNode)
                                     mw.liveEditDomTree.autoSync(mw.ea.data.target.parentNode, mw.ea.data.target);
                                     handleDomtreeSync.start = null;
                                 }

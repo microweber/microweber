@@ -1165,8 +1165,8 @@ mw.wysiwyg = {
                 }
 
 
-                mw.$(this._onCloneableControl).hide()
-                if (mw.event.is.enter(e)) {
+                mw.$(this._onCloneableControl).hide();
+                if (mw.event.is.enter(e)) {/*
 
                     mw.$(".element-current").removeClass("element-current");
                     var el = mwd.querySelectorAll('.edit .element'), l = el.length, i = 0;
@@ -1182,7 +1182,7 @@ mw.wysiwyg = {
                     var newNode = mw.wysiwyg.validateCommonAncestorContainer(getSelection().focusNode);
                     if (newNode.id) {
                         newNode.id = mw.wysiwyg.createElementId();
-                    }
+                    }*/
                 }
             }
 
@@ -2051,7 +2051,18 @@ mw.wysiwyg = {
         mw.wysiwyg.execCommand('formatBlock', false, command );
     },
     format: function (command) {
-        return this.formatNative(command);
+        var target = mw.wysiwyg.validateCommonAncestorContainer(getSelection().getRangeAt(0).commonAncestorContainer);
+        mw.liveEditState.record({
+            target: target.parentNode,
+            value: target.parentNode.innerHTML
+        });
+        var el = mw.tools.setTag(target, command);
+        mw.wysiwyg.cursorToElement(el, 'end');
+        mw.liveEditState.record({
+            target: el.parentNode,
+            value: el.parentNode.innerHTML
+        });
+        // return this.formatNative(command);
     },
     fontFamilies: ['Arial', 'Tahoma', 'Verdana', 'Georgia', 'Times New Roman'],
     fontFamiliesExtended: [],

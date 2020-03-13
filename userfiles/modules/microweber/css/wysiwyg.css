@@ -292,8 +292,7 @@
 .mw-active-element-is-in-safe-mode #wysiwyg_insert li[value='insert_html'],
 .mw-active-element-is-in-safe-mode #wysiwyg_insert li[value='quote'],
 .mw-active-element-is-in-safe-mode #wysiwyg_insert li[value='code'],
-.mw-active-element-is-in-safe-mode #wysiwyg_insert li[value='pre'],
-.mw-active-element-is-in-safe-mode #format_main{
+.mw-active-element-is-in-safe-mode #wysiwyg_insert li[value='pre']{
     opacity: 0.45;
     pointer-events: none;
 }
