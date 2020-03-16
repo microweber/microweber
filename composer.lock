@@ -2406,12 +2406,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-packages/microweber-helpers.git",
-                "reference": "b3ee5d51d901a233a874330cb92d49f97c7acc36"
+                "reference": "d4a64e9d8b3ca50ab308b858ae06578c840cdbda"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/microweber-helpers/zipball/b3ee5d51d901a233a874330cb92d49f97c7acc36",
-                "reference": "b3ee5d51d901a233a874330cb92d49f97c7acc36",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-helpers/zipball/d4a64e9d8b3ca50ab308b858ae06578c840cdbda",
+                "reference": "d4a64e9d8b3ca50ab308b858ae06578c840cdbda",
                 "shasum": ""
             },
             "require": {
@@ -2442,7 +2442,7 @@
             ],
             "description": "PHP helper funcitons.",
             "homepage": "http://microweber.com",
-            "time": "2020-03-16T14:55:06+00:00"
+            "time": "2020-03-16T15:21:05+00:00"
         },
         {
             "name": "microweber-templates/dream",

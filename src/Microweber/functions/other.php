@@ -448,14 +448,39 @@ function in_live_edit()
     }
 }
 
-function notif($sting, $class = 'success')
+function notif($text, $class = 'success')
 {
-    return mw()->format->notif($sting, $class);
+    if ($class === true) {
+        $to_print = '<div><div class="mw-notification-text mw-open-module-settings">';
+        $to_print = $to_print . ($text) . '</div></div>';
+    } else {
+        $to_print = '<div class="mw-notification mw-' . $class . ' "><div class="mw-notification-text mw-open-module-settings">';
+        $to_print = $to_print . $text . '</div></div>';
+    }
+
+    return $to_print;
 }
 
-function lnotif($sting, $class = 'success')
+function lnotif($text, $class = 'success')
 {
-    return mw()->format->lnotif($sting, $class);
+    $editmode_sess = mw()->user_manager->session_get('editmode');
+
+
+    if (defined('MW_BACKEND') and MW_BACKEND != false) {
+        return false;
+    }
+    if (defined('IN_EDIT') and IN_EDIT != false) {
+        $editmode_sess = true;
+    }
+    // if ($editmode_sess == false) {
+    if (defined('IN_EDITOR_TOOLS') and IN_EDITOR_TOOLS != false) {
+        $editmode_sess = true;
+    }
+    //}
+
+    if ($editmode_sess == true) {
+        return notif($text, $class);
+    }
 }
 
 function random_color()
