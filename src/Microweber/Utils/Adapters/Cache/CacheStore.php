@@ -8,6 +8,8 @@ use Microweber\Utils\Adapters\Cache\Storage\ApcStorage;
 use Microweber\Utils\Adapters\Cache\Storage\FileStorage;
 use Microweber\Utils\Adapters\Cache\Storage\MemcachedStorage;
 use Microweber\Utils\Adapters\Cache\Storage\XCacheStorage;
+use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
+use MicroweberPackages\Cache\TaggableFileStore;
 
 class CacheStore implements Repository
 {
@@ -43,7 +45,17 @@ class CacheStore implements Repository
         }
 
         if ($use_file_cache) {
-            $this->adapter = new FileStorage($prefix);
+
+            $locale = app()->getLocale();
+            if ($locale) {
+                $folder = app()->environment() . '-' . $locale . DIRECTORY_SEPARATOR;
+            } else {
+                $folder = app()->environment() . DIRECTORY_SEPARATOR;
+            }
+
+            $configPath = storage_path('framework/cache') . DIRECTORY_SEPARATOR . $folder;
+
+            $this->adapter = new TaggableFileStore(app()['files'], $configPath);
         }
     }
 
@@ -69,11 +81,11 @@ class CacheStore implements Repository
      *
      * @param string $key
      * @param mixed $value
-     * @param int $minutes
+     * @param $ttl
      */
-    public function put($key, $value, $minutes)
+    public function put($key, $value, $ttl = null)
     {
-        return $this->adapter->put($key, $value, $minutes);
+        return $this->adapter->put($key, $value, $ttl);
     }
 
     /**
@@ -189,9 +201,9 @@ class CacheStore implements Repository
 
     }
 
-    public function add($key, $value, $minutes)
+    public function add($key, $value, $ttl = null)
     {
-        return $this->adapter->add($key, $value, $minutes);
+        return $this->adapter->add($key, $value, $ttl);
 
     }
 
@@ -204,5 +216,33 @@ class CacheStore implements Repository
     public function pull($key, $default = null)
     {
         return $this->adapter->pull($key, $default);
+    }
+
+    public function delete($key) {
+        return $this->adapter->delete($key);
+    }
+
+    public function clear() {
+        return $this->adapter->clear();
+    }
+
+    public function getMultiple($keys, $default = null) {
+        return $this->adapter->getMultiple($keys, $default);
+    }
+
+    public function setMultiple($values, $ttl = null) {
+        return $this->adapter->setMultiple($values, $ttl);
+    }
+
+    public function deleteMultiple($keys) {
+        return $this->adapter->deleteMultiple($keys);
+    }
+
+    public function set($key, $value, $ttl = null) {
+        return $this->adapter->set($key, $value, $ttl);
+    }
+
+    public function getStore() {
+        return $this->adapter->getStore();
     }
 }

@@ -123,7 +123,7 @@ class MicroweberServiceProvider extends ServiceProvider
 
         $this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');
 
-        $this->app->register(TaggableFileCacheServiceProvider::class);
+        // $this->app->register(TaggableFileCacheServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
     }
