@@ -1,4 +1,5 @@
 <?php
+use Microweber\Cart;
 
 event_bind('mw.admin', function ($params = false) {
     return mw_add_admin_menu_buttons($params);
