@@ -1,5 +1,5 @@
 <?php
-
+namespace Microweber;
 
 class Media extends BaseModel
 {

@@ -4,7 +4,7 @@ function userfiles_path()
 {
     static $folder;
     if (!$folder) {
-        $folder = normalize_path(public_path() . DIRECTORY_SEPARATOR . MW_USERFILES_FOLDER_NAME . DIRECTORY_SEPARATOR);
+        $folder = normalize_path(base_path() . DIRECTORY_SEPARATOR . MW_USERFILES_FOLDER_NAME . DIRECTORY_SEPARATOR);
     }
 
     return $folder;

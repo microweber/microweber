@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -7,7 +6,7 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
 //use Sofa\Revisionable\Laravel\RevisionableTrait;
 
-class User extends BaseModel implements AuthenticatableContract, CanResetPasswordContract
+class User extends \Microweber\BaseModel implements AuthenticatableContract, CanResetPasswordContract
 {
     use Authenticatable, CanResetPassword;
 

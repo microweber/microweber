@@ -34,7 +34,10 @@
       "microweber-templates/dream": "dev-master",
       "microweber-templates/new-world": "dev-master",
       "microweber-templates/liteness": "dev-master",
-    "graham-campbell/markdown": "^12.0@dev"
+      "graham-campbell/markdown": "^12.0@dev",
+    "microweber-packages/microweber-database-manager": "dev-master",
+    "jenssegers/agent": "^3.0@dev",
+    "geoip2/geoip2": "dev-master"
    },
   "require-dev": {
       "nunomaduro/collision": "^4.1",

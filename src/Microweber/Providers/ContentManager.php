@@ -7,6 +7,7 @@ use Microweber\Providers\Content\ContentManagerHelpers;
 use Content;
 use Menu;
 use DB;
+use Microweber;
 
 /**
  * Content class is used to get and save content in the database.

@@ -1,4 +1,5 @@
 <?php
+namespace Microweber;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
@@ -21,7 +22,7 @@ class BaseModel extends Eloquent
         return true;
     }
 
-    protected static function boot()
+    protected static function ___boot() // TODO
     {
         static::observe(new BaseModelObserver());
         parent::boot();

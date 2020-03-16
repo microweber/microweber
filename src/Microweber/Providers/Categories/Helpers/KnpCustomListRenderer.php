@@ -49,10 +49,9 @@ class KnpCustomListRenderer extends Renderer implements RendererInterface
     }
 
 
-    public function render(ItemInterface $item, array $options = array())
+    public function render(ItemInterface $item, array $options = array()): string
     {
         $options = array_merge($this->defaultOptions, $options);
-
 
         $html = $this->renderList($item, $item->getChildrenAttributes(), $options);
 
