@@ -9,6 +9,7 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Microweber\Utils\Adapters\Config\ConfigSave;
 use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
+use MicroweberPackages\Helpers\Format;
 
 if (! defined('MW_VERSION')) {
     include_once __DIR__ . DIRECTORY_SEPARATOR . 'functions' . DIRECTORY_SEPARATOR . 'bootstrap.php';
@@ -203,7 +204,7 @@ class MicroweberServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton('format', function ($app) {
-            return new Utils\Format($app);
+            return new Format($app);
         });
 
         $this->app->singleton('parser', function ($app) {
