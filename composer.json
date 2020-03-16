@@ -32,6 +32,7 @@
       "knplabs/knp-menu": "^3.2@dev",
       "arcanedev/seo-helper": "dev-master",
       "microweber-templates/dream": "dev-master",
+      "microweber-templates/new-world": "dev-master",
       "microweber-templates/liteness": "dev-master"
    },
   "require-dev": {
