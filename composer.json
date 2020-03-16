@@ -45,7 +45,8 @@
     "require-dev": {
         "nunomaduro/collision": "^4.1",
         "facade/ignition": "^2.0",
-        "fzaninotto/faker": "^1.9"
+        "fzaninotto/faker": "^1.9",
+        "laravel/dusk": "^6.0@dev"
     },
     "autoload": {
         "psr-4": {

@@ -4,6 +4,8 @@ namespace Microweber;
 
 use App;
 use Cache;
+use Laravel\Dusk\Console\DuskCommand;
+use Laravel\Dusk\DuskServiceProvider;
 use Microweber\Utils\ClassLoader;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
@@ -147,6 +149,11 @@ class MicroweberServiceProvider extends ServiceProvider
             'Illuminate\Contracts\Console\Kernel',
             'Microweber\App\Console\Kernel'
         );
+
+        /*if (defined('MW_UNIT_TEST')) {
+            $this->app->register(DuskServiceProvider::class);
+            $this->commands(DuskCommand::class);
+        }*/
     }
 
     protected function registerLaravelAliases()
