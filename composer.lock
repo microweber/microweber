@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "02f87e2a2afd4d6a967cdef70067d8a1",
+    "content-hash": "c96f69144ccd418e4f4c48f44350c776",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -903,6 +903,73 @@
                 "html"
             ],
             "time": "2020-02-22T17:12:02+00:00"
+        },
+        {
+            "name": "graham-campbell/markdown",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GrahamCampbell/Laravel-Markdown.git",
+                "reference": "1566129f213adf7f508e0bebc2399102c4c78cd6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Markdown/zipball/1566129f213adf7f508e0bebc2399102c4c78cd6",
+                "reference": "1566129f213adf7f508e0bebc2399102c4c78cd6",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^6.0|^7.0",
+                "illuminate/support": "^6.0|^7.0",
+                "illuminate/view": "^6.0|^7.0",
+                "league/commonmark": "^1.3",
+                "php": "^7.2.5"
+            },
+            "require-dev": {
+                "graham-campbell/analyzer": "^3.0",
+                "graham-campbell/testbench": "^5.4",
+                "mockery/mockery": "^1.3.1",
+                "phpunit/phpunit": "^8.5|^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "12.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "GrahamCampbell\\Markdown\\MarkdownServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GrahamCampbell\\Markdown\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Graham Campbell",
+                    "email": "graham@alt-three.com"
+                }
+            ],
+            "description": "Markdown Is A CommonMark Wrapper For Laravel",
+            "keywords": [
+                "Graham Campbell",
+                "GrahamCampbell",
+                "Laravel Markdown",
+                "Laravel-Markdown",
+                "common mark",
+                "commonmark",
+                "framework",
+                "laravel",
+                "markdown"
+            ],
+            "time": "2020-03-01T11:40:45+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -1816,6 +1883,134 @@
             "description": "PHP helper funcitons.",
             "homepage": "http://microweber.com",
             "time": "2020-03-12T15:38:33+00:00"
+        },
+        {
+            "name": "microweber-templates/dream",
+            "version": "dev-master",
+            "target-dir": "dream",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microweber-templates/dream.git",
+                "reference": "7fe5f08268d6a09fbfdeebde43c17258f27b8a98"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/microweber-templates/dream/zipball/7fe5f08268d6a09fbfdeebde43c17258f27b8a98",
+                "reference": "7fe5f08268d6a09fbfdeebde43c17258f27b8a98",
+                "shasum": ""
+            },
+            "type": "microweber-template",
+            "extra": {
+                "preview_url": "https://templates.microweber.com/dream/",
+                "_meta": {
+                    "avatar": "https://favicon.microweberapi.com/https://microweber.org/templates/microweber-templates/dream"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Dream",
+            "homepage": "https://microweber.org/templates/microweber-templates/dream",
+            "keywords": [
+                "dream",
+                "ecommerce",
+                "microweber"
+            ],
+            "support": {
+                "source": "https://github.com/microweber-templates/dream/tree/3.7",
+                "issues": "https://github.com/microweber-templates/dream/issues"
+            },
+            "time": "2020-03-13T13:36:10+00:00"
+        },
+        {
+            "name": "microweber-templates/liteness",
+            "version": "dev-master",
+            "target-dir": "liteness",
+            "source": {
+                "type": "git",
+                "url": "https://gitlab.com/mw-internal/template-liteness.git",
+                "reference": "70de48dfc6914bebab9da7432fac2223c88e23fb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://gitlab.com/api/v4/projects/mw-internal%2Ftemplate-liteness/repository/archive.zip?sha=70de48dfc6914bebab9da7432fac2223c88e23fb",
+                "reference": "70de48dfc6914bebab9da7432fac2223c88e23fb",
+                "shasum": ""
+            },
+            "type": "microweber-template",
+            "extra": {
+                "preview_url": "https://templates.microweber.com/liteness/",
+                "_meta": {
+                    "screenshot": "https://packages.microweberapi.com/meta/meta-microweber-templates-liteness-dev-master-ad250ecce31107593fdbb658baeda7bf8869d337414c056a7c4a0ca26a8f8b23/template-liteness-70de48dfc6914bebab9da7432fac2223c88e23fb-70de48dfc6914bebab9da7432fac2223c88e23fb/screenshot.jpg",
+                    "avatar": "https://favicon.microweberapi.com/https://microweber.org/templates/microweber-templates/liteness"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "MW Team",
+                    "email": "contacts@microweber.com"
+                }
+            ],
+            "description": "Liteness",
+            "homepage": "https://microweber.org/templates/microweber-templates/liteness",
+            "keywords": [
+                "ecommerce",
+                "liteness",
+                "microweber"
+            ],
+            "time": "2019-12-20T09:24:08+00:00"
+        },
+        {
+            "name": "microweber-templates/new-world",
+            "version": "dev-master",
+            "target-dir": "new-world",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microweber-templates/new-world.git",
+                "reference": "2e919cdec68518183548e5f3502c14ad9d7e5142"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/microweber-templates/new-world/zipball/2e919cdec68518183548e5f3502c14ad9d7e5142",
+                "reference": "2e919cdec68518183548e5f3502c14ad9d7e5142",
+                "shasum": ""
+            },
+            "type": "microweber-template",
+            "extra": {
+                "preview_url": "http://templates.microweber.com/new-world/",
+                "_meta": {
+                    "avatar": "https://favicon.microweberapi.com/https://microweber.com/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "MW Team",
+                    "email": "contacts@microweber.com"
+                }
+            ],
+            "description": "New World",
+            "homepage": "https://microweber.com/",
+            "keywords": [
+                "bootstrap",
+                "default",
+                "ecommerce",
+                "microweber"
+            ],
+            "support": {
+                "email": "support@microweber.com",
+                "forum": "https://microweber.org/community",
+                "irc": "https://webchat.freenode.net/?embed=1&channels=#microweber",
+                "docs": "http://docs.microweber.org",
+                "source": "https://github.com/microweber-templates/new-world/tree/1.2",
+                "issues": "https://github.com/microweber-templates/new-world/issues"
+            },
+            "time": "2020-03-13T15:53:27+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -5101,7 +5296,11 @@
         "composer/composer": 20,
         "composer/installers": 20,
         "knplabs/knp-menu": 20,
-        "arcanedev/seo-helper": 20
+        "arcanedev/seo-helper": 20,
+        "microweber-templates/dream": 20,
+        "microweber-templates/new-world": 20,
+        "microweber-templates/liteness": 20,
+        "graham-campbell/markdown": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
