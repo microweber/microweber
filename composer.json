@@ -1,76 +1,77 @@
 {
-  "name": "microweber/microweber",
-  "type": "application",
-  "description": "New generation CMS with drag and drop",
-  "keywords": [
-    "cms",
-    "drag and drop",
-    "shop",
-    "blog",
-    "framework",
-    "laravel"
-  ],
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://packages.microweberapi.com/"
-    }, {
-      "type": "composer",
-      "url": "https://private-packages.microweberapi.com/"
-    }
-  ],
-  "require": {
-      "laravel/framework": "7.0.0",
-      "laravelcollective/html": "^6.0@dev",
-      "laravel/socialite": "^5.0@dev",
-      "rtconner/laravel-tagging": "^4.0",
-      "microweber-packages/laravel-tagged-file-cache": "dev-master",
-      "microweber-packages/microweber-helpers": "dev-master",
-      "ezyang/htmlpurifier": "*",
-      "composer/composer": "^1.10@dev",
-      "composer/installers": "^1.0@dev",
-      "knplabs/knp-menu": "^3.2@dev",
-      "arcanedev/seo-helper": "dev-master",
-      "microweber-templates/dream": "dev-master",
-      "microweber-templates/new-world": "dev-master",
-      "microweber-templates/liteness": "dev-master",
-      "graham-campbell/markdown": "^12.0@dev",
-    "microweber-packages/microweber-database-manager": "dev-master",
-    "jenssegers/agent": "^3.0@dev",
-    "geoip2/geoip2": "dev-master"
-   },
-  "require-dev": {
-      "nunomaduro/collision": "^4.1",
-      "facade/ignition": "^2.0",
-      "fzaninotto/faker": "^1.9"
-  },
-  "autoload": {
-    "psr-4": {
-      "": "src/",
-      "App\\": "app/"
-    }
-  },
-  "scripts": {
-    "post-create-project-cmd": [
-      "php artisan key:generate"
-    ]
-  },
-  "config": {
-    "preferred-install": "dist",
-    "platform": {
-      "php": "7.2"
+    "name": "microweber/microweber",
+    "type": "application",
+    "description": "New generation CMS with drag and drop",
+    "keywords": [
+        "cms",
+        "drag and drop",
+        "shop",
+        "blog",
+        "framework",
+        "laravel"
+    ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.microweberapi.com/"
+        },
+        {
+            "type": "composer",
+            "url": "https://private-packages.microweberapi.com/"
+        }
+    ],
+    "require": {
+        "laravel/framework": "7.0.0",
+        "laravelcollective/html": "^6.0@dev",
+        "laravel/socialite": "^5.0@dev",
+        "rtconner/laravel-tagging": "^4.0",
+        "microweber-packages/laravel-tagged-file-cache": "dev-master",
+        "microweber-packages/microweber-helpers": "dev-master",
+        "microweber-packages/microweber-database-manager": "dev-master",
+        "ezyang/htmlpurifier": "*",
+        "composer/composer": "^1.10@dev",
+        "composer/installers": "^1.0@dev",
+        "knplabs/knp-menu": "^3.2@dev",
+        "arcanedev/seo-helper": "dev-master",
+        "microweber-templates/dream": "dev-master",
+        "microweber-templates/new-world": "dev-master",
+        "microweber-templates/liteness": "dev-master",
+        "graham-campbell/markdown": "^12.0@dev",
+        "jenssegers/agent": "^3.0@dev",
+        "geoip2/geoip2": "dev-master"
     },
-    "github-protocols": [
-      "https",
-      "http",
-      "git"
-    ]
-  },
-  "minimum-stability": "dev",
-  "homepage": "http://microweber.com",
-  "license": "MIT",
-  "support": {
-    "email": "support@microweber.com",
-    "irc": "irc://irc.freenode.org/microweber"
-  }
+    "require-dev": {
+        "nunomaduro/collision": "^4.1",
+        "facade/ignition": "^2.0",
+        "fzaninotto/faker": "^1.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "": "src/",
+            "App\\": "app/"
+        }
+    },
+    "scripts": {
+        "post-create-project-cmd": [
+            "php artisan key:generate"
+        ]
+    },
+    "config": {
+        "preferred-install": "dist",
+        "platform": {
+            "php": "7.2"
+        },
+        "github-protocols": [
+            "https",
+            "http",
+            "git"
+        ]
+    },
+    "minimum-stability": "dev",
+    "homepage": "http://microweber.com",
+    "license": "MIT",
+    "support": {
+        "email": "support@microweber.com",
+        "irc": "irc://irc.freenode.org/microweber"
+    }
 }
