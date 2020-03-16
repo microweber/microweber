@@ -2303,12 +2303,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-packages/laravel-tagged-file-cache.git",
-                "reference": "96e66144e94cd1d77bedab19fc75343b36656fe0"
+                "reference": "9c611b48ba4063570dd23ce12e791a6ab10b0e2e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/laravel-tagged-file-cache/zipball/96e66144e94cd1d77bedab19fc75343b36656fe0",
-                "reference": "96e66144e94cd1d77bedab19fc75343b36656fe0",
+                "url": "https://api.github.com/repos/microweber-packages/laravel-tagged-file-cache/zipball/9c611b48ba4063570dd23ce12e791a6ab10b0e2e",
+                "reference": "9c611b48ba4063570dd23ce12e791a6ab10b0e2e",
                 "shasum": ""
             },
             "require-dev": {
@@ -2337,7 +2337,7 @@
             ],
             "description": "Taggable File Cache driver for Laravel. Allows the use of Cache tags with a file cache.",
             "homepage": "http://microweber.com",
-            "time": "2020-03-11T13:25:11+00:00"
+            "time": "2020-03-16T14:29:02+00:00"
         },
         {
             "name": "microweber-packages/microweber-database-manager",
@@ -2345,12 +2345,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-packages/microweber-database-manager.git",
-                "reference": "f78989c07a027b69c6c7bb35c7837c376f5a6131"
+                "reference": "cb74851f2f91818e16f486e4a6a0deddba4e9253"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/microweber-database-manager/zipball/f78989c07a027b69c6c7bb35c7837c376f5a6131",
-                "reference": "f78989c07a027b69c6c7bb35c7837c376f5a6131",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-database-manager/zipball/cb74851f2f91818e16f486e4a6a0deddba4e9253",
+                "reference": "cb74851f2f91818e16f486e4a6a0deddba4e9253",
                 "shasum": ""
             },
             "require": {
@@ -2398,7 +2398,7 @@
             ],
             "description": "Microweber database manager.",
             "homepage": "http://microweber.com",
-            "time": "2020-03-13T13:54:46+00:00"
+            "time": "2020-03-16T14:11:23+00:00"
         },
         {
             "name": "microweber-packages/microweber-helpers",
@@ -2406,12 +2406,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-packages/microweber-helpers.git",
-                "reference": "ffdadce4ad284b43eb27ab3b1f7b684d0cccb6cf"
+                "reference": "48a0f98c2a456c159b42e386a847f96fe35cb4e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/microweber-helpers/zipball/ffdadce4ad284b43eb27ab3b1f7b684d0cccb6cf",
-                "reference": "ffdadce4ad284b43eb27ab3b1f7b684d0cccb6cf",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-helpers/zipball/48a0f98c2a456c159b42e386a847f96fe35cb4e8",
+                "reference": "48a0f98c2a456c159b42e386a847f96fe35cb4e8",
                 "shasum": ""
             },
             "require": {
@@ -2442,7 +2442,7 @@
             ],
             "description": "PHP helper funcitons.",
             "homepage": "http://microweber.com",
-            "time": "2020-03-12T15:38:33+00:00"
+            "time": "2020-03-16T14:43:24+00:00"
         },
         {
             "name": "microweber-templates/dream",
@@ -3702,12 +3702,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "85a79c287410071a4d4c78d140560b9cf5a6dcaa"
+                "reference": "01c8f090ee1f7d9f1ee39b79a587cda1d94f8f6e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/85a79c287410071a4d4c78d140560b9cf5a6dcaa",
-                "reference": "85a79c287410071a4d4c78d140560b9cf5a6dcaa",
+                "url": "https://api.github.com/repos/symfony/console/zipball/01c8f090ee1f7d9f1ee39b79a587cda1d94f8f6e",
+                "reference": "01c8f090ee1f7d9f1ee39b79a587cda1d94f8f6e",
                 "shasum": ""
             },
             "require": {
@@ -3772,7 +3772,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2020-03-16T06:35:57+00:00"
+            "time": "2020-03-16T13:12:54+00:00"
         },
         {
             "name": "symfony/css-selector",
@@ -3780,12 +3780,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/css-selector.git",
-                "reference": "62d061219842e2d468740ea25338755ba51dddd5"
+                "reference": "7882d17f2c56414ff25cb064ad657c7924d65e06"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/css-selector/zipball/62d061219842e2d468740ea25338755ba51dddd5",
-                "reference": "62d061219842e2d468740ea25338755ba51dddd5",
+                "url": "https://api.github.com/repos/symfony/css-selector/zipball/7882d17f2c56414ff25cb064ad657c7924d65e06",
+                "reference": "7882d17f2c56414ff25cb064ad657c7924d65e06",
                 "shasum": ""
             },
             "require": {
@@ -3825,7 +3825,7 @@
             ],
             "description": "Symfony CssSelector Component",
             "homepage": "https://symfony.com",
-            "time": "2020-03-15T14:51:35+00:00"
+            "time": "2020-03-16T13:12:54+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -3879,12 +3879,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/error-handler.git",
-                "reference": "541fff776c2e986d9e34793fe0588080d8587893"
+                "reference": "5807959b927d2363754e5574d33599a679a3b4be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/error-handler/zipball/541fff776c2e986d9e34793fe0588080d8587893",
-                "reference": "541fff776c2e986d9e34793fe0588080d8587893",
+                "url": "https://api.github.com/repos/symfony/error-handler/zipball/5807959b927d2363754e5574d33599a679a3b4be",
+                "reference": "5807959b927d2363754e5574d33599a679a3b4be",
                 "shasum": ""
             },
             "require": {
@@ -3926,7 +3926,7 @@
             ],
             "description": "Symfony ErrorHandler Component",
             "homepage": "https://symfony.com",
-            "time": "2020-03-16T06:11:56+00:00"
+            "time": "2020-03-16T13:12:54+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -4063,12 +4063,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "52e0e00dd9f4742c92e22d0085f06a91cb9f056f"
+                "reference": "d2b1b822a56565c79608da03240cb537c026eb2e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/52e0e00dd9f4742c92e22d0085f06a91cb9f056f",
-                "reference": "52e0e00dd9f4742c92e22d0085f06a91cb9f056f",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/d2b1b822a56565c79608da03240cb537c026eb2e",
+                "reference": "d2b1b822a56565c79608da03240cb537c026eb2e",
                 "shasum": ""
             },
             "require": {
@@ -4105,7 +4105,7 @@
             ],
             "description": "Symfony Filesystem Component",
             "homepage": "https://symfony.com",
-            "time": "2020-03-15T14:51:35+00:00"
+            "time": "2020-03-16T13:12:54+00:00"
         },
         {
             "name": "symfony/finder",
@@ -4162,12 +4162,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "752b8b79f56d0c05444d0927b065ec7ee7676c12"
+                "reference": "53cd1cc9cead265a07d1404c134dab1559692273"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/752b8b79f56d0c05444d0927b065ec7ee7676c12",
-                "reference": "752b8b79f56d0c05444d0927b065ec7ee7676c12",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/53cd1cc9cead265a07d1404c134dab1559692273",
+                "reference": "53cd1cc9cead265a07d1404c134dab1559692273",
                 "shasum": ""
             },
             "require": {
@@ -4214,7 +4214,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "https://symfony.com",
-            "time": "2020-03-15T14:51:35+00:00"
+            "time": "2020-03-16T13:12:54+00:00"
         },
         {
             "name": "symfony/http-kernel",
@@ -4222,12 +4222,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "91c190fe888d13372d8c35c0910a84597d914236"
+                "reference": "2fbe62ff3880ae80b8f0e495efe2db8ef0be6b5d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/91c190fe888d13372d8c35c0910a84597d914236",
-                "reference": "91c190fe888d13372d8c35c0910a84597d914236",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/2fbe62ff3880ae80b8f0e495efe2db8ef0be6b5d",
+                "reference": "2fbe62ff3880ae80b8f0e495efe2db8ef0be6b5d",
                 "shasum": ""
             },
             "require": {
@@ -4310,7 +4310,7 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "https://symfony.com",
-            "time": "2020-03-15T14:51:35+00:00"
+            "time": "2020-03-16T13:12:54+00:00"
         },
         {
             "name": "symfony/mime",
@@ -4318,12 +4318,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/mime.git",
-                "reference": "aafa51a78d814b4cd239abb91c3f410776a3b1aa"
+                "reference": "7e3c7ad5d7ba489126e2244a5590eeedb4daccd9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/mime/zipball/aafa51a78d814b4cd239abb91c3f410776a3b1aa",
-                "reference": "aafa51a78d814b4cd239abb91c3f410776a3b1aa",
+                "url": "https://api.github.com/repos/symfony/mime/zipball/7e3c7ad5d7ba489126e2244a5590eeedb4daccd9",
+                "reference": "7e3c7ad5d7ba489126e2244a5590eeedb4daccd9",
                 "shasum": ""
             },
             "require": {
@@ -4372,7 +4372,7 @@
                 "mime",
                 "mime-type"
             ],
-            "time": "2020-03-15T14:51:35+00:00"
+            "time": "2020-03-16T13:12:54+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -5024,12 +5024,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "5a64c370bbf80aa486350d5424b73d93306e2922"
+                "reference": "e29583340600cbd5af33e1fab098b2ec2a33c9bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/5a64c370bbf80aa486350d5424b73d93306e2922",
-                "reference": "5a64c370bbf80aa486350d5424b73d93306e2922",
+                "url": "https://api.github.com/repos/symfony/process/zipball/e29583340600cbd5af33e1fab098b2ec2a33c9bb",
+                "reference": "e29583340600cbd5af33e1fab098b2ec2a33c9bb",
                 "shasum": ""
             },
             "require": {
@@ -5065,7 +5065,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2020-03-15T14:51:35+00:00"
+            "time": "2020-03-16T13:12:54+00:00"
         },
         {
             "name": "symfony/routing",
@@ -5073,12 +5073,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/routing.git",
-                "reference": "8a991b82799e25db03bc8d3e72d0f99f04fe91f3"
+                "reference": "edb2547b39eebdb9e5c86d1de0f367b4d6485b06"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/routing/zipball/8a991b82799e25db03bc8d3e72d0f99f04fe91f3",
-                "reference": "8a991b82799e25db03bc8d3e72d0f99f04fe91f3",
+                "url": "https://api.github.com/repos/symfony/routing/zipball/edb2547b39eebdb9e5c86d1de0f367b4d6485b06",
+                "reference": "edb2547b39eebdb9e5c86d1de0f367b4d6485b06",
                 "shasum": ""
             },
             "require": {
@@ -5142,7 +5142,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2020-03-15T14:51:35+00:00"
+            "time": "2020-03-16T13:12:54+00:00"
         },
         {
             "name": "symfony/service-contracts",
@@ -5208,12 +5208,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "a99b13f14c65c7075d36b63e7069ab666ad67154"
+                "reference": "c94bdc99afcb91aa8debefad563cc10dd5cd958f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/a99b13f14c65c7075d36b63e7069ab666ad67154",
-                "reference": "a99b13f14c65c7075d36b63e7069ab666ad67154",
+                "url": "https://api.github.com/repos/symfony/string/zipball/c94bdc99afcb91aa8debefad563cc10dd5cd958f",
+                "reference": "c94bdc99afcb91aa8debefad563cc10dd5cd958f",
                 "shasum": ""
             },
             "require": {
@@ -5270,7 +5270,7 @@
                 "utf-8",
                 "utf8"
             ],
-            "time": "2020-03-13T11:22:22+00:00"
+            "time": "2020-03-16T13:12:54+00:00"
         },
         {
             "name": "symfony/translation",
@@ -5278,12 +5278,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "bddc6b34770cc0f8462cf1fadb5f1eb77ffe7e1f"
+                "reference": "b0e763f7ae00e6cd276ab3476532ac64b5d7f75f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/bddc6b34770cc0f8462cf1fadb5f1eb77ffe7e1f",
-                "reference": "bddc6b34770cc0f8462cf1fadb5f1eb77ffe7e1f",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/b0e763f7ae00e6cd276ab3476532ac64b5d7f75f",
+                "reference": "b0e763f7ae00e6cd276ab3476532ac64b5d7f75f",
                 "shasum": ""
             },
             "require": {
@@ -5347,7 +5347,7 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
-            "time": "2020-03-15T14:51:35+00:00"
+            "time": "2020-03-16T13:12:54+00:00"
         },
         {
             "name": "symfony/translation-contracts",
@@ -5412,12 +5412,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "9322344e8ab25a9ff9233e43479ffc420a9e6bcd"
+                "reference": "83bb27c6889499e337153cc677f74beffe847681"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/9322344e8ab25a9ff9233e43479ffc420a9e6bcd",
-                "reference": "9322344e8ab25a9ff9233e43479ffc420a9e6bcd",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/83bb27c6889499e337153cc677f74beffe847681",
+                "reference": "83bb27c6889499e337153cc677f74beffe847681",
                 "shasum": ""
             },
             "require": {
@@ -5479,7 +5479,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2020-03-15T14:51:35+00:00"
+            "time": "2020-03-16T13:12:54+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",

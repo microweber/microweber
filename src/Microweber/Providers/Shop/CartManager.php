@@ -2,8 +2,8 @@
 
 namespace Microweber\Providers\Shop;
 
-use Microweber\Utils\Crud;
 use Microweber\Cart;
+use MicroweberPackages\DatabaseManager\Crud;
 
 class CartManager extends Crud
 {

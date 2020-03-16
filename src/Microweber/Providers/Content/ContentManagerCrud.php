@@ -2,9 +2,9 @@
 
 namespace Microweber\Providers\Content;
 
-use Microweber\Providers\Database\Crud;
 use Microweber\Content;
 use DB;
+use MicroweberPackages\DatabaseManager\Crud;
 
 class ContentManagerCrud extends Crud
 {

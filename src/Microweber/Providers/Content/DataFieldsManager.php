@@ -2,7 +2,7 @@
 
 namespace Microweber\Providers\Content;
 
-use Microweber\Providers\Database\Crud;
+use MicroweberPackages\DatabaseManager\Crud;
 
 class DataFieldsManager extends Crud
 {

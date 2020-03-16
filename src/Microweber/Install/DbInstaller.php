@@ -2,7 +2,7 @@
 
 namespace Microweber\Install;
 
-use Microweber\Providers\Database\Utils as DbUtils;
+use MicroweberPackages\DatabaseManager\Utils as DbUtils;
 use Illuminate\Support\Facades\Schema as DbSchema;
 use Illuminate\Database\QueryException;
 use Cache;

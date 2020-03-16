@@ -4,7 +4,7 @@
 namespace comments;
 
 
-use Microweber\Providers\Database\Crud;
+use MicroweberPackages\DatabaseManager\Crud;
 use Microweber\Utils\MailSender;
 
 

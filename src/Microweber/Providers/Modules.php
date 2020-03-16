@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Config;
 //use Microweber\Providers\Database\Utils;
 use Module;
 use Illuminate\Support\Facades\DB;
-use Microweber\Providers\Database\Utils as DbUtils;
+use MicroweberPackages\DatabaseManager\Utils as DbUtils;
 
 //use Config;
 //use Illuminate\Database\Eloquent\Model as Eloquent;

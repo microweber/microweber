@@ -3,7 +3,7 @@
 
 namespace Microweber\Providers\Users;
 
-use Microweber\Providers\Database\Crud;
+use MicroweberPackages\DatabaseManager\Crud;
 
 class TosManager extends Crud
 {
