@@ -35,26 +35,12 @@ class Handler extends ExceptionHandler
     ];
 
     /**
-     * Report or log an exception.
-     *
-     * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
-     *
-     * @param  \Exception $e
-     * @return void
-     */
-    public function report(Exception $e)
-    {
-        return parent::report($e);
-    }
-
-
-    /**
      * Create a Symfony response for the given exception.
      *
      * @param  \Exception $e
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    protected function convertExceptionToResponse(Exception $e)
+    protected function ___convertExceptionToResponse(Exception $e)
     {
 
 

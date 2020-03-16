@@ -33,7 +33,8 @@
       "arcanedev/seo-helper": "dev-master",
       "microweber-templates/dream": "dev-master",
       "microweber-templates/new-world": "dev-master",
-      "microweber-templates/liteness": "dev-master"
+      "microweber-templates/liteness": "dev-master",
+    "graham-campbell/markdown": "^12.0@dev"
    },
   "require-dev": {
       "nunomaduro/collision": "^4.1",

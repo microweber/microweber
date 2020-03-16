@@ -16,7 +16,7 @@ if (! defined('MW_VERSION')) {
 class MicroweberServiceProvider extends ServiceProvider
 {
     protected $aliasInstance;
-    
+
     /*
     * Application Service Providers...
     */
@@ -287,7 +287,7 @@ class MicroweberServiceProvider extends ServiceProvider
             if ($language != false) {
                 set_current_lang($language);
             }
-			
+
             if (is_cli()) {
 
                 $this->commands('Microweber\Commands\ResetCommand');
