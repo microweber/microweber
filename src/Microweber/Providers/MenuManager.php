@@ -2,7 +2,7 @@
 
 namespace Microweber\Providers;
 
-use Content;
+use Microweber\Content;
 use Menu;
 
 /**

@@ -14,14 +14,14 @@ namespace Microweber;
 
 namespace Microweber\Providers;
 
-use Option;
+use Microweber\Option;
 use DB;
 use Cache;
 
 class OptionManager
 {
     public $app;
-    public $options_memory = array(); //internal array to hold options in cache 
+    public $options_memory = array(); //internal array to hold options in cache
     public $override_memory = array(); //array to hold options values that are not persistent in DB and changed on runtime
     public $tables = array();
     public $table_prefix = false;
@@ -313,7 +313,7 @@ class OptionManager
         }
 
         $this->clear_memory();
-        
+
         $option_group = false;
         if (is_array($data)) {
             if (strval($data['option_key']) != '') {

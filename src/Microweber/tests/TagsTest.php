@@ -3,7 +3,7 @@
 namespace Microweber\tests;
 
 use Tag;
-use Content;
+use Microweber\Content;
 use DB;
 
 class TagsTest extends TestCase

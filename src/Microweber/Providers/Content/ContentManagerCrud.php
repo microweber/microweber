@@ -3,7 +3,7 @@
 namespace Microweber\Providers\Content;
 
 use Microweber\Providers\Database\Crud;
-use Content;
+use Microweber\Content;
 use DB;
 
 class ContentManagerCrud extends Crud
@@ -195,7 +195,7 @@ class ContentManagerCrud extends Crud
             $extra_data = true;
         }
 
- 
+
 
         $get = parent::get($params);
 

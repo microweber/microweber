@@ -2,7 +2,7 @@
 
 namespace Microweber\Providers\Content;
 
-use Content;
+use Microweber\Content;
 use ContentFields;
 use Menu;
 use DB;

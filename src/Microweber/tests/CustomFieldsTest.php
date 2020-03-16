@@ -5,12 +5,12 @@ namespace Microweber\tests;
 class CustomFieldsTest extends TestCase
 {
 
-    public function setUp()
+    public function setUp():void
     {
         parent::setUp();
 
         // set permission to save custom fields (normally available to admin users)
-        mw()->database_manager->extended_save_set_permission(true); 
+        mw()->database_manager->extended_save_set_permission(true);
     }
 
     public function testMakeDefaultFields() {
@@ -73,9 +73,9 @@ class CustomFieldsTest extends TestCase
 
         }
     }
-    
+
     public function testCustomFieldsPost() {
-    	
+
     	$rel = 'module';
     	$rel_id = 'layouts-'.rand(1111,9999).'-contact-form';
 
@@ -89,83 +89,83 @@ class CustomFieldsTest extends TestCase
     	$params['phone'] = '0885451012';
     	$params['number'] = '123456789';
     	$params['select'] = array('1123', '213213');
-    	
+
     	// Disable captcha
     	save_option(array(
     		'option_group'=>$params['for_id'],
     		'option_key'=> 'disable_captcha',
     		'option_value'=> 'y'
     	));
-    	
+
     	$response = mw()->forms_manager->post($params);
-    	
+
     	$entry = mw()->forms_manager->get_entires('single=1&id=' . $response['id']);
-    	
+
     	$this->assertEquals($entry['custom_fields']['message'], $params['message']);
     	$this->assertEquals($entry['custom_fields']['email'], $params['email']);
     	$this->assertEquals($entry['custom_fields']['second_email'], $params['second_email']);
     	$this->assertEquals($entry['custom_fields']['website'], $params['website']);
     	$this->assertEquals($entry['custom_fields']['phone'], $params['phone']);
     	$this->assertEquals($entry['custom_fields']['number'], $params['number']);
-    	
+
     }
-	
+
     public function testCustomFieldHtmlOutput() {
-    	
+
     	$rel = 'module';
     	$rel_id = 'layouts-'.rand(1111,9999).'-contact-form';
     	$fields_csv_str = 'price, text, radio, select, checkbox, number, phone, website, email, address, date, time, fileupload, property, hidden, message';
     	$fields_csv_array = explode(',', $fields_csv_str);
-    	
+
     	$fields = mw()->fields_manager->make_default($rel, $rel_id, $fields_csv_str);
-    	
+
     	foreach ($fields as $key=>$field_id) {
-    		
+
     		$html_output = mw()->fields_manager->make($field_id);
-    		
+
     		$field_name = trim($fields_csv_array[$key]);
-    		
+
     		if ($field_name == 'price') {
-    			
+
     			$check_input_if_exists = false;
     			if ((strpos($html_output, 'name="Price"')) !== false && (strpos($html_output, '<input') !== false) && (strpos($html_output, 'type="hidden"') !== false)) {
     				$check_input_if_exists = true;
     			}
-    			
+
     			$this->assertEquals($check_input_if_exists, true);
     		}
-    		
+
     		if ($field_name == 'phone') {
-    			
+
     			$check_input_if_exists = false;
     			if (strpos($html_output, 'name="Phone"') !== false) {
     				$check_input_if_exists = true;
     			}
-    			
+
     			$this->assertEquals($check_input_if_exists, true);
     		}
-    		
+
     		if ($field_name == 'date') {
-    			
+
     			$check_input_if_exists = false;
     			if (strpos($html_output, 'name="Date"') !== false) {
     				$check_input_if_exists = true;
     			}
-    			
+
     			$this->assertEquals($check_input_if_exists, true);
     		}
-    		
-    		
+
+
     		if ($field_name == 'fileupload') {
-    			
+
     			$check_input_if_exists = false;
     			if (strpos($html_output, 'name="Fileupload"') !== false) {
     				$check_input_if_exists = true;
     			}
-    			
+
     			$this->assertEquals($check_input_if_exists, true);
     		}
-    		
+
     		if ($field_name == 'hidden') {
     			$check_input_if_exists = false;
     			if (strpos($html_output, 'type="hidden"') !== false) {
@@ -173,7 +173,7 @@ class CustomFieldsTest extends TestCase
     			}
     			$this->assertEquals($check_input_if_exists, true);
     		}
-    		
+
     		if ($field_name == 'checkbox') {
     			$check_input_if_exists = false;
     			if (strpos($html_output, 'type="checkbox"') !== false) {
@@ -181,7 +181,7 @@ class CustomFieldsTest extends TestCase
     			}
     			$this->assertEquals($check_input_if_exists, true);
     		}
-    		
+
     		if ($field_name == 'radio') {
     			$check_input_if_exists = false;
     			if (strpos($html_output, 'type="radio"') !== false) {
@@ -189,7 +189,7 @@ class CustomFieldsTest extends TestCase
     			}
     			$this->assertEquals($check_input_if_exists, true);
     		}
-    		
+
     		if ($field_name == 'time') {
     			$check_input_if_exists = false;
     			if (strpos($html_output, 'type="time"') !== false) {
@@ -197,7 +197,7 @@ class CustomFieldsTest extends TestCase
     			}
     			$this->assertEquals($check_input_if_exists, true);
     		}
-    		
+
     		if ($field_name == 'number') {
     			$check_input_if_exists = false;
     			if (strpos($html_output, 'type="number"') !== false) {
@@ -205,7 +205,7 @@ class CustomFieldsTest extends TestCase
     			}
     			$this->assertEquals($check_input_if_exists, true);
     		}
-    		
+
     		if ($field_name == 'name') {
     			$check_input_if_exists = false;
     			if (strpos($html_output, 'type="text"') !== false) {
@@ -213,7 +213,7 @@ class CustomFieldsTest extends TestCase
     			}
     			$this->assertEquals($check_input_if_exists, true);
     		}
-    		
+
     		if ($field_name == 'email') {
     			$check_input_if_exists = false;
     			if (strpos($html_output, 'type="email"') !== false) {
@@ -221,7 +221,7 @@ class CustomFieldsTest extends TestCase
     			}
     			$this->assertEquals($check_input_if_exists, true);
     		}
-    		
+
     		if ($field_name == 'message') {
     			$check_input_if_exists = false;
     			if (strpos($html_output, '<textarea') !== false) {
@@ -229,7 +229,7 @@ class CustomFieldsTest extends TestCase
     			}
     			$this->assertEquals($check_input_if_exists, true);
     		}
-    		
+
     	}
     }
 
@@ -314,8 +314,8 @@ class CustomFieldsTest extends TestCase
         $get_custom_fields = content_custom_fields($saved_id);
         $this->assertEquals(count($get_custom_fields), 2);
 
-        
-        
+
+
     }
-  
+
 }

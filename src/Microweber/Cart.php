@@ -1,5 +1,5 @@
 <?php
-
+namespace Microweber;
 
 class Cart extends BaseModel
 {

@@ -3,7 +3,7 @@
 namespace Microweber\Install;
 
 use Illuminate\Support\Facades\DB;
-use Option;
+use Microweber\Option;
 
 
 class DefaultOptionsInstaller
@@ -20,7 +20,7 @@ class DefaultOptionsInstaller
         }
         return true;
     }
-	
+
     public function setDefault()
     {
         $existing = DB::table('options')->where('option_key', 'website_title')
@@ -35,7 +35,7 @@ class DefaultOptionsInstaller
         }
 
     }
-    
+
     public function setLanguage($language)
     {
     	$existing = Option::where('option_key', 'language')->where('option_group', 'website')->first();
@@ -51,7 +51,7 @@ class DefaultOptionsInstaller
     		$option->save();
     	}
     }
-    
+
     public function setCommentsEnabled()
     {
         $existing = DB::table('options')->where('option_key', 'enable_comments')

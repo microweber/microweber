@@ -4,7 +4,7 @@ namespace Microweber\Providers;
 
 use Microweber\Providers\Content\ContentManagerCrud;
 use Microweber\Providers\Content\ContentManagerHelpers;
-use Content;
+use Microweber\Content;
 use Menu;
 use DB;
 use Microweber;

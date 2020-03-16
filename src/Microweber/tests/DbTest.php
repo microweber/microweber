@@ -22,7 +22,7 @@ class DbTest extends TestCase
     private $content;
     private $content5;
 
-    public function setUp()
+    public function setUp():void
     {
         parent::setUp();
         $this->content = db_save('content', $this->save);
@@ -113,7 +113,7 @@ class DbTest extends TestCase
             $this->assertFalse(in_array($item['id'], $ids_on_first_page));
         }
 
- 
+
         $this->assertEquals($first_page_items, $second_page_items, 'First page item count: ' . $first_page_items . ', second page item count: ' . $second_page_items);
         $this->assertTrue(intval($pages_count) > 1);
       // @todo: fix  the count_paging param to return integer    $this->assertTrue(is_int($pages_count));

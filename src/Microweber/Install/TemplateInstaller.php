@@ -4,7 +4,9 @@ namespace Microweber\Install;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
-use Option;
+use Microweber\Option;
+use Microweber\Content;
+use Microweber\Menu;
 use Microweber\Utils\Backup\BackupManager;
 
 class TemplateInstaller
@@ -78,9 +80,9 @@ class TemplateInstaller
                 }
             }
         }
-        
+
         if (is_file($default_content_file)) {
-        	
+
         	try {
         		$manager = new BackupManager();
         		$manager->setImportFile($default_content_file);
@@ -92,7 +94,7 @@ class TemplateInstaller
         	} catch (\Exception $e) {
         		return false;
         	}
-        	
+
         	ob_get_clean();
         	return true;
         } else {
@@ -102,10 +104,10 @@ class TemplateInstaller
 
     public function createDefaultContent()
     {
-        $existing = \Content::where('is_home', 1)->first();
+        $existing = Content::where('is_home', 1)->first();
 
         if ($existing == false) {
-            $content = new \Content();
+            $content = new Content();
             $content->title = 'Home';
             $content->url = 'home';
             $content->parent = 0;
@@ -118,28 +120,28 @@ class TemplateInstaller
         }
         try {
 
-            $existing = \Menu::where('title', 'header_menu')->first();
+            $existing = Menu::where('title', 'header_menu')->first();
             if (!$existing) {
-                $menu = new \Menu();
+                $menu = new Menu();
                 $menu->title = 'header_menu';
                 $menu->item_type = 'menu';
                 $menu->is_active = 1;
                 $menu->save();
 
-                $menu = new \Menu();
+                $menu = new Menu();
                 $menu->parent_id = 1;
                 $menu->content_id = 1;
                 $menu->item_type = 'menu_item';
                 $menu->is_active = 1;
                 $menu->save();
 
-                $menu = new \Menu();
+                $menu = new Menu();
                 $menu->title = 'footer_menu';
                 $menu->item_type = 'menu';
                 $menu->is_active = 1;
                 $menu->save();
 
-                $menu = new \Menu();
+                $menu = new Menu();
                 $menu->parent_id = 2;
                 $menu->content_id = 1;
                 $menu->item_type = 'menu_item';

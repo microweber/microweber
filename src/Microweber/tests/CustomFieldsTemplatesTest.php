@@ -4,7 +4,7 @@ namespace Microweber\tests;
 
 class CustomFieldsTemplatesTest extends TestCase
 {
-    public function setUp()
+    public function setUp() : void
     {
         parent::setUp();
 
