@@ -13,7 +13,7 @@ return [
 	|
 	*/
 
-	'default' => env('CACHE_DRIVER') ?: 'file',
+	'default' => env('CACHE_DRIVER') ?: 'tfile',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -27,6 +27,11 @@ return [
 	*/
 
 	'stores' => [
+
+        'tfile' => [
+            'driver' => 'tfile',
+            'path'   => storage_path('framework/cache')
+        ],
 
 		'apc' => [
 			'driver' => 'apc'

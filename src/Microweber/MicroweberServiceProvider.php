@@ -8,6 +8,7 @@ use Microweber\Utils\ClassLoader;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Microweber\Utils\Adapters\Config\ConfigSave;
+use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
 
 if (! defined('MW_VERSION')) {
     include_once __DIR__ . DIRECTORY_SEPARATOR . 'functions' . DIRECTORY_SEPARATOR . 'bootstrap.php';
@@ -120,6 +121,8 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->instance('config', new ConfigSave($this->app));
 
         $this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');
+
+        $this->app->register(TaggableFileCacheServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
     }
