@@ -145,13 +145,13 @@ $icon = get_option('icon', $params['id']);
     <div id="btn_url_holder">
         <div class="mw-ui-btn-nav">
             <input
-                readonly
+
                 type="text"
                 name="url"
                 id="btn-default_url"
                 value="<?php print $url; ?>"
                 placeholder="<?php _e("Enter URL"); ?>"
-                class="mw_option_field mw-ui-field"/>
+                class="mw_option_field mw-ui-field" style="min-width: 350px" />
             <a href="javascript:;" class="mw-ui-btn"><span class="mw-icon-gear"></span></a>
         </div>
     </div>
@@ -186,7 +186,7 @@ $icon = get_option('icon', $params['id']);
 
 
         $(window).on('load', function(){
-            mw.$('#btn_url_holder').find('a, input').on('click', function(){
+            mw.$('#btn_url_holder').find('a, xxxinput').on('click', function(){
                 pickUrl();
             });
         })
