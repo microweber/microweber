@@ -124,6 +124,7 @@ mw.backup_import = {
 
 	start_import: function () {
 
+        $('.button-start').hide();
         $('.backup-import-modal-log-progress').show();
 
         var import_by_type = $('input[name="import_by_type"]:checked').val();
