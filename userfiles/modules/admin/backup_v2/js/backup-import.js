@@ -189,6 +189,14 @@ mw.backup_import = {
 				return;
 			} else {
 				mw.backup_import.get_progress(json_data.precentage);
+				if($('.backup-import-modal-log').length > 0){
+
+
+					$('.backup-import-modal-log')[0].scrollTop =$('.backup-import-modal-log')[0].scrollHeight;
+
+
+				}
+				//		$('#mw_backup_import_modal').
 				setTimeout(function(){ mw.backup_import.start_import();; }, 300);
 
 
