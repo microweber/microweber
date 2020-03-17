@@ -124,8 +124,24 @@ mw.backup_import = {
 
 	start_import: function () {
 
-        $('.button-start').hide();
-        $('.backup-import-modal-log-progress').show();
+
+		mw.notification.success('Importing...', 10000);
+
+		$('.button-start').addClass('disabled');
+
+		mw.spinner({element: ".button-start", size: 30, color: 'white'}).show()
+
+
+
+        //$('.button-start').hide();
+
+
+
+
+
+
+
+		$('.backup-import-modal-log-progress').show();
 
         var import_by_type = $('input[name="import_by_type"]:checked').val();
 
@@ -150,10 +166,12 @@ mw.backup_import = {
 		  	if (json_data.must_choice_language) {
 		  		mw.backup_import.choice_language(json_data.detected_languages);
                 mw.backup_import.get_log_check('stop');
+				$('.button-start').removeClass('disabled');
 		  		return;
 			}
 
 			if (json_data.error) {
+				$('.button-start').removeClass('disabled');
 				$('#backup-import-progressbar').remove();
 				mw.backup_import.get_log_check('stop');
 				$('#mw_backup_import_modal').find('.backup-import-modal-log').before('<h3>Error!</h3><br />' + json_data.error);
@@ -162,13 +180,18 @@ mw.backup_import = {
 			if (json_data.done) {
 				mw.backup_import.get_progress(100);
 				mw.backup_import.get_log_check('stop');
+				mw.spinner({element: ".button-start", size: 30, color: 'white'}).hide()
+				$('.button-start').removeClass('disabled');
+
 				$('#mw_backup_import_modal').find('.backup-import-modal-log').before('<h3>All data is imported successfully!</h3>');
                 $('#mw_backup_import_modal').find('.button-start').html('Done');
                 $('#mw_backup_import_modal').find('.button-start').attr('onClick', 'mw.backup_import.close_import_modal();').html('Done!');
 				return;
 			} else {
 				mw.backup_import.get_progress(json_data.precentage);
-				mw.backup_import.start_import();
+				setTimeout(function(){ mw.backup_import.start_import();; }, 300);
+
+
 			}
 		  }
 		});
