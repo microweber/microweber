@@ -186,7 +186,7 @@ $icon = get_option('icon', $params['id']);
 
 
         $(window).on('load', function(){
-            mw.$('#btn_url_holder').find('a, xxxinput').on('click', function(){
+            mw.$('#btn_url_holder').find('a').on('click', function(){
                 pickUrl();
             });
         })
