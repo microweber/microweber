@@ -117,7 +117,10 @@ class TagsManager
                         }
                         foreach ($article->tags as $tag) {
                             if (is_object($tag)) {
-                                $tags_return[] = $tag->name;
+                                $get_tag = db_get('tagging_tags', 'slug='. $tag->slug . '&single=1'); // this is for multilanguage
+                                if ($get_tag) {
+                                    $tags_return[] = $get_tag['name'];
+                                }
                             }
                         }
                     }
@@ -142,7 +145,7 @@ class TagsManager
 
 
             if (!empty($tags_return)) {
-                $tags_return = array_unique($tags_return); 
+                $tags_return = array_unique($tags_return);
                 return $tags_return;
             }
 
