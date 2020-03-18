@@ -13,8 +13,10 @@ event_bind('mw.admin.change_language', function () {
 
 function sync_tags() {
     $tagging_tags = db_get('tagging_tags', 'no_limit=1');
-    foreach ($tagging_tags as $tagging_tag) {
-        $save = tagging_tag_edit($tagging_tag);
+    if (!empty($tagging_tags)) {
+        foreach ($tagging_tags as $tagging_tag) {
+            $save = tagging_tag_edit($tagging_tag);
+        }
     }
 }
 
