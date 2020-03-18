@@ -6,6 +6,18 @@
  * Time: 3:34 PM
  */
 
+// Language is changed
+event_bind('mw.admin.change_language', function () {
+    sync_tags();
+});
+
+function sync_tags() {
+    $tagging_tags = db_get('tagging_tags', 'no_limit=1');
+    foreach ($tagging_tags as $tagging_tag) {
+        $save = tagging_tag_edit($tagging_tag);
+    }
+}
+
 api_expose_admin('tagging_tag/autocomplete', 'tagging_tag_autocomplete');
 function tagging_tag_autocomplete($params) {
 
@@ -27,7 +39,6 @@ function tagging_tag_autocomplete($params) {
     }
 
     return ['data'=>$founded_tags];
-
 }
 
 api_expose_admin('tagging_tag/edit', 'tagging_tag_edit');
@@ -49,6 +60,9 @@ function tagging_tag_edit($params) {
     $newData['name'] = $params['name'];
     $newData['slug'] = $params['slug'];
     $newData['description'] = $params['description'];
+    if (isset($params['id'])) {
+        $newData['id'] = $params['id'];
+    }
 
     if (isset($params['tagging_tag_id']) && !empty($params['tagging_tag_id'])) {
         $tagging_tag_id = $params['tagging_tag_id'];
@@ -98,7 +112,7 @@ function tagging_tag_edit($params) {
         }
 
         return $newData;
-    } 
+    }
 
     return ['status'=>false];
 
