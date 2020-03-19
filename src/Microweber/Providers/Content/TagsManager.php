@@ -69,14 +69,22 @@ class TagsManager
                         $childs = get_content_children($article_data['id']);
                         if ($childs) {
                             $article_tags = [];
+                            $tag_slug_map = [];
                             foreach ($childs as $child_id) {
                                 $get_tagging_tagged = db_get('tagging_tagged', 'taggable_id=' . $child_id);
                                 if ($get_tagging_tagged) {
                                     foreach ($get_tagging_tagged as $get_tagging_tag) {
-                                        $get_tagging_tag['count'] = 0;
-                                        $article_tags[] = $get_tagging_tag;
+                                        $tag_slug_map[$get_tagging_tag['tag_slug']][] = $get_tagging_tag;
                                     }
                                 }
+                            }
+
+                            foreach ($tag_slug_map as $tag_slug=>$tag_map_data) {
+                                $article_tags[] = array(
+                                    'tag_name'=>$tag_map_data[0]['tag_name'],
+                                    'tag_slug'=>$tag_slug,
+                                    'count'=> count($tag_slug_map[$tag_slug])
+                                );
                             }
 
                             if ($return_full) {
