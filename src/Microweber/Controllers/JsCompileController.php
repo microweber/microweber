@@ -16,6 +16,7 @@ class JsCompileController extends Controller
     /** @var \Microweber\Application */
     public $app;
 
+    private $_should_compile_assets = false; 
 
     public function __construct($app = null)
     {
@@ -26,12 +27,14 @@ class JsCompileController extends Controller
                 $this->app = mw();
             }
         }
+
+        if (!mw_is_installed()) {
+            $this->_should_compile_assets = false;
+        } else {
+            $this->_should_compile_assets = \Config::get('microweber.compile_assets');;
+        }
+
     }
-
-
-
-
-
 
 
     public function apijs()
@@ -53,7 +56,7 @@ class JsCompileController extends Controller
         }
 
         $l = $this->_load_apijs();
-        $compile_assets = \Config::get('microweber.compile_assets');
+        $compile_assets = $this->_should_compile_assets;   //$compile_assets =  \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
             // it makes an error
             $l = $this->minify_js($l);
@@ -102,7 +105,7 @@ class JsCompileController extends Controller
 
         $l = $this->_load_apijs_settings();
 
-        $compile_assets = \Config::get('microweber.compile_assets');
+        $compile_assets = $this->_should_compile_assets;   //$compile_assets =  \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
             $l = $this->minify_js($l);
 
@@ -164,7 +167,7 @@ class JsCompileController extends Controller
         $layout = str_replace('%7BSITE_URL%7D', $this->app->url_manager->site(), $layout);
 
 
-        $compile_assets = \Config::get('microweber.compile_assets');
+        $compile_assets = $this->_should_compile_assets;   //$compile_assets =  \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
 
 //
@@ -225,7 +228,7 @@ class JsCompileController extends Controller
         $l = str_replace('%7BSITE_URL%7D', $this->app->url_manager->site(), $l);
 
 
-        $compile_assets = \Config::get('microweber.compile_assets');
+        $compile_assets = $this->_should_compile_assets;   //$compile_assets =  \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
             $l = $this->minify_js($l);
 
@@ -274,7 +277,7 @@ class JsCompileController extends Controller
 
 
         $url = $this->app->url_manager->site('apijs') . '?mwv=' . MW_VERSION;
-        $compile_assets = \Config::get('microweber.compile_assets');
+        $compile_assets = $this->_should_compile_assets;   //$compile_assets =  \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
             $userfiles_dir = userfiles_path();
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs' . DS);
@@ -292,7 +295,7 @@ class JsCompileController extends Controller
     public function get_apijs_settings_url()
     {
         $url = $this->app->url_manager->site('apijs_settings') . '?mwv=' . MW_VERSION;;
-        $compile_assets = \Config::get('microweber.compile_assets');
+        $compile_assets = $this->_should_compile_assets;   //$compile_assets =  \Config::get('microweber.compile_assets');
 
 
         if ($compile_assets and defined('MW_VERSION')) {
@@ -338,7 +341,7 @@ class JsCompileController extends Controller
     public function get_liveeditjs_url()
     {
         $url = $this->app->url_manager->site('apijs_liveedit') . '?mwv=' . MW_VERSION;
-        $compile_assets = \Config::get('microweber.compile_assets');
+        $compile_assets = $this->_should_compile_assets;   //$compile_assets =  \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
             $userfiles_dir = userfiles_path();
             $file = mw_includes_path() . 'api' . DS . 'liveedit.js';
