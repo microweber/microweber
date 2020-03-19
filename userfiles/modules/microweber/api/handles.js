@@ -383,6 +383,10 @@ mw._initHandles = {
             },
             stop: function(a,b,c) {
                 mw.$(mwd.body).removeClass("dragStart");
+
+                if(mw.liveEditDomTree) {
+                    mw.liveEditDomTree.refresh(handleDomtreeSync.start)
+                }
             }
         });
 
@@ -612,6 +616,9 @@ mw._initHandles = {
                 },
                 stop: function() {
                     mw.$(mwd.body).removeClass("dragStart");
+                    if(mw.liveEditDomTree) {
+                        mw.liveEditDomTree.refresh(handleDomtreeSync.start)
+                    }
                 }
             };
         }
@@ -924,6 +931,9 @@ mw._initHandles = {
             },
             stop: function() {
                 mw.$(mwd.body).removeClass("dragStart");
+                if(mw.liveEditDomTree) {
+                    mw.liveEditDomTree.refresh(handleDomtreeSync.start)
+                }
             }
         });
 

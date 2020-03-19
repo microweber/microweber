@@ -189,9 +189,6 @@ InsertModule = function (module, cls) {
         mw.drag.fixes();
         setTimeout(function () {
             mw.drag.fix_placeholders();
-            if(mw.liveEditDomTree){
-                mw.liveEditDomTree.autoSync(node.parentNode, node);
-            }
         }, 40);
         mw.dropable.hide();
     }, cls);

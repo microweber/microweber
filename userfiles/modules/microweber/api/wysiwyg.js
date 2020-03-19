@@ -1056,6 +1056,7 @@ mw.wysiwyg = {
             }
         });
         mw.$(mwd.body).on('keydown', function (event) {
+
             if ((event.keyCode == 46 || event.keyCode == 8) && event.type == 'keydown') {
                 mw.tools.removeClass(mw.image_resizer, 'active');
                 mw.wysiwyg.change('.element-current');
@@ -1067,6 +1068,12 @@ mw.wysiwyg = {
                 }
                 var sel = window.getSelection();
                 if (mw.event.is.enter(event)) {
+                    setTimeout(function () {
+                        if(mw.liveEditDomTree) {
+                            var focused = mw.wysiwyg.validateCommonAncestorContainer(sel.focusNode)
+                            mw.liveEditDomTree.refresh(focused.parentNode)
+                        }
+                    }, 10);
                     if (mw.wysiwyg.isSafeMode(event.target)) {
                         var isList = mw.tools.firstMatchesOnNodeOrParent(event.target, ['li', 'ul', 'ol']);
                         if (!isList) {
@@ -1076,8 +1083,6 @@ mw.wysiwyg = {
                         }
                     }
                 }
-
-
                 if (sel.rangeCount > 0) {
                     var r = sel.getRangeAt(0);
                     if (event.keyCode == 9 && !event.shiftKey && sel.focusNode.parentNode.iscontentEditable && sel.isCollapsed) {   /* tab key */
@@ -1086,6 +1091,8 @@ mw.wysiwyg = {
                     }
                     return mw.wysiwyg.manageDeleteAndBackspace(event, sel);
                 }
+
+
             }
         });
         mw.on.tripleClick(mwd.body, function (target) {
@@ -1199,9 +1206,6 @@ mw.wysiwyg = {
             if(e && e.target) {
                 mw.wysiwyg.check_selection(e.target);
             }
-            if(mw.liveEditDomTree){
-                mw.liveEditDomTree.autoSync(e.target, e.target)
-            }
 
         });
     },
@@ -1233,19 +1237,7 @@ mw.wysiwyg = {
             mw.askusertostay = true;
             mw.drag.initDraft = true;
         }
-        if(mw.liveEditDomTree && el && el.parentNode){
-            while (!mw.tools.isBlockLevel(el)) {
-                el = parent.parentNode;
-            }
-            parent = el.parentNode;
-            if(mw.tools.hasClass(el, 'edit') || mw.tools.hasClass(parent, 'edit')) {
 
-            } else {
-
-
-            }
-
-        }
     },
     validateCommonAncestorContainer: function (c) {
         if( !c || !c.parentNode || c.parentNode === document.body ){
