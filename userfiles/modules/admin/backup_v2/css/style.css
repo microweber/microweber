@@ -59,6 +59,8 @@
     border-radius: 4px;
     margin-top:15px;
     margin-bottom:15px;
+    height: 200px;
+    overflow-y: auto;
 }
 #backup-import-progressbar h3 {
     color: #469a36;

@@ -132,6 +132,10 @@
     }
 </script>
 
+<?php
+sync_tags();
+?>
+
 <div id="mw-admin-content" class="admin-side-content">
 
 
