@@ -2,6 +2,7 @@
 
 namespace Microweber\Controllers;
 
+use Illuminate\Support\Facades\Request;
 use Microweber\View;
 use Microweber\Install;
 use Illuminate\Routing\Controller;
@@ -34,9 +35,8 @@ class InstallController extends Controller
           define('MW_INSTALL_CONTROLLER', true);
         }
 
-
         if (!is_array($input) || empty($input)) {
-            $input = Input::all();
+            $input = Request::all();
         }
         $is_installed = mw_is_installed();
         if ($is_installed) {
