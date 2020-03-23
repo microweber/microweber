@@ -1267,7 +1267,6 @@ class UpdateManager
     public function composer_get_required()
     {
         $runner = new ComposerUpdate();
-
         return $runner->getRequire();
     }
 
