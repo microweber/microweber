@@ -2491,12 +2491,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-packages/microweber-database-manager.git",
-                "reference": "cb74851f2f91818e16f486e4a6a0deddba4e9253"
+                "reference": "dd5ef3d5437c6492e7aa6db036b50f237625bd13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/microweber-database-manager/zipball/cb74851f2f91818e16f486e4a6a0deddba4e9253",
-                "reference": "cb74851f2f91818e16f486e4a6a0deddba4e9253",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-database-manager/zipball/dd5ef3d5437c6492e7aa6db036b50f237625bd13",
+                "reference": "dd5ef3d5437c6492e7aa6db036b50f237625bd13",
                 "shasum": ""
             },
             "require": {
@@ -2544,7 +2544,7 @@
             ],
             "description": "Microweber database manager.",
             "homepage": "http://microweber.com",
-            "time": "2020-03-16T14:11:23+00:00"
+            "time": "2020-03-23T14:41:45+00:00"
         },
         {
             "name": "microweber-packages/microweber-event-manager",
@@ -2552,12 +2552,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-packages/microweber-event-manager.git",
-                "reference": "a59e17f3547449ef44d9884a9989ae342d1b0291"
+                "reference": "815f36727ebbf99bf5fa6ec20556e6d0a0298075"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/microweber-event-manager/zipball/a59e17f3547449ef44d9884a9989ae342d1b0291",
-                "reference": "a59e17f3547449ef44d9884a9989ae342d1b0291",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-event-manager/zipball/815f36727ebbf99bf5fa6ec20556e6d0a0298075",
+                "reference": "815f36727ebbf99bf5fa6ec20556e6d0a0298075",
                 "shasum": ""
             },
             "require": {
@@ -2605,7 +2605,7 @@
             ],
             "description": "Microweber event manager.",
             "homepage": "http://microweber.com",
-            "time": "2020-03-23T13:16:22+00:00"
+            "time": "2020-03-23T14:29:42+00:00"
         },
         {
             "name": "microweber-packages/microweber-helpers",

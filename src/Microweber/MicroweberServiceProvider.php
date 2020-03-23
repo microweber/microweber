@@ -9,6 +9,7 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Microweber\Utils\Adapters\Config\ConfigSave;
 use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
+use MicroweberPackages\DatabaseManager\DatabaseManagerServiceProvider;
 use MicroweberPackages\EventManager\EventManagerServiceProvider;
 use MicroweberPackages\Helpers\Format;
 
