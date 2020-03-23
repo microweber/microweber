@@ -62,7 +62,6 @@ include_once $functions_dir.'api.php';
 include_once $functions_dir.'api_callbacks.php';
 include_once $functions_dir.'filesystem.php';
 include_once $functions_dir.'lang.php';
-include_once $functions_dir.'events.php';
 include_once $functions_dir.'config.php';
 
 include_once $functions_dir.'db.php';

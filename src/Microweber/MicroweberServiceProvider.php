@@ -9,6 +9,7 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Microweber\Utils\Adapters\Config\ConfigSave;
 use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
+use MicroweberPackages\EventManager\EventManagerServiceProvider;
 use MicroweberPackages\Helpers\Format;
 
 if (! defined('MW_VERSION')) {
@@ -125,6 +126,8 @@ class MicroweberServiceProvider extends ServiceProvider
 
         // $this->app->register(TaggableFileCacheServiceProvider::class);
 
+        $this->app->register(EventManagerServiceProvider::class);
+
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
     }
 
@@ -216,8 +219,6 @@ class MicroweberServiceProvider extends ServiceProvider
     {
         $providers = [
             'lang_helper' => 'Helpers\Lang',
-            'event_manager' => 'Event',
-            'database_manager' => 'DatabaseManager',
             'url_manager' => 'UrlManager',
             'ui' => 'Ui',
             'content_manager' => 'ContentManager',
