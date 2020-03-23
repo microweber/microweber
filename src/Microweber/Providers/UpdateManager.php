@@ -6,6 +6,7 @@ use Microweber\Utils\Http;
 use Microweber\Utils\Files;
 use Illuminate\Support\Facades\Config;
 use Microweber\Utils\Zip;
+use MicroweberPackages\PackageManager\ComposerUpdate;
 
 if (defined('INI_SYSTEM_CHECK_DISABLED') == false) {
     define('INI_SYSTEM_CHECK_DISABLED', ini_get('disable_functions'));
@@ -537,18 +538,7 @@ class UpdateManager
     public function check($skip_cache = false)
     {
 
-        return;
-
-//
-//
-//        $params = array();
-//        $params['return_found_local_packages'] = true;
-//
-//
-//        $runner = new \Microweber\Utils\ComposerUpdate();
-//        $result =  $runner->search_packages($params);
-//
-
+        return; // TODO
 
         $update_channel = Config::get('microweber.update_channel');
         if ('disabled' == $update_channel) {
@@ -1243,8 +1233,8 @@ class UpdateManager
             $params['require_name'] = $keyword;
         }
 
-        $runner = new \Microweber\Utils\ComposerUpdate();
-        $results = $runner->search_packages($params);
+        $runner = new ComposerUpdate();
+        $results = $runner->searchPackages($params);
 
 
         if (!$results) {
@@ -1263,22 +1253,22 @@ class UpdateManager
 
     public function composer_install_package_by_name($params)
     {
-        $runner = new \Microweber\Utils\ComposerUpdate();
-        return $runner->install_package_by_name($params);
+        $runner = new ComposerUpdate();
+        return $runner->installPackageByName($params);
     }
 
     public function composer_merge($composer_patch_path)
     {
         $this->log_msg('Merging composer files');
-        $runner = new \Microweber\Utils\ComposerUpdate();
+        $runner = new ComposerUpdate();
         $runner->merge($composer_patch_path);
     }
 
     public function composer_get_required()
     {
-        $runner = new \Microweber\Utils\ComposerUpdate();
+        $runner = new ComposerUpdate();
 
-        return $runner->get_require();
+        return $runner->getRequire();
     }
 
 

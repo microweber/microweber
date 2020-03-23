@@ -464,7 +464,7 @@ class InstallController extends Controller
 
 
         $ready = array();
-        $runner = new \Microweber\Utils\ComposerUpdate();
+        $runner = new ComposerUpdate();
         $results = $runner->search_packages(['search_by_type' => 'microweber-template']);
         if ($results) {
             foreach ($results as $k => $result) {
@@ -479,7 +479,7 @@ class InstallController extends Controller
     }
     private function _install_package_by_name($package_name)
     {
-        $runner = new \Microweber\Utils\ComposerUpdate();
+        $runner = new ComposerUpdate();
         $results = $runner->install_package_by_name(['require_name' => $package_name]);
         return $results;
 
