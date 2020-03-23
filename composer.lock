@@ -2657,12 +2657,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-packages/microweber-package-manager.git",
-                "reference": "6b6b39ed8edc081cb73e4150f22f8ce986111684"
+                "reference": "0d30eb2d05f782d86fbf7bcdefd89037a6d9b5d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/microweber-package-manager/zipball/6b6b39ed8edc081cb73e4150f22f8ce986111684",
-                "reference": "6b6b39ed8edc081cb73e4150f22f8ce986111684",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-package-manager/zipball/0d30eb2d05f782d86fbf7bcdefd89037a6d9b5d3",
+                "reference": "0d30eb2d05f782d86fbf7bcdefd89037a6d9b5d3",
                 "shasum": ""
             },
             "require": {
@@ -2695,7 +2695,7 @@
             ],
             "description": "Package manager allows you to install git repositories.",
             "homepage": "http://microweber.com",
-            "time": "2020-03-13T15:37:56+00:00"
+            "time": "2020-03-23T13:32:56+00:00"
         },
         {
             "name": "microweber-templates/dream",
