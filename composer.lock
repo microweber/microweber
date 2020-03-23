@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2608b547e60c8b4d220560fee04281ce",
+    "content-hash": "eb9d4138e7bccafd4536d0575cdb0a86",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -250,12 +250,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "3405781f1576512dbd2c9607e3f2ac57826e9711"
+                "reference": "b11f1c308281fefef98fd612974a1ed8a9077f87"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/3405781f1576512dbd2c9607e3f2ac57826e9711",
-                "reference": "3405781f1576512dbd2c9607e3f2ac57826e9711",
+                "url": "https://api.github.com/repos/composer/composer/zipball/b11f1c308281fefef98fd612974a1ed8a9077f87",
+                "reference": "b11f1c308281fefef98fd612974a1ed8a9077f87",
                 "shasum": ""
             },
             "require": {
@@ -322,7 +322,7 @@
                 "dependency",
                 "package"
             ],
-            "time": "2020-03-13T19:40:26+00:00"
+            "time": "2020-03-20T20:55:10+00:00"
         },
         {
             "name": "composer/installers",
@@ -2298,17 +2298,110 @@
             "time": "2019-12-12T15:56:05+00:00"
         },
         {
+            "name": "microweber-packages/helper-functions",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microweber-packages/helper-functions.git",
+                "reference": "3ef088ca745d8ba2619736f9764290978c47f9cd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/microweber-packages/helper-functions/zipball/3ef088ca745d8ba2619736f9764290978c47f9cd",
+                "reference": "3ef088ca745d8ba2619736f9764290978c47f9cd",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/allowed_functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
+            "description": "PHP helper funcitons.",
+            "homepage": "http://microweber.com",
+            "time": "2020-03-10T12:09:35+00:00"
+        },
+        {
+            "name": "microweber-packages/laravel-config-save",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microweber-packages/laravel-config-save.git",
+                "reference": "ad0822547a8d8df1df9e83491647e2bc08dff4f8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/microweber-packages/laravel-config-save/zipball/ad0822547a8d8df1df9e83491647e2bc08dff4f8",
+                "reference": "ad0822547a8d8df1df9e83491647e2bc08dff4f8",
+                "shasum": ""
+            },
+            "require": {
+                "microweber-packages/helper-functions": "*"
+            },
+            "require-dev": {
+                "mockery/mockery": "*",
+                "orchestra/testbench": "4.*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MicroweberPackages\\Config\\ConfigSaveServiceProvider"
+                    ],
+                    "aliases": {
+                        "ConfigSave": "MicroweberPackages\\Config\\ConfigSaveFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
+            "description": "Config rewrite for Laravel. Allows to save key and values in cofig files.",
+            "homepage": "http://microweber.com",
+            "time": "2020-03-12T10:46:34+00:00"
+        },
+        {
             "name": "microweber-packages/laravel-tagged-file-cache",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-packages/laravel-tagged-file-cache.git",
-                "reference": "8c7ebe25ce303dfa38cb6ba8f919914b8476d97c"
+                "reference": "42068a64e4a07b9552f09cca92167632e0d3570e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/laravel-tagged-file-cache/zipball/8c7ebe25ce303dfa38cb6ba8f919914b8476d97c",
-                "reference": "8c7ebe25ce303dfa38cb6ba8f919914b8476d97c",
+                "url": "https://api.github.com/repos/microweber-packages/laravel-tagged-file-cache/zipball/42068a64e4a07b9552f09cca92167632e0d3570e",
+                "reference": "42068a64e4a07b9552f09cca92167632e0d3570e",
                 "shasum": ""
             },
             "require-dev": {
@@ -2337,7 +2430,60 @@
             ],
             "description": "Taggable File Cache driver for Laravel. Allows the use of Cache tags with a file cache.",
             "homepage": "http://microweber.com",
-            "time": "2020-03-17T16:16:45+00:00"
+            "time": "2020-03-20T15:52:12+00:00"
+        },
+        {
+            "name": "microweber-packages/microweber-core",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microweber-packages/microweber-core.git",
+                "reference": "7e6759386adcd2b5cd2ad01fdb2a3ff459f94683"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-core/zipball/7e6759386adcd2b5cd2ad01fdb2a3ff459f94683",
+                "reference": "7e6759386adcd2b5cd2ad01fdb2a3ff459f94683",
+                "shasum": ""
+            },
+            "require": {
+                "microweber-packages/laravel-config-save": "dev-master",
+                "microweber-packages/laravel-tagged-file-cache": "dev-master",
+                "microweber-packages/microweber-database-manager": "dev-master",
+                "microweber-packages/microweber-event-manager": "dev-master",
+                "microweber-packages/microweber-helpers": "dev-master",
+                "microweber-packages/microweber-package-manager": "dev-master"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MicroweberPackages\\Core\\CoreServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
+            "description": "Microweber core",
+            "homepage": "http://microweber.com",
+            "time": "2020-03-23T12:22:56+00:00"
         },
         {
             "name": "microweber-packages/microweber-database-manager",
@@ -2401,6 +2547,67 @@
             "time": "2020-03-16T14:11:23+00:00"
         },
         {
+            "name": "microweber-packages/microweber-event-manager",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microweber-packages/microweber-event-manager.git",
+                "reference": "03ecc1a6fc4889d74626f32e39da240b44bc3046"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-event-manager/zipball/03ecc1a6fc4889d74626f32e39da240b44bc3046",
+                "reference": "03ecc1a6fc4889d74626f32e39da240b44bc3046",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "*",
+                "jeremeamia/superclosure": "*",
+                "laravel/framework": "7.0.0",
+                "microweber-packages/microweber-helpers": "dev-master"
+            },
+            "require-dev": {
+                "mockery/mockery": "*",
+                "orchestra/testbench": "*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MicroweberPackages\\EventManager\\EventManagerServiceProvider"
+                    ],
+                    "aliases": {
+                        "EventManager": "MicroweberPackages\\EventManager\\EventManagerFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\": "src/"
+                },
+                "files": [
+                    "src/EventManager/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
+            "description": "Microweber event manager.",
+            "homepage": "http://microweber.com",
+            "time": "2020-03-23T12:08:50+00:00"
+        },
+        {
             "name": "microweber-packages/microweber-helpers",
             "version": "dev-master",
             "source": {
@@ -2443,6 +2650,52 @@
             "description": "PHP helper funcitons.",
             "homepage": "http://microweber.com",
             "time": "2020-03-16T15:21:05+00:00"
+        },
+        {
+            "name": "microweber-packages/microweber-package-manager",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microweber-packages/microweber-package-manager.git",
+                "reference": "6b6b39ed8edc081cb73e4150f22f8ce986111684"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-package-manager/zipball/6b6b39ed8edc081cb73e4150f22f8ce986111684",
+                "reference": "6b6b39ed8edc081cb73e4150f22f8ce986111684",
+                "shasum": ""
+            },
+            "require": {
+                "composer/composer": "^1.10",
+                "composer/installers": "^1.8",
+                "microweber-packages/microweber-helpers": "dev-master"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
+            "description": "Package manager allows you to install git repositories.",
+            "homepage": "http://microweber.com",
+            "time": "2020-03-13T15:37:56+00:00"
         },
         {
             "name": "microweber-templates/dream",
@@ -3032,16 +3285,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/php-option.git",
-                "reference": "bb52d61329132b1946981d894de7fcff38122b04"
+                "reference": "4acfd6a4b33a509d8c88f50e5222f734b6aeebae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/php-option/zipball/bb52d61329132b1946981d894de7fcff38122b04",
-                "reference": "bb52d61329132b1946981d894de7fcff38122b04",
+                "url": "https://api.github.com/repos/schmittjoh/php-option/zipball/4acfd6a4b33a509d8c88f50e5222f734b6aeebae",
+                "reference": "4acfd6a4b33a509d8c88f50e5222f734b6aeebae",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.5.9 || ^7.0"
+                "php": "^5.5.9 || ^7.0 || ^8.0"
             },
             "require-dev": {
                 "bamarni/composer-bin-plugin": "^1.3",
@@ -3079,7 +3332,7 @@
                 "php",
                 "type"
             ],
-            "time": "2020-01-13T12:31:33+00:00"
+            "time": "2020-03-21T18:07:53+00:00"
         },
         {
             "name": "psr/container",
@@ -3232,12 +3485,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "e1cb6eca27ccfd46567a2837eeba62bc5fecdee2"
+                "reference": "0f73288fd15629204f9d42b7055f72dacbe811fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/e1cb6eca27ccfd46567a2837eeba62bc5fecdee2",
-                "reference": "e1cb6eca27ccfd46567a2837eeba62bc5fecdee2",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/0f73288fd15629204f9d42b7055f72dacbe811fc",
+                "reference": "0f73288fd15629204f9d42b7055f72dacbe811fc",
                 "shasum": ""
             },
             "require": {
@@ -3271,7 +3524,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2020-02-28T08:38:25+00:00"
+            "time": "2020-03-23T09:12:05+00:00"
         },
         {
             "name": "psr/simple-cache",
@@ -3880,12 +4133,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/error-handler.git",
-                "reference": "bab9b9655a4a3fe904fb9872e69fc32c75d0b76d"
+                "reference": "62ad718d0bc10b390fe08758e04b0bcb724c7bb6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/error-handler/zipball/bab9b9655a4a3fe904fb9872e69fc32c75d0b76d",
-                "reference": "bab9b9655a4a3fe904fb9872e69fc32c75d0b76d",
+                "url": "https://api.github.com/repos/symfony/error-handler/zipball/62ad718d0bc10b390fe08758e04b0bcb724c7bb6",
+                "reference": "62ad718d0bc10b390fe08758e04b0bcb724c7bb6",
                 "shasum": ""
             },
             "require": {
@@ -3928,7 +4181,7 @@
             ],
             "description": "Symfony ErrorHandler Component",
             "homepage": "https://symfony.com",
-            "time": "2020-03-18T08:01:26+00:00"
+            "time": "2020-03-23T12:45:08+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -4165,12 +4418,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "509709df703016458dc13ed31e31780db65a4f67"
+                "reference": "251145038037cb57794127ade9b035c8dd0dd3fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/509709df703016458dc13ed31e31780db65a4f67",
-                "reference": "509709df703016458dc13ed31e31780db65a4f67",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/251145038037cb57794127ade9b035c8dd0dd3fb",
+                "reference": "251145038037cb57794127ade9b035c8dd0dd3fb",
                 "shasum": ""
             },
             "require": {
@@ -4218,7 +4471,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "https://symfony.com",
-            "time": "2020-03-18T08:01:26+00:00"
+            "time": "2020-03-23T12:45:08+00:00"
         },
         {
             "name": "symfony/http-kernel",
@@ -4226,12 +4479,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "fe73e56d555818c19eb5fe2d5b80924f4a2344aa"
+                "reference": "14eab6b9fc402eef010f8f2df4f82b6f5f412e88"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/fe73e56d555818c19eb5fe2d5b80924f4a2344aa",
-                "reference": "fe73e56d555818c19eb5fe2d5b80924f4a2344aa",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/14eab6b9fc402eef010f8f2df4f82b6f5f412e88",
+                "reference": "14eab6b9fc402eef010f8f2df4f82b6f5f412e88",
                 "shasum": ""
             },
             "require": {
@@ -4315,7 +4568,7 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "https://symfony.com",
-            "time": "2020-03-18T08:01:26+00:00"
+            "time": "2020-03-23T12:45:08+00:00"
         },
         {
             "name": "symfony/mime",
@@ -5030,12 +5283,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "2c5dfe5e4149846a8c4548e0aea862ecada7c30f"
+                "reference": "c94f40c6b7b51a4f88534b01160797eed2280a36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/2c5dfe5e4149846a8c4548e0aea862ecada7c30f",
-                "reference": "2c5dfe5e4149846a8c4548e0aea862ecada7c30f",
+                "url": "https://api.github.com/repos/symfony/process/zipball/c94f40c6b7b51a4f88534b01160797eed2280a36",
+                "reference": "c94f40c6b7b51a4f88534b01160797eed2280a36",
                 "shasum": ""
             },
             "require": {
@@ -5072,7 +5325,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2020-03-17T20:06:25+00:00"
+            "time": "2020-03-23T12:45:08+00:00"
         },
         {
             "name": "symfony/routing",
@@ -6228,9 +6481,7 @@
     "stability-flags": {
         "laravelcollective/html": 20,
         "laravel/socialite": 20,
-        "microweber-packages/laravel-tagged-file-cache": 20,
-        "microweber-packages/microweber-helpers": 20,
-        "microweber-packages/microweber-database-manager": 20,
+        "microweber-packages/microweber-core": 20,
         "composer/composer": 20,
         "composer/installers": 20,
         "knplabs/knp-menu": 20,
