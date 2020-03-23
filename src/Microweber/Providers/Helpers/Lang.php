@@ -3,8 +3,7 @@
 namespace Microweber\Providers\Helpers;
 
 use \Microweber\Utils\URLify;
-use MicroweberPackages\EventManager\EventManager;
-
+use MicroweberPackages\EventManager\Event;
 
 $mw_language_content = array();
 $mw_language_content_namespace = array();
@@ -385,7 +384,7 @@ class Lang
 
                 if (!defined('MW_LANG_STORE_ON_EXIT_EVENT_BINDED')) {
                     define('MW_LANG_STORE_ON_EXIT_EVENT_BINDED', 1);
-                    $scheduler = new EventManager();
+                    $scheduler = new Event();
                     // schedule a global scope function:
                     if ($environment != 'testing') {
                         $scheduler->registerShutdownEvent('__store_lang_file', $lang);
@@ -408,7 +407,7 @@ class Lang
 
                     if (!defined('MW_LANG_STORE_ON_EXIT_EVENT_BINDED_NS')) {
                         define('MW_LANG_STORE_ON_EXIT_EVENT_BINDED_NS', 1);
-                        $scheduler = new EventManager();
+                        $scheduler = new Event();
                         if ($environment != 'testing') {
                             $scheduler->registerShutdownEvent('__store_lang_file_ns', $lang);
                         }

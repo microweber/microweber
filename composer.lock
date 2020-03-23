@@ -2552,12 +2552,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-packages/microweber-event-manager.git",
-                "reference": "03ecc1a6fc4889d74626f32e39da240b44bc3046"
+                "reference": "a59e17f3547449ef44d9884a9989ae342d1b0291"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/microweber-event-manager/zipball/03ecc1a6fc4889d74626f32e39da240b44bc3046",
-                "reference": "03ecc1a6fc4889d74626f32e39da240b44bc3046",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-event-manager/zipball/a59e17f3547449ef44d9884a9989ae342d1b0291",
+                "reference": "a59e17f3547449ef44d9884a9989ae342d1b0291",
                 "shasum": ""
             },
             "require": {
@@ -2605,7 +2605,7 @@
             ],
             "description": "Microweber event manager.",
             "homepage": "http://microweber.com",
-            "time": "2020-03-23T12:08:50+00:00"
+            "time": "2020-03-23T13:16:22+00:00"
         },
         {
             "name": "microweber-packages/microweber-helpers",
