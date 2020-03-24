@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "eb9d4138e7bccafd4536d0575cdb0a86",
+    "content-hash": "0c49681d003410754a6371bc078b9faa",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -250,12 +250,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "b11f1c308281fefef98fd612974a1ed8a9077f87"
+                "reference": "7e679656a4a847f49b06a5ca3117e67223591063"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/b11f1c308281fefef98fd612974a1ed8a9077f87",
-                "reference": "b11f1c308281fefef98fd612974a1ed8a9077f87",
+                "url": "https://api.github.com/repos/composer/composer/zipball/7e679656a4a847f49b06a5ca3117e67223591063",
+                "reference": "7e679656a4a847f49b06a5ca3117e67223591063",
                 "shasum": ""
             },
             "require": {
@@ -322,7 +322,7 @@
                 "dependency",
                 "package"
             ],
-            "time": "2020-03-20T20:55:10+00:00"
+            "time": "2020-03-24T11:35:18+00:00"
         },
         {
             "name": "composer/installers",

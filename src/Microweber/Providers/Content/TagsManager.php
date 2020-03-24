@@ -62,8 +62,9 @@ class TagsManager
         if ($supports_tags) {
             if ($id) {
                 $article = $model->whereId($id)->first();
+
                 if ($article) {
-                    $article_data = $article->toArray();
+                    $article_data = (array) $article;
 
                     if (isset($article_data['content_type']) and $article_data['content_type'] == 'page') {
                         $childs = get_content_children($article_data['id']);

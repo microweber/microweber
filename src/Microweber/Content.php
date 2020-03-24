@@ -1,7 +1,7 @@
 <?php
 namespace Microweber;
 
-class Content extends BaseModel
+class Content extends use Illuminate\Database\Eloquent\Model;
 {
     use \Conner\Tagging\Taggable;
 

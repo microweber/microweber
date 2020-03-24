@@ -21,7 +21,7 @@
         }
     ],
     "require": {
-        "laravel/framework": "7.0.0",
+        "laravel/framework": "^7.0.0",
         "laravelcollective/html": "^6.0@dev",
         "laravel/socialite": "^5.0@dev",
         "rtconner/laravel-tagging": "^4.0",
@@ -43,7 +43,7 @@
     "require-dev": {
         "nunomaduro/collision": "^4.1",
         "facade/ignition": "^2.0",
-        "fzaninotto/faker": "^1.9" 
+        "fzaninotto/faker": "^1.9"
     },
     "autoload": {
         "psr-4": {
