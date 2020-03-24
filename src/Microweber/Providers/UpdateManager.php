@@ -1233,9 +1233,10 @@ class UpdateManager
             $params['require_name'] = $keyword;
         }
 
-        $runner = new ComposerUpdate();
+        $runner = new ComposerUpdate($this->_getComposerPath());
+        $runner->setTargetPath($this->_getTargetPath());
+        $runner->setComposerHome($this->_getComposerPath() . '/cache');
         $results = $runner->searchPackages($params);
-
 
         if (!$results) {
             $results = 'noresults';
@@ -1253,13 +1254,17 @@ class UpdateManager
 
     public function composer_install_package_by_name($params)
     {
-        $runner = new ComposerUpdate();
+        $runner = new ComposerUpdate($this->_getComposerPath());
+        $runner->setTargetPath($this->_getTargetPath());
+        $runner->setComposerHome($this->_getComposerPath(). '/cache');
+
         return $runner->installPackageByName($params);
     }
 
     public function composer_merge($composer_patch_path)
     {
         $this->log_msg('Merging composer files');
+
         $runner = new ComposerUpdate();
         $runner->merge($composer_patch_path);
     }
@@ -1313,4 +1318,14 @@ class UpdateManager
         }
     }
 
+
+    private function _getComposerPath()
+    {
+        return dirname(storage_path()) . '/';
+    }
+
+    private function _getTargetPath()
+    {
+        return dirname(storage_path()) . '/';
+    }
 }
