@@ -214,7 +214,7 @@ pipeline {
   			}
           steps {
             sh 'pwd'
-            sh 'composer install -o --no-progress'
+            sh 'composer install -o --no-progress --no-cache'
             script {
               for (int i = 0; i < components.size(); ++i) {
   							sh "composer require ${components[i]}"
