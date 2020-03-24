@@ -19,6 +19,7 @@ class UpdateManager
     private $remote_api_url = 'http://update.microweberapi.com/';
     private $remote_url = 'http://update.microweberapi.com/';
     private $temp_dir = false;
+    private $composer_update = false;
 
     public function __construct($app = null)
     {
@@ -39,6 +40,11 @@ class UpdateManager
         if (!is_dir($this->temp_dir)) {
             mkdir_recursive($this->temp_dir);
         }
+
+        $this->composer_update = new ComposerUpdate($this->_getComposerPath());
+        $this->composer_update->setTargetPath($this->_getTargetPath());
+        $this->composer_update->setComposerHome($this->_getComposerPath() . '/cache');
+
     }
 
     /**
@@ -1233,10 +1239,7 @@ class UpdateManager
             $params['require_name'] = $keyword;
         }
 
-        $runner = new ComposerUpdate($this->_getComposerPath());
-        $runner->setTargetPath($this->_getTargetPath());
-        $runner->setComposerHome($this->_getComposerPath() . '/cache');
-        $results = $runner->searchPackages($params);
+        $results = $this->composer_update->searchPackages($params);
 
         if (!$results) {
             $results = 'noresults';
@@ -1254,25 +1257,19 @@ class UpdateManager
 
     public function composer_install_package_by_name($params)
     {
-        $runner = new ComposerUpdate($this->_getComposerPath());
-        $runner->setTargetPath($this->_getTargetPath());
-        $runner->setComposerHome($this->_getComposerPath(). '/cache');
-
-        return $runner->installPackageByName($params);
+        return $this->composer_update->installPackageByName($params);
     }
 
     public function composer_merge($composer_patch_path)
     {
         $this->log_msg('Merging composer files');
 
-        $runner = new ComposerUpdate();
-        $runner->merge($composer_patch_path);
+        $this->composer_update->merge($composer_patch_path);
     }
 
     public function composer_get_required()
     {
-        $runner = new ComposerUpdate();
-        return $runner->getRequire();
+        return $this->composer_update->getRequire();
     }
 
 
