@@ -1680,12 +1680,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/socialite.git",
-                "reference": "b8a7d8e41ef7a1a8b663128580fb0b0e94f245d0"
+                "reference": "337f784e78242043c380a4806fe23eab50fbd5ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/socialite/zipball/b8a7d8e41ef7a1a8b663128580fb0b0e94f245d0",
-                "reference": "b8a7d8e41ef7a1a8b663128580fb0b0e94f245d0",
+                "url": "https://api.github.com/repos/laravel/socialite/zipball/337f784e78242043c380a4806fe23eab50fbd5ba",
+                "reference": "337f784e78242043c380a4806fe23eab50fbd5ba",
                 "shasum": ""
             },
             "require": {
@@ -1736,7 +1736,7 @@
                 "laravel",
                 "oauth"
             ],
-            "time": "2020-02-21T16:31:38+00:00"
+            "time": "2020-03-24T13:21:01+00:00"
         },
         {
             "name": "laravelcollective/html",
@@ -2613,12 +2613,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-packages/microweber-helpers.git",
-                "reference": "d4a64e9d8b3ca50ab308b858ae06578c840cdbda"
+                "reference": "19aa41b4ab8ce9aaf085027f2908ad363a3aae2d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/microweber-helpers/zipball/d4a64e9d8b3ca50ab308b858ae06578c840cdbda",
-                "reference": "d4a64e9d8b3ca50ab308b858ae06578c840cdbda",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-helpers/zipball/19aa41b4ab8ce9aaf085027f2908ad363a3aae2d",
+                "reference": "19aa41b4ab8ce9aaf085027f2908ad363a3aae2d",
                 "shasum": ""
             },
             "require": {
@@ -2649,7 +2649,7 @@
             ],
             "description": "PHP helper funcitons.",
             "homepage": "http://microweber.com",
-            "time": "2020-03-16T15:21:05+00:00"
+            "time": "2020-03-24T14:02:59+00:00"
         },
         {
             "name": "microweber-packages/microweber-package-manager",
@@ -2774,7 +2774,7 @@
                 "liteness",
                 "microweber"
             ],
-            "time": "2019-12-20T09:24:08+00:00"
+            "time": "2019-12-20T11:24:08+02:00"
         },
         {
             "name": "microweber-templates/new-world",
@@ -5799,12 +5799,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "333d86a5edd60eafb40a11962df8d15d99ea6567"
+                "reference": "a6f64395b3daeb0d8b1dd5990808095000a9c22f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/333d86a5edd60eafb40a11962df8d15d99ea6567",
-                "reference": "333d86a5edd60eafb40a11962df8d15d99ea6567",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/a6f64395b3daeb0d8b1dd5990808095000a9c22f",
+                "reference": "a6f64395b3daeb0d8b1dd5990808095000a9c22f",
                 "shasum": ""
             },
             "require": {
@@ -5853,7 +5853,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2020-03-17T14:09:39+00:00"
+            "time": "2020-03-24T12:35:36+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

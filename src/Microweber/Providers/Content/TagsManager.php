@@ -4,6 +4,7 @@ namespace Microweber\Providers\Content;
 
 
 use Microweber\App\Providers\Illuminate\Support\Facades\DB;
+use Microweber\Content;
 
 class TagsManager
 {
@@ -53,18 +54,15 @@ class TagsManager
 
         $supports_tags = false;
 
-
         $model = $this->app->database_manager->table($params['table']);
-
         $supports_tags = $this->app->database_manager->supports($params['table'], 'tags');
 
         $tags_return = array();
         if ($supports_tags) {
             if ($id) {
                 $article = $model->whereId($id)->first();
-
                 if ($article) {
-                    $article_data = (array) $article;
+                    $article_data =  $article->toArray();
 
                     if (isset($article_data['content_type']) and $article_data['content_type'] == 'page') {
                         $childs = get_content_children($article_data['id']);
@@ -110,11 +108,13 @@ class TagsManager
                         if ($return_full) {
                             return $article->toArray();
                         }
-                        foreach ($article->tags as $tag) {
-                            if (is_object($tag)) {
-                                $get_tag = db_get('tagging_tags', 'slug='. $tag->slug . '&single=1'); // this is for multilanguage
-                                if ($get_tag) {
-                                    $tags_return[] = $get_tag['name'];
+                        if (isset($article->tags)) {
+                            foreach ($article->tags as $tag) {
+                                if (is_object($tag)) {
+                                    $get_tag = db_get('tagging_tags', 'slug=' . $tag->slug . '&single=1'); // this is for multilanguage
+                                    if ($get_tag) {
+                                        $tags_return[] = $get_tag['name'];
+                                    }
                                 }
                             }
                         }
@@ -124,6 +124,7 @@ class TagsManager
                 }
 
             } else {
+
                 $article = $model->with('tagged')->first()->existingTags();
 
                 if ($article) {

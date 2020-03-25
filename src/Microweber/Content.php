@@ -1,10 +1,12 @@
 <?php
 namespace Microweber;
 
-class Content extends use Illuminate\Database\Eloquent\Model;
-{
-    use \Conner\Tagging\Taggable;
+use Conner\Tagging\Taggable;
+use Illuminate\Database\Eloquent\Model;
 
+class Content extends Model
+{
+    use Taggable;
 
     public $table = 'content';
 
@@ -23,10 +25,9 @@ class Content extends use Illuminate\Database\Eloquent\Model;
         return $this->morphMany('ContentData', 'rel');
     }
 
-
     public function tags()
     {
-        return $this->belongsToMany('Tag');
+        return $this->belongsToMany(Tag::class);
     }
 
 }

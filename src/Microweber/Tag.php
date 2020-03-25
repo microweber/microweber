@@ -1,5 +1,5 @@
 <?php
-
+namespace Microweber;
 
 class Tag extends BaseModel
 {
@@ -10,7 +10,7 @@ class Tag extends BaseModel
 
     public function content()
     {
-        return $this->belongsToMany('Content');
+        return $this->belongsToMany(Content::class);
     }
 }
 

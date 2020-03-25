@@ -4,6 +4,7 @@ namespace Microweber;
 
 use App;
 use Cache;
+use Microweber\Providers\DatabaseManager;
 use Microweber\Utils\ClassLoader;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
@@ -280,6 +281,11 @@ class MicroweberServiceProvider extends ServiceProvider
 
         Cache::extend('file', function () {
             return new Utils\Adapters\Cache\CacheStore();
+        });
+
+        // Rewrite database manager
+        $this->app->singleton('database_manager', function ($app) {
+            return new DatabaseManager($app);
         });
 
         // If installed load module functions and set locale
