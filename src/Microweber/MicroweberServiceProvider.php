@@ -283,10 +283,8 @@ class MicroweberServiceProvider extends ServiceProvider
             return new Utils\Adapters\Cache\CacheStore();
         });
 
-        // Rewrite database manager
-        $this->app->singleton('database_manager', function ($app) {
-            return new DatabaseManager($app);
-        });
+        $this->app->database_manager->add_table_model('content', Content::class);
+        $this->app->database_manager->add_table_model('media', Media::class);
 
         // If installed load module functions and set locale
         if (mw_is_installed()) {
