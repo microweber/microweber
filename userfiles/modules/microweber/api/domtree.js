@@ -74,7 +74,7 @@ mw.DomTree = function (options) {
         this[ li._opened ? 'close' : 'open'](li);
     };
 
-    this._opened = []
+    this._opened = [];
 
     this.open = function (nodeOrTreeNode) {
         var li = this._get(nodeOrTreeNode);

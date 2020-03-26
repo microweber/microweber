@@ -1,0 +1,23 @@
+
+@editorSpacing: 5px;
+
+.mw-editor-wrapper{
+    &.mw-editor-default{
+        border:1px solid #DDDDDD;
+        background-color: #F5F5F5;
+        .mw-bar-row {
+            border-bottom:1px solid #DDDDDD;
+            padding: @editorSpacing;
+            .mw-bar-control-item{
+                &+.mw-bar-control-item{
+                    margin-left: @editorSpacing;
+                }
+            }
+        }
+        .mw-editor-area{
+            background-color: #fff;
+            padding: @editorSpacing;
+            min-height: 100px;
+        }
+    }
+}

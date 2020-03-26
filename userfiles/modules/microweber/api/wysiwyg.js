@@ -439,9 +439,9 @@ mw.wysiwyg = {
         mwd.body.appendChild(external);
         return external;
     },
-    isSelectionEditable: function () {
+    isSelectionEditable: function (sel) {
         try {
-            var node = window.getSelection().focusNode;
+            var node = (sel || window.getSelection()).focusNode;
             if (node === null) {
                 return false;
             }
@@ -488,11 +488,10 @@ mw.wysiwyg = {
         document.execCommand('styleWithCss', 'false', false);
         var sel = getSelection();
 
-        var node = sel.focusNode;
-        if(node){
-            var elementNode = mw.wysiwyg.validateCommonAncestorContainer(node);
+        var node = sel.focusNode, elementNode;
+        if (node) {
+            elementNode = mw.wysiwyg.validateCommonAncestorContainer(node);
         }
-
 
         try {  // 0x80004005
             if (document.queryCommandSupported(a) && mw.wysiwyg.isSelectionEditable()) {
@@ -526,7 +525,7 @@ mw.wysiwyg = {
     deselect_selected_element: function () {
         mw.$("#mw-text-editor").removeClass("editor_hover");
     },
-    nceui: function () {  //remove defaults for browser's content editable tools
+    nceui: function () {
         if (mw.settings.liveEdit) {
             mw.wysiwyg.execCommand('enableObjectResizing', false, 'false');
             mw.wysiwyg.execCommand('2D-Position', false, false);
@@ -2219,7 +2218,8 @@ mw.wysiwyg = {
     },
 
     word_list_build: function (lists, count) {
-        var i, count = count || 0, check = false, max = 0;
+        var i, check = false, max = 0;
+        count = count || 0;
         if (count === 0) {
             for (i in lists) {
                 var curr = lists[i];
