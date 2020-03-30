@@ -28,14 +28,57 @@ class DbInstaller
 //        mw()->modules->install();
     }
 
+    private function getMigrationClassNameByFilename($filename)
+    {
+        $className = '';
+        $words = explode('_',  $filename);
+        foreach ($words as $word) {
+            $word = str_replace('.php', false, $word);
+            if (is_numeric($word)) {
+                continue;
+            }
+            if (is_string($word)) {
+                $className .= ucfirst($word);
+            }
+        }
+        if (empty($className)) {
+            return false;
+        }
+
+        return $className;
+    }
+
     public function getSystemSchemas()
     {
-        return [
+
+        $repos = [];
+        foreach (app()->migrator->paths() as $migrationPath) {
+            if (is_dir($migrationPath)) {
+                if ($dhMigration = opendir($migrationPath)) {
+                    while (($migrationFile = readdir($dhMigration)) !== false) {
+                        if (strpos( $migrationFile,'.php') !== false) {
+                            $migrationClassName = $this->getMigrationClassNameByFilename($migrationFile);
+                            if ($migrationClassName) {
+                                include $migrationPath  . DIRECTORY_SEPARATOR . $migrationFile;
+                                $instanceMigration = new $migrationClassName;
+                                if (method_exists($instanceMigration,'getSchema')) {
+                                    $migrationSchema = $instanceMigration->getSchema();
+                                    if (!empty($migrationSchema)) {
+                                        $repos[] = $instanceMigration;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        $system =  [
             new Schema\Base(),
             new Schema\Comments(),
             new Schema\Content(),
             new Schema\Form(),
-            new Schema\Options(),
             new Schema\Shop(),
             new Schema\Tags(),
             new Schema\JobsQueue(),
@@ -44,6 +87,10 @@ class DbInstaller
         	new Schema\MailSubscribe(),
         	new Schema\MailTemplates()
         ];
+
+        $all = array_merge($system, $repos);
+
+        return $all;
     }
 
     public function createSchema()
