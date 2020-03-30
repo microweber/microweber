@@ -13,6 +13,7 @@ use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
 use MicroweberPackages\DatabaseManager\DatabaseManagerServiceProvider;
 use MicroweberPackages\EventManager\EventManagerServiceProvider;
 use MicroweberPackages\Helpers\Format;
+use MicroweberPackages\OptionManager\OptionManagerServiceProvider;
 
 if (! defined('MW_VERSION')) {
     include_once __DIR__ . DIRECTORY_SEPARATOR . 'functions' . DIRECTORY_SEPARATOR . 'bootstrap.php';
@@ -129,6 +130,7 @@ class MicroweberServiceProvider extends ServiceProvider
         // $this->app->register(TaggableFileCacheServiceProvider::class);
 
         $this->app->register(EventManagerServiceProvider::class);
+        $this->app->register(OptionManagerServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
     }
@@ -235,7 +237,6 @@ class MicroweberServiceProvider extends ServiceProvider
             'forms_manager' => 'FormsManager',
             'notifications_manager' => 'NotificationsManager',
             'log_manager' => 'LogManager',
-            'option_manager' => 'OptionManager',
             'template' => 'Template',
             'modules' => 'Modules',
             'category_manager' => 'CategoryManager',
