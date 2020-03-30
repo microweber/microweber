@@ -13,6 +13,7 @@ use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
 use MicroweberPackages\DatabaseManager\DatabaseManagerServiceProvider;
 use MicroweberPackages\EventManager\EventManagerServiceProvider;
 use MicroweberPackages\Helpers\Format;
+use MicroweberPackages\Helpers\HelpersServiceProvider;
 use MicroweberPackages\OptionManager\OptionManagerServiceProvider;
 
 if (! defined('MW_VERSION')) {
@@ -131,6 +132,7 @@ class MicroweberServiceProvider extends ServiceProvider
 
         $this->app->register(EventManagerServiceProvider::class);
         $this->app->register(OptionManagerServiceProvider::class);
+        $this->app->register(HelpersServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
     }
@@ -223,7 +225,6 @@ class MicroweberServiceProvider extends ServiceProvider
     {
         $providers = [
             'lang_helper' => 'Helpers\Lang',
-            'url_manager' => 'UrlManager',
             'ui' => 'Ui',
             'content_manager' => 'ContentManager',
             'update' => 'UpdateManager',

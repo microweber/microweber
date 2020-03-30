@@ -6,7 +6,7 @@ class Options
 {
     public function get()
     {
-        return [
+        /*return [
             'options' => [
                 'updated_at' => 'dateTime',
                 'created_at' => 'dateTime',
@@ -26,6 +26,6 @@ class Options
                 'option_value_prev' => 'longText',
 
             ],
-        ];
+        ];*/
     }
 }

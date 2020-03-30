@@ -2614,12 +2614,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-packages/microweber-helpers.git",
-                "reference": "e33ee754829bc3849b6976d06fabdbf01fcec7de"
+                "reference": "f4feeec3d53f5715b5e7732682a325102781093c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/microweber-helpers/zipball/e33ee754829bc3849b6976d06fabdbf01fcec7de",
-                "reference": "e33ee754829bc3849b6976d06fabdbf01fcec7de",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-helpers/zipball/f4feeec3d53f5715b5e7732682a325102781093c",
+                "reference": "f4feeec3d53f5715b5e7732682a325102781093c",
                 "shasum": ""
             },
             "require": {
@@ -2644,8 +2644,13 @@
                 "psr-4": {
                     "MicroweberPackages\\": "src/"
                 },
-                "classmap": [
-                    "src/Helpers/functions/"
+                "files": [
+                    "src/Helpers/functions/array.php",
+                    "src/Helpers/functions/filesystem.php",
+                    "src/Helpers/functions/laravel.php",
+                    "src/Helpers/functions/string.php",
+                    "src/Helpers/functions/system.php",
+                    "src/Helpers/functions/url.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2664,7 +2669,7 @@
             ],
             "description": "PHP helper funcitons.",
             "homepage": "http://microweber.com",
-            "time": "2020-03-26T02:57:00+00:00"
+            "time": "2020-03-30T12:56:20+00:00"
         },
         {
             "name": "microweber-packages/microweber-option-manager",
@@ -2672,19 +2677,20 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-packages/microweber-option-manager.git",
-                "reference": "18d32a611595c7dc078ce28dbbd931eca82bdddf"
+                "reference": "bd046201f9ddf361231f6372d7666fce01d178ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/microweber-option-manager/zipball/18d32a611595c7dc078ce28dbbd931eca82bdddf",
-                "reference": "18d32a611595c7dc078ce28dbbd931eca82bdddf",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-option-manager/zipball/bd046201f9ddf361231f6372d7666fce01d178ca",
+                "reference": "bd046201f9ddf361231f6372d7666fce01d178ca",
                 "shasum": ""
             },
             "require": {
                 "illuminate/database": "*",
                 "jeremeamia/superclosure": "*",
                 "laravel/framework": "7.0.0",
-                "microweber-packages/microweber-database-manager": "dev-master"
+                "microweber-packages/microweber-database-manager": "dev-master",
+                "microweber-packages/microweber-event-manager": "dev-master"
             },
             "require-dev": {
                 "mockery/mockery": "*",
@@ -2725,7 +2731,7 @@
             ],
             "description": "Microweber option manager.",
             "homepage": "http://microweber.com",
-            "time": "2020-03-30T11:50:30+00:00"
+            "time": "2020-03-30T13:13:33+00:00"
         },
         {
             "name": "microweber-packages/microweber-package-manager",
@@ -5876,12 +5882,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "f046f50d16b54e459ea7ac773878b213439f62a5"
+                "reference": "cc260638d814f7b71aa060742ff041e50802b22a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/f046f50d16b54e459ea7ac773878b213439f62a5",
-                "reference": "f046f50d16b54e459ea7ac773878b213439f62a5",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/cc260638d814f7b71aa060742ff041e50802b22a",
+                "reference": "cc260638d814f7b71aa060742ff041e50802b22a",
                 "shasum": ""
             },
             "require": {
@@ -5930,7 +5936,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2020-03-30T11:41:14+00:00"
+            "time": "2020-03-30T13:10:24+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
