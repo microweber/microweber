@@ -57,52 +57,140 @@ if ($params['period']) {
 
     var series = [];
 
+    var count = 0;
     $.each(mw.admin.__statdata, function (key, val) {
+        count ++;
+
         var item = {
             name: key,
             data:[]
         };
-        $.each(val, function () {
+        if (count === 1) {
+            item.type = "area";
+        } else if(count === 2) {
+
+        }
+        $.each(val, function (i) {
             item.data.push([this.date_key, parseFloat(this.date_value)])
         });
         series.push(item)
     });
+
+    var e = "#5A8DEE",
+        a = "#5A8DEE",
+        t = "#FDAC41",
+        r = "#00CFDD",
+        o = "#828D99";
+
     var options = {
         series: series,
+        yaxis: {
+            show: false,
+        },
         xaxis: {
-            type: 'datetime'
+            type: 'datetime',
+            tooltip: {
+                enabled: false
+            },
+            labels: {
+                formatter: function(val, timestamp) {
+                    var type = $('.active[data-stat]').attr('data-stat');
+                    var date = new Date(timestamp);
+                    var month = date.getMonth();
+                    if (type === 'daily') {
+                        var day = (date.getDate() < 10) ? "0" + date.getDate() : date.getDate();
+                        return day + ' ' + mw.msg.months.short[month];
+                    } else if (type === 'weekly') {
+                        var week = date.getWeekNumber();
+                        return week;
+                    } else if (type === 'monthly') {
+                        return mw.msg.months.short[month];
+                    } else if (type === 'yearly') {
+                        return date.getFullYear();
+                    }
+                    return val;
+                }
+            }
+
         },
         chart: {
             type: 'line',
             height: 200,
-            stacked: true,
-            events: {
-                selection: function (chart, e) {
-                    console.log(new Date(e.xaxis.min))
-                }
-            },
+
         },
-        colors: ['#0086db', '#005C97', '#CED4DC'],
+        colors: [e, a, t],
+        toolbar: {
+            show: false
+        },
+        axisTicks: {
+            show: false
+        },
+        grid: {
+            show: null,
+            tools: {
+                download: false,
+                selection: false,
+                zoom: false,
+                zoomin: false,
+                zoomout: false,
+                pan: false,
+                reset: false
+            }
+        },
+        fill: {
+            type: "gradient",
+            gradient: {
+                inverseColors: !1,
+                shade: "light",
+                type: "vertical",
+                gradientToColors: ["#E2ECFF", "#5A8DEE"],
+                opacityFrom: .7,
+                opacityTo: .55,
+                stops: [0, 80, 100]
+            }
+        },
+
         dataLabels: {
             enabled: false
         },
         stroke: {
             curve: 'smooth',
             width: 2.5,
+            dashArray: [0, 8]
         },
         markers: {
             show:false,
             size: 0.5,
             radius: 0,
             strokeColors: 'rgba(255,255,255,0)',
-            strokeWidth: 0,
-            fillOpacity:1
+            strokeWidth: 1,
+            fillOpacity:1,
+            hover: {
+                size: undefined,
+                sizeOffset: 6,
+                strokeColors: 'rgba(255,255,255,1)',
+            }
         },
         legend: {
             show: false,
             position: 'top',
             horizontalAlign: 'left'
         },
+        tooltip: {
+            x: {
+                show: false
+            },
+        },
+        axisBorder: {
+            show: false
+        },
+
+        labels: {
+            show: !0,
+            style: {
+                colors: o
+            }
+        }
 
     };
 
@@ -115,9 +203,7 @@ if ($params['period']) {
         })
     })
 </script>
-<div id="mw-dashboard-user-activity">
-    .dashboard_stats
-</div>
+
 
 <div id="stats">
     <div class="mw-ui-box">

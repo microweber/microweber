@@ -9,6 +9,7 @@
             border-bottom:1px solid #DDDDDD;
             padding: @editorSpacing;
             .mw-bar-control-item{
+                vertical-align: top;
                 &+.mw-bar-control-item{
                     margin-left: @editorSpacing;
                 }
@@ -19,5 +20,17 @@
             padding: @editorSpacing;
             min-height: 100px;
         }
+    }
+    .mw-editor-controller-component{
+        display: inline-block;
+    }
+    .mw-bar-delimiter{
+        display: inline-block;
+        height: 16px;
+        width: 2px;
+        margin: 2px;
+        background-color: #b7b7b7;
+        border-left: 1px solid #eaeaea;
+        vertical-align: middle;
     }
 }

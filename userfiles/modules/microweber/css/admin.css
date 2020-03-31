@@ -5116,6 +5116,24 @@ html[dir="rtl"] #upload-icoimage {
 
 
 
+.dashboard_stats .apexcharts-marker[r="6.5"] {
+    stroke-width: 2px;
+    stroke: #fff;
+}
+.dashboard_stats .apexcharts-toolbar{
+    display: none !important;  /* In current version hiding the toolbar does not work */
+}
+.dashboard_stats .apexcharts-tooltip .apexcharts-tooltip-marker{
+    display: none;
+}
+.dashboard_stats .apexcharts-tooltip .apexcharts-tooltip-y-group {
+    padding: 7px 0 4px;
+}
+.dashboard_stats .apexcharts-tooltip {
+    background-color: #4591FF !important;
+    color:#fff;
+    border: none !important;
+}
 
 .dashboard_stats {
     flex: 1;

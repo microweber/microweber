@@ -1253,7 +1253,6 @@ mw.wysiwyg = {
         catch (e) {
             return null;
         }
-
     },
 
     editable: function (el) {

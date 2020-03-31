@@ -407,7 +407,7 @@ mw.Select = function(options) {
     this.addData = function (data) {
         $.each(data, function(){
             scope.settings.data.push(this);
-            scope.holder.appendChild(scope.rend.option(this))
+            scope.holder.appendChild(scope.rend.option(this));
         });
         return scope.holder;
     };
@@ -416,15 +416,14 @@ mw.Select = function(options) {
         this.rend.root();
         this.root.appendChild(this.rend.value());
         this.root.appendChild(this.rend.options());
-        if(this._rootInputMode) {
+        if (this._rootInputMode) {
             this.element.type = 'hidden';
             this.$element.before(this.root);
         } else {
             this.$element.html(this.root);
         }
-
         this.setPlaceholder();
-        mw.Select._register.push(this)
+        mw.Select._register.push(this);
     };
 
     this.init = function () {

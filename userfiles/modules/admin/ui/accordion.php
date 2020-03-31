@@ -348,7 +348,7 @@
                 selector: '#editortest',
                 mode: 'iframe',
                 controls: [
-                    ['bold', 'italic', '|', ],
+                    ['bold', 'italic', '|', 'fontSelector', 'fontSize'],
                     ['bold', 'italic', '|'  ]
                 ],
                 content: `Nulla facilisi. Donec <b>congue mauris mi, nec elementum diam elementum</b> sed.
