@@ -48,9 +48,8 @@ class DbInstaller
         return $className;
     }
 
-    public function getSystemSchemas()
+    public function getVendorSchemas()
     {
-
         $repos = [];
         foreach (app()->migrator->paths() as $migrationPath) {
             if (is_dir($migrationPath)) {
@@ -74,6 +73,11 @@ class DbInstaller
             }
         }
 
+        return $repos;
+    }
+
+    public function getSystemSchemas()
+    {
         $system =  [
             new Schema\Base(),
             new Schema\Comments(),
@@ -88,7 +92,7 @@ class DbInstaller
         	new Schema\MailTemplates()
         ];
 
-        $all = array_merge($system, $repos);
+        $all = array_merge($system, $this->getVendorSchemas());
 
         return $all;
     }
