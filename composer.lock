@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0c49681d003410754a6371bc078b9faa",
+    "content-hash": "e5fed136db9a1d87cceedc3be4f71017",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -2431,6 +2431,130 @@
             "description": "Taggable File Cache driver for Laravel. Allows the use of Cache tags with a file cache.",
             "homepage": "http://microweber.com",
             "time": "2020-03-20T15:52:12+00:00"
+        },
+        {
+            "name": "microweber-packages/microweber-category-manager",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microweber-packages/microweber-category-manager.git",
+                "reference": "eda28e85afc231a205343ef82abf0c5455cd46e3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-category-manager/zipball/eda28e85afc231a205343ef82abf0c5455cd46e3",
+                "reference": "eda28e85afc231a205343ef82abf0c5455cd46e3",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "*",
+                "jeremeamia/superclosure": "*",
+                "laravel/framework": "7.0.0",
+                "microweber-packages/microweber-helpers": "dev-master"
+            },
+            "require-dev": {
+                "mockery/mockery": "*",
+                "orchestra/testbench": "*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MicroweberPackages\\CategoryManager\\CategoryManagerServiceProvider"
+                    ],
+                    "aliases": {
+                        "CategoryManager": "MicroweberPackages\\CategoryManager\\CategoryManagerFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\": "src/"
+                },
+                "files": [
+                    "src/CategoryManager/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
+            "description": "Microweber category manager.",
+            "homepage": "http://microweber.com",
+            "time": "2020-03-31T15:37:36+00:00"
+        },
+        {
+            "name": "microweber-packages/microweber-content-manager",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microweber-packages/microweber-content-manager.git",
+                "reference": "175197dbd379a9af52c8ea657c1d71918286b64d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-content-manager/zipball/175197dbd379a9af52c8ea657c1d71918286b64d",
+                "reference": "175197dbd379a9af52c8ea657c1d71918286b64d",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "*",
+                "jeremeamia/superclosure": "*",
+                "laravel/framework": "7.0.0",
+                "microweber-packages/microweber-category-manager": "dev-master",
+                "microweber-packages/microweber-database-manager": "dev-master",
+                "microweber-packages/microweber-event-manager": "dev-master"
+            },
+            "require-dev": {
+                "mockery/mockery": "*",
+                "orchestra/testbench": "*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MicroweberPackages\\ContentManager\\ContentManagerServiceProvider"
+                    ],
+                    "aliases": {
+                        "ContentManager": "MicroweberPackages\\ContentManager\\ContentManagerFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\": "src/"
+                },
+                "files": [
+                    "src/ContentManager/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
+            "description": "Microweber option manager.",
+            "homepage": "http://microweber.com",
+            "time": "2020-03-31T15:49:23+00:00"
         },
         {
             "name": "microweber-packages/microweber-core",
@@ -6578,7 +6702,8 @@
         "jenssegers/agent": 20,
         "geoip2/geoip2": 20,
         "twig/twig": 20,
-        "phpoffice/phpspreadsheet": 20
+        "phpoffice/phpspreadsheet": 20,
+        "microweber-packages/microweber-content-manager": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

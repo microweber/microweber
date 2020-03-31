@@ -69,7 +69,6 @@ include_once $functions_dir.'user.php';
 include_once $functions_dir.'common.php';
 include_once $functions_dir.'media.php';
 include_once $functions_dir.'other.php';
-include_once $functions_dir.'content.php';
 include_once $functions_dir.'custom_fields.php';
 include_once $functions_dir.'menus.php';
 include_once $functions_dir.'categories.php';

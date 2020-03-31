@@ -10,11 +10,15 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Microweber\Utils\Adapters\Config\ConfigSave;
 use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
+use MicroweberPackages\CategoryManager\CategoryManagerServiceProvider;
+use MicroweberPackages\ContentManager\Content;
+use MicroweberPackages\ContentManager\ContentManagerServiceProvider;
 use MicroweberPackages\DatabaseManager\DatabaseManagerServiceProvider;
 use MicroweberPackages\EventManager\EventManagerServiceProvider;
 use MicroweberPackages\Helpers\Format;
 use MicroweberPackages\Helpers\HelpersServiceProvider;
 use MicroweberPackages\OptionManager\OptionManagerServiceProvider;
+use PhpOffice\PhpSpreadsheet\Calculation\Category;
 
 if (! defined('MW_VERSION')) {
     include_once __DIR__ . DIRECTORY_SEPARATOR . 'functions' . DIRECTORY_SEPARATOR . 'bootstrap.php';
@@ -133,6 +137,8 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(EventManagerServiceProvider::class);
         $this->app->register(OptionManagerServiceProvider::class);
         $this->app->register(HelpersServiceProvider::class);
+        $this->app->register(ContentManagerServiceProvider::class);
+        $this->app->register(CategoryManagerServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
     }
@@ -226,7 +232,6 @@ class MicroweberServiceProvider extends ServiceProvider
         $providers = [
             'lang_helper' => 'Helpers\Lang',
             'ui' => 'Ui',
-            'content_manager' => 'ContentManager',
             'update' => 'UpdateManager',
             'cache_manager' => 'CacheManager',
             'config_manager' => 'ConfigurationManager',
@@ -240,7 +245,6 @@ class MicroweberServiceProvider extends ServiceProvider
             'log_manager' => 'LogManager',
             'template' => 'Template',
             'modules' => 'Modules',
-            'category_manager' => 'CategoryManager',
             'menu_manager' => 'MenuManager',
             'user_manager' => 'UserManager',
             'shop_manager' => 'ShopManager',
