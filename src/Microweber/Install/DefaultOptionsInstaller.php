@@ -3,7 +3,7 @@
 namespace Microweber\Install;
 
 use Illuminate\Support\Facades\DB;
-use Microweber\Option;
+use MicroweberPackages\OptionManager\Option;
 
 
 class DefaultOptionsInstaller
