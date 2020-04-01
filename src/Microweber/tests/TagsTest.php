@@ -2,8 +2,8 @@
 
 namespace Microweber\tests;
 
+use MicroweberPackages\ContentManager\Content;
 use Tag;
-use Microweber\Content;
 use DB;
 
 class TagsTest extends TestCase

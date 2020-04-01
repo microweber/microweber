@@ -2560,12 +2560,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-packages/microweber-database-manager.git",
-                "reference": "16077912321c76f9c843dc79e93e935266d95d40"
+                "reference": "d2ba89d3ba65b60f3d9a56a3e95589ba01741b97"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/microweber-database-manager/zipball/16077912321c76f9c843dc79e93e935266d95d40",
-                "reference": "16077912321c76f9c843dc79e93e935266d95d40",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-database-manager/zipball/d2ba89d3ba65b60f3d9a56a3e95589ba01741b97",
+                "reference": "d2ba89d3ba65b60f3d9a56a3e95589ba01741b97",
                 "shasum": ""
             },
             "require": {
@@ -2614,7 +2614,7 @@
             ],
             "description": "Microweber database manager.",
             "homepage": "http://microweber.com",
-            "time": "2020-04-01T11:39:26+00:00"
+            "time": "2020-04-01T13:08:28+00:00"
         },
         {
             "name": "microweber-packages/microweber-event-manager",
