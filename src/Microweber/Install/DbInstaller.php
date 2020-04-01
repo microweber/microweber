@@ -58,7 +58,7 @@ class DbInstaller
                         if (strpos( $migrationFile,'.php') !== false) {
                             $migrationClassName = $this->getMigrationClassNameByFilename($migrationFile);
                             if ($migrationClassName) {
-                                include $migrationPath  . DIRECTORY_SEPARATOR . $migrationFile;
+                                include_once $migrationPath  . DIRECTORY_SEPARATOR . $migrationFile;
                                 $instanceMigration = new $migrationClassName;
                                 if (method_exists($instanceMigration,'getSchema')) {
                                     $migrationSchema = $instanceMigration->getSchema();
@@ -81,7 +81,6 @@ class DbInstaller
         $system =  [
             new Schema\Base(),
             new Schema\Comments(),
-            new Schema\Content(),
             new Schema\Form(),
             new Schema\Shop(),
             new Schema\Tags(),
