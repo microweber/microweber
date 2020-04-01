@@ -883,19 +883,6 @@ function find_date($string)
 
 }
 
-function array_unique_recursive($array)
-{
-    $array = array_unique($array, SORT_REGULAR);
-
-    foreach ($array as $key => $elem) {
-        if (is_array($elem)) {
-            $array[$key] = array_unique_recursive($elem);
-        }
-    }
-
-    return $array;
-}
-
 /**
  * Encode arbitrary data into base-62
  * Note that because base-62 encodes slightly less than 6 bits per character (actually 5.95419631038688), there is some wastage
