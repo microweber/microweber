@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e5fed136db9a1d87cceedc3be4f71017",
+    "content-hash": "18b3c1e22bde1f566c8cc6e79e073fd3",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -2433,23 +2433,26 @@
             "time": "2020-03-20T15:52:12+00:00"
         },
         {
-            "name": "microweber-packages/microweber-category-manager",
+            "name": "microweber-packages/microweber-cms",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/microweber-packages/microweber-category-manager.git",
-                "reference": "eda28e85afc231a205343ef82abf0c5455cd46e3"
+                "url": "https://github.com/microweber-packages/microweber-cms.git",
+                "reference": "2fe3162651c3458d8a6001d010393675a7174a8b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/microweber-category-manager/zipball/eda28e85afc231a205343ef82abf0c5455cd46e3",
-                "reference": "eda28e85afc231a205343ef82abf0c5455cd46e3",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-cms/zipball/2fe3162651c3458d8a6001d010393675a7174a8b",
+                "reference": "2fe3162651c3458d8a6001d010393675a7174a8b",
                 "shasum": ""
             },
             "require": {
                 "illuminate/database": "*",
                 "jeremeamia/superclosure": "*",
+                "knplabs/knp-menu": "^3.1",
                 "laravel/framework": "7.0.0",
+                "microweber-packages/microweber-database-manager": "dev-master",
+                "microweber-packages/microweber-event-manager": "dev-master",
                 "microweber-packages/microweber-helpers": "dev-master"
             },
             "require-dev": {
@@ -2460,9 +2463,11 @@
             "extra": {
                 "laravel": {
                     "providers": [
+                        "MicroweberPackages\\ContentManager\\ContentManagerServiceProvider",
                         "MicroweberPackages\\CategoryManager\\CategoryManagerServiceProvider"
                     ],
                     "aliases": {
+                        "ContentManager": "MicroweberPackages\\ContentManager\\ContentManagerFacade",
                         "CategoryManager": "MicroweberPackages\\CategoryManager\\CategoryManagerFacade"
                     }
                 }
@@ -2472,6 +2477,7 @@
                     "MicroweberPackages\\": "src/"
                 },
                 "files": [
+                    "src/ContentManager/helpers.php",
                     "src/CategoryManager/helpers.php"
                 ]
             },
@@ -2489,72 +2495,9 @@
                     "email": "bobi@microweber.com"
                 }
             ],
-            "description": "Microweber category manager.",
+            "description": "Microweber CMS.",
             "homepage": "http://microweber.com",
-            "time": "2020-03-31T15:37:36+00:00"
-        },
-        {
-            "name": "microweber-packages/microweber-content-manager",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/microweber-packages/microweber-content-manager.git",
-                "reference": "175197dbd379a9af52c8ea657c1d71918286b64d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/microweber-content-manager/zipball/175197dbd379a9af52c8ea657c1d71918286b64d",
-                "reference": "175197dbd379a9af52c8ea657c1d71918286b64d",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/database": "*",
-                "jeremeamia/superclosure": "*",
-                "laravel/framework": "7.0.0",
-                "microweber-packages/microweber-category-manager": "dev-master",
-                "microweber-packages/microweber-database-manager": "dev-master",
-                "microweber-packages/microweber-event-manager": "dev-master"
-            },
-            "require-dev": {
-                "mockery/mockery": "*",
-                "orchestra/testbench": "*"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "MicroweberPackages\\ContentManager\\ContentManagerServiceProvider"
-                    ],
-                    "aliases": {
-                        "ContentManager": "MicroweberPackages\\ContentManager\\ContentManagerFacade"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\": "src/"
-                },
-                "files": [
-                    "src/ContentManager/helpers.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                },
-                {
-                    "name": "Bozhidar Slaveykov",
-                    "email": "bobi@microweber.com"
-                }
-            ],
-            "description": "Microweber option manager.",
-            "homepage": "http://microweber.com",
-            "time": "2020-03-31T15:49:23+00:00"
+            "time": "2020-04-01T11:56:11+00:00"
         },
         {
             "name": "microweber-packages/microweber-core",
@@ -2562,17 +2505,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-packages/microweber-core.git",
-                "reference": "241bf5c2d8ad6afe54e277021a6bd32b08b52e93"
+                "reference": "74ee3eee2d987b392d5eb0e8e3acfba2dd2d6ffb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/microweber-core/zipball/241bf5c2d8ad6afe54e277021a6bd32b08b52e93",
-                "reference": "241bf5c2d8ad6afe54e277021a6bd32b08b52e93",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-core/zipball/74ee3eee2d987b392d5eb0e8e3acfba2dd2d6ffb",
+                "reference": "74ee3eee2d987b392d5eb0e8e3acfba2dd2d6ffb",
                 "shasum": ""
             },
             "require": {
                 "microweber-packages/laravel-config-save": "dev-master",
                 "microweber-packages/laravel-tagged-file-cache": "dev-master",
+                "microweber-packages/microweber-cms": "dev-master",
                 "microweber-packages/microweber-database-manager": "dev-master",
                 "microweber-packages/microweber-event-manager": "dev-master",
                 "microweber-packages/microweber-helpers": "dev-master",
@@ -2608,7 +2552,7 @@
             ],
             "description": "Microweber core",
             "homepage": "http://microweber.com",
-            "time": "2020-03-30T11:51:14+00:00"
+            "time": "2020-03-31T08:14:32+00:00"
         },
         {
             "name": "microweber-packages/microweber-database-manager",
@@ -2616,23 +2560,24 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-packages/microweber-database-manager.git",
-                "reference": "79aaf6d0f17fa41c01a54e19a77c08a9f8edd31c"
+                "reference": "16077912321c76f9c843dc79e93e935266d95d40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/microweber-database-manager/zipball/79aaf6d0f17fa41c01a54e19a77c08a9f8edd31c",
-                "reference": "79aaf6d0f17fa41c01a54e19a77c08a9f8edd31c",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-database-manager/zipball/16077912321c76f9c843dc79e93e935266d95d40",
+                "reference": "16077912321c76f9c843dc79e93e935266d95d40",
                 "shasum": ""
             },
             "require": {
-                "illuminate/database": "*",
                 "jeremeamia/superclosure": "*",
+                "laravel/framework": "7.0.0",
                 "microweber-packages/laravel-tagged-file-cache": "dev-master",
+                "microweber-packages/microweber-event-manager": "dev-master",
                 "microweber-packages/microweber-helpers": "dev-master"
             },
             "require-dev": {
                 "mockery/mockery": "*",
-                "orchestra/testbench": "4.*"
+                "orchestra/testbench": "*"
             },
             "type": "library",
             "extra": {
@@ -2669,7 +2614,7 @@
             ],
             "description": "Microweber database manager.",
             "homepage": "http://microweber.com",
-            "time": "2020-03-26T01:51:17+00:00"
+            "time": "2020-04-01T11:39:26+00:00"
         },
         {
             "name": "microweber-packages/microweber-event-manager",
@@ -2738,12 +2683,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-packages/microweber-helpers.git",
-                "reference": "f4feeec3d53f5715b5e7732682a325102781093c"
+                "reference": "00f70e450f45d966666c1ab233ad983208b81d46"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/microweber-helpers/zipball/f4feeec3d53f5715b5e7732682a325102781093c",
-                "reference": "f4feeec3d53f5715b5e7732682a325102781093c",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-helpers/zipball/00f70e450f45d966666c1ab233ad983208b81d46",
+                "reference": "00f70e450f45d966666c1ab233ad983208b81d46",
                 "shasum": ""
             },
             "require": {
@@ -2793,7 +2738,7 @@
             ],
             "description": "PHP helper funcitons.",
             "homepage": "http://microweber.com",
-            "time": "2020-03-30T12:56:20+00:00"
+            "time": "2020-04-01T11:44:04+00:00"
         },
         {
             "name": "microweber-packages/microweber-option-manager",
@@ -3170,12 +3115,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "ecb525c766deb3bbbb6a0082ea0e41d3d9ae477c"
+                "reference": "f10e22cf546704fab1db4ad4b9dedbc5c797a0dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/ecb525c766deb3bbbb6a0082ea0e41d3d9ae477c",
-                "reference": "ecb525c766deb3bbbb6a0082ea0e41d3d9ae477c",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/f10e22cf546704fab1db4ad4b9dedbc5c797a0dc",
+                "reference": "f10e22cf546704fab1db4ad4b9dedbc5c797a0dc",
                 "shasum": ""
             },
             "require": {
@@ -3233,7 +3178,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2020-03-26T13:04:10+00:00"
+            "time": "2020-03-31T13:43:19+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -4340,12 +4285,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/error-handler.git",
-                "reference": "4ec9851b5a9f9593f1fe4a6bff3d567c3605cea9"
+                "reference": "29ef74d2758ec03778c1d82c4b2fc98537311eb2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/error-handler/zipball/4ec9851b5a9f9593f1fe4a6bff3d567c3605cea9",
-                "reference": "4ec9851b5a9f9593f1fe4a6bff3d567c3605cea9",
+                "url": "https://api.github.com/repos/symfony/error-handler/zipball/29ef74d2758ec03778c1d82c4b2fc98537311eb2",
+                "reference": "29ef74d2758ec03778c1d82c4b2fc98537311eb2",
                 "shasum": ""
             },
             "require": {
@@ -4388,7 +4333,7 @@
             ],
             "description": "Symfony ErrorHandler Component",
             "homepage": "https://symfony.com",
-            "time": "2020-03-30T11:43:41+00:00"
+            "time": "2020-03-30T14:22:57+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -4625,12 +4570,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "75fa024ba9e27a12b088f2fbbb3083147d2d2b59"
+                "reference": "bc433e8db7848d51b74083ec48ee9886e7d620c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/75fa024ba9e27a12b088f2fbbb3083147d2d2b59",
-                "reference": "75fa024ba9e27a12b088f2fbbb3083147d2d2b59",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/bc433e8db7848d51b74083ec48ee9886e7d620c1",
+                "reference": "bc433e8db7848d51b74083ec48ee9886e7d620c1",
                 "shasum": ""
             },
             "require": {
@@ -4678,7 +4623,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "https://symfony.com",
-            "time": "2020-03-30T11:43:41+00:00"
+            "time": "2020-03-31T19:27:28+00:00"
         },
         {
             "name": "symfony/http-kernel",
@@ -4686,17 +4631,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "a3b12e2925bc9f042b92e1ead400aab9ad408c76"
+                "reference": "3e8940fbc57a7fb146f5cb5020bf2c8063d601fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/a3b12e2925bc9f042b92e1ead400aab9ad408c76",
-                "reference": "a3b12e2925bc9f042b92e1ead400aab9ad408c76",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/3e8940fbc57a7fb146f5cb5020bf2c8063d601fa",
+                "reference": "3e8940fbc57a7fb146f5cb5020bf2c8063d601fa",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2.5",
                 "psr/log": "~1.0",
+                "symfony/deprecation-contracts": "^2.1",
                 "symfony/error-handler": "^4.4|^5.0",
                 "symfony/event-dispatcher": "^5.0",
                 "symfony/http-foundation": "^4.4|^5.0",
@@ -4775,7 +4721,7 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "https://symfony.com",
-            "time": "2020-03-30T11:43:41+00:00"
+            "time": "2020-04-01T06:33:39+00:00"
         },
         {
             "name": "symfony/mime",
@@ -6006,12 +5952,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "cc260638d814f7b71aa060742ff041e50802b22a"
+                "reference": "77b423caf31a35f0285be898e3a74fea7d867629"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/cc260638d814f7b71aa060742ff041e50802b22a",
-                "reference": "cc260638d814f7b71aa060742ff041e50802b22a",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/77b423caf31a35f0285be898e3a74fea7d867629",
+                "reference": "77b423caf31a35f0285be898e3a74fea7d867629",
                 "shasum": ""
             },
             "require": {
@@ -6060,7 +6006,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2020-03-30T13:10:24+00:00"
+            "time": "2020-03-31T06:42:17+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -6691,6 +6637,7 @@
         "laravelcollective/html": 20,
         "laravel/socialite": 20,
         "microweber-packages/microweber-core": 20,
+        "microweber-packages/microweber-cms": 20,
         "composer/composer": 20,
         "composer/installers": 20,
         "knplabs/knp-menu": 20,
@@ -6702,8 +6649,7 @@
         "jenssegers/agent": 20,
         "geoip2/geoip2": 20,
         "twig/twig": 20,
-        "phpoffice/phpspreadsheet": 20,
-        "microweber-packages/microweber-content-manager": 20
+        "phpoffice/phpspreadsheet": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
