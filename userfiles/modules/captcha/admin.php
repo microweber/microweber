@@ -1,4 +1,3 @@
 <?php only_admin_access(); ?>
 
-
-captha admin
+<b>Captcha provider</b>
