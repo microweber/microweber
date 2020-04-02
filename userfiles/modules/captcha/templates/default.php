@@ -48,8 +48,27 @@ description: Default comments template
     <div class="clearfix"></div>
 </div>
 -->
+<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+        async defer>
+</script>
+
+<script type="text/javascript">
+    var onloadCallback = function() {
+        grecaptcha.render('js-mw-google-recaptcha', {
+            'sitekey' : '<?php echo get_option('google_recaptcha_site_key', $params['id']); ?>'
+        });
+    };
+</script>
 
 <div class="mw-ui-row">
+    <?php
+    $captcha_provider = get_option('captcha_provider', $params['id']);
+    if ($captcha_provider == 'google_recaptcha'):
+    ?>
+    <div class="mw-captcha">
+        <div id="js-mw-google-recaptcha"></div>
+    </div>
+    <?php else: ?>
     <div class="mw-captcha" style="max-width: 400px; margin: 15px;">
         <div class="form-group">
             <div class="captcha-holder">
@@ -66,4 +85,5 @@ description: Default comments template
             </div>
         </div>
     </div>
+    <?php endif; ?>
 </div>
