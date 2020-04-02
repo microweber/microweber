@@ -54,19 +54,19 @@ description: Default comments template
 
 <script type="text/javascript">
     var onloadCallback = function() {
-        grecaptcha.render('js-mw-google-recaptcha-<?php print $params['id'] ?> ?>', {
-            'sitekey' : '<?php echo get_option('google_recaptcha_site_key', $params['id']); ?>'
+        grecaptcha.render('js-mw-google-recaptcha-v2-<?php print $params['id'] ?> ?>', {
+            'sitekey' : '<?php echo get_option('recaptcha_v2_site_key', 'captcha'); ?>'
         });
     };
 </script>
 
 <div class="mw-ui-row">
     <?php
-    $captcha_provider = get_option('captcha_provider', $params['id']);
-    if ($captcha_provider == 'google_recaptcha'):
+    $captcha_provider = get_option('provider', 'captcha');
+    if ($captcha_provider == 'google_recaptcha_v2'):
     ?>
     <div class="mw-captcha">
-        <div id="js-mw-google-recaptcha-<?php print $params['id'] ?> ?>"></div>
+        <div id="js-mw-google-recaptcha-v2-<?php print $params['id'] ?> ?>"></div>
     </div>
     <?php else: ?>
     <div class="mw-captcha" style="max-width: 400px; margin: 15px;">
