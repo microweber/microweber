@@ -38,7 +38,7 @@ class Comments extends Crud
         $params['table'] = $table;
 
         $comments = db_get($params);
-		
+
         if (is_array($comments)) {
             $i = 0;
             foreach ($comments as $item) {
@@ -206,7 +206,7 @@ class Comments extends Crud
                     );
 
                 } else {
-                    $validate_captcha = $this->app->captcha->validate($data['captcha']);
+                    $validate_captcha = $this->app->captcha_manager->validate($data['captcha']);
                     if (!$validate_captcha) {
 
                         return array(
@@ -233,26 +233,26 @@ class Comments extends Crud
             $data['from_url'] = mw()->url_manager->current(1);
 
         }
-        
+
         if (!isset($data['comment_body'])) {
         	$data['comment_body'] = '';
         }
-		
+
 		$comment_body = $data['comment_body'];
-		
+
 		// Claer HTML
 		$comment_body = $this->app->format->clean_html($comment_body);
-		
+
 		// Clear XSS
 		$evil = ['(?<!\w)on\w*',   'xmlns', 'formaction',   'xlink:href', 'FSCommand', 'seekSegmentTime'];
 		$comment_body =  $this->app->format->clean_xss($comment_body, true, $evil, 'removeEvilAttributes');
-		
+
 		$comment_body = Markdown::convertToHtml($comment_body);
-		
+
 		$data['comment_body'] = $comment_body;
 		$data['allow_html'] = '1';
 		$data['allow_scripts'] = '1';
-		
+
 		$saved_data_id = mw()->database_manager->save($table, $data);
 
 
@@ -301,19 +301,19 @@ class Comments extends Crud
 
 
         }
-        
+
         $get_comment = get_comments("single=1&id=" . $saved_data_id);
-        
+
         if (isset($get_comment['is_subscribed_for_notification']) && isset($get_comment['is_sent_email'])) {
-	        
+
         	if ($get_comment['action'] == 'publish' && $get_comment['is_subscribed_for_notification'] == 1 && $get_comment['is_sent_email'] == 0) {
-		        
+
 		        // Send notification
         		if (is_numeric($saved_data_id)) {
         			$emailJob = (new  \Microweber\Comments\Jobs\JobSendMailNotificationOnComment($saved_data_id))->onQueue('processing');
 		        	\Queue::later(5, $emailJob);
 		        }
-	
+
 	        }
         }
 

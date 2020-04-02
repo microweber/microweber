@@ -54,7 +54,7 @@ description: Default comments template
 
 <script type="text/javascript">
     var onloadCallback = function() {
-        grecaptcha.render('js-mw-google-recaptcha', {
+        grecaptcha.render('js-mw-google-recaptcha-<?php print $params['id'] ?> ?>', {
             'sitekey' : '<?php echo get_option('google_recaptcha_site_key', $params['id']); ?>'
         });
     };
@@ -66,7 +66,7 @@ description: Default comments template
     if ($captcha_provider == 'google_recaptcha'):
     ?>
     <div class="mw-captcha">
-        <div id="js-mw-google-recaptcha"></div>
+        <div id="js-mw-google-recaptcha-<?php print $params['id'] ?> ?>"></div>
     </div>
     <?php else: ?>
     <div class="mw-captcha" style="max-width: 400px; margin: 15px;">

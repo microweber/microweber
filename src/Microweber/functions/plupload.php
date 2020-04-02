@@ -217,7 +217,7 @@ if ($allowed_to_upload == false) {
                                     if ($cap == false) {
                                         die('{"jsonrpc" : "2.0", "error" : {"code":108, "message": "You must load a captcha first!"}}');
                                     }
-                                    $validate_captcha = $this->app->captcha->validate($_REQUEST['captcha']);
+                                    $validate_captcha = $this->app->captcha_manager->validate($_REQUEST['captcha']);
                                     if (!$validate_captcha) {
                                         die('{"jsonrpc" : "2.0", "error" : {"code":109, "message": "Invalid captcha answer! "}}');
                                     } else {

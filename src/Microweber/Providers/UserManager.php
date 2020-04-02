@@ -147,7 +147,7 @@ class UserManager
             if (!isset($params['captcha'])) {
                 return array('error' => 'Please enter the captcha answer!');
             }
-            $validate_captcha = $this->app->captcha->validate($params['captcha'], null, false);
+            $validate_captcha = $this->app->captcha_manager->validate($params['captcha'], null, false);
             if (!$validate_captcha) {
                 return array('error' => 'Invalid captcha answer!', 'captcha_error' => true);
             }
@@ -656,7 +656,7 @@ class UserManager
                 );
 
             } else {
-                $validate_captcha = $this->app->captcha->validate($params['captcha']);
+                $validate_captcha = $this->app->captcha_manager->validate($params['captcha']);
                 if (!$validate_captcha) {
 
                     return array(
@@ -1300,7 +1300,7 @@ class UserManager
         if (!isset($params['captcha'])) {
             return array('error' => 'Please enter the captcha answer!');
         } else {
-            $validate_captcha = $this->app->captcha->validate($params['captcha']);
+            $validate_captcha = $this->app->captcha_manager->validate($params['captcha']);
             if (!$validate_captcha) {
                 return array('error' => 'Invalid captcha answer!', 'captcha_error' => true);
             }
@@ -1385,7 +1385,7 @@ class UserManager
             if (!isset($params['captcha'])) {
                 return array('error' => 'Please enter the captcha answer!');
             } else {
-                $validate_captcha = $this->app->captcha->validate($params['captcha']);
+                $validate_captcha = $this->app->captcha_manager->validate($params['captcha']);
                 if ($validate_captcha == false) {
                     return array('error' => 'Invalid captcha answer!', 'captcha_error' => true);
                 }
