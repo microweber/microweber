@@ -2,7 +2,7 @@
 
 namespace Microweber\Providers;
 
-use Microweber\Utils\Adapters\Captcha\GoogleRecaptcha;
+use Microweber\Utils\Adapters\Captcha\GoogleRecaptchaV2;
 use Microweber\Utils\Adapters\Captcha\MicroweberCaptcha;
 
 /**
@@ -38,31 +38,22 @@ class CaptchaManager
             }
         }
 
-        $this->adapter = new MicroweberCaptcha($app);
+        $captcha_provider = get_option('provider', 'captcha');
+        if ($captcha_provider == 'google_recaptcha_v2') {
+            $this->adapter = new GoogleRecaptchaV2();
+        } else {
+            $this->adapter = new MicroweberCaptcha($app);
+        }
     }
 
     public function validate($key, $captcha_id = null, $unset_if_found = true)
     {
-        if (!empty($captcha_id)) {
-            $this->_checkProvider($captcha_id);
-        }
-
         return $this->adapter->validate($key, $captcha_id, $unset_if_found);
     }
 
     public function render($params = array())
     {
-        if (isset($params['id'])) {
-            $this->_checkProvider($params['id']);
-        }
-
         return $this->adapter->render($params);
     }
 
-    private function _checkProvider($captcha_id) {
-        $captcha_provider = get_option('captcha_provider', $captcha_id);
-        if ($captcha_provider == 'google_recaptcha') {
-            $this->adapter = new GoogleRecaptcha();
-        }
-    }
 }

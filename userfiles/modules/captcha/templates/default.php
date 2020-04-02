@@ -30,6 +30,7 @@ description: Default comments template
     </script>
     <div class="mw-captcha">
         <div id="js-mw-google-recaptcha-v2-<?php print $params['id'] ?>"></div>
+        <input name="captcha" type="hidden" value="<?php print $params['id'] ?>" class="mw-captcha-input" />
     </div>
     <?php else: ?>
     <div class="mw-captcha" style="max-width: 400px; margin: 15px;">
