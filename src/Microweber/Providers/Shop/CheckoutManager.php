@@ -752,9 +752,10 @@ class CheckoutManager
         $update_order = array();
         if (is_file($gw_process)) {
             include $gw_process;
-            if (!isset($ord['is_paid']) or (isset($ord['is_paid']) and $ord['is_paid'] == 0)) {
+            if (!isset($ord_data['is_paid']) or (isset($ord_data['is_paid']) and $ord_data['is_paid'] == 0)) {
                 if (isset($update_order['is_paid']) and $update_order['is_paid']) {
-                    $this->app->event_manager->trigger('mw.cart.checkout.order_paid', $update_order);
+                    $ord_data2 = array_merge($ord_data,$update_order);
+                    $this->app->event_manager->trigger('mw.cart.checkout.order_paid', $ord_data2);
                 }
             }
 
