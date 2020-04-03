@@ -24,7 +24,6 @@
         "laravel/framework": "^7.0.0",
         "laravelcollective/html": "^6.0@dev",
         "laravel/socialite": "^5.0@dev",
-        "rtconner/laravel-tagging": "^4.0",
         "microweber-packages/microweber-core": "dev-master",
         "microweber-packages/microweber-cms": "dev-master",
         "ezyang/htmlpurifier": "*",

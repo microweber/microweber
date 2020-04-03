@@ -238,7 +238,6 @@ class MicroweberServiceProvider extends ServiceProvider
             'media_manager' => 'MediaManager',
             'fields_manager' => 'FieldsManager',
             'data_fields_manager' => 'Content\DataFieldsManager',
-            'tags_manager' => 'Content\TagsManager',
             'attributes_manager' => 'Content\AttributesManager',
             'forms_manager' => 'FormsManager',
             'notifications_manager' => 'NotificationsManager',
