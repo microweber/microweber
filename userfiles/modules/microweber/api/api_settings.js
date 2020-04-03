@@ -254,6 +254,10 @@
         uppy: [
             'uppy.min.js',
             'uppy.min.css'
+        ],
+        apexcharts: [
+            'apexcharts.min.js',
+            'apexcharts.css'
         ]
     };
 

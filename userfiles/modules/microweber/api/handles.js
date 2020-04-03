@@ -381,8 +381,12 @@ mw._initHandles = {
                 mw.smallEditor.css("visibility", "hidden");
                 mw.smallEditorCanceled = true;
             },
-            stop: function(a,b,c) {
+            stop: function() {
                 mw.$(mwd.body).removeClass("dragStart");
+
+                if(mw.liveEditDomTree) {
+                    mw.liveEditDomTree.refresh(handleDomtreeSync.start)
+                }
             }
         });
 
@@ -463,7 +467,7 @@ mw._initHandles = {
                     icon: 'mw-icon-gear',
                     action: function () {
                         mw.drag.module_settings(mw._activeModuleOver,"admin");
-                        mw.handleModule.hide()
+                        mw.handleModule.hide();
                     }
                 },
                 {
@@ -487,6 +491,10 @@ mw._initHandles = {
                 {
                     title: '{dynamic}',
                     className:'mw_handle_module_submodules'
+                },
+                {
+                    title: '{dynamic}',
+                    className:'mw_handle_module_spacing'
                 },
 
 
@@ -543,6 +551,10 @@ mw._initHandles = {
                     className:'mw_handle_module_submodules'
                 },
                 {
+                    title: '{dynamic}',
+                    className:'mw_handle_module_spacing'
+                },
+                {
                     title: 'Reset',
                     icon: 'mw-icon-reload',
                     className:'mw-handle-remove',
@@ -567,7 +579,7 @@ mw._initHandles = {
         var getActiveDragCurrent = function () {
             //var el = mw.liveEditSelector && mw.liveEditSelector.selected ?  mw.liveEditSelector.selected[0] : null;
             var el = mw.liveEditSelector.activeModule;
-            if(el && el.nodeType === 1){
+            if (el && el.nodeType === 1) {
                 return el;
             }
             if(mw.handleModuleActive._target) {
@@ -591,7 +603,7 @@ mw._initHandles = {
                     mw.isDrag = true;
                     mw.dragCurrent = curr();
                     handleDomtreeSync.start = mw.dragCurrent.parentNode;
-                    if(!mw.dragCurrent.id){
+                    if (!mw.dragCurrent.id) {
                         mw.dragCurrent.id = 'module_' + mw.random();
                     }
                     if(mw.liveEditTools.isLayout(mw.dragCurrent)){
@@ -612,9 +624,12 @@ mw._initHandles = {
                 },
                 stop: function() {
                     mw.$(mwd.body).removeClass("dragStart");
+                    if(mw.liveEditDomTree) {
+                        mw.liveEditDomTree.refresh(handleDomtreeSync.start)
+                    }
                 }
             };
-        }
+        };
 
         mw.handleModule = new mw.Handle(handlesModuleConfig);
         mw.handleModuleActive = new mw.Handle(handlesModuleConfigActive);
@@ -804,7 +819,7 @@ mw._initHandles = {
                             icon = '<i class="mw-edit-module-settings-tooltip-icon ' + this.icon + '"></i>';
                         }
                         new_el.innerHTML =  (icon + '<span class="mw-edit-module-settings-tooltip-btn-title">' + this.title+'</span>');
-                        mw.$(".mw-handle-menu-dynamic", handle.wrapper).append(new_el);
+                        mw.$(".mw_handle_module_spacing", handle.wrapper).append(new_el);
                     }
                 });
             } else {
@@ -924,6 +939,9 @@ mw._initHandles = {
             },
             stop: function() {
                 mw.$(mwd.body).removeClass("dragStart");
+                if(mw.liveEditDomTree) {
+                    mw.liveEditDomTree.refresh(handleDomtreeSync.start)
+                }
             }
         });
 

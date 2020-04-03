@@ -206,7 +206,7 @@ class Comments extends Crud
                     );
 
                 } else {
-                    $validate_captcha = $this->app->captcha->validate($data['captcha']);
+                    $validate_captcha = $this->app->captcha_manager->validate($data['captcha']);
                     if (!$validate_captcha) {
 
                         return array(

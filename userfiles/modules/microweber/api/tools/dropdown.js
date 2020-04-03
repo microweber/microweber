@@ -26,7 +26,7 @@ mw.tools.dropdown = function (root) {
             };
 
             input.onkeyup = function (e) {
-                if (e.keyCode == 13) {
+                if (e.keyCode === 13) {
                     return false;
                 }
             }
@@ -86,7 +86,7 @@ mw.tools.dropdown = function (root) {
     /* end For loop */
     if (typeof mw.tools.dropdownActivated === 'undefined') {
         mw.tools.dropdownActivated = true;
-        mw.$(mwd.body).mousedown(function (e) {
+        mw.$(mwd.body).on('mousedown touchstart', function (e) {
             if (!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['mw-dropdown-content', 'mw-dropdown'])) {
                 mw.$(".mw-dropdown").removeClass("active");
                 mw.$(".mw-dropdown-content").hide();

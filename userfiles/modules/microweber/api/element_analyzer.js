@@ -8,13 +8,18 @@ mw.AfterDrop = function(){
         var all = mw.$(".edit .module-item"), count = 0;
         all.each(function(c) {
             (function (el) {
-                var parent = el.parentNode
+                var parent = el.parentNode;
                 var xhr = mw._({
                     selector: el,
                     done: function(module) {
                         mw.drag.fancynateLoading(module);
                         mw.pauseSave = false;
                         mw.wysiwyg.init_editables();
+                        if(mw.liveEditDomTree) {
+                            mw.liveEditDomTree.refresh(parent);
+                            mw.liveEditDomTree.select(parent);
+
+                        }
                     },
                     fail:function () {
                         mw.$(this).remove();

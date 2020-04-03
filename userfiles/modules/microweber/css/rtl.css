@@ -337,14 +337,7 @@ a.depth-1 .mw_toggle_tree {
     padding-right: 0;
 }
 
-.users-online {
-    float: right;
-}
 
-.dashboard_stats {
-    left: auto;
-    right: 190px;
-}
 
 .dashboard_stats {
     direction: ltr;

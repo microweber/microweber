@@ -1,8 +1,8 @@
 <?php
 
-namespace Microweber\Utils;
+namespace Microweber\Utils\Adapters\Captcha;
 
-class Captcha
+class MicroweberCaptcha
 {
     public function validate($key, $captcha_id = null, $unset_if_found = true)
     {
@@ -49,9 +49,8 @@ class Captcha
         sleep(1);
 
         $roit1 = rand(1, 6);
-        $font = dirname(__FILE__) . DS . 'catcha_fonts' . DS . 'font' . $roit1 . '.ttf';
+        $font = dirname(dirname(dirname(__FILE__))). DS . 'catcha_fonts' . DS . 'font' . $roit1 . '.ttf';
         $font = normalize_path($font, 0);
-
 
         $x = 100;
         $y = 62;
@@ -105,8 +104,8 @@ class Captcha
 
             $old_array[] =$old;
             // array_unshift($old_array, $old);
-         //   array_slice($old_array, 20);
-           // mw()->user_manager->session_set('captcha_recent', $old_array);
+            //   array_slice($old_array, 20);
+            // mw()->user_manager->session_set('captcha_recent', $old_array);
         }
         if (!isset($old_array) or !is_array($old_array)) {
             $old_array = array();
@@ -117,7 +116,7 @@ class Captcha
             $old_array[] = $answ;
         }
         if($old_array){
-              $old_array = array_unique($old_array);
+            $old_array = array_unique($old_array);
             if(count($old_array)> 20){
                 $old_array=  array_slice($old_array, 0,20);
             }
@@ -125,7 +124,7 @@ class Captcha
         mw()->user_manager->session_set('captcha_recent', $old_array);
 
         //dd($old_array);
-          $sess = mw()->user_manager->session_set($captcha_sid, $answ);
+        $sess = mw()->user_manager->session_set($captcha_sid, $answ);
 
         $col1z = rand(200, 242);
         $col1z1 = rand(150, 242);
@@ -194,7 +193,7 @@ class Captcha
             //imagettftext($im, $font_size, 0, $x, $y+1, $grey, $font, $text);
 
 // Add the text
-             imagettftext($image, $font_size, 0, $xa, $ya, $black, $font, $text);
+            imagettftext($image, $font_size, 0, $xa, $ya, $black, $font, $text);
 
 
 
@@ -206,7 +205,7 @@ class Captcha
                 $font = mw_includes_path() . DS . 'admin' . DS . 'catcha_fonts' . DS . 'font' . $roit1 . '.gdf';
                 $font = normalize_path($font, 0);
                 $font = imageloadfont($font);
-               // imagestring($image, $font, $x1, $y1, $text, $black);
+                // imagestring($image, $font, $x1, $y1, $text, $black);
                 $image = $this->imagestringcentered($image, $font, $y1, $text, $black);
 
 
@@ -259,9 +258,6 @@ class Captcha
         imagedestroy($image);
 
         $stuff = ob_get_clean();
-
-
-
 
 
         return response($stuff)

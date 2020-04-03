@@ -339,3 +339,29 @@
 
 
 </div>
+
+<div class="ui_section">
+    <script>
+        mw.require('editor.js');
+        $(document).ready(function () {
+            var editor = new mw.Editor({
+                selector: '#editortest',
+                mode: 'iframe',
+                controls: [
+                    ['bold', 'italic', '|', 'fontSelector', 'fontSize'],
+                    ['bold', 'italic', '|'  ]
+                ],
+                content: `Nulla facilisi. Donec <b>congue mauris mi, nec elementum diam elementum</b> sed.
+                In faucibus odio eget nisi pulvinar porttitor. Nam elementum magna in velit malesuada tin
+                cidunt nec id nisl. Duis <i>vel arcu non nisl euismod malesuada. Fusce efficitur <b>sollicitudin lectus</b>
+                , imperdiet cursus lorem bib</i>endum eget. Proin rutrum porttitor risus, eget suscipit ipsum finibus in.
+                 Nunc posuere ultricies eros, eget aliquet mauris.`
+            })
+        });
+    </script>
+    <h2>Editor</h2>
+    <br>
+
+<div id="editortest"></div>
+
+</div>

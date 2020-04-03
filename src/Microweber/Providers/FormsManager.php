@@ -172,12 +172,12 @@ class FormsManager
         if (!$dis_cap) {
             $dis_cap = $this->app->option_manager->get('disable_captcha', $default_mod_id) == 'y';
         }
-        
+
         $email_from = $this->app->option_manager->get('email_from', $for_id);
         if (!$email_from) {
         	$email_from = $this->app->option_manager->get('email_from', $default_mod_id);
         }
-        
+
         $from_name = $this->app->option_manager->get('email_from_name', $for_id);
         if (!$from_name) {
         	$from_name = $this->app->option_manager->get('email_from_name', $default_mod_id);
@@ -257,15 +257,15 @@ class FormsManager
 
             } else {
 //                if ($for_id != false) {
-//                    $validate_captcha = mw()->captcha->validate($params['captcha'], $for_id);
+//                    $validate_captcha = mw()->captcha_manager->validate($params['captcha'], $for_id);
 //                    if (!$validate_captcha) {
-//                        $validate_captcha = mw()->captcha->validate($params['captcha']);
+//                        $validate_captcha = mw()->captcha_manager->validate($params['captcha']);
 //                    }
 //                } else {
-//                    $validate_captcha = mw()->captcha->validate($params['captcha']);
+//                    $validate_captcha = mw()->captcha_manager->validate($params['captcha']);
 //                }
 
-                $validate_captcha = $this->app->captcha->validate($params['captcha'], $for_id);
+                $validate_captcha = $this->app->captcha_manager->validate($params['captcha'], $for_id);
                 if (!$validate_captcha) {
 
                     return array(

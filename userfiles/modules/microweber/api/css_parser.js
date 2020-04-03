@@ -23,7 +23,7 @@ mw.CSSParser = function(el){
       return css.display;
     };
 
-    f.isit = function(){
+    f.is = function(){
 
         return {
           bold:parseFloat(css.fontWeight)>600 || css.fontWeight === 'bold' || css.fontWeight === 'bolder',

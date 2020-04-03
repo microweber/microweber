@@ -4,18 +4,18 @@ mw.cookie = {
         for (; i < l; i++) {
             var x = cookies[i].substr(0, cookies[i].indexOf("="));
             var y = cookies[i].substr(cookies[i].indexOf("=") + 1);
-            var x = x.replace(/^\s+|\s+$/g, "");
-            if (x == name) {
+            x = x.replace(/^\s+|\s+$/g, "");
+            if (x === name) {
                 return unescape(y);
             }
         }
     },
     set: function (name, value, expires, path, domain, secure) {
         var now = new Date();
-        var expires = expires || 365;
+        expires = expires || 365;
         now.setTime(now.getTime());
         if (expires) {
-            var expires = expires * 1000 * 60 * 60 * 24;
+            expires = expires * 1000 * 60 * 60 * 24;
         }
         var expires_date = new Date(now.getTime() + (expires));
         document.cookie = name + "=" + escape(value) + ( ( expires ) ? ";expires=" + expires_date.toGMTString() : "" ) + ( ( path ) ? ";path=" + path : ";path=/" ) + ( ( domain ) ? ";domain=" + domain : "" ) + ( ( secure ) ? ";secure" : "" );
@@ -23,22 +23,22 @@ mw.cookie = {
     setEncoded: function (name, value, expires, path, domain, secure) {
         // value = encodeURIComponent(value);
         // value = escape(value);
-        //value = mw.tools.base64.encode( unescape( encodeURIComponent( value ) ) )
-        value = mw.tools.base64.encode(value)
-        return this.set(name, value, expires, path, domain, secure)
+        // value = mw.tools.base64.encode( unescape( encodeURIComponent( value ) ) )
+        value = mw.tools.base64.encode(value);
+        return this.set(name, value, expires, path, domain, secure);
     },
     getEncoded: function (name) {
         var value = this.get(name);
         // value = decodeURIComponent(value);
-        //value = unescape(value);
-        //value = decodeURIComponent( escape( mw.tools.base64.decode( value ) ) )
-        value = mw.tools.base64.decode(value)
+        // value = unescape(value);
+        // value = decodeURIComponent( escape( mw.tools.base64.decode( value ) ) )
+        value = mw.tools.base64.decode(value);
         return value;
     },
     ui: function (a, b) {
         var mwui = mw.cookie.getEncoded("mwui");
         try {
-            var mwui = (!mwui || mwui == '') ? {} : $.parseJSON(mwui);
+            mwui = (!mwui || mwui === '') ? {} : $.parseJSON(mwui);
         }
         catch (e) {
             return false;
@@ -72,4 +72,4 @@ mw.cookie = {
             mw.cookie.uievents[name].push(func);
         }
     }
-}
+};

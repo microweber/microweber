@@ -221,10 +221,6 @@ class MicroweberServiceProvider extends ServiceProvider
             return new Utils\Http($app);
         });
 
-        $this->app->bind('captcha', function ($app) {
-            return new Utils\Captcha($app);
-        });
-
         $this->app->singleton('format', function ($app) {
             return new Format($app);
         });
@@ -258,6 +254,7 @@ class MicroweberServiceProvider extends ServiceProvider
             'checkout_manager' => 'Shop\CheckoutManager',
             'layouts_manager' => 'LayoutsManager',
             'template_manager' => 'TemplateManager',
+            'captcha_manager' => 'CaptchaManager',
         ];
 
         foreach ($providers as $alias => $class) {
