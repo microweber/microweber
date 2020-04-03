@@ -106,20 +106,20 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
                                     }
                                 });
 
-                                //var all = [{type: 'page', id: <?php //print $data['parent']; ?>//}];
-                                //
-                                //var cats = [<?php //print $categories_active_ids; ?>//];
-                                //
-                                //$.each(cats, function () {
-                                //    all.push({
-                                //        type:'category',
-                                //        id: this
-                                //    })
-                                //});
-                                //if(typeof(mw.adminPagesTree) != 'undefined') {
-                                //
-                                //    mw.adminPagesTree.select(all);
-                                //}
+                                var all = [{type: 'page', id: <?php print $data['parent']; ?>}];
+
+                                var cats = [<?php print $categories_active_ids; ?>];
+
+                                $.each(cats, function () {
+                                    all.push({
+                                        type:'category',
+                                        id: this
+                                    })
+                                });
+                                if(typeof(mw.adminPagesTree) != 'undefined') {
+
+                                    mw.adminPagesTree.select(all);
+                                }
 
                             })
                         </script>
@@ -163,7 +163,6 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
 
                                                 if (window.pagesTree && pagesTree.selectedData.length) {
                                                     $.each(pagesTree.selectedData, function () {
-
                                                         categorySelector.tree.select(this)
                                                     })
                                                 }
