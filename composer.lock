@@ -2439,12 +2439,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-packages/microweber-cms.git",
-                "reference": "ec0f2731552a9e55775d32f66b47ea6017f07f4f"
+                "reference": "43be0bc5eca536c7ad751b1219754bbd1e345c02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/microweber-cms/zipball/ec0f2731552a9e55775d32f66b47ea6017f07f4f",
-                "reference": "ec0f2731552a9e55775d32f66b47ea6017f07f4f",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-cms/zipball/43be0bc5eca536c7ad751b1219754bbd1e345c02",
+                "reference": "43be0bc5eca536c7ad751b1219754bbd1e345c02",
                 "shasum": ""
             },
             "require": {
@@ -2467,13 +2467,15 @@
                     "providers": [
                         "MicroweberPackages\\ContentManager\\ContentManagerServiceProvider",
                         "MicroweberPackages\\CategoryManager\\CategoryManagerServiceProvider",
-                        "MicroweberPackages\\MediaManager\\TagsManagerServiceProvider",
-                        "MicroweberPackages\\TagsManager\\MediaManagerServiceProvider"
+                        "MicroweberPackages\\TagsManager\\TagsManagerServiceProvider",
+                        "MicroweberPackages\\MediaManager\\MediaManagerServiceProvider",
+                        "MicroweberPackages\\MenuManager\\MenuManagerServiceProvider"
                     ],
                     "aliases": {
                         "ContentManager": "MicroweberPackages\\ContentManager\\ContentManagerFacade",
                         "CategoryManager": "MicroweberPackages\\CategoryManager\\CategoryManagerFacade",
                         "MediaManager": "MicroweberPackages\\MediaManager\\MediaManagerFacade",
+                        "MenuManager": "MicroweberPackages\\MenuManager\\MenuManagerFacade",
                         "TagsManager": "MicroweberPackages\\TagsManager\\TagsManagerFacade"
                     }
                 }
@@ -2484,7 +2486,9 @@
                 },
                 "files": [
                     "src/ContentManager/helpers.php",
-                    "src/CategoryManager/helpers.php"
+                    "src/CategoryManager/helpers.php",
+                    "src/MediaManager/helpers.php",
+                    "src/MediaManager/helpers_paths.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2503,7 +2507,7 @@
             ],
             "description": "Microweber CMS.",
             "homepage": "http://microweber.com",
-            "time": "2020-04-03T14:33:21+00:00"
+            "time": "2020-04-03T15:14:10+00:00"
         },
         {
             "name": "microweber-packages/microweber-core",
