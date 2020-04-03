@@ -17,7 +17,10 @@ use MicroweberPackages\DatabaseManager\DatabaseManagerServiceProvider;
 use MicroweberPackages\EventManager\EventManagerServiceProvider;
 use MicroweberPackages\Helpers\Format;
 use MicroweberPackages\Helpers\HelpersServiceProvider;
+use MicroweberPackages\MediaManager\Media;
+use MicroweberPackages\MediaManager\MediaManagerServiceProvider;
 use MicroweberPackages\OptionManager\OptionManagerServiceProvider;
+use MicroweberPackages\TagsManager\TagsManagerServiceProvider;
 use PhpOffice\PhpSpreadsheet\Calculation\Category;
 
 if (! defined('MW_VERSION')) {
@@ -139,6 +142,8 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(HelpersServiceProvider::class);
         $this->app->register(ContentManagerServiceProvider::class);
         $this->app->register(CategoryManagerServiceProvider::class);
+        $this->app->register(TagsManagerServiceProvider::class);
+        $this->app->register(MediaManagerServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
     }
@@ -235,7 +240,6 @@ class MicroweberServiceProvider extends ServiceProvider
             'update' => 'UpdateManager',
             'cache_manager' => 'CacheManager',
             'config_manager' => 'ConfigurationManager',
-            'media_manager' => 'MediaManager',
             'fields_manager' => 'FieldsManager',
             'data_fields_manager' => 'Content\DataFieldsManager',
             'attributes_manager' => 'Content\AttributesManager',

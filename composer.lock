@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "18b3c1e22bde1f566c8cc6e79e073fd3",
+    "content-hash": "2aae34a7f88227e76d1abf277ec0a1ad",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -1337,12 +1337,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jeremeamia/super_closure.git",
-                "reference": "5707d5821b30b9a07acfb4d76949784aaa0e9ce9"
+                "reference": "5344ca13846e50196712c997f3426543d130ea31"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jeremeamia/super_closure/zipball/5707d5821b30b9a07acfb4d76949784aaa0e9ce9",
-                "reference": "5707d5821b30b9a07acfb4d76949784aaa0e9ce9",
+                "url": "https://api.github.com/repos/jeremeamia/super_closure/zipball/5344ca13846e50196712c997f3426543d130ea31",
+                "reference": "5344ca13846e50196712c997f3426543d130ea31",
                 "shasum": ""
             },
             "require": {
@@ -1387,7 +1387,8 @@
                 "serialize",
                 "tokenizer"
             ],
-            "time": "2018-03-21T22:21:57+00:00"
+            "abandoned": "opis/closure",
+            "time": "2020-04-02T05:52:13+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -2438,12 +2439,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-packages/microweber-cms.git",
-                "reference": "2fe3162651c3458d8a6001d010393675a7174a8b"
+                "reference": "ec0f2731552a9e55775d32f66b47ea6017f07f4f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/microweber-cms/zipball/2fe3162651c3458d8a6001d010393675a7174a8b",
-                "reference": "2fe3162651c3458d8a6001d010393675a7174a8b",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-cms/zipball/ec0f2731552a9e55775d32f66b47ea6017f07f4f",
+                "reference": "ec0f2731552a9e55775d32f66b47ea6017f07f4f",
                 "shasum": ""
             },
             "require": {
@@ -2453,7 +2454,8 @@
                 "laravel/framework": "7.0.0",
                 "microweber-packages/microweber-database-manager": "dev-master",
                 "microweber-packages/microweber-event-manager": "dev-master",
-                "microweber-packages/microweber-helpers": "dev-master"
+                "microweber-packages/microweber-helpers": "dev-master",
+                "rtconner/laravel-tagging": "^4.0"
             },
             "require-dev": {
                 "mockery/mockery": "*",
@@ -2464,11 +2466,15 @@
                 "laravel": {
                     "providers": [
                         "MicroweberPackages\\ContentManager\\ContentManagerServiceProvider",
-                        "MicroweberPackages\\CategoryManager\\CategoryManagerServiceProvider"
+                        "MicroweberPackages\\CategoryManager\\CategoryManagerServiceProvider",
+                        "MicroweberPackages\\MediaManager\\TagsManagerServiceProvider",
+                        "MicroweberPackages\\TagsManager\\MediaManagerServiceProvider"
                     ],
                     "aliases": {
                         "ContentManager": "MicroweberPackages\\ContentManager\\ContentManagerFacade",
-                        "CategoryManager": "MicroweberPackages\\CategoryManager\\CategoryManagerFacade"
+                        "CategoryManager": "MicroweberPackages\\CategoryManager\\CategoryManagerFacade",
+                        "MediaManager": "MicroweberPackages\\MediaManager\\MediaManagerFacade",
+                        "TagsManager": "MicroweberPackages\\TagsManager\\TagsManagerFacade"
                     }
                 }
             },
@@ -2497,7 +2503,7 @@
             ],
             "description": "Microweber CMS.",
             "homepage": "http://microweber.com",
-            "time": "2020-04-01T11:56:11+00:00"
+            "time": "2020-04-03T14:33:21+00:00"
         },
         {
             "name": "microweber-packages/microweber-core",
@@ -2683,12 +2689,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-packages/microweber-helpers.git",
-                "reference": "00f70e450f45d966666c1ab233ad983208b81d46"
+                "reference": "b2e7bcbffcbb3103a4ad5e014f022f61fa5a7e93"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/microweber-helpers/zipball/00f70e450f45d966666c1ab233ad983208b81d46",
-                "reference": "00f70e450f45d966666c1ab233ad983208b81d46",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-helpers/zipball/b2e7bcbffcbb3103a4ad5e014f022f61fa5a7e93",
+                "reference": "b2e7bcbffcbb3103a4ad5e014f022f61fa5a7e93",
                 "shasum": ""
             },
             "require": {
@@ -2738,7 +2744,7 @@
             ],
             "description": "PHP helper funcitons.",
             "homepage": "http://microweber.com",
-            "time": "2020-04-01T11:44:04+00:00"
+            "time": "2020-04-03T14:39:03+00:00"
         },
         {
             "name": "microweber-packages/microweber-option-manager",
