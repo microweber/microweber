@@ -751,6 +751,7 @@ class CheckoutManager
         if (!is_file($gw_process)) {
             $gw_process = normalize_path(modules_path() . $data['payment_gw'] . DS . 'notify.php', false);
         }
+        file_put_contents(storage_path().'/ppdebug0.txt', print_r($_REQUEST,1) . PHP_EOL . PHP_EOL);
 
         $update_order = array();
         if (is_file($gw_process)) {
@@ -760,18 +761,31 @@ class CheckoutManager
         } else {
             return array('error' => 'The payment gateway is not found!');
         }
+        $update_order_event_data = [];
 
-        if (!empty($update_order) and isset($update_order['order_completed']) and trim($update_order['order_completed']) == 1) {
-            $update_order['id'] = $ord;
-            $update_order['payment_gw'] = $data['payment_gw'];
-            $ord = $this->app->database_manager->save($table_orders, $update_order);
-            $this->confirm_email_send($ord);
-            if (isset($update_order['is_paid']) and $update_order['is_paid'] == 1) {
+
+
+
+
+        if(is_array($update_order)){
+            $update_order_event_data = array_merge($ord_data,$update_order);
+        }
+
+        if (!empty($update_order_event_data) and isset($update_order_event_data['order_completed']) and $update_order_event_data['order_completed'] == 1) {
+            $update_order_event_data['id'] = $ord;
+            $update_order_event_data['payment_gw'] = $data['payment_gw'];
+            $ord = $this->app->database_manager->save($table_orders, $update_order_event_data);
+
+
+
+            if (isset($update_order_event_data['is_paid']) and $update_order_event_data['is_paid']) {
+                $this->app->event_manager->trigger('mw.cart.checkout.order_paid', $update_order_event_data);
+            }
+
+            if (isset($update_order_event_data['is_paid']) and $update_order_event_data['is_paid'] == 1) {
                 $this->app->shop_manager->update_quantities($ord);
 
-                if (isset($update_order['is_paid']) and $update_order['is_paid']) {
-                    $this->app->event_manager->trigger('mw.cart.checkout.order_paid', $update_order);
-                }
+
 
 
             }
@@ -780,6 +794,9 @@ class CheckoutManager
                 $this->app->cache_manager->delete('cart_orders/global');
                 //return true;
             }
+
+            $this->confirm_email_send($ord);
+
         }
 
         if (isset($data['return_to'])) {
