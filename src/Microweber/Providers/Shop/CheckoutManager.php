@@ -387,10 +387,6 @@ class CheckoutManager
                         $checkout_errors['payment_gw'] = 'Payment gateway\'s process file not found.';
                     }
 
-                    if (isset($place_order['is_paid']) and $place_order['is_paid']) {
-                        $this->app->event_manager->trigger('mw.cart.checkout.order_paid', $place_order);
-                    }
-
 
                 } else {
                     $place_order['order_completed'] = 1;
@@ -411,6 +407,13 @@ class CheckoutManager
 
                 $ord = $this->app->shop_manager->place_order($place_order);
                 $place_order['id'] = $ord;
+
+
+                if (isset($place_order['is_paid']) and $place_order['is_paid']) {
+                    $this->app->event_manager->trigger('mw.cart.checkout.order_paid', $place_order);
+                }
+
+
             }
 
             if (isset($place_order) and !empty($place_order)) {
@@ -752,15 +755,6 @@ class CheckoutManager
         $update_order = array();
         if (is_file($gw_process)) {
             include $gw_process;
-            if (!isset($ord_data['is_paid']) or (isset($ord_data['is_paid']) and $ord_data['is_paid'] == 0)) {
-                if (isset($update_order['is_paid']) and $update_order['is_paid']) {
-                    $ord_data2 = array_merge($ord_data,$update_order);
-                    $this->app->event_manager->trigger('mw.cart.checkout.order_paid', $ord_data2);
-                }
-            }
-
-
-
 
 
         } else {
@@ -774,6 +768,12 @@ class CheckoutManager
             $this->confirm_email_send($ord);
             if (isset($update_order['is_paid']) and $update_order['is_paid'] == 1) {
                 $this->app->shop_manager->update_quantities($ord);
+
+                if (isset($update_order['is_paid']) and $update_order['is_paid']) {
+                    $this->app->event_manager->trigger('mw.cart.checkout.order_paid', $update_order);
+                }
+
+
             }
             if ($ord > 0) {
                 $this->app->cache_manager->delete('cart/global');
