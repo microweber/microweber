@@ -2156,7 +2156,7 @@ class ContentManager
             $link = $this->get_by_url($id);
         }
 
-        if (is_string($link['url']) && !stristr($link['url'], $site_url)) {
+        if (is_string($link['url']) && is_string($site_url) && !stristr($link['url'], $site_url)) {
             $link = site_url($link['url']);
         } else {
             $link = ($link['url']);
