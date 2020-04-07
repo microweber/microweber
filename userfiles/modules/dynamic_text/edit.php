@@ -11,18 +11,25 @@
             });
         });
     });
+
+    function edit_dynamic_text(id) {
+        $('.js-dynamic-text-id').val(id);
+
+
+    }
 </script>
 
 <form id="add-dynamic-text-form">
     <h3>Add new dynamic text</h3>
     <br />
     <label class="mw-ui-label">Variable: (example: <b>my_cool_variable</b>)</label>
-    <input type="text" name="variable" class="mw-ui-field" required="required" style="width: 310px">
+    <input type="text" name="variable" class="mw-ui-field js-dynamic-text-variable" required="required" style="width: 310px">
     <br />
     <br />
     <label class="mw-ui-label">Content</label>
-    <textarea  name="content" class="mw-ui-field" required="required" style="width: 310px"></textarea>
+    <textarea  name="content" class="mw-ui-field js-dynamic-text-content" required="required" style="width: 310px"></textarea>
     <br />
     <br />
+    <inpu type="hidden" value="0" name="id" class="js-dynamic-text-id" />
     <input type="submit" name="submit" value="Add dynamic text" class="mw-ui-btn" style="width: 310px"/>
 </form>

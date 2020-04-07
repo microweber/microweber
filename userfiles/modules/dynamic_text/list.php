@@ -34,6 +34,7 @@ $dynamic_texts = get_dynamic_text();
                 <td><?php echo $dynamic_text['variable'];?></td>
                 <td><?php echo $dynamic_text['content'];?></td>
                 <td>
+                    <a href="javascript:;" onclick="edit_dynamic_text(<?php echo $dynamic_text['id'];?>);" class="mw-ui-btn mw-ui-btn-medium">Edit</a>
                     <a href="javascript:;" onclick="delete_dynamic_text(<?php echo $dynamic_text['id'];?>);" class="mw-ui-btn mw-ui-btn-medium">Delete</a>
                 </td>
             </tr>
