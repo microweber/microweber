@@ -1,7 +1,7 @@
 <?php only_admin_access(); ?>
 <script>
     $(document).ready(function () {
-        $("#add-dynamic-text-form").submit(function (event) {
+        $("#save-dynamic-text-form").submit(function (event) {
             event.preventDefault();
             var data = $(this).serialize();
             var url = "<?php print api_url('save_dynamic_text'); ?>";
@@ -13,13 +13,19 @@
     });
 
     function edit_dynamic_text(id) {
+
         $('.js-dynamic-text-id').val(id);
 
+        $.get("<?php print api_url('get_dynamic_text'); ?>", {single: 1, id: id })
+        .done(function(data) {
+            $('.js-dynamic-text-variable').val(data.variable);
+            $('.js-dynamic-text-content').html(data.content);
+        });
 
     }
 </script>
 
-<form id="add-dynamic-text-form">
+<form id="save-dynamic-text-form">
     <h3>Add new dynamic text</h3>
     <br />
     <label class="mw-ui-label">Variable: (example: <b>my_cool_variable</b>)</label>
@@ -30,6 +36,6 @@
     <textarea  name="content" class="mw-ui-field js-dynamic-text-content" required="required" style="width: 310px"></textarea>
     <br />
     <br />
-    <inpu type="hidden" value="0" name="id" class="js-dynamic-text-id" />
-    <input type="submit" name="submit" value="Add dynamic text" class="mw-ui-btn" style="width: 310px"/>
+    <input type="hidden" value="0" name="id" class="js-dynamic-text-id" />
+    <input type="submit" name="submit" value="Save dynamic text" class="mw-ui-btn" style="width: 310px"/>
 </form>
