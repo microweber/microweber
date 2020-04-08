@@ -23,6 +23,11 @@ if ($params['period']) {
         var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
         return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
     };
+    Date.prototype.getWeekOfMonth = function() {
+        var firstWeekday = new Date(this.getFullYear(), this.getMonth(), 1).getDay();
+        var offsetDate = this.getDate() + firstWeekday - 1;
+        return Math.floor(offsetDate / 7);
+    }
 </script>
 
 
@@ -76,18 +81,61 @@ if ($params['period']) {
         series.push(item)
     });
 
-    var e = "#5A8DEE",
-        a = "#5A8DEE",
-        t = "#FDAC41",
-        r = "#00CFDD",
-        o = "#828D99";
+    var formatter = {
+        currentYear: null,
+        currentMonth: null,
+        yearly: function (val, timestamp) {
+            var date = new Date(timestamp);
+            var month = date.getMonth();
+            return date.getFullYear();
+        },
+        weekly: function (val, timestamp) {
+            var date = new Date(timestamp);
+            var month = date.getMonth();
+            var year = date.getFullYear();
+
+            var week = date.getWeekOfMonth();
+            var build = /*'Week ' + */week;
+            if (month !== this.currentMonth1) {
+                this.currentMonth = month;
+                build += ('/' + mw.msg.months.short[month]);
+            }
+           /* if (year !== this.currentYear1) {
+                this.currentYear = year;
+                build += ('/' + year);
+            }*/
+            return build;
+        },
+        monthly: function (val, timestamp) {
+            var date = new Date(timestamp);
+            var month = date.getMonth();
+            return mw.msg.months.regular[month];
+        },
+        daily: function (val, timestamp) {
+            var date = new Date(timestamp);
+            var month = date.getMonth();
+            var day = date.getDate();
+            day = (day < 10) ? "0" + day : day;
+            var build = day + ' ' + mw.msg.months.short[month];
+            var year = date.getFullYear();
+            /*if (year !== this.currentYear1) {
+                this.currentYear = year;
+                build += ('/' + year);
+            }*/
+            return build;
+        }
+    };
 
     var options = {
         series: series,
+
         yaxis: {
             show: false,
         },
         xaxis: {
+            // tickAmount: series[0].data.length + series[1].data.length,
+            tickAmount: 12,
+            tickPlacement: 'between',
             type: 'datetime',
             tooltip: {
                 enabled: false
@@ -95,20 +143,7 @@ if ($params['period']) {
             labels: {
                 formatter: function(val, timestamp) {
                     var type = $('.active[data-stat]').attr('data-stat');
-                    var date = new Date(timestamp);
-                    var month = date.getMonth();
-                    if (type === 'daily') {
-                        var day = (date.getDate() < 10) ? "0" + date.getDate() : date.getDate();
-                        return day + ' ' + mw.msg.months.short[month];
-                    } else if (type === 'weekly') {
-                        var week = date.getWeekNumber();
-                        return week;
-                    } else if (type === 'monthly') {
-                        return mw.msg.months.short[month];
-                    } else if (type === 'yearly') {
-                        return date.getFullYear();
-                    }
-                    return val;
+                    return formatter[type](val, timestamp)
                 }
             }
 
@@ -116,9 +151,11 @@ if ($params['period']) {
         chart: {
             type: 'line',
             height: 200,
-
+            zoom: {
+                enabled: false
+            }
         },
-        colors: [e, a, t],
+        colors: [ "#5A8DEE", "#5A8DEE", "#FDAC41" ],
         toolbar: {
             show: false
         },
@@ -178,7 +215,17 @@ if ($params['period']) {
         },
         tooltip: {
             x: {
-                show: false
+                show: true
+            },
+            y: {
+                formatter: undefined,
+                title: {
+                    formatter: function(seriesName) { return seriesName },
+                },
+            },
+            z: {
+                formatter: undefined,
+                title: 'Size22: '
             },
         },
         axisBorder: {
@@ -188,16 +235,16 @@ if ($params['period']) {
         labels: {
             show: !0,
             style: {
-                colors: o
+                colors: "#828D99"
             }
-        }
+        },
+
 
     };
 
     $(document).ready(function () {
         $.getScript('https://cdn.jsdelivr.net/npm/apexcharts', function () {
             var el = document.querySelector('.dashboard_stats');
-            // var el = document.querySelector("#mw-dashboard-user-activity");
             var chart = new ApexCharts(el, options);
             chart.render();
         })

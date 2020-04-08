@@ -260,7 +260,7 @@ if ($id != 0) {
                 options: {
                     target: false,
                     text: false,
-                    controllers: 'page, custom, content, section, layout'
+                    controllers: 'page, custom, content, section, layout, file'
                 }
             });
             $(picker).on('Result', function(e, ldata){

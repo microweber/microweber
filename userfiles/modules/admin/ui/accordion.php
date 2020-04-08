@@ -344,12 +344,36 @@
     <script>
         mw.require('editor.js');
         $(document).ready(function () {
+
             var editor = new mw.Editor({
                 selector: '#editortest',
                 mode: 'iframe',
                 controls: [
-                    ['bold', 'italic', '|', 'fontSelector', 'fontSize'],
-                    ['bold', 'italic', '|'  ]
+                    [
+                        'undoRedo', '|', 'fontSelector', 'fontSize',
+                        {
+                            group: {
+                                icon: 'mdi mdi-edit',
+                                when: 500,
+                                controls: ['bold', 'italic']
+                            }
+                        }
+                    ],
+                    [ 'bold', '|', 'italic' ]
+                ],
+                content: `Nulla facilisi. Donec <b>congue mauris mi, nec elementum diam elementum</b> sed.
+                In faucibus odio eget nisi pulvinar porttitor. Nam elementum magna in velit malesuada tin
+                cidunt nec id nisl. Duis <i>vel arcu non nisl euismod malesuada. Fusce efficitur <b>sollicitudin lectus</b>
+                , imperdiet cursus lorem bib</i>endum eget. Proin rutrum porttitor risus, eget suscipit ipsum finibus in.
+                 Nunc posuere ultricies eros, eget aliquet mauris.`
+            });
+
+            var editor2 = new mw.Editor({
+                selector: '#editortest2',
+                mode: 'div',
+                controls: [
+                    ['undoRedo', '|', 'fontSelector'],
+                    ['bold', '|', 'italic', '|', 'fontSize'   ]
                 ],
                 content: `Nulla facilisi. Donec <b>congue mauris mi, nec elementum diam elementum</b> sed.
                 In faucibus odio eget nisi pulvinar porttitor. Nam elementum magna in velit malesuada tin
@@ -357,11 +381,15 @@
                 , imperdiet cursus lorem bib</i>endum eget. Proin rutrum porttitor risus, eget suscipit ipsum finibus in.
                  Nunc posuere ultricies eros, eget aliquet mauris.`
             })
+            console.log(editor2)
         });
     </script>
     <h2>Editor</h2>
     <br>
-
+<b>Iframe</b>
 <div id="editortest"></div>
-
+    <br>
+    <br>
+    <b>Div</b>
+    <div id="editortest2"></div>
 </div>

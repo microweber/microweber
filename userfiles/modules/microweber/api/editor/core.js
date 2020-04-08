@@ -31,6 +31,9 @@ mw.Editor.core = {
             placeholder: options.placeholder
         });
         this.root.$select = this.select;
+        this.root.$node.on('mousedown touchstart', function (e) {
+            e.preventDefault();
+        });
     },
     deprecated$dropdown: function (options) {
         /*

@@ -79,21 +79,7 @@ if (typeof Range.prototype.querySelectorAll === 'undefined') {
     };
 }
 mw.wysiwyg = {
-    html2text:function(html){
-        return $(mw.tools.parseHtml(html).body).text();
-    },
-    isTargetEditable: function(target){
-        var curr = target;
-        while(curr && curr !== document.body){
-            if(curr.contentEditable === 'true'){
-                return true;
-            } else if(curr.contentEditable === 'inherit'){
-                curr = curr.parentNode;
-            } else {
-                return false;
-            }
-        }
-    },
+
     isSafeMode: function (el) {
         if (!el) {
             var sel = window.getSelection();

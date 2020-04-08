@@ -698,7 +698,7 @@ if ($action == 'posts') {
                                     var treeTail = [
                                         {
                                             title: '<?php _lang("Trash") ?>',
-                                            icon:'mai-bin',
+                                            icon:'mdi mdi-delete',
                                             action:function(){
                                                 mw.url.windowHashParam('action', 'trash');
                                             }
@@ -718,16 +718,16 @@ if ($action == 'posts') {
                                         contextMenu:[
                                             {
                                                 title:'Edit',
-                                                icon:'mw-icon-edit',
+                                                icon:'mdi mdi-pencil',
                                                 action:function(element, data, menuitem){
                                                     mw.url.windowHashParam("action", "edit"+data.type+":"+data.id);
                                                 }
                                             },
                                             {
                                                 title:'Move to trash',
-                                                icon:'mw-icon-app-trash',
+                                                icon:'mdi mdi-close',
                                                 action:function(element, data, menuitem){
-                                                    if(data.type  == 'category' ){
+                                                    if(data.type  === 'category' ){
                                                         mw.content.deleteCategory(data.id, function(){
 
                                                             $('#' + pagesTree.options.id + '-' + data.type + '-' + data.id).fadeOut(function(){
@@ -788,7 +788,7 @@ if ($action == 'posts') {
                                             $('li.selected', pagesTree.list).each(function(){
                                                 pagesTree.unselect(this)
                                             });
-                                            var li = this.parentNode.parentNode,
+                                            var li = mw.tools.firstParentWithTag(this, 'li'),
                                                 data = li._data,
                                                 action;
                                             //pagesTree.select(li);
