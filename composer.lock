@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2aae34a7f88227e76d1abf277ec0a1ad",
+    "content-hash": "83cebe7075ff8a3f793320d5daab464a",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -2857,6 +2857,77 @@
             "description": "Package manager allows you to install git repositories.",
             "homepage": "http://microweber.com",
             "time": "2020-03-23T13:32:56+00:00"
+        },
+        {
+            "name": "microweber-packages/microweber-shop",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microweber-packages/microweber-shop.git",
+                "reference": "c957a2c34735e70346c32139ae3a9eeda0aa3f1c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-shop/zipball/c957a2c34735e70346c32139ae3a9eeda0aa3f1c",
+                "reference": "c957a2c34735e70346c32139ae3a9eeda0aa3f1c",
+                "shasum": ""
+            },
+            "require": {
+                "microweber-packages/microweber-core": "dev-master",
+                "twig/twig": "3.x-dev"
+            },
+            "require-dev": {
+                "mockery/mockery": "*",
+                "orchestra/testbench": "*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MicroweberPackages\\CartManager\\CartManagerServiceProvider",
+                        "MicroweberPackages\\CheckoutManager\\CheckoutManagerServiceProvider",
+                        "MicroweberPackages\\ClientsManager\\ClientsManagerServiceProvider",
+                        "MicroweberPackages\\InvoicesManager\\InvoicesManagerServiceProvider",
+                        "MicroweberPackages\\OrderManager\\OrderManagerServiceProvider",
+                        "MicroweberPackages\\ShopManager\\ShopManagerServiceProvider",
+                        "MicroweberPackages\\TaxManager\\TaxManagerServiceProvider"
+                    ],
+                    "aliases": {
+                        "CatManager": "MicroweberPackages\\CatManager\\CartManagerFacade",
+                        "CheckoutManager": "MicroweberPackages\\CheckoutManager\\CheckoutManagerFacade",
+                        "ClientsManager": "MicroweberPackages\\ClientsManager\\ClientsManagerFacade",
+                        "InvoicesManager": "MicroweberPackages\\InvoicesManager\\InvoicesManagerFacade",
+                        "OrderManager": "MicroweberPackages\\OrderManager\\OrderManagerFacade",
+                        "ShopManager": "MicroweberPackages\\ShopManager\\ShopManagerFacade",
+                        "TaxManager": "MicroweberPackages\\TaxManager\\TaxManagerFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\": "src/"
+                },
+                "files": [
+                    "src/ShopManager/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
+            "description": "Microweber Shop.",
+            "homepage": "http://microweber.com",
+            "time": "2020-04-03T16:38:21+00:00"
         },
         {
             "name": "microweber-templates/dream",
@@ -6648,6 +6719,7 @@
         "laravel/socialite": 20,
         "microweber-packages/microweber-core": 20,
         "microweber-packages/microweber-cms": 20,
+        "microweber-packages/microweber-shop": 20,
         "composer/composer": 20,
         "composer/installers": 20,
         "knplabs/knp-menu": 20,

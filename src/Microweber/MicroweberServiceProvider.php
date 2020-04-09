@@ -146,6 +146,7 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(TagsManagerServiceProvider::class);
         $this->app->register(MediaManagerServiceProvider::class);
         $this->app->register(MenuManagerServiceProvider::class);
+        $this->app->register(::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
     }
