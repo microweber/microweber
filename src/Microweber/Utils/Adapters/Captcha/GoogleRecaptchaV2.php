@@ -6,17 +6,15 @@ class GoogleRecaptchaV2
 {
     public function validate($key, $captcha_id = null, $unset_if_found = true)
     {
-        if(isset($_POST['g-recaptcha-response'])){
-            $key = $_POST['g-recaptcha-response'];
-        }
+
 
         $secretKey = get_option('recaptcha_v2_secret_key', 'captcha');
         $ip = $_SERVER['REMOTE_ADDR'];
         // post request to server
-        $url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . urlencode($secretKey) .  '&response=' . urlencode($key);
+        $url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . urlencode($secretKey) . '&response=' . urlencode($key);
         $response = mw()->http->url($url)->get();
 
-        $responseKeys = json_decode($response,true);
+        $responseKeys = json_decode($response, true);
 
         // should return JSON with success as true
         if ($responseKeys["success"]) {

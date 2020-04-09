@@ -30,13 +30,13 @@ class CaptchaManager
 
     public function __construct($app = null)
     {
-        if (!is_object($this->app)) {
+
             if (is_object($app)) {
                 $this->app = $app;
             } else {
                 $this->app = mw();
             }
-        }
+
 
         $captcha_provider = get_option('provider', 'captcha');
         if ($captcha_provider == 'google_recaptcha_v2') {
