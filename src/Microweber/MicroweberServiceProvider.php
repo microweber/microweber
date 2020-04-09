@@ -10,18 +10,25 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Microweber\Utils\Adapters\Config\ConfigSave;
 use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
+use MicroweberPackages\CartManager\CartManagerServiceProvider;
 use MicroweberPackages\CategoryManager\CategoryManagerServiceProvider;
+use MicroweberPackages\CheckoutManager\CheckoutManagerServiceProvider;
+use MicroweberPackages\ClientsManager\ClientsManagerServiceProvider;
 use MicroweberPackages\ContentManager\Content;
 use MicroweberPackages\ContentManager\ContentManagerServiceProvider;
 use MicroweberPackages\DatabaseManager\DatabaseManagerServiceProvider;
 use MicroweberPackages\EventManager\EventManagerServiceProvider;
 use MicroweberPackages\Helpers\Format;
 use MicroweberPackages\Helpers\HelpersServiceProvider;
+use MicroweberPackages\InvoicesManager\InvoicesManagerServiceProvider;
 use MicroweberPackages\MediaManager\Media;
 use MicroweberPackages\MediaManager\MediaManagerServiceProvider;
 use MicroweberPackages\MenuManager\MenuManagerServiceProvider;
 use MicroweberPackages\OptionManager\OptionManagerServiceProvider;
+use MicroweberPackages\OrderManager\OrderManagerServiceProvider;
+use MicroweberPackages\ShopManager\ShopManagerServiceProvider;
 use MicroweberPackages\TagsManager\TagsManagerServiceProvider;
+use MicroweberPackages\TaxManager\TaxManagerServiceProvider;
 use PhpOffice\PhpSpreadsheet\Calculation\Category;
 
 if (! defined('MW_VERSION')) {
@@ -146,7 +153,13 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(TagsManagerServiceProvider::class);
         $this->app->register(MediaManagerServiceProvider::class);
         $this->app->register(MenuManagerServiceProvider::class);
-       // $this->app->register(::class);
+        $this->app->register(ShopManagerServiceProvider::class);
+        $this->app->register(TaxManagerServiceProvider::class);
+        $this->app->register(OrderManagerServiceProvider::class);
+        $this->app->register(InvoicesManagerServiceProvider::class);
+        $this->app->register(ClientsManagerServiceProvider::class);
+        $this->app->register(CheckoutManagerServiceProvider::class);
+        $this->app->register(CartManagerServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
     }
