@@ -5,6 +5,7 @@ $selected_category = get_option('fromcategory', $params['id']);
 $selected_page = get_option('frompage', $params['id']);
 $show_category_header = get_option('show_category_header', $params['id']);
 $show_only_for_parent = get_option('single-only', $params['id']);
+$show_subcats = get_option('show-subcats', $params['id']);
 
 
 $my_tree_id = ''
@@ -179,7 +180,16 @@ $my_tree_id = ''
                     </div>
                 </div>
 
-
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label class="mw-ui-check">
+                            <input type="checkbox" class="mw_option_field" name="show-subcats"
+                                   value="1" <?php if ($show_subcats == '1') {
+                                echo 'checked';
+                            } ?> /> <span></span><span><?php _lang("Show sub categories"); ?></span>
+                        </label>
+                    </div>
+                </div>
             </div>
 
 
