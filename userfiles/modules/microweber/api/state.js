@@ -87,6 +87,10 @@ mw.State = function(options){
         return this;
     };
 
+    this.hasRecords = function(){
+        return !!this._state.length;
+    };
+
     this.eventData = function(){
         return {
             hasPrev: this.hasPrev,

@@ -664,7 +664,7 @@ api_expose('captcha');
  */
 function captcha($params = false)
 {
-    return mw()->captcha->render($params);
+    return mw()->captcha_manager->render($params);
 }
 
 ///**

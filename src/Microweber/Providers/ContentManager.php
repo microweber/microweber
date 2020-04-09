@@ -2252,7 +2252,7 @@ class ContentManager
                         }
                     } else {
                         // $cap = $this->app->user_manager->session_get('captcha');
-                        if (!mw()->captcha->validate($data['captcha'])) {
+                        if (!mw()->captcha_manager->validate($data['captcha'])) {
                             return array('error' => 'You must load a captcha first!');
                         }
                     }

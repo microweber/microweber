@@ -617,7 +617,7 @@ var domHelp = {
         return _has;
     },
     firstParentWithTag: function (el, tag) {
-        if (!el) return;
+        if (!el || !tag) return;
         tag = typeof tag !== 'string' ? tag : [tag];
         var curr = el.parentNode;
         while (curr && curr !== mwd.body) {

@@ -1,87 +1,214 @@
 mw.DomTree = function (options) {
-    var defaults = {
-        selector: '.edit',
-        document: document,
-        targetDocument: document,
-        componentMatch: [
-            {label: 'Edit', test: function (node) { return mw.tools.hasClass(node, 'edit');}},
-            {label: 'Module', test: function (node) { return mw.tools.hasClass(node, 'module');}},
-            {label: 'Image', test: function (node) { return node.nodeName === 'IMG'; }},
-            {
-                label:  function (node) {
-                    var id = node.id ? '#' + node.id : '';
-                    return node.nodeName.toLowerCase() ;
-                },
-                test: function (node) { return true; }
-            }
-        ],
-        componentTypes: [
-            {
-                label: 'SafeMode',
-                test: function (node) {
-                    return mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node, [ 'safe-mode', 'regular-mode']);
-                }
-            }
-        ]
-    };
-    options = options || {};
-
     var scope = this;
+    this.prepare = function () {
+        var defaults = {
+            selector: '.edit',
+            document: document,
+            targetDocument: document,
+            componentMatch: [
+                {
+                    label:  function (node) {
+                        return 'Edit(' + node.getAttribute('field') + ')';
+                    },
+                    test: function (node) {
+                        return mw.tools.hasClass(node, 'edit');
+                    }
+                },
+                {label: 'Module', test: function (node) { return mw.tools.hasClass(node, 'module');}},
+                {label: 'Image', test: function (node) { return node.nodeName === 'IMG'; }},
+                {
+                    label:  function (node) {
+                        var id = node.id ? '#' + node.id : '';
+                        return node.nodeName.toLowerCase() ;
+                    },
+                    test: function (node) { return true; }
+                }
+            ],
+            componentTypes: [
+                {
+                    label: 'SafeMode',
+                    test: function (node) {
+                        return mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node, [ 'safe-mode', 'regular-mode' ]);
+                    }
+                }
+            ]
+        };
+        options = options || {};
 
-    this.settings = $.extend({}, defaults, options);
+        this.settings = $.extend({}, defaults, options);
 
-    this.$holder = $(this.settings.element);
+        this.$holder = $(this.settings.element);
 
-    this.document = this.settings.document;
-    this.targetDocument = this.settings.targetDocument;
+        this.document = this.settings.document;
+        this.targetDocument = this.settings.targetDocument;
 
-    this._selectedDomNode = null;
+        this._selectedDomNode = null;
+    };
+    this.prepare();
 
-    this._scrollTo = function (el) {
-        setTimeout(function () {
-
-            scope.$holder.stop().animate({
-                scrollTop: (scope.$holder.scrollTop() + ($(el).offset().top - scope.$holder.offset().top)) - (scope.$holder.height()/2 - 10)
-            });
-        }, 55);
+    this.createList = function () {
+        return this.document.createElement('ul');
     };
 
+    this.createRoot = function () {
+        this.root = this.createList();
+        this.root.className = 'mw-defaults mw-domtree';
+    };
+
+
+    this._get = function (nodeOrTreeNode) {
+        return nodeOrTreeNode._value ? nodeOrTreeNode : this.findElementInTree(nodeOrTreeNode);
+    };
 
     this.select = function (node) {
-        var el = this.items.find(function (li) {
-            return li._value === node;
-        });
+        var el = this.getByNode(node);
         if (el) {
             this.selected(el);
             this.openParents(el);
             this._scrollTo(el);
         }
     };
+
+    this.toggle = function (nodeOrTreeNode) {
+        var li = this._get(nodeOrTreeNode);
+        this[ li._opened ? 'close' : 'open'](li);
+    };
+
+    this._opened = [];
+
+    this.open = function (nodeOrTreeNode) {
+        var li = this._get(nodeOrTreeNode);
+        li._opened = true;
+        li.classList.add('expand');
+        if(this._opened.indexOf(li._value) === -1) {
+            this._opened.push(li._value);
+        }
+    };
+    this.close = function (nodeOrTreeNode) {
+        var li = this._get(nodeOrTreeNode);
+        li._opened = false;
+        li.classList.remove('expand');
+        var ind = this._opened.indexOf(li._value);
+        if( ind !== -1 ) {
+            this._opened.splice(ind, ind)
+        }
+    };
+
+    this._scrollTo = function (el) {
+        setTimeout(function () {
+            scope.$holder.stop().animate({
+                scrollTop: (scope.$holder.scrollTop() + ($(el).offset().top - scope.$holder.offset().top)) - (scope.$holder.height()/2 - 10)
+            });
+        }, 55);
+    };
+
+    this.openParents = function (node) {
+        node = this._get(node);
+        while(node && node !== this.root) {
+            if(node.nodeName === 'LI'){
+                this.open(node);
+            }
+            node = node.parentNode;
+        }
+    };
     this.selected = function (node) {
-        if(typeof node === 'undefined') {
+        if (typeof node === 'undefined') {
             return this._selectedDomNode;
         }
-        $(this.items).removeClass('selected');
+        mw.$('.selected', this.root).removeClass('selected');
         node.classList.add('selected');
         this._selectedDomNode = node;
     };
 
-    this._active = null;
-    this.active = function (node) {
-        if(typeof node === 'undefined'){
-            return this._active;
+    this.getByNode = function (el) {
+        var all = this.root.querySelectorAll('li');
+        var l = all.length, i = 0;
+        for ( ; i < l; i++) {
+            if (all[i]._value === el) {
+                return all[i];
+            }
         }
-        this._active = node;
     };
 
-    this.openParents = function (node) {
-      node = this._get(node);
-      while(node && node !== this.root) {
-          if(node.nodeName === 'LI'){
-              this.open(node);
-          }
-          node = node.parentNode;
-      }
+    this.getByTreeNode = function (treeNode) {
+        return treeNode._value;
+    };
+
+    this.allDomNodes = function () {
+        return Array.from(this.map().keys());
+    };
+
+    this.allTreeNodes = function () {
+        return Array.from(this.map().values());
+    };
+
+    this.emptyTreeNode = function (node) {
+        var li = this.getByNode(node);
+        $(li).empty();
+        return li;
+    };
+
+    this.refresh = function (node) {
+        var item = this.emptyTreeNode(node);
+        this.createChildren(node, item);
+    };
+
+    this._currentTarget = null;
+    this.createItemEvents = function () {
+        $(this.root)
+            .on('mousemove', function (e) {
+                var target = e.target;
+                if(target.nodeName !== 'LI') {
+                    target = target.parentNode;
+                }
+                if(scope._currentTarget !== target) {
+                    scope._currentTarget = target;
+                    mw.$('li.hover', scope.root).removeClass('hover');
+                    target.classList.add('hover');
+                    if(scope.settings.onHover) {
+                        scope.settings.onHover.call(scope, e, target, target._value);
+                    }
+                }
+            })
+            .on('mouseleave', function (e) {
+                mw.$('li', scope.root).removeClass('hover');
+            })
+            .on('click', function (e) {
+                var target = e.target;
+
+                if(target.nodeName !== 'LI') {
+                    target = mw.tools.firstParentWithTag(target, 'li')
+                    scope.toggle(target);
+                }
+                scope.selected(target);
+                if(target.nodeName === 'LI' && scope.settings.onSelect) {
+                    scope.settings.onSelect.call(scope, e, target, target._value);
+                }
+            });
+    };
+
+    this.map = function (node, treeNode) {
+        if (!this._map) {
+            this._map = new Map();
+        }
+        if(!node) {
+            return this._map;
+        }
+        if (!treeNode) {
+            return this._map.get(node);
+        }
+        if (!this._map.has(node)) {
+            this._map.set(node, treeNode);
+        }
+    };
+
+    this.createItem = function (item) {
+        var li = this.document.createElement('li');
+        li._value = item;
+        li.className = 'mw-domtree-item' + (this._selectedDomNode === item ? ' active' : '');
+        var dio = item.children.length ? '<i class="mw-domtree-item-opener"></i>' : '';
+        li.innerHTML = dio + '<span class="mw-domtree-item-label">' + this.getComponentLabel(item) + '</span>';
+        return li;
     };
 
     this.getComponentLabel = function (node) {
@@ -113,121 +240,23 @@ mw.DomTree = function (options) {
         return this.isComponent(node);
     };
 
-
-    this._currentTarget = null;
-    this.createItemEvents = function () {
-
-        $(this.root)
-        .on('mousemove', function (e) {
-            var target = e.target;
-            if(target.nodeName !== 'LI') {
-                target = target.parentNode;
+    this.create = function () {
+        var all = this.targetDocument.querySelectorAll(this.settings.selector);
+        var i = 0;
+        for (  ; i < all.length; i++ ) {
+            var item = this.createItem(all[i]);
+            if(item) {
+                this.root.appendChild(item);
+                this.createChildren(all[i], item);
             }
-            if(scope._currentTarget !== target) {
-                scope._currentTarget = target;
-                for (var i = 0; i<scope.items.length; i++ ){
-                    scope.items[i].classList.remove('hover');
-                }
-                target.classList.add('hover');
-
-                if(scope.settings.onHover) {
-                    scope.settings.onHover.call(scope, e, target, target._value);
-                }
-            }
-        })
-        .on('mouseleave', function (e) {
-            for (var i = 0; i<scope.items.length; i++ ){
-                scope.items[i].classList.remove('hover');
-            }
-        })
-        .on('click', function (e) {
-            var target = e.target;
-
-            if(target.nodeName !== 'LI') {
-                target = mw.tools.firstParentWithTag(target, 'li')
-                scope.toggle(target);
-            }
-            scope.selected(target);
-            if(target.nodeName === 'LI' && scope.settings.onSelect) {
-                scope.settings.onSelect.call(scope, e, target, target._value);
+        }
+        this.createItemEvents();
+        $(this.settings.element).empty().append(this.root).resizable({
+            handles: "s",
+            start: function( event, ui ) {
+                ui.element.css('maxHeight', 'none')
             }
         });
-
-    };
-
-    this._opened = [];
-
-    this._get = function (nodeOrTreeNode) {
-        return nodeOrTreeNode._value ? nodeOrTreeNode : this.findElementInTree(nodeOrTreeNode);
-    };
-
-    this.open = function (nodeOrTreeNode) {
-        var li = this._get(nodeOrTreeNode);
-        li._opened = true;
-        li.classList.add('expand');
-        if(this._opened.indexOf(li._value) === -1) {
-            this._opened.push(li._value);
-        }
-    };
-    this.close = function (nodeOrTreeNode) {
-        var li = this._get(nodeOrTreeNode);
-        li._opened = false;
-        li.classList.remove('expand');
-        var ind = this._opened.indexOf(li._value);
-        if( ind !== -1 ) {
-            this._opened.splice(ind, ind)
-        }
-    };
-
-    this.toggle = function (nodeOrTreeNode) {
-        var li = this._get(nodeOrTreeNode);
-        this[ li._opened ? 'close' : 'open'](li);
-    };
-
-    this.items = [];
-
-    this.register = [];
-    this.createItem = function (item) {
-        if(this.register.indexOf(item) === -1 && this.validateNode(item)){
-            this.register.push(item);
-            var li = this.document.createElement('li');
-            li._value = item;
-            li.className = 'mw-domtree-item';
-            var dio = item.children.length ? '<i class="mw-domtree-item-opener"></i>' : '';
-            li.innerHTML = dio + '<span class="mw-domtree-item-label">' + this.getComponentLabel(item) + '</span>';
-            this.items.push(li);
-            return li;
-        }
-    };
-
-    this.refactorItemDecoration = function (li) {
-        $('.mw-domtree-item-opener', li).remove();
-        $('li', li).each(function () {
-            if(this._value.children.length) {
-                $(this).prepend('<i class="mw-domtree-item-opener"></i>');
-            }
-        });
-    };
-
-    this.createList = function () {
-        return this.document.createElement('ul');
-    };
-
-    this.createRoot = function () {
-      this.root = this.createList();
-      this.root.className = 'mw-defaults mw-domtree';
-    };
-
-
-    this.firstChild = function (node) {
-        var curr = node.children[0], i = 0;
-        while(curr) {
-            i++;
-            if(this.validateNode(curr)){
-                return curr;
-            }
-            curr = node.children[i];
-        }
     };
 
     this.createChildren = function (node, parent) {
@@ -247,98 +276,11 @@ mw.DomTree = function (options) {
         parent.appendChild(list);
     };
 
-    this.addNode = function (node) {
-        var item = this.createItem(node);
-        var target, action;
-        if(node.previousElementSibling){
-            target = this.items.find(function (li) {
-                return li._value === node.previousElementSibling;
-            });
-            action = 'after';
-        }  else if(node.nextElementSibling){
-            target = this.items.find(function (li) {
-                return li._value === node.nextElementSibling;
-            });
-            action = 'before';
-        } else if(node.parentNode){
-            target = this.items.find(function (li) {
-                return li._value === node.parentNode;
-            });
-            action = 'append';
-        }
-        $(target)[action](item);
-        this.createChildren(node, item);
-    };
-
-    this._empty = function (parent) {
-
-        var intree  = this.findElementInTree(parent);
-        var all = parent.querySelectorAll('*');
-        var i = 0;
-        for (  ; i < all.length; i++ ) {
-            var li = this.findElementInTree(all[i]);
-            this.items.splice(this.items.indexOf(li), 1);
-            this.register.splice(this.register.indexOf(all[i]), 1);
-        }
-        mw.$(intree).empty();
-    };
-
-    this.sync = function (parent, focusTo) {
-
-        parent = parent.nodeType === 1 ? parent : parent.parentNode;
-        if(focusTo) {
-            focusTo = focusTo.nodeType === 1 ? focusTo : focusTo.parentNode;
-        }
-        this._empty(parent);
-        var treeItem = this.findElementInTree(parent);
-        if(!treeItem) {
-            console.warn('Parent element is not present in tree instance: ', parent)
-            return;
-        }
-        this.createChildren(parent, treeItem);
-        setTimeout(function () {
-            scope.refactorItemDecoration(treeItem);
-            if(focusTo && scope.selected() !== focusTo) {
-                scope.select(focusTo);
-            }
-        });
-    };
-
-
-
-    this._autoSync = null;
-    this.autoSync = function (node, focus) {
-        clearTimeout(this._autoSync);
-        this._autoSync = setTimeout(function () {
-            scope.sync(node, focus);
-        }, 1000);
-    };
-
-    this.create = function () {
+    this.init = function () {
         this.createRoot();
-        var all = this.targetDocument.querySelectorAll(this.settings.selector);
-        var i = 0;
-        for (  ; i < all.length; i++ ) {
-            var item = this.createItem(all[i]);
-            if(item) {
-                this.root.appendChild(item);
-                this.createChildren(all[i], item);
-            }
-        }
-        this.createItemEvents();
-        $(this.settings.element).empty().append(this.root);
+        this.create();
     };
 
-    this.findElementInTree = function (node) {
-        if(this.register.indexOf(node) !== -1) {
-            return this.items.find(function (li) {
-                return li._value === node;
-            });
-        }
-    };
-
-    this.create();
+    this.init();
 
 };
-
-

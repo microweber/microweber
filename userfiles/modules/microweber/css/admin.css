@@ -5107,46 +5107,39 @@ html[dir="rtl"] #upload-icoimage {
 .stat-box-content {
     overflow: hidden;
     position: relative;
+    display: flex;
+}
+.stat-box-content .graph-holder{
+    flex: 1;
 }
 
-.stat-box-content .graph-holder {
-    /*position: relative;*/
-    height: 125px;
+
+.apexcharts-tooltip.apexcharts-theme-light .apexcharts-tooltip-title{
+    color: #4591FF !important;
+    font-weight: bold;
 }
 
-.stat-box-content .lines {
-    display: block;
-    position: absolute;
-    height: 125px;
-    width: -webkit-calc(100% - 230px);
-    width: calc(100% - 230px);
-    bottom: 40px;
-    left: 190px;
-    max-width: -webkit-calc(100% - 190px);
-    max-width: calc(100% - 190px);
-    z-index: 1;
+.dashboard_stats .apexcharts-marker[r="6.5"] {
+    stroke-width: 2px;
+    stroke: #fff;
 }
-
-.stat-box-content .lines .line {
-    display: block;
-    border-bottom: 2px solid #f7f7f7;
-    margin-bottom: 60px;
+.dashboard_stats .apexcharts-toolbar{
+    display: none !important;  /* In current version hiding the toolbar does not work */
+}
+.dashboard_stats .apexcharts-tooltip .apexcharts-tooltip-marker{
+    display: none;
+}
+.dashboard_stats .apexcharts-tooltip .apexcharts-tooltip-y-group {
+    padding: 7px 0 4px;
+}
+.dashboard_stats .apexcharts-tooltip {
+    background-color: #4591FF !important;
+    color:#fff;
+    border: none !important;
 }
 
 .dashboard_stats {
-    height: 0;
-    vertical-align: bottom;
-    margin-bottom: 20px;
-    white-space: nowrap;
-    position: absolute;
-    left: 190px;
-    text-align: right;
-    max-width: -webkit-calc(100% - 190px);
-    max-width: calc(100% - 190px);
-    bottom: 20px;
-    -webkit-transition: height .5s;
-    transition: height .5s;
-    direction: rtl;
+    flex: 1;
 }
 
 .dashboard_stats.no-transition {

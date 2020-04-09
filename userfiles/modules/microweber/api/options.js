@@ -57,7 +57,7 @@ mw.options = {
     save: function (el, callback) {
 
 
-        var el = mw.$(el);
+        el = mw.$(el);
         var og, og1, refresh_modules11;
         if (!el) {
             return;

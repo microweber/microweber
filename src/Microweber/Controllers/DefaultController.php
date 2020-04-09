@@ -134,6 +134,10 @@ class DefaultController extends Controller
         }
 
         $set_constants = true;
+        if(!mw_is_installed()){
+            $set_constants = false;
+        }
+
         $mod_class_api = false;
         $mod_class_api_called = false;
         $mod_class_api_class_exist = false;

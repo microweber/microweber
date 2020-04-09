@@ -192,7 +192,7 @@
             if (typeof val === 'number') {
                 return val + 'px';
             }
-            else if (typeof val === 'string' && parseFloat(val).toString() == val) {
+            else if (typeof val === 'string' && parseFloat(val).toString() === val) {
                 return val + 'px';
             }
             else {
@@ -283,12 +283,11 @@
             });
         },
         accordion: function (el, callback) {
-            mw.require('css_parser.js')
-
+            mw.require('css_parser.js');
             var speed = 200;
             var container = el.querySelector('.mw-accordion-content');
             if (container === null) return false;
-            var is_hidden = mw.CSSParser(container).get.display() == 'none';
+            var is_hidden = mw.CSSParser(container).get.display() === 'none';
             if (!$(container).is(":animated")) {
                 if (is_hidden) {
                     mw.$(container).slideDown(speed, function () {
@@ -344,23 +343,24 @@
         toCamelCase: function (str) {
             return str.replace(/(\-[a-z])/g, function (a) {
                 return a.toUpperCase().replace('-', '');
-            })
+            });
         },
         multihover: function () {
             var l = arguments.length, i = 1;
             var type = arguments[0].type;
             var check = ( type === 'mouseover' || type === 'mouseenter');
-            for (; i < l; i++) {
+            for ( ; i < l; i++ ) {
                 check ? mw.$(arguments[i]).addClass('hovered') : mw.$(arguments[i]).removeClass('hovered');
             }
         },
         search: function (string, selector, callback) {
             string = string.toLowerCase();
+            var items;
             if (typeof selector === 'object') {
-                var items = selector;
+                items = selector;
             }
             else if (typeof selector === 'string') {
-                var items = mwd.querySelectorAll(selector);
+                items = mwd.querySelectorAll(selector);
             }
             else {
                 return false;

@@ -71,20 +71,24 @@ mw.tools.iframeAutoHeight = function(frame, opt){
         if(!!frame.contentWindow.document.querySelector('.mw-iframe-auto-height-detector')){
             return;
         }
-
         insertDetector();
     });
+    var offset = function () {
+        return _detector.getBoundingClientRect().top;
+    };
     frame._intPause = false;
     frame._int = setInterval(function(){
-        if(!frame._intPause && frame.parentNode && frame.contentWindow  && frame.contentWindow.$){
-            var offTop = frame.contentWindow.$(_detector).offset().top;
-            var calc = offTop + _detector.offsetHeight;
-            //calc = Math.max(calc, mw.tools.nestedFramesHeight(frame));
+        if(!frame._intPause && frame.parentNode && frame.contentWindow ){
+            var calc = offset() + _detector.offsetHeight;
             frame._currHeight = frame._currHeight || 0;
             if(calc && calc !== frame._currHeight ){
-
                 frame._currHeight = calc;
-                frame.style.height = calc + 'px';
+                frame.style.height = Math.max(calc) + 'px';
+                var scroll = Math.max(frame.contentWindow.document.documentElement.scrollHeight, frame.contentWindow.document.body.scrollHeight);
+                if(scroll > frame._currHeight) {
+                    frame._currHeight = scroll;
+                    frame.style.height = scroll + 'px';
+                }
                 mw.$(frame).trigger('bodyResize');
             }
         }

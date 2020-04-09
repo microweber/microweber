@@ -578,11 +578,7 @@ mw.drag = {
                                 mw.liveEditState.record(rec);
                                 mw.$(mw.ea.data.target)[mw.ea.data.dropableAction](mw.ea.data.currentGrabbed);
 
-                                if(mw.liveEditDomTree){
-                                    mw.liveEditDomTree.sync(handleDomtreeSync.start.parentNode);
-                                    mw.liveEditDomTree.autoSync(mw.ea.data.target.parentNode, mw.ea.data.target);
-                                    handleDomtreeSync.start = null;
-                                }
+
 
 
                                 setTimeout(function(ed) {
@@ -610,6 +606,9 @@ mw.drag = {
                         setTimeout(function() {
                             mw.drag.fix_placeholders();
                             mw.ea.afterAction();
+                            if(mw.liveEditDomTree) {
+                                mw.liveEditDomTree.refresh(mw.ea.data.target.parentNode)
+                            }
                         }, 40);
                         mw.dropable.hide();
 

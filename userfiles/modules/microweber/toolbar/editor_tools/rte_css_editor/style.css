@@ -354,10 +354,27 @@ input,select{
 
 
 
+#domtree .ui-resizable-s:after{
+    content: '...';
+    color: #a4a4a4;
+    font-size: 17px;
+    line-height: 3px;
+}
+#domtree .ui-resizable-s{
+    position: absolute;
+    background-color: #eee;
+    text-align: center;
+    height: 12px;
+    bottom: 0;
+}
 #domtree{
     max-height: 220px;
     overflow-x: hidden;
     overflow-y: auto;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .mw-domtree li.hover > span{

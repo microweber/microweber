@@ -9,6 +9,10 @@
 api_expose_admin('tagging_tagged/get_by_taggable_id', 'tagging_tagged_get_by_taggable_id');
 function tagging_tagged_get_by_taggable_id($params) {
 
+    if (!isset($params['taggable_id'])) {
+        return;
+    }
+
     $post = get_content([
         'id'=>$params['taggable_id'],
         'single'=> '1',
@@ -47,9 +51,9 @@ function tagging_tagged_add($params) {
         $saveTaggingTag = tagging_tag_edit([
             'name'=>$params['tag_name']
         ]);
-        
+
         $params['tagging_tag_id'] = $saveTaggingTag['id'];
-        
+
         // return ['status'=>false, 'message'=>_e('Global tag can\'t be identicated.', true)];
     }
 

@@ -386,6 +386,8 @@ class CheckoutManager
                     } else {
                         $checkout_errors['payment_gw'] = 'Payment gateway\'s process file not found.';
                     }
+
+
                 } else {
                     $place_order['order_completed'] = 1;
                     $place_order['is_paid'] = 0;
@@ -405,6 +407,13 @@ class CheckoutManager
 
                 $ord = $this->app->shop_manager->place_order($place_order);
                 $place_order['id'] = $ord;
+
+
+                if (isset($place_order['is_paid']) and $place_order['is_paid']) {
+                    $this->app->event_manager->trigger('mw.cart.checkout.order_paid', $place_order);
+                }
+
+
             }
 
             if (isset($place_order) and !empty($place_order)) {
@@ -545,13 +554,13 @@ class CheckoutManager
 
             if ($order_email_enabled) {
 
-               //  $order_email_subject = $this->app->option_manager->get('order_email_subject', 'orders');
+                //  $order_email_subject = $this->app->option_manager->get('order_email_subject', 'orders');
                 // $order_email_content = $this->app->option_manager->get('order_email_content', 'orders');
 
                 $mail_template = false;
                 $mail_template_binds = $this->app->event_manager->trigger('mw.cart.confirm_email_send', $order_id);
                 if (is_array($mail_template_binds)) {
-                    foreach ($mail_template_binds  as $bind) {
+                    foreach ($mail_template_binds as $bind) {
                         if (is_array($bind) && isset($bind['mail_template'])) {
                             $mail_template = $bind['mail_template'];
                         }
@@ -636,7 +645,7 @@ class CheckoutManager
                     }
 
                     if (get_option('bank_transfer_send_email_instructions', 'payments') == 'y') {
-                        $order_email_content .=  _e("Follow payment instructions", true);
+                        $order_email_content .= _e("Follow payment instructions", true);
                         $order_email_content .= '<br />' . get_option('bank_transfer_instructions', 'payments');
                     }
 
@@ -646,24 +655,24 @@ class CheckoutManager
                         array(
                             'cart' => $cart_items,
                             'order' => $ord_data,
-                            'order_id'=>$ord_data['id'],
-                            'transaction_id'=>$ord_data['transaction_id'],
-                            'currency'=>$ord_data['currency'],
-                            'order_status'=>$ord_data['order_status'],
-                            'first_name'=>$ord_data['first_name'],
-                            'last_name'=>$ord_data['last_name'],
-                            'email'=>$ord_data['email'],
-                            'phone'=>$ord_data['phone'],
-                            'address'=>$ord_data['address'],
-                            'zip'=>$ord_data['zip'],
-                            'state'=>$ord_data['state'],
-                            'city'=>$ord_data['city'],
-                            'country'=>$ord_data['country']
+                            'order_id' => $ord_data['id'],
+                            'transaction_id' => $ord_data['transaction_id'],
+                            'currency' => $ord_data['currency'],
+                            'order_status' => $ord_data['order_status'],
+                            'first_name' => $ord_data['first_name'],
+                            'last_name' => $ord_data['last_name'],
+                            'email' => $ord_data['email'],
+                            'phone' => $ord_data['phone'],
+                            'address' => $ord_data['address'],
+                            'zip' => $ord_data['zip'],
+                            'state' => $ord_data['state'],
+                            'city' => $ord_data['city'],
+                            'country' => $ord_data['country']
                         )
                     );
 
                     $sender = new \Microweber\Utils\MailSender();
-                    
+
                     // Send only to client
                     if ($send_to_client && !$send_to_admins && filter_var($to, FILTER_VALIDATE_EMAIL)) {
                         $sender->send($to, $order_email_subject, $order_email_content);
@@ -742,27 +751,52 @@ class CheckoutManager
         if (!is_file($gw_process)) {
             $gw_process = normalize_path(modules_path() . $data['payment_gw'] . DS . 'notify.php', false);
         }
+        file_put_contents(storage_path().'/ppdebug0.txt', print_r($_REQUEST,1) . PHP_EOL . PHP_EOL);
 
         $update_order = array();
         if (is_file($gw_process)) {
             include $gw_process;
+
+
         } else {
             return array('error' => 'The payment gateway is not found!');
         }
+        $update_order_event_data = [];
 
-        if (!empty($update_order) and isset($update_order['order_completed']) and trim($update_order['order_completed']) == 1) {
-            $update_order['id'] = $ord;
-            $update_order['payment_gw'] = $data['payment_gw'];
-            $ord = $this->app->database_manager->save($table_orders, $update_order);
-            $this->confirm_email_send($ord);
-            if (isset($update_order['is_paid']) and $update_order['is_paid'] == 1) {
+
+
+
+
+        if(is_array($update_order)){
+            $update_order_event_data = array_merge($ord_data,$update_order);
+        }
+
+        if (!empty($update_order_event_data) and isset($update_order_event_data['order_completed']) and $update_order_event_data['order_completed'] == 1) {
+            $update_order_event_data['id'] = $ord;
+            $update_order_event_data['payment_gw'] = $data['payment_gw'];
+            $ord = $this->app->database_manager->save($table_orders, $update_order_event_data);
+
+
+
+            if (isset($update_order_event_data['is_paid']) and $update_order_event_data['is_paid']) {
+                $this->app->event_manager->trigger('mw.cart.checkout.order_paid', $update_order_event_data);
+            }
+
+            if (isset($update_order_event_data['is_paid']) and $update_order_event_data['is_paid'] == 1) {
                 $this->app->shop_manager->update_quantities($ord);
+
+
+
+
             }
             if ($ord > 0) {
                 $this->app->cache_manager->delete('cart/global');
                 $this->app->cache_manager->delete('cart_orders/global');
                 //return true;
             }
+
+            $this->confirm_email_send($ord);
+
         }
 
         if (isset($data['return_to'])) {
