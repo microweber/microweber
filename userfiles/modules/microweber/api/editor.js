@@ -8,8 +8,12 @@ mw.require('editor/controllers.js');
 mw.require('editor/add.controller.js');
 
 
-
-// todo: oninput record chnage
+var EditorPredefinedControls = {
+    'default': [
+        ['bold', '|', 'italic'],
+        ['bold', '|', 'italic' ]
+    ]
+};
 
 mw.Editor = function (options) {
     var defaults = {
@@ -17,10 +21,7 @@ mw.Editor = function (options) {
         document: document,
         executionDocument: document,
         mode: 'iframe', // iframe | div | document
-        controls: [
-            ['bold', '|', 'italic'],
-            ['bold', '|', 'italic' ]
-        ],
+        controls: 'default',
         scripts: [],
         cssFiles: [],
         value: '',
@@ -36,6 +37,9 @@ mw.Editor = function (options) {
     options = options || {};
 
     this.settings = $.extend({}, defaults, options);
+    if (typeof this.settings.controls === 'string') {
+        this.settings.controls = EditorPredefinedControls[this.settings.controls] || EditorPredefinedControls.default;
+    }
 
     this.document = this.settings.document;
 
@@ -197,9 +201,28 @@ mw.Editor = function (options) {
 
     this._addControllerGroups = [];
     this.addControllerGroup = function (obj, row) {
+        var group = obj.group;
         var el = mw.element({
             props: {
                 innerHTML: 'group'
+            }
+        });
+
+        var icon = mw.element({
+            props: {
+                className: group.icon
+            }
+        });
+
+        el.append(icon);
+        row = typeof row !== 'undefined' ? row :  this.settings.controls.length - 1;
+        group.controls.forEach(function (name) {
+            if(scope.controllers[name]){
+                var ctrl = new scope.controllers[name](scope, scope.api, scope);
+                scope.controls.push(ctrl);
+                scope.bar.add(ctrl.element, row);
+            } else if(this.controllersHelpers[name]){
+                scope.bar.add(this.controllersHelpers[name](), row);
             }
         });
 

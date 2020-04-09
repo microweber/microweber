@@ -216,17 +216,7 @@ if ($params['period']) {
         tooltip: {
             x: {
                 show: true
-            },
-            y: {
-                formatter: undefined,
-                title: {
-                    formatter: function(seriesName) { return seriesName },
-                },
-            },
-            z: {
-                formatter: undefined,
-                title: 'Size22: '
-            },
+            }
         },
         axisBorder: {
             show: false

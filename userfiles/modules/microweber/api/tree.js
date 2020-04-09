@@ -324,12 +324,11 @@
         this.isSelected = function(li, type){
             li = this.get(li, type);
             if(!li) return;
-            var input = mw.$(li.children).filter('.mw-tree-item-content').find('input')[0];
+            var input = li.querySelector('input');
             if(!input) return false;
             return input.checked === true;
         };
         this.toggleSelect = function(li, type){
-            console.log(this.isSelected(li, type))
             if(this.isSelected(li, type)){
                 this.unselect(li, type)
             }

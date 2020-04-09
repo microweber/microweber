@@ -52,11 +52,18 @@
       max-width: calc(100% - 25px);
     }
   }
+  & > li {
+      margin: 2px 0;
+  }
   li {
     * {
       vertical-align: middle;
     }
-    &.selected > .mw-tree-item-content .mw-tree-item-title {
+      .mdi-pencil{
+          color: #0e80e5;
+          opacity: 1;
+      }
+    &.selected > .mw-tree-item-content-root .mw-tree-item-title {
       color: #0e80e5;
       font-weight: bold;
       &:before {
@@ -144,10 +151,10 @@
     text-align: center;
     border: 1px solid transparent;
     color: #3B3B3B;
-    opacity: 0.5;
+    opacity: 0.9;
     cursor: pointer;
   }
-
+    items_per_page
   .mw-tree-item-content:hover .mw-tree-context-menu-item {
     visibility: visible;
   }

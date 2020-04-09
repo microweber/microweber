@@ -97,6 +97,7 @@ $my_tree_id = ''
             })
 
             $(categoryParentSelector).on("selectionChange", function (e, selected) {
+                console.log(selected)
 
 
                 var pages = [];
@@ -126,8 +127,8 @@ $my_tree_id = ''
 
                 });
 
-                $('#parentpage').val(pages.join(',')).change();
-                $('#parentcat').val(cats.join(',')).change();
+                $('#parentpage').val(pages.join(',')).trigger('change');
+                $('#parentcat').val(cats.join(',')).trigger('change');
 
 
                 //   mw.log(selected);
