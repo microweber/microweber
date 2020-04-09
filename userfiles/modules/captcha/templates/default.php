@@ -15,29 +15,40 @@ description: Default comments template
     if ($captcha_provider == 'google_recaptcha_v2'):
         ?>
 
+
+
         <script>
-            mw.require('https://www.google.com/recaptcha/api.js?onload=grecaptchaonloadCallback&render=onload')
+            if (typeof(grecaptcha) === 'undefined') {
+            mw.require('https://www.google.com/recaptcha/api.js',true,'recaptcha');
+            }
         </script>
 
 
         <script type="text/javascript">
+            grecaptchaverifyCallback = function (response) {
+                $('#js-mw-google-recaptcha-v2-<?php print $params['id'] ?>-input').val(response);
 
+            };
 
             grecaptchaonloadCallback = function () {
+
                 if (typeof(grecaptcha) !== 'undefined') {
-
-
                     grecaptcha.render('js-mw-google-recaptcha-v2-<?php print $params['id'] ?>', {
                         'sitekey': '<?php echo get_option('recaptcha_v2_site_key', 'captcha'); ?>',
                         'callback': grecaptchaverifyCallback,
                     });
                 }
             };
+            $( document ).ready(function() {
+                setTimeout(function(){grecaptchaonloadCallback(); }, 500);
+
+
+            });
 
         </script>
         <div class="mw-captcha">
             <div id="js-mw-google-recaptcha-v2-<?php print $params['id'] ?>"></div>
-            <input name="captcha" type="hidden" value="<?php print $params['id'] ?>" class="mw-captcha-input"/>
+            <input name="captcha" type="hidden" value="" id="js-mw-google-recaptcha-v2-<?php print $params['id'] ?>-input" class="mw-captcha-input"/>
         </div>
 
 
