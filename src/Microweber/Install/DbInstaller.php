@@ -82,7 +82,6 @@ class DbInstaller
             new Schema\Base(),
             new Schema\Comments(),
             new Schema\Form(),
-            new Schema\Shop(),
             new Schema\Tags(),
             new Schema\JobsQueue(),
             new Schema\PasswordResetsTable(),
