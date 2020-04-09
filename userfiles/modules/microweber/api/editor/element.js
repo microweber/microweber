@@ -39,6 +39,14 @@
             }
         };
 
+        this.append = function (el) {
+            return this.$node.append( el.node ? el.node : el );
+        };
+
+        this.prepend = function (el) {
+            return this.$node.prepend( el.node ? el.node : el );
+        };
+
         this.init = function(){
             this.create();
             this.setProps();

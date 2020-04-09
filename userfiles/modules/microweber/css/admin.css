@@ -5114,7 +5114,10 @@ html[dir="rtl"] #upload-icoimage {
 }
 
 
-
+.apexcharts-tooltip.apexcharts-theme-light .apexcharts-tooltip-title{
+    color: #4591FF !important;
+    font-weight: bold;
+}
 
 .dashboard_stats .apexcharts-marker[r="6.5"] {
     stroke-width: 2px;

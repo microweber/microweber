@@ -92,6 +92,7 @@
             });
             mw.$('#file_section').append(filepicker.frame);
             filepicker.handler.on('change', function (e, url) {
+                console.log(999, url)
                 var filename = url.split('/').pop();
 
                 Output({

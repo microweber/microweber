@@ -34,8 +34,12 @@ function _lang_is_rtl($lang = false)
     return mw()->lang_helper->lang_is_rtl($lang);
 }
 
-function _lang($title, $namespace = false)
+function _lang($title, $namespace = false, $return = false)
 {
+    if ($return) {
+        return lang($title, $namespace);
+    }
+
     echo lang($title, $namespace);
 }
 

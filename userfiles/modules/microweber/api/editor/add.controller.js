@@ -40,7 +40,9 @@ mw.Editor.addController = function (name, render, checkSelection) {
     }
     mw.Editor.controllers[name] = function () {
         this.render = render;
-        this.checkSelection = checkSelection;
+        if(checkSelection) {
+            this.checkSelection = checkSelection;
+        }
         this.element = this.render();
     };
 };

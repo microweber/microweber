@@ -267,7 +267,7 @@
             li = this.get(li, type);
             if(li && this.options.cantSelectTypes.indexOf(li.dataset.type) === -1){
                 li.classList.add(this.options.selectedClass);
-                var input = mw.$(li.children).filter('.mw-tree-item-content').find('input')[0];
+                var input = li.querySelector('input');
                 if(input) input.checked = true;
             }
 
@@ -288,7 +288,7 @@
             li = this.get(li, type);
             if(li){
                 li.classList.remove(this.options.selectedClass);
-                var input = mw.$(li.children).filter('.mw-tree-item-content').find('input')[0];
+                var input = li.querySelector('input');
                 if(input) input.checked = false;
             }
             this.manageUnselected();
@@ -324,7 +324,7 @@
         this.isSelected = function(li, type){
             li = this.get(li, type);
             if(!li) return;
-            var input = mw.$(li.children).filter('.mw-tree-item-content').find('input')[0];
+            var input = li.querySelector('input');
             if(!input) return false;
             return input.checked === true;
         };
@@ -361,8 +361,7 @@
             li = this.get(li, type);
             if(!li) return;
             li.classList.add(this.options.openedClass);
-            mw.$(li.children).filter('mwbutton').addClass(this.options.openedClass);
-            if(!_skipsave) this.saveState()
+            if(!_skipsave) this.saveState();
         };
         this.show = function(li, type){
             if(Array.isArray(li)){
@@ -409,7 +408,6 @@
             li = this.get(li, type);
             if(!li) return;
             li.classList.remove(this.options.openedClass);
-            mw.$(li.children).filter('mwbutton').removeClass(this.options.openedClass);
             if(!_skipsave) this.saveState();
         };
 
@@ -417,7 +415,6 @@
             li = this.get(li, type);
             if(!li) return;
             li.classList.toggle(this.options.openedClass);
-            mw.$(li.children).filter('mwbutton').toggleClass(this.options.openedClass);
             this.saveState();
         };
 
@@ -441,7 +438,7 @@
             var btn = scope.document.createElement('mwbutton');
             btn.className = 'mw-tree-toggler';
             btn.onclick = function(){
-                scope.toggle(this.parentNode);
+                scope.toggle(mw.tools.firstParentWithTag(this, 'li'));
             };
             return btn;
         };
@@ -451,7 +448,7 @@
             for( ; i<all.length; i++ ){
                 var ul = all[i];
                 ul.classList.remove('pre-init');
-                mw.$(ul).parent().prepend(this.button());
+                mw.$(ul).parent().children('.mw-tree-item-content-root').prepend(this.button());
             }
         };
 
@@ -615,16 +612,20 @@
 
         this._ids = [];
 
+        this._createSingle = function (item) {
+
+        }
+
         this.createItem = function(item){
             var selector = '#'+scope.options.id + '-' + item.type+'-'+item.id;
             if(this._ids.indexOf(selector) !== -1) return false;
-            this._ids.push(selector)
+            this._ids.push(selector);
             var li = scope.document.createElement('li');
             li.dataset.type = item.type;
             li.dataset.id = item.id;
             li.dataset.parent_id = item.parent_id;
             var skip = this.skip(item);
-            li.className = 'type-' + item.type + ' subtype-'+ item.subtype + ' skip-' + skip;
+            li.className = 'type-' + item.type + ' subtype-'+ item.subtype + ' skip-' + (skip || 'none');
             var container = scope.document.createElement('span');
             container.className = "mw-tree-item-content";
             container.innerHTML = '<span class="mw-tree-item-title">'+item.title+'</span>';
@@ -632,6 +633,7 @@
             li._data = item;
             li.id = scope.options.id + '-' + item.type+'-'+item.id;
             li.appendChild(container);
+            $(container).wrap('<span class="mw-tree-item-content-root"></span>')
             if(!skip){
                 container.onclick = function(){
                     if(scope.options.selectable) scope.toggleSelect(li)
@@ -642,6 +644,41 @@
 
             return li;
         };
+
+
+
+        this.additional = function (obj) {
+            var li = scope.document.createElement('li');
+            li.className = 'mw-tree-additional-item';
+            var container = scope.document.createElement('span');
+            var containerTitle = scope.document.createElement('span');
+            container.className = "mw-tree-item-content";
+            containerTitle.className = "mw-tree-item-title";
+            container.appendChild(containerTitle);
+
+            li.appendChild(container);
+            $(container).wrap('<span class="mw-tree-item-content-root"></span>')
+            if(obj.icon){
+                if(obj.icon.indexOf('</') === -1){
+                    var icon = scope.document.createElement('span');
+                    icon.className = 'mw-tree-aditional-item-icon ' + obj.icon;
+                    containerTitle.appendChild(icon);
+                }
+                else{
+                    mw.$(containerTitle).append(obj.icon)
+                }
+
+            }
+            var title = scope.document.createElement('span');
+            title.innerHTML = obj.title;
+            containerTitle.appendChild(title);
+            li.onclick = function (ev) {
+                if(obj.action){
+                    obj.action.call(this, obj)
+                }
+            };
+            return li;
+        }
 
         this.createList = function(item){
             var nlist = scope.document.createElement('ul');
@@ -666,38 +703,6 @@
                 findli.appendChild(nlist);
                 return false;
             }
-        };
-
-
-        this.additional = function (obj) {
-            var li = scope.document.createElement('li');
-            li.className = 'mw-tree-additional-item';
-            var container = scope.document.createElement('span');
-            var containerTitle = scope.document.createElement('span');
-            container.className = "mw-tree-item-content";
-            containerTitle.className = "mw-tree-item-title";
-            container.appendChild(containerTitle);
-            li.appendChild(container);
-            if(obj.icon){
-                if(obj.icon.indexOf('</') === -1){
-                    var icon = scope.document.createElement('span');
-                    icon.className = obj.icon;
-                    containerTitle.appendChild(icon)
-                }
-                else{
-                    mw.$(containerTitle).append(obj.icon)
-                }
-
-            }
-            var title = scope.document.createElement('span');
-            title.innerHTML = obj.title;
-            containerTitle.appendChild(title);
-            li.onclick = function (ev) {
-                if(obj.action){
-                    obj.action.call(this, obj)
-                }
-            };
-            return li;
         };
 
         this.append = function(){

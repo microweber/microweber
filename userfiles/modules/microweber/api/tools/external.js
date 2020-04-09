@@ -115,7 +115,6 @@
                     if(this.contentWindow.mw && this.contentWindow.mw.trigger){
                         this.contentWindow.mw.ComponentOutput = function(data) {
                             scope._value = data;
-                            console.log(scope.value());
                             mw.tools[!!scope.value() ? 'removeClass' : 'addClass'](scope.btnok, 'disabled');
                             $(scope).trigger('ValueChange', data);
                         };

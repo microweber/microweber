@@ -19,7 +19,7 @@
 
             <b><?php _e("Captcha provider"); ?></b>
 
-            <select class="mw-ui-field mw_option_field mw-full-width" name="provider" option-group="captcha">
+            <select class="mw-ui-field mw_option_field mw-full-width" name="provider" option-group="captcha"> 
                 <option value="microweber">Select</option>
                 <option value="google_recaptcha_v2"  <?php if(get_option('provider', 'captcha') == 'google_recaptcha_v2'): ?>selected="selected"<?php endif; ?>>Google ReCaptcha V2</option>
                 <option value="microweber" <?php if(get_option('provider', 'captcha') == 'microweber'): ?>selected="selected"<?php endif; ?>>Microweber Captcha</option>

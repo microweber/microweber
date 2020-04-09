@@ -8,8 +8,13 @@
         .mw-bar-row {
             border-bottom:1px solid #DDDDDD;
             padding: @editorSpacing;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
             .mw-bar-control-item{
-                vertical-align: top;
+                vertical-align: middle;
                 &+.mw-bar-control-item{
                     margin-left: @editorSpacing;
                 }

@@ -3,6 +3,7 @@
 
 $form_id = uniqid('cap');
 
+$captcha_provider = get_option('provider', 'captcha');
 
 $template = get_option('data-template', $params['id']);
 

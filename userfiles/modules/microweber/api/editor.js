@@ -1,4 +1,3 @@
-
 mw.require('state.js');
 mw.require('editor/element.js');
 mw.require('editor/bar.js');
@@ -8,16 +7,21 @@ mw.require('editor/core.js');
 mw.require('editor/controllers.js');
 mw.require('editor/add.controller.js');
 
+
+var EditorPredefinedControls = {
+    'default': [
+        ['bold', '|', 'italic'],
+        ['bold', '|', 'italic' ]
+    ]
+};
+
 mw.Editor = function (options) {
     var defaults = {
-        regions: '.edit',
+        regions: null,
         document: document,
         executionDocument: document,
-        mode: 'frame', // frame | inline | overall | bubble
-        controls: [
-            ['bold', '|', 'italic'],
-            ['bold', '|', 'italic' ]
-        ],
+        mode: 'iframe', // iframe | div | document
+        controls: 'default',
         scripts: [],
         cssFiles: [],
         value: '',
@@ -33,6 +37,9 @@ mw.Editor = function (options) {
     options = options || {};
 
     this.settings = $.extend({}, defaults, options);
+    if (typeof this.settings.controls === 'string') {
+        this.settings.controls = EditorPredefinedControls[this.settings.controls] || EditorPredefinedControls.default;
+    }
 
     this.document = this.settings.document;
 
@@ -52,30 +59,59 @@ mw.Editor = function (options) {
     this._interactionTime = new Date().getTime();
     this.initInteraction = function () {
         var max = 78;
-        mw.$(scope.settings.iframeAreaSelector, scope.actionWindow.document).on('touchstart touchend click keydown execCommand', function(){
+        scope.$editArea.on('touchstart touchend click keydown execCommand', function(){
             var time = new Date().getTime();
             if((time - scope._interactionTime) > max){
                 scope._interactionTime = time;
                 scope.selection = scope.getSelection();
-                var target = mw.wysiwyg.validateCommonAncestorContainer( scope.selection.getRangeAt(0).commonAncestorContainer);
+                var target = scope.api.elementNode( scope.selection.getRangeAt(0).commonAncestorContainer);
                 var css = mw.CSSParser(target);
                 var api = scope.api;
                 scope.controls.forEach(function (ctrl) {
-                    ctrl.checkSelection({
-                        selection: scope.selection,
-                        controller: ctrl,
-                        target: target,
-                        css: css.get,
-                        cssNative: css.css,
-                        api: api,
-                        scope: scope,
-                        isEditable: scope.api.isSelectionEditable()
-                    });
+                    if(ctrl.checkSelection) {
+                        ctrl.checkSelection({
+                            selection: scope.selection,
+                            controller: ctrl,
+                            target: target,
+                            css: css.get,
+                            cssNative: css.css,
+                            api: api,
+                            scope: scope,
+                            isEditable: scope.api.isSelectionEditable()
+                        });
+                    }
                 });
             }
         });
     };
 
+    this._preventEvents = [];
+    this.preventEvents = function () {
+        var node;
+        if(this.area && this._preventEvents.indexOf(this.area.node) === -1) {
+            this._preventEvents.push(this.area.node);
+            node = this.area.node;
+        } else if(scope.$iframeArea && this._preventEvents.indexOf(scope.$iframeArea[0]) === -1) {
+            this._preventEvents.push(scope.$iframeArea[0]);
+            node = scope.$iframeArea[0];
+        }
+        var ctrlDown = false;
+        var ctrlKey = 17, vKey = 86, cKey = 67, zKey = 90;
+        node.onkeydown = function (e) {
+            if (e.keyCode === ctrlKey || e.keyCode === 91) {
+                ctrlDown = true;
+            }
+            if ((ctrlDown && e.keyCode === zKey) || (ctrlDown && e.keyCode === vKey) || (ctrlDown && e.keyCode === cKey)) {
+                e.preventDefault();
+                return false;
+            }
+        };
+        node.onkeyup = function(e) {
+            if (e.keyCode === 17 || e.keyCode === 91) {
+                ctrlDown = false;
+            }
+        };
+    };
     this.initState = function () {
         this.state = this.settings.state || (new mw.State());
     };
@@ -97,7 +133,7 @@ mw.Editor = function (options) {
         } else {
 
         }
-        mw.tools.iframeAutoHeight(this.frame, 'now');
+
         $(this.frame).on('load', function () {
             if (!scope.settings.iframeAreaSelector) {
                 var area = document.createElement('div');
@@ -108,12 +144,20 @@ mw.Editor = function (options) {
                 area.style.minHeight = '100px';
             }
             scope.$iframeArea = $(scope.settings.iframeAreaSelector, this.contentWindow.document);
-            scope.$iframeArea.attr('contenteditable', true);
+
             scope.$iframeArea.html(scope.settings.content || '');
             scope.$iframeArea.on('input', function () {
                 $(scope).trigger('change', [this.innerHTML]);
             });
             scope.actionWindow = this.contentWindow;
+            scope.$editArea = scope.$iframeArea;
+            mw.tools.iframeAutoHeight(scope.frame);
+            if(scope.settings.regions === null) {
+                scope.$iframeArea.attr('contenteditable', true);
+            } else {
+                $(scope.settings.regions, this.contentWindow.document).attr('contenteditable', true);
+            }
+            scope.preventEvents();
             $(scope).trigger('ready');
         });
         this.wrapper.appendChild(this.frame);
@@ -133,6 +177,8 @@ mw.Editor = function (options) {
             $(scope).trigger('change', [this.innerHTML]);
         };
         this.wrapper.appendChild(this.area.node);
+        scope.$editArea = this.area.$node;
+        scope.preventEvents();
         $(scope).trigger('ready');
     };
 
@@ -153,6 +199,54 @@ mw.Editor = function (options) {
     this.controls = [];
     this.api = mw._editorApi(this);
 
+    this._addControllerGroups = [];
+    this.addControllerGroup = function (obj, row) {
+        var group = obj.group;
+        var el = mw.element({
+            props: {
+                innerHTML: 'group'
+            }
+        });
+
+        var icon = mw.element({
+            props: {
+                className: group.icon
+            }
+        });
+
+        el.append(icon);
+        row = typeof row !== 'undefined' ? row :  this.settings.controls.length - 1;
+        group.controls.forEach(function (name) {
+            if(scope.controllers[name]){
+                var ctrl = new scope.controllers[name](scope, scope.api, scope);
+                scope.controls.push(ctrl);
+                scope.bar.add(ctrl.element, row);
+            } else if(this.controllersHelpers[name]){
+                scope.bar.add(this.controllersHelpers[name](), row);
+            }
+        });
+
+        this._addControllerGroups.push({
+            el: el,
+            row: row,
+            obj: obj
+        });
+        return el;
+    };
+
+    this.controlGroupManager = function () {
+        var check = function() {
+            var i = 0, l = scope._addControllerGroups.length;
+            for ( ; i< l ; i++) {
+                var item = scope._addControllerGroups[i];
+            }
+        };
+        $(window).on('load resize orientationchange', function () {
+            check();
+        });
+        check();
+    };
+
     this.addController = function (name, row) {
         row = typeof row !== 'undefined' ? row :  this.settings.controls.length - 1;
         if(this.controllers[name]){
@@ -170,7 +264,12 @@ mw.Editor = function (options) {
             var item = this.settings.controls[i1];
             this.bar.createRow();
             for (var i2 = 0; i2 < item.length; i2++) {
-                scope.addController(item[i2], i1);
+                if( typeof item[i2] === 'string') {
+                    scope.addController(item[i2], i1);
+                } else if( typeof item[i2] === 'object') {
+                    scope.addControllerGroup(item[i2], i1);
+                }
+
             }
         }
         this.wrapper.appendChild(this.bar.bar);
@@ -179,22 +278,44 @@ mw.Editor = function (options) {
     this._onReady = function () {
         $(this).on('ready', function () {
             scope.initInteraction();
+            if(!scope.state.hasRecords()){
+                scope.state.record({
+                    $initial: true,
+                    target: scope.$editArea[0],
+                    value: scope.$editArea[0].innerHTML
+                });
+            }
         });
     };
+
+    this._initInputRecordTime = null;
+    this._initInputRecord = function () {
+        $(this).on('change', function (e, html) {
+            clearTimeout(scope._initInputRecordTime);
+            scope._initInputRecordTime = setTimeout(function () {
+                scope.state.record({
+                    target: scope.$editArea[0],
+                    value: html
+                });
+            }, 600);
+
+        });
+    };
+
     this.init = function () {
         this.controllers = mw.Editor.controllers;
         this.controllersHelpers = mw.Editor.controllersHelpers;
+        this.initState();
         this._onReady();
         this.createWrapper();
         this.createBar();
-        this.initState();
-
-        if (this.settings.mode === 'inline') {
+        if (this.settings.mode === 'div') {
             this.createArea();
         } else if (this.settings.mode === 'iframe') {
             this.createFrame();
         }
-        mw.$(this.settings.selector).append(this.wrapper);
+        this._initInputRecord();
+        mw.$(this.settings.selector).append(this.wrapper)[0].mwEditor = this;
     };
     this.init();
 };

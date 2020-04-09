@@ -6,6 +6,7 @@ $selected_page = get_option('frompage', $params['id']);
 $show_only_for_parent = get_option('single-only', $params['id']);
 
 $show_category_header = get_option('show_category_header', $params['id']);
+$show_subcats = get_option('show-subcats', $params['id']);
 
 if ($parent == 'current') {
     $parent = CATEGORY_ID;
@@ -65,9 +66,21 @@ if ($selected_pages) {
                 if (isset($category_page_check['id']) and $category_page_check['id'] == $sel_p) {
                     $cats[] = $cat_data;
 
+                    if ($show_subcats) {
+                        $sub_cats = app()->category_manager->get_children($cat_data['id']);
+                        if ($sub_cats) {
+                            foreach ($sub_cats as $sub_cat) {
+                                $cat_data2 = get_category_by_id($sub_cat);
+                                if ($cat_data2) {
+                                    $cats[] = $cat_data2;
+                                }
+                            }
+                        }
+                    }
+
                     unset($selected_cats[$sk]);
                 } else {
-                 //   $selected_cats2[] = $cat_data;
+                    //   $selected_cats2[] = $cat_data;
                 }
             }
         }
@@ -81,10 +94,12 @@ if ($selected_cats) {
         $cat_data = get_category_by_id($selected_cats_id);
         if ($cat_data) {
             $cats[] = $cat_data;
+//            if($show_subcats){
+//                $sub_cats = app()->category_manager->get_children($selected_cats_id);
+//            }
         }
     }
 }
-
 
 
 if (!empty($cats)) {

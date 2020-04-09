@@ -245,6 +245,11 @@
                 mw.require(mw.settings.libs_url + 'material_icons' + '/material_icons.css');
             }
         ],
+        materialDesignIcons: [
+            function () {
+                mw.require('css/fonts/materialdesignicons/css/materialdesignicons.min.css');
+            }
+        ],
         mw_icons_mind: [
             function () {
                 mw.require('fonts/mw-icons-mind/line/style.css');
