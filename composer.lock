@@ -2864,12 +2864,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-packages/microweber-shop.git",
-                "reference": "cd11645a10fa455d646f9478bf52a30d2c9bca8e"
+                "reference": "1230451c70017c12785b60a114b041f64086dcec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/microweber-shop/zipball/cd11645a10fa455d646f9478bf52a30d2c9bca8e",
-                "reference": "cd11645a10fa455d646f9478bf52a30d2c9bca8e",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-shop/zipball/1230451c70017c12785b60a114b041f64086dcec",
+                "reference": "1230451c70017c12785b60a114b041f64086dcec",
                 "shasum": ""
             },
             "require": {
@@ -2927,7 +2927,7 @@
             ],
             "description": "Microweber Shop.",
             "homepage": "http://microweber.com",
-            "time": "2020-04-09T14:47:00+00:00"
+            "time": "2020-04-09T14:54:54+00:00"
         },
         {
             "name": "microweber-templates/dream",
