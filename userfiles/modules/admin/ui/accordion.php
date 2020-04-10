@@ -350,7 +350,7 @@
                 mode: 'iframe',
                 controls: [
                     [
-                        'undoRedo', '|', 'fontSelector', 'fontSize',
+                        'undoRedo', '|', 'fontSelector', 'fontSize', 'media',
                         {
                             group: {
                                 icon: 'mdi mdi-edit',
