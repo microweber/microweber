@@ -1,5 +1,5 @@
 <?php only_admin_access();
-
+$data = [];
 if (isset($params['content_id'])) {
     $data = array(
         'content_id' => $params['content_id'],
@@ -36,7 +36,9 @@ if (isset($params['content_id'])) {
     $content_id = $params['content_id'];
 }
 
-
+if(!isset($content['id'])){
+    return;
+}
 
 $moderation_is_required = get_option('require_moderation', 'comments') == 'y';
 
