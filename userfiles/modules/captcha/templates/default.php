@@ -56,7 +56,7 @@ description: Default comments template
         });
     </script>
     <div class="mw-captcha">
-         <input type="hidden" name="recaptcha_response" id="js-mw-google-recaptcha-v3-<?php print $params['id'] ?>-input">
+         <input type="hidden" name="captcha" id="js-mw-google-recaptcha-v3-<?php print $params['id'] ?>-input">
     </div>
 
     <?php else: ?>

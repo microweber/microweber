@@ -3,6 +3,7 @@
 namespace Microweber\Providers;
 
 use Microweber\Utils\Adapters\Captcha\GoogleRecaptchaV2;
+use Microweber\Utils\Adapters\Captcha\GoogleRecaptchaV3;
 use Microweber\Utils\Adapters\Captcha\MicroweberCaptcha;
 
 /**
@@ -41,6 +42,8 @@ class CaptchaManager
         $captcha_provider = get_option('provider', 'captcha');
         if ($captcha_provider == 'google_recaptcha_v2') {
             $this->adapter = new GoogleRecaptchaV2();
+        } else if ($captcha_provider == 'google_recaptcha_v3') {
+            $this->adapter = new GoogleRecaptchaV3();
         } else {
             $this->adapter = new MicroweberCaptcha($app);
         }
