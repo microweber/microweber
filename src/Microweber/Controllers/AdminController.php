@@ -2,7 +2,7 @@
 
 namespace Microweber\Controllers;
 
-use Microweber\View;
+use MicroweberPackages\TemplateManager\View;
 use User;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Config;

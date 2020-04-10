@@ -3,7 +3,7 @@
 namespace Microweber\Controllers;
 
 use Illuminate\Support\Facades\Request;
-use Microweber\View;
+use MicroweberPackages\TemplateManager\View;
 use Microweber\Install;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Config;
