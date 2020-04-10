@@ -14,17 +14,12 @@ description: Default comments template
     <?php
     if ($captcha_provider == 'google_recaptcha_v2'):
         ?>
-
-
-
-        <script>
-            if (typeof(grecaptcha) === 'undefined') {
-            mw.require('https://www.google.com/recaptcha/api.js',true,'recaptcha');
-            }
-        </script>
-
-
         <script type="text/javascript">
+
+            if (typeof(grecaptcha) === 'undefined') {
+                mw.require('https://www.google.com/recaptcha/api.js',true,'recaptcha');
+            }
+
             grecaptchaverifyCallback = function (response) {
                 $('#js-mw-google-recaptcha-v2-<?php print $params['id'] ?>-input').val(response);
 
@@ -39,10 +34,8 @@ description: Default comments template
                     });
                 }
             };
-            $( document ).ready(function() {
+            $(document).ready(function() {
                 setTimeout(function(){grecaptchaonloadCallback(); }, 500);
-
-
             });
 
         </script>
@@ -51,6 +44,20 @@ description: Default comments template
             <input name="captcha" type="hidden" value="" id="js-mw-google-recaptcha-v2-<?php print $params['id'] ?>-input" class="mw-captcha-input"/>
         </div>
 
+    <?php elseif ($captcha_provider == 'google_recaptcha_v3'): ?>
+
+    <script src="//www.google.com/recaptcha/api.js?render=<?php echo get_option('recaptcha_v3_site_key', 'captcha'); ?>"></script>
+    <script>
+        grecaptcha.ready(function () {
+            grecaptcha.execute('<?php echo get_option('recaptcha_v3_site_key', 'captcha'); ?>', { action: 'contact' }).then(function (token) {
+                var recaptchaResponse = document.getElementById('js-mw-google-recaptcha-v3-<?php print $params['id'] ?>-input');
+                recaptchaResponse.value = token;
+            });
+        });
+    </script>
+    <div class="mw-captcha">
+         <input type="hidden" name="recaptcha_response" id="js-mw-google-recaptcha-v3-<?php print $params['id'] ?>-input">
+    </div>
 
     <?php else: ?>
         <div class="mw-captcha" style="max-width: 400px; margin: 15px;">
