@@ -6,6 +6,7 @@ $selected_page = get_option('frompage', $params['id']);
 $show_category_header = get_option('show_category_header', $params['id']);
 $show_only_for_parent = get_option('single-only', $params['id']);
 $show_subcats = get_option('show-subcats', $params['id']);
+$hide_pages = get_option('hide-pages', $params['id']);
 
 
 $my_tree_id = ''
@@ -98,7 +99,6 @@ $my_tree_id = ''
             })
 
             $(categoryParentSelector).on("selectionChange", function (e, selected) {
-                console.log(selected)
 
 
                 var pages = [];
@@ -188,6 +188,18 @@ $my_tree_id = ''
                                    value="1" <?php if ($show_subcats == '1') {
                                 echo 'checked';
                             } ?> /> <span></span><span><?php _lang("Show sub categories"); ?></span>
+                        </label>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label class="mw-ui-check">
+                            <input type="checkbox" class="mw_option_field" name="hide-pages"
+                                   value="1" <?php if ($hide_pages == '1') {
+                                echo 'checked';
+                            } ?> /> <span></span><span><?php _lang("Hide pages"); ?></span>
                         </label>
                     </div>
                 </div>
