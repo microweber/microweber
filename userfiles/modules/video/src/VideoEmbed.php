@@ -469,7 +469,7 @@ class VideoEmbed
         $styles[] = 'height:' . $this->getHeight();
 
         if ($this->isThumbnail() && $this->isLazyLoad()) {
-            $styles[] = 'height:' . $this->getHeight() .'!important';
+           // $styles[] = 'height:' . $this->getHeight() .'!important';
             $styles[] = 'background:#000';
             $styles[] = 'background-image:url(' . $this->getThumbnail() . ')';
             $styles[] = 'background-repeat:no-repeat';
