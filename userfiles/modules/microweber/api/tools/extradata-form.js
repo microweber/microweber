@@ -1,4 +1,14 @@
 mw.getExtradataFormData = function (data, call) {
+
+
+    if(data.form_data_required){
+        if(!data.form_data_module_params){
+            data.form_data_module_params = {};
+        }
+        data.form_data_module_params._confirm=1
+    }
+
+
      if (data.form_data_module) {
         mw.loadModuleData(data.form_data_module, function (moduledata) {
             call.call(undefined, moduledata);

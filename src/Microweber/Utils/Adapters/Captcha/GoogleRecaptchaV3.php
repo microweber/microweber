@@ -11,9 +11,9 @@ class GoogleRecaptchaV3
         $recaptcha_response = urlencode($key);
 
         $response = mw()->http->url($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response)->get();
-        $recaptcha = json_decode($response);
+        $recaptcha = @json_decode($response);
 
-        if ($recaptcha->score >= 0.5) {
+        if ($recaptcha and isset($recaptcha->score) and $recaptcha->score >= 0.5) {
             return true;
         }
 
