@@ -167,8 +167,27 @@ $params_module  = $params;
 
 
     mw.on.hashParam("pg", function () {
-
+        var act = mw.url.windowHashParam("action");
         var dis = $p_id = this;
+
+
+        if(act != false){
+            var arr = act.split(":");
+            var pos = arr[0].indexOf('edit');
+            if(pos === 0 ){
+                dis = false;
+            }
+        }
+        if(dis == false){
+
+            mw.$('#<?php print $params['id']; ?>').removeAttr('data-page-number');
+            mw.$('#<?php print $params['id']; ?>').removeAttr('data-page-param');
+            mw.$('#<?php print $params['id']; ?>').removeAttr("paging_param");
+
+            return;
+        }
+
+
         mw.$('#<?php print $params['id']; ?>').attr("paging_param", 'pg');
         if (dis !== '') {
             mw.$('#<?php print $params['id']; ?>').attr("pg", dis);
@@ -231,10 +250,6 @@ $params_module  = $params;
 
 
 
-<?php if (intval($pages_count) > 1): ?>
-    <?php $paging_links = mw()->content_manager->paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword'); ?>
-<?php endif; ?>
-
 
 
 
@@ -251,5 +266,29 @@ echo '<module '. implode(' ', array_map(
 
 
 
-return;
+
 ?>
+<?php if (intval($pages_count) > 1): ?>
+    <?php $paging_links = mw()->content_manager->paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword'); ?>
+<?php endif; ?>
+
+<?php
+$numactive = 1;
+
+if (isset($params['data-page-number'])) {
+    $numactive = intval($params['data-page-number']);
+} else if (isset($params['current_page'])) {
+    $numactive = intval($params['current_page']);
+}
+
+if (isset($paging_links) and is_array($paging_links)): ?>
+    <div class="mw-paging"  >
+        <?php $i = 1;
+        foreach ($paging_links as $item): ?>
+            <a class="page-<?php print $i; ?> <?php if ($numactive == $i): ?> active <?php endif; ?>"
+               href="#<?php print $paging_param ?>=<?php print $i ?>"
+
+               onclick="mw.url.windowHashParam('<?php print $paging_param ?>','<?php print $i ?>');return false;"><?php print $i; ?></a>
+            <?php $i++; endforeach; ?>
+    </div>
+<?php endif; ?>
