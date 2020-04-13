@@ -10,6 +10,7 @@
             post.done(function (data) {
                 mw.reload_module_everywhere('dynamic_text')
                 mw.reload_module_everywhere('dynamic_text/list')
+                mw.reload_module_everywhere('dynamic_text/select')
             });
         }
     }
@@ -17,12 +18,15 @@
 
 <?php
 $dynamic_texts = get_dynamic_text();
+
+
+
 ?>
 
 <table class="mw-ui-table" width="100%" cellspacing="0" cellpadding="0">
     <thead>
     <tr>
-        <th>name</th>
+        <th>Name</th>
         <th>Content</th>
         <th>Action</th>
     </tr>
@@ -33,7 +37,7 @@ $dynamic_texts = get_dynamic_text();
             <?php foreach($dynamic_texts as $dynamic_text) : ?>
             <tr>
                 <td><?php echo $dynamic_text['name'];?></td>
-                <td><?php echo $dynamic_text['content'];?></td>
+                <td style="word-wrap: break-word"><?php echo $dynamic_text['content'];?></td>
                 <td>
                     <a href="javascript:;" onclick="edit_dynamic_text(<?php echo $dynamic_text['id'];?>);" class="mw-ui-btn mw-ui-btn-medium">Edit</a>
                     <a href="javascript:;" onclick="delete_dynamic_text(<?php echo $dynamic_text['id'];?>);" class="mw-ui-btn mw-ui-btn-medium">Delete</a>

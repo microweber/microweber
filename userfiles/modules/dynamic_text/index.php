@@ -1,7 +1,7 @@
 <?php
 
 
-$selected_dynamic_text_name = get_option('selected_dynamic_text_name', $params['id']);
+$selected_dynamic_text_name = get_option('selected_text_name', $params['id']);
 
 
 
