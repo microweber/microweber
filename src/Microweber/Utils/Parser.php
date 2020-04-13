@@ -443,7 +443,10 @@ class Parser
                             $m_tag = rtrim($m_tag);
                             $userclass = '';
 
-                            $module_html = "<div class='__USER_DEFINED_CLASS__ __MODULE_CLASS__ __WRAP_NO_WRAP__' __MODULE_ID__ __MODULE_NAME__";
+                            $module_html_tag = 'div';
+
+
+                            $module_html = "<__MODULE_HTML_TAG__ class='__USER_DEFINED_CLASS__ __MODULE_CLASS__ __WRAP_NO_WRAP__' __MODULE_ID__ __MODULE_NAME__";
 
                             $module_has_class = false;
                             if (!empty($attrs)) {
@@ -780,24 +783,24 @@ class Parser
                                     $module_name_url = $this->app->url_manager->slug($module_name);
 
                                     if ($mod_as_element == false) {
-                                        if (strstr($module_name, 'text')) {
-                                            $module_html = str_replace('__MODULE_CLASS__', 'layout-element ' . $module_name_url, $module_html);
+                                        if ($module_name == 'text' or $module_name == 'text/empty_element'or $module_name == 'text/multiple_columns') {
+                                             $module_html = str_replace('__MODULE_CLASS__', 'layout-element ' . $module_name_url, $module_html);
                                         } else {
                                             $module_html = str_replace('__MODULE_CLASS__', 'module ' . $module_class, $module_html);
                                         }
                                     } else {
                                         $module_html = str_replace('__MODULE_CLASS__', 'element ' . $module_name_url, $module_html);
                                     }
-
                                     $userclass = str_replace(trim($module_class), '', $userclass);
-                                    $userclass = trim(str_replace(' module ', ' ', $userclass));
+                                  //  $userclass = trim(str_replace(' -module ', 'module ', $userclass));
+                                //    $userclass = trim(str_replace(' module ', ' ', $userclass));
                                     $userclass = trim(str_replace(' disabled module ', ' module ', $userclass));
                                     $module_class = trim(str_replace(' disabled module ', ' module ', $module_class));
                                     $userclass = trim(str_replace(' module module ', ' module ', $userclass));
                                     $userclass = trim(str_replace('module module ', 'module ', $userclass));
                                     $module_html = str_replace('__MODULE_CLASS_NAME__', '' . $module_class, $module_html);
                                     $module_html = str_replace('__USER_DEFINED_CLASS__', $userclass, $module_html);
-
+//d($module_html);
                                     if ($coming_from_parent == false) {
 
                                         $coming_from_parentz = $module_name;
@@ -859,7 +862,11 @@ class Parser
                                     $this->_current_parser_module_of_type[$par_id_mod_count][$module_name]++;
 
                                     $mod_content = $this->load($module_name, $attrs);
+                                    if($this->current_module and isset($this->current_module['settings'] ) and isset($this->current_module['settings']['html_tag']) and $this->current_module['settings']['html_tag']){
+                                        $module_html_tag = $this->current_module['settings']['html_tag'];
+                                    }
 
+//
 
                                     $plain_modules = mw_var('plain_modules');
 
@@ -953,7 +960,12 @@ class Parser
                                     if ($mod_no_wrapper == false) {
                                         $coming_from_parent_str = '';
 
-                                        $module_html .= $coming_from_parent_str . '>' . $mod_content . '</div>';
+                                        $module_html .= $coming_from_parent_str . '>' . $mod_content . '</__MODULE_HTML_TAG__>';
+
+
+                                        $module_html = str_replace('__MODULE_HTML_TAG__', $module_html_tag, $module_html);
+
+
                                     } else {
 
 
@@ -2146,7 +2158,9 @@ class Parser
 
 
             $installed_module = $this->app->modules->get('single=1&ui=any&module=' . $module_name);
-
+            if($installed_module and isset($installed_module['settings'])){
+                $config['settings']  = $installed_module['settings'];
+            }
 
 //            $is_installed = $this->app->modules->is_installed($module_name);
 //

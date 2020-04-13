@@ -131,6 +131,7 @@ class Manager
         }
 
         $posts_mod['paging_param'] = 'pg';
+     
 
         $posts_mod['orderby'] = 'position desc';
         if (isset($params['data-order'])) {
@@ -185,6 +186,9 @@ class Manager
 
 
         $pages = $this->provider->get($post_params_paging);
+
+
+
         $this->event_manager->trigger('module.content.manager', $posts_mod);
 
         $post_toolbar_view = $this->views_dir . 'toolbar.php';
@@ -235,7 +239,6 @@ class Manager
                 }
             }
         }
-
 
         $view = new View($post_list_view);
         $view->assign('params', $params);

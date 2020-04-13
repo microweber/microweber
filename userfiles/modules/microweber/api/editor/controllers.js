@@ -4,7 +4,7 @@ mw.Editor.controllers = {
             var scope = this;
             var el = mw.Editor.core.button({
                 props: {
-                    innerHTML: 'bold'
+                    className: 'mdi-format-bold'
                 }
             });
 
@@ -27,7 +27,7 @@ mw.Editor.controllers = {
         this.render = function () {
             var el = mw.Editor.core.button({
                 props: {
-                    innerHTML: 'italic'
+                    className: 'mdi-format-italic'
                 }
             });
             el.$node.on('mousedown touchstart', function (e) {
@@ -42,6 +42,30 @@ mw.Editor.controllers = {
             } else {
                 rootScope.controllerActive(opt.controller.element.node, false);
             }
+        };
+        this.element = this.render();
+    },
+    'media': function(scope, api, rootScope){
+        this.render = function () {
+            var el = mw.Editor.core.button({
+                props: {
+                    className: 'mdi-folder-multiple-image'
+                }
+            });
+            el.$node.on('click', function (e) {
+                mw.fileWindow({
+                    types: 'images',
+                    change: function (url) {
+                        url = url.toString();
+                        api.insertImage(url);
+                        console.log(url)
+                    }
+                });
+            });
+            return el;
+        };
+        this.checkSelection = function (opt) {
+            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
         };
         this.element = this.render();
     },
@@ -97,9 +121,10 @@ mw.Editor.controllers = {
     undoRedo: function(scope, api, rootScope) {
         this.render = function () {
             this.root = mw.Editor.core.element();
+            this.root.$node.addClass('mw-ui-btn-nav mw-editor-state-component')
             var undo = mw.Editor.core.button({
                 props: {
-                    innerHTML: 'undo'
+                    className: 'mdi-undo'
                 }
             });
             undo.$node.on('mousedown touchstart', function (e) {
@@ -108,7 +133,7 @@ mw.Editor.controllers = {
 
             var redo = mw.Editor.core.button({
                 props: {
-                    innerHTML: 'redo'
+                    className: 'mdi-redo'
                 }
             });
             redo.$node.on('mousedown touchstart', function (e) {

@@ -58,6 +58,21 @@ mw.Editor = function (options) {
 
     this._interactionTime = new Date().getTime();
     this.initInteraction = function () {
+        var ait = 200, currt = new Date().getTime();
+        scope.$editArea.on('mousemove touchmove touchstart', function(e){
+            var dt = new Date().getTime();
+            if ((currt + ait) > dt)  return;
+            currt = dt;
+            var target = e.target;
+            var component = mw.tools.firstParentOrCurrentWithAnyOfClasses(target, ['element', 'edit', 'module']);
+            var isImage = target.nodeName === 'IMG';
+            var data = {
+                target: target,
+                component: component,
+                isImage: isImage
+            };
+            $(scope).trigger('areaInteraction', [data]);
+        });
         var max = 78;
         scope.$editArea.on('touchstart touchend click keydown execCommand', function(){
             var time = new Date().getTime();

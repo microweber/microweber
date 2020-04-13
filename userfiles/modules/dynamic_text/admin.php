@@ -7,6 +7,10 @@
     <?php endif; ?>
     <div class="admin-side-content" style="max-width:100%;">
 
+        <?php if (isset($params['live_edit'])): ?>
+        <module type="dynamic_text/select" />
+        <?php endif; ?>
+
         <module type="dynamic_text/edit" />
 
         <br />

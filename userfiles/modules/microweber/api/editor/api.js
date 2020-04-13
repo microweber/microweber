@@ -121,6 +121,17 @@ mw._editorApi = function (scope) {
                 scope.api.savedSelection.selection.removeAllRanges();
                 scope.api.savedSelection.selection.addRange(scope.api.savedSelection.range);
             }
+        },
+        insertHTML: function(html) {
+            return scope.api.execCommand('insertHTML', false, html);
+        },
+        insertImage: function (url) {
+            var id =  mw.id('image_');
+            var img = '<img id="' + id + '" contentEditable="false" class="element" src="' + url + '" />';
+            scope.api.insertHTML(img);
+            var img = mw.$("#" + id)
+            img.removeAttr("_moz_dirty");
+            return img[0];
         }
     };
 };

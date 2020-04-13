@@ -474,11 +474,11 @@ class Modules
 
         if (is_array($data) and !empty($data)) {
             if (isset($data['settings']) and !is_array($data['settings'])) {
-                $data['settings'] = json_decode($data['settings']);
+                $data['settings'] = @json_decode($data['settings'], true);
             } else {
                 foreach ($data as $k => $v) {
                     if (isset($v['settings']) and !is_array($v['settings'])) {
-                        $v['settings'] = json_decode($v['settings']);
+                        $v['settings'] = @json_decode($v['settings'], true);
                         $data[$k] = $v;
                     }
                 }

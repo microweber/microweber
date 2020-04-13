@@ -99,6 +99,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         manage: function (type, id) {
 
 
+
          //   add_to_parent_page
 
             var id = id || 0;
@@ -134,6 +135,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
     }
 
     function mw_select_page_for_editing($p_id) {
+
 
 
         mw.$(".pages_tree_item.active-bg").removeClass('active-bg');
@@ -217,6 +219,9 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
 
     mw.on.hashParam("action", function () {
+    //    mw.url.windowDeleteHashParam('pg')
+
+
         mainTreeSetActiveItems()
 
         if (this == false) {

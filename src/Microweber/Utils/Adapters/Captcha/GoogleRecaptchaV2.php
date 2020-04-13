@@ -14,10 +14,10 @@ class GoogleRecaptchaV2
         $url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . urlencode($secretKey) . '&response=' . urlencode($key);
         $response = mw()->http->url($url)->get();
 
-        $responseKeys = json_decode($response, true);
+        $responseKeys = @json_decode($response, true);
 
         // should return JSON with success as true
-        if ($responseKeys["success"]) {
+        if ($responseKeys and isset($responseKeys["success"]) and $responseKeys["success"]) {
             return true;
         }
 
