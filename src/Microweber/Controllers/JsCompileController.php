@@ -2,10 +2,10 @@
 
 namespace Microweber\Controllers;
 
-use Microweber\View;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
+use MicroweberPackages\TemplateManager\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -16,7 +16,7 @@ class JsCompileController extends Controller
     /** @var \Microweber\Application */
     public $app;
 
-    private $_should_compile_assets = false; 
+    private $_should_compile_assets = false;
 
     public function __construct($app = null)
     {
@@ -220,7 +220,7 @@ class JsCompileController extends Controller
         }
 
 
-        $l = new \Microweber\View($file);
+        $l = new View($file);
 
         $l = $l->__toString();
         $l = str_replace('{SITE_URL}', $this->app->url_manager->site(), $l);
@@ -385,7 +385,7 @@ class JsCompileController extends Controller
     private function _load_apijs()
     {
         $file = mw_includes_path() . 'api' . DS . 'api.js';
-        $l = new \Microweber\View($file);
+        $l = new View($file);
 
         $l = $l->__toString();
         $l = str_replace('{SITE_URL}', $this->app->url_manager->site(), $l);
@@ -433,7 +433,7 @@ class JsCompileController extends Controller
         if (!defined('TEMPLATE_URL')) {
             define('TEMPLATE_URL', '');
         }
-        $l = new \Microweber\View($file);
+        $l = new View($file);
 
         $l = $l->__toString();
         return $l;
