@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f1dbdb074fbbe9ab15da00a7d3e280c9",
+    "content-hash": "d3b9cfea72eb6311fb6e325e3bdf6601",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -2686,6 +2686,64 @@
             "description": "Microweber event manager.",
             "homepage": "http://microweber.com",
             "time": "2020-03-23T14:29:42+00:00"
+        },
+        {
+            "name": "microweber-packages/microweber-forms-manager",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microweber-packages/microweber-forms-manager.git",
+                "reference": "5e8652e0f750f032cf588b3214efe86dfcbd0649"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-forms-manager/zipball/5e8652e0f750f032cf588b3214efe86dfcbd0649",
+                "reference": "5e8652e0f750f032cf588b3214efe86dfcbd0649",
+                "shasum": ""
+            },
+            "require": {
+                "microweber-packages/microweber-helpers": "dev-master"
+            },
+            "require-dev": {
+                "mockery/mockery": "*",
+                "orchestra/testbench": "*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MicroweberPackages\\FormsManager\\FormsManagerServiceProvider"
+                    ],
+                    "aliases": {
+                        "OptionManager": "MicroweberPackages\\FormsManager\\FormsManagerFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\": "src/"
+                },
+                "files": [
+                    "src/FormsManager/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
+            "description": "Microweber forms manager.",
+            "homepage": "http://microweber.com",
+            "time": "2020-04-13T13:21:02+00:00"
         },
         {
             "name": "microweber-packages/microweber-helpers",
@@ -6792,7 +6850,8 @@
         "geoip2/geoip2": 20,
         "twig/twig": 20,
         "phpoffice/phpspreadsheet": 20,
-        "microweber-packages/microweber-template-manager": 20
+        "microweber-packages/microweber-template-manager": 20,
+        "microweber-packages/microweber-forms-manager": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

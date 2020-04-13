@@ -18,6 +18,7 @@ use MicroweberPackages\ContentManager\Content;
 use MicroweberPackages\ContentManager\ContentManagerServiceProvider;
 use MicroweberPackages\DatabaseManager\DatabaseManagerServiceProvider;
 use MicroweberPackages\EventManager\EventManagerServiceProvider;
+use MicroweberPackages\FormsManager\FormsManagerServiceProvider;
 use MicroweberPackages\Helpers\Format;
 use MicroweberPackages\Helpers\HelpersServiceProvider;
 use MicroweberPackages\InvoicesManager\InvoicesManagerServiceProvider;
@@ -162,6 +163,7 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(CheckoutManagerServiceProvider::class);
         $this->app->register(CartManagerServiceProvider::class);
         $this->app->register(TemplateManagerServiceProvider::class);
+        $this->app->register(FormsManagerServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
     }
@@ -254,10 +256,6 @@ class MicroweberServiceProvider extends ServiceProvider
             'update' => 'UpdateManager',
             'cache_manager' => 'CacheManager',
             'config_manager' => 'ConfigurationManager',
-            'fields_manager' => 'FieldsManager',
-            'data_fields_manager' => 'Content\DataFieldsManager',
-            'attributes_manager' => 'Content\AttributesManager',
-            'forms_manager' => 'FormsManager',
             'notifications_manager' => 'NotificationsManager',
             'log_manager' => 'LogManager',
             'modules' => 'Modules',

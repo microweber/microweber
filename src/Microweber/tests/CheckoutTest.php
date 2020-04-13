@@ -1,8 +1,8 @@
 <?php
 namespace Microweber\tests;
 
-use Microweber\Providers\Shop\CheckoutManager;
 use Microweber\Utils\MailSender;
+use MicroweberPackages\CheckoutManager\CheckoutManager;
 
 /**
  * Run test

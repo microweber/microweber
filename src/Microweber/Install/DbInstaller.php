@@ -81,7 +81,6 @@ class DbInstaller
         $system =  [
             new Schema\Base(),
             new Schema\Comments(),
-            new Schema\Form(),
             new Schema\Tags(),
             new Schema\JobsQueue(),
             new Schema\PasswordResetsTable(),
