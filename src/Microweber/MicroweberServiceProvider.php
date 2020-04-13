@@ -29,6 +29,7 @@ use MicroweberPackages\OrderManager\OrderManagerServiceProvider;
 use MicroweberPackages\ShopManager\ShopManagerServiceProvider;
 use MicroweberPackages\TagsManager\TagsManagerServiceProvider;
 use MicroweberPackages\TaxManager\TaxManagerServiceProvider;
+use MicroweberPackages\TemplateManager\TemplateManagerServiceProvider;
 use PhpOffice\PhpSpreadsheet\Calculation\Category;
 
 if (! defined('MW_VERSION')) {
@@ -160,6 +161,7 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(ClientsManagerServiceProvider::class);
         $this->app->register(CheckoutManagerServiceProvider::class);
         $this->app->register(CartManagerServiceProvider::class);
+        $this->app->register(TemplateManagerServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
     }
@@ -258,11 +260,9 @@ class MicroweberServiceProvider extends ServiceProvider
             'forms_manager' => 'FormsManager',
             'notifications_manager' => 'NotificationsManager',
             'log_manager' => 'LogManager',
-            'template' => 'Template',
             'modules' => 'Modules',
             'user_manager' => 'UserManager',
             'layouts_manager' => 'LayoutsManager',
-            'template_manager' => 'TemplateManager',
             'captcha_manager' => 'CaptchaManager',
         ];
 

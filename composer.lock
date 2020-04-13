@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "83cebe7075ff8a3f793320d5daab464a",
+    "content-hash": "f1dbdb074fbbe9ab15da00a7d3e280c9",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -2928,6 +2928,64 @@
             "description": "Microweber Shop.",
             "homepage": "http://microweber.com",
             "time": "2020-04-09T15:48:09+00:00"
+        },
+        {
+            "name": "microweber-packages/microweber-template-manager",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microweber-packages/microweber-template-manager.git",
+                "reference": "7630575a351ce903de25b3d7baaa4c074f926ea1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-template-manager/zipball/7630575a351ce903de25b3d7baaa4c074f926ea1",
+                "reference": "7630575a351ce903de25b3d7baaa4c074f926ea1",
+                "shasum": ""
+            },
+            "require": {
+                "microweber-packages/microweber-helpers": "dev-master"
+            },
+            "require-dev": {
+                "mockery/mockery": "*",
+                "orchestra/testbench": "*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MicroweberPackages\\TemplateManager\\TemplateManagerServiceProvider"
+                    ],
+                    "aliases": {
+                        "OptionManager": "MicroweberPackages\\TemplateManager\\TemplateManagerFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\": "src/"
+                },
+                "files": [
+                    "src/TemplateManager/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
+            "description": "Microweber template manager.",
+            "homepage": "http://microweber.com",
+            "time": "2020-04-13T12:33:42+00:00"
         },
         {
             "name": "microweber-templates/dream",
@@ -6733,7 +6791,8 @@
         "jenssegers/agent": 20,
         "geoip2/geoip2": 20,
         "twig/twig": 20,
-        "phpoffice/phpspreadsheet": 20
+        "phpoffice/phpspreadsheet": 20,
+        "microweber-packages/microweber-template-manager": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

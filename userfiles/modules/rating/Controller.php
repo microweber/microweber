@@ -4,6 +4,8 @@
 namespace rating;
 
 
+use MicroweberPackages\TemplateManager\View;
+
 class Controller
 {
     var $model = null;
@@ -74,7 +76,7 @@ class Controller
         if ($template_file and is_file($template_file)) {
             $view_file = $template_file;
             //$view_file = __DIR__ . DS . 'views' . DS . 'star_rating.php';
-            $view = new \Microweber\View($view_file);
+            $view = new View($view_file);
             $view->assign('ratings', intval($rating));
             $view->assign('rel_type', $rel_type);
             $view->assign('rel_id', $rel_id);
