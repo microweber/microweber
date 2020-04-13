@@ -1,22 +1,24 @@
 <?php
 
 
-$settings = get_option('settings', 'init_scwCookiedefault');
+$selected_dynamic_text_name = get_option('selected_dynamic_text_name', $params['id']);
 
 
 
-d($params);
-d($config);
 
-if(!isset($params['variable'])){
 
+
+if($selected_dynamic_text_name){
+    $params['name'] = $selected_dynamic_text_name;
 }
 
-if (isset($params['variable']) && !empty($params['variable'])) {
+
+
+if (isset($params['name']) && !empty($params['name'])) {
 
     $filter = array();
     $filter['single'] = 1;
-    $filter['variable'] = $params['variable'];
+    $filter['name'] = $params['name'];
 
     $dynamic_text = get_dynamic_text($filter);
 
@@ -26,7 +28,7 @@ if (isset($params['variable']) && !empty($params['variable'])) {
         }
     } else {
         $save = array();
-        $save['variable'] = $params['variable'];
+        $save['name'] = $params['name'];
         $save['content'] = $params['content'];
         if (isset($dynamic_text['content'])) {
             $save['content'] = $params['content'];

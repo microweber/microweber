@@ -8,7 +8,8 @@
             var url = "<?php print api_url('delete_dynamic_text'); ?>";
             var post = $.post(url, data);
             post.done(function (data) {
-                window.location.href = window.location.href;
+                mw.reload_module_everywhere('dynamic_text')
+                mw.reload_module_everywhere('dynamic_text/list')
             });
         }
     }
@@ -21,7 +22,7 @@ $dynamic_texts = get_dynamic_text();
 <table class="mw-ui-table" width="100%" cellspacing="0" cellpadding="0">
     <thead>
     <tr>
-        <th>Variable</th>
+        <th>name</th>
         <th>Content</th>
         <th>Action</th>
     </tr>
@@ -31,7 +32,7 @@ $dynamic_texts = get_dynamic_text();
         <?php if(is_array($dynamic_texts)) : ?>
             <?php foreach($dynamic_texts as $dynamic_text) : ?>
             <tr>
-                <td><?php echo $dynamic_text['variable'];?></td>
+                <td><?php echo $dynamic_text['name'];?></td>
                 <td><?php echo $dynamic_text['content'];?></td>
                 <td>
                     <a href="javascript:;" onclick="edit_dynamic_text(<?php echo $dynamic_text['id'];?>);" class="mw-ui-btn mw-ui-btn-medium">Edit</a>

@@ -8,13 +8,13 @@ $config['ui'] = true;
 $config['ui_admin'] = true;
 $config['categories'] = "content,text";
 $config['version'] = 0.07;
-$config['position'] = 100;
+$config['position'] = 900;
 $config['settings'] = array('html_tag' => 'span');
 
 $config['tables'] = array(
     'dynamic_text_variables' => array(
         'id' => 'integer',
-        'variable' => 'text',
+        'name' => 'text',
         'content' => 'text',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',

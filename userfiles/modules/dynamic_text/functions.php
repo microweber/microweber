@@ -7,7 +7,7 @@ function save_dynamic_text($data)
         return;
     }
 
-    if (isset($data['id']) && $data['id'] == '0') {
+    if (isset($data['id']) && $data['id'] == 0) {
         unset($data['id']);
     }
     $data['allow_html'] = true;
@@ -15,7 +15,7 @@ function save_dynamic_text($data)
     return db_save($table, $data);
 }
 
-api_expose('get_dynamic_text');
+api_expose_admin('get_dynamic_text');
 function get_dynamic_text($params = array())
 {
     if (is_string($params)) {
