@@ -31,6 +31,7 @@ use MicroweberPackages\ShopManager\ShopManagerServiceProvider;
 use MicroweberPackages\TagsManager\TagsManagerServiceProvider;
 use MicroweberPackages\TaxManager\TaxManagerServiceProvider;
 use MicroweberPackages\TemplateManager\TemplateManagerServiceProvider;
+use MicroweberPackages\UserManager\UserManagerServiceProvider;
 use PhpOffice\PhpSpreadsheet\Calculation\Category;
 
 if (! defined('MW_VERSION')) {
@@ -164,6 +165,7 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(CartManagerServiceProvider::class);
         $this->app->register(TemplateManagerServiceProvider::class);
         $this->app->register(FormsManagerServiceProvider::class);
+        $this->app->register(UserManagerServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
     }
@@ -259,7 +261,6 @@ class MicroweberServiceProvider extends ServiceProvider
             'notifications_manager' => 'NotificationsManager',
             'log_manager' => 'LogManager',
             'modules' => 'Modules',
-            'user_manager' => 'UserManager',
             'layouts_manager' => 'LayoutsManager',
             'captcha_manager' => 'CaptchaManager',
         ];
@@ -278,7 +279,6 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register('Collective\Html\HtmlServiceProvider');
 
         $this->aliasInstance->alias('Form', 'Collective\Html\FormFacade');
-
         $this->aliasInstance->alias('HTML', 'Collective\Html\HtmlFacade');
     }
 
@@ -342,7 +342,6 @@ class MicroweberServiceProvider extends ServiceProvider
     public function autoloadModules($className)
     {
         $filename = modules_path() . $className . '.php';
-
         $filename = normalize_path($filename, false);
 
         if (! class_exists($className, false) && is_file($filename)) {

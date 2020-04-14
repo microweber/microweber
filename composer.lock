@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d3b9cfea72eb6311fb6e325e3bdf6601",
+    "content-hash": "b2012f7c11c55e727188abeea0ccaf55",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -3044,6 +3044,64 @@
             "description": "Microweber template manager.",
             "homepage": "http://microweber.com",
             "time": "2020-04-13T12:33:42+00:00"
+        },
+        {
+            "name": "microweber-packages/microweber-user-manager",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microweber-packages/microweber-user-manager.git",
+                "reference": "0a52fec57262c0ac75dd86e6e0cb736a3f120451"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-user-manager/zipball/0a52fec57262c0ac75dd86e6e0cb736a3f120451",
+                "reference": "0a52fec57262c0ac75dd86e6e0cb736a3f120451",
+                "shasum": ""
+            },
+            "require": {
+                "microweber-packages/microweber-helpers": "dev-master"
+            },
+            "require-dev": {
+                "mockery/mockery": "*",
+                "orchestra/testbench": "*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MicroweberPackages\\UserManager\\UserManagerServiceProvider"
+                    ],
+                    "aliases": {
+                        "OptionManager": "MicroweberPackages\\UserManager\\UserManagerFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\": "src/"
+                },
+                "files": [
+                    "src/UserManager/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
+            "description": "Microweber user manager.",
+            "homepage": "http://microweber.com",
+            "time": "2020-04-14T13:00:02+00:00"
         },
         {
             "name": "microweber-templates/dream",
@@ -6851,7 +6909,8 @@
         "twig/twig": 20,
         "phpoffice/phpspreadsheet": 20,
         "microweber-packages/microweber-template-manager": 20,
-        "microweber-packages/microweber-forms-manager": 20
+        "microweber-packages/microweber-forms-manager": 20,
+        "microweber-packages/microweber-user-manager": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
