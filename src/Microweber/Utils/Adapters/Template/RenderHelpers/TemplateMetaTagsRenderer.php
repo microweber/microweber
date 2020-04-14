@@ -21,7 +21,8 @@ class TemplateMetaTagsRenderer
 
         if (isset($params['layout'])) {
             $layout = $params['layout'];
-
+            $meta_content_id = 0;
+            $meta_category_id = 0;
             $l = $layout;
             $meta = array();
             $meta['content_image'] = '';
@@ -42,7 +43,36 @@ class TemplateMetaTagsRenderer
                 }
             }
 
-            if ($meta_content_id > 0) {
+            if (isset($params['category_id']) and $params['category_id']) {
+                $meta_category_id = $params['category_id'];
+            } else {
+                 if (CATEGORY_ID > 0) {
+                     $meta_category_id = CATEGORY_ID;
+                }
+            }
+            if ($meta_category_id > 0) {
+                $meta_category_data = $this->app->category_manager->get_by_id($meta_category_id);
+
+                $meta['title'] = $meta_category_data['title'];
+                $meta['description'] = $meta_category_data['description'];
+                if (isset($meta_category_data['category_meta_title']) and $meta_category_data['category_meta_title'] != '') {
+                    $meta['title'] = $meta_category_data['category_meta_title'];
+                }
+                if (isset($meta_category_data['category_meta_description']) and $meta_category_data['category_meta_description'] != '') {
+                    $meta['description'] = $meta_category_data['category_meta_description'];
+                }
+
+                if (isset($meta_category_data['category_meta_keywords']) and $meta_category_data['category_meta_keywords'] != '') {
+                    $meta['content_meta_keywords'] = $meta_category_data['category_meta_keywords'];
+                }
+                $meta['og_description'] = $meta['description'];
+
+                $content_image = $this->app->media_manager->get_picture($meta_category_id,'category');
+                if ($content_image) {
+                    $meta['content_image'] = $content_image;
+                    $meta['og_image'] = $content_image;
+                 }
+            } else if ($meta_content_id > 0) {
                 $meta = $this->app->content_manager->get_by_id($meta_content_id);
                 $content_image = $this->app->media_manager->get_picture($meta_content_id);
                 if ($content_image) {
