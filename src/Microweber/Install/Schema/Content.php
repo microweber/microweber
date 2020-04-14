@@ -205,6 +205,9 @@ class Content
                 'users_can_create_content_allowed_usergroups' => 'string',
 
               //  'categories_content_type' => 'longText',
+                'category_meta_title' => 'text',
+                'category_meta_keywords' => 'text',
+                'category_meta_description' => 'text',
 
                 'category_subtype' => 'string',
                 'category_subtype_settings' => 'longText',
