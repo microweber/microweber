@@ -321,7 +321,7 @@ mw.backup_export = {
 	    var scope = this;
 		mw.backup_export.get_log_check('start');
 		manifest.format = $('.js-export-format').val();
-		$.get(mw.settings.api_url+'Microweber/Utils/BackupV2/export', manifest , function(exportData) {
+		$.get(mw.settings.api_url+'BackupV2/export', manifest , function(exportData) {
 			if (exportData.data.download) {
 			    scope.done = true;
 				mw.backup_export.get_log_check('stop');

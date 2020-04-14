@@ -7,15 +7,14 @@
  * You can use it to create backup of the site. The backup will contain na sql export of the database
  * and also a zip file with userfiles directory.
  */
-namespace MicroweberPackages\Backup;
 
-api_expose_admin('MicroweberPackages\Backup\BackupV2\get');
-api_expose_admin('MicroweberPackages\Backup\BackupV2\getImportLogAsJson');
-api_expose_admin('MicroweberPackages\Backup\BackupV2\import');
-api_expose_admin('MicroweberPackages\Backup\BackupV2\download');
-api_expose_admin('MicroweberPackages\Backup\BackupV2\upload');
-api_expose_admin('MicroweberPackages\Backup\BackupV2\delete');
-api_expose_admin('MicroweberPackages\Backup\BackupV2\export');
+api_expose_admin('BackupV2/get');
+api_expose_admin('BackupV2/getImportLogAsJson');
+api_expose_admin('BackupV2/import');
+api_expose_admin('BackupV2/download');
+api_expose_admin('BackupV2/upload');
+api_expose_admin('BackupV2/delete');
+api_expose_admin('BackupV2/export');
 
 if (defined('INI_SYSTEM_CHECK_DISABLED') == false) {
 	define('INI_SYSTEM_CHECK_DISABLED', ini_get('disable_functions'));
@@ -23,7 +22,6 @@ if (defined('INI_SYSTEM_CHECK_DISABLED') == false) {
 
 class BackupV2
 {
-
 	public $app;
 	public $manager;
 
@@ -44,7 +42,7 @@ class BackupV2
 		}
 
 		if (! $this->manager) {
-			$this->manager = new BackupManager();
+			$this->manager = new \MicroweberPackages\BackupManager\BackupManager();
 		}
 	}
 
@@ -234,7 +232,7 @@ class BackupV2
 			}
 		}
 
-		$manager = new BackupManager();
+		$manager = new \MicroweberPackages\BackupManager\BackupManager();
 		$manager->setExportData('tables', $tables);
 
 		if (isset($query['format'])) {
