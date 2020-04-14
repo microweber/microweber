@@ -60,6 +60,7 @@ include_once $functions_dir.'paths.php';
 
 include_once $functions_dir.'api.php';
 include_once $functions_dir.'api_callbacks.php';
+include_once $functions_dir.'api_user.php';
 include_once $functions_dir.'filesystem.php';
 include_once $functions_dir.'lang.php';
 include_once $functions_dir.'config.php';

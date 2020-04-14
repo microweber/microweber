@@ -3,12 +3,12 @@
 namespace Microweber\Controllers;
 
 use MicroweberPackages\TemplateManager\View;
-use User;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\App;
 use Auth;
+use MicroweberPackages\UserManager\User;
 
 class AdminController extends Controller
 {

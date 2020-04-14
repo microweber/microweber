@@ -2,9 +2,8 @@
 
 namespace Microweber\tests;
 
-use Microweber\App\User;
-use Microweber\Providers\UserManager;
 use Microweber\Utils\MailSender;
+use MicroweberPackages\UserManager\UserManager;
 
 /**
  * Run test
