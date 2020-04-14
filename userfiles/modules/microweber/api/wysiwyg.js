@@ -1576,7 +1576,10 @@ mw.wysiwyg = {
         var range = sel.getRangeAt(0);
         if(range.collapsed) {
             var node = mw.wysiwyg.validateCommonAncestorContainer(sel.focusNode);
-            var size = Math.round(parseFloat(mw.CSSParser(node).get.font().size));
+            var css_node_get=mw.CSSParser(node).get;
+            if(typeof(css_node_get) !== 'undefined'){
+            var size = Math.round(parseFloat(css_node_get.font().size));
+            }
             mw.$(".mw_dropdown_action_font_size .mw-dropdown-val").html(size + 'px')
         } else {
             var curr = range.startContainer;
@@ -1586,10 +1589,13 @@ mw.wysiwyg = {
             while (curr && curr !== end) {
                 var node = mw.wysiwyg.validateCommonAncestorContainer(curr);
                 curr = curr.nextElementSibling;
-                var sizec = Math.round(parseFloat(mw.CSSParser(node).get.font().size));
-                if (sizec !== size) {
-                    mw.$(".mw_dropdown_action_font_size .mw-dropdown-val").html(mw.lang('Size'));
-                    return;
+                var css_node_get=mw.CSSParser(node).get;
+                if(typeof(css_node_get) !== 'undefined'){
+                    var sizec = Math.round(parseFloat(css_node_get.font().size));
+                    if (sizec !== size) {
+                        mw.$(".mw_dropdown_action_font_size .mw-dropdown-val").html(mw.lang('Size'));
+                        return;
+                    }
                 }
             }
             mw.$(".mw_dropdown_action_font_size .mw-dropdown-val").html(size + 'px')
