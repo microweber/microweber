@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
 use Cache;
+use MicroweberPackages\UserManager\User;
 
 class InstallController extends Controller
 {
@@ -300,7 +301,7 @@ class InstallController extends Controller
 
                         $this->log('Adding admin user');
 
-                        $adminUser = new \User();
+                        $adminUser = new User();
                         $adminUser->username = $input['admin_username'];
                         $adminUser->email = $input['admin_email'];
                         $adminUser->password = $input['admin_password'];

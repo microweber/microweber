@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b2012f7c11c55e727188abeea0ccaf55",
+    "content-hash": "9ba89298230e99c4489439f133518e73",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -1212,6 +1212,51 @@
                 "url"
             ],
             "time": "2020-02-12T23:13:46+00:00"
+        },
+        {
+            "name": "halaxa/json-machine",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/halaxa/json-machine.git",
+                "reference": "bc6f58729a2f163506ddb42e8275ea7fc983ac0e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/halaxa/json-machine/zipball/bc6f58729a2f163506ddb42e8275ea7fc983ac0e",
+                "reference": "bc6f58729a2f163506ddb42e8275ea7fc983ac0e",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "guzzlehttp/guzzle": "^6",
+                "phpunit/phpunit": "^5.7",
+                "symfony/http-client": "^5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "JsonMachine\\": "src/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Filip Halaxa",
+                    "email": "filip@halaxa.cz"
+                }
+            ],
+            "description": "Efficient, easy-to-use and fast JSON pull parser",
+            "time": "2020-01-02T13:27:41+00:00"
         },
         {
             "name": "jaybizzle/crawler-detect",
@@ -2434,6 +2479,51 @@
             "time": "2020-03-20T15:52:12+00:00"
         },
         {
+            "name": "microweber-packages/microweber-backup-manager",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microweber-packages/microweber-backup-manager.git",
+                "reference": "c127f114dee7c2f3fbcb512d6d80a8d40f776476"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-backup-manager/zipball/c127f114dee7c2f3fbcb512d6d80a8d40f776476",
+                "reference": "c127f114dee7c2f3fbcb512d6d80a8d40f776476",
+                "shasum": ""
+            },
+            "require": {
+                "microweber-packages/microweber-helpers": "dev-master"
+            },
+            "require-dev": {
+                "mockery/mockery": "*",
+                "orchestra/testbench": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
+            "description": "Microweber Backup Manager.",
+            "homepage": "http://microweber.com",
+            "time": "2020-04-14T14:09:04+00:00"
+        },
+        {
             "name": "microweber-packages/microweber-cms",
             "version": "dev-master",
             "source": {
@@ -3051,12 +3141,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-packages/microweber-user-manager.git",
-                "reference": "0a52fec57262c0ac75dd86e6e0cb736a3f120451"
+                "reference": "466f6e7abac35904bb00dfd1d42653b749dbd3f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/microweber-user-manager/zipball/0a52fec57262c0ac75dd86e6e0cb736a3f120451",
-                "reference": "0a52fec57262c0ac75dd86e6e0cb736a3f120451",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-user-manager/zipball/466f6e7abac35904bb00dfd1d42653b749dbd3f7",
+                "reference": "466f6e7abac35904bb00dfd1d42653b749dbd3f7",
                 "shasum": ""
             },
             "require": {
@@ -3101,7 +3191,7 @@
             ],
             "description": "Microweber user manager.",
             "homepage": "http://microweber.com",
-            "time": "2020-04-14T13:00:02+00:00"
+            "time": "2020-04-14T13:33:34+00:00"
         },
         {
             "name": "microweber-templates/dream",
@@ -6910,7 +7000,9 @@
         "phpoffice/phpspreadsheet": 20,
         "microweber-packages/microweber-template-manager": 20,
         "microweber-packages/microweber-forms-manager": 20,
-        "microweber-packages/microweber-user-manager": 20
+        "microweber-packages/microweber-user-manager": 20,
+        "microweber-packages/microweber-backup-manager": 20,
+        "halaxa/json-machine": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
