@@ -446,7 +446,7 @@
             //if(!!SelectedImage.alt){
                 SelectedImage.alt = mw.$("#image-alt").val();
             }
-
+            SelectedImage.style.height = '';
             if (mw.image.current_need_resize && SelectedImage.nodeName === 'IMG') {
                 mw.image.preload(mw.image.current.src, function (w, h) {
                     SelectedImage.style.width = w + 'px';

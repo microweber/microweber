@@ -1,12 +1,11 @@
 (function(){
     var tooltip = {
         source: function (content, skin, position, id) {
-            if (skin == 'dark') {
-                var skin = 'mw-tooltip-dark';
-            } else if (skin == 'warning') {
-                var skin = 'mw-tooltip-default mw-tooltip-warning';
+            if (skin === 'dark') {
+                skin = 'mw-tooltip-dark';
+            } else if (skin === 'warning') {
+                skin = 'mw-tooltip-default mw-tooltip-warning';
             }
-
             if (typeof id === 'undefined') {
                 id = 'mw-tooltip-' + mw.random();
             }
@@ -15,12 +14,12 @@
             tooltip.className = 'mw-tooltip ' + position + ' ' + skin;
             tooltipc.className = 'mw-tooltip-content';
             tooltip.id = id;
-            $(tooltipc).append(content)
-            $(tooltip).append(tooltipc).append('<span class="mw-tooltip-arrow"></span>')
+            $(tooltipc).append(content);
+            $(tooltip).append(tooltipc).append('<span class="mw-tooltip-arrow"></span>');
             mwd.body.appendChild(tooltip);
             return tooltip;
         },
-            setPosition: function (tooltip, el, position) {
+        setPosition: function (tooltip, el, position) {
                 el = mw.$(el);
                 if (el.length === 0) {
                     return false;
@@ -197,7 +196,7 @@
             init: function (o, wl) {
 
                 var orig_options = o;
-                var o = mw.tools.tooltip.prepare(o);
+                o = mw.tools.tooltip.prepare(o);
                 if (o === false) return false;
                 if (o.id && mw.$('#' + o.id).length > 0) {
                     var tip = mw.$('#' + o.id)[0];
@@ -245,9 +244,6 @@
     };
 
     mw.tools.tooltip = tooltip;
-    mw.tools.tip = function (o) {
-        return mw.tools.tooltip.init(o);
-    };
     mw.tools.titleTip = function (el, _titleTip) {
         _titleTip = _titleTip || '_titleTip';
         if (mw.tools.hasClass(el, 'tip-disabled')) {

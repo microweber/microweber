@@ -28,7 +28,13 @@
 
         this.setProps = function(){
             for(var i in this.settings.props) {
-                this.node[i] = this.settings.props[i];
+                if (i === 'dataset') {
+                    for(var dt in this.settings.props[i]) {
+                        this.node.dataset[dt] = this.settings.props[i][dt];
+                    }
+                } else {
+                    this.node[i] = this.settings.props[i];
+                }
             }
         };
 

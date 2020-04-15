@@ -70,7 +70,7 @@ mw.liveeditCSSEditor = function (config) {
 
     this.save = function () {
         this.json = $.extend(true, {}, this.json, this._temp);
-        this._css = CSSJSON.toCSS(this.json);
+        this._css = CSSJSON.toCSS(this.json).replace(/\.\./g, '.').replace(/\.\./g, '.');
     };
 
     this.publish = function (callback) {

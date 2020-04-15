@@ -945,10 +945,9 @@ mw.top = function(){
   var getLastParent = function() {
       var result = window;
       var curr = window;
-      while(curr && mw.tools.canAccessWindow(curr) && curr.mw){
+      while (curr && mw.tools.canAccessWindow(curr) && (curr.mw || curr.parent.mw)){
           result = curr;
           curr = curr.parent;
-
       }
       mw.__top = curr.mw;
       return result.mw;

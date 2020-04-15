@@ -6,12 +6,17 @@ mw.require('editor/helpers.js');
 mw.require('editor/core.js');
 mw.require('editor/controllers.js');
 mw.require('editor/add.controller.js');
+mw.require('editor/interaction-controls.js');
+mw.require('editor/i18n.js');
 
 
 var EditorPredefinedControls = {
     'default': [
         ['bold', '|', 'italic'],
         ['bold', '|', 'italic' ]
+    ],
+    smallEditorDefault: [
+        ['bold', '|', 'italic']
     ]
 };
 
@@ -22,6 +27,7 @@ mw.Editor = function (options) {
         executionDocument: document,
         mode: 'iframe', // iframe | div | document
         controls: 'default',
+        smallEditor: 'smallEditorDefault',
         scripts: [],
         cssFiles: [],
         value: '',
@@ -30,6 +36,12 @@ mw.Editor = function (options) {
         stateManager: null,
         iframeAreaSelector: null,
         activeClass: 'mw-ui-btn-info',
+        interactionControls: [
+            'image'
+        ],
+        language: 'en',
+        rootPath: '/mw1/userfiles/modules/microweber/api/editor',
+        editMode: 'normal', // normal | liveedit
     };
 
     this.actionWindow = window;
@@ -40,11 +52,17 @@ mw.Editor = function (options) {
     if (typeof this.settings.controls === 'string') {
         this.settings.controls = EditorPredefinedControls[this.settings.controls] || EditorPredefinedControls.default;
     }
+    if (typeof this.settings.smallEditor === 'string') {
+        this.settings.smallEditor = EditorPredefinedControls[this.settings.smallEditor] || EditorPredefinedControls.smallEditorDefault;
+    }
 
     this.document = this.settings.document;
 
     var scope = this;
 
+    if(!this.settings.selector && this.settings.mode === 'document'){
+        this.settings.selector = this.document.body;
+    }
     if(!this.settings.selector){
         console.warn('mw.Editor - selector not specified');
         return;
@@ -57,9 +75,80 @@ mw.Editor = function (options) {
     this.selection = this.getSelection();
 
     this._interactionTime = new Date().getTime();
+
+    this.interactionControls = [];
+    this.createInteractionControls = function () {
+        this.settings.interactionControls.forEach(function(ctrl){
+            if (mw.Editor.interactionControls[ctrl]) {
+                var int = new mw.Editor.interactionControls[ctrl](scope, scope);
+                if(!int.element){
+                    int.element = int.render();
+                }
+
+                scope.actionWindow.document.body.appendChild(int.element.node);
+
+                scope.interactionControls.push(int);
+            }
+        });
+    };
+
+    this.lang = function (key) {
+        if (mw.Editor.i18n[this.settings.language] && mw.Editor.i18n[this.settings.language][key]) {
+            return  mw.Editor.i18n[this.settings.language][key];
+        }
+        console.warn(key + ' is not specified for ' + this.settings.language + ' language');
+        return key;
+    };
+
+    this.addDependencies = function (obj){
+        this.controls.forEach(function (ctrl) {
+            if (ctrl.dependencies) {
+                ctrl.dependencies.forEach(function (dep) {
+                    scope.addDependency(dep);
+                });
+            }
+        });
+        this.interactionControls.forEach(function (int) {
+            if (int.dependencies) {
+                int.dependencies.forEach(function (dep) {
+                    scope.addDependency(dep);
+                });
+            }
+        });
+        var node = scope.actionWindow.document.createElement('link');
+        node.href = this.settings.rootPath + '/area-styles.css';
+        node.type = 'text/css';
+        node.rel = 'stylesheet';
+        scope.actionWindow.document.body.appendChild(node);
+    };
+    this.addDependency = function (url, type) {
+        if (!type) {
+            type = url.split('.').pop();
+        }
+        if(!type || !url) return;
+        var node;
+        if(type === 'css') {
+            node = scope.actionWindow.document.createElement('link');
+            node.rel = 'stylesheet';
+            node.href = url;
+            node.type = 'text/css';
+        } else if(type === 'js') {
+            node = scope.actionWindow.document.createElement('script');
+            node.src = url;
+        }
+        console.log(scope.actionWindow.document.body)
+        scope.actionWindow.document.body.appendChild(node);
+    };
+
+    this.interactionControlsRun = function (data) {
+        scope.interactionControls.forEach(function (ctrl) {
+            ctrl.interact(data);
+        });
+    };
+
     this.initInteraction = function () {
-        var ait = 200, currt = new Date().getTime();
-        scope.$editArea.on('mousemove touchmove touchstart', function(e){
+        var ait = 100, currt = new Date().getTime();
+        scope.$editArea.on('mousemove touchmove touchstart mousedown', function(e){
             var dt = new Date().getTime();
             if ((currt + ait) > dt)  return;
             currt = dt;
@@ -69,8 +158,10 @@ mw.Editor = function (options) {
             var data = {
                 target: target,
                 component: component,
-                isImage: isImage
+                isImage: isImage,
+                event: e
             };
+            scope.interactionControlsRun(data);
             $(scope).trigger('areaInteraction', [data]);
         });
         var max = 78;
@@ -98,6 +189,7 @@ mw.Editor = function (options) {
                 });
             }
         });
+        this.createInteractionControls()
     };
 
     this._preventEvents = [];
@@ -162,16 +254,12 @@ mw.Editor = function (options) {
 
             scope.$iframeArea.html(scope.settings.content || '');
             scope.$iframeArea.on('input', function () {
-                $(scope).trigger('change', [this.innerHTML]);
+                scope.registerChange()
             });
             scope.actionWindow = this.contentWindow;
             scope.$editArea = scope.$iframeArea;
             mw.tools.iframeAutoHeight(scope.frame);
-            if(scope.settings.regions === null) {
-                scope.$iframeArea.attr('contenteditable', true);
-            } else {
-                $(scope.settings.regions, this.contentWindow.document).attr('contenteditable', true);
-            }
+
             scope.preventEvents();
             $(scope).trigger('ready');
         });
@@ -183,17 +271,37 @@ mw.Editor = function (options) {
         this.wrapper.className = 'mw-editor-wrapper mw-editor-' + this.settings.skin;
     };
 
+    this._registerChangeTimer = null;
+    this.registerChange = function (content) {
+        clearTimeout(this._registerChangeTimer);
+        this._registerChangeTimer = setTimeout(function () {
+            $(scope).trigger('change', [content || scope.$editArea.html()]);
+        }, 78);
+    };
+
     this.createArea = function () {
         this.area = mw.element({
             props: { className: 'mw-editor-area', innerHTML: this.settings.content || ''}
         });
         this.area.node.contentEditable = true;
         this.area.node.oninput = function() {
-            $(scope).trigger('change', [this.innerHTML]);
+            scope.registerChange();
         };
         this.wrapper.appendChild(this.area.node);
         scope.$editArea = this.area.$node;
         scope.preventEvents();
+        $(scope).trigger('ready');
+    };
+
+    this.documentMode = function () {
+        if(!this.settings.regions) {
+            console.warn('Regions are not defined in Document mode.')
+            return;
+        }
+        this.$editArea = $(this.document.body);
+        this.wrapper.className += ' mw-editor-wrapper-document-mode';
+        mw.$(this.document.body).append(this.wrapper)[0].mwEditor = this;
+        console.log(this.wrapper, this.document.body)
         $(scope).trigger('ready');
     };
 
@@ -203,7 +311,7 @@ mw.Editor = function (options) {
         }
         this.area.$node.html(content);
         if(trigger){
-            $(this).trigger('change', [content]);
+            scope.registerChange(content);
         }
     };
 
@@ -266,6 +374,10 @@ mw.Editor = function (options) {
         row = typeof row !== 'undefined' ? row :  this.settings.controls.length - 1;
         if(this.controllers[name]){
             var ctrl = new this.controllers[name](scope, scope.api, scope);
+            if (!ctrl.element) {
+                ctrl.element = ctrl.render();
+            }
+
             this.controls.push(ctrl);
             this.bar.add(ctrl.element, row);
         } else if(this.controllersHelpers[name]){
@@ -273,6 +385,30 @@ mw.Editor = function (options) {
         }
     };
 
+    this.createSmallEditor = function () {
+        if (!this.settings.smallEditor) {
+            return;
+        }
+        this.smallEditor = mw.element({
+            props: {
+                className: 'mw-small-editor'
+            }
+        });
+        this.smallEditorBar = mw.bar();
+        this.smallEditor.append(this.smallEditorBar.bar)
+        for (var i1 = 0; i1 < this.settings.smallEditor.length; i1++) {
+            var item = this.settings.smallEditor[i1];
+            this.smallEditorBar.createRow();
+            for (var i2 = 0; i2 < item.length; i2++) {
+                if( typeof item[i2] === 'string') {
+                    scope.addController(item[i2], i1);
+                } else if( typeof item[i2] === 'object') {
+                    scope.addControllerGroup(item[i2], i1);
+                }
+            }
+        }
+        this.wrapper.appendChild(this.smallEditor.node);
+    };
     this.createBar = function () {
         this.bar = mw.bar();
         for (var i1 = 0; i1 < this.settings.controls.length; i1++) {
@@ -284,7 +420,6 @@ mw.Editor = function (options) {
                 } else if( typeof item[i2] === 'object') {
                     scope.addControllerGroup(item[i2], i1);
                 }
-
             }
         }
         this.wrapper.appendChild(this.bar.bar);
@@ -300,7 +435,18 @@ mw.Editor = function (options) {
                     value: scope.$editArea[0].innerHTML
                 });
             }
+            scope.settings.regions = scope.settings.regions || scope.$editArea;
+            $(scope.settings.regions, scope.actionWindow.document).attr('contenteditable', true);
+            console.log($(scope.settings.regions, scope.actionWindow.document))
+            if (scope.settings.editMode === 'liveedit') {
+                scope.liveEditMode();
+            }
+            scope.addDependencies();
         });
+    };
+
+    this.liveEditMode = function () {
+
     };
 
     this._initInputRecordTime = null;
@@ -324,13 +470,20 @@ mw.Editor = function (options) {
         this._onReady();
         this.createWrapper();
         this.createBar();
+        this.createSmallEditor();
         if (this.settings.mode === 'div') {
             this.createArea();
         } else if (this.settings.mode === 'iframe') {
             this.createFrame();
+        } else if (this.settings.mode === 'document') {
+
+            this.documentMode();
         }
-        this._initInputRecord();
-        mw.$(this.settings.selector).append(this.wrapper)[0].mwEditor = this;
+        if (this.settings.mode !== 'document') {
+            this._initInputRecord();
+            mw.$(this.settings.selector).append(this.wrapper)[0].mwEditor = this;
+        }
+
     };
     this.init();
 };
