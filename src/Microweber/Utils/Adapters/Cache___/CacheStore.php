@@ -1,19 +1,19 @@
 <?php
 
-namespace Microweber\Utils\Adapters\Cache;
+namespace Microweber\Utils\Adapters\Cache___;
 
 use Closure;
 use Illuminate\Contracts\Cache\Repository;
-use Microweber\Utils\Adapters\Cache\Storage\ApcStorage;
-use Microweber\Utils\Adapters\Cache\Storage\FileStorage;
-use Microweber\Utils\Adapters\Cache\Storage\MemcachedStorage;
-use Microweber\Utils\Adapters\Cache\Storage\XCacheStorage;
+use Microweber\Utils\Adapters\Cache___\Storage\ApcStorage;
+use Microweber\Utils\Adapters\Cache___\Storage\FileStorage;
+use Microweber\Utils\Adapters\Cache___\Storage\MemcachedStorage;
+use Microweber\Utils\Adapters\Cache___\Storage\XCacheStorage;
 use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
 use MicroweberPackages\Cache\TaggableFileStore;
 
 class CacheStore implements Repository
 {
-    /** @var \Microweber\Utils\Adapters\Cache\Storage\FileStorage */
+    /** @var \Microweber\Utils\Adapters\Cache___\Storage\FileStorage */
     public $adapter;
 
     public function __construct($prefix = '')

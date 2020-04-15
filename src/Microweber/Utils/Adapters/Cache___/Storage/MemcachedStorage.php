@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\Utils\Adapters\Cache\Storage;
+namespace Microweber\Utils\Adapters\Cache___\Storage;
 
 use Illuminate\Cache\MemcachedStore;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\Utils\Adapters\Cache;
+namespace Microweber\Utils\Adapters\Cache___;
 
 use Illuminate\Cache\tags;
 use Illuminate\Support\Facades\Cache;

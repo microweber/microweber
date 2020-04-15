@@ -5,7 +5,6 @@ namespace Microweber;
 use App;
 use Cache;
 use Microweber\Providers\DatabaseManager;
-use Microweber\Utils\ClassLoader;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
@@ -32,6 +31,7 @@ use MicroweberPackages\TagsManager\TagsManagerServiceProvider;
 use MicroweberPackages\TaxManager\TaxManagerServiceProvider;
 use MicroweberPackages\TemplateManager\TemplateManagerServiceProvider;
 use MicroweberPackages\UserManager\UserManagerServiceProvider;
+use MicroweberPackages\Utils\System\ClassLoader;
 use PhpOffice\PhpSpreadsheet\Calculation\Category;
 
 if (! defined('MW_VERSION')) {
@@ -294,7 +294,7 @@ class MicroweberServiceProvider extends ServiceProvider
         App::instance('path.public', base_path());
 
         Cache::extend('file', function () {
-            return new Utils\Adapters\Cache\CacheStore();
+            return new Utils\Adapters\Cache___\CacheStore();
         });
 
         $this->app->database_manager->add_table_model('content', Content::class);

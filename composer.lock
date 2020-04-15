@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9ba89298230e99c4489439f133518e73",
+    "content-hash": "86f22e7db7998f55aeb03fee0b056c4b",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -3192,6 +3192,48 @@
             "description": "Microweber user manager.",
             "homepage": "http://microweber.com",
             "time": "2020-04-14T13:33:34+00:00"
+        },
+        {
+            "name": "microweber-packages/microweber-utils",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microweber-packages/microweber-utils.git",
+                "reference": "db4492c9894641ff83e2890e241072bde700e35b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-utils/zipball/db4492c9894641ff83e2890e241072bde700e35b",
+                "reference": "db4492c9894641ff83e2890e241072bde700e35b",
+                "shasum": ""
+            },
+            "require-dev": {
+                "mockery/mockery": "*",
+                "orchestra/testbench": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
+            "description": "Microweber utils.",
+            "homepage": "http://microweber.com",
+            "time": "2020-04-15T11:16:43+00:00"
         },
         {
             "name": "microweber-templates/dream",
@@ -7002,7 +7044,8 @@
         "microweber-packages/microweber-forms-manager": 20,
         "microweber-packages/microweber-user-manager": 20,
         "microweber-packages/microweber-backup-manager": 20,
-        "halaxa/json-machine": 20
+        "halaxa/json-machine": 20,
+        "microweber-packages/microweber-utils": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
