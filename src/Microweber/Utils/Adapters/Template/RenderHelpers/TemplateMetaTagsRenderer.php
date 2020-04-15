@@ -42,7 +42,8 @@ class TemplateMetaTagsRenderer
                     $meta_content_id = CONTENT_ID;
                 }
             }
-            if(!defined(POST_ID) or POST_ID == 0){
+            if(POST_ID == 0){
+
                 if (isset($params['category_id']) and $params['category_id']) {
                     $meta_category_id = $params['category_id'];
                 } else {
