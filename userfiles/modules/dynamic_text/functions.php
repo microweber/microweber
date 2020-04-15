@@ -1,24 +1,32 @@
 <?php
 
 
+event_bind('mw.front', function ($params) {
+    if (!defined('MW_DYNAMIC_TEXT_SHOULD_REPLACE')) {
+        define('MW_DYNAMIC_TEXT_SHOULD_REPLACE', 1);
+    }
+});
+
 document_ready('exec_dynamic_text_replace_in_layout');
 function exec_dynamic_text_replace_in_layout($layout)
 {
-    if (!in_live_edit()) {
-        $texts = get_dynamic_text('nolimit=1');
-        if ($texts) {
-            $replaces = array();
-            $searches = array();
-            foreach ($texts as $text) {
-                if (isset($text['name']) and $text['name']) {
-                    $searches[] = '[' . $text['name'] . ']';
-                    $replaces[] = $text['content'];
+    if (defined('MW_DYNAMIC_TEXT_SHOULD_REPLACE')) {
+        if (!in_live_edit()) {
+            $texts = get_dynamic_text('nolimit=1');
+            if ($texts) {
+                $replaces = array();
+                $searches = array();
+                foreach ($texts as $text) {
+                    if (isset($text['name']) and $text['name']) {
+                        $searches[] = '[' . $text['name'] . ']';
+                        $replaces[] = $text['content'];
+                    }
                 }
-            }
-            if ($searches) {
-                $layout = str_replace($searches, $replaces, $layout);
+                if ($searches) {
+                    $layout = str_replace($searches, $replaces, $layout);
 
-                return $layout;
+                    return $layout;
+                }
             }
         }
     }
@@ -26,10 +34,28 @@ function exec_dynamic_text_replace_in_layout($layout)
 }
 
 
+
+
+
 event_bind('parser.process', function ($layout) {
     if (defined('MW_DYNAMIC_TEXT_SHOULD_REPLACE')) {
 
-
+        $texts = get_dynamic_text('nolimit=1');
+        if ($texts) {
+            $replaces = array();
+            $searches = array();
+            foreach ($texts as $text) {
+                if (isset($text['name']) and $text['name']) {
+                    $searches[] = '[' . $text['name'] . ']';
+                    $replaces[] = $text['name'];
+                }
+            }
+            if ($searches) {
+                $layout = str_replace($searches, $replaces, $layout);
+//dd($layout);
+                return $layout;
+            }
+        }
     }
 });
 
