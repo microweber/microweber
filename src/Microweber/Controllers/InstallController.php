@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
 use Cache;
 use MicroweberPackages\UserManager\User;
+use MicroweberPackages\Utils\Http\Http;
 
 class InstallController extends Controller
 {
@@ -422,7 +423,7 @@ class InstallController extends Controller
         }
         $postData = array();
         $postData['postdata'] = base64_encode(@json_encode($data));
-        $http = new \Microweber\Utils\Http(app());
+        $http = new Http(app());
 
         try {
             $http->url('http://installreport.services.microweberapi.com')->set_timeout(10)->post($postData);
