@@ -1,5 +1,38 @@
 <?php
 
+
+document_ready('exec_dynamic_text_replace_in_layout');
+function exec_dynamic_text_replace_in_layout($layout)
+{
+    if (!in_live_edit()) {
+        $texts = get_dynamic_text('nolimit=1');
+        if ($texts) {
+            $replaces = array();
+            $searches = array();
+            foreach ($texts as $text) {
+                if (isset($text['name']) and $text['name']) {
+                    $searches[] = '[' . $text['name'] . ']';
+                    $replaces[] = $text['content'];
+                }
+            }
+            if ($searches) {
+                $layout = str_replace($searches, $replaces, $layout);
+
+                return $layout;
+            }
+        }
+    }
+    return $layout;
+}
+
+
+event_bind('parser.process', function ($layout) {
+    if (defined('MW_DYNAMIC_TEXT_SHOULD_REPLACE')) {
+
+
+    }
+});
+
 api_expose_admin('save_dynamic_text');
 function save_dynamic_text($data)
 {
@@ -9,6 +42,13 @@ function save_dynamic_text($data)
 
     if (isset($data['id']) && $data['id'] == 0) {
         unset($data['id']);
+    }
+    if (isset($data['name'])) {
+        $data['name'] = url_title($data['name']);
+        $check = get_dynamic_text('single=1&name=' . $data['name']);
+        if ($check and isset($check['id'])) {
+            $data['id'] = $check['id'];
+        }
     }
     $data['allow_html'] = true;
     $table = "dynamic_text_variables";

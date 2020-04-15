@@ -36,7 +36,10 @@ $dynamic_texts = get_dynamic_text();
         <?php if(is_array($dynamic_texts)) : ?>
             <?php foreach($dynamic_texts as $dynamic_text) : ?>
             <tr>
-                <td><?php echo $dynamic_text['name'];?></td>
+                <td><?php echo $dynamic_text['name'];?><br>
+
+                    <input type="text" title="Replace tag to use in text" value="[<?php echo $dynamic_text['name'];?>]">
+                </td>
                 <td style="word-wrap: break-word"><?php echo $dynamic_text['content'];?></td>
                 <td>
                     <a href="javascript:;" onclick="edit_dynamic_text(<?php echo $dynamic_text['id'];?>);" class="mw-ui-btn mw-ui-btn-medium">Edit</a>
