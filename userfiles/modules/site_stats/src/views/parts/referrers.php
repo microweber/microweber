@@ -30,7 +30,9 @@ if (!$data) {
               <?php foreach ($item['referrer_paths'] as $path): ?>
 
                         <?php
-
+                        if(!isset($path['referrer_url'])){
+                            $path['referrer_url'] = '';
+                        }
                         $ref_url_display =  $path['referrer_url'];
                         if(isset($path['referrer_path']) and $path['referrer_path']){
                             $ref_url_display =  $path['referrer_path'];
