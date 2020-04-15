@@ -45,6 +45,25 @@ use Microweber\Utils\Adapters\Packages\Helpers\ZipDownloader;
 class ComposerFactory extends Factory {
 
 
+    /**
+     * @param  Config                     $config The configuration
+     * @param  Downloader\DownloadManager $dm     Manager use to download sources
+     * @return Archiver\ArchiveManager
+     */
+    public function createArchiveManager(Config $config, Downloader\DownloadManager $dm = null)
+    {
+        if (null === $dm) {
+            $io = new IO\NullIO();
+            $io->loadConfiguration($config);
+            $dm = $this->createDownloadManager($io, $config);
+        }
+
+        $am = new Archiver\ArchiveManager($dm);
+        $am->addArchiver(new Archiver\ZipArchiver);
+
+
+        return $am;
+    }
 
 
     /**

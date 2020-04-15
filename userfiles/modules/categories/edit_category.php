@@ -392,6 +392,32 @@ if (isset($params['live_edit'])) {
                         </div>
 
 
+
+                        <div class="mw-ui-field-holder">
+                            <label class="mw-ui-label"><?php _e("Meta Title"); ?></label>
+                            <input type="text" class="mw-ui-field w100" name="category_meta_title" value="<?php (isset($data['category_meta_title'])) ? print ($data['category_meta_title']) : '' ?>"/>
+                        </div>
+
+
+
+                        <div class="mw-ui-field-holder">
+                            <label class="mw-ui-label"><?php _e("Meta Keywords"); ?></label>
+                            <input type="text" class="mw-ui-field w100" name="category_meta_keywords" value="<?php (isset($data['category_meta_keywords'])) ? print ($data['category_meta_keywords']) : '' ?>"/>
+                        </div>
+
+
+
+                        <div class="mw-ui-field-holder">
+                            <label class="mw-ui-label"><?php _e("Meta Description"); ?>:</label>
+                            <textarea class="mw-ui-field w100" name="category_meta_description"><?php (isset($data['category_meta_description'])) ? print ($data['category_meta_description']) : '' ?></textarea>
+                        </div>
+
+
+
+
+
+
+
                         <?php if (isset($data['id'])): ?>
                             <module type="content/views/settings_from_template" content-type="category" category-id="<?php print $data['id'] ?>"/>
                         <?php endif; ?>

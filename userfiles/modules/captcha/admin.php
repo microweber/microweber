@@ -1,6 +1,5 @@
 <?php only_admin_access(); ?>
 
-<?php if (!isset($params['live_edit'])): ?>
 <div class="mw-module-admin-wrap">
     <?php if (isset($params['backend'])): ?>
         <module type="admin/modules/info"/>
@@ -93,8 +92,3 @@
         </div>
     </div>
 </div>
-<?php else: ?>
-
-Captcha can be configured from admin.
-
-<?php endif; ?>
