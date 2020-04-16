@@ -86,6 +86,13 @@
                     <b>Google ReCaptcha V3 Secret Key</b>
                     <input type="text" name="recaptcha_v3_secret_key" option-group="captcha" value="<?php echo get_option('recaptcha_v3_secret_key', 'captcha'); ?>" class="mw-ui-field mw_option_field mw-full-width" />
                 </div>
+
+                <br />
+
+                <div>
+                    <b>Google ReCaptcha V3 Score</b>
+                    <input type="text" placeholder="0.5" name="recaptcha_v3_secret_key" option-group="captcha" value="<?php echo get_option('recaptcha_v3_score', 'captcha'); ?>" class="mw-ui-field mw_option_field mw-full-width" />
+                </div>
             </div>
 
 
