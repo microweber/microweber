@@ -14,7 +14,11 @@ class GoogleRecaptchaV3
 
         $recaptcha_v3_score = get_option('recaptcha_v3_score', 'captcha');
         if (!empty($recaptcha_v3_score)) {
-            $default_score = $recaptcha_v3_score;
+            $default_score = floatval($recaptcha_v3_score);
+        }
+
+        if ($default_score > 1) {
+            $default_score = 1;
         }
 
         $response = mw()->http->url($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response)->get();
