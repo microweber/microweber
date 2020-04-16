@@ -40,7 +40,7 @@ description: Default Search template
         mw.on.hashParam("keyword<?php print $seach_prefix ?>", function () {
             mw.$("#search_box_holder_<?php  print $params['id'] ?>").addClass("loading");
             var key = this;
-            if (key !== '') {
+            if (key != '') {
                 var holder = mw.$('#search_results_holder_<?php  print $params['id'] ?>');
                 mw.search(key, holder, {
                     done: function () {
