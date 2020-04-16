@@ -342,6 +342,17 @@ if ($last_page_front != false) {
 
 
                                         <div class="mw-field top-search">
+
+
+
+
+                                            <div style="margin-left:35px;position: relative;display: none;"  id="posts-select-tags" class="js-toggle-search-mode-tags">
+                                                -
+                                            </div>
+
+
+
+
                                             <input value="<?php if (isset($params['keyword']) and $params['keyword'] != false): ?><?php print $params['keyword'] ?><?php endif; ?>"
                                                 <?php if (isset($params['keyword']) and $params['keyword'] != false): ?> autofocus="autofocus"
                                                 <?php endif; ?>
@@ -350,6 +361,26 @@ if ($last_page_front != false) {
                                             <span class="mw-ui-btn mw-field-append"
                                                   onclick="mw.url.windowHashParam('search',$(this).prev().val())"><span
                                                     class="mw-icon-search"></span></span>
+
+
+
+
+                                            <ul class=" mw-ui-navigation mw-ui-navigation-horizontal pull-right"  style="margin-left:35px;position: relative;display: inline-block; float: right;">
+                                                <li>
+                                                    <a href="javascript:;"><span class="mw-icon-dropdown"></span></a>
+                                                    <ul>
+                                                        <li>
+
+                                                            <a href="javascript:$('.js-toggle-search-mode-tags').toggle();">Search by tags</a>
+
+                                                        </li>
+                                                    </ul>
+                                                </li>
+
+                                            </ul>
+
+
+
                                         </div>
                                         <script>
                                             $(document).ready(function () {
@@ -364,9 +395,6 @@ if ($last_page_front != false) {
                                     </div>
 
 
-                                    <div style="margin-left:35px;position: relative;display: inline-block;" id="posts-select-tags">
-                                        -
-                                    </div>
 
 
 
