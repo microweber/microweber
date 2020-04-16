@@ -1,6 +1,4 @@
 <?php
-
-
 $url_segment = url_segment();
 $page_name_for_captcha = $url_segment[0];
 
