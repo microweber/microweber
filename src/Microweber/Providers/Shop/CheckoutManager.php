@@ -439,7 +439,7 @@ class CheckoutManager
                         $gw_process = normalize_path(modules_path() . $data['payment_gw'] . DS . 'process.php', false);
                     }
 
-                    $encrypter = new \Illuminate\Encryption\Encrypter($place_order['payment_verify_token'], Config::get('app.cipher'));
+                    $encrypter = new \Illuminate\Encryption\Encrypter(md5(Config::get('app.key').$place_order['payment_verify_token']), Config::get('app.cipher'));
 
                     $vkey_data = array();
                     $vkey_data['payment_amount'] = $place_order['payment_amount'];
@@ -1000,7 +1000,7 @@ class CheckoutManager
 
             $vkey = urldecode($vkey);
 
-            $encrypter = new \Illuminate\Encryption\Encrypter($data['payment_verify_token'], Config::get('app.cipher'));
+            $encrypter = new \Illuminate\Encryption\Encrypter(md5(Config::get('app.key').$data['payment_verify_token']), Config::get('app.cipher'));
 
             $url_verify = $this->_build_url($pieces);
             $decrypt_data = @json_decode($encrypter->decrypt($vkey), true);
