@@ -2,6 +2,9 @@
 
 namespace Microweber\Providers\Shop;
 
+use Microweber\App\Providers\Illuminate\Support\Facades\Config;
+use Microweber\App\Providers\Illuminate\Support\Facades\Crypt;
+
 class CheckoutManager
 {
     /** @var \Microweber\Application */
@@ -45,12 +48,16 @@ class CheckoutManager
         $mw_process_payment_failed = false;
 
         if (isset($_REQUEST['mw_payment_success']) or isset($_REQUEST['mw_payment_failure'])) {
+
             $update_order = $update_order_orig = $this->app->order_manager->get_by_id($sess_order_id);
             if (isset($update_order['payment_gw'])) {
                 $gw_return = normalize_path(modules_path() . $update_order['payment_gw'] . DS . 'return.php', false);
                 if (is_file($gw_return)) {
                     include $gw_return;
+
                     if ($update_order != $update_order_orig) {
+                        $this->_verify_request_params($update_order);
+
                         $this->app->order_manager->save($update_order);
                     }
                 }
@@ -312,6 +319,9 @@ class CheckoutManager
             $place_order['amount'] = $amount;
             $place_order['allow_html'] = true;
             $place_order['currency'] = $this->app->option_manager->get('currency', 'payments');
+            if (!$place_order['currency']) {
+                $place_order['currency'] = 'USD';
+            }
 
             if (isset($data['shipping_gw'])) {
                 $place_order['shipping_service'] = $data['shipping_gw'];
@@ -324,7 +334,7 @@ class CheckoutManager
             $items_count = $this->app->shop_manager->cart_sum(false);
             $place_order['items_count'] = $items_count;
 
-            $cart_checksum = md5($sid . serialize($check_cart) . uniqid());
+            $cart_checksum = md5($sid . serialize($check_cart) . uniqid(time()));
 
             $place_order['payment_verify_token'] = $cart_checksum;
 
@@ -367,19 +377,92 @@ class CheckoutManager
             $place_order['discount_value'] = $discount_value;
 
 
+            // convert currency to payment provider currency
+            $currencies_list_paypal = mw()->shop_manager->currency_get_for_paypal();
+            $currencyCode = strtoupper($place_order['currency']);
+            $amount = $place_order['amount'];
+
+            if (!isset($place_order['payment_amount'])) {
+                $place_order['payment_amount'] = $amount;
+            }
+            $place_order['payment_shipping'] = $place_order['shipping'];
+
+
+            $payment_currency = get_option('payment_currency', 'payments');
+            $payment_currency_rate = get_option('payment_currency_rate', 'payments');
+
+
+            if ($payment_currency and $payment_currency != $currencyCode) {
+
+                if (!in_array(strtoupper($place_order['currency']), $currencies_list_paypal)) {
+
+                    $currencyCode = $payment_currency;
+
+
+                    if ($payment_currency_rate != false) {
+                        $payment_currency_rate = str_replace(',', '.', $payment_currency_rate);
+                        $payment_currency_rate = floatval($payment_currency_rate);
+
+                    }
+                    if ($payment_currency_rate != 0.00) {
+
+                        $amount = $amount * $payment_currency_rate;
+                        $place_order['payment_amount'] = $amount;
+
+                    }
+
+
+                    if ($place_order['payment_shipping']) {
+                        $place_order['payment_shipping'] = $place_order['payment_shipping'] * $payment_currency_rate;
+
+                    }
+
+
+                }
+            }
+
+
+            $place_order['payment_currency'] = $currencyCode;
+
+
+            // end of convert for curency
+
+
             if ($mw_process_payment == true) {
                 $shop_dir = module_dir('shop');
                 $shop_dir = $shop_dir . DS . 'payments' . DS . 'gateways' . DS;
 
                 if ($data['payment_gw'] != 'none') {
+                    $place_order['payment_gw'] = $data['payment_gw'];
                     $gw_process = modules_path() . $data['payment_gw'] . '_process.php';
                     if (!is_file($gw_process)) {
                         $gw_process = normalize_path(modules_path() . $data['payment_gw'] . DS . 'process.php', false);
                     }
 
-                    $mw_return_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_success=1&order_id=' . $place_order['id'] . '&payment_gw=' . $data['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . $return_url_after;
-                    $mw_cancel_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_failure=1&order_id=' . $place_order['id'] . '&payment_gw=' . $data['payment_gw'] . '&recart=' . $sid . $return_url_after;
-                    $mw_ipn_url = $this->app->url_manager->api_link('checkout_ipn') . '?payment_gw=' . $data['payment_gw'] . '&order_id=' . $place_order['id'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . $return_url_after;
+                    $encrypter = new \Illuminate\Encryption\Encrypter($place_order['payment_verify_token'], Config::get('app.cipher'));
+
+                    $vkey_data = array();
+                    $vkey_data['payment_amount'] = $place_order['payment_amount'];
+                    $vkey_data['payment_currency'] = $place_order['payment_currency'];
+
+
+                    $mw_return_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_success=1&order_id=' . $place_order['id'] . '&payment_gw=' . $place_order['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . $return_url_after;
+                    $vkey_data_temp = $vkey_data;
+                    $vkey_data_temp['url'] = $mw_return_url;
+                    $mw_return_url .= '&_vkey_url=' . urlencode($encrypter->encrypt(json_encode($vkey_data_temp)));
+
+
+                    $mw_cancel_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_failure=1&order_id=' . $place_order['id'] . '&payment_gw=' . $place_order['payment_gw'] . '&recart=' . $sid . $return_url_after;
+                    $vkey_data_temp = $vkey_data;
+                    $vkey_data_temp['url'] = $mw_cancel_url;
+                    $mw_cancel_url .= '&_vkey_url=' . urlencode($encrypter->encrypt(json_encode($vkey_data_temp)));
+
+
+                    $mw_ipn_url = $this->app->url_manager->api_link('checkout_ipn') . '?payment_gw=' . $place_order['payment_gw'] . '&order_id=' . $place_order['id'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . $return_url_after;
+                    $vkey_data_temp = $vkey_data;
+                    $vkey_data_temp['url'] = $mw_ipn_url;
+                    $mw_ipn_url .= '&_vkey_url=' . urlencode($encrypter->encrypt(json_encode($vkey_data_temp)));
+
 
                     if (is_file($gw_process)) {
                         require_once $gw_process;
@@ -714,6 +797,7 @@ class CheckoutManager
             return array('error' => 'You must provide a payment gateway parameter!');
         }
 
+
         $data['payment_gw'] = str_replace('..', '', $data['payment_gw']);
 
         $hostname = $this->get_domain_from_str($_SERVER['REMOTE_ADDR']);
@@ -751,12 +835,11 @@ class CheckoutManager
         if (!is_file($gw_process)) {
             $gw_process = normalize_path(modules_path() . $data['payment_gw'] . DS . 'notify.php', false);
         }
-        file_put_contents(storage_path().'/ppdebug0.txt', print_r($_REQUEST,1) . PHP_EOL . PHP_EOL);
 
         $update_order = array();
         if (is_file($gw_process)) {
             include $gw_process;
-
+            $this->_verify_request_params($update_order);
 
         } else {
             return array('error' => 'The payment gateway is not found!');
@@ -764,18 +847,15 @@ class CheckoutManager
         $update_order_event_data = [];
 
 
-
-
-
-        if(is_array($update_order)){
-            $update_order_event_data = array_merge($ord_data,$update_order);
+        if (is_array($update_order)) {
+            $update_order_event_data = array_merge($ord_data, $update_order);
         }
+
 
         if (!empty($update_order_event_data) and isset($update_order_event_data['order_completed']) and $update_order_event_data['order_completed'] == 1) {
             $update_order_event_data['id'] = $ord;
             $update_order_event_data['payment_gw'] = $data['payment_gw'];
             $ord = $this->app->database_manager->save($table_orders, $update_order_event_data);
-
 
 
             if (isset($update_order_event_data['is_paid']) and $update_order_event_data['is_paid']) {
@@ -784,8 +864,6 @@ class CheckoutManager
 
             if (isset($update_order_event_data['is_paid']) and $update_order_event_data['is_paid'] == 1) {
                 $this->app->shop_manager->update_quantities($ord);
-
-
 
 
             }
@@ -873,5 +951,104 @@ class CheckoutManager
         }
 
         return $url;
+    }
+
+    private function _verify_request_params($data)
+    {
+
+        $error = false;
+
+        if (!isset($data['payment_verify_token'])) {
+            $error = true;
+        }
+
+        if (!isset($data['payment_amount'])) {
+            $error = true;
+        }
+
+
+        if (!isset($data['payment_currency'])) {
+            $error = true;
+        }
+
+
+        $vkey = false;
+
+        $url = url_current();
+        $param = '_vkey_url';
+        $pieces = parse_url($url);
+        $query = [];
+        if ($pieces['query']) {
+            parse_str($pieces['query'], $query);
+            $data[$param] = $query[$param];
+            unset($query[$param]);
+            $pieces['query'] = http_build_query($query);
+        }
+        if (!isset($data['_vkey_url'])) {
+            $error = true;
+        } else {
+            $vkey = $data['_vkey_url'];
+        }
+
+
+        if (!$vkey) {
+            $error = true;
+        }
+
+
+        if (!$error) {
+
+            $vkey = urldecode($vkey);
+
+            $encrypter = new \Illuminate\Encryption\Encrypter($data['payment_verify_token'], Config::get('app.cipher'));
+
+            $url_verify = $this->_build_url($pieces);
+            $decrypt_data = @json_decode($encrypter->decrypt($vkey), true);
+
+            if (!$decrypt_data) {
+                $error = true;
+            } else {
+
+                $decrypt_url = $decrypt_data['url'];
+                $decrypt_payment_amount = $decrypt_data['payment_amount'];
+                $decrypt_payment_currency = $decrypt_data['payment_currency'];
+
+                $url_verify = urldecode($url_verify);
+                $decrypt_url = urldecode($decrypt_url);
+
+                if (md5($url_verify) !== md5($decrypt_url)) {
+                    $error = true;
+                }
+
+                if (md5(floatval($decrypt_payment_amount)) !== md5(floatval($data['payment_amount']))) {
+                    $error = true;
+                }
+                if (md5(strtoupper($decrypt_payment_currency)) !== md5(strtoupper($data['payment_currency']))) {
+                    $error = true;
+                }
+            }
+        }
+
+
+        if ($error) {
+
+            abort(403, 'Unauthorized action.');
+        }
+
+    }
+
+    private function _build_url(array $elements)
+    {
+        $e = $elements;
+        return
+            (isset($e['host']) ? (
+                (isset($e['scheme']) ? "$e[scheme]://" : '//') .
+                (isset($e['user']) ? $e['user'] . (isset($e['pass']) ? ":$e[pass]" : '') . '@' : '') .
+                $e['host'] .
+                (isset($e['port']) ? ":$e[port]" : '')
+            ) : '') .
+            (isset($e['path']) ? $e['path'] : '/') .
+            (isset($e['query']) ? '?' . (is_array($e['query']) ? http_build_query($e['query'], '', '&') : $e['query']) : '') .
+            (isset($e['fragment']) ? "#$e[fragment]" : '');
     }
 }
