@@ -178,8 +178,9 @@ class InstallController extends Controller
                 }*/
                 $fallback_key = str_random(32);
                 $fallback_key_str = 'base64:' . base64_encode($fallback_key);
-                Config::set('app.key', $fallback_key_str);
                 $allowed_configs[] = 'app';
+                Config::set('app.key', $fallback_key_str);
+
             }
 
             $this->log('Saving config');

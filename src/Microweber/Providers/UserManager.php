@@ -1003,7 +1003,7 @@ class UserManager
         }
         if ($force == false) {
 
-            if (isset($params['id'])) {
+            if (!is_cli()) {
                 $validate_token = mw()->user_manager->csrf_validate($params);
 
                 if ($validate_token == false) {

@@ -1,5 +1,10 @@
 <?php
+$captcha_name = get_option('captcha_name', $params['id']);
 
+if (empty($captcha_name)) {
+    $url_segment = url_segment();
+    $captcha_name = $url_segment[0];
+}
 
 if ($captcha_provider == 'google_recaptcha_v2'):
     ?>
@@ -17,6 +22,7 @@ if ($captcha_provider == 'google_recaptcha_v2'):
                     try {
                         grecaptcha.render('js-mw-google-recaptcha-v2-<?php print $params['id'] ?>', {
                             'sitekey': '<?php echo get_option('recaptcha_v2_site_key', 'captcha'); ?>',
+                            'action': '<?php echo $captcha_name; ?>',
                             'callback': function (response) {
                                 $('#js-mw-google-recaptcha-v2-<?php print $params['id'] ?>-input').val(response);
 
@@ -53,7 +59,7 @@ if ($captcha_provider == 'google_recaptcha_v2'):
 
                     try {
                         grecaptcha.ready(function () {
-                            grecaptcha.execute('<?php echo get_option('recaptcha_v3_site_key', 'captcha'); ?>', {action: 'contact'}).then(function (token) {
+                            grecaptcha.execute('<?php echo get_option('recaptcha_v3_site_key', 'captcha'); ?>', {action: '<?php echo $captcha_name; ?>'}).then(function (token) {
                                 var recaptchaResponse = document.getElementById('js-mw-google-recaptcha-v3-<?php print $params['id'] ?>-input');
                                 recaptchaResponse.value = token;
                             });

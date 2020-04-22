@@ -41,6 +41,8 @@ if (isset($params['data-search-type'])) {
                 .attr('hide_paging', opt.hide_paging)
                 .attr('limit', opt.limit)
                 .attr('ajax_paging', opt.ajax_paging)
+                .attr('search_global', true)
+
                 <?php if (isset($params['data-parent'])) { ?>
                 .attr('data-parent', '<?php print $params['data-parent'] ?>')
                 .attr('data-search-parent', '<?php print $params['data-parent'] ?>')
