@@ -12,6 +12,7 @@
 
 mw.Editor.interactionControls = {
     image: function (rootScope) {
+        this.nodes = [];
         this.render = function () {
             var scope = this;
             var el = mw.element({
@@ -44,9 +45,13 @@ mw.Editor.interactionControls = {
             });
             el.append(changeButton);
             el.append(editButton);
+            this.nodes.push(el.node, changeButton.node, editButton.node);
             return el;
         };
         this.interact = function (data) {
+            if(this.nodes.indexOf(data.target) !== -1) {
+                return;
+            }
             if (data.isImage) {
                 var $target = $(data.target);
                 this.$target = $target;

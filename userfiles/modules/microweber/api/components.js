@@ -1,4 +1,4 @@
-mw.components = {
+    mw.components = {
     _rangeOnce: false,
     'range': function(el){
         mw.lib.require('jqueryui');

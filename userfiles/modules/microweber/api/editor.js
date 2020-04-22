@@ -8,12 +8,13 @@ mw.require('editor/controllers.js');
 mw.require('editor/add.controller.js');
 mw.require('editor/interaction-controls.js');
 mw.require('editor/i18n.js');
+mw.require('editor/liveeditmode.js');
 
 
 var EditorPredefinedControls = {
     'default': [
-        ['bold', '|', 'italic'],
-        ['bold', '|', 'italic' ]
+        [ 'bold', '|', 'italic' ],
+        [ 'bold', '|', 'italic' ]
     ],
     smallEditorDefault: [
         ['bold', '|', 'italic']
@@ -33,7 +34,7 @@ mw.Editor = function (options) {
         value: '',
         url: null,
         skin: 'default',
-        stateManager: null,
+        state: null,
         iframeAreaSelector: null,
         activeClass: 'mw-ui-btn-info',
         interactionControls: [
@@ -42,6 +43,7 @@ mw.Editor = function (options) {
         language: 'en',
         rootPath: '/mw1/userfiles/modules/microweber/api/editor',
         editMode: 'normal', // normal | liveedit
+        bar: null
     };
 
     this.actionWindow = window;
@@ -84,9 +86,7 @@ mw.Editor = function (options) {
                 if(!int.element){
                     int.element = int.render();
                 }
-
                 scope.actionWindow.document.body.appendChild(int.element.node);
-
                 scope.interactionControls.push(int);
             }
         });
@@ -136,7 +136,6 @@ mw.Editor = function (options) {
             node = scope.actionWindow.document.createElement('script');
             node.src = url;
         }
-        console.log(scope.actionWindow.document.body)
         scope.actionWindow.document.body.appendChild(node);
     };
 
@@ -148,29 +147,27 @@ mw.Editor = function (options) {
 
     this.initInteraction = function () {
         var ait = 100, currt = new Date().getTime();
-        scope.$editArea.on('mousemove touchmove touchstart mousedown', function(e){
-            var dt = new Date().getTime();
-            if ((currt + ait) > dt)  return;
-            currt = dt;
-            var target = e.target;
-            var component = mw.tools.firstParentOrCurrentWithAnyOfClasses(target, ['element', 'edit', 'module']);
-            var isImage = target.nodeName === 'IMG';
-            var data = {
-                target: target,
-                component: component,
-                isImage: isImage,
-                event: e
-            };
-            scope.interactionControlsRun(data);
-            $(scope).trigger('areaInteraction', [data]);
+        this.interactionData = {};
+        $(scope.actionWindow.document).on('selectionchange', function(e){
+            $(scope).trigger('selectionchange', [{
+                event: e,
+                interactionData: scope.interactionData
+            }]);
         });
         var max = 78;
-        scope.$editArea.on('touchstart touchend click keydown execCommand', function(){
+        scope.$editArea.on('touchstart touchend click keydown execCommand mousemove touchmove', function(e){
             var time = new Date().getTime();
             if((time - scope._interactionTime) > max){
+                if (e.pageX) {
+                    scope.interactionData.pageX = e.pageX;
+                    scope.interactionData.pageY = e.pageY;
+                }
                 scope._interactionTime = time;
                 scope.selection = scope.getSelection();
-                var target = scope.api.elementNode( scope.selection.getRangeAt(0).commonAncestorContainer);
+                if (scope.selection.rangeCount === 0) {
+                    return;
+                }
+                var target = scope.api.elementNode( scope.selection.getRangeAt(0).commonAncestorContainer );
                 var css = mw.CSSParser(target);
                 var api = scope.api;
                 scope.controls.forEach(function (ctrl) {
@@ -281,7 +278,7 @@ mw.Editor = function (options) {
 
     this.createArea = function () {
         this.area = mw.element({
-            props: { className: 'mw-editor-area', innerHTML: this.settings.content || ''}
+            props: { className: 'mw-editor-area', innerHTML: this.settings.content || '' }
         });
         this.area.node.contentEditable = true;
         this.area.node.oninput = function() {
@@ -301,7 +298,6 @@ mw.Editor = function (options) {
         this.$editArea = $(this.document.body);
         this.wrapper.className += ' mw-editor-wrapper-document-mode';
         mw.$(this.document.body).append(this.wrapper)[0].mwEditor = this;
-        console.log(this.wrapper, this.document.body)
         $(scope).trigger('ready');
     };
 
@@ -323,7 +319,10 @@ mw.Editor = function (options) {
     this.api = mw._editorApi(this);
 
     this._addControllerGroups = [];
-    this.addControllerGroup = function (obj, row) {
+    this.addControllerGroup = function (obj, row, bar) {
+        if(!bar) {
+            bar = 'bar';
+        }
         var group = obj.group;
         var el = mw.element({
             props: {
@@ -343,9 +342,9 @@ mw.Editor = function (options) {
             if(scope.controllers[name]){
                 var ctrl = new scope.controllers[name](scope, scope.api, scope);
                 scope.controls.push(ctrl);
-                scope.bar.add(ctrl.element, row);
+                scope[bar].add(ctrl.element, row);
             } else if(this.controllersHelpers[name]){
-                scope.bar.add(this.controllersHelpers[name](), row);
+                scope[bar].add(this.controllersHelpers[name](), row);
             }
         });
 
@@ -370,8 +369,11 @@ mw.Editor = function (options) {
         check();
     };
 
-    this.addController = function (name, row) {
+    this.addController = function (name, row, bar) {
         row = typeof row !== 'undefined' ? row :  this.settings.controls.length - 1;
+        if (!bar) {
+            bar = 'bar';
+        }
         if(this.controllers[name]){
             var ctrl = new this.controllers[name](scope, scope.api, scope);
             if (!ctrl.element) {
@@ -379,9 +381,9 @@ mw.Editor = function (options) {
             }
 
             this.controls.push(ctrl);
-            this.bar.add(ctrl.element, row);
+            this[bar].add(ctrl.element, row);
         } else if(this.controllersHelpers[name]){
-            this.bar.add(this.controllersHelpers[name](), row);
+            this[bar].add(this.controllersHelpers[name](), row);
         }
     };
 
@@ -395,22 +397,35 @@ mw.Editor = function (options) {
             }
         });
         this.smallEditorBar = mw.bar();
-        this.smallEditor.append(this.smallEditorBar.bar)
+        this.smallEditor.append(this.smallEditorBar.bar);
         for (var i1 = 0; i1 < this.settings.smallEditor.length; i1++) {
             var item = this.settings.smallEditor[i1];
             this.smallEditorBar.createRow();
             for (var i2 = 0; i2 < item.length; i2++) {
                 if( typeof item[i2] === 'string') {
-                    scope.addController(item[i2], i1);
+                    scope.addController(item[i2], i1, 'smallEditorBar');
                 } else if( typeof item[i2] === 'object') {
-                    scope.addControllerGroup(item[i2], i1);
+                    scope.addControllerGroup(item[i2], i1, 'smallEditorBar');
                 }
             }
         }
-        this.wrapper.appendChild(this.smallEditor.node);
+        scope.$editArea.on('mouseup touchend', function (e, data) {
+            if (scope.selection && !scope.selection.isCollapsed) {
+                if(!mw.tools.hasParentsWithClass(e.target, 'mw-bar')){
+                    scope.smallEditor.$node.css({
+                        top: scope.interactionData.pageY - scope.smallEditor.$node.height() - 20,
+                        left: scope.interactionData.pageX,
+                        display: 'block'
+                    });
+                }
+            } else {
+                scope.smallEditor.$node.hide();
+            }
+        });
+        this.actionWindow.document.body.appendChild(this.smallEditor.node);
     };
     this.createBar = function () {
-        this.bar = mw.bar();
+        this.bar = mw.settings.bar || mw.bar();
         for (var i1 = 0; i1 < this.settings.controls.length; i1++) {
             var item = this.settings.controls[i1];
             this.bar.createRow();
@@ -437,16 +452,16 @@ mw.Editor = function (options) {
             }
             scope.settings.regions = scope.settings.regions || scope.$editArea;
             $(scope.settings.regions, scope.actionWindow.document).attr('contenteditable', true);
-            console.log($(scope.settings.regions, scope.actionWindow.document))
             if (scope.settings.editMode === 'liveedit') {
                 scope.liveEditMode();
             }
             scope.addDependencies();
+            scope.createSmallEditor();
         });
     };
 
     this.liveEditMode = function () {
-
+        this.liveedit = mw.Editor.liveeditMode(this.actionWindow.document.body, scope);
     };
 
     this._initInputRecordTime = null;
@@ -470,13 +485,12 @@ mw.Editor = function (options) {
         this._onReady();
         this.createWrapper();
         this.createBar();
-        this.createSmallEditor();
+
         if (this.settings.mode === 'div') {
             this.createArea();
         } else if (this.settings.mode === 'iframe') {
             this.createFrame();
         } else if (this.settings.mode === 'document') {
-
             this.documentMode();
         }
         if (this.settings.mode !== 'document') {

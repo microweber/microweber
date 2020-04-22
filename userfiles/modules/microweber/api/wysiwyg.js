@@ -739,11 +739,12 @@ mw.wysiwyg = {
             if (!el) return false;
             if (el.nodeType === 3) return true;
             var is = false;
+            var css =  getComputedStyle(el)
 
-            var display = getComputedStyle(el).getPropertyValue('display');
+            var display = css.getPropertyValue('display');
 
-            var position = getComputedStyle(el).getPropertyValue('position');
-            var isInline = display == 'inline';
+            var position = css.getPropertyValue('position');
+            var isInline = display === 'inline';
             if (isInline) return true;
             var mergeables = ['p', '.element', 'div:not([class])', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
             mergeables.forEach(function (item) {

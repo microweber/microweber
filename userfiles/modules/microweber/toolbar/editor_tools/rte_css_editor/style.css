@@ -361,7 +361,7 @@ input,select{
     line-height: 3px;
 }
 #domtree .ui-resizable-s{
-    position: absolute;
+    position: sticky;
     background-color: #eee;
     text-align: center;
     height: 12px;

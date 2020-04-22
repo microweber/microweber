@@ -385,6 +385,7 @@
 
             var editor3 = new mw.Editor({
                 mode: 'document',
+                editMode: 'liveedit',
                 controls: [
                     ['undoRedo', '|', 'fontSelector'],
                     ['bold', '|', 'italic', '|', 'fontSize'   ]
