@@ -5,7 +5,7 @@ function content_export_start($data)
 {
 	only_admin_access();
 
-	$export = new \MicroweberPackages\Utils\Stuf\ContentExport($data);
+	$export = new \MicroweberPackages\Utils\Misc\ContentExport($data);
 	$export->setExportFormatType('json');
 
 	return $export->start();
@@ -17,7 +17,7 @@ function content_export_download($data)
 {
     only_admin_access();
 
-	$export = new \MicroweberPackages\Utils\Stuf\ContentExport();
+	$export = new \MicroweberPackages\Utils\Misc\ContentExport();
 
 	return $export->download($data['filename']);
 }

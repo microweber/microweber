@@ -1,7 +1,7 @@
 <?php
 namespace Microweber\tests;
 
-use MicroweberPackages\Utils\Stuf\ContentExport;
+use MicroweberPackages\Utils\Misc\ContentExport;
 
 class ContentExportTest extends TestCase
 {
