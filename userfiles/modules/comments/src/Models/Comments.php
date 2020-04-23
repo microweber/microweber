@@ -1,13 +1,12 @@
 <?php
 
-
 namespace Microweber\Comments\Models;
 
-use Microweber\Utils\Http;
-use Microweber\Utils\MailSender;
 use Microweber\View;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use MicroweberPackages\DatabaseManager\Crud;
+use MicroweberPackages\Utils\Http\Http;
+use MicroweberPackages\Utils\Mail\MailSender;
 
 
 class Comments extends Crud

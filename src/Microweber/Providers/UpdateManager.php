@@ -966,7 +966,7 @@ class UpdateManager
             $post_params['mw_version'] = MW_VERSION;
             $post_params['php_version'] = phpversion();
 
-            $curl = new \Microweber\Utils\Http($this->app);
+            $curl = new \MicroweberPackages\Utils\Http\Http($this->app);
             $curl->set_url($requestUrl);
             $curl->set_timeout(20);
             $post = array();
