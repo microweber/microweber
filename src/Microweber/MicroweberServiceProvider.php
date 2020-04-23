@@ -8,6 +8,7 @@ use Microweber\Providers\DatabaseManager;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
+use MicroweberPackages\CaptchaManager\CaptchaManagerServiceProvider;
 use MicroweberPackages\CartManager\CartManagerServiceProvider;
 use MicroweberPackages\CategoryManager\CategoryManagerServiceProvider;
 use MicroweberPackages\CheckoutManager\CheckoutManagerServiceProvider;
@@ -149,7 +150,6 @@ class MicroweberServiceProvider extends ServiceProvider
         // $this->app->register(TaggableFileCacheServiceProvider::class);
 
         $this->app->register(EventManagerServiceProvider::class);
-        $this->app->register(OptionManagerServiceProvider::class);
         $this->app->register(HelpersServiceProvider::class);
         $this->app->register(ContentManagerServiceProvider::class);
         $this->app->register(CategoryManagerServiceProvider::class);
@@ -166,6 +166,8 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(TemplateManagerServiceProvider::class);
         $this->app->register(FormsManagerServiceProvider::class);
         $this->app->register(UserManagerServiceProvider::class);
+        $this->app->register(CaptchaManagerServiceProvider::class);
+        $this->app->register(OptionManagerServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
     }
@@ -261,8 +263,7 @@ class MicroweberServiceProvider extends ServiceProvider
             'notifications_manager' => 'NotificationsManager',
             'log_manager' => 'LogManager',
             'modules' => 'Modules',
-            'layouts_manager' => 'LayoutsManager',
-            'captcha_manager' => 'CaptchaManager',
+            'layouts_manager' => 'LayoutsManager'
         ];
 
         foreach ($providers as $alias => $class) {

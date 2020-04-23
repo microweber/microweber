@@ -48,12 +48,14 @@
         "microweber-packages/microweber-package-manager": "dev-master",
         "microweber-packages/microweber-option-manager": "dev-master",
         "composer/composer": "^2.0@dev",
-        "composer/installers": "^1.0@dev"
+        "composer/installers": "^1.0@dev",
+        "microweber-packages/microweber-captcha-manager": "dev-master"
     },
     "require-dev": {
         "nunomaduro/collision": "^4.1",
         "facade/ignition": "^2.0",
-        "fzaninotto/faker": "^1.9"
+        "fzaninotto/faker": "^1.9",
+        "barryvdh/laravel-debugbar": "^3.2@dev"
     },
     "autoload": {
         "psr-4": {
