@@ -4,7 +4,7 @@ namespace Microweber\Install;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
-use Microweber\Utils\Backup\BackupManager;
+use MicroweberPackages\BackupManager\BackupManager;
 use MicroweberPackages\ContentManager\Content;
 use MicroweberPackages\MenuManager\Menu;
 use MicroweberPackages\OptionManager\Option;

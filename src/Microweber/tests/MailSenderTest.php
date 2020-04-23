@@ -2,6 +2,10 @@
 
 namespace Microweber\tests;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> eaa6b6282944b17c4a2c870d2305b8781f3e0182
 use MicroweberPackages\Utils\Mail\MailSender;
 
 /**
