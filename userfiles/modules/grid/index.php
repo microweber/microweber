@@ -4,7 +4,7 @@
     <script src="<?php print modules_url(); ?>grid/plugin/jquery.grideditor.js"></script>
 
     <script>
-//        mw.lib.require('grid_editor');
+    //        mw.lib.require('grid_editor');
 
         $(document).ready(function () {
             $('.mw-edit-grid').on('click', function () {
@@ -47,6 +47,9 @@
     </script>
 
     <style>
+        .mw-grid{
+            clear: both;
+        }
         .mw-grid > div {
             padding: 3px;
             background: indianred;
