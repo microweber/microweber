@@ -10,6 +10,7 @@ namespace MicroweberPackages\Backup;
 
 use JsonStreamingParser\Listener\IdleListener;
 use JsonStreamingParser\Listener\InMemoryListener;
+use MicroweberPackages\Utils\System\Files;
 use ZipArchive;
 use Illuminate\Database\QueryException;
 
@@ -1419,7 +1420,7 @@ class Backup
         if (!is_file($filename)) {
             return array('error' => 'You have not provided a existing filename to download.');
         }
-        $dl = new \Microweber\Utils\Files();
+        $dl = new Files();
 
         return $dl->download_to_browser($filename);
     }

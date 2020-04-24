@@ -1,6 +1,6 @@
 <?php
 
-$files_utils  = new Microweber\Utils\Files();
+$files_utils  = new \MicroweberPackages\Utils\System\Files();
 $dangerous = $files_utils->get_dangerous_files_extentions();
 
 

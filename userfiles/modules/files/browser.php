@@ -60,7 +60,7 @@ if (isset($params['extensions']) and $params['extensions']) {
     $params_get_files['extensions'] = $params['extensions'];
 }
 
-$data = mw('Microweber\Utils\Files')->get($params_get_files);
+$data = mw(\MicroweberPackages\Utils\System\Files::class)->get($params_get_files);
 
 $path_nav = explode(DS, $path);
 

@@ -13,6 +13,7 @@
 namespace admin\developer_tools\template_exporter;
 
 
+use MicroweberPackages\Utils\System\Files;
 use ZipArchive;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
@@ -1023,7 +1024,7 @@ class Worker
             die();
         }
         if (is_file($filename)) {
-            $dl = new \Microweber\Utils\Files();
+            $dl = new Files();
             return $dl->download_to_browser($filename);
         }
     }
