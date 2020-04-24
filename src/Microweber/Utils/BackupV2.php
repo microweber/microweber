@@ -1,7 +1,7 @@
 <?php
 /**
  * Backup V2
- * 
+ *
  * Class used to backup and restore the database or the userfiles directory.
  *
  * You can use it to create backup of the site. The backup will contain na sql export of the database
@@ -83,27 +83,27 @@ class BackupV2
 
 		return $backups;
 	}
-	
+
 	public function upload($query)
 	{
 		only_admin_access();
-		
+
 		if (! isset($query['src'])) {
 			return array(
 				'error' => 'You have not provided src to the file.'
 			);
 		}
-		
+
 		$checkFile = url2dir(trim($query['src']));
-		
+
 		$backupLocation = $this->manager->getBackupLocation();
-		
+
 		if (is_file($checkFile)) {
 			$file = basename($checkFile);
-			
+
 			if (copy($checkFile, $backupLocation . $file)) {
 				@unlink($checkFile);
-				
+
 				return array(
 					'success' => "$file was moved!"
 				);
@@ -142,7 +142,7 @@ class BackupV2
 		}
 
 		$backupLocation = $this->manager->getBackupLocation();
-		
+
 		// Generate filename and set error variables
 		$filename = $backupLocation . $fileId;
 		$filename = str_replace('..', '', $filename);
@@ -169,11 +169,11 @@ class BackupV2
 			);
 		}
 	}
-	
+
 	public function import($query) {
-	
+
 		only_admin_access();
-		
+
 		$fileId = null;
 		if (isset($query['id'])) {
 			$fileId = $query['id'];
@@ -182,7 +182,7 @@ class BackupV2
 		} elseif (isset($_GET['file'])) {
 			$fileId = $query['file'];
 		}
-		
+
 		if (isset($query['import_by_type']) && $query['import_by_type'] == 'overwrite_by_id') {
 			$this->manager->setImportOvewriteById(true);
 		}
@@ -194,80 +194,80 @@ class BackupV2
         if (isset($query['installation_language']) && !empty($query['installation_language'])) {
             $this->manager->setImportLanguage($query['installation_language']);
         }
-		
+
 		if (!$fileId) {
 			return array('error' => 'You have not provided a file to import.');
 		}
-		
+
 		$fileId = str_replace('..', '', $fileId);
-		
+
 		$backupLocation = $this->manager->getBackupLocation();
 		$filePath = $backupLocation . $fileId;
-		
+
 		if (!is_file($filePath)) {
 			return array('error' => 'You have not provided a existing backup to import.');
 		} else {
-			
+
 			if (isset($query['debug'])) {
 				$this->manager->setLogger(new BackupV2Logger());
 			}
-			
+
 			$this->manager->setImportFile($filePath);
 			$importLog = $this->manager->startImport();
-			
+
 			return json_encode($importLog, JSON_PRETTY_PRINT);
 		}
-		
+
 		return $query;
-		
+
 	}
-	
+
 	public function export($query) {
-		
+
 		$tables = array();
 		$categoriesIds = array();
 		$contentIds = array();
-		
+
 		if (isset($query['items'])) {
 			foreach(explode(',', $query['items']) as $item) {
 				if (!empty($item)) {
-					$tables[] = $item;
+					$tables[] = trim($item);
 				}
 			}
 		}
-		
+
 		$manager = new BackupManager();
 		$manager->setExportData('tables', $tables);
-		
+
 		if (isset($query['format'])) {
 			$manager->setExportType($query['format']);
 		}
-		
+
 		if (isset($query['all'])) {
 			if (isset($query['include_media']) && $query['include_media'] == 'true') {
 				$manager->setExportIncludeMedia(true);
 			}
 			$manager->setExportAllData(true);
 		}
-		
+
 		if (isset($query['debug'])) {
 			$manager->setLogger(new BackupV2Logger());
 		}
-		
+
 		if (isset($query['content_ids']) && !empty($query['content_ids'])) {
 			$manager->setExportData('contentIds', $query['content_ids']);
 		}
-		
+
 		if (isset($query['categories_ids']) && !empty($query['categories_ids'])) {
 			$manager->setExportData('categoryIds', $query['categories_ids']);
 		}
-		
+
 		if (is_ajax()) {
 			header('Content-Type: application/json');
 		}
-		
+
 		return $manager->startExport();
-		
+
 	}
 
 	public function delete($query)
@@ -342,11 +342,11 @@ class BackupV2
 }
 
 class BackupV2Logger {
-	
+
 	public function log($log) {
 		echo $log . '<br />';
 	}
-	
+
 }
-	
+
 

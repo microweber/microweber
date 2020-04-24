@@ -284,6 +284,18 @@ mw.backup_export = {
                     description: 'Export all comments of your website'
                 },
                 {
+                    input: {name: 'export_items', value: 'forms_data, forms_lists, notifications'},
+                    icon: { className: 'mw-icon-app-email'  },
+                    title: 'Export contacts',
+                    description: 'Export all contact lists of your website'
+                },
+                {
+                    input: {name: 'export_items', value: 'forms_data, forms_lists'},
+                    icon: { className: 'mw-icon-post'  },
+                    title: 'Export Posts & Contents',
+                    description: 'Export all posts & contents of your website'
+                },
+                {
                     input: {name: 'export_items', value: ''},
                     icon: { className: 'mw-micon-File-Settings'  },
                     title: 'Export  website settings',
