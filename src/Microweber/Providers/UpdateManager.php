@@ -2,10 +2,7 @@
 
 namespace Microweber\Providers;
 
-use Microweber\Utils\Http;
-use Microweber\Utils\Files;
 use Illuminate\Support\Facades\Config;
-use Microweber\Utils\Zip;
 use MicroweberPackages\PackageManager\ComposerUpdate;
 
 if (defined('INI_SYSTEM_CHECK_DISABLED') == false) {
@@ -77,7 +74,7 @@ class UpdateManager
 
     public function http()
     {
-        return new \Microweber\Utils\Http();
+        return new \MicroweberPackages\Utils\Http\Http();
     }
 
     public function collect_local_data()
