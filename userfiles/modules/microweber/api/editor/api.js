@@ -129,7 +129,7 @@ mw._editorApi = function (scope) {
             var id =  mw.id('image_');
             var img = '<img id="' + id + '" contentEditable="false" class="element" src="' + url + '" />';
             scope.api.insertHTML(img);
-            var img = mw.$("#" + id)
+            img = mw.$("#" + id)
             img.removeAttr("_moz_dirty");
             return img[0];
         }

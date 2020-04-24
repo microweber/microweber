@@ -1,10 +1,22 @@
 <?php
 
 
+
 $update_order = array();
 $data['host'] = $hostname;
+
+
+
 if (strtolower(trim($hostname)) == 'paypal.com') {
-    $update_order['payment_amount'] = $data['payment_gross'];
+    if (isset($data['payment_gross']) and $data['payment_gross']) {
+        // payment_gross: Will be empty for non-USD payments
+        $update_order['payment_amount'] = $data['payment_gross'];
+    } else if (isset($data['mc_gross']) and $data['mc_gross']) {
+        // mc_gross: Will not be empty for non-USD payments
+        $update_order['payment_amount'] = $data['mc_gross'];
+    }
+
+
     $update_order['payment_email'] = $data['payer_email'];
     $update_order['payer_id'] = $data['payer_id'];
     $update_order['payer_status'] = $data['payer_status'];
@@ -21,6 +33,7 @@ if (strtolower(trim($hostname)) == 'paypal.com') {
     $update_order['payment_receiver_email'] = $data['receiver_email'];
     $update_order['is_paid'] = 1;
     $update_order['order_completed'] = 1;
+    $update_order['payment_verify_token'] = $payment_verify_token;
 }
 
 

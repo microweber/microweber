@@ -1,0 +1,18 @@
+.mw-editor-image-handle-wrap{
+    position: absolute;
+    border: 3px solid #009cff;
+    border-radius: 3px;
+}
+
+.mw-editor-wrapper-document-mode{
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+}
+
+.mw-small-editor{
+    position: absolute;
+}
+

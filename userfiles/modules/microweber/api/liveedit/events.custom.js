@@ -25,7 +25,7 @@ mw.liveedit.handleCustomEvents = function() {
         if(can) {
             var toSelect = mw.tools.firstNotInlineLevel(target);
 
-            mw.liveEditSelector.select(toSelect);
+            mw.liveEditSelector.select(target);
 
             if(mw.liveEditDomTree) {
                 mw.liveEditDomTree.select(mw.wysiwyg.validateCommonAncestorContainer(target));

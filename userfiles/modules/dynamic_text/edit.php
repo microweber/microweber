@@ -36,7 +36,7 @@
 <form id="save-dynamic-text-form" class="js-toggle-form" style="display: none">
     <h3>Add new dynamic text</h3>
     <br/>
-    <label class="mw-ui-label">Name: (example: <b>my_cool_name</b>)</label>
+    <label class="mw-ui-label">Name: (example: <b>my-cool-name</b>)</label>
     <input type="text" name="name" class="mw-ui-field js-dynamic-text-name" required="required" style="width: 310px">
     <br/>
     <br/>

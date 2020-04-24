@@ -85,6 +85,9 @@ mw.wysiwyg._manageDeleteAndBackspaceInSafeMode = {
     }
 };
 mw.wysiwyg.manageDeleteAndBackspaceInSafeMode = function (event, sel) {
+    if(!mw.settings.liveEdit) {
+        return true;
+    }
     var node = mw.wysiwyg.validateCommonAncestorContainer(sel.focusNode);
     var range = sel.getRangeAt(0);
     if(!node.innerText.replace(/\s/gi, '')){
@@ -95,6 +98,7 @@ mw.wysiwyg.manageDeleteAndBackspaceInSafeMode = function (event, sel) {
     return true;
 };
 mw.wysiwyg.manageDeleteAndBackspace = function (event, sel) {
+
 
     if (mw.event.is.delete(event) || mw.event.is.backSpace(event)) {
         if(!sel.rangeCount) return;
@@ -124,16 +128,16 @@ mw.wysiwyg.manageDeleteAndBackspace = function (event, sel) {
             }
 
 
-            if ((nextchar == ' ' || /\r|\n/.exec(nextchar) !== null) && sel.focusNode.nodeType === 3 && !nextnextchar) {
+            if ((nextchar === ' ' || /\r|\n/.exec(nextchar) !== null) && sel.focusNode.nodeType === 3 && !nextnextchar) {
                 event.preventDefault();
                 return false;
             }
 
 
-            if (nextnextchar == '') {
+            if (nextnextchar === '') {
 
 
-                if (nextchar.replace(/\s/g, '') == '' && r.collapsed) {
+                if (nextchar.replace(/\s/g, '') === '' && r.collapsed) {
 
                     if (nextel && !mw.ea.helpers.isBlockLevel(nextel) && ( typeof nextel.className === 'undefined' || !nextel.className.trim())) {
                         return true;
@@ -178,7 +182,7 @@ mw.wysiwyg.manageDeleteAndBackspace = function (event, sel) {
                     return true;
                 }
 
-                var nonbr = mw.wysiwyg.merge.isInNonbreakable(nextNode)
+                var nonbr = mw.wysiwyg.merge.isInNonbreakable(nextNode);
                 if (nonbr) {
                     event.preventDefault();
                     return false;
@@ -210,7 +214,6 @@ mw.wysiwyg.manageDeleteAndBackspace = function (event, sel) {
                     else {
                         mw.wysiwyg.merge.manageBreakables(sel.focusNode, nextNode, 'prev', event)
                     }
-
                 }
 
             } else {

@@ -122,15 +122,11 @@ mw.dropables = {
         var offset = el.offset();
         var width = el.outerWidth();
         var height = el.outerHeight();
-        if (mw.drop_regions.global_drop_is_in_region) {
-
-        } else {
-            mw.dropable.css({
-                top: offset.top + height,
-                left: offset.left,
-                width: width
-            });
-        }
+        mw.dropable.css({
+            top: offset.top + height,
+            left: offset.left,
+            width: width
+        });
     },
     set: function(pos, offset, height, width) {
         if (pos === 'top') {

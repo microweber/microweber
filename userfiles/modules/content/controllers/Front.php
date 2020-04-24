@@ -61,6 +61,11 @@ class Front
         $cat_from_url = get_category_id_from_url();
         $posts_parent_related = false;
         $posts_list_show_sub_pages = false;
+        $is_search_global = false;
+
+        if (isset($params['search_global'])) {
+            $is_search_global = $params['search_global'];
+        }
         if (isset($params['current_page'])) {
             // $params['current_page'] = $params['current_page'];
         } elseif (isset($params['curent-page'])) {
@@ -234,6 +239,7 @@ class Front
                 $post_params['parent'] = $cfg_page_id;
             }
         }
+
 
         if (isset($post_params['most_ordered'])) {
             $str0 = 'table=cart&limit=30&rel_type=content&fields=rel_id&order_by=id desc';
@@ -549,9 +555,12 @@ if($posts_list_show_sub_pages){
     $post_params['parent'] = PAGE_ID;
 }
 
-     //   d($post_params);
+      //  d($post_params);
+      //  d($params);
 
-
+        if($is_search_global and isset( $post_params['category'] )){
+            unset( $post_params['category'] );
+        }
 
 
 

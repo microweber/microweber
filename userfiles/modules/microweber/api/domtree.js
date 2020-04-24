@@ -8,13 +8,20 @@ mw.DomTree = function (options) {
             componentMatch: [
                 {
                     label:  function (node) {
-                        return 'Edit(' + node.getAttribute('field') + ')';
+                        return 'Edit';
                     },
                     test: function (node) {
                         return mw.tools.hasClass(node, 'edit');
                     }
                 },
-                {label: 'Module', test: function (node) { return mw.tools.hasClass(node, 'module');}},
+                {
+                    label: function (node) {
+                        return node.getAttribute('data-mw-title') || node.getAttribute('data-type');
+                    },
+                    test: function (node) {
+                        return mw.tools.hasClass(node, 'module');
+                    }
+                },
                 {label: 'Image', test: function (node) { return node.nodeName === 'IMG'; }},
                 {
                     label:  function (node) {

@@ -26,7 +26,6 @@ $files[] = 'icon_selector.js';
 
 $files[] = 'liveedit/modules.toolbar.js';
 $files[] = 'liveedit/drag.js';
-$files[] = 'liveedit/drop.regions.js';
 $files[] = 'liveedit/manage.content.js';
 $files[] = 'liveedit/toolbar.js';
 $files[] = 'liveedit/editors.js';

@@ -126,31 +126,35 @@ $myPaypal -> addField('business', trim(get_option('paypalexpress_username', 'pay
 
 
 
-$currencies_list_paypal = mw()->shop_manager->currency_get_for_paypal();
-$currencyCode = $place_order['currency'];
-$amount = $place_order['amount'];
-
-if(!isset($place_order['payment_amount'])){
-$place_order['payment_amount'] = $amount;
-}
-$place_order['payment_shipping'] = $place_order['shipping'];
-if (!in_array(strtoupper($place_order['currency']), $currencies_list_paypal)){
-    $payment_currency = get_option('payment_currency', 'payments');
-    $payment_currency_rate = get_option('payment_currency_rate', 'payments');
-    if($payment_currency_rate != false){
-        $payment_currency_rate = str_replace(',','.',$payment_currency_rate);
-        $payment_currency_rate = floatval( $payment_currency_rate);
-
-    }
-
-    if($payment_currency_rate  != 0.00){
-        $currencyCode =$payment_currency;
-        $amount= $amount*$payment_currency_rate;
-        $place_order['payment_shipping']= $place_order['payment_shipping']*$payment_currency_rate;
-        $place_order['payment_amount'] = $amount;
-
-    }
-}
+//$currencies_list_paypal = mw()->shop_manager->currency_get_for_paypal();
+//$currencyCode = $place_order['currency'];
+//$amount = $place_order['amount'];
+//
+////$amount = 1;
+////dd($place_order);
+//if(!isset($place_order['payment_amount'])){
+//$place_order['payment_amount'] = $amount;
+//}
+//
+//
+//$place_order['payment_shipping'] = $place_order['shipping'];
+//if (!in_array(strtoupper($place_order['currency']), $currencies_list_paypal)){
+//    $payment_currency = get_option('payment_currency', 'payments');
+//    $payment_currency_rate = get_option('payment_currency_rate', 'payments');
+//    if($payment_currency_rate != false){
+//        $payment_currency_rate = str_replace(',','.',$payment_currency_rate);
+//        $payment_currency_rate = floatval( $payment_currency_rate);
+//
+//    }
+//
+//    if($payment_currency_rate  != 0.00){
+//        $currencyCode =$payment_currency;
+//        $amount= $amount*$payment_currency_rate;
+//        $place_order['payment_shipping']= $place_order['payment_shipping']*$payment_currency_rate;
+//        $place_order['payment_amount'] = $amount;
+//
+//    }
+//}
 
 
 if (is_array($posted_fields)) {
@@ -163,7 +167,7 @@ if (is_array($place_order)) {
         $myPaypal -> addField($k, $value);
     }
 }
-$place_order['payment_currency'] = $currencyCode;
+//$place_order['payment_currency'] = $currencyCode;
 // Specify the currency
 if (isset($place_order['payment_currency']) and ($place_order['payment_currency']) != false) {
     $myPaypal -> addField('currency_code', $place_order['payment_currency']);
