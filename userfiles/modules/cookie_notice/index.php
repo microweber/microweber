@@ -42,8 +42,6 @@ if ($settings == false) {
     $json = json_decode($settings, true);
 }
 
-var_dump($json);
-
 if (!isset($json['cookies_policy']) OR $json['cookies_policy'] != 'y') {
     return;
 }
