@@ -11,6 +11,7 @@ if ($settings == false) {
         $json = json_decode($settings, true);
     } else {
         $json = array();
+        $json['textColor'] = '';
         $json['backgroundColor'] = '';
         $json['cookiePolicyURL'] = 'privacy-policy';
         $json['showLiveChatMessage'] = 'false';
@@ -41,17 +42,15 @@ if ($settings == false) {
     $json = json_decode($settings, true);
 }
 
-
+var_dump($json);
 
 if (!isset($json['cookies_policy']) OR $json['cookies_policy'] != 'y') {
     return;
 }
 
-
-
 require_once('scwCookie/scwCookie.class.php');
-$scwCookie = new ScwCookie\ScwCookie($json, $params['id']);
 
+$scwCookie = new ScwCookie\ScwCookie($json, $params['id']);
 $scwCookie->output();
 
 if (is_admin()) print notif("Click here to edit scwCookie");
