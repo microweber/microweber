@@ -273,8 +273,9 @@
 
     <div class="mw-flex-row">
         <div class="mw-flex-col-xs-4 mw-ui-btn-vertical-nav">
-            <a class="mw-ui-btn" href="javascript:;" data-ctype="page"><?php _e("Page from My Website"); ?></a>
             <a class="mw-ui-btn" href="javascript:;" data-ctype="custom"><?php _e("Website URL"); ?></a>
+            <a class="mw-ui-btn" href="javascript:;" data-ctype="page"><?php _e("Page from My Website"); ?></a>
+
             <a class="mw-ui-btn" href="javascript:;" data-ctype="content"><?php _e("Post"); ?>, <?php _e("Category"); ?></a>
             <a class="mw-ui-btn" href="javascript:;" data-ctype="file"><?php _e("File"); ?></a>
             <a class="mw-ui-btn" href="javascript:;" data-ctype="email"><?php _e("Email"); ?></a>
@@ -282,6 +283,14 @@
             <a class="mw-ui-btn page-layout-btn" style="display: none;" href="javascript:;" data-ctype="layout"><?php _e("Page Layout"); ?></a>
         </div>
         <div class="mw-flex-col-xs-8 mw-ui-box mw-ui-box-content" id="tabs">
+
+            <div class="tab" style="display: block" data-ctype="custom">
+                <div class="media-search-holder">
+                    <div class="mw-field w100" data-before="URL">
+                        <input type="text" id="customweburl"  placeholder="http://..."/>
+                    </div>
+                </div>
+            </div>
             <div class="tab" data-ctype="page">
                 <?php
                 $unique = uniqid('link-tree-');
@@ -347,13 +356,6 @@
                     });
 
                 </script>
-            </div>
-            <div class="tab" style="display: block" data-ctype="custom">
-                <div class="media-search-holder">
-                    <div class="mw-field w100" data-before="URL">
-                        <input type="text" id="customweburl"  placeholder="http://..."/>
-                    </div>
-                </div>
             </div>
 
             <div class="tab" data-ctype="content">

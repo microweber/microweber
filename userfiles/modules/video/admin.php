@@ -15,7 +15,7 @@
     mw.lib.require('font_awesome5');
 
     setprior = function (v, t) {
-        var t = t || false;
+        t = t || false;
         mwd.getElementById('prior').value = v;
         $(mwd.getElementById('prior')).trigger('change');
         if (!!t) {
@@ -171,7 +171,7 @@
                                 <span
                                         class="mw-ui-btn"
                                         id="remove-video-button"
-                                        style="display: <?php print !!$uploadedVideo ? 'inline-block' : 'none' ?>;"
+                                        style="<?php print !!$uploadedVideo ? '' : 'display:none;' ?>;"
                                         onclick="$('#video-preview').hide();$(this).hide(); $('#upload_field').val('').trigger('change')">
                                     <span class="mw-icon-bin"></span> &nbsp;
                                     <?php _e("Remove"); ?>
