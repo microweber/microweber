@@ -2,7 +2,6 @@
 
 namespace Microweber\Providers\Helpers;
 
-use \Microweber\Utils\URLify;
 use MicroweberPackages\EventManager\Event;
 
 $mw_language_content = array();

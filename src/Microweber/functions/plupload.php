@@ -291,7 +291,7 @@ $fileName = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
 
 // Clean the fileName for security reasons
 $fileNameExtension = get_file_extension($fileName);
-$fileName = \Microweber\Utils\URLify::filter($fileName);
+$fileName = \MicroweberPackages\Helpers\URLify::filter($fileName);
 //$fileName = url_title($fileName);
 //$fileName = preg_replace('/[\p{P}\p{Zs}\w\._]+/u', "", $fileName);
 // $fileName = preg_replace('/[^\w\._]+/', '_', $fileName);
