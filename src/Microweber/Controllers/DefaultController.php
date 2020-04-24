@@ -1767,11 +1767,11 @@ class DefaultController extends Controller
         if (isset($content['original_link']) and $content['original_link'] != '') {
             $content['original_link'] = str_ireplace('{site_url}', $this->app->url_manager->site(), $content['original_link']);
             $redirect = $this->app->format->prep_url($content['original_link']);
-            if ($redirect != '') {
+            if ($redirect != '' and $redirect != site_url() and $redirect.'/' != site_url()) {
                 return $this->app->url_manager->redirect($redirect);
             }
         }
-
+        
         if (!isset($page['title'])) {
             $page['title'] = 'New page';
         }

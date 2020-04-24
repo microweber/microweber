@@ -445,7 +445,6 @@ class Parser
 
                             $module_html_tag = 'div';
 
-
                             $module_html = "<__MODULE_HTML_TAG__ class='__USER_DEFINED_CLASS__ __MODULE_CLASS__ __WRAP_NO_WRAP__' __MODULE_ID__ __MODULE_NAME__";
 
                             $module_has_class = false;
@@ -783,22 +782,27 @@ class Parser
                                     $module_name_url = $this->app->url_manager->slug($module_name);
 
                                     if ($mod_as_element == false) {
-                                        if ($module_name == 'text' or $module_name == 'text/empty_element' or $module_name == 'text/multiple_columns') {
+                                        if ($module_name == 'text' or $module_name == 'title' or $module_name == 'text/empty_element' or $module_name == 'text/multiple_columns') {
                                              $module_html = str_replace('__MODULE_CLASS__', 'layout-element ' . $module_name_url, $module_html);
                                         } else {
                                             $module_html = str_replace('__MODULE_CLASS__', 'module ' . $module_class, $module_html);
                                         }
+                                        $userclass = str_replace(trim($module_class), '', $userclass);
+                                        $userclass = trim(str_replace(' -module ', 'module ', $userclass));
+                                        $userclass = trim(str_replace(' module ', ' ', $userclass));
+                                        $userclass = trim(str_replace(' disabled module ', ' module ', $userclass));
+                                        $module_class = trim(str_replace(' disabled module ', ' module ', $module_class));
+                                        $userclass = trim(str_replace(' module module ', ' module ', $userclass));
+                                        $userclass = trim(str_replace('module module ', 'module ', $userclass));
+                                        $module_html = str_replace('__MODULE_CLASS_NAME__', '' . $module_class, $module_html);
+                                       // $module_html = str_replace('__USER_DEFINED_CLASS__', $userclass, $module_html);
+
                                     } else {
+                                        $userclass = trim(str_replace(' -module ', '', $userclass));
+
                                         $module_html = str_replace('__MODULE_CLASS__', 'element ' . $module_name_url, $module_html);
+                                        $mod_no_wrapper = true;
                                     }
-                                    $userclass = str_replace(trim($module_class), '', $userclass);
-                                    $userclass = trim(str_replace(' -module ', 'module ', $userclass));
-                                    $userclass = trim(str_replace(' module ', ' ', $userclass));
-                                    $userclass = trim(str_replace(' disabled module ', ' module ', $userclass));
-                                    $module_class = trim(str_replace(' disabled module ', ' module ', $module_class));
-                                    $userclass = trim(str_replace(' module module ', ' module ', $userclass));
-                                    $userclass = trim(str_replace('module module ', 'module ', $userclass));
-                                    $module_html = str_replace('__MODULE_CLASS_NAME__', '' . $module_class, $module_html);
                                     $module_html = str_replace('__USER_DEFINED_CLASS__', $userclass, $module_html);
 
                                     if ($coming_from_parent == false) {
