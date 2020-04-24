@@ -41,7 +41,7 @@ mw.Editor = function (options) {
             'image'
         ],
         language: 'en',
-        rootPath: '/mw1/userfiles/modules/microweber/api/editor',
+        rootPath: mw.settings.modules_url + 'microweber/api/editor',
         editMode: 'normal', // normal | liveedit
         bar: null
     };

@@ -16,13 +16,19 @@ mw.DomTree = function (options) {
                 },
                 {
                     label: function (node) {
-                        return node.getAttribute('data-mw-title') || node.getAttribute('data-type');
+                        var icon = mw.top().live_edit.getModuleIcon(node.getAttribute('data-type'));
+                        return icon + ' ' + node.getAttribute('data-mw-title') || node.getAttribute('data-type');
                     },
                     test: function (node) {
                         return mw.tools.hasClass(node, 'module');
                     }
                 },
-                {label: 'Image', test: function (node) { return node.nodeName === 'IMG'; }},
+                {
+                    label: 'Image',
+                    test: function (node) {
+                        return node.nodeName === 'IMG';
+                    }
+                },
                 {
                     label:  function (node) {
                         var id = node.id ? '#' + node.id : '';
@@ -184,7 +190,7 @@ mw.DomTree = function (options) {
                 var target = e.target;
 
                 if(target.nodeName !== 'LI') {
-                    target = mw.tools.firstParentWithTag(target, 'li')
+                    target = mw.tools.firstParentWithTag(target, 'li');
                     scope.toggle(target);
                 }
                 scope.selected(target);
@@ -210,6 +216,9 @@ mw.DomTree = function (options) {
     };
 
     this.createItem = function (item) {
+        if(!this.validateNode(item)) {
+            return;
+        }
         var li = this.document.createElement('li');
         li._value = item;
         li.className = 'mw-domtree-item' + (this._selectedDomNode === item ? ' active' : '');
@@ -261,7 +270,7 @@ mw.DomTree = function (options) {
         $(this.settings.element).empty().append(this.root).resizable({
             handles: "s",
             start: function( event, ui ) {
-                ui.element.css('maxHeight', 'none')
+                ui.element.css('maxHeight', 'none');
             }
         });
     };

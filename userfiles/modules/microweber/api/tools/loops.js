@@ -14,12 +14,13 @@
                 var _tag = _curr.tagName;
                 while (_tag !== 'BODY') {
                     count++;
-                    var caller = callback.call(_curr, index, count), _curr = _curr.parentNode;
+                    var caller = callback.call(_curr, index, count);
+                    _curr = _curr.parentNode;
                     if (caller === false || _curr === null || _curr === undefined || !mw.tools.loop[index]) {
                         delete mw.tools.loop[index];
                         break;
                     }
-                    var _tag = _curr.tagName;
+                    _tag = _curr.tagName;
                 }
             }
         },
