@@ -2188,6 +2188,7 @@
                 "serialize",
                 "tokenizer"
             ],
+            "abandoned": "opis/closure",
             "time": "2018-03-21T22:21:57+00:00"
         },
         {
@@ -2912,17 +2913,6 @@
         {
             "name": "league/omnipay",
             "version": "2.3.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/thephpleague/omnipay.git",
-                "reference": "cc04bd22b4149c94c52b002181d4993e4f8fe812"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/omnipay/zipball/cc04bd22b4149c94c52b002181d4993e4f8fe812",
-                "reference": "cc04bd22b4149c94c52b002181d4993e4f8fe812",
-                "shasum": ""
-            },
             "require": {
                 "omnipay/2checkout": "~2.0",
                 "omnipay/authorizenet": "~2.0",
@@ -3603,12 +3593,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-templates/new-world.git",
-                "reference": "2e919cdec68518183548e5f3502c14ad9d7e5142"
+                "reference": "f0545d0fb499e562d5c9442f1d177df30d63a865"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-templates/new-world/zipball/2e919cdec68518183548e5f3502c14ad9d7e5142",
-                "reference": "2e919cdec68518183548e5f3502c14ad9d7e5142",
+                "url": "https://api.github.com/repos/microweber-templates/new-world/zipball/f0545d0fb499e562d5c9442f1d177df30d63a865",
+                "reference": "f0545d0fb499e562d5c9442f1d177df30d63a865",
                 "shasum": ""
             },
             "type": "microweber-template",
@@ -3640,10 +3630,10 @@
                 "forum": "https://microweber.org/community",
                 "irc": "https://webchat.freenode.net/?embed=1&channels=#microweber",
                 "docs": "http://docs.microweber.org",
-                "source": "https://github.com/microweber-templates/new-world/tree/1.2",
+                "source": "https://github.com/microweber-templates/new-world/tree/1.3",
                 "issues": "https://github.com/microweber-templates/new-world/issues"
             },
-            "time": "2020-03-13T15:53:27+00:00"
+            "time": "2020-04-27T13:57:48+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
