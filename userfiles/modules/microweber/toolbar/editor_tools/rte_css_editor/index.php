@@ -39,6 +39,8 @@
                 onSelect: function (e, target, node, element) {
                     setTimeout(function () {
                         mw.top().liveEditSelector.select(node);
+
+                        mw.top().tools.scrollTo(node, undefined, (mw.top().$('#live_edit_toolbar').height() + 10))
                     })
                 }
             });
@@ -259,6 +261,7 @@ var _prepare = {
 };
 var _populate = {
     margin: function(css){
+        if(!css || !css.get) return;
         var margin = css.get.margin(undefined, true);
         mw.$('.margin-top').val(parseFloat(margin.top));
         mw.$('.margin-right').val(parseFloat(margin.right));

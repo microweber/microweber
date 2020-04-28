@@ -32,7 +32,6 @@ body.scw-cookie-in {
 }
 .scw-cookie-panel-toggle::before {
     /* background: #2D3436;*/
-    content: 'Turn cookies on / off';
     float: left;
     height: 20px;
     line-height: 25px;
@@ -72,7 +71,7 @@ body.scw-cookie-in {
     animation: slideIn .5s ease-in-out;
 }
 .scw-cookie.scw-cookie-out {
-    transform: translateY(100%);    
+    transform: translateY(100%);
 }
 .scw-cookie.scw-cookie-slide-out {
     animation: slideOut .5s ease-in-out;
@@ -124,7 +123,7 @@ body.scw-cookie-in {
     opacity: .7;
     position: relative;
     top: 7px;
-}   
+}
 .scw-cookie-settings:hover .icon,
 .scw-cookie-policy:hover .icon {
     opacity: 1;

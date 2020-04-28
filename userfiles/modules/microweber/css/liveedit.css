@@ -195,6 +195,11 @@ body.mw-live-edit .plain-text {
     color: #333;
 }
 
+.modules-list,
+.modules-list li{
+    list-style: none !important;
+}
+
 
 
 /****************************
@@ -2777,6 +2782,9 @@ div[id*='SSDIVEL'] {
     left: 100px;
 }
 
+.mw-tooltip-insert-module .mw-tooltip-content{
+    max-height: 330px;
+}
 .mw-tooltip-insert-module {
     width: 290px;
     max-width: 100%;

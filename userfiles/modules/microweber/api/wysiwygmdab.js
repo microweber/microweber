@@ -85,9 +85,8 @@ mw.wysiwyg._manageDeleteAndBackspaceInSafeMode = {
     }
 };
 mw.wysiwyg.manageDeleteAndBackspaceInSafeMode = function (event, sel) {
-    if(!mw.settings.liveEdit) {
-        return true;
-    }
+
+
     var node = mw.wysiwyg.validateCommonAncestorContainer(sel.focusNode);
     var range = sel.getRangeAt(0);
     if(!node.innerText.replace(/\s/gi, '')){
@@ -98,7 +97,9 @@ mw.wysiwyg.manageDeleteAndBackspaceInSafeMode = function (event, sel) {
     return true;
 };
 mw.wysiwyg.manageDeleteAndBackspace = function (event, sel) {
-
+    if (!mw.settings.liveEdit && self === top) {
+        return;
+    }
 
     if (mw.event.is.delete(event) || mw.event.is.backSpace(event)) {
         if(!sel.rangeCount) return;

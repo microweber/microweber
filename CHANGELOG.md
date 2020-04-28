@@ -3,8 +3,24 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.1.19] - 2020-04-27
+- Fix of Small plus popup 
+- Layout spacing option is gone
+- Paste in safe mode does not work
+- Fix the design of the pick element tree
+- Fix some php 7.4 errors
+- Fix Paging in admin panel is gone
+- Fix JS tree bugs
+- Fix some bugs on the checkout 
+- Fix Inline link editor with custom url must select the right section
+- Added Dynamic text module
+- Added Event mw.cart.checkout.order_paid 
+- Added Recaptcha v2 and v3
+- [see all changes....](https://github.com/microweber/microweber/compare/1.1.18...1.1.19 "")
 
-## [1.1.18] - 2019-03-13
+
+
+## [1.1.18] - 2020-03-13
 - Update installation screen
 - Update for Backup module
 - Update for Visual editor module
@@ -19,7 +35,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
-## [1.1.17] - 2019-01-24
+## [1.1.17] - 2020-01-24
 - Added support for php 7.4
 - Link editor is broken
 - Fix icon picker

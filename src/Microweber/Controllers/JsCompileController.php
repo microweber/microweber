@@ -33,8 +33,7 @@ class JsCompileController extends Controller
         } else {
             $this->_should_compile_assets = \Config::get('microweber.compile_assets');;
         }
-
-    }
+     }
 
 
     public function apijs()
@@ -70,6 +69,7 @@ class JsCompileController extends Controller
                     mkdir_recursive($userfiles_cache_dir);
                 }
                 if (is_dir($userfiles_cache_dir)) {
+                    @touch($userfiles_cache_filename);
                     if (is_writable($userfiles_cache_filename)) {
                         @file_put_contents($userfiles_cache_filename, $l);
                     }
@@ -78,6 +78,7 @@ class JsCompileController extends Controller
                 $fmd5 = md5_file($userfiles_cache_filename);
                 $fmd = md5($l);
                 if ($fmd5 != $fmd) {
+                    @touch($userfiles_cache_filename);
                     if (is_writable($userfiles_cache_filename)) {
                         @file_put_contents($userfiles_cache_filename, $l);
                     }
@@ -118,6 +119,7 @@ class JsCompileController extends Controller
                     mkdir_recursive($userfiles_cache_dir);
                 }
                 if (is_dir($userfiles_cache_dir)) {
+                    @touch($userfiles_cache_filename);
                     if (is_writable($userfiles_cache_filename)) {
                         @file_put_contents($userfiles_cache_filename, $l);
                     }
@@ -126,6 +128,8 @@ class JsCompileController extends Controller
                 $fmd5 = md5_file($userfiles_cache_filename);
                 $fmd = md5($l);
                 if ($fmd5 != $fmd) {
+                    @touch($userfiles_cache_filename);
+
                     if (is_writable($userfiles_cache_filename)) {
                         @file_put_contents($userfiles_cache_filename, $l);
                     }
@@ -184,7 +188,9 @@ class JsCompileController extends Controller
                 mkdir_recursive($userfiles_cache_dir);
             }
             if (is_dir($userfiles_cache_dir)) {
+                @touch($userfiles_cache_filename);
                 if (is_writable($userfiles_cache_filename)) {
+
                     @file_put_contents($userfiles_cache_filename, $layout);
                 }
             }
@@ -324,13 +330,14 @@ class JsCompileController extends Controller
 
         $url = $this->app->url_manager->site('apijs_combined') . '?mwv=' . MW_VERSION;
 
+        $compile_assets = $this->_should_compile_assets;   //$compile_assets =  \Config::get('microweber.compile_assets');
 
         $userfiles_dir = userfiles_path();
         $hash = md5(site_url());
         $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs_combined');
         $fn = 'api.combined.' . $hash . '.' . MW_VERSION . '.js';
         $userfiles_cache_filename = $userfiles_cache_dir . $fn;
-        if (is_file($userfiles_cache_filename)) {
+        if ($compile_assets and is_file($userfiles_cache_filename)) {
             $url = userfiles_url() . 'cache/apijs_combined/' . $fn;
         }
         return $url;

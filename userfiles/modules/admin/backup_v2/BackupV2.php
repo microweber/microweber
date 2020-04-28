@@ -227,12 +227,16 @@ class BackupV2
 		if (isset($query['items'])) {
 			foreach(explode(',', $query['items']) as $item) {
 				if (!empty($item)) {
-					$tables[] = $item;
+					$tables[] = trim($item);
 				}
 			}
 		}
 
+<<<<<<< HEAD:userfiles/modules/admin/backup_v2/BackupV2.php
 		$manager = new \MicroweberPackages\BackupManager\BackupManager();
+=======
+		$manager = new BackupManager();
+>>>>>>> 28520b534188644ce40e2664152fc923d69f5fa3:src/Microweber/Utils/BackupV2.php
 		$manager->setExportData('tables', $tables);
 
 		if (isset($query['format'])) {

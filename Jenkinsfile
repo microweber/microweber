@@ -201,36 +201,36 @@ pipeline {
       }
     }
 //
-    stage('Components testing') {
-      parallel {
-        stage('Component Test') {
-    			agent {
-              kubernetes {
-                  label "${getKubeLabel(0, BRANCH_NAME, BUILD_NUMBER)}"
-                  defaultContainer 'app'
-                  yamlFile 'build/pods/php71-phpunit.yaml'
-                  nodeSelector "${getKubeNodeSelector(0)}"
-  				}
-  			}
-          steps {
-            sh 'pwd'
-            sh 'composer install -o --no-progress'
-            script {
-              for (int i = 0; i < components.size(); ++i) {
-  							sh "composer require ${components[i]} --no-cache"
-  						}
-  				  }
-            sh 'phpunit --version'
-            sh 'phpunit --log-junit "reports/components.tests.xml"'
-  			}
-  	        post {
-  	            always {
-  	                junit 'reports/components.tests.xml'
-  	            }
-              }
-            }
-          }
-        }
+//    stage('Components testing') {
+//      parallel {
+//        stage('Component Test') {
+//    			agent {
+//              kubernetes {
+//                  label "${getKubeLabel(0, BRANCH_NAME, BUILD_NUMBER)}"
+//                  defaultContainer 'app'
+//                  yamlFile 'build/pods/php71-phpunit.yaml'
+//                  nodeSelector "${getKubeNodeSelector(0)}"
+//  				}
+//  			}
+//          steps {
+//            sh 'pwd'
+//            sh 'composer install -o --no-progress'
+//            script {
+//              for (int i = 0; i < components.size(); ++i) {
+//  							sh "composer require ${components[i]} --no-cache"
+//  						}
+//  				  }
+//            sh 'phpunit --version'
+//            sh 'phpunit --log-junit "reports/components.tests.xml"'
+//  			}
+//  	        post {
+//  	            always {
+//  	                junit 'reports/components.tests.xml'
+//  	            }
+//              }
+//            }
+//          }
+//        }
 //
 
     stage('UI Testing') {
