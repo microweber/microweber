@@ -6,4 +6,5 @@
  */
 
 @import url("css/ui.css");
+@import url("api/libs/mw-ui/plugins/ui/main.css");
 @import url("../layouts/templates/layouts.css");

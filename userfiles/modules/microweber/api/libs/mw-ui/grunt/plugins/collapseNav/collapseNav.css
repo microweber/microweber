@@ -1,0 +1,144 @@
+/*
+
+ * CollapseNav.js - v1.0
+ * jQuery Responsive Navigation
+ * MIT License
+ * by Petko Yovchevski
+
+ Website: https://www.plumtex.com
+ Docs: http://pyovchevski.github.io/collapse-nav
+ Repo: https://github.com/PYovchevski/collapse-nav
+ Issues: https://github.com/PYovchevski/collapse-nav/issues
+
+ */
+
+.collapse-nav {
+    overflow: hidden;
+    background-color: #2b2b2b;
+}
+
+.collapse-nav li {
+    float: left;
+    list-style-type: none;
+    margin: 0;
+}
+
+.collapse-nav li a {
+    font-size: 16px;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    display: block;
+    border: 0;
+    cursor: pointer;
+}
+
+.collapse-nav ul.dropdown {
+    float: left;
+    overflow: hidden;
+}
+
+.collapse-nav ul.dropdown a.dropdown-toggle {
+    font-size: 16px;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.collapse-nav li:hover > a,
+.collapse-nav .dropdown:hover > .dropdown-toggle {
+    background-color: red;
+}
+
+.collapse-nav ul.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #2b2b2b;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.collapse-nav ul.dropdown-menu .dropdown-menu {
+    top: 0;
+    bottom: 0;
+    right: auto;
+    left: 100%;
+    margin: 0;
+}
+
+.collapse-nav .dropdown-menu li {
+    float: none;
+    margin: 0;
+}
+
+.collapse-nav .dropdown-menu li a {
+    color: #fff;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    background: #2b2b2b;
+}
+
+.collapse-nav .dropdown-menu a:hover {
+    background-color: #fff;
+    color: #2b2b2b;
+}
+
+.collapse-nav .dropdown:hover > .dropdown-menu {
+    display: block;
+}
+
+.collapse-nav .caret {
+    display: inline-block;
+    transition: all .3s;
+    transform: rotate(0);
+    width: 0;
+    height: 0;
+    vertical-align: middle;
+    border-top: 4px dashed;
+    border-top: 4px solid \9;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+    margin-left: 5px;
+}
+
+.collapse-nav:not(.collapseNav-initialized) li {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    position: absolute !important;
+    transition: none !important;
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+}
+
+.collapse-nav:not(.collapseNav-initialized) li:first-child {
+    opacity: 1 !important;
+    visibility: visible !important;
+    position: relative !important;
+    transition: none !important;
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+}
+
+.collapseNav-not-initialized li {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    position: absolute !important;
+    transition: none !important;
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+}
+
+.collapseNav-not-initialized li:first-child {
+    opacity: 1 !important;
+    visibility: visible !important;
+    position: relative !important;
+    transition: none !important;
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+}
