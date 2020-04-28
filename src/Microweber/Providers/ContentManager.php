@@ -2163,6 +2163,8 @@ class ContentManager
             return;
         }
 
+        $link = mw()->permalink_manager->generateLink($link);
+
         if (!stristr($link['url'], $site_url)) {
             $link = site_url($link['url']);
         } else {
