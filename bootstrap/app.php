@@ -26,20 +26,41 @@ $app = new Microweber\LaravelApplication(
 |
 */
 
-$app->singleton(
-	'Illuminate\Contracts\Http\Kernel',
-	'Microweber\App\Http\Kernel'
-);
+if (class_exists(App\Http\Kernel::class)) {
+    $app->singleton(
+        Illuminate\Contracts\Http\Kernel::class,
+        App\Http\Kernel::class
+    );
+} else {
+    $app->singleton(
+        'Illuminate\Contracts\Http\Kernel',
+        'Microweber\App\Http\Kernel'
+    );
+}
 
-$app->singleton(
-	'Illuminate\Contracts\Console\Kernel',
-	'Microweber\App\Console\Kernel'
-);
+if (class_exists(App\Console\Kernel::class)) {
+    $app->singleton(
+        Illuminate\Contracts\Console\Kernel::class,
+        App\Console\Kernel::class
+    );
+} else {
+    $app->singleton(
+        'Illuminate\Contracts\Console\Kernel',
+        'Microweber\App\Console\Kernel'
+    );
+}
 
-$app->singleton(
-	'Illuminate\Contracts\Debug\ExceptionHandler',
-	'Microweber\App\Exceptions\Handler'
-);
+if (class_exists(App\Exceptions\Handler::class)) {
+    $app->singleton(
+        Illuminate\Contracts\Debug\ExceptionHandler::class,
+        App\Exceptions\Handler::class
+    );
+} else {
+    $app->singleton(
+        'Illuminate\Contracts\Debug\ExceptionHandler',
+        'Microweber\App\Exceptions\Handler'
+    );
+}
 
 /*
 |--------------------------------------------------------------------------
