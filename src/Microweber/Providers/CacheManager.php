@@ -2,7 +2,7 @@
 
 namespace Microweber\Providers;
 
-use Microweber\Utils\Adapters\Cache___\LaravelCache;
+use Microweber\Utils\Adapters\Cache\LaravelCache;
 
 /**
  * Cache class.

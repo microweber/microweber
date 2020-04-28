@@ -11,6 +11,7 @@ use Microweber\Providers\DatabaseManager;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
+use MicroweberPackages\Cache\TaggableFileStore;
 use MicroweberPackages\CaptchaManager\CaptchaManagerServiceProvider;
 use MicroweberPackages\CartManager\CartManagerServiceProvider;
 use MicroweberPackages\CategoryManager\CategoryManagerServiceProvider;
@@ -165,8 +166,6 @@ class MicroweberServiceProvider extends ServiceProvider
 
         $this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');
 
-        // $this->app->register(TaggableFileCacheServiceProvider::class);
-
         $this->app->register(EventManagerServiceProvider::class);
         $this->app->register(HelpersServiceProvider::class);
         $this->app->register(ContentManagerServiceProvider::class);
@@ -186,6 +185,7 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(UserManagerServiceProvider::class);
         $this->app->register(CaptchaManagerServiceProvider::class);
         $this->app->register(OptionManagerServiceProvider::class);
+        $this->app->register(TaggableFileCacheServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
     }
@@ -311,9 +311,9 @@ class MicroweberServiceProvider extends ServiceProvider
     {
         App::instance('path.public', base_path());
 
-       /* Cache::extend('file', function () {
-            return new Utils\Adapters\Cache___\CacheStore();
-        });*/
+        Cache::extend('file', function () {
+            return new TaggableFileStore();
+        });
 
         $this->app->database_manager->add_table_model('content', Content::class);
         $this->app->database_manager->add_table_model('media', Media::class);
