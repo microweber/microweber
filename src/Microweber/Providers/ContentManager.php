@@ -1589,16 +1589,6 @@ class ContentManager
                 //define('CATEGORY_ID', $current_category['id']);
             }
 
-            if (defined('CATEGORY_ID') == false) {
-                $cat_url = $this->app->category_manager->get_category_id_from_url();
-
-                if ($cat_url != false) {
-                    define('CATEGORY_ID', intval($cat_url));
-                }
-            }
-            if (!defined('CATEGORY_ID')) {
-                define('CATEGORY_ID', false);
-            }
 
             if (defined('CONTENT_ID') == false and isset($content['id'])) {
                 define('CONTENT_ID', $content['id']);
@@ -1655,10 +1645,17 @@ class ContentManager
         if (defined('ACTIVE_PAGE_ID') == false) {
             define('ACTIVE_PAGE_ID', false);
         }
-
         if (defined('CATEGORY_ID') == false) {
+            $cat_url = $this->app->category_manager->get_category_id_from_url();
+
+            if ($cat_url != false) {
+                define('CATEGORY_ID', intval($cat_url));
+            }
+        }
+        if (!defined('CATEGORY_ID')) {
             define('CATEGORY_ID', false);
         }
+ 
 
         if (defined('CONTENT_ID') == false) {
             define('CONTENT_ID', false);
