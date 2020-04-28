@@ -96,6 +96,33 @@
 
         <div class="mw-ui-field-holder">
             <label class="mw-ui-label">
+                <?php _e("Permalink Settings"); ?>
+                <br />
+                <small>Choose the URL posts & page format.</small>
+            </label>
+
+            <?php
+            $permalink_structures = array(
+                '/sample-post',
+                '/sample-category/sample-post',
+                '/sample-category/sample-sub-category/sample-post',
+                '/sample-page/sample-post',
+                '/sample-page/sample-category/sample-post',
+                '/sample-page/sample-category/sample-sub-category/sample-post',
+            );
+            ?>
+            <?php $curent_val = get_option('permalink_structure', 'website'); ?>
+            <b><?php echo mw()->url_manager->site_url(); ?></b> <select name="permalink_structure" class="mw-ui-field mw_option_field" option-group="website">
+                <?php if (is_array($permalink_structures)): ?>
+                    <?php foreach ($permalink_structures as $item): ?>
+                        <option value="<?php print $item ?>" <?php if ($curent_val == $item): ?> selected="selected" <?php endif; ?>><?php print $item ?></option>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </select>
+        </div>
+
+        <div class="mw-ui-field-holder">
+            <label class="mw-ui-label">
                 <?php _e("Date Format"); ?>
             </label>
             <?php $date_formats = array("Y-m-d H:i:s", "Y-m-d H:i", "d-m-Y H:i:s", "d-m-Y H:i", "m/d/y", "m/d/Y", "d/m/Y", "F j, Y g:i a", "F j, Y", "F, Y", "l, F jS, Y", "M j, Y @ G:i", "Y/m/d \a\t g:i A", "Y/m/d \a\t g:ia", "Y/m/d g:i:s A", "Y/m/d", "g:i a", "g:i:s a", 'D-M-Y', 'D-M-Y H:i'); ?>
