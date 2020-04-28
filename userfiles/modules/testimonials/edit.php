@@ -41,7 +41,7 @@
     <?php $data = get_testimonials("single=true&id=" . $params['edit-id']); ?>
 <?php endif; ?>
 
-<?php if (($data['id']) == 0): ?>
+<?php if (isset($data['id']) && ($data['id']) == 0): ?>
     <script>
         $(document).ready(function () {
             $('.js-add-new-button').hide();
