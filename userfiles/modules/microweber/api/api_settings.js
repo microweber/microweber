@@ -89,6 +89,16 @@
                 mw.require(mw.settings.libs_url + 'fontawesome-free-5.12.0' + '/css/all.min.css');
             }
         ],
+        mwui: [
+            function () {
+                mw.require(mw.settings.libs_url + 'mw-ui' + '/grunt/plugins/ui/css/main.css');
+                mw.require(mw.settings.libs_url + 'mw-ui' + '/grunt/dist/plugins/css/plugins.min.css');
+                mw.require(mw.settings.libs_url + 'mw-ui' + '/grunt/plugins/ui/css/mw.css');
+                mw.require(mw.settings.libs_url + 'mw-ui' + '/grunt/dist/plugins/js/plugins.js');
+             }
+
+
+        ],
         flag_icons: [
             function () {
                 mw.require(mw.settings.libs_url + 'flag-icon-css' + '/css/flag-icon.min.css');

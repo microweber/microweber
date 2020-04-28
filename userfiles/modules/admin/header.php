@@ -46,6 +46,7 @@
         mw.require("upgrades.js");
         mw.require("tree.js");
 
+        mw.lib.require('mwui');
         mw.lib.require('font_awesome5');
 
         <?php /*  mw.require("<?php print mw_includes_url(); ?>css/helpinfo.css");
@@ -401,6 +402,8 @@ if (!$shop_disabled) {
 
     <div class="mw-ui-row main-admin-row">
         <div class="mw-ui-col main-bar-column">
+
+
             <div id="main-bar" class="scroll-height-exception-master">
                 <?php $view = url_param('view'); ?>
                 <?php $action = url_param('action'); ?>
@@ -418,6 +421,9 @@ if (!$shop_disabled) {
                     <?php endif; ?>
                     <strong><?php //print str_replace(array('http://','https://'), '', site_url()); ?></strong>
                 </a>
+
+
+
                 <ul id="mw-admin-main-menu">
                     <li <?php if (!$view): ?> class="active" <?php endif; ?>>
                         <a href="<?php print admin_url(); ?>">
@@ -529,6 +535,7 @@ if (!$shop_disabled) {
                                     </a>
                                 </li>
                                 <?php
+
                                 /*<li>
                                     <a href="<?php print admin_url(); ?>view:shop/action:options/#?option=payment-methods">
                                         <span class="mai-order"></span>
