@@ -5,7 +5,7 @@ namespace Microweber\Providers;
 
 class PermalinkManager
 {
-    public $app;
+ /*   public $app;
 
     public function __construct($app = null)
     {
@@ -14,7 +14,7 @@ class PermalinkManager
         } else {
             $this->app = mw();
         }
-    }
+    }*/
 
     public function generateLink($content)
     {
