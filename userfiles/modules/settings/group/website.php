@@ -101,20 +101,14 @@
                 <small>Choose the URL posts & page format.</small>
             </label>
 
-            <?php
-            $permalinkStructures = array(
-                'post'=> 'sample-post',
-                'category_post'=> 'sample-category/sample-post',
-                'page_category_post'=> 'sample-page/sample-category/sample-post',
-                'page_category_sub_categories_post'=> 'sample-page/sample-category/sub-category/sample-post'
-            );
-            ?>
+            <?php $permalinkStructures = mw()->permalink_manager->getStructures(); ?>
+
             <?php $currentPremalinkStructure = get_option('permalink_structure', 'website'); ?>
             <b><?php echo mw()->url_manager->site_url(); ?></b>
             <select name="permalink_structure" class="mw-ui-field mw_option_field" option-group="website">
                 <?php if (is_array($permalinkStructures)): ?>
                     <?php foreach ($permalinkStructures as $structureKey=>$structureVal): ?>
-                        <option value="<?php print $structureKey ?>" <?php if ($currentPremalinkStructure == $structureVal): ?> selected="selected" <?php endif; ?>><?php print $structureVal ?></option>
+                        <option value="<?php print $structureKey ?>" <?php if ($currentPremalinkStructure == $structureKey): ?> selected="selected" <?php endif; ?>><?php print $structureVal ?></option>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </select>
