@@ -21,6 +21,8 @@
         }
     ],
     "require": {
+	    "composer/composer": "v1.8.5",
+		"composer/installers": "1.*",
         "laravel/framework": "^7.0.0",
         "laravelcollective/html": "^6.0@dev",
         "laravel/socialite": "^5.0@dev",
@@ -47,8 +49,6 @@
         "microweber-packages/microweber-utils": "dev-master",
         "microweber-packages/microweber-package-manager": "dev-master",
         "microweber-packages/microweber-option-manager": "dev-master",
-        "composer/composer": "^2.0@dev",
-        "composer/installers": "^1.0@dev",
         "microweber-packages/microweber-captcha-manager": "dev-master"
     },
     "require-dev": {
