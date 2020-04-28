@@ -232,11 +232,7 @@ class BackupV2
 			}
 		}
 
-<<<<<<< HEAD:userfiles/modules/admin/backup_v2/BackupV2.php
 		$manager = new \MicroweberPackages\BackupManager\BackupManager();
-=======
-		$manager = new BackupManager();
->>>>>>> 28520b534188644ce40e2664152fc923d69f5fa3:src/Microweber/Utils/BackupV2.php
 		$manager->setExportData('tables', $tables);
 
 		if (isset($query['format'])) {
