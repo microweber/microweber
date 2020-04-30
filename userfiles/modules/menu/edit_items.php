@@ -48,12 +48,20 @@ if( $id != 0){
 <?php  $rand = uniqid(); ?>
 
 
+<script>
+    currentMenuId = <?php print $id; ?> || 0;
 
+
+</script>
 
 
 
 
 <script  type="text/javascript">
+
+
+
+
 
 
     mw.menu_items_sort_<?php print $rand; ?> = function(){

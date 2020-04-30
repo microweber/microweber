@@ -238,6 +238,7 @@ class MicroweberServiceProvider extends ServiceProvider
             'layouts_manager' => 'LayoutsManager',
             'template_manager' => 'TemplateManager',
             'captcha_manager' => 'CaptchaManager',
+            'permalink_manager' => 'PermalinkManager',
         ];
 
         foreach ($providers as $alias => $class) {

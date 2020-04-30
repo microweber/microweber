@@ -90,8 +90,8 @@
                 if (mw.tools.canAccessIFrame(frame)) {
                     mw.$(frame.contentWindow.document).on('keydown', function (e) {
                         if (mw.event.is.escape(e) && !mw.event.targetIsField(e)) {
-                            if(frame.contentWindow.mw.__dialogs && frame.contentWindow.mw.__dialogs.length){
-                                var dlg = frame.contentWindow.mw.__dialogs;
+                            if(mw.top().__dialogs && mw.top().__dialogs.length){
+                                var dlg = mw.top().__dialogs;
                                 dlg[dlg.length - 1]._doCloseButton();
                                 $(dlg[dlg.length - 1]).trigger('closedByUser');
                             }
@@ -189,25 +189,27 @@
             return this.options.root.getElementById(this.id)._dialog;
         }
 
-        mw.__dialogs = mw.__dialogs || [];
-        mw.__dialogsData = mw.__dialogsData || {};
+        if(!mw.top().__dialogs ) {
+            mw.top().__dialogs = [];
+        }
+        if (!mw.top().__dialogsData) {
+            mw.top().__dialogsData = {};
+        }
 
-        if (!mw.__dialogsData._esc) {
-            mw.__dialogsData._esc = true;
+
+        if (!mw.top().__dialogsData._esc) {
+            mw.top().__dialogsData._esc = true;
             mw.$(document).on('keydown', function (e) {
                 if (mw.event.is.escape(e)) {
-                    for (var i = mw.__dialogs.length - 1; i >= 0; i--) {
-                        var dlg = mw.__dialogs[i];
-                        if (dlg.options.closeOnEscape) {
-                            dlg._doCloseButton();
-                            break;
-                        }
+                    var dlg = mw.top().__dialogs[mw.top().__dialogs.length - 1];
+                    if (dlg.options.closeOnEscape) {
+                        dlg._doCloseButton();
                     }
                 }
             });
         }
 
-        mw.__dialogs.push(this);
+        mw.top().__dialogs.push(this);
 
         this.draggable = function () {
             if (this.options.draggable && $.fn.draggable) {
@@ -417,9 +419,9 @@
             mw.$(this.dialogMain).remove();
             mw.$(this).trigger('Remove');
             mw.trigger('mwDialogRemove', this);
-            for (var i = 0; i < mw.__dialogs.length; i++) {
-                if (mw.__dialogs[i] === this) {
-                    mw.__dialogs.splice(i, 1);
+            for (var i = 0; i < mw.top().__dialogs.length; i++) {
+                if (mw.top().__dialogs[i] === this) {
+                    mw.top().__dialogs.splice(i, 1);
                     break;
                 }
             }

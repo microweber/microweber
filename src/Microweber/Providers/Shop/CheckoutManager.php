@@ -381,10 +381,15 @@ class CheckoutManager
             $currencies_list_paypal = mw()->shop_manager->currency_get_for_paypal();
             $currencyCode = strtoupper($place_order['currency']);
             $amount = $place_order['amount'];
-
+            $amount = floatval($amount);
+            $amount =  round($amount,2);
             if (!isset($place_order['payment_amount'])) {
                 $place_order['payment_amount'] = $amount;
             }
+
+            $amount = floatval($amount);
+            $amount =  round($amount,2);
+
             $place_order['payment_shipping'] = $place_order['shipping'];
 
 
@@ -407,13 +412,19 @@ class CheckoutManager
                     if ($payment_currency_rate != 0.00) {
 
                         $amount = $amount * $payment_currency_rate;
+                        $amount = floatval($amount);
+                        $amount =  round($amount,2);
+
                         $place_order['payment_amount'] = $amount;
 
                     }
 
 
                     if ($place_order['payment_shipping']) {
-                        $place_order['payment_shipping'] = $place_order['payment_shipping'] * $payment_currency_rate;
+                        $amount_shipping  = $place_order['payment_shipping'] * $payment_currency_rate;
+                        $amount_shipping = floatval($amount_shipping);
+                        $amount_shipping =  round($amount_shipping,2);
+                        $place_order['payment_shipping'] = $amount_shipping;
 
                     }
 
@@ -1015,12 +1026,22 @@ class CheckoutManager
 
                 $url_verify = urldecode($url_verify);
                 $decrypt_url = urldecode($decrypt_url);
+                $amount1  = $data['payment_amount'];
+                $amount2  = $decrypt_payment_amount;
+
+
+                $amount1 = floatval($amount1);
+                $amount1 =  round($amount1,2);
+
+                $amount2 = floatval($amount2);
+                $amount2 =  round($amount2,2);
+
 
                 if (md5($url_verify) !== md5($decrypt_url)) {
                     $error = true;
                 }
 
-                if (md5(floatval($decrypt_payment_amount)) !== md5(floatval($data['payment_amount']))) {
+                if (md5($amount1) !== md5($amount2)) {
                     $error = true;
                 }
                 if (md5(strtoupper($decrypt_payment_currency)) !== md5(strtoupper($data['payment_currency']))) {

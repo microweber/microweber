@@ -69,6 +69,7 @@ mw.form = {
       	var xhr = $.ajax({
             url: url_to_post,
             data: obj,
+            method: 'post',
             success: function(data){
                 mw.session.checkPause = false;
                 if(typeof callback === 'function'){
