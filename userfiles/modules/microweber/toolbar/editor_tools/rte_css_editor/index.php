@@ -1,12 +1,8 @@
-
-
-
-
 <div id="xtree"></div>
 <div id="domtree"></div>
 
 <script type="text/javascript">
-    //parent.mw.require("external_callbacks.js");
+    // parent.mw.require("external_callbacks.js");
     mw.require("jquery-ui.js");
     mw.require("events.js");
     mw.require("forms.js");
@@ -18,8 +14,6 @@
     mw.require('tree.js');
 
     mw.require('domtree.js');
-
-
 
 
     mw.require('css_parser.js');
@@ -51,7 +45,6 @@
 <script>
 
 var ActiveNode = null;
-
 
 var reset = function(){
     if(!ActiveNode){

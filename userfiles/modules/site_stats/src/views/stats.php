@@ -9,8 +9,6 @@
             $(this).find('id').toggleClass('active');
         });
 
-        $('.stats-view .sources, .stats-view .contents, .stats-view .locations, .stats-view .visitors').slimScroll({});
-
         $('.show-more-stats').on('click', function () {
             if ($('.stats-view-holder').hasClass('hidden')) {
                 $('.stats-view-holder').slideDown();

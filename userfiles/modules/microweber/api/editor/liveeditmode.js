@@ -5,10 +5,183 @@ var canDestroy = function (event) {
 };
 
 
+
+
+mw.Editor.leSave = {
+   prepare: function(root){
+        if(!root) {
+            return null;
+        }
+       var doc = mw.tools.parseHtml();
+       var doc = document.implementation.createHTMLDocument("");
+       doc.body.innerHTML = root.innerHTML;
+
+       mw.$('.element-current', doc).removeClass('element-current');
+       mw.$('.element-active', doc).removeClass('element-active');
+       mw.$('.disable-resize', doc).removeClass('disable-resize');
+       mw.$('.mw-webkit-drag-hover-binded', doc).removeClass('mw-webkit-drag-hover-binded');
+       mw.$('.module-cat-toggle-Modules', doc).removeClass('module-cat-toggle-Modules');
+       mw.$('.mw-module-drag-clone', doc).removeClass('mw-module-drag-clone');
+       mw.$('-module', doc).removeClass('-module');
+       mw.$('.empty-element', doc).remove();
+       mw.$('.empty-element', doc).remove();
+       mw.$('.edit .ui-resizable-handle', doc).remove();
+       mw.$('script', doc).remove();
+       mw.tools.classNamespaceDelete('all', 'ui-', doc, 'starts');
+       mw.$("[contenteditable]", doc).removeAttr("contenteditable");
+       var all = doc.querySelectorAll('[contenteditable]'),
+           l = all.length,
+           i = 0;
+       for (; i < l; i++) {
+           all[i].removeAttribute('contenteditable');
+       }
+       var all1 = doc.querySelectorAll('.module'),
+           l1 = all.length,
+           i1 = 0;
+       for (; i1 < l1; i1++) {
+           if (all[i1].querySelector('.edit') === null) {
+               all[i1].innerHTML = '';
+           }
+       }
+       return doc;
+   },
+   htmlAttrValidate:function(edits){
+        var final = [];
+        $.each(edits, function(){
+            var html = this.outerHTML;
+            html = html.replace(/url\(&quot;/g, "url('");
+            html = html.replace(/jpg&quot;/g, "jpg'");
+            html = html.replace(/jpeg&quot;/g, "jpeg'");
+            html = html.replace(/png&quot;/g, "png'");
+            html = html.replace(/gif&quot;/g, "gif'");
+            final.push($(html)[0]);
+        })
+        return final;
+   },
+    pastedFromExcel: function (clipboard) {
+        var html = clipboard.getData('text/html');
+        return html.indexOf('ProgId content=Excel.Sheet') !== -1
+    },
+    areSameLike: function (el1, el2) {
+        if (!el1 || !el2) return false;
+        if (el1.nodeType !== el2.nodeType) return false;
+        if (!!el1.className.trim() || !!el2.className.trim()) {
+            return false;
+        }
+
+        var css1 = (el1.getAttribute('style') || '').replace(/\s/g, '');
+        var css2 = (el2.getAttribute('style') || '').replace(/\s/g, '');
+
+        if (css1 === css2 && el1.nodeName === el2.nodeName) {
+            return true;
+        }
+
+        return false;
+    },
+    cleanUnwantedTags: function (body) {
+        var scope = this;
+        mw.$('*', body).each(function () {
+            if (this.nodeName !== 'A' && mw.ea.helpers.isInlineLevel(this) && (this.className.trim && !this.className.trim())) {
+                if (scope.areSameLike(this, this.nextElementSibling) && this.nextElementSibling === this.nextSibling) {
+                    if (this.nextSibling !== this.nextElementSibling) {
+                        this.appendChild(this.nextSibling);
+                    }
+                    this.innerHTML = this.innerHTML + this.nextElementSibling.innerHTML;
+                    this.nextElementSibling.innerHTML = '';
+                    this.nextElementSibling.className = 'mw-skip-and-remove';
+                }
+            }
+        });
+        mw.$('.mw-skip-and-remove', body).remove();
+        return body;
+    },
+   getData: function(edits) {
+        mw.$(edits).each(function(){
+            mw.$('meta', this).remove();
+        });
+
+        edits = this.htmlAttrValidate(edits);
+        var l = edits.length,
+            i = 0,
+            helper = {},
+            master = {};
+        if (l > 0) {
+            for (; i < l; i++) {
+                helper.item = edits[i];
+                var rel = mw.tools.mwattr(helper.item, 'rel');
+                if (!rel) {
+                    mw.$(helper.item).removeClass('changed');
+                    mw.tools.foreachParents(helper.item, function(loop) {
+                        var cls = this.className;
+                        var rel = mw.tools.mwattr(this, 'rel');
+                        if (mw.tools.hasClass(cls, 'edit') && mw.tools.hasClass(cls, 'changed') && (!!rel)) {
+                            helper.item = this;
+                            mw.tools.stopLoop(loop);
+                        }
+                    });
+                }
+                var rel = mw.tools.mwattr(helper.item, 'rel');
+                if (!rel) {
+                    var field = !!helper.item.id ? '#'+helper.item.id : '';
+                    console.warn('Skipped save: .edit'+field+' element does not have rel attribute.');
+                    continue;
+                }
+                mw.$(helper.item).removeClass('changed orig_changed');
+                mw.$(helper.item).removeClass('module-over');
+
+                mw.$('.module-over', helper.item).each(function(){
+                    mw.$(this).removeClass('module-over');
+                });
+                mw.$('[class]', helper.item).each(function(){
+                    var cls = this.getAttribute("class");
+                    if(typeof cls === 'string'){
+                        cls = cls.trim();
+                    }
+                    if(!cls){
+                        this.removeAttribute("class");
+                    }
+                });
+                var content = this.cleanUnwantedTags(helper.item).innerHTML;
+                var attr_obj = {};
+                var attrs = helper.item.attributes;
+                if (attrs.length > 0) {
+                    var ai = 0,
+                        al = attrs.length;
+                    for (; ai < al; ai++) {
+                        attr_obj[attrs[ai].nodeName] = attrs[ai].nodeValue;
+                    }
+                }
+                var obj = {
+                    attributes: attr_obj,
+                    html: content
+                };
+                var objdata = "field_data_" + i;
+                master[objdata] = obj;
+            }
+        }
+        return master;
+    }
+};
+
+mw.Editor.leCore = {};
+
 // methods accessible by scope.liveedit
 
 mw.Editor.liveeditMode = function(scope){
     return {
+
+        prepare: {
+            titles: function () {
+                var t = scope.querySelectorAll('[field="title"]'),
+                    l = t.length,
+                    i = 0;
+
+                for (; i < l; i++) {
+                    mw.$(t[i]).addClass("nodrop");
+                }
+            }
+        },
+
         isSafeMode: function (el) {
             if (!el) {
                 var sel = scope.selection;

@@ -17,7 +17,7 @@ mw.admin = {
             return;
         }
 
-        //el.slimScroll(settings);
+
         var scroller = mw.$('.slimScrollBar', el[0].parentNode);
         scroller.bind('mousedown', function () {
             mw.$(this).addClass('scrollMouseDown');
@@ -456,10 +456,12 @@ mw.contactForm = function () {
 
 $(mwd).ready(function () {
     mw.admin.mobileMessage();
-    mw.$(mwd.body).bind('keydown', function (e) {
+    mw.$(mwd.body).on('keydown', function (e) {
         if (mw.event.key(e, 8) && (e.target.nodeName === 'DIV' || e.target === mwd.body)) {
-            mw.event.cancel(e);
-            return false;
+            if (!e.target.isContentEditable) {
+                mw.event.cancel(e);
+                return false;
+            }
         }
     });
 
@@ -475,7 +477,7 @@ $(mwd).ready(function () {
 
 });
 
-$(mww).bind('load', function () {
+$(mww).on('load', function () {
   mw.$(".mobile-tree-menu").on('click', function(){
     mw.$(".tree-column").toggleClass('tree-column-mobile-active')
   })
@@ -492,7 +494,7 @@ $(mww).bind('load', function () {
 
     if (mwd.getElementById('main-bar-user-menu-link') !== null) {
 
-        mw.$(document.body).bind('click', function (e) {
+        mw.$(document.body).on('click', function (e) {
             if (e.target !== mwd.getElementById('main-bar-user-menu-link') && e.target.parentNode !== mwd.getElementById('main-bar-user-menu-link')) {
                 mw.$('#main-bar-user-tip').removeClass('main-bar-user-tip-active');
             }
@@ -514,7 +516,7 @@ $(mww).bind('load', function () {
 
     mw.$(".dr-item-table > table").click(function(){
         mw.$(this).toggleClass('active').next().stop().slideToggle().parents('.dr-item').toggleClass('active')
-    })
+    });
 
 });
 

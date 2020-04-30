@@ -9,6 +9,7 @@ mw.require('editor/add.controller.js');
 mw.require('editor/interaction-controls.js');
 mw.require('editor/i18n.js');
 mw.require('editor/liveeditmode.js');
+mw.require('control_box.js');
 
 
 var EditorPredefinedControls = {
@@ -43,7 +44,7 @@ mw.Editor = function (options) {
         language: 'en',
         rootPath: mw.settings.modules_url + 'microweber/api/editor',
         editMode: 'normal', // normal | liveedit
-        bar: null
+        bar: null,
     };
 
     this.actionWindow = window;
@@ -443,6 +444,9 @@ mw.Editor = function (options) {
     this._onReady = function () {
         $(this).on('ready', function () {
             scope.initInteraction();
+            scope.api.execCommand('enableObjectResizing', false, 'false');
+            scope.api.execCommand('2D-Position', false, false);
+            scope.api.execCommand("enableInlineTableEditing", null, false);
             if(!scope.state.hasRecords()){
                 scope.state.record({
                     $initial: true,
@@ -457,6 +461,7 @@ mw.Editor = function (options) {
             }
             scope.addDependencies();
             scope.createSmallEditor();
+
         });
     };
 

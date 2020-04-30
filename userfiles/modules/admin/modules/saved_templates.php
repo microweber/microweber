@@ -32,10 +32,10 @@ return;
     $module_id = $params['module_id'];
 
     ?>
-    <script type="text/javascript">
+    <script>
         mw.require('forms.js', true);
     </script>
-    <script type="text/javascript">
+    <script>
 
 
         mod_id_for_presets = '<?php print $module_id ?>';
