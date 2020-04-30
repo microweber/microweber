@@ -28,6 +28,9 @@ class AdminController extends Controller
 
     public function index()
     {
+
+        var_dump(Auth::user());
+        die();
         $is_installed = mw_is_installed();
 
         if (!$is_installed) {
