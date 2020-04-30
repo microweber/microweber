@@ -148,11 +148,10 @@ class MicroweberServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->registerLaravelProviders();
-        $this->registerLaravelAliases();
-
         $this->app->register(TaggableFileCacheServiceProvider::class);
 
+        $this->registerLaravelProviders();
+        $this->registerLaravelAliases();
         $this->setEnvironmentDetection();
         $this->registerUtils();
         $this->registerSingletonProviders();
@@ -191,18 +190,13 @@ class MicroweberServiceProvider extends ServiceProvider
             $this->app->register($provider);
         }
 
-        $this->app->bind('Illuminate\Contracts\Bus\Dispatcher', 'Illuminate\Bus\Dispatcher');
-        $this->app->bind('Illuminate\Contracts\Queue\Queue', 'Illuminate\Contracts\Queue\Queue');
+        $this->app->bind('Illuminate\Contracts\Auth\Registrar', 'Microweber\App\Services\Registrar');
 
         $this->app->singleton(
             'Illuminate\Cache\StoreInterface',
             'Utils\Adapters\Cache\CacheStore'
         );
 
-        $this->app->singleton(
-            'Illuminate\Contracts\Console\Kernel',
-            'Microweber\App\Console\Kernel'
-        );
     }
 
     protected function registerLaravelAliases()

@@ -1,4 +1,6 @@
 <?php
+
+/*
 api_expose('user_social_login');
 
 api_expose('logout');
@@ -13,13 +15,14 @@ api_expose('social_login_process');
 
 api_expose('user_reset_password_from_link');
 
-api_expose('user_send_forgot_password');
 
 api_expose_admin('user_make_logged');
 
 api_expose('user_login');
 
-api_expose('is_logged');
+api_expose('is_logged');*/
+
+api_expose('user_send_forgot_password');
 
 
 api_expose_admin('users/register_email_send_test', function () {
