@@ -33,7 +33,7 @@ if (class_exists(\App\Http\Kernel::class)) {
     );
 } else {
     $app->singleton(
-        '\Illuminate\Contracts\Http\Kernel',
+        'Illuminate\Contracts\Http\Kernel',
         'Microweber\App\Http\Kernel'
     );
 }
@@ -45,7 +45,7 @@ if (class_exists(\App\Console\Kernel::class)) {
     );
 } else {
     $app->singleton(
-        '\Illuminate\Contracts\Console\Kernel',
+        'Illuminate\Contracts\Console\Kernel',
         'Microweber\App\Console\Kernel'
     );
 }
@@ -57,7 +57,7 @@ if (class_exists(\App\Exceptions\Handler::class)) {
     );
 } else {
     $app->singleton(
-        '\Illuminate\Contracts\Debug\ExceptionHandler',
+        'Illuminate\Contracts\Debug\ExceptionHandler',
         'Microweber\App\Exceptions\Handler'
     );
 }
