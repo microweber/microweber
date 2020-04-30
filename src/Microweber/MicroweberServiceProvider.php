@@ -149,23 +149,19 @@ class MicroweberServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerLaravelProviders();
-
         $this->registerLaravelAliases();
 
+        $this->app->register(TaggableFileCacheServiceProvider::class);
+
         $this->setEnvironmentDetection();
-
         $this->registerUtils();
-
         $this->registerSingletonProviders();
-
         $this->registerHtmlCollective();
-
         $this->registerMarkdown();
 
         $this->app->instance('config', new ConfigSave($this->app));
 
         $this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');
-
         $this->app->register(EventManagerServiceProvider::class);
         $this->app->register(HelpersServiceProvider::class);
         $this->app->register(ContentManagerServiceProvider::class);
@@ -185,7 +181,6 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(UserManagerServiceProvider::class);
         $this->app->register(CaptchaManagerServiceProvider::class);
         $this->app->register(OptionManagerServiceProvider::class);
-        $this->app->register(TaggableFileCacheServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
     }
@@ -310,10 +305,6 @@ class MicroweberServiceProvider extends ServiceProvider
     public function boot()
     {
         App::instance('path.public', base_path());
-
-        Cache::extend('file', function () {
-            return new TaggableFileStore();
-        });
 
         $this->app->database_manager->add_table_model('content', Content::class);
         $this->app->database_manager->add_table_model('media', Media::class);
