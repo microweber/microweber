@@ -10,7 +10,7 @@ use MicroweberPackages\Utils\Mail\MailSender;
  * @author Bobi Slaveykvo Microweber
  * @command php phpunit.phar --filter UserTest
  */
-class UserTest extends TestCase
+class AUserTest extends TestCase
 {
     private static $_username = false;
     private static $_password = false;

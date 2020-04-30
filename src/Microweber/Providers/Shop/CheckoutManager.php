@@ -4,6 +4,7 @@ namespace Microweber\Providers\Shop;
 
 use Microweber\App\Providers\Illuminate\Support\Facades\Config;
 use Microweber\App\Providers\Illuminate\Support\Facades\Crypt;
+use MicroweberPackages\Utils\Mail\MailSender;
 
 class CheckoutManager
 {
@@ -754,7 +755,7 @@ class CheckoutManager
                         )
                     );
 
-                    $sender = new \Microweber\Utils\MailSender();
+                    $sender = new MailSender();
 
                     // Send only to client
                     if ($send_to_client && !$send_to_admins && filter_var($to, FILTER_VALIDATE_EMAIL)) {
