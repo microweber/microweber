@@ -7,6 +7,7 @@ use Cache;
 use Microweber\App\Providers\AppServiceProvider;
 use Microweber\App\Providers\EventServiceProvider;
 use Microweber\App\Providers\RouteServiceProvider;
+use Microweber\Providers\CacheManager;
 use Microweber\Providers\DatabaseManager;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;

@@ -1,5 +1,12 @@
 <?php
 
+/*// session(['user' => ['id'=>1,'name'=>'my name']]);
+
+$user_details = session('user');
+print_r($user_details); // THIS WORKS
+
+return;*/
+
 Route::group(['middleware' => \Microweber\App\Http\Middleware\SessionlessMiddleware::class, 'namespace' => '\Microweber\Controllers'], function () {
     Route::any('/apijs', 'JsCompileController@apijs');
     Route::any('apijs/{all}', array('as' => 'apijs', 'uses' => 'JsCompileController@apijs'))->where('all', '.*');
