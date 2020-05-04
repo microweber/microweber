@@ -11,9 +11,15 @@
 |
 */
 
-$app = new \Microweber\App\LaravelApplication(
-	realpath(__DIR__.'/../')
-);
+if (class_exists(\Microweber\App\LaravelApplication::class)) {
+    $app = new \Microweber\App\LaravelApplication(
+        realpath(__DIR__ . '/../')
+    );
+} else {
+    $app = new Illuminate\Foundation\Application(
+        $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)
+    );
+}
 
 /*
 |--------------------------------------------------------------------------
