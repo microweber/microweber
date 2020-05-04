@@ -20,7 +20,7 @@ if (!defined('DS')) {
 }
 
 if (!defined('MW_PATH')) {
-    define('MW_PATH', realpath(__DIR__ . '/Microweber/').DS);
+    define('MW_PATH', dirname(__DIR__) . DS);
 }
 
 if (!defined('MW_ROOTPATH')) {

@@ -1,10 +1,11 @@
 <?php
+$default_mail_templates = normalize_path(MW_PATH . 'Views/emails');
+
 function get_mail_template_types()
 {
 
     $email_template_types = array();
 
-    $default_mail_templates = normalize_path(MW_PATH . 'Views/emails');
     $default_mail_templates = scandir($default_mail_templates);
 
     foreach ($default_mail_templates as $template_file) {
