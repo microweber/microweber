@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\Install\Schema;
+namespace Microweber\App\Install\Schema;
 
 class Countries
 {

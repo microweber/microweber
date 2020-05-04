@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\tests;
+namespace Microweber\App\tests;
 
 class CustomFieldsTest extends TestCase
 {

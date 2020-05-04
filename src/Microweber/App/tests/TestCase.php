@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Microweber\tests;
+namespace Microweber\App\tests;
 
 use Illuminate\Support\Facades\DB;
 
@@ -50,14 +50,14 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         }
 
         file_put_contents($mw_file, "<?php return array (
-            'is_installed' => 0,
+            'is_installed' => 0, 
             'compile_assets' => 0,
             'install_default_template' => 'default',
             'install_default_template_content' => 1,
             );"
         );
 
-        $app = require __DIR__ . '/../../../bootstrap/app.php';
+        $app = require __DIR__ . '/../../../../bootstrap/app.php';
         $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
         //  $app['env'] = $testing_env_name;
         $environment = $app->environment();

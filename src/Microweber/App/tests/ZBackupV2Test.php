@@ -1,5 +1,5 @@
 <?php
-namespace Microweber\tests;
+namespace Microweber\App\tests;
 
 use Faker\Factory;
 use MicroweberPackages\BackupManager\BackupManager;

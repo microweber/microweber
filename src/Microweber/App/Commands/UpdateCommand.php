@@ -1,9 +1,9 @@
 <?php
 
-namespace Microweber\Commands;
+namespace Microweber\App\Commands;
 
 use Illuminate\Console\Command;
-use Microweber\Providers\UpdateManager;
+use Microweber\App\Managers\UpdateManager\UpdateManager;
 
 class UpdateCommand extends Command
 {

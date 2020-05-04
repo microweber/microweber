@@ -8,7 +8,7 @@ class TestController extends Controller
 {
     public function getIndex()
     {
-        $a = new \Microweber\Install\WebserverInstaller();
+        $a = new \Microweber\App\Install\WebserverInstaller();
         $a = $a->run();
         dd($a);
     }

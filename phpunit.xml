@@ -15,7 +15,7 @@
     </logging>
     <testsuites>
         <testsuite name="Microweber Test Suite">
-            <directory>./src/Microweber/tests/</directory>
+            <directory>./src/Microweber/App/tests/</directory>
         </testsuite>
         <testsuite name="Microweber Modules Test Suite">
             <directory>./userfiles/modules/*/tests/</directory>

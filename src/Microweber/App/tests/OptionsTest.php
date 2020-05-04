@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\tests;
+namespace Microweber\App\tests;
 
 class OptionsTest extends TestCase
 {
@@ -45,6 +45,6 @@ class OptionsTest extends TestCase
         $this->assertTrue($delete);
         $this->assertFalse($get);
 
- 
+
     }
 }

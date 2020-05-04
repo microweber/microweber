@@ -4,7 +4,7 @@ namespace Microweber\App\Controllers;
 
 use Illuminate\Support\Facades\Request;
 use MicroweberPackages\TemplateManager\View;
-use Microweber\Install;
+use Microweber\App\Install;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
@@ -417,7 +417,7 @@ class InstallController extends Controller
 
     private function reportInstall($email, $sendMail = false)
     {
-        $um = new \Microweber\Providers\UpdateManager(app());
+        $um = new \Microweber\App\Managers\UpdateManager(app());
         $data = $um->collect_local_data();
         if ($sendMail) {
             $data['email'] = $email;

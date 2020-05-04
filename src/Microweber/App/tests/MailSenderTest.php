@@ -1,5 +1,5 @@
 <?php
-namespace Microweber\tests;
+namespace Microweber\App\tests;
 
 use MicroweberPackages\Utils\Mail\MailSender;
 
