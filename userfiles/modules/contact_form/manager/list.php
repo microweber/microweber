@@ -158,7 +158,7 @@ if (is_array($data)) {
 ?>
 
 <?php
-$view = new \Microweber\View(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'admin_messages_list.php');
+$view = new \Microweber\App\View(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'admin_messages_list.php');
 $view->assign('last_messages', $data);
 echo $view->__toString();
 ?>
@@ -171,8 +171,8 @@ echo $view->__toString();
         $load_list = url_param('load_list');
     }
     ?>
-    
-	<?php 
+
+	<?php
 	$hideEditButton = false;
 	if ($load_list == 'default') {
 		$hideEditButton = true;
@@ -180,7 +180,7 @@ echo $view->__toString();
 		$hideEditButton = true;
 	}
 	?>
-    
+
     <div class="mw-ui-col">
         <?php if (!$hideEditButton): ?>
             <span class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-important mw-ui-delete"

@@ -11,7 +11,7 @@
 |
 */
 
-$app = new Microweber\LaravelApplication(
+$app = new \Microweber\App\LaravelApplication(
 	realpath(__DIR__.'/../')
 );
 

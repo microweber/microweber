@@ -3,7 +3,7 @@
 
 namespace shop\orders\controllers;
 
-use Microweber\View;
+use Microweber\App\View;
 
 
 class Admin

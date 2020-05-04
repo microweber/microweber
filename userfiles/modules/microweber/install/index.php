@@ -1,6 +1,6 @@
 <?php
 
-// MOVED TO src\Microweber\Views\install.php
+// MOVED TO src\Microweber\App\Views\install.php
 
 ?>
 
@@ -189,7 +189,7 @@
         $server_check_errors['php_version'] = _e("You must run PHP 5.4 or greater", true);
     }
 
-   
+
     if (function_exists('apache_get_modules')) {
         if (!in_array('mod_rewrite', apache_get_modules())) {
             $check_pass = false;
@@ -235,21 +235,21 @@
             $is_pdo_loaded = true;
         }
     }
- 
- 
+
+
   	if ($is_pdo_loaded == false) {
         if (extension_loaded('pdo_mysql')) {
             $is_pdo_loaded = true;
         }
     }
-	
-	
+
+
 	if ($is_pdo_loaded == false) {
         if (extension_loaded('pdo_pgsql')) {
             $is_pdo_loaded = true;
         }
     }
- 
+
 
 	 if ($is_pdo_loaded != false) {
 	    if(!defined('PDO::MYSQL_ATTR_LOCAL_INFILE')){
@@ -291,7 +291,7 @@
         $must_be = media_base_path();
         $server_check_errors['media_base_path()'] = _e("The directory " . media_base_path() . " must be writable", true);
     }
-     
+
 
 
 

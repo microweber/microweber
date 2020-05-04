@@ -3,7 +3,7 @@
 
 namespace content\controllers;
 
-use Microweber\View;
+use Microweber\App\View;
 
 class Manager
 {
@@ -131,7 +131,7 @@ class Manager
         }
 
         $posts_mod['paging_param'] = 'pg';
-     
+
 
         $posts_mod['orderby'] = 'position desc';
         if (isset($params['data-order'])) {
