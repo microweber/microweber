@@ -7,12 +7,11 @@
   'key' => 'base64:S0d4WUNVU2NpbzI5aDVLNmNjcWZuSFBLSjdUOWpCTm4=',
   'cipher' => 'AES-256-CBC',
   'log' => 'daily',
-  'providers' => 
+  'providers' =>
   array (
     0 => 'Microweber\\App\\Providers\\AppServiceProvider',
     1 => 'Microweber\\App\\Providers\\EventServiceProvider',
-    2 => 'Microweber\\App\\Providers\\RouteServiceProvider',
-    3 => 'Microweber\\MicroweberServiceProvider',
+    2 => 'Microweber\\App\\Providers\\RouteServiceProvider'
   ),
   'manifest' => storage_path().DIRECTORY_SEPARATOR.'framework',
 );
