@@ -49,7 +49,8 @@
         "microweber-packages/microweber-option-manager": "dev-master",
         "microweber-packages/microweber-captcha-manager": "dev-master",
         "fideloper/proxy": "dev-master",
-        "fruitcake/laravel-cors": "^2.0@dev"
+        "fruitcake/laravel-cors": "^2.0@dev",
+        "microweber-packages/microweber-app": "dev-master"
     },
     "require-dev": {
         "nunomaduro/collision": "^4.1",

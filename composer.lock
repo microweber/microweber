@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5c6a05d08510c2700cd4a440c4e7947e",
+    "content-hash": "87fefe9ce3c6cb056c28627d2a5932a1",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -2217,6 +2217,50 @@
             "description": "Taggable File Cache driver for Laravel. Allows the use of Cache tags with a file cache.",
             "homepage": "http://microweber.com",
             "time": "2020-05-04T07:48:43+00:00"
+        },
+        {
+            "name": "microweber-packages/microweber-app",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microweber-packages/microweber-app.git",
+                "reference": "892e746d7b83e8efc181ea79c5d6af9e3fba6405"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-app/zipball/892e746d7b83e8efc181ea79c5d6af9e3fba6405",
+                "reference": "892e746d7b83e8efc181ea79c5d6af9e3fba6405",
+                "shasum": ""
+            },
+            "require": {
+                "microweber-packages/microweber-helpers": "dev-master"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Microweber\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
+            "description": "Package app allows you to run microweber.",
+            "homepage": "http://microweber.com",
+            "time": "2020-05-04T11:00:42+00:00"
         },
         {
             "name": "microweber-packages/microweber-backup-manager",
@@ -6740,6 +6784,7 @@
         "microweber-packages/microweber-captcha-manager": 20,
         "fideloper/proxy": 20,
         "fruitcake/laravel-cors": 20,
+        "microweber-packages/microweber-app": 20,
         "barryvdh/laravel-debugbar": 20
     },
     "prefer-stable": false,
