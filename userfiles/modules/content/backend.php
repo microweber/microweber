@@ -1,12 +1,14 @@
 <?php
     only_admin_access();
     $action = url_param('action');
+    $active_content_id = '';
+    if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
+        $active_content_id = $_REQUEST['edit_content'];
+    }
 ?>
 
 
-<div class="tree" id="mw-admin-content-tree">
-
-</div>
+<div class="tree" id="mw-admin-content-tree"></div>
 
 <?php
 
@@ -39,6 +41,41 @@
 
     var pagesTree;
 
+    mw.$(document).ready(function(){
+        pagesTreeRefresh()
+    });
+
+    var mainTreeSetActiveItems = function(){
+        if(typeof(mw.adminPagesTree) != 'undefined'){
+            var hp = mw.url.getHashParams(location.hash);
+            if(hp.action){
+                var arr = hp.action.split(':');
+                if(arr[0] !== 'new'){
+                    mw.adminPagesTree.unselectAll();
+                }
+                var activeTreeItemIsPage = arr[0] === 'editpage' || arr[0] === 'showposts';
+                var activeTreeItemIsCategory = arr[0] === 'editcategory' || arr[0] === 'showpostscat';
+
+                if(activeTreeItemIsPage){
+                    mw.adminPagesTree.select({
+                        id:arr[1],
+                        type:'page'
+                    })
+                }
+                if(activeTreeItemIsCategory){
+                    mw.adminPagesTree.select({
+                        id:arr[1],
+                        type:'category'
+                    })
+                }
+            }
+            else{
+                mw.adminPagesTree.unselectAll();
+            }
+        }
+    };
+
+
     var pagesTreeRefresh = function(){
         $.get("<?php print $tree_url_endpoint; ?>", function(data){
             var treeTail = [
@@ -49,7 +86,7 @@
                         mw.url.windowHashParam('action', 'trash');
                     }
                 }
-            ];
+            ]; 
 
             pagesTree = new mw.tree({
                 data:data,
@@ -163,3 +200,50 @@
         });
     };
     if(window.pagesTreeRefresh){pagesTreeRefresh()};
+
+    </script>
+<?php event_trigger('admin_content_after_website_tree', $params); ?>
+
+
+<script>
+    $(window).on('load', function () {
+        if (!mw.url.windowHashParam("action")) {
+            edit_load('content/manager');
+        }
+        mw.on.hashParam('view', function () {
+            edit_load('content/manager');
+        })
+    });
+
+    edit_load = function (module, callback) {
+        mw.tools.loading(true)
+        var n = mw.url.getHashParams(window.location.hash)['new_content'];
+        if (n == 'true') {
+            var slide = false;
+            mw.url.windowDeleteHashParam('new_content');
+        }
+        else {
+            var slide = true;
+        }
+        var action = mw.url.windowHashParam('action');
+        var holder = $('#pages_edit_container');
+        var time = !action ? 300 : 0;
+        if (!action) {
+            mw.$('.fade-window').removeClass('active');
+        }
+        setTimeout(function () {
+            mw.load_module(module, holder, function () {
+                mw.tools.loading(false);
+                mw.$('.fade-window').addClass('active')
+                if (callback) callback.call();
+                mw.tools.loading(false)
+            });
+        }, time)
+    }
+
+</script>
+<main>
+    <div id="pages_edit_container" class="card style-1 mb-3" <?php print $pages_container_params_str; ?>></div>
+
+</main>
+

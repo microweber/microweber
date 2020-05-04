@@ -179,7 +179,7 @@ header {
     .main aside > ul .dropdown.show .dropdown-toggle::after {
       transform: rotate(90deg); }
   .main .tree {
-    display: none;
+    display: block;
     width: 170px;
     float: left;
     border: 1px solid #4592ff;
