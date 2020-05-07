@@ -24,10 +24,9 @@ if (isset($_COOKIE['lang'])) {
 
 $current_lang = current_lang();
 
-
 ?>
 
-<div id="mw-login">
+<div class="container" id="mw-login">
     <script>mw.require("session.js");</script>
     <script>
 

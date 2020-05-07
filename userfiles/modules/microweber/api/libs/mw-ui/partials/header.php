@@ -51,7 +51,6 @@
                         <li class="mx-1">
                             <a href="#" class="btn btn-primary btn-rounded btn-sm-only-icon"><i class="mdi mdi-eye-outline"></i> <span class="d-none d-md-block ml-1">Live edit</span></a>
                         </li>
-
                         <li class="mx-1 language-selector">
                             <button type="button" class="btn btn-outline-secondary btn-rounded btn-icon" data-toggle="dropdown"><i class="flag-icon flag-icon-gb"></i></button>
                             <div class="dropdown-menu ">

@@ -144,7 +144,7 @@ mw()->notifications_manager->delete_for_module('updates');
         <h2 class="mw-side-main-title relative"><span class="mw-icon-updates"></span>
             <?php _e("Updates"); ?>
             <?php if ($notif_count != 0) : ?>
-                &nbsp;<sup class="mw-notification-count" id="number_of_updates"><?php print $notif_count ?></sup>
+                &nbsp;<sup class="badge badge-danger badge-sm badge-pill" id="number_of_updates"><?php print $notif_count ?></sup>
             <?php endif; ?>
         </h2>
     </div>

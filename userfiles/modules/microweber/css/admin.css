@@ -1,0 +1,11 @@
+
+.nav{
+    align-items: center;
+}
+.mw-admin-logo{
+    display: inline-block;
+}
+.mw-admin-logo img{
+    max-width: 170px;
+    max-height: 50px;
+}

@@ -17,7 +17,7 @@ _settingsSort = function(){
 
 if(group != undefined){
  mw.$('#settings_admin_<?php print $rand; ?>').attr('option_group',group);
- 
+
 }
 else{
  mw.$('#settings_admin_<?php print $rand; ?>').attr('option_group','admin__modules');
@@ -84,7 +84,7 @@ $(document).ready(function(){
 
 </script>
 
-<div id="edit-content-row" class="mw-ui-row">
+<div id="edit-content-row">
 
     <div id="settings_admin_<?php print $rand; ?>" >
 

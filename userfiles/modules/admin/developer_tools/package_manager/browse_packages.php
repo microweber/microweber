@@ -325,7 +325,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
         padding-left: 0;
     }
 
-    #packages-browser-nav li .mw-notification-count{
+    #packages-browser-nav li .badge badge-danger badge-sm badge-pill{
         position: absolute;
         right: 8px;
         top: 8px;
@@ -425,11 +425,11 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                                 }
                                 $count = count($pkitems);
                                 $total += $count;
-                                $items .= '<li><a class="tablink" href="javascript:;">' . titlelize($pkkeys) . '<sup class="mw-notification-count">' . $count . '</sup></a></li>';
+                                $items .= '<li><a class="tablink" href="javascript:;">' . titlelize($pkkeys) . '<sup class="badge badge-danger badge-sm badge-pill">' . $count . '</sup></a></li>';
                             endforeach;
 
                             ?>
-                            <a href="javascript:;">Updates <sup style="display: none" class="mw-notification-count"><?php print $total; ?></sup></a>
+                            <a href="javascript:;">Updates <sup style="display: none" class="badge badge-danger badge-sm badge-pill"><?php print $total; ?></sup></a>
                             <ul><?php print $items; ?></ul>
                             <?php endif; ?>
 

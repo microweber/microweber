@@ -146,7 +146,7 @@ function mw_print_admin_updates_settings_link()
 //       $update_check_count = mw()->app->notifications_manager->get('rel_type=update_check&is_read=0&count=1');
 //    $notif_html = '';
 //    if($update_check_count){
-//        $notif_html = '<sup class="mw-notification-count">'.$update_check_count.'</sup>';
+//        $notif_html = '<sup class="badge badge-danger badge-sm badge-pill">'.$update_check_count.'</sup>';
 //
 //    }
 

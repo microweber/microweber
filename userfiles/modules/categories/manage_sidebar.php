@@ -109,11 +109,7 @@
             </div>
         </div>
 
-        <script>
-            $(document).ready(function () {
-                mw.admin.scrollBox(".mw-ui-category-selector");
-            })
-        </script>
+
 
         <div class="mw-ui-category-selector mw-ui-manage-list m-0" id="mw-ui-category-selector-manage" style="visibility: visible;display: block">
             <?php

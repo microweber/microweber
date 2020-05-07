@@ -168,9 +168,9 @@ if ($last_page_front != false) {
                 }
                 ?>
                 <div class="section-header-fixer">
-                    <div class="card-header">
-                        <div class="mw-ui-row">
-                            <div class="mw-ui-col">
+                    <div class="section-header">
+                        <div class="mw-ui-row" style="margin-bottom: 20px;">
+                            <div class="mw-ui-col" style="width: 50%;">
 
                                 <h2 class="pull-left">
                                     <?php if (!isset($params['category-id']) and isset($page_info) and is_array($page_info)): ?>
@@ -226,7 +226,30 @@ if ($last_page_front != false) {
                                 }
 
 
+
+
+
                                 $add_new_btn_url = admin_url('view:content#action=new:') . $url_param_type;
+
+
+                                if (isset($page_info['id']) and $page_info['id']) {
+                                    //   $add_new_btn_url = $add_new_btn_url . "&amp;parent_page=" . $page_info['id'];
+
+                                }
+
+
+                                //                            elseif (isset($post_params['category'])) {
+                                //                                $url = "#action=new:product&amp;category_id=" . $post_params['category'];
+                                //                            } else if (isset($post_params['parent'])) {
+                                //                                $url = "#action=new:product&amp;parent_page=" . $post_params['parent'];
+                                //                            } else {
+                                //                                $url = "#action=new:product";
+                                //                            }
+
+
+                                // d($type);
+                                //d($url_param_type);
+                                //d($page_info);
 
                                 ?>
 
@@ -398,7 +421,7 @@ if ($last_page_front != false) {
                             <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
                             <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
                             <a class="mw-ui-btn tip" data-tip="<?php print $title; ?>"> <span
-                                        class="<?php print $class; ?>"></span> <span> <?php print $title; ?> </span>
+                                    class="<?php print $class; ?>"></span> <span> <?php print $title; ?> </span>
                             </a>
                         <?php endforeach; ?>
                     </div>
@@ -436,7 +459,7 @@ if ($last_page_front != false) {
                                         </li>
                                         <li>
                                             <a href="#" onclick="publish_selected_posts();">
-                                               <?php _e("Published"); ?>
+                                                <?php _e("Published"); ?>
                                             </a>
                                         </li>
                                         <li>
@@ -468,11 +491,11 @@ if ($last_page_front != false) {
                                     }
                                     ?>
 
-                                <span class="mw-ui-btn mw-ui-btn-medium" data-state="<?php if ($order_by_field=='created_at'): ?><?php echo $order_by_type; ?><?php endif; ?>" data-sort-type="created_at" onclick="postsSort({id:'pages_edit_container_content_list', el:this});">
+                                    <span class="mw-ui-btn mw-ui-btn-medium" data-state="<?php if ($order_by_field=='created_at'): ?><?php echo $order_by_type; ?><?php endif; ?>" data-sort-type="created_at" onclick="postsSort({id:'pages_edit_container_content_list', el:this});">
                                     <?php _e("Date"); ?>
                                 </span>
 
-                                <span class="mw-ui-btn mw-ui-btn-medium" data-state="<?php if ($order_by_field=='title'): ?><?php echo $order_by_type; ?><?php endif; ?>" data-sort-type="title" onclick="postsSort({id:'pages_edit_container_content_list', el:this});">
+                                    <span class="mw-ui-btn mw-ui-btn-medium" data-state="<?php if ($order_by_field=='title'): ?><?php echo $order_by_type; ?><?php endif; ?>" data-sort-type="title" onclick="postsSort({id:'pages_edit_container_content_list', el:this});">
                                     <?php _e("Title"); ?>
                                 </span>
 

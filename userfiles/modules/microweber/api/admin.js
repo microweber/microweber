@@ -3,112 +3,18 @@ mw.require('tags.js');
 
 
 mw.admin = {
-    scrollBoxSettings: {
-        height: 'auto',
-        size: 5,
-        distance: 5,
-        position:(document.documentElement.dir === 'rtl' ? 'left': 'right')
-    },
-    scrollBox: function (selector, settings) {
-        settings = $.extend({}, mw.admin.scrollBoxSettings, settings);
-        var el = mw.$(selector);
-
-        if(!el.slimScroll){
-            return;
+    language: function(language) {
+        if (!language) {
+            return mw.cookie.get("lang");
         }
-
-
-        var scroller = mw.$('.slimScrollBar', el[0].parentNode);
-        scroller.bind('mousedown', function () {
-            mw.$(this).addClass('scrollMouseDown');
-        });
-        mw.$(mwd.body).bind('mouseup', function () {
-            mw.$('.scrollMouseDown').removeClass('scrollMouseDown');
-        });
-    },
-    contentScrollBoxHeightFix: function (node) {
-        var exceptor = mw.tools.firstParentWithClass(node, 'scroll-height-exception-master');
-        var contentScrollBoxHeightMinus = ($(exceptor).offset().top - mw.$(window).scrollTop());
-        if (!exceptor) {
-            return mw.$(window).height();
-        }
-        mw.$('.scroll-height-exception', exceptor).each(function () {
-            contentScrollBoxHeightMinus = contentScrollBoxHeightMinus + mw.$(this).outerHeight(true);
-        });
-
-        return mw.$(window).height() - contentScrollBoxHeightMinus;
-    },
-    contentScrollBox: function (selector, settings) {
-        var el = mw.$(selector)[0];
-        if (typeof el === 'undefined') {
-            return false;
-        }
-        mw.admin.scrollBox(el, settings);
-        var newheight = mw.admin.contentScrollBoxHeightFix(el);
-        el.style.height = newheight + 'px';
-        mw.$(window).bind('resize', function () {
-            var newheight = mw.admin.contentScrollBoxHeightFix(el);
-            el.style.height = newheight + 'px';
-        });
+        mw.cookie.set("lang", language);
+        location.reload();
     },
 
 
-    createContentBtns: function () {
-        var create_content_btn = mwd.querySelectorAll('.create-content-btn');
-        if (create_content_btn.length !== 0) {
-            mw.$(create_content_btn).each(function () {
-                if (!this.mwtooltip) {
-                    this.mwtooltip = mw.tooltip({
-                        position: mw.$(this).dataset('tip') != '' ? mw.$(this).dataset('tip') : 'bottom-center',
-                        content: mw.$('#create-content-menu').html(),
-                        element: this,
-                        skin: 'mw-tooltip-dark mw-tooltip-action'
-                    });
-                    var tip = this.mwtooltip;
-                    mw.$('.create-content-menu', this.mwtooltip).click(function () {
-                        mw.$(tip).hide();
-                    });
-                    var el = this;
-                    this.mwtooltip.style.display = 'none';
-                    this.__tooltipActive = false;
-                    mw.$(this).on('click', function () {
-                        if(!this.__tooltipActive){
-                            this.__tooltipActive = true;
-                            mw.tools.tooltip.setPosition(this.mwtooltip, this, ($(this).dataset('tip') != '' ? mw.$(this).dataset('tip') : 'bottom-center'));
-                            mw.$(this).addClass('active');
-                            mw.$(this.mwtooltip).show();
-                        }
-                        else{
-                            this.__tooltipActive = false;
-                            mw.$(this).removeClass('active');
-                            mw.$(this.mwtooltip).hide();
-                        }
-
-
-                    });
-
-                    mw.$(document.body).on('click', function (e) {
-                      if(!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['create-content-btn'])){
-
-                          var create_content_btn = mwd.querySelectorAll('.create-content-btn');
-                          mw.$(create_content_btn).each(function () {
-                              mw.$(this.mwtooltip).hide();
-                              this.__tooltipActive = false;
-                              mw.$(this).removeClass('active');
-                          })
-
-                      }
-
-                    });
 
 
 
-
-
-                }
-            });
-        }
-    },
     editor: {
         set: function (frame) {
             mw.$(frame).width('100%');
@@ -478,17 +384,9 @@ $(mwd).ready(function () {
 });
 
 $(mww).on('load', function () {
-  mw.$(".mobile-tree-menu").on('click', function(){
-    mw.$(".tree-column").toggleClass('tree-column-mobile-active')
-  })
-    mw.admin.contentScrollBox('.fixed-side-column-container');
-    mw.admin.contentScrollBox('#mw-admin-main-menu', {color: 'white'});
-
-
     mw.on.moduleReload('pages_tree_toolbar', function () {
 
     });
-    mw.admin.createContentBtns();
     mw.admin.manageToolbarSet();
 
 
@@ -548,9 +446,7 @@ $(mww).on('scroll resize load', function (e) {
 
     }
 });
-mw.on.moduleReload('pages_edit_container', function () {
-    mw.admin.createContentBtns();
-});
+
 
 QTABSArrow = function (el) {
     el = mw.$(el);

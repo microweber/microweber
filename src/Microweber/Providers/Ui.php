@@ -52,7 +52,7 @@ class Ui
         $notif_count = mw()->notifications_manager->get_unread_count();
         $notif_count_html = false;
         if (intval($notif_count) > 0) {
-            $notif_count_html = '<sup class="mw-notification-count">'.$notif_count.'</sup>';
+            $notif_count_html = '<sup class="badge badge-danger badge-sm badge-pill">'.$notif_count.'</sup>';
         }
         $admin_dashboard_btn = array();
         $admin_dashboard_btn['view'] = 'admin__notifications';
@@ -125,7 +125,7 @@ class Ui
 
         $notif_count_html = false;
         if (intval($notif_count) > 0) {
-            $notif_count_html = '<sup class="mw-notification-count">'.$notif_count.'</sup>';
+            $notif_count_html = '<sup class="badge badge-danger badge-sm badge-pill">'.$notif_count.'</sup>';
         }
         $admin_dashboard_btn = array();
         $admin_dashboard_btn['view'] = 'updates';
@@ -154,8 +154,8 @@ class Ui
             'date' => 'Date',
         	'time' => 'Time',
             'upload' => 'File Upload',
-            'property' => 'Property', 
-        	'breakline' => 'Break Line', 
+            'property' => 'Property',
+        	'breakline' => 'Break Line',
         	'hidden' => 'Hidden Field',
         );
 

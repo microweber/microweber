@@ -35,60 +35,60 @@ api_expose_admin('mark_comment_post_notifications_as_read', function ($params) {
 });
 
 api_expose('delete_comment_user', function ($params) {
-	
+
 	$comment = get_comments('single=1&id=' . $params['comment_id']);
 	if (empty($comment)) {
 		return;
 	}
-	
+
 	$commentSessionId = false;
 	if (isset($comment['session_id'])) {
 		$commentSessionId = $comment['session_id'];
 	}
-	
+
 	if (mw()->user_manager->session_id() == $commentSessionId) {
-		
+
 		return db_delete("comments", intval($params['comment_id']));
-		
+
 	}
 });
 
 api_expose('save_comment_user', function ($params) {
-	
+
 	$comment = get_comments('single=1&id=' . $params['comment_id']);
 	if (empty($comment)) {
 		return;
 	}
-	
+
 	$commentSessionId = false;
 	if (isset($comment['session_id'])) {
 		$commentSessionId = $comment['session_id'];
 	}
-	
+
 	if (mw()->user_manager->session_id() == $commentSessionId) {
-		
+
 		$newCommentData = array();
 		$newCommentData['id'] = $params['comment_id'];
-		
+
 		$commentBody = $params['comment_body'];
-		
+
 		// Claer HTML
 		$commentBody = mw()->format->clean_html($commentBody);
-		
+
 		// Clear XSS
 		$evil = ['(?<!\w)on\w*',   'xmlns', 'formaction',   'xlink:href', 'FSCommand', 'seekSegmentTime'];
 		$commentBody = mw()->format->clean_xss($commentBody, true, $evil, 'removeEvilAttributes');
-		
+
 		$commentBody = GrahamCampbell\Markdown\Facades\Markdown::convertToHtml($commentBody);
-		
+
 		$newCommentData['comment_body'] = $commentBody;
 		$newCommentData['allow_html'] = '1';
 		$newCommentData['allow_scripts'] = '1';
-		
+
 		mw()->database_manager->save('comments', $newCommentData);
-		
+
 	}
-	
+
 });
 
 /**
@@ -100,7 +100,7 @@ function post_comment($data)
 	// Save to database
     $comments = new \Microweber\Comments\Models\Comments();
     $comment_id = $comments->save($data);
-    
+
     return $comment_id;
 
 }
@@ -108,7 +108,7 @@ function post_comment($data)
 function get_comments($params = false)
 {
     $comments = new \Microweber\Comments\Models\Comments();
-    
+
     return $comments->get($params);
 }
 
@@ -165,12 +165,12 @@ event_bind(
 
 event_bind(
 	'module.comments.item.before', function ($item) {
-	
+
 		$commentSessionId = false;
 		if (isset($item['session_id'])) {
 			$commentSessionId = $item['session_id'];
 		}
-		
+
 		if (mw()->user_manager->session_id() == $commentSessionId) {
 			echo '<module type="comments/manage_user" no_post_head="true" comment_id="' . $item['id'] . '"  />';
 		}
@@ -188,7 +188,7 @@ event_bind(
     $notif_count = mw()->notifications_manager->get('module=comments&is_read=0&count=1');
 
     if ($notif_count > 0) {
-        $notif_html = '<sup class="mw-notification-count">' . $notif_count . '</sup>';
+        $notif_html = '<sup class="badge badge-danger badge-sm badge-pill">' . $notif_count . '</sup>';
     }
     $admin_dashboard_btn['text'] = _e("Comments", true) . $notif_html;
 

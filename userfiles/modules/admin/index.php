@@ -14,7 +14,7 @@
     }
     ?>
 
-    <div class="mw-ui-col admin-content-column <?php print  $holder_cls ?>">
+    <main class="<?php print  $holder_cls ?>">
         <?php if ($v1 != false): ?>
             <?php
 
@@ -58,7 +58,7 @@
             } ?>
         <?php endif; ?>
         <?php event_trigger('mw.admin.footer'); ?>
-    </div>
+    </main>
 
 <?php endif; ?>
 

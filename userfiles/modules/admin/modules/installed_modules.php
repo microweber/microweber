@@ -224,11 +224,11 @@
 </style>
 
 
-<div id="edit-content-row" class="mw-ui-row">
+<div id="edit-content-row">
     <div class="mw-ui-col tree-column" style="display:none">
         <div class="tree-column-holder">
-            <div class="fixed-side-column scroll-height-exception-master">
-                <div class="admin-side-box scroll-height-exception">
+            <div class="fixed-side-column">
+                <div class="admin-side-box">
                     <h2 class="mw-side-main-title"><span class="mw-icon-module"></span><span>
             <?php _e("Extensions"); ?>
             </span></h2>
@@ -262,7 +262,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="text-center scroll-height-exception">
+                <div class="text-center">
                     <div class="mw-ui-box-content"></div>
                 </div>
             </div>
