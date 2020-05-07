@@ -2,7 +2,6 @@
 
 namespace Microweber\Providers;
 
-use \Intervention\Image\ImageManagerStatic as Image;
 
 class MediaManager
 {
@@ -28,27 +27,41 @@ class MediaManager
     public function get_picture($content_id, $for = 'content', $full = false)
     {
 
+
         if ($for == 'post' or $for == 'posts' or $for == 'page' or $for == 'pages') {
             $for = 'content';
         } elseif ($for == 'category' or $for == 'categories') {
             $for = 'categories';
         }
 
+        $images = false;
+
+        $event_data = array();
+        $event_data['rel_id'] = $content_id;
+        $event_data['rel_type'] = $for;
+        $event_data['full'] = $full;
+        $override = $this->app->event_manager->trigger('mw.media_manager.get_picture', $event_data);
+        if ($override and is_array($override) && isset($override[0])) {
+            $images = $override[0];
+        }
+
         $arr['rel_type'] = $for;
         $arr['limit'] = '1';
         $arr['rel_id'] = $content_id;
 
-        $imgages = $this->get($arr);
+        if(!$images){
+        $images = $this->get($arr);
+        }
 
-        if ($imgages != false and isset($imgages[0])) {
-            if (isset($imgages[0]['filename']) and $full == false) {
+        if ($images != false and isset($images[0])) {
+            if (isset($images[0]['filename']) and $full == false) {
                 $surl = $this->app->url_manager->site();
 
-                $img = $this->app->format->replace_once('{SITE_URL}', $surl, $imgages[0]['filename']);
+                $img = $this->app->format->replace_once('{SITE_URL}', $surl, $images[0]['filename']);
 
                 return $img;
             } else {
-                return $imgages[0];
+                return $images[0];
             }
         } else {
             if ($for == 'content') {

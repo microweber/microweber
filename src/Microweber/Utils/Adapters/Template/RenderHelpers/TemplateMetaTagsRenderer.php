@@ -54,6 +54,27 @@ class TemplateMetaTagsRenderer
             }
 
 
+            $meta_tags_override = array();
+            $event_data = array();
+            if ($meta_category_id > 0) {
+                $event_data['rel_id'] = $meta_category_id;
+                $event_data['rel_type'] = 'category';
+            } else if ($meta_content_id > 0) {
+                $event_data['rel_id'] = $meta_content_id;
+                $event_data['rel_type'] = 'content';
+            }
+
+            $override = $this->app->event_manager->trigger('mw.meta_tags.render', $event_data);
+            if ($override and is_array($override) && !empty($override)) {
+                foreach ($override as $override_items){
+                    if(is_array($override_items)){
+                    $meta_tags_override = array_merge($meta_tags_override,$override_items);
+                    }
+
+                }
+            }
+
+
             if ($meta_category_id > 0) {
                 $meta_category_data = $this->app->category_manager->get_by_id($meta_category_id);
 
@@ -159,6 +180,12 @@ class TemplateMetaTagsRenderer
                     $meta['content_meta_keywords'] = $this->app->option_manager->get('website_keywords', 'website');
                 }
                 if (is_array($meta)) {
+
+                    if(is_array($meta_tags_override) and !empty($meta_tags_override)){
+                        $meta = array_merge($meta,$meta_tags_override);
+                    }
+
+
                     foreach ($meta as $key => $item) {
                         if (is_string($item)) {
                             $item = html_entity_decode($item);
