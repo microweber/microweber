@@ -487,13 +487,6 @@
             }
         });
 
-        $(document).on('keyup', function (e) {
-            if (mw.event.is.escape(e) && !mw.event.targetIsField(e)) {
-                if (window.thismodal && thismodal.options.closeOnEscape) {
-                    thismodal.remove()
-                }
-            }
-        })
     });
 
 

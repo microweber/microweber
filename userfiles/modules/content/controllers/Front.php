@@ -438,6 +438,13 @@ class Front
             } else {
                 $schema_org_item_type = 'Article';
             }
+        }else if (isset($post_params['content_type']) and $post_params['content_type'] == 'product') {
+            if (isset($post_params['subtype']) and $post_params['subtype'] != $post_params['content_type']) {
+                $schema_org_item_type = $post_params['subtype'];
+
+            } else {
+                $schema_org_item_type = 'Product';
+            }
         }
 
 

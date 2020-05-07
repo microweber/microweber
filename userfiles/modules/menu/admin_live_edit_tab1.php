@@ -22,6 +22,8 @@
         }
     });
     var addMenuItem = function() {
+
+
         var picker = mw.component({
             url: 'link_editor_v2',
             options: {
@@ -31,6 +33,9 @@
             }
         });
         $(picker).on('Result', function(e, res){
+
+
+
             var data = {
                 title: res.text || res.url.split('/').pop(),
                 url: res.url,
