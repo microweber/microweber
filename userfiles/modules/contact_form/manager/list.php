@@ -76,6 +76,9 @@ if ($filterData['list_id'] == 'all_lists') {
 	);
 } else {
 	$listData = get_form_lists("id=" . $filterData['list_id'] . "&limit=1");
+	if(!$listData){
+	    return;
+    }
 	$listData = $listData[0];
 }
 
