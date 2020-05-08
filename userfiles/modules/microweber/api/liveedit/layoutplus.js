@@ -93,5 +93,5 @@ mw.layoutPlus = {
 };
 
 $(window).on('load', function () {
-    // mw.layoutPlus.init();
+    mw.layoutPlus.init();
 });
