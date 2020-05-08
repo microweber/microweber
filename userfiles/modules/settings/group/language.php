@@ -66,20 +66,6 @@ if (is_module('multilanguage')) {
     </div>
     <?php endif; ?>
 
-
-    <?php if($isMultilanguageActivated): ?>
-    <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">
-            <?php _e("Website Language"); ?>
-            <br>
-            <small>
-                <?php _e("You can switch to language to edit all fields."); ?>
-            </small>
-        </label>
-        <module type="multilanguage" template="clean" />
-    </div>
-    <?php endif; ?>
-
     <div class="mw-ui-field-holder">
         <module type="settings/group/language_edit" id="mw_lang_file_edit" />
     </div>
