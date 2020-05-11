@@ -368,7 +368,9 @@ class Lang
             $title_value = $mw_language_content_file[$translation_key];
             $k1 = $translation_key;
 
-        } else if (isset($mw_language_content_file[$k1]) != false) {
+        }
+
+        if (isset($mw_language_content_file[$k1]) != false) {
             $title_value = $mw_language_content_file[$k1];
             $k1 = $translation_key;
             $mw_new_language_entries[$k1] = $title_value;
@@ -379,6 +381,7 @@ class Lang
 
             if (!$namespace) {
                 $k2 = ($title_value);
+                $k2 = $k1;
                 $mw_new_language_entries[$k1] = $k2;
                 $mw_language_content[$k1] = $k2;
 
