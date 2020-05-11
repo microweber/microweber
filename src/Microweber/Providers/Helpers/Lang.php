@@ -368,9 +368,7 @@ class Lang
             $title_value = $mw_language_content_file[$translation_key];
             $k1 = $translation_key;
 
-        }
-
-        if (isset($mw_language_content_file[$k1]) != false) {
+        } else if (isset($mw_language_content_file[$k1]) != false) {
             $title_value = $mw_language_content_file[$k1];
             $k1 = $translation_key;
             $mw_new_language_entries[$k1] = $title_value;
@@ -381,7 +379,6 @@ class Lang
 
             if (!$namespace) {
                 $k2 = ($title_value);
-                $k2 = $k1;
                 $mw_new_language_entries[$k1] = $k2;
                 $mw_language_content[$k1] = $k2;
 
@@ -696,7 +693,7 @@ class Lang
             $lang_file = $cust_dir . $lang . '.json';
 
             if (is_array($mw_language_content)) {
-                $mw_language_content = array_unique($mw_language_content);
+                //$mw_language_content = array_unique($mw_language_content);
                 $lang_file_str = json_encode($mw_language_content, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
                 if (is_admin() == true) {
