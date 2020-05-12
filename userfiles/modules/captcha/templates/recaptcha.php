@@ -36,6 +36,11 @@ if ($captcha_provider == 'google_recaptcha_v2'):
 
                 }
             }, 1000);
+
+            setInterval(function() {
+                    grecaptcha.reset();
+                }, 1 * 60 * 1000
+            );
         });
 
     </script>
@@ -72,6 +77,11 @@ if ($captcha_provider == 'google_recaptcha_v2'):
 
                 }
             }, 1000);
+
+            setInterval(function() {
+                grecaptcha.reset();
+            }, 1 * 60 * 1000
+            );
         });
     </script>
 
