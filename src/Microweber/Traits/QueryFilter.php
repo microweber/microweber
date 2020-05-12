@@ -724,6 +724,9 @@ trait QueryFilter
             call_user_func_array($callback, [$query, $params[$name], $table]);
         }
 
+        $query = $criteria_overwrite = $this->app->event_manager->response('mw.database.' . $table . '.get.query_filter', [$query,$params]);
+        $query = $this->map_array_to_table($table, $query);
+
         return $query;
     }
 
