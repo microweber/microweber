@@ -24,6 +24,7 @@ class TemplateOptimizeLoadingHelper
     }
 
 
+
     private function _move_scripts_to_bottom_of_page($layout)
     {
 
@@ -33,7 +34,7 @@ class TemplateOptimizeLoadingHelper
         $dns_prefetch = array();
         $pq = \phpQuery::newDocument($layout);
 
-        foreach ($pq->find('*') as $elem) {
+        foreach ($pq->find('script') as $elem) {
 
 
             $type = pq($elem)->attr('type');
@@ -51,11 +52,19 @@ class TemplateOptimizeLoadingHelper
             } elseif ($tag == 'script') {
 
                 $src = pq($elem)->attr('src');
+                $no_preload = pq($elem)->attr('no-preload');
+
+                if($no_preload){
+                    continue;
+                }
+
                 if ($src) {
                     $preload[] = '<link rel="preload" href="' . $src . '" as="script" />';
                 }
 
-                $script = pq($elem)->htmlOuter();
+                $script = pq($elem)->html();
+
+
                 $is_skip = false;
                 foreach ($skip as $skip_str) {
                     if (strpos($script,$skip_str)) {
