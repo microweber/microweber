@@ -275,18 +275,7 @@ mw.admin = {
         }
         return rotator;
     },
-    mobileMessage: function (set, val) {
-        if (!!set) {
-            mw.cookie.ui('ignoremobilemessage', val)
-        }
-        var cookie = mw.cookie.ui('ignoremobilemessage');
-        if (cookie == 'true') {
-            mw.$('#mobile-message').invisible();
-        }
-        else {
-            mw.$('#mobile-message').visibilityDefault();
-        }
-    },
+
     postImageUploader: function () {
         if (mwd.querySelector('#images-manager') === null) {
             return false;
@@ -361,7 +350,7 @@ mw.contactForm = function () {
 
 
 $(mwd).ready(function () {
-    mw.admin.mobileMessage();
+
     mw.$(mwd.body).on('keydown', function (e) {
         if (mw.event.key(e, 8) && (e.target.nodeName === 'DIV' || e.target === mwd.body)) {
             if (!e.target.isContentEditable) {
@@ -371,16 +360,13 @@ $(mwd).ready(function () {
         }
     });
 
-
     mw.admin.beforeLeaveLocker();
 
     mw.$(document.body).on('click', '[data-href]', function(e){
         e.preventDefault();
         e.stopPropagation();
-        location.href = e.target.getAttribute('data-href')
-    })
-
-
+        location.href = $(this).attr('data-href');
+    });
 });
 
 $(mww).on('load', function () {

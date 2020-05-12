@@ -9,3 +9,13 @@
     max-width: 170px;
     max-height: 50px;
 }
+
+
+.main aside > ul > li.nav-item{
+    width: 100%;
+}
+#mw-admin-main-navigation li.active-parent > .dropdown-menu,
+#mw-admin-main-navigation li.active > .dropdown-menu{
+    display: block;
+    position: relative;
+}

@@ -603,20 +603,14 @@ if ($action == 'posts') {
 
 ?>
 
-<?php if ($action != 'categories'): ?>
-    <span class="mw-icon-more mobile-tree-menu"></span>
-<?php endif; ?>
+
 <div id="edit-content-row">
     <?php if ($action != 'categories'): ?>
-        <div class="mw-ui-col tree-column" <?php if ($action == 'posts'): ?><?php endif ?>>
-
+        <div class="tree-column">
 
             <div class="tree-column-holder">
 
-
-
                 <div class="fixed-side-column">
-
 
                     <div class="tree-show-hide-nav">
                         <div class="mw-ui-btn-nav">
@@ -626,12 +620,9 @@ if ($action == 'posts') {
                             <input id="main-tree-search" placeholder="<?php _e('Search'); ?>" type="text" class="mw-ui-field mw-ui-field-medium mw-ui-searchfield">
                         </div>
 
-
                     </div>
 
                     <div class="fixed-side-column-container mw-tree" id="pages_tree_container_<?php print $my_tree_id; ?>">
-
-
 
                         <script>
 
@@ -648,8 +639,6 @@ if ($action == 'posts') {
                                             }
                                         }
                                     ];
-
-
 
 
                                     pagesTree = new mw.tree({
@@ -709,7 +698,6 @@ if ($action == 'posts') {
                                         });
                                     });
                                     $(pagesTree).on("ready", function(){
-
                                         $('#main-tree-search').on('input', function(){
                                             var val = this.value.toLowerCase().trim();
                                             if(!val){
@@ -717,7 +705,6 @@ if ($action == 'posts') {
                                             }
                                             else{
                                                 pagesTree.options.data.forEach(function(item){
-
                                                     if(item.title.toLowerCase().indexOf(val) === -1){
                                                         pagesTree.hide(item);
                                                     }
@@ -735,26 +722,22 @@ if ($action == 'posts') {
                                             var li = mw.tools.firstParentWithTag(this, 'li'),
                                                 data = li._data,
                                                 action;
-                                            //pagesTree.select(li);
                                             if(!$(li).hasClass('mw-tree-additional-item')){
-                                                if(data.type == 'page'){
+                                                if(data.type === 'page'){
                                                     action = 'editpage';
                                                 }
-                                                if(data.subtype == 'dynamic' || data.subtype == 'shop'){
+                                                if(data.subtype === 'dynamic' || data.subtype == 'shop'){
                                                     action = 'showposts';
                                                 }
-                                                if(data.type == 'category'){
+                                                if(data.type === 'category'){
                                                     action = 'showpostscat';
                                                 }
-
-
                                                 mw.url.windowHashParam("action", action+":"+data.id);
                                             }
 
 
                                         });
                                         mainTreeSetActiveItems()
-
 
                                         $("#edit-content-row .tree-column").resizable({
                                             handles: "e",
@@ -774,31 +757,7 @@ if ($action == 'posts') {
 
                         </script>
 
-                        <?php /*
-                        <?php if ($action == 'pages'): ?>
-                            <module data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>"
-                                    active_class="active-bg" id="pages_tree_toolbar" view="admin_tree" home_first="true"/>
-                        <?php elseif ($action == 'categories'): ?>
-
-                            <module skip-static-pages="true" data-type="pages" template="admin"
-                                    active_ids="<?php print $active_content_id; ?>" active_class="active"
-                                    include_categories="true" include_global_categories="true"
-                                    id="pages_tree_toolbar" <?php print $pages_container_params_str ?> view="admin_tree"
-                                    home_first="true"/>
-                        <?php else: ?>
-                            <module data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>"
-                                    active_class="active" include_categories="true" include_global_categories="true"
-                                    id="pages_tree_toolbar" <?php print $pages_container_params_str ?> view="admin_tree"
-                                    home_first="true"/>
-                        <?php endif ?>
-
-                         */ ?>
                         <?php event_trigger('admin_content_after_website_tree', $params); ?>
-
-
-
-
-
 
                         <?php $custom_title_ui = mw()->modules->ui('content.manager.tree.after'); ?>
                         <?php if (!empty($custom_title_ui)): ?>
@@ -812,32 +771,22 @@ if ($action == 'posts') {
                                      title="<?php print $title; ?>"><?php print $html; ?></div>
                             <?php endforeach; ?>
                         <?php endif; ?>
-
-
                     </div>
-
-
-
-
-
                 </div>
-
-
             </div>
         </div>
     <?php endif ?>
     <div class="card style-1 mb-3">
-            <script>
-                $(window).bind('load', function () {
-                    if (!mw.url.windowHashParam("action")) {
-                        edit_load('content/manager');
-                    }
-                    mw.on.hashParam('view', function () {
-                        edit_load('content/manager');
-                    })
-                });
-            </script>
-
-             <div id="pages_edit_container" <?php print $pages_container_params_str; ?>></div>
+        <script>
+            $(window).on('load', function () {
+                if (!mw.url.windowHashParam("action")) {
+                    edit_load('content/manager');
+                }
+                mw.on.hashParam('view', function () {
+                    edit_load('content/manager');
+                })
+            });
+        </script>
+        <div id="pages_edit_container" <?php print $pages_container_params_str; ?>></div>
     </div>
 </div>
