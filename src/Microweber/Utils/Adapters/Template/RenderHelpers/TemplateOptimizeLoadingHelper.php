@@ -34,7 +34,7 @@ class TemplateOptimizeLoadingHelper
         $dns_prefetch = array();
         $pq = \phpQuery::newDocument($layout);
 
-        foreach ($pq->find('script') as $elem) {
+        foreach ($pq->find('*') as $elem) {
 
 
             $type = pq($elem)->attr('type');
