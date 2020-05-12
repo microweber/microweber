@@ -536,6 +536,15 @@
     color: #000;
 }
 
+.wysiwyg-convertible-toggler:after{
+    display: inline-block;
+    content: 'arrow_drop_down';
+    font-family: 'Material Icons';
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+}
 .wysiwyg-convertible-toggler {
     display: none;
 }

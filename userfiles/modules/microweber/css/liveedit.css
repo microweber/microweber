@@ -4654,6 +4654,9 @@ div.element{
     display: flex;
 }
 
+#liveedit_wysiwyg .mw-dropdown{
+    float: none;
+}
 
 
 
