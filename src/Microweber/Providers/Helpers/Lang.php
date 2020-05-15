@@ -67,13 +67,13 @@ class Lang
     {
         $app_locale = $this->app->getLocale();
 
-        if (isset($_COOKIE['lang']) and $_COOKIE['lang'] != false) {
-            $lang = $_COOKIE['lang'];
-            if ($lang != $app_locale) {
-                set_current_lang($lang);
-                $app_locale = $this->app->getLocale();
-            }
-        }
+//        if (isset($_COOKIE['lang']) and $_COOKIE['lang'] != false) {
+//            $lang = $_COOKIE['lang'];
+//            if ($lang != $app_locale) {
+//                set_current_lang($lang);
+//                $app_locale = $this->app->getLocale();
+//            }
+//        }
 
         return $app_locale;
     }

@@ -415,6 +415,14 @@ trait QueryFilter
                                 $cat_ids_strict = '';
                             }
 
+                            if (!$strict_categories) {
+                                if($ids){
+
+                                  //   $get_subcats = $this->table('categories')->where('data_type','category')->whereIn('parent_id',$ids)->get();
+                                  //  dd($get_subcats);
+                                 }
+                            }
+
                             if (!isset($search_joined_tables_check['categories_items'])) {
                                 $search_joined_tables_check['categories_items'] = true;
 
