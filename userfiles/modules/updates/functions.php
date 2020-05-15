@@ -154,7 +154,7 @@ function mw_print_admin_updates_settings_link()
 
     $mname = module_name_encode('updates');
     $modurl = admin_url() . 'view:settings#option_group=' . module_name_encode('updates');
-    print "<li><a class=\"item-" . $mname . "\" href=\"" . $modurl . "\"><span class=\"mai-thunder\"></span><strong>" . _e("Updates", true) . "</strong></a></li>";
+    print "<a class=\"dropdown-item item-" . $mname . "\" href=\"" . $modurl . "\"><span class=\"mai-thunder\"></span>" . _e("Updates", true) . "</a>";
 
     //$notif_count = mw()->notifications_manager->get('module=comments&is_read=0&count=1');
     /*if ($notif_count > 0) {

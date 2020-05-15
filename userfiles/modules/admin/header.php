@@ -196,12 +196,11 @@ if (!$shop_disabled) {
         }
 
 
-        mw_admin_edit_order_item_popup_modal_opened = mw.modal({
+        mw_admin_edit_order_item_popup_modal_opened = mw.dialog({
             content: '<div id="mw_admin_edit_order_item_module"></div>',
             title: modalTitle,
             id: 'mw_admin_edit_order_item_popup_modal',
-            width: 900,
-            height: 800
+            width: 900
         });
 
         var params = {}
@@ -510,146 +509,94 @@ if (!$shop_disabled) {
                         ($view == 'modules' AND $load_module != 'users' AND $load_module != 'shop__coupons')
                         ): ?> active <?php endif; ?>"><i class="mdi mdi-view-grid-plus"></i> <?php _e("Modules"); ?> </a></li>
                     <?php if (mw()->ui->disable_marketplace != true): ?>
-                        <li class="nav-item"><a href="<?php print admin_url(); ?>view:packages" class="nav-link <?php if ($view == 'packages'): ?>active<?php endif; ?>"><i class="mdi mdi-fruit-cherries"></i> <?php _e("Marketplace"); ?></a></li>
+                        <li class="nav-item">
+                            <a href="<?php print admin_url(); ?>view:packages" class="nav-link <?php if ($view == 'packages'): ?>active<?php endif; ?>">
+                                <i class="mdi mdi-fruit-cherries"></i> <?php _e("Marketplace"); ?>
+                            </a>
+                        </li>
                     <?php endif; ?>
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle <?php if (!url_param('has_core_update') and ($view == 'settings') ): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:settings#option_group=website">
                             <i class="mdi mdi-cog"></i>
-                            <span class="badge-holder"><?php _e("Settings"); ?><span class="badge badge-danger badge-sm badge-pill">4</span></span></a>
+                            <span class="badge-holder"><?php _e("Settings"); ?></span>
+                        </a>
                         <div class="dropdown-menu">
 
+                            <a class="item-website dropdown-item" href="<?php print admin_url(); ?>view:settings#option_group=website">
+                                <span class="mai-website"></span><strong><?php _e("Website"); ?></strong>
+                            </a>
+
+                            <a class="item-template dropdown-item" href="<?php print admin_url(); ?>view:settings#option_group=template">
+                                <span class="mai-templates"></span><strong><?php _e("Template"); ?></strong>
+                            </a>
+
+                            <a class="item-users dropdown-item" href="<?php print admin_url(); ?>view:settings#option_group=users">
+                                <span class="mai-login"></span><strong><?php _e("Login & Register"); ?></strong>
+                            </a>
+
+                            <a class="item-email dropdown-item" href="<?php print admin_url(); ?>view:settings#option_group=email">
+                                <span class="mai-mail"></span><strong><?php _e("Email"); ?></strong>
+                            </a>
 
 
+                            <?php event_trigger('mw_admin_settings_menu'); ?>
+                            <?php $settings_menu = mw()->modules->ui('admin.settings.menu'); ?>
+                            <?php if (is_array($settings_menu) and !empty($settings_menu)): ?>
+                                <?php foreach ($settings_menu as $item): ?>
+                                    <?php $module = (isset($item['module'])) ? module_name_encode($item['module']) : false; ?>
+                                    <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
+                                    <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
+                                    <?php if ($module != 'admin') { ?>
+                                        <a onclick="mw.url.windowHashParam('option_group', '<?php print $module ?>');return false;" class="dropdown-item <?php print $class ?>" href="#option_group=<?php print $module ?>">
+                                            <span class="<?php print isset($item['icon']) ? $item['icon'] : ''; ?>"></span>
+                                            <strong><?php print $title ?></strong>
+                                        </a>
+                                    <?php } ?>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
 
+                            <a onclick="mw.url.windowHashParam('option_group', 'advanced');return false;" class="dropdown-item item-advanced" href="#option_group=advanced">
+                                <span class="mai-options"></span>
+                                <stong><?php _e("Advanced"); ?></stong>
+                            </a>
 
-
-
-
-
-
-
-
-
-
-
-                    <a class="item-website dropdown-item"
-                           href="<?php print admin_url(); ?>view:settings#option_group=website">
-                            <span class="mai-website"></span><strong><?php _e("Website"); ?></strong>
-                        </a>
-
-                    <a class="item-template dropdown-item"
-                           href="<?php print admin_url(); ?>view:settings#option_group=template">
-                            <span class="mai-templates"></span><strong><?php _e("Template"); ?></strong>
-                        </a>
-
-
-                    <a class="item-users dropdown-item"
-                           href="<?php print admin_url(); ?>view:settings#option_group=users">
-                            <span class="mai-login"></span><strong><?php _e("Login & Register"); ?></strong>
-                        </a>
-
-                    <a class="item-email dropdown-item"
-                           href="<?php print admin_url(); ?>view:settings#option_group=email">
-                            <span class="mai-mail"></span><strong><?php _e("Email"); ?></strong>
-                        </a>
-
-
-
-                    <?php event_trigger('mw_admin_settings_menu'); ?>
-                    <?php $settings_menu = mw()->modules->ui('admin.settings.menu'); ?>
-                    <?php if (is_array($settings_menu) and !empty($settings_menu)): ?>
-                        <?php foreach ($settings_menu as $item): ?>
-                            <?php $module = (isset($item['module'])) ? module_name_encode($item['module']) : false; ?>
-                            <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
-                            <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
-                            <?php if ($module != 'admin') { ?>
-
-                                    <a onclick="mw.url.windowHashParam('option_group', '<?php print $module ?>');return false;"
-                                       class="<?php print $class ?>"
-                                       href="#option_group=<?php print $module ?>">
-                                        <span class="<?php print isset($item['icon']) ? $item['icon'] : ''; ?>"></span>
-                                        <strong><?php print $title ?></strong>
-                                    </a>
-
-                            <?php } ?>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-
-
-                        <a onclick="mw.url.windowHashParam('option_group', 'advanced');return false;"
-                           class="item-advanced" href="#option_group=advanced">
-                            <span class="mai-options"></span>
-                            <stong><?php _e("Advanced"); ?></stong>
-                        </a></li>
-                    <a onclick="mw.url.windowHashParam('option_group', 'language');return false;"
-                           class="item-language" href="#option_group=language">
-                            <span class="mai-languages"></span>
-                            <strong><?php _e("Language"); ?></strong>
-                        </a>
-
-
-
-
-
-
-
-
-
-
-
-
+                            <a onclick="mw.url.windowHashParam('option_group', 'language');return false;" class="dropdown-item item-language" href="#option_group=language">
+                                <span class="mai-languages"></span>
+                                <strong><?php _e("Language"); ?></strong>
+                            </a>
                         </div>
                     </li>
 
-                </ul>
-                <ul id="mw-admin-main-menu">
 
 
 
                     <?php $load_module = url_param('load_module'); ?>
-                    <li <?php print 'class="' . ($load_module == 'users' ? 'active' : '') . '"'; ?>>
-                        <a href="<?php print admin_url('view:modules/load_module:users'); ?>"
-                           id="main-bar-user-menu-link" class="main-bar-user-menu-link-no-image">
-                            <span class="mai-user2"></span>
-                            <strong><?php _e("Users"); ?></strong>
+                    <li <?php print 'class="nav-item dropdown' . ($load_module == 'users' ? 'active' : '') . '"'; ?>>
+                        <a class="nav-link dropdown-toggle <?php print ($load_module == 'users' ? 'active' : ''); ?>" href="<?php print admin_url('view:modules/load_module:users'); ?>">
+                            <i class="mdi mdi-account-multiple"></i>
+                            <?php _e("Users"); ?>
                         </a>
-                        <ul>
-                            <li>
-                                <a href="<?php print admin_url('view:modules/load_module:users#edit-user=' . $user_id); ?>"
-                                   id="main-menu-my-profile"><?php _e("My Profile"); ?></a></li>
-                            <li><a href="<?php print admin_url('view:modules/load_module:users'); ?>"
-                                   id="main-menu-manage-users"><?php _e("Manage Users"); ?></a></li>
-
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="<?php print admin_url('view:modules/load_module:users#edit-user=' . $user_id); ?>" id="main-menu-my-profile"><?php _e("My Profile"); ?></a>
+                            <a class="dropdown-item" href="<?php print admin_url('view:modules/load_module:users'); ?>" id="main-menu-manage-users"><?php _e("Manage Users"); ?></a>
                             <?php if (mw()->ui->enable_service_links): ?>
                                 <?php if (mw()->ui->custom_support_url): ?>
-                                    <li>
-                                        <a href="<?php print mw()->ui->custom_support_url ?>"><strong><?php _e("Support"); ?></strong></a>
-                                    </li>
+                                    <a class="dropdown-item" href="<?php print mw()->ui->custom_support_url ?>"><strong><?php _e("Support"); ?></strong></a>
                                 <?php else: ?>
-                                    <li><a href="javascript:;"
-                                           onmousedown="mw.contactForm();"><strong><?php _e("Support"); ?></strong></a>
-                                    </li>
+                                    <a class="dropdown-item" href="javascript:;" onmousedown="mw.contactForm();"><strong><?php _e("Support"); ?></strong></a>
                                 <?php endif; ?>
                             <?php endif; ?>
-
-                            <li><a href="<?php print site_url(); ?>?editmode=y"
-                                   class=go-live-edit-href-set"><?php _e("View Website"); ?></a></li>
-
-
-                            <li class="mw-admin-menu-sidebar-logout-mobile"><a href="<?php print api_url('logout'); ?>"><span
-                                        class="mai-login"></span><strong><?php _e("Log out"); ?></strong></a></li>
-                        </ul>
+                            <a href="<?php print site_url(); ?>?editmode=y" class="go-live-edit-href-set dropdown-item"><?php _e("View Website"); ?></a>
+                            <a href="<?php print api_url('logout'); ?>"><span class="mai-login dropdown-item"></span><strong><?php _e("Log out"); ?></strong></a>
+                        </div>
                     </li>
 
                     <li><?php event_trigger('mw.admin.sidebar.li.last'); ?></li>
 
 
-                    <li class="mw-admin-menu-sidebar-logout-desktop"><a href="<?php print api_url('logout'); ?>"><i
-                                class="mw-icon-off"></i><strong><?php _e("Log out"); ?></strong></a></li>
-
-                    </li>
                 </ul>
+
 
                 <script>
                     $(document).ready(function () {

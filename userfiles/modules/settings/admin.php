@@ -84,11 +84,13 @@ $(document).ready(function(){
 
 </script>
 
-<div id="edit-content-row">
+<main  >
+<div id="edit-content-row" class="card style-1 mb-3">
 
-    <div id="settings_admin_<?php print $rand; ?>" >
+    <div id="settings_admin_<?php print $rand; ?>" class="card-body pt-3" >
 
     </div>
 
 </div>
+</main>
 <?php  show_help('settings');  ?>

@@ -19,3 +19,11 @@
     display: block;
     position: relative;
 }
+
+#stats_nav .btn + .btn{
+    margin-left: 10px;
+}
+
+.hidden{
+    display: none;
+}

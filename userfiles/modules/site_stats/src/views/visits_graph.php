@@ -243,22 +243,19 @@ if ($params['period']) {
 
 
 <div id="stats">
-    <div class="mw-ui-box">
-        <div class="mw-ui-box-header">
-            <span class="stats-title"><i class="mw-icon-connectmw-icon-bars"></i> <span><?php _e("Statistics") ?></span></span>
+    <div class="card style-1 mb-3">
+        <div class="card-header">
 
-            <div id="stats_nav">
-                <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','daily');" data-stat='daily' class="mw-ui-btn mw-ui-btn-outline"><?php _e("Daily"); ?></a>
-                <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','weekly');" data-stat='weekly' class="mw-ui-btn mw-ui-btn-outline "><?php _e("Weekly"); ?></a>
-                <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','monthly');" data-stat='monthly' class="mw-ui-btn mw-ui-btn-outline "><?php _e("Monthly"); ?></a>
-                <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','yearly');" data-stat='yearly' class="mw-ui-btn mw-ui-btn-outline "><?php _e("Yearly"); ?></a>
+            <h5><i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i> <strong><span><?php _e("Statistics") ?></span></strong></h5>
+            <div id="stats_nav" class="nav btn-hover-style-2">
+                <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','daily');" data-stat='daily' class="btn btn-outline-secondary btn-sm justify-content-center"><?php _e("Daily"); ?></a>
+                <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','weekly');" data-stat='weekly' class="btn btn-outline-secondary btn-sm justify-content-center"><?php _e("Weekly"); ?></a>
+                <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','monthly');" data-stat='monthly' class="btn btn-outline-secondary btn-sm justify-content-center"><?php _e("Monthly"); ?></a>
+                <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','yearly');" data-stat='yearly' class="btn btn-outline-secondary btn-sm justify-content-center"><?php _e("Yearly"); ?></a>
             </div>
-            <div class="stats-legend">
-                <span class="stats-legend-views"><?php _e("views") ?></span>
-                <span class="stats-legend-visitors"><?php _e("visitors") ?></span>
-            </div>
+
         </div>
-        <div class="stat-box-content">
+        <div class="card-body stat-box-content">
             <div class="users-online">
                 <?php print $users_online; ?>
                 <span><?php _e("Users online") ?></span>
@@ -272,28 +269,32 @@ if ($params['period']) {
                     <div class="line"></div>
                 </div>
             </div>
+            <hr class="thin">
+            <div class="stats_box_footer">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-6 col-sm d-flex align-items-center justify-content-center justify-content-sm-start">
+                        <i class="mdi mdi-eye mdi-24px text-muted"></i> <span class="text-primary mx-2"><?php print $views_count; ?></span> <span><?php _e('Views'); ?></span>
+                    </div>
+
+                    <div class="col-6 col-sm d-flex align-items-center justify-content-center">
+                        <i class="mdi mdi-account-multiple mdi-24px text-muted"></i> <span class="text-primary mx-2"><?php print $visits_count; ?></span> <span><?php _e('Visitors') ?></span>
+                    </div>
+
+                    <div class="col-6 col-sm d-flex align-items-center justify-content-center">
+                        <i class="mdi mdi-shopping mdi-24px text-muted"></i> <span class="text-primary mx-2"><?php print $orders_count; ?></span> <span><?php _e('Orders'); ?></span>
+                    </div>
+
+                    <div class="col-6 col-sm d-flex align-items-center justify-content-center">
+                        <i class="mdi mdi-comment-account mdi-24px text-muted"></i> <span class="text-primary mx-2"><?php print $comments_count; ?></span> <span><?php _e('Comments'); ?></span>
+                    </div>
+
+                    <div class="col-12 col-sm d-flex align-items-center  justify-content-center justify-content-sm-end">
+                        <a class="btn btn-outline-secondary btn-sm btn-rounded show-more-stats">Show more</a>
+                    </div>
+                </div>
+
+            </div>
         </div>
-        <div class="stats_box_footer">
-                <span class="sbf-item active">
-                    <span class="mai-eye"></span>
-                    Views
-                    <span class="sbf-item-n"><?php print $views_count; ?></span>
-                </span>
-            <span class="sbf-item">
-                    <span class="mai-user3"></span>
-                    Visitors
-                    <span class="sbf-item-n"><?php print $visits_count; ?></span>
-                </span>
-            <span class="sbf-item">
-                    <span class="mai-order"></span>
-                    Orders
-                    <span class="sbf-item-n"><?php print $orders_count; ?></span>
-                </span>
-            <span class="sbf-item">
-                    <span class="mai-comment"></span>
-                    <?php _e('Comments'); ?>
-                    <span class="sbf-item-n"><?php print $comments_count; ?></span>
-            </span>
-        </div>
+
     </div>
 </div>

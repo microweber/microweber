@@ -606,7 +606,7 @@ if ($action == 'posts') {
 
 <div id="edit-content-row">
     <?php if ($action != 'categories'): ?>
-        <div class="tree-column">
+        <div class="tree tree-column">
 
             <div class="tree-column-holder">
 

@@ -35,7 +35,7 @@ $data = $products;
             placeholder: "Search products",
             ajaxConfig: {
                 method: 'get',
-                url: mw.settings.api_url + 'get_content_admin?get_extra_data=1&content_type=product&kw=${val}'
+                url: mw.settings.api_url + 'get_content_admin?get_extra_data=1&content_type=product&keyword=${val}'
             },
             map: {
                 value: 'id',

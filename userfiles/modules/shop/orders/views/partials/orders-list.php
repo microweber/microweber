@@ -25,8 +25,6 @@
 </script>
 <?php if ($orders): ?>
     <?php foreach ($orders as $item) : ?>
-
-
         <div class="order-holder" id="order-n-<?php print $item['id'] ?>" onclick="orderToggle(event);">
             <div class="order-data">
                 <div class="product-image">

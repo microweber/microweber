@@ -168,43 +168,39 @@ if ($last_page_front != false) {
                 }
                 ?>
                 <div class="section-header-fixer">
-                    <div class="section-header">
-                        <div class="mw-ui-row" style="margin-bottom: 20px;">
-                            <div class="mw-ui-col" style="width: 50%;">
+                    <div class="card-header">
 
-                                <h2 class="pull-left">
+                        <!--<h5><i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i> <strong>Shop</strong></h5>-->
+                                <h5>
                                     <?php if (!isset($params['category-id']) and isset($page_info) and is_array($page_info)): ?>
-
                                     <span class="<?php if ($type == 'shop'): ?>mai-market2<?php else: ?>mw-icon-<?php print $type; ?><?php endif; ?>"></span><?php print ($page_info['title']) ?>
                                     <?php elseif (isset($params['category-id'])): ?>
                                         <?php $cat = get_category_by_id($params['category-id']); ?>
                                         <?php if (isset($cat['title'])): ?>
-                                            <span class="mw-icon-category"></span> <?php print $cat['title'] ?>
+                                            <span class="mw-icon-category"></span> <strong><?php print $cat['title'] ?></strong>
                                         <?php endif; ?>
                                     <?php elseif ($act == 'pages'): ?>
                                         <span class="mai-page"></span>
-                                        <?php _e("Pages"); ?>
+                                        <strong><?php _e("Pages"); ?></strong>
                                     <?php elseif ($act == 'posts'): ?>
                                         <span class="mai-post"></span>
-                                        <?php _e("Posts"); ?>
+                                        <strong><?php _e("Posts"); ?></strong>
                                     <?php elseif ($act == 'products'): ?>
-                                        <span class="mai-product"></span>
-                                        <?php _e("Products"); ?>
+                                        <span class="mdi mdi-shopping text-primary mr-3"></span>
+                                        <strong><?php _e("Products"); ?></strong>
                                     <?php elseif (isset($params['is_shop'])): ?>
-                                        <span class="mai-market2"></span>
-                                        <?php _e("My Shop"); ?>
+                                        <span class="mdi mdi-shopping text-primary mr-3"></span>
+                                        <strong><?php _e("My Shop"); ?></strong>
                                     <?php else: ?>
                                         <span class="mai-website"></span>
-                                        <?php _e("Website"); ?>
+                                        <strong><?php _e("Website"); ?></strong>
                                     <?php endif; ?>
-                                </h2>
+                                </h5>
 
                                 <?php
                                 $cat_page = false;
                                 if (isset($params['category-id']) and $params['category-id']) {
                                     $cat_page = get_page_for_category($params['category-id']);
-
-                                    //  $add_new_btn_url = $add_new_btn_url . "&amp;category_id=" . $params['category-id'];
                                 }
 
                                 $url_param_action = url_param('action', true);
@@ -225,37 +221,12 @@ if ($last_page_front != false) {
                                     $url_param_type = 'product';
                                 }
 
-
-
-
-
                                 $add_new_btn_url = admin_url('view:content#action=new:') . $url_param_type;
 
 
-                                if (isset($page_info['id']) and $page_info['id']) {
-                                    //   $add_new_btn_url = $add_new_btn_url . "&amp;parent_page=" . $page_info['id'];
-
-                                }
-
-
-                                //                            elseif (isset($post_params['category'])) {
-                                //                                $url = "#action=new:product&amp;category_id=" . $post_params['category'];
-                                //                            } else if (isset($post_params['parent'])) {
-                                //                                $url = "#action=new:product&amp;parent_page=" . $post_params['parent'];
-                                //                            } else {
-                                //                                $url = "#action=new:product";
-                                //                            }
-
-
-                                // d($type);
-                                //d($url_param_type);
-                                //d($page_info);
-
                                 ?>
 
-                                <a href="<?php print $add_new_btn_url ?>"
-                                   class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-medium pull-left m-l-10"
-                                   style="margin-top: 2px;">
+                                <a href="<?php print $add_new_btn_url ?>" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-medium pull-left m-l-10">
                                     <?php print _e('Add new ' . $url_param_type); ?>
                                 </a>
 
@@ -402,8 +373,7 @@ if ($last_page_front != false) {
                                 </div>
 
 
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             <?php endif; ?>

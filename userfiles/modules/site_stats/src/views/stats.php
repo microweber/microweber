@@ -10,22 +10,18 @@
         });
 
         $('.show-more-stats').on('click', function () {
-            if ($('.stats-view-holder').hasClass('hidden')) {
-                $('.stats-view-holder').slideDown();
-                $('.stats-view-holder').removeClass('hidden');
-                $(this).text('<?php _e('show less'); ?>');
+            var $holder = $('.stats-view-holder');
+            if ($holder.hasClass('hidden')) {
+                $holder.slideDown().removeClass('hidden');
+                $('.show-more-stats').text('<?php _e('show less'); ?>');
             } else {
-                $('.stats-view-holder').slideUp();
-                $('.stats-view-holder').addClass('hidden');
-                $(this).text('<?php _e('show more'); ?>');
+                $holder.slideUp().addClass('hidden');
+                $('.show-more-stats').text('<?php _e('show more'); ?>');
             }
         });
     });
 </script>
 
-<div class="center m-b-20">
-    <button class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-ui-btn-outline show-more-stats"><?php _e('show more'); ?></button>
-</div>
 
 <div class="stats-view-holder hidden">
     <div class="stats-view">
@@ -39,34 +35,20 @@
                 });
             </script>
 
-            <div class="demobox" id="demotabsnav">
-                <div class="heading  mw-ui-box">
+            <div class="demobox card style-1 mb-3" id="demotabsnav">
+                <div class="heading card-header">
                     <div><?php _e("Referrers"); ?></div>
-                    <!--<div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
-                        <a href="javascript:;" class="mw-ui-btn"><span class="number">726</span>
-                            <small>Sites</small>
-                        </a>
-                        <a href="javascript:;" class="mw-ui-btn active"><span class="number">84</span>
-                            <small>Social</small>
-                        </a>
-                        <a href="javascript:;" class="mw-ui-btn"><span class="number">10.7k</span>
-                            <small>Search</small>
-                        </a>
-                    </div>-->
                 </div>
 
-                <div class="sources mw-ui-box has-tabs">
-                    <div class="mw-ui-box-content" style="">
+                <div class="card-body sources has-tabs">
+                    <div class="" style="">
                         <module type="site_stats/admin" view="referrers_list" period="<?php print $period; ?>"/>
                     </div>
-
-                    <div class="mw-ui-box-content" style="display: none;">
+                    <div class="" style="display: none;">
                         <module type="site_stats/admin" view="referrers_list" period="<?php print $period; ?>"/>
-
                     </div>
-                    <div class="mw-ui-box-content" style="display: none">
+                    <div class="" style="display: none">
                         <module type="site_stats/admin" view="referrers_list" period="<?php print $period; ?>"/>
-
                     </div>
                 </div>
             </div>
