@@ -57,6 +57,7 @@ class Lang
      * Get the current language of the site.
      *
      * @example
+     *
      * <code>
      *  $current_lang = current_lang();
      *  print $current_lang;
