@@ -116,9 +116,9 @@ class DatabaseManager extends DbUtils
             return false;
         }
 
-        $enable_trigers = true;
-        if (isset($params['enable_trigers'])) {
-            $enable_trigers = $params['enable_trigers'];
+        $enable_triggers = true;
+        if (isset($params['enable_triggers'])) {
+            $enable_triggers = $params['enable_triggers'];
         }
 
         $use_connection = false;
@@ -323,7 +323,7 @@ class DatabaseManager extends DbUtils
             return $data;
         }
 
-        if ($enable_trigers) {
+        if ($enable_triggers) {
             $data = $this->app->event_manager->response('mw.database.' . $table . '.get', $data);
         }
 
