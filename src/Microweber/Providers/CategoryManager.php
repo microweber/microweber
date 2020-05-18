@@ -785,7 +785,7 @@ class CategoryManager
         if (is_numeric($id)) {
             $id = intval($id);
         } else {
-            $id = trim($id);
+            $id = mb_trim($id);
         }
 
         $table = $this->tables['categories'];
@@ -806,7 +806,13 @@ class CategoryManager
 
     public function get_by_slug($slug)
     {
-        return $this->get_by_id($slug, 'url');
+        $id = $this->get_by_id($slug, 'url');
+        $override = $this->app->event_manager->trigger('category.get_by_slug', $slug);
+        if ($override and is_array($override) && isset($override[0])) {
+            $id = $override[0];
+        }
+
+        return $id;
     }
 
     public function delete($data)
