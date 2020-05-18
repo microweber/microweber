@@ -1545,6 +1545,8 @@ class ContentManager
             }
         }
 
+        mw()->event_manager->trigger('content.define_constants', $page);
+
         if (is_array($page)) {
             if (isset($page['content_type']) and ($page['content_type'] == 'post' or $page['content_type'] != 'page')) {
                 if (isset($page['id']) and $page['id'] != 0) {
