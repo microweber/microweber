@@ -150,7 +150,8 @@ class CategoryManager
 
             if (isset($url) != false) {
                 if (isset($c_infp['url']) and trim($c_infp['url']) != '') {
-                    $url = $url . '/category:' . trim($c_infp['url']);
+                    $url = $url . '/' . trim($c_infp['url']);
+                    // $url = $url . '/category:' . trim($c_infp['url']);
                 } else {
                     $url = $url . '/category:' . $id;
                 }
@@ -367,7 +368,7 @@ class CategoryManager
         if (is_array($get_category) and !empty($get_category)) {
             //array_unique($get_category);
 
-            $get_category =  array_unique_recursive($get_category);
+            $get_category = array_unique_recursive($get_category);
         }
 
         if (empty($get_category)) {
@@ -426,7 +427,7 @@ class CategoryManager
 
         $data['table'] = $table_items;
         if (!isset($params['limit'])) {
-            $data['no_limit'] =true;
+            $data['no_limit'] = true;
         }
 
         $data = $this->app->database_manager->get($data);
@@ -541,11 +542,9 @@ class CategoryManager
         }
 
 
-
         if (isset($data['rel_id'])) {
             $data['rel_id'] = intval($data['rel_id']);
         }
-
 
 
         if (isset($data['simple_save'])) {
@@ -578,7 +577,6 @@ class CategoryManager
         }
 
 
-
         if (isset($data['table']) and ($data['table'] != '')) {
             $table = $data['table'];
         }
@@ -589,9 +587,6 @@ class CategoryManager
         } elseif ((!isset($data['id']) or intval($data['id']) == 0) and !isset($data['parent_id'])) {
             $data['parent_id'] = 0;
         }
-
-
-
 
 
         if (isset($data['rel_type']) and isset($data['rel_id']) and trim($data['rel_type']) == 'content' and intval($data['rel_id']) != 0) {
@@ -615,6 +610,7 @@ class CategoryManager
             and isset($data['title'])
         ) {
             $data['url'] = url_title($data['title']);
+
         }
 
         $old_parent = false;
@@ -626,8 +622,9 @@ class CategoryManager
         }
 
         if (isset($data['url']) and trim($data['url']) != false) {
+            //$possible_slug = $this->app->url_manager->slug($data['url']);
             $possible_slug = mb_strtolower($data['url']);
-            $possible_slug = str_ireplace(" ", "-", $possible_slug);
+            $possible_slug = str_ireplace(' ', '-',$possible_slug);
             if ($possible_slug) {
                 $possible_slug_check = $this->get_by_slug($possible_slug);
                 if (isset($possible_slug_check['id'])) {
@@ -669,7 +666,7 @@ class CategoryManager
         $data['categories'] = false;
 
         //    $data['categories'] = false;
-        if(isset($data['parent_id'])){
+        if (isset($data['parent_id'])) {
 //dd($data);
         }
 
@@ -863,6 +860,8 @@ class CategoryManager
 
     public function get_category_id_from_url($url = false)
     {
+        $cat_id = false;
+
         if ($url) {
             $cat_url = $this->app->url_manager->param('category', true, $url);
         } else {
@@ -870,37 +869,69 @@ class CategoryManager
         }
 
         if ($cat_url != false and !is_numeric($cat_url)) {
-            $cats = explode(',',$cat_url);
-            if(!empty($cats)){
+            $cats = explode(',', $cat_url);
+            if (!empty($cats)) {
                 $cat_url = array_shift($cats);
             }
         }
         if ($cat_url != false and !is_numeric($cat_url)) {
             $cat_url_by_slug = $this->get_by_slug($cat_url);
             if (isset($cat_url_by_slug['id'])) {
-                $cat_url = $cat_url_by_slug['id'];
+                $cat_id = $cat_url_by_slug['id'];
             }
         }
 
-        if(!$cat_url){
-            if(isset($_GET['categories']) and is_array($_GET['categories']) and !empty($_GET['categories'])){
+        if (!$cat_url) {
+            if (isset($_GET['categories']) and is_array($_GET['categories']) and !empty($_GET['categories'])) {
                 $cats_from_get_param = array_values($_GET['categories']);
                 $cats_from_get_param = array_filter($_GET['categories']);
-                if(!empty($cats_from_get_param)){
+                if (!empty($cats_from_get_param)) {
                     $get_first_val = array_shift($cats_from_get_param);
-                    if(is_numeric($get_first_val)){
-                        $cat_url = intval($get_first_val);
+                    if (is_numeric($get_first_val)) {
+                        $cat_id = intval($get_first_val);
                     }
 
                 }
             }
         }
+        //
+
+        if (!$cat_id) {
+
+            if ($url == false and defined('PAGE_ID')) {
+                $url = $this->app->content_manager->link(PAGE_ID);
+            }
+
+            if ($url) {
+                $cur_url = url_current(true);
+                $cur_url = str_replace($url, '', $cur_url);
+                if ($cur_url) {
+                    $cur_url = trim($cur_url, '/');
+                }
+
+                if ($cur_url) {
+                    $cur_url_cat = explode('/', $cur_url);
+
+                    if (isset($cur_url_cat[0])) {
+                        $cat_url = $cur_url_cat[0];
+                        if ($cat_url != false and !is_numeric($cat_url)) {
+                            $cat_url_by_slug = $this->get_by_slug($cat_url);
+                            if (isset($cat_url_by_slug['id'])) {
+                                $cat_id = $cat_url_by_slug['id'];
+                            }
+                        }
+                    }
 
 
-        return intval($cat_url);
+                }
+            }
+        }
+
+        return intval($cat_id);
     }
 
-    public function get_category_childrens($cat_id) {
+    public function get_category_childrens($cat_id)
+    {
 
         $data = array();
         $childrens = $this->get_category_children_recursive($cat_id);
@@ -937,7 +968,7 @@ class CategoryManager
                         $childrens[] = $cat_sub;
                         $cat_sub_has_children = $this->get_category_children_recursive($cat_sub_id);
                         if ($cat_sub_has_children) {
-                            foreach($cat_sub_has_children as $cat_sub_children) {
+                            foreach ($cat_sub_has_children as $cat_sub_children) {
                                 $childrens[] = $cat_sub_children;
                             }
                         }
@@ -957,7 +988,7 @@ class CategoryManager
         $pages_params['no_limit'] = 1;
         $pages_params['order_by'] = 'position desc';
 
-        if(isset($params['is_shop'])){
+        if (isset($params['is_shop'])) {
             $pages_params['is_shop'] = intval($params['is_shop']);
         }
 
