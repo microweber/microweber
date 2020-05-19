@@ -12,6 +12,8 @@ class PermalinkTest extends TestCase
 {
     public function testSimplePostVariant()
     {
+        mw()->database_manager->extended_save_set_permission(true);
+
         // Set format
         $option = array();
         $option['option_value'] = 'page_category_post';
@@ -46,14 +48,8 @@ class PermalinkTest extends TestCase
         $this->assertEquals($pageSlug, $getPageNameFromUrl);
 
         // POST TEST
-        $postsId = $this->_generatePost($postSlug, $postName, $pageId, $categoryId);
-        $postUrl = content_link($postsId);
-
-
-
-        var_dump($postUrl);
-        die();
-
+        $postId = $this->_generatePost($postSlug, $postName, $pageId, $categoryId);
+        $postUrl = content_link($postId);
 
         // Match the parse link category
         $getCategoryNameFromUrl = mw()->permalink_manager->parseLink($postUrl, 'category');
@@ -66,10 +62,7 @@ class PermalinkTest extends TestCase
         // Match the parse link post
         $getPageNameFromUrl = mw()->permalink_manager->parseLink($postUrl, 'post');
         $this->assertEquals($postSlug, $getPageNameFromUrl);
-
-
-        var_dump($getPageNameFromUrl);
-        die();
+        
     }
 
     private function _generateCategory($url, $title, $pageId)
@@ -89,7 +82,7 @@ class PermalinkTest extends TestCase
     {
         $params = array(
             'parent'=>$pageId,
-            'categories'=>$categoryId,
+            'categories'=>[$categoryId],
             'title' =>$title,
             'url' =>$url,
             'content_type' => 'post',
