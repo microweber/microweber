@@ -73,6 +73,10 @@ class CheckoutManager
                     mw()->cart_manager->recover_cart($_REQUEST['recart'], $_REQUEST['order_id']);
                 }
 
+                if (isset($sess_order_id)) {
+                    $this->app->event_manager->trigger('mw.cart.checkout.order_failure', $sess_order_id);
+                }
+
                 $mw_process_payment_failed = true;
                 $exec_return = true;
             }
