@@ -62,7 +62,7 @@ class PermalinkTest extends TestCase
         // Match the parse link post
         $getPageNameFromUrl = mw()->permalink_manager->parseLink($postUrl, 'post');
         $this->assertEquals($postSlug, $getPageNameFromUrl);
-        
+
     }
 
     private function _generateCategory($url, $title, $pageId)
