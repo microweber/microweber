@@ -47,7 +47,7 @@ class PermalinkManager
                 return $categories;
             }
         }
-        
+
         return last($linkSegments);
     }
 
@@ -56,7 +56,7 @@ class PermalinkManager
         $outputContent = $content;
         $premalinkStructure = get_option('permalink_structure', 'website');
 
-        if ($content['content_type'] == 'post' || $content['content_type'] == 'product') {
+        if ($content['content_type'] == 'post' || $content['content_type'] == 'page' || $content['content_type'] == 'product') {
 
             $generateUrl = '';
 
@@ -67,7 +67,7 @@ class PermalinkManager
                 }
             }
 
-            if (strpos($premalinkStructure, 'category') !== false) {
+          /*  if (strpos($premalinkStructure, 'category') !== false) {
                 $categories = get_categories_for_content($content['id']);
                 if ($categories) {
                     if (strpos($premalinkStructure, 'category_sub_categories') !== false) {
@@ -78,12 +78,56 @@ class PermalinkManager
                         $generateUrl .= $categories[0]['url'] . '/';
                     }
                 }
-            }
+            }*/
 
             $outputContent['url'] = $generateUrl . $outputContent['url'];
         }
 
         return $outputContent;
+    }
+
+    public function generateContentLink()
+    {
+
+    }
+
+    public function generateCategoryLink($categoryId)
+    {
+        if (intval($categoryId) == 0) {
+            return false;
+        }
+
+        $categoryId = intval($categoryId);
+        $categoryInfo = mw()->category_manager->get_by_id($categoryId);
+
+        if (!isset($categoryInfo['rel_type'])) {
+            return;
+        }
+
+        if (trim($categoryInfo['rel_type']) != 'content') {
+            return;
+        }
+
+        $generateUrl = '';
+
+        $content = mw()->category_manager->get_page($categoryId);
+        if ($content) {
+            $generateUrl .= mw()->app->content_manager->link($content['id']).'/';
+        }
+
+        if (!$content  && defined('PAGE_ID')) {
+            $generateUrl .= mw()->app->content_manager->link(PAGE_ID).'/';
+        }
+
+        $parentCategoryInfo = mw()->category_manager->get_by_id($categoryInfo['parent_id']);
+        if ($parentCategoryInfo) {
+            $generateUrl .= $parentCategoryInfo['url'] . '/';
+        }
+
+        $generateUrl .= $categoryInfo['url'];
+
+        return $generateUrl;
+
     }
 
     public function getStructures()

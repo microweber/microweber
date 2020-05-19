@@ -108,61 +108,7 @@ class CategoryManager
 
     public function link($id)
     {
-        if (intval($id) == 0) {
-            return false;
-        }
-
-        $function_cache_id = __FUNCTION__;
-
-        $id = intval($id);
-        $cache_group = 'categories';
-
-        // $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
-        $cache_content = false;
-        if (($cache_content) != false and isset($cache_content[$id])) {
-            return $cache_content[$id];
-        } else {
-
-            if ($cache_content == false) {
-                $cache_content = array();
-            }
-
-            $table = $this->tables['categories'];
-            $c_infp = $this->get_by_id($id);
-
-            if (!isset($c_infp['rel_type'])) {
-                return;
-            }
-
-            if (trim($c_infp['rel_type']) != 'content') {
-                return;
-            }
-
-            $content = $this->get_page($id);
-
-            if (!empty($content)) {
-                $url = $this->app->content_manager->link($content['id']);
-            }
-
-            if (isset($url) == false and defined('PAGE_ID')) {
-                $url = $this->app->content_manager->link(PAGE_ID);
-            }
-
-            if (isset($url) != false) {
-                if (isset($c_infp['url']) and trim($c_infp['url']) != '') {
-                    $url = $url . '/' . trim($c_infp['url']);
-                    // $url = $url . '/category:' . trim($c_infp['url']);
-                } else {
-                    $url = $url . '/category:' . $id;
-                }
-                //   $cache_content[$id] = $url;
-                //    $this->app->cache_manager->save($cache_content, $function_cache_id, $cache_group);
-
-                return $url;
-            }
-
-            return;
-        }
+        return mw()->permalink_manager->generateCategoryLink($id);
     }
 
     public function get_page($category_id)
@@ -875,7 +821,7 @@ class CategoryManager
         }
 
         if (!$cat_url) {
-            $cat_url = mw()->permalink_manager->parseLink($url, 'category');
+            $cat_url = mw()->permalink_manager->parseLink('category');
         }
 
         if ($cat_url != false and !is_numeric($cat_url)) {
