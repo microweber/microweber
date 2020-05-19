@@ -13,6 +13,7 @@ class PermalinkManager
         if (!$link) {
             $link = mw()->url_manager->current();
         }
+
         $link = urldecode($link);
         $linkSegments = url_segment(-1, $link);
 
@@ -31,6 +32,7 @@ class PermalinkManager
                 return $linkSegments[2];
             }
         }
+
         if ($premalinkStructure == 'page_category_sub_categories_post') {
             if (isset($linkSegments[0]) && $type == 'page') {
                 return $linkSegments[0];
