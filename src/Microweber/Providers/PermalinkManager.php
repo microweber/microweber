@@ -72,7 +72,7 @@ class PermalinkManager
                 }
             }
 
-          if (strpos($premalinkStructure, 'category') !== false) {
+          if ($content['content_type'] == 'post' && strpos($premalinkStructure, 'category') !== false) {
                 $categories = get_categories_for_content($content['id']);
                 if ($categories) {
                     if (strpos($premalinkStructure, 'category_sub_categories') !== false) {
