@@ -107,6 +107,7 @@ class UrlManager
 
     public function param($param, $skip_ajax = false, $force_url = false)
     {
+
         if ($_POST) {
             if (isset($_POST['search_by_keyword'])) {
                 if ($param == 'keyword') {

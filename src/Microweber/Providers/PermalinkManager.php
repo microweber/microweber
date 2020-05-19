@@ -5,16 +5,51 @@ namespace Microweber\Providers;
 
 class PermalinkManager
 {
- /*   public $app;
 
-    public function __construct($app = null)
+    public $categoryTreeLevel = 3;
+
+    public function parseLink($link, $type = 'page')
     {
-        if (is_object($app)) {
-            $this->app = $app;
-        } else {
-            $this->app = mw();
+        if (!$link) {
+            $link = mw()->url_manager->current();
         }
-    }*/
+        $link = urldecode($link);
+        $linkSegments = url_segment(-1, $link);
+
+        $premalinkStructure = get_option('permalink_structure', 'website');
+        if ($premalinkStructure == 'page_category_post') {
+
+            if (isset($linkSegments[0]) && $type == 'page') {
+                return $linkSegments[0];
+            }
+
+            if (isset($linkSegments[1]) && $type == 'category') {
+                return $linkSegments[1];
+            }
+
+            if (isset($linkSegments[2]) && $type == 'post') {
+                return $linkSegments[2];
+            }
+        }
+        if ($premalinkStructure == 'page_category_sub_categories_post') {
+            if (isset($linkSegments[0]) && $type == 'page') {
+                return $linkSegments[0];
+            }
+            if (isset($linkSegments[0]) && $type == 'post') {
+                return last($linkSegments);
+            }
+            if (isset($linkSegments[1]) && $type == 'categories') {
+                $categories = array();
+                unset($linkSegments[0]);
+                foreach ($linkSegments as $segment) {
+                    $categories[] = $segment;
+                }
+                return $categories;
+            }
+        }
+        
+        return last($linkSegments);
+    }
 
     public function generateLink($content)
     {
