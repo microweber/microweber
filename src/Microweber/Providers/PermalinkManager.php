@@ -34,12 +34,15 @@ class PermalinkManager
         }
 
         if ($premalinkStructure == 'page_category_sub_categories_post') {
+
             if (isset($linkSegments[0]) && $type == 'page') {
                 return $linkSegments[0];
             }
+
             if (isset($linkSegments[0]) && $type == 'post') {
                 return last($linkSegments);
             }
+
             if (isset($linkSegments[1]) && $type == 'categories') {
                 $categories = array();
                 unset($linkSegments[0]);
@@ -69,7 +72,7 @@ class PermalinkManager
                 }
             }
 
-          /*  if (strpos($premalinkStructure, 'category') !== false) {
+          if (strpos($premalinkStructure, 'category') !== false) {
                 $categories = get_categories_for_content($content['id']);
                 if ($categories) {
                     if (strpos($premalinkStructure, 'category_sub_categories') !== false) {
@@ -80,7 +83,7 @@ class PermalinkManager
                         $generateUrl .= $categories[0]['url'] . '/';
                     }
                 }
-            }*/
+            }
 
             $outputContent['url'] = $generateUrl . $outputContent['url'];
         }
