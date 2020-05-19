@@ -116,6 +116,7 @@ class PermalinkManager
         $generateUrl = '';
 
         $content = mw()->category_manager->get_page($categoryId);
+
         if ($content) {
             $generateUrl .= mw()->app->content_manager->link($content['id']).'/';
         }
