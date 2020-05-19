@@ -61,7 +61,7 @@ class PermalinkManager
         $outputContent = $content;
         $premalinkStructure = get_option('permalink_structure', 'website');
 
-        if ($content['content_type'] == 'post' || $content['content_type'] == 'page' || $content['content_type'] == 'product') {
+        if ($content['content_type'] != 'page') {
 
             $generateUrl = '';
 
@@ -72,13 +72,20 @@ class PermalinkManager
                 }
             }
 
-          if ($content['content_type'] == 'post' && strpos($premalinkStructure, 'category') !== false) {
+            if ($content['content_type'] != 'page' && strpos($premalinkStructure, 'category') !== false) {
                 $categories = get_categories_for_content($content['id']);
                 if ($categories) {
                     if (strpos($premalinkStructure, 'category_sub_categories') !== false) {
-                        foreach ($categories as $category) {
-                            $generateUrl .= $category['url'] . '/';
+
+                        if (isset($categories[0]['parent_id']) && $categories[0]['parent_id'] != 0) {
+                            $parentCategory = get_category_by_id($categories[0]['parent_id']);
+                            if ($parentCategory) {
+                                $generateUrl .= $parentCategory['url'] . '/';
+                            }
                         }
+
+                        $generateUrl .= $categories[0]['url'] . '/';
+
                     } else {
                         $generateUrl .= $categories[0]['url'] . '/';
                     }

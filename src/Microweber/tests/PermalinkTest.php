@@ -21,14 +21,19 @@ class PermalinkTest extends TestCase
 
         $time = time();
 
-        $categorySlug = 'категория-писана-на-бг'.$time;
-        $categoryName = 'Категория писана на бг'.$time;
-
         $pageSlug = 'уникален-блог'.$time;
         $pageName = 'Уникален Блог'.$time;
 
+        $categorySlug = 'категория-писана-на-бг'.$time;
+        $categoryName = 'Категория писана на бг'.$time;
+
+        $postSlug = 'пост-писана-на-бг'.$time;
+        $postName = 'пост-писана на бг'.$time;
+
         $pageId = $this->_generatePage($pageSlug, $pageName);
 
+
+        // CATEGORY TEST
         $categoryId = $this->_generateCategory($categorySlug, $categoryName, $pageId);
         $categoryUrl = category_link($categoryId);
 
@@ -40,6 +45,31 @@ class PermalinkTest extends TestCase
         $getPageNameFromUrl = mw()->permalink_manager->parseLink($categoryUrl, 'page');
         $this->assertEquals($pageSlug, $getPageNameFromUrl);
 
+        // POST TEST
+        $postsId = $this->_generatePost($postSlug, $postName, $pageId, $categoryId);
+        $postUrl = content_link($postsId);
+
+
+
+        var_dump($postUrl);
+        die();
+
+
+        // Match the parse link category
+        $getCategoryNameFromUrl = mw()->permalink_manager->parseLink($postUrl, 'category');
+        $this->assertEquals($categorySlug, $getCategoryNameFromUrl);
+
+        // Match the parse link page
+        $getPageNameFromUrl = mw()->permalink_manager->parseLink($postUrl, 'page');
+        $this->assertEquals($pageSlug, $getPageNameFromUrl);
+
+        // Match the parse link post
+        $getPageNameFromUrl = mw()->permalink_manager->parseLink($postUrl, 'post');
+        $this->assertEquals($postSlug, $getPageNameFromUrl);
+
+
+        var_dump($getPageNameFromUrl);
+        die();
     }
 
     private function _generateCategory($url, $title, $pageId)
@@ -55,14 +85,15 @@ class PermalinkTest extends TestCase
         return save_category($params);
     }
 
-    private function _generatePost($url, $title, $pageId)
+    private function _generatePost($url, $title, $pageId, $categoryId)
     {
-
         $params = array(
             'parent'=>$pageId,
+            'categories'=>$categoryId,
             'title' =>$title,
             'url' =>$url,
             'content_type' => 'post',
+            'subtype' => 'post',
             'is_active' => 1,
         );
         $savePost = save_content($params);
