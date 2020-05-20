@@ -299,7 +299,7 @@ class ContentManagerCrud extends Crud
                 }
             }
 
-            /*var_dump('page_url=>' . $pageUrl);
+           /* var_dump('page_url=>' . $pageUrl);
             var_dump('post_url=>' . $postUrl);*/
 
 
@@ -325,6 +325,7 @@ class ContentManagerCrud extends Crud
                 $get['single'] = true;
                 $content = $this->get($get);
             }
+
         }
         if (!empty($content)) {
             self::$precached_links[$link_hash] = $content;

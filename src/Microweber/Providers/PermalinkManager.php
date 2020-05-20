@@ -24,7 +24,6 @@ class PermalinkManager
         $lastSegment = last($linkSegments);
 
         $permalinkStructure = get_option('permalink_structure', 'website');
-
         if ($permalinkStructure == 'category_post' || $permalinkStructure == 'category_sub_categories_post') {
             if ($type == 'page') {
                 $categorySlug = $this->_getCategorySlugFromUrl($linkSegments);
@@ -37,6 +36,8 @@ class PermalinkManager
                         }
                     }
                 }
+
+                return $lastSegment;
             }
             if ($type == 'post') {
                 return false;
