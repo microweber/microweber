@@ -50,8 +50,14 @@ class PermalinkManager
                     return $lastSegment;
                 }
 
+                $override = mw()->event_manager->trigger('permalink.parse_link.category', $lastSegment);
+                if (is_array($override) && isset($override[0])) {
+                    return $override[0];
+                }
+
                 array_pop($linkSegments);
-                $categoryName = array_pop($linkSegments); 
+                $categoryName = array_pop($linkSegments);
+
                 return $categoryName;
             }
 
@@ -133,15 +139,17 @@ class PermalinkManager
         }
 
         $generateUrl = '';
+        $premalinkStructure = get_option('permalink_structure', 'website');
 
-        $content = mw()->category_manager->get_page($categoryId);
+        if (strpos($premalinkStructure, 'page_') !== false) {
+            $content = mw()->category_manager->get_page($categoryId);
+            if ($content) {
+                $generateUrl .= mw()->app->content_manager->link($content['id']) . '/';
+            }
 
-        if ($content) {
-            $generateUrl .= mw()->app->content_manager->link($content['id']) . '/';
-        }
-
-        if (!$content && defined('PAGE_ID')) {
-            $generateUrl .= mw()->app->content_manager->link(PAGE_ID) . '/';
+            if (!$content && defined('PAGE_ID')) {
+                $generateUrl .= mw()->app->content_manager->link(PAGE_ID) . '/';
+            }
         }
 
         $parentCategoryInfo = mw()->category_manager->get_by_id($categoryInfo['parent_id']);
@@ -150,6 +158,9 @@ class PermalinkManager
         }
 
         $generateUrl .= $categoryInfo['url'];
+        if (!stristr($generateUrl, mw()->url_manager->site())) {
+            $generateUrl = site_url($generateUrl);
+        }
 
         return $generateUrl;
 
