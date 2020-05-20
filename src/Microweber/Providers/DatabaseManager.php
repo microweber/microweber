@@ -196,13 +196,13 @@ class DatabaseManager extends DbUtils
             $params['group_by'] = $params['groupby'];
             unset($params['groupby']);
         }
-
+        $use_cache = true;
         if (isset($orig_params['no_cache']) and ($orig_params['no_cache'])) {
             $use_cache = $this->use_cache = false;
         } else {
             $use_cache = $this->use_cache;
         }
-        $use_cache = false;
+       // $use_cache = false;
         // $this->use_cache = false;
         $query = $this->map_filters($query, $params, $table);
         $params = $this->map_array_to_table($table, $params);

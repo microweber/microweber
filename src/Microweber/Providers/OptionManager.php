@@ -223,7 +223,7 @@ class OptionManager
         $ok = $this->app->database_manager->escape_string($data['option_key']);
 
         $filter = array();
-        //  $filter['limit'] = 1;
+        $filter['limit'] = 1;
         $filter['option_key'] = $key;
         if ($option_group != false) {
             $filter['option_group'] = $option_group;
