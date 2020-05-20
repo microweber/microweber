@@ -745,11 +745,11 @@ class CategoryManager
 
         $get = array();
         $get[$by_field_name] = $id;
-        $get['no_cache'] = true;
+       // $get['no_cache'] = true;
         $get['single'] = true;
         $q = $this->app->database_manager->get($table, $get);
 
-        if (isset($q['category_subtype_settings'])) {
+        if (isset($q['category_subtype_settings']) and !is_array($q['category_subtype_settings'])) {
             $q['category_subtype_settings'] = @json_decode($q['category_subtype_settings'], true);
         }
 
