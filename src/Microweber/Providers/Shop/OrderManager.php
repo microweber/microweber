@@ -125,6 +125,8 @@ class OrderManager
 
             DB::table($this->app->cart_manager->table_name())->whereOrderCompleted(0)->whereSessionId($sid)->update(['order_id' => $ord]);
 
+            $this->app->event_manager->trigger('mw.cart.checkout.recarted_order', $ord);
+
             if (isset($place_order['order_completed']) and $place_order['order_completed'] == 1) {
                 DB::table($this->app->cart_manager->table_name())->whereOrderCompleted(0)->whereSessionId($sid)->update(['order_id' => $ord, 'order_completed' => 1]);
 
