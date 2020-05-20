@@ -299,8 +299,8 @@ class ContentManagerCrud extends Crud
                 }
             }
 
-            var_dump('page_url=>' . $pageUrl);
-            var_dump('post_url=>' . $postUrl);
+            /*var_dump('page_url=>' . $pageUrl);
+            var_dump('post_url=>' . $postUrl);*/
 
 
            /* $get = array();
