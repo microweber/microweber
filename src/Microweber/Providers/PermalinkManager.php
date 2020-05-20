@@ -51,7 +51,7 @@ class PermalinkManager
                 }
 
                 array_pop($linkSegments);
-                $categoryName = array_pop($linkSegments);
+                $categoryName = array_pop($linkSegments); 
                 return $categoryName;
             }
 
