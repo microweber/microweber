@@ -16,6 +16,7 @@ class PermalinkManager
 
         $link = urldecode($link);
         $linkSegments = url_segment(-1, $link);
+        $lastSegment = last($linkSegments);
 
         $premalinkStructure = get_option('permalink_structure', 'website');
         if ($premalinkStructure == 'page_category_post') {
@@ -39,10 +40,16 @@ class PermalinkManager
             }
 
             if (isset($linkSegments[0]) && $type == 'post') {
-                return last($linkSegments);
+                return $lastSegment;
             }
 
             if (isset($linkSegments[1]) && $type == 'category') {
+
+                $findContentByUrl = get_categories('url=' . $lastSegment . '&single=1');
+                if ($findContentByUrl) {
+                    return $lastSegment;
+                }
+
                 array_pop($linkSegments);
                 $categoryName = array_pop($linkSegments);
                 return $categoryName;
@@ -58,7 +65,7 @@ class PermalinkManager
             }
         }
 
-        return last($linkSegments);
+        return $lastSegment;
     }
 
     public function generateLink($content)
