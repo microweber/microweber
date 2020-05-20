@@ -93,6 +93,7 @@ class PermalinkManager
             if ($content['content_type'] != 'page' && strpos($premalinkStructure, 'category') !== false) {
                 $categories = get_categories_for_content($content['id']);
                 if ($categories && isset($categories[0])) {
+                    $categories[0] = get_category_by_id($categories[0]['id']);
                     if (strpos($premalinkStructure, 'category_sub_categories') !== false) {
                         if (isset($categories[0]['parent_id']) && $categories[0]['parent_id'] != 0) {
                             $parentCategory = get_category_by_id($categories[0]['parent_id']);
