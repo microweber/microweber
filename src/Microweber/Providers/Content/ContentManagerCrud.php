@@ -289,8 +289,19 @@ class ContentManagerCrud extends Crud
         if ($url == '') {
             $content = $this->app->content_manager->homepage();
         } else {
+            $pageUrl = mw()->permalink_manager->parseLink($url, 'page');
+            $postUrl = mw()->permalink_manager->parseLink($url, 'post');
 
-            $url = mw()->permalink_manager->parseLink($url, 'page');
+            if ($pageUrl) {
+                $url = $pageUrl;
+                if ($postUrl) {
+                    $url = $url . '/' . $postUrl;
+                }
+            }
+
+            var_dump('page_url=>' . $pageUrl);
+            var_dump('post_url=>' . $postUrl);
+
 
            /* $get = array();
             $get['url'] = $url;
