@@ -32,7 +32,6 @@ class PermalinkManager
                 return $linkSegments[2];
             }
         }
-
         if ($premalinkStructure == 'page_category_sub_categories_post') {
 
             if (isset($linkSegments[0]) && $type == 'page') {
@@ -41,6 +40,12 @@ class PermalinkManager
 
             if (isset($linkSegments[0]) && $type == 'post') {
                 return last($linkSegments);
+            }
+
+            if (isset($linkSegments[1]) && $type == 'category') {
+                array_pop($linkSegments);
+                $categoryName = array_pop($linkSegments);
+                return $categoryName;
             }
 
             if (isset($linkSegments[1]) && $type == 'categories') {
@@ -125,11 +130,11 @@ class PermalinkManager
         $content = mw()->category_manager->get_page($categoryId);
 
         if ($content) {
-            $generateUrl .= mw()->app->content_manager->link($content['id']).'/';
+            $generateUrl .= mw()->app->content_manager->link($content['id']) . '/';
         }
 
-        if (!$content  && defined('PAGE_ID')) {
-            $generateUrl .= mw()->app->content_manager->link(PAGE_ID).'/';
+        if (!$content && defined('PAGE_ID')) {
+            $generateUrl .= mw()->app->content_manager->link(PAGE_ID) . '/';
         }
 
         $parentCategoryInfo = mw()->category_manager->get_by_id($categoryInfo['parent_id']);
@@ -146,12 +151,12 @@ class PermalinkManager
     public function getStructures()
     {
         return array(
-            'post'=> 'sample-post',
-            'page_post'=> 'page/sample-post',
-            'category_post'=> 'sample-category/sample-post',
-            'category_sub_categories_post'=> 'sample-category/sub-category/sample-post',
-            'page_category_post'=> 'sample-page/sample-category/sample-post',
-            'page_category_sub_categories_post'=> 'sample-page/sample-category/sub-category/sample-post'
+            'post' => 'sample-post',
+            'page_post' => 'page/sample-post',
+            'category_post' => 'sample-category/sample-post',
+            'category_sub_categories_post' => 'sample-category/sub-category/sample-post',
+            'page_category_post' => 'sample-page/sample-category/sample-post',
+            'page_category_sub_categories_post' => 'sample-page/sample-category/sub-category/sample-post'
         );
     }
 }
