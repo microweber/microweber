@@ -25,8 +25,6 @@ class PermalinkManager
 
         $permalinkStructure = get_option('permalink_structure', 'website');
 
-//        var_dump($permalinkStructure);
-
         if ($permalinkStructure == 'category_post' || $permalinkStructure == 'category_sub_categories_post') {
             if ($type == 'page') {
                 $categorySlug = $this->_getCategorySlugFromUrl($linkSegments);
