@@ -21,6 +21,7 @@ class KnpCategoryTreeRenderer
     private $menu_factory;
 
     private $active_item_id = false;
+    private $use_cache = false;
 
     public function __construct($app = null)
     {
@@ -57,8 +58,25 @@ class KnpCategoryTreeRenderer
     //   $params['exteded_classes'] = "";
 
 
-    public function render($params, $tree_data = false)
+    public function render($params)
     {
+
+        $cache_id = __CLASS__ . __FUNCTION__ . crc32(json_encode($params));
+        $cache_group = 'categories';
+        if ($this->use_cache) {
+            $results = cache_get($cache_id, $cache_group, 600);
+            if ($results) {
+                if (isset($params['return_data']) and $params['return_data']) {
+                    return $results;
+                } else {
+                    print $results;
+                    return;
+                }
+            }
+        }
+
+
+        $tree_data = false;
         $list_tag = 'ul';
         if (isset($params['list_tag'])) {
             $list_tag = $params['list_tag'];
@@ -70,6 +88,11 @@ class KnpCategoryTreeRenderer
         if (isset($params['li_class_name'])) {
             $li_class_name = $params['li_class_name'];
         }
+
+        if (isset($params['tree_data'])) {
+            $tree_data = $params['tree_data'];
+        }
+
 
         if (!isset($li_class_name)) {
             $li_class_name = false;
@@ -160,9 +183,15 @@ class KnpCategoryTreeRenderer
         if (!$tree_data) {
             $data_provider = new CategoryTreeData($this->app);
             $tree_data = $data_provider->get($params);
+
         }
 
         if (!$tree_data) {
+
+            if ($this->use_cache) {
+                cache_save(false, $cache_id, $cache_group);
+            }
+
             return;
         }
 
@@ -225,7 +254,15 @@ class KnpCategoryTreeRenderer
 
         $renderer = new ListRenderer(new \Knp\Menu\Matcher\Matcher(), $options);
         $tree = $renderer->render($main_menu);
+
+        if($tree){
+            if ($this->use_cache) {
+                cache_save($tree, $cache_id, $cache_group);
+            }
+        }
+
         if (isset($params['return_data']) and $params['return_data']) {
+
             return $tree;
         } else {
             print $tree;
@@ -245,7 +282,7 @@ class KnpCategoryTreeRenderer
         }
 
         array_map(function ($data) use ($menu, $tree_data, $options, $params) {
-            // dd($params);
+
             //  $menu = $this->menu_instance;
 
             $has_children = false;
@@ -264,6 +301,8 @@ class KnpCategoryTreeRenderer
             // $level = $this->level + $nest_level;
             // $options['__process_nodes_level']++;
             if ($has_children) {
+
+
                 $this->level++;
             } else {
                 //  $options['__process_nodes_level'] = 0;
@@ -546,6 +585,12 @@ class KnpCategoryTreeRenderer
         return $menu;
     }
 
+
+    public function setUseCache($should_use_cache)
+    {
+
+        $this->use_cache = $should_use_cache;
+    }
 
 }
 
