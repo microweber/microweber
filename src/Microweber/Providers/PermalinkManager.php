@@ -188,14 +188,22 @@ class PermalinkManager
             }
         }
 
-        $parentCategoryInfo = app()->category_manager->get_by_id($categoryInfo['parent_id']);
-        if ($parentCategoryInfo) {
-            $generateUrl .= $parentCategoryInfo['url'] . '/';
+        if (strpos($premalinkStructure, 'category_sub_categories') !== false) {
+            $parentCategoryInfo = app()->category_manager->get_by_id($categoryInfo['parent_id']);
+            if ($parentCategoryInfo) {
+                $generateUrl .= $parentCategoryInfo['url'] . '/';
+            }
         }
 
         $generateUrl .= $categoryInfo['url'];
         if (!stristr($generateUrl, app()->url_manager->site())) {
             $generateUrl = site_url($generateUrl);
+        }
+
+
+        $override = app()->event_manager->trigger('permalink.generate_category_link', $generateUrl);
+        if (is_array($override) && isset($override[0])) {
+            return $override[0];
         }
 
         return $generateUrl;
