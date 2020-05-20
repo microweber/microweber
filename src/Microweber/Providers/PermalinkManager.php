@@ -94,7 +94,6 @@ class PermalinkManager
                 $categories = get_categories_for_content($content['id']);
                 if ($categories && isset($categories[0])) {
                     if (strpos($premalinkStructure, 'category_sub_categories') !== false) {
-
                         if (isset($categories[0]['parent_id']) && $categories[0]['parent_id'] != 0) {
                             $parentCategory = get_category_by_id($categories[0]['parent_id']);
                             if ($parentCategory) {
@@ -102,9 +101,6 @@ class PermalinkManager
                             }
                         }
 
-                        $generateUrl .= $categories[0]['url'] . '/';
-
-                    } else {
                         $generateUrl .= $categories[0]['url'] . '/';
                     }
                 }
