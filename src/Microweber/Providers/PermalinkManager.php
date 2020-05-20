@@ -140,14 +140,15 @@ class PermalinkManager
                                 $generateUrl .= $parentCategory['url'] . '/';
                             }
                         }
-
-                        $generateUrl .= $categories[0]['url'] . '/';
                     }
+                    $generateUrl .= $categories[0]['url'] . '/';
                 }
             }
 
             $outputContent['url'] = $generateUrl . $outputContent['url'];
         }
+
+
 
         return $outputContent;
     }
