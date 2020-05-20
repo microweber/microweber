@@ -823,7 +823,6 @@ class CategoryManager
         if (!$cat_url) {
             $cat_url = mw()->permalink_manager->parseLink($url, 'category');
         }
-
         if ($cat_url != false and !is_numeric($cat_url)) {
             $cats = explode(',', $cat_url);
             if (!empty($cats)) {
@@ -850,7 +849,10 @@ class CategoryManager
                 }
             }
         }
-        //
+        $override = $this->app->event_manager->trigger('category.get_category_id_from_url', $cat_url);
+        if (is_array($override) && isset($override[0])) {
+            $cat_id = $override[0];
+        }
 
         if (!$cat_id) {
 
