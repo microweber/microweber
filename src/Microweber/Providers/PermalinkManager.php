@@ -52,7 +52,7 @@ class PermalinkManager
 
                 $override = mw()->event_manager->trigger('permalink.parse_link.category', $lastSegment);
                 if (is_array($override) && isset($override[0])) {
-                    return $override[0];
+                    return $lastSegment;
                 }
 
                 array_pop($linkSegments);
