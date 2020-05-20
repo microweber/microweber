@@ -289,6 +289,9 @@ class ContentManagerCrud extends Crud
         if ($url == '') {
             $content = $this->app->content_manager->homepage();
         } else {
+
+            $url = mw()->permalink_manager->parseLink($url, 'page');
+
            /* $get = array();
             $get['url'] = $url;
             $get['single'] = true;
