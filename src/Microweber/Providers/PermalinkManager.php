@@ -14,13 +14,18 @@ class PermalinkManager
             $link = app()->url_manager->current();
         }
 
+        $get = mw()->event_manager->trigger('permalink.parse_link.link', $link);
+        if (is_array($get) && isset($get[0])) {
+            $link = $get[0];
+        }
+
         $link = urldecode($link);
         $linkSegments = url_segment(-1, $link);
         $lastSegment = last($linkSegments);
 
         $permalinkStructure = get_option('permalink_structure', 'website');
 
-        if ($permalinkStructure == 'category_post') {
+        if ($permalinkStructure == 'category_post' || $permalinkStructure == 'category_sub_categories_post') {
             if ($type == 'page') {
                 $categorySlug = $this->_getCategorySlugFromUrl($linkSegments);
                 if ($categorySlug) {
@@ -32,6 +37,9 @@ class PermalinkManager
                         }
                     }
                 }
+            }
+            if ($type == 'post') {
+                return false;
             }
         }
 
@@ -503,7 +511,10 @@ class PermalinkManager
 
             define('LAYOUTS_URL', $layouts_url);
         }
-        
+
+        /*var_dump(CATEGORY_ID);
+        var_dump(PAGE_ID);*/
+
         return true;
     }
 
