@@ -69,7 +69,6 @@ class CheckoutManager
                 $exec_return = true;
             } elseif (isset($_REQUEST['mw_payment_failure'])) {
                 if (isset($_REQUEST['recart']) and $_REQUEST['recart'] != false and isset($_REQUEST['order_id'])) {
-
                     mw()->cart_manager->recover_cart($_REQUEST['recart'], $_REQUEST['order_id']);
                 }
 
