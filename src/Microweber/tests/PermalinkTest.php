@@ -46,6 +46,9 @@ class PermalinkTest extends TestCase
         $subCategorySlug = 'подкатегория-писана-на-бг' . $time;
         $subCategoryName = 'Подкатегория писана на бг' . $time;
 
+        $subChildCategorySlug = 'дете-на-подкатегорията' . $time;
+        $subChildCategoryName = 'Дете на подкатегорията' . $time;
+
         $postSlug = 'пост-писана-на-бг' . $time;
         $postName = 'пост-писана на бг' . $time;
 
@@ -77,6 +80,7 @@ class PermalinkTest extends TestCase
         $categoryUrl = category_link($categoryId);
 
         $subCategoryId = $this->_generateCategory($subCategorySlug, $subCategoryName, $categoryId);
+        $subChildCategoryId = $this->_generateCategory($subChildCategorySlug, $subChildCategoryName, $subCategoryId);
 
         // Match the parse link category
         $getCategoryNameFromUrl = mw()->permalink_manager->parseLink($categoryUrl, 'category');
@@ -92,7 +96,7 @@ class PermalinkTest extends TestCase
 
 
         // POST TEST
-        $postId = $this->_generatePost($postSlug, $postName, $pageId, [$categoryId, $subCategoryId]);
+        $postId = $this->_generatePost($postSlug, $postName, $pageId, [$categoryId, $subCategoryId, $subChildCategoryId]);
         $postUrl = content_link($postId);
 
         /**
@@ -100,6 +104,7 @@ class PermalinkTest extends TestCase
          */
         // Match the parse link category
         $getCategoryNameFromUrl = mw()->permalink_manager->parseLink($postUrl, 'category');
+        var_dump($postUrl);
         $this->assertEquals($categorySlug, $getCategoryNameFromUrl);
 
         // Match the parse link page
