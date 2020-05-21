@@ -8,17 +8,21 @@
 
 namespace Microweber\tests;
 
+use Microweber\Controllers\DefaultController;
+
 class PermalinkTest extends TestCase
 {
     // Ids
     public static $pageId;
     public static $categoryId;
+    public static $subCategoryId;
     public static $postId;
 
     // Slugs
     public static $pageSlug;
     public static $postSlug;
     public static $categorySlug;
+    public static $subCategorySlug;
 
     public function testPageCategoryPost()
     {
@@ -39,6 +43,9 @@ class PermalinkTest extends TestCase
         $categorySlug = 'категория-писана-на-бг'.$time;
         $categoryName = 'Категория писана на бг'.$time;
 
+        $subCategorySlug = 'подкатегория-писана-на-бг'.$time;
+        $subCategoryName = 'Подкатегория писана на бг'.$time;
+
         $postSlug = 'пост-писана-на-бг'.$time;
         $postName = 'пост-писана на бг'.$time;
 
@@ -54,7 +61,7 @@ class PermalinkTest extends TestCase
          */
         // Match the parse link category
         $getCategoryNameFromUrl = mw()->permalink_manager->parseLink($pageUrl, 'category');
-        $this->assertEquals($categorySlug, $getCategoryNameFromUrl);
+        $this->assertEquals(false, $getCategoryNameFromUrl);
 
         // Match the parse link page
         $getPageNameFromUrl = mw()->permalink_manager->parseLink($pageUrl, 'page');
@@ -62,15 +69,14 @@ class PermalinkTest extends TestCase
 
         // Match the parse link post
         $getPageNameFromUrl = mw()->permalink_manager->parseLink($pageUrl, 'post');
-        $this->assertEquals($postSlug, $getPageNameFromUrl);
+        $this->assertEquals(false, $getPageNameFromUrl);
 
-
-        var_dump($pageUrl);
-        die();
 
         // CATEGORY TEST
         $categoryId = $this->_generateCategory($categorySlug, $categoryName, $pageId);
         $categoryUrl = category_link($categoryId);
+
+        $subCategoryId = $this->_generateCategory($subCategorySlug, $subCategoryName, $categoryId);
 
         // Match the parse link category
         $getCategoryNameFromUrl = mw()->permalink_manager->parseLink($categoryUrl, 'category');
@@ -80,8 +86,13 @@ class PermalinkTest extends TestCase
         $getPageNameFromUrl = mw()->permalink_manager->parseLink($categoryUrl, 'page');
         $this->assertEquals($pageSlug, $getPageNameFromUrl);
 
+        // Match the parse link post
+        $getPageNameFromUrl = mw()->permalink_manager->parseLink($categoryUrl, 'post');
+        $this->assertEquals(false, $getPageNameFromUrl);
+
+
         // POST TEST
-        $postId = $this->_generatePost($postSlug, $postName, $pageId, $categoryId);
+        $postId = $this->_generatePost($postSlug, $postName, $pageId, [$categoryId,$subCategoryId]);
         $postUrl = content_link($postId);
 
         /**
@@ -119,12 +130,61 @@ class PermalinkTest extends TestCase
         $option['option_group'] = 'website';
         save_option($option);
 
+
+        /*
+         * TESTING CATEGORY
+         */
         $categoryUrl = category_link(self::$categoryId);
         $expectedCategoryUrl = site_url() . self::$categorySlug;
 
         $this->assertEquals($expectedCategoryUrl, $categoryUrl);
 
 
+        /*
+         * TESTING PAGE
+         */
+        /**
+         * PARSE LINK FROM THE PAGE
+         */
+        $pageUrl = page_link(self::$pageId);
+
+        // Match the parse link category
+        $getCategoryNameFromUrl = mw()->permalink_manager->parseLink($pageUrl, 'category');
+        $this->assertEquals(false, $getCategoryNameFromUrl);
+
+        // Match the parse link page
+        $getPageNameFromUrl = mw()->permalink_manager->parseLink($pageUrl, 'page');
+        $this->assertEquals(self::$pageSlug, $getPageNameFromUrl);
+
+        // Match the parse link post
+        $getPageNameFromUrl = mw()->permalink_manager->parseLink($pageUrl, 'post');
+        $this->assertEquals(false, $getPageNameFromUrl);
+
+
+        /**
+         * TESTING POST
+         */
+        $postUrl = content_link(self::$postId);
+        /**
+         * PARSE LINK FROM THE POST URL
+         */
+        // Match the parse link category
+        $getCategoryNameFromUrl = mw()->permalink_manager->parseLink($postUrl, 'category');
+        $this->assertEquals(self::$categorySlug, $getCategoryNameFromUrl);
+
+        // Match the parse link page
+        $getPageNameFromUrl = mw()->permalink_manager->parseLink($postUrl, 'page');
+        $this->assertEquals(self::$pageSlug, $getPageNameFromUrl);
+
+        // Match the parse link post
+        $getPageNameFromUrl = mw()->permalink_manager->parseLink($postUrl, 'post');
+        $this->assertEquals(self::$postSlug, $getPageNameFromUrl);
+
+       /* $defaultController = new DefaultController();
+        $postHtml = $defaultController->frontend();
+
+        var_dump($postHtml);
+        die();*/
     }
 
     private function _generateCategory($url, $title, $pageId)
@@ -140,11 +200,11 @@ class PermalinkTest extends TestCase
         return save_category($params);
     }
 
-    private function _generatePost($url, $title, $pageId, $categoryId)
+    private function _generatePost($url, $title, $pageId, $categoryIds = array())
     {
         $params = array(
             'parent'=>$pageId,
-            'categories'=>[$categoryId],
+            'categories'=>$categoryIds,
             'title' =>$title,
             'url' =>$url,
             'content_type' => 'post',
