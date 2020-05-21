@@ -893,8 +893,6 @@ class CategoryManager
             }
         }
 
-
-
         return intval($cat_id);
     }
 

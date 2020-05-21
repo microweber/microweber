@@ -39,6 +39,15 @@ class PermalinkManager
 
                 return $lastSegment;
             }
+            if ($type == 'category'){
+                // Kogato si v bloga i tursish da wzemesh kategoriq ot url: /blog
+                $categorySlug = $this->_getCategorySlugFromUrl($linkSegments);
+                if ($categorySlug) {
+                    return $lastSegment;
+                }
+
+                return false;
+            }
             if ($type == 'post') {
                 return false;
             }
@@ -527,9 +536,10 @@ class PermalinkManager
 
             define('LAYOUTS_URL', $layouts_url);
         }
-
-        /*var_dump(CATEGORY_ID);
-        var_dump(PAGE_ID);*/
+/*
+        var_dump(PAGE_ID);
+        var_dump(MAIN_PAGE_ID);
+        var_dump(CATEGORY_ID);*/
 
         return true;
     }
