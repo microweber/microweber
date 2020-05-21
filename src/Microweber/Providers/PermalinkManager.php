@@ -115,10 +115,11 @@ class PermalinkManager
             return $lastSegment;
         }
 
-        array_pop($linkSegments);
+        /*array_pop($linkSegments);
         $categoryName = array_pop($linkSegments);
 
-        return $categoryName;
+        return $categoryName;*/
+        return false;
     }
 
     public function generateLink($content)
