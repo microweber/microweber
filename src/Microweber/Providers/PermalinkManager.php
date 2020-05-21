@@ -19,7 +19,7 @@ class PermalinkManager
             $link = $get[0];
         }
 
-        $link = urldecode($link);
+        // $link = urldecode($link);
         $linkSegments = url_segment(-1, $link);
         $lastSegment = last($linkSegments);
 
@@ -39,16 +39,29 @@ class PermalinkManager
 
                 return $lastSegment;
             }
-            if ($type == 'category'){
+            if ($type == 'category') {
+
                 // Kogato si v bloga i tursish da wzemesh kategoriq ot url: /blog
                 $categorySlug = $this->_getCategorySlugFromUrl($linkSegments);
+                /*
+                var_dump([
+                    'inputSegments'=>$linkSegments,
+                    'outputCategorySlug'=>$categorySlug
+                ]);*/
+
                 if ($categorySlug) {
-                    return $lastSegment;
+                    return $categorySlug;
                 }
 
                 return false;
             }
             if ($type == 'post') {
+
+                $findPostSlug = $this->_getPostSlugFromUrl($linkSegments);
+                if ($findPostSlug) {
+                    return $findPostSlug;
+                }
+
                 return false;
             }
         }
@@ -75,10 +88,10 @@ class PermalinkManager
 
             if (isset($linkSegments[0]) && $type == 'post') {
 
-                $findPost = get_content('url=' . $lastSegment . '&single=1');
-                if ($findPost && isset($findPost['content_type']) && $findPost['content_type'] != 'page') {
-                    return $lastSegment;
-                }
+                $findPostSlug = $this->_getPostSlugFromUrl($linkSegments);
+               if ($findPostSlug) {
+                   return $findPostSlug;
+               }
 
                 return false;
             }
@@ -98,7 +111,19 @@ class PermalinkManager
             }
         }
 
-        return $lastSegment;
+        return false;
+    }
+
+    private function _getPostSlugFromUrl($linkSegments) {
+
+        $lastSegment = last($linkSegments);
+
+        $findPost = get_content('url=' . $lastSegment . '&single=1');
+        if ($findPost && isset($findPost['content_type']) && $findPost['content_type'] != 'page') {
+            return $lastSegment;
+        }
+
+        return false;
     }
 
     private function _getCategorySlugFromUrl($linkSegments) {
@@ -110,15 +135,19 @@ class PermalinkManager
             return $lastSegment;
         }
 
+        array_pop($linkSegments);
+        $segmentBeforeLast = array_pop($linkSegments);
+
+        $findContentByUrl = get_categories('url=' . $segmentBeforeLast . '&single=1');
+        if ($findContentByUrl) {
+            return $segmentBeforeLast;
+        }
+
         $override = app()->event_manager->trigger('permalink.parse_link.category', $lastSegment);
         if (is_array($override) && isset($override[0])) {
             return $lastSegment;
         }
 
-        /*array_pop($linkSegments);
-        $categoryName = array_pop($linkSegments);
-
-        return $categoryName;*/
         return false;
     }
 
