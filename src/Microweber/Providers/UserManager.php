@@ -1612,7 +1612,6 @@ class UserManager
         $data['id'] = $id;
         $data['limit'] = 1;
         $data['single'] = 1;
-        $data['no_cache'] = 1;
 
         $data = $this->get_all($data);
 
@@ -1775,6 +1774,8 @@ class UserManager
 
         $data['table'] = $table;
         $data['exclude_shorthand'] = true;
+        $data['no_cache'] = 1;
+
         $get = $this->app->database_manager->get($data);
 
         return $get;
