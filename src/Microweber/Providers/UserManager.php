@@ -1612,6 +1612,7 @@ class UserManager
         $data['id'] = $id;
         $data['limit'] = 1;
         $data['single'] = 1;
+        $data['no_cache'] = 1;
 
         $data = $this->get_all($data);
 
