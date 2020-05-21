@@ -58,7 +58,6 @@ class OptionManager
         if (is_string($params)) {
             $params = parse_str($params, $params2);
             $params = $params2;
-            extract($params);
         }
 
         $data = $params;
@@ -67,7 +66,7 @@ class OptionManager
         if (!isset($data['limit'])) {
             $data['limit'] = 1000;
         }
-        $data['cache_group'] = 'options/global';
+     //   $data['cache_group'] = 'options/global';
         $data['table'] = $table;
 
         $get = $this->app->database_manager->get($data);
@@ -235,6 +234,8 @@ class OptionManager
         $filter['table'] = $table;
 
         $get_all = mw()->database_manager->get($filter);
+
+
 
         if (!is_array($get_all)) {
             return false;

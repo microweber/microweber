@@ -200,7 +200,7 @@ class DatabaseManager extends DbUtils
         if (isset($orig_params['no_cache']) and ($orig_params['no_cache'])) {
             $use_cache = $this->use_cache = false;
         } else {
-            $use_cache = $this->use_cache;
+            $use_cache = $this->use_cache  = true;
         }
        // $use_cache = false;
         // $this->use_cache = false;
@@ -279,13 +279,15 @@ class DatabaseManager extends DbUtils
         }
 
 
+
+
         if ($use_cache == false) {
              $data = $query->get();
         } else {
             $data = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query) {
-
                 return $query->get();
             });
+
         }
 
         if ($data == false or empty($data)) {
