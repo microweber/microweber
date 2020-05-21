@@ -180,11 +180,27 @@ class PermalinkTest extends TestCase
         $getPageNameFromUrl = mw()->permalink_manager->parseLink($postUrl, 'post');
         $this->assertEquals(self::$postSlug, $getPageNameFromUrl);
 
-       /* $defaultController = new DefaultController();
+        // Set Current url for font controller
+        mw()->url_manager->set_current($postUrl);
+
+        // Test default controller with post
+        $defaultController = new DefaultController();
         $postHtml = $defaultController->frontend();
 
-        var_dump($postHtml);
-        die();*/
+        $findPostSlugInPostHtml = false;
+        if (strpos($postHtml, self::$postSlug) !== false) {
+            $findPostSlugInPostHtml = true;
+        }
+        $this->assertEquals(true, $findPostSlugInPostHtml);
+
+        $findPostUrlInPostHtml = false;
+        if (strpos($postHtml, $postUrl) !== false) {
+            $findPostUrlInPostHtml = true;
+        }
+        $this->assertEquals(true, $findPostUrlInPostHtml);
+
+        $this->assertEquals(self::$categoryId, CATEGORY_ID);
+        $this->assertEquals(self::$pageId, PAGE_ID);
     }
 
     private function _generateCategory($url, $title, $pageId)
