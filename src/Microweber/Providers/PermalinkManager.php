@@ -59,7 +59,7 @@ class PermalinkManager
 
                 $findPostSlug = $this->_getPostSlugFromUrl($linkSegments);
 
-                /*var_dump([
+              /*  var_dump([
                     'inputSegments'=>$linkSegments,
                     'outputPostSlug'=>$findPostSlug
                 ]);*/
@@ -123,8 +123,8 @@ class PermalinkManager
     private function _getPostSlugFromUrl($linkSegments) {
 
         $lastSegment = last($linkSegments);
+        $findPost = get_content('url='.$lastSegment.'&single=1');
 
-        $findPost = get_content('url=' . $lastSegment . '&single=1');
         if ($findPost && isset($findPost['content_type']) && $findPost['content_type'] != 'page') {
             return $lastSegment;
         }
@@ -573,7 +573,7 @@ class PermalinkManager
             define('LAYOUTS_URL', $layouts_url);
         }
 
-        /*var_dump(PAGE_ID);
+     /*   var_dump(PAGE_ID);
         var_dump(CATEGORY_ID);
         var_dump(POST_ID);*/
 
