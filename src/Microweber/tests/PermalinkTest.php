@@ -180,6 +180,12 @@ class PermalinkTest extends TestCase
         $getPageNameFromUrl = mw()->permalink_manager->parseLink($postUrl, 'post');
         $this->assertEquals(self::$postSlug, $getPageNameFromUrl);
 
+    }
+
+    public function testFrontControllerPost()
+    {
+        $postUrl = content_link(self::$postId);
+
         // Set Current url for font controller
         mw()->url_manager->set_current($postUrl);
 
