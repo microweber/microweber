@@ -33,7 +33,7 @@ class CartManager extends Crud
         $get_params = array();
         $get_params['order_completed'] = 0;
         $get_params['session_id'] = $sid;
-        $get_params['no_cache'] = true;
+        //$get_params['no_cache'] = true;
         $sumq = $this->app->database_manager->get($this->table, $get_params);
 
         if (is_array($sumq)) {
@@ -301,7 +301,7 @@ class CartManager extends Crud
         } elseif (isset($params['order_completed']) and $params['order_completed'] === 'any') {
             unset($params['order_completed']);
         }
-        $params['no_cache'] = 1;
+       // $params['no_cache'] = 1;
 
         $get = $this->app->database_manager->get($params);
         if (isset($params['count']) and $params['count'] != false) {
