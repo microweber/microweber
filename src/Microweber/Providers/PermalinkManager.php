@@ -159,11 +159,14 @@ class PermalinkManager
 
     public function generateLink($content)
     {
+        $premalinkStructure = get_option('permalink_structure', 'website');
+        if ($premalinkStructure == 'post') {
+            return false;
+        }
 
         if (!defined('MW_API_HTML_OUTPUT') && (defined('MW_FRONTEND') || defined('MW_API_CALL'))) {
 
             $outputContent = $content;
-            $premalinkStructure = get_option('permalink_structure', 'website');
 
             if ($content['content_type'] != 'page') {
 
