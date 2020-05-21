@@ -8,7 +8,7 @@ use Config;
 
 trait QueryFilter
 {
-    public $table_cache_ttl = 60;
+    public $table_cache_ttl = 600;
 
     public $filter_keys = [];
 
@@ -231,7 +231,6 @@ trait QueryFilter
                         }
                     }
 
-                    //dd($params);
                     unset($params[$filter]);
                     break;
 
@@ -419,7 +418,6 @@ trait QueryFilter
                                 if($ids){
 
                                   //   $get_subcats = $this->table('categories')->where('data_type','category')->whereIn('parent_id',$ids)->get();
-                                  //  dd($get_subcats);
                                  }
                             }
 
@@ -453,7 +451,6 @@ trait QueryFilter
 //
 
                             //  $query->whereIn('categories_items_joined_table.parent_id', $ids)->distinct();
-                            //  dd($ids);
 
 //                            foreach ($ids as $cat_id) {
 //                               $query->where('categories_items_joined_table.parent_id', $cat_id);
@@ -468,7 +465,7 @@ trait QueryFilter
 
                         }
 
-                        //dd($query);
+
                     }
                     unset($params[$filter]);
 
@@ -597,7 +594,7 @@ trait QueryFilter
                     break;
 
                 case 'no_cache':
-                    $this->useCache = false;
+                   // $this->useCache = false;
                     break;
 
 //                case 'is_active':
