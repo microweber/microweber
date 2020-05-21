@@ -145,8 +145,11 @@ api_expose('offers_get_by_product_id');
 function offers_get_by_product_id($product_id)
 {
     $table = 'offers';
+    $cache_key = __FUNCTION__.$product_id;
+    $ttl = 60;
 
-    $offers = DB::table($table)->select('custom_fields.id as id', 'offers.offer_price', 'offers.expires_at', 'custom_fields.name as price_name', 'custom_fields_values.value as price')
+
+    $query = DB::table($table)->select('custom_fields.id as id', 'offers.offer_price', 'offers.expires_at', 'custom_fields.name as price_name', 'custom_fields_values.value as price')
         ->leftJoin('content', 'offers.product_id', '=', 'content.id')
         //   ->leftJoin('custom_fields', 'offers.price_key', '=', 'custom_fields.name_key')
         ->leftJoin('custom_fields', 'offers.price_id', '=', 'custom_fields.id')
@@ -154,9 +157,29 @@ function offers_get_by_product_id($product_id)
         ->where('content.id', '=', (int)$product_id)
         ->where('content.is_deleted', '=', 0)
         ->where('offers.is_active', '=', 1)
-        ->where('custom_fields.type', '=', 'price')
-        ->get()
-        ->toArray();
+        ->where('custom_fields.type', '=', 'price');
+
+
+
+
+    $offers = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query) {
+        return $query->get()->toArray();
+    });
+
+
+
+
+//    $offers = DB::table($table)->select('custom_fields.id as id', 'offers.offer_price', 'offers.expires_at', 'custom_fields.name as price_name', 'custom_fields_values.value as price')
+//        ->leftJoin('content', 'offers.product_id', '=', 'content.id')
+//        //   ->leftJoin('custom_fields', 'offers.price_key', '=', 'custom_fields.name_key')
+//        ->leftJoin('custom_fields', 'offers.price_id', '=', 'custom_fields.id')
+//        ->leftJoin('custom_fields_values', 'custom_fields.id', '=', 'custom_fields_values.custom_field_id')
+//        ->where('content.id', '=', (int)$product_id)
+//        ->where('content.is_deleted', '=', 0)
+//        ->where('offers.is_active', '=', 1)
+//        ->where('custom_fields.type', '=', 'price')
+//        ->get()
+//        ->toArray();
 
 
     $specialOffers = array();
