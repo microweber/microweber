@@ -3,7 +3,6 @@ $payment_options = payment_options();
 $enable_payment_options_count = 0;
 ?>
 
-<script>mw.lib.require('material_icons');</script>
 <script>mw.moduleCSS("<?php print modules_url(); ?>shop/payments/styles.css"); </script>
 
 <script type="text/javascript">

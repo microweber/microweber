@@ -12,7 +12,6 @@ description: Checkout
 
 
 ?>
-
 <script type="text/javascript">
     mw.require("<?php print modules_url(); ?>shop/checkout/styles.css", true);
 </script>

@@ -73,10 +73,9 @@ if ($template != false and strtolower($template) != 'none') {
         mw.require("shop.js");
     </script>
 
-    <script>mw.lib.require('material_icons');</script>
 
 
-    <link href="" rel="stylesheet">
+
 
     <script type="text/javascript">
         $(document).ready(function () {
