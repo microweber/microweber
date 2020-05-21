@@ -285,7 +285,6 @@ class ContentManagerCrud extends Crud
         if (isset(self::$precached_links[$link_hash])) {
             return self::$precached_links[$link_hash];
         }
-
         if ($url == '') {
             $content = $this->app->content_manager->homepage();
         } else {
@@ -294,14 +293,11 @@ class ContentManagerCrud extends Crud
 
             if ($pageUrl) {
                 $url = $pageUrl;
-                if ($postUrl) {
-                    $url = $url . '/' . $postUrl;
-                }
             }
 
-           /* var_dump('page_url=>' . $pageUrl);
-            var_dump('post_url=>' . $postUrl);*/
-
+            if ($postUrl) {
+                $url = $postUrl;
+            }
 
            /* $get = array();
             $get['url'] = $url;

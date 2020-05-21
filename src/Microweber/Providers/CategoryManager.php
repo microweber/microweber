@@ -831,6 +831,11 @@ class CategoryManager
             $cat_url = mw()->permalink_manager->parseLink($url, 'category');
         }
 
+       /* var_dump([
+            'inputUrl'=>$url,
+            'outputCatUrl'=>$cat_url
+        ]);*/
+
         if ($cat_url != false and !is_numeric($cat_url)) {
             $cats = explode(',', $cat_url);
             if (!empty($cats)) {

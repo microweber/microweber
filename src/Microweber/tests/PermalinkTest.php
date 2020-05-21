@@ -182,6 +182,22 @@ class PermalinkTest extends TestCase
 
     }
 
+    public function testFrontControllerPage()
+    {
+        $pageUrl = page_link(self::$pageId);
+
+        // Set Current url for font controller
+        mw()->url_manager->set_current($pageUrl);
+
+        // Test default controller with post
+        $defaultController = new DefaultController();
+        $pageHtml = $defaultController->frontend();
+
+        $this->assertEquals(self::$pageId, PAGE_ID);
+        $this->assertEquals(false, CATEGORY_ID);
+        $this->assertEquals(false, POST_ID);
+    }
+
     public function testFrontControllerPost()
     {
         $postUrl = content_link(self::$postId);
@@ -205,8 +221,13 @@ class PermalinkTest extends TestCase
         }
         $this->assertEquals(true, $findPostUrlInPostHtml);
 
-        $this->assertEquals(self::$categoryId, CATEGORY_ID);
+    /*    var_dump(CATEGORY_ID);
+        var_dump(PAGE_ID);
+        var_dump(POST_ID);*/
+
+        $this->assertEquals(self::$postId, POST_ID);
         $this->assertEquals(self::$pageId, PAGE_ID);
+        $this->assertEquals(self::$categoryId, CATEGORY_ID);
     }
 
     private function _generateCategory($url, $title, $pageId)

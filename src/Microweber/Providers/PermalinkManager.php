@@ -42,15 +42,15 @@ class PermalinkManager
             if ($type == 'category') {
 
                 // Kogato si v bloga i tursish da wzemesh kategoriq ot url: /blog
-                $categorySlug = $this->_getCategorySlugFromUrl($linkSegments);
+                $findCategorySlug = $this->_getCategorySlugFromUrl($linkSegments);
                 /*
                 var_dump([
                     'inputSegments'=>$linkSegments,
-                    'outputCategorySlug'=>$categorySlug
+                    'outputCategorySlug'=>$findCategorySlug
                 ]);*/
 
-                if ($categorySlug) {
-                    return $categorySlug;
+                if ($findCategorySlug) {
+                    return $findCategorySlug;
                 }
 
                 return false;
@@ -58,6 +58,12 @@ class PermalinkManager
             if ($type == 'post') {
 
                 $findPostSlug = $this->_getPostSlugFromUrl($linkSegments);
+
+                /*var_dump([
+                    'inputSegments'=>$linkSegments,
+                    'outputPostSlug'=>$findPostSlug
+                ]);*/
+
                 if ($findPostSlug) {
                     return $findPostSlug;
                 }
@@ -566,10 +572,10 @@ class PermalinkManager
 
             define('LAYOUTS_URL', $layouts_url);
         }
-/*
-        var_dump(PAGE_ID);
-        var_dump(MAIN_PAGE_ID);
-        var_dump(CATEGORY_ID);*/
+
+        /*var_dump(PAGE_ID);
+        var_dump(CATEGORY_ID);
+        var_dump(POST_ID);*/
 
         return true;
     }
