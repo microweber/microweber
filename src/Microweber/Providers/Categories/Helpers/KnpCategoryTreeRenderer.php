@@ -223,7 +223,7 @@ class KnpCategoryTreeRenderer
             'extra_attributes' => $extra_attributes
             //   'linkAttributes' => ['target' => '_blank'],
         );
-
+///dd($extra_attributes);
 
         $menu_attrs = array();
 

@@ -4,7 +4,7 @@
         mw.options.form('.js-permalink-edit-option-hook', function () {
 
             mw.clear_cache();
-            
+
             mw.notification.success("Permalink changes updated.");
         });
     });
