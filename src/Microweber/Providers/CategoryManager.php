@@ -828,7 +828,11 @@ class CategoryManager
         }
 
         if (!$cat_url) {
-            $cat_url = mw()->permalink_manager->parseLink($url, 'category');
+            $cat_url_permalink = mw()->permalink_manager->parseLink($url, 'category');
+            if ($cat_url_permalink) {
+                $cat_url = $cat_url_permalink;
+            }
+
         }
 
         /*var_dump([

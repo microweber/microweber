@@ -1844,10 +1844,10 @@ class ContentManager
             return;
         }
 
-        // Only for frontend
-      //  if (!defined('MW_API_HTML_OUTPUT') && (defined('MW_FRONTEND') || defined('MW_API_CALL'))) {
-            $link = mw()->permalink_manager->generateLink($link);
-       // }
+        $permalinkGenerated = mw()->permalink_manager->generateLink($link);
+        if ($permalinkGenerated) {
+            $link = $permalinkGenerated;
+        }
 
         if (!stristr($link['url'], $site_url)) {
             $link = site_url($link['url']);

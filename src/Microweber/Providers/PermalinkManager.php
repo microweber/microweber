@@ -19,11 +19,21 @@ class PermalinkManager
             $link = $get[0];
         }
 
-        // $link = urldecode($link);
+        $permalinkStructure = get_option('permalink_structure', 'website');
+
         $linkSegments = url_segment(-1, $link);
         $lastSegment = last($linkSegments);
 
-        $permalinkStructure = get_option('permalink_structure', 'website');
+        if ($permalinkStructure == 'post' || $permalinkStructure == false) {
+
+            if ($type == 'category' || $type == 'page') {
+                return $lastSegment;
+            }
+
+            return false;
+        }
+
+
         if ($permalinkStructure == 'category_post' || $permalinkStructure == 'category_sub_categories_post') {
             if ($type == 'page') {
                 $categorySlug = $this->_getCategorySlugFromUrl($linkSegments);
@@ -59,10 +69,10 @@ class PermalinkManager
 
                 $findPostSlug = $this->_getPostSlugFromUrl($linkSegments);
 
-              /*  var_dump([
-                    'inputSegments'=>$linkSegments,
-                    'outputPostSlug'=>$findPostSlug
-                ]);*/
+                /*  var_dump([
+                      'inputSegments'=>$linkSegments,
+                      'outputPostSlug'=>$findPostSlug
+                  ]);*/
 
                 if ($findPostSlug) {
                     return $findPostSlug;
@@ -95,9 +105,9 @@ class PermalinkManager
             if (isset($linkSegments[0]) && $type == 'post') {
 
                 $findPostSlug = $this->_getPostSlugFromUrl($linkSegments);
-               if ($findPostSlug) {
-                   return $findPostSlug;
-               }
+                if ($findPostSlug) {
+                    return $findPostSlug;
+                }
 
                 return false;
             }
@@ -120,10 +130,11 @@ class PermalinkManager
         return false;
     }
 
-    private function _getPostSlugFromUrl($linkSegments) {
+    private function _getPostSlugFromUrl($linkSegments)
+    {
 
         $lastSegment = last($linkSegments);
-        $findPost = get_content('url='.$lastSegment.'&single=1');
+        $findPost = get_content('url=' . $lastSegment . '&single=1');
 
         if ($findPost && isset($findPost['content_type']) && $findPost['content_type'] != 'page') {
             return $lastSegment;
@@ -132,7 +143,8 @@ class PermalinkManager
         return false;
     }
 
-    private function _getCategorySlugFromUrl($linkSegments) {
+    private function _getCategorySlugFromUrl($linkSegments)
+    {
 
         $lastSegment = last($linkSegments);
 
@@ -159,10 +171,7 @@ class PermalinkManager
 
     public function generateLink($content, $advance = false)
     {
-        $premalinkStructure = get_option('permalink_structure', 'website');
-        if ($premalinkStructure == 'post') {
-            return false;
-        }
+        $permalinkStructure = get_option('permalink_structure', 'website');
 
         $outputContent = $content;
 
@@ -170,18 +179,18 @@ class PermalinkManager
 
             $generateUrl = '';
 
-            if (strpos($premalinkStructure, 'page_') !== false) {
+            if (strpos($permalinkStructure, 'page_') !== false || $permalinkStructure == 'post' || $permalinkStructure == false) {
                 $parentPage = get_pages('id=' . $content['parent'] . '&single=1');
                 if ($parentPage) {
                     $generateUrl .= $parentPage['url'] . '/';
                 }
             }
 
-            if ($content['content_type'] != 'page' && strpos($premalinkStructure, 'category') !== false) {
+            if ($content['content_type'] != 'page' && strpos($permalinkStructure, 'category') !== false) {
                 $categories = get_categories_for_content($content['id']);
                 if ($categories && isset($categories[0])) {
                     $categories[0] = get_category_by_id($categories[0]['id']);
-                    if (strpos($premalinkStructure, 'category_sub_categories') !== false) {
+                    if (strpos($permalinkStructure, 'category_sub_categories') !== false) {
                         if (isset($categories[0]['parent_id']) && $categories[0]['parent_id'] != 0) {
                             $parentCategory = get_category_by_id($categories[0]['parent_id']);
                             if ($parentCategory) {
@@ -229,7 +238,7 @@ class PermalinkManager
         $generateUrl = '';
         $premalinkStructure = get_option('permalink_structure', 'website');
 
-        if (strpos($premalinkStructure, 'page_') !== false) {
+        if (strpos($premalinkStructure, 'page_') !== false || $premalinkStructure == 'post' || $premalinkStructure == false) {
             $content = app()->category_manager->get_page($categoryId);
             if ($content) {
                 $generateUrl .= app()->app->content_manager->link($content['id']) . '/';
@@ -265,15 +274,20 @@ class PermalinkManager
     public function defineConstants($content)
     {
         if ($content == false) {
+
             if (isset($_SERVER['HTTP_REFERER'])) {
                 $ref_page = $_SERVER['HTTP_REFERER'];
+            } else {
+                $ref_page = url_current(true);
+            }
+            if (isset($ref_page) and $ref_page) {
                 if ($ref_page != '') {
                     $ref_page = strtok($ref_page, '?');
+
                     if ($ref_page == site_url()) {
                         $ref_page = app()->content_manager->homepage($ref_page);
                     } else {
                         $ref_page = app()->content_manager->get_by_url($ref_page);
-
                     }
                     if ($ref_page != false and !empty($ref_page)) {
                         $content = $ref_page;
@@ -281,7 +295,25 @@ class PermalinkManager
                 }
             }
         }
+
+        if (defined('CATEGORY_ID') == false) {
+            $cat_url = app()->category_manager->get_category_id_from_url();
+             if ($cat_url != false) {
+                define('CATEGORY_ID', intval($cat_url));
+            }
+
+        }
+
+
+        if (defined('CATEGORY_ID')) {
+            $page_id_from_category = get_page_for_category(CATEGORY_ID);
+            if ($page_id_from_category) {
+                $content = app()->content_manager->get_by_id($page_id_from_category['id']);
+            }
+        }
+
         $page = false;
+
         if (is_array($content)) {
             if (!isset($content['active_site_template']) and isset($content['id']) and $content['id'] != 0) {
                 $content = app()->content_manager->get_by_id($content['id']);
@@ -298,7 +330,9 @@ class PermalinkManager
         }
 
 
-        app()->event_manager->trigger('content.define_constants', $page);
+        //dd($content,$page);
+
+        // app()->event_manager->trigger('content.define_constants', $page);
 
         if (is_array($page)) {
             if (isset($page['content_type']) and ($page['content_type'] == 'post' or $page['content_type'] != 'page')) {
@@ -306,7 +340,8 @@ class PermalinkManager
                     $content = $page;
 
                     // TODO ne znam kvo stava tuka ama bugva  i pokazwa //bestellers na playstation
-                   /* $current_categorys = app()->category_manager->get_for_content($page['id']);
+
+                    /*$current_categorys = app()->category_manager->get_for_content($page['id']);
                     if (!empty($current_categorys)) {
                         $current_category = end($current_categorys);
 
@@ -401,15 +436,23 @@ class PermalinkManager
         if (defined('ACTIVE_PAGE_ID') == false) {
             define('ACTIVE_PAGE_ID', false);
         }
-        if (defined('CATEGORY_ID') == false) {
+       /* if (defined('CATEGORY_ID') == false) {
             $cat_url = app()->category_manager->get_category_id_from_url();
             if ($cat_url != false) {
                 define('CATEGORY_ID', intval($cat_url));
             }
-        }
+        }*/
         if (!defined('CATEGORY_ID')) {
             define('CATEGORY_ID', false);
         }
+
+
+//        if (CATEGORY_ID and defined('PAGE_ID') == false) {
+//            $page_id_from_category = get_page_for_category(CATEGORY_ID);
+//            if ($page_id_from_category) {
+//
+//            }
+//        }
 
 
         if (defined('CONTENT_ID') == false) {
@@ -581,9 +624,15 @@ class PermalinkManager
             define('LAYOUTS_URL', $layouts_url);
         }
 
-       /* var_dump(PAGE_ID);
+     /*   var_dump(MAIN_PAGE_ID);
+        var_dump(PAGE_ID);
         var_dump(CATEGORY_ID);
         var_dump(POST_ID);*/
+
+        /*  var_dump(MAIN_PAGE_ID);
+          var_dump(PAGE_ID);
+            var_dump(CATEGORY_ID);
+           */
 
         return true;
     }
