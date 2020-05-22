@@ -33,6 +33,31 @@ api_expose_admin('delete_content');
 api_expose_admin('content/delete', function ($data) {
     return mw()->content_manager->helpers->delete($data);
 });
+
+api_expose_admin('content/get_link_admin', function ($data) {
+
+    if (!isset($data['id'])) {
+        return false;
+    }
+
+    $content = mw()->content_manager->get_by_id($data['id']);
+    if(!$content){
+        return;
+    }
+
+    $slugs = mw()->permalink_manager->generateLink($content, true);
+    if ($slugs) {
+        return [
+            'url'=>site_url($slugs['url']),
+            'slug_prefix'=>$slugs['slug_prefix'],
+            'slug_prefix_url'=>site_url($slugs['slug_prefix']),
+            'slug'=>$slugs['slug'],
+            'site_url'=>site_url()
+        ];
+    }
+    return false;
+});
+
 api_expose_admin('content_parents');
 api_expose_admin('get_content_children');
 api_expose_admin('page_link');

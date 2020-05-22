@@ -265,15 +265,18 @@
                     });
                 }
                 else {
-                    $.get('<?php print site_url('api_html/content_link/?id=') ?>' + this, function (data) {
+                    $.get('<?php print site_url('api/content/get_link_admin/?id=') ?>' + this, function (data) {
+
                         if (data == null) {
                             return false;
                         }
-                        var slug = data.replace("<?php print site_url() ?>", "");
+
+                        var slug = data.slug;
                         mw.$("#edit-content-url").val(slug);
                         mw.$(".view-post-slug").html(slug);
-                        mw.$("a.quick-post-done-link").attr("href", data + '?editmode=y');
-                        mw.$("a.quick-post-done-link").html(data);
+                        mw.$("#slug-base-url").html(data.slug_prefix_url);
+                        mw.$("a.quick-post-done-link").attr("href",  data.url + '?editmode=y');
+                        mw.$("a.quick-post-done-link").html(data.url);
                     });
                     mw.$("#<?php print $module_id ?>").attr("content-id", this);
                     <?php if($is_quick != false) : ?>

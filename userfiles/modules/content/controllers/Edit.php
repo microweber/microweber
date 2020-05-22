@@ -316,8 +316,12 @@ class Edit
         $post_list_view = $this->views_dir . 'edit.php';
         $this->app->event_manager->trigger('module.content.edit.main', $data);
 
- 
 
+        $slugs = mw()->permalink_manager->generateLink($data, true);
+        if ($slugs) {
+            $data['slug'] = $slugs['slug'];
+            $data['slug_prefix_url'] = site_url($slugs['slug_prefix']);
+        }
 
         $view = new View($post_list_view);
         $view->assign('params', $params);

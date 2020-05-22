@@ -157,14 +157,14 @@ class PermalinkManager
         return false;
     }
 
-    public function generateLink($content)
+    public function generateLink($content, $advance = false)
     {
         $premalinkStructure = get_option('permalink_structure', 'website');
         if ($premalinkStructure == 'post') {
             return false;
         }
 
-        if (!defined('MW_API_HTML_OUTPUT') && (defined('MW_FRONTEND') || defined('MW_API_CALL'))) {
+    //    if (!defined('MW_API_HTML_OUTPUT') && (defined('MW_FRONTEND') || defined('MW_API_CALL'))) {
 
             $outputContent = $content;
 
@@ -195,13 +195,18 @@ class PermalinkManager
                     }
                 }
 
+                if ($advance) {
+                    $outputContent['slug_prefix'] = $generateUrl;
+                    $outputContent['slug'] = $outputContent['url'];
+                }
+
                 $outputContent['url'] = $generateUrl . $outputContent['url'];
             }
 
             return $outputContent;
-        }
+       // }
 
-        return $content;
+      //  return $content;
     }
 
     public function generateContentLink()
