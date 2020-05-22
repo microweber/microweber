@@ -37,17 +37,20 @@ class PermalinkTest extends TestCase
 
         $time = time();
 
-        $pageSlug = 'уникален-блог'.$time;
-        $pageName = 'Уникален Блог'.$time;
+        $pageSlug = 'уникален-блог' . $time;
+        $pageName = 'Уникален Блог' . $time;
 
-        $categorySlug = 'категория-писана-на-бг'.$time;
-        $categoryName = 'Категория писана на бг'.$time;
+        $categorySlug = 'категория-писана-на-бг' . $time;
+        $categoryName = 'Категория писана на бг' . $time;
 
-        $subCategorySlug = 'подкатегория-писана-на-бг'.$time;
-        $subCategoryName = 'Подкатегория писана на бг'.$time;
+        $subCategorySlug = 'подкатегория-писана-на-бг' . $time;
+        $subCategoryName = 'Подкатегория писана на бг' . $time;
 
-        $postSlug = 'пост-писана-на-бг'.$time;
-        $postName = 'пост-писана на бг'.$time;
+        $subChildCategorySlug = 'дете-на-подкатегорията' . $time;
+        $subChildCategoryName = 'Дете на подкатегорията' . $time;
+
+        $postSlug = 'пост-писана-на-бг' . $time;
+        $postName = 'пост-писана на бг' . $time;
 
         // PAGE TEST
         $pageId = $this->_generatePage($pageSlug, $pageName);
@@ -77,12 +80,13 @@ class PermalinkTest extends TestCase
         $categoryUrl = category_link($categoryId);
 
         $subCategoryId = $this->_generateCategory($subCategorySlug, $subCategoryName, $categoryId);
+        $subChildCategoryId = $this->_generateCategory($subChildCategorySlug, $subChildCategoryName, $subCategoryId);
 
         // Match the parse link category
         $getCategoryNameFromUrl = mw()->permalink_manager->parseLink($categoryUrl, 'category');
         $this->assertEquals($categorySlug, $getCategoryNameFromUrl);
 
-         // Match the parse link page
+        // Match the parse link page
         $getPageNameFromUrl = mw()->permalink_manager->parseLink($categoryUrl, 'page');
         $this->assertEquals($pageSlug, $getPageNameFromUrl);
 
@@ -92,7 +96,7 @@ class PermalinkTest extends TestCase
 
 
         // POST TEST
-        $postId = $this->_generatePost($postSlug, $postName, $pageId, [$categoryId,$subCategoryId]);
+        $postId = $this->_generatePost($postSlug, $postName, $pageId, [$categoryId, $subCategoryId, $subChildCategoryId]);
         $postUrl = content_link($postId);
 
         /**
@@ -100,6 +104,7 @@ class PermalinkTest extends TestCase
          */
         // Match the parse link category
         $getCategoryNameFromUrl = mw()->permalink_manager->parseLink($postUrl, 'category');
+        var_dump($postUrl);
         $this->assertEquals($categorySlug, $getCategoryNameFromUrl);
 
         // Match the parse link page
@@ -182,23 +187,23 @@ class PermalinkTest extends TestCase
 
     }
 
-    public function testFrontControllerPage()
-    {
-        $pageUrl = page_link(self::$pageId);
+    /*  public function testFrontControllerPage()
+      {
+          $pageUrl = page_link(self::$pageId);
 
-        // Set Current url for font controller
-        mw()->url_manager->set_current($pageUrl);
+          // Set Current url for font controller
+          mw()->url_manager->set_current($pageUrl);
 
-        // Test default controller with post
-        $defaultController = new DefaultController();
-        $pageHtml = $defaultController->frontend();
+          // Test default controller with post
+          $defaultController = new DefaultController();
+          $pageHtml = $defaultController->frontend();
 
-        $this->assertEquals(self::$pageId, PAGE_ID);
-        $this->assertEquals(false, CATEGORY_ID);
-        $this->assertEquals(false, POST_ID);
-    }
+          $this->assertEquals(self::$pageId, PAGE_ID);
+          $this->assertEquals(false, CATEGORY_ID);
+          $this->assertEquals(false, POST_ID);
+      }*/
 
-    public function testFrontControllerPost()
+   /* public function testFrontControllerPost()
     {
         $postUrl = content_link(self::$postId);
 
@@ -208,6 +213,7 @@ class PermalinkTest extends TestCase
         // Test default controller with post
         $defaultController = new DefaultController();
         $postHtml = $defaultController->frontend();
+
 
         $findPostSlugInPostHtml = false;
         if (strpos($postHtml, self::$postSlug) !== false) {
@@ -221,20 +227,20 @@ class PermalinkTest extends TestCase
         }
         $this->assertEquals(true, $findPostUrlInPostHtml);
 
-    /*    var_dump(CATEGORY_ID);
+        var_dump(CATEGORY_ID);
         var_dump(PAGE_ID);
-        var_dump(POST_ID);*/
+        var_dump(POST_ID);
 
         $this->assertEquals(self::$postId, POST_ID);
         $this->assertEquals(self::$pageId, PAGE_ID);
         $this->assertEquals(self::$categoryId, CATEGORY_ID);
-    }
+    }*/
 
     private function _generateCategory($url, $title, $pageId)
     {
 
         $params = array(
-            'content_id'=>$pageId,
+            'content_id' => $pageId,
             'title' => $title,
             'url' => $url,
             'is_active' => 1,
@@ -246,10 +252,10 @@ class PermalinkTest extends TestCase
     private function _generatePost($url, $title, $pageId, $categoryIds = array())
     {
         $params = array(
-            'parent'=>$pageId,
-            'categories'=>$categoryIds,
-            'title' =>$title,
-            'url' =>$url,
+            'parent' => $pageId,
+            'categories' => $categoryIds,
+            'title' => $title,
+            'url' => $url,
             'content_type' => 'post',
             'subtype' => 'post',
             'is_active' => 1,
@@ -259,11 +265,12 @@ class PermalinkTest extends TestCase
         return $savePost;
     }
 
-    private function _generatePage($url, $title){
+    private function _generatePage($url, $title)
+    {
 
         $params = array(
             'title' => $title,
-            'url'=> $url,
+            'url' => $url,
             'content_type' => 'page',
             'subtype' => 'dynamic',
             'is_active' => 1,

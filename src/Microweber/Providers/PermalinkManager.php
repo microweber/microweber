@@ -59,7 +59,7 @@ class PermalinkManager
 
                 $findPostSlug = $this->_getPostSlugFromUrl($linkSegments);
 
-                /*var_dump([
+              /*  var_dump([
                     'inputSegments'=>$linkSegments,
                     'outputPostSlug'=>$findPostSlug
                 ]);*/
@@ -123,8 +123,8 @@ class PermalinkManager
     private function _getPostSlugFromUrl($linkSegments) {
 
         $lastSegment = last($linkSegments);
+        $findPost = get_content('url='.$lastSegment.'&single=1');
 
-        $findPost = get_content('url=' . $lastSegment . '&single=1');
         if ($findPost && isset($findPost['content_type']) && $findPost['content_type'] != 'page') {
             return $lastSegment;
         }
@@ -159,42 +159,49 @@ class PermalinkManager
 
     public function generateLink($content)
     {
-        $outputContent = $content;
         $premalinkStructure = get_option('permalink_structure', 'website');
-
-        if ($content['content_type'] != 'page') {
-
-            $generateUrl = '';
-
-            if (strpos($premalinkStructure, 'page_') !== false) {
-                $parentPage = get_pages('id=' . $content['parent'] . '&single=1');
-                if ($parentPage) {
-                    $generateUrl .= $parentPage['url'] . '/';
-                }
-            }
-
-            if ($content['content_type'] != 'page' && strpos($premalinkStructure, 'category') !== false) {
-                $categories = get_categories_for_content($content['id']);
-                if ($categories && isset($categories[0])) {
-                    $categories[0] = get_category_by_id($categories[0]['id']);
-                    if (strpos($premalinkStructure, 'category_sub_categories') !== false) {
-                        if (isset($categories[0]['parent_id']) && $categories[0]['parent_id'] != 0) {
-                            $parentCategory = get_category_by_id($categories[0]['parent_id']);
-                            if ($parentCategory) {
-                                $generateUrl .= $parentCategory['url'] . '/';
-                            }
-                        }
-                    }
-                    $generateUrl .= $categories[0]['url'] . '/';
-                }
-            }
-
-            $outputContent['url'] = $generateUrl . $outputContent['url'];
+        if ($premalinkStructure == 'post') {
+            return false;
         }
 
+        if (!defined('MW_API_HTML_OUTPUT') && (defined('MW_FRONTEND') || defined('MW_API_CALL'))) {
 
+            $outputContent = $content;
 
-        return $outputContent;
+            if ($content['content_type'] != 'page') {
+
+                $generateUrl = '';
+
+                if (strpos($premalinkStructure, 'page_') !== false) {
+                    $parentPage = get_pages('id=' . $content['parent'] . '&single=1');
+                    if ($parentPage) {
+                        $generateUrl .= $parentPage['url'] . '/';
+                    }
+                }
+
+                if ($content['content_type'] != 'page' && strpos($premalinkStructure, 'category') !== false) {
+                    $categories = get_categories_for_content($content['id']);
+                    if ($categories && isset($categories[0])) {
+                        $categories[0] = get_category_by_id($categories[0]['id']);
+                        if (strpos($premalinkStructure, 'category_sub_categories') !== false) {
+                            if (isset($categories[0]['parent_id']) && $categories[0]['parent_id'] != 0) {
+                                $parentCategory = get_category_by_id($categories[0]['parent_id']);
+                                if ($parentCategory) {
+                                    $generateUrl .= $parentCategory['url'] . '/';
+                                }
+                            }
+                        }
+                        $generateUrl .= $categories[0]['url'] . '/';
+                    }
+                }
+
+                $outputContent['url'] = $generateUrl . $outputContent['url'];
+            }
+
+            return $outputContent;
+        }
+
+        return $content;
     }
 
     public function generateContentLink()
@@ -298,14 +305,15 @@ class PermalinkManager
                 if (isset($page['id']) and $page['id'] != 0) {
                     $content = $page;
 
-                    $current_categorys = app()->category_manager->get_for_content($page['id']);
+                    // TODO ne znam kvo stava tuka ama bugva  i pokazwa //bestellers na playstation
+                   /* $current_categorys = app()->category_manager->get_for_content($page['id']);
                     if (!empty($current_categorys)) {
                         $current_category = end($current_categorys);
 
                         if (defined('CATEGORY_ID') == false and isset($current_category['id'])) {
                             define('CATEGORY_ID', intval($current_category['id']));
                         }
-                    }
+                    }*/
 
                     $page = app()->content_manager->get_by_id($page['parent']);
 
@@ -573,7 +581,7 @@ class PermalinkManager
             define('LAYOUTS_URL', $layouts_url);
         }
 
-        /*var_dump(PAGE_ID);
+       /* var_dump(PAGE_ID);
         var_dump(CATEGORY_ID);
         var_dump(POST_ID);*/
 

@@ -252,6 +252,11 @@ class Lang
     function lang_attributes()
     {
         $lang = current_lang();
+
+        if (mb_strlen($lang) > 2) {
+            $lang = mb_substr($lang, 0, 2);
+        }
+
         $attr = array(
             'lang="' . $lang . '"'
         );
