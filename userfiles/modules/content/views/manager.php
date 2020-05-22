@@ -171,7 +171,7 @@ $params_module  = $params;
         var dis = $p_id = this;
 
 
-        if(act != false){
+        if(!!act){
             var arr = act.split(":");
             var pos = arr[0].indexOf('edit');
             if(pos === 0 ){
