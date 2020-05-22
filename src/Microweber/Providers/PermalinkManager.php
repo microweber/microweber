@@ -8,6 +8,16 @@ class PermalinkManager
 
     public $categoryTreeLevel = 3;
 
+    public function getStructure()
+    {
+        $permalinkStructure = get_option('permalink_structure', 'website');
+        if ($permalinkStructure == false) {
+            $permalinkStructure = 'post';
+        }
+
+        return $permalinkStructure;
+    }
+
     public function parseLink($link, $type = 'page')
     {
         if (!$link) {
@@ -19,20 +29,36 @@ class PermalinkManager
             $link = $get[0];
         }
 
-        $permalinkStructure = get_option('permalink_structure', 'website');
+        $permalinkStructure = $this->getStructure();
 
         $linkSegments = url_segment(-1, $link);
         $lastSegment = last($linkSegments);
 
-        if ($permalinkStructure == 'post' || $permalinkStructure == false) {
-
-            if ($type == 'category' || $type == 'page') {
-                return $lastSegment;
+        if ($permalinkStructure == 'post' || $permalinkStructure == 'page_post') {
+            if ($type == 'post') {
+                $findPostSlug = $this->_getPostSlugFromUrl($linkSegments);
+                $getPost = get_content('url=' . $findPostSlug . '&single=1');
+                if ($getPost) {
+                    return $getPost['url'];
+                }
+                return false;
             }
 
-            return false;
+            if ($type == 'category') {
+                $findPostSlug = $this->_getPostSlugFromUrl($linkSegments);
+                $getPost = get_content('url=' . $findPostSlug . '&single=1');
+                if ($getPost) {
+                    $getCategory = get_categories_for_content($getPost['id']);;
+                    if ($getCategory and isset($getCategory[0])) {
+                        return $getCategory[0]['url'];
+                    }
+                }
+                return false;
+            }
+            if ($type == 'page') {
+                return $linkSegments[0];
+            }
         }
-
 
         if ($permalinkStructure == 'category_post' || $permalinkStructure == 'category_sub_categories_post') {
             if ($type == 'page') {
@@ -171,15 +197,15 @@ class PermalinkManager
 
     public function generateLink($content, $advance = false)
     {
-        $permalinkStructure = get_option('permalink_structure', 'website');
-
         $outputContent = $content;
+
+        $permalinkStructure = $this->getStructure();
 
         if ($content['content_type'] != 'page') {
 
             $generateUrl = '';
 
-            if (strpos($permalinkStructure, 'page_') !== false || $permalinkStructure == 'post' || $permalinkStructure == false) {
+            if (strpos($permalinkStructure, 'page_') !== false || $permalinkStructure == 'post') {
                 $parentPage = get_pages('id=' . $content['parent'] . '&single=1');
                 if ($parentPage) {
                     $generateUrl .= $parentPage['url'] . '/';
@@ -236,9 +262,9 @@ class PermalinkManager
         }
 
         $generateUrl = '';
-        $premalinkStructure = get_option('permalink_structure', 'website');
+        $permalinkStructure = $this->getStructure();
 
-        if (strpos($premalinkStructure, 'page_') !== false || $premalinkStructure == 'post' || $premalinkStructure == false) {
+        if (strpos($permalinkStructure, 'page_') !== false || $permalinkStructure == 'post' || $permalinkStructure == false) {
             $content = app()->category_manager->get_page($categoryId);
             if ($content) {
                 $generateUrl .= app()->app->content_manager->link($content['id']) . '/';
@@ -249,7 +275,7 @@ class PermalinkManager
             }
         }
 
-        if (strpos($premalinkStructure, 'category_sub_categories') !== false) {
+        if (strpos($permalinkStructure, 'category_sub_categories') !== false) {
             $parentCategoryInfo = app()->category_manager->get_by_id($categoryInfo['parent_id']);
             if ($parentCategoryInfo) {
                 $generateUrl .= $parentCategoryInfo['url'] . '/';
@@ -269,372 +295,6 @@ class PermalinkManager
 
         return $generateUrl;
 
-    }
-
-    public function defineConstants($content)
-    {
-        if ($content == false) {
-
-            if (isset($_SERVER['HTTP_REFERER'])) {
-                $ref_page = $_SERVER['HTTP_REFERER'];
-            } else {
-                $ref_page = url_current(true);
-            }
-            if (isset($ref_page) and $ref_page) {
-                if ($ref_page != '') {
-                    $ref_page = strtok($ref_page, '?');
-
-                    if ($ref_page == site_url()) {
-                        $ref_page = app()->content_manager->homepage($ref_page);
-                    } else {
-                        $ref_page = app()->content_manager->get_by_url($ref_page);
-                    }
-                    if ($ref_page != false and !empty($ref_page)) {
-                        $content = $ref_page;
-                    }
-                }
-            }
-        }
-
-        if (defined('CATEGORY_ID') == false) {
-            $cat_url = app()->category_manager->get_category_id_from_url();
-             if ($cat_url != false) {
-                define('CATEGORY_ID', intval($cat_url));
-            }
-
-        }
-
-
-        if (defined('CATEGORY_ID')) {
-            $page_id_from_category = get_page_for_category(CATEGORY_ID);
-            if ($page_id_from_category) {
-                $content = app()->content_manager->get_by_id($page_id_from_category['id']);
-            }
-        }
-
-        $page = false;
-
-        if (is_array($content)) {
-            if (!isset($content['active_site_template']) and isset($content['id']) and $content['id'] != 0) {
-                $content = app()->content_manager->get_by_id($content['id']);
-                $page = $content;
-            } elseif (isset($content['id']) and $content['id'] == 0) {
-                $page = $content;
-            } elseif (isset($content['active_site_template'])) {
-                $page = $content;
-            }
-
-            if ($page == false) {
-                $page = $content;
-            }
-        }
-
-
-        //dd($content,$page);
-
-        // app()->event_manager->trigger('content.define_constants', $page);
-
-        if (is_array($page)) {
-            if (isset($page['content_type']) and ($page['content_type'] == 'post' or $page['content_type'] != 'page')) {
-                if (isset($page['id']) and $page['id'] != 0) {
-                    $content = $page;
-
-                    // TODO ne znam kvo stava tuka ama bugva  i pokazwa //bestellers na playstation
-
-                    /*$current_categorys = app()->category_manager->get_for_content($page['id']);
-                    if (!empty($current_categorys)) {
-                        $current_category = end($current_categorys);
-
-                        if (defined('CATEGORY_ID') == false and isset($current_category['id'])) {
-                            define('CATEGORY_ID', intval($current_category['id']));
-                        }
-                    }*/
-
-                    $page = app()->content_manager->get_by_id($page['parent']);
-
-                    if (defined('POST_ID') == false) {
-                        define('POST_ID', intval($content['id']));
-                    }
-
-                    if (is_array($page) and $page['content_type'] == 'product') {
-                        if (defined('PRODUCT_ID') == false) {
-                            define('PRODUCT_ID', intval($content['id']));
-                        }
-                    }
-                }
-            } else {
-                $content = $page;
-                if (defined('POST_ID') == false) {
-                    define('POST_ID', false);
-                }
-            }
-
-            if (defined('ACTIVE_PAGE_ID') == false) {
-                if (!isset($page['id'])) {
-                    $page['id'] = 0;
-                }
-                define('ACTIVE_PAGE_ID', $page['id']);
-            }
-
-            if (!defined('CATEGORY_ID')) {
-                //define('CATEGORY_ID', $current_category['id']);
-            }
-
-
-            if (defined('CONTENT_ID') == false and isset($content['id'])) {
-                define('CONTENT_ID', $content['id']);
-            }
-
-            if (defined('PAGE_ID') == false and isset($content['id'])) {
-                define('PAGE_ID', $page['id']);
-            }
-
-            if (isset($page['parent'])) {
-                $parent_page_check_if_inherited = app()->content_manager->get_by_id($page['parent']);
-
-                if (isset($parent_page_check_if_inherited['layout_file']) and $parent_page_check_if_inherited['layout_file'] == 'inherit') {
-                    $inherit_from_id = app()->content_manager->get_inherited_parent($parent_page_check_if_inherited['id']);
-
-                    if (defined('MAIN_PAGE_ID') == false) {
-                        define('MAIN_PAGE_ID', $inherit_from_id);
-                    }
-                }
-
-                //$root_parent = $this->get_inherited_parent($page['parent']);
-
-                //  $this->get_inherited_parent($page['id']);
-                // if ($par_page != false) {
-                //  $par_page = $this->get_by_id($page['parent']);
-                //  }
-                if (defined('ROOT_PAGE_ID') == false) {
-                    $root_page = app()->content_manager->get_parents($page['id']);
-                    if (!empty($root_page) and isset($root_page[0])) {
-                        $root_page[0] = end($root_page);
-                    } else {
-                        $root_page[0] = $page['parent'];
-                    }
-
-                    define('ROOT_PAGE_ID', $root_page[0]);
-                }
-
-                if (defined('MAIN_PAGE_ID') == false) {
-                    if ($page['parent'] == 0) {
-                        define('MAIN_PAGE_ID', $page['id']);
-                    } else {
-                        define('MAIN_PAGE_ID', $page['parent']);
-                    }
-                }
-                if (defined('PARENT_PAGE_ID') == false and isset($content['parent'])) {
-                    define('PARENT_PAGE_ID', $content['parent']);
-                }
-                if (defined('PARENT_PAGE_ID') == false) {
-                    define('PARENT_PAGE_ID', $page['parent']);
-                }
-            }
-        }
-
-        if (defined('ACTIVE_PAGE_ID') == false) {
-            define('ACTIVE_PAGE_ID', false);
-        }
-       /* if (defined('CATEGORY_ID') == false) {
-            $cat_url = app()->category_manager->get_category_id_from_url();
-            if ($cat_url != false) {
-                define('CATEGORY_ID', intval($cat_url));
-            }
-        }*/
-        if (!defined('CATEGORY_ID')) {
-            define('CATEGORY_ID', false);
-        }
-
-
-//        if (CATEGORY_ID and defined('PAGE_ID') == false) {
-//            $page_id_from_category = get_page_for_category(CATEGORY_ID);
-//            if ($page_id_from_category) {
-//
-//            }
-//        }
-
-
-        if (defined('CONTENT_ID') == false) {
-            define('CONTENT_ID', false);
-        }
-
-        if (defined('POST_ID') == false) {
-            define('POST_ID', false);
-        }
-        if (defined('PAGE_ID') == false) {
-            define('PAGE_ID', false);
-        }
-
-        if (defined('MAIN_PAGE_ID') == false) {
-            define('MAIN_PAGE_ID', false);
-        }
-
-        if (isset($page) and isset($page['active_site_template']) and $page['active_site_template'] != '' and strtolower($page['active_site_template']) != 'inherit' and strtolower($page['active_site_template']) != 'default') {
-            $the_active_site_template = $page['active_site_template'];
-        } elseif (isset($page) and isset($page['active_site_template']) and ($page['active_site_template']) != '' and strtolower($page['active_site_template']) != 'default') {
-            $the_active_site_template = $page['active_site_template'];
-        } elseif (isset($content) and isset($content['active_site_template']) and ($content['active_site_template']) != '' and strtolower($content['active_site_template']) != 'default') {
-            $the_active_site_template = $content['active_site_template'];
-        } else {
-            $the_active_site_template = app()->option_manager->get('current_template', 'template');
-            //
-        }
-
-        if (isset($content['parent']) and $content['parent'] != 0 and isset($content['layout_file']) and $content['layout_file'] == 'inherit') {
-            $inh = app()->content_manager->get_inherited_parent($content['id']);
-            if ($inh != false) {
-                $inh_parent = app()->content_manager->get_by_id($inh);
-                if (isset($inh_parent['active_site_template']) and ($inh_parent['active_site_template']) != '' and strtolower($inh_parent['active_site_template']) != 'default') {
-                    $the_active_site_template = $inh_parent['active_site_template'];
-                } elseif (isset($inh_parent['active_site_template']) and ($inh_parent['active_site_template']) != '' and strtolower($inh_parent['active_site_template']) == 'default') {
-                    $the_active_site_template = app()->option_manager->get('current_template', 'template');
-                } elseif (isset($inh_parent['active_site_template']) and ($inh_parent['active_site_template']) == '') {
-                    $the_active_site_template = app()->option_manager->get('current_template', 'template');
-                }
-            }
-        }
-
-        if (isset($the_active_site_template) and $the_active_site_template != 'default' and $the_active_site_template == 'mw_default') {
-            $the_active_site_template = 'default';
-        }
-
-        if ($the_active_site_template == false) {
-            $the_active_site_template = 'default';
-        }
-
-        if (defined('THIS_TEMPLATE_DIR') == false and $the_active_site_template != false) {
-            define('THIS_TEMPLATE_DIR', templates_path() . $the_active_site_template . DS);
-        }
-
-        if (defined('THIS_TEMPLATE_FOLDER_NAME') == false and $the_active_site_template != false) {
-            define('THIS_TEMPLATE_FOLDER_NAME', $the_active_site_template);
-        }
-
-        $the_active_site_template_dir = normalize_path(templates_path() . $the_active_site_template . DS);
-
-        if (defined('DEFAULT_TEMPLATE_DIR') == false) {
-            define('DEFAULT_TEMPLATE_DIR', templates_path() . 'default' . DS);
-        }
-
-        if (defined('DEFAULT_TEMPLATE_URL') == false) {
-            define('DEFAULT_TEMPLATE_URL', templates_url() . '/default/');
-        }
-
-        if (trim($the_active_site_template) != 'default') {
-            if ((!strstr($the_active_site_template, DEFAULT_TEMPLATE_DIR))) {
-                $use_default_layouts = $the_active_site_template_dir . 'use_default_layouts.php';
-                if (is_file($use_default_layouts)) {
-                    if (isset($page['layout_file'])) {
-                        $template_view = DEFAULT_TEMPLATE_DIR . $page['layout_file'];
-                    } else {
-                        $template_view = DEFAULT_TEMPLATE_DIR;
-                    }
-                    if (isset($page)) {
-                        if (!isset($page['layout_file']) or (isset($page['layout_file']) and $page['layout_file'] == 'inherit' or $page['layout_file'] == '')) {
-                            $par_page = app()->content_manager->get_inherited_parent($page['id']);
-                            if ($par_page != false) {
-                                $par_page = app()->content_manager->get_by_id($par_page);
-                            }
-                            if (isset($par_page['layout_file'])) {
-                                $the_active_site_template = $par_page['active_site_template'];
-                                $page['layout_file'] = $par_page['layout_file'];
-                                $page['active_site_template'] = $par_page['active_site_template'];
-                                $template_view = templates_path() . $page['active_site_template'] . DS . $page['layout_file'];
-                            }
-                        }
-                    }
-
-                    if (is_file($template_view) == true) {
-                        if (defined('THIS_TEMPLATE_DIR') == false) {
-                            define('THIS_TEMPLATE_DIR', templates_path() . $the_active_site_template . DS);
-                        }
-
-                        if (defined('THIS_TEMPLATE_URL') == false) {
-                            $the_template_url = templates_url() . '/' . $the_active_site_template;
-                            $the_template_url = $the_template_url . '/';
-                            if (defined('THIS_TEMPLATE_URL') == false) {
-                                define('THIS_TEMPLATE_URL', $the_template_url);
-                            }
-                            if (defined('TEMPLATE_URL') == false) {
-                                define('TEMPLATE_URL', $the_template_url);
-                            }
-                        }
-                        $the_active_site_template = 'default';
-                        $the_active_site_template_dir = DEFAULT_TEMPLATE_DIR;
-                    }
-                }
-            }
-        }
-
-
-        if (defined('ACTIVE_TEMPLATE_DIR') == false) {
-            define('ACTIVE_TEMPLATE_DIR', $the_active_site_template_dir);
-        }
-
-        if (defined('THIS_TEMPLATE_DIR') == false) {
-            define('THIS_TEMPLATE_DIR', $the_active_site_template_dir);
-        }
-
-        if (defined('THIS_TEMPLATE_URL') == false) {
-            $the_template_url = templates_url() . '/' . $the_active_site_template;
-
-            $the_template_url = $the_template_url . '/';
-
-            if (defined('THIS_TEMPLATE_URL') == false) {
-                define('THIS_TEMPLATE_URL', $the_template_url);
-            }
-        }
-
-
-        if (defined('TEMPLATE_NAME') == false) {
-            define('TEMPLATE_NAME', $the_active_site_template);
-        }
-
-        if (defined('TEMPLATE_DIR') == false) {
-            define('TEMPLATE_DIR', $the_active_site_template_dir);
-        }
-
-        if (defined('ACTIVE_SITE_TEMPLATE') == false) {
-            define('ACTIVE_SITE_TEMPLATE', $the_active_site_template);
-        }
-
-        if (defined('TEMPLATES_DIR') == false) {
-            define('TEMPLATES_DIR', templates_path());
-        }
-
-        $the_template_url = templates_url() . $the_active_site_template;
-
-        $the_template_url = $the_template_url . '/';
-        if (defined('TEMPLATE_URL') == false) {
-            define('TEMPLATE_URL', $the_template_url);
-        }
-
-        if (defined('LAYOUTS_DIR') == false) {
-            $layouts_dir = TEMPLATE_DIR . 'layouts/';
-
-            define('LAYOUTS_DIR', $layouts_dir);
-        } else {
-            $layouts_dir = LAYOUTS_DIR;
-        }
-
-        if (defined('LAYOUTS_URL') == false) {
-            $layouts_url = reduce_double_slashes(app()->url_manager->link_to_file($layouts_dir) . '/');
-
-            define('LAYOUTS_URL', $layouts_url);
-        }
-
-     /*   var_dump(MAIN_PAGE_ID);
-        var_dump(PAGE_ID);
-        var_dump(CATEGORY_ID);
-        var_dump(POST_ID);*/
-
-        /*  var_dump(MAIN_PAGE_ID);
-          var_dump(PAGE_ID);
-            var_dump(CATEGORY_ID);
-           */
-
-        return true;
     }
 
     public function getStructures()

@@ -832,7 +832,6 @@ class CategoryManager
             if ($cat_url_permalink) {
                 $cat_url = $cat_url_permalink;
             }
-
         }
 
         /*var_dump([
