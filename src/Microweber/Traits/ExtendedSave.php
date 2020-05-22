@@ -362,6 +362,24 @@ trait ExtendedSave
                         
                     }
                 }
+            } else if (isset($data_to_save['categories']) and !$data_to_save['categories']) {
+
+                $save_cat_item = array();
+                $save_cat_item['rel_type'] = $data_to_save['table'];
+                $save_cat_item['rel_id'] = $data_to_save['id'];
+                $save_cat_item['data_type'] = 'category';
+                $check = $this->app->category_manager->get_items($save_cat_item);
+                if (is_array($check) and !empty($check)) {
+                    foreach ($check as $item) {
+                        $this->app->category_manager->delete_item($item['id']);
+
+                    }
+                }
+                $cats_modified = true;
+
+
+
+
             }
             if ($cats_modified != false) {
                 $this->app->cache_manager->delete('categories');

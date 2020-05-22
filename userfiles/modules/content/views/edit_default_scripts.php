@@ -207,6 +207,9 @@
 
         if (categories.length) {
             data.categories = categories.join(',')
+        } else {
+            data.categories = '';
+
         }
 
         module.addClass('loading');
