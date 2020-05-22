@@ -1511,7 +1511,7 @@ class ContentManager
      */
     public function define_constants($content = false)
     {
-        if (is_ajax() && isset($_SERVER['HTTP_REFERER'])) {
+        if ((is_ajax() or defined('MW_API_CALL')) && isset($_SERVER['HTTP_REFERER'])) {
             $ref_page = $_SERVER['HTTP_REFERER'];
         } else {
             $ref_page = url_current(true);
@@ -1654,29 +1654,6 @@ class ContentManager
                     define('PARENT_PAGE_ID', $page['parent']);
                 }
             }
-        }
-
-        if (defined('ACTIVE_PAGE_ID') == false) {
-          // define('ACTIVE_PAGE_ID', false);
-        }
-
-      /*  if (defined('CATEGORY_ID') == false) {
-            define('CATEGORY_ID', false);
-        }*/
-
-        if (defined('CONTENT_ID') == false) {
-        //    define('CONTENT_ID', false);
-        }
-
-        if (defined('POST_ID') == false) {
-          //  define('POST_ID', false);
-        }
-        if (defined('PAGE_ID') == false) {
-          //  define('PAGE_ID', false);
-        }
-
-        if (defined('MAIN_PAGE_ID') == false) {
-          //  define('MAIN_PAGE_ID', false);
         }
 
         if (isset($page) and isset($page['active_site_template']) and $page['active_site_template'] != '' and strtolower($page['active_site_template']) != 'inherit' and strtolower($page['active_site_template']) != 'default') {
@@ -1833,10 +1810,48 @@ class ContentManager
             define('LAYOUTS_URL', $layouts_url);
         }
 
+        if (defined('CATEGORY_ID') == false) {
+       //     define('CATEGORY_ID', false);
+            // BASI
+        }
 
-        //var_dump(CATEGORY_ID);
-       // var_dump(PAGE_ID);
-     //   var_dump(POST_ID);
+        if (defined('PAGE_ID') == false) {
+            define('PAGE_ID', false);
+        }
+
+        if (defined('POST_ID') == false) {
+            define('POST_ID', false);
+        }
+
+        if (defined('MAIN_PAGE_ID') == false) {
+            define('MAIN_PAGE_ID', false);
+        }
+
+     /*   if (defined('ACTIVE_PAGE_ID') == false) {
+            define('ACTIVE_PAGE_ID', false);
+        }
+
+
+
+        if (defined('CONTENT_ID') == false) {
+            define('CONTENT_ID', false);
+        }
+
+        if (defined('POST_ID') == false) {
+            define('POST_ID', false);
+        }
+        if (defined('PAGE_ID') == false) {
+            define('PAGE_ID', false);
+        }
+
+        if (defined('MAIN_PAGE_ID') == false) {
+            define('MAIN_PAGE_ID', false);
+        }*/
+
+/*
+        var_dump(CATEGORY_ID);
+        var_dump(PAGE_ID);
+       var_dump(POST_ID);*/
 
         return true;
     }

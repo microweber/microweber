@@ -1806,21 +1806,21 @@ class DefaultController extends Controller
                 }
             }
 
-            if (!defined('CATEGORY_ID')) {
+        /*    if (!defined('CATEGORY_ID')) {
                 define('CATEGORY_ID', false);
             }
 
-            if (!defined('POST_ID')) {
+          /*  if (!defined('POST_ID')) {
                 define('POST_ID', false);
-            }
+            }*/
 
-            if (!defined('CONTENT_ID')) {
+           /* if (!defined('CONTENT_ID')) {
                 define('CONTENT_ID', false);
             }
 
             if (!defined('PAGE_ID')) {
                 define('PAGE_ID', false);
-            }
+            }*/
 
             $render_params['render_file'] = $render_file;
             $render_params['page_id'] = PAGE_ID;
