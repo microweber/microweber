@@ -668,7 +668,7 @@ class MenuManager
                     $item = $override[0];
                 }
 
-                $to_print .= '<' . $li_tag . '  class="{li_class}' . ' ' . $active_class . '  ' . $has_childs_class . ' {nest_level}" data-item-id="' . $item['id'] . '" >';
+                $to_print .= '<' . $li_tag . ' role="menuitem" class="{li_class}' . ' ' . $active_class . '  ' . $has_childs_class . ' {nest_level}" data-item-id="' . $item['id'] . '" >';
 
 
 

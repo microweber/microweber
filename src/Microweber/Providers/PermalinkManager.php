@@ -164,49 +164,44 @@ class PermalinkManager
             return false;
         }
 
-    //    if (!defined('MW_API_HTML_OUTPUT') && (defined('MW_FRONTEND') || defined('MW_API_CALL'))) {
+        $outputContent = $content;
 
-            $outputContent = $content;
+        if ($content['content_type'] != 'page') {
 
-            if ($content['content_type'] != 'page') {
+            $generateUrl = '';
 
-                $generateUrl = '';
-
-                if (strpos($premalinkStructure, 'page_') !== false) {
-                    $parentPage = get_pages('id=' . $content['parent'] . '&single=1');
-                    if ($parentPage) {
-                        $generateUrl .= $parentPage['url'] . '/';
-                    }
+            if (strpos($premalinkStructure, 'page_') !== false) {
+                $parentPage = get_pages('id=' . $content['parent'] . '&single=1');
+                if ($parentPage) {
+                    $generateUrl .= $parentPage['url'] . '/';
                 }
-
-                if ($content['content_type'] != 'page' && strpos($premalinkStructure, 'category') !== false) {
-                    $categories = get_categories_for_content($content['id']);
-                    if ($categories && isset($categories[0])) {
-                        $categories[0] = get_category_by_id($categories[0]['id']);
-                        if (strpos($premalinkStructure, 'category_sub_categories') !== false) {
-                            if (isset($categories[0]['parent_id']) && $categories[0]['parent_id'] != 0) {
-                                $parentCategory = get_category_by_id($categories[0]['parent_id']);
-                                if ($parentCategory) {
-                                    $generateUrl .= $parentCategory['url'] . '/';
-                                }
-                            }
-                        }
-                        $generateUrl .= $categories[0]['url'] . '/';
-                    }
-                }
-
-                if ($advance) {
-                    $outputContent['slug_prefix'] = $generateUrl;
-                    $outputContent['slug'] = $outputContent['url'];
-                }
-
-                $outputContent['url'] = $generateUrl . $outputContent['url'];
             }
 
-            return $outputContent;
-       // }
+            if ($content['content_type'] != 'page' && strpos($premalinkStructure, 'category') !== false) {
+                $categories = get_categories_for_content($content['id']);
+                if ($categories && isset($categories[0])) {
+                    $categories[0] = get_category_by_id($categories[0]['id']);
+                    if (strpos($premalinkStructure, 'category_sub_categories') !== false) {
+                        if (isset($categories[0]['parent_id']) && $categories[0]['parent_id'] != 0) {
+                            $parentCategory = get_category_by_id($categories[0]['parent_id']);
+                            if ($parentCategory) {
+                                $generateUrl .= $parentCategory['url'] . '/';
+                            }
+                        }
+                    }
+                    $generateUrl .= $categories[0]['url'] . '/';
+                }
+            }
 
-      //  return $content;
+            if ($advance) {
+                $outputContent['slug_prefix'] = $generateUrl;
+                $outputContent['slug'] = $outputContent['url'];
+            }
+
+            $outputContent['url'] = $generateUrl . $outputContent['url'];
+        }
+
+        return $outputContent;
     }
 
     public function generateContentLink()
