@@ -828,16 +828,8 @@ class CategoryManager
         }
 
         if (!$cat_url) {
-            $cat_url_permalink = mw()->permalink_manager->parseLink($url, 'category');
-            if ($cat_url_permalink) {
-                $cat_url = $cat_url_permalink;
-            }
+            $cat_url = mw()->permalink_manager->parseLink($url, 'category');
         }
-
-        /*var_dump([
-            'inputUrl'=>$url,
-            'outputCatUrl'=>$cat_url
-        ]);*/
 
         if ($cat_url != false and !is_numeric($cat_url)) {
             $cats = explode(',', $cat_url);
@@ -901,8 +893,11 @@ class CategoryManager
             }
         }
 
+
+
         return intval($cat_id);
     }
+
 
     public function get_category_childrens($cat_id)
     {

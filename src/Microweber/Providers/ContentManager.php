@@ -1521,9 +1521,9 @@ class ContentManager
                 $ref_page = strtok($ref_page, '?');
 
                 if ($ref_page == site_url()) {
-                    $ref_page = app()->content_manager->homepage($ref_page);
+                    $ref_page = $this->app->content_manager->homepage($ref_page);
                 } else {
-                    $ref_page = app()->content_manager->get_by_url($ref_page);
+                    $ref_page = $this->app->content_manager->get_by_url($ref_page);
                 }
                 if ($ref_page != false and !empty($ref_page)) {
                     $content = $ref_page;
@@ -1551,16 +1551,6 @@ class ContentManager
             $cat_url = $this->app->category_manager->get_category_id_from_url();
             if ($cat_url != false) {
                 define('CATEGORY_ID', intval($cat_url));
-            }
-        }
-
-        if($page == false) {
-            $getPageSlug = mw()->permalink_manager->parseLink($ref_page, 'page');
-            $pageFromSlug = app()->content_manager->get_by_url($getPageSlug);
-            if ($pageFromSlug) {
-                $page = $pageFromSlug;
-                $content = $pageFromSlug;
-                define('PAGE_ID', intval($page['id']));
             }
         }
 
@@ -1603,6 +1593,11 @@ class ContentManager
                 }
                 define('ACTIVE_PAGE_ID', $page['id']);
             }
+
+            if (!defined('CATEGORY_ID')) {
+                //define('CATEGORY_ID', $current_category['id']);
+            }
+
 
             if (defined('CONTENT_ID') == false and isset($content['id'])) {
                 define('CONTENT_ID', $content['id']);
@@ -1654,6 +1649,46 @@ class ContentManager
                     define('PARENT_PAGE_ID', $page['parent']);
                 }
             }
+        }
+
+        if (defined('ACTIVE_PAGE_ID') == false) {
+            define('ACTIVE_PAGE_ID', false);
+        }
+        if (defined('CATEGORY_ID') == false) {
+            $cat_url = $this->app->category_manager->get_category_id_from_url();
+
+            if ($cat_url != false) {
+                define('CATEGORY_ID', intval($cat_url));
+            }
+        }
+        if (!defined('CATEGORY_ID')) {
+            define('CATEGORY_ID', false);
+        }
+
+        if (defined('PAGE_ID') == false) {
+            $getPageSlug = $this->app->permalink_manager->parseLink($ref_page, 'page');
+            $pageFromSlug = $this->app->content_manager->get_by_url($getPageSlug);
+            if ($pageFromSlug) {
+                $page = $pageFromSlug;
+                $content = $pageFromSlug;
+                define('PAGE_ID', intval($page['id']));
+            }
+        }
+
+
+        if (defined('CONTENT_ID') == false) {
+            define('CONTENT_ID', false);
+        }
+
+        if (defined('POST_ID') == false) {
+            define('POST_ID', false);
+        }
+        if (defined('PAGE_ID') == false) {
+            define('PAGE_ID', false);
+        }
+
+        if (defined('MAIN_PAGE_ID') == false) {
+            define('MAIN_PAGE_ID', false);
         }
 
         if (isset($page) and isset($page['active_site_template']) and $page['active_site_template'] != '' and strtolower($page['active_site_template']) != 'inherit' and strtolower($page['active_site_template']) != 'default') {
@@ -2186,7 +2221,7 @@ class ContentManager
             return;
         }
 
-        $permalinkGenerated = mw()->permalink_manager->generateLink($link);
+        $permalinkGenerated = $this->app->permalink_manager->generateLink($link);
         if ($permalinkGenerated) {
             $link = $permalinkGenerated;
         }
@@ -2287,7 +2322,7 @@ class ContentManager
                         }
                     } else {
                         // $cap = $this->app->user_manager->session_get('captcha');
-                        if (!mw()->captcha_manager->validate($data['captcha'])) {
+                        if (!$this->app->captcha_manager->validate($data['captcha'])) {
                             return array('error' => 'You must load a captcha first!');
                         }
                     }

@@ -285,39 +285,22 @@ class ContentManagerCrud extends Crud
         if (isset(self::$precached_links[$link_hash])) {
             return self::$precached_links[$link_hash];
         }
+
         if ($url == '') {
             $content = $this->app->content_manager->homepage();
         } else {
+            /* $get = array();
+             $get['url'] = $url;
+             $get['single'] = true;
 
-            $pageUrl = mw()->permalink_manager->parseLink($url, 'page');
-            $postUrl = mw()->permalink_manager->parseLink($url, 'post');
+             $content = $this->get($get);
 
-          /* var_dump([
-                'inputUrl'=>$url,
-                'outputPageUrl'=>$pageUrl,
-                'outputPostUrl'=>$postUrl
-            ]);*/
-
-            if ($pageUrl) {
-                $url = $pageUrl;
-            }
-
-            if ($postUrl) {
-                $url = $postUrl;
-            }
-
-           /* $get = array();
-            $get['url'] = $url;
-            $get['single'] = true;
-
-            $content = $this->get($get);
-
-            if(!$content){
-                $get = $this->app->event_manager->trigger('content.get_by_url.not_found', $get);
-                if (is_array($get) && isset($get[0])) {
-                    $content = $this->get($get[0]);
-                }
-            }*/
+             if(!$content){
+                 $get = $this->app->event_manager->trigger('content.get_by_url.not_found', $get);
+                 if (is_array($get) && isset($get[0])) {
+                     $content = $this->get($get[0]);
+                 }
+             }*/
 
             $get = $this->app->event_manager->trigger('content.get_by_url', $url);
             if (is_array($get) && isset($get[0])) {
@@ -328,7 +311,6 @@ class ContentManagerCrud extends Crud
                 $get['single'] = true;
                 $content = $this->get($get);
             }
-
         }
         if (!empty($content)) {
             self::$precached_links[$link_hash] = $content;

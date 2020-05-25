@@ -5,9 +5,55 @@ namespace Microweber\Providers;
 
 class PermalinkManager
 {
+    /** @var \Microweber\Application */
+    public $app;
 
     public $categoryTreeLevel = 3;
 
+    //   'content', 'category', 'categories', 'page', 'post', 'locale'
+    public $url_structure = [
+        'content',
+        'category',
+    ];
+
+    public function __construct($app = null)
+    {
+        if (!is_object($this->app)) {
+            if (is_object($app)) {
+                $this->app = $app;
+            } else {
+                $this->app = mw();
+            }
+        }
+
+    }
+
+
+    // @todo refactor this class to use $url_structure
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * @deprecated
+     */
     public function getStructure()
     {
         $permalinkStructure = get_option('permalink_structure', 'website');
@@ -18,13 +64,17 @@ class PermalinkManager
         return $permalinkStructure;
     }
 
+    /**
+     * @deprecated
+     *  must be renamed to get_slug
+     */
     public function parseLink($link, $type = 'page')
     {
         if (!$link) {
-            $link = app()->url_manager->current();
+            $link = $this->app->url_manager->current();
         }
 
-        $get = mw()->event_manager->trigger('permalink.parse_link.link', $link);
+        $get = $this->app->event_manager->trigger('permalink.parse_link.link', $link);
         if (is_array($get) && isset($get[0])) {
             $link = $get[0];
         }
@@ -155,7 +205,9 @@ class PermalinkManager
 
         return false;
     }
-
+    /**
+     * @deprecated
+     */
     private function _getPostSlugFromUrl($linkSegments)
     {
 
@@ -168,7 +220,9 @@ class PermalinkManager
 
         return false;
     }
-
+    /**
+     * @deprecated
+     */
     private function _getCategorySlugFromUrl($linkSegments)
     {
 
@@ -187,7 +241,7 @@ class PermalinkManager
             return $segmentBeforeLast;
         }
 
-        $override = app()->event_manager->trigger('permalink.parse_link.category', $lastSegment);
+        $override = $this->app->event_manager->trigger('permalink.parse_link.category', $lastSegment);
         if (is_array($override) && isset($override[0])) {
             return $lastSegment;
         }
@@ -195,7 +249,10 @@ class PermalinkManager
         return false;
     }
 
-    public function generateLink($content, $advance = false)
+    /**
+     * @deprecated
+     */
+    public function generateLink($content, $advanced = false)
     {
         $outputContent = $content;
 
@@ -228,7 +285,7 @@ class PermalinkManager
                 }
             }
 
-            if ($advance) {
+            if ($advanced) {
                 $outputContent['slug_prefix'] = $generateUrl;
                 $outputContent['slug'] = $outputContent['url'];
             }
@@ -238,12 +295,16 @@ class PermalinkManager
 
         return $outputContent;
     }
-
+    /**
+     * @deprecated
+     */
     public function generateContentLink()
     {
 
     }
-
+    /**
+     * @deprecated
+     */
     public function generateCategoryLink($categoryId)
     {
         if (intval($categoryId) == 0) {
@@ -251,7 +312,7 @@ class PermalinkManager
         }
 
         $categoryId = intval($categoryId);
-        $categoryInfo = app()->category_manager->get_by_id($categoryId);
+        $categoryInfo = $this->app->category_manager->get_by_id($categoryId);
 
         if (!isset($categoryInfo['rel_type'])) {
             return;
@@ -265,30 +326,30 @@ class PermalinkManager
         $permalinkStructure = $this->getStructure();
 
         if (strpos($permalinkStructure, 'page_') !== false || $permalinkStructure == 'post' || $permalinkStructure == false) {
-            $content = app()->category_manager->get_page($categoryId);
+            $content = $this->app->category_manager->get_page($categoryId);
             if ($content) {
-                $generateUrl .= app()->app->content_manager->link($content['id']) . '/';
+                $generateUrl .= $this->app->app->content_manager->link($content['id']) . '/';
             }
 
             if (!$content && defined('PAGE_ID')) {
-                $generateUrl .= app()->app->content_manager->link(PAGE_ID) . '/';
+                $generateUrl .= $this->app->app->content_manager->link(PAGE_ID) . '/';
             }
         }
 
         if (strpos($permalinkStructure, 'category_sub_categories') !== false) {
-            $parentCategoryInfo = app()->category_manager->get_by_id($categoryInfo['parent_id']);
+            $parentCategoryInfo = $this->app->category_manager->get_by_id($categoryInfo['parent_id']);
             if ($parentCategoryInfo) {
                 $generateUrl .= $parentCategoryInfo['url'] . '/';
             }
         }
 
         $generateUrl .= $categoryInfo['url'];
-        if (!stristr($generateUrl, app()->url_manager->site())) {
+        if (!stristr($generateUrl, $this->app->url_manager->site())) {
             $generateUrl = site_url($generateUrl);
         }
 
 
-        $override = app()->event_manager->trigger('permalink.generate_category_link', $generateUrl);
+        $override = $this->app->event_manager->trigger('permalink.generate_category_link', $generateUrl);
         if (is_array($override) && isset($override[0])) {
             return $override[0];
         }
