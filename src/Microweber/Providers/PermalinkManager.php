@@ -3,6 +3,8 @@
 namespace Microweber\Providers;
 
 
+use function Clue\StreamFilter\fun;
+
 class PermalinkManager
 {
     /** @var \Microweber\Application */
@@ -24,7 +26,7 @@ class PermalinkManager
             $this->structure = $structure;
         }
 
-        $this->structure = 'post';
+        $this->structure = 'page_category_post';
     }
 
     public function slug($link, $type)
@@ -34,7 +36,7 @@ class PermalinkManager
         }
 
         $linkSegments = url_segment(-1, $link);
-
+        $linkSegments = array_filter($linkSegments, 'strlen');
 
         $structureMap = $this->getStructuresReadMap();
         foreach ($structureMap as $structureMapIndex=>$structureMapItem) {
@@ -42,11 +44,16 @@ class PermalinkManager
                 if (isset($linkSegments[$structureMapIndex])) {
                     $findSlugByType = $linkSegments[$structureMapIndex];
 
-
-
+                    if ($type == 'category') {
+                        $findCategoryBySlug = get_categories('url=' . $findSlugByType . '&single=1');
+                        if ($findCategoryBySlug) {
+                            return $findCategoryBySlug['url'];
+                        }
+                    }
                 }
             }
         }
+        
 
         return false;
     }
@@ -93,6 +100,19 @@ class PermalinkManager
                     }
                 }
 
+                if ($this->structure == 'page_category_post') {
+                    if (isset($content['parent']) && $content['parent'] != 0) {
+                        $postParentPage = get_pages('id=' . $content['parent'] . '&single=1');
+                        if ($postParentPage) {
+                            $link[] = $postParentPage['url'];
+                        }
+                    }
+                    $categorySlugForPost = $this->_getCategorySlugForPost($content['id']);
+                    if ($categorySlugForPost) {
+                        $link[] = $categorySlugForPost;
+                    }
+                }
+
                 $link[] = $content['url'];
             }
         }
@@ -119,13 +139,16 @@ class PermalinkManager
         $category = get_category_by_id($categoryId);
         if ($category) {
 
-            if ($this->structure == 'page_post' || $this->structure  == 'post') {
-                if ($categoryId != 0) {
+            switch ($this->structure) {
+                case 'page_post':
+                case 'post':
+                case 'page_category_post':
+                case 'page_category_sub_categories_post':
                     $pageCategory = $this->app->category_manager->get_page($categoryId);
                     if ($pageCategory) {
                         $link[] = $pageCategory['url'];
                     }
-                }
+                    break;
             }
 
             $link[] = $category['url'];
@@ -140,7 +163,7 @@ class PermalinkManager
        // $map[] = 'locale';
 
         if ($this->structure == 'post') {
-            $map[] = 'page|category|post';
+            $map[] = 'page|category|post'; // page category or post
         }
 
         if ($this->structure == 'page_post') {
@@ -149,7 +172,13 @@ class PermalinkManager
         }
 
         if ($this->structure == 'category_post') {
-            $map[] = 'page|category|post';
+            $map[] = 'page|category|post'; // page category or post
+            $map[] = 'post';
+        }
+
+        if ($this->structure == 'page_category_post') {
+            $map[] = 'page';
+            $map[] = 'category';
             $map[] = 'post';
         }
 
