@@ -50,10 +50,24 @@ class PermalinkManager
                             return $findCategoryBySlug['url'];
                         }
                     }
+
+                    if ($type == 'page') {
+                        $findPageBySlug = get_pages('url=' . $findSlugByType . '&single=1');
+                        if ($findPageBySlug) {
+                            return $findPageBySlug['url'];
+                        }
+                    }
+
+                    if ($type == 'post') {
+                        $findPostsBySlug = get_posts('url=' . $findSlugByType . '&single=1');
+                        if ($findPostsBySlug) {
+                            return $findPostsBySlug['url'];
+                        }
+                    }
                 }
             }
         }
-
+        
         return false;
     }
 
