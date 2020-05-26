@@ -69,6 +69,10 @@ class PermalinkManager
             $link = $this->_linkCategory($id);
         }
 
+        if (!$link) {
+            return false;
+        }
+
         $link = implode('/', $link);
         $link = site_url($link);
 
