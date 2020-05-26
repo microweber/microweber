@@ -81,6 +81,11 @@ class PermalinkManager
 
         $content = get_content('id=' . $contentId . '&single=1');
         if ($content) {
+
+            if ($content['content_type'] == 'page') {
+                $link[] = $content['url'];
+            }
+
             if ($content['content_type'] != 'page') {
 
                 if ($this->structure == 'page_post') {
