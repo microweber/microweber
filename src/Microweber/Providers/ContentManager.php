@@ -1666,7 +1666,7 @@ class ContentManager
         }
 
         if (defined('PAGE_ID') == false) {
-            $getPageSlug = $this->app->permalink_manager->parseLink($ref_page, 'page');
+            $getPageSlug = $this->app->permalink_manager->slug($ref_page, 'page');
             $pageFromSlug = $this->app->content_manager->get_by_url($getPageSlug);
             if ($pageFromSlug) {
                 $page = $pageFromSlug;
@@ -2221,9 +2221,9 @@ class ContentManager
             return;
         }
 
-        $permalinkGenerated = $this->app->permalink_manager->generateLink($link);
+        $permalinkGenerated = $this->app->permalink_manager->link($link['id'], 'content');
         if ($permalinkGenerated) {
-            $link = $permalinkGenerated;
+            $link['url'] = $permalinkGenerated;
         }
 
         if (!stristr($link['url'], $site_url)) {

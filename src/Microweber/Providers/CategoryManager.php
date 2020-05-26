@@ -115,7 +115,7 @@ class CategoryManager
 
     public function link($id)
     {
-        return mw()->permalink_manager->generateCategoryLink($id);
+        return mw()->permalink_manager->link($id, 'category');
     }
 
     public function get_page($category_id)
@@ -828,7 +828,7 @@ class CategoryManager
         }
 
         if (!$cat_url) {
-            $cat_url = mw()->permalink_manager->parseLink($url, 'category');
+            $cat_url = mw()->permalink_manager->slug($url, 'category');
         }
 
         if ($cat_url != false and !is_numeric($cat_url)) {
