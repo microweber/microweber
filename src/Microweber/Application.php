@@ -44,7 +44,7 @@ namespace Microweber;
  * @property \Microweber\Providers\Content\TagsManager           $tags_manager
  * @property \Microweber\Providers\Content\AttributesManager     $attributes_manager
  * @property \Microweber\Providers\Helpers\Lang                  $lang_helper
- * @property \Microweber\Providers\PermalinkManagerFuckedUp              $permalink_manager
+ * @property \Microweber\Providers\PermalinkManager              $permalink_manager
 
  */
 class Application

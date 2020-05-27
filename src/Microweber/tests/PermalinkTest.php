@@ -221,6 +221,27 @@ class PermalinkTest extends TestCase
 
     }
 
+    public function testPost()
+    {
+        // Set format
+        $option = array();
+        $option['option_value'] = 'post';
+        $option['option_key'] = 'permalink_structure';
+        $option['option_group'] = 'website';
+        save_option($option);
+
+        $postUrl = post_link(self::$postId);
+        $postUrlExpected = site_url(self::$postSlug);
+        $this->assertEquals($postUrlExpected, $postUrl);
+
+        $getPageNameFromUrl = mw()->permalink_manager->slug($postUrl, 'page');
+        $this->assertEquals(self::$pageSlug, $getPageNameFromUrl);
+
+        $getCategoryNameFromUrl = mw()->permalink_manager->slug($postUrl, 'category');
+        $this->assertEquals(false, $getCategoryNameFromUrl);
+
+    }
+
     /*  public function testFrontControllerPage()
       {
           $pageUrl = page_link(self::$pageId);

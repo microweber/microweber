@@ -82,13 +82,13 @@ class PermalinkManager
                             }
                         }
 
-                        var_dump([
+                       /* var_dump([
                             'link'=>$link,
                             'type'=>$type,
                             'findSlugByType'=>$findSlugByType,
                             'linkSegments'=>$linkSegments,
                             'structureMapIndex'=>$structureMapIndex
-                        ]);
+                        ]);*/
                     }
 
                     if ($type == 'post') {
