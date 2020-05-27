@@ -17,12 +17,15 @@ class PermalinkTest extends TestCase
     public static $categoryId;
     public static $subCategoryId;
     public static $postId;
+    public static $postWithoutCategoryId;
 
     // Slugs
     public static $pageSlug;
     public static $postSlug;
+    public static $postWithoutCategorySlug;
     public static $categorySlug;
     public static $subCategorySlug;
+
 
     public function testPageCategoryPost()
     {
@@ -50,7 +53,10 @@ class PermalinkTest extends TestCase
         $subChildCategoryName = 'Дете на подкатегорията' . $time;
 
         $postSlug = 'пост-писана-на-бг' . $time;
-        $postName = 'пост-писана на бг' . $time;
+        $postName = 'пост писана на бг' . $time;
+
+        $postWithoutCategorySlug = 'пост-без-категория-на-бг' . $time;
+        $postWithoutCategoryName = 'пост без категория на бг' . $time;
 
         // PAGE TEST
         $pageId = $this->_generatePage($pageSlug, $pageName);
@@ -99,6 +105,10 @@ class PermalinkTest extends TestCase
         $postId = $this->_generatePost($postSlug, $postName, $pageId, [$categoryId, $subCategoryId, $subChildCategoryId]);
         $postUrl = content_link($postId);
 
+        // POST WITHOUT CATEGORY TEST TEST
+        $postWithoutCategoryId = $this->_generatePost($postWithoutCategorySlug, $postWithoutCategoryName, $pageId, false);
+        $postWithoutCategoryUrl = content_link($postWithoutCategoryId);
+
         /**
          * PARSE LINK FROM THE POST URL
          */
@@ -111,18 +121,20 @@ class PermalinkTest extends TestCase
         $this->assertEquals($pageSlug, $getPageNameFromUrl);
 
         // Match the parse link post
-        $getPageNameFromUrl = mw()->permalink_manager->slug($postUrl, 'post');
-        $this->assertEquals($postSlug, $getPageNameFromUrl);
+        $getPostNameFromUrl = mw()->permalink_manager->slug($postUrl, 'post');
+        $this->assertEquals($postSlug, $getPostNameFromUrl);
 
         // Set Ids
         self::$categoryId = $categoryId;
         self::$postId = $postId;
+        self::$postWithoutCategoryId = $postWithoutCategoryId;
         self::$pageId = $pageId;
 
         // Set Category Ids
         self::$categorySlug = $categorySlug;
         self::$pageSlug = $pageSlug;
         self::$postSlug = $postSlug;
+        self::$postWithoutCategorySlug = $postWithoutCategorySlug;
     }
 
     public function testCategoryPost()
@@ -139,7 +151,7 @@ class PermalinkTest extends TestCase
          * TESTING CATEGORY
          */
         $categoryUrl = category_link(self::$categoryId);
-        $expectedCategoryUrl = site_url() . self::$categorySlug;
+        $expectedCategoryUrl = site_url() . self::$pageSlug .'/'. self::$categorySlug;
 
         $this->assertEquals($expectedCategoryUrl, $categoryUrl);
 
@@ -178,11 +190,34 @@ class PermalinkTest extends TestCase
 
         // Match the parse link page
         $getPageNameFromUrl = mw()->permalink_manager->slug($postUrl, 'page');
+        // var_dump(['post_url'=>$postUrl, 'response'=>$getPageNameFromUrl]);
         $this->assertEquals(self::$pageSlug, $getPageNameFromUrl);
 
         // Match the parse link post
         $getPageNameFromUrl = mw()->permalink_manager->slug($postUrl, 'post');
         $this->assertEquals(self::$postSlug, $getPageNameFromUrl);
+
+    }
+
+    public function testPostWithoutCategory()
+    {
+        // Set format
+        $option = array();
+        $option['option_value'] = 'category_post';
+        $option['option_key'] = 'permalink_structure';
+        $option['option_group'] = 'website';
+        save_option($option);
+
+        $postWithoutCategoryUrl = post_link(self::$postWithoutCategoryId);
+        $postWithoutCategoryUrlExpected = site_url(self::$postWithoutCategorySlug);
+
+        $this->assertEquals($postWithoutCategoryUrlExpected, $postWithoutCategoryUrl);
+
+        $getPageNameFromUrl = mw()->permalink_manager->slug($postWithoutCategoryUrl, 'page');
+        $this->assertEquals(self::$pageSlug, $getPageNameFromUrl);
+
+        $getCategoryNameFromUrl = mw()->permalink_manager->slug($postWithoutCategoryUrl, 'category');
+        $this->assertEquals(false, $getCategoryNameFromUrl);
 
     }
 

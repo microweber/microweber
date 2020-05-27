@@ -22,11 +22,11 @@ class PermalinkManager
         }
 
         $structure = get_option('permalink_structure', 'website');
-        if ($structure == false) {
+        if ($structure) {
             $this->structure = $structure;
         }
 
-        $this->structure = 'category_post';
+        //$this->structure = 'category_post';
     }
 
     public function slug($link, $type)
@@ -38,10 +38,15 @@ class PermalinkManager
         $linkSegments = url_segment(-1, $link);
         $linkSegments = array_filter($linkSegments, 'strlen');
 
+        if (empty($linkSegments)) {
+            return false;
+        }
+
         $structureMap = $this->getStructuresReadMap();
         foreach ($structureMap as $structureMapIndex=>$structureMapItem) {
            if (strpos($structureMapItem, $type) !== false) {
                 if (isset($linkSegments[$structureMapIndex])) {
+
                     $findSlugByType = $linkSegments[$structureMapIndex];
 
                     if ($type == 'category') {
@@ -52,10 +57,38 @@ class PermalinkManager
                     }
 
                     if ($type == 'page') {
+
+                        // If page found return slug
                         $findPageBySlug = get_pages('url=' . $findSlugByType . '&single=1');
                         if ($findPageBySlug) {
                             return $findPageBySlug['url'];
                         }
+
+                        // If page not found try to find page from category
+                        $findCategoryBySlug = get_categories('url=' . $findSlugByType . '&single=1');
+                        if ($findCategoryBySlug) {
+                            $findCategoryPage = get_page_for_category($findCategoryBySlug['id']);
+                            if ($findCategoryPage && isset($findCategoryPage['url'])) {
+                                return $findCategoryPage['url'];
+                            }
+                        }
+
+                        // If page not fond & category not found we try to find post
+                        $findPostBySlug = get_posts('url=' . $findSlugByType . '&single=1');
+                        if ($findPostBySlug && isset($findPostBySlug['parent']) && $findPostBySlug['parent'] != false) {
+                            $findPostPageBySlug = get_pages('id=' . $findPostBySlug['parent'] . '&single=1');
+                            if ($findPostPageBySlug) {
+                                return $findPostPageBySlug['url'];
+                            }
+                        }
+
+                        var_dump([
+                            'link'=>$link,
+                            'type'=>$type,
+                            'findSlugByType'=>$findSlugByType,
+                            'linkSegments'=>$linkSegments,
+                            'structureMapIndex'=>$structureMapIndex
+                        ]);
                     }
 
                     if ($type == 'post') {
@@ -67,7 +100,7 @@ class PermalinkManager
                 }
             }
         }
-        
+
         return false;
     }
 
@@ -129,6 +162,7 @@ class PermalinkManager
                             $link[] = $postParentPage['url'];
                         }
                     }
+
                     $categorySlugForPost = $this->_getCategorySlugForPost($content['id']);
                     if ($categorySlugForPost) {
                         $link[] = $categorySlugForPost;
