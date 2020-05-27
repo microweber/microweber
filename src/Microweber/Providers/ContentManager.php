@@ -1675,7 +1675,6 @@ class ContentManager
             }
         }
 
-
         if (defined('CONTENT_ID') == false) {
             define('CONTENT_ID', false);
         }

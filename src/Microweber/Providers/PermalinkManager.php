@@ -46,6 +46,7 @@ class PermalinkManager
 
         foreach ($structureMap as $structureMapIndex=>$structureMapItem) {
            if (strpos($structureMapItem, $type) !== false) {
+
                 if (isset($linkSegments[$structureMapIndex])) {
 
                     $findSlugByType = $linkSegments[$structureMapIndex];
@@ -218,7 +219,7 @@ class PermalinkManager
     public function getStructuresReadMap()
     {
         $map = [];
-        if (is_module('multilanguage') && get_option('is_active', 'multilanguage_settings') == 'y') {
+        if (get_option('is_active', 'multilanguage_settings') == 'y') {
             $map[] = 'locale';
         }
 
