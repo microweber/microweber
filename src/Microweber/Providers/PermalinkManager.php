@@ -51,6 +51,11 @@ class PermalinkManager
 
                     $findSlugByType = $linkSegments[$structureMapIndex];
 
+                   /* $override = $this->app->event_manager->trigger('app.permalink.slug.before', ['type'=>$type, 'slug'=>$findSlugByType]);
+                    if ($override and is_array($override) && isset($override[0])) {
+                        $findSlugByType = $override[0];
+                    }*/
+
                     if ($type == 'category') {
                         $findCategoryBySlug = get_categories('url=' . $findSlugByType . '&single=1');
                         if ($findCategoryBySlug) {
@@ -94,6 +99,7 @@ class PermalinkManager
                     }
 
                     if ($type == 'post') {
+
                         $findPostsBySlug = get_posts('url=' . $findSlugByType . '&single=1');
                         if ($findPostsBySlug) {
                             return $findPostsBySlug['url'];
