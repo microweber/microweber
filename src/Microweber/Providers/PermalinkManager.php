@@ -217,7 +217,9 @@ class PermalinkManager
     public function getStructuresReadMap()
     {
         $map = [];
-       // $map[] = 'locale';
+        if (is_module('multilanguage') && get_option('is_active', 'multilanguage_settings') == 'y') {
+            $map[] = 'locale';
+        }
 
         if ($this->structure == 'post') {
             $map[] = 'page|category|post'; // page category or post

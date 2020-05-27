@@ -82,7 +82,7 @@ class Lang
     function default_lang()
     {
         if($this->is_enabled){
-        return get_option('language', 'website');
+            return get_option('language', 'website');
         }
     }
 
