@@ -307,7 +307,7 @@ class ContentManager
 
         $table = $this->tables['content'];
 
-        $content_ids = $this->get('fields=id&no_limit=1&parent='.$id);
+        $content_ids = $this->get('fields=id&no_limit=1&parent=' . $id);
 
         $ids = array();
 
@@ -375,7 +375,6 @@ class ContentManager
         }
 
 
-
         if (!empty($ids)) {
             $ids = array_unique($ids);
 
@@ -405,7 +404,7 @@ class ContentManager
         if ($content_id) {
             $data['id'] = intval($content_id);
         }
-         return $this->app->tags_manager->get_values($data, $return_full);
+        return $this->app->tags_manager->get_values($data, $return_full);
     }
 
     public function attributes($content_id)
@@ -495,15 +494,15 @@ class ContentManager
             }
 
             if ($current_page_from_url > 1 && isset($params['show_first_last'])) {
-                $to_print = '<a data-page-number="' . $data[1] . '" href="' . $data[1] . '">'._e('First', true).'</a>';
+                $to_print = '<a data-page-number="' . $data[1] . '" href="' . $data[1] . '">' . _e('First', true) . '</a>';
                 $ready_paging_first_links[] = [
-                    'attributes'=>[
-                        'class'=>false,
-                        'current'=>false,
-                        'data-page-number'=>$data[1],
-                        'href'=> $data[1]
+                    'attributes' => [
+                        'class' => false,
+                        'current' => false,
+                        'data-page-number' => $data[1],
+                        'href' => $data[1]
                     ],
-                    'title'=>_e('First', true)
+                    'title' => _e('First', true)
                 ];
             }
 
@@ -530,13 +529,13 @@ class ContentManager
                 }
 
                 $ready_paging_number_links[] = [
-                    'attributes'=>[
-                        'class'=> $act_class,
-                        'current'=>$act_class,
-                        'data-page-number'=>$key,
-                        'href'=> $value
+                    'attributes' => [
+                        'class' => $act_class,
+                        'current' => $act_class,
+                        'data-page-number' => $key,
+                        'href' => $value
                     ],
-                    'title'=>$key
+                    'title' => $key
                 ];
             }
 
@@ -572,13 +571,13 @@ class ContentManager
                     $limited_paging_begin[] = '<a data-page-number="' . ($active_item - 1) . '" href="' . $prev_link . '">&laquo;</a>';
 
                     $ready_paging_first_links[] = [
-                        'attributes'=>[
-                            'class'=> false,
-                            'current'=>false,
-                            'data-page-number'=>($active_item - 1),
-                            'href'=> $prev_link
+                        'attributes' => [
+                            'class' => false,
+                            'current' => false,
+                            'data-page-number' => ($active_item - 1),
+                            'href' => $prev_link
                         ],
-                        'title'=>'Previous'
+                        'title' => 'Previous'
                     ];
 
                 }
@@ -591,28 +590,28 @@ class ContentManager
                     $limited_paging[] = '<a data-page-number="' . ($active_item + 1) . '" href="' . $next_link . '">&raquo;</a>';
 
                     $ready_paging_last_links[] = [
-                        'attributes'=>[
-                            'class'=> false,
-                            'current'=>false,
-                            'data-page-number'=>($active_item + 1),
-                            'href'=> $next_link
+                        'attributes' => [
+                            'class' => false,
+                            'current' => false,
+                            'data-page-number' => ($active_item + 1),
+                            'href' => $next_link
                         ],
-                        'title'=>'Next'
+                        'title' => 'Next'
                     ];
 
                 }
 
                 if (isset($params['show_first_last'])) {
-                    $limited_paging[] = '<a data-page-number="' . end($data) . '" href="' . end($data) . '">'._e('Last', true).'</a>';
+                    $limited_paging[] = '<a data-page-number="' . end($data) . '" href="' . end($data) . '">' . _e('Last', true) . '</a>';
 
                     $ready_paging_last_links[] = [
-                        'attributes'=>[
-                            'class'=> false,
-                            'current'=>false,
-                            'data-page-number'=>end($data),
-                            'href'=> end($data)
+                        'attributes' => [
+                            'class' => false,
+                            'current' => false,
+                            'data-page-number' => end($data),
+                            'href' => end($data)
                         ],
-                        'title'=>_e('Last', true)
+                        'title' => _e('Last', true)
                     ];
 
                 }
@@ -663,7 +662,7 @@ class ContentManager
         $get_params = array();
         $get_params_append = '';
         if ($_GET) {
-            $get_params = array_merge($get_params,$_GET);
+            $get_params = array_merge($get_params, $_GET);
         }
 
         if (isset($get_params[$paging_param])) {
@@ -675,8 +674,8 @@ class ContentManager
 
             $get_params_append = implode('&', array_map(
                 function ($v, $k) {
-                    if($k and $v and !is_array($v)){
-                    return sprintf("%s=%s", $k, $v);
+                    if ($k and $v and !is_array($v)) {
+                        return sprintf("%s=%s", $k, $v);
                     }
                 },
                 $get_params,
@@ -692,7 +691,7 @@ class ContentManager
 
 
         if ($get_params_append) {
-            if (stristr($base_url,  '?') == false) {
+            if (stristr($base_url, '?') == false) {
                 $append_to_links = '?' . $get_params_append;
             } else {
                 $append_to_links = '&' . $get_params_append;
@@ -714,8 +713,8 @@ class ContentManager
             $new_url = implode('/', $new);
 
 
-           // $page_links[$x] = $new_url . $append_to_links;
-            $page_links[$x] = $new_url ;
+            // $page_links[$x] = $new_url . $append_to_links;
+            $page_links[$x] = $new_url;
         }
 
 
@@ -725,12 +724,12 @@ class ContentManager
                 if ($in_empty_url == false) {
                     $l = reduce_double_slashes($page_links[$x] . '/' . $paging_param . ':' . $x);
                     if ($get_params_append) {
-                       $l = $l . '?' . $get_params_append;
+                        $l = $l . '?' . $get_params_append;
                     }
                 } else {
                     $l = reduce_double_slashes($page_links[$x] . '?' . $paging_param . '=' . $x);
                     if ($get_params_append) {
-                     $l = $l . '&' . $get_params_append;
+                        $l = $l . '&' . $get_params_append;
                     }
                 }
 
@@ -739,12 +738,12 @@ class ContentManager
                     $l = $l . '&' . $get_params_append;
                 }
                 $l = str_ireplace('module/', '', $l);
-                $page_links[$x] = $l ;
+                $page_links[$x] = $l;
                 //$page_links[$x] = $l . $append_to_links;
                 //$page_links[$x] = $l . $append_to_links;
             }
         }
-         return $page_links;
+        return $page_links;
     }
 
     /**
@@ -1655,10 +1654,9 @@ class ContentManager
             define('ACTIVE_PAGE_ID', false);
         }
         if (defined('CATEGORY_ID') == false) {
-            $cat_url = $this->app->category_manager->get_category_id_from_url();
-
-            if ($cat_url != false) {
-                define('CATEGORY_ID', intval($cat_url));
+            $cat_id = $this->app->category_manager->get_category_id_from_url();
+            if ($cat_id != false) {
+                define('CATEGORY_ID', intval($cat_id));
             }
         }
         if (!defined('CATEGORY_ID')) {
@@ -1845,7 +1843,7 @@ class ContentManager
         }
 
         if (defined('CATEGORY_ID') == false) {
-       //     define('CATEGORY_ID', false);
+                // define('CATEGORY_ID', false);
             // BASI
         }
 
@@ -1861,31 +1859,32 @@ class ContentManager
             define('MAIN_PAGE_ID', false);
         }
 
-     /*   if (defined('ACTIVE_PAGE_ID') == false) {
-            define('ACTIVE_PAGE_ID', false);
-        }
+        /*   if (defined('ACTIVE_PAGE_ID') == false) {
+               define('ACTIVE_PAGE_ID', false);
+           }
 
 
 
-        if (defined('CONTENT_ID') == false) {
-            define('CONTENT_ID', false);
-        }
+           if (defined('CONTENT_ID') == false) {
+               define('CONTENT_ID', false);
+           }
 
-        if (defined('POST_ID') == false) {
-            define('POST_ID', false);
-        }
-        if (defined('PAGE_ID') == false) {
-            define('PAGE_ID', false);
-        }
+           if (defined('POST_ID') == false) {
+               define('POST_ID', false);
+           }
+           if (defined('PAGE_ID') == false) {
+               define('PAGE_ID', false);
+           }
 
-        if (defined('MAIN_PAGE_ID') == false) {
-            define('MAIN_PAGE_ID', false);
-        }*/
+           if (defined('MAIN_PAGE_ID') == false) {
+               define('MAIN_PAGE_ID', false);
+           }*/
 
-/*
-        var_dump(CATEGORY_ID);
-        var_dump(PAGE_ID);
-       var_dump(POST_ID);*/
+        /*var_dump([
+            'cat_id' => CATEGORY_ID,
+            'page_id' => PAGE_ID,
+            'post_id' => POST_ID
+        ]);*/
 
         return true;
     }
@@ -2088,7 +2087,7 @@ class ContentManager
                     }
                 }
 
-                if($result){
+                if ($result) {
                     $result = array_reverse($result);
                 }
             }
@@ -2164,7 +2163,6 @@ class ContentManager
         }
 
 
-
         return $result;
     }
 
@@ -2203,7 +2201,7 @@ class ContentManager
         }
 
         $link = $this->get_by_id($id);
-        if(!$link){
+        if (!$link) {
             return;
         }
 
@@ -2216,7 +2214,7 @@ class ContentManager
         if (!isset($link['url']) or strval($link['url']) == '') {
             $link = $this->get_by_url($id);
         }
-        if(!$link){
+        if (!$link) {
             return;
         }
 

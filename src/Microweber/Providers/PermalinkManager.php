@@ -44,16 +44,16 @@ class PermalinkManager
 
         $structureMap = $this->getStructuresReadMap();
 
-        foreach ($structureMap as $structureMapIndex=>$structureMapItem) {
-           if (strpos($structureMapItem, $type) !== false) {
+        foreach ($structureMap as $structureMapIndex => $structureMapItem) {
+            if (strpos($structureMapItem, $type) !== false) {
 
                 if (isset($linkSegments[$structureMapIndex])) {
 
                     $findSlugByType = $linkSegments[$structureMapIndex];
 
-                   /* $override = $this->app->event_manager->trigger('app.permalink.slug.before', ['type'=>$type, 'slug'=>$findSlugByType]);
+                    /*$override = $this->app->event_manager->trigger('app.permalink.slug.before', ['type' => $type, 'slug' => $findSlugByType]);
                     if ($override and is_array($override) && isset($override[0])) {
-                        $findSlugByType = $override[0];
+                        return $override[0];
                     }*/
 
                     if ($type == 'category') {
@@ -89,13 +89,13 @@ class PermalinkManager
                             }
                         }
 
-                       /*var_dump([
-                            'link'=>$link,
-                            'type'=>$type,
-                            'findSlugByType'=>$findSlugByType,
-                            'linkSegments'=>$linkSegments,
-                            'structureMapIndex'=>$structureMapIndex
-                        ]);*/
+                        /*var_dump([
+                             'link'=>$link,
+                             'type'=>$type,
+                             'findSlugByType'=>$findSlugByType,
+                             'linkSegments'=>$linkSegments,
+                             'structureMapIndex'=>$structureMapIndex
+                         ]);*/
                     }
 
                     if ($type == 'post') {
@@ -105,6 +105,8 @@ class PermalinkManager
                             return $findPostsBySlug['url'];
                         }
                     }
+
+                    return $findSlugByType;
                 }
             }
         }
@@ -131,7 +133,7 @@ class PermalinkManager
         $link = implode('/', $link);
         $link = site_url($link);
 
-       return $link;
+        return $link;
     }
 
     private function _linkContent($contentId)
