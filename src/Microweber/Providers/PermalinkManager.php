@@ -43,6 +43,7 @@ class PermalinkManager
         }
 
         $structureMap = $this->getStructuresReadMap();
+
         foreach ($structureMap as $structureMapIndex=>$structureMapItem) {
            if (strpos($structureMapItem, $type) !== false) {
                 if (isset($linkSegments[$structureMapIndex])) {
@@ -82,7 +83,7 @@ class PermalinkManager
                             }
                         }
 
-                       /* var_dump([
+                       /*var_dump([
                             'link'=>$link,
                             'type'=>$type,
                             'findSlugByType'=>$findSlugByType,
