@@ -206,6 +206,15 @@ class ContentManager
         return $this->crud->get_by_url($url, $no_recursive);
     }
 
+    public function get_content_id_from_url($url = '')
+    {
+        $content =  $this->get_by_url($url);
+        if ($content && isset($content['id'])) {
+            return $content['id'];
+        }
+    }
+
+
     /**
      * Get array of content items from the database.
      *
