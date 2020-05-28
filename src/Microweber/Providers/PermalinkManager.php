@@ -27,6 +27,13 @@ class PermalinkManager
             $this->structure = $structure;
         }
 
+        $this->bindEvents();
+        //$this->structure = 'category_post';
+    }
+
+
+    public function bindEvents(){
+
         $override = $this->app->event_manager->trigger('app.permalink.structure_map_prefix');
         if ($override and is_array($override) && isset($override[0])) {
             foreach ($override as $item) {
@@ -40,9 +47,7 @@ class PermalinkManager
                 $this->linkAfter[] = $item;
             }
         }
-        //$this->structure = 'category_post';
     }
-
     public function slug($link, $type)
     {
         if (!$link) {
