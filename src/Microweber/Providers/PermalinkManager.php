@@ -114,7 +114,7 @@ class PermalinkManager
         return false;
     }
 
-    public function link($id, $type)
+    public function link($id, $type,$return_slug=false)
     {
         $link = [];
 
@@ -129,8 +129,12 @@ class PermalinkManager
         if (!$link) {
             return false;
         }
-
         $link = implode('/', $link);
+
+        if($return_slug){
+             return $link;
+        }
+
         $link = site_url($link);
 
         return $link;
