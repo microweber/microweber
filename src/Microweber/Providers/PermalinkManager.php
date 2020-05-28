@@ -89,7 +89,7 @@ class PermalinkManager
                             }
                         }
 
-                        /*var_dump([
+                     /*   var_dump([
                              'link'=>$link,
                              'type'=>$type,
                              'findSlugByType'=>$findSlugByType,
@@ -106,7 +106,12 @@ class PermalinkManager
                         }
                     }
 
-                    return $findSlugByType;
+                    /*
+                        * Here it must not return anything if not found slug in database.
+                        * Case we brake many cases.
+                        *
+                        return $findSlugByType;
+                    */
                 }
             }
         }
@@ -232,7 +237,7 @@ class PermalinkManager
     {
         $map = [];
         if (get_option('is_active', 'multilanguage_settings') == 'y') {
-            $map[] = 'locale';
+         //   $map[] = 'locale';
         }
 
         if ($this->structure == 'post') {
