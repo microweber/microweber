@@ -59,15 +59,14 @@ class PermalinkManager
         $structureMap = $this->getStructuresReadMap();
         foreach ($structureMap as $structureMapIndex => $structureMapItem) {
             if (strpos($structureMapItem, $type) !== false) {
-
                 if (isset($linkSegments[$structureMapIndex])) {
 
                     $findSlugByType = $linkSegments[$structureMapIndex];
 
-                    /* $override = $this->app->event_manager->trigger('app.permalink.slug.before', ['type' => $type, 'slug' => $findSlugByType]);
-                     if ($override and is_array($override) && isset($override[0])) {
-                         return $override[0];
-                     }*/
+                    $override = $this->app->event_manager->trigger('app.permalink.slug.before', ['type' => $type, 'slug' => $findSlugByType]);
+                    if ($override and is_array($override) and isset($override[0]) and $override[0]) {
+                        return $override[0];
+                    }
 
                     if ($type == 'category') {
                         $findCategoryBySlug = get_categories('url=' . $findSlugByType . '&single=1');
