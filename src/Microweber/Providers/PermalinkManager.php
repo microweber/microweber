@@ -9,7 +9,8 @@ class PermalinkManager
 {
     /** @var \Microweber\Application */
     public $app;
-    public $structure = 'post';
+    public $structureMapPrefix = [];
+    public $linkAfter = [];
 
     public function __construct($app = null)
     {
@@ -26,6 +27,19 @@ class PermalinkManager
             $this->structure = $structure;
         }
 
+        $override = $this->app->event_manager->trigger('app.permalink.structure_map_prefix');
+        if ($override and is_array($override) && isset($override[0])) {
+            foreach ($override as $item) {
+                $this->structureMapPrefix[] = $item;
+            }
+        }
+
+        $override = $this->app->event_manager->trigger('app.permalink.link.after');
+        if ($override and is_array($override) && isset($override[0])) {
+            foreach ($override as $item) {
+                $this->linkAfter[] = $item;
+            }
+        }
         //$this->structure = 'category_post';
     }
 
@@ -43,7 +57,6 @@ class PermalinkManager
         }
 
         $structureMap = $this->getStructuresReadMap();
-
         foreach ($structureMap as $structureMapIndex => $structureMapItem) {
             if (strpos($structureMapItem, $type) !== false) {
 
@@ -51,10 +64,10 @@ class PermalinkManager
 
                     $findSlugByType = $linkSegments[$structureMapIndex];
 
-                   /* $override = $this->app->event_manager->trigger('app.permalink.slug.before', ['type' => $type, 'slug' => $findSlugByType]);
-                    if ($override and is_array($override) && isset($override[0])) {
-                        return $override[0];
-                    }*/
+                    /* $override = $this->app->event_manager->trigger('app.permalink.slug.before', ['type' => $type, 'slug' => $findSlugByType]);
+                     if ($override and is_array($override) && isset($override[0])) {
+                         return $override[0];
+                     }*/
 
                     if ($type == 'category') {
                         $findCategoryBySlug = get_categories('url=' . $findSlugByType . '&single=1');
@@ -89,13 +102,13 @@ class PermalinkManager
                             }
                         }
 
-                     /*   var_dump([
-                             'link'=>$link,
-                             'type'=>$type,
-                             'findSlugByType'=>$findSlugByType,
-                             'linkSegments'=>$linkSegments,
-                             'structureMapIndex'=>$structureMapIndex
-                         ]);*/
+                        /*   var_dump([
+                                'link'=>$link,
+                                'type'=>$type,
+                                'findSlugByType'=>$findSlugByType,
+                                'linkSegments'=>$linkSegments,
+                                'structureMapIndex'=>$structureMapIndex
+                            ]);*/
                     }
 
                     if ($type == 'post') {
@@ -119,7 +132,7 @@ class PermalinkManager
         return false;
     }
 
-    public function link($id, $type,$return_slug=false)
+    public function link($id, $type, $return_slug = false)
     {
         $link = [];
 
@@ -134,10 +147,15 @@ class PermalinkManager
         if (!$link) {
             return false;
         }
+
+        if ($this->linkAfter && is_array($this->linkAfter) && !empty($this->linkAfter)) {
+            $link = array_merge($this->linkAfter, $link);
+        }
+
         $link = implode('/', $link);
 
-        if($return_slug){
-             return $link;
+        if ($return_slug) {
+            return $link;
         }
 
         $link = site_url($link);
@@ -235,32 +253,33 @@ class PermalinkManager
 
     public function getStructuresReadMap()
     {
-        $map = [];
-        if (get_option('is_active', 'multilanguage_settings') == 'y') {
-         //   $map[] = 'locale';
+        $structureMap = [];
+
+        if ($this->structureMapPrefix && is_array($this->structureMapPrefix) && !empty($this->structureMapPrefix)) {
+            $structureMap = array_merge($this->structureMapPrefix, $structureMap);
         }
 
         if ($this->structure == 'post') {
-            $map[] = 'page|category|post'; // page category or post
+            $structureMap[] = 'page|category|post'; // page category or post
         }
 
         if ($this->structure == 'page_post') {
-            $map[] = 'page';
-            $map[] = 'category|post';
+            $structureMap[] = 'page';
+            $structureMap[] = 'category|post';
         }
 
         if ($this->structure == 'category_post') {
-            $map[] = 'page|category|post'; // page category or post
-            $map[] = 'post|category';
+            $structureMap[] = 'page|category|post'; // page category or post
+            $structureMap[] = 'post|category';
         }
 
         if ($this->structure == 'page_category_post') {
-            $map[] = 'page';
-            $map[] = 'category';
-            $map[] = 'post';
+            $structureMap[] = 'page';
+            $structureMap[] = 'category';
+            $structureMap[] = 'post';
         }
 
-        return $map;
+        return $structureMap;
     }
 
     public function getStructures()
