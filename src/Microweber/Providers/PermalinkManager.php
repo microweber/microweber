@@ -3,7 +3,6 @@
 namespace Microweber\Providers;
 
 
-use function Clue\StreamFilter\fun;
 
 class PermalinkManager
 {
@@ -26,28 +25,9 @@ class PermalinkManager
         if ($structure) {
             $this->structure = $structure;
         }
-
-        $this->bindEvents();
-        //$this->structure = 'category_post';
     }
 
 
-    public function bindEvents(){
-
-        $override = $this->app->event_manager->trigger('app.permalink.structure_map_prefix');
-        if ($override and is_array($override) && isset($override[0])) {
-            foreach ($override as $item) {
-                $this->structureMapPrefix[] = $item;
-            }
-        }
-
-        $override = $this->app->event_manager->trigger('app.permalink.link.after');
-        if ($override and is_array($override) && isset($override[0])) {
-            foreach ($override as $item) {
-                $this->linkAfter[] = $item;
-            }
-        }
-    }
     public function slug($link, $type)
     {
         if (!$link) {
@@ -264,7 +244,8 @@ class PermalinkManager
         }
 
         if ($this->structure == 'post') {
-            $structureMap[] = 'page|category|post'; // page category or post
+            $structureMap[] = 'page|post'; // page category or post
+            $structureMap[] = 'category'; // page category or post
         }
 
         if ($this->structure == 'page_post') {
