@@ -1547,6 +1547,7 @@ class ContentManager
         }
 
         if (defined('CATEGORY_ID') == false) {
+
             $cat_url = $this->app->category_manager->get_category_id_from_url();
             if ($cat_url != false) {
                 define('CATEGORY_ID', intval($cat_url));
@@ -1859,35 +1860,10 @@ class ContentManager
             define('MAIN_PAGE_ID', false);
         }
 
-        /*   if (defined('ACTIVE_PAGE_ID') == false) {
-               define('ACTIVE_PAGE_ID', false);
-           }
-
-
-
-           if (defined('CONTENT_ID') == false) {
-               define('CONTENT_ID', false);
-           }
-
-           if (defined('POST_ID') == false) {
-               define('POST_ID', false);
-           }
-           if (defined('PAGE_ID') == false) {
-               define('PAGE_ID', false);
-           }
-
-           if (defined('MAIN_PAGE_ID') == false) {
-               define('MAIN_PAGE_ID', false);
-           }*/
-
-        /*var_dump([
-            'cat_id' => CATEGORY_ID,
-            'page_id' => PAGE_ID,
-            'post_id' => POST_ID
-        ]);*/
-
         return true;
     }
+
+
 
     /**
      *  Get the first parent that has layout.

@@ -51,7 +51,7 @@ class PermalinkManager
 
                     $findSlugByType = $linkSegments[$structureMapIndex];
 
-                    /*$override = $this->app->event_manager->trigger('app.permalink.slug.before', ['type' => $type, 'slug' => $findSlugByType]);
+                   /* $override = $this->app->event_manager->trigger('app.permalink.slug.before', ['type' => $type, 'slug' => $findSlugByType]);
                     if ($override and is_array($override) && isset($override[0])) {
                         return $override[0];
                     }*/

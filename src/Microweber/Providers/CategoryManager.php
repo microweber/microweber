@@ -858,11 +858,11 @@ class CategoryManager
             }
         }
 
-/*
-        $override = $this->app->event_manager->trigger('category.get_category_id_from_url', $cat_url);
+
+        $override = $this->app->event_manager->trigger('app.category.get_category_id_from_url', $cat_url);
         if (is_array($override) && isset($override[0])) {
             $cat_id = $override[0];
-        }*/
+        }
 
         if (!$cat_id) {
 
