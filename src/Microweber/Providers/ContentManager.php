@@ -1515,6 +1515,7 @@ class ContentManager
         } else {
             $ref_page = url_current(true);
         }
+
         if (isset($ref_page) and $ref_page) {
             if ($ref_page != '') {
                 $ref_page = strtok($ref_page, '?');

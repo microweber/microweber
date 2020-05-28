@@ -51,7 +51,7 @@ class PermalinkManager
     public function slug($link, $type)
     {
         if (!$link) {
-            $link = $this->app->url_manager->current();
+            $link = $this->app->url_manager->current(true);
         }
 
         $linkSegments = url_segment(-1, $link);
