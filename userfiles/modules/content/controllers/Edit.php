@@ -317,10 +317,10 @@ class Edit
         $this->app->event_manager->trigger('module.content.edit.main', $data);
 
 
-        $slug = mw()->permalink_manager->link($data['id'], 'content',true);
-        if ($slug) {
-            $data['slug'] = $slug;
-            $data['slug_prefix_url'] = site_url($slug);
+        $segments = mw()->permalink_manager->link($data['id'], 'content',true);
+        if ($segments) {
+            $data['slug'] = $segments['slug'];
+            $data['slug_prefix_url'] = $segments['slug_prefix_url'];
         }
 
         $view = new View($post_list_view);
