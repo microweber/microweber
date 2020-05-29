@@ -47,9 +47,7 @@ api_expose_admin('content/get_link_admin', function ($data) {
 
     $segments = mw()->permalink_manager->link($content['id'], 'content',true);
 
-    var_dump($segments);
-    die();
-    if ($slugs) {
+    if ($segments) {
         return [
             'url'=>site_url($segments['url']),
             'slug_prefix'=>$segments['slug_prefix'],
