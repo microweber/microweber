@@ -302,7 +302,7 @@ class ContentManagerCrud extends Crud
                  }
              }*/
 
-            $get = $this->app->event_manager->trigger('content.get_by_url', $url);
+            $get = $this->app->event_manager->trigger('app.content.get_by_url', $url);
             if (is_array($get) && isset($get[0])) {
                 $content = $get[0];
             } else {
