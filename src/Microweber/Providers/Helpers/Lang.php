@@ -253,9 +253,11 @@ class Lang
     {
         $lang = current_lang();
 
-        if (mb_strlen($lang) > 2) {
+      /*  if (mb_strlen($lang) > 2) {
             $lang = mb_substr($lang, 0, 2);
-        }
+        }*/
+
+        $lang = str_replace('_','-', $lang);
 
         $attr = array(
             'lang="' . $lang . '"'

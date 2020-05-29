@@ -274,7 +274,7 @@ class PermalinkManager
             'page_post' => 'page/sample-post',
             'category_post' => 'sample-category/sample-post',
            // 'category_sub_categories_post' => 'sample-category/sub-category/sample-post',
-            'page_category_post' => 'sample-page/sample-category/sample-post', 
+            'page_category_post' => 'sample-page/sample-category/sample-post',
             //'page_category_sub_categories_post' => 'sample-page/sample-category/sub-category/sample-post'
         );
     }
