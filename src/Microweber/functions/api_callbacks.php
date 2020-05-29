@@ -50,8 +50,8 @@ api_expose_admin('content/get_link_admin', function ($data) {
     if ($segments) {
         return [
             'url'=>site_url($segments['url']),
-            'slug_prefix'=>$segments['slug_prefix'] . '/',
-            'slug_prefix_url'=>$segments['slug_prefix_url'] . '/',
+            'slug_prefix'=>$segments['slug_prefix'],
+            'slug_prefix_url'=>$segments['slug_prefix_url'],
             'slug'=>$segments['slug'],
             'site_url'=>site_url()
        ];

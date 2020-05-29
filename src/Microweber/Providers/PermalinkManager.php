@@ -152,8 +152,8 @@ class PermalinkManager
             $slugPrefix = $segments;
             return [
                 'url'=> $linkFull,
-                'slug_prefix'=>implode('/', $slugPrefix),
-                'slug_prefix_url'=>site_url(implode('/', $slugPrefix)),
+                'slug_prefix'=>implode('/', $slugPrefix) . '/',
+                'slug_prefix_url'=>site_url(implode('/', $slugPrefix)) . '/',
                 'slug'=>$slug
             ];
         }
