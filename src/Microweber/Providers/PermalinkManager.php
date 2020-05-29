@@ -147,6 +147,7 @@ class PermalinkManager
         $linkFull = site_url($linkImploded);
 
         if ($returnSlug) {
+
             $slug = $segments['original_slug'];
             unset($segments['original_slug']);
             $slugPrefix = $segments;
@@ -169,7 +170,7 @@ class PermalinkManager
         if ($content) {
 
             if ($content['content_type'] == 'page') {
-                $link[] = $content['url'];
+                $link['original_slug'] = $content['url'];
             }
 
             if ($content['content_type'] != 'page') {
