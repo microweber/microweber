@@ -202,9 +202,17 @@ class PermalinkManager
     {
         $slug = false;
         $categories = get_categories_for_content($postId);
+   
         if ($categories && isset($categories[0])) {
-            $categories[0] = get_category_by_id($categories[0]['id']);
-            $slug = $categories[0]['url'];
+            $main_cat  = $selected_cat = $categories[0];
+            foreach ($categories as $category){
+                if(isset($category['parent_id']) and isset($main_cat['id']) and $category['parent_id'] == $main_cat['id']){
+                    $selected_cat = $category;
+                }
+            }
+
+            $selected_cat = get_category_by_id($selected_cat['id']);
+            $slug = $selected_cat['url'];
         }
 
         return $slug;
