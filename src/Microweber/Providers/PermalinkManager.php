@@ -10,6 +10,7 @@ class PermalinkManager
     public $app;
     public $structureMapPrefix = [];
     public $linkAfter = [];
+    public $structure = 'post';
 
     public function __construct($app = null)
     {
