@@ -117,35 +117,47 @@ class PermalinkManager
         return false;
     }
 
-    public function link($id, $type, $return_slug = false)
+    public function link($id, $type, $returnSlug = false)
     {
-        $link = [];
+        $segments = [];
 
         if ($type == 'content') {
-            $link = $this->_linkContent($id);
+            $linkContent = $this->_linkContent($id);
+            if ($linkContent) {
+                $segments = array_merge($segments, $linkContent);
+            }
         }
 
         if ($type == 'category') {
-            $link = $this->_linkCategory($id);
+            $linkCategory = $this->_linkCategory($id);
+            if ($linkCategory) {
+                $segments = array_merge($segments, $linkCategory);
+            }
         }
 
-        if (!$link) {
+        if (empty($segments)) {
             return false;
         }
 
         if ($this->linkAfter && is_array($this->linkAfter) && !empty($this->linkAfter)) {
-            $link = array_merge($this->linkAfter, $link);
+            $segments = array_merge($this->linkAfter, $segments);
         }
 
-        $link = implode('/', $link);
+        $linkImploded = implode('/', $segments);
+        $linkFull = site_url($linkImploded);
 
-        if ($return_slug) {
-            return $link;
+        if ($returnSlug) {
+            $slug = $segments['original_slug'];
+            unset($segments['original_slug']);
+            $slugPrefix = $segments;
+            return [
+                'url'=> $linkFull,
+                'slug_prefix'=>$slugPrefix,
+                'slug'=>$slug
+            ];
         }
 
-        $link = site_url($link);
-
-        return $link;
+        return $linkFull;
     }
 
     private function _linkContent($contentId)
@@ -191,7 +203,7 @@ class PermalinkManager
                     }
                 }
 
-                $link[] = $content['url'];
+                $link['original_slug'] = $content['url'];
             }
         }
 
@@ -202,7 +214,7 @@ class PermalinkManager
     {
         $slug = false;
         $categories = get_categories_for_content($postId);
-   
+
         if ($categories && isset($categories[0])) {
             $main_cat  = $selected_cat = $categories[0];
             foreach ($categories as $category){
@@ -238,7 +250,7 @@ class PermalinkManager
                     break;
             }
 
-            $link[] = $category['url'];
+            $link['original_slug'] = $category['url'];
         }
 
         return $link;

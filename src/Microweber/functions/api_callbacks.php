@@ -45,27 +45,20 @@ api_expose_admin('content/get_link_admin', function ($data) {
         return;
     }
 
-    $slug = mw()->permalink_manager->link($content['id'], 'content',true);
-    //$slugs = mw()->permalink_manager->generateLink($content, true);
-    if ($slug) {
-//        return [
-//            'url'=>site_url($slugs['url']),
-//            'slug_prefix'=>$slugs['slug_prefix'],
-//            'slug_prefix_url'=>site_url($slugs['slug_prefix']),
-//            'slug'=>$slugs['slug'],
-//            'site_url'=>site_url()
-//        ];
+    $segments = mw()->permalink_manager->link($content['id'], 'content',true);
 
+    var_dump($segments);
+    die();
+    if ($slugs) {
         return [
-            'url'=>site_url($slug),
-            'slug_prefix'=>$slug,
-            'slug_prefix_url'=>site_url($slug),
-            'slug'=>$slug,
+            'url'=>site_url($segments['url']),
+            'slug_prefix'=>$segments['slug_prefix'],
+            'slug_prefix_url'=>site_url($segments['slug_prefix']),
+            'slug'=>$segments['slug'],
             'site_url'=>site_url()
-        ];
-
-
+       ];
     }
+
     return false;
 });
 
