@@ -1908,6 +1908,8 @@ class ContentManager
         $ids = array();
         $get = array();
         $get['id'] = $id;
+        $get['limit'] = 1;
+        $get['fields'] = 'id,parent';
         if (isset($without_main_parrent) and $without_main_parrent == true) {
             $get['parent'] = '[neq]0';
         }
