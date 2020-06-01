@@ -37,8 +37,8 @@ $border-radius-sm:            .2rem !default;*/
   --breakpoint-md: 768px;
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
-  --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+  --font-family-sans-serif: "Verdana";
+  --font-family-monospace: "Verdana"; }
 
 *,
 *::before,
@@ -56,7 +56,7 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Verdana";
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.5;
@@ -154,7 +154,7 @@ pre,
 code,
 kbd,
 samp {
-  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family: "Verdana";
   font-size: 1em; }
 
 pre {
@@ -179,7 +179,7 @@ table {
 caption {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
-  color: #bcbfc2;
+  color: #919191;
   text-align: left;
   caption-side: bottom; }
 
@@ -356,7 +356,7 @@ hr {
 
 small,
 .small {
-  font-size: 80%;
+  font-size: 0.75rem;
   font-weight: 400; }
 
 mark,
@@ -387,7 +387,7 @@ mark,
 
 .blockquote-footer {
   display: block;
-  font-size: 80%;
+  font-size: 0.75rem;
   color: #6c757d; }
   .blockquote-footer::before {
     content: "\2014\00A0"; }
@@ -1691,7 +1691,7 @@ textarea.form-control {
   margin-top: 0.3rem;
   margin-left: -1.25rem; }
   .form-check-input[disabled] ~ .form-check-label, .form-check-input:disabled ~ .form-check-label {
-    color: #bcbfc2; }
+    color: #919191; }
 
 .form-check-label {
   margin-bottom: 0; }
@@ -1711,7 +1711,7 @@ textarea.form-control {
   display: none;
   width: 100%;
   margin-top: 0.25rem;
-  font-size: 80%;
+  font-size: 0.75rem;
   color: #3dc47e; }
 
 .valid-tooltip {
@@ -1786,7 +1786,7 @@ textarea.form-control {
   display: none;
   width: 100%;
   margin-top: 0.25rem;
-  font-size: 80%;
+  font-size: 0.75rem;
   color: #ff4f52; }
 
 .invalid-tooltip {
@@ -4370,7 +4370,7 @@ a.close.disabled {
   z-index: 1070;
   display: block;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Verdana";
   font-style: normal;
   font-weight: 400;
   line-height: 1.5;
@@ -4455,7 +4455,7 @@ a.close.disabled {
   z-index: 1060;
   display: block;
   max-width: 276px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Verdana";
   font-style: normal;
   font-weight: 400;
   line-height: 1.5;
@@ -7532,7 +7532,7 @@ button.bg-dark:focus {
   .mx-xl-auto {
     margin-left: auto !important; } }
 .text-monospace {
-  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important; }
+  font-family: "Verdana" !important; }
 
 .text-justify {
   text-align: justify !important; }
@@ -7675,7 +7675,7 @@ a.text-dark:hover, a.text-dark:focus {
   color: #212529 !important; }
 
 .text-muted {
-  color: #bcbfc2 !important; }
+  color: #919191 !important; }
 
 .text-black-50 {
   color: rgba(0, 0, 0, 0.5) !important; }
@@ -7863,7 +7863,6 @@ textarea:not(.form-control) {
 
 .btn {
   display: inline-flex;
-  height: 40px;
   padding-left: 15px;
   padding-right: 15px; }
   .btn i {
@@ -7876,15 +7875,12 @@ textarea:not(.form-control) {
       float: left;
       margin: 3px 3px 0 3px; }
   .btn.btn-sm, .btn-group-sm > .btn {
-    height: 30px;
     padding-left: 10px;
     padding-right: 10px; }
     .btn.btn-sm i, .btn-group-sm > .btn i {
       font-size: 0.765625rem; }
       .btn.btn-sm i:before, .btn-group-sm > .btn i:before {
         /*margin: 1px 3px 2px 3px;*/ }
-  .btn.btn-lg, .btn-group-lg > .btn {
-    height: 50px; }
   .btn.icon-left i:before {
     margin: 3px 10px 0 0px; }
   .btn.icon-right i:before {
@@ -8045,7 +8041,7 @@ textarea:not(.form-control) {
   min-width: 24px; }
 
 .text-silver {
-  color: #bcbfc2 !important; }
+  color: #919191 !important; }
 
 .form-control {
   color: #555555;
@@ -8099,7 +8095,11 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     overflow: visible !important;
     white-space: nowrap;
     overflow: hidden !important;
-    text-overflow: ellipsis; }
+    text-overflow: ellipsis;
+    color: #000;
+    min-height: 20px;
+    display: flex;
+    align-items: center; }
   .bootstrap-select .dropdown-toggle .filter-option {
     width: calc(100% - 25px) !important;
     overflow: hidden !important; }
@@ -8587,6 +8587,10 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
 .mdi-22px.mdi:before {
   font-size: 22px; }
 
+.mdi-30px.mdi-set,
+.mdi-30px.mdi:before {
+  font-size: 30px; }
+
 .mdi-64px.mdi-set,
 .mdi-64px.mdi:before {
   font-size: 64px; }
@@ -8601,10 +8605,10 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
   .muted-cards .card:not(:hover) .btn-outline-primary,
   .muted-cards .card:not(:hover) .btn-outline-success,
   .muted-cards .card:not(:hover) .btn-outline-danger {
-    border-color: #bcbfc2;
-    color: #bcbfc2; }
+    border-color: #919191;
+    color: #919191; }
   .muted-cards .card:not(:hover) h1, .muted-cards .card:not(:hover) h2, .muted-cards .card:not(:hover) h3, .muted-cards .card:not(:hover) h4, .muted-cards .card:not(:hover) h5, .muted-cards .card:not(:hover) h6 {
-    color: #bcbfc2 !important; }
+    color: #919191 !important; }
 .muted-cards .card:hover {
   background: #fafafa;
   border-color: #eeeff1;
@@ -8624,10 +8628,10 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
   .muted-cards-2 .card:not(:hover) .btn-outline-primary,
   .muted-cards-2 .card:not(:hover) .btn-outline-success,
   .muted-cards-2 .card:not(:hover) .btn-outline-danger {
-    border-color: #bcbfc2;
-    color: #bcbfc2; }
+    border-color: #919191;
+    color: #919191; }
   .muted-cards-2 .card:not(:hover) h1 a.text-primary, .muted-cards-2 .card:not(:hover) h2 a.text-primary, .muted-cards-2 .card:not(:hover) h3 a.text-primary, .muted-cards-2 .card:not(:hover) h4 a.text-primary, .muted-cards-2 .card:not(:hover) h5 a.text-primary, .muted-cards-2 .card:not(:hover) h6 a.text-primary {
-    color: #bcbfc2 !important; }
+    color: #919191 !important; }
 .muted-cards-2 .card:hover {
   background: #fcfcfc;
   border-color: #eeeff1;
@@ -8650,7 +8654,7 @@ label.control-label {
   line-height: inherit;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #bcbfc2;
+  color: #919191;
   font-size: 1.2em;
   float: right;
   margin-top: -0.1em;
@@ -8699,7 +8703,8 @@ label.control-label {
     height: 50%;
     width: 100%;
     border: 0;
-    background: transparent; }
+    background: transparent;
+    color: #000; }
   .input-group .plus-minus-holder .plus {
     border-bottom: 0.5px solid #cfcfcf; }
   .input-group .plus-minus-holder button, .input-group .plus-minus-holder a {
@@ -8752,7 +8757,7 @@ label.control-label {
       border-bottom: 1px solid #4592ff; }
 
 .dropable-zone {
-  border: 2px dashed #bcbfc2;
+  border: 2px dashed #919191;
   width: 100%;
   background-image: url("../img/dropable_zone_bg.svg");
   background-size: contain;
@@ -8783,7 +8788,7 @@ label.control-label {
     .dropable-zone .holder .btn {
       margin-bottom: 20px; }
     .dropable-zone .holder p {
-      color: #bcbfc2;
+      color: #919191;
       margin-bottom: 0; }
   .dropable-zone.small-zone {
     background-image: unset;
@@ -8809,8 +8814,12 @@ label.control-label {
     right: 0; }
 
 .progress-silver {
-  border: 1px solid #bcbfc2;
-  background-color: rgba(188, 191, 194, 0.3);
+  border: 1px solid #919191;
+  background-color: rgba(145, 145, 145, 0.3);
   border-radius: 7px; }
+
+.btn-group > .btn.dropdown-toggle {
+  display: flex;
+  align-items: center; }
 
 /*# sourceMappingURL=main.css.map */

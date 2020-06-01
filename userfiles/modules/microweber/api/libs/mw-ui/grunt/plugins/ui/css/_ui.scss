@@ -116,7 +116,7 @@ textarea:not(.form-control) {
 
 .btn {
   display: inline-flex;
-  height: 40px;
+  //height: 40px; //bootswatch fix
   padding-left: 15px;
   padding-right: 15px;
 
@@ -135,7 +135,7 @@ textarea:not(.form-control) {
   }
 
   &.btn-sm {
-    height: 30px;
+    //height: 30px; //bootswatch fix
     padding-left: 10px;
     padding-right: 10px;
 
@@ -148,7 +148,7 @@ textarea:not(.form-control) {
   }
 
   &.btn-lg {
-    height: 50px;
+    //height: 50px; //bootswatch fix
   }
 
   &.icon-left {
@@ -205,7 +205,7 @@ textarea:not(.form-control) {
 }
 
 .btn.no-hover.btn-secondary:hover {
-  background: $secondary-new-color;
+  background: $secondary;
   border-color: $gray-400 !important;
 }
 
@@ -377,7 +377,7 @@ textarea:not(.form-control) {
 }
 
 .text-silver {
-  color: $silver !important;
+  color: $text-muted !important;
 }
 
 .form-control {
@@ -457,6 +457,10 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
       white-space: nowrap;
       overflow: hidden !important;
       text-overflow: ellipsis;
+      color: $black;
+      min-height: 20px;
+      display: flex;
+      align-items: center;
     }
 
     .filter-option {
@@ -1210,6 +1214,12 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
   font-size: 22px;
 }
 
+
+.mdi-30px.mdi-set,
+.mdi-30px.mdi:before {
+  font-size: 30px;
+}
+
 .mdi-64px.mdi-set,
 .mdi-64px.mdi:before {
   font-size: 64px;
@@ -1228,12 +1238,12 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     .btn-outline-primary,
     .btn-outline-success,
     .btn-outline-danger {
-      border-color: $silver;
-      color: $silver;
+      border-color: $text-muted;
+      color: $text-muted;
     }
 
     h1, h2, h3, h4, h5, h6 {
-      color: $silver !important;
+      color: $text-muted !important;
     }
   }
 
@@ -1262,13 +1272,13 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     .btn-outline-primary,
     .btn-outline-success,
     .btn-outline-danger {
-      border-color: $silver;
-      color: $silver;
+      border-color: $text-muted;
+      color: $text-muted;
     }
 
     h1, h2, h3, h4, h5, h6 {
       a.text-primary {
-        color: $silver !important;
+        color: $text-muted !important;
       }
     }
   }
@@ -1300,7 +1310,7 @@ label.control-label {
     line-height: inherit;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    color: $silver;
+    color: $text-muted;
     font-size: 1.2em;
     float: right;
     margin-top: -0.1em;
@@ -1371,6 +1381,7 @@ label.control-label {
       width: 100%;
       border: 0;
       background: transparent;
+      color: $black;
     }
 
     .plus {
@@ -1454,7 +1465,7 @@ label.control-label {
 }
 
 .dropable-zone {
-  border: 2px dashed $silver;
+  border: 2px dashed $text-muted;
   width: 100%;
   background-image: url('../img/dropable_zone_bg.svg');
   background-size: contain;
@@ -1495,7 +1506,7 @@ label.control-label {
     }
 
     p {
-      color: $silver;
+      color: $text-muted;
       margin-bottom: 0;
     }
   }
@@ -1537,7 +1548,13 @@ label.control-label {
 }
 
 .progress-silver {
-  border: 1px solid $silver;
-  background-color: rgba(red($silver), green($silver), blue($silver), .3);
+  border: 1px solid $text-muted;
+  background-color: rgba(red($text-muted), green($text-muted), blue($text-muted), .3);
   border-radius: 7px;
+}
+
+
+.btn-group > .btn.dropdown-toggle{
+  display: flex;
+  align-items: center;
 }

@@ -9,7 +9,7 @@ $gray-700: #555555 !default;
 $gray-800: #343a40 !default;
 $gray-900: #212529 !default;
 $black: #000 !default;
-$silver: #bcbfc2 !default;
+$silver: #919191 !default;
 
 
 $blue: #4592ff !default;
@@ -24,6 +24,7 @@ $teal: #20c997 !default;
 $cyan: #e1f1fd !default;
 
 $secondary-new-color: #eeefef;
+
 $primary: $blue !default;
 $secondary: $secondary-new-color !default;
 $success: $green !default;
@@ -42,8 +43,10 @@ $font-size-base: 0.875rem;
 $font-size-lg: $font-size-base * 1.25 !default;
 $font-size-sm: $font-size-base * .875 !default;
 
-//$font-family-sans-serif: 'Verdana' !default;
-//$font-family-monospace: 'Verdana' !default;
+$small-font-size:             12px !default;
+
+$font-family-sans-serif: 'Verdana' !default;
+$font-family-monospace: 'Verdana' !default;
 
 $font-family-sans-serif:      -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
 $font-family-monospace:       SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
