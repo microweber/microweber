@@ -1357,13 +1357,12 @@ class DefaultController extends Controller
 
                 if (!$back_to_editmode and !$is_editmode and empty($_GET)) {
                     if ($enable_full_page_cache) {
-                        $output_cache_timeout = 120;
+                        $output_cache_timeout = 12000;
                     }
                 }
 
             }
         }
-
 
         if (isset($is_preview_template) and $is_preview_template != false) {
             if (!defined('MW_NO_SESSION')) {
@@ -1378,9 +1377,10 @@ class DefaultController extends Controller
             if ($output_cache_timeout != false and isset($_SERVER['REQUEST_URI']) and $_SERVER['REQUEST_URI']) {
                 $compile_assets = \Config::get('microweber.compile_assets');
 
-                $output_cache_id = __FUNCTION__ . crc32(MW_VERSION . intval($compile_assets) . $_SERVER['REQUEST_URI']);
-                $output_cache_group = 'global/full_page_cache';
+                $output_cache_id = __FUNCTION__ . crc32(MW_VERSION . intval($compile_assets) . $_SERVER['REQUEST_URI']).current_lang();
+                $output_cache_group = 'global';
                 $output_cache_content = $this->app->cache_manager->get($output_cache_id, $output_cache_group, $output_cache_timeout);
+
                 if ($output_cache_content != false) {
                     echo $output_cache_content;
                     return;
@@ -2144,13 +2144,11 @@ class DefaultController extends Controller
             }
 
             if ($output_cache_timeout != false) {
-
-                if (!defined('MW_NO_OUTPUT_CACHE')) {
+                 if (!defined('MW_NO_OUTPUT_CACHE')) {
                     $l = $this->app->parser->replace_non_cached_modules_with_placeholders($l);
                     $this->app->cache_manager->save($l, $output_cache_id, $output_cache_group, $output_cache_timeout);
                 }
             }
-
             if (isset($_REQUEST['debug'])) {
                 if ($this->app->make('config')->get('app.debug')) {
                     $is_admin = $this->app->user_manager->is_admin();
