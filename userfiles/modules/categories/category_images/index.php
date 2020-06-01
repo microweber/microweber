@@ -30,7 +30,7 @@ if (!isset($parent) or $parent == '') {
 $cache_id = __CLASS__ . __FUNCTION__ .'category_images'. crc32(json_encode($params) . $hide_pages . $show_subcats . $show_category_header . $show_only_for_parent . $selected_page . $parent . current_lang());
 $cache_group = 'categories';
 
-$results = cache_get($cache_id, $cache_group, 6000);
+$results = cache_get($cache_id, $cache_group, false);
 //$results = false;
 if ($results) {
     $cats = $results;
