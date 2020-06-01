@@ -86,7 +86,7 @@ class CategoryManager
 
 
         $renderer = new KnpCategoryTreeRenderer($this->app);
-       // $renderer->setUseCache(true);
+      $renderer->setUseCache(true);
 
 
 

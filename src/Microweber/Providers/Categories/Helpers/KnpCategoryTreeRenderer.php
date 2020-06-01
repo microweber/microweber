@@ -60,8 +60,10 @@ class KnpCategoryTreeRenderer
 
     public function render($params)
     {
+
+
         $permalinkStructure = get_option('permalink_structure', 'website');
-         $cache_id = __CLASS__ . __FUNCTION__ . crc32(json_encode($params).$permalinkStructure);
+        $cache_id = __CLASS__ . __FUNCTION__ . crc32(json_encode($params) . $permalinkStructure.current_lang());
         $cache_group = 'categories';
         if ($this->use_cache) {
             $results = cache_get($cache_id, $cache_group, 600);
@@ -255,7 +257,7 @@ class KnpCategoryTreeRenderer
         $renderer = new ListRenderer(new \Knp\Menu\Matcher\Matcher(), $options);
         $tree = $renderer->render($main_menu);
 
-        if($tree){
+        if ($tree) {
             if ($this->use_cache) {
                 cache_save($tree, $cache_id, $cache_group);
             }
