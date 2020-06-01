@@ -1,5 +1,8 @@
 <?php
 
+
+
+$cats = [];
 $parent = $selected_category = get_option('fromcategory', $params['id']);
 $selected_page = get_option('frompage', $params['id']);
 
@@ -24,9 +27,19 @@ if (!isset($parent) or $parent == '') {
     $parent = 0;
 }
 
+$cache_id = __CLASS__ . __FUNCTION__ .'category_images'. crc32(json_encode($params) . $hide_pages . $show_subcats . $show_category_header . $show_only_for_parent . $selected_page . $parent . current_lang());
+$cache_group = 'categories';
 
-$cat_ids = array();
-$content_ids = array();
+$results = cache_get($cache_id, $cache_group, 6000);
+//$results = false;
+if ($results) {
+    $cats = $results;
+} else {
+
+//cache_save($tree, $cache_id, $cache_group);
+
+    $cat_ids = array();
+    $content_ids = array();
 
 
 //$cats = get_categories('no_limit=true&order_by=position asc&rel_id=[not_null]&parent_id=' . intval($parent));
@@ -37,159 +50,172 @@ $content_ids = array();
 //    $cats = get_categories('no_limit=true&order_by=position asc&rel_id=' . intval($selected_page));
 //}
 
-$selected_cats = array();
-$selected_cats2 = array();
-$selected_pages = array();
-$cats = array();
+    $selected_cats = array();
+    $selected_cats2 = array();
+    $selected_pages = array();
+    $cats = array();
 
 
-if ($selected_page) {
-    $selected_page_explode = explode(',', $selected_page);
-    foreach ($selected_page_explode as $sel) {
-        $selected_pages[] = $sel;
+    if ($selected_page) {
+        $selected_page_explode = explode(',', $selected_page);
+        foreach ($selected_page_explode as $sel) {
+            $selected_pages[] = $sel;
+        }
     }
-}
 
 
-if ($selected_category) {
-    $selected_category_explode = explode(',', $selected_category);
-    foreach ($selected_category_explode as $sel) {
-        $selected_cats[] = $sel;
+    if ($selected_category) {
+        $selected_category_explode = explode(',', $selected_category);
+        foreach ($selected_category_explode as $sel) {
+            $selected_cats[] = $sel;
+        }
     }
-}
 
-if ($selected_pages) {
-    foreach ($selected_pages as $sel_p) {
-        $pp = get_content_by_id($sel_p);
-        $pp['is_page'] = true;
-        $cats[] = $pp;
+    if ($selected_pages) {
+        foreach ($selected_pages as $sel_p) {
+            $pp = get_content_by_id($sel_p);
+            $pp['is_page'] = true;
+            $cats[] = $pp;
 
 
-        if ($selected_cats) {
-            foreach ($selected_cats as $sk => $sel_c) {
-                $category_page_check = get_page_for_category($sel_c);
+            if ($selected_cats) {
+                foreach ($selected_cats as $sk => $sel_c) {
 
-                $cat_data = get_category_by_id($sel_c);
-                if (isset($category_page_check['id']) and $category_page_check['id'] == $sel_p) {
-                    if (!in_array($cat_data['id'], $cat_ids)) {
-                        $cats[] = $cat_data;
-                        $cat_ids [] = $cat_data['id'];
-                    }
+                    $category_page_check = get_page_for_category($sel_c);
 
-                    if ($show_subcats and !$show_only_for_parent) {
-                        $sub_cats = app()->category_manager->get_children($cat_data['id']);
-                        if ($sub_cats) {
-                            foreach ($sub_cats as $sub_cat) {
-                                $cat_data2 = get_category_by_id($sub_cat);
-                                if ($cat_data2) {
-                                    if (!in_array($cat_data2['id'], $cat_ids)) {
-                                        $cats[] = $cat_data2;
-                                        $cat_ids [] = $cat_data2['id'];
+                    $cat_data = get_category_by_id($sel_c);
+                    if (isset($category_page_check['id']) and $category_page_check['id'] == $sel_p) {
+                        if (!in_array($cat_data['id'], $cat_ids)) {
+                            $cats[] = $cat_data;
+                            $cat_ids [] = $cat_data['id'];
+                        }
+
+                        if ($show_subcats and !$show_only_for_parent) {
+                            $sub_cats = app()->category_manager->get_children($cat_data['id']);
+                            if ($sub_cats) {
+                                foreach ($sub_cats as $sub_cat) {
+                                    $cat_data2 = get_category_by_id($sub_cat);
+                                    if ($cat_data2) {
+                                        if (!in_array($cat_data2['id'], $cat_ids)) {
+                                            $cats[] = $cat_data2;
+                                            $cat_ids [] = $cat_data2['id'];
+                                        }
                                     }
                                 }
                             }
                         }
+
+                        //    unset($selected_cats[$sk]);
+                    } else {
+                        //   $selected_cats2[] = $cat_data;
                     }
-
-                //    unset($selected_cats[$sk]);
-                } else {
-                    //   $selected_cats2[] = $cat_data;
-                }
-            }
-        }
-
-
-        if ($show_subcats) {
-            $subcats = app()->category_manager->get_for_content($sel_p);
-
-            if ($subcats) {
-                foreach ($subcats as $subcat) {
-                    if (!in_array($subcat['id'], $cat_ids)) {
-                        $cats[] = $subcat;
-                        $cat_ids [] = $subcat['id'];
-                    }
-                    //   $cats[] = $subcat;
                 }
             }
 
+
+            if ($show_subcats) {
+                $subcats = app()->category_manager->get_for_content($sel_p);
+
+                if ($subcats) {
+                    foreach ($subcats as $subcat) {
+                        if (!in_array($subcat['id'], $cat_ids)) {
+                            $cats[] = $subcat;
+                            $cat_ids [] = $subcat['id'];
+                        }
+
+                    }
+                }
+
+            }
+
+
+
+
         }
-
-
-        //   $cats=    array_unique_recursive($cats);
-
     }
-}
 
-if ($selected_cats) {
-    $selected_cats = array_unique($selected_cats);
 
-    $selected_cats_ids = $selected_cats;
-    foreach ($selected_cats_ids as $selected_cats_id) {
-        $cat_data = get_category_by_id($selected_cats_id);
-        if ($cat_data) {
-            if (!in_array($cat_data['id'], $cat_ids)) {
-                $cats[] = $cat_data;
-                $cat_ids [] = $cat_data['id'];
-            }
+    if ($selected_cats) {
+        $selected_cats = array_unique($selected_cats);
 
-            if($show_subcats and !$show_only_for_parent){
-                $sub_cats = app()->category_manager->get_children($cat_data['id']);
-                if ($sub_cats) {
-                    foreach ($sub_cats as $sub_cat) {
-                        $cat_data2 = get_category_by_id($sub_cat);
-                        if ($cat_data2) {
-                            if (!in_array($cat_data2['id'], $cat_ids)) {
-                                $cats[] = $cat_data2;
-                                $cat_ids [] = $cat_data2['id'];
+        $selected_cats_ids = $selected_cats;
+        foreach ($selected_cats_ids as $selected_cats_id) {
+            $cat_data = get_category_by_id($selected_cats_id);
+            if ($cat_data) {
+                if (!in_array($cat_data['id'], $cat_ids)) {
+                    $cats[] = $cat_data;
+                    $cat_ids [] = $cat_data['id'];
+                }
+                //
+
+                if ($show_subcats and !$show_only_for_parent) {
+                    $sub_cats = app()->category_manager->get_children($cat_data['id']);
+                    if ($sub_cats) {
+                        foreach ($sub_cats as $sub_cat) {
+                            $cat_data2 = get_category_by_id($sub_cat);
+                            if ($cat_data2) {
+                                if (!in_array($cat_data2['id'], $cat_ids)) {
+                                    $cats[] = $cat_data2;
+                                    $cat_ids [] = $cat_data2['id'];
+                                }
                             }
                         }
                     }
                 }
-             }
+
+            }
+        }
+    }
+
+
+    if (!empty($cats)) {
+        foreach ($cats as $k => $cat) {
+            $cat['content_items'] = false;
+            $cat['content_items_count'] = false;
+            if (isset($cat['is_page'])) {
+
+                if ($hide_pages) {
+                    unset($cats[$k]);
+                    continue;
+                }
+
+                $cat['picture'] = get_picture($cat['id'], 'content');
+                $cat['url'] = content_link($cat['id']);
+
+                $cats[$k] = $cat;
+            } else {
+
+                $cat['picture'] = get_picture($cat['id'], 'category');
+                $cat['url'] = category_link($cat['id']);
+
+                if (isset($cat['rel_type']) and $cat['rel_type'] == 'content') {
+                    $latest = get_content("order_by=position desc&limit=30&is_active=1&category=" . $cat['id']);
+                    $latest_count = get_content("no_cache=1&count=1&is_active=1&category=" . $cat['id']);
+
+                    if (!$cat['picture'] and isset($latest[0])) {
+                        $latest_product = $latest[0];
+                        $cat['picture'] = get_picture($latest_product['id']);
+                    }
+                    if ($latest) {
+                        $cat['content_items'] = $latest;
+                        $cat['content_items_count'] = $latest_count;
+
+                    }
+                }
+               // $cat['has_posts'] = get_content('count=1&is_active=1&category=' . $cat['id']);
+                 $cats[$k] = $cat;
+            }
+
 
         }
     }
+
+    cache_save($cats, $cache_id, $cache_group);
 }
 
-
-if (!empty($cats)) {
-    foreach ($cats as $k => $cat) {
-
-        if (isset($cat['is_page'])) {
-
-            if($hide_pages){
-                unset($cats[$k]);
-                continue;
-            }
-
-            $cat['picture'] = get_picture($cat['id'], 'content');
-            $cat['url'] = content_link($cat['id']);
-            $cats[$k] = $cat;
-        } else {
-
-            $cat['picture'] = get_picture($cat['id'], 'category');
-            $cat['url'] = category_link($cat['id']);
-
-            if (isset($cat['rel_type']) and $cat['rel_type'] == 'content') {
-                $latest = get_content("order_by=position desc&limit=30&is_active=1&category=" . $cat['id']);
-                if (!$cat['picture'] and isset($latest[0])) {
-                    $latest_product = $latest[0];
-                    $cat['picture'] = get_picture($latest_product['id']);
-                }
-                if ($latest) {
-                    $cat['content_items'] = $latest;
-                }
-            }
-            $cats[$k] = $cat;
-        }
-
-
-
-    }
-}
-//$cats=    array_unique_recursive($cats);
 
 $selected_cats = $cats;
+
 if (!$selected_cats) {
     print lnotif('Categories not found');
 }

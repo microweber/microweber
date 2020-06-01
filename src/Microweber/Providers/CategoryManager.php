@@ -219,8 +219,17 @@ class CategoryManager
 
     public function get_children($parent_id = 0, $type = false, $visible_on_frontend = false)
     {
+        $cache_id = __CLASS__ . __FUNCTION__ . crc32(json_encode($parent_id) .$visible_on_frontend. $type.current_lang());
+        $cache_group = 'categories';
+
+
+        $results = cache_get($cache_id, $cache_group, 600);
+        if ($results) {
+            return $results;
+        }
+
         $categories_id = $parent_id = intval($parent_id);
-        $cache_group = 'categories/' . $categories_id;
+
 
         $table = $this->tables['categories'];
 
@@ -259,6 +268,7 @@ class CategoryManager
         $params['no_limit'] = true;
         $params['parent_id'] = $parent_id;
         $params['order_by'] = 'position asc';
+        $params['fields'] = 'id,parent_id';
 
         $save = $this->app->database_manager->get($params);
 
@@ -275,6 +285,11 @@ class CategoryManager
         }
 
         $to_return = array_unique($to_return);
+
+
+        cache_save($to_return, $cache_id, $cache_group);
+
+
 
         return $to_return;
     }
@@ -747,6 +762,7 @@ class CategoryManager
         $get[$by_field_name] = $id;
        // $get['no_cache'] = true;
         $get['single'] = true;
+        $get['limit'] = 1;
         $q = $this->app->database_manager->get($table, $get);
 
         if (isset($q['category_subtype_settings']) and !is_array($q['category_subtype_settings'])) {
