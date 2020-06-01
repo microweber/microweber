@@ -512,9 +512,15 @@ class Modules
 
     public function locate($module_name, $custom_view = false, $no_fallback_to_view = false)
     {
-        if (!defined('ACTIVE_TEMPLATE_DIR')) {
-            $this->app->content_manager->define_constants();
+
+        $template_dir = templates_path().'default/';
+
+        if (defined('ACTIVE_TEMPLATE_DIR')) {
+            $template_dir = ACTIVE_TEMPLATE_DIR;
+          //  $this->app->content_manager->define_constants();
         }
+
+      //  dd(debug_backtrace(1));
 
         $module_name = trim($module_name);
         // prevent hack of the directory
@@ -522,9 +528,9 @@ class Modules
         $module_name = str_replace('..', '', $module_name);
 
         $module_name = reduce_double_slashes($module_name);
-        $module_in_template_dir = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '';
+        $module_in_template_dir = $template_dir . 'modules/' . $module_name . '';
         $module_in_template_dir = normalize_path($module_in_template_dir, 1);
-        $module_in_template_file = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '.php';
+        $module_in_template_file = $template_dir . 'modules/' . $module_name . '.php';
         $module_in_template_file = normalize_path($module_in_template_file, false);
         $module_in_default_file12 = modules_path() . $module_name . '.php';
 

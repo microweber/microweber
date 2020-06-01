@@ -82,10 +82,17 @@ class CategoryManager
      */
     public function tree($params = false)
     {
+
+
+
         $renderer = new KnpCategoryTreeRenderer($this->app);
-        if (isset($params['tree_data']) && is_array($params['tree_data'])) {
-            return $renderer->render($params, $params['tree_data']);
-        }
+      $renderer->setUseCache(true);
+
+
+
+//        if (isset($params['tree_data']) && is_array($params['tree_data'])) {
+//            return $renderer->render($params, $params['tree_data']);
+//        }
         // $renderer = new LegacyCategoryTreeRenderer($this->app);
         return $renderer->render($params);
     }
@@ -108,61 +115,7 @@ class CategoryManager
 
     public function link($id)
     {
-        if (intval($id) == 0) {
-            return false;
-        }
-
-        $function_cache_id = __FUNCTION__;
-
-        $id = intval($id);
-        $cache_group = 'categories';
-
-        // $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
-        $cache_content = false;
-        if (($cache_content) != false and isset($cache_content[$id])) {
-            return $cache_content[$id];
-        } else {
-
-            if ($cache_content == false) {
-                $cache_content = array();
-            }
-
-            $table = $this->tables['categories'];
-            $c_infp = $this->get_by_id($id);
-
-            if (!isset($c_infp['rel_type'])) {
-                return;
-            }
-
-            if (trim($c_infp['rel_type']) != 'content') {
-                return;
-            }
-
-            $content = $this->get_page($id);
-
-            if (!empty($content)) {
-                $url = $this->app->content_manager->link($content['id']);
-            }
-
-            if (isset($url) == false and defined('PAGE_ID')) {
-                $url = $this->app->content_manager->link(PAGE_ID);
-            }
-
-            if (isset($url) != false) {
-                if (isset($c_infp['url']) and trim($c_infp['url']) != '') {
-                    $url = $url . '/' . trim($c_infp['url']);
-                    // $url = $url . '/category:' . trim($c_infp['url']);
-                } else {
-                    $url = $url . '/category:' . $id;
-                }
-                //   $cache_content[$id] = $url;
-                //    $this->app->cache_manager->save($cache_content, $function_cache_id, $cache_group);
-
-                return $url;
-            }
-
-            return;
-        }
+        return mw()->permalink_manager->link($id, 'category');
     }
 
     public function get_page($category_id)
@@ -266,8 +219,17 @@ class CategoryManager
 
     public function get_children($parent_id = 0, $type = false, $visible_on_frontend = false)
     {
+        $cache_id = __CLASS__ . __FUNCTION__ . crc32(json_encode($parent_id) .$visible_on_frontend. $type.current_lang());
+        $cache_group = 'categories';
+
+
+        $results = cache_get($cache_id, $cache_group, 600);
+        if ($results) {
+            return $results;
+        }
+
         $categories_id = $parent_id = intval($parent_id);
-        $cache_group = 'categories/' . $categories_id;
+
 
         $table = $this->tables['categories'];
 
@@ -306,6 +268,7 @@ class CategoryManager
         $params['no_limit'] = true;
         $params['parent_id'] = $parent_id;
         $params['order_by'] = 'position asc';
+        $params['fields'] = 'id,parent_id';
 
         $save = $this->app->database_manager->get($params);
 
@@ -322,6 +285,11 @@ class CategoryManager
         }
 
         $to_return = array_unique($to_return);
+
+
+        cache_save($to_return, $cache_id, $cache_group);
+
+
 
         return $to_return;
     }
@@ -349,13 +317,13 @@ class CategoryManager
                 }
             }
         }
-        $get_category = $this->get('order_by=position desc&data_type=' . $data_type . '&rel_type=content&rel_id=' . ($content_id));
+        $get_category = $this->get('order_by=position asc&data_type=' . $data_type . '&rel_type=content&rel_id=' . ($content_id));
         if (empty($get_category)) {
             $get_category = array();
         }
 
         if (!empty($include_parents)) {
-            $include_parents_str = 'order_by=position desc&data_type=' . $data_type . '&rel_type=content&ids=' . implode(',', $include_parents);
+            $include_parents_str = 'order_by=position asc&data_type=' . $data_type . '&rel_type=content&ids=' . implode(',', $include_parents);
             $get_category2 = $this->get($include_parents_str);
 
             if (!empty($get_category2)) {
@@ -609,7 +577,8 @@ class CategoryManager
             and (!isset($data['url']) or trim($data['url']) == false)
             and isset($data['title'])
         ) {
-            $data['url'] = $data['title'];
+            $data['url'] = url_title($data['title']);
+
         }
 
         $old_parent = false;
@@ -621,7 +590,9 @@ class CategoryManager
         }
 
         if (isset($data['url']) and trim($data['url']) != false) {
-            $possible_slug = $this->app->url_manager->slug($data['url']);
+            //$possible_slug = $this->app->url_manager->slug($data['url']);
+            $possible_slug = mb_strtolower($data['url']);
+            $possible_slug = str_ireplace(' ', '-',$possible_slug);
             if ($possible_slug) {
                 $possible_slug_check = $this->get_by_slug($possible_slug);
                 if (isset($possible_slug_check['id'])) {
@@ -782,18 +753,19 @@ class CategoryManager
         if (is_numeric($id)) {
             $id = intval($id);
         } else {
-            $id = trim($id);
+            $id = mb_trim($id);
         }
 
         $table = $this->tables['categories'];
 
         $get = array();
         $get[$by_field_name] = $id;
-        $get['no_cache'] = true;
+       // $get['no_cache'] = true;
         $get['single'] = true;
+        $get['limit'] = 1;
         $q = $this->app->database_manager->get($table, $get);
 
-        if (isset($q['category_subtype_settings'])) {
+        if (isset($q['category_subtype_settings']) and !is_array($q['category_subtype_settings'])) {
             $q['category_subtype_settings'] = @json_decode($q['category_subtype_settings'], true);
         }
 
@@ -803,7 +775,13 @@ class CategoryManager
 
     public function get_by_slug($slug)
     {
-        return $this->get_by_id($slug, 'url');
+        $id = $this->get_by_id($slug, 'url');
+        $override = $this->app->event_manager->trigger('category.get_by_slug', $slug);
+        if ($override and is_array($override) && isset($override[0])) {
+            $id = $override[0];
+        }
+
+        return $id;
     }
 
     public function delete($data)
@@ -865,6 +843,10 @@ class CategoryManager
             $cat_url = $this->app->url_manager->param('category', true);
         }
 
+        if (!$cat_url) {
+            $cat_url = mw()->permalink_manager->slug($url, 'category');
+        }
+
         if ($cat_url != false and !is_numeric($cat_url)) {
             $cats = explode(',', $cat_url);
             if (!empty($cats)) {
@@ -891,7 +873,12 @@ class CategoryManager
                 }
             }
         }
-        //
+
+
+        $override = $this->app->event_manager->trigger('app.category.get_category_id_from_url', $cat_url);
+        if (is_array($override) && isset($override[0])) {
+            $cat_id = $override[0];
+        }
 
         if (!$cat_id) {
 
@@ -926,6 +913,7 @@ class CategoryManager
 
         return intval($cat_id);
     }
+
 
     public function get_category_childrens($cat_id)
     {

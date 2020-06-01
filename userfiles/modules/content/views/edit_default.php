@@ -6,11 +6,6 @@
         }
     });
 </script>
-<style>
-    .tree-column{
-        display: none !important;
-    }
-</style>
 <?php
 only_admin_access();
 
@@ -342,11 +337,19 @@ if (isset($params['quick_edit'])) {
                     <input type="hidden" id="content-title-field-master" name="title" onkeyup="slugFromTitle();" placeholder="<?php print $title_placeholder; ?>" value="<?php print $title_for_input; ?>" autocomplete="off"/>
                     <input type="hidden" name="is_active" id="is_post_active" value="<?php print $data['is_active']; ?>"/>
 
-                    <div class="edit-post-url">
-                        <div class="mw-ui-row">
-                            <div class="mw-ui-col" id="slug-base-url-column">
-                                <span class="view-post-site-url" id="slug-base-url"></span>
-                            </div>
+                        <div class="edit-post-url">
+                            <div class="mw-ui-row">
+                                <div class="mw-ui-col" id="slug-base-url-column">
+                                    <span class="view-post-site-url" id="slug-base-url">
+                                        <?php
+                                        if (isset($data['slug_prefix_url'])) {
+                                            echo $data['slug_prefix_url'];
+                                        } else {
+                                            echo site_url();
+                                        }
+                                        ?>
+                                    </span>
+                                </div>
 
                             <div class="mw-ui-col" id="slug-url-column">
                                 <span class="view-post-slug active" onclick="mw.slug.toggleEdit()"></span>

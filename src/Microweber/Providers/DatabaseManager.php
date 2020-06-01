@@ -116,9 +116,9 @@ class DatabaseManager extends DbUtils
             return false;
         }
 
-        $enable_trigers = true;
-        if (isset($params['enable_trigers'])) {
-            $enable_trigers = $params['enable_trigers'];
+        $enable_triggers = true;
+        if (isset($params['enable_triggers'])) {
+            $enable_triggers = $params['enable_triggers'];
         }
 
         $use_connection = false;
@@ -196,13 +196,13 @@ class DatabaseManager extends DbUtils
             $params['group_by'] = $params['groupby'];
             unset($params['groupby']);
         }
-
+        $use_cache = true;
         if (isset($orig_params['no_cache']) and ($orig_params['no_cache'])) {
             $use_cache = $this->use_cache = false;
         } else {
-            $use_cache = $this->use_cache;
+            $use_cache = $this->use_cache  = true;
         }
-        $use_cache = false;
+       // $use_cache = false;
         // $this->use_cache = false;
         $query = $this->map_filters($query, $params, $table);
         $params = $this->map_array_to_table($table, $params);
@@ -279,12 +279,15 @@ class DatabaseManager extends DbUtils
         }
 
 
+
+
         if ($use_cache == false) {
-            $data = $query->get();
+             $data = $query->get();
         } else {
             $data = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query) {
                 return $query->get();
             });
+
         }
 
         if ($data == false or empty($data)) {
@@ -323,7 +326,7 @@ class DatabaseManager extends DbUtils
             return $data;
         }
 
-        if ($enable_trigers) {
+        if ($enable_triggers) {
             $data = $this->app->event_manager->response('mw.database.' . $table . '.get', $data);
         }
 

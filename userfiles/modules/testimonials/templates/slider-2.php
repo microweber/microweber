@@ -12,10 +12,7 @@ description: Testimonials displayed in Slider
 
 ?>
 
-<script>
-    mw.lib.require('bootstrap3ns');
-    mw.lib.require('material_icons');
-</script>
+
 
 
 <script>mw.module_css("<?php print $config['url_to_module'] ?>templates/templates.css", true);</script>

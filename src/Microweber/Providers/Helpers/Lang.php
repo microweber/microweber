@@ -57,6 +57,7 @@ class Lang
      * Get the current language of the site.
      *
      * @example
+     *
      * <code>
      *  $current_lang = current_lang();
      *  print $current_lang;
@@ -65,6 +66,7 @@ class Lang
     function current_lang()
     {
         $app_locale = $this->app->getLocale();
+
         if (isset($_COOKIE['lang']) and $_COOKIE['lang'] != false) {
             $lang = $_COOKIE['lang'];
             if ($lang != $app_locale) {
@@ -233,7 +235,7 @@ class Lang
         if (is_array($mw_new_language_entries) and !empty($mw_new_language_entries)) {
 
             $mw_new_language_entries = array_merge($mw_new_language_entries, $mw_language_content);
-            //   $mw_new_language_entries = array_unique($mw_new_language_entries);
+            $mw_new_language_entries = array_unique($mw_new_language_entries);
             $lang_file_str = json_encode($mw_new_language_entries, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
             if (function_exists('iconv')) {
@@ -250,6 +252,13 @@ class Lang
     function lang_attributes()
     {
         $lang = current_lang();
+
+      /*  if (mb_strlen($lang) > 2) {
+            $lang = mb_substr($lang, 0, 2);
+        }*/
+
+        $lang = str_replace('_','-', $lang);
+
         $attr = array(
             'lang="' . $lang . '"'
         );
@@ -306,9 +315,9 @@ class Lang
 
     private function __make_lang_key_suffix($str)
     {
-        if(function_exists('iconv')){
-            $str = $this->__convert_to_utf($str);
-        }
+       if(function_exists('iconv')){
+           $str = $this->__convert_to_utf($str);
+       }
 
         $hash = array();
         $all_words = explode(' ', $str);
@@ -368,9 +377,7 @@ class Lang
             $title_value = $mw_language_content_file[$translation_key];
             $k1 = $translation_key;
 
-        }
-
-        if (isset($mw_language_content_file[$k1]) != false) {
+        } else if (isset($mw_language_content_file[$k1]) != false) {
             $title_value = $mw_language_content_file[$k1];
             $k1 = $translation_key;
             $mw_new_language_entries[$k1] = $title_value;
@@ -469,7 +476,7 @@ class Lang
             }
         }
         if ($ns) {
-            //  $ns = array_unique($ns);
+            $ns = array_unique($ns);
         }
         return $ns;
     }
@@ -695,7 +702,7 @@ class Lang
             $lang_file = $cust_dir . $lang . '.json';
 
             if (is_array($mw_language_content)) {
-                //$mw_language_content = array_unique($mw_language_content);
+                $mw_language_content = array_unique($mw_language_content);
                 $lang_file_str = json_encode($mw_language_content, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
                 if (is_admin() == true) {
@@ -710,15 +717,15 @@ class Lang
     function get_all_lang_codes()
     {
         $langs = array(
-            //  'Abkhazian' => 'AB',
-            // 'Afar' => 'AA',
+          //  'Abkhazian' => 'AB',
+           // 'Afar' => 'AA',
             'Afrikaans' => 'AF',
-            //  'Albanian' => 'SQ',
+          //  'Albanian' => 'SQ',
             'Amharic' => 'AM',
             'Arabic' => 'AR',
             //'Armenian' => 'HY',
             'Assamese' => 'AS',
-            // 'Aymara' => 'AY',
+           // 'Aymara' => 'AY',
             'Azerbaijani' => 'AZ',
             'Bashkir' => 'BA',
             'Basque' => 'EU',
@@ -732,7 +739,7 @@ class Lang
             'Byelorussian' => 'BE',
             'Cambodian' => 'KM',
             'Catalan' => 'CA',
-            //  'Chinese' => 'ZH',
+          //  'Chinese' => 'ZH',
             'Corsican' => 'CO',
             'Croatian' => 'HR',
             //'Czech' => 'CS',
@@ -740,43 +747,43 @@ class Lang
             'Dutch' => 'NL',
             'English, American' => 'EN',
             'English, United Kingdom' => 'EN_UK',
-            // 'Esperanto' => 'EO',
+           // 'Esperanto' => 'EO',
             'Estonian' => 'ET',
             'Faeroese' => 'FO',
             'Fiji' => 'FJ',
             'Finnish' => 'FI',
             'French' => 'FR',
-            //   'Frisian' => 'FY',
+         //   'Frisian' => 'FY',
             'Gaelic (Scots Gaelic)' => 'GD',
             'Galician' => 'GL',
-            // 'Georgian' => 'KA',
+           // 'Georgian' => 'KA',
             'German' => 'DE',
             'Greek' => 'EL',
-            // 'Greenlandic' => 'KL',
+           // 'Greenlandic' => 'KL',
             'Guarani' => 'GN',
             'Gujarati' => 'GU',
-            //  'Hausa' => 'HA',
-            //  'Hebrew' => 'IW',
-            //  'Hindi' => 'HI',
+          //  'Hausa' => 'HA',
+          //  'Hebrew' => 'IW',
+          //  'Hindi' => 'HI',
             'Hungarian' => 'HU',
             'Icelandic' => 'IS',
             'Indonesian' => 'IN',
-            //  'Interlingua' => 'IA',
+          //  'Interlingua' => 'IA',
             'Interlingue' => 'IE',
-            //  'Inupiak' => 'IK',
+          //  'Inupiak' => 'IK',
             'Irish' => 'GA',
             'Italian' => 'IT',
-            // 'Japanese' => 'JA',
-            // 'Javanese' => 'JW',
+          // 'Japanese' => 'JA',
+           // 'Javanese' => 'JW',
             'Kannada' => 'KN',
-            // 'Kashmiri' => 'KS',
-            // 'Kazakh' => 'KK',
+           // 'Kashmiri' => 'KS',
+           // 'Kazakh' => 'KK',
             'Kinyarwanda' => 'RW',
             'Kirghiz' => 'KY',
-            // 'Kirundi' => 'RN',
-            // 'Korean' => 'KO',
-            // 'Kurdish' => 'KU',
-            // 'Laothian' => 'LO',
+           // 'Kirundi' => 'RN',
+           // 'Korean' => 'KO',
+           // 'Kurdish' => 'KU',
+           // 'Laothian' => 'LO',
             'Latin' => 'LA',
             'Latvian, Lettish' => 'LV',
             //'Lingala' => 'LN',
@@ -786,23 +793,23 @@ class Lang
             'Malay' => 'MS',
             'Malayalam' => 'ML',
             'Maltese' => 'MT',
-            //    'Maori' => 'MI',
+        //    'Maori' => 'MI',
             'Marathi' => 'MR',
             'Moldavian' => 'MO',
             'Mongolian' => 'MN',
             'Nauru' => 'NA',
             'Nepali' => 'NE',
             'Norwegian' => 'NO',
-            //  'Occitan' => 'OC',
-            // 'Oriya' => 'OR',
+          //  'Occitan' => 'OC',
+           // 'Oriya' => 'OR',
             'Oromo, Afan' => 'OM',
             'Pashto, Pushto' => 'PS',
-            // 'Persian' => 'FA',
+           // 'Persian' => 'FA',
             'Polish' => 'PL',
             'Portuguese' => 'PT',
             'Punjabi' => 'PA',
-            // 'Quechua' => 'QU',
-            // 'Rhaeto-Romance' => 'RM',
+           // 'Quechua' => 'QU',
+           // 'Rhaeto-Romance' => 'RM',
             'Romanian' => 'RO',
             'Russian' => 'RU',
             'Samoan' => 'SM',
@@ -821,32 +828,32 @@ class Lang
             'Somali' => 'SO',
             'Spanish' => 'ES',
             //'Sudanese' => 'SU',
-            //  'Swahili' => 'SW',
+          //  'Swahili' => 'SW',
             'Swedish' => 'SV',
             'Tagalog' => 'TL',
             'Tajik' => 'TG',
-            // 'Tamil' => 'TA',
+           // 'Tamil' => 'TA',
             'Tatar' => 'TT',
-            // 'Tegulu' => 'TE',
+           // 'Tegulu' => 'TE',
             'Thai' => 'TH',
             'Tibetan' => 'BO',
-            // 'Tigrinya' => 'TI',
+           // 'Tigrinya' => 'TI',
             'Tonga' => 'TO',
-            //  'Tsonga' => 'TS',
+          //  'Tsonga' => 'TS',
             'Turkish' => 'TR',
             'Turkmen' => 'TK',
             'Twi' => 'TW',
-            // 'Ukrainian' => 'UK',
-            // 'Urdu' => 'UR',
+           // 'Ukrainian' => 'UK',
+           // 'Urdu' => 'UR',
             'Uzbek' => 'UZ',
             'Vietnamese' => 'VI',
-            //  'Volapuk' => 'VO',
+          //  'Volapuk' => 'VO',
             'Welsh' => 'CY',
-            /* 'Wolof' => 'WO',
-             'Xhosa' => 'XH',
-             'Yiddish' => 'JI',
-             'Yoruba' => 'YO',
-             'Zulu' => 'ZU'*/
+           /* 'Wolof' => 'WO',
+            'Xhosa' => 'XH',
+            'Yiddish' => 'JI',
+            'Yoruba' => 'YO',
+            'Zulu' => 'ZU'*/
         );
 
 

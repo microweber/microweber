@@ -5,21 +5,37 @@
  *
  * @param null $class
  *
- * @return \Microweber\Application Microweber Application object
+ * @return mixed|\Illuminate\Foundation\Application|\Microweber\Application
  */
 function mw($class = null)
 {
     return app($class);
+}
 
-    $app = \Microweber\Application::getInstance();
-    $class = str_replace('/', '\\', $class);
-    if ($class == null or $class == false or strtolower($class) == 'application') {
-        return $app;
-    } else {
-        //return $app->make($class);
-        return $app->make($class);
+
+if (! function_exists('app')) {
+    /**
+     * Get the available container instance.
+     *
+     * @param  string  $abstract
+     * @param  array   $parameters
+     * @return mixed|\Illuminate\Foundation\Application|\Microweber\Application
+     */
+    function app($abstract = null, array $parameters = [])
+    {
+        if (is_null($abstract)) {
+            return Container::getInstance();
+        }
+
+        return empty($parameters)
+            ? Container::getInstance()->make($abstract)
+            : Container::getInstance()->makeWith($abstract, $parameters);
     }
 }
+
+
+
+
 
 if (!function_exists('d')) {
     function d($dump)

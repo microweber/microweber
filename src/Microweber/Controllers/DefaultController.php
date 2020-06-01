@@ -163,6 +163,7 @@ class DefaultController extends Controller
             $this->app->content_manager->define_constants();
         }
 
+
         if (defined('TEMPLATE_DIR')) {
             $load_template_functions = TEMPLATE_DIR . 'functions.php';
             if (is_file($load_template_functions)) {
@@ -1805,6 +1806,22 @@ class DefaultController extends Controller
                     }
                 }
             }
+
+        /*    if (!defined('CATEGORY_ID')) {
+                define('CATEGORY_ID', false);
+            }
+
+          /*  if (!defined('POST_ID')) {
+                define('POST_ID', false);
+            }*/
+
+           /* if (!defined('CONTENT_ID')) {
+                define('CONTENT_ID', false);
+            }
+
+            if (!defined('PAGE_ID')) {
+                define('PAGE_ID', false);
+            }*/
 
             $render_params['render_file'] = $render_file;
             $render_params['page_id'] = PAGE_ID;

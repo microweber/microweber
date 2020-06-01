@@ -8,7 +8,7 @@ use Config;
 
 trait QueryFilter
 {
-    public $table_cache_ttl = 60;
+    public $table_cache_ttl = 600;
 
     public $filter_keys = [];
 
@@ -231,7 +231,6 @@ trait QueryFilter
                         }
                     }
 
-                    //dd($params);
                     unset($params[$filter]);
                     break;
 
@@ -415,6 +414,13 @@ trait QueryFilter
                                 $cat_ids_strict = '';
                             }
 
+                            if (!$strict_categories) {
+                                if($ids){
+
+                                  //   $get_subcats = $this->table('categories')->where('data_type','category')->whereIn('parent_id',$ids)->get();
+                                 }
+                            }
+
                             if (!isset($search_joined_tables_check['categories_items'])) {
                                 $search_joined_tables_check['categories_items'] = true;
 
@@ -445,7 +451,6 @@ trait QueryFilter
 //
 
                             //  $query->whereIn('categories_items_joined_table.parent_id', $ids)->distinct();
-                            //  dd($ids);
 
 //                            foreach ($ids as $cat_id) {
 //                               $query->where('categories_items_joined_table.parent_id', $cat_id);
@@ -460,7 +465,7 @@ trait QueryFilter
 
                         }
 
-                        //dd($query);
+
                     }
                     unset($params[$filter]);
 
@@ -589,7 +594,7 @@ trait QueryFilter
                     break;
 
                 case 'no_cache':
-                    $this->useCache = false;
+                   // $this->useCache = false;
                     break;
 
 //                case 'is_active':
@@ -723,6 +728,9 @@ trait QueryFilter
             }
             call_user_func_array($callback, [$query, $params[$name], $table]);
         }
+
+        $query_hook = $criteria_overwrite = $this->app->event_manager->response('mw.database.' . $table . '.get.query_filter', ['query'=>$query,'params'=>$params]);
+        $query = $this->map_array_to_table($table, $query_hook['query']);
 
         return $query;
     }
