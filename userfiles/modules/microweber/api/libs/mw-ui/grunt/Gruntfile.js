@@ -6,7 +6,7 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
 
         folder: {
-            dist: 'dist/',
+            dist: '../assets/ui/',
             distCSS: '<%= folder.dist%>plugins/css/',
             distJS: '<%= folder.dist%>plugins/js/',
             distFonts: '<%= folder.dist%>plugins/fonts/',
@@ -22,9 +22,12 @@ module.exports = function (grunt) {
         copy: {
             main: {
                 files: [
-                    {expand: true, cwd: 'node_modules/jquery/dist/', src: ['jquery.min.js'], dest: '<%= folder.distJS %>'},
+                    {expand: true, cwd: 'plugins/', src: ['jquery-3.4.1.min.js'], dest: '<%= folder.distJS %>'},
                     //{expand: true, cwd: 'plugins/collapseNav/', src: ['collapseNav.js'], dest: '<%= folder.distJS %>'},
-                    
+
+                    //CSS Workfiles
+                    // {expand: true, cwd: 'plugins/ui/css/', src: ['main.css', 'mw.css'], dest: '<%= folder.distCSS %>'},
+
                     //Fonts
                     {expand: true, cwd: 'node_modules/@mdi/font/fonts/', src: ['**'], dest: '<%= folder.distFonts %>'},
                     {expand: true, cwd: 'node_modules/@fortawesome/fontawesome-free/webfonts/', src: ['**'], dest: '<%= folder.distWebFonts %>'},
@@ -51,6 +54,9 @@ module.exports = function (grunt) {
 
                         //Bootstrap Select
                         'node_modules/bootstrap-select/dist/css/bootstrap-select.css',
+
+                        //Tags
+                        'plugins/tags/bootstrap-tagsinput.css',
 
                         //ionRange
                         'node_modules/ion-rangeslider/css/ion.rangeSlider.css',
@@ -94,6 +100,9 @@ module.exports = function (grunt) {
                     //Bootstrap Select
                     'node_modules/bootstrap-select/dist/js/bootstrap-select.js',
 
+                    //Tags
+                    'plugins/tags/bootstrap-tagsinput.js',
+
                     //ionRange
                     'node_modules/ion-rangeslider/js/ion.rangeSlider.js',
 
@@ -102,6 +111,9 @@ module.exports = function (grunt) {
 
                     //AOS
                     'node_modules/aos/dist/aos.js',
+
+                    //jQuery Cookie
+                    'plugins/cookie/jquery.cookie.js',
 
                     //UI
                     'plugins/ui/js/ui.js',

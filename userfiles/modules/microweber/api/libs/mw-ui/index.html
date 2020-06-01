@@ -7,7 +7,7 @@
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="grunt/plugins/ui/css/main.css">
-        <link rel="stylesheet" href="grunt/dist/plugins/css/plugins.min.css"/>
+        <link rel="stylesheet" href="assets/ui/plugins/css/plugins.min.css"/>
 
         <title>Hello, world!</title>
     </head>
@@ -680,6 +680,12 @@
                                         </div>
                                     </div>
 
+                                    <div class="bs-component my-3">
+                                        <div class="progress progress-silver">
+                                            <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+
                                     <h3 id="progress-alternatives">Contextual alternatives</h3>
                                     <div class="bs-component my-3">
                                         <div class="progress my-1">
@@ -1340,18 +1346,18 @@
                                             <option data-tokens="frosting">Sugar, Spice and all things nice</option>
                                         </select>
                                     </div>
+
+                                    <div class="col-lg-3 my-1">
+                                        <label>As link</label>
+                                        <select class="selectpicker as-link" data-style="btn-sm">
+                                            <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
+                                            <option data-tokens="mustard">Burger, Shake and a Smile</option>
+                                            <option data-tokens="frosting">Sugar, Spice and all things nice</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <br/>
-                                <br/>
-                                <br/>
-                                <br/>
-                                <br/>
-                                <br/>
-                                <br/>
-                                <br/>
-                                <br/>
-                                <br/>
-                                <br/>
+
                             </div>
 
                             <div class="mb-5">
@@ -1361,7 +1367,27 @@
                                     <div class="col-lg-3 my-1">
                                         <label>Dropdown as Link</label>
                                         <div>
+                                            <select class="selectpicker btn-as-link" data-style="btn-sm" data-width="auto">
+                                                <option>Mustard</option>
+                                                <option>Ketchup</option>
+                                                <option>Barbecue</option>
+                                                <option>Tent</option>
+                                                <option>Flashlight</option>
+                                                <option>Toilet Paper</option>
+                                            </select>
+                                        </div>
+                                        <div>
                                             <select class="selectpicker btn-as-link" data-width="auto">
+                                                <option>Mustard</option>
+                                                <option>Ketchup</option>
+                                                <option>Barbecue</option>
+                                                <option>Tent</option>
+                                                <option>Flashlight</option>
+                                                <option>Toilet Paper</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <select class="selectpicker btn-as-link" data-style="btn-lg" data-width="auto">
                                                 <option>Mustard</option>
                                                 <option>Ketchup</option>
                                                 <option>Barbecue</option>
@@ -1427,6 +1453,18 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+
+                                    <div class="col-lg-3 my-1">
+                                        <input type="text" data-role="tagsinput" value="L,M,XL" placeholder="Separate options with a comma" />
+
+                                        <select data-role="tagsinput" multiple>
+                                            <option value="Amsterdam">Amsterdam</option>
+                                            <option value="Washington">Washington</option>
+                                            <option value="Sydney">Sydney</option>
+                                            <option value="Beijing">Beijing</option>
+                                            <option value="Cairo">Cairo</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -1654,57 +1692,112 @@
                         <div class="container">
                             <div class="bs-docs-section">
                                 <div class="row mb-4">
+                                    <div class="col-md-4">
+                                        <h3>Square dropable zones</h3>
+
+                                        <div class="dropable-zone small-zone square-zone">
+                                            <div class="holder">
+                                                <button type="button" class="btn btn-link">Add file</button>
+                                                <p>or drop file to upload</p>
+                                            </div>
+                                        </div>
+
+                                        <br /><br />
+
+                                        <div class="dropable-zone square-zone">
+                                            <div class="holder">
+                                                <div class="dropable-zone-img"></div>
+
+                                                <div class="progress progress-silver">
+                                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+
+                                                <button type="button" class="btn btn-primary btn-rounded">Add file</button>
+                                                <p>or drop files to upload</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <h3>Auto height dropable zones</h3>
+
+                                        <div class="dropable-zone small-zone">
+                                            <div class="holder">
+                                                <button type="button" class="btn btn-link">Add file</button>
+                                                <p>or drop file to upload</p>
+                                            </div>
+                                        </div>
+
+                                        <br /><br />
+
+                                        <div class="dropable-zone">
+                                            <div class="holder">
+                                                <div class="dropable-zone-img"></div>
+
+                                                <div class="progress progress-silver">
+                                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+
+                                                <button type="button" class="btn btn-primary btn-rounded">Add file</button>
+                                                <p>or drop files to upload</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bs-docs-section">
+                                <div class="row mb-4">
                                     <div class="col-4 d-flex flex-column align-items-center jusityf-content-center">
-                                        <div class="img-circle-holder">
-                                            <img src="https://s12emagst.akamaized.net/products/14414/14413292/images/res_77ef39ad42fe97f3288ebb6ed0e91dad_450x450_5rk5.jpg" />
-                                        </div>
-                                        <br />
-                                        <div class="img-circle-holder w-60">
-                                            <img src="https://s12emagst.akamaized.net/products/14414/14413292/images/res_77ef39ad42fe97f3288ebb6ed0e91dad_450x450_5rk5.jpg" />
-                                        </div>
-                                        <br />
                                         <div class="img-circle-holder img-absolute">
-                                            <img src="https://s12emagst.akamaized.net/products/14414/14413292/images/res_77ef39ad42fe97f3288ebb6ed0e91dad_450x450_5rk5.jpg" />
+                                            <img src="assets/img/no-image.jpg" />
                                         </div>
                                         <br />
                                         <div class="img-circle-holder img-absolute w-60">
-                                            <img src="https://s12emagst.akamaized.net/products/14414/14413292/images/res_77ef39ad42fe97f3288ebb6ed0e91dad_450x450_5rk5.jpg" />
+                                            <img src="assets/img/no-image.jpg" />
+                                        </div>
+                                        <br />
+                                        <div class="img-circle-holder">
+                                            <img src="assets/img/no-image.jpg" />
+                                        </div>
+                                        <br />
+                                        <div class="img-circle-holder w-60">
+                                            <img src="assets/img/no-image.jpg" />
                                         </div>
                                     </div>
 
                                     <div class="col-4 d-flex flex-column align-items-center jusityf-content-center">
                                         <div class="img-circle-holder border-radius-10">
-                                            <img src="https://s12emagst.akamaized.net/products/14414/14413292/images/res_77ef39ad42fe97f3288ebb6ed0e91dad_450x450_5rk5.jpg" />
+                                            <img src="assets/img/no-image.jpg" />
                                         </div>
                                         <br />
                                         <div class="img-circle-holder w-60 border-radius-10">
-                                            <img src="https://s12emagst.akamaized.net/products/14414/14413292/images/res_77ef39ad42fe97f3288ebb6ed0e91dad_450x450_5rk5.jpg" />
+                                            <img src="assets/img/no-image.jpg" />
                                         </div>
                                         <br />
                                         <div class="img-circle-holder img-absolute border-radius-10">
-                                            <img src="https://s12emagst.akamaized.net/products/14414/14413292/images/res_77ef39ad42fe97f3288ebb6ed0e91dad_450x450_5rk5.jpg" />
+                                            <img src="assets/img/no-image.jpg" />
                                         </div>
                                         <br />
                                         <div class="img-circle-holder img-absolute w-60 border-radius-10">
-                                            <img src="https://s12emagst.akamaized.net/products/14414/14413292/images/res_77ef39ad42fe97f3288ebb6ed0e91dad_450x450_5rk5.jpg" />
+                                            <img src="assets/img/no-image.jpg" />
                                         </div>
                                     </div>
 
                                     <div class="col-4 d-flex flex-column align-items-center jusityf-content-center">
                                         <div class="img-circle-holder border-radius-0">
-                                            <img src="https://s12emagst.akamaized.net/products/14414/14413292/images/res_77ef39ad42fe97f3288ebb6ed0e91dad_450x450_5rk5.jpg" />
+                                            <img src="assets/img/no-image.jpg" />
                                         </div>
                                         <br />
                                         <div class="img-circle-holder w-60 border-radius-0">
-                                            <img src="https://s12emagst.akamaized.net/products/14414/14413292/images/res_77ef39ad42fe97f3288ebb6ed0e91dad_450x450_5rk5.jpg" />
+                                            <img src="assets/img/no-image.jpg" />
                                         </div>
                                         <br />
                                         <div class="img-circle-holder img-absolute border-radius-0">
-                                            <img src="https://s12emagst.akamaized.net/products/14414/14413292/images/res_77ef39ad42fe97f3288ebb6ed0e91dad_450x450_5rk5.jpg" />
+                                            <img src="assets/img/no-image.jpg" />
                                         </div>
                                         <br />
                                         <div class="img-circle-holder img-absolute w-60 border-radius-0">
-                                            <img src="https://s12emagst.akamaized.net/products/14414/14413292/images/res_77ef39ad42fe97f3288ebb6ed0e91dad_450x450_5rk5.jpg" />
+                                            <img src="assets/img/no-image.jpg" />
                                         </div>
                                     </div>
                                 </div>
@@ -2082,11 +2175,11 @@
 
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src="grunt/plugins/jquery-3.4.1.min.js"></script>
-        <script src="grunt/dist/plugins/js/plugins.js"></script>
+        <script src="assets/ui/plugins/js/jquery-3.4.1.min.js"></script>
+        <script src="assets/ui/plugins/js/plugins.js"></script>
         <script>
             $(document).ready(function () {
-               
+
             });
         </script>
 

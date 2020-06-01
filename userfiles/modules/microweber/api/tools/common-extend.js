@@ -158,26 +158,63 @@ mw.uploader = function (o) {
 
 mw.fileWindow = function (config) {
     config = config || {};
+    config.mode = config.mode || 'dialog'; // 'inline' | 'dialog'
     var url = config.types ? ("rte_image_editor?types=" + config.types + '#fileWindow') : ("rte_image_editor#fileWindow");
-    var url = mw.settings.site_url + 'editor_tools/' + url;
-    var modal = mw.top().dialogIframe({
-        url: url,
-        name: "mw_rte_image",
-        width: 430,
-        height: 'auto',
-        autoHeight: true,
-        //template: 'mw_modal_basic',
-        overlay: true
-    });
-    var frameWindow = mw.$('iframe', modal.main)[0].contentWindow;
-    frameWindow.onload = function () {
-        frameWindow.$('body').on('change', function (e, url, m) {
-            if (config.change) {
-                config.change.call(undefined, url);
-                modal.remove()
-            }
-        });
+    url = mw.settings.site_url + 'editor_tools/' + url;
+    var frameWindow;
+    var toreturn = {
+        dialog: null,
+        root: null,
+        iframe: null
     };
+    if (config.mode === 'dialog') {
+        var modal = mw.top().dialogIframe({
+            url: url,
+            name: "mw_rte_image",
+            width: 430,
+            height: 'auto',
+            autoHeight: true,
+            //template: 'mw_modal_basic',
+            overlay: true
+        });
+        var frame = mw.$('iframe', modal.main);
+        frameWindow = frame[0].contentWindow;
+        toreturn.dialog = modal;
+        toreturn.root = frame.parent()[0];
+        toreturn.iframe = frame[0];
+        frameWindow.onload = function () {
+            frameWindow.$('body').on('change', function (e, url, m) {
+                if (config.change) {
+                    config.change.call(undefined, url);
+                    modal.remove();
+                }
+            });
+        };
+    } else if (config.mode === 'inline') {
+        var fr = document.createElement('iframe');
+        fr.src = url;
+        fr.frameBorder = 0;
+        fr.className = 'mw-file-window-frame';
+        toreturn.iframe = fr;
+        mw.tools.iframeAutoHeight(fr);
+        if (config.element) {
+            var $el = $(config.element);
+            if($el.length) {
+                toreturn.root = $el[0];
+            }
+            $el.append(fr);
+        }
+        fr.onload = function () {
+            this.contentWindow.$('body').on('change', function (e, url, m) {
+                if (config.change) {
+                    config.change.call(undefined, url);
+                }
+            });
+        };
+    }
+
+
+    return toreturn;
 };
 
 

@@ -67,7 +67,7 @@ include_once($config['path_to_module'] . '../posts/index.php');
 
             <div data-content-id="<?php print ($item['id']) ?>" class="select_posts_for_action manage-post-item manage-post-item-<?php print ($item['id']) ?> <?php print $pub_class ?>">
                 <div class="manage-post-itemleft">
-                    <span class="ico iMove mw_admin_posts_sortable_handle left" onmousedown="mw.manage_content_quick_sort()"></span>
+                    <span class="mdi mdi-cursor-move mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_quick_sort()"></span>
 
                     <?php $pic = get_picture($item['id']); ?>
                     <?php if ($pic == true): ?>

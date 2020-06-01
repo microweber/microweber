@@ -282,13 +282,15 @@ if (isset($params['data-page-number'])) {
 }
 
 if (isset($paging_links) and is_array($paging_links)): ?>
-    <div class="mw-paging"  >
+    <ul class="mw-paging"  >
         <?php $i = 1;
         foreach ($paging_links as $item): ?>
-            <a class="page-<?php print $i; ?> <?php if ($numactive == $i): ?> active <?php endif; ?>"
+        <li class="page-item <?php if ($numactive == $i): ?> active <?php endif; ?>">
+            <a class="page-link page-<?php print $i; ?>"
                href="#<?php print $paging_param ?>=<?php print $i ?>"
 
                onclick="mw.url.windowHashParam('<?php print $paging_param ?>','<?php print $i ?>');return false;"><?php print $i; ?></a>
+        </li>
             <?php $i++; endforeach; ?>
-    </div>
+    </ul>
 <?php endif; ?>

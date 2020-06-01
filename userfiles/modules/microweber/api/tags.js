@@ -14,7 +14,7 @@ mw.tags = mw.chips = function(options){
     "use strict";
 
     options.element = mw.$(options.element)[0];
-    options.size = options.size || 'medium';
+    options.size = options.size || 'sm';
 
     this.options = options;
     this.options.map = this.options.map || { title: 'title', value: 'id', image: 'image', icon: 'icon' };
@@ -147,21 +147,25 @@ mw.tags = mw.chips = function(options){
      this.tag = function (options) {
             var config = {
                 close:true,
-                tagBtnClass:'mw-ui-btn mw-ui-btn-' + this.options.size
+                tagBtnClass:'btn btn-' + this.options.size
             };
 
             $.extend(config, options);
 
-         if(this.options.color){
-             config.tagBtnClass +=  ' mw-ui-btn-' + this.options.color;
+         config.tagBtnClass +=  ' btn';
+
+         if (this.options.outline){
+             config.tagBtnClass +=  '-outline';
          }
 
-         if(this.options.outline){
-             config.tagBtnClass +=  ' mw-ui-btn-outline';
+         if (this.options.color){
+             config.tagBtnClass +=  '-' + this.options.color;
          }
+
+
 
          if(this.options.rounded){
-             config.tagBtnClass +=  ' mw-ui-btn-rounded';
+             config.tagBtnClass +=  ' btn-rounded';
          }
 
 

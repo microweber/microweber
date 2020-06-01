@@ -73,9 +73,9 @@
     <?php endif; ?>
     <?php if (!isset($params['no_paging'])): ?>
     <?php if (isset($page_count) and $page_count): ?>
-        <div class="mw-paging">
+        <ul class="pagination">
             <?php print paging('num=' . $page_count . '&paging_param=' . $paging_param); ?>
-        </div>
+        </ul>
     <?php endif; ?>
     <?php endif; ?>
 </div>

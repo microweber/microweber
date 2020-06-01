@@ -2,15 +2,11 @@
 <?php
 only_admin_access();?>
 <?php  $option_groups = array('website','users','template','email'); ?>
-<script  type="text/javascript">
-
-
-
-mw.require('forms.js');
-
+<script>
+    mw.require('forms.js');
 </script>
 
-<script  type="text/javascript">
+<script type="text/javascript">
 _settingsSort = function(){
 
     var group = mw.url.windowHashParam('option_group');

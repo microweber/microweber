@@ -150,7 +150,7 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label class="control-label">Choose a parent</label>
-                                <p class="text-muted">Choose a parent page or category</p>
+                                <small class="text-muted d-block mb-2">Choose a parent page or category</small>
                                 <div>
                                     <select class="selectpicker" data-width="100%" data-title="Select parent page or category">
                                         <option>Mustard</option>
@@ -167,7 +167,7 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label class="control-label" for="exampleTextarea">Description</label>
-                                <p class="text-muted">Type description of your category in the field</p>
+                                <small class="text-muted d-block mb-2">Type description of your category in the field</small>
                                 <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
                             </div>
                         </div>
@@ -175,7 +175,8 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label class="control-label">Category Image</label>
-                                <p class="text-muted">Upload image to your category or select from <a href="#" class="text-primary">Browse uploaded</a> or from <a href="#" class="text-primary">Media library</a></p>
+                                
+                                <small class="text-muted d-block mb-2">Upload image to your category or select from <a href="#" class="text-primary">Browse uploaded</a> or from <a href="#" class="text-primary">Media library</a></small>
 
                                 <button class="btn btn-outline-success btn-sm">UPLOAD</button>                                
                             </div>
@@ -183,7 +184,7 @@
 
                         <div class="col-12">
                             <label class="control-label">Other settings</label>
-                            <p class="text-muted">Discover more advanced options </p>
+                            <small class="text-muted d-block mb-2">Discover more advanced options</small>
 
                             <button class="btn btn-outline-secondary btn-sm btn-rounded" data-toggle="collapse" data-target="#show-more">Show more</button>
 

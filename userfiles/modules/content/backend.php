@@ -613,11 +613,11 @@ if ($action == 'posts') {
                 <div class="fixed-side-column">
 
                     <div class="tree-show-hide-nav">
-                        <div class="mw-ui-btn-nav">
-                            <span  class="mw-ui-btn mw-ui-btn-medium" onclick="pagesTree.openAll()"><?php _e("Open All"); ?></span>
-                            <span class="mw-ui-btn mw-ui-btn-medium"  onclick="pagesTree.closeAll()"><?php _e("Close All"); ?></span>
+                        <div class="btn-group btn-group-sm">
+                            <span class="btn btn-secondary" onclick="pagesTree.openAll()"><?php _e("Open All"); ?></span>
+                            <span class="btn btn-secondary"  onclick="pagesTree.closeAll()"><?php _e("Close All"); ?></span>
 
-                            <input id="main-tree-search" placeholder="<?php _e('Search'); ?>" type="text" class="mw-ui-field mw-ui-field-medium mw-ui-searchfield">
+                            <input id="main-tree-search"  placeholder="<?php _e('Search'); ?>" type="text" class="mw-ui-field mw-ui-field-medium mw-ui-searchfield">
                         </div>
 
                     </div>
@@ -776,7 +776,7 @@ if ($action == 'posts') {
             </div>
         </div>
     <?php endif ?>
-    <div class="card style-1 mb-3">
+    <div class="main">
         <script>
             $(window).on('load', function () {
                 if (!mw.url.windowHashParam("action")) {

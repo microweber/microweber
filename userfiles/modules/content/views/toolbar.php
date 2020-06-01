@@ -226,7 +226,7 @@ if ($last_page_front != false) {
 
                                 ?>
 
-                                <a href="<?php print $add_new_btn_url ?>" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-medium pull-left m-l-10">
+                                <a href="<?php print $add_new_btn_url ?>" class="btn btn-outline-info ">
                                     <?php print _e('Add new ' . $url_param_type); ?>
                                 </a>
 
@@ -308,7 +308,7 @@ if ($last_page_front != false) {
                                         </div>
                                     <?php endif; ?>
 
-                                    <div class="pull-right relative m-r-10">
+                                    <div class="relative m-r-10">
 
 
 

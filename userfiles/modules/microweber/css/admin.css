@@ -27,3 +27,71 @@
 .hidden{
     display: none;
 }
+
+#edit-content-row .tree{
+    margin-right: 15px;
+}
+
+.window-holder{
+    padding: 25px;
+}
+
+.manage-post-image{
+    display: block;
+    width: 80px;
+    height: 80px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+a.manage-post-image-no-image:not([href]){
+    font-family: "Material Design Icons";
+    width: 80px;
+    height: 80px;
+    font-size: 64px;
+    line-height: 80px;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+     color: #bcbfc2;
+}
+.manage-post-image-shop:after{content: "\F049A";}
+.manage-post-image-post:after{content: "\F09A8";}
+.manage-post-image-product:after{content: "\F049A";}
+
+div.form-control{
+    height: auto;
+}
+
+.mw_admin_posts_sortable_handle{
+    margin: 0;
+    padding: 15px 0 0;
+    font-size: 1.3rem;
+    line-height: 0.5em;
+    position: relative;
+    cursor: grab;
+    display: block;
+    color: #BCBFC2;
+}
+.manage-posts-holder .card-body .manage-post-item-links{
+    white-space: nowrap;
+    padding-top: 10px;
+}
+.manage-posts-holder .manage-post-item-col-2{
+    max-width: 100px;
+}
+.manage-posts-holder .manage-post-item-col-1,
+.manage-posts-holder .manage-post-item-col-4,
+.manage-posts-holder .manage-post-item-col-5{
+    max-width: 40px;
+}
+
+.mw-file-window-frame{
+    width: 100%;
+    height: 345px;
+}

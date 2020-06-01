@@ -85,7 +85,7 @@ if ($for_id != false) {
       mw.require("files.js");
 </script>
 
-<script type="text/javascript">
+<script>
     after_upld = function (a, e, f, id, module_id) {
         if (e !== 'done') {
             var data = {};
@@ -184,11 +184,7 @@ if (!isset($data["thumbnail"])) {
 
 
 <input name="thumbnail" type="hidden" value="<?php print ($data['thumbnail']) ?>"/>
-<div style="text-align: right; margin-bottom: 15px;">
-    <a href="javascript:mw_admin_pictures_upload_browse_existing()" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-ui-btn-outline btn-rounded"> <?php _e('Browse uploaded'); ?></a>
-    <a href="javascript:getMediaImage()" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-ui-btn-outline btn-rounded"> <?php _e('Media library'); ?></a>
-    <div class="clearfix"></div>
-</div>
+
 
 <div class="select_actions_holder">
     <div class="select_actions">
@@ -204,11 +200,7 @@ if (!isset($data["thumbnail"])) {
             </a>
         </div>
     </div>
-    <span class="btnnv-label">Select</span>
-    <div class="mw-ui-btn-nav">
-        <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small" onclick="selectItems('all')">All</a>
-        <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small" onclick="selectItems('none')">None</a>
-    </div>
+
 </div>
 
 
@@ -221,7 +213,6 @@ if (!isset($data["thumbnail"])) {
 <div class=" left  m-t-20" id="admin-thumbs-holder-sort-<?php print $rand; ?>">
 
     <div class="relative post-thumb-uploader m-t-10" id="backend_image_uploader">
-        <small id="backend_image_uploader_label"><?php _e("Upload"); ?></small>
     </div>
 
 <div class="admin-thumbs-holder">
@@ -382,10 +373,20 @@ if (!isset($data["thumbnail"])) {
             }
 
         }
-        var uploader = new mw.files.uploader({
+        var uploader = mw.fileWindow({
+            mode: 'inline',
+            element: '#backend_image_uploader',
+            change: function (url) {
+                after_upld(url, 'tets', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
+            }
+        })
+       /* var uploader = new mw.files.uploader({
             filetypes: "images",
             name: 'basic-images-uploader'
         });
+        $('#backend_image_uploader').append(uploader)*/
+
+
 
         selectItems = function (val) {
 

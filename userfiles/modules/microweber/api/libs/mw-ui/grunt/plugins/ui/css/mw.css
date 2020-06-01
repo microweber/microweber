@@ -3,8 +3,7 @@ $border-radius-lg:            .3rem !default;
 $border-radius-sm:            .2rem !default;*/
 /*$custom-file-padding-y:             $input-btn-padding-y !default;*/
 /*$custom-file-line-height:           1 !default;*/
-body {
-  background-color: #f2f3f5; }
+x
 
 .prevent-scroll {
   overflow: hidden; }
@@ -55,9 +54,16 @@ header {
     header .nav-last {
       min-width: 173px; } }
 
+.main-toolbar {
+  position: absolute;
+  margin-top: -43px; }
+  .main-toolbar i.mdi {
+    margin-top: 1px; }
+
 .main {
   display: flex;
-  overflow: hidden; }
+  overflow: hidden;
+  padding-top: 30px; }
   .main aside {
     width: 190px;
     float: left;
@@ -179,7 +185,7 @@ header {
     .main aside > ul .dropdown.show .dropdown-toggle::after {
       transform: rotate(90deg); }
   .main .tree {
-    display: block;
+    display: none;
     width: 170px;
     float: left;
     border: 1px solid #4592ff;
@@ -367,5 +373,56 @@ header {
     opacity: 0; }
   .moveable:hover:before {
     opacity: 1; }
+
+@media screen and (min-width: 1440px) {
+  /*    .manage-content-body{
+          width: 75%;
+          max-width: 75%;
+      }
+
+      .manage-content-sidebar{
+          width: 25%;
+          max-width: 25%;
+      }*/ }
+.variants-select .variant {
+  cursor: pointer;
+  padding: 7px 15px;
+  display: flex;
+  align-items: center;
+  flex-flow: row;
+  border-bottom: 1px solid #bcbfc2; }
+  .variants-select .variant:first-of-type {
+    border-top: 1px solid #bcbfc2; }
+  .variants-select .variant:last-of-type {
+    border-bottom: 0; }
+  .variants-select .variant:hover {
+    background-color: #4592ff;
+    color: #fff; }
+
+.vertical-align-middle th, .vertical-align-middle td {
+  vertical-align: middle; }
+
+.table-primary-hover tbody tr:hover th, .table-primary-hover tbody tr:hover td {
+  background: #4592ff;
+  color: #fff; }
+  .table-primary-hover tbody tr:hover th .text-muted, .table-primary-hover tbody tr:hover th a, .table-primary-hover tbody tr:hover th a.text-muted, .table-primary-hover tbody tr:hover td .text-muted, .table-primary-hover tbody tr:hover td a, .table-primary-hover tbody tr:hover td a.text-muted {
+    color: #fff !important; }
+
+.table-header-no-border thead th {
+  border: 0; }
+
+.card.bg-light {
+  background-color: #fafafa !important; }
+  .card.bg-light > .card-header {
+    background-color: #fafafa !important; }
+
+.user-info-table .row {
+  margin: 0;
+  border-top: 1px solid #d9dadb;
+  padding: 8px 0px; }
+.user-info-table .row:nth-of-type(odd) {
+  background: #fff; }
+.user-info-table .row:last-of-type {
+  border-bottom: 1px solid #bcbfc2; }
 
 /*# sourceMappingURL=mw.css.map */

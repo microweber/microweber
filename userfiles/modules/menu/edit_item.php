@@ -245,9 +245,6 @@ if ($id != 0) {
     };
     $(document).ready(function () {
 
-//         $('.change-url-box input').on('change', function(){
-// alert(3333)
-//         })
         $('.change-url-box .mw-ui-btn, .change-url-box input').on('click', function(){
             var scope = this;
             /*var link = mw.top().instruments.link({

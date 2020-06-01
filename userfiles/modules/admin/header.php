@@ -30,7 +30,7 @@
         mw.require("liveadmin.js");
         mw.require("<?php print mw_includes_url(); ?>css/wysiwyg.css");
         mw.require("<?php print mw_includes_url(); ?>css/components.css");
-        mw.require("<?php print mw_includes_url(); ?>css/admin.css");
+
         mw.require("<?php print mw_includes_url(); ?>css/admin-new.css");
         mw.require("wysiwyg.js");
         mw.require("url.js");
@@ -49,6 +49,7 @@
         mw.lib.require('mwui');
         mw.lib.require('flag_icons', true);
         mw.lib.require('font_awesome5');
+        mw.require("<?php print mw_includes_url(); ?>css/admin.css", true);
 
         <?php /*  mw.require("<?php print mw_includes_url(); ?>css/helpinfo.css");
         mw.require("helpinfo.js");*/ ?>
@@ -572,7 +573,7 @@ if (!$shop_disabled) {
 
 
                     <?php $load_module = url_param('load_module'); ?>
-                    <li <?php print 'class="nav-item dropdown' . ($load_module == 'users' ? 'active' : '') . '"'; ?>>
+                    <li <?php print 'class="nav-item dropdown ' . ($load_module == 'users' ? 'active' : '') . '"'; ?>>
                         <a class="nav-link dropdown-toggle <?php print ($load_module == 'users' ? 'active' : ''); ?>" href="<?php print admin_url('view:modules/load_module:users'); ?>">
                             <i class="mdi mdi-account-multiple"></i>
                             <?php _e("Users"); ?>
@@ -588,10 +589,9 @@ if (!$shop_disabled) {
                                 <?php endif; ?>
                             <?php endif; ?>
                             <a href="<?php print site_url(); ?>?editmode=y" class="go-live-edit-href-set dropdown-item"><?php _e("View Website"); ?></a>
-                            <a href="<?php print api_url('logout'); ?>"><span class="mai-login dropdown-item"></span><strong><?php _e("Log out"); ?></strong></a>
                         </div>
                     </li>
-
+                    <li class="nav-item"><a href="<?php print api_url('logout'); ?>" class="nav-link"><i class="mdi mdi-power"></i> <?php _e("Log out"); ?></a></li>
                     <li><?php event_trigger('mw.admin.sidebar.li.last'); ?></li>
 
 

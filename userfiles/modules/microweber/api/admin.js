@@ -207,7 +207,7 @@ mw.admin = {
             });
         },
         set: function (a) {
-            if (a == 'publish') {
+            if (a === 'publish') {
                 mw.$('.btn-publish').addClass('active');
                 mw.$('.btn-unpublish').removeClass('active');
                 mw.$('.btn-posts-state > span').attr('class', 'mw-icon-check').parent().dataset("tip", mw.msg.published);
@@ -216,7 +216,7 @@ mw.admin = {
                 mw.admin.postStatesTip.style.display = 'none';
                 mw.$(".btn-posts-state").html($('.btn-publish').html())
             }
-            else if (a == 'unpublish') {
+            else if (a === 'unpublish') {
                 mw.$('.btn-publish').removeClass('active');
                 mw.$('.btn-unpublish').addClass('active');
                 mw.$('.btn-posts-state > span').attr('class', 'mw-icon-unpublish').parent().dataset("tip", mw.msg.unpublished);

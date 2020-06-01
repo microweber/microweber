@@ -40,7 +40,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-6 text-right my-1 d-flex justify-content-center justify-content-sm-end">
+                <div class="col-sm-6 text-right my-1 d-flex justify-content-center justify-content-sm-end align-items-center">
                     <span>Sort by:</span>
                     <div class="d-inline-block mx-1">
                         <button type="button" class="btn btn-outline-secondary btn-sm icon-right">Date <i class="mdi mdi-chevron-up text-muted"></i></button>
