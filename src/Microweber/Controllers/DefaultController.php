@@ -1382,8 +1382,7 @@ class DefaultController extends Controller
                 $output_cache_content = $this->app->cache_manager->get($output_cache_id, $output_cache_group, $output_cache_timeout);
 
                 if ($output_cache_content != false) {
-                    echo $output_cache_content;
-                    return;
+                    return \Response::make($output_cache_content);;
                 }
             }
         }
