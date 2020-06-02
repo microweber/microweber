@@ -222,6 +222,7 @@ class ContentManagerCrud extends Crud
                 }
                 if ($extra_data) {
                     $item['picture'] = get_picture($item['id']);
+                    $item['content_data'] = content_data($item['id']);
                 }
 
                 $data2[] = $item;
