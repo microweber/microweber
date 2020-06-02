@@ -10,6 +10,8 @@ class BackupManager
 	public $exportData = ['categoryIds'=>[], 'contentIds'=>[], 'tables'=>[]];
 	public $exportType = 'json';
 	public $exportIncludeMedia = false;
+	public $exportIncludeModules = false;
+	public $exportIncludeTemplates = false;
 	public $importType = false;
 	public $importFile = false;
 	public $importBatch = true;
@@ -67,7 +69,15 @@ class BackupManager
 	public function setExportIncludeMedia($includeMedia) {
 		$this->exportIncludeMedia = $includeMedia;
 	}
-	
+
+	public function setExportIncludeModules($includeModules) {
+		$this->exportIncludeModules = $includeModules;
+	}
+
+	public function setExportIncludeTemplates($includeTemplates) {
+		$this->exportIncludeTemplates = $includeTemplates;
+	}
+
 	/**
 	 * Set import file format
 	 * @param string $type
@@ -125,7 +135,9 @@ class BackupManager
 			$export->setExportData($this->exportData);
 			$export->setExportAllData($this->exportAllData);
 			$export->setIncludeMedia($this->exportIncludeMedia);
-			
+			$export->setIncludeModules($this->exportIncludeModules);
+			$export->setIncludeTemplates($this->exportIncludeTemplates);
+
 			return $export->start();
 		
 		} catch (\Exception $e) {
