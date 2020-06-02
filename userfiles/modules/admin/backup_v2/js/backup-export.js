@@ -343,7 +343,7 @@ mw.backup_export = {
                     element:'.js-export-log',
                     action:''
                 }).hide();
-                $('.export-step-4-action').html('Export completed!')
+                $('.export-step-4-action').html('Export completed!');
 			} else {
 				mw.backup_export.export_selected(manifest);
 			}
@@ -401,8 +401,30 @@ mw.backup_export = {
 
 	export_fullbackup_start: function() {
         this.exportLog('Generating full backup...');
-        mw.backup_export.export_selected('all&format=' + $('.js-export-format').val() + '&include_media=true');
+
+        var send_uri = 'all&format=' + $('.js-export-format').val() + '&include_media=true';
+
+
+        var include_modules = [];
+        var include_templates = [];
+        $('.js-export-modules:checked').each(function(){
+            include_modules.push(this.value);
+        });
+        $('.js-export-templates:checked').each(function(){
+            include_templates.push(this.value);
+        });
+
+        if (include_modules) {
+            send_uri += '&include_modules=' + include_modules.join(',');
+        }
+
+        if (include_templates) {
+            send_uri += '&include_templates=' + include_templates.join(',');
+        }
+
+        mw.backup_export.export_selected(send_uri);
         mw.backup_export.stepper.last();
+
         $('.export-step-4-action').html('Exporting your content')
 	},
 
