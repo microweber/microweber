@@ -34,7 +34,19 @@ class ZipExport extends DefaultExport
 	 * @var string
 	 */
 	public $exportMedia = false;
-	
+
+    /**
+     * Export modules
+     * @var bool
+     */
+	public $exportModules = false;
+
+    /**
+     * Export templates
+     * @var bool
+     */
+	public $exportTemplates = false;
+
 	/**
 	 * The name of cache group for backup file.
 	 * @var string
@@ -63,6 +75,14 @@ class ZipExport extends DefaultExport
 	
 	public function setExportMedia($bool) {
 		$this->exportMedia = $bool;
+	}
+
+	public function setExportModules($modules) {
+		$this->exportModules = $modules;
+	}
+
+	public function setExportTemplates($templates) {
+		$this->exportTemplates = $templates;
 	}
 	
 	public function addFile($file) {
@@ -103,6 +123,16 @@ class ZipExport extends DefaultExport
 			$userFiles = $this->_getUserFilesPaths();
 			$filesForZip = array_merge($filesForZip, $userFiles);
 		}
+
+		if ($this->exportModules) {
+            $userFilesModules = $this->_getUserFilesModulesPaths();
+            $filesForZip = array_merge($filesForZip, $userFilesModules);
+        }
+
+		if ($this->exportTemplates) {
+            $userFilesTemplates = $this->_getUserFilesTemplatesPaths();
+            $filesForZip = array_merge($filesForZip, $userFilesTemplates);
+        }
 		
 		/* 
 		if (empty($filesForZip)) {
@@ -169,6 +199,16 @@ class ZipExport extends DefaultExport
 	public function clearSteps() {
 		cache_delete($this->_cacheGroupName);
 	}
+
+	protected function _getUserFilesTemplatesPaths()
+    {
+        return false;
+    }
+
+	protected function _getUserFilesModulesPaths()
+    {
+        return false;
+    }
 	
 	protected function _getUserFilesPaths() {
 		

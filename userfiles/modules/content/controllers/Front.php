@@ -63,7 +63,7 @@ class Front
         $posts_list_show_sub_pages = false;
 
         $related_category_ids = false;
-        $exclude_category_ids= false;
+        $exclude_category_ids = false;
 
         $is_search_global = false;
 
@@ -209,7 +209,6 @@ class Front
         }
 
 
-
         if ($posts_parent_category == false and isset($post_params['category_id'])) {
             $posts_parent_category = $post_params['category_id'];
         }
@@ -220,15 +219,13 @@ class Front
 
 
         if ($related_category_ids == false and isset($post_params['related-category-id']) and $post_params['related-category-id']) {
-            $related_category_ids = explode(',',$post_params['related-category-id']);
+            $related_category_ids = explode(',', $post_params['related-category-id']);
             unset($post_params['related-category-id']);
         }
         if ($related_category_ids == false and isset($post_params['exclude-category-id']) and $post_params['exclude-category-id']) {
-            $exclude_category_ids = explode(',',$post_params['exclude-category-id']);
+            $exclude_category_ids = explode(',', $post_params['exclude-category-id']);
             unset($post_params['exclude-category-id']);
         }
-
-
 
 
         if ($posts_parent_category == false and isset($post_params['related'])) {
@@ -293,114 +290,104 @@ class Front
         }
 
 
+        if (!$related_category_ids) {
+            if ($posts_parent_related == false) {
+                if (intval($cfg_page_id_force) or !isset($params['global'])) {
+                    if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
 
 
+                        $sub_categories = array();
+                        $page_categories = false;
+                        if (intval($cfg_page_id) != 0 and $cat_from_url == false) {
 
+                            $str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel_id=' . $cfg_page_id;
+                            $page_categories = db_get($str0);
 
-        if(!$related_category_ids){
-                if ($posts_parent_related == false) {
-                    if (intval($cfg_page_id_force) or !isset($params['global'])) {
-                        if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
+                            $str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel_id=' . $cfg_page_id;
+                            $page_categories = db_get('table=categories&limit=1&data_type=category&' . 'parent_id=0&rel_id=' . $cfg_page_id);
 
+                            if (is_array($page_categories)) {
+                                foreach ($page_categories as $item_cat) {
+                                    $sub_categories[] = $item_cat['id'];
+                                    $more = get_category_children($item_cat['id']);
+                                    if ($more != false and is_array($more)) {
+                                        foreach ($more as $item_more_subcat) {
+                                            $sub_categories[] = $item_more_subcat;
+                                        }
+                                    }
+                                }
+                            }
+                        }
 
-                            $sub_categories = array();
-                            $page_categories = false;
-                            if (intval($cfg_page_id) != 0 and $cat_from_url == false) {
-
-                                $str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel_id=' . $cfg_page_id;
-                                $page_categories = db_get($str0);
-
-                                $str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel_id=' . $cfg_page_id;
-                                $page_categories = db_get('table=categories&limit=1&data_type=category&' . 'parent_id=0&rel_id=' . $cfg_page_id);
-
-                                if (is_array($page_categories)) {
-                                    foreach ($page_categories as $item_cat) {
+                        if ($posts_parent_category != false and intval($posts_parent_category) > 0 and $cat_from_url == false) {
+                            if ($page_categories != false and is_array($page_categories) and !empty($page_categories)) {
+                                // $sub_categories = array();
+                                foreach ($page_categories as $item_cat) {
+                                    if (intval($item_cat['id']) == intval($posts_parent_category)) {
                                         $sub_categories[] = $item_cat['id'];
-                                        $more = get_category_children($item_cat['id']);
-                                        if ($more != false and is_array($more)) {
-                                            foreach ($more as $item_more_subcat) {
-                                                $sub_categories[] = $item_more_subcat;
-                                            }
-                                        }
                                     }
                                 }
+                            } elseif ($posts_parent_category_cfg != false) {
+                                $post_params['category'] = $posts_parent_category_cfg;
                             }
 
-                            if ($posts_parent_category != false and intval($posts_parent_category) > 0 and $cat_from_url == false) {
-                                if ($page_categories != false and is_array($page_categories) and !empty($page_categories)) {
-                                    // $sub_categories = array();
-                                    foreach ($page_categories as $item_cat) {
-                                        if (intval($item_cat['id']) == intval($posts_parent_category)) {
-                                            $sub_categories[] = $item_cat['id'];
-                                        }
-                                    }
-                                } elseif ($posts_parent_category_cfg != false) {
-                                    $post_params['category'] = $posts_parent_category_cfg;
-                                }
-
-                                if (is_array($sub_categories) and !empty($sub_categories) and isset($post_params['related']) and $post_params['related'] != false) {
-                                    $post_params['category'] = $sub_categories;
-                                } elseif ($cfg_page_id != false) {
-                                    $post_params['parent'] = $cfg_page_id;
-                                }
-
-                            } else {
+                            if (is_array($sub_categories) and !empty($sub_categories) and isset($post_params['related']) and $post_params['related'] != false) {
+                                $post_params['category'] = $sub_categories;
+                            } elseif ($cfg_page_id != false) {
                                 $post_params['parent'] = $cfg_page_id;
-
-                                if (($cfg_page_id == PAGE_ID or $cfg_page_id == MAIN_PAGE_ID) and (!isset($post_params['category']) or $post_params['category'] == false) and $cat_from_url != false) {
-                                    $post_params['category'] = $cat_from_url;
-                                }
-
-
                             }
 
-                        } elseif ($cat_from_url != false) {
-                            $post_params['category'] = $cat_from_url;
+                        } else {
+                            $post_params['parent'] = $cfg_page_id;
 
-                        } elseif ($posts_parent_category != false and intval($posts_parent_category) > 0 and ($cfg_page_id) != false) {
-                            $post_params['category'] = $posts_parent_category;
+                            if (($cfg_page_id == PAGE_ID or $cfg_page_id == MAIN_PAGE_ID) and (!isset($post_params['category']) or $post_params['category'] == false) and $cat_from_url != false) {
+                                $post_params['category'] = $cat_from_url;
+                            }
 
 
                         }
-                    }
 
-                    if ($posts_parent_category_cfg != false and intval($posts_parent_category_cfg) > 0 and $cfg_page_id_force != false and intval($cfg_page_id_force) > 0) {
-                        $post_params['category'] = $posts_parent_category_cfg;
+                    } elseif ($cat_from_url != false) {
+                        $post_params['category'] = $cat_from_url;
+
+                    } elseif ($posts_parent_category != false and intval($posts_parent_category) > 0 and ($cfg_page_id) != false) {
+                        $post_params['category'] = $posts_parent_category;
+
+
                     }
-                } else {
-                    $post_params['category'] = $posts_parent_related;
                 }
+
+                if ($posts_parent_category_cfg != false and intval($posts_parent_category_cfg) > 0 and $cfg_page_id_force != false and intval($cfg_page_id_force) > 0) {
+                    $post_params['category'] = $posts_parent_category_cfg;
+                }
+            } else {
+                $post_params['category'] = $posts_parent_related;
+            }
         } else {
 
 
-            if($related_category_ids and is_array($related_category_ids) and !empty($related_category_ids)){
+            if ($related_category_ids and is_array($related_category_ids) and !empty($related_category_ids)) {
 
 
-
-                $get_subcats = mw()->database_manager->table('categories')->select('id')->where('data_type','category')->whereIn('parent_id',$related_category_ids)->get();
-                if($get_subcats){
+                $get_subcats = mw()->database_manager->table('categories')->select('id')->where('data_type', 'category')->whereIn('parent_id', $related_category_ids)->get();
+                if ($get_subcats) {
                     $related_cats = array();
                     $get_subcats = collection_to_array($get_subcats);
-                    if($get_subcats){
-                        foreach ($get_subcats as $get_subcat){
-                            $get_subcat = (array) $get_subcat;
-                            if(isset($get_subcat['id'])){
+                    if ($get_subcats) {
+                        foreach ($get_subcats as $get_subcat) {
+                            $get_subcat = (array)$get_subcat;
+                            if (isset($get_subcat['id'])) {
                                 $related_cats[] = $get_subcat['id'];
                             }
                         }
                     }
-                    if($related_cats){
+                    if ($related_cats) {
                         $post_params['category'] = $related_cats;
                     }
                 }
 
             }
         }
-
-
-
-
-
 
 
         $tn_size = array('150');
@@ -500,7 +487,7 @@ class Front
             } else {
                 $schema_org_item_type = 'Article';
             }
-        }else if (isset($post_params['content_type']) and $post_params['content_type'] == 'product') {
+        } else if (isset($post_params['content_type']) and $post_params['content_type'] == 'product') {
             if (isset($post_params['subtype']) and $post_params['subtype'] != $post_params['content_type']) {
                 $schema_org_item_type = $post_params['subtype'];
 
@@ -581,10 +568,12 @@ class Front
 
             }
         }
-        if (defined('POST_ID') and isset($posts_parent_category) and $posts_parent_category != false or isset($post_params['related'])) {
-            $post_params['exclude_ids'] = POST_ID;
-        }
 
+        if (!isset($post_params['exclude_ids'])) {
+            if (defined('POST_ID') and isset($posts_parent_category) and $posts_parent_category != false or isset($post_params['related'])) {
+                $post_params['exclude_ids'] = POST_ID;
+            }
+        }
 
         if (!isset($params['order_by'])) {
 //            if(isset($post_params['content_type']) and $post_params['content_type'] == 'page'){
@@ -605,8 +594,6 @@ class Front
         }
 
 
-
-
         $is_search = url_param('search');
         if ($is_search and isset($_GET['search_params'])) {
             $search_params = $_GET['search_params'];
@@ -622,19 +609,17 @@ class Front
             }
 
         }
-if($posts_list_show_sub_pages){
-    $post_params['content_type'] = 'page';
-    $post_params['parent'] = PAGE_ID;
-}
-
-      //  d($post_params);
-      //  d($params);
-
-        if($is_search_global and isset( $post_params['category'] )){
-            unset( $post_params['category'] );
+        if ($posts_list_show_sub_pages) {
+            $post_params['content_type'] = 'page';
+            $post_params['parent'] = PAGE_ID;
         }
 
+        //  d($post_params);
+        //  d($params);
 
+        if ($is_search_global and isset($post_params['category'])) {
+            unset($post_params['category']);
+        }
 
 
         $content = get_content($post_params);
@@ -794,11 +779,11 @@ if($posts_list_show_sub_pages){
 
             if (isset($params['return_as_array'])) {
                 if (isset($params['is_shop'])) {
-                    return ['error'=>lnotif('Your products module is empty')];
+                    return ['error' => lnotif('Your products module is empty')];
                 } elseif (isset($params['global'])) {
-                    return ['error'=>lnotif('Your content module is empty')];
+                    return ['error' => lnotif('Your content module is empty')];
                 } else {
-                    return ['error'=>lnotif('Your posts module is empty')];
+                    return ['error' => lnotif('Your posts module is empty')];
                 }
             }
 
@@ -848,7 +833,7 @@ if($posts_list_show_sub_pages){
         }
 
         if (isset($params['return_as_array'])) {
-            return ['data'=>$data];
+            return ['data' => $data];
         }
 
         if (!isset($params['return'])) {

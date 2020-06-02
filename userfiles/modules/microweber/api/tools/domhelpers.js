@@ -56,7 +56,7 @@ var domHelp = {
     },
     parentsOrCurrentOrderMatchOrOnlyFirst: function (node, arr) {
         var curr = node;
-        while (curr !== document.body) {
+        while (curr && curr !== document.body) {
             var h1 = mw.tools.hasClass(curr, arr[0]);
             var h2 = mw.tools.hasClass(curr, arr[1]);
             if (h1 && h2) {
@@ -70,7 +70,9 @@ var domHelp = {
                     return false;
                 }
             }
-            curr = curr.parentNode;
+            if(curr.parentNode){
+                curr = curr.parentNode;
+            }
         }
         return false;
     },

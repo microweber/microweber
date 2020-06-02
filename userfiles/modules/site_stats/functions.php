@@ -39,10 +39,7 @@ event_bind('mw.pageview', function ($params = false) {
             return;
         }
 
-
-        //$traker_url = modules_url() . 'site_stats/pingstats.js';
-       // return '<script defer type="text/javascript" src="' . $traker_url . '"></script>';
-        return '<script defer>$(document).ready(function () {
+        $src_code = '$(document).ready(function () {
             setTimeout(function () {
                 var track = {referrer: document.referrer}
                 $.ajax({
@@ -52,8 +49,51 @@ event_bind('mw.pageview', function ($params = false) {
                     dataType: "json"
                 });
             }, 1337);
-        });
-        </script>';
+        });';
+
+        $src = '<script async>'.$src_code.'</script>';
+
+
+
+        $compile_assets = \Config::get('microweber.compile_assets');   //$compile_assets =  \Config::get('microweber.compile_assets');
+        if ($compile_assets and defined('MW_VERSION')) {
+            $userfiles_dir = userfiles_path();
+            $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs' . DS);
+            $hash = crc32(site_url() . $src_code);
+            $userfiles_cache_filename = $userfiles_cache_dir . 'ping.' . $hash . '.' . MW_VERSION . '.js';
+            if (!is_file($userfiles_cache_filename)) {
+                if(!is_dir(userfiles_url() . 'cache/apijs/')){
+                    @mkdir_recursive(userfiles_url() . 'cache/apijs/');
+                }
+                @file_put_contents($userfiles_cache_filename, $src_code);
+            }
+
+            if (is_file($userfiles_cache_filename)) {
+                $traker_url = userfiles_url() . 'cache/apijs/' . 'ping.' . $hash . '.' . MW_VERSION . '.js';
+                $src = '<script async defer type="text/javascript" src="' . $traker_url . '"></script>';
+            }
+
+        }
+
+//        return   '<script defer async src="data:text/javascript,
+//
+//$(document).ready(function () {
+//            setTimeout(function () {
+//                var track = {referrer: document.referrer}
+//                $.ajax({
+//                    url: mw.settings.api_url+\'pingstats\',
+//                    data: track,
+//                    type: \'POST\',
+//                    dataType: \'json\'
+//                });
+//            }, 1337);
+//        });
+//
+//">';
+
+        //$traker_url = modules_url() . 'site_stats/ping.js';
+        // return '<script async type="text/javascript" src="' . $traker_url . '"></script>';
+        return $src;
 
     });
 });

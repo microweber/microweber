@@ -588,32 +588,31 @@ class ContentManagerHelpers extends ContentManagerCrud
             $slug_category = $this->app->permalink_manager->slug($ref_page_url, 'category');
 
             if ($slug_page) {
-            $ref_post = false;
-            if($slug_post){
+                $ref_post = false;
+                if ($slug_post) {
 
-                $ref_post= $this->get_by_url($slug_post);
+                    $ref_post = $this->get_by_url($slug_post);
 
+                }
+
+                if ($ref_post) {
+                    $ref_page2 = $ref_page = $ref_post;
+
+                } else {
+                    $ref_page2 = $ref_page = $this->get_by_url($slug_page);
+
+                }
+
+
+            } elseif ($slug_category) {
+                $cat = $this->app->category_manager->get_by_url($slug_category);
+                if ($cat) {
+                    $content_for_cat = $this->app->category_manager->get_page($cat['id']);
+                    if ($content_for_cat) {
+                        $ref_page2 = $ref_page = $content_for_cat;
+                    }
+                }
             }
-
-            if($ref_post){
-                $ref_page2 = $ref_page = $ref_post;
-
-            } else {
-                $ref_page2 = $ref_page = $this->get_by_url($slug_page);
-
-            }
-
-
-            } elseif($slug_category){
-                $cat = $this->app->category_manager->get_by_slug($slug_category);
-                 if($cat){
-                     $content_for_cat =  $this->app->category_manager->get_page($cat['id']);
-                     if($content_for_cat){
-                         $ref_page2 = $ref_page = $content_for_cat;
-                     }
-                 }
-            }
-
 
 
 
@@ -799,7 +798,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                             $the_field_data['attributes']['data-id'] = $content_id;
                         }
 
-                        $save_global = 1;
+
 
                         if (isset($the_field_data['attributes']['rel_type']) and isset($the_field_data['attributes']['data-id'])) {
                             $rel_ch = trim($the_field_data['attributes']['rel_type']);
