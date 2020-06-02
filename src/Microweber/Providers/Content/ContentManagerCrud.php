@@ -302,16 +302,26 @@ class ContentManagerCrud extends Crud
                  }
              }*/
 
-            $get = $this->app->event_manager->trigger('app.content.get_by_url', $url);
-            if (is_array($get) && isset($get[0])) {
+            $contentSlug = $url;
+            $pageSlug = $this->app->permalink_manager->slug($url, 'page');
+            $postSlug = $this->app->permalink_manager->slug($url, 'post');
+            if ($pageSlug) {
+                $contentSlug = $pageSlug;
+            } else if ($postSlug) {
+                $contentSlug = $postSlug;
+            }
+
+            $get = $this->app->event_manager->trigger('app.content.get_by_url', $contentSlug);
+            if (is_array($get) && isset($get[0]) && !empty($get[0])) {
                 $content = $get[0];
             } else {
                 $get = array();
-                $get['url'] = $url;
+                $get['url'] = $contentSlug;
                 $get['single'] = true;
                 $content = $this->get($get);
             }
         }
+
         if (!empty($content)) {
             self::$precached_links[$link_hash] = $content;
             return $content;

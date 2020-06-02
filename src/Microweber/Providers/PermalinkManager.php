@@ -242,7 +242,7 @@ class PermalinkManager
             switch ($this->structure) {
                 case 'page_post':
                 case 'post':
-                case 'category_post':
+                // case 'category_post':
                 case 'page_category_post':
                 case 'page_category_sub_categories_post':
                     $pageCategory = $this->app->category_manager->get_page($categoryId);
@@ -278,7 +278,7 @@ class PermalinkManager
 
         if ($this->structure == 'category_post') {
             $structureMap[] = 'page|category|post'; // page category or post
-            $structureMap[] = 'post|category';
+            $structureMap[] = 'post';
         }
 
         if ($this->structure == 'page_category_post') {
