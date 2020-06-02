@@ -87,6 +87,14 @@ class Export
 				$zipExport->setExportMedia(false);
 			}
 
+			if ($this->includeModules) {
+				$zipExport->setExportModules($this->includeModules);
+			}
+
+			if ($this->includeTemplates) {
+				$zipExport->setExportTemplates($this->includeTemplates);
+			}
+
 			$zipExportReady = $zipExport->start();
 
 			if (isset($zipExportReady['download']) && !empty($zipExportReady['download'])) {

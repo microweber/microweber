@@ -277,7 +277,7 @@ class BackupV2
         if (!empty($includeTemplates) && is_array($includeTemplates)) {
             $manager->setExportIncludeTemplates($includeTemplates);
         }
-        
+
 		if (is_ajax()) {
 			header('Content-Type: application/json');
 		}
