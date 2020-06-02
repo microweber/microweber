@@ -241,7 +241,7 @@ class ContentManagerHelpers extends ContentManagerCrud
     public function reset_edit_field($data)
     {
         if ($data) {
-            if(isset($data['reset'])){
+            if (isset($data['reset'])) {
                 $data = $data['reset'];
             }
 
@@ -259,7 +259,6 @@ class ContentManagerHelpers extends ContentManagerCrud
                         $del = $del->delete();
 
 
-
                     }
                 }
             }
@@ -271,7 +270,6 @@ class ContentManagerHelpers extends ContentManagerCrud
         $this->app->cache_manager->delete('content_fields');
 
         return true;
-
 
 
     }
@@ -530,16 +528,12 @@ class ContentManagerHelpers extends ContentManagerCrud
 
 
         if (php_can_use_func('ini_set')) {
-            @ini_set('memory_limit',  '512M');
+            @ini_set('memory_limit', '512M');
         }
 
         if (php_can_use_func('set_time_limit')) {
             set_time_limit(60);
         }
-
-
-
-
 
 
         $is_admin = $this->app->user_manager->is_admin();
@@ -550,7 +544,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                     return array('error' => 'The base64_decode function must be enabled. Please enable base64_decode function in php.ini');
                 }
 
-               $post_data['json_obj'] = @base64_decode($post_data['data_base64']);
+                $post_data['json_obj'] = @base64_decode($post_data['data_base64']);
             }
             if (isset($post_data['json_obj'])) {
                 $obj = json_decode($post_data['json_obj'], true);
@@ -588,7 +582,23 @@ class ContentManagerHelpers extends ContentManagerCrud
             if (strpos($ref_page_url, '#')) {
                 $ref_page = $ref_page_url = substr($ref_page_url, 0, strpos($ref_page_url, '#'));
             }
-            $ref_page2 = $ref_page = $this->get_by_url($ref_page_url);
+
+            $slug_page = $this->app->permalink_manager->slug($ref_page_url, 'page');
+            $slug_category = $this->app->permalink_manager->slug($ref_page_url, 'category');
+
+            if ($slug_page) {
+                $ref_page2 = $ref_page = $this->get_by_url($slug_page);
+            } elseif($slug_category){
+                $cat = $this->app->category_manager->get_by_slug($slug_category);
+                 if($cat){
+                     $content_for_cat =  $this->app->category_manager->get_page($cat['id']);
+                     if($content_for_cat){
+                         $ref_page2 = $ref_page = $content_for_cat;
+                     }
+                 }
+            }
+
+
             if ($ref_page2 == false) {
                 $ustr = $this->app->url_manager->string(1);
 
@@ -1128,36 +1138,36 @@ class ContentManagerHelpers extends ContentManagerCrud
         if (!isset($data['rel_type']) or !isset($data['rel_id'])) {
             mw_error('Error: ' . __FUNCTION__ . ' rel and rel_id is required');
         }
-/*
-        if (isset($data['field']) and !isset($data['is_draft'])) {
-            $fld = $this->app->database_manager->escape_string($data['field']);
-            $fld_rel = $this->app->database_manager->escape_string($data['rel_type']);
-            $del_params = array();
-            $del_params['rel_type'] = $fld_rel;
-            $del_params['field'] = $fld;
-            $del_params['table'] = $table;
-            $del_params['no_cache'] = true;
+        /*
+                if (isset($data['field']) and !isset($data['is_draft'])) {
+                    $fld = $this->app->database_manager->escape_string($data['field']);
+                    $fld_rel = $this->app->database_manager->escape_string($data['rel_type']);
+                    $del_params = array();
+                    $del_params['rel_type'] = $fld_rel;
+                    $del_params['field'] = $fld;
+                    $del_params['table'] = $table;
+                    $del_params['no_cache'] = true;
 
-            if ($fld_rel != 'module') {
-                if (isset($data['rel_id'])) {
-                    $i = ($data['rel_id']);
-                    $del_params['rel_id'] = $i;
-                } else {
-                    $del_params['rel_id'] = 0;
-                }
-            }
-            $del = $this->app->database_manager->get($del_params);
+                    if ($fld_rel != 'module') {
+                        if (isset($data['rel_id'])) {
+                            $i = ($data['rel_id']);
+                            $del_params['rel_id'] = $i;
+                        } else {
+                            $del_params['rel_id'] = 0;
+                        }
+                    }
+                    $del = $this->app->database_manager->get($del_params);
 
 
-            if (!empty($del)) {
-                foreach ($del as $item) {
-                    // TODO
-                    $this->app->database_manager->delete_by_id($table, $item['id']);
-                }
-            }
-            $cache_group = guess_cache_group('content_fields/' . $data['rel_type'] . '/' . $data['rel_id']);
-            $this->app->cache_manager->delete($cache_group);
-        }*/
+                    if (!empty($del)) {
+                        foreach ($del as $item) {
+                            // TODO
+                            $this->app->database_manager->delete_by_id($table, $item['id']);
+                        }
+                    }
+                    $cache_group = guess_cache_group('content_fields/' . $data['rel_type'] . '/' . $data['rel_id']);
+                    $this->app->cache_manager->delete($cache_group);
+                }*/
 
 
         if (isset($fld)) {
