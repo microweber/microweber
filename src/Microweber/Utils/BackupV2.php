@@ -262,6 +262,22 @@ class BackupV2
 			$manager->setExportData('categoryIds', $query['categories_ids']);
 		}
 
+		$includeModules = array();
+		if (isset($query['include_modules']) && !empty($query['include_modules'])) {
+		    $includeModules = explode(',' , $query['include_modules']);
+        }
+        if (!empty($includeModules) && is_array($includeModules)) {
+            $manager->setExportIncludeModules($includeModules);
+        }
+
+        $includeTemplates = array();
+        if (isset($query['include_templates']) && !empty($query['include_templates'])) {
+            $includeTemplates = explode(',' , $query['include_templates']);
+        }
+        if (!empty($includeTemplates) && is_array($includeTemplates)) {
+            $manager->setExportIncludeTemplates($includeTemplates);
+        }
+
 		if (is_ajax()) {
 			header('Content-Type: application/json');
 		}

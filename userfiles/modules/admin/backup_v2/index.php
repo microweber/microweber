@@ -139,6 +139,53 @@
                         </div>
 
 
+                        <div class="mw-accordion" data-options="openFirst: false">
+                            <div class="mw-accordion-item">
+                                <div class="mw-ui-box-header mw-accordion-title">
+                                    <div class="header-holder">
+                                        <i class="mai-modules"></i> Include Modules
+                                    </div>
+                                </div>
+                                <div class="mw-accordion-content mw-ui-box mw-ui-box-content" style="width:100%;height: 200px;overflow-y: scroll;">
+                                    <ul class="mw-ui-inline-list">
+                                        <?php
+                                        $modules = get_modules();
+                                        foreach($modules as $module):
+                                            ?>
+                                            <li style="width: 100%;">
+                                                <label class="mw-ui-check">
+                                                    <input type="checkbox" class="js-export-modules" name="include_modules[]" value="<?php echo $module['module']; ?>">
+                                                    <span></span><span><?php echo $module['name']; ?></span>
+                                                </label>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="mw-accordion-item">
+                                <div class="mw-ui-box-header mw-accordion-title">
+                                    <div class="header-holder">
+                                        <i class="mw-icon-template"></i> Include Template
+                                    </div>
+                                </div>
+                                <div class="mw-accordion-content mw-ui-box mw-ui-box-content" style="width:100%;height: 200px;overflow-y: scroll;">
+                                    <ul class="mw-ui-inline-list">
+                                        <?php
+                                        $templates = site_templates();
+                                        foreach($templates as $template):
+                                            ?>
+                                            <li style="width: 100%;">
+                                                <label class="mw-ui-check">
+                                                    <input type="checkbox" class="js-export-templates" name="include_templates[]" value="<?php echo $template['dir_name']; ?>">
+                                                    <span></span><span><?php echo $template['name']; ?></span>
+                                                </label>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
                     <div class="step-actions step-1-actions">
                         <span
                             class="mw-ui-btn mw-ui-btn-info pull-left"

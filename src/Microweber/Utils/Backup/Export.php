@@ -16,7 +16,9 @@ class Export
 	public $type = 'json';
 	public $exportAllData = false;
 	public $includeMedia = false;
-	
+	public $includeModules = false;
+	public $includeTemplates = false;
+
 	public function setType($type)
 	{
 		$this->type = $type;
@@ -32,6 +34,14 @@ class Export
 	
 	public function setIncludeMedia($includeMedia) {
 		$this->includeMedia = $includeMedia;
+	}
+
+	public function setIncludeModules($includeModules) {
+		$this->includeModules = $includeModules;
+	}
+
+	public function setIncludeTemplates($includeTemplates) {
+		$this->includeTemplates = $includeTemplates;
 	}
 	
 	public function exportAsType($data)
@@ -75,6 +85,14 @@ class Export
 			
 			if ($this->includeMedia == false) {
 				$zipExport->setExportMedia(false);
+			}
+
+			if ($this->includeModules) {
+				$zipExport->setExportModules($this->includeModules);
+			}
+
+			if ($this->includeTemplates) {
+				$zipExport->setExportTemplates($this->includeTemplates);
 			}
 
 			$zipExportReady = $zipExport->start();
