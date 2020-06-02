@@ -1571,13 +1571,13 @@ class ContentManager
 //    //    dd(__METHOD__,$content,__LINE__);
 //
         if (is_array($page)) {
-            if (isset($page['content_type']) and ($page['content_type'] == 'post' or $page['content_type'] != 'page')) {
+            if (isset($page['content_type']) and ($page['content_type'] != 'page')) {
                 if (isset($page['id']) and $page['id'] != 0) {
                     $content = $page;
 
                     $current_categorys = $this->app->category_manager->get_for_content($page['id']);
                     if (!empty($current_categorys)) {
-                        $current_category = end($current_categorys);
+                        $current_category = reset($current_categorys);
 
                         if (defined('CATEGORY_ID') == false and isset($current_category['id'])) {
                             define('CATEGORY_ID', intval($current_category['id']));
