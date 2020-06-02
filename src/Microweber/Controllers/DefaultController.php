@@ -1398,14 +1398,15 @@ class DefaultController extends Controller
                 $page = $this->app->content_manager->homepage();
             } else {
 
+                $page_exact = false;
                 $slug_page = $this->app->permalink_manager->slug($page_url, 'page');
                 $slug_post = $this->app->permalink_manager->slug($page_url, 'post');
                 $slug_category = $this->app->permalink_manager->slug($page_url, 'category');
 
-
                 $found_mod = false;
 
                 $try_content = false;
+
 
                 if ($slug_post) {
                     $page = $this->app->content_manager->get_by_url($slug_post);
@@ -1420,7 +1421,7 @@ class DefaultController extends Controller
 
                 if ($slug_category and !$page) {
 
-                    $cat = $this->app->category_manager->get_by_slug($slug_category);
+                    $cat = $this->app->category_manager->get_by_url($slug_category);
                     if ($cat) {
                         $content_for_cat = $this->app->category_manager->get_page($cat['id']);
                         if ($content_for_cat) {
@@ -1430,7 +1431,7 @@ class DefaultController extends Controller
                 }
 
 
-                //dd($page,$page_exact,$page_url);
+
                 $page_url_segment_1 = $this->app->url_manager->segment(0, $page_url);
                 if ($preview_module != false) {
                     $page_url = $preview_module;

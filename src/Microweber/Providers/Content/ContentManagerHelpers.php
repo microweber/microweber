@@ -605,7 +605,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
 
             } elseif ($slug_category) {
-                $cat = $this->app->category_manager->get_by_slug($slug_category);
+                $cat = $this->app->category_manager->get_by_url($slug_category);
                 if ($cat) {
                     $content_for_cat = $this->app->category_manager->get_page($cat['id']);
                     if ($content_for_cat) {
