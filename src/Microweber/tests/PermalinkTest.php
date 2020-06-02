@@ -151,7 +151,7 @@ class PermalinkTest extends TestCase
          * TESTING CATEGORY
          */
         $categoryUrl = category_link(self::$categoryId);
-        $expectedCategoryUrl = site_url() . self::$pageSlug .'/'. self::$categorySlug;
+        $expectedCategoryUrl = site_url() . self::$categorySlug;
 
         $this->assertEquals($expectedCategoryUrl, $categoryUrl);
 
