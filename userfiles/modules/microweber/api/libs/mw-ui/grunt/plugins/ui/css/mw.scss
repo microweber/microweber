@@ -688,30 +688,50 @@ header {
     min-width: 150px;
   }
 }
+.socials-logins-settings {
+  .lh-1_0{
+    margin-top: -4px;
+  }
+}
 
 .page-settings {
   .select-settings {
-    a{
+    a {
       text-decoration: none;
-    }
-    .icon-holder {
-      background: #f2f3f5;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-right: 20px;
-      i {
-        color: #bcbfc2;
-      }
-    }
 
-    .info-holder {
-      max-width: 180px;
-      .text-muted{
-        color: $gray-600 !important;
+      .icon-holder {
+        background: #f2f3f5;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 20px;
+        i {
+          color: #bcbfc2;
+        }
+      }
+
+      &:hover{
+        .icon-holder{
+          background: $primary;
+          i {
+            color: $white;
+          }
+        }
+        
+        span{
+          text-decoration: underline;
+        }
+      }
+
+      .info-holder {
+        max-width: 180px;
+        .text-muted {
+          color: $gray-600 !important;
+        }
       }
     }
   }
 }
+

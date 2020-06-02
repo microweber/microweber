@@ -155,8 +155,8 @@ header {
               .main aside > ul > li.nav-item .dropdown-menu .dropdown-item .add-new i:before {
                 margin: 0; }
           .main aside > ul > li.nav-item .dropdown-menu .dropdown-item.dropdown-item:not(:hover) .add-new {
-            background-color: #bcbfc2;
-            border-color: #bcbfc2; }
+            background-color: #919191;
+            border-color: #919191; }
           .main aside > ul > li.nav-item .dropdown-menu .dropdown-item.active {
             color: #2b2b2b;
             background: #f2f3f5;
@@ -361,7 +361,7 @@ header {
 .moveable {
   padding-left: 25px; }
   .moveable:before {
-    color: #bcbfc2;
+    color: #919191;
     font-size: 20px;
     content: "\F0041";
     font-family: "Material Design Icons";
@@ -391,9 +391,9 @@ header {
   display: flex;
   align-items: center;
   flex-flow: row;
-  border-bottom: 1px solid #bcbfc2; }
+  border-bottom: 1px solid #919191; }
   .variants-select .variant:first-of-type {
-    border-top: 1px solid #bcbfc2; }
+    border-top: 1px solid #919191; }
   .variants-select .variant:last-of-type {
     border-bottom: 0; }
   .variants-select .variant:hover {
@@ -437,21 +437,30 @@ header {
 .socials-settings label {
   min-width: 150px; }
 
+.socials-logins-settings .lh-1_0 {
+  margin-top: -4px; }
+
 .page-settings .select-settings a {
   text-decoration: none; }
-.page-settings .select-settings .icon-holder {
-  background: #f2f3f5;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 20px; }
-  .page-settings .select-settings .icon-holder i {
-    color: #bcbfc2; }
-.page-settings .select-settings .info-holder {
-  max-width: 180px; }
-  .page-settings .select-settings .info-holder .text-muted {
-    color: #6c757d !important; }
+  .page-settings .select-settings a .icon-holder {
+    background: #f2f3f5;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px; }
+    .page-settings .select-settings a .icon-holder i {
+      color: #bcbfc2; }
+  .page-settings .select-settings a:hover .icon-holder {
+    background: #4592ff; }
+    .page-settings .select-settings a:hover .icon-holder i {
+      color: #fff; }
+  .page-settings .select-settings a:hover span {
+    text-decoration: underline; }
+  .page-settings .select-settings a .info-holder {
+    max-width: 180px; }
+    .page-settings .select-settings a .info-holder .text-muted {
+      color: #6c757d !important; }
 
 /*# sourceMappingURL=mw.css.map */

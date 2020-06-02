@@ -1214,6 +1214,12 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
   font-size: 22px;
 }
 
+
+.mdi-30px.mdi-set,
+.mdi-30px.mdi:before {
+  font-size: 30px;
+}
+
 .mdi-64px.mdi-set,
 .mdi-64px.mdi:before {
   font-size: 64px;
@@ -1545,4 +1551,10 @@ label.control-label {
   border: 1px solid $text-muted;
   background-color: rgba(red($text-muted), green($text-muted), blue($text-muted), .3);
   border-radius: 7px;
+}
+
+
+.btn-group > .btn.dropdown-toggle{
+  display: flex;
+  align-items: center;
 }

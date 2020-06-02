@@ -9,7 +9,7 @@ $gray-700: #555555 !default;
 $gray-800: #343a40 !default;
 $gray-900: #212529 !default;
 $black: #000 !default;
-$silver: #bcbfc2 !default;
+$silver: #919191 !default;
 
 
 $blue: #4592ff !default;
@@ -42,6 +42,8 @@ $body-color: $gray-900 !default;
 $font-size-base: 0.875rem;
 $font-size-lg: $font-size-base * 1.25 !default;
 $font-size-sm: $font-size-base * .875 !default;
+
+$small-font-size:             12px !default;
 
 $font-family-sans-serif: 'Verdana' !default;
 $font-family-monospace: 'Verdana' !default;
