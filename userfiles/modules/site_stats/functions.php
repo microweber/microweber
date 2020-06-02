@@ -40,20 +40,20 @@ event_bind('mw.pageview', function ($params = false) {
         }
 
 
-        //$traker_url = modules_url() . 'site_stats/pingstats.js';
-       // return '<script defer type="text/javascript" src="' . $traker_url . '"></script>';
-        return '<script defer>$(document).ready(function () {
-            setTimeout(function () {
-                var track = {referrer: document.referrer}
-                $.ajax({
-                    url: mw.settings.api_url+\'pingstats\',
-                    data: track,
-                    type: "POST",
-                    dataType: "json"
-                });
-            }, 1337);
-        });
-        </script>';
+        $traker_url = modules_url() . 'site_stats/pingstats.js';
+        return '<script async type="text/javascript" src="' . $traker_url . '"></script>';
+//        return '<script defer>$(document).ready(function () {
+//            setTimeout(function () {
+//                var track = {referrer: document.referrer}
+//                $.ajax({
+//                    url: mw.settings.api_url+\'pingstats\',
+//                    data: track,
+//                    type: "POST",
+//                    dataType: "json"
+//                });
+//            }, 1337);
+//        });
+//        </script>';
 
     });
 });
