@@ -80,7 +80,7 @@
                             <div class="row align-items-center">
                                 <div class="col item-image">
                                     <div class="img-circle-holder">
-                                        <img src="https://s12emagst.akamaized.net/products/14414/14413292/images/res_77ef39ad42fe97f3288ebb6ed0e91dad_450x450_5rk5.jpg" />
+                                        <img src="http://templates.microweber.com/new-world/userfiles/cache/thumbnails/1920/tn-a47c56a9d6071b0cb5e396486f08807a.jpg" />
                                     </div>
                                 </div>
                                 <div class="col item-id"><span class="text-primary">#4</span></div>
@@ -165,7 +165,7 @@
                             <div class="row align-items-center">
                                 <div class="col item-image">
                                     <div class="img-circle-holder">
-                                        <img src="https://s12emagst.akamaized.net/products/14414/14413292/images/res_77ef39ad42fe97f3288ebb6ed0e91dad_450x450_5rk5.jpg" />
+                                        <img src="http://templates.microweber.com/new-world/userfiles/cache/thumbnails/800/tn-1f6fb5c5df393ae432d222e0ae453079.jpg" />
                                     </div>
                                 </div>
                                 <div class="col item-id"><span class="text-primary">#4</span></div>
@@ -252,7 +252,7 @@
                             <div class="row align-items-center">
                                 <div class="col item-image">
                                     <div class="img-circle-holder">
-                                        <img src="https://s12emagst.akamaized.net/products/14414/14413292/images/res_77ef39ad42fe97f3288ebb6ed0e91dad_450x450_5rk5.jpg" />
+                                        <img src="http://templates.microweber.com/new-world/userfiles/cache/thumbnails/800/tn-1f6fb5c5df393ae432d222e0ae453079.jpg" />
                                     </div>
                                 </div>
                                 <div class="col item-id"><span class="text-primary">#4</span></div>
@@ -337,7 +337,7 @@
                             <div class="row align-items-center">
                                 <div class="col item-image">
                                     <div class="img-circle-holder">
-                                        <img src="https://s12emagst.akamaized.net/products/14414/14413292/images/res_77ef39ad42fe97f3288ebb6ed0e91dad_450x450_5rk5.jpg" />
+                                        <img src="http://templates.microweber.com/new-world/userfiles/cache/thumbnails/800/tn-1f6fb5c5df393ae432d222e0ae453079.jpg" />
                                     </div>
                                 </div>
                                 <div class="col item-id"><span class="text-primary">#4</span></div>
@@ -433,7 +433,7 @@
                     <div class="row align-items-center">
                         <div class="col" style="max-width: 100px;">
                             <div class="img-circle-holder img-absolute border-radius-0 border-0">
-                                <img src="https://s12emagst.akamaized.net/products/14414/14413292/images/res_77ef39ad42fe97f3288ebb6ed0e91dad_450x450_5rk5.jpg" />
+                                <img src="http://templates.microweber.com/new-world/userfiles/cache/thumbnails/800/tn-1f6fb5c5df393ae432d222e0ae453079.jpg" />
                             </div>
                         </div>
                         <div class="col text-left">

@@ -11,6 +11,7 @@
         padding: 10px;
         height: 40vh;
         overflow-y: scroll;
+        background: #fff;
     }
 
     .color-scheme-options input {
@@ -25,7 +26,7 @@
         margin-bottom: 20px;
     }
 </style>
-<div class="color-scheme-options">
+<div class="color-scheme-options d-none-x">
     <?php
     $cookies = $_COOKIE;
     $vars = [
@@ -81,6 +82,34 @@
             reload_main_css();
         }
     </script>
+
+
+    <div class="form-group">
+        <label for="exampleSelect1color">Color Scheme</label>
+        <select name="color_scheme" class="form-control js-color" id="exampleSelect1color">
+            <option value="">none</option>
+            <option value="litera">litera</option>
+            <option value="simplex">simplex</option>
+            <option value="materia">materia</option>
+            <option value="sandstone">sandstone</option>
+            <option value="slate">slate</option>
+            <option value="superhero">superhero</option>
+            <option value="cosmo">cosmo</option>
+            <option value="flatly">flatly</option>
+            <option value="lumen">lumen</option>
+            <option value="spacelab">spacelab</option>
+            <option value="minty">minty</option>
+            <option value="lux">lux</option>
+            <option value="sketchy">sketchy</option>
+            <option value="pulse">pulse</option>
+            <option value="solar">solar</option>
+            <option value="cyborg">cyborg</option>
+            <option value="darkly">darkly</option>
+
+        </select>
+    </div>
+
+
 
     <?php foreach ($vars as $k => $v) { ?>
         <script>

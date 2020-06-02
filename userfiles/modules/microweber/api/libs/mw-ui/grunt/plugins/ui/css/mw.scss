@@ -657,7 +657,17 @@ header {
   }
 }
 
-.user-info-table {
+.card.bg-none {
+  background-color: transparent !important;
+  border: 0 !important;
+  box-shadow: unset !important;
+  > .card-header {
+    background-color: transparent !important;
+    border: 0 !important;
+  }
+}
+
+.info-table {
   .row {
     margin: 0;
     border-top: 1px solid #d9dadb;
@@ -669,6 +679,39 @@ header {
   }
 
   .row:last-of-type {
-    border-bottom: 1px solid $silver;
+    border-bottom: 1px solid #d9dadb;
+  }
+}
+
+.socials-settings {
+  label {
+    min-width: 150px;
+  }
+}
+
+.page-settings {
+  .select-settings {
+    a{
+      text-decoration: none;
+    }
+    .icon-holder {
+      background: #f2f3f5;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 20px;
+      i {
+        color: #bcbfc2;
+      }
+    }
+
+    .info-holder {
+      max-width: 180px;
+      .text-muted{
+        color: $gray-600 !important;
+      }
+    }
   }
 }

@@ -2,9 +2,6 @@
 <div class="section-header">
     <h2 class="inline-element m-r-10"><?php _e("Order"); ?> #<?php print $show_ord_id ?></h2>
 
-    <!--        <a class="mw-ui-btn mw-ui-btn-info mw-ui-btn-medium tip mw-ui-btn-circle btn-back" data-tip="Back to list" data-tipposition="bottom-center" href="#vieworder=0">-->
-    <!--            <span class="mw-icon-arrowleft"></span>-->
-    <!--        </a>-->
     <a class="mw-ui-btn mw-ui-btn-info mw-ui-btn-medium  btn-back" data-tip="Back to list"
        data-tipposition="bottom-center" href="#vieworder=0">
         <span class="mw-icon-arrowleft"></span> Orders List
@@ -12,13 +9,9 @@
 </div>
 
 <div class="admin-side-content ">
-    <div class="mw-ui-row" id="orders-info-row">
-        <div class="mw-ui-col">
-
-
+    <div id="orders-info-row">
+        <div>
             <module type="shop/orders/views/order_cart" order-id="<?php print $show_ord_id; ?>"/>
-
-
             <div class="mw-ui-box m-t-10" id="order-status">
                 <div class="mw-ui-box-header bold"><span><?php _e("Order Status"); ?></span></div>
                 <div class="mw-ui-box-content">
@@ -198,7 +191,7 @@
             </div>
         </div>
 
-        <div class="mw-ui-col">
+        <div>
             <div class="mw-ui-box">
                 <div class="mw-ui-box-header bold">
                     <a href="<?php print admin_url(); ?>view:shop/action:clients#?clientorder=<?php print $ord['id'] ?>"

@@ -3,7 +3,8 @@ $border-radius-lg:            .3rem !default;
 $border-radius-sm:            .2rem !default;*/
 /*$custom-file-padding-y:             $input-btn-padding-y !default;*/
 /*$custom-file-line-height:           1 !default;*/
-x
+body {
+  background-color: #f2f3f5; }
 
 .prevent-scroll {
   overflow: hidden; }
@@ -416,13 +417,41 @@ header {
   .card.bg-light > .card-header {
     background-color: #fafafa !important; }
 
-.user-info-table .row {
+.card.bg-none {
+  background-color: transparent !important;
+  border: 0 !important;
+  box-shadow: unset !important; }
+  .card.bg-none > .card-header {
+    background-color: transparent !important;
+    border: 0 !important; }
+
+.info-table .row {
   margin: 0;
   border-top: 1px solid #d9dadb;
   padding: 8px 0px; }
-.user-info-table .row:nth-of-type(odd) {
+.info-table .row:nth-of-type(odd) {
   background: #fff; }
-.user-info-table .row:last-of-type {
-  border-bottom: 1px solid #bcbfc2; }
+.info-table .row:last-of-type {
+  border-bottom: 1px solid #d9dadb; }
+
+.socials-settings label {
+  min-width: 150px; }
+
+.page-settings .select-settings a {
+  text-decoration: none; }
+.page-settings .select-settings .icon-holder {
+  background: #f2f3f5;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px; }
+  .page-settings .select-settings .icon-holder i {
+    color: #bcbfc2; }
+.page-settings .select-settings .info-holder {
+  max-width: 180px; }
+  .page-settings .select-settings .info-holder .text-muted {
+    color: #6c757d !important; }
 
 /*# sourceMappingURL=mw.css.map */

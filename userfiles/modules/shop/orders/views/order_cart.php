@@ -29,17 +29,17 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
         mw_export_shop_order($ord, false);
     }
 </script>
-<div class="mw-ui-box mw-ui-box-order-info">
-    <div class="mw-ui-box-header">
-        <a href="javascript:del_this_order_and_return('<?php print $show_ord_id ?>')" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small mw-ui-btn-outline pull-right">
+<div class="card bg-light style-1 mb-3">
+    <div class="card-header">
+        <span onclick="del_this_order_and_return('<?php print $show_ord_id ?>')" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small mw-ui-btn-outline pull-right">
             <span class="mai-bin"></span> Delete
-        </a>
-        <a href="javascript:export_this_order_and_return('<?php print $show_ord_id ?>')" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small mw-ui-btn-outline pull-right" style="margin-right: 15px;">
+        </span>
+        <span onclick="export_this_order_and_return('<?php print $show_ord_id ?>')" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small mw-ui-btn-outline pull-right" style="margin-right: 15px;">
             <span class="mai-download"></span> Export Excel
-        </a>
+        </span>
         <span class=" bold"><?php _e("Order Information"); ?></span>
     </div>
-    <div class="mw-ui-box-content p-0">
+    <div class="card-body">
         <?php if ($cart_items and is_array($cart_items)) : ?>
             <div class="mw-order-images" style="display: none;">
                 <?php for ($i = 0; $i < sizeof($cart_items); $i++) { ?>
@@ -90,8 +90,8 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                 });
             </script>
             <div class="table-responsive">
-                <table class="mw-ui-table mw-ui-table-basic" cellspacing="0" cellpadding="0" width="100%" id="order-information-table">
-                    <thead>
+                <table class="table vertical-align-middle table-header-no-border table-primary-hover" cellspacing="0" cellpadding="0" width="100%" id="order-information-table">
+                    <thead class="text-primary">
                     <tr>
                         <th><?php _e("Image"); ?></th>
                         <th><?php _e("Product"); ?></th>
@@ -185,13 +185,13 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                             <td class="mw-ui-table-green" colspan="2"><?php print  currency_format($ord['taxes_amount'], $ord['currency']); ?></td>
                         </tr>
                     <?php endif ?>
-					
+
 							<?php if(isset($ord['discount_value']) and $ord['discount_value'] > 0): ?>
 							<tr class="mw-ui-table-footer">
                         <td colspan="2">&nbsp;</td>
                         <td colspan="2"><?php _e("Discount"); ?></td>
-                        <td class="mw-ui-table-green" colspan="2">- 
-                        <?php 
+                        <td class="mw-ui-table-green" colspan="2">-
+                        <?php
                         if ($ord['discount_type'] == "fixed_amount") {
                         	print currency_format($ord['discount_value'], $ord['currency']);
                         } else {
@@ -201,7 +201,7 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                         </td>
                     </tr>
                      <?php endif ?>
-                     
+
                     <tr class="mw-ui-table-footer last">
                         <td colspan="2">&nbsp;</td>
                         <td colspan="2" class="mw-ui-table-green"><strong><?php _e("Total:"); ?></strong></td>
@@ -236,13 +236,13 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                         <td class="mw-ui-table-green" colspan="2"><?php print  currency_format($ord['taxes_amount'], $ord['currency']); ?></td>
                     </tr>
                 <?php endif ?>
-                
+
                 <?php if(isset($ord['discount_value']) and $ord['discount_value'] > 0): ?>
                 <tr class="mw-ui-table-footer">
                         <td colspan="2">&nbsp;</td>
                         <td colspan="2"><?php _e("Discount"); ?></td>
-                        <td class="mw-ui-table-green" colspan="2">- 
-                        <?php 
+                        <td class="mw-ui-table-green" colspan="2">-
+                        <?php
                         if ($ord['discount_type'] == "fixed_amount") {
                         	print currency_format($ord['discount_value'], $ord['currency']);
                         } else {
