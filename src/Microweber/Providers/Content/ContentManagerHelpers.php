@@ -584,10 +584,26 @@ class ContentManagerHelpers extends ContentManagerCrud
             }
 
             $slug_page = $this->app->permalink_manager->slug($ref_page_url, 'page');
+            $slug_post = $this->app->permalink_manager->slug($ref_page_url, 'post');
             $slug_category = $this->app->permalink_manager->slug($ref_page_url, 'category');
 
             if ($slug_page) {
+            $ref_post = false;
+            if($slug_post){
+
+                $ref_post= $this->get_by_url($slug_post);
+
+            }
+
+            if($ref_post){
+                $ref_page2 = $ref_page = $ref_post;
+
+            } else {
                 $ref_page2 = $ref_page = $this->get_by_url($slug_page);
+
+            }
+
+
             } elseif($slug_category){
                 $cat = $this->app->category_manager->get_by_slug($slug_category);
                  if($cat){
@@ -597,6 +613,9 @@ class ContentManagerHelpers extends ContentManagerCrud
                      }
                  }
             }
+
+
+
 
 
             if ($ref_page2 == false) {

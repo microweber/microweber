@@ -79,7 +79,7 @@ class PermalinkManager
                         }
 
                         // If page not fond & category not found we try to find post
-                        $findPostBySlug = get_posts('url=' . $findSlugByType . '&single=1');
+                        $findPostBySlug = get_content('subtype=post&url=' . $findSlugByType . '&single=1');
                         if ($findPostBySlug && isset($findPostBySlug['parent']) && $findPostBySlug['parent'] != false) {
                             $findPostPageBySlug = get_pages('id=' . $findPostBySlug['parent'] . '&single=1');
                             if ($findPostPageBySlug) {
@@ -97,8 +97,7 @@ class PermalinkManager
                     }
 
                     if ($type == 'post') {
-
-                        $findPostsBySlug = get_posts('url=' . $findSlugByType . '&single=1');
+                        $findPostsBySlug = get_content('subtype=post&url=' . $findSlugByType . '&single=1');
                         if ($findPostsBySlug) {
                             return $findPostsBySlug['url'];
                         }
