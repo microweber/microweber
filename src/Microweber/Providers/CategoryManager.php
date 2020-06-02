@@ -594,7 +594,7 @@ class CategoryManager
             $possible_slug = mb_strtolower($data['url']);
             $possible_slug = str_ireplace(' ', '-',$possible_slug);
             if ($possible_slug) {
-                $possible_slug_check = $this->get_by_slug($possible_slug);
+                $possible_slug_check = $this->get_by_url($possible_slug);
                 if (isset($possible_slug_check['id'])) {
                     if (isset($data['id']) and $data['id'] == $possible_slug_check['id']) {
                         //slug is the same
@@ -773,10 +773,10 @@ class CategoryManager
 
     }
 
-    public function get_by_slug($slug)
+    public function get_by_url($slug)
     {
         $id = $this->get_by_id($slug, 'url');
-        $override = $this->app->event_manager->trigger('category.get_by_slug', $slug);
+        $override = $this->app->event_manager->trigger('app.category.get_by_url', $slug);
         if ($override and is_array($override) && isset($override[0])) {
             $id = $override[0];
         }
@@ -854,7 +854,7 @@ class CategoryManager
             }
         }
         if ($cat_url != false and !is_numeric($cat_url)) {
-            $cat_url_by_slug = $this->get_by_slug($cat_url);
+            $cat_url_by_slug = $this->get_by_url($cat_url);
             if (isset($cat_url_by_slug['id'])) {
                 $cat_id = $cat_url_by_slug['id'];
             }
@@ -899,7 +899,7 @@ class CategoryManager
                     if (isset($cur_url_cat[0])) {
                         $cat_url = $cur_url_cat[0];
                         if ($cat_url != false and !is_numeric($cat_url)) {
-                            $cat_url_by_slug = $this->get_by_slug($cat_url);
+                            $cat_url_by_slug = $this->get_by_url($cat_url);
                             if (isset($cat_url_by_slug['id'])) {
                                 $cat_id = $cat_url_by_slug['id'];
                             }
