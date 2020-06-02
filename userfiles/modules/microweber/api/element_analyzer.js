@@ -172,13 +172,13 @@ mw.ElementAnalyzer = function(options){
         var edit = mw.tools.firstParentOrCurrentWithAnyOfClasses(node, this.cls.edit);
         return (case1 || case2) && !mw.tools.hasClass(edit, this.cls.noDrop);
     };
-    this._canDrop = function(node){
+    this._canDrop = function(node) {
         node = node || this.data.target;
         return mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(node, [this.cls.allowDrop, this.cls.noDrop]);
     };
 
-    this._layoutInLayout = function(){
-        if(!this.data.currentGrabbed || !mwd.body.contains(this.data.currentGrabbed)){
+    this._layoutInLayout = function() {
+        if (!this.data.currentGrabbed || !mwd.body.contains(this.data.currentGrabbed)) {
             return false;
         }
         var currentGrabbedIsLayout = (this.data.currentGrabbed.getAttribute('data-module-name') === 'layouts' || mw.dragCurrent.getAttribute('data-type') === 'layouts');
@@ -190,9 +190,9 @@ mw.ElementAnalyzer = function(options){
     };
 
     this.canDrop = function(node){
-            node = node || this.data.target;
-            var can = (this._isEditLike(node) && this._canDrop(node) && !this._layoutInLayout().result);
-            return can;
+        node = node || this.data.target;
+        var can = (this._isEditLike(node) && this._canDrop(node) && !this._layoutInLayout().result);
+        return can;
     };
 
 
@@ -387,6 +387,9 @@ mw.ElementAnalyzer = function(options){
     };
     this.validateInteractionTarget = function(node){
         node = node || this.data.target;
+        if (!mw.tools.firstParentOrCurrentWithClass(node, this.cls.edit)) {
+           return false;
+        }
         var cls = [
             this.cls.edit,
             this.cls.element,
@@ -428,7 +431,7 @@ mw.ElementAnalyzer = function(options){
                 need_re_init = true;
             })(this);
         });
-        if (mw.have_new_items == true) {
+        if (mw.have_new_items === true) {
             need_re_init = true;
         }
         mw.have_new_items = false;
@@ -447,10 +450,9 @@ mw.ElementAnalyzer = function(options){
         if(!t){
             return;
         }
-        if(this.canDrop(t)) {
+        if (this.canDrop(t)) {
             return t;
-        }
-        else{
+        } else {
             return this.redirect(t);
         }
     };
