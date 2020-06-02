@@ -208,7 +208,7 @@ class ContentManager
 
     public function get_content_id_from_url($url = '')
     {
-        $content =  $this->get_by_url($url);
+        $content = $this->get_by_url($url);
         if ($content && isset($content['id'])) {
             return $content['id'];
         }
@@ -1519,14 +1519,16 @@ class ContentManager
      */
     public function define_constants($content = false)
     {
+
+
+
         if ((is_ajax() or defined('MW_API_CALL')) && isset($_SERVER['HTTP_REFERER'])) {
             $ref_page = $_SERVER['HTTP_REFERER'];
         } else {
             $ref_page = url_current(true);
         }
-       // $ref_page = url_current(true);
-//exit($ref_page);
-        if (isset($ref_page) and $ref_page) {
+
+        if (!$content and isset($ref_page) and $ref_page) {
             if ($ref_page != '') {
                 $ref_page = strtok($ref_page, '?');
 
@@ -1564,7 +1566,10 @@ class ContentManager
                 define('CATEGORY_ID', intval($cat_url));
             }
         }
-
+       // dd(debug_backtrace(1));
+     //    dd(debug_backtrace(1));
+//    //    dd(__METHOD__,$content,__LINE__);
+//
         if (is_array($page)) {
             if (isset($page['content_type']) and ($page['content_type'] == 'post' or $page['content_type'] != 'page')) {
                 if (isset($page['id']) and $page['id'] != 0) {
@@ -1674,7 +1679,7 @@ class ContentManager
         if (!defined('CATEGORY_ID')) {
             define('CATEGORY_ID', false);
         }
-
+ ;
         if (defined('PAGE_ID') == false) {
             $getPageSlug = $this->app->permalink_manager->slug($ref_page, 'page');
             $pageFromSlug = $this->app->content_manager->get_by_url($getPageSlug);
@@ -1684,6 +1689,8 @@ class ContentManager
                 define('PAGE_ID', intval($page['id']));
             }
         }
+
+
 
         if (defined('CONTENT_ID') == false) {
             define('CONTENT_ID', false);
@@ -1710,7 +1717,6 @@ class ContentManager
             $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
             //
         }
-
         if (isset($content['parent']) and $content['parent'] != 0 and isset($content['layout_file']) and $content['layout_file'] == 'inherit') {
             $inh = $this->get_inherited_parent($content['id']);
             if ($inh != false) {
@@ -1855,9 +1861,9 @@ class ContentManager
         }
 
         if (defined('CATEGORY_ID') == false) {
-                // define('CATEGORY_ID', false);
-            // BASI
+            define('CATEGORY_ID', false);
         }
+
 
         if (defined('PAGE_ID') == false) {
             define('PAGE_ID', false);
@@ -1873,7 +1879,6 @@ class ContentManager
 
         return true;
     }
-
 
 
     /**
@@ -2218,10 +2223,10 @@ class ContentManager
             $link = ($link['url']);
         }
 
-       /* $override = $this->app->event_manager->trigger('content.link.after', $link);
-        if (is_array($override) && isset($override[0])) {
-            $link = $override[0];
-        }*/
+        /* $override = $this->app->event_manager->trigger('content.link.after', $link);
+         if (is_array($override) && isset($override[0])) {
+             $link = $override[0];
+         }*/
 
         return $link;
     }

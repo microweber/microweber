@@ -98,6 +98,7 @@ class PermalinkManager
 
                     if ($type == 'post') {
                         $findPostsBySlug = get_content('subtype=post&url=' . $findSlugByType . '&single=1');
+
                         if ($findPostsBySlug) {
                             return $findPostsBySlug['url'];
                         }

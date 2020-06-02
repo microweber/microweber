@@ -134,7 +134,7 @@ class DefaultController extends Controller
         }
 
         $set_constants = true;
-        if(!mw_is_installed()){
+        if (!mw_is_installed()) {
             $set_constants = false;
         }
 
@@ -662,10 +662,10 @@ class DefaultController extends Controller
             $from_url = $request_data['from_url'];
         } elseif (isset($_SERVER['HTTP_REFERER'])) {
             $from_url = $_SERVER['HTTP_REFERER'];
-            $from_url_p= @parse_url($from_url);
-            if(is_array($from_url_p) and isset($from_url_p['query'])){
-                $from_url_p =  parse_query($from_url_p['query']);
-                if(is_array($from_url_p) and isset($from_url_p['from_url'])){
+            $from_url_p = @parse_url($from_url);
+            if (is_array($from_url_p) and isset($from_url_p['query'])) {
+                $from_url_p = parse_query($from_url_p['query']);
+                if (is_array($from_url_p) and isset($from_url_p['from_url'])) {
                     $from_url = $from_url_p['from_url'];
                 }
             }
@@ -779,16 +779,16 @@ class DefaultController extends Controller
         }
 
 
-        if(mw_is_installed()){
-        if ($page == false) {
-            if (!isset($content_id)) {
-                return;
-            }
+        if (mw_is_installed()) {
+            if ($page == false) {
+                if (!isset($content_id)) {
+                    return;
+                }
 
-            $this->app->content_manager->define_constants(array('id' => $content_id));
-        } else {
-            $this->app->content_manager->define_constants($page);
-        }
+                $this->app->content_manager->define_constants(array('id' => $content_id));
+            } else {
+                $this->app->content_manager->define_constants($page);
+            }
         }
 
         if (defined('TEMPLATE_DIR')) {
@@ -808,7 +808,6 @@ class DefaultController extends Controller
 
 
         }
-
 
 
         $url_last = false;
@@ -1377,7 +1376,7 @@ class DefaultController extends Controller
             if ($output_cache_timeout != false and isset($_SERVER['REQUEST_URI']) and $_SERVER['REQUEST_URI']) {
                 $compile_assets = \Config::get('microweber.compile_assets');
 
-                $output_cache_id = __FUNCTION__ . crc32(MW_VERSION . intval($compile_assets) . $_SERVER['REQUEST_URI']).current_lang();
+                $output_cache_id = __FUNCTION__ . crc32(MW_VERSION . intval($compile_assets) . $_SERVER['REQUEST_URI']) . current_lang();
                 $output_cache_group = 'global';
                 $output_cache_content = $this->app->cache_manager->get($output_cache_id, $output_cache_group, $output_cache_timeout);
 
@@ -1399,10 +1398,38 @@ class DefaultController extends Controller
                 $page = $this->app->content_manager->homepage();
             } else {
 
+                $slug_page = $this->app->permalink_manager->slug($page_url, 'page');
+                $slug_post = $this->app->permalink_manager->slug($page_url, 'post');
+                $slug_category = $this->app->permalink_manager->slug($page_url, 'category');
+
 
                 $found_mod = false;
-                $page = $this->app->content_manager->get_by_url($page_url);
-                $page_exact = $this->app->content_manager->get_by_url($page_url, true);
+
+                $try_content = false;
+
+                if ($slug_post) {
+                    $page = $this->app->content_manager->get_by_url($slug_post);
+                    $page_exact = $this->app->content_manager->get_by_url($slug_post, true);
+                }
+
+
+                if ($slug_page and !$page) {
+                    $page = $this->app->content_manager->get_by_url($page_url);
+                    $page_exact = $this->app->content_manager->get_by_url($page_url, true);
+                }
+
+                if ($slug_category and !$page) {
+
+                    $cat = $this->app->category_manager->get_by_slug($slug_category);
+                    if ($cat) {
+                        $content_for_cat = $this->app->category_manager->get_page($cat['id']);
+                        if ($content_for_cat) {
+                            $page = $page_exact = $content_for_cat;
+                        }
+                    }
+                }
+
+
                 //dd($page,$page_exact,$page_url);
                 $page_url_segment_1 = $this->app->url_manager->segment(0, $page_url);
                 if ($preview_module != false) {
@@ -1632,7 +1659,6 @@ class DefaultController extends Controller
             $page = $this->app->content_manager->get_by_id($page['id']);
 
             // }
-
             if ($page['content_type'] == 'post' and isset($page['parent'])) {
                 $content = $page;
                 $page = $this->app->content_manager->get_by_id($page['parent']);
@@ -1642,6 +1668,7 @@ class DefaultController extends Controller
         } else {
             $content = $page;
         }
+
 
         if (isset($content['created_at']) and trim($content['created_at']) != '') {
             $content['created_at'] = date($date_format, strtotime($content['created_at']));
@@ -1732,7 +1759,6 @@ class DefaultController extends Controller
             }
         }
 
-
         $this->app->content_manager->define_constants($content);
 
 
@@ -1767,11 +1793,11 @@ class DefaultController extends Controller
         if (isset($content['original_link']) and $content['original_link'] != '') {
             $content['original_link'] = str_ireplace('{site_url}', $this->app->url_manager->site(), $content['original_link']);
             $redirect = $this->app->format->prep_url($content['original_link']);
-            if ($redirect != '' and $redirect != site_url() and $redirect.'/' != site_url()) {
+            if ($redirect != '' and $redirect != site_url() and $redirect . '/' != site_url()) {
                 return $this->app->url_manager->redirect($redirect);
             }
         }
-        
+
         if (!isset($page['title'])) {
             $page['title'] = 'New page';
         }
@@ -1806,21 +1832,21 @@ class DefaultController extends Controller
                 }
             }
 
-        /*    if (!defined('CATEGORY_ID')) {
-                define('CATEGORY_ID', false);
-            }
+            /*    if (!defined('CATEGORY_ID')) {
+                    define('CATEGORY_ID', false);
+                }
 
-          /*  if (!defined('POST_ID')) {
-                define('POST_ID', false);
-            }*/
+              /*  if (!defined('POST_ID')) {
+                    define('POST_ID', false);
+                }*/
 
-           /* if (!defined('CONTENT_ID')) {
-                define('CONTENT_ID', false);
-            }
+            /* if (!defined('CONTENT_ID')) {
+                 define('CONTENT_ID', false);
+             }
 
-            if (!defined('PAGE_ID')) {
-                define('PAGE_ID', false);
-            }*/
+             if (!defined('PAGE_ID')) {
+                 define('PAGE_ID', false);
+             }*/
 
             $render_params['render_file'] = $render_file;
             $render_params['page_id'] = PAGE_ID;
@@ -1903,11 +1929,10 @@ class DefaultController extends Controller
             //$apijs_loaded = $this->app->template->get_apijs_url() . '?id=' . CONTENT_ID;
 
             $is_admin = $this->app->user_manager->is_admin();
-           // $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css?v=' . MW_VERSION . '" type="text/css" />';
+            // $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css?v=' . MW_VERSION . '" type="text/css" />';
 
             $default_css_url = $this->app->template->get_default_system_ui_css_url();
-            $default_css = '<link rel="stylesheet" href="' . $default_css_url .  '" type="text/css" />';
-
+            $default_css = '<link rel="stylesheet" href="' . $default_css_url . '" type="text/css" />';
 
 
             $headers = event_trigger('site_header', TEMPLATE_NAME);
@@ -2143,7 +2168,7 @@ class DefaultController extends Controller
             }
 
             if ($output_cache_timeout != false) {
-                 if (!defined('MW_NO_OUTPUT_CACHE')) {
+                if (!defined('MW_NO_OUTPUT_CACHE')) {
                     $l = $this->app->parser->replace_non_cached_modules_with_placeholders($l);
                     $this->app->cache_manager->save($l, $output_cache_id, $output_cache_group, $output_cache_timeout);
                 }
@@ -2461,14 +2486,13 @@ class DefaultController extends Controller
             //$apijs_loaded = $this->app->template->get_apijs_url() . '?id=' . CONTENT_ID;
             //$apijs_loaded = $this->app->template->get_apijs_url();
             // $apijs_settings_loaded = $this->app->template->get_apijs_settings_url() . '?id=' . CONTENT_ID . '&category_id=' . CATEGORY_ID;
-          //  $apijs_settings_loaded = $this->app->template->get_apijs_settings_url();
+            //  $apijs_settings_loaded = $this->app->template->get_apijs_settings_url();
             $default_css_url = $this->app->template->get_default_system_ui_css_url();
 
 
             // $is_admin = $this->app->user_manager->is_admin();
             $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css?v=' . MW_VERSION . '" type="text/css" />';
-            $default_css = '<link rel="stylesheet" href="' . $default_css_url .  '" type="text/css" />';
-
+            $default_css = '<link rel="stylesheet" href="' . $default_css_url . '" type="text/css" />';
 
 
             $headers = event_trigger('site_header', TEMPLATE_NAME);
@@ -2602,16 +2626,15 @@ class DefaultController extends Controller
             }
         }
 
-       /* if (!stristr($layout, $apijs_loaded)) {
-            $rep = 0;
+        /* if (!stristr($layout, $apijs_loaded)) {
+             $rep = 0;
 
-            $default_css = $default_css . "\r\n" . '<script src="' . $apijs_settings_loaded . '"></script>' . "\r\n";
-            $default_css = $default_css . "\r\n" . '<script src="' . $apijs_loaded . '"></script>' . "\r\n";
-            $layout = str_ireplace('<head>', '<head>' . $default_css, $layout, $rep);
-        }*/
+             $default_css = $default_css . "\r\n" . '<script src="' . $apijs_settings_loaded . '"></script>' . "\r\n";
+             $default_css = $default_css . "\r\n" . '<script src="' . $apijs_loaded . '"></script>' . "\r\n";
+             $layout = str_ireplace('<head>', '<head>' . $default_css, $layout, $rep);
+         }*/
 
         $layout = str_ireplace('<head>', '<head>' . $default_css, $layout, $rep);
-
 
 
         $layout = $this->app->template->append_api_js_to_layout($layout);
