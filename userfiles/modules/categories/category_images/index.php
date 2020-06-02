@@ -27,14 +27,14 @@ if (!isset($parent) or $parent == '') {
     $parent = 0;
 }
 
-$cache_id = __CLASS__ . __FUNCTION__ .'category_images'. crc32(json_encode($params) . $hide_pages . $show_subcats . $show_category_header . $show_only_for_parent . $selected_page . $parent . current_lang());
-$cache_group = 'categories';
-
-$results = cache_get($cache_id, $cache_group, false);
-//$results = false;
-if ($results) {
-    $cats = $results;
-} else {
+//$cache_id = __CLASS__ . __FUNCTION__ .'category_images'. crc32(json_encode($params) . $hide_pages . $show_subcats . $show_category_header . $show_only_for_parent . $selected_page . $parent . current_lang());
+//$cache_group = 'categories';
+//
+//$results = cache_get($cache_id, $cache_group, false);
+////$results = false;
+//if ($results) {
+//    $cats = $results;
+//} else {
 
 //cache_save($tree, $cache_id, $cache_group);
 
@@ -189,7 +189,7 @@ if ($results) {
                 $cat['url'] = category_link($cat['id']);
 
                 if (isset($cat['rel_type']) and $cat['rel_type'] == 'content') {
-                    $latest = get_content("order_by=position desc&limit=30&is_active=1&category=" . $cat['id']);
+                    $latest = get_content("get_extra_data=true&order_by=position desc&limit=30&is_active=1&category=" . $cat['id']);
                     $latest_count = get_content("no_cache=1&count=1&is_active=1&category=" . $cat['id']);
 
                     if (!$cat['picture'] and isset($latest[0])) {
@@ -199,7 +199,6 @@ if ($results) {
                     if ($latest) {
                         $cat['content_items'] = $latest;
                         $cat['content_items_count'] = $latest_count;
-
                     }
                 }
                // $cat['has_posts'] = get_content('count=1&is_active=1&category=' . $cat['id']);
@@ -210,8 +209,8 @@ if ($results) {
         }
     }
 
-    cache_save($cats, $cache_id, $cache_group);
-}
+  //  cache_save($cats, $cache_id, $cache_group);
+//}
 
 
 $selected_cats = $cats;
