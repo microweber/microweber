@@ -45,7 +45,8 @@ mw.form = {
         mw.$(target).addClass('loading');
     }
   },
-  post:function(selector, url_to_post, callback, ignorenopost, callback_error, callback_user_cancel){
+
+  post:function(selector, url_to_post, callback, ignorenopost, callback_error, callback_user_cancel, before_send){
     mw.session.checkPause = true;
     if(selector.constructor === {}.constructor){
       return mw.form._post(selector);
@@ -68,7 +69,7 @@ mw.form = {
         var obj = mw.form.serialize(selector, ignorenopost);
       	var xhr = $.ajax({
             url: url_to_post,
-            data: obj,
+            data: before_send ? before_send(obj) : obj,
             method: 'post',
             success: function(data){
                 mw.session.checkPause = false;
@@ -94,7 +95,7 @@ mw.form = {
 	return false;
   },
   _post:function(obj){
-    mw.form.post(obj.selector, obj.url, obj.done, obj.ignorenopost, obj.error);
+    mw.form.post(obj.selector, obj.url, obj.done, obj.ignorenopost, obj.error, obj.error);
   },
   validate:{
     checkbox: function(obj){

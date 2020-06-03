@@ -112,7 +112,6 @@ $template = newsletter_get_template(array("id" => $template_id));
                 uploadFile: function (e) {
                     var files = e.dataTransfer ? e.dataTransfer.files : e.target.files;
                     // ...send somewhere
-                    console.log(files);
 
                     var formData = new FormData();
 

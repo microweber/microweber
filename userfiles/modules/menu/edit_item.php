@@ -224,11 +224,11 @@ if ($id != 0) {
 
 
                 <?php if (isset($params['menu-parent-id'])): ?>
-                    <input type="text" name="parent_id" value="<?php print $params['menu-parent-id'] ?>"/>
+                    <input type="hidden" name="parent_id" value="<?php print $params['menu-parent-id'] ?>"/>
                 <?php elseif (isset($data['parent_id']) and $data['parent_id'] != 0): ?>
-                    <input type="text" name="parent_id" value="<?php print $data['parent_id'] ?>"/>
+                    <input type="hidden" name="parent_id" value="<?php print $data['parent_id'] ?>"/>
                 <?php elseif (isset($params['parent_id'])): ?>
-                    <input type="text" name="parent_id" value="<?php print $params['parent_id'] ?>"/>
+                    <input type="hidden" name="parent_id" value="<?php print $params['parent_id'] ?>"/>
                 <?php endif; ?>
 
             </div>
