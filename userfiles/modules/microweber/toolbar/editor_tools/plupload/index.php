@@ -63,12 +63,9 @@ $here = mw_includes_url() . 'toolbar/editor_tools/plupload/';
         var filters = [
             {title: "", extensions: Params.filters || '*'}
         ];
-        console.log(filters, Params)
-        this_frame = parent.mw.$("iframe[name='" + Name + "']");
+         this_frame = parent.mw.$("iframe[name='" + Name + "']");
         uploader = new plupload.Uploader({
             runtimes: 'html5',
-            dragdrop: true,
-            drop_element: "pickfiles_<?php print $uid  ?>",
             browse_button: 'pickfiles_<?php print $uid  ?>',
             debug: 0,
             max_retries: 10,
@@ -91,7 +88,7 @@ $here = mw_includes_url() . 'toolbar/editor_tools/plupload/';
 
         }
         uploader.init();
-        uploader.bind('FilesAdded', function (up, files) {
+         uploader.bind('FilesAdded', function (up, files) {
             this_frame.trigger("FilesAdded", [files]);
 
             if (Params.autostart != 'false') {
