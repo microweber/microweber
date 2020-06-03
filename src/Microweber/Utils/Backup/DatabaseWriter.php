@@ -15,6 +15,7 @@ use Microweber\Utils\Backup\Traits\DatabaseMediaWriter;
 use Microweber\Utils\Backup\Loggers\BackupImportLogger;
 use Microweber\Utils\Backup\Traits\DatabaseModuleWriter;
 use Microweber\Utils\Backup\Traits\DatabaseTaggingTaggedWriter;
+use QueryPath\Exception;
 
 /**
  * Microweber - Backup Module Database Writer
@@ -315,6 +316,11 @@ class DatabaseWriter
 			$this->_finishUp('runWriterWithBatchNothingToImport');
 			return array("success"=>"Nothing to import.");
 		}
+
+		if (isset($this->content->__table_structures)) {
+		    app()->database_manager->build_tables($this->content->__table_structures);
+            unset($this->content->__table_structures);
+        }
 		
 		//$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
 		//$importTables = array('content', 'categories');
@@ -323,7 +329,11 @@ class DatabaseWriter
 		// All db tables
 		$itemsForSave = array();
 		foreach ($this->content as $table=>$items) {
-			
+
+            if (!\Schema::hasTable($table)) {
+                continue;
+            }
+
 			if (in_array($table, $excludeTables)) {
 				continue;
 			}
@@ -403,7 +413,9 @@ class DatabaseWriter
                 if ($table == 'users' || $table == 'users_oauth' || $table == 'system_licenses') {
                     continue;
                 }
-                \DB::table($table)->truncate();
+                if (\Schema::hasTable($table)) {
+                    \DB::table($table)->truncate();
+                }
             }
         }
     }
