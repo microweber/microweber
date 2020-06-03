@@ -11,6 +11,7 @@
 
             if (mw.notification != undefined) {
                 mw.notification.success('<?php _ejs('Fonts updated'); ?>');
+                mw.clear_cache();
             }
 
 
