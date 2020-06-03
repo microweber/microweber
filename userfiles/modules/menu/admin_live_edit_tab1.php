@@ -180,10 +180,10 @@
             mw.form.post(selector, '<?php print api_link('content/menu_item_save'); ?>', _onReady, undefined, undefined, undefined, function (postData) {
                 var data = $.extend({}, postData);
                 if(!!data.categories_id && data.categories_id !== '0') {
-                    delete data.url;
+                    data.url = '';
                 }
                 if(!!data.content_id && data.content_id !== '0') {
-                    delete data.url;
+                    data.url = '';
                 }
                 return data;
             });
