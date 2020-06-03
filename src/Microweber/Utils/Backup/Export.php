@@ -176,9 +176,22 @@ class Export
 		
 		$exportTables = new ExportTables();
 
-		foreach($this->_getTablesForExport() as $table) {			
+        $tablesStructures = array();
+
+		foreach($this->_getTablesForExport() as $table) {
+
 			BackupExportLogger::setLogInfo('Exporting table: <b>' . $table. '</b>');
-			
+
+            $tableFields = app()->database_manager->get_fields($table);
+            if($tableFields){
+                $tableFieldsStructure = array();
+                foreach ($tableFields as $tableField){
+                    $tableFieldType = \DB::getSchemaBuilder()->getColumnType($table, $tableField);
+                    $tableFieldsStructure[$tableField] = $tableFieldType;
+                }
+                $tablesStructures[$table] = $tableFieldsStructure;
+            }
+
 			$ids = array();
 			
 			if ($table == 'categories') {
@@ -234,8 +247,11 @@ class Export
 				
 			}
 		}
-		
-		return $exportTables->getAllTableItems();
+
+		$exportTablesReady = $exportTables->getAllTableItems();
+		$exportTablesReady['__table_structures'] = $tablesStructures;
+
+		return $exportTablesReady;
 	}
 	
 	private function _getTableContent($table, $ids = array()) {
