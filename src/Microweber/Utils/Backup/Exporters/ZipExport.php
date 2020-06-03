@@ -202,12 +202,63 @@ class ZipExport extends DefaultExport
 
 	protected function _getUserFilesTemplatesPaths()
     {
-        return false;
+        $allTemplatesFiles = array();
+        $templatesFilesReady = array();
+
+        $userFilesPathTemplates = userfiles_path() . DIRECTORY_SEPARATOR . 'templates';
+
+        foreach ($this->exportTemplates as $template) {
+            $templateDir = $userFilesPathTemplates . DIRECTORY_SEPARATOR . $template;
+            $templateFiles = $this->_getDirContents($templateDir);
+
+            $allTemplatesFiles = array_merge($allTemplatesFiles, $templateFiles);
+        }
+
+        foreach($allTemplatesFiles as $filePath) {
+
+            $dataFile = str_replace(userfiles_path() . DIRECTORY_SEPARATOR, false, $filePath);
+
+            $dataFile = normalize_path($dataFile, false);
+            $filePath =  normalize_path($filePath, false);
+
+            $templatesFilesReady[] = array(
+                'filename'=>$dataFile,
+                'filepath'=>$filePath
+            );
+        }
+
+        return $templatesFilesReady;
     }
 
 	protected function _getUserFilesModulesPaths()
     {
-        return false;
+
+        $allModulesFiles = array();
+        $modulesFilesReady = array();
+
+        $userFilesPathModules = userfiles_path() . DIRECTORY_SEPARATOR . 'modules';
+
+        foreach ($this->exportModules as $module) {
+            $moduleDir = $userFilesPathModules . DIRECTORY_SEPARATOR . $module;
+            $moduleFiles = $this->_getDirContents($moduleDir);
+
+            $allModulesFiles = array_merge($allModulesFiles, $moduleFiles);
+        }
+
+        foreach($allModulesFiles as $filePath) {
+
+            $dataFile = str_replace(userfiles_path() . DIRECTORY_SEPARATOR, false, $filePath);
+
+            $dataFile = normalize_path($dataFile, false);
+            $filePath =  normalize_path($filePath, false);
+
+            $modulesFilesReady[] = array(
+                'filename'=>$dataFile,
+                'filepath'=>$filePath
+            );
+        }
+
+        return $modulesFilesReady;
     }
 	
 	protected function _getUserFilesPaths() {

@@ -252,7 +252,7 @@ class MenuManager
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
 
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id . site_url());
+        $function_cache_id = __FUNCTION__ . crc32($function_cache_id . site_url()).current_lang();
         if (defined('PAGE_ID')) {
             $function_cache_id = $function_cache_id . PAGE_ID;
         }
@@ -493,7 +493,7 @@ class MenuManager
 
                     $title = $cont['title'];
                        $url = $this->app->content_manager->link($cont['id']);
-                   // dd($item);
+
                     if ($cont['is_active'] != 1) {
                         $is_active = false;
                         $cont = false;
@@ -517,6 +517,7 @@ class MenuManager
             if (trim($item['url'] != '')) {
                $url = $item['url'];
             }
+
 
             if ($item['title'] == '') {
                 $item['title'] = $title;
