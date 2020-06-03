@@ -782,7 +782,7 @@ class ContentManager
      * </pre>
      * @example
      * <pre>
-     * // Other options
+     * // Other opltions
      * $pt_opts['parent'] = "8";
      * $pt_opts['include_first'] =  true; //includes the parent in the tree
      * $pt_opts['id_prefix'] = 'my_id';
