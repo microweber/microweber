@@ -50,6 +50,9 @@ class Lang
 
         mw()->option_manager->clear_memory();
 
+
+
+        //$mw_language_content = $mw_new_language_entries_ns = $mw_new_language_entries= [];
         return $this->app->setLocale($lang);
     }
 
@@ -235,7 +238,8 @@ class Lang
         if (is_array($mw_new_language_entries) and !empty($mw_new_language_entries)) {
 
             $mw_new_language_entries = array_merge($mw_new_language_entries, $mw_language_content);
-            $mw_new_language_entries = array_unique($mw_new_language_entries);
+
+            //$mw_new_language_entries = array_unique($mw_new_language_entries);
             $lang_file_str = json_encode($mw_new_language_entries, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
             if (function_exists('iconv')) {
@@ -503,9 +507,9 @@ class Lang
             $language = json_decode($language_str, true);
             if (isset($language) and is_array($language)) {
                 foreach ($language as $k => $v) {
-                    if (isset($mw_language_content[$lang][$k]) == false) {
+                   // if (isset($mw_language_content[$lang][$k]) == false) {
                         $mw_language_content[$lang][$k] = $v;
-                    }
+                   // }
                 }
             }
         }
@@ -702,7 +706,7 @@ class Lang
             $lang_file = $cust_dir . $lang . '.json';
 
             if (is_array($mw_language_content)) {
-                $mw_language_content = array_unique($mw_language_content);
+               // $mw_language_content = array_unique($mw_language_content);
                 $lang_file_str = json_encode($mw_language_content, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
                 if (is_admin() == true) {

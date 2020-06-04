@@ -76,15 +76,15 @@ mw.cart = {
         $.post(mw.settings.api_url + 'update_cart', data,
             function (data) {
 
-                mw.cart.after_modify(data);
-
-
+                mw.trigger('mw.cart.add', [data]);
 
                 if (typeof c === 'function') {
                     c.call(data);
                 }
+                mw.cart.after_modify(data);
 
-                mw.trigger('mw.cart.add', [data]);
+
+
             });
     },
 
