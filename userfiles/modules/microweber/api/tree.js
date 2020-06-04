@@ -50,7 +50,9 @@
                 filter:false,
                 cantSelectTypes: [],
                 document: document,
-                _tempRender: true
+                _tempRender: true,
+                filterRemoteURL: null,
+                filterRemoteKey: 'keyword',
             };
 
             var options = $.extend({}, defaults, config);
@@ -71,7 +73,7 @@
                 this.selectedData = [];
             }
         };
-        this.filter = function(val, key){
+        this.filterLocal = function(val, key){
             key = key || 'title';
             val = (val || '').toLowerCase().trim();
             if(!val){
@@ -88,6 +90,30 @@
                 });
             }
         };
+
+        this._filterRemoteTime = null;
+        this.filterRemote = function(val, key){
+            clearTimeout(this._filterRemoteTime);
+            this._filterRemoteTime = setTimeout(function () {
+                key = key || 'title';
+                val = (val || '').toLowerCase().trim();
+                var ts = {};
+                ts[scope.options.filterRemoteKey] = val;
+                $.get(scope.options.filterRemoteURL, ts, function (data) {
+                    console.log(data)
+                    scope.setData(data);
+                });
+            }, 777);
+        };
+
+        this.filter = function(val, key){
+            if (!!this.options.filterRemoteURL && !!this.options.filterRemoteKey) {
+                this.filterRemote(val, key);
+            } else {
+                this.filterLocal(val, key);
+            }
+        };
+
         this.search = function(){
             this._seachInput = mw.$(this.options.searchInput);
             if(!this._seachInput[0] || this._seachInput[0]._tree) return;
@@ -206,7 +232,8 @@
 
         this.setData = function(newData){
             this.options.data = newData;
-            mw.$(this.list).remove();
+            this._postCreated = [];
+            this._ids = [];
             this.init();
         };
 

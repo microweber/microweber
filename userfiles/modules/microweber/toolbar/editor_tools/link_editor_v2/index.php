@@ -311,8 +311,10 @@
                                 element: $("#<?php print $unique; ?>")[0],
                                 sortable: false,
                                 selectable: true,
-                                singleSelect: true
+                                singleSelect: true,
+                                filterRemoteURL: '<?php print api_url('content/get_admin_js_tree_json'); ?>'
                             });
+                            pagesTreeData = [...data];
                             $(pagesTree).on("selectionChange", function(e, selection){
                                 var obj = selection[0];
                                 if(obj) {
@@ -327,18 +329,7 @@
                             $(pagesTree).on("ready", function(){
                                 $('#link-tree-search').on('input', function(){
                                     var val = this.value.toLowerCase().trim();
-                                    if(!val){
-                                        pagesTree.showAll();
-                                    }
-                                    else{
-                                        pagesTree.options.data.forEach(function(item) {
-                                            if(item.title.toLowerCase().indexOf(val) === -1) {
-                                                pagesTree.hide(item);
-                                            } else{
-                                                pagesTree.show(item);
-                                            }
-                                        });
-                                    }
+                                    pagesTree.filter(val)
                                 });
                             })
                         });
