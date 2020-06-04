@@ -119,7 +119,7 @@ class DatabaseWriter
 	
 	private function _saveItemDatabase($item) {
 		
-		if ($this->overwriteById  && isset($item['id'])) {
+		if ($this->overwriteById && isset($item['id'])) {
 			
 			// We will overwrite content by id from our db structure
 			$dbSelectParams = array();
@@ -414,6 +414,7 @@ class DatabaseWriter
                     continue;
                 }
                 if (\Schema::hasTable($table)) {
+                    BackupImportLogger::setLogInfo('Truncate table: ' . $table);
                     \DB::table($table)->truncate();
                 }
             }
