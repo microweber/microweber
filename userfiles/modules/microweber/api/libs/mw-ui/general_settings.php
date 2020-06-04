@@ -26,11 +26,11 @@
 
             <div class="card-body pt-3">
                 <div class="card style-1 mb-3">
-                    <div class="card-body pt-3">
+                    <div class="card-body pt-3 px-5">
                         <div class="row select-settings">
                             <div class="col-4">
                                 <a href="#" class="d-flex my-3">
-                                    <div class="icon-holder"><i class="mdi mdi-cog mdi-20px"></i></div>
+                                    <div class="icon-holder"><i class="mdi mdi-cog-outline mdi-20px"></i></div>
                                     <div class="info-holder">
                                         <span class="text-primary font-weight-bold">General</span><br/>
                                         <small class="text-muted">Make basic settings for your website</small>
@@ -107,12 +107,22 @@
                                     </div>
                                 </a>
                             </div>
+
+                            <div class="col-4">
+                                <a href="#" class="d-flex my-3">
+                                    <div class="icon-holder"><i class="mdi mdi-shield-edit-outline mdi-20px"></i></div>
+                                    <div class="info-holder">
+                                        <span class="text-primary font-weight-bold">Privacy Policy</span><br/>
+                                        <small class="text-muted">Privacy Policy and GDPR settings</small>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="card style-1 mb-3">
-                    <div class="card-body pt-3">
+                    <div class="card-body pt-3 px-5">
                         <div class="row select-settings">
                             <div class="col-4">
                                 <a href="#" class="d-flex my-3">

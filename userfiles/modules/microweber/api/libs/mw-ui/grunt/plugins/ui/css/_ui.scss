@@ -383,6 +383,8 @@ textarea:not(.form-control) {
 .form-control {
   color: $gray-700;
   font-weight: 500;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
 }
 
 .custom-control {
@@ -1214,7 +1216,6 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
   font-size: 22px;
 }
 
-
 .mdi-30px.mdi-set,
 .mdi-30px.mdi:before {
   font-size: 30px;
@@ -1553,8 +1554,25 @@ label.control-label {
   border-radius: 7px;
 }
 
-
-.btn-group > .btn.dropdown-toggle{
+.btn-group > .btn.dropdown-toggle {
   display: flex;
   align-items: center;
+}
+
+.btn.dropdown-toggle {
+  display: inline-flex;
+  align-items: center;
+}
+
+.input-group-lg > .form-control, .input-group-lg > .custom-select, .input-group-lg > .input-group-prepend > .input-group-text, .input-group-lg > .input-group-append > .input-group-text, .input-group-lg > .input-group-prepend > .btn, .input-group-lg > .input-group-append > .btn {
+  padding: 0.724rem 1rem;
+}
+
+.input-group-sm > .form-control, .input-group-sm > .custom-select, .input-group-sm > .input-group-prepend > .input-group-text, .input-group-sm > .input-group-append > .input-group-text, .input-group-sm > .input-group-prepend > .btn, .input-group-sm > .input-group-append > .btn{
+  padding: 0.2rem 0.5rem;
+}
+
+.custom-select{
+  background: unset;
+  padding: 0.25rem 1.75rem 0.25rem 0.75rem;
 }

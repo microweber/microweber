@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 
-    <!--    <link rel="stylesheet" href="grunt/plugins/ui/css/main.css">-->
-    <link rel="stylesheet" id="main-css-style" href="grunt/plugins/ui/css/main.php">
+        <link rel="stylesheet" href="grunt/plugins/ui/css/main.css">
+<!--    <link rel="stylesheet" id="main-css-style" href="grunt/plugins/ui/css/main.php">-->
 
     <!-- MW UI changes CSS -->
     <?php if (is_file('assets/ui/plugins/css/main.css')): ?>
@@ -1202,6 +1202,15 @@
                                             <label class="custom-control-label" for="customCheck2">Disabled custom checkbox</label>
                                         </div>
                                     </div>
+
+                                    <div class="form-group">
+                                        <div class="custom-control custom-switch pl-0">
+                                            <label class="d-inline-block mr-5" for="customSwitch1">No</label>
+                                            <input type="checkbox" class="custom-control-input" id="customSwitch1" checked="">
+                                            <label class="custom-control-label" for="customSwitch1">Yes</label>
+                                        </div>
+                                    </div>
+
                                     <div class="form-group">
                                         <div class="custom-control custom-switch">
                                             <input type="checkbox" class="custom-control-input" id="customSwitch1" checked>
