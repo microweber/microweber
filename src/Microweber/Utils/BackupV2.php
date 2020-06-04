@@ -188,9 +188,10 @@ class BackupV2
 		}
 
 		if (isset($query['import_by_type']) && $query['import_by_type'] == 'delete_all') {
+		    $this->manager->setImportOvewriteById(true);
             $this->manager->setToDeleteOldContent(true);
 		}
-
+        
         if (isset($query['installation_language']) && !empty($query['installation_language'])) {
             $this->manager->setImportLanguage($query['installation_language']);
         }
