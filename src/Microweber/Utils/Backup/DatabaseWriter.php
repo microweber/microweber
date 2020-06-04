@@ -252,9 +252,8 @@ class DatabaseWriter
 	 * @param array $item
 	 */
 	private function _saveItem($item) {
-		
-		$savedItem = $this->_saveItemDatabase($item);
 
+		$savedItem = $this->_saveItemDatabase($item);
         if ($this->overwriteById) {
             return true; 
         }
