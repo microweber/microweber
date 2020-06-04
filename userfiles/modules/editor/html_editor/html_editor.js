@@ -150,10 +150,10 @@ mw.html_editor.build_dropdown = function (fields_array, screenShot) {
 mw.html_editor.populate_editor = function () {
     var value = $('#select_edit_field li.selected');
 
-    if (value.length == 0) {
-        var value = $('select#select_edit_field li li').eq(0);
+    if (!value.length) {
+        value = $('select#select_edit_field li li').eq(0);
     }
-    if (value.length == 0) {
+    if (!value.length) {
         return;
     }
 
@@ -166,10 +166,11 @@ mw.html_editor.populate_editor = function () {
     if (typeof(mw.html_editor.map[dd_grp + '/' + dd_field]) != 'undefined') {
 
 
-        var ed_val = $(mw.html_editor.map[dd_grp + '/' + dd_field].el).html();
+        ed_val = $(mw.html_editor.map[dd_grp + '/' + dd_field].el).html();
 
-
-        wroot.mw.tools.scrollTo('[field="' + dd_field + '"][rel="' + dd_grp + '"]')
+        if(wroot.mw === mw.top()) {
+            wroot.mw.tools.scrollTo('[field="' + dd_field + '"][rel="' + dd_grp + '"]')
+        }
 
         wroot.$('.html-editor-selcted').removeClass('html-editor-selcted');
         wroot.$('[field="' + dd_field + '"][rel="' + dd_grp + '"]').addClass('html-editor-selcted');
@@ -239,13 +240,21 @@ mw.html_editor.populate_editor = function () {
 
 
 mw.html_editor.apply_and_save = function () {
-    mw.tools.loading('#module-id-mw_global_html_editor', true);
+
 
     mw.html_editor.apply();
-    wroot.mw.drag.save(undefined, function () {
-        mw.tools.loading('#module-id-mw_global_html_editor', false);
-        mw.notification.success(mw.msg.saved)
-    })
+    if(wroot.mw.drag.save) {
+        mw.tools.loading('#module-id-mw_global_html_editor', true);
+        wroot.mw.drag.save(undefined, function () {
+            mw.tools.loading('#module-id-mw_global_html_editor', false);
+            mw.notification.success(mw.msg.saved)
+        })
+    }
+    var form = wroot.mw.top().$('#quickform-edit-content');
+    if(form.length) {
+        form.submit()
+    }
+
 }
 mw.html_editor.apply = function () {
     var cur = $('#custom_html_code_mirror').attr('current');
