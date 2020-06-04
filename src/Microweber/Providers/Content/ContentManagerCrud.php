@@ -308,10 +308,11 @@ class ContentManagerCrud extends Crud
             $postSlug = $this->app->permalink_manager->slug($url, 'post');
             if ($pageSlug) {
                 $contentSlug = $pageSlug;
-            } else if ($postSlug) {
+            }
+            if ($postSlug) {
                 $contentSlug = $postSlug;
             }
-
+            
             $get = $this->app->event_manager->trigger('app.content.get_by_url', $contentSlug);
             if (is_array($get) && isset($get[0]) && !empty($get[0])) {
                 $content = $get[0];

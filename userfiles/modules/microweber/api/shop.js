@@ -76,13 +76,15 @@ mw.cart = {
         $.post(mw.settings.api_url + 'update_cart', data,
             function (data) {
 
-                mw.cart.after_modify(data);
+                mw.trigger('mw.cart.add', [data]);
 
                 if (typeof c === 'function') {
                     c.call(data);
                 }
+                mw.cart.after_modify(data);
 
-                mw.trigger('mw.cart.add', [data]);
+
+
             });
     },
 
@@ -120,9 +122,22 @@ mw.cart = {
 
 
 
-        mw.reload_module('shop/cart');
-        mw.reload_module('shop/shipping');
-        mw.reload_module('shop/payments');
+        var modules = ["shop/cart", "shop/shipping", "shop/payments"].filter(function(module){
+            return !!document.querySelector('[data-type="'+ module +'"');
+        });
+
+        if(modules.length) {
+            mw.reload_modules(modules, function (data) {
+                mw.trigger('mw.cart.modify', [data]);
+            }, true);
+        } else {
+            mw.trigger('mw.cart.modify', [data]);
+         }
+
+
+        // mw.reload_module('shop/cart');
+        // mw.reload_module('shop/shipping');
+        // mw.reload_module('shop/payments');
 
 
 

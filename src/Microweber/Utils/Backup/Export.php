@@ -192,6 +192,14 @@ class Export
                 $tablesStructures[$table] = $tableFieldsStructure;
             }
 
+            if ($this->exportAllData) {
+                $tableContent = $this->_getTableContent($table);
+                if (!empty($tableContent)) {
+                    $exportTables->addItemsToTable($table, $tableContent);
+                }
+                continue;
+            }
+
 			$ids = array();
 			
 			if ($table == 'categories') {

@@ -277,15 +277,14 @@ class MicroweberServiceProvider extends ServiceProvider
         // If installed load module functions and set locale
         if (mw_is_installed()) {
             load_all_functions_files_for_modules();
-            load_all_functions_files_for_modules();
 
             $this->commands('Microweber\Commands\OptionCommand');
 
-            $language = get_option('language', 'website');
-
-            if ($language != false) {
-                set_current_lang($language);
-            }
+//            $language = get_option('language', 'website');
+//
+//            if ($language != false) {
+//           //     set_current_lang($language);
+//            }
 
             if (is_cli()) {
 
