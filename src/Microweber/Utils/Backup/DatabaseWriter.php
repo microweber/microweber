@@ -256,7 +256,7 @@ class DatabaseWriter
 		$savedItem = $this->_saveItemDatabase($item);
 
         if ($this->overwriteById) {
-            return true;
+            return true; 
         }
 
 		if ($savedItem) {
