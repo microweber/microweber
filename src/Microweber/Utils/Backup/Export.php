@@ -67,7 +67,7 @@ class Export
         }
 
         if ($this->includeTemplates) {
-            $exportWithZip = true;
+            $exportWithZip = true;  
         }
 
 		if ($exportWithZip || $exportMediaUserFiles) {
