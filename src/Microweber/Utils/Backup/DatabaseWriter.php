@@ -254,7 +254,11 @@ class DatabaseWriter
 	private function _saveItem($item) {
 		
 		$savedItem = $this->_saveItemDatabase($item);
-		
+
+        if ($this->overwriteById) {
+            return true;
+        }
+
 		if ($savedItem) {
 			$this->_fixRelations($savedItem);
 			$this->_fixParentRelationship($savedItem);
