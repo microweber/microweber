@@ -969,6 +969,8 @@ class CategoryManager
     {
         $json = array();
 
+    //    $kw = false;
+
         $pages_params = array();
         $pages_params['no_limit'] = 1;
         $pages_params['order_by'] = 'position desc';
@@ -976,6 +978,11 @@ class CategoryManager
         if (isset($params['is_shop'])) {
             $pages_params['is_shop'] = intval($params['is_shop']);
         }
+
+        if (isset($params['keyword'])) {
+            $pages_params['keyword'] = ($params['keyword']);
+        }
+
 
         $pages = get_pages($pages_params);
         if ($pages) {
@@ -1002,7 +1009,15 @@ class CategoryManager
                 $item['position'] = intval($page['position']);
                 $json[] = $item;
 
-                $pages_cats = get_categories('parent_page=' . $page['id'] . '&no_limit=1&order_by=position asc');
+
+                $cat_params = [];
+                $cat_params['parent_page'] = intval($page['id']);
+                $cat_params['no_limit'] = 1;
+                $cat_params['order_by'] = 'position asc';
+                if (isset($params['keyword'])) {
+                    $cat_params['keyword'] = ($params['keyword']);
+                }
+                $pages_cats = get_categories($cat_params);
                 if ($pages_cats) {
                     foreach ($pages_cats as $cat) {
 

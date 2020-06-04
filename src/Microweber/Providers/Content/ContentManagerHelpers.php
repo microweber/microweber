@@ -615,17 +615,18 @@ class ContentManagerHelpers extends ContentManagerCrud
             }
 
 
+            if (isset($ref_page2)) {
+                if ($ref_page2 == false) {
+                    $ustr = $this->app->url_manager->string(1);
 
-
-            if ($ref_page2 == false) {
-                $ustr = $this->app->url_manager->string(1);
-
-                if ($this->app->modules->is_installed($ustr)) {
-                    $ref_page = false;
+                    if ($this->app->modules->is_installed($ustr)) {
+                        $ref_page = false;
+                    }
+                } else {
+                    $ref_page = $ref_page2;
                 }
-            } else {
-                $ref_page = $ref_page2;
             }
+
 
             if (isset($ustr) and trim($ustr) == 'favicon.ico') {
                 return false;
@@ -797,7 +798,6 @@ class ContentManagerHelpers extends ContentManagerCrud
                         if (!isset($the_field_data['attributes']['data-id'])) {
                             $the_field_data['attributes']['data-id'] = $content_id;
                         }
-
 
 
                         if (isset($the_field_data['attributes']['rel_type']) and isset($the_field_data['attributes']['data-id'])) {

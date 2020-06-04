@@ -1,9 +1,7 @@
 <?php
 
-$files_utils  = new Microweber\Utils\Files();
+$files_utils = new Microweber\Utils\Files();
 $dangerous = $files_utils->get_dangerous_files_extentions();
-
-
 
 
 if (!mw()->user_manager->session_id() or (mw()->user_manager->session_all() == false)) {
@@ -240,8 +238,6 @@ if ($allowed_to_upload == false) {
 }
 
 
-
-
 // Settings
 //$target_path = media_base_path() . DS;
 //$target_path = media_base_path() . DS . $host_dir . DS . 'uploaded' . DS;
@@ -303,8 +299,8 @@ $fileName = str_replace(' ', '_', $fileName);
 $fileName = str_replace('..', '.', $fileName);
 $fileName = strtolower($fileName);
 $fileName = mw()->url_manager->clean_url_wrappers($fileName);
-$fileName = substr($fileName, 0, - (strlen($fileNameExtension)+1));
-$fileName = $fileName . '.'. $fileNameExtension;
+$fileName = substr($fileName, 0, -(strlen($fileNameExtension) + 1));
+$fileName = $fileName . '.' . $fileNameExtension;
 
 
 $fileName_uniq = date('ymdhis') . uniqid() . $fileName;
@@ -353,9 +349,6 @@ if ($cleanupTargetDir && is_dir($targetDir) && ($dir = opendir($targetDir))) {
 }
 
 
-
-
-
 if (isset($_SERVER['CONTENT_LENGTH']) and isset($_FILES['file'])) {
     $filename_log = mw()->url_manager->slug($fileName);
     $check = mw()->log_manager->get('one=true&no_cache=true&is_system=y&created_at=[mt]30 min ago&field=upload_size&rel=uploader&rel_id=' . $filename_log . '&user_ip=' . MW_USER_IP);
@@ -383,7 +376,7 @@ $is_image = false;
 $engine = 'plupload';
 
 
-if($engine =='plupload'){
+if ($engine == 'plupload') {
 
 
     if (isset($contentType)) {
@@ -445,40 +438,9 @@ if($engine =='plupload'){
 } else {
 
 
-
-
-
-
-
 }
 
 
-
-
-
-
-
-if (is_file($filePath) and !$chunks || $chunk == $chunks - 1) {
-    $ext = get_file_extension($filePath);
-
-    if (function_exists('finfo_open') and function_exists('finfo_file')) {
-        $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
-        $mime = @finfo_file($finfo, $filePath);
-        if ($mime) {
-            $upl_mime_ext = explode('/', $mime);
-            $upl_mime_ext = end($upl_mime_ext);
-            $upl_mime_ext = explode('-', $upl_mime_ext);
-            $upl_mime_ext = end($upl_mime_ext);
-            $upl_mime_ext = strtolower($upl_mime_ext);
-
-            if (in_array($upl_mime_ext, $dangerous)) {
-                die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Cannot upload mime type ' . $upl_mime_ext . '"}, "id" : "id"}');
-            }
-        }
-        finfo_close($finfo);
-    }
-
-}
 $rerturn = array();
 
 
@@ -498,6 +460,54 @@ if (!$chunks || $chunk == $chunks - 1) {
     $automatic_image_resize_on_upload_disabled = get_option('automatic_image_resize_on_upload', 'website') == 'd';
 
 
+    if (is_file($filePath) and !$chunks || $chunk == $chunks - 1) {
+        $ext = get_file_extension($filePath);
+
+        if (function_exists('finfo_open') and function_exists('finfo_file')) {
+            $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
+            $mime = @finfo_file($finfo, $filePath);
+            if ($mime) {
+                $upl_mime_ext = explode('/', $mime);
+                $upl_mime_ext = end($upl_mime_ext);
+                $upl_mime_ext = explode('-', $upl_mime_ext);
+                $upl_mime_ext = end($upl_mime_ext);
+                $upl_mime_ext = strtolower($upl_mime_ext);
+
+                if (in_array($upl_mime_ext, $dangerous)) {
+                    die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Cannot upload mime type ' . $upl_mime_ext . '"}, "id" : "id"}');
+                }
+            }
+            finfo_close($finfo);
+        }
+
+        if ($ext == 'gif' || $ext == 'jpg' || $ext == 'jpeg' || $ext === 'jpe' || $ext == 'png') {
+
+            $valid = false;
+            if ($ext === 'jpg' || $ext === 'jpeg' || $ext === 'jpe') {
+                if (@imagecreatefromjpeg($filePath)) {
+                    $valid = true;
+                }
+            } else if ($ext === 'png') {
+                if (@imagecreatefrompng($filePath)) {
+                    $valid = true;
+                }
+            } else if ($ext === 'gif') {
+                if (@imagecreatefromgif($filePath)) {
+                    $valid = true;
+                }
+            } else {
+                $valid = false;
+            }
+
+            if (!$valid) {
+                @unlink($filePath);
+                die('{"jsonrpc" : "2.0", "error" : {"code": 107, "message": "File is not an image"}, "id" : "id"}');
+            }
+        }
+
+    }
+
+
     if ($is_ext == 'gif' || $is_ext == 'jpg' || $is_ext == 'jpeg' || $is_ext == 'png') {
         try {
             $size = getimagesize($filePath);
@@ -506,7 +516,7 @@ if (!$chunks || $chunk == $chunks - 1) {
             $rerturn['file_size'] = $filesize;
             $rerturn['file_size_human'] = mw()->format->human_filesize($filesize);
             $rerturn['image_size'] = $size;
-           // $auto_resize_treshold = 10000000; // 10MiB
+            // $auto_resize_treshold = 10000000; // 10MiB
             $auto_resize_treshold = 2000000; // 2MiB
 
             if ($is_ext == 'jpg' || $is_ext == 'jpeg' || $is_ext == 'png') {
@@ -581,7 +591,7 @@ $f_name = end($f_name);
 
 $filePath = mw()->url_manager->link_to_file($filePath);
 
- $rerturn['src'] = $filePath;
+$rerturn['src'] = $filePath;
 $rerturn['name'] = $f_name;
 
 
@@ -589,9 +599,6 @@ if (isset($upl_size_log) and $upl_size_log > 0) {
     $rerturn['bytes_uploaded'] = $upl_size_log;
 }
 //$rerturn['ORIG_REQUEST'] = $_GET;
-
-
-
 
 
 /*
@@ -609,7 +616,6 @@ header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 header('Cache-Control: no-store, no-cache, must-revalidate');
 header('Cache-Control: post-check=0, pre-check=0', false);
 header('Pragma: no-cache');
-
 
 
 echo json_encode($rerturn);

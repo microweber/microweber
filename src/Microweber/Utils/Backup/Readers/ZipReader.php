@@ -195,13 +195,16 @@ class ZipReader extends DefaultReader
 		if (!is_dir($dir)) {
 			return;
 		}
-		
-		$files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST);
 
-		foreach ($files as $fileinfo) {
-			$todo = ($fileinfo->isDir() ? 'rmdir' : 'unlink');
-			@$todo($fileinfo->getRealPath());
-		}
+		try {
+            $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST);
+            foreach ($files as $fileinfo) {
+                $todo = ($fileinfo->isDir() ? 'rmdir' : 'unlink');
+                @$todo($fileinfo->getRealPath());
+            }
+        } catch (\Exception $e) {
+		    // Cant remove files from this path
+        }
 
 		@rmdir($dir);
 	}

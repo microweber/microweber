@@ -61,7 +61,15 @@ class Export
 		if (isset($export['files']) && count($export['files']) > 1) {
 			$exportWithZip = true;
 		}
-		
+
+		if ($this->includeModules) {
+		    $exportWithZip = true;
+        }
+
+        if ($this->includeTemplates) {
+            $exportWithZip = true;  
+        }
+
 		if ($exportWithZip || $exportMediaUserFiles) {
 
 			// Make Zip
@@ -176,9 +184,30 @@ class Export
 		
 		$exportTables = new ExportTables();
 
-		foreach($this->_getTablesForExport() as $table) {			
+        $tablesStructures = array();
+
+		foreach($this->_getTablesForExport() as $table) {
+
 			BackupExportLogger::setLogInfo('Exporting table: <b>' . $table. '</b>');
-			
+
+            $tableFields = app()->database_manager->get_fields($table);
+            if($tableFields){
+                $tableFieldsStructure = array();
+                foreach ($tableFields as $tableField){
+                    $tableFieldType = \DB::getSchemaBuilder()->getColumnType($table, $tableField);
+                    $tableFieldsStructure[$tableField] = $tableFieldType;
+                }
+                $tablesStructures[$table] = $tableFieldsStructure;
+            }
+
+            if ($this->exportAllData) {
+                $tableContent = $this->_getTableContent($table);
+                if (!empty($tableContent)) {
+                    $exportTables->addItemsToTable($table, $tableContent);
+                }
+                continue;
+            }
+
 			$ids = array();
 			
 			if ($table == 'categories') {
@@ -234,8 +263,11 @@ class Export
 				
 			}
 		}
-		
-		return $exportTables->getAllTableItems();
+
+		$exportTablesReady = $exportTables->getAllTableItems();
+		$exportTablesReady['__table_structures'] = $tablesStructures;
+
+		return $exportTablesReady;
 	}
 	
 	private function _getTableContent($table, $ids = array()) {
