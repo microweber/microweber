@@ -61,7 +61,15 @@ class Export
 		if (isset($export['files']) && count($export['files']) > 1) {
 			$exportWithZip = true;
 		}
-		
+
+		if ($this->includeModules) {
+		    $exportWithZip = true;
+        }
+
+        if ($this->includeTemplates) {
+            $exportWithZip = true;
+        }
+
 		if ($exportWithZip || $exportMediaUserFiles) {
 
 			// Make Zip
