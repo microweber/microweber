@@ -9,6 +9,8 @@
 
 *********************************************/
 
+#liveedit_wysiwyg{direction: ltr !important;}
+
 html, body {
     min-height: 100%;
     -ms-overflow-style: scrollbar;
