@@ -607,10 +607,25 @@ if ($action == 'posts') {
 
                 <div class="fixed-side-column">
                     <div class="tree-show-hide-nav">
-                        <div class="btn-group btn-group-sm btn-group-toggle btn-hover-style-1 btn-block mb-2" data-toggle="buttons">
-                            <button type="button" class="btn btn-outline-secondary btn-sm align-items-center justify-content-center active" onclick="pagesTree.openAll(); $(this).next().removeClass('active');" data-toggle="tooltip" data-title="<?php _e("Open All"); ?>"><i class="mdi mdi-toggle-switch"></i></button>
-                            <button type="button" class="btn btn-outline-secondary btn-sm align-items-center justify-content-center" onclick="pagesTree.closeAll(); $(this).prev().removeClass('active');" data-toggle="tooltip" data-title="<?php _e("Close All"); ?>"><i class="mdi mdi-toggle-switch-off-outline"></i></button>
+
+                        <div class="form-group">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input js-open-close-all-tree-elements" id="open-close-all-tree-elements" value="1" />
+                                <label class="custom-control-label" for="open-close-all-tree-elements"><?php _e("Open"); ?> / <?php _e("Close"); ?></label>
+                            </div>
                         </div>
+
+                        <script>
+                            $(document).ready(function () {
+                                $('.js-open-close-all-tree-elements').on('change', function () {
+                                    if ($(this).is(':checked') == '1') {
+                                        pagesTree.openAll();
+                                    } else {
+                                        pagesTree.closeAll();
+                                    }
+                                });
+                            });
+                        </script>
 
                         <div class="input-group mb-0 prepend-transparent">
                             <div class="input-group-prepend">
