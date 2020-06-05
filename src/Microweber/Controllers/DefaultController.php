@@ -1392,6 +1392,23 @@ class DefaultController extends Controller
             $date_format = 'Y-m-d H:i:s';
         }
 
+        $maintenance_mode = get_option('maintenance_mode', 'website');
+
+
+        if ($maintenance_mode == 'y' && !is_admin()) {
+            if (!defined('ACTIVE_SITE_TEMPLATE')) {
+                $this->app->content_manager->define_constants();
+            }
+            $maintenance_template = TEMPLATES_DIR . ACTIVE_SITE_TEMPLATE . DS . '503.php';
+            $content_503 = 'Error 503 The website is under maintenance.';
+            if (is_file($maintenance_template)) {
+                $content_503 = new \Microweber\View($maintenance_template);
+                $content_503 = $content_503->__toString();
+            }
+            $response = \Response::make($content_503);
+            $response->setStatusCode(503);
+            return $response;
+        }
 
         if ($page == false or $this->create_new_page == true) {
             if (trim($page_url) == '' and $preview_module == false) {
