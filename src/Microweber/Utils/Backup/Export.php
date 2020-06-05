@@ -61,7 +61,15 @@ class Export
 		if (isset($export['files']) && count($export['files']) > 1) {
 			$exportWithZip = true;
 		}
-		
+
+		if ($this->includeModules) {
+		    $exportWithZip = true;
+        }
+
+        if ($this->includeTemplates) {
+            $exportWithZip = true;  
+        }
+
 		if ($exportWithZip || $exportMediaUserFiles) {
 
 			// Make Zip
@@ -190,6 +198,14 @@ class Export
                     $tableFieldsStructure[$tableField] = $tableFieldType;
                 }
                 $tablesStructures[$table] = $tableFieldsStructure;
+            }
+
+            if ($this->exportAllData) {
+                $tableContent = $this->_getTableContent($table);
+                if (!empty($tableContent)) {
+                    $exportTables->addItemsToTable($table, $tableContent);
+                }
+                continue;
             }
 
 			$ids = array();
