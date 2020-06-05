@@ -203,7 +203,7 @@ if (isset($params['sort_by'])) {
                             <span><?php print basename($item); ?></span>
                         </a>
                         <span class="mw-icon-close"
-                              onclick="deleteItem('<?php print urlencode($dir_link); ?>', '<?php print basename($item); ?>');"></span>
+                              onclick="deleteItem('<?php print urlencode($item); ?>', '<?php print basename($item); ?>');"></span>
                     </li>
                 <?php endforeach; ?>
             </ul>
