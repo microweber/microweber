@@ -6,7 +6,10 @@ if (empty($captcha_name)) {
     $captcha_name = $url_segment[0];
 }
 
-if ($captcha_provider == 'google_recaptcha_v2'):
+if(!$captcha_name){
+    $captcha_name =  $params['id'];
+}
+ if ($captcha_provider == 'google_recaptcha_v2'):
     ?>
     <script type="text/javascript">
         if (typeof(grecaptcha) === 'undefined') {
@@ -37,10 +40,10 @@ if ($captcha_provider == 'google_recaptcha_v2'):
                 }
             }, 1000);
 
-            setInterval(function() {
-                    grecaptcha.reset();
-                }, 1 * 60 * 1000
-            );
+            // setInterval(function() {
+            //         grecaptcha.reset();
+            //     }, 1 * 60 * 1000
+            // );
         });
 
     </script>
@@ -78,10 +81,10 @@ if ($captcha_provider == 'google_recaptcha_v2'):
                 }
             }, 1000);
 
-            setInterval(function() {
-                grecaptcha.reset();
-            }, 1 * 60 * 1000
-            );
+            // setInterval(function() {
+            //     grecaptcha.reset();
+            // }, 1 * 60 * 1000
+            // );
         });
     </script>
 
