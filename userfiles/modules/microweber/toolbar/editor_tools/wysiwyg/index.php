@@ -268,18 +268,12 @@ body {
   min-height: 20px;
 }
 
-.mw-admin-editor #mw-iframe-editor-area:empty{
-  background-color: #efecec;
-}
 
 .mw-plain-module-name {
 	display: block;
 	padding-top: 5px;
 }
 
-.mw-admin-editor{
-    background: none;
-}
 
 
 .mw-wysiwyg-module-helper{

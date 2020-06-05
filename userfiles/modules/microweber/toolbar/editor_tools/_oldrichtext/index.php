@@ -183,9 +183,6 @@
             padding-top: 5px;
         }
 
-        .mw-admin-editor {
-            background: none;
-        }
 
         .mw-wysiwyg-module-helper {
             min-height: 23px;
@@ -204,9 +201,6 @@
             background: #787878;
         }
 
-        .mw-admin-editor .module {
-
-        }
 
     </style>
 </head>

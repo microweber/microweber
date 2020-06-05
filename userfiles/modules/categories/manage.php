@@ -19,12 +19,12 @@
             </div>
 
 
-            <div class="mw-ui-category-selector mw-ui-manage-list m-0" id="mw-ui-category-selector-manage" style="visibility: visible;display: block">
+            <div class="mw-ui-category-selector mw-ui-manage-list m-0" id="mw-ui-category-selector-manage">
                 <?php
                 $field_name = "categories";
                 $selected = 0;
                 $tree = array();
-                $tree['ul_class'] = 'pages_tree cat_tree_live_edit';
+                $tree['ul_class'] = 'mw-ui-category-tree';
                 $tree['li_class'] = 'sub-nav';
                 $tree['rel_type'] = 'content';
 
@@ -33,7 +33,7 @@
                 }
 
 
-                $tree['link'] = "<a href='javascript:mw.quick_cat_edit({id})'><span class='mw-icon-category'></span>&nbsp;{title}</a>";
+                $tree['link'] = "<span class='mw-ui-category-tree-row' onclick='mw.quick_cat_edit({id})'><span class='mdi mdi-folder text-muted mdi-18px mr-2'></span>&nbsp;{title}<span class=\"btn btn-outline-primary btn-sm btn-sm-only-icon\"><i class=\"mdi mdi-pencil\"></i> <span class=\"d-none d-md-block\">Edit</span></span></span>";
                 category_tree($tree);
                 ?>
             </div>

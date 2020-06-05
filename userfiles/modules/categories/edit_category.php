@@ -240,6 +240,16 @@ if (isset($params['live_edit'])) {
                                 <?php endif; ?>
                                 <input class="mw-ui-invisible-field mw-ui-field-big" id="content-title-field" name="title" type="text" <?php if ($data['id'] == 0) { ?>placeholder<?php } else { ?>value<?php } ?>="<?php print ($data['title']); ?>"/>
                             <?php endif; ?>
+
+                            <div class="form-group">
+                                <label class="control-label">Category name</label>
+                                <div class="input-group mb-3 prepend-transparent">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="mdi mdi-folder text-silver"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" id="cat-name" placeholder="Type category name">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
