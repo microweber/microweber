@@ -178,12 +178,13 @@ textarea:not(.form-control) {
   }
 
   &.btn-icon.btn-sm {
-    padding: 0.532rem 0.27rem;
+    padding: 0.469rem 0.27rem;
 
     i {
       &:before {
         font-size: 1em;
         margin: 1px 3px 0 3px;
+        line-height: 1;
       }
     }
   }
@@ -829,10 +830,13 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 
-    i {
-      font-size: 1.25em;
-      float: left;
-      line-height: 1;
+    h1, h2, h3, h4, h5, h6 {
+      i {
+        font-size: 1.25em;
+        float: left;
+        line-height: 1;
+
+      }
     }
 
     &:after {
@@ -937,10 +941,12 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     position: relative;
     overflow: hidden;
 
-    i {
-      font-size: 1.25em;
-      float: left;
-      line-height: 1;
+    h1, h2, h3, h4, h5, h6 {
+      i {
+        font-size: 1.25em;
+        float: left;
+        line-height: 1;
+      }
     }
 
     &:after {
@@ -1568,11 +1574,11 @@ label.control-label {
   padding: 0.724rem 1rem;
 }
 
-.input-group-sm > .form-control, .input-group-sm > .custom-select, .input-group-sm > .input-group-prepend > .input-group-text, .input-group-sm > .input-group-append > .input-group-text, .input-group-sm > .input-group-prepend > .btn, .input-group-sm > .input-group-append > .btn{
+.input-group-sm > .form-control, .input-group-sm > .custom-select, .input-group-sm > .input-group-prepend > .input-group-text, .input-group-sm > .input-group-append > .input-group-text, .input-group-sm > .input-group-prepend > .btn, .input-group-sm > .input-group-append > .btn {
   padding: 0.2rem 0.5rem;
 }
 
-.custom-select{
+.custom-select {
   background: unset;
   padding: 0.25rem 1.75rem 0.25rem 0.75rem;
 }

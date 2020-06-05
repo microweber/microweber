@@ -32,39 +32,38 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
     mw.on.moduleReload('#<?php print $params['id'] ?>');
 
 
-    var mainTreeSetActiveItems = function(){
-        if(typeof(mw.adminPagesTree) != 'undefined'){
+    var mainTreeSetActiveItems = function () {
+        if (typeof(mw.adminPagesTree) != 'undefined') {
 
             var hp = mw.url.getHashParams(location.hash);
 
-            if(hp.action){
+            if (hp.action) {
 
                 var arr = hp.action.split(':');
-                if(arr[0] !== 'new'){
+                if (arr[0] !== 'new') {
                     mw.adminPagesTree.unselectAll();
                 }
                 var activeTreeItemIsPage = arr[0] === 'editpage' || arr[0] === 'showposts';
                 var activeTreeItemIsCategory = arr[0] === 'editcategory' || arr[0] === 'showpostscat';
 
-                if(activeTreeItemIsPage){
+                if (activeTreeItemIsPage) {
                     mw.adminPagesTree.select({
-                        id:arr[1],
-                        type:'page'
+                        id: arr[1],
+                        type: 'page'
                     })
                 }
-                if(activeTreeItemIsCategory){
+                if (activeTreeItemIsCategory) {
                     mw.adminPagesTree.select({
-                        id:arr[1],
-                        type:'category'
+                        id: arr[1],
+                        type: 'category'
                     })
                 }
             }
-            else{
+            else {
                 mw.adminPagesTree.unselectAll();
             }
         }
     };
-
 
 
     $(document).ready(function () {
@@ -91,7 +90,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
 
 
-         //   add_to_parent_page
+            //   add_to_parent_page
 
             var id = id || 0;
             if (type === 'page') {
@@ -110,9 +109,6 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
             }
             mw.$(".mw_action_nav").addClass("not-active");
             mw.$(".mw_action_" + type).removeClass("not-active");
-
-
-
 
 
         },
@@ -352,7 +348,6 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         mw.$('#pages_edit_container').removeAttr('category-id');
 
 
-
         mw.$(".pages_tree_item.active-bg").removeClass('active-bg');
         mw.$(".category_element.active-bg").removeClass('active-bg');
 
@@ -373,7 +368,6 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         if (cat_id) {
             cont.attr('data-category-id', cat_id);
         }
-
 
 
         mw.load_module('content/manager', '#pages_edit_container');
@@ -566,15 +560,10 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
     function mw_add_product() {
         mw_select_post_for_editing(0, 'product')
     }
-
-
-
 </script>
 
 <?php
-
 $tree_url_endpoint = api_url('content/get_admin_js_tree_json');
-
 
 $pages_container_params_str = " is_shop='n' ";
 $pages_container_params_str = "   ";
@@ -603,91 +592,101 @@ if ($action == 'posts') {
 
 ?>
 
-
 <div id="edit-content-row">
     <?php if ($action != 'categories'): ?>
-        <div class="tree tree-column">
+        <script>
+            $(document).ready(function () {
+                $('body > #mw-admin-container > .main').addClass('show-sidebar-tree');
+                $(".js-tree").prependTo("body > #mw-admin-container .main.container");
+                $(".js-tree").before($("body .main.container aside"));
+            });
+        </script>
 
+        <div class="js-tree tree">
             <div class="tree-column-holder">
 
                 <div class="fixed-side-column">
-
                     <div class="tree-show-hide-nav">
-                        <div class="btn-group btn-group-sm">
-                            <span class="btn btn-secondary" onclick="pagesTree.openAll()"><?php _e("Open All"); ?></span>
-                            <span class="btn btn-secondary"  onclick="pagesTree.closeAll()"><?php _e("Close All"); ?></span>
-
-                            <input id="main-tree-search"  placeholder="<?php _e('Search'); ?>" type="text" class="mw-ui-field mw-ui-field-medium mw-ui-searchfield">
+                        <div class="btn-group btn-group-sm btn-group-toggle btn-hover-style-1 btn-block mb-2" data-toggle="buttons">
+                            <button type="button" class="btn btn-outline-secondary btn-sm align-items-center justify-content-center active" onclick="pagesTree.openAll(); $(this).next().removeClass('active');" data-toggle="tooltip" data-title="<?php _e("Open All"); ?>"><i class="mdi mdi-toggle-switch"></i></button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm align-items-center justify-content-center" onclick="pagesTree.closeAll(); $(this).prev().removeClass('active');" data-toggle="tooltip" data-title="<?php _e("Close All"); ?>"><i class="mdi mdi-toggle-switch-off-outline"></i></button>
                         </div>
 
+                        <div class="input-group mb-0 prepend-transparent">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-white px-2"><i class="mdi mdi-magnify"></i></span>
+                            </div>
+                            <input type="text" class="form-control form-control-sm" aria-label="Search" id="main-tree-search" placeholder="<?php _e('Search'); ?>">
+                        </div>
                     </div>
 
                     <div class="fixed-side-column-container mw-tree" id="pages_tree_container_<?php print $my_tree_id; ?>">
-
                         <script>
-
                             var pagesTree;
 
-                            var pagesTreeRefresh = function(){
-                                $.get("<?php print $tree_url_endpoint; ?>", function(data){
+                            var pagesTreeRefresh = function () {
+                                $.get("<?php print $tree_url_endpoint; ?>", function (data) {
                                     var treeTail = [
                                         {
                                             title: '<?php _lang("Trash") ?>',
-                                            icon:'mdi mdi-delete',
-                                            action:function(){
+                                            icon: 'mdi mdi-delete',
+                                            action: function () {
                                                 mw.url.windowHashParam('action', 'trash');
                                             }
                                         }
                                     ];
 
-
                                     pagesTree = new mw.tree({
-                                        data:data,
-                                        element:$("#pages_tree_container_<?php print $my_tree_id; ?>")[0],
-                                        sortable:true,
-                                        selectable:false,
-                                        id:'admin-main-tree',
-                                        append:treeTail,
-                                        contextMenu:[
+                                        data: data,
+                                        element: $("#pages_tree_container_<?php print $my_tree_id; ?>")[0],
+                                        sortable: true,
+                                        selectable: false,
+                                        id: 'admin-main-tree',
+                                        append: treeTail,
+                                        contextMenu: [
                                             {
-                                                title:'Edit',
-                                                icon:'mdi mdi-pencil',
-                                                action:function(element, data, menuitem){
-                                                    mw.url.windowHashParam("action", "edit"+data.type+":"+data.id);
+                                                title: 'Edit',
+                                                icon: 'mdi mdi-pencil',
+                                                action: function (element, data, menuitem) {
+                                                    mw.url.windowHashParam("action", "edit" + data.type + ":" + data.id);
                                                 }
                                             },
                                             {
-                                                title:'Move to trash',
-                                                icon:'mdi mdi-close',
-                                                action:function(element, data, menuitem){
-                                                    if(data.type  === 'category' ){
-                                                        mw.content.deleteCategory(data.id, function(){
+                                                title: 'Move to trash',
+                                                icon: 'mdi mdi-close',
+                                                action: function (element, data, menuitem) {
+                                                    if (data.type === 'category') {
+                                                        mw.content.deleteCategory(data.id, function () {
 
-                                                            $('#' + pagesTree.options.id + '-' + data.type + '-' + data.id).fadeOut(function(){
-                                                                if(window.pagesTreeRefresh){pagesTreeRefresh()};
+                                                            $('#' + pagesTree.options.id + '-' + data.type + '-' + data.id).fadeOut(function () {
+                                                                if (window.pagesTreeRefresh) {
+                                                                    pagesTreeRefresh()
+                                                                }
+                                                                ;
                                                             })
                                                         });
                                                     }
-                                                    else{
-                                                        mw.content.deleteContent(data.id, function(){
-                                                            $('#' + pagesTree.options.id + '-' + data.type + '-' + data.id, pagesTree.list).fadeOut(function(){
-                                                                if(window.pagesTreeRefresh){pagesTreeRefresh()};
+                                                    else {
+                                                        mw.content.deleteContent(data.id, function () {
+                                                            $('#' + pagesTree.options.id + '-' + data.type + '-' + data.id, pagesTree.list).fadeOut(function () {
+                                                                if (window.pagesTreeRefresh) {
+                                                                    pagesTreeRefresh()
+                                                                }
+                                                                ;
                                                             })
                                                         });
                                                     }
-
-
                                                 }
                                             }
                                         ]
                                     });
                                     mw.adminPagesTree = pagesTree;
 
-                                    $(pagesTree).on("orderChange", function(e, item, data, old, local){
+                                    $(pagesTree).on("orderChange", function (e, item, data, old, local) {
                                         var obj = {ids: local};
                                         var url;
-                                        if(item.type === 'category'){
-                                            url = "<?php print api_link('category/reorder'); ?>" ;
+                                        if (item.type === 'category') {
+                                            url = "<?php print api_link('category/reorder'); ?>";
                                         }
                                         else {
                                             url = "<?php print api_link('content/reorder'); ?>";
@@ -697,42 +696,42 @@ if ($action == 'posts') {
                                             mw.notification.success('<?php _ejs("Changes are saved"); ?>')
                                         });
                                     });
-                                    $(pagesTree).on("ready", function(){
-                                        $('#main-tree-search').on('input', function(){
+                                    $(pagesTree).on("ready", function () {
+                                        $('#main-tree-search').on('input', function () {
                                             var val = this.value.toLowerCase().trim();
-                                            if(!val){
+                                            if (!val) {
                                                 pagesTree.showAll();
                                             }
-                                            else{
-                                                pagesTree.options.data.forEach(function(item){
-                                                    if(item.title.toLowerCase().indexOf(val) === -1){
+                                            else {
+                                                pagesTree.options.data.forEach(function (item) {
+                                                    if (item.title.toLowerCase().indexOf(val) === -1) {
                                                         pagesTree.hide(item);
                                                     }
-                                                    else{
+                                                    else {
                                                         pagesTree.show(item);
                                                     }
                                                 });
                                             }
                                         })
 
-                                        $('.mw-tree-item-title', pagesTree.list).on('click', function(){
-                                            $('li.selected', pagesTree.list).each(function(){
+                                        $('.mw-tree-item-title', pagesTree.list).on('click', function () {
+                                            $('li.selected', pagesTree.list).each(function () {
                                                 pagesTree.unselect(this)
                                             });
                                             var li = mw.tools.firstParentWithTag(this, 'li'),
                                                 data = li._data,
                                                 action;
-                                            if(!$(li).hasClass('mw-tree-additional-item')){
-                                                if(data.type === 'page'){
+                                            if (!$(li).hasClass('mw-tree-additional-item')) {
+                                                if (data.type === 'page') {
                                                     action = 'editpage';
                                                 }
-                                                if(data.subtype === 'dynamic' || data.subtype == 'shop'){
+                                                if (data.subtype === 'dynamic' || data.subtype == 'shop') {
                                                     action = 'showposts';
                                                 }
-                                                if(data.type === 'category'){
+                                                if (data.type === 'category') {
                                                     action = 'showpostscat';
                                                 }
-                                                mw.url.windowHashParam("action", action+":"+data.id);
+                                                mw.url.windowHashParam("action", action + ":" + data.id);
                                             }
 
 
@@ -753,7 +752,10 @@ if ($action == 'posts') {
                                 });
                             };
 
-                            if(window.pagesTreeRefresh){pagesTreeRefresh()};
+                            if (window.pagesTreeRefresh) {
+                                pagesTreeRefresh()
+                            }
+                            ;
 
                         </script>
 
@@ -766,9 +768,7 @@ if ($action == 'posts') {
                                 <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
                                 <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
                                 <?php $width = (isset($item['width'])) ? ($item['width']) : false; ?>
-                                <div class="tree-column-holder-custom-item <?php print $class; ?>"
-                                    <?php if ($width): ?> style="width: <?php print $width ?>;"  <?php endif; ?>
-                                     title="<?php print $title; ?>"><?php print $html; ?></div>
+                                <div class="tree-column-holder-custom-item <?php print $class; ?>" <?php if ($width): ?> style="width: <?php print $width ?>;"  <?php endif; ?> title="<?php print $title; ?>"><?php print $html; ?></div>
                             <?php endforeach; ?>
                         <?php endif; ?>
                     </div>
@@ -776,17 +776,17 @@ if ($action == 'posts') {
             </div>
         </div>
     <?php endif ?>
-    <div class="main">
-        <script>
-            $(window).on('load', function () {
-                if (!mw.url.windowHashParam("action")) {
-                    edit_load('content/manager');
-                }
-                mw.on.hashParam('view', function () {
-                    edit_load('content/manager');
-                })
-            });
-        </script>
-        <div id="pages_edit_container" <?php print $pages_container_params_str; ?>></div>
-    </div>
+
+    <script>
+        $(window).on('load', function () {
+            if (!mw.url.windowHashParam("action")) {
+                edit_load('content/manager');
+            }
+            mw.on.hashParam('view', function () {
+                edit_load('content/manager');
+            })
+        });
+    </script>
+
+    <div id="pages_edit_container" <?php print $pages_container_params_str; ?>></div>
 </div>

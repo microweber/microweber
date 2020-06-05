@@ -7892,10 +7892,11 @@ textarea:not(.form-control) {
     margin-left: 0;
     margin-right: 0; }
 .btn.btn-icon.btn-sm, .btn-group-sm > .btn.btn-icon {
-  padding: 0.532rem 0.27rem; }
+  padding: 0.469rem 0.27rem; }
   .btn.btn-icon.btn-sm i:before, .btn-group-sm > .btn.btn-icon i:before {
     font-size: 1em;
-    margin: 1px 3px 0 3px; }
+    margin: 1px 3px 0 3px;
+    line-height: 1; }
 .btn.btn-icon.btn-lg, .btn-group-lg > .btn.btn-icon {
   padding: 1.157rem 0.65rem; }
 .btn.btn-icon.btn-rounded {
@@ -8335,7 +8336,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     overflow: hidden;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px; }
-    .card .card-header i {
+    .card .card-header h1 i, .card .card-header h2 i, .card .card-header h3 i, .card .card-header h4 i, .card .card-header h5 i, .card .card-header h6 i {
       font-size: 1.25em;
       float: left;
       line-height: 1; }
@@ -8402,7 +8403,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     border-bottom: 0;
     position: relative;
     overflow: hidden; }
-    .card.style-1 .card-header i {
+    .card.style-1 .card-header h1 i, .card.style-1 .card-header h2 i, .card.style-1 .card-header h3 i, .card.style-1 .card-header h4 i, .card.style-1 .card-header h5 i, .card.style-1 .card-header h6 i {
       font-size: 1.25em;
       float: left;
       line-height: 1; }

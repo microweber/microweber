@@ -1,6 +1,4 @@
 <?php
-
-
 $iframe_cont_id = false;
 
 $data = false;
@@ -23,7 +21,6 @@ if (isset($params["template-selector-position"])) {
     $template_selector_position = $params["template-selector-position"];
 }
 
-
 if ((!isset($params["layout_file"]) or trim($params["layout_file"]) == '') and isset($params["data-page-id"]) and intval($params["data-page-id"]) != 0) {
     $data = get_content_by_id($params["data-page-id"]);
 } elseif (isset($params["show-page-id-layout"])) {
@@ -32,14 +29,12 @@ if ((!isset($params["layout_file"]) or trim($params["layout_file"]) == '') and i
     $data = get_content_by_id($params["content-id"]);
 }
 
-
 if (!isset($params["layout_file"]) and isset($params["layout-file"])) {
     $params["layout_file"] = $params["layout-file"];
 }
 if (!isset($params["layout_file"]) and $data == false or empty($data)) {
     include('_empty_content_data.php');
 }
-
 
 if (isset($data['active_site_template']) and $data['active_site_template'] == '') {
     $data['active_site_template'] = ACTIVE_SITE_TEMPLATE;
@@ -53,14 +48,12 @@ if (isset($params["show-page-id-layout"]) and isset($params["data-page-id"])) {
     $data['layout_file'] = $params["layout_file"];
 }
 
-
 if (!isset($params["layout_file"]) and isset($data["layout_file"])) {
     $params["layout_file"] = $data["layout_file"];
 }
 if (!isset($params["active_site_template"]) and isset($data["active_site_template"])) {
     $params["active_site_template"] = $data["active_site_template"];
 }
-
 
 $inherit_from = false;
 
@@ -69,13 +62,8 @@ if (!isset($params["inherit_from"]) and isset($params["inherit-from"])) {
 }
 
 if ((isset($params["inherit_from"]) and $params["inherit_from"] != 0) or ($data['layout_file'] == '' and (!isset($data['layout_name']) or $data['layout_name'] == '' or $data['layout_name'] == 'inherit'))) {
-
     if (isset($params["inherit_from"]) and (trim($params["inherit_from"]) != '' or trim($params["inherit_from"]) != '0')) {
-//
-
-
         $inherit_from_id = get_content_by_id($params["inherit_from"]);
-
 
         // $inherit_from_id = false;
         if ($inherit_from_id != false and isset($inherit_from_id['active_site_template']) and trim($inherit_from_id['active_site_template']) != 'inherit') {
@@ -97,7 +85,6 @@ if ((isset($params["inherit_from"]) and $params["inherit_from"] != 0) or ($data[
                     $data['layout_file'] = 'inherit';
                 }
             }
-
         }
     }
 }
@@ -125,14 +112,12 @@ if (isset($data["active_site_template"]) and ($data["active_site_template"] == f
     $data['active_site_template'] = ACTIVE_SITE_TEMPLATE;
 }
 
-
 if (isset($data['active_site_template']) and ($data['active_site_template']) == 'default') {
     $site_template_settings = get_option('current_template', 'template');
     if ($site_template_settings != false) {
         $data['active_site_template'] = $site_template_settings;
     }
 }
-
 
 $templates = site_templates();
 
@@ -146,14 +131,11 @@ $layouts = mw()->layouts_manager->get_all($layout_options);
 
 $recomended_layouts = array();
 if (isset($params['content-type'])) {
-
     foreach ($layouts as $k => $v) {
-
         $ctypes = array();
         if (isset($v['content_type'])) {
             $ctypes = explode(',', $v['content_type']);
             $ctypes = array_trim($ctypes);
-
         }
 
         if (isset($v['content_type'])
@@ -174,23 +156,16 @@ if (isset($params['content-type'])) {
 
 }
 if (!empty($recomended_layouts)) {
-
-
     $layouts = array_merge($recomended_layouts, $layouts);
 }
-
-
 ?>
 <script>
-
-
     safe_chars_to_str = function (str) {
         if (str === undefined) {
             return;
         }
         return str.replace(/\\/g, '____').replace(/\'/g, '\\\'').replace(/\"/g, '\\"').replace(/\0/g, '____');
     }
-
 
     mw.templatePreview<?php print $rand; ?> = {
         set: function () {
@@ -458,6 +433,81 @@ if (!empty($recomended_layouts)) {
     });
 
 </script>
+
+<div class="card bg-none style-1 mb-0">
+    <div class="card-header">
+        <h5><i class="mdi mdi-shield-edit-outline text-primary mr-3"></i> <strong>Templates</strong></h5>
+        <div>
+
+        </div>
+    </div>
+
+    <div class="card-body pt-3">
+        <div class="row">
+            <div class="col-md-4 mt-3">
+                <h5 class="font-weight-bold">Settings</h5>
+                <small class="text-muted d-block mb-3">Choose a new template or browse the pages of the current one.</small>
+                <br/>
+                <label class="control-label">Want to upload template?</label>
+                <small class="text-muted d-block mb-3">Choose a new template or browse the pages of the current one.</small>
+
+                <button class="btn btn-outline-primary mb-3">Upload new template</button>
+                <button class="btn btn-primary mb-3">Apply this template</button>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card bg-light style-1 mb-3">
+                    <div class="card-body pt-4 pb-5">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group mb-3">
+                                    <label class="control-label">Template name</label>
+                                    <small class="text-muted d-block mb-2">You are using this template. The change will be affected only on the current page.</small>
+                                    <div>
+                                        <select class="selectpicker" data-width="100%">
+                                            <option>New world</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="control-label">Choose Page Layout</label>
+                                    <small class="text-muted d-block mb-2">Select a page from the current template</small>
+                                    <div>
+                                        <select class="selectpicker" data-width="100%">
+                                            <option>Home</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card bg-none style-1 mb-0">
+    <div class="card-body pt-3">
+        <hr class="thin mt-0 mb-4"/>
+
+        <div class="row">
+            <div class="col-md-12">
+                <h5 class="font-weight-bold">Template preview</h5>
+                <small class="text-muted">Use the fields at the top to see the changes.</small>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <iframe src="https://www.microweber.com" style="width: 100%; height: 50vh;" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <?php if ($template_selector_position != 'none'): ?>
 
 
@@ -552,8 +602,6 @@ if (!empty($recomended_layouts)) {
 
 
                         <div class="layouts_box_container">
-
-
 
 
                             <select name="preview_layout_file" class="mw-ui-field mw-edit-page-layout-selector w100" id="active_site_layout_<?php print $rand; ?>" autocomplete="off">
@@ -708,7 +756,6 @@ if (!empty($recomended_layouts)) {
                         </div>
                     </div>
                 <?php endif; ?>
-
 
 
             </div>
