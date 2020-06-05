@@ -299,7 +299,7 @@ $fileName = str_replace(' ', '_', $fileName);
 $fileName = str_replace('..', '.', $fileName);
 $fileName = strtolower($fileName);
 $fileName = mw()->url_manager->clean_url_wrappers($fileName);
-$fileName = substr($fileName, 0, -(strlen($fileNameExtension) + 1));
+$fileName = substr($fileName, 0, -(strlen($fileNameExtension)));
 $fileName = $fileName . '.' . $fileNameExtension;
 
 
