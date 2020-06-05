@@ -21,7 +21,6 @@ if(!$captcha_name){
         $(document).ready(function () {
             setTimeout(function () {
                 if (typeof(grecaptcha) !== 'undefined') {
-
                     try {
                         grecaptcha.render('js-mw-google-recaptcha-v2-<?php print $params['id'] ?>', {
                             'sitekey': '<?php echo get_option('recaptcha_v2_site_key', 'captcha'); ?>',
@@ -36,14 +35,8 @@ if(!$captcha_name){
 
                     }
 
-
                 }
             }, 1000);
-
-            // setInterval(function() {
-            //         grecaptcha.reset();
-            //     }, 1 * 60 * 1000
-            // );
         });
 
     </script>
@@ -64,28 +57,29 @@ if(!$captcha_name){
         $(document).ready(function () {
             setTimeout(function () {
                 if (typeof(grecaptcha) !== 'undefined') {
-
-                    try {
-                        grecaptcha.ready(function () {
-                            grecaptcha.execute('<?php echo get_option('recaptcha_v3_site_key', 'captcha'); ?>', {action: '<?php echo $captcha_name; ?>'}).then(function (token) {
-                                var recaptchaResponse = document.getElementById('js-mw-google-recaptcha-v3-<?php print $params['id'] ?>-input');
-                                recaptchaResponse.value = token;
-                            });
-                        });
-                    }
-                    catch (error) {
-
-                    }
-
-
+                    runRecaptchaV3();
                 }
             }, 1000);
 
-            // setInterval(function() {
-            //     grecaptcha.reset();
-            // }, 1 * 60 * 1000
-            // );
+             setInterval(function() {
+                 runRecaptchaV3();
+                }, 1 * 60 * 1000
+             );
         });
+
+        runRecaptchaV3 = function() {
+            try {
+                grecaptcha.ready(function () {
+                    grecaptcha.execute('<?php echo get_option('recaptcha_v3_site_key', 'captcha'); ?>', {action: '<?php echo $captcha_name; ?>'}).then(function (token) {
+                        var recaptchaResponse = document.getElementById('js-mw-google-recaptcha-v3-<?php print $params['id'] ?>-input');
+                        recaptchaResponse.value = token;
+                    });
+                });
+            }
+            catch (error) {
+
+            }
+        };
     </script>
 
 
@@ -93,9 +87,7 @@ if(!$captcha_name){
         <h6><?php _e("Please confirm form submit"); ?></h6>
     <?php } ?>
 
-
     <input type="hidden" name="captcha" id="js-mw-google-recaptcha-v3-<?php print $params['id'] ?>-input">
-
 
 <?php else: ?>
 
