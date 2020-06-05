@@ -2679,8 +2679,8 @@ class DefaultController extends Controller
             $robots .= 'Disallow: /database/' . "\n";
             $robots .= 'Disallow: /vendor/' . "\n";
             $robots .= 'Disallow: /src/' . "\n";
-            $robots .= 'Disallow: /userfiles/modules/' . "\n";
-            $robots .= 'Disallow: /userfiles/templates/' . "\n";
+            $robots .= 'Disallow: /userfiles/modules/*/*.php' . "\n";
+            $robots .= 'Disallow: /userfiles/templates/*/*.php' . "\n";
         }
         event_trigger('mw_robot_url_hit');
         echo $robots;
