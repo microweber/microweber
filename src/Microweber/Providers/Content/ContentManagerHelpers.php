@@ -570,17 +570,17 @@ class ContentManagerHelpers extends ContentManagerCrud
         if (isset($ustr2) and trim($ustr2) == 'favicon.ico') {
             return false;
         }
-        $ref_page = $ref_page_url = false;
+        $ref_page_url = false;
         if (isset($_SERVER['HTTP_REFERER'])) {
-            $ref_page = $ref_page_url = $_SERVER['HTTP_REFERER'];
+            $ref_page_url = $_SERVER['HTTP_REFERER'];
         }
 
         if (isset($post_data['id']) and intval($post_data['id']) > 0) {
             $page_id = intval($post_data['id']);
-        } elseif ($ref_page != '') {
+        } elseif ($ref_page_url != '') {
             //removing hash from url
             if (strpos($ref_page_url, '#')) {
-                $ref_page = $ref_page_url = substr($ref_page_url, 0, strpos($ref_page_url, '#'));
+                $ref_page_url = substr($ref_page_url, 0, strpos($ref_page_url, '#'));
             }
 
             $slug_page = $this->app->permalink_manager->slug($ref_page_url, 'page');
