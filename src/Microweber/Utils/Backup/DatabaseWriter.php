@@ -292,7 +292,16 @@ class DatabaseWriter
 		var_dump($items);
 		return; */
 
+        if (isset($this->content->__table_structures)) {
+            app()->database_manager->build_tables($this->content->__table_structures);
+        }
+
 		foreach ($this->content as $table=>$items) {
+
+            if (!\Schema::hasTable($table)) {
+                continue;
+            }
+
 			if (!empty($items)) {
 				foreach($items as $item) {
 					$item['save_to_table'] = $table;
@@ -322,7 +331,6 @@ class DatabaseWriter
 
 		if (isset($this->content->__table_structures)) {
 		    app()->database_manager->build_tables($this->content->__table_structures);
-            unset($this->content->__table_structures);
         }
 		
 		//$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');

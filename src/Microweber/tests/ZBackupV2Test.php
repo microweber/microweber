@@ -108,7 +108,6 @@ class ZBackupV2Test extends TestCase
 		
 		$import = $manager->startImport();
 		
-		
 		$importBool = false;
 		if (!empty($import)) {
 			$importBool = true;
