@@ -457,8 +457,9 @@ mw.getScripts = function (array, callback) {
             }
         }
         else{
-            mw.reload_module(array[0], function(){
-                array.shift();
+            var m = array[0];
+            array.shift();
+            mw.reload_module(m, function(){
                 mw.reload_modules(array, callback, false);
             });
         }
