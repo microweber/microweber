@@ -148,19 +148,14 @@ mw.cart = {
 
         if(modules.length) {
             mw.reload_modules(modules, function (data) {
-              //  mw.trigger('mw.cart.modify', [data]);
                 events.forEach(function(item){
-                    mw.log(item);
                     mw.trigger(item, [data]);
                 })
-
-
             }, true);
         } else {
             events.forEach(function(item){
                 mw.trigger(item, [data]);
             })
-           // mw.trigger('mw.cart.modify', [data]);
         }
 
 
