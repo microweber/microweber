@@ -869,7 +869,12 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                         if ($save_global == false and $save_layout == false) {
                             if ($content_id) {
-                                $for_histroy = $ref_page;
+
+                                $for_histroy = get_content_by_id($content_id);
+
+                                $for_histroy['custom_fields'] = $this->app->content_manager->custom_fields($content_id, false);
+
+
                                 $old = false;
                                 $field123 = str_ireplace('custom_field_', '', $field);
                                 if (stristr($field, 'custom_field_')) {
