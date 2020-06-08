@@ -143,6 +143,14 @@ $(document).ready(function(){
          $ret .= "<form method=\"POST\" name=\"gateway_form\" id='gateway_form_{$rand}' ";
          $ret .= "action=\"" . $this->gatewayUrl . "\">\n";
 
+
+         if($this->testMode){
+             $ret .= '<img alt="" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">'."   \n";
+         } else {
+             $ret .= '<img alt="" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">'."   \n";
+
+         }
+
         foreach ($this->fields as $name => $value)
         {
               $ret .= "<input type=\"hidden\" name=\"$name\" value=\"$value\"/>\n";
