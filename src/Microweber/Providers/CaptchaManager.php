@@ -45,13 +45,15 @@ class CaptchaManager
         $recaptcha_v2_secret_key = get_option('recaptcha_v2_secret_key', 'captcha');
 
 
-        if ($recaptcha_v3_secret_key and $captcha_provider == 'google_recaptcha_v2') {
+        if ($recaptcha_v2_secret_key and $captcha_provider == 'google_recaptcha_v2') {
             $this->adapter = new GoogleRecaptchaV2();
-        } else if ($recaptcha_v2_secret_key and $captcha_provider == 'google_recaptcha_v3') {
+        } else if ($recaptcha_v3_secret_key and $captcha_provider == 'google_recaptcha_v3') {
             $this->adapter = new GoogleRecaptchaV3();
         } else {
             $this->adapter = new MicroweberCaptcha($app);
         }
+
+
     }
 
     public function validate($key, $captcha_id = null, $unset_if_found = true)

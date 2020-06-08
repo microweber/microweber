@@ -1139,7 +1139,9 @@ class MediaManager
             $fn_path = $target_path . DS . $_REQUEST['path'] . DS;
             $fn_path = str_replace('..', '', $fn_path);
             $fn_path = normalize_path($fn_path, false);
-        }
+
+            $target_path = $fn_path;
+         }
         if (!isset($_REQUEST['name'])) {
             $resp = array('error' => 'You must send new_folder parameter');
         } else {
