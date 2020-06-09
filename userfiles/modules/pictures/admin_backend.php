@@ -313,7 +313,7 @@ if (!isset($data["thumbnail"])) {
         }
         var uploader = mw.fileWindow({
             mode: 'inline',
-            title: '<?php print $params['title']; ?>',
+            title: '<?php print isset($params['title']) ? $params['title'] : ''; ?>',
             element: '#backend_image_uploader',
             change: function (url) {
                 after_upld(url, 'tets', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
