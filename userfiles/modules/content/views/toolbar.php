@@ -1,3 +1,9 @@
+<script>
+    $(document).ready(function () {
+        mw.lib.require('mwui_init');
+    });
+</script>
+
 <?php
 $custom_tabs = false;
 
@@ -247,7 +253,7 @@ if ($last_page_front != false) {
 
             <?php if (isset($content_types) and !empty($content_types)): ?>
                 <div>
-                    <select id="content_type_filter_by_select" class="mw-ui-field" <?php if (!$selected): ?> style="display:none" <?php endif; ?>>
+                    <select id="content_type_filter_by_select" class="selectpicker" data-style="btn-sm" <?php if (!$selected): ?> style="display:none" <?php endif; ?>>
                         <option value=""><?php _e('All'); ?></option>
                         <?php foreach ($content_types as $k => $items): ?>
                             <optgroup label="<?php print ucfirst($k); ?>">
@@ -266,38 +272,51 @@ if ($last_page_front != false) {
                     <?php endif; ?>
                 </div>
             <?php endif; ?>
+            <script>
+                $(document).ready(function () {
+                    $('.js-search-by-selector').on('change', function () {
+                        if ($(this).find('option:selected').val() == 'keywords') {
+                            $('.js-search-by-tags').hide();
+                            $('.js-search-by-keywords').show();
+                        }
+                        if ($(this).find('option:selected').val() == 'tags') {
+                            $('.js-search-by-tags').show();
+                            $('.js-search-by-keywords').hide();
+                        }
+                    });
+                });
+            </script>
+            <div class="d-inline-block">
+                <select class="selectpicker js-search-by-selector" data-width="150" data-style="btn-sm">
+                    <option value="keywords" selected>search by keyword</option>
+                    <option value="tags">search by tags</option>
+                </select>
+            </div>
 
-            <select class="selectpicker" data-width="100%">
-                <option>search by tags</option>
-                <option>search by keyword</option>
-            </select>
-            <div id="posts-select-tags" class="js-toggle-search-mode-tags" style="width:120px; height: 30px; display: none;"></div>
-            <div class="form-inline">
-                <div class="input-group mb-0 prepend-transparent append-transparent mx-2">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span>
-                    </div>
+            <div class="js-search-by d-inline-block">
+                <div class="js-search-by-keywords">
+                    <div class="form-inline">
+                        <div class="input-group mb-0 prepend-transparent mx-2">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span>
+                            </div>
 
-                    <input type="text" class="form-control form-control-sm" value="<?php if (isset($params['keyword']) and $params['keyword'] != false): ?><?php print $params['keyword'] ?><?php endif; ?>" <?php if (isset($params['keyword']) and $params['keyword'] != false): ?>autofocus="autofocus"<?php endif; ?> placeholder="<?php _e("Search"); ?>" onkeyup="event.keyCode==13?mw.url.windowHashParam('search',this.value):false"/>
-
-                    <div class="input-group-append">
-                        <div style="width:70px;">
-                            <select class="selectpicker" data-width="100%">
-                                <option>search by tags</option>
-                                <option>search by keyword</option>
-                            </select>
+                            <input type="text" class="form-control form-control-sm" style="width: 100px;" value="<?php if (isset($params['keyword']) and $params['keyword'] != false): ?><?php print $params['keyword'] ?><?php endif; ?>" <?php if (isset($params['keyword']) and $params['keyword'] != false): ?>autofocus="autofocus"<?php endif; ?> placeholder="<?php _e("Search"); ?>" onkeyup="event.keyCode==13?mw.url.windowHashParam('search',this.value):false"/>
                         </div>
+
+                        <button type="button" class="btn btn-primary btn-sm btn-icon" onclick="mw.url.windowHashParam('search',$(this).prev().find('input').val())"><i class="mdi mdi-magnify"></i></button>
                     </div>
                 </div>
 
-                <button type="button" class="btn btn-primary btn-sm btn-icon" onclick="mw.url.windowHashParam('search',$(this).prev().find('input').val())"><i class="mdi mdi-magnify"></i></button>
+                <div class="js-search-by-tags" style="display: none;">
+                    <div id="posts-select-tags" class="js-toggle-search-mode-tags d-flex align-items-center" style="width:120px; height: 30px;"></div>
+                </div>
             </div>
 
             <?php mw()->event_manager->trigger('module.content.manager.toolbar.end', $page_info); ?>
         </div>
     </div>
 <?php endif; ?>
-
 
 <?php if ($page_info): ?>
     <?php mw()->event_manager->trigger('module.content.manager.toolbar', $page_info) ?>
@@ -344,7 +363,6 @@ if ($last_page_front != false) {
                 </div>
             </div>
 
-
             <?php
             $order_by_field = '';
             $order_by_type = '';
@@ -362,7 +380,7 @@ if ($last_page_front != false) {
 
                 <div class="d-inline-block mx-1">
                     <button type="button" class="js-sort-btn btn btn-outline-secondary btn-sm icon-right" data-state="<?php if ($order_by_field == 'created_at'): ?><?php echo $order_by_type; ?><?php endif; ?>" data-sort-type="created_at" onclick="postsSort({id:'pages_edit_container_content_list', el:this});">
-                        <?php _e("Date"); ?> <i class="mdi mdi-chevron-up text-muted"></i>
+                        <?php _e("Date"); ?> <i class="mdi mdi-chevron-down text-muted"></i>
                     </button>
                 </div>
 
@@ -371,40 +389,6 @@ if ($last_page_front != false) {
                         <?php _e("Title"); ?> <i class="mdi mdi-chevron-down text-muted"></i>
                     </button>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="manage-toobar manage-toolbar-top">
-        <div class="manage-toobar-content">
-            <div class="">
-                <!--    <div class="mw-dropdown mw-dropdown-default" id="bulk-actions">
-                                <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-medium mw-dropdown-val"><?php /*_e("Bulk actions"); */ ?></span>
-                                <div class="mw-dropdown-content">
-                                    <ul>
-                                        <li>
-                                            <a href="#" onclick="assign_selected_posts_to_category();">
-                                                <?php /*_e("Move to category"); */ ?>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" onclick="publish_selected_posts();">
-                                                <?php /*_e("Published"); */ ?>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" onclick="unpublish_selected_posts();">
-                                                <?php /*_e("Unpublish"); */ ?>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" onclick="delete_selected_posts();">
-                                                <?php /*_e("Delete"); */ ?>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>-->
             </div>
         </div>
     </div>
@@ -440,6 +424,7 @@ if ($last_page_front != false) {
             placeholder: 'Filter by tag',
             multiple: true,
             autocomplete: true,
+            size: 'small',
             tags: false,
             ajaxMode: {
                 paginationParam: 'page',
@@ -483,28 +468,41 @@ if ($last_page_front != false) {
 
 
         console.log(state);
+        var jQueryEl = $(obj.el);
 
         var tosend = {}
         tosend.type = obj.el.attributes['data-sort-type'].nodeValue;
         if (state === '0') {
             tosend.state = 'ASC';
-            obj.el.className = 'js-sort-btn mw-ui-btn-medium active ASC';
+//            obj.el.className = 'js-sort-btn btn btn-outline-primary btn-sm icon-right ASC';
             obj.el.setAttribute('data-state', 'ASC');
+
+            jQueryEl.find('i').removeClass('mdi-chevron-down');
+            jQueryEl.find('i').addClass('mdi-chevron-up');
         }
         else if (state === 'ASC') {
             tosend.state = 'DESC';
-            obj.el.className = 'js-sort-btn mw-ui-btn-medium active DESC';
+//            obj.el.className = 'js-sort-btn btn btn-outline-primary btn-sm icon-right DESC';
             obj.el.setAttribute('data-state', 'DESC');
+
+            jQueryEl.find('i').removeClass('mdi-chevron-up');
+            jQueryEl.find('i').addClass('mdi-chevron-down');
         }
         else if (state === 'DESC') {
             tosend.state = 'ASC';
-            obj.el.className = 'js-sort-btn mw-ui-btn-medium active ASC';
+//            obj.el.className = 'js-sort-btn btn btn-outline-primary btn-sm icon-right ASC';
             obj.el.setAttribute('data-state', 'ASC');
+
+            jQueryEl.find('i').removeClass('mdi-chevron-down');
+            jQueryEl.find('i').addClass('mdi-chevron-up');
         }
         else {
             tosend.state = 'ASC';
-            obj.el.className = 'js-sort-btn mw-ui-btn-medium active ASC';
+//            obj.el.className = 'js-sort-btn btn btn-outline-primary btn-sm icon-right ASC';
             obj.el.setAttribute('data-state', 'ASC');
+
+            jQueryEl.find('i').removeClass('mdi-chevron-down');
+            jQueryEl.find('i').addClass('mdi-chevron-up');
         }
 
         if (parent_mod !== undefined) {

@@ -3,6 +3,7 @@
 </script>
 
 <style>
+
     .image-settings {
         color: #525151;
         font-size: 20px;
