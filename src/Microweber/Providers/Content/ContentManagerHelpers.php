@@ -647,6 +647,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                 // $guess_page_data =  new  $this->app->controller($this->app);
                 $ref_page_url = strtok($ref_page_url, '?');
 
+
                 $guess_page_data->page_url = $ref_page_url;
                 $guess_page_data->return_data = true;
                 $guess_page_data->create_new_page = true;
@@ -710,9 +711,24 @@ class ContentManagerHelpers extends ContentManagerCrud
                             }
                         }
                     }
+
                     if ($save_page != false) {
-                        $page_id = $this->app->content_manager->save_content_admin($save_page);
-                    }
+                        if(isset( $save_page['url']) and  $save_page['url']){
+                            $u = str_replace( $this->app->url_manager->site(),'',$save_page['url']);
+                            if($u){
+                                $try_to_find_page_with_url  = $this->app->content_manager->get_by_url($u);
+                                if($try_to_find_page_with_url and isset($try_to_find_page_with_url['id'])){
+                                    $save_page['id']  = $try_to_find_page_with_url['id'];
+                                }
+                            }
+                        }
+                        if(!isset($save_page['id'])){
+                            $page_id = $save_page['id'];
+                         } else {
+                            $page_id = $this->app->content_manager->save_content_admin($save_page);
+
+                        }
+                     }
                 }
             } else {
                 $page_id = $ref_page['id'];
