@@ -1216,7 +1216,7 @@ class ContentManagerCrud extends Crud
         return $params;
     }
 
-    public function get_edit_field($data, $debug = false)
+    public function get_edit_field($data)
     {
         $table = $this->tables['content_fields'];
         $table_drafts = $this->tables['content_fields_drafts'];
