@@ -604,6 +604,14 @@ class CategoryManager
                 }
             }
             if ($possible_slug) {
+
+                if ($possible_slug != '') {
+                    $check_cont_wth_slug = $this->app->content_manager->get_by_url($possible_slug);
+                    if($check_cont_wth_slug){
+                        $possible_slug = $possible_slug . '-' . date('YmdHis');
+                   }
+                }
+
                 $data['url'] = $possible_slug;
             } else {
                 $data['url'] = false;
