@@ -91,17 +91,43 @@
     <?php endif; ?>
     <?php event_trigger('admin_head'); ?>
 </head>
-
 <body class="is_admin loading view-<?php print mw()->url_manager->param('view'); ?> action-<?php print mw()->url_manager->param('action'); ?>">
 
+
 <?php
+
 $new_version_notifications = mw()->notifications_manager->get('rel_type=update_check&rel_id=updates');
+
 ?>
 
 
 <?php
 $past_page = site_url() . '?editmode=y';
+$last_page_front = session_get('last_content_id');
+if ($last_page_front == false) {
+    if (isset($_COOKIE['last_page'])) {
+        $last_page_front = $_COOKIE['last_page'];
+    }
+}
 
+if ($last_page_front != false) {
+    $cont_by_url = mw()->content_manager->get_by_id($last_page_front, true);
+    if (isset($cont_by_url) and $cont_by_url == false) {
+        $past_page = mw()->content_manager->get("order_by=updated_at desc&limit=1");
+        $past_page = mw()->content_manager->link($past_page[0]['id']);
+    } else {
+        $past_page = mw()->content_manager->link($last_page_front);
+    }
+} else {
+    $past_page = mw()->content_manager->get("order_by=updated_at desc&limit=1");
+    if (isset($past_page[0])) {
+        $past_page = mw()->content_manager->link($past_page[0]['id']);
+    }
+}
+
+
+?>
+<?php
 $last_page_front = session_get('last_content_id');
 if ($last_page_front == false) {
     if (isset($_COOKIE['last_page'])) {
@@ -134,7 +160,16 @@ if (!$shop_disabled) {
         $shop_disabled = true;
     }
 }
+
+
 ?>
+<?php /*<div id="admin-user-nav">
+
+
+<a href="javascript:;" class="mw-icon-off pull-right"></a>
+<a href="<?php print $past_page; ?>?editmode=y" class="mw-ui-btn mw-ui-btn-invert pull-right"><span class="mw-icon-live"></span><?php _e("Live Edit"); ?></a>
+
+</div>*/ ?>
 
 
 <script>
@@ -177,38 +212,59 @@ if (!$shop_disabled) {
 
 </script>
 
-<?php
-if (!is_admin()) {
-    return;
-}
-?>
-<?php
-$order_notif_html = false;
-$new_orders_count = mw()->order_manager->get_count_of_new_orders();
-if ($new_orders_count) {
-    $order_notif_html = '<span class="badge badge-success badge-pill mr-2">' . $new_orders_count . '</span>';
-}
+<?php if (is_admin()): ?>
 
-$comments_notif_html = false;
-$new_comments_count = mw()->notifications_manager->get('module=comments&is_read=0&count=1');
-if ($new_comments_count) {
-    $comments_notif_html = '<span class="badge badge-success badge-pill mr-2">' . $new_comments_count . '</span>';
-}
+    <?php
 
-$notif_html = '';
-$notif_count = mw()->notifications_manager->get_unread_count();
-if ($notif_count > 0) {
-    $notif_html = '<span class="badge badge-success badge-pill mr-2">' . $notif_count . '</span>';
-}
-?>
+    $order_notif_html = false;
+    $new_orders_count = mw()->order_manager->get_count_of_new_orders();
+    if ($new_orders_count) {
+        $order_notif_html = '<sup class="badge badge-success badge-pill mr-2">' . $new_orders_count . '</sup>';
+    }
 
-<?php
-$user_id = user_id();
-$user = get_user_by_id($user_id);
-?>
+    ?>
+    <?php
+    $comments_notif_html = false;
+    $new_comments_count = mw()->notifications_manager->get('module=comments&is_read=0&count=1');
+    if ($new_comments_count) {
+        $comments_notif_html = '<sup class="badge badge-success badge-pill mr-2">' . $new_comments_count . '</sup>';
 
+    }
+    ?>
+
+
+    <?php
+    $notif_html = '';
+
+    $notif_count = mw()->notifications_manager->get_unread_count();
+
+    if ($notif_count > 0) {
+        $notif_html = '<sup class="badge badge-success badge-pill mr-2">' . $notif_count . '</sup>';
+    }
+
+
+    ?>
+
+    <?php $user_id = user_id();
+    $user = get_user_by_id($user_id);
+    if (!empty($user)) {
+        $img = user_picture($user_id);
+        if ($img != '') {
+            ?>
+            <a href="javascript:;" id="main-bar-user-menu-link-top" class="main-bar-user-menu-link-has-image">
+                <span class="main-bar-profile-img" style="background-image: url('<?php print $img; ?>');"></span>
+            </a>
+        <?php } else { ?>
+            <a href="javascript:;" id="main-bar-user-menu-link-top" class="main-bar-user-menu-link-no-image">
+                <span class="mw-icon-user" id="main-bar-profile-icon"></span>
+            </a>
+        <?php }
+    } ?>
+
+<?php endif; ?>
 
 <div id="mw-admin-container">
+    <?php if (is_admin()): ?>
     <header class="position-sticky sticky-top bg-white">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center py-1">
@@ -216,23 +272,21 @@ $user = get_user_by_id($user_id);
                     <li class="mx-1 mobile-toggle">
                         <button type="button" class="js-toggle-mobile-nav"><i class="mdi mdi-menu"></i></button>
                     </li>
-
                     <li class="mx-1 logo d-none d-md-block">
-                        <a href="<?php print admin_url('view:dashboard'); ?>">
-                            <h5 class="text-white mr-3 d-flex align-items-center h-100">
-                                <?php if (mw()->ui->admin_logo != false): ?>
-                                    <img src="<?php print mw()->ui->admin_logo ?>"/>
-                                <?php elseif (mw()->ui->admin_logo_login() != false): ?>
-                                    <img src="<?php print mw()->ui->admin_logo_login(); ?>"/>
-                                <?php else: ?>
-                                    <img src="<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/logo.svg"/>
-                                <?php endif; ?>
-                            </h5>
+                        <a class="mw-admin-logo" href="<?php print admin_url('view:dashboard'); ?>">
+                            <?php if (mw()->ui->admin_logo != false) : ?>
+                                <img src="<?php print mw()->ui->admin_logo ?>"/>
+                            <?php else: ?>
+                                <img src="<?php print mw()->ui->admin_logo_login(); ?>"/>
+                            <?php endif; ?>
                         </a>
                     </li>
-
-                    <li class="mx-1 d-none d-md-block">
-                        <button type="button" class="btn btn-outline-secondary btn-rounded btn-sm-only-icon" data-toggle="dropdown" aria-expanded="false">
+                    <li class="mx-1 logo d-none d-md-block">
+                        <button
+                                type="button"
+                                class="btn btn-outline-secondary btn-rounded btn-sm-only-icon"
+                                data-toggle="dropdown"
+                                aria-expanded="false">
                             <span class="d-none d-md-block"><?php _e("Add New"); ?></span> <i class="mdi mdi-plus"></i>
                         </button>
                         <div class="dropdown-menu ">
@@ -267,64 +321,54 @@ $user = get_user_by_id($user_id);
 
 
                 <ul class="nav">
-                    <li class="mx-1 logo d-block d-md-none">
-                        <a class="mw-admin-logo" href="<?php print admin_url('view:dashboard'); ?>">
-                            <h5 class="text-white mr-md-3">
-                                <?php if (mw()->ui->admin_logo != false): ?>
-                                    <img src="<?php print mw()->ui->admin_logo ?>" style="height: 40px;"/>
-                                <?php elseif (mw()->ui->admin_logo_login() != false): ?>
-                                    <img src="<?php print mw()->ui->admin_logo_login(); ?>" style="height: 40px;"/>
-                                <?php else: ?>
-                                    <img src="<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/logo-mobile.svg" style="height: 40px;"/>
-                                <?php endif; ?>
-                            </h5>
-                        </a>
-                    </li>
-
                     <?php if ($new_orders_count != ''): ?>
                         <li class="mx-1">
-                            <a href="<?php print admin_url(); ?>view:shop/action:orders" class="btn btn-link btn-rounded icon-left text-dark px-0">
+                            <a href="<?php print admin_url(); ?>view:shop/action:orders"
+                               class="btn btn-link btn-rounded icon-left text-dark px-0">
                                 <?php print $order_notif_html; ?>
                                 <i class="mdi mdi-shopping text-muted"></i> &nbsp;
                                 <span class="d-none d-md-block">
-                                    <?php if ($new_orders_count == 1): ?>
-                                        <?php _e("New order"); ?>
-                                    <?php elseif ($new_orders_count > 1): ?>
-                                        <?php _e("New orders"); ?>
-                                    <?php endif; ?>
-                                </span>
+                                            <?php if ($new_orders_count == 1): ?>
+                                                <?php _e("New order"); ?>
+                                            <?php elseif ($new_orders_count > 1): ?>
+                                                <?php _e("New orders"); ?>
+                                            <?php endif; ?>
+                                        </span>
                             </a>
+
                         </li>
                     <?php endif; ?>
 
                     <?php if ($comments_notif_html != ''): ?>
                         <li class="mx-1">
-                            <a href="<?php print admin_url(); ?>view:modules/load_module:comments" class="btn btn-link btn-rounded icon-left text-dark px-0">
+                            <a href="<?php print admin_url(); ?>view:modules/load_module:comments"
+                               class="btn btn-link btn-rounded icon-left text-dark px-0">
                                 <?php print $comments_notif_html; ?>&nbsp;
                                 <i class="mdi mdi-comment-account text-muted"></i>
                                 <span class="d-none d-md-block">
-                                    <?php if ($new_comments_count == 1): ?>
-                                        <?php _e("New comment"); ?>
-                                    <?php elseif ($new_comments_count > 1): ?>
-                                        <?php _e("New comments"); ?>
-                                    <?php endif; ?>
-                                </span>
+                                            <?php if ($new_comments_count == 1): ?>
+                                                <?php _e("New comment"); ?>
+                                            <?php elseif ($new_comments_count > 1): ?>
+                                                <?php _e("New comments"); ?>
+                                            <?php endif; ?>
+                                        </span>
                             </a>
                         </li>
                     <?php endif; ?>
 
                     <?php if ($notif_count != ''): ?>
                         <li class="mx-1">
-                            <a href="<?php print admin_url(); ?>view:admin__notifications" class="btn btn-link btn-rounded icon-left text-dark px-0">
+                            <a href="<?php print admin_url(); ?>view:admin__notifications"
+                               class="btn btn-link btn-rounded icon-left text-dark px-0">
                                 <?php print $notif_html; ?>
                                 <i class="mdi mdi-newspaper-variant-multiple text-muted"></i>&nbsp;
                                 <span class="notif-label">
-                                    <?php if ($notif_count == 1): ?>
-                                        <?php _e("New notification"); ?>
-                                    <?php elseif ($notif_count > 1): ?>
-                                        <?php _e("New notifications"); ?>
-                                    <?php endif; ?>
-                                </span>
+                                            <?php if ($notif_count == 1): ?>
+                                                <?php _e("New notification"); ?>
+                                            <?php elseif ($notif_count > 1): ?>
+                                                <?php _e("New notifications"); ?>
+                                            <?php endif; ?>
+                                        </span>
                             </a>
                         </li>
                     <?php endif; ?>
@@ -333,29 +377,41 @@ $user = get_user_by_id($user_id);
                 <?php event_trigger('mw.admin.header.toolbar'); ?>
                 <ul class="nav">
                     <li class="mx-1">
-                        <a href="<?php print $past_page ?>?editmode=y" class="btn btn-primary btn-rounded btn-sm-only-icon go-live-edit-href-set" target="_blank">
+                        <a href="<?php print $past_page ?>?editmode=y"
+                           class="btn btn-primary btn-rounded btn-sm-only-icon go-live-edit-href-set" target="_blank">
                             <i class="mdi mdi-eye-outline"></i><span class="d-none d-md-block ml-1"><?php _e("Live Edit"); ?></span>
                         </a>
                     </li>
-
                     <li class="mx-1 language-selector">
                         <?php $current_lang = current_lang(); ?>
-                        <button type="button" class="btn btn-outline-secondary btn-rounded btn-icon" data-toggle="dropdown"><i class="flag-icon flag-icon-<?php print $current_lang; ?>"></i></button>
+                        <button
+                                type="button"
+                                class="btn btn-outline-secondary btn-rounded btn-icon"
+                                data-toggle="dropdown">
+                            <i class="flag-icon flag-icon-<?php print $current_lang; ?>"></i>
+                        </button>
                         <div class="dropdown-menu ">
                             <?php
                             $langs = get_available_languages();
                             $selected_lang = isset($_COOKIE['lang']) ? $_COOKIE['lang'] : 'en';
-                            foreach ($langs as $lang): ?>
-                                <button onclick='mw.admin.language("<?php print $lang; ?>");' class="dropdown-item <?php if ($selected_lang == $lang): ?>active<?php endif; ?>">
-                                    <i class="flag-icon flag-icon-<?php print $lang ?>"></i><?php print $lang ?>
-                                </button>
+                            foreach ($langs as $lang):
+                                ?>
+                                <span
+                                        onclick='mw.admin.language("<?php print $lang; ?>");'
+                                        class="dropdown-item<?php if ($selected_lang == $lang) {
+                                            print ' active';
+                                        } ?>">
+                                        <i class="flag-icon flag-icon-<?php print $lang ?>"></i><?php print $lang ?>
+                                    </span>
                             <?php endforeach; ?>
                         </div>
+
                     </li>
                 </ul>
             </div>
         </div>
     </header>
+
 
     <div class="main container my-3">
         <aside>
@@ -368,7 +424,6 @@ $user = get_user_by_id($user_id);
                         <i class="mdi mdi-view-dashboard"></i> <strong><?php _e("Dashboard"); ?></strong>
                     </a>
                 </li>
-
                 <li><?php event_trigger('mw.admin.sidebar.li.first'); ?></li>
                 <li class="nav-item dropdown <?php if ($view == 'content' and $action == false) {
                     print 'active';
@@ -549,6 +604,7 @@ $user = get_user_by_id($user_id);
 
             </ul>
 
+
             <script>
                 $(document).ready(function () {
                     mw.$('.go-live-edit-href-set').each(function () {
@@ -561,5 +617,6 @@ $user = get_user_by_id($user_id);
                     });
                 });
             </script>
-        </aside>
 
+        </aside>
+        <?php endif; ?>

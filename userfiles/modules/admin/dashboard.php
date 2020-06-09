@@ -3,12 +3,8 @@
     <div class="admin-side-content">
         <?php event_trigger('mw.admin.dashboard.content.before'); ?>
         <?php event_trigger('mw.admin.dashboard.content'); ?>
-
-
         <?php event_trigger('mw.admin.dashboard.content.1'); ?>
-
         <?php event_trigger('mw.admin.dashboard.content.2'); ?>
-
         <?php event_trigger('mw.admin.dashboard.content.3'); ?>
 
 
@@ -18,7 +14,6 @@
             </div>
 
             <div class="card-body">
-
 
 
 
@@ -94,7 +89,4 @@
         </div>
         <?php event_trigger('mw.admin.dashboard.main'); ?>
     </div>
-</div>
-<div class="m-t-10 text-right p-10">
-v<?php print MW_VERSION; ?>
 </div>

@@ -125,3 +125,23 @@ div.form-control{
     margin-bottom: 0.5rem;
 }
 
+.logo img{
+    max-height: 45px;
+}
+.category-parent-selector{
+    width: 100%;
+    max-height: 82vh;
+    overflow: auto;
+}
+
+#category-edit-advanced{
+    clear: both;
+}
+.js-category-advanced-seetings-button-block{
+    clear: both;
+    text-align: center;
+}
+.js-category-advanced-seetings-button{
+    clear: both;
+}
+

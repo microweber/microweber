@@ -1,78 +1,66 @@
-<?php include (MW_ADMIN_VIEWS_DIR . 'header.php'); ?>
-<?php if(is_admin() == false): ?>
-<module type="users/login" template="admin" />
+<?php include(MW_ADMIN_VIEWS_DIR . 'header.php'); ?>
+
+<?php if (is_admin() == false): ?>
+    <module type="users/login" template="admin"/>
 <?php else: ?>
-<?php
+    <?php
+    $v1 = mw()->url_manager->param('load_module');
+    $v = mw()->url_manager->param('view');
 
-$v1 = mw()->url_manager->param('load_module');
-$v = mw()->url_manager->param('view');
+    if ($v1 != false) {
+        $holder_cls = mw()->url_manager->slug($v1);
+    } else if ($v != false) {
+        $holder_cls = mw()->url_manager->slug($v);
+    } else {
+        $holder_cls = false;
+    }
+    ?>
 
-  if($v1 != false){
-	 $holder_cls = mw()->url_manager->slug($v1);
-  }  else if($v != false){
-	 $holder_cls = mw()->url_manager->slug($v);
-  } else {
-	  $holder_cls = false;
-  }
+    <main class="<?php print  $holder_cls ?>">
+        <?php if ($v1 != false): ?>
+            <?php
+            $v_mod = module_name_decode($v1);
 
+            if (is_module($v_mod)) {
+                //include_once (MW_ADMIN_VIEWS_DIR . 'module_nav.php');
+                //  $mod = load_module($v_mod, $attrs=array('view' => 'admin','backend' => 'true'));
 
+                $mod = '<module type="' . $v_mod . '" view="admin"  backend="true" id="mw-main-module-backend" />';
 
+                print $mod;
+            } else {
+                print "No module found {$v_mod}";
+            }
+            ?>
+        <?php else : ?>
+            <?php //include_once (MW_ADMIN_VIEWS_DIR . 'header_nav.php'); ?>
 
-  ?>
+            <?php
+            $vf = MW_ADMIN_VIEWS_DIR . $v . '.php';
+            $vf = str_replace('..', '', $vf);
 
-<main class="<?php print  $holder_cls ?>">
-  <?php if($v1 != false): ?>
-  <?php
+            if (is_file($vf)) {
+                include($vf);
+            } else { ?>
+                <?php
 
-        $v_mod = module_name_decode($v1);
+                $v_mod = module_name_decode($v);
 
-         if(is_module($v_mod)){
-			  //include_once (MW_ADMIN_VIEWS_DIR . 'module_nav.php');
-           //  $mod = load_module($v_mod, $attrs=array('view' => 'admin','backend' => 'true'));
+                if ($v_mod != '' and is_module($v_mod)) {
+                    // $mod = load_module($v_mod, $attrs=array('view' => 'admin','backend' => 'true'));
 
-		   $mod = '<module type="'.$v_mod.'" view="admin"  backend="true" id="mw-main-module-backend" />';
+                    $mod = '<module type="' . $v_mod . '" view="admin"  backend="true" id="mw-main-module-backend" />';
 
-             print $mod ;
-         } else {
-            print "No module found {$v_mod}" ;
+                    print $mod;
+                } else {
+                    include(MW_ADMIN_VIEWS_DIR . 'index.php');
+                }
+            }
+            ?>
+        <?php endif; ?>
 
-         }
-
-         ?>
-  <?php else : ?>
-  <?php //include_once (MW_ADMIN_VIEWS_DIR . 'header_nav.php'); ?>
-  <?php
-
-
-
-        $vf = MW_ADMIN_VIEWS_DIR . $v. '.php';
-        $vf = str_replace('..', '', $vf);
-
-        if(is_file($vf)){
-        //d($vf);
-
-        include ($vf);
-
-        }
-
-         else { ?>
-  <?php
-
-        $v_mod = module_name_decode($v);
-
-         if($v_mod != '' and is_module($v_mod)){
-            // $mod = load_module($v_mod, $attrs=array('view' => 'admin','backend' => 'true'));
-
-					   $mod = '<module type="'.$v_mod.'" view="admin"  backend="true" id="mw-main-module-backend" />';
-
-			 print $mod ;
-         } else {
-
-             include (MW_ADMIN_VIEWS_DIR . 'index.php');
-         }
-
-         } ?>
-  <?php endif; ?>
-</main>
+        <?php include(MW_ADMIN_VIEWS_DIR . 'copyright.php'); ?>
+    </main>
 <?php endif; ?>
-<?php	include (MW_ADMIN_VIEWS_DIR . 'footer.php'); ?>
+
+<?php include(MW_ADMIN_VIEWS_DIR . 'footer.php'); ?>

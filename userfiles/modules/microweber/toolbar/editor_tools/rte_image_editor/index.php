@@ -18,11 +18,17 @@ if (array_key_exists('types', $_GET)) {
     $types = array('files', 'images', 'videos');
 }
 
+if (array_key_exists('title', $_GET)) {
+    $title = $_GET['title'];
+
+} else {
+    $title = __('Media');
+}
+
 
 ?>
 <script type="text/javascript">
-    var hash = window.location.hash;
-    var hash = hash.replace(/#/g, "");
+    var hash = location.hash.replace(/#/g, "");
 
     hash = hash !== '' ? hash : 'insert_html';
 
@@ -497,7 +503,7 @@ if (array_key_exists('types', $_GET)) {
     <div id="image_tabs">
         <div class="image-tabs-header">
             <div>
-                <h6><strong>Media</strong></h6>
+                <h6><strong><?php print $title; ?></strong></h6>
             </div>
             <div>
                 <select class="selectpicker btn-as-link" data-style="btn-sm" data-width="auto">

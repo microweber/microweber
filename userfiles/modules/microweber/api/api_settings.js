@@ -92,9 +92,9 @@
         mwui: [
             function () {
                 mw.require(mw.settings.libs_url + 'mw-ui' + '/grunt/plugins/ui/css/main.css');
-                mw.require(mw.settings.libs_url + 'mw-ui' + '/grunt/dist/plugins/css/plugins.min.css');
+                mw.require(mw.settings.libs_url + 'mw-ui' + '/assets/ui/plugins/css/plugins.min.css');
                 mw.require(mw.settings.libs_url + 'mw-ui' + '/grunt/plugins/ui/css/mw.css');
-                mw.require(mw.settings.libs_url + 'mw-ui' + '/grunt/dist/plugins/js/plugins.js');
+                mw.require(mw.settings.libs_url + 'mw-ui' + '/assets/ui/plugins/js/plugins.js');
              }
 
 

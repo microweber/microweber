@@ -29,7 +29,7 @@ if (isset($params['live_edit'])) {
 }
 ?>
 
-<div class="<?php print $wrapper_class; ?>">
+<div class="card style-1 mb-3 <?php print $wrapper_class; ?>">
     <script type="text/javascript">mw.require('forms.js');</script>
 
     <script type="text/javascript">
@@ -125,11 +125,6 @@ if (isset($params['live_edit'])) {
                 return false;
             });
 
-            mw.tools.tabGroup({
-                nav: mw.$("#quick-add-post-options li"),
-                tabs: mw.$(".quick-add-post-options-item"),
-                toggle: true
-            });
             var curr_id = '' +<?php print $data['id']; ?>;
 
             if (mw.url.mwParams().action == 'categories') {
@@ -158,17 +153,18 @@ if (isset($params['live_edit'])) {
     ?>
 
     <?php if (!isset($params['no-toolbar'])): ?>
-        <div class="section-header">
-            <h2 class="pull-left">
-                <span class="mw-icon-category"></span>
+        <div class="card-header">
+            <h5>
+                <span class="mdi mdi-folder text-primary mr-3"></span>
                 <?php if ($data['id'] == 0): ?><?php _e('Add') ?><?php else: ?><?php _e('Edit') ?><?php endif; ?><?php echo ' '; ?><?php _e('category'); ?>
-            </h2>
+            </h5>
+            <span onclick="save_cat(this);" class="btn btn-success btn-sm" form="quickform-edit-content"><?php _e('Save') ?></span>
         </div>
     <?php endif; ?>
 
     <?php if (!isset($params['no-toolbar'])): ?>
     <div class="admin-side-content">
-        <div class="mw-ui-box mw-ui-settings-box mw-ui-box-content">
+        <div class="card-body pt-3">
             <?php endif; ?>
 
             <form id="admin_edit_category_form" name="admin_edit_category_form" autocomplete="off" style="<?php if ($just_saved != false) { ?> display: none; <?php } ?>">
@@ -180,8 +176,8 @@ if (isset($params['live_edit'])) {
 
                 <div class="create-root">
                     <div id="content-title-field-buttons">
-                        <div class="mw-ui-row">
-                            <div class="mw-ui-col text-left" style="width: 445px;">
+                        <div class="row">
+                            <div class="col-lg-8 mx-auto">
                                 <?php if (intval($data['id']) != 0): ?>
                                     <script>
                                         mw.quick_cat_edit_create = function (id) {
@@ -217,67 +213,85 @@ if (isset($params['live_edit'])) {
                                 <?php endif; ?>
                             </div>
 
-                            <div class="mw-ui-col text-right">
 
-                                <a href="javascript:;" onclick="save_cat(this);" class="mw-ui-btn mw-ui-btn-notification" form="quickform-edit-content"><i class="far fa-save"></i>&nbsp; <?php _e('Save') ?></a>
-                            </div>
+
+
+
                         </div>
                     </div>
                 </div>
 
-                <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label"><?php print _e('Category name'); ?>:</label>
-                    <div class="mw-ui-row-nodrop valign" id="content-title-field-row">
-                        <div class="mw-ui-col">
-                            <?php if ($data['id'] == 0 and isset($data['parent_id']) and $data['parent_id'] > 0): ?>
-                                <span class="mw-title-field-label mw-title-field-label-subcat"></span>
-                                <input id="content-title-field" class="mw-ui-invisible-field mw-ui-field-big" name="title" type="text" placeholder="<?php _e("Subcategory Name"); ?>"/>
-                            <?php else: ?>
-                                <?php if (isset($data['parent_id']) and $data['parent_id'] > 0): ?>
-                                    <span class="mw-title-field-label mw-title-field-label-subcat"></span>
-                                <?php else: ?>
-                                    <span class="mw-title-field-label mw-title-field-label-category"></span>
-                                <?php endif; ?>
-                                <input class="mw-ui-invisible-field mw-ui-field-big" id="content-title-field" name="title" type="text" <?php if ($data['id'] == 0) { ?>placeholder<?php } else { ?>value<?php } ?>="<?php print ($data['title']); ?>"/>
-                            <?php endif; ?>
-
+                <div class="form-group">
+                    <div  id="content-title-field-row">
+                        <div>
                             <div class="form-group">
                                 <label class="control-label">Category name</label>
                                 <div class="input-group mb-3 prepend-transparent">
+                            <?php if ($data['id'] == 0 and isset($data['parent_id']) and $data['parent_id'] > 0): ?>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="mdi mdi-folder-move text-silver"></i></span>
+                                </div>
+                                <input
+                                    id="content-title-field"
+                                    class="form-control"
+                                    name="title"
+                                    type="text"
+                                    placeholder="<?php _e("Subcategory Name"); ?>"/>
+                            <?php else: ?>
+                                <?php if (isset($data['parent_id']) and $data['parent_id'] > 0): ?>
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="mdi mdi-folder-move text-silver"></i></span>
+                                    </div>
+                                <?php else: ?>
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="mdi mdi-folder text-silver"></i></span>
                                     </div>
-                                    <input type="text" class="form-control" id="cat-name" placeholder="Type category name">
-                                </div>
+                                <?php endif; ?>
+                                <input
+                                    class="form-control"
+                                    id="content-title-field"
+                                    name="title"
+                                    type="text"
+                                    <?php if ($data['id'] == 0) { ?>placeholder<?php } else { ?>value<?php } ?>="<?php print ($data['title']); ?>"/>
+                            <?php endif; ?>
+
+
+
+
+                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label"><?php print _e('Parent'); ?>:</label>
-                    <span class="mw-ui-btn mw-dropdown-button" onclick="$('.mw-tree-selector').toggle()" id="category-dropdown-holder">
-                        <?php _e("Select Parent page or category"); ?>
-                    </span>
-                    <?php $is_shop = ''; ?>
-                    <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" style="display: none" id="edit_category_set_par">
-                        <?php /*
-                        <module type="categories/selector" include_inactive="true"
-                                categories_active_ids="<?php print (intval($data['parent_id'])) ?>"
-                                active_ids="<?php print ($data['rel_id']) ?>" <?php print $is_shop ?>
-                                input-name="temp"
-                                input-name-categories='temp' input-type-categories="radio"
-                                categories_removed_ids="<?php print (intval($data['id'])) ?>"
-                                show_edit_categories_admin_link="true"/>
- */ ?>
+                <div class="form-group">
+                    <div class="bootstrap-select form-control">
+                        <label class="control-label"><?php print _e('Parent'); ?>:</label>
+                        <span class="btn dropdown-toggle btn-light" onclick="$('.mw-tree-selector').stop().slideToggle()" id="category-dropdown-holder">
+                            <?php _e("Select Parent page or category"); ?>
+                        </span>
+                        <?php $is_shop = ''; ?>
+                        <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" style="display: none" id="edit_category_set_par">
+                            <?php /*
+                            <module type="categories/selector" include_inactive="true"
+                                    categories_active_ids="<?php print (intval($data['parent_id'])) ?>"
+                                    active_ids="<?php print ($data['rel_id']) ?>" <?php print $is_shop ?>
+                                    input-name="temp"
+                                    input-name-categories='temp' input-type-categories="radio"
+                                    categories_removed_ids="<?php print (intval($data['id'])) ?>"
+                                    show_edit_categories_admin_link="true"/>
+     */ ?>
 
-                        <div class="category-parent-selector"></div>
+                            <div class="category-parent-selector"></div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label"><?php _e("Description"); ?>:</label>
-                    <textarea class="mw-ui-field w100" name="description"><?php print ($data['description']) ?></textarea>
+
+                <div class="form-group">
+                    <label class="control-label" for="exampleTextarea"><?php _e("Description"); ?></label>
+                    <small class="text-muted d-block mb-2"><?php _e("Type description of your category in the field"); ?></small>
+                    <textarea class="form-control" name="description" rows="3" spellcheck="false"></textarea>
                 </div>
 
                 <script type="text/javascript">
@@ -352,74 +366,58 @@ if (isset($params['live_edit'])) {
                             var html = $(this).parent().find('span:last').html();
                             $("#category-dropdown-holder").html(html)
                         });
-                        mw.tabs({
-                            nav: "#tabsnav .mw-ui-btn",
-                            tabs: ".quick-add-post-options-item",
-                            toggle: true,
-                            activeClass: 'active-info'
-                        });
 
-                        $(".js-category-advanced-seetings-button").on('click', function () {
-                            $(".advanced_settings").stop().slideToggle()
+                        var advancedBtn = $(".js-category-advanced-seetings-button")
+                        advancedBtn.on('click', function () {
+                            $("#category-edit-advanced").stop().slideDown(function () {
+                                advancedBtn.remove()
+                            })
                         })
                     });
                 </script>
                 <input name="position" type="hidden" value="<?php print ($data['position']) ?>"/>
 
-                <div class="advanced_settings" style="display: none">
-                    <div class="mw-ui-field-holder">
-                        <label class="mw-ui-label"><?php _e("Category images and settings"); ?></label>
-                    </div>
+                <div class="advanced_settings">
 
-                    <div class="mw-ui-btn-nav" id="tabsnav">
-                        <span class="mw-ui-btn">
-                            <span class="mw-icon-picture"></span>
-                            <span><?php _e("Picture Gallery"); ?></span>
-                        </span>
-                        <span class="mw-ui-btn">
-                            <span class="mw-icon-gear"></span>
-                            <span><?php _e("Advanced"); ?></span>
-                        </span>
-                    </div>
 
-                    <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item">
+                    <div class="quick-add-post-options-item">
                         <div class="pictures-editor-holder">
-                            <module type="pictures/admin" for="categories" for-id="<?php print $data['id'] ?>" id="mw-cat-pics-admin"/>
+                            <module type="pictures/admin" title="<?php _e("Category images"); ?>" for="categories" for-id="<?php print $data['id'] ?>" id="mw-cat-pics-admin"/>
                         </div>
                     </div>
 
-                    <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item">
+                    <div class="quick-add-post-options-item" style="display: none" id="category-edit-advanced">
                         <?php if (isset($data['id']) and $data['id'] != 0): ?>
-                            <div class="mw-ui-field-holder">
-                                <label class="mw-ui-label"><?php _e("Link"); ?></label>
+                            <div class="form-group">
+                                <label class="control-label"><?php _e("Link"); ?></label>
                                 <small><a href="<?php print category_link($data['id']); ?>" target="_blank"><?php print category_link($data['id']); ?></a></small>
                             </div>
                         <?php endif; ?>
 
-                        <div class="mw-ui-field-holder">
-                            <label class="mw-ui-label"><?php _e("Slug"); ?></label>
-                            <input type="text" class="mw-ui-field w100" name="url" value="<?php (isset($data['url'])) ? print ($data['url']) : '' ?>"/>
+                        <div class="form-group">
+                            <label class="control-label"><?php _e("Slug"); ?></label>
+                            <input type="text" class="form-control w100" name="url" value="<?php (isset($data['url'])) ? print ($data['url']) : '' ?>"/>
                         </div>
 
 
 
-                        <div class="mw-ui-field-holder">
-                            <label class="mw-ui-label"><?php _e("Meta Title"); ?></label>
-                            <input type="text" class="mw-ui-field w100" name="category_meta_title" value="<?php (isset($data['category_meta_title'])) ? print ($data['category_meta_title']) : '' ?>"/>
+                        <div class="form-group">
+                            <label class="control-label"><?php _e("Meta Title"); ?></label>
+                            <input type="text" class="form-control w100" name="category_meta_title" value="<?php (isset($data['category_meta_title'])) ? print ($data['category_meta_title']) : '' ?>"/>
                         </div>
 
 
 
-                        <div class="mw-ui-field-holder">
-                            <label class="mw-ui-label"><?php _e("Meta Keywords"); ?></label>
-                            <input type="text" class="mw-ui-field w100" name="category_meta_keywords" value="<?php (isset($data['category_meta_keywords'])) ? print ($data['category_meta_keywords']) : '' ?>"/>
+                        <div class="form-group">
+                            <label class="control-label"><?php _e("Meta Keywords"); ?></label>
+                            <input type="text" class="form-control w100" name="category_meta_keywords" value="<?php (isset($data['category_meta_keywords'])) ? print ($data['category_meta_keywords']) : '' ?>"/>
                         </div>
 
 
 
-                        <div class="mw-ui-field-holder">
-                            <label class="mw-ui-label"><?php _e("Meta Description"); ?>:</label>
-                            <textarea class="mw-ui-field w100" name="category_meta_description"><?php (isset($data['category_meta_description'])) ? print ($data['category_meta_description']) : '' ?></textarea>
+                        <div class="form-group">
+                            <label class="control-label"><?php _e("Meta Description"); ?>:</label>
+                            <textarea class="form-control w100" name="category_meta_description"><?php (isset($data['category_meta_description'])) ? print ($data['category_meta_description']) : '' ?></textarea>
                         </div>
 
 
@@ -434,12 +432,12 @@ if (isset($params['live_edit'])) {
 
 
                         <div class="mw-edit-cat-edit-mote-advanced-toggle">
-                            <div class="mw-ui-field-holder">
+                            <div class="form-group">
                                 <?php if (!isset($data['users_can_create_content'])) {
                                     $data['users_can_create_content'] = 0;
                                 } ?>
                                 <div class="mw-ui-check-selector">
-                                    <div class="mw-ui-label left" style="width: 230px">
+                                    <div class="control-label">
                                         <?php _e("Can users create content"); ?>
                                         <small class="mw-help" data-help="<?php _e("If you set this to YES the website users will be able to add content under this category"); ?>">(?)</small>
                                     </div>
@@ -469,30 +467,24 @@ if (isset($params['live_edit'])) {
 
 
                                         $('.edit-category-choose-subtype-dd').on('change', function () {
-                                            var val = $(this).getDropdownValue();
+                                            var val = $(this).val();
                                             $('[name="category_subtype"]', '#admin_edit_category_form').val(val)
-
                                             $('#admin_edit_category_subtype_settings').attr('category_subtype', val);
                                             mw.reload_module('#admin_edit_category_subtype_settings');
-
                                         });
                                     });
                                 </script>
 
-                                <div class="mw-ui-field-holder">
-                                    <div class="mw-ui-label" style="width: 230px">
+                                <div class="form-group">
+                                    <div class="control-label">
                                         <?php _e("Category"); ?>
                                         <?php _e("Subtype"); ?>
                                         <small class="mw-help" data-help="You can set the category behaviour by changing its subtype">(?)</small>
                                     </div>
-                                    <div class="mw-dropdown mw-dropdown-default edit-category-choose-subtype-dd"><span class="mw-dropdown-value mw-ui-btn mw-ui-btn-small mw-dropdown-val"> <?php print ucwords($data['category_subtype']); ?> </span>
-                                        <div class="mw-dropdown-content" style="display: none;">
-                                            <ul>
-                                                <li value="default"><?php _e("Default"); ?></li>
-                                                <li value="content_filter"><?php _e("Content filter"); ?></li>
-                                            </ul>
-                                        </div>
-                                    </div>
+                                    <select class="selectpicker edit-category-choose-subtype-dd" placeholder>
+                                        <option value="default" <?php if($data['category_subtype'] === 'default') { print 'selected'; }  ?>><?php _e("Default"); ?></option>
+                                        <option value="content_filter" <?php if($data['category_subtype'] === 'default') { print 'selected'; }  ?>><?php _e("Content filter"); ?></option>
+                                    </select>
                                 </div>
                                 <module type="categories/edit_category_subtype_settings" category_subtype="<?php print $data['category_subtype'] ?>" category-id="<?php print $data['id'] ?>" id="admin_edit_category_subtype_settings"/>
                             <?php endif; ?>
@@ -500,7 +492,7 @@ if (isset($params['live_edit'])) {
                     </div>
                 </div>
 
-                <div class="text-center m-t-10">
+                <div class="js-category-advanced-seetings-button-block">
                     <div class="mw-ui-btn mw-ui-btn-small mw-ui-btn-outline mw-ui-btn-info js-category-advanced-seetings-button">
                         <?php _e('show more'); ?>
                     </div>
