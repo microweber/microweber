@@ -95,3 +95,53 @@ div.form-control{
     width: 100%;
     height: 345px;
 }
+div.form-control{
+    height: auto;
+}
+.mw-ui-category-tree  li {list-style: none}
+.mw-ui-category-tree  li li{
+    padding-left: 20px;
+}
+.mw-ui-category-tree {
+    position: relative;
+
+}
+.mw-ui-category-tree-row:hover{
+    background: #fcfcfc;
+    border-color: #eeeff1;
+    -webkit-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
+    -moz-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
+    box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
+}
+.mw-ui-category-tree-row .btn{
+    float: right;
+}
+.mw-ui-category-tree-row{
+    background: #fcfcfc;
+    padding: .5rem 1rem;
+    display: block;
+    overflow: hidden;
+    border-radius: 10px;
+    margin-bottom: 0.5rem;
+}
+
+.logo img{
+    max-height: 45px;
+}
+.category-parent-selector{
+    width: 100%;
+    max-height: 82vh;
+    overflow: auto;
+}
+
+#category-edit-advanced{
+    clear: both;
+}
+.js-category-advanced-seetings-button-block{
+    clear: both;
+    text-align: center;
+}
+.js-category-advanced-seetings-button{
+    clear: both;
+}
+

@@ -144,10 +144,10 @@
             $(pagesMenuTreeSelector).on('selectionChange', function (e, selectedData) {
                 var item = selectedData[0];
                 var data = {};
-                if (item.type == 'page') {
+                if (item.type === 'page') {
                     data.content_id = item.id;
                 }
-                if (item.type == 'category') {
+                if (item.type === 'category') {
                     data.categories_id = item.id;
                 }
 

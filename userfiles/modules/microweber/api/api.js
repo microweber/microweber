@@ -675,10 +675,15 @@ mw.getScripts = function (array, callback) {
       if(mw.wysiwyg){
         $(m).hasClass("module") ? mw.wysiwyg.init_editables(m) : '' ;
       }
+
+
       if(mw.on && !hasDone){
         mw.on.moduleReload(id, "", true);
         mw.trigger('moduleLoaded');
       }
+    if($.fn.selectpicker) {
+        $('.selectpicker').selectpicker();
+    }
       if (mw.on) {
         mw.on.DOMChangePause = false;
       }

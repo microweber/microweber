@@ -159,8 +159,13 @@ mw.uploader = function (o) {
 mw.fileWindow = function (config) {
     config = config || {};
     config.mode = config.mode || 'dialog'; // 'inline' | 'dialog'
-    var url = config.types ? ("rte_image_editor?types=" + config.types + '#fileWindow') : ("rte_image_editor#fileWindow");
-    url = mw.settings.site_url + 'editor_tools/' + url;
+    var q = {
+        types: config.types,
+        title: config.title
+    };
+
+
+    url = mw.settings.site_url + 'editor_tools/rte_image_editor?' + $.param(q) + '#fileWindow';
     var frameWindow;
     var toreturn = {
         dialog: null,

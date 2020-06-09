@@ -94,7 +94,7 @@ if ($for_id != false) {
             data.src = a;
             data.media_type = 'picture';
 
-            if (id == undefined || id == '') {
+            if (!id) {
                 data.for_id = 0;
             } else {
                 data.for_id = (id);
@@ -221,7 +221,7 @@ if (!isset($data["thumbnail"])) {
 
     <?php if ($for_id != false) { ?>
 
-        <module type="pictures/admin_backend_sortable_pics_list" for="<?php print $for ?>"  for_id="<?php print $for_id ?>"  />
+        <module type="pictures/admin_backend_sortable_pics_list"  for="<?php print $for ?>"  for_id="<?php print $for_id ?>"  />
 
 
 
@@ -242,69 +242,6 @@ if (!isset($data["thumbnail"])) {
     ?>
 
 </div>
-
-    <?php
-    /*<?php if (is_array($media)): ?>
-        <?php $default_title = _e("Image title", true); ?>
-        <?php foreach ($media as $key => $item): ?>
-            <div class="admin-thumb-item admin-thumb-item-<?php print $item['id'] ?>"
-                 id="admin-thumb-item-<?php print $item['id'] ?>">
-                <?php $tn = thumbnail($item['filename'], 200, 200, true); ?>
-                <span class="mw-post-media-img" style="background-image: url('<?php print $tn; ?>');"></span>
-                <?php //if ($key == 0): ?>
-                <div class="featured-image"><?php print _e('featured image'); ?></div>
-                <?php //endif; ?>
-                <span class="mw-icon-gear image-settings tip" data-tip="Image Settings" onclick="imageConfigDialog(<?php print $item['id'] ?>)"></span>
-                <span class="mw-icon-close image-settings remove-image tip" data-tip="Delete Image" onclick="mw.module_pictures.del('<?php print $item['id'] ?>');"></span>
-                <label class="mw-ui-check">
-                    <input type="checkbox" onchange="doselect()" data-url="<?php print $item['filename']; ?>"
-                           value="<?php print $item['id'] ?>"><span></span>
-                </label>
-                <div class="mw-post-media-img-edit">
-
-                    <div class="image-options">
-                        <div class="mw-ui-field-holder">
-                            <label class="mw-ui-label"><?php _e("Image Description"); ?></label>
-                            <input class="mw-ui-field w100" autocomplete="off" value="<?php if ($item['title'] !== '') {
-                                print $item['title'];
-                            } else {
-                                print $default_title;
-                            } ?>"
-                                   onkeyup="mw.on.stopWriting(this, function(){mw.module_pictures.save_title('<?php print $item['id'] ?>', this.value);});"
-                                   onfocus="$(this.parentNode).addClass('active');"
-                                   onblur="$(this.parentNode).removeClass('active');"
-                                   name="media-description-<?php print $tn; ?>"/>
-
-                        </div>
-
-                        <div id="image-json-options-<?php print  $item['id']; ?>">
-                            <div class="image-json-options">
-                                <?php
-                                $curr = isset($item['image_options']) ? $item['image_options'] : array();
-                                foreach ($init_image_options as $name) {
-                                    $ok = url_title(strtolower($name));
-                                    ?>
-                                    <div class="mw-ui-field-holder">
-                                        <label class="mw-ui-label"><?php print $name ?></label>
-                                        <input type="text" class="mw-ui-field w100" name="<?php print $ok; ?>" value="<?php print isset($curr[$ok]) ? $curr[$ok] : ''; ?>"/>
-                                    </div>
-                                <?php } ?>
-
-                                <hr>
-
-                                <span class="mw-ui-btn pull-left" onclick="imageConfigDialogInstance.remove()">Cancel</span>
-                                <span class="mw-ui-btn mw-ui-btn-notification pull-right" onclick="saveOptions(<?php print $item['id'] ?>);imageConfigDialogInstance.remove()">Update</span>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    <?php endif; ?>*/
-
-
-    ?>
 
     <script>mw.require("files.js", true);</script>
     <script>
@@ -376,33 +313,25 @@ if (!isset($data["thumbnail"])) {
         }
         var uploader = mw.fileWindow({
             mode: 'inline',
+            title: '<?php print $params['title']; ?>',
             element: '#backend_image_uploader',
             change: function (url) {
                 after_upld(url, 'tets', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
             }
         })
-       /* var uploader = new mw.files.uploader({
-            filetypes: "images",
-            name: 'basic-images-uploader'
-        });
-        $('#backend_image_uploader').append(uploader)*/
-
-
 
         selectItems = function (val) {
-
-            if (val == 'all') {
+            if (val === 'all') {
                 mw.$(".admin-thumb-item .mw-ui-check input").each(function () {
                     this.checked = true;
                 })
             }
-            else if (val == 'none') {
+            else if (val === 'none') {
                 mw.$(".admin-thumb-item .mw-ui-check input").each(function () {
                     this.checked = false;
                 })
             }
             doselect()
-
         }
 
 

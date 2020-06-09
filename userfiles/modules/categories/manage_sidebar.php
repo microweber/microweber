@@ -111,7 +111,7 @@
 
 
 
-        <div class="mw-ui-category-selector mw-ui-manage-list m-0" id="mw-ui-category-selector-manage" style="visibility: visible;display: block">
+        <div class="mw-ui-category-selector mw-ui-manage-list m-0" id="mw-ui-category-selector-manage">
             <?php
             $field_name = "categories";
             $selected = 0;
