@@ -28,13 +28,14 @@
 .mw-backup-v2-import-option h3 {
     font-weight: bold;
     font-size: 18px;
+    margin-top:20px;
 }
 .mw-backup-v2-import-option p {
     font-size: 13px;
 }
 .mw-backup-v2-import-option > .option-radio {
     width: 50px;
-    height: 85px;
+    height: 55px;
     float: left;
     padding-top: 25px;
     padding-left: 10px;
