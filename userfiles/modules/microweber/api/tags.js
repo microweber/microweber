@@ -152,7 +152,7 @@ mw.tags = mw.chips = function(options){
 
             $.extend(config, options);
 
-         config.tagBtnClass +=  ' btn';
+         config.tagBtnClass +=  ' mb-2 mr-2 btn';
 
          if (this.options.outline){
              config.tagBtnClass +=  '-outline';
@@ -169,7 +169,7 @@ mw.tags = mw.chips = function(options){
          }
 
 
-            var tag_holder = mwd.createElement('span');
+            var tag_holder = mwd.createElement('button');
             var tag_close = mwd.createElement('span');
 
             tag_close._index = config.index;
@@ -214,7 +214,7 @@ mw.tags = mw.chips = function(options){
                 }
             };
 
-            tag_close.className = 'mw-icon-close';
+            tag_close.className = 'mw-icon-close ml-1';
             if(config.close){
                 tag_close.onclick = function () {
                     scope.removeTag(this._index);

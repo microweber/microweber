@@ -8,6 +8,7 @@ $params_module = $params;
     mw.require('forms.js', true);
     mw.require('content.js', true);
 </script>
+
 <script type="text/javascript">
     publish_selected_posts = function () {
         mw.tools.confirm('<?php _e('Are you sure you want to publish this content?'); ?>', function () {

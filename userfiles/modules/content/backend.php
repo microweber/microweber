@@ -592,8 +592,13 @@ if ($action == 'posts') {
 
 ?>
 
+
+
+
+
 <div id="edit-content-row">
     <?php if ($action != 'categories'): ?>
+
         <script>
             $(document).ready(function () {
                 $('body > #mw-admin-container > .main').addClass('show-sidebar-tree');
@@ -610,7 +615,7 @@ if ($action == 'posts') {
 
                         <div class="form-group">
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input js-open-close-all-tree-elements" id="open-close-all-tree-elements" value="1" />
+                                <input type="checkbox" class="custom-control-input js-open-close-all-tree-elements" id="open-close-all-tree-elements" value="1"/>
                                 <label class="custom-control-label" for="open-close-all-tree-elements"><?php _e("Open"); ?> / <?php _e("Close"); ?></label>
                             </div>
                         </div>
