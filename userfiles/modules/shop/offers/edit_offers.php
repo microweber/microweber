@@ -12,7 +12,7 @@ $allOffers = offers_get_all();
             <th>Offer Price</th>
             <th>Expires</th>
             <th>Status</th>
-            <th style="width:150px;">Action</th>
+            <th style="width:200px;">Action</th>
         </tr>
         </thead>
         <?php
@@ -39,6 +39,11 @@ $allOffers = offers_get_all();
                                 class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline" title="Delete">
                             Delete
                         </button>
+
+                        <a href="<?php echo content_link($offer['product_id']) ?>)" target="_new"
+                                class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline" title="View">
+                            View
+                        </a>
                     </td>
                 </tr>
                 <?php

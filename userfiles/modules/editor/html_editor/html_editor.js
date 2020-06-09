@@ -371,10 +371,12 @@ mw.html_editor.reset_content = function (also_reset_modules) {
             childs_arr[i] = some_child;
         });
 
+        var childs_arr_data = {'reset':childs_arr};
+
 
         //if (childs_arr.length) {
 
-        $.post(mw.settings.api_url + "content/reset_edit", childs_arr);
+        $.post(mw.settings.api_url + "content/reset_edit", childs_arr_data);
 
         //}
 

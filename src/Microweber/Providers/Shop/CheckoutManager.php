@@ -478,6 +478,9 @@ class CheckoutManager
                     $mw_ipn_url .= '&_vkey_url=' . urlencode($encrypter->encrypt(json_encode($vkey_data_temp)));
 
 
+                    //var_dump($mw_ipn_url);
+
+
                     if (is_file($gw_process)) {
                         require_once $gw_process;
                     } else {
@@ -804,6 +807,9 @@ class CheckoutManager
 
     public function checkout_ipn($data)
     {
+
+
+
         if (isset($data['payment_verify_token'])) {
             $payment_verify_token = ($data['payment_verify_token']);
         }
@@ -821,11 +827,11 @@ class CheckoutManager
 
         $query = array();
         $query['payment_verify_token'] = $payment_verify_token;
-        if (isset($data['order_id'])) {
-            $query['id'] = intval($data['order_id']);
-        } else {
-            $query['transaction_id'] = '[null]';
-        }
+//        if (isset($data['order_id'])) {
+//            $query['id'] = intval($data['order_id']);
+//        } else {
+//            $query['transaction_id'] = '[null]';
+//        }
         $query['limit'] = 1;
         $query['table'] = $table;
         $query['no_cache'] = true;
@@ -837,6 +843,10 @@ class CheckoutManager
             $ord_data = $ord_data[0];
             $ord = $ord_data['id'];
         }
+
+
+
+
 
         $cart_table = $this->tables['cart'];
         $table_orders = $this->tables['cart_orders'];
@@ -850,10 +860,13 @@ class CheckoutManager
             $gw_process = normalize_path(modules_path() . $data['payment_gw'] . DS . 'notify.php', false);
         }
 
+
         $update_order = array();
         if (is_file($gw_process)) {
             include $gw_process;
+
             $this->_verify_request_params($update_order);
+
 
         } else {
             return array('error' => 'The payment gateway is not found!');
@@ -871,6 +884,7 @@ class CheckoutManager
             $update_order_event_data['payment_gw'] = $data['payment_gw'];
             $ord = $this->app->database_manager->save($table_orders, $update_order_event_data);
 
+  
 
             if (isset($update_order_event_data['is_paid']) and $update_order_event_data['is_paid']) {
                 $this->app->event_manager->trigger('mw.cart.checkout.order_paid', $update_order_event_data);
@@ -969,6 +983,7 @@ class CheckoutManager
 
     private function _verify_request_params($data)
     {
+
 
         $error = false;
 

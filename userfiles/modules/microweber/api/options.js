@@ -245,9 +245,15 @@ mw.options = {
                             var mod_element = window.parent.document.getElementById(which_module_to_reload);
                             if (mod_element) {
                                 // var module_parent_edit_field = window.parent.mw.tools.firstParentWithClass(mod_element, 'edit')
-                                var module_parent_edit_field = window.parent.mw.tools.firstMatchesOnNodeOrParent(mod_element, ['.edit[rel=inherit]'])
+                               // var module_parent_edit_field = window.parent.mw.tools.firstMatchesOnNodeOrParent(mod_element, ['.edit[rel=inherit]'])
+                                var module_parent_edit_field = window.parent.mw.tools.firstMatchesOnNodeOrParent(mod_element, ['.edit:not([itemprop])']);
+                                if (!module_parent_edit_field) {
+                                   module_parent_edit_field = window.parent.mw.tools.firstMatchesOnNodeOrParent(mod_element, ['.edit[rel=inherit]']);
+                                }
+
                                 if (module_parent_edit_field) {
-                                    window.parent.mw.tools.addClass(module_parent_edit_field, 'changed');
+                                   // window.parent.mw.tools.addClass(module_parent_edit_field, 'changed');
+                                    window.parent.mw.wysiwyg.change(module_parent_edit_field)
                                     window.parent.mw.askusertostay = true;
 
                                 }
