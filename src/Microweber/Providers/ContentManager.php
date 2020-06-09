@@ -2395,7 +2395,7 @@ class ContentManager
         return $this->helpers->save_content_field($data);
     }
 
-    public function edit_field($data, $debug = false)
+    public function edit_field($data)
     {
         return $this->crud->get_edit_field($data);
     }

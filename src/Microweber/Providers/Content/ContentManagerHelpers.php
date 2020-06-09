@@ -570,17 +570,17 @@ class ContentManagerHelpers extends ContentManagerCrud
         if (isset($ustr2) and trim($ustr2) == 'favicon.ico') {
             return false;
         }
-        $ref_page = $ref_page_url = false;
+        $ref_page_url = false;
         if (isset($_SERVER['HTTP_REFERER'])) {
-            $ref_page = $ref_page_url = $_SERVER['HTTP_REFERER'];
+            $ref_page_url = $_SERVER['HTTP_REFERER'];
         }
 
         if (isset($post_data['id']) and intval($post_data['id']) > 0) {
             $page_id = intval($post_data['id']);
-        } elseif ($ref_page != '') {
+        } elseif ($ref_page_url != '') {
             //removing hash from url
             if (strpos($ref_page_url, '#')) {
-                $ref_page = $ref_page_url = substr($ref_page_url, 0, strpos($ref_page_url, '#'));
+                $ref_page_url = substr($ref_page_url, 0, strpos($ref_page_url, '#'));
             }
 
             $slug_page = $this->app->permalink_manager->slug($ref_page_url, 'page');
@@ -642,10 +642,11 @@ class ContentManagerHelpers extends ContentManagerCrud
                 }
             }
 
-            if ($ref_page == false) {
+            if (!isset($ref_page) or $ref_page == false) {
                 $guess_page_data = new \Microweber\Controllers\DefaultController();
                 // $guess_page_data =  new  $this->app->controller($this->app);
                 $ref_page_url = strtok($ref_page_url, '?');
+
 
                 $guess_page_data->page_url = $ref_page_url;
                 $guess_page_data->return_data = true;
@@ -710,9 +711,24 @@ class ContentManagerHelpers extends ContentManagerCrud
                             }
                         }
                     }
+
                     if ($save_page != false) {
-                        $page_id = $this->app->content_manager->save_content_admin($save_page);
-                    }
+                        if(isset( $save_page['url']) and  $save_page['url']){
+                            $u = str_replace( $this->app->url_manager->site(),'',$save_page['url']);
+                            if($u){
+                                $try_to_find_page_with_url  = $this->app->content_manager->get_by_url($u);
+                                if($try_to_find_page_with_url and isset($try_to_find_page_with_url['id'])){
+                                    $save_page['id']  = $try_to_find_page_with_url['id'];
+                                }
+                            }
+                        }
+                        if(!isset($save_page['id'])){
+                            $page_id = $save_page['id'];
+                         } else {
+                            $page_id = $this->app->content_manager->save_content_admin($save_page);
+
+                        }
+                     }
                 }
             } else {
                 $page_id = $ref_page['id'];
@@ -869,7 +885,12 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                         if ($save_global == false and $save_layout == false) {
                             if ($content_id) {
-                                $for_histroy = $ref_page;
+
+                                $for_histroy = get_content_by_id($content_id);
+
+                                $for_histroy['custom_fields'] = $this->app->content_manager->custom_fields($content_id, false);
+
+
                                 $old = false;
                                 $field123 = str_ireplace('custom_field_', '', $field);
                                 if (stristr($field, 'custom_field_')) {

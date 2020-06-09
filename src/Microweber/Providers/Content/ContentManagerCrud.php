@@ -493,6 +493,7 @@ class ContentManagerCrud extends Crud
         }
         $url_changed = false;
 
+
         if (isset($data['url']) != false and is_string($data['url'])) {
             $search_weird_chars = array('%E2%80%99',
                 '%E2%80%99',
@@ -590,6 +591,15 @@ class ContentManagerCrud extends Crud
                     $data_to_save['url'] = $data['url'];
                 }
             }
+
+            if (isset($data_to_save['url']) and strval($data_to_save['url']) != '') {
+                $check_cat_wth_slug = $this->app->category_manager->get_by_url($data_to_save['url']);
+                if($check_cat_wth_slug){
+                    $data_to_save['url'] = $data_to_save['url'] . '-' . $date123;
+                }
+            }
+
+
 
             if (isset($data_to_save['url']) and strval($data_to_save['url']) == '' and (isset($data_to_save['quick_save']) == false)) {
                 $data_to_save['url'] = $data_to_save['url'] . '-' . $date123;
@@ -1216,7 +1226,7 @@ class ContentManagerCrud extends Crud
         return $params;
     }
 
-    public function get_edit_field($data, $debug = false)
+    public function get_edit_field($data)
     {
         $table = $this->tables['content_fields'];
         $table_drafts = $this->tables['content_fields_drafts'];

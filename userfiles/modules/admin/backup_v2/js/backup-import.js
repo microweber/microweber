@@ -59,7 +59,7 @@ mw.backup_import = {
 		'<span></span>'+
 		'</div>'+
 		'<h3>Delete all website content & import fresh backup</h3>'+
-		'<p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>'+
+		'<p></p>'+
 		'</label>'+
 
 
@@ -69,7 +69,7 @@ mw.backup_import = {
         '<span></span>'+
         '</div>'+
         '<h3>Overwrite the website content from backup</h3>'+
-        '<p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>'+
+        '<p></p>'+
         '</label>'+
 
 
@@ -79,7 +79,7 @@ mw.backup_import = {
         '<span></span>'+
         '</div>'+
         '<h3>Try to overwrite content by Names & Titles</h3>'+
-        '<p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>'+
+        '<p></p>'+
         '</label>'+
 
 		'</div>' +

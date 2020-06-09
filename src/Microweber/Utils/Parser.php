@@ -1338,7 +1338,6 @@ class Parser
 
                         if ($field != 'content' and $field != 'content_body' and $field != 'title') {
                             $data[$field] = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=" . $data_id);
-                            // d($data);
                         }
                     } elseif ($rel == 'global') {
                         $get_global = 1;
@@ -1361,6 +1360,7 @@ class Parser
                     }*/
                     $cf = false;
                     $field_content = false;
+                    $field_content_modified_date = false;
                     $orig_rel = $rel;
 
 
@@ -1429,6 +1429,7 @@ class Parser
                         }
 
 
+
                     }
                     if ($rel == 'global') {
                         $field_content = false;
@@ -1458,15 +1459,19 @@ class Parser
                     if ($use_id_as_field != false) {
                         if (isset($data[$use_id_as_field])) {
                             $edit_field_content = $data[$use_id_as_field];
+
                         }
                     }
                     if (!$edit_field_content) {
                         if (isset($cont_field['value'])) {
                             $edit_field_content = $cont_field['value'];
-
                         }
                     }
 
+
+                    if(isset($data['updated_at'])){
+                        $field_content_modified_date  = $data['updated_at'];
+                     }
 
                     $this->_current_parser_rel = $rel;
 
@@ -1484,6 +1489,7 @@ class Parser
 
                     if ($edit_field_content) {
                         $field_content = $edit_field_content;
+
                     }
                     if ($field_content != false and $field_content != '' and is_string($field_content)) {
 
@@ -1527,6 +1533,15 @@ class Parser
                                     }
                                 } else {
                                     pq($elem_clone)->html($field_content);
+                                }
+
+                                if($field_content_modified_date){
+                                    pq($elem_clone)->attr('itemprop','dateModified');
+                                    pq($elem_clone)->attr('content',date("Y M d",strtotime($field_content_modified_date)));
+
+                                    pq($elem_clone)->attr('itemscope','');
+                                    pq($elem_clone)->attr('itemtype','http://schema.org/CreativeWork');
+
                                 }
                                 pq($elem)->replaceWith($elem_clone);
 
