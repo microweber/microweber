@@ -954,7 +954,15 @@ mw.drag = {
             type: 'POST',
             url: mw.settings.api_url + 'save_edit',
             data: data,
-            dataType: "json"
+            dataType: "json",
+            success: function (saved_data) {
+                if(saved_data && saved_data.new_page_url && !mw.drag.DraftSaving){
+                    window.parent.mw.askusertostay = false;
+                    window.mw.askusertostay = false;
+                    window.location.href  = saved_data.new_page_url;
+
+                }
+            }
         });
 
         xhr.always(function() {

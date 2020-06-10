@@ -36,13 +36,13 @@ mw.autoComplete = function(options){
 
     this.createWrapper = function(){
         this.wrapper = document.createElement('div');
-        this.wrapper.className = 'mw-ui-field mw-autocomplete mw-autocomplete-multiple-' + this.options.multiple;
+        this.wrapper.className = 'form-control mw-autocomplete mw-autocomplete-multiple-' + this.options.multiple;
         return this.wrapper;
     };
 
     this.createField = function(){
         this.inputField = document.createElement('input');
-        this.inputField.className = 'mw-ui-invisible-field mw-autocomplete-field mw-ui-field-' + this.options.size;
+        this.inputField.className = 'mw-ui-invisible-field mw-autocomplete-field py-1 form-control-' + this.options.size;
         if(this.options.placeholder){
             this.inputField.placeholder = this.options.placeholder;
         }

@@ -313,10 +313,6 @@ if (isset($params['quick_edit'])) {
                 </div>
 
                 <div class="admin-manage-content-wrap">
-                    <div class="mw-admin-edit-content-holder">
-                        <?php include(__DIR__ . '/tabs.php'); ?>
-                    </div>
-
                     <?php if (isset($data['content_type']) and ($data['content_type'] == 'page')): ?>
                         <?php if (isset($data['id']) and ($data['id'] == 0)): ?>
                             <module type="content/views/layout_selector" id="mw-quick-add-choose-layout-middle-pos" autoload="yes" template-selector-position="top" live-edit-btn-overlay="true" content-id="<?php print $data['id']; ?>" edit_page_id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>"/>
@@ -337,6 +333,10 @@ if (isset($params['quick_edit'])) {
                             mw.$("#quick-add-post-options-item-template-btn").hide();
                         </script>
                     <?php endif; ?>
+
+                    <div class="mw-admin-edit-content-holder">
+                        <?php include(__DIR__ . '/tabs.php'); ?>
+                    </div>
 
                     <?php event_trigger('mw_admin_edit_page_footer', $data); ?>
 

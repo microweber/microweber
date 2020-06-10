@@ -35,7 +35,6 @@
         </div>
     </div>
 
-
     <div class="card style-1 mb-3 categories">
         <div class="card-body pt-3">
             <div class="row">
@@ -43,7 +42,7 @@
                     <div class="col-12">
                         <strong><?php _e("Select parent page"); ?></strong>
 
-                        <div class="quick-parent-selector">
+                        <div class="quick-parent-selector mt-2">
                             <module type="content/views/selector" no-parent-title="<?php _e('No parent page'); ?>" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>" remove_ids="<?php print $data['id']; ?>" recommended-id="<?php print $recommended_parent; ?>"/>
                         </div>
                     </div>
@@ -91,9 +90,9 @@
                 </div>
             </div>
 
-            <hr class="thin no-padding"/>
-
             <?php if ($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
+                <hr class="thin no-padding"/>
+
                 <div class="row mb-3">
                     <div class="col-12">
                         <small class="text-muted">Want to add the product in more categories?</small>
@@ -104,8 +103,6 @@
                         <div id="show-categories-tree" class="collapse">
                             <div class="mw-admin-edit-page-primary-settings content-category-selector">
                                 <div class="mw-ui-field-holder">
-
-
                                     <div class="mw-ui-category-selector mw-ui-category-selector-abs mw-tree mw-tree-selector" id="mw-category-selector-<?php print $rand; ?>">
                                         <?php if ($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
                                             <script>
@@ -174,14 +171,7 @@
 
                                             <div id="quick-parent-selector-tree"></div>
 
-                                        <?php include(__DIR__ . '/edit_default_scripts_two.php'); ?>
-
-
-                                            <div id="parent-category-selector-block">
-                                                <h3><?php _e("Select parent"); ?></h3>
-
-                                                <div id="parent-category-selector-holder"></div>
-                                            </div>
+                                            <?php include(__DIR__ . '/edit_default_scripts_two.php'); ?>
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -193,28 +183,22 @@
         </div>
     </div>
 
-    <div class="card style-1 mb-3">
-        <div class="card-body pt-3">
-            <div class="row mb-3">
-                <div class="col-12">
-                    <strong><?php _e("Tags"); ?></strong>
-                    <small data-toggle="tooltip" title="<?php _e('Tags/Labels for this content. Use comma (,) to add multiple tags'); ?>">(?)</small>
+    <?php if (isset($data['content_type']) and ($data['content_type'] != 'page')): ?>
+        <div class="card style-1 mb-3">
+            <div class="card-body pt-3">
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <strong><?php _e("Tags"); ?></strong>
+                        <small data-toggle="tooltip" title="<?php _e('Tags/Labels for this content. Use comma (,) to add multiple tags'); ?>">(?)</small>
+                    </div>
                 </div>
+
+                <?php if (isset($params['content_type']) AND $params['content_type'] == 'page'): ?>
+                    <module type="content/views/content_tags" content-type="<?php print $params['content_type'] ?>" content-id="<?php print $params['page-id'] ?>"/>
+                <?php endif; ?>
             </div>
-
-
-            <?php if (isset($params['content_type']) AND $params['content_type'] == 'page'): ?>
-                <module type="content/views/content_tags" content-type="<?php print $params['content_type'] ?>" content-id="<?php print $params['page-id'] ?>"/>
-            <?php endif; ?>
-
-
-            <!--      <div class="btn-group tag tag-xs mb-2 mr-1">
-                      <span class="btn btn-primary btn-sm icon-left no-hover"><i class="mdi mdi-tag"></i> topsellproduct</span>
-                      <button type="button" class="btn btn-primary btn-sm btn-icon"><i class="mdi mdi-close"></i></button>
-                  </div>-->
-
         </div>
-    </div>
+    <?php endif; ?>
 
     <div class="card style-1 mb-3">
         <div class="card-body">
