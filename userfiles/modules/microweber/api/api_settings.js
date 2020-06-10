@@ -103,8 +103,6 @@
             function () {
                 mw.require(mw.settings.libs_url + 'mw-ui' + '/grunt/plugins/ui/js/ui.js');
             }
-
-
         ],
         flag_icons: [
             function () {
@@ -190,8 +188,8 @@
                 mw.require(mw.settings.libs_url + 'typeahead' + '/typeahead.jquery.js');
                 mw.require(mw.settings.libs_url + 'typeahead' + '/typeahead.bundle.min.js');
                 mw.require(mw.settings.libs_url + 'typeahead' + '/bloodhound.js');
-                mw.require(mw.settings.libs_url + 'bootstrap_tags' + '/bootstrap-tagsinput.css');
-                mw.require(mw.settings.libs_url + 'bootstrap_tags' + '/bootstrap-tagsinput.js');
+                mw.require(mw.settings.libs_url + 'mw-ui/grunt/plugins/tags' + '/bootstrap-tagsinput.css');
+                mw.require(mw.settings.libs_url + 'mw-ui/grunt/plugins/tags' + '/bootstrap-tagsinput.js');
                 //} else {
                 //mw.log("You must load bootstrap to use bootstrap_tags");
                 //}

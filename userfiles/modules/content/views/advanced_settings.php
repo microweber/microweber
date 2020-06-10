@@ -235,10 +235,6 @@ if (isset($data['created_by']) and $data['created_by']) {
                     </div>
                 <?php endif; ?>
 
-                <?php if ($show_page_settings == false and isset($params['content-type'] )): ?>
-                    <module type="content/views/content_tags" content-type="<?php print $params['content-type'] ?>" content-id="<?php print $params['content-id'] ?>"/>
-                <?php endif; ?>
-
                 <div class="mw-clear" style="height: 12px;"></div>
                 <?php if ($show_page_settings != false): ?>
                     <div class="mw-ui-check-selector">

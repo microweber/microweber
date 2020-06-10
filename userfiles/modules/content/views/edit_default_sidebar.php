@@ -16,15 +16,15 @@
             </div>
 
             <div class="row my-3">
-                <div class="col-12">
+                <div class="col-12"><input type="hidden" name="is_active" id="is_post_active" value="<?php print $data['is_active']; ?>"/>
                     <div class="form-group">
                         <div class="custom-control custom-radio">
-                            <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" checked="">
-                            <label class="custom-control-label" for="customRadio1">Visible</label>
+                            <input type="radio" id="is_active_1" name="is_active" class="custom-control-input" value="1" <?php if ($data['is_active']): ?>checked<?php endif; ?>>
+                            <label class="custom-control-label" for="is_active_1">Visible</label>
                         </div>
                         <div class="custom-control custom-radio">
-                            <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
-                            <label class="custom-control-label" for="customRadio2">Hidden</label>
+                            <input type="radio" id="is_active_0" name="is_active" class="custom-control-input" value="0" <?php if (!$data['is_active']): ?>checked<?php endif; ?>>
+                            <label class="custom-control-label" for="is_active_0">Hidden</label>
                         </div>
                     </div>
                 </div>
@@ -197,85 +197,37 @@
         <div class="card-body pt-3">
             <div class="row mb-3">
                 <div class="col-12">
-                    <strong>Tags</strong>
+                    <strong><?php _e("Tags"); ?></strong>
+                    <small data-toggle="tooltip" title="<?php _e('Tags/Labels for this content. Use comma (,) to add multiple tags'); ?>">(?)</small>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="form-group">
-                        <input class="form-control form-control-sm" type="text" placeholder="healthy, beauty, travel"/>
-                    </div>
 
-                    <div class="btn-group tag tag-xs mb-2 mr-1">
-                        <span class="btn btn-primary btn-sm icon-left no-hover"><i class="mdi mdi-tag"></i> car</span>
-                        <button type="button" class="btn btn-primary btn-sm btn-icon"><i class="mdi mdi-close"></i></button>
-                    </div>
 
-                    <div class="btn-group tag tag-xs mb-2 mr-1">
-                        <span class="btn btn-primary btn-sm icon-left no-hover"><i class="mdi mdi-tag"></i> someother</span>
-                        <button type="button" class="btn btn-primary btn-sm btn-icon"><i class="mdi mdi-close"></i></button>
-                    </div>
+            <?php if (isset($params['content_type']) AND $params['content_type'] == 'page'): ?>
+                <module type="content/views/content_tags" content-type="<?php print $params['content_type'] ?>" content-id="<?php print $params['page-id'] ?>"/>
+            <?php endif; ?>
 
-                    <div class="btn-group tag tag-xs mb-2 mr-1">
-                        <span class="btn btn-primary btn-sm icon-left no-hover"><i class="mdi mdi-tag"></i> topsellproduct</span>
-                        <button type="button" class="btn btn-primary btn-sm btn-icon"><i class="mdi mdi-close"></i></button>
-                    </div>
-                </div>
-            </div>
+
+            <!--      <div class="btn-group tag tag-xs mb-2 mr-1">
+                      <span class="btn btn-primary btn-sm icon-left no-hover"><i class="mdi mdi-tag"></i> topsellproduct</span>
+                      <button type="button" class="btn btn-primary btn-sm btn-icon"><i class="mdi mdi-close"></i></button>
+                  </div>-->
+
         </div>
     </div>
 
     <div class="card style-1 mb-3">
-        <div class="right-side">
+        <div class="card-body">
             <div id="content-title-field-buttons">
-                <ul>
-                    <?php if ($data['is_active'] == 0) { ?>
-                        <li>
-                            <button
-                                    onclick="mw.admin.postStates.toggle()"
-                                    data-val="0"
-                                    class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-warn mw-ui-btn-outline btn-posts-state tip"
-                                    data-tip="<?php _e("Unpublished"); ?>"
-                                    data-tipposition="left-center">
-                                <i class="mw-icon-unpublish"></i>&nbsp; <?php _e("Unpublish"); ?></button>
-                        </li>
-                    <?php } else { ?>
-                        <li>
-                            <button
-                                    onclick="mw.admin.postStates.toggle()"
-                                    data-val="1"
-                                    class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-ui-btn-outline btn-posts-state tip"
-                                    data-tip="<?php _e("Published"); ?>"
-                                    data-tipposition="left-center"><i class="mw-icon-check"></i>&nbsp; <?php _e("Published"); ?></button>
-                        </li>
-                    <?php } ?>
-                    <?php if ($is_live_edit == false) : ?>
-                        <li>
-                            <button type="submit" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-live-edit-top-bar-button" onclick="mw.edit_content.handle_form_submit(true);" form="quickform-edit-content">
-                                <i class="mai-eye2"></i> <span><?php _e("Live Edit"); ?></span></button>
-                        </li>
-                        <li>
-                            <button type="submit" class="mw-ui-btn mw-ui-btn-notification btn-save js-bottom-save" form="quickform-edit-content"><i class="fa fa-save"></i> <span>&nbsp; <?php print _e('Save'); ?></span></button>
-                        </li>
+                <?php if ($is_live_edit == false) : ?>
+                    <button type="submit" class="btn btn-primary mw-live-edit-top-bar-button" onclick="mw.edit_content.handle_form_submit(true);" form="quickform-edit-content"><i class="mai-eye2"></i> <span><?php _e("Live Edit"); ?></span></button>
+                <?php else: ?>
+                    <?php if ($data['id'] == 0): ?>
+                        <button type="submit" class="btn btn-primary mw-live-edit-top-bar-button" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Live Edit"); ?>" form="quickform-edit-content"><i class="mai-eye2"></i> <span><?php _e("Live Edit"); ?></span></button>
                     <?php else: ?>
-                        <?php if ($data['id'] == 0): ?>
-                            <li>
-                                <button type="submit" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-ui-btn-outline mw-live-edit-top-bar-button tip" data-tip="<?php _e("Live Edit"); ?>" data-tipposition="bottom-center" onclick="mw.edit_content.handle_form_submit(true);"
-                                        data-text="<?php _e("Live Edit"); ?>" form="quickform-edit-content">
-                                    <i class="mai-eye2"></i> <span><?php _e("Live Edit"); ?></span></button>
-                            </li>
-                        <?php else: ?>
-                            <li>
-                                <button type="button" class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-ui-btn-outline mw-live-edit-top-bar-button tip" data-tip="<?php _e("Live Edit"); ?>" data-tipposition="bottom-center" onclick="mw.edit_content.handle_form_submit(true);"
-                                        data-text="<?php _e("Live Edit"); ?>"><i class="mai-eye2"></i> <span><?php _e("Live Edit"); ?></span></button>
-                            </li>
-                        <?php endif; ?>
-                        <li>
-                            <button type="submit" class="mw-ui-btn mw-ui-btn-notification btn-save js-bottom-save tip" data-tip="<?php _e("Save"); ?>" data-tipposition="bottom-center" form="quickform-edit-content"><i class="fa fa-save"></i> <span>&nbsp; <?php print _e('Save'); ?></span>
-                            </button>
-                        </li>
+                        <button type="button" class="btn btn-primary mw-live-edit-top-bar-button" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Live Edit"); ?>"><i class="mai-eye2"></i> <span><?php _e("Live Edit"); ?></span></button>
                     <?php endif; ?>
-                </ul>
+                <?php endif; ?>
             </div>
         </div>
     </div>

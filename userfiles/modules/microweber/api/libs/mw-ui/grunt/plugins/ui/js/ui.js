@@ -130,6 +130,8 @@ $(document).ready(function () {
     $('.js-product-has-variants').on('change', function () {
         theProductHasVariants($(this));
     });
+
+    $("input[data-role=tagsinput], select[multiple][data-role=tagsinput]").tagsinput();
 });
 
 function theProductHasVariants(field) {
