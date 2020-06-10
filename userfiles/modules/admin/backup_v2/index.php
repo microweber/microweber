@@ -149,7 +149,7 @@
                                 <div class="mw-accordion-content mw-ui-box mw-ui-box-content" style="width:100%;height: 200px;overflow-y: scroll;">
                                     <ul class="mw-ui-inline-list">
                                         <?php
-                                        $modules = get_modules();
+                                        $modules = get_modules('order_by=module asc');
                                         foreach($modules as $module):
                                             ?>
                                             <li style="width: 100%;">

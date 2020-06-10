@@ -53,12 +53,12 @@ mw.blockEdit = function (options) {
     this._editByElementTemp = null;
 
     this.unEditByElement = function(){
-      if(this._editByElement){
-          $(this._editByElementTemp).replaceWith(this._editByElement);
-          $(this._editByElement).hide()
-      }
-      this._editByElement = null;
-      this._editByElementTemp = null;
+        if(this._editByElement){
+            $(this._editByElementTemp).replaceWith(this._editByElement);
+            $(this._editByElement).hide()
+        }
+        this._editByElement = null;
+        this._editByElementTemp = null;
     };
 
     this.editByElement = function(el){
