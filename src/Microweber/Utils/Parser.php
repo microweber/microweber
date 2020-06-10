@@ -1535,12 +1535,11 @@ class Parser
                                     pq($elem_clone)->html($field_content);
                                 }
 
-                                if($field_content_modified_date){
+                                if($field_content_modified_date and $this->app->user_manager->is_admin()){
                                     pq($elem_clone)->attr('itemprop','dateModified');
                                     pq($elem_clone)->attr('content',date("Y M d",strtotime($field_content_modified_date)));
-
-                                    pq($elem_clone)->attr('itemscope','');
-                                    pq($elem_clone)->attr('itemtype','http://schema.org/CreativeWork');
+                                  //  pq($elem_clone)->attr('itemscope','');
+                                  //  pq($elem_clone)->attr('itemtype','http://schema.org/CreativeWork');
 
                                 }
                                 pq($elem)->replaceWith($elem_clone);
