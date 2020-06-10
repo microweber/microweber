@@ -353,6 +353,21 @@
                 check ? mw.$(arguments[i]).addClass('hovered') : mw.$(arguments[i]).removeClass('hovered');
             }
         },
+        listSearch: function (val, list) {
+            val = val.trim().toLowerCase();
+            if(!val) {
+                $('li', list).show();
+                return;
+            }
+            this.search(val, 'li', function (found) {
+                if(found) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+
+            }, list);
+        },
         search: function (string, selector, callback) {
             string = string.toLowerCase();
             var items;
