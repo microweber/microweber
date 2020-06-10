@@ -535,6 +535,14 @@ class ContentManagerHelpers extends ContentManagerCrud
             set_time_limit(60);
         }
 
+        $save_as_draft = false;
+        if (isset($post_data['save_draft'])) {
+            $save_as_draft = true;
+            unset($post_data['save_draft']);
+        }
+
+        $json_print = array();
+
 
         $is_admin = $this->app->user_manager->is_admin();
         if ($post_data) {
@@ -713,24 +721,35 @@ class ContentManagerHelpers extends ContentManagerCrud
                     }
 
                     if ($save_page != false) {
-                        if(isset( $save_page['url']) and  $save_page['url']){
-                            $u = str_replace( $this->app->url_manager->site(),'',$save_page['url']);
-                            $u = $this->app->permalink_manager->slug($u,'page');
+                        if (isset($save_page['url']) and $save_page['url']) {
+                            $u = str_replace($this->app->url_manager->site(), '', $save_page['url']);
+                            $u = $this->app->permalink_manager->slug($u, 'content');
 
-                            if($u){
-                                $try_to_find_page_with_url  = $this->app->content_manager->get_by_url($u);
-                                if($try_to_find_page_with_url and isset($try_to_find_page_with_url['id'])){
-                                    $save_page['id']  = $try_to_find_page_with_url['id'];
+                            if (!$u) {
+                                $u = str_replace($this->app->url_manager->site(), '', $save_page['url']);
+                            }
+
+                            if ($u) {
+                                $try_to_find_page_with_url = $this->app->content_manager->get_by_url($u);
+
+                                if ($try_to_find_page_with_url and isset($try_to_find_page_with_url['id'])) {
+                                    $save_page['id'] = $try_to_find_page_with_url['id'];
                                 }
                             }
                         }
-                        if(!isset($save_page['id'])){
+                        if (!isset($save_page['id'])) {
                             $page_id = $save_page['id'];
-                         } else {
-                             $page_id = $this->app->content_manager->save_content_admin($save_page);
+                        } else {
+                            if (!$save_as_draft) {
+                                $page_id = $this->app->content_manager->save_content_admin($save_page);
+                                $new_content_link = content_link($page_id);
+                                if ($ref_page_url != $new_content_link) {
+                                    $json_print['new_page_url'] = content_link($page_id);
+                                }
+                            }
 
                         }
-                     }
+                    }
                 }
             } else {
                 $page_id = $ref_page['id'];
@@ -748,14 +767,9 @@ class ContentManagerHelpers extends ContentManagerCrud
             return array('error' => 'Not logged in as admin to use ' . __FUNCTION__);
         }
 
-        $save_as_draft = false;
-        if (isset($post_data['save_draft'])) {
-            $save_as_draft = true;
-            unset($post_data['save_draft']);
-        }
 
 
-        $json_print = array();
+
         foreach ($the_field_data_all as $the_field_data) {
             $save_global = false;
             $save_layout = false;

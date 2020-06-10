@@ -104,6 +104,16 @@ class PermalinkManager
                         }
                     }
 
+
+                    if ($type == 'content') {
+                        $findPostsBySlug = get_content('url=' . $findSlugByType . '&single=1');
+
+                        if ($findPostsBySlug) {
+                            return $findPostsBySlug['url'];
+                        }
+                    }
+
+
                     /*
                         * Here it must not return anything if not found slug in database.
                         * Case we brake many cases.
