@@ -368,14 +368,18 @@
 
             }, list);
         },
-        search: function (string, selector, callback) {
+        search: function (string, selector, callback, root) {
+            root = !!root ? $(root)[0] : mwd;
+            if (!root) {
+                return;
+            }
             string = string.toLowerCase();
             var items;
             if (typeof selector === 'object') {
                 items = selector;
             }
             else if (typeof selector === 'string') {
-                items = mwd.querySelectorAll(selector);
+                items = root.querySelectorAll(selector);
             }
             else {
                 return false;
