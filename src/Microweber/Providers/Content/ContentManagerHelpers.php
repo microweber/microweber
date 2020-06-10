@@ -715,6 +715,8 @@ class ContentManagerHelpers extends ContentManagerCrud
                     if ($save_page != false) {
                         if(isset( $save_page['url']) and  $save_page['url']){
                             $u = str_replace( $this->app->url_manager->site(),'',$save_page['url']);
+                            $u = $this->app->permalink_manager->slug($u,'page');
+
                             if($u){
                                 $try_to_find_page_with_url  = $this->app->content_manager->get_by_url($u);
                                 if($try_to_find_page_with_url and isset($try_to_find_page_with_url['id'])){
@@ -725,7 +727,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                         if(!isset($save_page['id'])){
                             $page_id = $save_page['id'];
                          } else {
-                            $page_id = $this->app->content_manager->save_content_admin($save_page);
+                             $page_id = $this->app->content_manager->save_content_admin($save_page);
 
                         }
                      }

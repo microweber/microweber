@@ -246,7 +246,7 @@ mw.options = {
                             if (mod_element) {
                                 // var module_parent_edit_field = window.parent.mw.tools.firstParentWithClass(mod_element, 'edit')
                                // var module_parent_edit_field = window.parent.mw.tools.firstMatchesOnNodeOrParent(mod_element, ['.edit[rel=inherit]'])
-                                var module_parent_edit_field = window.parent.mw.tools.firstMatchesOnNodeOrParent(mod_element, ['.edit:not([itemprop])']);
+                                var module_parent_edit_field = window.parent.mw.tools.firstMatchesOnNodeOrParent(mod_element, ['.edit:not([itemprop=dateModified])']);
                                 if (!module_parent_edit_field) {
                                    module_parent_edit_field = window.parent.mw.tools.firstMatchesOnNodeOrParent(mod_element, ['.edit[rel=inherit]']);
                                 }
