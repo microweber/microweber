@@ -38,11 +38,13 @@ abstract class BackupDefaultLogger
 	
 	public static function addNew($fileName, $line, $max = 15) {
 
-	    $countLines = @file_get_contents($fileName);
-	    $countLines = substr_count($countLines, "\n" );;
+	    if (is_file($fileName)) {
+            $countLines = file_get_contents($fileName);
+            $countLines = substr_count($countLines, "\n");;
 
-	    if ($countLines > $max) {
-	        file_put_contents($fileName, '');
+            if ($countLines > $max) {
+                file_put_contents($fileName, '');
+            }
         }
 
 		file_put_contents($fileName, $line."\n", FILE_APPEND);
