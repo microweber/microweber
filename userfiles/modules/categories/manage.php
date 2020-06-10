@@ -1,22 +1,25 @@
-<div class="section-header">
-    <h2 class="pull-left"><span class="mw-icon-category"></span> <?php _e("Categories"); ?></h2>
-</div>
 
 <div class="mw-module-category-manager admin-side-content">
-    <div class="mw-ui-box mw-ui-settings-box mw-ui-box-content">
+    <div class="card style-1 mb-3">
 
-        <div class="mw-ui-row m-b-20">
-            <div class="mw-ui-col text-left" style="width: 445px;">
-                <a href="#" onclick="mw.quick_cat_edit_create(0);" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-info"><i class="mw-icon-plus"></i>&nbsp; <?php _e("New category"); ?></a>
+        <div class="card-header">
+            <h5><i class="mdi mdi-folder text-primary mr-3"></i> <strong><?php _e("Categories"); ?></strong></h5>
+            <div>
+
+                <div class="input-group mb-0 prepend-transparent">
+                    <div class="input-group-prepend">
+                        <span onclick="mw.quick_cat_edit_create(0);" class="btn btn-outline-primary btn-sm btn-sm-only-icon"><i class="mw-icon-plus"></i>&nbsp; <?php _e("New category"); ?></span>
+                        <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span>
+                    </div>
+                    <input type="text" class="form-control form-control-sm" aria-label="Search" placeholder="<?php _e('Search') ?>" oninput="categorySearch(this)">
+                </div>
             </div>
         </div>
 
-        <div>
-            <div class="mw-searchbox">
-                <div class="mw-sb-item">
-                    <div class="mw-sb-item-input"><input type="text" class="mw-ui-field" placeholder="<?php _e("Search"); ?>" oninput="categorySearch(this)"/></div>
-                </div>
-            </div>
+
+
+        <div class="card-body pt-3">
+
 
 
             <div class="mw-ui-category-selector mw-ui-manage-list m-0" id="mw-ui-category-selector-manage">
@@ -37,7 +40,8 @@
                 category_tree($tree);
                 ?>
             </div>
-            <script type="text/javascript">
+            <script>
+                mw.require('block-edit.js');
 
                 categorySearch = function (el) {
                     var val = el.value.trim().toLowerCase();
@@ -65,33 +69,37 @@
                     });
                 }
                 mw.quick_cat_edit = function (id) {
-
                     if (!!id) {
                         var modalTitle = '<?php _e('Edit category'); ?>';
                     } else {
                         var modalTitle = '<?php _e('Add category'); ?>';
                     }
 
-                    mw_admin_edit_category_item_module_opened = mw.modal({
+                    /*mw_admin_edit_category_item_module_opened = mw.modal({
                         content: '<div id="mw_admin_edit_category_item_module"></div>',
                         title: modalTitle,
                         id: 'mw_admin_edit_category_item_popup_modal'
-                    });
+                    });*/
+
 
                     var params = {}
                     params['data-category-id'] = id;
                     params['no-toolbar'] = true;
-                    mw.load_module('categories/edit_category', '#mw_admin_edit_category_item_module', null, params);
+                    /*mw.load_module('categories/edit_category', '#mw_admin_edit_category_item_module', null, params);*/
+
+                    // mw.categoryEditor.moduleEdit('categories/edit_category', params)
+
+                    mw.url.windowHashParam('action', 'editcategory:' + id)
                 }
 
                 mw.quick_cat_edit_create = mw.quick_cat_edit_create || function (id) {
-                        return mw.quick_cat_edit(id);
-                        <?php if(isset($params['page-id']) and $params['page-id'] != false): ?>
-                        //mw.$("#mw_edit_category_admin_holder").attr("page-id", '<?php print $params['page-id'] ?>');
-
-                        <?php endif; ?>
-
-                    }
+                    return mw.quick_cat_edit(id);
+                }
+                $(document).ready(function () {
+                    mw.categoryEditor = new mw.blockEdit({
+                        element: '#edit-content-row'
+                    })
+                })
             </script>
 
             <script type="text/javascript">

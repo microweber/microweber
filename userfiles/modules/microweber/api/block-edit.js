@@ -72,12 +72,12 @@ mw.blockEdit = function (options) {
         this.editSlide.appendChild(el);
         $(el).show()
     };
-    this.moduleEdit = function(module){
+    this.moduleEdit = function(module, params){
         mw.tools.loading(this.holder, 90);
         mw.load_module(module, this.editSlide, function(){
             scope.edit();
             mw.tools.loading(scope.holder, false);
-        });
+        }, params);
     };
 
     this.build = function(){
