@@ -159,6 +159,7 @@ if (!empty($recomended_layouts)) {
     $layouts = array_merge($recomended_layouts, $layouts);
 }
 ?>
+
 <script>
     safe_chars_to_str = function (str) {
         if (str === undefined) {
@@ -262,21 +263,21 @@ if (!empty($recomended_layouts)) {
                 if (is_shop != undefined) {
                     if (is_shop != undefined && is_shop == 'y') {
                         //if (form != undefined && form.querySelector('input[name="is_shop"][value="1"]') != null) {
-                        if (form != undefined && form.querySelector('input[name="is_shop"]') != null) {
+                        if (form != undefined && form.querySelector('input[name="is_shop"]:not(.custom-control-input)') != null) {
                             //   form.querySelector('input[name="is_shop"][value="1"]').checked = true;
 
 
-                            form.querySelector('input[name="is_shop"]').checked = true;
+                            form.querySelector('input[name="is_shop"]:not(.custom-control-input)').checked = true;
                         }
                     }
                     else {
-                        if (form != undefined && form.querySelector('input[name="is_shop"]') != null) {
-                            form.querySelector('input[name="is_shop"]').checked = false;
+                        if (form != undefined && form.querySelector('input[name="is_shop"]:not(.custom-control-input)') != null) {
+                            form.querySelector('input[name="is_shop"]:not(.custom-control-input)').checked = false;
 
                             //     form.querySelector('input[name="is_shop"]').value = '0'
                             //     $(form.querySelector('input[name="is_shop"]')).attr() = '0'
                         }
-                        if (form != undefined && form.querySelector('input[name="is_shop"][value="0"]') != null) {
+                        if (form != undefined && form.querySelector('input[name="is_shop"][value="0"]:not(.custom-control-input)') != null) {
                             //   form.querySelector('input[name="is_shop"][value="0"]').checked = true;
                         }
                     }
@@ -285,12 +286,12 @@ if (!empty($recomended_layouts)) {
                     <?php if(!isset($params['no_content_type_setup'])): ?>
 
 
-                    if (form != undefined && form.querySelector('input[name="is_shop"]') != null) {
+                    if (form != undefined && form.querySelector('input[name="is_shop"]:not(.custom-control-input)') != null) {
                         //form.querySelector('input[name="is_shop"]').value = '0'
-                        form.querySelector('input[name="is_shop"]').checked = false;
+                        form.querySelector('input[name="is_shop"]:not(.custom-control-input)').checked = false;
 
                     }
-                    if (form != undefined && form.querySelector('input[name="is_shop"][value="0"]') != null) {
+                    if (form != undefined && form.querySelector('input[name="is_shop"][value="0"]:not(.custom-control-input)') != null) {
                         //  form.querySelector('input[name="is_shop"][value="0"]').checked = true;
                     }
                     <?php endif; ?>
@@ -508,28 +509,7 @@ if (!empty($recomended_layouts)) {
 </div>
 
 
-<?php if ($template_selector_position != 'none'): ?>
 
-
-    <?php if (isset($params['small'])): ?>
-
-
-        &nbsp;
-        <!--<span onclick="$('.layouts_box_holder_small').toggleClass('semi_hidden');" class="mw-ui-btn mw-ui-btn-small" style="top: -3px;">--><?php //_e("Change template"); ?><!--</span>-->
-
-    <?php else: ?>
-
-
-        <!--    <div class="mw-ui-row ">
-            <div class="mw-ui-col">
-                <h2><span class="mai-templates"></span><?php /*_e("Choose template"); */ ?></h2>
-            </div>
-        </div>
--->
-
-    <?php endif; ?>
-
-<?php endif ?>
 
 <div class="layout_selector_wrap admin-side-content" style="padding-top:0;">
 
