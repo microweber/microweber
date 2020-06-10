@@ -230,9 +230,11 @@ class ContentManagerHelpers extends ContentManagerCrud
             foreach ($modules_ids as $modules_id) {
                 if ($modules_id) {
                     \DB::table('options')->where('option_group', '=', $modules_id)->delete();
+                    \DB::table('media')->where('rel_type', '=', 'modules')->where('rel_id', '=', $modules_id)->delete();
                 }
             }
             $this->app->cache_manager->delete('options');
+            $this->app->cache_manager->delete('media');
 
         }
         return true;
