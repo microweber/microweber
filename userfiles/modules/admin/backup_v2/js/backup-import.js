@@ -125,11 +125,11 @@ mw.backup_import = {
 	start_import: function () {
 
 
-		mw.notification.success('Importing...', 10000);
+		mw.notification.success('Importing...', 10000, 'import');
 
 		$('.button-start').addClass('disabled');
 
-		mw.spinner({element: ".button-start", size: 30, color: 'white'}).show()
+	//	mw.spinner({element: ".button-start", size: 30, color: 'white'}).show()
 
 
 
@@ -180,7 +180,7 @@ mw.backup_import = {
 			if (json_data.done) {
 				mw.backup_import.get_progress(100);
 				mw.backup_import.get_log_check('stop');
-				mw.spinner({element: ".button-start", size: 30, color: 'white'}).hide()
+				//mw.spinner({element: ".button-start", size: 30, color: 'white'}).hide()
 				$('.button-start').removeClass('disabled');
 
 				$('#mw_backup_import_modal').find('.backup-import-modal-log').before('<h3>All data is imported successfully!</h3>');

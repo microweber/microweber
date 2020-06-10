@@ -445,8 +445,12 @@ class Modules
             $params = $options = $params2;
         }
         $params['table'] = $table;
-        $params['group_by'] = 'module';
-        $params['order_by'] = 'position asc';
+        if (!isset($params['group_by'])) {
+            $params['group_by'] = 'module';
+        }
+        if (!isset($params['order_by'])) {
+            $params['order_by'] = 'position asc';
+        }
         $params['cache_group'] = 'modules/global';
 
         if (isset($params['id'])) {
