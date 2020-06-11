@@ -36,6 +36,10 @@ description: Login Popup
 
   <div class="alert" style="margin: 0;display: none;"></div>
 
+      <?php if (isset($_GET['redirect'])): ?>
+          <input type="hidden" value="<?php echo $_GET['redirect']; ?>" name="redirect">
+      <?php endif; ?>
+
   </form>
   </div>
 
