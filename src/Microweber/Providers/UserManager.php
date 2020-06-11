@@ -264,7 +264,7 @@ class UserManager
 
             $this->app->event_manager->trigger('mw.user.login', $user_data);
             if ($ok && $redirect_after) {
-                if(!is_ajax()){
+                if(is_ajax()){
                     return ['success' => 'You are logged in!', 'redirect'=>$redirect_after];
                 }
                 return $this->app->url_manager->redirect($redirect_after);
