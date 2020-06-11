@@ -102,6 +102,11 @@ class PermalinkManager
                         if ($findPostsBySlug) {
                             return $findPostsBySlug['url'];
                         }
+
+                        $findPostsBySlug = get_content('url=' . $findSlugByType . '&single=1');
+                        if ($findPostsBySlug) {
+                            return $findPostsBySlug['url'];
+                        }
                     }
 
 
