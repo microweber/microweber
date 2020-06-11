@@ -166,7 +166,7 @@ class PermalinkTest extends TestCase
 
         // Match the parse link category
         $getCategoryNameFromUrl = mw()->permalink_manager->slug($pageUrl, 'category');
-        var_dump($getCategoryNameFromUrl);
+
         $this->assertEquals(false, $getCategoryNameFromUrl);
 
         // Match the parse link page
