@@ -4137,9 +4137,10 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     width: 15px;
     height: 15px;
 }
-/*.mw-handle-menu-item.dynamic-submodule-handle {
+.mw-handle-menu-item.dynamic-submodule-handle {
     text-overflow:ellipsis;
-}*/
+    white-space: normal;
+}
 
 
 .mw-handle-menu-default .mw-handle-menu-item-icon,
