@@ -16,23 +16,7 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
         </div>
     </div>
 
-    <?php if ($data['content_type'] == 'page'): ?>
-        <div class="card style-1 mb-3 menus">
-            <div class="card-body pt-3">
-                <?php event_trigger('mw_edit_page_admin_menus', $data); ?>
-
-                <?php if (isset($data['add_to_menu'])): ?>
-                    <module type="menu" view="edit_page_menus" content_id="<?php print $data['id']; ?>" add_to_menu="<?php print $data['add_to_menu']; ?>"/>
-                <?php else: ?>
-                    <module type="menu" view="edit_page_menus" content_id="<?php print $data['id']; ?>"/>
-                <?php endif; ?>
-
-                <?php event_trigger('mw_admin_edit_page_after_menus', $data); ?>
-
-                <?php event_trigger('mw_admin_edit_page_tab_2', $data); ?>
-            </div>
-        </div>
-    <?php endif; ?>
+    <?php event_trigger('mw_admin_edit_page_tab_2', $data); ?>
 
     <div class="card style-1 mb-3 fields">
         <div class="card-body pt-3">
