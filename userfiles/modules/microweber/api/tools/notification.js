@@ -19,15 +19,27 @@ mw.notification = {
             }
         }
     },
-    build: function (type, text) {
+    build: function (type, text, name) {
         var div = mwd.createElement('div');
+        div.id = name;
         div.className = 'mw-notification mw-' + type;
         div.innerHTML = '<div>' + text + '</div>';
         return div;
     },
-    append: function (type, text, timeout) {
+    append: function (type, text, timeout, name) {
+        if(typeof type === 'object') {
+            text = type.text;
+            timeout = type.timeout;
+            name = type.name;
+            type = type.type;
+        }
+        name = name || mw.id();
+        name = 'mw-notification-id-' + name;
+        if(document.getElementById(name)) {
+            return;
+        }
         timeout = timeout || 1000;
-        var div = mw.notification.build(type, text);
+        var div = mw.notification.build(type, text, name);
         if (typeof mw.notification._holder === 'undefined') {
             mw.notification._holder = mwd.createElement('div');
             mw.notification._holder.id = 'mw-notifications-holder';
@@ -43,16 +55,31 @@ mw.notification = {
             }, 1000);
         }, timeout);
     },
-    success: function (text, timeout) {
+    success: function (text, timeout, name) {
+        if ( typeof text === 'object' ) {
+            timeout = text.timeout;
+            name = text.name;
+            text = text.text;
+        }
         timeout = timeout || 1000;
-        mw.notification.append('success', text, timeout);
+        mw.notification.append('success', text, timeout, name);
     },
-    error: function (text, timeout) {
+    error: function (text, timeout, name) {
+        if ( typeof text === 'object' ) {
+            timeout = text.timeout;
+            name = text.name;
+            text = text.text;
+        }
         timeout = timeout || 1000;
-        mw.notification.append('error', text, timeout);
+        mw.notification.append('error', text, timeout, name);
     },
-    warning: function (text, timeout) {
+    warning: function (text, timeout, name) {
+        if ( typeof text === 'object' ) {
+            timeout = text.timeout;
+            name = text.name;
+            text = text.text;
+        }
         timeout = timeout || 1000;
-        mw.notification.append('warning', text, timeout);
+        mw.notification.append('warning', text, timeout, name);
     }
 };
