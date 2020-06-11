@@ -1757,7 +1757,7 @@ class DefaultController extends Controller
         if (isset($content['require_login']) and $content['require_login'] == 1) {
             if ($this->app->user_manager->id() == 0) {
 
-                return $this->app->url_manager->redirect(login_url() . '?return_to=' . urlencode(mw()->url_manager->current()));
+                return $this->app->url_manager->redirect(login_url() . '?redirect=' . urlencode(mw()->url_manager->current()));
 
 //                $page_non_active = array();
 //                $page_non_active['id'] = 0;

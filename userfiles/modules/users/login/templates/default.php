@@ -88,8 +88,8 @@ description: Login default
                 </div>
                 <input class="btn pull-right" type="submit" value="<?php _e("Login"); ?>"/>
 
-                <?php if (isset($_GET['return_to'])): ?>
-                <input type="hidden" value="<?php echo $_GET['return_to']; ?>" name="return_to">
+                <?php if (isset($_GET['redirect'])): ?>
+                <input type="hidden" value="<?php echo $_GET['redirect']; ?>" name="redirect">
                 <?php endif; ?>
 
             </form>
