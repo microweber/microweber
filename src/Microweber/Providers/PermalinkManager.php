@@ -104,7 +104,7 @@ class PermalinkManager
                         }
 
                         $findPostsBySlug = get_content('url=' . $findSlugByType . '&single=1');
-                        if ($findPostsBySlug) {
+                        if ($findPostsBySlug && isset($findPostsBySlug['content_type']) && $findPostsBySlug['content_type'] != 'page') {
                             return $findPostsBySlug['url'];
                         }
                     }
