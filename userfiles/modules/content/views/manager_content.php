@@ -1,4 +1,10 @@
 <?php if (is_array($data) and !empty($data)): ?>
+    <script>
+        $(document).ready(function () {
+            $('body > #mw-admin-container > .main').addClass('show-sidebar-tree');
+        });
+    </script>
+
     <div class="manage-posts-holder" id="mw_admin_posts_sortable">
         <div class="manage-posts-holder-inner muted-cards">
             <?php if (is_array($data)): ?>
@@ -214,6 +220,12 @@
                 </div>
             </div>
 
+
+            <script>
+                $(document).ready(function () {
+                    $('body > #mw-admin-container > .main').removeClass('show-sidebar-tree');
+                });
+            </script>
             <script>
                 $(document).ready(function () {
                     $('.manage-toobar').hide();
@@ -249,6 +261,12 @@
                     </div>
                 </div>
             </div>
+
+            <script>
+                $(document).ready(function () {
+                    $('body > #mw-admin-container > .main').removeClass('show-sidebar-tree');
+                });
+            </script>
 
             <script>
                 $(document).ready(function () {

@@ -10,14 +10,6 @@ if (isset($notif_params['module'])) {
     unset($notif_params['module']);
 }
 
-/* if(isset($params['is_read'])){
-  $notif_params["is_read"] = $params['is_read'];
-  }
-  if(isset($params['limit'])){
-  $notif_params["is_read"] = $params['is_read'];
-  } */
-
-
 if (!isset($notif_params['limit'])) {
     $notif_params["limit"] = 500;
 }
@@ -57,11 +49,13 @@ if (isset($notif_params['quick'])) {
     $is_quick = $notif_params['quick'];
 }
 ?>
+
 <style>
     .mw-load-module-modal-link {
         cursor: pointer;
     }
 </style>
+
 <script type="text/javascript">
     $(document).ready(function () {
         mw.dropdown();
@@ -101,14 +95,11 @@ if (isset($notif_params['quick'])) {
                 //mw.$('.mw-ui-admin-notif-item-'+$item_id).fadeOut();
                 mw.reload_module('admin/notifications');
                 //mw.reload_module('#<?php print $params['id'] ?>');
-
             });
         });
-
     }
 
     mw.notif_get_selected = function () {
-
         var selectedNotificationIds = [];
 
         $(':checkbox').each(function () {
@@ -126,7 +117,6 @@ if (isset($notif_params['quick'])) {
     }
 
     mw.notif_delete_selected = function () {
-
         var selectedNotificationIds = mw.notif_get_selected();
 
         mw.tools.confirm('<?php _e('Are you sure you want to delete'); ?> ' + selectedNotificationIds.length + ' <?php _e(' notifications'); ?>?', function () {
@@ -134,11 +124,9 @@ if (isset($notif_params['quick'])) {
                 mw.reload_module('admin/notifications');
             });
         });
-
     }
 
     mw.notif_read_selected = function () {
-
         var selectedNotificationIds = mw.notif_get_selected();
 
         mw.tools.confirm('<?php _e('Are you sure you want to read'); ?> ' + selectedNotificationIds.length + ' <?php _e(' notifications'); ?>?', function () {
@@ -146,20 +134,17 @@ if (isset($notif_params['quick'])) {
                 mw.reload_module('admin/notifications');
             });
         });
-
     }
 
     mw.notif_reset_all = function () {
         $.post("<?php print api_link('notifications_manager/reset'); ?>", function () {
             mw.reload_module('admin/notifications');
             //	mw.reload_module('#<?php print $params['id'] ?>');
-
         });
     }
 
 
     mw.notif_reset_selected = function () {
-
         var selectedNotificationIds = mw.notif_get_selected();
 
         mw.tools.confirm('<?php _e('Are you sure you want to unread'); ?> ' + selectedNotificationIds.length + ' <?php _e(' notifications'); ?>?', function () {
@@ -167,15 +152,12 @@ if (isset($notif_params['quick'])) {
                 mw.reload_module('admin/notifications');
             });
         });
-
     }
-
 
     mw.notif_mark_all_as_read = function () {
         $.post("<?php print api_link('notifications_manager/mark_all_as_read'); ?>", function () {
             mw.reload_module('admin/notifications');
             //	mw.reload_module('#<?php print $params['id'] ?>');
-
         });
     }
 
@@ -188,7 +170,6 @@ if (isset($notif_params['quick'])) {
     }
 
     mw.notif_unselect_all = function () {
-
         $(':checkbox').each(function () {
             $(this).prop('checked', false);
         });
@@ -197,7 +178,6 @@ if (isset($notif_params['quick'])) {
     }
 
     function load_module_modal(module_name, notification_id) {
-
         mw.notif_item_read(notification_id);
 
         if (module_name == 'contact_form' || module_name == 'comments') {
@@ -218,12 +198,10 @@ if (isset($notif_params['quick'])) {
             window.location.href = redirectModuleUrl;
             return;
         }
-
     }
 
     mw.notif_unselect_all();
 </script>
-
 
 <script type="text/javascript">
     toggle_show_less = function (el) {
@@ -242,24 +220,24 @@ if (isset($notif_params['quick'])) {
     });
 
     $(document).ready(function () {
-        $('.all-notifications input[type="checkbox"], input.check-all').on('click', function () {
-
+        $('input.js-check-all').on('click', function () {
             var hasChecked = false;
 
-            $('.all-notifications input[type="checkbox"]').each(function () {
+            $('.js-all-notifications input[type="checkbox"]').each(function () {
                 if ($(this).is(':checked')) {
                     hasChecked = true;
                 }
             });
 
             if (hasChecked) {
-                $('.js-show-options').removeClass('hidden');
+                $('.js-show-options').removeClass('d-none');
             } else {
-                $('.js-show-options').addClass('hidden');
+                $('.js-show-options').addClass('d-none');
             }
         });
     });
 </script>
+
 <style>
     .js-limited {
         min-width: 250px;
@@ -294,281 +272,165 @@ if (isset($notif_params['quick'])) {
     }
 </style>
 
-<?php if (is_array($data)): ?>
-<?php $periods = array("Today", "Yesterday", "This week", "This mount, Older"); ?>
-<?php $periods_printed = array(); ?>
-<?php
-/* 		foreach($periods as $period){
-  if(!in_array($period ,$periods_printed )){
-  $time1 = strtotime($item['created_at']);
+<div class="card style-1 mb-3">
+    <div class="card-header">
+        <h5><i class="mdi mdi-bell text-primary mr-3"></i> <strong>Notifications</strong></h5>
+    </div>
+
+    <div class="card-body" id="<?php print $wrapper_id ?>">
+        <?php if (is_array($data)): ?>
+            <?php $periods = array("Today", "Yesterday", "This week", "This mount, Older"); ?>
+            <?php $periods_printed = array(); ?>
+            <div class="toolbar row mb-3">
+                <div class="col-12 text-center text-sm-left">
+                    <h5><strong>All Activities</strong></h5>
+                    <p>List of all notifications of your website. <a href="javascript:;" onClick="mw.load_module('admin/notifications/system_log','#admin_notifications');" class="d-block d-sm-block float-sm-right"><?php _e("Show system log"); ?></a></p>
+                </div>
+                <div class="col-12 d-sm-flex align-items-center justify-content-between">
+                    <div class="text-center text-md-left my-2">
+                        <div class="custom-control custom-checkbox d-inline-block mb-0 mr-3">
+                            <input type="checkbox" class="custom-control-input check-all js-check-all" id="check-all"/>
+                            <label class="custom-control-label" for="check-all">Select all</label>
+                        </div>
+
+                        <div class="js-show-options d-none">
+                            <button class="btn btn-outline-success btn-sm mr-1 mr-lg-2 btn-lg-only-icon"><i class="mdi mdi-email-open"></i> <span class="d-none d-xl-block">Mark as read</span></button>
+                            <button class="btn btn-outline-warning btn-sm mr-1 mr-lg-2 btn-lg-only-icon"><i class="mdi mdi-email"></i> <span class="d-none d-xl-block">Mark as unread</span></button>
+                            <button class="btn btn-outline-danger btn-sm mr-1 mr-lg-2 btn-lg-only-icon"><i class="mdi mdi-delete"></i> <span class="d-none d-xl-block">Delete selected</span></button>
 
 
-  $time2 = strtotime($period);
+                            <div>
+                                <a href="javascript:mw.notif_read_selected();" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-medium mw-ui-btn-notification notif-read-selected" style="margin: 0 5px;">
+                                    <?php _e("Mark as Read"); ?>
+                                </a>
 
-  if($time1 < $time2){
-  print 	$period;
-  $periods_printed[] = $period;
-  }
+                                <a href="javascript:mw.notif_reset_selected();" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-medium mw-ui-btn-warn notif-unread-selected" style="margin: 0 5px;">
+                                    <?php _e("Mark as Unread"); ?>
+                                </a>
 
-  }
+                                <a href="javascript:mw.notif_delete_selected();" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-medium mw-ui-btn-important notif-delete-selected" style="margin: 0 5px;">
+                                    <?php _e("Delete Selected"); ?>
+                                </a>
 
-  } */
-?>
-<div class="admin-side-content">
-    <h2 style="margin-top: 0; margin-bottom: 20px;"><span class="mw-icon-notification"></span>
-        <?php _e("Your Notifications"); ?>
-    </h2>
-
-    <div class="mw-admin-notifications-holder mw-ui-box mw-ui-box-content" id="<?php print $wrapper_id ?>">
-
-
-        <div class="table-responsive">
-            <table cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic">
-
-                <?php if ($is_quick == false): ?>
-                    <thead>
-                    <tr class="mw-ui-admin-notif-item">
-                        <td style="width: 40px; border-top: 0;">
-                            <label class="mw-ui-check">
-                                <input type="checkbox" class="check-all">
-                                <span></span>
-                            </label>
-                        </td>
-
-                        <td style="border-top: 0;">
-                            <div class="mw-flex-row">
-                                <div class="mw-flex-col-xs-6">
-                                    <div class="box" style="align-items: center; align-content: center; height: 100%; display: flex;">
-                                        <div>
-                                            <span>Show notifications</span>
-                                            <div class="mw-dropdown mw-dropdown-default  m-l-10">
-                                                        <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-medium  mw-dropdown-val">
-                                                            <?php
-                                                            if ($filter_by) {
-                                                                echo 'Filter by';
-                                                                $filter_by_text = str_replace('_', ' ', $filter_by);
-                                                                echo ': ' . $filter_by_text;
-                                                            } else {
-                                                                echo 'All notifications';
-                                                            }
-                                                            ?>
-                                                        </span>
-                                                <div class="mw-dropdown-content" style="display: none;">
-                                                    <ul>
-                                                        <li style="padding: 0px;"><a style="border:0px;" href="?">All notifications</a></li>
-                                                        <li style="padding: 0px;"><a style="border:0px;" href="?filter_by=comments">Comments</a></li>
-                                                        <li style="padding: 0px;"><a style="border:0px;" href="?filter_by=orders">Orders</a></li>
-                                                        <li style="padding: 0px;"><a style="border:0px;" href="?filter_by=form_entries"">Form Entries</a></li>
-                                                        <li style="padding: 0px;"><a style="border:0px;" href="?filter_by=new_user_registrations"">New User Registrations</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mw-flex-col-xs-6">
-                                    <div class="box js-show-options hidden" style="align-items: center; align-content: center; height: 100%; display: flex;">
-                                        <div>
-                                            <a href="javascript:mw.notif_read_selected();" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-medium mw-ui-btn-notification notif-read-selected" style="margin: 0 5px;">
-                                                <?php _e("Mark as Read"); ?>
-                                            </a>
-
-                                            <a href="javascript:mw.notif_reset_selected();" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-medium mw-ui-btn-warn notif-unread-selected" style="margin: 0 5px;">
-                                                <?php _e("Mark as Unread"); ?>
-                                            </a>
-
-                                            <a href="javascript:mw.notif_delete_selected();" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-medium mw-ui-btn-important notif-delete-selected" style="margin: 0 5px;">
-                                                <?php _e("Delete Selected"); ?>
-                                            </a>
-
-                                            <?php if ($is_quick == true): ?>
-                                                <a href="javascript:mw.notif_mark_all_as_read();" class="mw-ui-link"><?php _e("Read all"); ?></a> /
-                                                <a href="javascript:mw.notif_reset_all();" class="mw-ui-link"><?php _e("Unread all"); ?></a> /
-                                                <a href="javascript:mw.notif_item_delete('all');" class="mw-ui-link"><?php _e("Delete all"); ?></a>
-                                            <?php endif; ?>
-                                        </div>
-                                    </div>
-                                </div>
-
-
+                                <?php if ($is_quick == true): ?>
+                                    <a href="javascript:mw.notif_mark_all_as_read();" class="mw-ui-link"><?php _e("Read all"); ?></a> /
+                                    <a href="javascript:mw.notif_reset_all();" class="mw-ui-link"><?php _e("Unread all"); ?></a> /
+                                    <a href="javascript:mw.notif_item_delete('all');" class="mw-ui-link"><?php _e("Delete all"); ?></a>
+                                <?php endif; ?>
                             </div>
-                        </td>
+                        </div>
+                    </div>
 
-                        <td style="width: 210px; text-align: right; border-top:0;">
-                            <a class="mw-ui-btn right mw-ui-btn-medium" onClick="mw.load_module('admin/notifications/system_log','#admin_notifications');">
-                                <?php _e("Show system log"); ?>
-                            </a>
-                        </td>
-                    </tr>
+                    <div class="float-sm-right text-center text-md-right my-2">
+                        <span class="d-inline d-sm-none d-md-inline">Show notifications</span>
 
+                        <script>
+                            $(function () {
+                                $('.js-show-notif').on('change', function () {
+                                    var url = $(this).val();
+                                    if (url) {
+                                        window.location = url;
+                                    }
+                                    return false;
+                                });
+                            });
+                        </script>
 
-                    </thead>
-                <?php endif; ?>
+                        <select class="selectpicker js-show-notif" data-style="btn-sm" data-width="auto">
+                            <option value="?">All notifications</option>
+                            <option value="?filter_by=comments" <?php if (isset($filter_by) AND $filter_by == 'comments'): ?>selected<?php endif; ?>>Comments</option>
+                            <option value="?filter_by=orders" <?php if (isset($filter_by) AND $filter_by == 'orders'): ?>selected<?php endif; ?>>Orders</option>
+                            <option value="?filter_by=form_entries" <?php if (isset($filter_by) AND $filter_by == 'form_entries'): ?>selected<?php endif; ?>>Form Entries</option>
+                            <option value="?filter_by=new_user_registrations" <?php if (isset($filter_by) AND $filter_by == 'new_user_registrations'): ?>selected<?php endif; ?>>New User Registrations</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
 
-                <tbody class="all-notifications">
+            <div class="timeline js-all-notifications">
+                <div class="row timeline-event">
+                    <div class="col pr-0 timeline-line datetime-indicator">
+                        <button type="button" class="btn btn-primary btn-rounded btn-sm">Past hour</button>
+                    </div>
+                </div>
+
                 <?php foreach ($data as $item): ?>
-
-                    <?php
-                    $load_module_modal_on_click = 'class="mw-load-module-modal-link" onClick="load_module_modal(' . "'" . module_name_encode($item['module']) . "'" . ', ' . $item['id'] . ')";';
-                    ?>
-
-                    <tr class="mw-ui-admin-notif-item-<?php print $item['id'] ?> <?php if (isset($item['is_read']) && $item['is_read'] == '0'): ?>mw-notification-new<?php endif; ?>">
+                    <div class="row timeline-event mw-ui-admin-notif-item-<?php print $item['id'] ?>">
                         <?php
+                        $load_module_modal_on_click = 'class="mw-load-module-modal-link" onClick="load_module_modal(' . "'" . module_name_encode($item['module']) . "'" . ', ' . $item['id'] . ')";';
+
                         $mod_info = false;
                         if (isset($item['module']) and $item['module'] != '') {
                             $mod_info = module_info($item['module']);
                         }
-
-                        //$view_more_link =
                         ?>
-                        <td>
-                            <label class="mw-ui-check">
-                                <input type="checkbox" value="<?php echo $item['id']; ?>" name="checked[<?php echo $item['id']; ?>]">
-                                <span></span>
-                            </label>
-                        </td>
 
-                        <td>
-                            <div class="mw-flex-row">
-
-                                <?php if ($mod_info != false and isset($mod_info['name'])): ?>
-                                    <div class="mw-flex-col-xs-1">
-                                        <div class="box" style="align-items: center; align-content: center; height: 100%; display: flex; text-align: center;">
-                                            <img src=" <?php print $mod_info['icon'] ?>" style="width: 20px; height: 20px;"/>
-                                        </div>
-                                    </div>
-                                <?php endif; ?>
-
-                                <div class="mw-flex-col-xs-4">
-                                    <div class="box" style="align-items: center; align-content: center; height: 100%; display: flex;">
-                                        <div>
-                                            <?php if ($mod_info != false and isset($mod_info['name'])): ?>
-                                                <a class="mw-ui-link" <?php echo $load_module_modal_on_click; ?> title="<?php print $mod_info['name'] ?>"> <?php print $item['title'] ?></a>
-                                            <?php elseif (isset($item['rel_type']) and $item['rel_type'] == 'content'): ?>
-                                                <a class="mw-ui-link" href="<?php print admin_url() ?>view:content#action=editpage:<?php print ($item['rel_id']) ?>"> <?php print $item['title'] ?></a>
-                                            <?php else : ?>
-                                                <?php print $item['title'] ?>
-                                            <?php endif; ?>
-
-                                            <div class="notification_info">
-                                                <time title="<?php print mw('format')->date($item['created_at']); ?>"><?php print mw('format')->ago($item['created_at'], 1); ?></time>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="mw-flex-col-xs-7">
-                                    <div class="box">
-                                        <?php if ($is_quick == false): ?>
-                                            <div class="notification_info">
-
-                                                <?php if (isset($item['content']) and $item['content'] != ''): ?>
-                                                    <?php if (mb_strlen($item['content']) > 200): ?>
-                                                        <div class="js-limited">
-                                                            <?php print strip_tags(html_entity_decode($item['content'])); ?>
-                                                            <!--<br/>-->
-                                                            <!--<button class="js-toggle-full mw-ui-btn mw-ui-btn-info mw-ui-btn-small mw-ui-btn-outline"><span>show more</span><span>show less</span></button>-->
-                                                        </div>
-                                                    <?php else: ?>
-                                                        <?php print strip_tags(html_entity_decode($item['content'])); ?>
-                                                    <?php endif; ?>
-                                                <?php else : ?>
-                                                <?php endif; ?>
-                                            </div>
-                                        <?php endif; ?>
-                                    </div>
-                                </div>
+                        <div class="col pr-0 timeline-line">
+                            <div class="custom-control custom-checkbox d-inline-block">
+                                <input type="checkbox" class="custom-control-input" id="notif-<?php echo $item['id']; ?>" value="<?php echo $item['id']; ?>" name="checked[<?php echo $item['id']; ?>]">
+                                <label class="custom-control-label" for="notif-<?php echo $item['id']; ?>"></label>
                             </div>
 
-
-                            <?php if (isset($item['module']) and $item['module'] == 'comments'): ?>
-                                <?php
-                                /*
-                                  <div class="mw-dropdown mw-dropdown-default">
-                                  <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-dropdown-val"><i class="mai-idea"></i> Published</span>
-                                  <div class="mw-dropdown-content" style="display: none;">
-                                  <ul>
-                                  <li value="1">Published</li>
-                                  <li value="2">Unpublished</li>
-                                  <li value="3">Span</li>
-                                  <li value="3">Delete</li>
-                                  </ul>
-                                  </div>
-                                  </div> */
-                                ?>
+                            <?php if (isset($item['rel_type']) AND $item['rel_type'] == 'cart_orders' AND isset($item['module']) AND $item['module'] == 'shop'): ?>
+                                <button type="button" class="btn btn-outline-primary btn-rounded btn-icon"><i class="mdi mdi-shopping"></i></button>
+                            <?php elseif (isset($item['rel_type']) AND $item['rel_type'] == 'forms_data' AND isset($item['module']) AND $item['module'] == 'contact_form'): ?>
+                                <button type="button" class="btn btn-outline-primary btn-rounded btn-icon"><i class="mdi mdi-email-check"></i></button>
+                            <?php elseif (isset($item['rel_type']) AND $item['rel_type'] == 'content' AND isset($item['module']) AND $item['module'] == 'comments'): ?>
+                                <button type="button" class="btn btn-outline-primary btn-rounded btn-icon"><i class="mdi mdi-comment-account"></i></button>
+                            <?php else: ?>
+                                <button type="button" class="btn btn-outline-primary btn-rounded btn-icon"><i class="mdi mdi-bell"></i></button>
                             <?php endif; ?>
-                        </td>
+                        </div>
 
-                        <?php if ($is_quick == false): ?>
-                            <td class="text-right">
-                                <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small mw-ui-btn-outline"><span <?php echo $load_module_modal_on_click; ?>>View More</span></button>
-                                <a href="javascript:mw.notif_item_delete('<?php print $item['id'] ?>');" class="mw-ui-btn mw-ui-btn-important mw-ui-btn-small mw-ui-btn-outline">Delete</a>
-                            </td>
-                        <?php endif; ?>
-                    </tr>
+                        <div class="col">
+                            <?php if (isset($item['rel_type']) AND $item['rel_type'] == 'cart_orders' AND isset($item['module']) AND $item['module'] == 'shop'): ?>
+                                <?php include('notif_order.php'); ?>
+                            <?php elseif (isset($item['rel_type']) AND $item['rel_type'] == 'forms_data' AND isset($item['module']) AND $item['module'] == 'contact_form'): ?>
+                                <?php include('notif_form_entry.php'); ?>
+                            <?php elseif (isset($item['rel_type']) AND $item['rel_type'] == 'content' AND isset($item['module']) AND $item['module'] == 'comments'): ?>
+                                <?php include('notif_comment.php'); ?>
+                            <?php else: ?>
+                            <?php endif; ?>
+                        </div>
+                    </div>
                 <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-
-
-        <?php if ($is_quick == false): ?>
-            <div class="mw-ui-link-nav" style="padding: 20px 0;">
-                <a href="javascript:mw.notif_mark_all_as_read();" class="mw-ui-link"><?php _e("Read all"); ?></a>
-                <a href="javascript:mw.notif_reset_all();" class="mw-ui-link"><?php _e("Unread all"); ?></a>
-                <a href="javascript:mw.notif_item_delete('all');" class="mw-ui-link"><?php _e("Delete all"); ?></a>
-            </div>
-        <?php endif; ?>
-
-
-    </div>
-    <?php else : ?>
-        <?php if ($filter_by): ?>
-
-            <div class="mw-ui-box" style="width: 500px;text-align: center;margin: 60px auto;">
-                <div class="mw-ui-box-header">
-                    <h2>
-                        <?php _e("No notifications for this filter"); ?>
-                        !</h2>
-                </div>
-                <div class="mw-ui-box-content">
-                    <p>
-                        <?php _e("Choose your Action"); ?>
-                    </p>
-                    <br>
-                    <p><a href="?" class="mw-ui-btn mw-ui-btn-blue" style="margin-right: 12px;">
-                            <?php _e("Back to Notifications"); ?>
-                        </a>
-                    </p>
-                    <br>
-                    <?php //print notif('No new notifications available!');  ?>
-                </div>
             </div>
 
-        <?php else: ?>
+
             <?php if ($is_quick == false): ?>
-                <div class="mw-ui-box" style="width: 500px;text-align: center;margin: 60px auto;">
-                    <div class="mw-ui-box-header">
-                        <h2>
-                            <?php _e("No new notifications available"); ?>
-                            !</h2>
-                    </div>
-                    <div class="mw-ui-box-content">
-                        <p>
-                            <?php _e("Choose your Action"); ?>
-                        </p>
-                        <br>
-                        <p><a href="<?php print admin_url() ?>view:dashboard" class="mw-ui-btn mw-ui-btn-blue" style="margin-right: 12px;">
-                                <?php _e("Back to Dashboard"); ?>
-                            </a> <a href="<?php print admin_url() ?>view:content" class="mw-ui-btn mw-ui-btn-green">
-                                <?php _e("Manage your Content"); ?>
-                            </a></p>
-                        <br>
-                        <?php //print notif('No new notifications available!'); ?>
-                    </div>
+                <div class="mw-ui-link-nav" style="padding: 20px 0;">
+                    <a href="javascript:mw.notif_mark_all_as_read();" class="mw-ui-link"><?php _e("Read all"); ?></a>
+                    <a href="javascript:mw.notif_reset_all();" class="mw-ui-link"><?php _e("Unread all"); ?></a>
+                    <a href="javascript:mw.notif_item_delete('all');" class="mw-ui-link"><?php _e("Delete all"); ?></a>
                 </div>
             <?php endif; ?>
+
+        <?php else : ?>
+            <?php if ($filter_by): ?>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="no-items-box no-notifications" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_notifications.svg');">
+                            <h4><?php _e("No notifications for this filter"); ?></h4>
+                            <p>Here you will be able to see notifications <br/> about orders, comments, email and others.</p>
+                            <br/>
+                            <a href="?" class="btn btn-outline-primary btn-sm icon-left"><i class="mdi mdi-arrow-left"></i> <span class="">Back</span></a>
+                        </div>
+                    </div>
+                </div>
+            <?php else: ?>
+                <?php if ($is_quick == false): ?>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="no-items-box no-notifications" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_notifications.svg');">
+                                <h4>You don't have any notifications</h4>
+                                <p>Here you will be able to see notifications <br/> about orders, comments, email and others.</p>
+                                <br/>
+                                <a href="<?php print admin_url() ?>view:dashboard" class="btn btn-outline-primary btn-sm icon-left"><i class="mdi mdi-arrow-left"></i> <span class="">Back</span></a>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            <?php endif; ?>
         <?php endif; ?>
-    <?php endif; ?>
+    </div>
 </div>
