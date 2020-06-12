@@ -192,31 +192,31 @@ if (isset($params['quick_edit'])) {
                                             ?>
 
                                         <span class="text-silver" id="slug-base-url"><?php print $site_prefix_url; ?></span>
-                                        <span class="contenteditable" data-toggle="tooltip" data-title="edit" data-placement="right" contenteditable="true"><?php print $data['url']; ?></span>
+                                        <span class="contenteditable js-slug-base-url" data-toggle="tooltip" data-title="edit" data-placement="right" contenteditable="true"><?php print $data['url']; ?></span>
                                     </small>
                                 </span>
-                            </div>
 
+                                <div class="d-none">
+                                    <input autocomplete="off" name="content_url" id="edit-content-url" class="js-slug-base-url-changed edit-post-slug" type="text" value="<?php print $data['url']; ?>"/>
 
-                            <div class="SAVE URL">
-                                <div class="mw-ui-col" id="slug-url-column">
-                                    <span class="view-post-slug active" onclick="mw.slug.toggleEdit()"></span>
-                                    <input autocomplete="off" name="content_url" id="edit-content-url" class="mw-ui-invisible-field mw-ui-field-small w100 edit-post-slug"
-                                           onblur="mw.slug.toggleEdit();mw.slug.setVal(this);slugEdited=true;" type="text" value="<?php print ($data['url']) ?>"/>
-                                </div>
+                                    <script>
+                                        var slugEdited = false;
+                                        slugFromTitle = function () {
+                                            if (slugEdited === false) {
+                                                var slug = mw.slug.create($('#content-title-field').value);
 
-                                <script>
-                                    slugEdited = false;
-                                    slugFromTitle = function () {
-                                        var slugField = mwd.getElementById('edit-content-url');
-                                        var titlefield = mwd.getElementById('content-title-field');
-                                        if (slugEdited === false) {
-                                            var slug = mw.slug.create(titlefield.value);
-                                            mw.$('.view-post-slug').html(slug);
-                                            mw.$('#edit-content-url').val(slug);
+                                                $('.js-slug-base-url-changed').val(slug);
+                                                $('.js-slug-base-url').text(slug);
+                                            }
                                         }
-                                    }
-                                </script>
+
+                                        $('body').on('blur', '.js-slug-base-url', function () {
+                                            var slug = mw.slug.create($(this).text());
+                                            $('.js-slug-base-url-changed').val(slug);
+                                            $('.js-slug-base-url').text(slug);
+                                        });
+                                    </script>
+                                </div>
                             </div>
 
 
@@ -240,7 +240,7 @@ if (isset($params['quick_edit'])) {
                             }
                             ?>
 
-                            <div class="mw-ui-field-holder" id="mw-edit-page-editor-holder">
+                            <div id="mw-edit-page-editor-holder">
                                 <?php event_trigger('content.edit.richtext', $data); ?>
                                 <?php $content_edit_modules = mw()->ui->module('content.edit.richtext'); ?>
                                 <?php $modules = array(); ?>
@@ -254,60 +254,62 @@ if (isset($params['quick_edit'])) {
                                     }
                                     $modules = array_unique($modules);
                                 }
-
                                 ?>
                                 <?php if (!empty($modules)): ?>
                                     <?php foreach ($modules as $module) : ?>
                                         <?php print load_module($module, $data); ?>
                                     <?php endforeach; ?>
                                 <?php else: ?>
-                                    <div class="form-group">
-                                        <label>Description</label>
+                                    <?php if (isset($data['content_type']) and ($data['content_type'] != 'page')): ?>
+                                        <div class="form-group">
+                                            <label>Description</label>
 
-                                        <div id="mw-admin-content-iframe-editor" class="form-control"></div>
-                                    </div>
+                                            <div id="mw-admin-content-iframe-editor" class="form-control"></div>
+                                        </div>
+                                    <?php endif; ?>
                                 <?php endif; ?>
                             </div>
-                        </div>
 
-                        <div class="card-body body-1">
-                            <script>
-                                $(document).ready(function () {
-                                    setTimeout(function () {
-                                        $('#content-title-field').focus();
-                                        if (typeof(mw.adminPagesTree) != 'undefined') {
-                                            mw.adminPagesTree.select({
-                                                id:<?php print $edit_page_info['id']  ?>,
-                                                type: 'page'
-                                            })
-                                        }
-                                    }, 100);
-                                });
-                            </script>
 
-                            <?php event_trigger('content.edit.title.after'); ?>
-                            <?php $custom_title_ui = mw()->modules->ui('content.edit.title.after'); ?>
+                            <div>
+                                <script>
+                                    $(document).ready(function () {
+                                        setTimeout(function () {
+                                            $('#content-title-field').focus();
+                                            if (typeof(mw.adminPagesTree) != 'undefined') {
+                                                mw.adminPagesTree.select({
+                                                    id:<?php print $edit_page_info['id']  ?>,
+                                                    type: 'page'
+                                                })
+                                            }
+                                        }, 100);
+                                    });
+                                </script>
 
-                            <?php if (!empty($custom_title_ui)): ?>
-                                <?php foreach ($custom_title_ui as $item): ?>
-                                    <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
-                                    <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
-                                    <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
-                                    <?php $width = (isset($item['width'])) ? ($item['width']) : false; ?>
-                                    <div class="mw-ui-col <?php print $class; ?>"<?php if ($width): ?> style="width: <?php print $width ?>;"  <?php endif; ?> title="<?php print $title; ?>"><?php print $html; ?></div>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
+                                <?php event_trigger('content.edit.title.after'); ?>
+                                <?php $custom_title_ui = mw()->modules->ui('content.edit.title.after'); ?>
 
-                            <?php $custom_title_ui = mw()->modules->ui('content.edit.title.end'); ?>
-                            <?php if (!empty($custom_title_ui)): ?>
-                                <?php foreach ($custom_title_ui as $item): ?>
-                                    <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
-                                    <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
-                                    <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
-                                    <?php $width = (isset($item['width'])) ? ($item['width']) : false; ?>
-                                    <div class="mw-ui-col <?php print $class; ?>"<?php if ($width): ?> style="width: <?php print $width ?>;"  <?php endif; ?> title="<?php print $title; ?>"><?php print $html; ?></div>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
+                                <?php if (!empty($custom_title_ui)): ?>
+                                    <?php foreach ($custom_title_ui as $item): ?>
+                                        <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
+                                        <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
+                                        <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
+                                        <?php $width = (isset($item['width'])) ? ($item['width']) : false; ?>
+                                        <div class="mw-ui-col <?php print $class; ?>"<?php if ($width): ?> style="width: <?php print $width ?>;"  <?php endif; ?> title="<?php print $title; ?>"><?php print $html; ?></div>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+
+                                <?php $custom_title_ui = mw()->modules->ui('content.edit.title.end'); ?>
+                                <?php if (!empty($custom_title_ui)): ?>
+                                    <?php foreach ($custom_title_ui as $item): ?>
+                                        <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
+                                        <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
+                                        <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
+                                        <?php $width = (isset($item['width'])) ? ($item['width']) : false; ?>
+                                        <div class="mw-ui-col <?php print $class; ?>"<?php if ($width): ?> style="width: <?php print $width ?>;"  <?php endif; ?> title="<?php print $title; ?>"><?php print $html; ?></div>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </div>
                         </div>
                     <?php endif; ?>
                 </div>

@@ -7,12 +7,10 @@ $save_url = api_url('current_template_save_custom_css');
 
 $tpl_settings_for_theme = TEMPLATE_DIR . 'template_settings.php';
 
-
 if (!is_file($tpl_settings_for_theme)) {
     return;
 }
 $active_template_dir = THIS_TEMPLATE_FOLDER_NAME;
-
 
 if (isset($_POST['save_template_settings'])) {
     $css = "";
@@ -27,11 +25,8 @@ if (isset($_POST['save_template_settings'])) {
         unset($_POST['type']);
     }
 
-
     $live_edit_css_save_all = array();
     foreach ($_POST as $a => $b) {
-
-
         if (isset($b['selector'])) {
 
             $props = explode(',', $b['property']);
@@ -59,68 +54,27 @@ if (isset($_POST['save_template_settings'])) {
         //  current_template_save_custom_css($live_edit_css_save_all);
     }
 
-//$tpl_settings = TEMPLATE_DIR.'template_settings.css';
-
-
-    //$chmod = chmod("/userfiles/templates/default/settings/", 0755);
-    //$fp = fopen($tpl_settings, "w+");
-
-
-//fwrite($fp,$css);
-//fclose($fp);
-
-
-    /*$option = array();
-    $option['option_value'] = $json;
-    $option['option_key'] = 'template_settings';
-    $option['option_group'] = 'template_'.THIS_TEMPLATE_FOLDER_NAME;
-    save_option($option);*/
-    //file_put_contents($tpl_settings,$css);
-
     return;
 }
+
 $data = $arr = array();
 $json = get_option('template_settings', 'template_' . THIS_TEMPLATE_FOLDER_NAME);
 if ($json != false) {
     $data = $arr = json_decode($json, true);
 }
-
-
 ?>
-
 
 <div class="mw-template-settings-wrapper" id="mw-template-settings-holder">
     <div id="mw-template-settings">
         <?php include($tpl_settings_for_theme); ?>
-
-
-        <?php /*<button onclick="mw.tpl.save();" class="mw-ui-btn right">Save</button>*/ ?>
-
     </div>
 </div>
 
 <script>
     mw.require('options.js');
 </script>
+
 <script>
-
-
-    $( document ).ready(function() {
-
-
-
-
-    });
-
-
-
-
-
-
-
-
-
-
     mw.tpl = {
         save: function () {
             var u = "<?php print $save_url; ?>", obj = {}, m = mwd.getElementById('mw-template-settings');
@@ -137,6 +91,7 @@ if ($json != false) {
                     property: $(this).dataset("property")
                 }
             });
+
             $.post(u, obj, function (msg) {
                 if (self !== parent) {
                     var css = parent.mw.$("#mw-template-settings")[0];
@@ -159,7 +114,6 @@ if ($json != false) {
                     } else {
                         mw.tools.refresh(css);
                     }
-
                 }
             })
         },
@@ -167,7 +121,4 @@ if ($json != false) {
 
         }
     }
-
-
 </script>
-

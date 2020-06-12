@@ -333,7 +333,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                 <?php event_trigger('mw_admin_edit_page_advanced_settings', $data); ?>
 
                 <?php if (is_array($available_content_types) and !empty($available_content_types)): ?>
-                    <div class="row">
+                    <div class="row mb-3">
                         <div class="col-12">
                             <div class="mw-ui-field-holder"><br/>
                                 <span class="font-weight-bold"><?php _e("Content type"); ?>: &nbsp;</span>
@@ -375,34 +375,6 @@ if (isset($data['created_by']) and $data['created_by']) {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                <?php endif; ?>
-
-                <?php if (isset($data['id']) and $data['id'] != 0): ?>
-                    <hr class="thin no-padding"/>
-
-                    <div class="row pb-3">
-                        <?php if (isset($data['created_at'])): ?>
-                            <div class="col-md-6">
-                                <div class="mw-admin-edit-post-created-at" onclick="mw.adm_cont_enable_edit_of_created_at()">
-                                    <small>
-                                        <?php _e("Created on"); ?>: <span class="mw-admin-edit-post-display-created-at-value"><?php print $data['created_at'] ?></span>
-                                        <input class="form-control form-control-sm mw-admin-edit-post-change-created-at-value" style="display:none" type="datetime" name="created_at" value="<?php print $data['created_at'] ?>" disabled="disabled">
-                                    </small>
-                                </div>
-                            </div>
-                        <?php endif; ?>
-
-                        <?php if (isset($data['updated_at'])): ?>
-                            <div class="col-md-6">
-                                <div class="mw-admin-edit-post-updated-at" onclick="mw.adm_cont_enable_edit_of_updated_at()">
-                                    <small>
-                                        <?php _e("updated on"); ?>: <span class="mw-admin-edit-post-display-updated-at-value"><?php print $data['updated_at'] ?></span>
-                                        <input class="form-control form-control-sm mw-admin-edit-post-change-updated-at-value" style="display:none" type="datetime" name="updated_at" value="<?php print $data['updated_at'] ?>" disabled="disabled">
-                                    </small>
-                                </div>
-                            </div>
-                        <?php endif; ?>
                     </div>
                 <?php endif; ?>
             </div>

@@ -579,6 +579,13 @@ if (!empty($recomended_layouts)) {
             </div>
         </div>
 
+        <style>
+            .preview_frame_container iframe{
+                width: 100%;
+                border: 1px solid silver;
+            }
+        </style>
+
         <div class="card style-1 <?php if ($show_save_changes_buttons): ?>bg-none mb-0<?php else: ?> mb-3<?php endif; ?>">
             <div class="card-body pt-3">
                 <?php if ($show_save_changes_buttons): ?>
