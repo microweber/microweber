@@ -1477,8 +1477,9 @@ mw.wysiwyg = {
     fontFamily: function (font_name) {
         var range = getSelection().getRangeAt(0);
         document.execCommand("styleWithCSS", null, true);
+        var el = mw.wysiwyg.validateCommonAncestorContainer(range.commonAncestorContainer);
         if (range.collapsed) {
-            var el = mw.wysiwyg.validateCommonAncestorContainer(range.commonAncestorContainer);
+
             mw.wysiwyg.select_all(el);
             document.execCommand('fontName', null, font_name);
             range.collapse()
@@ -1487,6 +1488,7 @@ mw.wysiwyg = {
             document.execCommand('fontName', null, font_name);
         }
 
+        mw.wysiwyg.change(el)
 
     },
     nestingFixes: function (root) {  /*
