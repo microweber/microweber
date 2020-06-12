@@ -12,6 +12,16 @@ $show_category_header = get_option('show_category_header', $params['id']);
 $show_subcats = get_option('show-subcats', $params['id']);
 $hide_pages = get_option('hide-pages', $params['id']);
 
+
+$cfg_filter_in_stock = false;
+
+
+
+if(isset($params['filter-only-in-stock'])){
+    $cfg_filter_in_stock = $params['filter-only-in-stock'];
+
+}
+
 if ($parent == 'current') {
     $parent = CATEGORY_ID;
 }
@@ -189,8 +199,27 @@ if (!isset($parent) or $parent == '') {
                 $cat['url'] = category_link($cat['id']);
 
                 if (isset($cat['rel_type']) and $cat['rel_type'] == 'content') {
-                    $latest = get_content("get_extra_data=true&order_by=position desc&limit=30&is_active=1&category=" . $cat['id']);
-                    $latest_count = get_content("no_cache=1&count=1&is_active=1&category=" . $cat['id']);
+
+                    $cont_params = [];
+                    $cont_params['get_extra_data'] = true;
+                    $cont_params['order_by'] = 'position desc';
+                    $cont_params['limit'] = '30';
+                    $cont_params['is_active'] = '1';
+                    $cont_params['category'] = $cat['id'];
+
+                    if($cfg_filter_in_stock){
+                        $cont_params['filter-only-in-stock'] = $cfg_filter_in_stock;
+                    }
+
+                    $cont_params2 = $cont_params;
+                    $cont_params2['count'] = 1;
+
+
+                    //get_extra_data=true&order_by=position desc&limit=30&is_active=1&category=" . $cat['id']
+//
+
+                    $latest = get_content($cont_params);
+                    $latest_count = get_content($cont_params2);
 
                     if (!$cat['picture'] and isset($latest[0])) {
                         $latest_product = $latest[0];
