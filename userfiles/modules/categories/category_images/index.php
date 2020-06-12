@@ -19,7 +19,8 @@ $cfg_filter_in_stock = false;
 
 if(isset($params['filter-only-in-stock'])){
     $cfg_filter_in_stock = $params['filter-only-in-stock'];
-
+} else {
+    $cfg_filter_in_stock =  get_option('filter-only-in-stock', $params['id']) == '1';
 }
 
 if ($parent == 'current') {

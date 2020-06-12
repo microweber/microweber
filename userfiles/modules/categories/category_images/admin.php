@@ -203,6 +203,26 @@ $my_tree_id = ''
                         </label>
                     </div>
                 </div>
+
+
+
+                  <div class="form-group">
+                    <div class="checkbox">
+                        <label class="mw-ui-check">
+                            <input type="checkbox" class="mw_option_field" name="filter-only-in-stock"
+                                   value="1" <?php if (get_option('filter-only-in-stock', $params['id']) == '1') {
+                                echo 'checked';
+                            } ?> /> <span></span><span><?php _e("Show only products in stock"); ?></span>
+                        </label>
+                    </div>
+                </div>
+
+
+
+
+
+
+
             </div>
 
 
