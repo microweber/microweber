@@ -228,8 +228,8 @@ class OrderManager
 
 
         $filename = 'orders' . '_' . date('Y-m-d_H-i', time()) . uniqid() . '.csv';
-        $filename_path = userfiles_path() . 'export' . DS . 'orders' . DS;
-        $filename_path_index = userfiles_path() . 'export' . DS . 'orders' . DS . 'index.php';
+        $filename_path = storage_path() . DS . 'export' . DS . 'orders' . DS;
+        $filename_path_index = storage_path() . DS . 'export' . DS . 'orders' . DS . 'index.php';
         if (!is_dir($filename_path)) {
             mkdir_recursive($filename_path);
         }
@@ -249,9 +249,7 @@ class OrderManager
 
         $csv->insertAll($export);
 
-        $download = $this->app->url_manager->link_to_file($filename_path_full);
-
-        return array('success' => 'Your file has been exported!', 'download' => $download);
+        return response()->download($filename_path_full);
     }
 
     public function export_orders1()

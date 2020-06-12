@@ -851,11 +851,18 @@ mw._initHandles = {
                 var type = this.getAttribute('data-type');
 
                 var hastitle = mw.live_edit.registry[type] ? mw.live_edit.registry[type].title : false;
+                var icon = mw.live_edit.getModuleIcon(type);
+                if(!icon){
+                    icon  = '<span class="mw-icon-gear mw-handle-menu-item-icon"></span>';
+                }
+                mw.log(icon);
                 if(hastitle){
                     var menuitem = '<span class="mw-handle-menu-item dynamic-submodule-handle" data-module="'+this.id+'">'
-                        + '<span class="mw-icon-gear mw-handle-menu-item-icon"></span>'
+                        + icon
                         + hastitle.replace(/_/g, ' ')
                         + '</span>';
+
+
                     nodes.push(menuitem);
                  }
 

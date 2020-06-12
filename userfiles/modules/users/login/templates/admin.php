@@ -162,6 +162,9 @@ $current_lang = current_lang();
                     <input type="hidden" name="where_to" value="admin_content"/>
                     <input class="mw-ui-btn mw-ui-btn-big mw-ui-btn-info mw-ui-btn-outline pull-right" type="submit" tabindex="4" value="<?php _e("Login"); ?>"/>
                 </div>
+                <?php if (isset($_GET['redirect'])): ?>
+                    <input type="hidden" value="<?php echo $_GET['redirect']; ?>" name="redirect">
+                <?php endif; ?>
             </form>
             <?php event_trigger('mw.ui.admin.login.form.after'); ?>
         </div>

@@ -195,7 +195,20 @@ class ContentManagerCrud extends Crud
             $extra_data = true;
         }
 
+         if (isset($params['filter.only_in_stock'])) {
+            $params['__query_get_only_in_stock'] = function ($query){
+                $query->whereIn('content.id', function ($subQuery)  {
+                    $subQuery->select('content_data.content_id');
+                    $subQuery->from('content_data');
+                    $subQuery->where('content_data.field_name', '=', 'qty');
+                    $subQuery->where('content_data.field_value', '!=','0');
+                });
+              };
+             unset($params['filter.only_in_stock']);
+         }
+
         $get = parent::get($params);
+
 
         if (isset($params['count']) or isset($params['single']) or isset($params['one']) or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
             if (isset($get['url'])) {

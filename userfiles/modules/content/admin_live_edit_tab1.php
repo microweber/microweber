@@ -301,6 +301,18 @@ $rand = uniqid(); ?>
                         <input name="data-add-to-cart-text" class="mw-ui-field mw_option_field" style="width:95px;" placeholder="<?php _e("Add to cart"); ?>" type="text" value="<?php print get_option('data-add-to-cart-text', $params['id']) ?>"/>
                     </div>
                 </div>
+
+
+                <div class="mw-ui-row-nodrop">
+                    <div class="mw-ui-col">
+                        <label class="mw-ui-check">
+                            <input type="checkbox" name="filter.in_stock" value="1" class="mw_option_field" <?php if (get_option('filter.in_stock', $params['id'])): ?>   checked="checked"  <?php endif; ?> />
+                            <span></span> <span><?php _e("Show only products in stock"); ?></span>
+                        </label>
+                    </div>
+                    <div class="mw-ui-col"></div>
+                </div>
+
             <?php endif; ?>
 
             <div class="mw-ui-row-nodrop">
@@ -339,6 +351,10 @@ $rand = uniqid(); ?>
                     <input name="data-limit" class="mw-ui-field mw_option_field right" type="number" style="width:55px;" placeholder="10" value="<?php print get_option('data-limit', $params['id']) ?>"/>
                 </div>
             </div>
+
+
+
+
 
             <div class="mw-ui-row-nodrop">
                 <label class="mw-ui-label-horizontal">
