@@ -70,9 +70,7 @@ var domHelp = {
                     return false;
                 }
             }
-            if(curr.parentNode){
-                curr = curr.parentNode;
-            }
+            curr = curr.parentNode;
         }
         return false;
     },
