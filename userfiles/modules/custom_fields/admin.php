@@ -7,6 +7,7 @@
         mw.require("admin.js", true);
         mw.require("admin_custom_fields.js", true);
     </script>
+
     <?php
     $for = 'module';
     $for_id = false;
@@ -14,6 +15,7 @@
     $copy_from = false;
     $suggest_from_rel = false;
     $list_preview = false;
+
     if (isset($params['for'])) {
         $for = $params['for'];
     }
@@ -21,10 +23,12 @@
     if (isset($params['copy_from'])) {
         $copy_from = $params['copy_from'];
     }
+
     $hide_preview = '';
     if (isset($params['live_edit'])) {
         $hide_preview = " live_edit=true ";
     }
+
     if (isset($params['suggest-from-related']) and $params['suggest-from-related'] != 'false') {
         $suggest_from_rel = true;
     }
@@ -33,12 +37,10 @@
         $list_preview = true;
     }
 
-
     if (isset($params['data-content-id'])) {
         $for_id = $params['data-content-id'];
         $for = 'content';
     } else if (isset($params['content-id'])) {
-        // $for_id = $params['content-id'];
         $for_id = $for_module_id = $params['rel_id'] = $params['content-id'];
         $for = 'content';
         $for = 'content';
@@ -49,28 +51,22 @@
         $for_id = $params['for_id'];
     } elseif (isset($params['rel_id'])) {
         $for_id = $module_id = $params['rel_id'];
-
     } else if (isset($params['for_id'])) {
         $for_id = $params['for_id'];
     } else if (isset($params['for-id'])) {
         $for_id = $params['for-id'];
-    }  else if (isset($params['parent-module-id'])) {
+    } else if (isset($params['parent-module-id'])) {
         $for_id = $params['parent-module-id'];
-    }  else if (isset($params['data-id'])) {
+    } else if (isset($params['data-id'])) {
         $for_id = $params['data-id'];
     } else if (isset($params['id'])) {
         $for_id = $params['id'];
     } elseif (isset($params['data-id'])) {
         $for_id = $module_id = $params['data-id'];
-
     }
 
-
-    // $module_id = $for_id;
-    //$rand = rand();
     $fields = mw()->ui->custom_fields();
     ?>
-
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -96,49 +92,35 @@
         });
 
         mw_custom_fileds_changed_callback = function (el) {
-
-
             mw.tools.loading('#quick-add-post-options-items-holder-container');
             mw.reload_module('#mw_custom_fields_list_preview', function () {
-
                 mw.admin.custom_fields.initValues();
                 mw.tools.loading('#quick-add-post-options-items-holder-container', false);
             });
             mw.custom_fields.after_save();
-
         }
         if (!!window.thismodal) {
             thismodal.resize(800)
         }
-
     </script>
 
     <div class="module-live-edit-settings">
         <div id="custom-field-editor" class="mw-ui-box mw-ui-box-content" style="display: none">
             <label class="mw-ui-label">
-                <small>
-                    <?php _e("Edit"); ?>
-                    <b id="which_field"></b>
-                    <?php _e("Field"); ?>
-                </small>
+                <small><?php _e("Edit"); ?> <b id="which_field"></b> <?php _e("Field"); ?></small>
             </label>
             <div class="custom-field-edit">
-                <div class="custom-field-edit-header"><span class="custom-field-edit-title"></span> <span
-                            onmousedown="mw_cf_close_edit_window()" class="custom-field-edit-title-head right"
-                            style="cursor:pointer;"><?php _e('close'); ?> <span class="mw-ui-arr mw-ui-arr-down "
-                                                                                style="opacity:0.6;"></span> </span>
+                <div class="custom-field-edit-header"><span class="custom-field-edit-title"></span> <span onmousedown="mw_cf_close_edit_window()" class="custom-field-edit-title-head right" style="cursor:pointer;"><?php _e('close'); ?> <span class="mw-ui-arr mw-ui-arr-down" style="opacity:0.6;"></span> </span>
                 </div>
                 <div class="mw-admin-custom-field-edit-item-wrapper">
                     <div class="mw-admin-custom-field-edit-item mw-admin-custom-field-edit-<?php print $params['id']; ?> "></div>
                 </div>
             </div>
         </div>
-        <div class="mw-dropdown mw-dropdown-default" id="dropdown-custom-fields" data-value="price" data-default="<?php _e("Add New Field"); ?>"><span class="mw-dropdown-value mw-ui-btn mw-ui-btn-invert mw-dropdown-val">
-    <?php _e("Add New Field"); ?>
-    </span>
+
+        <div id="dropdown-custom-fields" data-value="price" data-default="<?php _e("Add New Field"); ?>">
+            <button class="btn btn-primary d-inline-block" onClick="javascript:$('#add-field-select').toggleClass('collapse');"><?php _e("Add New Field"); ?></button>
             <?php //$exiisting_fields = get_custom_fields('fields=name&rel=content&rel_id=>0&group_by=type,name&return_full=1',true);
-
-
             $ex = array();
             $ex['rel_type'] = $for;
             //$ex['rel_id'] = $for_id;
@@ -153,45 +135,31 @@
             if (!empty($name_not_in)) {
                 //$ex['name'] = '[not_in]'.implode(',',$name_not_in);
             }
-
             //$exiisting_fields = mw()->fields_manager->get_all($ex);
-
-
             ?>
 
 
 
             <?php $exiisting_fields = false; //TODO ?>
-            <div class="mw-dropdown-content">
-                <ul>
-                    <?php if (is_array($exiisting_fields)): ?>
-                        <?php foreach ($exiisting_fields as $item): ?>
+            <div class="d-inline-block">
+                <div class="collapse" id="add-field-select">
+                    <select class="selectpicker" data-live-search="true" data-size="7">
+                        <?php if (is_array($exiisting_fields)): ?>
+                            <?php foreach ($exiisting_fields as $item): ?>
+                                <option data-copyof="<?php print $item['id'] ?>" value="<?php print $item['type']; ?>"><span class="mw-custom-field-icon-text mw-custom-field-icon-<?php print $item['type']; ?>"></span><span class="mw-custom-field-title" title="<?php print htmlspecialchars($item['name']); ?>"><?php print $item['name']; ?></span></option>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
 
-                            <li data-copyof="<?php print $item['id'] ?>" value="<?php print $item['type']; ?>"><span
-                                        class="mw-custom-field-icon-text mw-custom-field-icon-<?php print $item['type']; ?>"></span><span
-                                        class="mw-custom-field-title" title="<?php print htmlspecialchars($item['name']); ?>"><?php print $item['name']; ?></span></li>
-
+                        <?php foreach ($fields as $field => $value): ?>
+                            <option value="<?php print $field; ?>"><span class="mw-custom-field-icon-<?php print $field; ?>"></span><span class="mw-custom-field-title"><?php _e($value); ?></span></option>
                         <?php endforeach; ?>
-                    <?php endif; ?>
-
-
-
-                    <?php
-
-
-                    foreach ($fields as $field => $value) { ?>
-
-                        <li value="<?php print $field; ?>"><span
-                                    class="mw-custom-field-icon-<?php print $field; ?>"></span><span
-                                    class="mw-custom-field-title"><?php _e($value); ?></span></li>
-                    <?php } ?>
-
-
-                </ul>
+                    </select>
+                </div>
             </div>
         </div>
 
         <hr>
+
         <div id="custom-fields-box">
             <?php if (isset($params['live_edit'])): ?>
                 <module type="admin/modules/templates" simple="true"/>
@@ -202,11 +170,11 @@
         </div>
 
         <label class="mw-ui-label">
-        <br>
+            <br>
 
-        <small  style="float:right;" >
-            <a style="color: #999999" href="http://docs.microweber.com/assets/img/custom_fields_settings.gif" target="_blank"><b>How to setup custom fields?</b></a>
-        </small>
+            <small style="float:right;">
+                <a style="color: #999999" href="http://docs.microweber.com/assets/img/custom_fields_settings.gif" target="_blank"><b>How to setup custom fields?</b></a>
+            </small>
         </label>
     </div>
 </div>
