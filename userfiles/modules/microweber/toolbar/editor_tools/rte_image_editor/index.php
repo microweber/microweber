@@ -293,12 +293,12 @@ if (array_key_exists('title', $_GET)) {
 
 
             var val = urlSearcher.val();
-            if (hash == 'fileWindow') {
+            if (hash === 'fileWindow') {
                 $('body').trigger('change', [val]);
                 return false;
             }
             var type = mw.url.type(val);
-            if (type != 'link') {
+            if (type !== 'link') {
                 if (typeof parent.mw.iframecallbacks[hash] === 'function') {
                     parent.mw.iframecallbacks[hash](GlobalEmbed);
                 } else if (typeof parent[hash] === 'function') {
@@ -327,12 +327,34 @@ if (array_key_exists('title', $_GET)) {
         var selector = '#image_tabs option';
         $('#image_tabs select').on('change', function () {
             var selected = this.options[this.selectedIndex];
-            $('.tab').hide().eq(this.selectedIndex).show()
+            var mode = 'dialog';
+            var index = this.selectedIndex;
+
+            var active = $('.tab').eq(index).show();
+            var rep = document.createElement('div');
+            var dialog = mw.top().dialog({
+                overlay: true,
+                beforeRemove: function () {
+                    $(rep).replaceWith(active)
+                }
+            })
+
+            if(mode === 'dialog' && index > 0) {
+
+            } else {
+                $('.tab').hide()//.eq(index).show()
+            }
+
+            active.before(rep);
+
+
+            active.appendTo(dialog.dialogContainer)
+
             if (selected.id === 'browseTab') {
 
                 if (!window.fileBrowserLoaded) {
                     window.fileBrowserLoaded = true;
-                    mw.load_module('files/admin', '#file_module_live_edit_adm', function () {
+                    mw.top().load_module('files/admin', '#file_module_live_edit_adm', function () {
 
                     }, {'filetype':'images'});
                 }
@@ -390,21 +412,22 @@ if (array_key_exists('title', $_GET)) {
             }
         },
         youtube: function (url) {
+            var id;
             if (url.contains('youtu.be')) {
-                var id = url.split('/').pop();
-                if (id == '') {
-                    var id = id.pop();
+                id = url.split('/').pop();
+                if (!id) {
+                    id = id.pop();
                 }
                 return '<div class="element mw-embed-iframe" style="height:315px;width:560px;"><iframe width="560" height="315" src="https://www.youtube.com/embed/' + id + '?v=1&wmode=transparent" frameborder="0" allowfullscreen></iframe></div>';
             } else {
-                var id = mw.url.getUrlParams(url).v;
+                id = mw.url.getUrlParams(url).v;
                 return '<div class="element mw-embed-iframe" style="height:315px;width:560px;"><iframe width="560" height="315" src="https://www.youtube.com/embed/' + id + '?v=1&wmode=transparent" frameborder="0" allowfullscreen></iframe></div>';
             }
         },
         vimeo: function (url) {
             var id = url.split('/').pop();
-            if (id == '') {
-                var id = id.pop();
+            if (!id) {
+                id = id.pop();
             }
             return '<div class="element mw-embed-iframe" style="height:315px;width:560px;"><iframe src="https://player.vimeo.com/video/' + id + '?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;color=bc9b6a&wmode=transparent" width="560" height="315" frameborder="0" allowFullScreen></iframe></div>';
         }

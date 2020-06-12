@@ -1730,7 +1730,7 @@ mw.wysiwyg = {
 
 
                 mw.wysiwyg.setActiveButtons(target);
-                if (target.tagName == 'A') {
+                if (target.tagName === 'A') {
                     mw.$(".mw_editor_link").addClass('mw_editor_btn_active');
                 }
                 var parent_a = mw.tools.firstParentWithTag(target, 'a');

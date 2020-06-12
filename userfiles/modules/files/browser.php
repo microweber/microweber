@@ -293,7 +293,7 @@ if (isset($params['sort_by'])) {
                         rendImages();
                     }, 333);
 
-                    browserList.height($(top).height() - browserList.offset().top - 220)
+                    // browserList.height($(top).height() - browserList.offset().top - 220)
                 });
 
             </script>

@@ -416,6 +416,9 @@
             this.hide();
             mw.removeInterval('iframe-' + this.id);
             mw.$(this).trigger('BeforeRemove');
+            if (typeof this.options.beforeRemove === 'function') {
+                this.options.beforeRemove.call(this, this)
+            }
             mw.$(this.dialogMain).remove();
             mw.$(this).trigger('Remove');
             mw.trigger('mwDialogRemove', this);
