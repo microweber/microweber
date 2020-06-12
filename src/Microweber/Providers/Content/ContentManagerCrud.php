@@ -195,7 +195,7 @@ class ContentManagerCrud extends Crud
             $extra_data = true;
         }
 
-         if (isset($params['filter.only_in_stock'])) {
+         if (isset($params['filter-only-in-stock'])) {
             $params['__query_get_only_in_stock'] = function ($query){
                 $query->whereIn('content.id', function ($subQuery)  {
                     $subQuery->select('content_data.content_id');
@@ -204,7 +204,7 @@ class ContentManagerCrud extends Crud
                     $subQuery->where('content_data.field_value', '!=','0');
                 });
               };
-             unset($params['filter.only_in_stock']);
+             unset($params['filter-only-in-stock']);
          }
 
         $get = parent::get($params);

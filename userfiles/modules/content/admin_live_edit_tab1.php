@@ -306,7 +306,7 @@ $rand = uniqid(); ?>
                 <div class="mw-ui-row-nodrop">
                     <div class="mw-ui-col">
                         <label class="mw-ui-check">
-                            <input type="checkbox" name="filter.in_stock" value="1" class="mw_option_field" <?php if (get_option('filter.in_stock', $params['id'])): ?>   checked="checked"  <?php endif; ?> />
+                            <input type="checkbox" name="filter-only-in-stock" value="1" class="mw_option_field" <?php if (get_option('filter-only-in-stock', $params['id'])): ?>   checked="checked"  <?php endif; ?> />
                             <span></span> <span><?php _e("Show only products in stock"); ?></span>
                         </label>
                     </div>

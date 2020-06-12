@@ -505,7 +505,7 @@ class Front
 
         $ord_by = get_option('data-order-by', $params['id']);
         $cfg_data_hide_paging = get_option('data-hide-paging', $params['id']);
-        $cfg_show_only_in_stock= get_option('filter.in_stock', $params['id']);
+        $cfg_show_only_in_stock= get_option('filter-only-in-stock', $params['id']);
 
 
         if ($ord_by != false and trim($ord_by) != '') {
@@ -526,7 +526,7 @@ class Front
         $post_params['is_deleted'] = 0;
 
         if($cfg_show_only_in_stock){
-            $post_params['filter.only_in_stock'] = true;
+            $post_params['filter-only-in-stock'] = true;
         }
 
         if (((!isset($post_params['parent']) and !isset($post_params['category'])
