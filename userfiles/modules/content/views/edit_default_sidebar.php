@@ -28,9 +28,37 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
-                    <a href="#" class="btn btn-link px-0">Set a specific publish date</a>
-                </div>
+                <?php if (isset($data['id']) and $data['id'] != 0): ?>
+                    <div class="col-12">
+                        <button type="button" class="btn btn-link px-0" data-toggle="collapse" data-target="#set-a-specific-publish-date">Set a specific publish date</button>
+
+                        <div class="collapse" id="set-a-specific-publish-date">
+                            <div class="row pb-3">
+                                <?php if (isset($data['created_at'])): ?>
+                                    <div class="col-md-12">
+                                        <div class="mw-admin-edit-post-created-at" onclick="mw.adm_cont_enable_edit_of_created_at()">
+                                            <small>
+                                                <?php _e("Created on"); ?>: <span class="mw-admin-edit-post-display-created-at-value"><?php print $data['created_at'] ?></span>
+                                                <input class="form-control form-control-sm mw-admin-edit-post-change-created-at-value" style="display:none" type="datetime" name="created_at" value="<?php print $data['created_at'] ?>" disabled="disabled">
+                                            </small>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+
+                                <?php if (isset($data['updated_at'])): ?>
+                                    <div class="col-md-12 mt-2">
+                                        <div class="mw-admin-edit-post-updated-at" onclick="mw.adm_cont_enable_edit_of_updated_at()">
+                                            <small>
+                                                <?php _e("updated on"); ?>: <span class="mw-admin-edit-post-display-updated-at-value"><?php print $data['updated_at'] ?></span>
+                                                <input class="form-control form-control-sm mw-admin-edit-post-change-updated-at-value" style="display:none" type="datetime" name="updated_at" value="<?php print $data['updated_at'] ?>" disabled="disabled">
+                                            </small>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -182,6 +210,22 @@
             <?php endif; ?>
         </div>
     </div>
+
+    <?php if ($data['content_type'] == 'page'): ?>
+        <div class="card style-1 mb-3 menus">
+            <div class="card-body pt-3">
+                <?php event_trigger('mw_edit_page_admin_menus', $data); ?>
+
+                <?php if (isset($data['add_to_menu'])): ?>
+                    <module type="menu" view="edit_page_menus" content_id="<?php print $data['id']; ?>" add_to_menu="<?php print $data['add_to_menu']; ?>"/>
+                <?php else: ?>
+                    <module type="menu" view="edit_page_menus" content_id="<?php print $data['id']; ?>"/>
+                <?php endif; ?>
+
+                <?php event_trigger('mw_admin_edit_page_after_menus', $data); ?>
+            </div>
+        </div>
+    <?php endif; ?>
 
     <?php if (isset($data['content_type']) and ($data['content_type'] != 'page')): ?>
         <div class="card style-1 mb-3">
