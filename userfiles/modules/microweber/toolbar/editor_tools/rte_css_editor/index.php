@@ -420,19 +420,21 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         });
         ( window.classes || initClasses() ).setData(clsdata)
     }
+
     if(ActiveNode){
         var can = ActiveNode.innerText === ActiveNode.innerHTML;
         mw.$('#text-mask')[can ? 'show' : 'hide']();
         mw.$('#text-mask-field')[0].checked = mw.tools.hasClass(ActiveNode, 'mw-bg-mask');
+        if(!mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(ActiveNode.parentNode, ['edit', 'module'])) {
+            $('#classtags-accordion').hide();
+        } else{
+            $('#classtags-accordion').show();
+        }
     }
 });
 
-
-
     $(document).ready(function(){
-
         mw.$('.mw-field input').attr('autocomplete', 'off')
-
         mw.top().$(top.mwd.body).on('mousedown touchstart', function(e){
             var node = mw.tools.firstMatchesOnNodeOrParent(e.target, ['.element', '.module']);
             if( !node && !mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target, ['mw-control-box', 'mw-defaults']) ){
@@ -543,7 +545,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
 
     </script>
 
-    <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
+    <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion" id="classtags-accordion">
         <div class="mw-ui-box-header mw-accordion-title"><?php _e("Attributes"); ?></div>
         <div class="mw-accordion-content mw-ui-box-content">
             <div class="mw-ui-field-holder">

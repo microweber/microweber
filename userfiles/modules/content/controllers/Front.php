@@ -504,6 +504,10 @@ class Front
         }
 
         $ord_by = get_option('data-order-by', $params['id']);
+        $cfg_data_hide_paging = get_option('data-hide-paging', $params['id']);
+        $cfg_show_only_in_stock= get_option('filter-only-in-stock', $params['id']);
+
+
         if ($ord_by != false and trim($ord_by) != '') {
             $post_params['orderby'] = $ord_by;
         }
@@ -520,6 +524,10 @@ class Front
 
         $post_params['is_active'] = 1;
         $post_params['is_deleted'] = 0;
+
+        if($cfg_show_only_in_stock){
+            $post_params['filter-only-in-stock'] = true;
+        }
 
         if (((!isset($post_params['parent']) and !isset($post_params['category'])
                 or isset($post_params['category']) and empty($post_params['category']))
@@ -799,7 +807,9 @@ class Front
 
         $post_params_paging = $post_params;
         $post_params_paging['page_count'] = true;
-        $cfg_data_hide_paging = get_option('data-hide-paging', $params['id']);
+
+
+
 
         if ($cfg_data_hide_paging === false) {
             if (isset($post_params['hide_paging']) and trim($post_params['hide_paging']) != 'false') {
