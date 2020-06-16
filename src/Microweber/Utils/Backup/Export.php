@@ -348,7 +348,7 @@ class Export
 		
 		$skipTables = $this->_prepareSkipTables();
 		
-		$tablesList = mw()->database_manager->get_tables_list();
+		$tablesList = mw()->database_manager->get_tables_list(true);
 		$tablePrefix = mw()->database_manager->get_prefix();
 		
 		$readyTableList = array();

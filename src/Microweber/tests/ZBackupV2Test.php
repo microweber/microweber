@@ -50,14 +50,10 @@ class ZBackupV2Test extends TestCase
 		$manager = new BackupManager();
 		$manager->setExportAllData(true);
 
-		echo 'fullexport';
-
 		$i = 0;
 		while (true) {
 			
 			$export = $manager->startExport();
-
-			var_dump($export);
 			
 			$exportBool = false;
 			if (!empty($export)) {
@@ -81,8 +77,6 @@ class ZBackupV2Test extends TestCase
 				$this->assertArrayHasKey('filename', $export['data']);
 				
 				self::$_exportedFile = $export['data']['filepath'];
-
-				var_dump($export);
 
 				break;
 			}
@@ -113,9 +107,7 @@ class ZBackupV2Test extends TestCase
 		$manager->setImportBatch(false);
 		
 		$import = $manager->startImport();
-
-		var_dump($import);
-
+		
 		$importBool = false;
 		if (!empty($import)) {
 			$importBool = true;
