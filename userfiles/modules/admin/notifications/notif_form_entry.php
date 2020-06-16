@@ -1,9 +1,14 @@
 <?php
 $entry = false;
-
-if (isset($item['rel_id'])) {
+//d($item);return;
+if (isset($item['rel_id']) AND !isset($is_entry)) {
     $entry_params['id'] = $item['rel_id'];
     $entry = get_contact_entry_by_id($entry_params);
+    $item_id = $item['rel_id'];
+}elseif (isset($item['id']) AND isset($is_entry)) {
+    $entry_params['id'] = $item['id'];
+    $entry = get_contact_entry_by_id($entry_params);
+    $item_id = $item['id'];
 }
 
 if (isset($entry['form_values'])) {
@@ -24,7 +29,7 @@ if (isset($item['created_by'])) {
 }
 ?>
 
-<div class="card mb-2 not-collapsed-border collapsed card-message-holder card-bubble bg-silver" data-toggle="collapse" data-target="#notif-item-<?php print $item['id'] ?>" aria-expanded="false" aria-controls="collapseExample">
+<div class="card mb-2 not-collapsed-border collapsed card-message-holder <?php if(!isset($is_entry)): ?>card-bubble<?php endif; ?> bg-silver" data-toggle="collapse" data-target="#notif-entry-item-<?php print $item_id ?>" aria-expanded="false" aria-controls="collapseExample">
     <div class="card-body">
         <div class="row align-items-center mb-3">
             <div class="col text-left">
@@ -36,7 +41,7 @@ if (isset($item['created_by'])) {
             <div class="col" style="max-width:26px;">
                 <i class="mdi mdi-email text-primary mdi-24px"></i>
             </div>
-            <div class="col-10 col-sm item-id"><span class="text-primary">#<?php echo $item['rel_id']; ?></span></div>
+            <div class="col-10 col-sm item-id"><span class="text-primary">#<?php echo $entry_params['id']; ?></span></div>
 
             <div class="col-6 col-sm">
                 <?php print date('M d, Y', strtotime($item['created_at'])); ?>
@@ -46,7 +51,7 @@ if (isset($item['created_by'])) {
             <div class="col-6 col-sm"><?php print mw('format')->ago($item['created_at']); ?></div>
         </div>
 
-        <div class="collapse" id="notif-item-<?php print $item['id'] ?>">
+        <div class="collapse" id="notif-entry-item-<?php print $item_id ?>">
             <hr class="thin"/>
             <div class="row">
                 <div class="col-md-6">

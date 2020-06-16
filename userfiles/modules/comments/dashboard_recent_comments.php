@@ -1,16 +1,12 @@
 <?php
 
-
-
 $comments_data = array(
-
     'rel_type' => 'content',
     'group_by' => 'rel_id',
     'count' => true,
 );
+
 $ccount = get_comments($comments_data);
-
-
 
 ?>
 
@@ -20,6 +16,9 @@ $ccount = get_comments($comments_data);
         <div><a href="<?php print admin_url('view:modules/load_module:comments'); ?>" class="btn btn-primary btn-sm"><?php print $ccount; ?>  <?php print _e('New comments'); ?></a></div>
     </div>
     <div class="card-body">
+        <?php $is_comment = true; ?>
+        <?php //include module_dir('admin/notifications') . 'notif_comment.php'; ?>
+
         <module type="comments/manage"  id="dashboard-recent-comments" no_paging="true" limit="5" >
     </div>
 </div>
