@@ -65,12 +65,12 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
                             <form autocomplete="on" method="post" id="user_login_<?php print $params['id'] ?>" action="<?php print api_link('user_login') ?>">
                                 <div class="row">
                                     <div class="col-12">
-                                        <div class="form-group">
+                                        <div class="form-group mb-0">
                                             <label class="col-form-label" for="username">Username</label>
                                             <input type="text" class="form-control" id="username" name="username" placeholder="<?php _e("Username or Email"); ?>" <?php if (isset($input['username']) != false): ?>value="<?php print $input['username'] ?>"<?php endif; ?> autofocus=""/>
                                         </div>
 
-                                        <div class="form-group">
+                                        <div class="form-group mb-0">
                                             <label class="col-form-label" for="inputDefault">Password</label>
                                             <input type="password" class="form-control" id="password" name="password" placeholder="<?php _e("Password"); ?>" <?php if (isset($input['password']) != false): ?>value="<?php print $input['password'] ?>"<?php endif; ?> required>
                                         </div>
@@ -78,13 +78,17 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
 
                                     <?php if (isset($login_captcha_enabled) and $login_captcha_enabled): ?>
                                         <div class="col-12">
-                                            <div class="mw-ui-row captcha-holder">
-                                                <div class="mw-ui-col">
-                                                    <img onclick="mw.tools.refresh_image(this);" class="mw-captcha-img" id="captcha-<?php print $params['id']; ?>" src="<?php print api_link('captcha') ?>"/>
-                                                </div>
+                                            <div class="form-group mb-0">
+                                                <label class="col-form-label" for="captcha-field-<?php print $params['id']; ?>">Captcha</label>
 
-                                                <div class="mw-ui-col">
-                                                    <input name="captcha" type="text" required class="mw-ui-field mw-captcha-input" placeholder="<?php _e("Security code"); ?>"/>
+                                                <div class="input-group mb-3 prepend-transparent">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text p-0 overflow-hidden">
+                                                            <img onclick="mw.tools.refresh_image(this);" id="captcha-<?php print $params['id']; ?>" src="<?php print api_link('captcha') ?>" style="max-height: 38px;"/>
+                                                        </span>
+                                                    </div>
+
+                                                    <input name="captcha" type="text" required class="form-control" placeholder="<?php _e("Security code"); ?>" id="captcha-field-<?php print $params['id']; ?>"/>
                                                 </div>
                                             </div>
                                         </div>
