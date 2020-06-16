@@ -9,7 +9,7 @@ mw.getExtradataFormData = function (data, call) {
 
 
     if (data.form_data_required_params) {
-        data.form_data_module_params = $.extend({}, data.form_data_module_params, data.form_data_required_params);
+        data.form_data_module_params = $.extend({}, data.form_data_required_params,data.form_data_module_params);
     }
 
     if (data.form_data_module) {
@@ -76,6 +76,11 @@ mw.extradataForm = function (options, data) {
                 }
                 for (var i in exdata) {
                     options.data[i] = exdata[i];
+                }
+
+                if(options.data.captcha){
+                   // mw.top().
+                   // ('data-captcha-value')
                 }
 
                 mw.ajax(options);
