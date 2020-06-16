@@ -49,11 +49,15 @@ class ZBackupV2Test extends TestCase
 		
 		$manager = new BackupManager();
 		$manager->setExportAllData(true);
-		
+
+		echo 'fullexport';
+
 		$i = 0;
 		while (true) {
 			
 			$export = $manager->startExport();
+
+			var_dump($export);
 			
 			$exportBool = false;
 			if (!empty($export)) {
