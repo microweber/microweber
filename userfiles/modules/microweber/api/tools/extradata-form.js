@@ -1,18 +1,21 @@
 mw.getExtradataFormData = function (data, call) {
 
-
-    if(data.form_data_required){
-        if(!data.form_data_module_params){
+    if (data.form_data_required) {
+        if (!data.form_data_module_params) {
             data.form_data_module_params = {};
         }
-        data.form_data_module_params._confirm=1
+        data.form_data_module_params._confirm = 1
     }
 
 
-     if (data.form_data_module) {
+    if (data.form_data_required_params) {
+        data.form_data_module_params = $.extend({}, data.form_data_module_params, data.form_data_required_params);
+    }
+
+    if (data.form_data_module) {
         mw.loadModuleData(data.form_data_module, function (moduledata) {
             call.call(undefined, moduledata);
-        },null,data.form_data_module_params);
+        }, null, data.form_data_module_params);
     }
     else {
         call.call(undefined, data.form_data_required);
@@ -32,6 +35,8 @@ mw.extradataForm = function (options, data) {
             mw.$(form).append('<hr><button type="submit" class="mw-ui-btn pull-right mw-ui-btn-invert">' + mw.lang('Submit') + '</button>');
         }
 
+
+
         form.action = options.url;
         form.method = options.type;
         form.__modal = mw.dialog({
@@ -50,8 +55,14 @@ mw.extradataForm = function (options, data) {
             }
         });
 
+
+
         if(data.form_data_required) {
             mw.$(form).on('submit', function (e) {
+
+
+
+
                 e.preventDefault();
                 var exdata = mw.serializeFields(this);
 
