@@ -188,6 +188,7 @@ mw.fileWindow = function (config) {
         toreturn.root = frame.parent()[0];
         toreturn.iframe = frame[0];
         frameWindow.onload = function () {
+
             frameWindow.$('body').on('change', function (e, url, m) {
                 if (config.change) {
                     config.change.call(undefined, url);
@@ -210,7 +211,9 @@ mw.fileWindow = function (config) {
             $el.append(fr);
         }
         fr.onload = function () {
+            console.log(this.contentWindow.$('body')[0])
             this.contentWindow.$('body').on('change', function (e, url, m) {
+                console.log(e, url, m)
                 if (config.change) {
                     config.change.call(undefined, url);
                 }

@@ -236,7 +236,7 @@ mw.askusertostay = false;
           return
       }
       var string = t !== "css" ? "<script type='text/javascript'  src='" + url + "'></script>" : "<link rel='stylesheet' type='text/css' href='" + url + "' />";
-      if ((mwd.readyState === 'loading'/* || mwd.readyState === 'interactive'*/) && !inHead && !!window.CanvasRenderingContext2D && self === parent) {
+      if (false && (mwd.readyState === 'loading'/* || mwd.readyState === 'interactive'*/) && !inHead && !!window.CanvasRenderingContext2D && self === parent) {
          mwd.write(string);
       }
       else {
@@ -269,6 +269,9 @@ mw.getScripts = function (array, callback) {
   if(typeof array === 'string'){
       array = array.split(',')
   }
+    array = array.filter(function (item) {
+        return !!item.trim();
+    });
   var all = array.length, ready = 0;
   $.each(array, function(){
       var scr = $('<script>');
@@ -278,7 +281,7 @@ mw.getScripts = function (array, callback) {
             callback.call()
         }
       });
-      scr[0].src = this;
+      scr[0].src = this.indexOf('//') !== -1 ? this : mw.settings.includes_url + 'api/' + this;
       document.body.appendChild(scr[0]);
   });
 };
@@ -297,13 +300,6 @@ mw.getScripts = function (array, callback) {
     mw.require(url, true);
   };
 
-
-
-  mw.wait = function(a, b, max) {
-    window[a] === undefined ? setTimeout(function() {
-      mw.wait(a, b), 52
-    }) : b.call(a);
-  };
 
   mw.target = {}
 
@@ -753,7 +749,7 @@ mw.getScripts = function (array, callback) {
   };
 
   mw.$ = function(selector, context) {
-    if(typeof selector === 'object'){ return jQuery(selector); }
+    if(typeof selector === 'object' || (typeof selector === 'string' && selector.indexOf('<') !== -1)){ return jQuery(selector); }
     context = context || mwd;
     if (typeof mwd.querySelector !== 'undefined') {
       if (typeof selector === 'string') {

@@ -1,0 +1,84 @@
+<?php
+$entry = false;
+
+if (isset($item['rel_id'])) {
+    $entry_params['id'] = $item['rel_id'];
+    $entry = get_contact_entry_by_id($entry_params);
+}
+
+if (isset($entry['form_values'])) {
+    $form_values = json_decode($entry['form_values'], true);
+
+    if ($form_values) {
+        $countArrays = ceil(count($form_values) / 2);
+    }
+
+    $form_values_1 = array_slice($form_values, 0, $countArrays);
+    $form_values_2 = array_slice($form_values, $countArrays);
+}
+
+$created_by = false;
+if (isset($item['created_by'])) {
+    $created_by = get_user_by_id($item['created_by']);
+    $created_by_username = $created_by['username'];
+}
+?>
+
+<div class="card mb-2 not-collapsed-border collapsed card-message-holder card-bubble bg-silver" data-toggle="collapse" data-target="#notif-item-<?php print $item['id'] ?>" aria-expanded="false" aria-controls="collapseExample">
+    <div class="card-body">
+        <div class="row align-items-center mb-3">
+            <div class="col text-left">
+                <span class="text-primary text-break-line-2">New form entry</span>
+            </div>
+        </div>
+
+        <div class="row align-items-center">
+            <div class="col" style="max-width:26px;">
+                <i class="mdi mdi-email text-primary mdi-24px"></i>
+            </div>
+            <div class="col-10 col-sm item-id"><span class="text-primary">#<?php echo $item['rel_id']; ?></span></div>
+
+            <div class="col-6 col-sm">
+                <?php print date('M d, Y', strtotime($item['created_at'])); ?>
+                <small class="text-muted"><?php print date('h:s', strtotime($item['created_at'])); ?>h</small>
+            </div>
+
+            <div class="col-6 col-sm"><?php print mw('format')->ago($item['created_at']); ?></div>
+        </div>
+
+        <div class="collapse" id="notif-item-<?php print $item['id'] ?>">
+            <hr class="thin"/>
+            <div class="row">
+                <div class="col-md-6">
+                    <h6><strong>Fields</strong></h6>
+
+                    <?php if ($form_values_1): ?>
+                        <?php foreach ($form_values_1 as $key => $val1): ?>
+                            <div>
+                                <small class="text-muted"><?php echo(str_replace('_', ' ', $key)); ?>:</small>
+                                <p><?php echo $val1; ?></p>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </div>
+                <div class="col-md-6">
+                    <h6>&nbsp;</h6>
+                    <?php if ($form_values_2): ?>
+                        <?php foreach ($form_values_2 as $key => $val2): ?>
+                            <div>
+                                <small class="text-muted"><?php echo(str_replace('_', ' ', $key)); ?>:</small>
+                                <p><?php echo $val2; ?></p>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+
+                    <div>
+                        <small class="text-muted">Attached files:</small>
+                        <p><i class="mdi mdi-pdf-box text-primary mdi-18px"></i> Refactoring UI: Bad About</p>
+                        <p><i class="mdi mdi-file-check text-primary mdi-18px"></i> Some of our files attached</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

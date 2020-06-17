@@ -18,7 +18,7 @@ mw.url = {
       return url.replace(/#[^#]*$/, "").replace(/\?[^\?]*$/, "")
     },
     getUrlParams:function(url){
-        var url = mw.url.removeHash(url);
+        url = mw.url.removeHash(url);
         if(url.contains('?')){
           var arr = url.slice(url.indexOf('?') + 1).split('&');
           var obj = {}, i=0, len = arr.length;
@@ -31,7 +31,7 @@ mw.url = {
         else{return {} }
     },
     set_param:function(param, value, url){
-        var url = url || window.location.href;
+        url = url || window.location.href;
         var hash = mw.url.getHash(url);
         var params = mw.url.getUrlParams(url);
         params[param] = value;
@@ -44,7 +44,7 @@ mw.url = {
         var params = mw.url.getUrlParams(url);
         delete params[param];
         var params_string = json2url(params);
-        var url = mw.url.strip(url);
+        url = mw.url.strip(url);
         return decodeURIComponent (url + "?" + params_string + hash);
     },
     getHashParams:function(hash){
@@ -148,10 +148,12 @@ mw.url = {
 
 mw.slug = {
   normalize:function(string){
+      if(!string) return;
     return string.replace(/[`~!@#$%^&№€§*()\=?'"<>\{\}\[\]\\]/g, '');
   },
   removeSpecials:function(string){
     string = mw.slug.normalize(string);
+    if(!string) return string;
     var special = 'àáäãâèéëêìíïîòóöôõùúüûñç·=,:;',
         normal =  'aaaaaeeeeiiiiooooouuuunc------',
         len = special.length,

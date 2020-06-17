@@ -1,6 +1,6 @@
 <?php $path = mw_includes_url() . "toolbar/editor_tools/rte_image_editor/"; ?>
 
-<script type="text/javascript">
+<script>
     parent.mw.require("external_callbacks.js");
     mw.lib.require('mwui');
     mw.require("events.js");
@@ -27,6 +27,8 @@ if (array_key_exists('title', $_GET)) {
 
 
 ?>
+
+
 <script type="text/javascript">
     var hash = location.hash.replace(/#/g, "");
 
@@ -48,10 +50,9 @@ if (array_key_exists('title', $_GET)) {
         }
     };
 
-    afterMediaIsInserted = function (url, todo, eventType) { /* what to do after image is uploaded (depending on the hash in the url)    */
+    afterMediaIsInserted = function (url, todo, eventType) {
 
         todo = todo || false;
-
         if (url === false) {
             if (eventType === 'done') {
 
@@ -61,6 +62,7 @@ if (array_key_exists('title', $_GET)) {
             }
             return false;
         }
+
         if (hash === 'fileWindow') {
             $('body').trigger('change', [url]);
             return false;
@@ -188,11 +190,7 @@ if (array_key_exists('title', $_GET)) {
 
             });
             $(frame).on("FileUploaded", function (frame, item) {
-                console.log(filetypes)
-
                 if (filetypes.indexOf('images') !== -1) {
-
-
                     afterMediaIsInserted(item.src, '', "FileUploaded");
                 }
                 else if (filetypes == 'videos' || filetypes == 'media') {

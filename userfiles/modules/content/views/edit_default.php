@@ -148,7 +148,6 @@ if (isset($params['quick_edit'])) {
 }
 ?>
 
-
 <div class="<?php echo $wrapper_class; ?>">
     <form method="post" <?php if ($just_saved != false) : ?> style="display:none;" <?php endif; ?> class="mw_admin_edit_content_form" action="<?php print site_url(); ?>api/save_content_admin" id="quickform-edit-content" autocomplete="off">
         <input type="hidden" name="id" id="mw-content-id-value" value="<?php print $data['id']; ?>"/>

@@ -2,12 +2,13 @@ mw.module_pictures = {
     after_upload: function (data) {
         $.post(mw.settings.api_url + 'save_media', data,
             function (resp) {
-                console.log(data, resp)
+                mw.reload_module('pictures/admin_backend_sortable_pics_list')
+                mw.top().reload_module('pictures/admin_backend_sortable_pics_list')
             });
         },
     time:null,
     after_change: function (data) {
-        clearTimeout(mw.module_pictures.time)
+        clearTimeout(mw.module_pictures.time);
         mw.module_pictures.time = setTimeout(function () {
             mw.reload_module('pictures');
             mw.reload_module_parent('pictures');

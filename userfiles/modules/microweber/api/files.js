@@ -57,7 +57,7 @@ mw.files = {
         return str;
     },
     uploader:function(obj, mode1){
-            var obj = $.extend({}, mw.files.settings, obj);
+            obj = $.extend({}, mw.files.settings, obj);
             var frame = mwd.createElement('iframe');
             frame.className = 'mw-uploader mw-uploader-'+obj.type;
             frame.scrolling = 'no';
@@ -68,7 +68,7 @@ mw.files = {
             if(typeof obj.path !== 'undefined'){
                 params += '&path=' + encodeURIComponent(obj.path);
             }
-    if(typeof obj.autopath !== 'undefined'){
+            if(typeof obj.autopath !== 'undefined'){
                 params += '&autopath=' + encodeURIComponent(obj.autopath);
             }
             params+= '&mwv=' + mw.version;
@@ -93,7 +93,7 @@ mw.files = {
             return url;
     },
     urlAsBackgrund:function(url, el){
-            var url = this.safeFilename(url);
+            url = this.safeFilename(url);
             var bg = 'url("'+ url +'")';
             if(!!el){
                     el.style.backgroundImage = bg;

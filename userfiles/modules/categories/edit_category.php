@@ -28,7 +28,6 @@ if (isset($params['live_edit'])) {
 
 }
 ?>
-
 <div class="card style-1 mb-3 <?php print $wrapper_class; ?>">
     <script type="text/javascript">mw.require('forms.js');</script>
 

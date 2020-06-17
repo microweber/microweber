@@ -11,8 +11,16 @@ if ($params['period']) {
 }
 ?>
 
+<div id="test" style="width: 300px;
+height: 300px;background: #52b1b5"></div>
 
 <script>
+    mw.require('filepicker.js');
+    $(document).ready(function () {
+        var up = new mw.filePicker({
+            element:'#test'
+        })
+    })
     mw.admin.__statdata = <?php print json_encode($graph_data); ?>;
 </script>
 
