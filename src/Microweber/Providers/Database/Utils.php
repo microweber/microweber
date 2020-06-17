@@ -181,9 +181,45 @@ class Utils
 
     public function get_tables_list($only_cms_tables = false)
     {
+
+        $system_tables = [
+            "sqlite_sequence",
+            "information_schema",
+            "columns_priv",
+            "db",
+            "engine_cost",
+            "event",
+            "func",
+            "general_log",
+            "gtid_executed",
+            "help_category",
+            "help_keyword",
+            "help_relation",
+            "help_topic",
+            "innodb_index_stats",
+            "innodb_table_stats",
+            "ndb_binlog_index",
+            "plugin",
+            "proc",
+            "procs_priv",
+            "proxies_priv",
+            "server_cost",
+            "servers",
+            "slave_master_info",
+            "slave_relay_log_info",
+            "slave_worker_info",
+            "slow_log",
+            "tables_priv",
+            "time_zone",
+            "time_zone_leap_second",
+            "time_zone_name",
+            "time_zone_transition",
+            "time_zone_transition_type",
+            "user"
+         ];
+
         $tables = array();
         $engine = $this->get_sql_engine();
-
 
         if ($engine == 'sqlite') {
             $sql = DB::select("SELECT * FROM sqlite_master WHERE type='table';");
@@ -241,12 +277,16 @@ class Utils
 
             foreach ($tables as $k => $v) {
 
+                if (in_array($k, $system_tables)) {
+                    continue;
+                }
+
                 if ($local_prefix) {
                     //   $starts_with = starts_with($local_prefix, $v);
                     $starts_with = substr($v, 0, strlen($local_prefix)) === $local_prefix;
 
                     if ($starts_with) {
-                        //  $v = str_replace_first($local_prefix, '', $v);
+                           $v1 = str_replace_first($local_prefix, '', $v);
                         $cms_tables[$k] = $v;
                     } else {
                         //  $cms_tables[$k] = $v;

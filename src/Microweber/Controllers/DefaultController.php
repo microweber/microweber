@@ -1448,7 +1448,6 @@ class DefaultController extends Controller
                 }
 
 
-
                 $page_url_segment_1 = $this->app->url_manager->segment(0, $page_url);
                 if ($preview_module != false) {
                     $page_url = $preview_module;
@@ -1571,6 +1570,8 @@ class DefaultController extends Controller
                         //$page = $this->app->content_manager->homepage();
                         $page = false;
                         if (!is_array($page)) {
+
+
                             $page = array();
 
                             $page['id'] = 0;
@@ -1581,6 +1582,22 @@ class DefaultController extends Controller
                             $page['simply_a_file'] = 'clean.php';
                             $page['layout_file'] = 'clean.php';
                             $show_404_to_non_admin = true;
+
+
+                            if ($show_404_to_non_admin) {
+//                                $content_from_event = event_trigger('mw.frontend.404', $page);
+//                                if($content_from_event and !empty($content_from_event)){
+//                                    foreach ($content_from_event as $content_from_event_item){
+//                                        $page = array_merge($page,$content_from_event_item);
+//                                      //  $page = $content_from_event_item;
+//                                        //$content = array_merge($content,$content_from_event_item);
+//                                    }
+//                                }
+
+                                // dd($page);
+                            }
+
+
                             if ($all_url_segments) {
                                 $page_url_segments_str_for_file = implode('/', $page_url_segment_3);
                                 $file1 = $page_url_segments_str_for_file . '.php';
@@ -1811,13 +1828,6 @@ class DefaultController extends Controller
             return $content;
         }
 
-        if (isset($content['original_link']) and $content['original_link'] != '') {
-            $content['original_link'] = str_ireplace('{site_url}', $this->app->url_manager->site(), $content['original_link']);
-            $redirect = $this->app->format->prep_url($content['original_link']);
-            if ($redirect != '' and $redirect != site_url() and $redirect . '/' != site_url()) {
-                return $this->app->url_manager->redirect($redirect);
-            }
-        }
 
         if (!isset($page['title'])) {
             $page['title'] = 'New page';
@@ -1840,6 +1850,17 @@ class DefaultController extends Controller
         if ($render_file) {
             $render_params = array();
             if ($show_404_to_non_admin) {
+
+                $event_404 = event_trigger('mw.frontend.404', $content);
+                if ($event_404) {
+                    foreach ($event_404 as $event_item) {
+                        if (is_array($event_item) and !empty($event_item)) {
+                            $content = array_merge($content, $event_item);
+                        }
+                    }
+                }
+
+
                 if (!is_admin()) {
                     $load_template_404 = template_dir() . '404.php';
                     $load_template_404_2 = TEMPLATES_DIR . 'default/404.php';
@@ -2098,6 +2119,15 @@ class DefaultController extends Controller
                 }
 
 
+            }
+
+
+            if (isset($content['original_link']) and $content['original_link'] != '') {
+                $content['original_link'] = str_ireplace('{site_url}', $this->app->url_manager->site(), $content['original_link']);
+                $redirect = $this->app->format->prep_url($content['original_link']);
+                if ($redirect != '' and $redirect != site_url() and $redirect . '/' != site_url()) {
+                    return $this->app->url_manager->redirect($redirect);
+                }
             }
 
             if ($is_editmode == true and $this->isolate_by_html_id == false and !isset($_REQUEST['isolate_content_field'])) {

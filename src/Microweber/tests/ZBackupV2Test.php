@@ -49,7 +49,7 @@ class ZBackupV2Test extends TestCase
 		
 		$manager = new BackupManager();
 		$manager->setExportAllData(true);
-		
+
 		$i = 0;
 		while (true) {
 			
@@ -77,7 +77,7 @@ class ZBackupV2Test extends TestCase
 				$this->assertArrayHasKey('filename', $export['data']);
 				
 				self::$_exportedFile = $export['data']['filepath'];
-				
+
 				break;
 			}
 			

@@ -16,7 +16,6 @@ $hide_pages = get_option('hide-pages', $params['id']);
 $cfg_filter_in_stock = false;
 
 
-
 if(isset($params['filter-only-in-stock'])){
     $cfg_filter_in_stock = $params['filter-only-in-stock'];
 } else {
@@ -38,14 +37,14 @@ if (!isset($parent) or $parent == '') {
     $parent = 0;
 }
 
-//$cache_id = __CLASS__ . __FUNCTION__ .'category_images'. crc32(json_encode($params) . $hide_pages . $show_subcats . $show_category_header . $show_only_for_parent . $selected_page . $parent . current_lang());
-//$cache_group = 'categories';
-//
-//$results = cache_get($cache_id, $cache_group, false);
-////$results = false;
-//if ($results) {
-//    $cats = $results;
-//} else {
+$cache_id = __CLASS__ . __FUNCTION__ .'category_images'. crc32(json_encode($params) . $hide_pages . $show_subcats . $cfg_filter_in_stock.$show_category_header . $show_only_for_parent . $selected_page . $parent . current_lang());
+$cache_group = 'categories';
+
+$results = cache_get($cache_id, $cache_group, false);
+//$results = false;
+if ($results) {
+    $cats = $results;
+} else {
 
 //cache_save($tree, $cache_id, $cache_group);
 
@@ -238,9 +237,9 @@ if (!isset($parent) or $parent == '') {
 
         }
     }
+    cache_save($cats, $cache_id, $cache_group);
 
-  //  cache_save($cats, $cache_id, $cache_group);
-//}
+}
 
 
 $selected_cats = $cats;

@@ -251,6 +251,7 @@ class FormsManager
                 return array(
                     'error' => _e('Please enter the captcha answer!', true),
                     'form_data_required' => 'captcha',
+                    'form_data_required_params' => array('captcha_parent_for_id'=>$for_id),
                     'form_data_module' => 'captcha'
                 );
 
@@ -272,6 +273,7 @@ class FormsManager
                         'error' => _e('Invalid captcha answer!', true),
                         'captcha_error' => true,
                         'form_data_required' => 'captcha',
+                        'form_data_required_params' => array('captcha_parent_for_id'=>$for_id),
                         'form_data_module' => 'captcha'
                     );
 
