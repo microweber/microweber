@@ -158,11 +158,9 @@ $moderation_is_required = get_option('require_moderation', 'comments') == 'y';
                 <?php $image = get_picture($content['id']); ?>
 
                 <?php if (isset($image) and $image != ''): ?>
-                    <span class="comment-thumbnail-tooltip"
-                          style="background-image: url(<?php print thumbnail($image, 120, 120); ?>)"></span>
+                    <span class="comment-thumbnail-tooltip" style="background-image: url(<?php print thumbnail($image, 120, 120); ?>)"></span>
                 <?php else: ?>
-                    <span class="comment-thumbnail-tooltip"
-                          style="background-image: url(<?php print thumbnail('', 120, 120); ?>)"></span>
+                    <span class="comment-thumbnail-tooltip" style="background-image: url(<?php print thumbnail('', 120, 120); ?>)"></span>
                 <?php endif; ?>
             </div>
 
@@ -183,15 +181,16 @@ $moderation_is_required = get_option('require_moderation', 'comments') == 'y';
             <?php
             if (is_array($postComments)) {
                 foreach ($postComments as $i => $comment) { ?>
+
                     <?php
                     $last_item_param = '';
                     if (!isset($postComments[$i + 1])) {
                         $last_item_param = ' show-reply-form=true ';
-
                     }
                     ?>
 
                     <module type="comments/comment_item" id="mw_comments_item_<?php print $comment['id'] ?>" comment_id="<?php print $comment['id'] ?>" <?php print $last_item_param ?> />
+
                 <?php } ?>
             <?php } ?>
         </div>

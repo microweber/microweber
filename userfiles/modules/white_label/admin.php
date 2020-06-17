@@ -26,6 +26,7 @@
         </a>
     </div>
 </div>
+
 <div class="admin-side-content">
     <?php if (!have_license('modules/white_label')): ?>
         <style>

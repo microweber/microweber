@@ -1,12 +1,14 @@
 <?php
 $article = false;
 $comments = false;
+$picture = false;
 if (isset($item['rel_id'])) {
     $article = get_content_by_id($item['rel_id']);
     $comments = get_comments('rel_type=content&rel_id=' . $item['rel_id']);
+    $picture = get_picture_by_id($item['rel_id']);
+    $picture = $picture['filename'];
 }
-//dd($comment);
-//dd($article);
+
 $created_by = false;
 if (isset($item['created_by'])) {
     $created_by = get_user_by_id($item['created_by']);
@@ -25,7 +27,11 @@ if (isset($item['created_by'])) {
         <div class="row align-items-center">
             <div class="col" style="max-width: 100px;">
                 <div class="img-circle-holder img-absolute border-radius-0 border-0">
-                    <img src="https://s12emagst.akamaized.net/products/14414/14413292/images/res_77ef39ad42fe97f3288ebb6ed0e91dad_450x450_5rk5.jpg"/>
+                    <?php if ($picture): ?>
+                        <img src="<?php echo thumbnail($picture); ?>"/>
+                    <?php else: ?>
+                        <img src="<?php echo thumbnail(''); ?>"/>
+                    <?php endif; ?>
                 </div>
             </div>
             <div class="col text-left">

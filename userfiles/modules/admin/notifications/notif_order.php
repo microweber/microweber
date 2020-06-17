@@ -4,19 +4,15 @@ $order_products = false;
 $order_first_product = false;
 
 if (isset($item['rel_id']) AND !isset($is_order)) {
-    $order = get_order_by_id($item['rel_id']);
-    $order_products = mw()->shop_manager->order_items($item['rel_id']);
-    if ($order_products) {
-        $order_first_product = $order_products[0];
-    }
     $item_id = $item['rel_id'];
 } elseif (isset($item['id']) AND isset($is_order)) {
-    $order = get_order_by_id($item['id']);
-    $order_products = mw()->shop_manager->order_items($item['id']);
-    if ($order_products) {
-        $order_first_product = $order_products[0];
-    }
     $item_id = $item['id'];
+}
+
+$order = get_order_by_id($item_id);
+$order_products = mw()->shop_manager->order_items($item_id);
+if ($order_products) {
+    $order_first_product = $order_products[0];
 }
 
 $created_by = false;
@@ -24,9 +20,10 @@ if (isset($item['created_by'])) {
     $created_by = get_user_by_id($item['created_by']);
     $created_by_username = $created_by['username'];
 }
+
 ?>
 
-<div class="card mb-2 not-collapsed-border collapsed <?php if(!isset($is_order)): ?>card-bubble<?php endif; ?> card-order-holder bg-silver" data-toggle="collapse" data-target="#notif-order-item-<?php print $item_id; ?>" aria-expanded="false" aria-controls="collapseExample">
+<div class="card mb-2 not-collapsed-border collapsed <?php if (!isset($is_order)): ?>card-bubble<?php endif; ?> card-order-holder bg-silver" data-toggle="collapse" data-target="#notif-order-item-<?php print $item_id; ?>" aria-expanded="false" aria-controls="collapseExample">
     <div class="card-body">
         <div class="row">
             <div class="col-12 col-md-6">
@@ -36,7 +33,7 @@ if (isset($item['created_by'])) {
                             <?php if ($order_first_product AND isset($order_first_product['item_image'])): ?>
                                 <img src="<?php echo thumbnail($order_first_product['item_image'], 160, 160); ?>"/>
                             <?php else: ?>
-                                <img src="https://s12emagst.akamaized.net/products/14414/14413292/images/res_77ef39ad42fe97f3288ebb6ed0e91dad_450x450_5rk5.jpg"/>
+                                <img src="<?php echo thumbnail(''); ?>"/>
                             <?php endif; ?>
                         </div>
                     </div>
