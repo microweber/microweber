@@ -1,4 +1,5 @@
-<?php only_admin_access();
+<?php
+only_admin_access();
 $data = [];
 if (isset($params['content_id'])) {
     $data = array(
@@ -14,39 +15,34 @@ if (isset($params['content_id'])) {
     );
 }
 
-
 if (isset($params['search-keyword']) and $params['search-keyword']) {
     $kw = $data['keyword'] = $params['search-keyword'];
     $data['search_in_fields'] = 'comment_name,comment_body,comment_email,comment_website,from_url,comment_subject';
 }
-
 
 $content = false;
 $content_id = false;
 
 $comments = $postComments = get_comments($data);
 
-
 if (isset($params['content_id'])) {
     $content = get_content_by_id($params['content_id']);
-    if(!$content){
+    if (!$content) {
         return;
     }
 
     $content_id = $params['content_id'];
 }
 
-if(!isset($content['id'])){
+if (!isset($content['id'])) {
     return;
 }
 
 $moderation_is_required = get_option('require_moderation', 'comments') == 'y';
-
 ?>
 
 
 <script type="text/javascript">
-
 
     $(document).ready(function () {
 
@@ -162,11 +158,9 @@ $moderation_is_required = get_option('require_moderation', 'comments') == 'y';
                 <?php $image = get_picture($content['id']); ?>
 
                 <?php if (isset($image) and $image != ''): ?>
-                    <span class="comment-thumbnail-tooltip"
-                          style="background-image: url(<?php print thumbnail($image, 120, 120); ?>)"></span>
+                    <span class="comment-thumbnail-tooltip" style="background-image: url(<?php print thumbnail($image, 120, 120); ?>)"></span>
                 <?php else: ?>
-                    <span class="comment-thumbnail-tooltip"
-                          style="background-image: url(<?php print thumbnail('', 120, 120); ?>)"></span>
+                    <span class="comment-thumbnail-tooltip" style="background-image: url(<?php print thumbnail('', 120, 120); ?>)"></span>
                 <?php endif; ?>
             </div>
 
@@ -186,22 +180,19 @@ $moderation_is_required = get_option('require_moderation', 'comments') == 'y';
             <hr/>
             <?php
             if (is_array($postComments)) {
-            foreach ($postComments as $i => $comment) { ?>
+                foreach ($postComments as $i => $comment) { ?>
 
-            <?php
-            $last_item_param = '';
-            if (!isset($postComments[$i + 1])) {
-                $last_item_param = ' show-reply-form=true ';
+                    <?php
+                    $last_item_param = '';
+                    if (!isset($postComments[$i + 1])) {
+                        $last_item_param = ' show-reply-form=true ';
+                    }
+                    ?>
 
-            }
-            ?>
-
-            <module type="comments/comment_item" id="mw_comments_item_<?php print $comment['id'] ?>"
-                    comment_id="<?php print $comment['id'] ?>" <?php print $last_item_param ?> />
-
+                    <module type="comments/comment_item" id="mw_comments_item_<?php print $comment['id'] ?>" comment_id="<?php print $comment['id'] ?>" <?php print $last_item_param ?> />
 
                 <?php } ?>
-                <?php } ?>
+            <?php } ?>
         </div>
 
 

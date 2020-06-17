@@ -2,22 +2,28 @@
 $order = false;
 $order_products = false;
 $order_first_product = false;
-if (isset($item['rel_id'])) {
-    $order = get_order_by_id($item['rel_id']);
-    $order_products = mw()->shop_manager->order_items($item['rel_id']);
-    if ($order_products) {
-        $order_first_product = $order_products[0];
-    }
+
+if (isset($item['rel_id']) AND !isset($is_order)) {
+    $item_id = $item['rel_id'];
+} elseif (isset($item['id']) AND isset($is_order)) {
+    $item_id = $item['id'];
+}
+
+$order = get_order_by_id($item_id);
+$order_products = mw()->shop_manager->order_items($item_id);
+if ($order_products) {
+    $order_first_product = $order_products[0];
 }
 
 $created_by = false;
-if(isset($item['created_by'])){
+if (isset($item['created_by'])) {
     $created_by = get_user_by_id($item['created_by']);
     $created_by_username = $created_by['username'];
 }
+
 ?>
 
-<div class="card mb-2 not-collapsed-border collapsed card-bubble card-order-holder bg-silver" data-toggle="collapse" data-target="#notif-item-<?php print $item['id'] ?>" aria-expanded="false" aria-controls="collapseExample">
+<div class="card mb-2 not-collapsed-border collapsed <?php if (!isset($is_order)): ?>card-bubble<?php endif; ?> card-order-holder bg-silver" data-toggle="collapse" data-target="#notif-order-item-<?php print $item_id; ?>" aria-expanded="false" aria-controls="collapseExample">
     <div class="card-body">
         <div class="row">
             <div class="col-12 col-md-6">
@@ -27,12 +33,12 @@ if(isset($item['created_by'])){
                             <?php if ($order_first_product AND isset($order_first_product['item_image'])): ?>
                                 <img src="<?php echo thumbnail($order_first_product['item_image'], 160, 160); ?>"/>
                             <?php else: ?>
-                                <img src="https://s12emagst.akamaized.net/products/14414/14413292/images/res_77ef39ad42fe97f3288ebb6ed0e91dad_450x450_5rk5.jpg"/>
+                                <img src="<?php echo thumbnail(''); ?>"/>
                             <?php endif; ?>
                         </div>
                     </div>
 
-                    <div class="col item-id"><span class="text-primary">#<?php echo $item['rel_id']; ?></span></div>
+                    <div class="col item-id"><span class="text-primary">#<?php echo $order['id']; ?></span></div>
 
                     <div class="col item-title" style="min-width: 210px;">
                         <?php if ($order_first_product AND isset($order_first_product['title'])): ?>
@@ -70,10 +76,10 @@ if(isset($item['created_by'])){
             </div>
         </div>
 
-        <div class="collapse" id="notif-item-<?php print $item['id'] ?>">
+        <div class="collapse" id="notif-order-item-<?php print $item_id; ?>">
             <div class="row mt-3">
                 <div class="col-12 text-center text-sm-left">
-                    <a href="<?php print admin_url('view:shop/action:orders#vieworder=' . $item['rel_id']); ?>" class="btn btn-primary btn-sm btn-rounded">View order</a>
+                    <a href="<?php print admin_url('view:shop/action:orders#vieworder=' . $order['id']); ?>" class="btn btn-primary btn-sm btn-rounded">View order</a>
                 </div>
             </div>
 

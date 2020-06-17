@@ -59,7 +59,7 @@
             ?>
         <?php endif; ?>
 
-        <?php include(MW_ADMIN_VIEWS_DIR . 'copyright.php'); ?>
+        <module type="admin/copyright" />
     </main>
 <?php endif; ?>
 

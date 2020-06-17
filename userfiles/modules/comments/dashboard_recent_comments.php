@@ -1,16 +1,12 @@
 <?php
 
-
-
 $comments_data = array(
-
     'rel_type' => 'content',
     'group_by' => 'rel_id',
     'count' => true,
 );
+
 $ccount = get_comments($comments_data);
-
-
 
 ?>
 
