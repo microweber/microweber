@@ -102,7 +102,7 @@ mw.filePicker = function (options) {
     this.footer = function (type) {
 
     };
-    
+
     this._getComponentObject = function (type) {
         return this.settings.components.find(function (comp) {
             return comp.type && comp.type === type;
