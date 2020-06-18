@@ -40,12 +40,21 @@ mw.filePicker = function (options) {
             {type: 'library', label: mw.lang('Media library')}
         ],
         nav: 'tabs', // 'tabs | 'dropdown',
-        element: null
+        element: null,
+        footer: true,
+        okLabel: mw.lang('OK'),
+        cancelLabel: mw.lang('Cancel'),
+        confirm: function (data) {
+
+        },
+        cancel: function () {
+
+        }
     };
 
     this.$root = $('<div class="card mb-3 mw-filepicker-root"></div>');
 
-    this.settings = $.extend({}, defaults, options);
+    this.settings = $.extend(true, {}, defaults, options);
 
     this.components = {
         _$inputWrapper: function (label) {
@@ -62,8 +71,10 @@ mw.filePicker = function (options) {
         },
         desktop: function () {
             var $wrap = this._$inputWrapper(scope._getComponentObject('desktop').label);
+            var $zone = $('<div class="dropable-zone xsmall-zone square-zone"><div class="holder"><button type="button" class="btn btn-link">Add file</button><p>or drop file to upload</p></div></div>')
+            $wrap.append($zone)
             scope.uploader = mw.upload({
-                element: $wrap
+                element: $zone
             });
             return $wrap[0];
         }
@@ -78,13 +89,23 @@ mw.filePicker = function (options) {
     this._navigation = null;
 
     this.navigation = function () {
+        this._navigationHeader = document.createElement('div');
+        this._navigationHeader.className = 'card-header';
         this._navigationHolder = document.createElement('div');
         if(this.settings.nav === 'tabs') {
-            var ul = $('<ul class="nav nav-tabs"/>');
+            var ul = $('<ul class="nav nav-tabs card-header" />');
             this.settings.components.forEach(function (item) {
                 ul.append('<li class="nav-item"><a class="nav-link active" href="#">'+item.label+'</a></li>')
             });
-            this._navigationHolder.appendChild(ul[0]);
+            this._navigationHolder.appendChild(this._navigationHeader);
+            this._navigationHeader.appendChild(ul[0]);
+            setTimeout(function () {
+                mw.tabs({
+                    nav: $('li a', ul),
+                    tabs: $('.mw-filepicker-component-section', this.$root),
+                    activeClass: 'btn-primary'
+                });
+            }, 78);
         } else if(this.settings.nav === 'dropdown') {
             var select = $('<select class="selectpicker form-control"/>');
             this.settings.components.forEach(function (item) {
@@ -99,8 +120,15 @@ mw.filePicker = function (options) {
 
 
 
-    this.footer = function (type) {
-
+    this.footer = function () {
+        if(!this.settings.footer) return;
+        this._navigationFooter = document.createElement('div');
+        this._navigationFooter.className = 'card-footer';
+        var ok = $('<button type="button" class="btn btn-primary">' + this.settings.okLabel + '</button>');
+        var cancel = $('<button type="button" class="btn btn-light">' + this.settings.cancelLabel + '</button>');
+        this._navigationFooter.appendChild(cancel[0]);
+        this._navigationFooter.appendChild(ok[0]);
+        this.$root.append(this._navigationFooter);
     };
 
     this._getComponentObject = function (type) {

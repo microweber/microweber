@@ -5,7 +5,8 @@ var Uploader = function( options ) {
         multiple: false,
         progress: null,
         element: null,
-        url: null,
+        url: options.url || (mw.settings.site_url + 'plupload'),
+        urlParams: {},
         on: {},
         autostart: true,
         async: true,
@@ -13,6 +14,33 @@ var Uploader = function( options ) {
 
     var scope = this;
     this.settings = $.extend({}, defaults, options);
+
+    this.getUrl = function () {
+        var params = this.urlParams();
+        var empty = mw.tools.isEmptyObject(params);
+        return this.url() + (empty ? '' : ('?' + $.param(params)));
+    };
+
+    this.urlParam = function (param, value) {
+        if(typeof value === 'undefined') {
+            return this.settings.urlParams[param];
+        }
+        this.settings.urlParams[param] = value;
+    };
+
+    this.urlParams = function (params) {
+        if(!params) {
+            return this.settings.urlParams;
+        }
+        this.settings.urlParams = params;
+    };
+
+    this.url = function (url) {
+        if(!url) {
+            return this.settings.url;
+        }
+        this.settings.url = url;
+    };
 
     this.create = function () {
         this.input = document.createElement('input');
@@ -54,17 +82,17 @@ var Uploader = function( options ) {
         }
     };
 
-    this.addFiles = function (array) {
-        if (array && array.length) {
-            array.forEach(function (file) {
-                scope.addFile(file);
-            });
+    this.addFiles = function (files) {
+        if (files && files.length) {
+            for (var i = 0; i < files.length; i++) {
+                scope.addFile(files[i]);
+            }
             if(this.settings.on.filesAdded) {
-                if(this.settings.on.filesAdded(array) === false) {
+                if(this.settings.on.filesAdded(files) === false) {
                     return;
                 }
             }
-            $(scope).trigger('FilesAdded', array);
+            $(scope).trigger('FilesAdded', files);
             if(this.settings.autostart) {
                 this.uploadFiles();
             }
@@ -76,7 +104,7 @@ var Uploader = function( options ) {
             this.$element = $(this.settings.element);
             this.element = this.$element[0];
             if(this.element) {
-                this.$element.empty().append(this.input);
+                this.$element/*.empty()*/.append(this.input);
             }
         }
     };
@@ -135,15 +163,19 @@ var Uploader = function( options ) {
     };
 
     this.upload = function (data, done) {
-        if(!this.settings.url) {
+        if (!this.settings.url) {
             return;
         }
+        var pdata = new FormData();
+        $.each(data, function (key, val) {
+            pdata.append(key, val)
+        });
         return $.ajax({
-            url: this.settings.url,
+            url: this.getUrl(),
             type: 'post',
             processData: false,
             contentType: false,
-            data: data,
+            data: pdata,
             success: function (res) {
                 scope.removeFile(data.file);
                 if(done) {

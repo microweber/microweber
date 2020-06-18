@@ -47,6 +47,7 @@ if (!window.jQuery) {
 }
 
 var _jqxhr = jQuery.ajax;
+mw.jqxhr = _jqxhr;
 
 
 

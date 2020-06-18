@@ -1,5 +1,14 @@
 
-
+.mw-uploader-input{
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 99px;
+    opacity: 0;
+}
 
 .cat_selector_view_ctrl {
     clear: both;
