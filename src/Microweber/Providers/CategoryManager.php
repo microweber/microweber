@@ -306,7 +306,7 @@ class CategoryManager
         if ($data_type == 'tags') {
             $data_type = 'tag';
         }
-        $get_category_items = $this->get_items('group_by=parent_id&rel_type=content&rel_id=' . ($content_id));
+        $get_category_items = $this->get_items('fields=parent_id&group_by=categories.parent_id&rel_type=content&rel_id=' . ($content_id));
         $include_parents = array();
         $include_parents_str = '';
 
