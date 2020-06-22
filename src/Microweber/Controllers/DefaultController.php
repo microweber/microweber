@@ -1385,7 +1385,6 @@ class DefaultController extends Controller
                 $output_cache_id = __FUNCTION__ . crc32(MW_VERSION . intval($compile_assets) . $_SERVER['REQUEST_URI']) . current_lang();
                 $output_cache_group = 'global';
                 $output_cache_content = $this->app->cache_manager->get($output_cache_id, $output_cache_group, $output_cache_timeout);
-//dd($output_cache_content);
                 if ($output_cache_content != false) {
                     return \Response::make($output_cache_content);;
                 }
@@ -1606,7 +1605,7 @@ class DefaultController extends Controller
 //                                    }
 //                                }
 
-                                // dd($page);
+
                             }
 
 
@@ -1918,7 +1917,6 @@ class DefaultController extends Controller
             if (is_object($l)) {
                 return $l;
             }
-          //  dd($content,$page);
 
             // used for preview from the admin wysiwyg
             if (isset($_REQUEST['isolate_content_field'])) {

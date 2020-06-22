@@ -443,7 +443,7 @@ api_expose('queue_dispatch', function () {
 
                     //   $handler->call($command,$payload['data']);
 
-                    dd($payload, $command);
+
                     //  $dis =  dispatch($command);
 //dd($dis );
                 }
