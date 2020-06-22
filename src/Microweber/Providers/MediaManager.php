@@ -738,8 +738,12 @@ class MediaManager
 
         if (!file_exists($cachefile)) {
             try {
-                $img = imagecreatetruecolor($w, $h);
-            } catch (Exception $e) {
+                $img = @imagecreatetruecolor($w, $h);
+            } catch (\Exception $e) {
+                exit;
+            }
+
+            if(!$img){
                 exit;
             }
 
