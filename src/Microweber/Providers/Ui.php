@@ -18,6 +18,8 @@ class Ui
     public $marketplace_access_code = false;
     public $enable_service_links = true;
     public $custom_support_url = false;
+    public $brand_favicon = false;
+    public $admin_favicon = false;
 
     public $modules_ui = array();
 
@@ -197,6 +199,12 @@ class Ui
     public function admin_logo()
     {
         return $this->admin_logo;
+    }
+
+
+    public function brand_favicon()
+    {
+        return $this->brand_favicon;
     }
 
     public function create_content_menu()

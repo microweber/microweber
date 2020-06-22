@@ -1152,6 +1152,13 @@ class DefaultController extends Controller
 
 
         $favicon_image = get_option('favicon_image', 'website');
+
+        if (!$favicon_image) {
+            $ui_favicon = mw()->ui->brand_favicon();
+            if ($ui_favicon and trim($ui_favicon) != '') {
+                $favicon_image = trim($ui_favicon);
+            }
+        }
         if ($favicon_image) {
             mw()->template->head('<link rel="shortcut icon" href="' . $favicon_image . '" />');
         }
@@ -1372,7 +1379,7 @@ class DefaultController extends Controller
             event_trigger('recover_shopping_cart', $_REQUEST['recart']);
         }
         if (!defined('MW_NO_OUTPUT_CACHE')) {
-            if (!$back_to_editmode and !$is_editmode and  $enable_full_page_cache and $output_cache_timeout != false and isset($_SERVER['REQUEST_URI']) and $_SERVER['REQUEST_URI']) {
+            if (!$back_to_editmode and !$is_editmode and $enable_full_page_cache and $output_cache_timeout != false and isset($_SERVER['REQUEST_URI']) and $_SERVER['REQUEST_URI']) {
                 $compile_assets = \Config::get('microweber.compile_assets');
 
                 $output_cache_id = __FUNCTION__ . crc32(MW_VERSION . intval($compile_assets) . $_SERVER['REQUEST_URI']) . current_lang();
