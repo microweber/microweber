@@ -37,7 +37,7 @@
                     window.parent.mw.wysiwyg.initExtendedFontFamilies(selected);
                     window.parent.mw.wysiwyg.initFontSelectorBox();
 
-                }, 10)
+                }, 100)
 
 
             }

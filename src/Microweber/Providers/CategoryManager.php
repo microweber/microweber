@@ -84,10 +84,8 @@ class CategoryManager
     {
 
 
-
         $renderer = new KnpCategoryTreeRenderer($this->app);
-      $renderer->setUseCache(true);
-
+        $renderer->setUseCache(true);
 
 
 //        if (isset($params['tree_data']) && is_array($params['tree_data'])) {
@@ -219,7 +217,7 @@ class CategoryManager
 
     public function get_children($parent_id = 0, $type = false, $visible_on_frontend = false)
     {
-        $cache_id = __CLASS__ . __FUNCTION__ . crc32(json_encode($parent_id) .$visible_on_frontend. $type.current_lang());
+        $cache_id = __CLASS__ . __FUNCTION__ . crc32(json_encode($parent_id) . $visible_on_frontend . $type . current_lang());
         $cache_group = 'categories';
 
 
@@ -290,7 +288,6 @@ class CategoryManager
         cache_save($to_return, $cache_id, $cache_group);
 
 
-
         return $to_return;
     }
 
@@ -306,7 +303,10 @@ class CategoryManager
         if ($data_type == 'tags') {
             $data_type = 'tag';
         }
-        $get_category_items = $this->get_items('group_by=parent_id&rel_type=content&rel_id=' . ($content_id));
+//        $get_category_items = $this->get_items('group_by=parent_id&rel_type=content&rel_id=' . ($content_id));
+//        $get_category_items = $this->get_items('fields=parent_id&group_by=parent_id&rel_type=content&rel_id=' . ($content_id));
+        $get_category_items = $this->get_items('fields=parent_id&group_by=categories_items.parent_id&rel_type=content&rel_id=' . ($content_id));
+
         $include_parents = array();
         $include_parents_str = '';
 
@@ -592,7 +592,7 @@ class CategoryManager
         if (isset($data['url']) and trim($data['url']) != false) {
             //$possible_slug = $this->app->url_manager->slug($data['url']);
             $possible_slug = mb_strtolower($data['url']);
-            $possible_slug = str_ireplace(' ', '-',$possible_slug);
+            $possible_slug = str_ireplace(' ', '-', $possible_slug);
             if ($possible_slug) {
                 $possible_slug_check = $this->get_by_url($possible_slug);
                 if (isset($possible_slug_check['id'])) {
@@ -607,9 +607,9 @@ class CategoryManager
 
                 if ($possible_slug != '') {
                     $check_cont_wth_slug = $this->app->content_manager->get_by_url($possible_slug);
-                    if($check_cont_wth_slug){
+                    if ($check_cont_wth_slug) {
                         $possible_slug = $possible_slug . '-' . date('YmdHis');
-                   }
+                    }
                 }
 
                 $data['url'] = $possible_slug;
@@ -768,7 +768,7 @@ class CategoryManager
 
         $get = array();
         $get[$by_field_name] = $id;
-       // $get['no_cache'] = true;
+        // $get['no_cache'] = true;
         $get['single'] = true;
         $get['limit'] = 1;
         $q = $this->app->database_manager->get($table, $get);
@@ -977,7 +977,7 @@ class CategoryManager
     {
         $json = array();
 
-    //    $kw = false;
+        //    $kw = false;
 
         $pages_params = array();
         $pages_params['no_limit'] = 1;

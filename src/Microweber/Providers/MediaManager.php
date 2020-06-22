@@ -49,8 +49,8 @@ class MediaManager
         $arr['limit'] = '1';
         $arr['rel_id'] = $content_id;
 
-        if(!$images){
-        $images = $this->get($arr);
+        if (!$images) {
+            $images = $this->get($arr);
         }
 
         if ($images != false and isset($images[0])) {
@@ -653,231 +653,7 @@ class MediaManager
         return $this->app->tags_manager->get_values($data, $return_full);
     }
 
-    public function thumbnail_img($params)
-    {
 
-        ini_set('memory_limit', '256M');
-
-        extract($params);
-
-        if (!isset($width)) {
-            $width = 200;
-        } else {
-            $width = intval($width);
-        }
-
-        if (!isset($height)) {
-            $height = null;
-        } else {
-            $height = intval($height);
-        }
-
-        if (!isset($crop)) {
-            $crop = null;
-        } else {
-            $crop = trim($crop);
-        }
-
-
-        if (!isset($src) or $src == false) {
-            return $this->pixum($width, $height);
-        }
-
-        $src = strtok($src, '?');
-
-        $surl = $this->app->url_manager->site();
-        $local = false;
-
-        $media_url = media_base_url();
-        $media_url = trim($media_url);
-        $src = str_replace('{SITE_URL}', $surl, $src);
-        $src = str_replace('%7BSITE_URL%7D', $surl, $src);
-        $src = str_replace('..', '', $src);
-
-        if (strstr($src, $surl) or strpos($src, $surl)) {
-            $src = str_replace($surl . '/', $surl, $src);
-            //$src = str_replace($media_url, '', $src);
-            $src = str_replace($surl, '', $src);
-            $src = ltrim($src, DS);
-            $src = ltrim($src, '/');
-            $src = rtrim($src, DS);
-            $src = rtrim($src, '/');
-            //$src = media_base_path() . $src;
-            $src = MW_ROOTPATH . $src;
-            $src = normalize_path($src, false);
-        } else {
-            $src = $this->app->url_manager->clean_url_wrappers($src);
-
-            $src1 = media_base_path() . $src;
-            $src1 = normalize_path($src1, false);
-
-            $src2 = MW_ROOTPATH . $src;
-            $src2 = normalize_path($src2, false);
-            $src3 = strtolower($src2);
-
-            if (is_file($src1)) {
-                $src = $src1;
-            } elseif (is_file($src2)) {
-                $src = $src2;
-            } elseif (is_file($src3)) {
-                $src = $src3;
-            } else {
-                $no_img = true;
-
-                if ($no_img) {
-                    return $this->pixum_img();
-                }
-            }
-        }
-        $media_root = media_base_path();
-
-        $cd = $this->thumbnails_path() . $width . DS;
-
-        if (!is_dir($cd)) {
-            mkdir_recursive($cd);
-        }
-
-        $index_file = $cd . 'index.html';
-        if (!is_file($index_file)) {
-            file_put_contents($index_file, 'Thumbnail directory is not allowed');
-        }
-        if (!isset($ext)) {
-            $ext = strtolower(get_file_extension($src));
-        }
-        $cache = md5(serialize($params)) . '.' . $ext;
-
-        $cache = str_replace(' ', '_', $cache);
-
-        if (isset($cache_id)) {
-            $cache = str_replace(' ', '_', $cache_id);
-            $cache = str_replace('..', '', $cache);
-        }
-
-        $cache_path = $cd . $cache;
-        if (file_exists($cache_path)) {
-            if (!isset($return_cache_path)) {
-                if (!headers_sent()) {
-                    if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
-                        $if_modified_since = preg_replace('/;.*$/', '', $_SERVER['HTTP_IF_MODIFIED_SINCE']);
-                    } else {
-                        $if_modified_since = '';
-                    }
-                    $mtime = filemtime($src);
-                    $gmdate_mod = gmdate('D, d M Y H:i:s', $mtime) . ' GMT';
-                    if ($if_modified_since == $gmdate_mod) {
-                        header('HTTP/1.0 304 Not Modified');
-                    }
-                }
-            }
-
-        } else {
-            $src = $this->app->url_manager->clean_url_wrappers($src);
-
-            if (file_exists($src)) {
-                if (($ext) == 'svg') {
-                    $res1 = file_get_contents($src);
-                    $res1 = $this->svgScaleHack($res1, $width, $height);
-                    file_put_contents($cache_path, $res1);
-                } else {
-                    if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'gif' || $ext == 'png' || $ext == 'bmp') {
-
-                        if (!$height) {
-                            $height = $width;
-                        }
-                        $tn = new \Microweber\Utils\Thumbnailer($src);
-                        $thumbOptions = array('height' => $height, 'width' => $width);
-                        if ($crop) {
-                            $thumbOptions['crop'] = $crop;
-                        }
-
-                        $tn->createThumb($thumbOptions, $cache_path);
-
-                        unset($tn);
-
-
-//                        if (function_exists('finfo_file')) {
-//                            //use Image library
-//                            //  $image = Image::make($src)->resize($width, $height)->save($cache_path);
-//
-//
-//                            if (intval($height) == 0) {
-//                                //    $height = null;
-//                            }
-//                            if ($width == $height) {
-//                                // $height = null;
-//                            }
-//
-//
-//                            $magicianObj_mode = 3;
-//                            $magicianObj = new \Microweber\Utils\lib\PHPImageMagician\imageLib($src);
-//                            if ($crop) {
-//                                $magicianObj_mode = 4;
-//                            }
-//                            $magicianObj->resizeImage($width, $height, $magicianObj_mode);
-//
-//                            $magicianObj->saveImage($cache_path, 100);
-//
-//                            // OLD INTERVENTION IMAGE LIB WILL BE REMOVED AS ITS NOT WORKING ON BIG IMAGES also deppends on finfo_file
-//
-////                            if (intval($height) == 0) {
-////                                $height = null;
-////                            }
-////                            if ($width == $height) {
-////                                $height = null;
-////                            }
-////
-////
-////                            if ($crop) {
-////                                $image = Image::make($src)->fit($width, $height);
-////
-////                            } else {
-////                                $image = Image::make($src)->resize($width, $height, function ($constraint) {
-////                                    $constraint->aspectRatio();
-////                                });
-////                            }
-////
-////                            $image = $image->save($cache_path);
-//
-//                            // END OF OLD INTERVENTION IMAGE LIB
-//
-//
-//                            //   unset($image);
-//                        } else {
-//                            // use fallback
-//
-////                            if (!$height) {
-////                                $height = $width;
-////                            }
-////                            $tn = new \Microweber\Utils\Thumbnailer($src);
-////                            $thumbOptions = array('maxLength' => $height, 'width' => $width);
-////                            $tn->createThumb($thumbOptions, $cache_path);
-////
-////                            unset($tn);
-//                        }
-
-
-                    } else {
-                        return $this->pixum_img();
-                    }
-                }
-            }
-        }
-
-        $ext = get_file_extension($cache_path);
-        if ($ext == 'jpg') {
-            $ext = 'jpeg';
-        }
-
-
-        if (isset($return_cache_path)) {
-            return $cache_path;
-        }
-
-        header('Content-Type: image/' . $ext);
-        header('Content-Length: ' . filesize($cache_path));
-        readfile($cache_path);
-        exit;
-    }
 
     public function pixum($width = 150, $height = false)
     {
@@ -1052,6 +828,17 @@ class MediaManager
         if ($src == false) {
             return $this->pixum($width, $height);
         }
+
+        if(is_array($src)){
+            extract($src);
+        }
+
+        if (!is_string($src)) {
+            return $this->pixum($width, $height);
+        }
+
+
+
         $src = html_entity_decode($src);
         $src = htmlspecialchars_decode($src);
 
@@ -1090,18 +877,18 @@ class MediaManager
             }
         }
 
-        $cache_id = array();
-        $cache_id['base_src'] = $base_src;
-        $cache_id['src'] = $src;
+        $cache_id_data = array();
+        $cache_id_data['base_src'] = $base_src;
+        $cache_id_data['src'] = $src;
 
-        $cache_id['width'] = $width;
-        $cache_id['height'] = $height;
+        $cache_id_data['width'] = $width;
+        $cache_id_data['height'] = $height;
         if ($crop) {
-            $cache_id['crop'] = $crop;
+            $cache_id_data['crop'] = $crop;
         }
-        $cache_id = 'tn-' . md5(serialize($cache_id)) . '.' . $ext;
+        $cache_id_without_ext = 'tn-' . md5(serialize($cache_id_data));
+        $cache_id = $cache_id_without_ext . '.' . $ext;
         $cache_path = $cd . $cache_id;
-        //  d($cache_path);
 
         if ($is_remote) {
             return $src;
@@ -1113,18 +900,257 @@ class MediaManager
             if (stristr($base_src, 'pixum_img')) {
                 return $this->pixum($width, $height);
             }
+            $file_exists_local = url2dir($src);
+            if (!is_file($file_exists_local)) {
+                return $this->pixum($width, $height);
+            }
+
 
             if (!defined('MW_NO_OUTPUT_CACHE')) {
                 define('MW_NO_OUTPUT_CACHE', true);
             }
-            $tn_img_url = $this->app->url_manager->site('api_html/thumbnail_img') . '?&src=' . $base_src . '&width=' . $width . '&height=' . $height . '&crop=' . $crop . '&cache_id=' . $cache_id;
-            $tn_img_url = str_replace('(', '&#40;', $tn_img_url);
-            $tn_img_url = str_replace(')', '&#41;', $tn_img_url);
+
+            $cache_id_data['cache_path'] = $cache_path;
+
+            cache_save($cache_id_data, $cache_id_without_ext, 'media');
+
+            $tn_img_url = $this->app->url_manager->site('api/image-tn/') . $cache_id_without_ext;
 
             return $tn_img_url;
         }
 
     }
+    public function thumbnail_img($params)
+    {
+
+        ini_set('memory_limit', '256M');
+
+        extract($params);
+
+        if (!isset($width)) {
+            $width = 200;
+        } else {
+            $width = intval($width);
+        }
+
+        if (!isset($height)) {
+            $height = null;
+        } else {
+            $height = intval($height);
+        }
+
+        if (!isset($crop)) {
+            $crop = null;
+        } else {
+            $crop = trim($crop);
+        }
+
+
+        if (!isset($src) or $src == false) {
+            return $this->pixum($width, $height);
+        }
+
+        $src = strtok($src, '?');
+
+        $surl = $this->app->url_manager->site();
+        $local = false;
+
+        $media_url = media_base_url();
+        $media_url = trim($media_url);
+        $src = str_replace('{SITE_URL}', $surl, $src);
+        $src = str_replace('%7BSITE_URL%7D', $surl, $src);
+        $src = str_replace('..', '', $src);
+
+        if (strstr($src, $surl) or strpos($src, $surl)) {
+            $src = str_replace($surl . '/', $surl, $src);
+            //$src = str_replace($media_url, '', $src);
+            $src = str_replace($surl, '', $src);
+            $src = ltrim($src, DS);
+            $src = ltrim($src, '/');
+            $src = rtrim($src, DS);
+            $src = rtrim($src, '/');
+            //$src = media_base_path() . $src;
+            $src = MW_ROOTPATH . $src;
+            $src = normalize_path($src, false);
+        } else {
+            $src = $this->app->url_manager->clean_url_wrappers($src);
+
+            $src1 = media_base_path() . $src;
+            $src1 = normalize_path($src1, false);
+
+            $src2 = MW_ROOTPATH . $src;
+            $src2 = normalize_path($src2, false);
+            $src3 = strtolower($src2);
+
+            if (is_file($src1)) {
+                $src = $src1;
+            } elseif (is_file($src2)) {
+                $src = $src2;
+            } elseif (is_file($src3)) {
+                $src = $src3;
+            } else {
+                $no_img = true;
+
+                if ($no_img) {
+                    return $this->pixum_img();
+                }
+            }
+        }
+        $media_root = media_base_path();
+
+        $cd = $this->thumbnails_path() . $width . DS;
+
+        if (!is_dir($cd)) {
+            mkdir_recursive($cd);
+        }
+
+        $index_file = $cd . 'index.html';
+        if (!is_file($index_file)) {
+            file_put_contents($index_file, 'Thumbnail directory is not allowed');
+        }
+        if (!isset($ext)) {
+            $ext = strtolower(get_file_extension($src));
+        }
+        $cache = md5(serialize($params)) . '.' . $ext;
+
+        $cache = str_replace(' ', '_', $cache);
+
+        if (isset($cache_id)) {
+            $cache = str_replace(' ', '_', $cache_id);
+            $cache = str_replace('..', '', $cache);
+        }
+
+        if(!isset($cache_path)){
+            $cache_path = $cd . $cache;
+        }
+
+        if (file_exists($cache_path)) {
+
+            if (!isset($return_cache_path)) {
+                if (!headers_sent()) {
+                    if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
+                        $if_modified_since = preg_replace('/;.*$/', '', $_SERVER['HTTP_IF_MODIFIED_SINCE']);
+                    } else {
+                        $if_modified_since = '';
+                    }
+                    $mtime = filemtime($src);
+                    $gmdate_mod = gmdate('D, d M Y H:i:s', $mtime) . ' GMT';
+                    if ($if_modified_since == $gmdate_mod) {
+                        header('HTTP/1.0 304 Not Modified');
+                    }
+                }
+            }
+
+        } else {
+            $src = $this->app->url_manager->clean_url_wrappers($src);
+
+            if (file_exists($src)) {
+                if (($ext) == 'svg') {
+                    $res1 = file_get_contents($src);
+                    $res1 = $this->svgScaleHack($res1, $width, $height);
+                    file_put_contents($cache_path, $res1);
+                } else {
+                    if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'gif' || $ext == 'png' || $ext == 'bmp') {
+
+                        if (!$height) {
+                            $height = $width;
+                        }
+                        $tn = new \Microweber\Utils\Thumbnailer($src);
+                        $thumbOptions = array('height' => $height, 'width' => $width);
+                        if ($crop) {
+                            $thumbOptions['crop'] = $crop;
+                        }
+                        $tn->createThumb($thumbOptions, $cache_path);
+
+                        unset($tn);
+
+
+//                        if (function_exists('finfo_file')) {
+//                            //use Image library
+//                            //  $image = Image::make($src)->resize($width, $height)->save($cache_path);
+//
+//
+//                            if (intval($height) == 0) {
+//                                //    $height = null;
+//                            }
+//                            if ($width == $height) {
+//                                // $height = null;
+//                            }
+//
+//
+//                            $magicianObj_mode = 3;
+//                            $magicianObj = new \Microweber\Utils\lib\PHPImageMagician\imageLib($src);
+//                            if ($crop) {
+//                                $magicianObj_mode = 4;
+//                            }
+//                            $magicianObj->resizeImage($width, $height, $magicianObj_mode);
+//
+//                            $magicianObj->saveImage($cache_path, 100);
+//
+//                            // OLD INTERVENTION IMAGE LIB WILL BE REMOVED AS ITS NOT WORKING ON BIG IMAGES also deppends on finfo_file
+//
+////                            if (intval($height) == 0) {
+////                                $height = null;
+////                            }
+////                            if ($width == $height) {
+////                                $height = null;
+////                            }
+////
+////
+////                            if ($crop) {
+////                                $image = Image::make($src)->fit($width, $height);
+////
+////                            } else {
+////                                $image = Image::make($src)->resize($width, $height, function ($constraint) {
+////                                    $constraint->aspectRatio();
+////                                });
+////                            }
+////
+////                            $image = $image->save($cache_path);
+//
+//                            // END OF OLD INTERVENTION IMAGE LIB
+//
+//
+//                            //   unset($image);
+//                        } else {
+//                            // use fallback
+//
+////                            if (!$height) {
+////                                $height = $width;
+////                            }
+////                            $tn = new \Microweber\Utils\Thumbnailer($src);
+////                            $thumbOptions = array('maxLength' => $height, 'width' => $width);
+////                            $tn->createThumb($thumbOptions, $cache_path);
+////
+////                            unset($tn);
+//                        }
+
+
+                    } else {
+                        return $this->pixum_img();
+                    }
+                }
+            }
+        }
+
+        $ext = get_file_extension($cache_path);
+        if ($ext == 'jpg') {
+            $ext = 'jpeg';
+        }
+
+
+        if (isset($return_cache_path)) {
+            return $cache_path;
+        }
+
+        header('Content-Type: image/' . $ext);
+        header('Content-Length: ' . filesize($cache_path));
+        readfile($cache_path);
+        exit;
+    }
+
+
+
 
     public function create_media_dir($params)
     {
@@ -1141,7 +1167,7 @@ class MediaManager
             $fn_path = normalize_path($fn_path, false);
 
             $target_path = $fn_path;
-         }
+        }
         if (!isset($_REQUEST['name'])) {
             $resp = array('error' => 'You must send new_folder parameter');
         } else {
