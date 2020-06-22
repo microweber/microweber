@@ -139,6 +139,14 @@ class AdminController extends Controller
 
 
         $favicon_image = get_option('favicon_image', 'website');
+
+        if (!$favicon_image) {
+            $ui_favicon = mw()->ui->brand_favicon();
+            if ($ui_favicon and trim($ui_favicon) != '') {
+                $favicon_image = trim($ui_favicon);
+            }
+        }
+
         if ($favicon_image) {
             mw()->template->admin_head('<link rel="shortcut icon" href="' . $favicon_image . '" />');
         }

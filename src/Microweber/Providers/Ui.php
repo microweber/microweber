@@ -18,8 +18,7 @@ class Ui
     public $marketplace_access_code = false;
     public $enable_service_links = true;
     public $custom_support_url = false;
-    public $brand_favicon = false;
-    public $admin_favicon = false;
+    public $brand_favicon = '';
 
     public $modules_ui = array();
 
