@@ -2,6 +2,21 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.1.20] - 2020-06-22
+- Fix Module Menu Not working properly 
+- Fix toolbar align on RTL 
+- Fix some php 7.4 errors
+- Fix center image does not work
+- Fix Move layout up-down does not work
+- Fix On paste two times it alerts false
+- Fix Inline link editor with custom url must select the right section
+- Fix Inserting modules with "small plus" does not record undo
+- Fix on pages that require login, now redirects to the login form
+- Fix Categories cannot be removed from post
+- Fix problem with export/import Language file  
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.1.19...1.1.20 "")
+
 
 ## [1.1.19] - 2020-04-27
 - Fix of Small plus popup 
