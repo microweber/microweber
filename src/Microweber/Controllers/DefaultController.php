@@ -1175,6 +1175,7 @@ class DefaultController extends Controller
         $page_url_orig = $page_url;
         $simply_a_file = false;
         $show_404_to_non_admin = false;
+        $enable_full_page_cache = false;
 
         // if this is a file path it will load it
         if (isset($_REQUEST['view'])) {
