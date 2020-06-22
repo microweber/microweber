@@ -360,7 +360,7 @@
         if (self === parent) {
             mw.on.hashParam('select-file', function () {
 
-                if (this != false) {
+                if (this) {
                     var type = this.split(".").pop();
 
                     type = type.toLowerCase();
