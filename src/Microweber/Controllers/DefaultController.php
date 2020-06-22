@@ -1362,7 +1362,6 @@ class DefaultController extends Controller
 
             }
         }
-
         if (isset($is_preview_template) and $is_preview_template != false) {
             if (!defined('MW_NO_SESSION')) {
                 define('MW_NO_SESSION', true);
@@ -1373,13 +1372,13 @@ class DefaultController extends Controller
             event_trigger('recover_shopping_cart', $_REQUEST['recart']);
         }
         if (!defined('MW_NO_OUTPUT_CACHE')) {
-            if ($output_cache_timeout != false and isset($_SERVER['REQUEST_URI']) and $_SERVER['REQUEST_URI']) {
+            if (!$back_to_editmode and !$is_editmode and  $enable_full_page_cache and $output_cache_timeout != false and isset($_SERVER['REQUEST_URI']) and $_SERVER['REQUEST_URI']) {
                 $compile_assets = \Config::get('microweber.compile_assets');
 
                 $output_cache_id = __FUNCTION__ . crc32(MW_VERSION . intval($compile_assets) . $_SERVER['REQUEST_URI']) . current_lang();
                 $output_cache_group = 'global';
                 $output_cache_content = $this->app->cache_manager->get($output_cache_id, $output_cache_group, $output_cache_timeout);
-
+//dd($output_cache_content);
                 if ($output_cache_content != false) {
                     return \Response::make($output_cache_content);;
                 }
@@ -1582,7 +1581,7 @@ class DefaultController extends Controller
                             $page['simply_a_file'] = 'clean.php';
                             $page['layout_file'] = 'clean.php';
                             $show_404_to_non_admin = true;
-
+                            $enable_full_page_cache = false;
 
                             if ($show_404_to_non_admin) {
 //                                $content_from_event = event_trigger('mw.frontend.404', $page);
@@ -1654,6 +1653,7 @@ class DefaultController extends Controller
                                     template_var('content', $page['content']);
 
                                     template_var('new_page', $page);
+                                    $enable_full_page_cache = false;
                                     $show_404_to_non_admin = false;
                                 }
                             }
@@ -1681,6 +1681,8 @@ class DefaultController extends Controller
                         template_var('new_page', $page);
                         template_var('simply_a_file', $simply_a_file);
                         $show_404_to_non_admin = false;
+
+                        $enable_full_page_cache = false;
 
                     }
                 }
@@ -2218,8 +2220,9 @@ class DefaultController extends Controller
                 $this->app->user_manager->session_set('last_content_id', CONTENT_ID);
             }
 
-            if ($output_cache_timeout != false) {
+            if ($enable_full_page_cache and $output_cache_timeout != false) {
                 if (!defined('MW_NO_OUTPUT_CACHE')) {
+
                     $l = $this->app->parser->replace_non_cached_modules_with_placeholders($l);
                     $this->app->cache_manager->save($l, $output_cache_id, $output_cache_group, $output_cache_timeout);
                 }

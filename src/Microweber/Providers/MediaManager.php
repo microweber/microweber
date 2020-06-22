@@ -49,8 +49,8 @@ class MediaManager
         $arr['limit'] = '1';
         $arr['rel_id'] = $content_id;
 
-        if(!$images){
-        $images = $this->get($arr);
+        if (!$images) {
+            $images = $this->get($arr);
         }
 
         if ($images != false and isset($images[0])) {
@@ -1101,7 +1101,6 @@ class MediaManager
         }
         $cache_id = 'tn-' . md5(serialize($cache_id)) . '.' . $ext;
         $cache_path = $cd . $cache_id;
-        //  d($cache_path);
 
         if ($is_remote) {
             return $src;
@@ -1113,10 +1112,15 @@ class MediaManager
             if (stristr($base_src, 'pixum_img')) {
                 return $this->pixum($width, $height);
             }
+            $file_exists_local = url2dir($src);
+            if (!is_file($file_exists_local)) {
+                return $this->pixum($width, $height);
+            }
 
             if (!defined('MW_NO_OUTPUT_CACHE')) {
                 define('MW_NO_OUTPUT_CACHE', true);
             }
+
             $tn_img_url = $this->app->url_manager->site('api_html/thumbnail_img') . '?&src=' . $base_src . '&width=' . $width . '&height=' . $height . '&crop=' . $crop . '&cache_id=' . $cache_id;
             $tn_img_url = str_replace('(', '&#40;', $tn_img_url);
             $tn_img_url = str_replace(')', '&#41;', $tn_img_url);
@@ -1141,7 +1145,7 @@ class MediaManager
             $fn_path = normalize_path($fn_path, false);
 
             $target_path = $fn_path;
-         }
+        }
         if (!isset($_REQUEST['name'])) {
             $resp = array('error' => 'You must send new_folder parameter');
         } else {
