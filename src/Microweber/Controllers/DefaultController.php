@@ -1477,14 +1477,16 @@ class DefaultController extends Controller
                 if (empty($page)) {
                     $the_new_page_file = false;
                     $page_url_segment_1 = $this->app->url_manager->segment(0, $page_url);
+
                     $td = templates_path() . $page_url_segment_1;
                     $td_base = $td;
 
                     $page_url_segment_2 = $this->app->url_manager->segment(1, $page_url);
                     $directly_to_file = false;
                     $page_url_segment_3 = $all_url_segments = $this->app->url_manager->segment(-1, $page_url);
-
-                    $page_url_segment_1 = $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
+                    if (!$page_url_segment_1) {
+                        $page_url_segment_1 = $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
+                    }
                     $td_base = templates_path() . $the_active_site_template . DS;
 
                     $page_url_segment_3_str = implode(DS, $page_url_segment_3);
@@ -1502,8 +1504,13 @@ class DefaultController extends Controller
                         $td_f = $td_base . DS . $page_url_segment_3_str;
                         $td_fd = $td_base . DS . $page_url_segment_3_str_copy;
                         $td_fd2 = $td_base . DS . $page_url_segment_3[0];
+                        $td_fd2_file = $td_fd2.'.php';
+                    //
 
-                        if (is_file($td_f)) {
+                        if (is_file($td_fd2_file)) {
+                            $the_new_page_file = $td_fd2_file;
+                            $simply_a_file = $directly_to_file = $td_fd2_file;
+                        } else if (is_file($td_f)) {
                             $the_new_page_file = $page_url_segment_3_str;
                             $simply_a_file = $directly_to_file = $td_f;
                         } else {
@@ -1538,7 +1545,6 @@ class DefaultController extends Controller
                             }
                         }
                     }
-
                     $fname1 = 'index.php';
                     $fname2 = $page_url_segment_2 . '.php';
                     $fname3 = $page_url_segment_2;
@@ -1623,6 +1629,7 @@ class DefaultController extends Controller
                                     $page['parent'] = '0';
                                     $page['url'] = $this->app->url_manager->string();
                                     $page['active_site_template'] = $the_active_site_template;
+
                                     template_var('no_edit', 1);
 
                                     $mod_params = '';
@@ -1680,14 +1687,13 @@ class DefaultController extends Controller
                         $page['parent'] = '0';
                         $page['url'] = $this->app->url_manager->string();
 
-                        $page['active_site_template'] = $page_url_segment_1;
+                        $page['active_site_template'] = $the_active_site_template;
 
                         $page['layout_file'] = $the_new_page_file;
                         $page['simply_a_file'] = $simply_a_file;
-
                         template_var('new_page', $page);
                         template_var('simply_a_file', $simply_a_file);
-                        $show_404_to_non_admin = false;
+                         $show_404_to_non_admin = false;
 
                         $enable_full_page_cache = false;
 
@@ -1712,7 +1718,6 @@ class DefaultController extends Controller
         } else {
             $content = $page;
         }
-
 
         if (isset($content['created_at']) and trim($content['created_at']) != '') {
             $content['created_at'] = date($date_format, strtotime($content['created_at']));
@@ -1913,6 +1918,7 @@ class DefaultController extends Controller
             if (is_object($l)) {
                 return $l;
             }
+          //  dd($content,$page);
 
             // used for preview from the admin wysiwyg
             if (isset($_REQUEST['isolate_content_field'])) {
