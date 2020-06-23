@@ -15,10 +15,10 @@
 
             <?php if (is_logged()) { ?>
 
-                <module="users/profile" />
+                <module type="users/profile" />
 
             <?php } else { ?>
-                <module="users/login" />
+                <module type="users/login" />
 
             <?php } ?>
 
