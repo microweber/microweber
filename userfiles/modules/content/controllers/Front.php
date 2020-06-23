@@ -88,7 +88,6 @@ class Front
 
         }
 
-
         if (isset($params['current_page'])) {
             $current_page = $params['current_page'] = $params['current_page'];
         } else {
@@ -204,8 +203,6 @@ class Front
             $cfg_page_id = intval($post_params['content_id']);
         } else if ($cfg_page_id == false and isset($post_params['content-id'])) {
             $cfg_page_id = intval($post_params['content-id']);
-        } elseif ($cfg_page_id == false and isset($post_params['current_page'])) {
-            $cfg_page_id = 'current_page';
         }
 
 
@@ -262,7 +259,6 @@ class Front
                 $post_params['parent'] = $cfg_page_id;
             }
         }
-
 
         if (isset($post_params['most_ordered'])) {
             $str0 = 'table=cart&limit=30&rel_type=content&fields=rel_id&order_by=id desc';
@@ -339,6 +335,7 @@ class Front
 
                         } else {
                             $post_params['parent'] = $cfg_page_id;
+                        //    d($post_params);
 
                             if (($cfg_page_id == PAGE_ID or $cfg_page_id == MAIN_PAGE_ID) and (!isset($post_params['category']) or $post_params['category'] == false) and $cat_from_url != false) {
                                 $post_params['category'] = $cat_from_url;
@@ -822,10 +819,13 @@ class Front
             }
         }
 
+
+
         if ($cfg_data_hide_paging != 'y') {
 
             $pages_of_posts = get_content($post_params_paging);
             $pages_count = intval($pages_of_posts);
+       //   dd($pages_count,__FILE__,__LINE__);
         } else {
             $pages_count = 0;
         }

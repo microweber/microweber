@@ -524,8 +524,8 @@ trait QueryFilter
                     $query->join($value, $table . '.rel_id', '=', $value . '.id')->where($table . '.rel_type', $value);
                     break;
                 case 'current_page':
-
-                    $criteria = 0;
+                     $criteria = 0;
+                  //  $criteria = intval($value);
                     if ($value > 1) {
                         if ($is_limit != false) {
                             $criteria = intval($value - 1) * intval($is_limit);
