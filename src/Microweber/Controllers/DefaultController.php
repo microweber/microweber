@@ -1319,7 +1319,6 @@ class DefaultController extends Controller
                 if (isset($is_layout_file) and $is_layout_file != false) {
                     $page['layout_file'] = $is_layout_file;
                 }
-
                 if (isset($_REQUEST['inherit_template_from']) and $_REQUEST['inherit_template_from'] != 0) {
                     $page['parent'] = intval($_REQUEST['inherit_template_from']);
                     $inherit_from = $this->app->content_manager->get_by_id($_REQUEST['inherit_template_from']);
@@ -1441,6 +1440,7 @@ class DefaultController extends Controller
                     $page = $this->app->content_manager->get_by_url($page_url);
                     $page_exact = $this->app->content_manager->get_by_url($page_url, true);
                 }
+                //dd($page,__LINE__,__FILE__);
 
                 if ($slug_category and !$page) {
 
@@ -1472,6 +1472,9 @@ class DefaultController extends Controller
                     $response->setStatusCode(404);
                     return $response;
                 }
+
+
+
 
                 // if ($found_mod == false) {
                 if (empty($page)) {
@@ -1660,7 +1663,7 @@ class DefaultController extends Controller
                                     $page['content_type'] = 'page';
                                     $page['parent'] = '0';
                                     $page['url'] = $this->app->url_manager->string();
-                                    $page['active_site_template'] = $page_url_segment_1;
+                                    $page['active_site_template'] = $the_active_site_template;
                                     $page['content'] = '<module type="' . $mvalue . '" />';
                                     $page['simply_a_file'] = 'clean.php';
                                     $page['layout_file'] = 'clean.php';
@@ -1718,7 +1721,6 @@ class DefaultController extends Controller
         } else {
             $content = $page;
         }
-
         if (isset($content['created_at']) and trim($content['created_at']) != '') {
             $content['created_at'] = date($date_format, strtotime($content['created_at']));
         }
@@ -1733,6 +1735,8 @@ class DefaultController extends Controller
 
             $content['active_site_template'] = $is_preview_template;
         }
+
+
 
         if ($is_layout_file != false and $is_admin == true) {
             $is_layout_file = str_replace('____', DS, $is_layout_file);
@@ -1751,6 +1755,7 @@ class DefaultController extends Controller
             }
             $content['layout_file'] = $is_layout_file;
         }
+
         if ($is_custom_view and $is_custom_view != false) {
             $content['custom_view'] = $is_custom_view;
         }
@@ -1827,6 +1832,7 @@ class DefaultController extends Controller
         event_trigger('mw_frontend', $content);
 
         $render_file = $this->app->template->get_layout($content);
+
 
         $content['render_file'] = $render_file;
 
