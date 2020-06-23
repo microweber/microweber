@@ -55,6 +55,8 @@
     $custom_support_url = false;
     $enable_service_links = true;
     $admin_logo_login_link = false;
+    $marketplace_repositories_urls = false;
+
 
     $settings = get_white_label_config();
     if (isset($settings['logo_admin'])) {
@@ -92,6 +94,11 @@
 
     if (isset($settings['custom_support_url']) and $settings['custom_support_url'] != false) {
         $custom_support_url = $settings['custom_support_url'];
+    }
+
+
+    if (isset($settings['marketplace_repositories_urls']) and $settings['marketplace_repositories_urls'] != false) {
+        $marketplace_repositories_urls = $settings['marketplace_repositories_urls'];
     }
 
 
@@ -266,6 +273,13 @@
                                     </li>
                                 </ul>
                             </div>
+
+
+                            <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label"><?php _e('Custom Marketplace Package Manager URL'); ?></label>
+                                <input name="marketplace_repositories_urls" option-group="marketplace_repositories_urls" placeholder="<?php _e('URL'); ?>" class="mw-ui-field" type="text" value="<?php print  $marketplace_repositories_urls; ?>"/>
+                            </div>
+
                         </div>
 
                     </div>
