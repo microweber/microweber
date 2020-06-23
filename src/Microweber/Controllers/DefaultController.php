@@ -2115,7 +2115,7 @@ class DefaultController extends Controller
             }
 
             if (defined('MW_VERSION')) {
-                $generator_tag = "\n" . '<meta name="generator" content="Microweber" />' . "\n";
+                $generator_tag = "\n" . '<meta name="generator" content="'.addslashes(mw()->ui->brand_name()).'" />' . "\n";
                 $l = str_ireplace('</head>', $generator_tag . '</head>', $l, $rep_count);
             }
 
