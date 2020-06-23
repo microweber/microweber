@@ -18,7 +18,8 @@ height: auto;background: #52b1b5"></div>
     mw.require('filepicker.js');
     $(document).ready(function () {
         var up = new mw.filePicker({
-            element:'#test'
+            element:'#test',
+            nav: 'dropdown'
         })
     })
     mw.admin.__statdata = <?php print json_encode($graph_data); ?>;

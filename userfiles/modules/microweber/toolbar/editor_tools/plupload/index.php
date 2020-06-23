@@ -67,7 +67,7 @@ $here = mw_includes_url() . 'toolbar/editor_tools/plupload/';
             {title: "", extensions: Params.filters || '*'}
         ];
          this_frame = parent.mw.$("iframe[name='" + Name + "']");
-        uploader = new plupload.Uploader({
+        /*uploader = new plupload.Uploader({
             runtimes: 'html5',
             browse_button: 'pickfiles_<?php print $uid  ?>',
             debug: 0,
@@ -79,7 +79,7 @@ $here = mw_includes_url() . 'toolbar/editor_tools/plupload/';
             filters: filters,
             multi_selection: multi,
             drop_element: true
-        });
+        });*/
         window.onmessage = function (event) {
             var data = JSON.parse(event.data);
             var base = mw.url.strip(uploader.settings.url);

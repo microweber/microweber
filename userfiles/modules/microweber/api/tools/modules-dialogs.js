@@ -1,6 +1,9 @@
 (function(){
     var systemDialogs = {
-        moduleFrame: function(type, params){
+        moduleFrame: function(type, params, autoHeight){
+            if(typeof autoHeight === 'undefined') {
+                autoHeight = true;
+            }
             params = params || {};
             if(!type) return;
 
@@ -12,6 +15,9 @@
             frame.width = "100%";
             frame.frameBorder = "0";
             frame.src = mw.external_tool('module') + '?type=' + type + '&params=' + $.param(params).split('&').join(',');
+            if(autoHeight) {
+                mw.tools.iframeAutoHeight(frame)
+            }
             return frame;
         },
           confirm_reset_module_by_id: function (module_id) {

@@ -7,3 +7,18 @@
 
 @import url("css/ui.css");
 @import url("../layouts/templates/layouts.css");
+
+
+
+.mw-uploader-type-holder{
+    position: relative;
+}
+
+.mw-filepicker-root .card-header .dropdown.form-control {
+    width: auto !important;
+}
+
+.mw-filepicker-component-section {
+    max-height: 70vh;
+    overflow: auto;
+}
