@@ -737,7 +737,17 @@ class MediaManager
         header('Content-Type: image/png');
 
         if (!file_exists($cachefile)) {
-            $img = imagecreatetruecolor($w, $h);
+            try {
+                $img = @imagecreatetruecolor($w, $h);
+            } catch (\Exception $e) {
+                exit;
+            }
+
+            if(!$img){
+                exit;
+            }
+
+
             $white = imagecolorallocatealpha($img, 239, 236, 236, 0);
             imagefill($img, 0, 0, $white);
             imagealphablending($img, false);

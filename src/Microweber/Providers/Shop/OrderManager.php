@@ -296,6 +296,5 @@ class OrderManager
 
         return array('success' => 'Your file has been exported!', 'download' => $download);
 
-        dd('export_orders');
-    }
+     }
 }

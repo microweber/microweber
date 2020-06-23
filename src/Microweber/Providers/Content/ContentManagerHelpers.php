@@ -611,6 +611,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                 } else {
                     $ref_page2 = $ref_page = $this->get_by_url($slug_page);
 
+
                 }
 
 
@@ -892,10 +893,14 @@ class ContentManagerHelpers extends ContentManagerCrud
                         if (isset($post_data['id'])) {
                             $content_id_for_con_field = $post_data['id'];
                         } elseif ($inh == false and !isset($content_id_for_con_field)) {
-                            if (is_array($ref_page) and isset($ref_page['parent']) and isset($ref_page['content_type']) and $ref_page['content_type'] == 'post') {
-                                $content_id_for_con_field = intval($ref_page['parent']);
-                            } else {
-                                $content_id_for_con_field = intval($ref_page['id']);
+                            if (isset($ref_page)) {
+
+
+                                if (is_array($ref_page) and isset($ref_page['parent']) and isset($ref_page['content_type']) and $ref_page['content_type'] != 'page') {
+                                    $content_id_for_con_field = intval($ref_page['parent']);
+                                } else {
+                                    $content_id_for_con_field = intval($ref_page['id']);
+                                }
                             }
                         }
                         $html_to_save = $the_field_data['html'];

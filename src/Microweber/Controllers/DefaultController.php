@@ -1175,6 +1175,7 @@ class DefaultController extends Controller
         $page_url_orig = $page_url;
         $simply_a_file = false;
         $show_404_to_non_admin = false;
+        $enable_full_page_cache = false;
 
         // if this is a file path it will load it
         if (isset($_REQUEST['view'])) {
@@ -1318,7 +1319,6 @@ class DefaultController extends Controller
                 if (isset($is_layout_file) and $is_layout_file != false) {
                     $page['layout_file'] = $is_layout_file;
                 }
-
                 if (isset($_REQUEST['inherit_template_from']) and $_REQUEST['inherit_template_from'] != 0) {
                     $page['parent'] = intval($_REQUEST['inherit_template_from']);
                     $inherit_from = $this->app->content_manager->get_by_id($_REQUEST['inherit_template_from']);
@@ -1385,7 +1385,6 @@ class DefaultController extends Controller
                 $output_cache_id = __FUNCTION__ . crc32(MW_VERSION . intval($compile_assets) . $_SERVER['REQUEST_URI']) . current_lang();
                 $output_cache_group = 'global';
                 $output_cache_content = $this->app->cache_manager->get($output_cache_id, $output_cache_group, $output_cache_timeout);
-//dd($output_cache_content);
                 if ($output_cache_content != false) {
                     return \Response::make($output_cache_content);;
                 }
@@ -1441,6 +1440,7 @@ class DefaultController extends Controller
                     $page = $this->app->content_manager->get_by_url($page_url);
                     $page_exact = $this->app->content_manager->get_by_url($page_url, true);
                 }
+                //dd($page,__LINE__,__FILE__);
 
                 if ($slug_category and !$page) {
 
@@ -1473,18 +1473,23 @@ class DefaultController extends Controller
                     return $response;
                 }
 
+
+
+
                 // if ($found_mod == false) {
                 if (empty($page)) {
                     $the_new_page_file = false;
                     $page_url_segment_1 = $this->app->url_manager->segment(0, $page_url);
+
                     $td = templates_path() . $page_url_segment_1;
                     $td_base = $td;
 
                     $page_url_segment_2 = $this->app->url_manager->segment(1, $page_url);
                     $directly_to_file = false;
                     $page_url_segment_3 = $all_url_segments = $this->app->url_manager->segment(-1, $page_url);
-
-                    $page_url_segment_1 = $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
+                    if (!$page_url_segment_1) {
+                        $page_url_segment_1 = $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
+                    }
                     $td_base = templates_path() . $the_active_site_template . DS;
 
                     $page_url_segment_3_str = implode(DS, $page_url_segment_3);
@@ -1502,8 +1507,13 @@ class DefaultController extends Controller
                         $td_f = $td_base . DS . $page_url_segment_3_str;
                         $td_fd = $td_base . DS . $page_url_segment_3_str_copy;
                         $td_fd2 = $td_base . DS . $page_url_segment_3[0];
+                        $td_fd2_file = $td_fd2.'.php';
+                    //
 
-                        if (is_file($td_f)) {
+                        if (is_file($td_fd2_file)) {
+                            $the_new_page_file = $td_fd2_file;
+                            $simply_a_file = $directly_to_file = $td_fd2_file;
+                        } else if (is_file($td_f)) {
                             $the_new_page_file = $page_url_segment_3_str;
                             $simply_a_file = $directly_to_file = $td_f;
                         } else {
@@ -1538,7 +1548,6 @@ class DefaultController extends Controller
                             }
                         }
                     }
-
                     $fname1 = 'index.php';
                     $fname2 = $page_url_segment_2 . '.php';
                     $fname3 = $page_url_segment_2;
@@ -1600,7 +1609,7 @@ class DefaultController extends Controller
 //                                    }
 //                                }
 
-                                // dd($page);
+
                             }
 
 
@@ -1623,6 +1632,7 @@ class DefaultController extends Controller
                                     $page['parent'] = '0';
                                     $page['url'] = $this->app->url_manager->string();
                                     $page['active_site_template'] = $the_active_site_template;
+
                                     template_var('no_edit', 1);
 
                                     $mod_params = '';
@@ -1653,7 +1663,7 @@ class DefaultController extends Controller
                                     $page['content_type'] = 'page';
                                     $page['parent'] = '0';
                                     $page['url'] = $this->app->url_manager->string();
-                                    $page['active_site_template'] = $page_url_segment_1;
+                                    $page['active_site_template'] = $the_active_site_template;
                                     $page['content'] = '<module type="' . $mvalue . '" />';
                                     $page['simply_a_file'] = 'clean.php';
                                     $page['layout_file'] = 'clean.php';
@@ -1680,14 +1690,13 @@ class DefaultController extends Controller
                         $page['parent'] = '0';
                         $page['url'] = $this->app->url_manager->string();
 
-                        $page['active_site_template'] = $page_url_segment_1;
+                        $page['active_site_template'] = $the_active_site_template;
 
                         $page['layout_file'] = $the_new_page_file;
                         $page['simply_a_file'] = $simply_a_file;
-
                         template_var('new_page', $page);
                         template_var('simply_a_file', $simply_a_file);
-                        $show_404_to_non_admin = false;
+                         $show_404_to_non_admin = false;
 
                         $enable_full_page_cache = false;
 
@@ -1712,8 +1721,6 @@ class DefaultController extends Controller
         } else {
             $content = $page;
         }
-
-
         if (isset($content['created_at']) and trim($content['created_at']) != '') {
             $content['created_at'] = date($date_format, strtotime($content['created_at']));
         }
@@ -1728,6 +1735,8 @@ class DefaultController extends Controller
 
             $content['active_site_template'] = $is_preview_template;
         }
+
+
 
         if ($is_layout_file != false and $is_admin == true) {
             $is_layout_file = str_replace('____', DS, $is_layout_file);
@@ -1746,6 +1755,7 @@ class DefaultController extends Controller
             }
             $content['layout_file'] = $is_layout_file;
         }
+
         if ($is_custom_view and $is_custom_view != false) {
             $content['custom_view'] = $is_custom_view;
         }
@@ -1822,6 +1832,7 @@ class DefaultController extends Controller
         event_trigger('mw_frontend', $content);
 
         $render_file = $this->app->template->get_layout($content);
+
 
         $content['render_file'] = $render_file;
 
@@ -2110,7 +2121,7 @@ class DefaultController extends Controller
             }
 
             if (defined('MW_VERSION')) {
-                $generator_tag = "\n" . '<meta name="generator" content="Microweber" />' . "\n";
+                $generator_tag = "\n" . '<meta name="generator" content="'.addslashes(mw()->ui->brand_name()).'" />' . "\n";
                 $l = str_ireplace('</head>', $generator_tag . '</head>', $l, $rep_count);
             }
 
