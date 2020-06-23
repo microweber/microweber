@@ -100,8 +100,7 @@ class Ui
 
         if(defined('MW_BACKEND') and MW_BACKEND){
             $notif_count_updates_data =  mw()->update->get_updates_notifications('limit=1');
-            dd($notif_count_updates_data);
-            if(isset($notif_count_updates_data[0])
+             if(isset($notif_count_updates_data[0])
                 and isset($notif_count_updates_data[0]['notification_data'])
                 and !empty($notif_count_updates_data[0]['notification_data'])){
                $notif_data = $notif_count_updates_data[0]['notification_data'];
