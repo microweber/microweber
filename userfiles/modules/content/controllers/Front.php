@@ -870,6 +870,12 @@ class Front
                 $template_file = module_templates($config['module'], 'default');
             }
 
+
+            mw()->app->event_manager->trigger('module.content.front.render', $data);
+
+
+
+
             if (isset($template_file) and is_file($template_file) != false) {
                 include($template_file);
 
