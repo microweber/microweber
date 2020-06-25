@@ -53,26 +53,22 @@ mw.filePicker = function (options) {
         cancel: function () {
 
         },
-        label: mw.lang('Media')
+        label: mw.lang('Media'),
+        autoSelect: true, // depending on the component
+        boxed: false
     };
 
-    this.$root = $('<div class="card mb-3 mw-filepicker-root"></div>');
+
 
     this.settings = $.extend(true, {}, defaults, options);
+
+    this.$root = $('<div class="'+ (this.settings.boxed ? ('card mb-3') : '') +' mw-filepicker-root"></div>');
 
     $.each(this.settings.components, function (i) {
         this['index'] = i;
     });
 
-    this._result = null;
 
-    this.result = function (val) {
-        if(typeof val === 'undefined') {
-            return this._result;
-        }
-        this._result = val;
-        $scope.trigger('Result', [val]);
-    };
 
     this.components = {
         _$inputWrapper: function (label) {
@@ -83,6 +79,7 @@ mw.filePicker = function (options) {
         },
         url: function () {
             var $input = $('<input class="form-control" placeholder="http://example.com/image.jpg">');
+            scope.$urlInput = $input;
             var $wrap = this._$inputWrapper(scope._getComponentObject('url').label);
             $wrap.append($input);
             $input.on('input', function () {
@@ -112,6 +109,9 @@ mw.filePicker = function (options) {
                 on: {
                     fileUploaded: function (file) {
                         scope.setSectionValue(file);
+                        if (scope.settings.autoSelect) {
+                            scope.result();
+                        }
                     }
                 }
             });
@@ -128,6 +128,9 @@ mw.filePicker = function (options) {
                 this.contentWindow.$(this.contentWindow.document.body).on('click', '.mw-browser-list-file', function () {
                     var url = this.href;
                     scope.setSectionValue(url);
+                    if (scope.settings.autoSelect) {
+                        scope.result();
+                    }
                 });
             };
             return $wrap[0];
@@ -140,6 +143,9 @@ mw.filePicker = function (options) {
                 this.contentWindow.mw.on.hashParam('select-file', function () {
                     var url = this.toString();
                     scope.setSectionValue(url);
+                    if (scope.settings.autoSelect) {
+                        scope.result();
+                    }
                 });
             };
             /*mw.load_module('pictures/media_library', $wrap);*/
@@ -162,13 +168,15 @@ mw.filePicker = function (options) {
 
     this.navigation = function () {
         this._navigationHeader = document.createElement('div');
-        this._navigationHeader.className = 'card-header';
-        this._navigationHeader.innerHTML = '<h6><strong>' + this.settings.label + '</strong></h6>';
+        this._navigationHeader.className = 'mw-filepicker-component-' + (this.settings.boxed ? 'card-header no-border' : '');
+        if (this.settings.label) {
+            this._navigationHeader.innerHTML = '<h6><strong>' + this.settings.label + '</strong></h6>';
+        }
         this._navigationHolder = document.createElement('div');
         if(this.settings.nav === 'tabs') {
             var ul = $('<ul class="nav nav-xxxxabs" />');
             this.settings.components.forEach(function (item) {
-                ul.append('<li class="nav-item"><a class="nav-link active" href="#">'+item.label+'</a></li>')
+                ul.append('<li class="nav-item"><a class="nav-link active" href="#">'+item.label+'</a></li>');
             });
             this._navigationHolder.appendChild(this._navigationHeader);
             this._navigationHeader.appendChild(ul[0]);
@@ -183,7 +191,7 @@ mw.filePicker = function (options) {
                 });
             }, 78);
         } else if(this.settings.nav === 'dropdown') {
-            var select = $('<select class="selectpicker form-control" data-title="' + mw.lang('Add file') + '"/>');
+            var select = $('<select class="selectpicker btn-as-link" data-style="btn-sm" data-width="auto" data-title="' + mw.lang('Add file') + '"/>');
 
             this.settings.components.forEach(function (item) {
                 select.append('<option class="nav-item">'+item.label+'</option>');
@@ -212,8 +220,11 @@ mw.filePicker = function (options) {
                             scope.__pickDialog.remove();
                         });
                         footerok.on('click', function () {
-                            scope.setSectionValue(val || null);
-                            scope.__pickDialog.remove();
+                            scope.setSectionValue(scope.$urlInput.val().trim() || null);
+                            if (scope.settings.autoSelect) {
+                                scope.result();
+                            }
+                            // scope.__pickDialog.remove();
                         });
                     }
 
@@ -232,16 +243,15 @@ mw.filePicker = function (options) {
                 }
                 this.value = '';
             });
-
         }
         this.$root.prepend(this._navigationHolder);
 
     };
 
     this.footer = function () {
-        if(!this.settings.footer) return;
+        if(!this.settings.footer || this.settings.autoSelect) return;
         this._navigationFooter = document.createElement('div');
-        this._navigationFooter.className = 'card-footer';
+        this._navigationFooter.className = this.settings.boxed ? 'card-footer' : '';
         this.$ok = $('<button type="button" class="btn btn-primary">' + this.settings.okLabel + '</button>');
         this.$cancel = $('<button type="button" class="btn btn-light">' + this.settings.cancelLabel + '</button>');
         this._navigationFooter.appendChild(this.$cancel[0]);
@@ -249,8 +259,13 @@ mw.filePicker = function (options) {
         this.$root.append(this._navigationFooter);
         this.$ok[0].disabled = true;
         this.$ok.on('click', function () {
-            $(scope).trigger('Result');
+            scope.result();
         });
+    };
+
+    this.result = function () {
+        var activeSection = this.activeSection();
+        $(scope).trigger('Result', [activeSection._filePickerValue]);
     };
 
     this._getComponentObject = function (type) {
@@ -261,7 +276,7 @@ mw.filePicker = function (options) {
 
     this._sections = [];
     this.buildComponentSection = function (component) {
-        var main = mw.$('<div class="card-body mw-filepicker-component-section"></div>');
+        var main = mw.$('<div class="'+(this.settings.boxed ? 'card-body' : '') +' mw-filepicker-component-section"></div>');
         this.$root.append(main);
         this._sections.push(main[0]);
         return main;
@@ -315,10 +330,12 @@ mw.filePicker = function (options) {
     this.manageActiveSectionState = function () {
         // if user provides value for more than one section, the active value will be the one in the current section
         var activeSection = this.activeSection();
-        if (activeSection && activeSection._filePickerValue) {
-            this.$ok[0].disabled = false;
-        } else {
-            this.$ok[0].disabled = true;
+        if (this.$ok && this.$ok[0]) {
+            if (activeSection && activeSection._filePickerValue) {
+                this.$ok[0].disabled = false;
+            } else {
+                this.$ok[0].disabled = true;
+            }
         }
     };
 

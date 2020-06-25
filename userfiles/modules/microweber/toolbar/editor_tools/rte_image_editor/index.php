@@ -28,8 +28,9 @@ if (array_key_exists('title', $_GET)) {
 
 ?>
 
+<div id="filepick"></div>
 
-<script type="text/javascript">
+<script>
     var hash = location.hash.replace(/#/g, "");
 
     hash = hash !== '' ? hash : 'insert_html';
@@ -164,8 +165,42 @@ if (array_key_exists('title', $_GET)) {
             return '<span class="ico iRemove" style="top:-6px;"></span>&nbsp;<?php _e("Error"); ?>! "' + filename + '" - <?php _e("Invalid filetype"); ?>.';
         }
 
+        mw.require('filepicker.js');
 
-        mw.$(".dropable-zone").each(function () {
+        var picker = new mw.filePicker({
+            element:'#filepick',
+            nav: 'tabs',
+            footer: true,
+            boxed: false,
+            dropDownTargetMode: 'dialog',
+            label: null
+        });
+
+        $(picker).on('Result', function (e, res) {
+            var filetypes = '<?php print join(",", $types);; ?>';
+            var url = res.src ? res.src : res;
+            if (filetypes.indexOf('images') !== -1) {
+                afterMediaIsInserted(url, '', "FileUploaded");
+            }
+            else if (filetypes == 'videos' || filetypes == 'media') {
+                afterMediaIsInserted(url, 'video', "FileUploaded");
+            }
+            else if (filetypes == 'files') {
+                if (item.src.contains("base64")) {
+                    afterMediaIsInserted(url, '', "FileUploaded");
+                } else {
+                    afterMediaIsInserted(url, 'files', "FileUploaded");
+                }
+
+            }
+            if(window.thismodal) {
+                thismodal.result(url);
+                thismodal.remove()
+            }
+        })
+
+
+        mw.$("xc.dropable-zone").each(function () {
             var li = $(this);
             var _li = this;
             var filetypes = '<?php print join(",", $types);; ?>';
@@ -521,21 +556,21 @@ if (array_key_exists('title', $_GET)) {
 
 </style>
 <div class="module-live-edit-settings">
-    <div id="image_tabs">
+    <!--<div id="image_tabs">
         <div class="image-tabs-header">
             <div>
-                <h6><strong><?php print $title; ?></strong></h6>
+                <h6><strong><?php /*print $title; */?></strong></h6>
             </div>
             <div>
                 <select class="selectpicker btn-as-link" data-style="btn-sm" data-width="auto">
-                    <option selected><?php _e("My Computer"); ?></option>
-                    <option><?php _e("URL"); ?></option>
-                    <?php if (is_admin()): ?>
-                        <option id="browseTab"><?php _e("Uploaded"); ?></option>
-                    <?php endif; ?>
-                    <?php if (is_admin()): ?>
-                        <option id="unslashImagesTab"><?php _e("Media Library"); ?></option>
-                    <?php endif; ?>
+                    <option selected><?php /*_e("My Computer"); */?></option>
+                    <option><?php /*_e("URL"); */?></option>
+                    <?php /*if (is_admin()): */?>
+                        <option id="browseTab"><?php /*_e("Uploaded"); */?></option>
+                    <?php /*endif; */?>
+                    <?php /*if (is_admin()): */?>
+                        <option id="unslashImagesTab"><?php /*_e("Media Library"); */?></option>
+                    <?php /*endif; */?>
                 </select>
             </div>
         </div>
@@ -566,7 +601,7 @@ if (array_key_exists('title', $_GET)) {
                         </div>
                     </div>
 
-                    <div class="drag_files_label" style="display: none;"><?php _e("Drag your files here"); ?></div>
+                    <div class="drag_files_label" style="display: none;"><?php /*_e("Drag your files here"); */?></div>
 
             </div>
             <div class="tab" id="get_image_from_url">
@@ -576,12 +611,12 @@ if (array_key_exists('title', $_GET)) {
                     <div class="mw-ui-row-nodrop">
                         <div class="mw-ui-col">
                             <div class="mw-ui-col-container">
-                                <input type="text" id="media_search_field" placeholder="<?php _e("URL"); ?>" class="mw-ui-field" name="get_image_by_url" onfocus="event.preventDefault()"/>
+                                <input type="text" id="media_search_field" placeholder="<?php /*_e("URL"); */?>" class="mw-ui-field" name="get_image_by_url" onfocus="event.preventDefault()"/>
                             </div>
                         </div>
                         <div class="mw-ui-col">
                             <div class="mw-ui-col-container">
-                                <button type="button" class="mw-ui-btn" id="btn_insert"><?php _e("Insert"); ?></button>
+                                <button type="button" class="mw-ui-btn" id="btn_insert"><?php /*_e("Insert"); */?></button>
                             </div>
                         </div>
                     </div>
@@ -590,7 +625,7 @@ if (array_key_exists('title', $_GET)) {
             </div>
             <div class="tab" id="tabfilebrowser">
                 <div id="file_module_live_edit_adm"></div>
-                <?php event_trigger('live_edit_toolbar_image_search'); ?>
+                <?php /*event_trigger('live_edit_toolbar_image_search'); */?>
 
             </div>
             <div class="tab">
@@ -598,7 +633,7 @@ if (array_key_exists('title', $_GET)) {
             </div>
 
 
-    </div>
+    </div>-->
 
 
     <div class="mw-ui-progress" id="mw-upload-progress" style="display: none">

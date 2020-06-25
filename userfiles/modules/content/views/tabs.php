@@ -7,12 +7,18 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
 
 <script>
     mw.lib.require('colorpicker');
+
 </script>
+
 
 <div id="settings-tabs">
     <div class="card style-1 mb-3 images">
         <div class="card-body pt-3">
-            <module id="edit-post-gallery-main" type="pictures/admin" for="content" for-id="<?php print $data['id']; ?>"/>
+            <module
+                id="edit-post-gallery-main"
+                type="pictures/admin"
+                for="content"
+                for-id="<?php print $data['id']; ?>"/>
         </div>
     </div>
 

@@ -82,6 +82,7 @@ if ($for_id != false) {
 ?>
 
 
+
 <script>
       mw.require("files.js");
 </script>
@@ -311,7 +312,7 @@ if (!isset($data["thumbnail"])) {
             }
 
         }
-        var uploader = mw.fileWindow({
+        /*var uploader = mw.fileWindow({
             mode: 'inline',
             types:'images',
             title: '<?php print isset($params['title']) ? $params['title'] : ''; ?>',
@@ -319,7 +320,9 @@ if (!isset($data["thumbnail"])) {
             change: function (url) {
                 after_upld(url, 'tets', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
             }
-        })
+        });*/
+
+
 
         selectItems = function (val) {
             if (val === 'all') {
@@ -339,8 +342,27 @@ if (!isset($data["thumbnail"])) {
         $(document).ready(function () {
 
 
-            mw.$("#backend_image_uploader").append(uploader);
-            $(uploader).on("FilesAdded", function (a, b) {
+            mw.require('filepicker.js');
+
+                var picker = new mw.filePicker({
+                    element:'#backend_image_uploader',
+                    nav: 'dropdown',
+                    footer: false,
+                    boxed: false,
+                    dropDownTargetMode: 'dialog',
+                    label: mw.lang('Media')
+                });
+
+                $(picker).on('Result', function (e, res) {
+                    var url = res.src ? res.src : res;
+                    after_upld(url, 'Result', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
+                    after_upld(url, 'done');
+                })
+
+
+
+
+/*            $(uploader).on("FilesAdded", function (a, b) {
                 var i = 0, l = b.length;
                 for (; i < l; i++) {
                     if (mw.$(".admin-thumbs-holder .admin-thumb-item").length > 0) {
@@ -370,7 +392,7 @@ if (!isset($data["thumbnail"])) {
                 }
 
 
-            });
+            });*/
 
 
             $(".image-tag-view").remove();

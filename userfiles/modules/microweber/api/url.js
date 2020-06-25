@@ -166,6 +166,7 @@ mw.slug = {
     return string;
   },
   create:function(string){
+    string = string || '';
     string = mw.slug.removeSpecials(string);
     return string.trim().toLowerCase().replace(/[-\s]+/g, '-');
   },
