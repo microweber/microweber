@@ -138,6 +138,9 @@ class Modules
 
         if (isset($options['reload_modules']) == true) {
             $modules_remove_old = true;
+            if(is_cli()){
+                $this->_install_mode = true;
+            }
         }
 
         if ($modules_remove_old or isset($options['cleanup_db']) == true) {
@@ -175,6 +178,9 @@ class Modules
         }
 
         $dir = rglob($glob_patern, 0, $dir_name);
+
+      //  var_dump($dir);
+
         $dir_name_mods = modules_path();
         $dir_name_mods2 = elements_path();
         $saved_ids = array();
