@@ -8,3 +8,6 @@ $config['ui'] = true;
 $config['position'] = 7;
 $config['version'] = 0.9;
 $config['categories'] = "recommended,navigation";
+
+
+
