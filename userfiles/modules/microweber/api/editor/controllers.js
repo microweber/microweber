@@ -1,16 +1,16 @@
 mw.Editor.controllers = {
     align: function (scope, api, rootScope) {
         this.root = mw.Editor.core.element();
-        this.root.$node.addClass('mw-ui-btn-nav mw-editor-state-component')
-        this.render = function () {
+        this.root.$node.addClass('mw-ui-btn-nav mw-editor-state-component');
+        this.buttons = [];
 
-            // var arr = ['justifyCenter', 'justifyFull', 'justifyLeft', 'justifyRight'];
-            var arr = [
-                {icon: 'left', action: 'justifyLeft'},
-                {icon: 'center', action: 'justifyCenter'},
-                {icon: 'right', action: 'justifyRight'},
-                {icon: 'justify', action: 'justifyFull'}
-            ];
+        var arr = [
+            {align: 'left', icon: 'left', action: 'justifyLeft'},
+            {align: 'center', icon: 'center', action: 'justifyCenter'},
+            {align: 'right', icon: 'right', action: 'justifyRight'},
+            {align: 'justify', icon: 'justify', action: 'justifyFull'}
+        ];
+        this.render = function () {
             var scope = this;
             arr.forEach(function (item) {
                 var el = mw.Editor.core.button({
@@ -22,19 +22,15 @@ mw.Editor.controllers = {
                     api.execCommand(item.action);
                 });
                 scope.root.append(el);
+                scope.buttons.push(el);
             });
             return scope.root;
         };
         this.checkSelection = function (opt) {
-            console.log(opt.css.is(), opt.css)
-            if(opt.css.is().bold) {
-                rootScope.controllerActive(opt.controller.element.node, true);
-            } else {
-                rootScope.controllerActive(opt.controller.element.node, false);
-            }
-            var disabled = !opt.api.isSelectionEditable(opt.selection);
-            for (var i =0; i<opt.controller.element.node.children.length; i++) {
-                opt.controller.element.node.children[i].disabled = disabled
+            var align = opt.css.alignNormalize();
+            for (var i = 0; i< this.buttons.length; i++) {
+                var state = arr[i].align === align;
+                rootScope.controllerActive(this.buttons[i].node, state);
             }
         };
         this.element = this.render();
@@ -98,7 +94,6 @@ mw.Editor.controllers = {
                     change: function (url) {
                         url = url.toString();
                         api.insertImage(url);
-                        console.log(url)
                     }
                 });
             });

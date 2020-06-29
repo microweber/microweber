@@ -608,14 +608,14 @@ mw.wysiwyg = {
                 return '';
             }
         }
-        if (mw.wysiwyg.isLocalPaste(clipboard)) {console.log(2)
+        if (mw.wysiwyg.isLocalPaste(clipboard)) {
             mw.wysiwyg.doLocalPaste(clipboard);
             e.preventDefault();
             return '';
         }
 
 
-        if (mw.wysiwyg.pastedFromExcel(clipboard)) {console.log(3)
+        if (mw.wysiwyg.pastedFromExcel(clipboard)) {
             html = mw.wysiwyg.cleanExcel(clipboard)
             mw.wysiwyg.insert_html(html);
             e.preventDefault();
@@ -623,14 +623,13 @@ mw.wysiwyg = {
         }
 
 
-        if (clipboard.files.length > 0) {console.log(4)
+        if (clipboard.files.length > 0) {
             var i = 0;
             for (; i < clipboard.files.length; i++) {
                 var item = clipboard.files[i];
                 if (item.type.indexOf('image/') != -1) {
                     var reader = new FileReader();
                     reader.onload = function (e) {
-                        console.log(e.target)
                         mw.wysiwyg.insert_html('<img src="' + (e.target.result) + '">');
                         mw.wysiwyg.normalizeBase64Images();
                     }
@@ -639,7 +638,7 @@ mw.wysiwyg = {
             }
             e.preventDefault();
         }
-        else {console.log(5)
+        else {
             if (typeof clipboard !== 'undefined' && typeof clipboard.getData === 'function' && mw.wysiwyg.editable(e.target)) {
                 if (!mw.is.ie) {
                     html = clipboard.getData('text/html');
