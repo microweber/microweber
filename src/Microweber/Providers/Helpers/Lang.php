@@ -742,7 +742,7 @@ class Lang
             'Byelorussian' => 'BE',
             'Cambodian' => 'KM',
             'Catalan' => 'CA',
-            'Chinese' => 'ZH',
+            'Chinese' => 'ZH_CN',
             'Corsican' => 'CO',
             'Croatian' => 'HR',
             'Czech' => 'CS',
