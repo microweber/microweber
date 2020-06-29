@@ -38,6 +38,9 @@ class ModuleCommand extends Command
                 mw()->modules->uninstall(array('for_module' => $input['module']));
                 $this->info($input['module'] . ' is uninstalled');
             }
+            $this->info('Reloading modules...');
+
+            mw()->modules->scan(['reload_modules'=>1,'scan'=>1]);
         }
     }
 

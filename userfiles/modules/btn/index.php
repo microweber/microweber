@@ -44,6 +44,33 @@ if ($url == false and isset($params['url'])) {
     $url = '#';
 }
 
+
+
+$link_to_content_by_id = 'content:';
+$link_to_category_by_id = 'category:';
+
+
+$url_display = false;
+if (substr($url, 0, strlen($link_to_content_by_id)) === $link_to_content_by_id) {
+    $link_to_content_by_id = substr($url, strlen($link_to_content_by_id));
+    if ($link_to_content_by_id) {
+        $url_display = content_link($link_to_content_by_id);
+    }
+} else if (substr($url, 0, strlen($link_to_category_by_id)) === $link_to_category_by_id) {
+    $link_to_category_by_id = substr($url, strlen($link_to_category_by_id));
+
+    if ($link_to_category_by_id) {
+        $url_display = category_link($link_to_category_by_id);
+    }
+}
+
+if($url_display){
+    $url = $url_display;
+}
+
+
+
+
 if ($style == false and isset($params['button_style'])) {
     $style = $params['button_style'];
 }
@@ -63,6 +90,11 @@ if ($size == false and isset($params['button_size'])) {
 if ($action == 'popup') {
     $url = 'javascript:' . $popup_function_id . '()';
 }
+
+
+
+
+
 ?>
 
 
