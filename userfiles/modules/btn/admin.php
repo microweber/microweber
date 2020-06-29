@@ -9,11 +9,35 @@ if (isset($params['button_onclick'])) {
     $onclick = $params['button_onclick'];
 }
 
-$url = get_option('url', $params['id']);
+$url  = $url_display = get_option('url', $params['id']);
 $popupcontent = get_option('popupcontent', $params['id']);
 $text = get_option('text', $params['id']);
 $url_blank = get_option('url_blank', $params['id']);
 $icon = get_option('icon', $params['id']);
+
+
+
+$link_to_content_by_id = 'content:';
+$link_to_category_by_id = 'category:';
+
+
+
+if (substr($url, 0, strlen($link_to_content_by_id)) === $link_to_content_by_id) {
+    $link_to_content_by_id = substr($url, strlen($link_to_content_by_id));
+    if ($link_to_content_by_id) {
+        $url_display = content_link($link_to_content_by_id);
+    }
+} else if (substr($url, 0, strlen($link_to_category_by_id)) === $link_to_category_by_id) {
+    $link_to_category_by_id = substr($url, strlen($link_to_category_by_id));
+
+    if ($link_to_category_by_id) {
+        $url_display = category_link($link_to_category_by_id);
+    }
+}
+
+
+
+
 ?>
 <style>
     select {
@@ -144,15 +168,36 @@ $icon = get_option('icon', $params['id']);
     <?php if (!$onclick): ?>
     <div id="btn_url_holder">
         <div class="mw-ui-btn-nav">
+
+
+
             <input
 
-                type="text"
+                    type="text"
+
+                    readonly="readonly"
+                    disabled="disabled"
+
+                    id="btn-default_url-show"
+                    value="<?php print $url_display; ?>"
+                    placeholder="<?php _e("Enter URL"); ?>"
+                    class="mw_option_field mw-ui-field" style="min-width: 350px" /> <a href="javascript:;" class="mw-ui-btn"><span class="mw-icon-gear"></span></a>
+
+
+
+
+
+
+            <input
+
+                type="hidden"
                 name="url"
+
                 id="btn-default_url"
                 value="<?php print $url; ?>"
                 placeholder="<?php _e("Enter URL"); ?>"
-                class="mw_option_field mw-ui-field" style="min-width: 350px" />
-            <a href="javascript:;" class="mw-ui-btn"><span class="mw-icon-gear"></span></a>
+                class="mw_option_field mw-ui-field" />
+
         </div>
     </div>
     <?php endif; ?>
@@ -177,16 +222,35 @@ $icon = get_option('icon', $params['id']);
                     controllers: 'page, custom, content, section, layout, emial'
                 }
             });
-            $(picker).on('Result', function(e, ldata){
-                if(ldata){
-                    mw.$('#btn-default_url').val(ldata.url).trigger('change');
+            $(picker).on('Result', function (e, ldata) {
+                if (ldata) {
+                    var url = ldata.url;
+                    var url_display = ldata.url;
+                     if (ldata.object) {
+                        if (ldata.object.id) {
+                            if (ldata.object.type && ldata.object.type == 'category') {
+                                url = 'category:'+ldata.object.id;
+                            } else if (ldata.object.content_type) {
+                                url = 'content:'+ldata.object.id;
+                            }
+                        }
+
+                    }
+
+                    if(!url_display){
+                        url_display = url;
+                    }
+
+                    mw.$('#btn-default_url').val(url).trigger('change');
+                    mw.$('#btn-default_url-show').val(url_display);
                 }
             });
         };
 
 
         $(window).on('load', function(){
-            mw.$('#btn_url_holder').find('a').on('click', function(){
+            //mw.$('#btn_url_holder').find('a').on('click', function(){
+            mw.$('#btn_url_holder').on('click', function(){
                 pickUrl();
             });
         })

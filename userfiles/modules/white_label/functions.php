@@ -111,5 +111,10 @@ function make_white_label()
         mw()->ui->package_manager_urls = $settings['marketplace_repositories_urls'];
     }
 
+
+    if (isset($settings['brand_favicon']) and $settings['brand_favicon']) {
+        mw()->ui->brand_favicon = $settings['brand_favicon'];
+    }
+
 }
 

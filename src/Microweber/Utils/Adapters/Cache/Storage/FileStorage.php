@@ -92,6 +92,7 @@ class FileStorage
         $key = $this->appendLocale($key);
         $this->memory[ $key ] = $value;
         $value = $this->expiration($minutes).serialize($value);
+
         $path = $this->path($key);
         $path = $this->normalize_path($path, false);
 
@@ -108,9 +109,8 @@ class FileStorage
             $this->_setTags($path);
         }
         if (!$skip) {
-            @file_put_contents($path, $value);
+           @file_put_contents($path, $value);
         }
-        // $this->files->put($path, $value);
     }
 
     /**
@@ -403,7 +403,7 @@ class FileStorage
      */
     protected function expiration($minutes)
     {
-        if ($minutes === 0) {
+        if (!$minutes) {
             return 9999999999;
         }
 

@@ -113,6 +113,8 @@ class MicroweberTemplate
         }
         if (isset($page['layout_file'])) {
             $page['layout_file'] = str_replace('..', '', $page['layout_file']);
+
+
         }
         if (isset($page['active_site_template'])) {
             $page['active_site_template'] = str_replace('..', '', $page['active_site_template']);
@@ -138,12 +140,27 @@ class MicroweberTemplate
                     $template_d = 'default';
                 }
 
+
+
+
+
+                $render_file_temp_from_url = false;
                 $render_file_temp = normalize_path(TEMPLATES_DIR.$template_d.DS.$page['layout_file'], false);
                 $render_use_default = normalize_path(TEMPLATES_DIR.$template_d.DS.'use_default_layouts.php', false);
 
+
+                if(isset($page['content_type']) and ($page['content_type']) == 'page' and $page['layout_file'] and $page['layout_file'] == 'inherit'){
+                    if (isset($page['url']) and isset($page['active_site_template'])) {
+                        $render_file_temp_from_url = normalize_path(TEMPLATES_DIR.$template_d.DS.$page['url'].'.php', false);
+
+                    }
+                }
+
                 $render_file_module_temp = modules_path().DS.$page['layout_file'];
                 $render_file_module_temp = normalize_path($render_file_module_temp, false);
-                if (is_file($render_file_temp)) {
+                if ($render_file_temp_from_url and is_file($render_file_temp_from_url)) {
+                    $render_file = $render_file_temp_from_url;
+                }  else if (is_file($render_file_temp)) {
                     $render_file = $render_file_temp;
                 } elseif (is_file($render_file_module_temp)) {
                     $render_file = $render_file_module_temp;
