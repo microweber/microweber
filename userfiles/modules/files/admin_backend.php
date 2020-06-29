@@ -35,6 +35,7 @@
         mw.require("forms.js");
         mw.require("url.js");
         mw.require("files.js");
+        mw.lib.require("mwui");
     </script>
     <style type="text/css">
         .mw-file-browser-popup .modules-index-bar {
@@ -580,11 +581,6 @@
 
             });
 
-            $(Uploader).bind("FilesAdded", function (frame, files_array, runtime) {
-                if (runtime == 'html4') {
-                    //ProgressInfo.html('<?php _e("Uploading"); ?> - "' + files_array[0].name+'" ...');
-                }
-            });
 
 
             mw.$("#mw_uploader").append(Uploader);
@@ -643,12 +639,14 @@
           <?php _e("Unselect All"); ?>
           </span> </span>
                         <div class="btn-group">
-                            <span id="mw_uploader" class="mw-ui-btn mw-ui-btn-notification"><span class="mw-icon-upload"></span>&nbsp;
+                            <span id="mw_uploader" class="btn btn-primary">
+                                <span class="mw-icon-upload"></span>&nbsp;
                                 <?php _e("Upload File"); ?>
-            </span> <span class="mw-ui-btn mw-ui-btn-red delete_item disabled">
-            <?php _e("Delete selected files"); ?>
-            </span>
-                            <span class="btn" onclick="createFolder()"> <?php _e("Create folder"); ?> </span>
+                            </span>
+                            <span class="btn btn-secondary">
+                                <?php _e("Delete selected files"); ?>
+                            </span>
+                            <span class="btn btn-secondary" onclick="createFolder()"> <?php _e("Create folder"); ?> </span>
 
                         </div>
                         <input

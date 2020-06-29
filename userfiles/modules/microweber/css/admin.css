@@ -10,6 +10,10 @@
     max-height: 50px;
 }
 
+#mw-order-table-holder {
+    clear: both;
+}
+
 
 .main aside > ul > li.nav-item{
     width: 100%;

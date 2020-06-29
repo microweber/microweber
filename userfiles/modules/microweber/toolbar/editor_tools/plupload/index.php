@@ -80,6 +80,7 @@ $here = mw_includes_url() . 'toolbar/editor_tools/plupload/';
             multi_selection: multi,
             drop_element: true
         });
+        console.log(uploader)
         window.onmessage = function (event) {
             var data = JSON.parse(event.data);
             var base = mw.url.strip(uploader.settings.url);

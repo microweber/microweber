@@ -122,32 +122,44 @@ mw.filePicker = function (options) {
             /*mw.load_module('files/admin', $wrap, function () {
 
             }, {'filetype':'images'});*/
-            var fr = mw.tools.moduleFrame('files/admin', {'filetype':'images'});
-            $wrap.append(fr);
-            fr.onload = function () {
-                this.contentWindow.$(this.contentWindow.document.body).on('click', '.mw-browser-list-file', function () {
-                    var url = this.href;
-                    scope.setSectionValue(url);
-                    if (scope.settings.autoSelect) {
-                        scope.result();
-                    }
-                });
-            };
+            $(scope).on('$firstOpen', function (e, el, i) {
+                var comp = scope._getComponentObject('server');
+                if (i === comp.index) {
+                    var fr = mw.tools.moduleFrame('files/admin', {'filetype':'images'});
+                    $wrap.append(fr);
+                    fr.onload = function () {
+                        this.contentWindow.$(this.contentWindow.document.body).on('click', '.mw-browser-list-file', function () {
+                            var url = this.href;
+                            scope.setSectionValue(url);
+                            if (scope.settings.autoSelect) {
+                                scope.result();
+                            }
+                        });
+                    };
+                }
+            });
+
             return $wrap[0];
         },
         library: function () {
             var $wrap = this._$inputWrapper(scope._getComponentObject('library').label);
-            var fr = mw.tools.moduleFrame('pictures/media_library');
-            $wrap.append(fr);
-            fr.onload = function () {
-                this.contentWindow.mw.on.hashParam('select-file', function () {
-                    var url = this.toString();
-                    scope.setSectionValue(url);
-                    if (scope.settings.autoSelect) {
-                        scope.result();
-                    }
-                });
-            };
+            $(scope).on('$firstOpen', function (e, el, i) {
+                var comp = scope._getComponentObject('library');
+                if (i === comp.index) {
+                    var fr = mw.tools.moduleFrame('pictures/media_library');
+                    $wrap.append(fr);
+                    fr.onload = function () {
+                        this.contentWindow.mw.on.hashParam('select-file', function () {
+                            var url = this.toString();
+                            scope.setSectionValue(url);
+                            if (scope.settings.autoSelect) {
+                                scope.result();
+                            }
+                        });
+                    };
+                }
+            })
+
             /*mw.load_module('pictures/media_library', $wrap);*/
             return $wrap[0];
         }
@@ -165,16 +177,17 @@ mw.filePicker = function (options) {
 
 
     this._navigation = null;
+    this.__navigation_first = [];
 
     this.navigation = function () {
         this._navigationHeader = document.createElement('div');
-        this._navigationHeader.className = 'mw-filepicker-component-' + (this.settings.boxed ? 'card-header no-border' : '');
+        this._navigationHeader.className = 'mw-filepicker-component-navigation-header ' + (this.settings.boxed ? 'card-header no-border' : '');
         if (this.settings.label) {
             this._navigationHeader.innerHTML = '<h6><strong>' + this.settings.label + '</strong></h6>';
         }
         this._navigationHolder = document.createElement('div');
         if(this.settings.nav === 'tabs') {
-            var ul = $('<ul class="nav nav-xxxxabs" />');
+            var ul = $('<ul class="nav nav-tabs" />');
             this.settings.components.forEach(function (item) {
                 ul.append('<li class="nav-item"><a class="nav-link active" href="#">'+item.label+'</a></li>');
             });
@@ -185,7 +198,11 @@ mw.filePicker = function (options) {
                     nav: $('li a', ul),
                     tabs: $('.mw-filepicker-component-section', scope.$root),
                     activeClass: 'btn-primary',
-                    onclick: function () {
+                    onclick: function (el, event, i) {
+                        if(scope.__navigation_first.indexOf(i) === -1) {
+                            scope.__navigation_first.push(i);
+                            $(scope).trigger('$firstOpen', [el, i]);
+                        }
                         scope.manageActiveSectionState();
                     }
                 });

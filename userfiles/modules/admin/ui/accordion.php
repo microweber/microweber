@@ -373,7 +373,7 @@
                 mode: 'div',
                 controls: [
                     ['undoRedo', '|', 'fontSelector'],
-                    ['bold', '|', 'italic', '|', 'fontSize'   ]
+                    ['bold', '|', 'italic', '|', 'fontSize', 'align'   ]
                 ],
                 content: `Nulla facilisi. Donec <b>congue mauris mi, nec elementum diam elementum</b> sed.
                 In faucibus odio eget nisi pulvinar porttitor. Nam elementum magna in velit malesuada tin

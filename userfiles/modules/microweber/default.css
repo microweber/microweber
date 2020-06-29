@@ -21,4 +21,39 @@
 .mw-filepicker-component-section {
     /*max-height: 70vh;*/
     overflow: auto;
+    min-height: 50px;
 }
+.mw-filepicker-component-navigation-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.mw-user-thumb:before{
+    display: inline-block;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    content: "\F0013";
+    font-family: "Material Design Icons";
+}
+.mw-user-thumb{
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    display: inline-flex;
+    vertical-align: middle;
+    background-color: #F9F9F9;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    justify-content: center;
+    align-items: center;
+    color: #51acf7;
+    font-size: 30px;
+
+}
+
+
+

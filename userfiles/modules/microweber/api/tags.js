@@ -169,7 +169,7 @@ mw.tags = mw.chips = function(options){
          }
 
 
-            var tag_holder = mwd.createElement('button');
+            var tag_holder = mwd.createElement('span');
             var tag_close = mwd.createElement('span');
 
             tag_close._index = config.index;

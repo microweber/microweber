@@ -1,4 +1,44 @@
 mw.Editor.controllers = {
+    align: function (scope, api, rootScope) {
+        this.root = mw.Editor.core.element();
+        this.root.$node.addClass('mw-ui-btn-nav mw-editor-state-component')
+        this.render = function () {
+
+            // var arr = ['justifyCenter', 'justifyFull', 'justifyLeft', 'justifyRight'];
+            var arr = [
+                {icon: 'left', action: 'justifyLeft'},
+                {icon: 'center', action: 'justifyCenter'},
+                {icon: 'right', action: 'justifyRight'},
+                {icon: 'justify', action: 'justifyFull'}
+            ];
+            var scope = this;
+            arr.forEach(function (item) {
+                var el = mw.Editor.core.button({
+                    props: {
+                        className: 'mdi-format-align-' + item.icon
+                    }
+                });
+                el.$node.on('mousedown touchstart', function (e) {
+                    api.execCommand(item.action);
+                });
+                scope.root.append(el);
+            });
+            return scope.root;
+        };
+        this.checkSelection = function (opt) {
+            console.log(opt.css.is(), opt.css)
+            if(opt.css.is().bold) {
+                rootScope.controllerActive(opt.controller.element.node, true);
+            } else {
+                rootScope.controllerActive(opt.controller.element.node, false);
+            }
+            var disabled = !opt.api.isSelectionEditable(opt.selection);
+            for (var i =0; i<opt.controller.element.node.children.length; i++) {
+                opt.controller.element.node.children[i].disabled = disabled
+            }
+        };
+        this.element = this.render();
+    },
     bold: function (scope, api, rootScope) {
         this.render = function () {
             var scope = this;

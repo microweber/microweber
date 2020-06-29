@@ -1,15 +1,4 @@
-mw.require('state.js');
-mw.require('editor/element.js');
-mw.require('editor/bar.js');
-mw.require('editor/api.js');
-mw.require('editor/helpers.js');
-mw.require('editor/core.js');
-mw.require('editor/controllers.js');
-mw.require('editor/add.controller.js');
-mw.require('editor/interaction-controls.js');
-mw.require('editor/i18n.js');
-mw.require('editor/liveeditmode.js');
-mw.require('control_box.js');
+
 
 
 var EditorPredefinedControls = {
@@ -506,3 +495,17 @@ mw.Editor = function (options) {
     };
     this.init();
 };
+
+
+mw.require('state.js');
+mw.require('editor/element.js');
+mw.require('editor/bar.js');
+mw.require('editor/api.js');
+mw.require('editor/helpers.js');
+mw.require('editor/core.js');
+mw.require('editor/controllers.js');
+mw.require('editor/add.controller.js');
+mw.require('editor/interaction-controls.js');
+mw.require('editor/i18n.js');
+mw.require('editor/liveeditmode.js');
+mw.require('control_box.js');

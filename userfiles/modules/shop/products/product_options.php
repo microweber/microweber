@@ -1,7 +1,7 @@
 <?php
 
 if(!is_admin()){
-return;	
+return;
 }
 $cont_id = 0;
 if(isset($params['content-id'])){
@@ -9,7 +9,7 @@ $cont_id = $params['content-id'];
 }
 
 $data_fields = content_data($cont_id);
- 
+
 $out_of_stock = false;
 ?>
 
@@ -40,8 +40,8 @@ $out_of_stock = false;
             </div>
             </div>
 
-            
-            
+
+
         </div>
 
 <div class="mw-ui-btn-nav">
@@ -59,11 +59,11 @@ $out_of_stock = false;
 
 
 		<div id="mw-admin-product-shipping-options" style="display: none">
-        
-        
+
+
         <h4><?php _e("Shipping Options"); ?></h4>
 <hr />
-        
+
 			<div>
 
             <label class="mw-ui-inline-label"><?php _e("Free Shipping"); ?></label>
@@ -71,48 +71,54 @@ $out_of_stock = false;
             <label class="mw-ui-check"><input type="radio" <?php if (isset($data_fields['is_free_shipping']) and $data_fields['is_free_shipping'] == "n"): ?>checked="checked"<?php endif; ?> name="data_is_free_shipping" value="n"><span></span><span><?php _e("No"); ?></span></label>
 
 				<div id="data_shipping_fields" >
-                     <div class="mw-ui-row">
-                         <div class="mw-ui-col">
+                     <div class="row">
+                         <div class="col-lg-3 col-xl">
                            <div class="mw-ui-col-container">
-                                <div class="mw-ui-field-holder">
-            						<label class="mw-ui-label"> <?php _e("Weight"); ?> </label>
+                                <div class="form-group">
+            						<label> <?php _e("Weight"); ?> </label>
             						<span class="mwsico-weight"></span>
-            						<input type="number" min="0" step=".001" name="data_shipping_weight" class="mw-ui-field w100"  <?php if (isset($data_fields['shipping_weight'])): ?> value="<?php print $data_fields['shipping_weight']; ?>" <?php endif; ?>  />
+            						<input
+                                        type="number"
+                                        min="0"
+                                        step=".001"
+                                        name="data_shipping_weight"
+                                        class="form-control"
+                                        <?php if (isset($data_fields['shipping_weight'])): ?> value="<?php print $data_fields['shipping_weight']; ?>" <?php endif; ?>  />
             					</div>
                            </div>
                          </div>
-                         <div class="mw-ui-col">
+                         <div class="col-lg-3 col-xl">
                            <div class="mw-ui-col-container">
-                                <div class="mw-ui-field-holder">
-            						<label class="mw-ui-label"><?php _e("Width"); ?> </label>
+                                <div class="form-group">
+            						<label><?php _e("Width"); ?> </label>
             						<span class="mwsico-width"></span>
-            						<input type="number" min="0" step=".001" name="data_shipping_width" class="mw-ui-field w100"  <?php if (isset($data_fields['shipping_width'])): ?> value="<?php print $data_fields['shipping_width']; ?>" <?php endif; ?>  />
+            						<input type="number" min="0" step=".001" name="data_shipping_width" class="form-control"  <?php if (isset($data_fields['shipping_width'])): ?> value="<?php print $data_fields['shipping_width']; ?>" <?php endif; ?>  />
             					</div>
                            </div>
                          </div>
-                         <div class="mw-ui-col">
+                         <div class="col-lg-3 col-xl">
                            <div class="mw-ui-col-container">
-                              <div class="mw-ui-field-holder">
-          						<label class="mw-ui-label"><?php _e("Height"); ?> </label>
+                              <div class="form-group">
+          						<label><?php _e("Height"); ?> </label>
           						<span class="mwsico-height"></span>
-          						<input type="number" min="0" step=".001" name="data_shipping_height" class="mw-ui-field w100"  <?php if (isset($data_fields['shipping_height'])): ?> value="<?php print $data_fields['shipping_height']; ?>" <?php endif; ?>  />
+          						<input type="number" min="0" step=".001" name="data_shipping_height" class="form-control"  <?php if (isset($data_fields['shipping_height'])): ?> value="<?php print $data_fields['shipping_height']; ?>" <?php endif; ?>  />
           					</div>
                            </div>
                          </div>
-                         <div class="mw-ui-col">
+                         <div class="col-lg-3 col-xl">
                            <div class="mw-ui-col-container">
-                           <div class="mw-ui-field-holder">
-        						<label class="mw-ui-label"><?php _e("Depth"); ?> </label>
+                           <div class="form-group">
+        						<label><?php _e("Depth"); ?> </label>
         						<span class="mwsico-depth"></span>
-        						<input type="number" min="0" step=".001" name="data_shipping_depth" class="mw-ui-field w100"  <?php if (isset($data_fields['shipping_depth'])): ?> value="<?php print $data_fields['shipping_depth']; ?>" <?php endif; ?>  />
+        						<input type="number" min="0" step=".001" name="data_shipping_depth" class="form-control"  <?php if (isset($data_fields['shipping_depth'])): ?> value="<?php print $data_fields['shipping_depth']; ?>" <?php endif; ?>  />
         					</div>
                            </div>
                          </div>
-                         <div class="mw-ui-col">
+                         <div class="col-lg-3 col-xl">
                            <div class="mw-ui-col-container">
-                             <div class="mw-ui-field-holder">
-        						<label class="mw-ui-label"><?php _e("Fixed Cost"); ?> <span class="mw-help mw-help-right" data-help="<?php _e("Additional Shipping Cost will be added on purchase"); ?>">?</span></label>
-        						<input type="number" min="0" step=".01" name="data_additional_shipping_cost" class="mw-ui-field w100"  <?php if (isset($data_fields['additional_shipping_cost'])): ?> value="<?php print $data_fields['additional_shipping_cost']; ?>" <?php endif; ?>  />
+                             <div class="form-group">
+        						<label><?php _e("Fixed Cost"); ?> <span class="mw-help mw-help-right" data-help="<?php _e("Additional Shipping Cost will be added on purchase"); ?>">?</span></label>
+        						<input type="number" min="0" step=".01" name="data_additional_shipping_cost" class="form-control"  <?php if (isset($data_fields['additional_shipping_cost'])): ?> value="<?php print $data_fields['additional_shipping_cost']; ?>" <?php endif; ?>  />
         					</div>
                            </div>
                          </div>
@@ -122,7 +128,7 @@ $out_of_stock = false;
 			</div>
 		</div>
 
-        
+
         <div id="mw-admin-product-order-options" style="display: none">
 			<div >
 <h4><?php _e("Order Options"); ?></h4>
@@ -163,4 +169,4 @@ toggle_free_shipping = function(){
     }
 }
 
-</script> 
+</script>
