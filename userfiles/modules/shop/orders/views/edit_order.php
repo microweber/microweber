@@ -146,11 +146,13 @@
                         </li>
                         <li>
                             <?php _e("Is Paid"); ?>:
-                            <select name="is_paid" class="mw-ui-field mw-ui-field-medium mw-order-is-paid-change">
-                                <option value="1" <?php if (isset($ord['is_paid']) and $ord['is_paid'] == 1): ?> selected="selected" <?php endif; ?>>
+                             <select name="is_paid" class="mw-ui-field mw-ui-field-medium mw-order-is-paid-change">
+
+
+                                <option value="1" <?php if (isset($ord['is_paid']) and intval($ord['is_paid']) == 1): ?> selected="selected" <?php endif; ?>>
                                     <?php _e("Yes"); ?>
                                 </option>
-                                <option value="0" <?php if (isset($ord['is_paid']) and $ord['is_paid'] != 1): ?> selected="selected" <?php endif; ?>>
+                                <option value="0" <?php if (!isset($ord['is_paid']) or  (isset($ord['is_paid']) and intval($ord['is_paid']) == 0)): ?> selected="selected" <?php endif; ?>>
                                     <?php _e("No"); ?>
                                 </option>
                             </select>

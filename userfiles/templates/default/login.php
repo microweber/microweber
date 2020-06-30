@@ -12,7 +12,7 @@
 <div id="content">
      <div class="container edit"  field="content" rel="content">
         <div class="small-layout headed-box" id="sign-box">
-            <module="users/login" />
+            <module type="users/login" />
         </div>
      </div>
  </div>

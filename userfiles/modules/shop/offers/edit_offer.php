@@ -30,9 +30,12 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
     $data['edited_by'] = '';
     $data['is_active'] = 1;
 }
-
-
 ?>
+
+<script>
+    mw.lib.require('bootstrap4');
+    mw.lib.require('bootstrap_datetimepicker');
+</script>
 
 <script>
     // SET GLOBAL MULTILANGUAGE TEXTS
@@ -44,32 +47,23 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
 
     var today = new Date();
 
-
-
-
-    mw.lib.require('datetimepicker');
-
-
     editOferrSetExpirationDate = function(){
+
         $('[name="expires_at"]','.js-edit-offer-form').datetimepicker({
             defaultDate: new Date(today.getTime() + (24 * 60 * 60 * 1000)),
             format: '<?php print $date_format;?>',
-            zIndex: 1105
+            //zIndex: 1105
+
         });
+
     }
 
 
 
     $( document ).ready(function() {
-        editOferrSetExpirationDate();
+       // editOferrSetExpirationDate();
+
     });
-
-
-
-
-
-
-
 </script>
 
 <div class="js-validation-messages"></div>
@@ -196,16 +190,10 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
                     <?php // TODO: expires_at not saving in correct format ?>
 
                     <div class="js-exp-date-holder">
-                        <input type="text" name="expires_at" class="mw-ui-field disabled-js-validation disabled-js-validation-expiry-date"
+                        <input type="date" name="expires_at" class="mw-ui-field disabled-js-validation disabled-js-validation-expiry-date"
                                autocomplete="off" value="<?php print ($data['expires_at']); ?>"/>
 
-
                     </div>
-
-
-
-
-
 
 
                     <div class="js-field-message"></div>
@@ -215,7 +203,7 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
     </div>
 
     <?php if ($addNew) { ?>
-        <input type="hidden" name="created_at" value="<?php print date("Y-m-d H:i:s"); ?>"/>
+        <input type="date" name="created_at" value="<?php print date("Y-m-d H:i:s"); ?>"/>
     <?php } else { ?>
         <div class="mw-ui-row">
             <div class="mw-ui-col">

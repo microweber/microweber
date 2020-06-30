@@ -328,7 +328,15 @@ if (isset($params['quick_edit'])) {
                         <div class="edit-post-url">
                             <div class="mw-ui-row">
                                 <div class="mw-ui-col" id="slug-base-url-column">
-                                    <span class="view-post-site-url" id="slug-base-url"><?php print site_url(); ?></span>
+                                    <span class="view-post-site-url" id="slug-base-url">
+                                        <?php
+                                        if (isset($data['slug_prefix_url'])) {
+                                            echo $data['slug_prefix_url'];
+                                        } else {
+                                            echo site_url();
+                                        }
+                                        ?>
+                                    </span>
                                 </div>
 
                                 <div class="mw-ui-col" id="slug-url-column">

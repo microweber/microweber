@@ -184,9 +184,10 @@ class BackupV2
 		}
 
 		if (isset($query['import_by_type']) && $query['import_by_type'] == 'delete_all') {
+		    $this->manager->setImportOvewriteById(true);
             $this->manager->setToDeleteOldContent(true);
 		}
-
+        
         if (isset($query['installation_language']) && !empty($query['installation_language'])) {
             $this->manager->setImportLanguage($query['installation_language']);
         }
@@ -257,6 +258,22 @@ class BackupV2
 		if (isset($query['categories_ids']) && !empty($query['categories_ids'])) {
 			$manager->setExportData('categoryIds', $query['categories_ids']);
 		}
+
+		$includeModules = array();
+		if (isset($query['include_modules']) && !empty($query['include_modules'])) {
+		    $includeModules = explode(',' , $query['include_modules']);
+        }
+        if (!empty($includeModules) && is_array($includeModules)) {
+            $manager->setExportIncludeModules($includeModules);
+        }
+
+        $includeTemplates = array();
+        if (isset($query['include_templates']) && !empty($query['include_templates'])) {
+            $includeTemplates = explode(',' , $query['include_templates']);
+        }
+        if (!empty($includeTemplates) && is_array($includeTemplates)) {
+            $manager->setExportIncludeTemplates($includeTemplates);
+        }
 
 		if (is_ajax()) {
 			header('Content-Type: application/json');

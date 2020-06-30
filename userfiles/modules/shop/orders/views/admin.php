@@ -1,6 +1,6 @@
 <?php
 
-use Microweber\App\View;
+use Microweber\View;
 
 $hide_ctrls = false;
 
@@ -80,7 +80,7 @@ if (isset($params['hide-controlls']) and $params['hide-controlls']) {
 
             <div class="export-label">
                 <span><?php _e("Export data"); ?>:</span>
-                <a class="mw-ui-btn mw-ui-btn-small" href="javascript:export_orders_to_excel()"><?php _e("Excel"); ?></a>
+                <a class="mw-ui-btn mw-ui-btn-small" href="<?php echo api_url('shop/export_orders'); ?>"><?php _e("Excel"); ?></a>
             </div>
 
         <?php } ?>
@@ -110,15 +110,3 @@ if (isset($params['hide-controlls']) and $params['hide-controlls']) {
 
     <?php endif; ?>
 </div>
-<script>
-    export_orders_to_excel = function (id) {
-        data = {}
-        $.post(mw.settings.api_url + 'shop/export_orders', data,
-            function (resp) {
-                mw.notification.msg(resp);
-                if (resp.download != undefined) {
-                    window.location = resp.download;
-                }
-            });
-    }
-</script>

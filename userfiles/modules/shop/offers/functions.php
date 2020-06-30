@@ -9,7 +9,6 @@ function offer_save($offerData = array())
     $errorMessage = '';
     $table = 'offers';
 
-
     if (isset($offerData['product_id_with_price_id'])) {
         $id_parts = explode('|', $offerData['product_id_with_price_id']);
         $offerData['product_id'] = $id_parts[0];
@@ -52,17 +51,22 @@ function offer_save($offerData = array())
         $json['error_message'] = $errorMessage;
     }
 
+    cache_delete('offers');
+
     return $json;
 }
 
 api_expose_admin('offers_get_all');
 function offers_get_all()
 {
+    $findCache = cache_get('offers_get_all', 'offers', false);
+    if ($findCache) {
+        return $findCache;
+    }
+
     $table = 'offers';
 
     $offers = DB::table($table)->select(
-
-
         'offers.id',
         'offers.product_id',
         //  'offers.price_key',
@@ -93,12 +97,20 @@ function offers_get_all()
         $specialOffers[] = get_object_vars($offer);
     }
 
+    cache_save($specialOffers, 'offers_get_all', 'offers');
+
     return $specialOffers;
 }
 
 api_expose_admin('offers_get_products');
 function offers_get_products()
 {
+
+    $findCache = cache_get('offers_get_products', 'offers', false);
+    if ($findCache) {
+        return $findCache;
+    }
+
     $table = 'content';
 
     $offers = DB::table($table)->select('content.id as product_id', 'content.title as product_title', 'custom_fields.name as price_name', 'custom_fields.name_key as price_key', 'custom_fields_values.value as price')
@@ -119,6 +131,8 @@ function offers_get_products()
         }
     }
 
+    cache_save($specialOffers, 'offers_get_products', 'offers');
+
     return $specialOffers;
 }
 
@@ -126,6 +140,13 @@ function offers_get_products()
 //api_expose('offers_get_price');
 function offers_get_price($product_id = false, $price_id)
 {
+    $cache_id = 'offers_get_price_' . $product_id . $price_id;
+
+    $findCache = cache_get($cache_id, 'offers', false);
+    if ($findCache) {
+        return $findCache;
+    }
+
     $offer = DB::table('offers')->select('*');
     if ($product_id) {
         $offer = $offer->where('product_id', '=', $product_id);
@@ -134,6 +155,8 @@ function offers_get_price($product_id = false, $price_id)
     $offer = $offer->first();
     if ($offer) {
         if (!($offer->expires_at) || $offer->expires_at == '0000-00-00 00:00:00' || (strtotime($offer->expires_at) > strtotime("now"))) {
+
+            cache_save($offer, $cache_id, 'offers');
 
             return (array)$offer;
 
@@ -145,8 +168,11 @@ api_expose('offers_get_by_product_id');
 function offers_get_by_product_id($product_id)
 {
     $table = 'offers';
+    $cache_key = __FUNCTION__.$product_id;
+    $ttl = 60;
 
-    $offers = DB::table($table)->select('custom_fields.id as id', 'offers.offer_price', 'offers.expires_at', 'custom_fields.name as price_name', 'custom_fields_values.value as price')
+
+    $query = DB::table($table)->select('custom_fields.id as id', 'offers.offer_price', 'offers.expires_at', 'custom_fields.name as price_name', 'custom_fields_values.value as price')
         ->leftJoin('content', 'offers.product_id', '=', 'content.id')
         //   ->leftJoin('custom_fields', 'offers.price_key', '=', 'custom_fields.name_key')
         ->leftJoin('custom_fields', 'offers.price_id', '=', 'custom_fields.id')
@@ -154,9 +180,29 @@ function offers_get_by_product_id($product_id)
         ->where('content.id', '=', (int)$product_id)
         ->where('content.is_deleted', '=', 0)
         ->where('offers.is_active', '=', 1)
-        ->where('custom_fields.type', '=', 'price')
-        ->get()
-        ->toArray();
+        ->where('custom_fields.type', '=', 'price');
+
+
+
+
+    $offers = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query) {
+        return $query->get()->toArray();
+    });
+
+
+
+
+//    $offers = DB::table($table)->select('custom_fields.id as id', 'offers.offer_price', 'offers.expires_at', 'custom_fields.name as price_name', 'custom_fields_values.value as price')
+//        ->leftJoin('content', 'offers.product_id', '=', 'content.id')
+//        //   ->leftJoin('custom_fields', 'offers.price_key', '=', 'custom_fields.name_key')
+//        ->leftJoin('custom_fields', 'offers.price_id', '=', 'custom_fields.id')
+//        ->leftJoin('custom_fields_values', 'custom_fields.id', '=', 'custom_fields_values.custom_field_id')
+//        ->where('content.id', '=', (int)$product_id)
+//        ->where('content.is_deleted', '=', 0)
+//        ->where('offers.is_active', '=', 1)
+//        ->where('custom_fields.type', '=', 'price')
+//        ->get()
+//        ->toArray();
 
 
     $specialOffers = array();

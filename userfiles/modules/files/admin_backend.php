@@ -279,16 +279,7 @@
 
         });
 
-        mw.on.hashParam('path', function () {
 
-            _mw_admin_files_manage('path', this);
-
-            mw.postMsg(Uploader.contentWindow, {
-                path: this
-            });
-
-
-        });
 
         createPopHTML = function (sourceUrl, type) {
             type = type || 'image';
@@ -551,8 +542,20 @@
 
             ProgressBar.hide()
 
+
+            var path = mw.url.windowHashParam("path") != undefined ? mw.url.windowHashParam("path") : "";
+
+
+            // mw.postMsg(Uploader.contentWindow, {
+            //     path: this
+            // });
+            //
+
+
+
             Uploader = mw.files.uploader({
                 filetypes: "*",
+                path: path,
                 multiple: true
             });
 
@@ -599,6 +602,18 @@
                 }
             })
 
+
+
+            mw.on.hashParam('path', function () {
+                 _mw_admin_files_manage('path', this);
+
+                mw.postMsg(Uploader.contentWindow, {
+                    path: this
+                });
+
+
+            });
+
         });
     </script>
     <?php
@@ -627,16 +642,13 @@
           </span> <span onclick="mw.check.none('#mw-browser-list-holder');mw.$('.delete_item').addClass('disabled');">
           <?php _e("Unselect All"); ?>
           </span> </span>
-                        <div class="mw-ui-btn-nav pull-left"> <span id="mw_uploader"
-                                                                    class="mw-ui-btn mw-ui-btn-notification"><span
-                                        class="mw-icon-upload"></span>&nbsp;
+                        <div class="btn-group">
+                            <span id="mw_uploader" class="mw-ui-btn mw-ui-btn-notification"><span class="mw-icon-upload"></span>&nbsp;
                                 <?php _e("Upload File"); ?>
             </span> <span class="mw-ui-btn mw-ui-btn-red delete_item disabled">
             <?php _e("Delete selected files"); ?>
             </span>
-                            <span class="mw-ui-btn mw-ui-btn-blue" onclick="createFolder()">
-            <?php _e("Create folder"); ?>
-            </span>
+                            <span class="btn" onclick="createFolder()"> <?php _e("Create folder"); ?> </span>
 
                         </div>
                         <input

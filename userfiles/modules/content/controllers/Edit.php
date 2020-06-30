@@ -3,7 +3,7 @@
 
 namespace content\controllers;
 
-use Microweber\App\View;
+use Microweber\View;
 
 class Edit
 {
@@ -317,7 +317,11 @@ class Edit
         $this->app->event_manager->trigger('module.content.edit.main', $data);
 
 
-
+        $segments = mw()->permalink_manager->link($data['id'], 'content',true);
+        if ($segments) {
+            $data['slug'] = $segments['slug'];
+            $data['slug_prefix_url'] = $segments['slug_prefix_url'];
+        }
 
         $view = new View($post_list_view);
         $view->assign('params', $params);

@@ -35,6 +35,26 @@
     </div>
 
 
+    <div class="mw-ui-field-holder">
+        <label class="mw-ui-label"><?php _e("Maintenance mode"); ?></label>
+        <?php $maintenance_mode = get_option('maintenance_mode', 'website'); ?>
+
+        <ul class="mw-ui-inline-list">
+            <li>
+                <label class="mw-ui-check">
+                    <input class="mw_option_field" type="radio" name="maintenance_mode" <?php if ($maintenance_mode == 'y'): ?> checked <?php endif; ?> value="y" option-group="website">
+                    <span></span><span><?php _e("Yes"); ?></span>
+                </label>
+            </li>
+            <li>
+                <label class="mw-ui-check">
+                    <input class="mw_option_field" type="radio" name="maintenance_mode" <?php if (!$maintenance_mode or $maintenance_mode != 'y'): ?> checked <?php endif; ?> value="n" option-group="website">
+                    <span></span><span><?php _e("No"); ?></span>
+                </label>
+            </li>
+        </ul>
+    </div>
+
 
 
     <div class="mw-ui-field-holder">

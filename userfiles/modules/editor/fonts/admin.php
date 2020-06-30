@@ -11,6 +11,7 @@
 
             if (mw.notification != undefined) {
                 mw.notification.success('<?php _ejs('Fonts updated'); ?>');
+                mw.clear_cache();
             }
 
 
@@ -36,7 +37,7 @@
                     window.parent.mw.wysiwyg.initExtendedFontFamilies(selected);
                     window.parent.mw.wysiwyg.initFontSelectorBox();
 
-                }, 10)
+                }, 100)
 
 
             }

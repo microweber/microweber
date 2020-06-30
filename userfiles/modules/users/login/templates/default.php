@@ -87,6 +87,11 @@ description: Login default
                 <?php } ?>
                 </div>
                 <input class="btn pull-right" type="submit" value="<?php _e("Login"); ?>"/>
+
+                <?php if (isset($_GET['redirect'])): ?>
+                <input type="hidden" value="<?php echo $_GET['redirect']; ?>" name="redirect">
+                <?php endif; ?>
+
             </form>
         </div>
     <?php endif; ?>

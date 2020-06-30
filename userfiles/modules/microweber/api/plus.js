@@ -49,7 +49,7 @@ mw.drag.plus = {
         var comp = mw.tools.firstMatchesOnNodeOrParent(target, ['.module', '.element', 'p', '.mw-empty']);
 
         if (comp
-            && mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(target, ['regular-mode', 'safe-mode'])
+            // && mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(target, ['regular-mode', 'safe-mode'])
             && mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(target, ['allow-drop', 'nodrop']))  {
             return comp;
         }
@@ -149,15 +149,21 @@ mw.drag.plus = {
             i = 0;
         val = val.toLowerCase();
         var found = 0;
-        isEmpty = val.replace(/\s+/g, '') === '';
+        var isEmpty = val.replace(/\s+/g, '') === '';
         for (; i < l; i++) {
-            var text = all[i].textContent.toLowerCase();
+            var text = all[i].innerHTML.toLowerCase();
+            var li = mw.tools.firstParentWithTag(all[i], 'li');
+            var filter = (li.dataset.filter || '').trim().toLowerCase();
             if (text.contains(val) || isEmpty) {
-                mw.tools.firstParentWithTag(all[i], 'li').style.display = 'list-item';
+                li.style.display = '';
                 if (text.contains(val)) found++;
             }
+            else if(filter.contains(val)){
+                li.style.display = '';
+                found++;
+            }
             else {
-                mw.tools.firstParentWithTag(all[i], 'li').style.display = 'none';
+                li.style.display = 'none';
             }
         }
         return found;

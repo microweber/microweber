@@ -9,20 +9,20 @@ mw._colorPicker = function (options) {
     if (!mw.tools.colorPickerColors) {
         mw.tools.colorPickerColors = [];
 
-        var colorpicker_els = mw.top().$("body *");
-        if(colorpicker_els.length > 0){
-            colorpicker_els.each(function () {
-                var css = parent.getComputedStyle(this, null);
-                if (css !== null) {
-                    if (mw.tools.colorPickerColors.indexOf(css.color) === -1) {
-                        mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.color));
-                    }
-                    if (mw.tools.colorPickerColors.indexOf(css.backgroundColor) === -1) {
-                        mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.backgroundColor));
-                    }
-                }
-            });
-        }
+        // var colorpicker_els = mw.top().$("body *");
+        // if(colorpicker_els.length > 0){
+        //     colorpicker_els.each(function () {
+        //         var css = parent.getComputedStyle(this, null);
+        //         if (css !== null) {
+        //             if (mw.tools.colorPickerColors.indexOf(css.color) === -1) {
+        //                 mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.color));
+        //             }
+        //             if (mw.tools.colorPickerColors.indexOf(css.backgroundColor) === -1) {
+        //                 mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.backgroundColor));
+        //             }
+        //         }
+        //     });
+        // }
 
     }
     var proto = this;

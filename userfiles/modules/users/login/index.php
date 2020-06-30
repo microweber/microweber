@@ -41,7 +41,13 @@
                                     window.location.href = this.return;
                                     return false;
 
+                                } else if (typeof this.redirect === 'string') {
+                                    window.location.href = this.redirect;
+                                    return false;
+
                                 }
+
+
                                 mw.reload_module('[data-type="<?php print $config['module'] ?>"]', function () {
                                     if (c == '') {
                                         window.location.reload();

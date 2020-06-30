@@ -1,6 +1,18 @@
 <?php only_admin_access(); ?>
 <script type="text/javascript">
     $(document).ready(function () {
+        mw.options.form('.js-permalink-edit-option-hook', function () {
+
+            mw.clear_cache();
+
+            mw.notification.success("Permalink changes updated.");
+        });
+    });
+</script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
         mw.options.form('.<?php print $config['module_class'] ?>', function () {
             mw.notification.success("<?php _ejs("All changes are saved"); ?>.");
         });
@@ -94,7 +106,12 @@
             </select>
         </div>
 
-        <div class="mw-ui-field-holder">
+
+
+
+
+
+        <div class="mw-ui-field-holder js-permalink-edit-option-hook"  >
             <label class="mw-ui-label">
                 <?php _e("Permalink Settings"); ?>
                 <br />
