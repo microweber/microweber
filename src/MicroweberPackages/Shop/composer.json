@@ -1,0 +1,62 @@
+{
+  "name": "microweber-packages/microweber-shop",
+  "description": "Microweber Shop.",
+  "version": "0.0.1",
+  "authors": [
+    {
+      "name": "Microweber",
+      "email": "info@microweber.com"
+    },
+    {
+      "name": "Bozhidar Slaveykov",
+      "email": "bobi@microweber.com"
+    }
+  ],
+  "require": {
+    "twig/twig": "3.x-dev"
+  },
+  "require-dev": {
+    "orchestra/testbench": "*",
+    "mockery/mockery": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "MicroweberPackages\\": "src/"
+    },
+    "files": [
+      "src/ShopManager/helpers.php"
+    ]
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "MicroweberPackages\\CartManager\\CartManagerServiceProvider",
+        "MicroweberPackages\\CheckoutManager\\CheckoutManagerServiceProvider",
+        "MicroweberPackages\\ClientsManager\\ClientsManagerServiceProvider",
+        "MicroweberPackages\\InvoicesManager\\InvoicesManagerServiceProvider",
+        "MicroweberPackages\\OrderManager\\OrderManagerServiceProvider",
+        "MicroweberPackages\\ShopManager\\ShopManagerServiceProvider",
+        "MicroweberPackages\\TaxManager\\TaxManagerServiceProvider"
+      ],
+      "aliases": {
+        "CatManager": "MicroweberPackages\\CatManager\\CartManagerFacade",
+        "CheckoutManager": "MicroweberPackages\\CheckoutManager\\CheckoutManagerFacade",
+        "ClientsManager": "MicroweberPackages\\ClientsManager\\ClientsManagerFacade",
+        "InvoicesManager": "MicroweberPackages\\InvoicesManager\\InvoicesManagerFacade",
+        "OrderManager": "MicroweberPackages\\OrderManager\\OrderManagerFacade",
+        "ShopManager": "MicroweberPackages\\ShopManager\\ShopManagerFacade",
+        "TaxManager": "MicroweberPackages\\TaxManager\\TaxManagerFacade"
+      }
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "homepage": "http://microweber.com",
+  "license": "MIT",
+  "support": {
+    "email": "support@microweber.com"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "name": "microweber-packages/microweber-database-manager",
+  "description": "Microweber database manager.",
+  "version": "0.0.1",
+  "authors": [
+    {
+      "name": "Microweber",
+      "email": "info@microweber.com"
+    },
+    {
+      "name": "Bozhidar Slaveykov",
+      "email": "bobi@microweber.com"
+    }
+  ],
+  "require": {
+    "jeremeamia/superclosure": "*",
+    "laravel/framework": "7.0.0",
+    "microweber-packages/laravel-tagged-file-cache": "dev-master",
+    "microweber-packages/microweber-event-manager": "dev-master",
+    "microweber-packages/microweber-helpers": "dev-master"
+  },
+  "require-dev": {
+    "orchestra/testbench": "*",
+    "mockery/mockery": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "MicroweberPackages\\": "src/"
+    },
+    "files": [
+      "src/DatabaseManager/helpers.php"
+    ]
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "MicroweberPackages\\DatabaseManager\\DatabaseManagerServiceProvider"
+      ],
+      "aliases": {
+        "DatabaseManager": "MicroweberPackages\\DatabaseManager\\DatabaseManagerFacade"
+      }
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "homepage": "http://microweber.com",
+  "license": "MIT",
+  "support": {
+    "email": "support@microweber.com"
+  }
+}

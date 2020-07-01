@@ -1,0 +1,54 @@
+{
+  "name": "microweber-packages/microweber-event-manager",
+  "description": "Microweber event manager.",
+  "version": "0.0.1",
+  "authors": [
+    {
+      "name": "Microweber",
+      "email": "info@microweber.com"
+    },
+    {
+      "name": "Bozhidar Slaveykov",
+      "email": "bobi@microweber.com"
+    }
+  ],
+  "require": {
+    "laravel/framework": "7.0.0",
+    "illuminate/database": "*",
+    "jeremeamia/superclosure": "*",
+    "microweber-packages/microweber-helpers": "dev-master"
+  },
+  "require-dev": {
+    "orchestra/testbench": "*",
+    "mockery/mockery": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "MicroweberPackages\\": "src/"
+    },
+    "files": [
+      "src/EventManager/helpers.php"
+    ]
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "MicroweberPackages\\EventManager\\EventManagerServiceProvider"
+      ],
+      "aliases": {
+        "EventManager": "MicroweberPackages\\EventManager\\EventManagerFacade"
+      }
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "homepage": "http://microweber.com",
+  "license": "MIT",
+  "support": {
+    "email": "support@microweber.com"
+  }
+}
+

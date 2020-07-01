@@ -1,0 +1,54 @@
+{
+  "name": "microweber-packages/microweber-option-manager",
+  "description": "Microweber option manager.",
+  "version": "0.0.1",
+  "authors": [
+    {
+      "name": "Microweber",
+      "email": "info@microweber.com"
+    },
+    {
+      "name": "Bozhidar Slaveykov",
+      "email": "bobi@microweber.com"
+    }
+  ],
+  "require": {
+    "illuminate/database": "*",
+    "jeremeamia/superclosure": "*",
+    "laravel/framework": "7.0.0",
+    "microweber-packages/microweber-database-manager": "dev-master",
+    "microweber-packages/microweber-event-manager": "dev-master"
+  },
+  "require-dev": {
+    "orchestra/testbench": "*",
+    "mockery/mockery": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "MicroweberPackages\\": "src/"
+    },
+    "files": [
+      "src/OptionManager/helpers.php"
+    ]
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "MicroweberPackages\\OptionManager\\OptionManagerServiceProvider"
+      ],
+      "aliases": {
+        "OptionManager": "MicroweberPackages\\OptionManager\\OptionManagerFacade"
+      }
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "homepage": "http://microweber.com",
+  "license": "MIT",
+  "support": {
+    "email": "support@microweber.com"
+  }
+}

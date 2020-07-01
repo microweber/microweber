@@ -1,0 +1,30 @@
+{
+    "name": "microweber-packages/laravel-tagged-file-cache",
+    "description": "Taggable File Cache driver for Laravel. Allows the use of Cache tags with a file cache.",
+    "version" : "0.1.3",
+    "authors": [
+        {
+            "name": "Microweber",
+            "email": "info@microweber.com"
+        },
+		{
+            "name": "Bozhidar Slaveykov",
+            "email": "bobi@microweber.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "orchestra/testbench": "4.*",
+        "mockery/mockery": "*"
+    },
+    "autoload": {
+	    "psr-4": {
+	      "MicroweberPackages\\": "src/"
+	    }
+	},
+  "homepage": "http://microweber.com",
+  "license": "MIT",
+  "support": {
+    "email": "support@microweber.com"
+  }
+}

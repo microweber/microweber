@@ -43,3 +43,4 @@ node_modules/
 /userfiles/*.log
 /userfiles/*.json
 /phpunit.phar
+/run-build.sh

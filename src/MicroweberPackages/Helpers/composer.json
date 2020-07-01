@@ -1,0 +1,50 @@
+{
+    "name": "microweber-packages/microweber-helpers",
+    "description": "PHP helper funcitons.",
+    "version" : "0.0.6",
+    "authors": [
+        {
+            "name": "Microweber",
+            "email": "info@microweber.com"
+        },
+		{
+            "name": "Bozhidar Slaveykov",
+            "email": "bobi@microweber.com"
+        }
+  ],
+  "require": {
+        "ezyang/htmlpurifier": "*"
+  },
+  "require-dev": {
+    "orchestra/testbench": "4.*",
+    "mockery/mockery": "*"
+  },
+   "autoload": {
+    "psr-4": {
+      "MicroweberPackages\\": "src/"
+    },
+     "files": [
+       "src/Helpers/functions/array.php",
+       "src/Helpers/functions/filesystem.php",
+       "src/Helpers/functions/laravel.php",
+       "src/Helpers/functions/string.php",
+       "src/Helpers/functions/system.php",
+       "src/Helpers/functions/url.php"
+     ]
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "MicroweberPackages\\Helpers\\HelpersServiceProvider"
+      ],
+      "aliases": {
+        "Helpers": "MicroweberPackages\\Helpers\\HelpersFacade"
+      }
+    }
+  },
+  "homepage": "http://microweber.com",
+  "license": "MIT",
+  "support": {
+    "email": "support@microweber.com"
+  }
+}
