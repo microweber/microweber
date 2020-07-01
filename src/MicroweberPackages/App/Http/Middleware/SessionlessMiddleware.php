@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\App\Http\Middleware;
+namespace MicroweberPackages\App\Http\Middleware;
 
 use Closure;
 use Illuminate\Session\Middleware\StartSession as BaseStartSession;

@@ -1,4 +1,4 @@
-<?php namespace Microweber\App\Http\Middleware;
+<?php namespace MicroweberPackages\App\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;

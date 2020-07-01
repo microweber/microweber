@@ -1,4 +1,4 @@
-<?php namespace Microweber\App\Http;
+<?php namespace MicroweberPackages\App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
