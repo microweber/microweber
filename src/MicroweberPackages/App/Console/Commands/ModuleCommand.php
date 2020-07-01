@@ -1,10 +1,10 @@
 <?php
 
-namespace Microweber\App\Commands;
+namespace Microweber\Commands;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
-use Microweber\App\Controllers\DefaultController;
+use Microweber\Controllers\DefaultController;
 
 
 // php artisan microweber:module shop 1 --env=localhost
@@ -38,6 +38,9 @@ class ModuleCommand extends Command
                 mw()->modules->uninstall(array('for_module' => $input['module']));
                 $this->info($input['module'] . ' is uninstalled');
             }
+            $this->info('Reloading modules...');
+
+            mw()->modules->scan(['reload_modules'=>1,'scan'=>1]);
         }
     }
 

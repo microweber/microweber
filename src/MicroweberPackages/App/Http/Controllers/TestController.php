@@ -1,6 +1,8 @@
 <?php
 
-namespace Microweber\App\Http\Controllers;
+
+
+namespace Microweber\Controllers;
 
 use Illuminate\Routing\Controller;
 
@@ -8,8 +10,10 @@ class TestController extends Controller
 {
     public function getIndex()
     {
-        $a = new \Microweber\App\Install\WebserverInstaller();
+        return;
+
+        $a = new \Microweber\Install\WebserverInstaller();
         $a = $a->run();
-        dd($a);
+     
     }
 }

@@ -1,14 +1,14 @@
 <?php
 
-namespace Microweber\App\Http\Controllers;
+namespace Microweber\Controllers;
 
-use MicroweberPackages\TemplateManager\View;
+use Microweber\View;
+use User;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\App;
 use Auth;
-use MicroweberPackages\UserManager\User;
 
 class AdminController extends Controller
 {
@@ -139,6 +139,14 @@ class AdminController extends Controller
 
 
         $favicon_image = get_option('favicon_image', 'website');
+
+        if (!$favicon_image) {
+            $ui_favicon = mw()->ui->brand_favicon();
+            if ($ui_favicon and trim($ui_favicon) != '') {
+                $favicon_image = trim($ui_favicon);
+            }
+        }
+
         if ($favicon_image) {
             mw()->template->admin_head('<link rel="shortcut icon" href="' . $favicon_image . '" />');
         }
