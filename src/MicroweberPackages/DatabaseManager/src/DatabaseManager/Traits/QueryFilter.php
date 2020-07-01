@@ -1,15 +1,6 @@
 <?php
-/*
- * This file is part of the Microweber framework.
- *
- * (c) Microweber LTD
- *
- * For full license information see
- * http://Microweber.com/license/
- *
- */
 
-namespace MicroweberPackages\DatabaseManager\Traits;
+namespace Microweber\Traits;
 
 use DB;
 use Filter;
@@ -17,7 +8,7 @@ use Config;
 
 trait QueryFilter
 {
-    public $table_cache_ttl = 60;
+    public $table_cache_ttl = 600;
 
     public $filter_keys = [];
 
@@ -86,7 +77,7 @@ trait QueryFilter
 
             }
             if($a_merge){
-                $require_any_cols = array_merge($require_any_cols, $a_merge);
+            $require_any_cols = array_merge($require_any_cols, $a_merge);
             }
             if ($require_any_cols) {
                 $require_any_cols = array_flip($require_any_cols);
@@ -240,7 +231,6 @@ trait QueryFilter
                         }
                     }
 
-                    //dd($params);
                     unset($params[$filter]);
                     break;
 
@@ -365,7 +355,7 @@ trait QueryFilter
                     break;
 
 
-                case 'tag':
+                    case 'tag':
                 case 'tags':
                 case 'all_tags':
                 case 'all_tag':
@@ -424,6 +414,13 @@ trait QueryFilter
                                 $cat_ids_strict = '';
                             }
 
+                            if (!$strict_categories) {
+                                if($ids){
+
+                                  //   $get_subcats = $this->table('categories')->where('data_type','category')->whereIn('parent_id',$ids)->get();
+                                 }
+                            }
+
                             if (!isset($search_joined_tables_check['categories_items'])) {
                                 $search_joined_tables_check['categories_items'] = true;
 
@@ -454,13 +451,12 @@ trait QueryFilter
 //
 
                             //  $query->whereIn('categories_items_joined_table.parent_id', $ids)->distinct();
-                            //  dd($ids);
 
 //                            foreach ($ids as $cat_id) {
 //                               $query->where('categories_items_joined_table.parent_id', $cat_id);
 //                            }
 
-                            //    $query = $query->distinct();
+                          //    $query = $query->distinct();
 
 
 //                        $query = $query->join('categories_items as categories_items_joined_table', 'categories_items_joined_table.rel_id', '=', $table . '.id')
@@ -469,7 +465,7 @@ trait QueryFilter
 
                         }
 
-                        //dd($query);
+
                     }
                     unset($params[$filter]);
 
@@ -528,16 +524,16 @@ trait QueryFilter
                     $query->join($value, $table . '.rel_id', '=', $value . '.id')->where($table . '.rel_type', $value);
                     break;
                 case 'current_page':
-                    $criteria = 1;
-
+                     $criteria = 0;
+                  //  $criteria = intval($value);
                     if ($value > 1) {
                         if ($is_limit != false) {
                             $criteria = intval($value - 1) * intval($is_limit);
                         }
                     }
-                    if ($criteria > 1) {
-                        $query = $query->skip($criteria);
-                    }
+
+                    $query = $query->skip($criteria);
+
                     unset($params[$filter]);
                     break;
                 case 'ids':
@@ -598,7 +594,7 @@ trait QueryFilter
                     break;
 
                 case 'no_cache':
-                    $this->useCache = false;
+                   // $this->useCache = false;
                     break;
 
 //                case 'is_active':
@@ -733,6 +729,9 @@ trait QueryFilter
             call_user_func_array($callback, [$query, $params[$name], $table]);
         }
 
+        $query_hook = $criteria_overwrite = $this->app->event_manager->response('mw.database.' . $table . '.get.query_filter', ['query'=>$query,'params'=>$params]);
+        $query = $this->map_array_to_table($table, $query_hook['query']);
+
         return $query;
     }
 
@@ -774,7 +773,7 @@ trait QueryFilter
 
     public function __call($method, $params)
     {
-        return \MicroweberPackages\DatabaseManager\Filter::get($method, $params, $this);
+        return Filter::get($method, $params, $this);
     }
 
     private function _is_closure($t)
