@@ -37,7 +37,7 @@
         "phpoffice/phpspreadsheet": "dev-master",
         "halaxa/json-machine": "dev-master",
         "fideloper/proxy": "dev-master",
-        "fruitcake/laravel-cors": "^2.0@dev",
+        "fruitcake/laravel-cors": "^2.0@dev"
     },
     "require-dev": {
         "nunomaduro/collision": "^4.1",
