@@ -21,7 +21,7 @@
         }
     ],
     "require": {
-        "laravel/framework": "^7.0.0",
+        "laravel/framework": "^7.0",
         "laravelcollective/html": "^6.0@dev",
         "laravel/socialite": "^5.0@dev",
         "ezyang/htmlpurifier": "*",
@@ -36,21 +36,8 @@
         "twig/twig": "3.x-dev",
         "phpoffice/phpspreadsheet": "dev-master",
         "halaxa/json-machine": "dev-master",
-        "microweber-packages/laravel-config-save": "dev-master",
-        "microweber-packages/laravel-tagged-file-cache": "dev-master",
-        "microweber-packages/microweber-cms": "dev-master",
-        "microweber-packages/microweber-shop": "dev-master",
-        "microweber-packages/microweber-template-manager": "dev-master",
-        "microweber-packages/microweber-forms-manager": "dev-master",
-        "microweber-packages/microweber-user-manager": "dev-master",
-        "microweber-packages/microweber-backup-manager": "dev-master",
-        "microweber-packages/microweber-utils": "dev-master",
-        "microweber-packages/microweber-package-manager": "dev-master",
-        "microweber-packages/microweber-option-manager": "dev-master",
-        "microweber-packages/microweber-captcha-manager": "dev-master",
         "fideloper/proxy": "dev-master",
         "fruitcake/laravel-cors": "^2.0@dev",
-        "microweber-packages/microweber-app": "dev-master"
     },
     "require-dev": {
         "nunomaduro/collision": "^4.1",
