@@ -1,13 +1,13 @@
 <?php
 
-namespace Microweber\App\Utils\Adapters\Cache;
+namespace Microweber\Utils\Adapters\Cache;
 
 use Illuminate\Cache\tags;
 use Illuminate\Support\Facades\Cache;
 
 class LaravelCache
 {
-    public $ttl = 30;
+    public $ttl = false;
     public $support_tags = true;
     public $app;
     public $cache_hits = array();
@@ -63,6 +63,7 @@ class LaravelCache
         if (!$this->support_tags) {
             return;
         }
+      //  d($data_to_cache);
         $cache_group = $this->cache_group($cache_group);
         if ($expiration != false) {
             Cache::tags($cache_group)->put($cache_id, $data_to_cache, intval($expiration));
