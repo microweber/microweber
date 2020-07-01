@@ -48,8 +48,9 @@
     "autoload": {
         "psr-4": {
             "": "src/",
-            "App\\": "app/"
-        }
+            "App\\": "app/",
+            "MicroweberPackages\\": "src/MicroweberPackages/"
+         }
     },
     "scripts": {
         "post-create-project-cmd": [

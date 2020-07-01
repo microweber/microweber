@@ -3,7 +3,7 @@
 
 namespace MicroweberPackages\TemplateManager;
 
-use Microweber\App\Http\Controllers\JsCompileController;
+use MicroweberPackages\App\Http\Controllers\JsCompileController;
 use MicroweberPackages\TemplateManager\Adapters\MicroweberTemplate;
 use MicroweberPackages\TemplateManager\Adapters\RenderHelpers\TemplateOptimizeLoadingHelper;
 use MicroweberPackages\TemplateManager\Adapters\TemplateCssParser;
