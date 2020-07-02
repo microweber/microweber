@@ -4,7 +4,7 @@ namespace Microweber\App\Commands;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
-use Microweber\App\Controllers\DefaultController;
+use MicroweberPackages\App\Controllers\DefaultController;
 
 class OptionCommand extends Command
 {

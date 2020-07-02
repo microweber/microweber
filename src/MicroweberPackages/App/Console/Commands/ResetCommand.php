@@ -1,14 +1,14 @@
 <?php
-namespace Microweber\App\Commands;
+namespace MicroweberPackages\App\Commands;
 
 use Illuminate\Console\Command;
-use Microweber\App\Controllers\DefaultController;
-use Microweber\App\Providers\Illuminate\Support\Facades\DB;
+use MicroweberPackages\App\Controllers\DefaultController;
+use MicroweberPackages\App\Providers\Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Input\InputArgument;
-use Microweber\App\Install\DbInstaller;
-use Microweber\App\Install\ModulesInstaller;
-use Microweber\App\Install\DefaultOptionsInstaller;
-use Microweber\App\Providers\Illuminate\Support\Facades\Cache;
+use MicroweberPackages\App\Install\DbInstaller;
+use MicroweberPackages\App\Install\ModulesInstaller;
+use MicroweberPackages\App\Install\DefaultOptionsInstaller;
+use MicroweberPackages\App\Providers\Illuminate\Support\Facades\Cache;
 
 class ResetCommand extends Command
 {

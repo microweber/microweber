@@ -8,9 +8,9 @@
       'driver' => 'sqlite',
       'database' => storage_path().DIRECTORY_SEPARATOR.'localhost.sqlite',
       'prefix' => 'localhost_',
-      'host' => '',
-      'username' => '',
-      'password' => '',
+      'host' => 'localhost',
+      'username' => '1',
+      'password' => '1',
     ),
     'mysql' => 
     array (

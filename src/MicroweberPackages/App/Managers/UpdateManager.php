@@ -715,7 +715,7 @@ class UpdateManager
 
         if (mw_is_installed()) {
             $this->log_msg('Applying post update actions');
-            $system_refresh = new \Microweber\App\Install\DbInstaller();
+            $system_refresh = new \MicroweberPackages\App\Install\DbInstaller();
             $system_refresh->createSchema();
             //$system_refresh->run();
 

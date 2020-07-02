@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\App\Managers\Helpers;
+namespace MicroweberPackages\App\Managers\Helpers;
 
 use MicroweberPackages\EventManager\Event;
 

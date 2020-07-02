@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => \Microweber\App\Http\Middleware\SessionlessMiddleware::class, 'namespace' => '\Microweber\App\Http\Controllers'], function () {
+Route::group(['middleware' => \Microweber\App\Http\Middleware\SessionlessMiddleware::class, 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
     Route::any('/apijs', 'JsCompileController@apijs');
     Route::any('apijs/{all}', array('as' => 'apijs', 'uses' => 'JsCompileController@apijs'))->where('all', '.*');
     Route::any('/apijs_settings', 'JsCompileController@apijs_settings');
@@ -15,7 +15,7 @@ Route::group(['middleware' => \Microweber\App\Http\Middleware\SessionlessMiddlew
 
 });
 
-Route::group(['namespace' => '\Microweber\App\Http\Controllers'], function () {
+Route::group(['namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
     Route::any('/', 'DefaultController@index');
 
     Route::any('/api', 'DefaultController@api');

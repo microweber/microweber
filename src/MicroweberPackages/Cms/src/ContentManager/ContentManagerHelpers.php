@@ -614,7 +614,7 @@ class ContentManagerHelpers extends ContentManagerCrud
             }
 
             if ($ref_page == false) {
-                $guess_page_data = new \Microweber\Controllers\DefaultController();
+                $guess_page_data = new \MicroweberPackages\Controllers\DefaultController();
                 // $guess_page_data =  new  $this->app->controller($this->app);
                 $ref_page_url = strtok($ref_page_url, '?');
 

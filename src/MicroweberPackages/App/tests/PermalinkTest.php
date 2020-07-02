@@ -8,7 +8,7 @@
 
 namespace Microweber\tests;
 
-use Microweber\Controllers\DefaultController;
+use MicroweberPackages\Controllers\DefaultController;
 
 class PermalinkTest extends TestCase
 {

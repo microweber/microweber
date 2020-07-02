@@ -269,7 +269,7 @@ class AppServiceProvider extends ServiceProvider {
 
         foreach ($providers as $alias => $class) {
             $this->app->singleton($alias, function ($app) use ($class) {
-                $class = 'Microweber\\App\Managers\\' . $class;
+                $class = 'MicroweberPackages\\App\Managers\\' . $class;
 
                 return new $class($app);
             });
