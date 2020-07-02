@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ed13e7e6d29783bc2b42787c1c8950ae",
+    "content-hash": "fd6aceaf888491bb884a72f6ae3cf5d2",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -2249,6 +2249,44 @@
             "description": "Internal MaxMind Web Service API",
             "homepage": "https://github.com/maxmind/web-service-common-php",
             "time": "2020-05-06T14:07:26+00:00"
+        },
+        {
+            "name": "microweber-packages/helper-functions",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microweber-packages/helper-functions.git",
+                "reference": "3ef088ca745d8ba2619736f9764290978c47f9cd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/microweber-packages/helper-functions/zipball/3ef088ca745d8ba2619736f9764290978c47f9cd",
+                "reference": "3ef088ca745d8ba2619736f9764290978c47f9cd",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/allowed_functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
+            "description": "PHP helper funcitons.",
+            "homepage": "http://microweber.com",
+            "time": "2020-03-10T12:09:35+00:00"
         },
         {
             "name": "microweber-templates/dream",

@@ -78,7 +78,9 @@
     "extra": {
         "merge-plugin": {
             "require": [
-                "src/MicroweberPackages/*/composer.json"
+              "src/MicroweberPackages/Utils/composer.json",
+              "src/MicroweberPackages/Cache/composer.json",
+              "src/MicroweberPackages/Config/composer.json"
             ],
             "merge-extra": true,
             "merge-extra-deep": true,
