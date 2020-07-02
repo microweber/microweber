@@ -47,7 +47,6 @@
     },
     "autoload": {
         "psr-4": {
-            "": "src/",
             "App\\": "app/",
             "MicroweberPackages\\": "src/MicroweberPackages/"
          }
