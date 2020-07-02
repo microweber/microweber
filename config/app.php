@@ -113,12 +113,9 @@ return [
         /*
          * Application Service Providers...
          */
-        'Microweber\App\Providers\AppServiceProvider',
-        'Microweber\App\Providers\EventServiceProvider',
-        'Microweber\App\Providers\RouteServiceProvider',
-        'Microweber\MicroweberServiceProvider',
-
-
+        'MicroweberPackages\App\Providers\AppServiceProvider',
+        'MicroweberPackages\App\Providers\EventServiceProvider',
+        'MicroweberPackages\App\Providers\RouteServiceProvider'
 
     ],
 
