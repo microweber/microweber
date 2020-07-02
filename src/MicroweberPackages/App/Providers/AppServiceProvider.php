@@ -14,6 +14,7 @@ use MicroweberPackages\ClientsManager\ClientsManagerServiceProvider;
 use MicroweberPackages\Config\ConfigSave;
 use MicroweberPackages\ContentManager\Content;
 use MicroweberPackages\ContentManager\ContentManagerServiceProvider;
+use MicroweberPackages\DatabaseManager\DatabaseManagerServiceProvider;
 use MicroweberPackages\EventManager\EventManagerServiceProvider;
 use MicroweberPackages\FormsManager\FormsManagerServiceProvider;
 use MicroweberPackages\Helpers\Format;
@@ -173,6 +174,7 @@ class AppServiceProvider extends ServiceProvider {
         $this->app->register(UserManagerServiceProvider::class);
         $this->app->register(CaptchaManagerServiceProvider::class);
         $this->app->register(OptionManagerServiceProvider::class);
+        $this->app->register(DatabaseManagerServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
     }
