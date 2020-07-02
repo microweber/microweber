@@ -121,6 +121,10 @@ class DatabaseManager extends DbUtils
             $enable_triggers = $params['enable_triggers'];
         }
 
+        if (isset($params['disable_triggers']) and $params['disable_triggers']) {
+            $enable_triggers = false;
+        }
+
         $use_connection = false;
 
         if (isset($params['connection_name']) and !isset($_REQUEST['connection_name'])) {
