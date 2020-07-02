@@ -84,10 +84,10 @@ function make_white_label()
     }
 
 
-    if (isset($settings['enable_service_links']) and $settings['enable_service_links']) {
+    if (isset($settings['enable_service_links'])) {
         mw()->ui->enable_service_links = $settings['enable_service_links'];
     }
-    if (isset($settings['disable_marketplace']) and $settings['disable_marketplace']) {
+    if (isset($settings['disable_marketplace'])) {
         mw()->ui->disable_marketplace = $settings['disable_marketplace'];
     }
 
@@ -103,11 +103,11 @@ function make_white_label()
     if (isset($settings['marketplace_access_code']) and trim($settings['marketplace_access_code']) != false) {
         mw()->ui->marketplace_access_code = trim($settings['marketplace_access_code']);
     }
-    if (isset($settings['custom_support_url']) and trim($settings['custom_support_url']) != '') {
+    if (isset($settings['custom_support_url'])) {
         mw()->ui->custom_support_url = $settings['custom_support_url'];
     }
 
-    if (isset($settings['marketplace_repositories_urls']) and ($settings['marketplace_repositories_urls'])) {
+    if (isset($settings['marketplace_repositories_urls'])) {
         mw()->ui->package_manager_urls = $settings['marketplace_repositories_urls'];
     }
 
