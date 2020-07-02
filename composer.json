@@ -37,7 +37,8 @@
         "phpoffice/phpspreadsheet": "dev-master",
         "halaxa/json-machine": "dev-master",
         "fideloper/proxy": "dev-master",
-        "fruitcake/laravel-cors": "^2.0@dev"
+        "fruitcake/laravel-cors": "^2.0@dev",
+        "wikimedia/composer-merge-plugin": "^1.5@dev"
     },
     "require-dev": {
         "nunomaduro/collision": "^4.1",
@@ -73,5 +74,16 @@
     "support": {
         "email": "support@microweber.com",
         "irc": "irc://irc.freenode.org/microweber"
+    },
+    "extra": {
+        "merge-plugin": {
+            "require": [
+                "src/MicroweberPackages/*/composer.json"
+            ],
+            "merge-extra": true,
+            "merge-extra-deep": true,
+            "merge-scripts": true
+        }
     }
+
 }
