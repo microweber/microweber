@@ -9,7 +9,7 @@ use function foo\func;
 
 class ContentManagerCrud extends Crud
 {
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\Application */
     public $app;
 
     public $table = 'content';

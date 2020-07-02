@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\Utils\Adapters\Template\RenderHelpers;
+namespace MicroweberPackages\Utils\Adapters\Template\RenderHelpers;
 
 use Arcanedev\SeoHelper\Entities\Webmasters;
 use Arcanedev\SeoHelper\Entities\Analytics;
@@ -8,7 +8,7 @@ use Arcanedev\SeoHelper\Entities\Analytics;
 
 class TemplateOptimizeLoadingHelper
 {
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\Application */
     public $app;
 
     public function __construct($app = null)

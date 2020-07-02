@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\Traits;
+namespace MicroweberPackages\Traits;
 
 trait ExtendedSave
 {
@@ -139,7 +139,7 @@ trait ExtendedSave
                                                }
                                                $output_file = $output . $output_fn;
                                                if (!is_file($output_file)){
-                                                   $download = new \Microweber\Utils\Http();
+                                                   $download = new \MicroweberPackages\Utils\Http();
                                                    $download->set_url($image_src);
                                                    $download->download($output_file);
 

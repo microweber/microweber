@@ -11,14 +11,14 @@
  *
  */
 
-namespace Microweber\App\Managers;
+namespace MicroweberPackages\App\Managers;
 
 use Illuminate\Support\Facades\Config;
 
 //use Illuminate\Support\Facades\Schema;
 //use Illuminate\Database\;
 //use Illuminate\Database\Eloquent\Builder as Eloquent;
-//use Microweber\Providers\Database\Utils;
+//use MicroweberPackages\Providers\Database\Utils;
 use Module;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\DatabaseManager\Utils as DbUtils;

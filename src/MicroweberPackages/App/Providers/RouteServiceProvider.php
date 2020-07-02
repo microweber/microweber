@@ -1,4 +1,4 @@
-<?php namespace Microweber\App\Providers;
+<?php namespace MicroweberPackages\App\Providers;
 
 use Illuminate\Routing\Router;
 

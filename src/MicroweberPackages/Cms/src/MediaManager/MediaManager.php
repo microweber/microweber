@@ -161,7 +161,7 @@ class MediaManager
         if ($this->app->user_manager->is_admin() == false) {
             mw_error('not logged in as admin');
         }
-        $files_utils = new \Microweber\Utils\Files();
+        $files_utils = new \MicroweberPackages\Utils\Files();
 
 
         ini_set('upload_max_filesize', '2500M');
@@ -796,7 +796,7 @@ class MediaManager
 //
 //
 //                            $magicianObj_mode = 3;
-//                            $magicianObj = new \Microweber\Utils\lib\PHPImageMagician\imageLib($src);
+//                            $magicianObj = new \MicroweberPackages\Utils\lib\PHPImageMagician\imageLib($src);
 //                            if ($crop) {
 //                                $magicianObj_mode = 4;
 //                            }
@@ -835,7 +835,7 @@ class MediaManager
 ////                            if (!$height) {
 ////                                $height = $width;
 ////                            }
-////                            $tn = new \Microweber\Utils\Thumbnailer($src);
+////                            $tn = new \MicroweberPackages\Utils\Thumbnailer($src);
 ////                            $thumbOptions = array('maxLength' => $height, 'width' => $width);
 ////                            $tn->createThumb($thumbOptions, $cache_path);
 ////
@@ -1172,7 +1172,7 @@ class MediaManager
                     //  if (stristr($target_path, media_base_path())) {
                     if (stristr($target_path, media_uploads_path())) {
                         if (is_dir($target_path)) {
-                            mw('Microweber\Utils\Files')->rmdir($target_path, false);
+                            mw('MicroweberPackages\Utils\Files')->rmdir($target_path, false);
                             $resp = array('success' => 'Directory ' . $target_path . ' is deleted');
                         } elseif (is_file($target_path)) {
                             unlink($target_path);

@@ -1,10 +1,10 @@
 <?php
 
-namespace Microweber\App\Managers;
+namespace MicroweberPackages\App\Managers;
 
 class EmailNotificationsManager
 {
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\Application */
     public $app;
 
     public function __construct($app = null)

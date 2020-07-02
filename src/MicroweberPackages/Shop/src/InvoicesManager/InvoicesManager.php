@@ -6,7 +6,7 @@ use MicroweberPackages\DatabaseManager\Crud;
 
 class InvoicesManager extends Crud
 {
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\Application */
     public $app;
 
     public $table = 'cart_invoices';

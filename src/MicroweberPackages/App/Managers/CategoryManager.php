@@ -1,10 +1,10 @@
 <?php
 
-namespace Microweber\App\Managers;
+namespace MicroweberPackages\App\Managers;
 
 use DB;
-use Microweber\Providers\Categories\Helpers\KnpCategoryTreeRenderer;
-use Microweber\Providers\Categories\Helpers\LegacyCategoryTreeRenderer;
+use MicroweberPackages\Providers\Categories\Helpers\KnpCategoryTreeRenderer;
+use MicroweberPackages\Providers\Categories\Helpers\LegacyCategoryTreeRenderer;
 
 /**
  * Class to work with categories.

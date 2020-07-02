@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\Utils;
+namespace MicroweberPackages\Utils;
 
 
 ///*

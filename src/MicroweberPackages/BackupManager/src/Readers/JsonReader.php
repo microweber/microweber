@@ -1,5 +1,5 @@
 <?php
-namespace Microweber\Utils\Backup\Readers;
+namespace MicroweberPackages\Utils\Backup\Readers;
 
 $dir = __DIR__;
 $dir = str_replace('Backup\Readers', '', $dir);
@@ -8,7 +8,7 @@ $dir = str_replace('Backup/Readers', '', $dir);
 include_once $dir . 'lib/json-machine/vendor/autoload.php';
 
 use JsonMachine\JsonMachine;
-use Microweber\Utils\Backup\EncodingFix;
+use MicroweberPackages\Utils\Backup\EncodingFix;
 
 class JsonReader extends DefaultReader
 {

@@ -1,7 +1,7 @@
 <?php
-namespace Microweber\Utils\Backup\Readers\Vendors;
+namespace MicroweberPackages\Utils\Backup\Readers\Vendors;
 
-use Microweber\Providers\UrlManager;
+use MicroweberPackages\Providers\UrlManager;
 
 trait WordpressReader
 {

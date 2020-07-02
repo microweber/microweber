@@ -1,5 +1,5 @@
 <?php
-namespace Microweber\App;
+namespace MicroweberPackages\App;
 
 use Illuminate\Database\Eloquent\Model;
 

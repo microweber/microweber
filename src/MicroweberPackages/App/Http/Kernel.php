@@ -24,9 +24,9 @@ class Kernel extends HttpKernel {
 	 * @var array
 	 */
 	protected $routeMiddleware = [
-		'auth' => 'Microweber\App\Http\Middleware\Authenticate',
+		'auth' => 'MicroweberPackages\App\Http\Middleware\Authenticate',
 		'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
-		'guest' => 'Microweber\App\Http\Middleware\RedirectIfAuthenticated',
+		'guest' => 'MicroweberPackages\App\Http\Middleware\RedirectIfAuthenticated',
 	];
 
 }

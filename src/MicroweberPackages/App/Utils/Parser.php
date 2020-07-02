@@ -1,8 +1,8 @@
 <?php
 
-namespace Microweber\Utils;
+namespace MicroweberPackages\Utils;
 
-use Microweber\Providers\Modules;
+use MicroweberPackages\Providers\Modules;
 
 $parser_cache_object = false; //global cache storage
 $mw_replaced_edit_fields_vals = array();
@@ -2259,7 +2259,7 @@ class Parser
             }
 
 
-            $l1 = new \Microweber\View($try_file1);
+            $l1 = new \MicroweberPackages\View($try_file1);
             $l1->config = $config;
             $l1->app = $this->app;
 
@@ -2314,7 +2314,7 @@ class Parser
             unset($l1);
             if ($lic != false and isset($lic['error']) and ($lic['error'] == 'no_license_found')) {
                 $lic_l1_try_file1 = MW_ADMIN_VIEWS_DIR . 'activate_license.php';
-                $lic_l1 = new \Microweber\View($lic_l1_try_file1);
+                $lic_l1 = new \MicroweberPackages\View($lic_l1_try_file1);
 
                 $lic_l1->config = $config;
                 $lic_l1->params = $attrs;

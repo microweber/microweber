@@ -1,14 +1,14 @@
 <?php
 
-namespace Microweber\Providers\Shop;
+namespace MicroweberPackages\Providers\Shop;
 
-use Microweber\App\Providers\Illuminate\Support\Facades\Config;
-use Microweber\App\Providers\Illuminate\Support\Facades\Crypt;
+use MicroweberPackages\App\Providers\Illuminate\Support\Facades\Config;
+use MicroweberPackages\App\Providers\Illuminate\Support\Facades\Crypt;
 use MicroweberPackages\Utils\Mail\MailSender;
 
 class CheckoutManager
 {
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\Application */
     public $app;
 
     public $table = 'cart';

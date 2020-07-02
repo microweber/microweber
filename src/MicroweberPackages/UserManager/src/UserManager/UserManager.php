@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Config;
 use Laravel\Socialite\SocialiteManager;
 use Illuminate\Support\Facades\Session;
 use Auth;
-use Microweber\App\LoginAttempt;
-use Microweber\Providers\Users\TosManager;
+use MicroweberPackages\App\LoginAttempt;
+use MicroweberPackages\Providers\Users\TosManager;
 use MicroweberPackages\Utils\Mail\MailSender;
 
 if (!defined('MW_USER_IP')) {
@@ -24,7 +24,7 @@ class UserManager
 {
     public $tables = array();
 
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\Application */
     public $app;
 
     public function __construct($app = null)
@@ -610,7 +610,7 @@ class UserManager
         $no_captcha = get_option('captcha_disabled', 'users') == 'y';
         $disable_registration_with_temporary_email = get_option('disable_registration_with_temporary_email', 'users') == 'y';
         if ($email != false and $disable_registration_with_temporary_email) {
-            $checker = new \Microweber\Utils\lib\DisposableEmailChecker();
+            $checker = new \MicroweberPackages\Utils\lib\DisposableEmailChecker();
             $is_temp_email = $checker->check($email);
             if ($is_temp_email) {
                 $domain = substr(strrchr($email, "@"), 1);
@@ -1993,7 +1993,7 @@ class UserManager
             $this->socialite->extend('microweber', function ($app) {
                 $config = $app['config']['services.microweber'];
 
-                return $this->socialite->buildProvider('\Microweber\Providers\Socialite\MicroweberProvider', $config);
+                return $this->socialite->buildProvider('\MicroweberPackages\Providers\Socialite\MicroweberProvider', $config);
             });
         }
     }

@@ -4,7 +4,7 @@ namespace MicroweberPackages\Utils\Media\Adapters\Media;
 
 class Unsplash
 {
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\Application */
     public $app;
 
     public function __construct($app = null)

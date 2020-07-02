@@ -5,7 +5,7 @@ use MicroweberPackages\DatabaseManager\Crud;
 
 class TosManager extends Crud
 {
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\Application */
     public $app;
 
     public $table = 'terms_accept_log';

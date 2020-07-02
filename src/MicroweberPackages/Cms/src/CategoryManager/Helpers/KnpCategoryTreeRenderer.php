@@ -6,7 +6,7 @@ use Knp\Menu\MenuFactory;
 
 class KnpCategoryTreeRenderer
 {
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\Application */
     public $app;
 
     /** @var \Knp\Menu\MenuItem */

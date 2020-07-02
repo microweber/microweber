@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\App\Managers\Helpers;
+namespace MicroweberPackages\App\Managers\Helpers;
 
 use MicroweberPackages\EventManager\Event;
 
@@ -16,7 +16,7 @@ $mw_all_langs = array();
 
 class Lang
 {
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\Application */
     public $app;
     public $is_enabled = null;
     private $__default_lang_option = false;

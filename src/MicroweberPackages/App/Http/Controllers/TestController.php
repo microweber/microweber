@@ -2,7 +2,7 @@
 
 
 
-namespace Microweber\Controllers;
+namespace MicroweberPackages\Controllers;
 
 use Illuminate\Routing\Controller;
 
@@ -12,7 +12,7 @@ class TestController extends Controller
     {
         return;
 
-        $a = new \Microweber\Install\WebserverInstaller();
+        $a = new \MicroweberPackages\Install\WebserverInstaller();
         $a = $a->run();
      
     }

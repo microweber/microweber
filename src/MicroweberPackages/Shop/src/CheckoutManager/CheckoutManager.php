@@ -9,7 +9,7 @@ use Twig\Loader\ArrayLoader;
 
 class CheckoutManager
 {
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\Application */
     public $app;
 
     public $table = 'cart';

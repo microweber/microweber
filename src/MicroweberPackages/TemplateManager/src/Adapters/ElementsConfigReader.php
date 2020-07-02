@@ -5,7 +5,7 @@ namespace MicroweberPackages\TemplateManager\Adapters;
 
 class ElementsConfigReader
 {
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\Application */
     public $app;
 
     public function __construct($app = null)

@@ -1,8 +1,8 @@
 <?php
-namespace Microweber\Utils\Backup\Readers;
+namespace MicroweberPackages\Utils\Backup\Readers;
 
-use Microweber\Utils\Backup\BackupManager;
-use Microweber\Utils\Backup\Loggers\BackupImportLogger;
+use MicroweberPackages\Utils\Backup\BackupManager;
+use MicroweberPackages\Utils\Backup\Loggers\BackupImportLogger;
 
 class ZipReader extends DefaultReader
 {
@@ -30,7 +30,7 @@ class ZipReader extends DefaultReader
 		// Remove old files
 		$this->_removeFilesFromPath($backupLocation);
 		
-		$unzip = new \Microweber\Utils\Unzip();
+		$unzip = new \MicroweberPackages\Utils\Unzip();
 		$unzip->extract($this->file, $backupLocation, true);
 
 		
@@ -124,7 +124,7 @@ class ZipReader extends DefaultReader
 		$readedData = array();
 		foreach ($filesForImporting as $file) {
 			
-			$readerClass = 'Microweber\\Utils\\Backup\\Readers\\' . ucfirst($file['reader']) . 'Reader';
+			$readerClass = 'MicroweberPackages\\Utils\\Backup\\Readers\\' . ucfirst($file['reader']) . 'Reader';
 			$reader = new $readerClass($file['file']);
 			$data = $reader->readData();
 			

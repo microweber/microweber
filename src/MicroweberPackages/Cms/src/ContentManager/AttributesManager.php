@@ -6,7 +6,7 @@ use MicroweberPackages\DatabaseManager\Crud;
 
 class AttributesManager extends Crud
 {
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\Application */
     public $app;
 
     public $table = 'attributes';

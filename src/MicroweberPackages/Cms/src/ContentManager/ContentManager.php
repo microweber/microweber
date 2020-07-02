@@ -17,13 +17,13 @@ class ContentManager
     public $tables = array();
     public $table_prefix = false;
 
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\Application */
     public $app;
 
-    /** @var \Microweber\Providers\Content\ContentManagerCrud */
+    /** @var \MicroweberPackages\Providers\Content\ContentManagerCrud */
     public $crud;
 
-    /** @var \Microweber\Providers\Content\ContentManagerHelpers */
+    /** @var \MicroweberPackages\Providers\Content\ContentManagerHelpers */
     public $helpers;
 
     /**

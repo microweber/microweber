@@ -3,13 +3,13 @@
 namespace MicroweberPackages\FormsManager;
 
 use League\Csv\Writer;
-use Microweber\Utils\MailProvider;
+use MicroweberPackages\Utils\MailProvider;
 use MicroweberPackages\Utils\Mail\MailSender;
 
 
 class FormsManager
 {
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\Application */
     public $app;
 
     public function __construct($app = null)
@@ -688,7 +688,7 @@ class FormsManager
         if (!$country) {
             return false;
         }
-        $states = new \Microweber\Utils\CountryState();
+        $states = new \MicroweberPackages\Utils\CountryState();
         $res = $states->getStates($country);
 
         return $res;

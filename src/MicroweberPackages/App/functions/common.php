@@ -5,13 +5,13 @@
  *
  * @param null $class
  *
- * @return \Microweber\Application Microweber Application object
+ * @return \MicroweberPackages\Application Microweber Application object
  */
 function mw($class = null)
 {
     return app($class);
 
-    $app = \Microweber\Application::getInstance();
+    $app = \MicroweberPackages\Application::getInstance();
     $class = str_replace('/', '\\', $class);
     if ($class == null or $class == false or strtolower($class) == 'application') {
         return $app;

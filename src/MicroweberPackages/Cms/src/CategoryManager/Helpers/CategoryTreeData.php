@@ -5,7 +5,7 @@ namespace MicroweberPackages\CategoryManager\Helpers;
 class CategoryTreeData
 {
 
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\Application */
     public $app;
 
 

@@ -7,15 +7,15 @@ namespace MicroweberPackages\CategoryManager\Helpers;
 
 
 use Knp\Menu\MenuFactory;
-use Microweber\Providers\Categories\Helpers\CategoryTreeData;
-use Microweber\Providers\Categories\Helpers\KnpCustomListRenderer as ListRenderer;
+use MicroweberPackages\Providers\Categories\Helpers\CategoryTreeData;
+use MicroweberPackages\Providers\Categories\Helpers\KnpCustomListRenderer as ListRenderer;
 
 
 class LegacyCategoryTreeRenderer
 {
 
 
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\Application */
     public $app;
 
 

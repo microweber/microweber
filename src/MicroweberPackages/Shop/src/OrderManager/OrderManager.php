@@ -6,7 +6,7 @@ use DB;
 
 class OrderManager
 {
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\Application */
     public $app;
 
     public $table = 'cart_orders';

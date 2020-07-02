@@ -1,5 +1,5 @@
 <?php
-namespace Microweber\Utils\Backup\Exporters;
+namespace MicroweberPackages\Utils\Backup\Exporters;
 
 class XlsxExport extends DefaultExport
 {

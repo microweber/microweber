@@ -5,7 +5,7 @@ namespace MicroweberPackages\TemplateManager\Adapters;
 
 class TemplateStackRenderer
 {
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\Application */
     public $app;
     public $stacks = array();
     private $_stacks_for_display = array();

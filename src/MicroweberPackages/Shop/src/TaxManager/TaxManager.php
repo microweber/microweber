@@ -4,7 +4,7 @@ namespace MicroweberPackages\TaxManager;
 
 class TaxManager
 {
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\Application */
     public $app;
 
     public $table = 'cart_taxes';

@@ -1,5 +1,5 @@
 <?php
-namespace Microweber\App\tests;
+namespace MicroweberPackages\App\tests;
 
 use MicroweberPackages\CheckoutManager\CheckoutManager;
 use MicroweberPackages\Utils\Mail\MailSender;

@@ -1,7 +1,7 @@
 <?php
-namespace Microweber\Utils\Backup\Traits;
+namespace MicroweberPackages\Utils\Backup\Traits;
 
-use Microweber\Utils\Backup\DatabaseSave;
+use MicroweberPackages\Utils\Backup\DatabaseSave;
 
 trait DatabaseModuleWriter
 {

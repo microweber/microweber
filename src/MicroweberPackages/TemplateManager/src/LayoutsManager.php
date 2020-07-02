@@ -14,7 +14,7 @@
 namespace MicroweberPackages\TemplateManager;
 
 use Illuminate\Support\Facades\Cache;
-use Microweber\App\Providers\Illuminate\Support\Facades\Paginator;
+use MicroweberPackages\App\Providers\Illuminate\Support\Facades\Paginator;
 use MicroweberPackages\TemplateManager\Adapters\ElementsConfigReader;
 
 class LayoutsManager

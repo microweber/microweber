@@ -11,15 +11,18 @@
 |
 */
 
-if (class_exists(\Microweber\App\LaravelApplication::class)) {
-    $app = new \Microweber\App\LaravelApplication(
-        realpath(__DIR__ . '/../')
-    );
-} else {
-    $app = new Illuminate\Foundation\Application(
-        $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)
-    );
-}
+//if (class_exists(\Microweber\App\LaravelApplication::class,true)) {
+//    $app = new \Microweber\App\LaravelApplication(
+//        realpath(__DIR__ . '/../')
+//    );
+//} else {
+//    $app = new Illuminate\Foundation\Application(
+//        $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)
+//    );
+//}
+$app = new \MicroweberPackages\App\LaravelApplication(
+    realpath(__DIR__ . '/../')
+);
 
 /*
 |--------------------------------------------------------------------------
@@ -32,41 +35,63 @@ if (class_exists(\Microweber\App\LaravelApplication::class)) {
 |
 */
 
-if (class_exists(\App\Http\Kernel::class)) {
-    $app->singleton(
-        \Illuminate\Contracts\Http\Kernel::class,
-        \App\Http\Kernel::class
-    );
-} else {
-    $app->singleton(
-        'Illuminate\Contracts\Http\Kernel',
-        'Microweber\App\Http\Kernel'
-    );
-}
+//if (class_exists(\App\Http\Kernel::class)) {
+//    $app->singleton(
+//        \Illuminate\Contracts\Http\Kernel::class,
+//        \App\Http\Kernel::class
+//    );
+//} else {
+//    $app->singleton(
+//        'Illuminate\Contracts\Http\Kernel',
+//        'Microweber\App\Http\Kernel'
+//    );
+//}
+$app->singleton(
+    'Illuminate\Contracts\Http\Kernel',
+    'MicroweberPackages\App\Http\Kernel'
+);
 
-if (class_exists(\App\Console\Kernel::class)) {
-    $app->singleton(
-        \Illuminate\Contracts\Console\Kernel::class,
-        \App\Console\Kernel::class
-    );
-} else {
-    $app->singleton(
-        'Illuminate\Contracts\Console\Kernel',
-        'Microweber\App\Console\Kernel'
-    );
-}
 
-if (class_exists(\App\Exceptions\Handler::class)) {
-    $app->singleton(
-        \Illuminate\Contracts\Debug\ExceptionHandler::class,
-        \App\Exceptions\Handler::class
-    );
-} else {
-    $app->singleton(
-        'Illuminate\Contracts\Debug\ExceptionHandler',
-        'Microweber\App\Exceptions\Handler'
-    );
-}
+
+//if (class_exists(\App\Console\Kernel::class)) {
+//    $app->singleton(
+//        \Illuminate\Contracts\Console\Kernel::class,
+//        \App\Console\Kernel::class
+//    );
+//} else {
+//    $app->singleton(
+//        'Illuminate\Contracts\Console\Kernel',
+//        'Microweber\App\Console\Kernel'
+//    );
+//}
+
+
+$app->singleton(
+    'Illuminate\Contracts\Console\Kernel',
+    'MicroweberPackages\App\Console\Kernel'
+);
+
+
+
+//
+//if (class_exists(\App\Exceptions\Handler::class)) {
+//    $app->singleton(
+//        \Illuminate\Contracts\Debug\ExceptionHandler::class,
+//        \App\Exceptions\Handler::class
+//    );
+//} else {
+//    $app->singleton(
+//        'Illuminate\Contracts\Debug\ExceptionHandler',
+//        'Microweber\App\Exceptions\Handler'
+//    );
+//}
+
+
+$app->singleton(
+       \Illuminate\Contracts\Debug\ExceptionHandler::class,
+       \MicroweberPackages\App\Exceptions\Handler::class
+   );
+
 
 /*
 |--------------------------------------------------------------------------

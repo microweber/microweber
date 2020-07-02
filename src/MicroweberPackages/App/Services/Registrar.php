@@ -1,6 +1,6 @@
-<?php namespace Microweber\App\Services;
+<?php namespace MicroweberPackages\App\Services;
 
-use Microweber\App\User;
+use MicroweberPackages\App\User;
 use Validator;
 use Illuminate\Contracts\Auth\Registrar as RegistrarContract;
 

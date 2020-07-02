@@ -697,14 +697,14 @@ function captcha($params = false)
 // */
 //function captcha_url($params=false)
 //{
-//	return Microweber\Utils\Captcha::url($params);
+//	return MicroweberPackages\Utils\Captcha::url($params);
 //}
 
 function mw_error($e, $f = false, $l = false)
 {
     $f = mw_includes_path() . 'error.php';
 
-    $v = new \Microweber\App\View($f);
+    $v = new \MicroweberPackages\App\View($f);
     $v->e = $e;
     $v->f = $f;
     $v->l = $l;

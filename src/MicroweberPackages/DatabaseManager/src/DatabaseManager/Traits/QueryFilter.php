@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\Traits;
+namespace MicroweberPackages\Traits;
 
 use DB;
 use Filter;

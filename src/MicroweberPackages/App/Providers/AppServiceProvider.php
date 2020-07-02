@@ -1,10 +1,10 @@
 <?php
 
-namespace Microweber\App\Providers;
+namespace MicroweberPackages\App\Providers;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
-use Microweber\App\Utils\Parser;
+use MicroweberPackages\App\Utils\Parser;
 use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
 use MicroweberPackages\CaptchaManager\CaptchaManagerServiceProvider;
 use MicroweberPackages\CartManager\CartManagerServiceProvider;
@@ -129,7 +129,7 @@ class AppServiceProvider extends ServiceProvider {
             base_path() . DIRECTORY_SEPARATOR . 'userfiles' . DIRECTORY_SEPARATOR . 'modules',
             __DIR__,
         ]);
-
+dd($app);
         ClassLoader::register();
 
         spl_autoload_register([$this, 'autoloadModules']);
@@ -183,7 +183,7 @@ class AppServiceProvider extends ServiceProvider {
             $this->app->register($provider);
         }
 
-        $this->app->bind('Illuminate\Contracts\Auth\Registrar', 'Microweber\App\Services\Registrar');
+        $this->app->bind('Illuminate\Contracts\Auth\Registrar', 'MicroweberPackages\App\Services\Registrar');
 
         $this->app->singleton(
             'Illuminate\Cache\StoreInterface',
@@ -267,7 +267,7 @@ class AppServiceProvider extends ServiceProvider {
 
         foreach ($providers as $alias => $class) {
             $this->app->singleton($alias, function ($app) use ($class) {
-                $class = 'Microweber\\App\Managers\\' . $class;
+                $class = 'MicroweberPackages\\App\Managers\\' . $class;
 
                 return new $class($app);
             });
@@ -300,7 +300,7 @@ class AppServiceProvider extends ServiceProvider {
         if (mw_is_installed()) {
             load_all_functions_files_for_modules();
 
-            $this->commands('Microweber\App\Commands\OptionCommand');
+            $this->commands('MicroweberPackages\App\Commands\OptionCommand');
 
             $language = get_option('language', 'website');
 
@@ -310,15 +310,15 @@ class AppServiceProvider extends ServiceProvider {
 
             if (is_cli()) {
 
-                $this->commands('Microweber\App\Commands\ResetCommand');
-                $this->commands('Microweber\App\Commands\UpdateCommand');
-                $this->commands('Microweber\App\Commands\ModuleCommand');
-                $this->commands('Microweber\App\Commands\PackageInstallCommand');
+                $this->commands('MicroweberPackages\App\Commands\ResetCommand');
+                $this->commands('MicroweberPackages\App\Commands\UpdateCommand');
+                $this->commands('MicroweberPackages\App\Commands\ModuleCommand');
+                $this->commands('MicroweberPackages\App\Commands\PackageInstallCommand');
 
             }
         } else {
             // Otherwise register the install command
-            $this->commands('Microweber\App\Commands\InstallCommand');
+            $this->commands('MicroweberPackages\App\Commands\InstallCommand');
         }
 
         $this->loadRoutes();

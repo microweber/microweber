@@ -1,12 +1,12 @@
 <?php
 
-namespace Microweber\Utils\Adapters\Template;
+namespace MicroweberPackages\Utils\Adapters\Template;
 
-use Microweber\Utils\Adapters\Template\RenderHelpers\TemplateMetaTagsRenderer;
+use MicroweberPackages\Utils\Adapters\Template\RenderHelpers\TemplateMetaTagsRenderer;
 
 class MicroweberTemplate
 {
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\Application */
     public $app;
 
     public function __construct($app = null)
@@ -17,7 +17,7 @@ class MicroweberTemplate
     public function render($params = array())
     {
         $render_file = $params['render_file'];
-        $l = new \Microweber\View($render_file);
+        $l = new \MicroweberPackages\View($render_file);
         $l->page_id = $params['page_id'];
         $l->content_id = $params['content_id'];
         $l->post_id = $params['post_id'];

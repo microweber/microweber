@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\Utils\Adapters\Cache\Storage;
+namespace MicroweberPackages\Utils\Adapters\Cache\Storage;
 
 use Illuminate\Cache\ApcStore;
 use Illuminate\Cache\ApcWrapper;

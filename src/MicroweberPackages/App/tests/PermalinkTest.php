@@ -6,9 +6,9 @@
  * Time: 3:40 PM
  */
 
-namespace Microweber\tests;
+namespace MicroweberPackages\tests;
 
-use Microweber\Controllers\DefaultController;
+use MicroweberPackages\Controllers\DefaultController;
 
 class PermalinkTest extends TestCase
 {

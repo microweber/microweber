@@ -1,8 +1,8 @@
 <?php
 
-namespace Microweber\Controllers;
+namespace MicroweberPackages\Controllers;
 
-use Microweber\View;
+use MicroweberPackages\View;
 use User;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Config;
@@ -12,7 +12,7 @@ use Auth;
 
 class AdminController extends Controller
 {
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\Application */
     public $app;
 
     public function __construct($app = null)
