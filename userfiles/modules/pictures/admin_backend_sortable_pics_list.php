@@ -49,9 +49,44 @@ $rand = 'pic-sorter-'.uniqid();
 
 ?>
 
-<script type="text/javascript">
+<style>
+    .admin-thumb-item-uploader-holder{
+        display: block;
+        position: relative;
+        float: left;
+        width: 110px;
+        height: 110px;
+        margin: 0 5px 10px;
+    }
+</style>
+<script>
     $(document).ready(function () {
         mw.module_pictures.init('#admin-thumbs-holder-sort-<?php print $rand; ?>');
+
+        var uploadHolder =  mw.$('#admin-thumb-item-uploader<?php print $rand; ?>');
+        mw.require('uploader.js');
+
+        mw._postsImageUploaderSmall = mw.upload({
+            element: uploadHolder,
+            accept: 'image/*',
+        });
+        mw._postsImageUploaderSmall.$holder = uploadHolder.parent();
+        $(mw._postsImageUploaderSmall).on('FileUploaded', function (e, res) {
+            var url = res.src ? res.src : res;
+            if(window.after_upld) {
+                after_upld(url, 'Result', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
+                after_upld(url, 'done');
+                mw._postsImageUploader.hide()
+            }
+        });
+
+        if (!mw.$('#admin-thumbs-holder-sort-<?php print $rand; ?> .admin-thumb-item').length) {
+            uploadHolder.hide();
+            if(mw._postsImageUploader) {
+                mw._postsImageUploader.show();
+            }
+
+        }
     });
 </script>
 
@@ -123,6 +158,14 @@ $rand = 'pic-sorter-'.uniqid();
             </div>
         </div>
     <?php endforeach; ?>
+<div class="admin-thumb-item-uploader-holder">
+    <div class="dropable-zone small-zone square-zone">
+        <div class="holder"> <button type="button" class="btn btn-link">Add file</button> <p>or drop file to upload</p> </div>
+    </div>
+    <div class="admin-thumb-item-uploader" id="admin-thumb-item-uploader<?php print $rand; ?>">
+
+    </div>
+</div>
 <?php endif; ?>
 
 

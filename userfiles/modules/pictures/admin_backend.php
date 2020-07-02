@@ -21,7 +21,7 @@
 
     .image-settings.remove-image {
         left: 20px;
-        /*color: red;*/
+        display: none;
 
     }
 
@@ -290,7 +290,7 @@ if (!isset($data["thumbnail"])) {
         }
         doselect = function () {
             var final = []
-            mw.$(".admin-thumb-item .mw-ui-check input:checked").each(function () {
+            mw.$(".admin-thumb-item:visible .mw-ui-check input:checked").each(function () {
                 final.push(this.value);
             })
             $(".select_actions")[final.length === 0 ? 'removeClass' : 'addClass']('active');
@@ -341,23 +341,41 @@ if (!isset($data["thumbnail"])) {
 
         $(document).ready(function () {
 
+            var $root = mw.$('#admin-thumbs-holder-sort-<?php print $rand; ?>');
 
-            mw.require('filepicker.js');
+                mw.require('filepicker.js');
 
-                var picker = new mw.filePicker({
+                mw._postsImageUploader = new mw.filePicker({
                     element:'#backend_image_uploader',
                     nav: 'dropdown',
                     footer: false,
                     boxed: false,
                     dropDownTargetMode: 'dialog',
-                    label: mw.lang('Media')
+                    label: mw.lang('Media'),
+                    hideHeader: true,
+                    multiple: true,
+                    accept: 'image/*',
                 });
 
-                $(picker).on('Result', function (e, res) {
+                $(mw._postsImageUploader).on('FileAdded', function (e, file) {
+                    var el = `<div class="admin-thumb-item admin-thumb-item-loading"><span class="mw-post-media-img" style=""></span></div>`;
+                    mw.$($root).append(el);
+                });
+                $(mw._postsImageUploader).on('FileUploaded', function (e, file) {
+                    mw.$('.admin-thumb-item-loading:last', $root).remove();
+                });
+                $(mw._postsImageUploader).on('Result', function (e, res) {
                     var url = res.src ? res.src : res;
                     after_upld(url, 'Result', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
                     after_upld(url, 'done');
-                })
+                    mw._postsImageUploader.hide()
+                });
+
+                var thumbs = mw.$('.admin-thumb-item', $root);
+
+                if(thumbs.length) {
+                    mw._postsImageUploader.hide()
+                }
 
 
 

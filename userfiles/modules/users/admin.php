@@ -258,7 +258,9 @@
                     <div class="row justify-content-between">
 
                         <div class="col">
-                            <a href="#edit-user=0" class="btn btn-primary btn-sm" id="add-new-user-btn"><i class="mdi mdi-account-plus"></i> <?php _e("Add new user"); ?></a>
+                            <a href="#edit-user=0" class="btn btn-primary btn-sm" id="add-new-user-btn">
+                                <i class="mdi mdi-account-plus"></i> <?php _e("Add new user"); ?>
+                            </a>
 
                         </div>
                         <div class="col">
