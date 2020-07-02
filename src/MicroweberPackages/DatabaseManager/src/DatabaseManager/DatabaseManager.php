@@ -9,26 +9,22 @@
  *
  */
 
-namespace MicroweberPackages\DatabaseManager;
+namespace MicroweberPackages\Providers;
 
-// Laravel packages
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Collection;
-
-// Third part
-use MicroweberPackages\Helpers\Format;
+use Microweber\Providers\Database\Utils as DbUtils;
+use Microweber\Traits\QueryFilter;
+use Microweber\Traits\ExtendedSave;
 use SuperClosure\SerializableClosure;
 
-use MicroweberPackages\DatabaseManager\Traits\ExtendedSave;
-use MicroweberPackages\DatabaseManager\Traits\QueryFilter;
 
-class DatabaseManager extends Utils
+class DatabaseManager extends DbUtils
 {
     public $use_cache = true;
-    public $table_to_model = array();
 
-    /** @var Application */
+    /** @var \Microweber\Application */
     public $app;
 
     use QueryFilter; //trait with db functions
@@ -39,10 +35,9 @@ class DatabaseManager extends Utils
         if (!is_object($this->app)) {
             if (is_object($app)) {
                 $this->app = $app;
+            } else {
+                $this->app = mw();
             }
-        }
-        if (!$this->app) {
-            $this->app = app();   
         }
     }
 
@@ -96,7 +91,6 @@ class DatabaseManager extends Utils
      */
     public function get($table, $params = null)
     {
-
         if ($params === null) {
             $params = $table;
         } else {
@@ -122,9 +116,9 @@ class DatabaseManager extends Utils
             return false;
         }
 
-        $enable_trigers = true;
-        if (isset($params['enable_trigers'])) {
-            $enable_trigers = $params['enable_trigers'];
+        $enable_triggers = true;
+        if (isset($params['enable_triggers'])) {
+            $enable_triggers = $params['enable_triggers'];
         }
 
         $use_connection = false;
@@ -202,13 +196,13 @@ class DatabaseManager extends Utils
             $params['group_by'] = $params['groupby'];
             unset($params['groupby']);
         }
-
+        $use_cache = true;
         if (isset($orig_params['no_cache']) and ($orig_params['no_cache'])) {
             $use_cache = $this->use_cache = false;
         } else {
-            $use_cache = $this->use_cache;
+            $use_cache = $this->use_cache  = true;
         }
-        $use_cache = false;
+       // $use_cache = false;
         // $this->use_cache = false;
         $query = $this->map_filters($query, $params, $table);
         $params = $this->map_array_to_table($table, $params);
@@ -218,7 +212,6 @@ class DatabaseManager extends Utils
 
 
         if (!$query) {
-
             return;
         }
 
@@ -286,12 +279,15 @@ class DatabaseManager extends Utils
         }
 
 
+
+
         if ($use_cache == false) {
-            $data = $query->get();
+             $data = $query->get();
         } else {
             $data = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query) {
                 return $query->get();
             });
+
         }
 
         if ($data == false or empty($data)) {
@@ -321,9 +317,7 @@ class DatabaseManager extends Utils
             return false;
         } else {
             if (!$do_not_replace_site_url) {
-                if (is_object($this->app->url_manager)) {
-                    $data = $this->app->url_manager->replace_site_url_back($data);
-                }
+                $data = $this->app->url_manager->replace_site_url_back($data);
             }
         }
 
@@ -332,10 +326,8 @@ class DatabaseManager extends Utils
             return $data;
         }
 
-        if ($enable_trigers) {
-            if (is_object($this->app->event_manager)) {
-                $data = $this->app->event_manager->response('mw.database.' . $table . '.get', $data);
-            }
+        if ($enable_triggers) {
+            $data = $this->app->event_manager->response('mw.database.' . $table . '.get', $data);
         }
 
         if (isset($orig_params['single']) || isset($orig_params['one'])) {
@@ -416,18 +408,13 @@ class DatabaseManager extends Utils
         if ($skip_cache == false and isset($data_to_save_options) and !empty($data_to_save_options)) {
             if (isset($data_to_save_options['delete_cache_groups']) and !empty($data_to_save_options['delete_cache_groups'])) {
                 foreach ($data_to_save_options ['delete_cache_groups'] as $item) {
-                    Cache::delete($item);
+                    $this->app->cache_manager->delete($item);
                 }
             }
         }
 
-        $user_sid = false;
-        $the_user_id = false;
-
-        if (isset($this->app->user_manager) && is_object($this->app->user_manager) && method_exists($this->app->user_manager, 'session_id')) {
-            $user_sid = $this->app->user_manager->session_id();
-            $the_user_id = $this->app->user_manager->id();
-        }
+        $user_sid = $this->app->user_manager->session_id();
+        $the_user_id = $this->app->user_manager->id();
 
         if (!isset($data['session_id']) and $user_sid) {
             $data['session_id'] = $user_sid;
@@ -449,20 +436,17 @@ class DatabaseManager extends Utils
             $allow_scripts = $data['allow_scripts'];
         }
 
-        /* if (isset($data['debug']) and $data['debug'] == true) {
-             $dbg = 1;
-             unset($data['debug']);
-         } else {
-             $dbg = false;
-         }
-         if ($dbg != false) {
-             var_dump($data);
-         }*/
-        $data['user_ip'] = '';
-        if (defined('MW_USER_IP')) {
-            $data['user_ip'] = MW_USER_IP;
+       /* if (isset($data['debug']) and $data['debug'] == true) {
+            $dbg = 1;
+            unset($data['debug']);
+        } else {
+            $dbg = false;
         }
+        if ($dbg != false) {
+            var_dump($data);
+        }*/
 
+        $data['user_ip'] = MW_USER_IP;
         if (isset($data['id']) == false or $data['id'] == 0) {
             $data['id'] = 0;
             $l = $this->last_id($table);
@@ -499,24 +483,20 @@ class DatabaseManager extends Utils
 
         $criteria = $this->map_array_to_table($table, $data);
 
-        $format = new Format();
-
         if ($allow_html == false) {
-            $criteria = $format->clean_html($criteria);
+           $criteria = $this->app->format->clean_html($criteria);
         } else {
             if ($allow_scripts == false) {
-                $criteria = $this->clean_input($criteria);
+				$criteria = $this->clean_input($criteria);
+               
+				$evil = ['(?<!\w)on\w*',   'xmlns', 'formaction',   'xlink:href', 'FSCommand', 'seekSegmentTime'];
 
-                $evil = ['(?<!\w)on\w*',   'xmlns', 'formaction',   'xlink:href', 'FSCommand', 'seekSegmentTime'];
-
-               $criteria = $format->clean_xss($criteria, true,$evil, 'removeEvilAttributes');
+				$criteria =  $this->app->format->clean_xss($criteria, true,$evil, 'removeEvilAttributes');
             }
 
         }
 
-        if (is_object($this->app->url_manager)) {
-            $criteria = $this->app->url_manager->replace_site_url($criteria);
-        }
+        $criteria = $this->app->url_manager->replace_site_url($criteria);
 
         if (is_array($data_to_save_options) and $data_to_save_options['use_this_field_for_id'] != false) {
             $criteria['id'] = $criteria_orig[$data_to_save_options['use_this_field_for_id']];
@@ -529,10 +509,8 @@ class DatabaseManager extends Utils
         }
         $criteria['id'] = intval($criteria['id']);
 
-        if (is_object($this->app->event_manager)) {
-            $criteria = $criteria_overwrite = $this->app->event_manager->response('mw.database.' . $table . '.save.params', $criteria);
-            $criteria = $this->map_array_to_table($table, $criteria);
-        }
+        $criteria = $criteria_overwrite = $this->app->event_manager->response('mw.database.' . $table . '.save.params', $criteria);
+        $criteria = $this->map_array_to_table($table, $criteria);
 
         if (intval($criteria['id']) == 0) {
             unset($criteria['id']);
@@ -571,24 +549,20 @@ class DatabaseManager extends Utils
         $original_data['table'] = $table;
         $original_data['id'] = $id_to_return;
         $cache_group = $this->assoc_table_name($table);
-
-
-        Cache::delete($cache_group);
+        $this->app->cache_manager->delete($cache_group);
 
         if ($skip_cache == false) {
             $cache_group = $this->assoc_table_name($table);
-            Cache::delete($cache_group . '/global');
-            Cache::delete('content/global/full_page_cache');
-            Cache::delete($cache_group . '/' . $id_to_return);
+            $this->app->cache_manager->delete($cache_group . '/global');
+            $this->app->cache_manager->delete('content/global/full_page_cache');
+            $this->app->cache_manager->delete($cache_group . '/' . $id_to_return);
             if (isset($criteria['parent_id'])) {
-                Cache::delete($cache_group . '/' . intval($criteria['parent_id']));
+                $this->app->cache_manager->delete($cache_group . '/' . intval($criteria['parent_id']));
             }
         }
 
-        if (is_object($this->app->event_manager)) {
-            $criteria_overwrite['id'] = $id_to_return;
-            $this->app->event_manager->trigger('mw.database.' . $table . '.save.after', $criteria_overwrite);
-        }
+        $criteria_overwrite['id'] = $id_to_return;
+        $this->app->event_manager->trigger('mw.database.'.$table.'.save.after', $criteria_overwrite);
 
         return $id_to_return;
     }
@@ -681,7 +655,7 @@ class DatabaseManager extends Utils
 
         if ($cache_id != false and $cache_group != false) {
             $cache_id = $cache_id . crc32($q);
-            $results = Cache::get($cache_id, $cache_group);
+            $results = $this->app->cache_manager->get($cache_id, $cache_group);
             if ($results != false) {
                 if ($results == '---empty---' or (is_array($results) and empty($results))) {
                     return false;
@@ -705,7 +679,7 @@ class DatabaseManager extends Utils
 
         if ($only_query == false and empty($q) or $q == false and $cache_group != false) {
             if ($cache_id != false) {
-                Cache::save('---empty---', $cache_id, $cache_group);
+                $this->app->cache_manager->save('---empty---', $cache_id, $cache_group);
             }
 
             return false;
@@ -713,14 +687,14 @@ class DatabaseManager extends Utils
         if ($only_query == false) {
             if ($cache_id != false and $cache_group != false) {
                 if (is_array($q) and !empty($q)) {
-                    Cache::save($q, $cache_id, $cache_group);
+                    $this->app->cache_manager->save($q, $cache_id, $cache_group);
                 } else {
-                    Cache::save('---empty---', $cache_id, $cache_group);
+                    $this->app->cache_manager->save('---empty---', $cache_id, $cache_group);
                 }
             }
         }
         if ($cache_id != false) {
-            Cache::save($q, $cache_id, $cache_group);
+            $this->app->cache_manager->save($q, $cache_id, $cache_group);
         }
 
         return $q;
@@ -756,7 +730,7 @@ class DatabaseManager extends Utils
         }
 
         Cache::tags($table)->flush();
-        Cache::delete('content/global/full_page_cache');
+        $this->app->cache_manager->delete('content/global/full_page_cache');
 
         return $c_id;
     }
@@ -803,18 +777,17 @@ class DatabaseManager extends Utils
         return $data;
     }
 
-    public function add_table_model($table, $callback)
-    {
-        if (is_string($table)) {
-            $this->table_to_model[$table] = $callback;
-        }
-    }
-
     public function table($table)
     {
-        if (is_string($table) && is_array($this->table_to_model) && array_key_exists($table, $this->table_to_model)) {
-            return new $this->table_to_model[$table];
+
+        // @todo move this to external resolver class or array
+        if ($table == 'content') {
+            return \Content::query();
         }
+        if ($table == 'media') {
+            return \Media::query();
+        }
+
         return DB::table($table);
     }
 
