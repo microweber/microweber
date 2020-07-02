@@ -2,7 +2,7 @@
 
 namespace Microweber;
 
-use App;
+use App__;
 use Cache;
 use Microweber\Utils\ClassLoader;
 use Illuminate\Foundation\AliasLoader;

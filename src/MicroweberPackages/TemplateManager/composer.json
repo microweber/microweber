@@ -15,16 +15,13 @@
   "require": {
     "microweber-packages/microweber-helpers": "dev-master"
   },
-  "require-dev": {
-    "orchestra/testbench": "*",
-    "mockery/mockery": "*"
-  },
+
   "autoload": {
     "psr-4": {
       "MicroweberPackages\\": "src/"
     },
     "files": [
-      "src/TemplateManager/helpers.php"
+      "src/helpers.php"
     ]
   },
   "extra": {

@@ -38,7 +38,8 @@
         "halaxa/json-machine": "dev-master",
         "fideloper/proxy": "dev-master",
         "fruitcake/laravel-cors": "^2.0@dev",
-        "wikimedia/composer-merge-plugin": "^1.5@dev"
+        "wikimedia/composer-merge-plugin": "^1.5@dev",
+        "rtconner/laravel-tagging": "^4.0"
     },
     "require-dev": {
         "nunomaduro/collision": "^4.1",
@@ -80,7 +81,12 @@
             "require": [
               "src/MicroweberPackages/Utils/composer.json",
               "src/MicroweberPackages/Cache/composer.json",
-              "src/MicroweberPackages/Config/composer.json"
+              "src/MicroweberPackages/Cms/composer.json",
+              "src/MicroweberPackages/Config/composer.json",
+              "src/MicroweberPackages/Helpers/composer.json",
+              "src/MicroweberPackages/Shop/composer.json",
+              "src/MicroweberPackages/EventManager/composer.json",
+              "src/MicroweberPackages/TemplateManager/composer.json"
             ],
             "merge-extra": true,
             "merge-extra-deep": true,

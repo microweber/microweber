@@ -19,10 +19,7 @@
     "microweber-packages/microweber-event-manager": "dev-master",
     "microweber-packages/microweber-helpers": "dev-master"
   },
-  "require-dev": {
-    "orchestra/testbench": "*",
-    "mockery/mockery": "*"
-  },
+
   "autoload": {
     "psr-4": {
       "MicroweberPackages\\": "src/"

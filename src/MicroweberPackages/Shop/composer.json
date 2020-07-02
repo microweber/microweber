@@ -16,8 +16,7 @@
     "twig/twig": "3.x-dev"
   },
   "require-dev": {
-    "orchestra/testbench": "*",
-    "mockery/mockery": "*"
+
   },
   "autoload": {
     "psr-4": {

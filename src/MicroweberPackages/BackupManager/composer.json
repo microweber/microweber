@@ -15,10 +15,7 @@
   "require": {
       "halaxa/json-machine": "dev-master"
   },
-  "require-dev": {
-    "orchestra/testbench": "*",
-    "mockery/mockery": "*"
-  },
+
   "autoload": {
     "psr-4": {
       "MicroweberPackages\\": "src/"

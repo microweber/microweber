@@ -15,10 +15,6 @@
   "require": {
         "microweber-packages/helper-functions": "*"
     },
-  "require-dev": {
-      "orchestra/testbench": "4.*",
-      "mockery/mockery": "*"
-  },
   "autoload": {
       "psr-4": {
         "MicroweberPackages\\": "src/"

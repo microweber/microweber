@@ -12,10 +12,7 @@
       "email": "bobi@microweber.com"
     }
   ],
-  "require-dev": {
-    "orchestra/testbench": "*",
-    "mockery/mockery": "*"
-  },
+
   "autoload": {
     "psr-4": {
       "MicroweberPackages\\": "src/"

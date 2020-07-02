@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\App\Providers;
+namespace MicroweberPackages\App\Providers;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
