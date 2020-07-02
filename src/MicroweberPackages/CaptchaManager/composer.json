@@ -15,11 +15,8 @@
 
   "autoload": {
     "psr-4": {
-      "MicroweberPackages\\": "src/"
-    },
-    "files": [
-      "src/CaptchaManager/helpers.php"
-    ]
+      "MicroweberPackages\\CaptchaManager\\": "src/"
+    }
   },
   "extra": {
     "laravel": {

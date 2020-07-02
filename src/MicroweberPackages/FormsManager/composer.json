@@ -19,10 +19,7 @@
   "autoload": {
     "psr-4": {
       "MicroweberPackages\\": "src/"
-    },
-    "files": [
-      "src/FormsManager/helpers.php"
-    ]
+    }
   },
   "extra": {
     "laravel": {

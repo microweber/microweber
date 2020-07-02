@@ -85,8 +85,12 @@
               "src/MicroweberPackages/Config/composer.json",
               "src/MicroweberPackages/Helpers/composer.json",
               "src/MicroweberPackages/Shop/composer.json",
+              "src/MicroweberPackages/UserManager/composer.json",
               "src/MicroweberPackages/EventManager/composer.json",
-              "src/MicroweberPackages/TemplateManager/composer.json"
+              "src/MicroweberPackages/TemplateManager/composer.json",
+              "src/MicroweberPackages/CaptchaManager/composer.json",
+              "src/MicroweberPackages/OptionManager/composer.json",
+              "src/MicroweberPackages/FormsManager/composer.json"
             ],
             "merge-extra": true,
             "merge-extra-deep": true,
