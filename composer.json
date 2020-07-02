@@ -86,6 +86,7 @@
               "src/MicroweberPackages/Helpers/composer.json",
               "src/MicroweberPackages/Shop/composer.json",
               "src/MicroweberPackages/UserManager/composer.json",
+              "src/MicroweberPackages/DatabaseManager/composer.json",
               "src/MicroweberPackages/EventManager/composer.json",
               "src/MicroweberPackages/TemplateManager/composer.json",
               "src/MicroweberPackages/CaptchaManager/composer.json",
