@@ -33,6 +33,33 @@ api_expose_admin('delete_content');
 api_expose_admin('content/delete', function ($data) {
     return mw()->content_manager->helpers->delete($data);
 });
+
+api_expose_admin('content/get_link_admin', function ($data) {
+
+    if (!isset($data['id'])) {
+        return false;
+    }
+
+    $content = mw()->content_manager->get_by_id($data['id']);
+    if (!$content) {
+        return;
+    }
+
+    $segments = mw()->permalink_manager->link($content['id'], 'content', true);
+
+    if ($segments) {
+        return [
+            'url' => site_url($segments['url']),
+            'slug_prefix' => $segments['slug_prefix'],
+            'slug_prefix_url' => $segments['slug_prefix_url'],
+            'slug' => $segments['slug'],
+            'site_url' => site_url()
+        ];
+    }
+
+    return false;
+});
+
 api_expose_admin('content_parents');
 api_expose_admin('get_content_children');
 api_expose_admin('page_link');
@@ -47,9 +74,9 @@ api_expose_admin('get_content_field');
 api_expose_admin('notifications_manager/delete', function ($data) {
     return mw()->notifications_manager->delete($data);
 });
- 
+
 api_expose_admin('notifications_manager/delete_selected', function ($data) {
-	return mw()->notifications_manager->delete_selected($data);
+    return mw()->notifications_manager->delete_selected($data);
 });
 
 api_expose_admin('notifications_manager/reset', function ($data) {
@@ -57,15 +84,15 @@ api_expose_admin('notifications_manager/reset', function ($data) {
 });
 
 api_expose_admin('notifications_manager/reset_selected', function ($data) {
-	return mw()->notifications_manager->reset_selected($data);
+    return mw()->notifications_manager->reset_selected($data);
 });
 
 api_expose_admin('notifications_manager/read', function ($data) {
-	return mw()->notifications_manager->read($data);
+    return mw()->notifications_manager->read($data);
 });
 
 api_expose_admin('notifications_manager/read_selected', function ($data) {
-	return mw()->notifications_manager->read_selected($data);
+    return mw()->notifications_manager->read_selected($data);
 });
 
 api_expose_admin('notifications_manager/mark_all_as_read', function ($data) {
@@ -84,45 +111,44 @@ api_expose('template/print_custom_css', function ($data) {
 });
 
 api_expose_admin('media_library/search', function ($data) {
-	
-	$search = array();
-	$unsplash = new Unsplash();
-	
-	$page = 1;
-	
-	if (isset($data['page'])) {
-		$page = $data['page'];
-	}
-	
-	if (isset($data['keyword'])) {
-		$search = $unsplash->search($data['keyword'], $page);
-	}
-	
-	$response = Response::make($search);
-	$response->header('Content-Type', 'text/json');
-	
-	return $response;
-	
+
+    $search = array();
+    $unsplash = new Unsplash();
+
+    $page = 1;
+
+    if (isset($data['page'])) {
+        $page = $data['page'];
+    }
+
+    if (isset($data['keyword'])) {
+        $search = $unsplash->search($data['keyword'], $page);
+    }
+
+    $response = Response::make($search);
+    $response->header('Content-Type', 'text/json');
+
+    return $response;
+
 });
 
 api_expose_admin('media_library/download', function ($data) {
-	
-	$unsplash = new Unsplash();
-	if (isset($data['photo_id'])) {
-		$image = $unsplash->download($data['photo_id']);
-	}
-	
-	return $image;
-	
+
+    $unsplash = new Unsplash();
+    if (isset($data['photo_id'])) {
+        $image = $unsplash->download($data['photo_id']);
+    }
+
+    return $image;
+
 });
 
 
 api_expose_admin('content/get_admin_js_tree_json', function ($params) {
-   return mw()->category_manager->get_admin_js_tree_json($params);
+    return mw()->category_manager->get_admin_js_tree_json($params);
 });
 
 api_expose_admin('content/get_admin_js_tree_json___', function ($params) {
-
 
 
 //    json
@@ -154,8 +180,8 @@ api_expose_admin('content/get_admin_js_tree_json___', function ($params) {
     $pages_params['no_limit'] = 1;
     $pages_params['order_by'] = 'position desc';
 
-    if(isset($params['is_shop'])){
-         $pages_params['is_shop'] = intval($params['is_shop']);
+    if (isset($params['is_shop'])) {
+        $pages_params['is_shop'] = intval($params['is_shop']);
 
     }
 
@@ -183,7 +209,7 @@ api_expose_admin('content/get_admin_js_tree_json___', function ($params) {
             }
             $item['position'] = intval($page['position']);
 
-            $pages_cats = get_categories('parent_page=' . $page['id'].'&no_limit=1&order_by=position asc');
+            $pages_cats = get_categories('parent_page=' . $page['id'] . '&no_limit=1&order_by=position asc');
             if ($pages_cats) {
                 //  $item['has_children'] = 1;
             } else {
@@ -359,6 +385,17 @@ api_expose('save_media');
 
 api_expose('pixum_img');
 api_expose('thumbnail_img');
+\Illuminate\Support\Facades\Route::get('/api/image-tn/{cache_id}', function ($cache_id) {
+
+    $cache_id_data = cache_get($cache_id, 'media');
+    if ($cache_id_data) {
+        $tn = mw()->media_manager->thumbnail_img($cache_id_data);;
+        return $tn;
+    }
+
+});
+
+
 api_expose('create_media_dir');
 
 api_expose('media/delete_media_file');
@@ -375,49 +412,46 @@ api_expose('queue_dispatch', function () {
     if ($all_queue) {
         foreach ($all_queue as $queue_item) {
             $payload = $queue_item->payload;
-            if($payload){
-                $payload =  @json_decode($payload,true);
+            if ($payload) {
+                $payload = @json_decode($payload, true);
                 $command = @unserialize($payload['data']['command']);
-              //  $queue_item->mw_processed=1;
-               // $queue_item->save();
-           //     $queue_item->delete();
+                //  $queue_item->mw_processed=1;
+                // $queue_item->save();
+                //     $queue_item->delete();
 
 
-                if(is_object($command)){
+                if (is_object($command)) {
 
                     $app = app();
-                //    $command = (clone $command);
+                    //    $command = (clone $command);
                     $app->make('queue');
 
-             //    $app->register(get_class($command));
-               //  $app->bind('Illuminate\Contracts\Queue\Job',get_class($command));
+                    //    $app->register(get_class($command));
+                    //  $app->bind('Illuminate\Contracts\Queue\Job',get_class($command));
 
-                  //  $command::dispatch($command);
-                  //  dd($command);
+                    //  $command::dispatch($command);
+                    //  dd($command);
                     $dispatcher = $app->make('Illuminate\Contracts\Bus\Dispatcher');
                     $h = $app->make('Illuminate\Queue\CallQueuedHandler');
 
-                   // $job = app('Illuminate\Contracts\Queue\Job');
+                    // $job = app('Illuminate\Contracts\Queue\Job');
 
-                //    $handler = new \Illuminate\Queue\CallQueuedHandler($dispatcher);
+                    //    $handler = new \Illuminate\Queue\CallQueuedHandler($dispatcher);
 
-                    $dispatcher->dispatchNow($command );
-
-
+                    $dispatcher->dispatchNow($command);
 
 
+                    //   $handler->call($command,$payload['data']);
 
-             //   $handler->call($command,$payload['data']);
 
-                    dd($payload,$command);
-                //  $dis =  dispatch($command);
+                    //  $dis =  dispatch($command);
 //dd($dis );
                 }
 
             }
         }
     }
-   // dd($all_queue);
+    // dd($all_queue);
     // php artisan queue:work
 
 
