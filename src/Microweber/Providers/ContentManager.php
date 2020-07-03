@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\Providers;
+namespace MicroweberPackages\Providers;
 
 use Microweber\Providers\Content\ContentManagerCrud;
 use Microweber\Providers\Content\ContentManagerHelpers;

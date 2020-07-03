@@ -14,9 +14,11 @@ namespace MicroweberPackages\DatabaseManager;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Collection;
+use MicroweberPackages\ContentManager\Content;
 use MicroweberPackages\DatabaseManager\Utils as DbUtils;
 use MicroweberPackages\DatabaseManager\Traits\QueryFilter;
 use MicroweberPackages\DatabaseManager\Traits\ExtendedSave;
+use MicroweberPackages\MediaManager\Media;
 use SuperClosure\SerializableClosure;
 
 
@@ -782,10 +784,10 @@ class DatabaseManager extends DbUtils
 
         // @todo move this to external resolver class or array
         if ($table == 'content') {
-            return \Content::query();
+            return Content::query();
         }
         if ($table == 'media') {
-            return \Media::query();
+            return Media::query();
         }
 
         return DB::table($table);

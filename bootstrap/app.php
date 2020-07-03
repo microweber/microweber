@@ -12,7 +12,7 @@
 */
 
 if (class_exists(\MicroweberPackages\App\LaravelApplication::class)) {
-    $app = new \Microweber\App\LaravelApplication(
+    $app = new \MicroweberPackages\App\LaravelApplication(
         realpath(__DIR__ . '/../')
     );
 } else {

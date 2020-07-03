@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\App\Utils\Adapters\Cache;
+namespace MicroweberPackages\App\Utils\Adapters\Cache;
 
 use Closure;
 use Illuminate\Contracts\Cache\Repository;

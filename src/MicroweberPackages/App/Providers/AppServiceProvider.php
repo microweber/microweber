@@ -4,7 +4,7 @@ namespace MicroweberPackages\App\Providers;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
-use Microweber\App\Utils\Parser;
+use MicroweberPackages\App\Utils\Parser;
 use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
 use MicroweberPackages\CaptchaManager\CaptchaManagerServiceProvider;
 use MicroweberPackages\CartManager\CartManagerServiceProvider;

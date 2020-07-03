@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\Providers\Database;
+namespace MicroweberPackages\Providers\Database;
 
 class Crud
 {

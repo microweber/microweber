@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\App\Managers;
+namespace MicroweberPackages\App\Managers;
 
 class Ui
 {
@@ -18,6 +18,7 @@ class Ui
     public $marketplace_access_code = false;
     public $enable_service_links = true;
     public $custom_support_url = false;
+    public $brand_favicon = '';
 
     public $modules_ui = array();
 
@@ -95,34 +96,36 @@ class Ui
 
 
         $notif_count = 0;
-        $notif_count_updates_data =  mw()->update->get_updates_notifications('limit=1');
 
-        if(isset($notif_count_updates_data[0])
-            and isset($notif_count_updates_data[0]['notification_data'])
-            and !empty($notif_count_updates_data[0]['notification_data'])){
-           $notif_data = $notif_count_updates_data[0]['notification_data'];
 
-            if(isset($notif_data['core_update'])){
-                $notif_count = $notif_count + 1;
-            }
-            $others_updates = array('modules','templates','elements');
-            foreach ($others_updates as $item){
-                if(isset($notif_data[$item]) and is_arr($notif_data[$item])){
-                    $notif_count = $notif_count + count($notif_data[$item]);
+        if(defined('MW_BACKEND') and MW_BACKEND){
+            $notif_count_updates_data =  mw()->update->get_updates_notifications('limit=1');
+             if(isset($notif_count_updates_data[0])
+                and isset($notif_count_updates_data[0]['notification_data'])
+                and !empty($notif_count_updates_data[0]['notification_data'])){
+               $notif_data = $notif_count_updates_data[0]['notification_data'];
+
+                if(isset($notif_data['core_update'])){
+                    $notif_count = $notif_count + 1;
                 }
+                $others_updates = array('modules','templates','elements');
+                foreach ($others_updates as $item){
+                    if(isset($notif_data[$item]) and is_arr($notif_data[$item])){
+                        $notif_count = $notif_count + count($notif_data[$item]);
+                    }
+                }
+    //            if(isset($notif_data['popup']) and $notif_data['popup']) {
+    //                event_bind(
+    //                    'mw.admin.dashboard.main', function () use ($notif_data) {
+    //                    print load_module('updates/updates_popup',$notif_data);
+    //
+    //                 }
+    //                );
+    //            }
+
             }
-//            if(isset($notif_data['popup']) and $notif_data['popup']) {
-//                event_bind(
-//                    'mw.admin.dashboard.main', function () use ($notif_data) {
-//                    print load_module('updates/updates_popup',$notif_data);
-//
-//                 }
-//                );
-//            }
 
         }
-
-
         $notif_count_html = false;
         if (intval($notif_count) > 0) {
             $notif_count_html = '<sup class="mw-notification-count">'.$notif_count.'</sup>';
@@ -154,8 +157,8 @@ class Ui
             'date' => 'Date',
         	'time' => 'Time',
             'upload' => 'File Upload',
-            'property' => 'Property',
-        	'breakline' => 'Break Line',
+            'property' => 'Property', 
+        	'breakline' => 'Break Line', 
         	'hidden' => 'Hidden Field',
         );
 
@@ -197,6 +200,12 @@ class Ui
     public function admin_logo()
     {
         return $this->admin_logo;
+    }
+
+
+    public function brand_favicon()
+    {
+        return $this->brand_favicon;
     }
 
     public function create_content_menu()

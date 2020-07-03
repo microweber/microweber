@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\App\Managers;
+namespace MicroweberPackages\App\Managers;
 
 class FileLoader extends \Illuminate\Config\FileLoader
 {

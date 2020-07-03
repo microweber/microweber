@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\Providers;
+namespace MicroweberPackages\Providers;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\App;
+namespace MicroweberPackages\App;
 
 /**
  * Application class.

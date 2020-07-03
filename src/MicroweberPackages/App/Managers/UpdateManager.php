@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\App\Managers;
+namespace MicroweberPackages\App\Managers;
 
 use Illuminate\Support\Facades\Config;
 use MicroweberPackages\PackageManager\ComposerUpdate;

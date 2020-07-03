@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\Utils\Adapters\Template;
+namespace MicroweberPackages\Utils\Adapters\Template;
 
 use Microweber\Utils\Adapters\Template\RenderHelpers\TemplateMetaTagsRenderer;
 

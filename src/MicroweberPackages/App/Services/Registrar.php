@@ -1,4 +1,4 @@
-<?php namespace Microweber\App\Services;
+<?php namespace MicroweberPackages\App\Services;
 
 use Microweber\App\User;
 use Validator;

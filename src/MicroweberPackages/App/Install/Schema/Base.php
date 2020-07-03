@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\App\Install\Schema;
+namespace MicroweberPackages\App\Install\Schema;
 
 class Base
 {

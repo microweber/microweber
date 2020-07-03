@@ -1,8 +1,8 @@
 <?php
 
-namespace Microweber\Utils;
+namespace MicroweberPackages\App\Utils;
 
-use Microweber\Providers\Modules;
+use MicroweberPackages\TemplateManager\View;
 
 $parser_cache_object = false; //global cache storage
 $mw_replaced_edit_fields_vals = array();
@@ -62,7 +62,7 @@ class Parser
             $this->app = $app;
         }
 
-        require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
+        require_once 'src/MicroweberPackages/Utils/src/Utils/ThirdPartyLibs/phpQuery.php';
 
     }
 
@@ -2259,7 +2259,7 @@ class Parser
             }
 
 
-            $l1 = new \Microweber\View($try_file1);
+            $l1 = new View($try_file1);
             $l1->config = $config;
             $l1->app = $this->app;
 

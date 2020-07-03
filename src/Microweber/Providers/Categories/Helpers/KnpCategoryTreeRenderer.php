@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\Providers\Categories\Helpers;
+namespace MicroweberPackages\Providers\Categories\Helpers;
 
 use Knp\Menu\MenuFactory;
 use Microweber\Providers\Categories\Helpers\CategoryTreeData;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\Providers\Shop;
+namespace MicroweberPackages\Providers\Shop;
 
 use Microweber\App\Providers\Illuminate\Support\Facades\Config;
 use Microweber\App\Providers\Illuminate\Support\Facades\Crypt;

@@ -1,5 +1,5 @@
 <?php
-namespace Microweber\App\Jobs;
+namespace MicroweberPackages\App\Jobs;
 
 use Illuminate\Bus\Queueable;
 

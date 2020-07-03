@@ -12,7 +12,7 @@
 
 namespace Microweber;
 
-namespace Microweber\Providers;
+namespace MicroweberPackages\Providers;
 
 use Option;
 use DB;

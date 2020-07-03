@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\Providers\Content;
+namespace MicroweberPackages\Providers\Content;
 
 use Microweber\Providers\Database\Crud;
 use Content;

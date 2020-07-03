@@ -91,6 +91,7 @@
               "src/MicroweberPackages/TemplateManager/composer.json",
               "src/MicroweberPackages/CaptchaManager/composer.json",
               "src/MicroweberPackages/OptionManager/composer.json",
+              "src/MicroweberPackages/PackageManager/composer.json",
               "src/MicroweberPackages/FormsManager/composer.json"
             ],
             "merge-extra": true,

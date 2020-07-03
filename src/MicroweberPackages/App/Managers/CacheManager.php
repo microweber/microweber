@@ -1,8 +1,8 @@
 <?php
 
-namespace Microweber\App\Managers;
+namespace MicroweberPackages\App\Managers;
 
-use Microweber\App\Utils\Adapters\Cache\LaravelCache;
+use MicroweberPackages\App\Utils\Adapters\Cache\LaravelCache;
 
 /**
  * Cache class.

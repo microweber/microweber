@@ -1,5 +1,5 @@
 <?php
-namespace Microweber\App;
+namespace MicroweberPackages\App;
 
 class View extends \MicroweberPackages\TemplateManager\View {
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\Providers\Helpers;
+namespace MicroweberPackages\Providers\Helpers;
 
 use \Microweber\Utils\URLify;
 

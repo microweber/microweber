@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\Providers;
+namespace MicroweberPackages\Providers;
 
 use DB;
 use Microweber\Providers\Categories\Helpers\KnpCategoryTreeRenderer;

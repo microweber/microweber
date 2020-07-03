@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Microweber\Providers;
+namespace MicroweberPackages\Providers;
 
 use Microweber\Utils\Adapters\Template\MicroweberTemplate;
 use Microweber\Utils\Adapters\Template\RenderHelpers\TemplateOptimizeLoadingHelper;

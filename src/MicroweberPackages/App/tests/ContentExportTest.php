@@ -1,5 +1,5 @@
 <?php
-namespace Microweber\App\tests;
+namespace MicroweberPackages\App\tests;
 
 use MicroweberPackages\Utils\Misc\ContentExport;
 

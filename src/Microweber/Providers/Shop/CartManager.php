@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\Providers\Shop;
+namespace MicroweberPackages\Providers\Shop;
 
 use Microweber\Utils\Crud;
 

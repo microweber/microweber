@@ -11,7 +11,7 @@
  *
  */
 
-namespace Microweber\Providers;
+namespace MicroweberPackages\Providers;
 
 use Illuminate\Support\Facades\Config;
 
