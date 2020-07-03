@@ -24,9 +24,9 @@ class Ui
 
     public function __construct()
     {
-        $this->admin_logo_login = mw_includes_url().'images/logo-login.svg';
+        $this->admin_logo_login = mw_includes_url() . 'images/logo-login.svg';
         if (mw_is_installed()) {
-             $this->defaults();
+            $this->defaults();
         }
     }
 
@@ -53,30 +53,30 @@ class Ui
         $notif_count = mw()->notifications_manager->get_unread_count();
         $notif_count_html = false;
         if (intval($notif_count) > 0) {
-            $notif_count_html = '<sup class="mw-notification-count">'.$notif_count.'</sup>';
+            $notif_count_html = '<span class="badge badge-danger badge-sm badge-pill d-inline-block ml-2">' . $notif_count . '</span>';
         }
         $admin_dashboard_btn = array();
         $admin_dashboard_btn['view'] = 'admin__notifications';
-        $admin_dashboard_btn['text'] = _e('Notifications', true).$notif_count_html;
-        $admin_dashboard_btn['icon_class'] = 'mai-notification';
+        $admin_dashboard_btn['text'] = _e('Notifications', true) . $notif_count_html;
+        $admin_dashboard_btn['icon_class'] = 'mdi mdi-bell';
         $this->module('admin.dashboard.menu', $admin_dashboard_btn);
 
         $admin_dashboard_btn = array();
         $admin_dashboard_btn['view'] = 'content';
         $admin_dashboard_btn['text'] = _e('Manage Website', true);
-        $admin_dashboard_btn['icon_class'] = 'mai-earth';
+        $admin_dashboard_btn['icon_class'] = 'mdi mdi-earth';
         $this->module('admin.dashboard.menu.second', $admin_dashboard_btn);
 
         $admin_dashboard_btn = array();
         $admin_dashboard_btn['view'] = 'modules';
         $admin_dashboard_btn['text'] = _e('Manage Modules', true);
-        $admin_dashboard_btn['icon_class'] = 'mai-market';
+        $admin_dashboard_btn['icon_class'] = 'mdi mdi-view-grid-plus';
         $this->module('admin.dashboard.menu.second', $admin_dashboard_btn);
 
         $admin_dashboard_btn = array();
         $admin_dashboard_btn['view'] = 'files';
         $admin_dashboard_btn['text'] = _e('File Manager', true);
-        $admin_dashboard_btn['icon_class'] = 'mai-file-manage';
+        $admin_dashboard_btn['icon_class'] = 'mdi mdi-file-check';
         $this->module('admin.dashboard.menu.second', $admin_dashboard_btn);
 
         /*$admin_dashboard_btn = array();
@@ -85,67 +85,66 @@ class Ui
         $admin_dashboard_btn['icon_class'] = 'mw-icon-market';
         $this->module('admin.dashboard.menu.third', $admin_dashboard_btn);*/
 
-
-
         $admin_dashboard_btn = array();
         $admin_dashboard_btn['view'] = 'marketplace';
         $admin_dashboard_btn['text'] = _e('Go to Marketplace', true);
-        $admin_dashboard_btn['icon_class'] = 'mai-market2';
+        $admin_dashboard_btn['icon_class'] = 'mdi mdi-fruit-cherries';
         $this->module('admin.dashboard.menu.third', $admin_dashboard_btn);
-
 
 
         $notif_count = 0;
 
-
         if(defined('MW_BACKEND') and MW_BACKEND){
-            $notif_count_updates_data =  mw()->update->get_updates_notifications('limit=1');
-             if(isset($notif_count_updates_data[0])
-                and isset($notif_count_updates_data[0]['notification_data'])
-                and !empty($notif_count_updates_data[0]['notification_data'])){
-               $notif_data = $notif_count_updates_data[0]['notification_data'];
+        $notif_count_updates_data = mw()->update->get_updates_notifications('limit=1');
 
-                if(isset($notif_data['core_update'])){
-                    $notif_count = $notif_count + 1;
-                }
-                $others_updates = array('modules','templates','elements');
-                foreach ($others_updates as $item){
-                    if(isset($notif_data[$item]) and is_arr($notif_data[$item])){
-                        $notif_count = $notif_count + count($notif_data[$item]);
-                    }
-                }
-    //            if(isset($notif_data['popup']) and $notif_data['popup']) {
-    //                event_bind(
-    //                    'mw.admin.dashboard.main', function () use ($notif_data) {
-    //                    print load_module('updates/updates_popup',$notif_data);
-    //
-    //                 }
-    //                );
-    //            }
+        if (isset($notif_count_updates_data[0])
+            and isset($notif_count_updates_data[0]['notification_data'])
+            and !empty($notif_count_updates_data[0]['notification_data'])
+        ) {
+            $notif_data = $notif_count_updates_data[0]['notification_data'];
 
+            if (isset($notif_data['core_update'])) {
+                $notif_count = $notif_count + 1;
             }
+            $others_updates = array('modules', 'templates', 'elements');
+            foreach ($others_updates as $item) {
+                if (isset($notif_data[$item]) and is_arr($notif_data[$item])) {
+                    $notif_count = $notif_count + count($notif_data[$item]);
+                }
+            }
+//            if(isset($notif_data['popup']) and $notif_data['popup']) {
+//                event_bind(
+//                    'mw.admin.dashboard.main', function () use ($notif_data) {
+//                    print load_module('updates/updates_popup',$notif_data);
+//
+//                 }
+//                );
+//            }
 
         }
+        }
+
+
         $notif_count_html = false;
         if (intval($notif_count) > 0) {
-            $notif_count_html = '<sup class="mw-notification-count">'.$notif_count.'</sup>';
+            $notif_count_html = '<span class="badge badge-danger badge-sm badge-pill d-inline-block ml-2">' . $notif_count . '</span>';
         }
         $admin_dashboard_btn = array();
         $admin_dashboard_btn['view'] = 'updates';
-        $admin_dashboard_btn['text'] = _e('Updates', true).$notif_count_html;
-        $admin_dashboard_btn['icon_class'] = 'mw-icon-updates';
+        $admin_dashboard_btn['text'] = _e('Updates', true) . $notif_count_html;
+        $admin_dashboard_btn['icon_class'] = 'mdi mdi-update';
         $this->module('admin.dashboard.menu.third', $admin_dashboard_btn);
 
         $admin_dashboard_btn = array();
         $admin_dashboard_btn['link'] = 'https://microweber.com/contact-us';
         $admin_dashboard_btn['text'] = _e('Suggest a feature', true);
-        $admin_dashboard_btn['icon_class'] = 'mw-icon-suggest';
+        $admin_dashboard_btn['icon_class'] = 'mdi mdi-penguin';
         $this->module('admin.dashboard.menu.third', $admin_dashboard_btn);
 
         $fields = array(
             'price' => 'Price',
             'text' => 'Text Field',
-        	//'button' => 'Button',
+            //'button' => 'Button',
             'radio' => 'Single Choice',
             'dropdown' => 'Dropdown',
             'checkbox' => 'Multiple choices',
@@ -155,11 +154,11 @@ class Ui
             'email' => 'E-mail',
             'address' => 'Address',
             'date' => 'Date',
-        	'time' => 'Time',
+            'time' => 'Time',
             'upload' => 'File Upload',
-            'property' => 'Property', 
-        	'breakline' => 'Break Line', 
-        	'hidden' => 'Hidden Field',
+            'property' => 'Property',
+            'breakline' => 'Break Line',
+            'hidden' => 'Hidden Field',
         );
 
         $this->custom_fields = $fields;
@@ -170,16 +169,16 @@ class Ui
         if (!$name) {
             return;
         }
-        if (!isset($this->modules_ui[ $name ])) {
-            $this->modules_ui[ $name ] = array();
+        if (!isset($this->modules_ui[$name])) {
+            $this->modules_ui[$name] = array();
         }
         if ($arr != false and !empty($arr)) {
-            array_push($this->modules_ui[ $name ], $arr);
+            array_push($this->modules_ui[$name], $arr);
         } else {
-            $this->modules_ui[ $name ] = array_unique($this->modules_ui[ $name ], SORT_REGULAR);
+            $this->modules_ui[$name] = array_unique($this->modules_ui[$name], SORT_REGULAR);
         }
 
-        return $this->modules_ui[ $name ];
+        return $this->modules_ui[$name];
     }
 
     public function brand_name()
