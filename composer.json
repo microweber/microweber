@@ -77,6 +77,24 @@
         "email": "support@microweber.com",
         "irc": "irc://irc.freenode.org/microweber"
     },
+    "replace": {
+        "microweber-packages/microweber-backup-manager": "self.version",
+        "microweber-packages/microweber-cache-manager": "self.version",
+        "microweber-packages/microweber-captcha-manager": "self.version",
+        "microweber-packages/microweber-cms": "self.version",
+        "microweber-packages/microweber-config": "self.version",
+        "microweber-packages/microweber-core": "self.version",
+        "microweber-packages/microweber-database-manager": "self.version",
+        "microweber-packages/microweber-event-manager": "self.version",
+        "microweber-packages/microweber-forms-manager": "self.version",
+        "microweber-packages/microweber-helpers": "self.version",
+        "microweber-packages/microweber-option-manager": "self.version",
+        "microweber-packages/microweber-package-manager": "self.version",
+        "microweber-packages/microweber-shop": "self.version",
+        "microweber-packages/microweber-template-manager": "self.version",
+        "microweber-packages/microweber-user-manager": "self.version",
+        "microweber-packages/microweber-utils": "self.version"
+    },
     "extra": {
         "merge-plugin": {
             "require": [
