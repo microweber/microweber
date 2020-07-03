@@ -89,9 +89,7 @@ div.form-control{
 .manage-posts-holder .manage-post-item-col-2{
     max-width: 100px;
 }
-.manage-posts-holder .manage-post-item-col-1,
-.manage-posts-holder .manage-post-item-col-4,
-.manage-posts-holder .manage-post-item-col-5{
+.manage-posts-holder .manage-post-item-col-1{
     max-width: 40px;
 }
 
