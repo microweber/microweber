@@ -248,11 +248,25 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     top: 0;
     left: 0;
 }
-.admin-thumb-item:hover:after{
-    background: -moz-linear-gradient(top,  rgba(106,174,219,0.6) 0%, rgba(229,229,229,0) 100%);
-    background: -webkit-linear-gradient(top,  rgba(106,174,219,0.6) 0%,rgba(229,229,229,0) 100%);
-    background: linear-gradient(to bottom,  rgba(106,174,219,0.6) 0%,rgba(229,229,229,0) 100%);
+
+.pictures-admin-content-type-product .admin-thumb-item-loading:before,
+.pictures-admin-content-type-post .admin-thumb-item-loading:before{
+    font: normal normal normal 60px/1 "Material Design Icons";
+    color: #bcbfc2;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 1;
+    opacity: .2;
 }
+.pictures-admin-content-type-product .admin-thumb-item-loading:before {
+    content: "\F049A";
+}
+.pictures-admin-content-type-post .admin-thumb-item-loading:before {
+    content: "\F0EB0";
+}
+
 .admin-thumb-item {
     display: block;
     position: relative;
@@ -260,10 +274,20 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     width: 110px;
     height: 110px;
     margin: 0 5px 10px;
+    border: 1px solid #cfcfcf;
+}
+.admin-thumb-item.checked:after{
+    background-color: rgba(69, 146, 255, 0.2);
+}
+.admin-thumb-item.checked {
+    border-color: #4592ff;
 }
 
-.admin-thumbs-holder .admin-thumb-item:first-child {
-    margin-left: 0;
+.admin-thumb-item:hover:after,
+.admin-thumb-item.checked:hover:after{
+    background: -moz-linear-gradient(top,  rgba(106,174,219,0.6) 0%, rgba(229,229,229,0) 100%);
+    background: -webkit-linear-gradient(top,  rgba(106,174,219,0.6) 0%,rgba(229,229,229,0) 100%);
+    background: linear-gradient(to bottom,  rgba(106,174,219,0.6) 0%,rgba(229,229,229,0) 100%);
 }
 
 .uimprogress {
@@ -282,8 +306,15 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     text-align: center;
 }
 
+.admin-thumb-item-loading .mw-spinner{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+}
 .admin-thumb-item-loading .mw-post-media-img {
-    background: #F7F7F7 /*url(../img/img_check_loading.gif) no-repeat center center*/;
+    background: #f2f3f5 /*url(../img/img_check_loading.gif) no-repeat center center*/;
 }
 
 .mw-post-media-img-edit {

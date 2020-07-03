@@ -51,7 +51,7 @@ if (isset($params['for'])) {
 } else {
     $for = 'modules';
 }
- 
+
 $use_from_post = get_option('data-use-from-post', $params['id']);
 if ($use_from_post == 'y') {
     if (POST_ID != false) {
@@ -89,7 +89,7 @@ if (isset($params['handle_empty']) == true) {
 $handle_empty = $params['handle_empty'];
 }
 
- 
+
 
 if (isset($params['rel_id']) == true) {
     $for_id = $params['rel_id'];
@@ -99,10 +99,10 @@ if (isset($params['rel_id']) == true) {
     }
     if ($get_for_session == false) {
         $data = get_pictures('rel_id=' . $params['rel_id'] . '&for=' . $for);
-		 
+
     } else {
         $sid = mw()->user_manager->session_id();
-		
+
         $data = get_pictures("rel_id=0&rel_type={$for}&session_id={$sid}");
 
     }
@@ -117,7 +117,7 @@ if (isset($params['rel_id']) == true) {
         }
     } else {
         $data = mw()->format->add_slashes_recursive($data);
-		 
+
     }
 
     $module_template = get_option('data-template', $params['id']);
@@ -136,23 +136,23 @@ if (isset($params['rel_id']) == true) {
 				include($template_file);
 				}
 			} else if(in_live_edit()){
-			
+
         print "<div class='pictures-module-default-view mw-open-module-settings thumbnail' style='padding: 50px 0; background: #f5f5f5;'><img src='". $config['url_to_module'] . "pictures.svg' style='width: 65px; height: 65px;' /></div>";
 		}
-		
+
     } else if ($no_img != true and !empty($data) and isset($template_file) and is_file($template_file) != false) {
         include($template_file);
     } else {
-		
+
 		$template_file = module_templates($config['module'], 'default');
-		
+
 		if(is_file($template_file) != false){
 			include($template_file);
 		} else {
 			print lnotif("No template found. Please choose template.");
 		}
 
-      
+
     }
 }
 ?>

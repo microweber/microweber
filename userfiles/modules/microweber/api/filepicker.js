@@ -381,7 +381,10 @@ mw.filePicker = function (options) {
 
     this.setSectionValue = function (val) {
         var activeSection = this.activeSection();
-        activeSection._filePickerValue = val;
+        if(activeSection) {
+            activeSection._filePickerValue = val;
+        }
+
         if(scope.__pickDialog) {
             scope.__pickDialog.remove();
         }

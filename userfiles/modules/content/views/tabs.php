@@ -32,7 +32,9 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
             <module
                 id="edit-post-gallery-main"
                 type="pictures/admin"
+                class="pictures-admin-content-type-<?php print trim($data['content_type']) ?>"
                 for="content"
+                content_type="<?php print trim($data['content_type']) ?>"
                 for-id="<?php print $data['id']; ?>"/>
         </div>
     </div>

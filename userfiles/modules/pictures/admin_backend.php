@@ -5,17 +5,18 @@
 <style>
 
     .image-settings {
-        color: #525151;
+        color: #ffffff;
         font-size: 20px;
         cursor: pointer;
         position: absolute;
-        bottom: 8px;
-        left: 0;
+        top: 0px;
+        right: 3px;
         -webkit-transition: all 0.3s;
         -moz-transition: all 0.3s;
         transition: all 0.3s;
-        opacity: 0;
+        opacity: .7;
         z-index: 10;
+        text-shadow: 0 0 2px rgba(0,0,0,.5);
 
     }
 
@@ -31,8 +32,6 @@
 
 </style>
 <?php
-
-
 
 if (!isset($for_id)) {
     $for_id = 0;
@@ -250,11 +249,11 @@ if (!isset($data["thumbnail"])) {
         imageConfigDialogInstance = null;
         imageConfigDialog = function (id) {
             var el = mw.$('#admin-thumb-item-' + id + ' .image-options');
-            imageConfigDialogInstance = mw.modal({
+            imageConfigDialogInstance = mw.dialog({
                 overlay: true,
                 content: el.html(),
                 template: 'default',
-                height: 550,
+                height: 'auto',
 
                 title: '<?php print _e('Image Settings'); ?>'
             })
@@ -262,7 +261,7 @@ if (!isset($data["thumbnail"])) {
 
         saveOptions = function (id) {
             var data = {};
-            var root = $('.mw_modal_container #image-json-options-' + id);
+            var root = $(imageConfigDialogInstance.dialogContainer);
             root.find('input').each(function () {
                 data[this.name] = this.value;
             })
@@ -285,13 +284,20 @@ if (!isset($data["thumbnail"])) {
 
                 a[0].click();
                 a.remove();
-            })
+            });
 
         }
         doselect = function () {
-            var final = []
-            mw.$(".admin-thumb-item:visible .mw-ui-check input:checked").each(function () {
-                final.push(this.value);
+            var final = [];
+
+            mw.$(".admin-thumb-item:visible").each(function () {
+                var check = $('.mw-ui-check input:checked', this);
+                if(check.length) {
+                    final.push(check[0].value);
+                    $(this).addClass('checked')
+                } else {
+                    $(this).removeClass('checked')
+                }
             })
             $(".select_actions")[final.length === 0 ? 'removeClass' : 'addClass']('active');
             $(".select_actions_holder").stop()[final.length === 0 ? 'hide' : 'show']();
@@ -357,9 +363,19 @@ if (!isset($data["thumbnail"])) {
                     accept: 'image/*',
                 });
 
+            mw._postsImageUploader._thumbpreload = function() {
+                var el = mw.$('<div class="admin-thumb-item admin-thumb-item-loading"><span class="mw-post-media-img" style=""></span></div>');
+                mw.$($root).find('.admin-thumb-item-uploader-holder').before(el);
+                mw.spinner({
+                    element: el,
+                    size: 32,
+                    color: '#4592ff'
+
+                })
+            }
+
                 $(mw._postsImageUploader).on('FileAdded', function (e, file) {
-                    var el = `<div class="admin-thumb-item admin-thumb-item-loading"><span class="mw-post-media-img" style=""></span></div>`;
-                    mw.$($root).append(el);
+                    mw._postsImageUploader._thumbpreload()
                 });
                 $(mw._postsImageUploader).on('FileUploaded', function (e, file) {
                     mw.$('.admin-thumb-item-loading:last', $root).remove();

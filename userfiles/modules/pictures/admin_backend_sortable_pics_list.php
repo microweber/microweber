@@ -18,10 +18,6 @@ if (isset($params['session_id'])) {
     $sess_id = $params['session_id'];
 }
 
-
-
-
-
 $media = false;
 
 if ($for_id != false) {
@@ -69,8 +65,12 @@ $rand = 'pic-sorter-'.uniqid();
         mw._postsImageUploaderSmall = mw.upload({
             element: uploadHolder,
             accept: 'image/*',
+            multiple:true
         });
         mw._postsImageUploaderSmall.$holder = uploadHolder.parent();
+        $(mw._postsImageUploaderSmall).on('FileAdded', function (e, res) {
+            mw._postsImageUploader._thumbpreload()
+        })
         $(mw._postsImageUploaderSmall).on('FileUploaded', function (e, res) {
             var url = res.src ? res.src : res;
             if(window.after_upld) {
@@ -107,7 +107,7 @@ $rand = 'pic-sorter-'.uniqid();
            <div class="featured-image"><?php print _e('featured image'); ?></div>
 
             <?php  endif; ?>
-            <span class="mw-icon-gear image-settings tip" data-tip="Image Settings"
+            <span class="mdi mdi-cog image-settings tip" data-tip="Image Settings"
                   onclick="imageConfigDialog(<?php print $item['id'] ?>)"></span>
             <span class="mw-icon-close image-settings remove-image tip" data-tip="Delete Image"
                   onclick="mw.module_pictures.del('<?php print $item['id'] ?>');"></span>
