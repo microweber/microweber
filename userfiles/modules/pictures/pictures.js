@@ -8,6 +8,10 @@ mw.module_pictures = {
         },
     time:null,
     after_change: function (data) {
+        var thumbs = mw.$('.admin-thumbs-holder .admin-thumb-item:visible');
+        if(!thumbs.length && mw._postsImageUploader) {
+            mw._postsImageUploader.show();
+        }
         clearTimeout(mw.module_pictures.time);
         mw.module_pictures.time = setTimeout(function () {
             mw.reload_module('pictures');
@@ -15,8 +19,24 @@ mw.module_pictures = {
             mw.reload_module_parent('posts');
             mw.reload_module_parent('shop/products');
             mw.reload_module_parent("pictures/admin");
+            var thumbs = mw.$('.admin-thumbs-holder .admin-thumb-item:visible');
+            if(!thumbs.length) {
+                if(mw._postsImageUploader) {
+                    mw._postsImageUploader.show();
+                }
+                if(mw._postsImageUploaderSmall) {
+                    mw._postsImageUploaderSmall.$holder.hide();
+                }
+            } else {
+                if(mw._postsImageUploader) {
+                    mw._postsImageUploader.hide();
+                }
+                if(mw._postsImageUploaderSmall) {
+                    mw._postsImageUploaderSmall.$holder.show();
+                }
+            }
+            doselect();
         }, 1500)
-
     },
 
     save_options: function (id, image_options) {

@@ -7,12 +7,27 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
 
 <script>
     mw.lib.require('colorpicker');
+    $(document).ready(function () {
+        mw.$('#mw-admin-post-media-type').on('change', function () {
+            mw._postsImageUploader.displayControllerByType($(this).val())
+        })
+    })
 
 </script>
 
 
 <div id="settings-tabs">
     <div class="card style-1 mb-3 images">
+        <div class="card-header no-border">
+            <h6><strong>Media</strong></h6>
+            <div>
+                <select class="selectpicker btn-as-link" data-title="Add media from" data-style="btn-sm" data-width="auto" id="mw-admin-post-media-type">
+                    <option value="url">Add image from URL</option>
+                    <option value="server">Browse uploaded</option>
+                    <option value="library">Select from Unsplash</option>
+                </select>
+            </div>
+        </div>
         <div class="card-body pt-3">
             <module
                 id="edit-post-gallery-main"

@@ -10,6 +10,8 @@ var Uploader = function( options ) {
         on: {},
         autostart: true,
         async: true,
+        accept: '*',
+        chunkSize: 1500000,
     };
 
     var scope = this;
@@ -44,6 +46,8 @@ var Uploader = function( options ) {
 
     this.create = function () {
         this.input = document.createElement('input');
+        this.input.multiple = this.settings.multiple;
+        this.input.accept = this.settings.accept;
         this.input.type = 'file';
         this.input.className = 'mw-uploader-input';
         this.input.oninput = function () {
@@ -66,7 +70,7 @@ var Uploader = function( options ) {
 
     this.addFile = function (file) {
         if(this.validate(file)) {
-            if(!this.files.length || this.options.multiple){
+            if(!this.files.length || this.settings.multiple){
                 this.files.push(file);
                 if(this.settings.on.fileAdded) {
                     this.settings.on.fileAdded(file);
@@ -109,6 +113,14 @@ var Uploader = function( options ) {
         }
     };
 
+    this.show = function () {
+        this.$element.show();
+    };
+
+    this.hide = function () {
+        this.$element.hide();
+    };
+
     this.init = function() {
         this.create();
         this.build();
@@ -123,14 +135,40 @@ var Uploader = function( options ) {
         }
     };
 
-    this.uploadFile = function (file, done) {
+    this.uploadFile = function (file, done, _chunks, _all, _i) {
+        var chunks = _chunks || this.sliceFile(file);
+        _all = _all || chunks.length;
+        _i = _i || 0;
+        var chunk = chunks.shift();
         var data = {
             name: file.name,
-            chunk: 0,
-            chunks: 1,
-            file: file,
+            chunk: _i,
+            chunks: _all,
+            file: chunk,
         };
-        return this.upload(data, done);
+        _i++;
+        this.upload(data, function () {
+            if(chunks.length) {
+                scope.uploadFile(file, done, _chunks, _all, _i);
+            } else {
+                done.call(file);
+            }
+        });
+
+    };
+
+    this.sliceFile = function(file) {
+        var byteIndex = 0;
+        var chunks = [];
+        var chunksAmount = file.size <= this.settings.chunkSize ? 1 : ((file.size / this.settings.chunkSize) >> 0) + 1;
+
+        for (var i = 0; i < chunksAmount; i ++) {
+            var byteEnd = Math.ceil((file.size / chunksAmount) * (i + 1));
+            chunks.push(file.slice(byteIndex, byteEnd));
+            byteIndex += (byteEnd - byteIndex);
+        }
+
+        return chunks;
     };
 
     this.uploadFiles = function () {
@@ -138,10 +176,16 @@ var Uploader = function( options ) {
             if (this.files.length) {
                 this.uploading(true);
                 this.uploadFile(this.files[0], function () {
+                    scope.files.shift();
                     scope.uploadFiles();
                 });
             } else {
                 this.uploading(false);
+                scope.input.value = '';
+                if(scope.settings.on.filesUploaded) {
+                    scope.settings.on.filesUploaded();
+                }
+                $(scope).trigger('FilesUploaded');
             }
         } else {
             var count = 0;
@@ -152,6 +196,7 @@ var Uploader = function( options ) {
                     count++;
                     scope.uploading(false);
                     if(all === count) {
+                        scope.input.value = '';
                         if(scope.settings.on.filesUploaded) {
                             scope.settings.on.filesUploaded();
                         }
@@ -168,8 +213,14 @@ var Uploader = function( options ) {
         }
         var pdata = new FormData();
         $.each(data, function (key, val) {
-            pdata.append(key, val)
+            pdata.append(key, val);
         });
+        if(scope.settings.on.uploadStart) {
+            if (scope.settings.on.uploadStart(pdata) === false) {
+                return;
+            }
+        }
+        $(scope).trigger('uploadStart', [pdata]);
         return $.ajax({
             url: this.getUrl(),
             type: 'post',
