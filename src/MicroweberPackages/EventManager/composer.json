@@ -13,7 +13,7 @@
     }
   ],
   "require": {
-    "laravel/framework": "7.0.0",
+
     "illuminate/database": "*",
     "jeremeamia/superclosure": "*",
     "microweber-packages/microweber-helpers": "dev-master"

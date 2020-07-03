@@ -14,7 +14,6 @@
   ],
   "require": {
     "jeremeamia/superclosure": "*",
-    "laravel/framework": "7.0.0",
     "microweber-packages/laravel-tagged-file-cache": "dev-master",
     "microweber-packages/microweber-event-manager": "dev-master",
     "microweber-packages/microweber-helpers": "dev-master"

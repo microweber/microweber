@@ -15,7 +15,6 @@
   "require": {
     "illuminate/database": "*",
     "jeremeamia/superclosure": "*",
-    "laravel/framework": "7.0.0",
     "microweber-packages/microweber-database-manager": "dev-master",
     "microweber-packages/microweber-event-manager": "dev-master"
   },
