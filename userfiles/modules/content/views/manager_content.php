@@ -19,82 +19,84 @@
                         }
                         ?>
                         <?php $pic = get_picture($item['id']); ?>
-                        <div class="card mb-2 post-has-image-<?php print ($pic == true ? 'true' : 'false'); ?> manage-post-item-type-<?php print $item['content_type']; ?> manage-post-item manage-post-item-<?php print ($item['id']) ?> <?php print $pub_class ?>">
+                        <div class="card card-product-holder mb-2 post-has-image-<?php print ($pic == true ? 'true' : 'false'); ?> manage-post-item-type-<?php print $item['content_type']; ?> manage-post-item manage-post-item-<?php print ($item['id']) ?> <?php print $pub_class ?>">
                             <div class="card-body">
                                 <div class="row align-items-center">
-                                    <div class="col manage-post-item-col-1">
-                                        <label class="mw-ui-check">
-                                            <input name="select_posts_for_action" class="select_posts_for_action" type="checkbox"
-                                                   value="<?php print ($item['id']) ?>">
-                                            <span></span>
-                                        </label>
-                                        <span class="mdi mdi-cursor-move mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()"></span>
+                                    <div class="col text-center manage-post-item-col-1" style="max-width: 40px;">
+                                        <label class="mw-ui-check"><input name="select_posts_for_action" class="select_posts_for_action" type="checkbox" value="<?php print ($item['id']) ?>"><span></span></label>
+                                        <span class="btn btn-link text-muted px-0 js-move mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()"><i class="mdi mdi-cursor-move"></i></span>
                                     </div>
-                                    <div class="col manage-post-item-col-2">
-                                        <?php if ($pic == true): ?>
-                                            <a class="manage-post-image"
-                                               style="background-image: url('<?php print thumbnail($pic, 108) ?>');"
-                                               onClick="mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>');return false;"></a>
-                                        <?php else : ?>
-                                            <a class="manage-post-image manage-post-image-no-image <?php if (isset($item['content_type'])) {
-                                                print ' manage-post-image-' . $item['content_type'];
-                                            } ?><?php if (isset($item['is_shop']) and $item['is_shop'] == 1) {
-                                                print ' manage-post-image-shop';
-                                            } ?><?php if (isset($item['subtype']) and $item['content_type'] == 'product') {
-                                                print ' manage-post-image-product';
-                                            } ?>"
-                                               onclick="mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>');return false;"></a>
-                                        <?php endif; ?>
+
+                                    <div class="col manage-post-item-col-2" style="max-width: 120px;">
+                                        <div class="position-absolute text-muted" style="z-index: 1; right: 0; top: -10px;">
+                                            <?php if (isset($item['content_type']) and $item['content_type'] == 'page'): ?>
+                                                <?php if (isset($item['is_shop']) and $item['is_shop'] == 1): ?>
+                                                    <i class="mdi mdi-shopping mdi-18px" data-toggle="tooltip" title="Shop"></i>
+                                                <?php else : ?>
+                                                    <i class="mdi mdi-shopping mdi-18px" data-toggle="tooltip" title="Page"></i>
+                                                <?php endif; ?>
+                                            <?php elseif (isset($item['content_type']) and ($item['content_type'] == 'post' or $item['content_type'] == 'product')): ?>
+                                                <?php if (isset($item['content_type']) and $item['content_type'] == 'product'): ?>
+                                                    <i class="mdi mdi-shopping mdi-18px" data-toggle="tooltip" title="Product"></i>
+                                                <?php else : ?>
+                                                    <i class="mdi mdi-text  mdi-18px" data-toggle="tooltip" title="Post"></i>
+                                                <?php endif; ?>
+                                            <?php else : ?>
+                                            <?php endif; ?>
+                                        </div>
+
+                                        <div class="img-circle-holder border-radius-0 border-0">
+                                            <?php if ($pic == true): ?>
+                                                <a href="javascript:;" onClick="mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>');return false;">
+                                                    <img src="<?php print thumbnail($pic, 108) ?>"/>
+                                                </a>
+                                            <?php else : ?>
+                                                <a href="javascript:;" onclick="mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>');return false;">
+                                                    <?php if (isset($item['content_type']) and $item['content_type'] == 'page'): ?>
+                                                        <?php if (isset($item['is_shop']) and $item['is_shop'] == 1): ?>
+                                                            <i class="mdi mdi-shopping mdi-48px text-muted"></i>
+                                                        <?php else : ?>
+                                                            <i class="mdi mdi-shopping mdi-48px text-muted"></i>
+                                                        <?php endif; ?>
+                                                    <?php elseif (isset($item['content_type']) and ($item['content_type'] == 'post' or $item['content_type'] == 'product')): ?>
+                                                        <?php if (isset($item['content_type']) and $item['content_type'] == 'product'): ?>
+                                                            <i class="mdi mdi-shopping mdi-48px text-muted"></i>
+                                                        <?php else : ?>
+                                                            <i class="mdi mdi-text mdi-48px text-muted"></i>
+                                                        <?php endif; ?>
+                                                    <?php else : ?>
+                                                    <?php endif; ?>
+                                                </a>
+                                            <?php endif; ?>
+                                        </div>
                                         <?php $edit_link = admin_url('view:content#action=editpage:' . $item['id']); ?>
                                         <?php $edit_link_front = content_link($item['id']) . '?editmode:y'; ?>
                                     </div>
 
-                                    <div class="col manage-post-item-col-3 manage-post-main">
+                                    <div class="col item-title manage-post-item-col-3 manage-post-main">
                                         <div class="manage-item-main-top">
-                                            <h5 class="text-dark text-break-line-1 mb-0 manage-post-item-title">
-                                                <a
-                                                        target="_top"
-                                                        href="<?php print $edit_link_front; ?>"
-                                                        class="text-dark text-break-line-1 mb-0 manage-post-item-title"
-                                                >
-                                                    <?php if (isset($item['content_type']) and $item['content_type'] == 'page'): ?>
-                                                        <?php if (isset($item['is_shop']) and $item['is_shop'] == 1): ?>
-                                                            <span class="mai-shop"></span>
-                                                        <?php else : ?>
-                                                            <span class="mai-page"></span>
-                                                        <?php endif; ?>
-                                                    <?php elseif (isset($item['content_type']) and ($item['content_type'] == 'post' or $item['content_type'] == 'product')): ?>
-                                                        <?php if (isset($item['content_type']) and $item['content_type'] == 'product'): ?>
-                                                            <span class="mai-product"></span>
-                                                        <?php else : ?>
-                                                            <span class="mai-post"></span>
-                                                        <?php endif; ?>
-                                                    <?php else : ?>
-                                                    <?php endif; ?>
-                                                    <?php print strip_tags($item['title']) ?>
-                                                </a>
-                                            </h5>
+                                            <a target="_top" href="<?php print $edit_link_front; ?>" class="btn btn-link p-0">
+                                                <h5 class="text-dark text-break-line-1 mb-0 manage-post-item-title"><?php print strip_tags($item['title']) ?></h5>
+                                            </a>
                                             <?php mw()->event_manager->trigger('module.content.manager.item.title', $item) ?>
-
 
                                             <?php $cats = content_categories($item['id']); ?>
                                             <?php $tags = content_tags($item['id'], false); ?>
-                                            <?php if ($cats) { ?>
+                                            <?php if ($cats): ?>
                                                 <span class="manage-post-item-cats-inline-list">
-                                                      <span class="mw-icon-category"></span>
                                                     <?php foreach ($cats as $ck => $cat): ?>
-                                                    <a href="#action=showpostscat:<?php print ($cat['id']); ?>" class="text-muted">
-                                                        <?php print $cat['title']; ?></a><?php if (isset($cats[$ck + 1])): ?>,<?php endif; ?>
+                                                        <a href="#action=showpostscat:<?php print ($cat['id']); ?>" class="btn btn-link p-0 text-muted"><?php print $cat['title']; ?></a><?php if (isset($cats[$ck + 1])): ?>,<?php endif; ?>
                                                     <?php endforeach; ?>
                                               </span>
-                                            <?php } ?>
+                                            <?php endif; ?>
 
-                                            <?php if ($tags) { ?>
+                                            <?php if ($tags): ?>
+                                                <br/>
                                                 <?php foreach ($tags as $tag): ?>
-                                                    <span class="mw-post-item-tag"># <?php echo $tag; ?></span>
+                                                    <small class="bg-secondary rounded-lg px-2">#<?php echo $tag; ?></small>
                                                 <?php endforeach; ?>
-                                            <?php } ?>
-                                            <div></div>
+                                            <?php endif; ?>
+
 
                                             <a class="manage-post-item-link-small mw-medium" target="_top" href="<?php print content_link($item['id']); ?>?editmode:y">
                                                 <small class="text-muted"><?php print content_link($item['id']); ?></small>
@@ -114,13 +116,13 @@
                                                 <?php _e("Delete"); ?>
                                             </a>
                                         </div>
-
-                                    </div>
-                                    <div class="col manage-post-item-col-4">
-                                        <span class="manage-post-item-author" title="<?php print user_name($item['created_by']); ?>"><?php print user_name($item['created_by'], 'username') ?></span>
                                     </div>
 
-                                    <div class="col manage-post-item-col-5">
+                                    <div class="col item-author manage-post-item-col-4">
+                                        <span class="text-muted" title="<?php print user_name($item['created_by']); ?>"><?php print user_name($item['created_by'], 'username') ?></span>
+                                    </div>
+
+                                    <div class="col item-comments manage-post-item-col-5" style="max-width: 100px;">
                                         <?php mw()->event_manager->trigger('module.content.manager.item', $item) ?>
                                         <?php print $append; ?>
                                     </div>

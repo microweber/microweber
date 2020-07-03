@@ -130,8 +130,8 @@ event_bind(
         if ($have_new) {
 
         }
-        $link = "<a class='comments-bubble' href='{$comments_link}'  title='{$new}'>";
-        $link .= "<span class='mai-comment'></span><span class='comment-number'>{$new}</span>";
+        $link = "<a class='text-muted' href='{$comments_link}'  title='{$new}'>";
+        $link .= "<span class='mdi mdi-comment mdi-18px'></span><span class='float-right mx-2'>{$new}</span>";
         $link .= "</a>";
         print $link;
     }
