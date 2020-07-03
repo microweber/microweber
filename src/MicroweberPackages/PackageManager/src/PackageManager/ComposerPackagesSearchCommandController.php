@@ -56,6 +56,7 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
         //$this->io->getOutput()
 
 
+
         $packages = array();
         $packages = $this->searchPackages(
             $tokens,
@@ -106,7 +107,6 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
 //
 
         $platformRepo = new PlatformRepository;
-
 
         $localRepository = $repositoryManager->getLocalRepository();
         $installedRepository = new CompositeRepository(

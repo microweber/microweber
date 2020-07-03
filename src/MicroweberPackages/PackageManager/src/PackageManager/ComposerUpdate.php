@@ -143,7 +143,6 @@ class ComposerUpdate
         if ('disabled' == $this->updateChannel) {
             return;
         }
-
         $params = parse_params($params);
 
         $version = 'latest';
@@ -180,16 +179,18 @@ class ComposerUpdate
         }
 
         $conf = $temp_folder . '/composer.json';
+
         $this->composer_temp_folder = $temp_folder;
 
 
         $conf_temp = $temp_folder . '/composer.json';
 
         $composer_temp = file_get_contents($conf_temp);
+
+
         $composer_temp = json_decode($composer_temp, true);
 
-
-        chdir($temp_folder);
+         chdir($temp_folder);
         // $io = new BufferIO($input, $output, null);
 
         $io = new InstallerIO('', 32, null);
@@ -201,11 +202,11 @@ class ComposerUpdate
             $config->merge($composer_temp);
         }
 
+        ob_start();
 
         $composer = Factory::create($io,$composer_temp);
 
         $composer->setConfig($config);
-
         $repositoryManager = $composer->getRepositoryManager();
 
         $packages = new ComposerPackagesSearchCommandController();
@@ -215,8 +216,11 @@ class ComposerUpdate
         $packages->setDisableNonActiveReposInComposer(true);
         $packages->setComposer($composer);
 
-
         $return = $packages->handle($keyword);
+
+        ob_end_clean();
+
+
         $return_found = array();
         $return_packages_with_updates = array();
 
@@ -501,9 +505,9 @@ class ComposerUpdate
 
         $version = strip_tags($version);
         $version = trim($version);
-
+ ob_start();
         $return = $this->searchPackages($params);
-
+ob_end_clean();
 
         if (!$return) {
             return array('error' => 'Error. Cannot find any packages for ' . $keyword);
@@ -517,7 +521,6 @@ class ComposerUpdate
 
         $temp_folder = $this->composer_temp_folder;
         $from_folder = normalize_path($temp_folder, true);
-
         $installers = array(
             'MicroweberPackages\PackageManager\Helpers\TemplateInstaller',
             'MicroweberPackages\PackageManager\Helpers\ModuleInstaller'
@@ -605,8 +608,10 @@ class ComposerUpdate
             //$io = new ConsoleIO($input, $output, $helper);
             $io = new InstallerIO('', 32, null);
             // $io = new NullIO('', false, null);
-            $composer = Factory::create($io);
 
+            ob_start();
+            $composer = Factory::create($io);
+            ob_end_clean();
 
 
             //       $input->setOption('no-plugins',true);
