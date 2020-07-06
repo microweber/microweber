@@ -9,7 +9,6 @@
  *
  */
 namespace MicroweberPackages\DatabaseManager;
-
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Cache;
@@ -23,7 +22,7 @@ use Illuminate\Support\Facades\Config;
  * @category Database
  * @desc     Various utils functions to work with the database
  *
- * @property Application $app
+ * @property \Microweber\Application $app
  */
 class Utils
 {
@@ -189,9 +188,45 @@ class Utils
 
     public function get_tables_list($only_cms_tables = false)
     {
+
+        $system_tables = [
+            "sqlite_sequence",
+            "information_schema",
+            "columns_priv",
+            "db",
+            "engine_cost",
+            "event",
+            "func",
+            "general_log",
+            "gtid_executed",
+            "help_category",
+            "help_keyword",
+            "help_relation",
+            "help_topic",
+            "innodb_index_stats",
+            "innodb_table_stats",
+            "ndb_binlog_index",
+            "plugin",
+            "proc",
+            "procs_priv",
+            "proxies_priv",
+            "server_cost",
+            "servers",
+            "slave_master_info",
+            "slave_relay_log_info",
+            "slave_worker_info",
+            "slow_log",
+            "tables_priv",
+            "time_zone",
+            "time_zone_leap_second",
+            "time_zone_name",
+            "time_zone_transition",
+            "time_zone_transition_type",
+            "user"
+         ];
+
         $tables = array();
         $engine = $this->get_sql_engine();
-
 
         if ($engine == 'sqlite') {
             $sql = DB::select("SELECT * FROM sqlite_master WHERE type='table';");
@@ -249,12 +284,16 @@ class Utils
 
             foreach ($tables as $k => $v) {
 
+                if (in_array($k, $system_tables)) {
+                    continue;
+                }
+
                 if ($local_prefix) {
                     //   $starts_with = starts_with($local_prefix, $v);
                     $starts_with = substr($v, 0, strlen($local_prefix)) === $local_prefix;
 
                     if ($starts_with) {
-                        //  $v = str_replace_first($local_prefix, '', $v);
+                           $v1 = str_replace_first($local_prefix, '', $v);
                         $cms_tables[$k] = $v;
                     } else {
                         //  $cms_tables[$k] = $v;
@@ -422,7 +461,7 @@ class Utils
         }
         $key = 'mw_db_get_fields_' . crc32($table);
         $hash = $table;
-        $value = Cache::get($key, 'db', $expiresAt);
+        $value = mw()->cache_manager->get($key, 'db', $expiresAt);
 
 
         if ($use_cache and isset($value[$hash])) {
@@ -471,13 +510,11 @@ class Utils
         }
 
         // Caching
-        if (is_array($value)) {
-            $value[$hash] = $fields;
-            if ($use_cache) {
-                Cache::save($value, $key, $cache_group);
-            }
-        }
 
+        $value[$hash] = $fields;
+        if ($use_cache) {
+            mw()->cache_manager->save($value, $key, $cache_group);
+        }
         return $fields;
     }
 
@@ -502,8 +539,8 @@ class Utils
             }
         }
         $cache_group = $this->assoc_table_name($table);
-        Cache::delete($cache_group);
-        Cache::delete('global/full_page_cache');
+        $this->app->cache_manager->delete($cache_group);
+        $this->app->cache_manager->delete('global/full_page_cache');
 
     }
 
@@ -605,7 +642,7 @@ class Utils
 
         $table_name = $function_cache_id;
         $cache_group = 'db/' . $table_name;
-        $cache_content = Cache::get($function_cache_id, $cache_group);
+        $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
         if (($cache_content) != false) {
             return $cache_content;
         }
@@ -622,7 +659,7 @@ class Utils
             $q = 'ALTER TABLE ' . $aTable . " ADD $index `" . $aIndexName . '` (' . $columns . ');';
             $this->q($q);
         }
-        Cache::save('--true--', $function_cache_id, $cache_group);
+        $this->app->cache_manager->save('--true--', $function_cache_id, $cache_group);
     }
 
     /**

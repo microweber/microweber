@@ -369,7 +369,7 @@ class Template
     public function get_default_system_ui_css_url()
     {
 
-        $url = mw_includes_url() . 'css/ui.css?v=' . MW_VERSION;
+        $url = mw_includes_url() . 'css/ui.css?mwv=' . MW_VERSION;
 
         return $url;
     }

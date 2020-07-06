@@ -138,6 +138,9 @@ class Modules
 
         if (isset($options['reload_modules']) == true) {
             $modules_remove_old = true;
+            if(is_cli()){
+                $this->_install_mode = true;
+            }
         }
 
         if ($modules_remove_old or isset($options['cleanup_db']) == true) {
@@ -175,6 +178,9 @@ class Modules
         }
 
         $dir = rglob($glob_patern, 0, $dir_name);
+
+      //  var_dump($dir);
+
         $dir_name_mods = modules_path();
         $dir_name_mods2 = elements_path();
         $saved_ids = array();
@@ -445,8 +451,12 @@ class Modules
             $params = $options = $params2;
         }
         $params['table'] = $table;
-        $params['group_by'] = 'module';
-        $params['order_by'] = 'position asc';
+        if (!isset($params['group_by'])) {
+            $params['group_by'] = 'module';
+        }
+        if (!isset($params['order_by'])) {
+            $params['order_by'] = 'position asc';
+        }
         $params['cache_group'] = 'modules/global';
 
         if (isset($params['id'])) {
@@ -512,9 +522,15 @@ class Modules
 
     public function locate($module_name, $custom_view = false, $no_fallback_to_view = false)
     {
-        if (!defined('ACTIVE_TEMPLATE_DIR')) {
-            $this->app->content_manager->define_constants();
+
+        $template_dir = templates_path().'default/';
+
+        if (defined('ACTIVE_TEMPLATE_DIR')) {
+            $template_dir = ACTIVE_TEMPLATE_DIR;
+          //  $this->app->content_manager->define_constants();
         }
+
+      //  dd(debug_backtrace(1));
 
         $module_name = trim($module_name);
         // prevent hack of the directory
@@ -522,9 +538,9 @@ class Modules
         $module_name = str_replace('..', '', $module_name);
 
         $module_name = reduce_double_slashes($module_name);
-        $module_in_template_dir = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '';
+        $module_in_template_dir = $template_dir . 'modules/' . $module_name . '';
         $module_in_template_dir = normalize_path($module_in_template_dir, 1);
-        $module_in_template_file = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '.php';
+        $module_in_template_file = $template_dir . 'modules/' . $module_name . '.php';
         $module_in_template_file = normalize_path($module_in_template_file, false);
         $module_in_default_file12 = modules_path() . $module_name . '.php';
 

@@ -12,20 +12,17 @@ namespace MicroweberPackages\DatabaseManager;
 
 class Crud
 {
-    /** @var Application */
+    /** @var \Microweber\Application */
     public $app;
 
     public $table = 'your_table_name_here';
 
     public function __construct($app = null)
     {
-         if (!is_object($this->app)) {
-            if (is_object($app)) {
-                $this->app = $app;
-            }
-        }
-        if (!$this->app) {
-            $this->app = app();   
+        if (is_object($app)) {
+            $this->app = $app;
+        } else {
+            $this->app = mw();
         }
     }
 
@@ -41,12 +38,12 @@ class Crud
         $table = $this->table;
         $params['table'] = $table;
 
-        $enable_trigers = true;
-        if (isset($params['enable_trigers'])) {
-            $enable_trigers = $params['enable_trigers'];
+        $enable_triggers = true;
+        if (isset($params['enable_triggers'])) {
+            $enable_triggers = $params['enable_triggers'];
         }
 
-        if ($enable_trigers) {
+        if ($enable_triggers) {
             $override = $this->app->event_manager->trigger('mw.crud.' . $table . '.get.params', $params);
             if (is_array($override)) {
                 foreach ($override as $resp) {

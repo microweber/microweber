@@ -3,9 +3,14 @@
 namespace MicroweberPackages\CategoryManager\Helpers;
 
 use Knp\Menu\MenuFactory;
+use Microweber\Providers\Categories\Helpers\CategoryTreeData;
+use Microweber\Providers\Categories\Helpers\KnpCustomListRenderer as ListRenderer;
+
 
 class KnpCategoryTreeRenderer
 {
+
+
     /** @var \Microweber\Application */
     public $app;
 
@@ -16,16 +21,17 @@ class KnpCategoryTreeRenderer
     private $menu_factory;
 
     private $active_item_id = false;
+    private $use_cache = false;
 
     public function __construct($app = null)
     {
         if (is_object($app)) {
             $this->app = $app;
         } else {
-            $this->app = app();
+            $this->app = mw();
         }
-
         $this->menu_factory = new MenuFactory();
+
 
         $active_cat = false;
         if (defined('CATEGORY_ID')) {
@@ -52,8 +58,27 @@ class KnpCategoryTreeRenderer
     //   $params['exteded_classes'] = "";
 
 
-    public function render($params, $tree_data = false)
+    public function render($params)
     {
+
+
+        $permalinkStructure = get_option('permalink_structure', 'website');
+        $cache_id = __CLASS__ . __FUNCTION__ . crc32(json_encode($params) . $permalinkStructure.current_lang());
+        $cache_group = 'categories';
+        if ($this->use_cache) {
+            $results = cache_get($cache_id, $cache_group, 600);
+            if ($results) {
+                if (isset($params['return_data']) and $params['return_data']) {
+                    return $results;
+                } else {
+                    print $results;
+                    return;
+                }
+            }
+        }
+
+
+        $tree_data = false;
         $list_tag = 'ul';
         if (isset($params['list_tag'])) {
             $list_tag = $params['list_tag'];
@@ -65,6 +90,11 @@ class KnpCategoryTreeRenderer
         if (isset($params['li_class_name'])) {
             $li_class_name = $params['li_class_name'];
         }
+
+        if (isset($params['tree_data'])) {
+            $tree_data = $params['tree_data'];
+        }
+
 
         if (!isset($li_class_name)) {
             $li_class_name = false;
@@ -155,9 +185,15 @@ class KnpCategoryTreeRenderer
         if (!$tree_data) {
             $data_provider = new CategoryTreeData($this->app);
             $tree_data = $data_provider->get($params);
+
         }
 
         if (!$tree_data) {
+
+            if ($this->use_cache) {
+                cache_save(false, $cache_id, $cache_group);
+            }
+
             return;
         }
 
@@ -189,7 +225,7 @@ class KnpCategoryTreeRenderer
             'extra_attributes' => $extra_attributes
             //   'linkAttributes' => ['target' => '_blank'],
         );
-
+///dd($extra_attributes);
 
         $menu_attrs = array();
 
@@ -218,9 +254,17 @@ class KnpCategoryTreeRenderer
         $main_menu = $this->__process_nodes($main_menu, $tree_data, $options, $params);
 
 
-        $renderer = new KnpCustomListRenderer(new \Knp\Menu\Matcher\Matcher(), $options);
+        $renderer = new ListRenderer(new \Knp\Menu\Matcher\Matcher(), $options);
         $tree = $renderer->render($main_menu);
+
+        if ($tree) {
+            if ($this->use_cache) {
+                cache_save($tree, $cache_id, $cache_group);
+            }
+        }
+
         if (isset($params['return_data']) and $params['return_data']) {
+
             return $tree;
         } else {
             print $tree;
@@ -240,7 +284,7 @@ class KnpCategoryTreeRenderer
         }
 
         array_map(function ($data) use ($menu, $tree_data, $options, $params) {
-            // dd($params);
+
             //  $menu = $this->menu_instance;
 
             $has_children = false;
@@ -259,6 +303,8 @@ class KnpCategoryTreeRenderer
             // $level = $this->level + $nest_level;
             // $options['__process_nodes_level']++;
             if ($has_children) {
+
+
                 $this->level++;
             } else {
                 //  $options['__process_nodes_level'] = 0;
@@ -541,6 +587,12 @@ class KnpCategoryTreeRenderer
         return $menu;
     }
 
+
+    public function setUseCache($should_use_cache)
+    {
+
+        $this->use_cache = $should_use_cache;
+    }
 
 }
 

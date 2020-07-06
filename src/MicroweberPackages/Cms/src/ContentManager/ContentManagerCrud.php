@@ -30,7 +30,7 @@ class ContentManagerCrud extends Crud
         if (is_object($app)) {
             $this->app = $app;
         } else {
-            $this->app = app();
+            $this->app = mw();
         }
         $this->set_table_names();
     }
@@ -196,11 +196,19 @@ class ContentManagerCrud extends Crud
             $extra_data = true;
         }
 
-
+         if (isset($params['filter-only-in-stock'])) {
+            $params['__query_get_only_in_stock'] = function ($query){
+                $query->whereIn('content.id', function ($subQuery)  {
+                    $subQuery->select('content_data.content_id');
+                    $subQuery->from('content_data');
+                    $subQuery->where('content_data.field_name', '=', 'qty');
+                    $subQuery->where('content_data.field_value', '!=','0');
+                });
+              };
+             unset($params['filter-only-in-stock']);
+         }
 
         $get = parent::get($params);
-
-
 
 
         if (isset($params['count']) or isset($params['single']) or isset($params['one']) or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
@@ -223,6 +231,7 @@ class ContentManagerCrud extends Crud
                 }
                 if ($extra_data) {
                     $item['picture'] = get_picture($item['id']);
+                    $item['content_data'] = content_data($item['id']);
                 }
 
                 $data2[] = $item;
@@ -303,16 +312,27 @@ class ContentManagerCrud extends Crud
                  }
              }*/
 
-            $get = $this->app->event_manager->trigger('content.get_by_url', $url);
-            if (is_array($get) && isset($get[0])) {
+            $contentSlug = $url;
+            $pageSlug = $this->app->permalink_manager->slug($url, 'page');
+            $postSlug = $this->app->permalink_manager->slug($url, 'post');
+            if ($pageSlug) {
+                $contentSlug = $pageSlug;
+            }
+            if ($postSlug) {
+                $contentSlug = $postSlug;
+            }
+            
+            $get = $this->app->event_manager->trigger('app.content.get_by_url', $contentSlug);
+            if (is_array($get) && isset($get[0]) && !empty($get[0])) {
                 $content = $get[0];
             } else {
                 $get = array();
-                $get['url'] = $url;
+                $get['url'] = $contentSlug;
                 $get['single'] = true;
                 $content = $this->get($get);
             }
         }
+
         if (!empty($content)) {
             self::$precached_links[$link_hash] = $content;
             return $content;
@@ -361,21 +381,12 @@ class ContentManagerCrud extends Crud
         }
 
         $mw_global_content_memory = array();
-
-        $adm = false;
-        if (isset($this->app->user_manager)) {
-            $adm = $this->app->user_manager->is_admin();
-        }
-
+        $adm = $this->app->user_manager->is_admin();
         $table = $this->tables['content'];
 
         $table_data = $this->tables['content_data'];
 
-        $checks = false;
-        if (function_exists('mw_var')) {
-            $checks = mw_var('FORCE_SAVE_CONTENT');
-        }
-
+        $checks = mw_var('FORCE_SAVE_CONTENT');
         $orig_data = $data;
         $stop = false;
 
@@ -491,6 +502,7 @@ class ContentManagerCrud extends Crud
         }
         $url_changed = false;
 
+
         if (isset($data['url']) != false and is_string($data['url'])) {
             $search_weird_chars = array('%E2%80%99',
                 '%E2%80%99',
@@ -588,6 +600,15 @@ class ContentManagerCrud extends Crud
                     $data_to_save['url'] = $data['url'];
                 }
             }
+
+            if (isset($data_to_save['url']) and strval($data_to_save['url']) != '') {
+                $check_cat_wth_slug = $this->app->category_manager->get_by_url($data_to_save['url']);
+                if($check_cat_wth_slug){
+                    $data_to_save['url'] = $data_to_save['url'] . '-' . $date123;
+                }
+            }
+
+
 
             if (isset($data_to_save['url']) and strval($data_to_save['url']) == '' and (isset($data_to_save['quick_save']) == false)) {
                 $data_to_save['url'] = $data_to_save['url'] . '-' . $date123;
@@ -835,7 +856,7 @@ class ContentManagerCrud extends Crud
             unset($data_to_save['custom_field_is_active']);
         }
         if (isset($data_to_save['custom_field_width_size'])) {
-            unset($data_to_save['custom_field_width_size']);
+        	unset($data_to_save['custom_field_width_size']);
         }
         if (isset($data_to_save['name'])) {
             unset($data_to_save['name']);
@@ -919,12 +940,12 @@ class ContentManagerCrud extends Crud
         $after_save = $data_to_save;
         $after_save['id'] = $id;
         $this->app->event_manager->trigger('content.after.save', $after_save);
-        Cache::delete('content/' . $save);
+        $this->app->cache_manager->delete('content/' . $save);
 
-        Cache::delete('content_fields/global');
+        $this->app->cache_manager->delete('content_fields/global');
         if ($url_changed != false) {
-            Cache::delete('menus');
-            Cache::delete('categories');
+            $this->app->cache_manager->delete('menus');
+            $this->app->cache_manager->delete('categories');
         }
 
         if (!isset($data_to_save['images']) and isset($data_to_save['pictures'])) {
@@ -967,11 +988,7 @@ class ContentManagerCrud extends Crud
         $custom_field_table = $this->tables['custom_fields'];
         $custom_field_table = $this->app->database_manager->real_table_name($custom_field_table);
 
-        $sid = false;
-        if (isset($this->app->user_manager)) {
-            $sid = $this->app->user_manager->session_id();
-        }
-
+        $sid = $this->app->user_manager->session_id();
         $media_table = $this->tables['media'];
         $media_table = $this->app->database_manager->real_table_name($media_table);
 
@@ -995,28 +1012,28 @@ class ContentManagerCrud extends Crud
 
         }
 
-        Cache::delete('custom_fields');
-        Cache::delete('custom_fields_values');
-        Cache::delete('media/global');
+        $this->app->cache_manager->delete('custom_fields');
+        $this->app->cache_manager->delete('custom_fields_values');
+        $this->app->cache_manager->delete('media/global');
 
         if (isset($data_to_save['parent']) and intval($data_to_save['parent']) != 0) {
-            Cache::delete('content' . DIRECTORY_SEPARATOR . intval($data_to_save['parent']));
+            $this->app->cache_manager->delete('content' . DIRECTORY_SEPARATOR . intval($data_to_save['parent']));
         }
         if (isset($data_to_save['id']) and intval($data_to_save['id']) != 0) {
-            Cache::delete('content' . DIRECTORY_SEPARATOR . intval($data_to_save['id']));
+            $this->app->cache_manager->delete('content' . DIRECTORY_SEPARATOR . intval($data_to_save['id']));
         }
-        Cache::delete('content' . DIRECTORY_SEPARATOR . 'global');
-        Cache::delete('content' . DIRECTORY_SEPARATOR . '0');
-        Cache::delete('content_fields/global');
-        Cache::delete('content');
-        Cache::delete('categories/global');
-        Cache::delete('categories_items/global');
+        $this->app->cache_manager->delete('content' . DIRECTORY_SEPARATOR . 'global');
+        $this->app->cache_manager->delete('content' . DIRECTORY_SEPARATOR . '0');
+        $this->app->cache_manager->delete('content_fields/global');
+        $this->app->cache_manager->delete('content');
+        $this->app->cache_manager->delete('categories/global');
+        $this->app->cache_manager->delete('categories_items/global');
         if ($cats_modified != false) {
             if (isset($c1) and is_array($c1)) {
                 foreach ($c1 as $item) {
                     $item = intval($item);
                     if ($item > 0) {
-                        Cache::delete('categories/' . $item);
+                        $this->app->cache_manager->delete('categories/' . $item);
                     }
                 }
             }
@@ -1050,7 +1067,7 @@ class ContentManagerCrud extends Crud
         $i = 1;
         foreach ($ids as $id) {
             $id = intval($id);
-            Cache::delete('content/' . $id);
+            $this->app->cache_manager->delete('content/' . $id);
 
             $pox = $maxpos - $i;
 
@@ -1058,8 +1075,8 @@ class ContentManagerCrud extends Crud
             ++$i;
         }
 
-        Cache::delete('content/global');
-        Cache::delete('categories/global');
+        $this->app->cache_manager->delete('content/global');
+        $this->app->cache_manager->delete('categories/global');
 
         return true;
     }
@@ -1218,7 +1235,7 @@ class ContentManagerCrud extends Crud
         return $params;
     }
 
-    public function get_edit_field($data, $debug = false)
+    public function get_edit_field($data)
     {
         $table = $this->tables['content_fields'];
         $table_drafts = $this->tables['content_fields_drafts'];
