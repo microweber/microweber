@@ -62,7 +62,7 @@ class Parser
             $this->app = $app;
         }
 
-        require_once 'src/MicroweberPackages/Utils/src/Utils/ThirdPartyLibs/phpQuery.php';
+        require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
 
     }
 

@@ -3,10 +3,10 @@
 namespace MicroweberPackages\App\Http\Controllers;
 
 use function GuzzleHttp\Psr7\parse_query;
-use Microweber\View;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
+use MicroweberPackages\TemplateManager\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Cache;
@@ -978,7 +978,7 @@ class DefaultController extends Controller
             $possible_layout = normalize_path($possible_layout, false);
 
             if (is_file($possible_layout)) {
-                $l = new \Microweber\View($possible_layout);
+                $l = new View($possible_layout);
                 $layout = $l->__toString();
                 $layout = $this->app->parser->process($layout, $options = false);
                 return response($layout);
@@ -991,7 +991,7 @@ class DefaultController extends Controller
             $possible_layout = templates_path() . $t;
             $possible_layout = normalize_path($possible_layout, false);
             if (is_file($possible_layout)) {
-                $l = new \Microweber\View($possible_layout);
+                $l = new View($possible_layout);
                 $layout = $l->__toString();
                 $layout = $this->app->parser->process($layout, $options = false);
                 return response($layout);
@@ -1074,7 +1074,7 @@ class DefaultController extends Controller
         if ($embed != false) {
             $p_index = mw_includes_path() . 'api/index.php';
             $p_index = normalize_path($p_index, false);
-            $l = new \Microweber\View($p_index);
+            $l = new View($p_index);
             $layout = $l->__toString();
             $res = str_replace('{content}', $res, $layout);
         }
@@ -1084,7 +1084,7 @@ class DefaultController extends Controller
         if (isset($request_data['live_edit']) and $aj == false) {
             $p_index = mw_includes_path() . DS . 'toolbar' . DS . 'editor_tools' . DS . 'module_settings' . DS . 'index.php';
             $p_index = normalize_path($p_index, false);
-            $l = new \Microweber\View($p_index);
+            $l = new View($p_index);
             $l->params = $data;
             $layout = $l->__toString();
             $res = str_replace('{content}', $res, $layout);
@@ -1407,7 +1407,7 @@ class DefaultController extends Controller
             $maintenance_template = TEMPLATES_DIR . ACTIVE_SITE_TEMPLATE . DS . '503.php';
             $content_503 = 'Error 503 The website is under maintenance.';
             if (is_file($maintenance_template)) {
-                $content_503 = new \Microweber\View($maintenance_template);
+                $content_503 = new View($maintenance_template);
                 $content_503 = $content_503->__toString();
             }
             $response = \Response::make($content_503);
@@ -1944,7 +1944,7 @@ class DefaultController extends Controller
                     $tb = mw_includes_path() . DS . 'toolbar' . DS . 'editor_tools' . DS . 'wysiwyg' . DS . 'index.php';
 
                     //$layout_toolbar = file_get_contents($filename);
-                    $layout_toolbar = new \Microweber\View($tb);
+                    $layout_toolbar = new View($tb);
                     $layout_toolbar = $layout_toolbar->__toString();
                     if ($layout_toolbar != '') {
                         if (strstr($layout_toolbar, '{head}')) {
@@ -2154,7 +2154,7 @@ class DefaultController extends Controller
                 if ($is_admin == true) {
                     $tb = mw_includes_path() . DS . 'toolbar' . DS . 'toolbar.php';
 
-                    $layout_toolbar = new \Microweber\View($tb);
+                    $layout_toolbar = new View($tb);
                     $is_editmode_basic = false;
                     $user_data = $this->app->user_manager->get();
                     if (isset($user_data['basic_mode']) and trim($user_data['basic_mode'] == 'y')) {
@@ -2178,7 +2178,7 @@ class DefaultController extends Controller
                     $custom_live_edit = TEMPLATES_DIR . DS . TEMPLATE_NAME . DS . 'live_edit.php';
                     $custom_live_edit = normalize_path($custom_live_edit, false);
                     if (is_file($custom_live_edit)) {
-                        $layout_live_edit = new \Microweber\View($custom_live_edit);
+                        $layout_live_edit = new View($custom_live_edit);
                         $layout_live_edit = $layout_live_edit->__toString();
                         if ($layout_live_edit != '') {
                             $l = str_ireplace('</body>', $layout_live_edit . '</body>', $l, $c);
@@ -2191,7 +2191,7 @@ class DefaultController extends Controller
                     if ($back_to_editmode == true) {
                         $tb = mw_includes_path() . DS . 'toolbar' . DS . 'toolbar_back.php';
 
-                        $layout_toolbar = new \Microweber\View($tb);
+                        $layout_toolbar = new View($tb);
 
                         $layout_toolbar = $layout_toolbar->__toString();
 
@@ -2549,7 +2549,7 @@ class DefaultController extends Controller
 
         $p = normalize_path($p, false);
 
-        $l = new \Microweber\View($p_index);
+        $l = new View($p_index);
         $l->params = $params;
         $layout = $l->__toString();
         $apijs_loaded = false;
@@ -2614,14 +2614,14 @@ class DefaultController extends Controller
 
         if (isset($_REQUEST['plain'])) {
             if (is_file($p)) {
-                $p = new \Microweber\View($p);
+                $p = new View($p);
                 $p->params = $params;
                 $layout = $p->__toString();
                 return response($layout);
 
             }
         } elseif (is_file($p)) {
-            $p = new \Microweber\View($p);
+            $p = new View($p);
             $p->params = $params;
             $layout_tool = $p->__toString();
             $layout = str_replace('{content}', $layout_tool, $layout);
@@ -2637,7 +2637,7 @@ class DefaultController extends Controller
         if (!$standalone_edit) {
             if (isset($page['render_file'])) {
                 event_trigger('mw.front', $page);
-                $l = new \Microweber\View($page['render_file']);
+                $l = new View($page['render_file']);
                 $l->page_id = PAGE_ID;
                 $l->content_id = CONTENT_ID;
                 $l->post_id = POST_ID;
@@ -2761,7 +2761,7 @@ class DefaultController extends Controller
     public function show_404()
     {
         header('HTTP/1.0 404 Not Found');
-        $v = new \Microweber\View(MW_ADMIN_VIEWS_DIR . '404.php');
+        $v = new View(MW_ADMIN_VIEWS_DIR . '404.php');
         echo $v;
     }
 

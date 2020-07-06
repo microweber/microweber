@@ -264,6 +264,7 @@ class AppServiceProvider extends ServiceProvider {
             'notifications_manager' => 'NotificationsManager',
             'log_manager' => 'LogManager',
             'modules' => 'Modules',
+            'permalink_manager' => 'PermalinkManager',
             'layouts_manager' => 'LayoutsManager'
         ];
 

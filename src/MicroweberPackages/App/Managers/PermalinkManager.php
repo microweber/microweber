@@ -1,8 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Providers;
-
-
+namespace MicroweberPackages\App\Managers;
 
 class PermalinkManager
 {
