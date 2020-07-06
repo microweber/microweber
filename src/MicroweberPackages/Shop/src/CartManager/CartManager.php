@@ -16,7 +16,7 @@ class CartManager extends Crud
         if (is_object($app)) {
             $this->app = $app;
         } else {
-            $this->app = app();
+            $this->app = mw();
         }
     }
 
@@ -33,7 +33,7 @@ class CartManager extends Crud
         $get_params = array();
         $get_params['order_completed'] = 0;
         $get_params['session_id'] = $sid;
-        $get_params['no_cache'] = true;
+        //$get_params['no_cache'] = true;
         $sumq = $this->app->database_manager->get($this->table, $get_params);
 
         if (is_array($sumq)) {
@@ -247,13 +247,13 @@ class CartManager extends Crud
     public function get($params = false)
     {
         $time = time();
-        $clear_carts_cache = $this->app->cache_manager->get('clear_cache', 'cart/global');
-
-        if ($clear_carts_cache == false or ($clear_carts_cache < ($time - 600))) {
-            // clears cache for old carts
-            $this->app->cache_manager->delete('cart/global');
-            $this->app->cache_manager->save($time, 'clear_cache', 'cart/global');
-        }
+//        $clear_carts_cache = $this->app->cache_manager->get('clear_cache', 'cart/global');
+//
+//        if ($clear_carts_cache == false or ($clear_carts_cache < ($time - 600))) {
+//            // clears cache for old carts
+//            $this->app->cache_manager->delete('cart/global');
+//            $this->app->cache_manager->save($time, 'clear_cache', 'cart/global');
+//        }
 
         $params2 = array();
 
@@ -272,11 +272,11 @@ class CartManager extends Crud
         if ($skip_sid == false) {
             if (!defined('MW_ORDERS_SKIP_SID')) {
                 if ($this->app->user_manager->is_admin() == false) {
-                    $params['session_id'] = app()->user_manager->session_id();
+                    $params['session_id'] = mw()->user_manager->session_id();
                 } else {
                     if (isset($params['session_id']) and $this->app->user_manager->is_admin() == true) {
                     } else {
-                        $params['session_id'] = app()->user_manager->session_id();
+                        $params['session_id'] = mw()->user_manager->session_id();
                     }
                 }
                 if (isset($params['no_session_id']) and $this->app->user_manager->is_admin() == true) {
@@ -301,7 +301,7 @@ class CartManager extends Crud
         } elseif (isset($params['order_completed']) and $params['order_completed'] === 'any') {
             unset($params['order_completed']);
         }
-        $params['no_cache'] = 1;
+       // $params['no_cache'] = 1;
 
         $get = $this->app->database_manager->get($params);
         if (isset($params['count']) and $params['count'] != false) {
@@ -381,7 +381,7 @@ class CartManager extends Crud
         $cart = array();
         $cart['id'] = intval($data['id']);
         if ($this->app->user_manager->is_admin() == false) {
-            $cart['session_id'] = app()->user_manager->session_id();
+            $cart['session_id'] = mw()->user_manager->session_id();
         }
         $cart['order_completed'] = 0;
         $cart['one'] = 1;
@@ -422,7 +422,7 @@ class CartManager extends Crud
         $cart['id'] = intval($data['id']);
 
 
-        $cart['session_id'] = app()->user_manager->session_id();
+        $cart['session_id'] = mw()->user_manager->session_id();
 
         $cart['order_completed'] = 0;
         $cart['one'] = 1;
@@ -477,10 +477,10 @@ class CartManager extends Crud
 
     public function empty_cart()
     {
-        $sid = app()->user_manager->session_id();
+        $sid = mw()->user_manager->session_id();
         $cart_table = $this->table;
 
-        Cart::where('order_completed', 0)->where('session_id', $sid)->delete();
+        \Cart::where('order_completed', 0)->where('session_id', $sid)->delete();
         $this->no_cache = true;
         $this->app->cache_manager->delete('cart');
         $this->app->cache_manager->delete('cart_orders/global');
@@ -498,11 +498,11 @@ class CartManager extends Crud
         }
         if (isset($params['session_id'])) {
             $id = $params['session_id'];
-            Cart::where('session_id', $id)->delete();
+            \Cart::where('session_id', $id)->delete();
         }
         if (isset($params['order_id'])) {
             $id = $params['order_id'];
-            Cart::where('order_id', $id)->delete();
+            \Cart::where('order_id', $id)->delete();
         }
         $this->app->cache_manager->delete('cart');
         $this->app->cache_manager->delete('cart_orders');
@@ -602,7 +602,7 @@ class CartManager extends Crud
 
         $product_prices = array();
         if ($for == 'content') {
-            $prices_data = app()->shop_manager->get_product_prices($for_id, true);
+            $prices_data = mw()->shop_manager->get_product_prices($for_id, true);
             if ($prices_data) {
                 foreach ($prices_data as $price_data) {
                     if (isset($price_data['name'])) {
@@ -708,12 +708,12 @@ class CartManager extends Crud
         if (is_array($prices)) {
             ksort($add);
             asort($add);
-            $add = app()->format->clean_xss($add);
+            $add = mw()->format->clean_xss($add);
             $table = $this->table;
             $cart = array();
             $cart['rel_type'] = ($data['for']);
             $cart['rel_id'] = intval($data['for_id']);
-            $cart['title'] = app()->format->clean_html($data['title']);
+            $cart['title'] = mw()->format->clean_html($data['title']);
             $cart['price'] = floatval($found_price);
 
             $cart_return = $cart;
@@ -722,7 +722,7 @@ class CartManager extends Crud
             $cart['custom_fields_json'] = json_encode($add);
             $cart['order_completed'] = 0;
             $cart['allow_html'] = 1;
-            $cart['session_id'] = app()->user_manager->session_id();
+            $cart['session_id'] = mw()->user_manager->session_id();
 
             $cart['limit'] = 1;
             $check_cart = $this->get($cart);
@@ -800,7 +800,7 @@ class CartManager extends Crud
         if ($sid == false) {
             return;
         }
-        $cur_sid = app()->user_manager->session_id();
+        $cur_sid = mw()->user_manager->session_id();
         if ($cur_sid == false) {
             return;
         } else {

@@ -16,7 +16,7 @@ class OrderManager
         if (is_object($app)) {
             $this->app = $app;
         } else {
-            $this->app = app();
+            $this->app = mw();
         }
     }
 
@@ -32,7 +32,7 @@ class OrderManager
         }
         if (defined('MW_API_CALL') and $this->app->user_manager->is_admin() == false) {
             if (!isset($params['payment_verify_token'])) {
-                $params['session_id'] = app()->user_manager->session_id();
+                $params['session_id'] = mw()->user_manager->session_id();
             }
         }
         if (isset($params['keyword'])) {
@@ -100,7 +100,7 @@ class OrderManager
 
     public function place_order($place_order)
     {
-        $sid = app()->user_manager->session_id();
+        $sid = mw()->user_manager->session_id();
         if ($sid == false) {
             return $sid;
         }
@@ -125,6 +125,8 @@ class OrderManager
 
             DB::table($this->app->cart_manager->table_name())->whereOrderCompleted(0)->whereSessionId($sid)->update(['order_id' => $ord]);
 
+            $this->app->event_manager->trigger('mw.cart.checkout.recarted_order', $ord);
+
             if (isset($place_order['order_completed']) and $place_order['order_completed'] == 1) {
                 DB::table($this->app->cart_manager->table_name())->whereOrderCompleted(0)->whereSessionId($sid)->update(['order_id' => $ord, 'order_completed' => 1]);
 
@@ -146,7 +148,7 @@ class OrderManager
             }
         });
 
-        app()->user_manager->session_set('order_id', $ord);
+        mw()->user_manager->session_set('order_id', $ord);
 
         return $ord;
     }
@@ -203,8 +205,8 @@ class OrderManager
         );
         $export = array();
         foreach ($data as $item) {
-            $cart_items = app()->shop_manager->order_items($item['id']);
-            $cart_items_str = app()->format->array_to_ul($cart_items, 'div', 'span');
+            $cart_items = mw()->shop_manager->order_items($item['id']);
+            $cart_items_str = mw()->format->array_to_ul($cart_items, 'div', 'span');
             $cart_items_str = (strip_tags($cart_items_str, '<span>'));
             $cart_items_str = str_replace('</span>', "\r\n", $cart_items_str);
             $cart_items_str = (strip_tags($cart_items_str));
@@ -226,8 +228,8 @@ class OrderManager
 
 
         $filename = 'orders' . '_' . date('Y-m-d_H-i', time()) . uniqid() . '.csv';
-        $filename_path = userfiles_path() . 'export' . DS . 'orders' . DS;
-        $filename_path_index = userfiles_path() . 'export' . DS . 'orders' . DS . 'index.php';
+        $filename_path = storage_path() . DS . 'export' . DS . 'orders' . DS;
+        $filename_path_index = storage_path() . DS . 'export' . DS . 'orders' . DS . 'index.php';
         if (!is_dir($filename_path)) {
             mkdir_recursive($filename_path);
         }
@@ -247,9 +249,7 @@ class OrderManager
 
         $csv->insertAll($export);
 
-        $download = $this->app->url_manager->link_to_file($filename_path_full);
-
-        return array('success' => 'Your file has been exported!', 'download' => $download);
+        return response()->download($filename_path_full);
     }
 
     public function export_orders1()
@@ -271,7 +271,7 @@ class OrderManager
                 $csv_output .= $this->app->format->no_dashes($v) . ',';
                 //  $csv_output .= "\t";
             }
-            $cart_items = app()->shop_manager->order_items($item['id']);
+            $cart_items = mw()->shop_manager->order_items($item['id']);
             if (!empty($cart_items)) {
             }
 
@@ -296,6 +296,5 @@ class OrderManager
 
         return array('success' => 'Your file has been exported!', 'download' => $download);
 
-        dd('export_orders');
-    }
+     }
 }
