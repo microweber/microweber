@@ -183,7 +183,7 @@ class KnpCategoryTreeRenderer
 //            //  $link = "<a href='{categories_url}' data-category-id='{id}'  {active_code} class='{active_class} {nest_level}'>{title}</a>";
 //        }
         if (!$tree_data) {
-            $data_provider = new CategoryTreeData($this->app);
+            $data_provider = new \MicroweberPackages\CategoryManager\Helpers\CategoryTreeData($this->app);
             $tree_data = $data_provider->get($params);
 
         }

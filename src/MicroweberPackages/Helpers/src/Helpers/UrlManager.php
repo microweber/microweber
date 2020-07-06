@@ -11,9 +11,6 @@ if (!defined('MW_ROOTPATH')) {
 
 use MicroweberPackages\Helpers\URLify;
 
-
-use \Microweber\Utils\URLify;
-
 class UrlManager
 {
     public $site_url_var;

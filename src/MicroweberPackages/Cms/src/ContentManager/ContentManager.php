@@ -1,8 +1,6 @@
 <?php
 namespace MicroweberPackages\ContentManager;
 
-use Microweber\Providers\Content\ContentManagerCrud;
-use Microweber\Providers\Content\ContentManagerHelpers;
 use Content;
 use Menu;
 use DB;

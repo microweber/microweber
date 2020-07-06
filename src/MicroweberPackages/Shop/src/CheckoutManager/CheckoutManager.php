@@ -1,11 +1,10 @@
 <?php
 
-namespace MicroweberPackages\CheckoutManager;
+namespace MicroweberPackages\Providers\Shop;
 
+use Microweber\App\Providers\Illuminate\Support\Facades\Config;
+use Microweber\App\Providers\Illuminate\Support\Facades\Crypt;
 use MicroweberPackages\Utils\Mail\MailSender;
-use Twig\Environment;
-use Twig\Extension\StringLoaderExtension;
-use Twig\Loader\ArrayLoader;
 
 class CheckoutManager
 {
@@ -71,11 +70,8 @@ class CheckoutManager
                 $exec_return = true;
             } elseif (isset($_REQUEST['mw_payment_failure'])) {
                 if (isset($_REQUEST['recart']) and $_REQUEST['recart'] != false and isset($_REQUEST['order_id'])) {
-                    mw()->cart_manager->recover_cart($_REQUEST['recart'], $_REQUEST['order_id']);
-                }
 
-                if (isset($sess_order_id)) {
-                    $this->app->event_manager->trigger('mw.cart.checkout.order_failure', $sess_order_id);
+                    mw()->cart_manager->recover_cart($_REQUEST['recart'], $_REQUEST['order_id']);
                 }
 
                 $mw_process_payment_failed = true;
@@ -386,15 +382,10 @@ class CheckoutManager
             $currencies_list_paypal = mw()->shop_manager->currency_get_for_paypal();
             $currencyCode = strtoupper($place_order['currency']);
             $amount = $place_order['amount'];
-            $amount = floatval($amount);
-            $amount =  round($amount,2);
+
             if (!isset($place_order['payment_amount'])) {
                 $place_order['payment_amount'] = $amount;
             }
-
-            $amount = floatval($amount);
-            $amount =  round($amount,2);
-
             $place_order['payment_shipping'] = $place_order['shipping'];
 
 
@@ -417,19 +408,13 @@ class CheckoutManager
                     if ($payment_currency_rate != 0.00) {
 
                         $amount = $amount * $payment_currency_rate;
-                        $amount = floatval($amount);
-                        $amount =  round($amount,2);
-
                         $place_order['payment_amount'] = $amount;
 
                     }
 
 
                     if ($place_order['payment_shipping']) {
-                        $amount_shipping  = $place_order['payment_shipping'] * $payment_currency_rate;
-                        $amount_shipping = floatval($amount_shipping);
-                        $amount_shipping =  round($amount_shipping,2);
-                        $place_order['payment_shipping'] = $amount_shipping;
+                        $place_order['payment_shipping'] = $place_order['payment_shipping'] * $payment_currency_rate;
 
                     }
 
@@ -478,9 +463,6 @@ class CheckoutManager
                     $vkey_data_temp = $vkey_data;
                     $vkey_data_temp['url'] = $mw_ipn_url;
                     $mw_ipn_url .= '&_vkey_url=' . urlencode($encrypter->encrypt(json_encode($vkey_data_temp)));
-
-
-                    //var_dump($mw_ipn_url);
 
 
                     if (is_file($gw_process)) {
@@ -712,40 +694,40 @@ class CheckoutManager
                         $cart_items = $this->app->shop_manager->get_cart('order_id=' . $ord_data['id'] . '&no_session_id=' . $this->app->user_manager->session_id());
 
                         $cart_items_info = array();
-                        if ($cart_items) {
-                            foreach ($cart_items as $cart_item) {
-                                $arr = array();
-                                if (isset($cart_item['item_image']) and $cart_item['item_image']) {
 
-                                    $arr['item_image'] = $cart_item['item_image'];
-                                    $arr['item_image'] = '<img src="' . $arr['item_image'] . '" width="100" />';
-                                }
-                                if (isset($cart_item['link'])) {
-                                    $arr['link'] = $cart_item['link'];
-                                }
-                                if (isset($cart_item['title'])) {
-                                    $arr['title'] = $cart_item['title'];
-                                }
-                                if (isset($cart_item['custom_fields'])) {
-                                    $arr['custom_fields'] = $cart_item['custom_fields'];
-                                }
-                                $cart_items_info[] = $arr;
+                        foreach ($cart_items as $cart_item) {
+                            $arr = array();
+                            if (isset($cart_item['item_image']) and $cart_item['item_image']) {
+
+                                $arr['item_image'] = $cart_item['item_image'];
+                                $arr['item_image'] = '<img src="' . $arr['item_image'] . '" width="100" />';
                             }
+                            if (isset($cart_item['link'])) {
+                                $arr['link'] = $cart_item['link'];
+                            }
+                            if (isset($cart_item['title'])) {
+                                $arr['title'] = $cart_item['title'];
+                            }
+                            if (isset($cart_item['custom_fields'])) {
+                                $arr['custom_fields'] = $cart_item['custom_fields'];
+                            }
+                            $cart_items_info[] = $arr;
+                        }
 
-                            $order_items_html = $this->app->format->array_to_table($cart_items_info);
-                            $order_email_content = str_replace('{{cart_items}}', $order_items_html, $order_email_content);
-                            $order_email_content = str_replace('{{date}}', date('F jS, Y', strtotime($ord_data['created_at'])), $order_email_content);
-                            foreach ($ord_data as $key => $value) {
-                                if (!is_array($value) and is_string($key)) {
-                                    if (strtolower($key) == 'amount') {
-                                        $value = number_format($value, 2);
-                                        $order_email_content = str_ireplace('{{' . $key . '}}', $value, $order_email_content);
-                                        continue;
-                                    }
+                        $order_items_html = $this->app->format->array_to_table($cart_items_info);
+                        $order_email_content = str_replace('{{cart_items}}', $order_items_html, $order_email_content);
+                        $order_email_content = str_replace('{{date}}', date('F jS, Y', strtotime($ord_data['created_at'])), $order_email_content);
+                        foreach ($ord_data as $key => $value) {
+                            if (!is_array($value) and is_string($key)) {
+                                if (strtolower($key) == 'amount') {
+                                    $value = number_format($value, 2);
+                                    $order_email_content = str_ireplace('{{' . $key . '}}', $value, $order_email_content);
+                                    continue;
                                 }
                             }
                         }
                     }
+
                     if (get_option('bank_transfer_send_email_instructions', 'payments') == 'y') {
                         $order_email_content .= _e("Follow payment instructions", true);
                         $order_email_content .= '<br />' . get_option('bank_transfer_instructions', 'payments');
@@ -773,7 +755,7 @@ class CheckoutManager
                         )
                     );
 
-                    $sender = new \Microweber\Utils\MailSender();
+                    $sender = new MailSender();
 
                     // Send only to client
                     if ($send_to_client && !$send_to_admins && filter_var($to, FILTER_VALIDATE_EMAIL)) {
@@ -809,9 +791,6 @@ class CheckoutManager
 
     public function checkout_ipn($data)
     {
-
-
-
         if (isset($data['payment_verify_token'])) {
             $payment_verify_token = ($data['payment_verify_token']);
         }
@@ -829,11 +808,11 @@ class CheckoutManager
 
         $query = array();
         $query['payment_verify_token'] = $payment_verify_token;
-//        if (isset($data['order_id'])) {
-//            $query['id'] = intval($data['order_id']);
-//        } else {
-//            $query['transaction_id'] = '[null]';
-//        }
+        if (isset($data['order_id'])) {
+            $query['id'] = intval($data['order_id']);
+        } else {
+            $query['transaction_id'] = '[null]';
+        }
         $query['limit'] = 1;
         $query['table'] = $table;
         $query['no_cache'] = true;
@@ -845,10 +824,6 @@ class CheckoutManager
             $ord_data = $ord_data[0];
             $ord = $ord_data['id'];
         }
-
-
-
-
 
         $cart_table = $this->tables['cart'];
         $table_orders = $this->tables['cart_orders'];
@@ -862,13 +837,10 @@ class CheckoutManager
             $gw_process = normalize_path(modules_path() . $data['payment_gw'] . DS . 'notify.php', false);
         }
 
-
         $update_order = array();
         if (is_file($gw_process)) {
             include $gw_process;
-
             $this->_verify_request_params($update_order);
-
 
         } else {
             return array('error' => 'The payment gateway is not found!');
@@ -886,7 +858,6 @@ class CheckoutManager
             $update_order_event_data['payment_gw'] = $data['payment_gw'];
             $ord = $this->app->database_manager->save($table_orders, $update_order_event_data);
 
-  
 
             if (isset($update_order_event_data['is_paid']) and $update_order_event_data['is_paid']) {
                 $this->app->event_manager->trigger('mw.cart.checkout.order_paid', $update_order_event_data);
@@ -986,7 +957,6 @@ class CheckoutManager
     private function _verify_request_params($data)
     {
 
-
         $error = false;
 
         if (!isset($data['payment_verify_token'])) {
@@ -1046,22 +1016,12 @@ class CheckoutManager
 
                 $url_verify = urldecode($url_verify);
                 $decrypt_url = urldecode($decrypt_url);
-                $amount1  = $data['payment_amount'];
-                $amount2  = $decrypt_payment_amount;
-
-
-                $amount1 = floatval($amount1);
-                $amount1 =  round($amount1,2);
-
-                $amount2 = floatval($amount2);
-                $amount2 =  round($amount2,2);
-
 
                 if (md5($url_verify) !== md5($decrypt_url)) {
                     $error = true;
                 }
 
-                if (md5($amount1) !== md5($amount2)) {
+                if (md5(floatval($decrypt_payment_amount)) !== md5(floatval($data['payment_amount']))) {
                     $error = true;
                 }
                 if (md5(strtoupper($decrypt_payment_currency)) !== md5(strtoupper($data['payment_currency']))) {
