@@ -4,6 +4,7 @@ namespace MicroweberPackages\MediaManager;
 use \Intervention\Image\ImageManagerStatic as Image;
 use MicroweberPackages\Utils\Media\Thumbnailer;
 
+
 class MediaManager
 {
     public $app;
@@ -18,7 +19,7 @@ class MediaManager
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = app();
+                $this->app = mw();
             }
         }
 
@@ -28,27 +29,41 @@ class MediaManager
     public function get_picture($content_id, $for = 'content', $full = false)
     {
 
+
         if ($for == 'post' or $for == 'posts' or $for == 'page' or $for == 'pages') {
             $for = 'content';
         } elseif ($for == 'category' or $for == 'categories') {
             $for = 'categories';
         }
 
+        $images = false;
+
+        $event_data = array();
+        $event_data['rel_id'] = $content_id;
+        $event_data['rel_type'] = $for;
+        $event_data['full'] = $full;
+        $override = $this->app->event_manager->trigger('mw.media_manager.get_picture', $event_data);
+        if ($override and is_array($override) && isset($override[0])) {
+            $images = $override[0];
+        }
+
         $arr['rel_type'] = $for;
         $arr['limit'] = '1';
         $arr['rel_id'] = $content_id;
 
-        $imgages = $this->get($arr);
+        if (!$images) {
+            $images = $this->get($arr);
+        }
 
-        if ($imgages != false and isset($imgages[0])) {
-            if (isset($imgages[0]['filename']) and $full == false) {
+        if ($images != false and isset($images[0])) {
+            if (isset($images[0]['filename']) and $full == false) {
                 $surl = $this->app->url_manager->site();
 
-                $img = $this->app->format->replace_once('{SITE_URL}', $surl, $imgages[0]['filename']);
+                $img = $this->app->format->replace_once('{SITE_URL}', $surl, $images[0]['filename']);
 
                 return $img;
             } else {
-                return $imgages[0];
+                return $images[0];
             }
         } else {
             if ($for == 'content') {
@@ -640,6 +655,283 @@ class MediaManager
         return $this->app->tags_manager->get_values($data, $return_full);
     }
 
+
+
+    public function pixum($width = 150, $height = false)
+    {
+        $cache_folder = media_base_path() . 'pixum' . DS;
+        if ($height) {
+            $h = $height;
+        } else {
+            $h = $width;
+        }
+        $h = intval($h);
+        $w = intval($width);
+        if ($h == 0) {
+            $h = 1;
+        }
+
+        if ($w == 0) {
+            $w = 1;
+        }
+        $extension = '.png';
+
+        $hash = 'pixum-' . ($h) . 'x' . $w;
+        $cachefile = normalize_path($cache_folder . DS . $hash . $extension, false);
+        if (!file_exists($cachefile)) {
+            $dirname_file = dirname($cachefile);
+            if (!is_dir($dirname_file)) {
+                mkdir_recursive($dirname_file);
+            }
+
+            $img = imagecreatetruecolor($w, $h);
+
+            $white = imagecolorallocatealpha($img, 239, 236, 236, 0);
+            imagefill($img, 0, 0, $white);
+            imagealphablending($img, false);
+            imagesavealpha($img, true);
+            imagepng($img, $cachefile);
+            imagedestroy($img);
+        }
+        if (file_exists($cachefile)) {
+            $url = media_base_url() . 'pixum/' . $hash . $extension;
+        } else {
+            $url = $this->app->url_manager->site('api_nosession/pixum_img') . '?width=' . $width . '&height=' . $height;
+        }
+
+        return $url;
+    }
+
+    public function pixum_img()
+    {
+        $mime_type = 'image/png';
+        $extension = '.png';
+        $cache_folder = media_base_path() . 'pixum' . DS;
+        $cache_folder = normalize_path($cache_folder, true);
+
+        if (!is_dir($cache_folder)) {
+            mkdir_recursive($cache_folder);
+        }
+
+        if (isset($_REQUEST['width'])) {
+            $w = $_REQUEST['width'];
+        } else {
+            $w = 1;
+        }
+
+        if (isset($_REQUEST['height'])) {
+            $h = $_REQUEST['height'];
+        } else {
+            $h = 1;
+        }
+        $h = intval($h);
+        $w = intval($w);
+        if ($h == 0) {
+            $h = 1;
+        }
+
+        if ($w == 0) {
+            $w = 1;
+        }
+        $hash = 'pixum-' . ($h) . 'x' . $w;
+        $cachefile = $cache_folder . '/' . $hash . $extension;
+
+        header('Content-Type: image/png');
+
+        if (!file_exists($cachefile)) {
+            try {
+                $img = @imagecreatetruecolor($w, $h);
+            } catch (\Exception $e) {
+                exit;
+            }
+
+            if(!$img){
+                exit;
+            }
+
+
+            $white = imagecolorallocatealpha($img, 239, 236, 236, 0);
+            imagefill($img, 0, 0, $white);
+            imagealphablending($img, false);
+            imagesavealpha($img, true);
+            imagepng($img, $cachefile);
+            imagedestroy($img);
+            $fp = fopen($cachefile, 'rb');
+            fpassthru($fp);
+            exit;
+        } else {
+            $fp = fopen($cachefile, 'rb');
+            fpassthru($fp);
+            exit;
+        }
+    }
+
+    private function _guess_media_type_from_file_ext($ext)
+    {
+        $type = false;
+        switch ($ext) {
+            case 'jpeg':
+            case 'jpg':
+            case 'png':
+            case 'gif':
+            case 'bpm':
+            case 'svg':
+                $type = 'picture';
+                break;
+            case 'avi':
+            case 'ogg':
+            case 'flv':
+            case 'mp4':
+            case 'qt':
+            case 'mpeg':
+                $type = 'video';
+                break;
+            case 'mp3':
+            case 'wav':
+            case 'flac':
+                $type = 'audio';
+                break;
+        }
+
+        return $type;
+    }
+
+    private function svgScaleHack($svg, $minWidth, $minHeight)
+    {
+        $reW = '/(.*<svg[^>]* width=")([\d.]+px)(.*)/si';
+        $reH = '/(.*<svg[^>]* height=")([\d.]+px)(.*)/si';
+        preg_match($reW, $svg, $mw);
+        preg_match($reH, $svg, $mh);
+
+        if (!isset($mw[2]) and isset($mh[2])) {
+            $mw[2] = $mh[2];
+        }
+
+        if (empty($mw)) {
+            $width = floatval($minWidth);
+            $height = floatval($minHeight);
+        } else {
+            $width = floatval($mw[2]);
+            $height = floatval($mh[2]);
+        }
+
+        if (!$width || !$height) {
+            return false;
+        }
+
+        // scale to make width and height big enough
+        $scale = 1;
+        if ($width < $minWidth) {
+            $scale = $minWidth / $width;
+        }
+        if ($height < $minHeight) {
+            $scale = max($scale, ($minHeight / $height));
+        }
+        $scale = 1;
+
+        $svg = preg_replace($reW, "\${1}{$width}px\${3}", $svg);
+        $svg = preg_replace($reH, "\${1}{$height}px\${3}", $svg);
+
+        return $svg;
+    }
+
+    public function thumbnail($src, $width = 200, $height = null, $crop = null)
+    {
+        if ($src == false) {
+            return $this->pixum($width, $height);
+        }
+
+        if(is_array($src)){
+            extract($src);
+        }
+
+        if (!is_string($src)) {
+            return $this->pixum($width, $height);
+        }
+
+
+
+        $src = html_entity_decode($src);
+        $src = htmlspecialchars_decode($src);
+
+        $surl = $this->app->url_manager->site();
+        $src = str_replace('{SITE_URL}', $surl, $src);
+        $src = str_replace('%7BSITE_URL%7D', $surl, $src);
+        $base_src = str_replace($surl, '', $src);
+
+        if (!isset($width)) {
+            $width = 200;
+        } else {
+            $width = intval($width);
+        }
+
+        $src = strtok($src, '?');
+        if (!isset($height)) {
+            $height = 0;
+        } else {
+            $height = intval($height);
+        }
+
+        $cd = $this->thumbnails_path() . $width . DS;
+
+        $ext = strtolower(get_file_extension($base_src));
+        $cache = ($base_src . $width . $height) . '.' . $ext;
+
+        $cache = str_replace(' ', '_', $cache);
+
+        $ext = strtolower(get_file_extension($src));
+        $is_remote = false;
+        if (!stristr($src, $surl)) {
+            if (strstr($src, 'http://')) {
+                $is_remote = true;
+            } elseif (strstr($src, 'https://')) {
+                $is_remote = true;
+            }
+        }
+
+        $cache_id_data = array();
+        $cache_id_data['base_src'] = $base_src;
+        $cache_id_data['src'] = $src;
+
+        $cache_id_data['width'] = $width;
+        $cache_id_data['height'] = $height;
+        if ($crop) {
+            $cache_id_data['crop'] = $crop;
+        }
+        $cache_id_without_ext = 'tn-' . md5(serialize($cache_id_data));
+        $cache_id = $cache_id_without_ext . '.' . $ext;
+        $cache_path = $cd . $cache_id;
+
+        if ($is_remote) {
+            return $src;
+        } elseif (file_exists($cache_path)) {
+            $cache_path = $this->app->url_manager->link_to_file($cache_path);
+
+            return $cache_path;
+        } else {
+            if (stristr($base_src, 'pixum_img')) {
+                return $this->pixum($width, $height);
+            }
+            $file_exists_local = url2dir($src);
+            if (!is_file($file_exists_local)) {
+                return $this->pixum($width, $height);
+            }
+
+
+            if (!defined('MW_NO_OUTPUT_CACHE')) {
+                define('MW_NO_OUTPUT_CACHE', true);
+            }
+
+            $cache_id_data['cache_path'] = $cache_path;
+
+            cache_save($cache_id_data, $cache_id_without_ext, 'media');
+
+            $tn_img_url = $this->app->url_manager->site('api/image-tn/') . $cache_id_without_ext;
+
+            return $tn_img_url;
+        }
+
+    }
     public function thumbnail_img($params)
     {
 
@@ -740,8 +1032,12 @@ class MediaManager
             $cache = str_replace('..', '', $cache);
         }
 
-        $cache_path = $cd . $cache;
+        if(!isset($cache_path)){
+            $cache_path = $cd . $cache;
+        }
+
         if (file_exists($cache_path)) {
+
             if (!isset($return_cache_path)) {
                 if (!headers_sent()) {
                     if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
@@ -771,12 +1067,11 @@ class MediaManager
                         if (!$height) {
                             $height = $width;
                         }
-                        $tn = new Thumbnailer($src);
+                        $tn = new \Microweber\Utils\Thumbnailer($src);
                         $thumbOptions = array('height' => $height, 'width' => $width);
                         if ($crop) {
                             $thumbOptions['crop'] = $crop;
                         }
-
                         $tn->createThumb($thumbOptions, $cache_path);
 
                         unset($tn);
@@ -866,252 +1161,8 @@ class MediaManager
         exit;
     }
 
-    public function pixum($width = 150, $height = false)
-    {
-        $cache_folder = media_base_path() . 'pixum' . DS;
-        if ($height) {
-            $h = $height;
-        } else {
-            $h = $width;
-        }
-        $h = intval($h);
-        $w = intval($width);
-        if ($h == 0) {
-            $h = 1;
-        }
 
-        if ($w == 0) {
-            $w = 1;
-        }
-        $extension = '.png';
 
-        $hash = 'pixum-' . ($h) . 'x' . $w;
-        $cachefile = normalize_path($cache_folder . DS . $hash . $extension, false);
-        if (!file_exists($cachefile)) {
-            $dirname_file = dirname($cachefile);
-            if (!is_dir($dirname_file)) {
-                mkdir_recursive($dirname_file);
-            }
-
-            $img = imagecreatetruecolor($w, $h);
-
-            $white = imagecolorallocatealpha($img, 239, 236, 236, 0);
-            imagefill($img, 0, 0, $white);
-            imagealphablending($img, false);
-            imagesavealpha($img, true);
-            imagepng($img, $cachefile);
-            imagedestroy($img);
-        }
-        if (file_exists($cachefile)) {
-            $url = media_base_url() . 'pixum/' . $hash . $extension;
-        } else {
-            $url = $this->app->url_manager->site('api_nosession/pixum_img') . '?width=' . $width . '&height=' . $height;
-        }
-
-        return $url;
-    }
-
-    public function pixum_img()
-    {
-        $mime_type = 'image/png';
-        $extension = '.png';
-        $cache_folder = media_base_path() . 'pixum' . DS;
-        $cache_folder = normalize_path($cache_folder, true);
-
-        if (!is_dir($cache_folder)) {
-            mkdir_recursive($cache_folder);
-        }
-
-        if (isset($_REQUEST['width'])) {
-            $w = $_REQUEST['width'];
-        } else {
-            $w = 1;
-        }
-
-        if (isset($_REQUEST['height'])) {
-            $h = $_REQUEST['height'];
-        } else {
-            $h = 1;
-        }
-        $h = intval($h);
-        $w = intval($w);
-        if ($h == 0) {
-            $h = 1;
-        }
-
-        if ($w == 0) {
-            $w = 1;
-        }
-        $hash = 'pixum-' . ($h) . 'x' . $w;
-        $cachefile = $cache_folder . '/' . $hash . $extension;
-
-        header('Content-Type: image/png');
-
-        if (!file_exists($cachefile)) {
-            $img = imagecreatetruecolor($w, $h);
-            $white = imagecolorallocatealpha($img, 239, 236, 236, 0);
-            imagefill($img, 0, 0, $white);
-            imagealphablending($img, false);
-            imagesavealpha($img, true);
-            imagepng($img, $cachefile);
-            imagedestroy($img);
-            $fp = fopen($cachefile, 'rb');
-            fpassthru($fp);
-            exit;
-        } else {
-            $fp = fopen($cachefile, 'rb');
-            fpassthru($fp);
-            exit;
-        }
-    }
-
-    private function _guess_media_type_from_file_ext($ext)
-    {
-        $type = false;
-        switch ($ext) {
-            case 'jpeg':
-            case 'jpg':
-            case 'png':
-            case 'gif':
-            case 'bpm':
-            case 'svg':
-                $type = 'picture';
-                break;
-            case 'avi':
-            case 'ogg':
-            case 'flv':
-            case 'mp4':
-            case 'qt':
-            case 'mpeg':
-                $type = 'video';
-                break;
-            case 'mp3':
-            case 'wav':
-            case 'flac':
-                $type = 'audio';
-                break;
-        }
-
-        return $type;
-    }
-
-    private function svgScaleHack($svg, $minWidth, $minHeight)
-    {
-        $reW = '/(.*<svg[^>]* width=")([\d.]+px)(.*)/si';
-        $reH = '/(.*<svg[^>]* height=")([\d.]+px)(.*)/si';
-        preg_match($reW, $svg, $mw);
-        preg_match($reH, $svg, $mh);
-
-        if (!isset($mw[2]) and isset($mh[2])) {
-            $mw[2] = $mh[2];
-        }
-
-        if (empty($mw)) {
-            $width = floatval($minWidth);
-            $height = floatval($minHeight);
-        } else {
-            $width = floatval($mw[2]);
-            $height = floatval($mh[2]);
-        }
-
-        if (!$width || !$height) {
-            return false;
-        }
-
-        // scale to make width and height big enough
-        $scale = 1;
-        if ($width < $minWidth) {
-            $scale = $minWidth / $width;
-        }
-        if ($height < $minHeight) {
-            $scale = max($scale, ($minHeight / $height));
-        }
-        $scale = 1;
-
-        $svg = preg_replace($reW, "\${1}{$width}px\${3}", $svg);
-        $svg = preg_replace($reH, "\${1}{$height}px\${3}", $svg);
-
-        return $svg;
-    }
-
-    public function thumbnail($src, $width = 200, $height = null, $crop = null)
-    {
-        if ($src == false) {
-            return $this->pixum($width, $height);
-        }
-        $src = html_entity_decode($src);
-        $src = htmlspecialchars_decode($src);
-
-        $surl = $this->app->url_manager->site();
-        $src = str_replace('{SITE_URL}', $surl, $src);
-        $src = str_replace('%7BSITE_URL%7D', $surl, $src);
-        $base_src = str_replace($surl, '', $src);
-
-        if (!isset($width)) {
-            $width = 200;
-        } else {
-            $width = intval($width);
-        }
-
-        $src = strtok($src, '?');
-        if (!isset($height)) {
-            $height = 0;
-        } else {
-            $height = intval($height);
-        }
-
-        $cd = $this->thumbnails_path() . $width . DS;
-
-        $ext = strtolower(get_file_extension($base_src));
-        $cache = ($base_src . $width . $height) . '.' . $ext;
-
-        $cache = str_replace(' ', '_', $cache);
-
-        $ext = strtolower(get_file_extension($src));
-        $is_remote = false;
-        if (!stristr($src, $surl)) {
-            if (strstr($src, 'http://')) {
-                $is_remote = true;
-            } elseif (strstr($src, 'https://')) {
-                $is_remote = true;
-            }
-        }
-
-        $cache_id = array();
-        $cache_id['base_src'] = $base_src;
-        $cache_id['src'] = $src;
-
-        $cache_id['width'] = $width;
-        $cache_id['height'] = $height;
-        if ($crop) {
-            $cache_id['crop'] = $crop;
-        }
-        $cache_id = 'tn-' . md5(serialize($cache_id)) . '.' . $ext;
-        $cache_path = $cd . $cache_id;
-        //  d($cache_path);
-
-        if ($is_remote) {
-            return $src;
-        } elseif (file_exists($cache_path)) {
-            $cache_path = $this->app->url_manager->link_to_file($cache_path);
-
-            return $cache_path;
-        } else {
-            if (stristr($base_src, 'pixum_img')) {
-                return $this->pixum($width, $height);
-            }
-
-            if (!defined('MW_NO_OUTPUT_CACHE')) {
-                define('MW_NO_OUTPUT_CACHE', true);
-            }
-            $tn_img_url = $this->app->url_manager->site('api_html/thumbnail_img') . '?&src=' . $base_src . '&width=' . $width . '&height=' . $height . '&crop=' . $crop . '&cache_id=' . $cache_id;
-            $tn_img_url = str_replace('(', '&#40;', $tn_img_url);
-            $tn_img_url = str_replace(')', '&#41;', $tn_img_url);
-
-            return $tn_img_url;
-        }
-
-    }
 
     public function create_media_dir($params)
     {
@@ -1126,6 +1177,8 @@ class MediaManager
             $fn_path = $target_path . DS . $_REQUEST['path'] . DS;
             $fn_path = str_replace('..', '', $fn_path);
             $fn_path = normalize_path($fn_path, false);
+
+            $target_path = $fn_path;
         }
         if (!isset($_REQUEST['name'])) {
             $resp = array('error' => 'You must send new_folder parameter');
@@ -1192,6 +1245,8 @@ class MediaManager
 
     public function relative_media_start_path()
     {
+
+
         static $path;
         if ($path == false) {
             $environment = \App::environment();

@@ -264,6 +264,9 @@ class UserManager
 
             $this->app->event_manager->trigger('mw.user.login', $user_data);
             if ($ok && $redirect_after) {
+                if(is_ajax()){
+                    return ['success' => 'You are logged in!', 'redirect'=>$redirect_after];
+                }
                 return $this->app->url_manager->redirect($redirect_after);
             } elseif ($ok) {
                 $this->login_set_success_attempt($params);
@@ -922,7 +925,7 @@ class UserManager
 
                     if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
 
-                        $sender = new MailSender();
+                        $sender = new \Microweber\Utils\MailSender();
                         return $sender->send($to, $register_email_subject, $register_email_content, false, false, false, false, false, false, $appendFiles);
 
                     }
@@ -1502,7 +1505,7 @@ class UserManager
                         }
                     }
 
-                    $sender = new MailSender();
+                    $sender = new \Microweber\Utils\MailSender();
                     $sender->send($to, $subject, $content);
 
                     return array('success' => 'Your password reset link has been sent to ' . $to);
@@ -1774,6 +1777,8 @@ class UserManager
 
         $data['table'] = $table;
         $data['exclude_shorthand'] = true;
+        $data['no_cache'] = 1;
+
         $get = $this->app->database_manager->get($data);
 
         return $get;

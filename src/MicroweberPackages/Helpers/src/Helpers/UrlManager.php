@@ -11,6 +11,9 @@ if (!defined('MW_ROOTPATH')) {
 
 use MicroweberPackages\Helpers\URLify;
 
+
+use \Microweber\Utils\URLify;
+
 class UrlManager
 {
     public $site_url_var;
@@ -112,6 +115,7 @@ class UrlManager
 
     public function param($param, $skip_ajax = false, $force_url = false)
     {
+
         if ($_POST) {
             if (isset($_POST['search_by_keyword'])) {
                 if ($param == 'keyword') {
@@ -354,13 +358,13 @@ class UrlManager
             $current_url = $page_url;
         }
         $site_url = $this->site_url();
-        //  $site_url = rtrim($site_url, '\\');
-        // $site_url = rtrim($site_url, '/');
+      //  $site_url = rtrim($site_url, '\\');
+       // $site_url = rtrim($site_url, '/');
         $site_url = reduce_double_slashes($site_url);
         $site_url = rawurldecode($site_url);
 
-        // $current_url = rtrim($current_url, '\\');
-        // $current_url = rtrim($current_url, '/');
+       // $current_url = rtrim($current_url, '\\');
+       // $current_url = rtrim($current_url, '/');
 
         $current_url = rawurldecode($current_url);
         $current_url = str_replace($site_url, '', $current_url);
@@ -369,7 +373,7 @@ class UrlManager
 
 
         if (!isset($u) or $u == false) {
-            //   $u = explode('/', mb_trim(preg_replace('/([^\w\:\-\.\%\/])/i', '', current(explode('?', $current_url, 2))), '/'));
+         //   $u = explode('/', mb_trim(preg_replace('/([^\w\:\-\.\%\/])/i', '', current(explode('?', $current_url, 2))), '/'));
             $u = explode('/', current(explode('?', $current_url, 2)));
             if (isset($u[0])) {
                 //check for port
@@ -575,13 +579,15 @@ class UrlManager
         if ($wrappers and $url_str) {
             foreach ($wrappers as $item) {
                 if(is_string($item)){
-                    //  if($item != 'http'){
-                    // dd($url_str);
-                    $url_str = str_ireplace($item . '://', '//', $url_str);
+              //  if($item != 'http'){
+              // dd($url_str);
+                    $url_str = str_ireplace($item . '://', '//', $url_str); 
                 }
-                //  }
+              //  }
             }
         }
         return $url_str;
     }
 }
+
+

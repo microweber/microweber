@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\MenuManager;
 
+use Content;
+use Menu;
 
 /**
  * Content class is used to get and save content in the database.
@@ -28,7 +30,7 @@ class MenuManager
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = app();
+                $this->app = mw();
             }
         }
         $this->set_table_names();
@@ -250,7 +252,7 @@ class MenuManager
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
 
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id . site_url());
+        $function_cache_id = __FUNCTION__ . crc32($function_cache_id . site_url()).current_lang();
         if (defined('PAGE_ID')) {
             $function_cache_id = $function_cache_id . PAGE_ID;
         }
@@ -491,7 +493,7 @@ class MenuManager
 
                     $title = $cont['title'];
                        $url = $this->app->content_manager->link($cont['id']);
-                   // dd($item);
+
                     if ($cont['is_active'] != 1) {
                         $is_active = false;
                         $cont = false;
@@ -515,6 +517,7 @@ class MenuManager
             if (trim($item['url'] != '')) {
                $url = $item['url'];
             }
+
 
             if ($item['title'] == '') {
                 $item['title'] = $title;
@@ -666,7 +669,7 @@ class MenuManager
                     $item = $override[0];
                 }
 
-                $to_print .= '<' . $li_tag . '  class="{li_class}' . ' ' . $active_class . '  ' . $has_childs_class . ' {nest_level}" data-item-id="' . $item['id'] . '" >';
+                $to_print .= '<' . $li_tag . ' role="menuitem" class="{li_class}' . ' ' . $active_class . '  ' . $has_childs_class . ' {nest_level}" data-item-id="' . $item['id'] . '" >';
 
 
 

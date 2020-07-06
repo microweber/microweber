@@ -19,7 +19,7 @@ use Cache;
 class OptionManager
 {
     public $app;
-    public $options_memory = array(); //internal array to hold options in cache
+    public $options_memory = array(); //internal array to hold options in cache 
     public $override_memory = array(); //array to hold options values that are not persistent in DB and changed on runtime
     public $tables = array();
     public $table_prefix = false;
@@ -31,10 +31,9 @@ class OptionManager
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = app();
+                $this->app = mw();
             }
         }
-
         $this->set_table_names();
     }
 
@@ -57,7 +56,6 @@ class OptionManager
         if (is_string($params)) {
             $params = parse_str($params, $params2);
             $params = $params2;
-            extract($params);
         }
 
         $data = $params;
@@ -66,7 +64,7 @@ class OptionManager
         if (!isset($data['limit'])) {
             $data['limit'] = 1000;
         }
-        $data['cache_group'] = 'options/global';
+     //   $data['cache_group'] = 'options/global';
         $data['table'] = $table;
 
         $get = $this->app->database_manager->get($data);
@@ -132,7 +130,7 @@ class OptionManager
 
         $query = $query->delete();
         $this->override($option_group,$key,false);
-        Cache::delete('options');
+        $this->app->cache_manager->delete('options');
         return true;
     }
 
@@ -222,7 +220,7 @@ class OptionManager
         $ok = $this->app->database_manager->escape_string($data['option_key']);
 
         $filter = array();
-        //  $filter['limit'] = 1;
+        $filter['limit'] = 1;
         $filter['option_key'] = $key;
         if ($option_group != false) {
             $filter['option_group'] = $option_group;
@@ -233,7 +231,9 @@ class OptionManager
         }
         $filter['table'] = $table;
 
-        $get_all = app()->database_manager->get($filter);
+        $get_all = mw()->database_manager->get($filter);
+
+
 
         if (!is_array($get_all)) {
             return false;
@@ -241,11 +241,11 @@ class OptionManager
         $get = array();
         foreach ($get_all as $get_opt) {
             if (isset($get_opt['option_key']) and $key == $get_opt['option_key']) {
-                /*
-                                $override = $this->app->event_manager->trigger('option.after.get', $get_opt);
-                                if (is_array($override) && isset($override[0])) {
-                                    $get_opt = $override[0];
-                                }*/
+/*
+                $override = $this->app->event_manager->trigger('option.after.get', $get_opt);
+                if (is_array($override) && isset($override[0])) {
+                    $get_opt = $override[0];
+                }*/
 
                 $get[] = $get_opt;
             }
@@ -296,7 +296,7 @@ class OptionManager
      * $option['option_value'] = 'my value';
      * $option['option_key'] = 'my_option';
      * $option['option_group'] = 'my_option_group';
-     * app()->option_manager->save($option);
+     * mw()->option_manager->save($option);
      */
     public function save($data)
     {
@@ -312,7 +312,7 @@ class OptionManager
         }
 
         $this->clear_memory();
-
+        
         $option_group = false;
         if (is_array($data)) {
             if (strval($data['option_key']) != '') {
@@ -381,32 +381,32 @@ class OptionManager
 
                 if ($option_group != false) {
                     $cache_group = 'options/' . $option_group;
-                    Cache::delete($cache_group);
+                    $this->app->cache_manager->delete($cache_group);
                 } else {
                     $cache_group = 'options/' . 'global';
-                    Cache::delete($cache_group);
+                    $this->app->cache_manager->delete($cache_group);
                 }
                 if ($save != false) {
                     $cache_group = 'options/' . $save;
-                    Cache::delete($cache_group);
+                    $this->app->cache_manager->delete($cache_group);
                 }
 
                 if ($delete_content_cache != false) {
                     $cache_group = 'content/global';
-                    Cache::delete($cache_group);
+                    $this->app->cache_manager->delete($cache_group);
                 }
 
                 if (isset($data['id']) and intval($data['id']) > 0) {
                     $opt = $this->get_by_id($data['id']);
                     if (isset($opt['option_group'])) {
                         $cache_group = 'options/' . $opt['option_group'];
-                        Cache::delete($cache_group);
+                        $this->app->cache_manager->delete($cache_group);
                     }
                     $cache_group = 'options/' . intval($data['id']);
-                    Cache::delete($cache_group);
+                    $this->app->cache_manager->delete($cache_group);
                 }
 
-                Cache::delete('options');
+                $this->app->cache_manager->delete('options');
 
                 return $save;
             }

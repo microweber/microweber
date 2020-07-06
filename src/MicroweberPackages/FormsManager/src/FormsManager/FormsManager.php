@@ -17,7 +17,7 @@ class FormsManager
         if (is_object($app)) {
             $this->app = $app;
         } else {
-            $this->app = app();
+            $this->app = mw();
         }
 
         if (!defined('MW_DB_TABLE_COUNTRIES')) {
@@ -252,6 +252,7 @@ class FormsManager
                 return array(
                     'error' => _e('Please enter the captcha answer!', true),
                     'form_data_required' => 'captcha',
+                    'form_data_required_params' => array('captcha_parent_for_id'=>$for_id),
                     'form_data_module' => 'captcha'
                 );
 
@@ -273,6 +274,7 @@ class FormsManager
                         'error' => _e('Invalid captcha answer!', true),
                         'captcha_error' => true,
                         'form_data_required' => 'captcha',
+                        'form_data_required_params' => array('captcha_parent_for_id'=>$for_id),
                         'form_data_module' => 'captcha'
                     );
 
@@ -596,7 +598,7 @@ class FormsManager
 
                     $email_autorespond = $this->app->option_manager->get('email_autorespond', $for_id);
 
-                    $sender = new MailSender();
+                    $sender = new \Microweber\Utils\MailSender();
                     $sender->silent_exceptions = true;
                     foreach ($user_mails as $value) {
                         if ($value == $email_to || $value == $email_bcc) {
