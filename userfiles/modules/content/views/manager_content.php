@@ -15,7 +15,7 @@
                         $append = '';
                         if (isset($item['is_active']) and $item['is_active'] == '0') {
                             $pub_class = ' content-unpublished';
-                            $append = '<div class="post-un-publish"><span class="mw-ui-btn mw-ui-btn-yellow disabled unpublished-status">' . _e("Unpublished", true) . '</span><span class="mw-ui-btn mw-ui-btn-green publish-btn" onclick="mw.post.set(' . $item['id'] . ', \'publish\');">' . _e("Publish", true) . '</span></div>';
+                            $append = '<div class="post-unpublished d-inline-flex align-items-center justify-content-center"><a href="javascript:;" class="btn btn-sm btn-link" onclick="mw.post.set(' . $item['id'] . ', \'publish\');">' . _e("Publish", true) . '</a> <span class="badge badge-warning">' . _e("Unpublished", true) . '</span></div>';
                         }
                         ?>
                         <?php $pic = get_picture($item['id']); ?>
@@ -23,7 +23,13 @@
                             <div class="card-body">
                                 <div class="row align-items-center">
                                     <div class="col text-center manage-post-item-col-1" style="max-width: 40px;">
-                                        <label class="mw-ui-check"><input name="select_posts_for_action" class="select_posts_for_action" type="checkbox" value="<?php print ($item['id']) ?>"><span></span></label>
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox mx-1">
+                                                <input type="checkbox" class="custom-control-input select_posts_for_action" name="select_posts_for_action" id="select-content-<?php print ($item['id']) ?>" value="<?php print ($item['id']) ?>">
+                                                <label class="custom-control-label" for="select-content-<?php print ($item['id']) ?>"></label>
+                                            </div>
+                                        </div>
+
                                         <span class="btn btn-link text-muted px-0 js-move mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()"><i class="mdi mdi-cursor-move"></i></span>
                                     </div>
 
@@ -117,6 +123,7 @@
                                             <a class="btn btn-outline-danger btn-sm" href="javascript:mw.delete_single_post('<?php print ($item['id']) ?>');">
                                                 <?php _e("Delete"); ?>
                                             </a>
+                                            <?php print $append; ?>
                                         </div>
                                     </div>
 
@@ -126,7 +133,6 @@
 
                                     <div class="col item-comments manage-post-item-col-5" style="max-width: 100px;">
                                         <?php mw()->event_manager->trigger('module.content.manager.item', $item) ?>
-                                        <?php print $append; ?>
                                     </div>
                                 </div>
                             </div>

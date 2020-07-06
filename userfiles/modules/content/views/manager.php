@@ -184,15 +184,6 @@ $params_module = $params;
 
         mw.reload_module('#<?php print $params['id']; ?>');
     });
-
-    mw.admin.showLinkNav = function () {
-        var all = mwd.querySelector('.select_posts_for_action:checked');
-        if (all === null) {
-            mw.$('.mw-ui-link-nav').hide();
-        } else {
-            mw.$('.mw-ui-link-nav').show();
-        }
-    }
 </script>
 
 <div class="card style-1 mb-3">
