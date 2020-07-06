@@ -28,22 +28,24 @@
                                     </div>
 
                                     <div class="col manage-post-item-col-2" style="max-width: 120px;">
-                                        <div class="position-absolute text-muted" style="z-index: 1; right: 0; top: -10px;">
-                                            <?php if (isset($item['content_type']) and $item['content_type'] == 'page'): ?>
-                                                <?php if (isset($item['is_shop']) and $item['is_shop'] == 1): ?>
-                                                    <i class="mdi mdi-shopping mdi-18px" data-toggle="tooltip" title="Shop"></i>
+                                        <?php if ($pic == true): ?>
+                                            <div class="position-absolute text-muted" style="z-index: 1; right: 0; top: -10px;">
+                                                <?php if (isset($item['content_type']) and $item['content_type'] == 'page'): ?>
+                                                    <?php if (isset($item['is_shop']) and $item['is_shop'] == 1): ?>
+                                                        <i class="mdi mdi-shopping mdi-18px" data-toggle="tooltip" title="Shop"></i>
+                                                    <?php else : ?>
+                                                        <i class="mdi mdi-post-outline mdi-18px" data-toggle="tooltip" title="Page"></i>
+                                                    <?php endif; ?>
+                                                <?php elseif (isset($item['content_type']) and ($item['content_type'] == 'post' or $item['content_type'] == 'product')): ?>
+                                                    <?php if (isset($item['content_type']) and $item['content_type'] == 'product'): ?>
+                                                        <i class="mdi mdi-shopping mdi-18px" data-toggle="tooltip" title="Product"></i>
+                                                    <?php else : ?>
+                                                        <i class="mdi mdi-text  mdi-18px" data-toggle="tooltip" title="Post"></i>
+                                                    <?php endif; ?>
                                                 <?php else : ?>
-                                                    <i class="mdi mdi-shopping mdi-18px" data-toggle="tooltip" title="Page"></i>
                                                 <?php endif; ?>
-                                            <?php elseif (isset($item['content_type']) and ($item['content_type'] == 'post' or $item['content_type'] == 'product')): ?>
-                                                <?php if (isset($item['content_type']) and $item['content_type'] == 'product'): ?>
-                                                    <i class="mdi mdi-shopping mdi-18px" data-toggle="tooltip" title="Product"></i>
-                                                <?php else : ?>
-                                                    <i class="mdi mdi-text  mdi-18px" data-toggle="tooltip" title="Post"></i>
-                                                <?php endif; ?>
-                                            <?php else : ?>
-                                            <?php endif; ?>
-                                        </div>
+                                            </div>
+                                        <?php endif; ?>
 
                                         <div class="img-circle-holder border-radius-0 border-0">
                                             <?php if ($pic == true): ?>
