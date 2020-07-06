@@ -33,6 +33,9 @@ header {
   }
 
   .logo {
+    img{
+      min-width: 180px;
+    }
     h1, h2, h3, h4, h5, h6 {
       margin-bottom: 0;
     }
@@ -197,12 +200,15 @@ header {
               text-align: center;
               padding: 0 0.5px;
               float: right;
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
 
               i {
                 font-size: 12px;
-                width: 10px;
+                width: 15px;
                 margin: 0;
-                padding: 4px 0;
+                padding:  0;
                 text-align: center;
                 &:before {
                   margin: 0;
@@ -688,8 +694,9 @@ header {
     min-width: 150px;
   }
 }
+
 .socials-logins-settings {
-  .lh-1_0{
+  .lh-1_0 {
     margin-top: -4px;
   }
 }
@@ -712,15 +719,15 @@ header {
         }
       }
 
-      &:hover{
-        .icon-holder{
+      &:hover {
+        .icon-holder {
           background: $primary;
           i {
             color: $white;
           }
         }
-        
-        span{
+
+        span {
           text-decoration: underline;
         }
       }

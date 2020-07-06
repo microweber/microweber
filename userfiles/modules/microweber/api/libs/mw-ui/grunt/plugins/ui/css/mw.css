@@ -23,6 +23,8 @@ header {
       padding: 0;
       margin: 0;
       max-width: 100%; } }
+  header .logo img {
+    min-width: 180px; }
   header .logo h1, header .logo h2, header .logo h3, header .logo h4, header .logo h5, header .logo h6 {
     margin-bottom: 0; }
   header .language-selector .btn {
@@ -145,12 +147,15 @@ header {
             height: 15px;
             text-align: center;
             padding: 0 0.5px;
-            float: right; }
+            float: right;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center; }
             .main aside > ul > li.nav-item .dropdown-menu .dropdown-item .add-new i {
               font-size: 12px;
-              width: 10px;
+              width: 15px;
               margin: 0;
-              padding: 4px 0;
+              padding: 0;
               text-align: center; }
               .main aside > ul > li.nav-item .dropdown-menu .dropdown-item .add-new i:before {
                 margin: 0; }

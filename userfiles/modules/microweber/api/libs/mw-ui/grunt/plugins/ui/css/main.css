@@ -8803,7 +8803,7 @@ label.control-label {
       .dropable-zone.small-zone .holder .btn {
         margin-bottom: 0; }
   .dropable-zone.square-zone.small-zone {
-    min-width: 110px; }
+    min-width: 115px; }
   .dropable-zone.square-zone:after {
     content: "";
     display: block;
