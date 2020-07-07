@@ -5,6 +5,8 @@ namespace MicroweberPackages\Shop\CheckoutManager;
 use Microweber\App\Providers\Illuminate\Support\Facades\Config;
 use Microweber\App\Providers\Illuminate\Support\Facades\Crypt;
 use MicroweberPackages\Utils\Mail\MailSender;
+use Twig\Environment;
+use Twig\Loader\ArrayLoader;
 
 class CheckoutManager
 {
@@ -733,10 +735,12 @@ class CheckoutManager
                         $order_email_content .= '<br />' . get_option('bank_transfer_instructions', 'payments');
                     }
 
-                    $twig = new \Twig_Environment(new \Twig_Loader_String());
+                    $loader = new ArrayLoader([
+                        'checkout_mail.html' => $order_email_content,
+                    ]);
+                    $twig = new Environment($loader);
                     $order_email_content = $twig->render(
-                        $order_email_content,
-                        array(
+                        'checkout_mail.html', [
                             'cart' => $cart_items,
                             'order' => $ord_data,
                             'order_id' => $ord_data['id'],
@@ -752,7 +756,7 @@ class CheckoutManager
                             'state' => $ord_data['state'],
                             'city' => $ord_data['city'],
                             'country' => $ord_data['country']
-                        )
+                        ]
                     );
 
                     $sender = new MailSender();
