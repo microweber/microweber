@@ -589,7 +589,7 @@ if ($action == 'posts') {
 } elseif ($action == 'categories') {
     $pages_container_params_str = " manage_categories='yes'    ";
 }
-
+d($action);
 ?>
 
 
