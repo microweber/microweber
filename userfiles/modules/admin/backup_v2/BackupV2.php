@@ -42,7 +42,7 @@ class BackupV2
 		}
 
 		if (! $this->manager) {
-			$this->manager = new \MicroweberPackages\BackupManager\BackupManager();
+			$this->manager = new \MicroweberPackages\BackupManager\Backup();
 		}
 	}
 
@@ -233,7 +233,7 @@ class BackupV2
 			}
 		}
 
-		$manager = new \MicroweberPackages\BackupManager\BackupManager();
+		$manager = new \MicroweberPackages\BackupManager\Backup();
 		$manager->setExportData('tables', $tables);
 
 		if (isset($query['format'])) {

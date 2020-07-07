@@ -4,7 +4,7 @@ namespace MicroweberPackages\App\Install;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
-use MicroweberPackages\BackupManager\BackupManager;
+use MicroweberPackages\BackupManager\Backup;
 use MicroweberPackages\ContentManager\Content;
 use MicroweberPackages\MenuManager\Menu;
 use MicroweberPackages\OptionManager\Option;
@@ -84,7 +84,7 @@ class TemplateInstaller
         if (is_file($default_content_file)) {
 
         	try {
-        		$manager = new BackupManager();
+        		$manager = new Backup();
         		$manager->setImportFile($default_content_file);
         		$manager->setImportBatch(false);
         		$manager->setImportOvewriteById(true);

@@ -3,7 +3,7 @@ namespace MicroweberPackages\BackupManager\tests;
 
 use Faker\Factory;
 use MicroweberPackages\App\tests\TestCase;
-use MicroweberPackages\BackupManager\BackupManager;
+use MicroweberPackages\BackupManager\Backup;
 
 /**
  * Run test
@@ -47,7 +47,7 @@ class ZBackupV2Test extends TestCase
 		
 		clearcache();
 		
-		$manager = new BackupManager();
+		$manager = new Backup();
 		$manager->setExportAllData(true);
 
 		$i = 0;
@@ -102,7 +102,7 @@ class ZBackupV2Test extends TestCase
 			return;
 		}
 		
-		$manager = new BackupManager();
+		$manager = new Backup();
 		$manager->setImportFile(self::$_exportedFile);
 		$manager->setImportBatch(false);
 		
@@ -145,7 +145,7 @@ class ZBackupV2Test extends TestCase
 	    $sample = userfiles_path() . '/modules/admin/backup_v2/samples/sample.csv';
         $sample = normalize_path($sample, false);
 
-        $manager = new BackupManager();
+        $manager = new Backup();
         $manager->setImportFile($sample);
         $manager->setImportBatch(false);
 
@@ -161,7 +161,7 @@ class ZBackupV2Test extends TestCase
         $sample = userfiles_path() . '/modules/admin/backup_v2/samples/sample.json';
         $sample = normalize_path($sample, false);
 
-        $manager = new BackupManager();
+        $manager = new Backup();
         $manager->setImportFile($sample);
         $manager->setImportBatch(false);
 
@@ -177,7 +177,7 @@ class ZBackupV2Test extends TestCase
         $sample = userfiles_path() . '/modules/admin/backup_v2/samples/sample.xlsx';
         $sample = normalize_path($sample, false);
 
-        $manager = new BackupManager();
+        $manager = new Backup();
         $manager->setImportFile($sample);
         $manager->setImportBatch(false);
 
@@ -191,7 +191,7 @@ class ZBackupV2Test extends TestCase
 
 	public function testImportWrongFile() {
 		
-		$manager = new BackupManager();
+		$manager = new Backup();
 		$manager->setImportFile('wrongfile.txt');
 		$manager->setImportBatch(false);
 		
@@ -202,7 +202,7 @@ class ZBackupV2Test extends TestCase
 	
 	public function testExportWithWrongFormat()
 	{
-		$export = new BackupManager();
+		$export = new Backup();
 		$export->setExportType('xml_');
 		$exportStatus = $export->startExport();
 		

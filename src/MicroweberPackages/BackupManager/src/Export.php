@@ -46,7 +46,7 @@ class Export
 	
 	public function exportAsType($data)
 	{
-        $backupManager = new BackupManager();
+        $backupManager = new Backup();
         $exportCacheLocation = $backupManager->getBackupCacheLocation();
 
 		$exportWithZip = false;

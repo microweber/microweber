@@ -4,7 +4,7 @@ namespace MicroweberPackages\BackupManager;
 use MicroweberPackages\BackupManager\Loggers\BackupImportLogger;
 use MicroweberPackages\BackupManager\Loggers\BackupExportLogger;
 
-class BackupManager
+class Backup
 {
 	public $exportAllData = false;
 	public $exportData = ['categoryIds'=>[], 'contentIds'=>[], 'tables'=>[]];
@@ -43,7 +43,7 @@ class BackupManager
 
 	/**
 	 * Set export full
-	 * @param string $type
+	 * @param string $type 
 	 */
 	public function setExportAllData($exportAllData = true) {
 		$this->exportAllData = $exportAllData;

@@ -1,7 +1,7 @@
 <?php
 namespace MicroweberPackages\BackupManager\Readers;
 
-use MicroweberPackages\BackupManager\BackupManager;
+use MicroweberPackages\BackupManager\Backup;
 use MicroweberPackages\BackupManager\Loggers\BackupImportLogger;
 
 class ZipReader extends DefaultReader
@@ -24,7 +24,7 @@ class ZipReader extends DefaultReader
 		
 		BackupImportLogger::setLogInfo('Unzipping '.basename($this->file).' in userfiles...');
 		
-		$backupManager = new BackupManager();
+		$backupManager = new Backup();
 		$backupLocation = $backupManager->getBackupLocation(). 'temp_backup_zip/';
 
 		// Remove old files
