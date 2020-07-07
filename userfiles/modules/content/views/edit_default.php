@@ -60,9 +60,11 @@ if ($edit_page_info['is_shop'] == 1) {
     $type = 'Page';
 }
 
-$action_text = _e($type . ' ' . "title ", true);
+$action_text = _e($type, true);
 if (isset($edit_page_info['id']) and intval($edit_page_info['id']) != 0) {
-    $action_text = _e("Editing " . $type, true);
+    $action_text = _e("Editing " . strtolower($type), true);
+} else {
+    $action_text = _e("Add " . strtolower($type), true);
 }
 
 if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] == 'post' and isset($edit_page_info['subtype'])) {
@@ -268,7 +270,6 @@ if (isset($params['quick_edit'])) {
                                     <?php endif; ?>
                                 <?php endif; ?>
                             </div>
-
 
                             <div>
                                 <script>

@@ -592,9 +592,10 @@ if ($action == 'posts') {
 
 ?>
 
-
-
-
+<?php if ($action == 'settings'): ?>
+    <module type="settings/group/website_group"/>
+    <?php return; ?>
+<?php endif ?>
 
 <div id="edit-content-row">
     <?php if ($action != 'categories'): ?>
