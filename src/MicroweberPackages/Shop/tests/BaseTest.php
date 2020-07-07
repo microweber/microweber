@@ -1,5 +1,9 @@
 <?php
-abstract class BaseTest extends Orchestra\Testbench\TestCase
+namespace MicroweberPackages\Shop\tests;
+
+use Orchestra\Testbench\TestCase;
+
+abstract class BaseTest extends TestCase
 {
     /**
      * Setup the test environment.

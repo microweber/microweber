@@ -1,4 +1,5 @@
 <?php
+namespace MicroweberPackages\OptionManager\tests;
 
 class OptionManagerServiceProviderTest extends BaseTest
 {

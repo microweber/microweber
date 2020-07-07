@@ -1,4 +1,5 @@
 <?php
+namespace MicroweberPackages\Shop\tests;
 
 class ShopManagerServiceProviderTest extends BaseTest
 {

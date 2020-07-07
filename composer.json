@@ -21,7 +21,7 @@
         }
     ],
     "require": {
-        "laravel/framework": "^7.10",
+        "laravel/framework": "^7.0",
         "symplify/monorepo-builder": "^8.1",
         "laravelcollective/html": "^6.0@dev",
         "laravel/socialite": "^5.0@dev",
@@ -43,6 +43,7 @@
         "rtconner/laravel-tagging": "^4.0"
     },
     "require-dev": {
+        "orchestra/testbench": "^5.0",
         "nunomaduro/collision": "^4.1",
         "facade/ignition": "^2.0",
         "fzaninotto/faker": "^1.9",

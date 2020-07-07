@@ -6,11 +6,11 @@
     'sqlite' => 
     array (
       'driver' => 'sqlite',
-      'database' => storage_path().DIRECTORY_SEPARATOR.'localhost.sqlite',
-      'prefix' => 'localhost_',
-      'host' => 'localhost',
-      'username' => '1',
-      'password' => '1',
+      'database' => storage_path().DIRECTORY_SEPARATOR.'phpunit.testing.sqlite',
+      'prefix' => '',
+      'host' => '',
+      'username' => '',
+      'password' => false,
     ),
     'mysql' => 
     array (

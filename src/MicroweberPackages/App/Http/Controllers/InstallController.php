@@ -3,9 +3,6 @@
 namespace MicroweberPackages\App\Http\Controllers;
 
 use Illuminate\Support\Facades\Request;
-use MicroweberPackages\PackageManager\ComposerUpdate;
-use MicroweberPackages\TemplateManager\View;
-use MicroweberPackages\App\Install;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
@@ -15,6 +12,9 @@ use Illuminate\Support\Facades\Artisan;
 use Cache;
 use MicroweberPackages\UserManager\User;
 use MicroweberPackages\Utils\Http\Http;
+use MicroweberPackages\PackageManager\ComposerUpdate;
+use MicroweberPackages\TemplateManager\View;
+use MicroweberPackages\App\Install;
 
 class InstallController extends Controller
 {

@@ -1,4 +1,5 @@
 <?php
+namespace MicroweberPackages\DatabaseManager\tests;
 
 class DatabaseManagerServiceProviderTest extends BaseTest
 {

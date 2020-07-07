@@ -1,4 +1,5 @@
 <?php
+namespace MicroweberPackages\Cms\tests;
 
 class ContentManagerTest extends BaseTest
 {

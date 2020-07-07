@@ -1,4 +1,5 @@
 <?php
+namespace MicroweberPackages\Helpers\tests;
 
 class HelpersServiceProviderTest extends BaseTest
 {

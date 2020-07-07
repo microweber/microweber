@@ -1,4 +1,5 @@
 <?php
+namespace MicroweberPackages\Config\tests;
 
 class ConfigSaveServiceProviderTest extends BaseTest
 {

@@ -1,5 +1,6 @@
 <?php
-namespace MicroweberPackages\App\Commands;
+
+namespace MicroweberPackages\App\Console\Commands;
 
 use Illuminate\Console\Command;
 use MicroweberPackages\App\Controllers\DefaultController;

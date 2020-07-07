@@ -303,7 +303,7 @@ class AppServiceProvider extends ServiceProvider {
         if (mw_is_installed()) {
             load_all_functions_files_for_modules();
 
-            $this->commands('Microweber\App\Commands\OptionCommand');
+            $this->commands('MicroweberPackages\App\Console\Commands\OptionCommand');
 
             $language = get_option('language', 'website');
 
@@ -313,15 +313,15 @@ class AppServiceProvider extends ServiceProvider {
 
             if (is_cli()) {
 
-                $this->commands('Microweber\App\Commands\ResetCommand');
-                $this->commands('Microweber\App\Commands\UpdateCommand');
-                $this->commands('Microweber\App\Commands\ModuleCommand');
-                $this->commands('Microweber\App\Commands\PackageInstallCommand');
+                $this->commands('MicroweberPackages\App\Console\Commands\ResetCommand');
+                $this->commands('MicroweberPackages\App\Console\Commands\UpdateCommand');
+                $this->commands('MicroweberPackages\App\Console\Commands\ModuleCommand');
+                $this->commands('MicroweberPackages\App\Console\Commands\PackageInstallCommand');
 
             }
         } else {
             // Otherwise register the install command
-            $this->commands('Microweber\App\Commands\InstallCommand');
+            $this->commands('MicroweberPackages\App\Console\Commands\InstallCommand');
         }
 
         $this->loadRoutes();

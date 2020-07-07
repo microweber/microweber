@@ -1,4 +1,6 @@
 <?php
+namespace MicroweberPackages\Cms\tests;
+
 class MediaTest extends BaseTest
 {
     public function testSaveMedia()

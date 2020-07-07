@@ -1,4 +1,5 @@
 <?php
+namespace MicroweberPackages\Cms\tests;
 
 class CategoryManagerServiceProviderTest extends BaseTest
 {

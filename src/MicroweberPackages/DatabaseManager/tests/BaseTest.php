@@ -1,9 +1,12 @@
 <?php
+namespace MicroweberPackages\DatabaseManager\tests;
+
+use Orchestra\Testbench\TestCase;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
-abstract class BaseTest extends Orchestra\Testbench\TestCase
+abstract class BaseTest extends TestCase
 {
 
     /**

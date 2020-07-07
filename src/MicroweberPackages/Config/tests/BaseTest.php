@@ -1,6 +1,9 @@
 <?php
+namespace MicroweberPackages\Config\tests;
 
-abstract class BaseTest extends Orchestra\Testbench\TestCase
+use Orchestra\Testbench\TestCase;
+
+abstract class BaseTest extends TestCase
 {
 
     public function tearDown(): void
