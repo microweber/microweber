@@ -1,9 +1,8 @@
 <?php
 namespace MicroweberPackages\BackupManager\tests;
 
-use Microweber\Utils\Backup\BackupManager;
 use Faker\Factory;
-use Microweber\Utils\Backup\EncodingFix;
+use MicroweberPackages\BackupManager\BackupManager;
 use MicroweberPackages\App\tests\TestCase;
 
 /**

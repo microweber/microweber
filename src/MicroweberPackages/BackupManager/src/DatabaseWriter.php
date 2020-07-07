@@ -1,25 +1,25 @@
 <?php
-namespace Microweber\Utils\Backup;
+namespace MicroweberPackages\BackupManager;
 
 use Illuminate\Support\Facades\Cache;
 
-use Microweber\Utils\Backup\Traits\DatabaseCustomFieldsWriter;
-use Microweber\Utils\Backup\Traits\DatabaseContentFieldsWriter;
-use Microweber\Utils\Backup\Traits\DatabaseContentDataWriter;
-use Microweber\Utils\Backup\Traits\DatabaseCategoryItemsWriter;
-use Microweber\Utils\Backup\Traits\DatabaseCategoriesWriter;
-use Microweber\Utils\Backup\Traits\DatabaseRelationWriter;
-use Microweber\Utils\Backup\Traits\DatabaseContentWriter;
-use Microweber\Utils\Backup\Traits\DatabaseMenusWriter;
-use Microweber\Utils\Backup\Traits\DatabaseMediaWriter;
-use Microweber\Utils\Backup\Loggers\BackupImportLogger;
-use Microweber\Utils\Backup\Traits\DatabaseModuleWriter;
-use Microweber\Utils\Backup\Traits\DatabaseTaggingTaggedWriter;
+use MicroweberPackages\BackupManager\Traits\DatabaseCustomFieldsWriter;
+use MicroweberPackages\BackupManager\Traits\DatabaseContentFieldsWriter;
+use MicroweberPackages\BackupManager\Traits\DatabaseContentDataWriter;
+use MicroweberPackages\BackupManager\Traits\DatabaseCategoryItemsWriter;
+use MicroweberPackages\BackupManager\Traits\DatabaseCategoriesWriter;
+use MicroweberPackages\BackupManager\Traits\DatabaseRelationWriter;
+use MicroweberPackages\BackupManager\Traits\DatabaseContentWriter;
+use MicroweberPackages\BackupManager\Traits\DatabaseMenusWriter;
+use MicroweberPackages\BackupManager\Traits\DatabaseMediaWriter;
+use MicroweberPackages\BackupManager\Loggers\BackupImportLogger;
+use MicroweberPackages\BackupManager\Traits\DatabaseModuleWriter;
+use MicroweberPackages\BackupManager\Traits\DatabaseTaggingTaggedWriter;
 use QueryPath\Exception;
 
 /**
  * Microweber - Backup Module Database Writer
- * @namespace Microweber\Utils\Backup
+ * @namespace MicroweberPackages\BackupManager
  * @package DatabaseWriter
  * @author Bozhidar Slaveykov
  */

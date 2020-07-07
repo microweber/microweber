@@ -1,10 +1,10 @@
 <?php
-namespace Microweber\Utils\Backup;
+namespace MicroweberPackages\BackupManager;
 
 /**
  * Microweber - Backup Module Database Dublicate Checker
  *
- * @namespace Microweber\Utils\Backup
+ * @namespace MicroweberPackages\BackupManager
  * @package DatabaseWriter
  * @author Bozhidar Slaveykov
  */

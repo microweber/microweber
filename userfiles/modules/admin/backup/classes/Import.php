@@ -5,7 +5,7 @@
 
 namespace Microweber\Utils;
 
-use Microweber\Utils\Backup\BackupManager;
+use MicroweberPackages\BackupManager\BackupManager;
 
 api_expose_admin('Microweber\Utils\Import\delete');
 //api_expose_admin('Microweber\Utils\Import\create');

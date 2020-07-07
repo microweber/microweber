@@ -1,7 +1,7 @@
 <?php
-namespace Microweber\Utils\Backup\Exporters;
+namespace MicroweberPackages\BackupManager\Exporters;
 
-use Microweber\Utils\Backup\EncodingFix;
+use MicroweberPackages\BackupManager\EncodingFix;
 
 class JsonExport extends DefaultExport
 {

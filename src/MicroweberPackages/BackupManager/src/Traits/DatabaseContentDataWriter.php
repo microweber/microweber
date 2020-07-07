@@ -1,7 +1,7 @@
 <?php
-namespace Microweber\Utils\Backup\Traits;
+namespace MicroweberPackages\BackupManager\Traits;
 
-use Microweber\Utils\Backup\DatabaseSave;
+use MicroweberPackages\BackupManager\DatabaseSave;
 
 trait DatabaseContentDataWriter
 {

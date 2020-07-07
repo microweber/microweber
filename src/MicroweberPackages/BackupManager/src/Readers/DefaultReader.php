@@ -1,5 +1,5 @@
 <?php
-namespace Microweber\Utils\Backup\Readers;
+namespace MicroweberPackages\BackupManager\Readers;
 
 class DefaultReader
 {
