@@ -510,6 +510,17 @@ class CartManager extends Crud
 
     public function update_cart($data)
     {
+
+        if (!isset($data['for']) and isset($data['rel_type'])) {
+            $data['for'] = $data['rel_type'];
+        }
+        if (!isset($data['for_id']) and isset($data['rel_id'])) {
+            $data['for_id'] = $data['rel_id'];
+        }
+        if (!isset($data['for']) and !isset($data['rel_type'])) {
+            $data['for'] = 'content';
+        }
+
         if (isset($data['content_id'])) {
             $data['for'] = 'content';
             $for_id = $data['for_id'] = $data['content_id'];
@@ -523,15 +534,7 @@ class CartManager extends Crud
             }
         }
 
-        if (!isset($data['for']) and isset($data['rel_type'])) {
-            $data['for'] = $data['rel_type'];
-        }
-        if (!isset($data['for_id']) and isset($data['rel_id'])) {
-            $data['for_id'] = $data['rel_id'];
-        }
-        if (!isset($data['for']) and !isset($data['rel_type'])) {
-            $data['for'] = 'content';
-        }
+
         $update_qty = 0;
         $update_qty_new = 0;
 
@@ -552,6 +555,8 @@ class CartManager extends Crud
                 }
             }
         }
+
+
 
 
         if (!isset($data['for']) and !isset($data['for_id'])) {
@@ -705,35 +710,72 @@ class CartManager extends Crud
             $found_price = 0;
         }
 
+
+
+
         if (is_array($prices)) {
             ksort($add);
             asort($add);
             $add = mw()->format->clean_xss($add);
             $table = $this->table;
             $cart = array();
-            $cart['rel_type'] = ($data['for']);
+            $cart['rel_type'] = trim($data['for']);
             $cart['rel_id'] = intval($data['for_id']);
-            $cart['title'] = mw()->format->clean_html($data['title']);
-            $cart['price'] = floatval($found_price);
+            $cart['session_id'] = mw()->user_manager->session_id();
+            $cart['no_cache'] = 1;
+            $cart['disable_triggers'] = 1;
 
-            $cart_return = $cart;
+            // $cart['price'] = doubleval($found_price);
+            //  $cart_check_db =  \DB::table('cart')->where($cart)->first();
+
+
+
+//            $cart_check = $cart;
+//            $cart_return = $cart;
+//            $check_cart = [];
+//
+//            if($cart_check_db){
+//                $check_cart = (array) $cart_check_db;
+//
+//            }
+
+          //  $check_cart = $this->app->database_manager->get('cart',$cart_check);
+      //     d($cart_check);
+
+//  d($check_cart);
+        //  d($cart_check);
+            $cart_check_q = $cart;
+            $check_cart = $this->app->database_manager->get('cart',$cart_check_q);
+
+
+
+
             $cart_return['custom_fields_data'] = $add;
             $cart['custom_fields_data'] = $this->app->format->array_to_base64($add);
             $cart['custom_fields_json'] = json_encode($add);
-            $cart['order_completed'] = 0;
             $cart['allow_html'] = 1;
-            $cart['session_id'] = mw()->user_manager->session_id();
-
+            $cart['price'] = doubleval($found_price);
             $cart['limit'] = 1;
-            $check_cart = $this->get($cart);
-            if ($check_cart != false and is_array($check_cart) and isset($check_cart[0])) {
-                $cart['id'] = $check_cart[0]['id'];
-                if ($update_qty > 0) {
-                    $cart['qty'] = $check_cart[0]['qty'] + $update_qty;
-                } elseif ($update_qty_new > 0) {
-                    $cart['qty'] = $update_qty_new;
-                } else {
-                    $cart['qty'] = $check_cart[0]['qty'] + 1;
+
+            $cart['title'] = mw()->format->clean_html($data['title']);
+
+            $cart['order_completed'] = 0;
+
+
+
+            if ($found_price and $check_cart != false and is_array($check_cart) and isset($check_cart[0])) {
+
+                foreach ($check_cart as $cart_item){
+                    if ($cart_item and isset($cart_item['price']) and (doubleval($cart_item['price']) == doubleval($found_price))) {
+                        $cart['id'] = $cart_item['id'];
+                        if ($update_qty > 0) {
+                            $cart['qty'] = $cart_item['qty'] + $update_qty;
+                        } elseif ($update_qty_new > 0) {
+                            $cart['qty'] = $update_qty_new;
+                        } else {
+                            $cart['qty'] = $cart_item['qty'] + 1;
+                        }
+                    }
                 }
             } else {
                 if ($update_qty > 0) {
