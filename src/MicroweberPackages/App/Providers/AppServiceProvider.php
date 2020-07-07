@@ -5,6 +5,7 @@ namespace MicroweberPackages\App\Providers;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\App\Utils\Parser;
+use MicroweberPackages\BackupManager\BackupManagerServiceProvider;
 use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
 use MicroweberPackages\CaptchaManager\CaptchaManagerServiceProvider;
 use MicroweberPackages\CategoryManager\CategoryManagerServiceProvider;
@@ -181,6 +182,7 @@ class AppServiceProvider extends ServiceProvider {
         $this->app->register(CaptchaManagerServiceProvider::class);
         $this->app->register(OptionManagerServiceProvider::class);
         $this->app->register(DatabaseManagerServiceProvider::class);
+        $this->app->register(BackupManagerServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
     }

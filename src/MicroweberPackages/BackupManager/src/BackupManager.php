@@ -4,7 +4,7 @@ namespace MicroweberPackages\BackupManager;
 use MicroweberPackages\BackupManager\Loggers\BackupImportLogger;
 use MicroweberPackages\BackupManager\Loggers\BackupExportLogger;
 
-class Backup
+class BackupManager
 {
 	public $exportAllData = false;
 	public $exportData = ['categoryIds'=>[], 'contentIds'=>[], 'tables'=>[]];
