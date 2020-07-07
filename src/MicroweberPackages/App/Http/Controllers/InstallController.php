@@ -75,6 +75,7 @@ class InstallController extends Controller
 
         $connection = Config::get('database.connections');
 
+        
 
         $this->log('Preparing to install');
         if (isset($input['make_install'])) {
