@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\TaxManager;
+namespace MicroweberPackages\Shop\TaxManager;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -23,7 +23,7 @@ class TaxManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\TaxManager\TaxManager    $tax_manager
+         * @property \MicroweberPackages\Shop\TaxManager    $tax_manager
          */
         $this->app->singleton('tax_manager', function ($app) {
             return new TaxManager();

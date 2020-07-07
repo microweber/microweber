@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\ShopManager;
+namespace MicroweberPackages\Shop\ShopManager;
 
 use Illuminate\Support\Facades\Facade;
 

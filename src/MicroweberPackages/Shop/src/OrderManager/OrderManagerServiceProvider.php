@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\OrderManager;
+namespace MicroweberPackages\Shop\OrderManager;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -23,7 +23,7 @@ class OrderManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\OrderManager\OrderManager    $order_manager
+         * @property \MicroweberPackages\Shop\OrderManager    $order_manager
          */
         $this->app->singleton('order_manager', function ($app) {
             return new OrderManager();

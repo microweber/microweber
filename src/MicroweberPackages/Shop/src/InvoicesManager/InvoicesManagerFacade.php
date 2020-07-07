@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\InvoicesManager;
+namespace MicroweberPackages\Shop\InvoicesManager;
 
 use Illuminate\Support\Facades\Facade;
 

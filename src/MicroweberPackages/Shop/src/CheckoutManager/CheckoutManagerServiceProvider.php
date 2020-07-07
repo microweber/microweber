@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\CheckoutManager;
+namespace MicroweberPackages\Shop\CheckoutManager;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -23,7 +23,7 @@ class CheckoutManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\CheckoutManager\CheckoutManager    $checkout_manager
+         * @property \MicroweberPackages\Shop\CheckoutManager    $checkout_manager
          */
         $this->app->singleton('checkout_manager', function ($app) {
             return new CheckoutManager();

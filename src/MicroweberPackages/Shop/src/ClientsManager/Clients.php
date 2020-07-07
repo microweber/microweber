@@ -1,5 +1,15 @@
 <?php
-namespace MicroweberPackages\ClientsManager;
+/*
+ * This file is part of the Microweber framework.
+ *
+ * (c) Microweber LTD
+ *
+ * For full license information see
+ * http://Microweber.com/license/
+ *
+ */
+
+namespace MicroweberPackages\Shop\ClientsManager;
 
 class Clients extends Illuminate\Database\Eloquent\Model
 {

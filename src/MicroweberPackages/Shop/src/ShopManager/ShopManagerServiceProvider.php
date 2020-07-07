@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\ShopManager;
+namespace MicroweberPackages\Shop\ShopManager;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -23,7 +23,7 @@ class ShopManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\ShopManager\ShopManager    $shop_manager
+         * @property \MicroweberPackages\Shop\ShopManager    $shop_manager
          */
         $this->app->singleton('shop_manager', function ($app) {
             return new ShopManager();

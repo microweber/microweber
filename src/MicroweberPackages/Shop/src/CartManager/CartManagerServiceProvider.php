@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\CartManager;
+namespace MicroweberPackages\Shop\CartManager;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -23,7 +23,7 @@ class CartManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\CartManager\CartManager    $cart_manager
+         * @property \MicroweberPackages\Shop\CartManager    $cart_manager
          */
         $this->app->singleton('cart_manager', function ($app) {
             return new CartManager();

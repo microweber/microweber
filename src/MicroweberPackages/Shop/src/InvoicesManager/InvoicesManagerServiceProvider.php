@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\InvoicesManager;
+namespace MicroweberPackages\Shop\InvoicesManager;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -23,7 +23,7 @@ class InvoicesManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\InvoicesManager\InvoicesManager    $invoices_manager
+         * @property \MicroweberPackages\Shop\InvoicesManager    $invoices_manager
          */
         $this->app->singleton('invoices_manager', function ($app) {
             return new InvoicesManager();

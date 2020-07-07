@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\ClientsManager;
+namespace MicroweberPackages\Shop\ClientsManager;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -23,7 +23,7 @@ class ClientsManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\ClientsManager\ClientsManager    $clients_manager
+         * @property \MicroweberPackages\Shop\ClientsManager    $clients_manager
          */
         $this->app->singleton('clients_manager', function ($app) {
             return new ClientsManager();

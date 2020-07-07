@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\TaxManager;
+namespace MicroweberPackages\Shop\TaxManager;
 
 use Illuminate\Support\Facades\Facade;
 
