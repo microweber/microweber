@@ -480,7 +480,7 @@ class CartManager extends Crud
         $sid = mw()->user_manager->session_id();
         $cart_table = $this->table;
 
-        \Cart::where('order_completed', 0)->where('session_id', $sid)->delete();
+        Cart::where('order_completed', 0)->where('session_id', $sid)->delete();
         $this->no_cache = true;
         $this->app->cache_manager->delete('cart');
         $this->app->cache_manager->delete('cart_orders/global');
@@ -498,11 +498,11 @@ class CartManager extends Crud
         }
         if (isset($params['session_id'])) {
             $id = $params['session_id'];
-            \Cart::where('session_id', $id)->delete();
+            Cart::where('session_id', $id)->delete();
         }
         if (isset($params['order_id'])) {
             $id = $params['order_id'];
-            \Cart::where('order_id', $id)->delete();
+            Cart::where('order_id', $id)->delete();
         }
         $this->app->cache_manager->delete('cart');
         $this->app->cache_manager->delete('cart_orders');

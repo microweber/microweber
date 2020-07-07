@@ -6,11 +6,6 @@ class CartTest extends TestCase
 {
     public static $content_id = 1;
 
-    public static function setUpBeforeClass()
-    {
-        parent::setUpBeforeClass();
-    }
-
     public function testAddToCart()
     {
         $params = array(
