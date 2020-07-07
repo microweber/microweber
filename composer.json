@@ -21,7 +21,7 @@
         }
     ],
     "require": {
-        "laravel/framework": "^7.0",
+        "laravel/framework": "^7.10",
         "symplify/monorepo-builder": "^8.1",
         "laravelcollective/html": "^6.0@dev",
         "laravel/socialite": "^5.0@dev",
