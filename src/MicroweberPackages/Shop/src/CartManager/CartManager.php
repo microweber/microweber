@@ -750,7 +750,6 @@ class CartManager extends Crud
 
 
 
-            $cart_return['custom_fields_data'] = $add;
             $cart['custom_fields_data'] = $this->app->format->array_to_base64($add);
             $cart['custom_fields_json'] = json_encode($add);
             $cart['allow_html'] = 1;
@@ -760,6 +759,8 @@ class CartManager extends Crud
             $cart['title'] = mw()->format->clean_html($data['title']);
 
             $cart['order_completed'] = 0;
+            $cart_return['custom_fields_data'] = $add;
+            $cart_return['price'] = $cart['price'];
 
 
 
