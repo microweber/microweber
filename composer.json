@@ -95,7 +95,9 @@
         "microweber-packages/microweber-shop": "self.version",
         "microweber-packages/microweber-template-manager": "self.version",
         "microweber-packages/microweber-user-manager": "self.version",
-        "microweber-packages/microweber-utils": "self.version"
+        "microweber-packages/microweber-utils": "self.version",
+        "microweber-packages/helper-functions": "self.version",
+        "microweber-packages/laravel-tagged-file-cache": "self.version"
     },
     "extra": {
         "merge-plugin": {
