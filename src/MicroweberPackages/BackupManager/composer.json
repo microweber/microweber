@@ -15,7 +15,6 @@
   "require": {
       "halaxa/json-machine": "dev-master"
   },
-
   "autoload": {
     "psr-4": {
       "MicroweberPackages\\": "src/"

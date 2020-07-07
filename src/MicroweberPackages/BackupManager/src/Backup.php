@@ -43,7 +43,7 @@ class Backup
 
 	/**
 	 * Set export full
-	 * @param string $type 
+	 * @param string $type
 	 */
 	public function setExportAllData($exportAllData = true) {
 		$this->exportAllData = $exportAllData;
