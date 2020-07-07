@@ -3,7 +3,7 @@
 namespace MicroweberPackages\App\Console\Commands;
 
 use Illuminate\Console\Command;
-use MicroweberPackages\App\Controllers\DefaultController;
+use MicroweberPackages\App\Http\Controllers\DefaultController;
 use MicroweberPackages\App\Providers\Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Input\InputArgument;
 use MicroweberPackages\App\Install\DbInstaller;

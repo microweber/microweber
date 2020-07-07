@@ -598,7 +598,7 @@ class FormsManager
 
                     $email_autorespond = $this->app->option_manager->get('email_autorespond', $for_id);
 
-                    $sender = new \Microweber\Utils\MailSender();
+                    $sender = new \MicroweberPackages\Utils\Mail\MailSender();
                     $sender->silent_exceptions = true;
                     foreach ($user_mails as $value) {
                         if ($value == $email_to || $value == $email_bcc) {

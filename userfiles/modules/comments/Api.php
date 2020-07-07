@@ -5,7 +5,7 @@ namespace comments;
 
 
 use MicroweberPackages\DatabaseManager\Crud;
-use Microweber\Utils\MailSender;
+use MicroweberPackages\Utils\MailSender;
 
 
 class Api extends Crud

@@ -925,7 +925,7 @@ class UserManager
 
                     if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
 
-                        $sender = new \Microweber\Utils\MailSender();
+                        $sender = new \MicroweberPackages\Utils\Mail\MailSender();
                         return $sender->send($to, $register_email_subject, $register_email_content, false, false, false, false, false, false, $appendFiles);
 
                     }
@@ -1505,7 +1505,7 @@ class UserManager
                         }
                     }
 
-                    $sender = new \Microweber\Utils\MailSender();
+                    $sender = new \MicroweberPackages\Utils\Mail\MailSender();
                     $sender->send($to, $subject, $content);
 
                     return array('success' => 'Your password reset link has been sent to ' . $to);

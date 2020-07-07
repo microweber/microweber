@@ -3,8 +3,8 @@
 namespace MicroweberPackages\App\Console\Commands;
 
 use Illuminate\Console\Command;
+use MicroweberPackages\App\Http\Controllers\DefaultController;
 use Symfony\Component\Console\Input\InputArgument;
-use MicroweberPackages\Controllers\DefaultController;
 
 
 // php artisan microweber:module shop 1 --env=localhost

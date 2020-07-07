@@ -9,7 +9,6 @@
 namespace Microweber\tests;
 
 use MicroweberPackages\App\tests\TestCase;
-use MicroweberPackages\Controllers\DefaultController;
 
 class PermalinkTest extends TestCase
 {
