@@ -204,7 +204,7 @@ if (!isset($data["thumbnail"])) {
 
 <input name="thumbnail" type="hidden" value="<?php print ($data['thumbnail']) ?>"/>
 
-<span class="post-media-select-all-pictures tip" data-tip="Select all" onclick='toggleAll()'>
+<span class="post-media-select-all-pictures tip" data-tip="Select all" data-tipposition="top-left" onclick='toggleAll()'>
     <span>0</span>
     picture selected
 </span>
@@ -306,20 +306,24 @@ if (!isset($data["thumbnail"])) {
         }
         doselect = function () {
             var final = [];
+            var all = mw.$(".admin-thumb-item:visible")
 
-            mw.$(".admin-thumb-item:visible").each(function () {
+            all.each(function () {
                 var check = $('.mw-ui-check input:checked', this);
                 if(check.length) {
-
                     final.push(check[0].value);
                     $(this).addClass('checked')
                 } else {
                     $(this).removeClass('checked');
 
                 }
-            })
-            mw.$('.post-media-select-all-pictures')[final.length !== 0 ? 'addClass' : 'removeClass']('active').find('span').html(final.length);
-            mw.$('.post-media-type-holder .dropdown')[final.length === 0 ? 'addClass' : 'removeClass']('active');
+            });
+
+            var allPicker = mw.$('.post-media-select-all-pictures');
+
+            allPicker[final.length !== 0 ? 'addClass' : 'removeClass']('active').find('span').html(final.length);
+            allPicker[final.length === all.length ? 'addClass' : 'removeClass']('all-selected');
+            mw.$('#post-media-card-header')[final.length === 0 ? 'removeClass' : 'addClass']('active');
             $(".select_actions")[final.length === 0 ? 'removeClass' : 'addClass']('active');
             $(".select_actions_holder").stop()[final.length === 0 ? 'hide' : 'show']();
             return final;

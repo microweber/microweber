@@ -134,10 +134,10 @@ mw.filePicker = function (options) {
             /*mw.load_module('files/admin', $wrap, function () {
 
             }, {'filetype':'images'});*/
-            $(scope).on('$firstOpen', function (e, el, i) {
+            $(scope).on('$firstOpen', function (e, el, type) {
                 var comp = scope._getComponentObject('server');
-                console.log(el, i,comp)
-                if (i === comp.index) {
+                console.log(type, type === 'server')
+                if (type === 'server') {
                     var fr = mw.tools.moduleFrame('files/admin', {'filetype':'images'});
                     $wrap.append(fr);
                     fr.onload = function () {
@@ -156,9 +156,9 @@ mw.filePicker = function (options) {
         },
         library: function () {
             var $wrap = this._$inputWrapper(scope._getComponentObject('library').label);
-            $(scope).on('$firstOpen', function (e, el, i) {
+            $(scope).on('$firstOpen', function (e, el, type) {
                 var comp = scope._getComponentObject('library');
-                if (i === comp.index) {
+                if (type === 'library') {
                     var fr = mw.tools.moduleFrame('pictures/media_library');
                     $wrap.append(fr);
                     fr.onload = function () {
@@ -208,7 +208,7 @@ mw.filePicker = function (options) {
         else if(this.settings.nav === 'tabs') {
             var ul = $('<ul class="nav nav-tabs" />');
             this.settings.components.forEach(function (item) {
-                ul.append('<li class="nav-item"><a class="nav-link active" href="#">'+item.label+'</a></li>');
+                ul.append('<li class="nav-item"><a class="nav-link active" data-type="'+item.type+'">'+item.label+'</a></li>');
             });
             this._navigationHolder.appendChild(this._navigationHeader);
             this._navigationHeader.appendChild(ul[0]);
@@ -230,19 +230,22 @@ mw.filePicker = function (options) {
             var select = $('<select class="selectpicker btn-as-link" data-style="btn-sm" data-width="auto" data-title="' + mw.lang('Add file') + '"/>');
             scope._select = select;
             this.settings.components.forEach(function (item) {
-                select.append('<option class="nav-item">'+item.label+'</option>');
+                select.append('<option class="nav-item" value="'+item.type+'">'+item.label+'</option>');
             });
 
             this._navigationHolder.appendChild(this._navigationHeader);
             this._navigationHeader.appendChild(select[0]);
-            select.on('change', function () {
-                var index = this.selectedIndex - 1;
+            select.on('changed.bs.select', function (e, xval) {
+                var val = select.selectpicker('val');
+                console.log(val, xval)
+                var componentObject = scope._getComponentObject(val) ;
+                var index = scope.settings.components.indexOf(componentObject);
                 var items = $('.mw-filepicker-component-section', scope.$root);
-                if(scope.__navigation_first.indexOf(this.selectedIndex) === -1) {
-                    scope.__navigation_first.push(this.selectedIndex);
-                    $(scope).trigger('$firstOpen', [items.eq(this.selectedIndex)[0], this.selectedIndex]);
+                if(scope.__navigation_first.indexOf(val) === -1) {
+                    scope.__navigation_first.push(val);
+                    $(scope).trigger('$firstOpen', [items.eq(index)[0], val]);
                 }
-                if(scope.settings.dropDownTargetMode === 'dialog' && index > 0) {
+                if(scope.settings.dropDownTargetMode === 'dialog') {
                     var temp = document.createElement('div');
                     var item = items.eq(index);
                     item.before(temp);
@@ -281,25 +284,27 @@ mw.filePicker = function (options) {
                 } else {
                     items.hide().eq(index).show();
                 }
-                this.value = '';
             });
         }
         this.$root.prepend(this._navigationHolder);
 
     };
+    this.__displayControllerByTypeTime = null;
 
     this.displayControllerByType = function (type) {
+        type = (type || '').trim();
         var item = this._getComponentObject(type) ;
-        this.displayControllerIndex(this.settings.components.indexOf(item))
+        clearTimeout(this.__displayControllerByTypeTime);
+        this.__displayControllerByTypeTime = setTimeout(function () {
+            if(scope.settings.nav === 'tabs') {
+                mw.$('[data-type="'+type+'"]', scope.$root).click();
+            } else if(scope.settings.nav === 'dropdown') {
+                $(scope._select).selectpicker('val', type);
+            }
+        }, 10);
     };
-    this.displayControllerIndex = function (index) {
-        if(this.settings.nav === 'tabs') {
-            scope._tabs.set(index);
-        } else if(this.settings.nav === 'dropdown') {
-            scope._select[0].selectedIndex = index;
-            scope._select.trigger('change');
-        }
-    };
+
+
 
     this.footer = function () {
         if(!this.settings.footer || this.settings.autoSelect) return;
