@@ -5,7 +5,6 @@ namespace MicroweberPackages\App\Providers;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\App\Utils\Parser;
-use MicroweberPackages\BackupManager\BackupManagerServiceProvider;
 use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
 use MicroweberPackages\CaptchaManager\CaptchaManagerServiceProvider;
 use MicroweberPackages\CategoryManager\CategoryManagerServiceProvider;
@@ -21,6 +20,7 @@ use MicroweberPackages\MediaManager\Media;
 use MicroweberPackages\MediaManager\MediaManagerServiceProvider;
 use MicroweberPackages\MenuManager\MenuManagerServiceProvider;
 use MicroweberPackages\OptionManager\OptionManagerServiceProvider;
+use MicroweberPackages\BackupManager\BackupManagerServiceProvider;
 
 // Shop
 use MicroweberPackages\Shop\CartManager\CartManagerServiceProvider;

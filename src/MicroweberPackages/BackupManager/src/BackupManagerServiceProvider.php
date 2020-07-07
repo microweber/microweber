@@ -13,7 +13,6 @@ namespace MicroweberPackages\BackupManager;
 
 use Illuminate\Support\ServiceProvider;
 
-
 class BackupManagerServiceProvider extends ServiceProvider
 {
     /**
