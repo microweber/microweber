@@ -8,7 +8,9 @@
 @import url("css/ui.css");
 @import url("../layouts/templates/layouts.css");
 
-
+@import url("api/libs/mw-ui/grunt/plugins/ui/css/main.css");
+@import url("api/libs/mw-ui/assets/ui/plugins/css/plugins.min.css");
+@import url("api/libs/mw-ui/grunt/plugins/ui/css/mw.css");
 
 .mw-uploader-type-holder{
     position: relative;

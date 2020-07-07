@@ -353,16 +353,40 @@ if ($last_page_front != false) {
                     <label class="custom-control-label" for="posts-check">Check all</label>
                 </div>
 
-                <div class="d-inline-block ml-3" id="bulk-actions">
-                    <select class="selectpicker" title="Bulk actions" data-style="btn-sm" data-width="auto">
-                        <option onclick="assign_selected_posts_to_category();"><?php _e("Move to category"); ?></option>
-                        <option onclick="publish_selected_posts();"><?php _e("Published"); ?></option>
-                        <option onclick="unpublish_selected_posts();"><?php _e("Unpublish"); ?></option>
-                        <option onclick="delete_selected_posts();"><?php _e("Delete"); ?></option>
-                    </select>
+                <div class="d-inline-block ml-3">
+                    <div class="js-bulk-actions" style="display: none;">
+                        <select class="selectpicker js-bulk-action" title="Bulk actions" data-style="btn-sm" data-width="auto">
+                            <option value="assign_selected_posts_to_category"><?php _e("Move to category"); ?></option>
+                            <option value="publish_selected_posts"><?php _e("Published"); ?></option>
+                            <option value="unpublish_selected_posts"><?php _e("Unpublish"); ?></option>
+                            <option value="delete_selected_posts"><?php _e("Delete"); ?></option>
+                        </select>
+                    </div>
                 </div>
             </div>
+            <script>
+                $('.select_posts_for_action').on('change', function () {
+                    var all = mwd.querySelector('.select_posts_for_action:checked');
+                    if (all === null) {
+                        $('.js-bulk-actions').hide();
+                    } else {
+                        $('.js-bulk-actions').show();
+                    }
+                });
 
+                $('.js-bulk-action').on('change', function () {
+                    var selectedBulkAction = $('.js-bulk-action option:selected').val();
+                    if (selectedBulkAction == 'assign_selected_posts_to_category') {
+                        assign_selected_posts_to_category();
+                    } else if (selectedBulkAction == 'publish_selected_posts') {
+                        publish_selected_posts();
+                    } else if (selectedBulkAction == 'unpublish_selected_posts') {
+                        unpublish_selected_posts();
+                    } else if (selectedBulkAction == 'delete_selected_posts') {
+                        delete_selected_posts();
+                    }
+                });
+            </script>
             <?php
             $order_by_field = '';
             $order_by_type = '';
@@ -397,7 +421,6 @@ if ($last_page_front != false) {
 
 <script>
     $(document).ready(function () {
-        mw.dropdown();
         var el = $("#posts-check")
         el.on('change', function () {
             mw.check.toggle('#mw_admin_posts_sortable');
@@ -409,6 +432,13 @@ if ($last_page_front != false) {
             }
             else {
                 el[0].checked = false;
+            }
+
+            var all = mwd.querySelector('.select_posts_for_action:checked');
+            if (all === null) {
+                $('.js-bulk-actions').hide();
+            } else {
+                $('.js-bulk-actions').show();
             }
         });
     });

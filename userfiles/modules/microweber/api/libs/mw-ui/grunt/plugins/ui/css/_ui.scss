@@ -334,7 +334,7 @@ textarea:not(.form-control) {
 }
 
 .btn .badge-pill {
-  padding: 0.4em .55em;
+  padding: 0;
 }
 
 .btn {
@@ -342,7 +342,7 @@ textarea:not(.form-control) {
     margin-top: -2.5px;
     height: 20px;
     min-width: 20px;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
   }
