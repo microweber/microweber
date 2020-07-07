@@ -7,10 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\App\Utils\Parser;
 use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
 use MicroweberPackages\CaptchaManager\CaptchaManagerServiceProvider;
-use MicroweberPackages\CartManager\CartManagerServiceProvider;
 use MicroweberPackages\CategoryManager\CategoryManagerServiceProvider;
-use MicroweberPackages\CheckoutManager\CheckoutManagerServiceProvider;
-use MicroweberPackages\ClientsManager\ClientsManagerServiceProvider;
 use MicroweberPackages\Config\ConfigSave;
 use MicroweberPackages\ContentManager\Content;
 use MicroweberPackages\ContentManager\ContentManagerServiceProvider;
@@ -19,15 +16,21 @@ use MicroweberPackages\EventManager\EventManagerServiceProvider;
 use MicroweberPackages\FormsManager\FormsManagerServiceProvider;
 use MicroweberPackages\Helpers\Format;
 use MicroweberPackages\Helpers\HelpersServiceProvider;
-use MicroweberPackages\InvoicesManager\InvoicesManagerServiceProvider;
 use MicroweberPackages\MediaManager\Media;
 use MicroweberPackages\MediaManager\MediaManagerServiceProvider;
 use MicroweberPackages\MenuManager\MenuManagerServiceProvider;
 use MicroweberPackages\OptionManager\OptionManagerServiceProvider;
-use MicroweberPackages\OrderManager\OrderManagerServiceProvider;
-use MicroweberPackages\ShopManager\ShopManagerServiceProvider;
+
+// Shop
+use MicroweberPackages\Shop\CartManager\CartManagerServiceProvider;
+use MicroweberPackages\Shop\CheckoutManager\CheckoutManagerServiceProvider;
+use MicroweberPackages\Shop\ClientsManager\ClientsManagerServiceProvider;
+use MicroweberPackages\Shop\InvoicesManager\InvoicesManagerServiceProvider;
+use MicroweberPackages\Shop\OrderManager\OrderManagerServiceProvider;
+use MicroweberPackages\Shop\ShopManager\ShopManagerServiceProvider;
+use MicroweberPackages\Shop\TaxManager\TaxManagerServiceProvider;
+
 use MicroweberPackages\TagsManager\TagsManagerServiceProvider;
-use MicroweberPackages\TaxManager\TaxManagerServiceProvider;
 use MicroweberPackages\TemplateManager\TemplateManagerServiceProvider;
 use MicroweberPackages\UserManager\UserManagerServiceProvider;
 use MicroweberPackages\Utils\Http\Http;
@@ -162,6 +165,8 @@ class AppServiceProvider extends ServiceProvider {
         $this->app->register(TagsManagerServiceProvider::class);
         $this->app->register(MediaManagerServiceProvider::class);
         $this->app->register(MenuManagerServiceProvider::class);
+
+        // Shop
         $this->app->register(ShopManagerServiceProvider::class);
         $this->app->register(TaxManagerServiceProvider::class);
         $this->app->register(OrderManagerServiceProvider::class);
@@ -169,6 +174,7 @@ class AppServiceProvider extends ServiceProvider {
         $this->app->register(ClientsManagerServiceProvider::class);
         $this->app->register(CheckoutManagerServiceProvider::class);
         $this->app->register(CartManagerServiceProvider::class);
+
         $this->app->register(TemplateManagerServiceProvider::class);
         $this->app->register(FormsManagerServiceProvider::class);
         $this->app->register(UserManagerServiceProvider::class);
