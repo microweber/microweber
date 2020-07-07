@@ -94,7 +94,7 @@ class MailSender
             // check if  escapeshellcmd() has been disabled
             if (strstr($disabled_functions, 'escapeshellarg')) {
                 //if disabled, switch mail transporter
-                $transport = \Microweber\Utils\lib\mail\Swift_MailTransport::newInstance();
+                $transport = \MicroweberPackages\Utils\lib\mail\Swift_MailTransport::newInstance();
 
                 // set new swift mailer
                 \Mail::setSwiftMailer(new \Swift_Mailer($transport));

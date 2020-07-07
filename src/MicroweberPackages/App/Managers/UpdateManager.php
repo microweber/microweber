@@ -572,7 +572,7 @@ class UpdateManager
 //            $checksum = array();
 //            try {
 //                if (!is_link(MW_ROOTPATH . 'vendor')) {
-//                    $filesystem = new \Microweber\Utils\Files();
+//                    $filesystem = new \MicroweberPackages\Utils\Files();
 //                    $checksum['vendor'] = $filesystem->md5_dir(MW_ROOTPATH . 'vendor');
 //                    $checksum['src'] = $filesystem->md5_dir(MW_PATH);
 //                    $checksum['config'] = $filesystem->md5_dir(config_path());
@@ -690,7 +690,7 @@ class UpdateManager
             if (!$on_step or $on_step > 1) {
 
                 if (is_file($dl_file)) {
-                    $unzip = new \Microweber\Utils\Unzip();
+                    $unzip = new \MicroweberPackages\Utils\Unzip();
                     $target_dir = MW_ROOTPATH;
                     $this->log_msg('Preparing to unzip core update');
                     $result = $unzip->extract($dl_file, $target_dir, $preserve_filepath = true);
@@ -842,7 +842,7 @@ class UpdateManager
                 $where_to_unzip = str_replace('..', '', $where_to_unzip);
                 $where_to_unzip = normalize_path($where_to_unzip, true);
                 $this->log_msg('Unzipping in ' . $where_to_unzip);
-                $unzip = new \Microweber\Utils\Unzip();
+                $unzip = new \MicroweberPackages\Utils\Unzip();
                 $target_dir = $where_to_unzip;
                 $result = $unzip->extract($download_target, $target_dir, $preserve_filepath = true);
                 $result = array_unique($result);
@@ -886,7 +886,7 @@ class UpdateManager
                     $get = $this->app->url_manager->download($value, $post_params = false, $save_to_file = $dl_file);
                 }
                 if (is_file($dl_file)) {
-                    $unzip = new \Microweber\Utils\Unzip();
+                    $unzip = new \MicroweberPackages\Utils\Unzip();
                     $this->log_msg('Unziping module' . $fname);
 
                     $target_dir = MW_ROOTPATH;
@@ -931,7 +931,7 @@ class UpdateManager
                     $get = $this->app->url_manager->download($value, $post_params = false, $save_to_file = $dl_file);
                 }
                 if (is_file($dl_file)) {
-                    $unzip = new \Microweber\Utils\Unzip();
+                    $unzip = new \MicroweberPackages\Utils\Unzip();
                     $target_dir = MW_ROOTPATH;
 
                     // $result = $unzip -> extract($dl_file, $target_dir, $preserve_filepath = TRUE);
@@ -1169,7 +1169,7 @@ class UpdateManager
             $get = $this->app->url_manager->download($url, $post_params = false, $save_to_file = $dl_file);
         }
         if (is_file($dl_file)) {
-            $unzip = new \Microweber\Utils\Unzip();
+            $unzip = new \MicroweberPackages\Utils\Unzip();
             $target_dir = MW_ROOTPATH;
             $result = $unzip->extract($dl_file, $target_dir, $preserve_filepath = true);
 

@@ -60,7 +60,7 @@ class Themes
 		}
 
 		// Unzip uploaded files
-		$unzip = new \Microweber\Utils\Unzip();
+		$unzip = new \MicroweberPackages\Utils\Unzip();
 		$unzip->extract($cacheTemplateDir . 'uploaded-file.zip', $cacheTemplateDir);
 
 		// Check config file

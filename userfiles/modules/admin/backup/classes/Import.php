@@ -5,8 +5,6 @@
 
 namespace Microweber\Utils;
 
-use MicroweberPackages\BackupManager\BackupManager;
-
 api_expose_admin('Microweber\Utils\Import\delete');
 //api_expose_admin('Microweber\Utils\Import\create');
 api_expose_admin('Microweber\Utils\Import\download');
@@ -1445,7 +1443,7 @@ class Import
     }
 }
 
-class SimpleXmlStreamer extends \Microweber\Utils\lib\XmlStreamer
+class SimpleXmlStreamer extends \MicroweberPackages\Utils\lib\XmlStreamer
 {
     public $content_items = array();
 

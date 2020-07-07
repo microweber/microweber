@@ -20,7 +20,7 @@
   },
   "require-dev": {
     "orchestra/testbench": "*",
-    "mockery/mockery": "*" 
+    "mockery/mockery": "*"
   },
   "autoload": {
     "psr-4": {

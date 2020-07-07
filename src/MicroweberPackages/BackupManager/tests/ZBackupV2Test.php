@@ -2,8 +2,8 @@
 namespace MicroweberPackages\BackupManager\tests;
 
 use Faker\Factory;
-use MicroweberPackages\BackupManager\BackupManager;
 use MicroweberPackages\App\tests\TestCase;
+use MicroweberPackages\BackupManager\BackupManager;
 
 /**
  * Run test

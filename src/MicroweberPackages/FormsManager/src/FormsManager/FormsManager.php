@@ -690,7 +690,7 @@ class FormsManager
         if (!$country) {
             return false;
         }
-        $states = new \Microweber\Utils\CountryState();
+        $states = new \MicroweberPackages\Utils\CountryState();
         $res = $states->getStates($country);
 
         return $res;

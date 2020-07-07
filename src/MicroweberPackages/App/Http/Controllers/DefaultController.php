@@ -2308,7 +2308,7 @@ class DefaultController extends Controller
         }
 
         if ($skip == false) {
-            $map = new \Microweber\Utils\Sitemap($sm_file);
+            $map = new \MicroweberPackages\Utils\Sitemap($sm_file);
             $map->file = mw_cache_path() . 'sitemap.xml';
 
             $cont = get_content('is_active=1&is_deleted=0&limit=2500&fields=id,updated_at&orderby=updated_at desc');

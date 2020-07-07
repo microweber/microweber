@@ -188,7 +188,7 @@ class Backup
 
         $db_file = $this->create();
 
-        $zip = new \Microweber\Utils\Zip($filename);
+        $zip = new \MicroweberPackages\Utils\Zip($filename);
         $zip->setZipFile($filename);
         $zip->setComment("Microweber backup of the userfiles folder and db.
                 \n The Microweber version at the time of backup was {MW_VERSION}
@@ -331,7 +331,7 @@ class Backup
                 $this->log_action($back_log_action);
 
                 $exract_folder = md5($filename . filemtime($filename));
-                $unzip = new \Microweber\Utils\Unzip();
+                $unzip = new \MicroweberPackages\Utils\Unzip();
                 $target_dir = mw_cache_path() . 'backup_restore' . DS . $exract_folder . DS;
                 if (!is_dir($target_dir)) {
                     mkdir_recursive($target_dir);

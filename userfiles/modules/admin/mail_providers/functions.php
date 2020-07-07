@@ -53,7 +53,7 @@ event_bind('mw.mail_subscribe', function ($params) {
 
 	if ($email) {
 
-		$provider = new \Microweber\Utils\MailSubscriber();
+		$provider = new \MicroweberPackages\Utils\MailSubscriber();
 		
 		if (isset($params['list_id'])) {
 			$getFormLists = get_form_lists("?id=".$params['list_id'].'&limit=1');

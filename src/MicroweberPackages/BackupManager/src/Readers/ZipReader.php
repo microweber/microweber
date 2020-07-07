@@ -30,7 +30,7 @@ class ZipReader extends DefaultReader
 		// Remove old files
 		$this->_removeFilesFromPath($backupLocation);
 		
-		$unzip = new \Microweber\Utils\Unzip();
+		$unzip = new \MicroweberPackages\Utils\Unzip();
 		$unzip->extract($this->file, $backupLocation, true);
 
 		

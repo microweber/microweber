@@ -11,7 +11,7 @@ use Microweber\App\Utils\Adapters\Cache\Storage\XCacheStorage;
 
 class CacheStore implements Repository
 {
-    /** @var \Microweber\Utils\Adapters\Cache\Storage\FileStorage */
+    /** @var \MicroweberPackages\Utils\Adapters\Cache\Storage\FileStorage */
     public $adapter;
 
     public function __construct($prefix = '')

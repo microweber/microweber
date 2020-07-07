@@ -487,14 +487,14 @@ api_expose('queue_dispatch1', function () {
 
     //   $job = \Queue::push('App\Jobs\CheckTopic', ['url' => $url]);
 
-    $job = Queue::push('\Microweber\Utils\Import', ['export' => '']);
+    $job = Queue::push('\MicroweberPackages\Utils\Import', ['export' => '']);
     //dispatch($job)->onQueue('high');
     //dd($job);
 
     // \Illuminate\Queue\Worker;
 
 
-    $job = mw('\Microweber\Utils\Import', ['export' => '']);
+    $job = mw('\MicroweberPackages\Utils\Import', ['export' => '']);
     dispatch($job)->onQueue('high');
 
     //dispatch($job);

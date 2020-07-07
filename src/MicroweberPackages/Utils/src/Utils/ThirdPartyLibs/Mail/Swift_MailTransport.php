@@ -27,7 +27,7 @@ class Swift_MailTransport extends Swift_Transport_MailTransport
     public function __construct($extraParams = '-f%s')
     {
         call_user_func_array(
-            array($this, '\Microweber\Utils\lib\mail\Swift_Transport_MailTransport::__construct'),
+            array($this, '\MicroweberPackages\Utils\lib\mail\Swift_Transport_MailTransport::__construct'),
             \Swift_DependencyContainer::getInstance()
                 ->createDependenciesFor('transport.mail')
         );
