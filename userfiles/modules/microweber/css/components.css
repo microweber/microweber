@@ -123,11 +123,31 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     width: auto;
     height: auto;
     position: relative;
-    display: inline-block;
-    vertical-align: top;
+    display: block;
 }
 .post-thumb-uploader.mw-filepicker-desktop-type-big {
     width: 100%;
+}
+
+.post-media-select-all-pictures.active:before{
+    content: "\F0856";
+}
+.post-media-select-all-pictures:before{
+    display: inline-block;
+    content: "\F0131";
+    font-family: "Material Design Icons";
+    color: #009cff;
+    font-size: 20px;
+    vertical-align: middle;
+}
+.post-media-select-all-pictures.active{
+    display:inline-block;
+}
+.post-media-select-all-pictures{
+    display: none;
+    white-space: nowrap;
+    position: absolute;
+    margin: -30px 0 0;
 }
 
 
@@ -149,6 +169,11 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     cursor: -moz-grab;
     cursor: -webkit-grab;
     background-color: #f2f3f5;
+    overflow: hidden;
+}
+.mw-post-media-img{
+    width: 108px;
+    height: 108px;
 }
 
 .ui-sortable-helper .mw-post-media-img {
@@ -168,6 +193,11 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     height: 230px;
     margin-top: 0;
     margin-bottom: 0;
+
+}
+.admin-thumbs-holder .admin-thumb-item:first-child .mw-post-media-img {
+    width: 228px;
+    height: 228px;
 }
 .admin-thumbs-holder .featured-image{
     display: none;
@@ -198,17 +228,10 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     float: left;
 }
 
-.select_actions_holder:after {
-    visibility: hidden;
-    display: block;
-    font-size: 0;
-    content: " ";
-    clear: both;
-    height: 0;
-}
-
-.select_actions_holder {
-
+.select_actions_holder{
+    position: absolute;
+    top: 15px;
+    right: 5px;
 }
 
 .select_actions {
@@ -222,6 +245,19 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 
 .select_actions .mw-ui-btn {
     width: 40px;
+}
+.select_actions > span{
+    font-size: 12px;
+    opacity: 1;
+    visibility: visible;
+}
+.post-media-type-holder .dropdown{
+    opacity: 0;
+    pointer-events: none;
+}
+.post-media-type-holder .dropdown.active{
+    opacity: 1;
+    pointer-events: all;
 }
 
 .btnnv-label {
@@ -264,7 +300,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     content: "\F049A";
 }
 .pictures-admin-content-type-post .admin-thumb-item-loading:before {
-    content: "\F0EB0";
+    content: "\F09A8";
 }
 
 .admin-thumb-item {
@@ -402,7 +438,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     border: 1px dotted #235F99;
     visibility: visible !important;
 }
-.admin-thumbs-holder .admin-thumb-item-placeholder:nth-child(2){
+.admin-thumbs-holder .admin-thumb-item-placeholder.admin-thumb-item-placeholder-first{
     width: 230px;
     height: 230px;
 }

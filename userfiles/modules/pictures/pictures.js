@@ -83,10 +83,12 @@ mw.module_pictures = {
         if(typeof id === 'string'){
           if (confirm('Are you sure you want to delete this image?')) {
               $.post(mw.settings.api_url + 'delete_media', { id: id  }, function (data) {
-                  $('.admin-thumb-item-' + id).fadeOut();
+                  $('.admin-thumb-item-' + id).fadeOut(function () {
+                        $(this).remove();
+                  });
                   setTimeout(function(){ $('[data-type="pictures/admin"]').trigger('change') }, 2000);
 
-                  mw.module_pictures.after_change()
+                  mw.module_pictures.after_change();
               });
           }
         }
@@ -94,7 +96,9 @@ mw.module_pictures = {
           if (confirm('Are you sure you want to delete selected images?')) {
               $.post(mw.settings.api_url + 'delete_media', { ids: id  }, function (data) {
                 $.each(id, function(){
-                  $('.admin-thumb-item-' + this).fadeOut();
+                  $('.admin-thumb-item-' + this).fadeOut(function () {
+                      $(this).remove();
+                  });
                 })
                   setTimeout(function(){ $('[data-type="pictures/admin"]').trigger('change') }, 2000);
 
@@ -118,11 +122,19 @@ mw.module_pictures = {
           clearTimeout(mw.module_pictures.time)
           mw.module_pictures.time = setTimeout(function(){
             el.parents('[data-type="pictures/admin"]').trigger('change')
-          }, 1500)
-        })
+          }, 1500);
+        });
         el.sortable({
             items: ".admin-thumb-item",
-            placeholder: 'admin-thumb-item-placeholder',
+            placeholder:  'admin-thumb-item-placeholder' ,
+            sort: function (e, ui) {
+                var plIndex = ui.placeholder.index();
+                if (plIndex === 0 || (plIndex === 1 && ui.helper[0].id === mw.$('.admin-thumb-item:first', el)[0].id)) {
+                    el.find('.admin-thumb-item-placeholder').addClass('admin-thumb-item-placeholder-first');
+                } else {
+                    el.find('.admin-thumb-item-placeholder').removeClass('admin-thumb-item-placeholder-first')
+                }
+            },
             update: function () {
                 var serial = el.sortable('serialize');
                 $.post(mw.settings.api_url + 'reorder_media', serial,

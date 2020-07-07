@@ -54,6 +54,10 @@ $rand = 'pic-sorter-'.uniqid();
         height: 110px;
         margin: 0 5px 10px;
     }
+    .admin-thumb-item-uploader-holder:hover .dropable-zone.small-zone{
+        border-color: #4592ff;
+        background-color: rgba(69, 146, 255, 0.1);
+    }
 </style>
 <script>
     $(document).ready(function () {
@@ -87,7 +91,33 @@ $rand = 'pic-sorter-'.uniqid();
             }
 
         }
-    });
+
+
+            mw.$('#mw-admin-post-media-type').selectpicker()
+            mw.$('#mw-admin-post-media-type').on('change', function () {
+                mw._postsImageUploader.displayControllerByType($(this).val())
+            });
+
+            setTimeout(function () {
+                var item = mw.$('#mw-admin-post-media-type').parent().find('li:last');
+                var dropdownUploader = mw.upload({
+                    element: item,
+                    accept: 'image/*',
+                    multiple:true
+                });
+                $(dropdownUploader).on('FileAdded', function (e, res) {
+                    mw._postsImageUploader._thumbpreload()
+                })
+                $(dropdownUploader).on('FileUploaded', function (e, res) {
+                    var url = res.src ? res.src : res;
+                    if(window.after_upld) {
+                        after_upld(url, 'Result', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
+                        after_upld(url, 'done');
+                        mw._postsImageUploader.hide()
+                    }
+                });
+            }, 78)
+        })
 </script>
 
 <div class="admin-thumbs-holder" id="admin-thumbs-holder-sort-<?php print $rand; ?>">

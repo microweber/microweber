@@ -176,6 +176,24 @@ if ($for_id != false) {
             });
         });
     };
+
+
+    var toggleAll = function () {
+        var all = mw.$(".admin-thumb-item input[type='checkbox']");
+
+        if(all.length === all.filter(':checked').length) {
+            all.each(function () {
+                this.checked = false
+            })
+        } else {
+            all.each(function () {
+                this.checked = true
+            })
+        }
+
+        doselect()
+    }
+
 </script>
 <?php
 if (!isset($data["thumbnail"])) {
@@ -186,22 +204,21 @@ if (!isset($data["thumbnail"])) {
 
 <input name="thumbnail" type="hidden" value="<?php print ($data['thumbnail']) ?>"/>
 
+<span class="post-media-select-all-pictures tip" data-tip="Select all" onclick='toggleAll()'>
+    <span>0</span>
+    picture selected
+</span>
 
 <div class="select_actions_holder">
     <div class="select_actions">
-        <div class="mw-ui-btn-nav select_actions">
-            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-important mw-ui-btn-icon"
-               onclick="deleteSelected()">
-                <span class="mw-icon-bin tip" data-tip="<?php _e('Delete') ?> <?php _e('selected') ?>"
-                      data-tipposition="top-right"></span>
-            </a>
-            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-icon" onclick="downloadSelected('none')">
-                <span class="mw-icon-download tip" data-tip="<?php _e('Download') ?> <?php _e('selected') ?>"
-                      data-tipposition="top-right"></span>
-            </a>
-        </div>
+        <a href="javascript:;" class="btn btn-sm btn-link text-danger" onclick="deleteSelected()">
+            <span><?php _e('Delete') ?> <?php _e('selected') ?></span>
+        </a>
+        <span>/</span>
+        <a href="javascript:;" class="btn btn-sm btn-link" onclick="downloadSelected('none')">
+            <span><?php _e('Download') ?> <?php _e('selected') ?></span>
+        </a>
     </div>
-
 </div>
 
 
@@ -293,12 +310,16 @@ if (!isset($data["thumbnail"])) {
             mw.$(".admin-thumb-item:visible").each(function () {
                 var check = $('.mw-ui-check input:checked', this);
                 if(check.length) {
+
                     final.push(check[0].value);
                     $(this).addClass('checked')
                 } else {
-                    $(this).removeClass('checked')
+                    $(this).removeClass('checked');
+
                 }
             })
+            mw.$('.post-media-select-all-pictures')[final.length !== 0 ? 'addClass' : 'removeClass']('active').find('span').html(final.length);
+            mw.$('.post-media-type-holder .dropdown')[final.length === 0 ? 'addClass' : 'removeClass']('active');
             $(".select_actions")[final.length === 0 ? 'removeClass' : 'addClass']('active');
             $(".select_actions_holder").stop()[final.length === 0 ? 'hide' : 'show']();
             return final;
