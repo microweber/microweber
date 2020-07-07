@@ -20,7 +20,7 @@
   },
   "autoload": {
     "psr-4": {
-      "MicroweberPackages\\": "src/"
+      "MicroweberPackages\\Shop\\": "src/"
     },
     "files": [
       "src/ShopManager/helpers.php"
@@ -29,22 +29,22 @@
   "extra": {
     "laravel": {
       "providers": [
-        "MicroweberPackages\\CartManager\\CartManagerServiceProvider",
-        "MicroweberPackages\\CheckoutManager\\CheckoutManagerServiceProvider",
-        "MicroweberPackages\\ClientsManager\\ClientsManagerServiceProvider",
-        "MicroweberPackages\\InvoicesManager\\InvoicesManagerServiceProvider",
-        "MicroweberPackages\\OrderManager\\OrderManagerServiceProvider",
-        "MicroweberPackages\\ShopManager\\ShopManagerServiceProvider",
-        "MicroweberPackages\\TaxManager\\TaxManagerServiceProvider"
+        "MicroweberPackages\\Shop\\CartManager\\CartManagerServiceProvider",
+        "MicroweberPackages\\Shop\\CheckoutManager\\CheckoutManagerServiceProvider",
+        "MicroweberPackages\\Shop\\ClientsManager\\ClientsManagerServiceProvider",
+        "MicroweberPackages\\Shop\\InvoicesManager\\InvoicesManagerServiceProvider",
+        "MicroweberPackages\\Shop\\OrderManager\\OrderManagerServiceProvider",
+        "MicroweberPackages\\Shop\\ShopManager\\ShopManagerServiceProvider",
+        "MicroweberPackages\\Shop\\TaxManager\\TaxManagerServiceProvider"
       ],
       "aliases": {
-        "CatManager": "MicroweberPackages\\CatManager\\CartManagerFacade",
-        "CheckoutManager": "MicroweberPackages\\CheckoutManager\\CheckoutManagerFacade",
-        "ClientsManager": "MicroweberPackages\\ClientsManager\\ClientsManagerFacade",
-        "InvoicesManager": "MicroweberPackages\\InvoicesManager\\InvoicesManagerFacade",
-        "OrderManager": "MicroweberPackages\\OrderManager\\OrderManagerFacade",
-        "ShopManager": "MicroweberPackages\\ShopManager\\ShopManagerFacade",
-        "TaxManager": "MicroweberPackages\\TaxManager\\TaxManagerFacade"
+        "CatManager": "MicroweberPackages\\Shop\\CatManager\\CartManagerFacade",
+        "CheckoutManager": "MicroweberPackages\\Shop\\CheckoutManager\\CheckoutManagerFacade",
+        "ClientsManager": "MicroweberPackages\\Shop\\ClientsManager\\ClientsManagerFacade",
+        "InvoicesManager": "MicroweberPackages\\Shop\\InvoicesManager\\InvoicesManagerFacade",
+        "OrderManager": "MicroweberPackages\\Shop\\OrderManager\\OrderManagerFacade",
+        "ShopManager": "MicroweberPackages\\Shop\\ShopManager\\ShopManagerFacade",
+        "TaxManager": "MicroweberPackages\\Shop\\TaxManager\\TaxManagerFacade"
       }
     }
   },
