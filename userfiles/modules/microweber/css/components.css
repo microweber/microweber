@@ -918,3 +918,7 @@ body.mw-external-loading:after {
     z-index: 1;
     position: relative;
 }
+
+.mw-filepicker-component-section .form-group{
+    position: relative;
+}

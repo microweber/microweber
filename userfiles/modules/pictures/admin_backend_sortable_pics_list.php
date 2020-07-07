@@ -95,6 +95,7 @@ $rand = 'pic-sorter-'.uniqid();
 
             mw.$('#mw-admin-post-media-type').selectpicker()
             mw.$('#mw-admin-post-media-type').on('change', function () {
+                console.log($(this).val())
                 mw._postsImageUploader.displayControllerByType($(this).val())
             });
 
@@ -116,7 +117,7 @@ $rand = 'pic-sorter-'.uniqid();
                         mw._postsImageUploader.hide()
                     }
                 });
-            }, 78)
+            }, 1178)
         })
 </script>
 
