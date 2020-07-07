@@ -3,6 +3,8 @@ namespace MicroweberPackages\BackupManager\tests;
 
 use Faker\Factory;
 use MicroweberPackages\App\tests\TestCase;
+use MicroweberPackages\Backup\Backup;
+use MicroweberPackages\BackupManager\BackupManager;
 
 /**
  * Run test
@@ -46,7 +48,7 @@ class ZBackupV2Test extends TestCase
 		
 		clearcache();
 		
-		$manager = mw()->backup_manager;
+		$manager = new BackupManager();
 		$manager->setExportAllData(true);
 
 		$i = 0;
