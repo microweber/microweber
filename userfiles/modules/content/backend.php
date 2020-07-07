@@ -589,12 +589,13 @@ if ($action == 'posts') {
 } elseif ($action == 'categories') {
     $pages_container_params_str = " manage_categories='yes'    ";
 }
-d($action);
+
 ?>
 
-
-
-
+<?php if ($action == 'settings'): ?>
+    <module type="settings/group/website_group"/>
+    <?php return; ?>
+<?php endif ?>
 
 <div id="edit-content-row">
     <?php if ($action != 'categories'): ?>
