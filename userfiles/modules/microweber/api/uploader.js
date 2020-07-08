@@ -65,6 +65,7 @@ var Uploader = function( options ) {
     };
 
     this.validate = function (file) {
+        console.log(file)
         return true;
     };
 
@@ -87,6 +88,11 @@ var Uploader = function( options ) {
     };
 
     this.addFiles = function (files) {
+        if(!files || !files.length) return;
+
+        if(!this.settings.multiple) {
+            files = [files[0]];
+        }
         if (files && files.length) {
             for (var i = 0; i < files.length; i++) {
                 scope.addFile(files[i]);
@@ -121,9 +127,36 @@ var Uploader = function( options ) {
         this.$element.hide();
     };
 
+    this.initDropZone = function () {
+        if (!!this.settings.dropZone) {
+            mw.$(this.settings.dropZone).each(function () {
+                $(this).on('dragover', function (e) {
+                    e.preventDefault();
+                }).on('drop', function (e) {
+                    var dt = e.dataTransfer || e.originalEvent.dataTransfer;
+                    e.preventDefault();
+                    if (dt && dt.items) {
+                        var files = [];
+                        for (var i = 0; i < dt.items.length; i++) {
+                            if (dt.items[i].kind === 'file') {
+                                var file = dt.items[i].getAsFile();
+                                files.push(file);
+                            }
+                        }
+                        scope.addFiles(files);
+                    } else  if (dt && dt.files)  {
+                        scope.addFiles(dt.files);
+                    }
+                })
+            });
+        }
+    };
+
+
     this.init = function() {
         this.create();
         this.build();
+        this.initDropZone();
     };
 
     this.init();
@@ -206,6 +239,7 @@ var Uploader = function( options ) {
             });
         }
     };
+
 
     this.upload = function (data, done) {
         if (!this.settings.url) {

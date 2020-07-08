@@ -127,15 +127,25 @@ mw.module_pictures = {
         el.sortable({
             items: ".admin-thumb-item",
             placeholder:  'admin-thumb-item-placeholder' ,
+
             sort: function (e, ui) {
+                mw.$('.admin-thumb-item-uploader-holder,.admin-thumb-item,.admin-thumb-item-placeholder').each(function () {
+                    var el = $(this);
+                    el.height(el.width());
+                });
                 var plIndex = ui.placeholder.index();
                 if (plIndex === 0 || (plIndex === 1 && ui.helper[0].id === mw.$('.admin-thumb-item:first', el)[0].id)) {
                     el.find('.admin-thumb-item-placeholder').addClass('admin-thumb-item-placeholder-first');
                 } else {
-                    el.find('.admin-thumb-item-placeholder').removeClass('admin-thumb-item-placeholder-first')
+                    el.find('.admin-thumb-item-placeholder').removeClass('admin-thumb-item-placeholder-first');
                 }
+
             },
             update: function () {
+                mw.$('.admin-thumb-item-uploader-holder,.admin-thumb-item,.admin-thumb-item-placeholder').each(function () {
+                    var el = $(this);
+                    el.height(el.width())
+                });
                 var serial = el.sortable('serialize');
                 $.post(mw.settings.api_url + 'reorder_media', serial,
                     function (data) {

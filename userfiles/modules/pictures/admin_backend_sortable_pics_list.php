@@ -50,7 +50,7 @@ $rand = 'pic-sorter-'.uniqid();
         display: block;
         position: relative;
         float: left;
-        width: 110px;
+        width: 18%;
         height: 110px;
         margin: 0 5px 10px;
     }
@@ -62,6 +62,12 @@ $rand = 'pic-sorter-'.uniqid();
         background-color: rgba(69, 146, 255, 0.1);
     }
 </style>
+
+
+<div class="mw-drop-zone" id="admin-thumbs-drop-zone-<?php print $rand; ?>" style="display: none">Drop here to upload</div>
+
+
+
 <script>
     $(document).ready(function () {
         mw.module_pictures.init('#admin-thumbs-holder-sort-<?php print $rand; ?>');
@@ -72,7 +78,8 @@ $rand = 'pic-sorter-'.uniqid();
         mw._postsImageUploaderSmall = mw.upload({
             element: uploadHolder,
             accept: 'image/*',
-            multiple:true
+            multiple:true,
+            dropZone: '#admin-thumbs-drop-zone-<?php print $rand; ?>',
         });
         mw._postsImageUploaderSmall.$holder = uploadHolder.parent();
         $(mw._postsImageUploaderSmall).on('FileAdded', function (e, res) {
@@ -95,40 +102,71 @@ $rand = 'pic-sorter-'.uniqid();
 
         }
 
-            var dropdownUploader;
+        var dropdownUploader;
 
-            mw.$('#mw-admin-post-media-type')
-                .selectpicker()
-                .on('changed.bs.select', function () {
-                    mw._postsImageUploader.displayControllerByType($(this).selectpicker('val'))
-                    setTimeout(function () {
-                        $(this).selectpicker('val', null);
-                    }, 200)
+        mw.$('#mw-admin-post-media-type')
+            .selectpicker()
+            .on('changed.bs.select', function () {
+                mw._postsImageUploader.displayControllerByType($(this).selectpicker('val'))
+                setTimeout(function () {
+                    $(this).selectpicker('val', null);
+                }, 200)
 
+            })
+            .on('show.bs.select', function () {
+                if(!!dropdownUploader) return;
+                var item = mw.$('#mw-admin-post-media-type').parent().find('li:last');
+                dropdownUploader = mw.upload({
+                    element: item,
+                    accept: 'image/*',
+                    multiple:true
+                });
+                $(dropdownUploader).on('FileAdded', function (e, res) {
+                    mw._postsImageUploader._thumbpreload()
                 })
-                .on('show.bs.select', function () {
-                    if(!!dropdownUploader) return;
-                    var item = mw.$('#mw-admin-post-media-type').parent().find('li:last');
-                    dropdownUploader = mw.upload({
-                        element: item,
-                        accept: 'image/*',
-                        multiple:true
-                    });
-                    $(dropdownUploader).on('FileAdded', function (e, res) {
-                        mw._postsImageUploader._thumbpreload()
-                    })
-                    $(dropdownUploader).on('FileUploaded', function (e, res) {
-                        var url = res.src ? res.src : res;
-                        if(window.after_upld) {
-                            after_upld(url, 'Result', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
-                            after_upld(url, 'done');
-                            mw._postsImageUploader.hide()
-                        }
-                    });
-                })
+                $(dropdownUploader).on('FileUploaded', function (e, res) {
+                    var url = res.src ? res.src : res;
+                    if(window.after_upld) {
+                        after_upld(url, 'Result', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
+                        after_upld(url, 'done');
+                        mw._postsImageUploader.hide()
+                    }
+                });
+            })
+
+        mw.$('.admin-thumb-item-uploader-holder,.admin-thumb-item,.admin-thumb-item-placeholder').each(function () {
+            var el = $(this);
+            el.height(el.width())
+        });
 
 
-        })
+        var dragTimer;
+        $(document).on('dragover', function(e) {
+            var dt = e.originalEvent.dataTransfer;
+            if (dt.types && (dt.types.indexOf ? dt.types.indexOf('Files') !== -1 : dt.types.contains('Files'))) {
+                $("#admin-thumbs-drop-zone-<?php print $rand; ?>").show();
+                clearTimeout(dragTimer);
+            }
+        });
+        $(document).on('dragleave', function(e) {
+            dragTimer = setTimeout(function() {
+                $("#admin-thumbs-drop-zone-<?php print $rand; ?>").hide();
+            }, 25);
+        });
+
+        $("#admin-thumbs-drop-zone-<?php print $rand; ?>").on('drop', function () {
+            $("#admin-thumbs-drop-zone-<?php print $rand; ?>").hide();
+        });
+
+
+    });
+
+    $(window).on('load resize', function () {
+        mw.$('.admin-thumb-item-uploader-holder,.admin-thumb-item,.admin-thumb-item-placeholder').each(function () {
+            var el = $(this);
+            el.height(el.width())
+        });
+    });
 </script>
 
 <div class="admin-thumbs-holder" id="admin-thumbs-holder-sort-<?php print $rand; ?>">
