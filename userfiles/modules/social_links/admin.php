@@ -33,280 +33,143 @@ $mixcloud_url = get_option('mixcloud_url', $option_group);
 $medium_url = get_option('medium_url', $option_group);
 ?>
 
-    <style scoped="scoped">
-        .module-social-links-settings [class*='mw-icon-'],
-        .module-social-links-settings [class*='fa-'] {
-            font-size: 18px;
-            display: inline-block;
-            margin: 0;
-            width: 14px;
-            text-align: center;
-        }
+<style scoped="scoped">
+    .module-social-links-settings .active {
+    }
+</style>
 
-        .mw-ui-table .mw-ui-field-holder{
-            text-align: left;
-        }
-        html[dir="rtl"] .mw-ui-table,
-        html[dir="rtl"] .mw-ui-table *{
-            direction: ltr;
-        }
+<script>
+    $(document).ready(function () {
+        $('.module-social-links-settings input[type="checkbox"]').each(function () {
+            $(this).parent().parent().find('input[type="text"]').prop('readonly', true);
+        });
 
-        .module-social-links-settings tr.active {
-            background: #FFF;
-        }
+        $('.module-social-links-settings input[type="checkbox"]:checked').each(function () {
+            $(this).parent().parent().addClass('active');
+            $(this).parent().parent().find('input[type="text"]').prop('readonly', false);
+        });
 
-    </style>
+        $('.module-social-links-settings input[type="checkbox"]').on('change', function () {
+            if ($(this).is(':checked')) {
+                $(this).parent().parent().addClass('active');
+                $(this).parent().parent().find('input[type="text"]').prop('readonly', false);
+            } else {
+                $(this).parent().parent().removeClass('active');
+                $(this).parent().parent().find('input[type="text"]').prop('readonly', true);
+            }
+        });
+    })
+</script>
 
-    <script>
-        $(document).ready(function () {
+<div class="module-live-edit-settings module-social-links-settings">
+    <div class="row">
+        <div class="col-12 socials-settings">
+            <div class="form-group mb-4">
+                <label class="control-label">Select and type socials links you want to show</label>
+                <small class="text-muted d-block mb-2">Select the social networks you want to see on your site, blog and store</small>
+            </div>
 
-            $('.module-social-links-settings input[type="checkbox"]:checked').each(function () {
-                $(this).parent().parent().parent().addClass('active');
-            });
+            <div class="form-group">
+                <div class="custom-control custom-checkbox d-flex align-items-center">
+                    <input type="checkbox" class="mw_option_field custom-control-input" id="facebook_enabled" option-group="<?php print $option_group; ?>" name="facebook_enabled" id="facebook_enabled" value="y" <?php if ($facebook_enabled) print 'checked="checked"'; ?>>
+                    <label class="custom-control-label mr-2 d-flex" for="facebook_enabled"><i class="mdi mdi-facebook mdi-20px lh-1_0 mr-2"></i> facebook.com/</label>
+                    <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="facebook_url" value="<?php print $facebook_url; ?>">
+                </div>
+            </div>
 
+            <div class="form-group">
+                <div class="custom-control custom-checkbox d-flex align-items-center">
+                    <input type="checkbox" class="mw_option_field custom-control-input" name="twitter_enabled" id="twitter_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($twitter_enabled) print 'checked="checked"'; ?>>
+                    <label class="custom-control-label mr-2 d-flex" for="twitter_enabled"><i class="mdi mdi-twitter mdi-20px lh-1_0 mr-2"></i> twitter.com/</label>
+                    <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="twitter_url" value="<?php print $twitter_url; ?>">
+                </div>
+            </div>
 
-            $('.module-social-links-settings input[type="checkbox"]').on('change', function () {
-                if ($(this).is(':checked')) {
-                    $(this).parent().parent().parent().addClass('active');
-                } else {
-                    $(this).parent().parent().parent().removeClass('active');
-                }
-            });
-        })
-    </script>
+            <div class="form-group">
+                <div class="custom-control custom-checkbox d-flex align-items-center">
+                    <input type="checkbox" class="mw_option_field custom-control-input" name="pinterest_enabled" id="pinterest_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($pinterest_enabled) print 'checked="checked"'; ?>>
+                    <label class="custom-control-label mr-2 d-flex" for="pinterest_enabled"><i class="mdi mdi-pinterest mdi-20px lh-1_0 mr-2"></i> pinterest.com/</label>
+                    <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="pinterest_url" value="<?php print $pinterest_url; ?>"/><span></span>
+                </div>
+            </div>
 
+            <a href="javascript:;" class="btn btn-outline-primary btn-sm mb-3" data-toggle="collapse" data-target="#more-socials-settings" aria-expanded="true">Show more</a>
 
-    <script>mw.lib.require('font_awesome5');</script>
+            <div class="collapse" id="more-socials-settings">
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox d-flex align-items-center">
+                        <input type="checkbox" class="mw_option_field custom-control-input" name="youtube_enabled" id="youtube_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($youtube_enabled) print 'checked="checked"'; ?>>
+                        <label class="custom-control-label mr-2 d-flex" for="youtube_enabled"><i class="mdi mdi-youtube mdi-20px lh-1_0 mr-2"></i> youtube.com/</label>
+                        <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="youtube_url" value="<?php print $youtube_url; ?>"/>
+                    </div>
+                </div>
 
-    <div class="module-live-edit-settings module-social-links-settings">
-        <div class="mw-ui-field-holder">
-            <label class="mw-ui-label">Select and type socials links you want to show</label>
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox d-flex align-items-center">
+                        <input type="checkbox" class="mw_option_field custom-control-input" name="googleplus_enabled" id="googleplus_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($googleplus_enabled) print 'checked="checked"'; ?>>
+                        <label class="custom-control-label mr-2 d-flex" for="googleplus_enabled"><i class="mdi mdi-google-plus mdi-20px lh-1_0 mr-2"></i> plus.google.com/</label>
+                        <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="googleplus_url" value="<?php print $googleplus_url; ?>"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox d-flex align-items-center">
+                        <input type="checkbox" class="mw_option_field custom-control-input" name="linkedin_enabled" id="linkedin_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($linkedin_enabled) print 'checked="checked"'; ?>>
+                        <label class="custom-control-label mr-2 d-flex" for="linkedin_enabled"><i class="mdi mdi-linkedin mdi-20px lh-1_0 mr-2"></i> linkedin.com/</label>
+                        <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="linkedin_url" value="<?php print $linkedin_url; ?>"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox d-flex align-items-center">
+                        <input type="checkbox" class="mw_option_field custom-control-input" name="github_enabled" id="github_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($github_enabled) print 'checked="checked"'; ?>>
+                        <label class="custom-control-label mr-2 d-flex" for="github_enabled"><i class="mdi mdi-github mdi-20px lh-1_0 mr-2"></i> github.com/</label>
+                        <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="github_url" value="<?php print $github_url; ?>"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox d-flex align-items-center">
+                        <input type="checkbox" class="mw_option_field custom-control-input" name="instagram_enabled" id="instagram_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($instagram_enabled) print 'checked="checked"'; ?>>
+                        <label class="custom-control-label mr-2 d-flex" for="instagram_enabled"><i class="mdi mdi-instagram mdi-20px lh-1_0 mr-2"></i> instagram.com/</label>
+                        <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="instagram_url" value="<?php print $instagram_url; ?>"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox d-flex align-items-center">
+                        <input type="checkbox" class="mw_option_field custom-control-input" name="soundcloud_enabled" id="soundcloud_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($soundcloud_enabled) print 'checked="checked"'; ?>>
+                        <label class="custom-control-label mr-2 d-flex" for="soundcloud_enabled"><i class="mdi mdi-soundcloud mdi-20px lh-1_0 mr-2"></i> soundcloud.com/</label>
+                        <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="soundcloud_url" value="<?php print $soundcloud_url; ?>"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox d-flex align-items-center">
+                        <input type="checkbox" class="mw_option_field custom-control-input" name="mixcloud_enabled" id="mixcloud_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($mixcloud_enabled) print 'checked="checked"'; ?>>
+                        <label class="custom-control-label mr-2 d-flex" for="mixcloud_enabled"><i class="mdi mdi-mixdcloud mdi-20px lh-1_0 mr-2"></i> mixdcloud.com/</label>
+                        <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="mixcloud_url" value="<?php print $mixcloud_url; ?>"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox d-flex align-items-center">
+                        <input type="checkbox" class="mw_option_field custom-control-input" name="medium_enabled" id="medium_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($medium_enabled) print 'checked="checked"'; ?>>
+                        <label class="custom-control-label mr-2 d-flex" for="medium_enabled"><i class="mdi mdi-medium mdi-20px lh-1_0 mr-2"></i> medium.com/</label>
+                        <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="medium_url" value="<?php print $medium_url; ?>"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox d-flex align-items-center">
+                        <input type="checkbox" class="mw_option_field custom-control-input" name="rss_enabled" id="rss_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($rss_enabled) print 'checked="checked"'; ?>>
+                        <label class="custom-control-label mr-2 d-flex" for="rss_enabled"><i class="mdi mdi-rss mdi-20px lh-1_0 mr-2"></i> RSS</label>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <table class="mw-ui-table mw-full-width mw-ui-table-fixed mw-ui-table-basic">
-            <colgroup>
-                <col width="30"/>
-                <col width="18"/>
-                <col width="110"/>
-            </colgroup>
-
-            <tr>
-                <td>
-                    <label class="mw-ui-check"><input type="checkbox" class="mw_option_field" option-group="<?php print $option_group; ?>" name="facebook_enabled" id="facebook_enabled" value="y" <?php if ($facebook_enabled) print 'checked="checked"'; ?>><span></span></label>
-                </td>
-                <td><i class="fab fa-facebook mw-socials-facebook-color"></i></td>
-                <td>
-                    <label class="mw-ui-inline-label" for="facebook_enabled">facebook.com/</label>
-                </td>
-                <td>
-                    <div class="mw-ui-field-holder">
-                        <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field mw-ui-field mw-ui-field-medium" name="facebook_url" value="<?php print $facebook_url; ?>">
-                    </div>
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label class="mw-ui-check"><input type="checkbox" class="mw_option_field" name="twitter_enabled" id="twitter_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($twitter_enabled) print 'checked="checked"'; ?>><span></span></label>
-                </td>
-
-                <td><i class="fab fa-twitter mw-socials-twitter-color"></i></td>
-
-                <td>
-                    <label class="mw-ui-inline-label" for="twitter_enabled">twitter.com/</label>
-                </td>
-                <td>
-                    <div class="mw-ui-field-holder">
-                        <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field mw-ui-field mw-ui-field-medium" name="twitter_url" value="<?php print $twitter_url; ?>">
-                    </div>
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label class="mw-ui-check">
-                        <input type="checkbox" class="mw_option_field" name="pinterest_enabled" id="pinterest_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($pinterest_enabled) print 'checked="checked"'; ?>><span></span>
-                    </label>
-                </td>
-
-                <td><i class="fab fa-pinterest mw-socials-pinterest-color"></i></td>
-
-                <td>
-                    <label class="mw-ui-inline-label" for="pinterest_enabled">pinterest.com/</label>
-                </td>
-                <td>
-                    <div class="mw-ui-field-holder">
-                        <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field mw-ui-field mw-ui-field-medium" name="pinterest_url" value="<?php print $pinterest_url; ?>"/><span></span>
-                    </div>
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label class="mw-ui-check">
-                        <input type="checkbox" class="mw_option_field" name="youtube_enabled" id="youtube_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($youtube_enabled) print 'checked="checked"'; ?>><span></span>
-                    </label>
-                </td>
-
-                <td><i class="fab fa-youtube mw-socials-youtube-color"></i></td>
-
-                <td>
-                    <label class="mw-ui-inline-label" for="youtube_enabled">youtube.com/</label>
-                </td>
-                <td>
-                    <div class="mw-ui-field-holder">
-                        <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field mw-ui-field mw-ui-field-medium" name="youtube_url" value="<?php print $youtube_url; ?>"/>
-                    </div>
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label class="mw-ui-check">
-                        <input type="checkbox" class="mw_option_field" name="googleplus_enabled" id="googleplus_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($googleplus_enabled) print 'checked="checked"'; ?>><span></span>
-                    </label>
-                </td>
-
-                <td><i class="fab fa-youtube mw-socials-youtube-color"></i></td>
-
-                <td>
-                    <label class="mw-ui-inline-label" for="googleplus_enabled">plus.google.com/</label>
-                </td>
-                <td>
-                    <div class="mw-ui-field-holder">
-                        <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field mw-ui-field mw-ui-field-medium" name="googleplus_url" value="<?php print $googleplus_url; ?>"/>
-                    </div>
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label class="mw-ui-check">
-                        <input type="checkbox" class="mw_option_field" name="linkedin_enabled" id="linkedin_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($linkedin_enabled) print 'checked="checked"'; ?>><span></span>
-                    </label>
-                </td>
-
-                <td><i class="fab fa-linkedin  mw-socials-linkedin-color"></i></td>
-
-                <td>
-                    <label class="mw-ui-inline-label" for="linkedin_enabled">linkedin.com/</label>
-                </td>
-                <td>
-                    <div class="mw-ui-field-holder">
-                        <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field mw-ui-field mw-ui-field-medium" name="linkedin_url" value="<?php print $linkedin_url; ?>"/>
-                    </div>
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label class="mw-ui-check">
-                        <input type="checkbox" class="mw_option_field" name="github_enabled" id="github_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($github_enabled) print 'checked="checked"'; ?>><span></span>
-                    </label>
-                </td>
-
-                <td><i class="fab fa-github  mw-socials-github-color"></i></td>
-
-                <td>
-                    <label class="mw-ui-inline-label" for="github_enabled">github.com/</label>
-                </td>
-                <td>
-                    <div class="mw-ui-field-holder">
-                        <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field mw-ui-field mw-ui-field-medium" name="github_url" value="<?php print $github_url; ?>"/>
-                    </div>
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label class="mw-ui-check">
-                        <input type="checkbox" class="mw_option_field" name="instagram_enabled" id="instagram_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($instagram_enabled) print 'checked="checked"'; ?>><span></span>
-                    </label>
-                </td>
-
-                <td><i class="fab fa-instagram  mw-socials-instagram-color"></i></td>
-
-                <td>
-                    <label class="mw-ui-inline-label" for="instagram_enabled">instagram.com/</label>
-                </td>
-                <td>
-                    <div class="mw-ui-field-holder">
-                        <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field mw-ui-field mw-ui-field-medium" name="instagram_url" value="<?php print $instagram_url; ?>"/>
-                    </div>
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label class="mw-ui-check">
-                        <input type="checkbox" class="mw_option_field" name="soundcloud_enabled" id="soundcloud_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($soundcloud_enabled) print 'checked="checked"'; ?>><span></span>
-                    </label>
-                </td>
-
-                <td><i class="fab fa-soundcloud  mw-socials-color"></i></td>
-
-                <td>
-                    <label class="mw-ui-inline-label" for="soundcloud_enabled">soundcloud.com/</label>
-                </td>
-                <td>
-                    <div class="mw-ui-field-holder">
-                        <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field mw-ui-field mw-ui-field-medium" name="soundcloud_url" value="<?php print $soundcloud_url; ?>"/>
-                    </div>
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label class="mw-ui-check">
-                        <input type="checkbox" class="mw_option_field" name="mixcloud_enabled" id="mixcloud_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($mixcloud_enabled) print 'checked="checked"'; ?>><span></span>
-                    </label>
-                </td>
-
-                <td><i class="fab fa-mixcloud  mw-socials-color"></i></td>
-
-                <td>
-                    <label class="mw-ui-inline-label" for="mixcloud_enabled">mixcloud.com/</label>
-                </td>
-                <td>
-                    <div class="mw-ui-field-holder">
-                        <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field mw-ui-field mw-ui-field-medium" name="mixcloud_url" value="<?php print $mixcloud_url; ?>"/>
-                    </div>
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label class="mw-ui-check">
-                        <input type="checkbox" class="mw_option_field" name="medium_enabled" id="medium_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($medium_enabled) print 'checked="checked"'; ?>><span></span>
-                    </label>
-                </td>
-
-                <td><i class="fab fa-medium  mw-socials-color"></i></td>
-
-                <td>
-                    <label class="mw-ui-inline-label" for="medium_enabled">medium.com/</label>
-                </td>
-                <td>
-                    <div class="mw-ui-field-holder">
-                        <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field mw-ui-field mw-ui-field-medium" name="medium_url" value="<?php print $medium_url; ?>"/>
-                    </div>
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label class="mw-ui-check">
-                        <input type="checkbox" class="mw_option_field" name="rss_enabled" id="rss_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($rss_enabled) print 'checked="checked"'; ?>><span></span>
-                    </label>
-                </td>
-
-                <td><span class="mw-icon-social-rss"></span></td>
-
-                <td><label class="mw-ui-inline-label" for="rss_enabled">RSS</label></td>
-                <td></td>
-            </tr>
-        </table>
     </div>
+</div>
 
 <?php if (isset($params['live_edit_sidebar'])): ?>
 

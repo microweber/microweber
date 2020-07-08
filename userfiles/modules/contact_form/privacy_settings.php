@@ -22,48 +22,54 @@ if (isset($params['for_module_id'])) {
 ?>
 
 
-<module type="users/terms/set_for_module" for_module="<?php print $mod_id ?>" />
+<div class="card bg-none style-1 mb-0">
+    <div class="card-body pt-3">
+        <hr class="thin mt-0 mb-5"/>
 
+        <div class="row">
+            <div class="col-md-4">
+                <h5 class="font-weight-bold">Contact form settings</h5>
+                <small class="text-muted">Make settings for your contact form (there may be more than one) related to the conditions for sending data and using the website.</small>
+            </div>
+            <div class="col-md-8">
+                <div class="card bg-light style-1 mb-3">
+                    <div class="card-body pt-3">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group mb-3">
+                                    <label class="control-label">Users must agree to the terms and conditions</label>
+                                    <small class="text-muted d-block mb-2">If the user does not agree to the terms, he will not be able to use the contact form</small>
+                                </div>
 
+                                <module type="users/terms/set_for_module" for_module="contact_form"/>
 
+                                <div class="form-group mb-3">
+                                    <label class="control-label">Saving data and emails</label>
+                                    <small class="text-muted d-block mb-2">Will you save the information from the emails in your database on the website?</small>
+                                </div>
 
-<?php
+                                <div class="form-group mb-4">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="mw_option_field custom-control-input" id="skip_saving_emails_<?php $params['id']; ?>" parent-reload="true" name="skip_saving_emails" value="y" data-value-unchecked="n" data-value-checked="y" option-group="<?php print $mod_id ?>" <?php if (get_option('skip_saving_emails', $mod_id) == 'y'): ?>checked<?php endif; ?> />
+                                        <label class="custom-control-label" for="skip_saving_emails_<?php $params['id']; ?>"><?php _e("Skip saving emails in my website database."); ?></label>
+                                    </div>
+                                </div>
 
-/*<div class="mw-ui-field-holder">
-    <label class="mw-ui-check">
-        <input type="checkbox" parent-reload="true" name="require_terms" value="y" data-value-unchecked="n" data-value-checked="y" class="mw_option_field" option-group="<?php print $mod_id ?>"
-            <?php if (get_option('require_terms', $mod_id) == 'y'): ?> checked="checked" <?php endif; ?> />
-        <span></span><span><?php _e("Users must agree to the Terms and Conditions"); ?></span></label>
+                                <div class="form-group mb-3">
+                                    <label class="control-label">Want to view and edit the text and the page?</label>
+                                    <button class="btn btn-sm btn-outline-primary mt-2" data-toggle="collapse" data-target="#contact-form-settings">Edit the text and URL</button>
+                                </div>
+
+                                <div class="collapse" id="contact-form-settings">
+                                    <module type="users/terms/edit" terms-group="contact_form"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="mw-ui-field-holder" id="agree_when"<?php if (get_option('require_terms', $mod_id) != 'y'): ?> style="display:none;"<?php endif; ?>>
-<ul class="mw-ui-inline-list">
-    <li>
-        <label class="mw-ui-check">
-            <input type="radio" parent-reload="true" name="require_terms_when" value="b" data-value-checked="b" class="mw_option_field" option-group="<?php print $mod_id ?>"
-                <?php if (get_option('require_terms_when', $mod_id) == 'b'): ?>   checked="checked"  <?php endif; ?> />
-            <span></span>
-            <span><?php _e("Agree before form submission"); ?></span>
-        </label>
-    </li>
-    <li>
-        <label class="mw-ui-check">
-            <input type="radio" parent-reload="true" name="require_terms_when" value="a" data-value-checked="a" class="mw_option_field" option-group="<?php print $mod_id ?>"
-                <?php if (get_option('require_terms_when', $mod_id) == 'a'): ?>   checked="checked"  <?php endif; ?> />
-            <span></span>
-            <span><?php _e("Agree after form submission"); ?></span>
-        </label>
-    </li>
-</ul>
-</div>*/
 
-?>
-
-<div class="mw-ui-field-holder">
-    <label class="mw-ui-check">
-        <input type="checkbox" parent-reload="true" name="skip_saving_emails" value="y" data-value-unchecked="n" data-value-checked="y" class="mw_option_field" option-group="<?php print $mod_id ?>"
-            <?php if (get_option('skip_saving_emails', $mod_id) == 'y'): ?> checked="checked"  <?php endif; ?> />
-        <span></span>
-        <span><?php _e("Skip saving emails in database."); ?></span>
-    </label>
-</div>

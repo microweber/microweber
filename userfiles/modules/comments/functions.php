@@ -36,58 +36,58 @@ api_expose_admin('mark_comment_post_notifications_as_read', function ($params) {
 
 api_expose('delete_comment_user', function ($params) {
 
-	$comment = get_comments('single=1&id=' . $params['comment_id']);
-	if (empty($comment)) {
-		return;
-	}
+    $comment = get_comments('single=1&id=' . $params['comment_id']);
+    if (empty($comment)) {
+        return;
+    }
 
-	$commentSessionId = false;
-	if (isset($comment['session_id'])) {
-		$commentSessionId = $comment['session_id'];
-	}
+    $commentSessionId = false;
+    if (isset($comment['session_id'])) {
+        $commentSessionId = $comment['session_id'];
+    }
 
-	if (mw()->user_manager->session_id() == $commentSessionId) {
+    if (mw()->user_manager->session_id() == $commentSessionId) {
 
-		return db_delete("comments", intval($params['comment_id']));
+        return db_delete("comments", intval($params['comment_id']));
 
-	}
+    }
 });
 
 api_expose('save_comment_user', function ($params) {
 
-	$comment = get_comments('single=1&id=' . $params['comment_id']);
-	if (empty($comment)) {
-		return;
-	}
+    $comment = get_comments('single=1&id=' . $params['comment_id']);
+    if (empty($comment)) {
+        return;
+    }
 
-	$commentSessionId = false;
-	if (isset($comment['session_id'])) {
-		$commentSessionId = $comment['session_id'];
-	}
+    $commentSessionId = false;
+    if (isset($comment['session_id'])) {
+        $commentSessionId = $comment['session_id'];
+    }
 
-	if (mw()->user_manager->session_id() == $commentSessionId) {
+    if (mw()->user_manager->session_id() == $commentSessionId) {
 
-		$newCommentData = array();
-		$newCommentData['id'] = $params['comment_id'];
+        $newCommentData = array();
+        $newCommentData['id'] = $params['comment_id'];
 
-		$commentBody = $params['comment_body'];
+        $commentBody = $params['comment_body'];
 
-		// Claer HTML
-		$commentBody = mw()->format->clean_html($commentBody);
+        // Claer HTML
+        $commentBody = mw()->format->clean_html($commentBody);
 
-		// Clear XSS
-		$evil = ['(?<!\w)on\w*',   'xmlns', 'formaction',   'xlink:href', 'FSCommand', 'seekSegmentTime'];
-		$commentBody = mw()->format->clean_xss($commentBody, true, $evil, 'removeEvilAttributes');
+        // Clear XSS
+        $evil = ['(?<!\w)on\w*', 'xmlns', 'formaction', 'xlink:href', 'FSCommand', 'seekSegmentTime'];
+        $commentBody = mw()->format->clean_xss($commentBody, true, $evil, 'removeEvilAttributes');
 
-		$commentBody = GrahamCampbell\Markdown\Facades\Markdown::convertToHtml($commentBody);
+        $commentBody = GrahamCampbell\Markdown\Facades\Markdown::convertToHtml($commentBody);
 
-		$newCommentData['comment_body'] = $commentBody;
-		$newCommentData['allow_html'] = '1';
-		$newCommentData['allow_scripts'] = '1';
+        $newCommentData['comment_body'] = $commentBody;
+        $newCommentData['allow_html'] = '1';
+        $newCommentData['allow_scripts'] = '1';
 
-		mw()->database_manager->save('comments', $newCommentData);
+        mw()->database_manager->save('comments', $newCommentData);
 
-	}
+    }
 
 });
 
@@ -97,7 +97,7 @@ api_expose('save_comment_user', function ($params) {
 api_expose('post_comment');
 function post_comment($data)
 {
-	// Save to database
+    // Save to database
     $comments = new \Microweber\Comments\Models\Comments();
     $comment_id = $comments->save($data);
 
@@ -164,17 +164,17 @@ event_bind(
 
 
 event_bind(
-	'module.comments.item.before', function ($item) {
+    'module.comments.item.before', function ($item) {
 
-		$commentSessionId = false;
-		if (isset($item['session_id'])) {
-			$commentSessionId = $item['session_id'];
-		}
+    $commentSessionId = false;
+    if (isset($item['session_id'])) {
+        $commentSessionId = $item['session_id'];
+    }
 
-		if (mw()->user_manager->session_id() == $commentSessionId) {
-			echo '<module type="comments/manage_user" no_post_head="true" comment_id="' . $item['id'] . '"  />';
-		}
-	}
+    if (mw()->user_manager->session_id() == $commentSessionId) {
+        echo '<module type="comments/manage_user" no_post_head="true" comment_id="' . $item['id'] . '"  />';
+    }
+}
 );
 
 event_bind(
@@ -196,5 +196,5 @@ event_bind(
 });
 
 event_bind('website.privacy_settings', function () {
-    print '<h2>Comments settings</h2><module type="comments/privacy_settings" />';
+    print '<module type="comments/privacy_settings" />';
 });
