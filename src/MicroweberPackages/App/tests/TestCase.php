@@ -76,15 +76,9 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
           //  @unlink($this->sqlite_file);
         }
 
-
-
-
         $db_driver =  env('DB_DRIVER') ? env('DB_DRIVER') : 'sqlite'  ;
         $db_host = env('DB_HOST', '');
         $db_port = env('DB_PORT', '');
-
-
-
 
         $db_user =  env('DB_USERNAME', '');
         $db_pass = env('DB_PASSWORD', '');
@@ -127,7 +121,6 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         // make fresh install
         $install_params = array(
-
             'username' => 'test',
             'password' => 'test',
             'email' => 'test@example.com',
@@ -141,11 +134,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             '--env' => $environment,
         );
 
-
-
-
         $is_installed = mw_is_installed();
-
         if (!$is_installed) {
 
             $install = \Artisan::call('microweber:install', $install_params);
