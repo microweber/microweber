@@ -69,7 +69,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         });
 
         $environment = $app->environment();
-        $this->sqlite_file = storage_path() . '/phpunit.' . $environment . '.sqlite';
+        $this->sqlite_file = normalize_path(storage_path() . '/phpunit.' . $environment . '.sqlite', false);
 
 
         if (is_file($this->sqlite_file)) {
@@ -138,6 +138,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         if (!$is_installed) {
 
             $install = \Artisan::call('microweber:install', $install_params);
+
             $this->assertEquals(0, $install);
 
             // Clear caches
@@ -152,7 +153,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         return $app;
     }
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass():void
     {
 
         $test_env_from_conf = env('APP_ENV_TEST_FROM_CONFIG');

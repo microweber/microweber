@@ -103,10 +103,14 @@ class InstallCommand extends Command
         $input['subscribe_for_update_notification'] = true;
 
 
+        var_dump($input);
+
         $this->info('Installing Microweber...');
         $this->installer->command_line_logger = $this;
         $result = $this->installer->index($input);
         $this->info($result);
+
+        var_dump($result);
     }
 
     protected function getArguments()
