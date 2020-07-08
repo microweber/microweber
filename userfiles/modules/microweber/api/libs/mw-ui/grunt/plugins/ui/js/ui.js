@@ -116,7 +116,7 @@ $(document).ready(function () {
         } else {
             $(checkBox).attr('checked', 'checked');
         }
-
+        $(checkBox).trigger('change');
         return false;
     });
 
