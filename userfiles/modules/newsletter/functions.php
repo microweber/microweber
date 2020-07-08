@@ -9,6 +9,6 @@ include __DIR__ . '/functions/list_functions.php';
 
 
 event_bind('website.privacy_settings', function () {
-    print '<h2>Newsletter settings</h2><module type="newsletter/privacy_settings" />';
+    print '<module type="newsletter/privacy_settings" />';
 });
 

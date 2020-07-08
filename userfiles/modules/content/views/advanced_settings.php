@@ -44,6 +44,9 @@ if (isset($data['created_by']) and $data['created_by']) {
     $post_author_id = $data['created_by'];
 }
 ?>
+    <script type="text/javascript">
+        mw.lib.require('mwui_init');
+    </script>
 
     <script type="text/javascript">
         mw.reset_current_page = function (a, callback) {

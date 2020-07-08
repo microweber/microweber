@@ -36,6 +36,7 @@
         mw.require("url.js");
         mw.require("files.js");
         mw.lib.require("mwui");
+        mw.lib.require("mwui_init");
     </script>
     <style type="text/css">
         .mw-file-browser-popup .modules-index-bar {
