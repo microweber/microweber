@@ -32,6 +32,6 @@ class FileLoader extends \Illuminate\Config\FileLoader
             ? "{$path}/{$group}.php"
             : "{$path}/{$environment}/{$group}.php";
 
-        $this->files->put($file, '<?php return '.var_export($items, true).';');
+        file_put_contents($file, '<?php return '.var_export($items, true).';');
     }
 }

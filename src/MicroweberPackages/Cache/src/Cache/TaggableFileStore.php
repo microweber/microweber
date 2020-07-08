@@ -100,7 +100,7 @@ class TaggableFileStore implements Store
 
         try {
             $expire = substr(
-                $contents = $this->files->get($findTagPath, true), 0, 10
+                $contents = file_get_contents($findTagPath, true), 0, 10
             );
         } catch (\Exception $e) {
             return;
@@ -170,7 +170,7 @@ class TaggableFileStore implements Store
         $this->_addKeyPathToTagMap($key, $subPath . $filename);
 
         // Save key value in file
-        $this->files->put($path, $value);
+        file_put_contents($path, $value);
 
         // Clear instance of tags
         $this->tags = array();
@@ -253,7 +253,7 @@ class TaggableFileStore implements Store
         foreach ($this->tags as $tag) {
             $cacheFile = $this->_getTagMapPathByName($tag);
             if (!is_file($cacheFile)) {
-                $this->files->put($cacheFile, json_encode([]));
+                file_put_contents($cacheFile, json_encode([]));
             }
         }
     }
@@ -266,7 +266,7 @@ class TaggableFileStore implements Store
             return;
         }
 
-        $cacheMapContent = $this->files->get($cacheFile);
+        $cacheMapContent = file_get_contents($cacheFile);
         $cacheMapContent = json_decode($cacheMapContent, true);
 
         return $cacheMapContent;
@@ -283,7 +283,7 @@ class TaggableFileStore implements Store
 
             $cacheMapContent[$key] = $filename;
 
-            $this->files->put($cacheFile, json_encode($cacheMapContent, JSON_PRETTY_PRINT));
+            file_put_contents($cacheFile, json_encode($cacheMapContent, JSON_PRETTY_PRINT));
         }
 
     }

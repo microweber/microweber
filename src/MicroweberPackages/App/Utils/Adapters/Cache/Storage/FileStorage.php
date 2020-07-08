@@ -148,7 +148,7 @@ class FileStorage
 
             if (!is_dir(dirname($path))) {
                 $this->createCacheDirectory($file);
-                //$this->files->put($file, $path);
+                //file_put_contents($file, $path);
                 @file_put_contents($file, "$path");
             } else {
                 if (is_file($file)) {
