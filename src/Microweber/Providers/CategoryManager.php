@@ -781,6 +781,15 @@ class CategoryManager
 
     }
 
+
+    /**
+     * @desc        Get cateroy by slug
+     *
+     * @param string
+     *
+     * @return array
+     *
+     */
     public function get_by_url($slug)
     {
         $id = $this->get_by_id($slug, 'url');

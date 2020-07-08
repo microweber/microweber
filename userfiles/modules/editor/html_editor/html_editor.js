@@ -364,12 +364,15 @@ mw.html_editor.reset_content = function (also_reset_modules) {
 
         var childs_arr = {};
 
-        $(el).find('.edit').each(function (i) {
+        $(el).find('.edit').andSelf().each(function (i) {
             var some_child = {};
             some_child.rel = $(this).attr('rel');
             some_child.field = $(this).attr('field');
+            if(some_child.rel && some_child.field){
             childs_arr[i] = some_child;
+            }
         });
+
 
         var childs_arr_data = {'reset':childs_arr};
 
