@@ -98,32 +98,45 @@ class InstallController extends Controller
             $input['table_prefix'] = str_replace(':', '', $input['table_prefix']);
 
 
-            $errors = array();
-            if (!isset($input['db_host'])) {
-                $errors[] = 'Parameter "db_host" is required';
-            } else {
-                $input['db_host'] = trim($input['db_host']);
-            }
-            if (!isset($input['db_name'])) {
-                $errors[] = 'Parameter "db_name" is required';
-            } else {
-                $input['db_name'] = trim($input['db_name']);
-            }
-            if (!isset($input['db_user'])) {
-                $errors[] = 'Parameter "db_user" is required';
-            } else {
-                $input['db_user'] = trim($input['db_user']);
-            }
-
-            if (!empty($errors)) {
-                return implode("\n", $errors);
-            }
             if (isset($input['db_driver'])) {
                 $dbDriver = $input['db_driver'];
             } else {
                 $dbDriver = 'mysql';
             }
 
+            if (isset($input['db_driver'])) {
+                $dbDriver = $input['db_driver'];
+            } else {
+                $dbDriver = 'mysql';
+            }
+
+            $errors = array();
+
+            if ($dbDriver == 'mysql') {
+                if (!isset($input['db_host'])) {
+                    $errors[] = 'Parameter "db_host" is required';
+                } else {
+                    $input['db_host'] = trim($input['db_host']);
+                }
+                if (!isset($input['db_name'])) {
+                    $errors[] = 'Parameter "db_name" is required';
+                } else {
+                    $input['db_name'] = trim($input['db_name']);
+                }
+                if (!isset($input['db_user'])) {
+                    $errors[] = 'Parameter "db_user" is required';
+                } else {
+                    $input['db_user'] = trim($input['db_user']);
+                }
+            } else {
+                $input['db_user'] = '';
+                $input['db_host'] = '';
+                $input['db_name'] = '';
+            }
+
+            if (!empty($errors)) {
+                return implode("\n", $errors);
+            }
 
             Config::set('database.default', $dbDriver);
             if ($dbDriver == 'sqlite') {
