@@ -213,43 +213,37 @@
                                 </div>
 
                                 <div class="col-12 d-flex align-items-center justify-content-between">
-                                    <a class="btn btn-outline-primary btn-sm" href="javascript:$('#test_eml_toggle').toggle(); void(0);"><span class="mw-icon-beaker mr-1"></span> <?php _e("Test Mail Sending Method"); ?></a>
+                                    <a class="btn btn-outline-primary btn-sm" href="javascript:mw.dialog({content: $('.js-test-email')});"><span class="mw-icon-beaker mr-1"></span> <?php _e("Test Mail Sending Method"); ?></a>
 
                                     <button onClick="saveEmailOptions(1)" class="btn btn-success btn-sm"><?php _e("Save email settings"); ?></button>
                                 </div>
 
-                                <div class="col-12">
-                                    <table width=" 100%" border="0" id="test_eml_toggle" class="mw-ui-box mw-ui-box-content" style="display:none;background: white;">
-                                        <tr>
-                                            <td>
-                                                <div class="mw-flex-row">
-                                                    <div class="mw-flex-col-xs-12"><h3>Make a test email</h3>
-                                                        <p>Send test email to check settings are they work correctly.</p><br/></div>
-                                                    <div class="col-6">
-                                                        <label class="control-label">
-                                                            <?php _e("Send test email to"); ?>
-                                                        </label>
-                                                        <input name="test_email_to" id="test_email_to" class="mw_option_field form-control" type="text" option-group="email" value="<?php print get_option('test_email_to', 'email'); ?>"/>
-                                                    </div>
-                                                    <div class="mw-flex-col-xs-4">
-                                                        <label class="control-label">
-                                                            <?php _e("Test mail subject"); ?>
-                                                        </label>
-                                                        <input name="test_email_subject" id="test_email_subject" class="mw_option_field form-control" type="text" option-group="email" value="<?php print get_option('test_email_subject', 'email'); ?>"/>
-                                                    </div>
-                                                    <div class="mw-flex-col-xs-2">
-                                                        <label class="control-label">&nbsp;</label>
-                                                        <span onclick="mw.email_send_test();" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-notification" style="width:100%;" id="email_send_test_btn">
-							<span class="mw-icon-forward"></span> <?php _e("Send Test Email"); ?>
-							</span>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <pre id="email_send_test_btn_output"></pre>
-                                            </td>
-                                        </tr>
-                                    </table>
+
+                                <div class="col-12 d-none">
+                                    <div class="js-test-email">
+
+                                        <h4>Make a test email</h4>
+                                        <p class="text-muted">Send test email to check settings are they work correctly.</p>
+
+                                        <div class="form-group">
+                                            <label class="control-label" for="test_email_to"><?php _e("Send test email to"); ?></label>
+                                            <input name="test_email_to" id="test_email_to" class="mw_option_field form-control" type="text" option-group="email" value="<?php print get_option('test_email_to', 'email'); ?>"/>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label" for="test_email_subject"><?php _e("Test mail subject"); ?></label>
+                                            <input name="test_email_subject" id="test_email_subject" class="mw_option_field form-control" type="text" option-group="email" value="<?php print get_option('test_email_subject', 'email'); ?>"/>
+                                        </div>
+
+                                        <pre id="email_send_test_btn_output"></pre>
+
+                                        <div class="row">
+                                            <div class="col-12 d-flex justify-content-between">
+                                                <button type="button" class="btn btn-secondary btn-sm">Cancel</button>
+                                                <button type="button" onclick="mw.email_send_test();" class="btn btn-success btn-sm" id="email_send_test_btn"><?php _e("Send Test Email"); ?></button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
