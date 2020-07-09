@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\OptionManager;
+namespace MicroweberPackages\Content\OptionManager;
 
 use Illuminate\Support\Facades\Facade;
 

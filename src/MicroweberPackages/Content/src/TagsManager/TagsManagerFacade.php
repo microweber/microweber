@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\TagsManager;
+namespace MicroweberPackages\Content\TagsManager;
 
 use Illuminate\Support\Facades\Facade;
 

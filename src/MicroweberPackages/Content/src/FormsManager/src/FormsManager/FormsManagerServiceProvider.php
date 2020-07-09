@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\FormsManager;
+namespace MicroweberPackages\Content\FormsManager;
 
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\FieldsManager\FieldsManager;
@@ -25,7 +25,7 @@ class FormsManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\FormsManager\FormsManager $forms_manager
+         * @property \MicroweberPackages\Content\FormsManager\FormsManager $forms_manager
          */
         $this->app->singleton('forms_manager', function ($app) {
             return new FormsManager();

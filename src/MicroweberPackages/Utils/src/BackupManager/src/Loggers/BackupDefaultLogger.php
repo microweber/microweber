@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\BackupManager\Loggers;
+namespace MicroweberPackages\Utils\BackupManager\Loggers;
 
 abstract class BackupDefaultLogger
 {

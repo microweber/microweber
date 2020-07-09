@@ -1,7 +1,7 @@
 <?php
-namespace MicroweberPackages\BackupManager\Exporters;
+namespace MicroweberPackages\Utils\BackupManager\Exporters;
 
-use MicroweberPackages\BackupManager\Loggers\BackupExportLogger;
+use MicroweberPackages\Utils\BackupManager\Loggers\BackupExportLogger;
 
 class ZipExport extends DefaultExport
 {

@@ -1,8 +1,8 @@
 <?php
-namespace MicroweberPackages\BackupManager\Exporters;
+namespace MicroweberPackages\Utils\BackupManager\Exporters;
 
-use MicroweberPackages\BackupManager\Exporters\Interfaces\ExportInterface;
-use MicroweberPackages\BackupManager\Backup;
+use MicroweberPackages\Utils\BackupManager\Exporters\Interfaces\ExportInterface;
+use MicroweberPackages\Utils\BackupManager\Backup;
 
 class DefaultExport implements ExportInterface
 {

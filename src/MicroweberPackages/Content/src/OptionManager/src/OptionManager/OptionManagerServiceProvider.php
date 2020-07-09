@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\OptionManager;
+namespace MicroweberPackages\Content\OptionManager;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -24,7 +24,7 @@ class OptionManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\OptionManager\OptionManager    $option_manager
+         * @property \MicroweberPackages\Content\OptionManager\OptionManager    $option_manager
          */
         $this->app->singleton('option_manager', function ($app) {
             return new OptionManager();

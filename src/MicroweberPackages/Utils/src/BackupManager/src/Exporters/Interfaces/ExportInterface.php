@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\BackupManager\Exporters\Interfaces;
+namespace MicroweberPackages\Utils\BackupManager\Exporters\Interfaces;
 
 interface ExportInterface
 {

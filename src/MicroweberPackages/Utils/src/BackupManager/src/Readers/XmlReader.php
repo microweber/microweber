@@ -1,7 +1,7 @@
 <?php
-namespace MicroweberPackages\BackupManager\Readers;
+namespace MicroweberPackages\Utils\BackupManager\Readers;
 
-use MicroweberPackages\BackupManager\Readers\Vendors\WordpressReader;
+use MicroweberPackages\Utils\BackupManager\Readers\Vendors\WordpressReader;
 
 class XmlReader extends DefaultReader
 {

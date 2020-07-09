@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\OptionManager\tests;
+namespace MicroweberPackages\Content\OptionManager\tests;
 
 use Orchestra\Testbench\TestCase;
 
@@ -24,7 +24,7 @@ abstract class BaseTest extends TestCase
     protected function getPackageProviders($app)
     {
         return [
-           \MicroweberPackages\OptionManager\OptionManagerServiceProvider::class,
+           \MicroweberPackages\Content\OptionManager\OptionManagerServiceProvider::class,
             \MicroweberPackages\DatabaseManager\DatabaseManagerServiceProvider::class,
             \MicroweberPackages\Cache\TaggableFileCacheServiceProvider::class,
             \MicroweberPackages\Helpers\HelpersServiceProvider::class,
@@ -36,7 +36,7 @@ abstract class BaseTest extends TestCase
     {
         return [
             'database_manager' => \MicroweberPackages\DatabaseManager\DatabaseManagerFacade::class,
-            'option_manager' => \MicroweberPackages\OptionManager\OptionManagerFacade::class
+            'option_manager' => \MicroweberPackages\Content\OptionManager\OptionManagerFacade::class
         ];
     }
 

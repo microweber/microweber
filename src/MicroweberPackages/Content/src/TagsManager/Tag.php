@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\TagsManager;
+namespace MicroweberPackages\Content\TagsManager;
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\ContentManager\Content;

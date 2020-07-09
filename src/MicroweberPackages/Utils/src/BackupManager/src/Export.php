@@ -1,13 +1,13 @@
 <?php
 namespace MicroweberPackages\BackupManager;
 
-use MicroweberPackages\BackupManager\Exporters\JsonExport;
-use MicroweberPackages\BackupManager\Exporters\CsvExport;
-use MicroweberPackages\BackupManager\Exporters\XmlExport;
-use MicroweberPackages\BackupManager\Exporters\ZipExport;
-use MicroweberPackages\BackupManager\Loggers\BackupExportLogger;
+use MicroweberPackages\Utils\BackupManager\Exporters\JsonExport;
+use MicroweberPackages\Utils\BackupManager\Exporters\CsvExport;
+use MicroweberPackages\Utils\BackupManager\Exporters\XmlExport;
+use MicroweberPackages\Utils\BackupManager\Exporters\ZipExport;
+use MicroweberPackages\Utils\BackupManager\Loggers\BackupExportLogger;
 use Microweber\App\Providers\Illuminate\Support\Facades\Cache;
-use MicroweberPackages\BackupManager\Exporters\XlsxExport;
+use MicroweberPackages\Utils\BackupManager\Exporters\XlsxExport;
 
 class Export
 {

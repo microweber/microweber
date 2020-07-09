@@ -13,14 +13,14 @@ use MicroweberPackages\ContentManager\Content;
 use MicroweberPackages\ContentManager\ContentManagerServiceProvider;
 use MicroweberPackages\DatabaseManager\DatabaseManagerServiceProvider;
 use MicroweberPackages\Core\EventManager\EventManagerServiceProvider;
-use MicroweberPackages\FormsManager\FormsManagerServiceProvider;
+use MicroweberPackages\Content\FormsManager\FormsManagerServiceProvider;
 use MicroweberPackages\Helpers\Format;
 use MicroweberPackages\Helpers\HelpersServiceProvider;
 use MicroweberPackages\MediaManager\Media;
 use MicroweberPackages\MediaManager\MediaManagerServiceProvider;
 use MicroweberPackages\MenuManager\MenuManagerServiceProvider;
-use MicroweberPackages\OptionManager\OptionManagerServiceProvider;
-use MicroweberPackages\BackupManager\BackupManagerServiceProvider;
+use MicroweberPackages\Content\OptionManager\OptionManagerServiceProvider;
+use MicroweberPackages\Utils\BackupManager\BackupManagerServiceProvider;
 
 // Shop
 use MicroweberPackages\Shop\CartManager\CartManagerServiceProvider;
@@ -31,7 +31,7 @@ use MicroweberPackages\Shop\OrderManager\OrderManagerServiceProvider;
 use MicroweberPackages\Shop\ShopManager\ShopManagerServiceProvider;
 use MicroweberPackages\Shop\TaxManager\TaxManagerServiceProvider;
 
-use MicroweberPackages\TagsManager\TagsManagerServiceProvider;
+use MicroweberPackages\Content\TagsManager\TagsManagerServiceProvider;
 use MicroweberPackages\Utils\TemplateManager\TemplateManagerServiceProvider;
 use MicroweberPackages\UserManager\UserManagerServiceProvider;
 use MicroweberPackages\Utils\Http\Http;

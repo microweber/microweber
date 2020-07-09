@@ -112,7 +112,7 @@
               "src/MicroweberPackages/Users/composer.json",
               "src/MicroweberPackages/Core/src/DatabaseManager/composer.json",
               "src/MicroweberPackages/Utils/src/BackupManager/composer.json",
-              "src/MicroweberPackages/Core/src/EventManager/composer.json", 
+              "src/MicroweberPackages/Core/src/EventManager/composer.json",
               "src/MicroweberPackages/Utils/src/TemplateManager/composer.json",
               "src/MicroweberPackages/Utils/src/CaptchaManager/composer.json",
               "src/MicroweberPackages/Content/src/OptionManager/composer.json",

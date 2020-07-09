@@ -10,9 +10,9 @@
  *
  */
 
-namespace MicroweberPackages\OptionManager;
+namespace MicroweberPackages\Content\OptionManager;
 
-use MicroweberPackages\OptionManager\Option;
+use MicroweberPackages\Content\OptionManager\Option;
 use DB;
 use Cache;
 

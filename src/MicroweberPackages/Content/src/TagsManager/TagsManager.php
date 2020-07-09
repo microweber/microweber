@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\TagsManager;
+namespace MicroweberPackages\Content\TagsManager;
 
 
 class TagsManager

@@ -1,7 +1,7 @@
 <?php
-namespace MicroweberPackages\BackupManager\Readers;
+namespace MicroweberPackages\Utils\BackupManager\Readers;
 
-use MicroweberPackages\BackupManager\Exporters\SpreadsheetHelper;
+use MicroweberPackages\Utils\BackupManager\Exporters\SpreadsheetHelper;
 
 class XlsxReader extends DefaultReader
 {

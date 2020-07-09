@@ -1,8 +1,8 @@
 <?php
 namespace MicroweberPackages\BackupManager;
 
-use MicroweberPackages\BackupManager\Loggers\BackupImportLogger;
-use MicroweberPackages\BackupManager\Loggers\BackupExportLogger;
+use MicroweberPackages\Utils\BackupManager\Loggers\BackupImportLogger;
+use MicroweberPackages\Utils\BackupManager\Loggers\BackupExportLogger;
 
 class BackupManager
 {

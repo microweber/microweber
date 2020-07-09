@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\TagsManager;
+namespace MicroweberPackages\Content\TagsManager;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -23,7 +23,7 @@ class TagsManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\TagsManager\TagsManager    $tags_manager
+         * @property \MicroweberPackages\Content\TagsManager\TagsManager    $tags_manager
          */
         $this->app->singleton('tags_manager', function ($app) {
             return new TagsManager();

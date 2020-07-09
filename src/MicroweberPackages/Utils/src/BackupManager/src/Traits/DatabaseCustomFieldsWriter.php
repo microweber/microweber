@@ -1,7 +1,7 @@
 <?php 
-namespace MicroweberPackages\BackupManager\Traits;
+namespace MicroweberPackages\Utils\BackupManager\Traits;
 
-use MicroweberPackages\BackupManager\DatabaseSave;
+use MicroweberPackages\Utils\BackupManager\DatabaseSave;
 
 trait DatabaseCustomFieldsWriter {
 	

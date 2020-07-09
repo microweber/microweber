@@ -1,7 +1,7 @@
 <?php
-namespace MicroweberPackages\BackupManager\Loggers;
+namespace MicroweberPackages\Utils\BackupManager\Loggers;
 
-use MicroweberPackages\BackupManager\Loggers\BackupDefaultLogger;
+use MicroweberPackages\Utils\BackupManager\Loggers\BackupDefaultLogger;
 
 final class BackupImportLogger extends BackupDefaultLogger
 {

@@ -23,7 +23,7 @@ class BackupManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\BackupManager\BackupManager    $backup_manager
+         * @property \MicroweberPackages\Utils\BackupManager\BackupManager    $backup_manager
          */
         $this->app->singleton('backup_manager', function ($app) {
             return new BackupManager();
