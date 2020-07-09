@@ -1,128 +1,127 @@
 {
-    "name": "microweber/microweber",
-    "type": "application",
-    "description": "New generation CMS with drag and drop",
-    "keywords": [
-        "cms",
-        "drag and drop",
-        "shop",
-        "blog",
-        "framework",
-        "laravel"
-    ],
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://packages.microweberapi.com/"
-        },
-        {
-            "type": "composer",
-            "url": "https://private-packages.microweberapi.com/"
-        }
-    ],
-    "require": {
-        "doctrine/dbal": "2.5.3",
-        "laravel/framework": "v7.12.0",
-        "symplify/monorepo-builder": "^8.1",
-        "laravelcollective/html": "^6.0@dev",
-        "laravel/socialite": "^5.0@dev",
-        "ezyang/htmlpurifier": "*",
-        "knplabs/knp-menu": "^3.2@dev",
-        "arcanedev/seo-helper": "dev-master",
-        "microweber-templates/dream": "dev-master",
-        "microweber-templates/new-world": "dev-master",
-        "microweber-templates/liteness": "dev-master",
-        "graham-campbell/markdown": "^12.0@dev",
-        "jenssegers/agent": "^3.0@dev",
-        "geoip2/geoip2": "dev-master",
-        "twig/twig": "3.x-dev",
-        "phpoffice/phpspreadsheet": "dev-master",
-        "halaxa/json-machine": "dev-master",
-        "fideloper/proxy": "dev-master",
-        "fruitcake/laravel-cors": "^2.0@dev",
-        "wikimedia/composer-merge-plugin": "^1.5@dev",
-        "rtconner/laravel-tagging": "^4.0"
+  "name": "microweber/microweber",
+  "type": "application",
+  "description": "New generation CMS with drag and drop",
+  "keywords": [
+    "cms",
+    "drag and drop",
+    "shop",
+    "blog",
+    "framework",
+    "laravel"
+  ],
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://packages.microweberapi.com/"
     },
-    "require-dev": {
-        "orchestra/testbench": "^5.0",
-        "nunomaduro/collision": "^4.1",
-        "facade/ignition": "^2.0",
-        "fzaninotto/faker": "^1.9",
-        "barryvdh/laravel-debugbar": "^3.2@dev"
-    },
-    "autoload": {
-        "psr-4": {
-            "App\\": "app/",
-            "MicroweberPackages\\": "src/MicroweberPackages/"
-         }
-    },
-    "scripts": {
-        "post-create-project-cmd": [
-            "php artisan key:generate"
-        ]
-    },
-    "config": {
-        "preferred-install": "dist",
-        "platform": {
-            "php": "7.3"
-        },
-        "github-protocols": [
-            "https",
-            "http",
-            "git"
-        ]
-    },
-    "minimum-stability": "dev",
-    "homepage": "http://microweber.com",
-    "license": "MIT",
-    "support": {
-        "email": "support@microweber.com",
-        "irc": "irc://irc.freenode.org/microweber"
-    },
-    "replace": {
-        "microweber-packages/microweber-backup-manager": "self.version",
-        "microweber-packages/microweber-cache-manager": "self.version",
-        "microweber-packages/microweber-captcha-manager": "self.version",
-        "microweber-packages/microweber-cms": "self.version",
-        "microweber-packages/microweber-config": "self.version",
-        "microweber-packages/microweber-core": "self.version",
-        "microweber-packages/microweber-database-manager": "self.version",
-        "microweber-packages/microweber-event-manager": "self.version",
-        "microweber-packages/microweber-forms-manager": "self.version",
-        "microweber-packages/microweber-helpers": "self.version",
-        "microweber-packages/microweber-option-manager": "self.version",
-        "microweber-packages/microweber-package-manager": "self.version",
-        "microweber-packages/microweber-shop": "self.version",
-        "microweber-packages/microweber-template-manager": "self.version",
-        "microweber-packages/microweber-user-manager": "self.version",
-        "microweber-packages/microweber-utils": "self.version",
-        "microweber-packages/helper-functions": "self.version",
-        "microweber-packages/laravel-tagged-file-cache": "self.version"
-    },
-    "extra": {
-        "merge-plugin": {
-            "require": [
-              "src/MicroweberPackages/Utils/composer.json",
-              "src/MicroweberPackages/Core/src/Cache/composer.json",
-              "src/MicroweberPackages/Core/composer.json",
-              "src/MicroweberPackages/Content/composer.json",
-              "src/MicroweberPackages/Core/src/Config/composer.json",
-              "src/MicroweberPackages/Utils/src/Helpers/composer.json",
-              "src/MicroweberPackages/Shop/composer.json",
-              "src/MicroweberPackages/Users/composer.json",
-              "src/MicroweberPackages/Core/src/DatabaseManager/composer.json",
-              "src/MicroweberPackages/Utils/src/BackupManager/composer.json",
-              "src/MicroweberPackages/Core/src/EventManager/composer.json",
-              "src/MicroweberPackages/Utils/src/TemplateManager/composer.json",
-              "src/MicroweberPackages/Utils/src/CaptchaManager/composer.json",
-              "src/MicroweberPackages/Content/src/OptionManager/composer.json",
-              "src/MicroweberPackages/Utils/src/PackageManager/composer.json",
-              "src/MicroweberPackages/Content/src/FormsManager/composer.json"
-            ],
-            "merge-extra": true,
-            "merge-extra-deep": true,
-            "merge-scripts": true
-        }
+    {
+      "type": "composer",
+      "url": "https://private-packages.microweberapi.com/"
     }
-
+  ],
+  "require": {
+    "doctrine/dbal": "2.5.3",
+    "laravel/framework": "v7.12.0",
+    "symplify/monorepo-builder": "^8.1",
+    "laravelcollective/html": "^6.0@dev",
+    "laravel/socialite": "^5.0@dev",
+    "ezyang/htmlpurifier": "*",
+    "knplabs/knp-menu": "^3.2@dev",
+    "arcanedev/seo-helper": "dev-master",
+    "microweber-templates/dream": "dev-master",
+    "microweber-templates/new-world": "dev-master",
+    "microweber-templates/liteness": "dev-master",
+    "graham-campbell/markdown": "^12.0@dev",
+    "jenssegers/agent": "^3.0@dev",
+    "geoip2/geoip2": "dev-master",
+    "twig/twig": "3.x-dev",
+    "phpoffice/phpspreadsheet": "dev-master",
+    "halaxa/json-machine": "dev-master",
+    "fideloper/proxy": "dev-master",
+    "fruitcake/laravel-cors": "^2.0@dev",
+    "wikimedia/composer-merge-plugin": "^1.5@dev",
+    "rtconner/laravel-tagging": "^4.0"
+  },
+  "require-dev": {
+    "orchestra/testbench": "^5.0",
+    "nunomaduro/collision": "^4.1",
+    "facade/ignition": "^2.0",
+    "fzaninotto/faker": "^1.9",
+    "barryvdh/laravel-debugbar": "^3.2@dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/",
+      "MicroweberPackages\\": "src/MicroweberPackages/"
+    }
+  },
+  "scripts": {
+    "post-create-project-cmd": [
+      "php artisan key:generate"
+    ]
+  },
+  "config": {
+    "preferred-install": "dist",
+    "platform": {
+      "php": "7.3"
+    },
+    "github-protocols": [
+      "https",
+      "http",
+      "git"
+    ]
+  },
+  "minimum-stability": "dev",
+  "homepage": "http://microweber.com",
+  "license": "MIT",
+  "support": {
+    "email": "support@microweber.com",
+    "irc": "irc://irc.freenode.org/microweber"
+  },
+  "replace": {
+    "microweber-packages/microweber-backup-manager": "self.version",
+    "microweber-packages/microweber-cache-manager": "self.version",
+    "microweber-packages/microweber-captcha-manager": "self.version",
+    "microweber-packages/microweber-cms": "self.version",
+    "microweber-packages/microweber-config": "self.version",
+    "microweber-packages/microweber-core": "self.version",
+    "microweber-packages/microweber-database-manager": "self.version",
+    "microweber-packages/microweber-event-manager": "self.version",
+    "microweber-packages/microweber-forms-manager": "self.version",
+    "microweber-packages/microweber-helpers": "self.version",
+    "microweber-packages/microweber-option-manager": "self.version",
+    "microweber-packages/microweber-package-manager": "self.version",
+    "microweber-packages/microweber-shop": "self.version",
+    "microweber-packages/microweber-template-manager": "self.version",
+    "microweber-packages/microweber-user-manager": "self.version",
+    "microweber-packages/microweber-utils": "self.version",
+    "microweber-packages/helper-functions": "self.version",
+    "microweber-packages/laravel-tagged-file-cache": "self.version"
+  },
+  "extra": {
+    "merge-plugin": {
+      "require": [
+        "src/MicroweberPackages/Utils/composer.json",
+        "src/MicroweberPackages/Core/src/Cache/composer.json",
+        "src/MicroweberPackages/Core/composer.json",
+        "src/MicroweberPackages/Core/src/Config/composer.json",
+        "src/MicroweberPackages/Core/src/DatabaseManager/composer.json",
+        "src/MicroweberPackages/Core/src/EventManager/composer.json",
+        "src/MicroweberPackages/Content/composer.json",
+        "src/MicroweberPackages/Content/src/OptionManager/composer.json",
+        "src/MicroweberPackages/Content/src/FormsManager/composer.json",
+        "src/MicroweberPackages/Utils/src/Helpers/composer.json",
+        "src/MicroweberPackages/Shop/composer.json",
+        "src/MicroweberPackages/Users/composer.json",
+        "src/MicroweberPackages/Utils/src/BackupManager/composer.json",
+        "src/MicroweberPackages/Utils/src/TemplateManager/composer.json",
+        "src/MicroweberPackages/Utils/src/CaptchaManager/composer.json",
+        "src/MicroweberPackages/Utils/src/PackageManager/composer.json"
+      ],
+      "merge-extra": true,
+      "merge-extra-deep": true,
+      "merge-scripts": true
+    }
+  }
 }

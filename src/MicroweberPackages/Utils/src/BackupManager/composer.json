@@ -17,16 +17,16 @@
   },
   "autoload": {
     "psr-4": {
-      "MicroweberPackages\\BackupManager\\": "src/"
+      "MicroweberPackages\\Utils\\BackupManager\\": "src/"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "MicroweberPackages\\BackupManager\\BackupManagerServiceProvider"
+        "MicroweberPackages\\Utils\\BackupManager\\BackupManagerServiceProvider"
       ],
       "aliases": {
-        "OptionManager": "MicroweberPackages\\BackupManager\\BackupManagerFacade"
+        "OptionManager": "MicroweberPackages\\Utils\\BackupManager\\BackupManagerFacade"
       }
     }
   },

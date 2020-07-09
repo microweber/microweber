@@ -23,7 +23,8 @@
 
   "autoload": {
     "psr-4": {
-      "MicroweberPackages\\": "src/"
+      "MicroweberPackages\\": "src/",
+      "MicroweberPackages\\Content\\TagsManager\\": "src/TagsManager/"
     },
     "files": [
       "src/ContentManager/helpers.php",
@@ -35,18 +36,18 @@
   "extra": {
     "laravel": {
       "providers": [
-        "MicroweberPackages\\ContentManager\\ContentManagerServiceProvider",
-        "MicroweberPackages\\CategoryManager\\CategoryManagerServiceProvider",
-        "MicroweberPackages\\TagsManager\\TagsManagerServiceProvider",
-        "MicroweberPackages\\MediaManager\\MediaManagerServiceProvider",
-        "MicroweberPackages\\MenuManager\\MenuManagerServiceProvider"
+        "MicroweberPackages\\Content\\ContentManager\\ContentManagerServiceProvider",
+        "MicroweberPackages\\Content\\CategoryManager\\CategoryManagerServiceProvider",
+        "MicroweberPackages\\Content\\TagsManager\\TagsManagerServiceProvider",
+        "MicroweberPackages\\Content\\MediaManager\\MediaManagerServiceProvider",
+        "MicroweberPackages\\Content\\MenuManager\\MenuManagerServiceProvider"
       ],
       "aliases": {
-        "ContentManager": "MicroweberPackages\\ContentManager\\ContentManagerFacade",
-        "CategoryManager": "MicroweberPackages\\CategoryManager\\CategoryManagerFacade",
-        "MediaManager": "MicroweberPackages\\MediaManager\\MediaManagerFacade",
-        "MenuManager": "MicroweberPackages\\MenuManager\\MenuManagerFacade",
-        "TagsManager": "MicroweberPackages\\TagsManager\\TagsManagerFacade"
+        "ContentManager": "MicroweberPackages\\Content\\ContentManager\\ContentManagerFacade",
+        "CategoryManager": "MicroweberPackages\\Content\\CategoryManager\\CategoryManagerFacade",
+        "MediaManager": "MicroweberPackages\\Content\\MediaManager\\MediaManagerFacade",
+        "MenuManager": "MicroweberPackages\\Content\\MenuManager\\MenuManagerFacade",
+        "TagsManager": "MicroweberPackages\\Content\\TagsManager\\TagsManagerFacade"
       }
     }
   },

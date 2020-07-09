@@ -1,10 +1,10 @@
 <?php
-namespace MicroweberPackages\BackupManager;
+namespace MicroweberPackages\Utils\BackupManager;
 
 /**
  * Microweber - Backup Module Database Save
  *
- * @namespace MicroweberPackages\BackupManager
+ * @namespace MicroweberPackages\Utils\BackupManager
  * @package DatabaseWriter
  * @author Bozhidar Slaveykov
  */

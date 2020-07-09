@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\BackupManager;
+namespace MicroweberPackages\Utils\BackupManager;
 
 use Illuminate\Support\Facades\Cache;
 
@@ -19,7 +19,7 @@ use QueryPath\Exception;
 
 /**
  * Microweber - Backup Module Database Writer
- * @namespace MicroweberPackages\BackupManager
+ * @namespace MicroweberPackages\Utils\BackupManager
  * @package DatabaseWriter
  * @author Bozhidar Slaveykov
  */

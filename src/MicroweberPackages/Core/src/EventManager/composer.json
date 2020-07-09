@@ -21,7 +21,7 @@
 
   "autoload": {
     "psr-4": {
-      "MicroweberPackages\\EventManager\\": "src/EventManager/EventManagerServiceProvider"
+      "MicroweberPackages\\Core\\EventManager\\": "src/EventManager/"
     },
     "files": [
       "src/EventManager/helpers.php"

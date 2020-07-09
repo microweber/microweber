@@ -127,7 +127,7 @@ api_expose_user('users/export_my_data', function ($params) {
     $email = user_email($user_id);
 
     $sid = mw()->user_manager->session_id();
-    $backup_manager = new \MicroweberPackages\BackupManager();
+    $backup_manager = new \MicroweberPackages\Utils\BackupManager();
 
     $export_location = $backup_manager->get_bakup_location();
 

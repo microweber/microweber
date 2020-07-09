@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\BackupManager;
+namespace MicroweberPackages\Utils\BackupManager;
 
 use Illuminate\Support\ServiceProvider;
 

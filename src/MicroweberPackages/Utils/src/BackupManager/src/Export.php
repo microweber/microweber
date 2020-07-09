@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\BackupManager;
+namespace MicroweberPackages\Utils\BackupManager;
 
 use MicroweberPackages\Utils\BackupManager\Exporters\JsonExport;
 use MicroweberPackages\Utils\BackupManager\Exporters\CsvExport;
@@ -46,7 +46,7 @@ class Export
 	
 	public function exportAsType($data)
 	{
-        $backupManager = new Backup();
+        $backupManager = new BackupManager();
         $exportCacheLocation = $backupManager->getBackupCacheLocation();
 
 		$exportWithZip = false;

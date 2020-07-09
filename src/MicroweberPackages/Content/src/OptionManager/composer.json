@@ -21,7 +21,7 @@
 
   "autoload": {
     "psr-4": {
-      "MicroweberPackages\\": "src/"
+      "MicroweberPackages\\Content\\": "src/"
     },
     "files": [
       "src/OptionManager/helpers.php"
@@ -30,10 +30,10 @@
   "extra": {
     "laravel": {
       "providers": [
-        "MicroweberPackages\\OptionManager\\OptionManagerServiceProvider"
+        "MicroweberPackages\\Content\\OptionManager\\OptionManagerServiceProvider"
       ],
       "aliases": {
-        "OptionManager": "MicroweberPackages\\OptionManager\\OptionManagerFacade"
+        "OptionManager": "MicroweberPackages\\Content\\OptionManager\\OptionManagerFacade"
       }
     }
   },

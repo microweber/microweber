@@ -2,7 +2,7 @@
 namespace MicroweberPackages\Utils\BackupManager\Exporters;
 
 use MicroweberPackages\Utils\BackupManager\Exporters\Interfaces\ExportInterface;
-use MicroweberPackages\Utils\BackupManager\Backup;
+use MicroweberPackages\Utils\BackupManager\BackupManager;
 
 class DefaultExport implements ExportInterface
 {
@@ -26,7 +26,7 @@ class DefaultExport implements ExportInterface
 
 	protected function _generateFilename($name = false)
 	{
-		$backupManager = new Backup();
+		$backupManager = new BackupManager();
 		$exportLocation = $backupManager->getBackupLocation();
 		
 		if ($name) {

@@ -103,7 +103,7 @@ class ZBackupV2Test extends TestCase
 			return;
 		}
 		
-		$manager = new Backup();
+		$manager = new BackupManager();
 		$manager->setImportFile(self::$_exportedFile);
 		$manager->setImportBatch(false);
 		
@@ -146,7 +146,7 @@ class ZBackupV2Test extends TestCase
 	    $sample = userfiles_path() . '/modules/admin/backup_v2/samples/sample.csv';
         $sample = normalize_path($sample, false);
 
-        $manager = new Backup();
+        $manager = new BackupManager();
         $manager->setImportFile($sample);
         $manager->setImportBatch(false);
 
@@ -162,7 +162,7 @@ class ZBackupV2Test extends TestCase
         $sample = userfiles_path() . '/modules/admin/backup_v2/samples/sample.json';
         $sample = normalize_path($sample, false);
 
-        $manager = new Backup();
+        $manager = new BackupManager();
         $manager->setImportFile($sample);
         $manager->setImportBatch(false);
 
@@ -178,7 +178,7 @@ class ZBackupV2Test extends TestCase
         $sample = userfiles_path() . '/modules/admin/backup_v2/samples/sample.xlsx';
         $sample = normalize_path($sample, false);
 
-        $manager = new Backup();
+        $manager = new BackupManager();
         $manager->setImportFile($sample);
         $manager->setImportBatch(false);
 
@@ -192,7 +192,7 @@ class ZBackupV2Test extends TestCase
 
 	public function testImportWrongFile() {
 		
-		$manager = new Backup();
+		$manager = new BackupManager();
 		$manager->setImportFile('wrongfile.txt');
 		$manager->setImportBatch(false);
 		
@@ -203,7 +203,7 @@ class ZBackupV2Test extends TestCase
 	
 	public function testExportWithWrongFormat()
 	{
-		$export = new Backup();
+		$export = new BackupManager();
 		$export->setExportType('xml_');
 		$exportStatus = $export->startExport();
 		
