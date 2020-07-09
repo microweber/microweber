@@ -2,7 +2,7 @@
 
 namespace Microweber\Comments\Models;
 
-use MicroweberPackages\App\View;
+use MicroweberPackages\Core\View;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use MicroweberPackages\DatabaseManager\Crud;
 use MicroweberPackages\Utils\Http\Http;

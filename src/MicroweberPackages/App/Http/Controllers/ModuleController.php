@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\App\Http\Controllers;
 
-use MicroweberPackages\App\View;
+use MicroweberPackages\Core\View;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\App;
 use Cache;
@@ -403,7 +403,7 @@ class ModuleController extends Controller
                 $possible_layout = templates_path().$t;
                 $possible_layout = normalize_path($possible_layout, false);
                 if (is_file($possible_layout)) {
-                    $l = new \MicroweberPackages\App\View($possible_layout);
+                    $l = new \MicroweberPackages\Core\View($possible_layout);
                     $layout = $l->__toString();
                     $layout = $this->app->parser->process($layout, $options = false);
                    // echo $layout;
@@ -485,7 +485,7 @@ class ModuleController extends Controller
         if ($embed != false) {
             $p_index = mw_includes_path().'api/index.php';
             $p_index = normalize_path($p_index, false);
-            $l = new \MicroweberPackages\App\View($p_index);
+            $l = new \MicroweberPackages\Core\View($p_index);
             $layout = $l->__toString();
             $res = str_replace('{content}', $res, $layout);
         }
@@ -495,7 +495,7 @@ class ModuleController extends Controller
         if (isset($_REQUEST['live_edit']) and $aj == false) {
             $p_index = mw_includes_path().DS.'toolbar'.DS.'editor_tools'.DS.'module_settings'.DS.'index.php';
             $p_index = normalize_path($p_index, false);
-            $l = new \MicroweberPackages\App\View($p_index);
+            $l = new \MicroweberPackages\Core\View($p_index);
             $l->params = $data;
             $layout = $l->__toString();
             $res = str_replace('{content}', $res, $layout);
@@ -652,7 +652,7 @@ class ModuleController extends Controller
 
         $p = normalize_path($p, false);
 
-        $l = new \MicroweberPackages\App\View($p_index);
+        $l = new \MicroweberPackages\Core\View($p_index);
         $l->params = $params;
         $layout = $l->__toString();
 
@@ -712,7 +712,7 @@ class ModuleController extends Controller
 
         if (isset($_REQUEST['plain'])) {
             if (is_file($p)) {
-                $p = new \MicroweberPackages\App\View($p);
+                $p = new \MicroweberPackages\Core\View($p);
                 $p->params = $params;
                 $layout = $p->__toString();
                // echo $layout;
@@ -721,7 +721,7 @@ class ModuleController extends Controller
                // exit();
             }
         } elseif (is_file($p)) {
-            $p = new \MicroweberPackages\App\View($p);
+            $p = new \MicroweberPackages\Core\View($p);
             $p->params = $params;
             $layout_tool = $p->__toString();
             $layout = str_replace('{content}', $layout_tool, $layout);
@@ -735,7 +735,7 @@ class ModuleController extends Controller
 
 
         if (!$standalone_edit && isset($page['render_file'])) {
-                $l = new \MicroweberPackages\App\View($page['render_file']);
+                $l = new \MicroweberPackages\Core\View($page['render_file']);
                 $l->page_id = PAGE_ID;
                 $l->content_id = CONTENT_ID;
                 $l->post_id = POST_ID;
@@ -814,7 +814,7 @@ class ModuleController extends Controller
 
         //
         //header("HTTP/1.0 404 Not Found");
-        //$v = new \MicroweberPackages\App\View(MW_ADMIN_VIEWS_DIR . '404.php');
+        //$v = new \MicroweberPackages\Core\View(MW_ADMIN_VIEWS_DIR . '404.php');
         //echo $v;
     }
 

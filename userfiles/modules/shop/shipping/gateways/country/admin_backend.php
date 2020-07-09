@@ -1,6 +1,6 @@
 <?php
 
-use MicroweberPackages\App\View;
+use MicroweberPackages\Core\View;
 
 include __DIR__ . "/_admin_data.php";
 

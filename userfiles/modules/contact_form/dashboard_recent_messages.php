@@ -18,7 +18,7 @@ $last_messages_count = mw()->forms_manager->get_entires('count=true');
 		<?php
 		$last_messages = mw()->forms_manager->get_entires('limit=5');
 
-		$view = new \MicroweberPackages\App\View(__DIR__ . DIRECTORY_SEPARATOR . 'admin_messages_list.php');
+		$view = new \MicroweberPackages\Core\View(__DIR__ . DIRECTORY_SEPARATOR . 'admin_messages_list.php');
 		$view->assign('last_messages', $last_messages);
 		echo $view->__toString();
 		?>

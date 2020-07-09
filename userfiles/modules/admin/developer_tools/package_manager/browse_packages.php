@@ -453,7 +453,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                             <?php
                             $view_file = __DIR__ . '/partials/package_item.php';
 
-                            $view = new \MicroweberPackages\App\View($view_file);
+                            $view = new \MicroweberPackages\Core\View($view_file);
                             $view->assign('item', $item);
                             $view->assign('no_img', true);
                             $view->assign('box_class', 'mw-ui-box-info ');
@@ -489,7 +489,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                                         <?php
                                         $view_file = __DIR__ . '/partials/package_item.php';
 
-                                        $view = new \MicroweberPackages\App\View($view_file);
+                                        $view = new \MicroweberPackages\Core\View($view_file);
                                         $view->assign('item', $item);
 
                                         print    $view->display();
@@ -520,7 +520,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                                         <?php
                                         $view_file = __DIR__ . '/partials/package_item.php';
 
-                                        $view = new \MicroweberPackages\App\View($view_file);
+                                        $view = new \MicroweberPackages\Core\View($view_file);
                                         $view->assign('item', $item);
 
                                         print    $view->display();

@@ -3,7 +3,7 @@
 
 namespace content\controllers;
 
-use MicroweberPackages\App\View;
+use MicroweberPackages\Core\View;
 use DB;
 
 class Front
