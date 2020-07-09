@@ -391,16 +391,13 @@ if (!isset($data["thumbnail"])) {
             mw._postsImageUploader._thumbpreload = function() {
                 var el = mw.$('<div class="admin-thumb-item admin-thumb-item-loading"><span class="mw-post-media-img" style=""></span></div>');
                 mw.$($root).find('.admin-thumb-item-uploader-holder').before(el);
-                
+
                 mw.spinner({
                     element: el,
                     size: 32,
                     color: '#4592ff'
                 });
-                mw.$('.admin-thumb-item-uploader-holder,.admin-thumb-item,.admin-thumb-item-placeholder').each(function () {
-                    var el = $(this);
-                    el.height(el.width())
-                });
+
             }
 
                 $(mw._postsImageUploader).on('FileAdded', function (e, file) {

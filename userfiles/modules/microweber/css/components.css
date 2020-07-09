@@ -192,7 +192,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     height: 100%;
 }
 .admin-thumbs-holder .admin-thumb-item:first-child{
-    width: 38%;
+    width: 230px;
     height: 230px;
     margin-top: 0;
     margin-bottom: 0;
@@ -205,7 +205,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(204, 236, 241, 0.91);
+    background: rgba(225, 241, 253, 0.91);
     z-index: 12;
     display: flex;
     align-items: center;
@@ -332,7 +332,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     display: block;
     position: relative;
     float: left;
-    width: 18%;
+    width: 110px;
     height: 110px;
     margin: 0 1% 10px;
     border: 1px solid #cfcfcf;
@@ -456,7 +456,8 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     float: left;
     position: relative;
     margin: 0 1% 10px;
-    width: 18%;
+    width: 110px;
+    height: 110px;
     background-repeat: no-repeat;
     background-position: center center;
     background-color: #FFFF66;
@@ -464,7 +465,8 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     visibility: visible !important;
 }
 .admin-thumbs-holder .admin-thumb-item-placeholder.admin-thumb-item-placeholder-first{
-    width: 38%;
+    width: 230px;
+    height: 230px;
     margin-bottom: 8px;
 }
 

@@ -64,9 +64,31 @@ var Uploader = function( options ) {
         this._uploading = state;
     };
 
+    this._validateAccept = this.settings.accept
+        .toLowerCase()
+        .replace(/\*/g, '')
+        .replace(/ /g, '')
+        .split(',')
+        .filter(function (item) {
+        return !!item;
+    });
     this.validate = function (file) {
-        console.log(file)
-        return true;
+        if(!file) return false;
+        var ext = '.' + file.name.split('.').pop().toLowerCase();
+        if (this._validateAccept.length === 0) {
+            return true;
+        }
+        for (var i = 0; i < this._validateAccept.length; i++) {
+            var item =  this._validateAccept[i];
+            if(item === ext) {
+                return true;
+            }
+            else if(file.type.indexOf(item) === 0) {
+                return true;
+            }
+        }
+        return false;
+
     };
 
     this.addFile = function (file) {
