@@ -16,8 +16,8 @@ if (!empty($template_id)) {
     $template['id'] = '';
     $template['is_active'] = 1;
 
-    if(isset($params['mail_template_type'])){
-        $template['type'] =$params['mail_template_type'];
+    if (isset($params['mail_template_type'])) {
+        $template['type'] = $params['mail_template_type'];
     }
 
 }
@@ -91,115 +91,119 @@ if (!empty($template_id)) {
 </div>
 
 <form id="edit-mail-template-form">
-    <h3><?php _e("Edit mail template"); ?></h3>
-    <br/>
+    <div class="card bg-light style-1 mb-3" style="max-width: 600px; margin: 0 auto;">
+        <div class="card-header">
+            <h5><i class="mdi mdi-login text-primary mr-3"></i> <strong>Mail Template</strong></h5>
+            <div>
 
-    <div class="mw-flex-row m-b-20">
-        <div class="mw-flex-col-md-6">
-            <div class="box">
-                <label class="mw-ui-label"><?php _e("Template Name"); ?></label>
-                <input type="text" name="name" value="<?php echo $template['name']; ?>" class="mw-ui-field" style="width:100%;">
             </div>
         </div>
 
+        <div class="card-body pt-3">
+            <h5 class="mb-3"><?php _e("Edit mail template"); ?></h5>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group mb-4">
+                        <label class="control-label"><?php _e("Template Name"); ?></label>
+                        <small class="text-muted d-block mb-2">Name the email template so you can recognize it more easily</small>
+                        <input type="text" name="name" value="<?php echo $template['name']; ?>" class="form-control">
+                    </div>
 
-        <div class="mw-flex-col-md-2">
-            <div class="box">
-                <label class="mw-ui-label"><?php _e("Is Active?"); ?></label>
+                    <div class="form-group mb-3">
+                        <label class="control-label"><?php _e("Is this mail template Active?"); ?></label>
+                        <small class="text-muted d-block mb-2">Тurn off or turn on auto-reply for this email template</small>
+                    </div>
 
+                    <div class="form-group mb-4">
+                        <div class="custom-control custom-switch pl-0">
+                            <label class="d-inline-block mr-5" for="is_active">No</label>
+                            <input name="is_active" id="is_active" class="custom-control-input" value="1" type="checkbox" <?php if ($template['is_active']): ?> checked="checked" <?php endif; ?>>
+                            <label class="custom-control-label" for="is_active">Yes</label>
+                        </div>
+                    </div>
 
+                    <div class="form-group mb-4">
+                        <label class="control-label"><?php _e("Template type"); ?></label>
+                        <small class="text-muted d-block mb-2">Name the email template so you can recognize it more easily</small>
+                        <div>
+                            <select name="type" class="js-template-type selectpicker" data-width="100%">
+                                <?php foreach (get_mail_template_types() as $type): ?>
+                                    <option value="<?php echo $type; ?>" <?php if ($type == $template['type']): ?>selected="selected"<?php endif; ?>><?php echo $type; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="thin"/>
 
-
-                <div class="mw-ui-field-holder">
-                    <label class="mw-ui-check" style="margin-right: 15px;">
-                        <input name="is_active"  value="1" type="radio" <?php if( $template['is_active']): ?> checked="checked" <?php endif; ?>  ><span></span><span>Yes</span>
-                    </label>
-                    <label class="mw-ui-check">
-                        <input name="is_active"  value="0" type="radio" <?php if( !$template['is_active']): ?> checked="checked" <?php endif; ?> >
-                        <span></span><span>No</span>
-                    </label>
+            <h5 class="mb-3">Sendind the email</h5>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group mb-4">
+                        <label class="control-label"><?php _e("From Name"); ?></label>
+                        <small class="text-muted d-block mb-2">On what behalf will the e-mail be sent?</small>
+                        <input type="text" name="from_name" value="<?php echo $template['from_name']; ?>" class="form-control">
+                    </div>
                 </div>
 
+                <div class="col-md-6">
+                    <div class="form-group mb-4">
+                        <label class="control-label"><?php _e("From E-mail"); ?></label>
+                        <small class="text-muted d-block mb-2">From which email it will be sent?</small>
+                        <input type="text" name="from_email" value="<?php echo $template['from_email']; ?>" class="form-control" placeholder="Ex. your@mail.com">
+                    </div>
+                </div>
 
+                <div class="col-md-6">
+                    <div class="form-group mb-4">
+                        <label class="control-label"><?php _e("Copy To"); ?></label>
+                        <small class="text-muted d-block mb-2">To which email should you send a copy?</small>
+                        <input type="text" name="copy_to" class="form-control" value="<?php echo $template['copy_to']; ?>" placeholder="Ex. your@mail.com">
 
+                    </div>
+                </div>
             </div>
-        </div>
+            <hr class="thin"/>
 
-        <div class="mw-flex-col-md-4">
-            <div class="box">
-                <label class="mw-ui-label"><?php _e("Template Type"); ?></label>
-                <select name="type" class="mw-ui-field js-template-type" style="width:100%;">
-                    <?php foreach (get_mail_template_types() as $type): ?>
-                        <option value="<?php echo $type; ?>" <?php if ($type == $template['type']): ?>selected="selected"<?php endif; ?>><?php echo $type; ?></option>
-                    <?php endforeach; ?>
-                </select>
+            <h5 class="mb-3">Message</h5>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group mb-4">
+                        <label class="control-label"><?php _e("Subject"); ?></label>
+                        <small class="text-muted d-block mb-2">Subject of your email</small>
+                        <input type="text" name="subject" value="<?php echo $template['subject']; ?>" class="form-control">
+                    </div>
+
+                    <div>
+                        <?php
+                        $template_id_attachment = '';
+                        if (is_int($template_id)) {
+                            $template_id_attachment = $template_id;
+                        }
+                        ?>
+                        <module type="admin/components/file_append" option_group="mail_template_id_<?php echo $template_id_attachment; ?>"/>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <textarea id="editorAM" name="message" class="form-control"><?php echo $template['message']; ?></textarea>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
 
-    <div class="mw-flex-row m-b-20">
-        <div class="mw-flex-col-md-4">
-            <div class="box">
-                <label class="mw-ui-label"><?php _e("From Name"); ?></label>
-                <input type="text" name="from_name" value="<?php echo $template['from_name']; ?>" class="mw-ui-field" style="width:100%;">
+            <hr class="thin"/>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <button type="button" onClick="cancelTemplateEdit();" class="btn btn-danger btn-sm"><?php _e("Cancel"); ?></button>
+                </div>
+
+                <div class="col-md-6 text-right">
+                    <input type="hidden" name="id" value="<?php echo $template['id']; ?>">
+                    <button type="submit" name="submit" class="btn btn-success btn-sm"><?php _e("Save changes"); ?></button>
+                </div>
             </div>
-        </div>
 
-        <div class="mw-flex-col-md-4">
-            <div class="box">
-                <label class="mw-ui-label"><?php _e("From Email"); ?></label>
-                <input type="text" name="from_email" value="<?php echo $template['from_email']; ?>" class="mw-ui-field" style="width:100%;">
-            </div>
-        </div>
-
-        <div class="mw-flex-col-md-4">
-            <div class="box">
-                <label class="mw-ui-label"><?php _e("Copy To"); ?></label>
-                <input type="text" name="copy_to" class="mw-ui-field" value="<?php echo $template['copy_to']; ?>" style="width:100%;">
-            </div>
-        </div>
-    </div>
-
-    <div class="mw-flex-row m-b-20">
-        <div class="mw-flex-col-md-12">
-            <div class="box">
-                <label class="mw-ui-label"><?php _e("Subject"); ?></label>
-                <input type="text" name="subject" value="<?php echo $template['subject']; ?>" class="mw-ui-field" style="width:100%;">
-            </div>
-        </div>
-
-        <div class="mw-flex-col-md-12" style="margin-top:15px;">
-            <div class="box">
-                <label class="mw-ui-label"><?php _e("Email attachments"); ?></label>
-                <?php
-                $template_id_attachment = '';
-                if (is_int($template_id)) {
-                    $template_id_attachment = $template_id;
-                }
-                ?>
-                <module type="admin/components/file_append" option_group="mail_template_id_<?php echo $template_id_attachment; ?>"/>
-            </div>
-        </div>
-    </div>
-
-    <div class="mw-flex-row m-b-20">
-        <div class="mw-flex-col-md-12">
-            <div class="box">
-                <textarea id="editorAM" name="message" class="mw-ui-field" style="width:100%;"><?php echo $template['message']; ?></textarea>
-            </div>
-        </div>
-    </div>
-
-    <div class="mw-flex-row">
-        <div class="mw-flex-col-md-6">
-            <button type="button" onClick="cancelTemplateEdit();" class="mw-ui-btn mw-ui-btn-important"><?php _e("Cancel"); ?></button>
-        </div>
-
-        <div class="mw-flex-col-md-6 text-right">
-            <input type="hidden" name="id" value="<?php echo $template['id']; ?>">
-            <button type="submit" name="submit" class="mw-ui-btn mw-ui-btn-notification"><?php _e("Save changes"); ?></button>
         </div>
     </div>
 </form>
-<br/>
-<br/>
