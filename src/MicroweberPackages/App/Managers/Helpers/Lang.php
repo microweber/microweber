@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\App\Managers\Helpers;
 
-use MicroweberPackages\EventManager\Event;
+use MicroweberPackages\Core\EventManager\Event;
 
 
 $mw_language_content = array();
@@ -419,7 +419,7 @@ class Lang
 
                     if (!defined('MW_LANG_STORE_ON_EXIT_EVENT_BINDED_NS')) {
                         define('MW_LANG_STORE_ON_EXIT_EVENT_BINDED_NS', 1);
-                        $scheduler = new \Microweber\Providers\Event();
+                        $scheduler = new Event();
                         if ($environment != 'testing') {
                             $scheduler->registerShutdownEvent('__store_lang_file_ns', $lang);
                         }

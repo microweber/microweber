@@ -8,7 +8,7 @@
  * http://Microweber.com/license/
  *
  */
-namespace MicroweberPackages\EventManager;
+namespace MicroweberPackages\Core\EventManager;
 
 /**
  * Event.

@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\EventManager;
+namespace MicroweberPackages\Core\EventManager;
 
 use Illuminate\Support\Facades\Facade;
 

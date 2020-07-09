@@ -28,7 +28,7 @@ abstract class BaseTest extends TestCase
             \MicroweberPackages\DatabaseManager\DatabaseManagerServiceProvider::class,
             \MicroweberPackages\Cache\TaggableFileCacheServiceProvider::class,
             \MicroweberPackages\Helpers\HelpersServiceProvider::class,
-            \MicroweberPackages\EventManager\EventManagerServiceProvider::class
+            \MicroweberPackages\Core\EventManager\EventManagerServiceProvider::class
         ];
     }
 

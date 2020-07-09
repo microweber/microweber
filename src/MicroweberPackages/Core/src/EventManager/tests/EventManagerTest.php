@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\EventManager\tests;
+namespace MicroweberPackages\Core\EventManager\tests;
 
 
 class EventManagerTest extends BaseTest

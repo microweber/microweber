@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\EventManager\tests;
+namespace MicroweberPackages\Core\EventManager\tests;
 
 use Orchestra\Testbench\TestCase;
 
@@ -22,14 +22,14 @@ abstract class BaseTest extends TestCase
     protected function getPackageProviders($app)
     {
         return [
-           \MicroweberPackages\EventManager\EventManagerServiceProvider::class
+           \MicroweberPackages\Core\EventManager\EventManagerServiceProvider::class
         ];
     }
 
     protected function getPackageAliases($app)
     {
         return [
-            'event_manager' => \MicroweberPackages\EventManager\EventManagerFacade::class
+            'event_manager' => \MicroweberPackages\Core\EventManager\EventManagerFacade::class
         ];
     }
 

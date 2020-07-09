@@ -12,7 +12,7 @@ use MicroweberPackages\Config\ConfigSave;
 use MicroweberPackages\ContentManager\Content;
 use MicroweberPackages\ContentManager\ContentManagerServiceProvider;
 use MicroweberPackages\DatabaseManager\DatabaseManagerServiceProvider;
-use MicroweberPackages\EventManager\EventManagerServiceProvider;
+use MicroweberPackages\Core\EventManager\EventManagerServiceProvider;
 use MicroweberPackages\FormsManager\FormsManagerServiceProvider;
 use MicroweberPackages\Helpers\Format;
 use MicroweberPackages\Helpers\HelpersServiceProvider;

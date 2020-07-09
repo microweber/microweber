@@ -1,4 +1,4 @@
-<?php
+EventManagerServiceProvider<?php
 /*
  * This file is part of the Microweber framework.
  *
@@ -8,7 +8,7 @@
  * http://Microweber.com/license/
  *
  */
-namespace MicroweberPackages\EventManager;
+namespace MicroweberPackages\Core\EventManager;
 
 use Illuminate\Support\Facades\Event;
 

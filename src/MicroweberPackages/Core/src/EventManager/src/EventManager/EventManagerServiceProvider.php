@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\EventManager;
+namespace MicroweberPackages\Core\EventManager;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -24,7 +24,7 @@ class EventManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\EventManager\Event    $event_manager
+         * @property \MicroweberPackages\Core\EventManager\Event    $event_manager
          */
         $this->app->singleton('event_manager', function ($app) {
             return new Event($app);
