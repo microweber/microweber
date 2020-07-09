@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\CategoryManager\Helpers;
+namespace MicroweberPackages\Content\CategoryManager\Helpers;
 
 use Knp\Menu\MenuFactory;
 use Microweber\Providers\Categories\Helpers\CategoryTreeData;
@@ -183,7 +183,7 @@ class KnpCategoryTreeRenderer
 //            //  $link = "<a href='{categories_url}' data-category-id='{id}'  {active_code} class='{active_class} {nest_level}'>{title}</a>";
 //        }
         if (!$tree_data) {
-            $data_provider = new \MicroweberPackages\CategoryManager\Helpers\CategoryTreeData($this->app);
+            $data_provider = new \MicroweberPackages\Content\CategoryManager\Helpers\CategoryTreeData($this->app);
             $tree_data = $data_provider->get($params);
 
         }

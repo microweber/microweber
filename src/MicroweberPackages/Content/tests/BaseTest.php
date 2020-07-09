@@ -30,7 +30,7 @@ abstract class BaseTest extends TestCase
             \MicroweberPackages\Helpers\HelpersServiceProvider::class,
             \MicroweberPackages\Core\EventManager\EventManagerServiceProvider::class,
             \MicroweberPackages\ContentManager\ContentManagerServiceProvider::class,
-            \MicroweberPackages\CategoryManager\CategoryManagerServiceProvider::class,
+            \MicroweberPackages\Content\CategoryManager\CategoryManagerServiceProvider::class,
             \MicroweberPackages\MediaManager\MediaManagerServiceProvider::class,
         ];
     }
@@ -40,7 +40,7 @@ abstract class BaseTest extends TestCase
         return [
             'database_manager' => \MicroweberPackages\DatabaseManager\DatabaseManagerFacade::class,
             'option_manager' => \MicroweberPackages\ContentManager\ContentManagerFacade::class,
-            'category_manager' => \MicroweberPackages\CategoryManager\CategoryManagerFacade::class
+            'category_manager' => \MicroweberPackages\Content\CategoryManager\CategoryManagerFacade::class
         ];
     }
 

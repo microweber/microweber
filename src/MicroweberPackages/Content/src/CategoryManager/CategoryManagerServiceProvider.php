@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\CategoryManager;
+namespace MicroweberPackages\Content\CategoryManager;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -24,7 +24,7 @@ class CategoryManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\CategoryManager\Category    $category_manager
+         * @property \MicroweberPackages\Content\CategoryManager\Category    $category_manager
          */
         $this->app->singleton('category_manager', function ($app) {
             return new CategoryManager();

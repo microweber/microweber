@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\App\Utils\Parser;
 use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
 use MicroweberPackages\CaptchaManager\CaptchaManagerServiceProvider;
-use MicroweberPackages\CategoryManager\CategoryManagerServiceProvider;
+use MicroweberPackages\Content\CategoryManager\CategoryManagerServiceProvider;
 use MicroweberPackages\Config\ConfigSave;
 use MicroweberPackages\ContentManager\Content;
 use MicroweberPackages\ContentManager\ContentManagerServiceProvider;
