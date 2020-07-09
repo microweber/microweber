@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\ContentManager;
+namespace MicroweberPackages\Content\ContentManager;
 
 use Content;
 use ContentFields;

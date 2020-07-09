@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\MediaManager;
+namespace MicroweberPackages\Content\MediaManager;
 
 use Illuminate\Database\Eloquent\Model;
 

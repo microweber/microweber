@@ -24,14 +24,14 @@ abstract class BaseTest extends TestCase
     protected function getPackageProviders($app)
     {
         return [
-           \MicroweberPackages\ContentManager\ContentManagerServiceProvider::class,
+           \MicroweberPackages\Content\ContentManager\ContentManagerServiceProvider::class,
             \MicroweberPackages\DatabaseManager\DatabaseManagerServiceProvider::class,
             \MicroweberPackages\Cache\TaggableFileCacheServiceProvider::class,
             \MicroweberPackages\Helpers\HelpersServiceProvider::class,
             \MicroweberPackages\Core\EventManager\EventManagerServiceProvider::class,
-            \MicroweberPackages\ContentManager\ContentManagerServiceProvider::class,
+            \MicroweberPackages\Content\ContentManager\ContentManagerServiceProvider::class,
             \MicroweberPackages\Content\CategoryManager\CategoryManagerServiceProvider::class,
-            \MicroweberPackages\MediaManager\MediaManagerServiceProvider::class,
+            \MicroweberPackages\Content\MediaManager\MediaManagerServiceProvider::class,
             \MicroweberPackages\ShopManager\ShopManagerServiceProvider::class,
         ];
     }
@@ -40,7 +40,7 @@ abstract class BaseTest extends TestCase
     {
         return [
             'database_manager' => \MicroweberPackages\DatabaseManager\DatabaseManagerFacade::class,
-            'option_manager' => \MicroweberPackages\ContentManager\ContentManagerFacade::class,
+            'option_manager' => \MicroweberPackages\Content\ContentManager\ContentManagerFacade::class,
             'category_manager' => \MicroweberPackages\Content\CategoryManager\CategoryManagerFacade::class
         ];
     }

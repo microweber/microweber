@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\MenuManager;
+namespace MicroweberPackages\Content\MenuManager;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -23,7 +23,7 @@ class MenuManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\MenuManager\MenuManager    $menu_manager
+         * @property \MicroweberPackages\Content\MenuManager\MenuManager    $menu_manager
          */
         $this->app->singleton('menu_manager', function ($app) {
             return new MenuManager();

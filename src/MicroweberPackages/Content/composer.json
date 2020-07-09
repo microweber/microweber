@@ -24,8 +24,7 @@
   "autoload": {
     "psr-4": {
       "MicroweberPackages\\": "src/",
-      "MicroweberPackages\\Content\\CategoryManager\\": "src/CategoryManager/",
-      "MicroweberPackages\\Content\\TagsManager\\": "src/TagsManager/"
+      "MicroweberPackages\\Content\\*\\": "src/*/"
     },
     "files": [
       "src/ContentManager/helpers.php",

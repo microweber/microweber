@@ -5,8 +5,8 @@ namespace MicroweberPackages\App\Install;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Utils\BackupManager\BackupManager;
-use MicroweberPackages\ContentManager\Content;
-use MicroweberPackages\MenuManager\Menu;
+use MicroweberPackages\Content\ContentManager\Content;
+use MicroweberPackages\Content\MenuManager\Menu;
 use MicroweberPackages\Content\OptionManager\Option;
 
 class TemplateInstaller

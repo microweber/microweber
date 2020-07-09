@@ -2,7 +2,7 @@
 namespace MicroweberPackages\Content\TagsManager;
 
 use Illuminate\Database\Eloquent\Model;
-use MicroweberPackages\ContentManager\Content;
+use MicroweberPackages\Content\ContentManager\Content;
 
 class Tag extends Model
 {

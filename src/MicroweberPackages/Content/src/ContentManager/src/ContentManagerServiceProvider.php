@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\ContentManager;
+namespace MicroweberPackages\Content\ContentManager;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -24,21 +24,21 @@ class ContentManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\ContentManager\Content    $content_manager
+         * @property \MicroweberPackages\Content\ContentManager\Content    $content_manager
          */
         $this->app->singleton('content_manager', function ($app) {
             return new ContentManager();
         });
 
         /**
-         * @property \MicroweberPackages\ContentManager\DataFieldsManager    $data_fields_manager
+         * @property \MicroweberPackages\Content\ContentManager\DataFieldsManager    $data_fields_manager
          */
         $this->app->singleton('data_fields_manager', function ($app) {
             return new DataFieldsManager();
         });
 
         /**
-         * @property \MicroweberPackages\ContentManager\ArtributesManager    $attributes_manager
+         * @property \MicroweberPackages\Content\ContentManager\ArtributesManager    $attributes_manager
          */
         $this->app->singleton('attributes_manager', function ($app) {
             return new AttributesManager();

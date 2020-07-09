@@ -14,11 +14,11 @@ namespace MicroweberPackages\DatabaseManager;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Collection;
-use MicroweberPackages\ContentManager\Content;
+use MicroweberPackages\Content\ContentManager\Content;
 use MicroweberPackages\DatabaseManager\Utils as DbUtils;
 use MicroweberPackages\DatabaseManager\Traits\QueryFilter;
 use MicroweberPackages\DatabaseManager\Traits\ExtendedSave;
-use MicroweberPackages\MediaManager\Media;
+use MicroweberPackages\Content\MediaManager\Media;
 use SuperClosure\SerializableClosure;
 
 

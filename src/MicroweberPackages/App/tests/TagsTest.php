@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\App\tests;
 
-use MicroweberPackages\ContentManager\Content;
+use MicroweberPackages\Content\ContentManager\Content;
 use Tag;
 use DB;
 

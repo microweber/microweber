@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\ContentManager;
+namespace MicroweberPackages\Content\ContentManager;
 
 use Conner\Tagging\Taggable;
 use Illuminate\Database\Eloquent\Model;

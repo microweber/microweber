@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\CommentsManager;
+namespace MicroweberPackages\Content\CommentsManager;
 
 class Comments extends BaseModel
 {

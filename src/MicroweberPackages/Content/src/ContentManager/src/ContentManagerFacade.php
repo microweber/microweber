@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\ContentManager;
+namespace MicroweberPackages\Content\ContentManager;
 
 use Illuminate\Support\Facades\Facade;
 

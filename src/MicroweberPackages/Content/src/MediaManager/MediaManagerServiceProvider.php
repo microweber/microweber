@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\MediaManager;
+namespace MicroweberPackages\Content\MediaManager;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -23,7 +23,7 @@ class MediaManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\MediaManager\MediaManager    $media_manager
+         * @property \MicroweberPackages\Content\MediaManager\MediaManager    $media_manager
          */
         $this->app->singleton('media_manager', function ($app) {
             return new MediaManager();

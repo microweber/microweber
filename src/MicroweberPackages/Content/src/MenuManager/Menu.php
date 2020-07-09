@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\MenuManager;
+namespace MicroweberPackages\Content\MenuManager;
 
 use Illuminate\Database\Eloquent\Model;
 

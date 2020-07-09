@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\MediaManager;
+namespace MicroweberPackages\Content\MediaManager;
 
 use \Intervention\Image\ImageManagerStatic as Image;
 use MicroweberPackages\Utils\Media\Thumbnailer;
