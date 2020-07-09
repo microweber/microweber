@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\TemplateManager;
+namespace MicroweberPackages\Utils\TemplateManager;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -24,21 +24,21 @@ class TemplateManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\TemplateManager\TemplateManager    $template_manager
+         * @property \MicroweberPackages\Utils\TemplateManager\TemplateManager    $template_manager
          */
         $this->app->singleton('template_manager', function ($app) {
             return new TemplateManager();
         });
 
         /**
-         * @property \MicroweberPackages\TemplateManager\layoutsManager    $layouts_manager
+         * @property \MicroweberPackages\Utils\TemplateManager\layoutsManager    $layouts_manager
          */
         $this->app->singleton('layouts_manager', function ($app) {
             return new LayoutsManager();
         });
 
         /**
-         * @property \MicroweberPackages\TemplateManager\Template    $template
+         * @property \MicroweberPackages\Utils\TemplateManager\Template    $template
          */
         $this->app->singleton('template', function ($app) {
             return new Template();

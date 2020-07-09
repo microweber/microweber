@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\TemplateManager\Adapters;
+namespace MicroweberPackages\Utils\TemplateManager\Adapters;
 
 class TemplateCssParser
 {

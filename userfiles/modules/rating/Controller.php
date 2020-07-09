@@ -4,7 +4,7 @@
 namespace rating;
 
 
-use MicroweberPackages\TemplateManager\View;
+use MicroweberPackages\Utils\TemplateManager\View;
 
 class Controller
 {

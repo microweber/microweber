@@ -22,13 +22,13 @@
   },
   "autoload": {
     "psr-4": {
-      "Microweber\\": "src/"
+      "MicroweberPackages\\Core\\": "src/"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "Microweber\\Core\\CoreServiceProvider"
+        "MicroweberPackages\\Core\\CoreServiceProvider"
       ]
     }
   },

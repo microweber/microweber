@@ -1,6 +1,5 @@
 <?php
-
-namespace MicroweberPackages\TemplateManager;
+namespace MicroweberPackages\Core;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;

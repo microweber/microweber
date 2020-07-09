@@ -11,7 +11,7 @@
  *
  */
 
-namespace MicroweberPackages\TemplateManager;
+namespace MicroweberPackages\Utils\TemplateManager;
 
 /**
  * Content class is used to get and save content in the database.

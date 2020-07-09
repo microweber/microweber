@@ -5,7 +5,7 @@ namespace MicroweberPackages\App\Http\Controllers;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
-use MicroweberPackages\TemplateManager\View;
+use MicroweberPackages\Utils\TemplateManager\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 

@@ -32,7 +32,7 @@ use MicroweberPackages\Shop\ShopManager\ShopManagerServiceProvider;
 use MicroweberPackages\Shop\TaxManager\TaxManagerServiceProvider;
 
 use MicroweberPackages\TagsManager\TagsManagerServiceProvider;
-use MicroweberPackages\TemplateManager\TemplateManagerServiceProvider;
+use MicroweberPackages\Utils\TemplateManager\TemplateManagerServiceProvider;
 use MicroweberPackages\UserManager\UserManagerServiceProvider;
 use MicroweberPackages\Utils\Http\Http;
 use MicroweberPackages\Utils\System\ClassLoader;

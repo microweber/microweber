@@ -1,9 +1,9 @@
 <?php
 
-namespace MicroweberPackages\TemplateManager\Adapters;
+namespace MicroweberPackages\Utils\TemplateManager\Adapters;
 
-use MicroweberPackages\TemplateManager\Adapters\RenderHelpers\TemplateMetaTagsRenderer;
-use MicroweberPackages\TemplateManager\View;
+use MicroweberPackages\Core\View;
+use MicroweberPackages\Utils\TemplateManager\Adapters\RenderHelpers\TemplateMetaTagsRenderer;
 
 class MicroweberTemplate
 {

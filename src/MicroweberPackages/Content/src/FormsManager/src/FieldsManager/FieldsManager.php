@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\FieldsManager;
 
-use MicroweberPackages\TemplateManager\View;
+use MicroweberPackages\Utils\TemplateManager\View;
 
 api_expose_admin('fields/reorder');
 api_expose_admin('fields/delete');

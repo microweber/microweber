@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\App\Utils;
 
-use MicroweberPackages\TemplateManager\View;
+use MicroweberPackages\Utils\TemplateManager\View;
 
 $parser_cache_object = false; //global cache storage
 $mw_replaced_edit_fields_vals = array();

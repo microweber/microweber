@@ -11,11 +11,11 @@
  *
  */
 
-namespace MicroweberPackages\TemplateManager;
+namespace MicroweberPackages\Utils\TemplateManager;
 
 use Illuminate\Support\Facades\Cache;
 use Microweber\App\Providers\Illuminate\Support\Facades\Paginator;
-use MicroweberPackages\TemplateManager\Adapters\ElementsConfigReader;
+use MicroweberPackages\Utils\TemplateManager\Adapters\ElementsConfigReader;
 
 class LayoutsManager
 {

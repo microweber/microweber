@@ -104,6 +104,7 @@
             "require": [
               "src/MicroweberPackages/Utils/composer.json",
               "src/MicroweberPackages/Core/src/Cache/composer.json",
+              "src/MicroweberPackages/Core/composer.json",
               "src/MicroweberPackages/Content/composer.json",
               "src/MicroweberPackages/Core/src/Config/composer.json",
               "src/MicroweberPackages/Utils/src/Helpers/composer.json",
