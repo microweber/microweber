@@ -90,6 +90,14 @@ if ($registration_approval_required == false) {
         });
     }
 
+    mw.open_captcha_settings = function () {
+        mw.dialog({
+            content: '<div id="captcha_settings"></div>'
+        });
+
+        var params = {}
+        mw.load_module('captcha/admin_backend', '#captcha_settings', null, params);
+    }
 </script>
 
 
@@ -170,44 +178,45 @@ if ($registration_approval_required == false) {
 
                                     <div class="form-group mb-4">
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck1" checked="">
-                                            <label class="custom-control-label" for="customCheck1">Show first name field?</label>
+                                            <input type="checkbox" value="y" <?php if ($form_show_first_name == 'y'): ?> checked <?php endif; ?> name="form_show_first_name" id="form_show_first_name" class="mw_option_field custom-control-input" option-group="users">
+                                            <label class="custom-control-label" for="form_show_first_name"><?php _e("Show first name field?"); ?></label>
                                         </div>
                                     </div>
 
                                     <div class="form-group mb-4">
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck1" checked="">
-                                            <label class="custom-control-label" for="customCheck1">Show first name field?</label>
+                                            <input type="checkbox" value="y" <?php if ($form_show_last_name == 'y'): ?> checked <?php endif; ?> name="form_show_last_name" id="form_show_last_name" class="mw_option_field custom-control-input" option-group="users">
+                                            <label class="custom-control-label" for="form_show_last_name"><?php _e("Show last name field?"); ?></label>
                                         </div>
                                     </div>
 
                                     <div class="form-group mb-4">
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck1" checked="">
-                                            <label class="custom-control-label" for="customCheck1">Show password confirmation field?</label>
+                                            <input type="checkbox" value="y" <?php if ($form_show_password_confirmation == 'y'): ?> checked <?php endif; ?> name="form_show_password_confirmation" id="form_show_password_confirmation" class="mw_option_field custom-control-input" option-group="users">
+                                            <label class="custom-control-label" for="form_show_password_confirmation"><?php _e("Show password confirmation field?"); ?></label>
                                         </div>
                                     </div>
 
                                     <div class="form-group mb-4">
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck1" checked="">
-                                            <label class="custom-control-label" for="customCheck1">Show newsletter subscription field?</label>
+                                            <input type="checkbox" value="y" <?php if ($form_show_newsletter_subscription == 'y'): ?> checked <?php endif; ?> name="form_show_newsletter_subscription" id="form_show_newsletter_subscription" class="mw_option_field custom-control-input" option-group="users">
+                                            <label class="custom-control-label" for="form_show_newsletter_subscription"><?php _e("Show newsletter subscription checkbox?"); ?></label>
                                         </div>
                                     </div>
 
                                     <hr class="thin"/>
 
                                     <div class="form-group mb-3">
-                                        <a href="#" class="btn btn-link btn-sm py-1 px-0 float-right">View Captcha module settings</a>
+                                        <a href="javascript:mw.open_captcha_settings();" class="btn btn-link btn-sm py-1 px-0 float-right">View Captcha module settings</a>
                                         <label class="control-label">Disable Captcha - Registration Form</label>
                                         <small class="text-muted d-block mb-2">Enable or Disable captcha code verification in the registration area.</small>
                                     </div>
 
                                     <div class="form-group mb-4">
+                                        <?php $captcha_disabled = get_option('captcha_disabled', 'users'); ?>
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck1" checked="">
-                                            <label class="custom-control-label" for="customCheck1">Disable Captcha?</label>
+                                            <input type="checkbox" class="mw_option_field custom-control-input" option-group="users" name="captcha_disabled" id="captcha_disabled" <?php if ($captcha_disabled == 'y'): ?> checked <?php endif; ?> value="y">
+                                            <label class="custom-control-label" for="captcha_disabled"><?php _e('Disable Captcha?'); ?></label>
                                         </div>
                                     </div>
 
@@ -217,9 +226,10 @@ if ($registration_approval_required == false) {
                                     </div>
 
                                     <div class="form-group mb-4">
+                                        <?php $disable_registration_with_temporary_email = get_option('disable_registration_with_temporary_email', 'users'); ?>
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck1" checked="">
-                                            <label class="custom-control-label" for="customCheck1">Disable registration with temporary email?</label>
+                                            <input type="checkbox" class="mw_option_field custom-control-input" option-group="users" name="disable_registration_with_temporary_email" id="disable_registration_with_temporary_email" <?php if ($disable_registration_with_temporary_email == 'y'): ?> checked <?php endif; ?> value="y">
+                                            <label class="custom-control-label" for="disable_registration_with_temporary_email"><?php _e('Disable registration with temporary email?'); ?></label>
                                         </div>
                                     </div>
                                 </div>
@@ -235,6 +245,7 @@ if ($registration_approval_required == false) {
         <div class="card-body pt-3">
             <hr class="thin mt-0 mb-5"/>
 
+
             <div class="row">
                 <div class="col-md-4">
                     <h5 class="font-weight-bold">Login form settings</h5>
@@ -246,15 +257,16 @@ if ($registration_approval_required == false) {
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group mb-3">
-                                        <a href="#" class="btn btn-link btn-sm py-1 px-0 float-right">View Captcha module settings</a>
+                                        <a href="javascript:mw.open_captcha_settings();" class="btn btn-link btn-sm py-1 px-0 float-right">View Captcha module settings</a>
                                         <label class="control-label">Login form settings</label>
                                         <small class="text-muted d-block mb-2">Do I need a captcha foma for login each time?</small>
                                     </div>
 
                                     <div class="form-group mb-4">
+                                        <?php $login_captcha_enabled = get_option('login_captcha_enabled', 'users'); ?>
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck1" checked="">
-                                            <label class="custom-control-label" for="customCheck1">Require Captcha to Login?</label>
+                                            <input type="checkbox" class="mw_option_field custom-control-input" id="login_captcha_enabled" option-group="users" name="login_captcha_enabled" <?php if ($login_captcha_enabled == 'y'): ?> checked <?php endif; ?> value="y">
+                                            <label class="custom-control-label" for="login_captcha_enabled"><?php _e('Require captcha to login?'); ?></label>
                                         </div>
                                     </div>
                                 </div>
@@ -463,81 +475,59 @@ if ($registration_approval_required == false) {
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="card bg-none style-1 mb-0">
-            <div class="card-body pt-3">
-                <hr class="thin mt-0 mb-5"/>
+    <div class="card bg-none style-1 mb-0">
+        <div class="card-body pt-3">
+            <hr class="thin mt-0 mb-5"/>
 
-                <div class="row">
-                    <div class="col-md-4">
-                        <h5 class="font-weight-bold">Email notifications</h5>
-                        <small class="text-muted">Register users can automatically receive an automatic email from you. See the settings and post your messages.</small>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card bg-light style-1 mb-3">
-                            <div class="card-body pt-3">
-                                <div class="row">
-                                    <div class="col-12">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5 class="font-weight-bold">Email notifications</h5>
+                    <small class="text-muted">Register users can automatically receive an automatic email from you. See the settings and post your messages.</small>
+                </div>
+                <div class="col-md-8">
+                    <div class="card bg-light style-1 mb-3">
+                        <div class="card-body pt-3">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="mb-4">
                                         <div class="form-group mb-3">
-                                            <label class="control-label">Send email for a user registration</label>
+                                            <label class="control-label"><?php _e("Send email on new user registration"); ?></label>
                                             <small class="text-muted d-block mb-2">Do you want users to receive an e-mail when registering?</small>
                                         </div>
 
                                         <div class="form-group mb-4">
                                             <div class="custom-control custom-switch pl-0">
-                                                <label class="d-inline-block mr-5" for="customSwitch1">No</label>
-                                                <input type="checkbox" class="custom-control-input" id="customSwitch1" checked="">
-                                                <label class="custom-control-label" for="customSwitch1">Yes</label>
+                                                <label class="d-inline-block mr-5" for="cusregister_email_enabledtomSwitch1"><?php _e("No"); ?></label>
+                                                <input name="register_email_enabled" id="register_email_enabled" class="mw_option_field custom-control-input" data-option-group="users" value="1" type="radio" <?php if (get_option('register_email_enabled', 'users') == 1): ?>checked<?php endif; ?>>
+                                                <label class="custom-control-label" for="register_email_enabled"><?php _e("Yes"); ?></label>
                                             </div>
                                         </div>
 
+                                        <module type="admin/mail_templates/select_template" option_group="users" mail_template_type="new_user_registration" class="mb-4"/>
+
+                                        <a onclick="mw.register_email_send_test();" href="javascript:;" class="btn btn-outline-primary btn-sm"><?php _e('Send Test Email'); ?></a>
+                                    </div>
+
+                                    <div>
                                         <div class="form-group mb-3">
-                                            <label class="control-label">Select email template</label>
-                                            <small class="text-muted d-flex justify-content-between align-items-center mb-2">Choose template to send for registred users.
-                                                <button class="btn btn-sm btn-outline-primary">Add new email template</button>
-                                            </small>
-                                            <small class="text-muted d-block mb-2">If you add few emails for same functionality they will be showing in dropdown box.</small>
+                                            <label class="control-label"><?php _e("Send custom forgot password email"); ?></label>
+                                            <small class="text-muted d-block mb-2">Select which template the users will receive when try to reset their password?</small>
                                         </div>
 
-                                        <div class="row mb-3">
-                                            <div class="col-8">
-                                                <input class="form-control" type="text" placeholder="" value="Forgot password" readonly/>
-                                            </div>
-
-                                            <div class="col-4 d-flex align-items-center">
-                                                <button class="btn btn-sm btn-outline-success">Edit</button>
+                                        <div class="form-group mb-4">
+                                            <div class="custom-control custom-switch pl-0">
+                                                <label class="d-inline-block mr-5" for="forgot_pass_email_enabled"><?php _e("No"); ?></label>
+                                                <input name="forgot_pass_email_enabled" id="forgot_pass_email_enabled" class="mw_option_field custom-control-input" data-option-group="users" value="1" type="radio" <?php if (get_option('forgot_pass_email_enabled', 'users') == 1): ?>checked<?php endif; ?>>
+                                                <label class="custom-control-label" for="forgot_pass_email_enabled"><?php _e("Yes"); ?></label>
                                             </div>
                                         </div>
 
-                                        <div class="row mb-3">
-                                            <div class="col-8">
-                                                <input class="form-control" type="text" placeholder="" value="New comment reply" readonly/>
-                                            </div>
+                                        <module type="admin/mail_templates/select_template" option_group="users" mail_template_type="forgot_password" class="mb-4"/>
 
-                                            <div class="col-4 d-flex align-items-center">
-                                                <button class="btn btn-sm btn-outline-success">Edit</button>
-                                            </div>
-                                        </div>
+                                        <a onclick="mw.forgot_password_email_send_test();" href="javascript:;" class="btn btn-outline-primary btn-sm"><?php _e('Send Test Email'); ?></a>
 
-                                        <div class="row mb-3">
-                                            <div class="col-8">
-                                                <input class="form-control" type="text" placeholder="" value="New order" readonly/>
-                                            </div>
-
-                                            <div class="col-4 d-flex align-items-center">
-                                                <button class="btn btn-sm btn-outline-success">Edit</button>
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <div class="col-8">
-                                                <input class="form-control" type="text" placeholder="" value="Sample" readonly/>
-                                            </div>
-
-                                            <div class="col-4 d-flex align-items-center">
-                                                <button class="btn btn-sm btn-outline-success">Edit</button>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -546,242 +536,51 @@ if ($registration_approval_required == false) {
                 </div>
             </div>
         </div>
-
-        <div class="card bg-none style-1 mb-0">
-            <div class="card-body pt-3">
-                <hr class="thin mt-0 mb-5"/>
-
-                <div class="row">
-                    <div class="col-md-4">
-                        <h5 class="font-weight-bold">Other settings</h5>
-                        <small class="text-muted">Advanced setting where you can set different URL addresses.</small>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card bg-light style-1 mb-3">
-                            <div class="card-body pt-3">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <label class="control-label">Register URL</label>
-                                            <small class="text-muted d-block mb-2">You can set a custom url for the register page</small>
-
-                                            <input class="form-control" type="text" placeholder="" value="Use default"/>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="control-label">Login URL</label>
-                                            <small class="text-muted d-block mb-2">You can set a custom url for the login page</small>
-
-                                            <input class="form-control" type="text" placeholder="" value="Use default"/>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="control-label">Logout URL</label>
-                                            <small class="text-muted d-block mb-2">You can set a custom url for the logout page</small>
-
-                                            <input class="form-control" type="text" placeholder="" value="Use default"/>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="control-label">Forgot password URL</label>
-                                            <small class="text-muted d-block mb-2">You can set a custom url for the forgot password page</small>
-
-                                            <input class="form-control" type="text" placeholder="" value="Use default"/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <ul class="mw-ui-btn-nav mw-ui-btn-nav-fluid">
-            <li><a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item"></a></li>
-            <li><a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item"><?php _e("Register e-mail"); ?></a></li>
-            <li><a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item"><?php _e("Privacy settings"); ?></a></li>
-            <li><a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item"><?php _e("Other"); ?></a></li>
-        </ul>
-
-
-        <div id="mw-user-fields-form-set" class="mw-user-fields-form-item">
-            <div class="mw-ui-box mw-ui-box-content">
-
-                <h2><?php _e("Send email on new user registration"); ?></h2>
-
-                <div class="mw-ui-field-holder">
-                    <label class="mw-ui-check" style="margin-right: 15px;">
-                        <input name="register_email_enabled" class="mw_option_field" data-option-group="users" value="1" type="radio" <?php if (get_option('register_email_enabled', 'users') == 1): ?> checked="checked" <?php endif; ?> ><span></span><span><?php _e("Yes"); ?></span>
-                    </label>
-                    <label class="mw-ui-check">
-                        <input name="register_email_enabled" class="mw_option_field" data-option-group="users" value="0" type="radio" <?php if (get_option('register_email_enabled', 'users') != 1): ?> checked="checked" <?php endif; ?> >
-                        <span></span><span><?php _e("No"); ?></span>
-                    </label>
-                </div>
-
-                <div class="mw-ui-field-holder mw-ui-row m-b-20">
-                    <div class="mw-ui-col p-12">
-                        <label class="mw-ui-label bold">
-                            <?php _e("Select email template"); ?>
-                        </label>
-
-                        <module type="admin/mail_templates/select_template" option_group="users" mail_template_type="new_user_registration"/>
-
-                        <br/>
-                        <br/>
-                        <a onclick="mw.register_email_send_test();" href="javascript:;" class="mw-ui-btn" style="float:left;width:330px;"><?php _e('Send Test Email'); ?></a>
-                    </div>
-
-
-                </div>
-
-            </div>
-
-            <hr>
-
-
-            <a class="mw-ui-btn" href="javascript:;" onclick="$('#admin-forgot-pass-email-ctrl-holder').toggle()"><?php _e('Forgot password email settings'); ?></a>
-            <br/>
-
-            <div class="mw-ui-box mw-ui-box-content" id="admin-forgot-pass-email-ctrl-holder">
-
-
-                <h2><?php _e("Send custom forgot password email"); ?></h2>
-
-                <div class="mw-ui-field-holder">
-                    <label class="mw-ui-check" style="margin-right: 15px;">
-                        <input name="forgot_pass_email_enabled" class="mw_option_field" data-option-group="users" value="1" type="radio" <?php if (get_option('forgot_pass_email_enabled', 'users') == 1): ?> checked="checked" <?php endif; ?> >
-                        <span></span><span><?php _e("Yes"); ?></span>
-                    </label>
-
-                    <label class="mw-ui-check">
-                        <input name="forgot_pass_email_enabled" class="mw_option_field" data-option-group="users" value="0" type="radio" <?php if (get_option('forgot_pass_email_enabled', 'users') != 1): ?> checked="checked" <?php endif; ?> >
-                        <span></span><span><?php _e("No"); ?></span>
-                    </label>
-                </div>
-
-                <div class="mw-ui-field-holder mw-ui-row m-b-20">
-                    <div class="mw-ui-col p-12">
-                        <label class="mw-ui-label bold">
-                            <?php _e("Select email template"); ?>
-                        </label>
-
-                        <module type="admin/mail_templates/select_template" option_group="users" mail_template_type="forgot_password"/>
-
-                        <br/>
-                        <br/>
-                        <a onclick="mw.forgot_password_email_send_test();" href="javascript:;" class="mw-ui-btn" style="float:left;width:330px;"><?php _e('Send Test Email'); ?></a>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-
-
-
-
-
-        <div id="mw-admin-user-tabs-other-settings" class="mw-user-fields-form-item" style="display:none;padding-top: 20px;">
-            <div class="mw-ui-box mw-ui-box-content">
-                <?php $captcha_disabled = get_option('captcha_disabled', 'users'); ?>
-                <h2><?php _e("Register form settings"); ?></h2>
-                <label class="mw-ui-check">
-                    <input type="checkbox" class="mw_option_field" option-group="users" name="captcha_disabled" <?php if ($captcha_disabled == 'y'): ?> checked <?php endif; ?> value="y">
-                    <span></span><span><?php _e('Disable Captcha?'); ?></span>
-                </label>
-
-                <hr>
-
-                <?php $disable_registration_with_temporary_email = get_option('disable_registration_with_temporary_email', 'users'); ?>
-
-                <label class="mw-ui-check">
-                    <input type="checkbox" class="mw_option_field" option-group="users" name="disable_registration_with_temporary_email" <?php if ($disable_registration_with_temporary_email == 'y'): ?> checked <?php endif; ?> value="y">
-                    <span></span><span><?php _e('Disable registration with temporary email?'); ?></span>
-                </label>
-
-                <hr>
-
-                <div class="optional-fields mw-ui-field-holder">
-                    <label class="mw-ui-check">
-                        <input type="checkbox" value="y" <?php if ($form_show_first_name == 'y'): ?> checked <?php endif; ?> name="form_show_first_name" class="mw_option_field" option-group="users">
-                        <span></span> <span><?php _e("Show first name field?"); ?></span>
-                    </label>
-
-                    <br/>
-                    <br/>
-
-                    <label class="mw-ui-check">
-                        <input type="checkbox" value="y" <?php if ($form_show_last_name == 'y'): ?> checked <?php endif; ?> name="form_show_last_name" class="mw_option_field" option-group="users">
-                        <span></span> <span><?php _e("Show last name field?"); ?></span>
-                    </label>
-
-                    <br/>
-                    <br/>
-
-                    <label class="mw-ui-check">
-                        <input type="checkbox" value="y" <?php if ($form_show_password_confirmation == 'y'): ?> checked <?php endif; ?> name="form_show_password_confirmation" class="mw_option_field" option-group="users">
-                        <span></span> <span><?php _e("Show password confirmation field?"); ?></span>
-                    </label>
-
-                    <br/>
-                    <br/>
-
-                    <label class="mw-ui-check">
-                        <input type="checkbox" value="y" <?php if ($form_show_newsletter_subscription == 'y'): ?> checked <?php endif; ?> name="form_show_newsletter_subscription" class="mw_option_field" option-group="users">
-                        <span></span> <span><?php _e("Show newsletter subscription checkbox?"); ?></span>
-                    </label>
-                </div>
-            </div>
-
-            <?php $login_captcha_enabled = get_option('login_captcha_enabled', 'users'); ?>
-
-            <div class="mw-ui-box mw-ui-box-content">
-                <h2><?php _e("Login form settings"); ?></h2>
-
-                <label class="mw-ui-check">
-                    <input type="checkbox" class="mw_option_field" option-group="users" name="login_captcha_enabled" <?php if ($login_captcha_enabled == 'y'): ?> checked <?php endif; ?> value="y">
-                    <span></span><span><?php _e('Require captcha to login?'); ?></span>
-                </label>
-            </div>
-
-            <script>
-                $(document).ready(function () {
-                    $('.js-show-hide-btn').on('click', function () {
-                        $('.js-show-hide').toggleClass('hidden');
-                        $(this).hide();
-                    });
-                });
-            </script>
-
-            <div class="mw-ui-box mw-ui-box-content">
-                <div class="js-show-hide hidden">
-                    <h2><?php _e("Other settings"); ?></h2>
-                    <hr/>
-
-                    <h3><?php _e("Register URL"); ?></h3>
-                    <p><?php _e("You can set a custom url for the register page"); ?></p>
-                    <input name="register_url" class="mw_option_field mw-ui-field" type="text" option-group="users" value="<?php print get_option('register_url', 'users'); ?>" placeholder="<?php _e("Use default"); ?>"/>
-
-                    <h3><?php _e("Login URL"); ?></h3>
-                    <p><?php _e("You can set a custom url for the login page"); ?></p>
-                    <input name="login_url" class="mw_option_field mw-ui-field" type="text" option-group="users" value="<?php print get_option('login_url', 'users'); ?>" placeholder="<?php _e("Use default"); ?>"/>
-
-                    <h3><?php _e("Logout URL"); ?></h3>
-                    <p><?php _e("You can set a custom url for the logout page"); ?></p>
-                    <input name="logout_url" class="mw_option_field mw-ui-field" type="text" option-group="users" value="<?php print get_option('logout_url', 'users'); ?>" placeholder="<?php _e("Use default"); ?>"/>
-
-                    <h3><?php _e("Forgot password URL"); ?></h3>
-                    <p><?php _e("You can set a custom url for the forgot password page"); ?></p>
-                    <?php $checkout_url = get_option('forgot_password_url', 'users'); ?>
-                    <input name="forgot_password_url" class="mw_option_field mw-ui-field" type="text" option-group="users" value="<?php print get_option('forgot_password_url', 'users'); ?>" placeholder="<?php _e("Use default"); ?>"/>
-                </div>
-
-                <button type="button" class="mw-ui-btn mw-ui-btn-info js-show-hide-btn m-t-10 m-b-10">Show Other settings</button>
-            </div>
-        </div>
-
     </div>
 
+    <div class="card bg-none style-1 mb-0">
+        <div class="card-body pt-3">
+            <hr class="thin mt-0 mb-5"/>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <h5 class="font-weight-bold"><?php _e("Other settings"); ?></h5>
+                    <small class="text-muted">Advanced setting where you can set different URL addresses.</small>
+                </div>
+                <div class="col-md-8">
+                    <div class="card bg-light style-1 mb-3">
+                        <div class="card-body pt-3">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label class="control-label"><?php _e("Register URL"); ?></label>
+                                        <small class="text-muted d-block mb-2"><?php _e("You can set a custom url for the register page"); ?></small>
+                                        <input name="register_url" class="mw_option_field form-control type=" text" option-group="users" value="<?php print get_option('register_url', 'users'); ?>" placeholder="<?php _e("Use default"); ?>"/>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label"><?php _e("Login URL"); ?></label>
+                                        <small class="text-muted d-block mb-2"><?php _e("You can set a custom url for the login page"); ?></small>
+                                        <input name="login_url" class="mw_option_field form-control" type="text" option-group="users" value="<?php print get_option('login_url', 'users'); ?>" placeholder="<?php _e("Use default"); ?>"/>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label"><?php _e("Logout URL"); ?></label>
+                                        <small class="text-muted d-block mb-2"><?php _e("You can set a custom url for the logout page"); ?></small>
+                                        <input name="logout_url" class="mw_option_field form-control" type="text" option-group="users" value="<?php print get_option('logout_url', 'users'); ?>" placeholder="<?php _e("Use default"); ?>"/>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label"><?php _e("Forgot password URL"); ?></label>
+                                        <small class="text-muted d-block mb-2"><?php _e("You can set a custom url for the forgot password page"); ?></small>
+                                        <input name="forgot_password_url" class="mw_option_field form-control" type="text" option-group="users" value="<?php print get_option('forgot_password_url', 'users'); ?>" placeholder="<?php _e("Use default"); ?>"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
