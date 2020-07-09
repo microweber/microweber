@@ -499,8 +499,8 @@ if ($registration_approval_required == false) {
 
                                         <div class="form-group mb-4">
                                             <div class="custom-control custom-switch pl-0">
-                                                <label class="d-inline-block mr-5" for="cusregister_email_enabledtomSwitch1"><?php _e("No"); ?></label>
-                                                <input name="register_email_enabled" id="register_email_enabled" class="mw_option_field custom-control-input" data-option-group="users" value="1" type="radio" <?php if (get_option('register_email_enabled', 'users') == 1): ?>checked<?php endif; ?>>
+                                                <label class="d-inline-block mr-5" for="register_email_enabled"><?php _e("No"); ?></label>
+                                                <input name="register_email_enabled" id="register_email_enabled" class="mw_option_field custom-control-input" data-option-group="users" value="1" type="checkbox" <?php if (get_option('register_email_enabled', 'users') == 1): ?>checked<?php endif; ?>>
                                                 <label class="custom-control-label" for="register_email_enabled"><?php _e("Yes"); ?></label>
                                             </div>
                                         </div>
@@ -519,7 +519,7 @@ if ($registration_approval_required == false) {
                                         <div class="form-group mb-4">
                                             <div class="custom-control custom-switch pl-0">
                                                 <label class="d-inline-block mr-5" for="forgot_pass_email_enabled"><?php _e("No"); ?></label>
-                                                <input name="forgot_pass_email_enabled" id="forgot_pass_email_enabled" class="mw_option_field custom-control-input" data-option-group="users" value="1" type="radio" <?php if (get_option('forgot_pass_email_enabled', 'users') == 1): ?>checked<?php endif; ?>>
+                                                <input name="forgot_pass_email_enabled" id="forgot_pass_email_enabled" class="mw_option_field custom-control-input" data-option-group="users" value="1" type="checkbox" <?php if (get_option('forgot_pass_email_enabled', 'users') == 1): ?>checked<?php endif; ?>>
                                                 <label class="custom-control-label" for="forgot_pass_email_enabled"><?php _e("Yes"); ?></label>
                                             </div>
                                         </div>
