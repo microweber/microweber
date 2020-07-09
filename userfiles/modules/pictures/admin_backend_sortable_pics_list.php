@@ -50,7 +50,7 @@ $rand = 'pic-sorter-'.uniqid();
         display: block;
         position: relative;
         float: left;
-        width: 18%;
+        width: 110px;
         height: 110px;
         margin: 0 5px 10px;
     }
@@ -134,12 +134,6 @@ $rand = 'pic-sorter-'.uniqid();
                 });
             })
 
-        mw.$('.admin-thumb-item-uploader-holder,.admin-thumb-item,.admin-thumb-item-placeholder').each(function () {
-            var el = $(this);
-            el.height(el.width())
-        });
-
-
         var dragTimer;
         $(document).on('dragover', function(e) {
             var dt = e.originalEvent.dataTransfer;
@@ -161,12 +155,7 @@ $rand = 'pic-sorter-'.uniqid();
 
     });
 
-    $(window).on('load resize', function () {
-        mw.$('.admin-thumb-item-uploader-holder,.admin-thumb-item,.admin-thumb-item-placeholder').each(function () {
-            var el = $(this);
-            el.height(el.width())
-        });
-    });
+
 </script>
 
 <div class="admin-thumbs-holder" id="admin-thumbs-holder-sort-<?php print $rand; ?>">
