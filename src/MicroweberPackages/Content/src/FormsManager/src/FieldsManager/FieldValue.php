@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\FieldsManager;
+namespace MicroweberPackages\Content\FieldsManager;
 
 class FieldValue extends BaseModel
 {

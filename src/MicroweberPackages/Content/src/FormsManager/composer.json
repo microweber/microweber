@@ -18,15 +18,18 @@
 
   "autoload": {
     "psr-4": {
-      "MicroweberPackages\\Content\\": "src/"
+      "MicroweberPackages\\Content\\FormsManager\\": "src/FormsManager/",
+      "MicroweberPackages\\Content\\FieldsManager\\": "src/FieldsManager/"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
+        "MicroweberPackages\\Content\\FieldsManager\\FieldsManagerServiceProvider",
         "MicroweberPackages\\Content\\FormsManager\\FormsManagerServiceProvider"
       ],
       "aliases": {
+        "FieldsManager": "MicroweberPackages\\Content\\FieldsManager\\FieldsManagerFacade",
         "FormsManager": "MicroweberPackages\\Content\\FormsManager\\FormsManagerFacade"
       }
     }

@@ -36,7 +36,7 @@ class DefaultExport implements ExportInterface
 		}
 		
 		return array(
-			'download' => api_url('Microweber/Utils/BackupV2/download?file=' . $exportFilename),
+			'download' => api_url('MicroweberPackages/Utils/BackupV2/download?file=' . $exportFilename),
 			'filepath' => $exportLocation . $exportFilename,
 			'filename' => $exportFilename
 		);

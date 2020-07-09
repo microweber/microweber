@@ -13,7 +13,7 @@ use Cache;
 use MicroweberPackages\UserManager\User;
 use MicroweberPackages\Utils\Http\Http;
 use MicroweberPackages\PackageManager\ComposerUpdate;
-use MicroweberPackages\Utils\TemplateManager\View;
+use MicroweberPackages\Core\View;
 use MicroweberPackages\App\Install;
 
 class InstallController extends Controller

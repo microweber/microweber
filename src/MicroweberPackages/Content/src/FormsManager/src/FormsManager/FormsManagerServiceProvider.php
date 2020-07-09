@@ -12,7 +12,7 @@
 namespace MicroweberPackages\Content\FormsManager;
 
 use Illuminate\Support\ServiceProvider;
-use MicroweberPackages\FieldsManager\FieldsManager;
+use MicroweberPackages\Content\FieldsManager\FieldsManager;
 
 
 class FormsManagerServiceProvider extends ServiceProvider
@@ -32,7 +32,7 @@ class FormsManagerServiceProvider extends ServiceProvider
         });
 
         /**
-         * @property \MicroweberPackages\FieldsManager\FieldsManager $fields_manager
+         * @property \MicroweberPackages\Content\FieldsManager\FieldsManager $fields_manager
          */
         $this->app->singleton('fields_manager', function ($app) {
             return new FieldsManager();

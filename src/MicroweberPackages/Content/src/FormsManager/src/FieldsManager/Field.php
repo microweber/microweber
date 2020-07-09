@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\FieldsManager;
+namespace MicroweberPackages\Content\FieldsManager;
 
 class Field extends Model
 {
