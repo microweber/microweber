@@ -129,7 +129,9 @@ mw.module_pictures = {
             placeholder:  'admin-thumb-item-placeholder' ,
 
             sort: function (e, ui) {
-
+                $('.admin-thumb-item, .admin-thumb-item-placeholder, .admin-thumb-item-uploader-holder').each(function(){
+                    $(this).height( $(this).width())
+                })
                 var plIndex = ui.placeholder.index();
                 if (plIndex === 0 || (plIndex === 1 && ui.helper[0].id === mw.$('.admin-thumb-item:first', el)[0].id)) {
                     el.find('.admin-thumb-item-placeholder').addClass('admin-thumb-item-placeholder-first');

@@ -51,31 +51,37 @@
 .mw-dialog-skin-default{
     visibility: hidden;
     .mw-dialog-header{
-        min-height: 40px;
-        background-color: #2b2b2b;
-        color: #fff;
-        padding: 10px;
+        min-height: 45px;
+
+        padding: 6px 25px;
         display: flex;
         align-items:center;
         position: relative;
         top: 0;
         z-index: 2;
+        border-radius: 10px 10px 0 0;
+        border-bottom: 1px solid #D9DADB;
+
         .mw-dialog-title{
-            max-width: calc(100% ~"-" 30px);
+            max-width: calc(100% ~"-" 55px);
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            font-size: 17px;
+            font-weight: bold;
+            color: #2B2B2B;
         }
         .mw-dropdown-content{
             background-color: #2b2b2b;
         }
     }
     .mw-dialog-footer{
-        padding: 10px;
+        padding: 10px 0px;
+        margin: 0 25px;
         overflow: hidden;
         position: relative;
         text-align: right;
-        border-top: 1px solid #eee;
+        border-top: 1px solid #D9DADB;
 
         .mw-ui-btn + .mw-ui-btn{
             margin-left: 10px;
@@ -92,8 +98,9 @@
     }
     .mw-dialog-holder{
         max-width: 98%;
-        background-color: white;
+        background-color: #FAFAFA;
         box-shadow: 0 3px 9px rgba(0,0,0,.15);
+        border-radius: 10px;
         visibility: hidden;
         opacity: 0;
         transform:  translateY(20px);
@@ -120,19 +127,21 @@
     }
     .mw-dialog-close{
         position: absolute;
-        top: 0;
-        right: 0;
-        width: 40px;
-        height: 40px;
+        top: 5px;
+        right: 6px;
+        width: 35px;
+        height: 35px;
         display: flex;
         align-items: center;
         text-align: center;
         justify-content: center;
-        color: #bababa;
+        color: #2B2B2B;
         cursor: pointer;
         transition: background-color .3s;
+        border: 1px solid #CFCFCF;
+        border-radius: 5px;
         &:hover{
-            background-color: rgba(255,255,255,.2);
+            background-color: rgba(255,255,255,1);
         }
         &:after{
             content: "\f2d7";
@@ -140,11 +149,8 @@
             font-size: 15px;
         }
     }
-    .mw-dialog-header .mw-dialog-close{
-        height: 100%;
-    }
     .mw-dialog-container{
-        padding: 10px;
+        padding: 10px 25px;
     }
     &.mw-dialog-iframe-loading{
         iframe {

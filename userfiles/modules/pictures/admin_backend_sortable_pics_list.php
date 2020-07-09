@@ -50,9 +50,9 @@ $rand = 'pic-sorter-'.uniqid();
         display: block;
         position: relative;
         float: left;
-        width: 110px;
+        width: 18%;
         height: 110px;
-        margin: 0 5px 10px;
+        margin: 0 1% 1%;
     }
     .admin-thumb-item-uploader-holder:hover .dropable-zone.small-zone button{
         text-decoration: underline;
@@ -151,6 +151,12 @@ $rand = 'pic-sorter-'.uniqid();
         $("#admin-thumbs-drop-zone-<?php print $rand; ?>").on('drop', function () {
             $("#admin-thumbs-drop-zone-<?php print $rand; ?>").hide();
         });
+
+        setInterval(function () {
+            $('.admin-thumb-item, .admin-thumb-item-placeholder, .admin-thumb-item-uploader-holder').each(function(){
+                $(this).height( $(this).width())
+            })
+        }, 78)
 
 
     });
