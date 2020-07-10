@@ -383,16 +383,20 @@ $user = get_user_by_id($user_id);
                 </li>
 
                 <li><?php event_trigger('mw.admin.sidebar.li.first'); ?></li>
-                <li class="nav-item dropdown <?php if ($view == 'content' and $action == false) {
-                    print 'active';
+
+                <?php
+                $website_class = '';
+                if ($view == 'content' and $action == false) {
+                    $website_class = 'active';
                 } elseif ($view == 'content' and $action != false) {
-                    print 'active-parent';
-                } ?>">
-                    <a href="<?php print admin_url(); ?>view:content" class="nav-link dropdown-toggle <?php if ($view == 'content' and $action == false) {
-                        print 'active';
-                    } elseif ($view == 'content' and $action != false) {
-                        print 'active-parent';
-                    } ?>">
+                    $website_class = 'active';
+                } elseif ($action == 'pages' OR $action == 'posts' OR $action == 'products' OR $action == 'categories' OR $action == 'settings') {
+                    $shop_class = "active";
+                }
+                ?>
+
+                <li class="nav-item dropdown <?php echo $website_class; ?>">
+                    <a href="<?php print admin_url(); ?>view:content" class="nav-link dropdown-toggle  <?php echo $website_class; ?>">
                         <i class="mdi mdi-earth"></i>
                         <span class="badge-holder"><?php _e("Website"); ?></span>
                     </a>
@@ -426,26 +430,32 @@ $user = get_user_by_id($user_id);
                 </li>
                 <?php if ($shop_disabled == false AND mw()->modules->is_installed('shop') == true): ?>
                     <?php
-                    $shopCls = '';
+                    $shop_class = '';
                     if ($view == 'shop' and $action == false) {
-                        $shopCls = "active";
+                        $shop_class = "active";
                     } elseif ($view == 'shop' and $action != false) {
-                        $shopCls = "active-parent";
+                        $shop_class = "active";
                     } elseif ($view == 'modules' and $load_module == 'shop__coupons') {
-                        $shopCls = "active";
+                        $shop_class = "active";
+                    } elseif ($action == 'products' OR $action == 'orders' OR $action == 'clients' OR $action == 'options') {
+                        $shop_class = "active";
                     }
                     ?>
-                    <li class="nav-item dropdown <?php print $shopCls; ?>">
-                        <a href="<?php print admin_url(); ?>view:shop" class="nav-link dropdown-toggle <?php print $shopCls; ?>">
+                    <li class="nav-item dropdown <?php echo $shop_class; ?>">
+                        <a href="<?php print admin_url(); ?>view:shop" class="nav-link dropdown-toggle <?php echo $shop_class; ?>">
                             <i class="mdi mdi-shopping"></i>
-                            <span class="badge-holder"><?php _e("Shop"); ?><?php if ($view != 'shop' and $notif_count > 0) { print $order_notif_html; }; ?></span>
+                            <span class="badge-holder"><?php _e("Shop"); ?><?php if ($view != 'shop' and $notif_count > 0) {
+                                    print $order_notif_html;
+                                }; ?></span>
                         </a>
                         <div class="dropdown-menu">
                             <a href="<?php print admin_url(); ?>view:shop/action:products" class="dropdown-item <?php if ($action == 'products'): ?> active <?php endif; ?>"><?php _e("Products"); ?></a>
                             <a href="<?php print admin_url(); ?>view:shop/action:orders" class="dropdown-item <?php if ($action == 'orders'): ?> active <?php endif; ?>">
                                 <span class="mai-shop"></span>
                                 <?php _e("Orders"); ?>
-                                <?php if ($view == 'shop') { print $order_notif_html;} ?>
+                                <?php if ($view == 'shop') {
+                                    print $order_notif_html;
+                                } ?>
                             </a>
                             <a href="<?php print admin_url(); ?>view:shop/action:clients" class="dropdown-item <?php if ($action == 'clients'): ?> active <?php endif; ?>">
                                 <?php _e("Clients"); ?>
@@ -457,9 +467,14 @@ $user = get_user_by_id($user_id);
                     </li>
                 <?php endif; ?>
                 <li class="nav-item">
-                    <a href="<?php print admin_url(); ?>view:modules" class="nav-link <?php if (
-                    ($view == 'modules' AND $load_module != 'users' AND $load_module != 'shop__coupons')
-                    ): ?> active <?php endif; ?>"><i class="mdi mdi-view-grid-plus"></i> <?php _e("Modules"); ?> </a></li>
+                    <?php
+                    if (($view == 'modules' AND $load_module != 'users' AND $load_module != 'shop__coupons')) {
+                        $modules_class = 'active';
+                    } else {
+                        $modules_class = '';
+                    }
+                    ?>
+                    <a href="<?php print admin_url(); ?>view:modules" class="nav-link <?php echo $modules_class; ?>"><i class="mdi mdi-view-grid-plus"></i> <?php _e("Modules"); ?> </a></li>
                 <?php if (mw()->ui->disable_marketplace != true): ?>
                     <li class="nav-item">
                         <a href="<?php print admin_url(); ?>view:packages" class="nav-link <?php if ($view == 'packages'): ?>active<?php endif; ?>">
@@ -468,6 +483,7 @@ $user = get_user_by_id($user_id);
                     </li>
                 <?php endif; ?>
 
+                <?php /*
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle <?php if (!url_param('has_core_update') and ($view == 'settings')): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:settings#option_group=website">
                         <i class="mdi mdi-cog"></i>
@@ -519,7 +535,7 @@ $user = get_user_by_id($user_id);
                         </a>
                     </div>
                 </li>
-
+                */ ?>
 
                 <?php $load_module = url_param('load_module'); ?>
                 <li <?php print 'class="nav-item dropdown ' . ($load_module == 'users' ? 'active' : '') . '"'; ?>>
