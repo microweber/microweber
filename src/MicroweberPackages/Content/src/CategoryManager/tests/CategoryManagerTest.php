@@ -7,7 +7,7 @@ class CategoryManagerTest extends TestCase
 {
     public function testCategoryTree()
     {
-        $tree = category_tree('all=1');
+       // $tree = category_tree('all=1');
     }
 
 }

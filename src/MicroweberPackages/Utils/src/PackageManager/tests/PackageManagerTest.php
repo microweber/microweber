@@ -1,8 +1,7 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
 
-class PackageManagerTest extends TestCase
+class PackageManagerTest extends \MicroweberPackages\Core\tests\TestCase
 {
 
     public function testSearchPackage()
@@ -21,7 +20,6 @@ class PackageManagerTest extends TestCase
 
     public function testInstallPackage()
     {
-
         $params['require_name'] = 'microweber-templates/cashy';
 
         $runner = new \MicroweberPackages\PackageManager\ComposerUpdate($this->_getComposerPath());

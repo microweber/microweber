@@ -154,8 +154,9 @@ class ZipReader extends DefaultReader
 	private function _getSupportedReaders() {
 		
 		$readers = array();
-		$readersFolder = normalize_path(MW_PATH  . 'Utils/Backup/Readers');
+		$readersFolder = normalize_path(__DIR__);
 		$readersList = scandir($readersFolder);
+		
 		foreach ($readersList as $file) {
 			if (!is_file($readersFolder . $file)) {
 				continue;
