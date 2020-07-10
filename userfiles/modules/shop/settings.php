@@ -1,129 +1,112 @@
-<div class="section-header m-b-10">
-    <h2><span class="mai-setting2"></span><?php _e("Shop settings"); ?></h2>
-</div>
-
-<div class="admin-side-content">
-    <div id="payments-accordion" class="mw-ui-box mw-ui-box-silver-blue  m-t-20">
-        <div class="mw-ui-box-header" onclick="mw.accordion('#payments-accordion');">
-            <div class="header-holder">
-                <i class="mai-order"></i><?php _e("Payment methods"); ?>
-            </div>
-        </div>
-
-        <div class="mw-accordion-content mw-ui-box-content" style="display:none;">
-            <module type="shop/payments" view="admin"/>
-        </div>
-    </div>
-
-    <module type="shop/payments/currency" id="mw_curr_select"/>
-
-
-    <div id="shipping-accordion" class="mw-ui-box mw-ui-box-silver-blue m-t-20">
-        <div class="mw-ui-box-header" onclick="mw.accordion('#shipping-accordion');">
-            <div class="header-holder">
-                <i class="mai-shipping"></i> <?php _e("Shipping"); ?>
-            </div>
-        </div>
-
-        <div class="mw-accordion-content mw-ui-box-content" style="display: none;">
-            <module type="shop/shipping" view="admin"/>
-        </div>
-    </div>
-
-    <div id="taxes-accordion" class="mw-ui-box mw-ui-box-silver-blue m-t-20">
-        <div class="mw-ui-box-header" onclick="mw.accordion('#taxes-accordion');">
-            <div class="header-holder">
-                <i class="mai-percent"></i><?php _e("Taxes"); ?>
-            </div>
-        </div>
-
-        <div class="mw-accordion-content mw-ui-box-content" style="display: none;">
-            <module type="shop/taxes" view="admin"/>
-        </div>
-    </div>
-
-
-
-    <?php event_trigger('mw.admin.shop.settings', $params); ?>
-
+<script>
+    $(document).ready(function () {
+        $('body .main > main').addClass('page-settings');
+    });
+</script>
 
 
 <?php
-/*
+$show_inner = false;
+$show_inner_trigger = false;
 
-    <div id="offers-accordion" class="mw-ui-box mw-ui-box-silver-blue m-t-20">
-        <div class="mw-ui-box-header" onclick="mw.accordion('#offers-accordion');">
-            <div class="header-holder">
-                <i class="mai-percent"></i><?php _e("Offers"); ?>
-            </div>
-        </div>
+if (isset($_GET['group']) and $_GET['group']) {
+    $group = $_GET['group'];
 
-        <div class="mw-accordion-content mw-ui-box-content" style="display: none;">
-            <module type="shop/offers" view="admin"/>
-        </div>
-    </div>
-
-
-
-<div id="coupons-accordion" class="mw-ui-box mw-ui-box-silver-blue m-t-20">
-        <div class="mw-ui-box-header" onclick="mw.accordion('#coupons-accordion');">
-            <div class="header-holder">
-                <i class="mai-percent"></i><?php _e("Coupons"); ?>
-            </div>
-        </div>
-
-        <div class="mw-accordion-content mw-ui-box-content" style="display: none;">
-            <module type="shop/coupons" view="admin"/>
-        </div>
-    </div>
-
-*/
-
+    if ($group == 'general') {
+        $show_inner = 'shop/payments/currency';
+    } elseif ($group == 'coupons') {
+        $show_inner = 'shop/coupons/admin';
+    } elseif ($group == 'taxes') {
+        $show_inner = 'shop/taxes/admin';
+    } elseif ($group == 'payments') {
+        $show_inner = 'shop/payments/admin';
+    } elseif ($group == 'invoices') {
+        $show_inner = 'shop/orders/settings/invoice_settings';
+    } elseif ($group == 'shipping') {
+        $show_inner = 'shop/shipping/admin';
+    } elseif ($group == 'mail') {
+        $show_inner = 'shop/orders/settings/setup_emails_on_order';
+    } elseif ($group == 'other') {
+        $show_inner = 'shop/orders/settings/other';
+    } else {
+        $show_inner = 'trigger';
+        $show_inner_trigger = $group;
+    }
+}
 ?>
 
+<?php event_trigger('mw.admin.shop.settings', $params); ?>
+
+<?php if ($show_inner): ?>
+    <?php if ($show_inner != 'trigger'): ?>
+        <module type="<?php print $show_inner ?>"/>
+    <?php else: ?>
+        <?php event_trigger('mw.admin.shop.settings.' . $show_inner_trigger, $params); ?>
+    <?php endif; ?>
+
+    <?php return; ?>
+<?php endif ?>
 
 
-    <div id="emails-accordion" class="mw-ui-box mw-ui-box-silver-blue m-t-20">
-        <div class="mw-ui-box-header" onclick="mw.accordion('#emails-accordion');">
-            <div class="header-holder">
-                <i class="mai-mail"></i> <?php _e("Send email to the client on new order"); ?>
-            </div>
-        </div>
+<div class="main-toolbar">
+    <a href="#" class="btn btn-link text-silver"><i class="mdi mdi-chevron-left"></i> Shop</a>
+</div>
 
-        <div class="mw-accordion-content mw-ui-box-content" style="display: none;">
-            <module type="shop/orders/settings/setup_emails_on_order"/>
+<div class="card bg-none style-1 mb-0">
+    <div class="card-header">
+        <h5><i class="mdi mdi-cog text-primary mr-3"></i> <strong><?php _e("Shop settings"); ?></strong></h5>
+        <div>
+
         </div>
     </div>
 
-    <div id="others-accordion" class="mw-ui-box mw-ui-box-silver-blue m-t-20">
-        <div class="mw-ui-box-header" onclick="mw.accordion('#others-accordion');">
-            <div class="header-holder">
-                <i class="mai-options"></i> <?php _e('Other shop settings'); ?>
+    <div class="card-body pt-3">
+        <div class="card style-1 mb-3">
+            <div class="card-body pt-3 px-5">
+                <div class="row select-settings">
+                    <div class="col-4">
+                        <a href="?group=general" class="d-flex my-3">
+                            <div class="icon-holder"><i class="mdi mdi-cart-outline mdi-20px"></i></div>
+                            <div class="info-holder">
+                                <span class="text-primary font-weight-bold">General</span><br/>
+                                <small class="text-muted">Basic store settings</small>
+                            </div>
+                        </a>
+                    </div>
+
+                    <?php event_trigger('mw.admin.shop.settings.menu', $params); ?>
+
+                    <div class="col-4">
+                        <a href="?group=invoices" class="d-flex my-3">
+                            <div class="icon-holder"><i class="mdi mdi-cash-register mdi-20px"></i></div>
+                            <div class="info-holder">
+                                <span class="text-primary font-weight-bold"><?php _e('Invoices'); ?></span><br/>
+                                <small class="text-muted">Invoice lists and accounting</small>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-4">
+                        <a href="?group=mail" class="d-flex my-3">
+                            <div class="icon-holder"><i class="mdi mdi-email-edit-outline mdi-20px"></i></div>
+                            <div class="info-holder">
+                                <span class="text-primary font-weight-bold">Auto respond mail</span><br/>
+                                <small class="text-muted">Email and message settings</small>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-4">
+                        <a href="?group=other" class="d-flex my-3">
+                            <div class="icon-holder"><i class="mdi mdi-cog mdi-20px"></i></div>
+                            <div class="info-holder">
+                                <span class="text-primary font-weight-bold"><?php _e('Other settings'); ?></span><br/>
+                                <small class="text-muted">Other settings</small>
+                            </div>
+                        </a>
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <div class="mw-accordion-content mw-ui-box-content" style="display: none;">
-            <module type="shop/orders/settings/other" id="mw_shop_set_other_settings"/>
-        </div>
-    </div>
-
-    <div id="invoices-accordion" class="mw-ui-box mw-ui-box-silver-blue m-t-20">
-        <div class="mw-ui-box-header" onclick="mw.accordion('#invoices-accordion');">
-            <div class="header-holder">
-                <i class="mai-order"></i> <?php print _e('Invoice settings'); ?>
-            </div>
-        </div>
-
-        <div class="mw-accordion-content mw-ui-box-content" style="display: none;">
-            <module type="shop/orders/settings/invoice_settings"/>
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
-

@@ -59,7 +59,7 @@
 </script>
 
 <div class="<?php print $config['module_class'] ?>">
-    <div class="card bg-none style-1 mb-0">
+    <div class="card bg-none style-1 mb-0 card-settings">
         <div class="card-header">
             <h5><i class="mdi mdi-email-outline text-primary mr-3"></i> <strong><?php _e("E-mail"); ?></strong></h5>
             <div>
@@ -69,11 +69,11 @@
 
         <div class="card-body pt-3">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <h5 class="font-weight-bold"><?php _e("E-mail Settings"); ?></h5>
                     <small class="text-muted">Set the email transport settings to your website.</small>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-9">
                     <div class="card bg-light style-1 mb-3">
                         <div class="card-body pt-3">
                             <div class="row">
@@ -98,14 +98,14 @@
         </div>
     </div>
 
-    <div class="card bg-none style-1 mb-0">
+    <div class="card bg-none style-1 mb-0 card-settings">
         <div class="card-body pt-3">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <h5 class="font-weight-bold"><?php _e("Mail Send Settings"); ?></h5>
                     <small class="text-muted">Set up your email provider so you can send emails through your site.</small>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-9">
                     <div class="card bg-light style-1 mb-3">
                         <div class="card-body pt-3">
                             <div class="row">
