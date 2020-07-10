@@ -4,7 +4,6 @@
 .mw-editor-wrapper{
     &.mw-editor-default{
         border:1px solid #DDDDDD;
-        background-color: #F5F5F5;
         .mw-bar-row {
             border-bottom:1px solid #DDDDDD;
             padding: @editorSpacing;
@@ -20,11 +19,54 @@
                     margin-left: @editorSpacing;
                 }
             }
+            .mw-bar-control-item-group{
+                position: relative;
+                & > div {
+                    visibility: hidden;
+                    opacity: 0;
+                    transition: .3s;
+                    position: absolute;
+                    top: 100%;
+                    left: 0;
+                    white-space: nowrap;
+                    box-shadow:  0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.12), 0 1px 3px 0 rgba(0,0,0,0.20);
+                    padding: @editorSpacing;
+                    background-color: #F5F5F5;
+                    z-index: 15;
+                    .mw-editor-controller-component + .mw-editor-controller-component {
+                        margin-left: @editorSpacing;
+                    }
+                }
+                &.active {
+                    & > div {
+                        visibility: visible;
+                        opacity: 1;
+                    }
+                }
+            }
             .mw-editor-controller-button{
                 font-size: 19px;
                 padding: 0;
                 width: 32px;
                 line-height: 2.308rem;
+                &.mw-editor-group-button{
+                    width: auto;
+                    padding: 0 5px;
+                    .mw-editor-group-button-icon{
+                        vertical-align: middle;
+                    }
+                    .mw-editor-group-button-caret{
+                        font-size: 10px;
+                        vertical-align: middle;
+                        margin: 0;
+                        color: #999;
+                        position: relative;
+                        top: -1px;
+                        &:after{
+                            content: '\25BC';
+                        }
+                    }
+                }
             }
         }
         .mw-editor-area{
@@ -36,7 +78,8 @@
 
         }
     }
-    .mw-editor-controller-component{
+    .mw-editor-controller-component,
+    .mw-bar-control-item{
         display: inline-block;
     }
     .mw-bar-delimiter{
