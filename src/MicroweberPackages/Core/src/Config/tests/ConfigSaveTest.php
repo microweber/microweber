@@ -19,7 +19,7 @@ class ConfigSaveTest extends TestCase
 
         $defaultDir = $this->app->configPath();
         $configFile = $defaultDir . DIRECTORY_SEPARATOR . $this->app->environment(). DIRECTORY_SEPARATOR . 'microweber.php';
-        
+
         $this->assertTrue(is_file($configFile));
 
         $configFileContent = include($configFile);

@@ -2,8 +2,9 @@
 namespace MicroweberPackages\DatabaseManager\tests;
 
 use Illuminate\Database\Capsule\Manager as Capsule;
+use MicroweberPackages\Core\tests\TestCase;
 
-class DatabaseManagerTest extends BaseTest
+class DatabaseManagerTest extends TestCase
 {
     public function testBuildTable()
     {
@@ -56,7 +57,7 @@ class DatabaseManagerTest extends BaseTest
 
         db_save('peoples', $insert);
 
-        $getPeople = db_get('peoples', 'single=1');
+        $getPeople = db_get('peoples', 'single=1&firstName=Bozhidar');
 
         $this->assertEquals('Bozhidar', $getPeople['firstName']);
         $this->assertEquals('Veselinov', $getPeople['secondName']);
@@ -75,7 +76,7 @@ class DatabaseManagerTest extends BaseTest
 
         db_save('peoples', $insert);
 
-        $getPeople = db_get('peoples', 'single=1');
+        $getPeople = db_get('peoples', 'single=1&firstName=Peter');
 
         $delete = db_delete('peoples', $getPeople['id']);
 

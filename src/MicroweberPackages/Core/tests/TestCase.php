@@ -66,7 +66,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
 
         if (is_file($this->sqlite_file)) {
-          //  @unlink($this->sqlite_file);
+           @unlink($this->sqlite_file);
         }
 
         $db_driver =  env('DB_DRIVER') ? env('DB_DRIVER') : 'sqlite'  ;
