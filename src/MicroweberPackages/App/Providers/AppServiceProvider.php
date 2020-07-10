@@ -11,6 +11,7 @@ use MicroweberPackages\Content\CategoryManager\CategoryManagerServiceProvider;
 use MicroweberPackages\Config\ConfigSave;
 use MicroweberPackages\Content\ContentManager\Content;
 use MicroweberPackages\Content\ContentManager\ContentManagerServiceProvider;
+use MicroweberPackages\Content\ContentServiceProvider;
 use MicroweberPackages\DatabaseManager\DatabaseManagerServiceProvider;
 use MicroweberPackages\Core\EventManager\EventManagerServiceProvider;
 use MicroweberPackages\Content\FormsManager\FormsManagerServiceProvider;
@@ -161,6 +162,7 @@ class AppServiceProvider extends ServiceProvider {
         $this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');
         $this->app->register(EventManagerServiceProvider::class);
         $this->app->register(HelpersServiceProvider::class);
+        $this->app->register(ContentServiceProvider::class);
         $this->app->register(ContentManagerServiceProvider::class);
         $this->app->register(CategoryManagerServiceProvider::class);
         $this->app->register(TagsManagerServiceProvider::class);

@@ -29,6 +29,6 @@ class ShopManagerServiceProvider extends ServiceProvider
             return new ShopManager();
         });
 
-        $this->loadMigrationsFrom(dirname(dirname(__DIR__)) . '/migrations/');
+        $this->loadMigrationsFrom(dirname(__DIR__) . '/migrations/');
     }
 }
