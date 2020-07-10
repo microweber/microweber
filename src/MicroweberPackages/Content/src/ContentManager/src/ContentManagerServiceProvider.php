@@ -24,7 +24,7 @@ class ContentManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\Content\ContentManager\Content    $content_manager
+         * @property \MicroweberPackages\Content\ContentManager\ContentManager    $content_manager
          */
         $this->app->singleton('content_manager', function ($app) {
             return new ContentManager();

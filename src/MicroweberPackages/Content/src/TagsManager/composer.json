@@ -1,5 +1,5 @@
 {
-  "name": "microweber-packages/microweber-cms",
+  "name": "microweber-packages/microweber-tags-manager",
   "description": "Microweber CMS.",
   "version": "0.0.1",
   "authors": [
@@ -12,18 +12,20 @@
       "email": "bobi@microweber.com"
     }
   ],
-  "require": {
-    "jeremeamia/superclosure": "*",
-    "rtconner/laravel-tagging": "^4.0",
-    "knplabs/knp-menu": "^3.1",
-    "microweber-packages/microweber-database-manager": "dev-master",
-    "microweber-packages/microweber-event-manager": "dev-master",
-    "microweber-packages/microweber-helpers": "dev-master"
-  },
 
   "autoload": {
     "psr-4": {
-      "MicroweberPackages\\": "src/"
+      "MicroweberPackages\\Content\\TagsManager\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "MicroweberPackages\\Content\\TagsManager\\TagsManagerServiceProvider"
+      ],
+      "aliases": {
+        "TagsManager": "MicroweberPackages\\Content\\TagsManager\\TagsManagerFacade"
+      }
     }
   },
   "config": {

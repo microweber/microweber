@@ -102,22 +102,12 @@
   "extra": {
     "merge-plugin": {
       "require": [
-        "src/MicroweberPackages/Utils/composer.json",
-        "src/MicroweberPackages/Core/src/Cache/composer.json",
-        "src/MicroweberPackages/Core/composer.json",
-        "src/MicroweberPackages/Core/src/Config/composer.json",
-        "src/MicroweberPackages/Core/src/DatabaseManager/composer.json",
-        "src/MicroweberPackages/Core/src/EventManager/composer.json",
         "src/MicroweberPackages/Content/composer.json",
-        "src/MicroweberPackages/Content/src/OptionManager/composer.json",
-        "src/MicroweberPackages/Content/src/FormsManager/composer.json",
-        "src/MicroweberPackages/Utils/src/Helpers/composer.json",
+        "src/MicroweberPackages/Core/composer.json",
         "src/MicroweberPackages/Shop/composer.json",
         "src/MicroweberPackages/Users/composer.json",
-        "src/MicroweberPackages/Utils/src/BackupManager/composer.json",
-        "src/MicroweberPackages/Utils/src/TemplateManager/composer.json",
-        "src/MicroweberPackages/Utils/src/CaptchaManager/composer.json",
-        "src/MicroweberPackages/Utils/src/PackageManager/composer.json"
+        "src/MicroweberPackages/Utils/composer.json",
+        "src/MicroweberPackages/*/src/*/composer.json"
       ],
       "merge-extra": true,
       "merge-extra-deep": true,

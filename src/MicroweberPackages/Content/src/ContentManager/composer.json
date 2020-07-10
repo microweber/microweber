@@ -15,10 +15,10 @@
 
   "autoload": {
     "psr-4": {
-      "MicroweberPackages\\Content\\": "src/"
+      "MicroweberPackages\\Content\\ContentManager\\": "src/"
     },
     "files": [
-      "src/ContentManager/helpers.php"
+      "src/helpers.php"
     ]
   },
   "extra": {
