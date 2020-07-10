@@ -18,7 +18,8 @@
       "MicroweberPackages\\Content\\MediaManager\\": "src/"
     },
     "files": [
-      "src/helpers.php"
+      "src/helpers.php",
+      "src/helpers_paths.php"
     ]
   },
   "extra": {

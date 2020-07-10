@@ -4,8 +4,8 @@ namespace MicroweberPackages\Content\ContentManager;
 use Content;
 use ContentFields;
 use Illuminate\Support\Facades\Cache;
-use Menu;
 use DB;
+use MicroweberPackages\Content\MenuManager\Menu;
 
 class ContentManagerHelpers extends ContentManagerCrud
 {
