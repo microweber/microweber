@@ -17,6 +17,9 @@
         <testsuite name="Microweber Test Suite">
             <directory>./src/MicroweberPackages/*/tests/</directory>
         </testsuite>
+        <testsuite name="Microweber Packages Test Suite">
+            <directory>./src/MicroweberPackages/*/src/*/tests/</directory>
+        </testsuite>
         <testsuite name="Microweber Modules Test Suite">
             <directory>./userfiles/modules/*/tests/</directory>
         </testsuite>

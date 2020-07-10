@@ -1,6 +1,8 @@
 <?php
 
-namespace MicroweberPackages\App\tests;
+namespace MicroweberPackages\Content\ContentManager\tests;
+
+use MicroweberPackages\Core\tests\TestCase;
 
 class DataAttributesTest extends TestCase
 {

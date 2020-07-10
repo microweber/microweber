@@ -1,30 +1,10 @@
 <?php
 namespace MicroweberPackages\Content\OptionManager\tests;
 
-class OptionManagerTest extends BaseTest
-{
-    public function testMigration()
-    {
-        $this->assertEquals([
-            'id',
-            'updated_at',
-            'created_at',
-            'option_key',
-            'option_value',
-            'option_key2',
-            'option_value2',
-            'position',
-            'option_group',
-            'name',
-            'help',
-            'field_type',
-            'field_values',
-            'module',
-            'is_system',
-            'option_value_prev',
-        ], \Schema::getColumnListing('options'));
-    }
+use MicroweberPackages\Core\tests\TestCase;
 
+class OptionManagerTest extends TestCase
+{
     public function testOption()
     {
         $option = array();

@@ -1,6 +1,8 @@
 <?php
 
-namespace MicroweberPackages\App\tests;
+namespace MicroweberPackages\Content\MediaManager\tests;
+
+use MicroweberPackages\Core\tests\TestCase;
 
 class MediaTest extends TestCase
 {

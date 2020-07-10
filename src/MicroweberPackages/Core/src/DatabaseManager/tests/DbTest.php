@@ -1,6 +1,8 @@
 <?php
 
-namespace MicroweberPackages\App\tests;
+namespace MicroweberPackages\Core\DatabaseManager\tests;
+
+use MicroweberPackages\Core\tests\TestCase;
 
 class DbTest extends TestCase
 {

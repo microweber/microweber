@@ -1,6 +1,8 @@
 <?php
 
-namespace MicroweberPackages\App\tests;
+namespace MicroweberPackages\Content\OptionManager\tests;
+
+use MicroweberPackages\Core\tests\TestCase;
 
 class OptionsTest extends TestCase
 {

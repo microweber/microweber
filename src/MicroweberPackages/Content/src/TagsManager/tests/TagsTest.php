@@ -1,8 +1,9 @@
 <?php
 
-namespace MicroweberPackages\App\tests;
+namespace MicroweberPackages\Content\TagsManager\tests;
 
 use MicroweberPackages\Content\ContentManager\Content;
+use MicroweberPackages\Core\tests\TestCase;
 use Tag;
 use DB;
 

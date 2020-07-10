@@ -1,6 +1,8 @@
 <?php
 
-namespace MicroweberPackages\App\tests;
+namespace MicroweberPackages\Core\EventManager\tests;
+
+use MicroweberPackages\Core\tests\TestCase;
 
 /**
  * Run test

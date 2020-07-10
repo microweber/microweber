@@ -1,6 +1,7 @@
 <?php
-namespace MicroweberPackages\App\tests;
+namespace MicroweberPackages\Content\ContentManager\tests;
 
+use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Utils\Misc\ContentExport;
 
 class ContentExportTest extends TestCase

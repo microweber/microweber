@@ -1,8 +1,9 @@
 <?php
 
-namespace MicroweberPackages\App\tests;
+namespace MicroweberPackages\Core\Cache\tests;
 
 use Cache;
+use MicroweberPackages\Core\tests\TestCase;
 
 class CacheTest extends TestCase
 {

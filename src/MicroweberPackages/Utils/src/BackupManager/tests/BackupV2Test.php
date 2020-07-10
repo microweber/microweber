@@ -2,8 +2,7 @@
 namespace MicroweberPackages\Utils\BackupManager\tests;
 
 use Faker\Factory;
-use MicroweberPackages\App\tests\TestCase;
-use MicroweberPackages\Backup\Backup;
+use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Utils\BackupManager\BackupManager;
 
 /**
@@ -12,7 +11,7 @@ use MicroweberPackages\Utils\BackupManager\BackupManager;
  * @command php phpunit.phar --filter BackupV2Test
  */
 
-class ZBackupV2Test extends TestCase
+class BackupV2Test extends TestCase
 {
 	private static $_titles = array();
 	private static $_exportedFile = '';

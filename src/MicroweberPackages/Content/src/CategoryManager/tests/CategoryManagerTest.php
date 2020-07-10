@@ -1,7 +1,9 @@
 <?php
-namespace MicroweberPackages\Content\tests;
+namespace MicroweberPackages\Content\CategoryManager\tests;
 
-class CategoryManagerTest extends BaseTest
+use MicroweberPackages\Core\tests\TestCase;
+
+class CategoryManagerTest extends TestCase
 {
     public function testCategoryTree()
     {

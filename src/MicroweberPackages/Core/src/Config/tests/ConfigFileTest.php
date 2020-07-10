@@ -1,8 +1,9 @@
 <?php
 
-namespace MicroweberPackages\App\tests;
+namespace MicroweberPackages\Core\Config\tests;
 
 use Config;
+use MicroweberPackages\Core\tests\TestCase;
 
 class ConfigFileTest extends TestCase
 {
