@@ -1,6 +1,7 @@
 <?php
 
-namespace MicroweberPackages\App\tests;
+namespace MicroweberPackages\Core\tests;
+
 
 class TemplateTest extends TestCase
 {

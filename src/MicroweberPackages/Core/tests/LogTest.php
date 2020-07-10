@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\App\tests;
+namespace MicroweberPackages\Core\tests;
 
 class LogTest extends TestCase
 {

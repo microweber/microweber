@@ -84,9 +84,12 @@ class Modules
     {
 
         $this->_install_mode = true;
+
         mw()->cache_manager->delete('db');
         mw()->cache_manager->clear();
+
         $this->scan();
+
         $this->_install_mode = false;
     }
 

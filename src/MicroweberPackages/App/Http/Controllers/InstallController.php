@@ -129,9 +129,15 @@ class InstallController extends Controller
                     $input['db_user'] = trim($input['db_user']);
                 }
             } else {
-                $input['db_user'] = '';
-                $input['db_host'] = '';
-                $input['db_name'] = '';
+                if (is_null($input['db_user'])) {
+                    $input['db_user'] = '';
+                }
+                if (is_null($input['db_user'])) {
+                    $input['db_host'] = '';
+                }
+                if (is_null($input['db_name'])) {
+                    $input['db_name'] = '';
+                }
             }
 
             if (!empty($errors)) {
@@ -210,6 +216,10 @@ class InstallController extends Controller
             } else {
 
 
+                var_dump($input);
+
+                var_dump(DB::connection()->getPdo());
+                die();
                 try {
                     DB::connection()->getPdo();
                 } catch (\Exception $e) {

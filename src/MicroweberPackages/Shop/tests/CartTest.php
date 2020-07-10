@@ -1,6 +1,7 @@
 <?php
+namespace MicroweberPackages\Shop\tests;
 
-namespace MicroweberPackages\App\tests;
+use MicroweberPackages\Core\tests\TestCase;
 
 class CartTest extends TestCase
 {

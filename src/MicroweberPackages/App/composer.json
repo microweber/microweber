@@ -20,8 +20,12 @@
   },
   "autoload": {
     "psr-4": {
-      "MicroweberPackages\\": "src/"
-    }
+      "MicroweberPackages\\App\\": "src/"
+    },
+    "files": [
+      "functions/api.php",
+      "functions/common.php"
+    ]
   },
   "config": {
     "sort-packages": true

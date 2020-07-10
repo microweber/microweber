@@ -1,7 +1,8 @@
 <?php
 
-namespace MicroweberPackages\App\tests;
+namespace MicroweberPackages\Users\tests;
 
+use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\UserManager\UserManager;
 use MicroweberPackages\Utils\Mail\MailSender;
 
@@ -10,7 +11,7 @@ use MicroweberPackages\Utils\Mail\MailSender;
  * @author Bobi Slaveykvo Microweber
  * @command php phpunit.phar --filter UserTest
  */
-class AUserTest extends TestCase
+class UserTest extends TestCase
 {
     private static $_username = false;
     private static $_password = false;

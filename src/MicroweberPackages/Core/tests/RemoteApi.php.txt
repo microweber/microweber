@@ -1,4 +1,7 @@
-<?php 
+<?php
+
+namespace MicroweberPackages\Core\tests;
+
 
 $domain = "localhost";
 $api_key = "demo";

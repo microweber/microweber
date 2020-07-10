@@ -88,7 +88,6 @@ class InstallCommand extends Command
             }
         }
 
-
         if (!$input['table_prefix']) {
             $input['table_prefix'] = (getenv('DB_PREFIX') ?: '');
         }
@@ -102,15 +101,15 @@ class InstallCommand extends Command
         }
         $input['subscribe_for_update_notification'] = true;
 
-
-        var_dump($input);
-
         $this->info('Installing Microweber...');
         $this->installer->command_line_logger = $this;
         $result = $this->installer->index($input);
-        $this->info($result);
 
-        var_dump($result);
+        if (strpos($result, 'Could not connect to the database.') !== false) {
+            throw new \Exception($result);
+        }
+
+        $this->info($result);
     }
 
     protected function getArguments()

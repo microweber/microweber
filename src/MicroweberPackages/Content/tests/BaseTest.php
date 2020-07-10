@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Cms\tests;
+namespace MicroweberPackages\Content\tests;
 
 use Orchestra\Testbench\TestCase;
 
@@ -55,10 +55,10 @@ abstract class BaseTest extends TestCase
         $app['config']->set('app.key', 'tQbgKF5NH5zMyGh4vCNypFAzx9trCkE6x');
         $app['config']->set('database.default', 'testing');
 
-        $app['config']->set('cache.default', 'tfile');
-        $app['config']->set('cache.stores.tfile',
+        $app['config']->set('cache.default', 'file');
+        $app['config']->set('cache.stores.file',
             [
-                'driver' => 'tfile',
+                'driver' => 'file',
                 'path' => storage_path('framework/cache'),
                 'separator' => '~#~'
             ]

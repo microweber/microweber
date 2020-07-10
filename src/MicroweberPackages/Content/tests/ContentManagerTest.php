@@ -1,7 +1,9 @@
 <?php
-namespace MicroweberPackages\Cms\tests;
+namespace MicroweberPackages\Content\tests;
 
-class ContentManagerTest extends BaseTest
+use MicroweberPackages\Core\tests\TestCase;
+
+class ContentManagerTest extends TestCase
 {
     public function testPosts()
     {

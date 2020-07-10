@@ -1,7 +1,7 @@
 <?php
 
 
-namespace MicroweberPackages\App\tests;
+namespace MicroweberPackages\Core\tests;
 
 use Illuminate\Support\Facades\DB;
 

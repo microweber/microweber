@@ -1,6 +1,7 @@
 <?php
-namespace MicroweberPackages\App\tests;
+namespace MicroweberPackages\Shop\tests;
 
+use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Shop\CheckoutManager\CheckoutManager;
 use MicroweberPackages\Utils\Mail\MailSender;
 

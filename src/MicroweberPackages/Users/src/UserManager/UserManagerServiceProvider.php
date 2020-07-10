@@ -26,6 +26,7 @@ class UserManagerServiceProvider extends ServiceProvider
         /**
          * @property \MicroweberPackages\UserManager\UserManager    $user_manager
          */
+
         $this->app->singleton('user_manager', function ($app) {
             return new UserManager();
         });
