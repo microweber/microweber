@@ -44,6 +44,6 @@ class ContentManagerServiceProvider extends ServiceProvider
             return new AttributesManager();
         });
 
-        $this->loadMigrationsFrom(dirname(dirname(__DIR__)) . '/migrations/');
+        $this->loadMigrationsFrom(dirname(__DIR__) . '/migrations/');
     }
 }

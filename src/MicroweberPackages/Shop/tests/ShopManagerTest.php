@@ -1,7 +1,9 @@
 <?php
 namespace MicroweberPackages\Shop\tests;
 
-class ShopManagerTest extends BaseTest
+use MicroweberPackages\Core\tests\TestCase;
+
+class ShopManagerTest extends TestCase
 {
     public function testCategoryTree()
     {

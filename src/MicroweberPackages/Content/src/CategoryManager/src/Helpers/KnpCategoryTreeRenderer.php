@@ -4,7 +4,7 @@ namespace MicroweberPackages\Content\CategoryManager\Helpers;
 
 use Knp\Menu\MenuFactory;
 use Microweber\Providers\Categories\Helpers\CategoryTreeData;
-use Microweber\Providers\Categories\Helpers\KnpCustomListRenderer as ListRenderer;
+use MicroweberPackages\Content\CategoryManager\Helpers\KnpCustomListRenderer as ListRenderer;
 
 
 class KnpCategoryTreeRenderer
