@@ -41,6 +41,10 @@ class ConfigSave extends Repository
         $default_dir = $this->app->configPath();
         $env_dir = $default_dir . DIRECTORY_SEPARATOR . $this->app->environment();
 
+        if (!is_dir($env_dir)) {
+            mkdir_recursive($env_dir);  
+        }
+
         $dirs = array();
         $dirs[] = $default_dir;
         if (is_dir($env_dir)) {

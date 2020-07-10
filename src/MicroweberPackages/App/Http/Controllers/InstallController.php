@@ -138,6 +138,9 @@ class InstallController extends Controller
                 if (is_null($input['db_name'])) {
                     $input['db_name'] = '';
                 }
+                if (is_null($input['db_host'])) {
+                    $input['db_host'] = '';
+                }
             }
 
             if (!empty($errors)) {
@@ -215,11 +218,6 @@ class InstallController extends Controller
                 Config::set('microweber.pre_configured_input', $input);
             } else {
 
-
-                var_dump($input);
-
-                var_dump(DB::connection()->getPdo());
-                die();
                 try {
                     DB::connection()->getPdo();
                 } catch (\Exception $e) {
@@ -236,8 +234,12 @@ class InstallController extends Controller
                     $this->log('Error in database connection');
                     return 'Error: ' . $e->getMessage() . "\n";
                 }
+                /*
+                var_dump($input);
+                DB::table('users')->get();
+                die();
 
-
+                */
                 $install_finished = false;
                 try {
                     DB::connection($dbDriver)->getDatabaseName();
