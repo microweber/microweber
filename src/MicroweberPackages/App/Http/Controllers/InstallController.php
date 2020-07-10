@@ -75,8 +75,6 @@ class InstallController extends Controller
 
         $connection = Config::get('database.connections');
 
-        
-
         $this->log('Preparing to install');
         if (isset($input['make_install'])) {
             $config_only = false;
@@ -227,19 +225,13 @@ class InstallController extends Controller
                     return ("Error: Could not connect to the database.  Please check your configuration. " . $e->getMessage());
                 }
 
-
                 try {
                     DB::connection($dbDriver)->getDatabaseName();
                 } catch (\Exception $e) {
                     $this->log('Error in database connection');
                     return 'Error: ' . $e->getMessage() . "\n";
                 }
-                /*
-                var_dump($input);
-                DB::table('users')->get();
-                die();
 
-                */
                 $install_finished = false;
                 try {
                     DB::connection($dbDriver)->getDatabaseName();

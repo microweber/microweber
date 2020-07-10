@@ -14,15 +14,12 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
     public function createApplication()
     {
-
         if (!defined('MW_UNIT_TEST')) {
             define('MW_UNIT_TEST', true);
         }
+
         $testing_env_name = 'testing';
-
-
         $testEnvironment = $testing_env_name = env('APP_ENV') ? env('APP_ENV') : 'testing';
-
 
         $config_folder = __DIR__ . '/../../../../config/';
         $mw_file = $config_folder . 'microweber.php';
@@ -41,10 +38,6 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             }
         }
 
-        if (!is_file($mw_file)) {
-
-
-        }
         if (!is_dir($config_folder)) {
             mkdir($config_folder);
         }
@@ -77,12 +70,12 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         }
 
         $db_driver =  env('DB_DRIVER') ? env('DB_DRIVER') : 'sqlite'  ;
-        $db_host = env('DB_HOST', '');
+        $db_host = env('DB_HOST', '127.0.0.1');
         $db_port = env('DB_PORT', '');
 
-        $db_user =  env('DB_USERNAME', '');
+        $db_user =  env('DB_USERNAME', 'forge');
         $db_pass = env('DB_PASSWORD', '');
-        $db_prefix = env('DB_PREFIX', '');
+        $db_prefix = env('DB_PREFIX', 'phpunit_test_');
         $db_name = env('DB_DATABASE', $this->sqlite_file);
 
 
