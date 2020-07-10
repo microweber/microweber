@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\App;
+namespace Microweber;
 
 /**
  * Application class.
@@ -33,6 +33,7 @@ namespace MicroweberPackages\App;
  * @property \Microweber\Providers\LogManager                    $log_manager
  * @property \Microweber\Providers\FieldsManager                 $fields_manager
  * @property \Microweber\Providers\Template                      $template
+ * @property \Microweber\Providers\Event                         $event_manager
  * @property \Microweber\Providers\ConfigurationManager          $config_manager
  * @property \Microweber\Providers\TemplateManager               $template_manager
  * @property \Microweber\Providers\CaptchaManager               $captcha_manager
@@ -43,6 +44,7 @@ namespace MicroweberPackages\App;
  * @property \Microweber\Providers\Content\TagsManager           $tags_manager
  * @property \Microweber\Providers\Content\AttributesManager     $attributes_manager
  * @property \Microweber\Providers\Helpers\Lang                  $lang_helper
+ * @property \Microweber\Providers\PermalinkManager              $permalink_manager
 
  */
 class Application

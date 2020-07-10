@@ -4,6 +4,7 @@ namespace MicroweberPackages\App\Providers;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\App\Utils\Parser;
 use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
 use MicroweberPackages\CaptchaManager\CaptchaManagerServiceProvider;
@@ -145,8 +146,12 @@ class AppServiceProvider extends ServiceProvider {
         parent::__construct($app);
     }
 
-    public function register()
-    {
+    public function register() {
+
+        $this->app->singleton('lang_helper', function ($app) {
+            return new Lang($app);
+        });
+
         $this->app->register(TaggableFileCacheServiceProvider::class);
 
         $this->registerLaravelProviders();
@@ -285,6 +290,7 @@ class AppServiceProvider extends ServiceProvider {
                 return new $class($app);
             });
         }
+
     }
 
     protected function registerHtmlCollective()

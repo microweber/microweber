@@ -1,10 +1,5 @@
 <?php
-
-
 namespace MicroweberPackages\Core\tests;
-
-use Illuminate\Support\Facades\DB;
-
 
 class TestCase extends \Illuminate\Foundation\Testing\TestCase
 {
@@ -23,7 +18,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         $config_folder = __DIR__ . '/../../../../config/';
         $mw_file = $config_folder . 'microweber.php';
-
+        $mw_file = realpath($mw_file);
 
         $test_env_from_conf = env('APP_ENV_TEST_FROM_CONFIG');
 
