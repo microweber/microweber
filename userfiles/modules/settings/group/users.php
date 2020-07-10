@@ -102,7 +102,7 @@ if ($registration_approval_required == false) {
 
 
 <div class="<?php print $config['module_class'] ?>">
-    <div class="card bg-none style-1 mb-0">
+    <div class="card bg-none style-1 mb-0 card-settings">
         <div class="card-header">
             <h5><i class="mdi mdi-login text-primary mr-3"></i> <strong><?php _e("Login and register"); ?></strong></h5>
             <div>
@@ -112,11 +112,11 @@ if ($registration_approval_required == false) {
 
         <div class="card-body pt-3">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <h5 class="font-weight-bold"><?php _e("Register options"); ?></h5>
                     <small class="text-muted">Set your settings for proper login and register functionality.</small>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-9">
                     <div class="card bg-light style-1 mb-3">
                         <div class="card-body pt-3">
                             <div class="row">
@@ -156,16 +156,16 @@ if ($registration_approval_required == false) {
         </div>
     </div>
 
-    <div class="card bg-none style-1 mb-0">
+    <div class="card bg-none style-1 mb-0 card-settings">
         <div class="card-body pt-3">
             <hr class="thin mt-0 mb-5"/>
 
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <h5 class="font-weight-bold">Register form settings</h5>
                     <small class="text-muted">Customize your registration form in the best way by specifying the fields you want are required and you want Captcha certification.</small>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-9">
                     <div class="card bg-light style-1 mb-3">
                         <div class="card-body pt-3">
                             <div class="row">
@@ -241,17 +241,17 @@ if ($registration_approval_required == false) {
         </div>
     </div>
 
-    <div class="card bg-none style-1 mb-0">
+    <div class="card bg-none style-1 mb-0 card-settings">
         <div class="card-body pt-3">
             <hr class="thin mt-0 mb-5"/>
 
 
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <h5 class="font-weight-bold">Login form settings</h5>
                     <small class="text-muted">Customize your registration form in the best way by specifying the fields you want are required and you want Captcha certification</small>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-9">
                     <div class="card bg-light style-1 mb-3">
                         <div class="card-body pt-3">
                             <div class="row">
@@ -278,16 +278,16 @@ if ($registration_approval_required == false) {
         </div>
     </div>
 
-    <div class="card bg-none style-1 mb-0">
+    <div class="card bg-none style-1 mb-0 card-settings">
         <div class="card-body pt-3">
             <hr class="thin mt-0 mb-5"/>
 
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <h5 class="font-weight-bold">Social Networks login</h5>
                     <small class="text-muted">Allow your users to register on your site, blog or store through their social media accounts.</small>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-9">
                     <div class="card bg-light style-1 mb-3">
                         <div class="card-body pt-3">
                             <div class="row">
@@ -477,16 +477,16 @@ if ($registration_approval_required == false) {
         </div>
     </div>
 
-    <div class="card bg-none style-1 mb-0">
+    <div class="card bg-none style-1 mb-0 card-settings">
         <div class="card-body pt-3">
             <hr class="thin mt-0 mb-5"/>
 
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <h5 class="font-weight-bold">Email notifications</h5>
                     <small class="text-muted">Register users can automatically receive an automatic email from you. See the settings and post your messages.</small>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-9">
                     <div class="card bg-light style-1 mb-3">
                         <div class="card-body pt-3">
                             <div class="row">
@@ -538,16 +538,16 @@ if ($registration_approval_required == false) {
         </div>
     </div>
 
-    <div class="card bg-none style-1 mb-0">
+    <div class="card bg-none style-1 mb-0 card-settings">
         <div class="card-body pt-3">
             <hr class="thin mt-0 mb-5"/>
 
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <h5 class="font-weight-bold"><?php _e("Other settings"); ?></h5>
                     <small class="text-muted">Advanced setting where you can set different URL addresses.</small>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-9">
                     <div class="card bg-light style-1 mb-3">
                         <div class="card-body pt-3">
                             <div class="row">
