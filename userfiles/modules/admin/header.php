@@ -394,40 +394,33 @@ $user = get_user_by_id($user_id);
                         print 'active-parent';
                     } ?>">
                         <i class="mdi mdi-earth"></i>
-                        <?php _e("Website"); ?>
+                        <span class="badge-holder"><?php _e("Website"); ?></span>
                     </a>
 
                     <div class="dropdown-menu">
-
                         <a href="<?php print admin_url(); ?>view:content/action:pages" class="dropdown-item <?php if ($action == 'pages'): ?> active <?php endif; ?>">
                             <?php _e("Pages"); ?>
                             <span class="btn btn-primary btn-rounded btn-icon btn-sm add-new" data-toggle="tooltip" title="<?php _e("Add new page") ?>" data-href="<?php print admin_url('view:content#action=new:page'); ?>"><i class="mdi mdi-plus"></i></span>
                         </a>
+
                         <a class="dropdown-item <?php if ($action == 'posts'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:posts">
                             <?php _e("Posts"); ?>
-                            <span
-                                    class="btn btn-primary btn-rounded btn-icon btn-sm add-new"
-                                    data-toggle="tooltip"
-                                    title="<?php _e("Add new post") ?>"
-                                    data-href="<?php print admin_url('view:content#action=new:post'); ?>">
-                                    <i class="mdi mdi-plus"></i>
-                                </span>
+                            <span class="btn btn-primary btn-rounded btn-icon btn-sm add-new" data-toggle="tooltip" title="<?php _e("Add new post") ?>" data-href="<?php print admin_url('view:content#action=new:post'); ?>"><i class="mdi mdi-plus"></i></span>
                         </a>
                         <?php if ($shop_disabled == false AND mw()->modules->is_installed('shop') == true): ?>
-                            <a
-                                    class="dropdown-item <?php if ($action == 'products'): ?> active <?php endif; ?>"
-                                    href="<?php print admin_url(); ?>view:content/action:products">
+                            <a class="dropdown-item <?php if ($action == 'products'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:products">
                                 <?php _e("Products"); ?>
-                                <span
-                                        data-href="<?php print admin_url('view:content#action=new:product'); ?>"
-                                        class="btn btn-primary btn-rounded btn-icon btn-sm add-new"
-                                        data-toggle="tooltip" title="<?php _e("Add new product") ?>"><i class="mdi mdi-plus"></i></span>
+                                <span data-href="<?php print admin_url('view:content#action=new:product'); ?>" class="btn btn-primary btn-rounded btn-icon btn-sm add-new" data-toggle="tooltip" title="<?php _e("Add new product") ?>"><i class="mdi mdi-plus"></i></span>
                             </a>
                         <?php endif; ?>
 
                         <a class="dropdown-item <?php if ($action == 'categories'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:categories">
                             <?php _e("Categories"); ?>
                             <span class="btn btn-primary btn-rounded btn-icon btn-sm add-new" data-href="<?php print admin_url('view:content#action=new:category'); ?>" data-toggle="tooltip" title="<?php _e("Add new category") ?>"><i class="mdi mdi-plus"></i></span>
+                        </a>
+
+                        <a class="dropdown-item <?php if ($action == 'settings'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:settings">
+                            <?php _e("Settings"); ?>
                         </a>
                     </div>
                 </li>
@@ -445,23 +438,14 @@ $user = get_user_by_id($user_id);
                     <li class="nav-item dropdown <?php print $shopCls; ?>">
                         <a href="<?php print admin_url(); ?>view:shop" class="nav-link dropdown-toggle <?php print $shopCls; ?>">
                             <i class="mdi mdi-shopping"></i>
-                            <span class="badge-holder"><?php _e("Shop"); ?>
-                                <?php if ($view != 'shop' and $notif_count > 0) {
-                                    print $order_notif_html;
-                                }; ?>
-                                </span>
+                            <span class="badge-holder"><?php _e("Shop"); ?><?php if ($view != 'shop' and $notif_count > 0) { print $order_notif_html; }; ?></span>
                         </a>
                         <div class="dropdown-menu">
-                            <a href="<?php print admin_url(); ?>view:shop/action:products" class="dropdown-item <?php if ($action == 'products'): ?> active <?php endif; ?>">
-                                <?php _e("Products"); ?>
-                            </a>
+                            <a href="<?php print admin_url(); ?>view:shop/action:products" class="dropdown-item <?php if ($action == 'products'): ?> active <?php endif; ?>"><?php _e("Products"); ?></a>
                             <a href="<?php print admin_url(); ?>view:shop/action:orders" class="dropdown-item <?php if ($action == 'orders'): ?> active <?php endif; ?>">
                                 <span class="mai-shop"></span>
                                 <?php _e("Orders"); ?>
-                                <?php if ($view == 'shop') {
-                                    print $order_notif_html;
-                                } ?>
-
+                                <?php if ($view == 'shop') { print $order_notif_html;} ?>
                             </a>
                             <a href="<?php print admin_url(); ?>view:shop/action:clients" class="dropdown-item <?php if ($action == 'clients'): ?> active <?php endif; ?>">
                                 <?php _e("Clients"); ?>
