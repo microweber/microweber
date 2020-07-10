@@ -342,6 +342,22 @@ event_bind('mw.admin.custom_fields.price_settings', function ($settings) {
 });
 
 
-event_bind('mw.admin.shop.settings', function ($data) {
+event_bind('mw.admin.shop.settings.offers', function ($data) {
     print '<module type="shop/offers" view="admin_block" />';
+});
+
+
+
+
+event_bind('mw.admin.shop.settings.menu', function ($data) {
+    print ' <div class="col-4">
+                <a href="?group=offers" class="d-flex my-3">
+                            <div class="icon-holder"><i class="mdi mdi-label-percent-outline mdi-20px"></i></div>
+
+                    <div class="info-holder">
+                        <span class="text-primary font-weight-bold">' . _e('Promotions', true) . '</span><br/>
+                        <small class="text-muted">Creating and managing promo campaigns</small>
+                    </div>
+                </a>
+            </div>';
 });

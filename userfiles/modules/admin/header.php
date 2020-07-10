@@ -451,7 +451,7 @@ $user = get_user_by_id($user_id);
                                 <?php _e("Clients"); ?>
                             </a>
                             <a href="<?php print admin_url(); ?>view:shop/action:options/" class="dropdown-item <?php if ($action == 'options'): ?> active <?php endif; ?>">
-                                <?php _e("Shop settings"); ?>
+                                <?php _e("Settings"); ?>
                             </a>
                         </div>
                     </li>

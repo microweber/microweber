@@ -8,7 +8,7 @@
  * @author     Bozhidar Slaveykov <selfworksbg@gmail.com>
  * @copyright  2018 Microweber
  */
-include __DIR__.DS.'src/CouponClass.php';
+include __DIR__ . DS . 'src/CouponClass.php';
 
 api_expose('coupon_apply');
 function coupon_apply($params = array())
@@ -272,11 +272,19 @@ function coupons_delete_session()
 }
 
 
+event_bind('mw.admin.shop.settings.menu', function ($data) {
+    print '<div class="col-4">
+                <a href="?group=coupons" class="d-flex my-3">
+                    <div class="icon-holder"><i class="mdi mdi-scissors-cutting mdi-20px"></i></div>
+                    <div class="info-holder">
+                        <span class="text-primary font-weight-bold">' . _e('Coupons', true) . '</span><br/>
+                        <small class="text-muted">Creating and managing coupon codes</small>
+                    </div>
+                </a>
+            </div>';
+});
 
-
-
-
-event_bind('mw.admin.shop.settings', function ($data) {
+event_bind('mw.admin.shop.settings.coupons', function ($data) {
     print '<module type="shop/coupons" view="admin_block" />';
 });
 
@@ -290,7 +298,7 @@ event_bind('mw.shop.cart.init', function ($params) {
     );
 
 
-    mw()->app->ui->register_component('price_summary','');
+    mw()->app->ui->register_component('price_summary', '');
 });
 
 
