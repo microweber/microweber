@@ -3,6 +3,7 @@ namespace MicroweberPackages\Utils\BackupManager\Readers;
 
 use MicroweberPackages\Utils\BackupManager\BackupManager;
 use MicroweberPackages\Utils\BackupManager\Loggers\BackupImportLogger;
+use MicroweberPackages\Utils\Zip\Unzip;
 
 class ZipReader extends DefaultReader
 {
@@ -30,7 +31,7 @@ class ZipReader extends DefaultReader
 		// Remove old files
 		$this->_removeFilesFromPath($backupLocation);
 		
-		$unzip = new \MicroweberPackages\Utils\Unzip();
+		$unzip = new Unzip();
 		$unzip->extract($this->file, $backupLocation, true);
 
 		
