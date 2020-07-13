@@ -57,17 +57,17 @@ $instagram_api_access_token = get_option('instagram_api_access_token', $params['
 
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label"><?php _e('Instagram Api Client'); ?></label>
-                    <input type="number" class="mw_option_field mw-ui-field mw-full-width" name="instagram_api_client" value="<?php print $instagram_api_client; ?>">
+                    <input type="text" class="mw_option_field mw-ui-field mw-full-width" name="instagram_api_client" value="<?php print $instagram_api_client; ?>">
                 </div>
 
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label"><?php _e('Instagram Api Secret'); ?></label>
-                    <input type="number" class="mw_option_field mw-ui-field mw-full-width" name="instagram_api_secret" value="<?php print $instagram_api_secret; ?>">
+                    <input type="text" class="mw_option_field mw-ui-field mw-full-width" name="instagram_api_secret" value="<?php print $instagram_api_secret; ?>">
                 </div>
 
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label"><?php _e('Instagram Api Access Token'); ?></label>
-                    <input type="number" class="mw_option_field mw-ui-field mw-full-width" name="instagram_api_access_token" value="<?php print $instagram_api_access_token; ?>">
+                    <input type="text" class="mw_option_field mw-ui-field mw-full-width" name="instagram_api_access_token" value="<?php print $instagram_api_access_token; ?>">
                 </div>
 
             </div>
