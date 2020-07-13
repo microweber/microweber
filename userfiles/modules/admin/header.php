@@ -347,7 +347,7 @@ $user = get_user_by_id($user_id);
                             $current_lang_flag = $current_lang;
                         } ?>
                         <button type="button" class="btn btn-outline-secondary btn-rounded btn-icon" data-toggle="dropdown"><i class="flag-icon flag-icon-<?php print $current_lang_flag; ?>"></i></button>
-                        <div class="dropdown-menu">
+                        <div class="dropdown-menu dropdown-languages">
                             <?php
                             $langs = get_available_languages();
                             $selected_lang = isset($_COOKIE['lang']) ? $_COOKIE['lang'] : 'en';

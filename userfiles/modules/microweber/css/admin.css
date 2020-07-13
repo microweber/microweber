@@ -176,3 +176,8 @@ div.form-control {
 .main .tree {
     border: 0 !important;
 }
+
+.dropdown-languages {
+    max-height: 300px;
+    overflow: scroll;
+}
