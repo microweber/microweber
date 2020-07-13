@@ -340,7 +340,7 @@ class AppServiceProvider extends ServiceProvider {
             }
         } else {
             // Otherwise register the install command
-            $this->commands('MicroweberPackages\App\Console\Commands\InstallCommand');
+            $this->commands('MicroweberPackages\Install\Console\Commands\InstallCommand');
         }
 
         $this->loadRoutes();
