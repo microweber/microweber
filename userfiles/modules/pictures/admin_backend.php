@@ -379,7 +379,7 @@ if (!isset($data["thumbnail"])) {
                 mw._postsImageUploader = new mw.filePicker({
                     element:'#backend_image_uploader',
                     nav: 'dropdown',
-                    footer: false,
+                    footer: false,a
                     boxed: false,
                     dropDownTargetMode: 'dialog',
                     label: mw.lang('Media'),

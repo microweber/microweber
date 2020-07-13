@@ -316,27 +316,36 @@ mw.Editor = function (options) {
         var group = obj.group;
         var el = mw.element({
             props: {
-                innerHTML: 'group'
+                className: 'mw-bar-control-item mw-bar-control-item-group'
             }
+        });
+        var groupel = mw.element();
+
+        var icon = mw.Editor.core.button({
+            tag:'span',
+            props: {
+                className: ' mw-editor-group-button',
+                innerHTML: '<span class="' + group.icon + ' mw-editor-group-button-icon"></span><span class="mw-editor-group-button-caret"></span>'
+            }
+        }).$node.on('click', function () {
+            $(this).parent().toggleClass('active')
         });
 
-        var icon = mw.element({
-            props: {
-                className: group.icon
-            }
-        });
 
         el.append(icon);
+        el.append(groupel);
         row = typeof row !== 'undefined' ? row :  this.settings.controls.length - 1;
         group.controls.forEach(function (name) {
             if(scope.controllers[name]){
                 var ctrl = new scope.controllers[name](scope, scope.api, scope);
                 scope.controls.push(ctrl);
-                scope[bar].add(ctrl.element, row);
-            } else if(this.controllersHelpers[name]){
-                scope[bar].add(this.controllersHelpers[name](), row);
+                groupel.append(ctrl.element);
+            } else if(scope.controllersHelpers[name]){
+                groupel.append(this.controllersHelpers[name]());
             }
         });
+
+        scope[bar].add(el, row);
 
         this._addControllerGroups.push({
             el: el,

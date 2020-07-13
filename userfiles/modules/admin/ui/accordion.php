@@ -343,6 +343,7 @@
 <div class="ui_section">
     <script>
         mw.require('editor.js');
+        mw.lib.require("mwui");
         $(document).ready(function () {
 
             var editor = new mw.Editor({
@@ -351,13 +352,7 @@
                 controls: [
                     [
                         'undoRedo', '|', 'fontSelector', 'fontSize', 'media',
-                        {
-                            group: {
-                                icon: 'mdi mdi-edit',
-                                when: 500,
-                                controls: ['bold', 'italic']
-                            }
-                        }
+
                     ],
                     [ 'bold', '|', 'italic' ]
                 ],
@@ -372,7 +367,16 @@
                 selector: '#editortest2',
                 mode: 'div',
                 controls: [
-                    ['undoRedo', '|', 'fontSelector'],
+                    [
+                        'undoRedo', '|', 'fontSelector',
+                        {
+                            group: {
+                                icon: 'mdi mdi-format-bold',
+                                when: 'only screen and (max-width: 600px)', // string media query | number | 'always'
+                                controls: ['bold', 'italic']
+                            }
+                        }
+                    ],
                     ['bold', '|', 'italic', '|', 'fontSize', 'align'   ]
                 ],
                 content: `Nulla facilisi. Donec <b>congue mauris mi, nec elementum diam elementum</b> sed.
@@ -392,7 +396,6 @@
                 ],
                 regions:'.edit'
             });
-            console.log(editor3)
         });
     </script>
     <h2>Editor</h2>

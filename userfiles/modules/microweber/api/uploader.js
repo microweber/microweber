@@ -195,6 +195,7 @@ var Uploader = function( options ) {
         _all = _all || chunks.length;
         _i = _i || 0;
         var chunk = chunks.shift();
+        console.log(chunk)
         var data = {
             name: file.name,
             chunk: _i,
