@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\App\Install\Schema;
+namespace MicroweberPackages\Install\Schema;
 
 class Comments
 {

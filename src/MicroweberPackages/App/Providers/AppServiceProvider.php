@@ -148,16 +148,13 @@ class AppServiceProvider extends ServiceProvider {
 
     public function register() {
 
-        $this->app->singleton('lang_helper', function ($app) {
-            return new Lang($app);
-        });
-
         $this->app->register(TaggableFileCacheServiceProvider::class);
 
         $this->registerLaravelProviders();
         $this->registerLaravelAliases();
         $this->setEnvironmentDetection();
         $this->registerUtils();
+
         $this->registerSingletonProviders();
         $this->registerHtmlCollective();
         $this->registerMarkdown();
@@ -271,7 +268,6 @@ class AppServiceProvider extends ServiceProvider {
     protected function registerSingletonProviders()
     {
         $providers = [
-            'lang_helper' => 'Helpers\Lang',
             'ui' => 'Ui',
             'update' => 'UpdateManager',
             'cache_manager' => 'CacheManager',
@@ -310,6 +306,11 @@ class AppServiceProvider extends ServiceProvider {
 
     public function boot()
     {
+
+        $this->app->singleton('lang_helper', function ($app) {
+            return new Lang($app);
+        });
+
         \App::instance('path.public', base_path());
 
         $this->app->database_manager->add_table_model('content', Content::class);
@@ -317,15 +318,17 @@ class AppServiceProvider extends ServiceProvider {
 
         // If installed load module functions and set locale
         if (mw_is_installed()) {
+
             load_all_functions_files_for_modules();
 
             $this->commands('MicroweberPackages\App\Console\Commands\OptionCommand');
 
-            $language = get_option('language', 'website');
+
+          /*  $language = get_option('language', 'website');
 
             if ($language != false) {
                 set_current_lang($language);
-            }
+            }*/
 
             if (is_cli()) {
 
@@ -341,8 +344,10 @@ class AppServiceProvider extends ServiceProvider {
         }
 
         $this->loadRoutes();
+        if (mw_is_installed()) {
 
-        $this->app->event_manager->trigger('mw.after.boot', $this);
+            $this->app->event_manager->trigger('mw.after.boot', $this);
+        }
     }
 
     private function loadRoutes()

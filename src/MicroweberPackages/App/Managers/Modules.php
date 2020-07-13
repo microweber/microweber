@@ -530,10 +530,10 @@ class Modules
 
         if (defined('ACTIVE_TEMPLATE_DIR')) {
             $template_dir = ACTIVE_TEMPLATE_DIR;
-          //  $this->app->content_manager->define_constants();
+            //  $this->app->content_manager->define_constants();
         }
 
-      //  dd(debug_backtrace(1));
+        //  dd(debug_backtrace(1));
 
         $module_name = trim($module_name);
         // prevent hack of the directory

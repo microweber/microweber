@@ -6,9 +6,9 @@ use Illuminate\Console\Command;
 use MicroweberPackages\App\Http\Controllers\DefaultController;
 use MicroweberPackages\App\Providers\Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Input\InputArgument;
-use MicroweberPackages\App\Install\DbInstaller;
-use MicroweberPackages\App\Install\ModulesInstaller;
-use MicroweberPackages\App\Install\DefaultOptionsInstaller;
+use MicroweberPackages\Install\DbInstaller;
+use MicroweberPackages\Install\ModulesInstaller;
+use MicroweberPackages\Install\DefaultOptionsInstaller;
 use MicroweberPackages\App\Providers\Illuminate\Support\Facades\Cache;
 
 class ResetCommand extends Command

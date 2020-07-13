@@ -29,5 +29,6 @@ class EventManagerServiceProvider extends ServiceProvider
         $this->app->singleton('event_manager', function ($app) {
             return new Event($app);
         });
+
     }
 }

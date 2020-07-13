@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\App\Install;
+namespace MicroweberPackages\Install;
 
 
 class ModulesInstaller

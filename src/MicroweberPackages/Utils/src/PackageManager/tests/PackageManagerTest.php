@@ -20,15 +20,15 @@ class PackageManagerTest extends \MicroweberPackages\Core\tests\TestCase
 
     public function testInstallPackage()
     {
-        $params['require_name'] = 'microweber-templates/cashy';
-
-        $runner = new \MicroweberPackages\PackageManager\ComposerUpdate($this->_getComposerPath());
-        $runner->setTargetPath($this->_getTargetPath());
-        $runner->setComposerHome(dirname(__DIR__) . '/cache');
-
-        $results = $runner->installPackageByName($params);
-
-        $this->assertNotEmpty($results);
+//        $params['require_name'] = 'microweber-modules/multilanguage';
+//
+//        $runner = new \MicroweberPackages\PackageManager\ComposerUpdate($this->_getComposerPath());
+//        $runner->setTargetPath($this->_getTargetPath());
+//        $runner->setComposerHome(dirname(__DIR__) . '/cache');
+//
+//        $results = $runner->installPackageByName($params);
+//
+//        $this->assertNotEmpty($results);
     }
 
     private function _getComposerPath()

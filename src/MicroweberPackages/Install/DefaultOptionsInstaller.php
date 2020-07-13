@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\App\Install;
+namespace MicroweberPackages\Install;
 
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Content\OptionManager\Option;

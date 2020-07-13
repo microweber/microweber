@@ -13,6 +13,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             define('MW_UNIT_TEST', true);
         }
 
+
         $testing_env_name = 'testing';
         $testEnvironment = $testing_env_name = env('APP_ENV') ? env('APP_ENV') : 'testing';
 

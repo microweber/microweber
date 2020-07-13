@@ -14,7 +14,7 @@ use MicroweberPackages\UserManager\User;
 use MicroweberPackages\Utils\Http\Http;
 use MicroweberPackages\PackageManager\ComposerUpdate;
 use MicroweberPackages\Core\View;
-use MicroweberPackages\App\Install;
+use MicroweberPackages\Install;
 
 class InstallController extends Controller
 {

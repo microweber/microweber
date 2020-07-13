@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\App\Install;
+namespace MicroweberPackages\Install;
 
 use MicroweberPackages\DatabaseManager\Utils as DbUtils;
 use Illuminate\Support\Facades\Schema as DbSchema;
