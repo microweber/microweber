@@ -343,6 +343,11 @@ class FieldsManager
             }
         }
 
+        $data['error_text'] = '';
+        if (isset($data['custom_field_error_text'])) {
+            $data['error_text'] = trim($data['custom_field_error_text']);
+        }
+
         $data_to_save = ($data);
         $data_to_save = $this->unify_params($data_to_save);
 
@@ -1064,6 +1069,7 @@ class FieldsManager
         $field_data['type'] = false;
         $field_data['id'] = 0;
         $field_data['placeholder'] = false;
+        $field_data['error_text'] = false;
         $field_data['help'] = false;
         $field_data['values'] = array();
         $field_data['value'] = false;
