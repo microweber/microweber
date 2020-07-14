@@ -1,6 +1,10 @@
 <?php
 $template = get_option('data-template', $params['id']);
 
+$instagram_api_client = get_option('instagram_api_client', $params['id']);
+$instagram_api_secret = get_option('instagram_api_secret', $params['id']);
+$instagram_api_access_token = get_option('instagram_api_access_token', $params['id']);
+
 $defaultUsername = 'bummer.frenchie.wild';
 
 $username = get_option('username', $params['id']);
@@ -30,6 +34,21 @@ if ($template != false) {
     $template_file = module_templates($config['module'], 'default');
 
 }
+
+$instagram = new \MetzWeb\Instagram\Instagram(array(
+    'apiKey'      => $instagram_api_client,
+    'apiSecret'   => $instagram_api_secret,
+    'apiCallback' => 'http://localhost/microweber/'
+));
+
+
+// create login URL
+$loginUrl = $instagram->getLoginUrl(array(
+    'basic',
+    'likes',
+    'relationships'
+));
+
 
 try {
     $html = mw()->http->url('https://instagram.com/' . $username . '/')->set_cache(1800)->get();

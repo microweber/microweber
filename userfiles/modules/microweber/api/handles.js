@@ -855,19 +855,45 @@ mw._initHandles = {
                 if(!icon){
                     icon  = '<span class="mw-icon-gear mw-handle-menu-item-icon"></span>';
                 }
-                mw.log(icon);
-                if(hastitle){
+                if (hastitle) {
                     var menuitem = '<span class="mw-handle-menu-item dynamic-submodule-handle" data-module="'+this.id+'">'
                         + icon
                         + hastitle.replace(/_/g, ' ')
                         + '</span>';
-
-
                     nodes.push(menuitem);
-                 }
+                }
 
             });
+            mw.$('.text-background', pelement).each(function () {
+                var icon  = '<span class="mw-icon-gear mw-handle-menu-item-icon"></span>';
+                var menuitem = '<span class="mw-handle-menu-item text-background-handle" data-element="'+this.id+'">'
+                    + icon
+                    + 'background text'
+                    + '</span>';
+                nodes.push(menuitem);
+            });
             $('.mw_handle_module_submodules').html(nodes.join(''));
+            mw.$('.text-background-handle').on('click', function () {
+                var id = this.getAttribute('data-element');
+                var ok = mw.$('<button class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info pull-right">OK</button>');
+                var cancel = mw.$('<button class="mw-ui-btn mw-ui-btn-medium pull-left">Cancel</button>');
+                var footer = mw.$('<div></div>');
+                var area = $('<textarea class="mw-ui-field w100" style="height: 200px"/>');
+                area.val(mw.$('#' + id).html());
+                footer.append(cancel);
+                footer.append(ok);
+                var dialog = mw.dialog({
+                    content: area,
+                    footer: footer
+                });
+                ok.on('click', function () {
+                    mw.$('#' + id).html(area.val());
+                    dialog.remove();
+                });
+                cancel.on('click', function () {
+                    dialog.remove();
+                });
+            });
             mw.$('.dynamic-submodule-handle').on('click', function () {
                 mw.tools.module_settings('#' + this.dataset.module);
             });
@@ -984,9 +1010,9 @@ mw._initHandles = {
             var size = mw.$(element).children(".mw-col").length;
             mw.$("a.mw-make-cols").removeClass("active");
             mw.$("a.mw-make-cols").eq(size - 1).addClass("active");
-             if(!element.id){
-                 element.id = "element_row_" + mw.random() ;
-             }
+            if(!element.id){
+                element.id = "element_row_" + mw.random() ;
+            }
 
 
 
