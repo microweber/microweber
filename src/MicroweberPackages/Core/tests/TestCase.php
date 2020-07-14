@@ -33,7 +33,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
                 $mw_file = $config_folder . '/microweber.php';
             }
         }
-
+        
         if (!is_dir($config_folder)) {
             mkdir($config_folder);
         }
