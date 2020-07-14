@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace MicroweberPackages\PackageManager\Helpers;
+namespace MicroweberPackages\Package\Helpers;
 
 use Composer\Config;
 use Composer\Cache;
@@ -21,11 +21,11 @@ use Composer\Util\Platform;
 use Composer\Util\ProcessExecutor;
 use Composer\Util\RemoteFilesystem;
 use Composer\IO\IOInterface;
-use MicroweberPackages\PackageManager\PackageManagerUnzipOnChunksException;
+use MicroweberPackages\Package\PackageManagerUnzipOnChunksException;
 use Microweber\Utils\Unzip;
 use Symfony\Component\Process\ExecutableFinder;
 use ZipArchive;
-use MicroweberPackages\PackageManager\Helpers\ArchiveDownloader as ArchiveDownloader;
+use MicroweberPackages\Package\Helpers\ArchiveDownloader as ArchiveDownloader;
 
 
 class ZipDownloader extends ArchiveDownloader

@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace MicroweberPackages\PackageManager;
+namespace MicroweberPackages\Package;
 
 use Composer\Installer;
 use Composer\Installer\InstallationManager;
@@ -22,7 +22,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Composer\Command\BaseCommand;
-use MicroweberPackages\PackageManager\Helpers\TemplateInstaller;
+use MicroweberPackages\Package\Helpers\TemplateInstaller;
 
 /**
  * @author Jordi Boggiano <j.boggiano@seld.be>

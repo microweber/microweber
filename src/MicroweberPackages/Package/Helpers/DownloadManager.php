@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace MicroweberPackages\PackageManager\Helpers;
+namespace MicroweberPackages\Package\Helpers;
 
 use Composer\Package\PackageInterface;
 use Composer\IO\IOInterface;

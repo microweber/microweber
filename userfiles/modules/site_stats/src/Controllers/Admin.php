@@ -4,7 +4,7 @@
 namespace Microweber\SiteStats\Controllers;
 
 use Microweber\SiteStats\Stats;
-use MicroweberPackages\Core\View;
+use MicroweberPackages\View\View;
 
 
 class Admin

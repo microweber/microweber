@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\PackageManager;
+namespace MicroweberPackages\Package;
 
 
 class PackageManagerException extends \Exception

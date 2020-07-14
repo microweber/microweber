@@ -161,7 +161,7 @@ if (is_array($data)) {
 ?>
 
 <?php
-$view = new \MicroweberPackages\Core\View(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'admin_messages_list.php');
+$view = new \MicroweberPackages\View\View(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'admin_messages_list.php');
 $view->assign('last_messages', $data);
 echo $view->__toString();
 ?>

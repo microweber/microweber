@@ -1,9 +1,9 @@
-
+<?php
 
 namespace MicroweberPackages\App\Managers;
 
 use Illuminate\Support\Facades\Config;
-use MicroweberPackages\PackageManager\ComposerUpdate;
+use MicroweberPackages\Package\ComposerUpdate;
 
 if (defined('INI_SYSTEM_CHECK_DISABLED') == false) {
     define('INI_SYSTEM_CHECK_DISABLED', ini_get('disable_functions'));

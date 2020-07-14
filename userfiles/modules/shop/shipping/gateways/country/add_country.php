@@ -2,7 +2,7 @@
 
 only_admin_access();
 
-use MicroweberPackages\Core\View;
+use MicroweberPackages\View\View;
 
 
 

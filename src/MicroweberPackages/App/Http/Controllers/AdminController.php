@@ -6,7 +6,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use Auth;
-use MicroweberPackages\Core\View;
+use MicroweberPackages\View\View;
 use MicroweberPackages\User\User;
 
 class AdminController extends Controller

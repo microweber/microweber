@@ -1,7 +1,7 @@
 <?php
 
 
-use MicroweberPackages\Core\View;
+use MicroweberPackages\View\View;
 
 
 only_admin_access();

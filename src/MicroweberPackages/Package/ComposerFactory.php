@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\PackageManager;
+namespace MicroweberPackages\Package;
 
 
 
@@ -39,9 +39,9 @@ use Composer\Autoload\AutoloadGenerator;
 use Composer\Package\Version\VersionParser;
 use Composer\Downloader\TransportException;
 use Seld\JsonLint\JsonParser;
-use MicroweberPackages\PackageManager\Helpers\DownloadManager as DownloadManager;
+use MicroweberPackages\Package\Helpers\DownloadManager as DownloadManager;
 
-use MicroweberPackages\PackageManager\Helpers\ZipDownloader;
+use MicroweberPackages\Package\Helpers\ZipDownloader;
 
 
 

@@ -3,7 +3,7 @@
 
 namespace Microweber\Comments\Controllers;
 
-use MicroweberPackages\Core\View;
+use MicroweberPackages\View\View;
 
 
 class Admin

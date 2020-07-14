@@ -1,7 +1,7 @@
 <?php
 
 
-namespace MicroweberPackages\PackageManager\Helpers;
+namespace MicroweberPackages\Package\Helpers;
 
 
 use Composer\Repository\CompositeRepository as CompositeRepositoryBase;

@@ -1,8 +1,8 @@
 <?php
 
-namespace MicroweberPackages\Content\FieldsManager;
+namespace MicroweberPackages\Field;
 
-use MicroweberPackages\Core\View;
+use MicroweberPackages\View\View;
 
 api_expose_admin('fields/reorder');
 api_expose_admin('fields/delete');

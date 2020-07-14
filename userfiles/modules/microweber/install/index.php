@@ -1,6 +1,6 @@
 <?php
 
-// MOVED TO src\MicroweberPackages\Core\Views\install.php
+// MOVED TO src\MicroweberPackages\View\Views\install.php
 
 ?>
 

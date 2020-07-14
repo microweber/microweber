@@ -11,7 +11,7 @@
  */
 
 
-namespace MicroweberPackages\PackageManager\Helpers;
+namespace MicroweberPackages\Package\Helpers;
 
 use Symfony\Component\Console\Output\StreamOutput;
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;

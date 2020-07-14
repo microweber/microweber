@@ -9,7 +9,7 @@ class PackageManagerTest extends \MicroweberPackages\Core\tests\TestCase
 
         $params['keyword'] = 'dream';
 
-        $runner = new \MicroweberPackages\PackageManager\ComposerUpdate($this->_getComposerPath());
+        $runner = new \MicroweberPackages\Package\ComposerUpdate($this->_getComposerPath());
         $runner->setTargetPath($this->_getTargetPath());
         $runner->setComposerHome(dirname(__DIR__) . '/cache');
 
@@ -22,7 +22,7 @@ class PackageManagerTest extends \MicroweberPackages\Core\tests\TestCase
     {
 //        $params['require_name'] = 'microweber-modules/multilanguage';
 //
-//        $runner = new \MicroweberPackages\PackageManager\ComposerUpdate($this->_getComposerPath());
+//        $runner = new \MicroweberPackages\Package\ComposerUpdate($this->_getComposerPath());
 //        $runner->setTargetPath($this->_getTargetPath());
 //        $runner->setComposerHome(dirname(__DIR__) . '/cache');
 //

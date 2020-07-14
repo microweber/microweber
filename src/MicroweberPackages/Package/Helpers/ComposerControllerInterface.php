@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\PackageManager\Helpers;
+namespace MicroweberPackages\Package\Helpers;
 
 use Composer\Installer;
 

@@ -704,7 +704,7 @@ function mw_error($e, $f = false, $l = false)
 {
     $f = mw_includes_path() . 'error.php';
 
-    $v = new \MicroweberPackages\Core\View($f);
+    $v = new \MicroweberPackages\View\View($f);
     $v->e = $e;
     $v->f = $f;
     $v->l = $l;

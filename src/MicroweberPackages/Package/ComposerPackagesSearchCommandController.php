@@ -1,7 +1,7 @@
 <?php
 
 
-namespace MicroweberPackages\PackageManager;
+namespace MicroweberPackages\Package;
 
 use Composer\Console\Application;
 use Composer\Command\UpdateCommand;
@@ -9,7 +9,7 @@ use Composer\Command\InstallCommand;
 use Composer\Command\SearchCommand;
 use Composer\Config;
 use Symfony\Component\Console\Input\ArrayInput;
-use MicroweberPackages\PackageManager\ComposerFactory as Factory;
+use MicroweberPackages\Package\ComposerFactory as Factory;
 use Composer\IO\ConsoleIO;
 use Composer\IO\BufferIO;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -32,10 +32,10 @@ use Composer\Downloader\TransportException;
 use Symfony\Component\Debug\Exception\FatalErrorException;
 use Composer\Plugin\CommandEvent;
 use Composer\Plugin\PluginEvents;
-use MicroweberPackages\PackageManager\PackageManagerException;
+use MicroweberPackages\Package\PackageManagerException;
 
-use MicroweberPackages\PackageManager\Helpers\ComposerAbstractController;
-use MicroweberPackages\PackageManager\Helpers\CompositeRepository;
+use MicroweberPackages\Package\Helpers\ComposerAbstractController;
+use MicroweberPackages\Package\Helpers\CompositeRepository;
 
 class ComposerPackagesSearchCommandController extends ComposerAbstractController
 {
@@ -102,8 +102,8 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
 
         $repositoryManager = $this->getRepositoryManager();
 
-//        $repositoryManager->setRepositoryClass('composer', 'MicroweberPackages\PackageManager\Helpers\ComposerRepository');
-//        $repositoryManager->setRepositoryClass('package', 'MicroweberPackages\PackageManager\Helpers\PackageRepository');
+//        $repositoryManager->setRepositoryClass('composer', 'MicroweberPackages\Package\Helpers\ComposerRepository');
+//        $repositoryManager->setRepositoryClass('package', 'MicroweberPackages\Package\Helpers\PackageRepository');
 //
 
         $platformRepo = new PlatformRepository;

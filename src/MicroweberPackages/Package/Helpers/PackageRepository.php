@@ -2,7 +2,7 @@
 
 
 
-namespace MicroweberPackages\PackageManager\Helpers;
+namespace MicroweberPackages\Package\Helpers;
 
 
 use Composer\Repository\PackageRepository as PackageRepositoryBase;

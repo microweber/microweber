@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\PackageManager;
+namespace MicroweberPackages\Package;
 
 use Composer\Console\Application;
 use Composer\Command\UpdateCommand;
@@ -7,9 +7,9 @@ use Composer\Command\InstallCommand;
 use Composer\Command\SearchCommand;
 use Composer\Config;
 use Composer\IO\NullIO;
-use MicroweberPackages\PackageManager\PackageManagerUnzipOnChunksException;
+use MicroweberPackages\Package\PackageManagerUnzipOnChunksException;
 use Symfony\Component\Console\Input\ArrayInput;
-use MicroweberPackages\PackageManager\ComposerFactory as Factory;
+use MicroweberPackages\Package\ComposerFactory as Factory;
 use Composer\IO\ConsoleIO;
 use Composer\IO\BufferIO;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -23,12 +23,12 @@ use Composer\Package\PackageInterface;
 use Composer\Repository\CompositeRepository;
 use Composer\Repository\PlatformRepository;
 use Composer\Repository\RepositoryInterface;
-use MicroweberPackages\PackageManager\ComposerPackagesSearchCommandController;
+use MicroweberPackages\Package\ComposerPackagesSearchCommandController;
 use Composer\Console\HtmlOutputFormatter;
-use MicroweberPackages\PackageManager\Helpers\TemplateInstaller;
-use MicroweberPackages\PackageManager\Helpers\ModuleInstaller;
-use MicroweberPackages\PackageManager\Helpers\CoreUpdateInstaller;
-use MicroweberPackages\PackageManager\Helpers\InstallerIO;
+use MicroweberPackages\Package\Helpers\TemplateInstaller;
+use MicroweberPackages\Package\Helpers\ModuleInstaller;
+use MicroweberPackages\Package\Helpers\CoreUpdateInstaller;
+use MicroweberPackages\Package\Helpers\InstallerIO;
 use Composer\Semver\Comparator;
 use ZipArchive;
 
@@ -522,13 +522,13 @@ ob_end_clean();
         $temp_folder = $this->composer_temp_folder;
         $from_folder = normalize_path($temp_folder, true);
         $installers = array(
-            'MicroweberPackages\PackageManager\Helpers\TemplateInstaller',
-            'MicroweberPackages\PackageManager\Helpers\ModuleInstaller'
+            'MicroweberPackages\Package\Helpers\TemplateInstaller',
+            'MicroweberPackages\Package\Helpers\ModuleInstaller'
         );
         if ($keyword == 'microweber/update') {
             $install_core_update = true;
             $installers = array(
-                'MicroweberPackages\PackageManager\Helpers\CoreUpdateInstaller'
+                'MicroweberPackages\Package\Helpers\CoreUpdateInstaller'
             );
         }
 
@@ -629,7 +629,7 @@ ob_end_clean();
 
             $composer->setConfig($config);
             //$update = new InstallCommand();
-            $update = new \MicroweberPackages\PackageManager\InstallCommand();
+            $update = new \MicroweberPackages\Package\InstallCommand();
             $update->setComposer($composer);
             $update->setIO($io);
 
