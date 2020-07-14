@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\DatabaseManager\Traits;
+namespace MicroweberPackages\Database\Traits;
 
 trait ExtendedSave
 {

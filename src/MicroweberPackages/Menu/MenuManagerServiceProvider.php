@@ -2,14 +2,14 @@
 /*
  * This file is part of the Microweber framework.
  *
- * (c) Microweber LTD
+ * (c) Microweber CMS LTD
  *
  * For full license information see
- * http://Microweber.com/license/
+ * https://github.com/microweber/microweber/blob/master/LICENSE
  *
  */
 
-namespace MicroweberPackages\Content\MenuManager;
+namespace MicroweberPackages\Menu;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -23,7 +23,7 @@ class MenuManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\Content\MenuManager\MenuManager    $menu_manager
+         * @property \MicroweberPackages\Menu\MenuManager    $menu_manager
          */
         $this->app->singleton('menu_manager', function ($app) {
             return new MenuManager();

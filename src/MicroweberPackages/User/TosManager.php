@@ -1,7 +1,7 @@
 <?php
-namespace MicroweberPackages\UserManager\Users;
+namespace MicroweberPackages\User\Users;
 
-use MicroweberPackages\DatabaseManager\Crud;
+use MicroweberPackages\Database\Crud;
 
 class TosManager extends Crud
 {

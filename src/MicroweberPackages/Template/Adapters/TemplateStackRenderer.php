@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Utils\TemplateManager\Adapters;
+namespace MicroweberPackages\Template\Adapters;
 
 
 class TemplateStackRenderer

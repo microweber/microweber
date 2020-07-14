@@ -21,7 +21,7 @@ $backup_file_preview_params['id'] = $file_id;
 $backup_file_preview_params['preview_restore'] = true;
 
 
-$backup_manager = new \MicroweberPackages\Utils\BackupManager();
+$backup_manager = new \MicroweberPackages\Backup();
 
 
 $data_to_unzip = $backup_manager->exec_restore($backup_file_preview_params);

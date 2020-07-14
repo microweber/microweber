@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\DatabaseManager\tests;
+namespace MicroweberPackages\Database\tests;
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 use MicroweberPackages\Core\tests\TestCase;

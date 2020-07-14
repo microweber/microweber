@@ -27,7 +27,7 @@
       "MicroweberPackages\\Database\\": ""
     },
     "files": [
-      "src/DatabaseManager/helpers.php"
+      "helpers.php"
     ]
   },
   "config": {

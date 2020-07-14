@@ -1,4 +1,4 @@
-<?php
+
 
 namespace MicroweberPackages\App\Http\Controllers;
 
@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
 use Cache;
-use MicroweberPackages\UserManager\User;
+use MicroweberPackages\User\User;
 use MicroweberPackages\Utils\Http\Http;
 use MicroweberPackages\PackageManager\ComposerUpdate;
 use MicroweberPackages\Core\View;
@@ -65,7 +65,7 @@ class InstallController extends Controller
 
         $env = $this->app->environment();
 
-        $view = MW_PATH . 'Views/install.php';
+        $view = MW_PATH . 'Views/install.<?<?<?php /*  * This file is part of the Microweber framework.  *  * (c) Microweber CMS LTD  *  * For full license information see  * https://github.com/microweber/microweber/blob/master/LICENSE  *  */ /*  * This file is part of the Microweber framework.  *  * (c) Microweber CMS LTD  *  * For full license information see  * https://github.com/microweber/microweber/blob/master/LICENSE  *  */ /*  * This file is part of the Microweber framework.  *  * (c) Microweber CMS LTD  *  * For full license information see  * https://github.com/microweber/microweber/blob/master/LICENSE  *  */';
 
         $install_step = null;
         if (isset($input['install_step'])) {
@@ -544,7 +544,7 @@ class InstallController extends Controller
     private function _is_escapeshellarg_available()
     {
 
-        return php_can_use_func('escapeshellarg');
+        return <?php /*  * This file is part of the Microweber framework.  *  * (c) Microweber CMS LTD  *  * For full license information see  * https://github.com/microweber/microweber/blob/master/LICENSE  *  */_can_use_func('escapeshellarg');
 
 
     }

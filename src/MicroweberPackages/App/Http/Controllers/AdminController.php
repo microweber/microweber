@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use Auth;
 use MicroweberPackages\Core\View;
-use MicroweberPackages\UserManager\User;
+use MicroweberPackages\User\User;
 
 class AdminController extends Controller
 {

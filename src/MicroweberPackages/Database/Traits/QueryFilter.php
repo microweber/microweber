@@ -1,9 +1,9 @@
 <?php
 
-namespace MicroweberPackages\DatabaseManager\Traits;
+namespace MicroweberPackages\Database\Traits;
 
 use DB;
-use MicroweberPackages\DatabaseManager\Filter;
+use MicroweberPackages\Database\Filter;
 use Config;
 
 trait QueryFilter

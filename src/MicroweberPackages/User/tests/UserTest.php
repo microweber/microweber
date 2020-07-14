@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Users\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\UserManager\UserManager;
+use MicroweberPackages\User\UserManager;
 use MicroweberPackages\Utils\Mail\MailSender;
 
 /**

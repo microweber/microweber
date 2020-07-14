@@ -1,9 +1,9 @@
 <?php
 
-namespace MicroweberPackages\Content\CategoryManager;
+namespace MicroweberPackages\Category;
 
 use DB;
-use MicroweberPackages\Content\CategoryManager\Helpers\KnpCategoryTreeRenderer;
+use MicroweberPackages\Category\Helpers\KnpCategoryTreeRenderer;
 
 /**
  * Class to work with categories.

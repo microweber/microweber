@@ -2,14 +2,14 @@
 /*
  * This file is part of the Microweber framework.
  *
- * (c) Microweber LTD
+ * (c) Microweber CMS LTD
  *
  * For full license information see
- * http://Microweber.com/license/
+ * https://github.com/microweber/microweber/blob/master/LICENSE
  *
  */
 
-namespace MicroweberPackages\Content\FormsManager;
+namespace MicroweberPackages\Form;
 
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Content\FieldsManager\FieldsManager;
@@ -25,7 +25,7 @@ class FormsManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\Content\FormsManager\FormsManager $forms_manager
+         * @property \MicroweberPackages\Form\FormsManager $forms_manager
          */
         $this->app->singleton('forms_manager', function ($app) {
             return new FormsManager();

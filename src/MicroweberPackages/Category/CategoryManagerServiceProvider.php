@@ -2,14 +2,14 @@
 /*
  * This file is part of the Microweber framework.
  *
- * (c) Microweber LTD
+ * (c) Microweber CMS LTD
  *
  * For full license information see
- * http://Microweber.com/license/
+ * https://github.com/microweber/microweber/blob/master/LICENSE
  *
  */
 
-namespace MicroweberPackages\Content\CategoryManager;
+namespace MicroweberPackages\Category;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -24,10 +24,11 @@ class CategoryManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\Content\CategoryManager\Category    $category_manager
+         * @property \MicroweberPackages\Category\Category    $category_manager
          */
         $this->app->singleton('category_manager', function ($app) {
             return new CategoryManager();
         });
     }
 }
+

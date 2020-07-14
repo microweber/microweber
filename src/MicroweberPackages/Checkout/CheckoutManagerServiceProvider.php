@@ -2,14 +2,14 @@
 /*
  * This file is part of the Microweber framework.
  *
- * (c) Microweber LTD
+ * (c) Microweber CMS LTD
  *
  * For full license information see
- * http://Microweber.com/license/
+ * https://github.com/microweber/microweber/blob/master/LICENSE
  *
  */
 
-namespace MicroweberPackages\Shop\CheckoutManager;
+namespace MicroweberPackages\Checkout;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -23,7 +23,7 @@ class CheckoutManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\Shop\CheckoutManager    $checkout_manager
+         * @property \MicroweberPackages\Checkout    $checkout_manager
          */
         $this->app->singleton('checkout_manager', function ($app) {
             return new CheckoutManager();

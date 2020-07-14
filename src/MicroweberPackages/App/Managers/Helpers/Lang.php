@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\App\Managers\Helpers;
 
-use MicroweberPackages\Core\EventManager\Event;
+use MicroweberPackages\Event\EventManager\Event;
 
 
 $mw_language_content = array();

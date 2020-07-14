@@ -1,9 +1,7 @@
 <?php
-namespace MicroweberPackages\Content\ContentManager;
+namespace MicroweberPackages\Content;
 
-use Illuminate\Support\Facades\Cache;
-use MicroweberPackages\DatabaseManager\Crud;
-use MicroweberPackages\Content\ContentManager\Content;
+use MicroweberPackages\Database\Crud;
 use DB;
 use function foo\func;
 

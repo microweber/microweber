@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Content\CategoryManager;
+namespace MicroweberPackages\Category;
 
 class Categories extends BaseModel
 {

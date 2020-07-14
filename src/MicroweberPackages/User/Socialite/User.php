@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\UserManager\Socialite;
+namespace MicroweberPackages\User\Socialite;
 
 use Laravel\Socialite\AbstractUser;
 

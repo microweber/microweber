@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Utils\TemplateManager\Adapters\RenderHelpers;
+namespace MicroweberPackages\Template\Adapters\RenderHelpers;
 
 use Arcanedev\SeoHelper\Entities\Webmasters;
 use Arcanedev\SeoHelper\Entities\Analytics;

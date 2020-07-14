@@ -1,11 +1,11 @@
 <?php
-namespace MicroweberPackages\Content\ContentManager;
+namespace MicroweberPackages\Content;
 
 use Content;
 use ContentFields;
 use Illuminate\Support\Facades\Cache;
 use DB;
-use MicroweberPackages\Content\MenuManager\Menu;
+use MicroweberPackages\Menu\Menu;
 
 class ContentManagerHelpers extends ContentManagerCrud
 {

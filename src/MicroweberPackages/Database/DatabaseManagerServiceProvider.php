@@ -2,14 +2,14 @@
 /*
  * This file is part of the Microweber framework.
  *
- * (c) Microweber LTD
+ * (c) Microweber CMS LTD
  *
  * For full license information see
- * http://Microweber.com/license/
+ * https://github.com/microweber/microweber/blob/master/LICENSE
  *
  */
 
-namespace MicroweberPackages\DatabaseManager;
+namespace MicroweberPackages\Database;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -24,7 +24,7 @@ class DatabaseManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\DatabaseManager\DatabaseManager    $database_manager
+         * @property \MicroweberPackages\Database\DatabaseManager    $database_manager
          */
         $this->app->singleton('database_manager', function ($app) {
             return new DatabaseManager($app);

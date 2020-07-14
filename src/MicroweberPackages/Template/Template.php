@@ -1,13 +1,13 @@
 <?php
 
 
-namespace MicroweberPackages\Utils\TemplateManager;
+namespace MicroweberPackages\Template;
 
 use MicroweberPackages\App\Http\Controllers\JsCompileController;
-use MicroweberPackages\Utils\TemplateManager\Adapters\MicroweberTemplate;
-use MicroweberPackages\Utils\TemplateManager\Adapters\RenderHelpers\TemplateOptimizeLoadingHelper;
-use MicroweberPackages\Utils\TemplateManager\Adapters\TemplateCssParser;
-use MicroweberPackages\Utils\TemplateManager\Adapters\TemplateStackRenderer;
+use MicroweberPackages\Template\Adapters\MicroweberTemplate;
+use MicroweberPackages\Template\Adapters\RenderHelpers\TemplateOptimizeLoadingHelper;
+use MicroweberPackages\Template\Adapters\TemplateCssParser;
+use MicroweberPackages\Template\Adapters\TemplateStackRenderer;
 
 /**
  * Content class is used to get and save content in the database.

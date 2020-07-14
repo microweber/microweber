@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Helpers;
+namespace MicroweberPackages\Helper;
 
 if (!defined('MW_ROOTPATH')) {
 	if (function_exists('base_path')) {
@@ -9,7 +9,7 @@ if (!defined('MW_ROOTPATH')) {
 	}
 }
 
-use MicroweberPackages\Helpers\URLify;
+use MicroweberPackages\Helper\URLify;
 
 class UrlManager
 {

@@ -1,11 +1,11 @@
 <?php
-namespace MicroweberPackages\UserManager\Socialite;
+namespace MicroweberPackages\User\Socialite;
 
-use MicroweberPackages\UserManager\UserData;
+use MicroweberPackages\User\UserData;
 
 class UserProvider
 {
-    public static function findOrCreate(\MicroweberPackages\UserManager\Socialite\User $payload, $provider)
+    public static function findOrCreate(\MicroweberPackages\User\Socialite\User $payload, $provider)
     {
         $user = UserData::where('data_id', '=', $payload->id)->get();
         if ($user->isEmpty()) {

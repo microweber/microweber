@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Content\ContentManager\tests;
+namespace MicroweberPackages\Content\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
 

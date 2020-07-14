@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Content\FormsManager;
+namespace MicroweberPackages\Form;
 
 use League\Csv\Writer;
 use Microweber\Utils\MailProvider;

@@ -1,12 +1,12 @@
 <?php
-namespace MicroweberPackages\Utils\BackupManager\Readers;
+namespace MicroweberPackages\Backup\Readers;
 
 $dir = __DIR__;
 $dir = str_replace('Backup\Readers', '', $dir);
 $dir = str_replace('Backup/Readers', '', $dir);
 
 use JsonMachine\JsonMachine;
-use MicroweberPackages\Utils\BackupManager\EncodingFix;
+use MicroweberPackages\Backup\EncodingFix;
 
 class JsonReader extends DefaultReader
 {

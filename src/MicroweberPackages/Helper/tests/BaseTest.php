@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Helpers\tests;
+namespace MicroweberPackages\Helper\tests;
 
 use Orchestra\Testbench\TestCase;
 use Illuminate\Events\Dispatcher;
@@ -26,14 +26,14 @@ abstract class BaseTest extends TestCase
     protected function getPackageProviders($app)
     {
         return [
-            \MicroweberPackages\Helpers\HelpersServiceProvider::class,
+            \MicroweberPackages\Helper\HelpersServiceProvider::class,
         ];
     }
 
     protected function getPackageAliases($app)
     {
         return [
-            'helpers' => \MicroweberPackages\Helpers\HelpersFacade::class
+            'helpers' => \MicroweberPackages\Helper\HelpersFacade::class
         ];
     }
 

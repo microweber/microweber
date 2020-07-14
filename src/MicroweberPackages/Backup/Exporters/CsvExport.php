@@ -1,7 +1,7 @@
 <?php
-namespace MicroweberPackages\Utils\BackupManager\Exporters;
+namespace MicroweberPackages\Backup\Exporters;
 
-use MicroweberPackages\Utils\BackupManager\Loggers\BackupExportLogger;
+use MicroweberPackages\Backup\Loggers\BackupExportLogger;
 
 class CsvExport extends DefaultExport
 {

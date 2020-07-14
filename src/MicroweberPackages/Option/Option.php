@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Content\OptionManager;
+namespace MicroweberPackages\Option;
 
 use Illuminate\Database\Eloquent\Model;
 

@@ -59,7 +59,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => \MicroweberPackages\UserManager\User::class,
+            'model' => \MicroweberPackages\User\User::class,
         ],
         // 'users' => [
         //     'driver' => 'database',

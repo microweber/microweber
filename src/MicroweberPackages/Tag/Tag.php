@@ -1,8 +1,8 @@
 <?php
-namespace MicroweberPackages\Content\TagsManager;
+namespace MicroweberPackages\Tag;
 
 use Illuminate\Database\Eloquent\Model;
-use MicroweberPackages\Content\ContentManager\Content;
+use MicroweberPackages\Content\Content;
 
 class Tag extends Model
 {

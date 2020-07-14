@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Content\MenuManager;
+namespace MicroweberPackages\Menu;
 
 use Content;
 use Menu;

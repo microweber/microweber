@@ -3,16 +3,16 @@
 /*
  * This file is part of Microweber
  *
- * (c) Microweber LTD
+ * (c) Microweber CMS LTD
  *
  * For full license information see
- * http://microweber.com/license/
+ * https://github.com/microweber/microweber/blob/master/LICENSE
  *
  */
 
-namespace MicroweberPackages\Content\OptionManager;
+namespace MicroweberPackages\Option;
 
-use MicroweberPackages\Content\OptionManager\Option;
+use MicroweberPackages\Option\Option;
 use DB;
 use Cache;
 

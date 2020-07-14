@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Helpers;
+namespace MicroweberPackages\Helper;
 
 
 /**

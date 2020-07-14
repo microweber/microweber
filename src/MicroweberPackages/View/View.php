@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Core;
+namespace MicroweberPackages\View;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;

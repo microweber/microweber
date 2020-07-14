@@ -1,6 +1,8 @@
 <?php
 
-namespace MicroweberPackages\App\tests;
+namespace MicroweberPackages\Form\tests;
+
+use MicroweberPackages\Core\tests\TestCase;
 
 class CustomFieldsTemplatesTest extends TestCase
 {

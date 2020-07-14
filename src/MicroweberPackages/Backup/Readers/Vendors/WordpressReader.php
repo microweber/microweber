@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Utils\BackupManager\Readers\Vendors;
+namespace MicroweberPackages\Backup\Readers\Vendors;
 
 use Microweber\Providers\UrlManager;
 

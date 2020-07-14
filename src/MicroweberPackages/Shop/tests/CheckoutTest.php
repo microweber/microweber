@@ -2,7 +2,7 @@
 namespace MicroweberPackages\Shop\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Shop\CheckoutManager\CheckoutManager;
+use MicroweberPackages\Checkout\CheckoutManager;
 use MicroweberPackages\Utils\Mail\MailSender;
 
 /**

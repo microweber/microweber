@@ -2,23 +2,23 @@
 /*
  * This file is part of the Microweber framework.
  *
- * (c) Microweber LTD
+ * (c) Microweber CMS LTD
  *
  * For full license information see
- * http://Microweber.com/license/
+ * https://github.com/microweber/microweber/blob/master/LICENSE
  *
  */
 
-namespace MicroweberPackages\DatabaseManager;
+namespace MicroweberPackages\Database;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Collection;
-use MicroweberPackages\Content\ContentManager\Content;
-use MicroweberPackages\DatabaseManager\Utils as DbUtils;
-use MicroweberPackages\DatabaseManager\Traits\QueryFilter;
-use MicroweberPackages\DatabaseManager\Traits\ExtendedSave;
-use MicroweberPackages\Content\MediaManager\Media;
+use MicroweberPackages\Content\Content;
+use MicroweberPackages\Database\Utils as DbUtils;
+use MicroweberPackages\Database\Traits\QueryFilter;
+use MicroweberPackages\Database\Traits\ExtendedSave;
+use MicroweberPackages\Media\Media;
 use SuperClosure\SerializableClosure;
 
 

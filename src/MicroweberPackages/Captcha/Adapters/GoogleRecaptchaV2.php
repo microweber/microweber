@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\CaptchaManager\Adapters;
+namespace MicroweberPackages\Captcha\Adapters;
 
 class GoogleRecaptchaV2
 {

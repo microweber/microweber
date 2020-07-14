@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Content\CategoryManager\Helpers;
+namespace MicroweberPackages\Category\Helpers;
 
 
 // this class need to be replaced with KnpCategoryTreeRenderer class when all features are implemented in the new class

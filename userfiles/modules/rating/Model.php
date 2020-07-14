@@ -1,7 +1,7 @@
 <?php
 namespace rating;
 
-use MicroweberPackages\DatabaseManager\Crud;
+use MicroweberPackages\Database\Crud;
 
 class Model extends Crud
 {

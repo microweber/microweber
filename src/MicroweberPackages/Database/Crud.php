@@ -2,13 +2,13 @@
 /*
  * This file is part of the Microweber framework.
  *
- * (c) Microweber LTD
+ * (c) Microweber CMS LTD
  *
  * For full license information see
- * http://Microweber.com/license/
+ * https://github.com/microweber/microweber/blob/master/LICENSE
  *
  */
-namespace MicroweberPackages\DatabaseManager;
+namespace MicroweberPackages\Database;
 
 class Crud
 {

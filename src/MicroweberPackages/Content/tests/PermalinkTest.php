@@ -6,7 +6,7 @@
  * Time: 3:40 PM
  */
 
-namespace MicroweberPackages\Content\ContentManager;
+namespace MicroweberPackages\Content\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
 

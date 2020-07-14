@@ -1,5 +1,5 @@
 {
-    "name": "microweber-packages/microweber-helpers",
+    "name": "microweber-packages/microweber-helper",
     "description": "PHP helper funcitons.",
     "version" : "0.0.6",
     "authors": [
@@ -17,7 +17,7 @@
   },
    "autoload": {
     "psr-4": {
-      "MicroweberPackages\\Helpers\\": ""
+      "MicroweberPackages\\Helper\\": ""
     },
      "files": [
        "functions/array.php",

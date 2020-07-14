@@ -2,14 +2,14 @@
 /*
  * This file is part of the Microweber framework.
  *
- * (c) Microweber LTD
+ * (c) Microweber CMS LTD
  *
  * For full license information see
- * http://Microweber.com/license/
+ * https://github.com/microweber/microweber/blob/master/LICENSE
  *
  */
 
-namespace MicroweberPackages\Helpers;
+namespace MicroweberPackages\Helper;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -25,21 +25,21 @@ class HelpersServiceProvider extends ServiceProvider
     {
 		
         /**
-         * @property \MicroweberPackages\Helpers\Format    $format
+         * @property \MicroweberPackages\Helper\Format    $format
          */
         $this->app->singleton('format', function () {
             return new Format();
         });
 
 		/**
-         * @property \MicroweberPackages\Helpers\XSSSecurity    $xss_security
+         * @property \MicroweberPackages\Helper\XSSSecurity    $xss_security
          */
         $this->app->singleton('xss_security', function () {
             return new XSSSecurity();
         });
 
         /**
-         * @property \MicroweberPackages\Helpers\UrlManager    $url_manager
+         * @property \MicroweberPackages\Helper\UrlManager    $url_manager
          */
         $this->app->singleton('url_manager', function () {
             return new UrlManager();

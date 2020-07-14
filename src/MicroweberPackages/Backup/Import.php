@@ -1,13 +1,13 @@
 <?php
-namespace MicroweberPackages\Utils\BackupManager;
+namespace MicroweberPackages\Backup;
 
 use Illuminate\Support\Facades\Cache;
-use MicroweberPackages\Utils\BackupManager\Readers\ZipReader;
-use MicroweberPackages\Utils\BackupManager\Readers\JsonReader;
-use MicroweberPackages\Utils\BackupManager\Readers\CsvReader;
-use MicroweberPackages\Utils\BackupManager\Readers\XmlReader;
-use MicroweberPackages\Utils\BackupManager\Loggers\BackupImportLogger;
-use MicroweberPackages\Utils\BackupManager\Readers\XlsxReader;
+use MicroweberPackages\Backup\Readers\ZipReader;
+use MicroweberPackages\Backup\Readers\JsonReader;
+use MicroweberPackages\Backup\Readers\CsvReader;
+use MicroweberPackages\Backup\Readers\XmlReader;
+use MicroweberPackages\Backup\Loggers\BackupImportLogger;
+use MicroweberPackages\Backup\Readers\XlsxReader;
 
 class Import
 {
@@ -170,7 +170,7 @@ class Import
 	 * Get file reader by type
 	 *
 	 * @param array $data
-	 * @return boolean|\MicroweberPackages\Utils\BackupManager\Readers\DefaultReader
+	 * @return boolean|\MicroweberPackages\Backup\Readers\DefaultReader
 	 */
 	private function _getReader($data = array())
 	{

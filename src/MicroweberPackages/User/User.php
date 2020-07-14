@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\UserManager;
+namespace MicroweberPackages\User;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
@@ -8,7 +8,7 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Support\Facades\Hash;
-use MicroweberPackages\DatabaseManager\BaseModel;
+use MicroweberPackages\Database\BaseModel;
 
 //use Sofa\Revisionable\Laravel\RevisionableTrait;
 

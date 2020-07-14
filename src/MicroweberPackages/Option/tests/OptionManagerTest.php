@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Content\OptionManager\tests;
+namespace MicroweberPackages\Option\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
 

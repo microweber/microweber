@@ -2,14 +2,14 @@
 /*
  * This file is part of the Microweber framework.
  *
- * (c) Microweber LTD
+ * (c) Microweber CMS LTD
  *
  * For full license information see
- * http://Microweber.com/license/
+ * https://github.com/microweber/microweber/blob/master/LICENSE
  *
  */
 
-namespace MicroweberPackages\Content\TagsManager;
+namespace MicroweberPackages\Tag;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -23,7 +23,7 @@ class TagsManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\Content\TagsManager\TagsManager    $tags_manager
+         * @property \MicroweberPackages\Tag\TagsManager    $tags_manager
          */
         $this->app->singleton('tags_manager', function ($app) {
             return new TagsManager();

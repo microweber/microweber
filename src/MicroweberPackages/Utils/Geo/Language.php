@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Utils\Geo;
 
-use MicroweberPackages\Utils\BackupManager\Exporters\SpreadsheetHelper;
+use MicroweberPackages\Backup\Exporters\SpreadsheetHelper;
 
 api_expose_admin('Microweber/Utils/Language/export');
 api_expose_admin('Microweber/Utils/Language/upload');

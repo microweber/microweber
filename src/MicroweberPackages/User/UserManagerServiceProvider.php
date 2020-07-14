@@ -2,14 +2,14 @@
 /*
  * This file is part of the Microweber framework.
  *
- * (c) Microweber LTD
+ * (c) Microweber CMS LTD
  *
  * For full license information see
- * http://Microweber.com/license/
+ * https://github.com/microweber/microweber/blob/master/LICENSE
  *
  */
 
-namespace MicroweberPackages\UserManager;
+namespace MicroweberPackages\User;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -24,7 +24,7 @@ class UserManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\UserManager\UserManager    $user_manager
+         * @property \MicroweberPackages\User\UserManager    $user_manager
          */
 
         $this->app->singleton('user_manager', function ($app) {

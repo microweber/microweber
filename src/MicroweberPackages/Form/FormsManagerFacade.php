@@ -2,18 +2,18 @@
 /*
  * This file is part of the Microweber framework.
  *
- * (c) Microweber LTD
+ * (c) Microweber CMS LTD
  *
  * For full license information see
- * http://Microweber.com/license/
+ * https://github.com/microweber/microweber/blob/master/LICENSE
  *
  */
 
-namespace MicroweberPackages\Helpers;
+namespace MicroweberPackages\Form;
 
 use Illuminate\Support\Facades\Facade;
 
-class HelpersFacade extends Facade
+class FormsManagerFacade extends Facade
 {
 
     /**
@@ -23,6 +23,6 @@ class HelpersFacade extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'helpers';
+        return 'forms_manager';
     }
 }

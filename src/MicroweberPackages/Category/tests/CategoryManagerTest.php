@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Content\CategoryManager\tests;
+namespace MicroweberPackages\Category\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
 

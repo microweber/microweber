@@ -2,14 +2,14 @@
 /*
  * This file is part of the Microweber framework.
  *
- * (c) Microweber LTD
+ * (c) Microweber CMS LTD
  *
  * For full license information see
- * http://Microweber.com/license/
+ * https://github.com/microweber/microweber/blob/master/LICENSE
  *
  */
 
-namespace MicroweberPackages\Shop\TaxManager;
+namespace MicroweberPackages\Tax;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -23,7 +23,7 @@ class TaxManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\Shop\TaxManager    $tax_manager
+         * @property \MicroweberPackages\Tax    $tax_manager
          */
         $this->app->singleton('tax_manager', function ($app) {
             return new TaxManager();

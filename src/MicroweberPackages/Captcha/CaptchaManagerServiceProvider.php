@@ -2,14 +2,14 @@
 /*
  * This file is part of the Microweber framework.
  *
- * (c) Microweber LTD
+ * (c) Microweber CMS LTD
  *
  * For full license information see
- * http://Microweber.com/license/
+ * https://github.com/microweber/microweber/blob/master/LICENSE
  *
  */
 
-namespace MicroweberPackages\CaptchaManager;
+namespace MicroweberPackages\Captcha;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -24,7 +24,7 @@ class CaptchaManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\CaptchaManager\CaptchaManager    $captcha_manager
+         * @property \MicroweberPackages\Captcha\CaptchaManager    $captcha_manager
          */
         $this->app->singleton('captcha_manager', function ($app) {
             return new CaptchaManager();

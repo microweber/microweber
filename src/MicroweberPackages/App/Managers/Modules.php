@@ -4,10 +4,10 @@
 /*
  * This file is part of the Microweber framework.
  *
- * (c) Microweber LTD
+ * (c) Microweber CMS LTD
  *
  * For full license information see
- * http://Microweber.com/license/
+ * https://github.com/microweber/microweber/blob/master/LICENSE
  *
  */
 
@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Config;
 //use Microweber\Providers\Database\Utils;
 use Module;
 use Illuminate\Support\Facades\DB;
-use MicroweberPackages\DatabaseManager\Utils as DbUtils;
+use MicroweberPackages\Database\Utils as DbUtils;
 
 //use Config;
 //use Illuminate\Database\Eloquent\Model as Eloquent;

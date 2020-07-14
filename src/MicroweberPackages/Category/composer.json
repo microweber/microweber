@@ -18,7 +18,7 @@
       "MicroweberPackages\\Category\\": ""
     },
     "files": [
-      "src/helpers.php"
+      "helpers.php"
     ]
   },
   "config": {

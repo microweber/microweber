@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Core\EventManager\tests;
+namespace MicroweberPackages\Event\EventManager\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Content\MediaManager\tests;
+namespace MicroweberPackages\Media\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
 

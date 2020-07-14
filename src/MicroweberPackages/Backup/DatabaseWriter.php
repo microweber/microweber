@@ -1,25 +1,25 @@
 <?php
-namespace MicroweberPackages\Utils\BackupManager;
+namespace MicroweberPackages\Backup;
 
 use Illuminate\Support\Facades\Cache;
 
-use MicroweberPackages\Utils\BackupManager\Traits\DatabaseCustomFieldsWriter;
-use MicroweberPackages\Utils\BackupManager\Traits\DatabaseContentFieldsWriter;
-use MicroweberPackages\Utils\BackupManager\Traits\DatabaseContentDataWriter;
-use MicroweberPackages\Utils\BackupManager\Traits\DatabaseCategoryItemsWriter;
-use MicroweberPackages\Utils\BackupManager\Traits\DatabaseCategoriesWriter;
-use MicroweberPackages\Utils\BackupManager\Traits\DatabaseRelationWriter;
-use MicroweberPackages\Utils\BackupManager\Traits\DatabaseContentWriter;
-use MicroweberPackages\Utils\BackupManager\Traits\DatabaseMenusWriter;
-use MicroweberPackages\Utils\BackupManager\Traits\DatabaseMediaWriter;
-use MicroweberPackages\Utils\BackupManager\Loggers\BackupImportLogger;
-use MicroweberPackages\Utils\BackupManager\Traits\DatabaseModuleWriter;
-use MicroweberPackages\Utils\BackupManager\Traits\DatabaseTaggingTaggedWriter;
+use MicroweberPackages\Backup\Traits\DatabaseCustomFieldsWriter;
+use MicroweberPackages\Backup\Traits\DatabaseContentFieldsWriter;
+use MicroweberPackages\Backup\Traits\DatabaseContentDataWriter;
+use MicroweberPackages\Backup\Traits\DatabaseCategoryItemsWriter;
+use MicroweberPackages\Backup\Traits\DatabaseCategoriesWriter;
+use MicroweberPackages\Backup\Traits\DatabaseRelationWriter;
+use MicroweberPackages\Backup\Traits\DatabaseContentWriter;
+use MicroweberPackages\Backup\Traits\DatabaseMenusWriter;
+use MicroweberPackages\Backup\Traits\DatabaseMediaWriter;
+use MicroweberPackages\Backup\Loggers\BackupImportLogger;
+use MicroweberPackages\Backup\Traits\DatabaseModuleWriter;
+use MicroweberPackages\Backup\Traits\DatabaseTaggingTaggedWriter;
 use QueryPath\Exception;
 
 /**
  * Microweber - Backup Module Database Writer
- * @namespace MicroweberPackages\Utils\BackupManager
+ * @namespace MicroweberPackages\Backup
  * @package DatabaseWriter
  * @author Bozhidar Slaveykov
  */

@@ -4,7 +4,7 @@ namespace Microweber\Comments\Models;
 
 use MicroweberPackages\Core\View;
 use GrahamCampbell\Markdown\Facades\Markdown;
-use MicroweberPackages\DatabaseManager\Crud;
+use MicroweberPackages\Database\Crud;
 use MicroweberPackages\Utils\Http\Http;
 use MicroweberPackages\Utils\Mail\MailSender;
 

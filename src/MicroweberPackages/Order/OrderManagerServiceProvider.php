@@ -2,14 +2,14 @@
 /*
  * This file is part of the Microweber framework.
  *
- * (c) Microweber LTD
+ * (c) Microweber CMS LTD
  *
  * For full license information see
- * http://Microweber.com/license/
+ * https://github.com/microweber/microweber/blob/master/LICENSE
  *
  */
 
-namespace MicroweberPackages\Shop\OrderManager;
+namespace MicroweberPackages\Order;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -23,7 +23,7 @@ class OrderManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\Shop\OrderManager    $order_manager
+         * @property \MicroweberPackages\Order    $order_manager
          */
         $this->app->singleton('order_manager', function ($app) {
             return new OrderManager();

@@ -1,8 +1,8 @@
 <?php
 
-namespace MicroweberPackages\Content\ContentManager;
+namespace MicroweberPackages\Content;
 
-use MicroweberPackages\DatabaseManager\Crud;
+use MicroweberPackages\Database\Crud;
 
 class DataFieldsManager extends Crud
 {

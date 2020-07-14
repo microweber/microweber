@@ -1,10 +1,10 @@
 <?php
 
-namespace MicroweberPackages\CaptchaManager;
+namespace MicroweberPackages\Captcha;
 
-use MicroweberPackages\CaptchaManager\Adapters\GoogleRecaptchaV2;
-use MicroweberPackages\CaptchaManager\Adapters\GoogleRecaptchaV3;
-use MicroweberPackages\CaptchaManager\Adapters\MicroweberCaptcha;
+use MicroweberPackages\Captcha\Adapters\GoogleRecaptchaV2;
+use MicroweberPackages\Captcha\Adapters\GoogleRecaptchaV3;
+use MicroweberPackages\Captcha\Adapters\MicroweberCaptcha;
 
 /**
  * Cache class.

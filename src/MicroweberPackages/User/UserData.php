@@ -1,4 +1,4 @@
-<?php namespace MicroweberPackages\UserManager;
+<?php namespace MicroweberPackages\User;
 
 use Illuminate\Database\Eloquent\Model;
 

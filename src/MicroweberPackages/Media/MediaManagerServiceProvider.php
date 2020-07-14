@@ -2,14 +2,14 @@
 /*
  * This file is part of the Microweber framework.
  *
- * (c) Microweber LTD
+ * (c) Microweber CMS LTD
  *
  * For full license information see
- * http://Microweber.com/license/
+ * https://github.com/microweber/microweber/blob/master/LICENSE
  *
  */
 
-namespace MicroweberPackages\Content\MediaManager;
+namespace MicroweberPackages\Media;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -23,7 +23,7 @@ class MediaManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\Content\MediaManager\MediaManager    $media_manager
+         * @property \MicroweberPackages\Media\MediaManager    $media_manager
          */
         $this->app->singleton('media_manager', function ($app) {
             return new MediaManager();

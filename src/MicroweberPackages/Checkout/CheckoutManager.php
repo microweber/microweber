@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Shop\CheckoutManager;
+namespace MicroweberPackages\Checkout;
 
 use Microweber\App\Providers\Illuminate\Support\Facades\Config;
 use Microweber\App\Providers\Illuminate\Support\Facades\Crypt;

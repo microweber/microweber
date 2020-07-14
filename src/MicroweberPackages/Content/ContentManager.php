@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Content\ContentManager;
+namespace MicroweberPackages\Content;
 
 use Content;
 use Menu;

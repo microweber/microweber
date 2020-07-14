@@ -4,18 +4,18 @@
 /*
  * This file is part of the Microweber framework.
  *
- * (c) Microweber LTD
+ * (c) Microweber CMS LTD
  *
  * For full license information see
- * http://Microweber.com/license/
+ * https://github.com/microweber/microweber/blob/master/LICENSE
  *
  */
 
-namespace MicroweberPackages\Utils\TemplateManager;
+namespace MicroweberPackages\Template;
 
 use Illuminate\Support\Facades\Cache;
 use Microweber\App\Providers\Illuminate\Support\Facades\Paginator;
-use MicroweberPackages\Utils\TemplateManager\Adapters\ElementsConfigReader;
+use MicroweberPackages\Template\Adapters\ElementsConfigReader;
 
 class LayoutsManager
 {

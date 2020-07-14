@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Utils\BackupManager;
+namespace MicroweberPackages\Backup;
 
 class ExportTables
 {

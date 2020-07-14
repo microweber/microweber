@@ -2,14 +2,14 @@
 /*
  * This file is part of the Microweber framework.
  *
- * (c) Microweber LTD
+ * (c) Microweber CMS LTD
  *
  * For full license information see
- * http://Microweber.com/license/
+ * https://github.com/microweber/microweber/blob/master/LICENSE
  *
  */
 
-namespace MicroweberPackages\Shop\CartManager;
+namespace MicroweberPackages\Cart;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -23,7 +23,7 @@ class CartManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\Shop\CartManager    $cart_manager
+         * @property \MicroweberPackages\Cart    $cart_manager
          */
         $this->app->singleton('cart_manager', function ($app) {
             return new CartManager();
