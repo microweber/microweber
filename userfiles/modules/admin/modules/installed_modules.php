@@ -158,7 +158,7 @@
             if (this != false) {
                 mw.$('html').addClass('market-init');
                 mw.load_module('admin/modules/market', '#modules_market_<?php print $params['id']; ?>');
-                /*        $("#modules_admin_<?php print $params['id']; ?>").hide();
+                /*        $("#modules_admin<?php print $params['id']; ?>").hide();
                  $("#modules_market_<?php print $params['id']; ?>").show();
                  $(".modules-index-bar").hide();*/
             } else {

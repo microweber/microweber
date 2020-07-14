@@ -81,7 +81,6 @@ class ModuleManager
 
     public function install()
     {
-
         $this->_install_mode = true;
 
         mw()->cache_manager->delete('db');
