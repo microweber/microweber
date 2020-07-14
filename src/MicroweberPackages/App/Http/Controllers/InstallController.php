@@ -431,6 +431,7 @@ class InstallController extends Controller
 
         $layout->assign('done', $is_installed);
         $layout = $layout->__toString();
+        
         Cache::flush();
         return $layout;
     }

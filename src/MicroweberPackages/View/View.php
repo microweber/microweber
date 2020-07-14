@@ -12,6 +12,10 @@ class View
     public function __construct($v)
     {
         $this->v = realpath($v);
+
+        if (!is_file($this->v)) {
+            throw new \Exception('The view file not found. ' . $v);
+        }
     }
 
     public function set($a)
