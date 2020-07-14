@@ -139,7 +139,10 @@ header {
           overflow: hidden;
           text-overflow: ellipsis;
           color: #7e7e7e;
-          border-left: 3px solid transparent; }
+          border-left: 3px solid transparent;
+          display: flex;
+          align-items: center;
+          justify-content: space-between; }
           .main aside > ul > li.nav-item .dropdown-menu .dropdown-item:active {
             color: #fff; }
           .main aside > ul > li.nav-item .dropdown-menu .dropdown-item .add-new {

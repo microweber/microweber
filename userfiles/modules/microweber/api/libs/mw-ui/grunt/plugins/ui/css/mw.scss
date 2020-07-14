@@ -189,6 +189,9 @@ header {
             text-overflow: ellipsis;
             color: $textGray;
             border-left: 3px solid transparent;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
 
             &:active {
               color: $white;
