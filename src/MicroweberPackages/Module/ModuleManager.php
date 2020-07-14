@@ -11,7 +11,7 @@
  *
  */
 
-namespace MicroweberPackages\App\Managers;
+namespace MicroweberPackages\Module;
 
 use Illuminate\Support\Facades\Config;
 
@@ -19,14 +19,13 @@ use Illuminate\Support\Facades\Config;
 //use Illuminate\Database\;
 //use Illuminate\Database\Eloquent\Builder as Eloquent;
 //use Microweber\Providers\Database\Utils;
-use Module;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Database\Utils as DbUtils;
 
 //use Config;
 //use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class Modules
+class ModuleManager
 {
     public $tables = array();
     public $app = null;

@@ -1,4 +1,5 @@
 <?php
+namespace MicroweberPackages\Module;
 
 class Module extends BaseModel
 {

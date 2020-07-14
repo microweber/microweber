@@ -21,6 +21,7 @@ use MicroweberPackages\Helper\HelpersServiceProvider;
 use MicroweberPackages\Media\Media;
 use MicroweberPackages\Media\MediaManagerServiceProvider;
 use MicroweberPackages\Menu\MenuManagerServiceProvider;
+use MicroweberPackages\Module\ModuleManager;
 use MicroweberPackages\Option\OptionManagerServiceProvider;
 use MicroweberPackages\Backup\BackupManagerServiceProvider;
 
@@ -274,7 +275,6 @@ class AppServiceProvider extends ServiceProvider {
             'config_manager' => 'ConfigurationManager',
             'notifications_manager' => 'NotificationsManager',
             'log_manager' => 'LogManager',
-            'modules' => 'Modules',
             'permalink_manager' => 'PermalinkManager',
             'layouts_manager' => 'LayoutsManager'
         ];
@@ -286,6 +286,10 @@ class AppServiceProvider extends ServiceProvider {
                 return new $class($app);
             });
         }
+
+        $this->app->singleton('modules', function($app) use ($class) {
+           return new ModuleManager($app);
+        });
 
     }
 
