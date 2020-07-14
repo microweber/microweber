@@ -476,7 +476,7 @@ mw._initHandles = {
                     className:'mw_handle_module_up',
                     action: function () {
                         mw.drag.replace($(mw._activeModuleOver), 'prev');
-                        mw.handleModule.hide()
+                        mw.handleModule.hide();
                     }
                 },
                 {
@@ -485,7 +485,7 @@ mw._initHandles = {
                     className:'mw_handle_module_down',
                     action: function () {
                         mw.drag.replace($(mw._activeModuleOver), 'next');
-                        mw.handleModule.hide()
+                        mw.handleModule.hide();
                     }
                 },
                 {
@@ -731,10 +731,18 @@ mw._initHandles = {
             if(topPosFinal < ($leoff.top + $lebar.height())){
                 topPosFinal = (o.top + outheight) - (outheight > 100 ? 0 : handle.wrapper.clientHeight);
             }
+            var type = el.attr('data-type');
 
-            if(el.attr('data-type') === 'layouts') {
+            if(type === 'layouts') {
                 topPosFinal = o.top + 10;
                 handleLeft = handleLeft + 10;
+            }
+
+            if(type === 'menu') {
+                handleLeft = o.left - handle.wrapper.offsetWidth;
+                if(handleLeft < 0) {
+                    handleLeft = 0;
+                }
             }
 
             clearTimeout(handle._hideTime);
