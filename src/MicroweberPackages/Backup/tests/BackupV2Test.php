@@ -11,7 +11,7 @@ use MicroweberPackages\Backup\BackupManager;
  * @command php phpunit.phar --filter BackupV2Test
  */
 
-class BackupV2Test extends TestCase 
+class BackupV2Test extends TestCase
 {
 	private static $_titles = array();
 	private static $_exportedFile = '';
