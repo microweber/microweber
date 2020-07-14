@@ -79,11 +79,6 @@ class AdminController extends Controller
             $this->hasNoAdmin();
         }
 
-
-
-
-
-
         if (defined('MW_USER_IP')) {
             $allowed_ips = config('microweber.admin_allowed_ips');
             if ($allowed_ips) {
@@ -103,12 +98,6 @@ class AdminController extends Controller
                 }
             }
         }
-
-
-
-
-
-
 
 
         $hasNoAdmin = User::where('is_admin', 1)->limit(1)->count();
