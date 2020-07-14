@@ -8839,4 +8839,7 @@ label.control-label {
   background: unset;
   padding: 0.25rem 1.75rem 0.25rem 0.75rem; }
 
+.table-hover tbody tr:hover {
+  background: rgba(69, 146, 255, 0.1) !important; }
+
 /*# sourceMappingURL=main.css.map */

@@ -57,66 +57,59 @@ $self_id = user_id();
 
 $registration_approval_required = get_option('registration_approval_required', 'users');
 ?>
-<?php if (is_array($data)): ?>
-    <div class="table-responsive">
-        <table cellspacing="0" cellpadding="0" class="table table-hover" width="100%">
 
+<?php if (is_array($data)): ?>
+    <div class="table-responsive bg-white">
+        <table cellspacing="0" cellpadding="0" class="table table-hover m-0" width="100%">
             <tbody>
             <?php foreach ($data as $item): ?>
                 <tr id="mw-admin-user-<?php print $item['id']; ?>">
-                    <td>
+                    <td style="vertical-align: middle;">
                         <?php if (isset($item['thumbnail']) and trim($item['thumbnail']) != ''): ?>
                             <span class="mw-user-thumb mw-user-thumb-small" style="background-image: url(<?php print $item['thumbnail'] ?>);"></span>
                         <?php else: ?>
                             <span class="mw-user-thumb mw-user-thumb-small"></span>
                         <?php endif; ?>
                     </td>
-                    <td>
 
-
-                        <span class="mw-user-names">
-				<?php if (isset($item['oauth_provider']) and trim($item['oauth_provider']) != ''): ?>
-                    <a href="<?php print $item['profile_url']; ?>" target="_blank" title="<?php print ucwords($item['oauth_provider']) ?>" class="mw-icon-<?php print $item['oauth_provider'] ?>"></a>
-                <?php endif; ?>
-                            <?php print $item['first_name']; ?>
-                            &nbsp;
-                            <?php print $item['last_name']; ?>
+                    <td style="vertical-align: middle;">
+                        <div class="text-primary font-weight-bold">
+                            <?php if (isset($item['oauth_provider']) and trim($item['oauth_provider']) != ''): ?>
+                                <a href="<?php print $item['profile_url']; ?>" target="_blank" title="<?php print ucwords($item['oauth_provider']) ?>" class="mw-icon-<?php print $item['oauth_provider'] ?>"></a>
+                            <?php endif; ?>
+                            <?php print $item['first_name'] . ' ' . $item['last_name']; ?>
                             <br>
-                            <small class="text-muted"><?php if ($item['is_admin'] == 1) {
-                                _e("Admin");
-                            } else {
-                                _e("User");
-                            }
-                            ?>
-                            </small>
-				</span>
+                            <small class="text-dark"><?php if ($item['is_admin'] == 1) {_e("Admin");} else {_e("User");}  ?></small>
+                        </div>
                     </td>
-                    <td>
-                        <small class="text-muted"><?php _e("Username"); ?></small>
-                        <br>
-                        <?php print $item['username']; ?>
 
+                    <td style="vertical-align: middle;">
+                        <small class="text-muted d-block"><?php _e("Username"); ?></small>
+                        <?php print $item['username']; ?>
                     </td>
-                    <td>
-                        <small class="text-muted"><?php _e("Email"); ?></small>
-                        <br>
+
+                    <td style="vertical-align: middle;">
+                        <small class="text-muted d-block"><?php _e("Email"); ?></small>
                         <?php print $item['email']; ?>
                     </td>
-                    <td>
+
+                    <td style="vertical-align: middle;">
                         <?php if ($item['is_active'] == 1): ?>
                             <span class="mw-icon-check mw-registered" style="float: none"></span>
                         <?php else: ?>
-                            <?php if($registration_approval_required =='y' && $item['is_active'] == 0):?>
-                            <span class="mw-icon-unpublish mw-approval-required" data-id="<?php print $item['id']; ?>" style="float: none; "></span>
-                            <?php else:?>
-                            <span class="mw-icon-unpublish mw-inactive" data-id="<?php print $item['id']; ?>" style="float: none; "></span>
-                            <?php endif;?>
+                            <?php if ($registration_approval_required == 'y' && $item['is_active'] == 0): ?>
+                                <span class="mw-icon-unpublish mw-approval-required" data-id="<?php print $item['id']; ?>" style="float: none; "></span>
+                            <?php else: ?>
+                                <span class="mw-icon-unpublish mw-inactive" data-id="<?php print $item['id']; ?>" style="float: none; "></span>
+                            <?php endif; ?>
                         <?php endif; ?>
                     </td>
-                    <td>
+
+                    <td style="vertical-align: middle;">
                         <?php if ($self_id != $item['id']): ?>
-                            <span class="btn btn-outline-primary btn-sm del-row" title="<?php _e("Delete"); ?>" onclick="mw_admin_delete_user_by_id('<?php print $item['id']; ?>')"><?php _e("Delete"); ?></span>
+                            <span class="btn btn-outline-danger btn-sm del-row" title="<?php _e("Delete"); ?>" onclick="mw_admin_delete_user_by_id('<?php print $item['id']; ?>')"><?php _e("Delete"); ?></span>
                         <?php endif; ?>
+
                         <a class="btn btn-outline-primary btn-sm" href="#edit-user=<?php print $item['id']; ?>"><?php _e("Edit"); ?></a>
                     </td>
                 </tr>
@@ -152,29 +145,29 @@ $registration_approval_required = get_option('registration_approval_required', '
 
     $(document).ready(function () {
 
-		$(".mw-approval-required").mouseenter(function () {
-			if($("#mw-approval-required-tooltip-show-" + $(this).data("id")).length) {
-				$("#mw-approval-required-tooltip-show-" + $(this).data("id")).show();
-			} else {
-				var el = $(".mw-approval-required");
-				var text = "Account requires approval";
-				mw.tooltip({id: 'mw-approval-required-tooltip-show-' + $(this).data("id"), element: el, content: text, position: 'top-left'}); // 'close_on_click_outside: true' not working and top-left shows top-right
-			}
-		});
+        $(".mw-approval-required").mouseenter(function () {
+            if ($("#mw-approval-required-tooltip-show-" + $(this).data("id")).length) {
+                $("#mw-approval-required-tooltip-show-" + $(this).data("id")).show();
+            } else {
+                var el = $(".mw-approval-required");
+                var text = "Account requires approval";
+                mw.tooltip({id: 'mw-approval-required-tooltip-show-' + $(this).data("id"), element: el, content: text, position: 'top-left'}); // 'close_on_click_outside: true' not working and top-left shows top-right
+            }
+        });
 
         $(".mw-approval-required").mouseleave(function () {
             $("#mw-approval-required-tooltip-show-" + $(this).data("id")).hide();
         });
 
-		$(".mw-inactive").mouseenter(function () {
-			if($("#mw-inactive-tooltip-show-" + $(this).data("id")).length) {
-				$("#mw-inactive-tooltip-show-" + $(this).data("id")).show();
-			} else {
-				var el = $(".mw-inactive");
-				var text = "Account disabled";
-				mw.tooltip({id: 'mw-inactive-tooltip-show-' + $(this).data("id"), element: el, content: text, position: 'top-left'});
-			}
-		});
+        $(".mw-inactive").mouseenter(function () {
+            if ($("#mw-inactive-tooltip-show-" + $(this).data("id")).length) {
+                $("#mw-inactive-tooltip-show-" + $(this).data("id")).show();
+            } else {
+                var el = $(".mw-inactive");
+                var text = "Account disabled";
+                mw.tooltip({id: 'mw-inactive-tooltip-show-' + $(this).data("id"), element: el, content: text, position: 'top-left'});
+            }
+        });
 
         $(".mw-inactive").mouseleave(function () {
             $("#mw-inactive-tooltip-show-" + $(this).data("id")).hide();

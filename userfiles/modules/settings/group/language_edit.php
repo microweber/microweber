@@ -72,6 +72,14 @@
                 event.preventDefault();
             }
         });
+
+        $('.lang-edit-form textarea').on('focusin', function () {
+            $(this).parent().parent().find('.lang-key-holder').addClass('border');
+        })
+
+        $('.lang-edit-form textarea').on('focusout', function () {
+            $(this).parent().parent().find('.lang-key-holder').removeClass('border');
+        })
     });
 </script>
 
@@ -84,6 +92,11 @@
         min-height: 45px;
         display: flex;
         align-items: center;
+        border: 1px solid transparent;
+    }
+
+    .lang-key-holder.border {
+        border: 1px solid #4592ff !important;
     }
 
     .lang-edit-form textarea {

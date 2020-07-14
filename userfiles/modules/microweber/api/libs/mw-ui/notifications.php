@@ -197,7 +197,6 @@
                     </div>
                 </div>
 
-
                 <div class="row timeline-event">
                     <div class="col pr-0 timeline-line">
                         <div class="custom-control custom-checkbox d-inline-block">

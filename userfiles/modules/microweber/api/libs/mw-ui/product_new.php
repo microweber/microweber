@@ -28,7 +28,13 @@
                             <div class="form-group">
                                 <label>Product title</label>
                                 <input type="text" class="form-control" placeholder="Short sleeve t-shirt">
-                                <span><i class="mdi mdi-link mdi-20px lh-1_3 mr-1 text-silver float-left"></i> <small><span class="text-silver">http://localhost/microweber/</span><span class="contenteditable" data-toggle="tooltip" data-title="edit" data-placement="right" contenteditable="true">shop</span></small></span>
+                                <span>
+                                    <i class="mdi mdi-link mdi-20px lh-1_3 mr-1 text-silver float-left"></i>
+                                    <small>
+                                        <span class="text-silver">http://localhost/microweber/</span>
+                                        <span class="contenteditable" data-toggle="tooltip" data-title="edit" data-placement="right" contenteditable="true">shop</span>
+                                    </small>
+                                </span>
                             </div>
 
                             <div class="form-group">

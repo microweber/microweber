@@ -116,7 +116,7 @@ module.exports = function (grunt) {
                     'plugins/cookie/jquery.cookie.js',
 
                     //UI
-                    'plugins/ui/js/ui.js',
+                    // 'plugins/ui/js/ui.js',
 
                     //All Custom Scripts
                     'custom/**/*.js',

@@ -6,7 +6,7 @@
 
     <div class="card-body py-0">
         <div class="collapse" id="seo-settings">
-            <p>Add a title and description to see how this product might appear in a search engine listing</p>
+            <p>Add a title and description to see how this product might appear in a search engine listing</p>
 
             <hr class="thin no-padding"/>
 
