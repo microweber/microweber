@@ -864,22 +864,33 @@ mw._initHandles = {
                 }
 
             });
-            mw.$('.text-background', pelement).each(function () {
-                var icon  = '<span class="mw-icon-gear mw-handle-menu-item-icon"></span>';
-                var menuitem = '<span class="mw-handle-menu-item text-background-handle" data-element="'+this.id+'">'
-                    + icon
-                    + 'background text'
-                    + '</span>';
-                nodes.push(menuitem);
+            var el = mw.$('.mw_handle_module_submodules');
+            el.empty();
+            $.each(nodes, function () {
+                el.append(this);
             });
-            $('.mw_handle_module_submodules').html(nodes.join(''));
+            mw.$('.text-background', pelement).each(function () {
+                var bgEl = this;
+                $.each([0,1], function(i){
+                    var icon  = '<span class="mw-icon-gear mw-handle-menu-item-icon"></span>';
+                    var menuitem = mwd.createElement('span');
+                    menuitem.className = 'mw-handle-menu-item text-background-handle';
+                    menuitem.innerHTML = icon + 'background text';
+                    menuitem.__for = bgEl;
+                    // menuitem = mw.$(menuitem);
+                    el.eq(i).append(menuitem)
+                })
+
+            });
+
+
             mw.$('.text-background-handle').on('click', function () {
-                var id = this.getAttribute('data-element');
                 var ok = mw.$('<button class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info pull-right">OK</button>');
                 var cancel = mw.$('<button class="mw-ui-btn mw-ui-btn-medium pull-left">Cancel</button>');
                 var footer = mw.$('<div></div>');
                 var area = $('<textarea class="mw-ui-field w100" style="height: 200px"/>');
-                area.val(mw.$('#' + id).html());
+                var node = this.__for;
+                area.val(mw.$(node).html());
                 footer.append(cancel);
                 footer.append(ok);
                 var dialog = mw.dialog({
@@ -887,8 +898,16 @@ mw._initHandles = {
                     footer: footer
                 });
                 ok.on('click', function () {
-                    mw.$('#' + id).html(area.val());
+                    mw.liveEditState.record({
+                        target: node,
+                        value: node.innerHTML
+                    });
+                    mw.$(node).html(area.val());
                     dialog.remove();
+                    mw.liveEditState.record({
+                        target: node,
+                        value: node.innerHTML
+                    });
                 });
                 cancel.on('click', function () {
                     dialog.remove();
