@@ -31,14 +31,11 @@ class CaptchaManager
 
     public function __construct($app = null)
     {
-
-            if (is_object($app)) {
-                $this->app = $app;
-            } else {
-                $this->app = mw();
-            }
-
-
+        if (is_object($app)) {
+            $this->app = $app;
+        } else {
+            $this->app = mw();
+        }
 
         $captcha_provider = get_option('provider', 'captcha');
         $recaptcha_v3_secret_key = get_option('recaptcha_v3_secret_key', 'captcha');
