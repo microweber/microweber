@@ -1,5 +1,5 @@
 {
-  "name": "microweber-packages/microweber-comments",
+  "name": "microweber-packages/microweber-comment",
   "description": "Microweber CMS.",
   "version": "0.0.1",
   "authors": [
@@ -15,7 +15,7 @@
 
   "autoload": {
     "psr-4": {
-      "MicroweberPackages\\Comments\\": ""
+      "MicroweberPackages\\Comment\\": ""
     }
   },
   "config": {
