@@ -1,5 +1,5 @@
 {
-  "name": "microweber-packages/microweber-tax-manager",
+  "name": "microweber-packages/microweber-tags-manager",
   "description": "Microweber CMS.",
   "version": "0.0.1",
   "authors": [
@@ -15,7 +15,7 @@
 
   "autoload": {
     "psr-4": {
-      "MicroweberPackages\\Tax\\": ""
+      "MicroweberPackages\\Tag\\": ""
     }
   },
   "config": {

@@ -15,17 +15,7 @@
 
   "autoload": {
     "psr-4": {
-      "MicroweberPackages\\Shop\\CheckoutManager\\": "src/"
-    }
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "MicroweberPackages\\Shop\\CheckoutManager\\CheckoutManagerServiceProvider"
-      ],
-      "aliases": {
-        "CheckoutManager": "MicroweberPackages\\Shop\\CheckoutManager\\CheckoutManagerFacade"
-      }
+      "MicroweberPackages\\Checkout\\": ""
     }
   },
   "config": {

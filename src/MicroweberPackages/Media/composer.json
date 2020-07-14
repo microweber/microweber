@@ -15,22 +15,12 @@
 
   "autoload": {
     "psr-4": {
-      "MicroweberPackages\\Content\\MediaManager\\": "src/"
+      "MicroweberPackages\\Media\\": ""
     },
     "files": [
       "src/helpers.php",
       "src/helpers_paths.php"
     ]
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "MicroweberPackages\\Content\\MediaManager\\MediaManagerServiceProvider"
-      ],
-      "aliases": {
-        "MediaManager": "MicroweberPackages\\Content\\MediaManager\\MediaManagerFacade"
-      }
-    }
   },
   "config": {
     "sort-packages": true

@@ -15,17 +15,7 @@
 
   "autoload": {
     "psr-4": {
-      "MicroweberPackages\\CaptchaManager\\": "src/"
-    }
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "MicroweberPackages\\CaptchaManager\\CaptchaManagerServiceProvider"
-      ],
-      "aliases": {
-        "OptionManager": "MicroweberPackages\\CaptchaManager\\CaptchaManagerFacade"
-      }
+      "MicroweberPackages\\Captcha\\": ""
     }
   },
   "config": {

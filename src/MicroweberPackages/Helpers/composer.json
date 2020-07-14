@@ -17,26 +17,16 @@
   },
    "autoload": {
     "psr-4": {
-      "MicroweberPackages\\": "src/"
+      "MicroweberPackages\\Helpers\\": ""
     },
      "files": [
-       "src/Helpers/functions/array.php",
-       "src/Helpers/functions/filesystem.php",
-       "src/Helpers/functions/laravel.php",
-       "src/Helpers/functions/string.php",
-       "src/Helpers/functions/system.php",
-       "src/Helpers/functions/url.php"
+       "functions/array.php",
+       "functions/filesystem.php",
+       "functions/laravel.php",
+       "functions/string.php",
+       "functions/system.php",
+       "functions/url.php"
      ]
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "MicroweberPackages\\Helpers\\HelpersServiceProvider"
-      ],
-      "aliases": {
-        "Helpers": "MicroweberPackages\\Helpers\\HelpersFacade"
-      }
-    }
   },
   "homepage": "http://microweber.com",
   "license": "MIT",

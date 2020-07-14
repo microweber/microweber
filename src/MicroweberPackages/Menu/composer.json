@@ -15,17 +15,7 @@
 
   "autoload": {
     "psr-4": {
-      "MicroweberPackages\\Content\\MenuManager\\": "src/"
-    }
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "MicroweberPackages\\Content\\MenuManager\\MenuManagerServiceProvider"
-      ],
-      "aliases": {
-        "MenuManager": "MicroweberPackages\\Content\\MenuManager\\MenuManagerFacade"
-      }
+      "MicroweberPackages\\Menu\\": ""
     }
   },
   "config": {

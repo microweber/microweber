@@ -18,21 +18,11 @@
 
   "autoload": {
     "psr-4": {
-      "MicroweberPackages\\": "src/"
+      "MicroweberPackages\\User\\": ""
     },
     "files": [
-      "src/UserManager/helpers.php"
+      "helpers.php"
     ]
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "MicroweberPackages\\UserManager\\UserManagerServiceProvider"
-      ],
-      "aliases": {
-        "OptionManager": "MicroweberPackages\\UserManager\\UserManagerFacade"
-      }
-    }
   },
   "config": {
     "sort-packages": true

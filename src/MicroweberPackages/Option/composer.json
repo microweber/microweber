@@ -21,21 +21,11 @@
 
   "autoload": {
     "psr-4": {
-      "MicroweberPackages\\Content\\": "src/"
+      "MicroweberPackages\\Option\\": ""
     },
     "files": [
-      "src/OptionManager/helpers.php"
+      "helpers.php"
     ]
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "MicroweberPackages\\Content\\OptionManager\\OptionManagerServiceProvider"
-      ],
-      "aliases": {
-        "OptionManager": "MicroweberPackages\\Content\\OptionManager\\OptionManagerFacade"
-      }
-    }
   },
   "config": {
     "sort-packages": true

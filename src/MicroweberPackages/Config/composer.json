@@ -17,18 +17,8 @@
     },
   "autoload": {
       "psr-4": {
-        "MicroweberPackages\\": "src/"
+        "MicroweberPackages\\Config\\": ""
       }
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "MicroweberPackages\\Config\\ConfigSaveServiceProvider"
-      ],
-      "aliases": {
-        "ConfigSave": "MicroweberPackages\\Config\\ConfigSaveFacade"
-      }
-    }
   },
   "homepage": "http://microweber.com",
   "license": "MIT",

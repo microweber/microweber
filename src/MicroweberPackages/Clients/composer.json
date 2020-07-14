@@ -15,17 +15,7 @@
 
   "autoload": {
     "psr-4": {
-      "MicroweberPackages\\Shop\\ClientsManager\\": "src/"
-    }
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "MicroweberPackages\\Shop\\ClientsManager\\ClientsManagerServiceProvider"
-      ],
-      "aliases": {
-        "ClientsManager": "MicroweberPackages\\Shop\\ClientsManager\\ClientsManagerFacade"
-      }
+      "MicroweberPackages\\Clients\\": ""
     }
   },
   "config": {

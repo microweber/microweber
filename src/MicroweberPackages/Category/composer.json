@@ -15,21 +15,11 @@
 
   "autoload": {
     "psr-4": {
-      "MicroweberPackages\\Content\\CategoryManager\\": "src/"
+      "MicroweberPackages\\Category\\": ""
     },
     "files": [
       "src/helpers.php"
     ]
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "MicroweberPackages\\Content\\CategoryManager\\CategoryManagerServiceProvider"
-      ],
-      "aliases": {
-        "CategoryManager": "MicroweberPackages\\Content\\CategoryManager\\CategoryManagerFacade"
-      }
-    }
   },
   "config": {
     "sort-packages": true

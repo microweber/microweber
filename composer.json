@@ -102,13 +102,7 @@
   "extra": {
     "merge-plugin": {
       "require": [
-        "src/MicroweberPackages/App/composer.json",
-        "src/MicroweberPackages/Content/composer.json",
-        "src/MicroweberPackages/Core/composer.json",
-        "src/MicroweberPackages/Shop/composer.json",
-        "src/MicroweberPackages/Users/composer.json",
-        "src/MicroweberPackages/Utils/composer.json",
-        "src/MicroweberPackages/*/src/*/composer.json"
+        "src/MicroweberPackages/*/composer.json"
       ],
       "merge-extra": true,
       "merge-extra-deep": true,

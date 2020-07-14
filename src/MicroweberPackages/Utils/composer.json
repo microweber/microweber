@@ -15,7 +15,7 @@
 
   "autoload": {
     "psr-4": {
-      "MicroweberPackages\\": "src/"
+      "MicroweberPackages\\Utils\\": ""
     }
   },
   "config": {

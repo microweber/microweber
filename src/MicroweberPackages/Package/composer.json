@@ -20,7 +20,7 @@
   },
   "autoload": {
     "psr-4": {
-      "MicroweberPackages\\": "src/"
+      "MicroweberPackages\\Package\\": ""
     }
   },
   "homepage": "http://microweber.com",

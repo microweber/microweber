@@ -21,21 +21,11 @@
 
   "autoload": {
     "psr-4": {
-      "MicroweberPackages\\Core\\EventManager\\": "src/EventManager/"
+      "MicroweberPackages\\Event\\": ""
     },
     "files": [
-      "src/EventManager/helpers.php"
+      "helpers.php"
     ]
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "MicroweberPackages\\Core\\EventManager\\EventManagerServiceProvider"
-      ],
-      "aliases": {
-        "EventManager": "MicroweberPackages\\Core\\EventManager\\EventManagerFacade"
-      }
-    }
   },
   "config": {
     "sort-packages": true

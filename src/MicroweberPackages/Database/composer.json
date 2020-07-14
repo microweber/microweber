@@ -24,21 +24,11 @@
   },
   "autoload": {
     "psr-4": {
-      "MicroweberPackages\\": "src/"
+      "MicroweberPackages\\Database\\": ""
     },
     "files": [
       "src/DatabaseManager/helpers.php"
     ]
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "MicroweberPackages\\DatabaseManager\\DatabaseManagerServiceProvider"
-      ],
-      "aliases": {
-        "DatabaseManager": "MicroweberPackages\\DatabaseManager\\DatabaseManagerFacade"
-      }
-    }
   },
   "config": {
     "sort-packages": true

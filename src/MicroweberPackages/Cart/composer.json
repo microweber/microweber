@@ -15,17 +15,7 @@
 
   "autoload": {
     "psr-4": {
-      "MicroweberPackages\\Shop\\CartManager\\": "src/"
-    }
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "MicroweberPackages\\Shop\\CartManager\\CartManagerServiceProvider"
-      ],
-      "aliases": {
-        "CartManager": "MicroweberPackages\\Shop\\CartManager\\CartManagerFacade"
-      }
+      "MicroweberPackages\\Cart\\": ""
     }
   },
   "config": {

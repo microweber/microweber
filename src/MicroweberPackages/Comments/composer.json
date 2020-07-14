@@ -1,5 +1,5 @@
 {
-  "name": "microweber-packages/microweber-tags-manager",
+  "name": "microweber-packages/microweber-comments",
   "description": "Microweber CMS.",
   "version": "0.0.1",
   "authors": [
@@ -15,17 +15,7 @@
 
   "autoload": {
     "psr-4": {
-      "MicroweberPackages\\Content\\TagsManager\\": "src/"
-    }
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "MicroweberPackages\\Content\\TagsManager\\TagsManagerServiceProvider"
-      ],
-      "aliases": {
-        "TagsManager": "MicroweberPackages\\Content\\TagsManager\\TagsManagerFacade"
-      }
+      "MicroweberPackages\\Comments\\": ""
     }
   },
   "config": {

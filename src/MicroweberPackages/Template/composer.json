@@ -18,21 +18,11 @@
 
   "autoload": {
     "psr-4": {
-      "MicroweberPackages\\Utils\\TemplateManager\\": "src/"
+      "MicroweberPackages\\Template\\": ""
     },
     "files": [
-      "src/helpers.php"
+      "helpers.php"
     ]
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "MicroweberPackages\\Utils\\TemplateManager\\TemplateManagerServiceProvider"
-      ],
-      "aliases": {
-        "OptionManager": "MicroweberPackages\\Utils\\TemplateManager\\TemplateManagerFacade"
-      }
-    }
   },
   "config": {
     "sort-packages": true

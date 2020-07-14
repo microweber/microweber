@@ -15,17 +15,7 @@
 
   "autoload": {
     "psr-4": {
-      "MicroweberPackages\\Shop\\InvoicesManager\\": "src/"
-    }
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "MicroweberPackages\\Shop\\InvoicesManager\\InvoicesManagerServiceProvider"
-      ],
-      "aliases": {
-        "InvoicesManager": "MicroweberPackages\\Shop\\InvoicesManager\\InvoicesManagerFacade"
-      }
+      "MicroweberPackages\\Invoices\\": ""
     }
   },
   "config": {
