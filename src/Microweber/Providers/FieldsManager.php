@@ -343,10 +343,11 @@ class FieldsManager
             }
         }
 
-        $data['error_text'] = '';
-        if (isset($data['custom_field_error_text'])) {
-            $data['error_text'] = trim($data['custom_field_error_text']);
+        if (!isset($data['error_text'])) {
+            $data['error_text'] = '';
         }
+
+        $data['error_text'] = trim($data['error_text']);
 
         $data_to_save = ($data);
         $data_to_save = $this->unify_params($data_to_save);
@@ -1162,6 +1163,10 @@ class FieldsManager
 
         if (isset($data['value'])) {
             $field_data['value'] = $data['value'];
+        }
+
+        if (isset($data['error_text'])) {
+            $field_data['error_text'] = $data['error_text'];
         }
 
         if (is_array($data['value'])) {
