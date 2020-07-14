@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Install\Console\Commands;
 
 use Illuminate\Console\Command;
-use MicroweberPackages\App\Http\Controllers\InstallController;
+use MicroweberPackages\Install\Http\Controllers\InstallController;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 

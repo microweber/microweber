@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\App\Http\Controllers;
+namespace MicroweberPackages\Install\Http\Controllers;
 
 use Illuminate\Support\Facades\Request;
 use Illuminate\Routing\Controller;
@@ -65,7 +65,8 @@ class InstallController extends Controller
 
         $env = $this->app->environment();
 
-        $view = MW_PATH . 'Views/install.php';
+        $view = dirname(dirname(__DIR__)) . '/Resources/views/install.php';
+        $view = normalize_path($view, false);
 
         $install_step = null;
         if (isset($input['install_step'])) {
@@ -431,7 +432,7 @@ class InstallController extends Controller
 
         $layout->assign('done', $is_installed);
         $layout = $layout->__toString();
-        
+
         Cache::flush();
         return $layout;
     }
