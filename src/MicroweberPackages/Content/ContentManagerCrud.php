@@ -850,6 +850,10 @@ class ContentManagerCrud extends Crud
             unset($data_to_save['custom_field_help_text']);
             unset($data_to_save['custom_field_help_text']);
         }
+        if (isset($data_to_save['error_text'])) {
+            unset($data_to_save['error_text']);
+            unset($data_to_save['error_text']);
+        }
         if (isset($data_to_save['custom_field_is_active'])) {
             unset($data_to_save['custom_field_is_active']);
         }

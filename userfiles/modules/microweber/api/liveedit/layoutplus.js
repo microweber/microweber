@@ -7,6 +7,7 @@ mw.layoutPlus = {
     hide: function () {
         this._top.css({top: -999, left: -999});
         this._bottom.css({top: -999, left: -999});
+        this.pause = false;
     },
     pause: false,
     _active: null,
@@ -20,6 +21,12 @@ mw.layoutPlus = {
     },
     _prepareList:function (tip, action) {
         var scope = this;
+        var items = mw.$('.modules-list li', tip);
+        mw.$('input', tip).on('input', function () {
+                mw.tools.search(this.value, items, function (found) {
+                    $(this)[found?'show':'hide']();
+                });
+        });
         mw.$('.modules-list li', tip).on('click', function () {
             var id = mw.id('mw-layout-'), el = '<div id="' + id + '"></div>';
             var $active = mw.$(mw.layoutPlus._active);
@@ -73,7 +80,7 @@ mw.layoutPlus = {
             }
         });
         mw.on('moduleOver ModuleClick', function (e, module) {
-            if(module.dataset.type === 'layouts' && !scope.pause) {
+            if (module.dataset.type === 'layouts' && !scope.pause) {
                 scope._active = module;
                 scope.position();
             } else {

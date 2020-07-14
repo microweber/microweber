@@ -150,6 +150,7 @@ class CreateContentTable extends Migration
                 'name' => 'text',
                 'name_key' => 'text',
                 'placeholder' => 'text',
+                'error_text' => 'text',
                 'updated_at' => 'dateTime',
                 'created_at' => 'dateTime',
                 'created_by' => 'integer',

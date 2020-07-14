@@ -10,6 +10,10 @@ $number_of_items = get_option('number_of_items', $params['id']);
 if (!isset($number_of_items) or $number_of_items == false or $number_of_items == '') {
     $number_of_items = 3;
 }
+
+$instagram_api_client = get_option('instagram_api_client', $params['id']);
+$instagram_api_secret = get_option('instagram_api_secret', $params['id']);
+$instagram_api_access_token = get_option('instagram_api_access_token', $params['id']);
 ?>
 
 <script type="text/javascript">mw.require('options.js');</script>
@@ -36,6 +40,7 @@ if (!isset($number_of_items) or $number_of_items == false or $number_of_items ==
         <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
             <!-- Settings Content -->
             <div class="module-live-edit-settings module-instagram-feed-settings">
+
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label"><?php _e('Instagram Username'); ?></label>
                     <input type="text" class="mw_option_field mw-ui-field mw-full-width" placeholder="Example: microweber" name="username" value="<?php print $username; ?>">
@@ -45,6 +50,26 @@ if (!isset($number_of_items) or $number_of_items == false or $number_of_items ==
                     <label class="mw-ui-label"><?php _e('Number of items'); ?></label>
                     <input type="number" class="mw_option_field mw-ui-field mw-full-width" name="number_of_items" value="<?php print $number_of_items; ?>">
                 </div>
+
+                <br />
+
+                <b>Api Settings</b>
+
+                <div class="mw-ui-field-holder">
+                    <label class="mw-ui-label"><?php _e('Instagram Api Client'); ?></label>
+                    <input type="text" class="mw_option_field mw-ui-field mw-full-width" name="instagram_api_client" value="<?php print $instagram_api_client; ?>">
+                </div>
+
+                <div class="mw-ui-field-holder">
+                    <label class="mw-ui-label"><?php _e('Instagram Api Secret'); ?></label>
+                    <input type="text" class="mw_option_field mw-ui-field mw-full-width" name="instagram_api_secret" value="<?php print $instagram_api_secret; ?>">
+                </div>
+
+                <div class="mw-ui-field-holder">
+                    <label class="mw-ui-label"><?php _e('Instagram Api Access Token'); ?></label>
+                    <input type="text" class="mw_option_field mw-ui-field mw-full-width" name="instagram_api_access_token" value="<?php print $instagram_api_access_token; ?>">
+                </div>
+
             </div>
             <!-- Settings Content - End -->
         </div>
