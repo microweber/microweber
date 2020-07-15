@@ -325,7 +325,7 @@ class AppServiceProvider extends ServiceProvider {
 
             load_all_functions_files_for_modules();
 
-            $this->commands('MicroweberPackages\App\Console\Commands\OptionCommand');
+            $this->commands('MicroweberPackages\Option\Console\Commands\OptionCommand');
 
 
           /*  $language = get_option('language', 'website');

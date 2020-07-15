@@ -90,7 +90,7 @@ class DbInstaller
         ];
 
         $all = array_merge($system, $this->getVendorSchemas());
-        
+
         return $all;
     }
 
