@@ -30,6 +30,6 @@ class OptionManagerServiceProvider extends ServiceProvider
             return new OptionManager();
         });
 
-        $this->loadMigrationsFrom(dirname(dirname(__DIR__)) . '/migrations/');
+        $this->loadMigrationsFrom(__DIR__ . '/migrations/');
     }
 }

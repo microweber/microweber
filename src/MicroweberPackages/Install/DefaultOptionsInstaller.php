@@ -10,14 +10,12 @@ class DefaultOptionsInstaller
 {
     public function run()
     {
-        try {
-            $this->setDefault();
-            $this->setCommentsEnabled();
-            $this->setShippingEnabled();
-            $this->setPaymentsEnabled();
-        } catch (\PDOException $e) {
-            return false;
-        }
+
+        $this->setDefault();
+        $this->setCommentsEnabled();
+        $this->setShippingEnabled();
+        $this->setPaymentsEnabled();
+
         return true;
     }
 
@@ -113,8 +111,6 @@ class DefaultOptionsInstaller
 
     public function setPaymentsEnabled()
     {
-
-
         $existing = DB::table('options')->where('option_key', 'payment_gw_shop/payments/gateways/paypal')
             ->where('option_group', 'payments')->first();
 

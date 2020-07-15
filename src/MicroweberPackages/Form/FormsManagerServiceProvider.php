@@ -38,6 +38,6 @@ class FormsManagerServiceProvider extends ServiceProvider
             return new FieldsManager();
         });
 
-        $this->loadMigrationsFrom(dirname(dirname(__DIR__)) . '/migrations/');
+        $this->loadMigrationsFrom(__DIR__ . '/migrations/');
     }
 }

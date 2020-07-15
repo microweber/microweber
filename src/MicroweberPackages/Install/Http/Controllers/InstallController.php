@@ -259,7 +259,6 @@ class InstallController extends Controller
                     $installer->run();
                 }
 
-
                 if (!$install_step or $install_step == 3) {
                     $this->log('Setting up modules');
                     $installer = new Install\ModulesInstaller();
