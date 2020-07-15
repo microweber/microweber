@@ -59,7 +59,7 @@
     </div>
     
     <label class="mw-ui-check">
-    <input type="checkbox"  class="mw-custom-field-option" name="options[required]"  <?php if(isset($data['options']) == true and isset($data['options']["required"]) == true): ?> checked="checked" <?php endif; ?> value="1"><span></span><span><?php _e("Required"); ?>?</span></label>
+    <input type="checkbox"  class="mw-custom-field-option" name="options[required]"  <?php if ($settings["required"]) : ?> checked="checked" <?php endif; ?> value="1"><span></span><span><?php _e("Required"); ?>?</span></label>
 
 </div>
 
