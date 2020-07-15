@@ -343,6 +343,12 @@ class FieldsManager
             }
         }
 
+        if (!isset($data['error_text'])) {
+            $data['error_text'] = '';
+        }
+
+        $data['error_text'] = trim($data['error_text']);
+
         $data_to_save = ($data);
         $data_to_save = $this->unify_params($data_to_save);
 
@@ -1064,6 +1070,7 @@ class FieldsManager
         $field_data['type'] = false;
         $field_data['id'] = 0;
         $field_data['placeholder'] = false;
+        $field_data['error_text'] = false;
         $field_data['help'] = false;
         $field_data['values'] = array();
         $field_data['value'] = false;
@@ -1156,6 +1163,10 @@ class FieldsManager
 
         if (isset($data['value'])) {
             $field_data['value'] = $data['value'];
+        }
+
+        if (isset($data['error_text'])) {
+            $field_data['error_text'] = $data['error_text'];
         }
 
         if (is_array($data['value'])) {
