@@ -6,6 +6,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use Auth;
+use MicroweberPackages\Install\Http\Controllers\InstallController;
 use MicroweberPackages\View\View;
 use MicroweberPackages\User\User;
 
