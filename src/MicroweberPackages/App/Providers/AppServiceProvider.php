@@ -336,10 +336,10 @@ class AppServiceProvider extends ServiceProvider {
 
             if (is_cli()) {
 
-                $this->commands('MicroweberPackages\App\Console\Commands\ResetCommand');
-                $this->commands('MicroweberPackages\App\Console\Commands\UpdateCommand');
-                $this->commands('MicroweberPackages\App\Console\Commands\ModuleCommand');
-                $this->commands('MicroweberPackages\App\Console\Commands\PackageInstallCommand');
+                $this->commands('MicroweberPackages\Console\Commands\ResetCommand');
+                $this->commands('MicroweberPackages\Console\Commands\UpdateCommand');
+                $this->commands('MicroweberPackages\Console\Commands\ModuleCommand');
+                $this->commands('MicroweberPackages\Console\Commands\PackageInstallCommand');
 
             }
         } else {
