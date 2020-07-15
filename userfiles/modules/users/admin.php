@@ -2,7 +2,6 @@
     <module type="admin/modules/info" history_back="true"/>
 <?php endif; ?>
 
-
 <?php only_admin_access(); ?>
 <script type="text/javascript"> mw.require('forms.js', true); </script>
 
@@ -196,6 +195,7 @@
         });
     }
 </script>
+
 <?php
 $mw_notif = (url_param('mw_notif'));
 if ($mw_notif != false) {
@@ -215,10 +215,20 @@ mw()->notifications_manager->mark_as_read('users');
 
 <div class="card style-1 bg-light mb-3">
     <div class="card-header">
-        <h5><i class="mdi mdi-account-multiple text-primary mr-3"></i> <strong><?php _e("Manage Users"); ?></strong></h5>
-        <div>
+        <?php
+        $user_params['id'] = 0;
+        if (isset($params['edit-user'])) {
+            $user_params['id'] = intval($params['edit-user']);
+        }
+        //        dd($params);
+        ?>
 
-        </div>
+        <?php if ($user_params['id'] != 0): ?>
+            <h5><i class="mdi mdi-account-multiple text-primary mr-3"></i> <strong><?php _e("Edit User"); ?></strong></h5>
+        <?php else: ?>
+            <h5><i class="mdi mdi-account-multiple text-primary mr-3"></i> <strong><?php _e("Manage Users"); ?></strong></h5>
+        <?php endif; ?>
+
     </div>
 
     <div class="card-body pt-3">
@@ -330,7 +340,6 @@ mw()->notifications_manager->mark_as_read('users');
                 <div id="user_edit_admin_panel"></div>
             </div>
         </div>
-
     </div>
 </div>
 
