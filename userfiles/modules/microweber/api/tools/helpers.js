@@ -177,7 +177,7 @@
             }
             return can;
         },
-        createStyle: function (c, css, ins) {
+         createStyle: function (c, css, ins) {
             ins = ins || mwd.getElementsByTagName('head')[0];
             var style = mw.$(c)[0];
             if (!style) {

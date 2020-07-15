@@ -2,6 +2,15 @@
 @editorSpacing: 5px;
 
 .mw-editor-wrapper{
+    &.mw-editor-wrapper-document-mode{
+        position: fixed;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1023;
+        background-color: white;
+
+    }
     &.mw-editor-default{
         border:1px solid #DDDDDD;
         .mw-bar-row {
@@ -21,28 +30,42 @@
             }
             .mw-bar-control-item-group{
                 position: relative;
-                & > div {
-                    visibility: hidden;
-                    opacity: 0;
-                    transition: .3s;
-                    position: absolute;
-                    top: 100%;
-                    left: 0;
-                    white-space: nowrap;
-                    box-shadow:  0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.12), 0 1px 3px 0 rgba(0,0,0,0.20);
-                    padding: @editorSpacing;
-                    background-color: #F5F5F5;
-                    z-index: 15;
-                    .mw-editor-controller-component + .mw-editor-controller-component {
-                        margin-left: @editorSpacing;
+                .mw-editor-controller-component + .mw-editor-controller-component {
+                    margin-left: @editorSpacing;
+                }
+                .mw-editor-controller-button{
+                    vertical-align: top;
+                }
+                &>.mw-editor-controller-button{
+                    display: none;
+                }
+                &.mw-editor-control-group-media-matches{
+                    .mw-editor-controller-button{
+                        display: inline-block;
+                    }
+                    .mw-bar-control-item-group-contents {
+                        visibility: hidden;
+                        opacity: 0;
+                        transition: .3s;
+                        position: absolute;
+                        top: 100%;
+                        left: 0;
+                        white-space: nowrap;
+                        box-shadow:  0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.12), 0 1px 3px 0 rgba(0,0,0,0.20);
+                        padding: @editorSpacing;
+                        background-color: #F5F5F5;
+                        z-index: 15;
+
+                    }
+                    &.active {
+                        z-index: 25;
+                        .mw-bar-control-item-group-contents {
+                            visibility: visible;
+                            opacity: 1;
+                        }
                     }
                 }
-                &.active {
-                    & > div {
-                        visibility: visible;
-                        opacity: 1;
-                    }
-                }
+
             }
             .mw-editor-controller-button{
                 font-size: 19px;
@@ -52,6 +75,7 @@
                 &.mw-editor-group-button{
                     width: auto;
                     padding: 0 5px;
+                    display: none;
                     .mw-editor-group-button-icon{
                         vertical-align: middle;
                     }

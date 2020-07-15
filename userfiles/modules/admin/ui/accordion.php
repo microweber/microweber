@@ -372,12 +372,21 @@
                         {
                             group: {
                                 icon: 'mdi mdi-format-bold',
-                                when: 'only screen and (max-width: 600px)', // string media query | number | 'always'
-                                controls: ['bold', 'italic']
+                                when: 999, //'only screen and (max-width: 600px)', // string media query | number
+                                controls: ['bold', 'italic', 'fontSize']
                             }
                         }
                     ],
-                    ['bold', '|', 'italic', '|', 'fontSize', 'align'   ]
+                    [
+                        'bold', '|', 'italic', '|', 'fontSize',
+                        {
+                            group: {
+                                icon: 'mdi mdi-format-align-left',
+                                when: 999, //'only screen and (max-width: 600px)', // string media query | number
+                                controls: ['align']
+                            }
+                        }
+                    ]
                 ],
                 content: `Nulla facilisi. Donec <b>congue mauris mi, nec elementum diam elementum</b> sed.
                 In faucibus odio eget nisi pulvinar porttitor. Nam elementum magna in velit malesuada tin
@@ -391,8 +400,8 @@
                 mode: 'document',
                 editMode: 'liveedit',
                 controls: [
-                    ['undoRedo', '|', 'fontSelector'],
-                    ['bold', '|', 'italic', '|', 'fontSize'   ]
+                    [ 'undoRedo', '|', 'fontSelector' ],
+                    [ 'bold', '|', 'italic', '|', 'fontSize'   ]
                 ],
                 regions:'.edit'
             });

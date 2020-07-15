@@ -314,12 +314,19 @@ mw.Editor = function (options) {
             bar = 'bar';
         }
         var group = obj.group;
+        var id = mw.id('mw.editor-group-');
         var el = mw.element({
             props: {
-                className: 'mw-bar-control-item mw-bar-control-item-group'
+                className: 'mw-bar-control-item mw-bar-control-item-group',
+                id:id
             }
         });
-        var groupel = mw.element();
+
+        var groupel = mw.element({
+                props:{
+                    className: 'mw-bar-control-item-group-contents'
+                }
+            });
 
         var icon = mw.Editor.core.button({
             tag:'span',
@@ -330,6 +337,17 @@ mw.Editor = function (options) {
         }).$node.on('click', function () {
             $(this).parent().toggleClass('active')
         });
+
+        var media;
+        obj.group.when = obj.group.when || 9999;
+        // at what point group buttons become like dropdown - by default it's always a dropdown
+        if (obj.group.when) {
+            if (typeof obj.group.when === 'number') {
+                media = '(max-width: ' + obj.group.when + 'px)';
+            } else {
+                media = obj.group.when;
+            }
+        }
 
 
         el.append(icon);
@@ -350,7 +368,8 @@ mw.Editor = function (options) {
         this._addControllerGroups.push({
             el: el,
             row: row,
-            obj: obj
+            obj: obj,
+            media: media
         });
         return el;
     };
@@ -360,6 +379,12 @@ mw.Editor = function (options) {
             var i = 0, l = scope._addControllerGroups.length;
             for ( ; i< l ; i++) {
                 var item = scope._addControllerGroups[i];
+                var media = item.media;
+                console.log(media)
+                if(media) {
+                    var match = this.document.defaultView.matchMedia(media);
+                    item.el.$node[match.matches ? 'addClass' : 'removeClass']('mw-editor-control-group-media-matches')
+                }
             }
         };
         $(window).on('load resize orientationchange', function () {
@@ -501,6 +526,7 @@ mw.Editor = function (options) {
             this._initInputRecord();
             mw.$(this.settings.selector).append(this.wrapper)[0].mwEditor = this;
         }
+        this.controlGroupManager()
 
     };
     this.init();
