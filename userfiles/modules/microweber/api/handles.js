@@ -476,7 +476,7 @@ mw._initHandles = {
                     className:'mw_handle_module_up',
                     action: function () {
                         mw.drag.replace($(mw._activeModuleOver), 'prev');
-                        mw.handleModule.hide();
+                        mw.handleModule.hide()
                     }
                 },
                 {
@@ -485,7 +485,7 @@ mw._initHandles = {
                     className:'mw_handle_module_down',
                     action: function () {
                         mw.drag.replace($(mw._activeModuleOver), 'next');
-                        mw.handleModule.hide();
+                        mw.handleModule.hide()
                     }
                 },
                 {
@@ -731,18 +731,10 @@ mw._initHandles = {
             if(topPosFinal < ($leoff.top + $lebar.height())){
                 topPosFinal = (o.top + outheight) - (outheight > 100 ? 0 : handle.wrapper.clientHeight);
             }
-            var type = el.attr('data-type');
 
-            if(type === 'layouts') {
+            if(el.attr('data-type') === 'layouts') {
                 topPosFinal = o.top + 10;
                 handleLeft = handleLeft + 10;
-            }
-
-            if(type === 'menu') {
-                handleLeft = o.left - handle.wrapper.offsetWidth;
-                if(handleLeft < 0) {
-                    handleLeft = 0;
-                }
             }
 
             clearTimeout(handle._hideTime);
@@ -863,19 +855,64 @@ mw._initHandles = {
                 if(!icon){
                     icon  = '<span class="mw-icon-gear mw-handle-menu-item-icon"></span>';
                 }
-                mw.log(icon);
-                if(hastitle){
+                if (hastitle) {
                     var menuitem = '<span class="mw-handle-menu-item dynamic-submodule-handle" data-module="'+this.id+'">'
                         + icon
                         + hastitle.replace(/_/g, ' ')
                         + '</span>';
-
-
                     nodes.push(menuitem);
-                 }
+                }
 
             });
-            $('.mw_handle_module_submodules').html(nodes.join(''));
+            var el = mw.$('.mw_handle_module_submodules');
+            el.empty();
+            $.each(nodes, function () {
+                el.append(this);
+            });
+            mw.$('.text-background', pelement).each(function () {
+                var bgEl = this;
+                $.each([0,1], function(i){
+                    var icon  = '<span class="mw-icon-gear mw-handle-menu-item-icon"></span>';
+                    var menuitem = mwd.createElement('span');
+                    menuitem.className = 'mw-handle-menu-item text-background-handle';
+                    menuitem.innerHTML = icon + 'background text';
+                    menuitem.__for = bgEl;
+                    // menuitem = mw.$(menuitem);
+                    el.eq(i).append(menuitem)
+                })
+
+            });
+
+
+            mw.$('.text-background-handle').on('click', function () {
+                var ok = mw.$('<button class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info pull-right">OK</button>');
+                var cancel = mw.$('<button class="mw-ui-btn mw-ui-btn-medium pull-left">Cancel</button>');
+                var footer = mw.$('<div></div>');
+                var area = $('<textarea class="mw-ui-field w100" style="height: 200px"/>');
+                var node = this.__for;
+                area.val(mw.$(node).html());
+                footer.append(cancel);
+                footer.append(ok);
+                var dialog = mw.dialog({
+                    content: area,
+                    footer: footer
+                });
+                ok.on('click', function () {
+                    mw.liveEditState.record({
+                        target: node,
+                        value: node.innerHTML
+                    });
+                    mw.$(node).html(area.val());
+                    dialog.remove();
+                    mw.liveEditState.record({
+                        target: node,
+                        value: node.innerHTML
+                    });
+                });
+                cancel.on('click', function () {
+                    dialog.remove();
+                });
+            });
             mw.$('.dynamic-submodule-handle').on('click', function () {
                 mw.tools.module_settings('#' + this.dataset.module);
             });
@@ -992,9 +1029,9 @@ mw._initHandles = {
             var size = mw.$(element).children(".mw-col").length;
             mw.$("a.mw-make-cols").removeClass("active");
             mw.$("a.mw-make-cols").eq(size - 1).addClass("active");
-             if(!element.id){
-                 element.id = "element_row_" + mw.random() ;
-             }
+            if(!element.id){
+                element.id = "element_row_" + mw.random() ;
+            }
 
 
 
