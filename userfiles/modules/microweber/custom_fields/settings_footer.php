@@ -12,6 +12,13 @@ if($data['type'] !== 'breakline'):
     </div>
 </div>
 
+<div class="mw-custom-field-group">
+    <label class="mw-custom-field-label" ><?php _e('Error text'); ?></label>
+    <div class="mw-custom-field-form-controls">
+        <input type="text"  name="error_text" class="mw-ui-field mw-full-width" value="<?php print ($data['error_text']) ?>"  id="custom_field_error_text<?php print $rand; ?>">
+    </div>
+</div>
+
 <?php 
 $fields = mw()->ui->custom_fields();
 ?>

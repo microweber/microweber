@@ -131,6 +131,9 @@ if (!isset($data['custom_field_is_active'])) {
 if (!isset($data['custom_field_help_text'])) {
     $data['custom_field_help_text'] = '';
 }
+if (!isset($data['error_text'])) {
+    $data['error_text'] = '';
+}
 if (!isset($data['value'])) {
     $data['value'] = '';
 }

@@ -160,9 +160,20 @@ mw.options = {
             option_group: og,
             option_value: val
         }
+
+
+        if (mname === undefined) {
+            if (og_test !== undefined && og_test && $(og_test).attr('parent-module')) {
+                o_data.module = $(og_test).attr('parent-module');
+             }
+        }
+
+
         if (mname !== undefined) {
             o_data.module = mname;
         }
+
+
 
 
         if (for_m_id !== undefined) {
@@ -171,6 +182,9 @@ mw.options = {
         if (og != undefined) {
             o_data.id = have_id;
         }
+
+
+
 
         var have_id = el.attr('data-custom-field-id');
 
