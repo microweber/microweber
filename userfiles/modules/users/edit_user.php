@@ -1,12 +1,12 @@
-<?php if (is_admin() == false) {
+<?php
+if (is_admin() == false) {
     mw_error("Must be admin");
 }
 
 $uid = 0;
-//$rand = uniqid();
+$rand = uniqid();
 
 $registration_approval_required = get_option('registration_approval_required', 'users');
-
 $user_params = array();
 $user_params['id'] = 0;
 if (isset($params['edit-user'])) {
@@ -20,6 +20,7 @@ if ($user_params['id'] > 0) {
 } else {
     $data = FALSE;
 }
+
 if (isset($data[0]) == false) {
     $data = array();
     $data['id'] = 0;
@@ -37,17 +38,14 @@ if (isset($data[0]) == false) {
 } else {
     $data = $data[0];
 }
-
 ?>
 
-<script>
-     mw.require("files.js");
-</script>
+    <script>mw.require("files.js");</script>
+
 <?php if (is_array($data)): ?>
     <?php event_trigger('mw.admin.user.edit', $data); ?>
     <?php $custom_ui = mw()->modules->ui('mw.admin.user.edit'); ?>
     <?php $custom_user_fields = mw()->modules->ui('mw.admin.user.edit.fields'); ?>
-
     <script type="text/javascript">
         DeleteUserAdmin<?php  print $data['id']; ?> = function ($user_id) {
             var r = confirm("Are you sure you want to delete this user?");
@@ -102,30 +100,16 @@ if (isset($data[0]) == false) {
             mw.$("#change_avatar").append(uploader);
 
             $(uploader).bind("FileUploaded", function (a, b) {
-                mw.$("#avatar_holder")
-                    .css("backgroundImage", 'url(' + b.src + ')')
-                    .find(".mw-icon-user")
-                    .remove();
+                mw.$(".js-user-image").attr("src", b.src);
                 mw.$("#user_thumbnail").val(b.src);
             });
 
             mw.$("#avatar_holder .mw-icon-close").click(function () {
-                if (mw.$("#avatar_holder .mw-icon-user").length === 0) {
-                    mw.$('#avatar_holder')
-                        .css('backgroundImage', 'none')
-                        .prepend('<span class="mw-icon-user"></span>');
+                if (mw.$("#avatar_holder").length === 0) {
+                    mw.$(".js-user-image").attr("src", '<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no-image.jpg');
                     mw.$("#user_thumbnail").val("");
                 }
             });
-
-            /*   mw.$("#profile_url_field").bind('keyup paste', function(){
-             if(this.value.length > 15){
-             mw.$("#google-verify-button").visibilityDefault()
-             }
-             });
-             if(mw.$("#profile_url_field").val().length > 15){
-             mw.$("#google-verify-button").visibilityDefault()
-             }*/
         });
 
         reset_password = function (y) {
@@ -141,273 +125,234 @@ if (isset($data[0]) == false) {
             }
         }
     </script>
-
     <style>
-        .mw-ui-field {
-            min-width:40%;
+        .js-img-holder:hover img {
+            display: none;
+        }
+
+        .js-img-holder:hover .js-add-image {
+            display: block;
+        }
+
+        .js-img-holder .js-add-image .add-the-image {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            align-items: center;
+            justify-content: center;
+            display: none;
+        }
+
+        .js-img-holder:hover .js-add-image .add-the-image {
+            display: flex;
         }
     </style>
+    <div class="row">
+        <div class="col-xl-6 mx-auto">
+            <div class="<?php print $config['module_class'] ?> user-id-<?php print $data['id']; ?>" id="users_edit_{rand}">
+                <div id="avatar_holder" class="text-center">
+                    <div class="d-inline-block">
+                        <?php if ($data['thumbnail'] == '') { ?>
+                            <div class="img-circle-holder img-absolute js-img-holder">
+                                <img src="<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no-image.jpg" class="js-user-image"/>
 
-    <?php if (!empty($custom_ui)): ?>
-        <script>
-            $(document).ready(function () {
-                mw.tabs({
-                    nav: '.mw-admin-user-tab',
-                    tabs: '.mw-admin-user-tab-content'
-                });
-            });
-        </script>
-
-        <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs pull-right"><a class="mw-ui-btn mw-ui-btn-outline active mw-admin-user-tab" href="javascript:;"><?php _e('Profile'); ?></a>
-            <?php foreach ($custom_ui as $item): ?>
-                <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
-                <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
-                <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
-                <a class="mw-ui-btn mw-ui-btn-outline mw-admin-user-tab" href="javascript:;"><?php print $title; ?></a>
-            <?php endforeach; ?>
-        </div>
-    <?php endif; ?>
-    <?php if ($data['id'] != 0): ?>
-        <h3><?php print _e("Edit user") . ' ' . $data['username']; ?></h3>
-
-    <?php endif; ?>
-    <div class="mw-ui-box <?php print $config['module_class'] ?> user-id-<?php print $data['id']; ?>" id="users_edit_{rand}">
-        <div><span class="ico iu  rs"></span>
-            <?php if ($data['id'] != 0): ?>
-                <span><?php _e("Edit user"); ?>&laquo;<?php print $data['username']; ?>&raquo;</span>
-            <?php else: ?>
-                <span><?php _e("Add new user"); ?></span>
-            <?php endif; ?>
-        </div>
-
-        <input type="hidden" name="id" value="<?php print $data['id']; ?>">
-        <input type="hidden" name="token" value="<?php print csrf_token() ?>" autocomplete="off">
-        <div>
-            <div class="mw-admin-user-tab-content">
-
-                <div>
-                    <div><label > <?php _e("User Image"); ?> </label></div>
-                    <div><?php if ($data['thumbnail'] == '') { ?>
-                            <div id="avatar_holder"><span class="mw-icon-user"></span></div>
-                            <span class='mw-ui-link' id="change_avatar">
-          <?php _e("Add Image"); ?>
-          </span>
+                                <div class="js-add-image">
+                                    <a href="javascript:;" class="add-the-image" id="change_avatar"><i class="mdi mdi-image-plus mdi-24px"></i></a>
+                                </div>
+                            </div>
                         <?php } else { ?>
-                            <div id="avatar_holder" style="background-image: url(<?php print $data['thumbnail']; ?>)">
-                                <span class="mw-icon-close"></span></div>
-                            <span class='mw-ui-link' id="change_avatar">
-          <?php _e("Change Image"); ?>
-          </span>
+                            <div class="img-circle-holder img-absolute js-img-holder">
+                                <img src="<?php print $data['thumbnail']; ?>" class="js-user-image"/>
+
+                                <div class="js-add-image">
+                                    <a href="javascript:;" class="add-the-image" id="change_avatar"><i class="mdi mdi-image-plus mdi-24px"></i></a>
+                                </div>
+                            </div>
                         <?php } ?>
-                        <input type="hidden" class="form-control" name="thumbnail" id="user_thumbnail"
-                               value="<?php print $data['thumbnail']; ?>"></div>
-                </div>
-                <div>
-                    <div><label >
-                            <?php _e("Username"); ?>
-                        </label></div>
-                    <div><input type="text" class="form-control" name="username"
-                                value="<?php print $data['username']; ?>"></div>
-                </div>
-                <div>
-                    <div><label >
-                            <?php _e("Password"); ?>
-                        </label></div>
-                    <div><span class="mw-ui-link" onclick="reset_password();$(this).hide()">
-          <?php _e("Change Password"); ?>
-          </span>
-                        <input type="password" disabled="disabled" name="password" class="form-control semi_hidden"
-                               id="reset_password"/></div>
-                </div>
-                <div>
-                    <div><label >
-                            <?php _e("Email"); ?>
-                        </label></div>
-                    <div><input type="text" class="form-control" name="email" value="<?php print $data['email']; ?>"></div>
-                </div>
-                <div>
-                    <div><label >
-                            <?php _e("First Name"); ?>
-                        </label></div>
-                    <div><input type="text" class="form-control" name="first_name"
-                                value="<?php print $data['first_name']; ?>"></div>
-                </div>
-                <div>
-                    <div><label >
-                            <?php _e("Last Name"); ?>
-                        </label></div>
-                    <div><input type="text" class="form-control" name="last_name"
-                                value="<?php print $data['last_name']; ?>"></div>
-                </div>
-                <?php if (is_admin()) { ?>
-                    <div>
-                        <div><label >
-                                <?php _e("Is Active"); ?>
-                            </label></div>
-                        <div>
-                            <div class="mw-ui-inline-list">
-                                <label class="mw-ui-check">
-                                    <input type="radio" value="1"
-                                           name="is_active" <?php if ($data['is_active'] == 1): ?> checked="checked" <?php endif; ?>>
-                                    <span></span> <span>
-              <?php _e("Yes"); ?>
-              </span> </label>
-                                <label class="mw-ui-check">
-                                    <input type="radio" value="0"
-                                           name="is_active" <?php if ($data['is_active'] == 0): ?> checked="checked" <?php endif; ?>>
-                                    <span></span> <span>
-              <?php _e("No"); ?>
-              </span> </label>
-                                <?php if($registration_approval_required =='y' && $data['is_active'] == 0): ?>
-                                    <span class="mw-approval-required"><?php _e("Account requires approval"); ?></span>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div><label >
-                                <?php _e("Is Admin"); ?>
-                                ?</label></div>
-                        <div>
-                            <div class="mw-ui-inline-list">
-                                <label class="mw-ui-check">
-                                    <input type="radio" value="1"
-                                           name="is_admin" <?php if ($data['is_admin'] == 1): ?> checked="checked" <?php endif; ?>>
-                                    <span></span> <span>
-              <?php _e("Yes"); ?>
-              </span> </label>
-                                <label class="mw-ui-check">
-                                    <input type="radio" value="0"
-                                           name="is_admin" <?php if ($data['is_admin'] == 0): ?> checked="checked" <?php endif; ?>>
-                                    <span></span> <span>
-              <?php _e("No"); ?>
-              </span> </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div><label >
-                                <?php _e("Basic mode"); ?>
-                            </label></div>
-                        <div>
-                            <div class="mw-ui-inline-list">
-                                <label class="mw-ui-check">
-                                    <input type="radio" value="1"
-                                           name="basic_mode" <?php if ($data['basic_mode'] == 1): ?> checked="checked" <?php endif; ?>>
-                                    <span></span> <span>
-              <?php _e("Yes"); ?>
-              </span> </label>
-                                <label class="mw-ui-check">
-                                    <input type="radio" value="0"
-                                           name="basic_mode" <?php if ($data['basic_mode'] == 0): ?> checked="checked" <?php endif; ?>>
-                                    <span></span> <span>
-              <?php _e("No"); ?>
-              </span> </label>
-                            </div>
-                        </div>
-                    </div>
-                <?php } ?>
-                <div>
-                    <div><label >
-                            <?php _e("Api key"); ?>
-                        </label></div>
-                    <div><input type="text" class="form-control" name="api_key" value="<?php print $data['api_key']; ?>">
+
+                        <span class="text-primary mt-2 d-block"><?php _e("User image"); ?></span>
+                        <input type="hidden" class="form-control" name="thumbnail" id="user_thumbnail" value="<?php print $data['thumbnail']; ?>"/>
                     </div>
                 </div>
 
-                <?php if (!empty($custom_user_fields)): ?>
-                    <?php foreach ($custom_user_fields as $item): ?>
-                        <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
-                        <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
-                        <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
-
-
-                        <div class="<?php print $class; ?>">
-                            <div><label >
-                                    <?php print ($title); ?>
-                                </label></div>
-                            <div><?php print $html; ?></div>
-                        </div>
-
-
-                    <?php endforeach; ?>
+                <?php if (!empty($custom_ui)): ?>
+                    <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs pull-right">
+                        <a class="mw-ui-btn mw-ui-btn-outline active mw-admin-user-tab" href="javascript:;"><?php _e('Profile'); ?></a>
+                        <?php foreach ($custom_ui as $item): ?>
+                            <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
+                            <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
+                            <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
+                            <a class="mw-ui-btn mw-ui-btn-outline mw-admin-user-tab" href="javascript:;"><?php print $title; ?></a>
+                        <?php endforeach; ?>
+                    </div>
                 <?php endif; ?>
 
+                <div>
+                    <?php if ($data['id'] != 0): ?>
+                        <span><?php _e("Edit user"); ?>&laquo;<?php print $data['username']; ?>&raquo;</span>
+                    <?php else: ?>
+                        <span><?php _e("Add new user"); ?></span>
+                    <?php endif; ?>
+                </div>
 
-                <div class="no-hover">
-                    <div><?php if ($data['id'] != false and $data['id'] != user_id()): ?>
+                <input type="hidden" name="id" value="<?php print $data['id']; ?>">
+                <input type="hidden" name="token" value="<?php print csrf_token() ?>" autocomplete="off">
 
-                            <a onclick="LoginAsUserFromAdmin<?php print $data['id']; ?>('<?php print $data['id']; ?>')"
-                               class="mw-ui-btn mw-ui-btn-small pull-left"><?php _e('Login as User'); ?></a>
+                <div class="d-block">
+                    <div class="form-group">
+                        <label class="control-label"><?php _e("Username"); ?></label>
+                        <input type="text" class="form-control" name="username" value="<?php print $data['username']; ?>"/>
+                    </div>
 
-                            <a onclick="DeleteUserAdmin<?php print $data['id']; ?>('<?php print $data['id']; ?>')"
-                               class="mw-ui-btn mw-ui-btn-small pull-left"><?php _e('Delete user'); ?></a>
+                    <div class="form-group">
+                        <label class="control-label"><?php _e("Password"); ?></label>
+                        <span class="mw-ui-link" onclick="reset_password();$(this).hide()"><?php _e("Change Password"); ?></span>
+                        <input type="password" disabled="disabled" name="password" class="form-control semi_hidden" id="reset_password"/>
+                    </div>
 
-                        <?php endif; ?></div>
-                    <div>
-                        <button
-                            id="user-save-button"
-                            class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right"
-                            onclick="SaveAdminUserForm<?php print $data['id']; ?>()">
-                            <?php _e("Save"); ?>
-                        </button>
-                        <a class="mw-ui-btn mw-ui-btn-medium pull-right" href="#sortby=created_at desc">
-                            <?php _e("Cancel"); ?>
-                        </a>
+                    <div class="form-group">
+                        <label class="control-label"><?php _e("Email"); ?></label>
+                        <input type="text" class="form-control" name="email" value="<?php print $data['email']; ?>">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label"><?php _e("First Name"); ?></label>
+                        <input type="text" class="form-control" name="first_name" value="<?php print $data['first_name']; ?>">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label"><?php _e("Last Name"); ?></label>
+                        <input type="text" class="form-control" name="last_name" value="<?php print $data['last_name']; ?>"/>
+                    </div>
+
+                    <?php if (is_admin()) : ?>
+                        <div class="form-group">
+                            <label class="control-label">Role of the user</label>
+                            <select class="selectpicker" data-width="100%" name="is_admin">
+                                <option value="1" <?php if ($data['is_admin'] == 1): ?>selected<?php endif; ?>>Admin</option>
+                                <option value="0" <?php if ($data['is_admin'] == 0): ?>selected<?php endif; ?>>User</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label d-block"><?php _e('Is Active'); ?>?</label>
+
+                            <div class="custom-control custom-radio d-inline-block mr-3">
+                                <input type="radio" id="is_active1" class="custom-control-input" value="1" name="is_active" <?php if ($data['is_active'] == 1): ?> checked="checked" <?php endif; ?>>
+                                <label class="custom-control-label" for="is_active1"><?php _e("Active"); ?></label>
+                            </div>
+                            <div class="custom-control custom-radio d-inline-block">
+                                <input type="radio" id="is_active2" class="custom-control-input" value="0" name="is_active" <?php if ($data['is_active'] == 0): ?> checked="checked" <?php endif; ?>>
+                                <label class="custom-control-label" for="is_active2"><?php _e("Disabled"); ?></label>
+                            </div>
+
+                            <?php if ($registration_approval_required == 'y' && $data['is_active'] == 0): ?>
+                                <span class="mw-approval-required d-block"><?php _e("Account requires approval"); ?></span>
+                            <?php endif; ?>
+                        </div>
+
+                        <div class="form-group d-none">
+                            <label class="control-label d-block"><?php _e("Basic mode"); ?></label>
+
+                            <div class="custom-control custom-radio d-inline-block mr-3">
+                                <input type="radio" id="basic_mode1" class="custom-control-input" value="1" name="basic_mode" <?php if ($data['basic_mode'] == 1): ?> checked="checked" <?php endif; ?>>
+                                <label class="custom-control-label" for="basic_mode1"><?php _e("Active"); ?></label>
+                            </div>
+
+                            <div class="custom-control custom-radio d-inline-block">
+                                <input type="radio" id="basic_mode0" class="custom-control-input" value="0" name="basic_mode" <?php if ($data['basic_mode'] == 0): ?> checked="checked" <?php endif; ?>>
+                                <label class="custom-control-label" for="basic_mode0"><?php _e("Disabled"); ?></label>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if (!empty($custom_user_fields)): ?>
+                        <?php foreach ($custom_user_fields as $item): ?>
+                            <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
+                            <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
+                            <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
+
+                            <div class="form-group <?php print $class; ?>">
+                                <label class="control-label"><?php print ($title); ?></label>
+                                <div><?php print $html; ?></div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+
+                    <a href="javascript:;" class="btn btn-link px-0" data-toggle="collapse" data-target="#advanced-settings">Advanced settings</a>
+
+                    <div class="collapse" id="advanced-settings">
+                        <div class="form-group">
+                            <label class="control-label"><?php _e("Api key"); ?></label>
+                            <input type="text" class="form-control" name="api_key" value="<?php print $data['api_key']; ?>">
+                        </div>
+
+                        <?php if ($data['id'] != false and $data['id'] != user_id()): ?>
+                            <div class="d-flex align-items-center">
+                                <a onclick="LoginAsUserFromAdmin<?php print $data['id']; ?>('<?php print $data['id']; ?>')" class="btn btn-primary btn-sm"><?php _e('Login as User'); ?></a>
+                                <a onclick="DeleteUserAdmin<?php print $data['id']; ?>('<?php print $data['id']; ?>')" class="btn btn-primary btn-sm"><?php _e('Delete user'); ?></a>
+                            </div>
+                        <?php endif; ?>
+
+                        <?php if (is_admin()) : ?>
+                            <script>
+                                function mw_admin_tos_popup(user_id) {
+                                    var modalTitle = '<?php _e('Terms agreement log'); ?>';
+
+                                    mw_admin_edit_tos_item_popup_modal_opened = mw.modal({
+                                        content: '<div id="mw_admin_edit_tos_item_module"></div>',
+                                        title: modalTitle,
+                                        id: 'mw_admin_edit_tos_item_popup_modal'
+                                    });
+
+                                    var params = {}
+                                    params.user_id = user_id;
+                                    mw.load_module('users/terms/log', '#mw_admin_edit_tos_item_module', null, params);
+                                }
+
+                                function mw_admin_login_attempts_popup(user_id) {
+                                    var modalTitle = '<?php _e('Login attempts'); ?>';
+
+                                    mw_admin_login_attempts_popup_modal_opened = mw.modal({
+                                        content: '<div id="mw_admin_login_attempts_module"></div>',
+                                        title: modalTitle,
+                                        id: 'mw_admin_login_attempts_popup_modal'
+                                    });
+
+                                    var params = {}
+                                    params.user_id = user_id;
+                                    mw.load_module('users/login_attempts', '#mw_admin_login_attempts_module', null, params);
+                                }
+                            </script>
+
+                            <div class="export-label d-flex align-items-center justify-content-center-x">
+                                <a href="<?php echo api_url('users/export_my_data'); ?>?user_id=<?php echo $data['id']; ?>" class="btn btn-link px-0"><?php print _e('Export user data'); ?></a>
+                                &nbsp;
+                                <a href="javascript:mw_admin_tos_popup(<?php echo $data['id']; ?>)" class="btn btn-link px-0"><?php print _e('Terms agreement log'); ?></a>
+                                &nbsp;
+                                <a href="javascript:mw_admin_login_attempts_popup(<?php echo $data['id']; ?>)" class="btn btn-link px-0"><?php print _e('Login attempts'); ?></a>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
+
+                <hr class="thin"/>
+
+                <div class="d-flex justify-content-between">
+                    <a class="btn btn-secondary btn-sm" href="#sortby=created_at desc"><?php _e("Cancel"); ?></a>
+                    <button id="user-save-button" class="btn btn-success btn-sm" onclick="SaveAdminUserForm<?php print $data['id']; ?>()"><?php _e("Save"); ?></button>
+                </div>
             </div>
-            <?php if (!empty($custom_ui)): ?>
-                <?php foreach ($custom_ui as $item): ?>
-                    <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
-                    <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
-                    <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
-                    <div style="display:none;"
-                         class="mw-ui-box-content mw-admin-user-tab-content  <?php print $class; ?>"
-                         title="<?php print addslashes($title); ?>"><?php print $html; ?></div>
-                <?php endforeach; ?>
-            <?php endif; ?>
         </div>
     </div>
-
-
-    <script>
-        function mw_admin_tos_popup(user_id) {
-
-            var modalTitle = '<?php _e('Terms agreement log'); ?>';
-
-            mw_admin_edit_tos_item_popup_modal_opened = mw.modal({
-                content: '<div id="mw_admin_edit_tos_item_module"></div>',
-                title: modalTitle,
-                id: 'mw_admin_edit_tos_item_popup_modal'
-            });
-
-            var params = {}
-            params.user_id = user_id;
-            mw.load_module('users/terms/log', '#mw_admin_edit_tos_item_module', null, params);
-        }
-
-        function mw_admin_login_attempts_popup(user_id) {
-
-            var modalTitle = '<?php _e('Login attempts'); ?>';
-
-            mw_admin_login_attempts_popup_modal_opened = mw.modal({
-                content: '<div id="mw_admin_login_attempts_module"></div>',
-                title: modalTitle,
-                id: 'mw_admin_login_attempts_popup_modal'
-            });
-
-            var params = {}
-            params.user_id = user_id;
-            mw.load_module('users/login_attempts', '#mw_admin_login_attempts_module', null, params);
-        }
-    </script>
-
-    <div class="export-label" style="margin-top:15px;font-size:15px;">
-        <a href="<?php echo api_url('users/export_my_data'); ?>?user_id=<?php echo $data['id']; ?>"><?php print _e('Export user data'); ?></a>
-        |
-        <a href="javascript:mw_admin_tos_popup(<?php echo $data['id']; ?>)"><?php print _e('Terms agreement log'); ?></a>
-        |
-        <a href="javascript:mw_admin_login_attempts_popup(<?php echo $data['id']; ?>)"><?php print _e('Login attempts'); ?></a>
-    </div>
+    <?php if (!empty($custom_ui)): ?>
+        <?php foreach ($custom_ui as $item): ?>
+            <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
+            <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
+            <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
+            <div style="display:none;" class="mw-ui-box-content mw-admin-user-tab-content  <?php print $class; ?>" title="<?php print addslashes($title); ?>"><?php print $html; ?></div>
+        <?php endforeach; ?>
+    <?php endif; ?>
 <?php endif; ?>
