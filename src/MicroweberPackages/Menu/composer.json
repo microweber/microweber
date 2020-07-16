@@ -16,7 +16,10 @@
   "autoload": {
     "psr-4": {
       "MicroweberPackages\\Menu\\": ""
-    }
+    },
+    "files": [
+      "helpers/menus.php"
+    ]
   },
   "config": {
     "sort-packages": true

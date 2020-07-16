@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Category\Helpers;
+namespace MicroweberPackages\Category\HelperRenders;
 
 use \Knp\Menu\ItemInterface;
 use \Knp\Menu\Matcher\MatcherInterface;

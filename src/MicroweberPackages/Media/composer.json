@@ -18,8 +18,8 @@
       "MicroweberPackages\\Media\\": ""
     },
     "files": [
-      "helpers.php",
-      "helpers_paths.php"
+      "helpers/media.php",
+      "helpers/media_paths.php"
     ]
   },
   "config": {

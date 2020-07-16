@@ -21,7 +21,7 @@
       "MicroweberPackages\\Template\\": ""
     },
     "files": [
-      "helpers.php"
+      "helpers/templates.php"
     ]
   },
   "config": {

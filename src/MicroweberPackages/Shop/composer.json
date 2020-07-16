@@ -18,7 +18,10 @@
   "autoload": {
     "psr-4": {
       "MicroweberPackages\\Shop\\": ""
-    }
+    },
+    "files": [
+      "helpers/shop.php"
+    ]
   },
   "config": {
     "sort-packages": true

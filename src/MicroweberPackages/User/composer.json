@@ -21,7 +21,8 @@
       "MicroweberPackages\\User\\": ""
     },
     "files": [
-      "helpers.php"
+      "helpers/helpers.php",
+      "helpers/api_user.php"
     ]
   },
   "config": {

@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Category;
 
 use DB;
-use MicroweberPackages\Category\Helpers\KnpCategoryTreeRenderer;
+use MicroweberPackages\Category\HelperRenders\KnpCategoryTreeRenderer;
 
 /**
  * Class to work with categories.

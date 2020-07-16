@@ -1,10 +1,10 @@
 <?php
 
-namespace MicroweberPackages\Category\Helpers;
+namespace MicroweberPackages\Category\HelperRenders;
 
 use Knp\Menu\MenuFactory;
 use Microweber\Providers\Categories\Helpers\CategoryTreeData;
-use MicroweberPackages\Category\Helpers\KnpCustomListRenderer as ListRenderer;
+use MicroweberPackages\Category\HelperRenders\KnpCustomListRenderer as ListRenderer;
 
 
 class KnpCategoryTreeRenderer
@@ -183,7 +183,7 @@ class KnpCategoryTreeRenderer
 //            //  $link = "<a href='{categories_url}' data-category-id='{id}'  {active_code} class='{active_class} {nest_level}'>{title}</a>";
 //        }
         if (!$tree_data) {
-            $data_provider = new \MicroweberPackages\Category\Helpers\CategoryTreeData($this->app);
+            $data_provider = new \MicroweberPackages\Category\HelperRenders\CategoryTreeData($this->app);
             $tree_data = $data_provider->get($params);
 
         }
