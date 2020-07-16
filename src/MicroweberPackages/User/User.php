@@ -9,12 +9,13 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Support\Facades\Hash;
 use MicroweberPackages\Database\BaseModel;
+use Spatie\Permission\Traits\HasRoles;
 
 //use Sofa\Revisionable\Laravel\RevisionableTrait;
 
 class User extends BaseModel implements AuthenticatableContract, CanResetPasswordContract
 {
-    use Authenticatable, CanResetPassword;
+    use HasRoles, Authenticatable, CanResetPassword;
 
     // use the trait
   //  use RevisionableTrait;

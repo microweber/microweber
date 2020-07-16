@@ -40,6 +40,7 @@ use MicroweberPackages\Template\TemplateManagerServiceProvider;
 use MicroweberPackages\User\UserManagerServiceProvider;
 use MicroweberPackages\Utils\Http\Http;
 use MicroweberPackages\Utils\System\ClassLoader;
+use Spatie\Permission\PermissionServiceProvider;
 
 if (! defined('MW_VERSION')) {
     include_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'functions' . DIRECTORY_SEPARATOR . 'bootstrap.php';
@@ -190,6 +191,7 @@ class AppServiceProvider extends ServiceProvider {
         $this->app->register(DatabaseManagerServiceProvider::class);
         $this->app->register(BackupManagerServiceProvider::class);
         $this->app->register(ModuleServiceProvider::class);
+        $this->app->register(PermissionServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
     }
