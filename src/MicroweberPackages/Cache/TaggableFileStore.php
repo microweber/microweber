@@ -64,7 +64,8 @@ class TaggableFileStore implements Store
         $this->files = $files;
         $this->directory = $directory;
 
-        $this->directory = \Config::get('cache.stores.tfile.path').'/'.app()->environment();
+        $this->directory = \Config::get('cache.stores.file.path').'/'.app()->environment();
+        $this->directory = $this->normalizePath($this->directory);
 
         $this->directoryTags = $this->directory.(!empty($this->prefix) ? '/'.$this->prefix : '').'/tags';
         $this->directoryData = $this->directory.(!empty($this->prefix) ? '/'.$this->prefix : '').'/data';
@@ -110,8 +111,10 @@ class TaggableFileStore implements Store
         // the file and return null. This helps clean up the old files and keeps
         // this directory much cleaner for us as old files aren't hanging out.
         if ($this->currentTime() >= $expire) {
-            $this->forget($key);
-            return;
+           // $this->forget($key);
+          //  return;
+            // TODO
+            // TODO
         }
 
         try {

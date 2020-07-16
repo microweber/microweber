@@ -923,14 +923,8 @@ class MediaManager
 
             $cache_id_data['cache_path'] = $cache_path;
 
-            $save = cache_save($cache_id_data, $cache_id_without_ext, 'media');
+            cache_save($cache_id_data, $cache_id_without_ext, 'media');
 
-            mw()->cache_manager->
-
-
-            var_dump($cache_id_without_ext);
-            var_dump(cache_get($cache_id_without_ext, 'media'));
-            die();
             $tn_img_url = $this->app->url_manager->site('api/image-tn/') . $cache_id_without_ext;
 
             return $tn_img_url;
@@ -1072,7 +1066,7 @@ class MediaManager
                         if (!$height) {
                             $height = $width;
                         }
-                        $tn = new \MicroweberPackages\Utils\Thumbnailer($src);
+                        $tn = new Thumbnailer($src);
                         $thumbOptions = array('height' => $height, 'width' => $width);
                         if ($crop) {
                             $thumbOptions['crop'] = $crop;

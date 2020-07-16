@@ -220,9 +220,6 @@ if (isset($params['sort_by'])) {
                            onclick="mw.url.windowHashParam('select-file', '<?php print mw()->url_manager->link_to_file($item) ?>'); return false;">
                             <?php $ext = strtolower(get_file_extension($item)); ?>
 
-
-                            <?php print thumbnail(mw()->url_manager->link_to_file($item), $tn_size, $tn_size, true); ?>
-
                             <?php if ($ext == 'jpg' or $ext == 'png' or $ext == 'gif' or $ext == 'jpeg' or $ext == 'bmp'): ?>
 
                                 <span data-src="<?php print thumbnail(mw()->url_manager->link_to_file($item), $tn_size, $tn_size, true); ?>"
