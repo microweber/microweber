@@ -1,35 +1,30 @@
 <?php
-/**
- * http://www.tanecn.com
- * 作者: Tanwen
- * 邮箱: 361657055@qq.com
- * 所在地: 广东广州
- * 时间: 2018/4/13 15:55
- */
 
-namespace Tanwencn\Admin\Http\Controllers;
+namespace MicroweberPackages\Role\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use MicroweberPackages\User\User;
 use Spatie\Permission\Models\Role;
-use Tanwencn\Admin\Facades\Admin;
 
 class UserController extends Controller
 {
-    use ValidatesRequests, Package;
+    use ValidatesRequests;
 
     /**
-     * @var \Tanwencn\Admin\Database\Eloquent\User;
+     * @var User;
      */
     protected $model;
 
     public function __construct()
     {
-        $this->model = config('admin.auth.providers.admin.model');
+        $this->model = User::class;
         $fileds = ['email', 'name'];
         array_unshift($fileds, config('admin.auth.login.username', 'email'));
         View::share('user_name_fileds', array_filter(array_unique($fileds)));
@@ -38,7 +33,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $model = $this->model::query();
-        if (!Admin::user()->hasRole('superadmin'))
+        if (!Auth::user()->hasRole('superadmin'))
             $model->whereHas('roles', function ($query) {
                 $query->where('name', '!=', 'superadmin');
             });
@@ -90,7 +85,7 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        if (Admin::user()->id != $id)
+        if (Auth::user()->id != $id)
             $this->authorize('edit_user');
 
         $model = $this->model::findOrFail($id);
@@ -108,7 +103,7 @@ class UserController extends Controller
         $input = $request->validate([
             'old_password' => ['required', 'string', 'max:255',
                 function ($attribute, $value, $fail) {
-                    if (!Hash::check($value, Admin::user()->password)) {
+                    if (!Hash::check($value, Auth::user()->password)) {
                         $fail(trans('admin.old_password').trans('admin.error'));
                     }
                 },],
@@ -117,8 +112,8 @@ class UserController extends Controller
             'old_password' => trans('admin.old_password')
         ]);
 
-        Admin::user()->password = $input['password'];
-        Admin::user()->save();
+        Auth::user()->password = $input['password'];
+        Auth::user()->save();
 
         return redirect(route('admin.logout'));
     }
