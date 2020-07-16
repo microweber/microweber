@@ -23,6 +23,11 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        $this->app->singleton('module_manager', function ($app) {
+            return new ModuleManager();
+        });
+
         $this->loadRoutesFrom(__DIR__.'/routes/web.php');
     }
 }

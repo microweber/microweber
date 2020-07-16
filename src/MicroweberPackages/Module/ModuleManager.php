@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Config;
 //use Microweber\Providers\Database\Utils;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Database\Utils as DbUtils;
+use QueryPath\Exception;
 
 //use Config;
 //use Illuminate\Database\Eloquent\Model as Eloquent;
@@ -77,6 +78,50 @@ class ModuleManager
         $this->tables['elements'] = $tables['elements'];
         $this->tables['module_templates'] = $tables['module_templates'];
         $this->tables['system_licenses'] = $tables['system_licenses'];
+    }
+
+    public function register_module($module)
+    {
+        if (!isset($module['public_folder'])) {
+            new Exception('Please set public folder for registering module');
+        }
+
+        $moduleName = trim($module['name']);
+        $modulePublicFolder = trim($module['public_folder']);
+        $modulePublicPath = normalize_path(modules_path() . $modulePublicFolder);
+
+        $moduleIcon = '';
+        if (is_file($module['icon'])) {
+            file_put_contents($modulePublicPath . 'icon.png', file_get_contents($module['icon']));
+            $moduleIcon = $modulePublicPath . 'icon.png';
+            $moduleIcon = dir2url($moduleIcon);
+            $moduleIcon = str_replace(site_url(), '{SITE_URL}', $moduleIcon);
+        }
+
+        if (isset($module['admin_controller'])) {
+            file_put_contents($modulePublicPath . 'index.php', '
+            <?php
+            $adminController = new ' . $module['admin_controller'] . '();
+            return $adminController->index();
+            ?>
+        ');
+        }
+
+        $moduleConfig = array();
+        $moduleConfig['name'] = $module['name'];
+        $moduleConfig['icon'] = $moduleIcon;
+        $moduleConfig['author'] = "Microweber";
+        $moduleConfig['description'] = $module['name'];
+        $moduleConfig['website'] = "http://microweber.com/";
+        $moduleConfig['help'] = "http://microweber.info/modules";
+        $moduleConfig['version'] = 0.19;
+        $moduleConfig['ui'] = true;
+        $moduleConfig['ui_admin'] = true;
+        $moduleConfig['position'] = 30;
+        $moduleConfig['categories'] = "admin";
+
+        file_put_contents($modulePublicPath . 'config.php', "<?php\n\$config = ".var_export($moduleConfig, true).";\n?>");
+
     }
 
     public function install()

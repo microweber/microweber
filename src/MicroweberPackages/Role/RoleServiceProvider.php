@@ -12,6 +12,7 @@
 namespace MicroweberPackages\Role;
 
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Roles\Http\Controllers\RoleController;
 
 
 class RoleServiceProvider extends ServiceProvider
@@ -23,6 +24,13 @@ class RoleServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        mw()->module_manager->register_module([
+           'public_folder'=> 'users/roles',
+           'name'=> 'User Roles',
+           'icon'=> __DIR__ . '/Assets/icon.png',
+           'admin_controller'=>RoleController::class
+        ]);
+
         $this->loadRoutesFrom(__DIR__.'/routes/admin.php');
     }
 }

@@ -1,7 +1,9 @@
 <?php
 namespace MicroweberPackages\Module;
 
-class Module extends BaseModel
+use Illuminate\Database\Eloquent\Model;
+
+class Module extends Model
 {
     public $table = 'modules';
 

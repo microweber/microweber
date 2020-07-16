@@ -26,6 +26,7 @@ use MicroweberPackages\Helper\UrlManager;
 use MicroweberPackages\Invoice\InvoicesManager;
 use MicroweberPackages\Media\MediaManager;
 use MicroweberPackages\Menu\MenuManager;
+use MicroweberPackages\Module\ModuleManager;
 use MicroweberPackages\Option\OptionManager;
 use MicroweberPackages\Order\OrderManager;
 use MicroweberPackages\Shop\ShopManager;
@@ -80,6 +81,7 @@ use MicroweberPackages\Utils\Http\Http;
  * @property AttributesManager     $attributes_manager
  * @property Lang                  $lang_helper
  * @property PermalinkManager              $permalink_manager
+ * @property ModuleManager              $module_manager
  */
 class Application
 {
