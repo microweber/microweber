@@ -62,19 +62,6 @@ include_once $functions_dir.'api.php';
 include_once $functions_dir.'api_callbacks.php';
 include_once $functions_dir.'filesystem.php';
 include_once $functions_dir.'lang.php';
-// include_once $functions_dir.'events.php';
-include_once $functions_dir.'config.php';
-
-include_once $functions_dir.'db.php';
-//include_once $functions_dir.'user.php';
 include_once $functions_dir.'common.php';
-include_once $functions_dir.'media.php';
 include_once $functions_dir.'other.php';
-//include_once $functions_dir.'content.php';
-include_once $functions_dir.'custom_fields.php';
-include_once $functions_dir.'menus.php';
-include_once $functions_dir.'categories.php';
-include_once $functions_dir.'options.php';
-include_once $functions_dir.'shop.php';
-include_once $functions_dir.'templates.php';
 
