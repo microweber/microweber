@@ -2,18 +2,12 @@
 
 namespace MicroweberPackages\Cache;
 
-use Illuminate\Contracts\Cache\Store;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
 
 class TaggableFileCacheServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap the application services.
-     *
-     * @return void
-     */
-    public function boot()
+    public function register()
     {
         Cache::extend('file', function ($app, $config) {
 
