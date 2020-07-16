@@ -386,13 +386,11 @@ api_expose('save_media');
 api_expose('pixum_img');
 api_expose('thumbnail_img');
 \Illuminate\Support\Facades\Route::get('/api/image-tn/{cache_id}', function ($cache_id) {
-
     $cache_id_data = cache_get($cache_id, 'media');
     if ($cache_id_data) {
         $tn = mw()->media_manager->thumbnail_img($cache_id_data);;
         return $tn;
     }
-
 });
 
 

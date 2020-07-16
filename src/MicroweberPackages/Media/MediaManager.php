@@ -850,7 +850,6 @@ class MediaManager
         }
 
 
-
         $src = html_entity_decode($src);
         $src = htmlspecialchars_decode($src);
 
