@@ -14,7 +14,7 @@
   ],
   "autoload": {
       "psr-4": {
-        "MicroweberPackages\\Roles\\": ""
+        "MicroweberPackages\\Role\\": ""
       }
   },
   "homepage": "http://microweber.com",

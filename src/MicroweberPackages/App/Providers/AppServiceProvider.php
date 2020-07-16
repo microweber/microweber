@@ -32,6 +32,7 @@ use MicroweberPackages\Checkout\CheckoutManagerServiceProvider;
 use MicroweberPackages\Client\ClientsManagerServiceProvider;
 use MicroweberPackages\Invoice\InvoicesManagerServiceProvider;
 use MicroweberPackages\Order\OrderManagerServiceProvider;
+use MicroweberPackages\Role\RoleServiceProvider;
 use MicroweberPackages\Shop\ShopManagerServiceProvider;
 use MicroweberPackages\Tax\TaxManagerServiceProvider;
 
@@ -192,6 +193,7 @@ class AppServiceProvider extends ServiceProvider {
         $this->app->register(BackupManagerServiceProvider::class);
         $this->app->register(ModuleServiceProvider::class);
         $this->app->register(PermissionServiceProvider::class);
+        $this->app->register(RoleServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
     }
