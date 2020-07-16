@@ -1,6 +1,5 @@
 
-            <?php
-            $adminController = new MicroweberPackages\Roles\Http\Controllers\RoleController();
-            return $adminController->index();
-            ?>
+<?php
+return \App::call("MicroweberPackages\Role\Http\Controllers\IndexController@index");
+?>
         

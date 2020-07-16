@@ -82,6 +82,11 @@ class ModuleManager
 
     public function register_module($module)
     {
+
+    }
+
+    public function generate_module($module)
+    {
         if (!isset($module['public_folder'])) {
             new Exception('Please set public folder for registering module');
         }
@@ -98,12 +103,19 @@ class ModuleManager
             $moduleIcon = str_replace(site_url(), '{SITE_URL}', $moduleIcon);
         }
 
-        if (isset($module['admin_controller'])) {
+        if (isset($module['controller'])) {
             file_put_contents($modulePublicPath . 'index.php', '
-            <?php
-            $adminController = new ' . $module['admin_controller'] . '();
-            return $adminController->index();
-            ?>
+<?php
+return \App::call("' . $module['controller'] . '@index");
+?>
+        ');
+        }
+
+        if (isset($module['admin_controller'])) {
+            file_put_contents($modulePublicPath . 'admin.php', '
+<?php
+return \App::call("' . $module['admin_controller'] . '@index");
+?>
         ');
         }
 

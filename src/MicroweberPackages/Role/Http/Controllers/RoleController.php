@@ -1,7 +1,8 @@
 <?php
 
-namespace MicroweberPackages\Roles\Http\Controllers;
+namespace MicroweberPackages\Role\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,7 +12,7 @@ use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
-    use ValidatesRequests,Package;
+    use ValidatesRequests;
 
     protected $guards;
 
