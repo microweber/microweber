@@ -24,14 +24,7 @@
     },
     "files": [
       "functions/api.php",
-      "functions/api_callbacks.php",
-      "functions/bootstrap.php",
-      "functions/common.php",
-      "functions/filesystem.php",
-      "functions/lang.php",
-      "functions/other.php",
-      "functions/paths.php",
-      "functions/plupload.php"
+      "functions/common.php"
     ]
   },
   "config": {
