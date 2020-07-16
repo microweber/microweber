@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Config;
  * @category Database
  * @desc     Various utils functions to work with the database
  *
- * @property \Microweber\Application $app
+ * @property \MicroweberPackages\Application $app
  */
 class Utils
 {

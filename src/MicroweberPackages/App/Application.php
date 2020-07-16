@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber;
+namespace MicroweberPackages;
 
 /**
  * Application class.
@@ -10,41 +10,41 @@ namespace Microweber;
  * @category Application
  * @desc
  *
- * @property \Microweber\Providers\UrlManager                    $url_manager
+ * @property \MicroweberPackages\UrlManager                    $url_manager
  * @property \MicroweberPackages\Utils\Format                            $format
- * @property \Microweber\Providers\ContentManager                $content_manager
- * @property \Microweber\Providers\CategoryManager               $category_manager
- * @property \Microweber\Providers\MenuManager                   $menu_manager
- * @property \Microweber\Providers\MediaManager                  $media_manager
- * @property \Microweber\Providers\ShopManager                   $shop_manager
- * @property \Microweber\Providers\Shop\CartManager              $cart_manager
- * @property \Microweber\Providers\Shop\OrderManager             $order_manager
- * @property \Microweber\Providers\Shop\TaxManager               $tax_manager
- * @property \Microweber\Providers\Shop\CheckoutManager          $checkout_manager
- * @property \Microweber\Providers\Shop\ClientsManager           $clients_manager
- * @property \Microweber\Providers\Shop\InvoicesManager          $invoices_manager
- * @property \Microweber\Providers\OptionManager                 $option_manager
- * @property \Microweber\Providers\CacheManager                  $cache_manager
- * @property \Microweber\Providers\UserManager                   $user_manager
- * @property \Microweber\Providers\Modules                       $modules
- * @property \Microweber\Providers\DatabaseManager               $database_manager
- * @property \Microweber\Providers\NotificationsManager          $notifications_manager
- * @property \Microweber\Providers\LayoutsManager                $layouts_manager
- * @property \Microweber\Providers\LogManager                    $log_manager
- * @property \Microweber\Providers\FieldsManager                 $fields_manager
- * @property \Microweber\Providers\Template                      $template
- * @property \Microweber\Providers\Event                         $event_manager
- * @property \Microweber\Providers\ConfigurationManager          $config_manager
- * @property \Microweber\Providers\TemplateManager               $template_manager
- * @property \Microweber\Providers\CaptchaManager               $captcha_manager
- * @property \Microweber\Providers\Ui                            $ui
+ * @property \MicroweberPackages\ContentManager                $content_manager
+ * @property \MicroweberPackages\CategoryManager               $category_manager
+ * @property \MicroweberPackages\MenuManager                   $menu_manager
+ * @property \MicroweberPackages\MediaManager                  $media_manager
+ * @property \MicroweberPackages\ShopManager                   $shop_manager
+ * @property \MicroweberPackages\CartManager              $cart_manager
+ * @property \MicroweberPackages\OrderManager             $order_manager
+ * @property \MicroweberPackages\TaxManager               $tax_manager
+ * @property \MicroweberPackages\CheckoutManager          $checkout_manager
+ * @property \MicroweberPackages\ClientsManager           $clients_manager
+ * @property \MicroweberPackages\InvoicesManager          $invoices_manager
+ * @property \MicroweberPackages\OptionManager                 $option_manager
+ * @property \MicroweberPackages\CacheManager                  $cache_manager
+ * @property \MicroweberPackages\UserManager                   $user_manager
+ * @property \MicroweberPackages\Modules                       $modules
+ * @property \MicroweberPackages\DatabaseManager               $database_manager
+ * @property \MicroweberPackages\NotificationsManager          $notifications_manager
+ * @property \MicroweberPackages\LayoutsManager                $layouts_manager
+ * @property \MicroweberPackages\LogManager                    $log_manager
+ * @property \MicroweberPackages\FieldsManager                 $fields_manager
+ * @property \MicroweberPackages\Template                      $template
+ * @property \MicroweberPackages\Event                         $event_manager
+ * @property \MicroweberPackages\ConfigurationManager          $config_manager
+ * @property \MicroweberPackages\TemplateManager               $template_manager
+ * @property \MicroweberPackages\CaptchaManager               $captcha_manager
+ * @property \MicroweberPackages\Ui                            $ui
  * @property \MicroweberPackages\Utils\Http                              $http
- * @property \Microweber\Providers\FormsManager                  $forms_manager
- * @property \Microweber\Providers\Content\DataFieldsManager     $data_fields_manager
- * @property \Microweber\Providers\Content\TagsManager           $tags_manager
- * @property \Microweber\Providers\Content\AttributesManager     $attributes_manager
- * @property \Microweber\Providers\Helpers\Lang                  $lang_helper
- * @property \Microweber\Providers\PermalinkManager              $permalink_manager
+ * @property \MicroweberPackages\FormsManager                  $forms_manager
+ * @property \MicroweberPackages\DataFieldsManager     $data_fields_manager
+ * @property \MicroweberPackages\TagsManager           $tags_manager
+ * @property \MicroweberPackages\AttributesManager     $attributes_manager
+ * @property \MicroweberPackages\Helpers\Lang                  $lang_helper
+ * @property \MicroweberPackages\PermalinkManager              $permalink_manager
 
  */
 class Application

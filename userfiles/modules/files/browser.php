@@ -221,11 +221,9 @@ if (isset($params['sort_by'])) {
                             <?php $ext = strtolower(get_file_extension($item)); ?>
 
 
+                            <?php print thumbnail(mw()->url_manager->link_to_file($item), $tn_size, $tn_size, true); ?>
 
-                            <?php print mw()->url_manager->link_to_file($item) ?>
                             <?php if ($ext == 'jpg' or $ext == 'png' or $ext == 'gif' or $ext == 'jpeg' or $ext == 'bmp'): ?>
-
-
 
                                 <span data-src="<?php print thumbnail(mw()->url_manager->link_to_file($item), $tn_size, $tn_size, true); ?>"
                                       class="<?php print basename($item) ?> as-image image-item-not-ready"></span>
