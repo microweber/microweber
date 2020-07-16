@@ -16,7 +16,7 @@ class TaggableFileCacheServiceProvider extends ServiceProvider
     public function boot()
     {
         Cache::extend('file', function ($app, $config) {
-            
+
             $locale = app()->getLocale();
             if ($locale) {
                 $folder = app()->environment() . '-' . $locale . DIRECTORY_SEPARATOR;
