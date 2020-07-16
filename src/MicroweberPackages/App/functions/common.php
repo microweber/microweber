@@ -5,7 +5,7 @@
  *
  * @param null $class
  *
- * @return mixed|\Illuminate\Foundation\Application|\Microweber\Application
+ * @return mixed|\MicroweberPackages\Application
  */
 function mw($class = null)
 {
@@ -19,7 +19,7 @@ if (! function_exists('app')) {
      *
      * @param  string  $abstract
      * @param  array   $parameters
-     * @return mixed|\Illuminate\Foundation\Application|\Microweber\Application
+     * @return mixed|\MicroweberPackages\Application
      */
     function app($abstract = null, array $parameters = [])
     {
