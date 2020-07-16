@@ -7,6 +7,23 @@ var getFieldValue = function(a){
 //Cross-browser placeholder
 
 
+mw.Form = function(options) {
+    options = options || {};
+    var defaults = {
+        form: null
+    };
+    this.settings = $.extend({}, defaults, options);
+
+    this.$form = mw.$(this.settings.form).eq(0);
+    this.form = this.$form[0];
+    if (!this.form) {
+        return;
+    }
+
+    this.addBeforePost = function (func, cb) {
+
+    };
+};
 
 
 
@@ -45,8 +62,7 @@ mw.form = {
         mw.$(target).addClass('loading');
     }
   },
-
-  post:function(selector, url_to_post, callback, ignorenopost, callback_error, callback_user_cancel, before_send){
+  post: function(selector, url_to_post, callback, ignorenopost, callback_error, callback_user_cancel, before_send){
     mw.session.checkPause = true;
     if(selector.constructor === {}.constructor){
       return mw.form._post(selector);
@@ -66,31 +82,39 @@ mw.form = {
 
 
     if(is_form_valid){
-        var obj = mw.form.serialize(selector, ignorenopost);
-      	var xhr = $.ajax({
-            url: url_to_post,
-            data: before_send ? before_send(obj) : obj,
-            method: 'post',
-            success: function(data){
-                mw.session.checkPause = false;
-                if(typeof callback === 'function'){
-                    callback.call(data, mw.$(selector)[0]);
-                } else {
-                    return data;
-                }
-            },
-            onExternalDataDialogClose: function() {
-                if(callback_user_cancel) {
-                    callback_user_cancel.call();
-                }
-            }
-      	});
-        xhr.fail(function(a,b) {
-           mw.session.checkPause = false;
-           if(typeof callback_error === 'function'){
-              callback_error.call(a,b);
-           }
+
+        var form = mw.$(selector)[0];
+        $.when(form.$beforepost()).then(function( x ) {
+            setTimeout(function () {
+                var obj = mw.form.serialize(selector, ignorenopost);
+                var xhr = $.ajax({
+                    url: url_to_post,
+                    data: before_send ? before_send(obj) : obj,
+                    method: 'post',
+                    success: function(data){
+                        mw.session.checkPause = false;
+                        if(typeof callback === 'function'){
+                            callback.call(data, mw.$(selector)[0]);
+                        } else {
+                            return data;
+                        }
+                    },
+                    onExternalDataDialogClose: function() {
+                        if(callback_user_cancel) {
+                            callback_user_cancel.call();
+                        }
+                    }
+                });
+                xhr.fail(function(a,b) {
+                    mw.session.checkPause = false;
+                    if(typeof callback_error === 'function'){
+                        callback_error.call(a,b);
+                    }
+                });
+            }, 78)
         });
+
+
     }
 	return false;
   },
