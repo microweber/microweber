@@ -16,6 +16,7 @@ Route::group(['middleware' => \MicroweberPackages\App\Http\Middleware\Sessionles
 });
 
 Route::group(['namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
+
     Route::any('/', 'DefaultController@index');
 
     Route::any('/api', 'DefaultController@api');
@@ -40,12 +41,10 @@ Route::group(['namespace' => '\MicroweberPackages\App\Http\Controllers'], functi
     //
     Route::any('/editor_tools', 'DefaultController@editor_tools');
     Route::any('editor_tools/{all}', array('as' => 'editor_tools', 'uses' => 'DefaultController@editor_tools'))->where('all', '.*');
-    Route::any('/plupload', 'ModuleController@plupload');
-    Route::any('plupload/{all}', array('as' => 'plupload', 'uses' => 'ModuleController@plupload'))->where('all', '.*');
-    //Route::any('/module/', 'ModuleController@index');
-    //Route::any('module/{all}', array('as' => 'module', 'uses' => 'ModuleController@index'))->where('all', '.*');
+
     Route::any('/module/', 'DefaultController@module');
     Route::any('module/{all}', array('as' => 'module', 'uses' => 'DefaultController@module'))->where('all', '.*');
+
     Route::any('robots.txt', 'DefaultController@robotstxt');
     Route::any('sitemap.xml', 'DefaultController@sitemapxml');
     Route::any('rss', 'DefaultController@rss');

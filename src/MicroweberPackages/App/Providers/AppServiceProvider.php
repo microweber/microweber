@@ -22,6 +22,7 @@ use MicroweberPackages\Media\Media;
 use MicroweberPackages\Media\MediaManagerServiceProvider;
 use MicroweberPackages\Menu\MenuManagerServiceProvider;
 use MicroweberPackages\Module\ModuleManager;
+use MicroweberPackages\Module\ModuleServiceProvider;
 use MicroweberPackages\Option\OptionManagerServiceProvider;
 use MicroweberPackages\Backup\BackupManagerServiceProvider;
 
@@ -188,6 +189,7 @@ class AppServiceProvider extends ServiceProvider {
         $this->app->register(OptionManagerServiceProvider::class);
         $this->app->register(DatabaseManagerServiceProvider::class);
         $this->app->register(BackupManagerServiceProvider::class);
+        $this->app->register(ModuleServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
     }

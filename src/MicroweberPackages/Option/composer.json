@@ -24,7 +24,7 @@
       "MicroweberPackages\\Option\\": ""
     },
     "files": [
-      "helpers.php"
+      "helpers/options.php"
     ]
   },
   "config": {
