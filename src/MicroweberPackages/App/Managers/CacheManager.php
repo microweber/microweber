@@ -38,6 +38,7 @@ class CacheManager
         }
 
         $this->adapter = new LaravelCache($app);
+
     }
 
     /**

@@ -194,8 +194,9 @@ class AppServiceProvider extends ServiceProvider {
         $this->app->register(ModuleServiceProvider::class);
         $this->app->register(PermissionServiceProvider::class);
         $this->app->register(RoleServiceProvider::class);
-
+        
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
+
     }
 
     protected function registerLaravelProviders()
