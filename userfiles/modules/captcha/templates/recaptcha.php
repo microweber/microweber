@@ -71,8 +71,6 @@ if ($captcha_provider == 'google_recaptcha_v2'):
     </script>
 
     <script>
-
-
         var recaptchaV3Token = false;
         var runRecaptchaV3 = function () {
             try {
