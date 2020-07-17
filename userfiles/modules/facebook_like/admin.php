@@ -1,10 +1,14 @@
-<?php only_admin_access(); ?>
-<?php $layout = get_option('layout', $params['id']); ?>
-<?php $url_to_like = get_option('url', $params['id']); ?>
-<?php $url_to_like = get_option('url', $params['id']); ?>
-<?php $color = get_option('color', $params['id']); ?>
-<?php $show_faces = get_option('show_faces', $params['id']); ?>
+<?php
 
+only_admin_access();
+$layout = get_option('layout', $params['id']);
+$url_to_like = get_option('url', $params['id']);
+$url_to_like = get_option('url', $params['id']);
+$color = get_option('color', $params['id']);
+$show_faces = get_option('show_faces', $params['id']);
+$size = get_option('size', $params['id']);
+
+?>
 
 <div class="module-live-edit-settings module-facebook-like-settings">
     <div class="mw-ui-field-holder">
@@ -13,7 +17,7 @@
     </div>
 
     <div class="mw-flex-row">
-        <div class="mw-flex-col-xs-4">
+        <div class="mw-flex-col-xs-3">
             <div class="mw-ui-field-holder">
                 <label class="mw-ui-label"><?php _e("Layout"); ?></label>
                 <select name="layout" class="mw-ui-field mw_option_field mw-full-width">
@@ -25,9 +29,19 @@
             </div>
         </div>
 
-        <div class="mw-flex-col-xs-4">
+        <div class="mw-flex-col-xs-3">
             <div class="mw-ui-field-holder">
-                <label class="mw-ui-label"><?php _e("Color cheme"); ?></label>
+                <label class="mw-ui-label"><?php _e("Size"); ?></label>
+                <select name="size" class="mw-ui-field mw_option_field mw-full-width">
+                    <option value="small" <?php if ($size == false or $size == 'small'): ?> selected="selected" <?php endif ?>><?php _e("Small"); ?></option>
+                    <option value="large" <?php if ($size == 'large'): ?> selected="selected" <?php endif ?>><?php _e("Large"); ?></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="mw-flex-col-xs-3">
+            <div class="mw-ui-field-holder">
+                <label class="mw-ui-label"><?php _e("Color scheme"); ?></label>
                 <select name="color" class="mw-ui-field mw_option_field mw-full-width">
                     <option value="light" <?php if ($color == false or $color == 'standard'): ?> selected="selected" <?php endif ?>><?php _e("Light"); ?></option>
                     <option value="dark" <?php if ($color == 'dark'): ?> selected="selected" <?php endif ?>><?php _e("Dark"); ?></option>
@@ -35,7 +49,7 @@
             </div>
         </div>
 
-        <div class="mw-flex-col-xs-4">
+        <div class="mw-flex-col-xs-3">
             <div class="mw-ui-field-holder">
                 <label class="mw-ui-label"><?php _e("Show faces"); ?></label>
                 <select name="show_faces" class="mw-ui-field mw_option_field  mw-full-width">
