@@ -80,7 +80,60 @@ class ModuleManager
         $this->tables['system_licenses'] = $tables['system_licenses'];
     }
 
-    public function register_module($module)
+
+
+    // example:
+    /*
+     ['name' => 'User Roles',
+            'icon' => 'icon.png',
+            'author' => 'Microweber',
+            'description' => 'User Roles',
+            'website' => 'http://microweber.com/',
+            'help' => 'http://microweber.info/modules',
+            'version' => 0.19,
+            'ui' => true,
+            'ui_admin' => true,
+            'position' => 30,
+            'categories' => 'admin',
+            'assets' => '['resources']',
+
+            'type' => 'users/roles',
+            'controllers' => [
+                'index' => "MicroweberPackages\Role\Http\Controllers\IndexController@index",
+                'admin' => "MicroweberPackages\Role\Http\Controllers\IndexController@admin",
+            ],
+        ]
+    */
+    public function register($config)
+    {
+
+        if(isset($config['type']) and $config['type']){
+            $type = $config['type'];
+
+
+
+
+
+            //Register controllers
+            if(isset($config['controllers']) and $config['controllers'] and is_array($config['controllers'])){
+                foreach ($config['controllers'] as $controller_key =>$controller){
+                    $this->_register_module_callback_controller($type.'/'.$controller_key, $controller);
+                }
+            }
+        }
+
+
+
+
+    }
+
+    public function _register_module_callback_controller($module_type, $controller)
+    {
+        $this->app->parser->module_registry[trim($module_type)] = trim($controller);
+    }
+
+
+   /* public function register_module($module)
     {
 
     }
@@ -134,7 +187,7 @@ return \App::call("' . $module['admin_controller'] . '@index");
 
         file_put_contents($modulePublicPath . 'config.php', "<?php\n\$config = ".var_export($moduleConfig, true).";\n?>");
 
-    }
+    }*/
 
     public function install()
     {

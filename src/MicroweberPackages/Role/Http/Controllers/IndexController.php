@@ -21,7 +21,7 @@ class IndexController extends Controller
     public function index(Request $request)
     {
 
-        echo 'ludnica';
+        return 'ludnica bojkata';
     }
 
 }

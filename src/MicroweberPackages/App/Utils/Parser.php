@@ -2013,6 +2013,7 @@ class Parser
         // $DOMInnerHTML->saveXML();
         return $contentNode;
     }
+    public $module_registry = array();
 
     public function load($module_name, $attrs = array())
     {
@@ -2049,6 +2050,59 @@ class Parser
 
         if (!defined('ACTIVE_TEMPLATE_DIR')) {
             $this->app->content_manager->define_constants();
+        }
+
+
+        if (isset($attrs) and is_array($attrs) and !empty($attrs)) {
+            $attrs2 = array();
+            foreach ($attrs as $attrs_k => $attrs_v) {
+                $attrs_k2 = substr($attrs_k, 0, 5);
+                if (strtolower($attrs_k2) == 'data-') {
+                    $attrs_k21 = substr($attrs_k, 5);
+                    $attrs2[$attrs_k21] = $attrs_v;
+                } elseif (!isset($attrs['data-' . $attrs_k])) {
+                    $attrs2['data-' . $attrs_k] = $attrs_v;
+                }
+
+                $attrs2[$attrs_k] = $attrs_v;
+            }
+            $attrs = $attrs2;
+        }
+
+
+        if (isset($attrs['module-id']) and $attrs['module-id'] != false) {
+            $attrs['id'] = $attrs['module-id'];
+        }
+
+        if (!isset($attrs['id'])) {
+            global $mw_mod_counter;
+            ++$mw_mod_counter;
+            //  $seg_clean = $this->app->url_manager->segment(0);
+            $seg_clean = $this->app->url_manager->segment(0, url_current());
+
+
+            if (defined('IS_HOME')) {
+                $seg_clean = '';
+            }
+            $seg_clean = str_replace('%20', '-', $seg_clean);
+            $seg_clean = str_replace(' ', '-', $seg_clean);
+            $seg_clean = str_replace('.', '', $seg_clean);
+            $attrs1 = crc32(serialize($attrs) . $seg_clean . $mw_mod_counter);
+            $attrs1 = str_replace('%20', '-', $attrs1);
+            $attrs1 = str_replace(' ', '-', $attrs1);
+            $attrs['id'] = ( $this->module_css_class($module_name) . '-' . $attrs1);
+        }
+        if (isset($attrs['id']) and strstr($attrs['id'], '__MODULE_CLASS_NAME__')) {
+            $attrs['id'] = str_replace('__MODULE_CLASS_NAME__',  $this->module_css_class($module_name), $attrs['id']);
+            //$attrs['id'] = ('__MODULE_CLASS__' . '-' . $attrs1);
+        }
+
+
+
+        if(isset($this->module_registry[$module_name]) and $this->module_registry[$module_name]){
+            return   \App::call($this->module_registry[$module_name], ["params"=>$attrs]);
+        } else  if(isset($this->module_registry[$module_name.'/index']) and $this->module_registry[$module_name.'/index']){
+            return   \App::call($this->module_registry[$module_name.'/index'], ["params"=>$attrs]);
         }
 
         $module_in_template_dir = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '';
