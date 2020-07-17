@@ -9,7 +9,6 @@ if (isset($params['option-group'])) {
 
 $facebook_enabled = get_option('facebook_enabled', $option_group) == 'y';
 $twitter_enabled = get_option('twitter_enabled', $option_group) == 'y';
-$googleplus_enabled = get_option('googleplus_enabled', $option_group) == 'y';
 $pinterest_enabled = get_option('pinterest_enabled', $option_group) == 'y';
 $youtube_enabled = get_option('youtube_enabled', $option_group) == 'y';
 $linkedin_enabled = get_option('linkedin_enabled', $option_group) == 'y';
@@ -23,7 +22,6 @@ $medium_enabled = get_option('medium_enabled', $option_group) == 'y';
 $instagram_url = get_option('instagram_url', $option_group);
 $facebook_url = get_option('facebook_url', $option_group);
 $twitter_url = get_option('twitter_url', $option_group);
-$googleplus_url = get_option('googleplus_url', $option_group);
 $pinterest_url = get_option('pinterest_url', $option_group);
 $youtube_url = get_option('youtube_url', $option_group);
 $linkedin_url = get_option('linkedin_url', $option_group);
@@ -77,6 +75,8 @@ $medium_url = get_option('medium_url', $option_group);
 
 
     <script>mw.lib.require('font_awesome5');</script>
+
+    <module type="admin/modules/templates" simple="true"/>
 
     <div class="module-live-edit-settings module-social-links-settings">
         <div class="mw-ui-field-holder">
@@ -156,25 +156,6 @@ $medium_url = get_option('medium_url', $option_group);
                 <td>
                     <div class="mw-ui-field-holder">
                         <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field mw-ui-field mw-ui-field-medium" name="youtube_url" value="<?php print $youtube_url; ?>"/>
-                    </div>
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label class="mw-ui-check">
-                        <input type="checkbox" class="mw_option_field" name="googleplus_enabled" id="googleplus_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($googleplus_enabled) print 'checked="checked"'; ?>><span></span>
-                    </label>
-                </td>
-
-                <td><i class="fab fa-youtube mw-socials-youtube-color"></i></td>
-
-                <td>
-                    <label class="mw-ui-inline-label" for="googleplus_enabled">plus.google.com/</label>
-                </td>
-                <td>
-                    <div class="mw-ui-field-holder">
-                        <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field mw-ui-field mw-ui-field-medium" name="googleplus_url" value="<?php print $googleplus_url; ?>"/>
                     </div>
                 </td>
             </tr>

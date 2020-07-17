@@ -3,7 +3,6 @@
     <head>
     <title>{content_meta_title}</title>
 
-
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,15 +14,17 @@
     <meta property="og:image" content="{content_image}">
     <meta property="og:description" content="{og_description}">
     <meta property="og:site_name" content="{og_site_name}">
+
+	<?php if($page['content_type']=='product'){ ?>
+	<script type="application/ld+json">
+	  { "@context":"http://schema.org/","@type":"Product","sku":"{product_sku}","image":"{content_image}","name":"{content_meta_title}","description":"{content_meta_description}","offers":{ "@type": "Offer","priceCurrency":"{product_currency}","price":"{product_price}" } }
+	</script>
+	<?php } ?>
+
     <script type="text/javascript">
-      
         mw.require("<?php print( mw_includes_url()); ?>css/ui.css");
         mw.lib.require("bootstrap3");
     </script>
-
-
-
-
 
     <?php if(isset($custom_head)): ?>
     <?php print $custom_head; ?>
@@ -32,7 +33,6 @@
     <script type="text/javascript" src="{DEFAULT_TEMPLATE_URL}js/default.js"></script>
     <?php endif; ?>
 
-    
     </head>
     <body>
 <div id="header" class="clearfix">
@@ -58,5 +58,5 @@
         </div>
   </div>
     </div>
- 
+
 
