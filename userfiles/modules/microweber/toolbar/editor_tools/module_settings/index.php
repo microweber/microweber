@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <?php $module_info = false;
     if (isset($params['module'])): ?>
-        <?php $module_info = mw()->modules->get('one=1&ui=any&module=' . $params['module']); ?>
+        <?php $module_info = mw()->module_manager->get('one=1&ui=any&module=' . $params['module']); ?>
     <?php endif; ?>
 
     <script type="text/javascript" src="<?php print(mw()->template->get_apijs_combined_url()); ?>"></script>

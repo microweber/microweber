@@ -15,14 +15,14 @@ function mw_add_admin_menu_buttons($params = false)
         $btn['content_type'] = 'product';
         $btn['title'] = _e("Product", true);
         $btn['class'] = 'mai-product';
-        mw()->modules->ui('content.create.menu', $btn);
+        mw()->module_manager->ui('content.create.menu', $btn);
     }
     $btn = array();
     $btn['icon'] = '<span class="mai-market2"></span>';
     $btn['module'] = 'shop/settings';
     $btn['title'] =  _e("Shop", true);
 
-//    mw()->modules->ui('admin.settings.menu', $btn);
+//    mw()->module_manager->ui('admin.settings.menu', $btn);
 
 
 }
@@ -70,7 +70,7 @@ event_bind('module.content.edit.main', function ($data) {
         $btn['title'] = _e("Price", true);
         $btn['html'] = ' <module type="custom_fields" template="shop/products/edit_price" content_id="' . $data['id'] . '" />';
         $btn['class'] = 'titlepricecolumn';
-        mw()->modules->ui('content.edit.title.after', $btn);
+        mw()->module_manager->ui('content.edit.title.after', $btn);
     }
 });
 

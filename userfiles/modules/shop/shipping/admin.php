@@ -35,7 +35,7 @@ $shipping_modules = get_modules("type=shipping_gateway");
 <div>
     <?php if (is_array($shipping_modules)): ?>
         <?php foreach ($shipping_modules as $shipping_module): ?>
-            <?php if (mw()->modules->is_installed($shipping_module['module'])): ?>
+            <?php if (mw()->module_manager->is_installed($shipping_module['module'])): ?>
 
 
                 <div class="mw-ui-row">
@@ -89,7 +89,7 @@ $shipping_modules = get_modules("type=shipping_gateway");
     <div class="">
         <?php if (is_array($shipping_modules)): ?>
             <?php foreach ($shipping_modules as $shipping_module): ?>
-                <?php if (mw()->modules->is_installed($shipping_module['module'])): ?>
+                <?php if (mw()->module_manager->is_installed($shipping_module['module'])): ?>
 
 
                     <div class="mw-set-shipping-gw-options">

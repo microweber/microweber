@@ -167,7 +167,7 @@ if ($last_page_front != false) {
 $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 
 if (!$shop_disabled) {
-    if (!mw()->modules->is_installed('shop')) {
+    if (!mw()->module_manager->is_installed('shop')) {
         $shop_disabled = true;
     }
 }
@@ -457,7 +457,7 @@ if (!$shop_disabled) {
                                     <span class="mw-admin-main-menu-mini tip" data-tip="<?php _e("Add new post") ?>"
                                           data-href="<?php print admin_url('view:content#action=new:post'); ?>"><?php _e("Add"); ?></span>
                                 </a></li>
-                            <?php if ($shop_disabled == false AND mw()->modules->is_installed('shop') == true): ?>
+                            <?php if ($shop_disabled == false AND mw()->module_manager->is_installed('shop') == true): ?>
                                 <li <?php if ($action == 'products'): ?> class="active" <?php endif; ?>>
                                     <a href="<?php print admin_url(); ?>view:content/action:products">
                                         <span class="mai-product"></span>
@@ -477,7 +477,7 @@ if (!$shop_disabled) {
                         </ul>
                     </li>
 
-                    <?php if ($shop_disabled == false AND mw()->modules->is_installed('shop') == true): ?>
+                    <?php if ($shop_disabled == false AND mw()->module_manager->is_installed('shop') == true): ?>
 
                         <li
                             <?php if ($view == 'shop' and $action == false): ?> class="active"
@@ -652,7 +652,7 @@ if (!$shop_disabled) {
 
 
                             <?php event_trigger('mw_admin_settings_menu'); ?>
-                            <?php $settings_menu = mw()->modules->ui('admin.settings.menu'); ?>
+                            <?php $settings_menu = mw()->module_manager->ui('admin.settings.menu'); ?>
                             <?php if (is_array($settings_menu) and !empty($settings_menu)): ?>
                                 <?php foreach ($settings_menu as $item): ?>
                                     <?php $module = (isset($item['module'])) ? module_name_encode($item['module']) : false; ?>

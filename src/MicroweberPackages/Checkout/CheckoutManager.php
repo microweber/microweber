@@ -566,7 +566,7 @@ class CheckoutManager
                         $title = substr($value['option_key'], $l);
                         $string = preg_replace('/(\w+)([A-Z])/U', '\\1 \\2', $title);
                         $value['gw_file'] = $title;
-                        $mod_infp = $this->app->modules->get('ui=any&one=1&module=' . $title);
+                        $mod_infp = $this->app->module_manager->get('ui=any&one=1&module=' . $title);
 
                         if (!empty($mod_infp)) {
                             $value = $mod_infp;

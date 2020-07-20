@@ -43,6 +43,9 @@ class ModuleManager
             define('EMPTY_MOD_STR', "<div class='mw-empty-module '>{module_title} {type}</div>");
         }
 
+      /*  print '         1                  ';
+        dump(debug_backtrace(1));*/
+
         if (!is_object($this->app)) {
             if (is_object($app)) {
                 $this->app = $app;
@@ -104,15 +107,15 @@ class ModuleManager
             ],
         ]
     */
+
+    private $modules_register = [];
     public function register($config)
     {
 
         if(isset($config['type']) and $config['type']){
             $type = $config['type'];
 
-
-
-
+            $this->modules_register[] = $config;
 
             //Register controllers
             if(isset($config['controllers']) and $config['controllers'] and is_array($config['controllers'])){
@@ -121,8 +124,6 @@ class ModuleManager
                 }
             }
         }
-
-
 
 
     }
@@ -606,7 +607,17 @@ return \App::call("' . $module['admin_controller'] . '@index");
             }
         }
 
-        return $data;
+        $return = [];
+        if ($data) {
+            $return = array_merge($data, $return);
+        }
+
+         if ($this->modules_register) {
+            $return = array_merge($return, $this->modules_register);
+
+        }
+
+        return $return;
     }
 
     public function exists($module_name)
@@ -617,6 +628,16 @@ return \App::call("' . $module['admin_controller'] . '@index");
         if (trim($module_name) == '') {
             return false;
         }
+
+        if(isset($this->app->parser->module_registry[$module_name]) and$this->app->parser->module_registry[$module_name]){
+            return true;
+        } else  if(isset($this->app->parser->module_registry[$module_name.'/index']) and $this->app->parser->module_registry[$module_name.'/index']){
+            return true;
+
+        }
+
+
+
         global $mw_loaded_mod_memory;
 
         if (!isset($mw_loaded_mod_memory[$module_name])) {
@@ -1478,7 +1499,7 @@ return \App::call("' . $module['admin_controller'] . '@index");
                     if (is_dir($modules_dir_default) and is_file($modules_dir_default . 'config.php')) {
                         $this->_module_locations_root_cache[$module_name] = $module_name_check;
                         return $module_name_check;
-//                        $is_installed = $this->app->modules->is_installed($module_name_check);
+//                        $is_installed = $this->app->module_manager->is_installed($module_name_check);
 //                        if (!$is_installed) {
 //                            return '';
 //                        }

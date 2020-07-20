@@ -12,7 +12,7 @@ $price_id = $params['price-id'];
 $product_id = $params['product-id'];
 
  
-$offers_enabled = (mw()->modules->is_installed('shop/offers') ? true : false);
+$offers_enabled = (mw()->module_manager->is_installed('shop/offers') ? true : false);
 ?>
 <?php if ($offers_enabled) { ?>
     <script type="text/javascript">

@@ -45,8 +45,8 @@ if (isset($data[0]) == false) {
 </script>
 <?php if (is_array($data)): ?>
     <?php event_trigger('mw.admin.user.edit', $data); ?>
-    <?php $custom_ui = mw()->modules->ui('mw.admin.user.edit'); ?>
-    <?php $custom_user_fields = mw()->modules->ui('mw.admin.user.edit.fields'); ?>
+    <?php $custom_ui = mw()->module_manager->ui('mw.admin.user.edit'); ?>
+    <?php $custom_user_fields = mw()->module_manager->ui('mw.admin.user.edit.fields'); ?>
 
     <script type="text/javascript">
         DeleteUserAdmin<?php  print $data['id']; ?> = function ($user_id) {

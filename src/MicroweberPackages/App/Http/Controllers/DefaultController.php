@@ -1463,7 +1463,7 @@ class DefaultController extends Controller
                     $the_active_site_template = 'default';
                 }
 
-                if ($page_exact == false and $found_mod == false and $this->app->modules->is_installed($page_url) and $page_url != 'settings' and $page_url != 'admin') {
+                if ($page_exact == false and $found_mod == false and $this->app->module_manager->is_installed($page_url) and $page_url != 'settings' and $page_url != 'admin') {
                     $found_mod = true;
                 }
 
@@ -1658,7 +1658,7 @@ class DefaultController extends Controller
 
                         } elseif (is_array($page_url_segment_3)) {
                             foreach ($page_url_segment_3 as $mvalue) {
-                                if ($found_mod == false and $this->app->modules->is_installed($mvalue)) {
+                                if ($found_mod == false and $this->app->module_manager->is_installed($mvalue)) {
                                     $found_mod = true;
                                     $page['id'] = 0;
                                     $page['content_type'] = 'page';

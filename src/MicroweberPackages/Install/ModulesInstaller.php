@@ -9,7 +9,7 @@ class ModulesInstaller
 
     public function run()
     {
-        mw()->modules->logger = $this->logger;
-        mw()->modules->install();
+        mw()->module_manager->logger = $this->logger;
+        mw()->module_manager->install();
     }
 }

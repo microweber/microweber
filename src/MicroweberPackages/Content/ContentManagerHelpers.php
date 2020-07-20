@@ -630,7 +630,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                 if ($ref_page2 == false) {
                     $ustr = $this->app->url_manager->string(1);
 
-                    if ($this->app->modules->is_installed($ustr)) {
+                    if ($this->app->module_manager->is_installed($ustr)) {
                         $ref_page = false;
                     }
                 } else {
@@ -671,7 +671,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                     $pd['active_site_template'] = '';
                 }
 
-                if ($this->app->modules->is_installed($ustr)) {
+                if ($this->app->module_manager->is_installed($ustr)) {
                     $is_module = true;
                     $save_page['layout_file'] = 'clean.php';
                     $save_page['subtype'] = 'module';

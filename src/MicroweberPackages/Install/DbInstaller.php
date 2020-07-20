@@ -25,7 +25,7 @@ class DbInstaller
         Cache::flush();
 //        $this->log('Installing modules');
 //
-//        mw()->modules->install();
+//        mw()->module_manager->install();
     }
 
     private function getMigrationClassNameByFilename($filename)

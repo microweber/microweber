@@ -7,7 +7,7 @@ api_expose_admin('reorder_modules');
 
 function reorder_modules($data)
 {
-    return mw()->modules->reorder_modules($data);
+    return mw()->module_manager->reorder_modules($data);
 }
 
 /*
@@ -31,7 +31,7 @@ if (!defined('EMPTY_MOD_STR')) {
  */
 function module_templates($module_name, $template_name = false, $is_settings = false)
 {
-    return mw()->modules->templates($module_name, $template_name, $is_settings);
+    return mw()->module_manager->templates($module_name, $template_name, $is_settings);
 }
 
 /**
@@ -63,18 +63,18 @@ function get_layouts_from_db($options = false)
 
 function get_modules_from_db($options = false)
 {
-    return mw()->modules->get($options);
+    return mw()->module_manager->get($options);
 }
 
 function get_modules($options = false)
 {
-    return mw()->modules->get($options);
+    return mw()->module_manager->get($options);
 }
 
 api_expose_admin('save_module_as_template');
 function save_module_as_template($data_to_save)
 {
-    return mw()->modules->save_module_as_template($data_to_save);
+    return mw()->module_manager->save_module_as_template($data_to_save);
 }
 
 /**
@@ -99,27 +99,27 @@ function save_module_as_template($data_to_save)
  */
 function scan_for_modules($options = false)
 {
-    return mw()->modules->scan_for_modules($options);
+    return mw()->module_manager->scan_for_modules($options);
 }
 
 function scan_for_elements($options = array())
 {
-    return mw()->modules->scan_for_elements($options);
+    return mw()->module_manager->scan_for_elements($options);
 }
 
 function have_license($module_name = false)
 {
-    return mw()->modules->license($module_name);
+    return mw()->module_manager->license($module_name);
 }
 
 function load_module($module_name, $attrs = array())
 {
-    return mw()->modules->load($module_name, $attrs);
+    return mw()->module_manager->load($module_name, $attrs);
 }
 
 function module_css_class($module_name)
 {
-    mw()->modules->css_class($module_name);
+    mw()->module_manager->css_class($module_name);
 }
 
 function template_var($key, $new_val = false)
@@ -192,7 +192,7 @@ function post_form($params)
 
 function mw_print_admin_backup_settings_link()
 {
-    if (mw()->modules->is_installed('admin/backup')) {
+    if (mw()->module_manager->is_installed('admin/backup')) {
         $active = mw()->url_manager->param('view');
         $cls = '';
         $mname = module_name_encode('admin/backup/small');
@@ -205,7 +205,7 @@ function mw_print_admin_backup_settings_link()
         //print "<li><a class=\"item-".$mname."\" href=\"".$url."\">Backup</a></li>";
     }
 
-    if (mw()->modules->is_installed('admin/import')) {
+    if (mw()->module_manager->is_installed('admin/import')) {
         $active = mw()->url_manager->param('view');
         $cls = '';
         $mname = module_name_encode('admin/import');
@@ -572,7 +572,7 @@ function get_all_functions_files_for_modules($options = false)
     } else {
         $dir_name = normalize_path(modules_path());
     }
-    $installed = mw()->modules->get('ui=any&installed=1');
+    $installed = mw()->module_manager->get('ui=any&installed=1');
     $configs = false;
     if (is_array($installed) and !empty($installed)) {
         $configs = array();

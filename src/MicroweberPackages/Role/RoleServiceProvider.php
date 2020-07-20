@@ -37,10 +37,9 @@ class RoleServiceProvider extends ServiceProvider
 //           'admin_controller'=>IndexController::class
 //        ]);
 
+        $this->app->module_manager->register(
+            ['name' => 'Bojkata',
 
-        mw()->module_manager->register(
-            ['name' => 'User Roles',
-            'icon' => 'icon.png',
             'author' => 'Microweber',
             'description' => 'User Roles',
             'website' => 'http://microweber.com/',
@@ -48,10 +47,14 @@ class RoleServiceProvider extends ServiceProvider
             'version' => 0.19,
             'ui' => true,
             'ui_admin' => true,
+            'installed' => true,
+            'is_system' => false,
             'position' => 30,
             'categories' => 'admin',
 
+            'module' => 'users/bojkata',
             'type' => 'users/bojkata',
+            'id' => 'users/bojkata',
             'controllers' => [
                 'index' => "MicroweberPackages\Role\Http\Controllers\IndexController@index",
                 'admin' => "MicroweberPackages\Role\Http\Controllers\IndexController@admin",

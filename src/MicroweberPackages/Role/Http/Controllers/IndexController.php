@@ -23,5 +23,10 @@ class IndexController extends Controller
 
         return 'ludnica bojkata';
     }
+    public function admin(Request $request)
+    {
+
+        return 'ludnica bojkata admin';
+    }
 
 }

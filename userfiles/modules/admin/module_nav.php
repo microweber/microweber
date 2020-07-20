@@ -1,5 +1,5 @@
 <?php
-$module = mw()->modules->get('one=1&ui=any&module=' . $v_mod);
+$module = mw()->module_manager->get('one=1&ui=any&module=' . $v_mod);
 ?>
 
 <div id="mw-modules-toolbar">

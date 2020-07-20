@@ -294,9 +294,9 @@ class AppServiceProvider extends ServiceProvider {
             });
         }
 
-        $this->app->singleton('modules', function($app) use ($class) {
-           return new ModuleManager($app);
-        });
+//        $this->app->singleton('modules', function($app) use ($class) {
+//           return new ModuleManager($app);
+//        });
 
     }
 

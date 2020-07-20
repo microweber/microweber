@@ -243,7 +243,7 @@
                                     <?php _e("Market"); ?>
                                 </a>
                             <?php endif; ?>
-                            <?php $modules_sidebar_menu = mw()->modules->ui('admin.modules.sidebar'); ?>
+                            <?php $modules_sidebar_menu = mw()->module_manager->ui('admin.modules.sidebar'); ?>
                             <?php if (!empty($modules_sidebar_menu)): ?>
                                 <?php foreach ($modules_sidebar_menu as $type => $item): ?>
                                     <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>

@@ -7,7 +7,7 @@ function load_all_functions_files_for_modules($options = false)
     if (!$is_installed) {
         return;
     }
-    $modules = mw()->modules->get('ui=any&installed=1&limit=99999');
+    $modules = mw()->module_manager->get('ui=any&installed=1&limit=99999');
     $files = array();
     if (!empty($modules)) {
         foreach ($modules as $module) {
@@ -26,7 +26,7 @@ function load_all_functions_files_for_modules($options = false)
 
 function module_info($module_name)
 {
-    return mw()->modules->info($module_name);
+    return mw()->module_manager->info($module_name);
 }
 
 function module_name_decode($module_name)
@@ -77,7 +77,7 @@ function module($params)
         }
     }
 
-    $res = mw()->modules->load($module_name, $params);
+    $res = mw()->module_manager->load($module_name, $params);
     if (isset($params['wrap']) or isset($params['data-wrap'])) {
         $module_cl = module_css_class($module_name);
         $res = "<div class='module {$module_cl}' {$tags} data-type='{$module_name}'>".$res.'</div>';
@@ -88,29 +88,29 @@ function module($params)
 
 function is_module($module_name)
 {
-    return mw()->modules->exists($module_name);
+    return mw()->module_manager->exists($module_name);
 }
 
 function module_url($module_name = false)
 {
-    return mw()->modules->url($module_name);
+    return mw()->module_manager->url($module_name);
 }
 
 function module_dir($module_name)
 {
-    return mw()->modules->dir($module_name);
+    return mw()->module_manager->dir($module_name);
 }
 
 function locate_module($module_name, $custom_view = false, $no_fallback_to_view = false)
 {
-    return mw()->modules->locate($module_name, $custom_view, $no_fallback_to_view);
+    return mw()->module_manager->locate($module_name, $custom_view, $no_fallback_to_view);
 }
 
 api_expose_admin('uninstall_module');
 
 function uninstall_module($params)
 {
-    return mw()->modules->uninstall($params);
+    return mw()->module_manager->uninstall($params);
 }
 
 //event_bind('mw_db_init_modules', 're_init_modules_db');
@@ -118,32 +118,32 @@ function uninstall_module($params)
 function re_init_modules_db()
 {
 
-    //return mw()->modules->update_db();
+    //return mw()->module_manager->update_db();
 }
 
 api_expose_admin('install_module');
 
 function install_module($params)
 {
-    return mw()->modules->set_installed($params);
+    return mw()->module_manager->set_installed($params);
 }
 
 function save_module_to_db($data_to_save)
 {
-    return mw()->modules->save($data_to_save);
+    return mw()->module_manager->save($data_to_save);
 }
 
 function get_saved_modules_as_template($params)
 {
-    return mw()->modules->get_saved_modules_as_template($params);
+    return mw()->module_manager->get_saved_modules_as_template($params);
 }
 
 api_expose_admin('delete_module_as_template');
 function delete_module_as_template($data)
 {
-    return mw()->modules->delete_module_as_template($data);
+    return mw()->module_manager->delete_module_as_template($data);
 }
 
 api_bind_admin('module/reorder_modules', function ($data) {
-    return mw()->modules->reorder_modules($data);
+    return mw()->module_manager->reorder_modules($data);
 });

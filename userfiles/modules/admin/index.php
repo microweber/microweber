@@ -21,7 +21,7 @@
             $v_mod = module_name_decode($v1);
 
             if (is_module($v_mod)) {
-                $mod = '<module type="' . $v_mod . '" view="admin"  backend="true" id="mw-main-module-backend" />';
+                $mod = '<module type="' . $v_mod . '/admin"    backend="true" id="mw-main-module-backend" />';
                 print $mod;
             } else {
                 print "No module found {$v_mod}";
