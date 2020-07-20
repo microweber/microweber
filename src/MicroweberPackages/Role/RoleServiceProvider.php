@@ -59,5 +59,13 @@ class RoleServiceProvider extends ServiceProvider
         ]);
 
         $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
+
+        //dd(userfiles_path());
+       // dd(asset('asdas'));
+
+//        $this->publishes([
+//            __DIR__.'/../../views' => userfiles_path().'assets/views/vendor/users/bojkata',
+//        ]);
+
     }
 }
