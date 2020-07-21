@@ -25,18 +25,6 @@ class RoleServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
-
-
-
-//        mw()->module_manager->register([
-//           'public_folder'=> 'users/roles',
-//           'name'=> 'User Roles',
-//           'icon'=> __DIR__ . '/Assets/icon.png',
-//           'controller'=>IndexController::class,
-//           'admin_controller'=>IndexController::class
-//        ]);
-
         $this->app->module_manager->register(
             ['name' => 'Bojkata',
 
@@ -62,13 +50,6 @@ class RoleServiceProvider extends ServiceProvider
         ]);
 
         $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
-
-        //dd(userfiles_path());
-       // dd(asset('asdas'));
-
-//        $this->publishes([
-//            __DIR__.'/../../views' => userfiles_path().'assets/views/vendor/users/bojkata',
-//        ]);
-
+        $this->loadMigrationsFrom(__DIR__ . '/migrations/');
     }
 }
