@@ -2,10 +2,12 @@
 
 namespace MicroweberPackages\Install;
 
+use Illuminate\Support\Facades\Artisan;
 use MicroweberPackages\Database\Utils as DbUtils;
 use Illuminate\Support\Facades\Schema as DbSchema;
 use Illuminate\Database\QueryException;
 use Cache;
+use QueryPath\Exception;
 
 class DbInstaller
 {
@@ -107,20 +109,57 @@ class DbInstaller
 
             }
         }
+        if (!DbSchema::hasTable('migrations')) {
+            try {
+                DbSchema::create('migrations', function ($table) {
+                    $table->increments('id');
+                    $table->string('migration');
+                    $table->integer('batch');
+                    $table->string('hash');
+                });
+            } catch (QueryException $e) {
+
+            }
+        }
+
         $exec = $this->getSystemSchemas();
         $builder = new DbUtils();
         $schemaArray = array();
 
         foreach ($exec as $data) {
-            // Creates the schema
 
+            // Creates the schema
             if (method_exists($data, 'up')) {
+
+                $classBaseNameMigraiton = class_basename($data);
+                $classBaseNameHashMigration = md5(serialize($data));
+
+                $findMigration = db_get('migrations', [
+                    'single'=>1,
+                    'hash'=>$classBaseNameHashMigration,
+                    'migration'=> $classBaseNameMigraiton,
+                ]);
+
+                if ($findMigration) {
+                    continue;
+                }
+
                 try {
                     $this->log('Setting up schema ' . get_class($data));
                     $data->up();
-                } catch (QueryException $e) {
-
-
+                    db_save('migrations',[
+                        'migration'=> $classBaseNameMigraiton,
+                        'batch'=>1,
+                        'hash'=>$classBaseNameHashMigration
+                    ]);
+                } catch (\Exception $e) {
+                    if(strpos($e->getMessage(), 'already exists') !==false) {
+                        db_save('migrations',[
+                            'migration'=> $classBaseNameMigraiton,
+                            'batch'=>1,
+                            'hash'=>$classBaseNameHashMigration
+                        ]);
+                    }
                 }
             }
 
