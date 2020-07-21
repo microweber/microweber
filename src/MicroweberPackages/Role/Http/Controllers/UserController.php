@@ -51,7 +51,7 @@ class UserController extends Controller
 
         $results = $model->paginate();
 
-        return $this->view('index', compact('results'));
+        return view('index', compact('results'));
     }
 
     public function resetPassword(Request $request){
