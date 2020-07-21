@@ -68,6 +68,9 @@ class DbInstaller
                                         $repos[] = $instanceMigration;
                                     }
                                 }
+                                if (method_exists($instanceMigration,'up')) {
+                                    $repos[] = $instanceMigration;
+                                }
                             }
                         }
                     }
@@ -141,7 +144,7 @@ class DbInstaller
                 ]);
 
                 if ($findMigration) {
-                    continue; 
+                    continue;
                 }
 
                 try {
