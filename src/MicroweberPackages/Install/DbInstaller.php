@@ -141,7 +141,7 @@ class DbInstaller
                 ]);
 
                 if ($findMigration) {
-                    continue;
+                    continue; 
                 }
 
                 try {
