@@ -1,15 +1,25 @@
 <?php
+
 /*
-Route::prefix(config('admin.router.prefix', 'admin'))->middleware('web')->group(function ($router) {
-    $router->get('login', config('admin.auth.login.controller').'@showLoginForm')->name('admin.login');
-    $router->post('login', config('admin.auth.login.controller').'@login')->middleware('throttle:'.config('admin.auth.login.throttle'))->middleware(\Tanwencn\Admin\Http\Middleware\HttpLog::class)->name('admin.login');
-    $router->get('logout', config('admin.auth.login.controller').'@logout')->name('admin.logout');
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+/*
+Route::group(['middleware' => ['role:admin']], function () {
+    Route::resource('admin/permissions', \MicroweberPackages\Role\Http\Controllers\Admin\PermissionsController::class);
+    Route::resource('admin/roles', \MicroweberPackages\Role\Http\Controllers\Admin\RolesController::class);
+    Route::resource('admin/users', \MicroweberPackages\Role\Http\Controllers\Admin\UsersController::class);
+    // Route::resource('add-items', 'Admin\AddItemController');
 });*/
 
-Route::group(['namespace' => '\MicroweberPackages\Role\Http\Controllers'], function ($router) {
 
-    $router->resource('admin/api/users', 'UserController')->names('users');
-    $router->resource('admin/api/roles', 'RoleController')->names('roles');
-    $router->resource('admin/api/permissions', 'PermissionController')->names('permissions');
-
-});
+Route::resource('admin/permissions', \MicroweberPackages\Role\Http\Controllers\Admin\PermissionsController::class);
+Route::resource('admin/roles', \MicroweberPackages\Role\Http\Controllers\Admin\RolesController::class);
+Route::resource('admin/users', \MicroweberPackages\Role\Http\Controllers\Admin\UsersController::class);

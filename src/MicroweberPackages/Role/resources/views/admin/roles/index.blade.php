@@ -4,7 +4,7 @@
 </script>
         <div class="container-fluid">
             <div class="block-header">
-                <h2>User</h2>
+                <h2>Roles</h2>
             </div>
 
             <!-- Vertical Layout -->
@@ -12,8 +12,8 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
-                            <h2>User</h2>
-                            <a href="{{route('users.create')}}" class="btn btn-success btn-block m-t-15 waves-effect">Add New</a>
+                            <h2>Roles</h2>
+                            <a href="{{route('roles.create')}}" class="btn btn-success btn-block m-t-15 waves-effect">Add New</a>
                             <ul class="header-dropdown m-r--5">
                                 <li class="dropdown">
                                     <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -34,8 +34,7 @@
                                         <tr>
                                         	<th>Id</th>
                                             <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Roles</th>
+                                            <th>Permissions</th>
                                             <th></th>
                                             <th></th>
                                         </tr>
@@ -44,27 +43,26 @@
                                         <tr>
                                         	<th>Id</th>
                                             <th>Name</th>
-                                            <th>Email</th>
+                                            <th>Permissions</th>
                                             <th></th>
                                             <th></th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                    	@foreach($users as $row)
+                                    	@foreach($roles as $row)
                                         <tr>                                        	
                                         	<td>{{ $row->id }}</td>
                                         	<td>{{ $row->name }}</td>
-                                            <td>{{ $row->email }}</td>
                                             <td>
-                                                @foreach($row->roles()->pluck('name') as $role)
-                                                    {{ $role }},
+                                                @foreach($row->permissions()->pluck('name') as $permission)
+                                                    {{ $permission }},
                                                 @endforeach
                                             </td>
                                         	<td>
-                                        		<a href="{{route('users.edit',$row->id)}}" class="btn btn-warning waves-effect">Edit</a>
+                                        		<a href="{{route('roles.edit',$row->id)}}" class="btn btn-warning waves-effect">Edit</a>
                                         	</td>
                                         	<td>
-                                        		<form id="delete_form" method="POST" action="{{ route('users.destroy',$row->id) }}">
+                                        		<form id="delete_form" method="POST" action="{{ route('roles.destroy',$row->id) }}">
 					                            	{{ csrf_field() }}
 					                            	<input name="_method" type="hidden" value="DELETE">
 					                                <button class="btn btn-danger waves-effect" type="submit">Delete</button>

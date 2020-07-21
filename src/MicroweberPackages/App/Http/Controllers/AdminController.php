@@ -34,7 +34,7 @@ class AdminController extends Controller
         return $this->render();
     }
 
-    public function view($layout, $params = false)
+    public function view($layout, $params = array())
     {
         $renderView = (string) view($layout, $params);
         $this->render_content = $renderView;

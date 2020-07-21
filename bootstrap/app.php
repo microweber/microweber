@@ -32,17 +32,10 @@ if (class_exists(\MicroweberPackages\App\LaravelApplication::class)) {
 |
 */
 
-if (class_exists(\App\Http\Kernel::class)) {
-    $app->singleton(
-        \Illuminate\Contracts\Http\Kernel::class,
-        \App\Http\Kernel::class
-    );
-} else {
-    $app->singleton(
-        'Illuminate\Contracts\Http\Kernel',
-        'MicroweberPackages\App\Http\Kernel'
-    );
-}
+$app->singleton(
+    \Illuminate\Contracts\Http\Kernel::class,
+    \MicroweberPackages\App\Http\Kernel::class
+);
 
 if (class_exists(\App\Console\Kernel::class)) {
     $app->singleton(
