@@ -2,32 +2,18 @@
 <script>
     mw.lib.require('bootstrap4');
 </script>
-        <div class="container-fluid">
-            <div class="block-header">
-                <h2>User</h2>
-            </div>
+
+        <div class="container" style="margin-top: 30px">
 
             <!-- Vertical Layout -->
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
-                        <div class="header">
+                        <div class="card-header">
                             <h2>User</h2>
-                            <a href="{{route('users.create')}}" class="btn btn-success btn-block m-t-15 waves-effect">Add New</a>
-                            <ul class="header-dropdown m-r--5">
-                                <li class="dropdown">
-                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                        <i class="material-icons">more_vert</i>
-                                    </a>
-                                    <ul class="dropdown-menu pull-right">
-                                        <li><a href="javascript:void(0);">Action</a></li>
-                                        <li><a href="javascript:void(0);">Another action</a></li>
-                                        <li><a href="javascript:void(0);">Something else here</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
+                            <a href="{{route('users.create')}}" class="btn btn-success">Add New</a>
                         </div>
-                        <div class="body">                        	
+                        <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered table-striped table-hover dataTable js-exportable">
                                     <thead>
@@ -36,19 +22,9 @@
                                             <th>Name</th>
                                             <th>Email</th>
                                             <th>Roles</th>
-                                            <th></th>
-                                            <th></th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                        <tr>
-                                        	<th>Id</th>
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                            <th></th>
-                                            <th></th>
-                                        </tr>
-                                    </tfoot>
                                     <tbody>
                                     	@foreach($users as $row)
                                         <tr>                                        	
@@ -62,8 +38,6 @@
                                             </td>
                                         	<td>
                                         		<a href="{{route('users.edit',$row->id)}}" class="btn btn-warning waves-effect">Edit</a>
-                                        	</td>
-                                        	<td>
                                         		<form id="delete_form" method="POST" action="{{ route('users.destroy',$row->id) }}">
 					                            	{{ csrf_field() }}
 					                            	<input name="_method" type="hidden" value="DELETE">

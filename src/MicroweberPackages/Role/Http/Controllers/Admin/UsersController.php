@@ -8,7 +8,6 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
-use JavaScript;
 
 class UsersController extends AdminController
 {
@@ -65,10 +64,10 @@ class UsersController extends AdminController
         $user = User::findOrFail($id);
 
         $selectedRoles = $user->roles()->pluck('name');
-
+/*
         JavaScript::put([
             'role' => $selectedRoles
-        ]);
+        ]);*/
 
         return $this->view('role::admin.users.edit', compact('user', 'roles'));
     }
