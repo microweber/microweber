@@ -14,6 +14,9 @@ $config = array(
     'ui_admin' => true,
     'position' => 30,
     'categories' => 'admin',
+    'providers'=>[
+        \MicroweberPackages\Role\RoleServiceProvider::class,
+    ],
     'controllers' => [
         'index' => "MicroweberPackages\Role\Http\Controllers\IndexController@index",
         'admin' => "MicroweberPackages\Role\Http\Controllers\IndexController@admin",
