@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
@@ -14,6 +15,7 @@ class AdminController extends Controller
 {
     /** @var \Microweber\Application */
     public $app;
+    private $render_content;
 
     public function __construct($app = null)
     {
@@ -26,8 +28,23 @@ class AdminController extends Controller
 
     }
 
-    public function index()
+
+    public function index(Request $request)
     {
+        return $this->render();
+    }
+
+    public function view($layout, $params = false)
+    {
+        $renderView = (string) view($layout, $params);
+        $this->render_content = $renderView;
+
+        return $this->render();
+    }
+
+
+    public function render() {
+
         $is_installed = mw_is_installed();
 
         if (!$is_installed) {
@@ -53,18 +70,16 @@ class AdminController extends Controller
         }
 
 
-
         if (!defined('MW_BACKEND')) {
             define('MW_BACKEND', true);
         }
-
 
 
         //create_mw_default_options();
         mw()->content_manager->define_constants();
 
         if (defined('TEMPLATE_DIR')) {
-            $load_template_functions = TEMPLATE_DIR.'functions.php';
+            $load_template_functions = TEMPLATE_DIR . 'functions.php';
             if (is_file($load_template_functions)) {
                 include_once $load_template_functions;
             }
@@ -72,7 +87,7 @@ class AdminController extends Controller
 
         event_trigger('mw.admin');
         event_trigger('mw_backend');
-        $view = modules_path().'admin/';
+        $view = modules_path() . 'admin/';
 
         $hasNoAdmin = User::where('is_admin', 1)->limit(1)->count();
 
@@ -92,7 +107,7 @@ class AdminController extends Controller
                         if ($is) {
                             $is_allowed = $is;
                         }
-                }
+                    }
                     if (!$is_allowed) {
                         return response('Unauthorized.', 401);
                     }
@@ -103,9 +118,13 @@ class AdminController extends Controller
 
         $hasNoAdmin = User::where('is_admin', 1)->limit(1)->count();
 
-        $view .= (!$hasNoAdmin ? 'create' : 'index').'.php';
+        $view .= (!$hasNoAdmin ? 'create' : 'index') . '.php';
 
         $layout = new View($view);
+
+        if ($this->render_content) {
+            $layout->assign('render_content', $this->render_content);
+        }
         $layout = $layout->__toString();
 
         $layout = mw()->parser->process($layout);
@@ -115,15 +134,16 @@ class AdminController extends Controller
 
         event_trigger('mw.admin.header');
 
-       // $apijs_loaded = mw()->template->get_apijs_url();
-      //  $apijs_settings_loaded = mw()->template->get_apijs_settings_url();
+        // $apijs_loaded = mw()->template->get_apijs_url();
+        //  $apijs_settings_loaded = mw()->template->get_apijs_settings_url();
 
-        $default_css = '<link rel="stylesheet" href="'.mw_includes_url().'default.css?v='.MW_VERSION.'" type="text/css" />';
-      //  if (!stristr($layout, $apijs_loaded)) {
-            $rep = 0;
+        $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css?v=' . MW_VERSION . '" type="text/css" />';
+        //  if (!stristr($layout, $apijs_loaded)) {
+        $rep = 0;
 
-            $layout = str_ireplace('<head>', '<head>'.$default_css, $layout, $rep);
-       // }
+        $layout = str_ireplace('<head>', '<head>' . $default_css, $layout, $rep);
+        // }
+
         $layout = $this->app->template->append_api_js_to_layout($layout);
 
 
@@ -142,7 +162,7 @@ class AdminController extends Controller
 
         $template_headers_src = mw()->template->admin_head(true);
         if ($template_headers_src != false and $template_headers_src != '') {
-            $layout = str_ireplace('</head>', $template_headers_src.'</head>', $layout, $one);
+            $layout = str_ireplace('</head>', $template_headers_src . '</head>', $layout, $one);
         }
 
         return $layout;
@@ -151,7 +171,7 @@ class AdminController extends Controller
     private function hasNoAdmin()
     {
         if (!$this->checkServiceConfig()) {
-           $this->registerMwClient();
+            $this->registerMwClient();
         }
         if (mw()->url_manager->param('mw_install_create_user')) {
             $this->execCreateAdmin();
@@ -190,10 +210,10 @@ class AdminController extends Controller
         }
 
         if (200 == $response->getStatusCode()) {
-            $body = (string) $response->getBody();
-           // $body = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $key, $body, MCRYPT_MODE_ECB);
+            $body = (string)$response->getBody();
+            // $body = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $key, $body, MCRYPT_MODE_ECB);
             $body = trim($body);
-            $body = (array) json_decode($body);
+            $body = (array)json_decode($body);
 
             Config::set('services.microweber', $body);
             Config::save(array('microweber', 'services'));

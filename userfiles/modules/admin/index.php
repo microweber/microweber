@@ -15,7 +15,9 @@
     ?>
 
     <div class="mw-ui-col admin-content-column <?php print  $holder_cls ?>">
-        <?php if ($v1 != false): ?>
+        <?php if (isset($render_content) != false and $render_content): ?>
+        <?php print $render_content?>
+        <?php elseif ($v1 != false): ?>
             <?php
 
             $v_mod = module_name_decode($v1);

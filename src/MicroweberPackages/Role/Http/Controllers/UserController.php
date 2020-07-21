@@ -2,18 +2,18 @@
 
 namespace MicroweberPackages\Role\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Validation\ValidatesRequests;
+ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use MicroweberPackages\App\Http\Controllers\AdminController;
 use MicroweberPackages\User\User;
 use Spatie\Permission\Models\Role;
 
-class UserController extends Controller
+class UserController extends AdminController
 {
     use ValidatesRequests;
 
@@ -24,6 +24,8 @@ class UserController extends Controller
 
     public function __construct()
     {
+        parent::__construct();
+
         $this->model = User::class;
         $fileds = ['email', 'name'];
         array_unshift($fileds, config('admin.auth.login.username', 'email'));
@@ -51,7 +53,7 @@ class UserController extends Controller
 
         $results = $model->paginate();
 
-        return view('index', compact('results'));
+        return $this->view('role::admin.users.index', compact('results'));
     }
 
     public function resetPassword(Request $request){

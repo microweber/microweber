@@ -25,6 +25,9 @@ class RoleServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        \View::addNamespace('role', __DIR__.'/resources/views');
+
         $this->app->module_manager->register(
             ['name' => 'Bojkata',
 
@@ -45,7 +48,7 @@ class RoleServiceProvider extends ServiceProvider
             'id' => 'users/bojkata',
             'controllers' => [
                 'index' => "MicroweberPackages\Role\Http\Controllers\IndexController@index",
-                'admin' => "MicroweberPackages\Role\Http\Controllers\IndexController@admin",
+                'admin' => "MicroweberPackages\Role\Http\Controllers\IndexController@index",
             ],
         ]);
 
