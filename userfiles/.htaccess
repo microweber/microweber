@@ -2,3 +2,26 @@
 <IfModule mod_deflate.c>
 AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/x-javascript application/javascript
 </IfModule>
+
+
+
+<FilesMatch ".*\.(php|phtml|php5)$">
+Order Allow,Deny
+Deny from All
+</FilesMatch>
+
+#<Files ~ "\.php$">
+#Order Allow,Deny
+#Deny from All
+#</Files>
+
+
+<IfModule mod_php5.c>
+php_flag engine 0
+</IfModule>
+
+<IfModule mod_php7.c>
+php_flag engine 0
+</IfModule>
+
+

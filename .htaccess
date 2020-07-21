@@ -56,4 +56,4 @@ AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css a
   </IfModule>
 </FilesMatch>
 
-RedirectMatch 404 /(vendor|gulp|src|storage|database|config|bootstrap|tests)(/|$)
+RedirectMatch 404 /(vendor|gulp|src|storage|database|config|bootstrap|tests|cache|build)(/|$)
