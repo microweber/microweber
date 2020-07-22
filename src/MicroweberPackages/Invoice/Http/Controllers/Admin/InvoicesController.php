@@ -78,6 +78,7 @@ class InvoicesController extends AdminController
         }
 
         return $this->view('invoice::admin.invoices.create', [
+            'taxTypes'=>\MicroweberPackages\Tax\TaxType::all(),
             'users' => \MicroweberPackages\User\User::all(),
             'nextInvoiceNumberAttribute' => $nextInvoiceNumberAttribute,
             'nextInvoiceNumber' => $invoice_prefix.'-'.$nextInvoiceNumber,

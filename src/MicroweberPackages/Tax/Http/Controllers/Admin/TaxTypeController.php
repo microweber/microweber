@@ -2,6 +2,7 @@
 namespace MicroweberPackages\Tax\Http\Controllers\Admin;
 
 use MicroweberPackages\App\Http\Controllers\AdminController;
+use MicroweberPackages\Tax\Tax;
 use MicroweberPackages\Tax\TaxType;
 use MicroweberPackages\Tax\User;
 use MicroweberPackages\Tax\Http\Requests\TaxTypeRequest;
@@ -75,8 +76,10 @@ class TaxTypeController extends AdminController
      * @param  \MicroweberPackages\Tax\TaxType  $taxType
      * @return \Illuminate\Http\Response
      */
-    public function edit(TaxType $taxType)
+    public function edit(Request $request)
     {
+        $taxType = TaxType::find($request->route('tax_type'));
+
         return $this->view('tax::admin.taxes.edit',[
             'taxType' => $taxType,
         ]);
@@ -89,8 +92,10 @@ class TaxTypeController extends AdminController
      * @param  \MicroweberPackages\Tax\TaxType  $taxType
      * @return \Illuminate\Http\Response
      */
-    public function update(TaxTypeRequest $request, TaxType $taxType)
+    public function update(TaxTypeRequest $request)
     {
+        $taxType = TaxType::find($request->route('tax_type'));
+
         $taxType->name = $request->name;
         $taxType->percent = $request->percent;
         $taxType->description = $request->description;
@@ -111,8 +116,15 @@ class TaxTypeController extends AdminController
      * @param  \MicroweberPackages\Tax\TaxType  $taxType
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TaxType $taxType)
+    public function destroy(Request $request)
     {
+
+        $taxType = TaxType::find($request->route('tax_type'));
+
+        if (!$taxType) {
+            return redirect(route('tax-types.index'))->with('status', 'Tax not found');
+        }
+
         if ($taxType->taxes() && $taxType->taxes()->count() > 0) {
             return redirect(route('tax-types.index'))->with('status', 'Failed to delete tax.');
         }

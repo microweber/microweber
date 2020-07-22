@@ -29,7 +29,6 @@
                 </div>
             </div>
 
-
             <div class="col-md-4">
                 <div class="form-group">
                     <label>Invoice Number:</label>
@@ -78,6 +77,16 @@
                     </div>
 
 
+                    <div class="col-md-12" style="text-align: right">
+                        <div class="form-group">
+                            <label>Tax:</label>
+                            <br />
+                            @foreach($taxTypes as $taxType)
+                                <b>{{$taxType->name}} - {{$taxType->percent }} % </b><br />
+                            @endforeach
+                        </div>
+                    </div>
+
                     <div class="form-group col-md-12">
                         <label>Total:</label>
                         <input type="text" disabled="disabled" class="form-control" value="1.00" />
@@ -87,6 +96,8 @@
             </div>
         </div>
 
+
+        <input type="hidden" value="{{$taxType->id}}" name="tax"/>
         <input type="hidden" value="1.00" name="total"/>
         <input type="hidden" value="1.00" name="sub_total"/>
 
