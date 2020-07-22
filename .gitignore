@@ -45,3 +45,4 @@ node_modules/
 /phpunit.phar
 /run-build.sh
 /userfiles/templates
+/phpunit-5.7.27.phar
