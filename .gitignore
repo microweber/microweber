@@ -44,3 +44,4 @@ node_modules/
 /userfiles/*.json
 /phpunit.phar
 /run-build.sh
+/userfiles/templates
