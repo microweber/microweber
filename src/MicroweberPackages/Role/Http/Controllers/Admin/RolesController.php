@@ -11,13 +11,14 @@ use JavaScript;
 class RolesController extends AdminController
 {
     /**
-    *
-    * allow admin only
-    *
-    */
+     *
+     * allow admin only
+     *
+     */
 
-    public function __construct() {
-      //  $this->middleware('role:admin');
+    public function __construct()
+    {
+        $this->middleware('role:admin');
         parent::__construct();
 
     }
@@ -49,7 +50,7 @@ class RolesController extends AdminController
     /**
      * Store a newly created Role in storage.
      *
-     * @param  \App\Http\Requests\StoreRolesRequest  $request
+     * @param  \App\Http\Requests\StoreRolesRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -70,7 +71,7 @@ class RolesController extends AdminController
     /**
      * Show the form for editing Role.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -85,14 +86,14 @@ class RolesController extends AdminController
             'foo' => $selectedPermissions
         ]);
 
-        return view('admin.roles.edit', compact('role', 'permissions','selectedPermissions'));
+        return view('admin.roles.edit', compact('role', 'permissions', 'selectedPermissions'));
     }
 
     /**
      * Update Role in storage.
      *
-     * @param  \App\Http\Requests\UpdateRolesRequest  $request
-     * @param  int  $id
+     * @param  \App\Http\Requests\UpdateRolesRequest $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -114,7 +115,7 @@ class RolesController extends AdminController
     /**
      * Remove Role from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

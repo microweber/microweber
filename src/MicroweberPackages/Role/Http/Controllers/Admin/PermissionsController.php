@@ -10,13 +10,14 @@ use Illuminate\Support\Facades\Gate;
 class PermissionsController extends AdminController
 {
     /**
-    *
-    * allow admin only
-    *
-    */
+     *
+     * allow admin only
+     *
+     */
 
-    public function __construct() {
-       // $this->middleware('role:admin');
+    public function __construct()
+    {
+        $this->middleware('role:admin');
         parent::__construct();
     }
 
@@ -28,7 +29,7 @@ class PermissionsController extends AdminController
     public function index(Request $request)
     {
         $permissions = Permission::all();
-        return $this->view('role::admin.permissions.index',compact('permissions'));
+        return $this->view('role::admin.permissions.index', compact('permissions'));
     }
 
     /**
@@ -44,7 +45,7 @@ class PermissionsController extends AdminController
     /**
      * Store a newly created Permission in storage.
      *
-     * @param  \App\Http\Requests\StorePermissionsRequest  $request
+     * @param  \App\Http\Requests\StorePermissionsRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -62,7 +63,7 @@ class PermissionsController extends AdminController
     /**
      * Show the form for editing Permission.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -75,8 +76,8 @@ class PermissionsController extends AdminController
     /**
      * Update Permission in storage.
      *
-     * @param  \App\Http\Requests\UpdatePermissionsRequest  $request
-     * @param  int  $id
+     * @param  \App\Http\Requests\UpdatePermissionsRequest $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -95,7 +96,7 @@ class PermissionsController extends AdminController
     /**
      * Remove Permission from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

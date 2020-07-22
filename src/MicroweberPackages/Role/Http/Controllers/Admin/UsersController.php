@@ -11,6 +11,12 @@ use App\Http\Controllers\Controller;
 
 class UsersController extends AdminController
 {
+    public function __construct()
+    {
+        $this->middleware('role:admin');
+        parent::__construct();
+    }
+
     /**
      * Display a listing of User.
      *
@@ -38,12 +44,12 @@ class UsersController extends AdminController
     /**
      * Store a newly created User in storage.
      *
-     * @param  \App\Http\Requests\StoreUsersRequest  $request
+     * @param  \App\Http\Requests\StoreUsersRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $user = User::create(array_merge($request->all(),['status' => 'Active']));
+        $user = User::create(array_merge($request->all(), ['status' => 'Active']));
         $roles = $request->input('roles') ? $request->input('roles') : [];
         $user->assignRole($roles);
 
@@ -54,7 +60,7 @@ class UsersController extends AdminController
     /**
      * Show the form for editing User.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -64,10 +70,10 @@ class UsersController extends AdminController
         $user = User::findOrFail($id);
 
         $selectedRoles = $user->roles()->pluck('name');
-/*
-        JavaScript::put([
-            'role' => $selectedRoles
-        ]);*/
+        /*
+                JavaScript::put([
+                    'role' => $selectedRoles
+                ]);*/
 
         return $this->view('role::admin.users.edit', compact('user', 'roles'));
     }
@@ -75,8 +81,8 @@ class UsersController extends AdminController
     /**
      * Update User in storage.
      *
-     * @param  \App\Http\Requests\UpdateUsersRequest  $request
-     * @param  int  $id
+     * @param  \App\Http\Requests\UpdateUsersRequest $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -92,7 +98,7 @@ class UsersController extends AdminController
     /**
      * Remove User from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
