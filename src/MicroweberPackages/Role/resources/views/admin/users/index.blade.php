@@ -11,7 +11,9 @@
                     <div class="card">
                         <div class="card-header">
                             <h2>User</h2>
-                            <a href="{{route('users.create')}}" class="btn btn-success">Add New</a>
+                            <a href="{{route('users.create')}}" class="btn btn-success">Add New User</a>
+                            <a href="{{route('roles.create')}}" class="btn btn-success">Add New Role</a>
+                            <a href="{{route('permissions.create')}}" class="btn btn-success">Add New Permission</a>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">

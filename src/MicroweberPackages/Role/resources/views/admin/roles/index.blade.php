@@ -13,19 +13,8 @@
                     <div class="card">
                         <div class="header">
                             <h2>Roles</h2>
-                            <a href="{{route('roles.create')}}" class="btn btn-success btn-block m-t-15 waves-effect">Add New</a>
-                            <ul class="header-dropdown m-r--5">
-                                <li class="dropdown">
-                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                        <i class="material-icons">more_vert</i>
-                                    </a>
-                                    <ul class="dropdown-menu pull-right">
-                                        <li><a href="javascript:void(0);">Action</a></li>
-                                        <li><a href="javascript:void(0);">Another action</a></li>
-                                        <li><a href="javascript:void(0);">Something else here</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
+                            <a href="{{route('users.index')}}" class="btn btn-success">Users</a>
+                            <a href="{{route('roles.create')}}" class="btn btn-success">Add New Role</a>
                         </div>
                         <div class="body">
                             <div class="table-responsive">
@@ -55,7 +44,7 @@
                                         	<td>{{ $row->name }}</td>
                                             <td>
                                                 @foreach($row->permissions()->pluck('name') as $permission)
-                                                    {{ $permission }}, 
+                                                    {{ $permission }},
                                                 @endforeach
                                             </td>
                                         	<td>

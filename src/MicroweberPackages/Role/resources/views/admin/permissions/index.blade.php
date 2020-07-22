@@ -3,32 +3,19 @@
 <script>
     mw.lib.require('bootstrap4');
 </script>
-<div class="container-fluid">
-    <div class="block-header">
-        <h2>Permissions</h2>
-    </div>
+<div class="container" style="margin-top: 30px">
 
     <!-- Vertical Layout -->
     <div class="row clearfix">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card">
-                <div class="header">
+                <div class="card-header">
                     <h2>Permission</h2>
-                    <a href="{{route('permissions.create')}}" class="btn btn-success btn-block m-t-15 waves-effect">Add New</a>
-                    <ul class="header-dropdown m-r--5">
-                        <li class="dropdown">
-                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                            </a>
-                            <ul class="dropdown-menu pull-right">
-                                <li><a href="javascript:void(0);">Action</a></li>
-                                <li><a href="javascript:void(0);">Another action</a></li>
-                                <li><a href="javascript:void(0);">Something else here</a></li>
-                            </ul>
-                        </li>
-                    </ul>
+                    <a href="{{route('permissions.create')}}" class="btn btn-success">Add New Permission</a>
+                    <a href="{{route('users.index')}}" class="btn btn-success">Users</a>
+                    <a href="{{route('roles.index')}}" class="btn btn-success">Roles</a>
                 </div>
-                <div class="body">
+                <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped table-hover dataTable js-exportable">
                             <thead>

@@ -35,7 +35,7 @@ class AdminController extends Controller
         return $this->render();
     }
 
-    public function view($layout, $params)
+    public function view($layout, $params = [])
     {
         $this->render_content = LaravelView::make($layout, $params)->render();
 

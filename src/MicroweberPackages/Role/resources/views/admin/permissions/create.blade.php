@@ -1,34 +1,23 @@
 
+
 <script>
     mw.lib.require('bootstrap4');
 </script>
-        <div class="container-fluid">
-            <div class="block-header">
-                <h2>Add New Permission</h2>
-            </div>
+
+
+<div class="container" style="margin-top: 30px">
 
             <!-- Vertical Layout -->
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
-                        <div class="header">
+                        <div class="car-header">
                             <h2>
                                 Add New Permission
                             </h2>
-                            <ul class="header-dropdown m-r--5">
-                                <li class="dropdown">
-                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                        <i class="material-icons">more_vert</i>
-                                    </a>
-                                    <ul class="dropdown-menu pull-right">
-                                        <li><a href="javascript:void(0);">Action</a></li>
-                                        <li><a href="javascript:void(0);">Another action</a></li>
-                                        <li><a href="javascript:void(0);">Something else here</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
+                            <a href="{{route('permissions.index')}}" class="btn btn-success">Back to Permissions</a>
                         </div>
-                        <div class="body">
+                        <div class="card-body">
                            <form id="form_validation" method="POST" action="{{ route('permissions.store') }}">
                             {{ csrf_field() }}
                                 <div class="form-group form-float">
