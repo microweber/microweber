@@ -27,3 +27,41 @@
 .mw-social-links a span{
   font-size: 26px;
 }
+
+.content-holder .mw-social-links a{
+  color:white;
+}
+
+.mw-social-links a.facebook {
+   background-color:#3b5998;
+}
+.mw-social-links a.twitter {
+   background-color:#1da1f2;
+}
+.mw-social-links a.pinterest {
+   background-color:#bd081c;
+}
+.mw-social-links a.youtube {
+   background-color:red;
+}
+.mw-social-links a.instagram {
+   background-color:#c32aa3;
+}
+.mw-social-links a.linkedin {
+   background-color:#007bb5;
+}
+.mw-social-links a.github {
+   background-color:black;
+}
+.mw-social-links a.soundcloud {
+   background-color:#f50;
+}
+.mw-social-links a.mixcloud {
+   background-color:#1a0dab;
+}
+.mw-social-links a.medium {
+   background-color:black;
+}
+.mw-social-links a.rss {
+   background-color:#ffa500;
+}

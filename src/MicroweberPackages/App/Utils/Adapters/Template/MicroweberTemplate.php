@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Utils\Adapters\Template;
 
 use Microweber\Utils\Adapters\Template\RenderHelpers\TemplateMetaTagsRenderer;
+use MicroweberPackages\View\View;
 
 class MicroweberTemplate
 {
@@ -17,7 +18,7 @@ class MicroweberTemplate
     public function render($params = array())
     {
         $render_file = $params['render_file'];
-        $l = new \Microweber\View($render_file);
+        $l = new View($render_file);
         $l->page_id = $params['page_id'];
         $l->content_id = $params['content_id'];
         $l->post_id = $params['post_id'];

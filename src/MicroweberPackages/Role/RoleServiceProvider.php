@@ -11,6 +11,7 @@
 
 namespace MicroweberPackages\Role;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Role\Http\Controllers\IndexController;
 use MicroweberPackages\Role\Http\Controllers\RoleController;
@@ -25,7 +26,10 @@ class RoleServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->module_manager->register(
+
+      View::addNamespace('role', __DIR__.'/resources/views');
+
+        /*$this->app->module_manager->register(
             ['name' => 'Bojkata',
 
             'author' => 'Microweber',
@@ -45,11 +49,11 @@ class RoleServiceProvider extends ServiceProvider
             'id' => 'users/bojkata',
             'controllers' => [
                 'index' => "MicroweberPackages\Role\Http\Controllers\IndexController@index",
-                'admin' => "MicroweberPackages\Role\Http\Controllers\IndexController@admin",
+                'admin' => "MicroweberPackages\Role\Http\Controllers\Admin\UsersController@index",
             ],
-        ]);
+        ]);*/
 
         $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
-        $this->loadMigrationsFrom(__DIR__ . '/migrations/');
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations/');
     }
 }
