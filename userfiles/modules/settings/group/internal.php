@@ -67,9 +67,6 @@ if ($system_cache_adapter == false) {
 }
 
 
-?>
-
-<?php
 
 $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
 
@@ -81,8 +78,6 @@ $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
 
 
     <?php
-
-
     /*   <div class="mw-ui-field-holder">
         <label class="mw-ui-label"> <?php _e('Cache settings'); ?> </label>
         <?php if (!empty($cache_adapters)): ?>
@@ -103,10 +98,6 @@ $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
     </div>*/
 
     ?>
-
-
-
-
 
 
 

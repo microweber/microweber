@@ -4,25 +4,11 @@
         mw.options.form('.<?php print $config['module_class'] ?>', function () {
             mw.notification.success("<?php _ejs("Saved"); ?>.");
         });
-
     });
-
-
 </script>
 
-
-<div class="mw-ui-field-holder">
-    <label class="mw-ui-label">
-        <h3>Robots.txt
-            <?php _e("content"); ?>
-        </h3>
-        <br>
-        <div class="mw-ui-box mw-ui-box-content mw-ui-box-warn">
-            <?php _e("Advanced functionality"); ?>
-         </div>
-    </label>
-    <textarea name="robots_txt" class="mw_option_field mw-ui-field w100" type="text" option-group="website" style="min-height: 200px;"><?php print get_option('robots_txt', 'website'); ?></textarea>
+<div class="form-group">
+    <label class="control-label">Robots.txt <?php _e("content"); ?></label>
+    <small class="text-muted d-block mb-2"><?php _e("The robots. txt file, also known as the robots exclusion protocol or standard, is a text file that tells web robots (most often search engines) which pages on your site to crawl. It also tells web robots which pages not to crawl."); ?></small>
+    <textarea name="robots_txt" class="mw_option_field form-control" type="text" option-group="website" style="min-height: 150px;"><?php print get_option('robots_txt', 'website'); ?></textarea>
 </div>
-
-
-
