@@ -55,7 +55,7 @@
                                         	<td>{{ $row->name }}</td>
                                             <td>
                                                 @foreach($row->permissions()->pluck('name') as $permission)
-                                                    {{ $permission }},
+                                                    {{ $permission }}, 
                                                 @endforeach
                                             </td>
                                         	<td>
