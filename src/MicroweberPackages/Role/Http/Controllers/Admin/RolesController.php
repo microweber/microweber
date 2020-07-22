@@ -6,8 +6,6 @@ use MicroweberPackages\App\Http\Controllers\AdminController;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
-use App\Http\Controllers\Controller;
 use JavaScript;
 
 class RolesController extends AdminController

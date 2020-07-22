@@ -11,6 +11,7 @@
 
 namespace MicroweberPackages\Role;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Role\Http\Controllers\IndexController;
 use MicroweberPackages\Role\Http\Controllers\RoleController;
@@ -26,7 +27,7 @@ class RoleServiceProvider extends ServiceProvider
     public function boot()
     {
 
-      \View::addNamespace('role', __DIR__.'/resources/views');
+      View::addNamespace('role', __DIR__.'/resources/views');
 
         /*$this->app->module_manager->register(
             ['name' => 'Bojkata',

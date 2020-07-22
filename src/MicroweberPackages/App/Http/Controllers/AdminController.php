@@ -8,8 +8,9 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use Auth;
 use MicroweberPackages\Install\Http\Controllers\InstallController;
-use MicroweberPackages\View\View;
 use MicroweberPackages\User\User;
+use MicroweberPackages\View\View as MicroweberView;
+use Illuminate\Support\Facades\View as LaravelView;
 
 class AdminController extends Controller
 {
@@ -34,10 +35,9 @@ class AdminController extends Controller
         return $this->render();
     }
 
-    public function view($layout, $params = array())
+    public function view($layout, $params)
     {
-        $renderView = (string) view($layout, $params);
-        $this->render_content = $renderView;
+        $this->render_content = LaravelView::make($layout, $params)->render();
 
         return $this->render();
     }
@@ -120,7 +120,7 @@ class AdminController extends Controller
 
         $view .= (!$hasNoAdmin ? 'create' : 'index') . '.php';
 
-        $layout = new View($view);
+        $layout = new MicroweberView($view);
 
         if ($this->render_content) {
             $layout->assign('render_content', $this->render_content);

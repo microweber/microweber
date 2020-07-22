@@ -7,9 +7,6 @@
                 <h2>Roles</h2>
             </div>
 
-
-
-            wa
             <!-- Vertical Layout -->
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -30,7 +27,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="body">                        	
+                        <div class="body">
                             <div class="table-responsive">
                                 <table class="table table-bordered table-striped table-hover dataTable js-exportable">
                                     <thead>
@@ -53,7 +50,7 @@
                                     </tfoot>
                                     <tbody>
                                     	@foreach($roles as $row)
-                                        <tr>                                        	
+                                        <tr>
                                         	<td>{{ $row->id }}</td>
                                         	<td>{{ $row->name }}</td>
                                             <td>
@@ -70,7 +67,7 @@
 					                            	<input name="_method" type="hidden" value="DELETE">
 					                                <button class="btn btn-danger waves-effect" type="submit">Delete</button>
 					                            </form>
-                                        	</td>	                                   
+                                        	</td>
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -81,5 +78,5 @@
                 </div>
             </div>
             <!-- #END# Vertical Layout -->
-           
+
         </div>
