@@ -3,25 +3,61 @@
 AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/x-javascript application/javascript
 </IfModule>
 
-
+<Files ~ "\.php$">
+Order Allow,Deny
+Deny from All
+</Files>
 
 <FilesMatch ".*\.(php|phtml|php5)$">
 Order Allow,Deny
 Deny from All
 </FilesMatch>
 
+#
+#<IfModule mod_rewrite.c>
+#     Options +FollowSymLinks
+#
+#    RewriteEngine On
+#
+#
+#    # Handle Authorization Header
+#    RewriteCond %{HTTP:Authorization} .
+#    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+#
+#    # Redirect Trailing Slashes If Not A Folder...
+#    RewriteCond %{REQUEST_FILENAME} !-d
+#    RewriteCond %{REQUEST_URI} (.+)/$
+#    RewriteRule ^ %1 [L,R=301]
+#
+#    # Send Requests To Front Controller...
+#    RewriteCond %{REQUEST_FILENAME} !-d
+#    RewriteCond %{REQUEST_FILENAME} !-f
+#    RewriteRule ^ index.php [L]
+#</IfModule>
+
+
+#
+#
+#<FilesMatch ".*\.(php|phtml|php5)$">
+#Order Allow,Deny
+#Deny from All
+#</FilesMatch>
+#
+#
+#
+#
 #<Files ~ "\.php$">
 #Order Allow,Deny
 #Deny from All
 #</Files>
-
-
-<IfModule mod_php5.c>
-php_flag engine 0
-</IfModule>
-
-<IfModule mod_php7.c>
-php_flag engine 0
-</IfModule>
+#
+#
+#<IfModule mod_php5.c>
+#php_flag engine 0
+#</IfModule>
+#
+#<IfModule mod_php7.c>
+#php_flag engine 0
+#</IfModule>
 
 
