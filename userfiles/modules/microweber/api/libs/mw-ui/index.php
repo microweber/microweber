@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 
-        <link rel="stylesheet" href="grunt/plugins/ui/css/main.css">
-<!--    <link rel="stylesheet" id="main-css-style" href="grunt/plugins/ui/css/main.php">-->
+    <link rel="stylesheet" href="grunt/plugins/ui/css/main.css">
+    <!--    <link rel="stylesheet" id="main-css-style" href="grunt/plugins/ui/css/main.php">-->
 
     <!-- MW UI changes CSS -->
     <?php if (is_file('assets/ui/plugins/css/main.css')): ?>
-<!--        <link rel="stylesheet" href="assets/ui/plugins/css/main.css">-->
+        <!--        <link rel="stylesheet" href="assets/ui/plugins/css/main.css">-->
     <?php else: ?>
         <!--<link rel="stylesheet" href="grunt/plugins/ui/css/main.css">-->
     <?php endif; ?>
@@ -1126,6 +1126,15 @@
                                         <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
                                         <div class="input-group-append">
                                             <span class="input-group-text">.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="input-group input-group-password mb-3 append-transparent">
+                                        <input type="password" class="form-control">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text js-show-password" data-toggle="tooltip" data-title="Show/Hide Password"><i class="mdi mdi-eye-outline text-muted mdi-20px"></i></span>
                                         </div>
                                     </div>
                                 </div>

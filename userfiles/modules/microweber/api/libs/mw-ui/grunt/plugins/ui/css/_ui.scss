@@ -1588,3 +1588,10 @@ label.control-label {
     background: rgba(red($primary), green($primary), blue($primary), .1) !important;
   }
 }
+
+
+.input-group-password{
+  .js-show-password{
+    cursor: pointer;
+  }
+}

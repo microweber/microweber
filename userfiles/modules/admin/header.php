@@ -539,23 +539,20 @@ $user = get_user_by_id($user_id);
 
                 <?php $load_module = url_param('load_module'); ?>
                 <li <?php print 'class="nav-item dropdown ' . ($load_module == 'users' ? 'active' : '') . '"'; ?>>
-                    <a class="nav-link dropdown-toggle <?php print ($load_module == 'users' ? 'active' : ''); ?>" href="<?php print admin_url('view:modules/load_module:users'); ?>">
+                    <a class="nav-link <?php print ($load_module == 'users' ? 'active' : ''); ?>" href="<?php print admin_url('view:modules/load_module:users/action:profile'); ?>">
                         <i class="mdi mdi-account-multiple"></i>
                         <?php _e("Users"); ?>
                     </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="<?php print admin_url('view:modules/load_module:users#edit-user=' . $user_id); ?>" id="main-menu-my-profile"><?php _e("My Profile"); ?></a>
-                        <a class="dropdown-item" href="<?php print admin_url('view:modules/load_module:users'); ?>" id="main-menu-manage-users"><?php _e("Manage Users"); ?></a>
-                        <?php if (mw()->ui->enable_service_links): ?>
-                            <?php if (mw()->ui->custom_support_url): ?>
-                                <a class="dropdown-item" href="<?php print mw()->ui->custom_support_url ?>"><strong><?php _e("Support"); ?></strong></a>
-                            <?php else: ?>
-                                <a class="dropdown-item" href="javascript:;" onmousedown="mw.contactForm();"><strong><?php _e("Support"); ?></strong></a>
-                            <?php endif; ?>
+                    <?php if (mw()->ui->enable_service_links): ?>
+                        <?php if (mw()->ui->custom_support_url): ?>
+                            <!--                            <a class="dropdown-item" href="--><?php //print mw()->ui->custom_support_url ?><!--"><strong>--><?php //_e("Support"); ?><!--</strong></a>-->
+                        <?php else: ?>
+                            <!--                            <a class="dropdown-item" href="javascript:;" onmousedown="mw.contactForm();"><strong>--><?php //_e("Support"); ?><!--</strong></a>-->
                         <?php endif; ?>
-                        <a href="<?php print site_url(); ?>?editmode=y" class="go-live-edit-href-set dropdown-item"><?php _e("View Website"); ?></a>
-                    </div>
+                    <?php endif; ?>
+                    <!--                    <a href="--><?php //print site_url(); ?><!--?editmode=y" class="go-live-edit-href-set dropdown-item">--><?php //_e("View Website"); ?><!--</a>-->
                 </li>
+
                 <li class="nav-item"><a href="<?php print api_url('logout'); ?>" class="nav-link"><i class="mdi mdi-power"></i> <?php _e("Log out"); ?></a></li>
                 <li><?php event_trigger('mw.admin.sidebar.li.last'); ?></li>
 

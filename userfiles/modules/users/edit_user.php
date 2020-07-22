@@ -40,6 +40,7 @@ if (isset($data[0]) == false) {
 }
 ?>
 
+    <script>mw.lib.require("mwui_init");</script>
     <script>mw.require("files.js");</script>
 
 <?php if (is_array($data)): ?>
@@ -114,13 +115,14 @@ if (isset($data[0]) == false) {
 
         reset_password = function (y) {
             var y = y || false;
+            var field2 = mw.$(".js-reset-password");
             var field = mw.$("#reset_password");
-            if (field.hasClass("semi_hidden") && !y) {
-                field.removeClass("semi_hidden");
+            if (field2.hasClass("semi_hidden") && !y) {
+                field2.removeClass("semi_hidden");
                 field[0].disabled = false;
                 field.focus();
             } else {
-                field.addClass("semi_hidden");
+                field2.addClass("semi_hidden");
                 field[0].disabled = true;
             }
         }
@@ -149,6 +151,7 @@ if (isset($data[0]) == false) {
             display: flex;
         }
     </style>
+
     <div class="row">
         <div class="col-xl-6 mx-auto">
             <div class="<?php print $config['module_class'] ?> user-id-<?php print $data['id']; ?>" id="users_edit_{rand}">
@@ -209,13 +212,20 @@ if (isset($data[0]) == false) {
                     <div class="form-group">
                         <label class="control-label"><?php _e("Password"); ?></label>
                         <span class="mw-ui-link" onclick="reset_password();$(this).hide()"><?php _e("Change Password"); ?></span>
-                        <input type="password" disabled="disabled" name="password" class="form-control semi_hidden" id="reset_password"/>
+                        <div class="input-group input-group-password mb-3 append-transparent semi_hidden js-reset-password">
+                            <input type="password" disabled="disabled" name="password" class="form-control" id="reset_password"/>
+                            <div class="input-group-append">
+                                <span class="input-group-text js-show-password bg-white" data-toggle="tooltip" data-title="Show/Hide Password"><i class="mdi mdi-eye-outline text-muted mdi-20px"></i></span>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label"><?php _e("Email"); ?></label>
                         <input type="text" class="form-control" name="email" value="<?php print $data['email']; ?>">
                     </div>
+
+                    <small class="d-block text-muted text-center mb-2">Personal data of the user</small>
 
                     <div class="form-group">
                         <label class="control-label"><?php _e("First Name"); ?></label>
@@ -227,9 +237,19 @@ if (isset($data[0]) == false) {
                         <input type="text" class="form-control" name="last_name" value="<?php print $data['last_name']; ?>"/>
                     </div>
 
+                    <div class="form-group mt-4 mb-4">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="send_new_user_email" checked="">
+                            <label class="custom-control-label" for="send_new_user_email">Send the new user an email about their account. <br /><a href="#">Edit e-mail template.</a></label>
+                        </div>
+                    </div>
+
                     <?php if (is_admin()) : ?>
+                        <small class="d-block text-muted text-center mb-3">User status and role</small>
+
                         <div class="form-group">
-                            <label class="control-label">Role of the user</label>
+                            <label class="control-label mb-1">Role of the user</label>
+                            <small class="text-muted d-block mb-1">Choose the current role of the user. <a href="#">Manage user roles</a></small>
                             <select class="selectpicker" data-width="100%" name="is_admin">
                                 <option value="1" <?php if ($data['is_admin'] == 1): ?>selected<?php endif; ?>>Admin</option>
                                 <option value="0" <?php if ($data['is_admin'] == 0): ?>selected<?php endif; ?>>User</option>
@@ -237,7 +257,8 @@ if (isset($data[0]) == false) {
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label d-block"><?php _e('Is Active'); ?>?</label>
+                            <label class="control-label mb-1"><?php _e('Is Active'); ?>?</label>
+                            <small class="text-muted d-block mb-1">Choose the current status of this user</small>
 
                             <div class="custom-control custom-radio d-inline-block mr-3">
                                 <input type="radio" id="is_active1" class="custom-control-input" value="1" name="is_active" <?php if ($data['is_active'] == 1): ?> checked="checked" <?php endif; ?>>

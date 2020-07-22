@@ -1,8 +1,16 @@
 <?php if (isset($params['backend'])): ?>
     <module type="admin/modules/info" history_back="true"/>
 <?php endif; ?>
-
 <?php only_admin_access(); ?>
+
+<?php $action = url_param('action'); ?>
+
+<?php if ($action == 'profile'): ?>
+    <module type="users/profile/my_profile_admin"/>
+    <?php return; ?>
+<?php endif; ?>
+
+
 <script type="text/javascript"> mw.require('forms.js', true); </script>
 
 <script type="text/javascript">
@@ -212,7 +220,6 @@ mw()->notifications_manager->mark_as_read('users');
     </script>
 <?php endif; ?>
 
-
 <div class="card style-1 bg-light mb-3">
     <div class="card-header">
         <?php
@@ -220,7 +227,6 @@ mw()->notifications_manager->mark_as_read('users');
         if (isset($params['edit-user'])) {
             $user_params['id'] = intval($params['edit-user']);
         }
-        //        dd($params);
         ?>
 
         <?php if ($user_params['id'] != 0): ?>
@@ -228,37 +234,39 @@ mw()->notifications_manager->mark_as_read('users');
         <?php else: ?>
             <h5><i class="mdi mdi-account-multiple text-primary mr-3"></i> <strong><?php _e("Manage Users"); ?></strong></h5>
         <?php endif; ?>
-
     </div>
 
+
     <div class="card-body pt-3">
-        <div class="d-flex align-items-center justify-content-between">
-            <div>
-                <a href="#edit-user=0" class="btn btn-primary btn-sm" id="add-new-user-btn">
-                    <i class="mdi mdi-account-plus mr-2"></i> <?php _e("Add new user"); ?>
-                </a>
-            </div>
-            <div>
-                <script>
-                    handleUserSearch = function (e) {
-                        e.preventDefault();
-                        var target = e.target.querySelector('[type="search"]');
-                        mw.url.windowHashParam('search', target.value.trim());
-                    }
-                </script>
-                <form class="form-inline" onsubmit="handleUserSearch(event)">
-                    <div class="form-group">
-                        <div class="input-group mb-0 prepend-transparent">
-                            <div class="input-group-prepend bg-white">
-                                <span class="input-group-text"><i class="mdi mdi-magnify"></i></span>
+        <?php if ($user_params['id'] != 0): ?>
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <a href="#edit-user=0" class="btn btn-primary btn-sm" id="add-new-user-btn">
+                        <i class="mdi mdi-account-plus mr-2"></i> <?php _e("Add new user"); ?>
+                    </a>
+                </div>
+                <div>
+                    <script>
+                        handleUserSearch = function (e) {
+                            e.preventDefault();
+                            var target = e.target.querySelector('[type="search"]');
+                            mw.url.windowHashParam('search', target.value.trim());
+                        }
+                    </script>
+                    <form class="form-inline" onsubmit="handleUserSearch(event)">
+                        <div class="form-group">
+                            <div class="input-group mb-0 prepend-transparent">
+                                <div class="input-group-prepend bg-white">
+                                    <span class="input-group-text"><i class="mdi mdi-magnify"></i></span>
+                                </div>
+                                <input type="search" class="form-control" aria-label="Search" placeholder="<?php _e("Search for users"); ?>">
                             </div>
-                            <input type="search" class="form-control" aria-label="Search" placeholder="<?php _e("Search for users"); ?>">
                         </div>
-                    </div>
-                    <button type="submit" class="btn btn-outline-primary ml-3"><?php _e("Search"); ?></button>
-                </form>
+                        <button type="submit" class="btn btn-outline-primary ml-3"><?php _e("Search"); ?></button>
+                    </form>
+                </div>
             </div>
-        </div>
+        <?php endif; ?>
 
         <div class="manage-items" id="sort-users">
             <a href="#" class="btn btn-link px-0" data-toggle="collapse" data-target="#show-filter">Show filter</a>
@@ -335,7 +343,7 @@ mw()->notifications_manager->mark_as_read('users');
         </div>
 
         <div class="mw-simple-rotator">
-            <div class='mw-simple-rotator-container' id="mw-users-manage-edit-rotattor">
+            <div class="mw-simple-rotator-container" id="mw-users-manage-edit-rotattor">
                 <div id="users_admin_panel"></div>
                 <div id="user_edit_admin_panel"></div>
             </div>

@@ -8842,4 +8842,7 @@ label.control-label {
 .table-hover tbody tr:hover {
   background: rgba(69, 146, 255, 0.1) !important; }
 
+.input-group-password .js-show-password {
+  cursor: pointer; }
+
 /*# sourceMappingURL=main.css.map */

@@ -71,6 +71,16 @@ $(document).ready(function () {
         }
     });
 
+    $(".js-show-password", '.input-group-password').on("click", function (m) {
+        var field = $(this).parent().parent().find('input');
+
+        if('password' == field.attr('type')){
+            field.prop('type', 'text');
+        }else{
+            field.prop('type', 'password');
+        }
+    });
+
     $('.dropdown .dropdown-toggle', 'aside').on('click', function () {
         $(this).parent().toggleClass('show');
         $(this).parent().find('.dropdown-menu').toggleClass('show');
