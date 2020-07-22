@@ -48,7 +48,7 @@ class RoleServiceProvider extends ServiceProvider
             'id' => 'users/bojkata',
             'controllers' => [
                 'index' => "MicroweberPackages\Role\Http\Controllers\IndexController@index",
-                'admin' => "MicroweberPackages\Role\Http\Controllers\IndexController@index",
+                'admin' => "MicroweberPackages\Role\Http\Controllers\Admin\UsersController@index",
             ],
         ]);
 
