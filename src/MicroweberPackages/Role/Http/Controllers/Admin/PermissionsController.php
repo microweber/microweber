@@ -17,7 +17,6 @@ class PermissionsController extends AdminController
 
     public function __construct()
     {
-        $this->middleware('role:admin');
         parent::__construct();
     }
 
