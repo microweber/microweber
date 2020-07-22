@@ -26,9 +26,9 @@ class RoleServiceProvider extends ServiceProvider
     public function boot()
     {
 
-        \View::addNamespace('role', __DIR__.'/resources/views');
+      \View::addNamespace('role', __DIR__.'/resources/views');
 
-        $this->app->module_manager->register(
+        /*$this->app->module_manager->register(
             ['name' => 'Bojkata',
 
             'author' => 'Microweber',
@@ -50,9 +50,9 @@ class RoleServiceProvider extends ServiceProvider
                 'index' => "MicroweberPackages\Role\Http\Controllers\IndexController@index",
                 'admin' => "MicroweberPackages\Role\Http\Controllers\Admin\UsersController@index",
             ],
-        ]);
+        ]);*/
 
         $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
-        $this->loadMigrationsFrom(__DIR__ . '/database/migrations/'); 
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations/');
     }
 }
