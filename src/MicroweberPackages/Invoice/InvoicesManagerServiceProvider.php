@@ -11,6 +11,7 @@
 
 namespace MicroweberPackages\Invoice;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class InvoicesManagerServiceProvider extends ServiceProvider
@@ -28,5 +29,10 @@ class InvoicesManagerServiceProvider extends ServiceProvider
         $this->app->singleton('invoices_manager', function ($app) {
             return new InvoicesManager();
         });
+
+        View::addNamespace('invoice', __DIR__.'/resources/views');
+
+        $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations/');
     }
 }
