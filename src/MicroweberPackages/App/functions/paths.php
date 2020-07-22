@@ -1,24 +1,41 @@
 <?php
 
+
 function userfiles_path()
 {
     static $folder;
+
+
     if (!$folder) {
+       // $folder = normalize_path(base_path() . DIRECTORY_SEPARATOR);
+        //if(MW_USERFILES_FOLDER_NAME){
         $folder = normalize_path(base_path() . DIRECTORY_SEPARATOR . MW_USERFILES_FOLDER_NAME . DIRECTORY_SEPARATOR);
+        //  }
     }
 
     return $folder;
 }
+
+
 
 function userfiles_url()
 {
     static $folder;
     if (!$folder) {
-        $folder = site_url(MW_USERFILES_FOLDER_NAME . '/');
+
+        if (defined('MW_BOOT_FROM_PUBLIC_FOLDER')) {
+            $folder = site_url();
+        } else {
+            $folder = site_url(MW_USERFILES_FOLDER_NAME . '/');
+        }
+
     }
 
     return $folder;
 }
+
+
+
 
 function modules_path()
 {
@@ -54,7 +71,11 @@ function modules_url()
 {
     static $folder;
     if (!$folder) {
-        $folder = site_url(MW_USERFILES_FOLDER_NAME . '/' . MW_MODULES_FOLDER_NAME . '/');
+        if (defined('MW_BOOT_FROM_PUBLIC_FOLDER')) {
+            $folder = site_url(MW_MODULES_FOLDER_NAME . '/');
+        } else {
+            $folder = site_url(MW_USERFILES_FOLDER_NAME . '/' . MW_MODULES_FOLDER_NAME . '/');
+        }
     }
 
     return $folder;
@@ -74,7 +95,11 @@ function templates_url()
 {
     static $folder;
     if (!$folder) {
-        $folder = site_url(MW_USERFILES_FOLDER_NAME . '/' . MW_TEMPLATES_FOLDER_NAME . '/');
+        if (defined('MW_BOOT_FROM_PUBLIC_FOLDER')) {
+            $folder = site_url( MW_TEMPLATES_FOLDER_NAME . '/');
+        } else {
+            $folder = site_url(MW_USERFILES_FOLDER_NAME . '/' . MW_TEMPLATES_FOLDER_NAME . '/');
+        }
     }
 
     return $folder;
