@@ -3,37 +3,22 @@
     mw.require("<?php print $config['url_to_module']; ?>media_cleanup.js");
     mw.require("files.js");
 </script>
+
 <style>
     #mw_upsdfsdloader.disabled iframe {
         top: -9999px;
     }
-
-    .back-up-nav-btns .mw-ui-btn {
-        width: 170px;
-        text-align: left;
-    }
 </style>
 
-<div id="mw-admin-content">
-    <div class="mw_edit_page_default" id="mw_edit_page_left">
-        <div class="mw-admin-sidebar">
-            <h2><span class="ico imanage-module"></span>&nbsp;
-                <?php _e('Media cleanup'); ?> </h2>
-        </div>
-        <p><?php _e('This module will remove media from database, which is not present on the hard drive'); ?> </p>
+<div class="mw_edit_page_default" id="mw_edit_page_left">
+    <p><?php _e('This module will remove media from database, which is not present on the hard drive'); ?>.</p>
 
-        <div class="mw-admin-side-nav">
-            <div>
-                <div class="back-up-nav-btns">
-                    <div class="vSpace"></div>
-                    <a href="javascript:mw.media_cleanup.run()"
-                       class="mw-ui-btn mw-ui-btn-green"><span class="mw-icon-plus"></span><span> <?php _e('Cleanup Images'); ?> </span></a>
+    <div class="mw-admin-side-nav">
+        <div class="back-up-nav-btns">
+            <a href="javascript:mw.media_cleanup.run()" class="btn btn-success"><?php _e('Cleanup Images'); ?></a>
 
-                    <div class="vSpace"></div>
-                </div>
-                <div id="mw_media_cleanup_log" type="admin/developer_tools/media_cleanup/log"></div>
-            </div>
+            <div class="vSpace"></div>
         </div>
+        <div id="mw_media_cleanup_log" type="admin/developer_tools/media_cleanup/log"></div>
     </div>
-
 </div>

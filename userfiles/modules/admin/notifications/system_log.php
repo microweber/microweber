@@ -22,7 +22,6 @@ $data = mw()->log_manager->get($log_params);
 
 ?>
 <script type="text/javascript">
-
     log_del_conf = 0;
     mw.log_item_delete = function ($item_id) {
 
@@ -52,24 +51,25 @@ $data = mw()->log_manager->get($log_params);
             });
         });
     }
-
-
 </script>
-<?php if (is_array($data)): ?>
 
+<script>mw.lib.require('mwui_init'); </script>
+
+<?php if (is_array($data)): ?>
+    <br/>
+    <p>Show system logs for the last 30 days</p>
     <div class="mw-admin-system_log-holder" id="admin_system_log">
-        <table cellspacing="0" cellpadding="0" class="mw-ui-table">
+        <table cellspacing="0" cellpadding="0" class="table table-bordered">
             <colgroup>
                 <col width="150">
                 <col width="auto">
                 <col width="40">
             </colgroup>
             <thead>
-            <tr valign="middle">
-                <th valign="middle" colspan="3"><h2><span
-                                class="ico ilogication"></span><?php _e("Your system log for the last 30 days"); ?></h2>
-                    <a href="javascript:mw.syslog_log_reset_all();"
-                       class="mw-ui-link"><?php _e("Clean up system log"); ?></a>
+            <tr valign="middle" class="bg-secondary">
+                <th valign="middle" colspan="3">
+                    <h5 class="mb-1"><?php _e("Your system log for the last 30 days"); ?></h5>
+                    <a href="javascript:mw.syslog_log_reset_all();" class="btn btn-link btn-sm p-0"><?php _e("Clean up system log"); ?></a>
                 </th>
             </tr>
             </thead>
@@ -84,11 +84,11 @@ $data = mw()->log_manager->get($log_params);
                     ?>
                     <td>
                         <?php print mw('format')->date($item['created_at']); ?>
-                        <br />
+                        <br/>
 
                         <?php if ($mod_info != false and isset($mod_info['name'])): ?>
-                            <img src=" <?php print thumbnail($mod_info['icon'], 16, 16) ?>" width="26px" height="26px" />
-                            <br />
+                            <img src=" <?php print thumbnail($mod_info['icon'], 16, 16) ?>" width="26px" height="26px"/>
+                            <br/>
                         <?php elseif (isset($item['rel_type']) and trim($item['rel_type']) != '') : ?>
                         <?php endif; ?>
 
@@ -103,8 +103,7 @@ $data = mw()->log_manager->get($log_params);
 
                     </td>
                     <td style="max-width: 60%;"><?php if ($mod_info != false and isset($mod_info['name'])): ?>
-                            <a class="mw-ui-link"
-                               href="<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($item['module']) ?>/mw_notif:log_<?php print $item['id'] ?>"
+                            <a class="btn btn-link btn-sm p-0" href="<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($item['module']) ?>/mw_notif:log_<?php print $item['id'] ?>"
                                title="<?php print $mod_info['name'] ?>"> <?php print $item['title'] ?></a>
                         <?php else : ?>
                             <?php print $item['title'] ?>
@@ -133,8 +132,9 @@ $data = mw()->log_manager->get($log_params);
 
                     </td>
 
-                    <td><a href="javascript:mw.log_item_delete('<?php print $item['id'] ?>');"
-                           class="show-on-hover mw-icon-close"></a></td>
+                    <td style="vertical-align: middle;">
+                        <a href="javascript:mw.log_item_delete('<?php print $item['id'] ?>');" data-toggle="tooltip" data-title="Remove"><i class="mdi mdi-close md-24px text-dark"></i></a>
+                    </td>
                 </tr>
             <?php endforeach; ?>
             </tbody>
