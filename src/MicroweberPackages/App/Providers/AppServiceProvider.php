@@ -195,6 +195,7 @@ class AppServiceProvider extends ServiceProvider {
         $this->app->register(ModuleServiceProvider::class);
         $this->app->register(PermissionServiceProvider::class);
         $this->app->register(RoleServiceProvider::class);
+        $this->app->register(  \Barryvdh\DomPDF\ServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
 

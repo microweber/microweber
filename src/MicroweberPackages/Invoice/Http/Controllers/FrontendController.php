@@ -111,7 +111,7 @@ class FrontendController extends Controller
             'labels' => $labels,
             'taxes' => $taxes
         ]);
-        $pdf = PDF::loadView('app.pdf.estimate.'.$estimateTemplate->view);
+        $pdf = PDF::loadView('invoice::app.pdf.estimate.'.$estimateTemplate->view);
 
         return $pdf->stream();
     }
@@ -215,7 +215,7 @@ class FrontendController extends Controller
             'labels' => $labels,
             'taxes' => $taxes
         ]);
-        $pdf = PDF::loadView('app.pdf.invoice.'.$invoiceTemplate->view);
+        $pdf = PDF::loadView('invoice::app.pdf.invoice.'.$invoiceTemplate->view);
 
         return $pdf->stream();
     }
@@ -293,7 +293,7 @@ class FrontendController extends Controller
             'labels' => $labels,
             'taxes' => $taxes
         ]);
-        $pdf = PDF::loadView('app.pdf.estimate.'.$estimateTemplate->view);
+        $pdf = PDF::loadView('invoice::app.pdf.estimate.'.$estimateTemplate->view);
 
         return $pdf->stream();
     }
@@ -343,7 +343,7 @@ class FrontendController extends Controller
         if (!$invoiceTemplate) {
             throw new \Exception('No invoice template');
         }
-        
+
         $company = Company::find($invoice->company_id);
         $companyAddress = User::with(['addresses', 'addresses.country'])->find(1);
 
@@ -377,7 +377,7 @@ class FrontendController extends Controller
             'taxes' => $taxes
         ]);
 
-        $pdf = PDF::loadView('app.pdf.invoice.'.$invoiceTemplate->view);
+        $pdf = PDF::loadView('invoice::app.pdf.invoice.'.$invoiceTemplate->view);
 
         return $pdf->stream();
     }
@@ -407,7 +407,7 @@ class FrontendController extends Controller
             'logo' => $logo ?? null
         ]);
 
-        $pdf = PDF::loadView('app.pdf.payment.payment');
+        $pdf = PDF::loadView('invoice::app.pdf.payment.payment');
 
         return $pdf->stream();
     }

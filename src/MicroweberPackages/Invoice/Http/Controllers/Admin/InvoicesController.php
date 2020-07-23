@@ -32,6 +32,28 @@ class InvoicesController extends AdminController
      */
     public function index(Request $request)
     {
+        // Invoice Templates
+        $invoiceTemplate = InvoiceTemplate::first();
+        if (!$invoiceTemplate) {
+            InvoiceTemplate::create([
+                'name' => 'Template 1',
+                'view' => 'invoice1',
+                'path' => '/assets/img/PDF/Template1.png'
+            ]);
+
+            InvoiceTemplate::create([
+                'name' => ' Template 2',
+                'view' => 'invoice2',
+                'path' => '/assets/img/PDF/Template2.png'
+            ]);
+
+            InvoiceTemplate::create([
+                'name' => 'Template 3',
+                'view' => 'invoice3',
+                'path' => '/assets/img/PDF/Template3.png'
+            ]);
+        }
+
         $limit = $request->has('limit') ? $request->limit : 10;
 
         $invoices = Invoice::with(['items', 'user', 'invoiceTemplate', 'taxes'])
