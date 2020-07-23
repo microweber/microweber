@@ -48,7 +48,7 @@ class InvoicesController extends AdminController
                 'search',
             ]))
             ->whereCompany($request->header('company'))
-            ->select('invoices.*', 'users.name')
+            ->select('invoices.*', 'users.first_name')
             ->latest()
             ->paginate($limit);
 
@@ -105,8 +105,8 @@ class InvoicesController extends AdminController
             'invoice_number' => 'required|unique:invoices,invoice_number'
         ])->validate();
 
-        $invoice_date = Carbon::createFromFormat('d/m/Y', $request->invoice_date);
-        $due_date = Carbon::createFromFormat('d/m/Y', $request->due_date);
+        $invoice_date = Carbon::createFromFormat('Y-m-d', $request->invoice_date);
+        $due_date = Carbon::createFromFormat('Y-m-d', $request->due_date);
         $status = Invoice::STATUS_DRAFT;
 
         $tax_per_item = CompanySetting::getSetting('tax_per_item', $request->header('company')) ?? 'NO';
@@ -167,7 +167,7 @@ class InvoicesController extends AdminController
 
         if ($request->has('invoiceSend')) {
             $data['invoice'] = Invoice::findOrFail($invoice->id)->toArray();
-            $data['user'] = User::find($request->user_id)->toArray();
+            $data['user'] = \MicroweberPackages\User\User::find($request->user_id)->toArray();
             $data['company'] = Company::find($invoice->company_id);
 
             $email = $data['user']['email'];

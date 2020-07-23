@@ -6,6 +6,8 @@ use MicroweberPackages\Invoice\InvoiceTemplate;
 use MicroweberPackages\Invoice\Payment;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use MicroweberPackages\Tax\Tax;
+use MicroweberPackages\User\User;
 
 class Invoice extends Model
 {
@@ -109,7 +111,7 @@ class Invoice extends Model
 
     public function user()
     {
-        return $this->belongsTo('MicroweberPackages\Invoice\User');
+        return $this->belongsTo(User::class);
     }
 
     public function invoiceTemplate()

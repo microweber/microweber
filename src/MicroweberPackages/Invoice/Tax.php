@@ -1,5 +1,5 @@
 <?php
-namespace Crater;
+namespace MicroweberPackages\Invoice;
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Tax\TaxType;

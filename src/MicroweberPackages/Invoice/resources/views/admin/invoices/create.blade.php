@@ -46,8 +46,8 @@
                 this.total = itemsTotal;
                 this.subTotal = itemsTotal;
 
-                $('.js-invoice-total').val(this.total);
-                $('.js-invoice-sub-total').val(this.subTotal);
+                $('.js-invoice-total').val(parseFloat(this.total).toFixed(2));
+                $('.js-invoice-sub-total').val(parseFloat(this.subTotal).toFixed(2));
             }
 
             inputsItemsChange(item) {
@@ -60,22 +60,28 @@
 
                 if (item.attr('data-item-type') == 'price') {
                     this.items[itemId].price = item.val();
+
+                    // Parse to fixed
+                    item.val(parseFloat(item.val()).toFixed(2));
                 }
 
                 this.calculate();
             }
 
             invoiceItemTemplate(itemId, price, quantity) {
+
+                price = parseFloat(price).toFixed(2);
+
                 return '<tr class="js-invoice-item">' +
                     '<td>' +
-                    '    <input type="text" class="form-control js-invoice-item-input" name="item[' + itemId + '][name]" placeholder="Type or click to select an item">' +
-                    '    <textarea style="margin-top:5px;border:0px;background: none" name="item['+itemId+'][description]"  placeholder="Type item Description (optional)" class="form-control js-invoice-item-input"></textarea>' +
+                    '    <input type="text" class="form-control js-invoice-item-input" name="items[' + itemId + '][name]" placeholder="Type or click to select an item">' +
+                    '    <textarea style="margin-top:5px;border:0px;background: none" name="items['+itemId+'][description]"  placeholder="Type item Description (optional)" class="form-control js-invoice-item-input"></textarea>' +
                     '</td>' +
                     '<td>' +
-                    '    <input type="text" class="form-control js-invoice-item-input" data-item-id="' + itemId + '" data-item-type="quantity" name="item[' + itemId + '][quantity]" value="'+quantity+'">' +
+                    '    <input type="text" class="form-control js-invoice-item-input" data-item-id="' + itemId + '" data-item-type="quantity" name="items[' + itemId + '][quantity]" value="'+quantity+'">' +
                     '</td>' +
                     '<td>' +
-                    '    <input type="text" class="form-control js-invoice-item-input" data-item-id="' + itemId + '" data-item-type="price" name="item[' + itemId + '][price]" value="'+price+'">' +
+                    '    <input type="text" class="form-control js-invoice-item-input" data-item-id="' + itemId + '" data-item-type="price" name="items[' + itemId + '][price]" value="'+price+'">' +
                     '</td>' +
                     '<td>' +
                     '    0.00' +
@@ -116,7 +122,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label>Invoice Number:</label>
-                    <input type="text" class="form-control" value="{{ $nextInvoiceNumber }}" name="nextInvoiceNumber"/>
+                    <input type="hidden" class="form-control" value="{{ $nextInvoiceNumber }}" />
                 </div>
             </div>
 
@@ -217,6 +223,7 @@
             <input type="hidden" value="{{$taxType->id}}" name="tax"/>
             <input type="hidden" value="0.00" class="js-invoice-total" name="total"/>
             <input type="hidden" value="0.00" class="js-invoice-sub-total" name="sub_total"/>
+            <input type="hidden" value="{{ $nextInvoiceNumber }}" name="invoice_number"/>
 
             <div class="col-md-12" style="margin-top:15px;">
                 <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save Invoice</button>
