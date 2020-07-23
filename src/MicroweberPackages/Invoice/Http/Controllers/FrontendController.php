@@ -340,6 +340,10 @@ class FrontendController extends Controller
         }
 
         $invoiceTemplate = InvoiceTemplate::find($invoice->invoice_template_id);
+        if (!$invoiceTemplate) {
+            throw new \Exception('No invoice template');
+        }
+        
         $company = Company::find($invoice->company_id);
         $companyAddress = User::with(['addresses', 'addresses.country'])->find(1);
 
@@ -372,9 +376,7 @@ class FrontendController extends Controller
             'labels' => $labels,
             'taxes' => $taxes
         ]);
-        if (!$invoiceTemplate) {
-            throw new \Exception('No invoice tempalte');
-        }
+
         $pdf = PDF::loadView('app.pdf.invoice.'.$invoiceTemplate->view);
 
         return $pdf->stream();
