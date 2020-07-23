@@ -4,11 +4,10 @@ namespace MicroweberPackages\Invoice\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use MicroweberPackages\Invoice\Invoice;
-use PDF;
 use MicroweberPackages\Invoice\CompanySetting;
 use MicroweberPackages\Invoice\Estimate;
 use MicroweberPackages\Invoice\Payment;
-use MicroweberPackages\Invoice\User;
+use MicroweberPackages\User\User;
 use MicroweberPackages\Invoice\Company;
 use MicroweberPackages\Invoice\InvoiceTemplate;
 use MicroweberPackages\Invoice\EstimateTemplate;
@@ -60,11 +59,11 @@ class FrontendController extends Controller
         $estimateTemplate = EstimateTemplate::find($estimate->estimate_template_id);
 
         $company = Company::find($estimate->company_id);
-
-        $logo = $company->getMedia('logo')->first();
-
-        if($logo) {
-            $logo = $logo->getFullUrl();
+        if ($company) {
+            $logo = $company->getMedia('logo')->first();
+            if ($logo) {
+                $logo = $logo->getFullUrl();
+            }
         }
 
         if ($estimate && ($estimate->status == Estimate::STATUS_SENT || $estimate->status == Estimate::STATUS_DRAFT)) {
@@ -342,10 +341,12 @@ class FrontendController extends Controller
         $company = Company::find($invoice->company_id);
         $companyAddress = User::with(['addresses', 'addresses.country'])->find(1);
 
-        $logo = $company->getMedia('logo')->first();
+        if ($company) {
+            $logo = $company->getMedia('logo')->first();
 
-        if($logo) {
-            $logo = $logo->getFullUrl();
+            if ($logo) {
+                $logo = $logo->getFullUrl();
+            }
         }
 
         $colors = [
