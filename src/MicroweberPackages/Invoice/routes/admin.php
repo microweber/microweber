@@ -11,8 +11,9 @@
 // -------------------------------------------------
 Route::get('/invoices/pdf/{id}', [
     'as' => 'get.invoice.pdf',
-    'uses' => 'FrontendController@getInvoicePdf'
+    'uses' => '\MicroweberPackages\Invoice\Http\Controllers\FrontendController@getInvoicePdf'
 ]);
+
 /*
 Route::group([
     'middleware' => 'admin'
@@ -32,7 +33,7 @@ Route::prefix('admin')->namespace('\MicroweberPackages\Invoice\Http\Controllers\
     ]);
 
     Route::post('/invoices/clone', [
-        'as' => 'invoices.send',
+        'as' => 'invoices.clone',
         'uses' => 'InvoicesController@cloneInvoice'
     ]);
 

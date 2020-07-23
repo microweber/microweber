@@ -36,13 +36,14 @@
     "jenssegers/agent": "^3.0@dev",
     "geoip2/geoip2": "dev-master",
     "twig/twig": "3.x-dev",
-    "phpoffice/phpspreadsheet": "dev-master",
+    "phpoffice/phpspreadsheet": "*",
     "halaxa/json-machine": "dev-master",
     "fideloper/proxy": "dev-master",
     "fruitcake/laravel-cors": "^2.0@dev",
     "wikimedia/composer-merge-plugin": "^1.5@dev",
     "rtconner/laravel-tagging": "^4.0",
-    "spatie/laravel-permission": "dev-master"
+    "spatie/laravel-medialibrary": "*",
+    "spatie/laravel-permission": "*"
   },
   "require-dev": {
     "orchestra/testbench": "^5.0",

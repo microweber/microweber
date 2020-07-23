@@ -19,7 +19,7 @@ class Company extends Model implements HasMedia
     {
         $logo = $this->getMedia('logo')->first();
         if ($logo) {
-            return  asset($logo->getUrl());
+            return asset($logo->getUrl());
         }
         return ;
     }

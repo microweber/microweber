@@ -77,7 +77,7 @@ class InvoicesController extends AdminController
             $nextInvoiceNumberAttribute = $nextInvoiceNumber;
         }
 
-        return $this->view('invoice::admin.invoices.create', [
+        return $this->view('invoice::admin.invoices.edit', [
             'taxTypes'=>\MicroweberPackages\Tax\TaxType::all(),
             'users' => \MicroweberPackages\User\User::all(),
             'nextInvoiceNumberAttribute' => $nextInvoiceNumberAttribute,
@@ -210,7 +210,7 @@ class InvoicesController extends AdminController
             'shareable_link' => url('/invoices/pdf/' . $invoice->unique_hash)
         ];
 
-        return response()->json($siteData);
+        return $this->view('invoice::admin.invoices.show', $siteData);
     }
 
     /**
@@ -229,7 +229,9 @@ class InvoicesController extends AdminController
             'taxes.taxType'
         ])->find($id);
 
-        return response()->json([
+        return $this->view('invoice::admin.invoices.edit', [
+            'users' => \MicroweberPackages\User\User::all(),
+            'taxTypes'=>\MicroweberPackages\Tax\TaxType::all(),
             'nextInvoiceNumber' => $invoice->getInvoiceNumAttribute(),
             'invoice' => $invoice,
             'invoiceTemplates' => InvoiceTemplate::all(),
@@ -558,15 +560,6 @@ class InvoicesController extends AdminController
             }
         }
 
-        $invoice = Invoice::with([
-            'items',
-            'user',
-            'invoiceTemplate',
-            'taxes'
-        ])->find($invoice->id);
-
-        return response()->json([
-            'invoice' => $invoice
-        ]);
+        return redirect(route('invoices.edit', $invoice->id))->with('status', 'Invoice is cloned.');
     }
 }
