@@ -44,7 +44,7 @@
     "rtconner/laravel-tagging": "^4.0",
     "spatie/laravel-medialibrary": "*",
     "spatie/laravel-permission": "*",
-    "barryvdh/laravel-dompdf": "^0.8.1"
+    "barryvdh/laravel-dompdf": "*"
   },
   "require-dev": {
     "orchestra/testbench": "^5.0",

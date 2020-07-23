@@ -1,9 +1,11 @@
 <?php
 namespace MicroweberPackages\Invoice\Http\Controllers;
 
+use _HumbugBox58fd4d9e2a25\___PHPSTORM_HELPERS\this;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use MicroweberPackages\Invoice\Invoice;
+use PDF;
 use MicroweberPackages\Invoice\CompanySetting;
 use MicroweberPackages\Invoice\Estimate;
 use MicroweberPackages\Invoice\Payment;
@@ -370,6 +372,9 @@ class FrontendController extends Controller
             'labels' => $labels,
             'taxes' => $taxes
         ]);
+        if (!$invoiceTemplate) {
+            throw new \Exception('No invoice tempalte');
+        }
         $pdf = PDF::loadView('app.pdf.invoice.'.$invoiceTemplate->view);
 
         return $pdf->stream();
