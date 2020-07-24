@@ -29,9 +29,19 @@
                 return (this.items.length - 1);
             }
 
-            addNewItem() {
-                var itemId = this.addItem(0.00, 1);
-                $('.js-invoice-items').append(this.invoiceItemTemplate(itemId, 0.00, 1));
+            addNewItem(item) {
+
+                if (typeof(item) == 'undefined') {
+                    item = {
+                        name: '',
+                        description: '',
+                        price:0,
+                        quantity: 1,
+                    };
+                }
+
+                var itemId = this.addItem(item.price, item.quantity);
+                $('.js-invoice-items').append(this.invoiceItemTemplate(itemId, item.price, item.quantity));
                 this.calculate();
             }
 
@@ -94,7 +104,18 @@
 
         $(document).ready(function () {
             invoice = new Invoice();
-            invoice.addNewItem();
+            @if($invoice)
+                @foreach($invoice->items as $invoiceItem)
+                    invoice.addNewItem({
+                        name: '{{ $invoiceItem->name }}',
+                        description: '{{ $invoiceItem->description }}',
+                        price: {{ $invoiceItem->price }},
+                        quantity: {{ $invoiceItem->quantity }}
+                    });
+                @endforeach
+            @else
+                invoice.addNewItem();
+            @endif
             invoice.calculate();
             $('body').on('change', '.js-invoice-item-input', function () {
                 invoice.inputsItemsChange($(this));
@@ -107,7 +128,13 @@
     </script>
 
 
-    <form method="post" action="{{ route('invoices.store') }}">
+    @if($invoice)
+        <form method="post" action="{{ route('invoices.update', $invoice->id) }}">
+    @method('PUT')
+    @else
+        <form method="post" action="{{ route('invoices.store') }}">
+    @endif
+    @csrf
 
         <div class="modal js-invoice-select-customer-modal">
             <div class="modal-dialog">
@@ -185,7 +212,7 @@
                                 <div class="form-group">
                                     <label>Invoice Number:</label>
                                     <input type="text" disabled="disabled" class="form-control"
-                                           value="{{ $nextInvoiceNumber }}"/>
+                                           value="@if ($nextInvoiceNumber) {{ $nextInvoiceNumber }}@else {{ $invoice->invoice_number }} @endif"/>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -280,7 +307,7 @@
             <input type="hidden" value="{{$taxType->id}}" name="tax"/>
             <input type="hidden" value="0.00" class="js-invoice-total" name="total"/>
             <input type="hidden" value="0.00" class="js-invoice-sub-total" name="sub_total"/>
-            <input type="hidden" value="{{ $nextInvoiceNumber }}" name="invoice_number"/>
+            <input type="hidden" value="@if ($nextInvoiceNumber) {{ $nextInvoiceNumber }}@else {{ $invoice->invoice_number }} @endif" name="invoice_number"/>
 
             <div class="col-md-12" style="margin-top:15px;">
                 <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save Invoice</button>

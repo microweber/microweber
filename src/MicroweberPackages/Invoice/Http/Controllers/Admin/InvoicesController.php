@@ -506,7 +506,7 @@ class InvoicesController extends AdminController
         $date = Carbon::now();
         $invoice_prefix = CompanySetting::getSetting(
             'invoice_prefix',
-            $request->header('company')
+            $request->header('company', 'INV')
         );
         $tax_per_item = CompanySetting::getSetting(
                 'tax_per_item',
