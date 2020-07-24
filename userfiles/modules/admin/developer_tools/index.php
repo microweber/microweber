@@ -60,10 +60,16 @@
     <small class="text-muted d-block mb-2">Speed up your website load speed.</small>
 </div>
 
+<script>
+    function clearMwCache() {
+        mw.clear_cache();
+        mw.notification.success("<?php _ejs("The cache was cleared"); ?>.");
+    }
+</script>
+
+<a href="javascript:;" class="btn btn-outline-primary btn-sm" onclick="openModuleInModal('settings/group/cache', 'Cache settings')"><?php _e("Cache settings"); ?></a>
+<a class="btn btn-outline-danger btn-sm" href="javascript:clearMwCache();"><?php _e("Clear cache"); ?></a>
+
 <?php if (config('app.debug')): ?>
-    <a href="javascript:;" class="btn btn-outline-primary btn-sm" onclick="openModuleInModal('settings/group/experimental', 'Cache settings')"><?php _e("Experimental settings"); ?></a>
     <?php /* <br /><br />   <a href="javascript:;" class="btn btn-outline-primary btn-sm" onclick="mw.load_module('admin/modules/packages')"> <?php  _e("Packages");  ?></a>  */ ?>
 <?php endif; ?>
-
-
-<div id="mw-advanced-settings-module-load-holder"></div>

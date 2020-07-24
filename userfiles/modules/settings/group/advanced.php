@@ -12,7 +12,7 @@
     function settings_load_module(title, module) {
         $("#mw_admin_edit_settings_load_module_popup").remove()
 
-        mw_admin_edit_settings_load_module = mw.modal({
+        mw_admin_edit_settings_load_module = mw.dialog({
             content: '<div id="mw_admin_edit_settings_load_module"></div>',
             title: title,
             id: 'mw_admin_edit_settings_load_module_popup'
@@ -22,10 +22,6 @@
         mw.load_module(module, '#mw_admin_edit_settings_load_module', null, params);
     }
 
-    function clearMwCache() {
-        mw.clear_cache();
-        mw.notification.success("<?php _ejs("The cache was cleared"); ?>.");
-    }
 
     function reloadMwDB() {
         api('mw_post_update');
@@ -89,11 +85,7 @@
                         <div class="card-body pt-3">
                             <div class="row">
                                 <div class="col-12">
-                                    <module type="admin/developer_tools" />
-
-                                    <a class="mw-ui-btn" href="javascript:clearMwCache();"><?php _e("Clear cache"); ?></a>
-                                    <a class="mw-ui-btn" href="javascript:reloadMwDB();"><?php _e("Reload Database"); ?></a>
-                                    <a class="mw-ui-btn" href="javascript:settings_load_module('Statistics settings','site_stats/settings')"><?php _e("Statistics settings"); ?></a>
+                                    <module type="admin/developer_tools"/>
                                 </div>
                             </div>
                         </div>
@@ -107,20 +99,41 @@
         <div class="card-body pt-2 pb-0">
             <div class="row">
                 <div class="col-md-3">
-                    <h5 class="font-weight-bold"><?php _e("Development settings"); ?></h5>
-                    <small class="text-muted"><?php _e('If you are developer you will find great tools to make your website.'); ?></small>
+                    <h5 class="font-weight-bold"><?php _e("Other settings"); ?></h5>
+                    <small class="text-muted"><?php _e('Other settings for your website.'); ?></small>
                 </div>
                 <div class="col-md-9">
                     <div class="card bg-light style-1 mb-1">
                         <div class="card-body pt-3">
                             <div class="row">
                                 <div class="col-12">
-                                    <a class="mw-ui-btn" href="javascript:settings_load_module('Live Edit settings','settings/group/live_edit')"><?php _e("Live Edit settings"); ?></a>
-                                    <a class="mw-ui-btn" href="javascript:settings_load_module('Internal settings','settings/group/internal')"><?php _e("Internal settings"); ?></a>
+                                    <div class="form-group">
+                                        <label class="control-label"><?php _e("Internal Settings"); ?></label>
+                                        <small class="text-muted d-block mb-2">Internal settings for developers</small>
+                                        <a class="btn btn-outline-primary btn-sm" href="javascript:settings_load_module('Internal settings','settings/group/internal')"><?php _e("Internal settings"); ?></a>
+                                    </div>
 
-                                    <?php if (is_module('shop') and get_option('shop_disabled', 'website') == "y") { ?>
-                                        <a class="mw-ui-btn" href="javascript:settings_load_module('Shop settings','shop/orders/settings/enable_disable_shop')"><?php _e("Shop settings"); ?></a>
-                                    <?php } ?>
+                                    <div class="form-group">
+                                        <label class="control-label"><?php _e("Live Edit settings"); ?></label>
+                                        <small class="text-muted d-block mb-2">Configure Live Edit settings</small>
+                                        <a class="btn btn-outline-primary btn-sm" href="javascript:settings_load_module('Live Edit settings','settings/group/live_edit')"><?php _e("Live Edit settings"); ?></a>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label"><?php _e("Setup statitics"); ?></label>
+                                        <small class="text-muted d-block mb-2">Configure website statistics</small>
+                                        <a class="btn btn-outline-primary btn-sm" href="javascript:settings_load_module('Statistics settings','site_stats/settings')"><?php _e("Statistics settings"); ?></a>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label"><?php _e("Other"); ?></label>
+                                        <small class="text-muted d-block mb-2">Other settings</small>
+                                        <a class="btn btn-outline-primary btn-sm" href="javascript:reloadMwDB();"><?php _e("Reload Database"); ?></a>
+
+                                        <?php if (is_module('shop') and get_option('shop_disabled', 'website') == "y") { ?>
+                                            <a class="btn btn-outline-primary btn-sm" href="javascript:settings_load_module('Shop settings','shop/orders/settings/enable_disable_shop')"><?php _e("Shop settings"); ?></a>
+                                        <?php } ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>

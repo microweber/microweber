@@ -118,6 +118,27 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group mb-4">
+                                        <label class="control-label"><?php _e("Maintenance mode"); ?></label>
+                                        <small class="text-muted d-block mb-2">Turn on "Under construction mode" of your site</small>
+                                        <?php $maintenance_mode = get_option('maintenance_mode', 'website'); ?>
+
+                                        <ul class="mw-ui-inline-list">
+                                            <li>
+                                                <label class="mw-ui-check">
+                                                    <input class="mw_option_field" type="radio" name="maintenance_mode" <?php if ($maintenance_mode == 'y'): ?> checked <?php endif; ?> value="y" option-group="website">
+                                                    <span></span><span><?php _e("Yes"); ?></span>
+                                                </label>
+                                            </li>
+                                            <li>
+                                                <label class="mw-ui-check">
+                                                    <input class="mw_option_field" type="radio" name="maintenance_mode" <?php if (!$maintenance_mode or $maintenance_mode != 'y'): ?> checked <?php endif; ?> value="n" option-group="website">
+                                                    <span></span><span><?php _e("No"); ?></span>
+                                                </label>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="form-group mb-4">
                                         <label class="control-label"><?php _e("Date Format"); ?></label>
                                         <small class="text-muted d-block mb-2">Choose a date format for your website</small>
                                         <?php $date_formats = array("Y-m-d H:i:s", "Y-m-d H:i", "d-m-Y H:i:s", "d-m-Y H:i", "m/d/y", "m/d/Y", "d/m/Y", "F j, Y g:i a", "F j, Y", "F, Y", "l, F jS, Y", "M j, Y @ G:i", "Y/m/d \a\t g:i A", "Y/m/d \a\t g:ia", "Y/m/d g:i:s A", "Y/m/d", "g:i a", "g:i:s a", 'D-M-Y', 'D-M-Y H:i'); ?>

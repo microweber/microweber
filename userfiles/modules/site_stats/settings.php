@@ -2,55 +2,45 @@
 only_admin_access();
 ?>
 
-
 <script type="text/javascript">
     mw.require('forms.js');
     mw.require('options.js');
-
 </script>
+
 <script type="text/javascript">
     $(document).ready(function () {
-
         mw.options.form('#stats-units-setup', function () {
             mw.notification.success("<?php _ejs("Saved"); ?>");
         });
     });
 </script>
 
+<div id="stats-units-setup">
+    <div class="form-group">
+        <label class="control-label d-block"><?php _e("Enable statistics"); ?></label>
 
-<div id="stats-units-setup" class="mw-ui-box-content">
-    <h2><?php _e("Setup statistics"); ?></h2>
-
-    <div class="mw-ui-box mw-ui-box-content">
-        <label class="mw-ui-label"><?php _e("Enable statistics"); ?></label>
-
-        <div class="mw-ui-check-selector">
-            <label class="mw-ui-check">
-                <input name="stats_disabled" class="mw_option_field" data-option-group="site_stats" value="0" type="radio" <?php if (get_option('stats_disabled', 'site_stats') == 0): ?> checked="checked" <?php endif; ?> >
-                <span></span><span><?php _e("Enabled"); ?></span>
-            </label>
-            <label class="mw-ui-check">
-                <input name="stats_disabled" class="mw_option_field" data-option-group="site_stats" value="1" type="radio" <?php if (get_option('stats_disabled', 'site_stats') == 1): ?> checked="checked" <?php endif; ?> >
-                <span></span><span><?php _e("Disabled"); ?></span>
-            </label>
+        <div class="custom-control custom-radio d-inline-block mr-2">
+            <input type="radio" id="stats_disabled1" name="stats_disabled" class="mw_option_field custom-control-input" data-option-group="site_stats" value="0" type="radio" <?php if (get_option('stats_disabled', 'site_stats') == 0): ?> checked="checked" <?php endif; ?> >
+            <label class="custom-control-label" for="stats_disabled1"><?php _e("Enabled"); ?></label>
         </div>
 
-        <hr>
+        <div class="custom-control custom-radio d-inline-block mr-2">
+            <input type="radio" id="stats_disabled2" name="stats_disabled" class="mw_option_field custom-control-input" data-option-group="site_stats" value="1" type="radio" <?php if (get_option('stats_disabled', 'site_stats') == 1): ?> checked="checked" <?php endif; ?> >
+            <label class="custom-control-label" for="stats_disabled2"><?php _e("Disabled"); ?></label>
+        </div>
+    </div>
 
+    <div class="form-group">
+        <label class="control-label d-block"><?php _e("Tracking settings"); ?></label>
 
-        <label class="mw-ui-label">
-            <?php _e("Tracking settings"); ?>
-        </label>
+        <div class="custom-control custom-radio d-inline-block mr-2">
+            <input type="radio" id="stats_is_buffered1" name="stats_is_buffered" class="mw_option_field custom-control-input" data-option-group="site_stats" value="0" type="radio" <?php if (get_option('stats_is_buffered', 'site_stats') == 0): ?> checked="checked" <?php endif; ?> >
+            <label class="custom-control-label" for="stats_is_buffered1"><?php _e("Live"); ?></label>
+        </div>
 
-        <div class="mw-ui-check-selector">
-            <label class="mw-ui-check">
-                <input name="stats_is_buffered" class="mw_option_field" data-option-group="site_stats" value="0" type="radio" <?php if (get_option('stats_is_buffered', 'site_stats') == 0): ?> checked="checked" <?php endif; ?> >
-                <span></span><span>Live</span>
-            </label>
-            <label class="mw-ui-check">
-                <input name="stats_is_buffered" class="mw_option_field" data-option-group="site_stats" value="1" type="radio" <?php if (get_option('stats_is_buffered', 'site_stats') == 1): ?> checked="checked" <?php endif; ?> >
-                <span></span><span>Buffered (records every 1 minute)</span>
-            </label>
+        <div class="custom-control custom-radio d-inline-block mr-2">
+            <input type="radio" id="stats_is_buffered2" name="stats_is_buffered" class="mw_option_field custom-control-input" data-option-group="site_stats" value="1" type="radio" <?php if (get_option('stats_is_buffered', 'site_stats') == 1): ?> checked="checked" <?php endif; ?> >
+            <label class="custom-control-label" for="stats_is_buffered2"><?php _e("Buffered (records every 1 minute)"); ?></label>
         </div>
     </div>
 </div>

@@ -20,7 +20,7 @@
 
         <div class="mw-admin-side-nav">
             <div class="back-up-nav-btns">
-                <a href="javascript:mw.database_cleanup.run()" class="btn btn-success">Cleanup Database</a>
+                <a href="javascript:mw.database_cleanup.run()" class="btn btn-success btn-sm">Cleanup Database</a>
 
                 <div class="vSpace"></div>
             </div>
