@@ -147,8 +147,6 @@
                 <a class="ordersnum pull-left m-r-10" href="#orderstype=completed"><?php print $latest_orders; ?></a>
 
                 <h2 class="pull-left m-t-10">
-                    <span class="mai-shop"></span>
-
 
                     <?php if ($latest_orders > 1) { ?>
                         <?php _e("New orders"); ?>

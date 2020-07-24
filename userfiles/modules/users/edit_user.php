@@ -204,6 +204,8 @@ if (isset($data[0]) == false) {
                 <input type="hidden" name="token" value="<?php print csrf_token() ?>" autocomplete="off">
 
                 <div class="d-block">
+                    <small class="d-block text-muted text-center mb-2">Fill in the fields to create a new user</small>
+
                     <div class="form-group">
                         <label class="control-label"><?php _e("Username"); ?></label>
                         <input type="text" class="form-control" name="username" value="<?php print $data['username']; ?>"/>
@@ -221,8 +223,13 @@ if (isset($data[0]) == false) {
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label"><?php _e("Email"); ?></label>
-                        <input type="text" class="form-control" name="email" value="<?php print $data['email']; ?>">
+                        <label class="control-label"><?php _e("Password again"); ?></label>
+                        <div class="input-group input-group-password mb-3 append-transparent">
+                            <input type="password" name="password_again" class="form-control bg-warning" id="password_again"/>
+                            <div class="input-group-append">
+                                <span class="input-group-text js-show-password bg-white" data-toggle="tooltip" data-title="Show/Hide Password"><i class="mdi mdi-eye-outline text-muted mdi-20px"></i></span>
+                            </div>
+                        </div>
                     </div>
 
                     <small class="d-block text-muted text-center mb-2">Personal data of the user</small>
@@ -237,10 +244,20 @@ if (isset($data[0]) == false) {
                         <input type="text" class="form-control" name="last_name" value="<?php print $data['last_name']; ?>"/>
                     </div>
 
+                    <div class="form-group">
+                        <label class="control-label"><?php _e("Email"); ?></label>
+                        <input type="text" class="form-control" name="email" value="<?php print $data['email']; ?>">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label"><?php _e("Phone"); ?></label>
+                        <input type="text" class="form-control bg-warning" name="phone" value="<?php print $data['email']; ?>">
+                    </div>
+
                     <div class="form-group mt-4 mb-4">
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" id="send_new_user_email" checked="">
-                            <label class="custom-control-label" for="send_new_user_email">Send the new user an email about their account. <br /><a href="#">Edit e-mail template.</a></label>
+                            <label class="custom-control-label" for="send_new_user_email">Send the new user an email about their account. <br/><a href="#">Edit e-mail template.</a></label>
                         </div>
                     </div>
 

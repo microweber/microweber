@@ -498,7 +498,6 @@ if (!$shop_disabled) {
                                 <?php _e("Products"); ?>
                             </a>
                             <a href="<?php print admin_url(); ?>view:shop/action:orders" class="dropdown-item <?php if ($action == 'orders'): ?> active <?php endif; ?>">
-                                <span class="mai-shop"></span>
                                 <?php _e("Orders"); ?>
                                 <?php if ($view == 'shop') {
                                     print $order_notif_html;

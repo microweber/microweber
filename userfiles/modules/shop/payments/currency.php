@@ -1,9 +1,6 @@
 <?php
-
 $cur = get_option('currency', 'payments');
 $curencies = mw()->shop_manager->currency_get();
-
-
 ?>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -15,65 +12,67 @@ $curencies = mw()->shop_manager->currency_get();
     });
 </script>
 
-
-<div id="general-shop-settings-accordion" class="mw-ui-box mw-ui-box-silver-blue  m-t-20">
-    <div class="mw-ui-box-header" onclick="mw.accordion('#general-shop-settings-accordion');">
-        <div class="header-holder">
-            <i class="mai-setting2"></i> <?php _e('General Shop Settings') ?>
-        </div>
+<div class="card bg-none style-1 mb-0 card-settings">
+    <div class="card-header">
+        <h5>
+            <i class="mdi mdi-cart-outline text-primary mr-3"></i> <strong>Shop General</strong>
+        </h5>
+        <div></div>
     </div>
 
-    <div class="mw-accordion-content mw-ui-box-content" style="display: none">
-        <div class="mw-ui-row">
-            <div class="mw-ui-col">
-                <div class="mw-ui-col-container">
-                    <?php if (is_array($curencies)): ?>
-                        <label class="mw-ui-label bold p-b-10"><?php _e("Currency settings"); ?></label>
-
-                        <select name="currency" class="mw-ui-field mw_option_field w100 silver-field" data-option-group="payments" data-reload="mw_curr_rend">
-                            <?php if (!$cur): ?>
-                                <option value="" disabled="disabled" selected="selected"><?php _e('Select currency'); ?></option>
-                            <?php endif; ?>
-                            <?php foreach ($curencies as $item): ?>
-                                <option value="<?php print $item[1] ?>" <?php if ($cur == $item[1]): ?> selected="selected" <?php endif; ?>><?php print $item[1] ?> <?php print $item[3] ?> (<?php print $item[2] ?>)</option>
-                            <?php endforeach; ?>
-                        </select>
-                    <?php endif; ?>
-                </div>
+    <div class="card-body pt-3">
+        <div class="row">
+            <div class="col-md-3 pt-5">
+                <h5 class="font-weight-bold"><?php _e("Currency settings"); ?></h5>
+                <small class="text-muted">Set the currency in which your store will operate.</small>
             </div>
 
-            <?php $currency_symbol_decimal = get_option('currency_symbol_decimal', 'payments'); ?>
+            <div class="col-md-9">
+                <div class="card bg-light style-1 mb-3">
+                    <div class="card-body pt-3">
+                        <div class="row">
+                            <div class="col-12">
+                                <?php if (is_array($curencies)): ?>
+                                    <div class="form-group mb-4">
+                                        <label class="control-label">Set default currency</label>
+                                        <small class="text-muted d-block mb-2">Default currency with which you will accept payments.</small>
+                                        <select name="currency" class="mw_option_field selectpicker" data-width="100%" data-size="7" data-option-group="payments" data-reload="mw_curr_rend">
+                                            <?php if (!$cur): ?>
+                                                <option value="" disabled="disabled" selected="selected"><?php _e('Select currency'); ?></option>
+                                            <?php endif; ?>
+                                            <?php foreach ($curencies as $item): ?>
+                                                <option value="<?php print $item[1] ?>" <?php if ($cur == $item[1]): ?> selected="selected" <?php endif; ?>><?php print $item[1] ?> <?php print $item[3] ?> (<?php print $item[2] ?>)</option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                <?php endif; ?>
 
-            <?php $cur_pos = get_option('currency_symbol_position', 'payments'); ?>
-            <div class="mw-ui-col">
-                <div class="mw-ui-col-container">
-                    <div class="mw-ui-field-holder">
-                        <label class="mw-ui-label bold p-b-10"><?php _e("Symbol position"); ?></label>
+                                <?php $currency_symbol_decimal = get_option('currency_symbol_decimal', 'payments'); ?>
+                                <?php $cur_pos = get_option('currency_symbol_position', 'payments'); ?>
 
-                        <select name="currency_symbol_position" class="mw-ui-field mw_option_field w100 silver-field" data-option-group="payments" data-reload="mw_curr_rend">
-                            <option <?php if (!$cur_pos): ?> selected="selected" <?php endif; ?> value=""><?php _e('Default'); ?></option>
-                            <option <?php if ($cur_pos == 'before'): ?> selected="selected" <?php endif; ?> value="before"><?php _e('Before number'); ?></option>
-                            <option <?php if ($cur_pos == 'after'): ?> selected="selected" <?php endif; ?> value="after"><?php _e('After number'); ?></option>
-                        </select>
+                                <div class="form-group mb-4">
+                                    <label class="control-label"><?php _e("Currency simbol position"); ?></label>
+                                    <small class="text-muted d-block mb-2">Where to display the currency symbol before, after or by default relative to the amount.</small>
+
+                                    <select name="currency_symbol_position" class="mw_option_field selectpicker" data-width="100%" data-option-group="payments" data-reload="mw_curr_rend">
+                                        <option <?php if (!$cur_pos): ?> selected="selected" <?php endif; ?> value=""><?php _e('Default'); ?></option>
+                                        <option <?php if ($cur_pos == 'before'): ?> selected="selected" <?php endif; ?> value="before"><?php _e('Before number'); ?></option>
+                                        <option <?php if ($cur_pos == 'after'): ?> selected="selected" <?php endif; ?> value="after"><?php _e('After number'); ?></option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label"><?php _e("Show Decimals"); ?></label>
+                                    <select name="currency_symbol_decimal" class="mw_option_field selectpicker" data-width="100%" data-option-group="payments" data-reload="mw_curr_rend">
+                                        <option <?php if (!$currency_symbol_decimal): ?> selected="selected" <?php endif; ?> value=""><?php _e('Always'); ?></option>
+                                        <option <?php if ($currency_symbol_decimal == 'when_needed'): ?> selected="selected" <?php endif; ?> value="when_needed"><?php _e('When needed'); ?></option>
+                                    </select>
+                                </div>
+
+                                <module type="shop/payments/currency_render" id="mw_curr_rend"/>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mw-ui-field-holder">
-                        <label class="mw-ui-label bold p-b-10"><?php _e("Show Decimals"); ?></label>
-
-                        <select name="currency_symbol_decimal" class="mw-ui-field mw_option_field w100 silver-field" data-option-group="payments" data-reload="mw_curr_rend">
-                            <option <?php if (!$currency_symbol_decimal): ?> selected="selected" <?php endif; ?> value=""><?php _e('Always'); ?></option>
-                            <option <?php if ($currency_symbol_decimal == 'when_needed'): ?> selected="selected" <?php endif; ?> value="when_needed"><?php _e('When needed'); ?></option>
-                        </select>
-
-                    </div>
-
-
-                </div>
-            </div>
-
-
-            <div class="mw-ui-col">
-                <div class="p-10">
-                    <module type="shop/payments/currency_render" id="mw_curr_rend"/>
                 </div>
             </div>
         </div>

@@ -10,7 +10,7 @@
 <div id="shop-settings-accordion" class="mw-ui-box mw-ui-box-silver-blue active m-t-20">
     <div class="mw-ui-box-header" onclick="mw.accordion('#shop-settings-accordion');">
         <div class="header-holder">
-            <i class="mai-shop"></i> <?php print _e('Shop settings'); ?>
+            <?php print _e('Shop settings'); ?>
         </div>
     </div>
 
