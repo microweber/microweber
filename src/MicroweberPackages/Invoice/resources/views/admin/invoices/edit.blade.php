@@ -1,7 +1,6 @@
 @extends('invoice::admin.layout')
 
-@section('title', 'Create Invoice')
-
+@section('title', 'Manage Invoice')
 
 @section('content')
 
@@ -75,13 +74,13 @@
                 return '<tr class="js-invoice-item">' +
                     '<td>' +
                     '    <input type="text" class="form-control js-invoice-item-input" name="items[' + itemId + '][name]" placeholder="Type or click to select an item">' +
-                    '    <textarea style="margin-top:5px;border:0px;background: none" name="items['+itemId+'][description]"  placeholder="Type item Description (optional)" class="form-control js-invoice-item-input"></textarea>' +
+                    '    <textarea style="margin-top:5px;border:0px;background: none" name="items[' + itemId + '][description]"  placeholder="Type item Description (optional)" class="form-control js-invoice-item-input"></textarea>' +
                     '</td>' +
                     '<td>' +
-                    '    <input type="text" class="form-control js-invoice-item-input" data-item-id="' + itemId + '" data-item-type="quantity" name="items[' + itemId + '][quantity]" value="'+quantity+'">' +
+                    '    <input type="text" class="form-control js-invoice-item-input" data-item-id="' + itemId + '" data-item-type="quantity" name="items[' + itemId + '][quantity]" value="' + quantity + '">' +
                     '</td>' +
                     '<td>' +
-                    '    <input type="text" class="form-control js-invoice-item-input" data-item-id="' + itemId + '" data-item-type="price" name="items[' + itemId + '][price]" value="'+price+'">' +
+                    '    <input type="text" class="form-control js-invoice-item-input" data-item-id="' + itemId + '" data-item-type="price" name="items[' + itemId + '][price]" value="' + price + '">' +
                     '</td>' +
                     '<td>' +
                     '    0.00' +
@@ -97,52 +96,104 @@
             invoice = new Invoice();
             invoice.addNewItem();
             invoice.calculate();
-            $('body').on('change', '.js-invoice-item-input', function() {
+            $('body').on('change', '.js-invoice-item-input', function () {
                 invoice.inputsItemsChange($(this));
+            });
+
+            $('.js-invoice-select-customer').click(function () {
+                $('.js-invoice-select-customer-modal').modal();
             });
         });
     </script>
+
+    <div class="modal js-invoice-select-customer-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Select customer</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form class="col-md-12">
+                        <div class="input-group">
+                            <input type="text" class="form-control typeahead border-primary" name="query" id="query" placeholder="Start typing something to search customers..." data-provide="typeahead" autocomplete="off">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-outline-primary">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" style="float:left;"><i class="fa fa-check"></i> Select customer</button>
+                    <a href="" class="btn btn-primary"><i class="fa fa-plus"></i> Add new customer</a>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <form method="post" action="{{ route('invoices.store') }}">
         @csrf
 
         <div class="row">
 
+            <style>
+                .well-box {
+                    width: 100%;
+                    background: #fff;
+                    border-radius: 3px;
+                    padding-top: 15px;
+                    padding-bottom: 15px;
+                    border: 1px solid #ced4da;
+                }
+            </style>
+
             <div class="col-md-12">
-                <div class="form-group">
-                    <label>Customer:</label>
-                    <select class="form-control" name="user_id">
-                        @foreach($users as $user):
-                        <option value="{{$user->id}}">{{$user->email}}</option>
-                        @endforeach
-                    </select>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="invoice-select-customer-box" style="text-align: center">
+                            <button type="button" class="well-box js-invoice-select-customer" style="line-height:85px;font-size:23px;"><i class="fa fa-user"></i> &nbsp; Select Customer *</button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Invoice Date:</label>
+                                    <input type="date" class="form-control" value="{{ date('Y-m-d') }}"
+                                           name="invoice_date" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Invoice Due Date:</label>
+                                    <input type="date" class="form-control"
+                                           value="{{ date('Y-m-d', strtotime('+6 days', strtotime(date('Y-m-d')))) }}"
+                                           name="due_date"/>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Invoice Number:</label>
+                                    <input type="text" disabled="disabled" class="form-control"
+                                           value="{{ $nextInvoiceNumber }}"/>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Ref Number:</label>
+                                    <input type="text" class="form-control" value=""/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label>Invoice Number:</label>
-                    <input type="hidden" class="form-control" value="{{ $nextInvoiceNumber }}" />
-                </div>
-            </div>
-
-
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label>Invoice Date:</label>
-                    <input type="date" class="form-control" value="{{ date('Y-m-d') }}" name="invoice_date"/>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label>Invoice Due Date:</label>
-                    <input type="date" class="form-control"
-                           value="{{ date('Y-m-d', strtotime('+6 days', strtotime(date('Y-m-d')))) }}" name="due_date"/>
-                </div>
-            </div>
-
-            <div class="col-md-12" style="margin-top:15px;">
+            <div class="col-md-12" style="margin-top:25px;">
                 <div class="row">
                     <div class="col-md-9">
 
@@ -166,7 +217,7 @@
 
                     </div>
                     <div class="col-md-3">
-                        <div style="width:100%;background:#fff;border-radius: 3px;padding-top: 15px;padding-bottom: 15px;">
+                        <div class="well-box">
 
                             <div class="form-group col-md-12">
                                 <label>Sub total:</label>
