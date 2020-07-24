@@ -41,7 +41,7 @@
                 }
 
                 var itemId = this.addItem(item.price, item.quantity);
-                $('.js-invoice-items').append(this.invoiceItemTemplate(itemId, item.price, item.quantity));
+                $('.js-invoice-items').append(this.invoiceItemTemplate(itemId, item.name, item.description, item.price, item.quantity));
                 this.calculate();
             }
 
@@ -77,14 +77,16 @@
                 this.calculate();
             }
 
-            invoiceItemTemplate(itemId, price, quantity) {
+            invoiceItemTemplate(itemId, name, description, price, quantity) {
 
                 price = parseFloat(price).toFixed(2);
 
                 return '<tr class="js-invoice-item">' +
                     '<td>' +
-                    '    <input type="text" class="form-control js-invoice-item-input" name="items[' + itemId + '][name]" placeholder="Type or click to select an item">' +
-                    '    <textarea style="margin-top:5px;border:0px;background: none" name="items[' + itemId + '][description]"  placeholder="Type item Description (optional)" class="form-control js-invoice-item-input"></textarea>' +
+                    '    <input type="text" value="' + name + '" class="form-control js-invoice-item-input" name="items[' + itemId + '][name]" placeholder="Type or click to select an item">' +
+                    '    <textarea style="margin-top:5px;border:0px;background: none" name="items[' + itemId + '][description]"  placeholder="Type item Description (optional)" class="form-control js-invoice-item-input">' +
+                    description + 
+                    '</textarea>' +
                     '</td>' +
                     '<td>' +
                     '    <input type="text" class="form-control js-invoice-item-input" data-item-id="' + itemId + '" data-item-type="quantity" name="items[' + itemId + '][quantity]" value="' + quantity + '">' +
