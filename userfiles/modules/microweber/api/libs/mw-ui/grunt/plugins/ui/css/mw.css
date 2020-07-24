@@ -110,7 +110,8 @@ header {
         .main aside > ul > li.nav-item > a:hover {
           color: #2b2b2b; }
           .main aside > ul > li.nav-item > a:hover > i {
-            color: #4592ff; }
+            color: #4592ff;
+            margin-left: -3px; }
         .main aside > ul > li.nav-item > a > i {
           margin-right: 10px;
           float: left;

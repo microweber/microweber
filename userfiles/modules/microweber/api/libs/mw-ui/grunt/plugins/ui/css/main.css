@@ -1506,7 +1506,7 @@ pre {
   background-color: #343a40;
   border-color: #454d55; }
 .table .thead-light th {
-  color: #555555;
+  color: #2b2b2b;
   background-color: #e9ecef;
   border-color: #dee2e6; }
 
@@ -1573,7 +1573,7 @@ pre {
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #555555;
+  color: #2b2b2b;
   background-color: #fff;
   background-clip: padding-box;
   border: 1px solid #cfcfcf;
@@ -1587,9 +1587,9 @@ pre {
     border: 0; }
   .form-control:-moz-focusring {
     color: transparent;
-    text-shadow: 0 0 0 #555555; }
+    text-shadow: 0 0 0 #2b2b2b; }
   .form-control:focus {
-    color: #555555;
+    color: #2b2b2b;
     background-color: #fff;
     border-color: #c5ddff;
     outline: 0;
@@ -1602,7 +1602,7 @@ pre {
     opacity: 1; }
 
 select.form-control:focus::-ms-value {
-  color: #555555;
+  color: #2b2b2b;
   background-color: #fff; }
 
 .form-control-file,
@@ -2694,7 +2694,7 @@ input[type="button"].btn-block {
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #555555;
+  color: #2b2b2b;
   text-align: center;
   white-space: nowrap;
   background-color: #e9ecef;
@@ -2868,7 +2868,7 @@ input[type="button"].btn-block {
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #555555;
+  color: #2b2b2b;
   vertical-align: middle;
   background: #fff url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") no-repeat right 0.75rem center/8px 10px;
   border: 1px solid #cfcfcf;
@@ -2879,7 +2879,7 @@ input[type="button"].btn-block {
     outline: 0;
     box-shadow: 0 0 0 0.2rem rgba(69, 146, 255, 0.25); }
     .custom-select:focus::-ms-value {
-      color: #555555;
+      color: #2b2b2b;
       background-color: #fff; }
   .custom-select[multiple], .custom-select[size]:not([size="1"]) {
     height: auto;
@@ -2892,7 +2892,7 @@ input[type="button"].btn-block {
     display: none; }
   .custom-select:-moz-focusring {
     color: transparent;
-    text-shadow: 0 0 0 #555555; }
+    text-shadow: 0 0 0 #2b2b2b; }
 
 .custom-select-sm {
   height: 1.875rem;
@@ -2942,7 +2942,7 @@ input[type="button"].btn-block {
   padding: 0.75rem 0.75rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #555555;
+  color: #2b2b2b;
   background-color: #fff;
   border: 1px solid #cfcfcf;
   border-radius: 5px; }
@@ -2956,7 +2956,7 @@ input[type="button"].btn-block {
     height: calc(1.5em + 1.5rem);
     padding: 0.75rem 0.75rem;
     line-height: 1.5;
-    color: #555555;
+    color: #2b2b2b;
     content: "Browse";
     background-color: #e9ecef;
     border-left: inherit;
@@ -3106,7 +3106,7 @@ input[type="button"].btn-block {
       border-color: transparent; }
   .nav-tabs .nav-link.active,
   .nav-tabs .nav-item.show .nav-link {
-    color: #555555;
+    color: #2b2b2b;
     background-color: #fff;
     border-color: #dee2e6 #dee2e6 #fff; }
   .nav-tabs .dropdown-menu {
@@ -3938,11 +3938,11 @@ input[type="button"].btn-block {
 
 .list-group-item-action {
   width: 100%;
-  color: #555555;
+  color: #2b2b2b;
   text-align: inherit; }
   .list-group-item-action:hover, .list-group-item-action:focus {
     z-index: 1;
-    color: #555555;
+    color: #2b2b2b;
     text-decoration: none;
     background-color: #fafafa; }
   .list-group-item-action:active {
@@ -8045,7 +8045,7 @@ textarea:not(.form-control) {
   color: #919191 !important; }
 
 .form-control {
-  color: #555555;
+  color: #2b2b2b;
   font-weight: 500;
   padding-top: 0.25rem;
   padding-bottom: 0.25rem; }
@@ -8170,7 +8170,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
   border-color: #4592ff;
   padding: 0; }
   .bootstrap-select .dropdown-menu .dropdown-item {
-    color: #555555;
+    color: #2b2b2b;
     font-weight: 500;
     border-top: 1px solid #cfcfcf;
     border-bottom: 1px solid transparent;
@@ -8178,7 +8178,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
   .bootstrap-select .dropdown-menu .dropdown-item:hover,
   .bootstrap-select .dropdown-menu .dropdown-item.active, .bootstrap-select .dropdown-menu .dropdown-item:active {
     background-color: #e1f1fd;
-    color: #555555;
+    color: #2b2b2b;
     border-top: 1px solid #4592ff;
     border-bottom: 1px solid #4592ff; }
   .bootstrap-select .dropdown-menu li:hover + li .dropdown-item,
@@ -8300,7 +8300,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
       height: 45px; }
   .select-products .info {
     width: calc(100% - 50px);
-    color: #555555;
+    color: #2b2b2b;
     padding-left: 10px;
     position: relative;
     white-space: nowrap;
