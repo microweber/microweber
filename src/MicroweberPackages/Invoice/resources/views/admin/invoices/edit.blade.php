@@ -106,35 +106,41 @@
         });
     </script>
 
-    <div class="modal js-invoice-select-customer-modal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Select customer</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <form class="col-md-12">
-                        <div class="input-group">
-                            <input type="text" class="form-control typeahead border-primary" name="query" id="query" placeholder="Start typing something to search customers..." data-provide="typeahead" autocomplete="off">
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-outline-primary">
-                                    <i class="fa fa-search"></i>
-                                </button>
+
+    <form method="post" action="{{ route('invoices.store') }}">
+
+        <div class="modal js-invoice-select-customer-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Select customer</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <select class="form-control typeahead border-primary" name="user_id" placeholder="Start typing something to search customers...">
+                                    @foreach($users as $user)
+                                        <option value="{{$user->id}}">{{$user->first_name}}</option>
+                                    @endforeach
+                                </select>
+                                {{-- <div class="input-group-append">
+                                     <button type="submit" class="btn btn-outline-primary">
+                                         <i class="fa fa-search"></i>
+                                     </button>
+                                 </div>--}}
                             </div>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success" style="float:left;"><i class="fa fa-check"></i> Select customer</button>
-                    <a href="" class="btn btn-primary"><i class="fa fa-plus"></i> Add new customer</a>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" style="float:left;" data-dismiss="modal"><i class="fa fa-check"></i> Select customer</button>
+                        <a href="" class="btn btn-primary"><i class="fa fa-plus"></i> Add new customer</a>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <form method="post" action="{{ route('invoices.store') }}">
         @csrf
 
         <div class="row">
