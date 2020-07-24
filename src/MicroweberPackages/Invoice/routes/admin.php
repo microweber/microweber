@@ -54,4 +54,12 @@ Route::prefix('admin')->namespace('\MicroweberPackages\Invoice\Http\Controllers\
 
     Route::resource('invoices', 'InvoicesController');
 
+
+    Route::post('/customers/delete', [
+        'as' => 'customers.delete',
+        'uses' => 'CustomersController@delete'
+    ]);
+
+    Route::resource('customers', 'CustomersController');
+
 });

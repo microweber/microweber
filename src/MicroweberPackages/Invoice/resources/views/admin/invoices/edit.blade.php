@@ -154,7 +154,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="invoice-select-customer-box" style="text-align: center">
-                            <button type="button" class="well-box js-invoice-select-customer" style="line-height:85px;font-size:23px;"><i class="fa fa-user"></i> &nbsp; Select Customer *</button>
+                            <button type="button" class="well-box js-invoice-select-customer" style="line-height:85px;font-size:20px;"><i class="fa fa-user"></i> &nbsp; Select Customer *</button>
                         </div>
                     </div>
                     <div class="col-md-6">
