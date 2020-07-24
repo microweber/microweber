@@ -275,8 +275,8 @@ class InvoicesController extends AdminController
             'invoice_number' => 'required|unique:invoices,invoice_number'.','.$id
         ])->validate();
 
-        $invoice_date = Carbon::createFromFormat('d/m/Y', $request->invoice_date);
-        $due_date = Carbon::createFromFormat('d/m/Y', $request->due_date);
+        $invoice_date = Carbon::createFromFormat('Y-m-d', $request->invoice_date);
+        $due_date = Carbon::createFromFormat('Y-m-d', $request->due_date);
 
         $invoice = Invoice::find($id);
         $oldAmount = $invoice->total;

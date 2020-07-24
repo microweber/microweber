@@ -212,7 +212,7 @@
                                 <div class="form-group">
                                     <label>Invoice Number:</label>
                                     <input type="text" disabled="disabled" class="form-control"
-                                           value="@if ($nextInvoiceNumber) {{ $nextInvoiceNumber }}@else {{ $invoice->invoice_number }} @endif"/>
+                                           value="@if($invoice) {{ $invoice->invoice_number }} @else {{ $nextInvoiceNumber }} @endif"/>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -307,7 +307,7 @@
             <input type="hidden" value="{{$taxType->id}}" name="tax"/>
             <input type="hidden" value="0.00" class="js-invoice-total" name="total"/>
             <input type="hidden" value="0.00" class="js-invoice-sub-total" name="sub_total"/>
-            <input type="hidden" value="@if ($nextInvoiceNumber) {{ $nextInvoiceNumber }}@else {{ $invoice->invoice_number }} @endif" name="invoice_number"/>
+            <input type="hidden" value="@if($invoice) {{ $invoice->invoice_number }} @else {{ $nextInvoiceNumber }} @endif" name="invoice_number"/>
 
             <div class="col-md-12" style="margin-top:15px;">
                 <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save Invoice</button>
