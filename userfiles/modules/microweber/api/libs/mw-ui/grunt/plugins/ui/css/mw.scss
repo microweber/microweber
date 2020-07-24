@@ -33,7 +33,7 @@ header {
   }
 
   .logo {
-    img{
+    img {
       min-width: 180px;
     }
     h1, h2, h3, h4, h5, h6 {
@@ -103,7 +103,7 @@ header {
     transition: all 0.5s ease;
 
     @media screen and (max-width: 991px) {
-      background: #fff;
+      background: $white;
       z-index: 9;
       display: block;
       position: fixed;
@@ -132,13 +132,26 @@ header {
         border-top-right-radius: 10px;
         border-bottom-right-radius: 10px;
         border: 1px solid transparent;
-        margin: 2px 0;
+        margin: 0px 0;
         /*overflow: hidden;*/
+
+        .active {
+          border-bottom-right-radius: 5px;
+          border-top-right-radius: 5px;
+          box-shadow: 0 4px 2px -2px rgba(red(#bcbfc2), green(#bcbfc2), blue(#bcbfc2), 0.5);
+        }
 
         > a {
           border-left: 5px solid transparent;
-          padding: 15px 10px;
+          padding: 15px 10px 15px 15px;
+          margin: 4px 0;
           color: $textGray;
+          &:hover {
+            color: #2b2b2b;
+            > i {
+              color: $primary;
+            }
+          }
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -148,6 +161,16 @@ header {
             float: left;
             font-size: 1.5em;
             line-height: 1;
+            color: #bcbfc2;
+          }
+
+          &:hover {
+            background: rgba(red($white), green($white), blue($white), 0.5);
+            //border-left: 5px solid $primary;
+            //color: $textDark;
+            > i {
+              //color: $primary;
+            }
           }
 
           &.active {
@@ -159,7 +182,7 @@ header {
             }
           }
         }
- 
+
         &.dropdown.show {
           background: $white;
           border: 1px solid #eeeff1;
@@ -180,21 +203,30 @@ header {
           padding: 0;
           margin: 0;
           width: 100%;
-          padding-bottom: 15px;
+          background: transparent !important;
+
           .dropdown-item {
             /*padding-left: 47px;*/
+            margin: 4px 0;
             padding-left: 15px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            color: $textGray;
+            color: #373737;
             border-left: 3px solid transparent;
             display: flex;
             align-items: center;
             justify-content: space-between;
-
             &:active {
               color: $white;
+            }
+
+            padding-top: 0.35rem !important;
+            padding-bottom: 0.35rem !important;
+
+            &:hover {
+              background: rgba(red($white), green($white), blue($white), .5);
+              color: #2b2b2b;
             }
 
             .add-new {
@@ -211,7 +243,7 @@ header {
                 font-size: 12px;
                 width: 15px;
                 margin: 0;
-                padding:  0;
+                padding: 0;
                 text-align: center;
                 &:before {
                   margin: 0;
@@ -221,16 +253,15 @@ header {
 
             &.dropdown-item:not(:hover) {
               .add-new {
-                background-color: $silver;
-                border-color: $silver;
+                background-color: #bcbfc2;
+                border-color: #bcbfc2;
               }
             }
 
             &.active {
               color: $textDark;
-              background: #f2f3f5;
-              border-left: 3px solid $primary;
-              font-weight: bold;
+              background: $white;
+              border-left: 5px solid $primary;
             }
           }
         }

@@ -378,7 +378,7 @@ $user = get_user_by_id($user_id);
             <ul class="nav flex-column" id="mw-admin-main-navigation">
                 <li class="nav-item">
                     <a href="<?php print admin_url(); ?>" class="nav-link <?php if (!$view): ?> active <?php endif; ?>">
-                        <i class="mdi mdi-view-dashboard"></i> <strong><?php _e("Dashboard"); ?></strong>
+                        <i class="mdi mdi-view-dashboard"></i> <?php _e("Dashboard"); ?>
                     </a>
                 </li>
 
