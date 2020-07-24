@@ -10,7 +10,7 @@ body {
   overflow: hidden; }
 
 .container {
-  /*max-width: 100%;*/ }
+  max-width: 80%; }
   @media screen and (max-width: 991px) {
     .container {
       max-width: calc(100% - 30px); } }
