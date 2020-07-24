@@ -203,12 +203,7 @@ class InvoicesController extends AdminController
             \Mail::to($email)->send(new InvoicePdf($data));
         }
 
-        $invoice = Invoice::with(['items', 'user', 'invoiceTemplate', 'taxes'])->find($invoice->id);
-
-        return response()->json([
-            'url' => url('/invoices/pdf/'.$invoice->unique_hash),
-            'invoice' => $invoice
-        ]);
+        return redirect(route('invoices.index'))->with('status', 'Invoice is created success.');
     }
 
     /**
@@ -356,13 +351,7 @@ class InvoicesController extends AdminController
             }
         }
 
-        $invoice = Invoice::with(['items', 'user', 'invoiceTemplate', 'taxes'])->find($invoice->id);
-
-        return response()->json([
-            'url' => url('/invoices/pdf/' . $invoice->unique_hash),
-            'invoice' => $invoice,
-            'success' => true
-        ]);
+        return redirect(route('invoices.index'));
     }
 
     /**

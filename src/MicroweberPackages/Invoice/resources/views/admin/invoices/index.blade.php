@@ -1,6 +1,13 @@
 @extends('invoice::admin.layout')
 
 @section('content')
+
+    @if (session('status'))
+        <div class="alert alert-success">
+           <i class="fa fa-check"></i> {{ session('status') }}
+        </div>
+    @endif
+
     <table class="table">
         <thead>
         <tr>
