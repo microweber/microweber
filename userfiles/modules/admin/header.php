@@ -388,9 +388,18 @@ $user = get_user_by_id($user_id);
                 $website_class = '';
                 if ($view == 'content' and $action == false) {
                     $website_class = 'active';
-                } elseif ($view == 'content' and $action != false) {
+                } else if ($view == 'content' and $action != false) {
                     $website_class = 'active';
-                } elseif ($action == 'pages' OR $action == 'posts' OR $action == 'products' OR $action == 'categories' OR $action == 'settings') {
+                }
+
+                $shop_class = '';
+                if ($view == 'shop' and $action == false) {
+                    $shop_class = "active";
+                } elseif ($view == 'shop' and $action != false) {
+                    $shop_class = "active";
+                } elseif ($view == 'modules' and $load_module == 'shop__coupons') {
+                    $shop_class = "active";
+                } elseif ($view == 'shop' AND $action == 'products' OR $action == 'orders' OR $action == 'clients' OR $action == 'options') {
                     $shop_class = "active";
                 }
                 ?>
@@ -430,16 +439,7 @@ $user = get_user_by_id($user_id);
                 </li>
                 <?php if ($shop_disabled == false AND mw()->modules->is_installed('shop') == true): ?>
                     <?php
-                    $shop_class = '';
-                    if ($view == 'shop' and $action == false) {
-                        $shop_class = "active";
-                    } elseif ($view == 'shop' and $action != false) {
-                        $shop_class = "active";
-                    } elseif ($view == 'modules' and $load_module == 'shop__coupons') {
-                        $shop_class = "active";
-                    } elseif ($action == 'products' OR $action == 'orders' OR $action == 'clients' OR $action == 'options') {
-                        $shop_class = "active";
-                    }
+
                     ?>
                     <li class="nav-item dropdown <?php echo $shop_class; ?>">
                         <a href="<?php print admin_url(); ?>view:shop" class="nav-link dropdown-toggle <?php echo $shop_class; ?>">

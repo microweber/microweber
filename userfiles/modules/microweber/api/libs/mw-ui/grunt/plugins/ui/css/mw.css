@@ -9,11 +9,9 @@ body {
 .prevent-scroll {
   overflow: hidden; }
 
-.container {
-  max-width: 80%; }
-  @media screen and (max-width: 991px) {
-    .container {
-      max-width: calc(100% - 30px); } }
+@media screen and (max-width: 991px) {
+  .container {
+    max-width: calc(100% - 30px); } }
 
 header {
   padding: 10px 0;
@@ -368,7 +366,7 @@ header {
     max-width: none; } }
 
 .card-product-holder .item-title {
-  min-width: 270px; }
+  min-width: 340px; }
 .card-product-holder .item-image {
   min-width: 120px;
   max-width: 120px; }

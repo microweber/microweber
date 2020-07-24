@@ -14,7 +14,7 @@ body {
 }
 
 .container {
-  max-width: 80%;
+  //max-width: 80%;
   @media screen and (max-width: 991px) {
     max-width: calc(100% - 30px);
   }
@@ -574,7 +574,7 @@ header {
 .card-product-holder {
 
   .item-title {
-    min-width: 270px;
+    min-width: 340px;
   }
 
   .item-image {

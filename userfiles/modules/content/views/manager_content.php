@@ -106,7 +106,7 @@
                                             <?php endif; ?>
 
 
-                                            <a class="manage-post-item-link-small mw-medium" target="_top" href="<?php print content_link($item['id']); ?>?editmode:y">
+                                            <a class="manage-post-item-link-small mw-medium d-none d-lg-block" target="_top" href="<?php print content_link($item['id']); ?>?editmode:y">
                                                 <small class="text-muted"><?php print content_link($item['id']); ?></small>
                                             </a>
                                         </div>
