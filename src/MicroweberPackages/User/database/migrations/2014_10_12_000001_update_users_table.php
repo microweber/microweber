@@ -14,6 +14,7 @@ class UpdateUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
 
+            $table->string('name')->nullable();
             $table->string('phone')->nullable();
 
             $table->string('facebook_id')->nullable();

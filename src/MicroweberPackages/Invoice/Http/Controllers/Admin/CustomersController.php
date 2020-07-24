@@ -60,16 +60,15 @@ class CustomersController extends AdminController
     {
         $verifyEmail = User::where('email', $request->email)->first();
 
-
         $customer = new User();
-        $customer->name = $request->name;
+        //$customer->name = $request->name;
         $customer->currency_id = $request->currency_id;
         $customer->company_id = $request->header('company');
         $customer->email = $request->email;
         $customer->phone = $request->phone;
         $customer->company_name = $request->company_name;
         $customer->contact_name = $request->contact_name;
-        $customer->website = $request->website;
+     //   $customer->website = $request->website;
         $customer->enable_portal = $request->enable_portal;
         $customer->role = 'customer';
         $customer->password = Hash::make($request->password);
@@ -80,7 +79,7 @@ class CustomersController extends AdminController
                 $newAddress = new Address();
                 $newAddress->name = $address["name"];
                 $newAddress->address_street_1 = $address["address_street_1"];
-                $newAddress->address_street_2 = $address["address_street_2"];
+                // $newAddress->address_street_2 = $address["address_street_2"];
                 $newAddress->city = $address["city"];
                 $newAddress->state = $address["state"];
                 $newAddress->country_id = $address["country_id"];
@@ -133,7 +132,7 @@ class CustomersController extends AdminController
         $currency = $customer->currency;
         $currencies = Currency::all();
 
-        return response()->json([
+        return $this->view('invoice::admin.customers.edit',[
             'customer' => $customer,
             'currencies' => $currencies,
             'currency' => $currency
@@ -169,18 +168,25 @@ class CustomersController extends AdminController
         }
 
         $customer->name = $request->name;
+        $customer->first_name = $request->first_name;
+        $customer->last_name = $request->last_name;
         $customer->currency_id = $request->currency_id;
         $customer->email = $request->email;
         $customer->phone = $request->phone;
         $customer->company_name = $request->company_name;
         $customer->contact_name = $request->contact_name;
-        $customer->website = $request->website;
+      //  $customer->website_url = $request->website;
         $customer->enable_portal = $request->enable_portal;
         $customer->save();
 
         $customer->addresses()->delete();
         if ($request->addresses) {
             foreach ($request->addresses as $address) {
+
+                if (!isset($address["type"])) {
+                    continue;
+                }
+
                 $newAddress = $customer->addresses()->firstOrNew(['type' => $address["type"]]);
                 $newAddress->name = $address["name"];
                 $newAddress->address_street_1 = $address["address_street_1"];
@@ -196,12 +202,7 @@ class CustomersController extends AdminController
             }
         }
 
-        $customer = User::with('billingAddress', 'shippingAddress')->find($customer->id);
-
-        return response()->json([
-            'customer' => $customer,
-            'success' => true
-        ]);
+        return redirect(route('customers.edit', $customer->id));
     }
 
     /**

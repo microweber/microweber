@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use MicroweberPackages\Invoice\Conversation;
+use MicroweberPackages\Invoice\Currency;
 use MicroweberPackages\Invoice\MemberLoan;
 use MicroweberPackages\Invoice\Address;
 use MicroweberPackages\Invoice\Payment;
