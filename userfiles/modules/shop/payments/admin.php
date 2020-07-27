@@ -17,6 +17,15 @@
     .dragable-item:hover .cursor-move-holder {
         visibility: visible;
     }
+
+
+    .available_providers_placeholder {
+        border: 2px dashed #ccc;
+        background: transparent;
+        height: 50px;
+        margin: 10px 0;
+        position: relative;
+    }
 </style>
 
 <script type="text/javascript">
