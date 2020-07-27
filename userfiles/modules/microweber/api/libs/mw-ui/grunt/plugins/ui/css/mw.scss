@@ -150,7 +150,6 @@ header {
             color: #2b2b2b;
             > i {
               color: $primary;
-              margin-left: -3px;
             }
           }
           white-space: nowrap;
@@ -163,6 +162,7 @@ header {
             font-size: 1.5em;
             line-height: 1;
             color: #bcbfc2;
+            margin-left: -3px;
           }
 
           &:hover {

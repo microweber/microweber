@@ -1,20 +1,19 @@
 <?php only_admin_access(); ?>
+
 <script>
     responsivetableOrder = {
         768: 4,
         500: 2,
         400: 1
     }
+
     mw.require('forms.js', true);
 
-
     $(mwd).ready(function () {
-
         mw.responsive.table('#shop-orders', {
             breakPoints: responsivetableOrder
         })
     });
-
 
     mw.on.hashParam('orderstype', function () {
         mw.$("#cartsnav a").removeClass('active');
@@ -26,6 +25,7 @@
             mw.$('.mw-admin-order-sort-carts').hide();
             mw.$('.mw-admin-order-sort-completed').show();
         }
+
         mw.$('#mw-admin-manage-orders-list').attr('order-type', this);
         mw.$('#mw-admin-manage-orders-list').removeAttr('keyword');
         mw.$('#mw-admin-manage-orders-list').removeAttr('order');
@@ -36,44 +36,57 @@
         });
     });
 
-
     ordersSort = function (obj) {
-        var group = mw.tools.firstParentWithClass(obj.el, 'mw-table-sorting');
-
+        var group = mw.tools.firstParentWithClass(obj.el, 'js-table-sorting');
         var table = mwd.getElementById(obj.id);
-
         var parent_mod = mw.tools.firstParentWithClass(table, 'module');
+        var others = group.querySelectorAll('.js-sort-btn'), i = 0, len = others.length;
 
-        var others = group.querySelectorAll('.mw-ui-btn'), i = 0, len = others.length;
         for (; i < len; i++) {
             var curr = others[i];
             if (curr !== obj.el) {
                 $(curr).removeClass('ASC DESC active');
             }
         }
+
         obj.el.attributes['data-state'] === undefined ? obj.el.setAttribute('data-state', 0) : '';
         var state = obj.el.attributes['data-state'].nodeValue;
         var tosend = {}
         tosend.type = obj.el.attributes['data-sort-type'].nodeValue;
+
+        var jQueryEl = $(obj.el);
+
         if (state === '0') {
             tosend.state = 'ASC';
-            obj.el.className = 'mw-ui-btn mw-ui-btn-medium active ASC';
+//            obj.el.className = 'mw-ui-btn mw-ui-btn-medium active ASC';
             obj.el.setAttribute('data-state', 'ASC');
+
+            jQueryEl.find('i').removeClass('mdi-chevron-down');
+            jQueryEl.find('i').addClass('mdi-chevron-up');
         }
         else if (state === 'ASC') {
             tosend.state = 'DESC';
-            obj.el.className = 'mw-ui-btn mw-ui-btn-medium active DESC';
+//            obj.el.className = 'mw-ui-btn mw-ui-btn-medium active DESC';
             obj.el.setAttribute('data-state', 'DESC');
+
+            jQueryEl.find('i').removeClass('mdi-chevron-up');
+            jQueryEl.find('i').addClass('mdi-chevron-down');
         }
         else if (state === 'DESC') {
             tosend.state = 'ASC';
-            obj.el.className = 'mw-ui-btn mw-ui-btn-medium active ASC';
+//            obj.el.className = 'mw-ui-btn mw-ui-btn-medium active ASC';
             obj.el.setAttribute('data-state', 'ASC');
+
+            jQueryEl.find('i').removeClass('mdi-chevron-down');
+            jQueryEl.find('i').addClass('mdi-chevron-up');
         }
         else {
             tosend.state = 'ASC';
-            obj.el.className = 'mw-ui-btn mw-ui-btn-medium active ASC';
+//            obj.el.className = 'mw-ui-btn mw-ui-btn-medium active ASC';
             obj.el.setAttribute('data-state', 'ASC');
+
+            jQueryEl.find('i').removeClass('mdi-chevron-down');
+            jQueryEl.find('i').addClass('mdi-chevron-up');
         }
 
         if (parent_mod !== undefined) {
@@ -83,8 +96,6 @@
     }
 
     mw.on.hashParam('search', function () {
-
-
         var field = mwd.getElementById('orders-search-field');
         $(field).addClass('loading')
 
@@ -100,7 +111,6 @@
 
         $('#mw-admin-manage-orders-list').removeAttr('export_to_excel');
 
-
         mw.reload_module('#mw-admin-manage-orders-list', function () {
             mw.$(field).removeClass('loading');
 
@@ -108,107 +118,95 @@
                 breakPoints: responsivetableOrder
             })
         });
-
-
     });
-//    function mw_admin_add_order_popup(ord_id) {
-//
-//        if (!!ord_id) {
-//            var modalTitle = '<?php //_e('Edit order'); ?>//';
-//        } else {
-//            var modalTitle = '<?php //_e('Add order'); ?>//';
-//        }
-//
-//
-//        mw_admin_edit_order_item_popup_modal_opened = mw.modal({
-//            content: '<div id="mw_admin_edit_order_item_module"></div>',
-//            title: modalTitle,
-//            id: 'mw_admin_edit_order_item_popup_modal',
-//            width: 900,
-//            height: 800
-//        });
-//
-//        var params = {}
-//        params.order_id = ord_id;
-//        mw.load_module('shop/orders/admin/add_order', '#mw_admin_edit_order_item_module', null, params);
-//    }
+    //    function mw_admin_add_order_popup(ord_id) {
+    //
+    //        if (!!ord_id) {
+    //            var modalTitle = '<?php //_e('Edit order'); ?>//';
+    //        } else {
+    //            var modalTitle = '<?php //_e('Add order'); ?>//';
+    //        }
+    //
+    //
+    //        mw_admin_edit_order_item_popup_modal_opened = mw.modal({
+    //            content: '<div id="mw_admin_edit_order_item_module"></div>',
+    //            title: modalTitle,
+    //            id: 'mw_admin_edit_order_item_popup_modal',
+    //            width: 900,
+    //            height: 800
+    //        });
+    //
+    //        var params = {}
+    //        params.order_id = ord_id;
+    //        mw.load_module('shop/orders/admin/add_order', '#mw_admin_edit_order_item_module', null, params);
+    //    }
 
 </script>
-<?php $is_orders = get_orders('order_completed=1&count=1'); ?>
 
+<?php $is_orders = get_orders('order_completed=1&count=1'); ?>
 <?php $latest_orders = get_orders('order_completed=1&count=1&order_status=pending'); ?>
 
+<div id="manage-orders-menus">
 
-<div class="mw-table-sorting-controller">
-    <div class="section-header">
-        <div class="mw-ui-row valign" style="margin-bottom: 20px;">
-            <div class="mw-ui-col">
+    <div class="card style-1">
+        <div class="card-header">
+            <h5><i class="mdi mdi-shopping text-primary mr-3"></i> <strong>List of orders</strong></h5>
 
-                <a class="ordersnum pull-left m-r-10" href="#orderstype=completed"><?php print $latest_orders; ?></a>
+            <div class="js-search-by d-inline-block">
+                <div class="js-search-by-keywords">
+                    <div class="form-inline">
+                        <div class="input-group mb-0 prepend-transparent mx-2">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span>
+                            </div>
 
-                <h2 class="pull-left m-t-10">
+                            <input type="text" class="form-control form-control-sm" style="width: 100px;" id="orders-search-field" placeholder="<?php _e("Search"); ?>"/>
+                        </div>
 
-                    <?php if ($latest_orders > 1) { ?>
-                        <?php _e("New orders"); ?>
-                    <?php }
-                    if ($latest_orders == 1) { ?>
-                        <?php _e("New order"); ?>
-                    <?php }
-                    if ($latest_orders == 0) { ?>
-                        <?php _e("No new orders"); ?>
-                    <?php } ?>
-
-                </h2>
-
-
-                <div class="pull-right">
-                    <div class="mw-field top-search">
-                        <input type="text" class="mw-ui-field active" id="orders-search-field" placeholder="<?php _e("Search in orders"); ?>"/>
-                        <span class="mw-ui-btn mw-field-append" onclick="mw.url.windowHashParam('search', $(this).prev().val());"><span class="mw-icon-search"></span></span>
+                        <button type="button" class="btn btn-primary btn-sm btn-icon" onclick="mw.url.windowHashParam('search',$(this).prev().find('input').val())"><i class="mdi mdi-magnify"></i></button>
                     </div>
                 </div>
-
-                <a href="javascript:mw_admin_add_order_popup()" class="mw-ui-btn mw-ui-btn-notification mw-ui-btn-rounded pull-right m-r-10"><i class="fas fa-plus-circle"></i> &nbsp; <?php print _e('Add new order'); ?></a>
             </div>
         </div>
-    </div>
-</div>
-
-
-<div class="admin-side-content">
-    <div id="manage-orders-menus">
-
-
-        <?php if ($is_orders != 0) { ?>
-            <div class="mw-table-sorting mw-admin-order-sort-completed pull-right" style="margin-left: 20px;">
-                <div class="mw-ui-btn-nav unselectable pull-right" style="margin-left: 10px;">
-                <span class="mw-ui-btn mw-ui-btn-medium" data-sort-type="created_at" onclick="ordersSort({id:'shop-orders', el:this});">
-            		<?php _e("Date"); ?>
-            	</span>
-                    <span class="mw-ui-btn mw-ui-btn-medium" data-sort-type="order_status" onclick="ordersSort({id:'shop-orders', el:this});">
-            		<?php _e("Status"); ?>
-            	</span>
-                    <span class="mw-ui-btn mw-ui-btn-medium" data-sort-type="amount" onclick="ordersSort({id:'shop-orders', el:this});">
-            		<?php _e("Amount"); ?>
-            	</span>
-                    <span class="mw-ui-btn mw-ui-btn-medium" data-sort-type="first_name" onclick="ordersSort({id:'shop-orders', el:this});">
-            		<?php _e("Name"); ?>
-            	</span>
-
-
+        <div class="card-body  pt-3 pb-0">
+            <div class="manage-toobar d-flex justify-content-between align-items-center">
+                <div>
+                    <a href="javascript:mw_admin_add_order_popup()" class="btn btn-sm btn-success"><?php print _e('Add new order'); ?></a>
                 </div>
-                <label class="pull-right" style="margin-top: 10px;"><?php _e("Sort By"); ?>:</label>
+                <?php if ($is_orders != 0) { ?>
+                    <div id="cartsnav">
+                        <a href="#orderstype=completed" class="btn btn-link btn-sm px-0 text-dark active"><?php _e("Completed orders"); ?></a>
+                        <a href="#orderstype=carts" class="btn btn-link btn-sm text-muted"><?php _e("Abandoned carts"); ?></a>
+                    </div>
+
+                    <div class="js-table-sorting text-right my-1 d-flex justify-content-center justify-content-sm-end align-items-center">
+                        <span><?php _e("Sort By"); ?>: &nbsp;</span>
+
+                        <div class="d-inline-block mx-1">
+                            <button type="button" class="js-sort-btn btn btn-outline-secondary btn-sm icon-right" data-sort-type="created_at" onclick="ordersSort({id:'shop-orders', el:this});">
+                                <?php _e("Date"); ?> <i class="mdi mdi-chevron-down text-muted"></i>
+                            </button>
+                        </div>
+                        <div class="d-inline-block mx-1">
+                            <button type="button" class="js-sort-btn btn btn-outline-secondary btn-sm icon-right" data-sort-type="order_status" onclick="ordersSort({id:'shop-orders', el:this});">
+                                <?php _e("Status"); ?> <i class="mdi mdi-chevron-down text-muted"></i>
+                            </button>
+                        </div>
+                        <div class="d-inline-block mx-1">
+                            <button type="button" class="js-sort-btn btn btn-outline-secondary btn-sm icon-right" data-sort-type="amount" onclick="ordersSort({id:'shop-orders', el:this});">
+                                <?php _e("Amount"); ?> <i class="mdi mdi-chevron-down text-muted"></i>
+                            </button>
+                        </div>
+                        <!--<div class="d-inline-block mx-1">
+                        <button type="button" class="js-sort-btn btn btn-outline-secondary btn-sm icon-right" data-sort-type="first_name" onclick="ordersSort({id:'shop-orders', el:this});">
+                            <?php /*_e("Name"); */ ?> <i class="mdi mdi-chevron-down text-muted"></i>
+                        </button>
+                    </div>-->
+                    </div>
+                <?php } ?>
             </div>
-        <?php } ?>
 
-
-        <div class="mw-ui-btn-nav unselectable pull-right" id="cartsnav">
-            <a href="#orderstype=completed" class="mw-ui-btn mw-ui-btn-medium active"><?php _e("Completed orders"); ?></a>
-            <a href="#orderstype=carts" class="mw-ui-btn mw-ui-btn-medium"><?php _e("Abandoned carts"); ?></a>
+            <module type="shop/orders/admin" id="mw-admin-manage-orders-list"/>
         </div>
-
     </div>
-
-
-    <module type="shop/orders/admin" id="mw-admin-manage-orders-list"/>
 </div>

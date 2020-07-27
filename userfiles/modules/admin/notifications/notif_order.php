@@ -20,7 +20,6 @@ if (isset($item['created_by'])) {
     $created_by = get_user_by_id($item['created_by']);
     $created_by_username = $created_by['username'];
 }
-
 ?>
 
 <div class="card mb-2 not-collapsed-border collapsed <?php if (!isset($is_order)): ?>card-bubble<?php endif; ?> card-order-holder bg-silver" data-toggle="collapse" data-target="#notif-order-item-<?php print $item_id; ?>" aria-expanded="false" aria-controls="collapseExample">

@@ -110,14 +110,14 @@ header {
         .main aside > ul > li.nav-item > a:hover {
           color: #2b2b2b; }
           .main aside > ul > li.nav-item > a:hover > i {
-            color: #4592ff;
-            margin-left: -3px; }
+            color: #4592ff; }
         .main aside > ul > li.nav-item > a > i {
           margin-right: 10px;
           float: left;
           font-size: 1.5em;
           line-height: 1;
-          color: #bcbfc2; }
+          color: #bcbfc2;
+          margin-left: -3px; }
         .main aside > ul > li.nav-item > a:hover {
           background: rgba(255, 255, 255, 0.5); }
         .main aside > ul > li.nav-item > a.active {

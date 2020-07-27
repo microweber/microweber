@@ -22,7 +22,7 @@ if (isset($params['hide-controlls']) and $params['hide-controlls']) {
             }
             ?>
 
-            <?php if (!$has_new and !$current_page and !$hide_ctrls): ?>
+            <?php if (!$has_new and !$current_page and !$orders and !$hide_ctrls): ?>
                 <div class="icon-title">
                     <i class="mdi mdi-shopping"></i> <h5><?php _e('You don\'t have any orders yet.'); ?></h5>
                 </div>
@@ -41,18 +41,17 @@ if (isset($params['hide-controlls']) and $params['hide-controlls']) {
             ?>
 
             <?php if (!$hide_ctrls): ?>
-                <div class="m-a m-t-30 center">
+                <div class="mx-auto mt-5 text-center">
                     <?php print paging('limit=10&no_wrap=true&class=mw-paging mw-paging-medium inline-block&num=' . $orders_page_count . '&current_page=' . $current_page) ?>
                 </div>
             <?php endif; ?>
         </div>
 
-        <div class="mw-clear"></div><br/>
 
         <?php if (!$hide_ctrls): ?>
-            <div class="export-label">
+            <div class="my-3">
                 <span><?php _e("Export data"); ?>:</span>
-                <a class="mw-ui-btn mw-ui-btn-small" href="<?php echo api_url('shop/export_orders'); ?>"><?php _e("Excel"); ?></a>
+                <a class="btn btn-sm btn-secondary" href="<?php echo api_url('shop/export_orders'); ?>"><?php _e("Excel"); ?></a>
             </div>
         <?php endif; ?>
     <?php elseif ($orders_type == 'carts' and isset($orders) and is_array($orders)) : ?>
@@ -61,10 +60,30 @@ if (isset($params['hide-controlls']) and $params['hide-controlls']) {
             <div id="orders_stat" style="height: 250px;"></div>
         </div>
     <?php else: ?>
-        <?php if (!$hide_ctrls) { ?>
-            <div class="icon-title">
-                <i class="mdi mdi-shopping"></i> <h5><?php _e('You don\'t have any orders yet.'); ?></h5>
+        <div class="no-items-found posts">
+            <div class="row">
+                <div class="col-12">
+                    <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_orders.svg'); ">
+                        <h4>You don’t have any orders yet</h4>
+                        <p>Here you can track your orders</p>
+                        <br/>
+                        <a href="javascript:mw_admin_add_order_popup()" class="btn btn-primary btn-rounded">Add order</a>
+                    </div>
+                </div>
             </div>
-        <?php } ?>
+
+            <script>
+                $(document).ready(function () {
+                    $('body > #mw-admin-container > .main').removeClass('show-sidebar-tree');
+                });
+            </script>
+
+            <script>
+                $(document).ready(function () {
+                    $('.manage-toobar').hide();
+                    $('.top-search').hide();
+                });
+            </script>
+        </div>
     <?php endif; ?>
 </div>

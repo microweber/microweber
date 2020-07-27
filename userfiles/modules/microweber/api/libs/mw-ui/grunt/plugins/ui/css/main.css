@@ -8487,7 +8487,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
   align-items: center;
   justify-content: center;
   background: #fff;
-  border: 1px solid #4592ff; }
+  border: 1px solid transparent; }
   .img-circle-holder.w-60 {
     width: 60px;
     height: 60px; }
