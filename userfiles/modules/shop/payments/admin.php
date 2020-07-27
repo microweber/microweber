@@ -166,13 +166,9 @@ $payment_modules = get_modules('type=payment_gateway');
                                 </div>
 
                                 <div class="js-modal-content" style="display: none;">
-                                    <div class="mw-ui-row">
-                                        <div class="">
-                                            <p class="bold">Allow <?php print $payment_module['name'] ?> payment</p>
-                                        </div>
-                                    </div>
+                                    <p class="font-weight-bold"><?php print $payment_module['name'] ?> payment</p>
 
-                                    <p class="bold m-b-10 m-t-10"><?php _e('Enter your API settings'); ?></p>
+                                    <p class="font-weight-bold mb-4 mt-4"><?php _e('Enter your API settings'); ?></p>
                                     <div class="mw-set-payment-gw-options">
                                         <module type="<?php print $payment_module['module'] ?>" view="admin"/>
                                     </div>
