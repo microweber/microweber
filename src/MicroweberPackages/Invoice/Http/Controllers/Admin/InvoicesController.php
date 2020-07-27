@@ -365,16 +365,13 @@ class InvoicesController extends AdminController
         $invoice = Invoice::find($id);
 
         if ($invoice->payments()->exists() && $invoice->payments()->count() > 0) {
-            return response()->json([
-                'error' => 'payment_attached'
-            ]);
+            // Payment attached
+            return redirect(route('invoices.index'))->with('status', 'Invoice has attached payments.');
         }
 
         $invoice = Invoice::destroy($id);
 
-        return response()->json([
-            'success' => true
-        ]);
+        return redirect(route('invoices.index'))->with('status', 'Invoice is deleted.');
     }
 
     public function delete(Request $request)
@@ -383,17 +380,13 @@ class InvoicesController extends AdminController
             $invoice = Invoice::find($id);
 
             if ($invoice->payments()->exists() && $invoice->payments()->count() > 0) {
-                return response()->json([
-                    'error' => 'payment_attached'
-                ]);
+                return redirect(route('invoices.index'))->with('status', 'Invoice has attached payments.');
             }
         }
 
         $invoice = Invoice::destroy($request->id);
 
-        return response()->json([
-            'success' => true
-        ]);
+        return redirect(route('invoices.index'))->with('status', 'Invoice is deleted.');
     }
 
 
