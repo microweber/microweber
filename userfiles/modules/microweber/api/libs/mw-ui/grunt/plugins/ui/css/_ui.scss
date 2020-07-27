@@ -1590,9 +1590,44 @@ label.control-label {
   }
 }
 
-
-.input-group-password{
-  .js-show-password{
+.input-group-password {
+  .js-show-password {
     cursor: pointer;
   }
+}
+
+.bg-primary-opacity-1 {
+  background: rgba(red($primary), green($primary), blue($primary), .1);
+}
+
+.bg-primary-opacity-2 {
+  background: rgba(red($primary), green($primary), blue($primary), .2);
+}
+
+.bg-primary-opacity-3 {
+  background: rgba(red($primary), green($primary), blue($primary), .3);
+}
+
+.bg-primary-opacity-4 {
+  background: rgba(red($primary), green($primary), blue($primary), .4);
+}
+
+.bg-primary-opacity-5 {
+  background: rgba(red($primary), green($primary), blue($primary), .5);
+}
+
+.bg-primary-opacity-6 {
+  background: rgba(red($primary), green($primary), blue($primary), .6);
+}
+
+.bg-primary-opacity-7 {
+  background: rgba(red($primary), green($primary), blue($primary), .7);
+}
+
+.bg-primary-opacity-8 {
+  background: rgba(red($primary), green($primary), blue($primary), .8);
+}
+
+.bg-primary-opacity-9 {
+  background: rgba(red($primary), green($primary), blue($primary), .9);
 }
