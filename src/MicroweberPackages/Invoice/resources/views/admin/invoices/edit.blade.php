@@ -18,20 +18,15 @@
          */
         class Invoice {
             constructor() {
-                this.items = [];
                 this.discountType = 0.00;
                 this.discountVal = "fixed";
                 this.total = 0.00;
                 this.subTotal = 0.00;
             }
 
-            addItem(price, quantity) {
-                var item = {price: price, quantity: quantity};
-                this.items.push(item);
-                return (this.items.length - 1);
-            }
-
             addNewItem(item) {
+
+                var itemId = Math.floor(Math.random() * (10000 - 100 + 1)) + 100000;
 
                 if (typeof(item) == 'undefined') {
                     item = {
@@ -42,24 +37,25 @@
                     };
                 }
 
-                var itemId = this.addItem(item.price, item.quantity);
                 $('.js-invoice-items').append(this.invoiceItemTemplate(itemId, item.name, item.description, item.price, item.quantity));
                 this.calculate();
             }
 
             removeItem(itemId) {
                 $('.js-invoice-item-' + itemId).remove();
-                this.items.splice(itemId, 1);
                 this.calculate();
             }
 
             calculate() {
 
-                var i = 0;
                 var itemsTotal = 0;
-                for (i = 0; i < this.items.length; i++) {
-                    itemsTotal = itemsTotal + (this.items[i].price * this.items[i].quantity);
-                }
+                $(".js-invoice-item").each(function(i) {
+                    var itemPrice = $(this).find('.js-invoice-item-price').val();
+                    var itemQuantity = $(this).find('.js-invoice-item-quantity').val();
+                    itemPrice = parseFloat(itemPrice);
+                    itemQuantity = parseInt(itemQuantity);
+                    itemsTotal = itemsTotal + (itemPrice * itemQuantity);
+                });
 
                 this.total = itemsTotal;
                 this.subTotal = itemsTotal;
@@ -76,31 +72,15 @@
                     this.total = (this.total * ((100 - this.discountVal) / 100 ));
                 }
 
+                $('.js-invoice-discount-val').val(parseFloat(this.discountVal).toFixed(2));
                 $('.js-invoice-total').val(parseFloat(this.total).toFixed(2));
                 $('.js-invoice-sub-total').val(parseFloat(this.subTotal).toFixed(2));
-            }
-
-            inputsItemsChange(item) {
-
-                var itemId = parseInt(item.attr('data-item-id'));
-
-                if (item.attr('data-item-type') == 'quantity') {
-                    this.items[itemId].quantity = item.val();
-                }
-
-                if (item.attr('data-item-type') == 'price') {
-                    this.items[itemId].price = item.val();
-
-                    // Parse to fixed
-                    item.val(parseFloat(item.val()).toFixed(2));
-                }
-
-                this.calculate();
             }
 
             invoiceItemTemplate(itemId, name, description, price, quantity) {
 
                 price = parseFloat(price).toFixed(2);
+                quantity = parseInt(quantity);
 
                 return '<tr class="js-invoice-item js-invoice-item-'+itemId+'">' +
                     '<td>' +
@@ -110,10 +90,10 @@
                     '</textarea>' +
                     '</td>' +
                     '<td>' +
-                    '    <input type="text" class="form-control js-invoice-item-input" data-item-id="' + itemId + '" data-item-type="quantity" name="items[' + itemId + '][quantity]" value="' + quantity + '">' +
+                    '    <input type="text" class="form-control js-invoice-item-input js-invoice-item-quantity" data-item-id="' + itemId + '" data-item-type="quantity" name="items[' + itemId + '][quantity]" value="' + quantity + '">' +
                     '</td>' +
                     '<td>' +
-                    '    <input type="text" class="form-control js-invoice-item-input" data-item-id="' + itemId + '" data-item-type="price" name="items[' + itemId + '][price]" value="' + price + '">' +
+                    '    <input type="text" class="form-control js-invoice-item-input js-invoice-item-price" data-item-id="' + itemId + '" data-item-type="price" name="items[' + itemId + '][price]" value="' + price + '">' +
                     '</td>' +
                     '<td>' +
                     '    0.00' +
@@ -140,8 +120,9 @@
                 invoice.addNewItem();
             @endif
             invoice.calculate();
+
             $('body').on('change', '.js-invoice-item-input', function () {
-                invoice.inputsItemsChange($(this));
+                invoice.calculate();
             });
 
             $('.js-invoice-select-customer').click(function () {
