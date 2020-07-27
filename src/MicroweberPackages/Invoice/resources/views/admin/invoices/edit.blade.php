@@ -19,6 +19,8 @@
         class Invoice {
             constructor() {
                 this.items = [];
+                this.discountType = 0.00;
+                this.discountVal = "fixed";
                 this.total = 0.00;
                 this.subTotal = 0.00;
             }
@@ -58,8 +60,21 @@
                 for (i = 0; i < this.items.length; i++) {
                     itemsTotal = itemsTotal + (this.items[i].price * this.items[i].quantity);
                 }
+
                 this.total = itemsTotal;
                 this.subTotal = itemsTotal;
+
+                // Calculate discount
+                this.discountVal = $('.js-invoice-discount-val').val();
+                this.discountType = $('.js-invoice-discount-type').val();
+
+                if (this.discountType == 'fixed') {
+                    this.total = (this.total - parseFloat(this.discountVal));
+                }
+
+                if (this.discountType == 'precentage') {
+                    this.total = (this.total * ((100 - this.discountVal) / 100 ));
+                }
 
                 $('.js-invoice-total').val(parseFloat(this.total).toFixed(2));
                 $('.js-invoice-sub-total').val(parseFloat(this.subTotal).toFixed(2));
@@ -220,7 +235,7 @@
                                 <div class="form-group">
                                     <label>Invoice Number:</label>
                                     <input type="text" disabled="disabled" class="form-control"
-                                           value="@if($invoice) {{ $invoice->invoice_number }} @else {{ $nextInvoiceNumber }} @endif"/>
+                                           value="@if($invoice){{ $invoice->invoice_number }} @else{{ $nextInvoiceNumber }} @endif"/>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -270,11 +285,11 @@
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label>Discount:</label>
-                                        <input type="text" class="form-control" value="0.00" name="discount_val"/>
+                                        <input type="text" class="form-control js-invoice-discount-val" onchange="invoice.calculate();" value="0.00" name="discount_val"/>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label>Discount Type:</label>
-                                        <select class="form-control" name="discount">
+                                        <select class="form-control js-invoice-discount-type" onchange="invoice.calculate();" name="discount">
                                             <option value="fixed">Fixed</option>
                                             <option value="precentage">Precentage</option>
                                         </select>
@@ -282,8 +297,7 @@
                                 </div>
                             </div>
 
-
-                            <div class="col-md-12" style="text-align: right">
+                        {{--    <div class="col-md-12" style="text-align: right">
                                 <div class="form-group">
                                     <label>Tax:</label>
                                     <br/>
@@ -291,7 +305,7 @@
                                         <b>{{$taxType->name}} - {{$taxType->percent }} % </b><br/>
                                     @endforeach
                                 </div>
-                            </div>
+                            </div>--}}
 
                             <div class="form-group col-md-12">
                                 <label>Total:</label>
@@ -304,7 +318,6 @@
                 </div>
             </div>
 
-
             <div class="col-md-12" style="margin-top:35px;">
                 <label>Invoice Template:</label>
                 <select class="form-control" name="invoice_template_id">
@@ -312,7 +325,7 @@
                 </select>
             </div>
 
-            <input type="hidden" value="{{$taxType->id}}" name="tax"/>
+            <input type="hidden" value="" name="tax"/>
             <input type="hidden" value="0.00" class="js-invoice-total" name="total"/>
             <input type="hidden" value="0.00" class="js-invoice-sub-total" name="sub_total"/>
             <input type="hidden" value="@if($invoice) {{ $invoice->invoice_number }} @else {{ $nextInvoiceNumber }} @endif" name="invoice_number"/>
