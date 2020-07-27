@@ -45,7 +45,11 @@
                         <button type="submit" class="dropdown-item"><i class="fa fa-credit-card"></i> &nbsp; Record Payment</button>
                         <button type="submit" class="dropdown-item"><i class="fa fa-copy"></i> &nbsp; Clone Invoice</button>
                         </form>
-                        <a class="dropdown-item" href="{{ route('invoices.edit', $invoice->id) }}"><i class="fa fa-times"></i> &nbsp; Delete</a>
+                        <form action="{{ route('invoices.destroy', $invoice->id)}}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button class="dropdown-item"><i class="fa fa-times"></i> Delete</button>
+                        </form>
                     </div>
                 </div>
             </td>

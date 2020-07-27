@@ -306,7 +306,7 @@
                 </select>
             </div>
 
-            <input type="hidden" value="" name="tax"/>
+            <input type="hidden" value="1" name="tax"/>
             <input type="hidden" value="0.00" class="js-invoice-total" name="total"/>
             <input type="hidden" value="0.00" class="js-invoice-sub-total" name="sub_total"/>
             <input type="hidden" value="@if($invoice) {{ $invoice->invoice_number }} @else {{ $nextInvoiceNumber }} @endif" name="invoice_number"/>
