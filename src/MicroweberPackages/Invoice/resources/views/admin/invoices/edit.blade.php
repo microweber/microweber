@@ -45,6 +45,12 @@
                 this.calculate();
             }
 
+            removeItem(itemId) {
+                $('.js-invoice-item-' + itemId).remove();
+                this.items.splice(itemId, 1);
+                this.calculate();
+            }
+
             calculate() {
 
                 var i = 0;
@@ -81,11 +87,11 @@
 
                 price = parseFloat(price).toFixed(2);
 
-                return '<tr class="js-invoice-item">' +
+                return '<tr class="js-invoice-item js-invoice-item-'+itemId+'">' +
                     '<td>' +
                     '    <input type="text" value="' + name + '" class="form-control js-invoice-item-input" name="items[' + itemId + '][name]" placeholder="Type or click to select an item">' +
                     '    <textarea style="margin-top:5px;border:0px;background: none" name="items[' + itemId + '][description]"  placeholder="Type item Description (optional)" class="form-control js-invoice-item-input">' +
-                    description + 
+                    description +
                     '</textarea>' +
                     '</td>' +
                     '<td>' +

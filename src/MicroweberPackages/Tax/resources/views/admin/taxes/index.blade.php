@@ -25,7 +25,7 @@
         <tr>
             <th scope="row">{{ $taxType->id }}</th>
             <td>{{ $taxType->name }}</td>
-            <td>{{ $taxType->precent }}</td>
+            <td>{{ $taxType->percent }}%</td>
             <td>{{ $taxType->description }}</td>
             <td>{{ $taxType->id }}</td>
             <td>
