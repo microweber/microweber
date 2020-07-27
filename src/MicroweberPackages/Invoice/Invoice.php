@@ -71,7 +71,7 @@ class Invoice extends Model
     public static function getNextInvoiceNumber($value)
     {
         // Get the last created order
-        $lastOrder = Invoice::where('invoice_number', 'LIKE', $value . '-%')
+        $lastOrder = Invoice::where('invoice_number', 'REGEXP', $value . '-')
                     ->orderBy('created_at', 'desc')
                     ->first();
 

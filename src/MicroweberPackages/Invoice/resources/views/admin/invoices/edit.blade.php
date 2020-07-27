@@ -107,7 +107,7 @@
 
         $(document).ready(function () {
             invoice = new Invoice();
-            @if($invoice)
+            @if(isset($invoice) && $invoice)
                 @foreach($invoice->items as $invoiceItem)
                     invoice.addNewItem({
                         name: '{{ $invoiceItem->name }}',
@@ -132,7 +132,7 @@
     </script>
 
 
-    @if($invoice)
+    @if(isset($invoice) && $invoice)
         <form method="post" action="{{ route('invoices.update', $invoice->id) }}">
     @method('PUT')
     @else
@@ -216,7 +216,7 @@
                                 <div class="form-group">
                                     <label>Invoice Number:</label>
                                     <input type="text" disabled="disabled" class="form-control"
-                                           value="@if($invoice){{ $invoice->invoice_number }} @else{{ $nextInvoiceNumber }} @endif"/>
+                                           value="@if(isset($invoice) && $invoice) {{ $invoice->invoice_number }} @else{{ $nextInvoiceNumber }} @endif"/>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -258,21 +258,20 @@
 
                             <div class="form-group col-md-12">
                                 <label>Sub total:</label>
-                                <input type="text" disabled="disabled" class="form-control js-invoice-sub-total"
-                                       value="0.00"/>
+                                <input type="text" disabled="disabled" class="form-control js-invoice-sub-total" value="0.00"/>
                             </div>
 
                             <div class="container">
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label>Discount:</label>
-                                        <input type="text" class="form-control js-invoice-discount-val" onchange="invoice.calculate();" value="0.00" name="discount_val"/>
+                                        <input type="text" class="form-control js-invoice-discount-val" onchange="invoice.calculate();" value="@if(isset($invoice) && $invoice) {{ $invoice->discount_val }} @endif" name="discount_val"/>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label>Discount Type:</label>
                                         <select class="form-control js-invoice-discount-type" onchange="invoice.calculate();" name="discount">
-                                            <option value="fixed">Fixed</option>
-                                            <option value="precentage">Precentage</option>
+                                            <option @if(isset($invoice) && $invoice && $invoice->discount == 'fixed') selected="selected" @endif value="fixed">Fixed</option>
+                                            <option @if(isset($invoice) && $invoice && $invoice->discount == 'precentage') selected="selected" @endif value="precentage">Precentage</option>
                                         </select>
                                     </div>
                                 </div>
@@ -309,7 +308,7 @@
             <input type="hidden" value="1" name="tax"/>
             <input type="hidden" value="0.00" class="js-invoice-total" name="total"/>
             <input type="hidden" value="0.00" class="js-invoice-sub-total" name="sub_total"/>
-            <input type="hidden" value="@if($invoice) {{ $invoice->invoice_number }} @else {{ $nextInvoiceNumber }} @endif" name="invoice_number"/>
+            <input type="hidden" value="@if(isset($invoice) && $invoice) {{ $invoice->invoice_number }} @else {{ $nextInvoiceNumber }} @endif" name="invoice_number" />
 
             <div class="col-md-12" style="margin-top:15px;">
                 <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save Invoice</button>
