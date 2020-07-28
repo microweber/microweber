@@ -43,7 +43,7 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
         });
     </script>
 
-    <main class="w-100">
+    <main class="w-100" style="min-height: 100vh;">
         <div class="row mb-5">
             <div class="col-12 col-sm-9 col-md-7 col-lg-5 col-xl-4 mx-auto">
                 <a href="<?php print $link; ?>" target="_blank" id="login-logo" class="mb-4 d-block text-center">
