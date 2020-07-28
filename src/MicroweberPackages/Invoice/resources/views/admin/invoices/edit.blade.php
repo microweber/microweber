@@ -62,10 +62,10 @@
                     itemsTotal = itemsTotal + (itemPrice * itemQuantity);
                     var itemTotal = (itemPrice * itemQuantity);
 
-                    $(this).find('.js-invoice-item-price').val(itemPrice);
+                    $(this).find('.js-invoice-item-price').val(parseFloat(itemPrice).toFixed(2));
                     $(this).find('.js-invoice-item-price-precision').val(itemPricePrecision);
                     $(this).find('.js-invoice-item-quantity').val(itemQuantity);
-                    $(this).find('.js-invoice-item-price-total').html(itemTotal);
+                    $(this).find('.js-invoice-item-price-total').html(parseFloat(itemTotal).toFixed(2));
                 });
 
                 this.total = itemsTotal;

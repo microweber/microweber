@@ -33,7 +33,7 @@
             </td>
             <td><span class="badge badge-warning">{{ $invoice->status }}</span></td>
             <td><span class="badge badge-warning">{{ $invoice->paid_status }}</span></td>
-            <td>{{ number_format($invoice->due_amount, 2) }}</td>
+            <td>{{ currency_format($invoice->due_amount / 100) }}</td>
             <td>
                 <div class="btn-group">
                     <a type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

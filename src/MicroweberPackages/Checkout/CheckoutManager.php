@@ -524,6 +524,8 @@ class CheckoutManager
                 $invoiceDate = Carbon::createFromFormat('Y-m-d', date('Y-m-d'));
                 $dueDate = Carbon::createFromFormat('Y-m-d', date('Y-m-d', strtotime('+6 days', strtotime(date('Y-m-d')))));
 
+                $invoiceTotal = ($place_order['amount'] * 100);
+
                 $invoice = Invoice::create([
                     'invoice_date' => $invoiceDate,
                     'due_date' => $dueDate,
@@ -534,18 +536,27 @@ class CheckoutManager
                     'invoice_template_id' => 1,
                     'status' => Invoice::STATUS_DRAFT,
                     'paid_status' => Invoice::STATUS_UNPAID,
-                    'sub_total' => $place_order['amount'],
+                    'sub_total' => $invoiceTotal,
                     'discount' =>'',
                     'discount_type' => $place_order['discount_type'],
-                    'discount_val' => $place_order['discount_value'],
-                    'total' => $place_order['amount'],
-                    'due_amount' => $place_order['amount'],
+                    'discount_val' => ($place_order['discount_value'] * 100),
+                    'total' => $invoiceTotal,
+                    'due_amount' => $invoiceTotal,
                     'tax_per_item' => '',
                     'discount_per_item' => '',
                     'tax' => '',
                     'notes' => '',
                     'unique_hash' => str_random(60)
                 ]);
+
+                foreach ($check_cart as $cartItem) {
+                    $invoice->items()->create([
+                        'name'=>$cartItem['title'],
+                        'description'=>$cartItem['description'],
+                        'price'=>($cartItem['price'] * 100),
+                        'quantity'=>$cartItem['qty'],
+                    ]);
+                }
 
                 $ord = $this->app->shop_manager->place_order($place_order);
                 $place_order['id'] = $ord;

@@ -183,7 +183,7 @@ class InvoicesController extends AdminController
                 $tax['company_id'] = $request->header('company');
 
                 if (gettype($tax['amount']) !== "NULL") {
-                    $invoice->taxes()->create($tax); 
+                    $invoice->taxes()->create($tax);
                 }
             }
         }
