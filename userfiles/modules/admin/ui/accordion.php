@@ -351,7 +351,7 @@
                 mode: 'iframe',
                 controls: [
                     [
-                        'undoRedo', '|', 'fontSelector', 'fontSize', 'media',
+                        'undoRedo', '|', 'fontSelector', 'fontSize', 'media', 'format'
 
                     ],
                     [ 'bold', '|', 'italic' ]
@@ -368,7 +368,7 @@
                 mode: 'div',
                 controls: [
                     [
-                        'undoRedo', '|', 'fontSelector',
+                        'undoRedo', '|', 'fontSelector', 'link',
                         {
                             group: {
                                 icon: 'mdi mdi-format-bold',

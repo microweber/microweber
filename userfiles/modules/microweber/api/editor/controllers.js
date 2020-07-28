@@ -104,6 +104,53 @@ mw.Editor.controllers = {
         };
         this.element = this.render();
     },
+    'link': function(scope, api, rootScope){
+
+        this.render = function () {
+            var el = mw.Editor.core.button({
+                props: {
+                    className: 'mdi-link'
+                }
+            });
+            el.$node.on('click', function (e) {
+                api.saveSelection();
+                var picker = mw.component({
+                    url: 'link_editor_v2',
+                    options: {
+                        target: true,
+                        text: true,
+                        controllers: 'page, custom, content, section, layout, email, file',
+                        values: {
+                            url: 1,
+                            text: 1,
+                            targetBlank: el ? el.target === '_blank' : ''
+                        }
+                    }
+                });
+                $(picker).on('Result', function(e, result){
+                    api.restoreSelection();
+                    var sel = scope.getSelection();
+                    var el = api.elementNode(sel.focusNode);
+                    var elLink = el.nodeName === 'A' ? el : mw.tools.firstParentWithTag(el, 'a');
+                    if (elLink) {
+                        elLink.href = result.url;
+                        if (result.text && result.text !== elLink.innerHTML) {
+                            elLink.innerHTML = result.text;
+                        }
+                    } else {
+                        api.insertHTML('<a href="'+ result.url +'">'+ (result.text || (sel.toString().trim()) || result.url) +'</a>');
+                    }
+                    console.log(el, result, elLink)
+                    console.log(scope, api, rootScope)
+                });
+            });
+            return el;
+        };
+        this.checkSelection = function (opt) {
+            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+        };
+        this.element = this.render();
+    },
     fontSize: function (scope, api, rootScope) {
         this.checkSelection = function (opt) {
             var css = opt.css;
@@ -120,6 +167,52 @@ mw.Editor.controllers = {
             });
             $(dropdown.select).on('change', function (e, val) {
                 api.fontSize(val.value);
+            });
+            return dropdown.root;
+        };
+        this.element = this.render();
+    },
+    format: function (scope, api, rootScope) {
+        this._availableTags = [
+            { label: 'H1', value: 'h1' },
+            { label: 'H2', value: 'h2' },
+            { label: 'H3', value: 'h3' },
+            { label: 'Paragraph', value: 'p' },
+            { label: 'Block', value: 'div' }
+        ];
+
+        this.availableTags = function () {
+            if(this.__availableTags) {
+                return this.__availableTags;
+            }
+            this.__availableTags = this._availableTags.map(function (item) {
+                return item.value;
+            });
+            return this.availableTags();
+        };
+
+        this.checkSelection = function (opt) {
+            var el = opt.api.elementNode(opt.selection.focusNode);
+            var parentEl = mw.tools.firstParentOrCurrentWithTag(el, this.availableTags());
+            opt.controller.element.$select.displayValue(parentEl ? parentEl.nodeName : '');
+        };
+        this.render = function () {
+
+
+            var dropdown = new mw.Editor.core.dropdown({
+                data: this._availableTags
+            });
+            $(dropdown.select).on('change', function (e, val) {
+                var sel = scope.getSelection();
+                var range = sel.getRangeAt(0);
+                var el = scope.actionWindow.document.createElement(val.value);
+
+                if(sel.isCollapsed) {
+                    var selectionElement = api.elementNode(sel.focusNode);
+                    mw.tools.setTag(selectionElement, val.value);
+                } else {
+                    range.surroundContents(el);
+                }
             });
             return dropdown.root;
         };

@@ -628,6 +628,18 @@ var domHelp = {
         }
         return false;
     },
+    firstParentOrCurrentWithTag: function (el, tag) {
+        if (!el || !tag) return;
+        tag = typeof tag !== 'string' ? tag : [tag];
+        var curr = el;
+        while (curr && curr !== mwd.body) {
+            if (tag.indexOf(curr.nodeName.toLowerCase()) !== -1) {
+                return curr;
+            }
+            curr = curr.parentNode;
+        }
+        return false;
+    },
     generateSelectorForNode: function (node) {
         if (node === null || node.nodeType === 3) {
             return false;

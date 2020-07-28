@@ -23,7 +23,7 @@ mw.Editor.interactionControls = {
             var changeButton = mw.element({
                 props: {
                     innerHTML: rootScope.lang('Change'),
-                    className: 'mw-ui-btn'
+                    className: 'mw-ui-btn mw-ui-btn-medium'
                 }
             });
             changeButton.$node.on('click', function () {
@@ -37,7 +37,7 @@ mw.Editor.interactionControls = {
             var editButton = mw.element({
                 props: {
                     innerHTML: '<i class="mdi mdi-image-edit"></i>',
-                    className: 'mw-ui-btn tip',
+                    className: 'mw-ui-btn mw-ui-btn-medium tip',
                     dataset: {
                         tip: rootScope.lang('Edit image')
                     }
@@ -49,7 +49,9 @@ mw.Editor.interactionControls = {
             return el;
         };
         this.interact = function (data) {
+            console.log(this.element.$node[0])
             if(this.nodes.indexOf(data.target) !== -1) {
+                this.element.$node.hide();
                 return;
             }
             if (data.isImage) {

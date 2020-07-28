@@ -51,8 +51,6 @@
 .mw-dialog-skin-default{
     visibility: hidden;
     .mw-dialog-header{
-        min-height: 45px;
-
         padding: 6px 25px;
         display: flex;
         align-items:center;
@@ -62,6 +60,10 @@
         border-radius: 10px 10px 0 0;
         border-bottom: 1px solid #D9DADB;
 
+        min-height: 43px;
+        background-color: #4592ff;
+        color: #fff;
+
         .mw-dialog-title{
             max-width: calc(100% ~"-" 55px);
             overflow: hidden;
@@ -69,7 +71,7 @@
             white-space: nowrap;
             font-size: 17px;
             font-weight: bold;
-            color: #2B2B2B;
+            color: #fff;
         }
         .mw-dropdown-content{
             background-color: #2b2b2b;
@@ -127,21 +129,22 @@
     }
     .mw-dialog-close{
         position: absolute;
-        top: 5px;
-        right: 6px;
-        width: 35px;
-        height: 35px;
+        top: 7px;
+        right: 7px;
+        width: 32px;
+        height: 28px;
         display: flex;
         align-items: center;
         text-align: center;
         justify-content: center;
-        color: #2B2B2B;
+        color: #fff;
         cursor: pointer;
         transition: background-color .3s;
         border: 1px solid #CFCFCF;
         border-radius: 5px;
         &:hover{
             background-color: rgba(255,255,255,1);
+            color:#4592ff;
         }
         &:after{
             content: "\f2d7";

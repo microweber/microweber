@@ -80,7 +80,7 @@
             <h2>Dialog</h2>
             <br>
 
-            <button class="mw-ui-btn" onclick="mw.dialog({title:'opala', height: 'auto', content:'asdsad'});">Default</button>
+            <button class="mw-ui-btn" onclick="mw.dialog({title:'Dialog title', height: 'auto', content:'Test content'});">Default</button>
             <button class="mw-ui-btn" onclick="mw.dialogIframe({ url: 'https://www.youtube.com/embed/L0gakjjel3E' });">Iframe</button>
             <button class="mw-ui-btn" onclick="mw.dialogIframe({ url: '<?php print site_url(); ?>', autoHeight: true });">Iframe Auto height</button>
 
