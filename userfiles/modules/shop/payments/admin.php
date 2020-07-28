@@ -176,7 +176,7 @@ $payment_modules = get_modules('type=payment_gateway');
                                 <div class="js-modal-content" style="display: none;">
                                     <h5 class="mb-0"><?php _e('Enter your API settings'); ?></h5>
                                     <small class="text-muted mb-3 d-block">Ask your payment provider for this information and put it below</small>
-                                    
+
                                     <div class="mw-set-payment-gw-options">
                                         <module type="<?php print $payment_module['module'] ?>" view="admin"/>
                                     </div>
