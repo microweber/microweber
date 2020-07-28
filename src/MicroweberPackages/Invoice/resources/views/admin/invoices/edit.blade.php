@@ -60,10 +60,12 @@
                     itemPricePrecision = parseFloat(itemPricePrecision) * 100;
 
                     itemsTotal = itemsTotal + (itemPrice * itemQuantity);
+                    var itemTotal = (itemPrice * itemQuantity);
 
                     $(this).find('.js-invoice-item-price').val(itemPrice);
                     $(this).find('.js-invoice-item-price-precision').val(itemPricePrecision);
                     $(this).find('.js-invoice-item-quantity').val(itemQuantity);
+                    $(this).find('.js-invoice-item-price-total').html(itemTotal);
                 });
 
                 this.total = itemsTotal;
@@ -87,8 +89,10 @@
 
                 $('.js-invoice-discount-val').val(parseFloat(this.discountVal).toFixed(2));
                 $('.js-invoice-discount-val-precision').val(discountValPrecision);
-                $('.js-invoice-total').val(parseFloat(this.total) * 100);
-                $('.js-invoice-sub-total').val(parseFloat(this.subTotal) * 100);
+                $('.js-invoice-total-precision').val(parseFloat(this.total) * 100);
+                $('.js-invoice-total').val(parseFloat(this.total).toFixed(2));
+                $('.js-invoice-sub-total-precision').val(parseFloat(this.subTotal) * 100);
+                $('.js-invoice-sub-total').val(parseFloat(this.subTotal).toFixed(2));
             }
 
             invoiceItemTemplate(itemId, name, description, price, quantity) {
@@ -108,10 +112,10 @@
                     '</td>' +
                     '<td>' +
                     '    <input type="text" class="form-control js-invoice-item-input js-invoice-item-price" value="' + price + '">' +
-                    '    <input type="text" class="js-invoice-item-input js-invoice-item-price-precision" name="items[' + itemId + '][price]" value="' + price + '">' +
+                    '    <input type="hidden" class="js-invoice-item-price-precision" name="items[' + itemId + '][price]" value="' + price + '">' +
                     '</td>' +
                     '<td>' +
-                    '    0.00' +
+                    '<span class="js-invoice-item-price-total">0.00</span>' +
                     '</td>' +
                     '<td style="text-align: center;width: 10px">' +
                     '    <button class="btn btn-danger" type="button" onclick="invoice.removeItem(' + itemId + ')"><i class="fa fa-times"></i></button>' +
@@ -281,7 +285,7 @@
                                     <div class="form-group col-md-6">
                                         <label>Discount:</label>
                                         <input type="text" class="form-control js-invoice-discount-val" onchange="invoice.calculate();" value="@if(isset($invoice) && $invoice){{ ($invoice->discount_val/100) }}@endif" />
-                                        <input type="text" class="js-invoice-discount-val-precision" onchange="invoice.calculate();" name="discount_val"/>
+                                        <input type="hidden" class="js-invoice-discount-val-precision" onchange="invoice.calculate();" name="discount_val"/>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label>Discount Type:</label>
@@ -321,9 +325,9 @@
                 </select>
             </div>
 
-            <input type="hidden" value="1" name="tax"/>
-            <input type="text" value="0.00" class="js-invoice-total" name="total"/>
-            <input type="text" value="0.00" class="js-invoice-sub-total" name="sub_total"/>
+            <input type="hidden" value="1" name="tax" />
+            <input type="hidden" value="0.00" class="js-invoice-total-precision" name="total"/>
+            <input type="hidden" value="0.00" class="js-invoice-sub-total-precision" name="sub_total"/>
             <input type="hidden" value="@if(isset($invoice) && $invoice) {{ $invoice->invoice_number }}@else{{$nextInvoiceNumber }}@endif" name="invoice_number" />
 
             <div class="col-md-12" style="margin-top:15px;">
