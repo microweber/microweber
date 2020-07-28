@@ -457,7 +457,6 @@ mw.Editor = function (options) {
                 if( typeof item[i2] === 'string') {
                     scope.addController(item[i2], i1);
                 } else if( typeof item[i2] === 'object') {
-                    console.log(item[i2], i1);
                     scope.addControllerGroup(item[i2], i1);
                 }
             }

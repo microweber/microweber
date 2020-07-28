@@ -191,14 +191,22 @@ mw.Editor.controllers = {
             return this.availableTags();
         };
 
+        this.getTagDisplayName = function (tag) {
+            tag = (tag || '').trim().toLowerCase();
+            if(!tag) return;
+            for (var i = 0; i < this._availableTags.length; i++) {
+                if(this._availableTags[i].value === tag) {
+                    return this._availableTags[i].label;
+                }
+            }
+        };
+
         this.checkSelection = function (opt) {
             var el = opt.api.elementNode(opt.selection.focusNode);
             var parentEl = mw.tools.firstParentOrCurrentWithTag(el, this.availableTags());
-            opt.controller.element.$select.displayValue(parentEl ? parentEl.nodeName : '');
+            opt.controller.element.$select.displayValue(parentEl ? this.getTagDisplayName(parentEl.nodeName) : '');
         };
         this.render = function () {
-
-
             var dropdown = new mw.Editor.core.dropdown({
                 data: this._availableTags
             });
@@ -207,9 +215,23 @@ mw.Editor.controllers = {
                 var range = sel.getRangeAt(0);
                 var el = scope.actionWindow.document.createElement(val.value);
 
-                if(sel.isCollapsed) {
+                var disableSelection = true;
+
+                if(sel.isCollapsed || disableSelection) {
                     var selectionElement = api.elementNode(sel.focusNode);
-                    mw.tools.setTag(selectionElement, val.value);
+                    if(scope.$editArea[0] !== selectionElement) {
+                        mw.tools.setTag(selectionElement, val.value);
+                    } else {
+                        while (selectionElement.firstChild) {
+                            el.appendChild(selectionElement.firstChild);
+                        }
+                        selectionElement.appendChild(el);
+                    }
+                    var newRange = scope.actionWindow.document.createRange();
+                    newRange.setStart(sel.anchorNode, sel.anchorOffset);
+                    newRange.collapse(true);
+                    sel.removeAllRanges();
+                    sel.addRange(range);
                 } else {
                     range.surroundContents(el);
                 }

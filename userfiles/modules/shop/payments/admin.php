@@ -43,8 +43,9 @@
     paymentModal = function (el) {
         el = $(el);
         var html = el.find('.js-modal-content').html();
+        var formId = mw.id('pm');
         var modal = mw.dialog({
-            content: '<form id="pm-' + mw.random() + '">' + html + '</form>',
+            content: '<form id="'+formId+'">' + html + '</form>',
             onremove: function () {
                 html = modal.container.html();
                 $(mwd.body).removeClass('paymentSettingsModal')
@@ -58,7 +59,7 @@
             title: $('.gateway-title', el).html()
         });
 
-        mw.options.form($(modal.container), function () {
+        mw.options.form('#' + formId, function () {
             mw.notification.success("<?php _ejs("Shop settings are saved"); ?>.");
             mw.reload_module_everywhere("shop/settings");
         });
@@ -134,13 +135,7 @@ $payment_modules = get_modules('type=payment_gateway');
                         }
                         ?>
 
-                        <script type="text/javascript">
-                            /*$(document).ready(function () {
-                                mw.options.form('#module-db-id-<?php print $module_info['id'] ?> .js-change-method-status', function () {
-                                    mw.notification.success("<?php _ejs("Payment changes are saved"); ?>.");
-                                });
-                            });*/
-                        </script>
+
 
                         <div class="dragable-item card style-1 mb-3 <?php if (get_option('payment_gw_' . $payment_module['module'], 'payments') == 1): ?>bg-primary-opacity-1<?php endif; ?>" id="module-db-id-<?php print $module_info['id'] ?>">
                             <div class="card-body py-3">
@@ -183,6 +178,13 @@ $payment_modules = get_modules('type=payment_gateway');
                                 </div>
                             </div>
                         </div>
+                        <script>
+                            $(document).ready(function () {
+                                mw.options.form('#module-db-id-<?php print $module_info['id'] ?> .js-change-method-status', function () {
+                                    mw.notification.success("<?php _ejs("Payment changes are saved"); ?>.");
+                                });
+                            });
+                        </script>
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
