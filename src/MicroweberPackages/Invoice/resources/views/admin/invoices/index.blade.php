@@ -27,7 +27,10 @@
             <th><input type="checkbox"></th>
             <td>{{ $invoice->invoice_date }}</td>
             <td>{{ $invoice->invoice_number }}</td>
-            <td>{{ $invoice->user()->first()->email }}</td>
+            <td>
+                {{ $invoice->customer->first_name }}
+                {{ $invoice->customer->last_name }}
+            </td>
             <td><span class="badge badge-warning">{{ $invoice->status }}</span></td>
             <td><span class="badge badge-warning">{{ $invoice->paid_status }}</span></td>
             <td>{{ number_format($invoice->due_amount, 2) }}</td>

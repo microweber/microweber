@@ -169,9 +169,9 @@
                     <div class="modal-body">
                         <div class="col-md-12">
                             <div class="input-group">
-                                <select class="form-control typeahead border-primary" name="user_id" placeholder="Start typing something to search customers...">
-                                    @foreach($users as $user)
-                                        <option value="{{$user->id}}">{{$user->first_name}}</option>
+                                <select class="form-control typeahead border-primary" name="customer_id" placeholder="Start typing something to search customers...">
+                                    @foreach($customers as $customer)
+                                        <option value="{{$customer->id}}">{{$customer->first_name}} {{$customer->last_name}}</option>
                                     @endforeach
                                 </select>
                                 {{-- <div class="input-group-append">

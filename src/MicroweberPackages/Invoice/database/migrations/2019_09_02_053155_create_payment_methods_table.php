@@ -17,8 +17,8 @@ class CreatePaymentMethodsTable extends Migration
             Schema::create('payment_methods', function (Blueprint $table) {
                 $table->increments('id');
                 $table->string('name');
-                $table->integer('company_id')->unsigned()->nullable();
-                $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+                //$table->integer('company_id')->unsigned()->nullable();
+                //$table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
                 $table->timestamps();
             });
         }

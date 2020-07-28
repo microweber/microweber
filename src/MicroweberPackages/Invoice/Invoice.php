@@ -42,7 +42,7 @@ class Invoice extends Model
         'due_date',
         'invoice_number',
         'reference_number',
-        'user_id',
+        'customer_id',
         'company_id',
         'invoice_template_id',
         'status',
@@ -109,9 +109,9 @@ class Invoice extends Model
         return $this->hasMany(Payment::class);
     }
 
-    public function user()
+    public function customer()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Customer::class);
     }
 
     public function invoiceTemplate()

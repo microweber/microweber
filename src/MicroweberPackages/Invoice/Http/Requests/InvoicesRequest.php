@@ -25,7 +25,7 @@ class InvoicesRequest extends FormRequest
         $rules = [
             'invoice_date' => 'required',
             'due_date' => 'required',
-            'user_id' => 'required',
+            'customer_id' => 'required',
             'discount' => 'required',
             'discount_val' => 'required',
             'sub_total' => 'required',

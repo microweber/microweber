@@ -6,6 +6,7 @@ use MicroweberPackages\Invoice\CompanySetting;
 use MicroweberPackages\Invoice\Company;
 use Illuminate\Support\Collection;
 use MicroweberPackages\Invoice\Currency;
+use MicroweberPackages\Invoice\Customer;
 use MicroweberPackages\Invoice\InvoiceTemplate;
 use MicroweberPackages\Invoice\Http\Requests;
 use MicroweberPackages\Invoice\Invoice;
@@ -56,8 +57,8 @@ class InvoicesController extends AdminController
 
         $limit = $request->has('limit') ? $request->limit : 10;
 
-        $invoices = Invoice::with(['items', 'user', 'invoiceTemplate', 'taxes'])
-            ->join('users', 'users.id', '=', 'invoices.user_id')
+        $invoices = Invoice::with(['items', 'customer', 'invoiceTemplate', 'taxes'])
+            ->join('customers', 'customers.id', '=', 'invoices.customer_id')
             ->applyFilters($request->only([
                 'status',
                 'paid_status',
@@ -69,8 +70,8 @@ class InvoicesController extends AdminController
                 'orderBy',
                 'search',
             ]))
-            ->whereCompany($request->header('company'))
-            ->select('invoices.*', 'users.first_name')
+            // ->whereCompany($request->header('company'))
+            ->select('invoices.*', 'customers.first_name')
             ->latest()
             ->paginate($limit);
 
@@ -101,7 +102,7 @@ class InvoicesController extends AdminController
 
         return $this->view('invoice::admin.invoices.edit', [
             'taxTypes'=>\MicroweberPackages\Tax\TaxType::all(),
-            'users' => \MicroweberPackages\User\User::all(),
+            'customers' => Customer::all(),
             'nextInvoiceNumberAttribute' => $nextInvoiceNumberAttribute,
             'nextInvoiceNumber' => $invoice_prefix.'-'.$nextInvoiceNumber,
             'items' => Item::with('taxes')->whereCompany($request->header('company'))->get(),
@@ -143,7 +144,7 @@ class InvoicesController extends AdminController
             'due_date' => $due_date,
             'invoice_number' => $number_attributes['invoice_number'],
             'reference_number' => $request->reference_number,
-            'user_id' => $request->user_id,
+            'customer_id' => $request->customer_id,
             'company_id' => $request->header('company'),
             'invoice_template_id' => $request->invoice_template_id,
             'status' => $status,
@@ -182,14 +183,14 @@ class InvoicesController extends AdminController
                 $tax['company_id'] = $request->header('company');
 
                 if (gettype($tax['amount']) !== "NULL") {
-                    $invoice->taxes()->create($tax);
+                    $invoice->taxes()->create($tax); 
                 }
             }
         }
 
         if ($request->has('invoiceSend')) {
             $data['invoice'] = Invoice::findOrFail($invoice->id)->toArray();
-            $data['user'] = \MicroweberPackages\User\User::find($request->user_id)->toArray();
+            $data['customer'] = Customer::find($request->customer_id)->toArray();
             $data['company'] = Company::find($invoice->company_id);
 
             $email = $data['user']['email'];
@@ -217,7 +218,7 @@ class InvoicesController extends AdminController
         $invoice = Invoice::with([
             'items',
             'items.taxes',
-            'user',
+            'customer',
             'invoiceTemplate',
             'taxes.taxType'
         ])->find($id);
@@ -241,13 +242,13 @@ class InvoicesController extends AdminController
         $invoice = Invoice::with([
             'items',
             'items.taxes',
-            'user',
+            'customer',
             'invoiceTemplate',
             'taxes.taxType'
         ])->find($id);
 
         return $this->view('invoice::admin.invoices.edit', [
-            'users' => \MicroweberPackages\User\User::all(),
+            'customers' => Customer::all(),
             'taxTypes'=>\MicroweberPackages\Tax\TaxType::all(),
             'nextInvoiceNumber' => $invoice->getInvoiceNumAttribute(),
             'invoice' => $invoice,
@@ -305,7 +306,7 @@ class InvoicesController extends AdminController
         $invoice->due_date = $due_date;
         $invoice->invoice_number =  $number_attributes['invoice_number'];
         $invoice->reference_number = $request->reference_number;
-        $invoice->user_id = $request->user_id;
+        $invoice->customer_id = $request->customer_id;
         $invoice->invoice_template_id = $request->invoice_template_id;
         $invoice->sub_total = $request->sub_total;
         $invoice->total = $request->total;
@@ -402,10 +403,10 @@ class InvoicesController extends AdminController
         $invoice = Invoice::findOrFail($request->id);
 
         $data['invoice'] = $invoice->toArray();
-        $userId = $data['invoice']['user_id'];
-        $data['user'] = User::find($userId)->toArray();
+        $customerId = $data['invoice']['customer_id'];
+        $data['customer'] = Customer::find($customerId)->toArray();
         $data['company'] = Company::find($invoice->company_id);
-        $email = $data['user']['email'];
+        $email = $data['customer']['email'];
 
         if (!$email) {
             return response()->json([
@@ -477,7 +478,7 @@ class InvoicesController extends AdminController
     public function getCustomersUnpaidInvoices(Request $request, $id)
     {
         $invoices = Invoice::where('paid_status', '<>', Invoice::STATUS_PAID)
-            ->where('user_id', $id)->where('due_amount', '>', 0)
+            ->where('customer_id', $id)->where('due_amount', '>', 0)
             ->whereCompany($request->header('company'))
             ->get();
 
@@ -490,7 +491,7 @@ class InvoicesController extends AdminController
     {
         $oldInvoice = Invoice::with([
             'items.taxes',
-            'user',
+            'customer',
             'invoiceTemplate',
             'taxes.taxType'
         ])
@@ -521,7 +522,7 @@ class InvoicesController extends AdminController
             'due_date' => $date,
             'invoice_number' => $invoice_prefix."-".Invoice::getNextInvoiceNumber($invoice_prefix),
             'reference_number' => $oldInvoice->reference_number,
-            'user_id' => $oldInvoice->user_id,
+            'customer_id' => $oldInvoice->customer_id,
             'company_id' => $request->header('company'),
             'invoice_template_id' => 1,
             'status' => Invoice::STATUS_DRAFT,

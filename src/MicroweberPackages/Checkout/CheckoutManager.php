@@ -2,8 +2,11 @@
 
 namespace MicroweberPackages\Checkout;
 
+use Carbon\Carbon;
 use Microweber\App\Providers\Illuminate\Support\Facades\Config;
 use Microweber\App\Providers\Illuminate\Support\Facades\Crypt;
+use MicroweberPackages\Invoice\Customer;
+use MicroweberPackages\Invoice\Invoice;
 use MicroweberPackages\Utils\Mail\MailSender;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
@@ -442,7 +445,7 @@ class CheckoutManager
                         $gw_process = normalize_path(modules_path() . $data['payment_gw'] . DS . 'process.php', false);
                     }
 
-                    $encrypter = new \Illuminate\Encryption\Encrypter(md5(Config::get('app.key').$place_order['payment_verify_token']), Config::get('app.cipher'));
+                    $encrypter = new \Illuminate\Encryption\Encrypter(md5(\Illuminate\Support\Facades\Config::get('app.key').$place_order['payment_verify_token']), \Illuminate\Support\Facades\Config::get('app.cipher'));
 
                     $vkey_data = array();
                     $vkey_data['payment_amount'] = $place_order['payment_amount'];
@@ -491,9 +494,61 @@ class CheckoutManager
                     return array('error' => $place_order['error']);
                 }
 
+
+                $findCustomer = false;
+                $findCustomerByEmail = Customer::where('email', $data['email'])->first();
+                if ($findCustomerByEmail) {
+                    $findCustomer =  $findCustomerByEmail;
+                }
+
+                if (!$findCustomer) {
+                    $findCustomerByPhone = Customer::where('phone', $data['phone'])->first();
+                    if ($findCustomerByPhone) {
+                        $findCustomer = $findCustomerByPhone;
+                    }
+                }
+
+                if (!$findCustomer)  {
+                    $createNewCustomer = Customer::create([
+                        'name'=>$data['first_name'],
+                        'first_name'=>$data['first_name'],
+                        'last_name'=>$data['last_name'],
+                        'email'=>$data['email'],
+                        'phone'=>$data['phone']
+                    ]);
+                    $findCustomer = $createNewCustomer;
+                }
+
+                $invoicePrefix = 'INV';
+                $nextInvoiceNumber = Invoice::getNextInvoiceNumber($invoicePrefix);
+                $invoiceDate = Carbon::createFromFormat('Y-m-d', date('Y-m-d'));
+                $dueDate = Carbon::createFromFormat('Y-m-d', date('Y-m-d', strtotime('+6 days', strtotime(date('Y-m-d')))));
+
+                $invoice = Invoice::create([
+                    'invoice_date' => $invoiceDate,
+                    'due_date' => $dueDate,
+                    'invoice_number' => $invoicePrefix . '-' . $nextInvoiceNumber,
+                    'reference_number' => '',
+                    'customer_id' => $findCustomer->id,
+                    'company_id' => 0,
+                    'invoice_template_id' => 1,
+                    'status' => Invoice::STATUS_DRAFT,
+                    'paid_status' => Invoice::STATUS_UNPAID,
+                    'sub_total' => $place_order['amount'],
+                    'discount' =>'',
+                    'discount_type' => $place_order['discount_type'],
+                    'discount_val' => $place_order['discount_value'],
+                    'total' => $place_order['amount'],
+                    'due_amount' => $place_order['amount'],
+                    'tax_per_item' => '',
+                    'discount_per_item' => '',
+                    'tax' => '',
+                    'notes' => '',
+                    'unique_hash' => str_random(60)
+                ]);
+
                 $ord = $this->app->shop_manager->place_order($place_order);
                 $place_order['id'] = $ord;
-
 
                 if (isset($place_order['is_paid']) and $place_order['is_paid']) {
                     $this->app->event_manager->trigger('mw.cart.checkout.order_paid', $place_order);
