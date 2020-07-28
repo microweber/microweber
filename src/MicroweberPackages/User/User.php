@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use MicroweberPackages\Invoice\Conversation;
 use MicroweberPackages\Invoice\Currency;
+use MicroweberPackages\Invoice\Customer;
 use MicroweberPackages\Invoice\MemberLoan;
 use MicroweberPackages\Invoice\Address;
 use MicroweberPackages\Invoice\Payment;
@@ -124,51 +125,6 @@ class User extends Authenticatable implements HasMedia
         return Carbon::parse($this->created_at)->format($dateFormat);
     }
 
-    public function estimates()
-    {
-        return $this->hasMany(Estimate::class);
-    }
-
-    public function currency()
-    {
-        return $this->belongsTo(Currency::class);
-    }
-
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
-    }
-
-    public function addresses()
-    {
-        return $this->hasMany(Address::class);
-    }
-
-    public function expenses()
-    {
-        return $this->hasMany(Expense::class);
-    }
-
-    public function billingAddress()
-    {
-        return $this->hasOne(Address::class)->where('type', Address::BILLING_TYPE);
-    }
-
-    public function shippingAddress()
-    {
-        return $this->hasOne(Address::class)->where('type', Address::SHIPPING_TYPE);
-    }
-
-    public function payments()
-    {
-        return $this->hasMany(Payment::class);
-    }
-
-    public function invoices()
-    {
-        return $this->hasMany(Invoice::class);
-    }
-
     /**
      * Override the mail body for reset password notification mail.
      */
@@ -197,19 +153,9 @@ class User extends Authenticatable implements HasMedia
         return $query->where('contact_name', 'LIKE', '%'.$contactName.'%');
     }
 
-    public function scopeWhereDisplayName($query, $displayName)
+    public function customer()
     {
-        return $query->where('name', 'LIKE', '%'.$displayName.'%');
-    }
-
-    public function scopeWherePhone($query, $phone)
-    {
-        return $query->where('phone', 'LIKE', '%'.$phone.'%');
-    }
-
-    public function scopeCustomer($query)
-    {
-        return $query->where('role', 'customer');
+        return $this->belongsTo(Customer::class);
     }
 
     public function scopeApplyFilters($query, array $filters)

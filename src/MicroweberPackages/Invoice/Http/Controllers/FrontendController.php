@@ -4,6 +4,7 @@ namespace MicroweberPackages\Invoice\Http\Controllers;
 use _HumbugBox58fd4d9e2a25\___PHPSTORM_HELPERS\this;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use MicroweberPackages\Invoice\Customer;
 use MicroweberPackages\Invoice\Invoice;
 use PDF;
 use MicroweberPackages\Invoice\CompanySetting;
@@ -303,7 +304,7 @@ class FrontendController extends Controller
         $invoice = Invoice::with([
                 'items',
                 'items.taxes',
-                'user',
+                'customer',
                 'invoiceTemplate',
                 'taxes'
             ])
@@ -345,14 +346,10 @@ class FrontendController extends Controller
         }
 
         $company = Company::find($invoice->company_id);
-        $companyAddress = User::with(['addresses', 'addresses.country'])->find(1);
+        $companyAddress = Company::with(['addresses', 'addresses.country'])->find(1);
 
         if ($company) {
-            $logo = $company->getMedia('logo')->first();
-
-            if ($logo) {
-                $logo = $logo->getFullUrl();
-            }
+            $logo = $company->logo;
         }
 
         $colors = [

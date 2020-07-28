@@ -352,8 +352,8 @@
                     @if($logo)
                         <img class="header-logo" src="{{ $logo }}" alt="Company Logo">
                     @else
-                        @if($invoice->user->company)
-                            <h2 class="header-logo"> {{$invoice->user->company->name}} </h2>
+                        @if($invoice->customer->company)
+                            <h2 class="header-logo"> {{$invoice->customer->company->name}} </h2>
                         @endif
                     @endif
                 </td>
@@ -389,9 +389,9 @@
             @include('invoice::app.pdf.invoice.partials.billing-address')
         </div>
 
-        <div class="shipping-address-container" @if($invoice->user->billingaddress) style="float:left;" @else style="float:left: padding-left: 0px;" @endif>
+        <div class="shipping-address-container" @if($invoice->customer->billingaddress) style="float:left;" @else style="float:left: padding-left: 0px;" @endif>
             @include('invoice::app.pdf.invoice.partials.shipping-address')
-            @if($invoice->user->billingaddress) <div style="clear: both;"></div> @endif
+            @if($invoice->customer->billingaddress) <div style="clear: both;"></div> @endif
         </div>
         <div style="position: relative; clear: both;">
             @include('invoice::app.pdf.invoice.partials.table')

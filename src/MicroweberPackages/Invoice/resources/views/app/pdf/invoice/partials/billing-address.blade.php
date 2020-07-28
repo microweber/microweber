@@ -1,32 +1,32 @@
-@if($invoice->user->billingaddress)
+@if($invoice->customer->billingaddress)
     <p class="billing-address-label">Bill To,</p>
-    @if($invoice->user->billingaddress->name)
+    @if($invoice->customer->billingaddress->name)
         <p class="billing-address-name">
-            {{$invoice->user->billingaddress->name}}
+            {{$invoice->customer->billingaddress->name}}
         </p>
     @endif
     <p class="billing-address">
-        @if($invoice->user->billingaddress->address_street_1)
-            {!! nl2br(htmlspecialchars($invoice->user->billingaddress->address_street_1)) !!}<br>
+        @if($invoice->customer->billingaddress->address_street_1)
+            {!! nl2br(htmlspecialchars($invoice->customer->billingaddress->address_street_1)) !!}<br>
         @endif
-        @if($invoice->user->billingaddress->address_street_2)
-            {!! nl2br(htmlspecialchars($invoice->user->billingaddress->address_street_2)) !!}<br>
+        @if($invoice->customer->billingaddress->address_street_2)
+            {!! nl2br(htmlspecialchars($invoice->customer->billingaddress->address_street_2)) !!}<br>
         @endif
-        @if($invoice->user->billingaddress->city && $invoice->user->billingaddress->city)
-            {{$invoice->user->billingaddress->city}},
+        @if($invoice->customer->billingaddress->city && $invoice->customer->billingaddress->city)
+            {{$invoice->customer->billingaddress->city}},
         @endif
-        @if($invoice->user->billingaddress->state && $invoice->user->billingaddress->state)
-            {{$invoice->user->billingaddress->state}}.
+        @if($invoice->customer->billingaddress->state && $invoice->customer->billingaddress->state)
+            {{$invoice->customer->billingaddress->state}}.
         @endif
-        @if($invoice->user->billingaddress->zip)
-            {{$invoice->user->billingaddress->zip}}<br>
+        @if($invoice->customer->billingaddress->zip)
+            {{$invoice->customer->billingaddress->zip}}<br>
         @endif
-        @if($invoice->user->billingaddress->country && $invoice->user->billingaddress->country->name)
-            {{$invoice->user->billingaddress->country->name}}<br>
+        @if($invoice->customer->billingaddress->country && $invoice->customer->billingaddress->country->name)
+            {{$invoice->customer->billingaddress->country->name}}<br>
         @endif
-        @if($invoice->user->billingaddress->phone)
+        @if($invoice->customer->billingaddress->phone)
             <p class="billing-address">
-                Phone :{{$invoice->user->billingaddress->phone}}
+                Phone :{{$invoice->customer->billingaddress->phone}}
             </p>
         @endif
     </p>

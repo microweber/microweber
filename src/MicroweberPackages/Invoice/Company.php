@@ -15,18 +15,23 @@ class Company extends Model implements HasMedia
 
     protected $appends=['logo'];
 
-    public function getLogoAttribute()
+    /*public function getLogoAttribute()
     {
         $logo = $this->getMedia('logo')->first();
         if ($logo) {
             return asset($logo->getUrl());
         }
         return ;
-    }
+    }*/
 
     public function user()
     {
         return $this->hasOne(User::class);
+    }
+
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
     }
 
     public function settings()

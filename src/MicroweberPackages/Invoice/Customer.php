@@ -37,9 +37,59 @@ class Customer extends Model
         return $this->belongsTo(Company::class);
     }
 
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
+
+    public function estimates()
+    {
+        return $this->hasMany(Estimate::class);
+    }
+
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class);
+    }
+
+    public function expenses()
+    {
+        return $this->hasMany(Expense::class);
+    }
+
+    public function billingAddress()
+    {
+        return $this->hasOne(Address::class)->where('type', Address::BILLING_TYPE);
+    }
+
+    public function shippingAddress()
+    {
+        return $this->hasOne(Address::class)->where('type', Address::SHIPPING_TYPE);
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(\MicroweberPackages\User\User::class);
+    }
+
+    public function scopeWhereDisplayName($query, $displayName)
+    {
+        return $query->where('name', 'LIKE', '%'.$displayName.'%');
+    }
+
+    public function scopeWherePhone($query, $phone)
+    {
+        return $query->where('phone', 'LIKE', '%'.$phone.'%');
     }
 
     public function activeOptions()

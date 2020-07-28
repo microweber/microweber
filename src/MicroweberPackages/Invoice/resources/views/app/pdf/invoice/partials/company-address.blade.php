@@ -1,5 +1,5 @@
-@if($invoice->user->company)
-    <h1> {{$invoice->user->company->name}} </h1>
+@if($invoice->customer->company)
+    <h1> {{$invoice->customer->company->name}} </h1>
 @endif
 
 @if($company_address)

@@ -37,7 +37,7 @@
                 class="item-cell text-right pr-20"
                 style="vertical-align: top;"
             >
-                {!! format_money_pdf($item->price, $invoice->user->currency) !!}
+                {!! format_money_pdf($item->price, $invoice->customer->currency) !!}
             </td>
             @if($invoice->discount_per_item === 'YES')
                 <td
@@ -45,7 +45,7 @@
                     style="vertical-align: top;"
                 >
                     @if($item->discount_type === 'fixed')
-                        {!! format_money_pdf($item->discount_val, $invoice->user->currency) !!}
+                        {!! format_money_pdf($item->discount_val, $invoice->customer->currency) !!}
                     @endif
                     @if($item->discount_type === 'percentage')
                         {{$item->discount}}%
@@ -56,7 +56,7 @@
                 class="item-cell text-right"
                 style="vertical-align: top;"
             >
-                {!! format_money_pdf($item->total, $invoice->user->currency) !!}
+                {!! format_money_pdf($item->total, $invoice->customer->currency) !!}
             </td>
         </tr>
         @php
@@ -72,7 +72,7 @@
         <tr>
             <td class="border-0 total-table-attribute-label">Subtotal</td>
             <td class="border-0 item-cell py-2 total-table-attribute-value">
-                {!! format_money_pdf($invoice->sub_total, $invoice->user->currency) !!}
+                {!! format_money_pdf($invoice->sub_total, $invoice->customer->currency) !!}
             </td>
         </tr>
 
@@ -83,7 +83,7 @@
                         {{$labels[$i]}}
                     </td>
                     <td class="border-0 item-cell py-2 total-table-attribute-value">
-                        {!! format_money_pdf($taxes[$i], $invoice->user->currency) !!}
+                        {!! format_money_pdf($taxes[$i], $invoice->customer->currency) !!}
                     </td>
                 </tr>
             @endfor
@@ -94,7 +94,7 @@
                         {{$tax->name.' ('.$tax->percent.'%)'}}
                     </td>
                     <td class="border-0 item-cell py-2 total-table-attribute-value">
-                        {!! format_money_pdf($tax->amount, $invoice->user->currency) !!}
+                        {!! format_money_pdf($tax->amount, $invoice->customer->currency) !!}
                     </td>
                 </tr>
             @endforeach
@@ -112,10 +112,10 @@
                 </td>
                 <td class="border-0 item-cell py-2 total-table-attribute-value" >
                     @if($invoice->discount_type === 'fixed')
-                        {!! format_money_pdf($invoice->discount_val, $invoice->user->currency) !!}
+                        {!! format_money_pdf($invoice->discount_val, $invoice->customer->currency) !!}
                     @endif
                     @if($invoice->discount_type === 'percentage')
-                        {!! format_money_pdf($invoice->discount_val, $invoice->user->currency) !!}
+                        {!! format_money_pdf($invoice->discount_val, $invoice->customer->currency) !!}
                     @endif
                 </td>
             </tr>
@@ -131,7 +131,7 @@
             <td
                 class="border-0 total-border-right item-cell py-8 total-table-attribute-value text-primary"
             >
-                {!! format_money_pdf($invoice->total, $invoice->user->currency)!!}
+                {!! format_money_pdf($invoice->total, $invoice->customer->currency)!!}
             </td>
         </tr>
     </table>
