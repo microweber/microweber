@@ -72,7 +72,7 @@
         mw.$("#available_providers").sortable({
             items: ".dragable-item",
             handle: ".mdi-cursor-move",
-            axis: 1,
+            axis: 'y',
             placeholder: "available_providers_placeholder",
             start: function (a, b) {
                 $(this).sortable("refreshPositions");
@@ -135,11 +135,11 @@ $payment_modules = get_modules('type=payment_gateway');
                         ?>
 
                         <script type="text/javascript">
-                            $(document).ready(function () {
+                            /*$(document).ready(function () {
                                 mw.options.form('#module-db-id-<?php print $module_info['id'] ?> .js-change-method-status', function () {
                                     mw.notification.success("<?php _ejs("Payment changes are saved"); ?>.");
                                 });
-                            });
+                            });*/
                         </script>
 
                         <div class="dragable-item card style-1 mb-3 <?php if (get_option('payment_gw_' . $payment_module['module'], 'payments') == 1): ?>bg-primary-opacity-1<?php endif; ?>" id="module-db-id-<?php print $module_info['id'] ?>">

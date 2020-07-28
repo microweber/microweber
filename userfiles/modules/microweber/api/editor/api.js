@@ -78,6 +78,7 @@ mw._editorApi = function (scope) {
                         scope.api.action(mw.tools.firstBlockLevel(node), function () {
                             scope.actionWindow.document.execCommand(a, b, c);
                             mw.$(scope.settings.iframeAreaSelector, scope.actionWindow.document).trigger('execCommand');
+                            mw.$(scope).trigger('execCommand');
                         });
                     }
                 }
