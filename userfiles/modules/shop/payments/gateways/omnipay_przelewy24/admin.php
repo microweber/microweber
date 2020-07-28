@@ -1,32 +1,31 @@
 <?php only_admin_access(); ?>
-<div class="m-b-20">
+
+<div class="mb-3 float-right">
     <img src="<?php print $config['url_to_module'] ?>omnipay_przelewy24.png" style="max-width: 140px;"/>
 </div>
 
-<div class="m-b-10">
-    <label class="mw-ui-label">Merchant Id: </label>
+<div class="clearfix"></div>
 
-    <input type="text" class="mw-ui-field mw_option_field block-field" name="przelewy24_merchant_id"
-           placeholder="" data-option-group="payments"
-           value="<?php print get_option('przelewy24_merchant_id', 'payments'); ?>">
+<div class="form-group">
+    <label class="control-label">Merchant Id: </label>
+    <input type="text" class="mw_option_field form-control" name="przelewy24_merchant_id" placeholder="" data-option-group="payments" value="<?php print get_option('przelewy24_merchant_id', 'payments'); ?>">
 </div>
 
-<div class="m-b-10">
-    <label class="mw-ui-label">CRC key: </label>
-
-    <input type="text" class="mw-ui-field mw_option_field block-field" name="przelewy24_crc"
-           placeholder="" data-option-group="payments"
-           value="<?php print get_option('przelewy24_crc', 'payments'); ?>">
+<div class="form-group">
+    <label class="control-label">CRC key: </label>
+    <input type="text" class="mw_option_field form-control" name="przelewy24_crc" placeholder="" data-option-group="payments" value="<?php print get_option('przelewy24_crc', 'payments'); ?>">
 </div>
 
-<ul class="mw-ui-inline-list">
-    <li><label class="mw-ui-label p-10 bold"><?php _e("Test mode"); ?>:</label></li>
+<div class="form-group">
+    <label class="control-label d-block"><?php _e("Test mode"); ?></label>
 
-    <li><label class="mw-ui-check">
-            <input name="przelewy24_testmode" class="mw_option_field" data-option-group="payments" value="y" type="radio" <?php if (get_option('przelewy24_testmode', 'payments') == 'y'): ?> checked="checked" <?php endif; ?> >
-            <span></span><span><?php _e("Yes"); ?></span></label></li>
+    <div class="custom-control custom-radio d-inline-block mr-2">
+        <input type="radio" id="przelewy24_testmode1" name="przelewy24_testmode" class="mw_option_field custom-control-input" data-option-group="payments" value="y" <?php if (get_option('przelewy24_testmode', 'payments') == 'y'): ?> checked="checked" <?php endif; ?>>
+        <label class="custom-control-label" for="przelewy24_testmode1"><?php _e("Yes"); ?></label>
+    </div>
 
-    <li><label class="mw-ui-check">
-            <input name="przelewy24_testmode" class="mw_option_field" data-option-group="payments" value="n" type="radio" <?php if (get_option('przelewy24_testmode', 'payments') != 'y'): ?> checked="checked" <?php endif; ?> >
-            <span></span><span><?php _e("No"); ?></span></label></li>
-</ul>
+    <div class="custom-control custom-radio d-inline-block mr-2">
+        <input type="radio" id="przelewy24_testmode2" name="przelewy24_testmode" class="mw_option_field custom-control-input" data-option-group="payments" value="n" <?php if (get_option('przelewy24_testmode', 'payments') != 'y'): ?> checked="checked" <?php endif; ?>>
+        <label class="custom-control-label" for="przelewy24_testmode2"><?php _e("No"); ?></label>
+    </div>
+</div>

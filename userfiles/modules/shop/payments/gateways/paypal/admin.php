@@ -1,32 +1,26 @@
 <?php only_admin_access(); ?>
 
-<div class="m-b-20">
+<div class="mb-3 float-right">
     <img src="<?php print $config['url_to_module'] ?>paypal.png" style="max-width: 140px;"/>
 </div>
 
-<div class="m-b-20">
-    <ul class="mw-ui-inline-list">
-        <li><label class="mw-ui-label p-10 bold"><?php _e("Test mode"); ?>:</label></li>
+<div class="clearfix"></div>
 
-        <li>
-            <label class="mw-ui-check">
-                <input name="paypalexpress_testmode" class="mw_option_field" data-option-group="payments" value="y" type="radio" <?php if (get_option('paypalexpress_testmode', 'payments') == 'y'): ?> checked="checked" <?php endif; ?> >
-                <span></span><span><?php _e("Yes"); ?></span>
-            </label>
-        </li>
+<div class="form-group">
+    <label class="control-label d-block"><?php _e("Test mode"); ?></label>
 
-        <li>
-            <label class="mw-ui-check">
-                <input name="paypalexpress_testmode" class="mw_option_field" data-option-group="payments" value="n" type="radio" <?php if (get_option('paypalexpress_testmode', 'payments') != 'y'): ?> checked="checked" <?php endif; ?> >
-                <span></span><span><?php _e("No"); ?></span>
-            </label>
-        </li>
-    </ul>
+    <div class="custom-control custom-radio d-inline-block mr-2">
+        <input type="radio" id="paypalexpress_testmode1" name="paypalexpress_testmode" class="mw_option_field custom-control-input" data-option-group="payments" value="y" <?php if (get_option('paypalexpress_testmode', 'payments') == 'y'): ?> checked="checked" <?php endif; ?>>
+        <label class="custom-control-label" for="paypalexpress_testmode1"><?php _e("Yes"); ?></label>
+    </div>
 
+    <div class="custom-control custom-radio d-inline-block mr-2">
+        <input type="radio" id="paypalexpress_testmode2" name="paypalexpress_testmode" class="mw_option_field custom-control-input" data-option-group="payments" value="n" <?php if (get_option('paypalexpress_testmode', 'payments') != 'y'): ?> checked="checked" <?php endif; ?>>
+        <label class="custom-control-label" for="paypalexpress_testmode2"><?php _e("No"); ?></label>
+    </div>
 </div>
 
-<div class="m-b-20">
-    <label class="mw-ui-label"><?php _e("Paypal username"); ?>: </label>
-
-    <input type="text" class="mw-ui-field mw_option_field block-field" name="paypalexpress_username" placeholder="paypal@example.com" data-option-group="payments" value="<?php print get_option('paypalexpress_username', 'payments'); ?>">
+<div class="form-group">
+    <label class="control-label"><?php _e("Paypal username"); ?>: </label>
+    <input type="text" class="mw_option_field form-control" name="paypalexpress_username" placeholder="paypal@example.com" data-option-group="payments" value="<?php print get_option('paypalexpress_username', 'payments'); ?>">
 </div>
