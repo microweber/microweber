@@ -25,7 +25,12 @@ if (isset($entry['form_values'])) {
 $created_by = false;
 if (isset($item['created_by'])) {
     $created_by = get_user_by_id($item['created_by']);
-    $created_by_username = $created_by['username'];
+
+    if (isset($created_by['username'])) {
+        $created_by_username = $created_by['username'];
+    } else {
+        $created_by_username = false;
+    }
 }
 ?>
 

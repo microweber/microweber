@@ -5,7 +5,11 @@
             $image = '';
             if ($comment['created_by']) {
                 $image = get_user_by_id($comment['created_by']);
-                $image = $image['thumbnail'];
+                if (isset($image['thumbnail'])) {
+                    $image = $image['thumbnail'];
+                } else {
+                    $image = false;
+                }
 
                 if (!$comment['comment_email']) {
                     $comment['comment_email'] = user_email($comment['created_by']);
