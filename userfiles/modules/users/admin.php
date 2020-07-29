@@ -238,8 +238,7 @@ mw()->notifications_manager->mark_as_read('users');
 
 
     <div class="card-body pt-3">
-
-        <div class="d-flex align-items-center justify-content-between mt-3">
+        <div class="d-flex align-items-center justify-content-between mt-2">
             <div>
                 <script>
                     handleUserSearch = function (e) {
@@ -269,7 +268,6 @@ mw()->notifications_manager->mark_as_read('users');
                 </a>
             </div>
         </div>
-
 
         <div class="manage-items mt-4" id="sort-users">
             <script>
