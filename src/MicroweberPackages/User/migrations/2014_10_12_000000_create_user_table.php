@@ -1,8 +1,22 @@
 <?php
+namespace MicroweberPackages\User;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersTable
+class CreateUserTable extends Migration
 {
-    public function get()
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        app()->database_manager->build_tables($this->getSchema());
+    }
+
+    public function getSchema()
     {
         return [
             'users' => [

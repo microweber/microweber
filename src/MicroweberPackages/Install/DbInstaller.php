@@ -2,12 +2,11 @@
 
 namespace MicroweberPackages\Install;
 
-use Illuminate\Support\Facades\Artisan;
+use Illuminate\Database\Migrations\Migrator;
 use MicroweberPackages\Database\Utils as DbUtils;
 use Illuminate\Support\Facades\Schema as DbSchema;
 use Illuminate\Database\QueryException;
 use Cache;
-use QueryPath\Exception;
 
 class DbInstaller
 {
@@ -61,7 +60,11 @@ class DbInstaller
                             $migrationClassName = $this->getMigrationClassNameByFilename($migrationFile);
                             if ($migrationClassName) {
                                 $migrationFilePath = normalize_path($migrationPath  . DIRECTORY_SEPARATOR . $migrationFile, false);
+                              //  $migrationContent = file_get_contents($migrationFilePath);
                                 include_once $migrationFilePath;
+                                if (!class_exists($migrationClassName)) {
+                                    continue;
+                                }
                                 $instanceMigration = new $migrationClassName;
                                 if (method_exists($instanceMigration,'getSchema')) {
                                     $migrationSchema = $instanceMigration->getSchema();
@@ -70,6 +73,9 @@ class DbInstaller
                                     }
                                 }
                                 if (method_exists($instanceMigration,'up')) {
+                                    $repos[] = $instanceMigration;
+                                }
+                                if (method_exists($instanceMigration,'get')) {
                                     $repos[] = $instanceMigration;
                                 }
                             }
@@ -95,9 +101,9 @@ class DbInstaller
         	new Schema\MailTemplates()
         ];
 
-        $all = array_merge($system, $this->getVendorSchemas());
+      //  $all = array_merge($system, $this->getVendorSchemas());
 
-        return $all;
+        return $system;
     }
 
     public function createSchema()
@@ -130,6 +136,9 @@ class DbInstaller
         $builder = new DbUtils();
         $schemaArray = array();
 
+        $migrator = app()->migrator;
+        $out = $migrator->run(app()->migrator->paths());
+
         foreach ($exec as $data) {
 
             if (method_exists($data, 'get')) {
@@ -142,9 +151,8 @@ class DbInstaller
                 }
             }
 
-            // Creates the schema
+/*            // Creates the schema
             if (method_exists($data, 'up')) {
-
                 $classBaseNameMigraiton = class_basename($data);
                 $classBaseNameHashMigration = md5(serialize($data));
 
@@ -175,9 +183,10 @@ class DbInstaller
                         ]);
                     }
                 }
-            }
+            }*/
 
         }
+
     }
 
     public function seed()

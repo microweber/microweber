@@ -31,7 +31,7 @@ class UserManagerServiceProvider extends ServiceProvider
             return new UserManager();
         });
 
-        $this->loadMigrationsFrom(__DIR__ . '/database/migrations/');
+        $this->loadMigrationsFrom(__DIR__ . '/migrations/');
 
     }
 }
