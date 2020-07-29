@@ -88,8 +88,8 @@ mw.backup_import = {
 		'<div class="backup-import-modal-log-progress"></div>'+
 
 		'<div class="mw-backup-v2-import-buttons">'+
-		'<a class="button-cancel" onClick="mw.backup_import.close_import_modal();">Close</a>'+
-		'<button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-rounded button-start" onclick="mw.backup_import.start_import_button()" type="submit">Start Importing</button>'+
+		'<a class="btn btn-secondary button-cancel" onClick="mw.backup_import.close_import_modal();">Close</a>'+
+		'<button class="btn btn-primary button-start" onclick="mw.backup_import.start_import_button()" type="submit">Start Importing</button>'+
 		'</div>'+
 
 		'</div>'
