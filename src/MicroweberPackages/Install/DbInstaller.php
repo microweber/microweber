@@ -60,7 +60,8 @@ class DbInstaller
                         if (strpos( $migrationFile,'.php') !== false) {
                             $migrationClassName = $this->getMigrationClassNameByFilename($migrationFile);
                             if ($migrationClassName) {
-                                include_once $migrationPath  . DIRECTORY_SEPARATOR . $migrationFile;
+                                $migrationFilePath = normalize_path($migrationPath  . DIRECTORY_SEPARATOR . $migrationFile, false);
+                                include_once $migrationFilePath;
                                 $instanceMigration = new $migrationClassName;
                                 if (method_exists($instanceMigration,'getSchema')) {
                                     $migrationSchema = $instanceMigration->getSchema();
@@ -131,6 +132,16 @@ class DbInstaller
 
         foreach ($exec as $data) {
 
+            if (method_exists($data, 'get')) {
+                $schemaArray = $data->get();
+                if (is_array($schemaArray)) {
+                    foreach ($schemaArray as $table => $columns) {
+                        $this->log('Setting up table "' . $table . '"');
+                        $builder->build_table($table, $columns);
+                    }
+                }
+            }
+
             // Creates the schema
             if (method_exists($data, 'up')) {
 
@@ -162,16 +173,6 @@ class DbInstaller
                             'batch'=>1,
                             'hash'=>$classBaseNameHashMigration
                         ]);
-                    }
-                }
-            }
-
-            if (method_exists($data, 'get')) {
-                $schemaArray = $data->get();
-                if (is_array($schemaArray)) {
-                    foreach ($schemaArray as $table => $columns) {
-                        $this->log('Setting up table "' . $table . '"');
-                        $builder->build_table($table, $columns);
                     }
                 }
             }

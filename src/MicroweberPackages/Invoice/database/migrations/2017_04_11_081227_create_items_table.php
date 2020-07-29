@@ -18,7 +18,7 @@ class CreateItemsTable extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->string('unit')->nullable();
-            $table->unsignedBigInteger('price');
+            $table->decimal('price', 15, 2);
            // $table->integer('company_id')->unsigned()->nullable();
            // $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->integer('unit_id')->unsigned()->nullable();

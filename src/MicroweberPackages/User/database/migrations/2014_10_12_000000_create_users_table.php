@@ -1,24 +1,10 @@
 <?php
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersTable extends Migration
+class CreateUsersTable
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        return mw()->database_manager->build_tables($this->getSchema());
-    }
-
-    public function getSchema()
+    public function get()
     {
         return [
-
             'users' => [
                 'updated_at' => 'dateTime',
                 'created_at' => 'dateTime',

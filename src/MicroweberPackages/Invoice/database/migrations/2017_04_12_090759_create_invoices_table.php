@@ -26,11 +26,11 @@ class CreateInvoicesTable extends Migration
             $table->text('notes')->nullable();
             $table->string('discount_type')->nullable();
             $table->decimal('discount', 15, 2)->nullable();
-            $table->unsignedBigInteger('discount_val')->nullable();
-            $table->unsignedBigInteger('sub_total');
-            $table->unsignedBigInteger('total');
-            $table->unsignedBigInteger('tax');
-            $table->unsignedBigInteger('due_amount');
+            $table->decimal('discount_val', 15, 2)->nullable();
+            $table->decimal('sub_total', 15, 2);
+            $table->decimal('total', 15, 2);
+            $table->decimal('tax', 15, 2);
+            $table->decimal('due_amount', 15, 2);
             $table->boolean('sent')->default(false);
             $table->boolean('viewed')->default(false);
             $table->string('unique_hash')->nullable();

@@ -66,6 +66,7 @@
                     $(this).find('.js-invoice-item-price-precision').val(itemPricePrecision);
                     $(this).find('.js-invoice-item-quantity').val(itemQuantity);
                     $(this).find('.js-invoice-item-price-total').html(parseFloat(itemTotal).toFixed(2));
+                    $(this).find('.js-invoice-item-total-precision').val(parseFloat(itemTotal).toFixed(2));
                 });
 
                 this.total = itemsTotal;
@@ -100,6 +101,8 @@
                 price = parseFloat(price).toFixed(2);
                 quantity = parseInt(quantity);
 
+                var totalPrice = (price * quantity);
+
                 return '<tr class="js-invoice-item js-invoice-item-'+itemId+'">' +
                     '<td>' +
                     '    <input type="text" value="' + name + '" class="form-control js-invoice-item-input" name="items[' + itemId + '][name]" placeholder="Type or click to select an item">' +
@@ -113,6 +116,7 @@
                     '<td>' +
                     '    <input type="text" class="form-control js-invoice-item-input js-invoice-item-price" value="' + price + '">' +
                     '    <input type="hidden" class="js-invoice-item-price-precision" name="items[' + itemId + '][price]" value="' + price + '">' +
+                    '    <input type="hidden" class="js-invoice-item-total-precision" name="items[' + itemId + '][total]" value="' + totalPrice + '">' +
                     '</td>' +
                     '<td>' +
                     '<span class="js-invoice-item-price-total">0.00</span>' +
@@ -328,7 +332,7 @@
             <div class="col-md-12" style="margin-top:35px;">
                 <label>Invoice Template:</label>
                 <select class="form-control" name="invoice_template_id">
-                    <option value="0">Simple</option>
+                    <option value="1">Simple</option>
                 </select>
             </div>
 
