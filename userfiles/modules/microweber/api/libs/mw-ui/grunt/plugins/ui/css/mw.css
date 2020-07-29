@@ -312,7 +312,7 @@ header {
 .card-order-holder .item-image {
   max-width: 100px; }
 .card-order-holder .item-id {
-  max-width: 60px; }
+  max-width: 80px; }
 .card-order-holder .item-title {
   min-width: 250px; }
 .card-order-holder .item-amount {
@@ -361,7 +361,7 @@ header {
     text-align: center; } }
 
 .card-message-holder .item-id {
-  max-width: 60px; }
+  max-width: 80px; }
 @media screen and (max-width: 575px) {
   .card-message-holder .item-id {
     max-width: none; } }
@@ -495,7 +495,6 @@ header {
   padding: 10px; }
 
 .stats-view .visitors {
-  margin: 0 7px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   padding: 10px 0; }
@@ -812,16 +811,6 @@ header {
 .stats-view .mw-ui-btn-nav-tabs .mw-ui-btn.active {
   background: #2b2b2b;
   color: #999; }
-
-.stats-view {
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-flex-flow: row wrap;
-  justify-content: space-around;
-  margin: 0 -7px 25px -7px; }
 
 .stats-view .slimScrollBar {
   right: 10px !important; }

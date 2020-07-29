@@ -216,7 +216,7 @@
                                 </div>
 
                                 <div class="row align-items-center">
-                                    <div class="col" style="max-width:26px;">
+                                    <div class="col" style="max-width:55px;">
                                         <i class="mdi mdi-email text-primary mdi-24px"></i>
                                     </div>
                                     <div class="col-10 col-sm item-id"><span class="text-primary">#4</span></div>

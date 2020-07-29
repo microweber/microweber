@@ -24,8 +24,8 @@
 
 
 <div class="stats-view-holder hidden">
-    <div class="stats-view">
-        <div class="mw-ui-flex-item">
+    <div class="stats-view row">
+        <div class="col-lg-4 mb-3">
             <script>
                 $(document).ready(function () {
                     mw.tabs({
@@ -35,12 +35,10 @@
                 });
             </script>
 
-            <div class="demobox card style-1 mb-3" id="demotabsnav">
-                <div class="heading card-header">
-                    <div><?php _e("Referrers"); ?></div>
-                </div>
+            <div class="card style-1 h-100" id="demotabsnav">
+                <div class="card-header"><?php _e("Referrers"); ?></div>
 
-                <div class="card-body sources has-tabs">
+                <div class="card-body overflow-auto sources has-tabs">
                     <div class="" style="">
                         <module type="site_stats/admin" view="referrers_list" period="<?php print $period; ?>"/>
                     </div>
@@ -54,39 +52,39 @@
             </div>
         </div>
 
-        <div class="mw-ui-flex-item">
-            <div class="heading  mw-ui-box">
-                <?php _e('Content'); ?>
-            </div>
-            <div class="contents mw-ui-box">
-                <module type="site_stats/admin" view="content_list" period="<?php print $period; ?>"/>
-            </div>
-        </div>
-
-        <div class="mw-ui-flex-item">
-            <div class="heading  mw-ui-box">
-                <?php _e('Visitors'); ?>
-            </div>
-            <div class="visitors mw-ui-box">
-                <module type="site_stats/admin" view="visitors_list" period="<?php print $period; ?>"/>
+        <div class="col-lg-4 mb-3">
+            <div class="card style-1 h-100">
+                <div class="card-header"><?php _e('Content'); ?></div>
+                <div class="card-body overflow-auto contents">
+                    <module type="site_stats/admin" view="content_list" period="<?php print $period; ?>"/>
+                </div>
             </div>
         </div>
 
-        <div class="mw-ui-flex-item">
-            <div class="heading  mw-ui-box">
-                <?php _e('Locations'); ?>
-            </div>
-            <div class="locations mw-ui-box">
-                <module type="site_stats/admin2" view="locations_list" period="<?php print $period; ?>"/>
+        <div class="col-lg-4 mb-3">
+            <div class="card style-1 h-100">
+                <div class="card-header"><?php _e('Visitors'); ?></div>
+                <div class="card-body overflow-auto visitors">
+                    <module type="site_stats/admin" view="visitors_list" period="<?php print $period; ?>"/>
+                </div>
             </div>
         </div>
 
-        <div class="mw-ui-flex-item">
-            <div class="heading  mw-ui-box">
-                <?php _e('Browser language'); ?>
+        <div class="col-lg-6 mb-3">
+            <div class="card style-1 h-100">
+                <div class="card-header"><?php _e('Locations'); ?></div>
+                <div class="card-body overflow-auto locations">
+                    <module type="site_stats/admin2" view="locations_list" period="<?php print $period; ?>"/>
+                </div>
             </div>
-            <div class="locations mw-ui-box">
-                <module type="site_stats/admin2" view="languages_list" period="<?php print $period; ?>"/>
+        </div>
+
+        <div class="col-lg-6 mb-3">
+            <div class="card style-1 h-100">
+                <div class="card-header"><?php _e('Browser language'); ?></div>
+                <div class="card-body overflow-auto locations">
+                    <module type="site_stats/admin2" view="languages_list" period="<?php print $period; ?>"/>
+                </div>
             </div>
         </div>
     </div>
