@@ -137,7 +137,13 @@ class DbInstaller
         $schemaArray = array();
 
         $migrator = app()->migrator;
-        $out = $migrator->run(app()->migrator->paths());
+        foreach (app()->migrator->paths() as $path) {
+            try {
+                $out = $migrator->run([$path]);
+            } catch (\Exception $e) {
+                continue;
+            }
+        }
 
         foreach ($exec as $data) {
 
