@@ -308,15 +308,17 @@
                                 </div>
                             </div>
 
-                        {{--    <div class="col-md-12" style="text-align: right">
+                        <div class="col-md-12" style="text-align: right">
                                 <div class="form-group">
-                                    <label>Tax:</label>
+                                    <label>Taxes:</label>
                                     <br/>
+                                    <select class="form-control" name="tax_ids" multiple>
                                     @foreach($taxTypes as $taxType)
-                                        <b>{{$taxType->name}} - {{$taxType->percent }} % </b><br/>
+                                        <option value="{{$taxType->id}}">{{$taxType->name}} - {{$taxType->percent }} % </option>
                                     @endforeach
+                                    </select>
                                 </div>
-                            </div>--}}
+                            </div>
 
                             <div class="form-group col-md-12">
                                 <label>Total:</label>
