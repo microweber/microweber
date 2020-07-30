@@ -42,7 +42,6 @@
     "fruitcake/laravel-cors": "^2.0@dev",
     "wikimedia/composer-merge-plugin": "^1.5@dev",
     "rtconner/laravel-tagging": "^4.0",
-    "spatie/laravel-medialibrary": "*",
     "spatie/laravel-permission": "*",
     "barryvdh/laravel-dompdf": "*"
   },

@@ -4,13 +4,9 @@ namespace MicroweberPackages\Invoice;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Invoice\User;
 use MicroweberPackages\Invoice\CompanySetting;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-class Company extends Model implements HasMedia
+class Company extends Model
 {
-    use HasMediaTrait;
-
     protected $fillable = ['name', 'logo', 'unique_hash'];
 
     protected $appends=['logo'];

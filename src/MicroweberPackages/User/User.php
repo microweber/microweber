@@ -15,14 +15,12 @@ use MicroweberPackages\Invoice\Expense;
 use MicroweberPackages\Invoice\Company;
 use MicroweberPackages\Invoice\Notifications\MailResetPasswordNotification;
 use Spatie\Permission\Traits\HasRoles;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 use carbon\carbon;
 
-class User extends Authenticatable implements HasMedia
+class User extends Authenticatable
 {
-    use HasRoles, Notifiable, HasMediaTrait;
+    use HasRoles, Notifiable;
 
     // use the trait
   //  use RevisionableTrait;
