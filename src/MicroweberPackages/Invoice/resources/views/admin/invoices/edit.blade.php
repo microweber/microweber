@@ -332,7 +332,9 @@
             <div class="col-md-12" style="margin-top:35px;">
                 <label>Invoice Template:</label>
                 <select class="form-control" name="invoice_template_id">
-                    <option value="1">Simple</option>
+                    @foreach($invoiceTemplates as $invoiceTemplate):
+                    <option value="{{ $invoiceTemplate->id }}">{{ $invoiceTemplate->name }}</option>
+                        @endforeach
                 </select>
             </div>
 
