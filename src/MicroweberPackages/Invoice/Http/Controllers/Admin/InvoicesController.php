@@ -105,7 +105,7 @@ class InvoicesController extends AdminController
             'customers' => Customer::all(),
             'nextInvoiceNumberAttribute' => $nextInvoiceNumberAttribute,
             'nextInvoiceNumber' => $invoice_prefix.'-'.$nextInvoiceNumber,
-            'items' => Item::with('taxes')->whereCompany($request->header('company'))->get(),
+            'items' => Item::with('taxes')->get(), // ->whereCompany($request->header('company')
             'invoiceTemplates' => InvoiceTemplate::all(),
             'tax_per_item' => $tax_per_item,
             'discount_per_item' => $discount_per_item,

@@ -101,27 +101,25 @@ class Customer extends Model
         ];
     }
 
-    public function delete($id)
+    public function delete()
     {
-        $customer = self::find($id);
-
-        if ($customer->estimates()->exists()) {
-            $customer->estimates()->delete();
+        if ($this->estimates()->exists()) {
+            $this->estimates()->delete();
         }
 
-        if ($customer->invoices()->exists()) {
-            $customer->invoices()->delete();
+        if ($this->invoices()->exists()) {
+            $this->invoices()->delete();
         }
 
-        if ($customer->payments()->exists()) {
-            $customer->payments()->delete();
+        if ($this->payments()->exists()) {
+            $this->payments()->delete();
         }
 
-        if ($customer->addresses()->exists()) {
-            $customer->addresses()->delete();
+        if ($this->addresses()->exists()) {
+            $this->addresses()->delete();
         }
 
-        $customer->delete();
+        $this->delete();
 
         return true;
     }

@@ -16,7 +16,7 @@ class InvoiceItem extends Model
         'name',
         'item_id',
         'description',
-        'company_id',
+     //   'company_id',
         'quantity',
         'price',
         'discount_type',
@@ -50,10 +50,10 @@ class InvoiceItem extends Model
         return $this->hasMany(Tax::class);
     }
 
-    public function scopeWhereCompany($query, $company_id)
+  /*  public function scopeWhereCompany($query, $company_id)
     {
         $query->where('company_id', $company_id);
-    }
+    }*/
 
     public function scopeInvoicesBetween($query, $start, $end)
     {

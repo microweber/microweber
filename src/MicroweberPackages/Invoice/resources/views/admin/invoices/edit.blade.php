@@ -215,7 +215,7 @@
                         <div class="invoice-select-customer-box" style="text-align: center">
                             <button type="button" class="well-box js-invoice-select-customer" style="line-height:85px;font-size:20px;">
                                 <i class="fa fa-user"></i> &nbsp;
-                                @if($invoice->customer)
+                                @if(isset($invoice) && $invoice->customer)
                                     {{$invoice->customer->first_name}}
                                     {{$invoice->customer->last_name}}
                                 @else

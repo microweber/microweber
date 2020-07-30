@@ -11,7 +11,7 @@ class Item extends Model
         'name',
         'unit',
         'price',
-        'company_id',
+        // 'company_id',
         'description'
     ];
 
@@ -81,11 +81,11 @@ class Item extends Model
     {
         return $this->hasMany(Tax::class);
     }
-
+/*
     public function scopeWhereCompany($query, $company_id)
     {
         $query->where('items.company_id', $company_id);
-    }
+    }*/
 
     public function invoiceItems()
     {
