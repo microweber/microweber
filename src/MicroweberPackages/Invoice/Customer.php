@@ -100,4 +100,29 @@ class Customer extends Model
             2 => 'In-Progress'
         ];
     }
+
+    public function delete($id)
+    {
+        $customer = self::find($id);
+
+        if ($customer->estimates()->exists()) {
+            $customer->estimates()->delete();
+        }
+
+        if ($customer->invoices()->exists()) {
+            $customer->invoices()->delete();
+        }
+
+        if ($customer->payments()->exists()) {
+            $customer->payments()->delete();
+        }
+
+        if ($customer->addresses()->exists()) {
+            $customer->addresses()->delete();
+        }
+
+        $customer->delete();
+
+        return true;
+    }
 }
