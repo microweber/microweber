@@ -106,7 +106,7 @@
                     '</td>' +
                     '<td>' +
                     '    <input type="text" name="items[' + itemId + '][price]" class="form-control js-invoice-item-input js-invoice-item-price-input" value="' + price + '">' +
-                    '    <input type="text" class="js-invoice-item-price-total-input" name="items[' + itemId + '][total]" value="' + totalPrice + '">' +
+                    '    <input type="hidden" class="js-invoice-item-price-total-input" name="items[' + itemId + '][total]" value="' + totalPrice + '">' +
                     '</td>' +
                     '<td>' +
                     '<span class="js-invoice-item-price-total">0.00</span>' +
@@ -329,7 +329,7 @@
             </div>
 
             <input type="hidden" value="1" name="tax" />
-            <input type="text" value="@if(isset($invoice) && $invoice) {{ $invoice->invoice_number }}@else{{$nextInvoiceNumber }}@endif" name="invoice_number" />
+            <input type="hidden" value="@if(isset($invoice) && $invoice) {{ $invoice->invoice_number }}@else{{$nextInvoiceNumber }}@endif" name="invoice_number" />
 
             <div class="col-md-12" style="margin-top:15px;">
                 <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save Invoice</button>
