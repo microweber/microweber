@@ -51,49 +51,40 @@
                 var itemsTotal = 0;
                 $(".js-invoice-item").each(function(i) {
 
-                    var itemPrice = $(this).find('.js-invoice-item-price').val();
-                    var itemPricePrecision = $(this).find('.js-invoice-item-price').val();
-                    var itemQuantity = $(this).find('.js-invoice-item-quantity').val();
+                    var itemPrice = $(this).find('.js-invoice-item-price-input').val();
+                    var itemQuantity = $(this).find('.js-invoice-item-quantity-input').val();
 
                     itemPrice = parseFloat(itemPrice);
                     itemQuantity = parseInt(itemQuantity);
-                    itemPricePrecision = parseFloat(itemPricePrecision) * 100;
 
                     itemsTotal = itemsTotal + (itemPrice * itemQuantity);
                     var itemTotal = (itemPrice * itemQuantity);
 
-                    $(this).find('.js-invoice-item-price').val(parseFloat(itemPrice).toFixed(2));
-                    $(this).find('.js-invoice-item-price-precision').val(itemPricePrecision);
-                    $(this).find('.js-invoice-item-quantity').val(itemQuantity);
-                    $(this).find('.js-invoice-item-price-total').html(parseFloat(itemTotal).toFixed(2));
-                    $(this).find('.js-invoice-item-total-precision').val(parseFloat(itemTotal).toFixed(2));
+                    $(this).find('.js-invoice-item-price-input').val(itemPrice.toFixed(2));
+                    $(this).find('.js-invoice-item-quantity-input').val(itemQuantity);
+                    $(this).find('.js-invoice-item-price-total-input').val(itemTotal.toFixed(2));
+                    $(this).find('.js-invoice-item-price-total').html(itemTotal.toFixed(2));
                 });
 
                 this.total = itemsTotal;
                 this.subTotal = itemsTotal;
 
                 // Calculate discount
-                this.discountVal = $('.js-invoice-discount-val').val();
-                this.discountType = $('.js-invoice-discount-type').val();
+                this.discountVal = parseFloat($('.js-invoice-discount-val-input').val());
+                this.discountType = parseFloat($('.js-invoice-discount-type-input').val());
 
-                this.discountVal = parseFloat(this.discountVal);
-
-                var discountValPrecision = (this.discountVal * 100);
 
                 if (this.discountType == 'fixed') {
-                    this.total = (this.total - parseFloat(this.discountVal));
+                    this.total = (this.total - this.discountVal);
                 }
 
                 if (this.discountType == 'precentage') {
                     this.total = (this.total * ((100 - this.discountVal) / 100 ));
                 }
 
-                $('.js-invoice-discount-val').val(parseFloat(this.discountVal).toFixed(2));
-                $('.js-invoice-discount-val-precision').val(discountValPrecision);
-                $('.js-invoice-total-precision').val(parseFloat(this.total) * 100);
-                $('.js-invoice-total').val(parseFloat(this.total).toFixed(2));
-                $('.js-invoice-sub-total-precision').val(parseFloat(this.subTotal) * 100);
-                $('.js-invoice-sub-total').val(parseFloat(this.subTotal).toFixed(2));
+                $('.js-invoice-discount-val-input').val(this.discountVal.toFixed(2));
+                $('.js-invoice-total-input').val(this.total.toFixed(2));
+                $('.js-invoice-sub-total-input').val(this.subTotal.toFixed(2));
             }
 
             invoiceItemTemplate(itemId, name, description, price, quantity) {
@@ -111,12 +102,11 @@
                     '</textarea>' +
                     '</td>' +
                     '<td>' +
-                    '    <input type="text" class="form-control js-invoice-item-input js-invoice-item-quantity" name="items[' + itemId + '][quantity]" value="' + quantity + '">' +
+                    '    <input type="text" class="form-control js-invoice-item-input js-invoice-item-quantity-input" name="items[' + itemId + '][quantity]" value="' + quantity + '">' +
                     '</td>' +
                     '<td>' +
-                    '    <input type="text" class="form-control js-invoice-item-input js-invoice-item-price" value="' + price + '">' +
-                    '    <input type="hidden" class="js-invoice-item-price-precision" name="items[' + itemId + '][price]" value="' + price + '">' +
-                    '    <input type="hidden" class="js-invoice-item-total-precision" name="items[' + itemId + '][total]" value="' + totalPrice + '">' +
+                    '    <input type="text" name="items[' + itemId + '][price]" class="form-control js-invoice-item-input js-invoice-item-price-input" value="' + price + '">' +
+                    '    <input type="text" class="js-invoice-item-price-total-input" name="items[' + itemId + '][total]" value="' + totalPrice + '">' +
                     '</td>' +
                     '<td>' +
                     '<span class="js-invoice-item-price-total">0.00</span>' +
@@ -135,7 +125,7 @@
                     invoice.addNewItem({
                         name: '{{ $invoiceItem->name }}',
                         description: '{{ $invoiceItem->description }}',
-                        price: {{ ($invoiceItem->price/100) }},
+                        price: {{ $invoiceItem->price }},
                         quantity: {{ $invoiceItem->quantity }}
                     });
                 @endforeach
@@ -288,19 +278,18 @@
 
                             <div class="form-group col-md-12">
                                 <label>Sub total:</label>
-                                <input type="text" disabled="disabled" class="form-control js-invoice-sub-total" value="0.00"/>
+                                <input type="text" name="sub_total" class="form-control js-invoice-sub-total-input" value="0.00"/>
                             </div>
 
                             <div class="container">
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label>Discount:</label>
-                                        <input type="text" class="form-control js-invoice-discount-val" onchange="invoice.calculate();" value="@if(isset($invoice) && $invoice){{ ($invoice->discount_val/100) }}@endif" />
-                                        <input type="hidden" class="js-invoice-discount-val-precision" onchange="invoice.calculate();" name="discount_val"/>
+                                        <input type="text" class="form-control js-invoice-discount-val-input" onchange="invoice.calculate();" name="discount_val" value="@if(isset($invoice) && $invoice){{ ($invoice->discount_val/100) }}@endif" />
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label>Discount Type:</label>
-                                        <select class="form-control js-invoice-discount-type" onchange="invoice.calculate();" name="discount">
+                                        <select class="form-control js-invoice-discount-type-input" onchange="invoice.calculate();" name="discount">
                                             <option @if(isset($invoice) && $invoice && $invoice->discount == 'fixed') selected="selected" @endif value="fixed">Fixed</option>
                                             <option @if(isset($invoice) && $invoice && $invoice->discount == 'precentage') selected="selected" @endif value="precentage">Precentage</option>
                                         </select>
@@ -322,8 +311,7 @@
 
                             <div class="form-group col-md-12">
                                 <label>Total:</label>
-                                <input type="text" disabled="disabled" class="form-control js-invoice-total"
-                                       value="0.00"/>
+                                <input type="text" name="total" class="form-control js-invoice-total-input" value="0.00"/>
                             </div>
 
                         </div>
@@ -341,9 +329,7 @@
             </div>
 
             <input type="hidden" value="1" name="tax" />
-            <input type="hidden" value="0.00" class="js-invoice-total-precision" name="total"/>
-            <input type="hidden" value="0.00" class="js-invoice-sub-total-precision" name="sub_total"/>
-            <input type="hidden" value="@if(isset($invoice) && $invoice) {{ $invoice->invoice_number }}@else{{$nextInvoiceNumber }}@endif" name="invoice_number" />
+            <input type="text" value="@if(isset($invoice) && $invoice) {{ $invoice->invoice_number }}@else{{$nextInvoiceNumber }}@endif" name="invoice_number" />
 
             <div class="col-md-12" style="margin-top:15px;">
                 <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save Invoice</button>

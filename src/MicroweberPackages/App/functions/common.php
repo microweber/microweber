@@ -633,8 +633,6 @@ function str_replace_bulk($search, $replace, $subject, &$count = null)
  */
 function format_money_pdf($money, $currency = null)
 {
-    $money = $money / 100;
-
     if (!$currency) {
         $currency = \MicroweberPackages\Invoice\Currency::findOrFail(\MicroweberPackages\Invoice\CompanySetting::getSetting('currency', 1));
     }

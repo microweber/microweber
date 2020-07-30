@@ -271,8 +271,9 @@ class InvoicesController extends AdminController
     {
         $invoice_number = explode("-",$request->invoice_number);
         $number_attributes['invoice_number'] = $invoice_number[0].'-'.sprintf('%06d', intval($invoice_number[1]));
+        $number_attributes['invoice_number'] = trim($number_attributes['invoice_number']);
 
-        Validator::make($number_attributes, [
+            Validator::make($number_attributes, [
             'invoice_number' => 'required|unique:invoices,invoice_number'.','.$id
         ])->validate();
 
