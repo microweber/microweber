@@ -149,58 +149,25 @@ $moderation_is_required = get_option('require_moderation', 'comments') == 'y';
 
 
 <div class="comment-item-holder-inner" id="comment-item-inner-<?php print $content['id'] ?>">
-    <?php if (!isset($params['no_post_head'])): ?>
+    <?php
+    if (is_array($postComments)): ?>
+        <?php foreach ($postComments as $i => $comment) : ?>
 
-
-        <div class="order-data">
-
-            <div class="article-image">
-                <?php $image = get_picture($content['id']); ?>
-
-                <?php if (isset($image) and $image != ''): ?>
-                    <span class="comment-thumbnail-tooltip" style="background-image: url(<?php print thumbnail($image, 120, 120); ?>)"></span>
-                <?php else: ?>
-                    <span class="comment-thumbnail-tooltip" style="background-image: url(<?php print thumbnail('', 120, 120); ?>)"></span>
-                <?php endif; ?>
-            </div>
-
-            <div class="post-name">
-                <a href="<?php print content_link($content['id']); ?>"
-                   target="_blank"><?php print content_title($content['id']); ?></a>
-            </div>
-
-            <div class="last-comment-date"><?php print mw()->format->ago($comments[0]['created_at']); ?></div>
-        </div>
-
-    <?php endif; ?>
-
-    <div class="order-data-more mw-accordion-content">
-        <div>
-            <p class="title"><?php print _e('Last comments:'); ?></p>
-            <hr/>
             <?php
-            if (is_array($postComments)) {
-                foreach ($postComments as $i => $comment) { ?>
+            $last_item_param = '';
+            if (!isset($postComments[$i + 1])) {
+                $last_item_param = ' show-reply-form=true ';
+            }
+            ?>
 
-                    <?php
-                    $last_item_param = '';
-                    if (!isset($postComments[$i + 1])) {
-                        $last_item_param = ' show-reply-form=true ';
-                    }
-                    ?>
+            <module type="comments/comment_item" id="mw_comments_item_<?php print $comment['id'] ?>" comment_id="<?php print $comment['id'] ?>" <?php print $last_item_param ?> />
 
-                    <module type="comments/comment_item" id="mw_comments_item_<?php print $comment['id'] ?>" comment_id="<?php print $comment['id'] ?>" <?php print $last_item_param ?> />
-
-                <?php } ?>
-            <?php } ?>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <div class="icon-title">
+            <i class="mdi mdi-comment-account"></i> <h5>You don't have any comments</h5>
         </div>
-
-
-        <div class="clearfix"></div>
-    </div>
-
-    <span class="mw-icon-close new-close tip" data-tip="<?php _e("Close"); ?>" data-tipposition="top-center"></span>
-    <div class="clearfix"></div>
+    <?php endif; ?>
 </div>
 
 
