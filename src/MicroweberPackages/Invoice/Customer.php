@@ -92,6 +92,33 @@ class Customer extends Model
         return $query->where('phone', 'LIKE', '%'.$phone.'%');
     }
 
+    public function scopeApplyFilters($query, array $filters)
+    {
+        $filters = collect($filters);
+
+        if ($filters->get('search')) {
+            $query->whereSearch($filters->get('search'));
+        }
+
+        if ($filters->get('contact_name')) {
+            $query->whereContactName($filters->get('contact_name'));
+        }
+
+        if ($filters->get('display_name')) {
+            $query->whereDisplayName($filters->get('display_name'));
+        }
+
+        if ($filters->get('phone')) {
+            $query->wherePhone($filters->get('phone'));
+        }
+
+        if ($filters->get('orderByField') || $filters->get('orderBy')) {
+            $field = $filters->get('orderByField') ? $filters->get('orderByField') : 'name';
+            $orderBy = $filters->get('orderBy') ? $filters->get('orderBy') : 'asc';
+            $query->whereOrder($field, $orderBy);
+        }
+    }
+
     public function activeOptions()
     {
         return [

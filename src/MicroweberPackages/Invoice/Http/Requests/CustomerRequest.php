@@ -28,7 +28,7 @@ class CustomerRequest extends FormRequest
                     'first_name' => 'required',
                     'addresses.*.address_street_1' => 'max:255',
                     'addresses.*.address_street_2' => 'max:255',
-                    'email' => 'email|nullable|unique:users,email',
+                    'email' => 'email|nullable|unique:customers,email',
                 ];
                 break;
             case 'PUT':

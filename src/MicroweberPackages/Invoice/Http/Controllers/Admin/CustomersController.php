@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\App\Http\Controllers\AdminController;
 use MicroweberPackages\Invoice\Conversation;
+use MicroweberPackages\Invoice\Customer;
 use MicroweberPackages\Invoice\Group;
 use MicroweberPackages\Invoice\Http\Requests;
 use MicroweberPackages\Invoice\Notifications\CustomerAdded;
@@ -26,8 +27,7 @@ class CustomersController extends AdminController
     {
         $limit = $request->has('limit') ? $request->limit : 10;
 
-        $customers = User::customer()
-            ->applyFilters($request->only([
+        $customers = Customer::applyFilters($request->only([
                 'search',
                 'contact_name',
                 'display_name',
@@ -35,12 +35,12 @@ class CustomersController extends AdminController
                 'orderByField',
                 'orderBy'
             ]))
-            ->whereCompany($request->header('company'))
-            ->select('users.*',
+            //->whereCompany($request->header('company'))
+            ->select('customers.*',
                 DB::raw('sum(due_amount) as due_amount')
             )
-            ->groupBy('users.id')
-            ->leftJoin('invoices', 'users.id', '=', 'invoices.user_id')
+            ->groupBy('customers.id')
+            ->leftJoin('invoices', 'customers.id', '=', 'invoices.customer_id')
             ->paginate($limit);
 
         $siteData = [
@@ -50,6 +50,8 @@ class CustomersController extends AdminController
         return $this->view('invoice::admin.customers.index', $siteData);
     }
 
+
+
     /**
      * Store a newly created resource in storage.
      *
@@ -58,20 +60,20 @@ class CustomersController extends AdminController
      */
     public function store(Requests\CustomerRequest $request)
     {
-        $verifyEmail = User::where('email', $request->email)->first();
+        $verifyEmail = Customer::where('email', $request->email)->first();
 
-        $customer = new User();
+        $customer = new Customer();
         //$customer->name = $request->name;
         $customer->currency_id = $request->currency_id;
         $customer->company_id = $request->header('company');
         $customer->email = $request->email;
         $customer->phone = $request->phone;
-        $customer->company_name = $request->company_name;
-        $customer->contact_name = $request->contact_name;
+     //  $customer->company_name = $request->company_name;
+    //    $customer->contact_name = $request->contact_name;
      //   $customer->website = $request->website;
-        $customer->enable_portal = $request->enable_portal;
-        $customer->role = 'customer';
-        $customer->password = Hash::make($request->password);
+     //   $customer->enable_portal = $request->enable_portal;
+      //  $customer->role = 'customer';
+       // $customer->password = Hash::make($request->password);
         $customer->save();
 
         if ($request->addresses) {
@@ -86,13 +88,13 @@ class CustomersController extends AdminController
                 $newAddress->zip = $address["zip"];
                 $newAddress->phone = $address["phone"];
                 $newAddress->type = $address["type"];
-                $newAddress->user_id = $customer->id;
+                $newAddress->customer_id = $customer->id;
                 $newAddress->save();
                 $customer->addresses()->save($newAddress);
             }
         }
 
-        $customer = User::with('billingAddress', 'shippingAddress')->find($customer->id);
+        $customer = Customer::with('billingAddress', 'shippingAddress')->find($customer->id);
 
         return response()->json([
             'customer' => $customer,
@@ -120,6 +122,18 @@ class CustomersController extends AdminController
         ]);
     }
 
+
+    public function create()
+    {
+        $currencies = Currency::all();
+
+        return $this->view('invoice::admin.customers.edit',[
+            'customer' => false,
+            'currencies' => $currencies,
+            'currency' => false
+        ]);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -128,7 +142,7 @@ class CustomersController extends AdminController
      */
     public function edit($id)
     {
-        $customer = User::with('billingAddress', 'shippingAddress')->findOrFail($id);
+        $customer = Customer::with('billingAddress', 'shippingAddress')->findOrFail($id);
         $currency = $customer->currency;
         $currencies = Currency::all();
 
@@ -148,10 +162,10 @@ class CustomersController extends AdminController
      */
     public function update($id, Requests\CustomerRequest $request)
     {
-        $customer = User::find($id);
+        $customer = Customer::find($id);
 
         if ($request->email != null) {
-            $verifyEmail = User::where('email', $request->email)->first();
+            $verifyEmail = Customer::where('email', $request->email)->first();
 
             if ($verifyEmail) {
                 if ($verifyEmail->id !== $customer->id) {
@@ -213,7 +227,7 @@ class CustomersController extends AdminController
      */
     public function destroy($id)
     {
-        User::deleteCustomer($id);
+        Customer::find($id)->delete();
 
         return response()->json([
             'success' => true
@@ -230,7 +244,7 @@ class CustomersController extends AdminController
     public function delete(Request $request)
     {
         foreach ($request->id as $id) {
-            User::deleteCustomer($id);
+            Customer::find($id)->delete();
         }
 
         return response()->json([
