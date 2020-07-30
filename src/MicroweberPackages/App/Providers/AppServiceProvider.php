@@ -18,6 +18,7 @@ use MicroweberPackages\Event\EventManagerServiceProvider;
 use MicroweberPackages\Form\FormsManagerServiceProvider;
 use MicroweberPackages\Helper\Format;
 use MicroweberPackages\Helper\HelpersServiceProvider;
+use MicroweberPackages\Install\MicroweberMigrator;
 use MicroweberPackages\Media\Media;
 use MicroweberPackages\Media\MediaManagerServiceProvider;
 use MicroweberPackages\Menu\MenuManagerServiceProvider;
@@ -203,6 +204,12 @@ class AppServiceProvider extends ServiceProvider {
 
     protected function registerLaravelProviders()
     {
+
+        $this->app->singleton('mw_migrator', function ($app) {
+            $repository = $app['migration.repository'];
+            return new MicroweberMigrator($repository, $app['db'], $app['files'], $app['events'], $app);
+        });
+
         foreach ($this->laravel_providers as $provider) {
             $this->app->register($provider);
         }

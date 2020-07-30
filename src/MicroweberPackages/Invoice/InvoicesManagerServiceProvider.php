@@ -33,6 +33,6 @@ class InvoicesManagerServiceProvider extends ServiceProvider
         View::addNamespace('invoice', __DIR__.'/resources/views');
 
         $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
-        $this->loadMigrationsFrom(__DIR__ . '/database/migrations/');
+        $this->loadMigrationsFrom(__DIR__ . '/database/');
     }
 }

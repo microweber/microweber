@@ -136,17 +136,9 @@ class DbInstaller
         $builder = new DbUtils();
         $schemaArray = array();
 
-        $migrator = app()->migrator;
-        foreach (app()->migrator->paths() as $path) {
-            try {
-                $out = $migrator->run([$path]);
-            } catch (\Exception $e) {
-                continue;
-            }
-        }
+        $migrator = app()->mw_migrator->run(app()->migrator->paths());
 
         foreach ($exec as $data) {
-
             if (method_exists($data, 'get')) {
                 $schemaArray = $data->get();
                 if (is_array($schemaArray)) {
@@ -156,41 +148,6 @@ class DbInstaller
                     }
                 }
             }
-
-/*            // Creates the schema
-            if (method_exists($data, 'up')) {
-                $classBaseNameMigraiton = class_basename($data);
-                $classBaseNameHashMigration = md5(serialize($data));
-
-                $findMigration = db_get('migrations', [
-                    'single'=>1,
-                    'hash'=>$classBaseNameHashMigration,
-                    'migration'=> $classBaseNameMigraiton,
-                ]);
-
-                if ($findMigration) {
-                    continue;
-                }
-
-                try {
-                    $this->log('Setting up schema ' . get_class($data));
-                    $data->up();
-                    db_save('migrations',[
-                        'migration'=> $classBaseNameMigraiton,
-                        'batch'=>1,
-                        'hash'=>$classBaseNameHashMigration
-                    ]);
-                } catch (\Exception $e) {
-                    if(strpos($e->getMessage(), 'already exists') !==false) {
-                        db_save('migrations',[
-                            'migration'=> $classBaseNameMigraiton,
-                            'batch'=>1,
-                            'hash'=>$classBaseNameHashMigration
-                        ]);
-                    }
-                }
-            }*/
-
         }
 
     }
