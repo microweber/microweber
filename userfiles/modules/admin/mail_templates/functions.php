@@ -1,11 +1,11 @@
 <?php
-$default_mail_templates = normalize_path(MW_PATH . 'Views/emails');
 
 function get_mail_template_types()
 {
 
     $email_template_types = array();
 
+    $default_mail_templates = normalize_path(dirname(MW_PATH) . '/View/emails');
     $default_mail_templates = scandir($default_mail_templates);
 
     foreach ($default_mail_templates as $template_file) {
@@ -26,7 +26,7 @@ function get_default_mail_template_by_type($type = '')
     foreach (get_default_mail_templates() as $template) {
         if ($template['type'] == $type) {
 
-            $template['message'] = file_get_contents(normalize_path(MW_PATH . 'Views/emails') . $template['id']);
+            $template['message'] = file_get_contents(normalize_path(dirname(MW_PATH) . '/View/emails') . $template['id']);
 
             return $template;
         }
@@ -159,7 +159,7 @@ function get_mail_template_by_id($id, $type = false)
         if ($template['id'] == $id) {
 
             if (isset($template['is_default'])) {
-                $template['message'] = file_get_contents(normalize_path(MW_PATH . 'Views/emails') . $template['id']);
+                $template['message'] = file_get_contents(normalize_path(dirname(MW_PATH) . '/View/emails') . $template['id']);
             }
 
             return $template;
@@ -174,7 +174,7 @@ function get_default_mail_templates()
 
     $templates = array();
 
-    $default_mail_templates = normalize_path(MW_PATH . 'Views/emails');
+    $default_mail_templates = normalize_path(dirname(MW_PATH) . '/View/emails');
     $default_mail_templates = scandir($default_mail_templates);
 
     foreach ($default_mail_templates as $template_file) {
