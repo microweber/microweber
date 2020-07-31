@@ -834,4 +834,13 @@ header {
   font-size: 11px;
   margin-top: 3px; }
 
+.mw-modules-module-holder:hover .module-uninstall-btn,
+.mw-modules-module-holder:hover .module-ctrl-btn {
+  display: block; }
+.mw-modules-module-holder .module-ctrl-btn,
+.mw-modules-module-holder .module-uninstall-btn {
+  display: none;
+  top: 10px;
+  right: 10px; }
+
 /*# sourceMappingURL=mw.css.map */

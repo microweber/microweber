@@ -689,11 +689,18 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
         background-color: $white;
       }
 
+      .filter-option-inner-inner {
+        color: $white;
+      }
     }
 
     &.btn-secondary {
       &:after {
         background-color: $gray-900;
+      }
+
+      .filter-option-inner-inner {
+        color: $black;
       }
     }
   }
