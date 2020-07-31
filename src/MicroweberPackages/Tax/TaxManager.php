@@ -46,8 +46,8 @@ class TaxManager
 
     public function save($params = array())
     {
-        if (isset($params['amount'])) {
-            $params['amount'] = floatval($params['amount']);
+        if (isset($params['rate'])) {
+            $params['rate'] = floatval($params['rate']);
         }
 
         $taxType = TaxType::where('id', $params['id'])->first();
@@ -56,8 +56,8 @@ class TaxManager
         }
 
         $taxType->name = $params['name'];
-        $taxType->modifier = $params['modifier'];
-        $taxType->amount = $params['amount'];
+        $taxType->type = $params['type'];
+        $taxType->rate = $params['rate'];
         $taxType->description = '';
 
         if (isset($params['compound_tax'])) {
@@ -93,11 +93,11 @@ class TaxManager
 
             if (!empty($taxes)) {
                 foreach ($taxes as $tax) {
-                    if (isset($tax['id']) and isset($tax['modifier']) and isset($tax['amount']) and $tax['amount'] != 0) {
-                        $amt = floatval($tax['amount']);
-                        if ($tax['modifier'] == 'fixed') {
+                    if (isset($tax['id']) and isset($tax['type']) and isset($tax['rate']) and $tax['rate'] != 0) {
+                        $amt = floatval($tax['rate']);
+                        if ($tax['type'] == 'fixed') {
                             $difference = $difference + $amt;
-                        } elseif ($tax['modifier'] == 'percent') {
+                        } elseif ($tax['type'] == 'percent') {
                             if($is_gross) {
 								$difference_percent = $sum - (($sum / ($amt + 100)) * 100);
                             } else {
