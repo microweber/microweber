@@ -360,7 +360,8 @@ class FrontendController extends Controller
             ]
         ];
 
-        $logo = get_option('invoice_company_logo', 'shopping');
+        $logo = get_option('invoice_company_logo', 'shop');
+        $name = get_option('invoice_company_name', 'shop');
 
         $colors = [
             'invoice_primary_color',
@@ -379,7 +380,8 @@ class FrontendController extends Controller
             'currency'=>Currency::first(),
             'invoice' => $invoice,
             'company_address' => $companyAddress,
-            'logo' => $logo ?? null,
+            'owner_company_name' => $name ?? null,
+            'owner_company_logo' => $logo ?? null,
             'colors' => $colorSettings,
             'labels' => $labels,
             'taxes' => $taxes
