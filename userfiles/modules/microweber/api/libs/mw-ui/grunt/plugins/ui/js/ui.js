@@ -30,9 +30,10 @@ $(document).ready(function () {
         });
     });
 
-    $('.js-change-color').on('change', function () {
+    $('body').on('change', 'select.js-change-color', function () {
         var color = $(this).find('option:selected').data('change-color');
-        $(this).find('.dropdown-toggle').removeClass('btn-primary btn-secondary btn-success btn-warning btn-danger').addClass(color);
+        $(this).parent().removeClass('btn-primary').removeClass('btn-secondary').removeClass('btn-success').removeClass('btn-warning').removeClass('btn-danger').addClass(color);
+        $(this).parent().find('.dropdown-toggle').removeClass('btn-primary').removeClass('btn-secondary').removeClass('btn-success').removeClass('btn-warning').removeClass('btn-danger').addClass(color);
     });
 
     $(".btn-minus", '.btn-group-quantity').on("click", function (m) {
@@ -74,9 +75,9 @@ $(document).ready(function () {
     $(".js-show-password", '.input-group-password').on("click", function (m) {
         var field = $(this).parent().parent().find('input');
 
-        if('password' == field.attr('type')){
+        if ('password' == field.attr('type')) {
             field.prop('type', 'text');
-        }else{
+        } else {
             field.prop('type', 'password');
         }
     });
@@ -105,17 +106,26 @@ $(document).ready(function () {
         }
     });
 
-    $('button, a, input, textarea', '.collapse').on('click', function (e) {
+/*    $('button, a, input, textarea', '.collapse').on('click', function (e) {
         e.stopPropagation();
         e.preventDefault();
+    });*/
+
+    $('body').on('click', '[data-toggle="collapse-mw"]', function (e) {
+        if (e.target.nodeName === 'A' || e.target.nodeName === 'BUTTON' || e.target.classList.contains('btn') || mw.tools.hasParentsWithTag(e.target, 'a')) {
+
+        } else {
+            var target = $(this).data('target');
+            $(target).toggleClass('show');
+        }
     });
+
 
     $(".selectpicker").each(function (index) {
         if ($(this).data('style')) {
             $(this).parent().addClass($(this).data('style') + '-dropdown');
         }
     });
-
 
     //Custom checkboxes and radios in .collapse fix
     $('.collapse .custom-control-label').on('click', function () {

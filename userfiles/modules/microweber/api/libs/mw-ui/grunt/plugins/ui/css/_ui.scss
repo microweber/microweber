@@ -1631,3 +1631,26 @@ label.control-label {
 .bg-primary-opacity-9 {
   background: rgba(red($primary), green($primary), blue($primary), .9);
 }
+
+.js-change-color {
+  &.btn-success,
+  &.btn-danger,
+  &.btn-warning,
+  &.btn-info,
+  &.btn-primary,
+  &.btn-secondary {
+    &:hover {
+      background: transparent !important;
+    }
+    background: transparent;
+    .filter-option-inner-inner {
+      color: $white;
+    }
+  }
+
+  &.btn-secondary {
+    .filter-option-inner-inner {
+      color: $black;
+    }
+  }
+}

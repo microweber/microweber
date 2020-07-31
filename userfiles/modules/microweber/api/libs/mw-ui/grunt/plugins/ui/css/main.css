@@ -8872,4 +8872,13 @@ label.control-label {
 .bg-primary-opacity-9 {
   background: rgba(69, 146, 255, 0.9); }
 
+.js-change-color.btn-success, .js-change-color.btn-danger, .js-change-color.btn-warning, .js-change-color.btn-info, .js-change-color.btn-primary, .js-change-color.btn-secondary {
+  background: transparent; }
+  .js-change-color.btn-success:hover, .js-change-color.btn-danger:hover, .js-change-color.btn-warning:hover, .js-change-color.btn-info:hover, .js-change-color.btn-primary:hover, .js-change-color.btn-secondary:hover {
+    background: transparent !important; }
+  .js-change-color.btn-success .filter-option-inner-inner, .js-change-color.btn-danger .filter-option-inner-inner, .js-change-color.btn-warning .filter-option-inner-inner, .js-change-color.btn-info .filter-option-inner-inner, .js-change-color.btn-primary .filter-option-inner-inner, .js-change-color.btn-secondary .filter-option-inner-inner {
+    color: #fff; }
+.js-change-color.btn-secondary .filter-option-inner-inner {
+  color: #000; }
+
 /*# sourceMappingURL=main.css.map */
