@@ -25,7 +25,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Date:</label>
-                    <input type="date" class="form-control" value="@if($payment) {{$payment->payment_date}} @endif" name="payment_date"/>
+                    <input type="date" class="form-control" value="@if($payment){{$payment->payment_date}}@else{{date('m/d/Y')}}@endif" name="payment_date"/>
                 </div>
             </div>
 
