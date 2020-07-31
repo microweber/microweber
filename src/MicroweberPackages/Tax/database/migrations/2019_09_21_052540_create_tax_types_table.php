@@ -16,6 +16,7 @@ class CreateTaxTypesTable extends Migration
         Schema::create('tax_types', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('modifier');
             $table->decimal('percent', 5, 2);
             $table->tinyInteger('compound_tax')->default(0);
             $table->tinyInteger('collective_tax')->default(0);

@@ -16,8 +16,6 @@ class TaxManager
     /** @var \Microweber\Application */
     public $app;
 
-    public $table = 'cart_taxes';
-
     public function __construct($app = null)
     {
         if (is_object($app)) {
@@ -32,11 +30,18 @@ class TaxManager
         if (is_string($params)) {
             $params = parse_params($params);
         }
-        $table = $this->table;
-        $params['table'] = $table;
-        $get = $this->app->database_manager->get($params);
 
-        return $get;
+        if (isset($params['id'])) {
+            $findTax = TaxType::where('id', $params['id'])->first();
+        } else {
+            $findTax = TaxType::all();
+        }
+
+        if ($findTax) {
+            return $findTax->toArray();
+        }
+
+        return false;
     }
 
     public function save($params = array())
@@ -45,11 +50,21 @@ class TaxManager
             $params['amount'] = floatval($params['amount']);
         }
 
-        $table = $this->table;
-        $params['table'] = $table;
-        $save = $this->app->database_manager->save($params);
+        $taxType = TaxType::where('id', $params['id'])->first();
+        if (!$taxType) {
+            $taxType = new TaxType();
+        }
 
-        return $save;
+        $taxType->name = $params['name'];
+        $taxType->modifier = $params['modifier'];
+        $taxType->amount = $params['amount'];
+        $taxType->description = '';
+
+        if (isset($params['compound_tax'])) {
+            $taxType->compound_tax = $params['compound_tax'];
+        }
+
+        return $taxType->save();
     }
 
     public function delete_by_id($data)
@@ -61,22 +76,28 @@ class TaxManager
         if (!isset($data['id']) or $data['id'] == 0) {
             return false;
         }
-        $table = $this->table;
-        $this->app->database_manager->delete_by_id($table, $id = $data['id'], $field_name = 'id');
+
+        $tax = TaxType::where('id', $data['id'])->first();
+        return $tax->delete();
     }
 
     public function calculate($sum, $is_gross = false)
     {
         $difference = 0;
         if ($sum > 0) {
-            $taxes = $this->get('limit=1000');
+
+            $findTax = TaxType::all();
+            if ($findTax) {
+                $taxes = $findTax->toArray();
+            }
+
             if (!empty($taxes)) {
                 foreach ($taxes as $tax) {
-                    if (isset($tax['id']) and isset($tax['tax_modifier']) and isset($tax['amount']) and $tax['amount'] != 0) {
+                    if (isset($tax['id']) and isset($tax['modifier']) and isset($tax['amount']) and $tax['amount'] != 0) {
                         $amt = floatval($tax['amount']);
-                        if ($tax['tax_modifier'] == 'fixed') {
+                        if ($tax['modifier'] == 'fixed') {
                             $difference = $difference + $amt;
-                        } elseif ($tax['tax_modifier'] == 'percent') {
+                        } elseif ($tax['modifier'] == 'percent') {
                             if($is_gross) {
 								$difference_percent = $sum - (($sum / ($amt + 100)) * 100);
                             } else {

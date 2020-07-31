@@ -18,13 +18,13 @@ $defined_taxes = mw()->tax_manager->get();
             <tbody>
             <?php foreach ($defined_taxes as $item) : ?>
                 <tr>
-                    <td><?php print $item['tax_name']; ?></td>
+                    <td><?php print $item['name']; ?></td>
                     <td>
-                        <?php if ($item['tax_modifier'] == 'percent'): ?>
+                        <?php if ($item['modifier'] == 'percent'): ?>
                             <?php print $item['amount']; ?>%
                         <?php endif; ?>
 
-                        <?php if ($item['tax_modifier'] == 'fixed'): ?>
+                        <?php if ($item['modifier'] == 'fixed'): ?>
                             <?php print mw()->shop_manager->currency_format($item['amount']); ?>
                         <?php endif; ?>
                     </td>
