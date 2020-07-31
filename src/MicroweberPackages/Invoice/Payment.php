@@ -3,8 +3,6 @@ namespace MicroweberPackages\Invoice;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use MicroweberPackages\Invoice\Invoice;
-use MicroweberPackages\Invoice\PaymentMethod;
 
 class Payment extends Model
 {
@@ -17,7 +15,7 @@ class Payment extends Model
     protected $dates = ['created_at', 'updated_at', 'payment_date'];
 
     protected $fillable = [
-        'user_id',
+        'customer_id',
         'invoice_id',
         'payment_method_id',
         'payment_date',
@@ -91,9 +89,9 @@ class Payment extends Model
         return $this->belongsTo(Invoice::class);
     }
 
-    public function user()
+    public function customer()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Customer::class);
     }
 
     public function paymentMethod()
@@ -116,7 +114,7 @@ class Payment extends Model
     public function scopeWhereSearch($query, $search)
     {
         foreach (explode(' ', $search) as $term) {
-            $query->whereHas('user', function ($query) use ($term) {
+            $query->whereHas('customer', function ($query) use ($term) {
                 $query->where('name', 'LIKE', '%'.$term.'%')
                     ->orWhere('contact_name', 'LIKE', '%'.$term.'%')
                     ->orWhere('company_name', 'LIKE', '%'.$term.'%');
@@ -173,6 +171,6 @@ class Payment extends Model
 
     public function scopeWhereCustomer($query, $customer_id)
     {
-        $query->where('payments.user_id', $customer_id);
+        $query->where('payments.customer_id', $customer_id);
     }
 }
