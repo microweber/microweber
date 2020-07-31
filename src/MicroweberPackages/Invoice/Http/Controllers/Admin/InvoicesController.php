@@ -55,6 +55,20 @@ class InvoicesController extends AdminController
             ]);
         }
 
+        // Curencies
+        $currencies = Currency::first();
+        if (!$currencies) {
+            Currency::create([
+               'name'=>'USD',
+               'code'=>'USD',
+               'symbol'=>'$',
+               'precision'=>'2',
+               'thousand_separator'=>' ',
+               'decimal_separator'=>',',
+               'swap_currency_symbol'=>0,
+            ]);
+        }
+
         $limit = $request->has('limit') ? $request->limit : 10;
 
         $invoices = Invoice::with(['items', 'customer', 'invoiceTemplate', 'taxes'])

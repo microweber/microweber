@@ -3,11 +3,9 @@ namespace MicroweberPackages\Invoice;
 
 use Illuminate\Database\Eloquent\Model;
 
-use MicroweberPackages\Invoice\Invoice;
-use MicroweberPackages\Invoice\Tax;
-use MicroweberPackages\Invoice\Item;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use MicroweberPackages\Tax\Tax;
 
 class InvoiceItem extends Model
 {

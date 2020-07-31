@@ -4,6 +4,7 @@ namespace MicroweberPackages\Invoice\Http\Controllers;
 use _HumbugBox58fd4d9e2a25\___PHPSTORM_HELPERS\this;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use MicroweberPackages\Invoice\Currency;
 use MicroweberPackages\Invoice\Customer;
 use MicroweberPackages\Invoice\Invoice;
 use PDF;
@@ -366,6 +367,7 @@ class FrontendController extends Controller
             ->get();
 
         view()->share([
+            'currency'=>Currency::first(),
             'invoice' => $invoice,
             'company_address' => $companyAddress,
             'logo' => $logo ?? null,
