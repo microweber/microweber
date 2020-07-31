@@ -346,12 +346,21 @@ class FrontendController extends Controller
             throw new \Exception('No invoice template');
         }
 
-        $company = Company::find($invoice->company_id);
-        $companyAddress = Company::with(['addresses', 'addresses.country'])->find(1);
+        $companyAddress = [
+            'addresses'=>[
+                [
+                    'address_street_1'=>get_option('invoice_company_address', 'shop'),
+                    'address_street_2'=>get_option('invoice_company_address2', 'shop'),
+                    'city'=>get_option('invoice_company_city', 'shop'),
+                    'state'=>get_option('invoice_company_state', 'shop'),
+                    'zip'=>get_option('invoice_company_zip', 'shop'),
+                    'country'=>get_option('invoice_company_country', 'shop'),
+                    'phone'=>get_option('invoice_company_phone', 'shop'),
+                ]
+            ]
+        ];
 
-        if ($company) {
-            $logo = $company->logo;
-        }
+        $logo = get_option('invoice_company_logo', 'shopping');
 
         $colors = [
             'invoice_primary_color',
