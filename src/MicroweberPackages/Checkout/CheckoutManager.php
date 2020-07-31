@@ -150,6 +150,15 @@ class CheckoutManager
         $checkout_errors = array();
         $check_cart = $this->app->shop_manager->get_cart($cart);
 
+        if (empty($data['first_name'])) {
+            $checkout_errors['cart_empty'] = 'First name is empty';
+        }
+
+        if (empty($data['last_name'])) {
+            $checkout_errors['cart_empty'] = 'First name is empty';
+        }
+
+
         if (!is_array($check_cart)) {
             $checkout_errors['cart_empty'] = 'Your cart is empty';
         } else {
