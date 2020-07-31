@@ -41,7 +41,7 @@ $values = array_merge($default_item, $item);
     </div>
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e('Tax rate'); ?></label>
-        <input name="amount" type="text" class="mw-ui-field element-block" required="required" value="<?php print $values['rate']; ?>">
+        <input name="rate" type="text" class="mw-ui-field element-block" required="required" value="<?php print $values['rate']; ?>">
     </div>
     <br/>
     <input class="mw-ui-btn mw-ui-btn-info pull-right" type="submit" name="submit" value="<?php _e('Save'); ?>"/>
