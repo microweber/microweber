@@ -6,6 +6,7 @@ use MicroweberPackages\App\Http\Controllers\AdminController;
 use MicroweberPackages\Invoice\CompanySetting;
 use MicroweberPackages\Invoice\Currency;
 use MicroweberPackages\Invoice\Company;
+use MicroweberPackages\Invoice\Customer;
 use MicroweberPackages\Invoice\Invoice;
 use MicroweberPackages\Invoice\Payment;
 use MicroweberPackages\Invoice\PaymentMethod;
@@ -54,8 +55,8 @@ class PaymentController extends AdminController
      */
     public function create(Request $request)
     {
-        $payment_prefix = CompanySetting::getSetting('payment_prefix', $request->header('company'));
-        $payment_num_auto_generate = CompanySetting::getSetting('payment_auto_generate', $request->header('company'));
+        $payment_prefix = 'PAY';//CompanySetting::getSetting('payment_prefix', $request->header('company'));
+        $payment_num_auto_generate =1;// CompanySetting::getSetting('payment_auto_generate', $request->header('company'));
 
 
         $nextPaymentNumberAttribute = null;
@@ -65,12 +66,15 @@ class PaymentController extends AdminController
             $nextPaymentNumberAttribute = $nextPaymentNumber;
         }
 
-        return response()->json([
-            'customers' => User::where('role', 'customer')
-                ->whereCompany($request->header('company'))
-                ->get(),
-            'paymentMethods' => PaymentMethod::whereCompany($request->header('company'))
-                ->latest()
+        return $this->view('invoice::admin.payments.edit', [
+            'payment'=>false,
+            'invoices'=> Invoice::all(),
+            'customers' => Customer::
+            //whereCompany($request->header('company'))
+                get(),
+            'paymentMethods' => PaymentMethod::
+            //whereCompany($request->header('company'))
+                latest()
                 ->get(),
             'nextPaymentNumberAttribute' => $nextPaymentNumberAttribute,
             'nextPaymentNumber' => $payment_prefix.'-'.$nextPaymentNumber,
