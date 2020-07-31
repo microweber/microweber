@@ -157,19 +157,20 @@ class PaymentController extends AdminController
      */
     public function edit(Request $request, $id)
     {
-        $payment = Payment::with(['user', 'invoice', 'paymentMethod'])->find($id);
+        $payment = Payment::with(['customer', 'invoice', 'paymentMethod'])->find($id);
 
         $invoices = Invoice::where('paid_status', '<>', Invoice::STATUS_PAID)
             ->where('customer_id', $payment->customer_id)->where('due_amount', '>', 0)
-            ->whereCompany($request->header('company'))
+           // ->whereCompany($request->header('company'))
             ->get();
 
-        return response()->json([
-            'customers' => User::where('role', 'customer')
-                ->whereCompany($request->header('company'))
-                ->get(),
-            'paymentMethods' => PaymentMethod::whereCompany($request->header('company'))
-                ->latest()
+        return $this->view('invoice::admin.payments.edit', [
+            'customers' => Customer::
+               // ->whereCompany($request->header('company'))
+                get(),
+            'paymentMethods' => PaymentMethod::
+            //whereCompany($request->header('company'))
+                latest()
                 ->get(),
             'nextPaymentNumber' => $payment->getPaymentNumAttribute(),
             'payment_prefix' => $payment->getPaymentPrefixAttribute(),

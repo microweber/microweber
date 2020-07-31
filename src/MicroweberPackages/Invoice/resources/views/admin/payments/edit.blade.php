@@ -60,6 +60,8 @@
                             <option @if($invoice_id)selected="selected"@endif @if($payment && $invoice->id == $payment->invoice_id)selected="selected"@endif value="{{$invoice->id}}">{{$invoice->invoice_number}}</option>
                         @endforeach
                     </select>
+                    <br />
+                    <div class="alert alert-info">Select invoices wich are not payed.</div>
                 </div>
             </div>
 
