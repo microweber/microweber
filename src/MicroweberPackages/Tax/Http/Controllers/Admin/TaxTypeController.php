@@ -46,7 +46,8 @@ class TaxTypeController extends AdminController
     {
         $taxType = new TaxType();
         $taxType->name = $request->name;
-        $taxType->percent = $request->percent;
+        $taxType->type = $request->type;
+        $taxType->rate = $request->rate;
         $taxType->description = $request->description;
         if ($request->has('compound_tax')) {
             $taxType->compound_tax = $request->compound_tax;
@@ -97,7 +98,8 @@ class TaxTypeController extends AdminController
         $taxType = TaxType::find($request->route('tax_type'));
 
         $taxType->name = $request->name;
-        $taxType->percent = $request->percent;
+        $taxType->type = $request->type;
+        $taxType->rate = $request->rate;
         $taxType->description = $request->description;
         if ($request->has('collective_tax')) {
             $taxType->collective_tax = $request->collective_tax;

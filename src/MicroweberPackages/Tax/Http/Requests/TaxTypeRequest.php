@@ -24,7 +24,8 @@ class TaxTypeRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'percent' => 'required'
+            'type' => 'required',
+            'rate' => 'required'
         ];
     }
 }

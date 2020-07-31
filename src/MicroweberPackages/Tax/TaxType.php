@@ -2,13 +2,14 @@
 namespace MicroweberPackages\Tax;
 
 use Illuminate\Database\Eloquent\Model;
-use MicroweberPackages\Tax\Tax;
+
 
 class TaxType extends Model
 {
     protected $fillable = [
         'name',
-        'percent',
+        'type',
+        'rate',
         'company_id',
         'compound_tax',
         'collective_tax',

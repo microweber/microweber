@@ -2,12 +2,11 @@
 namespace MicroweberPackages\Tax;
 
 use Illuminate\Database\Eloquent\Model;
-use MicroweberPackages\Tax\TaxType;
-use MicroweberPackages\Tax\Invoice;
-use MicroweberPackages\Tax\Estimate;
-use MicroweberPackages\Tax\Item;
-use MicroweberPackages\Tax\InvoiceItem;
-use MicroweberPackages\Tax\EstimateItem;
+use MicroweberPackages\Invoice\Invoice;
+use MicroweberPackages\Invoice\Estimate;
+use MicroweberPackages\Invoice\Item;
+use MicroweberPackages\Invoice\InvoiceItem;
+use MicroweberPackages\Invoice\EstimateItem;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -17,7 +16,8 @@ class Tax extends Model
         'name',
         'amount',
         'company_id',
-        'percent',
+        'type',
+        'rate',
         'tax_type_id',
         'invoice_id',
         'estimate_id',
@@ -26,8 +26,9 @@ class Tax extends Model
     ];
 
     protected $casts = [
+        'type' => 'text',
         'amount' => 'integer',
-        'percent' => 'float'
+        'rate' => 'float'
     ];
 
     public function taxType()
