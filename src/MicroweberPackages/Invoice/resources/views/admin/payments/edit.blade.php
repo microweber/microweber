@@ -25,7 +25,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Date:</label>
-                    <input type="date" class="form-control" value="@if($payment) {{$payment->date}} @endif" name="date"/>
+                    <input type="date" class="form-control" value="@if($payment) {{$payment->payment_date}} @endif" name="payment_date"/>
                 </div>
             </div>
 
@@ -42,8 +42,9 @@
                     <label>Customer:</label>
                     <select class="form-control typeahead border-primary" name="customer_id"
                             placeholder="Start typing something to search customers...">
+                        <option>Select customer..</option>
                         @foreach($customers as $customer)
-                            <option value="{{$customer->id}}">{{$customer->first_name}} {{$customer->last_name}}</option>
+                            <option @if($payment && $customer->id == $payment->customer_id)selected="selected"@endif value="{{$customer->id}}">{{$customer->first_name}} {{$customer->last_name}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -54,8 +55,9 @@
                     <label>Invoice:</label>
                     <select class="form-control typeahead border-primary" name="invoice_id"
                             placeholder="Start typing something to search invoices...">
+                        <option>Select invoice..</option>
                         @foreach($invoices as $invoice)
-                            <option value="{{$invoice->id}}">{{$invoice->invoice_number}}</option>
+                            <option @if($invoice_id)selected="selected"@endif @if($payment && $invoice->id == $payment->invoice_id)selected="selected"@endif value="{{$invoice->id}}">{{$invoice->invoice_number}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -74,8 +76,9 @@
                     <label>Payment Mode:</label>
                     <select class="form-control typeahead border-primary" name="payment_method_id"
                             placeholder="Start typing something to search customers...">
+                        <option>Select payment..</option>
                         @foreach($paymentMethods as $paymentMethod)
-                            <option value="{{$paymentMethod->id}}">{{$paymentMethod->name}}</option>
+                            <option @if($payment && $payment->id == $paymentMethod->payment_method_id)selected="selected"@endif value="{{$paymentMethod->id}}">{{$paymentMethod->name}}</option>
                         @endforeach
                     </select>
                 </div>

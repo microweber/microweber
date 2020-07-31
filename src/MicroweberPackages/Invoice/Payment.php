@@ -19,7 +19,7 @@ class Payment extends Model
         'invoice_id',
         'payment_method_id',
         'payment_date',
-        'company_id',
+    //    'company_id',
         'notes',
         'unique_hash',
         'payment_number',

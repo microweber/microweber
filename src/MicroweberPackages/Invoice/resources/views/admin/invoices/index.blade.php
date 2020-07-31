@@ -43,9 +43,11 @@
                         <a class="dropdown-item" href="{{ route('invoices.edit', $invoice->id) }}"><i class="fa fa-pen"></i> &nbsp; Edit</a>
                         <a class="dropdown-item" href="{{ route('invoices.show', $invoice->id) }}"><i class="fa fa-eye"></i> &nbsp; View</a>
                         <a class="dropdown-item" href="{{ route('invoices.send', $invoice->id) }}"><i class="fa fa-envelope"></i> &nbsp; Resend Invocie</a>
+
+                        <a href="{{ route('payments.create', $invoice->id) }}" class="dropdown-item"><i class="fa fa-credit-card"></i> &nbsp; Record Payment</a>
+
                         <form method="post" action="{{ route('invoices.clone') }}">
                          <input type="hidden" value="{{ $invoice->id }}" name="id">
-                        <button type="submit" class="dropdown-item"><i class="fa fa-credit-card"></i> &nbsp; Record Payment</button>
                         <button type="submit" class="dropdown-item"><i class="fa fa-copy"></i> &nbsp; Clone Invoice</button>
                         </form>
                         <form action="{{ route('invoices.destroy', $invoice->id)}}" method="post">

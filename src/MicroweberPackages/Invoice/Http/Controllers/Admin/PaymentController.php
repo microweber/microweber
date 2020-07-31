@@ -7,13 +7,13 @@ use MicroweberPackages\Invoice\CompanySetting;
 use MicroweberPackages\Invoice\Currency;
 use MicroweberPackages\Invoice\Company;
 use MicroweberPackages\Invoice\Customer;
+use MicroweberPackages\Invoice\Http\Requests\PaymentRequest;
 use MicroweberPackages\Invoice\Invoice;
 use MicroweberPackages\Invoice\Payment;
 use MicroweberPackages\Invoice\PaymentMethod;
 use Carbon\Carbon;
 use function MongoDB\BSON\toJSON;
 use MicroweberPackages\Invoice\User;
-use Crater\Http\Requests\PaymentRequest;
 use Validator;
 use MicroweberPackages\Invoice\Mail\PaymentPdf;
 
@@ -67,6 +67,7 @@ class PaymentController extends AdminController
         }
 
         return $this->view('invoice::admin.payments.edit', [
+            'invoice_id'=>key($request->input()),
             'payment'=>false,
             'invoices'=> Invoice::all(),
             'customers' => Customer::
@@ -97,7 +98,7 @@ class PaymentController extends AdminController
             'payment_number' => 'required|unique:payments,payment_number'
         ])->validate();
 
-        $payment_date = Carbon::createFromFormat('d/m/Y', $request->payment_date);
+        $payment_date = Carbon::createFromFormat('Y-m-d', $request->payment_date);
 
         if ($request->has('invoice_id') && $request->invoice_id != null) {
             $invoice = Invoice::find($request->invoice_id);
@@ -120,7 +121,7 @@ class PaymentController extends AdminController
         $payment = Payment::create([
             'payment_date' => $payment_date,
             'payment_number' => $number_attributes['payment_number'],
-            'user_id' => $request->user_id,
+            'customer_id' => $request->customer_id,
             'company_id' => $request->header('company'),
             'invoice_id' => $request->invoice_id,
             'payment_method_id' => $request->payment_method_id,
@@ -129,11 +130,7 @@ class PaymentController extends AdminController
             'unique_hash' => str_random(60)
         ]);
 
-        return response()->json([
-            'payment' => $payment,
-            'shareable_link' => url('/payments/pdf/'.$payment->unique_hash),
-            'success' => true
-        ]);
+        return redirect(route('payments.index'));
     }
 
     /**
@@ -163,7 +160,7 @@ class PaymentController extends AdminController
         $payment = Payment::with(['user', 'invoice', 'paymentMethod'])->find($id);
 
         $invoices = Invoice::where('paid_status', '<>', Invoice::STATUS_PAID)
-            ->where('user_id', $payment->user_id)->where('due_amount', '>', 0)
+            ->where('customer_id', $payment->customer_id)->where('due_amount', '>', 0)
             ->whereCompany($request->header('company'))
             ->get();
 
@@ -198,7 +195,7 @@ class PaymentController extends AdminController
             'payment_number' => 'required|unique:payments,payment_number'.','.$id
         ])->validate();
 
-        $payment_date = Carbon::createFromFormat('d/m/Y', $request->payment_date);
+        $payment_date = Carbon::createFromFormat('Y-m-d', $request->payment_date);
 
         $payment = Payment::find($id);
         $oldAmount = $payment->amount;
@@ -207,7 +204,6 @@ class PaymentController extends AdminController
             $amount = (int)$request->amount - (int)$oldAmount;
             $invoice = Invoice::find($request->invoice_id);
             $invoice->due_amount = (int)$invoice->due_amount - (int)$amount;
-
             if ($invoice->due_amount < 0) {
                 return response()->json([
                     'error' => 'invalid_amount'
@@ -227,18 +223,14 @@ class PaymentController extends AdminController
 
         $payment->payment_date = $payment_date;
         $payment->payment_number = $number_attributes['payment_number'];
-        $payment->user_id = $request->user_id;
+        $payment->customer_id = $request->customer_id;
         $payment->invoice_id = $request->invoice_id;
         $payment->payment_method_id = $request->payment_method_id;
         $payment->amount = $request->amount;
         $payment->notes = $request->notes;
         $payment->save();
 
-        return response()->json([
-            'payment' => $payment,
-            'shareable_link' => url('/payments/pdf/'.$payment->unique_hash),
-            'success' => true
-        ]);
+        return redirect(route('payments.index'));
     }
 
     /**
@@ -304,10 +296,10 @@ class PaymentController extends AdminController
         $payment = Payment::findOrFail($request->id);
 
         $data['payment'] = $payment->toArray();
-        $userId = $data['payment']['user_id'];
-        $data['user'] = User::find($userId)->toArray();
+        $customerId = $data['payment']['customer_id'];
+        $data['customer'] = Customer::find($customerId)->toArray();
         $data['company'] = Company::find($payment->company_id);
-        $email = $data['user']['email'];
+        $email = $data['customer']['email'];
 
         if (!$email) {
             return response()->json([
