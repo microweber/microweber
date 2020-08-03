@@ -53,6 +53,19 @@ class PaymentController extends AdminController
      */
     public function create(Request $request)
     {
+        // Update Payment Methods
+        $paymentOptions = payment_options();
+        if (!empty($paymentOptions)) {
+            foreach ($paymentOptions as $paymentOption) {
+                $findPayment = PaymentMethod::where('name', $paymentOption['name'])->first();
+                if (!$findPayment) {
+                    PaymentMethod::create([
+                        'name'=>$paymentOption['name']
+                    ]);
+                }
+            }
+        }
+        
         $payment_prefix = 'PAY';//CompanySetting::getSetting('payment_prefix', $request->header('company'));
         $payment_num_auto_generate =1;// CompanySetting::getSetting('payment_auto_generate', $request->header('company'));
 
