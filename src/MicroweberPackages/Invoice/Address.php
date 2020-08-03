@@ -20,7 +20,7 @@ class Address extends Model
         'phone',
         'fax',
         'type',
-        'user_id'
+        'customer_id'
     ];
 
     public function customer()

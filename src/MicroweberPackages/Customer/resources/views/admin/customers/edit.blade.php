@@ -27,25 +27,25 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>First Name:</label>
-                    <input type="text" class="form-control" value="@if($customer) {{$customer->first_name}} @endif" name="first_name"/>
+                    <input type="text" class="form-control" value="@if($customer) {{$customer->first_name}}@endif" name="first_name"/>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Last Name:</label>
-                    <input type="text" class="form-control" value="@if($customer) {{$customer->last_name}} @endif" name="last_name"/>
+                    <input type="text" class="form-control" value="@if($customer) {{$customer->last_name}}@endif" name="last_name"/>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Email:</label>
-                    <input type="email" class="form-control" value="@if($customer) {{$customer->email}} @endif" name="email"/>
+                    <input type="email" class="form-control" value="@if($customer) {{$customer->email}}@endif" name="email"/>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Phone:</label>
-                    <input type="text" class="form-control" value="@if($customer) {{$customer->phone}} @endif" name="phone"/>
+                    <input type="text" class="form-control" value="@if($customer) {{$customer->phone}}@endif" name="phone"/>
                 </div>
             </div>
 
@@ -55,13 +55,13 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Address Name:</label>
-                    <input type="text" class="form-control" value="@if(isset($customer->addresses[0])) {{$customer->addresses[0]->name}} @endif" name="addresses[0][name]"/>
+                    <input type="text" class="form-control" value="@if(isset($customer->addresses[0])){{$customer->addresses[0]->name}}@endif" name="addresses[0][name]"/>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Country:</label>
-                    <select class="form-control" value="@if(isset($customer->addresses[0])) {{$customer->addresses[0]->country_id}} @endif" name="addresses[0][country_id]">
+                    <select class="form-control" value="@if(isset($customer->addresses[0])){{$customer->addresses[0]->country_id}}@endif" name="addresses[0][country_id]">
                         @foreach($countries as $country)
                            <option value="{{ $country->id }}">{{ $country->name }}</option>
                         @endforeach
@@ -71,35 +71,35 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>State:</label>
-                    <input type="text" class="form-control" value="@if(isset($customer->addresses[0])) {{$customer->addresses[0]->state}} @endif" name="addresses[0][state]"/>
+                    <input type="text" class="form-control" value="@if(isset($customer->addresses[0])){{$customer->addresses[0]->state}}@endif" name="addresses[0][state]"/>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label>City:</label>
-                    <input type="text" class="form-control" value="@if(isset($customer->addresses[0])) {{$customer->addresses[0]->city}} @endif" name="addresses[0][city]"/>
+                    <input type="text" class="form-control" value="@if(isset($customer->addresses[0])){{$customer->addresses[0]->city}}@endif" name="addresses[0][city]"/>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Adress:</label>
-                    <input type="text" class="form-control" value="@if(isset($customer->addresses[0])) {{$customer->addresses[0]->address_street_1}} @endif" placeholder="Street 1" name="addresses[0][address_street_1]"/>
-                    <input type="text" class="form-control" value="@if(isset($customer->addresses[0])) {{$customer->addresses[0]->address_street_2}} @endif" placeholder="Street 2" name="addresses[0][address_street_2]"/>
+                    <input type="text" class="form-control" value="@if(isset($customer->addresses[0])){{$customer->addresses[0]->address_street_1}}@endif" placeholder="Street 1" name="addresses[0][address_street_1]"/>
+                    <input type="text" class="form-control" value="@if(isset($customer->addresses[0])){{$customer->addresses[0]->address_street_2}}@endif" placeholder="Street 2" name="addresses[0][address_street_2]"/>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Phone:</label>
-                    <input type="text" class="form-control" value="@if(isset($customer->addresses[0])) {{$customer->addresses[0]->phone}} @endif" name="addresses[0][phone]"/>
+                    <input type="text" class="form-control" value="@if(isset($customer->addresses[0])){{$customer->addresses[0]->phone}}@endif" name="addresses[0][phone]"/>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Zip Code:</label>
-                    <input type="text" class="form-control" value="@if(isset($customer->addresses[0])) {{$customer->addresses[0]->zip}} @endif" name="addresses[0][zip]"/>
+                    <input type="text" class="form-control" value="@if(isset($customer->addresses[0])){{$customer->addresses[0]->zip}}@endif" name="addresses[0][zip]"/>
                 </div>
             </div>
-            <input type="hidden" class="form-control" value="billing" name="addresses[0][type]"/>
+            <input type="hidden" class="form-control" value="billing" name="addresses[0][type]"/> 
 
             <div class="col-md-12" style="margin-top:15px;">
                 <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save Customer</button>
