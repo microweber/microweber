@@ -4,6 +4,7 @@ namespace MicroweberPackages\Form;
 
 use League\Csv\Writer;
 use Microweber\Utils\MailProvider;
+use MicroweberPackages\Invoice\Country;
 use MicroweberPackages\Utils\Mail\MailSender;
 
 
@@ -658,7 +659,7 @@ class FormsManager
 
         if (empty($data)) {
             $countries_file_userfiles = normalize_path(userfiles_path() . 'country.csv', false);
-            $countries_file = normalize_path(MW_PATH . 'Utils/lib/country.csv', false);
+            $countries_file = normalize_path(dirname(MW_PATH) . '/Utils/ThirdPartyLibs/country.csv', false);
 
             if (is_file($countries_file_userfiles)) {
                 $countries_file = $countries_file_userfiles;
@@ -669,6 +670,19 @@ class FormsManager
 
                 if (isset($data[0])) {
                     unset($data[0]);
+                }
+            }
+        }
+
+        if (!empty($data)) {
+            foreach ($data as $country) {
+                $findCountry = Country::where('code', $country[0])->where('name', $country[1])->first();
+                if (!$findCountry) {
+                    $newCountry = new Country();
+                    $newCountry->code = $country[0];
+                    $newCountry->name = $country[1];
+                    $newCountry->phonecode = $country[2];
+                    $newCountry->save();
                 }
             }
         }
