@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Invoice;
+namespace MicroweberPackages\Payment;
 
 use Illuminate\Database\Eloquent\Model;
 

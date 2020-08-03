@@ -35,6 +35,7 @@ use MicroweberPackages\Checkout\CheckoutManagerServiceProvider;
 use MicroweberPackages\Client\ClientsManagerServiceProvider;
 use MicroweberPackages\Currency\CurrencyServiceProvider;
 use MicroweberPackages\Order\OrderManagerServiceProvider;
+use MicroweberPackages\Payment\PaymentServiceProvider;
 use MicroweberPackages\Role\RoleServiceProvider;
 use MicroweberPackages\Shop\ShopManagerServiceProvider;
 use MicroweberPackages\Tax\TaxManagerServiceProvider;
@@ -199,6 +200,7 @@ class AppServiceProvider extends ServiceProvider {
         $this->app->register(InvoicesManagerServiceProvider::class);
         $this->app->register(CustomerServiceProvider::class);
         $this->app->register(PermissionServiceProvider::class);
+        $this->app->register(PaymentServiceProvider::class);
         $this->app->register(RoleServiceProvider::class);
         $this->app->register(  \Barryvdh\DomPDF\ServiceProvider::class);
 

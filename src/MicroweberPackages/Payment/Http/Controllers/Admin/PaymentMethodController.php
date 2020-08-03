@@ -1,10 +1,10 @@
 <?php
 
-namespace MicroweberPackages\Invoice\Http\Controllers\Admin;
+namespace MicroweberPackages\Payment\Http\Controllers\Admin;
 
-use MicroweberPackages\Invoice\PaymentMethod;
+use MicroweberPackages\Payment\PaymentMethod;
 use Illuminate\Http\Request;
-use MicroweberPackages\Invoice\Http\Requests\PaymentMethodRequest;
+use MicroweberPackages\Payment\Http\Requests\PaymentMethodRequest;
 
 class PaymentMethodController extends Controller
 {

@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Invoice;
+namespace MicroweberPackages\Payment;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;

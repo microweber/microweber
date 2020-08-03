@@ -1,16 +1,14 @@
 <?php
-namespace MicroweberPackages\Invoice\Http\Controllers\Admin;
+namespace MicroweberPackages\Payment\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use MicroweberPackages\App\Http\Controllers\AdminController;
-use MicroweberPackages\Invoice\CompanySetting;
-use MicroweberPackages\Invoice\Currency;
+use MicroweberPackages\Customer\Customer;
 use MicroweberPackages\Invoice\Company;
-use MicroweberPackages\Invoice\Customer;
 use MicroweberPackages\Invoice\Http\Requests\PaymentRequest;
 use MicroweberPackages\Invoice\Invoice;
-use MicroweberPackages\Invoice\Payment;
-use MicroweberPackages\Invoice\PaymentMethod;
+use MicroweberPackages\Payment\Payment;
+use MicroweberPackages\Payment\PaymentMethod;
 use Carbon\Carbon;
 use function MongoDB\BSON\toJSON;
 use MicroweberPackages\Invoice\User;
@@ -45,7 +43,7 @@ class PaymentController extends AdminController
             ->latest()
             ->paginate($limit);
 
-        return $this->view('invoice::admin.payments.index', ['payments'=>$payments]);
+        return $this->view('payment::admin.payments.index', ['payments'=>$payments]);
     }
 
     /**
@@ -66,7 +64,7 @@ class PaymentController extends AdminController
             $nextPaymentNumberAttribute = $nextPaymentNumber;
         }
 
-        return $this->view('invoice::admin.payments.edit', [
+        return $this->view('payment::admin.payments.edit', [
             'invoice_id'=>key($request->input()),
             'payment'=>false,
             'invoices'=> Invoice::all(),
@@ -164,7 +162,7 @@ class PaymentController extends AdminController
            // ->whereCompany($request->header('company'))
             ->get();
 
-        return $this->view('invoice::admin.payments.edit', [
+        return $this->view('payment::admin.payments.edit', [
             'customers' => Customer::
                // ->whereCompany($request->header('company'))
                 get(),
