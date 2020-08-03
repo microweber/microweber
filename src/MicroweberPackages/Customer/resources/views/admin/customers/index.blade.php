@@ -16,8 +16,8 @@
     <form method="get">
         <div class="row well">
             <div class="col-md-3">
-                <b>First Name</b>
-                <input type="text" class="form-control" value="@if(request()->get('first_name')){{request()->get('first_name')}}@endif" name="first_name">
+                <b>Name</b>
+                <input type="text" class="form-control" value="@if(request()->get('name')){{request()->get('name')}}@endif" name="name">
             </div>
             <div class="col-md-3">
                 <b>Contact Name</b>
@@ -32,6 +32,8 @@
             </div>
         </div>
     </form>
+
+    <br />
 
     <table class="table">
         <thead>
