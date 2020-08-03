@@ -107,7 +107,7 @@ if (isset($data[0]) == false) {
 
             mw.$("#avatar_holder .mw-icon-close").click(function () {
                 if (mw.$("#avatar_holder").length === 0) {
-                    mw.$(".js-user-image").attr("src", '<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no-image.jpg');
+                    mw.$(".js-user-image").attr("src", '<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no-user.png');
                     mw.$("#user_thumbnail").val("");
                 }
             });
@@ -159,7 +159,7 @@ if (isset($data[0]) == false) {
                     <div class="d-inline-block">
                         <?php if ($data['thumbnail'] == '') { ?>
                             <div class="img-circle-holder img-absolute js-img-holder">
-                                <img src="<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no-image.jpg" class="js-user-image"/>
+                                <img src="<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no-user.png" class="js-user-image"/>
 
                                 <div class="js-add-image">
                                     <a href="javascript:;" class="add-the-image" id="change_avatar"><i class="mdi mdi-image-plus mdi-24px"></i></a>

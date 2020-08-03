@@ -843,4 +843,11 @@ header {
   top: 10px;
   right: 10px; }
 
+.module-icon-svg-fill {
+  display: inline-block;
+  height: 24px;
+  fill: red; }
+  .module-icon-svg-fill path {
+    fill: red; }
+
 /*# sourceMappingURL=mw.css.map */
