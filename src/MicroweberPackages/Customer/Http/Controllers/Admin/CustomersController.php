@@ -28,7 +28,7 @@ class CustomersController extends AdminController
         $customers = Customer::applyFilters($request->only([
                 'search',
                 'contact_name',
-                'display_name',
+                'first_name',
                 'phone',
                 'orderByField',
                 'orderBy'

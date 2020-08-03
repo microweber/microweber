@@ -106,8 +106,8 @@ class Customer extends Model
             $query->whereContactName($filters->get('contact_name'));
         }
 
-        if ($filters->get('display_name')) {
-            $query->whereDisplayName($filters->get('display_name'));
+        if ($filters->get('first_name')) {
+            $query->whereDisplayName($filters->get('first_name'));
         }
 
         if ($filters->get('phone')) {

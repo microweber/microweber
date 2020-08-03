@@ -1,10 +1,42 @@
 @extends('invoice::admin.layout')
 
 @section('content')
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".js-select-all").click(function () {
+                $("input[type=checkbox]").prop('checked', $(this).prop('checked'));
+
+            });
+        });
+    </script>
+
+    <form method="get">
+        <div class="row well">
+            <div class="col-md-3">
+                <b>First Name</b>
+                <input type="text" class="form-control" value="@if(request()->get('first_name')){{request()->get('first_name')}}@endif" name="first_name">
+            </div>
+            <div class="col-md-3">
+                <b>Contact Name</b>
+                <input type="text" class="form-control" value="@if(request()->get('contact_name')){{request()->get('contact_name')}}@endif" name="contact_name">
+            </div>
+            <div class="col-md-3">
+                <b>Phone</b>
+                <input type="text" class="form-control" value="@if(request()->get('phone')){{request()->get('phone')}}@endif" name="phone">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" style="margin-top: 17px" class="btn btn-success btn-block"><i class="fa fa-filter"></i> Filter results</button>
+            </div>
+        </div>
+    </form>
+
     <table class="table">
         <thead>
         <tr>
-            <th><input type="checkbox"></th>
+            <th><input type="checkbox" class="js-select-all"></th>
             <th>Customer Name</th>
             <th>Email</th>
             <th>Phone</th>
