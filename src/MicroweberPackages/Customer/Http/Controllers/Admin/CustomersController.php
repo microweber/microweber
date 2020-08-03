@@ -2,18 +2,15 @@
 namespace MicroweberPackages\Customer\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\App\Http\Controllers\AdminController;
 use MicroweberPackages\Invoice\Conversation;
 use MicroweberPackages\Customer\Customer;
 use MicroweberPackages\Invoice\Country;
 use MicroweberPackages\Invoice\Group;
-use MicroweberPackages\Invoice\Http\Requests;
+use MicroweberPackages\Customer\Http\Requests;
 use MicroweberPackages\Invoice\Notifications\CustomerAdded;
-use MicroweberPackages\User\User;
 use Illuminate\Support\Facades\Hash;
 use MicroweberPackages\Currency\Currency;
-use MicroweberPackages\Invoice\CompanySetting;
 use MicroweberPackages\Invoice\Address;
 use Illuminate\Support\Facades\DB;
 

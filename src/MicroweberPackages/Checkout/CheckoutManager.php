@@ -536,6 +536,7 @@ class CheckoutManager
                 if (!$findCustomerAddressByCustomerId) {
                     Address::create([
                         'name'=> '',
+                        'customer_id'=>$findCustomer->id,
                         'city'=>$data['city'],
                         'phone'=>$data['phone'],
                         'address_street_1'=>$data['address'],
