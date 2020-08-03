@@ -127,6 +127,7 @@ class CustomersController extends AdminController
 
         return $this->view('customer::admin.customers.edit',[
             'customer' => false,
+            'countries'=>Country::all(),
             'currencies' => $currencies,
             'currency' => false
         ]);
