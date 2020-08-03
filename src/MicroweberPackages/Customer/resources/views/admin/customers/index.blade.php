@@ -8,6 +8,25 @@
                 $("input[type=checkbox]").prop('checked', $(this).prop('checked'));
                 //$('.js-delete-all').toggle();
             });
+
+            $('.js-delete-selected-form').submit(function (e) {
+                e.preventDefault();
+
+                var id = [];
+                $("input[name='id']:checked").each (function() {
+                    id.push($(this).val());
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: $(this).attr('action'),
+                    data: {id:id},
+                    success: function(data) {
+                        window.location = window.location;
+                    }
+                });
+            });
+
         });
     </script>
 
@@ -34,8 +53,7 @@
     <br />
 
     <div class="actions">
-        <form method="POST" action="{{ route('customers.delete') }}">
-            {{method_field('DELETE')}}
+        <form method="POST" class="js-delete-selected-form" action="{{ route('customers.delete') }}">
             {{csrf_field()}}
             <button class="btn btn-danger js-delete-all"><i class="fa fa-times"></i> Delete all</button>
         </form>
@@ -56,7 +74,7 @@
         <tbody>
         @foreach($customers as $customer):
         <tr>
-            <th><input type="checkbox"></th>
+            <th><input type="checkbox" name="id" class="js-selected-customer" value="{{$customer->id}}"></th>
             <td>{{ $customer->first_name }} {{ $customer->last_name }}</td>
             <td>{{ $customer->email }}</td>
             <td>{{ $customer->phone }}</td>

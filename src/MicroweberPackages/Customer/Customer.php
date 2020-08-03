@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Currency\Currency;
 use MicroweberPackages\Invoice\Address;
 use MicroweberPackages\Invoice\Company;
+use MicroweberPackages\Invoice\Invoice;
+use MicroweberPackages\Payment\Payment;
 
 class Customer extends Model
 {
@@ -42,11 +44,6 @@ class Customer extends Model
     public function addresses()
     {
         return $this->hasMany(Address::class);
-    }
-
-    public function estimates()
-    {
-        return $this->hasMany(Estimate::class);
     }
 
     public function currency()
@@ -133,9 +130,6 @@ class Customer extends Model
 
     public function delete()
     {
-        if ($this->estimates()->exists()) {
-            $this->estimates()->delete();
-        }
 
         if ($this->invoices()->exists()) {
             $this->invoices()->delete();

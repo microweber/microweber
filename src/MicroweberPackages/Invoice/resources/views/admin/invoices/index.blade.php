@@ -66,9 +66,9 @@
                 $.ajax({
                     type: "POST",
                     url: $(this).attr('action'),
-                    data: $(this).serialize() + '&id=' + id.join(','),
+                    data: {id:id},
                     success: function(data) {
-                        window.location = window.location;
+                       window.location = window.location;
                     }
                 });
             });
@@ -77,7 +77,6 @@
 
     <div class="actions">
         <form method="POST" class="js-delete-selected-form" action="{{ route('invoices.delete') }}">
-        {{method_field('DELETE')}}
         {{csrf_field()}}
         <button class="btn btn-danger js-delete-all"><i class="fa fa-times"></i> Delete all</button>
         </form>
