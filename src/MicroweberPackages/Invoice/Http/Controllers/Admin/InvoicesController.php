@@ -102,8 +102,12 @@ class InvoicesController extends AdminController
     {
         $tax_per_item = CompanySetting::getSetting('tax_per_item', $request->header('company'));
         $discount_per_item = CompanySetting::getSetting('discount_per_item', $request->header('company'));
-        $invoice_prefix = CompanySetting::getSetting('invoice_prefix', $request->header('company'), 'INV');
         $invoice_num_auto_generate = CompanySetting::getSetting('invoice_auto_generate', $request->header('company'));
+
+        $invoice_prefix = get_option('invoice_prefix', 'shop');
+        if (empty($invoice_prefix)) {
+            $invoice_prefix = 'INV';
+        }
 
         $nextInvoiceNumberAttribute = null;
         $nextInvoiceNumber = Invoice::getNextInvoiceNumber($invoice_prefix);
@@ -503,24 +507,11 @@ class InvoicesController extends AdminController
         ->find($request->id);
 
         $date = Carbon::now();
-        $invoice_prefix = CompanySetting::getSetting(
-            'invoice_prefix',
-            $request->header('company', 'INV')
-        );
-        $tax_per_item = CompanySetting::getSetting(
-                'tax_per_item',
-                $request->header('company')
-            ) ? CompanySetting::getSetting(
-                'tax_per_item',
-                $request->header('company')
-            ) : 'NO';
-        $discount_per_item = CompanySetting::getSetting(
-                'discount_per_item',
-                $request->header('company')
-            ) ? CompanySetting::getSetting(
-                'discount_per_item',
-                $request->header('company')
-            ) : 'NO';
+        $invoice_prefix = get_option('invoice_prefix', 'shop');
+        if (empty($invoice_prefix)) {
+            $invoice_prefix = 'INV';
+        }
+
 
         $invoice = Invoice::create([
             'invoice_date' => $date,
