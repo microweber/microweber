@@ -54,10 +54,18 @@
         $(document).ready(function () {
             $(".js-select-all").click(function () {
                 $("input[type=checkbox]").prop('checked', $(this).prop('checked'));
-
+                //$('.js-delete-all').toggle();
             });
         });
     </script>
+
+    <div class="actions">
+        <form method="POST" action="{{ route('invoices.delete') }}">
+        {{method_field('DELETE')}}
+        {{csrf_field()}}
+        <button class="btn btn-danger js-delete-all"><i class="fa fa-times"></i> Delete all</button>
+        </form>
+    </div>
 
     <table class="table">
         <thead>

@@ -2,6 +2,7 @@
 namespace MicroweberPackages\Invoice;
 
 use Illuminate\Database\Eloquent\Model;
+use MicroweberPackages\Currency\Currency;
 use MicroweberPackages\Customer\Customer;
 use MicroweberPackages\Invoice\InvoiceTemplate;
 use MicroweberPackages\Payment\Payment;

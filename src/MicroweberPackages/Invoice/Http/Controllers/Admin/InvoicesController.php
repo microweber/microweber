@@ -382,7 +382,7 @@ class InvoicesController extends AdminController
     {
         $invoice = Invoice::find($id);
 
-        if ($invoice->payments()->exists() && $invoice->payments()->count() > 0) {
+        if ($invoice && $invoice->payments()->exists() && $invoice->payments()->count() > 0) {
             // Payment attached
             return redirect(route('invoices.index'))->with('status', 'Invoice has attached payments.');
         }
@@ -394,10 +394,13 @@ class InvoicesController extends AdminController
 
     public function delete(Request $request)
     {
+
+        var_dump($request->id);
+        die();
         foreach ($request->id as $id) {
             $invoice = Invoice::find($id);
 
-            if ($invoice->payments()->exists() && $invoice->payments()->count() > 0) {
+            if ($invoice && $invoice->payments()->exists() && $invoice->payments()->count() > 0) {
                 return redirect(route('invoices.index'))->with('status', 'Invoice has attached payments.');
             }
         }
