@@ -3,6 +3,8 @@ namespace MicroweberPackages\Payment;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use MicroweberPackages\Customer\Customer;
+use MicroweberPackages\Invoice\Invoice;
 
 class Payment extends Model
 {
