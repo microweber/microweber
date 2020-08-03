@@ -4,7 +4,6 @@ namespace MicroweberPackages\Invoice\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use MicroweberPackages\Invoice\CompanySetting;
 use MicroweberPackages\Invoice\Company;
-use Illuminate\Support\Collection;
 use MicroweberPackages\Currency\Currency;
 use MicroweberPackages\Customer\Customer;
 use MicroweberPackages\Invoice\InvoiceTemplate;
@@ -435,9 +434,7 @@ class InvoicesController extends AdminController
         }
 
 
-        return response()->json([
-            'success' => true
-        ]);
+        return redirect(route('invoices'))->with('status', 'Invoice is sent.');
     }
 
 
@@ -454,9 +451,7 @@ class InvoicesController extends AdminController
         $invoice->sent = true;
         $invoice->save();
 
-        return response()->json([
-            'success' => true
-        ]);
+        return redirect(route('invoices.index'))->with('status', 'Invoice is marked as sent.');
     }
 
 
@@ -474,9 +469,7 @@ class InvoicesController extends AdminController
         $invoice->due_amount = 0;
         $invoice->save();
 
-        return response()->json([
-            'success' => true
-        ]);
+        return redirect(route('invoices.index'))->with('status', 'Invoice is marked as paid.');
     }
 
 
