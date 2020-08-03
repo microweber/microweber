@@ -10,7 +10,7 @@
 
 
     <form method="get">
-        <div class="row">
+        <div class="row well">
             <div class="col-md-3">
                 <b>Status</b>
                 <select name="status" class="form-control">
@@ -44,7 +44,7 @@
                 <button type="submit" style="margin-top: 15px" class="btn btn-success btn-block"><i class="fa fa-filter"></i> Filter results</button>
             </div>
         </div>
-    </form> 
+    </form>
 
     <br />
     <br />
