@@ -71,8 +71,7 @@
 
                 // Calculate discount
                 this.discountVal = parseFloat($('.js-invoice-discount-val-input').val());
-                this.discountType = parseFloat($('.js-invoice-discount-type-input').val());
-
+                this.discountType = $('.js-invoice-discount-type-input').val();
 
                 if (this.discountType == 'fixed') {
                     this.total = (this.total - this.discountVal);
@@ -310,20 +309,20 @@
                             </div>
                         </div>
 
-                        <div class="col-md-12" style="text-align: right">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label>Taxes:</label>
                                 <br/>
-                                <select class="form-control" name="tax_ids" multiple>
-                                    @foreach($taxTypes as $taxType)
-                                        <option value="{{$taxType->id}}">{{$taxType->name}} -
-
-                                            @if($taxType->type =='fixed') {{currency_format($taxType->rate) }} @endif
-
-                                            @if($taxType->type =='percent') {{$taxType->rate}}% @endif
-                                        </option>
-                                    @endforeach
-                                </select>
+                                <div style="overflow-y: scroll">
+                                @foreach($taxTypes as $taxType)
+                                <label style="width: 100%;text-align: left;">
+                                <input type="checkbox" value="{{$taxType->id}}" />
+                                    {{$taxType->name}} -
+                                    @if($taxType->type =='fixed') {{currency_format($taxType->rate) }} @endif
+                                    @if($taxType->type =='percent') {{$taxType->rate}}% @endif
+                                </label>
+                                @endforeach
+                                </div>
                             </div>
                         </div>
 
