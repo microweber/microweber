@@ -308,9 +308,9 @@ class InvoicesController extends AdminController
             $invoice->status = Invoice::STATUS_COMPLETED;
             $invoice->paid_status = Invoice::STATUS_PAID;
         } elseif ($invoice->due_amount < 0 && $invoice->paid_status != Invoice::STATUS_UNPAID) {
-            return response()->json([
-                'error' => 'invalid_due_amount'
-            ]);
+
+            return redirect(route('invoices.index'))->with('status', 'Invalid invoice due amount.');
+
         } elseif ($invoice->due_amount != 0 && $invoice->paid_status == Invoice::STATUS_PAID) {
             $invoice->status = $invoice->getPreviousStatus();
             $invoice->paid_status = Invoice::STATUS_PARTIALLY_PAID;
@@ -423,9 +423,7 @@ class InvoicesController extends AdminController
         $email = $data['customer']['email'];
 
         if (!$email) {
-            return response()->json([
-                'error' => 'user_email_does_not_exist'
-            ]);
+            return redirect(route('invoices.edit', $request->id))->with('status', 'User email does not exist.');
         }
 
         \Mail::to($email)->send(new InvoicePdf($data));
