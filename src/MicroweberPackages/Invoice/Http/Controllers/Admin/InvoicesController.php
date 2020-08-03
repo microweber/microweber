@@ -394,9 +394,6 @@ class InvoicesController extends AdminController
 
     public function delete(Request $request)
     {
-
-        var_dump($request->id);
-        die();
         foreach ($request->id as $id) {
             $invoice = Invoice::find($id);
 

@@ -54,13 +54,29 @@
         $(document).ready(function () {
             $(".js-select-all").click(function () {
                 $("input[type=checkbox]").prop('checked', $(this).prop('checked'));
-                //$('.js-delete-all').toggle();
+            });
+            $('.js-delete-selected-form').submit(function (e) {
+                e.preventDefault();
+
+                var id = [];
+                $("input[name='id']:checked").each (function() {
+                    id.push($(this).val());
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: $(this).attr('action'),
+                    data: $(this).serialize() + '&id=' + id.join(','),
+                    success: function(data) {
+                        window.location = window.location;
+                    }
+                });
             });
         });
     </script>
 
     <div class="actions">
-        <form method="POST" action="{{ route('invoices.delete') }}">
+        <form method="POST" class="js-delete-selected-form" action="{{ route('invoices.delete') }}">
         {{method_field('DELETE')}}
         {{csrf_field()}}
         <button class="btn btn-danger js-delete-all"><i class="fa fa-times"></i> Delete all</button>
@@ -83,7 +99,7 @@
         <tbody>
         @foreach($invoices as $invoice):
         <tr>
-            <th><input type="checkbox"></th>
+            <th><input type="checkbox" name="id" class="js-selected-invoice" value="{{$invoice->id}}"></th>
             <td>{{ $invoice->invoice_date }}</td>
             <td>{{ $invoice->invoice_number }}</td>
             <td>
