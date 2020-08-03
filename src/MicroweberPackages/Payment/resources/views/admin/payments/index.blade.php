@@ -30,7 +30,13 @@
                 {{ $payment->customer->first_name }}
                 {{ $payment->customer->last_name }}
             </td>
-            <td>{{ $payment->paymentMethod->name }}</td>
+            <td>
+                @if ($payment->paymentMethod)
+                {{ $payment->paymentMethod->name }}
+                @else
+                    No Payment Method
+                @endif
+            </td>
             <td>{{ $payment->payment_number }}</td>
             <td>{{ $payment->invoice->invoice_number }}</td>
             <td>{{ currency_format($payment->amount) }}</td>
