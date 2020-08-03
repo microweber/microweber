@@ -49,10 +49,20 @@
     <br />
     <br />
 
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".js-select-all").click(function () {
+                $("input[type=checkbox]").prop('checked', $(this).prop('checked'));
+
+            });
+        });
+    </script>
+
     <table class="table">
         <thead>
         <tr>
-            <th><input type="checkbox"></th>
+            <th><input class="js-select-all" type="checkbox"></th>
             <th>Date</th>
             <th>Number</th>
             <th>Customer</th>

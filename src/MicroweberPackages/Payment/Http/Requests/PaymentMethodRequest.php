@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Invoice\Http\Requests;
+namespace MicroweberPackages\Payment\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;

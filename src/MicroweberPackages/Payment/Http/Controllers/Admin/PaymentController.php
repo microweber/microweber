@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use MicroweberPackages\App\Http\Controllers\AdminController;
 use MicroweberPackages\Customer\Customer;
 use MicroweberPackages\Invoice\Company;
-use MicroweberPackages\Invoice\Http\Requests\PaymentRequest;
+use MicroweberPackages\Payment\Http\Requests\PaymentRequest;
 use MicroweberPackages\Invoice\Invoice;
 use MicroweberPackages\Payment\Payment;
 use MicroweberPackages\Payment\PaymentMethod;

@@ -8,10 +8,20 @@
         </div>
     @endif
 
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".js-select-all").click(function () {
+                $("input[type=checkbox]").prop('checked', $(this).prop('checked'));
+
+            });
+        });
+    </script>
+
+
     <table class="table">
         <thead>
         <tr>
-            <th><input type="checkbox"></th>
+            <th><input type="checkbox" class="js-select-all"></th>
             <th>Date</th>
             <th>Customer</th>
             <th>Payment Mode</th>
