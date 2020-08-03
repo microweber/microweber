@@ -151,7 +151,7 @@
     @else
     <form method="post" action="{{ route('invoices.store') }}">
     @endif
-    @csrf 
+    @csrf
     <div class="modal js-invoice-select-customer-modal">
         <div class="modal-dialog">
             <div class="modal-content">
