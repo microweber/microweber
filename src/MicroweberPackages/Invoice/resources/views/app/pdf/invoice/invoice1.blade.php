@@ -349,8 +349,8 @@
         <table width="100%">
             <tr>
                 <td class="text-center">
-                    @if($owner_company_logo)
-                        <img class="header-logo" src="{{ $owner_company_logo }}" alt="Company Logo">
+                    @if(!empty($owner_company_logo))
+                        <img class="header-logo" src="{{ url2dir($owner_company_logo) }}" alt="Company Logo">
                     @else
                         @if($owner_company_name)
                             <h2 class="header-logo"> {{$owner_company_name}} </h2>

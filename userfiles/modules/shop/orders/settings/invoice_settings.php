@@ -3,6 +3,31 @@
         mw.options.form('.<?php print $config['module_class'] ?>', function () {
             mw.notification.success("<?php _ejs("Saved"); ?>.");
         });
+
+        var uploader = mw.uploader({
+            filetypes:"images,videos",
+            multiple:false,
+            element:"#mw_uploader"
+        });
+
+        $(uploader).bind("FileUploaded", function(event, data){
+            mw.$("#mw_uploader_loading").hide();
+            mw.$("#mw_uploader").show();
+            mw.$("#upload_info").html("");
+            $('.js-company-logo').val(data.src);
+            $('.js-company-logo').trigger("change");
+        });
+
+        $(uploader).bind('progress', function(up, file) {
+            mw.$("#mw_uploader").hide();
+            mw.$("#mw_uploader_loading").show();
+            mw.$("#upload_info").html(file.percent + "%");
+        });
+
+        $(uploader).bind('error', function(up, file) {
+            mw.notification.error("The file is not uploaded.");
+        });
+
     });
 </script>
 
@@ -24,7 +49,14 @@
 
 <div class="m-b-10">
     <label class="mw-ui-label bold p-b-10">Company Logo: </label>
-    <input type="file" class="mw-ui-field mw_option_field block-field" data-option-group="shop" name="invoice_company_logo" placeholder="" value="<?php echo get_option('invoice_company_logo', 'shop'); ?>">
+
+    <span id="mw_uploader" class="mw-ui-btn">
+    <span class="ico iupload"></span>
+    <span>Upload file<span id="upload_info"></span>
+    </span>
+    </span>
+
+    <input type="hidden" class="js-company-logo mw_option_field" data-option-group="shop" name="invoice_company_logo" placeholder="" value="<?php echo get_option('invoice_company_logo', 'shop'); ?>">
 </div>
 
 <div class="mw-ui-row">
