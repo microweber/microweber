@@ -62,8 +62,8 @@ class InvoicesController extends AdminController
                'code'=>'USD',
                'symbol'=>'$',
                'precision'=>'2',
-               'thousand_separator'=>' ',
-               'decimal_separator'=>',',
+               'thousand_separator'=>',',
+               'decimal_separator'=>'.',
                'swap_currency_symbol'=>0,
             ]);
         }
