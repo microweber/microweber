@@ -112,10 +112,11 @@ $(document).ready(function () {
     });*/
 
     $('body').on('click', '[data-toggle="collapse-mw"]', function (e) {
-        if (e.target.nodeName === 'A' || e.target.nodeName === 'BUTTON' || e.target.classList.contains('btn') || mw.tools.hasParentsWithTag(e.target, 'a')) {
-
-        } else {
-            var target = $(this).data('target');
+        var has = mw.tools.firstMatchesOnNodeOrParent(e.target, [
+            'a', 'button', '.btn', '.mw-ui-btn', 'input', 'select', 'textarea', 'img', 'label', '.mdi'
+        ]);
+        if(!has) {
+             var target = $(this).data('target');
             $(target).toggleClass('show');
         }
     });
