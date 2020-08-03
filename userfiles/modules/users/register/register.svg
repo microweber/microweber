@@ -1,1 +1,14 @@
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 57 57"><title>22</title><g id="_Group_" data-name="&lt;Group&gt;" style="isolation:isolate"><image id="_Image_" data-name="&lt;Image&gt;" width="57" height="57" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADkAAAA5CAYAAACMGIOFAAAACXBIWXMAAAsSAAALEgHS3X78AAABHElEQVRoQ+3bMW7CQBSE4RcKUkSigDR05BQU5ALBhWlyF+6QU0CTLhyEE3AAisg3CEJmZtexaNJnvGPprxDSfnrr7jnatg2G56FrJF5y/LqSrQPyxzGaoCl6Fm0W2fCIRncDTHIC52iJ3lCNNmLxzBVaoQV6ig7Kh0jqCdyiPfpCB8E+0Qd6Ry+RJ0pfuqq8omu0Qyf0jRrBzugYGfoaeXg9kve5jjxBAi/oKthPZCgnWkV+R+nrkbzXHHnT/aEVjOfm+TkseugaLJIOI4385xlppFBGGimUkUYKZaSRQhlppFBGGimUkUYKZaSRQhlppFBGGimUkUYKZaSRQhlppFBFIf/cratj4FuSg993LWJzefg76EV8TVDCdyE3G+hTQEfCC8EAAAAASUVORK5CYII=" style="opacity:0.35000000000000003"/><g id="_Group_2" data-name="&lt;Group&gt;"><g id="_Group_3" data-name="&lt;Group&gt;"><rect id="_Rectangle_" data-name="&lt;Rectangle&gt;" x="2.32" y="2.02" width="50" height="50" rx="1" ry="1" style="fill:#fff"/></g></g></g><path id="_Compound_Path_" data-name="&lt;Compound Path&gt;" d="M784.6,772.21c3.09,0,5.59-3.08,5.59-6.88s-2.5-6-5.59-6-5.59,2.22-5.59,6S781.51,772.21,784.6,772.21Zm10.86,9.33c-0.55-5-5.13-7.17-10.7-7.17h-0.32c-5.57,0-10.16,2.18-10.7,7.17,0,0.13,0,1.22,0,1.81a19.28,19.28,0,0,0,21.79,0C795.49,782.76,795.47,781.67,795.46,781.54Zm11.48-13.8h-4.76V763H799v4.76h-4.76v3.15H799v4.76h3.15v-4.76h4.76v-3.15h0Z" transform="translate(-763 -746)" style="fill:#464646"/></svg>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 23.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 36 36" style="enable-background:new 0 0 36 36;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#2B2B2B;}
+</style>
+<g>
+	<path class="st0" d="M13.7,15.6v3H9.2v4.5h-3v-4.5H1.6v-3h4.5v-4.5h3v4.5H13.7z M27.6,22.3c2,0.5,3.6,1.2,4.9,2
+		c1.5,1,2.3,2.1,2.3,3.3v3h-24v-3c0-1.2,0.7-2.3,2.3-3.3c1.2-0.8,2.8-1.5,4.9-2c1.8-0.4,3.4-0.6,4.9-0.6
+		C24.2,21.6,25.8,21.8,27.6,22.3z M18.4,16.9c-1.2-1.2-1.8-2.6-1.8-4.3c0-1.7,0.6-3.1,1.8-4.3c1.2-1.2,2.6-1.8,4.2-1.8
+		c1.6,0,3,0.6,4.2,1.8c1.2,1.2,1.8,2.6,1.8,4.3c0,1.7-0.6,3.1-1.8,4.3c-1.2,1.2-2.6,1.8-4.2,1.8C21,18.6,19.6,18,18.4,16.9z"/>
+</g>
+</svg>

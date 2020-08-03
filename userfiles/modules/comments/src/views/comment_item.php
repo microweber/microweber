@@ -1,5 +1,5 @@
 
-<div class="card mb-2 not-collapsed-border collapsed bg-silver" data-toggle="collapse" data-target="#comments-<?php print $comment['id'] ?>" id="comment-<?php print $comment['id'] ?>" aria-expanded="false" aria-controls="collapseExample">
+<div class="card mb-2 not-collapsed-border collapsed bg-silver" data-toggle="collapse-mw" data-target="#comments-<?php print $comment['id'] ?>" id="comment-<?php print $comment['id'] ?>" aria-expanded="false" aria-controls="collapseExample">
     <div class="card-body">
         <?php
         $image = '';
