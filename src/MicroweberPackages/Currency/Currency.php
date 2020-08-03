@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Invoice;
+namespace MicroweberPackages\Currency;
 
 use Illuminate\Database\Eloquent\Model;
 

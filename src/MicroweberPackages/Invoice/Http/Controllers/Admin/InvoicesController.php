@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use MicroweberPackages\Invoice\CompanySetting;
 use MicroweberPackages\Invoice\Company;
 use Illuminate\Support\Collection;
-use MicroweberPackages\Invoice\Currency;
+use MicroweberPackages\Currency\Currency;
 use MicroweberPackages\Invoice\Customer;
 use MicroweberPackages\Invoice\InvoiceTemplate;
 use MicroweberPackages\Invoice\Http\Requests;
