@@ -12,6 +12,7 @@
 namespace MicroweberPackages\Shop;
 
 use DB;
+use MicroweberPackages\Currency\Currency;
 use MicroweberPackages\Utils\Http\Http;
 
 /**
@@ -542,7 +543,7 @@ class ShopManager
         }
 
         $row = 1;
-        $cur_file = MW_PATH . 'Utils' . DS . 'lib' . DS . 'currencies.csv';
+        $cur_file = dirname(MW_PATH) . DS . 'Utils' . DS . 'ThirdPartyLibs' . DS . 'currencies.csv';
         if (is_file($cur_file)) {
             if (($handle = fopen($cur_file, 'r')) !== false) {
                 $res = array();
@@ -557,6 +558,20 @@ class ShopManager
                 }
                 fclose($handle);
                 $currencies_list = $res;
+
+                foreach ($currencies_list as $currency) {
+                    $findCurrency = Currency::where('name', $currency[0])->where('code', $currency[2])->where('symbol', $currency[3])->first();
+                    if (!$findCurrency) {
+                        $newCurrency = new Currency();
+                        $newCurrency->name = $currency[2];
+                        $newCurrency->code = $currency[1];
+                        $newCurrency->symbol = $currency[3];
+                        $newCurrency->precision = 2;
+                        $newCurrency->thousand_separator = ',';
+                        $newCurrency->decimal_separator = '.';
+                        $newCurrency->save();
+                    }
+                }
 
                 return $res;
             }
