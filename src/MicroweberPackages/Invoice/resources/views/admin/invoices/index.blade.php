@@ -8,6 +8,47 @@
         </div>
     @endif
 
+
+    <form method="get">
+        <div class="row">
+            <div class="col-md-3">
+                <b>Status</b>
+                <select name="status" class="form-control">
+                    <option disabled="disabled">Status</option>
+                    <option @if(request()->get('status') == '') selected="selected"@endif value="">ALL</option>
+                    <option @if(request()->get('status') == 'DUE') selected="selected"@endif value="DUE">DUE</option>
+                    <option @if(request()->get('status') == 'DRAFT') selected="selected"@endif value="DRAFT">DRAFT</option>
+                    <option @if(request()->get('status') == 'SENT') selected="selected"@endif value="SENT">SENT</option>
+                    <option @if(request()->get('status') == 'VIEWED') selected="selected"@endif value="VIEWED">VIEWED</option>
+                    <option @if(request()->get('status') == 'OVERDUE') selected="selected"@endif value="OVERDUE">OVERDUE</option>
+                    <option @if(request()->get('status') == 'COMPLETED') selected="selected"@endif value="COMPLETED">COMPLETED</option>
+                    <option disabled="disabled">Paid Status</option>
+                    <option @if(request()->get('status') == 'UNPAID') selected="selected"@endif value="UNPAID">UNPAID</option>
+                    <option @if(request()->get('status') == 'PAID') selected="selected"@endif value="PAID">PAID</option>
+                    <option @if(request()->get('status') == 'PARTIALLY_PAID') selected="selected"@endif value="PARTIALLY_PAID">PARTIALLY PAID</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <b>From date</b>
+                <input type="date" class="form-control" value="@if(request()->get('from_date')){{request()->get('from_date')}}@else{{date('Y-m-d')}}@endif" name="from_date">
+            </div>
+            <div class="col-md-2">
+                <b>To date</b>
+                <input type="date" class="form-control" value="@if(request()->get('to_date')){{request()->get('to_date')}}@else{{date('Y-m-d')}}@endif" name="to_date">
+            </div>
+            <div class="col-md-3">
+                <b>Invoice Number</b>
+                <input type="text" class="form-control" value="@if(request()->get('invoice_number')){{request()->get('invoice_number')}}@endif" name="invoice_number">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" style="margin-top: 15px" class="btn btn-success btn-block"><i class="fa fa-filter"></i> Filter results</button>
+            </div>
+        </div>
+    </form> 
+
+    <br />
+    <br />
+
     <table class="table">
         <thead>
         <tr>

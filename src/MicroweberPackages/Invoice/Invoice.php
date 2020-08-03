@@ -2,8 +2,9 @@
 namespace MicroweberPackages\Invoice;
 
 use Illuminate\Database\Eloquent\Model;
+use MicroweberPackages\Customer\Customer;
 use MicroweberPackages\Invoice\InvoiceTemplate;
-use MicroweberPackages\Invoice\Payment;
+use MicroweberPackages\Payment\Payment;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Tax\Tax;
@@ -251,8 +252,8 @@ class Invoice extends Model
         }
 
         if ($filters->get('from_date') && $filters->get('to_date')) {
-            $start = Carbon::createFromFormat('d/m/Y', $filters->get('from_date'));
-            $end = Carbon::createFromFormat('d/m/Y', $filters->get('to_date'));
+            $start = Carbon::createFromFormat('Y-m-d', $filters->get('from_date'));
+            $end = Carbon::createFromFormat('Y-m-d', $filters->get('to_date'));
             $query->invoicesBetween($start, $end);
         }
 
