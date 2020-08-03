@@ -83,7 +83,7 @@ if ($id != false) {
             } ?> " id="module_admin_settings_form_<?php print $params['id']; ?>">
                 <div class="d-flex align-items-center justify-content-center flex-column" <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?>onclick="window.location.href = '<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>';"<?php endif; ?>>
                     <?php if (isset($data['icon'])): ?>
-                        <img src="<?php print $data['icon'] ?>" style="max-width: 100px;" data-toggle="tooltip" data-title="<?php print $data['module'] ?>"/>
+                        <img src="<?php print $data['icon'] ?>" style="height:54px;" x-data-toggle="tooltip" data-title="<?php print $data['module'] ?>"/>
                     <?php endif; ?>
 
                     <div class="admin-modules-list-description mt-3">
