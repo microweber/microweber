@@ -50,7 +50,7 @@
             </div>
 
             <div class="col-md-12">
-                <h3>Billing Address</h3>
+                <h3>Shipping Address</h3>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
@@ -83,8 +83,9 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Adress:</label>
-                    <input type="text" class="form-control" value="@if(isset($customer->addresses[0])){{$customer->addresses[0]->address_street_1}}@endif" placeholder="Street 1" name="addresses[0][address_street_1]"/>
-                    <input type="text" class="form-control" value="@if(isset($customer->addresses[0])){{$customer->addresses[0]->address_street_2}}@endif" placeholder="Street 2" name="addresses[0][address_street_2]"/>
+                    <textarea class="form-control" placeholder="Street 1" name="addresses[0][address_street_1]">@if(isset($customer->addresses[0])){{$customer->addresses[0]->address_street_1}}@endif</textarea>
+                    <br />
+                    <textarea class="form-control" placeholder="Street 2" name="addresses[0][address_street_2]">@if(isset($customer->addresses[0])){{$customer->addresses[0]->address_street_2}}@endif</textarea>
                 </div>
             </div>
             <div class="col-md-6">
@@ -99,7 +100,7 @@
                     <input type="text" class="form-control" value="@if(isset($customer->addresses[0])){{$customer->addresses[0]->zip}}@endif" name="addresses[0][zip]"/>
                 </div>
             </div>
-            <input type="hidden" class="form-control" value="billing" name="addresses[0][type]"/> 
+            <input type="hidden" class="form-control" value="shipping" name="addresses[0][type]"/>
 
             <div class="col-md-12" style="margin-top:15px;">
                 <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save Customer</button>
