@@ -5,7 +5,8 @@ namespace MicroweberPackages\Checkout;
 use Carbon\Carbon;
 use Microweber\App\Providers\Illuminate\Support\Facades\Config;
 use Microweber\App\Providers\Illuminate\Support\Facades\Crypt;
-use MicroweberPackages\Invoice\Customer;
+use MicroweberPackages\Customer\Customer;
+use MicroweberPackages\Invoice\Address;
 use MicroweberPackages\Invoice\Invoice;
 use MicroweberPackages\Utils\Mail\MailSender;
 use Twig\Environment;
@@ -526,6 +527,21 @@ class CheckoutManager
                         'phone'=>$data['phone']
                     ]);
                     $findCustomer = $createNewCustomer;
+                }
+
+                $findCustomerAddressByCustomerId = Address::where('customer_id', $findCustomer->id)
+                    ->where('city', $data['city'])
+                    ->where('address_street_1',$data['address'])
+                    ->first();
+                if (!$findCustomerAddressByCustomerId) {
+                    Address::create([
+                        'name'=> '',
+                        'city'=>$data['city'],
+                        'phone'=>$data['phone'],
+                        'address_street_1'=>$data['address'],
+                        'state'=>$data['state'],
+                        'zip'=>$data['zip']
+                    ]);
                 }
 
                 $invoicePrefix = 'INV';
