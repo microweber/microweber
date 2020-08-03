@@ -61,7 +61,11 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Country:</label>
-                    <input type="text" class="form-control" value="@if(isset($customer->addresses[0])) {{$customer->addresses[0]->country_id}} @endif" name="addresses[0][country_id]" />
+                    <select class="form-control" value="@if(isset($customer->addresses[0])) {{$customer->addresses[0]->country_id}} @endif" name="addresses[0][country_id]">
+                        @foreach($countries as $country)
+                           <option value="{{ $country->id }}">{{ $country->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
             <div class="col-md-6">

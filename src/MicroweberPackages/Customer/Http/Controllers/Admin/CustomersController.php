@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\App\Http\Controllers\AdminController;
 use MicroweberPackages\Invoice\Conversation;
 use MicroweberPackages\Customer\Customer;
+use MicroweberPackages\Invoice\Country;
 use MicroweberPackages\Invoice\Group;
 use MicroweberPackages\Invoice\Http\Requests;
 use MicroweberPackages\Invoice\Notifications\CustomerAdded;
@@ -47,7 +48,7 @@ class CustomersController extends AdminController
             'customers' => $customers
         ];
 
-        return $this->view('invoice::admin.customers.index', $siteData);
+        return $this->view('customer::admin.customers.index', $siteData);
     }
 
 
@@ -110,7 +111,7 @@ class CustomersController extends AdminController
      */
     public function show($id)
     {
-        $customer = User::with([
+        $customer = Customer::with([
             'billingAddress',
             'shippingAddress',
             'billingAddress.country',
@@ -127,7 +128,7 @@ class CustomersController extends AdminController
     {
         $currencies = Currency::all();
 
-        return $this->view('invoice::admin.customers.edit',[
+        return $this->view('customer::admin.customers.edit',[
             'customer' => false,
             'currencies' => $currencies,
             'currency' => false
@@ -146,7 +147,8 @@ class CustomersController extends AdminController
         $currency = $customer->currency;
         $currencies = Currency::all();
 
-        return $this->view('invoice::admin.customers.edit',[
+        return $this->view('customer::admin.customers.edit',[
+            'countries'=>Country::all(),
             'customer' => $customer,
             'currencies' => $currencies,
             'currency' => $currency
@@ -187,10 +189,10 @@ class CustomersController extends AdminController
         $customer->currency_id = $request->currency_id;
         $customer->email = $request->email;
         $customer->phone = $request->phone;
-        $customer->company_name = $request->company_name;
-        $customer->contact_name = $request->contact_name;
+    //    $customer->company_name = $request->company_name;
+       // $customer->contact_name = $request->contact_name;
       //  $customer->website_url = $request->website;
-        $customer->enable_portal = $request->enable_portal;
+       // $customer->enable_portal = $request->enable_portal;
         $customer->save();
 
         $customer->addresses()->delete();
@@ -211,7 +213,7 @@ class CustomersController extends AdminController
                 $newAddress->zip = $address["zip"];
                 $newAddress->phone = $address["phone"];
                 $newAddress->type = $address["type"];
-                $newAddress->user_id = $customer->id;
+                $newAddress->customer_id = $customer->id;
                 $newAddress->save();
             }
         }

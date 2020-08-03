@@ -2,8 +2,7 @@
 namespace MicroweberPackages\Invoice;
 
 use Illuminate\Database\Eloquent\Model;
-use MicroweberPackages\User\User;
-use MicroweberPackages\Invoice\Country;
+use MicroweberPackages\Customer\Customer;
 
 class Address extends Model
 {
@@ -24,9 +23,9 @@ class Address extends Model
         'user_id'
     ];
 
-    public function user()
+    public function customer()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Customer::class);
     }
 
     public function country()

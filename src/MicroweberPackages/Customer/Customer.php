@@ -3,6 +3,8 @@
 namespace MicroweberPackages\Customer;
 
 use Illuminate\Database\Eloquent\Model;
+use MicroweberPackages\Currency\Currency;
+use MicroweberPackages\Invoice\Address;
 use MicroweberPackages\Invoice\Company;
 
 class Customer extends Model
