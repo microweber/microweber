@@ -149,7 +149,7 @@ if (is_array($custom_prices_from_modules)) {
 //$price_offers = false;
 //
 //// check for offer prices
-//if (mw()->modules->is_installed('shop/offers') and function_exists('offers_get_by_product_id')) {
+//if (mw()->module_manager->is_installed('shop/offers') and function_exists('offers_get_by_product_id')) {
 //    $price_offers = offers_get_by_product_id($for_id);
 //}
 

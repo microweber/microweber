@@ -10,7 +10,7 @@ namespace Newsletter\Providers;
 
 use Microweber\App\Providers\Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Config;
-use Microweber\Utils\MailSender;
+use MicroweberPackages\Utils\Mail\MailSender;
 
 class PHPMailProvider extends \Newsletter\Providers\DefaultProvider {
 	

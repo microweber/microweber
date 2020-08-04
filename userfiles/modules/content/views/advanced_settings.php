@@ -384,7 +384,7 @@ if (isset($data['created_by']) and $data['created_by']) {
         </div>
     </div>
 
-<?php $custom = mw()->modules->ui('mw.admin.content.edit.advanced_settings.end'); ?>
+<?php $custom = mw()->module_manager->ui('mw.admin.content.edit.advanced_settings.end'); ?>
 
 <?php if (!empty($custom)): ?>
     <div>

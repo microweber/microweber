@@ -66,7 +66,7 @@ if ($load_module == true): ?>
 
 
     } else {
-        $mods = mw()->modules->get($mod_params);
+        $mods = mw()->module_manager->get($mod_params);
 
 
     }

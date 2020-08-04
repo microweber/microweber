@@ -3,7 +3,7 @@
 only_admin_access();
 
 
-$modules = mw()->modules->get('installed=1&ui=1');
+$modules = mw()->module_manager->get('installed=1&ui=1');
 
 
 foreach($modules as $module){

@@ -3,10 +3,10 @@
 
 namespace Microweber\Comments\Models;
 
-use Microweber\Providers\Database\Crud;
+use MicroweberPackages\Database\Crud;
 use Microweber\Utils\Http;
-use Microweber\Utils\MailSender;
-use Microweber\View;
+use MicroweberPackages\Utils\Mail\MailSender;
+use MicroweberPackages\View\View;
 use GrahamCampbell\Markdown\Facades\Markdown;
 
 

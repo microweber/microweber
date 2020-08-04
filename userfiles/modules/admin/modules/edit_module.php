@@ -7,7 +7,7 @@ if (isset($params["data-module-id"])) {
 $data = array();
 if ($id != false) {
 
-    $data = mw()->modules->get('ui=any&limit=1&id=' . $id);
+    $data = mw()->module_manager->get('ui=any&limit=1&id=' . $id);
     if (isset($data[0])) {
         $data = $data[0];
     }

@@ -156,7 +156,7 @@ if ($last_page_front != false) {
 $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 
 if (!$shop_disabled) {
-    if (!mw()->modules->is_installed('shop')) {
+    if (!mw()->module_manager->is_installed('shop')) {
         $shop_disabled = true;
     }
 }
@@ -293,7 +293,7 @@ if (!$shop_disabled) {
                             <?php $custom_view = url_param('view'); ?>
                             <?php $custom_action = url_param('action'); ?>
                             <?php event_trigger('content.create.menu'); ?>
-                            <?php $create_content_menu = mw()->modules->ui('content.create.menu'); ?>
+                            <?php $create_content_menu = mw()->module_manager->ui('content.create.menu'); ?>
                             <?php if (!empty($create_content_menu)): ?>
                                 <?php foreach ($create_content_menu as $type => $item): ?>
                                     <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
@@ -455,7 +455,7 @@ if (!$shop_disabled) {
                                     <i class="mdi mdi-plus"></i>
                                 </span>
                         </a>
-                        <?php if ($shop_disabled == false AND mw()->modules->is_installed('shop') == true): ?>
+                        <?php if ($shop_disabled == false AND mw()->module_manager->is_installed('shop') == true): ?>
                             <a
                                     class="dropdown-item <?php if ($action == 'products'): ?> active <?php endif; ?>"
                                     href="<?php print admin_url(); ?>view:content/action:products">
@@ -473,7 +473,7 @@ if (!$shop_disabled) {
                         </a>
                     </div>
                 </li>
-                <?php if ($shop_disabled == false AND mw()->modules->is_installed('shop') == true): ?>
+                <?php if ($shop_disabled == false AND mw()->module_manager->is_installed('shop') == true): ?>
                     <?php
                     $shopCls = '';
                     if ($view == 'shop' and $action == false) {
@@ -550,7 +550,7 @@ if (!$shop_disabled) {
 
 
                         <?php event_trigger('mw_admin_settings_menu'); ?>
-                        <?php $settings_menu = mw()->modules->ui('admin.settings.menu'); ?>
+                        <?php $settings_menu = mw()->module_manager->ui('admin.settings.menu'); ?>
                         <?php if (is_array($settings_menu) and !empty($settings_menu)): ?>
                             <?php foreach ($settings_menu as $item): ?>
                                 <?php $module = (isset($item['module'])) ? module_name_encode($item['module']) : false; ?>

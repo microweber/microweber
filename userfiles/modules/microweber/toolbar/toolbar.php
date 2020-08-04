@@ -366,7 +366,7 @@ if (isset($_COOKIE['mw_exp'])) {
                                     </a>
                                 </li>
 
-                                <?php $create_content_menu = mw()->modules->ui('content.create.menu'); ?>
+                                <?php $create_content_menu = mw()->module_manager->ui('content.create.menu'); ?>
                                 <?php if (!empty($create_content_menu)): ?>
                                     <?php foreach ($create_content_menu as $type => $item): ?>
                                         <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
@@ -444,7 +444,7 @@ if (isset($_COOKIE['mw_exp'])) {
                                     <?php event_trigger('live_edit_toolbar_action_menu_start'); ?>
 
 
-                                    <?php $custom_ui = mw()->modules->ui('live_edit.toolbar.action_menu.start'); ?>
+                                    <?php $custom_ui = mw()->module_manager->ui('live_edit.toolbar.action_menu.start'); ?>
                                     <?php if (!empty($custom_ui)): ?>
                                         <?php foreach ($custom_ui as $item): ?>
                                             <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>

@@ -782,7 +782,7 @@ if ($action == 'posts') {
 
                         <?php event_trigger('admin_content_after_website_tree', $params); ?>
 
-                        <?php $custom_title_ui = mw()->modules->ui('content.manager.tree.after'); ?>
+                        <?php $custom_title_ui = mw()->module_manager->ui('content.manager.tree.after'); ?>
                         <?php if (!empty($custom_title_ui)): ?>
                             <?php foreach ($custom_title_ui as $item): ?>
                                 <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>

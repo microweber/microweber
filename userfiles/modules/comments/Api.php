@@ -4,15 +4,12 @@
 namespace comments;
 
 
-use Microweber\Providers\Database\Crud;
-use Microweber\Utils\MailSender;
+use MicroweberPackages\Database\Crud;
+use MicroweberPackages\Utils\Mail\MailSender;
 
 
 class Api extends Crud
 {
-
-
-
 
     public $table = 'comments';
 
@@ -22,9 +19,6 @@ class Api extends Crud
        exit;
 
     }
-
-
-
 
     function get($params)
     {

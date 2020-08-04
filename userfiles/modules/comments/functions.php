@@ -156,7 +156,7 @@ event_bind(
             $btn['title'] = 'Comments';
             $btn['class'] = 'mw-icon-comment';
             $btn['html'] = '<module type="comments/manage" no_post_head="true" content_id="' . $item['id'] . '"  />';
-            mw()->modules->ui('content.edit.tabs', $btn);
+            mw()->module_manager->ui('content.edit.tabs', $btn);
         }
     }
 }

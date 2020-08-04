@@ -1,5 +1,5 @@
 <?php
-use Microweber\View;
+use MicroweberPackages\View\View;
 
 $hide_ctrls = false;
 if (isset($params['hide-controlls']) and $params['hide-controlls']) {

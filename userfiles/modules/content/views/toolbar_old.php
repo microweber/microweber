@@ -240,7 +240,7 @@ if ($last_page_front != false) {
                                                     <div class="mw-ui-btn-vertical-nav">
                                                         <?php event_trigger('content.create.menu'); ?>
 
-                                                        <?php $create_content_menu = mw()->modules->ui('content.create.menu'); ?>
+                                                        <?php $create_content_menu = mw()->module_manager->ui('content.create.menu'); ?>
                                                         <?php if (!empty($create_content_menu)): ?>
                                                             <?php foreach ($create_content_menu as $type => $item): ?>
                                                                 <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
@@ -382,7 +382,7 @@ if ($last_page_front != false) {
             <?php if ($page_info): ?>
                 <?php mw()->event_manager->trigger('module.content.manager.toolbar', $page_info) ?>
             <?php endif; ?>
-            <?php $custom_tabs = mw()->modules->ui('content.manager.toolbar'); ?>
+            <?php $custom_tabs = mw()->module_manager->ui('content.manager.toolbar'); ?>
             <?php if (!empty($custom_tabs)): ?>
                 <div id="manage-content-toolbar-tabs">
                     <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs" id="manage-content-toolbar-tabs-nav">
