@@ -46,8 +46,8 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('customers.index') }}"><i class="fa fa-users"></i> Customers</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('payments.index') }}"><i class="fa fa-money"></i> Payments</a>
+                <li class="nav-itemx">
+                    <a class="nav-linkx" href="{{ route('payments.index') }}"><i class="fa fa-money"></i> Payments</a>
                 </li>
             </ul>
         </div>
