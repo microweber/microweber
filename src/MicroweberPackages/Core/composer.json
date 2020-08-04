@@ -1,0 +1,38 @@
+{
+  "name": "microweber-packages/microweber-core",
+  "description": "Microweber core",
+  "version": "0.0.1",
+  "authors": [
+    {
+      "name": "Microweber",
+      "email": "info@microweber.com"
+    },
+    {
+      "name": "Bozhidar Slaveykov",
+      "email": "bobi@microweber.com"
+    }
+  ],
+  "require": {
+    "microweber-packages/microweber-cms": "dev-master",
+    "microweber-packages/microweber-shop": "dev-master",
+    "microweber-packages/microweber-package-manager": "dev-master",
+    "microweber-packages/microweber-option-manager": "dev-master",
+    "microweber-packages/laravel-config-save": "dev-master",
+    "microweber-packages/laravel-tagged-file-cache": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "MicroweberPackages\\Core\\": ""
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "homepage": "http://microweber.com",
+  "license": "MIT",
+  "support": {
+    "email": "support@microweber.com"
+  }
+}

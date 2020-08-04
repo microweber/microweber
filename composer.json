@@ -14,65 +14,48 @@
     {
       "type": "composer",
       "url": "https://packages.microweberapi.com/"
-    }, {
+    },
+    {
       "type": "composer",
       "url": "https://private-packages.microweberapi.com/"
     }
   ],
   "require": {
-    "composer/composer": "v1.8.5",
-    "composer/installers": "1.*",
-    "laravel/framework": "5.4.*",
-    "illuminate/contracts": "5.4.*",
-    "guzzlehttp/guzzle": "~6.0",
-    "laravel/socialite": "3.0.2",
-    "socialiteproviders/linkedin": "*",
-    "illuminate/support": "5.4.*",
-    "symfony/http-foundation": "3.4.*", 
-    "vlucas/phpdotenv": "2.2",
-    "rcrowe/twigbridge": "^0.9.6",
-    "graham-campbell/markdown": "7.1.x-dev",
-    "keboola/csv": "1.1.*",
-    "league/omnipay": "2.*",
-    "omnipay/stripe": "~2.0",
-    "omnipay/paypal": "~2.0",
-    "omnipay/mollie": "3.*",
-    "ramsey/uuid": "3.0",
-    "paragonie/random_compat": "1.*",
-    "coduo/php-humanizer": "2.0.*",
-    "omnipay/common": "*",
-    "league/csv": "^7.2",
-    "giggsey/libphonenumber-for-php": "^7.6",
-    "laravelcollective/html": "5.4.*",
-    "ezyang/htmlpurifier": "^4.8",
-    "jeremeamia/superclosure": "2.*",
-    "arcanedev/seo-helper": "1.2",
-    "intervention/image": "^2.3",
-    "knplabs/knp-menu": "^2.2",
-    "jenssegers/agent": "~2.1",
-    "geoip2/geoip2": "~2.0",
-    "dompdf/dompdf": "0.8.2",
-    "nikic/php-parser": "3.1.5",
     "doctrine/dbal": "2.5.3",
-    "microweber-deps/recurr": "~3.1",
-    "microweber-deps/laravel-tagging": "~2.2",
-    "oyejorge/less.php": "1.*",
-    "aws/aws-sdk-php": "^3.0",
-    "mailerlite/mailerlite-api-v2-php-sdk": "*",
-    "finlet/flexmail": "*",
+    "laravel/framework": "v7.12.0",
+    "symplify/monorepo-builder": "^8.1",
+    "laravelcollective/html": "^6.0@dev",
+    "laravel/socialite": "^5.0@dev",
+    "ezyang/htmlpurifier": "*",
+    "knplabs/knp-menu": "^3.2@dev",
+    "arcanedev/seo-helper": "dev-master",
+    "microweber-templates/dream": "dev-master",
+    "microweber-templates/new-world": "dev-master",
     "microweber-templates/liteness": "dev-master",
-    "phpoffice/phpspreadsheet": "1.10.1",
-	"microweber-templates/new-world": "dev-master",
-
-    "microweber-templates/dream": "dev-master"
-   },
+    "graham-campbell/markdown": "^12.0@dev",
+    "jenssegers/agent": "^3.0@dev",
+    "geoip2/geoip2": "dev-master",
+    "twig/twig": "3.x-dev",
+    "phpoffice/phpspreadsheet": "*",
+    "halaxa/json-machine": "dev-master",
+    "fideloper/proxy": "dev-master",
+    "fruitcake/laravel-cors": "^2.0@dev",
+    "wikimedia/composer-merge-plugin": "^1.5@dev",
+    "rtconner/laravel-tagging": "^4.0",
+    "spatie/laravel-permission": "*",
+    "barryvdh/laravel-dompdf": "*"
+  },
   "require-dev": {
-      "fzaninotto/faker": "^1.9"
+    "orchestra/testbench": "^5.0",
+    "nunomaduro/collision": "^4.1",
+    "facade/ignition": "^2.0",
+    "fzaninotto/faker": "^1.9",
+    "barryvdh/laravel-debugbar": "^3.2@dev"
   },
   "autoload": {
     "psr-4": {
-      "": "src/",
-      "App\\": "app/"
+      "App\\": "app/",
+      "MicroweberPackages\\": "src/MicroweberPackages/"
     }
   },
   "scripts": {
@@ -83,7 +66,7 @@
   "config": {
     "preferred-install": "dist",
     "platform": {
-      "php": "7.2"
+      "php": "7.3"
     },
     "github-protocols": [
       "https",
@@ -97,5 +80,35 @@
   "support": {
     "email": "support@microweber.com",
     "irc": "irc://irc.freenode.org/microweber"
+  },
+  "replace": {
+    "microweber-packages/microweber-backup-manager": "self.version",
+    "microweber-packages/microweber-cache-manager": "self.version",
+    "microweber-packages/microweber-captcha-manager": "self.version",
+    "microweber-packages/microweber-cms": "self.version",
+    "microweber-packages/microweber-config": "self.version",
+    "microweber-packages/microweber-core": "self.version",
+    "microweber-packages/microweber-database-manager": "self.version",
+    "microweber-packages/microweber-event-manager": "self.version",
+    "microweber-packages/microweber-forms-manager": "self.version",
+    "microweber-packages/microweber-helpers": "self.version",
+    "microweber-packages/microweber-option-manager": "self.version",
+    "microweber-packages/microweber-package-manager": "self.version",
+    "microweber-packages/microweber-shop": "self.version",
+    "microweber-packages/microweber-template-manager": "self.version",
+    "microweber-packages/microweber-user-manager": "self.version",
+    "microweber-packages/microweber-utils": "self.version",
+    "microweber-packages/helper-functions": "self.version",
+    "microweber-packages/laravel-tagged-file-cache": "self.version"
+  },
+  "extra": {
+    "merge-plugin": {
+      "require": [
+        "src/MicroweberPackages/*/composer.json"
+      ],
+      "merge-extra": true,
+      "merge-extra-deep": true,
+      "merge-scripts": true
+    }
   }
 }

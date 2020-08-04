@@ -1,0 +1,31 @@
+{
+  "name": "microweber-packages/laravel-config-save",
+  "description": "Config rewrite for Laravel. Allows to save key and values in cofig files.",
+  "version": "0.0.1",
+  "authors": [
+    {
+      "name": "Microweber",
+      "email": "info@microweber.com"
+    },
+    {
+      "name": "Bozhidar Slaveykov",
+      "email": "bobi@microweber.com"
+    }
+  ],
+  "require": {
+    "microweber-packages/helper-functions": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "MicroweberPackages\\Config\\": ""
+    },
+    "files": [
+      "helpers/config.php"
+    ]
+  },
+  "homepage": "http://microweber.com",
+  "license": "MIT",
+  "support": {
+    "email": "support@microweber.com"
+  }
+}

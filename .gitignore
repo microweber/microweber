@@ -42,3 +42,7 @@ node_modules/
 /.project
 /userfiles/*.log
 /userfiles/*.json
+/phpunit.phar
+/run-build.sh
+/userfiles/templates
+/phpunit-5.7.27.phar
