@@ -176,6 +176,7 @@ class PaymentController extends AdminController
             ->get();
 
         return $this->view('payment::admin.payments.edit', [
+            'invoice_id'=>$id,
             'customers' => Customer::
                // ->whereCompany($request->header('company'))
                 get(),

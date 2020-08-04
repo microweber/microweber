@@ -1,6 +1,15 @@
-<script>
-    mw.lib.require('bootstrap4');
-</script>
+
+
+<link rel="stylesheet" href="http://ui.microweber.com/grunt/plugins/ui/css/main.css">
+<!--    <link rel="stylesheet" id="main-css-style" href="http://ui.microweber.com/grunt/plugins/ui/css/main.php">-->
+
+<!-- MW UI changes CSS -->
+<!--<link rel="stylesheet" href="http://ui.microweber.com/grunt/plugins/ui/css/main.css">-->
+
+<!-- MW UI plugins CSS -->
+<link rel="stylesheet" href="http://ui.microweber.com/assets/ui/plugins/css/plugins.min.css"/>
+
+
 
 <div class="container" style="margin-top: 50px">
 
@@ -26,3 +35,14 @@
     @yield('content')
 
 </div>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="http://ui.microweber.com/assets/ui/plugins/js/jquery-3.4.1.min.js"></script>
+<script src="http://ui.microweber.com/assets/ui/plugins/js/plugins.js"></script>
+<script>
+    $(document).ready(function () {
+
+    });
+</script>
