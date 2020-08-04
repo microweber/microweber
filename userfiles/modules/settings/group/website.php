@@ -289,7 +289,7 @@
                     <div class="card bg-light style-1 mb-3">
                         <div class="card-body pt-3">
                             <div id="mw-global-fields-social-profile-set">
-                                <module type="social_links/admin" module-id="website"/>
+                                <module type="social_links/admin" module-id="website" live_edit="false"/>
                             </div>
                         </div>
                     </div>
