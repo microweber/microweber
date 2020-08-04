@@ -212,7 +212,7 @@ class Invoice extends Model
     public function scopeWhereSearch($query, $search)
     {
         foreach (explode(' ', $search) as $term) {
-            $query->whereHas('user', function ($query) use ($term) {
+            $query->whereHas('customer', function ($query) use ($term) {
                 $query->where('name', 'LIKE', '%'.$term.'%')
                     ->orWhere('contact_name', 'LIKE', '%'.$term.'%')
                     ->orWhere('company_name', 'LIKE', '%'.$term.'%');
@@ -276,6 +276,6 @@ class Invoice extends Model
 
     public function scopeWhereCustomer($query, $customer_id)
     {
-        $query->where('invoices.user_id', $customer_id);
+        $query->where('invoices.customer_id', $customer_id);
     }
 }

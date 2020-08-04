@@ -7,12 +7,75 @@
            <i class="fa fa-check"></i> {{ session('status') }}
         </div>
     @endif
+    
+    @if (session('status_danger'))
+        <div class="alert alert-danger">
+           <i class="fa fa-times"></i> {{ session('status_danger') }}
+        </div>
+    @endif
 
+    <style>
+        .invoices-search-box {
+            margin-top: 15px;
+            background-color: #d6e5fc;
+            border-radius: 4px;
+            padding: 9px;
+            padding-top: 35px;
+            padding-bottom: 35px;
+        }
+        .btn {
+            line-height: 1.3;
+        }
+    </style>
 
     <form method="get">
-        <div class="row well">
+        <input type="hidden" value="true" name="filter">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-inline">
+                    <div class="form-group mr-1 mb-2">
+                        <label for="inputInvoices2" class="sr-only">Invoices</label>
+                        <input type="text" name="search" value="@if(request()->get('search')){{request()->get('search')}}@endif" class="form-control" id="inputInvoices2" placeholder="Search Invoices..">
+                    </div>
+                    <button type="submit" class="btn btn-outline-primary btn-icon mb-2"><i class="mdi mdi-magnify"></i> Search</button>
+                </div>
+            </div>
+
+            @if(request()->get('filter') == 'true')
+            <div class="col-md-1">
+              <a href="{{route('invoices.index')}}" style="margin-top: 15px" class="btn btn-outline-primary">Filter <i class="fa fa-times"></i></a>
+            </div>
+            @else
+                <div class="col-md-1">
+                    <!-- No filter -->
+                </div>
+            @endif
+
+            <div class="col-md-1">
+                <button type="submit" style="margin-top: 15px" class="btn btn-outline-primary">Filter <i class="fa fa-filter"></i></button>
+            </div>
+            <div class="col-md-2 pull-right">
+                <a href="{{ route('invoices.create') }}" style="margin-top: 15px"  class="btn btn-primary btn-block"><i class="fa fa-plus"></i> New Invoice</a>
+            </div>
+        </div>
+        <div class="invoices-search-box">
+        <div class="row">
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Customer:</label>
+                    <select class="form-control selectpicker" data-live-search="true" name="customer_id"
+                            placeholder="Start typing something to search customers...">
+                        <option disabled="disabled">Select customer..</option>
+                        @foreach($customers as $customer)
+                            <option value="{{$customer->id}}">{{$customer->first_name}} {{$customer->last_name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
             <div class="col-md-2">
-                <b>Status</b>
+                <label>Status</label>
                 <select name="status" class="form-control selectpicker">
                     <option disabled="disabled">Status</option>
                     <option @if(request()->get('status') == '') selected="selected"@endif value="">ALL</option>
@@ -28,16 +91,17 @@
                     <option @if(request()->get('status') == 'PARTIALLY_PAID') selected="selected"@endif value="PARTIALLY_PAID">PARTIALLY PAID</option>
                 </select>
             </div>
+
             <div class="col-md-2">
-                <b>From date</b>
-                <input type="date" class="form-control" value="@if(request()->get('from_date')){{request()->get('from_date')}}@else{{date('Y-m-d')}}@endif" name="from_date">
+                <label>From date</label>
+                <input type="date" class="form-control" value="@if(request()->get('from_date')){{request()->get('from_date')}}@else @endif" name="from_date">
             </div>
             <div class="col-md-2">
-                <b>To date</b>
-                <input type="date" class="form-control" value="@if(request()->get('to_date')){{request()->get('to_date')}}@else{{date('Y-m-d')}}@endif" name="to_date">
+                <label>To date</label>
+                <input type="date" class="form-control" value="@if(request()->get('to_date')){{request()->get('to_date')}}@else @endif" name="to_date">
             </div>
-            <div class="col-md-2">
-                <b>Invoice Number</b>
+            <div class="col-md-3">
+                <label>Invoice Number</label>
                 <div class="form-group">
                     <div class="input-group mb-3 prepend-transparent append-transparent">
                         <div class="input-group-prepend">
@@ -50,12 +114,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-2">
-                <button type="submit" style="margin-top: 15px" class="btn btn-success btn-block"><i class="fa fa-filter"></i> Filter results</button>
-            </div>
-            <div class="col-md-2">
-                <a href="{{ route('invoices.create') }}" style="margin-top: 15px"  class="btn btn-primary btn-block"><i class="fa fa-plus"></i> New Invoice</a>
-            </div>
+        </div>
         </div>
     </form>
 
@@ -95,10 +154,17 @@
         </form>
     </div>
 
-    <table class="table">
+    <table class="table table-hover">
         <thead>
         <tr>
-            <th><input class="js-select-all" type="checkbox"></th>
+            <th>
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input js-select-all" id="customCheck2">
+                        <label class="custom-control-label" for="customCheck2"></label>
+                    </div>
+                </div>
+            </th>
             <th>Date</th>
             <th>Number</th>
             <th>Customer</th>
@@ -111,15 +177,44 @@
         <tbody>
         @foreach($invoices as $invoice):
         <tr>
-            <th><input type="checkbox" name="id" class="js-selected-invoice" value="{{$invoice->id}}"></th>
+            <th>
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input js-selected-invoice" id="customCheck1" name="id" value="{{$invoice->id}}">
+                        <label class="custom-control-label" for="customCheck1"></label>
+                    </div>
+                </div>
+            </th>
             <td>{{ $invoice->invoice_date }}</td>
             <td>{{ $invoice->invoice_number }}</td>
             <td>
                 {{ $invoice->customer->first_name }}
                 {{ $invoice->customer->last_name }}
             </td>
-            <td><span class="badge badge-warning">{{ $invoice->status }}</span></td>
-            <td><span class="badge badge-warning">{{ $invoice->paid_status }}</span></td>
+            <td>
+                @if($invoice->status == 'COMPLETED')
+                    <span class="badge badge-success">{{ $invoice->status }}</span>
+                @elseif($invoice->status == '')
+                    <span class="badge badge-warning">{{ $invoice->status }}</span>
+                @elseif($invoice->status == '')
+                    <span class="badge badge-warning">{{ $invoice->status }}</span>
+                @else
+                    <span class="badge badge-warning">{{ $invoice->status }}</span>
+                @endif
+            </td>
+            <td>
+
+                @if($invoice->paid_status == 'PAID')
+                    <span class="badge badge-success">{{ $invoice->paid_status }}</span>
+                @elseif($invoice->paid_status == 'UNPAID')
+                    <span class="badge badge-danger">{{ $invoice->paid_status }}</span>
+                @elseif($invoice->paid_status == 'PARTIALLY_PAID')
+                    <span class="badge badge-warning">PARTIALLY PAID</span>
+                @else
+                    <span class="badge badge-warning">{{ $invoice->paid_status }}</span>
+                @endif
+
+            </td>
             <td>{{ currency_format($invoice->due_amount / 100) }}</td>
             <td>
                 <div class="btn-group">

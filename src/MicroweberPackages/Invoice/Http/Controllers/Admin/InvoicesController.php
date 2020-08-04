@@ -88,6 +88,7 @@ class InvoicesController extends AdminController
             ->paginate($limit);
 
         return $this->view('invoice::admin.invoices.index', [
+            'customers'=> Customer::all(),
             'invoices' => $invoices,
             'invoiceTotalCount' => Invoice::count()
         ]);
@@ -238,6 +239,10 @@ class InvoicesController extends AdminController
             'invoiceTemplate',
             'taxes.taxType'
         ])->find($id);
+
+        if (!$invoice) {
+            return redirect(route('invoices.index'))->with('status_danger', 'Invoice not found.');
+        }
 
         $siteData = [
             'invoice' => $invoice,

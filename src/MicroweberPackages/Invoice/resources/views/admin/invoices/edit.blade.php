@@ -99,7 +99,7 @@
 
                 return '<tr class="js-invoice-item js-invoice-item-' + itemId + '">' +
                     '<td>' +
-                    '    <input type="text" value="' + name + '" class="form-control js-invoice-item-input" name="items[' + itemId + '][name]" placeholder="Type or click to select an item">' +
+                    '    <input type="text" required="required" value="' + name + '" class="form-control js-invoice-item-input" name="items[' + itemId + '][name]" placeholder="Type or click to select an item">' +
                     '    <textarea style="margin-top:5px;border:0px;background: none" name="items[' + itemId + '][description]"  placeholder="Type item Description (optional)" class="form-control js-invoice-item-input">' +
                     description +
                     '</textarea>' +
@@ -238,7 +238,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Invoice Date:</label>
-                                                <input type="datetime-local" class="form-control"
+                                                <input type="date" class="form-control"
                                                        value="{{ date('Y-m-d') }}"
                                                        name="invoice_date"/>
                                             </div>
@@ -247,7 +247,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Invoice Due Date:</label>
-                                                <input type="datetime-local" class="form-control"
+                                                <input type="date" class="form-control"
                                                        value="{{ date('Y-m-d', strtotime('+6 days', strtotime(date('Y-m-d')))) }}"
                                                        name="due_date"/>
                                             </div>

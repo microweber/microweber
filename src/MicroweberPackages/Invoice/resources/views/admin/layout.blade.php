@@ -1,13 +1,13 @@
 
 
-<link rel="stylesheet" href="http://ui.microweber.com/grunt/plugins/ui/css/main.css">
-<!--    <link rel="stylesheet" id="main-css-style" href="http://ui.microweber.com/grunt/plugins/ui/css/main.php">-->
+<link rel="stylesheet" href="//ui.microweber.com/grunt/plugins/ui/css/main.css">
+<!--    <link rel="stylesheet" id="main-css-style" href="//ui.microweber.com/grunt/plugins/ui/css/main.php">-->
 
 <!-- MW UI changes CSS -->
-<!--<link rel="stylesheet" href="http://ui.microweber.com/grunt/plugins/ui/css/main.css">-->
+<!--<link rel="stylesheet" href="//ui.microweber.com/grunt/plugins/ui/css/main.css">-->
 
 <!-- MW UI plugins CSS -->
-<link rel="stylesheet" href="http://ui.microweber.com/assets/ui/plugins/css/plugins.min.css"/>
+<link rel="stylesheet" href="//ui.microweber.com/assets/ui/plugins/css/plugins.min.css"/>
 
 <style>
     .form-control {
@@ -43,10 +43,5 @@
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="http://ui.microweber.com/assets/ui/plugins/js/jquery-3.4.1.min.js"></script>
-<script src="http://ui.microweber.com/assets/ui/plugins/js/plugins.js"></script>
-<script>
-    $(document).ready(function () {
-
-    });
-</script>
+<script src="//ui.microweber.com/assets/ui/plugins/js/jquery-3.4.1.min.js"></script>
+<script src="//ui.microweber.com/assets/ui/plugins/js/plugins.js"></script>
