@@ -152,7 +152,7 @@ class PaymentController extends AdminController
      */
     public function show($id)
     {
-        $payment = Payment::with(['user', 'invoice', 'paymentMethod'])->find($id);
+        $payment = Payment::with(['customer', 'invoice', 'paymentMethod'])->find($id);
 
         return response()->json([
             'payment' => $payment,

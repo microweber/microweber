@@ -103,13 +103,15 @@ class Payment extends Model
 
     public function getFormattedCreatedAtAttribute($value)
     {
-        $dateFormat = CompanySetting::getSetting('carbon_date_format', $this->company_id);
+       // $dateFormat = CompanySetting::getSetting('carbon_date_format', $this->company_id);
+        $dateFormat = 'Y-m-d H:i:s';
         return Carbon::parse($this->created_at)->format($dateFormat);
     }
 
     public function getFormattedPaymentDateAttribute($value)
     {
-        $dateFormat = CompanySetting::getSetting('carbon_date_format', $this->company_id);
+        //$dateFormat = CompanySetting::getSetting('carbon_date_format', $this->company_id);
+        $dateFormat = 'Y-m-d H:i:s';
         return Carbon::parse($this->payment_date)->format($dateFormat);
     }
 

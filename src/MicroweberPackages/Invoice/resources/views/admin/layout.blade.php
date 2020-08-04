@@ -9,14 +9,18 @@
 <!-- MW UI plugins CSS -->
 <link rel="stylesheet" href="http://ui.microweber.com/assets/ui/plugins/css/plugins.min.css"/>
 
+<style>
+    .form-control {
+        height: 3.3rem !important;
+    }
+</style>
 
 
 <div class="container" style="margin-top: 50px">
 
-    <h1 style="margin-bottom: 20px">Invoices - @yield('title')</h1>
+    <h1 style="margin-bottom: 20px"><?php _e('Invoices'); ?> @yield('title')</h1>
 
-    <a href="{{ route('invoices.index') }}" class="btn btn-primary"><i class="fa fa-list"></i> Manage Invoice</a>
-    <a href="{{ route('invoices.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> New Invoice</a>
+   {{-- <a href="{{ route('invoices.index') }}" class="btn btn-primary"><i class="fa fa-list"></i> Manage Invoice</a>
 
      |
     <a href="{{ route('tax-types.index') }}" class="btn btn-primary"><i class="fa fa-list"></i> Manage Taxes</a>
@@ -28,7 +32,7 @@
     |
     <a href="{{ route('payments.index') }}" class="btn btn-primary"><i class="fa fa-list"></i> Manage payments</a>
     <a href="{{ route('payments.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> New Payment</a>
-
+--}}
     <br />
     <br />
 

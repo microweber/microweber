@@ -11,7 +11,7 @@
 
     <form method="get">
         <div class="row well">
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <b>Status</b>
                 <select name="status" class="form-control selectpicker">
                     <option disabled="disabled">Status</option>
@@ -36,7 +36,7 @@
                 <b>To date</b>
                 <input type="date" class="form-control" value="@if(request()->get('to_date')){{request()->get('to_date')}}@else{{date('Y-m-d')}}@endif" name="to_date">
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <b>Invoice Number</b>
                 <div class="form-group">
                     <div class="input-group mb-3 prepend-transparent append-transparent">
@@ -52,6 +52,9 @@
             </div>
             <div class="col-md-2">
                 <button type="submit" style="margin-top: 15px" class="btn btn-success btn-block"><i class="fa fa-filter"></i> Filter results</button>
+            </div>
+            <div class="col-md-2">
+                <a href="{{ route('invoices.create') }}" style="margin-top: 15px"  class="btn btn-primary btn-block"><i class="fa fa-plus"></i> New Invoice</a>
             </div>
         </div>
     </form>

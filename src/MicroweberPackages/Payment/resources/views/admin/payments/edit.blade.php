@@ -44,7 +44,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Customer:</label>
-                                <select class="form-control selectpicker" name="customer_id"
+                                <select class="form-control selectpicker" data-live-search="true" name="customer_id"
                                         placeholder="Start typing something to search customers...">
                                     <option disabled="disabled">Select customer..</option>
                                     @foreach($customers as $customer)
@@ -58,7 +58,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Invoice:</label>
-                                <select class="form-control selectpicker" name="invoice_id"
+                                <select class="form-control selectpicker" data-live-search="true" name="invoice_id"
                                         placeholder="Start typing something to search invoices...">
                                     <option>Select invoice..</option>
                                     @foreach($invoices as $invoice)
@@ -99,7 +99,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Payment Mode:</label>
-                                <select class="form-control selectpicker" name="payment_method_id"
+                                <select class="form-control selectpicker" data-live-search="true" name="payment_method_id"
                                         placeholder="Start typing something to search customers...">
                                     <option>Select payment..</option>
                                     @foreach($paymentMethods as $paymentMethod)
