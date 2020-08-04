@@ -11,9 +11,15 @@
 |
 */
 
-$app = new Microweber\LaravelApplication(
-	realpath(__DIR__.'/../')
-);
+if (class_exists(\MicroweberPackages\App\LaravelApplication::class)) {
+    $app = new \MicroweberPackages\App\LaravelApplication(
+        realpath(__DIR__ . '/../')
+    );
+} else {
+    $app = new Illuminate\Foundation\Application(
+        $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)
+    );
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -27,19 +33,33 @@ $app = new Microweber\LaravelApplication(
 */
 
 $app->singleton(
-	'Illuminate\Contracts\Http\Kernel',
-	'Microweber\App\Http\Kernel'
+    \Illuminate\Contracts\Http\Kernel::class,
+    \MicroweberPackages\App\Http\Kernel::class
 );
 
-$app->singleton(
-	'Illuminate\Contracts\Console\Kernel',
-	'Microweber\App\Console\Kernel'
-);
+if (class_exists(\App\Console\Kernel::class)) {
+    $app->singleton(
+        \Illuminate\Contracts\Console\Kernel::class,
+        \App\Console\Kernel::class
+    );
+} else {
+    $app->singleton(
+        'Illuminate\Contracts\Console\Kernel',
+        'MicroweberPackages\App\Console\Kernel'
+    );
+}
 
-$app->singleton(
-	'Illuminate\Contracts\Debug\ExceptionHandler',
-	'Microweber\App\Exceptions\Handler'
-);
+if (class_exists(\App\Exceptions\Handler::class)) {
+    $app->singleton(
+        \Illuminate\Contracts\Debug\ExceptionHandler::class,
+        \App\Exceptions\Handler::class
+    );
+} else {
+    $app->singleton(
+        'Illuminate\Contracts\Debug\ExceptionHandler',
+        'MicroweberPackages\App\Exceptions\Handler'
+    );
+}
 
 /*
 |--------------------------------------------------------------------------
