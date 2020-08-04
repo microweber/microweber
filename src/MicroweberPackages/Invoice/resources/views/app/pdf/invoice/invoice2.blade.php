@@ -377,18 +377,18 @@
     <div class="header-container">
         <table width="100%">
             <tr>
-                @if($logo)
+                @if($owner_company_logo)
                 <td width="60%" class="header-section-left">
-                    <img class="header-logo" src="{{ $logo }}" alt="Company Logo">
+                    <img class="header-logo" src="{{ url2dir($owner_company_logo) }}" alt="Company Logo">
                     @else
                 <td width="60%" class="header-section-left" style="padding-top: 0px;">
-                    @if($invoice->customer->company)
-                    <h1 class="header-logo"> {{$invoice->customer->company->name}} </h1>
+                    @if($owner_company_name)
+                    <h1 class="header-logo"> {{$owner_company_name}} </h1>
                     @endif
                     @endif
                 </td>
                 <td width="40%" class="header-section-right invoice-details-container">
-                    <h1>Invoice</h1>
+                    <h1>Invoice - {{$invoice->status}}</h1>
                     <h4>{{$invoice->invoice_number}}</h4>
                     <h4>{{$invoice->formattedInvoiceDate}}</h4>
                 </td>

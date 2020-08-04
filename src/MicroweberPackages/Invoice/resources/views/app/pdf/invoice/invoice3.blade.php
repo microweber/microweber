@@ -382,10 +382,10 @@
         <table width="100%">
             <tr>
                 <td class="header-section-left">
-                    @if($logo)
-                        <img class="header-logo" src="{{ $logo }}" alt="Company Logo">
+                    @if($owner_company_logo)
+                        <img class="header-logo" src="{{ url2dir($owner_company_logo)  }}" alt="Company Logo">
                     @else
-                        <h1 class="header-logo"> {{$invoice->customer->company->name}} </h1>
+                        <h1 class="header-logo"> {{$owner_company_name}} </h1>
                     @endif
                 </td>
                 <td class="header-section-right company-address-container">
@@ -407,6 +407,7 @@
                 <div class="shipping-address-container">
                 @else
                 <div class="shipping-address-container--left">
+                    <h2>Invoice - {{$invoice->status}}</h2>
                 @endif
                         @include('invoice::app.pdf.invoice.partials.shipping-address')
                     </div>

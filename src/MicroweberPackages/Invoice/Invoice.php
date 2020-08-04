@@ -23,6 +23,11 @@ class Invoice extends Model
     const STATUS_PARTIALLY_PAID = 'PARTIALLY_PAID';
     const STATUS_PAID = 'PAID';
 
+    const STATUS_ANNULLED = 'ANNULLED';
+    const STATUS_STORNO = 'STORNO';
+    const STATUS_PROFORMA = 'PROFORMA';
+    const STATUS_ORIGINAL = 'ORIGINAL';
+
     protected $dates = [
         'created_at',
         'updated_at',

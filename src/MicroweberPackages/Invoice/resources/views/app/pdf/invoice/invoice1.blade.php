@@ -367,6 +367,7 @@
                 @include('invoice::app.pdf.invoice.partials.company-address')
             </div>
             <div class="invoice-details-container">
+                <h1>Invoice - {{$invoice->status}}</h1>
                 <table>
                     <tr>
                         <td class="attribute-label">Invoice Number</td>
