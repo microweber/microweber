@@ -38,16 +38,14 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     });
 
                     captchaSettingsPreview();
-                    $('.js-select-captcha-provider').change(function () {
-                        captchaSettingsPreview();
-                    });
 
+                    $('.js-select-captcha-provider').on('change', function () {
+                        var captcha_provider = $(this).val();
+                        captchaSettingsPreview(captcha_provider);
+                    });
                 });
 
-                function captchaSettingsPreview() {
-
-                    captcha_provider = $('.js-select-captcha-provider').val();
-
+                function captchaSettingsPreview(captcha_provider) {
                     $('.js-recaptcha-v2').hide();
                     $('.js-recaptcha-v3').hide();
 
@@ -63,56 +61,47 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 }
             </script>
 
-            <div id="mw_index_captcha_form" class="admin-side-content" style="max-width:100%;">
+            <div id="mw_index_captcha_form">
                 <div class="<?php print $config['module_class'] ?>">
+                    <div class="form-group">
+                        <label class="control-label"><?php _e("Captcha provider"); ?></label>
 
-                    <b><?php _e("Captcha provider"); ?></b>
-
-                    <select class="mw-ui-field mw_option_field mw-full-width js-select-captcha-provider" name="provider" option-group="captcha">
-                        <option value="microweber">Select</option>
-                        <option value="google_recaptcha_v2" <?php if (get_option('provider', 'captcha') == 'google_recaptcha_v2'): ?>selected="selected"<?php endif; ?>>Google ReCaptcha V2</option>
-                        <option value="google_recaptcha_v3" <?php if (get_option('provider', 'captcha') == 'google_recaptcha_v3'): ?>selected="selected"<?php endif; ?>>Google ReCaptcha V3</option>
-                        <option value="microweber" <?php if (get_option('provider', 'captcha') == 'microweber'): ?>selected="selected"<?php endif; ?>>Microweber Captcha</option>
-                    </select>
-
-                    <br/><br/>
+                        <select class="mw_option_field js-select-captcha-provider selectpicker" data-width="100%" name="provider" option-group="captcha">
+                            <option value="microweber">Select</option>
+                            <option value="google_recaptcha_v2" <?php if (get_option('provider', 'captcha') == 'google_recaptcha_v2'): ?>selected="selected"<?php endif; ?>>Google ReCaptcha V2</option>
+                            <option value="google_recaptcha_v3" <?php if (get_option('provider', 'captcha') == 'google_recaptcha_v3'): ?>selected="selected"<?php endif; ?>>Google ReCaptcha V3</option>
+                            <option value="microweber" <?php if (get_option('provider', 'captcha') == 'microweber'): ?>selected="selected"<?php endif; ?>>Microweber Captcha</option>
+                        </select>
+                    </div>
 
                     <div class="js-recaptcha-v2">
-                        <div>
-                            <b>Google Recaptcha V2 Site Key</b>
-                            <input type="text" name="recaptcha_v2_site_key" option-group="captcha" value="<?php echo get_option('recaptcha_v2_site_key', 'captcha'); ?>" class="mw-ui-field mw_option_field mw-full-width"/>
+                        <div class="form-group">
+                            <label class="control-label">Google Recaptcha V2 Site Key</label>
+                            <input type="text" name="recaptcha_v2_site_key" option-group="captcha" value="<?php echo get_option('recaptcha_v2_site_key', 'captcha'); ?>" class="mw_option_field form-control"/>
                         </div>
 
-                        <br/>
-
-                        <div>
-                            <b>Google ReCaptcha V2 Secret Key</b>
-                            <input type="text" name="recaptcha_v2_secret_key" option-group="captcha" value="<?php echo get_option('recaptcha_v2_secret_key', 'captcha'); ?>" class="mw-ui-field mw_option_field mw-full-width"/>
+                        <div class="form-group">
+                            <label class="control-label">Google ReCaptcha V2 Secret Key</label>
+                            <input type="text" name="recaptcha_v2_secret_key" option-group="captcha" value="<?php echo get_option('recaptcha_v2_secret_key', 'captcha'); ?>" class="mw_option_field form-control"/>
                         </div>
                     </div>
 
                     <div class="js-recaptcha-v3">
-                        <div>
-                            <b>Google Recaptcha V3 Site Key</b>
-                            <input type="text" name="recaptcha_v3_site_key" option-group="captcha" value="<?php echo get_option('recaptcha_v3_site_key', 'captcha'); ?>" class="mw-ui-field mw_option_field mw-full-width"/>
+                        <div class="form-group">
+                            <label class="control-label">Google Recaptcha V3 Site Key</label>
+                            <input type="text" name="recaptcha_v3_site_key" option-group="captcha" value="<?php echo get_option('recaptcha_v3_site_key', 'captcha'); ?>" class="mw_option_field form-control"/>
                         </div>
 
-                        <br/>
-
-                        <div>
-                            <b>Google ReCaptcha V3 Secret Key</b>
-                            <input type="text" name="recaptcha_v3_secret_key" option-group="captcha" value="<?php echo get_option('recaptcha_v3_secret_key', 'captcha'); ?>" class="mw-ui-field mw_option_field mw-full-width"/>
+                        <div class="form-group">
+                            <label class="control-label">Google ReCaptcha V3 Secret Key</label>
+                            <input type="text" name="recaptcha_v3_secret_key" option-group="captcha" value="<?php echo get_option('recaptcha_v3_secret_key', 'captcha'); ?>" class="mw_option_field form-control"/>
                         </div>
 
-                        <br/>
-
-                        <div>
-                            <b>Google ReCaptcha V3 Score</b>
-                            <input type="text" placeholder="0.5" name="recaptcha_v3_score" option-group="captcha" value="<?php echo get_option('recaptcha_v3_score', 'captcha'); ?>" class="mw-ui-field mw_option_field mw-full-width"/>
+                        <div class="form-group">
+                            <label class="control-label">Google ReCaptcha V3 Score</label>
+                            <input type="text" placeholder="0.5" name="recaptcha_v3_score" option-group="captcha" value="<?php echo get_option('recaptcha_v3_score', 'captcha'); ?>" class="mw_option_field form-control"/>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>

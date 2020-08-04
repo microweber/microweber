@@ -21,7 +21,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
     <div class="card-body pt-3">
         <?php
-
         $file = get_option('file', $params['id']);
         if (!$file) {
             $file = '[{"skill":"", "percent": "78", "style":"primary"}]';
@@ -30,7 +29,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         if (sizeof($skills) == 0) {
             $skills = array();
         }
-
         ?>
 
         <style>
@@ -71,7 +69,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 cursor: grab;
             }
 
-            .skillfield .mw-ui-field-holder {
+            .skillfield .form-group {
                 clear: none;
             }
 
@@ -83,23 +81,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             .skill {
                 width: 70%;
                 clear: both;
-            }
-
-            .skillfield .mw-ui-field-holder {
-                float: left;
-            }
-
-            .mufh-1 {
-                width: 100%;
-            }
-
-            .mufh-2 {
-                width: 49%;
-                margin: 0 1%;
-            }
-
-            .mufh-3 {
-                width: 49%;
             }
 
             .skillfield.ui-sortable-helper {
@@ -116,16 +97,19 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <script>
             addNewskill = function () {
                 var after = ''
-                    + '<span class="skillfield">'
+                    + '<div class="skillfield">'
                     + '<span class="mw-icon-drag"></span>'
                     + '<span class="mw-icon-bin"></span>'
-                    + '<div class="mw-ui-field-holder mufh-1">'
-                    + '<label class="mw-ui-label">Skill Name</label><input type="text" autocomplete="off"  placeholder="Insert skill Name" class="mw-ui-field skill" />'
-                    + '</div><div class="mw-ui-field-holder mufh-2">'
-                    + '<label class="mw-ui-label">Value(%)</label><input type="number" autocomplete="off" min="0" max="100" step="1" value="50 placeholder="Percent" class="mw-ui-field percent-field" />'
 
-                    + '</div><div class="mw-ui-field-holder mufh-3">'
-                    + '<label class="mw-ui-label">Style</label><select class="mw-ui-field" data-value="primary">'
+                    + '<div class="form-group mufh-1"><label class="control-label">Skill Name</label><input type="text" autocomplete="off"  placeholder="Insert skill Name" class="form-control skill" /></div>'
+
+                    + '<div class="row">'
+                    + '<div class="col-6">'
+                    + '<div class="form-group mufh-2"><label class="control-label">Value(%)</label><input type="number" autocomplete="off" min="0" max="100" step="1" value="50" placeholder="Percent" class="form-control percent-field" /></div>'
+                    + '</div>'
+                    + '<div class="col-6">'
+                    + '<div class="form-group mufh-3">'
+                    + '<label class="control-label">Style</label><select class="form-control selectpicker-x" data-size="2" data-width="100%" data-value="primary">'
                     + '<option value="">Choose Style</option>'
                     + '<option value="primary">Primary</option>'
                     + '<option value="warning">Warning</option>'
@@ -133,8 +117,10 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     + '<option value="success">Success</option>'
                     + '<option value="info">Info</option>'
                     + '</select></div>'
-                    + '</span>';
+                    + '</div>'
+                    + '</div>'
 
+                    + '</div>';
 
                 $(".skillfield:last").after(after);
                 $(".skill:last").focus();
@@ -157,7 +143,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                     save();
                                 })
                             })
-
                         });
 
                         mw.$('.percent-field', root).on('change', function () {
@@ -166,7 +151,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                         mw.$('select[data-value]', root).each(function () {
                             $(this).val($(this).dataset('value')).on('change', function () {
-                                save()
+                                save();
                             })
                         })
                     }
@@ -192,14 +177,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     });
                     $("#file").val(JSON.stringify(final)).trigger('change');
                 }, 700);
+
                 if ($('.skillfield').length === 1) {
                     $('.skillfield .mw-icon-bin:first').hide()
 
-                }
-                else {
+                } else {
                     $('.skillfield .mw-icon-bin:first').show()
                 }
-
             }
 
             sort = function () {
@@ -219,42 +203,50 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         </script>
 
         <div class="module-live-edit-settings module-skills-settings">
-            <div class="mw-ui-field-holder">
-                <label class="mw-ui-label p-b-0">Set your skills</label>
+            <div class="form-group mb-0">
+                <label class="control-label mb-0">Set your skills</label>
             </div>
 
             <div class="skills">
-                <?php foreach ($skills as $skill) { ?>
-                    <span class="skillfield">
-            <span class="mw-icon-drag"></span>
-            <span class="mw-icon-bin"></span>
+                <?php foreach ($skills as $skill): ?>
+                    <div class="skillfield">
+                        <span class="mw-icon-drag"></span>
+                        <span class="mw-icon-bin"></span>
 
-            <div class="mw-ui-field-holder mufh-1">
-              <label class="mw-ui-label">Skill Name</label>
-              <input type="text" autocomplete="off" value="<?php print $skill['skill']; ?>" placeholder="Insert skill Name" class="mw-ui-field skill"/>
+                        <div class="form-group mufh-1">
+                            <label class="control-label">Skill Name</label>
+                            <input type="text" autocomplete="off" value="<?php print $skill['skill']; ?>" placeholder="Insert skill Name" class="form-control skill"/>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group mufh-2">
+                                    <label class="control-label">Value(%)</label>
+                                    <input type="number" min="0" max="100" step="1" autocomplete="off" value="<?php print isset($skill['percent']) ? $skill['percent'] : 50; ?>" placeholder="Percent" class="form-control percent-field"/>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group mufh-3">
+                                    <label class="control-label">Style</label>
+                                    <select class="form-control selectpicker-x" data-size="2" data-width="100%" data-value="<?php print isset($skill['style']) ? $skill['style'] : 'primary' ?>">
+                                        <option value="">Choose Style</option>
+                                        <option value="primary">Primary</option>
+                                        <option value="warning">Warning</option>
+                                        <option value="danger">Danger</option>
+                                        <option value="success">Success</option>
+                                        <option value="info">Info</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
             </div>
 
-            <div class="mw-ui-field-holder mufh-2">
-              <label class="mw-ui-label">Value(%)</label>
-              <input type="number" min="0" max="100" step="1" autocomplete="off" value="<?php print isset($skill['percent']) ? $skill['percent'] : 50; ?>" placeholder="Percent" class="mw-ui-field percent-field"/>
+            <div class="text-right">
+                <span class="btn btn-success" onclick="addNewskill();"><i class="mdi mdi-plus mr-1"></i> Add New</span>
             </div>
-
-            <div class="mw-ui-field-holder mufh-3">
-              <label class="mw-ui-label">Style</label>
-              <select class="mw-ui-field" data-value="<?php print isset($skill['style']) ? $skill['style'] : 'primary' ?>">
-                <option value="">Choose Style</option>
-                <option value="primary">Primary</option>
-                <option value="warning">Warning</option>
-                <option value="danger">Danger</option>
-                <option value="success">Success</option>
-                <option value="info">Info</option>
-              </select>
-            </div>
-        </span>
-                <?php } ?>
-            </div>
-
-            <span class="mw-ui-btn mw-ui-btn-info w100" onclick="addNewskill();"><span class="mw-icon-plus"></span> Add New</span>
 
             <textarea name="file" id="file" disabled="disabled" class="mw_option_field" style="display: none"><?php print $file; ?></textarea>
         </div>

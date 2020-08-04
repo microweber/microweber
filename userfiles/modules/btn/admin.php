@@ -232,9 +232,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <div id="icon-picker"></div>
                 </div>
 
-                <div class="form-group">
-                    <module type="admin/modules/templates" simple="true"/>
-                </div>
+                <module type="admin/modules/templates" simple="true"/>
             </div>
         </div>
     </div>
