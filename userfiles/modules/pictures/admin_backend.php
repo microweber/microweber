@@ -3,7 +3,6 @@
 </script>
 
 <style>
-
     .image-settings {
         color: #ffffff;
         font-size: 20px;
@@ -16,23 +15,20 @@
         transition: all 0.3s;
         opacity: .7;
         z-index: 10;
-        text-shadow: 0 0 2px rgba(0,0,0,.5);
-
+        text-shadow: 0 0 2px rgba(0, 0, 0, .5);
     }
 
     .image-settings.remove-image {
         left: 20px;
         display: none;
-
     }
 
     .admin-thumb-item:hover .image-settings {
         opacity: 1;
     }
-
 </style>
-<?php
 
+<?php
 if (!isset($for_id)) {
     $for_id = 0;
 }
@@ -56,7 +52,6 @@ if (isset($params['content_id'])) {
 
 $for = mw()->database_manager->assoc_table_name($for);
 
-
 if (isset($params['for-id'])) {
     $for_id = $params['for-id'];
 }
@@ -67,7 +62,6 @@ if (isset($params['rel_id'])) {
     $for_id = $params['rel_id'];
 }
 
-
 $rand = uniqid();
 
 if ($for_id != false) {
@@ -76,14 +70,10 @@ if ($for_id != false) {
     $sid = mw()->user_manager->session_id();
     $media = get_pictures("rel_id=0&rel_type={$for}&session_id={$sid}");
 }
-
-
 ?>
 
-
-
 <script>
-      mw.require("files.js");
+    mw.require("files.js");
 </script>
 
 <script>
@@ -108,7 +98,7 @@ if ($for_id != false) {
                 if (typeof load_iframe_editor === 'function') {
                     load_iframe_editor();
                 }
-               // mw.reload_module('#' + module_id);
+                // mw.reload_module('#' + module_id);
                 mw.reload_module('pictures/admin_backend_sortable_pics_list');
 
                 //
@@ -134,14 +124,11 @@ if ($for_id != false) {
 
             }, 1300);
         }
-     }
+    }
 </script>
-
 
 <script>
     mw_admin_pictures_upload_browse_existing = function () {
-
-
         // var dialog = mw.top().dialogIframe({
         var dialog = mw.top().dialogIframe({
             url: '<?php print site_url() ?>module/?type=files/admin&live_edit=true&remeber_path=true&ui=basic&start_path=media_host_base&from_admin=true&file_types=images&id=mw_admin_pictures_upload_browse_existing_modal<?php print $params['id'] ?>&from_url=<?php print site_url() ?>',
@@ -150,7 +137,8 @@ if ($for_id != false) {
             height: 'auto',
             autoHeight: true
         });
-        $(dialog.iframe).on('load', function(){
+
+        $(dialog.iframe).on('load', function () {
             this.contentWindow.mw.on.hashParam('select-file', function () {
                 after_upld(this, 'save', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
 
@@ -158,16 +146,14 @@ if ($for_id != false) {
                 mw.notification.success('<?php _ejs('The image is added to the gallery') ?>');
 
                 dialog.remove();
-
             })
         })
-
     };
 
     var getMediaImage = function () {
         var dialog = mw.top().tools.moduleFrame('pictures/media_library');
         dialog.title('Media library');
-        $(dialog.iframe).on('load', function(){
+        $(dialog.iframe).on('load', function () {
             this.contentWindow.mw.on.hashParam('select-file', function () {
                 after_upld(this, 'save', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
                 after_upld(this, 'done', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
@@ -181,7 +167,7 @@ if ($for_id != false) {
     var toggleAll = function () {
         var all = mw.$(".admin-thumb-item input[type='checkbox']");
 
-        if(all.length === all.filter(':checked').length) {
+        if (all.length === all.filter(':checked').length) {
             all.each(function () {
                 this.checked = false
             })
@@ -212,15 +198,14 @@ if (!isset($data["thumbnail"])) {
 <div class="select_actions_holder">
     <div class="select_actions">
         <a href="javascript:;" class="btn btn-sm btn-link text-danger" onclick="deleteSelected()">
-            <span><?php _e('Delete') ?> <?php _e('selected') ?></span>
+            <span><?php _e('Delete') ?><?php _e('selected') ?></span>
         </a>
         <span>/</span>
         <a href="javascript:;" class="btn btn-sm btn-link" onclick="downloadSelected('none')">
-            <span><?php _e('Download') ?> <?php _e('selected') ?></span>
+            <span><?php _e('Download') ?><?php _e('selected') ?></span>
         </a>
     </div>
 </div>
-
 
 
 <script>
@@ -233,32 +218,25 @@ if (!isset($data["thumbnail"])) {
     <div class="relative post-thumb-uploader m-t-10" id="backend_image_uploader">
     </div>
 
-<div class="admin-thumbs-holder">
+    <div class="admin-thumbs-holder">
 
 
-    <?php if ($for_id != false) { ?>
+        <?php if ($for_id != false) { ?>
 
-        <module type="pictures/admin_backend_sortable_pics_list"  for="<?php print $for ?>"  for_id="<?php print $for_id ?>"  />
-
-
-
-    <?php } else { ?>
-
-        <module type="pictures/admin_backend_sortable_pics_list" for="<?php print $for ?>"  session_id="<?php print $sid ?>"  />
+            <module type="pictures/admin_backend_sortable_pics_list" for="<?php print $for ?>" for_id="<?php print $for_id ?>"/>
 
 
+        <?php } else { ?>
+
+            <module type="pictures/admin_backend_sortable_pics_list" for="<?php print $for ?>" session_id="<?php print $sid ?>"/>
 
 
-    <?php  }
+        <?php }
 
 
+        ?>
 
-
-
-
-    ?>
-
-</div>
+    </div>
 
     <script>mw.require("files.js", true);</script>
     <script>
@@ -310,7 +288,7 @@ if (!isset($data["thumbnail"])) {
 
             all.each(function () {
                 var check = $('.mw-ui-check input:checked', this);
-                if(check.length) {
+                if (check.length) {
                     final.push(check[0].value);
                     $(this).addClass('checked')
                 } else {
@@ -344,15 +322,14 @@ if (!isset($data["thumbnail"])) {
 
         }
         /*var uploader = mw.fileWindow({
-            mode: 'inline',
-            types:'images',
-            title: '<?php print isset($params['title']) ? $params['title'] : ''; ?>',
-            element: '#backend_image_uploader',
-            change: function (url) {
-                after_upld(url, 'tets', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
-            }
-        });*/
-
+         mode: 'inline',
+         types:'images',
+         title: '<?php print isset($params['title']) ? $params['title'] : ''; ?>',
+         element: '#backend_image_uploader',
+         change: function (url) {
+         after_upld(url, 'tets', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
+         }
+         });*/
 
 
         selectItems = function (val) {
@@ -374,21 +351,34 @@ if (!isset($data["thumbnail"])) {
 
             var $root = mw.$('#admin-thumbs-holder-sort-<?php print $rand; ?>');
 
-                mw.require('filepicker.js');
+            mw.require('filepicker.js');
 
-                mw._postsImageUploader = new mw.filePicker({
-                    element:'#backend_image_uploader',
-                    nav: 'dropdown',
-                    footer: false,a
-                    boxed: false,
-                    dropDownTargetMode: 'dialog',
-                    label: mw.lang('Media'),
-                    hideHeader: true,
-                    multiple: true,
-                    accept: 'image/*',
-                });
+            mw._postsImageUploader = new mw.filePicker({
+                element: '#backend_image_uploader',
+                nav: 'dropdown',
+                footer: false, a
+                boxed
+            :
+            false,
+                dropDownTargetMode
+            :
+            'dialog',
+                label
+            :
+            mw.lang('Media'),
+                hideHeader
+            :
+            true,
+                multiple
+            :
+            true,
+                accept
+            :
+            'image/*',
+        })
+            ;
 
-            mw._postsImageUploader._thumbpreload = function() {
+            mw._postsImageUploader._thumbpreload = function () {
                 var el = mw.$('<div class="admin-thumb-item admin-thumb-item-loading"><span class="mw-post-media-img" style=""></span></div>');
                 mw.$($root).find('.admin-thumb-item-uploader-holder').before(el);
 
@@ -400,59 +390,57 @@ if (!isset($data["thumbnail"])) {
 
             }
 
-                $(mw._postsImageUploader).on('FileAdded', function (e, file) {
-                    mw._postsImageUploader._thumbpreload()
-                });
-                $(mw._postsImageUploader).on('FileUploaded', function (e, file) {
-                    mw.$('.admin-thumb-item-loading:last', $root).remove();
-                });
-                $(mw._postsImageUploader).on('Result', function (e, res) {
-                    var url = res.src ? res.src : res;
-                    after_upld(url, 'Result', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
-                    after_upld(url, 'done');
-                    mw._postsImageUploader.hide()
-                });
-
-                var thumbs = mw.$('.admin-thumb-item', $root);
-
-                if(thumbs.length) {
-                    mw._postsImageUploader.hide()
-                }
-
-
-
-
-/*            $(uploader).on("FilesAdded", function (a, b) {
-                var i = 0, l = b.length;
-                for (; i < l; i++) {
-                    if (mw.$(".admin-thumbs-holder .admin-thumb-item").length > 0) {
-                        mw.$(".admin-thumbs-holder .admin-thumb-item:last").after('<div class="admin-thumb-item admin-thumb-item-loading" id="im-' + b[i].id + '"><span class="mw-post-media-img"><i class="uimprogress"></i></span><div class="mw-post-media-img-edit mw-post-media-img-edit-temp">' + b[i].name + '</div></div>');
-                    }
-                    else {
-                        mw.$(".admin-thumbs-holder").append('<div class="admin-thumb-item admin-thumb-item-loading" id="im-' + b[i].id + '"><span class="mw-post-media-img"><i class="uimprogress"></i></span><div class="mw-post-media-img-edit mw-post-media-img-edit-temp">' + b[i].name + '</div></div>');
-                    }
-                }
+            $(mw._postsImageUploader).on('FileAdded', function (e, file) {
+                mw._postsImageUploader._thumbpreload()
             });
-            $(uploader).on("progress", function (a, b) {
-                mw.$("#im-" + b.id + " .uimprogress").width(b.percent + "%").html(b.percent + "%");
+            $(mw._postsImageUploader).on('FileUploaded', function (e, file) {
+                mw.$('.admin-thumb-item-loading:last', $root).remove();
             });
-            $(uploader).on("done", function (e, a) {
-                after_upld(undefined, 'done');
+            $(mw._postsImageUploader).on('Result', function (e, res) {
+                var url = res.src ? res.src : res;
+                after_upld(url, 'Result', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
+                after_upld(url, 'done');
+                mw._postsImageUploader.hide()
             });
 
-            $(uploader).on("FileUploaded done", function (e, a) {
-                if (a && a.ask_user_to_enable_auto_resizing) {
-                    mw.module_pictures.open_image_upload_settings_modal();
-                }
-                if (a &&  a.image_was_auto_resized_msg) {
-                    mw.top().notification.warning(a.image_was_auto_resized_msg, 5200);
-                }
-                if(a){
-                    after_upld(a.src, e.type, '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
-                }
+            var thumbs = mw.$('.admin-thumb-item', $root);
+
+            if (thumbs.length) {
+                mw._postsImageUploader.hide()
+            }
 
 
-            });*/
+            /*            $(uploader).on("FilesAdded", function (a, b) {
+             var i = 0, l = b.length;
+             for (; i < l; i++) {
+             if (mw.$(".admin-thumbs-holder .admin-thumb-item").length > 0) {
+             mw.$(".admin-thumbs-holder .admin-thumb-item:last").after('<div class="admin-thumb-item admin-thumb-item-loading" id="im-' + b[i].id + '"><span class="mw-post-media-img"><i class="uimprogress"></i></span><div class="mw-post-media-img-edit mw-post-media-img-edit-temp">' + b[i].name + '</div></div>');
+             }
+             else {
+             mw.$(".admin-thumbs-holder").append('<div class="admin-thumb-item admin-thumb-item-loading" id="im-' + b[i].id + '"><span class="mw-post-media-img"><i class="uimprogress"></i></span><div class="mw-post-media-img-edit mw-post-media-img-edit-temp">' + b[i].name + '</div></div>');
+             }
+             }
+             });
+             $(uploader).on("progress", function (a, b) {
+             mw.$("#im-" + b.id + " .uimprogress").width(b.percent + "%").html(b.percent + "%");
+             });
+             $(uploader).on("done", function (e, a) {
+             after_upld(undefined, 'done');
+             });
+
+             $(uploader).on("FileUploaded done", function (e, a) {
+             if (a && a.ask_user_to_enable_auto_resizing) {
+             mw.module_pictures.open_image_upload_settings_modal();
+             }
+             if (a &&  a.image_was_auto_resized_msg) {
+             mw.top().notification.warning(a.image_was_auto_resized_msg, 5200);
+             }
+             if(a){
+             after_upld(a.src, e.type, '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
+             }
+
+
+             });*/
 
 
             $(".image-tag-view").remove();

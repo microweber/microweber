@@ -1,18 +1,41 @@
 <?php only_admin_access(); ?>
 
 <?php
-$option_group = $params['id'];
-
-if (isset($params['option-group'])) {
-    $option_group = $params['option-group'];
+$from_live_edit = false;
+if (isset($params["live_edit"]) and $params["live_edit"]) {
+    $from_live_edit = $params["live_edit"];
 }
-
-$twitter_url = get_option('twitter_url', $option_group);
 ?>
 
-<div class="module-live-edit-settings module-tweet-embed-settings">
-    <div class="mw-ui-field-holder">
-        <label class="mw-ui-label"><?php print _e('Tweet Post URL'); ?></label>
-        <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field mw-ui-field mw-full-width" name="twitter_url" value="<?php print $twitter_url; ?>" placeholder="Enter your Tweet URL"/>
+<?php if (isset($params['backend'])): ?>
+    <module type="admin/modules/info"/>
+<?php endif; ?>
+
+<div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+    <div class="card-header">
+        <?php $module_info = module_info($params['module']); ?>
+        <h5>
+            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo $module_info['name']; ?></strong>
+        </h5>
+    </div>
+
+    <div class="card-body pt-3">
+        <?php
+        $option_group = $params['id'];
+
+        if (isset($params['option-group'])) {
+            $option_group = $params['option-group'];
+        }
+
+        $twitter_url = get_option('twitter_url', $option_group);
+        ?>
+
+        <div class="module-live-edit-settings module-tweet-embed-settings">
+            <div class="mw-ui-field-holder">
+                <label class="mw-ui-label"><?php print _e('Tweet Post URL'); ?></label>
+                <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field mw-ui-field mw-full-width" name="twitter_url" value="<?php print $twitter_url; ?>" placeholder="Enter your Tweet URL"/>
+            </div>
+        </div>
+
     </div>
 </div>
