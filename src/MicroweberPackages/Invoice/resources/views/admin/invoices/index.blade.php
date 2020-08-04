@@ -13,7 +13,7 @@
         <div class="row well">
             <div class="col-md-3">
                 <b>Status</b>
-                <select name="status" class="form-control">
+                <select name="status" class="form-control selectpicker">
                     <option disabled="disabled">Status</option>
                     <option @if(request()->get('status') == '') selected="selected"@endif value="">ALL</option>
                     <option @if(request()->get('status') == 'DUE') selected="selected"@endif value="DUE">DUE</option>
@@ -38,7 +38,17 @@
             </div>
             <div class="col-md-3">
                 <b>Invoice Number</b>
-                <input type="text" class="form-control" value="@if(request()->get('invoice_number')){{request()->get('invoice_number')}}@endif" name="invoice_number">
+                <div class="form-group">
+                    <div class="input-group mb-3 prepend-transparent append-transparent">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text text-muted">#</span>
+                        </div>
+                        <input type="text" class="form-control" value="@if(request()->get('invoice_number')){{request()->get('invoice_number')}}@endif" name="invoice_number">
+                        <div class="input-group-append">
+                            <span class="input-group-text" data-toggle="tooltip" title="" data-original-title="To put a product on sale, makeCompare at price the original price and enter the lower amount into Price."><i class="mdi mdi-help-circle"></i></span>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-md-2">
                 <button type="submit" style="margin-top: 15px" class="btn btn-success btn-block"><i class="fa fa-filter"></i> Filter results</button>

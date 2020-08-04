@@ -161,7 +161,7 @@
                 <div class="modal-body">
                     <div class="col-md-12">
                         <div class="input-group">
-                            <select class="form-control typeahead border-primary" name="customer_id"
+                            <select class="form-control selectpicker" name="customer_id"
                                     placeholder="Start typing something to search customers...">
                                 @foreach($customers as $customer)
                                     <option value="{{$customer->id}}">{{$customer->first_name}} {{$customer->last_name}}</option>
@@ -222,7 +222,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Invoice Date:</label>
-                                <input type="date" class="form-control" value="{{ date('Y-m-d') }}"
+                                <input type="datetime-local" class="form-control" value="{{ date('Y-m-d') }}"
                                        name="invoice_date"/>
                             </div>
                         </div>
@@ -230,7 +230,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Invoice Due Date:</label>
-                                <input type="date" class="form-control"
+                                <input type="datetime-local" class="form-control"
                                        value="{{ date('Y-m-d', strtotime('+6 days', strtotime(date('Y-m-d')))) }}"
                                        name="due_date"/>
                             </div>
@@ -296,7 +296,7 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Discount Type:</label>
-                                    <select class="form-control js-invoice-discount-type-input"
+                                    <select class="form-control selectpicker js-invoice-discount-type-input"
                                             onchange="invoice.calculate();" name="discount">
                                         <option @if(isset($invoice) && $invoice && $invoice->discount == 'fixed') selected="selected"
                                                 @endif value="fixed">Fixed
