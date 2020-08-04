@@ -8,21 +8,16 @@
     <?php endif; ?>
 
     <script type="text/javascript" src="<?php print(mw()->template->get_apijs_combined_url()); ?>"></script>
-
-
-
+    <script>
+        mw.lib.require('mwui');
+        mw.lib.require('mwui_init');
+    </script>
 
     <script src="<?php print mw_includes_url(); ?>api/jquery-ui.js"></script>
 
     <?php template_stack_display('default'); ?>
 
-
-
-
-
     <?php
-
-
     template_stack_add(mw_includes_url() . 'default.css');
     template_stack_add(mw_includes_url() . 'css/components.css');
     template_stack_add(mw_includes_url() . 'css/admin.css');
@@ -41,10 +36,7 @@
     template_stack_add(mw_includes_url() . 'api/wysiwyg.js');
     template_stack_add(mw_includes_url() . 'css/wysiwyg.css');
     template_stack_add(mw_includes_url() . 'api/options.js');
-
     ?>
-
-
 
     <?php if (isset($params['live_edit_sidebar'])): ?>
 

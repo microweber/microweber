@@ -11,8 +11,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
-<script>mw.lib.require('mwui_init');</script>
-
 <div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
