@@ -24,14 +24,14 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         $text = get_option('text', $params['id']);
 
         if ($text == false) {
-            $text = '<?php print "Hello Wordld"; ?>';
+            $text = '<?php print "Hello World"; ?>';
         }
         ?>
 
         <div class="module-live-edit-settings module-highlight-code-settings">
-            <div class="mw-ui-field-holder">
-                <label class="mw-ui-label"><?php _e('Enter some text'); ?></label>
-                <textarea class="mw_option_field mw-ui-field w100" rows="20" name="text"><?php print $text; ?></textarea>
+            <div class="form-group">
+                <label class="control-label"><?php _e('Enter some text'); ?></label>
+                <textarea class="mw_option_field form-control" rows="20" name="text"><?php print $text; ?></textarea>
             </div>
         </div>
     </div>

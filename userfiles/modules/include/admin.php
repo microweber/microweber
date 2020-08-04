@@ -21,14 +21,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
     <div class="card-body pt-3">
         <?php $file = get_option('file', $params['id']); ?>
-
-        <label class="mw-ui-label"><?php _e('Include file'); ?></label>
-        <input type="text" value="<?php print $file; ?>" name="file" class="mw_option_field mw-ui-field w100" id="file"/>
-
-        <script>
-            $(window).bind('load', function () {
-
-            });
-        </script>
+        <div class="form-group">
+            <label class="control-label"><?php _e('Include file'); ?></label>
+            <input type="text" value="<?php print $file; ?>" name="file" class="mw_option_field form-control" id="file"/>
+        </div>
     </div>
 </div>
