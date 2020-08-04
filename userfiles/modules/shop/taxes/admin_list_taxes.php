@@ -11,23 +11,26 @@ $defined_taxes = mw()->tax_manager->get();
             <thead>
             <tr>
                 <th><?php _e('Tax name'); ?></th>
-                <th><?php _e('Amount'); ?></th>
+                <th><?php _e('Tax rate'); ?></th>
+                <th><?php _e('Tax type'); ?></th>
                 <th class="center" style="width: 200px;"><?php _e('Actions'); ?></th>
             </tr>
             </thead>
             <tbody>
             <?php foreach ($defined_taxes as $item) : ?>
                 <tr>
-                    <td><?php print $item['tax_name']; ?></td>
+                    <td><?php print $item['name']; ?></td>
                     <td>
-                        <?php if ($item['tax_modifier'] == 'percent'): ?>
-                            <?php print $item['amount']; ?>%
+                        <?php if ($item['type'] == 'percent'): ?>
+                            <?php print $item['rate']; ?>%
                         <?php endif; ?>
 
-                        <?php if ($item['tax_modifier'] == 'fixed'): ?>
-                            <?php print mw()->shop_manager->currency_format($item['amount']); ?>
+                        <?php if ($item['type'] == 'fixed'): ?>
+                            <?php print mw()->shop_manager->currency_format($item['rate']); ?>
                         <?php endif; ?>
                     </td>
+
+                    <td><?php print $item['type']; ?></td>
 
                     <td class="center" style="padding-left: 0; padding-right: 0;">
                         <button onclick="mw_admin_edit_tax_item_popup('<?php print $item['id']; ?>')" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-medium" title="Edit"><?php print _e('Edit'); ?></button>
