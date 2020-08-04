@@ -147,7 +147,7 @@ class InvoicesController extends AdminController
 
         $invoice_date = Carbon::createFromFormat('Y-m-d', $request->invoice_date);
         $due_date = Carbon::createFromFormat('Y-m-d', $request->due_date);
-        $status = Invoice::STATUS_DRAFT;
+        $status = Invoice::STATUS_PROFORMA;
 
         $tax_per_item = CompanySetting::getSetting('tax_per_item', $request->header('company')) ?? 'NO';
         $discount_per_item = CompanySetting::getSetting('discount_per_item', $request->header('company')) ?? 'NO';
@@ -313,7 +313,7 @@ class InvoicesController extends AdminController
         $invoice->due_amount = ($invoice->due_amount + $oldAmount);
 
         if ($invoice->due_amount == 0 && $invoice->paid_status != Invoice::STATUS_PAID) {
-            $invoice->status = Invoice::STATUS_COMPLETED;
+            $invoice->status = Invoice::STATUS_ORIGINAL;
             $invoice->paid_status = Invoice::STATUS_PAID;
         } elseif ($invoice->due_amount < 0 && $invoice->paid_status != Invoice::STATUS_UNPAID) {
 
@@ -473,7 +473,7 @@ class InvoicesController extends AdminController
     public function markAsPaid(Request $request)
     {
         $invoice = Invoice::findOrFail($request->id);
-        $invoice->status = Invoice::STATUS_COMPLETED;
+        $invoice->status = Invoice::STATUS_ORIGINAL;
         $invoice->paid_status = Invoice::STATUS_PAID;
         $invoice->due_amount = 0;
         $invoice->save();
