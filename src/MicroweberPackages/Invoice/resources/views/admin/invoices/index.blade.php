@@ -7,7 +7,7 @@
            <i class="fa fa-check"></i> {{ session('status') }}
         </div>
     @endif
-    
+
     @if (session('status_danger'))
         <div class="alert alert-danger">
            <i class="fa fa-times"></i> {{ session('status_danger') }}
@@ -28,7 +28,7 @@
         }
     </style>
 
-    <form method="get">
+    <form method="get" class="js-invoice-filter-form">
         <input type="hidden" value="true" name="filter">
         <div class="row">
             <div class="col-md-8">
@@ -66,7 +66,7 @@
                     <label>Customer:</label>
                     <select class="form-control selectpicker" data-live-search="true" name="customer_id"
                             placeholder="Start typing something to search customers...">
-                        <option disabled="disabled">Select customer..</option>
+                        <option value="">Select customer..</option>
                         @foreach($customers as $customer)
                             <option value="{{$customer->id}}">{{$customer->first_name}} {{$customer->last_name}}</option>
                         @endforeach
@@ -124,6 +124,11 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
+
+            $(".js-invoice-filter-form").change(function() {
+                $('.js-invoice-filter-form').submit();
+            });
+
             $(".js-select-all").click(function () {
                 $("input[type=checkbox]").prop('checked', $(this).prop('checked'));
             });
@@ -165,12 +170,12 @@
                     </div>
                 </div>
             </th>
-            <th>Date</th>
-            <th>Number</th>
-            <th>Customer</th>
-            <th>Status</th>
-            <th>Paid Status</th>
-            <th>Amount Due</th>
+            <th style="text-transform: uppercase">Date</th>
+            <th style="text-transform: uppercase">Number</th>
+            <th style="text-transform: uppercase">Customer</th>
+            <th style="text-transform: uppercase">Status</th>
+            <th style="text-transform: uppercase">Paid Status</th>
+            <th style="text-transform: uppercase">Amount Due</th>
             <th></th>
         </tr>
         </thead>
