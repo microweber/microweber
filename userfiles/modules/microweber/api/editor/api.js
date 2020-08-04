@@ -42,12 +42,23 @@ mw._editorApi = function (scope) {
                 scope.api.execCommand('fontName', null, font_name);
             }
         },
-        select_all: function (el) {
+        selectAll: function (el) {
             var range = scope.document.createRange();
             range.selectNodeContents(el);
             var selection = scope.getSelection();
             selection.removeAllRanges();
             selection.addRange(range);
+        },
+        selectElement: function (el) {
+            var range = scope.document.createRange();
+            try {
+                range.selectNode(el);
+                var selection = scope.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+            } catch (e) {
+
+            }
         },
         isSelectionEditable: function (sel) {
             try {
@@ -130,9 +141,35 @@ mw._editorApi = function (scope) {
             var id =  mw.id('image_');
             var img = '<img id="' + id + '" contentEditable="false" class="element" src="' + url + '" />';
             scope.api.insertHTML(img);
-            img = mw.$("#" + id)
+            img = mw.$("#" + id);
             img.removeAttr("_moz_dirty");
             return img[0];
+        },
+        link: function (result) {
+            var sel = scope.getSelection();
+            var el = scope.api.elementNode(sel.focusNode);
+            var elLink = el.nodeName === 'A' ? el : mw.tools.firstParentWithTag(el, 'a');
+            if (elLink) {
+                elLink.href = result.url;
+                if (result.text && result.text !== elLink.innerHTML) {
+                    elLink.innerHTML = result.text;
+                }
+            } else {
+                scope.api.insertHTML('<a href="'+ result.url +'">'+ (result.text || (sel.toString().trim()) || result.url) +'</a>');
+            }
+        },
+        unlink: function () {
+            var sel = scope.getSelection();
+            if (!sel.isCollapsed) {
+                this.execCommand('unlink', null, null);
+            }
+            else {
+                var link = mw.tools.firstParentOrCurrentWithTag(this.elementNode(sel.focusNode), 'a');
+                if (!!link) {
+                    this.selectElement(link);
+                    this.execCommand('unlink', null, null);
+                }
+            }
         }
     };
 };

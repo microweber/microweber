@@ -110,9 +110,9 @@ mw.Select = function(options) {
             this.ajaxFilter(val, function (data) {
                 scope.setData(data.data);
                 if(data.data && data.data.length){
-                    scope.open()
+                    scope.open();
                 } else {
-                    scope.close()
+                    scope.close();
                 }
                 scope.loading(false);
             });

@@ -129,19 +129,7 @@ mw.Editor.controllers = {
                 });
                 $(picker).on('Result', function(e, result){
                     api.restoreSelection();
-                    var sel = scope.getSelection();
-                    var el = api.elementNode(sel.focusNode);
-                    var elLink = el.nodeName === 'A' ? el : mw.tools.firstParentWithTag(el, 'a');
-                    if (elLink) {
-                        elLink.href = result.url;
-                        if (result.text && result.text !== elLink.innerHTML) {
-                            elLink.innerHTML = result.text;
-                        }
-                    } else {
-                        api.insertHTML('<a href="'+ result.url +'">'+ (result.text || (sel.toString().trim()) || result.url) +'</a>');
-                    }
-                    console.log(el, result, elLink)
-                    console.log(scope, api, rootScope)
+                    api.link(result);
                 });
             });
             return el;
@@ -325,4 +313,39 @@ mw.Editor.controllers = {
         };
         this.element = this.render();
     },
+    'ul': function(scope, api, rootScope){
+        this.render = function () {
+            var el = mw.Editor.core.button({
+                props: {
+                    className: 'mdi-format-list-bulleted'
+                }
+            });
+            el.$node.on('click', function (e) {
+                api.execCommand('insertUnorderedList');
+            });
+            return el;
+        };
+        this.checkSelection = function (opt) {
+            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+        };
+        this.element = this.render();
+    },
+    'ol': function(scope, api, rootScope){
+        this.render = function () {
+            var el = mw.Editor.core.button({
+                props: {
+                    className: 'mdi-format-list-numbered tip',
+                    'data-tip': 'Ordered list'
+                }
+            });
+            el.$node.on('click', function (e) {
+                api.execCommand('insertOrderedList');
+            });
+            return el;
+        };
+        this.checkSelection = function (opt) {
+            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+        };
+        this.element = this.render();
+    }
 };

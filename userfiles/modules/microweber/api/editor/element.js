@@ -53,6 +53,14 @@
             return this.$node.prepend( el.node ? el.node : el );
         };
 
+        this.on = function(events, cb){
+            events = events.trim().split(' ');
+            events.forEach(function (ev) {
+                this.node.addEventListener(ev, function(e) {
+                    cb.call(this, e);
+                }, false);
+            });
+        };
         this.init = function(){
             this.create();
             this.setProps();

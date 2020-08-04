@@ -11,6 +11,52 @@
 * */
 
 mw.Editor.interactionControls = {
+    linkTooltip: function (rootScope) {
+        this.render = function () {
+            var scope = this;
+            var el = mw.element({
+                props: {
+                    className: 'mw-editor-link-tooltip'
+                }
+            });
+            var urlElement = mw.element({
+                tag: 'span',
+                props: {
+                    className: 'mw-editor-link-tooltip-url'
+                }
+            });
+            var urlUnlink = mw.Editor.core.button({
+                props: {
+                    className: 'mdi-link-off',
+                }
+            });
+
+            urlUnlink.$node.on('click', function () {
+                rootScope.api.unlink();
+            });
+
+            el.urlElement = urlElement;
+            el.urlUnlink = urlUnlink;
+            el.append(urlElement);
+            el.append(urlUnlink);
+            el.target = null;
+            return el;
+        };
+        this.interact = function (data) {
+            var tg = mw.tools.firstParentOrCurrentWithTag(data.target,'a');
+            if(!tg) {
+                this.element.$node.hide();
+                return;
+            }
+            var $target = $(data.target);
+            this.$target = $target;
+            var css = $target.offset();
+            css.top += $target.outerHeight();
+            this.element.urlElement.$node.html(data.target.href);
+            this.element.$node.css(css).show();
+        };
+        this.element = this.render();
+    },
     image: function (rootScope) {
         this.nodes = [];
         this.render = function () {
@@ -49,7 +95,6 @@ mw.Editor.interactionControls = {
             return el;
         };
         this.interact = function (data) {
-            console.log(this.element.$node[0])
             if(this.nodes.indexOf(data.target) !== -1) {
                 this.element.$node.hide();
                 return;
@@ -66,5 +111,62 @@ mw.Editor.interactionControls = {
             }
         };
         this.element = this.render();
+    },
+    tableManager: function(){
+        this.insertColumn = function (dir, cell) {
+            cell = mw.$(cell)[0];
+            if (cell === null) {
+                return false;
+            }
+            dir = dir || 'right';
+            var rows = mw.$(cell.parentNode.parentNode).children('tr');
+            var i = 0, l = rows.length, index = mw.tools.index(cell);
+            for (; i < l; i++) {
+                var row = rows[i];
+                cell = mw.$(row).children('td')[index];
+                if (dir === 'left' || dir === 'both') {
+                    mw.$(cell).before("<td>&nbsp;</td>");
+                }
+                if (dir === 'right' || dir === 'both') {
+                    mw.$(cell).after("<td>&nbsp;</td>");
+                }
+            }
+        };
+        this.insertRow = function (dir, cell) {
+            cell = mw.$(cell)[0];
+            if (cell === null) {
+                return false;
+            }
+            dir = dir || 'under';
+            var parent = cell.parentNode, cells = mw.$(parent).children('td'), i = 0, l = cells.length,
+                html = '';
+            for (; i < l; i++) {
+                html += '<td>&nbsp;</td>';
+            }
+            html = '<tr>' + html + '</tr>';
+            if (dir === 'under' || dir === 'both') {
+                mw.$(parent).after(html)
+            }
+            if (dir === 'above' || dir === 'both') {
+                mw.$(parent).before(html)
+            }
+        };
+        this.deleteRow = function (cell) {
+            mw.$(cell.parentNode).remove();
+        };
+        this.deleteColumn = function (cell) {
+            var index = mw.tools.index(cell), body = cell.parentNode.parentNode, rows = mw.$(body).children('tr'), l = rows.length, i = 0;
+            for (; i < l; i++) {
+                var row = rows[i];
+                mw.$(row.getElementsByTagName('td')[index]).remove();
+            }
+        };
+
+        this.setStyle = function (cls, cell) {
+            var table = mw.tools.firstParentWithTag(cell, 'table');
+            mw.tools.classNamespaceDelete(table, 'mw-wysiwyg-table');
+            mw.$(table).addClass(cls);
+        };
     }
+
 };

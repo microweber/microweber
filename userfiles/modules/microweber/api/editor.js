@@ -28,7 +28,7 @@ mw.Editor = function (options) {
         iframeAreaSelector: null,
         activeClass: 'mw-ui-btn-info',
         interactionControls: [
-            'image'
+            'image', 'linkTooltip'
         ],
         language: 'en',
         rootPath: mw.settings.modules_url + 'microweber/api/editor',
@@ -160,6 +160,18 @@ mw.Editor = function (options) {
                 var target = scope.api.elementNode( scope.selection.getRangeAt(0).commonAncestorContainer );
                 var css = mw.CSSParser(target);
                 var api = scope.api;
+
+                var iterData = {
+                    selection: scope.selection,
+                    target: target,
+                    css: css.get,
+                    cssNative: css.css,
+                    api: api,
+                    scope: scope,
+                    isEditable: scope.api.isSelectionEditable()
+                };
+
+                scope.interactionControlsRun(iterData);
                 scope.controls.forEach(function (ctrl) {
                     if(ctrl.checkSelection) {
                         ctrl.checkSelection({
@@ -380,7 +392,6 @@ mw.Editor = function (options) {
             for ( ; i< l ; i++) {
                 var item = scope._addControllerGroups[i];
                 var media = item.media;
-                console.log(media)
                 if(media) {
                     var match = this.document.defaultView.matchMedia(media);
                     item.el.$node[match.matches ? 'addClass' : 'removeClass']('mw-editor-control-group-media-matches')
@@ -417,7 +428,7 @@ mw.Editor = function (options) {
         }
         this.smallEditor = mw.element({
             props: {
-                className: 'mw-small-editor'
+                className: 'mw-small-editor mw-small-editor-skin-' + this.settings.skin
             }
         });
         this.smallEditorBar = mw.bar();
@@ -537,6 +548,7 @@ mw.require('editor/element.js');
 mw.require('editor/bar.js');
 mw.require('editor/api.js');
 mw.require('editor/helpers.js');
+mw.require('editor/tools.js');
 mw.require('editor/core.js');
 mw.require('editor/controllers.js');
 mw.require('editor/add.controller.js');
